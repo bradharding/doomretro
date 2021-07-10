@@ -52,7 +52,7 @@
 
 static dboolean cvarsloaded;
 
-#define NUMCVARS                                                203
+#define NUMCVARS                                                204
 
 #define CONFIG_VARIABLE_INT(name1, name2, cvar, set)            { #name1, #name2, &cvar, DEFAULT_INT32,         set          }
 #define CONFIG_VARIABLE_INT_UNSIGNED(name1, name2, cvar, set)   { #name1, #name2, &cvar, DEFAULT_UINT64,        set          }
@@ -230,6 +230,7 @@ static default_t cvars[NUMCVARS] =
     CONFIG_VARIABLE_INT_UNSIGNED (mapscompleted,                    stat_mapscompleted,                    stat_mapscompleted,                    NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT_UNSIGNED (mapsstarted,                      stat_mapsstarted,                      stat_mapsstarted,                      NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT_UNSIGNED (monsterskilled,                   stat_monsterskilled,                   stat_monsterskilled,                   NOVALUEALIAS          ),
+    CONFIG_VARIABLE_INT_UNSIGNED (monsterskilled_infighting,        stat_monsterskilled_infighting,        stat_monsterskilled_infighting,        NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT_UNSIGNED (monsterskilled_arachnotrons,      stat_monsterskilled_arachnotrons,      stat_monsterskilled_arachnotrons,      NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT_UNSIGNED (monsterskilled_archviles,         stat_monsterskilled_archviles,         stat_monsterskilled_archviles,         NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT_UNSIGNED (monsterskilled_baronsofhell,      stat_monsterskilled_baronsofhell,      stat_monsterskilled_baronsofhell,      NOVALUEALIAS          ),

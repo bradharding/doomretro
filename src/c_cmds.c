@@ -4575,7 +4575,7 @@ static char *distance(uint64_t value, dboolean showunits)
 //
 static void C_PlayerStats_Game(void)
 {
-    const int       tabs[3] = { 160, 281, 0 };
+    const int       tabs[3] = { 190, 311, 0 };
     skill_t         favoriteskilllevel1 = favoriteskilllevel();
     weapontype_t    favoriteweapon1 = favoriteweapon(false);
     weapontype_t    favoriteweapon2 = favoriteweapon(true);
@@ -4665,8 +4665,17 @@ static void C_PlayerStats_Game(void)
     temp1 = commify(killcount);
     temp2 = commify(totalkills);
     temp3 = commifystat(stat_monsterskilled);
-    C_TabbedOutput(tabs, "Monsters killed\t%s of %s (%i%%)\t%s",
-        temp1, temp2, (totalkills ? killcount * 100 / totalkills : 0), temp3);
+    C_TabbedOutput(tabs, "Monsters killed by %s\t%s of %s (%i%%)\t%s",
+        playername, temp1, temp2, (totalkills ? killcount * 100 / totalkills : 0), temp3);
+    free(temp1);
+    free(temp2);
+    free(temp3);
+
+    temp1 = commify(viewplayer->infightcount);
+    temp2 = commify(totalkills);
+    temp3 = commifystat(stat_monsterskilled_infighting);
+    C_TabbedOutput(tabs, "Monsters killed by infighting\t%s of %s (%i%%)\t%s",
+        temp1, temp2, (totalkills ? viewplayer->infightcount * 100 / totalkills : 0), temp3);
     free(temp1);
     free(temp2);
     free(temp3);
@@ -5182,7 +5191,7 @@ static void C_PlayerStats_Game(void)
 
 static void C_PlayerStats_NoGame(void)
 {
-    const int       tabs[3] = { 160, 281, 0 };
+    const int       tabs[3] = { 190, 311, 0 };
     skill_t         favoriteskilllevel1 = favoriteskilllevel();
     weapontype_t    favoriteweapon1 = favoriteweapon(true);
     const int       time2 = (int)(stat_timeplayed / TICRATE);
@@ -5220,7 +5229,11 @@ static void C_PlayerStats_NoGame(void)
     }
 
     temp1 = commifystat(stat_monsterskilled);
-    C_TabbedOutput(tabs, "Monsters killed\t-\t%s", temp1);
+    C_TabbedOutput(tabs, "Monsters killed by %s\t-\t%s", playername, temp1);
+    free(temp1);
+
+    temp1 = commifystat(stat_monsterskilled_infighting);
+    C_TabbedOutput(tabs, "Monsters killed by infighting\t-\t%s", temp1);
     free(temp1);
 
     if (gamemode == commercial)

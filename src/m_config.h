@@ -176,6 +176,7 @@ extern uint64_t     stat_itemspickedup_health;
 extern uint64_t     stat_mapscompleted;
 extern uint64_t     stat_mapsstarted;
 extern uint64_t     stat_monsterskilled;
+extern uint64_t     stat_monsterskilled_infighting;
 extern uint64_t     stat_monsterskilled_arachnotrons;
 extern uint64_t     stat_monsterskilled_archviles;
 extern uint64_t     stat_monsterskilled_baronsofhell;

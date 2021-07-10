@@ -99,6 +99,7 @@ uint64_t        stat_itemspickedup_ammo_shells = 0;
 uint64_t        stat_itemspickedup_armor = 0;
 uint64_t        stat_itemspickedup_health = 0;
 uint64_t        stat_monsterskilled = 0;
+uint64_t        stat_monsterskilled_infighting = 0;
 uint64_t        stat_monsterskilled_arachnotrons = 0;
 uint64_t        stat_monsterskilled_archviles = 0;
 uint64_t        stat_monsterskilled_baronsofhell = 0;
@@ -2042,6 +2043,12 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
                 P_UpdateKillStat(type, 1);
             }
         }
+        else
+        {
+            viewplayer->infightcount;
+            stat_monsterskilled_infighting = SafeAdd(stat_monsterskilled_infighting, 1);
+        }
+
     }
     else if (type == MT_BARREL && !chex && !hacx)
     {

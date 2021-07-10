@@ -546,8 +546,9 @@ static void saveg_read_player_t(void)
     if (!(musinfo.current_item = saveg_read32()))
         musinfo.current_item = -1;
 
+    viewplayer->infightcount = saveg_read32();
+
     // [BH] For future features without breaking savegame compatibility
-    saveg_read32();
     saveg_read32();
     saveg_read32();
     saveg_read32();
@@ -655,8 +656,9 @@ static void saveg_write_player_t(void)
 
     saveg_write32(musinfo.current_item);
 
+    saveg_write32(viewplayer->infightcount);
+
     // [BH] For future features without breaking savegame compatibility
-    saveg_write32(0);
     saveg_write32(0);
     saveg_write32(0);
     saveg_write32(0);
