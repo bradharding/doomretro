@@ -2045,7 +2045,7 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
         }
         else
         {
-            viewplayer->infightcount;
+            viewplayer->infightcount++;
             stat_monsterskilled_infighting = SafeAdd(stat_monsterskilled_infighting, 1);
         }
 

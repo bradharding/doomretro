@@ -4672,7 +4672,7 @@ static void C_PlayerStats_Game(void)
     free(temp3);
 
     temp1 = commify(viewplayer->infightcount);
-    temp2 = commify(totalkills);
+    temp2 = commify(totalkills - killcount);
     temp3 = commifystat(stat_monsterskilled_infighting);
     C_TabbedOutput(tabs, "Monsters killed by infighting\t%s of %s (%i%%)\t%s",
         temp1, temp2, (totalkills ? viewplayer->infightcount * 100 / totalkills : 0), temp3);
@@ -4922,7 +4922,7 @@ static void C_PlayerStats_Game(void)
 
     temp1 = commify(viewplayer->itemspickedup_ammo_bullets);
     temp2 = commifystat(stat_itemspickedup_ammo_bullets);
-    C_TabbedOutput(tabs, "   Ammo\t%s bullet%s\t%s bullet%s",
+    C_TabbedOutput(tabs, "Ammo picked up\t%s bullet%s\t%s bullet%s",
         temp1, (viewplayer->itemspickedup_ammo_bullets == 1 ? "" : "s"), temp2, (stat_itemspickedup_ammo_bullets == 1 ? "" : "s"));
     free(temp1);
     free(temp2);
@@ -4950,13 +4950,13 @@ static void C_PlayerStats_Game(void)
 
     temp1 = commify(viewplayer->itemspickedup_armor);
     temp2 = commifystat(stat_itemspickedup_armor);
-    C_TabbedOutput(tabs, "   Armor\t%s%%\t%s%%", temp1, temp2);
+    C_TabbedOutput(tabs, "Armor picked up\t%s%%\t%s%%", temp1, temp2);
     free(temp1);
     free(temp2);
 
     temp1 = commify(viewplayer->itemspickedup_health);
     temp2 = commifystat(stat_itemspickedup_health);
-    C_TabbedOutput(tabs, "   Health\t%s%%\t%s%%", temp1, temp2);
+    C_TabbedOutput(tabs, "Health picked up\t%s%%\t%s%%", temp1, temp2);
     free(temp1);
     free(temp2);
 
@@ -5364,7 +5364,7 @@ static void C_PlayerStats_NoGame(void)
     free(temp1);
 
     temp1 = commifystat(stat_itemspickedup_ammo_bullets);
-    C_TabbedOutput(tabs, "   Ammo\t-\t%s bullet%s", temp1, (stat_itemspickedup_ammo_bullets == 1 ? "" : "s"));
+    C_TabbedOutput(tabs, "Ammo picked up\t-\t%s bullet%s", temp1, (stat_itemspickedup_ammo_bullets == 1 ? "" : "s"));
     free(temp1);
 
     temp1 = commifystat(stat_itemspickedup_ammo_shells);
@@ -5380,11 +5380,11 @@ static void C_PlayerStats_NoGame(void)
     free(temp1);
 
     temp1 = commifystat(stat_itemspickedup_armor);
-    C_TabbedOutput(tabs, "   Armor\t-\t%s%%", temp1);
+    C_TabbedOutput(tabs, "Armor picked up\t-\t%s%%", temp1);
     free(temp1);
 
     temp1 = commifystat(stat_itemspickedup_health);
-    C_TabbedOutput(tabs, "   Health\t-\t%s%%", temp1);
+    C_TabbedOutput(tabs, "Health picked up\t-\t%s%%", temp1);
     free(temp1);
 
     temp1 = commifystat(stat_secretsfound);
