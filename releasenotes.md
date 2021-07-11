@@ -6,6 +6,7 @@
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * The following changes have been made to the dithered lighting applied when the `r_ditheredlighting` CVAR is `on`:
   * The dithered lighting applied to floors and ceilings is now more consistent when the player turns.
+  * Dithered lighting is now applied to all sprites.
   * Dithered lighting is now applied when the `r_detail` CVAR is `low`.
 * The text in the console has been brought in from the left and right edges of the screen when the `vid_widescreen` CVAR is `on`.
 * Several changes have been made to text that is output to the console.

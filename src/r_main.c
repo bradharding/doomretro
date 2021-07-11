@@ -504,7 +504,6 @@ void R_InitColumnFunctions(void)
 {
     if (r_textures)
     {
-        basecolfunc = &R_DrawColumn;
         fuzzcolfunc = &R_DrawFuzzColumn;
         translatedcolfunc = &R_DrawTranslatedColumn;
 
@@ -516,6 +515,7 @@ void R_InitColumnFunctions(void)
 
         if (r_ditheredlighting)
         {
+            basecolfunc = &R_DrawDitherColumn;
             wallcolfunc = &R_DrawDitherWallColumn;
             bmapwallcolfunc = &R_DrawBrightmapDitherWallColumn;
             segcolfunc = &R_DrawDitherColumn;
@@ -524,6 +524,7 @@ void R_InitColumnFunctions(void)
         }
         else
         {
+            basecolfunc = &R_DrawColumn;
             wallcolfunc = &R_DrawWallColumn;
             bmapwallcolfunc = &R_DrawBrightmapWallColumn;
             segcolfunc = &R_DrawColumn;
@@ -585,13 +586,13 @@ void R_InitColumnFunctions(void)
     }
     else
     {
-        basecolfunc = &R_DrawColorColumn;
         fuzzcolfunc = &R_DrawTranslucent50ColorColumn;
         translatedcolfunc = &R_DrawColorColumn;
         skycolfunc = (r_skycolor == r_skycolor_default ? &R_DrawColorColumn : &R_DrawSkyColorColumn);
 
         if (r_ditheredlighting)
         {
+            basecolfunc = &R_DrawColorDitherWallColumn;
             wallcolfunc = &R_DrawColorDitherWallColumn;
             bmapwallcolfunc = &R_DrawColorDitherWallColumn;
             segcolfunc = &R_DrawColorDitherWallColumn;
@@ -600,6 +601,7 @@ void R_InitColumnFunctions(void)
         }
         else
         {
+            basecolfunc = &R_DrawColorColumn;
             wallcolfunc = &R_DrawColorColumn;
             bmapwallcolfunc = &R_DrawColorColumn;
             segcolfunc = &R_DrawColorColumn;

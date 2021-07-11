@@ -929,6 +929,7 @@ typedef struct
     // for color translation and shadow draw,
     //  maxbright frames as well
     lighttable_t        *colormap;
+    lighttable_t        *nextcolormap;
 
     mobj_t              *mobj;
 
@@ -954,6 +955,7 @@ typedef struct
     fixed_t             texturemid;
     int                 patch;
     lighttable_t        *colormap;
+    lighttable_t        *nextcolormap;
     void                (*colfunc)(void);
     fixed_t             blood;
 } bloodsplatvissprite_t;
