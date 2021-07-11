@@ -223,6 +223,23 @@ void R_DrawColorColumn(void)
     *dest = color;
 }
 
+void R_DrawColorDitherColumn(void)
+{
+    int                 y = dc_yl;
+    int                 count = dc_yh - y + 1;
+    byte                *dest = ylookup0[y] + dc_x;
+    const lighttable_t  *colormap[2] = { dc_colormap[0], dc_nextcolormap[0] };
+    const int           fracz = ((dc_z >> 5) & 255);
+
+    while (--count)
+    {
+        *dest = colormap[dither(dc_x, y++, fracz)][NOTEXTURECOLOR];
+        dest += SCREENWIDTH;
+    }
+
+    *dest = colormap[dither(dc_x, y, fracz)][NOTEXTURECOLOR];
+}
+
 void R_DrawShadowColumn(void)
 {
     int     count = dc_yh - dc_yl;
@@ -518,23 +535,6 @@ void R_DrawBrightmapDitherWallColumn(void)
         dot = dc_source[(frac >> FRACBITS) & heightmask];
         *dest = colormap[dc_brightmap[dot]][dither(dc_x, y, fracz)][dot];
     }
-}
-
-void R_DrawColorDitherWallColumn(void)
-{
-    int                 y = dc_yl;
-    int                 count = dc_yh - y + 1;
-    byte                *dest = ylookup0[y] + dc_x;
-    const lighttable_t  *colormap[2] = { dc_colormap[0], dc_nextcolormap[0] };
-    const int           fracz = ((dc_z >> 5) & 255);
-
-    while (--count)
-    {
-        *dest = colormap[dither(dc_x, y++, fracz)][NOTEXTURECOLOR];
-        dest += SCREENWIDTH;
-    }
-
-    *dest = colormap[dither(dc_x, y, fracz)][NOTEXTURECOLOR];
 }
 
 void R_DrawPlayerSpriteColumn(void)

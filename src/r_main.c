@@ -592,11 +592,11 @@ void R_InitColumnFunctions(void)
 
         if (r_ditheredlighting)
         {
-            basecolfunc = &R_DrawColorDitherWallColumn;
-            wallcolfunc = &R_DrawColorDitherWallColumn;
-            bmapwallcolfunc = &R_DrawColorDitherWallColumn;
-            segcolfunc = &R_DrawColorDitherWallColumn;
-            tl50segcolfunc = (r_translucency ? &R_DrawDitherTranslucent50ColorColumn : &R_DrawColorDitherWallColumn);
+            basecolfunc = &R_DrawColorDitherColumn;
+            wallcolfunc = &R_DrawColorDitherColumn;
+            bmapwallcolfunc = &R_DrawColorDitherColumn;
+            segcolfunc = &R_DrawColorDitherColumn;
+            tl50segcolfunc = (r_translucency ? &R_DrawDitherTranslucent50ColorColumn : &R_DrawColorDitherColumn);
             spanfunc = &R_DrawDitherColorSpan;
         }
         else
