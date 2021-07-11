@@ -177,14 +177,14 @@ static const char *root_path_subdirs[] =
     "base\\wads"
 };
 
-// Location where Steam is installed
+// Locations where Steam is installed
 static registryvalue_t steam_install_locations[] =
 {
     { HKEY_CURRENT_USER,  "SOFTWARE\\Valve\\Steam",      "SteamPath"   },
     { HKEY_LOCAL_MACHINE, SOFTWARE_KEY "\\Valve\\Steam", "InstallPath" }
 };
 
-// Subdirs of the steam install directory where IWADs are found
+// Subdirs of the Steam install directory where IWADs are found
 static const char *steam_install_subdirs[] =
 {
     "steamapps\\common\\Doom 2\\rerelease\\DOOM II_Data\\StreamingAssets",
