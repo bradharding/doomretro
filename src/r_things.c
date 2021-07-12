@@ -63,6 +63,7 @@ fixed_t                 pspritescale;
 fixed_t                 pspriteiscale;
 
 static lighttable_t     **spritelights;         // killough 01/25/98 made static
+static lighttable_t     **nextspritelights;
 
 // constant arrays used for psprite clipping and initializing clipping
 int                     negonearray[MAXWIDTH];
@@ -823,7 +824,7 @@ static void R_ProjectSprite(mobj_t *thing)
     {
         // diminished light
         vis->colormap = spritelights[MIN(xscale >> LIGHTSCALESHIFT, MAXLIGHTSCALE - 1)];
-        vis->nextcolormap = spritelights[MIN((xscale >> LIGHTSCALESHIFT) + 4, MAXLIGHTSCALE - 1)];
+        vis->nextcolormap = nextspritelights[MIN(xscale >> LIGHTSCALESHIFT, MAXLIGHTSCALE - 1)];
     }
 }
 
@@ -943,7 +944,7 @@ static void R_ProjectBloodSplat(const bloodsplat_t *splat)
     else
     {
         vis->colormap = spritelights[BETWEEN(0, xscale >> LIGHTSCALESHIFT, MAXLIGHTSCALE - 1)];
-        vis->nextcolormap = spritelights[BETWEEN(0, (xscale >> LIGHTSCALESHIFT) + 4, MAXLIGHTSCALE - 1)];
+        vis->nextcolormap = nextspritelights[MIN(xscale >> LIGHTSCALESHIFT, MAXLIGHTSCALE - 1)];
     }
 }
 
@@ -963,6 +964,7 @@ void R_AddSprites(sector_t *sec, int lightlevel)
         if (splat && drawbloodsplats)
         {
             spritelights = scalelight[BETWEEN(0, (lightlevel >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)];
+            nextspritelights = scalelight[BETWEEN(0, ((lightlevel + 4) >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)];
 
             do
             {
@@ -974,7 +976,10 @@ void R_AddSprites(sector_t *sec, int lightlevel)
                 return;
         }
         else if (thing)
+        {
             spritelights = scalelight[BETWEEN(0, (lightlevel >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)];
+            nextspritelights = scalelight[BETWEEN(0, ((lightlevel + 4) >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)];
+        }
         else
             return;
 
@@ -983,6 +988,7 @@ void R_AddSprites(sector_t *sec, int lightlevel)
     else if (thing)
     {
         spritelights = scalelight[BETWEEN(0, (lightlevel >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)];
+        nextspritelights = scalelight[BETWEEN(0, ((lightlevel + 4) >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)];
         drawshadows = false;
     }
     else
