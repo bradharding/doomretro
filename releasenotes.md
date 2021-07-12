@@ -4,10 +4,10 @@
 
 * *DOOM Retro* is now compiled using v16.10.3 of [*Microsoft Visual Studio Community 2019*](https://www.visualstudio.com/vs/).
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
-* The following changes have been made to the dithered lighting applied when the `r_ditheredlighting` CVAR is `on`:
-  * The dithered lighting applied to textures is now more consistent when the player turns.
-  * Dithered lighting is now also applied to sprites.
-  * Dithered lighting is now applied when the `r_detail` CVAR is `low`.
+* The following changes have been made to the dithered lighting cast when the `r_ditheredlighting` CVAR is `on`:
+  * The dithered lighting cast on textures is now more consistent when the player turns.
+  * Dithered lighting is now also cast on sprites.
+  * Dithered lighting is now cast when the `r_detail` CVAR is `low`.
 * The text in the console has been brought in from the left and right edges of the screen when the `vid_widescreen` CVAR is `on`.
 * The scrollbar in the console is slightly wider.
 * Several changes have been made to text that is output to the console.
