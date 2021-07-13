@@ -943,7 +943,7 @@ static void R_ProjectBloodSplat(const bloodsplat_t *splat)
     }
     else
     {
-        vis->colormap = spritelights[BETWEEN(0, xscale >> LIGHTSCALESHIFT, MAXLIGHTSCALE - 1)];
+        vis->colormap = spritelights[MIN(xscale >> LIGHTSCALESHIFT, MAXLIGHTSCALE - 1)];
         vis->nextcolormap = nextspritelights[MIN(xscale >> LIGHTSCALESHIFT, MAXLIGHTSCALE - 1)];
     }
 }
