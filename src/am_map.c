@@ -935,7 +935,7 @@ dboolean AM_Responder(const event_t *ev)
                     }
                 }
             }
-            else if (ev->type == ev_mousewheel)
+            else if (ev->type == ev_mousewheel && !mapwindow)
             {
                 // zoom in
                 if (ev->data1 > 0)
@@ -1178,17 +1178,7 @@ static void AM_DoFollowPlayer(void)
 //
 void AM_Ticker(void)
 {
-    if (mapwindow)
-    {
-        AM_DoFollowPlayer();
-
-        if (ftom_zoommul != FRACUNIT)
-            AM_ChangeWindowScale();
-
-        return;
-    }
-
-    if (!automapactive)
+    if (!automapactive && !mapwindow)
         return;
 
     if (am_followmode || menuactive)
