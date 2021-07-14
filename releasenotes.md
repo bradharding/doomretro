@@ -10,7 +10,7 @@
   * Dithered lighting is now cast when the `r_detail` CVAR is `low`.
 * The text in the console has been brought in from the left and right edges of the screen when the `vid_widescreen` CVAR is `on`.
 * Several changes have been made to text that is output to the console.
-* A bug has been fixed whereby any palette effects wouldn’t be restored when unpausing a game by pressing the <kbd>ESC</kbd> rather than <kbd>PAUSE</kbd> key.
+* A bug has been fixed whereby any palette effects wouldn’t be restored when unpausing a game by pressing the <kbd>ESC</kbd> key rather than <kbd>PAUSE</kbd> key.
 * The `alwaysrun` CVAR can now be toggled by pressing the <kbd>CAPSLOCK</kbd> key while on the title screen.
 * The fading of player messages onto and off of the screen is now smoother in some instances when the `fade` CVAR is `on`.
 * A fade transition will now be applied when changing the `r_brightmaps` CVAR in the console and when the `fade` CVAR is `on`.

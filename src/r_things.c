@@ -495,6 +495,7 @@ static void R_DrawVisSpriteWithShadow(const vissprite_t *vis)
     const int       flags = mobj->flags;
 
     spryscale = vis->scale;
+    dc_z = spryscale;
     dc_colormap[0] = vis->colormap;
     dc_nextcolormap[0] = vis->nextcolormap;
     dc_black = dc_colormap[0][nearestblack];
@@ -573,6 +574,7 @@ static void R_DrawBloodSplatVisSprite(const bloodsplatvissprite_t *vis)
     dc_nextcolormap[0] = vis->nextcolormap;
     dc_blood = &tinttab50[(dc_solidblood = dc_colormap[0][vis->blood]) << 8];
     spryscale = vis->scale;
+    dc_z = spryscale;
     sprtopscreen = (int64_t)centeryfrac - FixedMul(vis->texturemid, spryscale);
     fuzzpos = 0;
 
