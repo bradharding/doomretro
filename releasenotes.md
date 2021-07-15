@@ -9,6 +9,7 @@
   * Dithered lighting is now also cast on sprites.
   * Dithered lighting is now cast when the `r_detail` CVAR is `low`.
 * The text in the console has been brought in from the left and right edges of the screen when the `vid_widescreen` CVAR is `on`.
+* Minor changes have been made to the character set used in the console.
 * Several changes have been made to text that is output to the console.
 * A bug has been fixed whereby any palette effects wouldn’t be restored when unpausing a game by pressing the <kbd>ESC</kbd> key rather than <kbd>PAUSE</kbd> key.
 * The `alwaysrun` CVAR can now be toggled by pressing the <kbd>CAPSLOCK</kbd> key while on the title screen.

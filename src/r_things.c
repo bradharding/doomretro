@@ -542,9 +542,9 @@ static void R_DrawPlayerVisSprite(const vissprite_t *vis)
     const fixed_t   x2 = vis->x2;
     const rpatch_t  *patch = R_CachePatchNum(vis->patch + firstspritelump);
 
+    colfunc = vis->colfunc;
     dc_colormap[0] = vis->colormap;
     dc_nextcolormap[0] = vis->colormap;
-    colfunc = vis->colfunc;
     dc_iscale = pspriteiscale;
     dc_texturemid = vis->texturemid;
     sprtopscreen = (int64_t)centeryfrac - FixedMul(dc_texturemid, pspritescale);
@@ -569,12 +569,12 @@ static void R_DrawBloodSplatVisSprite(const bloodsplatvissprite_t *vis)
     const fixed_t   x2 = vis->x2;
     const rcolumn_t *columns = R_CachePatchNum(vis->patch + firstspritelump)->columns;
 
+    spryscale = vis->scale;
+    dc_z = spryscale;
     colfunc = vis->colfunc;
     dc_colormap[0] = vis->colormap;
     dc_nextcolormap[0] = vis->nextcolormap;
     dc_blood = &tinttab50[(dc_solidblood = dc_colormap[0][vis->blood]) << 8];
-    spryscale = vis->scale;
-    dc_z = spryscale;
     sprtopscreen = (int64_t)centeryfrac - FixedMul(vis->texturemid, spryscale);
     fuzzpos = 0;
 
