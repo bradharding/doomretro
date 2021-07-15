@@ -505,7 +505,6 @@ void R_InitColumnFunctions(void)
     if (r_textures)
     {
         fuzzcolfunc = &R_DrawFuzzColumn;
-        translatedcolfunc = &R_DrawTranslatedColumn;
 
         if (r_skycolor == r_skycolor_default)
             skycolfunc = (canmodify && !transferredsky && (gamemode != commercial || gamemap < 21) && !canmouselook ?
@@ -516,6 +515,7 @@ void R_InitColumnFunctions(void)
         if (r_ditheredlighting)
         {
             basecolfunc = &R_DrawDitherColumn;
+            translatedcolfunc = &R_DrawTranslatedColumn;
             wallcolfunc = &R_DrawDitherWallColumn;
             bmapwallcolfunc = &R_DrawBrightmapDitherWallColumn;
             segcolfunc = &R_DrawDitherColumn;
@@ -525,6 +525,7 @@ void R_InitColumnFunctions(void)
         else
         {
             basecolfunc = &R_DrawColumn;
+            translatedcolfunc = &R_DrawDitherTranslatedColumn;
             wallcolfunc = &R_DrawWallColumn;
             bmapwallcolfunc = &R_DrawBrightmapWallColumn;
             segcolfunc = &R_DrawColumn;
@@ -587,12 +588,12 @@ void R_InitColumnFunctions(void)
     else
     {
         fuzzcolfunc = &R_DrawTranslucent50ColorColumn;
-        translatedcolfunc = &R_DrawColorColumn;
         skycolfunc = (r_skycolor == r_skycolor_default ? &R_DrawColorColumn : &R_DrawSkyColorColumn);
 
         if (r_ditheredlighting)
         {
             basecolfunc = &R_DrawColorDitherColumn;
+            translatedcolfunc = &R_DrawColorDitherColumn;
             wallcolfunc = &R_DrawColorDitherColumn;
             bmapwallcolfunc = &R_DrawColorDitherColumn;
             segcolfunc = &R_DrawColorDitherColumn;
@@ -602,6 +603,7 @@ void R_InitColumnFunctions(void)
         else
         {
             basecolfunc = &R_DrawColorColumn;
+            translatedcolfunc = &R_DrawColorColumn;
             wallcolfunc = &R_DrawColorColumn;
             bmapwallcolfunc = &R_DrawColorColumn;
             segcolfunc = &R_DrawColorColumn;

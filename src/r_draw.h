@@ -128,6 +128,7 @@ void R_DrawPausedFuzzColumns(void);
 //  for player sprite rendering,
 //  green/red/blue/indigo shirts.
 void R_DrawTranslatedColumn(void);
+void R_DrawDitherTranslatedColumn(void);
 
 void R_VideoErase(unsigned int ofs, int count);
 

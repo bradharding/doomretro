@@ -966,7 +966,7 @@ void R_AddSprites(sector_t *sec, int lightlevel)
         if (splat && drawbloodsplats)
         {
             spritelights = scalelight[BETWEEN(0, (lightlevel >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)];
-            nextspritelights = scalelight[BETWEEN(0, ((lightlevel + 4) >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)];
+            nextspritelights = scalelight[BETWEEN(0, ((lightlevel + 3) >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)];
 
             do
             {
@@ -980,7 +980,7 @@ void R_AddSprites(sector_t *sec, int lightlevel)
         else if (thing)
         {
             spritelights = scalelight[BETWEEN(0, (lightlevel >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)];
-            nextspritelights = scalelight[BETWEEN(0, ((lightlevel + 4) >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)];
+            nextspritelights = scalelight[BETWEEN(0, ((lightlevel + 3) >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)];
         }
         else
             return;
@@ -990,7 +990,7 @@ void R_AddSprites(sector_t *sec, int lightlevel)
     else if (thing)
     {
         spritelights = scalelight[BETWEEN(0, (lightlevel >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)];
-        nextspritelights = scalelight[BETWEEN(0, ((lightlevel + 4) >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)];
+        nextspritelights = scalelight[BETWEEN(0, ((lightlevel + 3) >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)];
         drawshadows = false;
     }
     else
