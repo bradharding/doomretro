@@ -519,7 +519,7 @@ void R_InitColumnFunctions(void)
             wallcolfunc = &R_DrawDitherWallColumn;
             bmapwallcolfunc = &R_DrawBrightmapDitherWallColumn;
             segcolfunc = &R_DrawDitherColumn;
-            tl50segcolfunc = &R_DrawDitherTranslucent50Column;
+            tl50segcolfunc = (r_translucency ? &R_DrawDitherTranslucent50Column : &R_DrawDitherColumn);
             spanfunc = &R_DrawDitherSpan;
         }
         else
@@ -529,7 +529,7 @@ void R_InitColumnFunctions(void)
             wallcolfunc = &R_DrawWallColumn;
             bmapwallcolfunc = &R_DrawBrightmapWallColumn;
             segcolfunc = &R_DrawColumn;
-            tl50segcolfunc = &R_DrawTranslucent50Column;
+            tl50segcolfunc = (r_translucency ? &R_DrawTranslucent50Column : &R_DrawColumn);
             spanfunc = &R_DrawSpan;
         }
 
@@ -554,7 +554,6 @@ void R_InitColumnFunctions(void)
         {
             tlcolfunc = &R_DrawColumn;
             tl50colfunc = &R_DrawColumn;
-            tl50segcolfunc = &R_DrawColumn;
             tl33colfunc = &R_DrawColumn;
             tlgreencolfunc = &R_DrawColumn;
             tlredcolfunc = &R_DrawColumn;

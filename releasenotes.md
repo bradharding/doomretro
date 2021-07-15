@@ -8,6 +8,7 @@
   * The dithered lighting cast on textures is now more consistent as the player turns.
   * Dithered lighting is now also cast on sprites.
   * Dithered lighting is now cast when the `r_detail` CVAR is `low`.
+  * Dithered lighting will now be cast on *BOOM*-compatible translucent wall textures if the `r_translucency` CVAR is `off`.
 * The text in the console has been brought in from the left and right edges of the screen when the `vid_widescreen` CVAR is `on`.
 * Minor changes have been made to the character set used in the console.
 * Several changes have been made to text that is output to the console.
