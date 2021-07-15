@@ -515,7 +515,7 @@ void R_InitColumnFunctions(void)
         if (r_ditheredlighting)
         {
             basecolfunc = &R_DrawDitherColumn;
-            translatedcolfunc = &R_DrawTranslatedColumn;
+            translatedcolfunc = &R_DrawDitherTranslatedColumn;
             wallcolfunc = &R_DrawDitherWallColumn;
             bmapwallcolfunc = &R_DrawBrightmapDitherWallColumn;
             segcolfunc = &R_DrawDitherColumn;
@@ -525,7 +525,7 @@ void R_InitColumnFunctions(void)
         else
         {
             basecolfunc = &R_DrawColumn;
-            translatedcolfunc = &R_DrawDitherTranslatedColumn;
+            translatedcolfunc = &R_DrawTranslatedColumn;
             wallcolfunc = &R_DrawWallColumn;
             bmapwallcolfunc = &R_DrawBrightmapWallColumn;
             segcolfunc = &R_DrawColumn;
