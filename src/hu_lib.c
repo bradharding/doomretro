@@ -451,7 +451,7 @@ void HUlib_DrawAutomapTextLine(hu_textline_t *l, dboolean external)
         unsigned char   c = toupper(l->l[i]);
 
         if (c == ' ')
-            x += (vanilla ? 4 : (i > 0 && (prev == '.' || prev == '!' || prev == '?') ? 5 : 3)) * SCREENSCALE;
+            x += (vanilla ? 8 : (i > 0 && (prev == '.' || prev == '!' || prev == '?') ? 10 : 6));
         else if (c != '\n' && ((c >= l->sc && c <= '_') || c == 176))
         {
             int j = c - '!';
@@ -507,7 +507,7 @@ void HUlib_DrawAutomapTextLine(hu_textline_t *l, dboolean external)
                 HU_DrawTranslucentChar(x / 2, y / 2 - 1, j, fb, w);
             }
 
-            x += SHORT(l->f[c - l->sc]->width) * SCREENSCALE;
+            x += SHORT(l->f[c - l->sc]->width) * 2;
         }
 
         prev = c;
