@@ -21,6 +21,7 @@
 * The following changes have been made to the external automap when the `am_external` CVAR is `on`:
   * When the <kbd>F</kbd> key is pressed to turn follow mode off, the player may now pan around the external automap as intended.
   * The mouse wheel will no longer zoom in/out of the external automap, while also cycling through the player’s weapons.
+* A bug has been fixed whereby the player’s weapon wouldn’t be lit correctly when fired in some instances.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
