@@ -1160,18 +1160,17 @@ static void R_DrawPlayerSprites(void)
     }
     else
     {
-        if (weaponstate)
-        {
-            muzzleflash = (weaponstate->frame & FF_FULLBRIGHT);
-
-            if (flashstate)
-                muzzleflash |= (flashstate->frame & FF_FULLBRIGHT);
-
-            R_DrawPlayerSprite(weapon, false, (weaponstate->dehacked || altered));
-        }
+        muzzleflash = (weaponstate->frame & FF_FULLBRIGHT);
 
         if (flashstate)
+        {
+            muzzleflash |= (flashstate->frame & FF_FULLBRIGHT);
+
+            R_DrawPlayerSprite(weapon, false, (weaponstate->dehacked || altered));
             R_DrawPlayerSprite(flash, false, (flashstate->dehacked || altered));
+        }
+        else
+            R_DrawPlayerSprite(weapon, false, (weaponstate->dehacked || altered));
     }
 }
 
