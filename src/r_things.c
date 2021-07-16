@@ -842,7 +842,7 @@ static void R_ProjectBloodSplat(const bloodsplat_t *splat)
     fixed_t                 tr_y = fy - viewy;
     fixed_t                 tz = FixedMul(tr_x, viewcos) + FixedMul(tr_y, viewsin);
 
-    // thing is behind view plane?
+    // splat is behind view plane?
     if (tz < MINZ)
         return;
 
@@ -867,7 +867,7 @@ static void R_ProjectBloodSplat(const bloodsplat_t *splat)
     if ((x2 = ((centerxfrac + FRACUNIT / 2 + FixedMul(tx + width, xscale)) >> FRACBITS) - 1) < 0)
         return;
 
-    // quickly reject sprites with bad x ranges
+    // quickly reject splats with bad x ranges
     if (x1 >= x2)
         return;
 
@@ -878,7 +878,12 @@ static void R_ProjectBloodSplat(const bloodsplat_t *splat)
     vis->gx = fx;
     vis->gy = fy;
 
-    if (r_blood == r_blood_all)
+    if (r_blood == r_blood_nofuzz)
+    {
+        vis->blood = (splat->colfunc == fuzzcolfunc ? REDBLOOD : splat->blood);
+        vis->colfunc = bloodsplatcolfunc;
+    }
+    else if (r_blood == r_blood_all)
     {
         vis->blood = splat->blood;
         vis->colfunc = (pausesprites && r_textures && splat->colfunc == fuzzcolfunc ? &R_DrawPausedFuzzColumn : splat->colfunc);
@@ -886,11 +891,6 @@ static void R_ProjectBloodSplat(const bloodsplat_t *splat)
     else if (r_blood == r_blood_red)
     {
         vis->blood = REDBLOOD;
-        vis->colfunc = bloodsplatcolfunc;
-    }
-    else if (r_blood == r_blood_nofuzz)
-    {
-        vis->blood = (splat->colfunc == fuzzcolfunc ? REDBLOOD : splat->blood);
         vis->colfunc = bloodsplatcolfunc;
     }
     else
