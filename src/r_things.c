@@ -936,16 +936,7 @@ static void R_ProjectBloodSplat(const bloodsplat_t *splat)
     vis->patch = splat->patch;
 
     // get light level
-    if (fixedcolormap)
-    {
-        vis->colormap = fixedcolormap;
-        vis->nextcolormap = fixedcolormap;
-    }
-    else
-    {
-        vis->colormap = spritelights[MIN(xscale >> LIGHTSCALESHIFT, MAXLIGHTSCALE - 1)];
-        vis->nextcolormap = nextspritelights[MIN(xscale >> LIGHTSCALESHIFT, MAXLIGHTSCALE - 1)];
-    }
+    vis->colormap = (fixedcolormap ? fixedcolormap : spritelights[MIN(xscale >> LIGHTSCALESHIFT, MAXLIGHTSCALE - 1)]);
 }
 
 //
