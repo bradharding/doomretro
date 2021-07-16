@@ -131,7 +131,6 @@ dboolean    quitcmd = false;
 dboolean    resettingcvar = false;
 dboolean    togglingvanilla = false;
 dboolean    vanilla = false;
-dboolean    toggling = false;
 
 char        *version = version_default;
 
@@ -6905,9 +6904,7 @@ static void toggle_cmd_func2(char *cmd, char *parms)
         {
             char    *temp = M_StringJoin(parms, " ", (*(dboolean *)consolecmds[i].variable ? "off" : "on"), NULL);
 
-            toggling = true;
             C_ValidateInput(temp);
-            toggling = false;
             free(temp);
             M_SaveCVARs();
 
