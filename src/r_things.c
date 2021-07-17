@@ -737,7 +737,7 @@ static void R_ProjectSprite(mobj_t *thing)
     vis->gz = floorheight;
     vis->gzt = gzt;
 
-    if (drawshadows && (flags2 & MF2_CASTSHADOW) && xscale >= FRACUNIT / 4)
+    if ((flags2 & MF2_CASTSHADOW) && xscale >= FRACUNIT / 4 && drawshadows)
         vis->shadowpos = floorheight + thing->shadowoffset - viewz;
     else
         vis->shadowpos = 1;
@@ -983,7 +983,7 @@ void R_AddSprites(sector_t *sec, int lightlevel)
         else
             return;
 
-        drawshadows = (r_shadows && !fixedcolormap && sec->terraintype == SOLID && sec->floorpic != skyflatnum);
+        drawshadows = (sec->terraintype == SOLID && !fixedcolormap && r_shadows && sec->floorpic != skyflatnum);
     }
     else if (thing)
     {
