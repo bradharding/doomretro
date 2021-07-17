@@ -21,7 +21,7 @@
 * The following changes have been made to the external automap when the `am_external` CVAR is `on`:
   * When the <kbd>F</kbd> key is pressed to turn follow mode off, the player may now pan around the external automap as intended.
   * The mouse wheel will no longer zoom in/out of the external automap, and instead only cycle through the player’s weapons.
-* A bug has been fixed whereby the player’s weapon wouldn’t be lit correctly when fired in some instances.
+* A bug has been fixed whereby the player’s weapon wouldn’t always be lit correctly when fired.
 * A previously implemented feature that caused monsters to not be fullbright when firing and facing away from the player now works correctly.
 * Spectres will now always be rendered correctly when freeze mode is on.
 

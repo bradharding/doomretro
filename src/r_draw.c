@@ -979,12 +979,7 @@ void R_DrawPausedFuzzColumn(void)
 
     // top
     if (!dc_yl)
-    {
         *dest = fullcolormap[6 * 256 + dest[MAX(0, fuzztable[fuzzpos++])]];
-
-        if (fuzzpos == SCREENAREA)
-            fuzzpos = 0;
-    }
     else if (!fuzztable[fuzzpos++])
         *dest = fullcolormap[12 * 256 + dest[fuzztable[fuzzpos++]]];
 
@@ -995,9 +990,6 @@ void R_DrawPausedFuzzColumn(void)
         // middle
         *dest = fullcolormap[6 * 256 + dest[fuzztable[fuzzpos++]]];
         dest += SCREENWIDTH;
-
-        if (fuzzpos == SCREENAREA)
-            fuzzpos = 0;
     }
 
     // bottom
@@ -1294,15 +1286,8 @@ void R_InitBuffer(int width, int height)
     fuzzrange[1] = 0;
     fuzzrange[2] = SCREENWIDTH;
 
-    for (int x = 0; x < SCREENWIDTH; x++)
-    {
-        fuzztable[x] = FUZZ(0, 1);
-
-        for (int y = SCREENWIDTH; y < SCREENWIDTH * (SCREENHEIGHT - 1); y += SCREENWIDTH)
-            fuzztable[y + x] = FUZZ(-1, 1);
-
-        fuzztable[SCREENHEIGHT - 1 + x] = FUZZ(-1, 0);
-    }
+    for (int i = 0; i < MAXSCREENAREA; i++)
+        fuzztable[i] = FUZZ(-1, 1);
 }
 
 void R_FillBezel(void)
