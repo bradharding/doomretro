@@ -828,17 +828,16 @@ consolecmd_t consolecmds[] =
         "Toggles using the pillarboxes either side of the screen for palette effects."),
 #if defined(_WIN32)
     CVAR_STR(vid_scaleapi, "", vid_scaleapi_cvar_func1, vid_scaleapi_cvar_func2, CF_NONE,
-        "The API used to scale each frame (<b>\"direct3d\"</b>, <b>\"opengl\"</b> or <b>\"software\"</b>)."),
+        "The API used to scale each frame (<b>direct3d</b>, <b>opengl</b> or <b>software</b>)."),
 #elif defined(__APPLE__)
     CVAR_STR(vid_scaleapi, "", vid_scaleapi_cvar_func1, vid_scaleapi_cvar_func2, CF_NONE,
-        "The API used to scale each frame (<b>\"metal\"</b>, <b>\"opengl\"</b>, <b>\"opengles\"</b>, <b>\"opengles2\"</b> or "
-        "<b>\"software\"</b>)."),
+        "The API used to scale each frame (<b>metal</b>, <b>opengl</b>, <b>opengles</b>, <b>opengles2</b> or <b>software</b>)."),
 #else
     CVAR_STR(vid_scaleapi, "", vid_scaleapi_cvar_func1, vid_scaleapi_cvar_func2, CF_NONE,
-        "The API used to scale each frame (<b>\"opengl\"</b>, <b>\"opengles\"</b>, <b>\"opengles2\"</b> or <b>\"software\"</b>)."),
+        "The API used to scale each frame (<b>opengl</b>, <b>opengles</b>, <b>opengles2</b> or <b>software</b>)."),
 #endif
     CVAR_STR(vid_scalefilter, "", vid_scalefilter_cvar_func1, vid_scalefilter_cvar_func2, CF_NONE,
-        "The filter used to scale each frame (<b>\"nearest\"</b>, <b>\"linear\"</b> or <b>\"nearest_linear\"</b>)."),
+        "The filter used to scale each frame (<b>nearest</b>, <b>linear</b> or <b>nearest_linear</b>)."),
     CVAR_OTHER(vid_screenresolution, "", null_func1, vid_screenresolution_cvar_func2,
         "The screen's resolution when fullscreen (<b>desktop</b> or <i><b>width</b></i><b>\xD7</b><i><b>height</b></i>)."),
     CVAR_BOOL(vid_showfps, "", bool_cvars_func1, vid_showfps_cvar_func2, BOOLVALUEALIAS,
