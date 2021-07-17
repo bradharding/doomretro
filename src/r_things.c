@@ -886,7 +886,7 @@ static void R_ProjectBloodSplat(const bloodsplat_t *splat)
     else if (r_blood == r_blood_all)
     {
         vis->blood = splat->blood;
-        vis->colfunc = (pausesprites && r_textures && splat->colfunc == fuzzcolfunc ? &R_DrawPausedFuzzColumn : splat->colfunc);
+        vis->colfunc = (splat->colfunc == fuzzcolfunc && pausesprites && r_textures ? &R_DrawPausedFuzzColumn : splat->colfunc);
     }
     else if (r_blood == r_blood_red)
     {
