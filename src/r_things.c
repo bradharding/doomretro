@@ -946,7 +946,8 @@ static void R_ProjectBloodSplat(const bloodsplat_t *splat)
 // killough 09/18/98: add lightlevel as parameter, fixing underwater lighting
 void R_AddSprites(sector_t *sec, int lightlevel)
 {
-    mobj_t  *thing = sec->thinglist;
+    mobj_t      *thing = sec->thinglist;
+    static int  prevlightlevel = -1;
 
     if ((floorheight = sec->interpfloorheight) - FRACUNIT <= viewz)
     {
@@ -954,8 +955,12 @@ void R_AddSprites(sector_t *sec, int lightlevel)
 
         if (splat && drawbloodsplats)
         {
-            spritelights = scalelight[BETWEEN(0, (lightlevel >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)];
-            nextspritelights = scalelight[BETWEEN(0, ((lightlevel + 4) >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)];
+            if (lightlevel != prevlightlevel)
+            {
+                spritelights = scalelight[BETWEEN(0, (lightlevel >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)];
+                nextspritelights = scalelight[BETWEEN(0, ((lightlevel + 4) >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)];
+                prevlightlevel = lightlevel;
+            }
 
             do
             {
@@ -968,8 +973,12 @@ void R_AddSprites(sector_t *sec, int lightlevel)
         }
         else if (thing)
         {
-            spritelights = scalelight[BETWEEN(0, (lightlevel >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)];
-            nextspritelights = scalelight[BETWEEN(0, ((lightlevel + 4) >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)];
+            if (lightlevel != prevlightlevel)
+            {
+                spritelights = scalelight[BETWEEN(0, (lightlevel >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)];
+                nextspritelights = scalelight[BETWEEN(0, ((lightlevel + 4) >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)];
+                prevlightlevel = lightlevel;
+            }
         }
         else
             return;
@@ -978,8 +987,13 @@ void R_AddSprites(sector_t *sec, int lightlevel)
     }
     else if (thing)
     {
-        spritelights = scalelight[BETWEEN(0, (lightlevel >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)];
-        nextspritelights = scalelight[BETWEEN(0, ((lightlevel + 4) >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)];
+        if (lightlevel != prevlightlevel)
+        {
+            spritelights = scalelight[BETWEEN(0, (lightlevel >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)];
+            nextspritelights = scalelight[BETWEEN(0, ((lightlevel + 4) >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)];
+            prevlightlevel = lightlevel;
+        }
+
         drawshadows = false;
     }
     else
