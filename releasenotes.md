@@ -5,10 +5,10 @@
 * *DOOM Retro* is now compiled using v16.10.3 of [*Microsoft Visual Studio Community 2019*](https://www.visualstudio.com/vs/).
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * The following changes have been made to the dithered lighting cast when the `r_ditheredlighting` CVAR is `on`:
-  * The dithered lighting cast on textures is now more consistent as the player turns.
+  * The dithered lighting cast on textures is now more consistent regardless of the player’s viewing angle.
   * Dithered lighting is now also cast on sprites.
   * Dithered lighting is now cast when the `r_detail` CVAR is `low`.
-  * Dithered lighting will now be cast on *BOOM*-compatible translucent wall textures if the `r_translucency` CVAR is `off`.
+  * Dithered lighting is now cast on *BOOM*-compatible translucent wall textures if the `r_translucency` CVAR is `off`.
 * The text in the console has been brought in from the left and right edges of the screen, and even more when the `vid_widescreen` CVAR is `on`.
 * Minor changes have been made to the character set used in the console.
 * Several changes have been made to text that is output to the console.
@@ -20,8 +20,9 @@
 * The number of monsters killed due to infighting is now displayed by the `playerstats` CCMD.
 * The following changes have been made to the external automap when the `am_external` CVAR is `on`:
   * When the <kbd>F</kbd> key is pressed to turn follow mode off, the player may now pan around the external automap as intended.
-  * The mouse wheel will no longer zoom in/out of the external automap, while also cycling through the player’s weapons.
+  * The mouse wheel will no longer zoom in/out of the external automap, and instead only cycle through the player’s weapons.
 * A bug has been fixed whereby the player’s weapon wouldn’t be lit correctly when fired in some instances.
+* A previously implemented feature that caused monsters to not be fullbright when firing and facing away from the player now works correctly.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
