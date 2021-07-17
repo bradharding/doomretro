@@ -184,19 +184,9 @@ static void R_FixWiggle(sector_t *sector)
         invhgtbits = FRACBITS - heightbits;
     }
 }
-#include "c_console.h"
+
 static lighttable_t **GetLightTable(const int lightlevel)
 {
-    static int  prevlightlevel;
-
-    if (prevlightlevel == lightlevel)
-    {
-        static int i;
-        C_Output("%i", ++i);
-    }
-    else
-        prevlightlevel = lightlevel;
-
     return scalelight[BETWEEN(0, (lightlevel >> LIGHTSEGSHIFT) + extralight + curline->fakecontrast, LIGHTLEVELS - 1)];
 }
 
