@@ -1290,6 +1290,10 @@ void R_InitBuffer(int width, int height)
         ylookup1[i] = screens[1] + y;
     }
 
+    fuzzrange[0] = -SCREENWIDTH;
+    fuzzrange[1] = 0;
+    fuzzrange[2] = SCREENWIDTH;
+
     for (int x = 0; x < SCREENWIDTH; x++)
     {
         fuzztable[x] = FUZZ(0, 1);
@@ -1299,10 +1303,6 @@ void R_InitBuffer(int width, int height)
 
         fuzztable[SCREENHEIGHT - 1 + x] = FUZZ(-1, 0);
     }
-
-    fuzzrange[0] = -SCREENWIDTH;
-    fuzzrange[1] = 0;
-    fuzzrange[2] = SCREENWIDTH;
 }
 
 void R_FillBezel(void)
