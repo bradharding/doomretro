@@ -17,6 +17,7 @@
 * The fading of player messages onto and off of the screen is now smoother in some instances when the `fade` CVAR is `on`.
 * A fade transition will now be applied when changing the `r_brightmaps` CVAR in the console and when the `fade` CVAR is `on`.
 * Corpses and dropped items will no longer perpetually slide back and forth in some rare instances.
+* The maximum number of blood splats that can be spawned when a corpse slides on the floor and the `r_corpses_slide` CVAR is `on`, has now been reduced.
 * The number of monsters killed due to infighting is now displayed by the `playerstats` CCMD.
 * The following changes have been made to the external automap when the `am_external` CVAR is `on`:
   * When the <kbd>F</kbd> key is pressed to turn follow mode off, the player may now pan around the external automap as intended.

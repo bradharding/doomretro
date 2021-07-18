@@ -49,6 +49,8 @@
 #define BLUEBLOOD           204
 #define FUZZYBLOOD          -1
 
+#define CORPSEBLOODSPLATS   512
+
 // killough 11/98:
 // For torque simulation:
 #define OVERDRIVE           6
