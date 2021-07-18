@@ -201,8 +201,13 @@ void G_NextWeapon(void)
     {
         P_EquipWeapon(i);
 
-        if (i == wp_fist && viewplayer->powers[pw_strength])
-            S_StartSound(NULL, sfx_getpow);
+        if (i == wp_fist)
+        {
+            if (viewplayer->powers[pw_strength])
+                S_StartSound(NULL, sfx_getpow);
+        }
+        else
+            S_StartSound(NULL, sfx_wpnup);
 
         if (i == wp_shotgun || i == wp_supershotgun)
             viewplayer->preferredshotgun = i;
@@ -230,8 +235,13 @@ void G_PrevWeapon(void)
     {
         P_EquipWeapon(i);
 
-        if (i == wp_fist && viewplayer->powers[pw_strength])
-            S_StartSound(NULL, sfx_getpow);
+        if (i == wp_fist)
+        {
+            if (viewplayer->powers[pw_strength])
+                S_StartSound(NULL, sfx_getpow);
+        }
+        else
+            S_StartSound(NULL, sfx_wpnup);
 
         if (i == wp_shotgun || i == wp_supershotgun)
             viewplayer->preferredshotgun = i;
