@@ -963,7 +963,7 @@ void R_DrawFuzzColumn(void)
     if (dc_yh < dc_floorclip && !(M_BigRandom() & 3))
     {
         dest += SCREENWIDTH;
-        *dest = fullcolormap[14 * 256 + dest[(fuzztable[fuzzpos] = FUZZ(-1, 0))]];
+        *dest = fullcolormap[14 * 256 + dest[(fuzztable[fuzzpos++] = FUZZ(-1, 0))]];
     }
 }
 
@@ -998,7 +998,7 @@ void R_DrawPausedFuzzColumn(void)
     if (dc_yh < dc_floorclip && !fuzztable[fuzzpos++])
     {
         dest += SCREENWIDTH;
-        *dest = fullcolormap[12 * 256 + dest[fuzztable[fuzzpos]]];
+        *dest = fullcolormap[12 * 256 + dest[fuzztable[fuzzpos++]]];
     }
 }
 
