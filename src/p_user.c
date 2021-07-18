@@ -488,14 +488,8 @@ void P_ChangeWeapon(weapontype_t newweapon)
     {
         P_EquipWeapon(newweapon);
 
-        if (newweapon == wp_fist)
-        {
-            if (viewplayer->powers[pw_strength])
-                S_StartSound(NULL, sfx_getpow);
-        }
-        else
-            S_StartSound(NULL, sfx_wpnup);
-
+        if (newweapon == wp_fist && viewplayer->powers[pw_strength])
+            S_StartSound(NULL, sfx_getpow);
 
         if ((viewplayer->cheats & CF_CHOPPERS) && newweapon != wp_chainsaw)
             G_RemoveChoppers();
