@@ -447,8 +447,10 @@ static void R_InitBrightmaps(void)
             int texture;
 
             SC_MustGetString();
+            texture = R_TextureNumForName(sc_String);
+            SC_MustGetString();
 
-            if ((texture = R_TextureNumForName(sc_String)) >= 0)
+            if (texture >= 0 && M_StringCompare(pwadfile, sc_String))
                 nobrightmap[texture] = true;
         }
 
