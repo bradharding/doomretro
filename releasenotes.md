@@ -25,6 +25,7 @@
 * A bug has been fixed whereby the player’s weapon wouldn’t always be lit correctly when fired.
 * A previously implemented feature that caused monsters to not be fullbright when firing and facing away from the player now works correctly.
 * Spectres will now always be rendered correctly when freeze mode is on.
+* More fixes have been applied to certain maps when the `r_fixmaperrors` CVAR is `on`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
