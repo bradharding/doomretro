@@ -48,16 +48,16 @@
 
 #define MAXVISPLANES    1024                    // must be a power of 2
 
+// killough -- hash function for visplanes
+// Empirically verified to be fairly uniform:
+#define visplane_hash(picnum, lightlevel, height) \
+    ((unsigned int)((picnum) * 3 + (lightlevel) + (height) * 7) & (MAXVISPLANES - 1))
+
 static visplane_t   *visplanes[MAXVISPLANES];   // killough
 static visplane_t   *freetail;                  // killough
 static visplane_t   **freehead = &freetail;     // killough
 visplane_t          *floorplane;
 visplane_t          *ceilingplane;
-
-// killough -- hash function for visplanes
-// Empirically verified to be fairly uniform:
-#define visplane_hash(picnum, lightlevel, height) \
-    ((unsigned int)((picnum) * 3 + (lightlevel) + (height) * 7) & (MAXVISPLANES - 1))
 
 int                 *openings;                  // dropoff overflow
 int                 *lastopening;               // dropoff overflow

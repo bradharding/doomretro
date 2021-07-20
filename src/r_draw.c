@@ -145,7 +145,8 @@ static const byte dithermatrix[DITHERSIZE][DITHERSIZE] =
     { 112, 112, 144, 144,  64,  64, 160, 160 }
 };
 
-#define dither(x, y, intensity) (dithermatrix[((y) << r_detail) & (DITHERSIZE - 1)][((x) << r_detail) & (DITHERSIZE - 1)] < (intensity))
+#define dither(x, y, intensity) \
+    (dithermatrix[((y) << r_detail) & (DITHERSIZE - 1)][((x) << r_detail) & (DITHERSIZE - 1)] < (intensity))
 
 //
 // A column is a vertical slice/span from a wall texture that,
