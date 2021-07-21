@@ -619,9 +619,8 @@ void AM_ClearMarks(void)
 
 void AM_AddToPath(void)
 {
-    mobj_t      *mo = viewplayer->mo;
-    const int   x = mo->x >> FRACTOMAPBITS;
-    const int   y = mo->y >> FRACTOMAPBITS;
+    const int   x = am_frame.player.x;
+    const int   y = am_frame.player.y;
     static int  prevx = INT_MAX;
     static int  prevy = INT_MAX;
 
@@ -1167,10 +1166,8 @@ static void AM_ChangeWindowScale(void)
 
 static void AM_DoFollowPlayer(void)
 {
-    mobj_t  *mo = viewplayer->mo;
-
-    m_x = (mo->x >> FRACTOMAPBITS) - m_w / 2;
-    m_y = (mo->y >> FRACTOMAPBITS) - m_h / 2;
+    m_x = am_frame.player.x - m_w / 2;
+    m_y = am_frame.player.y - m_h / 2;
 }
 
 //
@@ -1720,10 +1717,9 @@ static void AM_DrawPlayer(void)
     const int       invisibility = viewplayer->powers[pw_invisibility];
     mpoint_t        point;
     angle_t         angle;
-    const mobj_t    *mo = viewplayer->mo;
 
-    point.x = mo->x >> FRACTOMAPBITS;
-    point.y = mo->y >> FRACTOMAPBITS;
+    point.x = am_frame.player.x;
+    point.y = am_frame.player.y;
 
     if (am_rotatemode)
     {
@@ -1912,8 +1908,7 @@ static void AM_DrawPath(void)
     if (pathpointnum >= 1)
     {
         mpoint_t        end;
-        const mobj_t    *mo = viewplayer->mo;
-        mpoint_t        player = { mo->x >> FRACTOMAPBITS, mo->y >> FRACTOMAPBITS };
+        mpoint_t        player = { am_frame.player.x, am_frame.player.y };
 
         if (am_rotatemode)
         {
@@ -2007,9 +2002,13 @@ static void AM_SetFrameVariables(void)
     const fixed_t   dy = m_h / 2;
     const fixed_t   x = m_x + dx;
     const fixed_t   y = m_y + dy;
+    const mobj_t    *mo = viewplayer->mo;
 
     am_frame.center.x = x;
     am_frame.center.y = y;
+
+    am_frame.player.x = mo->x >> FRACTOMAPBITS;
+    am_frame.player.y = mo->y >> FRACTOMAPBITS;
 
     if (am_rotatemode || (menuactive && !inhelpscreens))
     {
