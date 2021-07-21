@@ -1911,7 +1911,9 @@ static void AM_DrawPath(void)
 {
     if (pathpointnum >= 1)
     {
-        mpoint_t    end;
+        mpoint_t        end;
+        const mobj_t    *mo = viewplayer->mo;
+        mpoint_t        player = { mo->x >> FRACTOMAPBITS, mo->y >> FRACTOMAPBITS };
 
         if (am_rotatemode)
         {
@@ -1932,9 +1934,6 @@ static void AM_DrawPath(void)
 
             if (pathpointnum > 1 && !freeze && !(viewplayer->cheats & CF_NOCLIP))
             {
-                const mobj_t    *mo = viewplayer->mo;
-                mpoint_t        player = { mo->x >> FRACTOMAPBITS, mo->y >> FRACTOMAPBITS };
-
                 AM_RotatePoint(&player);
                 AM_DrawFline(end.x, end.y, player.x, player.y, &pathcolor, &PUTDOT2);
             }
@@ -1955,11 +1954,7 @@ static void AM_DrawPath(void)
             }
 
             if (pathpointnum > 1 && !freeze && !(viewplayer->cheats & CF_NOCLIP))
-            {
-                const mobj_t    *mo = viewplayer->mo;
-
-                AM_DrawFline(end.x, end.y, mo->x >> FRACTOMAPBITS, mo->y >> FRACTOMAPBITS, &pathcolor, &PUTDOT2);
-            }
+                AM_DrawFline(end.x, end.y, player.x, player.y, &pathcolor, &PUTDOT2);
         }
     }
 }

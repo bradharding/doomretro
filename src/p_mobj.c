@@ -151,8 +151,8 @@ static void P_XYMovement(mobj_t *mo)
 {
     player_t    *player;
     fixed_t     xmove, ymove;
-    mobjtype_t  type = mo->type;
-    int         flags2 = mo->flags2;
+    mobjtype_t  type;
+    int         flags2;
     dboolean    corpse;
     int         stepdir = 0;
 
@@ -170,6 +170,8 @@ static void P_XYMovement(mobj_t *mo)
     }
 
     player = mo->player;
+    type = mo->type;
+    flags2 = mo->flags2;
     corpse = ((mo->flags & MF_CORPSE) && type != MT_BARREL);
 
     // [BH] give smoke trails to rockets

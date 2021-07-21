@@ -14,7 +14,7 @@ Open the <b><i>[DOOM Retro Wiki](https://github.com/bradharding/doomretro/wiki)<
 [![](https://img.shields.io/github/release/bradharding/doomretro.svg)](https://github.com/bradharding/doomretro/releases/latest)
 [![](https://img.shields.io/github/release-date/bradharding/doomretro.svg)](https://github.com/bradharding/doomretro/releases/latest)
 [![](https://img.shields.io/github/downloads/bradharding/doomretro/latest/total.svg?label=downloads)](https://github.com/bradharding/doomretro/releases/latest)
-[![](https://img.shields.io/github/downloads/bradharding/doomretro/total.svg?label=total%20downloads)](https://github.com/bradharding/doomretro/releases/latest)
+[![](https://img.shields.io/github/downloads/bradharding/doomretro/total.svg?label=total%20downloads)](https://github.com/bradharding/doomretro/releases)
 [![](https://img.shields.io/github/commit-activity/m/bradharding/doomretro.svg)](https://github.com/bradharding/doomretro/commits/master)
 [![](https://img.shields.io/github/commits-since/bradharding/doomretro/latest.svg)](https://github.com/bradharding/doomretro/commits/master)
 [![](https://img.shields.io/github/last-commit/bradharding/doomretro.svg)](https://github.com/bradharding/doomretro/commits/master)
