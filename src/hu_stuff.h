@@ -67,7 +67,7 @@
 #define HUD_ARMOR_HIGHLIGHT_WAIT    250
 
 #define HUD_KEYS_X                  (SCREENWIDTH - 88)
-#define HUD_KEYS_Y                  (HUD_HEALTH_Y - 1)
+#define HUD_KEYS_Y                  HUD_HEALTH_Y
 
 #define HUD_AMMO_X                  (SCREENWIDTH - 51)
 #define HUD_AMMO_Y                  HUD_HEALTH_Y
