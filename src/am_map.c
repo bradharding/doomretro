@@ -1475,12 +1475,14 @@ static void AM_DrawWalls(void)
         const fixed_t   *lbbox = line.bbox;
         const fixed_t   *ambbox = am_frame.bbox;
 
-        if ((lbbox[BOXLEFT] >> FRACTOMAPBITS) <= ambbox[BOXRIGHT] && (lbbox[BOXRIGHT] >> FRACTOMAPBITS) >= ambbox[BOXLEFT]
-            && (lbbox[BOXBOTTOM] >> FRACTOMAPBITS) <= ambbox[BOXTOP] && (lbbox[BOXTOP] >> FRACTOMAPBITS) >= ambbox[BOXBOTTOM])
+        if ((lbbox[BOXLEFT] >> FRACTOMAPBITS) <= ambbox[BOXRIGHT]
+            && (lbbox[BOXRIGHT] >> FRACTOMAPBITS) >= ambbox[BOXLEFT]
+            && (lbbox[BOXBOTTOM] >> FRACTOMAPBITS) <= ambbox[BOXTOP]
+            && (lbbox[BOXTOP] >> FRACTOMAPBITS) >= ambbox[BOXBOTTOM])
         {
             const unsigned short    flags = line.flags;
 
-            if (!(flags & ML_DONTDRAW) && (flags & ML_MAPPED))
+            if ((flags & ML_MAPPED) && !(flags & ML_DONTDRAW))
             {
                 const sector_t  *back = line.backsector;
                 mline_t         mline;

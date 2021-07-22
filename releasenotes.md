@@ -2,7 +2,7 @@
 
 #### DOOM Retro v4.2
 
-* *DOOM Retro* is now compiled using v16.10.3 of [*Microsoft Visual Studio Community 2019*](https://www.visualstudio.com/vs/).
+* *DOOM Retro* is now compiled using v16.10.4 of [*Microsoft Visual Studio Community 2019*](https://www.visualstudio.com/vs/).
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * The following changes have been made to the dithered lighting cast when the `r_ditheredlighting` CVAR is `on`:
   * The dithered lighting cast on textures is now more consistent regardless of the player’s viewing angle.
