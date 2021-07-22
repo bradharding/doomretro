@@ -552,7 +552,7 @@ static void HU_DrawHUD(void)
     health_x = HUD_HEALTH_X - (health_x + (health_x & 1) + tallpercentwidth) / 2;
 
     if (patch)
-        hudfunc(HUD_HEALTH_X - SHORT(patch->width) / 2, HUD_HEALTH_Y - SHORT(patch->height) - 2, patch, tinttab75);
+        hudfunc(HUD_HEALTH_X - SHORT(patch->width) / 2 - 1, HUD_HEALTH_Y - SHORT(patch->height) - 2, patch, tinttab75);
 
     if (r_hud_translucency || !healthanim)
     {
