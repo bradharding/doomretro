@@ -357,6 +357,8 @@ linefix_t linefix[] =
     { doom,             3,   3,    1057,    0, "",         "NUKESLAD",    "",                 56,         0, DEFAULT,                   DEFAULT,                                         DEFAULT },
 
     { doom,             3,   4,       4,    0, "",         "",            "",                 16,   DEFAULT, DEFAULT,                   DEFAULT,                                         DEFAULT },
+    { doom,             3,   4,     152,    0, "",         "",            "",            DEFAULT,   DEFAULT, ML_DONTDRAW,               DEFAULT,                                         DEFAULT },
+    { doom,             3,   4,     154,    0, "",         "",            "",            DEFAULT,   DEFAULT, ML_DONTDRAW,               DEFAULT,                                         DEFAULT },
     { doom,             3,   4,     470,    0, "BIGDOOR2", "",            "",            DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                         DEFAULT },
     { doom,             3,   4,     659,    0, "",         "",            "",                  0,   DEFAULT, DEFAULT,                   DEFAULT,                                         DEFAULT },
     { doom,             3,   4,     660,    0, "",         "",            "",                  0,   DEFAULT, DEFAULT,                   DEFAULT,                                         DEFAULT },
@@ -389,6 +391,10 @@ linefix_t linefix[] =
     { doom,             3,   6,     410,    1, "",         "BRNSMAL2",    "",            DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                         DEFAULT },
     { doom,             3,   6,     412,    1, "",         "BRNSMAL1",    "",            DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                         DEFAULT },
     { doom,             3,   6,     414,    1, "",         "BRNSMAL2",    "",            DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                         DEFAULT },
+    { doom,             3,   6,     669,    0, "",         "",            "",            DEFAULT,   DEFAULT, ML_DONTDRAW,               DEFAULT,                                         DEFAULT },
+    { doom,             3,   6,     670,    0, "",         "",            "",            DEFAULT,   DEFAULT, ML_DONTDRAW,               DEFAULT,                                         DEFAULT },
+    { doom,             3,   6,     671,    0, "",         "",            "",            DEFAULT,   DEFAULT, ML_DONTDRAW,               DEFAULT,                                         DEFAULT },
+    { doom,             3,   6,     672,    0, "",         "",            "",            DEFAULT,   DEFAULT, ML_DONTDRAW,               DEFAULT,                                         DEFAULT },
 
     { doom,             3,   7,      71,    0, "",         "",            "",            DEFAULT,       -24, DEFAULT,                   DEFAULT,                                         DEFAULT },
     { doom,             3,   7,      72,    0, "",         "",            "",            DEFAULT,       -24, DEFAULT,                   DEFAULT,                                         DEFAULT },
@@ -473,6 +479,8 @@ linefix_t linefix[] =
     { doom,             4,   1,     294,    0, "",         "",            "",                 32,   DEFAULT, DEFAULT,                   DEFAULT,                                         DEFAULT },
     { doom,             4,   1,     298,    0, "",         "",            "",                -58,   DEFAULT, DEFAULT,                   DEFAULT,                                         DEFAULT },
     { doom,             4,   1,     299,    0, "",         "",            "",                 32,   DEFAULT, DEFAULT,                   DEFAULT,                                         DEFAULT },
+    { doom,             4,   1,     306,    0, "",         "",            "",            DEFAULT,   DEFAULT, ML_DONTDRAW,               DEFAULT,                                         DEFAULT },
+    { doom,             4,   1,     325,    0, "",         "",            "",            DEFAULT,   DEFAULT, ML_DONTDRAW,               DEFAULT,                                         DEFAULT },
     { doom,             4,   1,     341,    0, "",         "",            "",                  4,   DEFAULT, DEFAULT,                   DEFAULT,                                         DEFAULT },
     { doom,             4,   1,     342,    0, "",         "",            "",                  4,   DEFAULT, DEFAULT,                   DEFAULT,                                         DEFAULT },
     { doom,             4,   1,     381,    0, "",         "",            "",                -58,   DEFAULT, DEFAULT,                   DEFAULT,                                         DEFAULT },
@@ -901,6 +909,8 @@ linefix_t linefix[] =
     { doom2,            1,  16,     303,    0, "STUCCO1",  "",            "",            DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                         DEFAULT },
     { doom2,            1,  16,     304,    0, "STUCCO1",  "",            "",            DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                         DEFAULT },
     { doom2,            1,  16,     328,    1, "",         "",            "ROCK3",       DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                         DEFAULT },
+    { doom2,            1,  16,     515,    0, "",         "",            "",            DEFAULT,   DEFAULT, ML_DONTDRAW,               DEFAULT,                                         DEFAULT },
+    { doom2,            1,  16,     525,    0, "",         "",            "",            DEFAULT,   DEFAULT, ML_DONTDRAW,               DEFAULT,                                         DEFAULT },
 
     { doom2,            1,  17,     182,    1, "",         "MIDGRATE",    "",            DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                         DEFAULT },
     { doom2,            1,  17,     316,    1, "",         "MIDGRATE",    "",            DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                         DEFAULT },
@@ -971,6 +981,7 @@ linefix_t linefix[] =
 
     { doom2,            1,  24,     687,    1, "",         "",            "SILVER2",     DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                         DEFAULT },
     { doom2,            1,  24,     688,    1, "",         "",            "SILVER2",     DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                         DEFAULT },
+    { doom2,            1,  24,    1038,    0, "",         "",            "",            DEFAULT,   DEFAULT, ML_DONTDRAW,               DEFAULT,                                         DEFAULT },
 
     { doom2,            1,  25,     348,    1, "",         "MIDSPACE",    "",            DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                         DEFAULT },
     { doom2,            1,  25,     349,    1, "",         "MIDSPACE",    "",            DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                         DEFAULT },
