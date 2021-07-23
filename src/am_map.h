@@ -81,7 +81,6 @@ void AM_AddToPath(void);
 typedef struct
 {
     mpoint_t    center;
-    mpoint_t    player;
     fixed_t     sin;
     fixed_t     cos;
     fixed_t     bbox[4];
