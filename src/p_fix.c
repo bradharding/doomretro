@@ -341,6 +341,8 @@ linefix_t linefix[] =
     { doom,             2,   9,     140,    1, "GSTONE1",  "",            "",            DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                         DEFAULT },
 
     { doom,             3,   2,     146,    1, "",         "MIDVINE1",    "",            DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                         DEFAULT },
+    { doom,             3,   2,     152,    0, "",         "",            "",            DEFAULT,   DEFAULT, ML_DONTDRAW,               DEFAULT,                                         DEFAULT },
+    { doom,             3,   2,     154,    0, "",         "",            "",            DEFAULT,   DEFAULT, ML_DONTDRAW,               DEFAULT,                                         DEFAULT },
     { doom,             3,   2,     452,    0, "",         "",            "",            DEFAULT,        -7, DEFAULT,                   DEFAULT,                                         DEFAULT },
     { doom,             3,   2,     454,    0, "",         "",            "",            DEFAULT,        -7, DEFAULT,                   DEFAULT,                                         DEFAULT },
 
@@ -357,8 +359,6 @@ linefix_t linefix[] =
     { doom,             3,   3,    1057,    0, "",         "NUKESLAD",    "",                 56,         0, DEFAULT,                   DEFAULT,                                         DEFAULT },
 
     { doom,             3,   4,       4,    0, "",         "",            "",                 16,   DEFAULT, DEFAULT,                   DEFAULT,                                         DEFAULT },
-    { doom,             3,   4,     152,    0, "",         "",            "",            DEFAULT,   DEFAULT, ML_DONTDRAW,               DEFAULT,                                         DEFAULT },
-    { doom,             3,   4,     154,    0, "",         "",            "",            DEFAULT,   DEFAULT, ML_DONTDRAW,               DEFAULT,                                         DEFAULT },
     { doom,             3,   4,     470,    0, "BIGDOOR2", "",            "",            DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                         DEFAULT },
     { doom,             3,   4,     659,    0, "",         "",            "",                  0,   DEFAULT, DEFAULT,                   DEFAULT,                                         DEFAULT },
     { doom,             3,   4,     660,    0, "",         "",            "",                  0,   DEFAULT, DEFAULT,                   DEFAULT,                                         DEFAULT },
