@@ -678,6 +678,59 @@ static void R_InitSpriteLumps(void)
         M_StringCopy(mobjinfo[MT_MEGA].name2, "mega doll", sizeof(mobjinfo[MT_MEGA].name1));
         M_StringCopy(mobjinfo[MT_MEGA].plural2, "mega dolls", sizeof(mobjinfo[MT_MEGA].plural1));
     }
+    else if (REKKR)
+    {
+        M_StringCopy(weaponinfo[wp_pistol].description, "soul bow", sizeof(weaponinfo[wp_pistol].description));
+        M_StringCopy(weaponinfo[wp_shotgun].description, "steel-shot launcher", sizeof(weaponinfo[wp_shotgun].description));
+        M_StringCopy(weaponinfo[wp_chaingun].description, "soul gun", sizeof(weaponinfo[wp_chaingun].description));
+        M_StringCopy(weaponinfo[wp_missile].description, "runic staff", sizeof(weaponinfo[wp_missile].description));
+        M_StringCopy(weaponinfo[wp_plasma].description, "holy relic", sizeof(weaponinfo[wp_plasma].description));
+        M_StringCopy(weaponinfo[wp_bfg].description, "blessing of the gods", sizeof(weaponinfo[wp_bfg].description));
+        M_StringCopy(weaponinfo[wp_chainsaw].description, "axe", sizeof(weaponinfo[wp_chainsaw].description));
+
+        M_StringCopy(mobjinfo[MT_POSSESSED].name1, "former human", sizeof(mobjinfo[MT_POSSESSED].name1));
+        M_StringCopy(mobjinfo[MT_POSSESSED].plural1, "former humans", sizeof(mobjinfo[MT_POSSESSED].plural1));
+        M_StringCopy(mobjinfo[MT_SHOTGUY].name1, "jackalope", sizeof(mobjinfo[MT_SHOTGUY].name1));
+        M_StringCopy(mobjinfo[MT_SHOTGUY].plural1, "jackalopes", sizeof(mobjinfo[MT_SHOTGUY].plural1));
+        M_StringCopy(mobjinfo[MT_VILE].name1, "skeleturret", sizeof(mobjinfo[MT_VILE].name1));
+        M_StringCopy(mobjinfo[MT_VILE].plural1, "skeleturrets", sizeof(mobjinfo[MT_VILE].plural1));
+        M_StringCopy(mobjinfo[MT_UNDEAD].name1, "mean imp", sizeof(mobjinfo[MT_UNDEAD].name1));
+        M_StringCopy(mobjinfo[MT_UNDEAD].plural1, "mean imps", sizeof(mobjinfo[MT_UNDEAD].plural1));
+        M_StringCopy(mobjinfo[MT_FATSO].name1, "former duke", sizeof(mobjinfo[MT_FATSO].name1));
+        M_StringCopy(mobjinfo[MT_FATSO].plural1, "former dukes", sizeof(mobjinfo[MT_FATSO].plural1));
+        M_StringCopy(mobjinfo[MT_CHAINGUY].name1, "former king", sizeof(mobjinfo[MT_CHAINGUY].name1));
+        M_StringCopy(mobjinfo[MT_CHAINGUY].plural1, "former kings", sizeof(mobjinfo[MT_CHAINGUY].plural1));
+        M_StringCopy(mobjinfo[MT_SERGEANT].name1, "husk", sizeof(mobjinfo[MT_SERGEANT].name1));
+        M_StringCopy(mobjinfo[MT_SERGEANT].plural1, "husks", sizeof(mobjinfo[MT_SERGEANT].plural1));
+        M_StringCopy(mobjinfo[MT_SHADOWS].name1, "mean husk", sizeof(mobjinfo[MT_SHADOWS].name1));
+        M_StringCopy(mobjinfo[MT_SHADOWS].plural1, "mean husks", sizeof(mobjinfo[MT_SHADOWS].plural1));
+        M_StringCopy(mobjinfo[MT_HEAD].name1, "sorrow", sizeof(mobjinfo[MT_HEAD].name1));
+        M_StringCopy(mobjinfo[MT_HEAD].plural1, "sorrows", sizeof(mobjinfo[MT_HEAD].plural1));
+        M_StringCopy(mobjinfo[MT_BRUISER].name1, "tree beast", sizeof(mobjinfo[MT_BRUISER].name1));
+        M_StringCopy(mobjinfo[MT_BRUISER].plural1, "tree beasts", sizeof(mobjinfo[MT_BRUISER].plural1));
+        M_StringCopy(mobjinfo[MT_KNIGHT].name1, "skelly belly", sizeof(mobjinfo[MT_KNIGHT].name1));
+        M_StringCopy(mobjinfo[MT_KNIGHT].plural1, "skelly bellies", sizeof(mobjinfo[MT_KNIGHT].plural1));
+        M_StringCopy(mobjinfo[MT_SKULL].name1, "eyeball", sizeof(mobjinfo[MT_SKULL].name1));
+        M_StringCopy(mobjinfo[MT_SKULL].plural1, "eyeballs", sizeof(mobjinfo[MT_SKULL].plural1));
+        M_StringCopy(mobjinfo[MT_SPIDER].name1, "large technospider", sizeof(mobjinfo[MT_SPIDER].name1));
+        M_StringCopy(mobjinfo[MT_SPIDER].plural1, "large technospiders", sizeof(mobjinfo[MT_SPIDER].plural1));
+        M_StringCopy(mobjinfo[MT_BABY].name1, "mean jackalope", sizeof(mobjinfo[MT_BABY].name1));
+        M_StringCopy(mobjinfo[MT_BABY].plural1, "mean jackalopes", sizeof(mobjinfo[MT_BABY].plural1));
+        M_StringCopy(mobjinfo[MT_CYBORG].name1, "death raven", sizeof(mobjinfo[MT_CYBORG].name1));
+        M_StringCopy(mobjinfo[MT_CYBORG].plural1, "death ravens", sizeof(mobjinfo[MT_CYBORG].plural1));
+        M_StringCopy(mobjinfo[MT_PAIN].name1, "summoner", sizeof(mobjinfo[MT_PAIN].name1));
+        M_StringCopy(mobjinfo[MT_PAIN].plural1, "summoners", sizeof(mobjinfo[MT_PAIN].plural1));
+        M_StringCopy(mobjinfo[MT_WOLFSS].name1, "former human grotesque", sizeof(mobjinfo[MT_WOLFSS].name1));
+        M_StringCopy(mobjinfo[MT_WOLFSS].plural1, "former human grotesques", sizeof(mobjinfo[MT_WOLFSS].plural1));
+        M_StringCopy(mobjinfo[MT_KEEN].name1, "health mimic", sizeof(mobjinfo[MT_KEEN].name1));
+        M_StringCopy(mobjinfo[MT_KEEN].plural1, "health mimics", sizeof(mobjinfo[MT_KEEN].plural1));
+        M_StringCopy(mobjinfo[MT_CHAINGUN].name1, "skeletower", sizeof(mobjinfo[MT_CHAINGUN].name1));
+        M_StringCopy(mobjinfo[MT_CHAINGUN].plural1, "skeletowers", sizeof(mobjinfo[MT_CHAINGUN].plural1));
+        M_StringCopy(mobjinfo[MT_MISC65].name1, "eye spawner", sizeof(mobjinfo[MT_MISC65].name1));
+        M_StringCopy(mobjinfo[MT_MISC65].plural1, "eye spawners", sizeof(mobjinfo[MT_MISC65].plural1));
+        M_StringCopy(mobjinfo[MT_MISC38].name1, "puppy", sizeof(mobjinfo[MT_MISC38].name1));
+        M_StringCopy(mobjinfo[MT_MISC38].plural1, "puppies", sizeof(mobjinfo[MT_MISC38].plural1));
+    }
 }
 
 //

@@ -13,6 +13,7 @@
 * Minor changes have been made to the character set used in the console.
 * Several changes have been made to text that is output to the console.
 * Minor improvements have been made to the console’s autocomplete feature.
+* The correct monster and weapon names are now displayed in obituaries in the console when [*REKKR*](https://www.doomworld.com/idgames/levels/doom/megawads/rekkr) is loaded.
 * A bug has been fixed whereby any palette effects wouldn’t be restored when unpausing a game by pressing the <kbd>ESC</kbd> key rather than <kbd>PAUSE</kbd> key.
 * The `alwaysrun` CVAR can now be toggled by pressing the <kbd>CAPSLOCK</kbd> key while on the title screen.
 * The fading of player messages onto and off of the screen is now smoother in some instances when the `fade` CVAR is `on`.
