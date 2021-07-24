@@ -2849,8 +2849,9 @@ static void kill_cmd_func2(char *cmd, char *parms)
                 {
                     char    *temp = commify(kills);
 
-                    M_snprintf(buffer, sizeof(buffer), "%s %s %s %s now %s.", (kills == 1 ? "The" : "All"), temp,
-                        (kills == 1 ? mobjinfo[type].name1 : mobjinfo[type].plural1), (kills == 1 ? "is" : "are"),
+                    M_snprintf(buffer, sizeof(buffer), "%s %s %s %s now %s.",
+                        (kills == 1 ? "The" : "All"), temp, (kills == 1 ? mobjinfo[type].name1 : mobjinfo[type].plural1),
+                        (type == MT_BARREL ? (kills == 1 ? "has" : "have") : (kills == 1 ? "is" : "are")),
                         (type == MT_BARREL ? "exploded" : "dead"));
                     C_Output(buffer);
                     C_HideConsole();

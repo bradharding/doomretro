@@ -1720,7 +1720,8 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
                             (gibbed ? "gibbed" : "killed"),
                             (isvowel(inflicter->info->name1[0]) ? "an" : "a"),
                             (*inflicter->info->name1 ? inflicter->info->name1 : "monster"),
-                            (M_StringCompare(inflicter->info->name1, mobjinfo[inflicter->inflicter].name1) ? "another" :
+                            (inflicter->type == inflicter->inflicter ||
+                                M_StringCompare(inflicter->info->name1, mobjinfo[inflicter->inflicter].name1) ? "another" :
                                 (isvowel(mobjinfo[inflicter->inflicter].name1[0]) ? "an" : "a")),
                             mobjinfo[inflicter->inflicter].name1);
                     else
@@ -1729,7 +1730,8 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
                             (gibbed ? "gibbed" : "killed"),
                             (isvowel(inflicter->info->name1[0]) ? "an" : "a"),
                             (*inflicter->info->name1 ? inflicter->info->name1 : "monster"),
-                            (M_StringCompare(inflicter->info->name1, mobjinfo[inflicter->inflicter].name1) ? "another" :
+                            (inflicter->type == inflicter->inflicter ||
+                                M_StringCompare(inflicter->info->name1, mobjinfo[inflicter->inflicter].name1) ? "another" :
                                 (isvowel(mobjinfo[inflicter->inflicter].name1[0]) ? "an" : "a")),
                             mobjinfo[inflicter->inflicter].name1);
                 }
@@ -1769,7 +1771,8 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
                         (gibbed ? "gibbed" : "killed"),
                         (isvowel(inflicter->info->name1[0]) ? "an" : "a"),
                         (*inflicter->info->name1 ? inflicter->info->name1 : "monster"),
-                        (M_StringCompare(inflicter->info->name1, mobjinfo[inflicter->inflicter].name1) ? "another" :
+                        (inflicter->type == inflicter->inflicter ||
+                            M_StringCompare(inflicter->info->name1, mobjinfo[inflicter->inflicter].name1) ? "another" :
                             (isvowel(mobjinfo[inflicter->inflicter].name1[0]) ? "an" : "a")),
                         mobjinfo[inflicter->inflicter].name1);
 
@@ -1914,7 +1917,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
                         M_StringCopy(targetname, target->name, sizeof(targetname));
                     else
                         M_snprintf(targetname, sizeof(targetname), "%s %s%s",
-                            (M_StringCompare(source->info->name1, target->info->name1) ? "another" :
+                            (source->type == target->type || M_StringCompare(source->info->name1, target->info->name1) ? "another" :
                                 ((target->flags & MF_FRIEND) && monstercount[target->type] == 1 ? "the" :
                                 (isvowel(target->info->name1[0]) ? "an" : "a"))),
                             ((target->flags & MF_FRIEND) ? "friendly " : ""),
