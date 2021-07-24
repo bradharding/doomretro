@@ -6341,8 +6341,9 @@ static void spawn_cmd_func2(char *cmd, char *parms)
         }
         else if (spawncmdtype == WolfensteinSS && (!allowwolfensteinss || spawncmdfriendly) && !states[S_SSWV_STND].dehacked)
         {
-            C_Warning(0, "%s Wolfenstein SS can't be spawned in %s<i>%s.</i>",
-                (spawncmdfriendly ? "Friendly " : ""), (bfgedition || spawncmdfriendly ? "" : "this version of "), gamedescription);
+            C_Warning(0, "%s%s can't be spawned in %s<i>%s.</i>",
+                (spawncmdfriendly ? "Friendly " : ""), mobjinfo[type].name1,
+                (bfgedition || spawncmdfriendly ? "" : "this version of "), gamedescription);
             spawn = false;
         }
 
@@ -6407,8 +6408,8 @@ static void spawn_cmd_func2(char *cmd, char *parms)
                             M_SaveCVARs();
                         }
 
-                        thing = P_SpawnMobj(x, y, ((flags & MF_SPAWNCEILING) ? ONCEILINGZ : ((thing->flags2 & MF2_FLOATBOB) ?
-                            thing->subsector->sector->floorheight + 14 * FRACUNIT : ONFLOORZ)), MT_IFOG);
+                        thing = P_SpawnMobj(x, y, ((flags & MF_SPAWNCEILING) ? ONCEILINGZ :
+                            ((thing->flags2 & MF2_FLOATBOB) ? thing->floorz + 14 * FRACUNIT : ONFLOORZ)), MT_IFOG);
 
                         S_StartSound(thing, sfx_itmbk);
                     }
