@@ -730,6 +730,8 @@ static void R_InitSpriteLumps(void)
         M_StringCopy(mobjinfo[MT_MISC65].plural1, "eye spawners", sizeof(mobjinfo[MT_MISC65].plural1));
         M_StringCopy(mobjinfo[MT_MISC38].name1, "puppy", sizeof(mobjinfo[MT_MISC38].name1));
         M_StringCopy(mobjinfo[MT_MISC38].plural1, "puppies", sizeof(mobjinfo[MT_MISC38].plural1));
+        M_StringCopy(mobjinfo[MT_PLASMA].name1, "barrel", sizeof(mobjinfo[MT_PLASMA].name1));
+        M_StringCopy(mobjinfo[MT_PLASMA].plural1, "barrels", sizeof(mobjinfo[MT_PLASMA].plural1));
     }
 }
 
