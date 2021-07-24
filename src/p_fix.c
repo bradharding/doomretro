@@ -391,6 +391,8 @@ linefix_t linefix[] =
     { doom,             3,   6,     410,    1, "",         "BRNSMAL2",    "",            DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                         DEFAULT },
     { doom,             3,   6,     412,    1, "",         "BRNSMAL1",    "",            DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                         DEFAULT },
     { doom,             3,   6,     414,    1, "",         "BRNSMAL2",    "",            DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                         DEFAULT },
+    { doom,             3,   6,     666,    0, "",         "",            "",            DEFAULT,   DEFAULT, ML_DONTDRAW,               DEFAULT,                                         DEFAULT },
+    { doom,             3,   6,     668,    0, "",         "",            "",            DEFAULT,   DEFAULT, ML_DONTDRAW,               DEFAULT,                                         DEFAULT },
     { doom,             3,   6,     669,    0, "",         "",            "",            DEFAULT,   DEFAULT, ML_DONTDRAW,               DEFAULT,                                         DEFAULT },
     { doom,             3,   6,     670,    0, "",         "",            "",            DEFAULT,   DEFAULT, ML_DONTDRAW,               DEFAULT,                                         DEFAULT },
     { doom,             3,   6,     671,    0, "",         "",            "",            DEFAULT,   DEFAULT, ML_DONTDRAW,               DEFAULT,                                         DEFAULT },
