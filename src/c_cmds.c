@@ -8342,6 +8342,13 @@ static void r_screensize_cvar_func2(char *cmd, char *parms)
             S_StartSound(NULL, sfx_stnmov);
             R_SetViewSize(r_screensize);
             r_hud = (r_screensize == r_screensize_max);
+
+            if (vid_widescreen && r_screensize < r_screensize_max - 1)
+            {
+                vid_widescreen = false;
+                I_RestartGraphics(false);
+            }
+
             M_SaveCVARs();
 
             if (r_playersprites)
