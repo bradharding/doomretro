@@ -8348,6 +8348,11 @@ static void r_screensize_cvar_func2(char *cmd, char *parms)
                 vid_widescreen = false;
                 I_RestartGraphics(false);
             }
+            else if (!vid_widescreen && r_screensize == r_screensize_max)
+            {
+                vid_widescreen = true;
+                I_RestartGraphics(false);
+            }
 
             M_SaveCVARs();
 

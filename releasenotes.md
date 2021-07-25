@@ -29,7 +29,9 @@
 * Spectres will now always be rendered correctly when freeze mode is on.
 * More fixes have been applied to certain maps when the `r_fixmaperrors` CVAR is `on`.
 * Minor changes have been made to the positioning of some elements in the widescreen HUD.
-* The `vid_widescreen` CVAR will now be turned `off` whenever the `r_screensize` CVAR is set to a value less than `7` in the console.
+* The following changes have been when changing the `r_screensize` CVAR in the console:
+  * The `vid_widescreen` CVAR will now be turned `off` when the `r_screensize` CVAR is set to a value less than `7`.
+  * The `vid_widescreen` CVAR will now be turned `on` when the `r_screensize` CVAR is set to `8`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
