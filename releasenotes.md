@@ -6,7 +6,7 @@
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * The following changes have been made to the dithered lighting cast when the `r_ditheredlighting` CVAR is `on`:
   * The dithered lighting cast on textures is now more consistent regardless of the player’s viewing angle.
-  * Dithered lighting is now also cast on sprites.
+  * Dithered lighting is now also cast on most sprites.
   * Dithered lighting is now cast when the `r_detail` CVAR is `low`.
   * Dithered lighting is now cast on *BOOM*-compatible translucent wall textures if the `r_translucency` CVAR is `off`.
 * The text in the console has been brought in from the left and right edges of the screen, and even more so when the `vid_widescreen` CVAR is `on`.
@@ -18,7 +18,7 @@
 * The `alwaysrun` CVAR can now be toggled by pressing the <kbd>CAPSLOCK</kbd> key while on the title screen.
 * The fading of player messages onto and off of the screen is now smoother in some instances when the `fade` CVAR is `on`.
 * A fade transition will now be applied when changing the `r_brightmaps` CVAR in the console and when the `fade` CVAR is `on`.
-* Corpses and dropped items will no longer perpetually slide back and forth in some rare instances.
+* Corpses and dropped items will no longer perpetually slide back and forth on the floor in some rare instances.
 * The maximum number of blood splats that can be spawned when a corpse slides on the floor and the `r_corpses_slide` CVAR is `on`, has now been reduced.
 * The number of monsters killed due to infighting is now displayed by the `playerstats` CCMD.
 * The following changes have been made to the external automap when the `am_external` CVAR is `on`:
@@ -29,7 +29,7 @@
 * Spectres will now always be rendered correctly when freeze mode is on.
 * More fixes have been applied to certain maps when the `r_fixmaperrors` CVAR is `on`.
 * Minor changes have been made to the positioning of some elements in the widescreen HUD.
-* The `vid_widescreen` CVAR will now be set to `off` whenever the `r_screensize` CVAR is set to a value less than `7` in the console.
+* The `vid_widescreen` CVAR will now be turned `off` whenever the `r_screensize` CVAR is set to a value less than `7` in the console.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
