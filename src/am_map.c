@@ -294,7 +294,7 @@ static void AM_ChangeWindowLoc(void)
     const fixed_t   height = m_h / 2;
 
     if (am_rotatemode)
-        AM_Rotate(&incx, &incy, viewangle - ANG90);
+        AM_Rotate(&incx, &incy, viewplayer->mo->angle - ANG90);
 
     m_x = BETWEEN(min_x, m_x + width + incx, max_x) - width;
     m_y = BETWEEN(min_y, m_y + height + incy, max_y) - height;
@@ -1720,8 +1720,8 @@ static void AM_DrawPlayer(void)
     };
 
     const int       invisibility = viewplayer->powers[pw_invisibility];
-    angle_t         angle = (am_rotatemode ? ANG90 : viewangle);
     const mobj_t    *mo = viewplayer->mo;
+    angle_t         angle = (am_rotatemode ? ANG90 : mo->angle);
 
     if (viewplayer->cheats & (CF_ALLMAP | CF_ALLMAP_THINGS))
     {
@@ -1748,7 +1748,10 @@ static void AM_DrawThings(void)
         { { -32768,  45875 }, { -32768, -45875 } }
     };
 
-    const angle_t   angleoffset = viewangle - ANG90;
+    angle_t angleoffset;
+
+    if (am_rotatemode)
+        angleoffset = viewplayer->mo->angle - ANG90;
 
     for (int i = 0; i < numsectors; i++)
     {
@@ -2000,7 +2003,7 @@ static void AM_SetFrameVariables(void)
 
     if (am_rotatemode || (menuactive && !inhelpscreens))
     {
-        const int       angle = (ANG90 - viewangle) >> ANGLETOFINESHIFT;
+        const int       angle = (ANG90 - viewplayer->mo->angle) >> ANGLETOFINESHIFT;
         const fixed_t   r = (fixed_t)sqrt((double)dx * dx + (double)dy * dy);
 
         am_frame.sin = finesine[angle];
