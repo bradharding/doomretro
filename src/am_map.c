@@ -210,7 +210,7 @@ am_frame_t          am_frame;
 static dboolean     isteleportline[NUMLINESPECIALS];
 
 static void AM_Rotate(fixed_t *x, fixed_t *y, angle_t angle);
-static void (*putbigdot)(unsigned int x, unsigned int y, const byte *color);
+static void (*putbigdot)(unsigned int, unsigned int, const byte *);
 static void PUTDOT(unsigned int x, unsigned int y, const byte *color);
 static void PUTBIGDOT(unsigned int x, unsigned int y, const byte *color);
 
@@ -1340,7 +1340,7 @@ static inline void PUTTRANSLUCENTDOT(unsigned int x, unsigned int y, const byte 
 // Classic Bresenham w/ whatever optimizations needed for speed
 //
 static void AM_DrawFline(int x0, int y0, int x1, int y1, byte *color,
-    void (*putdot)(unsigned int x, unsigned int y, const byte *color))
+    void (*putdot)(unsigned int, unsigned int, const byte *))
 {
     if (AM_ClipMline(&x0, &y0, &x1, &y1))
     {
@@ -1394,7 +1394,7 @@ static void AM_DrawFline(int x0, int y0, int x1, int y1, byte *color,
 
                 while (x0 != x1)
                 {
-                    const int   mask = ~((int64_t)error >> 31);
+                    const int   mask = ~(error >> 31);
 
                     putdot((x0 += sx), (y0 += (sy & mask)), color);
                     error += dy - (dx & mask);
@@ -1410,7 +1410,7 @@ static void AM_DrawFline(int x0, int y0, int x1, int y1, byte *color,
 
                 while (y0 != y1)
                 {
-                    const int   mask = ~((int64_t)error >> 31);
+                    const int   mask = ~(error >> 31);
 
                     putdot((x0 += (sx & mask)), (y0 += sy), color);
                     error += dx - (dy & mask);
@@ -1424,7 +1424,7 @@ static void AM_DrawFline(int x0, int y0, int x1, int y1, byte *color,
     }
 }
 
-static mline_t (*rotatelinefunc)(mline_t mline);
+static mline_t (*rotatelinefunc)(mline_t);
 
 static mline_t AM_RotateLine(mline_t mline)
 {

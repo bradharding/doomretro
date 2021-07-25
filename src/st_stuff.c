@@ -1379,7 +1379,7 @@ void ST_Drawer(dboolean fullscreen, dboolean refresh)
         ST_DiffDraw();
 }
 
-typedef void (*load_callback_t)(char *lumpname, patch_t **variable);
+typedef void (*load_callback_t)(char *, patch_t **);
 
 static void ST_LoadUnloadGraphics(load_callback_t callback)
 {

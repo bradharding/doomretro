@@ -90,7 +90,7 @@ static int      messageLastMenuActive;
 // timed message = no input from user
 static dboolean messageNeedsInput;
 
-static void (*messageRoutine)(int response);
+static void (*messageRoutine)(int);
 
 // we are going to be entering a savegame string
 static dboolean saveStringEnter;

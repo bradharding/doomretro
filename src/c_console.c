@@ -158,8 +158,7 @@ static byte             *consoleautomapbevel;
 
 static dboolean         scrollbardrawn;
 
-static void (*consoletextfunc)(int x, int y, patch_t *patch, int width, int color,
-    int backgroundcolor, dboolean italics, byte *translucency);
+static void (*consoletextfunc)(int, int, patch_t *, int, int, int, dboolean, byte *);
 
 extern int              framespersecond;
 extern int              refreshrate;

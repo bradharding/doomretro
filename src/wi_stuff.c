@@ -1034,7 +1034,7 @@ void WI_Ticker(void)
     }
 }
 
-typedef void (*load_callback_t)(char *lumpname, patch_t **variable);
+typedef void (*load_callback_t)(char *, patch_t **);
 
 // Common load/unload function. Iterates over all the graphics
 // lumps to be loaded/unloaded into memory.
