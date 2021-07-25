@@ -2124,7 +2124,6 @@ static void D_DoomMainSetup(void)
     STBAR = W_CheckMultipleLumps("STBAR");
     STCFN034 = (W_CheckMultipleLumps("STCFN034") > 1);
     STYSNUM0 = (W_CheckMultipleLumps("STYSNUM0") > 1);
-    TITLEPIC = (W_CheckNumForName("TITLEPIC") >= 0);
     WISCRT2 = (W_CheckMultipleLumps("WISCRT2") > 1);
     DSSECRET = (W_CheckNumForName("DSSECRET") >= 0);
 

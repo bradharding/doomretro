@@ -146,7 +146,6 @@ extern short            SLIME12;
 extern int              STBAR;
 extern dboolean         STCFN034;
 extern dboolean         STYSNUM0;
-extern dboolean         TITLEPIC;
 extern dboolean         WISCRT2;
 
 // -------------------------

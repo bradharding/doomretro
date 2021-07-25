@@ -103,5 +103,4 @@ short           SLIME12;
 int             STBAR;
 dboolean        STCFN034;
 dboolean        STYSNUM0;
-dboolean        TITLEPIC;
 dboolean        WISCRT2;

@@ -573,7 +573,9 @@ static void R_InitSpriteLumps(void)
     if (FREEDOOM)
     {
         states[S_BAR1].nextstate = S_BAR2;
+
         mobjinfo[MT_BARREL].frames = 2;
+
         mobjinfo[MT_HEAD].blood = MT_BLOOD;
         mobjinfo[MT_BRUISER].blood = MT_BLOOD;
         mobjinfo[MT_KNIGHT].blood = MT_BLOOD;
@@ -632,6 +634,7 @@ static void R_InitSpriteLumps(void)
         mobjinfo[MT_INS].flags2 &= ~(MF2_TRANSLUCENT_33 | MF2_FLOATBOB);
         mobjinfo[MT_MISC14].flags2 &= ~MF2_FLOATBOB;
         mobjinfo[MT_BFG].flags2 &= ~MF2_TRANSLUCENT;
+
         mobjinfo[MT_HEAD].blood = MT_BLOOD;
         mobjinfo[MT_BRUISER].blood = MT_BLOOD;
         mobjinfo[MT_KNIGHT].blood = MT_BLOOD;
@@ -641,9 +644,10 @@ static void R_InitSpriteLumps(void)
     else if (doom4vanilla)
     {
         mobjinfo[MT_HEAD].blood = MT_BLOOD;
+        mobjinfo[MT_KNIGHT].blood = MT_BLOOD;
+
         mobjinfo[MT_INV].flags2 &= ~(MF2_TRANSLUCENT_33 | MF2_FLOATBOB);
         mobjinfo[MT_MEGA].flags2 &= ~MF2_FLOATBOB;
-        mobjinfo[MT_KNIGHT].blood = MT_BLOOD;
 
         M_StringCopy(mobjinfo[MT_POSSESSED].name1, "possessed", sizeof(mobjinfo[MT_POSSESSED].name1));
         M_StringCopy(mobjinfo[MT_POSSESSED].plural1, "possessed", sizeof(mobjinfo[MT_POSSESSED].plural1));
