@@ -1748,10 +1748,7 @@ static void AM_DrawThings(void)
         { { -32768,  45875 }, { -32768, -45875 } }
     };
 
-    angle_t angleoffset;
-
-    if (am_rotatemode)
-        angleoffset = viewplayer->mo->angle - ANG90;
+    angle_t angleoffset = (am_rotatemode ? viewplayer->mo->angle - ANG90 : 0);
 
     for (int i = 0; i < numsectors; i++)
     {
@@ -1797,16 +1794,13 @@ static void AM_DrawThings(void)
                     }
 
                     if (am_rotatemode)
-                    {
                         AM_RotatePoint(&point);
-                        angle -= angleoffset;
-                    }
 
                     fx = CXMTOF(point.x);
                     fy = CYMTOF(point.y);
 
                     if (fx >= -width && fx <= MAPWIDTH + width && fy >= -width && fy <= (int)MAPHEIGHT + width)
-                        AM_DrawThingTriangle(thingtriangle, THINGTRIANGLELINES, width, angle, point.x, point.y);
+                        AM_DrawThingTriangle(thingtriangle, THINGTRIANGLELINES, width, angle - angleoffset, point.x, point.y);
                 }
 
                 thing = thing->snext;
