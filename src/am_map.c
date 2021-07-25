@@ -2009,7 +2009,6 @@ static void AM_SetFrameVariables(void)
     const fixed_t   dy = m_h / 2;
     const fixed_t   x = m_x + dx;
     const fixed_t   y = m_y + dy;
-    const mobj_t    *mo = viewplayer->mo;
 
     am_frame.center.x = x;
     am_frame.center.y = y;
