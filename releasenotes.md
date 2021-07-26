@@ -6,7 +6,7 @@
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * The following changes have been made to the dithered lighting cast when the `r_ditheredlighting` CVAR is `on`:
   * The dithered lighting cast on textures is now more consistent regardless of the player’s viewing angle.
-  * Dithered lighting is now also cast on most sprites.
+  * Dithered lighting is now also cast on sprites.
   * Dithered lighting is now cast when the `r_detail` CVAR is `low`.
   * Dithered lighting is now cast on *BOOM*-compatible translucent wall textures if the `r_translucency` CVAR is `off`.
 * The text in the console has been brought in from the left and right edges of the screen, and even more so when the `vid_widescreen` CVAR is `on`.
