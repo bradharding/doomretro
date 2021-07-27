@@ -733,7 +733,7 @@ dboolean P_GivePower(int power)
     {
         case pw_invulnerability:
             viewplayer->fixedcolormap = INVERSECOLORMAP;
-            D_FadeScreen();
+            D_FadeScreen(false);
 
             break;
 
@@ -747,7 +747,7 @@ dboolean P_GivePower(int power)
 
         case pw_allmap:
             if (automapactive)
-                D_FadeScreen();
+                D_FadeScreen(false);
 
             break;
 

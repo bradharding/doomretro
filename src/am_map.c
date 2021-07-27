@@ -505,7 +505,7 @@ void AM_ToggleMaxZoom(void)
     }
 
     if (!mapwindow)
-        D_FadeScreen();
+        D_FadeScreen(false);
 }
 
 void AM_ToggleFollowMode(void)
@@ -526,7 +526,7 @@ void AM_ToggleFollowMode(void)
     }
 
     if (!mapwindow)
-        D_FadeScreen();
+        D_FadeScreen(false);
 
     message_dontfuckwithme = true;
 }
@@ -547,7 +547,7 @@ void AM_ToggleGrid(void)
     }
 
     if (!mapwindow)
-        D_FadeScreen();
+        D_FadeScreen(false);
 
     message_dontfuckwithme = true;
     M_SaveCVARs();
@@ -580,7 +580,7 @@ void AM_AddMark(void)
     HU_SetPlayerMessage(message, false, true);
 
     if (!mapwindow)
-        D_FadeScreen();
+        D_FadeScreen(false);
 
     message_dontfuckwithme = true;
 }
@@ -611,7 +611,7 @@ void AM_ClearMarks(void)
         }
 
         if (!mapwindow)
-            D_FadeScreen();
+            D_FadeScreen(false);
 
         message_dontfuckwithme = true;
     }
@@ -654,7 +654,7 @@ void AM_ToggleRotateMode(void)
     }
 
     if (!mapwindow)
-        D_FadeScreen();
+        D_FadeScreen(false);
 
     message_dontfuckwithme = true;
     M_SaveCVARs();
@@ -687,7 +687,7 @@ dboolean AM_Responder(const event_t *ev)
                 AM_Start(true);
                 viewactive = false;
                 rc = true;
-                D_FadeScreen();
+                D_FadeScreen(false);
             }
         }
         else
@@ -787,7 +787,7 @@ dboolean AM_Responder(const event_t *ev)
                     keydown = key;
                     viewactive = true;
                     AM_Stop();
-                    D_FadeScreen();
+                    D_FadeScreen(false);
                 }
 
                 // toggle maximum zoom
@@ -964,7 +964,7 @@ dboolean AM_Responder(const event_t *ev)
                     viewactive = true;
                     backbuttondown = true;
                     AM_Stop();
-                    D_FadeScreen();
+                    D_FadeScreen(false);
                 }
 
                 // zoom out

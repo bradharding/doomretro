@@ -562,7 +562,7 @@ static void F_CastTicker(void)
         if (++castnum == CASTNUMMAX)
             castnum = 0;
         else
-            D_FadeScreen();
+            D_FadeScreen(false);
 
         if (mobjinfo[castorder[castnum].type].seesound)
             S_StartSound(NULL, F_RandomizeSound(mobjinfo[castorder[castnum].type].seesound));
@@ -570,7 +570,7 @@ static void F_CastTicker(void)
         caststate = &states[mobjinfo[castorder[castnum].type].seestate];
         castframes = 0;
 
-        D_FadeScreen();
+        D_FadeScreen(false);
     }
     else
     {
@@ -996,7 +996,7 @@ static void F_BunnyScroll(void)
         if (finalecount < 1180)
         {
             if (finalecount == 1130)
-                D_FadeScreen();
+                D_FadeScreen(false);
 
             V_DrawPatchWithShadow((VANILLAWIDTH - 104) / 2 + 1, (VANILLAHEIGHT - 64) / 2 + 1,
                 (FREEDOOM || hacx ? W_CacheLastLumpName("END0") : W_CacheLumpName("END0")), false);

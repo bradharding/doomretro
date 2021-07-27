@@ -1737,7 +1737,7 @@ static void M_ChooseSkill(int choice)
             M_StartMessage(buffer, &M_VerifyNightmare, true);
         }
 
-        D_FadeScreen();
+        D_FadeScreen(false);
         return;
     }
 
@@ -2198,7 +2198,7 @@ static void M_ChangeDetail(int choice)
     R_InitColumnFunctions();
 
     if (gamestate == GS_LEVEL)
-        D_FadeScreen();
+        D_FadeScreen(false);
 }
 
 static void M_SizeDisplay(int choice)
@@ -2695,7 +2695,7 @@ dboolean M_Responder(event_t *ev)
         {
             S_StartSound(NULL, sfx_scrsht);
             memset(screens[0], nearestwhite, SCREENAREA);
-            D_FadeScreen();
+            D_FadeScreen(true);
         }
 
         return false;
@@ -2890,7 +2890,7 @@ dboolean M_Responder(event_t *ev)
         else
         {
             S_StartSound(NULL, (currentMenu == &ReadDef ? sfx_pistol : sfx_swtchx));
-            D_FadeScreen();
+            D_FadeScreen(false);
         }
 
         return true;
@@ -3401,7 +3401,7 @@ dboolean M_Responder(event_t *ev)
                             S_StartSound(NULL, sfx_pistol);
 
                         if (currentMenu != &NewDef && currentMenu != &SaveDef)
-                            D_FadeScreen();
+                            D_FadeScreen(false);
                     }
 
                     currentMenu->menuitems[itemOn].routine(itemOn);
@@ -3446,7 +3446,7 @@ dboolean M_Responder(event_t *ev)
                 firstevent = true;
             }
 
-            D_FadeScreen();
+            D_FadeScreen(false);
 
             if (inhelpscreens)
                 R_SetViewSize(r_screensize);
@@ -3651,7 +3651,7 @@ void M_StartControlPanel(void)
         S_LowerMusicVolume();
     }
 
-    D_FadeScreen();
+    D_FadeScreen(false);
 }
 
 //

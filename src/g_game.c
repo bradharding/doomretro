@@ -693,7 +693,7 @@ dboolean G_Responder(event_t *ev)
         {
             S_StartSound(NULL, sfx_scrsht);
             memset(screens[0], nearestwhite, SCREENAREA);
-            D_FadeScreen();
+            D_FadeScreen(true);
 
             return true;
         }
@@ -730,7 +730,7 @@ dboolean G_Responder(event_t *ev)
                 if (vid_motionblur)
                     I_SetMotionBlur(0);
 
-                D_FadeScreen();
+                D_FadeScreen(false);
             }
             else if (key == keyboardalwaysrun && !keydown)
             {

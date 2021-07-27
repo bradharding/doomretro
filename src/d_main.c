@@ -210,10 +210,10 @@ void D_PostEvent(event_t *ev)
 //
 // D_FadeScreen
 //
-void D_FadeScreen(void)
+void D_FadeScreen(dboolean screenshot)
 {
-    if (!fade || (gamestate == GS_LEVEL && (viewplayer->mo->momx || viewplayer->mo->momy || viewplayer->mo->momz
-        || viewplayer->cmd.angleturn)))
+    if (!screenshot && (!fade || (gamestate == GS_LEVEL && (viewplayer->mo->momx || viewplayer->mo->momy || viewplayer->mo->momz
+        || viewplayer->cmd.angleturn))))
         return;
 
     memcpy(fadescreen, screens[0], SCREENAREA);
@@ -303,7 +303,7 @@ void D_Display(void)
         if (melt)
             wipe_StartScreen();
         else
-            D_FadeScreen();
+            D_FadeScreen(false);
 
         if (forcewipe)
             forcewipe = false;
@@ -526,7 +526,7 @@ void D_PageTicker(void)
         if (splashscreen)
         {
             memset(screens[0], nearestblack, SCREENAREA);
-            D_FadeScreen();
+            D_FadeScreen(false);
         }
     }
 }
@@ -2397,7 +2397,7 @@ static void D_DoomMainSetup(void)
         {
             menuactive = false;
             splashscreen = false;
-            D_FadeScreen();
+            D_FadeScreen(false);
             D_StartTitle(1);
         }
         else

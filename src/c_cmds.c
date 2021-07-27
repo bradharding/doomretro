@@ -893,7 +893,7 @@ static void automap_action_func(void)
     else
         AM_Stop();
 
-    D_FadeScreen();
+    D_FadeScreen(false);
 }
 
 static void back_action_func(void)
@@ -7419,7 +7419,7 @@ static void am_path_cvar_func2(char *cmd, char *parms)
     }
 
     if (automapactive)
-        D_FadeScreen();
+        D_FadeScreen(false);
 }
 
 //
@@ -7652,7 +7652,7 @@ static void mouselook_cvar_func2(char *cmd, char *parms)
             R_InitColumnFunctions();
 
             if (gamestate == GS_LEVEL)
-                D_FadeScreen();
+                D_FadeScreen(false);
 
             if (!mouselook)
             {
@@ -7983,7 +7983,7 @@ static void r_brightmaps_cvar_func2(char *cmd, char *parms)
             R_InitColumnFunctions();
 
             if (gamestate == GS_LEVEL)
-                D_FadeScreen();
+                D_FadeScreen(false);
         }
     }
     else
@@ -8044,7 +8044,7 @@ static void r_detail_cvar_func2(char *cmd, char *parms)
             R_InitColumnFunctions();
 
             if (gamestate == GS_LEVEL)
-                D_FadeScreen();
+                D_FadeScreen(false);
         }
     }
     else
@@ -8084,7 +8084,7 @@ static void r_ditheredlighting_cvar_func2(char *cmd, char *parms)
             R_InitColumnFunctions();
 
             if (gamestate == GS_LEVEL)
-                D_FadeScreen();
+                D_FadeScreen(false);
         }
     }
     else
@@ -8162,7 +8162,7 @@ static void r_fov_cvar_func2(char *cmd, char *parms)
         if (gamestate == GS_LEVEL)
         {
             S_StartSound(NULL, sfx_stnmov);
-            D_FadeScreen();
+            D_FadeScreen(false);
         }
     }
 }
@@ -8304,7 +8304,7 @@ static void r_playersprites_cvar_func2(char *cmd, char *parms)
             M_SaveCVARs();
 
             if (gamestate == GS_LEVEL)
-                D_FadeScreen();
+                D_FadeScreen(false);
         }
     }
     else
@@ -8510,7 +8510,7 @@ static void r_textures_cvar_func2(char *cmd, char *parms)
             R_InitColumnFunctions();
 
             if (gamestate == GS_LEVEL)
-                D_FadeScreen();
+                D_FadeScreen(false);
 
             for (int i = 0; i < numsectors; i++)
             {

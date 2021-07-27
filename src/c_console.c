@@ -741,7 +741,7 @@ void C_ShowConsole(void)
     {
         I_CapFPS(TICRATE);
         S_StartSound(NULL, sfx_swtchn);
-        D_FadeScreen();
+        D_FadeScreen(false);
     }
 
     S_LowerMusicVolume();
@@ -765,7 +765,7 @@ void C_HideConsole(void)
         consoleheight = 0;
         consoleactive = false;
         S_StartSound(NULL, sfx_swtchx);
-        D_FadeScreen();
+        D_FadeScreen(false);
     }
 
     S_SetMusicVolume(musicVolume * MIX_MAX_VOLUME / 31);
