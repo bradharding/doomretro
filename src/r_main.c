@@ -538,6 +538,9 @@ void R_InitColumnFunctions(void)
                 tlblue25colfunc = &R_DrawDitherTranslucentBlue25Column;
                 tlredtoblue33colfunc = &R_DrawTranslucentRedToBlue33Column;
                 tlredtogreen33colfunc = &R_DrawTranslucentRedToGreen33Column;
+
+                mobjinfo[MT_TRAIL].colfunc = &R_DrawCorrectedDitherTranslucent50Column;
+                mobjinfo[MT_TRAIL].altcolfunc = &R_DrawCorrectedDitherTranslucent50Column;
             }
             else
             {
@@ -556,6 +559,9 @@ void R_InitColumnFunctions(void)
                 tlblue25colfunc = &R_DrawDitherColumn;
                 tlredtoblue33colfunc = &R_DrawRedToBlueColumn;
                 tlredtogreen33colfunc = &R_DrawRedToGreenColumn;
+
+                mobjinfo[MT_TRAIL].colfunc = &R_DrawCorrectedDitherColumn;
+                mobjinfo[MT_TRAIL].altcolfunc = &R_DrawCorrectedDitherColumn;
             }
         }
         else
@@ -584,6 +590,9 @@ void R_InitColumnFunctions(void)
                 tlblue25colfunc = &R_DrawTranslucentBlue25Column;
                 tlredtoblue33colfunc = &R_DrawTranslucentRedToBlue33Column;
                 tlredtogreen33colfunc = &R_DrawTranslucentRedToGreen33Column;
+
+                mobjinfo[MT_TRAIL].colfunc = &R_DrawCorrectedTranslucent50Column;
+                mobjinfo[MT_TRAIL].altcolfunc = &R_DrawCorrectedTranslucent50Column;
             }
             else
             {
@@ -602,6 +611,9 @@ void R_InitColumnFunctions(void)
                 tlblue25colfunc = &R_DrawColumn;
                 tlredtoblue33colfunc = &R_DrawRedToBlueColumn;
                 tlredtogreen33colfunc = &R_DrawRedToGreenColumn;
+
+                mobjinfo[MT_TRAIL].colfunc = &R_DrawCorrectedColumn;
+                mobjinfo[MT_TRAIL].altcolfunc = &R_DrawCorrectedColumn;
             }
         }
 
@@ -609,17 +621,6 @@ void R_InitColumnFunctions(void)
         redtobluecolfunc = &R_DrawRedToBlueColumn;
         redtogreencolfunc = &R_DrawRedToGreenColumn;
         psprcolfunc = &R_DrawPlayerSpriteColumn;
-
-        if (r_translucency)
-        {
-            mobjinfo[MT_TRAIL].colfunc = &R_DrawCorrectedTranslucent50Column;
-            mobjinfo[MT_TRAIL].altcolfunc = &R_DrawCorrectedTranslucent50Column;
-        }
-        else
-        {
-            mobjinfo[MT_TRAIL].colfunc = &R_DrawCorrectedColumn;
-            mobjinfo[MT_TRAIL].altcolfunc = &R_DrawCorrectedColumn;
-        }
     }
     else
     {
