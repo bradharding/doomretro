@@ -520,6 +520,8 @@ void R_InitColumnFunctions(void)
             bmapwallcolfunc = &R_DrawBrightmapDitherWallColumn;
             segcolfunc = &R_DrawDitherColumn;
             spanfunc = &R_DrawDitherSpan;
+            redtobluecolfunc = &R_DrawDitherRedToBlueColumn;
+            redtogreencolfunc = &R_DrawDitherRedToGreenColumn;
 
             if (r_translucency)
             {
@@ -572,6 +574,8 @@ void R_InitColumnFunctions(void)
             bmapwallcolfunc = &R_DrawBrightmapWallColumn;
             segcolfunc = &R_DrawColumn;
             spanfunc = &R_DrawSpan;
+            redtobluecolfunc = &R_DrawRedToBlueColumn;
+            redtogreencolfunc = &R_DrawRedToGreenColumn;
 
             if (r_translucency)
             {
@@ -618,8 +622,6 @@ void R_InitColumnFunctions(void)
         }
 
         bloodsplatcolfunc = (r_bloodsplats_translucency ? &R_DrawBloodSplatColumn : &R_DrawSolidBloodSplatColumn);
-        redtobluecolfunc = &R_DrawRedToBlueColumn;
-        redtogreencolfunc = &R_DrawRedToGreenColumn;
         psprcolfunc = &R_DrawPlayerSpriteColumn;
     }
     else
@@ -636,6 +638,22 @@ void R_InitColumnFunctions(void)
             segcolfunc = &R_DrawColorDitherColumn;
             tl50segcolfunc = (r_translucency ? &R_DrawDitherTranslucent50ColorColumn : &R_DrawColorDitherColumn);
             spanfunc = &R_DrawDitherColorSpan;
+            redtobluecolfunc = &R_DrawColorDitherColumn;
+            redtogreencolfunc = &R_DrawColorDitherColumn;
+            tlcolfunc = &R_DrawColorDitherColumn;
+            tl50colfunc = &R_DrawColorDitherColumn;
+            tl33colfunc = &R_DrawColorDitherColumn;
+            tlgreencolfunc = &R_DrawColorDitherColumn;
+            tlredcolfunc = &R_DrawColorDitherColumn;
+            tlredwhitecolfunc1 = &R_DrawColorDitherColumn;
+            tlredwhitecolfunc2 = &R_DrawColorDitherColumn;
+            tlredwhite50colfunc = &R_DrawColorDitherColumn;
+            tlbluecolfunc = &R_DrawColorDitherColumn;
+            tlgreen33colfunc = &R_DrawColorDitherColumn;
+            tlred33colfunc = &R_DrawColorDitherColumn;
+            tlblue25colfunc = &R_DrawColorDitherColumn;
+            tlredtoblue33colfunc = &R_DrawColorDitherColumn;
+            tlredtogreen33colfunc = &R_DrawColorDitherColumn;
         }
         else
         {
@@ -646,25 +664,25 @@ void R_InitColumnFunctions(void)
             segcolfunc = &R_DrawColorColumn;
             tl50segcolfunc = (r_translucency ? &R_DrawTranslucent50ColorColumn : &R_DrawColorColumn);
             spanfunc = &R_DrawColorSpan;
+            redtobluecolfunc = &R_DrawColorColumn;
+            redtogreencolfunc = &R_DrawColorColumn;
+            tlcolfunc = &R_DrawColorColumn;
+            tl50colfunc = &R_DrawColorColumn;
+            tl33colfunc = &R_DrawColorColumn;
+            tlgreencolfunc = &R_DrawColorColumn;
+            tlredcolfunc = &R_DrawColorColumn;
+            tlredwhitecolfunc1 = &R_DrawColorColumn;
+            tlredwhitecolfunc2 = &R_DrawColorColumn;
+            tlredwhite50colfunc = &R_DrawColorColumn;
+            tlbluecolfunc = &R_DrawColorColumn;
+            tlgreen33colfunc = &R_DrawColorColumn;
+            tlred33colfunc = &R_DrawColorColumn;
+            tlblue25colfunc = &R_DrawColorColumn;
+            tlredtoblue33colfunc = &R_DrawColorColumn;
+            tlredtogreen33colfunc = &R_DrawColorColumn;
         }
 
-        tlcolfunc = &R_DrawColorColumn;
-        tl50colfunc = &R_DrawColorColumn;
-        tl33colfunc = &R_DrawColorColumn;
-        tlgreencolfunc = &R_DrawColorColumn;
-        tlredcolfunc = &R_DrawColorColumn;
-        tlredwhitecolfunc1 = &R_DrawColorColumn;
-        tlredwhitecolfunc2 = &R_DrawColorColumn;
-        tlredwhite50colfunc = &R_DrawColorColumn;
-        tlbluecolfunc = &R_DrawColorColumn;
-        tlgreen33colfunc = &R_DrawColorColumn;
-        tlred33colfunc = &R_DrawColorColumn;
-        tlblue25colfunc = &R_DrawColorColumn;
-        tlredtoblue33colfunc = &R_DrawColorColumn;
-        tlredtogreen33colfunc = &R_DrawColorColumn;
         bloodsplatcolfunc = &R_DrawColorColumn;
-        redtobluecolfunc = &R_DrawColorColumn;
-        redtogreencolfunc = &R_DrawColorColumn;
         psprcolfunc = &R_DrawColorColumn;
     }
 
@@ -728,16 +746,6 @@ void R_InitColumnFunctions(void)
         {
             info->colfunc = tlblue25colfunc;
             info->altcolfunc = tlblue25colfunc;
-        }
-        else if (flags2 & MF2_REDTOGREEN)
-        {
-            info->colfunc = redtogreencolfunc;
-            info->altcolfunc = redtogreencolfunc;
-        }
-        else if (flags2 & MF2_REDTOBLUE)
-        {
-            info->colfunc = redtobluecolfunc;
-            info->altcolfunc = redtobluecolfunc;
         }
         else
         {
