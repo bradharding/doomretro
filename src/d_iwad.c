@@ -783,7 +783,7 @@ void D_SetSaveGameFolder(dboolean output)
         int numsavegames = M_CountSaveGames();
 
         if (!numsavegames)
-            C_Output("Savegames will be saved in <b>%s</b>.", savegamefolder);
+            C_Output("All savegames will be saved in <b>%s</b>.", savegamefolder);
         else if (numsavegames == 1)
             C_Output("There is 1 savegame in <b>%s</b>.", savegamefolder);
         else

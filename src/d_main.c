@@ -2149,9 +2149,9 @@ static void D_DoomMainSetup(void)
 
     D_SetSaveGameFolder(true);
 
-    C_Output("Screenshots taken will be saved in <b>%s</b>.", screenshotfolder);
+    C_Output("All screenshots taken will be saved in <b>%s</b>.", screenshotfolder);
 
-    C_Output("Files created using the <b>condump</b> CCMD will be saved in <b>%s" DIR_SEPARATOR_S "console" DIR_SEPARATOR_S "</b>.",
+    C_Output("All files created using the <b>condump</b> CCMD will be saved in <b>%s" DIR_SEPARATOR_S "console" DIR_SEPARATOR_S "</b>.",
         appdatafolder);
 
 #if !defined(__APPLE__)
