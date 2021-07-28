@@ -134,8 +134,8 @@ static void R_MapPlane(int y, int x1)
     }
     else
     {
-        ds_colormap = planezlight[MIN(distance >> LIGHTZSHIFT, MAXLIGHTZ - 1)];
-        ds_nextcolormap = planezlight[MIN((distance >> LIGHTZSHIFT) + 1, MAXLIGHTZ - 1)];
+        ds_colormap = planezlight[BETWEEN(0, distance >> LIGHTZSHIFT, MAXLIGHTZ - 1)];
+        ds_nextcolormap = planezlight[BETWEEN(0, (distance >> LIGHTZSHIFT) + 1, MAXLIGHTZ - 1)];
         ds_z = distance;
     }
 
