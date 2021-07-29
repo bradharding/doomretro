@@ -854,7 +854,7 @@ static void C_DrawBackground(void)
     }
 
     // draw branding
-    V_DrawConsoleBrandingPatch(SCREENWIDTH - brandwidth + (vid_widescreen ? 0 : 14), consoleheight - brandheight + 2,
+    V_DrawConsoleBrandingPatch(SCREENWIDTH - brandwidth + (vid_widescreen ? 0 : 10), consoleheight - brandheight + 2,
         brand, consoleedgecolor);
 
     // draw bottom edge
@@ -959,7 +959,7 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
             if (letter == ' ' && formatting)
                 x += spacewidth;
             else if (letter == '\t')
-                x = (x > (vid_widescreen ? 18 : 4) + tabs[++tab] ? x + spacewidth : (vid_widescreen ? 18 : 4) + tabs[tab]);
+                x = (x > (vid_widescreen ? 18 : 0) + tabs[++tab] ? x + spacewidth : (vid_widescreen ? 18 : 0) + tabs[tab]);
             else if (letter == 153)
                 patch = trademark;
             else if (letter == '(' && i < len - 3 && tolower(text[i + 1]) == 't' && tolower(text[i + 2]) == 'm' && text[i + 3] == ')'
