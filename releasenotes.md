@@ -13,7 +13,9 @@
 * Minor changes have been made to the character set used in the console.
 * Several changes have been made to text that is output to the console.
 * Minor improvements have been made to the console’s autocomplete feature.
-* Support for [*REKKR*](http://manbitesshark.com/) has been improved by displaying the correct monster and weapon names in obituaries in the console when the `con_obituaries` CVAR is `on`.
+* The following changes have been made to the support for [*REKKR*](http://manbitesshark.com/):
+  * The correct monster and weapon names are now used in obituaries in the console when the `con_obituaries` CVAR is `on`.
+  * Sorrows will no longer bleed blue blood.
 * A bug has been fixed whereby any palette effects wouldn’t be restored when unpausing a game by pressing the <kbd>ESC</kbd> key rather than <kbd>PAUSE</kbd> key.
 * The `alwaysrun` CVAR can now be toggled by pressing the <kbd>CAPSLOCK</kbd> key while on the title screen.
 * The fading of player messages onto and off of the screen is now smoother in some instances when the `fade` CVAR is `on`.
