@@ -292,7 +292,7 @@ void A_WeaponReady(mobj_t *actor, player_t *player, pspdef_t *psp)
     {
         if (gp_vibrate_weapons)
         {
-            if (pendingweapon == wp_chainsaw)
+            if (pendingweapon == wp_chainsaw && !REKKR)
             {
                 idlevibrationstrength = CHAINSAWIDLEVIBRATIONSTRENGTH * gp_vibrate_weapons / 100;
                 I_GamepadVibration(idlevibrationstrength);
