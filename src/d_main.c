@@ -1145,7 +1145,7 @@ static int D_OpenWADLauncher(void)
     ofn.nMaxFileTitle = 0;
     ofn.lpstrInitialDir = iwadfolder;
     ofn.Flags = (OFN_HIDEREADONLY | OFN_ALLOWMULTISELECT | OFN_PATHMUSTEXIST | OFN_EXPLORER);
-    ofn.lpstrTitle = "Where's All the Data?\0";
+    ofn.lpstrTitle = "Where\u2019s All the Data?\0";
 
     fileopenedok = GetOpenFileName(&ofn);
 #elif defined(__APPLE__)
