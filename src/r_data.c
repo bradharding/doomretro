@@ -685,6 +685,7 @@ static void R_InitSpriteLumps(void)
     else if (REKKR)
     {
         mobjinfo[MT_HEAD].blood = MT_BLOOD;
+        mobjinfo[MT_KNIGHT].blood = MT_BLOOD;
 
         M_StringCopy(weaponinfo[wp_pistol].description, "soul bow", sizeof(weaponinfo[wp_pistol].description));
         M_StringCopy(weaponinfo[wp_shotgun].description, "steel-shot launcher", sizeof(weaponinfo[wp_shotgun].description));
