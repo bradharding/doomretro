@@ -1606,10 +1606,7 @@ void R_InitBuffer(int width, int height)
         ylookup0[i] = screens[0] + y;
         ylookup1[i] = screens[1] + y;
     }
-}
 
-void R_InitFuzz(void)
-{
     fuzzrange[0] = -SCREENWIDTH;
     fuzzrange[1] = 0;
     fuzzrange[2] = SCREENWIDTH;
