@@ -779,6 +779,7 @@ void R_Init(void)
     R_InitPatches();
     R_InitDistortedFlats();
     R_InitColumnFunctions();
+    R_InitFuzz();
 }
 
 //
