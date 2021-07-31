@@ -510,6 +510,7 @@
   <ItemGroup>
     <None Include="..\.gitattributes" />
     <None Include="..\.gitignore" />
+    <None Include="..\.tokeignore" />
     <None Include="..\CODEOWNERS" />
     <None Include="..\LICENSE" />
     <None Include="..\README.md" />
