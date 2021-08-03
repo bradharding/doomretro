@@ -78,7 +78,16 @@
 
 #define EMPTYVALUE              "\"\""
 
-#define stringize(x)            #x
+#define stringize(text)         #text
+
+#define BOLDTOGGLECHAR          '\x1E'
+#define ITALICSTOGGLECHAR       '\x1F'
+#define BOLDTOGGLE              "\x1E"
+#define ITALICSTOGGLE           "\x1F"
+
+#define BOLD(text)              BOLDTOGGLE text BOLDTOGGLE
+#define ITALICS(text)           ITALICSTOGGLE text ITALICSTOGGLE
+#define BOLDITALICS(text)       ITALICSTOGGLE BOLDTOGGLE text BOLDTOGGLE ITALICSTOGGLE
 
 #if defined(_WIN32)
 #define SDL_FILENAME            "SDL2.dll"

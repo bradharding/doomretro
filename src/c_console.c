@@ -486,6 +486,20 @@ static int C_TextWidth(const char *text, const dboolean formatting, const dboole
 
         if (letter == ' ')
             w += spacewidth;
+        else if (letter == BOLDTOGGLECHAR)
+        {
+            bold = !bold;
+            i++;
+
+            continue;
+        }
+        else if (letter == ITALICSTOGGLECHAR)
+        {
+            italics = !italics;
+            i++;
+
+            continue;
+        }
         else if (letter == '<' && i < len - 2 && tolower(text[i + 1]) == 'b' && text[i + 2] == '>' && formatting)
         {
             bold = true;
@@ -930,7 +944,11 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
     {
         const unsigned char letter = text[i];
 
-        if (letter == '<' && i < len - 2 && tolower(text[i + 1]) == 'b' && text[i + 2] == '>' && formatting)
+        if (letter == BOLDTOGGLECHAR)
+            bold = !bold;
+        else if (letter == ITALICSTOGGLECHAR)
+            italics = !italics;
+        else if (letter == '<' && i < len - 2 && tolower(text[i + 1]) == 'b' && text[i + 2] == '>' && formatting)
         {
             bold = true;
             i += 2;
