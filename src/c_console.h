@@ -87,7 +87,6 @@
 
 #define BOLD(text)              BOLDTOGGLE text BOLDTOGGLE
 #define ITALICS(text)           ITALICSTOGGLE text ITALICSTOGGLE
-#define BOLDITALICS(text)       ITALICSTOGGLE BOLDTOGGLE text BOLDTOGGLE ITALICSTOGGLE
 
 #if defined(_WIN32)
 #define SDL_FILENAME            "SDL2.dll"

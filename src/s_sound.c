@@ -135,8 +135,8 @@ static void InitSfxModule(void)
         const char  *audiodriver = SDL_GetCurrentAudioDriver();
 
         C_Output("Sound effects are playing at a sample rate of %.1fkHz over %i channels%s", SAMPLERATE / 1000.0f, s_channels,
-            (M_StringCompare(audiodriver, "wasapi") ? " using <i>WASAPI.</i>" :
-            (M_StringCompare(audiodriver, "directsound") ? " using the <i>DirectSound</i> API." : "")));
+            (M_StringCompare(audiodriver, "wasapi") ? " using " ITALICS("WASAPI.") "" :
+            (M_StringCompare(audiodriver, "directsound") ? " using the " ITALICS("DirectSound") " API." : "")));
     }
     else
     {
@@ -163,7 +163,7 @@ void S_Init(void)
 {
     if (M_CheckParm("-nosound"))
     {
-        C_Warning(1, "A <b>-nosound</b> parameter was found on the command-line. Both sound effects and music have been disabled.");
+        C_Warning(1, "A " BOLD("-nosound") " parameter was found on the command-line. Both sound effects and music have been disabled.");
         nomusic = true;
         nosfx = true;
     }
@@ -171,13 +171,13 @@ void S_Init(void)
     {
         if (M_CheckParm("-nomusic"))
         {
-            C_Warning(1, "A <b>-nomusic</b> parameter was found on the command-line. Music has been disabled.");
+            C_Warning(1, "A " BOLD("-nomusic") " parameter was found on the command-line. Music has been disabled.");
             nomusic = true;
         }
 
         if (M_CheckParm("-nosfx"))
         {
-            C_Warning(1, "A <b>-nosfx</b> parameter was found on the command-line. Sound effects have been disabled.");
+            C_Warning(1, "A " BOLD("-nosfx") " parameter was found on the command-line. Sound effects have been disabled.");
             nosfx = true;
         }
     }
@@ -189,7 +189,7 @@ void S_Init(void)
 
         if (audiodriver)
         {
-            C_Warning(1, "The <b>SDL_AUDIODRIVER</b> environment variable has been set to <b>\"%s\"</b>.", audiodriver);
+            C_Warning(1, "The " BOLD("SDL_AUDIODRIVER") " environment variable has been set to " BOLD("\"%s\"") ".", audiodriver);
             free(audiodriver);
         }
 #endif
@@ -222,7 +222,7 @@ void S_Init(void)
                     {
                         char    *temp = uppercase(namebuf);
 
-                        C_Warning(1, "The <b>%s</b> sound lump is in an unknown format.", temp);
+                        C_Warning(1, "The " BOLD("%s") " sound lump is in an unknown format.", temp);
                         free(temp);
                     }
                 }
@@ -231,7 +231,7 @@ void S_Init(void)
                 {
                     char    *temp = uppercase(namebuf);
 
-                    C_Warning(1, "The <b>%s</b> sound lump is in an unknown format and won't be played.", temp);
+                    C_Warning(1, "The " BOLD("%s") " sound lump is in an unknown format and won't be played.", temp);
                     free(temp);
                 }
             }
@@ -640,7 +640,7 @@ void S_ChangeMusic(int music_id, dboolean looping, dboolean allowrestart, dboole
     {
         char    *temp = uppercase(namebuf);
 
-        C_Warning(1, "The <b>%s</b> music lump can't be found.", temp);
+        C_Warning(1, "The " BOLD("%s") " music lump can't be found.", temp);
         free(temp);
 
         return;
@@ -667,7 +667,7 @@ void S_ChangeMusic(int music_id, dboolean looping, dboolean allowrestart, dboole
             {
                 char    *temp = uppercase(namebuf);
 
-                C_Warning(1, "The <b>%s</b> music lump can't be played.", temp);
+                C_Warning(1, "The " BOLD("%s") " music lump can't be played.", temp);
                 free(temp);
 
                 return;

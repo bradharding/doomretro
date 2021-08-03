@@ -352,7 +352,7 @@ dboolean W_AddFile(char *filename, dboolean automatic)
     free(fileinfo);
 
     temp = commify((int64_t)numlumps - startlump);
-    C_Output("%s %s lump%s from the %s <b>%s</b>.", (automatic ? "Automatically added" : "Added"), temp,
+    C_Output("%s %s lump%s from the %s " BOLD("%s") ".", (automatic ? "Automatically added" : "Added"), temp,
         (numlumps - startlump == 1 ? "" : "s"), (wadfile->type == IWAD ? "IWAD" : "PWAD"), wadfile->path);
     free(temp);
 
@@ -362,18 +362,18 @@ dboolean W_AddFile(char *filename, dboolean automatic)
         || M_StringCompare(file, "SIGIL.wad"))
     {
         autosigil = automatic;
-        C_Output("<i>SIGIL</i> is now available to play from the episode menu.");
+        C_Output(ITALICS("SIGIL") " is now available to play from the episode menu.");
     }
     else if (M_StringCompare(file, "SIGIL_SHREDS.WAD") || M_StringCompare(file, "SIGIL_SHREDS_COMPAT.wad"))
     {
         buckethead = true;
-        C_Output("Buckethead's soundtrack will be played during <i>SIGIL.</i>");
+        C_Output("Buckethead's soundtrack will be played during " ITALICS("SIGIL."));
     }
     else if (M_StringCompare(file, "DOOM.WAD"))
-        C_Output("<i>E1M4B: Phobos Mission Control</i> and <i>E1M8B: Tech Gone Bad</i> "
-            "are now available to play using the <b>map</b> CCMD.");
+        C_Output(ITALICS("E1M4B: Phobos Mission Control") " and " ITALICS("E1M8B: Tech Gone Bad")
+            " are now available to play using the " BOLD("map") " CCMD.");
     else if (M_StringCompare(file, "NERVE.WAD"))
-        C_Output("<i>No Rest For The Living</i> is now available to play from the expansion menu.");
+        C_Output(ITALICS("No Rest For The Living") " is now available to play from the expansion menu.");
 
     if (!packagewadadded)
     {

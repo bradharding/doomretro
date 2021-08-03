@@ -2119,14 +2119,14 @@ void ProcessDehFile(char *filename, int lumpnum, dboolean automatic)
             }
 
             if (devparm)
-                C_Output("Branching to include file <b>%s</b>...", nextfile);
+                C_Output("Branching to include file " BOLD("%s") "...", nextfile);
 
             ProcessDehFile(nextfile, 0, false);                 // do the included file
 
             includenotext = oldnotext;
 
             if (devparm)
-                C_Output("...continuing with <b>%s</b>", filename);
+                C_Output("...continuing with " BOLD("%s"), filename);
 
             continue;
         }
@@ -2176,7 +2176,7 @@ void ProcessDehFile(char *filename, int lumpnum, dboolean automatic)
         char    *temp1 = commify(linecount);
         char    *temp2 = uppercase(lumpinfo[lumpnum]->name);
 
-        C_Output("Parsed %s line%s from the <b>%s</b> lump in the %s <b>%s</b>.",
+        C_Output("Parsed %s line%s from the " BOLD("%s") " lump in the %s " BOLD("%s") ".",
             temp1, (linecount > 1 ? "s" : ""), temp2, (W_WadType(filename) == IWAD ? "IWAD" : "PWAD"), filename);
 
         free(temp1);
@@ -2186,9 +2186,9 @@ void ProcessDehFile(char *filename, int lumpnum, dboolean automatic)
     {
         char    *temp = commify(linecount);
 
-        C_Output("%s %s line%s from the <i>DeHackEd</i>%s file <b>%s</b>.",
+        C_Output("%s %s line%s from the " ITALICS("DeHackEd") "%s file " BOLD("%s") ".",
             (automatic ? "Automatically parsed" : "Parsed"), temp, (linecount > 1 ? "s" : ""),
-            (M_StringEndsWith(filename, "BEX") ? " with <i>BOOM</i> extensions" : ""), GetCorrectCase(filename));
+            (M_StringEndsWith(filename, "BEX") ? " with " ITALICS("BOOM") " extensions" : ""), GetCorrectCase(filename));
 
         free(temp);
     }
@@ -3683,7 +3683,7 @@ static dboolean deh_procStringSub(char *key, char *lookfor, char *newstring)
     }
 
     if (!found && !hacx)
-        C_Warning(1, "The <b>\"%s\"</b> string can't be found.", (key ? key : lookfor));
+        C_Warning(1, "The " BOLD("\"%s\"") " string can't be found.", (key ? key : lookfor));
 
     return found;
 }

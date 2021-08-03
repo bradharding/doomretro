@@ -775,13 +775,13 @@ static void R_InitColormaps(void)
     colormapwad = lumpinfo[W_CheckNumForName("COLORMAP")]->wadfile;
 
     if (numcolormaps == 1)
-        C_Output("Using the <b>COLORMAP</b> lump in the %s <b>%s</b>.",
+        C_Output("Using the " BOLD("COLORMAP") " lump in the %s " BOLD("%s") ".",
             (colormapwad->type == IWAD ? "IWAD" : "PWAD"), colormapwad->path);
     else
     {
         wadfile_t   *othercolormapwad = lumpinfo[firstcolormaplump]->wadfile;
 
-        C_Output("Using the <b>COLORMAP</b> lump in the %s <b>%s</b>, and %i others in the %s <b>%s</b>.",
+        C_Output("Using the " BOLD("COLORMAP") " lump in the %s " BOLD("%s") ", and %i others in the %s " BOLD("%s") ".",
             (colormapwad->type == IWAD ? "IWAD" : "PWAD"), colormapwad->path, numcolormaps - 1,
             (othercolormapwad->type == IWAD ? "IWAD" : "PWAD"), othercolormapwad->path);
     }
@@ -850,7 +850,7 @@ int R_FlatNumForName(char *name)
         {
             char    *temp = uppercase(name);
 
-            C_Warning(1, "The <b>%.8s</b> flat texture can't be found.", temp);
+            C_Warning(1, "The " BOLD("%.8s") " flat texture can't be found.", temp);
             free(temp);
         }
 
@@ -908,7 +908,7 @@ int R_TextureNumForName(char *name)
         {
             char    *temp = uppercase(name);
 
-            C_Warning(1, "The <b>%.8s</b> texture can't be found.", temp);
+            C_Warning(1, "The " BOLD("%.8s") " texture can't be found.", temp);
             free(temp);
         }
 

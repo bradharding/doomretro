@@ -2308,7 +2308,7 @@ void C_PrintCompileDate(void)
             "July", "August", "September", "October", "November", "December"
         };
 
-        C_Output("Your %i-bit <i>%s</i> app of <i>%s</i> was built with love in %s by %s at %i:%02i%s on %s, %s %i, %i.",
+        C_Output("Your %i-bit " ITALICS("%s") " app of " ITALICS("%s") " was built with love in %s by %s at %i:%02i%s on %s, %s %i, %i.",
             (int)sizeof(intptr_t) * 8, OPERATINGSYSTEM, PACKAGE_NAMEANDVERSIONSTRING, PACKAGE_PLACEOFORIGIN, PACKAGE_AUTHOR,
             (hour ? hour - 12 * (hour > 12) : 12), minute, (hour < 12 ? "am" : "pm"),
             dayofweek(day, month + 1, year), months[month], day, year);
@@ -2316,10 +2316,10 @@ void C_PrintCompileDate(void)
 
 #if defined(_MSC_FULL_VER)
     if (_MSC_BUILD)
-        C_Output("It was compiled using v%i.%02i.%i.%i of the <i>Microsoft C/C++ Optimizing Compiler.</i>",
+        C_Output("It was compiled using v%i.%02i.%i.%i of the " ITALICS("Microsoft C/C++ Optimizing Compiler."),
             _MSC_FULL_VER / 10000000, (_MSC_FULL_VER % 10000000) / 100000, _MSC_FULL_VER % 100000, _MSC_BUILD);
     else
-        C_Output("It was compiled using v%i.%02i.%i of the <i>Microsoft C/C++ Optimizing Compiler.</i>",
+        C_Output("It was compiled using v%i.%02i.%i of the " ITALICS("Microsoft C/C++ Optimizing Compiler."),
             _MSC_FULL_VER / 10000000, (_MSC_FULL_VER % 10000000) / 100000, _MSC_FULL_VER % 100000);
 #endif
 }
@@ -2332,15 +2332,15 @@ void C_PrintSDLVersions(void)
     {
         char    *temp = commify(revision);
 
-        C_Output("Using v%i.%i.%i (revision %s) of the <i>SDL (Simple DirectMedia Layer)</i> library.",
+        C_Output("Using v%i.%i.%i (revision %s) of the " ITALICS("SDL (Simple DirectMedia Layer)") " library.",
             SDL_MAJOR_VERSION, SDL_MINOR_VERSION, SDL_PATCHLEVEL, temp);
         free(temp);
     }
     else
-        C_Output("Using v%i.%i.%i of the <i>SDL (Simple DirectMedia Layer)</i> library.",
+        C_Output("Using v%i.%i.%i of the " ITALICS("SDL (Simple DirectMedia Layer)") " library.",
             SDL_MAJOR_VERSION, SDL_MINOR_VERSION, SDL_PATCHLEVEL);
 
-    C_Output("Using v%i.%i.%i of the <i>SDL_mixer</i> library and v%i.%i.%i of the <i>SDL_image</i> library.",
+    C_Output("Using v%i.%i.%i of the " ITALICS("SDL_mixer") " library and v%i.%i.%i of the " ITALICS("SDL_image") " library.",
         SDL_MIXER_MAJOR_VERSION, SDL_MIXER_MINOR_VERSION, SDL_MIXER_PATCHLEVEL,
         SDL_IMAGE_MAJOR_VERSION, SDL_IMAGE_MINOR_VERSION, SDL_IMAGE_PATCHLEVEL);
 }

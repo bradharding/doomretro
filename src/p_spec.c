@@ -2488,7 +2488,7 @@ void P_SpawnSpecials(void)
             char    *temp = commify(minutes);
 
             timer = BETWEEN(0, minutes, TIMERMAXMINUTES);
-            C_Output("A <b>-timer</b> parameter was found on the command-line. The time limit for each map is %s minute%s.",
+            C_Output("A " BOLD("-timer") " parameter was found on the command-line. The time limit for each map is %s minute%s.",
                 temp, (minutes == 1 ? "" : "s"));
             P_SetTimer(minutes);
             free(temp);
@@ -2498,7 +2498,7 @@ void P_SpawnSpecials(void)
     if (M_CheckParm("-avg"))
     {
         P_SetTimer(20);
-        C_Output("An <b>-avg</b> parameter was found on the command-line. The time limit for each map is %i minutes.", timer);
+        C_Output("An " BOLD("-avg") " parameter was found on the command-line. The time limit for each map is %i minutes.", timer);
     }
 
     // Init special SECTORs.

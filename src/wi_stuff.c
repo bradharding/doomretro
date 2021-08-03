@@ -797,22 +797,22 @@ static void WI_InitStats(void)
     cnt_pause = TICRATE;
 
     if (M_StringCompare(playername, playername_default))
-        C_PlayerMessage("You finished <i>%s%s</i>",
+        C_PlayerMessage("You finished " ITALICS("%s%s"),
             mapname, (ispunctuation(mapname[strlen(mapname) - 1]) ? "" : "!"));
     else
-        C_PlayerMessage("%s finished <i>%s%s</i>",
+        C_PlayerMessage("%s finished " ITALICS("%s%s"),
             playername, mapname, (ispunctuation(mapname[strlen(mapname) - 1]) ? "" : "!"));
 
-    C_TabbedOutput(tabs, "Kills\t<b>%i%%</b>", (wbs->skills * 100) / wbs->maxkills);
-    C_TabbedOutput(tabs, "Items\t<b>%i%%</b>", (wbs->sitems * 100) / wbs->maxitems);
+    C_TabbedOutput(tabs, "Kills\t" BOLD("%i%%"), (wbs->skills * 100) / wbs->maxkills);
+    C_TabbedOutput(tabs, "Items\t" BOLD("%i%%"), (wbs->sitems * 100) / wbs->maxitems);
 
     if (totalsecret)
-        C_TabbedOutput(tabs, "Secrets\t<b>%i%%</b>", (wbs->ssecret * 100) / wbs->maxsecret);
+        C_TabbedOutput(tabs, "Secrets\t" BOLD("%i%%"), (wbs->ssecret * 100) / wbs->maxsecret);
 
-    C_TabbedOutput(tabs, "Time\t<b>%02i:%02i</b>", wbs->stime / TICRATE / 60, wbs->stime / TICRATE % 60);
+    C_TabbedOutput(tabs, "Time\t" BOLD("%02i:%02i"), wbs->stime / TICRATE / 60, wbs->stime / TICRATE % 60);
 
     if (wbs->partime)
-        C_TabbedOutput(tabs, "Par time\t<b>%02i:%02i</b>", wbs->partime / TICRATE / 60, wbs->partime / TICRATE % 60);
+        C_TabbedOutput(tabs, "Par time\t" BOLD("%02i:%02i"), wbs->partime / TICRATE / 60, wbs->partime / TICRATE % 60);
 
     WI_InitAnimatedBack();
 }

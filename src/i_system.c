@@ -195,17 +195,17 @@ void I_PrintWindowsVersion(void)
             }
 
             if (wcslen(info.szCSDVersion) > 0)
-                C_Output("Running on %i-bit <i>Microsoft Windows %s%s%s (%ws)</i> (Build %s).",
+                C_Output("Running on %i-bit " ITALICS("Microsoft Windows %s%s%s (%ws)") " (Build %s).",
                     bits, infoname, (*typename ? " " : ""), typename, info.szCSDVersion, build);
             else
-                C_Output("Running on %i-bit <i>Microsoft Windows %s%s%s</i> (Build %s).",
+                C_Output("Running on %i-bit " ITALICS("Microsoft Windows %s%s%s") " (Build %s).",
                     bits, infoname, (*typename ? " " : ""), typename, build);
 
             free(build);
         }
 
         if (bits == 64 && sizeof(intptr_t) == 4)
-            C_Warning(1, "The 64-bit version of <i>" PACKAGE_NAME "</i> is recommended on this PC.");
+            C_Warning(1, "The 64-bit version of " ITALICS(PACKAGE_NAME "") " is recommended on this PC.");
     }
 }
 #endif

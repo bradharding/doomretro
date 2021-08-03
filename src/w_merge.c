@@ -503,7 +503,7 @@ static void DoMerge(void)
                     {
                         char    *temp = commify(patches);
 
-                        C_Warning(1, "The %s%s between the <b>HI_START</b> and <b>HI_END</b> markers will be ignored.",
+                        C_Warning(1, "The %s%s between the " BOLD("HI_START") " and " BOLD("HI_END") " markers will be ignored.",
                             (patches > 1 ? temp : ""), (patches > 1 ? " patches" : "patch"));
                         free(temp);
                     }

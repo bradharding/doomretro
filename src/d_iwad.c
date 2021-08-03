@@ -783,11 +783,11 @@ void D_SetSaveGameFolder(dboolean output)
         int numsavegames = M_CountSaveGames();
 
         if (!numsavegames)
-            C_Output("All savegames will be saved in <b>%s</b>.", savegamefolder);
+            C_Output("All savegames will be saved in " BOLD("%s") ".", savegamefolder);
         else if (numsavegames == 1)
-            C_Output("There is 1 savegame in <b>%s</b>.", savegamefolder);
+            C_Output("There is 1 savegame in " BOLD("%s") ".", savegamefolder);
         else
-            C_Output("There are %i savegames in <b>%s</b>.", numsavegames, savegamefolder);
+            C_Output("There are %i savegames in " BOLD("%s") ".", numsavegames, savegamefolder);
     }
 }
 
@@ -884,19 +884,19 @@ void D_SetGameDescription(void)
     if (nerve)
     {
         if (bfgedition)
-            C_Output("Playing <i>%s: %s (%s)</i> and <i>%s: %s (%s).</i>", s_CAPTION_DOOM2, s_CAPTION_HELLONEARTH,
+            C_Output("Playing " ITALICS("%s: %s (%s)") " and " ITALICS("%s: %s (%s)."), s_CAPTION_DOOM2, s_CAPTION_HELLONEARTH,
                 s_CAPTION_BFGEDITION, s_CAPTION_DOOM2, s_CAPTION_NERVE, s_CAPTION_BFGEDITION);
         else
-            C_Output("Playing <i>%s: %s</i> and <i>%s: %s.</i>", s_CAPTION_DOOM2, s_CAPTION_HELLONEARTH,
+            C_Output("Playing " ITALICS("%s: %s") " and " ITALICS("%s: %s."), s_CAPTION_DOOM2, s_CAPTION_HELLONEARTH,
                 s_CAPTION_DOOM2, s_CAPTION_NERVE);
     }
     else if (modifiedgame && !sigil && !chex && !BTSX)
-        C_Output("Playing <b>%s</b>.", gamedescription);
+        C_Output("Playing " BOLD("%s") ".", gamedescription);
     else
     {
         if (bfgedition)
-            C_Output("Playing <i>%s (%s).</i>", gamedescription, s_CAPTION_BFGEDITION);
+            C_Output("Playing " ITALICS("%s (%s)."), gamedescription, s_CAPTION_BFGEDITION);
         else
-            C_Output("Playing <i>%s.</i>", gamedescription);
+            C_Output("Playing " ITALICS("%s."), gamedescription);
     }
 }

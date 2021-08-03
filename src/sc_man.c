@@ -220,6 +220,6 @@ static void SC_ScriptError(void)
 {
     char    *temp = commify(sc_Line);
 
-    C_Warning(1, "Line %s in the <b>MAPINFO</b> lump is invalid.", temp);
+    C_Warning(1, "Line %s in the " BOLD("MAPINFO") " lump is invalid.", temp);
     free(temp);
 }

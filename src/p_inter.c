@@ -551,8 +551,8 @@ void P_InitCards(void)
                 char    *temp = commify(i);
 
                 if (viewplayer->cards[it_bluecard] == CARDNOTINMAP && viewplayer->cards[it_blueskull] == CARDNOTINMAP)
-                    C_Warning(2, "Linedef %s has special %i (\"%s\") but there are no <b>bluekeycard</b> or <b>blueskullkey</b> "
-                        "things in map.", temp, line->special, linespecials[line->special]);
+                    C_Warning(2, "Linedef %s has special %i (\"%s\") but there are no " BOLD("bluekeycard") " or " BOLD("blueskullkey")
+                        " things in map.", temp, line->special, linespecials[line->special]);
 
                 free(temp);
                 break;
@@ -566,8 +566,8 @@ void P_InitCards(void)
                 char    *temp = commify(i);
 
                 if (viewplayer->cards[it_redcard] == CARDNOTINMAP && viewplayer->cards[it_redskull] == CARDNOTINMAP)
-                    C_Warning(2, "Linedef %s has special %i (\"%s\") but there are no <b>redkeycard</b> or <b>redskullkey</b> "
-                        "things in map.", temp, line->special, linespecials[line->special]);
+                    C_Warning(2, "Linedef %s has special %i (\"%s\") but there are no " BOLD("redkeycard") " or " BOLD("redskullkey")
+                        " things in map.", temp, line->special, linespecials[line->special]);
 
                 free(temp);
                 break;
@@ -581,8 +581,8 @@ void P_InitCards(void)
                 char    *temp = commify(i);
 
                 if (viewplayer->cards[it_yellowcard] == CARDNOTINMAP && viewplayer->cards[it_yellowskull] == CARDNOTINMAP)
-                    C_Warning(2, "Linedef %s has special %i (\"%s\") but there are no <b>yellowkeycard</b> or <b>yellowskullkey</b> "
-                        "things in map.", temp, line->special, linespecials[line->special]);
+                    C_Warning(2, "Linedef %s has special %i (\"%s\") but there are no " BOLD("yellowkeycard") " or "
+                        BOLD("yellowskullkey") " things in map.", temp, line->special, linespecials[line->special]);
 
                 free(temp);
                 break;
@@ -985,7 +985,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
                     if (gamestate == GS_LEVEL && !consoleactive && !message_dontfuckwithme)
                     {
                         if (r_screensize < r_screensize_max || !r_althud)
-                            M_StringCopy(buffer, M_StringReplace(buffer, "<i>really</i>", "really"), sizeof(buffer));
+                            M_StringCopy(buffer, M_StringReplace(buffer, ITALICS("really"), "really"), sizeof(buffer));
 
                         HU_SetPlayerMessage(buffer, true, false);
                     }

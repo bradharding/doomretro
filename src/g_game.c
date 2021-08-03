@@ -1076,10 +1076,10 @@ void G_ScreenShot(void)
         HU_SetPlayerMessage(buffer, false, false);
         message_dontfuckwithme = true;
 
-        C_Output("<b>%s</b> was saved.", lbmpath1);
+        C_Output(BOLD("%s") " was saved.", lbmpath1);
 
         if (*lbmpath2)
-            C_Output("<b>%s</b> was also saved.", lbmpath2);
+            C_Output(BOLD("%s") " was also saved.", lbmpath2);
     }
     else
         C_Warning(0, "A screenshot couldn't be taken.");
@@ -1408,7 +1408,7 @@ void G_DoLoadGame(void)
     {
         menuactive = false;
         C_ShowConsole();
-        C_Warning(1, "<b>%s</b> couldn't be loaded.", savename);
+        C_Warning(1, BOLD("%s") " couldn't be loaded.", savename);
         loadaction = ga_nothing;
 
         return;
@@ -1459,7 +1459,7 @@ void G_DoLoadGame(void)
 
     if (consoleactive)
     {
-        C_Output("<b>%s</b> loaded.", savename);
+        C_Output(BOLD("%s") " loaded.", savename);
         C_HideConsoleFast();
     }
 }
@@ -1508,7 +1508,7 @@ static void G_DoSaveGame(void)
     {
         menuactive = false;
         C_ShowConsole();
-        C_Warning(1, "<b>%s</b> couldn't be saved.", savegame_file);
+        C_Warning(1, BOLD("%s") " couldn't be saved.", savegame_file);
     }
     else
     {
@@ -1547,7 +1547,7 @@ static void G_DoSaveGame(void)
             C_Input("save %s", savegame_file);
 
         if (consoleactive)
-            C_Output("<b>%s</b> was saved.", savename);
+            C_Output(BOLD("%s") " was saved.", savename);
         else
         {
             static char buffer[1024];

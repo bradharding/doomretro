@@ -335,7 +335,7 @@ void M_SaveCVARs(void)
         if (!warning)
         {
             warning = true;
-            C_Warning(1, "<b>%s</b> couldn't be saved.", packageconfig);
+            C_Warning(1, BOLD("%s") " couldn't be saved.", packageconfig);
         }
 
         return;
@@ -989,7 +989,7 @@ void M_LoadCVARs(char *filename)
     if (!file)
     {
         M_SaveCVARs();
-        C_Output("Created <b>%s</b>.", filename);
+        C_Output("Created " BOLD("%s") ".", filename);
         cvarsloaded = true;
 
         return;
@@ -1172,7 +1172,7 @@ void M_LoadCVARs(char *filename)
             char    *temp2 = commify(statcount);
             char    *temp3 = commify(bindcount);
 
-            C_Output("Loaded %s CVARs and %s player stats from <b>%s</b>.", temp1, temp2, filename);
+            C_Output("Loaded %s CVARs and %s player stats from " BOLD("%s") ".", temp1, temp2, filename);
             C_Output("Bound %s actions to the keyboard, mouse and gamepad.", temp3);
 
             free(temp1);

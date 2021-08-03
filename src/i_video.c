@@ -1571,7 +1571,7 @@ static void SetVideoMode(dboolean createwindow, dboolean output)
             I_SDLError(SDL_CreateRenderer);
         else
         {
-            C_Warning(1, "The <b>vid_scaleapi</b> CVAR was changed from <b>%s</b> to <b>\"software\"</b>.", vid_scaleapi);
+            C_Warning(1, "The " BOLD("vid_scaleapi") " CVAR was changed from " BOLD("%s") " to " BOLD("\"software\"") ".", vid_scaleapi);
             vid_scaleapi = vid_scaleapi_software;
             M_SaveCVARs();
         }
@@ -1623,7 +1623,7 @@ static void SetVideoMode(dboolean createwindow, dboolean output)
 
             if (major * 10 + minor < 21)
             {
-                C_Warning(1, "<i>" PACKAGE_NAME "</i> requires at least <i>OpenGL v2.1.</i>");
+                C_Warning(1, ITALICS(PACKAGE_NAME "") " requires at least " ITALICS("OpenGL v2.1."));
 
 #if defined(_WIN32)
                 vid_scaleapi = vid_scaleapi_direct3d;
@@ -1633,14 +1633,14 @@ static void SetVideoMode(dboolean createwindow, dboolean output)
                     I_SDLError(SDL_SetHintWithPriority);
 
                 if (output)
-                    C_Output("This scaling is now done using hardware acceleration with <i>Direct3D %s.</i>",
+                    C_Output("This scaling is now done using hardware acceleration with " ITALICS("Direct3D %s."),
                         (SDL_VIDEO_RENDER_D3D11 ? "v11.0" : "v9.0"));
 #endif
             }
             else
             {
                 if (output)
-                    C_Output("This scaling is done using hardware acceleration with <i>OpenGL v%i.%i.</i>", major, minor);
+                    C_Output("This scaling is done using hardware acceleration with " ITALICS("OpenGL v%i.%i."), major, minor);
 
                 if (!M_StringCompare(vid_scaleapi, vid_scaleapi_opengl))
                 {
@@ -1653,7 +1653,7 @@ static void SetVideoMode(dboolean createwindow, dboolean output)
         else if (M_StringCompare(rendererinfo.name, vid_scaleapi_direct3d))
         {
             if (output)
-                C_Output("This scaling is done using hardware acceleration with <i>Direct3D %s.</i>",
+                C_Output("This scaling is done using hardware acceleration with " ITALICS("Direct3D %s."),
                     (SDL_VIDEO_RENDER_D3D11 ? "v11.0" : "v9.0"));
 
             if (!M_StringCompare(vid_scaleapi, vid_scaleapi_direct3d))
@@ -1667,18 +1667,18 @@ static void SetVideoMode(dboolean createwindow, dboolean output)
         else if (M_StringCompare(rendererinfo.name, vid_scaleapi_metal))
         {
             if (output)
-                C_Output("This scaling is done using hardware acceleration with <i>Metal.</i>");
+                C_Output("This scaling is done using hardware acceleration with " ITALICS("Metal."));
         }
 #endif
         else if (M_StringCompare(rendererinfo.name, vid_scaleapi_opengles))
         {
             if (output)
-                C_Output("This scaling is done using hardware acceleration with <i>OpenGL ES.</i>");
+                C_Output("This scaling is done using hardware acceleration with " ITALICS("OpenGL ES."));
         }
         else if (M_StringCompare(rendererinfo.name, vid_scaleapi_opengles2))
         {
             if (output)
-                C_Output("This scaling is done using hardware acceleration with <i>OpenGL ES 2.</i>");
+                C_Output("This scaling is done using hardware acceleration with " ITALICS("OpenGL ES 2."));
         }
 #endif
         else if (M_StringCompare(rendererinfo.name, vid_scaleapi_software))
@@ -1714,7 +1714,7 @@ static void SetVideoMode(dboolean createwindow, dboolean output)
                 const char  *vendor = (const char *)pglGetString(GL_VENDOR);
 
                 if (graphicscard && vendor)
-                    C_Output("Using %s <i>%s</i> graphics card from <i>%s.</i>",
+                    C_Output("Using %s " ITALICS("%s") " graphics card from " ITALICS("%s."),
                         (isvowel(graphicscard[0]) || M_StringStartsWith(graphicscard, "NVIDIA") ? "an" : "a"), graphicscard, vendor);
             }
         }
@@ -1784,7 +1784,7 @@ static void SetVideoMode(dboolean createwindow, dboolean output)
     {
         wadfile_t   *playpalwad = lumpinfo[W_CheckNumForName("PLAYPAL")]->wadfile;
 
-        C_Output("Using the 256-color palette from the <b>PLAYPAL</b> lump in the %s <b>%s</b>.",
+        C_Output("Using the 256-color palette from the " BOLD("PLAYPAL") " lump in the %s " BOLD("%s") ".",
             (playpalwad->type == IWAD ? "IWAD" : "PWAD"), playpalwad->path);
 
         if (gammaindex == 10)
@@ -2012,7 +2012,7 @@ void I_InitGraphics(void)
             SDL_FILENAME, PACKAGE_NAME, compiled.major, compiled.minor, compiled.patch);
 
     if (linked.patch != compiled.patch)
-        C_Warning(1, "The wrong version of <b>%s</b> was found. <i>%s</i> requires v%i.%i.%i.",
+        C_Warning(1, "The wrong version of " BOLD("%s") " was found. " ITALICS("%s") " requires v%i.%i.%i.",
             SDL_FILENAME, PACKAGE_NAME, compiled.major, compiled.minor, compiled.patch);
 
     performancefrequency = SDL_GetPerformanceFrequency();

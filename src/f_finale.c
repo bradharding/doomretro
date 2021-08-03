@@ -99,7 +99,7 @@ static void F_ConsoleFinaleText(void)
 
     while (p)
     {
-        C_Output("<i>%s%s</i>", (p[0] == '\"' ? "" : "   "), p);
+        C_Output(ITALICS("%s%s"), (p[0] == '\"' ? "" : "   "), p);
         p = strtok(NULL, "\n");
     }
 

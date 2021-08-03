@@ -746,7 +746,7 @@ static void LoadDehFile(char *path)
         if (!DehFileProcessed(dehpath))
         {
             if (HasDehackedLump(path))
-                M_snprintf(dehwarning, sizeof(dehwarning), "<b>%s</b> was ignored.", GetCorrectCase(dehpath));
+                M_snprintf(dehwarning, sizeof(dehwarning), BOLD("%s") " was ignored.", GetCorrectCase(dehpath));
             else
                 ProcessDehFile(dehpath, 0, true);
 
@@ -764,7 +764,7 @@ static void LoadDehFile(char *path)
         if (dehpath && !DehFileProcessed(dehpath))
         {
             if (HasDehackedLump(path))
-                M_snprintf(dehwarning, sizeof(dehwarning), "<b>%s</b> was ignored.", GetCorrectCase(dehpath));
+                M_snprintf(dehwarning, sizeof(dehwarning), BOLD("%s") " was ignored.", GetCorrectCase(dehpath));
             else
                 ProcessDehFile(dehpath, 0, true);
 
@@ -1213,7 +1213,7 @@ static int D_OpenWADLauncher(void)
                     guess = true;
 
                     if (!M_StringEndsWith(temp, leafname(file)))
-                        C_Warning(1, "<b>%s</b> couldn't be found so <b>%s</b> was loaded instead.", leafname(file), leafname(temp));
+                        C_Warning(1, BOLD("%s") " couldn't be found so " BOLD("%s") " was loaded instead.", leafname(file), leafname(temp));
 
                     file = M_StringDuplicate(temp);
                     wad = M_StringDuplicate(temp);
@@ -1877,28 +1877,28 @@ static void D_DoomMainSetup(void)
     D_BuildBEXTables();
 
     if ((respawnmonsters = M_CheckParm("-respawn")))
-        C_Output("A <b>-respawn</b> parameter was found on the command-line. Monsters will respawn.");
+        C_Output("A " BOLD("-respawn") " parameter was found on the command-line. Monsters will respawn.");
     else if ((respawnmonsters = M_CheckParm("-respawnmonsters")))
-        C_Output("A <b>-respawnmonsters</b> parameter was found on the command-line. Monsters will respawn.");
+        C_Output("A " BOLD("-respawnmonsters") " parameter was found on the command-line. Monsters will respawn.");
 
     if ((nomonsters = M_CheckParm("-nomonsters")))
     {
-        C_Output("A <b>-nomonsters</b> parameter was found on the command-line. No monsters will be spawned.");
+        C_Output("A " BOLD("-nomonsters") " parameter was found on the command-line. No monsters will be spawned.");
         stat_cheated = SafeAdd(stat_cheated, 1);
         M_SaveCVARs();
     }
 
     if ((pistolstart = M_CheckParm("-pistolstart")))
-        C_Output("A <b>-pistolstart</b> parameter was found on the command-line. The player will start each map with 100%% health, "
+        C_Output("A " BOLD("-pistolstart") " parameter was found on the command-line. The player will start each map with 100%% health, "
             "no armor, and only a pistol and 50 bullets.");
 
     if ((fastparm = M_CheckParm("-fast")))
-        C_Output("A <b>-fast</b> parameter was found on the command-line. Monsters will be faster.");
+        C_Output("A " BOLD("-fast") " parameter was found on the command-line. Monsters will be faster.");
     else if ((fastparm = M_CheckParm("-fastmonsters")))
-        C_Output("A <b>-fastmonsters</b> parameter was found on the command-line. Monsters will be faster.");
+        C_Output("A " BOLD("-fastmonsters") " parameter was found on the command-line. Monsters will be faster.");
 
     if ((devparm = M_CheckParm("-devparm")))
-        C_Output("A <b>-devparm</b> parameter was found on the command-line. %s", s_D_DEVSTR);
+        C_Output("A " BOLD("-devparm") " parameter was found on the command-line. %s", s_D_DEVSTR);
 
     // turbo option
     if ((p = M_CheckParm("-turbo")))
@@ -1910,12 +1910,12 @@ static void D_DoomMainSetup(void)
             scale = atoi(myargv[p + 1]);
 
             if (scale >= 10 && scale <= 400 && scale != 100)
-                C_Output("A <b>-turbo</b> parameter was found on the command-line. The player will be %i%% their normal speed.", scale);
+                C_Output("A " BOLD("-turbo") " parameter was found on the command-line. The player will be %i%% their normal speed.", scale);
             else
                 scale = 100;
         }
         else
-            C_Output("A <b>-turbo</b> parameter was found on the command-line. The player will be twice as fast.");
+            C_Output("A " BOLD("-turbo") " parameter was found on the command-line. The player will be twice as fast.");
 
         if (scale != 100)
             G_SetMovementSpeed(scale);
@@ -1934,14 +1934,14 @@ static void D_DoomMainSetup(void)
     I_InitTimer();
 
     if (!stat_runs)
-        C_Output("This is the first time <i>" PACKAGE_NAME "</i> has been run.");
+        C_Output("This is the first time " ITALICS(PACKAGE_NAME "") " has been run.");
     else if (stat_runs == 1)
-        C_Output("<i>" PACKAGE_NAME "</i> has now been run twice.");
+        C_Output(ITALICS(PACKAGE_NAME "") " has now been run twice.");
     else
     {
         char    *temp = commify(SafeAdd(stat_runs, 1));
 
-        C_Output("<i>" PACKAGE_NAME "</i> has now been run %s times.", temp);
+        C_Output(ITALICS(PACKAGE_NAME "") " has now been run %s times.", temp);
         free(temp);
     }
 
@@ -1949,9 +1949,9 @@ static void D_DoomMainSetup(void)
         I_Error("%s can't be found.", packagewad);
 
     if (M_CheckParm("-nodeh"))
-        C_Output("A <b>-nodeh</b> parameter was found on the command-line. All <b>DEHACKED</b> lumps will be ignored.");
+        C_Output("A " BOLD("-nodeh") " parameter was found on the command-line. All " BOLD("DEHACKED") " lumps will be ignored.");
     else if (M_CheckParm("-nobex"))
-        C_Output("A <b>-nobex</b> parameter was found on the command-line. All <b>DEHACKED</b> lumps will be ignored.");
+        C_Output("A " BOLD("-nobex") " parameter was found on the command-line. All " BOLD("DEHACKED") " lumps will be ignored.");
 
     p = M_CheckParmsWithArgs("-file", "-pwad", "-merge", 1, 1);
 
@@ -2149,9 +2149,9 @@ static void D_DoomMainSetup(void)
 
     D_SetSaveGameFolder(true);
 
-    C_Output("All screenshots taken will be saved in <b>%s</b>.", screenshotfolder);
+    C_Output("All screenshots taken will be saved in " BOLD("%s") ".", screenshotfolder);
 
-    C_Output("All files created using the <b>condump</b> CCMD will be saved in <b>%s" DIR_SEPARATOR_S "console" DIR_SEPARATOR_S "</b>.",
+    C_Output("All files created using the " BOLD("condump") " CCMD will be saved in " BOLD("%s" DIR_SEPARATOR_S "console" DIR_SEPARATOR_S "") ".",
         appdatafolder);
 
 #if !defined(__APPLE__)
@@ -2204,7 +2204,7 @@ static void D_DoomMainSetup(void)
             M_StringReplaceAll(string, ".", "");
             M_StringReplaceAll(string, "!", "");
 
-            C_Output("A <b>-%s</b> parameter was found on the command-line. The skill level is now <i>%s.</i>",
+            C_Output("A " BOLD("-%s") " parameter was found on the command-line. The skill level is now " ITALICS("%s."),
                 myargv[p], string);
             free(string);
         }
@@ -2227,7 +2227,7 @@ static void D_DoomMainSetup(void)
                 M_snprintf(lumpname, sizeof(lumpname), "E%iM%i", startepisode, startmap);
 
             autostart = true;
-            C_Output("An <b>-episode</b> parameter was found on the command-line. The episode is now <i>%s.</i>",
+            C_Output("An " BOLD("-episode") " parameter was found on the command-line. The episode is now " ITALICS("%s."),
                 *episodes[episode - 1]);
         }
     }
@@ -2243,15 +2243,15 @@ static void D_DoomMainSetup(void)
             M_SaveCVARs();
             M_snprintf(lumpname, sizeof(lumpname), "MAP%02i", startmap);
             autostart = true;
-            C_Output("An <b>-expansion</b> parameter was found on the command-line. The expansion is now <i>%s.</i>",
+            C_Output("An " BOLD("-expansion") " parameter was found on the command-line. The expansion is now " ITALICS("%s."),
                 *expansions[expansion - 1]);
         }
     }
 
     if ((p = M_CheckParmWithArgs("-warp", 1, 1)))
-        C_Output("A <b>-warp</b> parameter was found on the command-line.");
+        C_Output("A " BOLD("-warp") " parameter was found on the command-line.");
     else if ((p = M_CheckParmWithArgs("+map", 1, 1)))
-        C_Output("A <b>+map</b> parameter was found on the command-line.");
+        C_Output("A " BOLD("+map") " parameter was found on the command-line.");
 
     if (p)
     {

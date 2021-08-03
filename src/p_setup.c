@@ -308,8 +308,8 @@ mapformat_t     mapformat;
 const char *mapformats[] =
 {
     "Regular",
-    "<i>DeeP</i>",
-    "<i>ZDoom</i> extended (uncompressed)"
+    ITALICS("DeeP"),
+    ITALICS("ZDoom") " extended (uncompressed)"
 };
 
 dboolean        boomcompatible;
@@ -721,8 +721,8 @@ static void P_CheckLinedefs(void)
                 char    *temp = commify(ld->id);
 
                 C_Warning(2, "Linedef %s has %s line special %i (\"%s\") but no tag.",
-                    temp, (ld->special < BOOMLINESPECIALS ? "the" : (ld->special < MBFLINESPECIALS ? "the <i>MBF</i>-compatible" :
-                    "the <i>BOOM</i>-compatible")), ld->special, linespecials[ld->special]);
+                    temp, (ld->special < BOOMLINESPECIALS ? "the" : (ld->special < MBFLINESPECIALS ? "the " ITALICS("MBF") "-compatible" :
+                    "the " ITALICS("BOOM") "-compatible")), ld->special, linespecials[ld->special]);
                 free(temp);
             }
             else if (ld->tag < 0 || P_FindSectorFromLineTag(ld, -1) == -1)
@@ -731,8 +731,8 @@ static void P_CheckLinedefs(void)
                 char    *temp2 = commify(ld->tag);
 
                 C_Warning(2, "Linedef %s has %s line special %i (\"%s\") but an unknown tag of %s.",
-                    temp1, (ld->special < BOOMLINESPECIALS ? "the" : (ld->special < MBFLINESPECIALS ? "the <i>MBF</i>-compatible" :
-                    "the <i>BOOM</i>-compatible")), ld->special, linespecials[ld->special], temp2);
+                    temp1, (ld->special < BOOMLINESPECIALS ? "the" : (ld->special < MBFLINESPECIALS ? "the " ITALICS("MBF") "-compatible" :
+                    "the " ITALICS("BOOM") "-compatible")), ld->special, linespecials[ld->special], temp2);
                 free(temp1);
                 free(temp2);
             }
@@ -889,10 +889,10 @@ static void P_LoadSegs(int lump)
                         else
                         {
                             if (!li->sidedef->toptexture)
-                                C_Warning(2, "The missing top texture of linedef %s has been changed to <b>%.8s</b>.",
+                                C_Warning(2, "The missing top texture of linedef %s has been changed to " BOLD("%.8s") ".",
                                     temp, linefix[j].toptexture);
                             else
-                                C_Warning(2, "The top texture of linedef %s has been changed from <b>%.8s</b> to <b>%.8s</b>.",
+                                C_Warning(2, "The top texture of linedef %s has been changed from " BOLD("%.8s") " to " BOLD("%.8s") ".",
                                     temp, textures[li->sidedef->toptexture]->name, linefix[j].toptexture);
                         }
 
@@ -910,10 +910,10 @@ static void P_LoadSegs(int lump)
                         else
                         {
                             if (!li->sidedef->midtexture)
-                                C_Warning(2, "The missing middle texture of linedef %s has been changed to <b>%.8s</b>.",
+                                C_Warning(2, "The missing middle texture of linedef %s has been changed to " BOLD("%.8s") ".",
                                     temp, linefix[j].middletexture);
                             else
-                                C_Warning(2, "The middle texture of linedef %s has been changed from <b>%.8s</b> to <b>%.8s</b>.",
+                                C_Warning(2, "The middle texture of linedef %s has been changed from " BOLD("%.8s") " to " BOLD("%.8s") ".",
                                     temp, textures[li->sidedef->midtexture]->name, linefix[j].middletexture);
                         }
 
@@ -931,10 +931,10 @@ static void P_LoadSegs(int lump)
                         else
                         {
                             if (!li->sidedef->bottomtexture)
-                                C_Warning(2, "The missing bottom texture of linedef %s has been changed to <b>%.8s</b>.",
+                                C_Warning(2, "The missing bottom texture of linedef %s has been changed to " BOLD("%.8s") ".",
                                     temp, linefix[j].bottomtexture);
                             else
-                                C_Warning(2, "The bottom texture of linedef %s has been changed from <b>%.8s</b> to <b>%.8s</b>.",
+                                C_Warning(2, "The bottom texture of linedef %s has been changed from " BOLD("%.8s") " to " BOLD("%.8s") ".",
                                     temp, textures[li->sidedef->bottomtexture]->name, linefix[j].bottomtexture);
                         }
 
@@ -998,18 +998,18 @@ static void P_LoadSegs(int lump)
                             if (li->linedef->special)
                                 C_Warning(2, "The %sline special of linedef %s has been changed from %i (\"%s\") to %i (\"%s\").",
                                     (li->linedef->special < BOOMLINESPECIALS ? "" : (li->linedef->special < MBFLINESPECIALS ?
-                                    "<i>MBF</i>-compatible " : "<i>BOOM</i>-compatible ")), temp, li->linedef->special,
+                                    ITALICS("MBF") "-compatible " : ITALICS("BOOM") "-compatible ")), temp, li->linedef->special,
                                     linespecials[li->linedef->special], linefix[j].special, linespecials[linefix[j].special]);
                             else
                                 C_Warning(2, "The %sline special %i (\"%s\") has been added to linedef %s.",
                                     (li->linedef->special < BOOMLINESPECIALS ? "" : (li->linedef->special < MBFLINESPECIALS ?
-                                    "<i>MBF</i>-compatible " : "<i>BOOM</i>-compatible ")), linefix[j].special,
+                                    ITALICS("MBF") "-compatible " : ITALICS("BOOM") "-compatible ")), linefix[j].special,
                                     linespecials[linefix[j].special], temp);
                         }
                         else
                             C_Warning(2, "The %sline special of linedef %s has been removed.",
                                 (li->linedef->special < BOOMLINESPECIALS ? "" : (li->linedef->special < MBFLINESPECIALS ?
-                                "<i>MBF</i>-compatible " : "<i>BOOM</i>-compatible ")), temp);
+                                ITALICS("MBF") "-compatible " : ITALICS("BOOM") "-compatible ")), temp);
 
                         li->linedef->special = linefix[j].special;
                         free(temp);
@@ -1279,7 +1279,7 @@ static void P_LoadSectors(int lump)
                     {
                         char    *temp = commify(sectorfix[j].sector);
 
-                        C_Warning(2, "The floor texture of sector %s has been changed from <b>%.8s</b> to <b>%.8s</b>.",
+                        C_Warning(2, "The floor texture of sector %s has been changed from " BOLD("%.8s") " to " BOLD("%.8s") ".",
                             temp, lumpinfo[ss->floorpic + firstflat]->name, sectorfix[j].floorpic);
 
                         ss->floorpic = R_FlatNumForName(sectorfix[j].floorpic);
@@ -1290,7 +1290,7 @@ static void P_LoadSectors(int lump)
                     {
                         char    *temp = commify(sectorfix[j].sector);
 
-                        C_Warning(2, "The ceiling texture of sector %s has been changed from <b>%.8s</b> to <b>%.8s</b>.",
+                        C_Warning(2, "The ceiling texture of sector %s has been changed from " BOLD("%.8s") " to " BOLD("%.8s") ".",
                             temp, lumpinfo[ss->ceilingpic + firstflat]->name, sectorfix[j].ceilingpic);
 
                         ss->ceilingpic = R_FlatNumForName(sectorfix[j].ceilingpic);
@@ -1746,7 +1746,7 @@ static void P_LoadThings(int map, int lump)
                 M_snprintf(buffer, sizeof(buffer), "%ss", mobjinfo[doomednum].name1);
 
             buffer[0] = toupper(buffer[0]);
-            C_Warning(2, "%s can't be spawned in <i>%s.</i>", buffer, gamedescription);
+            C_Warning(2, "%s can't be spawned in " ITALICS("%s."), buffer, gamedescription);
 
             continue;
         }
@@ -2329,12 +2329,12 @@ static void P_LoadBlockMap(int lump)
     if (lump >= numlumps || (lumplen = W_LumpLength(lump)) < 8 || (count = lumplen / 2) >= 0x10000)
     {
         P_CreateBlockMap();
-        C_Warning(2, "The <b>BLOCKMAP</b> lump has been rebuilt.");
+        C_Warning(2, "The " BOLD("BLOCKMAP") " lump has been rebuilt.");
     }
     else if (M_CheckParm("-blockmap"))
     {
         P_CreateBlockMap();
-        C_Warning(1, "A <b>-blockmap</b> parameter was found on the command-line. The <b>BLOCKMAP</b> lump has been rebuilt.");
+        C_Warning(1, "A " BOLD("-blockmap") " parameter was found on the command-line. The " BOLD("BLOCKMAP") " lump has been rebuilt.");
     }
     else
     {
@@ -2368,7 +2368,7 @@ static void P_LoadBlockMap(int lump)
         if (!P_VerifyBlockMap(count))
         {
             P_CreateBlockMap();
-            C_Warning(2, "The <b>BLOCKMAP</b> lump has been rebuilt.");
+            C_Warning(2, "The " BOLD("BLOCKMAP") " lump has been rebuilt.");
         }
     }
 
@@ -2403,7 +2403,7 @@ static void RejectOverrun(int lump, const byte **matrix)
         // unlock the original lump, it is no longer needed
         W_ReleaseLumpNum(lump);
 
-        C_Warning(2, "The <b>REJECT</b> lump has been increased in size.");
+        C_Warning(2, "The " BOLD("REJECT") " lump has been increased in size.");
     }
 }
 
@@ -2915,7 +2915,7 @@ void P_SetupLevel(int ep, int map)
 
     temp1 = sentencecase(playername);
     temp2 = titlecase(maptitle);
-    C_PlayerMessage("%s %s <i>%s</i>%s",
+    C_PlayerMessage("%s %s " ITALICS("%s") "%s",
         temp1, (samelevel ? "reentered": "entered"), temp2, (ispunctuation(temp2[strlen(temp2) - 1]) ? "" : "."));
     free(temp1);
     free(temp2);
@@ -3108,7 +3108,7 @@ static void P_InitMapInfo(void)
             {
                 if (M_StringEndsWith(lumpinfo[MAPINFO]->wadfile->path, "NERVE.WAD"))
                 {
-                    C_Warning(1, "The map markers in PWAD <b>%s</b> are invalid.", lumpinfo[MAPINFO]->wadfile->path);
+                    C_Warning(1, "The map markers in PWAD " BOLD("%s") " are invalid.", lumpinfo[MAPINFO]->wadfile->path);
                     nerve = false;
                     NewDef.prevMenu = &MainDef;
                     MAPINFO = -1;
@@ -3117,7 +3117,7 @@ static void P_InitMapInfo(void)
                 }
                 else
                 {
-                    C_Warning(1, "The <b>MAPINFO</b> lump contains an invalid map marker.");
+                    C_Warning(1, "The " BOLD("MAPINFO") " lump contains an invalid map marker.");
                     continue;
                 }
             }
@@ -3464,16 +3464,16 @@ static void P_InitMapInfo(void)
     SC_Close();
 
     temp = commify(sc_Line);
-    C_Output("Parsed %s line%s in the <b>%sMAPINFO</b> lump in the %s <b>%s</b>.",
+    C_Output("Parsed %s line%s in the " BOLD("%sMAPINFO") " lump in the %s " BOLD("%s") ".",
         temp, (sc_Line > 1 ? "s" : ""), (RMAPINFO >= 0 ? "R" : (UMAPINFO >= 0 ? "U" : "")),
         (lumpinfo[MAPINFO]->wadfile->type == IWAD ? "IWAD" : "PWAD"), lumpinfo[MAPINFO]->wadfile->path);
     free(temp);
 
     if (nojump && (keyboardjump || mousejump != -1 || gamepadjump))
-        C_Warning(1, "This PWAD has disabled use of the <b>+jump</b> action.");
+        C_Warning(1, "This PWAD has disabled use of the " BOLD("+jump") " action.");
 
     if (nomouselook)
-        C_Warning(1, "This PWAD has disabled use of the <b>mouselook</b> CVAR and <b>+mouselook</b> action.");
+        C_Warning(1, "This PWAD has disabled use of the " BOLD("mouselook") " CVAR and " BOLD("+mouselook") " action.");
 }
 
 char *P_GetMapAuthor(int map)

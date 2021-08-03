@@ -99,9 +99,9 @@ void I_InitGamepad(void)
             if (*name)
             {
                 if (M_StrCaseStr(name, "xinput"))
-                    C_OutputNoRepeat("An <i>XInput</i> gamepad is connected.");
+                    C_OutputNoRepeat("An " ITALICS("XInput") " gamepad is connected.");
                 else
-                    C_OutputNoRepeat("A <i>DirectInput</i> gamepad called \"%s\" is connected.", name);
+                    C_OutputNoRepeat("A " ITALICS("DirectInput") " gamepad called \"%s\" is connected.", name);
             }
             else
                 C_OutputNoRepeat("A gamepad is connected.");
