@@ -473,7 +473,6 @@ const kern_t altkern[] =
 
 static int C_TextWidth(const char *text, const dboolean formatting, const dboolean kerning)
 {
-    dboolean        bold = false;
     dboolean        italics = false;
     const int       len = (int)strlen(text);
     unsigned char   prevletter = '\0';
@@ -487,46 +486,10 @@ static int C_TextWidth(const char *text, const dboolean formatting, const dboole
         if (letter == ' ')
             w += spacewidth;
         else if (letter == BOLDTOGGLECHAR)
-        {
-            bold = !bold;
-            i++;
-
             continue;
-        }
         else if (letter == ITALICSTOGGLECHAR)
         {
             italics = !italics;
-            i++;
-
-            continue;
-        }
-        else if (letter == '<' && i < len - 2 && tolower(text[i + 1]) == 'b' && text[i + 2] == '>' && formatting)
-        {
-            bold = true;
-            i += 2;
-
-            continue;
-        }
-        else if (letter == '<' && i < len - 3 && text[i + 1] == '/' && tolower(text[i + 2]) == 'b' && text[i + 3] == '>' && formatting)
-        {
-            bold = false;
-            i += 3;
-
-            continue;
-        }
-        else if (letter == '<' && i < len - 2 && tolower(text[i + 1]) == 'i' && text[i + 2] == '>' && formatting)
-        {
-            italics = true;
-            i += 2;
-
-            continue;
-        }
-        else if (letter == '<' && i < len - 3 && text[i + 1] == '/' && tolower(text[i + 2]) == 'i' && text[i + 3] == '>' && formatting)
-        {
-            italics = false;
-            i += 3;
-            w++;
-
             continue;
         }
         else if (letter == 153)
@@ -948,27 +911,6 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
             bold = !bold;
         else if (letter == ITALICSTOGGLECHAR)
             italics = !italics;
-        else if (letter == '<' && i < len - 2 && tolower(text[i + 1]) == 'b' && text[i + 2] == '>' && formatting)
-        {
-            bold = true;
-            i += 2;
-        }
-        else if (letter == '<' && i < len - 3 && text[i + 1] == '/' && tolower(text[i + 2]) == 'b' && text[i + 3] == '>' && formatting)
-        {
-            bold = false;
-            i += 3;
-        }
-        else if (letter == '<' && i < len - 2 && tolower(text[i + 1]) == 'i' && text[i + 2] == '>' && formatting)
-        {
-            italics = true;
-            i += 2;
-        }
-        else if (letter == '<' && i < len - 3 && text[i + 1] == '/' && tolower(text[i + 2]) == 'i' && text[i + 3] == '>' && formatting)
-        {
-            italics = false;
-            i += 3;
-            x++;
-        }
         else
         {
             patch_t         *patch = NULL;
