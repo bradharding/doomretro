@@ -468,7 +468,7 @@ consolecmd_t consolecmds[] =
     CVAR_INT(am_gridcolor, am_gridcolour, color_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The color of the grid in the automap (" BOLD("0") " to " BOLD("255") ")."),
     CVAR_OTHER(am_gridsize, "", null_func1, am_gridsize_cvar_func2,
-        "The size of the grid in the automap (" ITALICS(BOLD("width")) "\xD7" ITALICS(BOLD("height")) ")."),
+        "The size of the grid in the automap (" ITALICS(BOLD("width")) BOLD("\xD7") ITALICS(BOLD("height")) ")."),
     CVAR_INT(am_markcolor, am_markcolour, color_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The color of marks in the automap (" BOLD("0") " to " BOLD("255") ")."),
     CVAR_BOOL(am_path, "", bool_cvars_func1, am_path_cvar_func2, BOOLVALUEALIAS,
@@ -726,7 +726,7 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL(r_liquid_swirl, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles the swirl of liquid sectors."),
     CVAR_OTHER(r_lowpixelsize, "", null_func1, r_lowpixelsize_cvar_func2,
-        "The size of each pixel when the graphic detail is low (" ITALICS(BOLD("width")) "\xD7" ITALICS(BOLD("height")) ")."),
+        "The size of each pixel when the graphic detail is low (" ITALICS(BOLD("width")) BOLD("\xD7") ITALICS(BOLD("height")) ")."),
     CVAR_BOOL(r_mirroredweapons, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles randomly mirroring the weapons dropped by monsters."),
     CVAR_BOOL(r_playersprites, "", bool_cvars_func1, r_playersprites_cvar_func2, BOOLVALUEALIAS,
@@ -734,7 +734,7 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL(r_rockettrails, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles the trails of smoke behind rockets fired by the player and cyberdemons."),
     CVAR_INT(r_screensize, "", int_cvars_func1, r_screensize_cvar_func2, CF_NONE, NOVALUEALIAS,
-        "The screen size (" BOLD("0") " to " BOLD("8") ">)."),
+        "The screen size (" BOLD("0") " to " BOLD("8") ")."),
     CVAR_BOOL(r_shadows, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles sprites casting shadows."),
     CVAR_BOOL(r_shadows_translucency, "", bool_cvars_func1, r_shadows_translucency_cvar_func2, BOOLVALUEALIAS,
@@ -802,7 +802,7 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL(tossdrop, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles tossing items dropped by monsters when they die."),
     CVAR_INT(turbo, "", turbo_cvar_func1, turbo_cvar_func2, CF_PERCENT, NOVALUEALIAS,
-        "The speed the player moves (" BOLD("10%") " to " BOLD("400%") ">)."),
+        "The speed the player moves (" BOLD("10%") " to " BOLD("400%") ")."),
     CCMD(unbind, "", null_func1, unbind_cmd_func2, true, UNBINDCMDFORMAT,
         "Unbinds the " ITALICS(BOLD("+action")) " from a " ITALICS(BOLD("control")) "."),
     CVAR_BOOL(units, "", units_cvar_func1, units_cvar_func2, UNITSVALUEALIAS,
@@ -815,7 +815,7 @@ consolecmd_t consolecmds[] =
         "Toggles using a borderless window when fullscreen."),
     CVAR_INT(vid_capfps, "", vid_capfps_cvar_func1, vid_capfps_cvar_func2, CF_NONE, CAPVALUEALIAS,
         "The number of frames per second at which to cap the framerate (" BOLD("off") ", or " BOLD("10") " to " BOLD("1,000") "). "
-        "Interpolation is disabled when this CVAR is " BOLD("128") "."),
+        "Interpolation is disabled when this CVAR is " BOLD("35") "."),
     CVAR_INT(vid_display, "", int_cvars_func1, vid_display_cvar_func2, CF_NONE, NOVALUEALIAS,
         "The display used to render the game."),
 #if !defined(_WIN32)
@@ -843,7 +843,8 @@ consolecmd_t consolecmds[] =
     CVAR_STR(vid_scalefilter, "", vid_scalefilter_cvar_func1, vid_scalefilter_cvar_func2, CF_NONE,
         "The filter used to scale each frame (" BOLD("\"nearest\"") ", " BOLD("\"linear\"") " or " BOLD("\"nearest_linear\"") ")."),
     CVAR_OTHER(vid_screenresolution, "", null_func1, vid_screenresolution_cvar_func2,
-        "The screen's resolution when fullscreen (" BOLD("desktop") " or " ITALICS(BOLD("width")) "\xD7" ITALICS(BOLD("height")) ")."),
+        "The screen's resolution when fullscreen (" BOLD("desktop") " or " ITALICS(BOLD("width")) BOLD("\xD7") ITALICS(BOLD("height"))
+        ")."),
     CVAR_BOOL(vid_showfps, "", bool_cvars_func1, vid_showfps_cvar_func2, BOOLVALUEALIAS,
         "Toggles showing the number of frames per second."),
     CVAR_INT(vid_vsync, "", vid_vsync_cvar_func1, vid_vsync_cvar_func2, CF_NONE, VSYNCVALUEALIAS,
@@ -851,7 +852,7 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL(vid_widescreen, "", bool_cvars_func1, vid_widescreen_cvar_func2, BOOLVALUEALIAS,
         "Toggles widescreen mode."),
     CVAR_OTHER(vid_windowpos, vid_windowposition, null_func1, vid_windowpos_cvar_func2,
-        "The position of the window on the desktop (" BOLD("centered") "> or " BOLD("(") ITALICS(BOLD("x")) "," ITALICS(BOLD("y"))
+        "The position of the window on the desktop (" BOLD("centered") " or " BOLD("(") ITALICS(BOLD("x")) "," ITALICS(BOLD("y"))
         BOLD(")") ")."),
     CVAR_OTHER(vid_windowsize, "", null_func1, vid_windowsize_cvar_func2,
         "The size of the window on the desktop (" ITALICS(BOLD("width")) BOLD("\xD7") ITALICS(BOLD("height")) ")."),
