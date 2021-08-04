@@ -72,27 +72,34 @@
 #include "version.h"
 #include "w_wad.h"
 
-#define ALIASCMDFORMAT              ITALICS(BOLD("alias")) " [[" BOLD("\"") "]" ITALICS(BOLD("command")) "[" BOLD(";") " " ITALICS(BOLD("command")) " ..." BOLD("\"") "]]"
-#define BINDCMDFORMAT               ITALICS(BOLD("control")) " [" ITALICS(BOLD("+action")) "|[" BOLD("\"") "]" ITALICS(BOLD("command")) "[" BOLD(";") " " ITALICS(BOLD("command")) " ..." BOLD("\"") "]]"
-#define EXECCMDFORMAT               ITALICS(BOLD("filename")) BOLD(".cfg") ""
-#define GIVECMDFORMAT               BOLD("ammo") "|" BOLD("armor") "|" BOLD("health") "|" BOLD("keys") "|" BOLD("weapons") "|" BOLD("all") "|" ITALICS(BOLD("item")) ""
-#define IFCMDFORMAT                 ITALICS(BOLD("CVAR")) " " ITALICS(BOLD("value")) " " BOLD("then") " [" BOLD("\"") "]" ITALICS(BOLD("command")) "[" BOLD(";") " " ITALICS(BOLD("command")) " ..." BOLD("\"") "]"
-#define KILLCMDFORMAT               BOLD("player") "|" BOLD("all") "|" ITALICS(BOLD("monster")) "|" BOLD("barrels") "|" BOLD("missiles") ""
-#define LOADCMDFORMAT               ITALICS(BOLD("filename")) BOLD(".save") ""
-#define MAPCMDFORMAT1               BOLD("E") ITALICS(BOLD("x")) BOLD("M") ITALICS(BOLD("y")) "[" BOLD("B") "]|" ITALICS(BOLD("title")) "|" BOLD("first") "|" BOLD("previous") "|" BOLD("next") "|" BOLD("last") "|" BOLD("random") ""
-#define MAPCMDFORMAT2               BOLD("MAP") ITALICS(BOLD("xy")) "|" ITALICS(BOLD("title")) "|" BOLD("first") "|" BOLD("previous") "|" BOLD("next") "|" BOLD("last") "|" BOLD("random") ""
-#define PLAYCMDFORMAT               ITALICS(BOLD("soundeffect")) "|" ITALICS(BOLD("music")) ""
-#define NAMECMDFORMAT               "[" BOLD("friendly") " ]" ITALICS(BOLD("monster")) " " ITALICS(BOLD("name")) ""
-#define PRINTCMDFORMAT              "[" BOLD("\"") "]" ITALICS(BOLD("message")) "[" BOLD("\"") "]"
-#define RESETCMDFORMAT              ITALICS(BOLD("CVAR")) ""
-#define RESURRECTCMDFORMAT          BOLD("player") "|" BOLD("all") "|" ITALICS(BOLD("monster")) ""
-#define SAVECMDFORMAT               ITALICS(BOLD("filename")) BOLD(".save") ""
-#define SPAWNCMDFORMAT              ITALICS(BOLD("item")) "|[" BOLD("friendly") " ]" ITALICS(BOLD("monster")) ""
-#define TAKECMDFORMAT               BOLD("ammo") "|" BOLD("armor") "|" BOLD("health") "|" BOLD("keys") "|" BOLD("weapons") "|" BOLD("all") "|" ITALICS(BOLD("item")) ""
-#define TELEPORTCMDFORMAT           ITALICS(BOLD("x")) " " ITALICS(BOLD("y")) "[ " ITALICS(BOLD("z")) "]"
-#define TIMERCMDFORMAT              ITALICS(BOLD("minutes")) ""
-#define TOGGLECMDFORMAT             ITALICS(BOLD("CVAR")) ""
-#define UNBINDCMDFORMAT             ITALICS(BOLD("control")) "|" ITALICS(BOLD("+action")) ""
+#define ALIASCMDFORMAT              BOLDITALICS("alias") " [[" BOLD("\"") "]" BOLDITALICS("command") "[" BOLD(";") " " \
+                                    BOLDITALICS("command") " ..." BOLD("\"") "]]"
+#define BINDCMDFORMAT               BOLDITALICS("control") " [" BOLDITALICS("+action") "|[" BOLD("\"") "]" BOLDITALICS("command") "[" \
+                                    BOLD(";") " " BOLDITALICS("command") " ..." BOLD("\"") "]]"
+#define EXECCMDFORMAT               BOLDITALICS("filename") BOLD(".cfg")
+#define GIVECMDFORMAT               BOLD("ammo") "|" BOLD("armor") "|" BOLD("health") "|" BOLD("keys") "|" BOLD("weapons") "|" \
+                                    BOLD("all") "|" BOLDITALICS("item")
+#define IFCMDFORMAT                 BOLDITALICS("CVAR") " " BOLDITALICS("value") " " BOLD("then") " [" BOLD("\"") "]" \
+                                    BOLDITALICS("command") "[" BOLD(";") " " BOLDITALICS("command") " ..." BOLD("\"") "]"
+#define KILLCMDFORMAT               BOLD("player") "|" BOLD("all") "|" BOLDITALICS("monster") "|" BOLD("barrels") "|" BOLD("missiles")
+#define LOADCMDFORMAT               BOLDITALICS("filename") BOLD(".save")
+#define MAPCMDFORMAT1               BOLD("E") BOLDITALICS("x") BOLD("M") BOLDITALICS("y") "[" BOLD("B") "]|" BOLDITALICS("title") "|" \
+                                    BOLD("first") "|" BOLD("previous") "|" BOLD("next") "|" BOLD("last") "|" BOLD("random")
+#define MAPCMDFORMAT2               BOLD("MAP") BOLDITALICS("xy") "|" BOLDITALICS("title") "|" BOLD("first") "|" BOLD("previous") "|" \
+                                    BOLD("next") "|" BOLD("last") "|" BOLD("random")
+#define PLAYCMDFORMAT               BOLDITALICS("soundeffect") "|" BOLDITALICS("music")
+#define NAMECMDFORMAT               "[" BOLD("friendly") " ]" BOLDITALICS("monster") " " BOLDITALICS("name")
+#define PRINTCMDFORMAT              "[" BOLD("\"") "]" BOLDITALICS("message") "[" BOLD("\"") "]"
+#define RESETCMDFORMAT              BOLDITALICS("CVAR")
+#define RESURRECTCMDFORMAT          BOLD("player") "|" BOLD("all") "|" BOLDITALICS("monster")
+#define SAVECMDFORMAT               BOLDITALICS("filename") BOLD(".save")
+#define SPAWNCMDFORMAT              BOLDITALICS("item") "|[" BOLD("friendly") " ]" BOLDITALICS("monster")
+#define TAKECMDFORMAT               BOLD("ammo") "|" BOLD("armor") "|" BOLD("health") "|" BOLD("keys") "|" BOLD("weapons") "|" \
+                                    BOLD("all") "|" BOLDITALICS("item")
+#define TELEPORTCMDFORMAT           BOLDITALICS("x") " " BOLDITALICS("y") "[ " BOLDITALICS("z") "]"
+#define TIMERCMDFORMAT              BOLDITALICS("minutes")
+#define TOGGLECMDFORMAT             BOLDITALICS("CVAR")
+#define UNBINDCMDFORMAT             BOLDITALICS("control") "|" BOLDITALICS("+action")
 
 #define PENDINGCHANGE               "This change won't be effective until the next map."
 
@@ -439,7 +446,7 @@ static char *C_LookupAliasFromValue(const int value, const valuealias_type_t val
 consolecmd_t consolecmds[] =
 {
     CCMD(alias, "", null_func1, alias_cmd_func2, true, ALIASCMDFORMAT,
-        "Creates an " ITALICS(BOLD("alias")) " that executes a string of " ITALICS(BOLD("commands")) "."),
+        "Creates an " BOLDITALICS("alias") " that executes a string of " BOLDITALICS("commands") "."),
     CVAR_BOOL(alwaysrun, "", bool_cvars_func1, alwaysrun_cvar_func2, BOOLVALUEALIAS,
         "Toggles the player to always run instead of walk."),
     CVAR_INT(am_allmapcdwallcolor, am_allmapcdwallcolour, color_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
@@ -468,7 +475,7 @@ consolecmd_t consolecmds[] =
     CVAR_INT(am_gridcolor, am_gridcolour, color_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The color of the grid in the automap (" BOLD("0") " to " BOLD("255") ")."),
     CVAR_OTHER(am_gridsize, "", null_func1, am_gridsize_cvar_func2,
-        "The size of the grid in the automap (" ITALICS(BOLD("width")) BOLD("\xD7") ITALICS(BOLD("height")) ")."),
+        "The size of the grid in the automap (" BOLDITALICS("width") BOLD("\xD7") BOLDITALICS("height") ")."),
     CVAR_INT(am_markcolor, am_markcolour, color_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The color of marks in the automap (" BOLD("0") " to " BOLD("255") ")."),
     CVAR_BOOL(am_path, "", bool_cvars_func1, am_path_cvar_func2, BOOLVALUEALIAS,
@@ -504,14 +511,14 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL(autouse, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles automatically using doors and switches in front of the player."),
     CCMD(bind, "", null_func1, bind_cmd_func2, true, BINDCMDFORMAT,
-        "Binds an " ITALICS(BOLD("+action")) " or string of " ITALICS(BOLD("commands")) " to a " ITALICS(BOLD("control")) "."),
+        "Binds an " BOLDITALICS("+action") " or string of " BOLDITALICS("commands") " to a " BOLDITALICS("control") "."),
     CCMD(bindlist, "", null_func1, bindlist_cmd_func2, false, "",
         "Lists all bound controls."),
     CVAR_BOOL(centerweapon, centreweapon, bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles centering the player's weapon when firing."),
     CCMD(clear, "", null_func1, clear_cmd_func2, false, "",
         "Clears the console."),
-    CCMD(cmdlist, ccmdlist, null_func1, cmdlist_cmd_func2, true, "[" ITALICS(BOLD("searchstring")) "]",
+    CCMD(cmdlist, ccmdlist, null_func1, cmdlist_cmd_func2, true, "[" BOLDITALICS("searchstring") "]",
         "Lists all console commands."),
     CVAR_INT(con_backcolor, con_backcolour, color_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The color of the console's background (" BOLD("0") " to " BOLD("255") ")."),
@@ -519,13 +526,13 @@ consolecmd_t consolecmds[] =
         "The color of the console's bottom edge (" BOLD("0") " to " BOLD("255") ")."),
     CVAR_BOOL(con_obituaries, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles obituaries in the console when the player or monsters are killed."),
-    CCMD(condump, "", condump_cmd_func1, condump_cmd_func2, true, "[" ITALICS(BOLD("filename")) "[" BOLD(".txt") "]]",
+    CCMD(condump, "", condump_cmd_func1, condump_cmd_func2, true, "[" BOLDITALICS("filename") "[" BOLD(".txt") "]]",
         "Dumps the contents of the console to a file."),
     CVAR_INT(crosshair, "", crosshair_cvar_func1, crosshair_cvar_func2, CF_NONE, CROSSHAIRVALUEALIAS,
         "Toggles a crosshair (" BOLD("none") ", " BOLD("cross") " or " BOLD("dot") ")."),
     CVAR_INT(crosshaircolor, crosshaircolour, color_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The color of the crosshair (" BOLD("0") " to " BOLD("255") ")."),
-    CCMD(cvarlist, "", null_func1, cvarlist_cmd_func2, true, "[" ITALICS(BOLD("searchstring")) "]",
+    CCMD(cvarlist, "", null_func1, cvarlist_cmd_func2, true, "[" BOLDITALICS("searchstring") "]",
         "Lists all console variables."),
     CCMD(endgame, "", game_func1, endgame_cmd_func2, false, "",
         "Ends a game."),
@@ -549,7 +556,7 @@ consolecmd_t consolecmds[] =
         "The amount of time " ITALICS(PACKAGE_NAME) " has been running."),
     CCMD(give, "", give_cmd_func1, give_cmd_func2, true, GIVECMDFORMAT,
         "Gives " BOLD("ammo") ", " BOLD("armor") ", " BOLD("health") ", " BOLD("keys") ", " BOLD("weapons") ", or " BOLD("all")
-        " or certain " ITALICS(BOLD("items")) " to the player."),
+        " or certain " BOLDITALICS("items") " to the player."),
     CCMD(god, "", alive_func1, god_cmd_func2, true, "[" BOLD("on") "|" BOLD("off") "]",
         "Toggles god mode."),
     CVAR_BOOL(gp_analog, gp_analogue, bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
@@ -598,7 +605,7 @@ consolecmd_t consolecmds[] =
     CMD_CHEAT(idmypos, false),
     CMD_CHEAT(idspispopd, false),
     CCMD(if, "", null_func1, if_cmd_func2, true, IFCMDFORMAT,
-        "Executes a string of " ITALICS(BOLD("commands")) " if a " ITALICS("CVAR") " equals a " ITALICS(BOLD("value")) "."),
+        "Executes a string of " BOLDITALICS("commands") " if a " ITALICS("CVAR") " equals a " BOLDITALICS("value") "."),
     CVAR_BOOL(infighting, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles infighting among monsters once the player dies."),
     CVAR_BOOL(infiniteheight, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
@@ -606,7 +613,7 @@ consolecmd_t consolecmds[] =
     CVAR_STR(iwadfolder, "", null_func1, str_cvars_func2, CF_NONE,
         "The folder of the current IWAD."),
     CCMD(kill, explode, kill_cmd_func1, kill_cmd_func2, true, KILLCMDFORMAT,
-        "Kills the " BOLD("player") ", " BOLD("all") " monsters, a type of " ITALICS(BOLD("monster")) ", or explodes all " BOLD("barrels")
+        "Kills the " BOLD("player") ", " BOLD("all") " monsters, a type of " BOLDITALICS("monster") ", or explodes all " BOLD("barrels")
         " or " BOLD("missiles") "."),
     CCMD(license, "", null_func1, license_cmd_func2, false, "",
         "Displays the " ITALICS(PACKAGE_LICENSE ".")),
@@ -637,7 +644,7 @@ consolecmd_t consolecmds[] =
     CVAR_INT(movebob, "", int_cvars_func1, int_cvars_func2, CF_PERCENT, NOVALUEALIAS,
         "The amount the player's view bobs up and down when they move (" BOLD("0%") " to " BOLD("100%") ")."),
     CCMD(name, "", name_cmd_func1, name_cmd_func2, true, NAMECMDFORMAT,
-        "Gives a " ITALICS(BOLD("name")) " to the " ITALICS(BOLD("monster")) " nearest to the player."),
+        "Gives a " BOLDITALICS("name") " to the " BOLDITALICS("monster") " nearest to the player."),
     CCMD(newgame, "", null_func1, newgame_cmd_func2, true, "",
         "Starts a new game."),
     CCMD(noclip, "", game_func1, noclip_cmd_func2, true, "[" BOLD("on") "|" BOLD("off") "]",
@@ -649,7 +656,7 @@ consolecmd_t consolecmds[] =
     CCMD(pistolstart, "", null_func1, pistolstart_cmd_func2, true, "[" BOLD("on") "|" BOLD("off") "]",
         "Toggles the player starting each map with 100% health, no armor, and a pistol with 50 bullets."),
     CCMD(play, "", play_cmd_func1, play_cmd_func2, true, PLAYCMDFORMAT,
-        "Plays a " ITALICS(BOLD("sound effect")) " or " ITALICS(BOLD("music")) " lump."),
+        "Plays a " BOLDITALICS("sound effect") " or " BOLDITALICS("music") " lump."),
     CVAR_INT(playergender, "", playergender_cvar_func1, playergender_cvar_func2, CF_NONE, PLAYERGENDERVALUEALIAS,
         "The gender identity of the player (" BOLD("male") ", " BOLD("female") " or " BOLD("other") ")."),
     CVAR_STR(playername, "", null_func1, playername_cvar_func2, CF_NONE,
@@ -657,7 +664,7 @@ consolecmd_t consolecmds[] =
     CCMD(playerstats, "", null_func1, playerstats_cmd_func2, false, "",
         "Shows stats about the player."),
     CCMD(print, "", null_func1, print_cmd_func2, true, PRINTCMDFORMAT,
-        "Prints a player \"" ITALICS(BOLD("message")) "\"."),
+        "Prints a player \"" BOLDITALICS("message") "\"."),
     CCMD(quit, exit, null_func1, quit_cmd_func2, false, "",
         "Quits " ITALICS(PACKAGE_NAME ".")),
     CVAR_BOOL(r_althud, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
@@ -726,7 +733,7 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL(r_liquid_swirl, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles the swirl of liquid sectors."),
     CVAR_OTHER(r_lowpixelsize, "", null_func1, r_lowpixelsize_cvar_func2,
-        "The size of each pixel when the graphic detail is low (" ITALICS(BOLD("width")) BOLD("\xD7") ITALICS(BOLD("height")) ")."),
+        "The size of each pixel when the graphic detail is low (" BOLDITALICS("width") BOLD("\xD7") BOLDITALICS("height") ")."),
     CVAR_BOOL(r_mirroredweapons, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles randomly mirroring the weapons dropped by monsters."),
     CVAR_BOOL(r_playersprites, "", bool_cvars_func1, r_playersprites_cvar_func2, BOOLVALUEALIAS,
@@ -764,7 +771,7 @@ consolecmd_t consolecmds[] =
     CCMD(restartmap, "", game_func1, restartmap_cmd_func2, false, "",
         "Restarts the current map."),
     CCMD(resurrect, "", resurrect_cmd_func1, resurrect_cmd_func2, true, RESURRECTCMDFORMAT,
-        "Resurrects the " BOLD("player") ", " BOLD("all") " monsters or a type of " ITALICS(BOLD("monster")) "."),
+        "Resurrects the " BOLD("player") ", " BOLD("all") " monsters or a type of " BOLDITALICS("monster") "."),
     CVAR_INT(s_channels, "", int_cvars_func1, int_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The number of sound effects that can be played at the same time (" BOLD("8") " to " BOLD("64") ")."),
     CVAR_INT(s_musicvolume, "", s_volume_cvars_func1, s_volume_cvars_func2, CF_PERCENT, NOVALUEALIAS,
@@ -785,14 +792,14 @@ consolecmd_t consolecmds[] =
     CVAR_INT(skilllevel, "", int_cvars_func1, skilllevel_cvar_func2, CF_NONE, NOVALUEALIAS,
         "The currently selected skill level in the menu (" BOLD("1") " to " BOLD("5") ")."),
     CCMD(spawn, summon, spawn_cmd_func1, spawn_cmd_func2, true, SPAWNCMDFORMAT,
-        "Spawns an " ITALICS(BOLD("item")) " or " ITALICS(BOLD("monster")) " in front of the player."),
+        "Spawns an " BOLDITALICS("item") " or " BOLDITALICS("monster") " in front of the player."),
     CVAR_INT(stillbob, "", int_cvars_func1, int_cvars_func2, CF_PERCENT, NOVALUEALIAS,
         "The amount the player's view and weapon bob up and down when they stand still (" BOLD("0%") " to " BOLD("100%") ")."),
     CCMD(take, "", take_cmd_func1, take_cmd_func2, true, TAKECMDFORMAT,
         "Takes " BOLD("ammo") ", " BOLD("armor") ", " BOLD("health") ", " BOLD("keys") ", " BOLD("weapons") ", or " BOLD("all")
-        " or certain " ITALICS(BOLD("items")) " from the player."),
+        " or certain " BOLDITALICS("items") " from the player."),
     CCMD(teleport, "", teleport_cmd_func1, teleport_cmd_func2, true, TELEPORTCMDFORMAT,
-        "Teleports the player to (" ITALICS(BOLD("x")) "," ITALICS(BOLD("y")) "," ITALICS(BOLD("z")) ") in the current map."),
+        "Teleports the player to (" BOLDITALICS("x") "," BOLDITALICS("y") "," BOLDITALICS("z") ") in the current map."),
     CCMD(thinglist, "", game_func1, thinglist_cmd_func2, false, "",
         "Lists all things in the current map."),
     CCMD(timer, "", null_func1, timer_cmd_func2, true, TIMERCMDFORMAT,
@@ -804,7 +811,7 @@ consolecmd_t consolecmds[] =
     CVAR_INT(turbo, "", turbo_cvar_func1, turbo_cvar_func2, CF_PERCENT, NOVALUEALIAS,
         "The speed the player moves (" BOLD("10%") " to " BOLD("400%") ")."),
     CCMD(unbind, "", null_func1, unbind_cmd_func2, true, UNBINDCMDFORMAT,
-        "Unbinds the " ITALICS(BOLD("+action")) " from a " ITALICS(BOLD("control")) "."),
+        "Unbinds the " BOLDITALICS("+action") " from a " BOLDITALICS("control") "."),
     CVAR_BOOL(units, "", units_cvar_func1, units_cvar_func2, UNITSVALUEALIAS,
         "The units used by the " BOLD("mapstats") " and " BOLD("playerstats") " CCMDs (" BOLD("imperial") " or " BOLD("metric") ")."),
     CCMD(vanilla, "", null_func1, vanilla_cmd_func2, true, "[" BOLD("on") "|" BOLD("off") "]",
@@ -843,7 +850,7 @@ consolecmd_t consolecmds[] =
     CVAR_STR(vid_scalefilter, "", vid_scalefilter_cvar_func1, vid_scalefilter_cvar_func2, CF_NONE,
         "The filter used to scale each frame (" BOLD("\"nearest\"") ", " BOLD("\"linear\"") " or " BOLD("\"nearest_linear\"") ")."),
     CVAR_OTHER(vid_screenresolution, "", null_func1, vid_screenresolution_cvar_func2,
-        "The screen's resolution when fullscreen (" BOLD("desktop") " or " ITALICS(BOLD("width")) BOLD("\xD7") ITALICS(BOLD("height"))
+        "The screen's resolution when fullscreen (" BOLD("desktop") " or " BOLDITALICS("width") BOLD("\xD7") BOLDITALICS("height")
         ")."),
     CVAR_BOOL(vid_showfps, "", bool_cvars_func1, vid_showfps_cvar_func2, BOOLVALUEALIAS,
         "Toggles showing the number of frames per second."),
@@ -852,10 +859,10 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL(vid_widescreen, "", bool_cvars_func1, vid_widescreen_cvar_func2, BOOLVALUEALIAS,
         "Toggles widescreen mode."),
     CVAR_OTHER(vid_windowpos, vid_windowposition, null_func1, vid_windowpos_cvar_func2,
-        "The position of the window on the desktop (" BOLD("centered") " or " BOLD("(") ITALICS(BOLD("x")) "," ITALICS(BOLD("y"))
+        "The position of the window on the desktop (" BOLD("centered") " or " BOLD("(") BOLDITALICS("x") "," BOLDITALICS("y")
         BOLD(")") ")."),
     CVAR_OTHER(vid_windowsize, "", null_func1, vid_windowsize_cvar_func2,
-        "The size of the window on the desktop (" ITALICS(BOLD("width")) BOLD("\xD7") ITALICS(BOLD("height")) ")."),
+        "The size of the window on the desktop (" BOLDITALICS("width") BOLD("\xD7") BOLDITALICS("height") ")."),
 #if defined(_WIN32)
     CVAR_STR(wad, "", null_func1, str_cvars_func2, CF_READONLY,
         "The last WAD to be opened using the WAD launcher."),
