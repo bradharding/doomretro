@@ -15,6 +15,7 @@
 * Several changes have been made to text that is output to the console.
 * Minor improvements have been made to the console’s autocomplete feature.
 * The following changes have been made to the support for [*REKKR*](http://manbitesshark.com/):
+  * `rekkrsa.wad` is now treated as an IWAD (that is, `DOOM.WAD` will no longer be automatically loaded with it).
   * The correct monster and weapon names are now used in obituaries in the console when the `con_obituaries` CVAR is `on`.
   * Sorrows and skelly bellies will now only bleed red blood.
   * Gamepads will no longer vibrate when the axe is equipped and idle, and the `gp_vibrate_weapons` CVAR is `on`.

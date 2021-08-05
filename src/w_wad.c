@@ -497,7 +497,7 @@ int W_WadType(char *filename)
     W_Read(wadfile, 0, &header, sizeof(header));
     W_CloseFile(wadfile);
 
-    if (!strncmp(header.id, "IWAD", 4) || M_StringEndsWith(filename, "DOOM2.WAD"))
+    if (!strncmp(header.id, "IWAD", 4) || M_StringEndsWith(filename, "DOOM2.WAD") || M_StringEndsWith(filename, "rekkrsa.wad"))
         return IWAD;
     else if (!strncmp(header.id, "PWAD", 4))
         return PWAD;
