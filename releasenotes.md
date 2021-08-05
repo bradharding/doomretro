@@ -35,7 +35,10 @@
 * More fixes have been applied to certain maps when the `r_fixmaperrors` CVAR is `on`.
 * Minor changes have been made to the positioning of some elements in the widescreen HUD.
 * Changing the `r_screensize` CVAR in the console will now also change the `vid_widescreen` CVAR as necessary.
-* A bug has been fixed whereby if the menu or console was open during intermission, pressing the <kbd>ENTER</kbd> key would still trigger the intermission screen.
+* The following changes have been made when on the intermission screen:
+  * The `playerstats` and `mapstats` CCMDs will now work.
+  * Pressing the <kbd>ENTER</kbd> key while the menu or console are also open will no longer trigger the intermission screen.
+
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

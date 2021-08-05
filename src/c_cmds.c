@@ -293,6 +293,7 @@ static void load_cmd_func2(char *cmd, char *parms);
 static dboolean map_cmd_func1(char *cmd, char *parms);
 static void map_cmd_func2(char *cmd, char *parms);
 static void maplist_cmd_func2(char *cmd, char *parms);
+static dboolean mapstats_cmd_func1(char *cmd, char *parms);
 static void mapstats_cmd_func2(char *cmd, char *parms);
 static dboolean name_cmd_func1(char *cmd, char *parms);
 static void name_cmd_func2(char *cmd, char *parms);
@@ -633,7 +634,7 @@ consolecmd_t consolecmds[] =
         "Warps the player to another map."),
     CCMD(maplist, "", null_func1, maplist_cmd_func2, false, "",
         "Lists all maps in the currently loaded WADs."),
-    CCMD(mapstats, "", game_func1, mapstats_cmd_func2, false, "",
+    CCMD(mapstats, "", mapstats_cmd_func1, mapstats_cmd_func2, false, "",
         "Shows stats about the current map."),
     CVAR_BOOL(melt, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles a melting effect when transitioning between some screens."),
@@ -3591,6 +3592,11 @@ static void maplist_cmd_func2(char *cmd, char *parms)
 #define RPJM2   RP " and " JM2
 #define SPTH    SP " and " TH
 
+static dboolean mapstats_cmd_func1(char *cmd, char *parms)
+{
+    return (gamestate == GS_LEVEL || gamestate == GS_INTERMISSION);
+}
+
 static void mapstats_cmd_func2(char *cmd, char *parms)
 {
     const int   tabs[3] = { 120, 240, 0 };
@@ -5527,7 +5533,7 @@ static void C_PlayerStats_NoGame(void)
 
 static void playerstats_cmd_func2(char *cmd, char *parms)
 {
-    if (gamestate == GS_LEVEL)
+    if (gamestate == GS_LEVEL || gamestate == GS_INTERMISSION)
         C_PlayerStats_Game();
     else
         C_PlayerStats_NoGame();
