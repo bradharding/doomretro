@@ -1128,8 +1128,9 @@ void C_UpdateFPS(void)
         M_snprintf(buffer, sizeof(buffer), s_STSTR_FPS, temp, 1000.0f / framespersecond);
 
         C_DrawOverlayText(SCREENWIDTH - C_OverlayWidth(buffer) - CONSOLETEXTX + 1, CONSOLETEXTY, buffer,
-            (framespersecond < (refreshrate && vid_capfps != TICRATE ? refreshrate : TICRATE) ? consolelowfpscolor :
-            (((viewplayer->fixedcolormap == INVERSECOLORMAP) ^ (!r_textures)) ? nearestblack : consolehighfpscolor)));
+            (framespersecond < (refreshrate && vid_capfps != TICRATE && !menuactive && !consoleactive && !paused ?
+                refreshrate : TICRATE) ? consolelowfpscolor : (((viewplayer->fixedcolormap == INVERSECOLORMAP) ^ (!r_textures)) ?
+                    nearestblack : consolehighfpscolor)));
         free(temp);
     }
 }
