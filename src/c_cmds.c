@@ -8847,7 +8847,7 @@ static void vid_capfps_cvar_func2(char *cmd, char *parms)
         {
             vid_capfps = value;
             M_SaveCVARs();
-            I_CapFPS(vid_capfps);
+            I_CapFPS(consoleactive TICRATE : vid_capfps);
         }
     }
     else
@@ -8864,7 +8864,7 @@ static void vid_capfps_cvar_func2(char *cmd, char *parms)
                 M_SaveCVARs();
             }
             else
-                I_CapFPS(vid_capfps);
+                I_CapFPS(consoleactive ? TICRATE : vid_capfps);
         }
     }
 }
