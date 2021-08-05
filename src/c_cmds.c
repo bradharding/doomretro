@@ -3601,6 +3601,11 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
 {
     const int   tabs[3] = { 120, 240, 0 };
     char        *temp;
+    int         i = (nerve && gamemission == doom2 ? W_GetLastNumForName(mapnum) : W_CheckNumForName(mapnum));
+    int         wadtype = lumpinfo[i]->wadfile->type;
+
+    if (M_StringEndsWith(lumpinfo[i]->wadfile->path, "DOOM2.WAD") || M_StringEndsWith(lumpinfo[i]->wadfile->path, "rekkrsa.wad"))
+        wadtype = IWAD;
 
     C_Header(tabs, mapstats, MAPSTATSHEADER);
 
@@ -3745,9 +3750,7 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
     }
 
     {
-        int     i = (nerve && gamemission == doom2 ? W_GetLastNumForName(mapnum) : W_CheckNumForName(mapnum));
         char    wadname[MAX_PATH];
-        int     wadtype = lumpinfo[i]->wadfile->type;
 
         M_StringCopy(wadname, leafname(lumpinfo[i]->wadfile->path), sizeof(wadname));
 
@@ -3985,7 +3988,7 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
         lumps = W_CheckMultipleLumps(lumpname);
 
         C_TabbedOutput(tabs, "Music lump\t%s%s",
-            temp, ((((gamemode == commercial || gameepisode > 1) && lumps == 1)
+            temp, ((wadtype == IWAD || ((gamemode == commercial || gameepisode > 1) && lumps == 1)
             || (gamemode != commercial && gameepisode == 1 && lumps == 2)) ? "" : " (replaced by lump in PWAD)"));
         free(temp);
 
