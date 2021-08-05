@@ -2220,12 +2220,7 @@ static void D_DoomMainSetup(void)
             startepisode = temp;
             episode = temp;
             M_SaveCVARs();
-
-            if (gamemode == commercial)
-                M_snprintf(lumpname, sizeof(lumpname), "MAP%02i", startmap);
-            else
-                M_snprintf(lumpname, sizeof(lumpname), "E%iM%i", startepisode, startmap);
-
+            M_snprintf(lumpname, sizeof(lumpname), "E%iM%i", startepisode, startmap);
             autostart = true;
             C_Output("An " BOLD("-episode") " parameter was found on the command-line. The episode is now " ITALICS("%s."),
                 *episodes[episode - 1]);
