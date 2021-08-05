@@ -1016,7 +1016,8 @@ void WI_Ticker(void)
 
     WI_LoadData();
 
-    WI_CheckForAccelerate();
+    if (!consoleactive)
+        WI_CheckForAccelerate();
 
     switch (state)
     {
