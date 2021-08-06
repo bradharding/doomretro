@@ -3601,10 +3601,10 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
 {
     const int   tabs[3] = { 120, 240, 0 };
     char        *temp;
-    int         i = (nerve && gamemission == doom2 ? W_GetLastNumForName(mapnum) : W_CheckNumForName(mapnum));
-    int         wadtype = lumpinfo[i]->wadfile->type;
+    int         lump = (nerve && gamemission == doom2 ? W_GetLastNumForName(mapnum) : W_CheckNumForName(mapnum));
+    int         wadtype = lumpinfo[lump]->wadfile->type;
 
-    if (M_StringEndsWith(lumpinfo[i]->wadfile->path, "DOOM2.WAD") || M_StringEndsWith(lumpinfo[i]->wadfile->path, "rekkrsa.wad"))
+    if (M_StringEndsWith(lumpinfo[lump]->wadfile->path, "DOOM2.WAD") || M_StringEndsWith(lumpinfo[lump]->wadfile->path, "rekkrsa.wad"))
         wadtype = IWAD;
 
     C_Header(tabs, mapstats, MAPSTATSHEADER);
@@ -3752,10 +3752,10 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
     {
         char    wadname[MAX_PATH];
 
-        M_StringCopy(wadname, leafname(lumpinfo[i]->wadfile->path), sizeof(wadname));
+        M_StringCopy(wadname, leafname(lumpinfo[lump]->wadfile->path), sizeof(wadname));
 
         C_TabbedOutput(tabs, "%s\t%s%s", (wadtype == IWAD ? "IWAD" : "PWAD"), wadname,
-            (wadtype == IWAD && bfgedition ? " " ITALICS("(BFG Edition)") "" : ""));
+            (wadtype == IWAD && bfgedition ? " " ITALICS("(BFG Edition)") : ""));
 
         if (M_StringCompare(wadname, "DOOM.WAD"))
         {
@@ -3785,11 +3785,11 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
 
         if (wadtype == PWAD)
             C_TabbedOutput(tabs, "IWAD\t%s%s", leafname(lumpinfo[W_GetLastNumForName("PLAYPAL")]->wadfile->path),
-                (bfgedition ? " " ITALICS("(BFG Edition)") "" : ""));
+                (bfgedition ? " " ITALICS("(BFG Edition)") : ""));
     }
 
     C_TabbedOutput(tabs, "Compatibility\t%s",
-        (mbfcompatible ? ITALICS("MBF") "" : (boomcompatible ? ITALICS("BOOM") "" : (numsegs < 32768 ? "Vanilla" : "Limit removing"))));
+        (mbfcompatible ? ITALICS("MBF") : (boomcompatible ? ITALICS("BOOM") : (numsegs < 32768 ? "Vanilla" : "Limit removing"))));
 
     {
         int partime = G_GetParTime();
