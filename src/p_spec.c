@@ -36,6 +36,8 @@
 ========================================================================
 */
 
+#include <ctype.h>
+
 #include "c_console.h"
 #include "d_deh.h"
 #include "doomstat.h"
@@ -2195,6 +2197,7 @@ static void P_SecretFound(void)
 
         S_StartSound(NULL, sfx_secret);
         M_snprintf(buffer, sizeof(buffer), s_SECRET, playername);
+        buffer[0] = toupper(buffer[0]);
         C_Output(buffer);
         HU_SetPlayerMessage(buffer, false, false);
     }
