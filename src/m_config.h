@@ -811,6 +811,13 @@ enum
 #define MOUSESCREENSHOT_DEFAULT                -1
 #define MOUSESTRAFE_DEFAULT                    -1
 #define MOUSEUSE_DEFAULT                       -1
+#define MOUSEWEAPON1_DEFAULT                   -1
+#define MOUSEWEAPON2_DEFAULT                   -1
+#define MOUSEWEAPON3_DEFAULT                   -1
+#define MOUSEWEAPON4_DEFAULT                   -1
+#define MOUSEWEAPON5_DEFAULT                   -1
+#define MOUSEWEAPON6_DEFAULT                   -1
+#define MOUSEWEAPON7_DEFAULT                   -1
 
 typedef enum
 {

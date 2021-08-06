@@ -90,6 +90,13 @@ int mouserun = MOUSERUN_DEFAULT;
 int mousescreenshot = MOUSESCREENSHOT_DEFAULT;
 int mousestrafe = MOUSESTRAFE_DEFAULT;
 int mouseuse = MOUSEUSE_DEFAULT;
+int mouseweapon1 = MOUSEWEAPON1_DEFAULT;
+int mouseweapon2 = MOUSEWEAPON2_DEFAULT;
+int mouseweapon3 = MOUSEWEAPON3_DEFAULT;
+int mouseweapon4 = MOUSEWEAPON4_DEFAULT;
+int mouseweapon5 = MOUSEWEAPON5_DEFAULT;
+int mouseweapon6 = MOUSEWEAPON6_DEFAULT;
+int mouseweapon7 = MOUSEWEAPON7_DEFAULT;
 
 int gamepadalwaysrun = GAMEPADALWAYSRUN_DEFAULT;
 int gamepadautomap = GAMEPADAUTOMAP_DEFAULT;

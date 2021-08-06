@@ -252,13 +252,13 @@ action_t actions[] =
     { "+strafeleft",  true,  strafeleft_action_func,  &keyboardstrafeleft,        &keyboardstrafeleft2,  NULL,             &gamepadstrafeleft,        NULL         },
     { "+straferight", true,  straferight_action_func, &keyboardstraferight,       &keyboardstraferight2, NULL,             &gamepadstraferight,       NULL         },
     { "+use",         true,  use_action_func,         &keyboarduse,               &keyboarduse2,         &mouseuse,        &gamepaduse,               &gamepaduse2 },
-    { "+weapon1",     true,  weapon1_action_func,     &keyboardweapon1,           NULL,                  NULL,             &gamepadweapon1,           NULL         },
-    { "+weapon2",     true,  weapon2_action_func,     &keyboardweapon2,           NULL,                  NULL,             &gamepadweapon2,           NULL         },
-    { "+weapon3",     true,  weapon3_action_func,     &keyboardweapon3,           NULL,                  NULL,             &gamepadweapon3,           NULL         },
-    { "+weapon4",     true,  weapon4_action_func,     &keyboardweapon4,           NULL,                  NULL,             &gamepadweapon4,           NULL         },
-    { "+weapon5",     true,  weapon5_action_func,     &keyboardweapon5,           NULL,                  NULL,             &gamepadweapon5,           NULL         },
-    { "+weapon6",     true,  weapon6_action_func,     &keyboardweapon6,           NULL,                  NULL,             &gamepadweapon6,           NULL         },
-    { "+weapon7",     true,  weapon7_action_func,     &keyboardweapon7,           NULL,                  NULL,             &gamepadweapon7,           NULL         },
+    { "+weapon1",     true,  weapon1_action_func,     &keyboardweapon1,           NULL,                  &mouseweapon1,    &gamepadweapon1,           NULL         },
+    { "+weapon2",     true,  weapon2_action_func,     &keyboardweapon2,           NULL,                  &mouseweapon2,    &gamepadweapon2,           NULL         },
+    { "+weapon3",     true,  weapon3_action_func,     &keyboardweapon3,           NULL,                  &mouseweapon3,    &gamepadweapon3,           NULL         },
+    { "+weapon4",     true,  weapon4_action_func,     &keyboardweapon4,           NULL,                  &mouseweapon4,    &gamepadweapon4,           NULL         },
+    { "+weapon5",     true,  weapon5_action_func,     &keyboardweapon5,           NULL,                  &mouseweapon5,    &gamepadweapon5,           NULL         },
+    { "+weapon6",     true,  weapon6_action_func,     &keyboardweapon6,           NULL,                  &mouseweapon6,    &gamepadweapon6,           NULL         },
+    { "+weapon7",     true,  weapon7_action_func,     &keyboardweapon7,           NULL,                  &mouseweapon7,    &gamepadweapon7,           NULL         },
     { "+zoomin",      true,  NULL,                    &keyboardautomapzoomin,     NULL,                  NULL,             &gamepadautomapzoomin,     NULL         },
     { "+zoomout",     true,  NULL,                    &keyboardautomapzoomout,    NULL,                  NULL,             &gamepadautomapzoomout,    NULL         },
     { "",             false, NULL,                    NULL,                       NULL,                  NULL,             NULL,                      NULL         }
@@ -5818,6 +5818,13 @@ static void C_VerifyResetAll(const int key)
         mousescreenshot = MOUSESCREENSHOT_DEFAULT;
         mousestrafe = MOUSESTRAFE_DEFAULT;
         mouseuse = MOUSEUSE_DEFAULT;
+        mouseweapon1 = MOUSEWEAPON1_DEFAULT;
+        mouseweapon2 = MOUSEWEAPON2_DEFAULT;
+        mouseweapon3 = MOUSEWEAPON3_DEFAULT;
+        mouseweapon4 = MOUSEWEAPON4_DEFAULT;
+        mouseweapon5 = MOUSEWEAPON5_DEFAULT;
+        mouseweapon6 = MOUSEWEAPON6_DEFAULT;
+        mouseweapon7 = MOUSEWEAPON7_DEFAULT;
 
         gamepadalwaysrun = GAMEPADALWAYSRUN_DEFAULT;
         gamepadautomap = GAMEPADAUTOMAP_DEFAULT;

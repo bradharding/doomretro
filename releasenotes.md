@@ -38,7 +38,7 @@
 * The following changes have been made when on the intermission screen:
   * The `playerstats` and `mapstats` CCMDs will now work.
   * Pressing the <kbd>ENTER</kbd> key while the menu or console are also open will no longer trigger the intermission screen.
-
+* The `+weapon1` to `+weapon7` actions can now be bound to a mouse button using the `bind` CCMD.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

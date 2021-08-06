@@ -91,6 +91,13 @@ extern int  mouserun;
 extern int  mousescreenshot;
 extern int  mousestrafe;
 extern int  mouseuse;
+extern int  mouseweapon1;
+extern int  mouseweapon2;
+extern int  mouseweapon3;
+extern int  mouseweapon4;
+extern int  mouseweapon5;
+extern int  mouseweapon6;
+extern int  mouseweapon7;
 
 extern int  gamepadalwaysrun;
 extern int  gamepadautomap;

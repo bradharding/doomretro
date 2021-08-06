@@ -120,6 +120,17 @@ static int *keyboardweapons[NUMWEAPONKEYS] =
     &keyboardweapon7
 };
 
+static int *mouseweapons[NUMWEAPONKEYS] =
+{
+    &mouseweapon1,
+    &mouseweapon2,
+    &mouseweapon3,
+    &mouseweapon4,
+    &mouseweapon5,
+    &mouseweapon6,
+    &mouseweapon7
+};
+
 static int *gamepadweapons[NUMWEAPONKEYS] =
 {
     &gamepadweapon1,
@@ -368,6 +379,15 @@ void G_BuildTiccmd(ticcmd_t *cmd)
                 cmd->buttons |= (BT_CHANGE | (i << BT_WEAPONSHIFT));
 
                 break;
+            }
+            else if (mousebuttons[*mouseweapons[i]])
+            {
+                if (viewplayer->readyweapon != i || (i == wp_fist && viewplayer->weaponowned[wp_chainsaw])
+                    || (i == wp_shotgun && viewplayer->weaponowned[wp_supershotgun]))
+                {
+                    cmd->buttons |= (BT_CHANGE | (i << BT_WEAPONSHIFT));
+                    break;
+                }
             }
             else if (gamepadbuttons & *gamepadweapons[i])
             {
