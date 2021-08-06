@@ -86,8 +86,6 @@ typedef struct
     fixed_t     bbox[4];
 } am_frame_t;
 
-extern dboolean     message_dontfuckwithme;
-
 extern mpoint_t     *markpoints;
 extern int          markpointnum;
 extern int          markpointnum_max;
