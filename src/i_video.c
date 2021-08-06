@@ -1741,7 +1741,7 @@ static void SetVideoMode(dboolean createwindow, dboolean output)
                 }
                 else
                 {
-                    I_CapFPS(vid_capfps);
+                    I_CapFPS(consoleactive ? TICRATE : vid_capfps);
 
                     if (output)
                     {
@@ -1755,7 +1755,7 @@ static void SetVideoMode(dboolean createwindow, dboolean output)
         }
         else
         {
-            I_CapFPS(vid_capfps);
+            I_CapFPS(consoleactive ? TICRATE : vid_capfps);
 
             if (output)
             {
