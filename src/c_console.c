@@ -156,7 +156,7 @@ static int              consoleboldcolors[STRINGTYPES];
 static byte             *consolebevel;
 static byte             *consoleautomapbevel;
 
-static dboolean         scrollbardrawn;
+dboolean                scrollbardrawn;
 
 static void (*consoletextfunc)(int, int, patch_t *, int, int, int, dboolean, byte *);
 

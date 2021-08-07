@@ -161,6 +161,8 @@ extern char         consolecmdparm[255];
 
 extern dboolean     forceconsoleblurredraw;
 
+extern dboolean     scrollbardrawn;
+
 typedef struct
 {
     char            *input;

@@ -537,10 +537,13 @@ void V_DrawConsoleOutputTextPatch(int x, int y, patch_t *patch, int width, int c
     byte        *desttop = &screens[0][y * SCREENWIDTH + x];
     const int   italicize[] = { 2, 2, 2, 1, 1, 1, 1, 0, 0, 0, 0, -1, -1, -1 };
 
-    for (int col = 0; col < width; col++, desttop++)
+    for (int col = 0; col < width; col++, desttop++, x++)
     {
         column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnofs[col]));
         byte        topdelta;
+
+        if (x >= CONSOLETEXTPIXELWIDTH + CONSOLETEXTX)
+            return;
 
         // step through the posts in a column
         while ((topdelta = column->topdelta) != 0xFF)
