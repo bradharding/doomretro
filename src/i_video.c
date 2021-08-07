@@ -99,10 +99,6 @@ int             MAPBOTTOM;
 
 #define SHAKEANGLE              ((double)M_BigRandomInt(-1000, 1000) * r_shake_damage / 100000.0)
 
-#if !defined(SDL_VIDEO_RENDER_D3D11)
-#define SDL_VIDEO_RENDER_D3D11  0
-#endif
-
 // CVARs
 dboolean            alwaysrun = alwaysrun_default;
 dboolean            m_acceleration = m_acceleration_default;

@@ -678,14 +678,13 @@ static void F_CastTicker(void)
             S_StartSound(viewplayer->mo, sfx_dshtgn);
     }
 
-    if (castattacking)
-        if (castframes == 24 || caststate == &states[mobjinfo[castorder[castnum].type].seestate])
-        {
+    if (castattacking && (castframes == 24 || caststate == &states[mobjinfo[castorder[castnum].type].seestate]))
+    {
 stopattack:
-            castattacking = false;
-            castframes = 0;
-            caststate = &states[mobjinfo[castorder[castnum].type].seestate];
-        }
+        castattacking = false;
+        castframes = 0;
+        caststate = &states[mobjinfo[castorder[castnum].type].seestate];
+    }
 
     casttics = caststate->tics;
 
@@ -738,7 +737,7 @@ static dboolean F_CastResponder(event_t *ev)
         return false;
 
     if (castdeath)
-        return true;                    // already in dying frames
+        return true;    // already in dying frames
     else
     {
         // rotate (taken from Eternity Engine)
