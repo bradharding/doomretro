@@ -476,7 +476,7 @@ static int C_TextWidth(const char *text, const dboolean formatting, const dboole
     dboolean        italics = false;
     const int       len = (int)strlen(text);
     unsigned char   prevletter = '\0';
-    int             w = 0;
+    int             width = 0;
 
     for (int i = 0; i < len; i++)
     {
@@ -484,7 +484,7 @@ static int C_TextWidth(const char *text, const dboolean formatting, const dboole
         unsigned char       nextletter;
 
         if (letter == ' ')
-            w += spacewidth;
+            width += spacewidth;
         else if (letter == BOLDTOGGLECHAR)
             continue;
         else if (letter == ITALICSTOGGLECHAR)
@@ -494,64 +494,64 @@ static int C_TextWidth(const char *text, const dboolean formatting, const dboole
         }
         else if (letter == 153)
         {
-            w += SHORT(trademark->width);
+            width += SHORT(trademark->width);
             i++;
         }
         else if (letter == '(' && i < len - 3 && tolower(text[i + 1]) == 't'
             && tolower(text[i + 2]) == 'm' && text[i + 3] == ')' && formatting)
         {
-            w += SHORT(trademark->width);
+            width += SHORT(trademark->width);
             i += 3;
         }
         else if (letter == 169)
         {
-            w += SHORT(copyright->width);
+            width += SHORT(copyright->width);
             i++;
         }
         else if (letter == '(' && i < len - 2 && tolower(text[i + 1]) == 'c' && text[i + 2] == ')' && formatting)
         {
-            w += SHORT(copyright->width);
+            width += SHORT(copyright->width);
             i += 2;
         }
         else if (letter == 174)
         {
-            w += SHORT(regomark->width);
+            width += SHORT(regomark->width);
             i++;
         }
         else if (letter == '(' && i < len - 2 && tolower(text[i + 1]) == 'r' && text[i + 2] == ')' && formatting)
         {
-            w += SHORT(regomark->width);
+            width += SHORT(regomark->width);
             i += 2;
         }
         else if (letter == 176)
         {
-            w += SHORT(degree->width);
+            width += SHORT(degree->width);
             i++;
         }
         else if (letter == 215 || (letter == 'x' && isdigit(prevletter)
             && ((nextletter = (i < len - 1 ? text[i + 1] : '\0')) == '\0' || isdigit(nextletter))))
-            w += SHORT(multiply->width);
+            width += SHORT(multiply->width);
         else if (!i || prevletter == ' ' || prevletter == '(' || prevletter == '[' || prevletter == '\t')
         {
             if (letter == '\'')
-                w += SHORT(lsquote->width);
+                width += SHORT(lsquote->width);
             else if (letter == '"')
-                w += SHORT(ldquote->width);
+                width += SHORT(ldquote->width);
             else
             {
                 const int   c = letter - CONSOLEFONTSTART;
 
-                w += SHORT((c >= 0 && c < CONSOLEFONTSIZE ? consolefont[c] : unknownchar)->width);
+                width += SHORT((c >= 0 && c < CONSOLEFONTSIZE ? consolefont[c] : unknownchar)->width);
             }
         }
         else
         {
             const int   c = letter - CONSOLEFONTSTART;
 
-            w += SHORT((c >= 0 && c < CONSOLEFONTSIZE ? consolefont[c] : unknownchar)->width);
+            width += SHORT((c >= 0 && c < CONSOLEFONTSIZE ? consolefont[c] : unknownchar)->width);
 
             if (letter == '-' && italics)
-                w++;
+                width++;
         }
 
         if (kerning)
@@ -559,18 +559,18 @@ static int C_TextWidth(const char *text, const dboolean formatting, const dboole
             for (int j = 0; altkern[j].char1; j++)
                 if (prevletter == altkern[j].char1 && letter == altkern[j].char2)
                 {
-                    w += altkern[j].adjust;
+                    width += altkern[j].adjust;
                     break;
                 }
 
             if (prevletter == '/' && italics)
-                w -= 2;
+                width -= 2;
         }
 
         prevletter = letter;
     }
 
-    return w;
+    return width;
 }
 
 static void C_DrawScrollbar(void)
@@ -1029,21 +1029,21 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
 static int C_OverlayWidth(const char *text)
 {
     const int   len = (int)strlen(text);
-    int         w = 0;
+    int         width = 0;
 
     for (int i = 0; i < len; i++)
     {
         const unsigned char letter = text[i];
 
         if (letter == ' ')
-            w += spacewidth;
+            width += spacewidth;
         else if (isdigit(letter))
-            w += zerowidth;
+            width += zerowidth;
         else if (letter >= CONSOLEFONTSTART)
-            w += SHORT(consolefont[letter - CONSOLEFONTSTART]->width);
+            width += SHORT(consolefont[letter - CONSOLEFONTSTART]->width);
     }
 
-    return w;
+    return width;
 }
 
 static void C_DrawOverlayText(int x, int y, const char *text, const int color)
