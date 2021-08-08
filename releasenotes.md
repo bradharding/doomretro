@@ -40,7 +40,7 @@
   * The `playerstats` and `mapstats` CCMDs will now work.
   * Pressing the <kbd><b>ENTER</b></kbd> key while the menu or console are also open will no longer trigger the intermission screen.
 * The `+weapon1` to `+weapon7` actions can now be bound to a mouse button using the `bind` CCMD.
-* The effect applied when the player is damaged and the `r_shake_damage` CVAR is `on` is now no longer applied when god mode is enabled.
+* The effect applied when the player is in a damaging sector and the `r_shake_damage` CVAR is greater than `0%` is now no longer applied when god mode is enabled.
 * A bug has been fixed whereby the “Damage received” stat viewed using the `playerstats` CCMD would continue to update when god mode was on.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)

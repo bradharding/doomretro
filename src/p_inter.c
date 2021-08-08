@@ -2246,10 +2246,6 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
         if (freeze && (!inflicter || !inflicter->player))
             return;
 
-        // ignore damage if in god mode or player about to warp
-        if ((cheats & CF_GODMODE) || idclevtics)
-            return;
-
         // end of game hell hack
         if (target->subsector->sector->special == DamageNegative10Or20PercentHealthAndEndLevel && damage >= target->health)
             damage = target->health - 1;
@@ -2258,42 +2254,45 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
         if (tplayer->powers[pw_invulnerability] && damage < 1000)
             return;
 
-        if (adjust && tplayer->armorpoints)
+        if (!(cheats & CF_GODMODE) && !idclevtics)
         {
-            int saved = damage / (tplayer->armortype == armortype_green ? 3 : 2);
-
-            if (tplayer->armorpoints <= saved)
+            if (adjust && tplayer->armorpoints)
             {
-                // armor is used up
-                saved = tplayer->armorpoints;
-                tplayer->armortype = armortype_none;
+                int saved = damage / (tplayer->armortype == armortype_green ? 3 : 2);
+
+                if (tplayer->armorpoints <= saved)
+                {
+                    // armor is used up
+                    saved = tplayer->armorpoints;
+                    tplayer->armortype = armortype_none;
+                }
+
+                if (saved)
+                {
+                    tplayer->armorpoints -= saved;
+                    damage -= saved;
+                    armorhighlight = I_GetTimeMS() + HUD_ARMOR_HIGHLIGHT_WAIT;
+                }
             }
 
-            if (saved)
+            tplayer->health -= damage;
+            target->health -= damage;
+
+            if ((cheats & CF_BUDDHA) && tplayer->health <= 0)
             {
-                tplayer->armorpoints -= saved;
-                damage -= saved;
-                armorhighlight = I_GetTimeMS() + HUD_ARMOR_HIGHLIGHT_WAIT;
+                int stat = tplayer->health + damage - 1;
+
+                tplayer->damagereceived += stat;
+                stat_damagereceived = SafeAdd(stat_damagereceived, stat);
+
+                tplayer->health = 1;
+                target->health = 1;
             }
-        }
-
-        tplayer->health -= damage;
-        target->health -= damage;
-
-        if ((cheats & CF_BUDDHA) && tplayer->health <= 0)
-        {
-            int stat = tplayer->health + damage - 1;
-
-            tplayer->damagereceived += stat;
-            stat_damagereceived = SafeAdd(stat_damagereceived, stat);
-
-            tplayer->health = 1;
-            target->health = 1;
-        }
-        else
-        {
-            tplayer->damagereceived += damage;
-            stat_damagereceived = SafeAdd(stat_damagereceived, damage);
+            else
+            {
+                tplayer->damagereceived += damage;
+                stat_damagereceived = SafeAdd(stat_damagereceived, damage);
+            }
         }
 
         if (tplayer->mo == target)
