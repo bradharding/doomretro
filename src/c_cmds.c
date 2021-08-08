@@ -6749,7 +6749,10 @@ static void take_cmd_func2(char *cmd, char *parms)
                     free(temp3);
 
                 if (result)
+                {
+                    C_HideConsole();
                     break;
+                }
             }
         }
 
