@@ -26,7 +26,8 @@
 * Corpses and dropped items will no longer perpetually slide back and forth on the floor in some rare instances.
 * The maximum number of blood splats that can be spawned when a corpse slides on the floor and the `r_corpses_slide` CVAR is `on`, has now been reduced.
 * The number of monsters killed due to infighting is now displayed by the `playerstats` CCMD.
-* The colors of doors in the automap that are unlocked using a keycard or skull key can now be changed using the new `am_reddoorcolor`, `am_yellowdoorcolor` and `am_bluedoorcolor` CVARs. These CVARs are `160` by default and `231` when vanilla mode is enabled.
+* The colors of doors in the automap that are unlocked using a keycard or skull key can now be changed using the new `am_reddoorcolor`, `am_yellowdoorcolor` and `am_bluedoorcolor` CVARs. These CVARs are `160` by default (such that there is no apparent difference until one of them is changed), and `231` when vanilla mode is enabled.
+* Minor improvements have been made in rendering the automap when the player has a computer area map power-up.
 * The following changes have been made to the external automap when the `am_external` CVAR is `on`:
   * When the <kbd><b>F</b></kbd> key is pressed to turn follow mode off, the player may now pan around the external automap as intended.
   * The mouse wheel will no longer zoom in/out of the external automap, and instead only cycle through the player’s weapons.

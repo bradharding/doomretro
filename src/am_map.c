@@ -75,16 +75,15 @@ int am_wallcolor = am_wallcolor_default;
 int am_yellowdoorcolor = am_yellowdoorcolor_default;
 
 // Automap color priorities
-#define PATHPRIORITY           10
-#define WALLPRIORITY            9
-#define ALLMAPWALLPRIORITY      8
-#define CDWALLPRIORITY          7
-#define ALLMAPCDWALLPRIORITY    6
-#define FDWALLPRIORITY          5
-#define ALLMAPFDWALLPRIORITY    4
-#define TELEPORTERPRIORITY      3
-#define TSWALLPRIORITY          2
-#define GRIDPRIORITY            1
+#define PATHPRIORITY        9
+#define WALLPRIORITY        8
+#define DOORPRIORITY        7
+#define CDWALLPRIORITY      6
+#define FDWALLPRIORITY      5
+#define TELEPORTERPRIORITY  4
+#define TSWALLPRIORITY      3
+#define ALLMAPWALLPRIORITY  2
+#define GRIDPRIORITY        1
 
 static byte playercolor;
 static byte thingcolor;
@@ -313,16 +312,16 @@ void AM_SetColors(void)
 
     priority[nearestcolors[am_pathcolor]] = PATHPRIORITY;
     priority[nearestcolors[am_wallcolor]] = WALLPRIORITY;
-    priority[nearestcolors[am_allmapwallcolor]] = ALLMAPWALLPRIORITY;
-    priority[nearestcolors[am_bluedoorcolor]] = CDWALLPRIORITY;
-    priority[nearestcolors[am_reddoorcolor]] = CDWALLPRIORITY;
-    priority[nearestcolors[am_yellowdoorcolor]] = CDWALLPRIORITY;
+    priority[nearestcolors[am_bluedoorcolor]] = DOORPRIORITY;
+    priority[nearestcolors[am_reddoorcolor]] = DOORPRIORITY;
+    priority[nearestcolors[am_yellowdoorcolor]] = DOORPRIORITY;
     priority[nearestcolors[am_cdwallcolor]] = CDWALLPRIORITY;
-    priority[nearestcolors[am_allmapcdwallcolor]] = ALLMAPCDWALLPRIORITY;
     priority[nearestcolors[am_fdwallcolor]] = FDWALLPRIORITY;
-    priority[nearestcolors[am_allmapfdwallcolor]] = ALLMAPFDWALLPRIORITY;
     priority[nearestcolors[am_teleportercolor]] = TELEPORTERPRIORITY;
     priority[nearestcolors[am_tswallcolor]] = TSWALLPRIORITY;
+    priority[nearestcolors[am_allmapwallcolor]] = ALLMAPWALLPRIORITY;
+    priority[nearestcolors[am_allmapcdwallcolor]] = ALLMAPWALLPRIORITY;
+    priority[nearestcolors[am_allmapfdwallcolor]] = ALLMAPWALLPRIORITY;
     priority[nearestcolors[am_gridcolor]] = GRIDPRIORITY;
 
     playercolor = nearestcolors[am_playercolor];
