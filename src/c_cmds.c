@@ -7139,11 +7139,11 @@ static struct
     char    *name;
     int     value;
 } color[] = {
-    { "black",       0 }, { "blue",      207 }, { "brick",      32 }, { "brown",      64 },
-    { "cream",      48 }, { "darkbrown",  79 }, { "darkgray",  111 }, { "darkgrey",  111 },
-    { "darkgreen", 127 }, { "darkred",   191 }, { "gold",      163 }, { "gray",       95 },
+    { "black",       0 }, { "blue",      200 }, { "brick",      32 }, { "brown",      64 },
+    { "cream",      48 }, { "darkbrown",  77 }, { "darkgray",  109 }, { "darkgrey",  109 },
+    { "darkgreen", 124 }, { "darkred",   189 }, { "gold",      163 }, { "gray",       95 },
     { "grey",       95 }, { "green",     112 }, { "lightblue", 193 }, { "olive",     152 },
-    { "orange",    216 }, { "purple",    254 }, { "red",       176 }, { "tan",       144 },
+    { "orange",    216 }, { "purple",    253 }, { "red",       176 }, { "tan",       144 },
     { "white",       4 }, { "yellow",    231 }, { "",            0 }
 };
 
