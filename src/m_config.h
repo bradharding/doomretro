@@ -48,6 +48,7 @@ extern int          am_allmapcdwallcolor;
 extern int          am_allmapfdwallcolor;
 extern int          am_allmapwallcolor;
 extern int          am_backcolor;
+extern int          am_bluedoorcolor;
 extern int          am_cdwallcolor;
 extern int          am_crosshaircolor;
 extern dboolean     am_external;
@@ -60,11 +61,13 @@ extern int          am_markcolor;
 extern dboolean     am_path;
 extern int          am_pathcolor;
 extern int          am_playercolor;
+extern int          am_reddoorcolor;
 extern dboolean     am_rotatemode;
 extern int          am_teleportercolor;
 extern int          am_thingcolor;
 extern int          am_tswallcolor;
 extern int          am_wallcolor;
+extern int          am_yellowdoorcolor;
 extern dboolean     autoaim;
 extern dboolean     autoload;
 extern dboolean     autosave;
@@ -311,6 +314,10 @@ enum
 #define am_backcolor_default                    0
 #define am_backcolor_max                        255
 
+#define am_bluedoorcolor_min                    0
+#define am_bluedoorcolor_default                160
+#define am_bluedoorcolor_max                    255
+
 #define am_cdwallcolor_min                      0
 #define am_cdwallcolor_default                  160
 #define am_cdwallcolor_max                      255
@@ -349,6 +356,10 @@ enum
 #define am_playercolor_default                  4
 #define am_playercolor_max                      255
 
+#define am_reddoorcolor_min                     0
+#define am_reddoorcolor_default                 160
+#define am_reddoorcolor_max                     255
+
 #define am_rotatemode_default                   true
 
 #define am_teleportercolor_min                  0
@@ -366,6 +377,10 @@ enum
 #define am_wallcolor_min                        0
 #define am_wallcolor_default                    176
 #define am_wallcolor_max                        255
+
+#define am_yellowdoorcolor_min                  0
+#define am_yellowdoorcolor_default              160
+#define am_yellowdoorcolor_max                  255
 
 #define ammo_min                                0
 #define ammo_default                            50

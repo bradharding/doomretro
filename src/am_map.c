@@ -59,6 +59,7 @@ int am_allmapcdwallcolor = am_allmapcdwallcolor_default;
 int am_allmapfdwallcolor = am_allmapfdwallcolor_default;
 int am_allmapwallcolor = am_allmapwallcolor_default;
 int am_backcolor = am_backcolor_default;
+int am_bluedoorcolor = am_bluedoorcolor_default;
 int am_cdwallcolor = am_cdwallcolor_default;
 int am_crosshaircolor = am_crosshaircolor_default;
 int am_fdwallcolor = am_fdwallcolor_default;
@@ -66,10 +67,12 @@ int am_gridcolor = am_gridcolor_default;
 int am_markcolor = am_markcolor_default;
 int am_pathcolor = am_pathcolor_default;
 int am_playercolor = am_playercolor_default;
+int am_reddoorcolor = am_reddoorcolor_default;
 int am_teleportercolor = am_teleportercolor_default;
 int am_thingcolor = am_thingcolor_default;
 int am_tswallcolor = am_tswallcolor_default;
 int am_wallcolor = am_wallcolor_default;
+int am_yellowdoorcolor = am_yellowdoorcolor_default;
 
 // Automap color priorities
 #define PATHPRIORITY           10
@@ -90,6 +93,9 @@ static byte backcolor;
 static byte pathcolor;
 
 static byte *wallcolor;
+static byte *bluedoorcolor;
+static byte *reddoorcolor;
+static byte *yellowdoorcolor;
 static byte *allmapwallcolor;
 static byte *teleportercolor;
 static byte *fdwallcolor;
@@ -308,6 +314,9 @@ void AM_SetColors(void)
     priority[nearestcolors[am_pathcolor]] = PATHPRIORITY;
     priority[nearestcolors[am_wallcolor]] = WALLPRIORITY;
     priority[nearestcolors[am_allmapwallcolor]] = ALLMAPWALLPRIORITY;
+    priority[nearestcolors[am_bluedoorcolor]] = CDWALLPRIORITY;
+    priority[nearestcolors[am_reddoorcolor]] = CDWALLPRIORITY;
+    priority[nearestcolors[am_yellowdoorcolor]] = CDWALLPRIORITY;
     priority[nearestcolors[am_cdwallcolor]] = CDWALLPRIORITY;
     priority[nearestcolors[am_allmapcdwallcolor]] = ALLMAPCDWALLPRIORITY;
     priority[nearestcolors[am_fdwallcolor]] = FDWALLPRIORITY;
@@ -329,6 +338,9 @@ void AM_SetColors(void)
             priorities[(x << 8) + y] = (priority[x] > priority[y] ? x : y);
 
     wallcolor = &priorities[nearestcolors[am_wallcolor] << 8];
+    bluedoorcolor = &priorities[nearestcolors[am_bluedoorcolor] << 8];
+    reddoorcolor = &priorities[nearestcolors[am_reddoorcolor] << 8];
+    yellowdoorcolor = &priorities[nearestcolors[am_yellowdoorcolor] << 8];
     allmapwallcolor = &priorities[nearestcolors[am_allmapwallcolor] << 8];
     cdwallcolor = &priorities[nearestcolors[am_cdwallcolor] << 8];
     allmapcdwallcolor = &priorities[nearestcolors[am_allmapcdwallcolor] << 8];
@@ -1470,6 +1482,45 @@ static void AM_DrawGrid(void)
     }
 }
 
+static byte *AM_DoorColor(int type)
+{
+    if (GenLockedBase <= type && type < GenDoorBase)
+    {
+        if (!(type = ((type - GenLockedBase) & LockedKey) >> LockedKeyShift) || type == AllKeys)
+            return cdwallcolor;
+        else if (!(type = (type - 1) % 3))
+            return reddoorcolor;
+        else if (type == 1)
+            return bluedoorcolor;
+        else
+            return yellowdoorcolor;
+    }
+
+    switch (type)
+    {
+        case DR_Door_Red_OpenWaitClose:
+        case D1_Door_Red_OpenStay:
+        case SR_Door_Red_OpenStay_Fast:
+        case S1_Door_Red_OpenStay_Fast:
+            return reddoorcolor;
+
+        case DR_Door_Blue_OpenWaitClose:
+        case D1_Door_Blue_OpenStay:
+        case SR_Door_Blue_OpenStay_Fast:
+        case S1_Door_Blue_OpenStay_Fast:
+            return bluedoorcolor;
+
+        case DR_Door_Yellow_OpenWaitClose:
+        case D1_Door_Yellow_OpenStay:
+        case SR_Door_Yellow_OpenStay_Fast:
+        case S1_Door_Yellow_OpenStay_Fast:
+            return yellowdoorcolor;
+
+        default:
+            return cdwallcolor;
+    }
+}
+
 static void AM_DrawWalls(void)
 {
     for (int i = 0; i < numlines; i++)
@@ -1489,6 +1540,8 @@ static void AM_DrawWalls(void)
             {
                 const sector_t  *back = line.backsector;
                 mline_t         mline;
+                unsigned short  special = line.special;
+                byte            *doorcolor = AM_DoorColor(special);
 
                 mline.a.x = line.v1->x >> FRACTOMAPBITS;
                 mline.a.y = line.v1->y >> FRACTOMAPBITS;
@@ -1497,7 +1550,9 @@ static void AM_DrawWalls(void)
 
                 mline = rotatelinefunc(mline);
 
-                if (isteleportline[line.special] && back && back->ceilingheight != back->floorheight
+                if (doorcolor != cdwallcolor)
+                    AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, doorcolor, &PUTDOT);
+                else if (isteleportline[special] && back && back->ceilingheight != back->floorheight
                     && ((flags & ML_TELEPORTTRIGGERED) || isteleport[back->floorpic]) && !(flags & ML_SECRET))
                     AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, teleportercolor, &PUTDOT);
                 else if (!back || (flags & ML_SECRET))
@@ -1535,6 +1590,8 @@ static void AM_DrawWalls_AllMap(void)
             {
                 const sector_t  *back = line.backsector;
                 mline_t         mline;
+                unsigned short  special = line.special;
+                byte            *doorcolor = AM_DoorColor(special);
 
                 mline.a.x = line.v1->x >> FRACTOMAPBITS;
                 mline.a.y = line.v1->y >> FRACTOMAPBITS;
@@ -1543,7 +1600,9 @@ static void AM_DrawWalls_AllMap(void)
 
                 mline = rotatelinefunc(mline);
 
-                if (isteleportline[line.special] && ((flags & ML_TELEPORTTRIGGERED) || (back && isteleport[back->floorpic])))
+                if (doorcolor != cdwallcolor)
+                    AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, doorcolor, &PUTDOT);
+                else if (isteleportline[special] && ((flags & ML_TELEPORTTRIGGERED) || (back && isteleport[back->floorpic])))
                     AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y,
                         ((flags & ML_MAPPED) ? teleportercolor : allmapfdwallcolor), &PUTDOT);
                 else if (!back || (flags & ML_SECRET))
@@ -1580,7 +1639,9 @@ static void AM_DrawWalls_Cheating(void)
             && (lbbox[BOXBOTTOM] >> FRACTOMAPBITS) <= ambbox[BOXTOP]
             && (lbbox[BOXTOP] >> FRACTOMAPBITS) >= ambbox[BOXBOTTOM])
         {
-            mline_t mline;
+            mline_t         mline;
+            unsigned short  special = line.special;
+            byte            *doorcolor = AM_DoorColor(special);
 
             mline.a.x = line.v1->x >> FRACTOMAPBITS;
             mline.a.y = line.v1->y >> FRACTOMAPBITS;
@@ -1589,7 +1650,9 @@ static void AM_DrawWalls_Cheating(void)
 
             mline = rotatelinefunc(mline);
 
-            if (isteleportline[line.special])
+            if (doorcolor != cdwallcolor)
+                AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, doorcolor, &PUTDOT);
+            else if (isteleportline[special])
                 AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, teleportercolor, &PUTDOT);
             else
             {
