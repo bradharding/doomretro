@@ -4074,7 +4074,7 @@ autocomplete_t autocompletelist[] =
     { "bind mouse1 +strafe",                         DOOM1AND2 },
     { "bind mouse1 +use",                            DOOM1AND2 },
     { "bind mouse2 ",                                DOOM1AND2 },
-    { "bind mouse3 +fire",                           DOOM1AND2 },
+    { "bind mouse2 +fire",                           DOOM1AND2 },
     { "bind mouse2 +forward",                        DOOM1AND2 },
     { "bind mouse2 +jump",                           DOOM1AND2 },
     { "bind mouse2 +mouselook",                      DOOM1AND2 },
