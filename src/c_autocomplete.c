@@ -7121,8 +7121,8 @@ autocomplete_t autocompletelist[] =
     { "if vid_windowpos centered ",                  DOOM1AND2 },
     { "if vid_windowpos centered then ",             DOOM1AND2 },
     { "if vid_windowsize ",                          DOOM1AND2 },
-    { "if vid_windowsize 768x480 ",                  DOOM1AND2 },
-    { "if vid_windowsize 768x480 then ",             DOOM1AND2 },
+    { "if vid_windowsize 854x480 ",                  DOOM1AND2 },
+    { "if vid_windowsize 854x480 then ",             DOOM1AND2 },
 #if defined(_WIN32)
     { "if wad ",                                     DOOM1AND2 },
 #endif
@@ -8603,7 +8603,7 @@ autocomplete_t autocompletelist[] =
     { "vid_windowpos ",                              DOOM1AND2 },
     { "vid_windowpos centered",                      DOOM1AND2 },
     { "vid_windowsize ",                             DOOM1AND2 },
-    { "vid_windowsize 768x480",                      DOOM1AND2 },
+    { "vid_windowsize 854x480",                      DOOM1AND2 },
 #if defined(_WIN32)
     { "wad",                                         DOOM1AND2 },
 #endif
