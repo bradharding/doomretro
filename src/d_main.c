@@ -903,8 +903,6 @@ static void D_CheckSupportedPWAD(char *filename)
         eviternity = true;
     else if (M_StringCompare(leafname(filename), "d4v.wad"))
         doom4vanilla = true;
-    else if (M_StringCompare(leafname(filename), "remnant.wad"))
-        remnant = true;
     else if (M_StringCompare(leafname(filename), "REKKR.wad")
         || M_StringCompare(leafname(filename), "rekkrsa.wad"))
         REKKR = true;

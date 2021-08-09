@@ -6730,7 +6730,10 @@ static void take_cmd_func2(char *cmd, char *parms)
                         || (sscanf(parm, "%10d", &num) == 1 && num == mobjinfo[i].doomednum && num != -1)))
                 {
                     if (P_TakeSpecialThing(i))
+                    {
+                        C_HideConsole();
                         result = true;
+                    }
                     else if (M_StringCompare(playername, playername_default))
                         C_Warning(0, "You don't have %s %s.",
                             (isvowel(mobjinfo[i].name1[0]) ? "an" : "a"), mobjinfo[i].name1);
@@ -6749,10 +6752,7 @@ static void take_cmd_func2(char *cmd, char *parms)
                     free(temp3);
 
                 if (result)
-                {
-                    C_HideConsole();
                     break;
-                }
             }
         }
 

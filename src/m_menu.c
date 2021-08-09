@@ -3771,7 +3771,7 @@ void M_Drawer(void)
             if (currentMenu == &OptionsDef && !itemOn && gamestate != GS_LEVEL)
                 itemOn++;
 
-            if (currentMenu == &MainDef && titlepatch && SHORT(titlepatch->height) >= VANILLAHEIGHT && !remnant)
+            if (currentMenu == &MainDef && titlepatch && SHORT(titlepatch->height) >= VANILLAHEIGHT)
                 yy -= OFFSET;
 
             if (M_SKULL1)
