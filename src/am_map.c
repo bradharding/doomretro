@@ -1537,7 +1537,6 @@ static void AM_DrawWalls(void)
 
             if ((flags & ML_MAPPED) && !(flags & ML_DONTDRAW))
             {
-                const sector_t  *back = line.backsector;
                 mline_t         mline;
                 unsigned short  special = line.special;
                 byte            *doorcolor;
@@ -1551,19 +1550,24 @@ static void AM_DrawWalls(void)
 
                 if (special && (doorcolor = AM_DoorColor(special)) != cdwallcolor)
                     AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, doorcolor, &PUTDOT);
-                else if (isteleportline[special] && back && back->ceilingheight != back->floorheight
-                    && ((flags & ML_TELEPORTTRIGGERED) || isteleport[back->floorpic]) && !(flags & ML_SECRET))
-                    AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, teleportercolor, &PUTDOT);
-                else if (!back || (flags & ML_SECRET))
-                    AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, wallcolor, putbigdot);
                 else
                 {
-                    const sector_t  *front = line.frontsector;
+                    const sector_t  *back = line.backsector;
 
-                    if (back->floorheight != front->floorheight)
-                        AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, fdwallcolor, &PUTDOT);
-                    else if (back->ceilingheight != front->ceilingheight)
-                        AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, cdwallcolor, &PUTDOT);
+                    if (isteleportline[special] && back && back->ceilingheight != back->floorheight
+                        && ((flags & ML_TELEPORTTRIGGERED) || isteleport[back->floorpic]) && !(flags & ML_SECRET))
+                        AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, teleportercolor, &PUTDOT);
+                    else if (!back || (flags & ML_SECRET))
+                        AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, wallcolor, putbigdot);
+                    else
+                    {
+                        const sector_t  *front = line.frontsector;
+
+                        if (back->floorheight != front->floorheight)
+                            AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, fdwallcolor, &PUTDOT);
+                        else if (back->ceilingheight != front->ceilingheight)
+                            AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, cdwallcolor, &PUTDOT);
+                    }
                 }
             }
         }
@@ -1587,7 +1591,6 @@ static void AM_DrawWalls_AllMap(void)
 
             if (!(flags & ML_DONTDRAW))
             {
-                const sector_t  *back = line.backsector;
                 mline_t         mline;
                 unsigned short  special = line.special;
                 byte            *doorcolor;
@@ -1601,24 +1604,29 @@ static void AM_DrawWalls_AllMap(void)
 
                 if (special && (doorcolor = AM_DoorColor(special)) != cdwallcolor)
                     AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, doorcolor, &PUTDOT);
-                else if (isteleportline[special] && ((flags & ML_TELEPORTTRIGGERED) || (back && isteleport[back->floorpic])))
-                    AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y,
-                        ((flags & ML_MAPPED) ? teleportercolor : allmapfdwallcolor), &PUTDOT);
-                else if (!back || (flags & ML_SECRET))
-                    AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y,
-                        ((flags & ML_MAPPED) ? wallcolor : allmapwallcolor), putbigdot);
                 else
                 {
-                    const sector_t  *front = line.frontsector;
+                    const sector_t  *back = line.backsector;
 
-                    if (back->floorheight != front->floorheight)
+                    if (isteleportline[special] && ((flags & ML_TELEPORTTRIGGERED) || (back && isteleport[back->floorpic])))
                         AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y,
-                            ((flags & ML_MAPPED) ? fdwallcolor : allmapfdwallcolor), &PUTDOT);
-                    else if (back->ceilingheight != front->ceilingheight)
+                            ((flags & ML_MAPPED) ? teleportercolor : allmapfdwallcolor), &PUTDOT);
+                    else if (!back || (flags & ML_SECRET))
                         AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y,
-                            ((flags & ML_MAPPED) ? cdwallcolor : allmapcdwallcolor), &PUTDOT);
+                            ((flags & ML_MAPPED) ? wallcolor : allmapwallcolor), putbigdot);
                     else
-                        AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, tswallcolor, &PUTDOT);
+                    {
+                        const sector_t  *front = line.frontsector;
+
+                        if (back->floorheight != front->floorheight)
+                            AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y,
+                                ((flags & ML_MAPPED) ? fdwallcolor : allmapfdwallcolor), &PUTDOT);
+                        else if (back->ceilingheight != front->ceilingheight)
+                            AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y,
+                                ((flags & ML_MAPPED) ? cdwallcolor : allmapcdwallcolor), &PUTDOT);
+                        else
+                            AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, tswallcolor, &PUTDOT);
+                    }
                 }
             }
         }
@@ -1661,7 +1669,7 @@ static void AM_DrawWalls_Cheating(void)
                     AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, wallcolor, putbigdot);
                 else
                 {
-                    const sector_t *front = line.frontsector;
+                    const sector_t  *front = line.frontsector;
 
                     if (back->floorheight != front->floorheight)
                         AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, fdwallcolor, &PUTDOT);
