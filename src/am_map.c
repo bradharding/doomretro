@@ -1481,21 +1481,24 @@ static void AM_DrawGrid(void)
     }
 }
 
-static byte *AM_DoorColor(int type)
+static byte *AM_DoorColor(int special)
 {
-    if (GenLockedBase <= type && type < GenDoorBase)
+    if (!special)
+        return cdwallcolor;
+
+    if (GenLockedBase <= special && special < GenDoorBase)
     {
-        if (!(type = ((type - GenLockedBase) & LockedKey) >> LockedKeyShift) || type == AllKeys)
+        if (!(special = ((special - GenLockedBase) & LockedKey) >> LockedKeyShift) || special == AllKeys)
             return cdwallcolor;
-        else if (!(type = (type - 1) % 3))
+        else if (!(special = (special - 1) % 3))
             return reddoorcolor;
-        else if (type == 1)
+        else if (special == 1)
             return bluedoorcolor;
         else
             return yellowdoorcolor;
     }
 
-    switch (type)
+    switch (special)
     {
         case DR_Door_Red_OpenWaitClose:
         case D1_Door_Red_OpenStay:
