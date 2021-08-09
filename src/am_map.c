@@ -1483,9 +1483,6 @@ static void AM_DrawGrid(void)
 
 static byte *AM_DoorColor(int special)
 {
-    if (!special)
-        return cdwallcolor;
-
     if (GenLockedBase <= special && special < GenDoorBase)
     {
         if (!(special = ((special - GenLockedBase) & LockedKey) >> LockedKeyShift) || special == AllKeys)
@@ -1543,7 +1540,7 @@ static void AM_DrawWalls(void)
                 const sector_t  *back = line.backsector;
                 mline_t         mline;
                 unsigned short  special = line.special;
-                byte            *doorcolor = AM_DoorColor(special);
+                byte            *doorcolor;
 
                 mline.a.x = line.v1->x >> FRACTOMAPBITS;
                 mline.a.y = line.v1->y >> FRACTOMAPBITS;
@@ -1552,7 +1549,7 @@ static void AM_DrawWalls(void)
 
                 mline = rotatelinefunc(mline);
 
-                if (doorcolor != cdwallcolor)
+                if (special && (doorcolor = AM_DoorColor(special)) != cdwallcolor)
                     AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, doorcolor, &PUTDOT);
                 else if (isteleportline[special] && back && back->ceilingheight != back->floorheight
                     && ((flags & ML_TELEPORTTRIGGERED) || isteleport[back->floorpic]) && !(flags & ML_SECRET))
@@ -1593,7 +1590,7 @@ static void AM_DrawWalls_AllMap(void)
                 const sector_t  *back = line.backsector;
                 mline_t         mline;
                 unsigned short  special = line.special;
-                byte            *doorcolor = AM_DoorColor(special);
+                byte            *doorcolor;
 
                 mline.a.x = line.v1->x >> FRACTOMAPBITS;
                 mline.a.y = line.v1->y >> FRACTOMAPBITS;
@@ -1602,7 +1599,7 @@ static void AM_DrawWalls_AllMap(void)
 
                 mline = rotatelinefunc(mline);
 
-                if (doorcolor != cdwallcolor)
+                if (special && (doorcolor = AM_DoorColor(special)) != cdwallcolor)
                     AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, doorcolor, &PUTDOT);
                 else if (isteleportline[special] && ((flags & ML_TELEPORTTRIGGERED) || (back && isteleport[back->floorpic])))
                     AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y,
@@ -1643,7 +1640,7 @@ static void AM_DrawWalls_Cheating(void)
         {
             mline_t         mline;
             unsigned short  special = line.special;
-            byte            *doorcolor = AM_DoorColor(special);
+            byte            *doorcolor;
 
             mline.a.x = line.v1->x >> FRACTOMAPBITS;
             mline.a.y = line.v1->y >> FRACTOMAPBITS;
@@ -1652,7 +1649,7 @@ static void AM_DrawWalls_Cheating(void)
 
             mline = rotatelinefunc(mline);
 
-            if (doorcolor != cdwallcolor)
+            if (special && (doorcolor = AM_DoorColor(special)) != cdwallcolor)
                 AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, doorcolor, &PUTDOT);
             else if (isteleportline[special])
                 AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, teleportercolor, &PUTDOT);
