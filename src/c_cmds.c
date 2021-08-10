@@ -6932,18 +6932,35 @@ static void toggle_cmd_func2(char *cmd, char *parms)
     {
         const int   flags = consolecmds[i].flags;
 
-        if (consolecmds[i].type == CT_CVAR && M_StringCompare(parms, consolecmds[i].name)
-            && !(flags & CF_READONLY) && (flags & CF_BOOLEAN))
+        if (consolecmds[i].type == CT_CVAR && M_StringCompare(parms, consolecmds[i].name) && !(flags & CF_READONLY))
         {
-            char    *temp = M_StringJoin(parms, " ", (*(dboolean *)consolecmds[i].variable ? "off" : "on"), NULL);
+            if (flags & CF_BOOLEAN)
+            {
+                char    *temp = M_StringJoin(parms, " ", (*(dboolean *)consolecmds[i].variable ? "off" : "on"), NULL);
 
-            C_ValidateInput(temp);
-            free(temp);
-            M_SaveCVARs();
+                C_ValidateInput(temp);
+                free(temp);
+                M_SaveCVARs();
 
-            break;
+                break;
+            }
+            else if (flags & CF_INTEGER)
+            {
+                int     value = *(int *)consolecmds[i].variable;
+                char    *temp;
+
+                if (++value > consolecmds[i].maximumvalue)
+                    value = consolecmds[i].minimumvalue;
+
+                temp = M_StringJoin(parms, " ", C_LookupAliasFromValue(value, consolecmds[i].aliases), NULL);
+                C_ValidateInput(temp);
+                free(temp);
+                M_SaveCVARs();
+
+                break;
+            }
         }
-    }
+        }
 }
 
 //
