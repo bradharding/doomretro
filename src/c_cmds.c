@@ -6960,7 +6960,7 @@ static void toggle_cmd_func2(char *cmd, char *parms)
                 break;
             }
         }
-        }
+    }
 }
 
 //

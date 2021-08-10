@@ -43,6 +43,7 @@
 * The `+weapon1` to `+weapon7` actions can now be bound to a mouse button using the `bind` CCMD.
 * The effect applied when the player is in a damaging sector and the `r_shake_damage` CVAR is greater than `0%` is now no longer applied when god mode is enabled.
 * A bug has been fixed whereby the “Damage received” stat viewed using the `playerstats` CCMD would continue to update when god mode was on.
+* The `toggle` CCMD now supports CVARs that accept multiple values. The value of these CVARs will increment by 1, and if their maximum value is reached, will wrap to their minimum.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
