@@ -170,7 +170,7 @@ void R_DrawColumn(void)
         frac += dc_iscale;
     }
 
-    *dest = colormap[dc_source[frac >> FRACBITS]];
+    *dest = tinttab50[(*dest << 8) + colormap[dc_source[frac >> FRACBITS]]];
 }
 
 void R_DrawDitherColumn(void)
@@ -189,7 +189,7 @@ void R_DrawDitherColumn(void)
         frac += dc_iscale;
     }
 
-    *dest = colormap[dither(dc_x, y, fracz)][dc_source[frac >> FRACBITS]];
+    *dest = tinttab50[(*dest << 8) + colormap[dither(dc_x, y, fracz)][dc_source[frac >> FRACBITS]]];
 }
 
 void R_DrawCorrectedColumn(void)
@@ -206,7 +206,7 @@ void R_DrawCorrectedColumn(void)
         frac += dc_iscale;
     }
 
-    *dest = colormap[nearestcolors[dc_source[frac >> FRACBITS]]];
+    *dest = tinttab50[(*dest << 8) + colormap[nearestcolors[dc_source[frac >> FRACBITS]]]];
 }
 
 void R_DrawCorrectedDitherColumn(void)
@@ -225,7 +225,7 @@ void R_DrawCorrectedDitherColumn(void)
         frac += dc_iscale;
     }
 
-    *dest = colormap[dither(dc_x, y, fracz)][nearestcolors[dc_source[frac >> FRACBITS]]];
+    *dest = tinttab50[(*dest << 8) + colormap[dither(dc_x, y, fracz)][nearestcolors[dc_source[frac >> FRACBITS]]]];
 }
 
 void R_DrawColorColumn(void)
