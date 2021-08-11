@@ -7193,6 +7193,7 @@ static void color_cvars_func2(char *cmd, char *parms)
             M_snprintf(buffer, sizeof(buffer), "%i", nearestcolors[color[i].value]);
             int_cvars_func2(cmd, buffer);
             AM_SetColors();
+            D_FadeScreen(false);
 
             return;
         }
@@ -7213,7 +7214,10 @@ static void color_cvars_func2(char *cmd, char *parms)
         int_cvars_func2(cmd, parms);
 
     if (*parms)
+    {
         AM_SetColors();
+        D_FadeScreen(false);
+    }
 }
 
 //

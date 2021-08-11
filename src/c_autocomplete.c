@@ -8338,6 +8338,8 @@ autocomplete_t autocompletelist[] =
     { "toggle am_tswallcolor",                       DOOM1AND2 },
     { "toggle am_wallcolor",                         DOOM1AND2 },
     { "toggle am_yellowdoorcolor",                   DOOM1AND2 },
+    { "toggle ammo",                                 DOOM1AND2 },
+    { "toggle armortype",                            DOOM1AND2 },
     { "toggle autoaim",                              DOOM1AND2 },
     { "toggle autoload",                             DOOM1AND2 },
     { "toggle autosave",                             DOOM1AND2 },

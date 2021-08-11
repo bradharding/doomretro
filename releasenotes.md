@@ -22,7 +22,7 @@
 * A bug has been fixed whereby any palette effects wouldn’t be restored when unpausing a game by pressing the <kbd><b>ESC</b></kbd> key rather than <kbd><b>PAUSE</b></kbd> key.
 * The `alwaysrun` CVAR can now be toggled by pressing the <kbd><b>CAPSLOCK</b></kbd> key while on the title screen.
 * The fading of player messages onto and off of the screen is now smoother in some instances when the `fade` CVAR is `on`.
-* A fade transition will now be applied when changing the `r_brightmaps` CVAR in the console and when the `fade` CVAR is `on`.
+* A fade transition will now be applied when changing the `r_brightmaps` CVAR, or any CVARs that change a color, when the `fade` CVAR is `on`.
 * Corpses and dropped items will no longer perpetually slide back and forth on the floor in some rare instances.
 * The maximum number of blood splats that can be spawned when a corpse slides on the floor and the `r_corpses_slide` CVAR is `on`, has now been reduced.
 * The number of monsters killed due to infighting is now displayed by the `playerstats` CCMD.
