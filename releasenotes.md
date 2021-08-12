@@ -2,6 +2,8 @@
 
 #### DOOM Retro v4.2.1
 
+* Translucency is now applied to MegaSpheres when the `r_translucency` CVAR is `on`.
+
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Thursday, August 12, 2021
