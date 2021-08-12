@@ -2,7 +2,8 @@
 
 #### DOOM Retro v4.2.1
 
-* Translucency is now applied to MegaSpheres when the `r_translucency` CVAR is `on`.
+* A slight dithering effect is now applied to fade transitions when the `fade` CVAR is `on`.
+* Translucency is now applied to megaspheres when the `r_translucency` CVAR is `on`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
@@ -2960,7 +2961,7 @@
 * A bug has been fixed whereby some teleporters in [*Back To Saturn X E1: Get Out Of My Stations*](https://www.doomworld.com/idgames/levels/doom2/megawads/btsx_e1) and [*Back To Saturn X E2: Tower In The Fountain Of Sparks*](https://www.doomworld.com/forum/topic/69960) were animating as if they were liquid.
 * The position of the player arrow is now drawn much more accurately when in the automap and rotate mode is on.
 * The automap will no longer disappear, nor the game crash, when zooming out in very large maps.
-* Translucency is now applied to MegaSpheres as originally intended.
+* Translucency is now applied to megaspheres as originally intended.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
@@ -3596,7 +3597,7 @@
 * Settings are now saved to `default.cfg` the moment they change, rather than when quitting the game, so if the game crashes or exits with an error, those settings will be restored.
 * The player’s weapon now isn’t as distorted at reduced screen sizes.
 * A bug has been fixed whereby the muzzle of the super shotgun was translucent in some instances.
-* 33% alpha translucency rather additive translucency is now used for the SoulSphere, MegaSphere, Invincibility and Partial Invisibility power-ups.
+* 33% alpha translucency rather additive translucency is now used for the soulsphere, megasphere, invincibility and partial invisibility power-ups.
 * The <kbd><b>+</b></kbd> and <kbd><b>–</b></kbd> keys can no longer be used while the help screen is displayed.
 * In those levels that require one or more monsters to be killed for a sector to move to complete the level, if the `–nomonsters` command-line parameter is specified, those sectors will now automatically move.
 * Replicating what happens in *Heretic* and *Hexen*, the remaining monsters in the level will turn on each other once the player has been killed. The player will face their killer when they die, but unlike those games, their view won’t continue to follow their killer around.
