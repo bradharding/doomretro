@@ -2973,6 +2973,7 @@ dboolean M_Responder(event_t *ev)
                 functionkey = 0;
                 M_ClearMenus();
                 S_StartSound(NULL, sfx_swtchx);
+                D_FadeScreen(false);
 
                 if (inhelpscreens)
                     R_SetViewSize(r_screensize);
@@ -3378,6 +3379,7 @@ dboolean M_Responder(event_t *ev)
                 functionkey = 0;
                 M_ClearMenus();
                 S_StartSound(NULL, sfx_swtchx);
+                D_FadeScreen(false);
                 R_SetViewSize(r_screensize);
 
                 return true;
