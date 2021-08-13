@@ -2251,8 +2251,6 @@ void P_PlayerInSpecialSector(sector_t *sector)
     }
     else if (sector->special & DEATH_MASK)
     {
-        int i;
-
         switch ((sector->special & DAMAGE_MASK) >> DAMAGE_SHIFT)
         {
             case 0:

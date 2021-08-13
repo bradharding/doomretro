@@ -2303,7 +2303,7 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
         if (damage > 0 && damagecount < 8)
              damagecount = 8;
 
-        tplayer->damagecount = MIN(damagecount, 100);
+        tplayer->damagecount = MIN(damagecount, ((cheats & CF_GODMODE) ? 30 : 100));
 
         if (r_shake_damage)
             I_UpdateBlitFunc(tplayer->damagecount);
@@ -2352,7 +2352,8 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
         P_SetMobjState(target, info->painstate);
     }
 
-    target->reactiontime = 0;                                   // we're awake now...
+    // we're awake now...
+    target->reactiontime = 0;
 
     if ((!target->threshold || type == MT_VILE) && source && source != target && source->type != MT_VILE)
     {
@@ -2371,8 +2372,9 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
             P_SetMobjState(target, info->seestate);
     }
 
+    // fight back!
     if (justhit && (target->target == source || !target->target || !(target->flags & target->target->flags & MF_FRIEND)))
-        target->flags |= MF_JUSTHIT;                            // fight back!
+        target->flags |= MF_JUSTHIT;
 }
 
 //

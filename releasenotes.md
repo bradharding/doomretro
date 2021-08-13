@@ -2,10 +2,11 @@
 
 #### DOOM Retro v4.2.1
 
-* *DOOM Retro* now supports [*MBF21*](https://github.com/kraflab/mbf21) maps.
+* *DOOM Retro* now supports [*MBF21*](https://github.com/kraflab/mbf21)-compatible maps.
 * A slight dithering effect is now applied to fade transitions when the `fade` CVAR is `on`.
-* A fade transition will now always be applied when exiting the help screen when the `fade` CVAR is `on`.
+* A fade transition will now always be applied when exiting the help screen and the `fade` CVAR is `on`.
 * Translucency is now applied to megaspheres when the `r_translucency` CVAR is `on`.
+* The amount of time the screen will shake when the player is attacked has been reduced when god mode is enabled.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
