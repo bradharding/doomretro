@@ -456,6 +456,7 @@ static void R_DrawVisSprite(const vissprite_t *vis)
     dc_nextcolormap[0] = vis->nextcolormap;
     dc_iscale = FixedDiv(FRACUNIT, spryscale);
     dc_texturemid = vis->texturemid;
+    dc_footclip = vis->footclip;
 
     if ((flags & MF_TRANSLATION) && (r_corpses_color || !(flags & MF_CORPSE)))
     {
@@ -547,6 +548,7 @@ static void R_DrawPlayerVisSprite(const vissprite_t *vis)
     dc_nextcolormap[0] = vis->colormap;
     dc_iscale = pspriteiscale;
     dc_texturemid = vis->texturemid;
+    dc_floorclip = viewheight - 1;
     sprtopscreen = (int64_t)centeryfrac - FixedMul(dc_texturemid, pspritescale);
     fuzzpos = 0;
 

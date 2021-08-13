@@ -65,6 +65,7 @@ extern byte             *dc_blood;
 extern byte             *dc_brightmap;
 extern int              dc_floorclip;
 extern int              dc_ceilingclip;
+extern int              dc_footclip;
 extern int              dc_numposts;
 extern byte             dc_black;
 extern byte             *dc_black33;
