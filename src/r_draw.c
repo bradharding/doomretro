@@ -125,7 +125,6 @@ byte            *dc_blood;
 byte            *dc_brightmap;
 int             dc_floorclip;
 int             dc_ceilingclip;
-int             dc_footclip;
 int             dc_numposts;
 byte            dc_black;
 byte            *dc_black33;
@@ -171,10 +170,7 @@ void R_DrawColumn(void)
         frac += dc_iscale;
     }
 
-    if (dc_yh < dc_floorclip || (dc_footclip && dc_yh < viewheight - 1))
-        *dest = tinttab50[(*dest << 8) + colormap[dc_source[frac >> FRACBITS]]];
-    else
-        *dest = colormap[dc_source[frac >> FRACBITS]];
+    *dest = colormap[dc_source[frac >> FRACBITS]];
 }
 
 void R_DrawDitherColumn(void)
@@ -193,11 +189,7 @@ void R_DrawDitherColumn(void)
         frac += dc_iscale;
     }
 
-    if (dc_yh < dc_floorclip || (dc_footclip && dc_yh < viewheight - 1))
-        *dest = tinttab50[(*dest << 8) + colormap[dither(dc_x, y, fracz)][dc_source[frac >> FRACBITS]]];
-    else
-        *dest = colormap[dither(dc_x, y, fracz)][dc_source[frac >> FRACBITS]];
-
+    *dest = colormap[dither(dc_x, y, fracz)][dc_source[frac >> FRACBITS]];
 }
 
 void R_DrawCorrectedColumn(void)
@@ -214,10 +206,7 @@ void R_DrawCorrectedColumn(void)
         frac += dc_iscale;
     }
 
-    if (dc_yh < dc_floorclip || (dc_footclip && dc_yh < viewheight - 1))
-        *dest = tinttab50[(*dest << 8) + colormap[nearestcolors[dc_source[frac >> FRACBITS]]]];
-    else
-        *dest = colormap[nearestcolors[dc_source[frac >> FRACBITS]]];
+    *dest = colormap[nearestcolors[dc_source[frac >> FRACBITS]]];
 }
 
 void R_DrawCorrectedDitherColumn(void)
@@ -236,10 +225,7 @@ void R_DrawCorrectedDitherColumn(void)
         frac += dc_iscale;
     }
 
-    if (dc_yh < dc_floorclip || (dc_footclip && dc_yh < viewheight - 1))
-        *dest = tinttab50[(*dest << 8) + colormap[dither(dc_x, y, fracz)][nearestcolors[dc_source[frac >> FRACBITS]]]];
-    else
-        *dest = colormap[dither(dc_x, y, fracz)][nearestcolors[dc_source[frac >> FRACBITS]]];
+    *dest = colormap[dither(dc_x, y, fracz)][nearestcolors[dc_source[frac >> FRACBITS]]];
 }
 
 void R_DrawColorColumn(void)
