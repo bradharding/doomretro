@@ -2,10 +2,10 @@
 
 #### DOOM Retro v4.2.1
 
+* *DOOM Retro* now supports [*MBF21*](https://github.com/kraflab/mbf21) maps.
 * A slight dithering effect is now applied to fade transitions when the `fade` CVAR is `on`.
 * A fade transition will now always be applied when exiting the help screen when the `fade` CVAR is `on`.
 * Translucency is now applied to megaspheres when the `r_translucency` CVAR is `on`.
-* The bottom edges of sprites are now softened slightly.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
