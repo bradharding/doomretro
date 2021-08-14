@@ -347,8 +347,59 @@ enum
     // Object has higher attack probability
     MF3_MISSILEMORE                 = 0x00000004,
 
-    // Splash damage does not account for group
-    MF3_NEUTRAL_SPLASH              = 0x00000008
+    // has short missile range (archvile)
+    MF3_SHORTMRANGE                 = 0x00000008,
+
+    // other things ignore its attacks (archvile)
+    MF3_DMGIGNORED                  = 0x00000010,
+
+    // Doesn't take damage from blast radii
+    MF3_NORADIUSDMG                 = 0x00000020,
+
+    // Does radius damage to everything, no exceptions
+    MF3_FORCERADIUSDMG              = 0x00000040,
+
+    // min prob. of miss. att. = 37.5% vs 22%
+    MF3_HIGHERMPROB                 = 0x00000080,
+
+    // use half actual distance for missile attack probability
+    MF3_RANGEHALF                   = 0x00000100,
+
+    // has no target threshold
+    MF3_NOTHRESHOLD                 = 0x00000200,
+
+    // is a MAP07 boss type 1 (666)
+    MF3_MAP07BOSS1                  = 0x00000400,
+
+    // is a MAP07 boss type 2 (667)
+    MF3_MAP07BOSS2                  = 0x00000800,
+
+    // is an E1M8 boss
+    MF3_E1M8BOSS                    = 0x00001000,
+
+    // is an E2M8 boss
+    MF3_E2M8BOSS                    = 0x00002000,
+
+    // is an E3M8 boss
+    MF3_E3M8BOSS                    = 0x00004000,
+
+    // is an E4M6 boss
+    MF3_E4M6BOSS                    = 0x00008000,
+
+    // is an E4M8 boss
+    MF3_E4M8BOSS                    = 0x00010000,
+
+    // has long melee range (revenant)
+    MF3_LONGMELEE                   = 0x00020000,
+
+    // splash damage does not account for group
+    MF3_NEUTRAL_SPLASH              = 0x00040000,
+
+    // alternate gravity setting
+    MF3_LOGRAV                      = 0x00080000,
+
+    // mobj is a major boss
+    MF3_BOSS                        = 0x00100000
 };
 
 typedef enum

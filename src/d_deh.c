@@ -1509,7 +1509,7 @@ typedef struct
 // killough 08/09/98: make DEH_BLOCKMAX self-adjusting
 #define DEH_BLOCKMAX    arrlen(deh_blocks)              // size of array
 #define DEH_MAXKEYLEN   32      // as much of any key as we'll look at
-#define DEH_MOBJINFOMAX 37      // number of ints in the mobjinfo_t structure (!)
+#define DEH_MOBJINFOMAX 38      // number of ints in the mobjinfo_t structure (!)
 
 // Put all the block header values, and the function to be called when that
 // one is encountered, in this array:
@@ -1585,7 +1585,8 @@ static const char *deh_mobjinfo[DEH_MOBJINFOMAX] =
 
     // MBF21
     "Projectile group",         // .projectile_group
-    "Splash group"              // .splash_group
+    "Splash group",             // .splash_group
+    "MBF21 bits"                // .flags3
 };
 
 // Strings that are used to indicate flags ("Bits" in mobjinfo)
@@ -1596,8 +1597,9 @@ static const char *deh_mobjinfo[DEH_MOBJINFOMAX] =
 // killough 10/98:
 //
 // Convert array to struct to allow multiple values, make array size variable
-#define DEH_MOBJFLAGMAX     arrlen(deh_mobjflags)
-#define DEH_MOBJFLAG2MAX    arrlen(deh_mobjflags2)
+#define DEH_MOBJFLAGMAX         arrlen(deh_mobjflags)
+#define DEH_MOBJFLAG2MAX        arrlen(deh_mobjflags2)
+#define DEH_MOBJFLAG2MAX_MBF21  arrlen(deh_mobjflags_mbf21)
 
 struct deh_mobjflags_s
 {
@@ -1683,6 +1685,28 @@ static const struct deh_mobjflags_s deh_mobjflags2[] =
     { "DECORATION",                MF2_DECORATION                },
     { "MONSTERMISSILE",            MF2_MONSTERMISSILE            },
     { "BOSS",                      MF2_BOSS                      }
+};
+
+static const struct deh_mobjflags_s deh_mobjflags_mbf21[] =
+{
+    { "LOGRAV",         MF3_LOGRAV         },   // low gravity
+    { "SHORTMRANGE",    MF3_SHORTMRANGE    },   // short missile range
+    { "DMGIGNORED",     MF3_DMGIGNORED     },   // other things ignore its attacks
+    { "NORADIUSDMG",    MF3_NORADIUSDMG    },   // doesn't take splash damage
+    { "FORCERADIUSDMG", MF3_FORCERADIUSDMG },   // causes splash damage even if target immune
+    { "HIGHERMPROB",    MF3_HIGHERMPROB    },   // higher missile attack probability
+    { "RANGEHALF",      MF3_RANGEHALF      },   // use half distance for missile attack probability
+    { "NOTHRESHOLD",    MF3_NOTHRESHOLD    },   // no targeting threshold
+    { "LONGMELEE",      MF3_LONGMELEE      },   // long melee range
+    { "BOSS",           MF3_BOSS           },   // full volume see / death sound + splash immunity
+    { "MAP07BOSS1",     MF3_MAP07BOSS1     },   // Tag 666 "boss" on doom 2 map 7
+    { "MAP07BOSS2",     MF3_MAP07BOSS2     },   // Tag 667 "boss" on doom 2 map 7
+    { "E1M8BOSS",       MF3_E1M8BOSS       },   // E1M8 boss
+    { "E2M8BOSS",       MF3_E2M8BOSS       },   // E2M8 boss
+    { "E3M8BOSS",       MF3_E3M8BOSS       },   // E3M8 boss
+    { "E4M6BOSS",       MF3_E4M6BOSS       },   // E4M6 boss
+    { "E4M8BOSS",       MF3_E4M8BOSS       },   // E4M8 boss
+    { "NEUTRAL_SPLASH", MF3_NEUTRAL_SPLASH }    // splash damage ignores splash groups
 };
 
 // STATE - Dehacked block name = "Frame" and "Pointer"
@@ -2414,10 +2438,7 @@ static void deh_procThing(DEHFILE *fpin, char *line)
                     mobjinfo[indexnum].flags2 = value;
                 else
                 {
-                    // figure out what the bits are
-                    value = 0;
-
-                    for (; (strval = strtok(strval, ",+| \t\f\r")); strval = NULL)
+                    for (value = 0; (strval = strtok(strval, ",+| \t\f\r")); strval = NULL)
                     {
                         int iy;
 
@@ -2448,6 +2469,34 @@ static void deh_procThing(DEHFILE *fpin, char *line)
 
                     mobjinfo[indexnum].flags2 = value;
                 }
+            }
+            else if (M_StringCompare(key, "MBF21 Bits"))
+            {
+                for (value = 0; (strval = strtok(strval, ",+| \t\f\r")); strval = NULL)
+                {
+                    int iy;
+
+                    for (iy = 0; iy < DEH_MOBJFLAG2MAX_MBF21; iy++)
+                    {
+                        if (!M_StringCompare(strval, deh_mobjflags_mbf21[iy].name))
+                            continue;
+
+                        if (devparm)
+                            C_Output("ORed value 0x%08lX %s.", deh_mobjflags_mbf21[iy].value, strval);
+
+                        value |= deh_mobjflags_mbf21[iy].value;
+                        break;
+                    }
+
+                    if (iy >= DEH_MOBJFLAG2MAX_MBF21)
+                        C_Warning(1, "Could not find bit mnemonic \"%s\".", strval);
+                }
+
+                // Don't worry about conversion -- simply print values
+                if (devparm)
+                    C_Output("Bits = 0x%08lX = %ld.", value, value);
+
+                mobjinfo[indexnum].flags3 = value;
             }
             else if (M_StringCompare(key, "Dropped item"))
                 mobjinfo[indexnum].droppeditem = (int)value - 1;
