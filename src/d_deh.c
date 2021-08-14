@@ -2434,7 +2434,7 @@ static void deh_procThing(DEHFILE *fpin, char *line)
                             else if (M_StringCompare(key, "TOUCHY") || M_StringCompare(key, "BOUNCES") || M_StringCompare(key, "FRIEND"))
                                 mbfcompatible = true;
 
-                            value |= deh_mobjflags[iy].value;
+                            value |= deh_mobjflags2[iy].value;
                             break;
                         }
 
