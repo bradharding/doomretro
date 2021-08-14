@@ -380,7 +380,9 @@ static dboolean PIT_CheckLine(line_t *ld)
     // killough 08/10/98: allow bouncing objects to pass through as missiles
     if (!(tmthing->flags & (MF_MISSILE | MF_BOUNCES)))
     {
-        if (ld->flags & ML_BLOCKING)                    // explicitly blocking everything
+        // explicitly blocking everything
+        // or blocking player
+        if ((ld->flags & ML_BLOCKING) || (tmthing->player && (ld->flags & ML_BLOCKPLAYERS)))
             return (tmunstuck && !untouched(ld));       // killough 08/01/98: allow escape
 
         // killough 08/09/98: monster-blockers don't affect friends
