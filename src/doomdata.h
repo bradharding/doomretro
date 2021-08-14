@@ -152,14 +152,17 @@ typedef struct
 //allow multiple push/switch triggers to be used on one push
 #define ML_PASSUSE              512
 
+// MBF21
+#define ML_BLOCKLANDMONSTERS    4096
+
 // [BH] Line will be shown as a wall in automap.
-#define ML_DRAWASWALL           1024
+#define ML_DRAWASWALL           8192
 
 // [BH] Line will trigger sector 666 if no monsters.
-#define ML_TRIGGER666           2048
+#define ML_TRIGGER666           16384
 
 // [BH] Line won't be shown as teleporter in automap.
-#define ML_TELEPORTTRIGGERED    4096
+#define ML_TELEPORTTRIGGERED    32768
 
 // Sector definition, from editing.
 typedef struct

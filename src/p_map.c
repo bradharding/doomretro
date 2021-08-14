@@ -384,9 +384,11 @@ static dboolean PIT_CheckLine(line_t *ld)
             return (tmunstuck && !untouched(ld));       // killough 08/01/98: allow escape
 
         // killough 08/09/98: monster-blockers don't affect friends
+        // MBF21: Block land monsters
         // [BH] monster-blockers don't affect corpses
         if (!((tmthing->flags & MF_FRIEND) || tmthing->player || (tmthing->flags3 & MF3_SPAWNEDBYPLAYER))
-            && (ld->flags & ML_BLOCKMONSTERS) && !(tmthing->flags & MF_CORPSE))
+            && ((ld->flags & ML_BLOCKMONSTERS) || ((ld->flags & ML_BLOCKLANDMONSTERS) && !(tmthing->flags & MF_FLOAT)))
+            && !(tmthing->flags & MF_CORPSE))
             return false;                               // block monsters only
     }
 
