@@ -92,7 +92,7 @@
 #endif
 
 #define FADECOUNT    9
-#define FADETICS    20
+#define FADETICS    25
 
 char **episodes[] =
 {
@@ -212,8 +212,7 @@ void D_PostEvent(event_t *ev)
 //
 void D_FadeScreen(dboolean screenshot)
 {
-    if (!screenshot && (!fade || (gamestate == GS_LEVEL && (viewplayer->mo->momx || viewplayer->mo->momy || viewplayer->mo->momz
-        || viewplayer->cmd.angleturn))))
+    if (!screenshot && !fade)
         return;
 
     memcpy(fadescreen, screens[0], SCREENAREA);
@@ -248,24 +247,25 @@ static void D_UpdateFade(void)
             *dot = tinttab[(*dot << 8) + fadescreen[i]];
         }
 
-        for (int y = 0; y < SCREENAREA; y += SCREENWIDTH * 2)
-        {
-            for (int x = y; x < y + SCREENWIDTH; x += 2)
+        if (r_ditheredlighting)
+            for (int y = 0; y < SCREENAREA; y += SCREENWIDTH * 2)
             {
-                byte    *dot = *screens + x;
+                for (int x = y; x < y + SCREENWIDTH; x += 2)
+                {
+                    byte    *dot = *screens + x;
 
-                *dot = tinttab80[(*dot << 8) + fadescreen[x]];
+                    *dot = tinttab80[(*dot << 8) + fadescreen[x]];
+                }
+
+                y += SCREENWIDTH * 2;
+
+                for (int x = y + 1; x < y + SCREENWIDTH; x += 2)
+                {
+                    byte    *dot = *screens + x;
+
+                    *dot = tinttab80[(*dot << 8) + fadescreen[x]];
+                }
             }
-
-            y += SCREENWIDTH * 2;
-
-            for (int x = y + 1; x < y + SCREENWIDTH; x += 2)
-            {
-                byte    *dot = *screens + x;
-
-                *dot = tinttab80[(*dot << 8) + fadescreen[x]];
-            }
-        }
     }
 }
 
