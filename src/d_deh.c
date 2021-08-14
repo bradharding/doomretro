@@ -1509,7 +1509,7 @@ typedef struct
 // killough 08/09/98: make DEH_BLOCKMAX self-adjusting
 #define DEH_BLOCKMAX    arrlen(deh_blocks)              // size of array
 #define DEH_MAXKEYLEN   32      // as much of any key as we'll look at
-#define DEH_MOBJINFOMAX 35      // number of ints in the mobjinfo_t structure (!)
+#define DEH_MOBJINFOMAX 37      // number of ints in the mobjinfo_t structure (!)
 
 // Put all the block header values, and the function to be called when that
 // one is encountered, in this array:
@@ -1581,7 +1581,11 @@ static const char *deh_mobjinfo[DEH_MOBJINFOMAX] =
     "Frames",                   // .frames
     "Fullbright",               // .fullbright
     "Blood",                    // .blood
-    "Shadow offset"             // .shadowoffset
+    "Shadow offset",            // .shadowoffset
+
+    // MBF21
+    "Projectile group",         // .projectile_group
+    "Splash group"              // .splash_group
 };
 
 // Strings that are used to indicate flags ("Bits" in mobjinfo)
@@ -2447,6 +2451,17 @@ static void deh_procThing(DEHFILE *fpin, char *line)
             }
             else if (M_StringCompare(key, "Dropped item"))
                 mobjinfo[indexnum].droppeditem = (int)value - 1;
+            else if (M_StringCompare(key, "Projectile group"))
+            {
+                mobjinfo[indexnum].projectile_group = (int)(value);
+
+                if (mobjinfo[indexnum].projectile_group < 0)
+                    mobjinfo[indexnum].projectile_group = PG_GROUPLESS;
+                else
+                    mobjinfo[indexnum].projectile_group += PG_END;
+            }
+            else if (M_StringCompare(key, "Splash group"))
+                mobjinfo[indexnum].splash_group = (int)(value) + SG_END;
             else
             {
                 pix = (int *)&mobjinfo[indexnum];

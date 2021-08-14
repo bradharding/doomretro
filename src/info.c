@@ -42,47 +42,50 @@
 
 #define EMPTYMOBJ \
 { \
-    /* doomednum            */ -1,       \
-    /* spawnstate           */ 0,        \
-    /* spawnhealth          */ 0,        \
-    /* gibhealth            */ 0,        \
-    /* seestate             */ S_NULL,   \
-    /* seesound             */ sfx_none, \
-    /* reactiontime         */ 0,        \
-    /* attacksound          */ sfx_none, \
-    /* painstate            */ S_NULL,   \
-    /* painchance           */ 0,        \
-    /* painsound            */ sfx_none, \
-    /* meleestate           */ S_NULL,   \
-    /* missilestate         */ S_NULL,   \
-    /* deathstate           */ S_NULL,   \
-    /* xdeathstate          */ S_NULL,   \
-    /* deathsound           */ sfx_none, \
-    /* droppeditem          */ MT_NULL,  \
-    /* meleethreshold       */ 0,        \
-    /* maxattackrange       */ 0,        \
-    /* minmissilechance     */ 0,        \
-    /* speed                */ 0,        \
-    /* radius               */ 0,        \
-    /* pickupradius         */ 0,        \
-    /* height               */ 0,        \
-    /* projectilepassheight */ 0,        \
-    /* mass                 */ 0,        \
-    /* damage               */ 0,        \
-    /* activesound          */ sfx_none, \
-    /* flags                */ 0,        \
-    /* flags2               */ 0,        \
-    /* raisestate           */ S_NULL,   \
-    /* frames               */ 0,        \
-    /* fullbright           */ false,    \
-    /* blood                */ 0,        \
-    /* shadowoffset         */ 0,        \
-    /* name1                */ "",       \
-    /* plural1              */ "",       \
-    /* name2                */ "",       \
-    /* plural2              */ "",       \
-    /* name3                */ "",       \
-    /* plural3              */ ""        \
+    /* doomednum            */ -1,         \
+    /* spawnstate           */ 0,          \
+    /* spawnhealth          */ 0,          \
+    /* gibhealth            */ 0,          \
+    /* seestate             */ S_NULL,     \
+    /* seesound             */ sfx_none,   \
+    /* reactiontime         */ 0,          \
+    /* attacksound          */ sfx_none,   \
+    /* painstate            */ S_NULL,     \
+    /* painchance           */ 0,          \
+    /* painsound            */ sfx_none,   \
+    /* meleestate           */ S_NULL,     \
+    /* missilestate         */ S_NULL,     \
+    /* deathstate           */ S_NULL,     \
+    /* xdeathstate          */ S_NULL,     \
+    /* deathsound           */ sfx_none,   \
+    /* droppeditem          */ MT_NULL,    \
+    /* meleethreshold       */ 0,          \
+    /* maxattackrange       */ 0,          \
+    /* minmissilechance     */ 0,          \
+    /* speed                */ 0,          \
+    /* radius               */ 0,          \
+    /* pickupradius         */ 0,          \
+    /* height               */ 0,          \
+    /* projectilepassheight */ 0,          \
+    /* mass                 */ 0,          \
+    /* damage               */ 0,          \
+    /* activesound          */ sfx_none,   \
+    /* flags                */ 0,          \
+    /* flags2               */ 0,          \
+    /* flags3               */ 0,          \
+    /* raisestate           */ S_NULL,     \
+    /* frames               */ 0,          \
+    /* fullbright           */ false,      \
+    /* blood                */ 0,          \
+    /* shadowoffset         */ 0,          \
+    /* name1                */ "",         \
+    /* plural1              */ "",         \
+    /* name2                */ "",         \
+    /* plural2              */ "",         \
+    /* name3                */ "",         \
+    /* plural3              */ "",         \
+    /* projectile_group     */ PG_DEFAULT, \
+    /* splash_group         */ SG_DEFAULT, \
 }
 
 mobjinfo_t mobjinfo[] =
@@ -119,6 +122,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ (MF_SOLID | MF_SHOOTABLE | MF_DROPOFF | MF_PICKUP | MF_FRIEND),
         /* flags2               */ (MF2_CASTSHADOW | MF2_PASSMOBJ | MF2_CRUSHABLE | MF2_NOLIQUIDBOB | MF2_FOOTCLIP),
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* fullbright           */ false,
@@ -129,7 +133,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Zombieman (MT_POSSESSED)
@@ -164,6 +170,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_posact,
         /* flags                */ (MF_SOLID | MF_SHOOTABLE | MF_COUNTKILL),
         /* flags2               */ (MF2_CASTSHADOW | MF2_CRUSHABLE | MF2_NOLIQUIDBOB | MF2_FOOTCLIP),
+        /* flags3               */ 0,
         /* raisestate           */ S_POSS_RAISE1,
         /* frames               */ 0,
         /* fullbright           */ false,
@@ -174,7 +181,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Shotgun Guy (MT_SHOTGUY)
@@ -209,6 +218,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_posact,
         /* flags                */ (MF_SOLID | MF_SHOOTABLE | MF_COUNTKILL),
         /* flags2               */ (MF2_CASTSHADOW | MF2_CRUSHABLE | MF2_NOLIQUIDBOB | MF2_FOOTCLIP),
+        /* flags3               */ 0,
         /* raisestate           */ S_SPOS_RAISE1,
         /* frames               */ 0,
         /* fullbright           */ false,
@@ -219,7 +229,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Arch-vile (MT_VILE)
@@ -254,6 +266,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_vilact,
         /* flags                */ (MF_SOLID | MF_SHOOTABLE | MF_COUNTKILL),
         /* flags2               */ (MF2_CASTSHADOW | MF2_CRUSHABLE | MF2_NOLIQUIDBOB | MF2_FOOTCLIP),
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* fullbright           */ false,
@@ -264,7 +277,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Arch-vile Fire (MT_FIRE)
@@ -299,6 +314,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ (MF_NOBLOCKMAP | MF_NOGRAVITY),
         /* flags2               */ (MF2_TRANSLUCENT | MF2_NOLIQUIDBOB),
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* fullbright           */ true,
@@ -309,7 +325,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Revenant (MT_UNDEAD)
@@ -344,6 +362,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_skeact,
         /* flags                */ (MF_SOLID | MF_SHOOTABLE | MF_COUNTKILL),
         /* flags2               */ (MF2_CASTSHADOW | MF2_CRUSHABLE | MF2_NOLIQUIDBOB | MF2_FOOTCLIP),
+        /* flags3               */ 0,
         /* raisestate           */ S_SKEL_RAISE1,
         /* frames               */ 0,
         /* fullbright           */ false,
@@ -354,7 +373,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Revenant Projectile (MT_TRACER)
@@ -389,6 +410,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ (MF_NOBLOCKMAP | MF_MISSILE | MF_DROPOFF | MF_NOGRAVITY),
         /* flags2               */ (MF2_TRANSLUCENT | MF2_NOLIQUIDBOB),
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* fullbright           */ true,
@@ -399,7 +421,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Smoke (MT_SMOKE)
@@ -434,6 +458,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ (MF_NOBLOCKMAP | MF_NOGRAVITY),
         /* flags2               */ (MF2_TRANSLUCENT_33 | MF2_NOLIQUIDBOB),
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* fullbright           */ false,
@@ -444,7 +469,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Mancubus (MT_FATSO)
@@ -479,6 +506,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_posact,
         /* flags                */ (MF_SOLID | MF_SHOOTABLE | MF_COUNTKILL),
         /* flags2               */ (MF2_CASTSHADOW | MF2_CRUSHABLE | MF2_NOLIQUIDBOB | MF2_FOOTCLIP),
+        /* flags3               */ 0,
         /* raisestate           */ S_FATT_RAISE1,
         /* frames               */ 0,
         /* fullbright           */ false,
@@ -489,7 +517,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Mancubus Projectile (MT_FATSHOT)
@@ -524,6 +554,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ (MF_NOBLOCKMAP | MF_MISSILE | MF_DROPOFF | MF_NOGRAVITY),
         /* flags2               */ (MF2_TRANSLUCENT | MF2_NOLIQUIDBOB),
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* fullbright           */ true,
@@ -534,7 +565,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Heavy Weapon Dude (MT_CHAINGUY)
@@ -569,6 +602,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_posact,
         /* flags                */ (MF_SOLID | MF_SHOOTABLE | MF_COUNTKILL),
         /* flags2               */ (MF2_CASTSHADOW | MF2_CRUSHABLE | MF2_NOLIQUIDBOB | MF2_FOOTCLIP),
+        /* flags3               */ 0,
         /* raisestate           */ S_CPOS_RAISE1,
         /* frames               */ 0,
         /* fullbright           */ false,
@@ -579,7 +613,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "chaingunner",
         /* plural2              */ "chaingunners",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Imp (MT_TROOP)
@@ -614,6 +650,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_bgact,
         /* flags                */ (MF_SOLID | MF_SHOOTABLE | MF_COUNTKILL),
         /* flags2               */ (MF2_CASTSHADOW | MF2_CRUSHABLE | MF2_NOLIQUIDBOB | MF2_FOOTCLIP),
+        /* flags3               */ 0,
         /* raisestate           */ S_TROO_RAISE1,
         /* frames               */ 0,
         /* fullbright           */ false,
@@ -659,6 +696,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_dmact,
         /* flags                */ (MF_SOLID | MF_SHOOTABLE | MF_COUNTKILL),
         /* flags2               */ (MF2_CASTSHADOW | MF2_CRUSHABLE | MF2_NOLIQUIDBOB | MF2_FOOTCLIP),
+        /* flags3               */ 0,
         /* raisestate           */ S_SARG_RAISE1,
         /* frames               */ 0,
         /* fullbright           */ false,
@@ -669,7 +707,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "demon",
         /* plural2              */ "demons",
         /* name3                */ "pinky",
-        /* plural3              */ "pinkies"
+        /* plural3              */ "pinkies",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Spectre (MT_SHADOWS)
@@ -704,6 +744,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_dmact,
         /* flags                */ (MF_SOLID | MF_SHOOTABLE | MF_FUZZ | MF_COUNTKILL),
         /* flags2               */ (MF2_CASTSHADOW | MF2_CRUSHABLE | MF2_NOLIQUIDBOB | MF2_FOOTCLIP),
+        /* flags3               */ 0,
         /* raisestate           */ S_SARG_RAISE1,
         /* frames               */ 0,
         /* fullbright           */ false,
@@ -714,7 +755,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Cacodemon (MT_HEAD)
@@ -749,6 +792,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_dmact,
         /* flags                */ (MF_SOLID | MF_SHOOTABLE | MF_FLOAT | MF_NOGRAVITY | MF_COUNTKILL),
         /* flags2               */ (MF2_PASSMOBJ | MF2_CASTSHADOW | MF2_CRUSHABLE | MF2_NOLIQUIDBOB | MF2_FOOTCLIP),
+        /* flags3               */ 0,
         /* raisestate           */ S_HEAD_RAISE1,
         /* frames               */ 0,
         /* fullbright           */ false,
@@ -759,7 +803,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Baron of Hell (MT_BRUISER)
@@ -794,6 +840,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_dmact,
         /* flags                */ (MF_SOLID | MF_SHOOTABLE | MF_COUNTKILL),
         /* flags2               */ (MF2_CASTSHADOW | MF2_CRUSHABLE | MF2_NOLIQUIDBOB | MF2_FOOTCLIP),
+        /* flags3               */ 0,
         /* raisestate           */ S_BOSS_RAISE1,
         /* frames               */ 0,
         /* fullbright           */ false,
@@ -804,7 +851,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "baron",
         /* plural2              */ "barons",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_BARON,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Baron of Hell and Hell Knight Projectile (MT_BRUISERSHOT)
@@ -839,6 +888,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ (MF_NOBLOCKMAP | MF_MISSILE | MF_DROPOFF | MF_NOGRAVITY),
         /* flags2               */ (MF2_TRANSLUCENT | MF2_NOLIQUIDBOB),
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* fullbright           */ true,
@@ -849,7 +899,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Hell Knight (MT_KNIGHT)
@@ -884,6 +936,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_dmact,
         /* flags                */ (MF_SOLID | MF_SHOOTABLE | MF_COUNTKILL),
         /* flags2               */ (MF2_CASTSHADOW | MF2_CRUSHABLE | MF2_NOLIQUIDBOB | MF2_FOOTCLIP),
+        /* flags3               */ 0,
         /* raisestate           */ S_BOS2_RAISE1,
         /* frames               */ 0,
         /* fullbright           */ false,
@@ -894,7 +947,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_BARON,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Lost Soul (MT_SKULL)
@@ -929,6 +984,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_dmact,
         /* flags                */ (MF_SOLID | MF_SHOOTABLE | MF_FLOAT | MF_NOGRAVITY | MF_COUNTKILL),
         /* flags2               */ (MF2_PASSMOBJ | MF2_CASTSHADOW | MF2_TRANSLUCENT_REDONLY | MF2_NOLIQUIDBOB | MF2_FOOTCLIP),
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* fullbright           */ true,
@@ -939,7 +995,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Spider Mastermind (MT_SPIDER)
@@ -974,6 +1032,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_dmact,
         /* flags                */ (MF_SOLID | MF_SHOOTABLE | MF_COUNTKILL),
         /* flags2               */ (MF2_CASTSHADOW | MF2_CRUSHABLE | MF2_NOLIQUIDBOB | MF2_FOOTCLIP),
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* fullbright           */ false,
@@ -984,7 +1043,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "spiderdemon",
         /* plural2              */ "spiderdemons",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Arachnotron (MT_BABY)
@@ -1019,6 +1080,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_bspact,
         /* flags                */ (MF_SOLID | MF_SHOOTABLE | MF_COUNTKILL),
         /* flags2               */ (MF2_CASTSHADOW | MF2_CRUSHABLE | MF2_NOLIQUIDBOB | MF2_FOOTCLIP),
+        /* flags3               */ 0,
         /* raisestate           */ S_BSPI_RAISE1,
         /* frames               */ 0,
         /* fullbright           */ false,
@@ -1029,7 +1091,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Cyberdemon (MT_CYBORG)
@@ -1064,6 +1128,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_dmact,
         /* flags                */ (MF_SOLID | MF_SHOOTABLE | MF_COUNTKILL),
         /* flags2               */ (MF2_CASTSHADOW | MF2_CRUSHABLE | MF2_NOLIQUIDBOB | MF2_FOOTCLIP),
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* fullbright           */ false,
@@ -1074,7 +1139,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Pain Elemental (MT_PAIN)
@@ -1109,6 +1176,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_dmact,
         /* flags                */ (MF_SOLID | MF_SHOOTABLE | MF_FLOAT | MF_NOGRAVITY | MF_COUNTKILL),
         /* flags2               */ (MF2_PASSMOBJ | MF2_CASTSHADOW | MF2_NOLIQUIDBOB | MF2_FOOTCLIP),
+        /* flags3               */ 0,
         /* raisestate           */ S_PAIN_RAISE1,
         /* frames               */ 0,
         /* fullbright           */ false,
@@ -1119,7 +1187,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Wolfenstein SS (MT_WOLFSS)
@@ -1154,6 +1224,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_posact,
         /* flags                */ (MF_SOLID | MF_SHOOTABLE | MF_COUNTKILL),
         /* flags2               */ (MF2_CASTSHADOW | MF2_CRUSHABLE | MF2_NOLIQUIDBOB | MF2_FOOTCLIP),
+        /* flags3               */ 0,
         /* raisestate           */ S_SSWV_RAISE1,
         /* frames               */ 0,
         /* fullbright           */ false,
@@ -1164,7 +1235,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Commander Keen (MT_KEEN)
@@ -1199,6 +1272,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ (MF_SOLID | MF_SPAWNCEILING | MF_NOGRAVITY | MF_SHOOTABLE | MF_COUNTKILL),
         /* flags2               */ 0,
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* fullbright           */ false,
@@ -1209,7 +1283,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Boss Brain (MT_BOSSBRAIN)
@@ -1244,6 +1320,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ (MF_SOLID | MF_SHOOTABLE),
         /* flags2               */ 0,
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* fullbright           */ false,
@@ -1254,7 +1331,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Monsters Spawner (MT_BOSSSPIT)
@@ -1289,6 +1368,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ (MF_NOBLOCKMAP | MF_NOSECTOR),
         /* flags2               */ 0,
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* fullbright           */ false,
@@ -1299,7 +1379,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Monsters Target (MT_BOSSTARGET)
@@ -1334,6 +1416,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ (MF_NOBLOCKMAP | MF_NOSECTOR),
         /* flags2               */ 0,
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* fullbright           */ false,
@@ -1344,7 +1427,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Boss Brain Projectile (MT_SPAWNSHOT)
@@ -1379,6 +1464,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ (MF_NOBLOCKMAP | MF_MISSILE | MF_DROPOFF | MF_NOGRAVITY | MF_NOCLIP),
         /* flags2               */ MF2_CASTSHADOW,
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* fullbright           */ true,
@@ -1389,7 +1475,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Boss Brain Fire (MT_SPAWNFIRE)
@@ -1424,6 +1512,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ (MF_NOBLOCKMAP | MF_NOGRAVITY),
         /* flags2               */ MF2_TRANSLUCENT,
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* fullbright           */ true,
@@ -1434,7 +1523,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Barrel (MT_BARREL)
@@ -1469,6 +1560,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ (MF_SOLID | MF_SHOOTABLE | MF_NOBLOOD),
         /* flags2               */ (MF2_CASTSHADOW | MF2_NOLIQUIDBOB | MF2_DECORATION | MF2_FOOTCLIP),
+        /* flags3               */ MF3_NEUTRAL_SPLASH,
         /* raisestate           */ S_NULL,
         /* frames               */ 3,
         /* fullbright           */ false,
@@ -1479,7 +1571,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Imp Projectile (MT_TROOPSHOT)
@@ -1514,6 +1608,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ (MF_NOBLOCKMAP | MF_MISSILE | MF_DROPOFF | MF_NOGRAVITY),
         /* flags2               */ MF2_TRANSLUCENT,
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* fullbright           */ true,
@@ -1524,7 +1619,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Cacodemon Projectile (MT_HEADSHOT)
@@ -1559,6 +1656,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ (MF_NOBLOCKMAP | MF_MISSILE | MF_DROPOFF | MF_NOGRAVITY),
         /* flags2               */ MF2_TRANSLUCENT,
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* fullbright           */ true,
@@ -1569,7 +1667,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Rocket Launcher Projectile (MT_ROCKET)
@@ -1604,6 +1704,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ (MF_NOBLOCKMAP | MF_MISSILE | MF_DROPOFF | MF_NOGRAVITY),
         /* flags2               */ MF2_CASTSHADOW,
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* fullbright           */ true,
@@ -1614,7 +1715,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Plasma Rifle Projectile (MT_PLASMA)
@@ -1649,6 +1752,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ (MF_NOBLOCKMAP | MF_MISSILE | MF_DROPOFF | MF_NOGRAVITY),
         /* flags2               */ MF2_TRANSLUCENT,
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* fullbright           */ true,
@@ -1659,7 +1763,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // BFG-9000 Projectile (MT_BFG)
@@ -1694,6 +1800,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ (MF_NOBLOCKMAP | MF_MISSILE | MF_DROPOFF | MF_NOGRAVITY),
         /* flags2               */ MF2_TRANSLUCENT,
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* fullbright           */ true,
@@ -1704,7 +1811,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Arachnotron Projectile (MT_ARACHPLAZ)
@@ -1739,6 +1848,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ (MF_NOBLOCKMAP | MF_MISSILE | MF_DROPOFF | MF_NOGRAVITY),
         /* flags2               */ MF2_TRANSLUCENT,
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* fullbright           */ true,
@@ -1749,7 +1859,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Bullet Puff (MT_PUFF)
@@ -1784,6 +1896,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ (MF_NOBLOCKMAP | MF_NOGRAVITY),
         /* flags2               */ MF2_TRANSLUCENT_33,
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* fullbright           */ false,
@@ -1794,7 +1907,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Red Blood (MT_BLOOD)
@@ -1829,6 +1944,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ 0,
         /* flags2               */ (MF2_BLOOD | MF2_TRANSLUCENT_50),
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* fullbright           */ false,
@@ -1839,7 +1955,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Teleport Fog (MT_TFOG)
@@ -1874,6 +1992,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ (MF_NOBLOCKMAP | MF_NOGRAVITY),
         /* flags2               */ MF2_TRANSLUCENT,
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* fullbright           */ true,
@@ -1884,7 +2003,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Item Fog (MT_IFOG)
@@ -1919,6 +2040,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ (MF_NOBLOCKMAP | MF_NOGRAVITY),
         /* flags2               */ MF2_TRANSLUCENT,
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* fullbright           */ true,
@@ -1929,7 +2051,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Teleport Destination (MT_TELEPORTMAN)
@@ -1964,6 +2088,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ (MF_NOBLOCKMAP | MF_NOSECTOR),
         /* flags2               */ 0,
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* fullbright           */ false,
@@ -1974,7 +2099,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // BFG-9000 Secondary Projectile (MT_EXTRABFG)
@@ -2009,6 +2136,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ (MF_NOBLOCKMAP | MF_NOGRAVITY),
         /* flags2               */ MF2_TRANSLUCENT,
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* fullbright           */ true,
@@ -2019,7 +2147,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Green Armor (MT_MISC0)
@@ -2054,6 +2184,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ MF_SPECIAL,
         /* flags2               */ (MF2_CASTSHADOW | MF2_FOOTCLIP),
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 2,
         /* fullbright           */ false,
@@ -2064,7 +2195,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "green armour",
         /* plural2              */ "green armour",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Blue Armor (MT_MISC1)
@@ -2099,6 +2232,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ MF_SPECIAL,
         /* flags2               */ (MF2_CASTSHADOW | MF2_FOOTCLIP),
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 2,
         /* fullbright           */ false,
@@ -2109,7 +2243,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "blue armour",
         /* plural2              */ "blue armour",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Health Bonus (MT_MISC2)
@@ -2144,6 +2280,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ (MF_SPECIAL | MF_COUNTITEM),
         /* flags2               */ (MF2_CASTSHADOW | MF2_TRANSLUCENT_BLUE_25 | MF2_FOOTCLIP),
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 4,
         /* fullbright           */ false,
@@ -2154,7 +2291,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Armor Bonus (MT_MISC3)
@@ -2189,6 +2328,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ (MF_SPECIAL | MF_COUNTITEM),
         /* flags2               */ (MF2_CASTSHADOW | MF2_FOOTCLIP),
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 4,
         /* fullbright           */ false,
@@ -2199,7 +2339,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "armour bonus",
         /* plural2              */ "armour bonuses",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Blue Keycard (MT_MISC4)
@@ -2234,6 +2376,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ MF_SPECIAL,
         /* flags2               */ (MF2_CASTSHADOW | MF2_FOOTCLIP),
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 2,
         /* fullbright           */ false,
@@ -2245,6 +2388,8 @@ mobjinfo_t mobjinfo[] =
         /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Red Keycard (MT_MISC5)
@@ -2279,6 +2424,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ MF_SPECIAL,
         /* flags2               */ (MF2_CASTSHADOW | MF2_FOOTCLIP),
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 2,
         /* fullbright           */ false,
@@ -2289,7 +2435,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Yellow Keycard (MT_MISC6)
@@ -2324,6 +2472,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ MF_SPECIAL,
         /* flags2               */ (MF2_CASTSHADOW | MF2_FOOTCLIP),
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 2,
         /* fullbright           */ false,
@@ -2334,7 +2483,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Yellow Skull Key (MT_MISC7)
@@ -2369,6 +2520,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ MF_SPECIAL,
         /* flags2               */ (MF2_CASTSHADOW | MF2_FOOTCLIP),
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 2,
         /* fullbright           */ false,
@@ -2379,7 +2531,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Red Skull Key (MT_MISC8)
@@ -2414,6 +2568,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ MF_SPECIAL,
         /* flags2               */ (MF2_CASTSHADOW | MF2_FOOTCLIP),
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 2,
         /* fullbright           */ false,
@@ -2424,7 +2579,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Blue Skull Key (MT_MISC9)
@@ -2459,6 +2616,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ MF_SPECIAL,
         /* flags2               */ (MF2_CASTSHADOW | MF2_FOOTCLIP),
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 2,
         /* fullbright           */ false,
@@ -2469,7 +2627,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Stimpack (MT_MISC10)
@@ -2504,6 +2664,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ MF_SPECIAL,
         /* flags2               */ (MF2_CASTSHADOW | MF2_FOOTCLIP),
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* fullbright           */ false,
@@ -2514,7 +2675,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Medikit (MT_MISC11)
@@ -2549,6 +2712,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ MF_SPECIAL,
         /* flags2               */ (MF2_CASTSHADOW | MF2_FOOTCLIP),
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* fullbright           */ false,
@@ -2559,7 +2723,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // SoulSphere (MT_MISC12)
@@ -2594,6 +2760,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ (MF_SPECIAL | MF_COUNTITEM),
         /* flags2               */ (MF2_CASTSHADOW | MF2_TRANSLUCENT_BLUE_25 | MF2_FLOATBOB),
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 4,
         /* fullbright           */ true,
@@ -2604,7 +2771,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Invulnerability (MT_INV)
@@ -2639,6 +2808,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ (MF_SPECIAL | MF_COUNTITEM),
         /* flags2               */ (MF2_CASTSHADOW | MF2_TRANSLUCENT_33 | MF2_FLOATBOB),
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 4,
         /* fullbright           */ true,
@@ -2650,6 +2820,8 @@ mobjinfo_t mobjinfo[] =
         /* plural2              */ "invulnerabilities",
         /* name3                */ "",
         /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Berserk (MT_MISC13)
@@ -2684,6 +2856,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ (MF_SPECIAL | MF_COUNTITEM),
         /* flags2               */ (MF2_CASTSHADOW | MF2_FOOTCLIP),
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* fullbright           */ true,
@@ -2694,7 +2867,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "berserk",
         /* plural2              */ "berserks",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Partial Invisibility (MT_INS)
@@ -2729,6 +2904,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ (MF_SPECIAL | MF_COUNTITEM),
         /* flags2               */ (MF2_CASTSHADOW | MF2_TRANSLUCENT_33 | MF2_FLOATBOB),
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 4,
         /* fullbright           */ true,
@@ -2739,7 +2915,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "partial invisibility",
         /* plural2              */ "partial invisibilities",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Radiation Shielding Suit (MT_MISC14)
@@ -2774,6 +2952,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ MF_SPECIAL,
         /* flags2               */ (MF2_CASTSHADOW | MF2_FLOATBOB),
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* fullbright           */ true,
@@ -2784,7 +2963,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "radiation shielding suit",
         /* plural2              */ "radiation shielding suits",
         /* name3                */ "radsuit",
-        /* plural3              */ "radsuits"
+        /* plural3              */ "radsuits",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Computer Area Map (MT_MISC15)
@@ -2819,6 +3000,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ (MF_SPECIAL | MF_COUNTITEM),
         /* flags2               */ (MF2_CASTSHADOW | MF2_FOOTCLIP),
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 4,
         /* fullbright           */ true,
@@ -2829,7 +3011,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "computer area map",
         /* plural2              */ "computer area maps",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Light Amplification Visor (MT_MISC16)
@@ -2864,6 +3048,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ (MF_SPECIAL | MF_COUNTITEM),
         /* flags2               */ (MF2_CASTSHADOW | MF2_TRANSLUCENT_REDONLY | MF2_FOOTCLIP),
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 2,
         /* fullbright           */ false,
@@ -2874,7 +3059,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "light amplification visor",
         /* plural2              */ "light amplification visors",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // MegaSphere (MT_MEGA)
@@ -2909,6 +3096,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ (MF_SPECIAL | MF_COUNTITEM),
         /* flags2               */ (MF2_CASTSHADOW | MF2_TRANSLUCENT_33 | MF2_FLOATBOB),
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 4,
         /* fullbright           */ true,
@@ -2919,7 +3107,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Clip (MT_CLIP)
@@ -2954,6 +3144,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ MF_SPECIAL,
         /* flags2               */ (MF2_CASTSHADOW | MF2_FOOTCLIP),
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* fullbright           */ false,
@@ -2964,7 +3155,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Box of Bullets (MT_MISC17)
@@ -2999,6 +3192,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ MF_SPECIAL,
         /* flags2               */ (MF2_CASTSHADOW | MF2_FOOTCLIP),
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* fullbright           */ false,
@@ -3009,7 +3203,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "clip box",
         /* plural2              */ "clip boxes",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Rocket (MT_MISC18)
@@ -3044,6 +3240,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ MF_SPECIAL,
         /* flags2               */ (MF2_CASTSHADOW | MF2_FOOTCLIP),
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* fullbright           */ false,
@@ -3054,7 +3251,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Box of Rockets (MT_MISC19)
@@ -3089,6 +3288,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ MF_SPECIAL,
         /* flags2               */ (MF2_CASTSHADOW | MF2_FOOTCLIP),
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* fullbright           */ false,
@@ -3099,7 +3299,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "rocket box",
         /* plural2              */ "rocket boxes",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Cell (MT_MISC20)
@@ -3134,6 +3336,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ MF_SPECIAL,
         /* flags2               */ (MF2_CASTSHADOW | MF2_FOOTCLIP),
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* fullbright           */ false,
@@ -3144,7 +3347,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Cell Pack (MT_MISC21)
@@ -3179,6 +3384,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ MF_SPECIAL,
         /* flags2               */ (MF2_CASTSHADOW | MF2_FOOTCLIP),
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* fullbright           */ false,
@@ -3189,7 +3395,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Shotgun Shells (MT_MISC22)
@@ -3224,6 +3432,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ MF_SPECIAL,
         /* flags2               */ (MF2_CASTSHADOW | MF2_FOOTCLIP),
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* fullbright           */ false,
@@ -3234,7 +3443,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "shell",
         /* plural2              */ "shells",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Box of Shells (MT_MISC23)
@@ -3269,6 +3480,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ MF_SPECIAL,
         /* flags2               */ (MF2_CASTSHADOW | MF2_FOOTCLIP),
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* fullbright           */ false,
@@ -3279,7 +3491,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "shell box",
         /* plural2              */ "shell boxes",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Backpack (MT_MISC24)
@@ -3314,6 +3528,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ MF_SPECIAL,
         /* flags2               */ (MF2_CASTSHADOW | MF2_FOOTCLIP),
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* fullbright           */ false,
@@ -3324,7 +3539,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // BFG-9000 (MT_MISC25)
@@ -3359,6 +3576,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ MF_SPECIAL,
         /* flags2               */ (MF2_CASTSHADOW | MF2_FOOTCLIP),
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* fullbright           */ false,
@@ -3369,7 +3587,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "BFG",
         /* plural2              */ "BFGs",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Chaingun (MT_CHAINGUN)
@@ -3404,6 +3624,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ MF_SPECIAL,
         /* flags2               */ (MF2_CASTSHADOW | MF2_FOOTCLIP),
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* fullbright           */ false,
@@ -3414,7 +3635,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Chainsaw (MT_MISC26)
@@ -3449,6 +3672,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ MF_SPECIAL,
         /* flags2               */ (MF2_CASTSHADOW | MF2_FOOTCLIP),
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* fullbright           */ false,
@@ -3459,7 +3683,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Rocket Launcher (MT_MISC27)
@@ -3494,6 +3720,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ MF_SPECIAL,
         /* flags2               */ (MF2_CASTSHADOW | MF2_FOOTCLIP),
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* fullbright           */ false,
@@ -3504,7 +3731,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Plasma Rifle (MT_MISC28)
@@ -3539,6 +3768,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ MF_SPECIAL,
         /* flags2               */ (MF2_CASTSHADOW | MF2_FOOTCLIP),
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* fullbright           */ false,
@@ -3549,7 +3779,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "plasma gun",
         /* plural2              */ "plasma guns",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Shotgun (MT_SHOTGUN)
@@ -3584,6 +3816,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ MF_SPECIAL,
         /* flags2               */ (MF2_CASTSHADOW | MF2_FOOTCLIP),
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* fullbright           */ false,
@@ -3594,7 +3827,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Super Shotgun (MT_SUPERSHOTGUN)
@@ -3629,6 +3864,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ MF_SPECIAL,
         /* flags2               */ (MF2_CASTSHADOW | MF2_FOOTCLIP),
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* fullbright           */ false,
@@ -3639,7 +3875,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "double-barreled shotgun",
         /* plural2              */ "double-barreled shotguns",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Tall techno floor lamp (MT_MISC29)
@@ -3674,6 +3912,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ MF_SOLID,
         /* flags2               */ (MF2_NOLIQUIDBOB | MF2_TRANSLUCENT_BLUEONLY | MF2_DECORATION | MF2_FOOTCLIP),
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 4,
         /* fullbright           */ true,
@@ -3684,7 +3923,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Short techno floor lamp (MT_MISC30)
@@ -3719,6 +3960,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ MF_SOLID,
         /* flags2               */ (MF2_NOLIQUIDBOB | MF2_TRANSLUCENT_BLUEONLY | MF2_DECORATION | MF2_FOOTCLIP),
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 4,
         /* fullbright           */ true,
@@ -3729,7 +3971,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Floor lamp (MT_MISC31)
@@ -3764,6 +4008,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ MF_SOLID,
         /* flags2               */ (MF2_NOLIQUIDBOB | MF2_TRANSLUCENT_REDONLY | MF2_DECORATION | MF2_FOOTCLIP),
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* fullbright           */ true,
@@ -3774,7 +4019,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Tall green column (MT_MISC32)
@@ -3809,6 +4056,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ MF_SOLID,
         /* flags2               */ (MF2_NOLIQUIDBOB | MF2_DECORATION | MF2_FOOTCLIP),
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* fullbright           */ false,
@@ -3819,7 +4067,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Short green column (MT_MISC33)
@@ -3854,6 +4104,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ MF_SOLID,
         /* flags2               */ (MF2_NOLIQUIDBOB | MF2_DECORATION | MF2_FOOTCLIP),
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* fullbright           */ false,
@@ -3864,7 +4115,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Tall red column (MT_MISC34)
@@ -3899,6 +4152,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ MF_SOLID,
         /* flags2               */ (MF2_NOLIQUIDBOB | MF2_DECORATION | MF2_FOOTCLIP),
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* fullbright           */ false,
@@ -3909,7 +4163,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Short red column (MT_MISC35)
@@ -3944,6 +4200,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ MF_SOLID,
         /* flags2               */ (MF2_NOLIQUIDBOB | MF2_DECORATION | MF2_FOOTCLIP),
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* fullbright           */ false,
@@ -3954,7 +4211,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Short red column with skull (MT_MISC36)
@@ -3989,6 +4248,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ MF_SOLID,
         /* flags2               */ (MF2_NOLIQUIDBOB | MF2_DECORATION | MF2_FOOTCLIP),
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* fullbright           */ false,
@@ -3999,7 +4259,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Short green column with beating heart (MT_MISC37)
@@ -4034,6 +4296,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ MF_SOLID,
         /* flags2               */ (MF2_NOLIQUIDBOB | MF2_DECORATION | MF2_FOOTCLIP),
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 2,
         /* fullbright           */ false,
@@ -4044,7 +4307,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Evil eye (MT_MISC38)
@@ -4079,6 +4344,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ MF_SOLID,
         /* flags2               */ (MF2_NOLIQUIDBOB | MF2_TRANSLUCENT_GREENONLY | MF2_DECORATION | MF2_FOOTCLIP),
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 3,
         /* fullbright           */ true,
@@ -4089,7 +4355,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Floating skull (MT_MISC39)
@@ -4124,6 +4392,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ MF_SOLID,
         /* flags2               */ (MF2_CASTSHADOW | MF2_DECORATION),
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 3,
         /* fullbright           */ true,
@@ -4134,7 +4403,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Torched tree (MT_MISC40)
@@ -4169,6 +4440,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ MF_SOLID,
         /* flags2               */ (MF2_DECORATION | MF2_FOOTCLIP),
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* fullbright           */ false,
@@ -4179,7 +4451,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Tall blue firestick (MT_MISC41)
@@ -4214,6 +4488,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ MF_SOLID,
         /* flags2               */ (MF2_NOLIQUIDBOB | MF2_TRANSLUCENT_BLUEONLY | MF2_DECORATION | MF2_FOOTCLIP),
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 4,
         /* fullbright           */ true,
@@ -4224,7 +4499,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Tall green firestick (MT_MISC42)
@@ -4259,6 +4536,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ MF_SOLID,
         /* flags2               */ (MF2_NOLIQUIDBOB | MF2_TRANSLUCENT_GREENONLY | MF2_DECORATION | MF2_FOOTCLIP),
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 4,
         /* fullbright           */ true,
@@ -4269,7 +4547,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Tall red firestick (MT_MISC43)
@@ -4304,6 +4584,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ MF_SOLID,
         /* flags2               */ (MF2_NOLIQUIDBOB | MF2_TRANSLUCENT_REDONLY | MF2_DECORATION | MF2_FOOTCLIP),
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 4,
         /* fullbright           */ true,
@@ -4314,7 +4595,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Short blue firestick (MT_MISC44)
@@ -4349,6 +4632,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ MF_SOLID,
         /* flags2               */ (MF2_NOLIQUIDBOB | MF2_TRANSLUCENT_BLUEONLY | MF2_DECORATION | MF2_FOOTCLIP),
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 4,
         /* fullbright           */ true,
@@ -4359,7 +4643,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Short green firestick (MT_MISC45)
@@ -4394,6 +4680,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ MF_SOLID,
         /* flags2               */ (MF2_NOLIQUIDBOB | MF2_TRANSLUCENT_GREENONLY | MF2_DECORATION | MF2_FOOTCLIP),
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 4,
         /* fullbright           */ true,
@@ -4404,7 +4691,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Short red firestick (MT_MISC46)
@@ -4439,6 +4728,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ MF_SOLID,
         /* flags2               */ (MF2_NOLIQUIDBOB | MF2_TRANSLUCENT_REDONLY | MF2_DECORATION | MF2_FOOTCLIP),
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 4,
         /* fullbright           */ true,
@@ -4449,7 +4739,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Stalagmite (MT_MISC47)
@@ -4484,6 +4776,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ MF_SOLID,
         /* flags2               */ (MF2_NOLIQUIDBOB | MF2_DECORATION | MF2_FOOTCLIP),
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* fullbright           */ false,
@@ -4494,7 +4787,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Tall techno pillar (MT_MISC48)
@@ -4529,6 +4824,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ MF_SOLID,
         /* flags2               */ (MF2_NOLIQUIDBOB | MF2_DECORATION | MF2_FOOTCLIP),
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* fullbright           */ false,
@@ -4539,7 +4835,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Candlestick (MT_MISC49)
@@ -4574,6 +4872,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ 0,
         /* flags2               */ (MF2_NOLIQUIDBOB | MF2_DECORATION | MF2_FOOTCLIP | MF2_TRANSLUCENT_REDONLY),
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* fullbright           */ false,
@@ -4584,7 +4883,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Candelabra (MT_MISC50)
@@ -4619,6 +4920,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ MF_SOLID,
         /* flags2               */ (MF2_NOLIQUIDBOB | MF2_DECORATION | MF2_FOOTCLIP),
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* fullbright           */ true,
@@ -4629,7 +4931,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Hanging victim (twitching, blocking) (MT_MISC51)
@@ -4664,6 +4968,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ (MF_SOLID | MF_SPAWNCEILING | MF_NOGRAVITY),
         /* flags2               */ MF2_DECORATION,
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 3,
         /* fullbright           */ false,
@@ -4674,7 +4979,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Hanging victim (arms out, blocking) (MT_MISC52)
@@ -4709,6 +5016,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ (MF_SOLID | MF_SPAWNCEILING | MF_NOGRAVITY),
         /* flags2               */ MF2_DECORATION,
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* fullbright           */ false,
@@ -4719,7 +5027,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Hanging victim (one-legged, blocking) (MT_MISC53)
@@ -4754,6 +5064,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ (MF_SOLID | MF_SPAWNCEILING | MF_NOGRAVITY),
         /* flags2               */ MF2_DECORATION,
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* fullbright           */ false,
@@ -4764,7 +5075,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Hanging pair of legs (blocking) (MT_MISC54)
@@ -4799,6 +5112,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ (MF_SOLID | MF_SPAWNCEILING | MF_NOGRAVITY),
         /* flags2               */ MF2_DECORATION,
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* fullbright           */ false,
@@ -4809,7 +5123,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Hanging leg (blocking) (MT_MISC55)
@@ -4844,6 +5160,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ (MF_SOLID | MF_SPAWNCEILING | MF_NOGRAVITY),
         /* flags2               */ MF2_DECORATION,
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* fullbright           */ false,
@@ -4854,7 +5171,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Hanging victim (arms out) (MT_MISC56)
@@ -4889,6 +5208,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ (MF_SPAWNCEILING | MF_NOGRAVITY),
         /* flags2               */ MF2_DECORATION,
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* fullbright           */ false,
@@ -4899,7 +5219,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Hanging pair of legs (MT_MISC57)
@@ -4934,6 +5256,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ (MF_SPAWNCEILING | MF_NOGRAVITY),
         /* flags2               */ MF2_DECORATION,
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* fullbright           */ false,
@@ -4944,7 +5267,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Hanging victim (one-legged) (MT_MISC58)
@@ -4979,6 +5304,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ (MF_SPAWNCEILING | MF_NOGRAVITY),
         /* flags2               */ MF2_DECORATION,
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* fullbright           */ false,
@@ -4989,7 +5315,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Hanging leg (MT_MISC59)
@@ -5024,6 +5352,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ (MF_SPAWNCEILING | MF_NOGRAVITY),
         /* flags2               */ MF2_DECORATION,
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* fullbright           */ false,
@@ -5034,7 +5363,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Hanging victim (twitching) (MT_MISC60)
@@ -5069,6 +5400,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ (MF_SPAWNCEILING | MF_NOGRAVITY),
         /* flags2               */ MF2_DECORATION,
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* fullbright           */ false,
@@ -5079,7 +5411,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Dead Cacodemon (MT_MISC61)
@@ -5114,6 +5448,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ MF_CORPSE,
         /* flags2               */ (MF2_CASTSHADOW | MF2_CRUSHABLE | MF2_DECORATION | MF2_FOOTCLIP),
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* fullbright           */ false,
@@ -5124,7 +5459,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "dead cacodemon",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Dead Player (MT_MISC62)
@@ -5159,6 +5496,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ MF_CORPSE,
         /* flags2               */ (MF2_CASTSHADOW | MF2_CRUSHABLE | MF2_DECORATION | MF2_FOOTCLIP),
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* fullbright           */ false,
@@ -5169,7 +5507,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "dead player",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Dead Zombieman (MT_MISC63)
@@ -5204,6 +5544,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ MF_CORPSE,
         /* flags2               */ (MF2_CASTSHADOW | MF2_CRUSHABLE | MF2_DECORATION | MF2_FOOTCLIP),
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* fullbright           */ false,
@@ -5214,7 +5555,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "dead zombieman",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Dead Demon (MT_MISC64)
@@ -5249,6 +5592,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ MF_CORPSE,
         /* flags2               */ (MF2_CASTSHADOW | MF2_CRUSHABLE | MF2_DECORATION | MF2_FOOTCLIP),
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* fullbright           */ false,
@@ -5259,7 +5603,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "dead demon",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Dead Lost Soul, invisible (MT_MISC65)
@@ -5294,6 +5640,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ 0,
         /* flags2               */ 0,
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* fullbright           */ false,
@@ -5304,7 +5651,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Dead Imp (MT_MISC66)
@@ -5339,6 +5688,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ MF_CORPSE,
         /* flags2               */ (MF2_CASTSHADOW | MF2_CRUSHABLE | MF2_DECORATION | MF2_FOOTCLIP),
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* fullbright           */ false,
@@ -5349,7 +5699,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "dead imp",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Dead Shotgun Guy (MT_MISC67)
@@ -5384,6 +5736,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ MF_CORPSE,
         /* flags2               */ (MF2_CASTSHADOW | MF2_CRUSHABLE | MF2_DECORATION | MF2_FOOTCLIP),
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* fullbright           */ false,
@@ -5394,7 +5747,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "dead shotgun guy",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Bloody mess 1 (MT_MISC68)
@@ -5429,6 +5784,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ MF_CORPSE,
         /* flags2               */ (MF2_CASTSHADOW | MF2_DECORATION | MF2_FOOTCLIP),
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* fullbright           */ false,
@@ -5439,7 +5795,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Bloody mess 2 (MT_MISC69)
@@ -5474,6 +5832,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ MF_CORPSE,
         /* flags2               */ (MF2_CASTSHADOW | MF2_DECORATION | MF2_FOOTCLIP),
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* fullbright           */ false,
@@ -5484,7 +5843,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Five skulls shishkebab (MT_MISC70)
@@ -5519,6 +5880,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ MF_SOLID,
         /* flags2               */ (MF2_NOLIQUIDBOB | MF2_DECORATION | MF2_FOOTCLIP),
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* fullbright           */ false,
@@ -5529,7 +5891,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Pool of blood and bones (MT_MISC71)
@@ -5564,6 +5928,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ 0,
         /* flags2               */ (MF2_DECORATION | MF2_FOOTCLIP),
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* fullbright           */ false,
@@ -5574,7 +5939,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Skull on a pole (MT_MISC72)
@@ -5609,6 +5976,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ MF_SOLID,
         /* flags2               */ (MF2_NOLIQUIDBOB | MF2_DECORATION | MF2_FOOTCLIP),
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* fullbright           */ false,
@@ -5619,7 +5987,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Pile of skulls and candles (MT_MISC73)
@@ -5654,6 +6024,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ MF_SOLID,
         /* flags2               */ (MF2_NOLIQUIDBOB | MF2_DECORATION | MF2_FOOTCLIP),
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 2,
         /* fullbright           */ true,
@@ -5664,7 +6035,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Impaled human (MT_MISC74)
@@ -5699,6 +6072,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ MF_SOLID,
         /* flags2               */ (MF2_NOLIQUIDBOB | MF2_DECORATION | MF2_FOOTCLIP),
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* fullbright           */ false,
@@ -5709,7 +6083,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Twitching impaled human (MT_MISC75)
@@ -5744,6 +6120,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ MF_SOLID,
         /* flags2               */ (MF2_NOLIQUIDBOB | MF2_DECORATION | MF2_FOOTCLIP),
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 2,
         /* fullbright           */ false,
@@ -5754,7 +6131,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Large brown tree (MT_MISC76)
@@ -5789,6 +6168,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ MF_SOLID,
         /* flags2               */ (MF2_NOLIQUIDBOB | MF2_DECORATION | MF2_FOOTCLIP),
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* fullbright           */ false,
@@ -5799,7 +6179,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Burning Barrel (MT_MISC77)
@@ -5834,6 +6216,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ MF_SOLID,
         /* flags2               */ (MF2_NOLIQUIDBOB | MF2_TRANSLUCENT_REDONLY | MF2_DECORATION | MF2_FOOTCLIP),
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 3,
         /* fullbright           */ true,
@@ -5844,7 +6227,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Hanging victim (guts removed) (MT_MISC78)
@@ -5879,6 +6264,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ (MF_SOLID | MF_SPAWNCEILING | MF_NOGRAVITY),
         /* flags2               */ MF2_DECORATION,
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* fullbright           */ false,
@@ -5889,7 +6275,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Hanging victim (guts and brain removed) (MT_MISC79)
@@ -5924,6 +6312,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ (MF_SOLID | MF_SPAWNCEILING | MF_NOGRAVITY),
         /* flags2               */ MF2_DECORATION,
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* fullbright           */ false,
@@ -5934,7 +6323,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Hanging torso (looking down) (MT_MISC80)
@@ -5969,6 +6360,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ (MF_SOLID | MF_SPAWNCEILING | MF_NOGRAVITY),
         /* flags2               */ MF2_DECORATION,
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* fullbright           */ false,
@@ -5979,7 +6371,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Hanging torso (open skull) (MT_MISC81)
@@ -6014,6 +6408,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ (MF_SOLID | MF_SPAWNCEILING | MF_NOGRAVITY),
         /* flags2               */ MF2_DECORATION,
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* fullbright           */ false,
@@ -6024,7 +6419,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Hanging torso (looking up) (MT_MISC82)
@@ -6059,6 +6456,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ (MF_SOLID | MF_SPAWNCEILING | MF_NOGRAVITY),
         /* flags2               */ MF2_DECORATION,
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* fullbright           */ false,
@@ -6069,7 +6467,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Hanging torso (brain removed) (MT_MISC83)
@@ -6104,6 +6504,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ (MF_SOLID | MF_SPAWNCEILING | MF_NOGRAVITY),
         /* flags2               */ MF2_DECORATION,
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* fullbright           */ false,
@@ -6114,7 +6515,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Pool of blood and guts (MT_MISC84)
@@ -6149,6 +6552,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ 0,
         /* flags2               */ (MF2_DECORATION | MF2_FOOTCLIP),
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* fullbright           */ false,
@@ -6159,7 +6563,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Pool of blood (MT_MISC85)
@@ -6194,6 +6600,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ 0,
         /* flags2               */ (MF2_DECORATION | MF2_FOOTCLIP),
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* fullbright           */ false,
@@ -6204,7 +6611,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Pool of brains (MT_MISC86)
@@ -6239,6 +6648,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ 0,
         /* flags2               */ (MF2_DECORATION | MF2_FOOTCLIP),
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* fullbright           */ false,
@@ -6249,7 +6659,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // MT_PUSH
@@ -6284,6 +6696,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ MF_NOBLOCKMAP,
         /* flags2               */ 0,
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* fullbright           */ false,
@@ -6294,7 +6707,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // MT_PULL
@@ -6329,6 +6744,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ MF_NOBLOCKMAP,
         /* flags2               */ 0,
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* fullbright           */ false,
@@ -6339,7 +6755,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // MT_DOGS
@@ -6374,6 +6792,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_dgact,
         /* flags                */ (MF_SOLID | MF_SHOOTABLE | MF_COUNTKILL),
         /* flags2               */ (MF2_CASTSHADOW | MF2_CRUSHABLE | MF2_NOLIQUIDBOB | MF2_FOOTCLIP),
+        /* flags3               */ 0,
         /* raisestate           */ S_DOGS_RAISE1,
         /* frames               */ 0,
         /* fullbright           */ false,
@@ -6384,7 +6803,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "helper dog",
         /* plural2              */ "helper dogs",
         /* name3                */ "MBF helper dog",
-        /* plural3              */ "MBF helper dogs"
+        /* plural3              */ "MBF helper dogs",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // MT_PLASMA1
@@ -6419,6 +6840,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ (MF_NOBLOCKMAP | MF_MISSILE | MF_DROPOFF | MF_NOGRAVITY),
         /* flags2               */ 0,
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* fullbright           */ true,
@@ -6429,7 +6851,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // MT_PLASMA2
@@ -6464,6 +6888,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ (MF_NOBLOCKMAP | MF_MISSILE | MF_DROPOFF | MF_NOGRAVITY),
         /* flags2               */ 0,
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* fullbright           */ true,
@@ -6474,7 +6899,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // MT_SCEPTRE
@@ -6509,6 +6936,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ (MF_SPECIAL | MF_COUNTITEM),
         /* flags2               */ MF2_CASTSHADOW,
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* fullbright           */ false,
@@ -6519,7 +6947,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // MT_BIBLE
@@ -6554,6 +6984,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ (MF_SPECIAL | MF_COUNTITEM),
         /* flags2               */ MF2_CASTSHADOW,
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* fullbright           */ false,
@@ -6564,7 +6995,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // MT_MUSICSOURCE
@@ -6599,6 +7032,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ MF_NOBLOCKMAP,
         /* flags2               */ 0,
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* fullbright           */ false,
@@ -6609,7 +7043,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // MT_GIBDTH
@@ -6644,6 +7080,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ (MF_NOBLOCKMAP | MF_DROPOFF),
         /* flags2               */ 0,
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* fullbright           */ false,
@@ -6654,7 +7091,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Blue Blood (MT_BLUEBLOOD)
@@ -6689,6 +7128,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ 0,
         /* flags2               */ (MF2_BLOOD | MF2_TRANSLUCENT_REDTOBLUE_33),
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* fullbright           */ false,
@@ -6699,7 +7139,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Green Blood (MT_GREENBLOOD)
@@ -6734,6 +7176,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ 0,
         /* flags2               */ (MF2_BLOOD | MF2_TRANSLUCENT_REDTOGREEN_33),
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* fullbright           */ false,
@@ -6744,7 +7187,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Fuzzy Blood (MT_FUZZYBLOOD)
@@ -6779,6 +7224,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ MF_FUZZ,
         /* flags2               */ MF2_BLOOD,
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* fullbright           */ false,
@@ -6789,7 +7235,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     // Smoke Trail (MT_TRAIL)
@@ -6824,6 +7272,7 @@ mobjinfo_t mobjinfo[] =
         /* activesound          */ sfx_none,
         /* flags                */ (MF_NOBLOCKMAP | MF_NOGRAVITY),
         /* flags2               */ MF2_TRANSLUCENT_50,
+        /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* fullbright           */ false,
@@ -6834,7 +7283,9 @@ mobjinfo_t mobjinfo[] =
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ ""
+        /* plural3              */ "",
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT
     },
 
     EMPTYMOBJ,  // MT_EXTRA00

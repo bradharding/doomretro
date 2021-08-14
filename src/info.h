@@ -228,6 +228,20 @@ typedef enum
     NUMMOBJTYPES
 } mobjtype_t;
 
+typedef enum
+{
+    PG_GROUPLESS = -1,
+    PG_DEFAULT,
+    PG_BARON,
+    PG_END
+} projectile_group_t;
+
+typedef enum
+{
+    SG_DEFAULT,
+    SG_END
+} splash_group_t;
+
 typedef struct
 {
     int         doomednum;
@@ -260,6 +274,7 @@ typedef struct
     int         activesound;
     int         flags;
     int         flags2;
+    int         flags3;
     statenum_t  raisestate;
     int         frames;
     dboolean    fullbright;
@@ -271,6 +286,11 @@ typedef struct
     char        plural2[64];
     char        name3[64];
     char        plural3[64];
+
+    // MBF21
+    int         projectile_group;
+    int         splash_group;
+
     void        (*colfunc)(void);
     void        (*altcolfunc)(void);
 } mobjinfo_t;

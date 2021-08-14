@@ -345,7 +345,10 @@ enum
     MF3_SPAWNEDBYPLAYER             = 0x00000002,
 
     // Object has higher attack probability
-    MF3_MISSILEMORE                 = 0x00000004
+    MF3_MISSILEMORE                 = 0x00000004,
+
+    // Splash damage does not account for group
+    MF3_NEUTRAL_SPLASH              = 0x00000008
 };
 
 typedef enum

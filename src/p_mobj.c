@@ -794,6 +794,7 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
     mobj->radius = info->radius;
     mobj->flags = info->flags;
     mobj->flags2 = info->flags2;
+    mobj->flags3 = info->flags3;
     mobj->health = info->spawnhealth;
 
     if (gameskill != sk_nightmare)

@@ -426,6 +426,25 @@ static dboolean PIT_CheckLine(line_t *ld)
     return true;
 }
 
+static dboolean P_ProjectileImmune(mobj_t *target, mobj_t *source)
+{
+    return
+        ( // PG_GROUPLESS means no immunity, even to own species
+            mobjinfo[target->type].projectile_group != PG_GROUPLESS ||
+            target == source
+            ) &&
+        (
+            ( // target type has default behavior, and things are the same type
+                mobjinfo[target->type].projectile_group == PG_DEFAULT &&
+                source->type == target->type
+                ) ||
+            ( // target type has special behavior, and things have the same group
+                mobjinfo[target->type].projectile_group != PG_DEFAULT &&
+                mobjinfo[target->type].projectile_group == mobjinfo[source->type].projectile_group
+                )
+            );
+}
+
 //
 // PIT_CheckThing
 //
@@ -545,12 +564,9 @@ static dboolean PIT_CheckThing(mobj_t *thing)
         if (tmthing->z + tmthing->height < thing->z)
             return true;                // underneath
 
-        if (tmthing->target
-            && (tmthing->target->type == type
-                || (tmthing->target->type == MT_KNIGHT && type == MT_BRUISER)
-                || (tmthing->target->type == MT_BRUISER && type == MT_KNIGHT)))
+        if (tmthing->target && P_ProjectileImmune(thing, tmthing->target))
         {
-            // Don't hit same species as originator.
+            // Don't hit self.
             if (thing == tmthing->target)
                 return true;
             else if (!infight && !species_infighting)
@@ -1912,6 +1928,14 @@ static mobj_t   *bombspot;
 static int      bombdamage;
 static dboolean bombverticality;
 
+static dboolean P_SplashImmune(mobj_t *target, mobj_t *source, mobj_t *spot)
+{
+    return // not neutral, not default behavior, and same group
+        !(spot->flags3 & MF3_NEUTRAL_SPLASH) &&
+        mobjinfo[target->type].splash_group != SG_DEFAULT &&
+        mobjinfo[target->type].splash_group == mobjinfo[source->type].splash_group;
+}
+
 //
 // PIT_RadiusAttack
 // "bombsource" is the creature
@@ -1927,6 +1951,9 @@ dboolean PIT_RadiusAttack(mobj_t *thing)
     if (!(thing->flags & (MF_SHOOTABLE | MF_BOUNCES))
         // [BH] allow corpses to react to blast damage
         && !(thing->flags & MF_CORPSE))
+        return true;
+
+    if (bombsource && P_SplashImmune(thing, bombsource, bombspot))
         return true;
 
     type = thing->type;
