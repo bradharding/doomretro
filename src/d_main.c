@@ -248,7 +248,7 @@ static void D_UpdateFade(void)
             *dot = tinttab[(*dot << 8) + fadescreen[i]];
         }
 
-        for (int y = 0; y < SCREENAREA; y += SCREENWIDTH)
+        for (int y = 0; y < SCREENAREA; y += SCREENWIDTH * 2)
         {
             for (int x = y; x < y + SCREENWIDTH; x += 2)
             {
@@ -257,7 +257,7 @@ static void D_UpdateFade(void)
                 *dot = tinttab80[(*dot << 8) + fadescreen[x]];
             }
 
-            y += SCREENWIDTH;
+            y += SCREENWIDTH * 2;
 
             for (int x = y + 1; x < y + SCREENWIDTH; x += 2)
             {
