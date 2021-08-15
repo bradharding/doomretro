@@ -399,7 +399,10 @@ enum
     MF3_LOGRAV                      = 0x00080000,
 
     // mobj is a major boss
-    MF3_BOSS                        = 0x00100000
+    MF3_BOSS                        = 0x00100000,
+
+    // projectile rips through targets
+    MF3_RIP                         = 0x00200000
 };
 
 typedef enum

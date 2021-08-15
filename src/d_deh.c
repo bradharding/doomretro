@@ -1509,7 +1509,7 @@ typedef struct
 // killough 08/09/98: make DEH_BLOCKMAX self-adjusting
 #define DEH_BLOCKMAX    arrlen(deh_blocks)              // size of array
 #define DEH_MAXKEYLEN   32      // as much of any key as we'll look at
-#define DEH_MOBJINFOMAX 38      // number of ints in the mobjinfo_t structure (!)
+#define DEH_MOBJINFOMAX 39      // number of ints in the mobjinfo_t structure (!)
 
 // Put all the block header values, and the function to be called when that
 // one is encountered, in this array:
@@ -1583,8 +1583,9 @@ static const char *deh_mobjinfo[DEH_MOBJINFOMAX] =
     "Fullbright",               // .fullbright
     "Blood",                    // .blood
     "Shadow offset",            // .shadowoffset
-    "Projectile group",         // .projectile_group
-    "Splash group",             // .splash_group
+    "Projectile group",         // .projectilegroup
+    "Splash group",             // .splashgroup
+    "Rip sound",                // .ripsound
 };
 
 // Strings that are used to indicate flags ("Bits" in mobjinfo)
@@ -1704,7 +1705,8 @@ static const struct deh_mobjflags_s deh_mobjflags_mbf21[] =
     { "E3M8BOSS",       MF3_E3M8BOSS       },   // E3M8 boss
     { "E4M6BOSS",       MF3_E4M6BOSS       },   // E4M6 boss
     { "E4M8BOSS",       MF3_E4M8BOSS       },   // E4M8 boss
-    { "NEUTRAL_SPLASH", MF3_NEUTRAL_SPLASH }    // splash damage ignores splash groups
+    { "NEUTRAL_SPLASH", MF3_NEUTRAL_SPLASH },   // splash damage ignores splash groups
+    { "RIP",            MF3_RIP            }    // projectile rips through targets
 };
 
 // STATE - Dehacked block name = "Frame" and "Pointer"
@@ -2500,15 +2502,15 @@ static void deh_procThing(DEHFILE *fpin, char *line)
                 mobjinfo[indexnum].droppeditem = (int)value - 1;
             else if (M_StringCompare(key, "Projectile group"))
             {
-                mobjinfo[indexnum].projectile_group = (int)(value);
+                mobjinfo[indexnum].projectilegroup = (int)(value);
 
-                if (mobjinfo[indexnum].projectile_group < 0)
-                    mobjinfo[indexnum].projectile_group = PG_GROUPLESS;
+                if (mobjinfo[indexnum].projectilegroup < 0)
+                    mobjinfo[indexnum].projectilegroup = PG_GROUPLESS;
                 else
-                    mobjinfo[indexnum].projectile_group += PG_END;
+                    mobjinfo[indexnum].projectilegroup += PG_END;
             }
             else if (M_StringCompare(key, "Splash group"))
-                mobjinfo[indexnum].splash_group = (int)(value) + SG_END;
+                mobjinfo[indexnum].splashgroup = (int)(value) + SG_END;
             else
             {
                 pix = (int *)&mobjinfo[indexnum];

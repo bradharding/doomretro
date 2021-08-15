@@ -430,17 +430,17 @@ static dboolean P_ProjectileImmune(mobj_t *target, mobj_t *source)
 {
     return
         ( // PG_GROUPLESS means no immunity, even to own species
-            mobjinfo[target->type].projectile_group != PG_GROUPLESS ||
+            mobjinfo[target->type].projectilegroup != PG_GROUPLESS ||
             target == source
             ) &&
         (
             ( // target type has default behavior, and things are the same type
-                mobjinfo[target->type].projectile_group == PG_DEFAULT &&
+                mobjinfo[target->type].projectilegroup == PG_DEFAULT &&
                 source->type == target->type
                 ) ||
             ( // target type has special behavior, and things have the same group
-                mobjinfo[target->type].projectile_group != PG_DEFAULT &&
-                mobjinfo[target->type].projectile_group == mobjinfo[source->type].projectile_group
+                mobjinfo[target->type].projectilegroup != PG_DEFAULT &&
+                mobjinfo[target->type].projectilegroup == mobjinfo[source->type].projectilegroup
                 )
             );
 }
@@ -597,6 +597,25 @@ static dboolean PIT_CheckThing(mobj_t *thing)
 
         if (!(flags & MF_SHOOTABLE))
             return !(flags & MF_SOLID); // didn't do any damage
+
+        if (tmthing->flags3 & MF3_RIP)
+        {
+            int damage = ((M_Random() & 3) + 2) * tmthing->info->damage;
+
+            if (!(thing->flags & MF_NOBLOOD))
+                P_SpawnBlood(tmthing->x, tmthing->y, tmthing->z, tmthing->angle, damage, tmthing);
+
+            if (tmthing->info->ripsound)
+                S_StartSound(tmthing, tmthing->info->ripsound);
+
+            P_DamageMobj(thing, tmthing, tmthing->target, damage, true);
+
+            thing->momx += tmthing->momx >> 2;
+            thing->momy += tmthing->momy >> 2;
+
+            numspechit = 0;
+            return true;
+        }
 
         // damage/explode
         P_DamageMobj(thing, tmthing, tmthing->target, ((M_Random() & 7) + 1) * tmthing->info->damage, true);
@@ -1932,8 +1951,8 @@ static dboolean P_SplashImmune(mobj_t *target, mobj_t *source, mobj_t *spot)
 {
     return // not neutral, not default behavior, and same group
         !(spot->flags3 & MF3_NEUTRAL_SPLASH) &&
-        mobjinfo[target->type].splash_group != SG_DEFAULT &&
-        mobjinfo[target->type].splash_group == mobjinfo[source->type].splash_group;
+        mobjinfo[target->type].splashgroup != SG_DEFAULT &&
+        mobjinfo[target->type].splashgroup == mobjinfo[source->type].splashgroup;
 }
 
 //

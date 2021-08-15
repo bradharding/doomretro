@@ -234,13 +234,13 @@ typedef enum
     PG_DEFAULT,
     PG_BARON,
     PG_END
-} projectile_group_t;
+} projectilegroup_t;
 
 typedef enum
 {
     SG_DEFAULT,
     SG_END
-} splash_group_t;
+} splashgroup_t;
 
 typedef struct
 {
@@ -280,8 +280,9 @@ typedef struct
     dboolean    fullbright;
     int         blood;
     int         shadowoffset;
-    int         projectile_group;
-    int         splash_group;
+    int         projectilegroup;
+    int         splashgroup;
+    int         ripsound;
     char        name1[64];
     char        plural1[64];
     char        name2[64];
