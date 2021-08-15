@@ -78,14 +78,14 @@
     /* fullbright           */ false,      \
     /* blood                */ 0,          \
     /* shadowoffset         */ 0,          \
+    /* projectile_group     */ PG_DEFAULT, \
+    /* splash_group         */ SG_DEFAULT, \
     /* name1                */ "",         \
     /* plural1              */ "",         \
     /* name2                */ "",         \
     /* plural2              */ "",         \
     /* name3                */ "",         \
     /* plural3              */ "",         \
-    /* projectile_group     */ PG_DEFAULT, \
-    /* splash_group         */ SG_DEFAULT, \
 }
 
 mobjinfo_t mobjinfo[] =
@@ -128,14 +128,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ false,
         /* blood                */ MT_BLOOD,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "player",
         /* plural1              */ "",
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Zombieman (MT_POSSESSED)
@@ -176,14 +176,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ false,
         /* blood                */ MT_BLOOD,
         /* shadowoffset         */ 2 * FRACUNIT,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "zombieman",
         /* plural1              */ "zombiemen",
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Shotgun Guy (MT_SHOTGUY)
@@ -224,14 +224,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ false,
         /* blood                */ MT_BLOOD,
         /* shadowoffset         */ 2 * FRACUNIT,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "shotgun guy",
         /* plural1              */ "shotgun guys",
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Arch-vile (MT_VILE)
@@ -272,14 +272,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ false,
         /* blood                */ MT_BLOOD,
         /* shadowoffset         */ 4 * FRACUNIT,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "arch-vile",
         /* plural1              */ "arch-viles",
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Arch-vile Fire (MT_FIRE)
@@ -320,14 +320,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ true,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "arch-vile fire",
         /* plural1              */ "",
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Revenant (MT_UNDEAD)
@@ -368,14 +368,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ false,
         /* blood                */ MT_BLOOD,
         /* shadowoffset         */ 4 * FRACUNIT,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "revenant",
         /* plural1              */ "revenants",
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Revenant Projectile (MT_TRACER)
@@ -416,14 +416,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ true,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "revenant",
         /* plural1              */ "revenants",
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Smoke (MT_SMOKE)
@@ -464,14 +464,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ false,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "smoke",
         /* plural1              */ "",
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Mancubus (MT_FATSO)
@@ -512,14 +512,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ false,
         /* blood                */ MT_BLOOD,
         /* shadowoffset         */ 2 * FRACUNIT,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "mancubus",
         /* plural1              */ "mancubi",
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Mancubus Projectile (MT_FATSHOT)
@@ -560,14 +560,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ true,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "mancubus",
         /* plural1              */ "mancubi",
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Heavy Weapon Dude (MT_CHAINGUY)
@@ -608,14 +608,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ false,
         /* blood                */ MT_BLOOD,
         /* shadowoffset         */ 2 * FRACUNIT,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "heavy weapon dude",
         /* plural1              */ "heavy weapon dudes",
         /* name2                */ "chaingunner",
         /* plural2              */ "chaingunners",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Imp (MT_TROOP)
@@ -656,6 +656,8 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ false,
         /* blood                */ MT_BLOOD,
         /* shadowoffset         */ 2 * FRACUNIT,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "imp",
         /* plural1              */ "imps",
         /* name2                */ "",
@@ -702,14 +704,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ false,
         /* blood                */ MT_BLOOD,
         /* shadowoffset         */ 2 * FRACUNIT,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "pinky demon",
         /* plural1              */ "pinky demons",
         /* name2                */ "demon",
         /* plural2              */ "demons",
         /* name3                */ "pinky",
-        /* plural3              */ "pinkies",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ "pinkies"
     },
 
     // Spectre (MT_SHADOWS)
@@ -750,14 +752,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ false,
         /* blood                */ MT_FUZZYBLOOD,
         /* shadowoffset         */ 2 * FRACUNIT,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "spectre",
         /* plural1              */ "spectres",
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Cacodemon (MT_HEAD)
@@ -798,14 +800,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ false,
         /* blood                */ MT_BLUEBLOOD,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "cacodemon",
         /* plural1              */ "cacodemons",
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Baron of Hell (MT_BRUISER)
@@ -846,14 +848,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ false,
         /* blood                */ MT_GREENBLOOD,
         /* shadowoffset         */ 4 * FRACUNIT,
+        /* projectile_group     */ PG_BARON,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "baron of hell",
         /* plural1              */ "barons of hell",
         /* name2                */ "baron",
         /* plural2              */ "barons",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_BARON,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Baron of Hell and Hell Knight Projectile (MT_BRUISERSHOT)
@@ -894,14 +896,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ true,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "hell noble",
         /* plural1              */ "hell nobles",
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Hell Knight (MT_KNIGHT)
@@ -942,14 +944,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ false,
         /* blood                */ MT_GREENBLOOD,
         /* shadowoffset         */ 4 * FRACUNIT,
+        /* projectile_group     */ PG_BARON,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "hell knight",
         /* plural1              */ "hell knights",
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_BARON,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Lost Soul (MT_SKULL)
@@ -990,14 +992,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ true,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "lost soul",
         /* plural1              */ "lost souls",
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Spider Mastermind (MT_SPIDER)
@@ -1038,14 +1040,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ false,
         /* blood                */ MT_BLOOD,
         /* shadowoffset         */ 12 * FRACUNIT,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "spider mastermind",
         /* plural1              */ "spider masterminds",
         /* name2                */ "spiderdemon",
         /* plural2              */ "spiderdemons",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Arachnotron (MT_BABY)
@@ -1086,14 +1088,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ false,
         /* blood                */ MT_BLOOD,
         /* shadowoffset         */ 4 * FRACUNIT,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "arachnotron",
         /* plural1              */ "arachnotrons",
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Cyberdemon (MT_CYBORG)
@@ -1134,14 +1136,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ false,
         /* blood                */ MT_BLOOD,
         /* shadowoffset         */ 4 * FRACUNIT,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "cyberdemon",
         /* plural1              */ "cyberdemons",
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Pain Elemental (MT_PAIN)
@@ -1182,14 +1184,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ false,
         /* blood                */ MT_BLOOD,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "pain elemental",
         /* plural1              */ "pain elementals",
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Wolfenstein SS (MT_WOLFSS)
@@ -1230,14 +1232,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ false,
         /* blood                */ MT_BLOOD,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "Wolfenstein SS",
         /* plural1              */ "Wolfenstein SS",
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Commander Keen (MT_KEEN)
@@ -1278,14 +1280,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ false,
         /* blood                */ MT_BLOOD,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "commander keen",
         /* plural1              */ "commander keens",
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Boss Brain (MT_BOSSBRAIN)
@@ -1326,14 +1328,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ false,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "icon of sin",
         /* plural1              */ "icons of sin",
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Monsters Spawner (MT_BOSSSPIT)
@@ -1374,14 +1376,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ false,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "monsters spawner",
         /* plural1              */ "",
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Monsters Target (MT_BOSSTARGET)
@@ -1422,14 +1424,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ false,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "monsters target",
         /* plural1              */ "",
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Boss Brain Projectile (MT_SPAWNSHOT)
@@ -1470,14 +1472,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ true,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "icon of sin",
         /* plural1              */ "icons of sin",
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Boss Brain Fire (MT_SPAWNFIRE)
@@ -1518,14 +1520,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ true,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "icon of sin fire",
         /* plural1              */ "",
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Barrel (MT_BARREL)
@@ -1566,14 +1568,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ false,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "barrel",
         /* plural1              */ "barrels",
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Imp Projectile (MT_TROOPSHOT)
@@ -1614,14 +1616,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ true,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "imp",
         /* plural1              */ "imps",
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Cacodemon Projectile (MT_HEADSHOT)
@@ -1662,14 +1664,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ true,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "cacodemon",
         /* plural1              */ "cacodemons",
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Rocket Launcher Projectile (MT_ROCKET)
@@ -1710,14 +1712,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ true,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "rocket",
         /* plural1              */ "",
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Plasma Rifle Projectile (MT_PLASMA)
@@ -1758,14 +1760,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ true,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "plasma rifle",
         /* plural1              */ "",
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // BFG-9000 Projectile (MT_BFG)
@@ -1806,14 +1808,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ true,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "BFG-9000 projectile",
         /* plural1              */ "",
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Arachnotron Projectile (MT_ARACHPLAZ)
@@ -1854,14 +1856,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ true,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "arachnotron's projectile",
         /* plural1              */ "",
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Bullet Puff (MT_PUFF)
@@ -1902,14 +1904,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ false,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "bullet puff",
         /* plural1              */ "",
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Red Blood (MT_BLOOD)
@@ -1950,14 +1952,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ false,
         /* blood                */ REDBLOOD,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "red blood",
         /* plural1              */ "",
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Teleport Fog (MT_TFOG)
@@ -1998,14 +2000,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ true,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "teleport fog",
         /* plural1              */ "",
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Item Fog (MT_IFOG)
@@ -2046,14 +2048,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ true,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "item fog",
         /* plural1              */ "",
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Teleport Destination (MT_TELEPORTMAN)
@@ -2094,14 +2096,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ false,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "teleport destination",
         /* plural1              */ "",
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // BFG-9000 Secondary Projectile (MT_EXTRABFG)
@@ -2142,14 +2144,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ true,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "BFG-9000 secondary projectile",
         /* plural1              */ "",
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Green Armor (MT_MISC0)
@@ -2190,14 +2192,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ false,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "green armor",
         /* plural1              */ "green armor",
         /* name2                */ "green armour",
         /* plural2              */ "green armour",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Blue Armor (MT_MISC1)
@@ -2238,14 +2240,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ false,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "blue armor",
         /* plural1              */ "blue armor",
         /* name2                */ "blue armour",
         /* plural2              */ "blue armour",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Health Bonus (MT_MISC2)
@@ -2286,14 +2288,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ false,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "health bonus",
         /* plural1              */ "health bonuses",
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Armor Bonus (MT_MISC3)
@@ -2334,14 +2336,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ false,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "armor bonus",
         /* plural1              */ "armor bonuses",
         /* name2                */ "armour bonus",
         /* plural2              */ "armour bonuses",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Blue Keycard (MT_MISC4)
@@ -2382,14 +2384,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ false,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "blue keycard",
         /* plural1              */ "blue keycards",
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Red Keycard (MT_MISC5)
@@ -2430,14 +2432,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ false,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "red keycard",
         /* plural1              */ "red keycards",
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Yellow Keycard (MT_MISC6)
@@ -2478,14 +2480,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ false,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "yellow keycard",
         /* plural1              */ "yellow keycards",
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Yellow Skull Key (MT_MISC7)
@@ -2526,14 +2528,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ false,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "yellow skull key",
         /* plural1              */ "yellow skull keys",
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Red Skull Key (MT_MISC8)
@@ -2574,14 +2576,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ false,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "red skull key",
         /* plural1              */ "red skull keys",
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Blue Skull Key (MT_MISC9)
@@ -2622,14 +2624,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ false,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "blue skull key",
         /* plural1              */ "blue skull keys",
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Stimpack (MT_MISC10)
@@ -2670,14 +2672,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ false,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "stimpack",
         /* plural1              */ "stimpacks",
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Medikit (MT_MISC11)
@@ -2718,14 +2720,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ false,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "medikit",
         /* plural1              */ "medikits",
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // SoulSphere (MT_MISC12)
@@ -2766,14 +2768,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ true,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "soulsphere",
         /* plural1              */ "soulspheres",
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Invulnerability (MT_INV)
@@ -2814,14 +2816,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ true,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "invulnerability power-up",
         /* plural1              */ "invulnerability power-ups",
         /* name2                */ "invulnerability",
         /* plural2              */ "invulnerabilities",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Berserk (MT_MISC13)
@@ -2862,14 +2864,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ true,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "berserk power-up",
         /* plural1              */ "berserk power-ups",
         /* name2                */ "berserk",
         /* plural2              */ "berserks",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Partial Invisibility (MT_INS)
@@ -2910,14 +2912,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ true,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "partial invisibility power-up",
         /* plural1              */ "partial invisibility power-ups",
         /* name2                */ "partial invisibility",
         /* plural2              */ "partial invisibilities",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Radiation Shielding Suit (MT_MISC14)
@@ -2958,14 +2960,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ true,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "radiation shielding suit power-up",
         /* plural1              */ "radiation shielding suit power-ups",
         /* name2                */ "radiation shielding suit",
         /* plural2              */ "radiation shielding suits",
         /* name3                */ "radsuit",
-        /* plural3              */ "radsuits",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ "radsuits"
     },
 
     // Computer Area Map (MT_MISC15)
@@ -3006,14 +3008,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ true,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "computer area map power-up",
         /* plural1              */ "computer area map power-ups",
         /* name2                */ "computer area map",
         /* plural2              */ "computer area maps",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Light Amplification Visor (MT_MISC16)
@@ -3054,14 +3056,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ false,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "light amplification visor power-up",
         /* plural1              */ "light amplification visor power-ups",
         /* name2                */ "light amplification visor",
         /* plural2              */ "light amplification visors",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // MegaSphere (MT_MEGA)
@@ -3102,14 +3104,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ true,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "megasphere",
         /* plural1              */ "megaspheres",
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Clip (MT_CLIP)
@@ -3150,14 +3152,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ false,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "clip",
         /* plural1              */ "clips",
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Box of Bullets (MT_MISC17)
@@ -3198,14 +3200,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ false,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "box of bullets",
         /* plural1              */ "boxes of bullets",
         /* name2                */ "clip box",
         /* plural2              */ "clip boxes",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Rocket (MT_MISC18)
@@ -3246,14 +3248,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ false,
         /* blood                */ 0,
         /* shadowoffset         */ 1 * FRACUNIT,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "rocket ammo",
         /* plural1              */ "rocket ammo",
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Box of Rockets (MT_MISC19)
@@ -3294,14 +3296,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ false,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "box of rockets",
         /* plural1              */ "boxes of rockets",
         /* name2                */ "rocket box",
         /* plural2              */ "rocket boxes",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Cell (MT_MISC20)
@@ -3342,14 +3344,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ false,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "cell",
         /* plural1              */ "cells",
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Cell Pack (MT_MISC21)
@@ -3390,14 +3392,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ false,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "cell pack",
         /* plural1              */ "cell packs",
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Shotgun Shells (MT_MISC22)
@@ -3438,14 +3440,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ false,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "shotgun shell",
         /* plural1              */ "shotgun shells",
         /* name2                */ "shell",
         /* plural2              */ "shells",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Box of Shells (MT_MISC23)
@@ -3486,14 +3488,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ false,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "box of shells",
         /* plural1              */ "boxes of shells",
         /* name2                */ "shell box",
         /* plural2              */ "shell boxes",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Backpack (MT_MISC24)
@@ -3534,14 +3536,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ false,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "backpack",
         /* plural1              */ "backpacks",
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // BFG-9000 (MT_MISC25)
@@ -3582,14 +3584,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ false,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "BFG-9000",
         /* plural1              */ "BFG-9000s",
         /* name2                */ "BFG",
         /* plural2              */ "BFGs",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Chaingun (MT_CHAINGUN)
@@ -3630,14 +3632,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ false,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "chaingun",
         /* plural1              */ "chainguns",
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Chainsaw (MT_MISC26)
@@ -3678,14 +3680,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ false,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "chainsaw",
         /* plural1              */ "chainsaws",
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Rocket Launcher (MT_MISC27)
@@ -3726,14 +3728,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ false,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "rocket launcher",
         /* plural1              */ "rocket launchers",
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Plasma Rifle (MT_MISC28)
@@ -3774,14 +3776,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ false,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "plasma rifle",
         /* plural1              */ "plasma rifles",
         /* name2                */ "plasma gun",
         /* plural2              */ "plasma guns",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Shotgun (MT_SHOTGUN)
@@ -3822,14 +3824,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ false,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "shotgun",
         /* plural1              */ "shotguns",
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Super Shotgun (MT_SUPERSHOTGUN)
@@ -3870,14 +3872,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ false,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "super shotgun",
         /* plural1              */ "super shotguns",
         /* name2                */ "double-barreled shotgun",
         /* plural2              */ "double-barreled shotguns",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Tall techno floor lamp (MT_MISC29)
@@ -3918,14 +3920,12 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ true,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "tall techno floor lamp",
         /* plural1              */ "tall techno floor lamps",
         /* name2                */ "",
         /* plural2              */ "",
-        /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
     },
 
     // Short techno floor lamp (MT_MISC30)
@@ -3966,14 +3966,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ true,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "short techno floor lamp",
         /* plural1              */ "short techno floor lamps",
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Floor lamp (MT_MISC31)
@@ -4014,14 +4014,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ true,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "floor lamp",
         /* plural1              */ "floor lamps",
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Tall green column (MT_MISC32)
@@ -4062,14 +4062,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ false,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "tall green column",
         /* plural1              */ "tall green columns",
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Short green column (MT_MISC33)
@@ -4110,14 +4110,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ false,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "short green column",
         /* plural1              */ "short green columns",
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Tall red column (MT_MISC34)
@@ -4158,14 +4158,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ false,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "tall red column",
         /* plural1              */ "tall red columns",
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Short red column (MT_MISC35)
@@ -4206,14 +4206,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ false,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "short red column",
         /* plural1              */ "short red columns",
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Short red column with skull (MT_MISC36)
@@ -4254,14 +4254,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ false,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "short red column with skull",
         /* plural1              */ "short red columns with skulls",
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Short green column with beating heart (MT_MISC37)
@@ -4302,14 +4302,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ false,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "short green column with beating heart",
         /* plural1              */ "short green columns with beating hearts",
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Evil eye (MT_MISC38)
@@ -4350,14 +4350,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ true,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "evil eye",
         /* plural1              */ "evil eyes",
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Floating skull (MT_MISC39)
@@ -4398,14 +4398,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ true,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "floating skull",
         /* plural1              */ "floating skulls",
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Torched tree (MT_MISC40)
@@ -4446,14 +4446,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ false,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "torched tree",
         /* plural1              */ "torched trees",
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Tall blue firestick (MT_MISC41)
@@ -4494,14 +4494,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ true,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "tall blue firestick",
         /* plural1              */ "tall blue firesticks",
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Tall green firestick (MT_MISC42)
@@ -4542,14 +4542,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ true,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "tall green firestick",
         /* plural1              */ "tall green firesticks",
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Tall red firestick (MT_MISC43)
@@ -4590,14 +4590,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ true,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "tall red firestick",
         /* plural1              */ "tall red firesticks",
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Short blue firestick (MT_MISC44)
@@ -4638,14 +4638,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ true,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "short blue firestick",
         /* plural1              */ "short blue firesticks",
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Short green firestick (MT_MISC45)
@@ -4686,14 +4686,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ true,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "short green firestick",
         /* plural1              */ "short green firesticks",
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Short red firestick (MT_MISC46)
@@ -4734,14 +4734,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ true,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "short red firestick",
         /* plural1              */ "short red firesticks",
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Stalagmite (MT_MISC47)
@@ -4782,14 +4782,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ false,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "stalagmite",
         /* plural1              */ "stalagmites",
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Tall techno pillar (MT_MISC48)
@@ -4830,14 +4830,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ false,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "tall techno pillar",
         /* plural1              */ "tall techno pillars",
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Candlestick (MT_MISC49)
@@ -4878,14 +4878,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ false,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "candlestick",
         /* plural1              */ "candlesticks",
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Candelabra (MT_MISC50)
@@ -4926,14 +4926,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ true,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "candelabra",
         /* plural1              */ "candelabras",
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Hanging victim (twitching, blocking) (MT_MISC51)
@@ -4974,14 +4974,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ false,
         /* blood                */ MT_BLOOD,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "hanging victim (twitching, blocking)",
         /* plural1              */ "hanging victim (twitching, blocking)",
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Hanging victim (arms out, blocking) (MT_MISC52)
@@ -5022,14 +5022,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ false,
         /* blood                */ MT_BLOOD,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "hanging victim (arms out, blocking)",
         /* plural1              */ "hanging victim (arms out, blocking)",
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Hanging victim (one-legged, blocking) (MT_MISC53)
@@ -5070,14 +5070,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ false,
         /* blood                */ MT_BLOOD,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "hanging victim (one-legged, blocking)",
         /* plural1              */ "hanging victim (one-legged, blocking)",
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Hanging pair of legs (blocking) (MT_MISC54)
@@ -5118,14 +5118,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ false,
         /* blood                */ MT_BLOOD,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "hanging pair of legs (blocking)",
         /* plural1              */ "hanging pair of legs (blocking)",
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Hanging leg (blocking) (MT_MISC55)
@@ -5166,14 +5166,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ false,
         /* blood                */ MT_BLOOD,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "hanging leg (blocking)",
         /* plural1              */ "hanging leg (blocking)",
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Hanging victim (arms out) (MT_MISC56)
@@ -5214,14 +5214,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ false,
         /* blood                */ MT_BLOOD,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "hanging victim (arms out)",
         /* plural1              */ "hanging victims (arms out)",
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Hanging pair of legs (MT_MISC57)
@@ -5262,14 +5262,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ false,
         /* blood                */ MT_BLOOD,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "hanging pair of legs",
         /* plural1              */ "hanging pairs of legs",
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Hanging victim (one-legged) (MT_MISC58)
@@ -5310,14 +5310,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ false,
         /* blood                */ MT_BLOOD,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "hanging victim (one-legged)",
         /* plural1              */ "hanging victims (one-legged)",
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Hanging leg (MT_MISC59)
@@ -5358,14 +5358,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ false,
         /* blood                */ MT_BLOOD,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "hanging leg",
         /* plural1              */ "hanging legs",
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Hanging victim (twitching) (MT_MISC60)
@@ -5406,14 +5406,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ false,
         /* blood                */ MT_BLOOD,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "hanging victim (twitching)",
         /* plural1              */ "hanging victims (twitching)",
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Dead Cacodemon (MT_MISC61)
@@ -5454,14 +5454,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ false,
         /* blood                */ MT_BLUEBLOOD,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "cacodemon's corpse",
         /* plural1              */ "",
         /* name2                */ "dead cacodemon",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Dead Player (MT_MISC62)
@@ -5502,14 +5502,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ false,
         /* blood                */ MT_BLOOD,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "marine's corpse",
         /* plural1              */ "",
         /* name2                */ "dead player",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Dead Zombieman (MT_MISC63)
@@ -5550,14 +5550,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ false,
         /* blood                */ MT_BLOOD,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "zombieman's corpse",
         /* plural1              */ "",
         /* name2                */ "dead zombieman",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Dead Demon (MT_MISC64)
@@ -5598,14 +5598,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ false,
         /* blood                */ MT_BLOOD,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "pinky demon's corpse",
         /* plural1              */ "",
         /* name2                */ "dead demon",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Dead Lost Soul, invisible (MT_MISC65)
@@ -5646,14 +5646,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ false,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "lost soul's corpse",
         /* plural1              */ "",
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Dead Imp (MT_MISC66)
@@ -5694,14 +5694,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ false,
         /* blood                */ MT_BLOOD,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "imp's corpse",
         /* plural1              */ "",
         /* name2                */ "dead imp",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Dead Shotgun Guy (MT_MISC67)
@@ -5742,14 +5742,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ false,
         /* blood                */ MT_BLOOD,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "shotgun guy's corpse",
         /* plural1              */ "",
         /* name2                */ "dead shotgun guy",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Bloody mess 1 (MT_MISC68)
@@ -5790,14 +5790,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ false,
         /* blood                */ MT_BLOOD,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "bloody mess 1",
         /* plural1              */ "bloody mess 1",
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Bloody mess 2 (MT_MISC69)
@@ -5838,14 +5838,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ false,
         /* blood                */ MT_BLOOD,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "bloody mess 2",
         /* plural1              */ "bloody mess 2",
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Five skulls shishkebab (MT_MISC70)
@@ -5886,14 +5886,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ false,
         /* blood                */ MT_BLOOD,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "five skulls shishkebab",
         /* plural1              */ "five skulls shishkebabs",
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Pool of blood and bones (MT_MISC71)
@@ -5934,14 +5934,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ false,
         /* blood                */ MT_BLOOD,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "pool of blood and bones",
         /* plural1              */ "pools of blood and bones",
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Skull on a pole (MT_MISC72)
@@ -5982,14 +5982,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ false,
         /* blood                */ MT_BLOOD,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "skull on a pole",
         /* plural1              */ "skulls on poles",
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Pile of skulls and candles (MT_MISC73)
@@ -6030,14 +6030,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ true,
         /* blood                */ MT_BLOOD,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "pile of skulls and candles",
         /* plural1              */ "piles of skulls and candles",
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Impaled human (MT_MISC74)
@@ -6078,14 +6078,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ false,
         /* blood                */ MT_BLOOD,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "impaled human",
         /* plural1              */ "impaled humans",
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Twitching impaled human (MT_MISC75)
@@ -6126,14 +6126,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ false,
         /* blood                */ MT_BLOOD,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "twitching impaled human",
         /* plural1              */ "twitching impaled humans",
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Large brown tree (MT_MISC76)
@@ -6174,14 +6174,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ false,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "large brown tree",
         /* plural1              */ "large brown trees",
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Burning Barrel (MT_MISC77)
@@ -6222,14 +6222,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ true,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "burning barrel",
         /* plural1              */ "burning barrels",
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Hanging victim (guts removed) (MT_MISC78)
@@ -6270,14 +6270,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ false,
         /* blood                */ MT_BLOOD,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "hanging victim (guts removed)",
         /* plural1              */ "hanging victims (guts removed)",
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Hanging victim (guts and brain removed) (MT_MISC79)
@@ -6318,14 +6318,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ false,
         /* blood                */ MT_BLOOD,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "hanging victim (guts and brain removed)",
         /* plural1              */ "hanging victims (guts and brain removed)",
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Hanging torso (looking down) (MT_MISC80)
@@ -6366,14 +6366,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ false,
         /* blood                */ MT_BLOOD,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "hanging torso (looking down)",
         /* plural1              */ "hanging torsos (looking down)",
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Hanging torso (open skull) (MT_MISC81)
@@ -6414,14 +6414,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ false,
         /* blood                */ MT_BLOOD,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "hanging torso (open skull)",
         /* plural1              */ "hanging torsos (open skull)",
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Hanging torso (looking up) (MT_MISC82)
@@ -6462,14 +6462,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ false,
         /* blood                */ MT_BLOOD,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "hanging torso (looking up)",
         /* plural1              */ "hanging torsos (looking up)",
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Hanging torso (brain removed) (MT_MISC83)
@@ -6510,14 +6510,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ false,
         /* blood                */ MT_BLOOD,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "hanging torso (brain removed)",
         /* plural1              */ "hanging torsos (brain removed)",
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Pool of blood and guts (MT_MISC84)
@@ -6558,14 +6558,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ false,
         /* blood                */ MT_BLOOD,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "pool of blood and guts",
         /* plural1              */ "pools of blood and guts",
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Pool of blood (MT_MISC85)
@@ -6606,14 +6606,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ false,
         /* blood                */ MT_BLOOD,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "pool of blood",
         /* plural1              */ "pools of blood",
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Pool of brains (MT_MISC86)
@@ -6654,14 +6654,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ false,
         /* blood                */ MT_BLOOD,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "pool of brains",
         /* plural1              */ "pools of brains",
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // MT_PUSH
@@ -6702,14 +6702,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ false,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "point pusher",
         /* plural1              */ "point pushers",
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // MT_PULL
@@ -6750,14 +6750,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ false,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "point puller",
         /* plural1              */ "point pullers",
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // MT_DOGS
@@ -6798,14 +6798,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ false,
         /* blood                */ MT_BLOOD,
         /* shadowoffset         */ 4 * FRACUNIT,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "dog",
         /* plural1              */ "dogs",
         /* name2                */ "helper dog",
         /* plural2              */ "helper dogs",
         /* name3                */ "MBF helper dog",
         /* plural3              */ "MBF helper dogs",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
     },
 
     // MT_PLASMA1
@@ -6846,14 +6846,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ true,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "plasma ball 1",
         /* plural1              */ "plasma ball 1",
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // MT_PLASMA2
@@ -6894,14 +6894,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ true,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "plasma ball 2",
         /* plural1              */ "plasma ball 2",
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // MT_SCEPTRE
@@ -6942,14 +6942,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ false,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "evil sceptre",
         /* plural1              */ "evil sceptres",
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // MT_BIBLE
@@ -6990,14 +6990,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ false,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "unholy bible",
         /* plural1              */ "unholy bibles",
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // MT_MUSICSOURCE
@@ -7038,14 +7038,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ false,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "music source",
         /* plural1              */ "music sources",
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // MT_GIBDTH
@@ -7086,14 +7086,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ false,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "GIBDTH",
         /* plural1              */ "GIBDTH",
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Blue Blood (MT_BLUEBLOOD)
@@ -7134,14 +7134,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ false,
         /* blood                */ BLUEBLOOD,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "blue blood",
         /* plural1              */ "blue blood",
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Green Blood (MT_GREENBLOOD)
@@ -7182,14 +7182,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ false,
         /* blood                */ GREENBLOOD,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "green blood",
         /* plural1              */ "green blood",
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Fuzzy Blood (MT_FUZZYBLOOD)
@@ -7230,14 +7230,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ false,
         /* blood                */ FUZZYBLOOD,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "fuzzy blood",
         /* plural1              */ "fuzzy blood",
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     // Smoke Trail (MT_TRAIL)
@@ -7278,14 +7278,14 @@ mobjinfo_t mobjinfo[] =
         /* fullbright           */ false,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
+        /* projectile_group     */ PG_DEFAULT,
+        /* splash_group         */ SG_DEFAULT,
         /* name1                */ "rocket trail",
         /* plural1              */ "rocket trails",
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
-        /* plural3              */ "",
-        /* projectile_group     */ PG_DEFAULT,
-        /* splash_group         */ SG_DEFAULT
+        /* plural3              */ ""
     },
 
     EMPTYMOBJ,  // MT_EXTRA00

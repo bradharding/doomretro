@@ -1577,16 +1577,14 @@ static const char *deh_mobjinfo[DEH_MOBJINFOMAX] =
     "Action sound",             // .activesound
     "Bits",                     // .flags
     "Retro bits",               // .flags2
+    "MBF21 bits"                // .flags3
     "Respawn frame",            // .raisestate
     "Frames",                   // .frames
     "Fullbright",               // .fullbright
     "Blood",                    // .blood
     "Shadow offset",            // .shadowoffset
-
-    // MBF21
     "Projectile group",         // .projectile_group
     "Splash group",             // .splash_group
-    "MBF21 bits"                // .flags3
 };
 
 // Strings that are used to indicate flags ("Bits" in mobjinfo)

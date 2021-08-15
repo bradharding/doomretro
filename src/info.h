@@ -280,17 +280,14 @@ typedef struct
     dboolean    fullbright;
     int         blood;
     int         shadowoffset;
+    int         projectile_group;
+    int         splash_group;
     char        name1[64];
     char        plural1[64];
     char        name2[64];
     char        plural2[64];
     char        name3[64];
     char        plural3[64];
-
-    // MBF21
-    int         projectile_group;
-    int         splash_group;
-
     void        (*colfunc)(void);
     void        (*altcolfunc)(void);
 } mobjinfo_t;
