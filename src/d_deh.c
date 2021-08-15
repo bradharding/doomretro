@@ -1577,7 +1577,7 @@ static const char *deh_mobjinfo[DEH_MOBJINFOMAX] =
     "Action sound",             // .activesound
     "Bits",                     // .flags
     "Retro bits",               // .flags2
-    "MBF21 bits"                // .flags3
+    "MBF21 bits",               // .flags3
     "Respawn frame",            // .raisestate
     "Frames",                   // .frames
     "Fullbright",               // .fullbright
