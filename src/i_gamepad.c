@@ -79,14 +79,10 @@ void I_InitGamepad(void)
         C_Warning(1, "Gamepad support couldn't be initialized.");
     else
     {
-        int deviceindex = 0;
-
         for (int i = 0, numjoysticks = SDL_NumJoysticks(); i < numjoysticks; i++)
             if ((joystick = SDL_JoystickOpen(i)) && SDL_IsGameController(i))
             {
                 gamecontroller = SDL_GameControllerOpen(i);
-                deviceindex = i;
-
                 break;
             }
 
@@ -106,7 +102,7 @@ void I_InitGamepad(void)
             else
                 C_OutputNoRepeat("A gamepad is connected.");
 
-            if ((haptic = SDL_HapticOpen(deviceindex)) && !SDL_HapticRumbleInit(haptic))
+            if ((haptic = SDL_HapticOpenFromJoystick(joystick)) && !SDL_HapticRumbleInit(haptic))
             {
                 if (gp_vibrate_barrels || gp_vibrate_damage || gp_vibrate_weapons)
                 {
