@@ -2225,7 +2225,7 @@ void P_PlayerInSpecialSector(sector_t *sector)
 
             case DamageNegative10Or20PercentHealth:
             case DamageNegative10Or20PercentHealthAndLightBlinks_2Hz:
-                if (!(leveltime & 31) && (!viewplayer->powers[pw_ironfeet] || M_Random() < 5))
+                if (!(leveltime & 31) && !(viewplayer->cheats & CF_GODMODE) && (!viewplayer->powers[pw_ironfeet] || M_Random() < 5))
                     P_DamageMobj(viewplayer->mo, NULL, NULL, 20, true);
 
                 break;
