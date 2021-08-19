@@ -1,15 +1,14 @@
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/releasenotes.png)
 
-#### DOOM Retro v4.3
+#### DOOM Retro v4.2.1
 
 * *DOOM Retro* is now compiled using v16.11.1 of [*Microsoft Visual Studio Community 2019*](https://www.visualstudio.com/vs/).
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
-* *DOOM Retro* now supports [*MBF21*](https://doomwiki.org/wiki/MBF21)-compatible maps and mods.
 * Minor changes have been made to text that is output to the console.
 * A slight dithering effect is now applied to fade transitions when the `fade` CVAR is `on`.
 * A fade transition will now always be applied when exiting the help screen and the `fade` CVAR is `on`.
 * Translucency is now applied to megaspheres when the `r_translucency` CVAR is `on`.
-* The amount of time the screen will shake when the player is attacked has been reduced when god mode is enabled.
+* The amount the screen will shake when the player is attacked has been reduced when god mode is enabled.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

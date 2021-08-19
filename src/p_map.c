@@ -380,17 +380,13 @@ static dboolean PIT_CheckLine(line_t *ld)
     // killough 08/10/98: allow bouncing objects to pass through as missiles
     if (!(tmthing->flags & (MF_MISSILE | MF_BOUNCES)))
     {
-        // explicitly blocking everything
-        // or blocking player
-        if ((ld->flags & ML_BLOCKING) || (tmthing->player && (ld->flags & ML_BLOCKPLAYERS)))
+        if (ld->flags & ML_BLOCKING) // explicitly blocking everything
             return (tmunstuck && !untouched(ld));       // killough 08/01/98: allow escape
 
         // killough 08/09/98: monster-blockers don't affect friends
-        // MBF21: Block land monsters
         // [BH] monster-blockers don't affect corpses
         if (!((tmthing->flags & MF_FRIEND) || tmthing->player || (tmthing->flags3 & MF3_SPAWNEDBYPLAYER))
-            && ((ld->flags & ML_BLOCKMONSTERS) || ((ld->flags & ML_BLOCKLANDMONSTERS) && !(tmthing->flags & MF_FLOAT)))
-            && !(tmthing->flags & MF_CORPSE))
+            && (ld->flags & ML_BLOCKMONSTERS) && !(tmthing->flags & MF_CORPSE))
             return false;                               // block monsters only
     }
 
@@ -424,25 +420,6 @@ static dboolean PIT_CheckLine(line_t *ld)
     }
 
     return true;
-}
-
-static dboolean P_ProjectileImmune(mobj_t *target, mobj_t *source)
-{
-    return
-        ( // PG_GROUPLESS means no immunity, even to own species
-            mobjinfo[target->type].projectilegroup != PG_GROUPLESS ||
-            target == source
-            ) &&
-        (
-            ( // target type has default behavior, and things are the same type
-                mobjinfo[target->type].projectilegroup == PG_DEFAULT &&
-                source->type == target->type
-                ) ||
-            ( // target type has special behavior, and things have the same group
-                mobjinfo[target->type].projectilegroup != PG_DEFAULT &&
-                mobjinfo[target->type].projectilegroup == mobjinfo[source->type].projectilegroup
-                )
-            );
 }
 
 //
@@ -564,9 +541,12 @@ static dboolean PIT_CheckThing(mobj_t *thing)
         if (tmthing->z + tmthing->height < thing->z)
             return true;                // underneath
 
-        if (tmthing->target && P_ProjectileImmune(thing, tmthing->target))
+        if (tmthing->target
+            && (tmthing->target->type == type
+                || (tmthing->target->type == MT_KNIGHT && type == MT_BRUISER)
+                || (tmthing->target->type == MT_BRUISER && type == MT_KNIGHT)))
         {
-            // Don't hit self.
+            // Don't hit same species as originator.
             if (thing == tmthing->target)
                 return true;
             else if (!infight && !species_infighting)
@@ -597,25 +577,6 @@ static dboolean PIT_CheckThing(mobj_t *thing)
 
         if (!(flags & MF_SHOOTABLE))
             return !(flags & MF_SOLID); // didn't do any damage
-
-        if (tmthing->flags3 & MF3_RIP)
-        {
-            int damage = ((M_Random() & 3) + 2) * tmthing->info->damage;
-
-            if (!(thing->flags & MF_NOBLOOD))
-                P_SpawnBlood(tmthing->x, tmthing->y, tmthing->z, tmthing->angle, damage, tmthing);
-
-            if (tmthing->info->ripsound)
-                S_StartSound(tmthing, tmthing->info->ripsound);
-
-            P_DamageMobj(thing, tmthing, tmthing->target, damage, true);
-
-            thing->momx += tmthing->momx >> 2;
-            thing->momy += tmthing->momy >> 2;
-
-            numspechit = 0;
-            return true;
-        }
 
         // damage/explode
         P_DamageMobj(thing, tmthing, tmthing->target, ((M_Random() & 7) + 1) * tmthing->info->damage, true);
@@ -1947,14 +1908,6 @@ static mobj_t   *bombspot;
 static int      bombdamage;
 static dboolean bombverticality;
 
-static dboolean P_SplashImmune(mobj_t *target, mobj_t *source, mobj_t *spot)
-{
-    return // not neutral, not default behavior, and same group
-        !(spot->flags3 & MF3_NEUTRAL_SPLASH) &&
-        mobjinfo[target->type].splashgroup != SG_DEFAULT &&
-        mobjinfo[target->type].splashgroup == mobjinfo[source->type].splashgroup;
-}
-
 //
 // PIT_RadiusAttack
 // "bombsource" is the creature
@@ -1970,9 +1923,6 @@ dboolean PIT_RadiusAttack(mobj_t *thing)
     if (!(thing->flags & (MF_SHOOTABLE | MF_BOUNCES))
         // [BH] allow corpses to react to blast damage
         && !(thing->flags & MF_CORPSE))
-        return true;
-
-    if (bombsource && P_SplashImmune(thing, bombsource, bombspot))
         return true;
 
     type = thing->type;

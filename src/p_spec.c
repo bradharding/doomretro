@@ -2249,34 +2249,6 @@ void P_PlayerInSpecialSector(sector_t *sector)
                 break;
         }
     }
-    else if (sector->special & DEATH_MASK)
-    {
-        switch ((sector->special & DAMAGE_MASK) >> DAMAGE_SHIFT)
-        {
-            case 0:
-                if (!viewplayer->powers[pw_invulnerability] && !viewplayer->powers[pw_ironfeet])
-                    P_DamageMobj(viewplayer->mo, NULL, NULL, 10000, false);
-
-                break;
-
-            case 1:
-                P_DamageMobj(viewplayer->mo, NULL, NULL, 10000, false);
-
-                break;
-
-            case 2:
-                P_DamageMobj(viewplayer->mo, NULL, NULL, 10000, false);
-                G_ExitLevel();
-
-                break;
-
-            case 3:
-                P_DamageMobj(viewplayer->mo, NULL, NULL, 10000, false);
-                G_SecretExitLevel();
-
-                break;
-        }
-    }
     else
     {
         switch ((sector->special & DAMAGE_MASK) >> DAMAGE_SHIFT)
@@ -2923,32 +2895,6 @@ static void P_SpawnScrollers(void)
             case Scroll_ScrollTextureRight:
                 Add_Scroller(sc_side, -FRACUNIT, 0, -1, lines[i].sidenum[0], accel);
                 break;
-
-            // MBF21
-            case 1024:
-            case 1025:
-            case 1026:
-            {
-                int s;
-
-                if (!l->tag)
-                    I_Error("Line %d is missing a tag!", i);
-
-                if (special > 1024)
-                    control = sides[*l->sidenum].sector->id;
-
-                if (special == 1026)
-                    accel = 1;
-
-                s = lines[i].sidenum[0];
-                dx = -sides[s].textureoffset;
-                dy = sides[s].rowoffset;
-                for (s = -1; (s = P_FindLineFromLineTag(l, s)) >= 0;)
-                    if (s != i)
-                        Add_Scroller(sc_side, dx, dy, control, lines[s].sidenum[0], accel);
-
-                break;
-            }
         }
     }
 }
