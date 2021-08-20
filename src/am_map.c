@@ -1556,7 +1556,7 @@ static void AM_DrawWalls(void)
 
                     if (!back || (flags & ML_SECRET))
                         AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, wallcolor, putbigdot);
-                    else if (isteleportline[special] && back && back->ceilingheight != back->floorheight
+                    else if (isteleportline[special] && back->ceilingheight != back->floorheight
                         && ((flags & ML_TELEPORTTRIGGERED) || isteleport[back->floorpic]) && !(flags & ML_SECRET))
                         AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, teleportercolor, &PUTDOT);
                     else
@@ -1611,7 +1611,7 @@ static void AM_DrawWalls_AllMap(void)
                     if (!back || (flags & ML_SECRET))
                         AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y,
                             ((flags & ML_MAPPED) ? wallcolor : allmapwallcolor), putbigdot);
-                    else if (isteleportline[special] && ((flags & ML_TELEPORTTRIGGERED) || (back && isteleport[back->floorpic])))
+                    else if (isteleportline[special] && ((flags & ML_TELEPORTTRIGGERED) || isteleport[back->floorpic]))
                         AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y,
                             ((flags & ML_MAPPED) ? teleportercolor : allmapfdwallcolor), &PUTDOT);
                     else
