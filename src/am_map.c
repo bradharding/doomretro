@@ -1391,12 +1391,9 @@ static void AM_DrawFline(int x0, int y0, int x1, int y1, byte *color,
             const int   sx = SIGN(dx);
             const int   sy = SIGN(dy) * MAPWIDTH;
 
-            dx = ABS(dx);
-            dy = ABS(dy);
-            y0 *= MAPWIDTH;
-            putdot(x0, y0, color);
+            putdot(x0, (y0 *= MAPWIDTH), color);
 
-            if (dx > dy)
+            if ((dx = ABS(dx)) > (dy = ABS(dy)))
             {
                 // x-major line
                 int error = (dy <<= 1) - dx;
@@ -1526,12 +1523,11 @@ static void AM_DrawWalls(void)
     {
         const line_t    line = lines[i];
         const fixed_t   *lbbox = line.bbox;
-        const fixed_t   *ambbox = am_frame.bbox;
 
-        if ((lbbox[BOXLEFT] >> FRACTOMAPBITS) <= ambbox[BOXRIGHT]
-            && (lbbox[BOXRIGHT] >> FRACTOMAPBITS) >= ambbox[BOXLEFT]
-            && (lbbox[BOXBOTTOM] >> FRACTOMAPBITS) <= ambbox[BOXTOP]
-            && (lbbox[BOXTOP] >> FRACTOMAPBITS) >= ambbox[BOXBOTTOM])
+        if ((lbbox[BOXLEFT] >> FRACTOMAPBITS) <= am_frame.bbox[BOXRIGHT]
+            && (lbbox[BOXRIGHT] >> FRACTOMAPBITS) >= am_frame.bbox[BOXLEFT]
+            && (lbbox[BOXBOTTOM] >> FRACTOMAPBITS) <= am_frame.bbox[BOXTOP]
+            && (lbbox[BOXTOP] >> FRACTOMAPBITS) >= am_frame.bbox[BOXBOTTOM])
         {
             const unsigned short    flags = line.flags;
 
@@ -1580,12 +1576,11 @@ static void AM_DrawWalls_AllMap(void)
     {
         const line_t    line = lines[i];
         const fixed_t   *lbbox = line.bbox;
-        const fixed_t   *ambbox = am_frame.bbox;
 
-        if ((lbbox[BOXLEFT] >> FRACTOMAPBITS) <= ambbox[BOXRIGHT]
-            && (lbbox[BOXRIGHT] >> FRACTOMAPBITS) >= ambbox[BOXLEFT]
-            && (lbbox[BOXBOTTOM] >> FRACTOMAPBITS) <= ambbox[BOXTOP]
-            && (lbbox[BOXTOP] >> FRACTOMAPBITS) >= ambbox[BOXBOTTOM])
+        if ((lbbox[BOXLEFT] >> FRACTOMAPBITS) <= am_frame.bbox[BOXRIGHT]
+            && (lbbox[BOXRIGHT] >> FRACTOMAPBITS) >= am_frame.bbox[BOXLEFT]
+            && (lbbox[BOXBOTTOM] >> FRACTOMAPBITS) <= am_frame.bbox[BOXTOP]
+            && (lbbox[BOXTOP] >> FRACTOMAPBITS) >= am_frame.bbox[BOXBOTTOM])
         {
             const unsigned short    flags = line.flags;
 
@@ -1639,12 +1634,11 @@ static void AM_DrawWalls_Cheating(void)
     {
         const line_t    line = lines[i];
         const fixed_t   *lbbox = line.bbox;
-        const fixed_t   *ambbox = am_frame.bbox;
 
-        if ((lbbox[BOXLEFT] >> FRACTOMAPBITS) <= ambbox[BOXRIGHT]
-            && (lbbox[BOXRIGHT] >> FRACTOMAPBITS) >= ambbox[BOXLEFT]
-            && (lbbox[BOXBOTTOM] >> FRACTOMAPBITS) <= ambbox[BOXTOP]
-            && (lbbox[BOXTOP] >> FRACTOMAPBITS) >= ambbox[BOXBOTTOM])
+        if ((lbbox[BOXLEFT] >> FRACTOMAPBITS) <= am_frame.bbox[BOXRIGHT]
+            && (lbbox[BOXRIGHT] >> FRACTOMAPBITS) >= am_frame.bbox[BOXLEFT]
+            && (lbbox[BOXBOTTOM] >> FRACTOMAPBITS) <= am_frame.bbox[BOXTOP]
+            && (lbbox[BOXTOP] >> FRACTOMAPBITS) >= am_frame.bbox[BOXBOTTOM])
         {
             mline_t         mline;
             unsigned short  special = line.special;
