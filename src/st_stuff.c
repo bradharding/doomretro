@@ -482,6 +482,7 @@ dboolean ST_Responder(event_t *ev)
                     viewplayer->mo->health = oldhealth;
                 }
 
+                D_FadeScreen(false);
                 message_dontfuckwithme = true;
             }
 
@@ -536,6 +537,8 @@ dboolean ST_Responder(event_t *ev)
                     stat_cheated = SafeAdd(stat_cheated, 1);
                     viewplayer->cheated++;
                 }
+
+                D_FadeScreen(false);
             }
 
             // 'kfa' cheat for key full ammo
@@ -595,6 +598,8 @@ dboolean ST_Responder(event_t *ev)
                     stat_cheated = SafeAdd(stat_cheated, 1);
                     viewplayer->cheated++;
                 }
+
+                D_FadeScreen(false);
             }
 
             // 'mus' cheat for changing music
@@ -812,6 +817,7 @@ dboolean ST_Responder(event_t *ev)
                     cheat_buddha.chars_read = 0;
                     cheatkey = '\0';
 
+                    D_FadeScreen(false);
                     message_dontfuckwithme = true;
                     idbehold = false;
 
@@ -867,6 +873,7 @@ dboolean ST_Responder(event_t *ev)
 
                     C_Output(s_STSTR_CHOPPERS);
                     HU_SetPlayerMessage(s_STSTR_CHOPPERS, false, false);
+                    D_FadeScreen(false);
                     message_dontfuckwithme = true;
 
                     viewplayer->cheats |= CF_CHOPPERS;
