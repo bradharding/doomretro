@@ -165,6 +165,8 @@ static dboolean             st_statusbaron;
 // main bar left
 static patch_t              *sbar;
 static patch_t              *sbar2;
+static short                sbar2width;
+static short                sbarwidth;
 
 // 0-9, tall numbers
 patch_t                     *tallnum[10];
@@ -384,10 +386,8 @@ static const int mus[IDMUS_MAX][6] =
 //
 static void ST_RefreshBackground(void)
 {
-    short   sbarwidth;
-
 #if SCREENSCALE == 1
-    if ((sbarwidth = SHORT(sbar->width)) < SCREENWIDTH)
+    if (sbarwidth < SCREENWIDTH)
         R_FillBezel();
 
     if (STBAR >= 3)
@@ -400,7 +400,7 @@ static void ST_RefreshBackground(void)
 #else
     if (STBAR >= 3)
     {
-        if ((sbarwidth = SHORT(sbar->width)) < SCREENWIDTH)
+        if (sbarwidth < SCREENWIDTH)
             R_FillBezel();
 
         V_DrawWidePatch((SCREENWIDTH / SCREENSCALE - sbarwidth) / 2, VANILLAHEIGHT - VANILLASBARHEIGHT, 0, sbar);
@@ -408,14 +408,14 @@ static void ST_RefreshBackground(void)
     }
     else if (r_detail == r_detail_low)
     {
-        if ((sbarwidth = SHORT(sbar->width)) < SCREENWIDTH)
+        if (sbarwidth < SCREENWIDTH)
             R_FillBezel();
 
         V_DrawWidePatch((SCREENWIDTH / SCREENSCALE - sbarwidth) / 2, VANILLAHEIGHT - VANILLASBARHEIGHT, 0, sbar);
     }
     else
     {
-        if ((sbarwidth = SHORT(sbar2->width)) < SCREENWIDTH)
+        if (sbar2width < SCREENWIDTH)
             R_FillBezel();
 
         if (vid_widescreen)
@@ -1437,6 +1437,9 @@ static void ST_LoadUnloadGraphics(load_callback_t callback)
     // status bar background bits
     callback("STBAR", &sbar);
     callback("STBAR2", &sbar2); // [BH] double resolution
+
+    sbarwidth = SHORT(sbar->width);
+    sbar2width = SHORT(sbar2->width);
 
     sbar->leftoffset = 0;
     sbar->topoffset = 0;
