@@ -9,7 +9,7 @@
 * A fade transition will now always be applied when exiting the help screen and the `fade` CVAR is `on`.
 * Translucency is now applied to megaspheres when the `r_translucency` CVAR is `on`.
 * The following changes have been made when the `r_shake_damage` CVAR is greater than `0%` and god mode is enabled:
-  * The maximum length of time the screen will shake when the player is attacked has been reduced.
+  * The maximum amount of time the screen will shake when the player is attacked has been reduced.
   * The screen will no longer shake if the player is in a sector with special 4 (“Damage -10% or -20% health and light blinks (0.5 sec.)”) or special 16 (“Damage -10% or -20% health”).
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
