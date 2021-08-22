@@ -498,6 +498,7 @@ void (*redtogreencolfunc)(void);
 void (*tlredtogreen33colfunc)(void);
 void (*psprcolfunc)(void);
 void (*spanfunc)(void);
+void (*altspanfunc)(void);
 void (*bloodsplatcolfunc)(void);
 
 void R_InitColumnFunctions(void)
@@ -520,6 +521,7 @@ void R_InitColumnFunctions(void)
             bmapwallcolfunc = &R_DrawBrightmapDitherWallColumn;
             segcolfunc = &R_DrawDitherColumn;
             spanfunc = &R_DrawDitherSpan;
+            altspanfunc = &R_DrawSpan;
             redtobluecolfunc = &R_DrawDitherRedToBlueColumn;
             redtogreencolfunc = &R_DrawDitherRedToGreenColumn;
 
@@ -574,6 +576,7 @@ void R_InitColumnFunctions(void)
             bmapwallcolfunc = &R_DrawBrightmapWallColumn;
             segcolfunc = &R_DrawColumn;
             spanfunc = &R_DrawSpan;
+            altspanfunc = &R_DrawSpan;
             redtobluecolfunc = &R_DrawRedToBlueColumn;
             redtogreencolfunc = &R_DrawRedToGreenColumn;
 
@@ -638,6 +641,7 @@ void R_InitColumnFunctions(void)
             segcolfunc = &R_DrawColorDitherColumn;
             tl50segcolfunc = (r_translucency ? &R_DrawDitherTranslucent50ColorColumn : &R_DrawColorDitherColumn);
             spanfunc = &R_DrawDitherColorSpan;
+            altspanfunc = &R_DrawColorSpan;
             redtobluecolfunc = &R_DrawColorDitherColumn;
             redtogreencolfunc = &R_DrawColorDitherColumn;
             tlcolfunc = &R_DrawColorDitherColumn;
@@ -664,6 +668,7 @@ void R_InitColumnFunctions(void)
             segcolfunc = &R_DrawColorColumn;
             tl50segcolfunc = (r_translucency ? &R_DrawTranslucent50ColorColumn : &R_DrawColorColumn);
             spanfunc = &R_DrawColorSpan;
+            altspanfunc = &R_DrawColorSpan;
             redtobluecolfunc = &R_DrawColorColumn;
             redtogreencolfunc = &R_DrawColorColumn;
             tlcolfunc = &R_DrawColorColumn;

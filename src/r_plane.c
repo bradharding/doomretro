@@ -130,19 +130,32 @@ static void R_MapPlane(int y, int x1)
     {
         ds_colormap = fixedcolormap;
         ds_nextcolormap = fixedcolormap;
-        ds_z = 0;
+
+        ds_y = y;
+        ds_x1 = x1;
+
+        altspanfunc();
     }
     else
     {
         ds_colormap = planezlight[BETWEEN(0, distance >> LIGHTZSHIFT, MAXLIGHTZ - 1)];
-        ds_nextcolormap = planezlight[BETWEEN(0, (distance >> LIGHTZSHIFT) + 1, MAXLIGHTZ - 1)];
-        ds_z = distance;
+
+        ds_y = y;
+        ds_x1 = x1;
+
+        if (r_ditheredlighting)
+        {
+            ds_nextcolormap = planezlight[BETWEEN(0, (distance >> LIGHTZSHIFT) + 1, MAXLIGHTZ - 1)];
+            ds_z = distance;
+
+            if (ds_colormap == ds_nextcolormap)
+                altspanfunc();
+            else
+                spanfunc();
+        }
+        else
+            spanfunc();
     }
-
-    ds_y = y;
-    ds_x1 = x1;
-
-    spanfunc();
 }
 
 //

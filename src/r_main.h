@@ -128,6 +128,7 @@ extern void (*redtogreencolfunc)(void);
 extern void (*tlredtogreen33colfunc)(void);
 extern void (*psprcolfunc)(void);
 extern void (*spanfunc)(void);
+extern void (*altspanfunc)(void);
 extern void (*bloodsplatcolfunc)(void);
 
 //
