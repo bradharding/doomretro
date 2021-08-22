@@ -11,6 +11,7 @@
 * The following changes have been made when the `r_shake_damage` CVAR is greater than `0%` and god mode is enabled:
   * The maximum amount of time the screen will shake when the player is attacked has been reduced.
   * The screen will no longer shake if the player is in a sector with special 4 (“Damage -10% or -20% health and light blinks (0.5 sec.)”) or special 16 (“Damage -10% or -20% health”).
+* Improvements have been made to the clipping of the bottom of sprites when in liquid and the `r_liquid_clipsprites` CVAR is `on`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

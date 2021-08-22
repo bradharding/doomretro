@@ -755,7 +755,7 @@ static void R_ProjectSprite(mobj_t *thing)
         vis->colfunc = (invulnerable && r_textures ? thing->altcolfunc : thing->colfunc);
 
     // foot clipping
-    if ((flags2 & MF2_FEETARECLIPPED) && fz <= floorheight + FRACUNIT && !heightsec && r_liquid_clipsprites)
+    if ((flags2 & MF2_FEETARECLIPPED) && !heightsec && r_liquid_clipsprites)
     {
         fixed_t height = spriteheight[lump];
         fixed_t clipfeet = MIN((height >> FRACBITS) / 4, 10) << FRACBITS;
