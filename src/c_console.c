@@ -716,7 +716,6 @@ void C_ShowConsole(void)
 
     if (gamestate == GS_TITLESCREEN)
     {
-        I_CapFPS(TICRATE);
         S_StartSound(NULL, sfx_swtchn);
         D_FadeScreen(false);
     }
@@ -729,8 +728,6 @@ void C_HideConsole(void)
 {
     if (!consoleactive)
         return;
-
-    I_CapFPS(vid_capfps);
 
     SDL_StopTextInput();
 
@@ -752,8 +749,6 @@ void C_HideConsoleFast(void)
 {
     if (!consoleactive)
         return;
-
-    I_CapFPS(vid_capfps);
 
     SDL_StopTextInput();
 
@@ -1197,8 +1192,7 @@ void C_Drawer(void)
                     else
                         consoleheight = consoledown[consoleanim];
 
-                    if (++consoleanim == CONSOLEDOWNSIZE)
-                        I_CapFPS(TICRATE);
+                    consoleanim++;
                 }
             }
             else

@@ -948,14 +948,12 @@ void G_Ticker(void)
                     I_SetPalette(PLAYPAL);
                     I_UpdateBlitFunc(false);
                     I_StopGamepadVibration();
-                    I_CapFPS(TICRATE);
                 }
                 else
                 {
                     S_ResumeMusic();
                     S_StartSound(NULL, sfx_swtchx);
                     I_SetPalette(&PLAYPAL[st_palette * 768]);
-                    I_CapFPS(vid_capfps);
                 }
 
                 break;

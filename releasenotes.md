@@ -5,6 +5,7 @@
 * *DOOM Retro* is now compiled using v16.11.1 of [*Microsoft Visual Studio Community 2019*](https://www.visualstudio.com/vs/).
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Minor changes have been made to text that is output to the console.
+* The framerate will no longer drop to 35 frames per second if the game is paused, or the menu or console is open.
 * A slight dithering effect is now applied to fade transitions when the `fade` CVAR is `on`.
 * A fade transition will now always be applied when exiting the help screen and the `fade` CVAR is `on`.
 * Translucency is now applied to megaspheres when the `r_translucency` CVAR is `on`.

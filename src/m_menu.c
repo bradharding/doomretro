@@ -3156,7 +3156,6 @@ dboolean M_Responder(event_t *ev)
                 S_ResumeMusic();
                 S_StartSound(NULL, sfx_swtchx);
                 I_SetPalette(&PLAYPAL[st_palette * 768]);
-                I_CapFPS(vid_capfps);
             }
             else
             {
@@ -3618,8 +3617,6 @@ void M_StartControlPanel(void)
     currentMenu = &MainDef;
     itemOn = currentMenu->lastOn;
 
-    I_CapFPS(TICRATE);
-
     if (gp_vibrate_barrels || gp_vibrate_damage || gp_vibrate_weapons)
     {
         restorevibrationstrength = idlevibrationstrength;
@@ -3823,8 +3820,6 @@ void M_ClearMenus(void)
 
     menuactive = false;
     blurtic = -1;
-
-    I_CapFPS(vid_capfps);
 
     if (gp_vibrate_barrels || gp_vibrate_damage || gp_vibrate_weapons)
     {
