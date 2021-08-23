@@ -420,9 +420,9 @@ static void saveg_write_ticcmd_t(ticcmd_t *str)
 //
 static void saveg_read_pspdef_t(pspdef_t *str)
 {
-    int state;
+    int state = saveg_read32();
 
-    str->state = ((state = saveg_read32()) > 0 && state < NUMSTATES ? &states[state] : NULL);
+    str->state = (state > 0 && state < NUMSTATES ? &states[state] : NULL);
     str->tics = saveg_read32();
     str->sx = saveg_read32();
     str->sy = saveg_read32();
@@ -1321,7 +1321,8 @@ void P_UnArchiveThinkers(void)
         switch (tclass)
         {
             case tc_end:
-                return;         // end of list
+                // end of list
+                return;
 
             case tc_mobj:
             {
