@@ -473,7 +473,9 @@ void R_ExecuteSetViewSize(void)
 
 void (*colfunc)(void);
 void (*wallcolfunc)(void);
+void (*altwallcolfunc)(void);
 void (*bmapwallcolfunc)(void);
+void (*altbmapwallcolfunc)(void);
 void (*segcolfunc)(void);
 void (*translatedcolfunc)(void);
 void (*basecolfunc)(void);
@@ -518,7 +520,9 @@ void R_InitColumnFunctions(void)
             basecolfunc = &R_DrawDitherColumn;
             translatedcolfunc = &R_DrawDitherTranslatedColumn;
             wallcolfunc = &R_DrawDitherWallColumn;
+            altwallcolfunc = &R_DrawWallColumn;
             bmapwallcolfunc = &R_DrawBrightmapDitherWallColumn;
+            altbmapwallcolfunc = &R_DrawBrightmapWallColumn;
             segcolfunc = &R_DrawDitherColumn;
             spanfunc = &R_DrawDitherSpan;
             altspanfunc = &R_DrawSpan;
@@ -573,7 +577,9 @@ void R_InitColumnFunctions(void)
             basecolfunc = &R_DrawColumn;
             translatedcolfunc = &R_DrawTranslatedColumn;
             wallcolfunc = &R_DrawWallColumn;
+            altwallcolfunc = &R_DrawWallColumn;
             bmapwallcolfunc = &R_DrawBrightmapWallColumn;
+            altbmapwallcolfunc = &R_DrawBrightmapWallColumn;
             segcolfunc = &R_DrawColumn;
             spanfunc = &R_DrawSpan;
             altspanfunc = &R_DrawSpan;
@@ -637,7 +643,9 @@ void R_InitColumnFunctions(void)
             basecolfunc = &R_DrawColorDitherColumn;
             translatedcolfunc = &R_DrawColorDitherColumn;
             wallcolfunc = &R_DrawColorDitherColumn;
+            altwallcolfunc = &R_DrawColorColumn;
             bmapwallcolfunc = &R_DrawColorDitherColumn;
+            altbmapwallcolfunc = &R_DrawColorColumn;
             segcolfunc = &R_DrawColorDitherColumn;
             tl50segcolfunc = (r_translucency ? &R_DrawDitherTranslucent50ColorColumn : &R_DrawColorDitherColumn);
             spanfunc = &R_DrawDitherColorSpan;
@@ -664,7 +672,9 @@ void R_InitColumnFunctions(void)
             basecolfunc = &R_DrawColorColumn;
             translatedcolfunc = &R_DrawColorColumn;
             wallcolfunc = &R_DrawColorColumn;
+            altwallcolfunc = &R_DrawColorColumn;
             bmapwallcolfunc = &R_DrawColorColumn;
+            altbmapwallcolfunc = &R_DrawColorColumn;
             segcolfunc = &R_DrawColorColumn;
             tl50segcolfunc = (r_translucency ? &R_DrawTranslucent50ColorColumn : &R_DrawColorColumn);
             spanfunc = &R_DrawColorSpan;
