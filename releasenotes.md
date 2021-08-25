@@ -6,14 +6,14 @@
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Minor changes have been made to text that is output to the console.
 * The framerate will no longer drop to 35 frames per second if the game is paused, or the menu or console is open.
-* A slight dithering effect is now applied to fade transitions when the `fade` CVAR is `on`.
+* A slight dithered effect is now applied to fade transitions when the `fade` CVAR is `on`.
 * A fade transition will now always be applied when exiting the help screen and the `fade` CVAR is `on`.
 * Translucency is now applied to megaspheres when the `r_translucency` CVAR is `on`.
 * The following changes have been made when the `r_shake_damage` CVAR is greater than `0%` and god mode is enabled:
   * The maximum amount of time the screen will shake when the player is attacked has been reduced.
-  * The screen will no longer shake if the player is in a sector with special 4 (“Damage -10% or -20% health and light blinks (0.5 sec.)”) or special 16 (“Damage -10% or -20% health”).
+  * The screen will no longer shake if the player is in a sector with special 16 (“Damage -10% or -20% health”) or 4 (“Damage -10% or -20% health and light blinks (0.5 sec.)”).
 * Improvements have been made to the clipping of the bottom of sprites when in liquid and the `r_liquid_clipsprites` CVAR is `on`.
-* Zooming in and out in the automap is now faster.
+* Zooming in and out of the automap is now more responsive.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
