@@ -943,7 +943,9 @@ static void M_DrawLoad(void)
 {
     M_DarkBackground();
 
-    if (M_LOADG)
+    if (M_LGTTL)
+        M_DrawCenteredPatchWithShadow(23 + OFFSET, W_CacheLumpName("M_LGTTL"));
+    else if (M_LOADG)
         M_DrawCenteredPatchWithShadow(23 + OFFSET, W_CacheLumpName("M_LOADG"));
     else
     {
@@ -1057,7 +1059,9 @@ static void M_DrawSave(void)
     M_DarkBackground();
 
     // draw menu subtitle
-    if (M_SAVEG)
+    if (M_SGTTL)
+        M_DrawCenteredPatchWithShadow(23 + OFFSET, W_CacheLumpName("M_SGTTL"));
+    else if (M_SAVEG)
         M_DrawCenteredPatchWithShadow(23 + OFFSET, W_CacheLumpName("M_SAVEG"));
     else
     {
