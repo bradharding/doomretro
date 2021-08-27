@@ -1171,7 +1171,7 @@ static void WI_LoadData(void)
         char    temp[9];
 
         M_snprintf(temp, sizeof(temp), "WIMAP%i", wbs->epsd);
-        lump = W_CacheLumpName(temp);
+        lump = (chex || REKKR ? W_CacheLastLumpName(temp) : W_CacheLumpName(temp));
     }
 
     if (SCREENWIDTH != NONWIDEWIDTH)
