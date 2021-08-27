@@ -42,7 +42,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#if defined(__OpenBSD__) || defined(__NetBSD__)
+#if defined(__OpenBSD__) || defined(__NetBSD__) || defined(__sun)
 #include <stdarg.h>
 #endif
 
