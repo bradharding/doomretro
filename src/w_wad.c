@@ -306,6 +306,8 @@ dboolean W_AddFile(char *filename, dboolean automatic)
 
     if ((wadfile->freedoom = IsFreedoom(filename)))
         FREEDOOM = true;
+    else if (M_StringCompare(file, "chex.wad"))
+        chex = chex1 = true;
     else if (M_StringCompare(file, "rekkrsa.wad"))
         REKKR = true;
 
@@ -499,7 +501,10 @@ int W_WadType(char *filename)
     W_Read(wadfile, 0, &header, sizeof(header));
     W_CloseFile(wadfile);
 
-    if (!strncmp(header.id, "IWAD", 4) || M_StringEndsWith(filename, "DOOM2.WAD") || M_StringEndsWith(filename, "rekkrsa.wad"))
+    if (!strncmp(header.id, "IWAD", 4)
+        || M_StringEndsWith(filename, "DOOM2.WAD")
+        || M_StringEndsWith(filename, "chex.wad")
+        || M_StringEndsWith(filename, "rekkrsa.wad"))
         return IWAD;
     else if (!strncmp(header.id, "PWAD", 4))
         return PWAD;
@@ -543,7 +548,7 @@ int W_CheckMultipleLumps(const char *name)
 {
     int count = 0;
 
-    if (FREEDOOM || hacx || REKKR)
+    if (FREEDOOM || chex || hacx || REKKR)
         return 3;
 
     for (int i = numlumps - 1; i >= 0; i--)
