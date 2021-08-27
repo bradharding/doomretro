@@ -78,7 +78,7 @@
 #include <errno.h>
 #include <libgen.h>
 #include <unistd.h>
-#elif defined(__linux__) || defined(__HAIKU__)
+#elif defined(__linux__) || defined(__HAIKU__) || defined(__sun)
 #include <dirent.h>
 #include <errno.h>
 #include <libgen.h>
@@ -298,13 +298,15 @@ char *M_GetExecutableFolder(void)
         *pos = '\0';
 
     return folder;
-#elif defined(__linux__) || defined(__NetBSD__)
+#elif defined(__linux__) || defined(__NetBSD__) || defined(__sun)
     char    exe[MAX_PATH];
 
 #if defined(__linux__)
     ssize_t len = readlink("/proc/self/exe", exe, MAX_PATH - 1);
-#else
+#elif defined(__NetBSD__)
     ssize_t len = readlink("/proc/curproc/exe", exe, MAX_PATH - 1);
+#elif defined(__sun)
+    ssize_t len = readlink("/proc/self/path/a.out", exe, MAX_PATH - 1);
 #endif
 
     if (len == -1)
