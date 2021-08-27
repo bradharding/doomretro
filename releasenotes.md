@@ -15,6 +15,7 @@
 * Improvements have been made to the clipping of the bottom of sprites when in liquid and the `r_liquid_clipsprites` CVAR is `on`.
 * Zooming in and out of the automap is now more responsive.
 * The `M_LGTTL` and `M_SGTTL` lumps will now be used as the titles in the load and savegame menus if replaced in a PWAD.
+* Support for [*REKKR’s*](http://manbitesshark.com/) IWAD `rekkrsa.wad` has been improved.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

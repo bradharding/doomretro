@@ -306,6 +306,8 @@ dboolean W_AddFile(char *filename, dboolean automatic)
 
     if ((wadfile->freedoom = IsFreedoom(filename)))
         FREEDOOM = true;
+    else if (M_StringCompare(file, "rekkrsa.wad"))
+        REKKR = true;
 
     // WAD file
     W_Read(wadfile, 0, &header, sizeof(header));
@@ -541,7 +543,7 @@ int W_CheckMultipleLumps(const char *name)
 {
     int count = 0;
 
-    if (FREEDOOM || hacx)
+    if (FREEDOOM || hacx || REKKR)
         return 3;
 
     for (int i = numlumps - 1; i >= 0; i--)
