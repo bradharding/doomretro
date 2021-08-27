@@ -1231,7 +1231,7 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, dboolean spawnmonsters)
         totalpickups++;
 
     if (mobj->tics > 0)
-        mobj->tics = 1 + M_BigRandom() % mobj->tics;
+        mobj->tics = (M_BigRandom() % mobj->tics) + 1;
 
     mobj->angle = ((mthing->angle % 45) ? mthing->angle * (ANG45 / 45) : ANG45 * (mthing->angle / 45));
 

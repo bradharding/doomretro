@@ -89,7 +89,7 @@ char *sprnames[] =
 // [BH] Override offsets in wad file to provide better animation and positioning.
 //  Many of these offsets are taken from the DOOM 2 Minor Sprite Fixing Project
 //  by Revenant100, and then further refined by me.
-d_offset_t sproffsets[] =
+sproffset_t sproffsets[] =
 {
     { "AMMOA0",     14,   14,  28,  16, true  }, //   12,   16
     { "APBXA0",     12,   12,  23,  23, true  }, //   12,   15
