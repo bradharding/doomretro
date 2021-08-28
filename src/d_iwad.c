@@ -845,6 +845,8 @@ void D_SetGameDescription(void)
         M_StringCopy(gamedescription, s_CAPTION_BTSXE2, sizeof(gamedescription));
     else if (BTSXE3)
         M_StringCopy(gamedescription, s_CAPTION_BTSXE3, sizeof(gamedescription));
+    else if (REKKR)
+        M_StringCopy(gamedescription, s_CAPTION_REKKR, sizeof(gamedescription));
     else if (gamemission == doom)
     {
         // DOOM 1. But which version?
@@ -890,11 +892,11 @@ void D_SetGameDescription(void)
             C_Output("Playing " ITALICS("%s: %s") " and " ITALICS("%s: %s."), s_CAPTION_DOOM2, s_CAPTION_HELLONEARTH,
                 s_CAPTION_DOOM2, s_CAPTION_NERVE);
     }
-    else if (modifiedgame && !sigil && !chex && !BTSX)
+    else if (modifiedgame && !sigil && !chex && !BTSX && !REKKR)
         C_Output("Playing " BOLD("%s") ".", gamedescription);
     else
     {
-        if (bfgedition)
+        if (bfgedition && !chex && !BTSX && !REKKR)
             C_Output("Playing " ITALICS("%s (%s)."), gamedescription, s_CAPTION_BFGEDITION);
         else
             C_Output("Playing " ITALICS("%s."), gamedescription);
