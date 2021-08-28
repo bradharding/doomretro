@@ -893,7 +893,7 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
                 x -= spacewidth;
         }
         else
-            V_DrawConsoleOutputTextPatch(x, y, warning, WARNINGWIDTH, color1, color2, false, translucency);
+            V_DrawConsoleOutputTextPatch(x - 1, y, warning, WARNINGWIDTH, color1, color2, false, translucency);
 
         x += WARNINGWIDTH + 1;
     }
