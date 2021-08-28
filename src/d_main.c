@@ -831,7 +831,12 @@ static dboolean D_IsDOOM2IWAD(char *filename)
 
 dboolean D_IsDOOMIWAD(char *filename)
 {
-    return (D_IsDOOM1IWAD(filename) || D_IsDOOM2IWAD(filename));
+    char    *file = leafname(filename);
+
+    return (D_IsDOOM1IWAD(filename)
+        || D_IsDOOM2IWAD(filename)
+        || M_StringCompare(file, "chex.wad")
+        || M_StringCompare(file, "rekkrsa.wad"));
 }
 
 static dboolean D_IsUnsupportedIWAD(char *filename)

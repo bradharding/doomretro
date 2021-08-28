@@ -3470,10 +3470,12 @@ static void P_InitMapInfo(void)
     free(temp);
 
     if (nojump && (keyboardjump || mousejump != -1 || gamepadjump))
-        C_Warning(1, "This PWAD has disabled use of the " BOLD("+jump") " action.");
+        C_Warning(1, "This %s has disabled use of the " BOLD("+jump") " action.",
+            (lumpinfo[MAPINFO]->wadfile->type == IWAD ? "IWAD" : "PWAD"));
 
     if (nomouselook)
-        C_Warning(1, "This PWAD has disabled use of the " BOLD("mouselook") " CVAR and " BOLD("+mouselook") " action.");
+        C_Warning(1, "This %s has disabled use of the " BOLD("mouselook") " CVAR and " BOLD("+mouselook") " action.",
+            (lumpinfo[MAPINFO]->wadfile->type == IWAD ? "IWAD" : "PWAD"));
 }
 
 char *P_GetMapAuthor(int map)
