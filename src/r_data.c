@@ -640,7 +640,10 @@ static void R_InitSpriteLumps(void)
         mobjinfo[MT_KNIGHT].blood = MT_BLOOD;
     }
     else if (eviternity)
+    {
+        mobjinfo[MT_BRUISER].blood = MT_BLOOD;
         mobjinfo[MT_DOGS].blood = MT_GREENBLOOD;
+    }
     else if (doom4vanilla)
     {
         mobjinfo[MT_HEAD].blood = MT_BLOOD;
