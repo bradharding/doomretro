@@ -115,6 +115,7 @@ extern dboolean         sprfix18;
 extern dboolean         eviternity;
 extern dboolean         doom4vanilla;
 extern dboolean         REKKR;
+extern dboolean         rekkrsa;
 
 extern dboolean         DMENUPIC;
 extern dboolean         DSSECRET;

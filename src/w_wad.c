@@ -309,7 +309,7 @@ dboolean W_AddFile(char *filename, dboolean automatic)
     else if (M_StringCompare(file, "chex.wad"))
         chex = chex1 = true;
     else if (M_StringCompare(file, "rekkrsa.wad"))
-        REKKR = true;
+        rekkrsa = true;
 
     // WAD file
     W_Read(wadfile, 0, &header, sizeof(header));
@@ -548,7 +548,7 @@ int W_CheckMultipleLumps(const char *name)
 {
     int count = 0;
 
-    if (FREEDOOM || chex || hacx || REKKR)
+    if (FREEDOOM || chex || hacx || rekkrsa)
         return 3;
 
     for (int i = numlumps - 1; i >= 0; i--)
