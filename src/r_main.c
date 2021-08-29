@@ -527,6 +527,8 @@ void R_InitColumnFunctions(void)
                 spanfunc = &R_DrawDitherLowSpan;
                 redtobluecolfunc = &R_DrawDitherLowRedToBlueColumn;
                 redtogreencolfunc = &R_DrawDitherLowRedToGreenColumn;
+                bloodsplatcolfunc = (r_bloodsplats_translucency ?
+                    &R_DrawDitherLowBloodSplatColumn : &R_DrawSolidDitherLowBloodSplatColumn);
             }
             else
             {
@@ -538,6 +540,7 @@ void R_InitColumnFunctions(void)
                 spanfunc = &R_DrawDitherSpan;
                 redtobluecolfunc = &R_DrawDitherRedToBlueColumn;
                 redtogreencolfunc = &R_DrawDitherRedToGreenColumn;
+                bloodsplatcolfunc = (r_bloodsplats_translucency ? &R_DrawDitherBloodSplatColumn : &R_DrawSolidDitherBloodSplatColumn);
             }
 
             altwallcolfunc = &R_DrawWallColumn;
@@ -642,6 +645,7 @@ void R_InitColumnFunctions(void)
                 tlblue25colfunc = &R_DrawTranslucentBlue25Column;
                 tlredtoblue33colfunc = &R_DrawTranslucentRedToBlue33Column;
                 tlredtogreen33colfunc = &R_DrawTranslucentRedToGreen33Column;
+                bloodsplatcolfunc = (r_bloodsplats_translucency ? &R_DrawBloodSplatColumn : &R_DrawSolidBloodSplatColumn);
 
                 mobjinfo[MT_TRAIL].colfunc = &R_DrawCorrectedTranslucent50Column;
                 mobjinfo[MT_TRAIL].altcolfunc = &R_DrawCorrectedTranslucent50Column;
@@ -663,13 +667,13 @@ void R_InitColumnFunctions(void)
                 tlblue25colfunc = &R_DrawColumn;
                 tlredtoblue33colfunc = &R_DrawRedToBlueColumn;
                 tlredtogreen33colfunc = &R_DrawRedToGreenColumn;
+                bloodsplatcolfunc = (r_bloodsplats_translucency ? &R_DrawBloodSplatColumn : &R_DrawSolidBloodSplatColumn);
 
                 mobjinfo[MT_TRAIL].colfunc = &R_DrawCorrectedColumn;
                 mobjinfo[MT_TRAIL].altcolfunc = &R_DrawCorrectedColumn;
             }
         }
 
-        bloodsplatcolfunc = (r_bloodsplats_translucency ? &R_DrawBloodSplatColumn : &R_DrawSolidBloodSplatColumn);
         psprcolfunc = &R_DrawPlayerSpriteColumn;
     }
     else
@@ -704,6 +708,7 @@ void R_InitColumnFunctions(void)
                 tlblue25colfunc = &R_DrawColorDitherLowColumn;
                 tlredtoblue33colfunc = &R_DrawColorDitherLowColumn;
                 tlredtogreen33colfunc = &R_DrawColorDitherLowColumn;
+                bloodsplatcolfunc = &R_DrawColorDitherLowColumn;
             }
             else
             {
@@ -730,6 +735,7 @@ void R_InitColumnFunctions(void)
                 tlblue25colfunc = &R_DrawColorDitherColumn;
                 tlredtoblue33colfunc = &R_DrawColorDitherColumn;
                 tlredtogreen33colfunc = &R_DrawColorDitherColumn;
+                bloodsplatcolfunc = &R_DrawColorDitherColumn;
             }
 
             altwallcolfunc = &R_DrawColorColumn;
@@ -764,9 +770,9 @@ void R_InitColumnFunctions(void)
             tlblue25colfunc = &R_DrawColorColumn;
             tlredtoblue33colfunc = &R_DrawColorColumn;
             tlredtogreen33colfunc = &R_DrawColorColumn;
+            bloodsplatcolfunc = &R_DrawColorColumn;
         }
 
-        bloodsplatcolfunc = &R_DrawColorColumn;
         psprcolfunc = &R_DrawColorColumn;
     }
 

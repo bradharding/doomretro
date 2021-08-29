@@ -8,6 +8,7 @@
 * The framerate will no longer drop to 35 frames per second if the game is paused, or the menu or console is open.
 * A slight dithered effect is now applied to fade transitions when the `fade` CVAR is `on`.
 * A fade transition will now always be applied when exiting the help screen and the `fade` CVAR is `on`.
+* Dithered lighting is now also cast on blood splats when the `r_ditheredlighting` CVAR is `on`.
 * Translucency is now applied to megaspheres when the `r_translucency` CVAR is `on`.
 * The following changes have been made when the `r_shake_damage` CVAR is greater than `0%` and god mode is enabled:
   * The maximum amount of time the screen will shake when the player is attacked has been reduced.

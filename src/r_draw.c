@@ -120,8 +120,7 @@ fixed_t         dc_iscale;
 fixed_t         dc_texturemid;
 fixed_t         dc_texheight;
 fixed_t         dc_texturefrac;
-byte            dc_solidblood;
-byte            *dc_blood;
+byte            dc_blood;
 byte            *dc_brightmap;
 int             dc_floorclip;
 int             dc_ceilingclip;
@@ -418,14 +417,54 @@ void R_DrawBloodSplatColumn(void)
 {
     int     count = dc_yh - dc_yl + 1;
     byte    *dest = ylookup0[dc_yl] + dc_x;
+    fixed_t frac = dc_texturefrac;
 
     while (--count)
     {
-        *dest = *(*dest + dc_blood);
+        *dest = tinttab50[(*dest << 8) + dc_colormap[0][dc_blood]];
         dest += SCREENWIDTH;
+        frac += dc_iscale;
     }
 
-    *dest = *(*dest + dc_blood);
+    *dest = tinttab50[(*dest << 8) + dc_colormap[0][dc_blood]];
+}
+
+void R_DrawDitherLowBloodSplatColumn(void)
+{
+    int                 y = dc_yl;
+    int                 count = dc_yh - y + 1;
+    byte                *dest = ylookup0[y] + dc_x;
+    fixed_t             frac = dc_texturefrac;
+    const lighttable_t  *colormap[2] = { dc_colormap[0], dc_nextcolormap[0] };
+    const int           fracz = ((spryscale >> 5) & 255);
+
+    while (--count)
+    {
+        *dest = tinttab50[(*dest << 8) + colormap[ditherlow(dc_x, y++, fracz)][dc_blood]];
+        dest += SCREENWIDTH;
+        frac += dc_iscale;
+    }
+
+    *dest = tinttab50[(*dest << 8) + colormap[ditherlow(dc_x, y, fracz)][dc_blood]];
+}
+
+void R_DrawDitherBloodSplatColumn(void)
+{
+    int                 y = dc_yl;
+    int                 count = dc_yh - y + 1;
+    byte                *dest = ylookup0[y] + dc_x;
+    fixed_t             frac = dc_texturefrac;
+    const lighttable_t  *colormap[2] = { dc_colormap[0], dc_nextcolormap[0] };
+    const int           fracz = ((spryscale >> 5) & 255);
+
+    while (--count)
+    {
+        *dest = tinttab50[(*dest << 8) + colormap[dither(dc_x, y++, fracz)][dc_blood]];
+        dest += SCREENWIDTH;
+        frac += dc_iscale;
+    }
+
+    *dest = tinttab50[(*dest << 8) + colormap[dither(dc_x, y, fracz)][dc_blood]];
 }
 
 void R_DrawSolidBloodSplatColumn(void)
@@ -435,11 +474,49 @@ void R_DrawSolidBloodSplatColumn(void)
 
     while (--count)
     {
-        *dest = dc_solidblood;
+        *dest = dc_blood;
         dest += SCREENWIDTH;
     }
 
-    *dest = dc_solidblood;
+    *dest = dc_blood;
+}
+
+void R_DrawSolidDitherLowBloodSplatColumn(void)
+{
+    int                 y = dc_yl;
+    int                 count = dc_yh - y + 1;
+    byte                *dest = ylookup0[y] + dc_x;
+    fixed_t             frac = dc_texturefrac;
+    const lighttable_t  *colormap[2] = { dc_colormap[0], dc_nextcolormap[0] };
+    const int           fracz = ((spryscale >> 5) & 255);
+
+    while (--count)
+    {
+        *dest = colormap[ditherlow(dc_x, y++, fracz)][dc_blood];
+        dest += SCREENWIDTH;
+        frac += dc_iscale;
+    }
+
+    *dest = colormap[ditherlow(dc_x, y, fracz)][dc_blood];
+}
+
+void R_DrawSolidDitherBloodSplatColumn(void)
+{
+    int                 y = dc_yl;
+    int                 count = dc_yh - y + 1;
+    byte                *dest = ylookup0[y] + dc_x;
+    fixed_t             frac = dc_texturefrac;
+    const lighttable_t  *colormap[2] = { dc_colormap[0], dc_nextcolormap[0] };
+    const int           fracz = ((spryscale >> 5) & 255);
+
+    while (--count)
+    {
+        *dest = colormap[dither(dc_x, y++, fracz)][dc_blood];
+        dest += SCREENWIDTH;
+        frac += dc_iscale;
+    }
+
+    *dest = colormap[dither(dc_x, y, fracz)][dc_blood];
 }
 
 void R_DrawWallColumn(void)

@@ -60,8 +60,7 @@ extern fixed_t          dc_iscale;
 extern fixed_t          dc_texturemid;
 extern fixed_t          dc_texheight;
 extern fixed_t          dc_texturefrac;
-extern byte             dc_solidblood;
-extern byte             *dc_blood;
+extern byte             dc_blood;
 extern byte             *dc_brightmap;
 extern int              dc_floorclip;
 extern int              dc_ceilingclip;
@@ -124,7 +123,11 @@ void R_DrawFuzzyShadowColumn(void);
 void R_DrawSolidShadowColumn(void);
 void R_DrawSolidFuzzyShadowColumn(void);
 void R_DrawBloodSplatColumn(void);
+void R_DrawDitherLowBloodSplatColumn(void);
+void R_DrawDitherBloodSplatColumn(void);
 void R_DrawSolidBloodSplatColumn(void);
+void R_DrawSolidDitherLowBloodSplatColumn(void);
+void R_DrawSolidDitherBloodSplatColumn(void);
 
 // The Spectre/Invisibility effect.
 void R_DrawFuzzColumn(void);
