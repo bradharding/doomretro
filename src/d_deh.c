@@ -2896,8 +2896,9 @@ static void deh_procSprite(DEHFILE *fpin, char *line)   // Not supported
     }
 }
 
-extern int  pars[6][10];
-extern int  cpars[33];
+extern dboolean newpars;
+extern int      pars[6][10];
+extern int      cpars[33];
 
 // ====================================================================
 // deh_procPars
@@ -2962,6 +2963,7 @@ static void deh_procPars(DEHFILE *fpin, char *line) // extension
                         C_Output("Changed par time for MAP%02i from %i to %i seconds", level, cpars[level - 1], partime);
 
                     cpars[level - 1] = partime;
+                    newpars = true;
                 }
             }
         }
@@ -2978,6 +2980,7 @@ static void deh_procPars(DEHFILE *fpin, char *line) // extension
                     C_Output("Changed par time for E%iM%i from %i to %i seconds", episode, level, pars[episode][level], partime);
 
                 pars[episode][level] = partime;
+                newpars = true;
             }
         }
     }

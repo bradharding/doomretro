@@ -1103,6 +1103,8 @@ void G_ScreenShot(void)
         C_Warning(0, "A screenshot couldn't be taken.");
 }
 
+dboolean    newpars = false;
+
 // DOOM Par Times
 int pars[6][10] =
 {
@@ -1156,8 +1158,8 @@ int G_GetParTime(void)
 
     if (par)
         return par;
-    else if (BTSX || (!canmodify && (!nerve || gamemap > 9) && !FREEDOOM))
-        return 0;   // [BH] have no par time if this level is from a PWAD
+    else if (!newpars && !canmodify && (!nerve || gamemap > 9))
+        return 0;
     else if (gamemode == commercial)
     {
         // [BH] get correct par time for No Rest For The Living

@@ -17,6 +17,7 @@
 * The `M_LGTTL` and `M_SGTTL` lumps will now be used as the titles in the load and savegame menus if replaced in a PWAD.
 * Further improvements have been made to the support for [*Chex Quest*](https://doomwiki.org/wiki/Chex_Quest).
 * Further improvements have been made to the support for [*REKKR*](http://manbitesshark.com/).
+* A bug has been fixed whereby par times weren’t being displayed on the intermission screen in some instances.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
