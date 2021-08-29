@@ -180,7 +180,7 @@ int                 numdecorations;
 int                 bmapwidth;
 int                 bmapheight;
 
-// for large maps, wad is 16bit
+// for large maps, WAD is 16-bit
 int                 *blockmap;
 
 // offsets in blockmap are from here
@@ -1919,7 +1919,7 @@ static void P_LoadLineDefs2(void)
                 free(temp2);
             }
 
-        // killough 11/98: fix common wad errors (missing sidedefs):
+        // killough 11/98: fix common WAD errors (missing sidedefs):
         if (ld->sidenum[0] == NO_INDEX)
         {
             char    *temp = commify(ld->id);
@@ -2314,7 +2314,7 @@ static void P_CreateBlockMap(void)
 // P_LoadBlockMap
 //
 // killough 03/01/98: substantially modified to work
-// towards removing blockmap limit (a wad limitation)
+// towards removing blockmap limit (a WAD limitation)
 //
 // killough 03/30/98: Rewritten to remove blockmap limit,
 // though current algorithm is brute-force and non-optimal.
@@ -2342,7 +2342,7 @@ static void P_LoadBlockMap(int lump)
 
         blockmaplump = malloc_IfSameLevel(blockmaplump, sizeof(*blockmaplump) * count);
 
-        // killough 03/01/98: Expand wad blockmap into larger internal one,
+        // killough 03/01/98: Expand WAD blockmap into larger internal one,
         // by treating all offsets except -1 as unsigned and zero-extending
         // them. This potentially doubles the size of blockmaps allowed,
         // because DOOM originally considered the offsets as always signed.
@@ -2539,7 +2539,7 @@ static void P_GroupLines(void)
 // fractional coordinates if we are to be able to split segs with node lines,
 // as a node builder must do when creating a BSP tree.
 //
-// A wad file does not allow fractional coordinates, so node builders are out
+// A WAD file does not allow fractional coordinates, so node builders are out
 // of luck except that they can try to limit the number of splits (they might
 // also be able to detect the degree of roundoff error and try to avoid splits
 // with a high degree of roundoff error). But we can use fractional coordinates

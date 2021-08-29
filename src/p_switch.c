@@ -65,7 +65,7 @@ int                 maxbuttons = MAXBUTTONS;
 //
 // This routine modified to read its data from a predefined lump or
 // PWAD lump called SWITCHES rather than a static table in this module to
-// allow wad designers to insert or modify switches.
+// allow WAD designers to insert or modify switches.
 //
 // Lump format is an array of byte packed switchlist_t structures, terminated
 // by a structure with episode == -1. The lump can be generated from a
@@ -80,7 +80,7 @@ void P_InitSwitchList(void)
     int             index = 0;
     int             episode = (gamemode == registered || gamemode == retail ? 2 : (gamemode == commercial ? 3 : 1));
     switchlist_t    *alphSwitchList;                        // jff 3/23/98 pointer to switch table
-    int             lump = W_GetNumForName("SWITCHES");     // cph - new wad lump handling
+    int             lump = W_GetNumForName("SWITCHES");     // cph - new WAD lump handling
 
     // jff 3/23/98 read the switch table from a predefined lump
     alphSwitchList = (switchlist_t *)W_CacheLumpNum(lump);

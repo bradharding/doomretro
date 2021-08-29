@@ -323,7 +323,7 @@ static void AddIWADPath(const char *path, const char *suffix)
         if ((p = strchr(left, PATH_SEPARATOR)))
         {
             // Break at the separator and use the left hand side
-            // as another iwad dir
+            // as another IWAD dir
             *p = '\0';
 
             AddIWADDir(M_StringJoin(left, suffix, NULL));
@@ -547,7 +547,7 @@ static void AddDoomWADPath(void)
         if ((p = strchr(p, PATH_SEPARATOR)))
         {
             // Break at the separator and store the right hand side
-            // as another iwad dir
+            // as another IWAD dir
             *p++ = '\0';
 
             AddIWADDir(p);
@@ -798,7 +798,7 @@ void D_IdentifyVersion(void)
 {
     // gamemission is set up by the D_FindIWAD() function. But if
     // we specify '-iwad', we have to identify using
-    // D_IdentifyIWADByName(). However, if the iwad does not match
+    // D_IdentifyIWADByName(). However, if the IWAD does not match
     // any known IWAD name, we may have a dilemma. Try to
     // identify by its contents.
     if (gamemission == none)

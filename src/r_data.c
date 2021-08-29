@@ -477,7 +477,7 @@ static void R_InitFlats(void)
 
 //
 // R_InitSpriteLumps
-// Finds the width and hoffset of all sprites in the wad,
+// Finds the width and hoffset of all sprites in the WAD,
 //  so the sprite does not need to be cached completely
 //  just for having the header info ready during rendering.
 //

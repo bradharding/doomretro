@@ -197,7 +197,7 @@ static sprite_frame_t *FindSpriteFrame(char *name, char frame)
     return result;
 }
 
-// Check if sprite lump is needed in the new wad
+// Check if sprite lump is needed in the new WAD
 static dboolean SpriteLumpNeeded(lumpinfo_t *lump)
 {
     sprite_frame_t  *sprite;

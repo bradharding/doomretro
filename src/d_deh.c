@@ -1707,7 +1707,7 @@ static const char *deh_state[] =
 
 // SFXINFO_STRUCT - Dehacked block name = "Sounds"
 // Sound effects, typically not changed (redirected, and new sfx put
-// into the pwad, but not changed here. Can you tell that Greg didn't
+// into the PWAD, but not changed here. Can you tell that Greg didn't
 // know what they were for, mostly? Can you tell that I don't either?
 // Mostly I just put these into the same slots as they are in the struct.
 // This may not be supported in our -deh option if it doesn't make sense by then.
@@ -2048,7 +2048,7 @@ void D_BuildBEXTables(void)
 // Returns: void
 //
 // killough 10/98:
-// substantially modified to allow input from wad lumps instead of .deh files.
+// substantially modified to allow input from WAD lumps instead of .deh files.
 void ProcessDehFile(char *filename, int lumpnum, dboolean automatic)
 {
     DEHFILE infile;
@@ -2058,7 +2058,7 @@ void ProcessDehFile(char *filename, int lumpnum, dboolean automatic)
     linecount = 0;
     addtocount = false;
 
-    // killough 10/98: allow DEH files to come from wad lumps
+    // killough 10/98: allow DEH files to come from WAD lumps
     if (filename)
     {
         if (!(infile.f = fopen(filename, "rt")))

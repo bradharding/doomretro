@@ -578,7 +578,7 @@ void W_Init(void)
 
     // Insert nodes to the beginning of each chain, in first-to-last
     // lump order, so that the last lump of a given name appears first
-    // in any chain, observing pwad ordering rules. killough
+    // in any chain, observing PWAD ordering rules. killough
     for (int i = 0; i < numlumps; i++)
     {
         // hash function:
