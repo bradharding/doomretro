@@ -14,7 +14,7 @@
   * The screen will no longer shake if the player is in a sector with special 16 (“Damage -10% or -20% health”) or 4 (“Damage -10% or -20% health and light blinks (0.5 sec.)”).
 * Improvements have been made to the clipping of the bottom of sprites when in liquid and the `r_liquid_clipsprites` CVAR is `on`.
 * A bug has been fixed whereby an action couldn’t be bound to the <kbd><b>;</b></kbd> key using the `bind` CCMD.
-* The background of the player’s face will now be positioned correctly when the `facebackcolor` is a value other than its default of `5` and the `vid_widescreen` CVAR is `on`.
+* The background of the player’s face will now be positioned correctly when the `facebackcolor` CVAR is a value other than its default of `5` and the `vid_widescreen` CVAR is `on`.
 * Zooming in and out of the automap is now more responsive.
 * The `M_LGTTL` and `M_SGTTL` lumps will now be used as the titles in the load and savegame menus if replaced in a PWAD.
 * Further improvements have been made to the support for [*Chex Quest*](https://doomwiki.org/wiki/Chex_Quest).

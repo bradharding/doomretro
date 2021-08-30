@@ -1661,7 +1661,7 @@ static const struct deh_mobjflags_s deh_mobjflags2[] =
     { "TRANSLUCENT_REDTOGREEN_33", MF2_TRANSLUCENT_REDTOGREEN_33 },
     { "TRANSLUCENT_REDTOBLUE_33",  MF2_TRANSLUCENT_REDTOBLUE_33  },
     { "TRANSLUCENT_BLUE_25",       MF2_TRANSLUCENT_BLUE_25       },
-    { "REDTOGREEN",                MF2_TRANSLUCENT               },
+    { "REDTOGREEN",                MF2_REDTOGREEN                },
     { "GREENTORED",                MF2_GREENTORED                },
     { "REDTOBLUE",                 MF2_REDTOBLUE                 },
     { "FLOATBOB",                  MF2_FLOATBOB                  },
