@@ -958,7 +958,7 @@ void R_AddSprites(sector_t *sec, int lightlevel)
             if (lightlevel != prevlightlevel)
             {
                 spritelights = scalelight[BETWEEN(0, (lightlevel >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)];
-                nextspritelights = (r_ditheredlighting ?
+                nextspritelights = (r_ditheredlighting && thing ?
                     scalelight[BETWEEN(0, ((lightlevel + 4) >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)] : spritelights);
                 prevlightlevel = lightlevel;
             }
