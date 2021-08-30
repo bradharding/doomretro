@@ -1717,22 +1717,31 @@ dboolean C_Responder(event_t *ev)
                 // confirm input
                 if (consoleinput[0] != '\0')
                 {
-                    char        *string = M_StringDuplicate(consoleinput);
-                    char        *strings[255];
                     dboolean    result = false;
 
-                    strings[0] = strtok(string, ";");
-                    i = 0;
-
-                    while (strings[i])
+                    if (M_StringStartsWith(consoleinput, "bind "))
                     {
-                        if (C_ValidateInput(strings[i]))
+                        if (C_ValidateInput(consoleinput))
                             result = true;
-
-                        strings[++i] = strtok(NULL, ";");
                     }
+                    else
+                    {
+                        char    *string = M_StringDuplicate(consoleinput);
+                        char    *strings[255];
 
-                    free(string);
+                        strings[0] = strtok(string, ";");
+                        i = 0;
+
+                        while (strings[i])
+                        {
+                            if (C_ValidateInput(strings[i]))
+                                result = true;
+
+                            strings[++i] = strtok(NULL, ";");
+                        }
+
+                        free(string);
+                    }
 
                     if (result)
                     {
