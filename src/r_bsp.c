@@ -544,7 +544,7 @@ static void R_Subsector(int num)
     // Either you must pass the fake sector and handle validcount here, on the
     // real sector, or you must account for the lighting in some other way,
     // like passing it as an argument.
-    if (sector->validcount != validcount && !menuactive && !automapactive)
+    if (sector->validcount != validcount && !menuactive)
     {
         sector->validcount = validcount;
         R_AddSprites(sector, (sector->heightsec ? (ceilinglightlevel + floorlightlevel) / 2 : floorlightlevel));
@@ -584,7 +584,8 @@ void R_RenderBSPNode(int bspnum)
             bspnum = bsp->children[side];
         }
 
-        R_Subsector(bspnum == -1 ? 0 : (bspnum & ~NF_SUBSECTOR));
+        if (!automapactive)
+            R_Subsector(bspnum == -1 ? 0 : (bspnum & ~NF_SUBSECTOR));
 
         if (!sp)
             return;
