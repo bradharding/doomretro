@@ -13,7 +13,7 @@
   * The maximum amount of time the screen will shake when the player is attacked has been reduced.
   * The screen will no longer shake if the player is in a sector with special 16 (“Damage -10% or -20% health”) or 4 (“Damage -10% or -20% health and light blinks (0.5 sec.)”).
 * Improvements have been made to the clipping of the bottom of sprites when in liquid and the `r_liquid_clipsprites` CVAR is `on`.
-* A bug has been fixed whereby an action couldn’t be bound to the <kbd><b>;</b></kbd> key using the `bind` CCMD.
+* A bug has been fixed whereby an action couldn’t be bound to or unbound from the <kbd><b>;</b></kbd> key using the `bind` and `unbind` CCMDs.
 * The background of the player’s face will now be positioned correctly when the `facebackcolor` CVAR is a value other than its default of `5` and the `vid_widescreen` CVAR is `on`.
 * Zooming in and out of the automap is now more responsive.
 * The `M_LGTTL` and `M_SGTTL` lumps will now be used as the titles in the load and savegame menus if replaced in a PWAD.

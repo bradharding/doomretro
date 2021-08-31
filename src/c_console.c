@@ -1719,7 +1719,7 @@ dboolean C_Responder(event_t *ev)
                 {
                     dboolean    result = false;
 
-                    if (M_StringStartsWith(consoleinput, "bind "))
+                    if (M_StringStartsWith(consoleinput, "bind ") || M_StringStartsWith(consoleinput, "unbind "))
                     {
                         if (C_ValidateInput(consoleinput))
                             result = true;

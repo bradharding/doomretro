@@ -86,6 +86,7 @@ void I_InitGamepad(void)
             {
                 gamecontroller = SDL_GameControllerOpen(i);
                 deviceindex = i;
+
                 break;
             }
 
