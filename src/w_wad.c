@@ -309,7 +309,7 @@ dboolean W_AddFile(char *filename, dboolean automatic)
     else if (M_StringCompare(file, "chex.wad"))
         chex = chex1 = true;
     else if (M_StringCompare(file, "rekkrsa.wad"))
-        rekkrsa = true;
+        REKKR = rekkrsa = true;
 
     // WAD file
     W_Read(wadfile, 0, &header, sizeof(header));
