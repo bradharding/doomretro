@@ -496,7 +496,7 @@ void M_DarkBackground(void)
 {
     static byte blurscreen1[MAXSCREENAREA];
 
-    if (gametime != blurtic && (!(gametime % 3) || blurtic == -1 || vid_capfps == TICRATE))
+    if (gametime != blurtic)
     {
         if (vid_widescreen)
         {

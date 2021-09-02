@@ -2,6 +2,8 @@
 
 #### DOOM Retro v4.2.2
 
+* The menu’s background animation is now smoother.
+
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Wednesday, September 1, 2021
