@@ -5,6 +5,7 @@
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * The menu’s background animation is now smoother.
 * Further improvements have been made to the support for [*REKKR*](http://manbitesshark.com/).
+* A bug has been fixed whereby the automap wouldn’t be updated as the player moves around while it is open.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
