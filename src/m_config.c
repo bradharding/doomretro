@@ -580,6 +580,9 @@ static void M_CheckCVARs(dboolean ispackageconfig)
     if (am_backcolor < am_backcolor_min || am_backcolor > am_backcolor_max)
         am_backcolor = am_backcolor_default;
 
+    if (am_bluedoorcolor < am_bluedoorcolor_min || am_bluedoorcolor > am_bluedoorcolor_max)
+        am_bluedoorcolor = am_bluedoorcolor_default;
+
     if (am_cdwallcolor < am_cdwallcolor_min || am_cdwallcolor > am_cdwallcolor_max)
         am_cdwallcolor = am_cdwallcolor_default;
 
@@ -613,6 +616,9 @@ static void M_CheckCVARs(dboolean ispackageconfig)
     if (am_playercolor < am_playercolor_min || am_playercolor > am_playercolor_max)
         am_playercolor = am_playercolor_default;
 
+    if (am_reddoorcolor < am_reddoorcolor_min || am_reddoorcolor > am_reddoorcolor_max)
+        am_reddoorcolor = am_reddoorcolor_default;
+
     if (am_rotatemode != false && am_rotatemode != true)
         am_rotatemode = am_rotatemode_default;
 
@@ -627,6 +633,9 @@ static void M_CheckCVARs(dboolean ispackageconfig)
 
     if (am_wallcolor < am_wallcolor_min || am_wallcolor > am_wallcolor_max)
         am_wallcolor = am_wallcolor_default;
+
+    if (am_yellowdoorcolor < am_yellowdoorcolor_min || am_yellowdoorcolor > am_yellowdoorcolor_max)
+        am_yellowdoorcolor = am_yellowdoorcolor_default;
 
     if (autoaim != false && autoaim != true)
         autoaim = autoaim_default;

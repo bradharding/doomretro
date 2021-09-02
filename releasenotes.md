@@ -2,6 +2,7 @@
 
 #### DOOM Retro v4.2.2
 
+* Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * The menu’s background animation is now smoother.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
