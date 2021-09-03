@@ -584,6 +584,7 @@ char    *s_CAPTION_BTSXE1 = "";
 char    *s_CAPTION_BTSXE2 = "";
 char    *s_CAPTION_BTSXE3 = "";
 char    *s_CAPTION_REKKR = "";
+char    *s_CAPTION_REKKRSL = "";
 
 char    *s_AUTHOR_ROMERO = "";
 
@@ -1155,6 +1156,7 @@ deh_strs deh_strlookup[] =
     { &s_CAPTION_BTSXE2,             "CAPTION_BTSXE2"             },
     { &s_CAPTION_BTSXE3,             "CAPTION_BTSXE3"             },
     { &s_CAPTION_REKKR,              "CAPTION_REKKR"              },
+    { &s_CAPTION_REKKRSL,            "CAPTION_REKKRSL"            },
     { &s_AUTHOR_ROMERO,              "AUTHOR_ROMERO"              },
 
     { &bgflatE1,                     "BGFLATE1"                   },

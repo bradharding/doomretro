@@ -476,6 +476,7 @@ extern char     *s_CAPTION_BTSXE1;
 extern char     *s_CAPTION_BTSXE2;
 extern char     *s_CAPTION_BTSXE3;
 extern char     *s_CAPTION_REKKR;
+extern char     *s_CAPTION_REKKRSL;
 
 extern char     *s_AUTHOR_ROMERO;
 

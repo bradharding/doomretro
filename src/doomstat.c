@@ -70,6 +70,7 @@ dboolean        eviternity;
 dboolean        doom4vanilla;
 dboolean        REKKR;
 dboolean        REKKRIWAD;
+dboolean        REKKRSL;
 
 // Set if homebrew PWAD stuff has been added.
 dboolean        modifiedgame = false;

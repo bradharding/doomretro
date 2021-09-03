@@ -845,6 +845,8 @@ void D_SetGameDescription(void)
         M_StringCopy(gamedescription, s_CAPTION_BTSXE2, sizeof(gamedescription));
     else if (BTSXE3)
         M_StringCopy(gamedescription, s_CAPTION_BTSXE3, sizeof(gamedescription));
+    else if (REKKRSL)
+        M_StringCopy(gamedescription, s_CAPTION_REKKRSL, sizeof(gamedescription));
     else if (REKKR)
         M_StringCopy(gamedescription, s_CAPTION_REKKR, sizeof(gamedescription));
     else if (gamemission == doom)
