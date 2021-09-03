@@ -426,6 +426,10 @@ static void R_InitTextures(void)
 static void R_InitBrightmaps(void)
 {
     brightmap = Z_Calloc(numtextures, 256, PU_STATIC, NULL);
+    nobrightmap = Z_Calloc(numtextures, sizeof(*nobrightmap), PU_STATIC, NULL);
+
+    if (BTSX || chex || hacx || REKKR)
+        return;
 
     for (int i = 0, game = brightmaps[i].game; brightmaps[i].mask; i++)
         if (*brightmaps[i].texture
@@ -437,7 +441,6 @@ static void R_InitBrightmaps(void)
                 brightmap[num] = brightmaps[i].mask;
         }
 
-    nobrightmap = Z_Calloc(numtextures, sizeof(*nobrightmap), PU_STATIC, NULL);
 
     SC_Open("DRCOMPAT");
 

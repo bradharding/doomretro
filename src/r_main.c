@@ -999,7 +999,7 @@ static void R_SetupFrame(void)
     else
     {
         fixedcolormap = 0;
-        usebrightmaps = (r_brightmaps && !cm && !BTSX);
+        usebrightmaps = (r_brightmaps && !cm);
     }
 
     validcount++;
