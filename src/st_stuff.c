@@ -1508,7 +1508,8 @@ static void ST_LoadUnloadGraphics(load_callback_t callback)
 static void ST_LoadCallback(char *lumpname, patch_t **variable)
 {
     if (M_StringCompare(lumpname, "STARMS") || M_StringCompare(lumpname, "STBAR") || M_StringCompare(lumpname, "STFGOD0"))
-        *variable = ((FREEDOOM && !modifiedgame) || chex || hacx || rekkrsa ? W_CacheLastLumpName(lumpname) : W_CacheLumpName(lumpname));
+        *variable = ((FREEDOOM && !modifiedgame) || chex || hacx || REKKRIWAD ?
+            W_CacheLastLumpName(lumpname) : W_CacheLumpName(lumpname));
     else
         *variable = W_CacheLumpName(lumpname);
 }

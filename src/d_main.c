@@ -931,8 +931,9 @@ static void D_CheckSupportedPWAD(char *filename)
         doom4vanilla = true;
     else if (M_StringCompare(leafname(filename), "REKKR.wad"))
         REKKR = true;
-    else if (M_StringCompare(leafname(filename), "rekkrsa.wad"))
-        REKKR = rekkrsa = true;
+    else if (M_StringCompare(leafname(filename), "rekkrsa.wad")
+        || M_StringCompare(leafname(filename), "rekkrsl.wad"))
+        REKKR = REKKRIWAD = true;
 }
 
 static dboolean D_IsUnsupportedPWAD(char *filename)
@@ -1812,7 +1813,7 @@ static void D_ProcessDehInWad(void)
                 && M_StringEndsWith(lumpinfo[i]->wadfile->path, PACKAGE_WAD))
                 ProcessDehFile(NULL, i, false);
     }
-    else if (hacx || FREEDOOM || rekkrsa)
+    else if (hacx || FREEDOOM || REKKRIWAD)
     {
         for (int i = 0; i < numlumps; i++)
             if (M_StringCompare(lumpinfo[i]->name, "DEHACKED")
