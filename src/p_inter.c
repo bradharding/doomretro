@@ -980,7 +980,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
                     if (buffer[0])
                         buffer[0] = toupper(buffer[0]);
 
-                    M_StringCopy(buffer, M_StringReplace(buffer, "really", "\037really\037"), sizeof(buffer));
+                    M_StringCopy(buffer, M_StringReplace(buffer, "really", ITALICS("really")), sizeof(buffer));
                     HU_PlayerMessage(buffer, true, false);
                 }
                 else

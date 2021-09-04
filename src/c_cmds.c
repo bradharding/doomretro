@@ -3642,9 +3642,13 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
     }
     else
     {
-        temp = titlecase(*episodes[gameepisode - 1]);
-        C_TabbedOutput(tabs, "Episode\t" ITALICS("%s") "  (%i of %i)", temp, gameepisode, (gamemode == retail ? (sigil ? 5 : 4) : 3));
-        free(temp);
+        if (!chex && !hacx)
+        {
+            temp = titlecase(*episodes[gameepisode - 1]);
+            C_TabbedOutput(tabs, "Episode\t" ITALICS("%s") "  (%i of %i)",
+                temp, gameepisode, (gamemode == retail ? (sigil ? 5 : 4) : 3));
+            free(temp);
+        }
 
         C_TabbedOutput(tabs, "Map\t%i of %i%s", gamemap, (gamemap == 9 ? 9 : 8), (gamemap == 9 ? " (secret)" : ""));
     }
