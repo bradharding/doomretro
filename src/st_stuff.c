@@ -80,7 +80,7 @@
 #define ST_FACESX           (143 + chex)
 #define ST_FACESY           168
 
-#define ST_FACEBACKX        (143 * SCREENSCALE)
+#define ST_FACEBACKX        (143 * SCREENSCALE + WIDESCREENDELTA * 2)
 #define ST_FACEBACKY        (168 * SCREENSCALE)
 #define ST_FACEBACKWIDTH    (34 * SCREENSCALE)
 #define ST_FACEBACKHEIGHT   (32 * SCREENSCALE)
@@ -1340,8 +1340,7 @@ static void ST_DrawWidgets(dboolean refresh)
     }
 
     if (facebackcolor != facebackcolor_default)
-        V_FillRect(0, ST_FACEBACKX + WIDESCREENDELTA * 2, ST_FACEBACKY, ST_FACEBACKWIDTH, ST_FACEBACKHEIGHT,
-            nearestcolors[facebackcolor], false);
+        V_FillRect(0, ST_FACEBACKX, ST_FACEBACKY, ST_FACEBACKWIDTH, ST_FACEBACKHEIGHT, nearestcolors[facebackcolor], false);
 
     STlib_UpdateMultIcon(&w_faces, refresh);
 

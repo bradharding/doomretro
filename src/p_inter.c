@@ -2346,7 +2346,7 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
         }
     }
 
-    if (M_Random() < info->painchance && !(target->flags & MF_SKULLFLY) && (!tplayer || !(viewplayer->cheats & CF_GODMODE)))
+    if (M_Random() < info->painchance && !(flags & MF_SKULLFLY) && (!tplayer || !(viewplayer->cheats & CF_GODMODE)))
     {
         justhit = true;
         P_SetMobjState(target, info->painstate);
@@ -2373,7 +2373,7 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
     }
 
     // fight back!
-    if (justhit && (target->target == source || !target->target || !(target->flags & target->target->flags & MF_FRIEND)))
+    if (justhit && (target->target == source || !target->target || !(flags & target->target->flags & MF_FRIEND)))
         target->flags |= MF_JUSTHIT;
 }
 
