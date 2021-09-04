@@ -983,12 +983,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
                     C_PlayerMessage(buffer);
 
                     if (gamestate == GS_LEVEL && !consoleactive && !message_dontfuckwithme)
-                    {
-                        if (r_screensize < r_screensize_max || !r_althud)
-                            M_StringCopy(buffer, M_StringReplace(buffer, ITALICS("really"), "really"), sizeof(buffer));
-
                         HU_SetPlayerMessage(buffer, true, false);
-                    }
                 }
                 else
                     HU_PlayerMessage(s_GOTMEDIKIT, true, false);
