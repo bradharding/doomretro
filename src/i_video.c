@@ -610,7 +610,7 @@ static void I_GetEvent(void)
                 break;
 
             case SDL_CONTROLLERBUTTONDOWN:
-                gamepadbuttons |= 1 << Event->cbutton.button;
+                gamepadbuttons |= (1 << Event->cbutton.button);
                 event.type = ev_gamepad;
                 D_PostEvent(&event);
 
