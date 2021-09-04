@@ -980,10 +980,8 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
                     if (buffer[0])
                         buffer[0] = toupper(buffer[0]);
 
-                    C_PlayerMessage(buffer);
-
-                    if (gamestate == GS_LEVEL && !consoleactive && !message_dontfuckwithme)
-                        HU_SetPlayerMessage(buffer, true, false);
+                    M_StringCopy(buffer, M_StringReplace(buffer, "really", "\037really\037"), sizeof(buffer));
+                    HU_PlayerMessage(buffer, true, false);
                 }
                 else
                     HU_PlayerMessage(s_GOTMEDIKIT, true, false);
