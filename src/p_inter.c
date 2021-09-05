@@ -1797,11 +1797,18 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
                                 ((target->flags & MF_FRIEND) ? "friendly " : ""),
                                 (*target->info->name1 ? target->info->name1 : "monster"));
 
-                        C_PlayerObituary("You %s %s with your %s%s.",
-                            (target->type == MT_BARREL ? "exploded" : (gibbed ? "gibbed" : "killed")),
-                            targetname,
-                            weaponinfo[readyweapon].description,
-                            (readyweapon == wp_fist && viewplayer->powers[pw_strength] ? " while berserk" : ""));
+                        if (readyweapon == wp_fist && viewplayer->powers[pw_strength])
+                            C_PlayerObituary("You %s %s with your %s while %s.",
+                                (target->type == MT_BARREL ? "exploded" : (gibbed ? "gibbed" : "killed")),
+                                targetname,
+                                weaponinfo[readyweapon].description,
+                                s_BERSERK);
+                        else
+                            C_PlayerObituary("You %s %s with your %s.",
+                                (target->type == MT_BARREL ? "exploded" : (gibbed ? "gibbed" : "killed")),
+                                targetname,
+                                weaponinfo[readyweapon].description);
+
                     }
                 }
                 else
@@ -1836,20 +1843,40 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
                                 (*target->info->name1 ? target->info->name1 : "monster"));
 
                         if (M_StringCompare(playername, playername_default))
-                            C_PlayerObituary("You %s %s with your %s%s.",
-                                (target->type == MT_BARREL ? "exploded" : (gibbed ? "gibbed" : "killed")),
-                                targetname,
-                                weaponinfo[readyweapon].description,
-                                (readyweapon == wp_fist && viewplayer->powers[pw_strength] ? " while berserk" : ""));
+                        {
+                            if (readyweapon == wp_fist && viewplayer->powers[pw_strength])
+                                C_PlayerObituary("You %s %s with your %s while %s.",
+                                    (target->type == MT_BARREL ? "exploded" : (gibbed ? "gibbed" : "killed")),
+                                    targetname,
+                                    weaponinfo[readyweapon].description,
+                                    s_BERSERK);
+                            else
+                                C_PlayerObituary("You %s %s with your %s.",
+                                    (target->type == MT_BARREL ? "exploded" : (gibbed ? "gibbed" : "killed")),
+                                    targetname,
+                                    weaponinfo[readyweapon].description);
+
+                        }
                         else
-                            C_PlayerObituary("%s %s %s with %s %s%s.",
-                                playername,
-                                (target->type == MT_BARREL ? "exploded" : (gibbed ? "gibbed" : "killed")),
-                                targetname,
-                                (playergender == playergender_male ? "his" :
-                                    (playergender == playergender_female ? "her" : "their")),
-                                weaponinfo[readyweapon].description,
-                                (readyweapon == wp_fist && viewplayer->powers[pw_strength] ? " while berserk" : ""));
+                        {
+                            if (readyweapon == wp_fist && viewplayer->powers[pw_strength])
+                                C_PlayerObituary("%s %s %s with %s %s while %s.",
+                                    playername,
+                                    (target->type == MT_BARREL ? "exploded" : (gibbed ? "gibbed" : "killed")),
+                                    targetname,
+                                    (playergender == playergender_male ? "his" :
+                                        (playergender == playergender_female ? "her" : "their")),
+                                    weaponinfo[readyweapon].description,
+                                    s_BERSERK);
+                            else
+                                C_PlayerObituary("%s %s %s with %s %s.",
+                                    playername,
+                                    (target->type == MT_BARREL ? "exploded" : (gibbed ? "gibbed" : "killed")),
+                                    targetname,
+                                    (playergender == playergender_male ? "his" :
+                                        (playergender == playergender_female ? "her" : "their")),
+                                    weaponinfo[readyweapon].description);
+                        }
                     }
                 }
             }
