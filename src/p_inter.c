@@ -1783,7 +1783,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
                     if (target->player)
                         C_PlayerObituary("You %s yourself with your own %s.",
                             (gibbed ? "gibbed" : "killed"),
-                            weaponinfo[readyweapon].description);
+                            weaponinfo[readyweapon].name);
                     else
                     {
                         char    targetname[33];
@@ -1801,14 +1801,13 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
                             C_PlayerObituary("You %s %s with your %s while %s.",
                                 (target->type == MT_BARREL ? "exploded" : (gibbed ? "gibbed" : "killed")),
                                 targetname,
-                                weaponinfo[readyweapon].description,
+                                weaponinfo[readyweapon].name,
                                 s_BERSERK);
                         else
                             C_PlayerObituary("You %s %s with your %s.",
                                 (target->type == MT_BARREL ? "exploded" : (gibbed ? "gibbed" : "killed")),
                                 targetname,
-                                weaponinfo[readyweapon].description);
-
+                                weaponinfo[readyweapon].name);
                     }
                 }
                 else
@@ -1818,7 +1817,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
                         if (M_StringCompare(playername, playername_default))
                             C_PlayerObituary("You %s yourself with your own %s.",
                                 (gibbed ? "gibbed" : "killed"),
-                                weaponinfo[readyweapon].description);
+                                weaponinfo[readyweapon].name);
                         else
                             C_PlayerObituary("%s %s %s with %s own %s.",
                                 playername,
@@ -1827,7 +1826,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
                                     (playergender == playergender_female ? "herself" : "themselves")),
                                 (playergender == playergender_male ? "his" :
                                     (playergender == playergender_female ? "her" : "their")),
-                                weaponinfo[readyweapon].description);
+                                weaponinfo[readyweapon].name);
                     }
                     else
                     {
@@ -1848,14 +1847,13 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
                                 C_PlayerObituary("You %s %s with your %s while %s.",
                                     (target->type == MT_BARREL ? "exploded" : (gibbed ? "gibbed" : "killed")),
                                     targetname,
-                                    weaponinfo[readyweapon].description,
+                                    weaponinfo[readyweapon].name,
                                     s_BERSERK);
                             else
                                 C_PlayerObituary("You %s %s with your %s.",
                                     (target->type == MT_BARREL ? "exploded" : (gibbed ? "gibbed" : "killed")),
                                     targetname,
-                                    weaponinfo[readyweapon].description);
-
+                                    weaponinfo[readyweapon].name);
                         }
                         else
                         {
@@ -1866,7 +1864,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
                                     targetname,
                                     (playergender == playergender_male ? "his" :
                                         (playergender == playergender_female ? "her" : "their")),
-                                    weaponinfo[readyweapon].description,
+                                    weaponinfo[readyweapon].name,
                                     s_BERSERK);
                             else
                                 C_PlayerObituary("%s %s %s with %s %s.",
@@ -1875,7 +1873,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
                                     targetname,
                                     (playergender == playergender_male ? "his" :
                                         (playergender == playergender_female ? "her" : "their")),
-                                    weaponinfo[readyweapon].description);
+                                    weaponinfo[readyweapon].name);
                         }
                     }
                 }

@@ -42,8 +42,9 @@
 weaponinfo_t weaponinfo[NUMWEAPONS] =
 {
     {
-        /* description */ "fists",
+        /* name */        "fists",
         /* ammotype */    am_noammo,
+        /* ammoname */    "",
         /* minammo */     0,
         /* upstate */     S_PUNCHUP,
         /* downstate */   S_PUNCHDOWN,
@@ -59,8 +60,9 @@ weaponinfo_t weaponinfo[NUMWEAPONS] =
     },
 
     {
-        /* description */ "pistol",
+        /* name */        "pistol",
         /* ammotype */    am_clip,
+        /* ammoname */    "bullet",
         /* minammo */     1,
         /* upstate */     S_PISTOLUP,
         /* downstate */   S_PISTOLDOWN,
@@ -76,8 +78,9 @@ weaponinfo_t weaponinfo[NUMWEAPONS] =
     },
 
     {
-        /* description */ "shotgun",
+        /* name */        "shotgun",
         /* ammotype */    am_shell,
+        /* ammoname */    "shell",
         /* minammo */     1,
         /* upstate */     S_SGUNUP,
         /* downstate */   S_SGUNDOWN,
@@ -93,8 +96,9 @@ weaponinfo_t weaponinfo[NUMWEAPONS] =
     },
 
     {
-        /* description */ "chaingun",
+        /* name */        "chaingun",
         /* ammotype */    am_clip,
+        /* ammoname */    "bullet",
         /* minammo */     1,
         /* upstate */     S_CHAINUP,
         /* downstate */   S_CHAINDOWN,
@@ -110,8 +114,9 @@ weaponinfo_t weaponinfo[NUMWEAPONS] =
     },
 
     {
-        /* description */ "rocket launcher",
+        /* name */        "rocket launcher",
         /* ammotype */    am_misl,
+        /* ammoname */    "rocket",
         /* minammo */     1,
         /* upstate */     S_MISSILEUP,
         /* downstate */   S_MISSILEDOWN,
@@ -127,8 +132,9 @@ weaponinfo_t weaponinfo[NUMWEAPONS] =
     },
 
     {
-        /* description */ "plasma rifle",
+        /* name */        "plasma rifle",
         /* ammotype */    am_cell,
+        /* ammoname */    "cell",
         /* minammo */     1,
         /* upstate */     S_PLASMAUP,
         /* downstate */   S_PLASMADOWN,
@@ -144,8 +150,9 @@ weaponinfo_t weaponinfo[NUMWEAPONS] =
     },
 
     {
-        /* description */ "BFG-9000",
+        /* name */        "BFG-9000",
         /* ammotype */    am_cell,
+        /* ammoname */    "cell",
         /* minammo */     BFGCELLS,
         /* upstate */     S_BFGUP,
         /* downstate */   S_BFGDOWN,
@@ -161,8 +168,9 @@ weaponinfo_t weaponinfo[NUMWEAPONS] =
     },
 
     {
-        /* description */ "chainsaw",
+        /* name */        "chainsaw",
         /* ammotype */    am_noammo,
+        /* ammoname */    "",
         /* minammo */     0,
         /* upstate */     S_SAWUP,
         /* downstate */   S_SAWDOWN,
@@ -178,8 +186,9 @@ weaponinfo_t weaponinfo[NUMWEAPONS] =
     },
 
     {
-        /* description */ "super shotgun",
+        /* name */        "super shotgun",
         /* ammotype */    am_shell,
+        /* ammoname */    "shell",
         /* minammo */     2,
         /* upstate */     S_DSGUNUP,
         /* downstate */   S_DSGUNDOWN,

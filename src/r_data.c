@@ -594,15 +594,15 @@ static void R_InitSpriteLumps(void)
         mobjinfo[MT_BRUISER].blood = MT_BLOOD;
         mobjinfo[MT_KNIGHT].blood = MT_BLOOD;
 
-        M_StringCopy(weaponinfo[wp_pistol].description, "handgun", sizeof(weaponinfo[wp_pistol].description));
-        M_StringCopy(weaponinfo[wp_shotgun].description, "pump-action shotgun", sizeof(weaponinfo[wp_shotgun].description));
-        M_StringCopy(weaponinfo[wp_chaingun].description, "minigun", sizeof(weaponinfo[wp_chaingun].description));
-        M_StringCopy(weaponinfo[wp_missile].description, "missile launcher", sizeof(weaponinfo[wp_missile].description));
-        M_StringCopy(weaponinfo[wp_plasma].description, "polaric energy cannon", sizeof(weaponinfo[wp_plasma].description));
-        M_StringCopy(weaponinfo[wp_bfg].description, "SKAG 1337", sizeof(weaponinfo[wp_bfg].description));
-        M_StringCopy(weaponinfo[wp_chainsaw].description, "angle grinder", sizeof(weaponinfo[wp_chainsaw].description));
-        M_StringCopy(weaponinfo[wp_supershotgun].description, "double-barreled shotgun",
-            sizeof(weaponinfo[wp_supershotgun].description));
+        M_StringCopy(weaponinfo[wp_pistol].name, "handgun", sizeof(weaponinfo[wp_pistol].name));
+        M_StringCopy(weaponinfo[wp_shotgun].name, "pump-action shotgun", sizeof(weaponinfo[wp_shotgun].name));
+        M_StringCopy(weaponinfo[wp_chaingun].name, "minigun", sizeof(weaponinfo[wp_chaingun].name));
+        M_StringCopy(weaponinfo[wp_missile].name, "missile launcher", sizeof(weaponinfo[wp_missile].name));
+        M_StringCopy(weaponinfo[wp_plasma].name, "polaric energy cannon", sizeof(weaponinfo[wp_plasma].name));
+        M_StringCopy(weaponinfo[wp_bfg].name, "SKAG 1337", sizeof(weaponinfo[wp_bfg].name));
+        M_StringCopy(weaponinfo[wp_chainsaw].name, "angle grinder", sizeof(weaponinfo[wp_chainsaw].name));
+        M_StringCopy(weaponinfo[wp_supershotgun].name, "double-barreled shotgun",
+            sizeof(weaponinfo[wp_supershotgun].name));
 
         M_StringCopy(mobjinfo[MT_POSSESSED].name1, "zombie", sizeof(mobjinfo[MT_POSSESSED].name1));
         M_StringCopy(mobjinfo[MT_POSSESSED].plural1, "zombies", sizeof(mobjinfo[MT_POSSESSED].plural1));
@@ -731,13 +731,18 @@ static void R_InitSpriteLumps(void)
         mobjinfo[MT_HEAD].blood = MT_BLOOD;
         mobjinfo[MT_KNIGHT].blood = MT_BLOOD;
 
-        M_StringCopy(weaponinfo[wp_pistol].description, "soul bow", sizeof(weaponinfo[wp_pistol].description));
-        M_StringCopy(weaponinfo[wp_shotgun].description, "steel-shot launcher", sizeof(weaponinfo[wp_shotgun].description));
-        M_StringCopy(weaponinfo[wp_chaingun].description, "soul gun", sizeof(weaponinfo[wp_chaingun].description));
-        M_StringCopy(weaponinfo[wp_missile].description, "runic staff", sizeof(weaponinfo[wp_missile].description));
-        M_StringCopy(weaponinfo[wp_plasma].description, "holy relic", sizeof(weaponinfo[wp_plasma].description));
-        M_StringCopy(weaponinfo[wp_bfg].description, "blessing of the gods", sizeof(weaponinfo[wp_bfg].description));
-        M_StringCopy(weaponinfo[wp_chainsaw].description, "axe", sizeof(weaponinfo[wp_chainsaw].description));
+        M_StringCopy(weaponinfo[wp_pistol].name, "soul bow", sizeof(weaponinfo[wp_pistol].name));
+        M_StringCopy(weaponinfo[wp_shotgun].name, "steel-shot launcher", sizeof(weaponinfo[wp_shotgun].name));
+        M_StringCopy(weaponinfo[wp_chaingun].name, "soul gun", sizeof(weaponinfo[wp_chaingun].name));
+        M_StringCopy(weaponinfo[wp_missile].name, "runic staff", sizeof(weaponinfo[wp_missile].name));
+        M_StringCopy(weaponinfo[wp_plasma].name, "holy relic", sizeof(weaponinfo[wp_plasma].name));
+        M_StringCopy(weaponinfo[wp_bfg].name, "blessing of the gods", sizeof(weaponinfo[wp_bfg].name));
+        M_StringCopy(weaponinfo[wp_chainsaw].name, "axe", sizeof(weaponinfo[wp_chainsaw].name));
+
+        M_StringCopy(weaponinfo[wp_pistol].ammoname, "soul", sizeof(weaponinfo[wp_pistol].ammoname));
+        M_StringCopy(weaponinfo[wp_shotgun].ammoname, "steelshot", sizeof(weaponinfo[wp_shotgun].ammoname));
+        M_StringCopy(weaponinfo[wp_missile].ammoname, "rune", sizeof(weaponinfo[wp_missile].ammoname));
+        M_StringCopy(weaponinfo[wp_plasma].ammoname, "mana", sizeof(weaponinfo[wp_plasma].ammoname));
 
         M_StringCopy(mobjinfo[MT_POSSESSED].name1, "former human", sizeof(mobjinfo[MT_POSSESSED].name1));
         M_StringCopy(mobjinfo[MT_POSSESSED].plural1, "former humans", sizeof(mobjinfo[MT_POSSESSED].plural1));

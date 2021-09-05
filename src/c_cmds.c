@@ -4948,29 +4948,33 @@ static void C_PlayerStats_Game(void)
 
     temp1 = commify(viewplayer->itemspickedup_ammo_bullets);
     temp2 = commifystat(stat_itemspickedup_ammo_bullets);
-    C_TabbedOutput(tabs, "Ammo picked up\t%s bullet%s\t%s bullet%s",
-        temp1, (viewplayer->itemspickedup_ammo_bullets == 1 ? "" : "s"), temp2, (stat_itemspickedup_ammo_bullets == 1 ? "" : "s"));
+    C_TabbedOutput(tabs, "Ammo picked up\t%s %s%s\t%s %s%s",
+        temp1, weaponinfo[wp_pistol].ammoname, (viewplayer->itemspickedup_ammo_bullets == 1 ? "" : "s"),
+        temp2, weaponinfo[wp_pistol].ammoname, (stat_itemspickedup_ammo_bullets == 1 ? "" : "s"));
     free(temp1);
     free(temp2);
 
     temp1 = commify(viewplayer->itemspickedup_ammo_shells);
     temp2 = commifystat(stat_itemspickedup_ammo_shells);
-    C_TabbedOutput(tabs, "\t%s shell%s\t%s shell%s",
-        temp1, (viewplayer->itemspickedup_ammo_shells == 1 ? "" : "s"), temp2, (stat_itemspickedup_ammo_shells == 1 ? "" : "s"));
+    C_TabbedOutput(tabs, "\t%s %s%s\t%s %s%s",
+        temp1, weaponinfo[wp_shotgun].ammoname, (viewplayer->itemspickedup_ammo_shells == 1 ? "" : "s"),
+        temp2, weaponinfo[wp_shotgun].ammoname, (stat_itemspickedup_ammo_shells == 1 ? "" : "s"));
     free(temp1);
     free(temp2);
 
     temp1 = commify(viewplayer->itemspickedup_ammo_rockets);
     temp2 = commifystat(stat_itemspickedup_ammo_rockets);
-    C_TabbedOutput(tabs, "\t%s rocket%s\t%s rocket%s",
-        temp1, (viewplayer->itemspickedup_ammo_rockets == 1 ? "" : "s"), temp2, (stat_itemspickedup_ammo_rockets == 1 ? "" : "s"));
+    C_TabbedOutput(tabs, "\t%s %s%s\t%s %s%s",
+        temp1, weaponinfo[wp_missile].ammoname, (viewplayer->itemspickedup_ammo_rockets == 1 ? "" : "s"),
+        temp2, weaponinfo[wp_missile].ammoname, (stat_itemspickedup_ammo_rockets == 1 ? "" : "s"));
     free(temp1);
     free(temp2);
 
     temp1 = commify(viewplayer->itemspickedup_ammo_cells);
     temp2 = commifystat(stat_itemspickedup_ammo_cells);
-    C_TabbedOutput(tabs, "\t%s cell%s\t%s cell%s",
-        temp1, (viewplayer->itemspickedup_ammo_cells == 1 ? "" : "s"), temp2, (stat_itemspickedup_ammo_cells == 1 ? "" : "s"));
+    C_TabbedOutput(tabs, "\t%s %s%s\t%s %s%s",
+        temp1, weaponinfo[wp_plasma].ammoname, (viewplayer->itemspickedup_ammo_cells == 1 ? "" : "s"),
+        temp2, weaponinfo[wp_plasma].ammoname, (stat_itemspickedup_ammo_cells == 1 ? "" : "s"));
     free(temp1);
     free(temp2);
 
@@ -5050,7 +5054,7 @@ static void C_PlayerStats_Game(void)
     free(temp3);
     free(temp4);
 
-    temp1 = sentencecase(weaponinfo[wp_fist].description);
+    temp1 = sentencecase(weaponinfo[wp_fist].name);
     temp2 = commify(viewplayer->shotssuccessful[wp_fist]);
     temp3 = commify(viewplayer->shotsfired[wp_fist]);
     temp4 = commifystat(stat_shotssuccessful_fists);
@@ -5066,7 +5070,7 @@ static void C_PlayerStats_Game(void)
     free(temp4);
     free(temp5);
 
-    temp1 = sentencecase(weaponinfo[wp_chainsaw].description);
+    temp1 = sentencecase(weaponinfo[wp_chainsaw].name);
     temp2 = commify(viewplayer->shotssuccessful[wp_chainsaw]);
     temp3 = commify(viewplayer->shotsfired[wp_chainsaw]);
     temp4 = commifystat(stat_shotssuccessful_chainsaw);
@@ -5082,7 +5086,7 @@ static void C_PlayerStats_Game(void)
     free(temp4);
     free(temp5);
 
-    temp1 = sentencecase(weaponinfo[wp_pistol].description);
+    temp1 = sentencecase(weaponinfo[wp_pistol].name);
     temp2 = commify(viewplayer->shotssuccessful[wp_pistol]);
     temp3 = commify(viewplayer->shotsfired[wp_pistol]);
     temp4 = commifystat(stat_shotssuccessful_pistol);
@@ -5098,7 +5102,7 @@ static void C_PlayerStats_Game(void)
     free(temp4);
     free(temp5);
 
-    temp1 = sentencecase(weaponinfo[wp_shotgun].description);
+    temp1 = sentencecase(weaponinfo[wp_shotgun].name);
     temp2 = commify(viewplayer->shotssuccessful[wp_shotgun]);
     temp3 = commify(viewplayer->shotsfired[wp_shotgun]);
     temp4 = commifystat(stat_shotssuccessful_shotgun);
@@ -5116,7 +5120,7 @@ static void C_PlayerStats_Game(void)
 
     if (gamemode == commercial)
     {
-        temp1 = sentencecase(weaponinfo[wp_supershotgun].description);
+        temp1 = sentencecase(weaponinfo[wp_supershotgun].name);
         temp2 = commify(viewplayer->shotssuccessful[wp_supershotgun]);
         temp3 = commify(viewplayer->shotsfired[wp_supershotgun]);
         temp4 = commifystat(stat_shotssuccessful_supershotgun);
@@ -5134,7 +5138,7 @@ static void C_PlayerStats_Game(void)
         free(temp5);
     }
 
-    temp1 = sentencecase(weaponinfo[wp_chaingun].description);
+    temp1 = sentencecase(weaponinfo[wp_chaingun].name);
     temp2 = commify(viewplayer->shotssuccessful[wp_chaingun]);
     temp3 = commify(viewplayer->shotsfired[wp_chaingun]);
     temp4 = commifystat(stat_shotssuccessful_chaingun);
@@ -5150,7 +5154,7 @@ static void C_PlayerStats_Game(void)
     free(temp4);
     free(temp5);
 
-    temp1 = sentencecase(weaponinfo[wp_missile].description);
+    temp1 = sentencecase(weaponinfo[wp_missile].name);
     temp2 = commify(viewplayer->shotssuccessful[wp_missile]);
     temp3 = commify(viewplayer->shotsfired[wp_missile]);
     temp4 = commifystat(stat_shotssuccessful_rocketlauncher);
@@ -5168,7 +5172,7 @@ static void C_PlayerStats_Game(void)
 
     if (gamemode != shareware)
     {
-        temp1 = sentencecase(weaponinfo[wp_plasma].description);
+        temp1 = sentencecase(weaponinfo[wp_plasma].name);
         temp2 = commify(viewplayer->shotssuccessful[wp_plasma]);
         temp3 = commify(viewplayer->shotsfired[wp_plasma]);
         temp4 = commifystat(stat_shotssuccessful_plasmarifle);
@@ -5184,7 +5188,7 @@ static void C_PlayerStats_Game(void)
         free(temp4);
         free(temp5);
 
-        temp1 = sentencecase(weaponinfo[wp_bfg].description);
+        temp1 = sentencecase(weaponinfo[wp_bfg].name);
         temp2 = commify(viewplayer->shotssuccessful[wp_bfg]);
         temp3 = commify(viewplayer->shotsfired[wp_bfg]);
         temp4 = commifystat(stat_shotssuccessful_bfg9000);
@@ -5203,13 +5207,13 @@ static void C_PlayerStats_Game(void)
 
     if (favoriteweapon1 == wp_nochange && favoriteweapon2 == wp_nochange)
         C_TabbedOutput(tabs, "Favorite weapon\tThe %s\t The %s",
-            weaponinfo[wp_pistol].description, weaponinfo[wp_pistol].description);
+            weaponinfo[wp_pistol].name, weaponinfo[wp_pistol].name);
     else if (favoriteweapon1 == wp_nochange)
         C_TabbedOutput(tabs, "Favorite weapon\tThe %s\tThe %s",
-            weaponinfo[wp_pistol].description, weaponinfo[favoriteweapon2].description);
+            weaponinfo[wp_pistol].name, weaponinfo[favoriteweapon2].name);
     else
         C_TabbedOutput(tabs, "Favorite weapon\tThe %s\tThe %s",
-            weaponinfo[favoriteweapon1].description, weaponinfo[favoriteweapon2].description);
+            weaponinfo[favoriteweapon1].name, weaponinfo[favoriteweapon2].name);
 
     C_TabbedOutput(tabs, "Distance traveled\t%s\t%s",
         distance(viewplayer->distancetraveled, true), distance(stat_distancetraveled, true));
@@ -5390,19 +5394,23 @@ static void C_PlayerStats_NoGame(void)
     free(temp1);
 
     temp1 = commifystat(stat_itemspickedup_ammo_bullets);
-    C_TabbedOutput(tabs, "Ammo picked up\t-\t%s bullet%s", temp1, (stat_itemspickedup_ammo_bullets == 1 ? "" : "s"));
+    C_TabbedOutput(tabs, "Ammo picked up\t-\t%s %s%s", temp1, weaponinfo[wp_pistol].ammoname,
+        (stat_itemspickedup_ammo_bullets == 1 ? "" : "s"));
     free(temp1);
 
     temp1 = commifystat(stat_itemspickedup_ammo_shells);
-    C_TabbedOutput(tabs, "\t-\t%s shell%s", temp1, (stat_itemspickedup_ammo_shells == 1 ? "" : "s"));
+    C_TabbedOutput(tabs, "\t-\t%s %s%s", temp1, weaponinfo[wp_shotgun].ammoname,
+        (stat_itemspickedup_ammo_shells == 1 ? "" : "s"));
     free(temp1);
 
     temp1 = commifystat(stat_itemspickedup_ammo_rockets);
-    C_TabbedOutput(tabs, "\t-\t%s rocket%s", temp1, (stat_itemspickedup_ammo_rockets == 1 ? "" : "s"));
+    C_TabbedOutput(tabs, "\t-\t%s %s%s", temp1, weaponinfo[wp_missile].ammoname,
+        (stat_itemspickedup_ammo_rockets == 1 ? "" : "s"));
     free(temp1);
 
     temp1 = commifystat(stat_itemspickedup_ammo_cells);
-    C_TabbedOutput(tabs, "\t-\t%s cell%s", temp1 , (stat_itemspickedup_ammo_cells == 1 ? "" : "s"));
+    C_TabbedOutput(tabs, "\t-\t%s %s%s", temp1 , weaponinfo[wp_plasma].ammoname,
+        (stat_itemspickedup_ammo_cells == 1 ? "" : "s"));
     free(temp1);
 
     temp1 = commifystat(stat_itemspickedup_armor);
@@ -5450,7 +5458,7 @@ static void C_PlayerStats_NoGame(void)
     free(temp1);
     free(temp2);
 
-    temp1 = sentencecase(weaponinfo[wp_fist].description);
+    temp1 = sentencecase(weaponinfo[wp_fist].name);
     temp2 = commifystat(stat_shotssuccessful_fists);
     temp3 = commifystat(stat_shotsfired_fists);
     C_TabbedOutput(tabs, "   %s\t-\t%s of %s (%i%%)",
@@ -5459,7 +5467,7 @@ static void C_PlayerStats_NoGame(void)
     free(temp2);
     free(temp3);
 
-    temp1 = sentencecase(weaponinfo[wp_chainsaw].description);
+    temp1 = sentencecase(weaponinfo[wp_chainsaw].name);
     temp2 = commifystat(stat_shotssuccessful_chainsaw);
     temp3 = commifystat(stat_shotsfired_chainsaw);
     C_TabbedOutput(tabs, "   %s\t-\t%s of %s (%i%%)",
@@ -5468,7 +5476,7 @@ static void C_PlayerStats_NoGame(void)
     free(temp2);
     free(temp3);
 
-    temp1 = sentencecase(weaponinfo[wp_pistol].description);
+    temp1 = sentencecase(weaponinfo[wp_pistol].name);
     temp2 = commifystat(stat_shotssuccessful_pistol);
     temp3 = commifystat(stat_shotsfired_pistol);
     C_TabbedOutput(tabs, "   %s\t-\t%s of %s (%i%%)",
@@ -5477,7 +5485,7 @@ static void C_PlayerStats_NoGame(void)
     free(temp2);
     free(temp3);
 
-    temp1 = sentencecase(weaponinfo[wp_shotgun].description);
+    temp1 = sentencecase(weaponinfo[wp_shotgun].name);
     temp2 = commifystat(stat_shotssuccessful_shotgun);
     temp3 = commifystat(stat_shotsfired_shotgun);
     C_TabbedOutput(tabs, "   %s\t-\t%s of %s (%i%%)",
@@ -5488,7 +5496,7 @@ static void C_PlayerStats_NoGame(void)
 
     if (gamemode == commercial)
     {
-        temp1 = sentencecase(weaponinfo[wp_supershotgun].description);
+        temp1 = sentencecase(weaponinfo[wp_supershotgun].name);
         temp2 = commifystat(stat_shotssuccessful_supershotgun);
         temp3 = commifystat(stat_shotsfired_supershotgun);
         C_TabbedOutput(tabs, "   %s\t-\t%s of %s (%i%%)",
@@ -5499,7 +5507,7 @@ static void C_PlayerStats_NoGame(void)
         free(temp3);
     }
 
-    temp1 = sentencecase(weaponinfo[wp_chaingun].description);
+    temp1 = sentencecase(weaponinfo[wp_chaingun].name);
     temp2 = commifystat(stat_shotssuccessful_chaingun);
     temp3 = commifystat(stat_shotsfired_chaingun);
     C_TabbedOutput(tabs, "   %s\t-\t%s of %s (%i%%)",
@@ -5508,7 +5516,7 @@ static void C_PlayerStats_NoGame(void)
     free(temp2);
     free(temp3);
 
-    temp1 = sentencecase(weaponinfo[wp_missile].description);
+    temp1 = sentencecase(weaponinfo[wp_missile].name);
     temp2 = commifystat(stat_shotssuccessful_rocketlauncher);
     temp3 = commifystat(stat_shotsfired_rocketlauncher);
     C_TabbedOutput(tabs, "   %s\t-\t%s of %s (%i%%)",
@@ -5520,7 +5528,7 @@ static void C_PlayerStats_NoGame(void)
 
     if (gamemode != shareware)
     {
-        temp1 = sentencecase(weaponinfo[wp_plasma].description);
+        temp1 = sentencecase(weaponinfo[wp_plasma].name);
         temp2 = commifystat(stat_shotssuccessful_plasmarifle);
         temp3 = commifystat(stat_shotsfired_plasmarifle);
         C_TabbedOutput(tabs, "   %s\t-\t%s of %s (%i%%)",
@@ -5530,7 +5538,7 @@ static void C_PlayerStats_NoGame(void)
         free(temp2);
         free(temp3);
 
-        temp1 = sentencecase(weaponinfo[wp_bfg].description);
+        temp1 = sentencecase(weaponinfo[wp_bfg].name);
         temp2 = commifystat(stat_shotssuccessful_bfg9000);
         temp3 = commifystat(stat_shotsfired_bfg9000);
         C_TabbedOutput(tabs, "   %s\t-\t%s of %s (%i%%)",
@@ -5541,9 +5549,9 @@ static void C_PlayerStats_NoGame(void)
     }
 
     if (favoriteweapon1 == wp_nochange)
-        C_TabbedOutput(tabs, "Favorite weapon\t-\tThe %s", sentencecase(weaponinfo[wp_pistol].description));
+        C_TabbedOutput(tabs, "Favorite weapon\t-\tThe %s", sentencecase(weaponinfo[wp_pistol].name));
     else
-        C_TabbedOutput(tabs, "Favorite weapon\t-\tThe %s", sentencecase(weaponinfo[favoriteweapon1].description));
+        C_TabbedOutput(tabs, "Favorite weapon\t-\tThe %s", sentencecase(weaponinfo[favoriteweapon1].name));
 
     C_TabbedOutput(tabs, "Distance traveled\t-\t%s", distance(stat_distancetraveled, true));
 }
