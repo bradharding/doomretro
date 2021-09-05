@@ -721,8 +721,8 @@ static void P_CheckLinedefs(void)
                 char    *temp = commify(ld->id);
 
                 C_Warning(2, "Linedef %s has %s line special %i (\"%s\") but no tag.",
-                    temp, (ld->special < BOOMLINESPECIALS ? "the" : (ld->special < MBFLINESPECIALS ? "the " ITALICS("MBF") "-compatible" :
-                    "the " ITALICS("BOOM") "-compatible")), ld->special, linespecials[ld->special]);
+                    temp, (ld->special < BOOMLINESPECIALS ? "the" : (ld->special < MBFLINESPECIALS ? "the " ITALICS("MBF")
+                    "-compatible" : "the " ITALICS("BOOM") "-compatible")), ld->special, linespecials[ld->special]);
                 free(temp);
             }
             else if (ld->tag < 0 || P_FindSectorFromLineTag(ld, -1) == -1)
@@ -731,8 +731,8 @@ static void P_CheckLinedefs(void)
                 char    *temp2 = commify(ld->tag);
 
                 C_Warning(2, "Linedef %s has %s line special %i (\"%s\") but an unknown tag of %s.",
-                    temp1, (ld->special < BOOMLINESPECIALS ? "the" : (ld->special < MBFLINESPECIALS ? "the " ITALICS("MBF") "-compatible" :
-                    "the " ITALICS("BOOM") "-compatible")), ld->special, linespecials[ld->special], temp2);
+                    temp1, (ld->special < BOOMLINESPECIALS ? "the" : (ld->special < MBFLINESPECIALS ? "the " ITALICS("MBF")
+                    "-compatible" : "the " ITALICS("BOOM") "-compatible")), ld->special, linespecials[ld->special], temp2);
                 free(temp1);
                 free(temp2);
             }
@@ -913,8 +913,8 @@ static void P_LoadSegs(int lump)
                                 C_Warning(2, "The missing middle texture of linedef %s has been changed to " BOLD("%.8s") ".",
                                     temp, linefix[j].middletexture);
                             else
-                                C_Warning(2, "The middle texture of linedef %s has been changed from " BOLD("%.8s") " to " BOLD("%.8s") ".",
-                                    temp, textures[li->sidedef->midtexture]->name, linefix[j].middletexture);
+                                C_Warning(2, "The middle texture of linedef %s has been changed from " BOLD("%.8s") " to "
+                                    BOLD("%.8s") ".", temp, textures[li->sidedef->midtexture]->name, linefix[j].middletexture);
                         }
 
                         li->sidedef->midtexture = texture;
@@ -934,8 +934,8 @@ static void P_LoadSegs(int lump)
                                 C_Warning(2, "The missing bottom texture of linedef %s has been changed to " BOLD("%.8s") ".",
                                     temp, linefix[j].bottomtexture);
                             else
-                                C_Warning(2, "The bottom texture of linedef %s has been changed from " BOLD("%.8s") " to " BOLD("%.8s") ".",
-                                    temp, textures[li->sidedef->bottomtexture]->name, linefix[j].bottomtexture);
+                                C_Warning(2, "The bottom texture of linedef %s has been changed from " BOLD("%.8s") " to "
+                                    BOLD("%.8s") ".", temp, textures[li->sidedef->bottomtexture]->name, linefix[j].bottomtexture);
                         }
 
                         li->sidedef->bottomtexture = texture;

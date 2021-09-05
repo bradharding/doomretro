@@ -1240,7 +1240,8 @@ static int D_OpenWADLauncher(void)
                     guess = true;
 
                     if (!M_StringEndsWith(temp, leafname(file)))
-                        C_Warning(1, BOLD("%s") " couldn't be found so " BOLD("%s") " was loaded instead.", leafname(file), leafname(temp));
+                        C_Warning(1, BOLD("%s") " couldn't be found so " BOLD("%s") " was loaded instead.",
+                            leafname(file), leafname(temp));
 
                     file = M_StringDuplicate(temp);
                     wad = M_StringDuplicate(temp);
@@ -1937,7 +1938,8 @@ static void D_DoomMainSetup(void)
             scale = atoi(myargv[p + 1]);
 
             if (scale >= 10 && scale <= 400 && scale != 100)
-                C_Output("A " BOLD("-turbo") " parameter was found on the command-line. The player will be %i%% their normal speed.", scale);
+                C_Output("A " BOLD("-turbo") " parameter was found on the command-line. The player will be %i%% their normal speed.",
+                    scale);
             else
                 scale = 100;
         }
@@ -2180,8 +2182,8 @@ static void D_DoomMainSetup(void)
 
     C_Output("All screenshots taken will be saved in " BOLD("%s") ".", screenshotfolder);
 
-    C_Output("All files created using the " BOLD("condump") " CCMD will be saved in " BOLD("%s" DIR_SEPARATOR_S "console" DIR_SEPARATOR_S "") ".",
-        appdatafolder);
+    C_Output("All files created using the " BOLD("condump") " CCMD will be saved in "
+        BOLD("%s" DIR_SEPARATOR_S "console" DIR_SEPARATOR_S "") ".", appdatafolder);
 
 #if !defined(__APPLE__)
     free(appdatafolder);
