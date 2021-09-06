@@ -216,10 +216,10 @@ weaponinfo_t weaponinfo[NUMWEAPONS] =
 char *powerupnames[NUMPOWERS] =
 {
     "",
-    "Invulnerability",
-    "Berserk",
-    "Partial invisibility",
-    "Radiation shielding suit",
-    "Computer area map",
-    "Light amplification visor"
+    "invulnerability",
+    "berserk",
+    "partial invisibility",
+    "radiation shielding suit",
+    "computer area map",
+    "light amplification visor"
 };

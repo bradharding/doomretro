@@ -1802,7 +1802,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
                                 (target->type == MT_BARREL ? "exploded" : (gibbed ? "gibbed" : "killed")),
                                 targetname,
                                 weaponinfo[readyweapon].name,
-                                s_BERSERK);
+                                powerupnames[pw_strength]);
                         else
                             C_PlayerObituary("You %s %s with your %s.",
                                 (target->type == MT_BARREL ? "exploded" : (gibbed ? "gibbed" : "killed")),
@@ -1848,7 +1848,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
                                     (target->type == MT_BARREL ? "exploded" : (gibbed ? "gibbed" : "killed")),
                                     targetname,
                                     weaponinfo[readyweapon].name,
-                                    s_BERSERK);
+                                    powerupnames[pw_strength]);
                             else
                                 C_PlayerObituary("You %s %s with your %s.",
                                     (target->type == MT_BARREL ? "exploded" : (gibbed ? "gibbed" : "killed")),
@@ -1865,7 +1865,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
                                     (playergender == playergender_male ? "his" :
                                         (playergender == playergender_female ? "her" : "their")),
                                     weaponinfo[readyweapon].name,
-                                    s_BERSERK);
+                                    powerupnames[pw_strength]);
                             else
                                 C_PlayerObituary("%s %s %s with %s %s.",
                                     playername,

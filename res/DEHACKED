@@ -37,7 +37,6 @@ GOTREDSKUL = %s picked up a red skull key.
 GOTREDSKULL = %s picked up a red skull key.
 GOTINVUL = %s picked up an invulnerability power-up!
 GOTBERSERK = %s picked up a berserk power-up! Rip and tear!
-BERSERK = berserk
 GOTINVIS = %s picked up a partial invisibility power-up!
 GOTSUIT = %s picked up a radiation shielding suit power-up!
 GOTMAP = %s picked up a computer area map power-up!

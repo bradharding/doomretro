@@ -175,7 +175,6 @@ char    *s_GOTREDSKULL = GOTREDSKULL;
 
 char    *s_GOTINVUL = GOTINVUL;
 char    *s_GOTBERSERK = GOTBERSERK;
-char    *s_BERSERK = "";
 char    *s_GOTINVIS = GOTINVIS;
 char    *s_GOTSUIT = GOTSUIT;
 char    *s_GOTMAP = GOTMAP;
@@ -753,7 +752,6 @@ deh_strs deh_strlookup[] =
 
     { &s_GOTINVUL,                   "GOTINVUL"                   },
     { &s_GOTBERSERK,                 "GOTBERSERK"                 },
-    { &s_BERSERK,                    "BERSERK"                    },
     { &s_GOTINVIS,                   "GOTINVIS"                   },
     { &s_GOTSUIT,                    "GOTSUIT"                    },
     { &s_GOTMAP,                     "GOTMAP"                     },

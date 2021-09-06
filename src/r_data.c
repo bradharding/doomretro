@@ -726,7 +726,7 @@ static void R_InitSpriteLumps(void)
         s_M_SKILLLEVEL4 = M_StringDuplicate("Wrecker");
         s_M_SKILLLEVEL5 = M_StringDuplicate("Berserker");
 
-        s_BERSERK = M_StringDuplicate("wode");
+        powerupnames[pw_strength] = M_StringDuplicate("wode");
 
         mobjinfo[MT_HEAD].blood = MT_BLOOD;
         mobjinfo[MT_KNIGHT].blood = MT_BLOOD;
