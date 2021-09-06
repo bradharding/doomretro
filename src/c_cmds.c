@@ -4948,33 +4948,33 @@ static void C_PlayerStats_Game(void)
 
     temp1 = commify(viewplayer->itemspickedup_ammo_bullets);
     temp2 = commifystat(stat_itemspickedup_ammo_bullets);
-    C_TabbedOutput(tabs, "Ammo picked up\t%s %s%s\t%s %s%s",
-        temp1, weaponinfo[wp_pistol].ammoname, (viewplayer->itemspickedup_ammo_bullets == 1 ? "" : "s"),
-        temp2, weaponinfo[wp_pistol].ammoname, (stat_itemspickedup_ammo_bullets == 1 ? "" : "s"));
+    C_TabbedOutput(tabs, "Ammo picked up\t%s %s\t%s %s",
+        temp1, (viewplayer->itemspickedup_ammo_bullets == 1 ? weaponinfo[wp_pistol].ammoname : weaponinfo[wp_pistol].ammoplural),
+        temp2,  (stat_itemspickedup_ammo_bullets == 1 ? weaponinfo[wp_pistol].ammoname : weaponinfo[wp_pistol].ammoplural));
     free(temp1);
     free(temp2);
 
     temp1 = commify(viewplayer->itemspickedup_ammo_shells);
     temp2 = commifystat(stat_itemspickedup_ammo_shells);
-    C_TabbedOutput(tabs, "\t%s %s%s\t%s %s%s",
-        temp1, weaponinfo[wp_shotgun].ammoname, (viewplayer->itemspickedup_ammo_shells == 1 ? "" : "s"),
-        temp2, weaponinfo[wp_shotgun].ammoname, (stat_itemspickedup_ammo_shells == 1 ? "" : "s"));
+    C_TabbedOutput(tabs, "\t%s %s\t%s %s",
+        temp1, (viewplayer->itemspickedup_ammo_shells == 1 ? weaponinfo[wp_shotgun].ammoname : weaponinfo[wp_shotgun].ammoplural),
+        temp2, (stat_itemspickedup_ammo_shells == 1 ? weaponinfo[wp_shotgun].ammoname : weaponinfo[wp_shotgun].ammoplural));
     free(temp1);
     free(temp2);
 
     temp1 = commify(viewplayer->itemspickedup_ammo_rockets);
     temp2 = commifystat(stat_itemspickedup_ammo_rockets);
-    C_TabbedOutput(tabs, "\t%s %s%s\t%s %s%s",
-        temp1, weaponinfo[wp_missile].ammoname, (viewplayer->itemspickedup_ammo_rockets == 1 ? "" : "s"),
-        temp2, weaponinfo[wp_missile].ammoname, (stat_itemspickedup_ammo_rockets == 1 ? "" : "s"));
+    C_TabbedOutput(tabs, "\t%s %s\t%s %s",
+        temp1, (viewplayer->itemspickedup_ammo_rockets == 1 ? weaponinfo[wp_missile].ammoname : weaponinfo[wp_missile].ammoplural),
+        temp2, (stat_itemspickedup_ammo_rockets == 1 ? weaponinfo[wp_missile].ammoname : weaponinfo[wp_missile].ammoplural));
     free(temp1);
     free(temp2);
 
     temp1 = commify(viewplayer->itemspickedup_ammo_cells);
     temp2 = commifystat(stat_itemspickedup_ammo_cells);
-    C_TabbedOutput(tabs, "\t%s %s%s\t%s %s%s",
-        temp1, weaponinfo[wp_plasma].ammoname, (viewplayer->itemspickedup_ammo_cells == 1 ? "" : "s"),
-        temp2, weaponinfo[wp_plasma].ammoname, (stat_itemspickedup_ammo_cells == 1 ? "" : "s"));
+    C_TabbedOutput(tabs, "\t%s %s\t%s %s",
+        temp1, (viewplayer->itemspickedup_ammo_cells == 1 ? weaponinfo[wp_plasma].ammoname : weaponinfo[wp_plasma].ammoplural),
+        temp2, (stat_itemspickedup_ammo_cells == 1 ? weaponinfo[wp_plasma].ammoname : weaponinfo[wp_plasma].ammoplural));
     free(temp1);
     free(temp2);
 
@@ -5394,23 +5394,23 @@ static void C_PlayerStats_NoGame(void)
     free(temp1);
 
     temp1 = commifystat(stat_itemspickedup_ammo_bullets);
-    C_TabbedOutput(tabs, "Ammo picked up\t-\t%s %s%s", temp1, weaponinfo[wp_pistol].ammoname,
-        (stat_itemspickedup_ammo_bullets == 1 ? "" : "s"));
+    C_TabbedOutput(tabs, "Ammo picked up\t-\t%s %s", temp1,
+        (stat_itemspickedup_ammo_bullets == 1 ? weaponinfo[wp_pistol].ammoname : weaponinfo[wp_pistol].ammoplural));
     free(temp1);
 
     temp1 = commifystat(stat_itemspickedup_ammo_shells);
-    C_TabbedOutput(tabs, "\t-\t%s %s%s", temp1, weaponinfo[wp_shotgun].ammoname,
-        (stat_itemspickedup_ammo_shells == 1 ? "" : "s"));
+    C_TabbedOutput(tabs, "\t-\t%s %s", temp1,
+        (stat_itemspickedup_ammo_shells == 1 ? weaponinfo[wp_shotgun].ammoname : weaponinfo[wp_shotgun].ammoplural));
     free(temp1);
 
     temp1 = commifystat(stat_itemspickedup_ammo_rockets);
-    C_TabbedOutput(tabs, "\t-\t%s %s%s", temp1, weaponinfo[wp_missile].ammoname,
-        (stat_itemspickedup_ammo_rockets == 1 ? "" : "s"));
+    C_TabbedOutput(tabs, "\t-\t%s %s", temp1,
+        (stat_itemspickedup_ammo_rockets == 1 ? weaponinfo[wp_missile].ammoname : weaponinfo[wp_missile].ammoplural));
     free(temp1);
 
     temp1 = commifystat(stat_itemspickedup_ammo_cells);
-    C_TabbedOutput(tabs, "\t-\t%s %s%s", temp1 , weaponinfo[wp_plasma].ammoname,
-        (stat_itemspickedup_ammo_cells == 1 ? "" : "s"));
+    C_TabbedOutput(tabs, "\t-\t%s %s", temp1 ,
+        (stat_itemspickedup_ammo_cells == 1 ? weaponinfo[wp_plasma].ammoname : weaponinfo[wp_plasma].ammoplural));
     free(temp1);
 
     temp1 = commifystat(stat_itemspickedup_armor);

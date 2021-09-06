@@ -740,9 +740,13 @@ static void R_InitSpriteLumps(void)
         M_StringCopy(weaponinfo[wp_chainsaw].name, "axe", sizeof(weaponinfo[wp_chainsaw].name));
 
         M_StringCopy(weaponinfo[wp_pistol].ammoname, "soul", sizeof(weaponinfo[wp_pistol].ammoname));
+        M_StringCopy(weaponinfo[wp_pistol].ammoplural, "souls", sizeof(weaponinfo[wp_pistol].ammoplural));
         M_StringCopy(weaponinfo[wp_shotgun].ammoname, "steelshot", sizeof(weaponinfo[wp_shotgun].ammoname));
+        M_StringCopy(weaponinfo[wp_shotgun].ammoplural, "steelshots", sizeof(weaponinfo[wp_shotgun].ammoplural));
         M_StringCopy(weaponinfo[wp_missile].ammoname, "rune", sizeof(weaponinfo[wp_missile].ammoname));
+        M_StringCopy(weaponinfo[wp_missile].ammoplural, "runes", sizeof(weaponinfo[wp_missile].ammoplural));
         M_StringCopy(weaponinfo[wp_plasma].ammoname, "mana", sizeof(weaponinfo[wp_plasma].ammoname));
+        M_StringCopy(weaponinfo[wp_plasma].ammoplural, "mana", sizeof(weaponinfo[wp_plasma].ammoplural));
 
         M_StringCopy(mobjinfo[MT_POSSESSED].name1, "former human", sizeof(mobjinfo[MT_POSSESSED].name1));
         M_StringCopy(mobjinfo[MT_POSSESSED].plural1, "former humans", sizeof(mobjinfo[MT_POSSESSED].plural1));
