@@ -4,6 +4,7 @@
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Minor changes have been made to text that is output to the console.
+* Further improvements have been made to the support for [*Chex Quest*](https://doomwiki.org/wiki/Chex_Quest).
 * Further improvements have been made to the support for [*REKKR*](http://manbitesshark.com/).
 * The bounce of the player’s weapon when dropping down from a higher sector is now slightly slower when the `weaponbounce` CVAR is `on`.
 
