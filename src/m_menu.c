@@ -1411,7 +1411,7 @@ static void M_DrawReadThis(void)
 
     if (W_CheckNumForName(lumpname) >= 0)
     {
-        if (hacx || FREEDOOM)
+        if (hacx || FREEDOOM || REKKR)
         {
             patch_t *lump = W_CacheLastLumpName(gamemode == commercial ? "HELP" : "HELP1");
 
