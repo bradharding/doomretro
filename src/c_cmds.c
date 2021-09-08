@@ -3761,6 +3761,8 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
             C_TabbedOutput(tabs, "Author\t%s", author);
         else if (canmodify && *authors[i][gamemission])
             C_TabbedOutput(tabs, "Author\t%s", authors[i][gamemission]);
+        else if (REKKR)
+            C_TabbedOutput(tabs, "Author\tMatthew Little");
     }
 
     {
@@ -3796,6 +3798,8 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
             C_TabbedOutput(tabs, "Release date\tWednesday, May 26, 2010");
         else if (M_StringCompare(wadname, "PLUTONIA.WAD") || M_StringCompare(wadname, "TNT.WAD"))
             C_TabbedOutput(tabs, "Release date\tMonday, June 17, 1996");
+        else if (M_StringCompare(wadname, "REKKR.WAD") || M_StringCompare(wadname, "REKKRSA.WAD"))
+            C_TabbedOutput(tabs, "Release date\tTuesday, July 10, 2018");
 
         if (wadtype == PWAD)
             C_TabbedOutput(tabs, "IWAD\t%s%s", leafname(lumpinfo[W_GetLastNumForName("PLAYPAL")]->wadfile->path),

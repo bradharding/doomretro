@@ -4,8 +4,7 @@
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Minor changes have been made to text that is output to the console.
-* Further improvements have been made to the support for [*Chex Quest*](https://doomwiki.org/wiki/Chex_Quest).
-* Further improvements have been made to the support for [*REKKR*](http://manbitesshark.com/).
+* Further improvements have been made to the support for [*Chex Quest*](https://doomwiki.org/wiki/Chex_Quest) and [*REKKR*](http://manbitesshark.com/).
 * The bounce of the player’s weapon when dropping down from a higher sector is now slightly slower when the `weaponbounce` CVAR is `on`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
@@ -40,8 +39,7 @@
 * The background of the player’s face will now be positioned correctly when the `facebackcolor` CVAR is a value other than its default of `5` and the `vid_widescreen` CVAR is `on`.
 * Zooming in and out of the automap is now more responsive.
 * The `M_LGTTL` and `M_SGTTL` lumps will now be used as the titles in the load and savegame menus if replaced in a PWAD.
-* Further improvements have been made to the support for [*Chex Quest*](https://doomwiki.org/wiki/Chex_Quest).
-* Further improvements have been made to the support for [*REKKR*](http://manbitesshark.com/).
+* Further improvements have been made to the support for [*Chex Quest*](https://doomwiki.org/wiki/Chex_Quest) and [*REKKR*](http://manbitesshark.com/).
 * A bug has been fixed whereby par times weren’t being displayed on the intermission screen in some instances.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
