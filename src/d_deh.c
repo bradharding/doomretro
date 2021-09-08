@@ -2180,7 +2180,7 @@ void ProcessDehFile(char *filename, int lumpnum, dboolean automatic)
         char    *temp2 = uppercase(lumpinfo[lumpnum]->name);
 
         C_Output("Parsed %s line%s from the " BOLD("%s") " lump in the %s " BOLD("%s") ".",
-            temp1, (linecount > 1 ? "s" : ""), temp2, (W_WadType(filename) == IWAD ? "IWAD" : "PWAD"), filename);
+            temp1, (linecount == 1 ? "" : "s"), temp2, (W_WadType(filename) == IWAD ? "IWAD" : "PWAD"), filename);
 
         free(temp1);
         free(temp2);
@@ -2190,7 +2190,7 @@ void ProcessDehFile(char *filename, int lumpnum, dboolean automatic)
         char    *temp = commify(linecount);
 
         C_Output("%s %s line%s from the " ITALICS("DeHackEd") "%s file " BOLD("%s") ".",
-            (automatic ? "Automatically parsed" : "Parsed"), temp, (linecount > 1 ? "s" : ""),
+            (automatic ? "Automatically parsed" : "Parsed"), temp, (linecount == 1 ? "" : "s"),
             (M_StringEndsWith(filename, "BEX") ? " with " ITALICS("BOOM") " extensions" : ""), GetCorrectCase(filename));
 
         free(temp);
