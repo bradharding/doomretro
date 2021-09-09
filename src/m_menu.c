@@ -2339,11 +2339,11 @@ static int M_CharacterWidth(char ch, char prev)
 //
 int M_StringWidth(char *string)
 {
-    int w = 0;
+    int w = M_CharacterWidth(string[0], '\0');
     int len = (int)strlen(string);
 
-    for (int i = 0; i < len; i++)
-        w += M_CharacterWidth(string[i], (i > 0 ? string[i - 1] : '\0'));
+    for (int i = 1; i < len; i++)
+        w += M_CharacterWidth(string[i], string[i - 1]);
 
     return w;
 }
@@ -2353,12 +2353,12 @@ int M_StringWidth(char *string)
 //
 static int M_StringHeight(char *string)
 {
-    int h = 0;
+    int h = (STCFN034 ? SHORT(hu_font[0]->height) + 1 : 8);
     int len = (int)strlen(string);
 
-    for (int i = 0; i < len; i++)
+    for (int i = 1; i < len; i++)
         if (string[i] == '\n')
-            h += (i > 0 && string[i - 1] == '\n' ? 4 : (STCFN034 ? SHORT(hu_font[0]->height) + 1 : 8));
+            h += (string[i - 1] == '\n' ? 4 : (STCFN034 ? SHORT(hu_font[0]->height) + 1 : 8));
 
     return h;
 }
