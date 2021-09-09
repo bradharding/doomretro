@@ -502,7 +502,7 @@ consolecmd_t consolecmds[] =
     CVAR_INT(am_yellowdoorcolor, am_yellowdoorcolour, color_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The color of doors in the automap unlocked using a yellow keycard or skull key (" BOLD("0") " to " BOLD("255") ")."),
     CVAR_INT(ammo, "", player_cvars_func1, player_cvars_func2, CF_NONE, NOVALUEALIAS,
-        "The amount of ammo for the player's currently equipped weapon."),
+        "The amount of ammo the player has for their currently equipped weapon."),
     CVAR_INT(armor, armour, player_cvars_func1, player_cvars_func2, CF_PERCENT, NOVALUEALIAS,
         "The player's armor (" BOLD("0%") " to " BOLD("200%") ")."),
     CVAR_INT(armortype, armourtype, armortype_cvar_func1, armortype_cvar_func2, CF_NONE, ARMORTYPEVALUEALIAS,
