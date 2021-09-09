@@ -451,10 +451,10 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL(alwaysrun, "", bool_cvars_func1, alwaysrun_cvar_func2, BOOLVALUEALIAS,
         "Toggles the player to always run instead of walk."),
     CVAR_INT(am_allmapcdwallcolor, am_allmapcdwallcolour, color_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
-        "The color of unmapped lines in the automap indicating a change in ceiling height once the player has a computer area map "
+        "The color of unmapped lines in the automap indicating a change in the ceiling's height once the player has a computer area map "
         "power-up (" BOLD("0") " to " BOLD("255") ")."),
     CVAR_INT(am_allmapfdwallcolor, am_allmapfdwallcolour, color_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
-        "The color of unmapped lines in the automap indicating a change in floor height once the player has a computer area map "
+        "The color of unmapped lines in the automap indicating a change in the floor's height once the player has a computer area map "
         "power-up (" BOLD("0") " to " BOLD("255") ")."),
     CVAR_INT(am_allmapwallcolor, am_allmapwallcolour, color_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The color of unmapped solid walls in the automap once the player has a computer area map power-up (" BOLD("0") " to "
@@ -464,13 +464,13 @@ consolecmd_t consolecmds[] =
     CVAR_INT(am_bluedoorcolor, am_bluedoorcolour, color_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The color of doors in the automap unlocked using a blue keycard or skull key (" BOLD("0") " to " BOLD("255") ")."),
     CVAR_INT(am_cdwallcolor, am_cdwallcolour, color_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
-        "The color of lines in the automap indicating a change in ceiling height (" BOLD("0") " to " BOLD("255") ")."),
+        "The color of lines in the automap indicating a change in the ceiling's height (" BOLD("0") " to " BOLD("255") ")."),
     CVAR_INT(am_crosshaircolor, am_crosshaircolour, color_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The color of the crosshair in the automap (" BOLD("0") " to " BOLD("255") ")."),
     CVAR_BOOL(am_external, "", bool_cvars_func1, am_external_cvar_func2, BOOLVALUEALIAS,
         "Toggles showing the automap on an external display."),
     CVAR_INT(am_fdwallcolor, am_fdwallcolour, color_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
-        "The color of lines in the automap indicating a change in floor height (" BOLD("0") " to " BOLD("255") ")."),
+        "The color of lines in the automap indicating a change in the floor's height (" BOLD("0") " to " BOLD("255") ")."),
     CVAR_BOOL(am_followmode, "", am_followmode_cvar_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles follow mode in the automap."),
     CVAR_BOOL(am_grid, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
