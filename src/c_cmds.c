@@ -7116,10 +7116,11 @@ static void vanilla_cmd_func2(char *cmd, char *parms)
     }
 
     message_dontfuckwithme = true;
-    togglingvanilla = false;
 
     if (gamestate == GS_LEVEL)
         C_HideConsole();
+
+    togglingvanilla = false;
 }
 
 //

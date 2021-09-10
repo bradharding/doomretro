@@ -212,7 +212,7 @@ void D_PostEvent(event_t *ev)
 //
 void D_FadeScreen(dboolean screenshot)
 {
-    if (!screenshot && !fade)
+    if (togglingvanilla || (!screenshot && !fade))
         return;
 
     memcpy(fadescreen, screens[0], SCREENAREA);
