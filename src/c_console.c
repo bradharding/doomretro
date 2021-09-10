@@ -993,10 +993,6 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
                     else if (prevletter == '\'')
                         x++;
                 }
-                else if ((letter == '|' || letter == '[') && prevletter == ITALICSTOGGLECHAR)
-                    x++;
-                else if (letter == ',' && prevletter == BOLDTOGGLECHAR && prevletter2 == 'r')
-                    x -= 2;
                 else if (letter == '(' && prevletter == ' ' && prevletter2 == '.')
                     x--;
             }
@@ -1013,10 +1009,10 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
 
             if (x >= CONSOLETEXTPIXELWIDTH + CONSOLETEXTX)
                 break;
-        }
 
-        prevletter2 = prevletter;
-        prevletter = letter;
+            prevletter2 = prevletter;
+            prevletter = letter;
+        }
     }
 
     console[index].bold = bold;
