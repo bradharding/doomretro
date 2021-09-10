@@ -2660,6 +2660,9 @@ dboolean M_Responder(event_t *ev)
             mousewait = I_GetTime() + 5;
             usinggamepad = false;
             G_ScreenShot();
+            S_StartSound(NULL, sfx_scrsht);
+            memset(screens[0], nearestwhite, SCREENAREA);
+            D_FadeScreen(true);
 
             return false;
         }

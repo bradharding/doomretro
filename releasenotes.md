@@ -6,6 +6,7 @@
 * Minor changes have been made to text that is output to the console.
 * Further improvements have been made to the support for [*Chex Quest*](https://doomwiki.org/wiki/Chex_Quest) and [*REKKR*](http://manbitesshark.com/).
 * The bounce of the player’s weapon when dropping down from a higher sector is now slightly slower when the `weaponbounce` CVAR is `on`.
+* When pressing a mouse button that is bound to the `+screenshot` action, the screen will now flash and a sound will now be heard.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
