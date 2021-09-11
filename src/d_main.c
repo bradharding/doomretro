@@ -564,6 +564,9 @@ void D_PageDrawer(void)
 
         V_DrawBigPatch((SCREENWIDTH - NONWIDEWIDTH) / 2 + 12, 366, fineprintlump);
         I_SetSimplePalette(&splashpal[(pagetic < 9 ? 9 - pagetic : (pagetic > 94 ? pagetic - 94 : 0)) * 768]);
+
+        if (pagetic > 94)
+            I_Sleep(25);
     }
     else
     {
