@@ -1874,7 +1874,7 @@ static void AM_DrawThings(void)
 }
 
 #define MARKWIDTH   9
-#define MARKHEIGHT  12
+#define MARKHEIGHT 12
 
 static void AM_DrawMarks(void)
 {
