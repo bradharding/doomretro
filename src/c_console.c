@@ -993,8 +993,13 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
                     else if (prevletter == '\'')
                         x++;
                 }
-                else if (letter == '(' && prevletter == ' ' && (prevletter2 == '.' || prevletter2 == '!'))
-                    x--;
+                else if (letter == '(' && prevletter == ' ')
+                {
+                    if (prevletter2 == '.')
+                        x--;
+                    else if (prevletter2 == '!')
+                        x -= 2;
+                }
             }
 
             if (patch)
