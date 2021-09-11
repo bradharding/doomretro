@@ -9,6 +9,7 @@
 * The bounce of the player’s weapon when dropping down from a higher sector is now slightly slower when the `weaponbounce` CVAR is `on`.
 * When pressing a mouse button that is bound to the `+screenshot` action, the screen will now flash and a sound will now be heard.
 * The console’s background will no longer be affected when using the `vanilla` CCMD.
+* A fade transition is now applied when saving a game in the save game menu and the `fade` CVAR is `on`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

@@ -2814,6 +2814,7 @@ dboolean M_Responder(event_t *ev)
                         caretwait = I_GetTimeMS() + CARETBLINKTIME;
                         showcaret = true;
                         M_DoSave(saveSlot);
+                        D_FadeScreen(false);
                     }
                 }
 
