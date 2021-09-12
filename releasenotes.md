@@ -10,6 +10,7 @@
 * When pressing a mouse button that is bound to the `+screenshot` action, the screen will now flash and a sound will now be heard.
 * The console’s background will no longer be affected when using the `vanilla` CCMD.
 * A fade transition is now applied when saving a game in the save game menu and the `fade` CVAR is `on`.
+* Further improvements have been made to lowering the player’s view in liquid sectors when the `r_liquid_lowerview` CVAR is `on`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

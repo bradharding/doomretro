@@ -92,8 +92,6 @@ sector_t *getSector(int currentSector, int line, int side);
 
 side_t *getSide(int currentSector, int line, int side);
 
-dboolean P_IsSelfReferencingSector(sector_t *sec);
-
 fixed_t P_FindLowestFloorSurrounding(sector_t *sec);
 fixed_t P_FindHighestFloorSurrounding(sector_t *sec);
 
