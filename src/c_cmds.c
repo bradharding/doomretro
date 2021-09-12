@@ -4554,7 +4554,7 @@ static weapontype_t favoriteweapon(dboolean total)
     return favorite;
 }
 
-static char *distance(uint64_t value, dboolean showunits)
+char *distance(uint64_t value)
 {
     char    *result = malloc(20);
 
@@ -4565,20 +4565,19 @@ static char *distance(uint64_t value, dboolean showunits)
         const float meters = value / FEETPERMETER;
 
         if (!meters)
-            M_StringCopy(result, (showunits ? "0 meters" : "0"), 20);
+            M_StringCopy(result,"0 meters", 20);
         else if (meters < METERSPERKILOMETER)
         {
             char    *temp = striptrailingzero(meters, 1);
 
-            M_snprintf(result, 20, "%s%s%s", temp, (showunits ? " meter" : ""), (meters == 1.0f || !showunits ? "" : "s"));
+            M_snprintf(result, 20, "%s%s%s", temp, " meter", (meters == 1.0f ? "" : "s"));
             free(temp);
         }
         else
         {
             char    *temp = striptrailingzero(meters / METERSPERKILOMETER, 2);
 
-            M_snprintf(result, 20, "%s%s%s", temp, (showunits ? " kilometer" : ""),
-                (meters == METERSPERKILOMETER || !showunits ? "" : "s"));
+            M_snprintf(result, 20, "%s%s%s", temp, " kilometer", (meters == METERSPERKILOMETER ? "" : "s"));
             free(temp);
         }
     }
@@ -4588,14 +4587,14 @@ static char *distance(uint64_t value, dboolean showunits)
         {
             char    *temp = commify(value);
 
-            M_snprintf(result, 20, "%s%s", temp, (showunits ? (value == 1 ? " foot" : " feet") : ""));
+            M_snprintf(result, 20, "%s%s", temp, (value == 1 ? " foot" : " feet"));
             free(temp);
         }
         else
         {
             char    *temp = striptrailingzero((float)value / FEETPERMILE, 2);
 
-            M_snprintf(result, 20, "%s%s%s", temp, (showunits ? " mile" : ""), (value == FEETPERMILE || !showunits ? "" : "s"));
+            M_snprintf(result, 20, "%s%s%s", temp, " mile", (value == FEETPERMILE ? "" : "s"));
             free(temp);
         }
     }

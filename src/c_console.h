@@ -214,6 +214,7 @@ void C_PrintCompileDate(void);
 void C_PrintSDLVersions(void);
 void C_UpdateFPS(void);
 void C_UpdateTimer(void);
+void C_UpdateDistance(void);
 char *C_CreateTimeStamp(int index);
 void C_ResetWrappedLines(void);
 

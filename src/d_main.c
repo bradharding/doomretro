@@ -429,6 +429,9 @@ void D_Display(void)
         if (countdown && gamestate == GS_LEVEL)
             C_UpdateTimer();
 
+        if (am_path && automapactive)
+            C_UpdateDistance();
+
         if (fadecount)
             D_UpdateFade();
 

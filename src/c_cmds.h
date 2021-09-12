@@ -131,5 +131,6 @@ void bind_cmd_func2(char *cmd, char *parms);
 
 int C_GetIndex(const char *cmd);
 dboolean C_ExecuteAlias(const char *alias);
+char *distance(uint64_t value);
 
 #endif

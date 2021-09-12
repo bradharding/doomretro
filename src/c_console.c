@@ -1160,6 +1160,14 @@ void C_UpdateTimer(void)
     }
 }
 
+void C_UpdateDistance(void)
+{
+    char    *temp = distance(viewplayer->distancetraveled);
+
+    C_DrawOverlayText(SCREENWIDTH - C_OverlayWidth(temp) - CONSOLETEXTX + 1, CONSOLETEXTY, temp, consoletimercolor);
+    free(temp);
+}
+
 void C_Drawer(void)
 {
     if (consoleheight)

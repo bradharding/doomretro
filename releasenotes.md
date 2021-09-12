@@ -11,6 +11,7 @@
 * The console’s background will no longer be affected when using the `vanilla` CCMD.
 * A fade transition is now applied when saving a game in the save game menu and the `fade` CVAR is `on`.
 * Further improvements have been made to when the player’s view should be lowered if the `r_liquid_lowerview` CVAR is `on`.
+* The distance the player has traveled in the current map is displayed in the top right corner of the automap when the `am_path` CVAR is `on`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
