@@ -4565,7 +4565,7 @@ char *distancetraveled(uint64_t value)
             M_StringCopy(result,"0 feet", 20);
         else if (feet < FEETPERMILE)
         {
-            char    *temp = striptrailingzero(feet, 1);
+            char    *temp = commify((int64_t)feet);
 
             M_snprintf(result, 20, "%s %s", temp, (M_StringCompare(temp, "1.0") ? "foot" : "feet"));
             free(temp);
