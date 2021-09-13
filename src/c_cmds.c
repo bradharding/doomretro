@@ -116,11 +116,6 @@
 #define STRINGCVARISREADONLY        "It is now " BOLD("%s%s%s") " and is read-only."
 #define TIMECVARISREADONLY          "It is now " BOLD("%02i:%02i:%02i") " and is read-only."
 
-#define UNITSPERFOOT                16
-#define FEETPERMETER                3.28084f
-#define METERSPERKILOMETER          1000
-#define FEETPERMILE                 5280
-
 alias_t     aliases[MAXALIASES];
 
 static int  ammo;
