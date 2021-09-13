@@ -4554,7 +4554,7 @@ static weapontype_t favoriteweapon(dboolean total)
     return favorite;
 }
 
-char *distance(uint64_t value)
+char *distancetraveled(uint64_t value)
 {
     char    *result = malloc(20);
 
@@ -5218,8 +5218,11 @@ static void C_PlayerStats_Game(void)
         C_TabbedOutput(tabs, "Favorite weapon\tThe %s\tThe %s",
             weaponinfo[favoriteweapon1].name, weaponinfo[favoriteweapon2].name);
 
-    C_TabbedOutput(tabs, "Distance traveled\t%s\t%s",
-        distance(viewplayer->distancetraveled, true), distance(stat_distancetraveled, true));
+    temp1 = distancetraveled(viewplayer->distancetraveled);
+    temp2 = distancetraveled(stat_distancetraveled);
+    C_TabbedOutput(tabs, "Distance traveled\t%s\t%s", temp1, temp2);
+    free(temp1);
+    free(temp2);
 }
 
 static void C_PlayerStats_NoGame(void)
@@ -5556,7 +5559,9 @@ static void C_PlayerStats_NoGame(void)
     else
         C_TabbedOutput(tabs, "Favorite weapon\t-\tThe %s", sentencecase(weaponinfo[favoriteweapon1].name));
 
-    C_TabbedOutput(tabs, "Distance traveled\t-\t%s", distance(stat_distancetraveled, true));
+    temp1 = distancetraveled(stat_distancetraveled);
+    C_TabbedOutput(tabs, "Distance traveled\t-\t%s", temp1);
+    free(temp1);
 }
 
 static void playerstats_cmd_func2(char *cmd, char *parms)
