@@ -131,9 +131,8 @@ static int              timerx;
 static int              zerowidth;
 
 static int              consolecaretcolor = 4;
-static int              consolelowfpscolor = 180;
-static int              consolehighfpscolor = 4;
-static int              consoletimercolor = 4;
+static int              consoleoverlaycolor = 4;
+static int              consoleoverlaywarningcolor = 4;
 static int              consoleinputcolor = 4;
 static int              consoleselectedinputcolor = 4;
 static int              consoleselectedinputbackgroundcolor = 100;
@@ -640,9 +639,8 @@ void C_Init(void)
     }
 
     consolecaretcolor = nearestcolors[consolecaretcolor];
-    consolelowfpscolor = nearestcolors[consolelowfpscolor];
-    consolehighfpscolor = nearestcolors[consolehighfpscolor];
-    consoletimercolor = nearestcolors[consoletimercolor];
+    consoleoverlaycolor = nearestcolors[consoleoverlaycolor];
+    consoleoverlaywarningcolor = nearestcolors[consoleoverlaywarningcolor];
     consoleinputcolor = nearestcolors[consoleinputcolor];
     consoleselectedinputcolor = nearestcolors[consoleselectedinputcolor];
     consoleselectedinputbackgroundcolor = nearestcolors[consoleselectedinputbackgroundcolor];
@@ -1132,8 +1130,8 @@ void C_UpdateFPS(void)
 
         C_DrawOverlayText(SCREENWIDTH - C_OverlayWidth(buffer) - CONSOLETEXTX + 1, CONSOLETEXTY, buffer,
             (framespersecond < (refreshrate && vid_capfps != TICRATE && !menuactive && !consoleactive && !paused ?
-                refreshrate : TICRATE) ? consolelowfpscolor : (((viewplayer->fixedcolormap == INVERSECOLORMAP) ^ (!r_textures)) ?
-                    nearestblack : consolehighfpscolor)));
+                refreshrate : TICRATE) ? consoleoverlaywarningcolor : (((viewplayer->fixedcolormap == INVERSECOLORMAP) ^ (!r_textures)) ?
+                    nearestblack : consoleoverlaycolor)));
         free(temp);
     }
 }
@@ -1155,8 +1153,8 @@ void C_UpdateTimer(void)
             M_snprintf(buffer, 9, "%02i:%02i:%02i", hours, minutes, seconds);
         }
 
-        C_DrawOverlayText(timerx, (vid_showfps ? CONSOLETEXTY + CONSOLELINEHEIGHT : CONSOLETEXTY), buffer,
-            (((viewplayer->fixedcolormap == INVERSECOLORMAP) ^ (!r_textures)) ? nearestblack : consoletimercolor));
+        C_DrawOverlayText(timerx, CONSOLETEXTY + CONSOLELINEHEIGHT * vid_showfps, buffer,
+            (((viewplayer->fixedcolormap == INVERSECOLORMAP) ^ (!r_textures)) ? nearestblack : consoleoverlaycolor));
     }
 }
 
@@ -1164,7 +1162,9 @@ void C_UpdateDistance(void)
 {
     char    *temp = distancetraveled(viewplayer->distancetraveled);
 
-    C_DrawOverlayText(SCREENWIDTH - C_OverlayWidth(temp) - CONSOLETEXTX + 1, CONSOLETEXTY, temp, consoletimercolor);
+    C_DrawOverlayText(SCREENWIDTH - C_OverlayWidth(temp) - CONSOLETEXTX + 1,
+        CONSOLETEXTY + (vid_showfps ? CONSOLELINEHEIGHT * (countdown ? 2 : 1) : CONSOLELINEHEIGHT * !!countdown),
+        temp, consoleoverlaycolor);
     free(temp);
 }
 
