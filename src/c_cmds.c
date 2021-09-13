@@ -118,7 +118,7 @@
 
 #define UNITSPERFOOT                16
 #define FEETPERMETER                3.28084f
-#define METERSPERKILOMETER          1000.0f
+#define METERSPERKILOMETER          1000
 #define FEETPERMILE                 5280
 
 alias_t     aliases[MAXALIASES];
@@ -4556,13 +4556,31 @@ static weapontype_t favoriteweapon(dboolean total)
 
 char *distancetraveled(uint64_t value)
 {
-    char    *result = malloc(20);
+    char        *result = malloc(20);
+    const float feet = (float)value / UNITSPERFOOT;
 
-    value /= UNITSPERFOOT;
-
-    if (units == units_metric)
+    if (units == units_imperial)
     {
-        const float meters = value / FEETPERMETER;
+        if (!feet)
+            M_StringCopy(result,"0 feet", 20);
+        else if (feet < FEETPERMILE)
+        {
+            char    *temp = striptrailingzero(feet, 1);
+
+            M_snprintf(result, 20, "%s %s", temp, (M_StringCompare(temp, "1.0") ? "foot" : "feet"));
+            free(temp);
+        }
+        else
+        {
+            char    *temp = striptrailingzero(feet / FEETPERMILE, 2);
+
+            M_snprintf(result, 20, "%s mile%s", temp, (M_StringCompare(temp, "1.0") ? "" : "s"));
+            free(temp);
+        }
+    }
+    else
+    {
+        const float meters = feet / FEETPERMETER;
 
         if (!meters)
             M_StringCopy(result,"0 meters", 20);
@@ -4570,31 +4588,14 @@ char *distancetraveled(uint64_t value)
         {
             char    *temp = striptrailingzero(meters, 1);
 
-            M_snprintf(result, 20, "%s%s%s", temp, " meter", (M_StringCompare(temp, "1.0") ? "" : "s"));
+            M_snprintf(result, 20, "%s meter%s", temp, (M_StringCompare(temp, "1.0") ? "" : "s"));
             free(temp);
         }
         else
         {
             char    *temp = striptrailingzero(meters / METERSPERKILOMETER, 2);
 
-            M_snprintf(result, 20, "%s%s%s", temp, " kilometer", (M_StringCompare(temp, "1.0") ? "" : "s"));
-            free(temp);
-        }
-    }
-    else
-    {
-        if (value < FEETPERMILE)
-        {
-            char    *temp = commify(value);
-
-            M_snprintf(result, 20, "%s%s", temp, (M_StringCompare(temp, "1.0") ? " foot" : " feet"));
-            free(temp);
-        }
-        else
-        {
-            char    *temp = striptrailingzero((float)value / FEETPERMILE, 2);
-
-            M_snprintf(result, 20, "%s%s%s", temp, " mile", (M_StringCompare(temp, "1.0") ? "" : "s"));
+            M_snprintf(result, 20, "%s kilometer%s", temp, (M_StringCompare(temp, "1.0") ? "" : "s"));
             free(temp);
         }
     }
