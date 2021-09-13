@@ -4570,14 +4570,14 @@ char *distancetraveled(uint64_t value)
         {
             char    *temp = striptrailingzero(meters, 1);
 
-            M_snprintf(result, 20, "%s%s%s", temp, " meter", (meters == 1.0f ? "" : "s"));
+            M_snprintf(result, 20, "%s%s%s", temp, " meter", (M_StringCompare(temp, "1.0") ? "" : "s"));
             free(temp);
         }
         else
         {
             char    *temp = striptrailingzero(meters / METERSPERKILOMETER, 2);
 
-            M_snprintf(result, 20, "%s%s%s", temp, " kilometer", (meters == METERSPERKILOMETER ? "" : "s"));
+            M_snprintf(result, 20, "%s%s%s", temp, " kilometer", (M_StringCompare(temp, "1.0") ? "" : "s"));
             free(temp);
         }
     }
@@ -4587,14 +4587,14 @@ char *distancetraveled(uint64_t value)
         {
             char    *temp = commify(value);
 
-            M_snprintf(result, 20, "%s%s", temp, (value == 1 ? " foot" : " feet"));
+            M_snprintf(result, 20, "%s%s", temp, (M_StringCompare(temp, "1.0") ? " foot" : " feet"));
             free(temp);
         }
         else
         {
             char    *temp = striptrailingzero((float)value / FEETPERMILE, 2);
 
-            M_snprintf(result, 20, "%s%s%s", temp, " mile", (value == FEETPERMILE ? "" : "s"));
+            M_snprintf(result, 20, "%s%s%s", temp, " mile", (M_StringCompare(temp, "1.0") ? "" : "s"));
             free(temp);
         }
     }
