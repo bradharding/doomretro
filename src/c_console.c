@@ -1126,7 +1126,7 @@ void C_UpdateFPS(void)
         char    buffer[32];
         char    *temp = commify(framespersecond);
 
-        M_snprintf(buffer, sizeof(buffer), s_STSTR_FPS, temp, 1000.0f / framespersecond);
+        M_snprintf(buffer, sizeof(buffer), s_STSTR_FPS, temp);
 
         C_DrawOverlayText(SCREENWIDTH - C_OverlayWidth(buffer) - CONSOLETEXTX + 1, CONSOLETEXTY, buffer,
             (framespersecond < (refreshrate && vid_capfps != TICRATE && !menuactive && !consoleactive && !paused ?
