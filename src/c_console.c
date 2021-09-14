@@ -127,7 +127,7 @@ int                     con_backcolor = con_backcolor_default;
 int                     con_edgecolor = con_edgecolor_default;
 int                     warninglevel = warninglevel_default;
 
-static int              timerx;
+static int              timerwidth;
 static int              zerowidth;
 
 static int              consolecaretcolor = 4;
@@ -693,7 +693,7 @@ void C_Init(void)
     brandwidth = SHORT(brand->width);
     brandheight = SHORT(brand->height);
     spacewidth = SHORT(consolefont[' ' - CONSOLEFONTSTART]->width);
-    timerx = SCREENWIDTH - C_TextWidth("00:00:00", false, false) - CONSOLETEXTX + 1;
+    timerwidth = C_TextWidth("00:00:00", false, false);
     zerowidth = SHORT(consolefont['0' - CONSOLEFONTSTART]->width);
 }
 
@@ -1153,7 +1153,7 @@ void C_UpdateTimer(void)
             M_snprintf(buffer, 9, "%02i:%02i:%02i", hours, minutes, seconds);
         }
 
-        C_DrawOverlayText(timerx, CONSOLETEXTY + CONSOLELINEHEIGHT * vid_showfps, buffer,
+        C_DrawOverlayText(SCREENWIDTH - timerwidth - CONSOLETEXTX + 1, CONSOLETEXTY + CONSOLELINEHEIGHT * vid_showfps, buffer,
             (((viewplayer->fixedcolormap == INVERSECOLORMAP) ^ (!r_textures)) ? nearestblack : consoleoverlaycolor));
     }
 }
