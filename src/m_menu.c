@@ -3844,8 +3844,7 @@ void M_ClearMenus(void)
         if (!inhelpscreens)
             R_SetViewSize(r_screensize);
 
-        if (automapactive)
-            AM_SetAutomapSize(r_screensize);
+        AM_SetAutomapSize(r_screensize);
 
         S_SetMusicVolume(musicVolume * MIX_MAX_VOLUME / 31);
     }

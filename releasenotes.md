@@ -12,8 +12,9 @@
 * A fade transition is now applied when saving a game in the save game menu and the `fade` CVAR is `on`.
 * Further improvements have been made to when the player’s view should be lowered if the `r_liquid_lowerview` CVAR is `on`.
 * The following changes have been made when the `am_path` CVAR is `on`:
-  * The player’s path in the automap will now be updated when either no clipping mode or freeze mode is enabled.
+  * The player’s path in the automap will now be updated when either freeze mode or no clipping mode is enabled.
   * The distance the player has traveled in the current map is now displayed in the top right corner of the automap.
+* A bug has been fixed whereby the title in the automap could be positioned incorrectly in some rare instances.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
