@@ -1026,8 +1026,9 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
 
 static int C_OverlayWidth(const char *text)
 {
-    const int   len = (int)strlen(text);
-    int         width = 0;
+    const int       len = (int)strlen(text);
+    int             width = 0;
+    unsigned char   prevletter = '\0';
 
     for (int i = 0; i < len; i++)
     {
@@ -1038,7 +1039,14 @@ static int C_OverlayWidth(const char *text)
         else if (isdigit(letter))
             width += zerowidth;
         else if (letter >= CONSOLEFONTSTART)
+        {
+            if (letter == ',' && prevletter == '1')
+                width--;
+
             width += SHORT(consolefont[letter - CONSOLEFONTSTART]->width);
+        }
+
+        prevletter = letter;
     }
 
     return width;
@@ -1046,8 +1054,9 @@ static int C_OverlayWidth(const char *text)
 
 static void C_DrawOverlayText(int x, int y, const char *text, const int color)
 {
-    const int   len = (int)strlen(text);
-    byte        *tinttab = (r_hud_translucency ? tinttab50 : NULL);
+    const int       len = (int)strlen(text);
+    byte            *tinttab = (r_hud_translucency ? tinttab50 : NULL);
+    unsigned char   prevletter = '\0';
 
     for (int i = 0; i < len; i++)
     {
@@ -1068,10 +1077,15 @@ static void C_DrawOverlayText(int x, int y, const char *text, const int color)
             }
             else
             {
+                if (letter == ',' && prevletter == '1')
+                    x--;
+
                 V_DrawConsoleOutputTextPatch(x, y, patch, width, color, NOBACKGROUNDCOLOR, false, tinttab);
                 x += width;
             }
         }
+
+        prevletter = letter;
     }
 }
 
