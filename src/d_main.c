@@ -417,6 +417,9 @@ void D_Display(void)
 
     if (!dowipe || !melt)
     {
+        if (am_path && automapactive && viewplayer->distancetraveled >= UNITSPERFOOT)
+            C_UpdateDistance();
+
         C_Drawer();
 
         // menus go directly to the screen
@@ -427,9 +430,6 @@ void D_Display(void)
 
         if (countdown && gamestate == GS_LEVEL)
             C_UpdateTimer();
-
-        if (am_path && automapactive && viewplayer->distancetraveled >= UNITSPERFOOT)
-            C_UpdateDistance();
 
         if (fadecount)
             D_UpdateFade();
