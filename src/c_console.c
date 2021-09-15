@@ -1176,7 +1176,7 @@ void C_UpdateDistance(void)
 {
     if (!paused && !menuactive)
     {
-        char *temp = distancetraveled(viewplayer->distancetraveled);
+        char    *temp = distancetraveled(viewplayer->distancetraveled);
 
         C_DrawOverlayText(SCREENWIDTH - C_OverlayWidth(temp) - CONSOLETEXTX + 1,
             CONSOLETEXTY + (vid_showfps ? CONSOLELINEHEIGHT * (countdown ? 2 : 1) : CONSOLELINEHEIGHT * !!countdown),

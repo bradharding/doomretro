@@ -646,7 +646,7 @@ void S_ChangeMusic(int music_id, dboolean looping, dboolean allowrestart, dboole
         return;
     }
 
-    // Load & register it
+    // load & register it
     music->data = W_CacheLumpNum(music->lumpnum);
 
     if (!(handle = I_RegisterSong(music->data, W_LumpLength(music->lumpnum))))
