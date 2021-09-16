@@ -566,9 +566,6 @@ void D_PageDrawer(void)
 
         V_DrawBigPatch((SCREENWIDTH - NONWIDEWIDTH) / 2 + 12, 366, fineprintlump);
         I_SetSimplePalette(&splashpal[(pagetic < 9 ? 9 - pagetic : (pagetic > 94 ? pagetic - 94 : 0)) * 768]);
-
-        if (pagetic > 94)
-            I_Sleep(50);
     }
     else
     {
@@ -600,15 +597,7 @@ void D_DoAdvanceTitle(void)
     gameaction = ga_nothing;
     gamestate = GS_TITLESCREEN;
 
-    if (!titlesequence)
-    {
-        titlesequence = 1;
-        V_DrawBigPatch((SCREENWIDTH - NONWIDEWIDTH) / 2 + 12, 366, fineprintlump);
-        V_DrawBigPatch((SCREENWIDTH - NONWIDEWIDTH) / 2 + 143, 167, logolump[0]);
-
-        return;
-    }
-    else if (titlesequence == 1)
+    if (titlesequence == 1)
     {
         static dboolean flag = true;
 
