@@ -1143,9 +1143,9 @@ void C_UpdateFPS(void)
         M_snprintf(buffer, sizeof(buffer), s_STSTR_FPS, temp);
 
         C_DrawOverlayText(SCREENWIDTH - C_OverlayWidth(buffer) - CONSOLETEXTX + 1, CONSOLETEXTY, buffer,
-            (framespersecond < (refreshrate && vid_capfps != TICRATE && !menuactive && !consoleactive && !paused ?
-                refreshrate : TICRATE) ? consoleoverlaywarningcolor : (((viewplayer->fixedcolormap == INVERSECOLORMAP) ^ (!r_textures)) ?
-                    nearestblack : consoleoverlaycolor)));
+            (framespersecond < (refreshrate && vid_capfps != TICRATE && !menuactive && !consoleactive && !paused ? refreshrate :
+            TICRATE) ? consoleoverlaywarningcolor : (((viewplayer->fixedcolormap == INVERSECOLORMAP) ^ (!r_textures)) && !automapactive ?
+            nearestblack : consoleoverlaycolor)));
         free(temp);
     }
 }
@@ -1168,7 +1168,7 @@ void C_UpdateTimer(void)
         }
 
         C_DrawOverlayText(SCREENWIDTH - timerwidth - CONSOLETEXTX + 1, CONSOLETEXTY + CONSOLELINEHEIGHT * vid_showfps, buffer,
-            (((viewplayer->fixedcolormap == INVERSECOLORMAP) ^ (!r_textures)) ? nearestblack : consoleoverlaycolor));
+            (((viewplayer->fixedcolormap == INVERSECOLORMAP) ^ (!r_textures)) && !automapactive ? nearestblack : consoleoverlaycolor));
     }
 }
 
