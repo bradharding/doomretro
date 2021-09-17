@@ -1210,7 +1210,7 @@ void HU_Ticker(void)
         // [BH] display and constantly update message for IDMYPOS cheat
         char    buffer[80];
 
-        message_counter = HU_MSGTIMEOUT;
+        message_counter = HU_MSGTIMEOUT - 6;
 
         if (automapactive && !am_followmode)
         {
