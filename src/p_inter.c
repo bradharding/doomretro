@@ -1819,13 +1819,11 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
                                 (gibbed ? "gibbed" : "killed"),
                                 weaponinfo[readyweapon].name);
                         else
-                            C_PlayerObituary("%s %s %s with %s own %s.",
+                            C_PlayerObituary("%s %s %sself with %s own %s.",
                                 playername,
                                 (gibbed ? "gibbed" : "killed"),
-                                (playergender == playergender_male ? "himself" :
-                                    (playergender == playergender_female ? "herself" : "themselves")),
-                                (playergender == playergender_male ? "his" :
-                                    (playergender == playergender_female ? "her" : "their")),
+                                (playergender == playergender_male ? "him" : (playergender == playergender_female ? "her" : "them")),
+                                (playergender == playergender_male ? "his" : (playergender == playergender_female ? "her" : "their")),
                                 weaponinfo[readyweapon].name);
                     }
                     else
@@ -1989,20 +1987,18 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
                     if (M_StringCompare(playername, playername_default))
                         C_PlayerObituary("You killed yourself.");
                     else
-                        C_PlayerObituary("%s killed %s.",
+                        C_PlayerObituary("%s killed %sself.",
                             playername,
-                            (playergender == playergender_male ? "himself" :
-                                (playergender == playergender_female ? "herself" : "themselves")));
+                            (playergender == playergender_male ? "him" : (playergender == playergender_female ? "her" : "them")));
                 }
                 else
                 {
                     if (M_StringCompare(playername, playername_default))
                         C_PlayerObituary("You blew yourself up.");
                     else
-                        C_PlayerObituary("%s blew %s up.",
+                        C_PlayerObituary("%s blew %sself up.",
                             playername,
-                            (playergender == playergender_male ? "himself" :
-                                (playergender == playergender_female ? "herself" : "themselves")));
+                            (playergender == playergender_male ? "him" : (playergender == playergender_female ? "her" : "them")));
                 }
             }
         }
