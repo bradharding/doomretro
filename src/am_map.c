@@ -631,8 +631,8 @@ void AM_ClearMarks(void)
 void AM_AddToPath(void)
 {
     mobj_t      *mo = viewplayer->mo;
-    const int   x = mo->x;
-    const int   y = mo->y;
+    const int   x = mo->x >> FRACTOMAPBITS;
+    const int   y = mo->y >> FRACTOMAPBITS;
     static int  prevx = INT_MAX;
     static int  prevy = INT_MAX;
 
@@ -1973,16 +1973,17 @@ static void AM_DrawPath(void)
 {
     if (pathpointnum >= 1)
     {
-        mpoint_t    end;
+        mpoint_t        end;
+        const mobj_t    *mo = viewplayer->mo;
 
         if (am_rotatemode)
         {
             for (int i = 1; i < pathpointnum; i++)
             {
-                mpoint_t    start = { pathpoints[i - 1].x >> FRACTOMAPBITS, pathpoints[i - 1].y >> FRACTOMAPBITS };
+                mpoint_t    start = { pathpoints[i - 1].x, pathpoints[i - 1].y };
 
-                end.x = pathpoints[i].x >> FRACTOMAPBITS;
-                end.y = pathpoints[i].y >> FRACTOMAPBITS;
+                end.x = pathpoints[i].x;
+                end.y = pathpoints[i].y;
 
                 if (ABS(start.x - end.x) > 4 * FRACUNIT || ABS(start.y - end.y) > 4 * FRACUNIT)
                     continue;
@@ -1994,8 +1995,7 @@ static void AM_DrawPath(void)
 
             if (pathpointnum > 1)
             {
-                const mobj_t    *mo = viewplayer->mo;
-                mpoint_t        player = { mo->x >> FRACTOMAPBITS, mo->y >> FRACTOMAPBITS };
+                mpoint_t    player = { mo->x >> FRACTOMAPBITS, mo->y >> FRACTOMAPBITS };
 
                 AM_RotatePoint(&player);
                 AM_DrawFline(end.x, end.y, player.x, player.y, &pathcolor, &PUTDOT2);
@@ -2005,10 +2005,10 @@ static void AM_DrawPath(void)
         {
             for (int i = 1; i < pathpointnum; i++)
             {
-                mpoint_t    start = { pathpoints[i - 1].x >> FRACTOMAPBITS, pathpoints[i - 1].y >> FRACTOMAPBITS };
+                mpoint_t    start = { pathpoints[i - 1].x, pathpoints[i - 1].y };
 
-                end.x = pathpoints[i].x >> FRACTOMAPBITS;
-                end.y = pathpoints[i].y >> FRACTOMAPBITS;
+                end.x = pathpoints[i].x;
+                end.y = pathpoints[i].y;
 
                 if (ABS(start.x - end.x) > 4 * FRACUNIT || ABS(start.y - end.y) > 4 * FRACUNIT)
                     continue;
@@ -2017,11 +2017,7 @@ static void AM_DrawPath(void)
             }
 
             if (pathpointnum > 1)
-            {
-                const mobj_t    *mo = viewplayer->mo;
-
                 AM_DrawFline(end.x, end.y, mo->x >> FRACTOMAPBITS, mo->y >> FRACTOMAPBITS, &pathcolor, &PUTDOT2);
-            }
         }
     }
 }
