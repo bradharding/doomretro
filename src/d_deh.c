@@ -1171,7 +1171,7 @@ deh_strs deh_strlookup[] =
     { &bgcastcall,                   "BGCASTCALL"                 },
 
     // Ty 04/08/98 - added 5 general purpose startup announcement
-    // strings for hacker use. See m_menu.c
+    // strings for hacker use.
     { &startup1,                     "STARTUP1"                   },
     { &startup2,                     "STARTUP2"                   },
     { &startup3,                     "STARTUP3"                   },
@@ -1262,7 +1262,8 @@ deh_strs deh_strlookup[] =
 
 static const int deh_numstrlookup = sizeof(deh_strlookup) / sizeof(deh_strlookup[0]);
 
-char **mapnames[] =     // DOOM shareware/registered/retail (Ultimate) names.
+// DOOM shareware/registered/retail (Ultimate) names.
+char **mapnames[] =
 {
     &s_HUSTR_E1M1,
     &s_HUSTR_E1M2,
@@ -1311,7 +1312,8 @@ char **mapnames[] =     // DOOM shareware/registered/retail (Ultimate) names.
     &s_HUSTR_E5M9
 };
 
-char **mapnames2[] =    // DOOM 2 map names.
+// DOOM 2 map names.
+char **mapnames2[] =
 {
     &s_HUSTR_1,
     &s_HUSTR_2,
@@ -1347,7 +1349,8 @@ char **mapnames2[] =    // DOOM 2 map names.
     &s_HUSTR_32
 };
 
-char **mapnames2_bfg[] =    // DOOM 2 map names.
+// DOOM 2 map names.
+char **mapnames2_bfg[] =
 {
     &s_HUSTR_1,
     &s_HUSTR_2,
@@ -1384,7 +1387,8 @@ char **mapnames2_bfg[] =    // DOOM 2 map names.
     &s_HUSTR_33
 };
 
-char **mapnamesp[] =    // Plutonia WAD map names.
+// Plutonia WAD map names.
+char **mapnamesp[] =
 {
     &s_PHUSTR_1,
     &s_PHUSTR_2,
@@ -1420,7 +1424,8 @@ char **mapnamesp[] =    // Plutonia WAD map names.
     &s_PHUSTR_32
 };
 
-char **mapnamest[] =    // TNT WAD map names.
+// TNT WAD map names.
+char **mapnamest[] =
 {
     &s_THUSTR_1,
     &s_THUSTR_2,
@@ -1456,7 +1461,8 @@ char **mapnamest[] =    // TNT WAD map names.
     &s_THUSTR_32
 };
 
-char **mapnamesn[] =    // Nerve WAD map names.
+// Nerve WAD map names.
+char **mapnamesn[] =
 {
     &s_NHUSTR_1,
     &s_NHUSTR_2,
@@ -1507,11 +1513,11 @@ typedef struct
     void    (*const fptr)(DEHFILE *, char *);           // handler
 } deh_block;
 
-#define DEH_BUFFERMAX   1024    // input buffer area size, hardcoded for now
+#define DEH_BUFFERMAX   1024                            // input buffer area size, hardcoded for now
 // killough 08/09/98: make DEH_BLOCKMAX self-adjusting
 #define DEH_BLOCKMAX    arrlen(deh_blocks)              // size of array
-#define DEH_MAXKEYLEN   32      // as much of any key as we'll look at
-#define DEH_MOBJINFOMAX 36      // number of ints in the mobjinfo_t structure (!)
+#define DEH_MAXKEYLEN   32                              // as much of any key as we'll look at
+#define DEH_MOBJINFOMAX 36                              // number of ints in the mobjinfo_t structure (!)
 
 // Put all the block header values, and the function to be called when that
 // one is encountered, in this array:

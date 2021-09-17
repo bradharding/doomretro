@@ -4,6 +4,7 @@
 
 * *DOOM Retro* is now compiled using v16.11.3 of [*Microsoft Visual Studio Community 2019*](https://www.visualstudio.com/vs/).
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
+* The splash screen’s animation is now smoother.
 * Minor changes have been made to the font used in the console and player messages in the alternate widescreen HUD.
 * Minor changes have been made to text that is output to the console.
 * Further improvements have been made to the support for [*Chex Quest*](https://doomwiki.org/wiki/Chex_Quest) and [*REKKR*](http://manbitesshark.com/).
@@ -16,7 +17,7 @@
 * The following changes have been made when the `am_path` CVAR is `on`:
   * The player’s path in the automap will now be updated when either freeze mode or no clipping mode is enabled.
   * The distance the player has traveled in the current map is now displayed in the top right corner of the automap.
-* A bug has been fixed whereby the timer displayed when the `timer` CCMD is used could be positioned incorrectly in some rare instances.
+* A bug has been fixed whereby the timer displayed when using the `timer` CCMD could be positioned incorrectly in some rare instances.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

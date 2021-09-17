@@ -565,14 +565,13 @@ void D_PageDrawer(void)
 
         V_DrawBigPatch((SCREENWIDTH - NONWIDEWIDTH) / 2 + 12, 366, fineprintlump);
         I_SetSimplePalette(&splashpal[(pagetic < 9 ? 9 - pagetic : (pagetic > 94 ? pagetic - 94 : 0)) * 768]);
+        return;
     }
-    else
-    {
-        if (SCREENWIDTH != NONWIDEWIDTH)
-            memset(screens[0], pillarboxcolor, SCREENAREA);
 
-        V_DrawWidePatch((SCREENWIDTH / SCREENSCALE - SHORT(pagelump->width)) / 2, 0, 0, pagelump);
-    }
+    if (SCREENWIDTH != NONWIDEWIDTH)
+        memset(screens[0], pillarboxcolor, SCREENAREA);
+
+    V_DrawWidePatch((SCREENWIDTH / SCREENSCALE - SHORT(pagelump->width)) / 2, 0, 0, pagelump);
 }
 
 //
