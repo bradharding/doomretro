@@ -7,7 +7,7 @@
 * The splash screen’s animation is now smoother.
 * Minor changes have been made to the font used in the console and player messages in the alternate widescreen HUD.
 * Minor changes have been made to text that is output to the console.
-* Further improvements have been made to the support for [*Chex Quest*](https://doomwiki.org/wiki/Chex_Quest) and [*REKKR*](http://manbitesshark.com/).
+* Further improvements have been made to the support for [*Chex Quest*](https://doomwiki.org/wiki/Chex_Quest), [*Freedoom*](https://freedoom.github.io/) and [*REKKR*](http://manbitesshark.com/).
 * The bounce of the player’s weapon when dropping down from a greater height is now slightly slower when the `weaponbounce` CVAR is `on`.
 * When clicking a mouse button that is bound to the `+screenshot` action, the screen will now flash and a sound will now be heard.
 * The console’s background will no longer be affected when entering the `vanilla` CCMD.

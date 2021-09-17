@@ -1288,6 +1288,8 @@ void HU_Ticker(void)
 
 void HU_SetPlayerMessage(char *message, dboolean counter, dboolean external)
 {
+    M_StringReplaceAll(message, "%%", "%");
+
     if (!counter)
         viewplayer->message = M_StringDuplicate(message);
     else
