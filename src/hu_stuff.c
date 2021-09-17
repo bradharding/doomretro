@@ -410,15 +410,11 @@ static void HU_DrawCrosshair(void)
     {
         if (crosshair == crosshair_cross)
         {
-            HU_DrawScaledPixel(CENTERX - 2, CENTERY, color);
             HU_DrawScaledPixel(CENTERX - 1, CENTERY, color);
             HU_DrawScaledPixel(CENTERX, CENTERY, color);
             HU_DrawScaledPixel(CENTERX + 1, CENTERY, color);
-            HU_DrawScaledPixel(CENTERX + 2, CENTERY, color);
-            HU_DrawScaledPixel(CENTERX, CENTERY - 2, color);
             HU_DrawScaledPixel(CENTERX, CENTERY - 1, color);
             HU_DrawScaledPixel(CENTERX, CENTERY + 1, color);
-            HU_DrawScaledPixel(CENTERX, CENTERY + 2, color);
         }
         else
         {
