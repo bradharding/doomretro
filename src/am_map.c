@@ -631,8 +631,8 @@ void AM_ClearMarks(void)
 void AM_AddToPath(void)
 {
     mobj_t      *mo = viewplayer->mo;
-    const int   x = mo->x >> FRACTOMAPBITS;
-    const int   y = mo->y >> FRACTOMAPBITS;
+    const int   x = mo->x;
+    const int   y = mo->y;
     static int  prevx = INT_MAX;
     static int  prevy = INT_MAX;
 
@@ -1783,22 +1783,32 @@ static void AM_DrawPlayer(void)
         { {  18357, -12273 }, {  23203, -10070 } }
     };
 
-    const int       invisibility = viewplayer->powers[pw_invisibility];
-    const mobj_t    *mo = viewplayer->mo;
-    angle_t         angle = (am_rotatemode ? ANG90 : mo->angle);
+    const int   invisibility = viewplayer->powers[pw_invisibility];
+    mpoint_t    point;
+    angle_t     angle;
+
+    point.x = viewplayer->mo->x >> FRACTOMAPBITS;
+    point.y = viewplayer->mo->y >> FRACTOMAPBITS;
+
+    if (am_rotatemode)
+    {
+        AM_RotatePoint(&point);
+        angle = ANG90;
+    }
+    else
+        angle = viewangle;
 
     if (viewplayer->cheats & (CF_ALLMAP | CF_ALLMAP_THINGS))
     {
         if (invisibility > STARTFLASHING || (invisibility & 8))
-            AM_DrawTranslucentPlayerArrow(cheatplayerarrow, CHEATPLAYERARROWLINES,
-                angle, mo->x >> FRACTOMAPBITS, mo->y >> FRACTOMAPBITS);
+            AM_DrawTranslucentPlayerArrow(cheatplayerarrow, CHEATPLAYERARROWLINES, angle, point.x, point.y);
         else
-            AM_DrawPlayerArrow(cheatplayerarrow, CHEATPLAYERARROWLINES, angle, mo->x >> FRACTOMAPBITS, mo->y >> FRACTOMAPBITS);
+            AM_DrawPlayerArrow(cheatplayerarrow, CHEATPLAYERARROWLINES, angle, point.x, point.y);
     }
     else if (invisibility > STARTFLASHING || (invisibility & 8))
-        AM_DrawTranslucentPlayerArrow(playerarrow, PLAYERARROWLINES, angle, mo->x >> FRACTOMAPBITS, mo->y >> FRACTOMAPBITS);
+        AM_DrawTranslucentPlayerArrow(playerarrow, PLAYERARROWLINES, angle, point.x, point.y);
     else
-        AM_DrawPlayerArrow(playerarrow, PLAYERARROWLINES, angle, mo->x >> FRACTOMAPBITS, mo->y >> FRACTOMAPBITS);
+        AM_DrawPlayerArrow(playerarrow, PLAYERARROWLINES, angle, point.x, point.y);
 }
 
 #define THINGTRIANGLELINES  3
@@ -1963,17 +1973,16 @@ static void AM_DrawPath(void)
 {
     if (pathpointnum >= 1)
     {
-        mpoint_t        end;
-        const mobj_t    *mo = viewplayer->mo;
+        mpoint_t    end;
 
         if (am_rotatemode)
         {
             for (int i = 1; i < pathpointnum; i++)
             {
-                mpoint_t    start = { pathpoints[i - 1].x, pathpoints[i - 1].y };
+                mpoint_t    start = { pathpoints[i - 1].x >> FRACTOMAPBITS, pathpoints[i - 1].y >> FRACTOMAPBITS };
 
-                end.x = pathpoints[i].x;
-                end.y = pathpoints[i].y;
+                end.x = pathpoints[i].x >> FRACTOMAPBITS;
+                end.y = pathpoints[i].y >> FRACTOMAPBITS;
 
                 if (ABS(start.x - end.x) > 4 * FRACUNIT || ABS(start.y - end.y) > 4 * FRACUNIT)
                     continue;
@@ -1983,17 +1992,23 @@ static void AM_DrawPath(void)
                 AM_DrawFline(start.x, start.y, end.x, end.y, &pathcolor, &PUTDOT2);
             }
 
-            if (pathpointnum > 1 && !freeze && !(viewplayer->cheats & CF_NOCLIP))
-                AM_DrawFline(end.x, end.y, mo->x >> FRACTOMAPBITS, mo->y >> FRACTOMAPBITS, &pathcolor, &PUTDOT2);
+            if (pathpointnum > 1)
+            {
+                const mobj_t    *mo = viewplayer->mo;
+                mpoint_t        player = { mo->x >> FRACTOMAPBITS, mo->y >> FRACTOMAPBITS };
+
+                AM_RotatePoint(&player);
+                AM_DrawFline(end.x, end.y, player.x, player.y, &pathcolor, &PUTDOT2);
+            }
         }
         else
         {
             for (int i = 1; i < pathpointnum; i++)
             {
-                mpoint_t    start = { pathpoints[i - 1].x, pathpoints[i - 1].y };
+                mpoint_t    start = { pathpoints[i - 1].x >> FRACTOMAPBITS, pathpoints[i - 1].y >> FRACTOMAPBITS };
 
-                end.x = pathpoints[i].x;
-                end.y = pathpoints[i].y;
+                end.x = pathpoints[i].x >> FRACTOMAPBITS;
+                end.y = pathpoints[i].y >> FRACTOMAPBITS;
 
                 if (ABS(start.x - end.x) > 4 * FRACUNIT || ABS(start.y - end.y) > 4 * FRACUNIT)
                     continue;
@@ -2001,8 +2016,12 @@ static void AM_DrawPath(void)
                 AM_DrawFline(start.x, start.y, end.x, end.y, &pathcolor, &PUTDOT2);
             }
 
-            if (pathpointnum > 1 && !freeze && !(viewplayer->cheats & CF_NOCLIP))
+            if (pathpointnum > 1)
+            {
+                const mobj_t    *mo = viewplayer->mo;
+
                 AM_DrawFline(end.x, end.y, mo->x >> FRACTOMAPBITS, mo->y >> FRACTOMAPBITS, &pathcolor, &PUTDOT2);
+            }
         }
     }
 }
