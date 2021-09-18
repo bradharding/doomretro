@@ -420,9 +420,6 @@ void D_Display(void)
         if (am_path && automapactive && viewplayer->distancetraveled >= UNITSPERFOOT)
             C_UpdateDistance();
 
-        if (countdown && gamestate == GS_LEVEL)
-            C_UpdateTimer();
-
         C_Drawer();
 
         // menus go directly to the screen
@@ -430,6 +427,9 @@ void D_Display(void)
 
         if (drawdisk)
             HU_DrawDisk();
+
+        if (countdown && gamestate == GS_LEVEL)
+            C_UpdateTimer();
 
         if (fadecount)
             D_UpdateFade();
