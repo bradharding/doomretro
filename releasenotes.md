@@ -1,5 +1,11 @@
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/releasenotes.png)
 
+#### DOOM Retro v4.2.4
+
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
+
+###### Sunday, September 19, 2021
+
 #### DOOM Retro v4.2.3
 
 * *DOOM Retro* is now compiled using v16.11.3 of [*Microsoft Visual Studio Community 2019*](https://www.visualstudio.com/vs/).
