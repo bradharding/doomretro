@@ -5,7 +5,7 @@
 * *DOOM Retro* is now compiled using v16.11.3 of [*Microsoft Visual Studio Community 2019*](https://www.visualstudio.com/vs/).
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * The splash screen’s animation is now smoother.
-* Minor changes have been made to the font used in the console and player messages in the alternate widescreen HUD.
+* Minor changes have been made to the font used in the console, and the player messages in the alternate widescreen HUD.
 * Minor changes have been made to text that is output to the console.
 * Further improvements have been made to the support for [*Chex Quest*](https://doomwiki.org/wiki/Chex_Quest), [*Freedoom*](https://freedoom.github.io/) and [*REKKR*](http://manbitesshark.com/).
 * The bounce of the player’s weapon when dropping down from a greater height is now slightly slower when the `weaponbounce` CVAR is `on`.
@@ -23,7 +23,7 @@
 * The size of the crosshair has been reduced when the `crosshair` CVAR is `cross` and the `r_detail` CVAR is `low`.
 * The message displayed when entering the `IDMYPOS` cheat will now be visible when the `fade` CVAR is `on`.
 * The sky will now be stretched if the `weaponrecoil` CVAR is `on` and the `r_screensize` CVAR is `8`.
-* Bobbing sprites in liquid sectors now animate correctly when the player is first spawned into a map and the `r_liquid_bob` CVAR is `on`.
+* Sprites in liquid sectors now bob correctly when the player is first spawned into a map and the `r_liquid_bob` CVAR is `on`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
