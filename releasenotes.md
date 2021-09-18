@@ -21,9 +21,9 @@
   * The distance the player has traveled in the current map is now displayed in the top right corner of the automap.
 * A bug has been fixed whereby the timer displayed when using the `timer` CCMD could be positioned incorrectly in some rare instances.
 * The size of the crosshair has been reduced when the `crosshair` CVAR is `cross` and the `r_detail` CVAR is `low`.
-* The player message displayed when entering the `IDMYPOS` cheat will now be displayed correctly when the `fade` CVAR is `on`.
+* The message displayed when entering the `IDMYPOS` cheat will now be visible when the `fade` CVAR is `on`.
 * The sky will now be stretched if the `weaponrecoil` CVAR is `on` and the `r_screensize` CVAR is `8`.
-* Bobbing sprites in liquid sectors now animate correctly when a map first starts and the `r_liquid_bob` CVAR is `on`.
+* Bobbing sprites in liquid sectors now animate correctly when the player is first spawned into a map and the `r_liquid_bob` CVAR is `on`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
