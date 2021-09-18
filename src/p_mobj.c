@@ -1288,7 +1288,7 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, dboolean spawnmonsters)
     mobj->pitch = ((mobj->flags & MF_SHOOTABLE) && type != Barrel ? NORM_PITCH + M_BigRandomInt(-16, 16) : NORM_PITCH);
 
     // [BH] initialize bobbing things
-    mobj->floatbob = prevthingbob = (x == prevthingx && y == prevthingy ? prevthingbob : M_BigRandom());
+    mobj->floatbob = prevthingbob = (x == prevthingx && y == prevthingy ? prevthingbob : TICRATE + M_BigRandom());
     prevthingx = x;
     prevthingy = y;
 
