@@ -308,7 +308,7 @@ void C_Warning(const int minwarninglevel, const char *string, ...)
     va_list argptr;
     char    buffer[CONSOLETEXTMAXLENGTH];
 
-    if (warninglevel < minwarninglevel)
+    if (warninglevel < minwarninglevel && !devparm)
         return;
 
     va_start(argptr, string);
