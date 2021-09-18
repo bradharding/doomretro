@@ -16,7 +16,7 @@
 * A bug has been fixed whereby the title in the automap could be positioned incorrectly in some rare instances.
 * The player’s arrow will now be positioned correctly in the automap when the `am_rotate` CVAR is `on` and the `am_followmode` CVAR is `off`.
 * The following changes have been made when the `am_path` CVAR is `on`:
-  * The player’s path in the automap will now be updated when either freeze mode or no clipping mode is enabled.
+  * The player’s path in the automap will now still be updated when either freeze mode or no clipping mode is enabled.
   * The player’s path will now be positioned correctly in the automap when the `am_rotate` CVAR is `on` and the `am_followmode` CVAR is `off`.
   * The distance the player has traveled in the current map is now displayed in the top right corner of the automap.
 * A bug has been fixed whereby the timer displayed when using the `timer` CCMD could be positioned incorrectly in some rare instances.
