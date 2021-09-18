@@ -403,6 +403,7 @@ static void vid_vsync_cvar_func2(char *cmd, char *parms);
 static void vid_widescreen_cvar_func2(char *cmd, char *parms);
 static void vid_windowpos_cvar_func2(char *cmd, char *parms);
 static void vid_windowsize_cvar_func2(char *cmd, char *parms);
+static void weaponrecoil_cvar_func2(char *cmd, char *parms);
 
 static int C_LookupValueFromAlias(const char *text, const valuealias_type_t valuealiastype)
 {
@@ -875,7 +876,7 @@ consolecmd_t consolecmds[] =
         "The amount the player's weapon bobs when they move (" BOLD("0%") " to " BOLD("100%") ")."),
     CVAR_BOOL(weaponbounce, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles the bouncing of the player's weapon when they drop from a greater height."),
-    CVAR_BOOL(weaponrecoil, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
+    CVAR_BOOL(weaponrecoil, "", bool_cvars_func1, weaponrecoil_cvar_func2, BOOLVALUEALIAS,
         "Toggles the recoiling of the player's weapon when they fire it."),
 
     { "", "", null_func1, NULL, 0, 0, CF_NONE, NULL, 0, 0, 0, "", "" }
@@ -9216,5 +9217,33 @@ static void vid_windowsize_cvar_func2(char *cmd, char *parms)
             C_Output(INTEGERCVARISDEFAULT, vid_windowsize);
         else
             C_Output(INTEGERCVARWITHDEFAULT, vid_windowsize, vid_windowsize_default);
+    }
+}
+
+//
+// weaponrecoil CVAR
+//
+static void weaponrecoil_cvar_func2(char *cmd, char *parms)
+{
+    const dboolean  weaponrecoil_old = weaponrecoil;
+
+    bool_cvars_func2(cmd, parms);
+
+    if (weaponrecoil != weaponrecoil_old)
+    {
+        if (gamestate == GS_LEVEL)
+        {
+            R_InitSkyMap();
+            R_InitColumnFunctions();
+
+            if (gamestate == GS_LEVEL)
+                D_FadeScreen(false);
+
+            if (!weaponrecoil)
+            {
+                viewplayer->recoil = 0;
+                viewplayer->oldrecoil = 0;
+            }
+        }
     }
 }

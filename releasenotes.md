@@ -22,6 +22,7 @@
 * A bug has been fixed whereby the timer displayed when using the `timer` CCMD could be positioned incorrectly in some rare instances.
 * The size of the crosshair has been reduced when the `crosshair` CVAR is `cross` and the `r_detail` CVAR is `low`.
 * The player message displayed when entering the `IDMYPOS` cheat will now be displayed correctly when the `fade` CVAR is `on`.
+* The sky will now be stretched if the `weaponrecoil` CVAR is `on` and the `r_screensize` CVAR is `8`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

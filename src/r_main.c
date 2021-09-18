@@ -425,7 +425,10 @@ void R_ExecuteSetViewSize(void)
     pspriteiscale = FixedDiv(FRACUNIT, pspritescale);
 
     if (gamestate == GS_LEVEL)
+    {
         R_InitSkyMap();
+        R_InitColumnFunctions();
+    }
 
     // thing clipping
     for (int i = 0; i < viewwidth; i++)
@@ -921,7 +924,7 @@ static void R_SetupFrame(void)
                 pitch = BETWEEN(-LOOKDIRMAX, pitch + viewplayer->oldrecoil + FixedMul(viewplayer->recoil - viewplayer->oldrecoil,
                     fractionaltic), LOOKDIRMAX);
 
-            centery += (pitch << 1) * (r_screensize + 3) / 10;
+            centery += pitch * 2 * (r_screensize + 3) / 10;
         }
     }
     else
@@ -938,7 +941,7 @@ static void R_SetupFrame(void)
             if (weaponrecoil)
                 pitch = BETWEEN(-LOOKDIRMAX, pitch + viewplayer->recoil, LOOKDIRMAX);
 
-            centery += (pitch << 1) * (r_screensize + 3) / 10;
+            centery += pitch * 2 * (r_screensize + 3) / 10;
         }
     }
 

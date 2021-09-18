@@ -62,7 +62,8 @@ void R_InitSkyMap(void)
 
     skyflatnum = R_FlatNumForName(SKYFLATNAME);
     skytexture = P_GetMapSky1Texture(map);
-    canmouselook = ((mouselook || keyboardmouselook || mousemouselook != -1 || autotilt) && !nomouselook);
+    canmouselook = ((mouselook || keyboardmouselook || mousemouselook != -1 || autotilt
+        || (weaponrecoil && r_screensize == r_screensize_max)) && !nomouselook);
 
     if (!skytexture || (BTSX && !canmouselook))
     {
