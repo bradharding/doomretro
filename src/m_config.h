@@ -669,7 +669,7 @@ enum
 
 #define units_default                           units_imperial
 
-#define version_default                         PACKAGE_VERSIONSTRING
+#define version_default                         DOOMRETRO_VERSIONSTRING
 
 #define vid_borderlesswindow_default            true
 

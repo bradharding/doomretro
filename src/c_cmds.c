@@ -556,7 +556,7 @@ consolecmd_t consolecmds[] =
     CCMD(freeze, "", alive_func1, freeze_cmd_func2, true, "[" BOLD("on") "|" BOLD("off") "]",
         "Toggles freeze mode."),
     CVAR_TIME(gametime, "", null_func1, time_cvars_func2,
-        "The amount of time " ITALICS(PACKAGE_NAME) " has been running."),
+        "The amount of time " ITALICS(DOOMRETRO_NAME) " has been running."),
     CCMD(give, "", give_cmd_func1, give_cmd_func2, true, GIVECMDFORMAT,
         "Gives " BOLD("ammo") ", " BOLD("armor") ", " BOLD("health") ", " BOLD("keys") ", " BOLD("weapons") ", or " BOLD("all")
         " or certain " BOLDITALICS("items") " to the player."),
@@ -590,7 +590,7 @@ consolecmd_t consolecmds[] =
     CVAR_INT(health, "", player_cvars_func1, player_cvars_func2, CF_PERCENT, NOVALUEALIAS,
         "The player's health (" BOLD("0%") " to " BOLD("200%") ")."),
     CCMD(help, "", null_func1, help_cmd_func2, false, "",
-        "Opens the " ITALICS(PACKAGE_WIKINAME ".")),
+        "Opens the " ITALICS(DOOMRETRO_WIKINAME ".")),
     CMD_CHEAT(idbeholda, false),
     CMD_CHEAT(idbeholdi, false),
     CMD_CHEAT(idbeholdl, false),
@@ -619,7 +619,7 @@ consolecmd_t consolecmds[] =
         "Kills the " BOLD("player") ", " BOLD("all") " monsters, a type of " BOLDITALICS("monster") ", or explodes all " BOLD("barrels")
         " or " BOLD("missiles") "."),
     CCMD(license, "", null_func1, license_cmd_func2, false, "",
-        "Displays the " ITALICS(PACKAGE_LICENSE ".")),
+        "Displays the " ITALICS(DOOMRETRO_LICENSE ".")),
     CCMD(load, "", null_func1, load_cmd_func2, true, LOADCMDFORMAT,
         "Loads a game from a file."),
     CVAR_BOOL(m_acceleration, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
@@ -669,7 +669,7 @@ consolecmd_t consolecmds[] =
     CCMD(print, "", null_func1, print_cmd_func2, true, PRINTCMDFORMAT,
         "Prints a player \"" BOLDITALICS("message") "\"."),
     CCMD(quit, exit, null_func1, quit_cmd_func2, false, "",
-        "Quits " ITALICS(PACKAGE_NAME ".")),
+        "Quits " ITALICS(DOOMRETRO_NAME ".")),
     CVAR_BOOL(r_althud, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles an alternate heads-up display when in widescreen mode."),
     CVAR_INT(r_berserkintensity, "", int_cvars_func1, int_cvars_func2, CF_NONE, NOVALUEALIAS,
@@ -762,7 +762,7 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL(r_translucency, "", bool_cvars_func1, r_translucency_cvar_func2, BOOLVALUEALIAS,
         "Toggles the translucency of sprites and " ITALICS("BOOM") "-compatible wall textures."),
     CCMD(regenhealth, "", null_func1, regenhealth_cmd_func2, true, "[" BOLD("on") "|" BOLD("off") "]",
-        "Toggles the regeneration of the player's health at 1% per second when it's below 100%."),
+        "Toggles the regeneration of the player's health at 1% per second whenever it's below 100%."),
     CCMD(reset, "", null_func1, reset_cmd_func2, true, RESETCMDFORMAT,
         "Resets a " ITALICS("CVAR") " to its default value."),
     CCMD(resetall, "", null_func1, resetall_cmd_func2, false, "",
@@ -800,7 +800,7 @@ consolecmd_t consolecmds[] =
         "The amount the player's view and weapon bob up and down when they stand still (" BOLD("0%") " to " BOLD("100%") ")."),
     CCMD(take, "", take_cmd_func1, take_cmd_func2, true, TAKECMDFORMAT,
         "Takes " BOLD("ammo") ", " BOLD("armor") ", " BOLD("health") ", " BOLD("keys") ", " BOLD("weapons") ", or " BOLD("all")
-        " or certain " BOLDITALICS("items") " from the player."),
+        " or certain " BOLDITALICS("items") " away from the player."),
     CCMD(teleport, "", teleport_cmd_func1, teleport_cmd_func2, true, TELEPORTCMDFORMAT,
         "Teleports the player to (" BOLDITALICS("x") "," BOLDITALICS("y") "," BOLDITALICS("z") ") in the current map."),
     CCMD(thinglist, "", game_func1, thinglist_cmd_func2, false, "",
@@ -820,7 +820,7 @@ consolecmd_t consolecmds[] =
     CCMD(vanilla, "", null_func1, vanilla_cmd_func2, true, "[" BOLD("on") "|" BOLD("off") "]",
         "Toggles vanilla mode."),
     CVAR_STR(version, "", null_func1, str_cvars_func2, CF_READONLY,
-        ITALICS(PACKAGE_NAME "'s") " version."),
+        ITALICS(DOOMRETRO_NAME "'s") " version."),
     CVAR_BOOL(vid_borderlesswindow, "", bool_cvars_func1, vid_borderlesswindow_cvar_func2, BOOLVALUEALIAS,
         "Toggles using a borderless window when fullscreen."),
     CVAR_INT(vid_capfps, "", vid_capfps_cvar_func1, vid_capfps_cvar_func2, CF_NONE, CAPVALUEALIAS,
@@ -2416,11 +2416,11 @@ static void god_cmd_func2(char *cmd, char *parms)
 static void help_cmd_func2(char *cmd, char *parms)
 {
 #if defined(_WIN32)
-    ShellExecute(NULL, "open", PACKAGE_WIKIURL, NULL, NULL, SW_SHOWNORMAL);
+    ShellExecute(NULL, "open", DOOMRETRO_WIKIURL, NULL, NULL, SW_SHOWNORMAL);
 #elif defined(__linux__) || defined(__FreeBSD__) || defined(__HAIKU__)
-    int result = system("xdg-open " PACKAGE_WIKIURL);
+    int result = system("xdg-open " DOOMRETRO_WIKIURL);
 #elif defined(__APPLE__)
-    int result = system("open " PACKAGE_WIKIURL);
+    int result = system("open " DOOMRETRO_WIKIURL);
 #endif
 }
 
@@ -2904,11 +2904,11 @@ static void kill_cmd_func2(char *cmd, char *parms)
 static void license_cmd_func2(char *cmd, char *parms)
 {
 #if defined(_WIN32)
-    ShellExecute(NULL, "open", PACKAGE_WIKILICENSEURL, NULL, NULL, SW_SHOWNORMAL);
+    ShellExecute(NULL, "open", DOOMRETRO_WIKILICENSEURL, NULL, NULL, SW_SHOWNORMAL);
 #elif defined(__linux__)
-    int result = system("xdg-open " PACKAGE_WIKILICENSEURL);
+    int result = system("xdg-open " DOOMRETRO_WIKILICENSEURL);
 #elif defined(__APPLE__)
-    int result = system("open " PACKAGE_WIKILICENSEURL);
+    int result = system("open " DOOMRETRO_WIKILICENSEURL);
 #endif
 }
 

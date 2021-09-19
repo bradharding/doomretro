@@ -205,7 +205,7 @@ void I_PrintWindowsVersion(void)
         }
 
         if (bits == 64 && sizeof(intptr_t) == 4)
-            C_Warning(1, "The 64-bit version of " ITALICS(PACKAGE_NAME "") " is recommended on this PC.");
+            C_Warning(1, "The 64-bit version of " ITALICS(DOOMRETRO_NAME "") " is recommended on this PC.");
     }
 }
 #endif
@@ -297,7 +297,7 @@ void I_Error(const char *error, ...)
     M_vsnprintf(msgbuf, sizeof(msgbuf) - 1, error, argptr);
     va_end(argptr);
 
-    SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, PACKAGE_NAME, msgbuf, NULL);
+    SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, DOOMRETRO_NAME, msgbuf, NULL);
 
     exit(-1);
 }

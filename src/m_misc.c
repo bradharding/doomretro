@@ -225,7 +225,7 @@ char *M_GetAppDataFolder(void)
         NSFileManager   *manager = [NSFileManager defaultManager];
         NSURL           *baseAppSupportURL = [manager URLsForDirectory : NSApplicationSupportDirectory
                             inDomains : NSUserDomainMask].firstObject;
-        NSURL           *appSupportURL = [baseAppSupportURL URLByAppendingPathComponent : @PACKAGE_NAME];
+        NSURL           *appSupportURL = [baseAppSupportURL URLByAppendingPathComponent : @DOOMRETRO_NAME];
 
         closedir(resourcedir);
 

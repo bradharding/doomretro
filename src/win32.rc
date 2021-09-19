@@ -42,11 +42,11 @@
 
 LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_AUS
 
-IDI_ICON1 ICON DISCARDABLE PACKAGE_ICONPATH
+IDI_ICON1 ICON DISCARDABLE DOOMRETRO_ICONPATH
 
 VS_VERSION_INFO VERSIONINFO
-    FILEVERSION     PACKAGE_VERSION
-    PRODUCTVERSION  PACKAGE_VERSION
+    FILEVERSION     DOOMRETRO_VERSION
+    PRODUCTVERSION  DOOMRETRO_VERSION
     FILEFLAGSMASK   VS_FFI_FILEFLAGSMASK
 #if defined(_DEBUG)
     FILEFLAGS       VS_FF_DEBUG
@@ -60,15 +60,15 @@ BEGIN
     BEGIN
         BLOCK "040904B0"
         BEGIN
-            VALUE "CompanyName",      PACKAGE_AUTHOREMAIL
-            VALUE "FileDescription",  PACKAGE_NAME
-            VALUE "FileVersion",      PACKAGE_VERSIONSTRING
-            VALUE "InternalName",     PACKAGE
-            VALUE "LegalCopyright",   PACKAGE_COPYRIGHT
-            VALUE "LegalTrademarks",  PACKAGE_TRADEMARKS
-            VALUE "OriginalFilename", PACKAGE_FILENAME
-            VALUE "ProductName",      PACKAGE_NAME
-            VALUE "ProductVersion",   PACKAGE_VERSIONSTRING
+            VALUE "CompanyName",      DOOMRETRO_AUTHOREMAIL
+            VALUE "FileDescription",  DOOMRETRO_NAME
+            VALUE "FileVersion",      DOOMRETRO_VERSIONSTRING
+            VALUE "InternalName",     DOOMRETRO
+            VALUE "LegalCopyright",   DOOMRETRO_COPYRIGHT
+            VALUE "LegalTrademarks",  DOOMRETRO_TRADEMARKS
+            VALUE "OriginalFilename", DOOMRETRO_FILENAME
+            VALUE "ProductName",      DOOMRETRO_NAME
+            VALUE "ProductVersion",   DOOMRETRO_VERSIONSTRING
         END
     END
     BLOCK "VarFileInfo"

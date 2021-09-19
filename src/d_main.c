@@ -852,8 +852,8 @@ static dboolean D_IsUnsupportedIWAD(char *filename)
         {
             char    buffer[1024];
 
-            M_snprintf(buffer, sizeof(buffer), PACKAGE_NAME " doesn't support %s.", unsupported[i].title);
-            SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_WARNING, PACKAGE_NAME, buffer, NULL);
+            M_snprintf(buffer, sizeof(buffer), DOOMRETRO_NAME " doesn't support %s.", unsupported[i].title);
+            SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_WARNING, DOOMRETRO_NAME, buffer, NULL);
 
 #if defined(_WIN32)
             if (previouswad)
@@ -931,7 +931,7 @@ static void D_CheckSupportedPWAD(char *filename)
 
 static dboolean D_IsUnsupportedPWAD(char *filename)
 {
-    return (error = (M_StringCompare(leafname(filename), PACKAGE_WAD)));
+    return (error = (M_StringCompare(leafname(filename), DOOMRETRO_WAD)));
 }
 
 static dboolean D_CheckParms(void)
@@ -1793,7 +1793,7 @@ static void D_ProcessDehInWad(void)
         for (int i = 0; i < numlumps; i++)
             if (M_StringCompare(lumpinfo[i]->name, "DEHACKED")
                 && process
-                && !M_StringEndsWith(lumpinfo[i]->wadfile->path, PACKAGE_WAD)
+                && !M_StringEndsWith(lumpinfo[i]->wadfile->path, DOOMRETRO_WAD)
                 && !M_StringEndsWith(lumpinfo[i]->wadfile->path, "D4V.WAD"))
                 ProcessDehFile(NULL, i, false);
 
@@ -1804,14 +1804,14 @@ static void D_ProcessDehInWad(void)
 
         for (int i = 0; i < numlumps; i++)
             if (M_StringCompare(lumpinfo[i]->name, "DEHACKED")
-                && M_StringEndsWith(lumpinfo[i]->wadfile->path, PACKAGE_WAD))
+                && M_StringEndsWith(lumpinfo[i]->wadfile->path, DOOMRETRO_WAD))
                 ProcessDehFile(NULL, i, false);
     }
     else if (hacx || FREEDOOM || REKKRIWAD)
     {
         for (int i = 0; i < numlumps; i++)
             if (M_StringCompare(lumpinfo[i]->name, "DEHACKED")
-                && (process || M_StringEndsWith(lumpinfo[i]->wadfile->path, PACKAGE_WAD)))
+                && (process || M_StringEndsWith(lumpinfo[i]->wadfile->path, DOOMRETRO_WAD)))
                 ProcessDehFile(NULL, i, false);
     }
     else
@@ -1822,7 +1822,7 @@ static void D_ProcessDehInWad(void)
         for (int i = numlumps - 1; i >= 0; i--)
             if (M_StringCompare(lumpinfo[i]->name, "DEHACKED")
                 && !M_StringEndsWith(lumpinfo[i]->wadfile->path, "SIGIL_v1_2.wad")
-                && (process || M_StringEndsWith(lumpinfo[i]->wadfile->path, PACKAGE_WAD)))
+                && (process || M_StringEndsWith(lumpinfo[i]->wadfile->path, DOOMRETRO_WAD)))
                 ProcessDehFile(NULL, i, false);
     }
 
@@ -1862,11 +1862,11 @@ static void D_DoomMainSetup(void)
     char    *resourcefolder = M_GetResourceFolder();
     char    *seconds;
 
-    packagewad = M_StringJoin(resourcefolder, DIR_SEPARATOR_S, PACKAGE_WAD, NULL);
+    packagewad = M_StringJoin(resourcefolder, DIR_SEPARATOR_S, DOOMRETRO_WAD, NULL);
     free(resourcefolder);
 
     M_MakeDirectory(appdatafolder);
-    packageconfig = (p ? M_StringDuplicate(myargv[p + 1]) : M_StringJoin(appdatafolder, DIR_SEPARATOR_S, PACKAGE_CONFIG, NULL));
+    packageconfig = (p ? M_StringDuplicate(myargv[p + 1]) : M_StringJoin(appdatafolder, DIR_SEPARATOR_S, DOOMRETRO_CONFIG, NULL));
 
     C_Output("");
     C_PrintCompileDate();
@@ -1955,14 +1955,14 @@ static void D_DoomMainSetup(void)
     I_InitTimer();
 
     if (!stat_runs)
-        C_Output("This is the first time " ITALICS(PACKAGE_NAME "") " has been run.");
+        C_Output("This is the first time " ITALICS(DOOMRETRO_NAME "") " has been run.");
     else if (stat_runs == 1)
-        C_Output(ITALICS(PACKAGE_NAME "") " has now been run twice.");
+        C_Output(ITALICS(DOOMRETRO_NAME "") " has now been run twice.");
     else
     {
         char    *temp = commify(SafeAdd(stat_runs, 1));
 
-        C_Output(ITALICS(PACKAGE_NAME "") " has now been run %s times.", temp);
+        C_Output(ITALICS(DOOMRETRO_NAME "") " has now been run %s times.", temp);
         free(temp);
     }
 
@@ -2001,15 +2001,15 @@ static void D_DoomMainSetup(void)
                     char    buffer[256];
 
 #if defined(_WIN32)
-                    M_snprintf(buffer, sizeof(buffer), PACKAGE_NAME " couldn't find %s.", (*wad ? wad : "any IWADs"));
+                    M_snprintf(buffer, sizeof(buffer), DOOMRETRO_NAME " couldn't find %s.", (*wad ? wad : "any IWADs"));
 
                     if (previouswad)
                         wad = M_StringDuplicate(previouswad);
 #else
-                    M_snprintf(buffer, sizeof(buffer), PACKAGE_NAME " couldn't find any IWADs.");
+                    M_snprintf(buffer, sizeof(buffer), DOOMRETRO_NAME " couldn't find any IWADs.");
 #endif
 
-                    SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_WARNING, PACKAGE_NAME, buffer, NULL);
+                    SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_WARNING, DOOMRETRO_NAME, buffer, NULL);
                 }
             } while (!choseniwad);
 #endif
@@ -2118,7 +2118,7 @@ static void D_DoomMainSetup(void)
         } while ((p = M_CheckParmsWithArgs("-file", "-pwad", "-merge", 1, p)));
 
     if (!iwadfile && !modifiedgame && !choseniwad)
-        I_Error(PACKAGE_NAME " couldn't find any IWADs.");
+        I_Error(DOOMRETRO_NAME " couldn't find any IWADs.");
 
     W_Init();
 
@@ -2157,7 +2157,7 @@ static void D_DoomMainSetup(void)
     D_IdentifyVersion();
     D_ProcessDehInWad();
 
-    if (!M_StringCompare(s_VERSION, PACKAGE_NAMEANDVERSIONSTRING))
+    if (!M_StringCompare(s_VERSION, DOOMRETRO_NAMEANDVERSIONSTRING))
         I_Error("The wrong version of %s was found.", packagewad);
 
     D_SetGameDescription();

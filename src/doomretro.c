@@ -202,14 +202,14 @@ int main(int argc, char **argv)
         memcpy(myargv, argv, sizeof(myargv[0]) * myargc);
 
 #if defined(_WIN32)
-    hInstanceMutex = CreateMutex(NULL, true, PACKAGE_MUTEX);
+    hInstanceMutex = CreateMutex(NULL, true, DOOMRETRO_MUTEX);
 
     if (GetLastError() == ERROR_ALREADY_EXISTS)
     {
         if (hInstanceMutex)
             CloseHandle(hInstanceMutex);
 
-        SetForegroundWindow(FindWindow(PACKAGE_MUTEX, NULL));
+        SetForegroundWindow(FindWindow(DOOMRETRO_MUTEX, NULL));
         return 1;
     }
 

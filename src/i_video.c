@@ -1467,7 +1467,7 @@ static void SetVideoMode(dboolean createwindow, dboolean output)
             if (!width || !height)
                 I_Error("Graphics couldn't be initialized.");
 
-            if (createwindow && !(window = SDL_CreateWindow(PACKAGE_NAME, SDL_WINDOWPOS_UNDEFINED_DISPLAY(displayindex),
+            if (createwindow && !(window = SDL_CreateWindow(DOOMRETRO_NAME, SDL_WINDOWPOS_UNDEFINED_DISPLAY(displayindex),
                 SDL_WINDOWPOS_UNDEFINED_DISPLAY(displayindex), width, height,
                 (windowflags | (vid_borderlesswindow ? SDL_WINDOW_FULLSCREEN_DESKTOP : SDL_WINDOW_FULLSCREEN)))))
                 I_SDLError(SDL_CreateWindow);
@@ -1489,7 +1489,7 @@ static void SetVideoMode(dboolean createwindow, dboolean output)
             width = screenwidth;
             height = screenheight;
 
-            if (createwindow && !(window = SDL_CreateWindow(PACKAGE_NAME, SDL_WINDOWPOS_UNDEFINED_DISPLAY(displayindex),
+            if (createwindow && !(window = SDL_CreateWindow(DOOMRETRO_NAME, SDL_WINDOWPOS_UNDEFINED_DISPLAY(displayindex),
                 SDL_WINDOWPOS_UNDEFINED_DISPLAY(displayindex), width, height,
                 (windowflags | (vid_borderlesswindow ? SDL_WINDOW_FULLSCREEN_DESKTOP : SDL_WINDOW_FULLSCREEN)))))
                 I_SDLError(SDL_CreateWindow);
@@ -1520,7 +1520,7 @@ static void SetVideoMode(dboolean createwindow, dboolean output)
 
         if (!windowx && !windowy)
         {
-            if (createwindow && !(window = SDL_CreateWindow(PACKAGE_NAME, SDL_WINDOWPOS_CENTERED_DISPLAY(displayindex),
+            if (createwindow && !(window = SDL_CreateWindow(DOOMRETRO_NAME, SDL_WINDOWPOS_CENTERED_DISPLAY(displayindex),
                 SDL_WINDOWPOS_CENTERED_DISPLAY(displayindex), width, height, windowflags)))
                 I_SDLError(SDL_CreateWindow);
 
@@ -1537,7 +1537,7 @@ static void SetVideoMode(dboolean createwindow, dboolean output)
         }
         else
         {
-            if (createwindow && !(window = SDL_CreateWindow(PACKAGE_NAME, windowx, windowy, width, height, windowflags)))
+            if (createwindow && !(window = SDL_CreateWindow(DOOMRETRO_NAME, windowx, windowy, width, height, windowflags)))
                 I_SDLError(SDL_CreateWindow);
 
             if (output)
@@ -1619,7 +1619,7 @@ static void SetVideoMode(dboolean createwindow, dboolean output)
 
             if (major * 10 + minor < 21)
             {
-                C_Warning(1, ITALICS(PACKAGE_NAME "") " requires at least " ITALICS("OpenGL v2.1."));
+                C_Warning(1, ITALICS(DOOMRETRO_NAME "") " requires at least " ITALICS("OpenGL v2.1."));
 
 #if defined(_WIN32)
                 vid_scaleapi = vid_scaleapi_direct3d;
@@ -2005,11 +2005,11 @@ void I_InitGraphics(void)
 
     if (linked.major != compiled.major || linked.minor != compiled.minor)
         I_Error("The wrong version of %s was found. %s requires v%i.%i.%i.",
-            SDL_FILENAME, PACKAGE_NAME, compiled.major, compiled.minor, compiled.patch);
+            SDL_FILENAME, DOOMRETRO_NAME, compiled.major, compiled.minor, compiled.patch);
 
     if (linked.patch != compiled.patch)
         C_Warning(1, "The wrong version of " BOLD("%s") " was found. " ITALICS("%s") " requires v%i.%i.%i.",
-            SDL_FILENAME, PACKAGE_NAME, compiled.major, compiled.minor, compiled.patch);
+            SDL_FILENAME, DOOMRETRO_NAME, compiled.major, compiled.minor, compiled.patch);
 
     performancefrequency = SDL_GetPerformanceFrequency();
 
@@ -2060,7 +2060,7 @@ void I_InitGraphics(void)
     I_InitWindows32();
 #endif
 
-    SDL_SetWindowTitle(window, PACKAGE_NAME);
+    SDL_SetWindowTitle(window, DOOMRETRO_NAME);
 
     I_UpdateBlitFunc(false);
     memset(screens[0], nearestblack, SCREENAREA);

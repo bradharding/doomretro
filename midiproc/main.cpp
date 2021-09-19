@@ -114,13 +114,13 @@ static boolean Sentinel_FindPID(const std::vector<DWORD> &ndwPIDs, HANDLE &pHand
             if (GetProcessImageFileNameA(chProcess.handle, szProcessImage, sizeof(szProcessImage)))
             {
                 const size_t    imageLength = strlen(szProcessImage);
-                const size_t    filenameLength = strlen(PACKAGE_FILENAME);
+                const size_t    filenameLength = strlen(DOOMRETRO_FILENAME);
 
                 if (imageLength < filenameLength)
                     continue;
 
                 // Lop off the start of szProcessImage
-                if (!_strnicmp(szProcessImage + imageLength - filenameLength, PACKAGE_FILENAME, filenameLength))
+                if (!_strnicmp(szProcessImage + imageLength - filenameLength, DOOMRETRO_FILENAME, filenameLength))
                 {
                     pHandle = chProcess.handle;
                     chProcess.handle = nullptr;     // Abuse AutoHandle's destructor behavior
@@ -150,7 +150,7 @@ void Sentinel_Main()
 
     if (!Sentinel_FindPID(ndwPIDs, pHandle, numValidPIDs))
     {
-        MessageBox(NULL, TEXT(PACKAGE_FILENAME " is not running."), TEXT("midiproc.exe"), MB_ICONERROR);
+        MessageBox(NULL, TEXT(DOOMRETRO_FILENAME " is not running."), TEXT("midiproc.exe"), MB_ICONERROR);
         sentinel_running = false;
         exit(-1);
     }

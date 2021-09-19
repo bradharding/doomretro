@@ -990,7 +990,7 @@ static void M_CheckCVARs(dboolean ispackageconfig)
 //
 void M_LoadCVARs(char *filename)
 {
-    dboolean    ispackageconfig = M_StringEndsWith(filename, PACKAGE_CONFIG);
+    dboolean    ispackageconfig = M_StringEndsWith(filename, DOOMRETRO_CONFIG);
     int         bindcount = 0;
     int         cvarcount = 0;
     int         statcount = 0;

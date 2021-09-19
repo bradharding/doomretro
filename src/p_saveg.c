@@ -90,7 +90,7 @@ char *P_SaveGameFile(int slot)
         filename = malloc(filename_size);
     }
 
-    M_snprintf(basename, sizeof(basename), PACKAGE_SAVE, slot);
+    M_snprintf(basename, sizeof(basename), DOOMRETRO_SAVE, slot);
     M_snprintf(filename, filename_size, "%s%s", savegamefolder, basename);
 
     return filename;
@@ -991,7 +991,7 @@ void P_WriteSaveGameHeader(char *description)
         saveg_write8(0);
 
     memset(name, 0, sizeof(name));
-    strcpy(name, PACKAGE_SAVEGAMEVERSIONSTRING);
+    strcpy(name, DOOMRETRO_SAVEGAMEVERSIONSTRING);
 
     for (i = 0; i < VERSIONSIZE; i++)
         saveg_write8(name[i]);
@@ -1028,14 +1028,14 @@ dboolean P_ReadSaveGameHeader(char *description)
         read_vcheck[i] = saveg_read8();
 
     memset(vcheck, 0, sizeof(vcheck));
-    strcpy(vcheck, PACKAGE_SAVEGAMEVERSIONSTRING);
+    strcpy(vcheck, DOOMRETRO_SAVEGAMEVERSIONSTRING);
 
     if (!M_StringCompare(read_vcheck, vcheck))
     {
         menuactive = false;
         quickSaveSlot = -1;
         C_ShowConsole();
-        C_Warning(1, "This savegame is incompatible with " ITALICS(PACKAGE_NAMEANDVERSIONSTRING "."));
+        C_Warning(1, "This savegame is incompatible with " ITALICS(DOOMRETRO_NAMEANDVERSIONSTRING "."));
 
         return false;   // bad version
     }
