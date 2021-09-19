@@ -1783,12 +1783,13 @@ static void AM_DrawPlayer(void)
         { {  18357, -12273 }, {  23203, -10070 } }
     };
 
-    const int   invisibility = viewplayer->powers[pw_invisibility];
-    mpoint_t    point;
-    angle_t     angle;
+    const mobj_t    *mo = viewplayer->mo;
+    const int       invisibility = viewplayer->powers[pw_invisibility];
+    mpoint_t        point;
+    angle_t         angle;
 
-    point.x = viewplayer->mo->x >> FRACTOMAPBITS;
-    point.y = viewplayer->mo->y >> FRACTOMAPBITS;
+    point.x = mo->x >> FRACTOMAPBITS;
+    point.y = mo->y >> FRACTOMAPBITS;
 
     if (am_rotatemode)
     {
@@ -1822,7 +1823,7 @@ static void AM_DrawThings(void)
         { { -32768,  45875 }, { -32768, -45875 } }
     };
 
-    angle_t angleoffset = (am_rotatemode ? viewplayer->mo->angle - ANG90 : 0);
+    angle_t angleoffset = (am_rotatemode ? viewangle - ANG90 : 0);
 
     for (int i = 0; i < numsectors; i++)
     {
@@ -2076,7 +2077,7 @@ static void AM_SetFrameVariables(void)
 
     if (am_rotatemode || (menuactive && !inhelpscreens))
     {
-        const int       angle = (ANG90 - viewplayer->mo->angle) >> ANGLETOFINESHIFT;
+        const int       angle = (ANG90 - viewangle) >> ANGLETOFINESHIFT;
         const fixed_t   r = (fixed_t)sqrt((double)dx * dx + (double)dy * dy);
 
         am_frame.sin = finesine[angle];
