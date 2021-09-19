@@ -1803,7 +1803,7 @@ static void condump_cmd_func2(char *cmd, char *parms)
 //
 static void cvarlist_cmd_func2(char *cmd, char *parms)
 {
-    const int   tabs[3] = { 40, 209, 318 };
+    const int   tabs[3] = { 40, 209, 328 };
     int         count = 0;
 
     for (int i = 0; *consolecmds[i].name; i++)
@@ -1894,8 +1894,8 @@ static void cvarlist_cmd_func2(char *cmd, char *parms)
             else if (consolecmds[i].flags & CF_STRING)
                 C_TabbedOutput(tabs, "%i.\t" BOLD("%s\t%s%.14s%s%s") "\t%s", count, consolecmds[i].name,
                     (M_StringCompare(consolecmds[i].name, stringize(version)) ? "" : "\""), *(char **)consolecmds[i].variable,
-                    (M_StringCompare(consolecmds[i].name, stringize(version)) ? "" : "\""),
-                    (strlen(*(char **)consolecmds[i].variable) > 14 ? "..." : ""), consolecmds[i].description);
+                    (strlen(*(char **)consolecmds[i].variable) > 14 ? "..." : ""),
+                    (M_StringCompare(consolecmds[i].name, stringize(version)) ? "" : "\""), consolecmds[i].description);
             else if (consolecmds[i].flags & CF_TIME)
             {
                 const int   tics = *(int *)consolecmds[i].variable / TICRATE;
