@@ -2065,11 +2065,11 @@ static void PIT_ChangeSector(mobj_t *thing)
                 thing->height = 0;
                 thing->radius = 0;
                 thing->shadowoffset = 0;
+
+                S_StartSound(thing, sfx_slop);
             }
             else
                 P_RemoveMobj(thing);
-
-            S_StartSound(thing, sfx_slop);
         }
 
         // keep checking
