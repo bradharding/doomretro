@@ -2,8 +2,9 @@
 
 #### DOOM Retro v4.2.4
 
+* Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Minor changes have been made to text that is output to the console.
-* Rotation in the automap is now smoother when the `am_rotate` CVAR is `on`.
+* Rotating the automap is now smoother when the `am_rotate` CVAR is `on`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

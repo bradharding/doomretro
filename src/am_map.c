@@ -1786,16 +1786,13 @@ static void AM_DrawPlayer(void)
     const mobj_t    *mo = viewplayer->mo;
     const int       invisibility = viewplayer->powers[pw_invisibility];
     mpoint_t        point;
-    angle_t         angle;
+    angle_t         angle = ANG90;
 
     point.x = mo->x >> FRACTOMAPBITS;
     point.y = mo->y >> FRACTOMAPBITS;
 
     if (am_rotatemode)
-    {
         AM_RotatePoint(&point);
-        angle = ANG90;
-    }
     else
         angle = viewangle;
 
@@ -1851,7 +1848,6 @@ static void AM_DrawThings(void)
                 if ((!thing->player || thing->player->mo != thing) && !(thing->flags2 & MF2_DONTMAP))
                 {
                     mpoint_t    point;
-                    angle_t     angle = thing->angle;
                     int         fx, fy;
                     const short lump = sprites[thing->sprite].spriteframes[0].lump[0];
                     const int   width = (BETWEEN(12 << FRACBITS, MIN(spritewidth[lump], spriteheight[lump]),
@@ -1875,7 +1871,7 @@ static void AM_DrawThings(void)
                     fy = CYMTOF(point.y);
 
                     if (fx >= -width && fx <= MAPWIDTH + width && fy >= -width && fy <= (int)MAPHEIGHT + width)
-                        AM_DrawThingTriangle(thingtriangle, THINGTRIANGLELINES, width, angle - angleoffset, point.x, point.y);
+                        AM_DrawThingTriangle(thingtriangle, THINGTRIANGLELINES, width, thing->angle - angleoffset, point.x, point.y);
                 }
 
                 thing = thing->snext;
