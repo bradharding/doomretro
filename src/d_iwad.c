@@ -177,6 +177,22 @@ static const char *root_path_subdirs[] =
     "base\\wads"
 };
 
+// Location where the Bethesda.net Launcher is installed
+static registryvalue_t bethesda_install_location =
+{
+    HKEY_LOCAL_MACHINE, SOFTWARE_KEY "\\Bethesda Softworks\\Bethesda.net", "installLocation"
+};
+
+// Subdirs of the Bethesda.net Launcher install directory where IWADs are found
+static const char *bethesda_install_subdirs[] =
+{
+    "DOOM_Classic_2019\\base",
+    "DOOM_Classic_2019\\rerelease\\DOOM_Data\\StreamingAssets",
+    "DOOM_II_Classic_2019\\base",
+    "DOOM_II_Classic_2019\\rerelease\\DOOM II_Data\\StreamingAssets",
+    "DOOM 3 BFG Edition\\base\\wads"
+};
+
 // Locations where Steam is installed
 static registryvalue_t steam_install_locations[] =
 {
@@ -271,6 +287,24 @@ static void CheckInstallRootPaths(void)
 
         free(install_path);
     }
+}
+
+// Check for DOOM downloaded via the Bethesda.net Launcher
+static void CheckBethesdaEdition(void)
+{
+    char    *install_path = GetRegistryString(&bethesda_install_location);
+
+    if (!install_path)
+        return;
+
+    for (size_t j = 0; j < arrlen(bethesda_install_subdirs); j++)
+    {
+        char    *path = M_StringJoin(install_path, DIR_SEPARATOR_S, bethesda_install_subdirs[j], NULL);
+
+        AddIWADDir(path);
+    }
+
+    free(install_path);
 }
 
 // Check for DOOM downloaded via Steam
@@ -577,6 +611,7 @@ static void BuildIWADDirList(void)
 
 #if defined(_WIN32)
     // Search the registry and find where IWADs have been installed.
+    CheckBethesdaEdition();
     CheckSteamEdition();
     CheckInstallRootPaths();
     CheckUninstallStrings();
