@@ -2041,6 +2041,7 @@ static void PIT_ChangeSector(mobj_t *thing)
             int y = thing->y;
             int blood = mobjinfo[thing->blood].blood;
             int floorz = thing->floorz;
+            int type = thing->type;
 
             for (int i = 0; i < max; i++)
             {
@@ -2050,27 +2051,27 @@ static void PIT_ChangeSector(mobj_t *thing)
                     y + FixedMul(M_RandomInt(0, radius) << FRACBITS, finesine[angle]), blood, floorz, NULL);
             }
 
-            if (thing->blood)
-            {
-                int type = thing->type;
+            P_SetMobjState(thing, S_GIBS);
 
-                P_SetMobjState(thing, S_GIBS);
+            if (thing->blood == MT_BLUEBLOOD)
+                thing->colfunc = redtobluecolfunc;
+            else if (thing->blood == MT_GREENBLOOD)
+                thing->colfunc = redtogreencolfunc;
 
-                thing->flags &= ~MF_SOLID;
+            thing->flags &= ~MF_SOLID;
 
-                if (r_corpses_mirrored && type != MT_CHAINGUY && type != MT_CYBORG
-                    && (type != MT_PAIN || !doom4vanilla) && (M_Random() & 1))
-                    thing->flags2 |= MF2_MIRRORED;
+            if (r_corpses_mirrored && type != MT_CHAINGUY && type != MT_CYBORG
+                && (type != MT_PAIN || !doom4vanilla) && (M_Random() & 1))
+                thing->flags2 |= MF2_MIRRORED;
 
-                thing->height = 0;
-                thing->radius = 0;
-                thing->shadowoffset = 0;
-            }
-            else
-                P_RemoveMobj(thing);
+            thing->height = 0;
+            thing->radius = 0;
+            thing->shadowoffset = 0;
 
             S_StartSound(thing, sfx_slop);
         }
+        else
+            P_RemoveMobj(thing);
 
         // keep checking
         return;

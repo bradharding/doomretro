@@ -3,10 +3,10 @@
 #### DOOM Retro v4.2.4
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
-* When *DOOM Retro* is run for the first time, the WAD launcher will now look for installations of *The Ultimate DOOM* and *DOOM II: Hell On Earth* downloaded using the [*Bethesda.net Launcher*](https://bethesda.net/en/game/bethesda-launcher).
+* When *DOOM Retro* is run for the first time, the WAD launcher will now look for installations of *The Ultimate DOOM* and *DOOM II: Hell On Earth* purchased and downloaded using the [*Bethesda.net Launcher*](https://bethesda.net/en/game/bethesda-launcher).
 * Minor changes have been made to text that is output to the console.
 * Rotating the automap is now smoother when the `am_rotate` CVAR is `on`.
-* The corpses of barons of hell and hell knights will now leave gibs when crushed by a lowering ceiling.
+* Cacodemons, barons of hell and hell knights will now leave gibs when crushed by a lowering ceiling.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
