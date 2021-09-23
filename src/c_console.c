@@ -1130,7 +1130,8 @@ static void C_DrawTimeStamp(int x, int y, int index)
         int     width = SHORT(patch->width);
 
         x -= (ch != ':' ? zerowidth : width);
-        V_DrawConsoleOutputTextPatch(x + (i && ch == '1'), y, patch, width, consoletimestampcolor, NOBACKGROUNDCOLOR, false, tinttab33);
+        V_DrawConsoleOutputTextPatch(x + (ch == '1') - (ch == '4'), y, patch,
+            width, consoletimestampcolor, NOBACKGROUNDCOLOR, false, tinttab33);
     }
 }
 
