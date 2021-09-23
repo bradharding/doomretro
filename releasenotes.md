@@ -7,6 +7,7 @@
 * Minor changes have been made to text that is output to the console.
 * Rotating the automap is now smoother when the `am_rotate` CVAR is `on`.
 * Cacodemons, barons of hell and hell knights will now leave gibs when crushed by a lowering ceiling.
+* The title in the automap has been moved slightly in some instances.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
