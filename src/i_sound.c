@@ -278,12 +278,12 @@ dboolean CacheSFX(sfxinfo_t *sfxinfo)
     int     lumpnum = sfxinfo->lumpnum;
     byte    *data = W_CacheLumpNum(lumpnum);
     int     lumplen = W_LumpLength(lumpnum);
-    int     samplerate;
-    int     bits = 8;
 
     // Check the header, and ensure this is a valid sound
     if (lumplen > 44 && !memcmp(data, "RIFF", 4) && !memcmp(data + 8, "WAVEfmt ", 8))
     {
+        int bits = (data[34] | (data[35] << 8));
+
         // Chunk size must be 16
         if ((data[16] | (data[17] << 8) | (data[18] << 16) | (data[19] << 24)) != 16)
             return false;
@@ -297,22 +297,18 @@ dboolean CacheSFX(sfxinfo_t *sfxinfo)
             return false;
 
         // Must be 8 or 16-bit
-        if ((bits = (data[34] | (data[35] << 8))) != 8 && bits != 16)
+        if (bits != 8 && bits != 16)
             return false;
 
-        samplerate = (data[24] | (data[25] << 8) | (data[26] << 16) | (data[27] << 24));
-
-        ExpandSoundData(sfxinfo, data + 44, samplerate, bits, lumplen - 44);
+        ExpandSoundData(sfxinfo, data + 44, (data[24] | (data[25] << 8) | (data[26] << 16) | (data[27] << 24)), bits, lumplen - 44);
         return true;
     }
     else if (lumplen >= 8 && data[0] == 0x03 && data[1] == 0x00)
     {
         int length = (data[4] | (data[5] << 8) | (data[6] << 16) | (data[7] << 24));
 
-        samplerate = (data[2] | (data[3] << 8));
-
         // If the header specifies that the length of the sound is greater than the length of the lump
-        // itself, this is an invalid sound lump
+        // itself, this is an invalid sound lump.
 
         // We also discard sound lumps that are less than 49 samples long, as this is how DMX behaves -
         // although the actual cut-off length seems to vary slightly depending on the sample rate. This
@@ -320,7 +316,7 @@ dboolean CacheSFX(sfxinfo_t *sfxinfo)
         if (length > lumplen - 8 || length <= 48)
             return false;
 
-        ExpandSoundData(sfxinfo, data + 24, samplerate, bits, length - 32);
+        ExpandSoundData(sfxinfo, data + 24, (data[2] | (data[3] << 8)), 8, length - 32);
         return true;
     }
     else
