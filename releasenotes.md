@@ -8,7 +8,7 @@
 * Rotating the automap is now smoother when the `am_rotate` CVAR is `on`.
 * Cacodemons, barons of hell and hell knights will now leave gibs when crushed by a lowering ceiling.
 * The title in the automap has been moved slightly in some instances.
-* A bug has been fixed whereby monsters could get stuck on the edge of lifts in some instances.
+* A bug has been fixed whereby monsters could sometimes get stuck on the edge of lifts.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
