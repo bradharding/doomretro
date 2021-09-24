@@ -278,30 +278,43 @@ dboolean CacheSFX(sfxinfo_t *sfxinfo)
     int     lumpnum = sfxinfo->lumpnum;
     byte    *data = W_CacheLumpNum(lumpnum);
     int     lumplen = W_LumpLength(lumpnum);
+    uint8_t *wav_buffer = NULL;
 
     // Check the header, and ensure this is a valid sound
     if (lumplen > 44 && !memcmp(data, "RIFF", 4) && !memcmp(data + 8, "WAVEfmt ", 8))
     {
-        int bits = (data[34] | (data[35] << 8));
+        SDL_RWops       *RWops = SDL_RWFromMem(data, lumplen);
+        SDL_AudioSpec   wav_spec;
+        uint32_t        samplelen;
+        int             bits;
 
-        // Chunk size must be 16
-        if ((data[16] | (data[17] << 8) | (data[18] << 16) | (data[19] << 24)) != 16)
+        if (!SDL_LoadWAV_RW(RWops, 1, &wav_spec, &wav_buffer, &samplelen))
             return false;
+        else
+        {
+            if (wav_spec.channels != 1)
+            {
+                SDL_FreeWAV(wav_buffer);
+                return false;
+            }
 
-        // Format must be 1 (PCM)
-        if ((data[20] | (data[21] << 8)) != 1)
-            return false;
+            if (SDL_AUDIO_ISINT(wav_spec.format))
+            {
+                if ((bits = SDL_AUDIO_BITSIZE(wav_spec.format)) != 8 && bits != 16)
+                {
+                    SDL_FreeWAV(wav_buffer);
+                    return false;
+                }
+            }
+            else
+            {
+                SDL_FreeWAV(wav_buffer);
+                return false;
+            }
 
-        // Number of channels must be 1
-        if ((data[22] | (data[23] << 8)) != 1)
-            return false;
-
-        // Must be 8 or 16-bit
-        if (bits != 8 && bits != 16)
-            return false;
-
-        ExpandSoundData(sfxinfo, data + 44, (data[24] | (data[25] << 8) | (data[26] << 16) | (data[27] << 24)), bits, lumplen - 44);
-        return true;
+            ExpandSoundData(sfxinfo, wav_buffer, wav_spec.freq, bits, samplelen);
+            return true;
+        }
     }
     else if (lumplen >= 8 && data[0] == 0x03 && data[1] == 0x00)
     {
