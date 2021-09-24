@@ -280,7 +280,6 @@ dboolean CacheSFX(sfxinfo_t *sfxinfo)
     int     lumplen = W_LumpLength(lumpnum);
     int     samplerate;
     int     bits = 8;
-    int     length;
 
     // Check the header, and ensure this is a valid sound
     if (lumplen > 44 && !memcmp(data, "RIFF", 4) && !memcmp(data + 8, "WAVEfmt ", 8))
@@ -302,15 +301,15 @@ dboolean CacheSFX(sfxinfo_t *sfxinfo)
             return false;
 
         samplerate = (data[24] | (data[25] << 8) | (data[26] << 16) | (data[27] << 24));
-        length = MIN((data[40] | (data[41] << 8) | (data[42] << 16) | (data[43] << 24)), lumplen - 44);
 
-        ExpandSoundData(sfxinfo, data + 44, samplerate, bits, length);
+        ExpandSoundData(sfxinfo, data + 44, samplerate, bits, lumplen - 44);
         return true;
     }
     else if (lumplen >= 8 && data[0] == 0x03 && data[1] == 0x00)
     {
+        int length = (data[4] | (data[5] << 8) | (data[6] << 16) | (data[7] << 24));
+
         samplerate = (data[2] | (data[3] << 8));
-        length = (data[4] | (data[5] << 8) | (data[6] << 16) | (data[7] << 24));
 
         // If the header specifies that the length of the sound is greater than the length of the lump
         // itself, this is an invalid sound lump

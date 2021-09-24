@@ -6,6 +6,7 @@
 * When *DOOM Retro* is run for the first time, the WAD launcher will now look for installations of *The Ultimate DOOM* and *DOOM II: Hell On Earth* purchased and downloaded using the [*Bethesda.net Launcher*](https://bethesda.net/en/game/bethesda-launcher).
 * Minor changes have been made to text that is output to the console.
 * Rotating the automap is now smoother when the `am_rotate` CVAR is `on`.
+* A bug has been fixed whereby some sound effect lumps in the [WAV format](https://en.wikipedia.org/wiki/WAV) wouldn’t play at all.
 * Cacodemons, barons of hell and hell knights will now leave gibs when crushed by a lowering ceiling.
 * The title in the automap has been moved slightly in some instances.
 * A bug has been fixed whereby monsters could sometimes get stuck on the edge of lifts.
