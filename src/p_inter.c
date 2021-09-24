@@ -2345,8 +2345,6 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
             {
                 if (type == MT_BARREL || (type == MT_PAIN && !doom4vanilla) || type == MT_SKULL)
                     target->colfunc = tlredcolfunc;
-                else if (info->blood == MT_BLUEBLOOD)
-                    target->colfunc = redtobluecolfunc;
                 else if (info->blood == MT_GREENBLOOD)
                     target->colfunc = redtogreencolfunc;
             }
