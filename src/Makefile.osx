@@ -36,10 +36,10 @@
 #========================================================================
 #
 
-# [sneakernets] For macOS 32-bit and 64-bit
-OPTIMIZE = -O2 -m32
-CFLAGS = $(OPTIMIZE) -g `sdl-config --cflags` $(INCLUDES)
-LDFLAGS = -g `sdl-config --libs` -lSDL_mixer -lSDL2_image -framework CoreFoundation
+# [sneakernets] For macOS 64-bit
+OPTIMIZE = -O2 -m64
+CFLAGS = $(OPTIMIZE) $(INCLUDES) -ObjC -I/usr/local/include/SDL2
+LDFLAGS = -lSDL2 -lSDL2_mixer -lSDL2_image -lm -framework Foundation -framework Cocoa
 
 SRCS := $(shell find . -name '*.c')
 
