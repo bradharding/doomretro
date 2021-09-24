@@ -2341,13 +2341,8 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
 
         if (target->health <= 0)
         {
-            if (!(flags & MF_FUZZ))
-            {
-                if (type == MT_BARREL || (type == MT_PAIN && !doom4vanilla) || type == MT_SKULL)
-                    target->colfunc = tlredcolfunc;
-                else if (info->blood == MT_GREENBLOOD)
-                    target->colfunc = redtogreencolfunc;
-            }
+            if (!(flags & MF_FUZZ) && (type == MT_BARREL || (type == MT_PAIN && !doom4vanilla) || type == MT_SKULL))
+                target->colfunc = tlredcolfunc;
 
             // [crispy] the lethal pellet of a point-blank SSG blast
             // gets an extra damage boost for the occasional gib chance
