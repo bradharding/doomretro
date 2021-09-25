@@ -1781,9 +1781,14 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
                 if (M_StringCompare(playername, playername_default))
                 {
                     if (target->player)
-                        C_PlayerObituary("You %s yourself with your own %s.",
-                            (gibbed ? "gibbed" : "killed"),
-                            weaponinfo[readyweapon].name);
+                    {
+                        if (healthcvar)
+                            C_PlayerObituary("You killed yourself.");
+                        else
+                            C_PlayerObituary("You %s yourself with your own %s.",
+                                (gibbed ? "gibbed" : "killed"),
+                                weaponinfo[readyweapon].name);
+                    }
                     else
                     {
                         char    targetname[33];
@@ -1814,12 +1819,17 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
                 {
                     if (target->player)
                     {
-                        C_PlayerObituary("%s %s %sself with %s own %s.",
-                            playername,
-                            (gibbed ? "gibbed" : "killed"),
-                            (playergender == playergender_male ? "him" : (playergender == playergender_female ? "her" : "them")),
-                            (playergender == playergender_male ? "his" : (playergender == playergender_female ? "her" : "their")),
-                            weaponinfo[readyweapon].name);
+                        if (healthcvar)
+                            C_PlayerObituary("%s killed %sself.",
+                                playername,
+                                (playergender == playergender_male ? "him" : (playergender == playergender_female ? "her" : "them")));
+                        else
+                            C_PlayerObituary("%s %s %sself with %s own %s.",
+                                playername,
+                                (gibbed ? "gibbed" : "killed"),
+                                (playergender == playergender_male ? "him" : (playergender == playergender_female ? "her" : "them")),
+                                (playergender == playergender_male ? "his" : (playergender == playergender_female ? "her" : "their")),
+                                weaponinfo[readyweapon].name);
                     }
                     else
                     {
@@ -1960,15 +1970,6 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
                 if ((floorpic >= RROCK05 && floorpic <= RROCK08) || (floorpic >= SLIME09 && floorpic <= SLIME12))
                     C_PlayerObituary("%s died on molten rock.",
                         (M_StringCompare(playername, playername_default) ? "You" : playername));
-                else if (healthcvar)
-                {
-                    if (M_StringCompare(playername, playername_default))
-                        C_PlayerObituary("You killed yourself.");
-                    else
-                        C_PlayerObituary("%s killed %sself.",
-                            playername,
-                            (playergender == playergender_male ? "him" : (playergender == playergender_female ? "her" : "them")));
-                }
                 else
                 {
                     if (M_StringCompare(playername, playername_default))
