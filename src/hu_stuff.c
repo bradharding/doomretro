@@ -90,8 +90,8 @@ int                     message_counter;
 
 static dboolean         headsupactive;
 
-static patch_t          *minuspatch;
-static short            minuspatchwidth;
+patch_t                 *minuspatch = NULL;
+short                   minuspatchwidth;
 static int              minuspatchy;
 static patch_t          *greenarmorpatch;
 static patch_t          *bluearmorpatch;

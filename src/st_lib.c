@@ -37,6 +37,7 @@
 */
 
 #include "doomstat.h"
+#include "hu_stuff.h"
 #include "i_swap.h"
 #include "m_config.h"
 #include "st_lib.h"
@@ -120,7 +121,7 @@ static void STlib_DrawHighNum(int number, int color, int shadow, int x, int y, p
 
 void STlib_UpdateBigNum(st_number_t *n)
 {
-    int num = MAX(0, *n->num);
+    int num = ABS(*n->num);
 
     // if non-number, do not draw it
     if (num == 1994)
@@ -145,6 +146,10 @@ void STlib_UpdateBigNum(st_number_t *n)
                 num /= 10;
             }
         }
+
+        // draw a minus sign if necessary
+        if (*n->num < 0 && minuspatch)
+            V_DrawPatch(x - minuspatchwidth, n->y, 0, minuspatch);
     }
 }
 

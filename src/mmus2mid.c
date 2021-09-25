@@ -164,7 +164,7 @@ static void TWriteByte(MIDI *mididata, int MIDItrack, unsigned char byte)
 //
 static void TWriteVarLen(MIDI *mididata, int MIDItrack, uint32_t value)
 {
-    uint32_t    buffer = value & 0x7F;
+    uint32_t    buffer = (value & 0x7F);
 
     while ((value >>= 7))               // terminates because value unsigned
     {
@@ -583,8 +583,8 @@ void MIDIToMidi(const MIDI *mididata, uint8_t **mid, int *midlen)
     // fill in number of tracks and big endian divisions (tics/qnote)
     midihdr[10] = 0;
     midihdr[11] = ntrks;                                                        // set number of tracks in header
-    midihdr[12] = (mididata->divisions >> 8) & 0x7F;
-    midihdr[13] = mididata->divisions & 0xFF;
+    midihdr[12] = ((mididata->divisions >> 8) & 0x7F);
+    midihdr[13] = (mididata->divisions & 0xFF);
 
     // write the midi header
     midiptr = *mid;
