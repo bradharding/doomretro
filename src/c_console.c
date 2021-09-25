@@ -2307,19 +2307,8 @@ void C_PrintCompileDate(void)
 
 void C_PrintSDLVersions(void)
 {
-    const int   revision = SDL_GetRevisionNumber();
-
-    if (revision)
-    {
-        char    *temp = commify(revision);
-
-        C_Output("Using v%i.%i.%i (revision %s) of the " ITALICS("SDL (Simple DirectMedia Layer)") " library.",
-            SDL_MAJOR_VERSION, SDL_MINOR_VERSION, SDL_PATCHLEVEL, temp);
-        free(temp);
-    }
-    else
-        C_Output("Using v%i.%i.%i of the " ITALICS("SDL (Simple DirectMedia Layer)") " library.",
-            SDL_MAJOR_VERSION, SDL_MINOR_VERSION, SDL_PATCHLEVEL);
+    C_Output("Using v%i.%i.%i of the " ITALICS("SDL (Simple DirectMedia Layer)") " library.",
+        SDL_MAJOR_VERSION, SDL_MINOR_VERSION, SDL_PATCHLEVEL);
 
     C_Output("Using v%i.%i.%i of the " ITALICS("SDL_mixer") " library and v%i.%i.%i of the " ITALICS("SDL_image") " library.",
         SDL_MIXER_MAJOR_VERSION, SDL_MIXER_MINOR_VERSION, SDL_MIXER_PATCHLEVEL,
