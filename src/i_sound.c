@@ -278,41 +278,41 @@ dboolean CacheSFX(sfxinfo_t *sfxinfo)
     int     lumpnum = sfxinfo->lumpnum;
     byte    *data = W_CacheLumpNum(lumpnum);
     int     lumplen = W_LumpLength(lumpnum);
-    uint8_t *wav_buffer = NULL;
 
     // Check the header, and ensure this is a valid sound
     if (lumplen > 44 && !memcmp(data, "RIFF", 4) && !memcmp(data + 8, "WAVEfmt ", 8))
     {
-        SDL_RWops       *RWops = SDL_RWFromMem(data, lumplen);
-        SDL_AudioSpec   wav_spec;
-        uint32_t        samplelen;
+        SDL_RWops       *rwops = SDL_RWFromMem(data, lumplen);
+        SDL_AudioSpec   spec;
+        uint8_t         *buffer = NULL;
+        uint32_t        length;
         int             bits;
 
-        if (!SDL_LoadWAV_RW(RWops, 1, &wav_spec, &wav_buffer, &samplelen))
+        if (!SDL_LoadWAV_RW(rwops, 1, &spec, &buffer, &length))
             return false;
         else
         {
-            if (wav_spec.channels != 1)
+            if (spec.channels != 1)
             {
-                SDL_FreeWAV(wav_buffer);
+                SDL_FreeWAV(buffer);
                 return false;
             }
 
-            if (SDL_AUDIO_ISINT(wav_spec.format))
+            if (SDL_AUDIO_ISINT(spec.format))
             {
-                if ((bits = SDL_AUDIO_BITSIZE(wav_spec.format)) != 8 && bits != 16)
+                if ((bits = SDL_AUDIO_BITSIZE(spec.format)) != 8 && bits != 16)
                 {
-                    SDL_FreeWAV(wav_buffer);
+                    SDL_FreeWAV(buffer);
                     return false;
                 }
             }
             else
             {
-                SDL_FreeWAV(wav_buffer);
+                SDL_FreeWAV(buffer);
                 return false;
             }
 
-            ExpandSoundData(sfxinfo, wav_buffer, wav_spec.freq, bits, samplelen);
+            ExpandSoundData(sfxinfo, buffer, spec.freq, bits, length);
             return true;
         }
     }

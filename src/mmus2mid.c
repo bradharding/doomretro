@@ -70,7 +70,7 @@ enum
 #pragma pack(push, 1)
 #endif
 
-struct tagMUSheader
+typedef struct
 {
     char        ID[4];          // identifier "MUS"0x1A
     uint16_t    ScoreLength;    // length of music portion
@@ -78,9 +78,7 @@ struct tagMUSheader
     uint16_t    channels;       // count of primary channels
     uint16_t    SecChannels;    // count of secondary channels
     uint16_t    InstrCnt;       // number of instruments
-};
-
-typedef struct tagMUSheader MUSheader;
+} PACKEDATTR MUSheader;
 
 #if defined(_MSC_VER) || defined(__GNUC__)
 #pragma pack(pop)
