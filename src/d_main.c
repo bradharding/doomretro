@@ -561,6 +561,7 @@ void D_PageDrawer(void)
 {
     if (splashscreen)
     {
+        memset(screens[0], nearestblack, SCREENAREA);
         V_DrawBigPatch((SCREENWIDTH - NONWIDEWIDTH) / 2 + 143, 167, logolump[BETWEEN(0, 94 - logotic, 17)]);
         V_DrawBigPatch((SCREENWIDTH - NONWIDEWIDTH) / 2 + 12, 366, fineprintlump);
         I_SetSimplePalette(&splashpal[pagetic < 9 ? (9 - pagetic) * 768 : (pagetic <= 94 ? 0 : (pagetic - 94) * 768)]);
