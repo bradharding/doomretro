@@ -938,7 +938,7 @@ char *striptrailingzero(float value, int precision)
     return result;
 }
 
-static const long hextable[] =
+static const int hextable[] =
 {
     -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
     -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,

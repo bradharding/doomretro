@@ -163,7 +163,7 @@ void S_Init(void)
 {
     if (M_CheckParm("-nosound"))
     {
-        C_Warning(1, "A " BOLD("-nosound") " parameter was found on the command-line. Both sound effects and music have been disabled.");
+        C_Warning(1, "A " BOLD("-nosound") " parameter was found on the command-line. Both sound effects and music are now muted.");
         nomusic = true;
         nosfx = true;
     }
@@ -171,13 +171,13 @@ void S_Init(void)
     {
         if (M_CheckParm("-nomusic"))
         {
-            C_Warning(1, "A " BOLD("-nomusic") " parameter was found on the command-line. Music has been disabled.");
+            C_Warning(1, "A " BOLD("-nomusic") " parameter was found on the command-line. Music is now muted.");
             nomusic = true;
         }
 
         if (M_CheckParm("-nosfx"))
         {
-            C_Warning(1, "A " BOLD("-nosfx") " parameter was found on the command-line. Sound effects have been disabled.");
+            C_Warning(1, "A " BOLD("-nosfx") " parameter was found on the command-line. Sound effects are now muted.");
             nosfx = true;
         }
     }

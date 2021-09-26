@@ -1527,8 +1527,9 @@ static void ST_InitData(void)
     for (int i = 0; i < NUMWEAPONS; i++)
         oldweaponsowned[i] = viewplayer->weaponowned[i];
 
-    for (int i = 0; i < 3; i++)
-        keyboxes[i] = -1;
+    keyboxes[0] = -1;
+    keyboxes[1] = -1;
+    keyboxes[2] = -1;
 }
 
 static void ST_CreateWidgets(void)
