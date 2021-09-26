@@ -1047,6 +1047,8 @@ static void P_SpawnPlayer(const mapthing_t *mthing)
     viewplayer->psprites[ps_weapon].sx = 0;
     viewplayer->mo->momx = 0;
     viewplayer->mo->momy = 0;
+    viewplayer->mo->bloodsplats = CORPSEBLOODSPLATS;
+    viewplayer->mo->floatbob = M_BigRandom();
     viewplayer->momx = 0;
     viewplayer->momy = 0;
     viewplayer->lookdir = 0;
