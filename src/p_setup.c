@@ -2914,11 +2914,20 @@ void P_SetupLevel(int ep, int map)
     C_AddConsoleDivider();
 
     temp1 = sentencecase(playername);
-    temp2 = titlecase(maptitle);
-    C_PlayerMessage("%s %s " ITALICS("%s") "%s",
-        temp1, (samelevel ? "reentered": "entered"), temp2, (ispunctuation(temp2[strlen(temp2) - 1]) ? "" : "."));
+
+    if (M_StringCompare(maptitle, mapnumandtitle))
+        C_PlayerMessage("%s %s %s.", temp1, (samelevel ? "reentered" : "entered"), maptitle);
+    else
+    {
+        temp2 = titlecase(maptitle);
+
+        C_PlayerMessage("%s %s " ITALICS("%s") "%s",
+            temp1, (samelevel ? "reentered" : "entered"), temp2, (ispunctuation(temp2[strlen(temp2) - 1]) ? "" : "."));
+
+        free(temp2);
+    }
+
     free(temp1);
-    free(temp2);
 
     leveltime = 0;
     animatedliquiddiff = 2 * FRACUNIT;
