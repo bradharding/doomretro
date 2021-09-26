@@ -121,7 +121,6 @@ extern dboolean     r_corpses_color;
 extern dboolean     r_corpses_gib;
 extern dboolean     r_corpses_mirrored;
 extern dboolean     r_corpses_moreblood;
-extern dboolean     r_corpses_nudge;
 extern dboolean     r_corpses_slide;
 extern dboolean     r_corpses_smearblood;
 extern int          r_detail;
@@ -143,6 +142,7 @@ extern dboolean     r_liquid_lowerview;
 extern dboolean     r_liquid_swirl;
 extern char         *r_lowpixelsize;
 extern dboolean     r_mirroredweapons;
+extern dboolean     r_nudge;
 extern dboolean     r_playersprites;
 extern dboolean     r_rockettrails;
 extern int          r_screensize;
@@ -554,8 +554,6 @@ enum
 
 #define r_corpses_moreblood_default             true
 
-#define r_corpses_nudge_default                 true
-
 #define r_corpses_slide_default                 true
 
 #define r_corpses_smearblood_default            true
@@ -601,6 +599,8 @@ enum
 #define r_lowpixelsize_default                  "2x2"
 
 #define r_mirroredweapons_default               false
+
+#define r_nudge_default                         true
 
 #define r_playersprites_default                 true
 

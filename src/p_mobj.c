@@ -59,10 +59,10 @@ dboolean    r_corpses_color = r_corpses_color_default;
 dboolean    r_corpses_gib = r_corpses_gib_default;
 dboolean    r_corpses_mirrored = r_corpses_mirrored_default;
 dboolean    r_corpses_moreblood = r_corpses_moreblood_default;
-dboolean    r_corpses_nudge = r_corpses_nudge_default;
 dboolean    r_corpses_slide = r_corpses_slide_default;
 dboolean    r_corpses_smearblood = r_corpses_smearblood_default;
 dboolean    r_floatbob = r_floatbob_default;
+dboolean    r_nudge = r_nudge_default;
 dboolean    r_rockettrails = r_rockettrails_default;
 dboolean    r_shadows = r_shadows_default;
 
