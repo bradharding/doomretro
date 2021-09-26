@@ -1479,7 +1479,7 @@ char **mapnamesn[] =
 static void lfstrip(char *s);       // strip the \r and/or \n off of a line
 static void rstrip(char *s);        // strip trailing whitespace
 static char *ptr_lstrip(char *p);   // point past leading whitespace
-static int deh_GetData(char *s, char *k, long *l, char **strval);
+static int deh_GetData(char *s, char *k, int *l, char **strval);
 static dboolean deh_procStringSub(char *key, char *lookfor, char *newstring);
 static char *dehReformatStr(char *string);
 
@@ -1607,7 +1607,7 @@ static const char *deh_mobjinfo[DEH_MOBJINFOMAX] =
 struct deh_mobjflags_s
 {
     char    *name;
-    long    value;
+    int     value;
 };
 
 static const struct deh_mobjflags_s deh_mobjflags[] =
@@ -1702,13 +1702,13 @@ static const struct deh_mobjflags_s deh_mobjflags2[] =
 static const char *deh_state[] =
 {
     "Sprite number",    // .sprite (spritenum_t) // an enum
-    "Sprite subnumber", // .frame (long)
-    "Duration",         // .tics (long)
+    "Sprite subnumber", // .frame
+    "Duration",         // .tics
     "Next frame",       // .nextstate (statenum_t)
     // This is set in a separate "Pointer" block from Dehacked
     "Codep Frame",      // pointer to first use of action (actionf_t)
-    "Unknown 1",        // .misc1 (long)
-    "Unknown 2"         // .misc2 (long)
+    "Unknown 1",        // .misc1
+    "Unknown 2"         // .misc2
 };
 
 // SFXINFO_STRUCT - Dehacked block name = "Sounds"
@@ -2088,7 +2088,7 @@ void ProcessDehFile(char *filename, int lumpnum, dboolean automatic)
         dboolean            match = false;
         unsigned int        i;
         static unsigned int last_i = DEH_BLOCKMAX - 1;
-        static long         filepos = 0;
+        static int          filepos = 0;
 
         lfstrip(inbuffer);
 
@@ -2299,7 +2299,7 @@ static void deh_procThing(DEHFILE *fpin, char *line)
 {
     char    key[DEH_MAXKEYLEN];
     char    inbuffer[DEH_BUFFERMAX];
-    long    value;          // All deh values are ints or longs
+    int     value;
     int     indexnum;
     int     ix;
     int     *pix;           // Ptr to int, since all Thing structure entries are ints
@@ -2517,7 +2517,7 @@ static void deh_procFrame(DEHFILE *fpin, char *line)
 {
     char    key[DEH_MAXKEYLEN];
     char    inbuffer[DEH_BUFFERMAX];
-    long    value;                                              // All deh values are ints or longs
+    int     value;
     int     indexnum;
 
     strncpy(inbuffer, line, DEH_BUFFERMAX);
@@ -2563,7 +2563,7 @@ static void deh_procFrame(DEHFILE *fpin, char *line)
             if (devparm)
                 C_Output(" - frame = %ld", value);
 
-            states[indexnum].frame = value;                     // long
+            states[indexnum].frame = value;
             states[indexnum].dehacked = dehacked = !BTSX;
         }
         else if (M_StringCompare(key, deh_state[2]))            // Duration
@@ -2571,7 +2571,7 @@ static void deh_procFrame(DEHFILE *fpin, char *line)
             if (devparm)
                 C_Output(" - tics = %ld", value);
 
-            states[indexnum].tics = value;                      // long
+            states[indexnum].tics = value;
             states[indexnum].dehacked = dehacked = !BTSX;
         }
         else if (M_StringCompare(key, deh_state[3]))            // Next frame
@@ -2589,7 +2589,7 @@ static void deh_procFrame(DEHFILE *fpin, char *line)
             if (devparm)
                 C_Output(" - misc1 = %ld", value);
 
-            states[indexnum].misc1 = value;                     // long
+            states[indexnum].misc1 = value;
             states[indexnum].dehacked = dehacked = !BTSX;
         }
         else if (M_StringCompare(key, deh_state[6]))            // Unknown 2
@@ -2597,7 +2597,7 @@ static void deh_procFrame(DEHFILE *fpin, char *line)
             if (devparm)
                 C_Output(" - misc2 = %ld", value);
 
-            states[indexnum].misc2 = value;                     // long
+            states[indexnum].misc2 = value;
             states[indexnum].dehacked = dehacked = !BTSX;
         }
         else if (M_StringCompare(key, "translucent"))           // Translucent
@@ -2624,7 +2624,7 @@ static void deh_procPointer(DEHFILE *fpin, char *line)
 {
     char    key[DEH_MAXKEYLEN];
     char    inbuffer[DEH_BUFFERMAX];
-    long    value;  // All deh values are ints or longs
+    int     value;
     int     indexnum;
 
     strncpy(inbuffer, line, DEH_BUFFERMAX);
@@ -2701,7 +2701,7 @@ static void deh_procSounds(DEHFILE *fpin, char *line)
 {
     char    key[DEH_MAXKEYLEN];
     char    inbuffer[DEH_BUFFERMAX];
-    long    value;  // All deh values are ints or longs
+    int     value;
     int     indexnum;
 
     strncpy(inbuffer, line, DEH_BUFFERMAX);
@@ -2765,7 +2765,7 @@ static void deh_procAmmo(DEHFILE *fpin, char *line)
 {
     char    key[DEH_MAXKEYLEN];
     char    inbuffer[DEH_BUFFERMAX];
-    long    value;  // All deh values are ints or longs
+    int     value;
     int     indexnum;
 
     strncpy(inbuffer, line, DEH_BUFFERMAX);
@@ -2815,7 +2815,7 @@ static void deh_procWeapon(DEHFILE *fpin, char *line)
 {
     char    key[DEH_MAXKEYLEN];
     char    inbuffer[DEH_BUFFERMAX];
-    long    value;      // All deh values are ints or longs
+    int     value;
     int     indexnum;
 
     strncpy(inbuffer, line, DEH_BUFFERMAX);
@@ -3003,7 +3003,7 @@ static void deh_procCheat(DEHFILE *fpin, char *line)
 {
     char    key[DEH_MAXKEYLEN];
     char    inbuffer[DEH_BUFFERMAX];
-    long    value;          // All deh values are ints or longs
+    int     value;
     char    ch = 0;         // CPhipps - `writable' null string to initialize...
     char    *strval = &ch;  // pointer to the value area
     int     iy;             // array index
@@ -3308,7 +3308,7 @@ static void deh_procMisc(DEHFILE *fpin, char *line)
 {
     char    key[DEH_MAXKEYLEN];
     char    inbuffer[DEH_BUFFERMAX];
-    long    value;  // All deh values are ints or longs
+    int     value;
 
     strncpy(inbuffer, line, DEH_BUFFERMAX);
 
@@ -3545,7 +3545,7 @@ static void deh_procStrings(DEHFILE *fpin, char *line)
 {
     char        key[DEH_MAXKEYLEN];
     char        inbuffer[DEH_BUFFERMAX];
-    long        value;                  // All deh values are ints or longs
+    int         value;
     char        *strval;                // holds the string value of the line
     static int  maxstrlen = 128;        // maximum string length, bumped 128 at a time as needed
                                         // holds the final result of the string after concatenation
@@ -3707,7 +3707,7 @@ static void deh_procBexSprites(DEHFILE *fpin, char *line)
 {
     char    key[DEH_MAXKEYLEN];
     char    inbuffer[DEH_BUFFERMAX];
-    long    value;      // All deh values are ints or longs
+    int     value;
     char    *strval;    // holds the string value of the line
     char    candidate[5];
     int     rover;
@@ -3768,7 +3768,7 @@ static void deh_procBexSounds(DEHFILE *fpin, char *line)
 {
     char    key[DEH_MAXKEYLEN];
     char    inbuffer[DEH_BUFFERMAX];
-    long    value;      // All deh values are ints or longs
+    int     value;
     char    *strval;    // holds the string value of the line
     char    candidate[7];
     int     rover;
@@ -3832,7 +3832,7 @@ static void deh_procBexMusic(DEHFILE *fpin, char *line)
 {
     char    key[DEH_MAXKEYLEN];
     char    inbuffer[DEH_BUFFERMAX];
-    long    value;      // All deh values are ints or longs
+    int     value;
     char    *strval;    // holds the string value of the line
     char    candidate[7];
     int     rover;
@@ -3978,15 +3978,14 @@ static char *ptr_lstrip(char *p)    // point past leading whitespace
 // Purpose: Get a key and data pair from a passed string
 // Args:    s -- the string to be examined
 //          k -- a place to put the key
-//          l -- pointer to a long integer to store the number
+//          l -- pointer to an integer to store the number
 //          strval -- a pointer to the place in s where the number
 //                    value comes from. Pass NULL to not use this.
 // Notes:   Expects a key phrase, optional space, equal sign,
-//          optional space and a value, mostly an int but treated
-//          as a long just in case. The passed pointer to hold
+//          optional space and a value. The passed pointer to hold
 //          the key must be DEH_MAXKEYLEN in size.
 //
-static int deh_GetData(char *s, char *k, long *l, char **strval)
+static int deh_GetData(char *s, char *k, int *l, char **strval)
 {
     char            *t;                     // current char
     unsigned int    val;                    // to hold value of pair
