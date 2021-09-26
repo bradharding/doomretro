@@ -478,7 +478,7 @@ enum
 
 #define groupmessages_default                   true
 
-#define health_min                             -100
+#define health_min                             -99
 #define health_default                          100
 #define health_max                              INT_MAX
 

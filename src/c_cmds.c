@@ -588,7 +588,7 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL(groupmessages, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles the grouping of identical player messages."),
     CVAR_INT(health, "", player_cvars_func1, player_cvars_func2, CF_PERCENT, NOVALUEALIAS,
-        "The player's health (" BOLD("0%") " to " BOLD("200%") ")."),
+        "The player's health (" BOLD("-99%") " to " BOLD("200%") ")."),
     CCMD(help, "", null_func1, help_cmd_func2, false, "",
         "Opens the " ITALICS(DOOMRETRO_WIKINAME ".")),
     CMD_CHEAT(idbeholda, false),
@@ -7852,9 +7852,17 @@ static void player_cvars_func2(char *cmd, char *parms)
                     }
                     else
                     {
+                        char    buffer[1024];
+
                         P_ResurrectPlayer(value);
                         P_AddBonus();
-                        S_StartSound(NULL, sfx_itemup);
+                        M_snprintf(buffer, sizeof(buffer), "%s resurrected %s.",
+                            playername,
+                            (M_StringCompare(playername, playername_default) ? "yourself" :
+                                (playergender == playergender_male ? "himself" :
+                                    (playergender == playergender_female ? "herself" : "themselves"))));
+                        buffer[0] = toupper(buffer[0]);
+                        C_PlayerMessage(buffer);
                     }
                 }
                 else
