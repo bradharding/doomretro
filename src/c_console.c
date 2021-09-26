@@ -127,7 +127,8 @@ int                     con_backcolor = con_backcolor_default;
 int                     con_edgecolor = con_edgecolor_default;
 int                     warninglevel = warninglevel_default;
 
-static int              timerwidth;
+static int              timerwidth1;
+static int              timerwidth2;
 static int              zerowidth;
 
 static int              consolecaretcolor = 4;
@@ -694,7 +695,8 @@ void C_Init(void)
     brandwidth = SHORT(brand->width);
     brandheight = SHORT(brand->height);
     spacewidth = SHORT(consolefont[' ' - CONSOLEFONTSTART]->width);
-    timerwidth = C_TextWidth("00:00:00", false, false);
+    timerwidth1 = C_TextWidth("00:00", false, false);
+    timerwidth2 = C_TextWidth("00:00:00", false, false);
     zerowidth = SHORT(consolefont['0' - CONSOLEFONTSTART]->width);
 }
 
@@ -1158,6 +1160,7 @@ void C_UpdateTimer(void)
     {
         static char buffer[9];
         int         tics = countdown;
+        int         timerwidth;
         static int  prevtics;
 
         if (tics != prevtics)
@@ -1166,7 +1169,16 @@ void C_UpdateTimer(void)
             int minutes = ((tics %= 3600)) / 60;
             int seconds = tics % 60;
 
-            M_snprintf(buffer, 9, "%02i:%02i:%02i", hours, minutes, seconds);
+            if (!hours)
+            {
+                M_snprintf(buffer, 9, "%02i:%02i", minutes, seconds);
+                timerwidth = timerwidth1;
+            }
+            else
+            {
+                M_snprintf(buffer, 9, "%02i:%02i:%02i", hours, minutes, seconds);
+                timerwidth = timerwidth2;
+            }
         }
 
         C_DrawOverlayText(SCREENWIDTH - timerwidth - CONSOLETEXTX + 1, CONSOLETEXTY + CONSOLELINEHEIGHT * vid_showfps, buffer,
