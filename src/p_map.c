@@ -431,11 +431,12 @@ static dboolean PIT_CheckThing(mobj_t *thing)
     dboolean    unblocking = false;
     int         flags = thing->flags;
     int         tmflags = tmthing->flags;
-    dboolean    corpse = flags & MF_CORPSE;
+    dboolean    corpse = (flags & MF_CORPSE);
     int         type = thing->type;
 
     // [BH] apply small amount of momentum to a corpse when a monster walks over it
-    if (corpse && (tmflags & MF_SHOOTABLE) && type != MT_BARREL && !thing->nudge && thing->z == tmthing->z && r_corpses_nudge)
+    if (((corpse && type != MT_BARREL) || (flags & MF_DROPPED)) && !thing->nudge
+        && thing->z == tmthing->z && (tmflags & MF_SHOOTABLE) && r_corpses_nudge)
         if (P_ApproxDistance(thing->x - tmthing->x, thing->y - tmthing->y) < 16 * FRACUNIT)
         {
             const int   r = M_RandomInt(-1, 1);

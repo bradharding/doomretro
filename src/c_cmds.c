@@ -696,7 +696,7 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL(r_corpses_moreblood, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles blood splats around corpses spawned when a map is loaded."),
     CVAR_BOOL(r_corpses_nudge, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
-        "Toggles corpses being nudged when the player and monsters walk over them."),
+        "Toggles corpses being nudged when the player or monsters walk over them."),
     CVAR_BOOL(r_corpses_slide, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles corpses sliding in reaction to nearby barrel and rocket explosions."),
     CVAR_BOOL(r_corpses_smearblood, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
