@@ -9,7 +9,7 @@
 * A bug has been fixed whereby some sound effect lumps in the [WAV format](https://en.wikipedia.org/wiki/WAV) wouldn’t play at all.
 * Cacodemons, barons of hell and hell knights will now leave gibs when crushed by a lowering ceiling.
 * The title in the automap has been moved slightly in some instances.
-* A bug has been fixed whereby monsters would sometimes become stuck on the edges of lifts.
+* A bug has been fixed whereby monsters would sometimes become stuck on the edge of lifts.
 * A dead player’s negative health will now be displayed in the status bar as it is in the widescreen HUD.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)

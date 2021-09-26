@@ -297,7 +297,7 @@ dboolean mmus2mid(uint8_t *mus, size_t size, MIDI *mididata)
     uint8_t             MIDItrack;
     int                 data;
     uint8_t             *musptr;
-    uint8_t             *hptr;
+    uint8_t             *hptr = mus;
     size_t              muslen;
     static MUSheader    MUSh;
     uint8_t             MIDIchan2track[MIDI_TRACKS];
@@ -310,8 +310,6 @@ dboolean mmus2mid(uint8_t *mus, size_t size, MIDI *mididata)
     // haleyjd 04/04/10: scan forward for a MUS header. Evidently DMX was
     // capable of doing this, and would skip over any intervening data. That,
     // or DMX doesn't use the MUS header at all somehow.
-    hptr = mus;
-
     while (hptr < mus + size - sizeof(MUSheader) && hptr < mus + MAX_HEADER_SCAN && strncmp((const char *)hptr, "MUS\x1a", 4))
         hptr++;
 
@@ -321,9 +319,7 @@ dboolean mmus2mid(uint8_t *mus, size_t size, MIDI *mididata)
         mus = hptr;
 
     // copy the MUS header from the MUS buffer to the MUSh header structure
-    MUSh.ScoreLength = (&mus[4])[0] | ((&mus[4])[1] << 8);
-    MUSh.ScoreStart = (&mus[6])[0] | ((&mus[6])[1] << 8);
-    MUSh.channels = (&mus[8])[0] | ((&mus[8])[1] << 8);
+    memcpy(&MUSh, mus, sizeof(MUSheader));
 
     // check some things and set length of MUS buffer from internal data
     if (!(muslen = (size_t)MUSh.ScoreLength + MUSh.ScoreStart))
@@ -368,9 +364,8 @@ dboolean mmus2mid(uint8_t *mus, size_t size, MIDI *mididata)
     // process the MUS events in the MUS buffer
     do
     {
-        uint8_t MUSchannel;
-
         // get a mus event, decode its type and channel fields
+        uint8_t MUSchannel;
         int     event = *musptr++;
 
         if ((evt = event_type(event)) == SCORE_END)     // jff 1/23/98 use symbol
@@ -543,17 +538,6 @@ static void TWriteLength(uint8_t **midiptr, size_t length)
 }
 
 //
-// Frees all midi data allocated
-//
-void FreeMIDIData(MIDI *mididata)
-{
-    for (int i = 0; i < arrlen(mididata->track); i++)
-        free(mididata->track[i].data);
-
-    memset(mididata, 0, sizeof(*mididata));
-}
-
-//
 // MIDIToMidi()
 //
 // This routine converts an Allegro MIDI structure to a midi 1 format file
@@ -604,4 +588,15 @@ void MIDIToMidi(const MIDI *mididata, uint8_t **mid, int *midlen)
 
     // return length information
     *midlen = (int)(midiptr - *mid);
+}
+
+//
+// Frees all midi data allocated
+//
+void FreeMIDIData(MIDI *mididata)
+{
+    for (int i = 0; i < arrlen(mididata->track); i++)
+        free(mididata->track[i].data);
+
+    memset(mididata, 0, sizeof(*mididata));
 }
