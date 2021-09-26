@@ -6127,10 +6127,10 @@ static void resurrect_cmd_func2(char *cmd, char *parms)
         if (M_StringCompare(parm, "player") || M_StringCompare(parm, "me") || (*playername && M_StringCompare(parm, playername)))
         {
             P_ResurrectPlayer(initial_health);
-            M_snprintf(buffer, sizeof(buffer), "%s resurrected %s.",
+            M_snprintf(buffer, sizeof(buffer), "%s resurrected %sself.",
                 playername,
-                (M_StringCompare(playername, playername_default) ? "yourself" : (playergender == playergender_male ? "himself" :
-                    (playergender == playergender_female ? "herself" : "themselves"))));
+                (M_StringCompare(playername, playername_default) ? "your" : (playergender == playergender_male ? "him" :
+                    (playergender == playergender_female ? "her" : "them"))));
             buffer[0] = toupper(buffer[0]);
             C_PlayerMessage(buffer);
             C_HideConsole();
@@ -7856,11 +7856,10 @@ static void player_cvars_func2(char *cmd, char *parms)
 
                         P_ResurrectPlayer(value);
                         P_AddBonus();
-                        M_snprintf(buffer, sizeof(buffer), "%s resurrected %s.",
+                        M_snprintf(buffer, sizeof(buffer), "%s resurrected %sself.",
                             playername,
-                            (M_StringCompare(playername, playername_default) ? "yourself" :
-                                (playergender == playergender_male ? "himself" :
-                                    (playergender == playergender_female ? "herself" : "themselves"))));
+                            (M_StringCompare(playername, playername_default) ? "your" : (playergender == playergender_male ? "him" :
+                                (playergender == playergender_female ? "her" : "them"))));
                         buffer[0] = toupper(buffer[0]);
                         C_PlayerMessage(buffer);
                     }
