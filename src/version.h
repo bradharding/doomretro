@@ -39,9 +39,9 @@
 #if !defined(__VERSION_H__)
 #define __VERSION_H__
 
-#define DOOMRETRO_VERSION               4,2,4,0
-#define DOOMRETRO_VERSIONSTRING         "4.2.4"
-#define DOOMRETRO_NAMEANDVERSIONSTRING  "DOOM Retro v4.2.4"
+#define DOOMRETRO_VERSION               4,3,0,0
+#define DOOMRETRO_VERSIONSTRING         "4.3"
+#define DOOMRETRO_NAMEANDVERSIONSTRING  "DOOM Retro v4.3"
 #define DOOMRETRO_SAVEGAMEVERSIONSTRING "DOOM Retro v3.6"
 
 #define DOOMRETRO                       "doomretro"
