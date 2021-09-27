@@ -64,6 +64,7 @@ r_corpses_color off
 r_corpses_gib off
 r_corpses_mirrored off
 r_corpses_moreblood off
+r_corpses_nudge off
 r_corpses_slide off
 r_corpses_smearblood off
 r_detail low
@@ -85,7 +86,6 @@ r_liquid_lowerview off
 r_liquid_swirl off
 r_lowpixelsize 2x2
 r_mirroredweapons off
-r_nudge off
 r_playersprites on
 r_rockettrails off
 r_screensize 6

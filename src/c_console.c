@@ -1160,8 +1160,8 @@ void C_UpdateTimer(void)
     {
         static char buffer[9];
         int         tics = countdown;
-        static int  timerwidth;
         static int  prevtics;
+        static int  timerwidth;
 
         if (tics != prevtics)
         {

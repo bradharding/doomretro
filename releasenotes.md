@@ -11,7 +11,7 @@
 * The title in the automap has been moved slightly in some instances.
 * A bug has been fixed whereby monsters would sometimes become stuck on the edge of lifts.
 * A dead player’s negative health will now be displayed in the status bar as it does in the widescreen HUD.
-* The `r_corpses_nudge` CVAR has been deprecated and replaced with the `r_nudge` CVAR. When this CVAR is `on`, all corpses as well as all items that can be picked up by the player will now move slightly if walked over by the player or a monster. This CVAR is `on` by default and `off` when vanilla mode is enabled.
+* The items dropped by monsters when they are killed will now also move slightly if walked over when the `r_corpses_nudge` CVAR is `on`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

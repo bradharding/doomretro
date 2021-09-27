@@ -144,6 +144,7 @@ static default_t cvars[NUMCVARS] =
     CONFIG_VARIABLE_INT          (r_corpses_gib,                    r_corpses_gib,                         r_corpses_gib,                         BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT          (r_corpses_mirrored,               r_corpses_mirrored,                    r_corpses_mirrored,                    BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT          (r_corpses_moreblood,              r_corpses_moreblood,                   r_corpses_moreblood,                   BOOLVALUEALIAS        ),
+    CONFIG_VARIABLE_INT          (r_corpses_nudge,                  r_corpses_nudge,                       r_corpses_nudge,                       BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT          (r_corpses_slide,                  r_corpses_slide,                       r_corpses_slide,                       BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT          (r_corpses_smearblood,             r_corpses_smearblood,                  r_corpses_smearblood,                  BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT          (r_detail,                         r_detail,                              r_detail,                              DETAILVALUEALIAS      ),
@@ -165,7 +166,6 @@ static default_t cvars[NUMCVARS] =
     CONFIG_VARIABLE_INT          (r_liquid_swirl,                   r_liquid_swirl,                        r_liquid_swirl,                        BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_OTHER        (r_lowpixelsize,                   r_lowpixelsize,                        r_lowpixelsize,                        NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT          (r_mirroredweapons,                r_mirroredweapons,                     r_mirroredweapons,                     BOOLVALUEALIAS        ),
-    CONFIG_VARIABLE_INT          (r_nudge,                          r_nudge,                               r_nudge,                               BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT          (r_playersprites,                  r_playersprites,                       r_playersprites,                       BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT          (r_rockettrails,                   r_rockettrails,                        r_rockettrails,                        BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT          (r_screensize,                     r_screensize,                          r_screensize,                          NOVALUEALIAS          ),
@@ -794,6 +794,9 @@ static void M_CheckCVARs(dboolean ispackageconfig)
     if (r_corpses_moreblood != false && r_corpses_moreblood != true)
         r_corpses_moreblood = r_corpses_moreblood_default;
 
+    if (r_corpses_nudge != false && r_corpses_nudge != true)
+        r_corpses_nudge = r_corpses_nudge_default;
+
     if (r_corpses_slide != false && r_corpses_slide != true)
         r_corpses_slide = r_corpses_slide_default;
 
@@ -852,9 +855,6 @@ static void M_CheckCVARs(dboolean ispackageconfig)
 
     if (r_mirroredweapons != false && r_mirroredweapons != true)
         r_mirroredweapons = r_mirroredweapons_default;
-
-    if (r_nudge != false && r_nudge != true)
-        r_nudge = r_nudge_default;
 
     if (r_playersprites != false && r_playersprites != true)
         r_playersprites = r_playersprites_default;
