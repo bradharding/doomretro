@@ -1023,7 +1023,7 @@ static void R_DrawPlayerSprite(pspdef_t *psp, dboolean invisibility, dboolean al
     vissprite_t     *vis = &tempvis;
     state_t         *state = psp->state;
     spritenum_t     spr = state->sprite;
-    long            frame = state->frame;
+    int             frame = state->frame;
     spriteframe_t   *sprframe = &sprites[spr].spriteframes[frame & FF_FRAMEMASK];
     int             lump = sprframe->lump[0];
 

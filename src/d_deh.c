@@ -57,7 +57,7 @@ typedef struct
 {
     byte    *inp;
     byte    *lump;
-    long    size;
+    int     size;
     FILE    *f;
 } DEHFILE;
 
