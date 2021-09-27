@@ -2381,7 +2381,7 @@ static void deh_procThing(DEHFILE *fpin, char *line)
                                 continue;
 
                             if (devparm)
-                                C_Output("ORed value 0x%08lX %s.", deh_mobjflags[iy].value, strval);
+                                C_Output("ORed value 0x%08x %s.", deh_mobjflags[iy].value, strval);
 
                             value |= deh_mobjflags[iy].value;
                             break;
@@ -2393,7 +2393,7 @@ static void deh_procThing(DEHFILE *fpin, char *line)
 
                     // Don't worry about conversion -- simply print values
                     if (devparm)
-                        C_Output("Bits = 0x%08lX = %ld.", value, value);
+                        C_Output("Bits = 0x%08x = %i.", value, value);
 
                     mobjinfo[indexnum].flags = value; // e6y
                 }
@@ -2429,7 +2429,7 @@ static void deh_procThing(DEHFILE *fpin, char *line)
                                 continue;
 
                             if (devparm)
-                                C_Output("ORed value 0x%08lX %s.", deh_mobjflags2[iy].value, strval);
+                                C_Output("ORed value 0x%08x %s.", deh_mobjflags2[iy].value, strval);
 
                             if (M_StringCompare(key, "TRANSLUCENT"))
                                 boomcompatible = true;
@@ -2446,7 +2446,7 @@ static void deh_procThing(DEHFILE *fpin, char *line)
 
                     // Don't worry about conversion -- simply print values
                     if (devparm)
-                        C_Output("Bits = 0x%08lX = %ld.", value, value);
+                        C_Output("Bits = 0x%08x = %i.", value, value);
 
                     mobjinfo[indexnum].flags2 = value;
                 }
@@ -2553,7 +2553,7 @@ static void deh_procFrame(DEHFILE *fpin, char *line)
         if (M_StringCompare(key, deh_state[0]))                 // Sprite number
         {
             if (devparm)
-                C_Output(" - sprite = %ld", value);
+                C_Output(" - sprite = %i", value);
 
             states[indexnum].sprite = (spritenum_t)value;
             states[indexnum].dehacked = dehacked = !BTSX;
@@ -2561,7 +2561,7 @@ static void deh_procFrame(DEHFILE *fpin, char *line)
         else if (M_StringCompare(key, deh_state[1]))            // Sprite subnumber
         {
             if (devparm)
-                C_Output(" - frame = %ld", value);
+                C_Output(" - frame = %i", value);
 
             states[indexnum].frame = value;
             states[indexnum].dehacked = dehacked = !BTSX;
@@ -2569,7 +2569,7 @@ static void deh_procFrame(DEHFILE *fpin, char *line)
         else if (M_StringCompare(key, deh_state[2]))            // Duration
         {
             if (devparm)
-                C_Output(" - tics = %ld", value);
+                C_Output(" - tics = %i", value);
 
             states[indexnum].tics = value;
             states[indexnum].dehacked = dehacked = !BTSX;
@@ -2577,7 +2577,7 @@ static void deh_procFrame(DEHFILE *fpin, char *line)
         else if (M_StringCompare(key, deh_state[3]))            // Next frame
         {
             if (devparm)
-                C_Output(" - nextstate = %ld", value);
+                C_Output(" - nextstate = %i", value);
 
             states[indexnum].nextstate = value;
             states[indexnum].dehacked = dehacked = !BTSX;
@@ -2587,7 +2587,7 @@ static void deh_procFrame(DEHFILE *fpin, char *line)
         else if (M_StringCompare(key, deh_state[5]))            // Unknown 1
         {
             if (devparm)
-                C_Output(" - misc1 = %ld", value);
+                C_Output(" - misc1 = %i", value);
 
             states[indexnum].misc1 = value;
             states[indexnum].dehacked = dehacked = !BTSX;
@@ -2595,7 +2595,7 @@ static void deh_procFrame(DEHFILE *fpin, char *line)
         else if (M_StringCompare(key, deh_state[6]))            // Unknown 2
         {
             if (devparm)
-                C_Output(" - misc2 = %ld", value);
+                C_Output(" - misc2 = %i", value);
 
             states[indexnum].misc2 = value;
             states[indexnum].dehacked = dehacked = !BTSX;
@@ -2603,7 +2603,7 @@ static void deh_procFrame(DEHFILE *fpin, char *line)
         else if (M_StringCompare(key, "translucent"))           // Translucent
         {
             if (devparm)
-                C_Output(" - translucent = %ld", value);
+                C_Output(" - translucent = %i", value);
 
             states[indexnum].translucent = !!value;             // dboolean
             states[indexnum].dehacked = dehacked = !BTSX;
