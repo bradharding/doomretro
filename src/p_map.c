@@ -2054,10 +2054,15 @@ static void PIT_ChangeSector(mobj_t *thing)
 
             P_SetMobjState(thing, S_GIBS);
 
-            if (thing->blood == MT_BLUEBLOOD)
-                thing->colfunc = redtobluecolfunc;
-            else if (thing->blood == MT_GREENBLOOD)
+            if (r_blood == r_blood_green)
                 thing->colfunc = redtogreencolfunc;
+            else if (r_blood != r_blood_red)
+            {
+                if (thing->blood == MT_BLUEBLOOD)
+                    thing->colfunc = redtobluecolfunc;
+                else if (thing->blood == MT_GREENBLOOD)
+                    thing->colfunc = redtogreencolfunc;
+            }
 
             thing->flags &= ~MF_SOLID;
 
