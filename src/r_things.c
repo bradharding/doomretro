@@ -747,7 +747,7 @@ static void R_ProjectSprite(mobj_t *thing)
         if (r_blood == r_blood_nofuzz && thing->type == MT_FUZZYBLOOD)
             vis->colfunc = (r_translucency ? &R_DrawTranslucent33Column : &R_DrawColumn);
         else if (pausesprites)
-            vis->colfunc = (r_textures ? &R_DrawPausedFuzzColumn : thing->colfunc);
+            vis->colfunc = (r_textures && thing->colfunc == fuzzcolfunc ? &R_DrawPausedFuzzColumn : thing->colfunc);
         else
             vis->colfunc = (invulnerable && r_textures ? thing->altcolfunc : thing->colfunc);
     }
