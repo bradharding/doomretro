@@ -7,11 +7,11 @@
 * Minor changes have been made to text that is output to the console.
 * Rotating the automap is now smoother when the `am_rotate` CVAR is `on`.
 * A bug has been fixed whereby some sound effect lumps in the [WAV format](https://en.wikipedia.org/wiki/WAV) wouldn’t play at all.
-* The following changes have been made to when monsters are crushed by a lowering ceiling:
-  * Cacodemons, barons of hell and hell knights will now leave gibs (and in the appropriate colors if the `r_blood` CVAR isn’t `red`).
+* The following changes have been made when a monster is crushed to death by a lowering ceiling:
+  * Cacodemons, barons of hell and hell knights will now leave gibs.
   * All gibs will now be green if the `r_blood` CVAR is `green`.
-  * The gibs of spectres will now always match their blood.
-  * Obituaries are now displayed in the console when the `con_obituaries` CVAR is `on`.
+  * The gibs of spectres will now be red if the `r_blood` CVAR is `nofuzz`.
+  * An obituary is now displayed in the console when the `con_obituaries` CVAR is `on`.
 * The title in the automap has been moved slightly in some instances.
 * A bug has been fixed whereby monsters would sometimes become stuck on the edge of lifts.
 * A dead player’s negative health will now be displayed in the status bar as it does in the widescreen HUD.
