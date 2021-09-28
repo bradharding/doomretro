@@ -36,10 +36,14 @@
 ========================================================================
 */
 
+#include <ctype.h>
+
+#include "c_console.h"
 #include "doomstat.h"
 #include "i_system.h"
 #include "m_bbox.h"
 #include "m_config.h"
+#include "m_misc.h"
 #include "m_random.h"
 #include "p_local.h"
 #include "s_sound.h"
@@ -2137,6 +2141,23 @@ static void PIT_ChangeSector(mobj_t *thing)
         }
 
         P_DamageMobj(thing, NULL, NULL, 10, true);
+
+        if (thing->health <= 0 && !thing->player && con_obituaries)
+        {
+            char    name[33];
+
+            if (*thing->name)
+                M_StringCopy(name, thing->name, sizeof(name));
+            else
+                M_snprintf(name, sizeof(name), "%s %s%s",
+                    ((thing->flags & MF_FRIEND) && monstercount[thing->type] == 1 ? "the" :
+                        (isvowel(thing->info->name1[0]) ? "an" : "a")),
+                    ((thing->flags & MF_FRIEND) ? "friendly " : ""),
+                    (*thing->info->name1 ? thing->info->name1 : "monster"));
+
+            name[0] = toupper(name[0]);
+            C_PlayerObituary("%s was crushed to death.", name);
+        }
     }
 }
 
