@@ -1176,7 +1176,6 @@ void HU_Drawer(void)
                 HUlib_DrawAutomapTextLine(&w_title, true);
             }
         }
-
     }
 }
 

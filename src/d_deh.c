@@ -2410,7 +2410,6 @@ static void deh_procThing(DEHFILE *fpin, char *line)
                 }
                 else if (indexnum != MT_BLOOD)
                     mobjinfo[indexnum].blood = 0;
-
             }
             else if (M_StringCompare(key, "Retro bits"))
             {

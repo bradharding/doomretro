@@ -1947,7 +1947,6 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
                 C_PlayerObituary("You were crushed to death.");
             else
                 C_PlayerObituary("%s was crushed to death.", playername);
-
         }
         else
         {
@@ -2044,7 +2043,6 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
             viewplayer->infightcount++;
             stat_monsterskilled_infighting = SafeAdd(stat_monsterskilled_infighting, 1);
         }
-
     }
     else if (type == MT_BARREL && !chex && !hacx)
     {

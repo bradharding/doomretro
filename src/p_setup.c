@@ -1013,7 +1013,6 @@ static void P_LoadSegs(int lump)
 
                         li->linedef->special = linefix[j].special;
                         free(temp);
-
                     }
 
                     if (linefix[j].tag != DEFAULT)
