@@ -2664,7 +2664,7 @@ static void deh_procPointer(DEHFILE *fpin, char *line)
 
         if (value < 0 || value >= NUMSTATES)
         {
-            C_Warning(1, "Bad pointer number %ld of %i.", value, NUMSTATES);
+            C_Warning(1, "Bad pointer number %i of %i.", value, NUMSTATES);
             return;
         }
 
@@ -2673,7 +2673,7 @@ static void deh_procPointer(DEHFILE *fpin, char *line)
             states[indexnum].action = deh_codeptr[value];
 
             if (devparm)
-                C_Output(" - applied %p from codeptr[%ld] to states[%i]", (void *)deh_codeptr[value], value, indexnum);
+                C_Output(" - applied %p from codeptr[%i] to states[%i]", (void *)deh_codeptr[value], value, indexnum);
 
             // Write BEX-oriented line to match:
             for (int i = 0; i < arrlen(deh_bexptrs); i++)
@@ -2686,7 +2686,7 @@ static void deh_procPointer(DEHFILE *fpin, char *line)
                 }
         }
         else
-            C_Warning(1, "Invalid frame pointer index for \"%s\" at %ld, xref %p.", key, value, (void *)deh_codeptr[value]);
+            C_Warning(1, "Invalid frame pointer index for \"%s\" at %i, xref %p.", key, value, (void *)deh_codeptr[value]);
     }
 }
 
