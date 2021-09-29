@@ -10,12 +10,14 @@
 * The following changes have been made when a monster is crushed to death by a lowering ceiling:
   * Cacodemons, barons of hell and hell knights will now leave gibs.
   * All gibs will now be green if the `r_blood` CVAR is `green`.
-  * The gibs of spectres will now be red if the `r_blood` CVAR is `nofuzz`.
+  * The gibs of spectres will now be red if the `r_blood` CVAR is `red` or `nofuzz`.
   * An obituary is now displayed in the console when the `con_obituaries` CVAR is `on`.
 * The title in the automap has been moved slightly in some instances.
 * A bug has been fixed whereby monsters would sometimes become stuck on the edge of lifts.
 * A dead player’s negative health will now be displayed in the status bar as it does in the widescreen HUD.
 * The items that monsters drop when they are killed will now also move slightly if walked over when the `r_corpses_nudge` CVAR is `on`.
+* The number of monsters resurrected is now displayed by the `playerstats` CCMD.
+* The “monsters killed by infighting“ stat is now reset at the start of each map.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
