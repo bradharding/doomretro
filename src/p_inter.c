@@ -2308,6 +2308,10 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
         if (tplayer->health <= 0)
         {
             P_KillMobj(target, inflicter, source);
+
+            if (tplayer->health < health_min)
+                tplayer->health = health_min;
+
             return;
         }
     }
