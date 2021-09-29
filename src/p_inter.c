@@ -117,6 +117,7 @@ uint64_t        stat_monsterskilled_shotgunguys = 0;
 uint64_t        stat_monsterskilled_spectres = 0;
 uint64_t        stat_monsterskilled_spidermasterminds = 0;
 uint64_t        stat_monsterskilled_zombiemen = 0;
+uint64_t        stat_monstersresurrected = 0;
 uint64_t        stat_suicides = 0;
 
 extern dboolean healthcvar;
@@ -2390,6 +2391,8 @@ void P_ResurrectMobj(mobj_t *target)
 
     viewplayer->killcount--;
     stat_monsterskilled--;
+    viewplayer->resurrectioncount++;
+    stat_monstersresurrected = SafeAdd(stat_monstersresurrected, 1);
     P_UpdateKillStat(target->type, -1);
     P_UpdateThinker(&target->thinker);
 }

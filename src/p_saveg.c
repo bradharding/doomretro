@@ -657,6 +657,7 @@ static void saveg_write_player_t(void)
     saveg_write32(musinfo.current_item);
 
     saveg_write32(viewplayer->infightcount);
+    saveg_write32(viewplayer->resurrectioncount);
 
     // [BH] For future features without breaking savegame compatibility
     saveg_write32(0);

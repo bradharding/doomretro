@@ -1388,6 +1388,8 @@ void A_VileChase(mobj_t *actor, player_t *player, pspdef_t *psp)
 
                     viewplayer->killcount--;
                     stat_monsterskilled--;
+                    viewplayer->resurrectioncount++;
+                    stat_monstersresurrected = SafeAdd(stat_monstersresurrected, 1);
                     P_UpdateKillStat(corpsehit->type, -1);
 
                     // [BH] display an obituary message in the console

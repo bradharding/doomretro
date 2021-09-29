@@ -4925,6 +4925,12 @@ static void C_PlayerStats_Game(void)
     free(temp3);
     free(temp4);
 
+    temp1 = commify(viewplayer->resurrectioncount);
+    temp2 = commifystat(stat_monstersresurrected);
+    C_TabbedOutput(tabs, "Monsters resurrected\t%s\t%s", temp1, temp2);
+    free(temp1);
+    free(temp2);
+
     temp1 = sentencecase(mobjinfo[MT_BARREL].plural1);
     temp2 = commify(viewplayer->mobjcount[MT_BARREL]);
     temp3 = commify(barrelcount);
@@ -5391,6 +5397,10 @@ static void C_PlayerStats_NoGame(void)
     C_TabbedOutput(tabs, "%s exploded\t-\t%s", temp1, temp2);
     free(temp1);
     free(temp2);
+
+    temp1 = commifystat(stat_monstersresurrected);
+    C_TabbedOutput(tabs, "Monsters resurrected\t-\t%s", temp1);
+    free(temp1);
 
     temp1 = commifystat(stat_itemspickedup);
     C_TabbedOutput(tabs, "Items picked up\t-\t%s", temp1);

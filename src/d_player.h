@@ -233,6 +233,7 @@ typedef struct player_s
     int             itemspickedup_armor;
     int             itemspickedup_health;
     int             infightcount;
+    int             resurrectioncount;
 } player_t;
 
 //
