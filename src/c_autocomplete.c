@@ -5279,7 +5279,6 @@ autocomplete_t autocompletelist[] =
     { "facebackcolor gray",                          DOOM1AND2 },
     { "facebackcolor green",                         DOOM1AND2 },
     { "facebackcolor lightblue",                     DOOM1AND2 },
-    { "facebackcolor none",                          DOOM1AND2 },
     { "facebackcolor olive",                         DOOM1AND2 },
     { "facebackcolor orange",                        DOOM1AND2 },
     { "facebackcolor purple",                        DOOM1AND2 },
