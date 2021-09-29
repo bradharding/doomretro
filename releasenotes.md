@@ -18,6 +18,7 @@
 * The items that monsters drop when they are killed will now also move slightly if walked over when the `r_corpses_nudge` CVAR is `on`.
 * The number of monsters resurrected is now displayed by the `playerstats` CCMD.
 * The “monsters killed by infighting“ stat is now reset at the start of each map.
+* A bug has been fixed whereby the `facebackcolor` CVAR wouldn’t be reset to its default of `5` if vanilla mode was enabled.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

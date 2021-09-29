@@ -30,7 +30,7 @@ autotilt off
 autouse off
 centerweapon off
 crosshair none
-facebackcolor none
+facebackcolor 5
 fade off
 freeze off
 gp_analog off
