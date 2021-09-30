@@ -239,7 +239,7 @@ void P_FireWeapon(void)
     {
         if (readyweapon == wp_chainsaw && linetarget)
         {
-            I_GamepadVibration(MAXVIBRATIONSTRENGTH);
+            I_GamepadVibration(MAX_VIBRATION_STRENGTH);
             weaponvibrationtics = weaponinfo[readyweapon].tics;
         }
         else if (readyweapon != wp_fist)
@@ -294,7 +294,7 @@ void A_WeaponReady(mobj_t *actor, player_t *player, pspdef_t *psp)
         {
             if (pendingweapon == wp_chainsaw && !REKKR)
             {
-                idlevibrationstrength = CHAINSAWIDLEVIBRATIONSTRENGTH * gp_vibrate_weapons / 100;
+                idlevibrationstrength = CHAINSAW_IDLE_VIBRATION_STRENGTH * gp_vibrate_weapons / 100;
                 I_GamepadVibration(idlevibrationstrength);
             }
             else if (idlevibrationstrength)

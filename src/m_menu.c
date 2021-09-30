@@ -3644,9 +3644,6 @@ void M_StartControlPanel(void)
         playerangle = viewplayer->mo->angle;
         spinspeed = 0;
 
-        if (!inhelpscreens)
-            R_SetViewSize(r_screensize_max);
-
         if (automapactive)
         {
             AM_SetAutomapSize(r_screensize_max);
@@ -3654,6 +3651,8 @@ void M_StartControlPanel(void)
             if (!am_rotatemode)
                 viewplayer->mo->angle = ANG90;
         }
+        else
+            R_SetViewSize(r_screensize_max);
 
         S_LowerMusicVolume();
     }

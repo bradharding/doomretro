@@ -166,7 +166,7 @@ void I_GamepadVibration(int strength)
     if (!strength || (lasteventtype == ev_gamepad && (strength == idlevibrationstrength || strength >= currentstrength)))
     {
         currentstrength = MIN(strength, UINT16_MAX);
-        SDL_HapticRumblePlay(haptic, (float)strength / MAXVIBRATIONSTRENGTH, 600000);
+        SDL_HapticRumblePlay(haptic, (float)strength / MAX_VIBRATION_STRENGTH, 600000);
     }
 }
 
