@@ -173,7 +173,7 @@ static default_t cvars[NUMCVARS] =
     CONFIG_VARIABLE_INT          (r_shadows_translucency,           r_shadows_translucency,                r_shadows_translucency,                BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT          (r_shake_barrels,                  r_shake_barrels,                       r_shake_barrels,                       BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT_PERCENT  (r_shake_damage,                   r_shake_damage,                        r_shake_damage,                        NOVALUEALIAS          ),
-    CONFIG_VARIABLE_INT          (r_skycolor,                       r_skycolour,                           r_skycolor,                            SKYVALUEALIAS         ),
+    CONFIG_VARIABLE_INT          (r_skycolor,                       r_skycolour,                           r_skycolor,                            SKYCOLORVALUEALIAS    ),
     CONFIG_VARIABLE_INT          (r_supersampling,                  r_supersampling,                       r_supersampling,                       BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT          (r_textures,                       r_textures,                            r_textures,                            BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT          (r_translucency,                   r_translucency,                        r_translucency,                        BOOLVALUEALIAS        ),
@@ -289,18 +289,19 @@ valuealias_t valuealiases[] =
     { "false",     0, BOOLVALUEALIAS         }, { "true",      1, BOOLVALUEALIAS         },
     { "low",       0, DETAILVALUEALIAS       }, { "high",      1, DETAILVALUEALIAS       },
     { "off",       1, GAMMAVALUEALIAS        }, { "none",      0, BLOODVALUEALIAS        },
-    { "red",       1, BLOODVALUEALIAS        }, { "all",       2, BLOODVALUEALIAS        },
-    { "green",     3, BLOODVALUEALIAS        }, { "nofuzz",    4, BLOODVALUEALIAS        },
+    { "off",       0, BLOODVALUEALIAS        }, { "red",       1, BLOODVALUEALIAS        },
+    { "all",       2, BLOODVALUEALIAS        }, { "green",     3, BLOODVALUEALIAS        },
+    { "nofuzz",    4, BLOODVALUEALIAS        }, { "on",        4, BLOODVALUEALIAS        },
     { "imperial",  0, UNITSVALUEALIAS        }, { "metric",    1, UNITSVALUEALIAS        },
-    { "off",       0, CAPVALUEALIAS          }, { "none",     -1, SKYVALUEALIAS          },
-    { "off",      -1, SKYVALUEALIAS          }, { "none",      0, ARMORTYPEVALUEALIAS    },
+    { "off",       0, CAPVALUEALIAS          }, { "none",     -1, SKYCOLORVALUEALIAS     },
+    { "off",      -1, SKYCOLORVALUEALIAS     }, { "none",      0, ARMORTYPEVALUEALIAS    },
     { "green",     1, ARMORTYPEVALUEALIAS    }, { "blue",      2, ARMORTYPEVALUEALIAS    },
     { "none",      0, CROSSHAIRVALUEALIAS    }, { "off",       0, CROSSHAIRVALUEALIAS    },
-    { "cross",     1, CROSSHAIRVALUEALIAS    }, { "dot",       2, CROSSHAIRVALUEALIAS    },
-    { "adaptive", -1, VSYNCVALUEALIAS        }, { "off",       0, VSYNCVALUEALIAS        },
-    { "on",        1, VSYNCVALUEALIAS        }, { "other",     0, PLAYERGENDERVALUEALIAS },
-    { "male",      1, PLAYERGENDERVALUEALIAS }, { "female",    2, PLAYERGENDERVALUEALIAS },
-    { "",          0, NOVALUEALIAS           }
+    { "cross",     1, CROSSHAIRVALUEALIAS    }, { "on",        1, CROSSHAIRVALUEALIAS    },
+    { "dot",       2, CROSSHAIRVALUEALIAS    }, { "adaptive", -1, VSYNCVALUEALIAS        },
+    { "off",       0, VSYNCVALUEALIAS        }, { "on",        1, VSYNCVALUEALIAS        },
+    { "other",     0, PLAYERGENDERVALUEALIAS }, { "male",      1, PLAYERGENDERVALUEALIAS },
+    { "female",    2, PLAYERGENDERVALUEALIAS }, { "",          0, NOVALUEALIAS           }
 };
 
 static void SaveBind(FILE *file, char *control, char *action)

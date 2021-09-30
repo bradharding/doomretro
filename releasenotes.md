@@ -5,6 +5,7 @@
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * When *DOOM Retro* is run for the first time, the WAD launcher will now look for installations of *The Ultimate DOOM* and *DOOM II: Hell On Earth* purchased and downloaded using the [*Bethesda.net Launcher*](https://bethesda.net/en/game/bethesda-launcher).
 * Minor changes have been made to text that is output to the console.
+* Minor improvements have been made to the console’s autocomplete feature.
 * Rotating the automap is now smoother when the `am_rotate` CVAR is `on`.
 * A bug has been fixed whereby some sound effect lumps in the [WAV format](https://en.wikipedia.org/wiki/WAV) wouldn’t play at all.
 * The following changes have been made when a monster is crushed to death by a lowering ceiling:

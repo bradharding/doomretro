@@ -753,7 +753,7 @@ consolecmd_t consolecmds[] =
         "Toggles shaking the screen when the player is near an exploding barrel."),
     CVAR_INT(r_shake_damage, "", int_cvars_func1, int_cvars_func2, CF_PERCENT, NOVALUEALIAS,
         "The amount the screen shakes when the player is attacked (" BOLD("0%") " to " BOLD("100%") ")."),
-    CVAR_INT(r_skycolor, r_skycolour, r_skycolor_cvar_func1, r_skycolor_cvar_func2, CF_NONE, SKYVALUEALIAS,
+    CVAR_INT(r_skycolor, r_skycolour, r_skycolor_cvar_func1, r_skycolor_cvar_func2, CF_NONE, SKYCOLORVALUEALIAS,
         "The color of the sky (" BOLD("none") ", or " BOLD("0") " to " BOLD("255") ")."),
     CVAR_BOOL(r_supersampling, "", bool_cvars_func1, r_supersampling_cvar_func2, BOOLVALUEALIAS,
         "Toggles SSAA (supersampling anti-aliasing) when the graphic detail is low."),
@@ -8522,12 +8522,12 @@ static void r_shadows_translucency_cvar_func2(char *cmd, char *parms)
 //
 static dboolean r_skycolor_cvar_func1(char *cmd, char *parms)
 {
-    return (C_LookupValueFromAlias(parms, SKYVALUEALIAS) == r_skycolor_none || color_cvars_func1(cmd, parms));
+    return (C_LookupValueFromAlias(parms, SKYCOLORVALUEALIAS) == r_skycolor_none || color_cvars_func1(cmd, parms));
 }
 
 static void r_skycolor_cvar_func2(char *cmd, char *parms)
 {
-    const int   value = C_LookupValueFromAlias(parms, SKYVALUEALIAS);
+    const int   value = C_LookupValueFromAlias(parms, SKYCOLORVALUEALIAS);
 
     if (value != INT_MIN)
     {
