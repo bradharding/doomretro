@@ -286,12 +286,13 @@ dboolean CacheSFX(sfxinfo_t *sfxinfo)
         SDL_AudioSpec   spec;
         uint8_t         *buffer = NULL;
         uint32_t        length;
-        int             bits;
 
         if (!SDL_LoadWAV_RW(rwops, 1, &spec, &buffer, &length))
             return false;
         else
         {
+            int bits;
+
             if (spec.channels != 1)
             {
                 SDL_FreeWAV(buffer);

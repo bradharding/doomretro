@@ -2834,7 +2834,6 @@ void P_SetupLevel(int ep, int map)
     int         lumpnum;
     static int  prevlumpnum = -1;
     char        *temp1;
-    char        *temp2;
 
     boomcompatible = false;
     mbfcompatible = false;
@@ -2918,7 +2917,7 @@ void P_SetupLevel(int ep, int map)
         C_PlayerMessage("%s %sentered %s.", temp1, (samelevel ? "re" : ""), maptitle);
     else
     {
-        temp2 = titlecase(maptitle);
+        char    *temp2 = titlecase(maptitle);
 
         C_PlayerMessage("%s %sentered " ITALICS("%s") "%s",
             temp1, (samelevel ? "re" : ""), temp2, (ispunctuation(temp2[strlen(temp2) - 1]) ? "" : "."));
