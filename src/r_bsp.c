@@ -357,7 +357,7 @@ static void R_AddLine(seg_t *line)
     angle1 -= viewangle;
     angle2 -= viewangle;
 
-    if ((int)angle1 < (int)angle2)
+    if ((signed int)angle1 < (signed int)angle2)
     {
         // Either angle1 or angle2 is behind us, so it doesn't matter if we change it to the correct sign
         if (angle1 >= ANG180 && angle1 < ANG270)
@@ -366,16 +366,16 @@ static void R_AddLine(seg_t *line)
             angle2 = INT_MIN;
     }
 
-    if ((int)angle2 >= (int)clipangle)
+    if ((signed int)angle2 >= (signed int)clipangle)
         return;                         // Both off left edge
 
-    if ((int)angle1 <= -(int)clipangle)
+    if ((signed int)angle1 <= -(signed int)clipangle)
         return;                         // Both off right edge
 
-    if ((int)angle1 >= (int)clipangle)
+    if ((signed int)angle1 >= (signed int)clipangle)
         angle1 = clipangle;             // Clip at left edge
 
-    if ((int)angle2 <= -(int)clipangle)
+    if ((signed int)angle2 <= -(signed int)clipangle)
         angle2 = 0 - clipangle;         // Clip at right edge
 
     // The seg is in the view range, but not necessarily visible.
@@ -456,7 +456,7 @@ static dboolean R_CheckBBox(const fixed_t *bspcoord)
 
     // cph - replaced old code, which was unclear and badly commented
     // Much more efficient code now
-    if ((int)angle1 < (int)angle2)
+    if ((signed int)angle1 < (signed int)angle2)
     {
         // Either angle1 or angle2 is behind us, so it doesn't matter if we change it to the correct sign
         if (angle1 >= ANG180 && angle1 < ANG270)
@@ -465,16 +465,16 @@ static dboolean R_CheckBBox(const fixed_t *bspcoord)
             angle2 = INT_MIN;
     }
 
-    if ((int)angle2 >= (int)clipangle)
+    if ((signed int)angle2 >= (signed int)clipangle)
         return false;                   // Both off left edge
 
-    if ((int)angle1 <= -(int)clipangle)
+    if ((signed int)angle1 <= -(signed int)clipangle)
         return false;                   // Both off right edge
 
-    if ((int)angle1 >= (int)clipangle)
+    if ((signed int)angle1 >= (signed int)clipangle)
         angle1 = clipangle;             // Clip at left edge
 
-    if ((int)angle2 <= -(int)clipangle)
+    if ((signed int)angle2 <= -(signed int)clipangle)
         angle2 = 0 - clipangle;         // Clip at right edge
 
     // Find the first clippost that touches the source post (adjacent pixels are touching).
