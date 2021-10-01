@@ -840,8 +840,7 @@ consolecmd_t consolecmds[] =
         "Toggles using the pillarboxes either side of the screen for palette effects."),
 #if defined(_WIN32)
     CVAR_STR(vid_scaleapi, "", vid_scaleapi_cvar_func1, vid_scaleapi_cvar_func2, CF_NONE,
-        "The API used to scale each frame (" BOLD("\"direct3d\"") ", " BOLD("\"opengl\"") ", " BOLD("\"opengles\"") ", "
-        BOLD("\"opengles2\"") " or " BOLD("\"software\"") ")."),
+        "The API used to scale each frame (" BOLD("\"direct3d\"") ", " BOLD("\"opengl\"") " or " BOLD("\"software\"") ")."),
 #elif defined(__APPLE__)
     CVAR_STR(vid_scaleapi, "", vid_scaleapi_cvar_func1, vid_scaleapi_cvar_func2, CF_NONE,
         "The API used to scale each frame (" BOLD("\"metal\"") ", " BOLD("\"opengl\"") ", " BOLD("\"opengles\"") ", "
@@ -9006,8 +9005,10 @@ static dboolean vid_scaleapi_cvar_func1(char *cmd, char *parms)
         || M_StringCompare(parms, vid_scaleapi_metal)
 #endif
         || M_StringCompare(parms, vid_scaleapi_opengl)
+#if !defined(_WIN32)
         || M_StringCompare(parms, vid_scaleapi_opengles)
         || M_StringCompare(parms, vid_scaleapi_opengles2)
+#endif
         || M_StringCompare(parms, vid_scaleapi_software));
 }
 

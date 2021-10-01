@@ -1646,7 +1646,7 @@ static void SetVideoMode(dboolean createwindow, dboolean output)
             }
         }
 #if defined(_WIN32)
-        else if (M_StringCompare(rendererinfo.name, vid_scaleapi_direct3d) && !M_StringStartsWith(vid_scaleapi, "opengl"))
+        else if (M_StringCompare(rendererinfo.name, vid_scaleapi_direct3d))
         {
             if (output)
                 C_Output("This scaling is done using hardware acceleration with " ITALICS("Direct3D %s."),
@@ -1658,14 +1658,12 @@ static void SetVideoMode(dboolean createwindow, dboolean output)
                 M_SaveCVARs();
             }
         }
-#endif
-#if defined(__APPLE__)
+#elif defined(__APPLE__)
         else if (M_StringCompare(rendererinfo.name, vid_scaleapi_metal))
         {
             if (output)
                 C_Output("This scaling is done using hardware acceleration with " ITALICS("Metal."));
         }
-#endif
         else if (M_StringCompare(rendererinfo.name, vid_scaleapi_opengles))
         {
             if (output)
@@ -1676,6 +1674,7 @@ static void SetVideoMode(dboolean createwindow, dboolean output)
             if (output)
                 C_Output("This scaling is done using hardware acceleration with " ITALICS("OpenGL ES 2."));
         }
+#endif
         else if (M_StringCompare(rendererinfo.name, vid_scaleapi_software))
         {
             software = true;
