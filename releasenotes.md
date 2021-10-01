@@ -4,7 +4,7 @@
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * When *DOOM Retro* is run for the first time, the WAD launcher will now look for installations of *The Ultimate DOOM* and *DOOM II: Hell On Earth* purchased and downloaded using the [*Bethesda.net Launcher*](https://bethesda.net/en/game/bethesda-launcher).
-* The `vid_scaleapi` CVAR can now be either `opengles` or `opengles2` to scale each frame using the *OpenGL ES* or *OpenGL ES 2.0* APIs, respectively.
+* The `vid_scaleapi` CVAR can now also be set to either `opengles` or `opengles2` to scale each frame using the *OpenGL ES* or *OpenGL ES 2.0* APIs, respectively.
 * Minor changes have been made to text that is output to the console.
 * Minor improvements have been made to the console’s autocomplete feature.
 * Rotating the automap is now smoother when the `am_rotate` CVAR is `on`.
