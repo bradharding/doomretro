@@ -87,6 +87,8 @@ void S_Init(void);
 // Shut down sound
 void S_Shutdown(void);
 
+void S_StopSounds(void);
+
 //
 // Per level startup code.
 // Kills playing sounds at start of level,

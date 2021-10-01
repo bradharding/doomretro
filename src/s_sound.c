@@ -277,6 +277,16 @@ static void S_StopChannel(int cnum)
     }
 }
 
+void S_StopSounds(void)
+{
+    if (nosfx)
+        return;
+
+    for (int cnum = 0; cnum < s_channels; cnum++)
+        if (channels[cnum].sfxinfo)
+            S_StopChannel(cnum);
+}
+
 static int S_GetMusicNum(void)
 {
     int mnum;
