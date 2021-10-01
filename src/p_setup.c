@@ -722,7 +722,7 @@ static void P_CheckLinedefs(void)
 
                 C_Warning(2, "Linedef %s has %s line special %i (\"%s\") but no tag.",
                     temp, (ld->special < BOOMLINESPECIALS ? "the" : (ld->special < MBFLINESPECIALS ? "the " ITALICS("MBF")
-                    "-compatible" : "the " ITALICS("BOOM") "-compatible")), ld->special, linespecials[ld->special]);
+                    "-compatible" : "the " ITALICS("BOOM-") "compatible")), ld->special, linespecials[ld->special]);
                 free(temp);
             }
             else if (ld->tag < 0 || P_FindSectorFromLineTag(ld, -1) == -1)
@@ -732,7 +732,7 @@ static void P_CheckLinedefs(void)
 
                 C_Warning(2, "Linedef %s has %s line special %i (\"%s\") but an unknown tag of %s.",
                     temp1, (ld->special < BOOMLINESPECIALS ? "the" : (ld->special < MBFLINESPECIALS ? "the " ITALICS("MBF")
-                    "-compatible" : "the " ITALICS("BOOM") "-compatible")), ld->special, linespecials[ld->special], temp2);
+                    "-compatible" : "the " ITALICS("BOOM-") "compatible")), ld->special, linespecials[ld->special], temp2);
                 free(temp1);
                 free(temp2);
             }
@@ -998,18 +998,18 @@ static void P_LoadSegs(int lump)
                             if (li->linedef->special)
                                 C_Warning(2, "The %sline special of linedef %s has been changed from %i (\"%s\") to %i (\"%s\").",
                                     (li->linedef->special < BOOMLINESPECIALS ? "" : (li->linedef->special < MBFLINESPECIALS ?
-                                    ITALICS("MBF") "-compatible " : ITALICS("BOOM") "-compatible ")), temp, li->linedef->special,
+                                    ITALICS("MBF-") "compatible " : ITALICS("BOOM-") "compatible ")), temp, li->linedef->special,
                                     linespecials[li->linedef->special], linefix[j].special, linespecials[linefix[j].special]);
                             else
                                 C_Warning(2, "The %sline special %i (\"%s\") has been added to linedef %s.",
                                     (li->linedef->special < BOOMLINESPECIALS ? "" : (li->linedef->special < MBFLINESPECIALS ?
-                                    ITALICS("MBF") "-compatible " : ITALICS("BOOM") "-compatible ")), linefix[j].special,
+                                    ITALICS("MBF-") "compatible " : ITALICS("BOOM-") "compatible ")), linefix[j].special,
                                     linespecials[linefix[j].special], temp);
                         }
                         else
                             C_Warning(2, "The %sline special of linedef %s has been removed.",
                                 (li->linedef->special < BOOMLINESPECIALS ? "" : (li->linedef->special < MBFLINESPECIALS ?
-                                ITALICS("MBF") "-compatible " : ITALICS("BOOM") "-compatible ")), temp);
+                                ITALICS("MBF-") "compatible " : ITALICS("BOOM-") "compatible ")), temp);
 
                         li->linedef->special = linefix[j].special;
                         free(temp);
