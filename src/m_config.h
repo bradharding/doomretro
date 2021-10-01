@@ -700,10 +700,8 @@ enum
 #define vid_scaleapi_metal                      "metal"
 #endif
 #define vid_scaleapi_opengl                     "opengl"
-#if !defined(_WIN32)
 #define vid_scaleapi_opengles                   "opengles"
 #define vid_scaleapi_opengles2                  "opengles2"
-#endif
 #define vid_scaleapi_software                   "software"
 #define vid_scaleapi_default                    vid_scaleapi_opengl
 

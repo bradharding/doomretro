@@ -1658,7 +1658,7 @@ static void SetVideoMode(dboolean createwindow, dboolean output)
                 M_SaveCVARs();
             }
         }
-#else
+#endif
 #if defined(__APPLE__)
         else if (M_StringCompare(rendererinfo.name, vid_scaleapi_metal))
         {
@@ -1676,7 +1676,6 @@ static void SetVideoMode(dboolean createwindow, dboolean output)
             if (output)
                 C_Output("This scaling is done using hardware acceleration with " ITALICS("OpenGL ES 2."));
         }
-#endif
         else if (M_StringCompare(rendererinfo.name, vid_scaleapi_software))
         {
             software = true;
