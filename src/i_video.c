@@ -1619,7 +1619,7 @@ static void SetVideoMode(dboolean createwindow, dboolean output)
 
             if (major * 10 + minor < 21)
             {
-                C_Warning(1, ITALICS(DOOMRETRO_NAME "") " requires at least " ITALICS("OpenGL v2.1."));
+                C_Warning(1, ITALICS(DOOMRETRO_NAME) " requires at least " ITALICS("OpenGL v2.1."));
 
 #if defined(_WIN32)
                 vid_scaleapi = vid_scaleapi_direct3d;

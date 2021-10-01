@@ -1956,14 +1956,14 @@ static void D_DoomMainSetup(void)
     I_InitTimer();
 
     if (!stat_runs)
-        C_Output("This is the first time " ITALICS(DOOMRETRO_NAME "") " has been run.");
+        C_Output("This is the first time " ITALICS(DOOMRETRO_NAME) " has been run.");
     else if (stat_runs == 1)
-        C_Output(ITALICS(DOOMRETRO_NAME "") " has now been run twice.");
+        C_Output(ITALICS(DOOMRETRO_NAME) " has now been run twice.");
     else
     {
         char    *temp = commify(SafeAdd(stat_runs, 1));
 
-        C_Output(ITALICS(DOOMRETRO_NAME "") " has now been run %s times.", temp);
+        C_Output(ITALICS(DOOMRETRO_NAME) " has now been run %s times.", temp);
         free(temp);
     }
 
@@ -2176,7 +2176,7 @@ static void D_DoomMainSetup(void)
     C_Output("All screenshots taken will be saved in " BOLD("%s") ".", screenshotfolder);
 
     C_Output("All files created using the " BOLD("condump") " CCMD will be saved in "
-        BOLD("%s" DIR_SEPARATOR_S "console" DIR_SEPARATOR_S "") ".", appdatafolder);
+        BOLD("%s" DIR_SEPARATOR_S "console" DIR_SEPARATOR_S) ".", appdatafolder);
 
 #if !defined(__APPLE__)
     free(appdatafolder);

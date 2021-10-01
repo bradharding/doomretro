@@ -205,7 +205,7 @@ void I_PrintWindowsVersion(void)
         }
 
         if (bits == 64 && sizeof(intptr_t) == 4)
-            C_Warning(1, "The 64-bit version of " ITALICS(DOOMRETRO_NAME "") " is recommended on this PC.");
+            C_Warning(1, "The 64-bit version of " ITALICS(DOOMRETRO_NAME) " is recommended on this PC.");
     }
 }
 #endif
