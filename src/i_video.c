@@ -1646,7 +1646,7 @@ static void SetVideoMode(dboolean createwindow, dboolean output)
             }
         }
 #if defined(_WIN32)
-        else if (M_StringCompare(rendererinfo.name, vid_scaleapi_direct3d))
+        else if (M_StringCompare(rendererinfo.name, vid_scaleapi_direct3d) && !M_StringStartsWith(vid_scaleapi, "opengl"))
         {
             if (output)
                 C_Output("This scaling is done using hardware acceleration with " ITALICS("Direct3D %s."),
