@@ -3016,9 +3016,6 @@ void P_SetupLevel(int ep, int map)
     // preload graphics
     R_PrecacheLevel();
 
-    if (samelevel && !menuactive)
-        S_StopSounds();
-
     S_Start();
 
     if (gamemode != shareware)

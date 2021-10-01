@@ -409,6 +409,8 @@ static void P_DeathThink(void)
         skipaction = true;
         gamekeydown[' '] = false;
         gamekeydown[KEY_ENTER] = false;
+
+        S_StopSounds();
     }
     else
         deathcount++;
