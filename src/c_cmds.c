@@ -4563,7 +4563,7 @@ char *distancetraveled(uint64_t value)
         {
             char    *temp = commify((int64_t)feet);
 
-            M_snprintf(result, 20, "%s %s", temp, (M_StringCompare(temp, "1.0") ? "foot" : "feet"));
+            M_snprintf(result, 20, "%s %s", temp, (M_StringCompare(temp, "1") ? "foot" : "feet"));
             free(temp);
         }
         else

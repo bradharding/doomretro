@@ -1034,7 +1034,7 @@ dboolean P_TryMove(mobj_t *thing, fixed_t x, fixed_t y, int dropoff)
 
     if (thing->player && thing->player->mo == thing && (x != oldx || y != oldy))
     {
-        fixed_t dist = (fixed_t)hypot((x - oldx) >> FRACBITS, (y - oldy) >> FRACBITS);
+        fixed_t dist = (fixed_t)(hypot((double)x - oldx, (double)y - oldy)) >> FRACBITS;
 
         stat_distancetraveled = SafeAdd(stat_distancetraveled, dist);
         viewplayer->distancetraveled += dist;
