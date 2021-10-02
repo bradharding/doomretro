@@ -553,7 +553,7 @@ consolecmd_t consolecmds[] =
         "Toggles a fading effect when transitioning between some screens."),
     CCMD(fastmonsters, "", fastmonsters_cmd_func1, fastmonsters_cmd_func2, true, "[" BOLD("on") "|" BOLD("off") "]",
         "Toggles fast monsters."),
-    CCMD(freeze, "", alive_func1, freeze_cmd_func2, true, "[" BOLD("on") "|" BOLD("off") "]",
+    CCMD(freeze, "", game_func1, freeze_cmd_func2, true, "[" BOLD("on") "|" BOLD("off") "]",
         "Toggles freeze mode."),
     CVAR_TIME(gametime, "", null_func1, time_cvars_func2,
         "The amount of time " ITALICS(DOOMRETRO_NAME) " has been running."),
