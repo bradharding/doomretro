@@ -18,7 +18,7 @@
 * A dead player’s negative health will now be displayed in the status bar as it does in the widescreen HUD.
 * The items that monsters drop when they are killed will now also move slightly if walked over when the `r_corpses_nudge` CVAR is `on`.
 * The number of monsters resurrected is now displayed by the `playerstats` CCMD.
-* The “monsters killed by infighting“ stat is now reset at the start of each map as intended.
+* The “monsters killed by infighting” stat is now reset at the start of each map as intended.
 * A bug has been fixed whereby the `facebackcolor` CVAR wouldn’t be reset to its default of `5` if vanilla mode was enabled.
 * The background of the player’s face will now be a better size when the `facebackcolor` CVAR is a value other than its default of `5`.
 
