@@ -207,7 +207,7 @@ int                 gammaindex;
 static SDL_Rect     src_rect;
 static SDL_Rect     map_rect;
 
-int                 framespersecond;
+int                 framespersecond = 0;
 int                 refreshrate;
 
 #if defined(_WIN32)
@@ -814,8 +814,7 @@ static void CalculateFPS(void)
         starttime = currenttime;
     }
 
-    if (framespersecond)
-        C_UpdateFPS();
+    C_UpdateFPS();
 }
 
 #if defined(_WIN32)
