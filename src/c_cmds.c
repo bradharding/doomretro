@@ -4557,9 +4557,7 @@ char *distancetraveled(uint64_t value)
 
     if (units == units_imperial)
     {
-        if (!feet)
-            M_StringCopy(result,"0 feet", 20);
-        else if (feet < FEETPERMILE)
+        if (feet < FEETPERMILE)
         {
             char    *temp = commify((int64_t)feet);
 
@@ -4578,9 +4576,7 @@ char *distancetraveled(uint64_t value)
     {
         const float meters = feet / FEETPERMETER;
 
-        if (!meters)
-            M_StringCopy(result,"0 meters", 20);
-        else if (meters < METERSPERKILOMETER)
+        if (meters < METERSPERKILOMETER)
         {
             char    *temp = striptrailingzero(meters, 1);
 
