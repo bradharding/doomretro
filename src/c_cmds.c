@@ -4638,7 +4638,7 @@ static void C_PlayerStats_Game(void)
     C_Header(tabs, playerstats, PLAYERSTATSHEADER);
 
     if (viewplayer->cheats & (CF_ALLMAP | CF_ALLMAP_THINGS))
-        C_TabbedOutput(tabs, "Map explored\t100%%\t-");
+        C_TabbedOutput(tabs, "Map explored\t100%%\t\x96");
     else
     {
         int mappedwalls = 0;
@@ -4665,7 +4665,7 @@ static void C_PlayerStats_Game(void)
         }
 
         temp1 = striptrailingzero((totalwalls ? mappedwalls * 100.0f / totalwalls : 0.0f), 1);
-        C_TabbedOutput(tabs, "Map explored\t%s%%\t-", temp1);
+        C_TabbedOutput(tabs, "Map explored\t%s%%\t\x96", temp1);
         free(temp1);
     }
 
@@ -4684,7 +4684,7 @@ static void C_PlayerStats_Game(void)
     free(temp2);
 
     if (favoriteskilllevel1 == sk_none)
-        C_TabbedOutput(tabs, "Favorite skill level\t-\t-");
+        C_TabbedOutput(tabs, "Favorite skill level\t\x96\t\x96");
     else
     {
         temp1 = titlecase(*skilllevels[skilllevel - 1]);
@@ -5257,19 +5257,19 @@ static void C_PlayerStats_NoGame(void)
     C_Header(tabs, playerstats, PLAYERSTATSHEADER);
 
     temp1 = commifystat(stat_mapsstarted);
-    C_TabbedOutput(tabs, "Maps started\t-\t%s", temp1);
+    C_TabbedOutput(tabs, "Maps started\t\x96\t%s", temp1);
     free(temp1);
 
     temp1 = commifystat(stat_mapscompleted);
-    C_TabbedOutput(tabs, "Maps completed\t-\t%s", temp1);
+    C_TabbedOutput(tabs, "Maps completed\t\x96\t%s", temp1);
     free(temp1);
 
     temp1 = commifystat(stat_gamessaved);
-    C_TabbedOutput(tabs, "Games saved\t-\t%s", temp1);
+    C_TabbedOutput(tabs, "Games saved\t\x96\t%s", temp1);
     free(temp1);
 
     if (favoriteskilllevel1 == sk_none)
-        C_TabbedOutput(tabs, "Favorite skill level\t-\t-");
+        C_TabbedOutput(tabs, "Favorite skill level\t\x96\t\x96");
     else
     {
         temp1 = titlecase(*skilllevels[favoriteskilllevel1]);
@@ -5277,42 +5277,42 @@ static void C_PlayerStats_NoGame(void)
         if (temp1[strlen(temp1) - 1] == '.')
             temp1[strlen(temp1) - 1] = '\0';
 
-        C_TabbedOutput(tabs, "Favorite skill level\t-\t" ITALICS("%s"), temp1);
+        C_TabbedOutput(tabs, "Favorite skill level\t\x96\t" ITALICS("%s"), temp1);
         free(temp1);
     }
 
     temp1 = commifystat(stat_monsterskilled);
-    C_TabbedOutput(tabs, "Monsters killed by %s\t-\t%s", playername, temp1);
+    C_TabbedOutput(tabs, "Monsters killed by %s\t\x96\t%s", playername, temp1);
     free(temp1);
 
     temp1 = commifystat(stat_monsterskilled_infighting);
-    C_TabbedOutput(tabs, "Monsters killed by infighting\t-\t%s", temp1);
+    C_TabbedOutput(tabs, "Monsters killed by infighting\t\x96\t%s", temp1);
     free(temp1);
 
     if (gamemode == commercial)
     {
         temp1 = sentencecase(mobjinfo[MT_BABY].plural1);
         temp2 = commifystat(stat_monsterskilled_arachnotrons);
-        C_TabbedOutput(tabs, "%s killed\t-\t%s", temp1, temp2);
+        C_TabbedOutput(tabs, "%s killed\t\x96\t%s", temp1, temp2);
         free(temp1);
         free(temp2);
 
         temp1 = sentencecase(mobjinfo[MT_VILE].plural1);
         temp2 = commifystat(stat_monsterskilled_archviles);
-        C_TabbedOutput(tabs, "%s killed\t-\t%s", temp1, temp2);
+        C_TabbedOutput(tabs, "%s killed\t\x96\t%s", temp1, temp2);
         free(temp1);
         free(temp2);
     }
 
     temp1 = sentencecase(mobjinfo[MT_BRUISER].plural1);
     temp2 = commifystat(stat_monsterskilled_baronsofhell);
-    C_TabbedOutput(tabs, "%s killed\t-\t%s", temp1, temp2);
+    C_TabbedOutput(tabs, "%s killed\t\x96\t%s", temp1, temp2);
     free(temp1);
     free(temp2);
 
     temp1 = sentencecase(mobjinfo[MT_HEAD].plural1);
     temp2 = commifystat(stat_monsterskilled_cacodemons);
-    C_TabbedOutput(tabs, "%s killed\t-\t%s", temp1, temp2);
+    C_TabbedOutput(tabs, "%s killed\t\x96\t%s", temp1, temp2);
     free(temp1);
     free(temp2);
 
@@ -5320,7 +5320,7 @@ static void C_PlayerStats_NoGame(void)
     {
         temp1 = sentencecase(mobjinfo[MT_CYBORG].plural1);
         temp2 = commifystat(stat_monsterskilled_cyberdemons);
-        C_TabbedOutput(tabs, "%s killed\t-\t%s", temp1, temp2);
+        C_TabbedOutput(tabs, "%s killed\t\x96\t%s", temp1, temp2);
         free(temp1);
         free(temp2);
     }
@@ -5329,26 +5329,26 @@ static void C_PlayerStats_NoGame(void)
     {
         temp1 = sentencecase(mobjinfo[MT_CHAINGUY].plural1);
         temp2 = commifystat(stat_monsterskilled_heavyweapondudes);
-        C_TabbedOutput(tabs, "%s killed\t-\t%s", temp1, temp2);
+        C_TabbedOutput(tabs, "%s killed\t\x96\t%s", temp1, temp2);
         free(temp1);
         free(temp2);
 
         temp1 = sentencecase(mobjinfo[MT_KNIGHT].plural1);
         temp2 = commifystat(stat_monsterskilled_hellknights);
-        C_TabbedOutput(tabs, "%s killed\t-\t%s", temp1, temp2);
+        C_TabbedOutput(tabs, "%s killed\t\x96\t%s", temp1, temp2);
         free(temp1);
         free(temp2);
     }
 
     temp1 = sentencecase(mobjinfo[MT_TROOP].plural1);
     temp2 = commifystat(stat_monsterskilled_imps);
-    C_TabbedOutput(tabs, "%s killed\t-\t%s", temp1, temp2);
+    C_TabbedOutput(tabs, "%s killed\t\x96\t%s", temp1, temp2);
     free(temp1);
     free(temp2);
 
     temp1 = sentencecase(mobjinfo[MT_SKULL].plural1);
     temp2 = commifystat(stat_monsterskilled_lostsouls);
-    C_TabbedOutput(tabs, "%s killed\t-\t%s", temp1, temp2);
+    C_TabbedOutput(tabs, "%s killed\t\x96\t%s", temp1, temp2);
     free(temp1);
     free(temp2);
 
@@ -5356,38 +5356,38 @@ static void C_PlayerStats_NoGame(void)
     {
         temp1 = sentencecase(mobjinfo[MT_FATSO].plural1);
         temp2 = commifystat(stat_monsterskilled_mancubi);
-        C_TabbedOutput(tabs, "%s killed\t-\t%s", temp1, temp2);
+        C_TabbedOutput(tabs, "%s killed\t\x96\t%s", temp1, temp2);
         free(temp1);
         free(temp2);
 
         temp1 = sentencecase(mobjinfo[MT_PAIN].plural1);
         temp2 = commifystat(stat_monsterskilled_painelementals);
-        C_TabbedOutput(tabs, "%s killed\t-\t%s", temp1, temp2);
+        C_TabbedOutput(tabs, "%s killed\t\x96\t%s", temp1, temp2);
         free(temp1);
         free(temp2);
     }
 
     temp1 = sentencecase(mobjinfo[MT_SERGEANT].plural1);
     temp2 = commifystat(stat_monsterskilled_pinkydemons);
-    C_TabbedOutput(tabs, "%s killed\t-\t%s", temp1, temp2);
+    C_TabbedOutput(tabs, "%s killed\t\x96\t%s", temp1, temp2);
     free(temp1);
     free(temp2);
 
     temp1 = sentencecase(mobjinfo[MT_UNDEAD].plural1);
     temp2 = commifystat(stat_monsterskilled_revenants);
-    C_TabbedOutput(tabs, "%s killed\t-\t%s", temp1, temp2);
+    C_TabbedOutput(tabs, "%s killed\t\x96\t%s", temp1, temp2);
     free(temp1);
     free(temp2);
 
     temp1 = sentencecase(mobjinfo[MT_SHOTGUY].plural1);
     temp2 = commifystat(stat_monsterskilled_shotgunguys);
-    C_TabbedOutput(tabs, "%s killed\t-\t%s", temp1, temp2);
+    C_TabbedOutput(tabs, "%s killed\t\x96\t%s", temp1, temp2);
     free(temp1);
     free(temp2);
 
     temp1 = sentencecase(mobjinfo[MT_SHADOWS].plural1);
     temp2 = commifystat(stat_monsterskilled_spectres);
-    C_TabbedOutput(tabs, "%s killed\t-\t%s", temp1, temp2);
+    C_TabbedOutput(tabs, "%s killed\t\x96\t%s", temp1, temp2);
     free(temp1);
     free(temp2);
 
@@ -5395,83 +5395,83 @@ static void C_PlayerStats_NoGame(void)
     {
         temp1 = sentencecase(mobjinfo[MT_SPIDER].plural1);
         temp2 = commifystat(stat_monsterskilled_spidermasterminds);
-        C_TabbedOutput(tabs, "%s killed\t-\t%s", temp1, temp2);
+        C_TabbedOutput(tabs, "%s killed\t\x96\t%s", temp1, temp2);
         free(temp1);
         free(temp2);
     }
 
     temp1 = sentencecase(mobjinfo[MT_POSSESSED].plural1);
     temp2 = commifystat(stat_monsterskilled_zombiemen);
-    C_TabbedOutput(tabs, "%s killed\t-\t%s", temp1, temp2);
+    C_TabbedOutput(tabs, "%s killed\t\x96\t%s", temp1, temp2);
     free(temp1);
     free(temp2);
 
     temp1 = sentencecase(mobjinfo[MT_BARREL].plural1);
     temp2 = commifystat(stat_barrelsexploded);
-    C_TabbedOutput(tabs, "%s exploded\t-\t%s", temp1, temp2);
+    C_TabbedOutput(tabs, "%s exploded\t\x96\t%s", temp1, temp2);
     free(temp1);
     free(temp2);
 
     temp1 = commifystat(stat_monstersresurrected);
-    C_TabbedOutput(tabs, "Monsters resurrected\t-\t%s", temp1);
+    C_TabbedOutput(tabs, "Monsters resurrected\t\x96\t%s", temp1);
     free(temp1);
 
     temp1 = commifystat(stat_itemspickedup);
-    C_TabbedOutput(tabs, "Items picked up\t-\t%s", temp1);
+    C_TabbedOutput(tabs, "Items picked up\t\x96\t%s", temp1);
     free(temp1);
 
     temp1 = commifystat(stat_itemspickedup_ammo_bullets);
-    C_TabbedOutput(tabs, "Ammo picked up\t-\t%s %s", temp1,
+    C_TabbedOutput(tabs, "Ammo picked up\t\x96\t%s %s", temp1,
         (stat_itemspickedup_ammo_bullets == 1 ? weaponinfo[wp_pistol].ammoname : weaponinfo[wp_pistol].ammoplural));
     free(temp1);
 
     temp1 = commifystat(stat_itemspickedup_ammo_shells);
-    C_TabbedOutput(tabs, "\t-\t%s %s", temp1,
+    C_TabbedOutput(tabs, "\t\x96\t%s %s", temp1,
         (stat_itemspickedup_ammo_shells == 1 ? weaponinfo[wp_shotgun].ammoname : weaponinfo[wp_shotgun].ammoplural));
     free(temp1);
 
     temp1 = commifystat(stat_itemspickedup_ammo_rockets);
-    C_TabbedOutput(tabs, "\t-\t%s %s", temp1,
+    C_TabbedOutput(tabs, "\t\x96\t%s %s", temp1,
         (stat_itemspickedup_ammo_rockets == 1 ? weaponinfo[wp_missile].ammoname : weaponinfo[wp_missile].ammoplural));
     free(temp1);
 
     temp1 = commifystat(stat_itemspickedup_ammo_cells);
-    C_TabbedOutput(tabs, "\t-\t%s %s", temp1 ,
+    C_TabbedOutput(tabs, "\t\x96\t%s %s", temp1 ,
         (stat_itemspickedup_ammo_cells == 1 ? weaponinfo[wp_plasma].ammoname : weaponinfo[wp_plasma].ammoplural));
     free(temp1);
 
     temp1 = commifystat(stat_itemspickedup_armor);
-    C_TabbedOutput(tabs, "Armor picked up\t-\t%s%%", temp1);
+    C_TabbedOutput(tabs, "Armor picked up\t\x96\t%s%%", temp1);
     free(temp1);
 
     temp1 = commifystat(stat_itemspickedup_health);
-    C_TabbedOutput(tabs, "Health picked up\t-\t%s%%", temp1);
+    C_TabbedOutput(tabs, "Health picked up\t\x96\t%s%%", temp1);
     free(temp1);
 
     temp1 = commifystat(stat_secretsfound);
-    C_TabbedOutput(tabs, "Secrets found\t-\t%s", temp1);
+    C_TabbedOutput(tabs, "Secrets found\t\x96\t%s", temp1);
     free(temp1);
 
-    C_TabbedOutput(tabs, "Time played\t-\t%02i:%02i:%02i", time2 / 3600, (time2 % 3600) / 60, (time2 % 3600) % 60);
+    C_TabbedOutput(tabs, "Time played\t\x96\t%02i:%02i:%02i", time2 / 3600, (time2 % 3600) / 60, (time2 % 3600) % 60);
 
     temp1 = commifystat(stat_damageinflicted);
-    C_TabbedOutput(tabs, "Damage inflicted\t-\t%s%%", temp1);
+    C_TabbedOutput(tabs, "Damage inflicted\t\x96\t%s%%", temp1);
     free(temp1);
 
     temp1 = commifystat(stat_damagereceived);
-    C_TabbedOutput(tabs, "Damage received\t-\t%s%%", temp1);
+    C_TabbedOutput(tabs, "Damage received\t\x96\t%s%%", temp1);
     free(temp1);
 
     temp1 = commifystat(stat_deaths);
-    C_TabbedOutput(tabs, "Deaths\t-\t%s", temp1);
+    C_TabbedOutput(tabs, "Deaths\t\x96\t%s", temp1);
     free(temp1);
 
     temp1 = commifystat(stat_suicides);
-    C_TabbedOutput(tabs, "Suicides\t-\t%s", temp1);
+    C_TabbedOutput(tabs, "Suicides\t\x96\t%s", temp1);
     free(temp1);
 
     temp1 = commifystat(stat_cheated);
-    C_TabbedOutput(tabs, "Cheated\t-\t%s", temp1);
+    C_TabbedOutput(tabs, "Cheated\t\x96\t%s", temp1);
     free(temp1);
 
     temp1 = commify((shotssuccessful = stat_shotssuccessful_fists + stat_shotssuccessful_chainsaw + stat_shotssuccessful_pistol
@@ -5480,7 +5480,7 @@ static void C_PlayerStats_NoGame(void)
     temp2 = commify((shotsfired = stat_shotsfired_fists + stat_shotsfired_chainsaw + stat_shotsfired_pistol + stat_shotsfired_shotgun
         + stat_shotsfired_supershotgun + stat_shotsfired_chaingun + stat_shotsfired_rocketlauncher + stat_shotsfired_plasmarifle
         + stat_shotsfired_bfg9000));
-    C_TabbedOutput(tabs, "Shots successful/fired\t-\t%s of %s (%i%%)",
+    C_TabbedOutput(tabs, "Shots successful/fired\t\x96\t%s of %s (%i%%)",
         temp1, temp2, (shotsfired ? (int)(shotssuccessful * 100 / shotsfired) : 0));
     free(temp1);
     free(temp2);
@@ -5488,7 +5488,7 @@ static void C_PlayerStats_NoGame(void)
     temp1 = sentencecase(weaponinfo[wp_fist].name);
     temp2 = commifystat(stat_shotssuccessful_fists);
     temp3 = commifystat(stat_shotsfired_fists);
-    C_TabbedOutput(tabs, "   %s\t-\t%s of %s (%i%%)",
+    C_TabbedOutput(tabs, "   %s\t\x96\t%s of %s (%i%%)",
         temp1, temp2, temp3, (stat_shotsfired_fists ? (int)(stat_shotssuccessful_fists * 100 / stat_shotsfired_fists) : 0));
     free(temp1);
     free(temp2);
@@ -5497,7 +5497,7 @@ static void C_PlayerStats_NoGame(void)
     temp1 = sentencecase(weaponinfo[wp_chainsaw].name);
     temp2 = commifystat(stat_shotssuccessful_chainsaw);
     temp3 = commifystat(stat_shotsfired_chainsaw);
-    C_TabbedOutput(tabs, "   %s\t-\t%s of %s (%i%%)",
+    C_TabbedOutput(tabs, "   %s\t\x96\t%s of %s (%i%%)",
         temp1, temp2, temp3, (stat_shotsfired_chainsaw ? (int)(stat_shotssuccessful_chainsaw * 100 / stat_shotsfired_chainsaw) : 0));
     free(temp1);
     free(temp2);
@@ -5506,7 +5506,7 @@ static void C_PlayerStats_NoGame(void)
     temp1 = sentencecase(weaponinfo[wp_pistol].name);
     temp2 = commifystat(stat_shotssuccessful_pistol);
     temp3 = commifystat(stat_shotsfired_pistol);
-    C_TabbedOutput(tabs, "   %s\t-\t%s of %s (%i%%)",
+    C_TabbedOutput(tabs, "   %s\t\x96\t%s of %s (%i%%)",
         temp1, temp2, temp3, (stat_shotsfired_pistol ? (int)(stat_shotssuccessful_pistol * 100 / stat_shotsfired_pistol) : 0));
     free(temp1);
     free(temp2);
@@ -5515,7 +5515,7 @@ static void C_PlayerStats_NoGame(void)
     temp1 = sentencecase(weaponinfo[wp_shotgun].name);
     temp2 = commifystat(stat_shotssuccessful_shotgun);
     temp3 = commifystat(stat_shotsfired_shotgun);
-    C_TabbedOutput(tabs, "   %s\t-\t%s of %s (%i%%)",
+    C_TabbedOutput(tabs, "   %s\t\x96\t%s of %s (%i%%)",
         temp1, temp2, temp3, (stat_shotsfired_shotgun ? (int)(stat_shotssuccessful_shotgun * 100 / stat_shotsfired_shotgun) : 0));
     free(temp1);
     free(temp2);
@@ -5526,7 +5526,7 @@ static void C_PlayerStats_NoGame(void)
         temp1 = sentencecase(weaponinfo[wp_supershotgun].name);
         temp2 = commifystat(stat_shotssuccessful_supershotgun);
         temp3 = commifystat(stat_shotsfired_supershotgun);
-        C_TabbedOutput(tabs, "   %s\t-\t%s of %s (%i%%)",
+        C_TabbedOutput(tabs, "   %s\t\x96\t%s of %s (%i%%)",
             temp1, temp2, temp3,
             (stat_shotsfired_supershotgun ? (int)(stat_shotssuccessful_supershotgun * 100 / stat_shotsfired_supershotgun) : 0));
         free(temp1);
@@ -5537,7 +5537,7 @@ static void C_PlayerStats_NoGame(void)
     temp1 = sentencecase(weaponinfo[wp_chaingun].name);
     temp2 = commifystat(stat_shotssuccessful_chaingun);
     temp3 = commifystat(stat_shotsfired_chaingun);
-    C_TabbedOutput(tabs, "   %s\t-\t%s of %s (%i%%)",
+    C_TabbedOutput(tabs, "   %s\t\x96\t%s of %s (%i%%)",
         temp1, temp2, temp3, (stat_shotsfired_chaingun ? (int)(stat_shotssuccessful_chaingun * 100 / stat_shotsfired_chaingun) : 0));
     free(temp1);
     free(temp2);
@@ -5546,7 +5546,7 @@ static void C_PlayerStats_NoGame(void)
     temp1 = sentencecase(weaponinfo[wp_missile].name);
     temp2 = commifystat(stat_shotssuccessful_rocketlauncher);
     temp3 = commifystat(stat_shotsfired_rocketlauncher);
-    C_TabbedOutput(tabs, "   %s\t-\t%s of %s (%i%%)",
+    C_TabbedOutput(tabs, "   %s\t\x96\t%s of %s (%i%%)",
         temp1, temp2, temp3,
         (stat_shotsfired_rocketlauncher ? (int)(stat_shotssuccessful_rocketlauncher * 100 / stat_shotsfired_rocketlauncher) : 0));
     free(temp1);
@@ -5558,7 +5558,7 @@ static void C_PlayerStats_NoGame(void)
         temp1 = sentencecase(weaponinfo[wp_plasma].name);
         temp2 = commifystat(stat_shotssuccessful_plasmarifle);
         temp3 = commifystat(stat_shotsfired_plasmarifle);
-        C_TabbedOutput(tabs, "   %s\t-\t%s of %s (%i%%)",
+        C_TabbedOutput(tabs, "   %s\t\x96\t%s of %s (%i%%)",
             temp1, temp2, temp3,
             (stat_shotsfired_plasmarifle ? (int)(stat_shotssuccessful_plasmarifle * 100 / stat_shotsfired_plasmarifle) : 0));
         free(temp1);
@@ -5568,7 +5568,7 @@ static void C_PlayerStats_NoGame(void)
         temp1 = sentencecase(weaponinfo[wp_bfg].name);
         temp2 = commifystat(stat_shotssuccessful_bfg9000);
         temp3 = commifystat(stat_shotsfired_bfg9000);
-        C_TabbedOutput(tabs, "   %s\t-\t%s of %s (%i%%)",
+        C_TabbedOutput(tabs, "   %s\t\x96\t%s of %s (%i%%)",
             temp1, temp2, temp3, (stat_shotsfired_bfg9000 ? (int)(stat_shotssuccessful_bfg9000 * 100 / stat_shotsfired_bfg9000) : 0));
         free(temp1);
         free(temp2);
@@ -5576,12 +5576,12 @@ static void C_PlayerStats_NoGame(void)
     }
 
     if (favoriteweapon1 == wp_nochange)
-        C_TabbedOutput(tabs, "Favorite weapon\t-\tThe %s", weaponinfo[wp_pistol].name);
+        C_TabbedOutput(tabs, "Favorite weapon\t\x96\tThe %s", weaponinfo[wp_pistol].name);
     else
-        C_TabbedOutput(tabs, "Favorite weapon\t-\tThe %s", weaponinfo[favoriteweapon1].name);
+        C_TabbedOutput(tabs, "Favorite weapon\t\x96\tThe %s", weaponinfo[favoriteweapon1].name);
 
     temp1 = distancetraveled(stat_distancetraveled, true);
-    C_TabbedOutput(tabs, "Distance traveled\t-\t%s", temp1);
+    C_TabbedOutput(tabs, "Distance traveled\t\x96\t%s", temp1);
     free(temp1);
 }
 

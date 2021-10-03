@@ -83,6 +83,7 @@ patch_t                 *lsquote;
 patch_t                 *ldquote;
 
 static patch_t          *brand;
+static patch_t          *endash;
 static patch_t          *trademark;
 static patch_t          *copyright;
 static patch_t          *regomark;
@@ -493,6 +494,11 @@ static int C_TextWidth(const char *text, const dboolean formatting, const dboole
             italics = !italics;
             continue;
         }
+        else if (letter == 150)
+        {
+            width += SHORT(endash->width);
+            i++;
+        }
         else if (letter == 153)
         {
             width += SHORT(trademark->width);
@@ -674,6 +680,7 @@ void C_Init(void)
     brand = W_CacheLastLumpName("DRBRAND");
     lsquote = W_CacheLastLumpName("DRFON145");
     ldquote = W_CacheLastLumpName("DRFON147");
+    endash = W_CacheLastLumpName("DRFON150");
     trademark = W_CacheLastLumpName("DRFON153");
     copyright = W_CacheLastLumpName("DRFON169");
     regomark = W_CacheLastLumpName("DRFON174");
@@ -916,6 +923,8 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
                 x += spacewidth;
             else if (letter == '\t')
                 x = (x > (vid_widescreen ? 18 : 0) + tabs[++tab] ? x + spacewidth : (vid_widescreen ? 18 : 0) + tabs[tab]);
+            else if (letter == 150)
+                patch = endash;
             else if (letter == 153)
                 patch = trademark;
             else if (letter == '(' && i < len - 3 && tolower(text[i + 1]) == 't' && tolower(text[i + 2]) == 'm' && text[i + 3] == ')'
