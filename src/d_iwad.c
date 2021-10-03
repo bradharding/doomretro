@@ -186,11 +186,11 @@ static registryvalue_t bethesda_install_location =
 // Subdirs of the Bethesda.net Launcher install directory where IWADs are found
 static const char *bethesda_install_subdirs[] =
 {
-    "DOOM_Classic_2019\\base",
-    "DOOM_Classic_2019\\rerelease\\DOOM_Data\\StreamingAssets",
-    "DOOM_II_Classic_2019\\base",
-    "DOOM_II_Classic_2019\\rerelease\\DOOM II_Data\\StreamingAssets",
-    "DOOM 3 BFG Edition\\base\\wads"
+    "games\\DOOM_Classic_2019\\base",
+    "games\\DOOM_Classic_2019\\rerelease\\DOOM_Data\\StreamingAssets",
+    "games\\DOOM_II_Classic_2019\\base",
+    "games\\DOOM_II_Classic_2019\\rerelease\\DOOM II_Data\\StreamingAssets",
+    "games\\DOOM 3 BFG Edition\\base\\wads"
 };
 
 // Locations where Steam is installed
