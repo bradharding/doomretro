@@ -425,7 +425,7 @@ void D_Display(void)
         if (drawdisk)
             HU_DrawDisk();
 
-        if (am_path && automapactive && viewplayer->distancetraveled >= UNITSPERFOOT)
+        if (am_path && automapactive)
             C_UpdateDistance();
 
         if (countdown && gamestate == GS_LEVEL)

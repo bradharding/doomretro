@@ -4555,40 +4555,50 @@ char *distancetraveled(uint64_t value)
     char        *result = malloc(20);
     const float feet = (float)value / UNITSPERFOOT;
 
+    result[0] = '\0';
+
     if (units == units_imperial)
     {
-        if (feet < FEETPERMILE)
+        if (feet >= 1.0f)
         {
-            char    *temp = commify((int64_t)feet);
+            if (feet < FEETPERMILE)
+            {
+                char    *temp = commify((int64_t)feet);
 
-            M_snprintf(result, 20, "%s %s", temp, (M_StringCompare(temp, "1") ? "foot" : "feet"));
-            free(temp);
-        }
-        else
-        {
-            char    *temp = striptrailingzero(feet / FEETPERMILE, 2);
+                M_snprintf(result, 20, "%s %s", temp, (M_StringCompare(temp, "1") ? "foot" : "feet"));
+                free(temp);
+            }
+            else
+            {
+                char    *temp = striptrailingzero(feet / FEETPERMILE, 2);
 
-            M_snprintf(result, 20, "%s mile%s", temp, (M_StringCompare(temp, "1.0") ? "" : "s"));
-            free(temp);
+                M_snprintf(result, 20, "%s miles", temp);
+                free(temp);
+            }
         }
     }
     else
     {
         const float meters = feet / FEETPERMETER;
 
-        if (meters < METERSPERKILOMETER)
+        if (meters >= 0.1f)
         {
-            char    *temp = striptrailingzero(meters, 1);
+            if (meters < METERSPERKILOMETER)
+            {
+                char    *temp = striptrailingzero(meters, 1);
 
-            M_snprintf(result, 20, "%s meter%s", temp, (M_StringCompare(temp, "1.0") ? "" : "s"));
-            free(temp);
-        }
-        else
-        {
-            char    *temp = striptrailingzero(meters / METERSPERKILOMETER, 2);
+                if (!M_StringCompare(temp, "0.0"))
+                    M_snprintf(result, 20, "%s meters", temp);
 
-            M_snprintf(result, 20, "%s kilometer%s", temp, (M_StringCompare(temp, "1.0") ? "" : "s"));
-            free(temp);
+                free(temp);
+            }
+            else
+            {
+                char    *temp = striptrailingzero(meters / METERSPERKILOMETER, 2);
+
+                M_snprintf(result, 20, "%s kilometers", temp);
+                free(temp);
+            }
         }
     }
 
