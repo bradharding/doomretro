@@ -60,6 +60,10 @@ extern int      pagetic;
 extern int      titlesequence;
 extern int      fadecount;
 
+#if defined(_WIN32)
+extern char     *previouswad;
+#endif
+
 void D_Display(void);
 
 //

@@ -59,8 +59,6 @@
 #include "w_wad.h"
 
 #if defined(_WIN32)
-extern char *previouswad;
-
 typedef long    (__stdcall *PRTLGETVERSION)(PRTL_OSVERSIONINFOEXW);
 typedef BOOL    (WINAPI *PGETPRODUCTINFO)(DWORD, DWORD, DWORD, DWORD, PDWORD);
 typedef BOOL    (WINAPI *PISWOW64PROCESS)(HANDLE, PBOOL);
