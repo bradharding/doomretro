@@ -1190,7 +1190,7 @@ void C_UpdateDistance(void)
 {
     if (!paused && !menuactive)
     {
-        char    *temp = distancetraveled(viewplayer->distancetraveled);
+        char    *temp = distancetraveled(viewplayer->distancetraveled, false);
 
         if (temp)
         {

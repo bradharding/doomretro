@@ -4550,55 +4550,63 @@ static weapontype_t favoriteweapon(dboolean total)
     return favorite;
 }
 
-char *distancetraveled(uint64_t value)
+char *distancetraveled(uint64_t value, dboolean allowzero)
 {
-    char        *result = malloc(20);
-    const float feet = (float)value / UNITSPERFOOT;
+    char    *result = malloc(20);
 
     result[0] = '\0';
 
-    if (units == units_imperial)
+    if (value > 0 || allowzero)
     {
-        if (feet >= 1.0f)
+        const float feet = (float)value / UNITSPERFOOT;
+
+        if (units == units_imperial)
         {
-            if (feet < FEETPERMILE)
+            if (feet >= 1.0f)
             {
-                char    *temp = commify((int64_t)feet);
+                if (feet < FEETPERMILE)
+                {
+                    char    *temp = commify((int64_t)feet);
 
-                M_snprintf(result, 20, "%s %s", temp, (M_StringCompare(temp, "1") ? "foot" : "feet"));
-                free(temp);
-            }
-            else
-            {
-                char    *temp = striptrailingzero(feet / FEETPERMILE, 2);
+                    M_snprintf(result, 20, "%s %s", temp, (M_StringCompare(temp, "1") ? "foot" : "feet"));
+                    free(temp);
+                }
+                else
+                {
+                    char    *temp = striptrailingzero(feet / FEETPERMILE, 2);
 
-                M_snprintf(result, 20, "%s miles", temp);
-                free(temp);
+                    M_snprintf(result, 20, "%s miles", temp);
+                    free(temp);
+                }
             }
+            else if (allowzero)
+                M_StringCopy(result, "0 feet", 20);
         }
-    }
-    else
-    {
-        const float meters = feet / FEETPERMETER;
-
-        if (meters >= 0.1f)
+        else
         {
-            if (meters < METERSPERKILOMETER)
+            const float meters = feet / FEETPERMETER;
+
+            if (meters >= 0.1f)
             {
-                char    *temp = striptrailingzero(meters, 1);
+                if (meters < METERSPERKILOMETER)
+                {
+                    char    *temp = striptrailingzero(meters, 1);
 
-                if (!M_StringCompare(temp, "0.0"))
-                    M_snprintf(result, 20, "%s meters", temp);
+                    if (!M_StringCompare(temp, "0.0"))
+                        M_snprintf(result, 20, "%s meters", temp);
 
-                free(temp);
+                    free(temp);
+                }
+                else
+                {
+                    char    *temp = striptrailingzero(meters / METERSPERKILOMETER, 2);
+
+                    M_snprintf(result, 20, "%s kilometers", temp);
+                    free(temp);
+                }
             }
-            else
-            {
-                char    *temp = striptrailingzero(meters / METERSPERKILOMETER, 2);
-
-                M_snprintf(result, 20, "%s kilometers", temp);
-                free(temp);
-            }
+            else if (allowzero)
+                M_StringCopy(result, "0 meters", 20);
         }
     }
 
@@ -5227,8 +5235,8 @@ static void C_PlayerStats_Game(void)
         C_TabbedOutput(tabs, "Favorite weapon\tThe %s\tThe %s",
             weaponinfo[favoriteweapon1].name, weaponinfo[favoriteweapon2].name);
 
-    temp1 = distancetraveled(viewplayer->distancetraveled);
-    temp2 = distancetraveled(stat_distancetraveled);
+    temp1 = distancetraveled(viewplayer->distancetraveled, true);
+    temp2 = distancetraveled(stat_distancetraveled, true);
     C_TabbedOutput(tabs, "Distance traveled\t%s\t%s", temp1, temp2);
     free(temp1);
     free(temp2);
@@ -5572,7 +5580,7 @@ static void C_PlayerStats_NoGame(void)
     else
         C_TabbedOutput(tabs, "Favorite weapon\t-\tThe %s", sentencecase(weaponinfo[favoriteweapon1].name));
 
-    temp1 = distancetraveled(stat_distancetraveled);
+    temp1 = distancetraveled(stat_distancetraveled, true);
     C_TabbedOutput(tabs, "Distance traveled\t-\t%s", temp1);
     free(temp1);
 }
