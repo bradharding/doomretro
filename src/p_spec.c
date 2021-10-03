@@ -3039,7 +3039,7 @@ static void Add_Pusher(int type, int x_mag, int y_mag, mobj_t *source, int affec
     p->affectee = affectee;
 
     p->thinker.function = &T_Pusher;
-    p->thinker.menu = true;
+    p->thinker.menu = false;
     P_AddThinker(&p->thinker);
 }
 
