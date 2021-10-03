@@ -186,10 +186,10 @@ static registryvalue_t bethesda_install_location =
 // Subdirs of the Bethesda.net Launcher install directory where IWADs are found
 static const char *bethesda_install_subdirs[] =
 {
-    "games\\DOOM_Classic_2019\\base",
-    "games\\DOOM_Classic_2019\\rerelease\\DOOM_Data\\StreamingAssets",
     "games\\DOOM_II_Classic_2019\\base",
     "games\\DOOM_II_Classic_2019\\rerelease\\DOOM II_Data\\StreamingAssets",
+    "games\\DOOM_Classic_2019\\base",
+    "games\\DOOM_Classic_2019\\rerelease\\DOOM_Data\\StreamingAssets",
     "games\\DOOM 3 BFG Edition\\base\\wads"
 };
 
@@ -205,10 +205,10 @@ static const char *steam_install_subdirs[] =
 {
     "steamapps\\common\\Doom 2\\rerelease\\DOOM II_Data\\StreamingAssets",
     "steamapps\\common\\Doom 2\\base",
-    "steamapps\\common\\DOOM 3 BFG Edition\\base\\wads",
-    "steamapps\\common\\Final Doom\\base",
     "steamapps\\common\\Ultimate Doom\\rerelease\\DOOM_Data\\StreamingAssets",
     "steamapps\\common\\Ultimate Doom\\base"
+    "steamapps\\common\\DOOM 3 BFG Edition\\base\\wads",
+    "steamapps\\common\\Final Doom\\base",
 };
 
 static char *GetRegistryString(registryvalue_t *reg_val)
