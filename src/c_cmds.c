@@ -5576,9 +5576,9 @@ static void C_PlayerStats_NoGame(void)
     }
 
     if (favoriteweapon1 == wp_nochange)
-        C_TabbedOutput(tabs, "Favorite weapon\t-\tThe %s", sentencecase(weaponinfo[wp_pistol].name));
+        C_TabbedOutput(tabs, "Favorite weapon\t-\tThe %s", weaponinfo[wp_pistol].name);
     else
-        C_TabbedOutput(tabs, "Favorite weapon\t-\tThe %s", sentencecase(weaponinfo[favoriteweapon1].name));
+        C_TabbedOutput(tabs, "Favorite weapon\t-\tThe %s", weaponinfo[favoriteweapon1].name);
 
     temp1 = distancetraveled(stat_distancetraveled, true);
     C_TabbedOutput(tabs, "Distance traveled\t-\t%s", temp1);
