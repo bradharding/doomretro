@@ -2692,34 +2692,33 @@ void T_Scroll(scroll_t *s)
             break;
 
         case sc_carry:
-            if (!menuactive)
+        {
+            fixed_t height;
+            fixed_t waterheight;            // killough 04/04/98: add waterheight
+
+            // killough 03/07/98: Carry things on floor
+            // killough 03/20/98: use new sector list which reflects true members
+            // killough 03/27/98: fix carrier bug
+            // killough 04/04/98: Underwater, carry things even w/o gravity
+            sec = sectors + s->affectee;
+            height = sec->floorheight;
+            waterheight = (sec->heightsec && sec->heightsec->floorheight > height ? sec->heightsec->floorheight : FIXED_MIN);
+
+            // Move objects only if on floor or underwater,
+            // non-floating, and clipped.
+            for (msecnode_t *node = sec->touching_thinglist; node; node = node->m_snext)
             {
-                fixed_t height;
-                fixed_t waterheight;            // killough 04/04/98: add waterheight
+                mobj_t  *thing = node->m_thing;
 
-                // killough 03/07/98: Carry things on floor
-                // killough 03/20/98: use new sector list which reflects true members
-                // killough 03/27/98: fix carrier bug
-                // killough 04/04/98: Underwater, carry things even w/o gravity
-                sec = sectors + s->affectee;
-                height = sec->floorheight;
-                waterheight = (sec->heightsec && sec->heightsec->floorheight > height ? sec->heightsec->floorheight : FIXED_MIN);
-
-                // Move objects only if on floor or underwater,
-                // non-floating, and clipped.
-                for (msecnode_t *node = sec->touching_thinglist; node; node = node->m_snext)
+                if (!(thing->flags & MF_NOCLIP) && (!((thing->flags & MF_NOGRAVITY) || thing->z > height) || thing->z < waterheight))
                 {
-                    mobj_t  *thing = node->m_thing;
-
-                    if (!(thing->flags & MF_NOCLIP) && (!((thing->flags & MF_NOGRAVITY) || thing->z > height) || thing->z < waterheight))
-                    {
-                        thing->momx += dx;
-                        thing->momy += dy;
-                    }
+                    thing->momx += dx;
+                    thing->momy += dy;
                 }
             }
 
             break;
+        }
     }
 }
 
@@ -2755,7 +2754,7 @@ static void Add_Scroller(int type, fixed_t dx, fixed_t dy, int control, int affe
     s->affectee = affectee;
 
     s->thinker.function = &T_Scroll;
-    s->thinker.menu = true;
+    s->thinker.menu = (type != sc_carry);
     P_AddThinker(&s->thinker);
 }
 
