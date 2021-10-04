@@ -428,6 +428,9 @@ void D_Display(void)
         if (am_path && automapactive)
             C_UpdateDistance();
 
+        if (am_playerstats && automapactive)
+            C_UpdatePlayerStats();
+
         if (countdown && gamestate == GS_LEVEL)
             C_UpdateTimer();
 

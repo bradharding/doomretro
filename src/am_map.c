@@ -67,6 +67,7 @@ int am_gridcolor = am_gridcolor_default;
 int am_markcolor = am_markcolor_default;
 int am_pathcolor = am_pathcolor_default;
 int am_playercolor = am_playercolor_default;
+dboolean am_playerstats = am_playerstats_default;
 int am_reddoorcolor = am_reddoorcolor_default;
 int am_teleportercolor = am_teleportercolor_default;
 int am_thingcolor = am_thingcolor_default;

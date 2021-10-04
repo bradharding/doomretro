@@ -215,6 +215,7 @@ void C_PrintSDLVersions(void);
 void C_UpdateFPS(void);
 void C_UpdateTimer(void);
 void C_UpdateDistance(void);
+void C_UpdatePlayerStats(void);
 char *C_CreateTimeStamp(int index);
 void C_ResetWrappedLines(void);
 

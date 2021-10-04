@@ -61,6 +61,7 @@ extern int          am_markcolor;
 extern dboolean     am_path;
 extern int          am_pathcolor;
 extern int          am_playercolor;
+extern dboolean     am_playerstats;
 extern int          am_reddoorcolor;
 extern dboolean     am_rotatemode;
 extern int          am_teleportercolor;
@@ -356,6 +357,8 @@ enum
 #define am_playercolor_min                      0
 #define am_playercolor_default                  4
 #define am_playercolor_max                      255
+
+#define am_playerstats_default                  false
 
 #define am_reddoorcolor_min                     0
 #define am_reddoorcolor_default                 160

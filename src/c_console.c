@@ -1211,6 +1211,41 @@ void C_UpdateDistance(void)
     }
 }
 
+void C_UpdatePlayerStats(void)
+{
+    if (!paused && !menuactive)
+    {
+        int     y = CONSOLETEXTY + (vid_showfps ? CONSOLELINEHEIGHT * (countdown ? 2 : 1) : CONSOLELINEHEIGHT * !!countdown);
+        char    buffer[32];
+        char    *temp1;
+        char    *temp2;
+
+        temp1 = commify(viewplayer->itemcount);
+        temp2 = commify(totalitems);
+        M_snprintf(buffer, 32, "%s of %s items", temp1, temp2);
+        C_DrawOverlayText(SCREENWIDTH - C_OverlayWidth(buffer) - CONSOLETEXTX + 1, y,
+            buffer, consoleoverlaycolor);
+        free(temp1);
+        free(temp2);
+
+        temp1 = commify(viewplayer->killcount);
+        temp2 = commify(totalkills);
+        M_snprintf(buffer, 32, "%s of %s kills", temp1, temp2);
+        C_DrawOverlayText(SCREENWIDTH - C_OverlayWidth(buffer) - CONSOLETEXTX + 1, (y += CONSOLELINEHEIGHT),
+            buffer, consoleoverlaycolor);
+        free(temp1);
+        free(temp2);
+
+        temp1 = commify(viewplayer->secretcount);
+        temp2 = commify(totalsecret);
+        M_snprintf(buffer, 32, "%s of %s secrets", temp1, temp2);
+        C_DrawOverlayText(SCREENWIDTH - C_OverlayWidth(buffer) - CONSOLETEXTX + 1, (y += CONSOLELINEHEIGHT),
+            buffer, consoleoverlaycolor);
+        free(temp1);
+        free(temp2);
+    }
+}
+
 void C_Drawer(void)
 {
     if (consoleheight)

@@ -52,7 +52,7 @@
 
 static dboolean cvarsloaded;
 
-#define NUMCVARS                                                208
+#define NUMCVARS                                                209
 
 #define CONFIG_VARIABLE_INT(name1, name2, cvar, set)            { #name1, #name2, &cvar, DEFAULT_INT32,         set          }
 #define CONFIG_VARIABLE_INT_UNSIGNED(name1, name2, cvar, set)   { #name1, #name2, &cvar, DEFAULT_UINT64,        set          }
@@ -85,6 +85,7 @@ static default_t cvars[NUMCVARS] =
     CONFIG_VARIABLE_INT          (am_path,                          am_path,                               am_path,                               BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT          (am_pathcolor,                     am_pathcolour,                         am_pathcolor,                          NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT          (am_playercolor,                   am_playercolour,                       am_playercolor,                        NOVALUEALIAS          ),
+    CONFIG_VARIABLE_INT          (am_playerstats,                   am_playerstats,                        am_playerstats,                        BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT          (am_reddoorcolor,                  am_reddoorcolour,                      am_reddoorcolor,                       NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT          (am_rotatemode,                    am_rotatemode,                         am_rotatemode,                         BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT          (am_teleportercolor,               am_teleportercolour,                   am_teleportercolor,                    NOVALUEALIAS          ),
@@ -617,6 +618,9 @@ static void M_CheckCVARs(dboolean ispackageconfig)
 
     if (am_playercolor < am_playercolor_min || am_playercolor > am_playercolor_max)
         am_playercolor = am_playercolor_default;
+
+    if (am_playerstats != false && am_playerstats != true)
+        am_playerstats = am_playerstats_default;
 
     if (am_reddoorcolor < am_reddoorcolor_min || am_reddoorcolor > am_reddoorcolor_max)
         am_reddoorcolor = am_reddoorcolor_default;
