@@ -74,6 +74,10 @@
 
 #define CONSOLETOP              0
 
+#define OVERLAYTEXTX            (vid_widescreen ? 28 : 10)
+#define OVERLAYTEXTY            10
+#define OVERLAYLINEHEIGHT       14
+
 #define WARNINGWIDTH            13
 
 #define EMPTYVALUE              "\"\""

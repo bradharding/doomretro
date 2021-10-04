@@ -419,14 +419,14 @@ void D_Display(void)
     {
         if (!paused && !menuactive)
         {
+            if (countdown && gamestate == GS_LEVEL)
+                C_UpdateTimerOverlay();
+
             if (am_path && automapactive)
                 C_UpdatePathOverlay();
 
             if (am_playerstats && automapactive)
                 C_UpdatePlayerStatsOverlay();
-
-            if (countdown && gamestate == GS_LEVEL)
-                C_UpdateTimerOverlay();
         }
 
         C_Drawer();

@@ -1156,7 +1156,7 @@ void C_UpdateFPSOverlay(void)
 
         M_snprintf(buffer, sizeof(buffer), s_STSTR_FPS, temp);
 
-        C_DrawOverlayText(SCREENWIDTH - C_OverlayWidth(buffer) - CONSOLETEXTX + 1, CONSOLETEXTY, buffer,
+        C_DrawOverlayText(SCREENWIDTH - C_OverlayWidth(buffer) - OVERLAYTEXTX + 1, OVERLAYTEXTY, buffer,
             (framespersecond < (refreshrate && vid_capfps != TICRATE && !menuactive && !consoleactive && !paused ? refreshrate :
             TICRATE) ? consoleoverlaywarningcolor : (((viewplayer->fixedcolormap == INVERSECOLORMAP) ^ (!r_textures)) && !automapactive ?
             nearestblack : consoleoverlaycolor)));
@@ -1189,7 +1189,7 @@ void C_UpdateTimerOverlay(void)
         }
     }
 
-    C_DrawOverlayText(SCREENWIDTH - timerwidth - CONSOLETEXTX + 1, CONSOLETEXTY + CONSOLELINEHEIGHT * vid_showfps, buffer,
+    C_DrawOverlayText(SCREENWIDTH - timerwidth - OVERLAYTEXTX + 1, OVERLAYTEXTY + OVERLAYLINEHEIGHT * vid_showfps, buffer,
         (((viewplayer->fixedcolormap == INVERSECOLORMAP) ^ (!r_textures)) && !automapactive ? nearestblack : consoleoverlaycolor));
 }
 
@@ -1200,16 +1200,16 @@ void C_UpdatePathOverlay(void)
     if (*temp)
     {
         pathoverlay = true;
-        C_DrawOverlayText(SCREENWIDTH - C_OverlayWidth(temp) - CONSOLETEXTX + 1,
-            CONSOLETEXTY + CONSOLELINEHEIGHT * (vid_showfps + !!countdown), temp, consoleoverlaycolor);
+        C_DrawOverlayText(SCREENWIDTH - C_OverlayWidth(temp) - OVERLAYTEXTX + 1,
+            OVERLAYTEXTY + OVERLAYLINEHEIGHT * (vid_showfps + !!countdown), temp, consoleoverlaycolor);
         free(temp);
     }
 }
 
 void C_UpdatePlayerStatsOverlay(void)
 {
-    int     x = SCREENWIDTH - CONSOLETEXTX + 1;
-    int     y = CONSOLETEXTY + CONSOLELINEHEIGHT * (vid_showfps + !!countdown + pathoverlay);
+    int     x = SCREENWIDTH - OVERLAYTEXTX + 1;
+    int     y = OVERLAYTEXTY + OVERLAYLINEHEIGHT * (vid_showfps + !!countdown + pathoverlay);
     char    buffer[32];
     char    *temp1;
     char    *temp2;
@@ -1229,7 +1229,7 @@ void C_UpdatePlayerStatsOverlay(void)
         temp1 = commify(viewplayer->killcount);
         temp2 = commify(totalkills);
         M_snprintf(buffer, 32, "%s of %s kills", temp1, temp2);
-        C_DrawOverlayText(x - C_OverlayWidth(buffer), (y += CONSOLELINEHEIGHT), buffer, consoleoverlaycolor);
+        C_DrawOverlayText(x - C_OverlayWidth(buffer), (y += OVERLAYLINEHEIGHT), buffer, consoleoverlaycolor);
         free(temp1);
         free(temp2);
     }
@@ -1239,7 +1239,7 @@ void C_UpdatePlayerStatsOverlay(void)
         temp1 = commify(viewplayer->secretcount);
         temp2 = commify(totalsecrets);
         M_snprintf(buffer, 32, "%s of %s secrets", temp1, temp2);
-        C_DrawOverlayText(x - C_OverlayWidth(buffer), (y += CONSOLELINEHEIGHT), buffer, consoleoverlaycolor);
+        C_DrawOverlayText(x - C_OverlayWidth(buffer), (y += OVERLAYLINEHEIGHT), buffer, consoleoverlaycolor);
         free(temp1);
         free(temp2);
     }
