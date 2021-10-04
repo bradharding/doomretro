@@ -417,14 +417,6 @@ void D_Display(void)
 
     if (!dowipe || !melt)
     {
-        C_Drawer();
-
-        // menus go directly to the screen
-        M_Drawer();
-
-        if (drawdisk)
-            HU_DrawDisk();
-
         if (!paused && !menuactive)
         {
             if (am_path && automapactive)
@@ -436,6 +428,14 @@ void D_Display(void)
             if (countdown && gamestate == GS_LEVEL)
                 C_UpdateTimerOverlay();
         }
+
+        C_Drawer();
+
+        // menus go directly to the screen
+        M_Drawer();
+
+        if (drawdisk)
+            HU_DrawDisk();
 
         if (fadecount)
             D_UpdateFade();
