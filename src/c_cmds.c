@@ -3879,7 +3879,7 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
         C_TabbedOutput(tabs, "   Inside/outside\t%i%%/%i%%", 100 - outside, outside);
     }
 
-    temp = commify(totalsecret);
+    temp = commify(totalsecrets);
     C_TabbedOutput(tabs, "   Secret\t%s", temp);
     free(temp);
 
@@ -5013,10 +5013,10 @@ static void C_PlayerStats_Game(void)
     free(temp2);
 
     temp1 = commify(viewplayer->secretcount);
-    temp2 = commify(totalsecret);
+    temp2 = commify(totalsecrets);
     temp3 = commifystat(stat_secretsfound);
     C_TabbedOutput(tabs, "Secrets found\t%s of %s (%i%%)\t%s",
-        temp1, temp2, (totalsecret ? viewplayer->secretcount * 100 / totalsecret : 0), temp3);
+        temp1, temp2, (totalsecrets ? viewplayer->secretcount * 100 / totalsecrets : 0), temp3);
     free(temp1);
     free(temp2);
     free(temp3);

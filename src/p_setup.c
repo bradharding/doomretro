@@ -2840,7 +2840,7 @@ void P_SetupLevel(int ep, int map)
 
     totalkills = 0;
     totalitems = 0;
-    totalsecret = 0;
+    totalsecrets = 0;
     totalpickups = 0;
     memset(monstercount, 0, sizeof(int) * NUMMOBJTYPES);
     barrelcount = 0;

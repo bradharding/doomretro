@@ -2488,7 +2488,7 @@ void P_SpawnSpecials(void)
             continue;
 
         if (sector->special & SECRET_MASK)
-            totalsecret++;
+            totalsecrets++;
 
         switch (sector->special & 31)
         {
@@ -2511,7 +2511,7 @@ void P_SpawnSpecials(void)
 
             case Secret:
                 if (sector->special < 32)
-                    totalsecret++;
+                    totalsecrets++;
 
                 break;
 

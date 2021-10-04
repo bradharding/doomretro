@@ -90,7 +90,7 @@ dboolean        viewactive;
 int             gametime = 0;
 int             totalkills;                         // for intermission
 int             totalitems;
-int             totalsecret;
+int             totalsecrets;
 int             totalpickups;
 int             monstercount[NUMMOBJTYPES];
 int             barrelcount;
@@ -1324,7 +1324,7 @@ static void G_DoCompleted(void)
 
     wminfo.maxkills = totalkills;
     wminfo.maxitems = totalitems;
-    wminfo.maxsecret = totalsecret;
+    wminfo.maxsecret = totalsecrets;
     wminfo.partime = G_GetParTime() * TICRATE;
     wminfo.skills = (totalkills ? viewplayer->killcount : 1);
     wminfo.sitems = (totalitems ? viewplayer->itemcount : 1);

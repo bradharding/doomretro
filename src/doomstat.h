@@ -180,7 +180,7 @@ extern dboolean         viewactive;
 //
 extern int              totalkills;
 extern int              totalitems;
-extern int              totalsecret;
+extern int              totalsecrets;
 extern int              totalpickups;
 extern int              monstercount[NUMMOBJTYPES];
 extern int              barrelcount;
