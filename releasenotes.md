@@ -6,6 +6,7 @@
 * When *DOOM Retro* is run for the first time, the WAD launcher will now look for installations of *The Ultimate DOOM* and *DOOM II: Hell On Earth* purchased and downloaded using the [*Bethesda.net Launcher*](https://bethesda.net/en/game/bethesda-launcher).
 * Minor changes have been made to text that is output to the console.
 * Minor improvements have been made to the console’s autocomplete feature.
+* A new `am_playerstats` CVAR has been implemented that toggles player stats in the automap. When this CVAR is `on`, the player’s current number of items picked up, monsters killed and secrets found will be displayed while the automap is open. This CVAR is both `off` by default and when vanilla mode is enabled.
 * Rotating the automap is now smoother when the `am_rotate` CVAR is `on`.
 * A bug has been fixed whereby some sound effect lumps in the [WAV format](https://en.wikipedia.org/wiki/WAV) wouldn’t play at all.
 * The following changes have been made when a monster is crushed to death by a lowering ceiling:
@@ -21,7 +22,6 @@
 * The “monsters killed by infighting” stat is now reset at the start of each map as intended.
 * A bug has been fixed whereby the `facebackcolor` CVAR wouldn’t be reset to its default of `5` if vanilla mode was enabled.
 * The background of the player’s face will now be a better size when the `facebackcolor` CVAR is a value other than its default of `5`.
-* A new `am_playerstats` CVAR has been implemented that toggles player stats in the automap. When this CVAR is `on`, the player’s current number of items picked up, monsters killed and secrets found will be displayed whenever the automap is open. This CVAR is both `off` by default and when vanilla mode is enabled.
 * When vanilla mode is enabled, any timer set using the `timer` CCMD will now be reset to `0`, rather than being disabled altogether.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)

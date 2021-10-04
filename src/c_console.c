@@ -1195,17 +1195,19 @@ void C_UpdateTimerOverlay(void)
     }
 }
 
+static dboolean pathoverlay;
+
 void C_UpdatePathOverlay(void)
 {
     if (!paused && !menuactive)
     {
         char    *temp = distancetraveled(viewplayer->distancetraveled, false);
 
-        if (temp)
+        if (*temp)
         {
+            pathoverlay = true;
             C_DrawOverlayText(SCREENWIDTH - C_OverlayWidth(temp) - CONSOLETEXTX + 1,
-                CONSOLETEXTY + (vid_showfps ? CONSOLELINEHEIGHT * (countdown ? 2 : 1) : CONSOLELINEHEIGHT * !!countdown),
-                temp, consoleoverlaycolor);
+                CONSOLETEXTY + CONSOLELINEHEIGHT * (!!vid_showfps + !!countdown), temp, consoleoverlaycolor);
             free(temp);
         }
     }
@@ -1215,7 +1217,7 @@ void C_UpdatePlayerStatsOverlay(void)
 {
     if (!paused && !menuactive)
     {
-        int     y = CONSOLETEXTY + (vid_showfps ? CONSOLELINEHEIGHT * (countdown ? 2 : 1) : CONSOLELINEHEIGHT * !!countdown);
+        int     y = CONSOLETEXTY + CONSOLELINEHEIGHT * (!!vid_showfps + !!countdown + pathoverlay);
         char    buffer[32];
         char    *temp1;
         char    *temp2;
@@ -1252,6 +1254,8 @@ void C_UpdatePlayerStatsOverlay(void)
             free(temp1);
             free(temp2);
         }
+
+        pathoverlay = false;
     }
 }
 
