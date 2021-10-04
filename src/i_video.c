@@ -814,7 +814,7 @@ static void CalculateFPS(void)
         starttime = currenttime;
     }
 
-    C_UpdateFPS();
+    C_UpdateFPSOverlay();
 }
 
 #if defined(_WIN32)

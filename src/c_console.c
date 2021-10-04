@@ -117,6 +117,7 @@ static int              selectend;
 
 static dboolean         wrapbold;
 static dboolean         wrapitalics;
+static dboolean         pathoverlay;
 
 char                    consolecheat[255];
 char                    consolecheatparm[3];
@@ -1146,7 +1147,7 @@ static void C_DrawTimeStamp(int x, int y, int index)
     }
 }
 
-void C_UpdateFPS(void)
+void C_UpdateFPSOverlay(void)
 {
     if (!dowipe && !splashscreen)
     {
@@ -1195,8 +1196,6 @@ void C_UpdateTimerOverlay(void)
     }
 }
 
-static dboolean pathoverlay;
-
 void C_UpdatePathOverlay(void)
 {
     if (!paused && !menuactive)
@@ -1207,7 +1206,7 @@ void C_UpdatePathOverlay(void)
         {
             pathoverlay = true;
             C_DrawOverlayText(SCREENWIDTH - C_OverlayWidth(temp) - CONSOLETEXTX + 1,
-                CONSOLETEXTY + CONSOLELINEHEIGHT * (!!vid_showfps + !!countdown), temp, consoleoverlaycolor);
+                CONSOLETEXTY + CONSOLELINEHEIGHT * (vid_showfps + !!countdown), temp, consoleoverlaycolor);
             free(temp);
         }
     }
@@ -1217,7 +1216,7 @@ void C_UpdatePlayerStatsOverlay(void)
 {
     if (!paused && !menuactive)
     {
-        int     y = CONSOLETEXTY + CONSOLELINEHEIGHT * (!!vid_showfps + !!countdown + pathoverlay);
+        int     y = CONSOLETEXTY + CONSOLELINEHEIGHT * (vid_showfps + !!countdown + pathoverlay);
         char    buffer[32];
         char    *temp1;
         char    *temp2;
