@@ -104,6 +104,7 @@ s_randommusic off
 s_randompitch off
 s_stereo on
 stillbob 0%
+timer 0
 tossdrop off
 turbo 100%
 vid_capfps 35

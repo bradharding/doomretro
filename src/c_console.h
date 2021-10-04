@@ -213,9 +213,9 @@ dboolean C_Responder(event_t *ev);
 void C_PrintCompileDate(void);
 void C_PrintSDLVersions(void);
 void C_UpdateFPS(void);
-void C_UpdateTimer(void);
-void C_UpdateDistance(void);
-void C_UpdatePlayerStats(void);
+void C_UpdateTimerOverlay(void);
+void C_UpdatePathOverlay(void);
+void C_UpdatePlayerStatsOverlay(void);
 char *C_CreateTimeStamp(int index);
 void C_ResetWrappedLines(void);
 

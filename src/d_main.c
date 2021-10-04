@@ -426,13 +426,13 @@ void D_Display(void)
             HU_DrawDisk();
 
         if (am_path && automapactive)
-            C_UpdateDistance();
+            C_UpdatePathOverlay();
 
         if (am_playerstats && automapactive)
-            C_UpdatePlayerStats();
+            C_UpdatePlayerStatsOverlay();
 
         if (countdown && gamestate == GS_LEVEL)
-            C_UpdateTimer();
+            C_UpdateTimerOverlay();
 
         if (fadecount)
             D_UpdateFade();

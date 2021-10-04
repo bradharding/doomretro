@@ -1163,9 +1163,9 @@ void C_UpdateFPS(void)
     }
 }
 
-void C_UpdateTimer(void)
+void C_UpdateTimerOverlay(void)
 {
-    if (!paused && !menuactive && !vanilla)
+    if (!paused && !menuactive)
     {
         static char buffer[9];
         int         tics = countdown;
@@ -1195,7 +1195,7 @@ void C_UpdateTimer(void)
     }
 }
 
-void C_UpdateDistance(void)
+void C_UpdatePathOverlay(void)
 {
     if (!paused && !menuactive)
     {
@@ -1211,7 +1211,7 @@ void C_UpdateDistance(void)
     }
 }
 
-void C_UpdatePlayerStats(void)
+void C_UpdatePlayerStatsOverlay(void)
 {
     if (!paused && !menuactive)
     {
