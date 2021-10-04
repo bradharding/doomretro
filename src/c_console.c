@@ -1166,96 +1166,85 @@ void C_UpdateFPSOverlay(void)
 
 void C_UpdateTimerOverlay(void)
 {
-    if (!paused && !menuactive)
+    static char buffer[9];
+    int         tics = countdown;
+    static int  prevtics;
+    static int  timerwidth;
+
+    if (tics != prevtics)
     {
-        static char buffer[9];
-        int         tics = countdown;
-        static int  prevtics;
-        static int  timerwidth;
+        int hours = (tics = (prevtics = tics) / TICRATE) / 3600;
+        int minutes = ((tics %= 3600)) / 60;
+        int seconds = tics % 60;
 
-        if (tics != prevtics)
+        if (!hours)
         {
-            int hours = (tics = (prevtics = tics) / TICRATE) / 3600;
-            int minutes = ((tics %= 3600)) / 60;
-            int seconds = tics % 60;
-
-            if (!hours)
-            {
-                M_snprintf(buffer, 9, "%02i:%02i", minutes, seconds);
-                timerwidth = timerwidth1;
-            }
-            else
-            {
-                M_snprintf(buffer, 9, "%02i:%02i:%02i", hours, minutes, seconds);
-                timerwidth = timerwidth2;
-            }
+            M_snprintf(buffer, 9, "%02i:%02i", minutes, seconds);
+            timerwidth = timerwidth1;
         }
-
-        C_DrawOverlayText(SCREENWIDTH - timerwidth - CONSOLETEXTX + 1, CONSOLETEXTY + CONSOLELINEHEIGHT * vid_showfps, buffer,
-            (((viewplayer->fixedcolormap == INVERSECOLORMAP) ^ (!r_textures)) && !automapactive ? nearestblack : consoleoverlaycolor));
+        else
+        {
+            M_snprintf(buffer, 9, "%02i:%02i:%02i", hours, minutes, seconds);
+            timerwidth = timerwidth2;
+        }
     }
+
+    C_DrawOverlayText(SCREENWIDTH - timerwidth - CONSOLETEXTX + 1, CONSOLETEXTY + CONSOLELINEHEIGHT * vid_showfps, buffer,
+        (((viewplayer->fixedcolormap == INVERSECOLORMAP) ^ (!r_textures)) && !automapactive ? nearestblack : consoleoverlaycolor));
 }
 
 void C_UpdatePathOverlay(void)
 {
-    if (!paused && !menuactive)
-    {
-        char    *temp = distancetraveled(viewplayer->distancetraveled, false);
+    char    *temp = distancetraveled(viewplayer->distancetraveled, false);
 
-        if (*temp)
-        {
-            pathoverlay = true;
-            C_DrawOverlayText(SCREENWIDTH - C_OverlayWidth(temp) - CONSOLETEXTX + 1,
-                CONSOLETEXTY + CONSOLELINEHEIGHT * (vid_showfps + !!countdown), temp, consoleoverlaycolor);
-            free(temp);
-        }
+    if (*temp)
+    {
+        pathoverlay = true;
+        C_DrawOverlayText(SCREENWIDTH - C_OverlayWidth(temp) - CONSOLETEXTX + 1,
+            CONSOLETEXTY + CONSOLELINEHEIGHT * (vid_showfps + !!countdown), temp, consoleoverlaycolor);
+        free(temp);
     }
 }
 
 void C_UpdatePlayerStatsOverlay(void)
 {
-    if (!paused && !menuactive)
+    int     x = SCREENWIDTH - CONSOLETEXTX + 1;
+    int     y = CONSOLETEXTY + CONSOLELINEHEIGHT * (vid_showfps + !!countdown + pathoverlay);
+    char    buffer[32];
+    char    *temp1;
+    char    *temp2;
+
+    if (totalitems)
     {
-        int     y = CONSOLETEXTY + CONSOLELINEHEIGHT * (vid_showfps + !!countdown + pathoverlay);
-        char    buffer[32];
-        char    *temp1;
-        char    *temp2;
-
-        if (totalitems)
-        {
-            temp1 = commify(viewplayer->itemcount);
-            temp2 = commify(totalitems);
-            M_snprintf(buffer, 32, "%s of %s items", temp1, temp2);
-            C_DrawOverlayText(SCREENWIDTH - C_OverlayWidth(buffer) - CONSOLETEXTX + 1, y,
-                buffer, consoleoverlaycolor);
-            free(temp1);
-            free(temp2);
-        }
-
-        if (totalkills)
-        {
-            temp1 = commify(viewplayer->killcount);
-            temp2 = commify(totalkills);
-            M_snprintf(buffer, 32, "%s of %s kills", temp1, temp2);
-            C_DrawOverlayText(SCREENWIDTH - C_OverlayWidth(buffer) - CONSOLETEXTX + 1, (y += CONSOLELINEHEIGHT),
-                buffer, consoleoverlaycolor);
-            free(temp1);
-            free(temp2);
-        }
-
-        if (totalsecrets)
-        {
-            temp1 = commify(viewplayer->secretcount);
-            temp2 = commify(totalsecrets);
-            M_snprintf(buffer, 32, "%s of %s secrets", temp1, temp2);
-            C_DrawOverlayText(SCREENWIDTH - C_OverlayWidth(buffer) - CONSOLETEXTX + 1, (y += CONSOLELINEHEIGHT),
-                buffer, consoleoverlaycolor);
-            free(temp1);
-            free(temp2);
-        }
-
-        pathoverlay = false;
+        temp1 = commify(viewplayer->itemcount);
+        temp2 = commify(totalitems);
+        M_snprintf(buffer, 32, "%s of %s items", temp1, temp2);
+        C_DrawOverlayText(x - C_OverlayWidth(buffer), y, buffer, consoleoverlaycolor);
+        free(temp1);
+        free(temp2);
     }
+
+    if (totalkills)
+    {
+        temp1 = commify(viewplayer->killcount);
+        temp2 = commify(totalkills);
+        M_snprintf(buffer, 32, "%s of %s kills", temp1, temp2);
+        C_DrawOverlayText(x - C_OverlayWidth(buffer), (y += CONSOLELINEHEIGHT), buffer, consoleoverlaycolor);
+        free(temp1);
+        free(temp2);
+    }
+
+    if (totalsecrets)
+    {
+        temp1 = commify(viewplayer->secretcount);
+        temp2 = commify(totalsecrets);
+        M_snprintf(buffer, 32, "%s of %s secrets", temp1, temp2);
+        C_DrawOverlayText(x - C_OverlayWidth(buffer), (y += CONSOLELINEHEIGHT), buffer, consoleoverlaycolor);
+        free(temp1);
+        free(temp2);
+    }
+
+    pathoverlay = false;
 }
 
 void C_Drawer(void)
