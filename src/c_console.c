@@ -1037,7 +1037,7 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
     return (x - startx);
 }
 
-static int C_OverlayWidth(const char *text)
+static int C_OverlayWidth(const char *text, const dboolean monospaced)
 {
     const int       len = (int)strlen(text);
     int             width = 0;
@@ -1050,7 +1050,7 @@ static int C_OverlayWidth(const char *text)
         if (letter == ' ')
             width += spacewidth;
         else if (isdigit(letter))
-            width += zerowidth;
+            width += (monospaced ? zerowidth : SHORT(consolefont[letter - CONSOLEFONTSTART]->width));
         else if (letter >= CONSOLEFONTSTART)
         {
             if (letter == ',' && prevletter == '1')
@@ -1065,7 +1065,7 @@ static int C_OverlayWidth(const char *text)
     return width;
 }
 
-static void C_DrawOverlayText(byte *screen, int screenwidth, int x, int y, const char *text, const int color)
+static void C_DrawOverlayText(byte *screen, int screenwidth, int x, int y, const char *text, const int color, const dboolean monospaced)
 {
     const int       len = (int)strlen(text);
     byte            *tinttab = (r_hud_translucency ? tinttab50 : NULL);
@@ -1084,9 +1084,9 @@ static void C_DrawOverlayText(byte *screen, int screenwidth, int x, int y, const
 
             if (isdigit(letter))
             {
-                V_DrawConsoleOutputTextPatch(screen, screenwidth, x + (letter == '1') - (letter == '4'),
+                V_DrawConsoleOutputTextPatch(screen, screenwidth, x + (letter == '1' && monospaced) - (letter == '4'),
                     y, patch, width, color, NOBACKGROUNDCOLOR, false, tinttab);
-                x += zerowidth;
+                x += (monospaced ? zerowidth : width);
             }
             else
             {
@@ -1156,10 +1156,10 @@ void C_UpdateFPSOverlay(void)
 
         M_snprintf(buffer, sizeof(buffer), s_STSTR_FPS, temp);
 
-        C_DrawOverlayText(screens[0], SCREENWIDTH, SCREENWIDTH - C_OverlayWidth(buffer) - OVERLAYTEXTX + 1, OVERLAYTEXTY, buffer,
+        C_DrawOverlayText(screens[0], SCREENWIDTH, SCREENWIDTH - C_OverlayWidth(buffer, true) - OVERLAYTEXTX + 1, OVERLAYTEXTY, buffer,
             (framespersecond < (refreshrate && vid_capfps != TICRATE && !menuactive && !consoleactive && !paused ? refreshrate :
             TICRATE) ? consoleoverlaywarningcolor : (((viewplayer->fixedcolormap == INVERSECOLORMAP) ^ (!r_textures)) && !automapactive ?
-            nearestblack : consoleoverlaycolor)));
+            nearestblack : consoleoverlaycolor)), true);
         free(temp);
     }
 }
@@ -1189,8 +1189,9 @@ void C_UpdateTimerOverlay(void)
         }
     }
 
-    C_DrawOverlayText(screens[0], SCREENWIDTH, SCREENWIDTH - timerwidth - OVERLAYTEXTX + 1, OVERLAYTEXTY + OVERLAYLINEHEIGHT * vid_showfps, buffer,
-        (((viewplayer->fixedcolormap == INVERSECOLORMAP) ^ (!r_textures)) && !automapactive ? nearestblack : consoleoverlaycolor));
+    C_DrawOverlayText(screens[0], SCREENWIDTH, SCREENWIDTH - timerwidth - OVERLAYTEXTX + 1,
+        OVERLAYTEXTY + OVERLAYLINEHEIGHT * vid_showfps, buffer,
+        (((viewplayer->fixedcolormap == INVERSECOLORMAP) ^ (!r_textures)) && !automapactive ? nearestblack : consoleoverlaycolor), true);
 }
 
 void C_UpdatePathOverlay(void)
@@ -1200,8 +1201,8 @@ void C_UpdatePathOverlay(void)
     if (*temp)
     {
         pathoverlay = true;
-        C_DrawOverlayText(mapscreen, MAPWIDTH, MAPWIDTH - C_OverlayWidth(temp) - OVERLAYTEXTX + 1,
-            OVERLAYTEXTY + OVERLAYLINEHEIGHT * (vid_showfps + !!countdown), temp, consoleoverlaycolor);
+        C_DrawOverlayText(mapscreen, MAPWIDTH, MAPWIDTH - C_OverlayWidth(temp, false) - OVERLAYTEXTX + 1,
+            OVERLAYTEXTY + OVERLAYLINEHEIGHT * (vid_showfps + !!countdown), temp, consoleoverlaycolor, true);
         free(temp);
     }
 }
@@ -1219,7 +1220,7 @@ void C_UpdatePlayerStatsOverlay(void)
         temp1 = commify(viewplayer->itemcount);
         temp2 = commify(totalitems);
         M_snprintf(buffer, 32, "%s of %s items", temp1, temp2);
-        C_DrawOverlayText(mapscreen, MAPWIDTH, x - C_OverlayWidth(buffer), y, buffer, consoleoverlaycolor);
+        C_DrawOverlayText(mapscreen, MAPWIDTH, x - C_OverlayWidth(buffer, false), y, buffer, consoleoverlaycolor, false);
         free(temp1);
         free(temp2);
     }
@@ -1229,7 +1230,8 @@ void C_UpdatePlayerStatsOverlay(void)
         temp1 = commify(viewplayer->killcount);
         temp2 = commify(totalkills);
         M_snprintf(buffer, 32, "%s of %s kills", temp1, temp2);
-        C_DrawOverlayText(mapscreen, MAPWIDTH, x - C_OverlayWidth(buffer), (y += OVERLAYLINEHEIGHT), buffer, consoleoverlaycolor);
+        C_DrawOverlayText(mapscreen, MAPWIDTH, x - C_OverlayWidth(buffer, false),
+            (y += OVERLAYLINEHEIGHT), buffer, consoleoverlaycolor, false);
         free(temp1);
         free(temp2);
     }
@@ -1239,7 +1241,8 @@ void C_UpdatePlayerStatsOverlay(void)
         temp1 = commify(viewplayer->secretcount);
         temp2 = commify(totalsecrets);
         M_snprintf(buffer, 32, "%s of %s secrets", temp1, temp2);
-        C_DrawOverlayText(mapscreen, MAPWIDTH, x - C_OverlayWidth(buffer), (y += OVERLAYLINEHEIGHT), buffer, consoleoverlaycolor);
+        C_DrawOverlayText(mapscreen, MAPWIDTH, x - C_OverlayWidth(buffer, false),
+            (y += OVERLAYLINEHEIGHT), buffer, consoleoverlaycolor, false);
         free(temp1);
         free(temp2);
     }
