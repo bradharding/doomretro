@@ -422,10 +422,10 @@ void D_Display(void)
             if (countdown && gamestate == GS_LEVEL)
                 C_UpdateTimerOverlay();
 
-            if (am_path && automapactive)
+            if (am_path && (automapactive || mapwindow))
                 C_UpdatePathOverlay();
 
-            if (am_playerstats && automapactive)
+            if (am_playerstats && (automapactive || mapwindow))
                 C_UpdatePlayerStatsOverlay();
         }
 

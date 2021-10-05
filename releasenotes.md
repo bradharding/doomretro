@@ -7,6 +7,7 @@
 * Minor changes have been made to text that is output to the console.
 * Minor improvements have been made to the console’s autocomplete feature.
 * A new `am_playerstats` CVAR has been implemented that toggles player stats in the automap. When this CVAR is `on`, the player’s current number of items picked up, monsters killed and secrets found will be displayed while the automap is open. This CVAR is both `off` by default and when vanilla mode is enabled.
+* The distance the player has traveled in the current map is now displayed in the top right corner of the external automap when the `am_path` CVAR is `on`.
 * Rotating the automap is now smoother when the `am_rotate` CVAR is `on`.
 * A bug has been fixed whereby some sound effect lumps in the [WAV format](https://en.wikipedia.org/wiki/WAV) wouldn’t play at all.
 * The following changes have been made when a monster is crushed to death by a lowering ceiling:

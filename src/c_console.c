@@ -160,7 +160,7 @@ static byte             *consoleautomapbevel;
 
 dboolean                scrollbardrawn;
 
-static void (*consoletextfunc)(int, int, patch_t *, int, int, int, dboolean, byte *);
+static void (*consoletextfunc)(byte *, int, int, int, patch_t *, int, int, int, dboolean, byte *);
 
 extern int              framespersecond;
 extern int              refreshrate;
@@ -902,7 +902,7 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
                 x -= spacewidth;
         }
         else
-            V_DrawConsoleOutputTextPatch(x - 1, y, warning, WARNINGWIDTH, color1, color2, false, translucency);
+            V_DrawConsoleOutputTextPatch(screens[0], SCREENWIDTH, x - 1, y, warning, WARNINGWIDTH, color1, color2, false, translucency);
 
         x += WARNINGWIDTH + 1;
     }
@@ -1017,7 +1017,7 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
             {
                 int patchwidth = SHORT(patch->width);
 
-                consoletextfunc(x, y, patch, patchwidth, (bold && italics ? (color1 == consolewarningcolor ? color1 :
+                consoletextfunc(screens[0], SCREENWIDTH, x, y, patch, patchwidth, (bold && italics ? (color1 == consolewarningcolor ? color1 :
                     consolebolditalicscolor) : (bold ? boldcolor : color1)), color2, (italics && letter != '_' && letter != '-'
                     && letter != '+' && letter != ',' && letter != '/'), translucency);
                 x += patchwidth;
@@ -1065,7 +1065,7 @@ static int C_OverlayWidth(const char *text)
     return width;
 }
 
-static void C_DrawOverlayText(int x, int y, const char *text, const int color)
+static void C_DrawOverlayText(byte *screen, int screenwidth, int x, int y, const char *text, const int color)
 {
     const int       len = (int)strlen(text);
     byte            *tinttab = (r_hud_translucency ? tinttab50 : NULL);
@@ -1084,7 +1084,7 @@ static void C_DrawOverlayText(int x, int y, const char *text, const int color)
 
             if (isdigit(letter))
             {
-                V_DrawConsoleOutputTextPatch(x + (letter == '1') - (letter == '4'),
+                V_DrawConsoleOutputTextPatch(screen, screenwidth, x + (letter == '1') - (letter == '4'),
                     y, patch, width, color, NOBACKGROUNDCOLOR, false, tinttab);
                 x += zerowidth;
             }
@@ -1093,7 +1093,7 @@ static void C_DrawOverlayText(int x, int y, const char *text, const int color)
                 if (letter == ',' && prevletter == '1')
                     x--;
 
-                V_DrawConsoleOutputTextPatch(x, y, patch, width, color, NOBACKGROUNDCOLOR, false, tinttab);
+                V_DrawConsoleOutputTextPatch(screen, screenwidth, x, y, patch, width, color, NOBACKGROUNDCOLOR, false, tinttab);
                 x += width;
             }
         }
@@ -1142,7 +1142,7 @@ static void C_DrawTimeStamp(int x, int y, int index)
         int     width = SHORT(patch->width);
 
         x -= (ch != ':' ? zerowidth : width);
-        V_DrawConsoleOutputTextPatch(x + (ch == '1') - (ch == '4'), y, patch,
+        V_DrawConsoleOutputTextPatch(screens[0], SCREENWIDTH, x + (ch == '1') - (ch == '4'), y, patch,
             width, consoletimestampcolor, NOBACKGROUNDCOLOR, false, tinttab33);
     }
 }
@@ -1156,7 +1156,7 @@ void C_UpdateFPSOverlay(void)
 
         M_snprintf(buffer, sizeof(buffer), s_STSTR_FPS, temp);
 
-        C_DrawOverlayText(SCREENWIDTH - C_OverlayWidth(buffer) - OVERLAYTEXTX + 1, OVERLAYTEXTY, buffer,
+        C_DrawOverlayText(screens[0], SCREENWIDTH, SCREENWIDTH - C_OverlayWidth(buffer) - OVERLAYTEXTX + 1, OVERLAYTEXTY, buffer,
             (framespersecond < (refreshrate && vid_capfps != TICRATE && !menuactive && !consoleactive && !paused ? refreshrate :
             TICRATE) ? consoleoverlaywarningcolor : (((viewplayer->fixedcolormap == INVERSECOLORMAP) ^ (!r_textures)) && !automapactive ?
             nearestblack : consoleoverlaycolor)));
@@ -1189,7 +1189,7 @@ void C_UpdateTimerOverlay(void)
         }
     }
 
-    C_DrawOverlayText(SCREENWIDTH - timerwidth - OVERLAYTEXTX + 1, OVERLAYTEXTY + OVERLAYLINEHEIGHT * vid_showfps, buffer,
+    C_DrawOverlayText(screens[0], SCREENWIDTH, SCREENWIDTH - timerwidth - OVERLAYTEXTX + 1, OVERLAYTEXTY + OVERLAYLINEHEIGHT * vid_showfps, buffer,
         (((viewplayer->fixedcolormap == INVERSECOLORMAP) ^ (!r_textures)) && !automapactive ? nearestblack : consoleoverlaycolor));
 }
 
@@ -1200,7 +1200,7 @@ void C_UpdatePathOverlay(void)
     if (*temp)
     {
         pathoverlay = true;
-        C_DrawOverlayText(SCREENWIDTH - C_OverlayWidth(temp) - OVERLAYTEXTX + 1,
+        C_DrawOverlayText(mapscreen, MAPWIDTH, MAPWIDTH - C_OverlayWidth(temp) - OVERLAYTEXTX + 1,
             OVERLAYTEXTY + OVERLAYLINEHEIGHT * (vid_showfps + !!countdown), temp, consoleoverlaycolor);
         free(temp);
     }
@@ -1208,7 +1208,7 @@ void C_UpdatePathOverlay(void)
 
 void C_UpdatePlayerStatsOverlay(void)
 {
-    int     x = SCREENWIDTH - OVERLAYTEXTX + 1;
+    int     x = MAPWIDTH - OVERLAYTEXTX + 1;
     int     y = OVERLAYTEXTY + OVERLAYLINEHEIGHT * (vid_showfps + !!countdown + pathoverlay);
     char    buffer[32];
     char    *temp1;
@@ -1219,7 +1219,7 @@ void C_UpdatePlayerStatsOverlay(void)
         temp1 = commify(viewplayer->itemcount);
         temp2 = commify(totalitems);
         M_snprintf(buffer, 32, "%s of %s items", temp1, temp2);
-        C_DrawOverlayText(x - C_OverlayWidth(buffer), y, buffer, consoleoverlaycolor);
+        C_DrawOverlayText(mapscreen, MAPWIDTH, x - C_OverlayWidth(buffer), y, buffer, consoleoverlaycolor);
         free(temp1);
         free(temp2);
     }
@@ -1229,7 +1229,7 @@ void C_UpdatePlayerStatsOverlay(void)
         temp1 = commify(viewplayer->killcount);
         temp2 = commify(totalkills);
         M_snprintf(buffer, 32, "%s of %s kills", temp1, temp2);
-        C_DrawOverlayText(x - C_OverlayWidth(buffer), (y += OVERLAYLINEHEIGHT), buffer, consoleoverlaycolor);
+        C_DrawOverlayText(mapscreen, MAPWIDTH, x - C_OverlayWidth(buffer), (y += OVERLAYLINEHEIGHT), buffer, consoleoverlaycolor);
         free(temp1);
         free(temp2);
     }
@@ -1239,7 +1239,7 @@ void C_UpdatePlayerStatsOverlay(void)
         temp1 = commify(viewplayer->secretcount);
         temp2 = commify(totalsecrets);
         M_snprintf(buffer, 32, "%s of %s secrets", temp1, temp2);
-        C_DrawOverlayText(x - C_OverlayWidth(buffer), (y += OVERLAYLINEHEIGHT), buffer, consoleoverlaycolor);
+        C_DrawOverlayText(mapscreen, MAPWIDTH, x - C_OverlayWidth(buffer), (y += OVERLAYLINEHEIGHT), buffer, consoleoverlaycolor);
         free(temp1);
         free(temp2);
     }

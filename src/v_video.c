@@ -495,10 +495,10 @@ void V_DrawBigPatch(int x, int y, patch_t *patch)
     }
 }
 
-void V_DrawConsoleInputTextPatch(int x, int y, patch_t *patch, int width, int color,
+void V_DrawConsoleInputTextPatch(byte *screen, int screenwidth, int x, int y, patch_t *patch, int width, int color,
     int backgroundcolor, dboolean italics, byte *translucency)
 {
-    byte    *desttop = &screens[0][y * SCREENWIDTH + x];
+    byte    *desttop = &screens[0][y * screenwidth + x];
 
     for (int col = 0; col < width; col++, desttop++)
     {
@@ -509,7 +509,7 @@ void V_DrawConsoleInputTextPatch(int x, int y, patch_t *patch, int width, int co
         while ((topdelta = column->topdelta) != 0xFF)
         {
             byte    *source = (byte *)column + 3;
-            byte    *dest = &desttop[topdelta * SCREENWIDTH];
+            byte    *dest = &desttop[topdelta * screenwidth];
 
             for (int i = 0; i < CONSOLELINEHEIGHT; i++)
             {
@@ -522,7 +522,7 @@ void V_DrawConsoleInputTextPatch(int x, int y, patch_t *patch, int width, int co
                 }
 
                 source++;
-                dest += SCREENWIDTH;
+                dest += screenwidth;
             }
 
             column = (column_t *)((byte *)column + CONSOLELINEHEIGHT + 4);
@@ -530,10 +530,10 @@ void V_DrawConsoleInputTextPatch(int x, int y, patch_t *patch, int width, int co
     }
 }
 
-void V_DrawConsoleOutputTextPatch(int x, int y, patch_t *patch, int width, int color,
+void V_DrawConsoleOutputTextPatch(byte *screen, int screenwidth, int x, int y, patch_t *patch, int width, int color,
     int backgroundcolor, dboolean italics, byte *translucency)
 {
-    byte        *desttop = &screens[0][y * SCREENWIDTH + x];
+    byte        *desttop = &screen[y * screenwidth + x];
     const int   italicize[] = { 2, 2, 2, 1, 1, 1, 1, 0, 0, 0, 0, -1, -1, -1 };
 
     for (int col = 0; col < width; col++, desttop++)
@@ -545,7 +545,7 @@ void V_DrawConsoleOutputTextPatch(int x, int y, patch_t *patch, int width, int c
         while ((topdelta = column->topdelta) != 0xFF)
         {
             byte    *source = (byte *)column + 3;
-            byte    *dest = &desttop[topdelta * SCREENWIDTH];
+            byte    *dest = &desttop[topdelta * screenwidth];
 
             for (int i = 0; i < CONSOLELINEHEIGHT; i++)
             {
@@ -565,7 +565,7 @@ void V_DrawConsoleOutputTextPatch(int x, int y, patch_t *patch, int width, int c
                 }
 
                 source++;
-                dest += SCREENWIDTH;
+                dest += screenwidth;
             }
 
             column = (column_t *)((byte *)column + CONSOLELINEHEIGHT + 4);
