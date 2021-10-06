@@ -68,7 +68,7 @@
 // Stereo separation
 #define S_STEREO_SWING  96
 
-#define NORM_SEP        128
+#define NORM_SEP        127
 
 #define TIDNUM(x)       (int)(x->musicid & 0xFFFF)  // thing identifier
 
