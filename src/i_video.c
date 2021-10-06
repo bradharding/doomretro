@@ -89,7 +89,7 @@ unsigned int    MAPHEIGHT = VANILLAHEIGHT * SCREENSCALE;
 unsigned int    MAPAREA;
 int             MAPBOTTOM;
 
-#define I_SDLError(func)        I_Error("The call to " stringize(func) "() failed in %s() on line %i of %s with this error:\"%s\".", \
+#define I_SDLError(func)        I_Error(stringize(func) "() failed in %s() on line %i of %s with this error:\"%s\".", \
                                     __FUNCTION__, __LINE__ - 1, leafname(__FILE__), SDL_GetError())
 
 #define MAXDISPLAYS             8
