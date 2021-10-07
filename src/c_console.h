@@ -77,6 +77,7 @@
 #define OVERLAYTEXTX            (vid_widescreen ? 25 : 8)
 #define OVERLAYTEXTY            (vid_widescreen ? 12 : 10)
 #define OVERLAYLINEHEIGHT       14
+#define OVERLAYSPACING          5
 
 #define WARNINGWIDTH            13
 

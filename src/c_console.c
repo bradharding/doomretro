@@ -1190,7 +1190,7 @@ void C_UpdateTimerOverlay(void)
     }
 
     C_DrawOverlayText(screens[0], SCREENWIDTH, SCREENWIDTH - timerwidth - OVERLAYTEXTX + 1,
-        OVERLAYTEXTY + OVERLAYLINEHEIGHT * vid_showfps, buffer,
+        OVERLAYTEXTY + (OVERLAYLINEHEIGHT + OVERLAYSPACING) * vid_showfps, buffer,
         (((viewplayer->fixedcolormap == INVERSECOLORMAP) ^ (!r_textures)) && !automapactive ? nearestblack : consoleoverlaycolor), true);
 }
 
@@ -1202,7 +1202,7 @@ void C_UpdatePathOverlay(void)
     {
         pathoverlay = true;
         C_DrawOverlayText(mapscreen, MAPWIDTH, MAPWIDTH - C_OverlayWidth(temp, false) - OVERLAYTEXTX + 1,
-            OVERLAYTEXTY + OVERLAYLINEHEIGHT * ((vid_showfps && automapactive) + (!!countdown && automapactive)),
+            OVERLAYTEXTY + (OVERLAYLINEHEIGHT + OVERLAYSPACING) * ((vid_showfps && automapactive) + (!!countdown && automapactive)),
             temp, consoleoverlaycolor, true);
         free(temp);
     }
@@ -1211,7 +1211,8 @@ void C_UpdatePathOverlay(void)
 void C_UpdatePlayerStatsOverlay(void)
 {
     int     x = MAPWIDTH - OVERLAYTEXTX + 1;
-    int     y = OVERLAYTEXTY + OVERLAYLINEHEIGHT * ((vid_showfps && automapactive) + (!!countdown && automapactive) + pathoverlay);
+    int     y = OVERLAYTEXTY + (OVERLAYLINEHEIGHT + OVERLAYSPACING)
+                * ((vid_showfps && automapactive) + (!!countdown && automapactive) + pathoverlay);
     char    buffer[32];
     char    *temp1;
     char    *temp2;
