@@ -1203,7 +1203,7 @@ void C_UpdatePathOverlay(void)
         pathoverlay = true;
         C_DrawOverlayText(mapscreen, MAPWIDTH, MAPWIDTH - C_OverlayWidth(temp, false) - OVERLAYTEXTX + 1,
             OVERLAYTEXTY + (OVERLAYLINEHEIGHT + OVERLAYSPACING) * ((vid_showfps && automapactive) + (!!countdown && automapactive)),
-            temp, consoleoverlaycolor, true);
+            temp, consoleoverlaycolor, false);
         free(temp);
     }
 }
