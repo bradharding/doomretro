@@ -808,7 +808,7 @@ consolecmd_t consolecmds[] =
     CCMD(thinglist, "", game_func1, thinglist_cmd_func2, false, "",
         "Lists all things in the current map."),
     CCMD(timer, "", null_func1, timer_cmd_func2, true, TIMERCMDFORMAT,
-        "Sets a timer for each map."),
+        "Sets a timer to exit each map after a number of " BOLDITALICS("minutes") "."),
     CCMD(toggle, "", null_func1, toggle_cmd_func2, true, TOGGLECMDFORMAT,
         "Toggles the value of a " ITALICS("CVAR") " between " BOLD("on") " and " BOLD("off") "."),
     CVAR_BOOL(tossdrop, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
