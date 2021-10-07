@@ -1136,8 +1136,7 @@ void I_CreateExternalAutomap(int outputlevel)
         I_SDLError(SDL_SetHintWithPriority);
 
     if (!mapwindow && !(mapwindow = SDL_CreateWindow("Automap", SDL_WINDOWPOS_UNDEFINED_DISPLAY(am_displayindex),
-        SDL_WINDOWPOS_UNDEFINED_DISPLAY(am_displayindex), 0, 0,
-        ((vid_borderlesswindow ? SDL_WINDOW_FULLSCREEN_DESKTOP : SDL_WINDOW_FULLSCREEN) | SDL_WINDOW_SKIP_TASKBAR))))
+        SDL_WINDOWPOS_UNDEFINED_DISPLAY(am_displayindex), 0, 0, (SDL_WINDOW_FULLSCREEN_DESKTOP | SDL_WINDOW_SKIP_TASKBAR))))
         I_SDLError(SDL_CreateWindow);
 
     MAPHEIGHT = VANILLAHEIGHT * SCREENSCALE;
