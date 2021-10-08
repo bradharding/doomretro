@@ -419,7 +419,7 @@ void D_Display(void)
     {
         if (!paused && !menuactive)
         {
-            if (countdown && gamestate == GS_LEVEL)
+            if (timeremaining && gamestate == GS_LEVEL)
                 C_UpdateTimerOverlay();
 
             if (am_path && (automapactive || mapwindow))

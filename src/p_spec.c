@@ -122,6 +122,9 @@ fixed_t animatedliquiddiffs[64] =
      4318,  4764,  5164,  5516,  5814,  6054,  6238,  6360
 };
 
+int             timer = 0;
+int             timeremaining = 0;
+
 static anim_t   *lastanim;
 static anim_t   *anims;             // new structure w/o limits -- killough
 
@@ -2275,9 +2278,6 @@ void P_PlayerInSpecialSector(sector_t *sector)
 // P_UpdateSpecials
 // Animate planes, scroll walls, etc.
 //
-int timer = 0;
-int countdown;
-
 void P_UpdateSpecials(void)
 {
     // ANIMATE FLATS AND TEXTURES GLOBALLY
@@ -2309,7 +2309,7 @@ void P_UpdateSpecials(void)
     if (menuactive)
         return;
 
-    if (timer && !--countdown)
+    if (timer && !--timeremaining)
         G_ExitLevel();
 
     // DO BUTTONS
@@ -2442,7 +2442,7 @@ dboolean EV_DoDonut(line_t *line)
 void P_SetTimer(int minutes)
 {
     timer = minutes;
-    countdown = timer * 60 * TICRATE;
+    timeremaining = timer * 60 * TICRATE;
 }
 
 //

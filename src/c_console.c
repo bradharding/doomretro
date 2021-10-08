@@ -1165,7 +1165,7 @@ void C_UpdateFPSOverlay(void)
 void C_UpdateTimerOverlay(void)
 {
     static char buffer[9];
-    int         tics = countdown;
+    int         tics = timeremaining;
     static int  prevtics;
 
     if (tics != prevtics)
@@ -1190,7 +1190,7 @@ void C_UpdatePathOverlay(void)
     {
         pathoverlay = true;
         C_DrawOverlayText(mapscreen, MAPWIDTH, MAPWIDTH - C_OverlayWidth(temp, false) - OVERLAYTEXTX + 1,
-            OVERLAYTEXTY + (OVERLAYLINEHEIGHT + OVERLAYSPACING) * ((vid_showfps && automapactive) + (!!countdown && automapactive)),
+            OVERLAYTEXTY + (OVERLAYLINEHEIGHT + OVERLAYSPACING) * ((vid_showfps && automapactive) + (!!timeremaining && automapactive)),
             temp, consoleoverlaycolor, false);
         free(temp);
     }
@@ -1200,7 +1200,7 @@ void C_UpdatePlayerStatsOverlay(void)
 {
     int     x = MAPWIDTH - OVERLAYTEXTX + 1;
     int     y = OVERLAYTEXTY + (OVERLAYLINEHEIGHT + OVERLAYSPACING)
-                * ((vid_showfps && automapactive) + (!!countdown && automapactive) + pathoverlay);
+                * ((vid_showfps && automapactive) + (!!timeremaining && automapactive) + pathoverlay);
     char    buffer[32];
     char    *temp1;
     char    *temp2;

@@ -49,7 +49,7 @@ typedef enum
 #define TIMERMAXMINUTES 3600
 
 extern int              timer;
-extern int              countdown;
+extern int              timeremaining;
 extern fixed_t          animatedliquiddiff;
 extern fixed_t          animatedliquidxdir;
 extern fixed_t          animatedliquidydir;
