@@ -769,7 +769,7 @@ void R_InitColumnFunctions(void)
             tlredtogreen33colfunc = &R_DrawColorColumn;
         }
 
-        bloodsplatcolfunc = &R_DrawColorColumn;
+        bloodsplatcolfunc = (r_translucency ? &R_DrawTranslucent50ColorColumn : &R_DrawColorColumn);
         psprcolfunc = &R_DrawColorColumn;
     }
 
