@@ -292,12 +292,20 @@ void G_BuildTiccmd(ticcmd_t *cmd)
         if (gamekeydown[keyboardright] || (gamepadbuttons & gamepadright))
             cmd->angleturn -= angleturn[(turnheld < SLOWTURNTICS ? 2 : run)];
         else if (gamepadthumbRX > 0)
-            cmd->angleturn -= (int)(gamepadangleturn[run] * ((float)gamepadthumbRX / SHRT_MAX) * gamepadhorizontalsensitivity);
+        {
+            fixed_t x = gamepadthumbRX * 2;
+
+            cmd->angleturn -= FixedMul(gamepadangleturn[run], (fixed_t)(gamepadhorizontalsensitivity * FixedMul(FixedMul(x, x), x)));
+        }
 
         if (gamekeydown[keyboardleft] || (gamepadbuttons & gamepadleft))
             cmd->angleturn += angleturn[(turnheld < SLOWTURNTICS ? 2 : run)];
         else if (gamepadthumbRX < 0)
-            cmd->angleturn -= (int)(gamepadangleturn[run] * ((float)gamepadthumbRX / SHRT_MAX) * gamepadhorizontalsensitivity);
+        {
+            fixed_t x = gamepadthumbRX * 2;
+
+            cmd->angleturn -= FixedMul(gamepadangleturn[run], (fixed_t)(gamepadhorizontalsensitivity * FixedMul(FixedMul(x, x), x)));
+        }
     }
 
     if (gamepadthumbRY)
@@ -336,7 +344,11 @@ void G_BuildTiccmd(ticcmd_t *cmd)
         if (gp_thumbsticks == 2)
             side += (int)(sidemove[run] * (float)gamepadthumbLX / SHRT_MAX);
         else
-            cmd->angleturn -= (int)(gamepadangleturn[run] * ((float)gamepadthumbLX / SHRT_MAX) * gamepadhorizontalsensitivity);
+        {
+            fixed_t x = gamepadthumbLX * 2;
+
+            cmd->angleturn -= FixedMul(gamepadangleturn[run], (fixed_t)(gamepadhorizontalsensitivity * FixedMul(FixedMul(x, x), x)));
+        }
     }
 
     if (gamekeydown[keyboardstrafeleft] || gamekeydown[keyboardstrafeleft2] || (gamepadbuttons & gamepadstrafeleft))
@@ -346,7 +358,11 @@ void G_BuildTiccmd(ticcmd_t *cmd)
         if (gp_thumbsticks == 2)
             side += (int)(sidemove[run] * (float)gamepadthumbLX / SHRT_MAX);
         else
-            cmd->angleturn -= (int)(gamepadangleturn[run] * ((float)gamepadthumbLX / SHRT_MAX) * gamepadhorizontalsensitivity);
+        {
+            fixed_t x = gamepadthumbLX * 2;
+
+            cmd->angleturn -= FixedMul(gamepadangleturn[run], (fixed_t)(gamepadhorizontalsensitivity * FixedMul(FixedMul(x, x), x)));
+        }
     }
 
     if ((gamekeydown[keyboardjump] || mousebuttons[mousejump] || (gamepadbuttons & gamepadjump)) && !nojump)

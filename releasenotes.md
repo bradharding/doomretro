@@ -28,6 +28,7 @@
 * The external automap will now be displayed correctly when the `vid_borderlesswindow` CVAR is `off`.
 * Minor improvements have been made to the support of `MAPINFO` lumps.
 * Blood splats are now translucent when the `r_translucency` CVAR is `on` and the `r_textures` CVAR is `off`.
+* Turning left and right using a gamepad is now smoother.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
