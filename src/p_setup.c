@@ -76,33 +76,32 @@
 #define MCMD_ENDCAST            4
 #define MCMD_ENDGAME            5
 #define MCMD_ENDPIC             6
-#define MCMD_EPISODE            7
-#define MCMD_ENTERPIC           8
-#define MCMD_EXITPIC            9
-#define MCMD_INTERBACKDROP      10
-#define MCMD_INTERMUSIC         11
-#define MCMD_INTERTEXT          12
-#define MCMD_INTERTEXTSECRET    13
-#define MCMD_LEVELNAME          14
-#define MCMD_LEVELPIC           15
-#define MCMD_LIQUID             16
-#define MCMD_MUSIC              17
-#define MCMD_MUSICCOMPOSER      18
-#define MCMD_MUSICTITLE         19
-#define MCMD_NEXT               20
-#define MCMD_NEXTSECRET         21
-#define MCMD_NOBRIGHTMAP        22
-#define MCMD_NOFREELOOK         23
-#define MCMD_NOJUMP             24
-#define MCMD_NOLIQUID           25
-#define MCMD_NOMOUSELOOK        26
-#define MCMD_PAR                27
-#define MCMD_PARTIME            28
-#define MCMD_PISTOLSTART        29
-#define MCMD_SECRETNEXT         30
-#define MCMD_SKY1               31
-#define MCMD_SKYTEXTURE         32
-#define MCMD_TITLEPATCH         33
+#define MCMD_ENTERPIC           7
+#define MCMD_EPISODE            8
+#define MCMD_INTERBACKDROP      9
+#define MCMD_INTERMUSIC         10
+#define MCMD_INTERTEXT          11
+#define MCMD_INTERTEXTSECRET    12
+#define MCMD_LEVELNAME          13
+#define MCMD_LEVELPIC           14
+#define MCMD_LIQUID             15
+#define MCMD_MUSIC              16
+#define MCMD_MUSICCOMPOSER      17
+#define MCMD_MUSICTITLE         18
+#define MCMD_NEXT               19
+#define MCMD_NEXTSECRET         20
+#define MCMD_NOBRIGHTMAP        21
+#define MCMD_NOFREELOOK         22
+#define MCMD_NOJUMP             23
+#define MCMD_NOLIQUID           24
+#define MCMD_NOMOUSELOOK        25
+#define MCMD_PAR                26
+#define MCMD_PARTIME            27
+#define MCMD_PISTOLSTART        28
+#define MCMD_SECRETNEXT         29
+#define MCMD_SKY1               30
+#define MCMD_SKYTEXTURE         31
+#define MCMD_TITLEPATCH         32
 
 typedef struct mapinfo_s mapinfo_t;
 
@@ -115,7 +114,6 @@ struct mapinfo_s
     dboolean    endgame;
     int         endpic;
     int         enterpic;
-    int         exitpic;
     char        interbackdrop[9];
     int         intermusic;
     char        intertext[1024];
@@ -228,7 +226,6 @@ static char *mapcmdnames[] =
     "ENDGAME",
     "ENDPIC",
     "ENTERPIC",
-    "EXITPIC",
     "EPISODE",
     "INTERBACKDROP",
     "INTERMUSIC",
@@ -265,7 +262,6 @@ static int mapcmdids[] =
     MCMD_ENDGAME,
     MCMD_ENDPIC,
     MCMD_ENTERPIC,
-    MCMD_EXITPIC,
     MCMD_EPISODE,
     MCMD_INTERBACKDROP,
     MCMD_INTERMUSIC,
@@ -3048,7 +3044,6 @@ static void P_InitMapInfo(void)
         mapinfo[i].endgame = false;
         mapinfo[i].endpic = 0;
         mapinfo[i].enterpic = 0;
-        mapinfo[i].exitpic = 0;
         mapinfo[i].cluster = 0;
         mapinfo[i].interbackdrop[0] = '\0';
         mapinfo[i].intermusic = 0;
@@ -3191,12 +3186,6 @@ static void P_InitMapInfo(void)
                         case MCMD_ENTERPIC:
                             SC_MustGetString();
                             info->enterpic = W_GetNumForName(sc_String);
-
-                            break;
-
-                        case MCMD_EXITPIC:
-                            SC_MustGetString();
-                            info->exitpic = W_GetNumForName(sc_String);
 
                             break;
 
