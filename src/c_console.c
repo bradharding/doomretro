@@ -73,8 +73,6 @@ int                     consoleheight = 0;
 int                     consoledirection = -1;
 static int              consoleanim;
 
-dboolean                forceconsoleblurredraw;
-
 patch_t                 *consolefont[CONSOLEFONTSIZE];
 patch_t                 *degree;
 patch_t                 *unknownchar;
@@ -769,47 +767,40 @@ void C_HideConsoleFast(void)
 
 static void C_DrawBackground(void)
 {
-    static dboolean blurred;
     static byte     blurscreen[MAXSCREENAREA];
     int             consolebackcolor = nearestcolors[con_backcolor] << 8;
     int             height = (consoleheight + 5) * SCREENWIDTH;
 
-    if (!blurred || forceconsoleblurredraw)
-    {
-        // blur background
-        memcpy(blurscreen, screens[0], height);
+    // blur background
+    memcpy(blurscreen, screens[0], height);
 
-        for (int y = 0; y <= height - SCREENWIDTH; y += SCREENWIDTH)
-            for (int x = y; x <= y + SCREENWIDTH - 2; x++)
-                blurscreen[x] = tinttab50[(blurscreen[x + 1] << 8) + blurscreen[x]];
+    for (int y = 0; y <= height - SCREENWIDTH; y += SCREENWIDTH)
+        for (int x = y; x <= y + SCREENWIDTH - 2; x++)
+            blurscreen[x] = tinttab50[(blurscreen[x + 1] << 8) + blurscreen[x]];
 
-        for (int y = 0; y <= height - SCREENWIDTH; y += SCREENWIDTH)
-            for (int x = y + SCREENWIDTH - 2; x > y; x--)
-                blurscreen[x] = tinttab50[(blurscreen[x - 1] << 8) + blurscreen[x]];
+    for (int y = 0; y <= height - SCREENWIDTH; y += SCREENWIDTH)
+        for (int x = y + SCREENWIDTH - 2; x > y; x--)
+            blurscreen[x] = tinttab50[(blurscreen[x - 1] << 8) + blurscreen[x]];
 
-        for (int y = height - SCREENWIDTH; y >= SCREENWIDTH; y -= SCREENWIDTH)
-            for (int x = y + SCREENWIDTH - 1; x >= y + 1; x--)
-                blurscreen[x] = tinttab50[(blurscreen[x - SCREENWIDTH - 1] << 8) + blurscreen[x]];
+    for (int y = height - SCREENWIDTH; y >= SCREENWIDTH; y -= SCREENWIDTH)
+        for (int x = y + SCREENWIDTH - 1; x >= y + 1; x--)
+            blurscreen[x] = tinttab50[(blurscreen[x - SCREENWIDTH - 1] << 8) + blurscreen[x]];
 
-        for (int y = 0; y <= height - SCREENWIDTH * 2; y += SCREENWIDTH)
-            for (int x = y; x <= y + SCREENWIDTH - 1; x++)
-                blurscreen[x] = tinttab50[(blurscreen[x + SCREENWIDTH] << 8) + blurscreen[x]];
+    for (int y = 0; y <= height - SCREENWIDTH * 2; y += SCREENWIDTH)
+        for (int x = y; x <= y + SCREENWIDTH - 1; x++)
+            blurscreen[x] = tinttab50[(blurscreen[x + SCREENWIDTH] << 8) + blurscreen[x]];
 
-        for (int y = height - SCREENWIDTH; y >= SCREENWIDTH; y -= SCREENWIDTH)
-            for (int x = y; x <= y + SCREENWIDTH - 1; x++)
-                blurscreen[x] = tinttab50[(blurscreen[x - SCREENWIDTH] << 8) + blurscreen[x]];
+    for (int y = height - SCREENWIDTH; y >= SCREENWIDTH; y -= SCREENWIDTH)
+        for (int x = y; x <= y + SCREENWIDTH - 1; x++)
+            blurscreen[x] = tinttab50[(blurscreen[x - SCREENWIDTH] << 8) + blurscreen[x]];
 
-        for (int y = 0; y <= height - SCREENWIDTH * 2; y += SCREENWIDTH)
-            for (int x = y + SCREENWIDTH - 1; x >= y + 1; x--)
-                blurscreen[x] = tinttab50[(blurscreen[x + SCREENWIDTH - 1] << 8) + blurscreen[x]];
+    for (int y = 0; y <= height - SCREENWIDTH * 2; y += SCREENWIDTH)
+        for (int x = y + SCREENWIDTH - 1; x >= y + 1; x--)
+            blurscreen[x] = tinttab50[(blurscreen[x + SCREENWIDTH - 1] << 8) + blurscreen[x]];
 
-        for (int y = height - SCREENWIDTH; y >= SCREENWIDTH; y -= SCREENWIDTH)
-            for (int x = y; x <= y + SCREENWIDTH - 2; x++)
-                blurscreen[x] = tinttab50[(blurscreen[x - SCREENWIDTH + 1] << 8) + blurscreen[x]];
-    }
-
-    forceconsoleblurredraw = false;
-    blurred = (consoleheight == CONSOLEHEIGHT && !dowipe);
+    for (int y = height - SCREENWIDTH; y >= SCREENWIDTH; y -= SCREENWIDTH)
+        for (int x = y; x <= y + SCREENWIDTH - 2; x++)
+            blurscreen[x] = tinttab50[(blurscreen[x - SCREENWIDTH + 1] << 8) + blurscreen[x]];
 
     // tint background using con_backcolor CVAR
     for (int i = 0; i < height; i++)
@@ -1841,7 +1832,6 @@ dboolean C_Responder(event_t *ev)
                         autocomplete = -1;
                         inputhistory = -1;
                         outputhistory = -1;
-                        forceconsoleblurredraw = true;
                     }
                 }
 

@@ -813,8 +813,6 @@ static void CalculateFPS(void)
         frames = 0;
         starttime = currenttime;
     }
-
-    C_UpdateFPSOverlay();
 }
 
 #if defined(_WIN32)
@@ -1902,7 +1900,6 @@ void I_RestartGraphics(dboolean recreatewindow)
     C_ResetWrappedLines();
 
     setsizeneeded = true;
-    forceconsoleblurredraw = true;
 
     if (r_playersprites)
         skippsprinterp = true;

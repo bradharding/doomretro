@@ -419,6 +419,9 @@ void D_Display(void)
     {
         if (!paused && !menuactive)
         {
+            if (vid_showfps)
+                C_UpdateFPSOverlay();
+
             if (timeremaining && gamestate == GS_LEVEL)
                 C_UpdateTimerOverlay();
 
@@ -590,7 +593,6 @@ void D_PageDrawer(void)
 void D_AdvanceTitle(void)
 {
     advancetitle = true;
-    forceconsoleblurredraw = true;
 }
 
 //

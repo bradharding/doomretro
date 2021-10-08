@@ -164,8 +164,6 @@ extern char         consolecheat[255];
 extern char         consolecheatparm[3];
 extern char         consolecmdparm[255];
 
-extern dboolean     forceconsoleblurredraw;
-
 extern dboolean     scrollbardrawn;
 
 typedef struct
