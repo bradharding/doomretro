@@ -3179,13 +3179,13 @@ static void P_InitMapInfo(void)
 
                         case MCMD_ENDPIC:
                             SC_MustGetString();
-                            info->endpic = W_GetNumForName(sc_String);
+                            info->endpic = W_CheckNumForName(sc_String);
 
                             break;
 
                         case MCMD_ENTERPIC:
                             SC_MustGetString();
-                            info->enterpic = W_GetNumForName(sc_String);
+                            info->enterpic = W_CheckNumForName(sc_String);
 
                             break;
 

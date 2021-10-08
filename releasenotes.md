@@ -26,6 +26,7 @@
 * The background of the player’s face will now be a better size when the `facebackcolor` CVAR is a value other than its default of `5`.
 * When vanilla mode is enabled, any timer set using the `timer` CCMD will now be reset to `0`, rather than being disabled altogether.
 * The external automap will now be displayed correctly when the `vid_borderlesswindow` CVAR is `off`.
+* Minor improvements have been made to the support of `MAPINFO` lumps.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
