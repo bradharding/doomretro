@@ -700,7 +700,7 @@ void C_Init(void)
     brandwidth = SHORT(brand->width);
     brandheight = SHORT(brand->height);
     spacewidth = SHORT(consolefont[' ' - CONSOLEFONTSTART]->width);
-    timerwidth = C_TextWidth("00:00:00", false, false);
+    timerwidth = C_TextWidth("-00:00:00", false, false);
     zerowidth = SHORT(consolefont['0' - CONSOLEFONTSTART]->width);
 }
 
