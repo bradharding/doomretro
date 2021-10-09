@@ -578,6 +578,34 @@ static int C_TextWidth(const char *text, const dboolean formatting, const dboole
     return width;
 }
 
+static int C_OverlayWidth(const char *text, const dboolean monospaced)
+{
+    const int       len = (int)strlen(text);
+    int             width = 0;
+    unsigned char   prevletter = '\0';
+
+    for (int i = 0; i < len; i++)
+    {
+        const unsigned char letter = text[i];
+
+        if (letter == ' ')
+            width += spacewidth;
+        else if (isdigit(letter))
+            width += (monospaced ? zerowidth : SHORT(consolefont[letter - CONSOLEFONTSTART]->width));
+        else if (letter >= CONSOLEFONTSTART)
+        {
+            if (letter == ',' && prevletter == '1')
+                width--;
+
+            width += SHORT(consolefont[letter - CONSOLEFONTSTART]->width);
+        }
+
+        prevletter = letter;
+    }
+
+    return width;
+}
+
 static void C_DrawScrollbar(void)
 {
     const int   trackend = CONSOLESCROLLBARHEIGHT * SCREENWIDTH;
@@ -700,8 +728,9 @@ void C_Init(void)
     brandwidth = SHORT(brand->width);
     brandheight = SHORT(brand->height);
     spacewidth = SHORT(consolefont[' ' - CONSOLEFONTSTART]->width);
-    timerwidth = C_TextWidth("-00:00:00", false, false);
     zerowidth = SHORT(consolefont['0' - CONSOLEFONTSTART]->width);
+
+    timerwidth = C_OverlayWidth("-00:00:00", true);
 }
 
 void C_ShowConsole(void)
@@ -1026,34 +1055,6 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
     return (x - startx);
 }
 
-static int C_OverlayWidth(const char *text, const dboolean monospaced)
-{
-    const int       len = (int)strlen(text);
-    int             width = 0;
-    unsigned char   prevletter = '\0';
-
-    for (int i = 0; i < len; i++)
-    {
-        const unsigned char letter = text[i];
-
-        if (letter == ' ')
-            width += spacewidth;
-        else if (isdigit(letter))
-            width += (monospaced ? zerowidth : SHORT(consolefont[letter - CONSOLEFONTSTART]->width));
-        else if (letter >= CONSOLEFONTSTART)
-        {
-            if (letter == ',' && prevletter == '1')
-                width--;
-
-            width += SHORT(consolefont[letter - CONSOLEFONTSTART]->width);
-        }
-
-        prevletter = letter;
-    }
-
-    return width;
-}
-
 static void C_DrawOverlayText(byte *screen, int screenwidth, int x, int y, const char *text, const int color, const dboolean monospaced)
 {
     const int       len = (int)strlen(text);
@@ -1156,12 +1157,12 @@ void C_UpdateFPSOverlay(void)
 void C_UpdateTimerOverlay(void)
 {
     static char buffer[10];
-    int         tics = timeremaining;
     static int  prevtics;
 
-    if (tics != prevtics)
+    if (timeremaining != prevtics)
     {
-        int hours = (tics = (prevtics = tics) / TICRATE) / 3600;
+        int tics = (prevtics = timeremaining) / TICRATE;
+        int hours = tics / 3600;
         int minutes = ((tics %= 3600)) / 60;
         int seconds = tics % 60;
 
