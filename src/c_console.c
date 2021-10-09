@@ -1192,35 +1192,38 @@ void C_UpdatePlayerStatsOverlay(void)
     int     x = MAPWIDTH - OVERLAYTEXTX + 1;
     int     y = OVERLAYTEXTY + (OVERLAYLINEHEIGHT + OVERLAYSPACING)
                 * ((vid_showfps && automapactive) + (!!timeremaining && automapactive) + pathoverlay);
-    char    buffer[32];
-    char    *temp1;
-    char    *temp2;
 
     if (totalkills)
     {
-        temp1 = commify(viewplayer->killcount);
-        temp2 = commify(totalkills);
+        char    buffer[32];
+        char    *temp1 = commify(viewplayer->killcount);
+        char    *temp2 = commify(totalkills);
+
         M_snprintf(buffer, 32, "%s of %s kills", temp1, temp2);
-        C_DrawOverlayText(mapscreen, MAPWIDTH, x - C_OverlayWidth(buffer, false),
-            (y += OVERLAYLINEHEIGHT), buffer, consoleoverlaycolor, false);
+        C_DrawOverlayText(mapscreen, MAPWIDTH, x - C_OverlayWidth(buffer, false), y, buffer, consoleoverlaycolor, false);
         free(temp1);
         free(temp2);
     }
 
     if (totalitems)
     {
-        temp1 = commify(viewplayer->itemcount);
-        temp2 = commify(totalitems);
+        char    buffer[32];
+        char    *temp1 = commify(viewplayer->itemcount);
+        char    *temp2 = commify(totalitems);
+
         M_snprintf(buffer, 32, "%s of %s items", temp1, temp2);
-        C_DrawOverlayText(mapscreen, MAPWIDTH, x - C_OverlayWidth(buffer, false), y, buffer, consoleoverlaycolor, false);
+        C_DrawOverlayText(mapscreen, MAPWIDTH, x - C_OverlayWidth(buffer, false),
+            (y += OVERLAYLINEHEIGHT), buffer, consoleoverlaycolor, false);
         free(temp1);
         free(temp2);
     }
 
     if (totalsecrets)
     {
-        temp1 = commify(viewplayer->secretcount);
-        temp2 = commify(totalsecrets);
+        char    buffer[32];
+        char    *temp1 = commify(viewplayer->secretcount);
+        char    *temp2 = commify(totalsecrets);
+
         M_snprintf(buffer, 32, "%s of %s secrets", temp1, temp2);
         C_DrawOverlayText(mapscreen, MAPWIDTH, x - C_OverlayWidth(buffer, false),
             (y += OVERLAYLINEHEIGHT), buffer, consoleoverlaycolor, false);
