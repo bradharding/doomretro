@@ -63,7 +63,9 @@ void TryRunTics(void)
             break;
 
         if (gamestate == GS_LEVEL)
-            G_BuildTiccmd(&localcmds[maketic++ % BACKUPTICS]);
+            G_BuildTiccmd(&localcmds[maketic % BACKUPTICS]);
+
+        maketic++;
     }
 
     if (!(runtics = maketic - gametime) && vid_capfps != TICRATE)
