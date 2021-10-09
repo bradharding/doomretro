@@ -1196,16 +1196,6 @@ void C_UpdatePlayerStatsOverlay(void)
     char    *temp1;
     char    *temp2;
 
-    if (totalitems)
-    {
-        temp1 = commify(viewplayer->itemcount);
-        temp2 = commify(totalitems);
-        M_snprintf(buffer, 32, "%s of %s items", temp1, temp2);
-        C_DrawOverlayText(mapscreen, MAPWIDTH, x - C_OverlayWidth(buffer, false), y, buffer, consoleoverlaycolor, false);
-        free(temp1);
-        free(temp2);
-    }
-
     if (totalkills)
     {
         temp1 = commify(viewplayer->killcount);
@@ -1213,6 +1203,16 @@ void C_UpdatePlayerStatsOverlay(void)
         M_snprintf(buffer, 32, "%s of %s kills", temp1, temp2);
         C_DrawOverlayText(mapscreen, MAPWIDTH, x - C_OverlayWidth(buffer, false),
             (y += OVERLAYLINEHEIGHT), buffer, consoleoverlaycolor, false);
+        free(temp1);
+        free(temp2);
+    }
+
+    if (totalitems)
+    {
+        temp1 = commify(viewplayer->itemcount);
+        temp2 = commify(totalitems);
+        M_snprintf(buffer, 32, "%s of %s items", temp1, temp2);
+        C_DrawOverlayText(mapscreen, MAPWIDTH, x - C_OverlayWidth(buffer, false), y, buffer, consoleoverlaycolor, false);
         free(temp1);
         free(temp2);
     }
