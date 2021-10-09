@@ -1155,7 +1155,7 @@ void C_UpdateFPSOverlay(void)
 
 void C_UpdateTimerOverlay(void)
 {
-    static char buffer[9];
+    static char buffer[10];
     int         tics = timeremaining;
     static int  prevtics;
 
@@ -1165,7 +1165,7 @@ void C_UpdateTimerOverlay(void)
         int minutes = ((tics %= 3600)) / 60;
         int seconds = tics % 60;
 
-        M_snprintf(buffer, 9, "%02i:%02i:%02i", hours, minutes, seconds);
+        M_snprintf(buffer, 10, "-%02i:%02i:%02i", hours, minutes, seconds);
     }
 
     C_DrawOverlayText(screens[0], SCREENWIDTH, SCREENWIDTH - timerwidth - OVERLAYTEXTX + 1,
