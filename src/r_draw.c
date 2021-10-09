@@ -944,6 +944,46 @@ void R_DrawTranslucent50Column(void)
     *dest = tranmap[(*dest << 8) + colormap[dc_source[frac >> FRACBITS]]];
 }
 
+void R_DrawDitherLowTranslucent50Column(void)
+{
+    int                 y = dc_yl;
+    int                 count = dc_yh - y + 1;
+    byte                *dest = ylookup0[y] + dc_x;
+    fixed_t             frac = dc_texturefrac + SPARKLEFIX;
+    const fixed_t       fracstep = dc_iscale - SPARKLEFIX;
+    const lighttable_t  *colormap[2] = { dc_colormap[0], dc_nextcolormap[0] };
+    const int           fracz = ((dc_z >> 5) & 255);
+
+    while (--count)
+    {
+        *dest = tranmap[(*dest << 8) + colormap[ditherlow(dc_x, y++, fracz)][dc_source[frac >> FRACBITS]]];
+        dest += SCREENWIDTH;
+        frac += fracstep;
+    }
+
+    *dest = tranmap[(*dest << 8) + colormap[ditherlow(dc_x, y, fracz)][dc_source[frac >> FRACBITS]]];
+}
+
+void R_DrawDitherTranslucent50Column(void)
+{
+    int                 y = dc_yl;
+    int                 count = dc_yh - y + 1;
+    byte                *dest = ylookup0[y] + dc_x;
+    fixed_t             frac = dc_texturefrac + SPARKLEFIX;
+    const fixed_t       fracstep = dc_iscale - SPARKLEFIX;
+    const lighttable_t  *colormap[2] = { dc_colormap[0], dc_nextcolormap[0] };
+    const int           fracz = ((dc_z >> 5) & 255);
+
+    while (--count)
+    {
+        *dest = tranmap[(*dest << 8) + colormap[dither(dc_x, y++, fracz)][dc_source[frac >> FRACBITS]]];
+        dest += SCREENWIDTH;
+        frac += fracstep;
+    }
+
+    *dest = tranmap[(*dest << 8) + colormap[dither(dc_x, y, fracz)][dc_source[frac >> FRACBITS]]];
+}
+
 void R_DrawCorrectedTranslucent50Column(void)
 {
     int                 count = dc_yh - dc_yl + 1;
@@ -975,6 +1015,40 @@ void R_DrawTranslucent50ColorColumn(void)
     }
 
     *dest = tranmap[(*dest << 8) + color];
+}
+
+void R_DrawTranslucent50ColorDitherLowColumn(void)
+{
+    int                 y = dc_yl;
+    int                 count = dc_yh - y + 1;
+    byte                *dest = ylookup0[y] + dc_x;
+    const lighttable_t  *colormap[2] = { dc_colormap[0], dc_nextcolormap[0] };
+    const int           fracz = ((dc_z >> 5) & 255);
+
+    while (--count)
+    {
+        *dest = tranmap[(*dest << 8) + colormap[ditherlow(dc_x, y++, fracz)][NOTEXTURECOLOR]];
+        dest += SCREENWIDTH;
+    }
+
+    *dest = tranmap[(*dest << 8) + colormap[ditherlow(dc_x, y, fracz)][NOTEXTURECOLOR]];
+}
+
+void R_DrawTranslucent50ColorDitherColumn(void)
+{
+    int                 y = dc_yl;
+    int                 count = dc_yh - y + 1;
+    byte                *dest = ylookup0[y] + dc_x;
+    const lighttable_t  *colormap[2] = { dc_colormap[0], dc_nextcolormap[0] };
+    const int           fracz = ((dc_z >> 5) & 255);
+
+    while (--count)
+    {
+        *dest = tranmap[(*dest << 8) + colormap[dither(dc_x, y++, fracz)][NOTEXTURECOLOR]];
+        dest += SCREENWIDTH;
+    }
+
+    *dest = tranmap[(*dest << 8) + colormap[dither(dc_x, y, fracz)][NOTEXTURECOLOR]];
 }
 
 void R_DrawTranslucent33Column(void)

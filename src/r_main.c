@@ -527,6 +527,7 @@ void R_InitColumnFunctions(void)
                 wallcolfunc = &R_DrawDitherLowWallColumn;
                 bmapwallcolfunc = &R_DrawBrightmapDitherLowWallColumn;
                 segcolfunc = &R_DrawDitherLowColumn;
+                tl50segcolfunc = (r_translucency ? &R_DrawDitherLowTranslucent50Column : &R_DrawDitherLowColumn);
                 spanfunc = &R_DrawDitherLowSpan;
                 redtobluecolfunc = &R_DrawDitherLowRedToBlueColumn;
                 redtogreencolfunc = &R_DrawDitherLowRedToGreenColumn;
@@ -538,6 +539,7 @@ void R_InitColumnFunctions(void)
                 wallcolfunc = &R_DrawDitherWallColumn;
                 bmapwallcolfunc = &R_DrawBrightmapDitherWallColumn;
                 segcolfunc = &R_DrawDitherColumn;
+                tl50segcolfunc = (r_translucency ? &R_DrawDitherTranslucent50Column : &R_DrawDitherColumn);
                 spanfunc = &R_DrawDitherSpan;
                 redtobluecolfunc = &R_DrawDitherRedToBlueColumn;
                 redtogreencolfunc = &R_DrawDitherRedToGreenColumn;
@@ -549,7 +551,6 @@ void R_InitColumnFunctions(void)
 
             if (r_translucency)
             {
-                tl50segcolfunc = &R_DrawTranslucent50Column;
                 tlcolfunc = &R_DrawTranslucentColumn;
                 tl50colfunc = &R_DrawTranslucent50Column;
                 tl33colfunc = &R_DrawTranslucent33Column;
@@ -572,7 +573,6 @@ void R_InitColumnFunctions(void)
             {
                 if (r_detail == r_detail_low)
                 {
-                    tl50segcolfunc = &R_DrawDitherLowColumn;
                     tlcolfunc = &R_DrawDitherLowColumn;
                     tl50colfunc = &R_DrawDitherLowColumn;
                     tl33colfunc = &R_DrawDitherLowColumn;
@@ -593,7 +593,6 @@ void R_InitColumnFunctions(void)
                 }
                 else
                 {
-                    tl50segcolfunc = &R_DrawDitherColumn;
                     tlcolfunc = &R_DrawDitherColumn;
                     tl50colfunc = &R_DrawDitherColumn;
                     tl33colfunc = &R_DrawDitherColumn;
@@ -623,6 +622,7 @@ void R_InitColumnFunctions(void)
             bmapwallcolfunc = &R_DrawBrightmapWallColumn;
             altbmapwallcolfunc = &R_DrawBrightmapWallColumn;
             segcolfunc = &R_DrawColumn;
+            tl50segcolfunc = (r_translucency ? &R_DrawTranslucent50Column : &R_DrawColumn);
             spanfunc = &R_DrawSpan;
             altspanfunc = &R_DrawSpan;
             redtobluecolfunc = &R_DrawRedToBlueColumn;
@@ -630,7 +630,6 @@ void R_InitColumnFunctions(void)
 
             if (r_translucency)
             {
-                tl50segcolfunc = &R_DrawTranslucent50Column;
                 tlcolfunc = &R_DrawTranslucentColumn;
                 tl50colfunc = &R_DrawTranslucent50Column;
                 tl33colfunc = &R_DrawTranslucent33Column;
@@ -651,7 +650,6 @@ void R_InitColumnFunctions(void)
             }
             else
             {
-                tl50segcolfunc = &R_DrawColumn;
                 tlcolfunc = &R_DrawColumn;
                 tl50colfunc = &R_DrawColumn;
                 tl33colfunc = &R_DrawColumn;
@@ -689,7 +687,7 @@ void R_InitColumnFunctions(void)
                 wallcolfunc = &R_DrawColorDitherLowColumn;
                 bmapwallcolfunc = &R_DrawColorDitherLowColumn;
                 segcolfunc = &R_DrawColorDitherLowColumn;
-                tl50segcolfunc = (r_translucency ? &R_DrawTranslucent50ColorColumn : &R_DrawColorDitherLowColumn);
+                tl50segcolfunc = (r_translucency ? &R_DrawTranslucent50ColorDitherLowColumn : &R_DrawColorDitherLowColumn);
                 spanfunc = &R_DrawDitherLowColorSpan;
                 redtobluecolfunc = &R_DrawColorDitherLowColumn;
                 redtogreencolfunc = &R_DrawColorDitherLowColumn;
@@ -715,7 +713,7 @@ void R_InitColumnFunctions(void)
                 wallcolfunc = &R_DrawColorDitherColumn;
                 bmapwallcolfunc = &R_DrawColorDitherColumn;
                 segcolfunc = &R_DrawColorDitherColumn;
-                tl50segcolfunc = (r_translucency ? &R_DrawTranslucent50ColorColumn : &R_DrawColorDitherColumn);
+                tl50segcolfunc = (r_translucency ? &R_DrawTranslucent50ColorDitherColumn : &R_DrawColorDitherColumn);
                 spanfunc = &R_DrawDitherColorSpan;
                 redtobluecolfunc = &R_DrawColorDitherColumn;
                 redtogreencolfunc = &R_DrawColorDitherColumn;
