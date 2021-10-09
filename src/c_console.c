@@ -1180,9 +1180,9 @@ void C_UpdatePathOverlay(void)
     if (*temp)
     {
         pathoverlay = true;
-        C_DrawOverlayText(mapscreen, MAPWIDTH, MAPWIDTH - C_OverlayWidth(temp, false) - OVERLAYTEXTX + 1,
+        C_DrawOverlayText(mapscreen, MAPWIDTH, MAPWIDTH - C_OverlayWidth(temp, true) - OVERLAYTEXTX + 1,
             OVERLAYTEXTY + (OVERLAYLINEHEIGHT + OVERLAYSPACING) * ((vid_showfps && automapactive) + (!!timeremaining && automapactive)),
-            temp, consoleoverlaycolor, false);
+            temp, consoleoverlaycolor, true);
         free(temp);
     }
 }
