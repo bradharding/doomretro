@@ -29,7 +29,6 @@
 * Blood splats are now translucent when the `r_translucency` CVAR is `on` and the `r_textures` CVAR is `off`.
 * Turning left and right using a gamepad is now smoother.
 * A bug has been fixed whereby switching from a window to fullscreen by pressing <kbd><b>ALT</b></kbd> + <kbd><b>ENTER</b></kbd> would affect the aspect ratio if the `vid_borderlesswindow` CVAR was `off`.
-* The `vid_widescreen` CVAR is now `on` by default.
 * Dithered lighting is now cast on *BOOM*-compatible translucent wall textures.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
