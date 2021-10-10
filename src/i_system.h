@@ -44,10 +44,13 @@
 
 #if defined(_WIN32)
 #define OPERATINGSYSTEM "Windows"
+#define DESKTOPNAME     "desktop"
 #elif defined(__APPLE__)
 #define OPERATINGSYSTEM "macOS"
+#define DESKTOPNAME     "Finder"
 #else
 #define OPERATINGSYSTEM "Linux"
+#define DESKTOPNAME     "desktop"
 #endif
 
 //
