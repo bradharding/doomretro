@@ -372,7 +372,7 @@ void I_ShutdownKeyboard(void)
 
 static int AccelerateMouse(int value)
 {
-    return (value > 10 ? value * 2 - 10 : (value < -10 ? value * 2 + 10 : value));
+    return (value < -10 ? value * 2 + 10 : (value < 10 ? value : value * 2 + 10));
 }
 
 static short inline clamp(short value, short deadzone)
