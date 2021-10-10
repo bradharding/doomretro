@@ -7,7 +7,7 @@
 * When *DOOM Retro* is run for the first time, the WAD launcher will now look for installations of *The Ultimate DOOM* and *DOOM II: Hell On Earth* purchased and downloaded using the [*Bethesda.net Launcher*](https://bethesda.net/en/game/bethesda-launcher).
 * Minor changes have been made to text that is output to the console.
 * Minor improvements have been made to the console’s autocomplete feature.
-* A new `am_playerstats` CVAR has been implemented that toggles player stats in the automap. When this CVAR is `on`, the monsters the player has killed, the number of items they have picked up and the secrets they have found, will now be displayed while the automap is open. This CVAR is both `off` by default and when vanilla mode is enabled.
+* A new `am_playerstats` CVAR has been implemented that toggles player stats in the automap. When this CVAR is `on`, the number of monsters the player has killed, the items they have picked up and the secrets they have found will now be displayed while the automap is open. This CVAR is both `off` by default and when vanilla mode is enabled.
 * The distance the player has traveled in the current map is now displayed in the top right corner of the external automap when the `am_path` CVAR is `on`.
 * Rotating the automap is now smoother when the `am_rotate` CVAR is `on`.
 * A bug has been fixed whereby some sound effect lumps in the [WAV format](https://en.wikipedia.org/wiki/WAV) wouldn’t play at all.
@@ -30,6 +30,7 @@
 * Blood splats are now translucent when the `r_translucency` CVAR is `on` and the `r_textures` CVAR is `off`.
 * Turning left and right using a gamepad is now smoother.
 * A bug has been fixed whereby switching from a window to fullscreen by pressing <kbd><b>ALT</b></kbd> + <kbd><b>ENTER</b></kbd> would affect the aspect ratio if the `vid_borderlesswindow` CVAR was `off`.
+* The `vid_widescreen` CVAR is now `on` by default.
 * Dithered lighting is now cast on *BOOM*-compatible translucent wall textures.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
