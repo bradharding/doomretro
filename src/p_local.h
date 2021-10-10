@@ -83,7 +83,7 @@
 #define MOUSE_WHEELUP       MAX_MOUSE_BUTTONS
 #define MOUSE_WHEELDOWN     (MAX_MOUSE_BUTTONS + 1)
 
-#define NEEDEDCARDFLASH     8
+#define NEEDEDCARDFLASH     10
 
 #define WEAPONBOTTOM        (128 * FRACUNIT)
 #define WEAPONTOP           (32 * FRACUNIT)
