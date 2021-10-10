@@ -1658,7 +1658,7 @@ static void AM_DrawWalls_Cheating(void)
             {
                 const sector_t  *back = line.backsector;
 
-                if (!back)
+                if (!back || (line.flags & ML_SECRET))
                     AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, wallcolor, putbigdot);
                 else if (isteleportline[special])
                     AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, teleportercolor, &PUTDOT);
