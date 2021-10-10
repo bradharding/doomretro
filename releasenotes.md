@@ -17,7 +17,6 @@
   * The gibs of spectres will now be red if the `r_blood` CVAR is `red` or `nofuzz`.
   * An obituary is now displayed in the console when the `con_obituaries` CVAR is `on`.
 * The title in the automap has been moved slightly in some instances.
-* A bug has been fixed whereby monsters would sometimes become stuck on the edge of lifts.
 * A dead player’s negative health will now be displayed in the status bar as it is in the widescreen HUD.
 * The items that monsters drop when they are killed will now also move slightly if walked over when the `r_corpses_nudge` CVAR is `on`.
 * The number of monsters resurrected is now displayed by the `playerstats` CCMD.
