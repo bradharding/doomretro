@@ -92,8 +92,8 @@ void HU_Ticker(void);
 void HU_Drawer(void);
 void HU_Erase(void);
 
-void HU_SetPlayerMessage(char *message, dboolean counter, dboolean external);
-void HU_PlayerMessage(char *message, dboolean counter, dboolean external);
+void HU_SetPlayerMessage(char *message, dboolean group, dboolean external);
+void HU_PlayerMessage(char *message, dboolean group, dboolean external);
 
 void HU_ClearMessages(void);
 void HU_DrawDisk(void);

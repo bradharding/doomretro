@@ -33,6 +33,7 @@
 * A bug has been fixed whereby switching from a window to fullscreen by pressing <kbd><b>ALT</b></kbd> + <kbd><b>ENTER</b></kbd> would affect the aspect ratio if the `vid_borderlesswindow` CVAR was `off`.
 * Dithered lighting is now cast on *BOOM*-compatible translucent wall textures.
 * Things on scrolling floors will no longer continue to move while the menu is open.
+* All player messages are now grouped in the console if the `groupmessages` CVAR is `on`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
