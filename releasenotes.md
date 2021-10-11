@@ -5,6 +5,7 @@
 * *DOOM Retro* is now compiled using v16.11.4 of [*Microsoft Visual Studio Community 2019*](https://www.visualstudio.com/vs/).
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * When *DOOM Retro* is run for the first time, the WAD launcher will now look for installations of *The Ultimate DOOM* and *DOOM II: Hell On Earth* purchased and downloaded using the [*Bethesda.net Launcher*](https://bethesda.net/en/game/bethesda-launcher).
+* Minor changes have been made to the splash screen.
 * Minor changes have been made to text that is output to the console.
 * Minor improvements have been made to the console’s autocomplete feature.
 * A new `am_playerstats` CVAR has been implemented that toggles player stats in the automap. When this CVAR is `on`, the number of monsters the player has killed, the items they have picked up and the secrets they have found will now be displayed while the automap is open. This CVAR is both `off` by default and when vanilla mode is enabled.
@@ -31,6 +32,7 @@
 * Turning left and right using a gamepad is now smoother.
 * A bug has been fixed whereby switching from a window to fullscreen by pressing <kbd><b>ALT</b></kbd> + <kbd><b>ENTER</b></kbd> would affect the aspect ratio if the `vid_borderlesswindow` CVAR was `off`.
 * Dithered lighting is now cast on *BOOM*-compatible translucent wall textures.
+* Things on scrolling floors will no longer continue to move while the menu is open.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
