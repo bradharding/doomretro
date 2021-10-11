@@ -794,7 +794,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
                 return;
 
             if (message)
-                HU_PlayerMessage(s_GOTARMOR, true, false);
+                HU_PlayerMessage(s_GOTARMOR, false);
 
             break;
 
@@ -804,7 +804,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
                 return;
 
             if (message)
-                HU_PlayerMessage(s_GOTMEGA, true, false);
+                HU_PlayerMessage(s_GOTMEGA, false);
 
             break;
 
@@ -819,7 +819,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
             }
 
             if (message)
-                HU_PlayerMessage(s_GOTHTHBONUS, true, false);
+                HU_PlayerMessage(s_GOTHTHBONUS, false);
 
             break;
 
@@ -836,7 +836,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
             }
 
             if (message)
-                HU_PlayerMessage(s_GOTARMBONUS, true, false);
+                HU_PlayerMessage(s_GOTARMBONUS, false);
 
             break;
 
@@ -851,7 +851,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
             }
 
             if (message)
-                HU_PlayerMessage(s_GOTSUPER, true, false);
+                HU_PlayerMessage(s_GOTSUPER, false);
 
             sound = sfx_getpow;
             break;
@@ -862,7 +862,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
             P_GiveArmor(blue_armor_class, stat);
 
             if (message)
-                HU_PlayerMessage(s_GOTMSPHERE, true, false);
+                HU_PlayerMessage(s_GOTMSPHERE, false);
 
             sound = sfx_getpow;
             break;
@@ -874,7 +874,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
                 P_GiveCard(it_bluecard);
 
                 if (message)
-                    HU_PlayerMessage(s_GOTBLUECARD, true, false);
+                    HU_PlayerMessage(s_GOTBLUECARD, false);
 
                 break;
             }
@@ -888,7 +888,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
                 P_GiveCard(it_yellowcard);
 
                 if (message)
-                    HU_PlayerMessage(s_GOTYELWCARD, true, false);
+                    HU_PlayerMessage(s_GOTYELWCARD, false);
 
                 break;
             }
@@ -902,7 +902,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
                 P_GiveCard(it_redcard);
 
                 if (message)
-                    HU_PlayerMessage(s_GOTREDCARD, true, false);
+                    HU_PlayerMessage(s_GOTREDCARD, false);
 
                 break;
             }
@@ -916,7 +916,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
                 P_GiveCard(it_blueskull);
 
                 if (message)
-                    HU_PlayerMessage(s_GOTBLUESKUL, true, false);
+                    HU_PlayerMessage(s_GOTBLUESKUL, false);
 
                 break;
             }
@@ -930,7 +930,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
                 P_GiveCard(it_yellowskull);
 
                 if (message)
-                    HU_PlayerMessage(s_GOTYELWSKUL, true, false);
+                    HU_PlayerMessage(s_GOTYELWSKUL, false);
 
                 break;
             }
@@ -944,7 +944,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
                 P_GiveCard(it_redskull);
 
                 if (message)
-                    HU_PlayerMessage(s_GOTREDSKULL, true, false);
+                    HU_PlayerMessage(s_GOTREDSKULL, false);
 
                 break;
             }
@@ -957,7 +957,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
                 return;
 
             if (message)
-                HU_PlayerMessage(s_GOTSTIM, true, false);
+                HU_PlayerMessage(s_GOTSTIM, false);
 
             break;
 
@@ -982,10 +982,10 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
                         buffer[0] = toupper(buffer[0]);
 
                     M_StringCopy(buffer, M_StringReplace(buffer, "really", ITALICS("really")), sizeof(buffer));
-                    HU_PlayerMessage(buffer, true, false);
+                    HU_PlayerMessage(buffer, false);
                 }
                 else
-                    HU_PlayerMessage(s_GOTMEDIKIT, true, false);
+                    HU_PlayerMessage(s_GOTMEDIKIT, false);
             }
 
             break;
@@ -995,7 +995,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
             P_GivePower(pw_invulnerability);
 
             if (message)
-                HU_PlayerMessage(s_GOTINVUL, true, false);
+                HU_PlayerMessage(s_GOTINVUL, false);
 
             sound = sfx_getpow;
             break;
@@ -1008,7 +1008,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
             P_GivePower(pw_strength);
 
             if (message)
-                HU_PlayerMessage(s_GOTBERSERK, true, false);
+                HU_PlayerMessage(s_GOTBERSERK, false);
 
             if (!strength)
             {
@@ -1029,7 +1029,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
             P_GivePower(pw_invisibility);
 
             if (message)
-                HU_PlayerMessage(s_GOTINVIS, true, false);
+                HU_PlayerMessage(s_GOTINVIS, false);
 
             sound = sfx_getpow;
             break;
@@ -1039,7 +1039,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
             P_GivePower(pw_ironfeet);
 
             if (message)
-                HU_PlayerMessage(s_GOTSUIT, true, false);
+                HU_PlayerMessage(s_GOTSUIT, false);
 
             sound = sfx_getpow;
             break;
@@ -1049,7 +1049,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
             P_GivePower(pw_allmap);
 
             if (message)
-                HU_PlayerMessage(s_GOTMAP, true, false);
+                HU_PlayerMessage(s_GOTMAP, false);
 
             sound = sfx_getpow;
             break;
@@ -1059,7 +1059,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
             P_GivePower(pw_infrared);
 
             if (message)
-                HU_PlayerMessage(s_GOTVISOR, true, false);
+                HU_PlayerMessage(s_GOTVISOR, false);
 
             sound = sfx_getpow;
             break;
@@ -1070,7 +1070,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
                 return;
 
             if (message)
-                HU_PlayerMessage(s_GOTCLIP, true, false);
+                HU_PlayerMessage(s_GOTCLIP, false);
 
             break;
 
@@ -1080,7 +1080,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
                 return;
 
             if (message)
-                HU_PlayerMessage(s_GOTCLIPBOX, true, false);
+                HU_PlayerMessage(s_GOTCLIPBOX, false);
 
             break;
 
@@ -1092,9 +1092,9 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
             if (message)
             {
                 if (temp == clipammo[am_misl] || deh_strlookup[p_GOTROCKET].assigned == 2 || hacx)
-                    HU_PlayerMessage(s_GOTROCKET, true, false);
+                    HU_PlayerMessage(s_GOTROCKET, false);
                 else
-                    HU_PlayerMessage(s_GOTROCKETX2, true, false);
+                    HU_PlayerMessage(s_GOTROCKETX2, false);
             }
 
             break;
@@ -1105,7 +1105,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
                 return;
 
             if (message)
-                HU_PlayerMessage(s_GOTROCKBOX, true, false);
+                HU_PlayerMessage(s_GOTROCKBOX, false);
 
             break;
 
@@ -1117,9 +1117,9 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
             if (message)
             {
                 if (temp == clipammo[am_cell] || deh_strlookup[p_GOTCELL].assigned == 2 || hacx)
-                    HU_PlayerMessage(s_GOTCELL, true, false);
+                    HU_PlayerMessage(s_GOTCELL, false);
                 else
-                    HU_PlayerMessage(s_GOTCELLX2, true, false);
+                    HU_PlayerMessage(s_GOTCELLX2, false);
             }
 
             break;
@@ -1130,7 +1130,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
                 return;
 
             if (message)
-                HU_PlayerMessage(s_GOTCELLBOX, true, false);
+                HU_PlayerMessage(s_GOTCELLBOX, false);
 
             break;
 
@@ -1142,9 +1142,9 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
             if (message)
             {
                 if (temp == clipammo[am_shell] || deh_strlookup[p_GOTSHELLS].assigned == 2 || hacx)
-                    HU_PlayerMessage(s_GOTSHELLS, true, false);
+                    HU_PlayerMessage(s_GOTSHELLS, false);
                 else
-                    HU_PlayerMessage(s_GOTSHELLSX2, true, false);
+                    HU_PlayerMessage(s_GOTSHELLSX2, false);
             }
 
             break;
@@ -1155,7 +1155,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
                 return;
 
             if (message)
-                HU_PlayerMessage(s_GOTSHELLBOX, true, false);
+                HU_PlayerMessage(s_GOTSHELLBOX, false);
 
             break;
 
@@ -1165,7 +1165,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
                 return;
 
             if (message)
-                HU_PlayerMessage(s_GOTBACKPACK, true, false);
+                HU_PlayerMessage(s_GOTBACKPACK, false);
 
             break;
 
@@ -1175,7 +1175,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
                 return;
 
             if (message)
-                HU_PlayerMessage(s_GOTBFG9000, true, false);
+                HU_PlayerMessage(s_GOTBFG9000, false);
 
             sound = sfx_wpnup;
             break;
@@ -1186,7 +1186,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
                 return;
 
             if (message)
-                HU_PlayerMessage(s_GOTCHAINGUN, true, false);
+                HU_PlayerMessage(s_GOTCHAINGUN, false);
 
             sound = sfx_wpnup;
             break;
@@ -1199,7 +1199,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
             viewplayer->fistorchainsaw = wp_chainsaw;
 
             if (message)
-                HU_PlayerMessage(s_GOTCHAINSAW, true, false);
+                HU_PlayerMessage(s_GOTCHAINSAW, false);
 
             sound = sfx_wpnup;
             break;
@@ -1210,7 +1210,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
                 return;
 
             if (message)
-                HU_PlayerMessage(s_GOTLAUNCHER, true, false);
+                HU_PlayerMessage(s_GOTLAUNCHER, false);
 
             sound = sfx_wpnup;
             break;
@@ -1221,7 +1221,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
                 return;
 
             if (message)
-                HU_PlayerMessage(s_GOTPLASMA, true, false);
+                HU_PlayerMessage(s_GOTPLASMA, false);
 
             sound = sfx_wpnup;
             break;
@@ -1237,7 +1237,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
                 viewplayer->preferredshotgun = wp_shotgun;
 
             if (message)
-                HU_PlayerMessage(s_GOTSHOTGUN, true, false);
+                HU_PlayerMessage(s_GOTSHOTGUN, false);
 
             sound = sfx_wpnup;
             break;
@@ -1253,7 +1253,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
                 viewplayer->preferredshotgun = wp_supershotgun;
 
             if (message)
-                HU_PlayerMessage(s_GOTSHOTGUN2, true, false);
+                HU_PlayerMessage(s_GOTSHOTGUN2, false);
 
             sound = sfx_wpnup;
             break;
