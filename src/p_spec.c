@@ -972,7 +972,7 @@ dboolean P_CanUnlockGenDoor(line_t *line)
 
                 M_snprintf(buffer, sizeof(buffer), s_PD_ANY, playername,
                     (M_StringCompare(playername, playername_default) ? "" : "s"));
-                HU_PlayerMessage(buffer, false);
+                HU_PlayerMessage(buffer, false, false);
                 S_StartSound(viewplayer->mo, sfx_noway);
 
                 return false;
@@ -992,7 +992,7 @@ dboolean P_CanUnlockGenDoor(line_t *line)
                 M_snprintf(buffer, sizeof(buffer), (skulliscard ? s_PD_REDK : s_PD_REDC), playername,
                     (M_StringCompare(playername, playername_default) ? "" : "s"),
                     (viewplayer->cards[it_redskull] == CARDNOTFOUNDYET ? "keycard or skull key" : "keycard"));
-                HU_PlayerMessage(buffer, false);
+                HU_PlayerMessage(buffer, false, false);
                 S_StartSound(viewplayer->mo, sfx_noway);
 
                 return false;
@@ -1012,7 +1012,7 @@ dboolean P_CanUnlockGenDoor(line_t *line)
                 M_snprintf(buffer, sizeof(buffer), (skulliscard ? s_PD_BLUEK : s_PD_BLUEC), playername,
                     (M_StringCompare(playername, playername_default) ? "" : "s"),
                     (viewplayer->cards[it_blueskull] == CARDNOTFOUNDYET ? "keycard or skull key" : "keycard"));
-                HU_PlayerMessage(buffer, false);
+                HU_PlayerMessage(buffer, false, false);
                 S_StartSound(viewplayer->mo, sfx_noway);
 
                 return false;
@@ -1032,7 +1032,7 @@ dboolean P_CanUnlockGenDoor(line_t *line)
                 M_snprintf(buffer, sizeof(buffer), (skulliscard ? s_PD_YELLOWK : s_PD_YELLOWC), playername,
                     (M_StringCompare(playername, playername_default) ? "" : "s"),
                     (viewplayer->cards[it_yellowskull] == CARDNOTFOUNDYET ? "keycard or skull key" : "keycard"));
-                HU_PlayerMessage(buffer, false);
+                HU_PlayerMessage(buffer, false, false);
                 S_StartSound(viewplayer->mo, sfx_noway);
 
                 return false;
@@ -1052,7 +1052,7 @@ dboolean P_CanUnlockGenDoor(line_t *line)
                 M_snprintf(buffer, sizeof(buffer), (skulliscard ? s_PD_REDK : s_PD_REDS), playername,
                     (M_StringCompare(playername, playername_default) ? "" : "s"),
                     (viewplayer->cards[it_redcard] == CARDNOTFOUNDYET ? "keycard or skull key" : "skull key"));
-                HU_PlayerMessage(buffer, false);
+                HU_PlayerMessage(buffer, false, false);
                 S_StartSound(viewplayer->mo, sfx_noway);
 
                 return false;
@@ -1072,7 +1072,7 @@ dboolean P_CanUnlockGenDoor(line_t *line)
                 M_snprintf(buffer, sizeof(buffer), (skulliscard ? s_PD_BLUEK : s_PD_BLUES), playername,
                     (M_StringCompare(playername, playername_default) ? "" : "s"),
                     (viewplayer->cards[it_bluecard] == CARDNOTFOUNDYET ? "keycard or skull key" : "skull key"));
-                HU_PlayerMessage(buffer, false);
+                HU_PlayerMessage(buffer, false, false);
                 S_StartSound(viewplayer->mo, sfx_noway);
 
                 return false;
@@ -1092,7 +1092,7 @@ dboolean P_CanUnlockGenDoor(line_t *line)
                 M_snprintf(buffer, sizeof(buffer), (skulliscard ? s_PD_YELLOWK : s_PD_YELLOWS), playername,
                     (M_StringCompare(playername, playername_default) ? "" : "s"),
                     (viewplayer->cards[it_yellowcard] == CARDNOTFOUNDYET ? "keycard or skull key" : "skull key"));
-                HU_PlayerMessage(buffer, false);
+                HU_PlayerMessage(buffer, false, false);
                 S_StartSound(viewplayer->mo, sfx_noway);
 
                 return false;
@@ -1113,7 +1113,7 @@ dboolean P_CanUnlockGenDoor(line_t *line)
 
                 M_snprintf(buffer, sizeof(buffer), s_PD_ALL6, playername,
                     (M_StringCompare(playername, playername_default) ? "" : "s"));
-                HU_PlayerMessage(buffer, false);
+                HU_PlayerMessage(buffer, false, false);
                 S_StartSound(viewplayer->mo, sfx_noway);
 
                 return false;
@@ -1131,7 +1131,7 @@ dboolean P_CanUnlockGenDoor(line_t *line)
 
                 M_snprintf(buffer, sizeof(buffer), s_PD_ALL3, playername,
                     (M_StringCompare(playername, playername_default) ? "" : "s"));
-                HU_PlayerMessage(buffer, false);
+                HU_PlayerMessage(buffer, false, false);
                 S_StartSound(viewplayer->mo, sfx_noway);
 
                 return false;
@@ -2178,7 +2178,7 @@ static void P_SecretFound(void)
     if (DSSECRET)
     {
         S_StartSound(NULL, sfx_secret);
-        HU_PlayerMessage(s_SECRET, false);
+        HU_PlayerMessage(s_SECRET, true, false);
         message_dontfuckwithme = true;
     }
 }

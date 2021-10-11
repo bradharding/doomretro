@@ -1309,7 +1309,7 @@ void HU_SetPlayerMessage(char *message, dboolean group, dboolean external)
     message_external = (external && mapwindow);
 }
 
-void HU_PlayerMessage(char *message, dboolean external)
+void HU_PlayerMessage(char *message, dboolean group, dboolean external)
 {
     char    buffer[133] = "";
     int     len = (int)strlen(message);
@@ -1332,7 +1332,9 @@ void HU_PlayerMessage(char *message, dboolean external)
     C_PlayerMessage(buffer);
 
     if (gamestate == GS_LEVEL && !message_dontfuckwithme)
-        HU_SetPlayerMessage(buffer, true, external);
+        HU_SetPlayerMessage(buffer, group, external);
+
+    viewplayer->prevmessagetics = gametime;
 }
 
 void HU_ClearMessages(void)
