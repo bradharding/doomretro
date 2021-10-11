@@ -730,7 +730,7 @@ void C_Init(void)
     spacewidth = SHORT(consolefont[' ' - CONSOLEFONTSTART]->width);
     zerowidth = SHORT(consolefont['0' - CONSOLEFONTSTART]->width);
 
-    timerwidth = C_OverlayWidth("-00:00:00", true);
+    timerwidth = C_OverlayWidth("00:00:00", true);
 }
 
 void C_ShowConsole(void)
@@ -1166,7 +1166,7 @@ void C_UpdateTimerOverlay(void)
         int minutes = ((tics %= 3600)) / 60;
         int seconds = tics % 60;
 
-        M_snprintf(buffer, 10, "-%02i:%02i:%02i", hours, minutes, seconds);
+        M_snprintf(buffer, 10, "%02i:%02i:%02i", hours, minutes, seconds);
     }
 
     C_DrawOverlayText(screens[0], SCREENWIDTH, SCREENWIDTH - timerwidth - OVERLAYTEXTX + 1,
