@@ -293,7 +293,9 @@ enum
 
 enum
 {
+#if !defined(__APPLE__)
     vid_vsync_adaptive = -1,
+#endif
     vid_vsync_off,
     vid_vsync_on
 };
@@ -720,7 +722,11 @@ enum
 
 #define vid_showfps_default                     false
 
+#if defined(__APPLE__)
+#define vid_vsync_min                           vid_vsync_off
+#else
 #define vid_vsync_min                           vid_vsync_adaptive
+#endif
 #define vid_vsync_default                       vid_vsync_on
 #define vid_vsync_max                           vid_vsync_on
 

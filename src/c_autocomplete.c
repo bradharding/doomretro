@@ -7122,8 +7122,10 @@ autocomplete_t autocompletelist[] =
     { "if vid_showfps on ",                          DOOM1AND2 },
     { "if vid_showfps on then ",                     DOOM1AND2 },
     { "if vid_vsync ",                               DOOM1AND2 },
+#if !defined(__APPLE__)
     { "if vid_vsync adaptive ",                      DOOM1AND2 },
     { "if vid_vsync adaptive then ",                 DOOM1AND2 },
+#endif
     { "if vid_vsync ",                               DOOM1AND2 },
     { "if vid_vsync off ",                           DOOM1AND2 },
     { "if vid_vsync off then ",                      DOOM1AND2 },
@@ -8657,7 +8659,9 @@ autocomplete_t autocompletelist[] =
     { "vid_showfps off",                             DOOM1AND2 },
     { "vid_showfps on",                              DOOM1AND2 },
     { "vid_vsync ",                                  DOOM1AND2 },
+#if !defined(__APPLE__)
     { "vid_vsync adaptive",                          DOOM1AND2 },
+#endif
     { "vid_vsync off",                               DOOM1AND2 },
     { "vid_vsync on",                                DOOM1AND2 },
     { "vid_widescreen ",                             DOOM1AND2 },

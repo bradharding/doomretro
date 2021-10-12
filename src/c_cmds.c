@@ -864,8 +864,13 @@ consolecmd_t consolecmds[] =
         ")."),
     CVAR_BOOL(vid_showfps, "", bool_cvars_func1, vid_showfps_cvar_func2, BOOLVALUEALIAS,
         "Toggles showing the number of frames per second."),
+#if defined(__APPLE__)
+    CVAR_INT(vid_vsync, "", vid_vsync_cvar_func1, vid_vsync_cvar_func2, CF_NONE, VSYNCVALUEALIAS,
+        "Toggles vertical sync with the display's refresh rate (" BOLD("on") " or " BOLD("off") ")."),
+#else
     CVAR_INT(vid_vsync, "", vid_vsync_cvar_func1, vid_vsync_cvar_func2, CF_NONE, VSYNCVALUEALIAS,
         "Toggles vertical sync with the display's refresh rate (" BOLD("on") ", " BOLD("off") " or " BOLD("adaptive") ")."),
+#endif
     CVAR_BOOL(vid_widescreen, "", bool_cvars_func1, vid_widescreen_cvar_func2, BOOLVALUEALIAS,
         "Toggles widescreen mode."),
     CVAR_OTHER(vid_windowpos, vid_windowposition, null_func1, vid_windowpos_cvar_func2,
