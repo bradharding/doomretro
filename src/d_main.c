@@ -2366,6 +2366,11 @@ static void D_DoomMainSetup(void)
         titlelump = W_CacheLastLumpName("TITLEPI3");
         creditlump = W_CacheLastLumpName("CREDIT2");
     }
+    else if (REKKRSL)
+    {
+        titlelump = W_CacheLastLumpName("TITLEPIW");
+        creditlump = W_CacheLastLumpName("CREDITW");
+    }
     else
     {
         int titlepics = W_CheckMultipleLumps("TITLEPIC");
