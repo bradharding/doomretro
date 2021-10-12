@@ -308,7 +308,7 @@ dboolean W_AddFile(char *filename, dboolean automatic)
         FREEDOOM = true;
     else if (M_StringCompare(file, "chex.wad"))
         chex = chex1 = true;
-    else if (M_StringCompare(file, "rekkrsa.wad") || M_StringCompare(file, "rekkrsl.wad"))
+    else if (M_StringCompare(file, "rekkrsa.wad"))
         REKKR = REKKRIWAD = true;
 
     // WAD file
@@ -504,8 +504,7 @@ int W_WadType(char *filename)
     if (!strncmp(header.id, "IWAD", 4)
         || M_StringEndsWith(filename, "DOOM2.WAD")
         || M_StringEndsWith(filename, "chex.wad")
-        || M_StringEndsWith(filename, "rekkrsa.wad")
-        || M_StringEndsWith(filename, "rekkrsl.wad"))
+        || M_StringEndsWith(filename, "rekkrsa.wad"))
         return IWAD;
     else if (!strncmp(header.id, "PWAD", 4))
         return PWAD;

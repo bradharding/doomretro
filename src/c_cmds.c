@@ -3616,8 +3616,7 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
 
     if (M_StringEndsWith(lumpinfo[lump]->wadfile->path, "DOOM2.WAD")
         || M_StringEndsWith(lumpinfo[lump]->wadfile->path, "chex.wad")
-        || M_StringEndsWith(lumpinfo[lump]->wadfile->path, "rekkrsa.wad")
-        || M_StringEndsWith(lumpinfo[lump]->wadfile->path, "rekkrsl.wad"))
+        || M_StringEndsWith(lumpinfo[lump]->wadfile->path, "rekkrsa.wad"))
         wadtype = IWAD;
 
     C_Header(tabs, mapstats, MAPSTATSHEADER);

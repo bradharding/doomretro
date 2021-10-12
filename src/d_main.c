@@ -937,7 +937,7 @@ static void D_CheckSupportedPWAD(char *filename)
     else if (M_StringCompare(leafname(filename), "rekkrsa.wad"))
         REKKR = REKKRIWAD = true;
     else if (M_StringCompare(leafname(filename), "rekkrsl.wad"))
-        REKKR = REKKRIWAD = REKKRSL = true;
+        REKKR = REKKRSL = true;
 }
 
 static dboolean D_IsUnsupportedPWAD(char *filename)
