@@ -935,7 +935,7 @@ static void D_CheckSupportedPWAD(char *filename)
     else if (M_StringCompare(leafname(filename), "REKKR.wad"))
         REKKR = true;
     else if (M_StringCompare(leafname(filename), "rekkrsa.wad"))
-        REKKR = REKKRIWAD = true;
+        REKKR = REKKRSA = true;
     else if (M_StringCompare(leafname(filename), "rekkrsl.wad"))
         REKKR = REKKRSL = true;
 }
@@ -1818,7 +1818,7 @@ static void D_ProcessDehInWad(void)
                 && M_StringEndsWith(lumpinfo[i]->wadfile->path, DOOMRETRO_WAD))
                 ProcessDehFile(NULL, i, false);
     }
-    else if (hacx || FREEDOOM || REKKRIWAD)
+    else if (hacx || FREEDOOM || REKKRSA)
     {
         for (int i = 0; i < numlumps; i++)
             if (M_StringCompare(lumpinfo[i]->name, "DEHACKED")

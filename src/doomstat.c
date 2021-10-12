@@ -69,7 +69,7 @@ dboolean        sprfix18;
 dboolean        eviternity;
 dboolean        doom4vanilla;
 dboolean        REKKR;
-dboolean        REKKRIWAD;
+dboolean        REKKRSA;
 dboolean        REKKRSL;
 
 // Set if homebrew PWAD stuff has been added.

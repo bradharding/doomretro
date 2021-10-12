@@ -8,7 +8,7 @@
 * Minor changes have been made to the splash screen.
 * Minor changes have been made to text that is output to the console.
 * Minor improvements have been made to the console’s autocomplete feature.
-* Support has been added for [*REKKR: Sunken Land*](https://store.steampowered.com/app/1715690/REKKR_Sunken_Land/).
+* Further improvements have been made to the support for [*REKKR*](http://manbitesshark.com/), including [*REKKR: Sunken Land*](https://store.steampowered.com/app/1715690/REKKR_Sunken_Land/).
 * A new `am_playerstats` CVAR has been implemented that toggles player stats in the automap. When this CVAR is `on`, the number of monsters the player has killed, the items they have picked up and the secrets they have found will now be displayed while the automap is open. This CVAR is both `off` by default and when vanilla mode is enabled.
 * The distance the player has traveled in the current map is now displayed in the top right corner of the external automap when the `am_path` CVAR is `on`.
 * Rotating the automap is now smoother when the `am_rotate` CVAR is `on`.
