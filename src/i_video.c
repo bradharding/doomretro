@@ -1720,12 +1720,8 @@ static void SetVideoMode(dboolean createwindow, dboolean output)
                 refreshrate = displaymode.refresh_rate;
 
                 if (vid_vsync == vid_vsync_adaptive && M_StringStartsWith(vid_scaleapi, "opengl"))
-                {
-                    if (SDL_GL_SetSwapInterval(-1) != 0)
-                    {
-                        C_Output("Adaptative vsync is unsupported");
-                    }
-                }
+                    if (SDL_GL_SetSwapInterval(-1) < 0)
+                        C_Warning(1, "Adaptive vsync is not supported.");
 
                 if (refreshrate < vid_capfps || !vid_capfps)
                 {

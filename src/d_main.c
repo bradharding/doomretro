@@ -805,7 +805,7 @@ static void LoadCfgFile(char *path)
 {
     char    *cfgpath = M_StringReplace(path, ".wad", ".cfg");
 
-    if (M_FileExists(cfgpath))
+    if (!M_StringCompare(cfgpath, path) && M_FileExists(cfgpath))
         M_LoadCVARs(cfgpath);
 }
 
@@ -936,7 +936,8 @@ static void D_CheckSupportedPWAD(char *filename)
         REKKR = true;
     else if (M_StringCompare(leafname(filename), "rekkrsa.wad"))
         REKKR = REKKRSA = true;
-    else if (M_StringCompare(leafname(filename), "rekkrsl.wad"))
+    else if (M_StringCompare(leafname(filename), "REKKRSL.wad")
+        || M_StringCompare(leafname(filename), "REKKRSL.iwad"))
         REKKR = REKKRSL = true;
 }
 
@@ -949,7 +950,8 @@ static dboolean D_CheckParms(void)
 {
     dboolean    result = false;
 
-    if (myargc == 2 && M_StringEndsWith(myargv[1], ".wad"))
+    if (myargc == 2
+        && (M_StringEndsWith(myargv[1], ".wad") || M_StringEndsWith(myargv[1], ".iwad") || M_StringEndsWith(myargv[1], ".pwad")))
     {
         char    *folder = M_ExtractFolder(myargv[1]);
 
@@ -1169,7 +1171,7 @@ static int D_OpenWADLauncher(void)
     M_StringCopy(szFile, wad, sizeof(szFile));
     ofn.lpstrFile = szFile;
     ofn.nMaxFile = sizeof(szFile);
-    ofn.lpstrFilter = "IWAD and/or PWAD(s) (*.wad)\0*.WAD;*.DEH;*.BEX;*.CFG\0";
+    ofn.lpstrFilter = "IWAD and/or PWAD(s) (*.wad)\0*.WAD;*.IWAD;*.PWAD;*.DEH;*.BEX;*.CFG\0";
     ofn.nFilterIndex = 1;
     ofn.lpstrFileTitle = NULL;
     ofn.nMaxFileTitle = 0;
@@ -1225,9 +1227,10 @@ static int D_OpenWADLauncher(void)
 #endif
             char    *folder = M_ExtractFolder(file);
 
-            if (!M_StringEndsWith(file, ".wad") && !M_StringEndsWith(file, ".deh")
+            if (!M_StringEndsWith(file, ".wad") && !M_StringEndsWith(file, ".iwad")
+                && !M_StringEndsWith(file, ".pwad") && !M_StringEndsWith(file, ".deh")
                 && !M_StringEndsWith(file, ".bex") && !M_StringEndsWith(file, ".cfg")
-                && (strlen(file) < 4 || file[strlen(file) - 4] != '.'))
+                && !strchr(file, '.'))
                 file = M_StringJoin(file, ".wad", NULL);
 
 #if defined(_WIN32)
@@ -2004,7 +2007,8 @@ static void D_DoomMainSetup(void)
                 if ((choseniwad = D_OpenWADLauncher()) == -1)
                     I_Quit(false);
 #if defined(_WIN32)
-                else if (!choseniwad && !error && (!*wad || M_StringEndsWith(wad, ".wad")))
+                else if (!choseniwad && !error
+                    && (!*wad || M_StringEndsWith(wad, ".wad") || M_StringEndsWith(wad, ".iwad") || M_StringEndsWith(wad, ".pwad")))
 #else
                 else if (!choseniwad && !error)
 #endif
