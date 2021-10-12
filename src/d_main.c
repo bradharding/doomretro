@@ -1243,7 +1243,7 @@ static int D_OpenWADLauncher(void)
                     guess = true;
 
                     if (!M_StringEndsWith(temp, leafname(file)))
-                        C_Warning(1, BOLD("%s") " couldn't be found so " BOLD("%s") " was loaded instead.",
+                        C_Warning(1, BOLD("%s") " couldn't be found. " BOLD("%s") " was loaded instead.",
                             leafname(file), leafname(temp));
 
                     file = M_StringDuplicate(temp);

@@ -3463,8 +3463,8 @@ static void P_InitMapInfo(void)
     SC_Close();
 
     temp = commify(sc_Line);
-    C_Output("Parsed %s line%s from the " BOLD("%sMAPINFO") " lump in the %s " BOLD("%s") ".",
-        temp, (sc_Line == 1 ? "" : "s"), (RMAPINFO >= 0 ? "R" : (UMAPINFO >= 0 ? "U" : "")),
+    C_Output("Parsed %s line%s from the " BOLD("%s") " lump in the %s " BOLD("%s") ".",
+        temp, (sc_Line == 1 ? "" : "s"), (RMAPINFO >= 0 ? "RMAPINFO" : (UMAPINFO >= 0 ? "UMAPINFO" : "MAPINFO")),
         (lumpinfo[MAPINFO]->wadfile->type == IWAD ? "IWAD" : "PWAD"), lumpinfo[MAPINFO]->wadfile->path);
     free(temp);
 
