@@ -5,7 +5,7 @@
 * *DOOM Retro* is now compiled using v16.11.5 of [*Microsoft Visual Studio Community 2019*](https://www.visualstudio.com/vs/).
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * When *DOOM Retro* is run for the first time, the WAD launcher will now look for installations of *The Ultimate DOOM* and *DOOM II: Hell On Earth* purchased and downloaded using the [*Bethesda.net Launcher*](https://bethesda.net/en/game/bethesda-launcher).
-* The WAD launcher will now display and launch WAD files with `.IWAD` and `.PWAD` extensions.
+* The WAD launcher will now display and launch files with an `.IWAD` or `.PWAD` extension.
 * Minor changes have been made to the splash screen.
 * Minor changes have been made to text that is output to the console.
 * Minor improvements have been made to the console’s autocomplete feature.
@@ -36,7 +36,7 @@
 * A bug has been fixed whereby switching from a window to fullscreen by pressing <kbd><b>ALT</b></kbd> + <kbd><b>ENTER</b></kbd> would affect the aspect ratio if the `vid_borderlesswindow` CVAR was `off`.
 * Dithered lighting is now cast on *BOOM*-compatible translucent wall textures.
 * Things on scrolling floors will no longer continue to move while the menu is open.
-* When the player drops down from a great height, their weapon will no longer slowly slide off the bottom of the screen when the `weaponbounce` CVAR is `on`.
+* When the player drops down from a great height, their weapon will no move too far downwards when the `weaponbounce` CVAR is `on`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
