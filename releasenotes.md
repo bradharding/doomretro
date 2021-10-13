@@ -36,7 +36,7 @@
 * A bug has been fixed whereby switching from a window to fullscreen by pressing <kbd><b>ALT</b></kbd> + <kbd><b>ENTER</b></kbd> would affect the aspect ratio if the `vid_borderlesswindow` CVAR was `off`.
 * Dithered lighting is now cast on *BOOM*-compatible translucent wall textures.
 * Things on scrolling floors will no longer continue to move while the menu is open.
-* When the player drops down from a great height, their weapon will no move too far downwards when the `weaponbounce` CVAR is `on`.
+* When the player drops down from a great height, their weapon will no longer move too far downwards when the `weaponbounce` CVAR is `on`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
