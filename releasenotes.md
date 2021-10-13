@@ -5,11 +5,12 @@
 * *DOOM Retro* is now compiled using v16.11.5 of [*Microsoft Visual Studio Community 2019*](https://www.visualstudio.com/vs/).
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * When *DOOM Retro* is run for the first time, the WAD launcher will now look for installations of *The Ultimate DOOM* and *DOOM II: Hell On Earth* purchased and downloaded using the [*Bethesda.net Launcher*](https://bethesda.net/en/game/bethesda-launcher).
-* The WAD launcher will now display WAD files with `.IWAD` and `.PWAD` extensions.
+* The WAD launcher will now display and launch WAD files with `.IWAD` and `.PWAD` extensions.
 * Minor changes have been made to the splash screen.
 * Minor changes have been made to text that is output to the console.
 * Minor improvements have been made to the console’s autocomplete feature.
-* Further improvements have been made to the support for [*REKKR*](http://manbitesshark.com/), which now includes [*REKKR: Sunken Land*](https://store.steampowered.com/app/1715690/REKKR_Sunken_Land/).
+* Further improvements have been made to the support for [*REKKR*](http://manbitesshark.com/).
+* Support has also been added for the commercial release, [*REKKR: Sunken Land*](https://store.steampowered.com/app/1715690/REKKR_Sunken_Land/).
 * A new `am_playerstats` CVAR has been implemented that toggles player stats in the automap. When this CVAR is `on`, the number of monsters the player has killed, the items they have picked up and the secrets they have found will now be displayed while the automap is open. This CVAR is both `off` by default and when vanilla mode is enabled.
 * The distance the player has traveled in the current map is now displayed in the top right corner of the external automap when the `am_path` CVAR is `on`.
 * Rotating the automap is now smoother when the `am_rotate` CVAR is `on`.
@@ -35,6 +36,7 @@
 * A bug has been fixed whereby switching from a window to fullscreen by pressing <kbd><b>ALT</b></kbd> + <kbd><b>ENTER</b></kbd> would affect the aspect ratio if the `vid_borderlesswindow` CVAR was `off`.
 * Dithered lighting is now cast on *BOOM*-compatible translucent wall textures.
 * Things on scrolling floors will no longer continue to move while the menu is open.
+* When the player drops down from a great height, their weapon will no longer slowly slide off the bottom of the screen when the `weaponbounce` CVAR is `on`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

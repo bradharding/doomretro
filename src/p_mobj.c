@@ -521,7 +521,7 @@ floater:
                 player->jumptics = 7;
 
                 if (weaponbounce && !freeze)
-                    player->bouncemax = mo->momz * 3 / 4;
+                    player->bouncemax = MAX(MINBOUNCEMAX, mo->momz) * 3 / 4;
 
                 if (mo->momz < -GRAVITY * 8)
                 {
