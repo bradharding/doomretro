@@ -803,9 +803,16 @@ static void LoadDehFile(char *path)
 
 static void LoadCfgFile(char *path)
 {
-    char    *cfgpath = M_StringReplace(path, ".wad", ".cfg");
+    char    cfgpath[MAX_PATH] = "";
 
-    if (!M_StringCompare(cfgpath, path) && M_FileExists(cfgpath))
+    if (M_StringEndsWith(path, ".wad"))
+        M_StringCopy(cfgpath, M_StringReplace(path, ".wad", ".cfg"), sizeof(cfgpath));
+    else if (M_StringEndsWith(path, ".iwad"))
+        M_StringCopy(cfgpath, M_StringReplace(path, ".iwad", ".cfg"), sizeof(cfgpath));
+    else if (M_StringEndsWith(path, ".pwad"))
+        M_StringCopy(cfgpath, M_StringReplace(path, ".pwad", ".cfg"), sizeof(cfgpath));
+
+    if (M_FileExists(cfgpath))
         M_LoadCVARs(cfgpath);
 }
 
