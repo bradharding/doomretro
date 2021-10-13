@@ -969,8 +969,8 @@ static void F_DrawPatchCol(int x, patch_t *patch, int col)
 static void F_BunnyScroll(void)
 {
     int     scrolled = BETWEEN(0, VANILLAWIDTH - (finalecount - 230) / 2, VANILLAWIDTH);
-    patch_t *p1 = (FREEDOOM || hacx ? W_CacheLastLumpName("PFUB2") : W_CacheLumpName("PFUB2"));
-    patch_t *p2 = (FREEDOOM || hacx ? W_CacheLastLumpName("PFUB1") : W_CacheLumpName("PFUB1"));
+    patch_t *p1 = (FREEDOOM || hacx ? W_CacheLastLumpName("PFUB2") : W_CacheLumpName(REKKRSL ? "PFUB2W" : "PFUB2"));
+    patch_t *p2 = (FREEDOOM || hacx ? W_CacheLastLumpName("PFUB1") : W_CacheLumpName(REKKRSL ? "PFUB1W" : "PFUB1"));
     int     p1offset = (VANILLAWIDTH - SHORT(p1->width)) / 2;
     int     p2offset = VANILLAWIDTH + (SHORT(p2->width) == VANILLAWIDTH ? -p1offset : p1offset);
     int     pillarwidth = MAX(0, (SCREENWIDTH - (SHORT(p1->width) << FRACBITS) / DXI) / 2);
@@ -1045,15 +1045,15 @@ static void F_ArtScreenDrawer(void)
         switch (gameepisode)
         {
             case 1:
-                lump = (gamemode == retail ? creditlump : W_CacheLumpName("HELP2"));
+                lump = (gamemode == retail ? creditlump : W_CacheLumpName(REKKRSL ? "HELP2W" : "HELP2"));
                 break;
 
             case 2:
-                lump = (FREEDOOM || hacx ? W_CacheLastLumpName("VICTORY2") : W_CacheLumpName("VICTORY2"));
+                lump = (FREEDOOM || hacx ? W_CacheLastLumpName("VICTORY2") : W_CacheLumpName(REKKRSL ? "VICTORW2" : "VICTORY2"));
                 break;
 
             case 4:
-                lump = (FREEDOOM || hacx ? W_CacheLastLumpName("ENDPIC") : W_CacheLumpName("ENDPIC"));
+                lump = (FREEDOOM || hacx ? W_CacheLastLumpName("ENDPIC") : W_CacheLumpName(REKKRSL ? "ENDPICW" : "ENDPIC"));
                 break;
 
             case 5:
