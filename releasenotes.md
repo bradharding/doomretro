@@ -11,10 +11,10 @@
 * Minor improvements have been made to the console’s autocomplete feature.
 * Further improvements have been made to the support for [*REKKR*](http://manbitesshark.com/).
 * Support has also been added for the commercial release, [*REKKR: Sunken Land*](https://store.steampowered.com/app/1715690/REKKR_Sunken_Land/).
-* A new `am_playerstats` CVAR has been implemented that toggles player stats in the automap. When this CVAR is `on`, the number of monsters the player has killed, the items they have picked up and the secrets they have found will now be displayed while the automap is open. This CVAR is both `off` by default and when vanilla mode is enabled.
+* A new `am_playerstats` CVAR has been implemented that toggles player stats in the automap. When this CVAR is `on`, the number of monsters the player has killed, the items they have picked up and the secrets they have found will be displayed while the automap is open. This CVAR is both `off` by default and when vanilla mode is enabled.
 * The distance the player has traveled in the current map is now displayed in the top right corner of the external automap when the `am_path` CVAR is `on`.
 * Rotating the automap is now smoother when the `am_rotate` CVAR is `on`.
-* All lines in the automap will now be displayed correctly when the player has entered the `IDDT` cheat.
+* All lines in the automap will now be displayed correctly when the player has used the `IDDT` cheat.
 * A bug has been fixed whereby some sound effect lumps in the [WAV format](https://en.wikipedia.org/wiki/WAV) wouldn’t play at all.
 * The following changes have been made when a monster is crushed to death by a lowering ceiling:
   * Cacodemons, barons of hell and hell knights will now leave gibs.

@@ -573,6 +573,44 @@ void V_DrawConsoleOutputTextPatch(byte *screen, int screenwidth, int x, int y, p
     }
 }
 
+void V_DrawOverlayTextPatch(byte *screen, int screenwidth, int x, int y, patch_t *patch, int width, int color, byte *translucency)
+{
+    byte    *desttop = &screen[y * screenwidth + x];
+
+    for (int col = 0; col < width; col++, desttop++)
+    {
+        column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnofs[col]));
+        byte        topdelta;
+
+        // step through the posts in a column
+        while ((topdelta = column->topdelta) != 0xFF)
+        {
+            byte    *source = (byte *)column + 3;
+            byte    *dest = &desttop[topdelta * screenwidth];
+
+            for (int i = 0; i < CONSOLELINEHEIGHT; i++)
+            {
+                if (y + i >= CONSOLETOP && *source)
+                {
+                    byte    *dot = dest;
+
+                    *dot = (!translucency ? color : translucency[(color << 8) + *dot]);
+
+                    if (!(y + i))
+                        *dot = tinttab50[*dot];
+                    else if (y + i == 1)
+                        *dot = tinttab25[*dot];
+                }
+
+                source++;
+                dest += screenwidth;
+            }
+
+            column = (column_t *)((byte *)column + CONSOLELINEHEIGHT + 4);
+        }
+    }
+}
+
 void V_DrawConsolePatch(int x, int y, patch_t *patch, int maxwidth)
 {
     byte        *desttop = &screens[0][y * SCREENWIDTH + x];

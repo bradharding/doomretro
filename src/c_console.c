@@ -1084,7 +1084,7 @@ static void C_DrawOverlayText(byte *screen, int screenwidth, int x, int y, const
                 if (letter == ',' && prevletter == '1')
                     x--;
 
-                V_DrawConsoleOutputTextPatch(screen, screenwidth, x, y, patch, width, color, NOBACKGROUNDCOLOR, false, tinttab);
+                V_DrawOverlayTextPatch(screen, screenwidth, x, y, patch, width, color, tinttab);
                 x += width;
             }
         }

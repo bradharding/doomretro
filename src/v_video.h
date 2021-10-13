@@ -81,6 +81,8 @@ void V_DrawConsoleInputTextPatch(byte *screen, int screenwidth, int x, int y, pa
     int width, int color, int backgroundcolor, dboolean italics, byte *translucency);
 void V_DrawConsoleOutputTextPatch(byte *screen, int screenwidth, int x, int y, patch_t *patch,
     int width, int color, int backgroundcolor, dboolean italics, byte *translucency);
+void V_DrawOverlayTextPatch(byte *screen, int screenwidth, int x, int y, patch_t *patch,
+    int width, int color, byte *translucency);
 void V_DrawShadowPatch(int x, int y, patch_t *patch);
 void V_DrawSolidShadowPatch(int x, int y, patch_t *patch);
 void V_DrawSpectreShadowPatch(int x, int y, patch_t *patch);
