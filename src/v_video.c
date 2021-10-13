@@ -590,17 +590,8 @@ void V_DrawOverlayTextPatch(byte *screen, int screenwidth, int x, int y, patch_t
 
             for (int i = 0; i < CONSOLELINEHEIGHT; i++)
             {
-                if (y + i >= CONSOLETOP && *source)
-                {
-                    byte    *dot = dest;
-
-                    *dot = (!translucency ? color : translucency[(color << 8) + *dot]);
-
-                    if (!(y + i))
-                        *dot = tinttab50[*dot];
-                    else if (y + i == 1)
-                        *dot = tinttab25[*dot];
-                }
+                if (*source)
+                    *dest = (!translucency ? color : translucency[(color << 8) + *dest]);
 
                 source++;
                 dest += screenwidth;
