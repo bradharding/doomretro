@@ -1035,9 +1035,10 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
             {
                 int patchwidth = SHORT(patch->width);
 
-                consoletextfunc(screens[0], SCREENWIDTH, x, y, patch, patchwidth, (bold && italics ? (color1 == consolewarningcolor ? color1 :
-                    consolebolditalicscolor) : (bold ? boldcolor : color1)), color2, (italics && letter != '_' && letter != '-'
-                    && letter != '+' && letter != ',' && letter != '/'), translucency);
+                consoletextfunc(screens[0], SCREENWIDTH, x, y, patch, patchwidth,
+                    (bold && italics ? (color1 == consolewarningcolor ? color1 : consolebolditalicscolor) : (bold ? boldcolor : color1)),
+                    color2, (italics && letter != '_' && letter != '-' && letter != '+' && letter != ',' && letter != '/'),
+                    translucency);
                 x += patchwidth;
             }
 
@@ -1072,11 +1073,10 @@ static void C_DrawOverlayText(byte *screen, int screenwidth, int x, int y, const
             patch_t *patch = consolefont[letter - CONSOLEFONTSTART];
             int     width = SHORT(patch->width);
 
-            if (isdigit(letter))
+            if (isdigit(letter) && monospaced)
             {
-                V_DrawOverlayTextPatch(screen, screenwidth, x + (letter == '1' && monospaced) - (letter == '4' && monospaced),
-                    y, patch, width, color, tinttab);
-                x += (monospaced ? zerowidth : width);
+                V_DrawOverlayTextPatch(screen, screenwidth, x + (letter == '1') - (letter == '4'), y, patch, width, color, tinttab);
+                x += zerowidth;
             }
             else
             {
