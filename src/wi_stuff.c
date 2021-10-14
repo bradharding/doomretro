@@ -874,7 +874,10 @@ static void WI_UpdateStats(void)
         if (cnt_secret >= (wbs->ssecret * 100) / wbs->maxsecret)
         {
             cnt_secret = (wbs->ssecret * 100) / wbs->maxsecret;
-            S_StartSound(NULL, sfx_barexp);
+
+            if (totalsecrets)
+                S_StartSound(NULL, sfx_barexp);
+
             sp_state++;
         }
     }
