@@ -3447,7 +3447,7 @@ static void P_InitMapInfo(void)
             }
 
             if (REKKR && ep <= 2)
-                info->sky1scrolldelta = 25 << 8;
+                info->sky1scrolldelta = 15 << 8;
 
             mapmax = MAX(map, mapmax);
         }

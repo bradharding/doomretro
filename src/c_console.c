@@ -1074,8 +1074,8 @@ static void C_DrawOverlayText(byte *screen, int screenwidth, int x, int y, const
 
             if (isdigit(letter))
             {
-                V_DrawOverlayTextPatch(screen, screenwidth,
-                    x + (letter == '1' && monospaced) - (letter == '4'), y, patch, width, color, tinttab);
+                V_DrawOverlayTextPatch(screen, screenwidth, x + (letter == '1' && monospaced) - (letter == '4' && monospaced),
+                    y, patch, width, color, tinttab);
                 x += (monospaced ? zerowidth : width);
             }
             else
