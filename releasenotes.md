@@ -38,6 +38,7 @@
 * Dithered lighting is now cast on *BOOM*-compatible translucent wall textures.
 * Things on scrolling floors will no longer continue to move while the menu is open.
 * When the player drops down from a great height, their weapon will no longer move too far downwards when the `weaponbounce` CVAR is `on`.
+* Translucent things now cast more translucent shadows.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

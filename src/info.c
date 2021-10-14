@@ -2649,7 +2649,7 @@ mobjinfo_t mobjinfo[] =
         /* damage               */ 0,
         /* activesound          */ sfx_none,
         /* flags                */ (MF_SPECIAL | MF_COUNTITEM),
-        /* flags2               */ (MF2_CASTSHADOW | MF2_TRANSLUCENT_BLUE_25 | MF2_FLOATBOB),
+        /* flags2               */ (MF2_CASTSHADOW | MF2_TRANSLUCENT_33 | MF2_FLOATBOB),
         /* flags3               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 4,

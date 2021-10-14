@@ -499,8 +499,18 @@ static void R_DrawVisSpriteWithShadow(const vissprite_t *vis)
     dc_colormap[0] = vis->colormap;
     dc_nextcolormap[0] = vis->nextcolormap;
     dc_black = dc_colormap[0][nearestblack];
-    dc_black33 = &tinttab33[dc_black << 8];
-    dc_black40 = &tinttab40[dc_black << 8];
+
+    if ((mobj->flags2 & MF2_TRANSLUCENT_33) && r_translucency)
+    {
+        dc_black33 = &tinttab10[dc_black << 8];
+        dc_black40 = &tinttab25[dc_black << 8];
+    }
+    else
+    {
+        dc_black33 = &tinttab33[dc_black << 8];
+        dc_black40 = &tinttab40[dc_black << 8];
+    }
+
     dc_iscale = FixedDiv(FRACUNIT, spryscale);
     dc_texturemid = vis->texturemid;
 
