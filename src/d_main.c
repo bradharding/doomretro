@@ -698,7 +698,14 @@ static char *FindDehPath(char *path, char *ext, char *pattern)
     // Or NULL if no matching .deh file can be found.
     // The pattern (not used in Windows) is the fnmatch pattern to search for.
 #if defined(_WIN32)
-    char    *dehpath = M_StringReplace(path, ".wad", ext);
+    char    dehpath[MAX_PATH] = "";
+
+    if (M_StringEndsWith(path, ".wad"))
+        M_StringCopy(dehpath, M_StringReplace(path, ".wad", ext), sizeof(dehpath));
+    else if (M_StringEndsWith(path, ".iwad"))
+        M_StringCopy(dehpath, M_StringReplace(path, ".iwad", ext), sizeof(dehpath));
+    else if (M_StringEndsWith(path, ".pwad"))
+        M_StringCopy(dehpath, M_StringReplace(path, ".pwad", ext), sizeof(dehpath));
 
     return (M_FileExists(dehpath) ? dehpath : NULL);
 #else
