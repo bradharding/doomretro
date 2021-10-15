@@ -771,7 +771,7 @@ consolecmd_t consolecmds[] =
     CCMD(regenhealth, "", null_func1, regenhealth_cmd_func2, true, "[" BOLD("on") "|" BOLD("off") "]",
         "Toggles the regeneration of the player's health by 1% per second whenever it's below 100%."),
     CCMD(reset, "", null_func1, reset_cmd_func2, true, RESETCMDFORMAT,
-        "Resets a " BOLDITALICS("CVAR") " to its default value."),
+        "Resets a " BOLDITALICS("CVAR") " to its default."),
     CCMD(resetall, "", null_func1, resetall_cmd_func2, false, "",
         "Resets all CVARs to their defaults."),
     CCMD(respawnitems, "", null_func1, respawnitems_cmd_func2, true, "[" BOLD("on") "|" BOLD("off") "]",

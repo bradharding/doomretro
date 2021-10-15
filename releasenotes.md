@@ -3,6 +3,7 @@
 #### DOOM Retro v4.3.1
 
 * Minor changes have been made to text that is output to the console.
+* Further improvements have been made to the support for [*REKKR*](http://manbitesshark.com/) and [*REKKR: Sunken Land*](https://store.steampowered.com/app/1715690/REKKR_Sunken_Land/).
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
