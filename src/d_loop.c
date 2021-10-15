@@ -62,8 +62,7 @@ void TryRunTics(void)
         if (maketic - gametime > BACKUPTICS / 2)
             break;
 
-        if (gamestate == GS_LEVEL)
-            G_BuildTiccmd(&localcmds[maketic % BACKUPTICS]);
+        G_BuildTiccmd(&localcmds[maketic % BACKUPTICS]);
 
         maketic++;
     }
