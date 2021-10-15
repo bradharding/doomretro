@@ -773,7 +773,7 @@ consolecmd_t consolecmds[] =
     CCMD(reset, "", null_func1, reset_cmd_func2, true, RESETCMDFORMAT,
         "Resets a " BOLDITALICS("CVAR") " to its default value."),
     CCMD(resetall, "", null_func1, resetall_cmd_func2, false, "",
-        "Resets all CVARs to their default values."),
+        "Resets all CVARs to their defaults."),
     CCMD(respawnitems, "", null_func1, respawnitems_cmd_func2, true, "[" BOLD("on") "|" BOLD("off") "]",
         "Toggles respawning items."),
     CCMD(respawnmonsters, "", respawnmonsters_cmd_func1, respawnmonsters_cmd_func2, true, "[" BOLD("on") "|" BOLD("off") "]",
@@ -5945,6 +5945,7 @@ static void resetall_cmd_func2(char *cmd, char *parms)
     M_StartMessage(buffer, &C_VerifyResetAll, true);
     SDL_StopTextInput();
     S_StartSound(NULL, sfx_swtchn);
+    D_FadeScreen(false);
 }
 
 //
