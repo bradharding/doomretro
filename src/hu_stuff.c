@@ -534,7 +534,6 @@ static void HU_DrawHUD(void)
 {
     const int           health = MAX(health_min, viewplayer->health);
     const int           armor = viewplayer->armorpoints;
-    int                 health_x = HUDNumberWidth(health);
     static dboolean     healthanim;
     const dboolean      gamepaused = (consoleactive || freeze);
     byte                *translucency = (health <= 0 || (health < HUD_HEALTH_MIN && healthanim)
@@ -545,13 +544,15 @@ static void HU_DrawHUD(void)
     static int          keywait;
     static dboolean     showkey;
 
-    health_x = HUD_HEALTH_X - (health_x + (health_x & 1) + tallpercentwidth) / 2;
-
     if (patch)
         hudfunc(HUD_HEALTH_X - SHORT(patch->width) / 2 - 1, HUD_HEALTH_Y - SHORT(patch->height) - 2, patch, tinttab75);
 
     if (r_hud_translucency || !healthanim)
     {
+        int health_x = HUDNumberWidth(health);
+
+        health_x = HUD_HEALTH_X - (health_x + (health_x & 1) + tallpercentwidth) / 2;
+
         if (healthhighlight > currenttime)
         {
             DrawHUDNumber(&health_x, HUD_HEALTH_Y, health, translucency, &V_DrawHighlightedHUDNumberPatch);
