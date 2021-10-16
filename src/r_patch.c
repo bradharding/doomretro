@@ -117,11 +117,9 @@ static dboolean getIsSolidAtSpot(const column_t *column, int spot)
 static dboolean CheckIfPatch(int lump)
 {
     int             size = W_LumpLength(lump);
-    int             width;
-    int             height;
     const patch_t   *patch;
-    dboolean        result;
     SDL_RWops       *rwops;
+    dboolean        result = false;
 
     // minimum length of a valid DOOM patch
     if (size < 13)
@@ -130,12 +128,10 @@ static dboolean CheckIfPatch(int lump)
     patch = W_CacheLumpNum(lump);
     rwops = SDL_RWFromMem((byte *)patch, size);
 
-    if (IMG_isPNG(rwops))
-        result = false;
-    else
+    if (!IMG_isPNG(rwops))
     {
-        width = SHORT(patch->width);
-        height = SHORT(patch->height);
+        short   width = SHORT(patch->width);
+        short   height = SHORT(patch->height);
 
         if ((result = (height > 0 && height <= 16384 && width > 0 && width <= 16384 && width < size / 4)))
         {
