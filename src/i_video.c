@@ -316,7 +316,7 @@ void I_CapFPS(int cap)
 #endif
 }
 
-static void FreeSurfaces(void)
+void FreeSurfaces(void)
 {
     SDL_FreePalette(palette);
     SDL_FreeSurface(surface);
