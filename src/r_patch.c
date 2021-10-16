@@ -121,39 +121,45 @@ static dboolean CheckIfPatch(int lump)
     int             height;
     const patch_t   *patch;
     dboolean        result;
+    SDL_RWops       *rwops;
 
     // minimum length of a valid DOOM patch
     if (size < 13)
         return false;
 
     patch = W_CacheLumpNum(lump);
+    rwops = SDL_RWFromMem((byte *)patch, size);
 
-    if (IMG_isPNG(SDL_RWFromMem((byte *)patch, size)))
-        return false;
-
-    width = SHORT(patch->width);
-    height = SHORT(patch->height);
-
-    if ((result = (height > 0 && height <= 16384 && width > 0 && width <= 16384 && width < size / 4)))
+    if (IMG_isPNG(rwops))
+        result = false;
+    else
     {
-        // The dimensions seem like they might be valid for a patch, so
-        // check the column directory for extra security. All columns
-        // must begin after the column directory, and none of them must
-        // point past the end of the patch.
-        for (int x = 0; x < width; x++)
-        {
-            unsigned int    ofs = LONG(patch->columnofs[x]);
+        width = SHORT(patch->width);
+        height = SHORT(patch->height);
 
-            // Need one byte for an empty column (but there's patches that don't know that!)
-            if (ofs < (unsigned int)width * 4 + 8 || ofs >= (unsigned int)size)
+        if ((result = (height > 0 && height <= 16384 && width > 0 && width <= 16384 && width < size / 4)))
+        {
+            // The dimensions seem like they might be valid for a patch, so
+            // check the column directory for extra security. All columns
+            // must begin after the column directory, and none of them must
+            // point past the end of the patch.
+            for (int x = 0; x < width; x++)
             {
-                result = false;
-                break;
+                unsigned int    ofs = LONG(patch->columnofs[x]);
+
+                // Need one byte for an empty column (but there's patches that don't know that!)
+                if (ofs < (unsigned int)width * 4 + 8 || ofs >= (unsigned int)size)
+                {
+                    result = false;
+                    break;
+                }
             }
         }
     }
 
+    SDL_FreeRW(rwops);
     W_ReleaseLumpNum(lump);
+
     return result;
 }
 
