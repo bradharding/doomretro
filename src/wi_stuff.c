@@ -1142,10 +1142,10 @@ static void WI_LoadData(void)
     if (gamemode == commercial)
     {
         NUMCMAPS = 32 + (W_CheckNumForName("CWILV32") >= 0);
-        lnames = Z_Malloc(sizeof(patch_t *) * NUMCMAPS, PU_STATIC, NULL);
+        lnames = Z_Malloc(NUMCMAPS * sizeof(patch_t *), PU_STATIC, NULL);
     }
     else
-        lnames = Z_Malloc(sizeof(patch_t *) * NUMMAPS, PU_STATIC, NULL);
+        lnames = Z_Malloc(NUMMAPS * sizeof(patch_t *), PU_STATIC, NULL);
 
     WI_LoadUnloadData(&WI_LoadCallback);
 

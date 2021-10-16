@@ -2337,7 +2337,7 @@ void C_PrintCompileDate(void)
         };
 
         C_Output("Your %i-bit " ITALICS("%s") " app of " ITALICS("%s") " was built with love in %s by %s at %i:%02i%s on %s, %s %i, %i.",
-            (int)sizeof(intptr_t) * 8, OPERATINGSYSTEM, DOOMRETRO_NAMEANDVERSIONSTRING, DOOMRETRO_PLACEOFORIGIN, DOOMRETRO_AUTHOR,
+            8 * (int)sizeof(intptr_t), OPERATINGSYSTEM, DOOMRETRO_NAMEANDVERSIONSTRING, DOOMRETRO_PLACEOFORIGIN, DOOMRETRO_AUTHOR,
             (hour ? hour - 12 * (hour > 12) : 12), minute, (hour < 12 ? "am" : "pm"),
             dayofweek(day, month + 1, year), months[month], day, year);
     }

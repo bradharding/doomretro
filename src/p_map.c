@@ -347,7 +347,7 @@ void P_CheckSpechits(void)
     if (numspechit >= spechit_max)
     {
         spechit_max = (spechit_max ? spechit_max * 2 : 8);
-        spechit = I_Realloc(spechit, sizeof(*spechit) * spechit_max);
+        spechit = I_Realloc(spechit, spechit_max * sizeof(*spechit));
     }
 }
 

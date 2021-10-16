@@ -198,8 +198,8 @@ int main(int argc, char **argv)
 {
     myargc = argc;
 
-    if((myargv = (char **)malloc(sizeof(myargv[0]) * myargc)))
-        memcpy(myargv, argv, sizeof(myargv[0]) * myargc);
+    if((myargv = (char **)malloc(myargc * sizeof(myargv[0]))))
+        memcpy(myargv, argv, myargc * sizeof(myargv[0]));
 
 #if defined(_WIN32)
     hInstanceMutex = CreateMutex(NULL, true, DOOMRETRO_MUTEX);

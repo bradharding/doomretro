@@ -90,7 +90,7 @@ void P_InitSwitchList(void)
         static int  max_numswitches;
 
         if (index + 1 >= max_numswitches)
-            switchlist = I_Realloc(switchlist, sizeof(*switchlist) * (max_numswitches = (max_numswitches ? max_numswitches * 2 : 8)));
+            switchlist = I_Realloc(switchlist, (max_numswitches = (max_numswitches ? max_numswitches * 2 : 8)) * sizeof(*switchlist));
 
         if (SHORT(alphSwitchList[i].episode) <= episode)    // jff 5/11/98 endianness
         {
@@ -159,8 +159,8 @@ void P_StartButton(line_t *line, bwhere_e where, int texture, int time)
 
     // [crispy] remove MAXBUTTONS limit
     maxbuttons *= 2;
-    buttonlist = I_Realloc(buttonlist, sizeof(*buttonlist) * maxbuttons);
-    memset(buttonlist + maxbuttons / 2, 0, sizeof(*buttonlist) * ((size_t)maxbuttons - maxbuttons / 2));
+    buttonlist = I_Realloc(buttonlist, maxbuttons * sizeof(*buttonlist));
+    memset(buttonlist + maxbuttons / 2, 0, ((size_t)maxbuttons - maxbuttons / 2) * sizeof(*buttonlist));
     P_StartButton(line, where, texture, time);
 }
 

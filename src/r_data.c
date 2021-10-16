@@ -364,7 +364,7 @@ static void R_InitTextures(void)
 
         mtexture = (const maptexture_t *)((const byte *)maptex1 + offset);
 
-        texture = textures[i] = Z_Malloc(sizeof(texture_t) + sizeof(texpatch_t) * ((size_t)SHORT(mtexture->patchcount) - 1),
+        texture = textures[i] = Z_Malloc(sizeof(texture_t) + ((size_t)SHORT(mtexture->patchcount) - 1) * sizeof(texpatch_t),
             PU_STATIC, 0);
 
         texture->width = SHORT(mtexture->width);
@@ -601,8 +601,7 @@ static void R_InitSpriteLumps(void)
         M_StringCopy(weaponinfo[wp_plasma].name, "polaric energy cannon", sizeof(weaponinfo[wp_plasma].name));
         M_StringCopy(weaponinfo[wp_bfg].name, "SKAG 1337", sizeof(weaponinfo[wp_bfg].name));
         M_StringCopy(weaponinfo[wp_chainsaw].name, "angle grinder", sizeof(weaponinfo[wp_chainsaw].name));
-        M_StringCopy(weaponinfo[wp_supershotgun].name, "double-barreled shotgun",
-            sizeof(weaponinfo[wp_supershotgun].name));
+        M_StringCopy(weaponinfo[wp_supershotgun].name, "double-barreled shotgun", sizeof(weaponinfo[wp_supershotgun].name));
 
         M_StringCopy(mobjinfo[MT_POSSESSED].name1, "zombie", sizeof(mobjinfo[MT_POSSESSED].name1));
         M_StringCopy(mobjinfo[MT_POSSESSED].plural1, "zombies", sizeof(mobjinfo[MT_POSSESSED].plural1));
@@ -817,7 +816,7 @@ static void R_InitColormaps(void)
         firstcolormaplump = W_GetNumForName("C_START");
         numcolormaps = W_GetNumForName("C_END") - firstcolormaplump;
 
-        colormaps = Z_Malloc(sizeof(*colormaps) * numcolormaps, PU_STATIC, NULL);
+        colormaps = Z_Malloc(numcolormaps * sizeof(*colormaps), PU_STATIC, NULL);
 
         for (int i = 1; i < numcolormaps; i++)
             colormaps[i] = W_CacheLumpNum(firstcolormaplump + i);

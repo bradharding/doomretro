@@ -2271,7 +2271,7 @@ static void P_CreateBlockMap(void)
                     count += bmap[i].n + 2;     // 1 header word + 1 trailer word + blocklist
 
             // Allocate blockmap lump with computed count
-            blockmaplump = malloc_IfSameLevel(blockmaplump, sizeof(*blockmaplump) * count);
+            blockmaplump = malloc_IfSameLevel(blockmaplump, count * sizeof(*blockmaplump));
         }
 
         // Now compress the blockmap.
@@ -2335,7 +2335,7 @@ static void P_LoadBlockMap(int lump)
     {
         short   *wadblockmaplump = W_CacheLumpNum(lump);
 
-        blockmaplump = malloc_IfSameLevel(blockmaplump, sizeof(*blockmaplump) * count);
+        blockmaplump = malloc_IfSameLevel(blockmaplump, count * sizeof(*blockmaplump));
 
         // killough 03/01/98: Expand WAD blockmap into larger internal one,
         // by treating all offsets except -1 as unsigned and zero-extending

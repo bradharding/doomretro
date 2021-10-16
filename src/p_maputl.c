@@ -470,7 +470,7 @@ void P_CheckIntercepts(void)
     if (offset >= num_intercepts)
     {
         num_intercepts = (num_intercepts ? num_intercepts * 2 : 128);
-        intercepts = I_Realloc(intercepts, sizeof(*intercepts) * num_intercepts);
+        intercepts = I_Realloc(intercepts, num_intercepts * sizeof(*intercepts));
         intercept_p = intercepts + offset;
     }
 }

@@ -923,7 +923,7 @@ mobjtype_t P_FindDoomedNum(int type)
 
     if (!hash)
     {
-        hash = Z_Malloc(sizeof(*hash) * NUMMOBJTYPES, PU_CACHE, (void **)&hash);
+        hash = Z_Malloc(NUMMOBJTYPES * sizeof(*hash), PU_CACHE, (void **)&hash);
 
         for (i = 0; i < NUMMOBJTYPES; i++)
             hash[i].first = NUMMOBJTYPES;

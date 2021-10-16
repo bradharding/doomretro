@@ -49,7 +49,7 @@
 static wchar_t *ConvertToUTF8(const char *str)
 {
     int     wlen = MultiByteToWideChar(CP_UTF8, 0, str, -1, NULL, 0);
-    wchar_t *wstr = (wchar_t *)malloc(sizeof(wchar_t) * wlen);
+    wchar_t *wstr = (wchar_t *)malloc(wlen * sizeof(wchar_t));
 
     MultiByteToWideChar(CP_UTF8, 0, str, -1, wstr, wlen);
 

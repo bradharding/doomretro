@@ -138,7 +138,7 @@ static void SetupLists(void)
 // Initialize the replace list
 static void InitSpriteList(void)
 {
-    sprite_frames = Z_Malloc(sizeof(*sprite_frames) * sprite_frames_alloced, PU_STATIC, NULL);
+    sprite_frames = Z_Malloc(sprite_frames_alloced * sizeof(*sprite_frames), PU_STATIC, NULL);
 }
 
 static dboolean ValidSpriteLumpName(char *name)

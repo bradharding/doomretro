@@ -186,10 +186,10 @@ static void createPatch(int id)
 
     // work out how much memory we need to allocate for this patch's data
     pixelDataSize = (patch->width * patch->height + 4) & ~3;
-    columnsDataSize = sizeof(rcolumn_t) * patch->width;
+    columnsDataSize =  patch->width * sizeof(rcolumn_t);
 
     // count the number of posts in each column
-    numPostsInColumn = malloc(sizeof(int) * patch->width);
+    numPostsInColumn = malloc(patch->width * sizeof(int));
     numPostsTotal = 0;
 
     for (int x = 0; x < patch->width; x++)
@@ -367,7 +367,7 @@ static void createTextureCompositePatch(int id)
 
     // work out how much memory we need to allocate for this patch's data
     pixelDataSize = (composite_patch->width * composite_patch->height + 4) & ~3;
-    columnsDataSize = sizeof(rcolumn_t) * composite_patch->width;
+    columnsDataSize = composite_patch->width * sizeof(rcolumn_t);
 
     // count the number of posts in each column
     countsInColumn = (count_t *)calloc(composite_patch->width, sizeof(count_t));
