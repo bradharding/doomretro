@@ -5945,7 +5945,6 @@ static void resetall_cmd_func2(char *cmd, char *parms)
     M_StartMessage(buffer, &C_VerifyResetAll, true);
     SDL_StopTextInput();
     S_StartSound(NULL, sfx_swtchn);
-    D_FadeScreen(false);
 }
 
 //

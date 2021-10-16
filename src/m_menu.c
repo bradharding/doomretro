@@ -2319,6 +2319,8 @@ void M_StartMessage(char *string, void *routine, dboolean input)
 
     I_SetPalette(PLAYPAL);
     I_UpdateBlitFunc(false);
+
+    D_FadeScreen(false);
 }
 
 //
