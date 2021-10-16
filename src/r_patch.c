@@ -170,13 +170,7 @@ static void createPatch(int id)
     int                 numPostsUsedSoFar;
     SDL_RWops           *rwop = SDL_RWFromMem((byte *)oldPatch, W_LumpLength(patchNum));
 
-    if (IMG_isPNG(rwop))
-    {
-        C_Warning(1, "The " BOLD("%s") " patch is a PNG lump.", lumpinfo[patchNum]->name);
-        return;
-    }
-
-    if (!CheckIfPatch(patchNum) && patchNum < numlumps)
+    if (IMG_isPNG(rwop) || (!CheckIfPatch(patchNum) && patchNum < numlumps))
     {
         if (lumpinfo[patchNum]->size > 0)
             C_Warning(1, "The " BOLD("%s") " patch is in an unknown format.", lumpinfo[patchNum]->name);
@@ -382,21 +376,11 @@ static void createTextureCompositePatch(int id)
 
     for (int i = 0; i < texture->patchcount; i++)
     {
-        SDL_RWops   *rwop;
-
         texpatch = &texture->patches[i];
         patchNum = texpatch->patch;
         oldPatch = (const patch_t *)W_CacheLumpNum(patchNum);
 
-        rwop = SDL_RWFromMem((byte *)oldPatch, W_LumpLength(patchNum));
-
-        if (IMG_isPNG(rwop))
-        {
-            C_Warning(1, "The " BOLD("%s") " patch is a PNG lump.", lumpinfo[patchNum]->name);
-            return;
-        }
-
-        if (!CheckIfPatch(patchNum) && patchNum < numlumps)
+        if (IMG_isPNG(SDL_RWFromMem((byte *)oldPatch, W_LumpLength(patchNum))) || (!CheckIfPatch(patchNum) && patchNum < numlumps))
         {
             if (lumpinfo[patchNum]->size > 0)
                 C_Warning(1, "The " BOLD("%s") " patch is in an unknown format.", lumpinfo[patchNum]->name);
