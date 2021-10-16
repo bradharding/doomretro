@@ -128,6 +128,9 @@ static dboolean CheckIfPatch(int lump)
 
     patch = W_CacheLumpNum(lump);
 
+    if (IMG_isPNG(SDL_RWFromMem((byte *)patch, size)))
+        return false;
+
     width = SHORT(patch->width);
     height = SHORT(patch->height);
 
@@ -168,9 +171,8 @@ static void createPatch(int id)
     int                 numPostsTotal;
     const unsigned char *oldColumnPixelData;
     int                 numPostsUsedSoFar;
-    SDL_RWops           *rwop = SDL_RWFromMem((byte *)oldPatch, W_LumpLength(patchNum));
 
-    if (IMG_isPNG(rwop) || (!CheckIfPatch(patchNum) && patchNum < numlumps))
+    if (!CheckIfPatch(patchNum) && patchNum < numlumps)
     {
         if (lumpinfo[patchNum]->size > 0)
             C_Warning(1, "The " BOLD("%s") " patch is in an unknown format.", lumpinfo[patchNum]->name);
@@ -380,7 +382,7 @@ static void createTextureCompositePatch(int id)
         patchNum = texpatch->patch;
         oldPatch = (const patch_t *)W_CacheLumpNum(patchNum);
 
-        if (IMG_isPNG(SDL_RWFromMem((byte *)oldPatch, W_LumpLength(patchNum))) || (!CheckIfPatch(patchNum) && patchNum < numlumps))
+        if (!CheckIfPatch(patchNum) && patchNum < numlumps)
         {
             if (lumpinfo[patchNum]->size > 0)
                 C_Warning(1, "The " BOLD("%s") " patch is in an unknown format.", lumpinfo[patchNum]->name);
