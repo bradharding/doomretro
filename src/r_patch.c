@@ -66,6 +66,8 @@
 **---------------------------------------------------------------------------
 */
 
+#include "SDL_image.h"
+
 #include "c_console.h"
 #include "doomstat.h"
 #include "i_swap.h"
@@ -156,7 +158,7 @@ static void createPatch(int id)
 {
     rpatch_t            *patch;
     const int           patchNum = id;
-    const patch_t       *oldPatch;
+    const patch_t       *oldPatch = W_CacheLumpNum(patchNum);
     const column_t      *oldColumn;
     int                 pixelDataSize;
     int                 columnsDataSize;
@@ -166,6 +168,13 @@ static void createPatch(int id)
     int                 numPostsTotal;
     const unsigned char *oldColumnPixelData;
     int                 numPostsUsedSoFar;
+    SDL_RWops           *rwop = SDL_RWFromMem((byte *)oldPatch, W_LumpLength(patchNum));
+
+    if (IMG_isPNG(rwop))
+    {
+        C_Warning(1, "The " BOLD("%s") " patch is a PNG lump.", lumpinfo[patchNum]->name);
+        return;
+    }
 
     if (!CheckIfPatch(patchNum) && patchNum < numlumps)
     {
@@ -174,8 +183,6 @@ static void createPatch(int id)
 
         return;
     }
-
-    oldPatch = (const patch_t *)W_CacheLumpNum(patchNum);
 
     patch = &patches[id];
     patch->width = SHORT(oldPatch->width);
@@ -375,9 +382,27 @@ static void createTextureCompositePatch(int id)
 
     for (int i = 0; i < texture->patchcount; i++)
     {
+        SDL_RWops   *rwop;
+
         texpatch = &texture->patches[i];
         patchNum = texpatch->patch;
         oldPatch = (const patch_t *)W_CacheLumpNum(patchNum);
+
+        rwop = SDL_RWFromMem((byte *)oldPatch, W_LumpLength(patchNum));
+
+        if (IMG_isPNG(rwop))
+        {
+            C_Warning(1, "The " BOLD("%s") " patch is a PNG lump.", lumpinfo[patchNum]->name);
+            return;
+        }
+
+        if (!CheckIfPatch(patchNum) && patchNum < numlumps)
+        {
+            if (lumpinfo[patchNum]->size > 0)
+                C_Warning(1, "The " BOLD("%s") " patch is in an unknown format.", lumpinfo[patchNum]->name);
+
+            return;
+        }
 
         for (int x = 0; x < SHORT(oldPatch->width); x++)
         {
@@ -596,6 +621,8 @@ void R_InitPatches(void)
     FIREBLU1 = R_CheckTextureNumForName("FIREBLU1");
     SKY1 = R_CheckTextureNumForName("SKY1");
     STEP2 = R_CheckTextureNumForName("STEP2");
+
+    IMG_Init(IMG_INIT_PNG);
 
     for (int i = 0; i < numspritelumps; i++)
         createPatch(firstspritelump + i);
