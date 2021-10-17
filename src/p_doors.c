@@ -290,7 +290,9 @@ dboolean EV_DoLockedDoor(line_t *line, vldoor_e type, mobj_t *thing, fixed_t spe
                     HU_PlayerMessage(buffer, false, false);
                 }
 
-                S_StartSound(player->mo, sfx_noway);    // [BH] use sfx_noway instead of sfx_oof
+                if (P_DoorClosed(line))
+                    S_StartSound(player->mo, sfx_noway);    // [BH] use sfx_noway instead of sfx_oof
+
                 return false;
             }
 
@@ -327,7 +329,9 @@ dboolean EV_DoLockedDoor(line_t *line, vldoor_e type, mobj_t *thing, fixed_t spe
                     HU_PlayerMessage(buffer, false, false);
                 }
 
-                S_StartSound(player->mo, sfx_noway);    // [BH] use sfx_noway instead of sfx_oof
+                if (P_DoorClosed(line))
+                    S_StartSound(player->mo, sfx_noway);    // [BH] use sfx_noway instead of sfx_oof
+
                 return false;
             }
 
@@ -364,7 +368,9 @@ dboolean EV_DoLockedDoor(line_t *line, vldoor_e type, mobj_t *thing, fixed_t spe
                     HU_PlayerMessage(buffer, false, false);
                 }
 
-                S_StartSound(player->mo, sfx_noway);    // [BH] use sfx_noway instead of sfx_oof
+                if (P_DoorClosed(line))
+                    S_StartSound(player->mo, sfx_noway);    // [BH] use sfx_noway instead of sfx_oof
+
                 return false;
             }
 
@@ -497,9 +503,11 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
     vldoor_t    *door;
 
     // if the wrong side of door is pushed, give oof sound
-    if (line->sidenum[1] == NO_INDEX && player) // killough
+    if (line->sidenum[1] == NO_INDEX && player)     // killough
     {
-        S_StartSound(player->mo, sfx_noway);    // [BH] use sfx_noway instead of sfx_oof
+        if (P_DoorClosed(line))
+            S_StartSound(player->mo, sfx_noway);    // [BH] use sfx_noway instead of sfx_oof
+
         return;
     }
 
@@ -539,7 +547,9 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
                     HU_PlayerMessage(buffer, false, false);
                 }
 
-                S_StartSound(player->mo, sfx_noway);    // [BH] use sfx_noway instead of sfx_oof
+                if (P_DoorClosed(line))
+                    S_StartSound(player->mo, sfx_noway);    // [BH] use sfx_noway instead of sfx_oof
+
                 return;
             }
 
@@ -579,7 +589,9 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
                     HU_PlayerMessage(buffer, false, false);
                 }
 
-                S_StartSound(player->mo, sfx_noway);    // [BH] use sfx_noway instead of sfx_oof
+                if (P_DoorClosed(line))
+                    S_StartSound(player->mo, sfx_noway);    // [BH] use sfx_noway instead of sfx_oof
+
                 return;
             }
 
@@ -619,7 +631,9 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
                     HU_PlayerMessage(buffer, false, false);
                 }
 
-                S_StartSound(player->mo, sfx_noway);    // [BH] use sfx_noway instead of sfx_oof
+                if (P_DoorClosed(line))
+                    S_StartSound(player->mo, sfx_noway);    // [BH] use sfx_noway instead of sfx_oof
+
                 return;
             }
 

@@ -1876,6 +1876,15 @@ static dboolean PTR_NoWayTraverse(intercept_t *in)
         || openbottom > usething->z + 24 * FRACUNIT || opentop < usething->z + usething->height))));
 }
 
+dboolean P_DoorClosed(line_t *line)
+{
+    mobj_t  *mo = viewplayer->mo;
+
+    P_LineOpening(line);
+
+    return (openrange <= 0 || openbottom > mo->z + 24 * FRACUNIT || opentop < mo->z + mo->height);
+}
+
 //
 // P_UseLines
 // Looks for special lines in front of the player to activate.
