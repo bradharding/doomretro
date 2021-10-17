@@ -1062,7 +1062,7 @@ dboolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
         case G1_ExitLevel_GoesToSecretLevel:
         case Scroll_ScrollWallUsingSidedefOffsets:
         case Translucent_MiddleTexture:
-            if (thing->player && !autousing)
+            if (thing->player && !autousing && P_DoorClosed(line))
                 S_StartSound(thing, sfx_noway);
 
             break;
