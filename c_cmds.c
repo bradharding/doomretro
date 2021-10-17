@@ -771,9 +771,9 @@ consolecmd_t consolecmds[] =
     CCMD(regenhealth, "", null_func1, regenhealth_cmd_func2, true, "[" BOLD("on") "|" BOLD("off") "]",
         "Toggles the regeneration of the player's health by 1% per second whenever it's below 100%."),
     CCMD(reset, "", null_func1, reset_cmd_func2, true, RESETCMDFORMAT,
-        "Resets a " BOLDITALICS("CVAR") " to its default value."),
+        "Resets a " BOLDITALICS("CVAR") " to its default."),
     CCMD(resetall, "", null_func1, resetall_cmd_func2, false, "",
-        "Resets all CVARs to their default values."),
+        "Resets all CVARs to their defaults."),
     CCMD(respawnitems, "", null_func1, respawnitems_cmd_func2, true, "[" BOLD("on") "|" BOLD("off") "]",
         "Toggles respawning items."),
     CCMD(respawnmonsters, "", respawnmonsters_cmd_func1, respawnmonsters_cmd_func2, true, "[" BOLD("on") "|" BOLD("off") "]",
@@ -787,7 +787,7 @@ consolecmd_t consolecmds[] =
     CVAR_INT(s_musicvolume, "", s_volume_cvars_func1, s_volume_cvars_func2, CF_PERCENT, NOVALUEALIAS,
         "The volume level of music (" BOLD("0%") " to " BOLD("100%") ")."),
     CVAR_BOOL(s_randommusic, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
-        "Toggles randomizing the music at the start of each map."),
+        "Toggles randomizing the music of each map."),
     CVAR_BOOL(s_randompitch, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles randomizing the pitch of monster sound effects."),
     CVAR_INT(s_sfxvolume, "", s_volume_cvars_func1, s_volume_cvars_func2, CF_PERCENT, NOVALUEALIAS,
@@ -9026,8 +9026,8 @@ static dboolean vid_scaleapi_cvar_func1(char *cmd, char *parms)
     return (!*parms
 #if defined(_WIN32)
         || M_StringCompare(parms, vid_scaleapi_direct3d)
-        || M_StringCompare(parms, vid_scaleapi_opengl)
 #endif
+        || M_StringCompare(parms, vid_scaleapi_opengl)
 #if !defined(_WIN32)
         || M_StringCompare(parms, vid_scaleapi_opengles)
         || M_StringCompare(parms, vid_scaleapi_opengles2)
