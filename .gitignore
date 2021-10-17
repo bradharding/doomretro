@@ -152,7 +152,10 @@ xcuserdata/
 project.xcworkspace/
 DerivedData/
 
-# Files built on Unix systems
+# =========================
+# Linux detritus
+# =========================
+
 *.[oa]
 src/doomretro
 *.db
