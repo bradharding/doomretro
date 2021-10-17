@@ -1655,11 +1655,6 @@ static void SetVideoMode(dboolean createwindow, dboolean output)
             }
         }
 #elif defined(__APPLE__)
-        else if (M_StringCompare(rendererinfo.name, vid_scaleapi_metal))
-        {
-            if (output)
-                C_Output("This scaling is done using hardware acceleration with " ITALICS("Metal."));
-        }
         else if (M_StringCompare(rendererinfo.name, vid_scaleapi_opengles))
         {
             if (output)

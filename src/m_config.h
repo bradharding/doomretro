@@ -701,8 +701,6 @@ enum
 
 #if defined(_WIN32)
 #define vid_scaleapi_direct3d                   "direct3d"
-#elif defined(__APPLE__)
-#define vid_scaleapi_metal                      "metal"
 #endif
 #define vid_scaleapi_opengl                     "opengl"
 #if !defined(_WIN32)
@@ -712,8 +710,6 @@ enum
 #define vid_scaleapi_software                   "software"
 #if defined(_WIN32)
 #define vid_scaleapi_default                    vid_scaleapi_direct3d
-#elif defined(__APPLE__)
-#define vid_scaleapi_default                    vid_scaleapi_metal
 #else
 #define vid_scaleapi_default                    vid_scaleapi_opengl
 #endif

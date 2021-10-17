@@ -9026,8 +9026,6 @@ static dboolean vid_scaleapi_cvar_func1(char *cmd, char *parms)
     return (!*parms
 #if defined(_WIN32)
         || M_StringCompare(parms, vid_scaleapi_direct3d)
-#elif defined(__APPLE__)
-        || M_StringCompare(parms, vid_scaleapi_metal)
 #endif
         || M_StringCompare(parms, vid_scaleapi_opengl)
 #if !defined(_WIN32)
