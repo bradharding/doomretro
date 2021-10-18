@@ -152,11 +152,10 @@ static dboolean CheckIfPatch(int lump)
     return result;
 }
 
-static void createPatch(int id)
+static void createPatch(int patchNum)
 {
     rpatch_t            *patch;
-    const int           patchNum = id;
-    const patch_t       *oldPatch = W_CacheLumpNum(patchNum);
+    const patch_t       *oldPatch;
     const column_t      *oldColumn;
     int                 pixelDataSize;
     int                 columnsDataSize;
@@ -172,10 +171,11 @@ static void createPatch(int id)
         if (lumpinfo[patchNum]->size > 0)
             C_Warning(1, "The " BOLD("%s") " patch is in an unknown format.", lumpinfo[patchNum]->name);
 
-        return;
+        patchNum = W_GetNumForName("TNT1A0");
     }
 
-    patch = &patches[id];
+    oldPatch = W_CacheLumpNum(patchNum);
+    patch = &patches[patchNum];
     patch->width = SHORT(oldPatch->width);
     patch->widthmask = 0;
     patch->height = SHORT(oldPatch->height);
