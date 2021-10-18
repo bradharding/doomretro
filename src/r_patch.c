@@ -184,7 +184,7 @@ static void createPatch(int patchNum)
 
     // work out how much memory we need to allocate for this patch's data
     pixelDataSize = (patch->width * patch->height + 4) & ~3;
-    columnsDataSize =  patch->width * sizeof(rcolumn_t);
+    columnsDataSize = patch->width * sizeof(rcolumn_t);
 
     // count the number of posts in each column
     numPostsInColumn = malloc(patch->width * sizeof(int));

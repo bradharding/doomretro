@@ -180,7 +180,7 @@ void HU_SetTranslucency(void)
         hudfunc = &V_DrawTranslucentHUDPatch;
         hudnumfunc = &V_DrawTranslucentHUDNumberPatch;
         althudfunc = &V_DrawTranslucentAltHUDPatch;
-        althudtextfunc =  &V_DrawTranslucentAltHUDText;
+        althudtextfunc = &V_DrawTranslucentAltHUDText;
         fillrectfunc = &V_FillSoftTransRect;
         fillrectfunc2 = &V_FillTransRect;
         coloroffset = 0;

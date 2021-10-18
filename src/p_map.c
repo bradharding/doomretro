@@ -1859,6 +1859,7 @@ static dboolean PTR_UseTraverse(intercept_t *in)
     return (side || (line->flags & ML_PASSUSE));
 }
 
+//
 // Returns false if a "oof" sound should be made because of a blocking
 // linedef. Makes 2s middles which are impassable, as well as 2s uppers
 // and lowers which block the player, cause the sound effect when the
