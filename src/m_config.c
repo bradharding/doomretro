@@ -957,8 +957,6 @@ static void M_CheckCVARs(dboolean ispackageconfig)
     if (!M_StringCompare(vid_scaleapi, vid_scaleapi_software)
 #if defined(_WIN32)
         && !M_StringCompare(vid_scaleapi, vid_scaleapi_direct3d)
-#elif defined(__APPLE__)
-        && !M_StringCompare(vid_scaleapi, vid_scaleapi_metal)
 #else
         && !M_StringCompare(vid_scaleapi, vid_scaleapi_opengles)
         && !M_StringCompare(vid_scaleapi, vid_scaleapi_opengles2)

@@ -848,10 +848,6 @@ consolecmd_t consolecmds[] =
 #if defined(_WIN32)
     CVAR_STR(vid_scaleapi, "", vid_scaleapi_cvar_func1, vid_scaleapi_cvar_func2, CF_NONE,
         "The API used to scale each frame (" BOLD("\"direct3d\"") ", " BOLD("\"opengl\"") " or " BOLD("\"software\"") ")."),
-#elif defined(__APPLE__)
-    CVAR_STR(vid_scaleapi, "", vid_scaleapi_cvar_func1, vid_scaleapi_cvar_func2, CF_NONE,
-        "The API used to scale each frame (" BOLD("\"metal\"") ", " BOLD("\"opengl\"") ", " BOLD("\"opengles\"") ", "
-        BOLD("\"opengles2\"") " or " BOLD("\"software\"") ")."),
 #else
     CVAR_STR(vid_scaleapi, "", vid_scaleapi_cvar_func1, vid_scaleapi_cvar_func2, CF_NONE,
         "The API used to scale each frame (" BOLD("\"opengl\"") ", " BOLD("\"opengles\"") ", " BOLD("\"opengles2\"") " or "
@@ -9026,8 +9022,6 @@ static dboolean vid_scaleapi_cvar_func1(char *cmd, char *parms)
     return (!*parms
 #if defined(_WIN32)
         || M_StringCompare(parms, vid_scaleapi_direct3d)
-#elif defined(__APPLE__)
-        || M_StringCompare(parms, vid_scaleapi_metal)
 #endif
         || M_StringCompare(parms, vid_scaleapi_opengl)
 #if !defined(_WIN32)
