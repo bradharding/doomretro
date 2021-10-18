@@ -66,8 +66,6 @@
 **---------------------------------------------------------------------------
 */
 
-#include "SDL_image.h"
-
 #include "c_console.h"
 #include "doomstat.h"
 #include "i_swap.h"
@@ -122,9 +120,8 @@ static dboolean CheckIfPatch(int lump)
     if (size >= 13)
     {
         const patch_t   *patch = W_CacheLumpNum(lump);
-        SDL_RWops       *rwops = SDL_RWFromMem((byte *)patch, size);
 
-        if (!IMG_isPNG(rwops))
+        if (memcmp(patch, "\x89PNG\r\n\x1a\n", 8))
         {
             short   width = SHORT(patch->width);
             short   height = SHORT(patch->height);
@@ -149,7 +146,6 @@ static dboolean CheckIfPatch(int lump)
             }
         }
 
-        SDL_FreeRW(rwops);
         W_ReleaseLumpNum(lump);
     }
 
@@ -606,8 +602,6 @@ void R_InitPatches(void)
     FIREBLU1 = R_CheckTextureNumForName("FIREBLU1");
     SKY1 = R_CheckTextureNumForName("SKY1");
     STEP2 = R_CheckTextureNumForName("STEP2");
-
-    IMG_Init(IMG_INIT_PNG);
 
     for (int i = 0; i < numspritelumps; i++)
         createPatch(firstspritelump + i);
