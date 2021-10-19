@@ -121,7 +121,7 @@ static dboolean CheckIfPatch(int lump)
     {
         const patch_t   *patch = W_CacheLumpNum(lump);
 
-        if (memcmp(patch, "\x89PNG\r\n\x1a\n", 8))
+        if (memcmp(patch, "\x89PNG", 4))
         {
             short   width = SHORT(patch->width);
             short   height = SHORT(patch->height);
