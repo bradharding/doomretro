@@ -866,19 +866,25 @@ static void WI_UpdateStats(void)
     }
     else if (sp_state == 6)
     {
-        cnt_secret += 2;
-
-        if (!(bcnt & 3))
-            S_StartSound(NULL, sfx_pistol);
-
-        if (cnt_secret >= (wbs->ssecret * 100) / wbs->maxsecret)
+        // [JN] If no secrets on the map, skip counting immediately.
+        if (!totalsecrets)
+            sp_state += 2;
+        else
         {
-            cnt_secret = (wbs->ssecret * 100) / wbs->maxsecret;
+            cnt_secret += 2;
 
-            if (totalsecrets)
-                S_StartSound(NULL, sfx_barexp);
+            if (!(bcnt & 3))
+                S_StartSound(NULL, sfx_pistol);
 
-            sp_state++;
+            if (cnt_secret >= (wbs->ssecret * 100) / wbs->maxsecret)
+            {
+                cnt_secret = (wbs->ssecret * 100) / wbs->maxsecret;
+
+                if (totalsecrets)
+                    S_StartSound(NULL, sfx_barexp);
+
+                sp_state++;
+            }
         }
     }
 
