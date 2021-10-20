@@ -169,7 +169,7 @@ static void createPatch(int patchNum)
     if (!CheckIfPatch(patchNum) && patchNum < numlumps)
     {
         if (lumpinfo[patchNum]->size > 0)
-            C_Warning(1, "The " BOLD("%s") " patch is in an unknown format.", lumpinfo[patchNum]->name);
+            C_Warning(1, "The " BOLD("%.8s") " patch is in an unknown format.", lumpinfo[patchNum]->name);
 
         patchNum = W_GetNumForName("TNT1A0");
     }

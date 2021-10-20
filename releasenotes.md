@@ -4,7 +4,7 @@
 
 * *DOOM Retro* is now compiled using [*Microsoft Visual Studio Community 2022*](https://www.visualstudio.com/vs/).
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
-* *DOOM Retro* will no longer crash at startup if a PWAD contains a PNG lump that is not between `HI_START` and `HI_END` markers.
+* *DOOM Retro* will no longer crash at startup if loading a PWAD containing a PNG lump that is not between `HI_START` and `HI_END` markers.
 * Minor changes have been made to text that is output to the console.
 * Further improvements have been made to the support for [*REKKR*](http://manbitesshark.com/) and [*REKKR: Sunken Land*](https://store.steampowered.com/app/1715690/REKKR_Sunken_Land/).
 
