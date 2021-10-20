@@ -7051,17 +7051,7 @@ autocomplete_t autocompletelist[] =
 #if defined(_WIN32)
     { "if vid_scaleapi \"direct3d\" ",               DOOM1AND2 },
     { "if vid_scaleapi \"direct3d\" then ",          DOOM1AND2 },
-    { "if vid_scaleapi \"opengl\" ",                 DOOM1AND2 },
-    { "if vid_scaleapi \"opengl\" then ",            DOOM1AND2 },
-    { "if vid_scaleapi \"software\" ",               DOOM1AND2 },
-    { "if vid_scaleapi \"software\" then ",          DOOM1AND2 },
-    { "if vid_scaleapi direct3d ",                   DOOM1AND2 },
-    { "if vid_scaleapi direct3d then ",              DOOM1AND2 },
-    { "if vid_scaleapi opengl ",                     DOOM1AND2 },
-    { "if vid_scaleapi opengl then ",                DOOM1AND2 },
-    { "if vid_scaleapi software ",                   DOOM1AND2 },
-    { "if vid_scaleapi software then ",              DOOM1AND2 },
-#else
+#endif
     { "if vid_scaleapi \"opengl\" ",                 DOOM1AND2 },
     { "if vid_scaleapi \"opengl\" then ",            DOOM1AND2 },
     { "if vid_scaleapi \"opengles\" ",               DOOM1AND2 },
@@ -7070,6 +7060,10 @@ autocomplete_t autocompletelist[] =
     { "if vid_scaleapi \"opengles2\" then ",         DOOM1AND2 },
     { "if vid_scaleapi \"software\" ",               DOOM1AND2 },
     { "if vid_scaleapi \"software\" then ",          DOOM1AND2 },
+#if defined(_WIN32)
+    { "if vid_scaleapi direct3d ",                   DOOM1AND2 },
+    { "if vid_scaleapi direct3d then ",              DOOM1AND2 },
+#endif
     { "if vid_scaleapi opengl ",                     DOOM1AND2 },
     { "if vid_scaleapi opengl then ",                DOOM1AND2 },
     { "if vid_scaleapi opengles ",                   DOOM1AND2 },
@@ -7078,7 +7072,6 @@ autocomplete_t autocompletelist[] =
     { "if vid_scaleapi opengles2 then ",             DOOM1AND2 },
     { "if vid_scaleapi software ",                   DOOM1AND2 },
     { "if vid_scaleapi software then ",              DOOM1AND2 },
-#endif
     { "if vid_scalefilter ",                         DOOM1AND2 },
     { "if vid_scalefilter \"linear\" ",              DOOM1AND2 },
     { "if vid_scalefilter \"linear\" then ",         DOOM1AND2 },
@@ -8599,21 +8592,18 @@ autocomplete_t autocompletelist[] =
     { "vid_scaleapi ",                               DOOM1AND2 },
 #if defined(_WIN32)
     { "vid_scaleapi \"direct3d\"",                   DOOM1AND2 },
-    { "vid_scaleapi \"opengl\"",                     DOOM1AND2 },
-    { "vid_scaleapi \"software\"",                   DOOM1AND2 },
-    { "vid_scaleapi direct3d",                       DOOM1AND2 },
-    { "vid_scaleapi opengl",                         DOOM1AND2 },
-    { "vid_scaleapi software",                       DOOM1AND2 },
-#else
+#endif
     { "vid_scaleapi \"opengl\"",                     DOOM1AND2 },
     { "vid_scaleapi \"opengles\"",                   DOOM1AND2 },
     { "vid_scaleapi \"opengles2\"",                  DOOM1AND2 },
     { "vid_scaleapi \"software\"",                   DOOM1AND2 },
+#if defined(_WIN32)
+    { "vid_scaleapi direct3d",                       DOOM1AND2 },
+#endif
     { "vid_scaleapi opengl",                         DOOM1AND2 },
     { "vid_scaleapi opengles",                       DOOM1AND2 },
     { "vid_scaleapi opengles2",                      DOOM1AND2 },
     { "vid_scaleapi software",                       DOOM1AND2 },
-#endif
     { "vid_scalefilter ",                            DOOM1AND2 },
     { "vid_scalefilter \"linear\"",                  DOOM1AND2 },
     { "vid_scalefilter \"nearest\"",                 DOOM1AND2 },
