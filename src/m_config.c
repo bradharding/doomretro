@@ -958,9 +958,9 @@ static void M_CheckCVARs(dboolean ispackageconfig)
 #if defined(_WIN32)
         && !M_StringCompare(vid_scaleapi, vid_scaleapi_direct3d)
 #endif
+        && !M_StringCompare(vid_scaleapi, vid_scaleapi_opengl)
         && !M_StringCompare(vid_scaleapi, vid_scaleapi_opengles)
-        && !M_StringCompare(vid_scaleapi, vid_scaleapi_opengles2)
-        && !M_StringCompare(vid_scaleapi, vid_scaleapi_opengl))
+        && !M_StringCompare(vid_scaleapi, vid_scaleapi_opengles2))
         vid_scaleapi = vid_scaleapi_default;
 
     if (!M_StringCompare(vid_scalefilter, vid_scalefilter_linear)

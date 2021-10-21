@@ -7,6 +7,7 @@
 * *DOOM Retro* will no longer crash at startup if loading a PWAD containing a PNG lump that is not between `HI_START` and `HI_END` markers.
 * Minor changes have been made to text that is output to the console.
 * Further improvements have been made to the support for [*REKKR*](http://manbitesshark.com/) and [*REKKR: Sunken Land*](https://store.steampowered.com/app/1715690/REKKR_Sunken_Land/).
+* The `vid_scaleapi` CVAR may now also be set to `opengles` or `opengles2`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
