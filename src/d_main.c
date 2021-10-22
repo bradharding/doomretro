@@ -2153,6 +2153,9 @@ static void D_DoomMainSetup(void)
 
     FREEDM = (W_CheckNumForName("FREEDM") >= 0);
 
+    PLAYPALs = W_CheckMultipleLumps("PLAYPAL");
+    STBARs = W_CheckMultipleLumps("STBAR");
+
     M_DOOM = (W_CheckMultipleLumps("M_DOOM") > 1);
     M_EPISOD = (W_CheckMultipleLumps("M_EPISOD") > 1);
     M_GDHIGH = (W_CheckMultipleLumps("M_GDHIGH") > 1);
@@ -2173,7 +2176,6 @@ static void D_DoomMainSetup(void)
     M_SKILL = (W_CheckMultipleLumps("M_SKILL") > 1);
     M_SKULL1 = (W_CheckMultipleLumps("M_SKULL1") > 1);
     M_SVOL = (W_CheckMultipleLumps("M_SVOL") > 1);
-    STBAR = W_CheckMultipleLumps("STBAR");
     STCFN034 = (W_CheckMultipleLumps("STCFN034") > 1);
     STYSNUM0 = (W_CheckMultipleLumps("STYSNUM0") > 1);
     WISCRT2 = (W_CheckMultipleLumps("WISCRT2") > 1);

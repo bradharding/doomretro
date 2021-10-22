@@ -38,6 +38,7 @@
 
 #include <stdlib.h>
 
+#include "doomstat.h"
 #include "i_colors.h"
 #include "i_swap.h"
 #include "i_video.h"
@@ -156,7 +157,7 @@ int FindNearestColor(byte *palette, const int red, const int green, const int bl
 
 void FindNearestColors(byte *palette)
 {
-    if (W_CheckMultipleLumps("PLAYPAL") > 1)
+    if (PLAYPALs > 2)
     {
         byte    *splashpal = W_CacheLumpName("SPLSHPAL");
 

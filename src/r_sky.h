@@ -42,10 +42,10 @@
 // SKY, store the number for name.
 #define SKYFLATNAME         "F_SKY1"
 
-// The sky map is 256*128*4 maps.
+// The sky map is 256 * 128 * 4 maps.
 #define ANGLETOSKYSHIFT     22
 
-#define SKYSTRETCH_HEIGHT   (r_screensize < r_screensize_max && !menuactive ? 228 : 252)
+#define SKYSTRETCH_HEIGHT   (VANILLAHEIGHT + (r_screensize < r_screensize_max && !menuactive ? 28 : 52))
 
 extern int      skytexture;
 extern int      skytexturemid;

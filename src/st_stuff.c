@@ -392,7 +392,7 @@ static void ST_RefreshBackground(void)
     if (sbarwidth < SCREENWIDTH)
         R_FillBezel();
 
-    if (STBAR >= 3)
+    if (STBARs >= 3)
     {
         V_DrawWidePatch((SCREENWIDTH / SCREENSCALE - sbarwidth) / 2, VANILLAHEIGHT - VANILLASBARHEIGHT, 0, sbar);
         V_DrawPatch(ST_ARMSBGX + hacx * 4, VANILLAHEIGHT - VANILLASBARHEIGHT, 0, armsbg);
@@ -400,7 +400,7 @@ static void ST_RefreshBackground(void)
     else
         V_DrawWidePatch((SCREENWIDTH / SCREENSCALE - sbarwidth) / 2, VANILLAHEIGHT - VANILLASBARHEIGHT, 0, sbar);
 #else
-    if (STBAR >= 3)
+    if (STBARs >= 3)
     {
         if (sbarwidth < SCREENWIDTH)
             R_FillBezel();
@@ -1535,14 +1535,14 @@ static void ST_InitData(void)
 static void ST_CreateWidgets(void)
 {
     // ready weapon ammo
-    STlib_InitNum(&w_ready, ST_AMMOX, ST_AMMOY + (STBAR != 2 && !BTSX), tallnum,
+    STlib_InitNum(&w_ready, ST_AMMOX, ST_AMMOY + (STBARs != 2 && !BTSX), tallnum,
         &viewplayer->ammo[weaponinfo[viewplayer->readyweapon].ammotype], ST_AMMOWIDTH);
 
     // the last weapon type
     w_ready.data = viewplayer->readyweapon;
 
     // health percentage
-    STlib_InitPercent(&w_health, ST_HEALTHX, ST_HEALTHY + (STBAR != 2 && !BTSX), tallnum, &viewplayer->health, tallpercent);
+    STlib_InitPercent(&w_health, ST_HEALTHX, ST_HEALTHY + (STBARs != 2 && !BTSX), tallnum, &viewplayer->health, tallpercent);
 
     // weapons owned
     STlib_InitMultIcon(&w_arms[0], ST_ARMSX, ST_ARMSY, arms[0], &viewplayer->weaponowned[wp_pistol]);
@@ -1562,12 +1562,12 @@ static void ST_CreateWidgets(void)
     STlib_InitMultIcon(&w_faces, ST_FACESX, ST_FACESY, faces, &st_faceindex);
 
     // armor percentage
-    STlib_InitPercent(&w_armor, ST_ARMORX, ST_ARMORY + (STBAR != 2 && !BTSX), tallnum, &viewplayer->armorpoints, tallpercent);
+    STlib_InitPercent(&w_armor, ST_ARMORX, ST_ARMORY + (STBARs != 2 && !BTSX), tallnum, &viewplayer->armorpoints, tallpercent);
 
     // keyboxes 0-2
-    STlib_InitMultIcon(&w_keyboxes[0], ST_KEY0X + (STBAR >= 3), ST_KEY0Y, keys, &keyboxes[0]);
-    STlib_InitMultIcon(&w_keyboxes[1], ST_KEY1X + (STBAR >= 3), ST_KEY1Y, keys, &keyboxes[1]);
-    STlib_InitMultIcon(&w_keyboxes[2], ST_KEY2X + (STBAR >= 3), ST_KEY2Y, keys, &keyboxes[2]);
+    STlib_InitMultIcon(&w_keyboxes[0], ST_KEY0X + (STBARs >= 3), ST_KEY0Y, keys, &keyboxes[0]);
+    STlib_InitMultIcon(&w_keyboxes[1], ST_KEY1X + (STBARs >= 3), ST_KEY1Y, keys, &keyboxes[1]);
+    STlib_InitMultIcon(&w_keyboxes[2], ST_KEY2X + (STBARs >= 3), ST_KEY2Y, keys, &keyboxes[2]);
 
     // ammo count (all four kinds)
     STlib_InitNum(&w_ammo[am_clip], ST_AMMO0X, ST_AMMO0Y, shortnum, &viewplayer->ammo[am_clip], ST_AMMO0WIDTH);
@@ -1607,7 +1607,7 @@ void ST_Init(void)
 #if SCREENSCALE == 1
     usesmallnums = false;
 #else
-    usesmallnums = ((!STYSNUM0 && STBAR == 2) || gamemode == shareware);
+    usesmallnums = ((!STYSNUM0 && STBARs == 2) || gamemode == shareware);
 #endif
 
     STLib_Init();
