@@ -1291,7 +1291,7 @@ static void ST_DoPaletteStuff(void)
         int damagecount = viewplayer->damagecount;
 
         if (damagecount && !(viewplayer->cheats & CF_GODMODE))
-            palette = (chex ? RADIATIONPAL : STARTREDPALS + MIN((damagecount + NUMREDPALS - 1) >> 3, NUMREDPALS - 1));
+            palette = (chex ? RADIATIONPAL : STARTREDPALS + MIN((damagecount + NUMREDPALS - 1) >> 3, NUMREDPALS) - 1);
         else if (viewplayer->health > 0)
         {
             int bonuscount = viewplayer->bonuscount;

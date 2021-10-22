@@ -10,6 +10,7 @@
 * The `vid_scaleapi` CVAR may now also be set to `opengles` or `opengles2`.
 * The red palette effect when the player is injured is now smoother.
 * If the player picks up a megasphere power-up while they have 200% green armor, their armor will be upgraded to blue armor.
+* The player will no longer make a sound if trying to open a door that is already open.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
