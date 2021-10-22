@@ -8,6 +8,7 @@
 * Minor changes have been made to text that is output to the console.
 * Further improvements have been made to the support for [*REKKR*](http://manbitesshark.com/) and [*REKKR: Sunken Land*](https://store.steampowered.com/app/1715690/REKKR_Sunken_Land/).
 * The `vid_scaleapi` CVAR may now also be set to `opengles` or `opengles2`.
+* Sky textures that are taller than 128px and used by the *MBF*-compatible special 271 (“Transfer Sky Texture To Tagged Sectors”) or 272 (“Transfer Sky Texture To Tagged Sectors (Flipped)”) now display correctly.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

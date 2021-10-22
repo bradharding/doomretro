@@ -355,9 +355,9 @@ void R_InitLightTables(void)
     int width = (FixedMul(SCREENWIDTH, FixedDiv(FRACUNIT,
                     finetangent[FINEANGLES / 4 + ((r_fov + WIDEFOVDELTA) * FINEANGLES / 360) / 2])) + 1) / 2 * FRACUNIT;
 
-    c_zlight = malloc(sizeof(*c_zlight) * numcolormaps);
-    c_scalelight = malloc(sizeof(*c_scalelight) * numcolormaps);
-    c_psprscalelight = malloc(sizeof(*c_psprscalelight) * numcolormaps);
+    c_zlight = malloc(numcolormaps * sizeof(*c_zlight));
+    c_scalelight = malloc(numcolormaps * sizeof(*c_scalelight));
+    c_psprscalelight = malloc(numcolormaps * sizeof(*c_psprscalelight));
 
     // Calculate the light levels to use
     //  for each level/distance combination.
