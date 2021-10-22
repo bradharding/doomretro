@@ -65,9 +65,6 @@
 // STATUS BAR DATA
 //
 
-// Radiation suit, green shift.
-#define RADIATIONPAL        25
-
 // Location of status bar
 #define ST_X                0
 #define ST_Y                (SCREENHEIGHT - SBARHEIGHT)

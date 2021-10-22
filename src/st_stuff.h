@@ -42,9 +42,10 @@
 // Palette indices.
 // For damage/bonus red-/gold-shifts
 #define STARTREDPALS            1
-#define STARTBONUSPALS          (PLAYPALs > 2 ? 9 : 21)
 #define NUMREDPALS              (PLAYPALs > 2 ? 8 : 20)
+#define STARTBONUSPALS          (STARTREDPALS + NUMREDPALS)
 #define NUMBONUSPALS            4
+#define RADIATIONPAL            (STARTBONUSPALS + NUMBONUSPALS)
 
 // Size of status bar.
 // Now sensitive for scaling.
