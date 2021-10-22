@@ -66,7 +66,7 @@
 //
 
 // Radiation suit, green shift.
-#define RADIATIONPAL        13
+#define RADIATIONPAL        25
 
 // Location of status bar
 #define ST_X                0
