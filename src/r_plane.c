@@ -482,10 +482,10 @@ void R_DrawPlanes(void)
                         // allows a long-period of sky rotation.
                         an += s->textureoffset;
 
-                        dc_texheight = textureheight[texture] >> FRACBITS;
-
                         // Vertical offset allows careful sky positioning.
-                        dc_texturemid = s->rowoffset - dc_texheight / 2 * FRACUNIT;
+                        dc_texturemid = s->rowoffset - 28 * FRACUNIT;
+
+                        dc_texheight = textureheight[texture] >> FRACBITS;
 
                         if (canmouselook)
                             dc_texturemid = dc_texturemid * dc_texheight / SKYSTRETCH_HEIGHT;
