@@ -146,11 +146,12 @@ extern short            RROCK05;
 extern short            RROCK08;
 extern short            SLIME09;
 extern short            SLIME12;
-extern int              PLAYPALs;
-extern int              STBARs;
 extern dboolean         STCFN034;
 extern dboolean         STYSNUM0;
 extern dboolean         WISCRT2;
+
+extern int              PLAYPALs;
+extern int              STBARs;
 
 // -------------------------
 // Internal parameters for sound rendering.

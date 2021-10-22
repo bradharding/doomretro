@@ -1282,16 +1282,16 @@ static void ST_DoPaletteStuff(void)
         if (bonuscount)
             palette = STARTBONUSPALS + MIN((bonuscount + 7) >> 3, NUMBONUSPALS) - 1;
         else if (viewplayer->cheats & CF_GODMODE)
-            palette = r_berserkintensity;
+            palette = r_berserkintensity * (PLAYPALs > 2 ? 2 : 1);
         else
-            palette = MIN((viewplayer->damagecount >> 3) + r_berserkintensity, NUMREDPALS);
+            palette = MIN((viewplayer->damagecount >> 3) + r_berserkintensity * (PLAYPALs > 2 ? 2 : 1), NUMREDPALS);
     }
     else
     {
         int damagecount = viewplayer->damagecount;
 
         if (damagecount && !(viewplayer->cheats & CF_GODMODE))
-            palette = (chex ? RADIATIONPAL : STARTREDPALS + MIN((damagecount + 7) >> 3, NUMREDPALS - 1));
+            palette = (chex ? RADIATIONPAL : STARTREDPALS + MIN((damagecount + NUMREDPALS - 1) >> 3, NUMREDPALS - 1));
         else if (viewplayer->health > 0)
         {
             int bonuscount = viewplayer->bonuscount;

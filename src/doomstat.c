@@ -103,8 +103,9 @@ short           RROCK05;
 short           RROCK08;
 short           SLIME09;
 short           SLIME12;
-int             PLAYPALs;
-int             STBARs;
 dboolean        STCFN034;
 dboolean        STYSNUM0;
 dboolean        WISCRT2;
+
+int             PLAYPALs;
+int             STBARs;
