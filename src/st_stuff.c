@@ -1300,8 +1300,18 @@ static void ST_DoPaletteStuff(void)
 
             if (bonuscount && r_pickupeffect)
                 palette = STARTBONUSPALS + MIN((bonuscount + 7) >> 3, NUMBONUSPALS) - 1;
-            else if ((viewplayer->powers[pw_ironfeet] > STARTFLASHING && r_radsuiteffect) || (viewplayer->powers[pw_ironfeet] & 8))
-                palette = RADIATIONPAL;
+            else
+            {
+                int ironfeet = viewplayer->powers[pw_ironfeet];
+
+                if (ironfeet)
+                {
+                    if ((ironfeet > STARTFLASHING || (ironfeet & 8)) && r_radsuiteffect)
+                        palette = RADIATIONPAL;
+                    else if (!r_radsuiteffect && ironfeet <= STARTFLASHING && (ironfeet & 8))
+                        palette = RADIATIONPAL;
+                }
+            }
         }
     }
 
