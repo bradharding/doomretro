@@ -10,6 +10,7 @@
 * The `vid_scaleapi` CVAR may now also be set to `opengles` or `opengles2`.
 * The red palette effect when the player is injured is now smoother.
 * The `r_berserkintensity` CVAR has been renamed to `r_berserkeffect` and is now `4` by default.
+* If the player is injured and the `r_blood` CVAR is `green`, the screen will now flash green rather than red.
 * The effect when the player picks up an item can now be toggled using the new `r_pickupeffect` CVAR, which is both `on` by default and when vanilla mode is enabled.
 * The effect when the player has a radiation shielding suit power-up can now be toggled using the new `r_radsuiteffect` CVAR, which is both `on` by default and when vanilla mode is enabled. If this CVAR is `off`, the screen will flash to indicate when the power-up is about to run out.
 * If the player picks up a megasphere power-up while they have 200% green armor, their armor will now be upgraded to blue armor.
