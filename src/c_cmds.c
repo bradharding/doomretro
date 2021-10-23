@@ -2168,6 +2168,12 @@ static void give_cmd_func2(char *cmd, char *parms)
             {
                 P_AddBonus();
                 S_StartSound(viewplayer->mo, sfx_itemup);
+
+                if (M_StringCompare(playername, playername_default))
+                    C_PlayerMessage("You were given everything.");
+                else
+                    C_PlayerMessage("%s was given everything.", playername);
+
                 C_HideConsole();
             }
             else
@@ -2187,6 +2193,12 @@ static void give_cmd_func2(char *cmd, char *parms)
             {
                 P_AddBonus();
                 S_StartSound(viewplayer->mo, sfx_itemup);
+
+                if (M_StringCompare(playername, playername_default))
+                    C_PlayerMessage("You were given full health.");
+                else
+                    C_PlayerMessage("%s was given full health.", playername);
+
                 C_HideConsole();
             }
             else
@@ -2206,6 +2218,12 @@ static void give_cmd_func2(char *cmd, char *parms)
             {
                 P_AddBonus();
                 S_StartSound(viewplayer->mo, sfx_itemup);
+
+                if (M_StringCompare(playername, playername_default))
+                    C_PlayerMessage("You were given all weapons.");
+                else
+                    C_PlayerMessage("%s was given all weapons.", playername);
+
                 C_HideConsole();
             }
             else
@@ -2226,6 +2244,12 @@ static void give_cmd_func2(char *cmd, char *parms)
             {
                 P_AddBonus();
                 S_StartSound(viewplayer->mo, sfx_itemup);
+
+                if (M_StringCompare(playername, playername_default))
+                    C_PlayerMessage("You were given full ammo.");
+                else
+                    C_PlayerMessage("%s was given full ammo.", playername);
+
                 C_HideConsole();
             }
             else
@@ -2246,6 +2270,12 @@ static void give_cmd_func2(char *cmd, char *parms)
             {
                 P_AddBonus();
                 S_StartSound(viewplayer->mo, sfx_itemup);
+
+                if (M_StringCompare(playername, playername_default))
+                    C_PlayerMessage("You were given full armor.");
+                else
+                    C_PlayerMessage("%s was given full armor.", playername);
+
                 C_HideConsole();
             }
             else
@@ -2265,6 +2295,12 @@ static void give_cmd_func2(char *cmd, char *parms)
             {
                 P_AddBonus();
                 S_StartSound(viewplayer->mo, sfx_itemup);
+
+                if (M_StringCompare(playername, playername_default))
+                    C_PlayerMessage("You were given all the keycards and skull keys.");
+                else
+                    C_PlayerMessage("%s was given all the keycards and skull keys.", playername);
+
                 C_HideConsole();
             }
             else
@@ -2284,6 +2320,12 @@ static void give_cmd_func2(char *cmd, char *parms)
             {
                 P_AddBonus();
                 S_StartSound(viewplayer->mo, sfx_itemup);
+
+                if (M_StringCompare(playername, playername_default))
+                    C_PlayerMessage("You were given all the keycards.");
+                else
+                    C_PlayerMessage("%s was given all the keycards.", playername);
+
                 C_HideConsole();
             }
             else
@@ -2303,6 +2345,12 @@ static void give_cmd_func2(char *cmd, char *parms)
             {
                 P_AddBonus();
                 S_StartSound(viewplayer->mo, sfx_itemup);
+
+                if (M_StringCompare(playername, playername_default))
+                    C_PlayerMessage("You were given all the skull keys.");
+                else
+                    C_PlayerMessage("%s was given all the skull keys.", playername);
+
                 C_HideConsole();
             }
             else
@@ -2332,6 +2380,12 @@ static void give_cmd_func2(char *cmd, char *parms)
             viewplayer->weaponowned[wp_pistol] = true;
             oldweaponsowned[wp_pistol] = true;
             P_EquipWeapon(wp_pistol);
+
+            if (M_StringCompare(playername, playername_default))
+                C_PlayerMessage("You were given a pistol.");
+            else
+                C_PlayerMessage("%s was given a pistol.", playername);
+
             C_HideConsole();
             free(parm);
 
@@ -2356,18 +2410,24 @@ static void give_cmd_func2(char *cmd, char *parms)
 
                     if (gamemode != commercial && (i == MT_SUPERSHOTGUN || i == MT_MEGA))
 
-                        C_Warning(0, "%s can't get %s in " ITALICS("%s."),
+                        C_Warning(0, "%s can't be given %s in " ITALICS("%s."),
                             (M_StringCompare(playername, playername_default) ? "You" : playername),
                             mobjinfo[i].plural1, gamedescription);
                     else if (gamemode == shareware && (i == MT_MISC7 || i == MT_MISC8 || i == MT_MISC9
                         || i == MT_MISC20 || i == MT_MISC21 || i == MT_MISC25 || i == MT_MISC28))
-                        C_Warning(0, "%s can't get %s in " ITALICS("%s."),
+                        C_Warning(0, "%s can't be given %s in " ITALICS("%s."),
                             (M_StringCompare(playername, playername_default) ? "You" : playername),
                             mobjinfo[i].plural1, gamedescription);
                     else
                     {
                         freeze = false;
                         P_TouchSpecialThing(P_SpawnMobj(viewx, viewy, viewz, i), viewplayer->mo, false, false);
+
+                        if (M_StringCompare(playername, playername_default))
+                            C_PlayerMessage("You were given %s %s.", (isvowel(mobjinfo[i].name1[0]) ? "an" : "a"), mobjinfo[i].name1);
+                        else
+                            C_PlayerMessage("%s was given %s %s.", (isvowel(mobjinfo[i].name1[0]) ? "an" : "a"), mobjinfo[i].name1);
+
                         freeze = old_freeze;
                         C_HideConsole();
                         result = true;
