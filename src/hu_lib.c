@@ -146,7 +146,7 @@ static void HUlib_DrawAltHUDTextLine(hu_textline_t *l)
     int             x = 10;
     int             color = nearestwhite;
     int             len = l->len;
-    byte            *tinttab = tinttab80;
+    byte            *tinttab = tinttab50;
 
     if (!automapactive)
     {
@@ -157,11 +157,11 @@ static void HUlib_DrawAltHUDTextLine(hu_textline_t *l)
 
     if (fade)
     {
-        byte    *tinttabs[] = { NULL, tinttab10, tinttab20, tinttab30, tinttab40, tinttab50, tinttab60, tinttab70 };
+        byte    *tinttabs[] = { NULL, tinttab10, tinttab20, tinttab30, tinttab40 };
 
-        if (message_counter <= 7)
+        if (message_counter <= 4)
             tinttab = tinttabs[message_counter];
-        else if (message_fadeon && message_counter >= HU_MSGTIMEOUT - 6)
+        else if (message_fadeon && message_counter >= HU_MSGTIMEOUT - 3)
             tinttab = tinttabs[HU_MSGTIMEOUT - message_counter + 1];
     }
 
