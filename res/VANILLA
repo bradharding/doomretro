@@ -68,6 +68,7 @@ r_corpses_moreblood off
 r_corpses_nudge off
 r_corpses_slide off
 r_corpses_smearblood off
+r_damageeffect on
 r_detail low
 r_diskicon on
 r_ditheredlighting off

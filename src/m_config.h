@@ -125,6 +125,7 @@ extern dboolean     r_corpses_moreblood;
 extern dboolean     r_corpses_nudge;
 extern dboolean     r_corpses_slide;
 extern dboolean     r_corpses_smearblood;
+extern dboolean     r_damageeffect;
 extern int          r_detail;
 extern dboolean     r_diskicon;
 extern dboolean     r_ditheredlighting;
@@ -567,6 +568,8 @@ enum
 #define r_corpses_slide_default                 true
 
 #define r_corpses_smearblood_default            true
+
+#define r_damageeffect_default                  true
 
 #define r_detail_default                        r_detail_high
 

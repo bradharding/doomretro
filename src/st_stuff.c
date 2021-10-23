@@ -254,6 +254,7 @@ dboolean                    idmus;
 
 int                         facebackcolor = facebackcolor_default;
 int                         r_berserkeffect = r_berserkeffect_default;
+int                         r_damageeffect = r_damageeffect_default;
 int                         r_pickupeffect = r_pickupeffect_default;
 int                         r_radsuiteffect = r_radsuiteffect_default;
 
@@ -1292,7 +1293,7 @@ static void ST_DoPaletteStuff(void)
     {
         int damagecount = viewplayer->damagecount;
 
-        if (damagecount && !(viewplayer->cheats & CF_GODMODE))
+        if (damagecount && !(viewplayer->cheats & CF_GODMODE) && r_damageeffect)
             palette = (chex || r_blood == r_blood_green ? RADIATIONPAL :
                 STARTREDPALS + MIN((damagecount + NUMREDPALS - 1) >> 3, NUMREDPALS) - 1);
         else if (viewplayer->health > 0)

@@ -52,7 +52,7 @@
 
 static dboolean cvarsloaded;
 
-#define NUMCVARS                                                211
+#define NUMCVARS                                                212
 
 #define CONFIG_VARIABLE_INT(name1, name2, cvar, set)            { #name1, #name2, &cvar, DEFAULT_INT32,         set          }
 #define CONFIG_VARIABLE_INT_UNSIGNED(name1, name2, cvar, set)   { #name1, #name2, &cvar, DEFAULT_UINT64,        set          }
@@ -148,6 +148,7 @@ static default_t cvars[NUMCVARS] =
     CONFIG_VARIABLE_INT          (r_corpses_nudge,                  r_corpses_nudge,                       r_corpses_nudge,                       BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT          (r_corpses_slide,                  r_corpses_slide,                       r_corpses_slide,                       BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT          (r_corpses_smearblood,             r_corpses_smearblood,                  r_corpses_smearblood,                  BOOLVALUEALIAS        ),
+    CONFIG_VARIABLE_INT          (r_damageeffect,                   r_pickupeffect,                        r_damageeffect,                        BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT          (r_detail,                         r_detail,                              r_detail,                              DETAILVALUEALIAS      ),
     CONFIG_VARIABLE_INT          (r_diskicon,                       r_diskicon,                            r_diskicon,                            BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT          (r_ditheredlighting,               r_ditheredlighting,                    r_ditheredlighting,                    BOOLVALUEALIAS        ),
@@ -810,6 +811,9 @@ static void M_CheckCVARs(dboolean ispackageconfig)
 
     if (r_corpses_smearblood != false && r_corpses_smearblood != true)
         r_corpses_smearblood = r_corpses_smearblood_default;
+
+    if (r_damageeffect != false && r_damageeffect != true)
+        r_damageeffect = r_damageeffect_default;
 
     if (r_detail != r_detail_low && r_detail != r_detail_high)
         r_detail = r_detail_default;
