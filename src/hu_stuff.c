@@ -1076,8 +1076,11 @@ static void HU_DrawAltHUD(void)
         powerupbar = STARTFLASHING + 1;
     }
 
-    fillrectfunc2(0, ALTHUD_RIGHT_X, ALTHUD_Y + 27, 101, 2, darkgray, false);
-    fillrectfunc2(0, ALTHUD_RIGHT_X, ALTHUD_Y + 27, powerupbar * 101 / max, 2, gray, false);
+    if ((powerupbar = powerupbar * 101 / max))
+    {
+        fillrectfunc2(0, ALTHUD_RIGHT_X, ALTHUD_Y + 27, 101, 2, darkgray, false);
+        fillrectfunc2(0, ALTHUD_RIGHT_X, ALTHUD_Y + 27, powerupbar, 2, gray, false);
+    }
 }
 
 void HU_DrawDisk(void)
