@@ -135,7 +135,7 @@ static default_t cvars[NUMCVARS] =
     CONFIG_VARIABLE_INT          (playergender,                     playergender,                          playergender,                          PLAYERGENDERVALUEALIAS),
     CONFIG_VARIABLE_STRING       (playername,                       playername,                            playername,                            NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT          (r_althud,                         r_althud,                              r_althud,                              BOOLVALUEALIAS        ),
-    CONFIG_VARIABLE_INT          (r_berserkintensity,               r_berserkintensity,                    r_berserkintensity,                    NOVALUEALIAS          ),
+    CONFIG_VARIABLE_INT          (r_berserkeffect,                  r_berserkeffect,                       r_berserkeffect,                       NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT          (r_blood,                          r_blood,                               r_blood,                               BLOODVALUEALIAS       ),
     CONFIG_VARIABLE_INT          (r_bloodsplats_max,                r_bloodsplats_max,                     r_bloodsplats_max,                     NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT          (r_bloodsplats_translucency,       r_bloodsplats_translucency,            r_bloodsplats_translucency,            BOOLVALUEALIAS        ),
@@ -773,7 +773,7 @@ static void M_CheckCVARs(dboolean ispackageconfig)
     if (r_althud != false && r_althud != true)
         r_althud = r_althud_default;
 
-    r_berserkintensity = BETWEEN(r_berserkintensity_min, r_berserkintensity, r_berserkintensity_max);
+    r_berserkeffect = BETWEEN(r_berserkeffect_min, r_berserkeffect, r_berserkeffect_max);
 
     if (r_blood < r_blood_min || r_blood > r_blood_max)
         r_blood = r_blood_default;

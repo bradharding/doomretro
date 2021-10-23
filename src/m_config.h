@@ -111,7 +111,7 @@ extern int          movebob;
 extern int          playergender;
 extern char         *playername;
 extern dboolean     r_althud;
-extern int          r_berserkintensity;
+extern int          r_berserkeffect;
 extern int          r_blood;
 extern int          r_bloodsplats_max;
 extern int          r_bloodsplats_total;
@@ -528,9 +528,9 @@ enum
 
 #define r_althud_default                        false
 
-#define r_berserkintensity_min                  0
-#define r_berserkintensity_default              2
-#define r_berserkintensity_max                  8
+#define r_berserkeffect_min                     0
+#define r_berserkeffect_default                 4
+#define r_berserkeffect_max                     8
 
 #define r_blood_min                             r_blood_none
 #define r_blood_default                         r_blood_nofuzz

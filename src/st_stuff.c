@@ -253,7 +253,7 @@ int                         idclevtics;
 dboolean                    idmus;
 
 int                         facebackcolor = facebackcolor_default;
-int                         r_berserkintensity = r_berserkintensity_default;
+int                         r_berserkeffect = r_berserkeffect_default;
 
 uint64_t                    stat_cheated = 0;
 
@@ -1282,9 +1282,9 @@ static void ST_DoPaletteStuff(void)
         if (bonuscount)
             palette = STARTBONUSPALS + MIN((bonuscount + 7) >> 3, NUMBONUSPALS) - 1;
         else if (viewplayer->cheats & CF_GODMODE)
-            palette = r_berserkintensity * (PLAYPALs > 2 ? 2 : 1);
+            palette = r_berserkeffect * (PLAYPALs > 2 ? 2 : 1);
         else
-            palette = MIN((viewplayer->damagecount >> 3) + r_berserkintensity * (PLAYPALs > 2 ? 2 : 1), NUMREDPALS);
+            palette = MIN((viewplayer->damagecount >> 3) + r_berserkeffect * (PLAYPALs > 2 ? 2 : 1), NUMREDPALS);
     }
     else
     {

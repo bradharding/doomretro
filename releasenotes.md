@@ -9,6 +9,7 @@
 * Further improvements have been made to the support for [*REKKR*](http://manbitesshark.com/) and [*REKKR: Sunken Land*](https://store.steampowered.com/app/1715690/REKKR_Sunken_Land/).
 * The `vid_scaleapi` CVAR may now also be set to `opengles` or `opengles2`.
 * The red palette effect when the player is injured is now smoother.
+* The `r_berserkintensity` CVAR has been renamed to `r_berserkeffect` and is now `4` by default.
 * If the player picks up a megasphere power-up while they have 200% green armor, their armor will be upgraded to blue armor.
 * The player will no longer make a sound if trying to open a door that is already open.
 
