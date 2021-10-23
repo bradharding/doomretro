@@ -743,12 +743,12 @@ static int      yellow;
 
 static void HU_AltInit(void)
 {
-    char        buffer[8];
+    char        buffer[9];
     patch_t     *altkeypatch;
     patch_t     *altskullpatch;
     dboolean    weaponschanged = false;
 
-    for (int i = 0; i < 9; i++)
+    for (int i = 0; i < 10; i++)
     {
         M_snprintf(buffer, sizeof(buffer), "DRHUD%iA", i);
         altnum[i] = W_CacheLumpName(buffer);
