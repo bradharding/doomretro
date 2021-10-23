@@ -743,16 +743,16 @@ static int      yellow;
 
 static void HU_AltInit(void)
 {
-    char        buffer[9];
+    char        buffer[8];
     patch_t     *altkeypatch;
     patch_t     *altskullpatch;
     dboolean    weaponschanged = false;
 
-    for (int i = 0; i < 10; i++)
+    for (int i = 0; i < 9; i++)
     {
-        M_snprintf(buffer, sizeof(buffer), "DRHUD1%iA", i);
+        M_snprintf(buffer, sizeof(buffer), "DRHUD%iA", i);
         altnum[i] = W_CacheLumpName(buffer);
-        M_snprintf(buffer, sizeof(buffer), "DRHUD1%iB", i);
+        M_snprintf(buffer, sizeof(buffer), "DRHUD%iB", i);
         altnum2[i] = W_CacheLumpName(buffer);
     }
 
@@ -961,7 +961,7 @@ static void HU_DrawAltHUD(void)
         {
             int ammo = viewplayer->ammo[ammotype];
 
-            DrawAltHUDNumber(ALTHUD_RIGHT_X + 101 - AltHUDNumberWidth(ammo), ALTHUD_Y - 1, ammo, color);
+            DrawAltHUDNumber(ALTHUD_RIGHT_X + 101 - AltHUDNumberWidth(ammo), ALTHUD_Y - 2, ammo, color);
             ammo = 100 * ammo / viewplayer->maxammo[ammotype];
             barcolor1 = (ammo < HUD_AMMO_MIN ? yellow : color);
             fillrectfunc(0, ALTHUD_RIGHT_X + 100 - ammo, ALTHUD_Y + 13, ammo + 1, 8, barcolor1, true);
@@ -1078,8 +1078,8 @@ static void HU_DrawAltHUD(void)
 
     if (powerupbar > STARTFLASHING || (powerupbar & 8))
     {
-        fillrectfunc2(0, ALTHUD_RIGHT_X, ALTHUD_Y + 26, 101, 2, darkgray, false);
-        fillrectfunc2(0, ALTHUD_RIGHT_X, ALTHUD_Y + 26, powerupbar * 101 / max, 2, gray, false);
+        fillrectfunc2(0, ALTHUD_RIGHT_X, ALTHUD_Y + 27, 101, 2, darkgray, false);
+        fillrectfunc2(0, ALTHUD_RIGHT_X, ALTHUD_Y + 27, powerupbar * 101 / max, 2, gray, false);
     }
 }
 
