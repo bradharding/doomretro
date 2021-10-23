@@ -1295,7 +1295,7 @@ static void ST_DoPaletteStuff(void)
 
         if (damagecount && !(viewplayer->cheats & CF_GODMODE) && r_damageeffect)
             palette = (chex || r_blood == r_blood_green ? RADIATIONPAL :
-                STARTREDPALS + MIN((damagecount + NUMREDPALS - 1) >> 3, NUMREDPALS) - 1);
+                STARTREDPALS + MIN((damagecount + NUMREDPALS) >> 3, NUMREDPALS) - 1);
         else if (viewplayer->health > 0)
         {
             int bonuscount = viewplayer->bonuscount;
@@ -1310,7 +1310,7 @@ static void ST_DoPaletteStuff(void)
                 {
                     if ((ironfeet > STARTFLASHING || (ironfeet & 8)) && r_radsuiteffect)
                         palette = RADIATIONPAL;
-                    else if (!r_radsuiteffect && ironfeet <= STARTFLASHING && (ironfeet & 8))
+                    else if (ironfeet <= STARTFLASHING && (ironfeet & 8))
                         palette = RADIATIONPAL;
                 }
             }
