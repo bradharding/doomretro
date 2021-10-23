@@ -2322,18 +2322,18 @@ static void give_cmd_func2(char *cmd, char *parms)
                 S_StartSound(viewplayer->mo, sfx_itemup);
 
                 if (M_StringCompare(playername, playername_default))
-                    C_PlayerMessage("You were given all the keycards.");
+                    C_PlayerMessage("You were given all keycards.");
                 else
-                    C_PlayerMessage("%s was given all the keycards.", playername);
+                    C_PlayerMessage("%s was given all keycards.", playername);
 
                 C_HideConsole();
             }
             else
             {
                 if (M_StringCompare(playername, playername_default))
-                    C_Warning(0, "You already have all the keycards.");
+                    C_Warning(0, "You already have all keycards.");
                 else
-                    C_Warning(0, "%s already has all the keycards.", playername);
+                    C_Warning(0, "%s already has all keycards.", playername);
 
                 free(parm);
                 return;
@@ -2347,18 +2347,18 @@ static void give_cmd_func2(char *cmd, char *parms)
                 S_StartSound(viewplayer->mo, sfx_itemup);
 
                 if (M_StringCompare(playername, playername_default))
-                    C_PlayerMessage("You were given all the skull keys.");
+                    C_PlayerMessage("You were given all skull keys.");
                 else
-                    C_PlayerMessage("%s was given all the skull keys.", playername);
+                    C_PlayerMessage("%s was given all skull keys.", playername);
 
                 C_HideConsole();
             }
             else
             {
                 if (M_StringCompare(playername, playername_default))
-                    C_Warning(0, "You already have all the skull keys.");
+                    C_Warning(0, "You already have all skull keys.");
                 else
-                    C_Warning(0, "%s already has all the skull keys.", playername);
+                    C_Warning(0, "%s already has all skull keys.", playername);
 
                 free(parm);
                 return;
