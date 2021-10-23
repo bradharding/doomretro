@@ -87,6 +87,7 @@ r_liquid_lowerview off
 r_liquid_swirl off
 r_lowpixelsize 2x2
 r_mirroredweapons off
+r_pickupeffect on
 r_playersprites on
 r_rockettrails off
 r_screensize 6

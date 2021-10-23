@@ -52,7 +52,7 @@
 
 static dboolean cvarsloaded;
 
-#define NUMCVARS                                                209
+#define NUMCVARS                                                210
 
 #define CONFIG_VARIABLE_INT(name1, name2, cvar, set)            { #name1, #name2, &cvar, DEFAULT_INT32,         set          }
 #define CONFIG_VARIABLE_INT_UNSIGNED(name1, name2, cvar, set)   { #name1, #name2, &cvar, DEFAULT_UINT64,        set          }
@@ -167,6 +167,7 @@ static default_t cvars[NUMCVARS] =
     CONFIG_VARIABLE_INT          (r_liquid_swirl,                   r_liquid_swirl,                        r_liquid_swirl,                        BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_OTHER        (r_lowpixelsize,                   r_lowpixelsize,                        r_lowpixelsize,                        NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT          (r_mirroredweapons,                r_mirroredweapons,                     r_mirroredweapons,                     BOOLVALUEALIAS        ),
+    CONFIG_VARIABLE_INT          (r_pickupeffect,                   r_pickupeffect,                        r_pickupeffect,                        BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT          (r_playersprites,                  r_playersprites,                       r_playersprites,                       BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT          (r_rockettrails,                   r_rockettrails,                        r_rockettrails,                        BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT          (r_screensize,                     r_screensize,                          r_screensize,                          NOVALUEALIAS          ),
@@ -861,6 +862,9 @@ static void M_CheckCVARs(dboolean ispackageconfig)
 
     if (r_mirroredweapons != false && r_mirroredweapons != true)
         r_mirroredweapons = r_mirroredweapons_default;
+
+    if (r_pickupeffect != false && r_pickupeffect != true)
+        r_pickupeffect = r_pickupeffect_default;
 
     if (r_playersprites != false && r_playersprites != true)
         r_playersprites = r_playersprites_default;

@@ -746,6 +746,8 @@ consolecmd_t consolecmds[] =
         "The size of each pixel when the graphic detail is low (" BOLDITALICS("width") BOLD("\xD7") BOLDITALICS("height") ")."),
     CVAR_BOOL(r_mirroredweapons, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles randomly mirroring the weapons dropped by monsters."),
+    CVAR_BOOL(r_pickupeffect, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
+        "Toggles the effect when the player picks up an item."),
     CVAR_BOOL(r_playersprites, "", bool_cvars_func1, r_playersprites_cvar_func2, BOOLVALUEALIAS,
         "Toggles showing the player's weapon."),
     CVAR_BOOL(r_rockettrails, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,

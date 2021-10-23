@@ -10,6 +10,7 @@
 * The `vid_scaleapi` CVAR may now also be set to `opengles` or `opengles2`.
 * The red palette effect when the player is injured is now smoother.
 * The `r_berserkintensity` CVAR has been renamed to `r_berserkeffect` and is now `4` by default.
+* The effect when the player picks up an item can now be toggled using the new `r_pickupeffect` CVAR, which is both `on` by default and when vanilla mode is enabled.
 * If the player picks up a megasphere power-up while they have 200% green armor, their armor will be upgraded to blue armor.
 * The player will no longer make a sound if trying to open a door that is already open.
 

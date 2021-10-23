@@ -254,6 +254,7 @@ dboolean                    idmus;
 
 int                         facebackcolor = facebackcolor_default;
 int                         r_berserkeffect = r_berserkeffect_default;
+int                         r_pickupeffect = r_pickupeffect_default;
 
 uint64_t                    stat_cheated = 0;
 
@@ -1279,7 +1280,7 @@ static void ST_DoPaletteStuff(void)
     {
         int bonuscount = viewplayer->bonuscount;
 
-        if (bonuscount)
+        if (bonuscount && r_pickupeffect)
             palette = STARTBONUSPALS + MIN((bonuscount + 7) >> 3, NUMBONUSPALS) - 1;
         else if (viewplayer->cheats & CF_GODMODE)
             palette = r_berserkeffect * (PLAYPALs > 2 ? 2 : 1);
@@ -1296,7 +1297,7 @@ static void ST_DoPaletteStuff(void)
         {
             int bonuscount = viewplayer->bonuscount;
 
-            if (bonuscount)
+            if (bonuscount && r_pickupeffect)
                 palette = STARTBONUSPALS + MIN((bonuscount + 7) >> 3, NUMBONUSPALS) - 1;
             else if (viewplayer->powers[pw_ironfeet] > STARTFLASHING || (viewplayer->powers[pw_ironfeet] & 8))
                 palette = RADIATIONPAL;

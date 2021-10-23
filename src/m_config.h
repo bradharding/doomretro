@@ -144,6 +144,7 @@ extern dboolean     r_liquid_lowerview;
 extern dboolean     r_liquid_swirl;
 extern char         *r_lowpixelsize;
 extern dboolean     r_mirroredweapons;
+extern dboolean     r_pickupeffect;
 extern dboolean     r_playersprites;
 extern dboolean     r_rockettrails;
 extern int          r_screensize;
@@ -607,6 +608,8 @@ enum
 #define r_lowpixelsize_default                  "2x2"
 
 #define r_mirroredweapons_default               false
+
+#define r_pickupeffect_default                  true
 
 #define r_playersprites_default                 true
 
