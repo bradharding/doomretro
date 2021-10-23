@@ -2410,14 +2410,14 @@ static void give_cmd_func2(char *cmd, char *parms)
 
                     if (gamemode != commercial && (i == MT_SUPERSHOTGUN || i == MT_MEGA))
 
-                        C_Warning(0, "%s can't be given %s in " ITALICS("%s."),
+                        C_Warning(0, "%s can't be given %s %s in " ITALICS("%s."),
                             (M_StringCompare(playername, playername_default) ? "You" : playername),
-                            mobjinfo[i].plural1, gamedescription);
+                            (isvowel(mobjinfo[i].name1[0]) ? "an" : "a"), mobjinfo[i].name1, gamedescription);
                     else if (gamemode == shareware && (i == MT_MISC7 || i == MT_MISC8 || i == MT_MISC9
                         || i == MT_MISC20 || i == MT_MISC21 || i == MT_MISC25 || i == MT_MISC28))
-                        C_Warning(0, "%s can't be given %s in " ITALICS("%s."),
+                        C_Warning(0, "%s can't be given %s %s in " ITALICS("%s."),
                             (M_StringCompare(playername, playername_default) ? "You" : playername),
-                            mobjinfo[i].plural1, gamedescription);
+                            (isvowel(mobjinfo[i].name1[0]) ? "an" : "a"), mobjinfo[i].name1, gamedescription);
                     else
                     {
                         freeze = false;
