@@ -146,6 +146,7 @@ extern char         *r_lowpixelsize;
 extern dboolean     r_mirroredweapons;
 extern dboolean     r_pickupeffect;
 extern dboolean     r_playersprites;
+extern dboolean     r_radsuiteffect;
 extern dboolean     r_rockettrails;
 extern int          r_screensize;
 extern dboolean     r_shadows;
@@ -612,6 +613,8 @@ enum
 #define r_pickupeffect_default                  true
 
 #define r_playersprites_default                 true
+
+#define r_radsuiteffect_default                 true
 
 #define r_rockettrails_default                  true
 

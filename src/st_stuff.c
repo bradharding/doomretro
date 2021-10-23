@@ -255,6 +255,7 @@ dboolean                    idmus;
 int                         facebackcolor = facebackcolor_default;
 int                         r_berserkeffect = r_berserkeffect_default;
 int                         r_pickupeffect = r_pickupeffect_default;
+int                         r_radsuiteffect = r_radsuiteffect_default;
 
 uint64_t                    stat_cheated = 0;
 
@@ -1299,7 +1300,7 @@ static void ST_DoPaletteStuff(void)
 
             if (bonuscount && r_pickupeffect)
                 palette = STARTBONUSPALS + MIN((bonuscount + 7) >> 3, NUMBONUSPALS) - 1;
-            else if (viewplayer->powers[pw_ironfeet] > STARTFLASHING || (viewplayer->powers[pw_ironfeet] & 8))
+            else if ((viewplayer->powers[pw_ironfeet] > STARTFLASHING && r_radsuiteffect) || (viewplayer->powers[pw_ironfeet] & 8))
                 palette = RADIATIONPAL;
         }
     }
