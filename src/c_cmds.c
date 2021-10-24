@@ -2220,9 +2220,10 @@ static void give_cmd_func2(char *cmd, char *parms)
                 S_StartSound(viewplayer->mo, sfx_itemup);
 
                 if (M_StringCompare(playername, playername_default))
-                    C_PlayerMessage("You were given all weapons.");
+                    C_PlayerMessage("You were given all your weapons.");
                 else
-                    C_PlayerMessage("%s was given all weapons.", playername);
+                    C_PlayerMessage("%s was given all %s weapons.", playername,
+                        (playergender == playergender_male ? "his" : (playergender == playergender_female ? "her" : "their")));
 
                 C_HideConsole();
             }
@@ -2246,9 +2247,9 @@ static void give_cmd_func2(char *cmd, char *parms)
                 S_StartSound(viewplayer->mo, sfx_itemup);
 
                 if (M_StringCompare(playername, playername_default))
-                    C_PlayerMessage("You were given full ammo.");
+                    C_PlayerMessage("You were given full ammo for each weapon.");
                 else
-                    C_PlayerMessage("%s was given full ammo.", playername);
+                    C_PlayerMessage("%s was given full ammo for each weapon.", playername);
 
                 C_HideConsole();
             }
@@ -2297,18 +2298,18 @@ static void give_cmd_func2(char *cmd, char *parms)
                 S_StartSound(viewplayer->mo, sfx_itemup);
 
                 if (M_StringCompare(playername, playername_default))
-                    C_PlayerMessage("You were given all the keycards and skull keys.");
+                    C_PlayerMessage("You were given all keycards and skull keys.");
                 else
-                    C_PlayerMessage("%s was given all the keycards and skull keys.", playername);
+                    C_PlayerMessage("%s was given all keycards and skull keys.", playername);
 
                 C_HideConsole();
             }
             else
             {
                 if (M_StringCompare(playername, playername_default))
-                    C_Warning(0, "You already have all the keycards and skull keys.");
+                    C_Warning(0, "You already have all keycards and skull keys.");
                 else
-                    C_Warning(0, "%s already has all the keycards and skull keys.", playername);
+                    C_Warning(0, "%s already has all keycards and skull keys.", playername);
 
                 free(parm);
                 return;
