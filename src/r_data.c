@@ -783,6 +783,8 @@ static void R_InitSpriteLumps(void)
         M_StringCopy(mobjinfo[MT_WOLFSS].plural1, "former human grotesques", sizeof(mobjinfo[MT_WOLFSS].plural1));
         M_StringCopy(mobjinfo[MT_KEEN].name1, "health mimic", sizeof(mobjinfo[MT_KEEN].name1));
         M_StringCopy(mobjinfo[MT_KEEN].plural1, "health mimics", sizeof(mobjinfo[MT_KEEN].plural1));
+        M_StringCopy(mobjinfo[MT_BOSSBRAIN].name1, "flammenwerfer", sizeof(mobjinfo[MT_BOSSBRAIN].name1));
+        M_StringCopy(mobjinfo[MT_BOSSBRAIN].plural1, "flammenwerfers", sizeof(mobjinfo[MT_BOSSBRAIN].plural1));
         M_StringCopy(mobjinfo[MT_PLASMA].name1, "barrel", sizeof(mobjinfo[MT_PLASMA].name1));
         M_StringCopy(mobjinfo[MT_PLASMA].plural1, "barrels", sizeof(mobjinfo[MT_PLASMA].plural1));
         M_StringCopy(mobjinfo[MT_CHAINGUN].name1, "skeletower", sizeof(mobjinfo[MT_CHAINGUN].name1));
@@ -791,6 +793,8 @@ static void R_InitSpriteLumps(void)
         M_StringCopy(mobjinfo[MT_MISC38].plural1, "puppies", sizeof(mobjinfo[MT_MISC38].plural1));
         M_StringCopy(mobjinfo[MT_MISC65].name1, "eye spawner", sizeof(mobjinfo[MT_MISC65].name1));
         M_StringCopy(mobjinfo[MT_MISC65].plural1, "eye spawners", sizeof(mobjinfo[MT_MISC65].plural1));
+        M_StringCopy(mobjinfo[MT_MISC77].name1, "landmine", sizeof(mobjinfo[MT_MISC77].name1));
+        M_StringCopy(mobjinfo[MT_MISC77].plural1, "landmines", sizeof(mobjinfo[MT_MISC77].plural1));
         M_StringCopy(mobjinfo[MT_MISC78].name1, "skelespider", sizeof(mobjinfo[MT_MISC78].name1));
         M_StringCopy(mobjinfo[MT_MISC78].plural1, "skelespiders", sizeof(mobjinfo[MT_MISC78].plural1));
     }
