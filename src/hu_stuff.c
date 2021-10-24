@@ -1067,15 +1067,6 @@ static void HU_DrawAltHUD(void)
         powerupbar = (powerup == -1 ? INT_MAX : powerup);
     }
 
-    if (powerupbar == INT_MAX
-        || (!powerupbar && viewplayer->powers[pw_strength]
-            && ((viewplayer->readyweapon == wp_fist && viewplayer->pendingweapon == wp_nochange)
-                || viewplayer->pendingweapon == wp_fist)))
-    {
-        max = STARTFLASHING + 1;
-        powerupbar = STARTFLASHING + 1;
-    }
-
     if ((powerupbar = powerupbar * 101 / max))
     {
         fillrectfunc2(0, ALTHUD_RIGHT_X, ALTHUD_Y + 27, 101, 2, darkgray, false);
