@@ -766,7 +766,7 @@ dboolean P_GivePower(int power)
 //
 // P_TouchSpecialThing
 //
-void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dboolean stat)
+dboolean P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dboolean stat)
 {
     fixed_t     delta;
     int         sound = sfx_itemup;
@@ -775,15 +775,15 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
     int         temp;
 
     if (freeze)
-        return;
+        return false;
 
     // Dead thing touching.
     // Can happen with a sliding player corpse.
     if (toucher->health <= 0)
-        return;
+        return false;
 
     if ((delta = special->z - toucher->z) > toucher->height || delta < -8 * FRACUNIT)
-        return;         // out of reach
+        return false;   // out of reach
 
     // Identify by sprite.
     switch (special->sprite)
@@ -791,7 +791,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
         // green armor
         case SPR_ARM1:
             if (!P_GiveArmor(green_armor_class, stat))
-                return;
+                return false;
 
             if (message)
                 HU_PlayerMessage(s_GOTARMOR, true, false);
@@ -801,7 +801,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
         // blue armor
         case SPR_ARM2:
             if (!P_GiveArmor(blue_armor_class, stat))
-                return;
+                return false;
 
             if (message)
                 HU_PlayerMessage(s_GOTMEGA, true, false);
@@ -880,7 +880,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
                 break;
             }
             else
-                return;
+                return false;
 
         // yellow keycard
         case SPR_YKEY:
@@ -894,7 +894,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
                 break;
             }
             else
-                return;
+                return false;
 
         // red keycard
         case SPR_RKEY:
@@ -908,7 +908,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
                 break;
             }
             else
-                return;
+                return false;
 
         // blue skull key
         case SPR_BSKU:
@@ -922,7 +922,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
                 break;
             }
             else
-                return;
+                return false;
 
         // yellow skull key
         case SPR_YSKU:
@@ -936,7 +936,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
                 break;
             }
             else
-                return;
+                return false;
 
         // red skull key
         case SPR_RSKU:
@@ -950,12 +950,12 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
                 break;
             }
             else
-                return;
+                return false;
 
         // stimpack
         case SPR_STIM:
             if (!P_GiveBody(10, MAXHEALTH, stat))
-                return;
+                return false;
 
             if (message)
                 HU_PlayerMessage(s_GOTSTIM, true, false);
@@ -965,7 +965,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
         // medikit
         case SPR_MEDI:
             if (!P_GiveBody(25, MAXHEALTH, stat))
-                return;
+                return false;
 
             if (message)
             {
@@ -1068,7 +1068,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
         // clip
         case SPR_CLIP:
             if (!P_GiveAmmo(am_clip, !(special->flags & MF_DROPPED), stat))
-                return;
+                return false;
 
             if (message)
                 HU_PlayerMessage(s_GOTCLIP, true, false);
@@ -1078,7 +1078,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
         // box of bullets
         case SPR_AMMO:
             if (!P_GiveAmmo(am_clip, 5, stat))
-                return;
+                return false;
 
             if (message)
                 HU_PlayerMessage(s_GOTCLIPBOX, true, false);
@@ -1088,7 +1088,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
         // rocket
         case SPR_ROCK:
             if (!(temp = P_GiveAmmo(am_misl, 1, stat)))
-                return;
+                return false;
 
             if (message)
             {
@@ -1103,7 +1103,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
         // box of rockets
         case SPR_BROK:
             if (!P_GiveAmmo(am_misl, 5, stat))
-                return;
+                return false;
 
             if (message)
                 HU_PlayerMessage(s_GOTROCKBOX, true, false);
@@ -1113,7 +1113,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
         // cell
         case SPR_CELL:
             if (!(temp = P_GiveAmmo(am_cell, 1, stat)))
-                return;
+                return false;
 
             if (message)
             {
@@ -1128,7 +1128,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
         // cell pack
         case SPR_CELP:
             if (!P_GiveAmmo(am_cell, 5, stat))
-                return;
+                return false;
 
             if (message)
                 HU_PlayerMessage(s_GOTCELLBOX, true, false);
@@ -1138,7 +1138,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
         // shells
         case SPR_SHEL:
             if (!(temp = P_GiveAmmo(am_shell, 1, stat)))
-                return;
+                return false;
 
             if (message)
             {
@@ -1153,7 +1153,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
         // box of shells
         case SPR_SBOX:
             if (!P_GiveAmmo(am_shell, 5, stat))
-                return;
+                return false;
 
             if (message)
                 HU_PlayerMessage(s_GOTSHELLBOX, true, false);
@@ -1163,7 +1163,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
         // backpack
         case SPR_BPAK:
             if (!P_GiveBackpack(true, stat))
-                return;
+                return false;
 
             if (message)
                 HU_PlayerMessage(s_GOTBACKPACK, true, false);
@@ -1173,7 +1173,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
         // BFG-9000
         case SPR_BFUG:
             if (!P_GiveWeapon(wp_bfg, false, stat))
-                return;
+                return false;
 
             if (message)
                 HU_PlayerMessage(s_GOTBFG9000, true, false);
@@ -1184,7 +1184,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
         // chaingun
         case SPR_MGUN:
             if (!P_GiveWeapon(wp_chaingun, (special->flags & MF_DROPPED), stat))
-                return;
+                return false;
 
             if (message)
                 HU_PlayerMessage(s_GOTCHAINGUN, true, false);
@@ -1195,7 +1195,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
         // chainsaw
         case SPR_CSAW:
             if (!P_GiveWeapon(wp_chainsaw, false, stat))
-                return;
+                return false;
 
             viewplayer->fistorchainsaw = wp_chainsaw;
 
@@ -1208,7 +1208,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
         // rocket launcher
         case SPR_LAUN:
             if (!P_GiveWeapon(wp_missile, false, stat))
-                return;
+                return false;
 
             if (message)
                 HU_PlayerMessage(s_GOTLAUNCHER, true, false);
@@ -1219,7 +1219,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
         // plasma rifle
         case SPR_PLAS:
             if (!P_GiveWeapon(wp_plasma, false, stat))
-                return;
+                return false;
 
             if (message)
                 HU_PlayerMessage(s_GOTPLASMA, true, false);
@@ -1232,7 +1232,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
             temp = viewplayer->weaponowned[wp_shotgun];
 
             if (!P_GiveWeapon(wp_shotgun, (special->flags & MF_DROPPED), stat))
-                return;
+                return false;
 
             if (!temp)
                 viewplayer->preferredshotgun = wp_shotgun;
@@ -1248,7 +1248,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
             temp = viewplayer->weaponowned[wp_supershotgun];
 
             if (!P_GiveWeapon(wp_supershotgun, false, stat))
-                return;
+                return false;
 
             if (!temp)
                 viewplayer->preferredshotgun = wp_supershotgun;
@@ -1278,6 +1278,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dbo
 
     P_RemoveMobj(special);
     P_AddBonus();
+    return true;
 }
 
 //

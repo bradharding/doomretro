@@ -2407,8 +2407,6 @@ static void give_cmd_func2(char *cmd, char *parms)
                         || (*mobjinfo[i].name3 && M_StringCompare(parm, temp3))
                         || (sscanf(parm, "%10d", &num) == 1 && num == mobjinfo[i].doomednum && num != -1)))
                 {
-                    dboolean    old_freeze = freeze;
-
                     if (gamemode != commercial && (i == MT_SUPERSHOTGUN || i == MT_MEGA))
 
                         C_Warning(0, "%s can't be given %s %s in " ITALICS("%s."),
@@ -2421,17 +2419,30 @@ static void give_cmd_func2(char *cmd, char *parms)
                             (isvowel(mobjinfo[i].name1[0]) ? "an" : "a"), mobjinfo[i].name1, gamedescription);
                     else
                     {
-                        freeze = false;
-                        P_TouchSpecialThing(P_SpawnMobj(viewx, viewy, viewz, i), viewplayer->mo, false, false);
+                        dboolean    old_freeze = freeze;
+                        mobj_t      *thing = P_SpawnMobj(viewx, viewy, viewz, i);
 
-                        if (M_StringCompare(playername, playername_default))
-                            C_PlayerMessage("You were given %s %s.", (isvowel(mobjinfo[i].name1[0]) ? "an" : "a"), mobjinfo[i].name1);
+                        freeze = false;
+
+                        if (P_TouchSpecialThing(thing, viewplayer->mo, false, false))
+                        {
+                            if (M_StringCompare(playername, playername_default))
+                                C_PlayerMessage("You were given %s %s.", (isvowel(mobjinfo[i].name1[0]) ? "an" : "a"), mobjinfo[i].name1);
+                            else
+                                C_PlayerMessage("%s was given %s %s.",
+                                    playername, (isvowel(mobjinfo[i].name1[0]) ? "an" : "a"), mobjinfo[i].name1);
+
+                            C_HideConsole();
+                        }
                         else
-                            C_PlayerMessage("%s was given %s %s.",
-                                playername, (isvowel(mobjinfo[i].name1[0]) ? "an" : "a"), mobjinfo[i].name1);
+                        {
+                            C_Warning(0, "%s can't be given another %s.",
+                                (M_StringCompare(playername, playername_default) ? "You" : playername), mobjinfo[i].name1);
+
+                            P_RemoveMobj(thing);
+                        }
 
                         freeze = old_freeze;
-                        C_HideConsole();
                         result = true;
                     }
                 }
