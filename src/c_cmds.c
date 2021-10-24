@@ -2426,7 +2426,8 @@ static void give_cmd_func2(char *cmd, char *parms)
                         if (M_StringCompare(playername, playername_default))
                             C_PlayerMessage("You were given %s %s.", (isvowel(mobjinfo[i].name1[0]) ? "an" : "a"), mobjinfo[i].name1);
                         else
-                            C_PlayerMessage("%s was given %s %s.", (isvowel(mobjinfo[i].name1[0]) ? "an" : "a"), mobjinfo[i].name1);
+                            C_PlayerMessage("%s was given %s %s.",
+                                playername, (isvowel(mobjinfo[i].name1[0]) ? "an" : "a"), mobjinfo[i].name1);
 
                         freeze = old_freeze;
                         C_HideConsole();
@@ -6563,6 +6564,12 @@ static void spawn_cmd_func2(char *cmd, char *parms)
                     }
 
                     thing->angle = ANG45 * (angle / 45);
+
+                    C_PlayerMessage("%s spawned %s %s%s.",
+                        (M_StringCompare(playername, playername_default) ? "You" : playername),
+                        (isvowel(mobjinfo[type].name1[0]) ? "an" : "a"),
+                        (spawncmdfriendly ? "friendly " : ""),
+                        mobjinfo[type].name1);
 
                     C_HideConsole();
                 }
