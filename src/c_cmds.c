@@ -4227,7 +4227,9 @@ static void name_cmd_func2(char *cmd, char *parms)
         C_ShowDescription(C_GetIndex(cmd));
         C_Output(BOLD("%s") " %s", cmd, NAMECMDFORMAT);
     }
-    else if (M_StringCompare(namecmdold, "player"))
+    else if (M_StringCompare(namecmdold, "player")
+        || M_StringCompare(namecmdold, playername)
+        || M_StringCompare(namecmdold, playername_default))
     {
         if (M_StringCompare(playername, playername_default))
             C_PlayerMessage("You have been named " BOLD("%s") ".", namecmdnew);
