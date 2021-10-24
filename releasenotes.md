@@ -8,7 +8,7 @@
 * Minor changes have been made to text that is output to the console.
 * Further improvements have been made to the support for [*REKKR*](http://manbitesshark.com/) and [*REKKR: Sunken Land*](https://store.steampowered.com/app/1715690/REKKR_Sunken_Land/).
 * The `vid_scaleapi` CVAR may now also be set to `opengles` or `opengles2`.
-* The `r_berserkintensity` CVAR has been renamed to `r_berserkeffect` and is now `4` by default.
+* The `r_berserkintensity` CVAR has been renamed to `r_berserkeffect` and is now `3` by default.
 * The effect when the player is injured can now be toggled using the new `r_damageeffect` CVAR, which is both `on` by default and when vanilla mode is enabled.
 * The effect when the player is injured is now also smoother when the new `r_damageeffect` CVAR is `on`.
 * If the player is injured when the `r_blood` CVAR is `green` and the new `r_damageeffect` CVAR is `on`, the screen will now flash green accordingly.

@@ -532,7 +532,7 @@ enum
 #define r_althud_default                        false
 
 #define r_berserkeffect_min                     0
-#define r_berserkeffect_default                 4
+#define r_berserkeffect_default                 3
 #define r_berserkeffect_max                     8
 
 #define r_blood_min                             r_blood_none

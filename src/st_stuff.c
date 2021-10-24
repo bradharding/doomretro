@@ -1285,9 +1285,9 @@ static void ST_DoPaletteStuff(void)
         if (bonuscount && r_pickupeffect)
             palette = STARTBONUSPALS + MIN((bonuscount + 7) >> 3, NUMBONUSPALS) - 1;
         else if (viewplayer->cheats & CF_GODMODE)
-            palette = r_berserkeffect * (PLAYPALs > 2 ? 2 : 1);
+            palette = r_berserkeffect * (PLAYPALs > 2 ? 1 : 2);
         else
-            palette = MIN((viewplayer->damagecount >> 3) + r_berserkeffect * (PLAYPALs > 2 ? 2 : 1), NUMREDPALS);
+            palette = MIN((viewplayer->damagecount >> 3) + r_berserkeffect * (PLAYPALs > 2 ? 1 : 2), NUMREDPALS);
     }
     else
     {
