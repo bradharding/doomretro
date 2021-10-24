@@ -4229,7 +4229,11 @@ static void name_cmd_func2(char *cmd, char *parms)
     }
     else if (M_StringCompare(namecmdold, "player"))
     {
-        C_Output("The player has been %s %s.", (M_StringCompare(playername, playername_default) ? "named" : "renamed"), namecmdnew);
+        if (M_StringCompare(playername, playername_default))
+            C_PlayerMessage("You have been named " BOLD("%s") ".", namecmdnew);
+        else
+            C_PlayerMessage("%s has been renamed " BOLD("%s") ".", playername, namecmdnew);
+
         M_StripQuotes(namecmdnew);
         playername = M_StringDuplicate(namecmdnew);
         M_SaveCVARs();
@@ -4267,7 +4271,7 @@ static void name_cmd_func2(char *cmd, char *parms)
         {
             M_StripQuotes(namecmdnew);
 
-            C_Output("The %s%s nearest to %s has been %s %s.",
+            C_PlayerMessage("The %s%s nearest to %s has been %s " BOLD("%s") ".",
                 (namecmdfriendly ? "friendly " : ""), namecmdold, playername, (*bestmobj->name ? "renamed" : "named"), namecmdnew);
 
             M_StringCopy(bestmobj->name, namecmdnew, sizeof(bestmobj->name));
