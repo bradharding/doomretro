@@ -254,9 +254,9 @@ dboolean                    idmus;
 
 int                         facebackcolor = facebackcolor_default;
 int                         r_berserkeffect = r_berserkeffect_default;
-int                         r_damageeffect = r_damageeffect_default;
-int                         r_pickupeffect = r_pickupeffect_default;
-int                         r_radsuiteffect = r_radsuiteffect_default;
+dboolean                    r_damageeffect = r_damageeffect_default;
+dboolean                    r_pickupeffect = r_pickupeffect_default;
+dboolean                    r_radsuiteffect = r_radsuiteffect_default;
 
 uint64_t                    stat_cheated = 0;
 
