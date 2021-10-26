@@ -122,7 +122,7 @@ static dboolean CheckIfPatch(int lump)
         const patch_t       *patch = W_CacheLumpNum(lump);
         const unsigned char *magic = (const unsigned char *)patch;
 
-        if (magic[0] == 0x89 && magic[1] == 'P' && magic[2] == 'N' && magic[3] == 'G')
+        if (magic[0] != 0x89 || magic[1] != 'P' || magic[2] != 'N' || magic[3] != 'G')
         {
             short   width = SHORT(patch->width);
             short   height = SHORT(patch->height);
