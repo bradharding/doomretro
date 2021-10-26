@@ -119,9 +119,10 @@ static dboolean CheckIfPatch(int lump)
 
     if (size >= 13)
     {
-        const patch_t   *patch = W_CacheLumpNum(lump);
+        const patch_t       *patch = W_CacheLumpNum(lump);
+        const unsigned char *magic = (const unsigned char *)patch;
 
-        if (memcmp(patch, "\x89PNG", 4))
+        if (magic[0] == 0x89 && magic[1] == 'P' && magic[2] == 'N' && magic[3] == 'G')
         {
             short   width = SHORT(patch->width);
             short   height = SHORT(patch->height);
