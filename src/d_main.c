@@ -698,7 +698,7 @@ static char *FindDehPath(char *path, char *ext, char *pattern)
     // Or NULL if no matching .deh file can be found.
     // The pattern (not used in Windows) is the fnmatch pattern to search for.
 #if defined(_WIN32)
-    char    *dehpath = "";
+    char    *dehpath = M_StringDuplicate(path);
 
     if (M_StringEndsWith(path, ".wad"))
         dehpath = M_StringReplace(path, ".wad", ext);
@@ -707,7 +707,7 @@ static char *FindDehPath(char *path, char *ext, char *pattern)
     else if (M_StringEndsWith(path, ".pwad"))
         dehpath = M_StringReplace(path, ".pwad", ext);
 
-    return (dehpath && M_FileExists(dehpath) ? dehpath : NULL);
+    return (M_FileExists(dehpath) ? dehpath : NULL);
 #else
     // Used to safely call dirname and basename, which can modify their input.
     size_t          pathlen = strlen(path);
@@ -810,7 +810,7 @@ static void LoadDehFile(char *path)
 
 static void LoadCfgFile(char *path)
 {
-    char    *cfgpath = "";
+    char    *cfgpath = M_StringDuplicate(path);
 
     if (M_StringEndsWith(path, ".wad"))
         cfgpath = M_StringReplace(path, ".wad", ".cfg");
@@ -819,7 +819,7 @@ static void LoadCfgFile(char *path)
     else if (M_StringEndsWith(path, ".pwad"))
         cfgpath = M_StringReplace(path, ".pwad", ".cfg");
 
-    if (cfgpath && M_FileExists(cfgpath))
+    if (M_FileExists(cfgpath))
         M_LoadCVARs(cfgpath);
 }
 
