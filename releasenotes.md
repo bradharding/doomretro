@@ -17,6 +17,7 @@
 * If the player picks up a megasphere power-up while they have 200% green armor, their armor will now be upgraded to blue armor.
 * The player will no longer make a sound when trying to open a door that is already open.
 * Minor improvements have been made to the alternate widescreen HUD.
+* Minor improvements have been made to the support of `DEHACKED` lumps.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
