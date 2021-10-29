@@ -553,11 +553,11 @@ void A_FireOldBFG(mobj_t *actor, player_t *player, pspdef_t *psp)
 
                 if (!linetarget)
                 {
-                    slope = P_AimLineAttack(actor, (an += 1 << 26), 16 * 64 * FRACUNIT, mask);
+                    slope = P_AimLineAttack(actor, (an += (1 << 26)), 16 * 64 * FRACUNIT, mask);
 
                     if (!linetarget)
                     {
-                        slope = P_AimLineAttack(actor, (an -= 2 << 26), 16 * 64 * FRACUNIT, mask);
+                        slope = P_AimLineAttack(actor, (an -= (2 << 26)), 16 * 64 * FRACUNIT, mask);
 
                         if (!linetarget)
                         {
@@ -631,11 +631,11 @@ static void P_BulletSlope(mobj_t *actor)
 
             if (!linetarget)
             {
-                bulletslope = P_AimLineAttack(actor, (an += 1 << 26), 16 * 64 * FRACUNIT, mask);
+                bulletslope = P_AimLineAttack(actor, (an += (1 << 26)), 16 * 64 * FRACUNIT, mask);
 
                 if (!linetarget)
                 {
-                    bulletslope = P_AimLineAttack(actor, (an -= 2 << 26), 16 * 64 * FRACUNIT, mask);
+                    bulletslope = P_AimLineAttack(actor, (an -= (2 << 26)), 16 * 64 * FRACUNIT, mask);
 
                     if (!linetarget && usemouselook)
                         bulletslope = PLAYERSLOPE(viewplayer);

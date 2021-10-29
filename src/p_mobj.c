@@ -1568,11 +1568,11 @@ void P_SpawnPlayerMissile(mobj_t *source, mobjtype_t type)
 
             if (!linetarget)
             {
-                slope = P_AimLineAttack(source, (an += 1 << 26), 16 * 64 * FRACUNIT, mask);
+                slope = P_AimLineAttack(source, (an += (1 << 26)), 16 * 64 * FRACUNIT, mask);
 
                 if (!linetarget)
                 {
-                    slope = P_AimLineAttack(source, (an -= 2 << 26), 16 * 64 * FRACUNIT, mask);
+                    slope = P_AimLineAttack(source, (an -= (2 << 26)), 16 * 64 * FRACUNIT, mask);
 
                     if (!linetarget)
                     {
