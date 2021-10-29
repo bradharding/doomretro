@@ -338,7 +338,7 @@ manual_ceiling:
             sec->lines[i]->flags &= ~ML_SECRET;
 
         if (zerotag_manual)
-            return rtn; //e6y
+            return rtn; // e6y
     }
 
     return rtn;

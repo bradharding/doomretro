@@ -238,7 +238,7 @@ static void createPatch(int patchNum)
         {
             int len = oldColumn->length;
 
-            //e6y: support for DeePsea's true tall patches
+            // e6y: support for DeePsea's true tall patches
             if (oldColumn->topdelta <= top)
                 top += oldColumn->topdelta;
             else

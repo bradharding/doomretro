@@ -190,10 +190,10 @@ extern int              barrelcount;
 // Timer, for scores.
 extern int              leveltime;      // tics in game play for par
 
-//?
+// ?
 extern gamestate_t      gamestate;
 
-//-----------------------------
+// -----------------------------
 // Internal parameters, fixed.
 // These are set by the engine, and not changed
 //  according to user inputs. Partly load from
@@ -208,7 +208,7 @@ extern dboolean         realframe;
 // Parameters for world map/intermission.
 extern wbstartstruct_t  wminfo;
 
-//-----------------------------------------
+// -----------------------------------------
 // Internal parameters, used for engine.
 //
 
