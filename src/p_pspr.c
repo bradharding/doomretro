@@ -590,7 +590,7 @@ void A_FireOldBFG(mobj_t *actor, player_t *player, pspdef_t *psp)
         P_CheckMissileSpawn(th);
     } while (type != MT_PLASMA2 && (type = MT_PLASMA2));  // killough: obfuscated!
 
-    A_Recoil(wp_plasma);
+    A_Recoil(wp_bfg);
 }
 
 //
