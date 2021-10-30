@@ -7,7 +7,6 @@
 * *DOOM Retro* will no longer crash at startup when trying to load a PWAD containing a PNG lump that hasn’t been placed between `HI_START` and `HI_END` markers.
 * A bug has been fixed whereby `.bex`, `.cfg` and `.deh` files wouldn’t load if selected in the WAD launcher.
 * Minor changes have been made to text that is output to the console.
-* Minor improvements have been made to the console’s autocomplete feature.
 * Further improvements have been made to the support for [*REKKR*](http://manbitesshark.com/) and [*REKKR: Sunken Land*](https://store.steampowered.com/app/1715690/REKKR_Sunken_Land/).
 * The `vid_scaleapi` CVAR may now also be set to `opengles` or `opengles2`.
 * The `r_berserkintensity` CVAR has been renamed to `r_berserkeffect` and is now `3` rather than `2` by default.
