@@ -514,7 +514,7 @@ floater:
         if (mo->momz < 0)
         {
             // killough 11/98: touchy objects explode on impact
-            if (flags & MF_TOUCHY && (mo->flags3 & MF3_ARMED) && mo->health > 0)
+            if ((flags & MF_TOUCHY) && (mo->flags3 & MF3_ARMED) && mo->health > 0)
                 P_DamageMobj(mo, NULL, NULL, mo->health, true);
             else if (player && player->mo == mo)
             {

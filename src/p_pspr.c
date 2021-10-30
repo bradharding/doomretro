@@ -561,8 +561,8 @@ void A_FireOldBFG(mobj_t *actor, player_t *player, pspdef_t *psp)
 
                         if (!linetarget)
                         {
-                            slope = (usemouselook ? PLAYERSLOPE(player) : 0);
                             an = actor->angle;
+                            slope = (usemouselook ? PLAYERSLOPE(player) : 0);
                         }
                     }
                 }
