@@ -17,6 +17,7 @@
 * The effect when the player has a radiation shielding suit power-up can now be toggled using the new `r_radsuiteffect` CVAR, which is both `on` by default and when vanilla mode is enabled. If this CVAR is `off`, the screen will flash to indicate when the power-up is about to run out.
 * If the player picks up a megasphere power-up while they have 200% green armor, their armor will now be upgraded to blue armor.
 * The player will no longer make a sound when trying to open a door that is already open.
+* The player will now smoothly slide against two-sided textures.
 * Minor improvements have been made to the alternate widescreen HUD.
 * Minor improvements have been made to the support of `DEHACKED` lumps.
 

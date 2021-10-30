@@ -89,6 +89,11 @@ dboolean        infight;
 
 static mobj_t   *onmobj;
 
+// [JN] Special boolean for PTR_SlideTraverse.
+// Will be set as "false" for preventing playing "oof" sound
+// by pressing "use" key on blocking two sided lines.
+static dboolean ptr_play_oof;
+
 dboolean        infiniteheight = infiniteheight_default;
 
 uint64_t        stat_distancetraveled = 0;
@@ -1350,9 +1355,22 @@ static void P_HitSlideLine(line_t *ld)
 //
 static dboolean PTR_SlideTraverse(intercept_t *in)
 {
-    line_t  *li = in->d.line;
+    line_t          *li = in->d.line;
+    unsigned short  flags = li->flags;
 
-    if (!(li->flags & ML_TWOSIDED))
+    // [JN] Treat two sided linedefs as single sided for smooth sliding.
+    if ((flags & ML_BLOCKING) && (flags & ML_TWOSIDED))
+    {
+        // [JN] Don't allow play "oof" by pressing "use".
+        ptr_play_oof = false;
+
+        goto isblocking;
+    }
+
+    // [JN] Allow play "oof" by pressing "use".
+    ptr_play_oof = true;
+
+    if (!(flags & ML_TWOSIDED))
     {
         if (P_PointOnLineSide(slidemo->x, slidemo->y, li))
             return true;        // don't hit the back side
@@ -1912,7 +1930,7 @@ void P_UseLines(void)
     // This added test makes the "oof" sound work on 2s lines -- killough:
     if (P_PathTraverse(x1, y1, x2, y2, PT_ADDLINES, &PTR_UseTraverse))
         if (!P_PathTraverse(x1, y1, x2, y2, PT_ADDLINES, &PTR_NoWayTraverse))
-            if (!autousing)
+            if (!autousing && ptr_play_oof)
                 S_StartSound(usething, sfx_noway);
 }
 
