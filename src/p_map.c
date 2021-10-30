@@ -436,7 +436,8 @@ static dboolean PIT_CheckThing(mobj_t *thing)
     int         flags = thing->flags;
     int         tmflags = tmthing->flags;
     dboolean    corpse = (flags & MF_CORPSE);
-    int         type = thing->type;
+    mobjtype_t  type = thing->type;
+    mobjtype_t  tmtype = tmthing->type;
 
     // [BH] apply small amount of momentum to a corpse when a monster walks over it
     if (((corpse && type != MT_BARREL) || (flags & MF_DROPPED)) && !thing->nudge
@@ -486,12 +487,12 @@ static dboolean PIT_CheckThing(mobj_t *thing)
         && thing->health > 0                                    // touchy object is alive
         && ((thing->flags3 & MF3_ARMED)                         // Thing is an armed mine
             || sentient(thing))                                 // ...or a sentient thing
-        && (thing->type != tmthing->type                        // only different species
+        && (thing->type != tmtype                               // only different species
             || thing->type == MT_PLAYER)                        // ...or different players
         && thing->z + thing->height >= tmthing->z               // touches vertically
         && tmthing->z + tmthing->height >= thing->z
-        && ((type ^ MT_PAIN) | (tmthing->type ^ MT_SKULL))      // PEs and lost souls are considered same
-        && ((type ^ MT_SKULL) | (tmthing->type ^ MT_PAIN)))     // (but Barons & Knights are intentionally not)
+        && ((type ^ MT_PAIN) | (tmtype ^ MT_SKULL))             // PEs and lost souls are considered same
+        && ((type ^ MT_SKULL) | (tmtype ^ MT_PAIN)))            // (but Barons & Knights are intentionally not)
     {
         P_DamageMobj(thing, NULL, NULL, thing->health, true);   // kill object
         return true;
@@ -588,12 +589,12 @@ static dboolean PIT_CheckThing(mobj_t *thing)
 
         if (thing->type != MT_BARREL)
         {
-            if (tmthing->type == MT_PLASMA)
+            if (tmtype == MT_PLASMA)
             {
                 viewplayer->shotssuccessful[wp_plasma]++;
                 stat_shotssuccessful_plasmarifle = SafeAdd(stat_shotssuccessful_plasmarifle, 1);
             }
-            else if (tmthing->type == MT_ROCKET)
+            else if (tmtype == MT_ROCKET)
             {
                 if (tmthing->nudge == 1)
                 {
@@ -2050,13 +2051,13 @@ static void PIT_ChangeSector(mobj_t *thing)
 
         if (!(flags & MF_NOBLOOD))
         {
-            int radius = ((spritewidth[sprites[thing->sprite].spriteframes[0].lump[0]] >> FRACBITS) >> 1) + 12;
-            int max = M_RandomInt(50, 100) + radius;
-            int x = thing->x;
-            int y = thing->y;
-            int blood = mobjinfo[thing->blood].blood;
-            int floorz = thing->floorz;
-            int type = thing->type;
+            int         radius = ((spritewidth[sprites[thing->sprite].spriteframes[0].lump[0]] >> FRACBITS) >> 1) + 12;
+            int         max = M_RandomInt(50, 100) + radius;
+            int         x = thing->x;
+            int         y = thing->y;
+            int         blood = mobjinfo[thing->blood].blood;
+            int         floorz = thing->floorz;
+            mobjtype_t  type = thing->type;
 
             for (int i = 0; i < max; i++)
             {
@@ -2137,8 +2138,8 @@ static void PIT_ChangeSector(mobj_t *thing)
         if (!(flags & MF_NOBLOOD) && thing->blood && r_blood != r_blood_none
             && (thing->type != MT_PLAYER || (!viewplayer->powers[pw_invulnerability] && !(viewplayer->cheats & CF_GODMODE))))
         {
-            int type = ((thing->flags & MF_FUZZ) ? MT_FUZZYBLOOD : thing->blood);
-            int z = thing->z + thing->height * 2 / 3;
+            mobjtype_t  type = ((thing->flags & MF_FUZZ) ? MT_FUZZYBLOOD : thing->blood);
+            int         z = thing->z + thing->height * 2 / 3;
 
             for (int i = 0; i < 4; i++)
             {

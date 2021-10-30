@@ -2151,7 +2151,7 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
     player_t    *tplayer;
     int         flags = target->flags;
     dboolean    corpse = (flags & MF_CORPSE);
-    int         type = target->type;
+    mobjtype_t  type = target->type;
     mobjinfo_t  *info = &mobjinfo[type];
     dboolean    justhit = false;
 
