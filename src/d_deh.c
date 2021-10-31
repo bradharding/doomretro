@@ -3440,7 +3440,7 @@ static void deh_procText(DEHFILE *fpin, char *line)
                 if (devparm)
                     C_Output("Changing name of sprite at index %i from %s to %*s", i, sprnames[i], tolen, &inbuffer[fromlen]);
 
-                if (M_StringCompare(sprnames[i], "BEXP"))
+                if (M_StringCompare(sprnames[i], "BAR1") || M_StringCompare(sprnames[i], "BEXP"))
                 {
                     states[S_BAR1].nextstate = S_BAR2;
                     mobjinfo[MT_BARREL].frames = 2;
