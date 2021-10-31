@@ -1263,7 +1263,7 @@ void alias_cmd_func2(char *cmd, char *parms)
                 aliases[i].name[0] = '\0';
                 aliases[i].string[0] = '\0';
                 M_SaveCVARs();
-                C_Output("The " BOLD("%s") " alias has been cleared.", parm1);
+                C_Output("The " BOLD("%s") " alias has been removed.", parm1);
 
                 return;
             }
@@ -1541,6 +1541,8 @@ void bind_cmd_func2(char *cmd, char *parms)
                         C_Warning(0, "The " BOLD("%s") " action can't be bound to '" BOLD("%s") "'.", parm2, controls[i].control);
                     else
                         C_Warning(0, "The " BOLD("%s") " action can't be bound to " BOLD("%s") ".", parm2, controls[i].control);
+
+                    return;
                 }
             }
             else
@@ -1586,7 +1588,10 @@ void bind_cmd_func2(char *cmd, char *parms)
         }
     }
     else
+    {
         C_Warning(0, BOLD("%s") " isn't a valid control.", parm1);
+        return;
+    }
 
     if (mouselookcontrols != (keyboardmouselook || gamepadmouselook || mousemouselook != -1))
     {
@@ -7232,7 +7237,7 @@ static void vanilla_cmd_func2(char *cmd, char *parms)
 
         C_Output(s_STSTR_VON);
         HU_SetPlayerMessage(s_STSTR_VON, false, false);
-        C_Warning(0, "Any changes to CVARs won't be saved while vanilla mode is on.");
+        C_Warning(0, "Changes to any CVARs won't be saved while vanilla mode is on.");
     }
     else
     {
