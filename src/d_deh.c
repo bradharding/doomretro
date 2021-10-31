@@ -3440,6 +3440,12 @@ static void deh_procText(DEHFILE *fpin, char *line)
                 if (devparm)
                     C_Output("Changing name of sprite at index %i from %s to %*s", i, sprnames[i], tolen, &inbuffer[fromlen]);
 
+                if (M_StringCompare(sprnames[i], "BEXP"))
+                {
+                    states[S_BAR1].nextstate = S_BAR2;
+                    mobjinfo[MT_BARREL].frames = 2;
+                }
+
                 // Ty 03/18/98 - not using M_StringDuplicate because length is fixed
 
                 // killough 10/98: but it's an array of pointers, so we must
