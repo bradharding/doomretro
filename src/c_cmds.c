@@ -1250,7 +1250,10 @@ void alias_cmd_func2(char *cmd, char *parms)
 
     for (int i = 0; *consolecmds[i].name; i++)
         if (M_StringCompare(parm1, consolecmds[i].name))
+        {
+            C_Warning(0, "An alias cannot be the same as an existing CVAR or CCMD.");
             return;
+        }
 
     if (!*parm2)
     {
@@ -1260,6 +1263,7 @@ void alias_cmd_func2(char *cmd, char *parms)
                 aliases[i].name[0] = '\0';
                 aliases[i].string[0] = '\0';
                 M_SaveCVARs();
+                C_Output("The " BOLD("%s") " alias has been cleared.", parm1);
 
                 return;
             }
@@ -1274,6 +1278,7 @@ void alias_cmd_func2(char *cmd, char *parms)
         {
             M_StringCopy(aliases[i].string, parm2, sizeof(aliases[i].string));
             M_SaveCVARs();
+            C_Output("The " BOLD("%s") " alias has been updated.", parm1);
 
             return;
         }
@@ -1283,6 +1288,7 @@ void alias_cmd_func2(char *cmd, char *parms)
         {
             M_StringCopy(aliases[i].name, parm1, sizeof(aliases[i].name));
             M_StringCopy(aliases[i].string, parm2, sizeof(aliases[i].string));
+            C_Output("The " BOLD("%s") " alias has been created.", parm1);
             M_SaveCVARs();
 
             return;
@@ -1333,6 +1339,7 @@ void bind_cmd_func2(char *cmd, char *parms)
     {
         C_ShowDescription(C_GetIndex(cmd));
         C_Output(BOLD("%s") " %s", cmd, BINDCMDFORMAT);
+
         return;
     }
 
