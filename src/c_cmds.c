@@ -1716,7 +1716,7 @@ static void C_DumpConsoleStringToFile(int index)
         {
             const unsigned char letter = string[inpos];
 
-            if (letter != '\n')
+            if (letter != '\n' && letter != BOLDTOGGLECHAR && letter != ITALICSTOGGLECHAR)
             {
                 if (letter == '\t')
                 {
