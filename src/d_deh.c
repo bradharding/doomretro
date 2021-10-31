@@ -3760,7 +3760,7 @@ static void deh_procBexSprites(DEHFILE *fpin, char *line)
                 if (devparm)
                     C_Output("Substituting '%s' for sprite '%s'", candidate, deh_spritenames[rover]);
 
-                if (M_StringCompare(sprnames[rover], "BAR1") || M_StringCompare(sprnames[rover], "BEXP"))
+                if (M_StringCompare(candidate, "BAR1") || M_StringCompare(candidate, "BEXP"))
                 {
                     states[S_BAR1].nextstate = S_BAR2;
                     mobjinfo[MT_BARREL].frames = 2;
