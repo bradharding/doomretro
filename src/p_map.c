@@ -89,11 +89,6 @@ dboolean        infight;
 
 static mobj_t   *onmobj;
 
-// [JN] Special boolean for PTR_SlideTraverse.
-// Will be set as "false" for preventing playing "oof" sound
-// by pressing "use" key on blocking two sided lines.
-static dboolean ptr_play_oof;
-
 dboolean        infiniteheight = infiniteheight_default;
 
 uint64_t        stat_distancetraveled = 0;
@@ -1360,15 +1355,7 @@ static dboolean PTR_SlideTraverse(intercept_t *in)
 
     // [JN] Treat two sided linedefs as single sided for smooth sliding.
     if ((flags & ML_BLOCKING) && (flags & ML_TWOSIDED))
-    {
-        // [JN] Don't allow play "oof" by pressing "use".
-        ptr_play_oof = false;
-
         goto isblocking;
-    }
-
-    // [JN] Allow play "oof" by pressing "use".
-    ptr_play_oof = true;
 
     if (!(flags & ML_TWOSIDED))
     {
@@ -1890,10 +1877,11 @@ static dboolean PTR_UseTraverse(intercept_t *in)
 //
 static dboolean PTR_NoWayTraverse(intercept_t *in)
 {
-    line_t  *ld = in->d.line;
+    line_t          *ld = in->d.line;
+    unsigned short  flags = ld->flags;
 
-    return (ld->special || !((ld->flags & ML_BLOCKING) || (P_LineOpening(ld), (openrange <= 0
-        || openbottom > usething->z + 24 * FRACUNIT || opentop < usething->z + usething->height))));
+    return (ld->special || ((flags & ML_TWOSIDED) && (flags & ML_BLOCKING)) || !((flags & ML_BLOCKING)
+        || (P_LineOpening(ld), (openrange <= 0 || openbottom > usething->z + 24 * FRACUNIT || opentop < usething->z + usething->height))));
 }
 
 dboolean P_DoorClosed(line_t *line)
@@ -1930,7 +1918,7 @@ void P_UseLines(void)
     // This added test makes the "oof" sound work on 2s lines -- killough:
     if (P_PathTraverse(x1, y1, x2, y2, PT_ADDLINES, &PTR_UseTraverse))
         if (!P_PathTraverse(x1, y1, x2, y2, PT_ADDLINES, &PTR_NoWayTraverse))
-            if (!autousing && ptr_play_oof)
+            if (!autousing)
                 S_StartSound(usething, sfx_noway);
 }
 
