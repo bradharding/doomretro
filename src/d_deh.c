@@ -3043,7 +3043,7 @@ static void deh_procCheat(DEHFILE *fpin, char *line)
                 p++;
 
             if (devparm)
-                C_Output("Assigned new cheat '%s' to cheat '%s' at index %i", p, cheat_mus.sequence, iy);
+                C_Output("Assigned new cheat \"%s\" to cheat \"%s\" at index %i", p, cheat_mus.sequence, iy);
 
             cheat_mus.sequence = M_StringDuplicate(p);
             cheat_mus_xy.sequence = M_StringDuplicate(p);
@@ -3060,7 +3060,7 @@ static void deh_procCheat(DEHFILE *fpin, char *line)
                 p++;
 
             if (devparm)
-                C_Output("Assigned new cheat '%s' to cheat '%s' at index %i", p, cheat_choppers.sequence, iy);
+                C_Output("Assigned new cheat \"%s\" to cheat \"%s\" at index %i", p, cheat_choppers.sequence, iy);
 
             cheat_choppers.sequence = M_StringDuplicate(p);
             success = true;
@@ -3076,7 +3076,7 @@ static void deh_procCheat(DEHFILE *fpin, char *line)
                 p++;
 
             if (devparm)
-                C_Output("Assigned new cheat '%s' to cheat '%s' at index %i", p, cheat_god.sequence, iy);
+                C_Output("Assigned new cheat \"%s\" to cheat \"%s\" at index %i", p, cheat_god.sequence, iy);
 
             cheat_god.sequence = M_StringDuplicate(p);
             success = true;
@@ -3092,7 +3092,7 @@ static void deh_procCheat(DEHFILE *fpin, char *line)
                 p++;
 
             if (devparm)
-                C_Output("Assigned new cheat '%s' to cheat '%s' at index %i", p, cheat_ammo.sequence, iy);
+                C_Output("Assigned new cheat \"%s\" to cheat \"%s\" at index %i", p, cheat_ammo.sequence, iy);
 
             cheat_ammo.sequence = M_StringDuplicate(p);
             success = true;
@@ -3108,7 +3108,7 @@ static void deh_procCheat(DEHFILE *fpin, char *line)
                 p++;
 
             if (devparm)
-                C_Output("Assigned new cheat '%s' to cheat '%s' at index %i", p, cheat_ammonokey.sequence, iy);
+                C_Output("Assigned new cheat \"%s\" to cheat \"%s\" at index %i", p, cheat_ammonokey.sequence, iy);
 
             cheat_ammonokey.sequence = M_StringDuplicate(p);
             success = true;
@@ -3124,7 +3124,7 @@ static void deh_procCheat(DEHFILE *fpin, char *line)
                 p++;
 
             if (devparm)
-                C_Output("Assigned new cheat '%s' to cheat '%s' at index %i", p, cheat_noclip.sequence, iy);
+                C_Output("Assigned new cheat \"%s\" to cheat \"%s\" at index %i", p, cheat_noclip.sequence, iy);
 
             cheat_noclip.sequence = M_StringDuplicate(p);
             success = true;
@@ -3140,7 +3140,7 @@ static void deh_procCheat(DEHFILE *fpin, char *line)
                 p++;
 
             if (devparm)
-                C_Output("Assigned new cheat '%s' to cheat '%s' at index %i", p, cheat_commercial_noclip.sequence, iy);
+                C_Output("Assigned new cheat \"%s\" to cheat \"%s\" at index %i", p, cheat_commercial_noclip.sequence, iy);
 
             cheat_commercial_noclip.sequence = M_StringDuplicate(p);
             success = true;
@@ -3156,7 +3156,7 @@ static void deh_procCheat(DEHFILE *fpin, char *line)
                 p++;
 
             if (devparm)
-                C_Output("Assigned new cheat '%s' to cheat '%s' at index %i", p, cheat_powerup[0].sequence, iy);
+                C_Output("Assigned new cheat \"%s\" to cheat \"%s\" at index %i", p, cheat_powerup[0].sequence, iy);
 
             cheat_powerup[0].sequence = M_StringDuplicate(p);
             success = true;
@@ -3172,7 +3172,7 @@ static void deh_procCheat(DEHFILE *fpin, char *line)
                 p++;
 
             if (devparm)
-                C_Output("Assigned new cheat '%s' to cheat '%s' at index %i", p, cheat_powerup[1].sequence, iy);
+                C_Output("Assigned new cheat \"%s\" to cheat \"%s\" at index %i", p, cheat_powerup[1].sequence, iy);
 
             cheat_powerup[1].sequence = M_StringDuplicate(p);
             success = true;
@@ -3188,7 +3188,7 @@ static void deh_procCheat(DEHFILE *fpin, char *line)
                 p++;
 
             if (devparm)
-                C_Output("Assigned new cheat '%s' to cheat '%s' at index %i", p, cheat_powerup[2].sequence, iy);
+                C_Output("Assigned new cheat \"%s\" to cheat \"%s\" at index %i", p, cheat_powerup[2].sequence, iy);
 
             cheat_powerup[2].sequence = M_StringDuplicate(p);
             success = true;
@@ -3204,7 +3204,7 @@ static void deh_procCheat(DEHFILE *fpin, char *line)
                 p++;
 
             if (devparm)
-                C_Output("Assigned new cheat '%s' to cheat '%s' at index %i", p, cheat_powerup[3].sequence, iy);
+                C_Output("Assigned new cheat \"%s\" to cheat \"%s\" at index %i", p, cheat_powerup[3].sequence, iy);
 
             cheat_powerup[3].sequence = M_StringDuplicate(p);
             success = true;
@@ -3220,7 +3220,7 @@ static void deh_procCheat(DEHFILE *fpin, char *line)
                 p++;
 
             if (devparm)
-                C_Output("Assigned new cheat '%s' to cheat '%s' at index %i", p, cheat_powerup[4].sequence, iy);
+                C_Output("Assigned new cheat \"%s\" to cheat \"%s\" at index %i", p, cheat_powerup[4].sequence, iy);
 
             cheat_powerup[4].sequence = M_StringDuplicate(p);
             success = true;
@@ -3236,7 +3236,7 @@ static void deh_procCheat(DEHFILE *fpin, char *line)
                 p++;
 
             if (devparm)
-                C_Output("Assigned new cheat '%s' to cheat '%s' at index %i", p, cheat_powerup[5].sequence, iy);
+                C_Output("Assigned new cheat \"%s\" to cheat \"%s\" at index %i", p, cheat_powerup[5].sequence, iy);
 
             cheat_powerup[5].sequence = M_StringDuplicate(p);
             success = true;
@@ -3252,7 +3252,7 @@ static void deh_procCheat(DEHFILE *fpin, char *line)
                 p++;
 
             if (devparm)
-                C_Output("Assigned new cheat '%s' to cheat '%s' at index %i", p, cheat_powerup[6].sequence, iy);
+                C_Output("Assigned new cheat \"%s\" to cheat \"%s\" at index %i", p, cheat_powerup[6].sequence, iy);
 
             cheat_powerup[6].sequence = M_StringDuplicate(p);
             success = true;
@@ -3268,7 +3268,7 @@ static void deh_procCheat(DEHFILE *fpin, char *line)
                 p++;
 
             if (devparm)
-                C_Output("Assigned new cheat '%s' to cheat '%s' at index %i", p, cheat_clev.sequence, iy);
+                C_Output("Assigned new cheat \"%s\" to cheat \"%s\" at index %i", p, cheat_clev.sequence, iy);
 
             cheat_clev.sequence = M_StringDuplicate(p);
             cheat_clev_xy.sequence = M_StringDuplicate(p);
@@ -3285,7 +3285,7 @@ static void deh_procCheat(DEHFILE *fpin, char *line)
                 p++;
 
             if (devparm)
-                C_Output("Assigned new cheat '%s' to cheat '%s' at index %i", p, cheat_mypos.sequence, iy);
+                C_Output("Assigned new cheat \"%s\" to cheat \"%s\" at index %i", p, cheat_mypos.sequence, iy);
 
             cheat_mypos.sequence = M_StringDuplicate(p);
             success = true;
@@ -3329,7 +3329,7 @@ static void deh_procMisc(DEHFILE *fpin, char *line)
 
         // Otherwise it's ok
         if (devparm)
-            C_Output("Processing Misc item '%s'", key);
+            C_Output("Processing Misc item \"%s\"", key);
 
         if (M_StringCompare(key, deh_misc[0]))                      // Initial Health
             initial_health = MIN(value, 999);
@@ -3737,7 +3737,7 @@ static void deh_procBexSprites(DEHFILE *fpin, char *line)
 
         if (!deh_GetData(inbuffer, key, &value, &strval))    // returns TRUE if ok
         {
-            C_Warning(1, "Bad data pair in '%s'", inbuffer);
+            C_Warning(1, "Bad data pair in \"%s\"", inbuffer);
             continue;
         }
 
@@ -3747,7 +3747,7 @@ static void deh_procBexSprites(DEHFILE *fpin, char *line)
 
         if (strlen(candidate) != 4)
         {
-            C_Warning(1, "Bad length for sprite name '%s'", candidate);
+            C_Warning(1, "Bad length for sprite name \"%s\"", candidate);
             continue;
         }
 
@@ -3758,7 +3758,7 @@ static void deh_procBexSprites(DEHFILE *fpin, char *line)
             if (!strncasecmp(deh_spritenames[rover], key, 4))
             {
                 if (devparm)
-                    C_Output("Substituting '%s' for sprite '%s'", candidate, deh_spritenames[rover]);
+                    C_Output("Substituting \"%s\" for sprite \"%s\"", candidate, deh_spritenames[rover]);
 
                 if (M_StringCompare(candidate, "BAR1") || M_StringCompare(candidate, "BEXP"))
                 {
@@ -3805,7 +3805,7 @@ static void deh_procBexSounds(DEHFILE *fpin, char *line)
 
         if (!deh_GetData(inbuffer, key, &value, &strval))   // returns TRUE if ok
         {
-            C_Warning(1, "Bad data pair in '%s'\n", inbuffer);
+            C_Warning(1, "Bad data pair in \"%s\"\n", inbuffer);
             continue;
         }
 
@@ -3816,7 +3816,7 @@ static void deh_procBexSounds(DEHFILE *fpin, char *line)
 
         if (len < 1 || len > 6)
         {
-            C_Warning(1, "Bad length for sound name '%s'\n", candidate);
+            C_Warning(1, "Bad length for sound name \"%s\"\n", candidate);
             continue;
         }
 
@@ -3827,7 +3827,7 @@ static void deh_procBexSounds(DEHFILE *fpin, char *line)
             if (!strncasecmp(deh_soundnames[rover], key, 6))
             {
                 if (devparm)
-                    C_Output("Substituting '%s' for sound '%s'\n", candidate, deh_soundnames[rover]);
+                    C_Output("Substituting \"%s\" for sound \"%s\"\n", candidate, deh_soundnames[rover]);
 
                 M_StringCopy(S_sfx[rover].name1, candidate, 9);
                 break;
@@ -3869,7 +3869,7 @@ static void deh_procBexMusic(DEHFILE *fpin, char *line)
 
         if (!deh_GetData(inbuffer, key, &value, &strval))   // returns TRUE if ok
         {
-            C_Warning(1, "Bad data pair in '%s'", inbuffer);
+            C_Warning(1, "Bad data pair in \"%s\"", inbuffer);
             continue;
         }
 
@@ -3880,7 +3880,7 @@ static void deh_procBexMusic(DEHFILE *fpin, char *line)
 
         if (len < 1 || len > 6)
         {
-            C_Warning(1, "Bad length for music name '%s'", candidate);
+            C_Warning(1, "Bad length for music name \"%s\"", candidate);
             continue;
         }
 
@@ -3891,7 +3891,7 @@ static void deh_procBexMusic(DEHFILE *fpin, char *line)
             if (!strncasecmp(deh_musicnames[rover], key, 6))
             {
                 if (devparm)
-                    C_Output("Substituting '%s' for music '%s'", candidate, deh_musicnames[rover]);
+                    C_Output("Substituting \"%s\" for music \"%s\"", candidate, deh_musicnames[rover]);
 
                 M_StringCopy(S_music[rover].name1, candidate, 9);
                 break;

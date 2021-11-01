@@ -587,7 +587,6 @@ static void R_InitSpriteLumps(void)
         s_M_SKILLLEVEL5 = M_StringDuplicate("Insanity!");
 
         states[S_BAR1].nextstate = S_BAR2;
-
         mobjinfo[MT_BARREL].frames = 2;
 
         mobjinfo[MT_HEAD].blood = MT_BLOOD;
