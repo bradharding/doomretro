@@ -10,11 +10,11 @@
 * Further improvements have been made to the support for [*REKKR*](http://manbitesshark.com/) and [*REKKR: Sunken Land*](https://store.steampowered.com/app/1715690/REKKR_Sunken_Land/).
 * The `vid_scaleapi` CVAR may now also be set to `opengles` or `opengles2`.
 * The `r_berserkintensity` CVAR has been renamed to `r_berserkeffect` and is now `3` rather than `2` by default.
-* The effect when the player is injured can now be toggled using the new `r_damageeffect` CVAR, which is both `on` by default and when vanilla mode is enabled.
-* The effect when the player is injured is now also smoother when the new `r_damageeffect` CVAR is `on`.
+* The red effect when the player is injured can now be toggled using the new `r_damageeffect` CVAR, which is both `on` by default and when vanilla mode is enabled.
+* The red effect when the player is injured is now also smoother when the new `r_damageeffect` CVAR is `on`.
 * If the player is injured when the `r_blood` CVAR is `green` and the new `r_damageeffect` CVAR is `on`, the screen will now flash green accordingly.
-* The effect when the player picks up an item can now be toggled using the new `r_pickupeffect` CVAR, which is both `on` by default and when vanilla mode is enabled.
-* The effect when the player has a radiation shielding suit power-up can now be toggled using the new `r_radsuiteffect` CVAR, which is both `on` by default and when vanilla mode is enabled. If this CVAR is `off`, the screen will flash to indicate when the power-up is about to run out.
+* The yellow effect when the player picks up an item can now be toggled using the new `r_pickupeffect` CVAR, which is both `on` by default and when vanilla mode is enabled.
+* The green effect when the player has a radiation shielding suit power-up can now be toggled using the new `r_radsuiteffect` CVAR, which is both `on` by default and when vanilla mode is enabled. If this CVAR is `off`, the screen will flash green to indicate when the power-up is about to run out.
 * If the player picks up a megasphere power-up while they have 200% green armor, their armor will now be upgraded to blue armor.
 * The player will no longer make a sound when trying to open a door that is already open.
 * The player will now smoothly slide against two-sided textures.

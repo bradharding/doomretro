@@ -344,7 +344,7 @@ void M_SaveCVARs(void)
         if (!warning)
         {
             warning = true;
-            C_Warning(1, BOLD("%s") " couldn't be saved.", packageconfig);
+            C_Warning(0, BOLD("%s") " couldn't be saved.", packageconfig);
         }
 
         return;
