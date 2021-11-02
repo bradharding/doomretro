@@ -624,6 +624,7 @@ void S_ChangeMusic(int music_id, dboolean looping, dboolean allowrestart, dboole
 
     // current music which should play
     musinfo.current_item = -1;
+    S_music[mus_musinfo].lumpnum = -1;
 
     if (nomusic || (mus_playing == music && !allowrestart))
         return;
