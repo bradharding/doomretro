@@ -680,8 +680,6 @@ void D_InitIWADFolder(void)
         if (M_FolderExists(iwad_dirs[i]))
         {
             iwadfolder = M_StringDuplicate(iwad_dirs[i]);
-            M_StringReplaceAll(iwadfolder, "/", "\\");
-
             break;
         }
 
