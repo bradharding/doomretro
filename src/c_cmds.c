@@ -1365,7 +1365,7 @@ void bind_cmd_func2(char *cmd, char *parms)
                     case keyboardcontrol:
                         if (actions[action].keyboard1 && controls[i].value == *(int *)actions[action].keyboard1)
                         {
-                            C_Output("The " BOLD("%s") " action was unbound from the " BOLD("%s") " control.",
+                            C_Output("The " BOLD("%s") " action has been unbound from the " BOLD("%s") " control.",
                                 actions[action].action, controls[i].control);
                             *(int *)actions[action].keyboard1 = 0;
                             M_SaveCVARs();
@@ -1373,7 +1373,7 @@ void bind_cmd_func2(char *cmd, char *parms)
 
                         if (actions[action].keyboard2 && controls[i].value == *(int *)actions[action].keyboard2)
                         {
-                            C_Output("The " BOLD("%s") " action was unbound from the " BOLD("%s") " control.",
+                            C_Output("The " BOLD("%s") " action has been unbound from the " BOLD("%s") " control.",
                                 actions[action].action, controls[i].control);
                             *(int *)actions[action].keyboard2 = 0;
                             M_SaveCVARs();
@@ -1384,7 +1384,7 @@ void bind_cmd_func2(char *cmd, char *parms)
                     case mousecontrol:
                         if (actions[action].mouse1 && controls[i].value == *(int *)actions[action].mouse1)
                         {
-                            C_Output("The " BOLD("%s") " action was unbound from the " BOLD("%s") " control.",
+                            C_Output("The " BOLD("%s") " action has been unbound from the " BOLD("%s") " control.",
                                 actions[action].action, controls[i].control);
                             *(int *)actions[action].mouse1 = -1;
                             M_SaveCVARs();
@@ -1395,7 +1395,7 @@ void bind_cmd_func2(char *cmd, char *parms)
                     case gamepadcontrol:
                         if (actions[action].gamepad1 && controls[i].value == *(int *)actions[action].gamepad1)
                         {
-                            C_Output("The " BOLD("%s") " action was unbound from the " BOLD("%s") " control.",
+                            C_Output("The " BOLD("%s") " action has been unbound from the " BOLD("%s") " control.",
                                 actions[action].action, controls[i].control);
                             *(int *)actions[action].gamepad1 = 0;
                             M_SaveCVARs();
@@ -1403,7 +1403,7 @@ void bind_cmd_func2(char *cmd, char *parms)
 
                         if (actions[action].gamepad2 && controls[i].value == *(int *)actions[action].gamepad2)
                         {
-                            C_Output("The " BOLD("%s") " action was unbound from the " BOLD("%s") " control.",
+                            C_Output("The " BOLD("%s") " action has been unbound from the " BOLD("%s") " control.",
                                 actions[action].action, controls[i].control);
                             *(int *)actions[action].gamepad2 = 0;
                             M_SaveCVARs();

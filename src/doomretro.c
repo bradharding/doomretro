@@ -203,10 +203,7 @@ int main(int argc, char **argv)
         memcpy(myargv, argv, myargc * sizeof(myargv[0]));
 
     for (int i = 0; i < myargc; i++)
-    {
-        M_StringReplaceAll(myargv[i], "/", DIR_SEPARATOR_S);
-        M_StringReplaceAll(myargv[i], "\\", DIR_SEPARATOR_S);
-    }
+        M_StringReplaceAll(myargv[i], (DIR_SEPARATOR == '/' ? "\\" : "/"), DIR_SEPARATOR_S);
 
 #if defined(_WIN32)
     hInstanceMutex = CreateMutex(NULL, true, DOOMRETRO_MUTEX);
