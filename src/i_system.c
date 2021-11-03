@@ -193,11 +193,13 @@ void I_PrintWindowsVersion(void)
             }
 
             if (wcslen(info.szCSDVersion) > 0)
-                C_Output("Running on %i-bit " ITALICS("Microsoft Windows %s%s%s (%ws)") " (Build %s).",
+                C_Output("Running on the %i-bit edition of " ITALICS("Microsoft Windows %s%s%s (%ws)") " (Build %s).",
                     bits, infoname, (*typename ? " " : ""), typename, info.szCSDVersion, build);
-            else
-                C_Output("Running on %i-bit " ITALICS("Microsoft Windows %s%s%s") " (Build %s).",
+            else if (info.dwMajorVersion < 10 || info.dwBuildNumber < 22000)
+                C_Output("Running on the %i-bit edition of " ITALICS("Microsoft Windows %s%s%s") " (Build %s).",
                     bits, infoname, (*typename ? " " : ""), typename, build);
+            else
+                C_Output("Running on " ITALICS("Microsoft Windows %s") " (Build %s).", infoname, build);
 
             free(build);
         }
