@@ -6984,7 +6984,6 @@ static void teleport_cmd_func2(char *cmd, char *parms)
 
                 fog->angle = viewangle;
                 S_StartSound(fog, sfx_telept);
-                C_HideConsole();
 
                 // spawn teleport fog at destination
                 viewplayer->viewz = mo->z + viewplayer->viewheight;
@@ -7008,6 +7007,13 @@ static void teleport_cmd_func2(char *cmd, char *parms)
                 viewplayer->cheated++;
                 stat_cheated = SafeAdd(stat_cheated, 1);
                 M_SaveCVARs();
+
+                if (M_StringCompare(playername, playername_default))
+                    C_PlayerMessage("You were teleported to (%i,%i,%i).", x, y, z);
+                else
+                    C_PlayerMessage("%s was teleported to (%i,%i,%i).", playername, x, y, z);
+
+                C_HideConsole();
             }
         }
     }
