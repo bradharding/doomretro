@@ -15,6 +15,7 @@
 * If the player is injured when the `r_blood` CVAR is `green` and the new `r_damageeffect` CVAR is `on`, the screen will now flash green accordingly.
 * The yellow effect when the player picks up an item can now be toggled using the new `r_pickupeffect` CVAR, which is both `on` by default and when vanilla mode is enabled.
 * The green effect when the player has a radiation shielding suit power-up can now be toggled using the new `r_radsuiteffect` CVAR, which is both `on` by default and when vanilla mode is enabled. If this CVAR is `off`, the screen will flash green to indicate when the power-up is about to run out.
+* The fuzz effect of spectres, and the player’s weapon when they have a partial invisibility power-up, is now updated at 35 FPS, independent of the screen’s frame rate.
 * If the player picks up a megasphere when they have 200% green armor, their armor will now be upgraded to blue armor.
 * The player will no longer make a sound when trying to open a door that is already open.
 * The player will now smoothly slide against two-sided textures.

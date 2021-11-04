@@ -2366,6 +2366,8 @@ void P_UpdateSpecials(void)
             if (!sector || (!sector->floordata && !sector->ceilingdata) || line->tag != sector->tag)
                 S_StartSectorSound(buttonlist[i].soundorg, sfx_swtchn);
         }
+
+    fuzzpos = fuzzpostic;
 }
 
 //
