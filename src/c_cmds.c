@@ -6750,7 +6750,10 @@ static void take_cmd_func2(char *cmd, char *parms)
                 }
 
             if (result)
+            {
+                C_PlayerMessage("Everything was taken from %s.", playername);
                 C_HideConsole();
+            }
             else if (M_StringCompare(playername, playername_default))
                 C_Warning(0, "You don't have anything.");
             else
@@ -6763,6 +6766,13 @@ static void take_cmd_func2(char *cmd, char *parms)
                 healthcvar = true;
                 P_DamageMobj(viewplayer->mo, viewplayer->mo, NULL, viewplayer->health - !!(viewplayer->cheats & CF_BUDDHA), false);
                 healthcvar = false;
+
+                if (M_StringCompare(playername, playername_default))
+                    C_PlayerMessage("You killed yourself.");
+                else
+                    C_PlayerObituary("%s killed %sself.",
+                        playername, (playergender == playergender_male ? "him" : (playergender == playergender_female ? "her" : "them")));
+
                 C_HideConsole();
             }
             else if (M_StringCompare(playername, playername_default))
@@ -6783,7 +6793,10 @@ static void take_cmd_func2(char *cmd, char *parms)
             P_EquipWeapon(wp_fist);
 
             if (result)
+            {
+                C_PlayerMessage("All weapons were taken from %s.", playername);
                 C_HideConsole();
+            }
             else if (M_StringCompare(playername, playername_default))
                 C_Warning(0, "You don't have any weapons.");
             else
@@ -6801,7 +6814,10 @@ static void take_cmd_func2(char *cmd, char *parms)
             P_EquipWeapon(wp_fist);
 
             if (result)
+            {
+                C_PlayerMessage("All ammo for each weapon was taken from %s.", playername);
                 C_HideConsole();
+            }
             else if (M_StringCompare(playername, playername_default))
                 C_Warning(0, "You don't have any ammo.");
             else
@@ -6814,6 +6830,7 @@ static void take_cmd_func2(char *cmd, char *parms)
             {
                 viewplayer->armorpoints = 0;
                 viewplayer->armortype = armortype_none;
+                C_PlayerMessage("All armor was taken from %s.", playername);
                 C_HideConsole();
             }
             else if (M_StringCompare(playername, playername_default))
@@ -6831,7 +6848,10 @@ static void take_cmd_func2(char *cmd, char *parms)
                 }
 
             if (result)
+            {
+                C_PlayerMessage("All keycards and skull keys were taken from %s.", playername);
                 C_HideConsole();
+            }
             else if (M_StringCompare(playername, playername_default))
                 C_Warning(0, "You don't have any keycards or skull keys.");
             else
@@ -6844,6 +6864,7 @@ static void take_cmd_func2(char *cmd, char *parms)
                 viewplayer->cards[it_bluecard] = 0;
                 viewplayer->cards[it_redcard] = 0;
                 viewplayer->cards[it_yellowcard] = 0;
+                C_PlayerMessage("All keycards were taken from %s.", playername);
                 C_HideConsole();
             }
             else if (M_StringCompare(playername, playername_default))
@@ -6858,6 +6879,7 @@ static void take_cmd_func2(char *cmd, char *parms)
                 viewplayer->cards[it_blueskull] = 0;
                 viewplayer->cards[it_redskull] = 0;
                 viewplayer->cards[it_yellowskull] = 0;
+                C_PlayerMessage("All skull keys were taken from %s.", playername);
                 C_HideConsole();
             }
             else if (M_StringCompare(playername, playername_default))
@@ -6872,10 +6894,10 @@ static void take_cmd_func2(char *cmd, char *parms)
                 viewplayer->weaponowned[wp_pistol] = false;
                 oldweaponsowned[wp_pistol] = false;
 
-                if (viewplayer->readyweapon == wp_pistol)
-                    C_HideConsole();
-
                 P_CheckAmmo(viewplayer->readyweapon);
+
+                C_PlayerMessage("Your pistol taken from %s.", playername);
+                C_HideConsole();
             }
             else if (M_StringCompare(playername, playername_default))
                 C_Warning(0, "You don't have a pistol.");
@@ -6898,6 +6920,8 @@ static void take_cmd_func2(char *cmd, char *parms)
                 {
                     if (P_TakeSpecialThing(i))
                     {
+                        C_PlayerMessage("%s %s was taken from %s.",
+                            (isvowel(mobjinfo[i].name1[0]) ? "An" : "A"), mobjinfo[i].name1, playername);
                         C_HideConsole();
                         result = true;
                     }
