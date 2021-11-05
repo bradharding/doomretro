@@ -968,14 +968,34 @@ int hextodec(char *hex)
     return ret;
 }
 
-void M_StripQuotes(char *string)
+void M_StripQuotes(char *str)
 {
-    int len = (int)strlen(string);
+    int len = (int)strlen(str);
 
-    if (len > 2 && ((string[0] == '"' && string[len - 1] == '"') || (string[0] == '\'' && string[len - 1] == '\'')))
+    if (len > 2 && ((str[0] == '"' && str[len - 1] == '"') || (str[0] == '\'' && str[len - 1] == '\'')))
     {
         len -= 2;
-        memmove(string, string + 1, len);
-        string[len] = '\0';
+        memmove(str, str + 1, len);
+        str[len] = '\0';
     }
+}
+
+void M_NormalizeSlashes(char *str)
+{
+    char    *p;
+
+    // Convert all slashes/backslashes to DIR_SEPARATOR
+    for (p = str; *p; p++)
+        if ((*p == '/' || *p == '\\') && *p != DIR_SEPARATOR)
+            *p = DIR_SEPARATOR;
+
+    // Remove trailing slashes
+    while (p > str && *--p == DIR_SEPARATOR)
+        *p = 0;
+
+    // Collapse multiple slashes
+    for (p = str; (*str++ = *p); )
+        if (*p++ == DIR_SEPARATOR)
+            while (*p == DIR_SEPARATOR)
+                p++;
 }

@@ -105,6 +105,7 @@ dboolean ispunctuation(const char ch);
 dboolean isbreak(const char ch);
 char *striptrailingzero(float value, int precision);
 int hextodec(char *hex);
-void M_StripQuotes(char *string);
+void M_StripQuotes(char *str);
+void M_NormalizeSlashes(char *str);
 
 #endif
