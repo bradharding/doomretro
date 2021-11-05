@@ -795,7 +795,7 @@ static void HU_AltInit(void)
         }
     }
 
-    if (!weaponschanged || BTSX)
+    if ((!weaponschanged || BTSX) && !chex && !REKKRSA && !FREEDOOM)
         for (int i = 1; i < NUMWEAPONS; i++)
         {
             M_snprintf(buffer, sizeof(buffer), "DRHUDWP%i", i);
