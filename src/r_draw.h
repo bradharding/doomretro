@@ -74,7 +74,6 @@ extern byte             *dc_black40;
 extern byte             *dc_source;
 
 extern int              fuzzpos;
-extern int              fuzzpostic;
 extern int              fuzzrange[3];
 extern int              fuzztable[MAXSCREENAREA];
 

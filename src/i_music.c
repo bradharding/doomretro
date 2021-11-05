@@ -86,8 +86,7 @@ dboolean I_InitMusic(void)
     int         channels;
     uint16_t    format;
 
-    // If SDL_mixer is not initialized, we have to initialize it
-    // and have the responsibility to shut it down later on.
+    // If SDL_mixer is not initialized, we have to initialize it and have the responsibility to shut it down later on.
     if (!Mix_QuerySpec(&freq, &format, &channels))
     {
         if (SDL_InitSubSystem(SDL_INIT_AUDIO) < 0)
@@ -277,7 +276,7 @@ void *I_RegisterSong(void *data, int size)
             if (I_MidiRPCRegisterSong(data, size))
             {
                 serverMidiPlaying = true;
-                return NULL;        // server will play this song
+                return NULL;
             }
 #endif
 

@@ -65,7 +65,6 @@ int         viewwindowy;
 
 int         fuzzrange[3];
 int         fuzzpos;
-int         fuzzpostic;
 int         fuzztable[MAXSCREENAREA];
 
 static byte *ylookup0[MAXHEIGHT];

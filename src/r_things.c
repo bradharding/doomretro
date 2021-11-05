@@ -1426,8 +1426,6 @@ void R_DrawMasked(void)
     interpolatesprites = (vid_capfps != TICRATE && !pausesprites);
     invulnerable = (viewplayer->fixedcolormap == INVERSECOLORMAP && r_translucency);
 
-    fuzzpostic = fuzzpos;
-
     // draw all blood splats
     for (int i = num_bloodsplatvissprite - 1; i >= 0; i--)
         R_DrawBloodSplatSprite(&bloodsplatvissprites[i]);
