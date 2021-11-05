@@ -127,6 +127,8 @@ int                     con_backcolor = con_backcolor_default;
 int                     con_edgecolor = con_edgecolor_default;
 int                     warninglevel = warninglevel_default;
 
+uint64_t                stat_consoleopened = 0;
+
 static int              timerwidth;
 static int              zerowidth;
 
@@ -753,6 +755,11 @@ void C_ShowConsole(void)
         S_StartSound(NULL, sfx_swtchn);
         D_FadeScreen(false);
     }
+
+    stat_consoleopened = SafeAdd(stat_consoleopened, 1);
+
+    if (viewplayer)
+        viewplayer->consoleopened++;
 
     S_LowerMusicVolume();
     SDL_StartTextInput();

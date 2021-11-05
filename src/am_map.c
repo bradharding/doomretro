@@ -54,26 +54,27 @@
 #include "p_local.h"
 #include "st_stuff.h"
 
-// Automap colors
-int am_allmapcdwallcolor = am_allmapcdwallcolor_default;
-int am_allmapfdwallcolor = am_allmapfdwallcolor_default;
-int am_allmapwallcolor = am_allmapwallcolor_default;
-int am_backcolor = am_backcolor_default;
-int am_bluedoorcolor = am_bluedoorcolor_default;
-int am_cdwallcolor = am_cdwallcolor_default;
-int am_crosshaircolor = am_crosshaircolor_default;
-int am_fdwallcolor = am_fdwallcolor_default;
-int am_gridcolor = am_gridcolor_default;
-int am_markcolor = am_markcolor_default;
-int am_pathcolor = am_pathcolor_default;
-int am_playercolor = am_playercolor_default;
-dboolean am_playerstats = am_playerstats_default;
-int am_reddoorcolor = am_reddoorcolor_default;
-int am_teleportercolor = am_teleportercolor_default;
-int am_thingcolor = am_thingcolor_default;
-int am_tswallcolor = am_tswallcolor_default;
-int am_wallcolor = am_wallcolor_default;
-int am_yellowdoorcolor = am_yellowdoorcolor_default;
+int         am_allmapcdwallcolor = am_allmapcdwallcolor_default;
+int         am_allmapfdwallcolor = am_allmapfdwallcolor_default;
+int         am_allmapwallcolor = am_allmapwallcolor_default;
+int         am_backcolor = am_backcolor_default;
+int         am_bluedoorcolor = am_bluedoorcolor_default;
+int         am_cdwallcolor = am_cdwallcolor_default;
+int         am_crosshaircolor = am_crosshaircolor_default;
+int         am_fdwallcolor = am_fdwallcolor_default;
+int         am_gridcolor = am_gridcolor_default;
+int         am_markcolor = am_markcolor_default;
+int         am_pathcolor = am_pathcolor_default;
+int         am_playercolor = am_playercolor_default;
+dboolean    am_playerstats = am_playerstats_default;
+int         am_reddoorcolor = am_reddoorcolor_default;
+int         am_teleportercolor = am_teleportercolor_default;
+int         am_thingcolor = am_thingcolor_default;
+int         am_tswallcolor = am_tswallcolor_default;
+int         am_wallcolor = am_wallcolor_default;
+int         am_yellowdoorcolor = am_yellowdoorcolor_default;
+
+uint64_t    stat_automapopened = 0;
 
 // Automap color priorities
 #define PATHPRIORITY        9
@@ -455,6 +456,11 @@ void AM_Start(const dboolean mainwindow)
         lastlevel = gamemap;
         lastepisode = gameepisode;
     }
+
+    stat_automapopened = SafeAdd(stat_automapopened, 1);
+
+    if (viewplayer)
+        viewplayer->automapopened++;
 
     AM_InitVariables(mainwindow);
 }

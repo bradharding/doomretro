@@ -20,6 +20,7 @@
 * The player will now smoothly slide against two-sided textures.
 * Minor improvements have been made to the alternate widescreen HUD.
 * Minor improvements have been made to the support of `DEHACKED` lumps.
+* The number of times the automap and the console are opened are now displayed by the `playerstats` CCMD.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

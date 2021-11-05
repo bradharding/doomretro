@@ -52,7 +52,7 @@
 
 static dboolean cvarsloaded;
 
-#define NUMCVARS                                                212
+#define NUMCVARS                                                214
 
 #define CONFIG_VARIABLE_INT(name1, name2, cvar, set)            { #name1, #name2, &cvar, DEFAULT_INT32,         set          }
 #define CONFIG_VARIABLE_INT_UNSIGNED(name1, name2, cvar, set)   { #name1, #name2, &cvar, DEFAULT_UINT64,        set          }
@@ -220,8 +220,10 @@ static default_t cvars[NUMCVARS] =
     CONFIG_VARIABLE_INT          (weaponrecoil,                     weaponrecoil,                          weaponrecoil,                          BOOLVALUEALIAS        ),
     BLANKLINE,
     COMMENT("; player stats\n"),
+    CONFIG_VARIABLE_INT_UNSIGNED (automapopened,                    stat_automapopened,                    stat_automapopened,                    NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT_UNSIGNED (barrelsexploded,                  stat_barrelsexploded,                  stat_barrelsexploded,                  NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT_UNSIGNED (cheated,                          stat_cheated,                          stat_cheated,                          NOVALUEALIAS          ),
+    CONFIG_VARIABLE_INT_UNSIGNED (consoleopened,                    stat_consoleopened,                    stat_consoleopened,                    NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT_UNSIGNED (damageinflicted,                  stat_damageinflicted,                  stat_damageinflicted,                  NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT_UNSIGNED (damagereceived,                   stat_damagereceived,                   stat_damagereceived,                   NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT_UNSIGNED (deaths,                           stat_deaths,                           stat_deaths,                           NOVALUEALIAS          ),

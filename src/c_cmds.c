@@ -5408,6 +5408,18 @@ static void C_PlayerStats_Game(void)
     C_TabbedOutput(tabs, "Distance traveled\t%s\t%s", temp1, temp2);
     free(temp1);
     free(temp2);
+
+    temp1 = commify(viewplayer->automapopened);
+    temp2 = commify(stat_automapopened);
+    C_TabbedOutput(tabs, "Automap opened\t%s\t%s", temp1, temp2);
+    free(temp1);
+    free(temp2);
+
+    temp1 = commify(viewplayer->consoleopened);
+    temp2 = commify(stat_consoleopened);
+    C_TabbedOutput(tabs, "Console opened\t%s\t%s", temp1, temp2);
+    free(temp1);
+    free(temp2);
 }
 
 static void C_PlayerStats_NoGame(void)
@@ -5750,6 +5762,14 @@ static void C_PlayerStats_NoGame(void)
 
     temp1 = distancetraveled(stat_distancetraveled, true);
     C_TabbedOutput(tabs, "Distance traveled\t\x96\t%s", temp1);
+    free(temp1);
+
+    temp1 = commify(stat_automapopened);
+    C_TabbedOutput(tabs, "Automap opened\t\x96\t%s", temp1);
+    free(temp1);
+
+    temp1 = commify(stat_consoleopened);
+    C_TabbedOutput(tabs, "Console opened\t\x96\t%s", temp1);
     free(temp1);
 }
 

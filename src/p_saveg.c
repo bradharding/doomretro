@@ -548,10 +548,10 @@ static void saveg_read_player_t(void)
 
     viewplayer->infightcount = saveg_read32();
     viewplayer->resurrectioncount = saveg_read32();
+    viewplayer->automapopened = saveg_read32();
+    viewplayer->consoleopened = saveg_read32();
 
     // [BH] For future features without breaking savegame compatibility
-    saveg_read32();
-    saveg_read32();
     saveg_read32();
     saveg_read32();
     saveg_read32();
@@ -658,10 +658,10 @@ static void saveg_write_player_t(void)
 
     saveg_write32(viewplayer->infightcount);
     saveg_write32(viewplayer->resurrectioncount);
+    saveg_write32(viewplayer->automapopened);
+    saveg_write32(viewplayer->consoleopened);
 
     // [BH] For future features without breaking savegame compatibility
-    saveg_write32(0);
-    saveg_write32(0);
     saveg_write32(0);
     saveg_write32(0);
     saveg_write32(0);
