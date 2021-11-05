@@ -5394,14 +5394,30 @@ static void C_PlayerStats_Game(void)
     }
 
     if (favoriteweapon1 == wp_nochange && favoriteweapon2 == wp_nochange)
-        C_TabbedOutput(tabs, "Favorite weapon\tThe %s\t The %s",
-            weaponinfo[wp_pistol].name, weaponinfo[wp_pistol].name);
+    {
+        temp1 = titlecase(weaponinfo[wp_pistol].name);
+        C_TabbedOutput(tabs, "Favorite weapon\t%s\t%s",
+            temp1, temp1);
+        free(temp1);
+    }
     else if (favoriteweapon1 == wp_nochange)
-        C_TabbedOutput(tabs, "Favorite weapon\tThe %s\tThe %s",
-            weaponinfo[wp_pistol].name, weaponinfo[favoriteweapon2].name);
+    {
+        temp1 = titlecase(weaponinfo[wp_pistol].name);
+        temp2 = titlecase(weaponinfo[favoriteweapon2].name);
+        C_TabbedOutput(tabs, "Favorite weapon\t%s\t%s",
+            temp1, temp2);
+        free(temp1);
+        free(temp2);
+    }
     else
-        C_TabbedOutput(tabs, "Favorite weapon\tThe %s\tThe %s",
-            weaponinfo[favoriteweapon1].name, weaponinfo[favoriteweapon2].name);
+    {
+        temp1 = titlecase(weaponinfo[favoriteweapon1].name);
+        temp2 = titlecase(weaponinfo[favoriteweapon2].name);
+        C_TabbedOutput(tabs, "Favorite weapon\t%s\t%s",
+            temp1, temp2);
+        free(temp1);
+        free(temp2);
+    }
 
     temp1 = distancetraveled(viewplayer->distancetraveled, true);
     temp2 = distancetraveled(stat_distancetraveled, true);
@@ -5755,10 +5771,9 @@ static void C_PlayerStats_NoGame(void)
         free(temp3);
     }
 
-    if (favoriteweapon1 == wp_nochange)
-        C_TabbedOutput(tabs, "Favorite weapon\t\x96\tThe %s", weaponinfo[wp_pistol].name);
-    else
-        C_TabbedOutput(tabs, "Favorite weapon\t\x96\tThe %s", weaponinfo[favoriteweapon1].name);
+    temp1 = titlecase(weaponinfo[(favoriteweapon1 == wp_nochange ? wp_pistol : favoriteweapon1)].name);
+    C_TabbedOutput(tabs, "Favorite weapon\t\x96\%s", temp1);
+    free(temp1);
 
     temp1 = distancetraveled(stat_distancetraveled, true);
     C_TabbedOutput(tabs, "Distance traveled\t\x96\t%s", temp1);
