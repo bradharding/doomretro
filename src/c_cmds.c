@@ -2769,12 +2769,14 @@ static void kill_cmd_func2(char *cmd, char *parms)
 
             viewplayer->mo->flags2 |= MF2_MASSACRE;
             P_KillMobj(viewplayer->mo, NULL, viewplayer->mo);
-            M_snprintf(buffer, sizeof(buffer), "%s killed %s.",
-                playername, (M_StringCompare(playername, playername_default) ? "yourself" : "themselves"));
-            buffer[0] = toupper(buffer[0]);
-            C_PlayerMessage(buffer);
+
+            if (M_StringCompare(playername, playername_default))
+                C_PlayerMessage("You killed yourself.");
+            else
+                C_PlayerMessage("%s killed %sself.",
+                    playername, (playergender == playergender_male ? "him" : (playergender == playergender_female ? "her" : "them")));
+
             C_HideConsole();
-            HU_SetPlayerMessage(buffer, false, false);
             message_dontfuckwithme = true;
         }
         else
@@ -2840,11 +2842,24 @@ static void kill_cmd_func2(char *cmd, char *parms)
                 {
                     char    *temp = commify(kills);
 
-                    M_snprintf(buffer, sizeof(buffer), "%s %s %smonster%s %s now dead.", (kills == 1 ? "The" : "All"),
-                        temp, (kills < prevkills ? "remaining " : ""), (kills == 1 ? "" : "s"), (kills == 1 ? "is" : "are"));
-                    C_Output(buffer);
+                    if (M_StringCompare(playername, playername_default))
+                    {
+                        if (kills == 1)
+                            C_PlayerMessage("You killed the only %smonster in this map.", (kills < prevkills ? "remaining " : ""));
+                        else
+                            C_PlayerMessage("You killed the %s %smonsters in this map.", temp, (kills < prevkills ? "remaining " : ""));
+                    }
+                    else
+                    {
+                        if (kills == 1)
+                            C_PlayerMessage("%s killed the only %smonster in this map.",
+                                playername, (kills < prevkills ? "remaining " : ""));
+                        else
+                            C_PlayerMessage("%s killed the %s %smonsters in this map.",
+                                playername, temp, (kills < prevkills ? "remaining " : ""));
+                    }
+
                     C_HideConsole();
-                    HU_SetPlayerMessage(buffer, false, false);
                     message_dontfuckwithme = true;
                     viewplayer->cheated++;
                     stat_cheated = SafeAdd(stat_cheated, 1);
@@ -2876,11 +2891,12 @@ static void kill_cmd_func2(char *cmd, char *parms)
                 {
                     char    *temp = commify(kills);
 
-                    M_snprintf(buffer, sizeof(buffer), "%s %s missile%s %s exploded.", (kills == 1 ? "The" : "All"), temp,
-                        (kills == 1 ? "" : "s"), (kills == 1 ? "has" : "have"));
-                    C_Output(buffer);
+                    if (M_StringCompare(playername, playername_default))
+                        C_PlayerMessage("You exploded %s missile%s.", (kills == 1 ? "one" : temp), (kills == 1 ? "" : "s"));
+                    else
+                        C_PlayerMessage("%s exploded %s missile%s.", playername, (kills == 1 ? "one" : temp), (kills == 1 ? "" : "s"));
+
                     C_HideConsole();
-                    HU_SetPlayerMessage(buffer, false, false);
                     message_dontfuckwithme = true;
                     viewplayer->cheated++;
                     stat_cheated = SafeAdd(stat_cheated, 1);
@@ -2905,10 +2921,12 @@ static void kill_cmd_func2(char *cmd, char *parms)
                     killcmdmobj->momy += (!r ? M_RandomIntNoRepeat(-1, 1, 0) : M_RandomInt(-1, 1)) * FRACUNIT;
                 }
 
-                M_snprintf(buffer, sizeof(buffer), "%s is now dead.", temp);
-                C_Output(buffer);
+                if (M_StringCompare(playername, playername_default))
+                    C_PlayerMessage("You killed %s.", temp);
+                else
+                    C_PlayerMessage("%s killed %s.", playername, temp);
+
                 C_HideConsole();
-                HU_SetPlayerMessage(buffer, false, false);
                 message_dontfuckwithme = true;
                 viewplayer->cheated++;
                 stat_cheated = SafeAdd(stat_cheated, 1);
@@ -2975,8 +2993,42 @@ static void kill_cmd_func2(char *cmd, char *parms)
                         (type == MT_BARREL ? (kills == 1 ? "has" : "have") : (kills == 1 ? "is" : "are")),
                         (type == MT_BARREL ? "exploded" : "dead"));
                     C_Output(buffer);
+
+                    if (M_StringCompare(playername, playername_default))
+                    {
+                        if (kills == 1)
+                            C_PlayerMessage("You %s the only %s%s in this map.",
+                                (type == MT_BARREL ? "exploded" : "killed"),
+                                (kills < prevkills ? "remaining " : ""),
+                                mobjinfo[type].name1);
+                        else
+                            C_PlayerMessage("You %s %sthe %s %s%s in this map.",
+                                (type == MT_BARREL ? "exploded" : "killed"),
+                                (kills == 1 ? "" : "all "),
+                                temp, 
+                                (kills < prevkills ? "remaining " : ""),
+                                mobjinfo[type].plural1);
+                    }
+                    else
+                    {
+                        if (kills == 1)
+                            C_PlayerMessage("%s %s the only %s%s in this map.",
+                                playername,
+                                (type == MT_BARREL ? "exploded" : "killed"),
+                                (kills < prevkills ? "remaining " : ""),
+                                mobjinfo[type].name1);
+                        else
+                            C_PlayerMessage("%s %s %sthe %s %s%s in this map.",
+                                playername,
+                                (type == MT_BARREL ? "exploded" : "killed"),
+                                (kills == 1 ? "" : "all "),
+                                temp,
+                                (kills < prevkills ? "remaining " : ""),
+                                mobjinfo[type].plural1);
+                    }
+
+
                     C_HideConsole();
-                    HU_SetPlayerMessage(buffer, false, false);
                     message_dontfuckwithme = true;
                     viewplayer->cheated++;
                     stat_cheated = SafeAdd(stat_cheated, 1);
@@ -6770,15 +6822,18 @@ static void take_cmd_func2(char *cmd, char *parms)
                 if (M_StringCompare(playername, playername_default))
                     C_PlayerMessage("You killed yourself.");
                 else
-                    C_PlayerObituary("%s killed %sself.",
+                    C_PlayerMessage("%s killed %sself.",
                         playername, (playergender == playergender_male ? "him" : (playergender == playergender_female ? "her" : "them")));
 
                 C_HideConsole();
             }
-            else if (M_StringCompare(playername, playername_default))
-                C_Warning(0, "You are already dead.");
             else
-                C_Warning(0, "%s is already dead.", playername);
+            {
+                if (M_StringCompare(playername, playername_default))
+                    C_Warning(0, "You are already dead.");
+                else
+                    C_Warning(0, "%s is already dead.", playername);
+            }
         }
         else if (M_StringCompare(parm, "weapons") || M_StringCompare(parm, "allweapons"))
         {
