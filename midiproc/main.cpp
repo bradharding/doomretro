@@ -499,11 +499,11 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
     if (!InitSDL())
         return -1;
 
+    std::thread watcher(Sentinel_Main);
+
     // Initialize RPC Server
     if (!MidiRPC_InitServer())
         return -1;
-
-    std::thread watcher(Sentinel_Main);
 
     while (sentinel_running)
         Sleep(1);
