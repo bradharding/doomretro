@@ -969,7 +969,7 @@ dboolean P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message,
 
             if (message)
             {
-                if (viewplayer->health < 50)
+                if (viewplayer->health < 50 && !(viewplayer->cheats & CF_BUDDHA))
                 {
                     static char buffer[1024];
 
