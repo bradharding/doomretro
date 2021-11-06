@@ -5772,7 +5772,7 @@ static void C_PlayerStats_NoGame(void)
     }
 
     temp1 = titlecase(weaponinfo[(favoriteweapon1 == wp_nochange ? wp_pistol : favoriteweapon1)].name);
-    C_TabbedOutput(tabs, "Favorite weapon\t\x96\%s", temp1);
+    C_TabbedOutput(tabs, "Favorite weapon\t\x96\t%s", temp1);
     free(temp1);
 
     temp1 = distancetraveled(stat_distancetraveled, true);
