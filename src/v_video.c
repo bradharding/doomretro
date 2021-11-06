@@ -1153,7 +1153,7 @@ void V_DrawTranslucentRedPatch(int x, int y, patch_t *patch)
 //
 // The co-ordinates for this procedure are always based upon a
 // 320x200 screen and multiplies the size of the patch by the
-// scaledwidth & scaledheight. The purpose of this is to produce
+// scaledwidth and scaledheight. The purpose of this is to produce
 // a clean and undistorted patch upon the screen, The scaled screen
 // size is based upon the nearest whole number ratio from the
 // current screen size to 320x200.
@@ -1173,8 +1173,7 @@ void V_DrawFlippedPatch(int x, int y, patch_t *patch)
 
     for (int col = 0; col < w; col += DXI, desttop++)
     {
-        column_t    *column = (column_t *)((byte *)patch
-                        + LONG(patch->columnofs[SHORT(patch->width) - 1 - (col >> FRACBITS)]));
+        column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnofs[SHORT(patch->width) - 1 - (col >> FRACBITS)]));
 
         // step through the posts in a column
         while (column->topdelta != 0xFF)

@@ -6986,7 +6986,7 @@ static void take_cmd_func2(char *cmd, char *parms)
 
                 P_CheckAmmo(viewplayer->readyweapon);
 
-                C_PlayerMessage("Your pistol taken from %s.", playername);
+                C_PlayerMessage("A pistol was taken from %s.", playername);
                 C_HideConsole();
             }
             else if (M_StringCompare(playername, playername_default))

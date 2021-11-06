@@ -492,7 +492,7 @@ static dboolean PIT_CheckThing(mobj_t *thing)
         && thing->z + thing->height >= tmthing->z               // touches vertically
         && tmthing->z + tmthing->height >= thing->z
         && ((type ^ MT_PAIN) | (tmtype ^ MT_SKULL))             // PEs and lost souls are considered same
-        && ((type ^ MT_SKULL) | (tmtype ^ MT_PAIN)))            // (but Barons & Knights are intentionally not)
+        && ((type ^ MT_SKULL) | (tmtype ^ MT_PAIN)))            // (but Barons and Knights are intentionally not)
     {
         P_DamageMobj(thing, NULL, NULL, thing->health, true);   // kill object
         return true;

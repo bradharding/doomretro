@@ -1451,7 +1451,7 @@ static void M_DrawReadThis(void)
 }
 
 //
-// Change SFX & Music volumes
+// Change SFX and Music volumes
 //
 static void M_DrawSound(void)
 {

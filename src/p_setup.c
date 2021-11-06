@@ -2285,7 +2285,7 @@ static void P_CreateBlockMap(void)
             for (i = 4; (unsigned int)i < tot; i++, bp++)
                 if (bp->n)                                              // Non-empty blocklist
                 {
-                    blockmaplump[(blockmaplump[i] = ndx++)] = 0;        // Store index & header
+                    blockmaplump[(blockmaplump[i] = ndx++)] = 0;        // Store index and header
 
                     do
                         blockmaplump[ndx++] = bp->list[--bp->n];        // Copy linedef list

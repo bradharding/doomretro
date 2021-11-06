@@ -534,7 +534,7 @@ static void R_Subsector(int num)
 
     // killough 09/18/98: Fix underwater slowdown, by passing real sector
     // instead of fake one. Improve sprite lighting by basing sprite
-    // lightlevels on floor & ceiling lightlevels in the surrounding area.
+    // lightlevels on floor and ceiling lightlevels in the surrounding area.
     //
     // 10/98 killough:
     //

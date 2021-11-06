@@ -119,7 +119,7 @@ void S_PauseMusic(void);
 void S_ResumeMusic(void);
 
 //
-// Updates music & sounds
+// Updates music and sounds
 //
 void S_UpdateSounds(void);
 

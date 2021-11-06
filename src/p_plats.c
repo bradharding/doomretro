@@ -199,7 +199,7 @@ manual_plat:
                 return rtn;
         }
 
-        // Find lowest & highest floors around sector
+        // Find lowest and highest floors around sector
         rtn = true;
         plat = Z_Calloc(1, sizeof(*plat), PU_LEVSPEC, NULL);
 

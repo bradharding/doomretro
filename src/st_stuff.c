@@ -842,7 +842,7 @@ dboolean ST_Responder(event_t *ev)
                 message_dontfuckwithme = true;
             }
 
-            // 'choppers' invulnerability & chainsaw
+            // 'choppers' invulnerability and chainsaw
             else if (cht_CheckCheat(&cheat_choppers, ev->data2) && gameskill != sk_nightmare
                      // [BH] can only enter cheat while player is alive
                      && viewplayer->health > 0)

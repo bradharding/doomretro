@@ -3005,13 +3005,13 @@ static void P_SpawnFriction(void)
 //    force if on the ground or below it (water).
 //
 // The magnitude of the force is controlled by the length of a controlling
-// linedef. The force vector for types 3 & 4 is determined by the angle
+// linedef. The force vector for types 3 and 4 is determined by the angle
 // of the linedef, and is constant.
 //
 // For each sector where these effects occur, the sector special type has
 // to have the PUSH_MASK bit set. If this bit is turned off by a switch
 // at run-time, the effect will not occur. The controlling sector for
-// types 1 & 2 is the sector containing the MT_PUSH/MT_PULL Thing.
+// types 1 and 2 is the sector containing the MT_PUSH/MT_PULL Thing.
 
 #define PUSH_FACTOR 7
 
