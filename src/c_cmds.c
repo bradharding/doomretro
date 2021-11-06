@@ -2272,18 +2272,18 @@ static void give_cmd_func2(char *cmd, char *parms)
                 S_StartSound(viewplayer->mo, sfx_itemup);
 
                 if (M_StringCompare(playername, playername_default))
-                    C_PlayerMessage("You were given full ammo for each weapon.");
+                    C_PlayerMessage("You were given full ammo for every weapon.");
                 else
-                    C_PlayerMessage("%s was given full ammo for each weapon.", playername);
+                    C_PlayerMessage("%s was given full ammo for every weapon.", playername);
 
                 C_HideConsole();
             }
             else
             {
                 if (M_StringCompare(playername, playername_default))
-                    C_Warning(0, "You already have full ammo for each weapon.");
+                    C_Warning(0, "You already have full ammo for every weapon.");
                 else
-                    C_Warning(0, "%s already has full ammo for each weapon.", playername);
+                    C_Warning(0, "%s already has full ammo for every weapon.", playername);
 
                 free(parm);
                 return;
@@ -6909,7 +6909,7 @@ static void take_cmd_func2(char *cmd, char *parms)
 
             if (result)
             {
-                C_PlayerMessage("All ammo for each weapon was taken from %s.", playername);
+                C_PlayerMessage("All ammo was taken from %s.", playername);
                 C_HideConsole();
             }
             else if (M_StringCompare(playername, playername_default))
