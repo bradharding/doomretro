@@ -1008,7 +1008,7 @@ void I_SetPalette(byte *playpal)
             byte    r = gamma[*playpal++];
             byte    g = gamma[*playpal++];
             byte    b = gamma[*playpal++];
-            double  p = sqrt((double)r * r * 0.299 + (double)g * g * 0.587 + (double)b * b * 0.114);
+            double  p = sqrt(r * r * 0.299 + g * g * 0.587 + b * b * 0.114);
 
             colors[i].r = (byte)(p + (r - p) * color);
             colors[i].g = (byte)(p + (g - p) * color);
