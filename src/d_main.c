@@ -1245,7 +1245,17 @@ static int D_OpenWADLauncher(void)
                 && !M_StringEndsWith(file, ".pwad") && !M_StringEndsWith(file, ".deh")
                 && !M_StringEndsWith(file, ".bex") && !M_StringEndsWith(file, ".cfg")
                 && !strchr(file, '.'))
+            {
+                char    *file2 = M_StringDuplicate(file);
+
                 file = M_StringJoin(file, ".wad", NULL);
+
+                if (!M_FileExists(file))
+                    file = M_StringJoin(file2, ".iwad", NULL);
+
+                if (!M_FileExists(file))
+                    file = M_StringJoin(file2, ".pwad", NULL);
+            }
 
 #if defined(_WIN32)
             // if WAD doesn't exist (that is, entered manually and may be partial filename), look for best match
