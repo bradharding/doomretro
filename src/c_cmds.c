@@ -3007,7 +3007,7 @@ static void kill_cmd_func2(char *cmd, char *parms)
                             C_PlayerMessage("You %s %sthe %s %s%s in this map.",
                                 (type == MT_BARREL ? "exploded" : "killed"),
                                 (kills == 1 ? "" : "all "),
-                                temp, 
+                                temp,
                                 (kills < prevkills ? "remaining " : ""),
                                 mobjinfo[type].plural1);
                     }
@@ -3028,7 +3028,6 @@ static void kill_cmd_func2(char *cmd, char *parms)
                                 (kills < prevkills ? "remaining " : ""),
                                 mobjinfo[type].plural1);
                     }
-
 
                     C_HideConsole();
                     message_dontfuckwithme = true;
@@ -6729,7 +6728,7 @@ static dboolean take_cmd_func1(char *cmd, char *parms)
     if (M_StringCompare(parm, "all") || M_StringCompare(parm, "everything")
         || M_StringCompare(parm, "health") || M_StringCompare(parm, "fullhealth")
         || M_StringCompare(parm, "weapons") || M_StringCompare(parm, "allweapons")
-        || M_StringCompare(parm, "ammo") || M_StringCompare(parm, "fullammo") 
+        || M_StringCompare(parm, "ammo") || M_StringCompare(parm, "fullammo")
         || M_StringCompare(parms, "ammunition") || M_StringCompare(parms, "fullammunition")
         || M_StringCompare(parm, "armor") || M_StringCompare(parm, "fullarmor")
         || M_StringCompare(parm, "armour") || M_StringCompare(parm, "fullarmour")
