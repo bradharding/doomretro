@@ -610,6 +610,8 @@ void G_DoLoadLevel(void)
 
     P_SetupLevel(ep, gamemap);
 
+    skycolumnoffset = 0;
+
     R_InitSkyMap();
     R_InitColumnFunctions();
 

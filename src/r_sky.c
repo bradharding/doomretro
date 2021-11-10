@@ -49,7 +49,7 @@
 int         skyflatnum;
 int         skytexture;
 int         skytexturemid;
-int         skycolumnoffset = 0;
+int         skycolumnoffset;
 int         skyscrolldelta;
 
 fixed_t     skyiscale;
