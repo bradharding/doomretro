@@ -114,7 +114,7 @@ extern dboolean     usebrightmaps;
 //   causing full-screen HOM, and possible program crashes.
 //
 //  Therefore, Vanilla DOOM clamps this scale calculation, preventing it
-//   from becoming larger than 0x400000 (64*FRACUNIT). This number was
+//   from becoming larger than 0x400000 (64 * FRACUNIT). This number was
 //   chosen carefully, to allow reasonably-tight angles, with reasonably
 //   tall sectors to be rendered, within the limits of the fixed-point
 //   math system being used. When the scale gets clamped, DOOM cannot

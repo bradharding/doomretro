@@ -509,6 +509,7 @@ dboolean P_GiveArmor(armortype_t armortype, dboolean stat)
 
     viewplayer->armorpoints = hits;
     armorhighlight = I_GetTimeMS() + HUD_ARMOR_HIGHLIGHT_WAIT;
+
     return true;
 }
 
@@ -1278,6 +1279,7 @@ dboolean P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message,
 
     P_RemoveMobj(special);
     P_AddBonus();
+
     return true;
 }
 
@@ -1298,6 +1300,7 @@ dboolean P_TakeSpecialThing(mobjtype_t type)
 
             viewplayer->armorpoints -= green_armor_class * 100;
             armorhighlight = I_GetTimeMS() + HUD_ARMOR_HIGHLIGHT_WAIT;
+
             return true;
 
         // blue armor
@@ -1310,6 +1313,7 @@ dboolean P_TakeSpecialThing(mobjtype_t type)
 
             viewplayer->armorpoints -= blue_armor_class * 100;
             armorhighlight = I_GetTimeMS() + HUD_ARMOR_HIGHLIGHT_WAIT;
+
             return true;
 
         // bonus health
@@ -1329,6 +1333,7 @@ dboolean P_TakeSpecialThing(mobjtype_t type)
             viewplayer->health--;
             viewplayer->mo->health--;
             healthhighlight = I_GetTimeMS() + HUD_HEALTH_HIGHLIGHT_WAIT;
+
             return true;
 
         // bonus armor
@@ -1338,6 +1343,7 @@ dboolean P_TakeSpecialThing(mobjtype_t type)
 
             viewplayer->armorpoints--;
             armorhighlight = I_GetTimeMS() + HUD_ARMOR_HIGHLIGHT_WAIT;
+
             return true;
 
         // soulsphere
@@ -1357,6 +1363,7 @@ dboolean P_TakeSpecialThing(mobjtype_t type)
             viewplayer->health -= soul_health;
             viewplayer->mo->health -= soul_health;
             healthhighlight = I_GetTimeMS() + HUD_HEALTH_HIGHLIGHT_WAIT;
+
             return true;
 
         // mega health
@@ -1385,6 +1392,7 @@ dboolean P_TakeSpecialThing(mobjtype_t type)
 
             viewplayer->cards[it_bluecard] = 0;
             cardsfound--;
+
             return true;
 
         // yellow keycard
@@ -1394,6 +1402,7 @@ dboolean P_TakeSpecialThing(mobjtype_t type)
 
             viewplayer->cards[it_yellowcard] = 0;
             cardsfound--;
+
             return true;
 
         // red keycard
@@ -1403,6 +1412,7 @@ dboolean P_TakeSpecialThing(mobjtype_t type)
 
             viewplayer->cards[it_redcard] = 0;
             cardsfound--;
+
             return true;
 
         // blue skull key
@@ -1412,6 +1422,7 @@ dboolean P_TakeSpecialThing(mobjtype_t type)
 
             viewplayer->cards[it_blueskull] = 0;
             cardsfound--;
+
             return true;
 
         // yellow skull key
@@ -1421,6 +1432,7 @@ dboolean P_TakeSpecialThing(mobjtype_t type)
 
             viewplayer->cards[it_yellowskull] = 0;
             cardsfound--;
+
             return true;
 
         // red skull key
@@ -1430,6 +1442,7 @@ dboolean P_TakeSpecialThing(mobjtype_t type)
 
             viewplayer->cards[it_redskull] = 0;
             cardsfound--;
+
             return true;
 
         // stimpack
@@ -1449,6 +1462,7 @@ dboolean P_TakeSpecialThing(mobjtype_t type)
             viewplayer->health -= 10;
             viewplayer->mo->health -= 10;
             healthhighlight = I_GetTimeMS() + HUD_HEALTH_HIGHLIGHT_WAIT;
+
             return true;
 
         // medikit
@@ -1468,6 +1482,7 @@ dboolean P_TakeSpecialThing(mobjtype_t type)
             viewplayer->health -= 25;
             viewplayer->mo->health -= 25;
             healthhighlight = I_GetTimeMS() + HUD_HEALTH_HIGHLIGHT_WAIT;
+
             return true;
 
         // invulnerability power-up
