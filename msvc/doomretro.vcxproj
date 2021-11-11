@@ -100,13 +100,6 @@
     <ExecutablePath>$(ExecutablePath);$(MSBuildFrameworkToolsPath32);</ExecutablePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <Midl>
-      <HeaderFileName>..\midiproc\midiproc.h</HeaderFileName>
-      <OutputDirectory>..\</OutputDirectory>
-      <GenerateStublessProxies>true</GenerateStublessProxies>
-      <ApplicationConfigurationMode>true</ApplicationConfigurationMode>
-      <StructMemberAlignment>8</StructMemberAlignment>
-    </Midl>
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>$(ProjectDir)..\src;$(ProjectDir)..\SDL2-2.0.16\include;$(ProjectDir)..\sdl2_mixer-2.0.4\include;$(ProjectDir)..\SDL2_image-2.0.5\include</AdditionalIncludeDirectories>
@@ -148,13 +141,6 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <Midl>
-      <HeaderFileName>..\midiproc\midiproc.h</HeaderFileName>
-      <OutputDirectory>..\</OutputDirectory>
-      <GenerateStublessProxies>true</GenerateStublessProxies>
-      <ApplicationConfigurationMode>true</ApplicationConfigurationMode>
-      <StructMemberAlignment>8</StructMemberAlignment>
-    </Midl>
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>$(ProjectDir)..\src;$(ProjectDir)..\SDL2-2.0.16\include;$(ProjectDir)..\sdl2_mixer-2.0.4\include;$(ProjectDir)..\SDL2_image-2.0.5\include</AdditionalIncludeDirectories>
@@ -195,13 +181,6 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <Midl>
-      <HeaderFileName>..\midiproc\midiproc.h</HeaderFileName>
-      <OutputDirectory>..\</OutputDirectory>
-      <GenerateStublessProxies>true</GenerateStublessProxies>
-      <ApplicationConfigurationMode>true</ApplicationConfigurationMode>
-      <StructMemberAlignment>8</StructMemberAlignment>
-    </Midl>
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -269,13 +248,6 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <Midl>
-      <HeaderFileName>..\midiproc\midiproc.h</HeaderFileName>
-      <OutputDirectory>..\</OutputDirectory>
-      <GenerateStublessProxies>true</GenerateStublessProxies>
-      <ApplicationConfigurationMode>true</ApplicationConfigurationMode>
-      <StructMemberAlignment>8</StructMemberAlignment>
-    </Midl>
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
