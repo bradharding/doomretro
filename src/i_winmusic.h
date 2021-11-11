@@ -1,4 +1,4 @@
-/*
+﻿/*
 ========================================================================
 
                            D O O M  R e t r o
@@ -36,22 +36,20 @@
 ========================================================================
 */
 
-// Eternity Engine's Client Interface to RPC Midi Server by James Haley
+#if !defined(__I_WINMUSIC_H__)
+#define __I_WINMUSIC_H__
 
-#if !defined(__I_MIDIRPC_H__)
-#define __I_MIDIRPC_H__
+#if defined(_WIN32)
 
 #include "doomtype.h"
 
-dboolean I_MidiRPCInitServer(void);
-dboolean I_MidiRPCInitClient(void);
-void I_MidiRPCClientShutDown(void);
+dboolean I_WIN_InitMusic(void);
+void I_WIN_PlaySong(dboolean looping);
+void I_WIN_StopSong(void);
+void I_WIN_SetMusicVolume(int volume);
+void I_WIN_RegisterSong(char *filename);
+void I_WIN_UnRegisterSong(void);
+void I_WIN_ShutdownMusic(void);
 
-dboolean I_MidiRPCRegisterSong(void *data, int size);
-dboolean I_MidiRPCPlaySong(dboolean looping);
-dboolean I_MidiRPCStopSong(void);
-dboolean I_MidiRPCSetVolume(int volume);
-dboolean I_MidiRPCPauseSong(void);
-dboolean I_MidiRPCResumeSong(void);
-
+#endif
 #endif

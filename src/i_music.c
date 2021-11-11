@@ -41,7 +41,8 @@
 #include "SDL_mixer.h"
 
 #include "c_console.h"
-#include "i_midirpc.h"
+#include "i_winmusic.h"
+#include "m_misc.h"
 #include "mmus2mid.h"
 #include "s_sound.h"
 
@@ -50,13 +51,10 @@ dboolean        musmusictype;
 
 static dboolean music_initialized;
 
+static dboolean win_midi_stream_opened = false;
+
 static int      current_music_volume;
 static int      paused_midi_volume;
-
-#if defined(_WIN32)
-static dboolean midirpc;
-dboolean        serverMidiPlaying;
-#endif
 
 // Shutdown music
 void I_ShutdownMusic(void)
@@ -75,7 +73,11 @@ void I_ShutdownMusic(void)
     SDL_QuitSubSystem(SDL_INIT_AUDIO);
 
 #if defined(_WIN32)
-    I_MidiRPCClientShutDown();
+    if (win_midi_stream_opened)
+    {
+        I_WIN_ShutdownMusic();
+        win_midi_stream_opened = false;
+    }
 #endif
 }
 
@@ -105,9 +107,7 @@ dboolean I_InitMusic(void)
     music_initialized = true;
 
 #if defined(_WIN32)
-    // Initialize RPC server
-    if (I_MidiRPCInitServer())
-        midirpc = I_MidiRPCInitClient();
+    win_midi_stream_opened = I_WIN_InitMusic();
 #endif
 
     return music_initialized;
@@ -120,12 +120,7 @@ void I_SetMusicVolume(int volume)
     current_music_volume = volume;
 
 #if defined(_WIN32)
-    // adjust server volume
-    if (serverMidiPlaying)
-    {
-        I_MidiRPCSetVolume(current_music_volume);
-        return;
-    }
+    I_WIN_SetMusicVolume(current_music_volume);
 #endif
 
     Mix_VolumeMusic(current_music_volume);
@@ -137,17 +132,14 @@ void I_PlaySong(void *handle, dboolean looping)
     if (!music_initialized)
         return;
 
-#if defined(_WIN32)
-    if (serverMidiPlaying)
-    {
-        I_MidiRPCPlaySong(looping);
-        I_MidiRPCSetVolume(current_music_volume);
-
+    if (!handle && !win_midi_stream_opened)
         return;
-    }
-#endif
 
-    if (handle)
+#if defined(_WIN32)
+    if (win_midi_stream_opened)
+        I_WIN_PlaySong(looping);
+    else
+#endif
         Mix_PlayMusic(handle, (looping ? -1 : 1));
 }
 
@@ -155,14 +147,6 @@ void I_PauseSong(void)
 {
     if (!music_initialized)
         return;
-
-#if defined(_WIN32)
-    if (serverMidiPlaying)
-    {
-        I_MidiRPCPauseSong();
-        return;
-    }
-#endif
 
     if (!midimusictype)
         Mix_PauseMusic();
@@ -178,14 +162,6 @@ void I_ResumeSong(void)
     if (!music_initialized)
         return;
 
-#if defined(_WIN32)
-    if (serverMidiPlaying)
-    {
-        I_MidiRPCResumeSong();
-        return;
-    }
-#endif
-
     if (!midimusictype)
         Mix_ResumeMusic();
     else
@@ -198,16 +174,11 @@ void I_StopSong(void)
         return;
 
 #if defined(_WIN32)
-    if (serverMidiPlaying)
-    {
-        I_MidiRPCStopSong();
-        serverMidiPlaying = false;
-
-        return;
-    }
+    if (win_midi_stream_opened)
+        I_WIN_StopSong();
+    else
 #endif
-
-    Mix_HaltMusic();
+        Mix_HaltMusic();
 }
 
 void I_UnRegisterSong(void *handle)
@@ -216,17 +187,12 @@ void I_UnRegisterSong(void *handle)
         return;
 
 #if defined(_WIN32)
-    if (serverMidiPlaying)
-    {
-        I_MidiRPCStopSong();
-        serverMidiPlaying = false;
-
-        return;
-    }
+    if (win_midi_stream_opened)
+        I_WIN_UnRegisterSong();
+    else
 #endif
-
-    if (handle)
-        Mix_FreeMusic(handle);
+        if (handle)
+            Mix_FreeMusic(handle);
 }
 
 void *I_RegisterSong(void *data, int size)
@@ -237,6 +203,7 @@ void *I_RegisterSong(void *data, int size)
     {
         Mix_Music   *music = NULL;
         SDL_RWops   *rwops = NULL;
+        char        *filename = M_TempFile("doom.mid");
 
         midimusictype = false;
         musmusictype = false;
@@ -271,13 +238,13 @@ void *I_RegisterSong(void *data, int size)
         }
 
 #if defined(_WIN32)
-        // Check for option to invoke RPC server if is MIDI
-        if (midimusictype && midirpc)
-            if (I_MidiRPCRegisterSong(data, size))
-            {
-                serverMidiPlaying = true;
-                return NULL;
-            }
+        if (midimusictype && win_midi_stream_opened)
+        {
+            M_WriteFile(filename, data, size);
+            I_WIN_RegisterSong(filename);
+            free(filename);
+            return NULL;
+        }
 #endif
 
         if ((rwops = SDL_RWFromMem(data, size)))

@@ -123,10 +123,6 @@ dboolean            nomusic;
 
 musinfo_t           musinfo;
 
-#if defined(_WIN32)
-extern dboolean     serverMidiPlaying;
-#endif
-
 // Initialize sound effects.
 static void InitSfxModule(void)
 {
@@ -597,11 +593,6 @@ void S_SetMusicVolume(int volume)
 
 void S_LowerMusicVolume(void)
 {
-#if defined(_WIN32)
-    if (!serverMidiPlaying && (musmusictype || midimusictype || Mix_GetMusicType(NULL) == MUS_MID))
-        return;
-#endif
-
     S_SetMusicVolume(musicVolume * MIX_MAX_VOLUME / 31 / LOWER_MUSIC_VOLUME_FACTOR);
 }
 
@@ -661,29 +652,26 @@ void S_ChangeMusic(int music_id, dboolean looping, dboolean allowrestart, dboole
     music->data = W_CacheLumpNum(music->lumpnum);
 
     if (!(handle = I_RegisterSong(music->data, W_LumpLength(music->lumpnum))))
-#if defined(_WIN32)
-        if (!serverMidiPlaying)
-#endif
+    {
+        char    *filename = M_StringJoin(namebuf, ".mp3", NULL);
+        char    *path = M_TempFile(filename);
+
+        if (W_WriteFile(path, music->data, W_LumpLength(music->lumpnum)))
+            handle = Mix_LoadMUS(path);
+
+        free(filename);
+        free(path);
+
+        if (!handle)
         {
-            char    *filename = M_StringJoin(namebuf, ".mp3", NULL);
-            char    *path = M_TempFile(filename);
+            char    *temp = uppercase(namebuf);
 
-            if (W_WriteFile(path, music->data, W_LumpLength(music->lumpnum)))
-                handle = Mix_LoadMUS(path);
+            C_Warning(1, "The " BOLD("%s") " music lump can't be played.", temp);
+            free(temp);
 
-            free(filename);
-            free(path);
-
-            if (!handle)
-            {
-                char    *temp = uppercase(namebuf);
-
-                C_Warning(1, "The " BOLD("%s") " music lump can't be played.", temp);
-                free(temp);
-
-                return;
-            }
+            return;
         }
+    }
 
     music->handle = handle;
 

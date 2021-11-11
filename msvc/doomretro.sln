@@ -3,11 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.0.31825.309
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "doomretro", "doomretro.vcxproj", "{8B744A3B-8F18-41A0-85A3-293816E85B6E}"
-	ProjectSection(ProjectDependencies) = postProject
-		{D307F009-3EC2-45DF-98F6-C2DB0C02FF18} = {D307F009-3EC2-45DF-98F6-C2DB0C02FF18}
-	EndProjectSection
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "midiproc", "..\midiproc\midiproc.vcxproj", "{D307F009-3EC2-45DF-98F6-C2DB0C02FF18}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,14 +20,6 @@ Global
 		{8B744A3B-8F18-41A0-85A3-293816E85B6E}.Release|32-bit.Build.0 = Release|Win32
 		{8B744A3B-8F18-41A0-85A3-293816E85B6E}.Release|64-bit.ActiveCfg = Release|x64
 		{8B744A3B-8F18-41A0-85A3-293816E85B6E}.Release|64-bit.Build.0 = Release|x64
-		{D307F009-3EC2-45DF-98F6-C2DB0C02FF18}.Debug|32-bit.ActiveCfg = Debug|Win32
-		{D307F009-3EC2-45DF-98F6-C2DB0C02FF18}.Debug|32-bit.Build.0 = Debug|Win32
-		{D307F009-3EC2-45DF-98F6-C2DB0C02FF18}.Debug|64-bit.ActiveCfg = Debug|x64
-		{D307F009-3EC2-45DF-98F6-C2DB0C02FF18}.Debug|64-bit.Build.0 = Debug|x64
-		{D307F009-3EC2-45DF-98F6-C2DB0C02FF18}.Release|32-bit.ActiveCfg = Release|Win32
-		{D307F009-3EC2-45DF-98F6-C2DB0C02FF18}.Release|32-bit.Build.0 = Release|Win32
-		{D307F009-3EC2-45DF-98F6-C2DB0C02FF18}.Release|64-bit.ActiveCfg = Release|x64
-		{D307F009-3EC2-45DF-98F6-C2DB0C02FF18}.Release|64-bit.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
