@@ -36,9 +36,8 @@
 ========================================================================
 */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#if defined(_WIN32)
+
 #include <assert.h>
 
 #include "doomtype.h"
@@ -265,7 +264,7 @@ static dboolean ReadEvent(midi_event_t *event, unsigned int *last_event_type, FI
     // Check event type
     switch (event_type & 0xF0)
     {
-        // Two parameter channel events:
+        // Two parameter channel events
         case MIDI_EVENT_NOTE_OFF:
         case MIDI_EVENT_NOTE_ON:
         case MIDI_EVENT_AFTERTOUCH:
@@ -273,7 +272,7 @@ static dboolean ReadEvent(midi_event_t *event, unsigned int *last_event_type, FI
         case MIDI_EVENT_PITCH_BEND:
             return ReadChannelEvent(event, event_type, true, stream);
 
-        // Single parameter channel events:
+        // Single parameter channel events
         case MIDI_EVENT_PROGRAM_CHANGE:
         case MIDI_EVENT_CHAN_AFTERTOUCH:
             return ReadChannelEvent(event, event_type, false, stream);
@@ -302,8 +301,7 @@ static dboolean ReadEvent(midi_event_t *event, unsigned int *last_event_type, FI
 // Free an event
 static void FreeEvent(midi_event_t *event)
 {
-    // Some event types have dynamically allocated buffers assigned
-    // to them that must be freed.
+    // Some event types have dynamically allocated buffers assigned to them that must be freed
     switch (event->event_type)
     {
         case MIDI_EVENT_SYSEX:
@@ -389,9 +387,7 @@ static void FreeTrack(midi_track_t *track)
 static dboolean ReadAllTracks(midi_file_t *file, FILE *stream)
 {
     // Allocate list of tracks and read each track
-    file->tracks = malloc(file->num_tracks * sizeof(midi_track_t));
-
-    if (!file->tracks)
+    if (!(file->tracks = malloc(file->num_tracks * sizeof(midi_track_t))))
         return false;
 
     memset(file->tracks, 0, file->num_tracks * sizeof(midi_track_t));
@@ -404,13 +400,12 @@ static dboolean ReadAllTracks(midi_file_t *file, FILE *stream)
     return true;
 }
 
-// Read and check the header chunk.
+// Read and check the header chunk
 static dboolean ReadFileHeader(midi_file_t *file, FILE *stream)
 {
-    size_t          records_read = fread(&file->header, sizeof(midi_header_t), 1, stream);
     unsigned int    format_type;
 
-    if (records_read < 1)
+    if (fread(&file->header, sizeof(midi_header_t), 1, stream) < 1)
         return false;
 
     if (!CheckChunkHeader(&file->header.chunk_header, HEADER_CHUNK_ID)
@@ -441,7 +436,7 @@ void MIDI_FreeFile(midi_file_t *file)
 
 midi_file_t *MIDI_LoadFile(char *filename)
 {
-    midi_file_t * file = malloc(sizeof(midi_file_t));
+    midi_file_t *file = malloc(sizeof(midi_file_t));
     FILE        *stream;
 
     if (!file)
@@ -529,17 +524,17 @@ unsigned int MIDI_GetDeltaTime(midi_track_iter_t *iter)
 }
 
 // Get a pointer to the next MIDI event.
-int MIDI_GetNextEvent(midi_track_iter_t *iter, midi_event_t **event)
+dboolean MIDI_GetNextEvent(midi_track_iter_t *iter, midi_event_t **event)
 {
     if (iter->position < iter->track->num_events)
     {
         *event = &iter->track->events[iter->position];
         ++iter->position;
 
-        return 1;
+        return true;
     }
     else
-        return 0;
+        return false;
 }
 
 unsigned int MIDI_GetFileTimeDivision(midi_file_t *file)
@@ -552,3 +547,5 @@ unsigned int MIDI_GetFileTimeDivision(midi_file_t *file)
     else
         return result;
 }
+
+#endif

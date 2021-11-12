@@ -36,10 +36,10 @@
 ========================================================================
 */
 
+#if defined(_WIN32)
+
 #if !defined(__I_WINMUSIC_H__)
 #define __I_WINMUSIC_H__
-
-#if defined(_WIN32)
 
 #include "doomtype.h"
 
@@ -52,4 +52,5 @@ void I_Windows_UnregisterSong(void);
 void I_Windows_ShutdownMusic(void);
 
 #endif
+
 #endif

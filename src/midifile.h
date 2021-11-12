@@ -36,6 +36,8 @@
 ========================================================================
 */
 
+#if defined(_WIN32)
+
 #if !defined(__MIDIFILE_H__)
 #define __MIDIFILE_H__
 
@@ -154,6 +156,8 @@ midi_track_iter_t *MIDI_IterateTrack(midi_file_t *file, unsigned int track_num);
 unsigned int MIDI_GetDeltaTime(midi_track_iter_t *iter);
 
 // Get a pointer to the next MIDI event.
-int MIDI_GetNextEvent(midi_track_iter_t *iter, midi_event_t **event);
+dboolean MIDI_GetNextEvent(midi_track_iter_t *iter, midi_event_t **event);
+
+#endif
 
 #endif
