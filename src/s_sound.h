@@ -111,7 +111,7 @@ void S_StartMusic(int music_id);
 //  and set whether looping
 void S_ChangeMusic(int music_id, dboolean looping, dboolean allowrestart, dboolean mapstart);
 
-// Stops the music fer sure.
+// Stops the music for sure.
 void S_StopMusic(void);
 
 // Stop and resume music, during game PAUSE.

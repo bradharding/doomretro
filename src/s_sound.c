@@ -707,6 +707,7 @@ void S_StopMusic(void)
 void S_ChangeMusInfoMusic(int lumpnum, int looping)
 {
     musicinfo_t *music;
+    void        *handle;
 
     if (nomusic)
         return;
@@ -727,10 +728,27 @@ void S_ChangeMusInfoMusic(int lumpnum, int looping)
 
     // load and register it
     music->data = W_CacheLumpNum(music->lumpnum);
-    music->handle = I_RegisterSong(music->data, W_LumpLength(music->lumpnum));
+
+    if (!(handle = I_RegisterSong(music->data, W_LumpLength(music->lumpnum))))
+#if defined(_WIN32)
+        if (!midimusictype || !win_midi_stream_opened)
+#endif
+        {
+            char    *filename = M_TempFile(DOOMRETRO ".mp3");
+
+            if (W_WriteFile(filename, music->data, W_LumpLength(music->lumpnum)))
+                handle = Mix_LoadMUS(filename);
+
+            free(filename);
+
+            if (!handle)
+                return;
+        }
+
+    music->handle = handle;
 
     // play it
-    I_PlaySong(music->handle, looping);
+    I_PlaySong(handle, looping);
 
     mus_playing = music;
 
