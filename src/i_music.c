@@ -132,13 +132,10 @@ void I_PlaySong(void *handle, dboolean looping)
     if (!music_initialized)
         return;
 
-    if (!handle && !win_midi_stream_opened)
-        return;
-
 #if defined(_WIN32)
-    if (win_midi_stream_opened)
+    if (midimusictype && win_midi_stream_opened)
         I_WIN_PlaySong(looping);
-    else
+    else if (handle)
 #endif
         Mix_PlayMusic(handle, (looping ? -1 : 1));
 }
