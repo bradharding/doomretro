@@ -2233,6 +2233,34 @@ void P_PlayerInSpecialSector(sector_t *sector)
                 break;
         }
     }
+    else if (sector->special & DEATH_MASK)
+    {
+        switch ((sector->special & DAMAGE_MASK) >> DAMAGE_SHIFT)
+        {
+            case 0:
+                if (!viewplayer->powers[pw_invulnerability] && !viewplayer->powers[pw_ironfeet])
+                    P_DamageMobj(viewplayer->mo, NULL, NULL, 10000, false);
+
+                break;
+
+            case 1:
+                P_DamageMobj(viewplayer->mo, NULL, NULL, 10000, false);
+
+                break;
+
+            case 2:
+                P_DamageMobj(viewplayer->mo, NULL, NULL, 10000, false);
+                G_ExitLevel();
+
+                break;
+
+            case 3:
+                P_DamageMobj(viewplayer->mo, NULL, NULL, 10000, false);
+                G_SecretExitLevel();
+
+                break;
+        }
+    }
     else
     {
         switch ((sector->special & DAMAGE_MASK) >> DAMAGE_SHIFT)
