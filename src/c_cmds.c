@@ -2776,7 +2776,6 @@ static void kill_cmd_func2(char *cmd, char *parms)
                     playername, (playergender == playergender_male ? "him" : (playergender == playergender_female ? "her" : "them")));
 
             C_HideConsole();
-            message_dontfuckwithme = true;
         }
         else
         {
@@ -2846,7 +2845,7 @@ static void kill_cmd_func2(char *cmd, char *parms)
                         if (kills == 1)
                             C_PlayerMessage("You killed the only %smonster in this map.", (kills < prevkills ? "remaining " : ""));
                         else
-                            C_PlayerMessage("You killed %s %s monsters in this map.", temp, (kills < prevkills ? "the remaining" : "all"));
+                            C_PlayerMessage("You killed %s %s monsters in this map.", (kills < prevkills ? "the remaining" : "all"), temp);
                     }
                     else
                     {
@@ -2855,11 +2854,10 @@ static void kill_cmd_func2(char *cmd, char *parms)
                                 playername, (kills < prevkills ? "remaining " : ""));
                         else
                             C_PlayerMessage("%s killed %s %s monsters in this map.",
-                                playername, temp, (kills < prevkills ? "the remaining" : "all"));
+                                playername, (kills < prevkills ? "the remaining" : "all"), temp);
                     }
 
                     C_HideConsole();
-                    message_dontfuckwithme = true;
                     viewplayer->cheated++;
                     stat_cheated = SafeAdd(stat_cheated, 1);
                     M_SaveCVARs();
@@ -2896,7 +2894,6 @@ static void kill_cmd_func2(char *cmd, char *parms)
                         C_PlayerMessage("%s exploded %s missile%s.", playername, (kills == 1 ? "one" : temp), (kills == 1 ? "" : "s"));
 
                     C_HideConsole();
-                    message_dontfuckwithme = true;
                     viewplayer->cheated++;
                     stat_cheated = SafeAdd(stat_cheated, 1);
                     M_SaveCVARs();
@@ -2926,7 +2923,6 @@ static void kill_cmd_func2(char *cmd, char *parms)
                     C_PlayerMessage("%s killed %s.", playername, temp);
 
                 C_HideConsole();
-                message_dontfuckwithme = true;
                 viewplayer->cheated++;
                 stat_cheated = SafeAdd(stat_cheated, 1);
                 M_SaveCVARs();
@@ -3026,7 +3022,6 @@ static void kill_cmd_func2(char *cmd, char *parms)
                     }
 
                     C_HideConsole();
-                    message_dontfuckwithme = true;
                     viewplayer->cheated++;
                     stat_cheated = SafeAdd(stat_cheated, 1);
                     M_SaveCVARs();
