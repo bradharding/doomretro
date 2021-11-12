@@ -155,6 +155,10 @@ typedef struct
 // [BH] Line will be shown as a wall in automap.
 #define ML_DRAWASWALL           1024
 
+// MBF21
+#define ML_BLOCKLANDMONSTERS    4096
+#define ML_BLOCKPLAYERS         8192
+
 // [BH] Line will trigger sector 666 if no monsters.
 #define ML_TRIGGER666           16384
 
