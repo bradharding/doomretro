@@ -41,7 +41,6 @@
 #include <string.h>
 #include <assert.h>
 
-#include "c_console.h"
 #include "doomtype.h"
 #include "i_swap.h"
 #include "i_system.h"
@@ -104,13 +103,7 @@ struct midi_file_s
 // Check the header of a chunk
 static dboolean CheckChunkHeader(chunk_header_t *chunk, const char *expected_id)
 {
-    dboolean    result = !memcmp((char *)chunk->chunk_id, expected_id, 4);
-
-    if (!result)
-        C_Warning(0, "CheckChunkHeader: Expected '%s' chunk header, got '%c%c%c%c'",
-            expected_id, chunk->chunk_id[0], chunk->chunk_id[1], chunk->chunk_id[2], chunk->chunk_id[3]);
-
-    return result;
+    return !memcmp((char*)chunk->chunk_id, expected_id, 4);
 }
 
 // Read a single byte. Return false on error.
@@ -119,10 +112,7 @@ static dboolean ReadByte(byte *result, FILE *stream)
     int c = fgetc(stream);
 
     if (c == EOF)
-    {
-        C_Warning(0, "ReadByte: Unexpected end of file");
         return false;
-    }
     else
     {
         *result = (byte)c;
@@ -140,10 +130,7 @@ static dboolean ReadVariableLength(unsigned int *result, FILE *stream)
     for (int i = 0; i < 4; i++)
     {
         if (!ReadByte(&b, stream))
-        {
-            C_Warning(0, "ReadVariableLength: Error while reading variable-length value");
             return false;
-        }
 
         // Insert the bottom seven bits from this byte.
         *result <<= 7;
@@ -154,7 +141,6 @@ static dboolean ReadVariableLength(unsigned int *result, FILE *stream)
             return true;
     }
 
-    C_Warning(0, "ReadVariableLength: Variable-length value too long: maximum of four bytes");
     return false;
 }
 
@@ -166,17 +152,13 @@ static void *ReadByteSequence(unsigned int num_bytes, FILE *stream)
     byte    *result = malloc(num_bytes + 1);
 
     if (!result)
-    {
-        C_Warning(0, "ReadByteSequence: Failed to allocate buffer");
         return NULL;
-    }
 
     // Read the data:
 
     for (unsigned int i = 0; i < num_bytes; i++)
         if (!ReadByte(&result[i], stream))
         {
-            C_Warning(0, "ReadByteSequence: Error while reading byte %u", i);
             free(result);
             return NULL;
         }
@@ -197,10 +179,7 @@ static dboolean ReadChannelEvent(midi_event_t *event, byte event_type, dboolean 
 
     // Read parameters
     if (!ReadByte(&b, stream))
-    {
-        C_Warning(0, "ReadChannelEvent: Error while reading channel event parameters");
         return false;
-    }
 
     event->data.channel.param1 = b;
 
@@ -208,10 +187,7 @@ static dboolean ReadChannelEvent(midi_event_t *event, byte event_type, dboolean 
     if (two_param)
     {
         if (!ReadByte(&b, stream))
-        {
-            C_Warning(0, "ReadChannelEvent: Error while reading channel event parameters");
             return false;
-        }
 
         event->data.channel.param2 = b;
     }
@@ -225,19 +201,13 @@ static dboolean ReadSysExEvent(midi_event_t *event, int event_type, FILE *stream
     event->event_type = event_type;
 
     if (!ReadVariableLength(&event->data.sysex.length, stream))
-    {
-        C_Warning(0, "ReadSysExEvent: Failed to read length of SysEx block");
         return false;
-    }
 
     // Read the byte sequence
     event->data.sysex.data = ReadByteSequence(event->data.sysex.length, stream);
 
     if (!event->data.sysex.data)
-    {
-        C_Warning(0, "ReadSysExEvent: Failed while reading SysEx event");
         return false;
-    }
 
     return true;
 }
@@ -251,28 +221,19 @@ static dboolean ReadMetaEvent(midi_event_t *event, FILE *stream)
 
     // Read meta event type
     if (!ReadByte(&b, stream))
-    {
-        C_Warning(0, "ReadMetaEvent: Failed to read meta event type");
         return false;
-    }
 
     event->data.meta.type = b;
 
     // Read length of meta event data
     if (!ReadVariableLength(&event->data.meta.length, stream))
-    {
-        C_Warning(0, "ReadSysExEvent: Failed to read length of SysEx block");
         return false;
-    }
 
     // Read the byte sequence
     event->data.meta.data = ReadByteSequence(event->data.meta.length, stream);
 
     if (!event->data.meta.data)
-    {
-        C_Warning(0, "ReadSysExEvent: Failed while reading SysEx event");
         return false;
-    }
 
     return true;
 }
@@ -282,16 +243,10 @@ static dboolean ReadEvent(midi_event_t *event, unsigned int *last_event_type, FI
     byte    event_type = 0;
 
     if (!ReadVariableLength(&event->delta_time, stream))
-    {
-        C_Warning(0, "ReadEvent: Failed to read event timestamp");
         return false;
-    }
 
     if (!ReadByte(&event_type, stream))
-    {
-        C_Warning(0, "ReadEvent: Failed to read event type");
         return false;
-    }
 
     // All event types have their top bit set.  Therefore, if 
     // the top bit is not set, it is because we are using the "same
@@ -302,10 +257,7 @@ static dboolean ReadEvent(midi_event_t *event, unsigned int *last_event_type, FI
         event_type = *last_event_type;
 
         if (fseek(stream, -1, SEEK_CUR) < 0)
-        {
-            C_Warning(0, "ReadEvent: Unable to seek in stream");
             return false;
-        }
     }
     else
         *last_event_type = event_type;
@@ -344,7 +296,6 @@ static dboolean ReadEvent(midi_event_t *event, unsigned int *last_event_type, FI
             break;
     }
 
-    C_Warning(0, "ReadEvent: Unknown MIDI event type: 0x%x", event_type);
     return false;
 }
 
@@ -464,20 +415,13 @@ static dboolean ReadFileHeader(midi_file_t *file, FILE *stream)
 
     if (!CheckChunkHeader(&file->header.chunk_header, HEADER_CHUNK_ID)
         || SDL_SwapBE32(file->header.chunk_header.chunk_size) != 6)
-    {
-        C_Warning(0, "ReadFileHeader: Invalid MIDI chunk header! chunk_size=%i",
-            SDL_SwapBE32(file->header.chunk_header.chunk_size));
         return false;
-    }
 
     format_type = SDL_SwapBE16(file->header.format_type);
     file->num_tracks = SDL_SwapBE16(file->header.num_tracks);
 
     if ((format_type != 0 && format_type != 1) || file->num_tracks < 1)
-    {
-        C_Warning(0, "ReadFileHeader: Only type 0/1 MIDI files supported!");
         return false;
-    }
 
     return true;
 }
@@ -513,9 +457,7 @@ midi_file_t *MIDI_LoadFile(char *filename)
 
     if (!stream)
     {
-        C_Warning(0, "MIDI_LoadFile: Failed to open '%s'", filename);
         MIDI_FreeFile(file);
-
         return NULL;
     }
 

@@ -42,7 +42,6 @@
 #include <mmsystem.h>
 #include <stdio.h>
 
-#include "c_console.h"
 #include "doomtype.h"
 #include "m_misc.h"
 #include "midifile.h"
@@ -356,10 +355,7 @@ void I_Windows_RegisterSong(char *filename)
     MIDIPROPTEMPO   tempo;
 
     if (!file)
-    {
-        C_Warning(0, "I_Windows_RegisterSong: Failed to load MID.");
         return;
-    }
 
     // Initialize channels volume.
     for (int i = 0; i < MIDI_CHANNELS_PER_TRACK; i++)
