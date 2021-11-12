@@ -174,9 +174,9 @@ void I_StopSong(void)
 #if defined(_WIN32)
     if (win_midi_stream_opened)
         I_WIN_StopSong();
-    else
 #endif
-        Mix_HaltMusic();
+
+    Mix_HaltMusic();
 }
 
 void I_UnRegisterSong(void *handle)
