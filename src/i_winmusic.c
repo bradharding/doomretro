@@ -116,7 +116,7 @@ static void FillBuffer(void)
 {
     int i;
 
-    for (i = 0; i < STREAM_MAX_EVENTS; ++i)
+    for (i = 0; i < STREAM_MAX_EVENTS; i++)
     {
         native_event_t  *event = &buffer.events[i];
 
@@ -206,7 +206,7 @@ static void MIDItoStream(midi_file_t *file)
     int                 current_time = 0;
     win_midi_track_t    *tracks = malloc(num_tracks * sizeof(win_midi_track_t));
 
-    for (int i = 0; i < num_tracks; ++i)
+    for (int i = 0; i < num_tracks; i++)
     {
         tracks[i].iter = MIDI_IterateTrack(file, i);
         tracks[i].absolute_time = 0;
@@ -222,7 +222,7 @@ static void MIDItoStream(midi_file_t *file)
         int             idx = -1;
 
         // Look for an event with a minimal delta time.
-        for (int i = 0; i < num_tracks; ++i)
+        for (int i = 0; i < num_tracks; i++)
         {
             int time = 0;
 
@@ -340,7 +340,7 @@ void I_WIN_SetMusicVolume(int volume)
     volume_factor = (float)volume / 127.0f;
 
     // Send MIDI controller events to adjust the volume.
-    for (int i = 0; i < MIDI_CHANNELS_PER_TRACK; ++i)
+    for (int i = 0; i < MIDI_CHANNELS_PER_TRACK; i++)
     {
         int     value = (int)((float)channel_volume[i] * volume_factor);
         DWORD   msg = (MIDI_EVENT_CONTROLLER | i | (MIDI_CONTROLLER_MAIN_VOLUME << 8) | (value << 16));
@@ -404,7 +404,7 @@ void I_WIN_RegisterSong(char *filename)
     }
 
     // Initialize channels volume.
-    for (int i = 0; i < MIDI_CHANNELS_PER_TRACK; ++i)
+    for (int i = 0; i < MIDI_CHANNELS_PER_TRACK; i++)
         channel_volume[i] = 100;
 
     timediv.cbStruct = sizeof(MIDIPROPTIMEDIV);

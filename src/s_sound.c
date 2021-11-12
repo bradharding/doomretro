@@ -652,26 +652,27 @@ void S_ChangeMusic(int music_id, dboolean looping, dboolean allowrestart, dboole
     music->data = W_CacheLumpNum(music->lumpnum);
 
     if (!(handle = I_RegisterSong(music->data, W_LumpLength(music->lumpnum))))
-    {
-        char    *filename = M_StringJoin(namebuf, ".mp3", NULL);
-        char    *path = M_TempFile(filename);
-
-        if (W_WriteFile(path, music->data, W_LumpLength(music->lumpnum)))
-            handle = Mix_LoadMUS(path);
-
-        free(filename);
-        free(path);
-
-        if (!handle)
+#if defined(_WIN32)
+        if (!midimusictype || !win_midi_stream_opened)
+#endif
         {
-            char    *temp = uppercase(namebuf);
+            char    *filename = M_TempFile(DOOMRETRO ".mp3");
 
-            C_Warning(1, "The " BOLD("%s") " music lump can't be played.", temp);
-            free(temp);
+            if (W_WriteFile(filename, music->data, W_LumpLength(music->lumpnum)))
+                handle = Mix_LoadMUS(filename);
 
-            return;
+            free(filename);
+
+            if (!handle)
+            {
+                char    *temp = uppercase(namebuf);
+
+                C_Warning(1, "The " BOLD("%s") " music lump can't be played.", temp);
+                free(temp);
+
+                return;
+            }
         }
-    }
 
     music->handle = handle;
 

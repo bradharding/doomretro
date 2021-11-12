@@ -108,6 +108,7 @@ extern musicinfo_t  *mus_playing;
 
 extern dboolean     midimusictype;
 extern dboolean     musmusictype;
+extern dboolean     win_midi_stream_opened;
 
 //
 // Identifiers for all music in game.

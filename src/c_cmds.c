@@ -2753,8 +2753,6 @@ static void kill_cmd_func2(char *cmd, char *parms)
     }
     else
     {
-        char    buffer[1024];
-
         if (M_StringCompare(parm, "player") || M_StringCompare(parm, "me") || (*playername && M_StringCompare(parm, playername)))
         {
             massacre = true;
@@ -2987,6 +2985,7 @@ static void kill_cmd_func2(char *cmd, char *parms)
 
                 if (kills)
                 {
+                    char    buffer[1024];
                     char    *temp = commify(kills);
 
                     M_snprintf(buffer, sizeof(buffer), "%s %s %s %s now %s.",
@@ -3003,9 +3002,8 @@ static void kill_cmd_func2(char *cmd, char *parms)
                                 (kills < prevkills ? "remaining " : ""),
                                 mobjinfo[type].name1);
                         else
-                            C_PlayerMessage("You %s %sthe %s %s%s in this map.",
+                            C_PlayerMessage("You %s all the %s %s%s in this map.",
                                 (type == MT_BARREL ? "exploded" : "killed"),
-                                (kills == 1 ? "" : "all "),
                                 temp,
                                 (kills < prevkills ? "remaining " : ""),
                                 mobjinfo[type].plural1);
@@ -3019,10 +3017,9 @@ static void kill_cmd_func2(char *cmd, char *parms)
                                 (kills < prevkills ? "remaining " : ""),
                                 mobjinfo[type].name1);
                         else
-                            C_PlayerMessage("%s %s %sthe %s %s%s in this map.",
+                            C_PlayerMessage("%s %s all the %s %s%s in this map.",
                                 playername,
                                 (type == MT_BARREL ? "exploded" : "killed"),
-                                (kills == 1 ? "" : "all "),
                                 temp,
                                 (kills < prevkills ? "remaining " : ""),
                                 mobjinfo[type].plural1);

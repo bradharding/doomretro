@@ -509,7 +509,7 @@ static char *CheckDirectoryHasIWAD(char *dir, char *iwadname)
 // Returns the location of the IWAD if found, otherwise NULL.
 static char *SearchDirectoryForIWAD(char *dir)
 {
-    for (size_t i = 0; i < arrlen(iwads); ++i)
+    for (size_t i = 0; i < arrlen(iwads); i++)
     {
         char    *filename = CheckDirectoryHasIWAD(dir, iwads[i].name);
 

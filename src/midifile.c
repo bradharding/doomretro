@@ -391,7 +391,6 @@ static dboolean ReadTrackHeader(midi_track_t *track, FILE *stream)
 static dboolean ReadTrack(midi_track_t *track, FILE *stream)
 {
     midi_event_t    *new_events;
-    midi_event_t    *event;
     unsigned int    last_event_type;
 
     track->num_events = 0;
@@ -406,6 +405,8 @@ static dboolean ReadTrack(midi_track_t *track, FILE *stream)
 
     while (true)
     {
+        midi_event_t    *event;
+
         // Resize the track slightly larger to hold another event
         new_events = I_Realloc(track->events, (track->num_events + 1) * sizeof(midi_event_t));
         track->events = new_events;
@@ -486,7 +487,7 @@ void MIDI_FreeFile(midi_file_t *file)
 {
     if (file->tracks != NULL)
     {
-        for (unsigned int i = 0; i < file->num_tracks; ++i)
+        for (unsigned int i = 0; i < file->num_tracks; i++)
             FreeTrack(&file->tracks[i]);
 
         free(file->tracks);
@@ -573,11 +574,6 @@ midi_track_iter_t *MIDI_IterateTrack(midi_file_t *file, unsigned int track)
     return iter;
 }
 
-void MIDI_FreeIterator(midi_track_iter_t *iter)
-{
-    free(iter);
-}
-
 // Get the time until the next MIDI event in a track.
 unsigned int MIDI_GetDeltaTime(midi_track_iter_t *iter)
 {
@@ -611,12 +607,7 @@ unsigned int MIDI_GetFileTimeDivision(midi_file_t *file)
 
     // Negative time division indicates SMPTE time and must be handled differently.
     if (result < 0)
-        return ((signed int)(-(result / 256)) * (signed int)(result & 0xFF));
+        return ((signed int)(-result / 256) * (signed int)(result & 0xFF));
     else
         return result;
-}
-
-void MIDI_RestartIterator(midi_track_iter_t *iter)
-{
-    iter->position = 0;
 }

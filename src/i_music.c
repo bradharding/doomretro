@@ -45,13 +45,14 @@
 #include "m_misc.h"
 #include "mmus2mid.h"
 #include "s_sound.h"
+#include "version.h"
 
 dboolean        midimusictype;
 dboolean        musmusictype;
 
 static dboolean music_initialized;
 
-static dboolean win_midi_stream_opened = false;
+dboolean        win_midi_stream_opened = false;
 
 static int      current_music_volume;
 static int      paused_midi_volume;
@@ -200,7 +201,6 @@ void *I_RegisterSong(void *data, int size)
     {
         Mix_Music   *music = NULL;
         SDL_RWops   *rwops = NULL;
-        char        *filename = M_TempFile("doom.mid");
 
         midimusictype = false;
         musmusictype = false;
@@ -237,6 +237,8 @@ void *I_RegisterSong(void *data, int size)
 #if defined(_WIN32)
         if (midimusictype && win_midi_stream_opened)
         {
+            char    *filename = M_TempFile(DOOMRETRO ".mid");
+
             M_WriteFile(filename, data, size);
             I_WIN_RegisterSong(filename);
             free(filename);
