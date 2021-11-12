@@ -363,14 +363,12 @@ char *M_GetExecutableFolder(void)
 #endif
 }
 
-dboolean M_WriteFile(const char *name, const void *source, int length)
+dboolean M_WriteFile(const char *name, const void *source, size_t length)
 {
-    FILE *handle;
-    int	count;
+    FILE    *handle = fopen(name, "wb");
+    size_t  count;
 
-    handle = fopen(name, "wb");
-
-    if (handle == NULL)
+    if (!handle)
         return false;
 
     count = fwrite(source, 1, length, handle);
