@@ -3200,7 +3200,7 @@ dboolean M_Responder(event_t *ev)
                 SaveDef.lastOn = itemOn;
                 savegame = itemOn + 1;
                 M_SaveCVARs();
-                C_IntCVAROutputNoRepeat(stringize(savegame), savegame);
+                C_IntCVAROutput(stringize(savegame), savegame);
             }
             else
             {
@@ -3233,13 +3233,13 @@ dboolean M_Responder(event_t *ev)
             {
                 episode = itemOn + 1;
                 M_SaveCVARs();
-                C_IntCVAROutputNoRepeat(stringize(episode), episode);
+                C_IntCVAROutput(stringize(episode), episode);
             }
             else if (currentMenu == &ExpDef)
             {
                 expansion = itemOn + 1;
                 M_SaveCVARs();
-                C_IntCVAROutputNoRepeat(stringize(expansion), expansion);
+                C_IntCVAROutput(stringize(expansion), expansion);
 
                 if (gamestate != GS_LEVEL)
                     gamemission = (expansion == 2 && nerve ? pack_nerve : doom2);
@@ -3248,14 +3248,14 @@ dboolean M_Responder(event_t *ev)
             {
                 skilllevel = itemOn + 1;
                 M_SaveCVARs();
-                C_IntCVAROutputNoRepeat(stringize(skilllevel), skilllevel);
+                C_IntCVAROutput(stringize(skilllevel), skilllevel);
             }
             else if (currentMenu == &SaveDef)
             {
                 LoadDef.lastOn = itemOn;
                 savegame = itemOn + 1;
                 M_SaveCVARs();
-                C_IntCVAROutputNoRepeat(stringize(savegame), savegame);
+                C_IntCVAROutput(stringize(savegame), savegame);
             }
 
             keywait = I_GetTime() + 2;
@@ -3284,7 +3284,7 @@ dboolean M_Responder(event_t *ev)
                 SaveDef.lastOn = itemOn;
                 savegame = itemOn + 1;
                 M_SaveCVARs();
-                C_IntCVAROutputNoRepeat(stringize(savegame), savegame);
+                C_IntCVAROutput(stringize(savegame), savegame);
             }
             else
             {
@@ -3317,13 +3317,13 @@ dboolean M_Responder(event_t *ev)
             {
                 episode = itemOn + 1;
                 M_SaveCVARs();
-                C_IntCVAROutputNoRepeat(stringize(episode), episode);
+                C_IntCVAROutput(stringize(episode), episode);
             }
             else if (currentMenu == &ExpDef)
             {
                 expansion = itemOn + 1;
                 M_SaveCVARs();
-                C_IntCVAROutputNoRepeat(stringize(expansion), expansion);
+                C_IntCVAROutput(stringize(expansion), expansion);
 
                 if (gamestate != GS_LEVEL)
                     gamemission = (expansion == 2 && nerve ? pack_nerve : doom2);
@@ -3332,14 +3332,14 @@ dboolean M_Responder(event_t *ev)
             {
                 skilllevel = itemOn + 1;
                 M_SaveCVARs();
-                C_IntCVAROutputNoRepeat(stringize(skilllevel), skilllevel);
+                C_IntCVAROutput(stringize(skilllevel), skilllevel);
             }
             else if (currentMenu == &SaveDef)
             {
                 LoadDef.lastOn = itemOn;
                 savegame = itemOn + 1;
                 M_SaveCVARs();
-                C_IntCVAROutputNoRepeat(stringize(savegame), savegame);
+                C_IntCVAROutput(stringize(savegame), savegame);
             }
 
             keywait = I_GetTime() + 2;
@@ -3420,11 +3420,11 @@ dboolean M_Responder(event_t *ev)
             }
 
             if (currentMenu == &EpiDef && !EpiCustom)
-                C_IntCVAROutputNoRepeat(stringize(episode), episode);
+                C_IntCVAROutput(stringize(episode), episode);
             else if (currentMenu == &ExpDef)
-                C_IntCVAROutputNoRepeat(stringize(expansion), expansion);
+                C_IntCVAROutput(stringize(expansion), expansion);
             else if (currentMenu == &NewDef)
-                C_IntCVAROutputNoRepeat(stringize(skilllevel), skilllevel);
+                C_IntCVAROutput(stringize(skilllevel), skilllevel);
 
             M_SetWindowCaption();
             skipaction = (currentMenu == &LoadDef || currentMenu == &SaveDef || currentMenu == &NewDef);
@@ -3510,13 +3510,13 @@ dboolean M_Responder(event_t *ev)
                     {
                         episode = itemOn + 1;
                         M_SaveCVARs();
-                        C_IntCVAROutputNoRepeat(stringize(episode), episode);
+                        C_IntCVAROutput(stringize(episode), episode);
                     }
                     else if (currentMenu == &ExpDef)
                     {
                         expansion = itemOn + 1;
                         M_SaveCVARs();
-                        C_IntCVAROutputNoRepeat(stringize(expansion), expansion);
+                        C_IntCVAROutput(stringize(expansion), expansion);
 
                         if (gamestate != GS_LEVEL)
                             gamemission = (expansion == 2 && nerve ? pack_nerve : doom2);
@@ -3525,21 +3525,21 @@ dboolean M_Responder(event_t *ev)
                     {
                         skilllevel = itemOn + 1;
                         M_SaveCVARs();
-                        C_IntCVAROutputNoRepeat(stringize(skilllevel), skilllevel);
+                        C_IntCVAROutput(stringize(skilllevel), skilllevel);
                     }
                     else if (currentMenu == &SaveDef)
                     {
                         LoadDef.lastOn = itemOn;
                         savegame = itemOn + 1;
                         M_SaveCVARs();
-                        C_IntCVAROutputNoRepeat(stringize(savegame), savegame);
+                        C_IntCVAROutput(stringize(savegame), savegame);
                     }
                     else if (currentMenu == &LoadDef)
                     {
                         SaveDef.lastOn = itemOn;
                         savegame = itemOn + 1;
                         M_SaveCVARs();
-                        C_IntCVAROutputNoRepeat(stringize(savegame), savegame);
+                        C_IntCVAROutput(stringize(savegame), savegame);
                     }
 
                     M_SetWindowCaption();
@@ -3572,13 +3572,13 @@ dboolean M_Responder(event_t *ev)
                     {
                         episode = itemOn + 1;
                         M_SaveCVARs();
-                        C_IntCVAROutputNoRepeat(stringize(episode), episode);
+                        C_IntCVAROutput(stringize(episode), episode);
                     }
                     else if (currentMenu == &ExpDef)
                     {
                         expansion = itemOn + 1;
                         M_SaveCVARs();
-                        C_IntCVAROutputNoRepeat(stringize(expansion), expansion);
+                        C_IntCVAROutput(stringize(expansion), expansion);
 
                         if (gamestate != GS_LEVEL)
                             gamemission = (expansion == 2 && nerve ? pack_nerve : doom2);
@@ -3587,21 +3587,21 @@ dboolean M_Responder(event_t *ev)
                     {
                         skilllevel = itemOn + 1;
                         M_SaveCVARs();
-                        C_IntCVAROutputNoRepeat(stringize(skilllevel), skilllevel);
+                        C_IntCVAROutput(stringize(skilllevel), skilllevel);
                     }
                     else if (currentMenu == &SaveDef)
                     {
                         LoadDef.lastOn = itemOn;
                         savegame = itemOn + 1;
                         M_SaveCVARs();
-                        C_IntCVAROutputNoRepeat(stringize(savegame), savegame);
+                        C_IntCVAROutput(stringize(savegame), savegame);
                     }
                     else if (currentMenu == &LoadDef)
                     {
                         SaveDef.lastOn = itemOn;
                         savegame = itemOn + 1;
                         M_SaveCVARs();
-                        C_IntCVAROutputNoRepeat(stringize(savegame), savegame);
+                        C_IntCVAROutput(stringize(savegame), savegame);
                     }
 
                     M_SetWindowCaption();
@@ -3761,7 +3761,7 @@ void M_Drawer(void)
                     SaveDef.lastOn = itemOn;
                     savegame = itemOn + 1;
                     M_SaveCVARs();
-                    C_IntCVAROutputNoRepeat(stringize(savegame), savegame);
+                    C_IntCVAROutput(stringize(savegame), savegame);
                 }
             }
 

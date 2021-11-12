@@ -368,7 +368,7 @@ void I_Windows_RegisterSong(char *filename)
 
     // Set initial tempo.
     tempo.cbStruct = sizeof(MIDIPROPTIMEDIV);
-    tempo.dwTempo = 500000; // 120 BMP
+    tempo.dwTempo = 500000; // 120 BPM
 
     if (midiStreamProperty(hMidiStream, (LPBYTE)&tempo, MIDIPROP_SET | MIDIPROP_TEMPO) != MMSYSERR_NOERROR)
         return;

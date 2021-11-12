@@ -194,34 +194,39 @@ void C_Input(const char *string, ...)
 
 void C_IntCVAROutput(char *cvar, int value)
 {
-    char    *temp = commify(value);
+    char    *temp1 = M_StringJoin(cvar, " ", NULL);
+    char    *temp2 = commify(value);
 
-    C_Input("%s %s", cvar, temp);
-    free(temp);
-}
-
-void C_IntCVAROutputNoRepeat(char *cvar, int value)
-{
-    char    *temp = M_StringJoin(cvar, " ", NULL);
-
-    if (consolestrings && M_StringStartsWithExact(console[consolestrings - 1].string, temp))
+    if (consolestrings && groupmessages && M_StringStartsWithExact(console[consolestrings - 1].string, temp1))
         consolestrings--;
 
-    C_Input("%s %i", cvar, value);
-    free(temp);
+    C_Input("%s %s", cvar, temp2);
+    free(temp1);
+    free(temp2);
 }
 
 void C_PctCVAROutput(char *cvar, int value)
 {
-    char *temp = commify(value);
+    char    *temp1 = M_StringJoin(cvar, " ", NULL);
+    char    *temp2 = commify(value);
 
-    C_Input("%s %s%%", cvar, temp);
-    free(temp);
+    if (consolestrings && groupmessages && M_StringStartsWithExact(console[consolestrings - 1].string, temp1))
+        consolestrings--;
+
+    C_Input("%s %s%%", cvar, temp2);
+    free(temp1);
+    free(temp2);
 }
 
 void C_StrCVAROutput(char *cvar, char *string)
 {
+    char    *temp = M_StringJoin(cvar, " ", NULL);
+
+    if (consolestrings && groupmessages && M_StringStartsWithExact(console[consolestrings - 1].string, temp))
+        consolestrings--;
+
     C_Input("%s %s", cvar, string);
+    free(temp);
 }
 
 void C_Output(const char *string, ...)
