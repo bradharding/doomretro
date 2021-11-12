@@ -2846,7 +2846,7 @@ static void kill_cmd_func2(char *cmd, char *parms)
                         if (kills == 1)
                             C_PlayerMessage("You killed the only %smonster in this map.", (kills < prevkills ? "remaining " : ""));
                         else
-                            C_PlayerMessage("You killed the %s %smonsters in this map.", temp, (kills < prevkills ? "remaining " : ""));
+                            C_PlayerMessage("You killed %s %s monsters in this map.", temp, (kills < prevkills ? "the remaining" : "all"));
                     }
                     else
                     {
@@ -2854,8 +2854,8 @@ static void kill_cmd_func2(char *cmd, char *parms)
                             C_PlayerMessage("%s killed the only %smonster in this map.",
                                 playername, (kills < prevkills ? "remaining " : ""));
                         else
-                            C_PlayerMessage("%s killed the %s %smonsters in this map.",
-                                playername, temp, (kills < prevkills ? "remaining " : ""));
+                            C_PlayerMessage("%s killed %s %s monsters in this map.",
+                                playername, temp, (kills < prevkills ? "the remaining" : "all"));
                     }
 
                     C_HideConsole();

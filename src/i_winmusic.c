@@ -99,18 +99,6 @@ typedef struct
 
 static buffer_t buffer;
 
-// Message box for midiStream errors.
-static void MidiErrorMessageBox(DWORD dwError)
-{
-    char        szErrorBuf[MAXERRORLENGTH];
-    MMRESULT    mmr = midiOutGetErrorText(dwError, (LPSTR)szErrorBuf, MAXERRORLENGTH);
-
-    if (mmr == MMSYSERR_NOERROR)
-        MessageBox(NULL, szErrorBuf, "midiStream Error", MB_ICONEXCLAMATION);
-    else
-        C_Warning(0, "Unknown midiStream error.\n");
-}
-
 // Fill the buffer with MIDI events, adjusting the volume as needed.
 static void FillBuffer(void)
 {
@@ -152,7 +140,6 @@ static void FillBuffer(void)
 static void StreamOut(void)
 {
     MIDIHDR     *hdr = &buffer.MidiStreamHdr;
-    MMRESULT    mmr;
     int         num_events = buffer.num_events;
 
     if (!num_events)
@@ -161,10 +148,7 @@ static void StreamOut(void)
     hdr->lpData = (LPSTR)buffer.events;
     hdr->dwBytesRecorded = num_events * sizeof(native_event_t);
 
-    mmr = midiStreamOut(hMidiStream, hdr, sizeof(MIDIHDR));
-
-    if (mmr != MMSYSERR_NOERROR)
-        MidiErrorMessageBox(mmr);
+    midiStreamOut(hMidiStream, hdr, sizeof(MIDIHDR));
 }
 
 // midiStream callback.
@@ -306,14 +290,10 @@ dboolean I_Windows_InitMusic(void)
 {
     UINT        MidiDevice = MIDI_MAPPER;
     MIDIHDR     *hdr = &buffer.MidiStreamHdr;
-    MMRESULT    mmr = midiStreamOpen(&hMidiStream, &MidiDevice, (DWORD)1,
-                    (DWORD_PTR)MidiStreamProc, (DWORD_PTR)NULL, CALLBACK_FUNCTION);
 
-    if (mmr != MMSYSERR_NOERROR)
-    {
-        MidiErrorMessageBox(mmr);
+    if (midiStreamOpen(&hMidiStream, &MidiDevice, (DWORD)1, (DWORD_PTR)MidiStreamProc,
+        (DWORD_PTR)NULL, CALLBACK_FUNCTION) != MMSYSERR_NOERROR)
         return false;
-    }
 
     hdr->lpData = (LPSTR)buffer.events;
     hdr->dwBytesRecorded = 0;
@@ -321,13 +301,8 @@ dboolean I_Windows_InitMusic(void)
     hdr->dwFlags = 0;
     hdr->dwOffset = 0;
 
-    mmr = midiOutPrepareHeader((HMIDIOUT)hMidiStream, hdr, sizeof(MIDIHDR));
-
-    if (mmr != MMSYSERR_NOERROR)
-    {
-        MidiErrorMessageBox(mmr);
+    if (midiOutPrepareHeader((HMIDIOUT)hMidiStream, hdr, sizeof(MIDIHDR)) != MMSYSERR_NOERROR)
         return false;
-    }
 
     hBufferReturnEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
     hExitEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
@@ -351,8 +326,6 @@ void I_Windows_SetMusicVolume(int volume)
 
 void I_Windows_StopSong(void)
 {
-    MMRESULT mmr;
-
     if (hPlayerThread)
     {
         SetEvent(hExitEvent);
@@ -362,40 +335,25 @@ void I_Windows_StopSong(void)
         hPlayerThread = NULL;
     }
 
-    mmr = midiStreamStop(hMidiStream);
-
-    if (mmr != MMSYSERR_NOERROR)
-        MidiErrorMessageBox(mmr);
-
-    mmr = midiOutReset((HMIDIOUT)hMidiStream);
-
-    if (mmr != MMSYSERR_NOERROR)
-        MidiErrorMessageBox(mmr);
+    midiStreamStop(hMidiStream);
+    midiOutReset((HMIDIOUT)hMidiStream);
 }
 
 void I_Windows_PlaySong(dboolean looping)
 {
-    MMRESULT mmr;
-
     song.looping = looping;
 
     hPlayerThread = CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)PlayerProc, 0, 0, 0);
     SetThreadPriority(hPlayerThread, THREAD_PRIORITY_TIME_CRITICAL);
 
-    mmr = midiStreamRestart(hMidiStream);
-
-    if (mmr != MMSYSERR_NOERROR)
-        MidiErrorMessageBox(mmr);
+    midiStreamRestart(hMidiStream);
 }
 
 void I_Windows_RegisterSong(char *filename)
 {
-    midi_file_t     *file;
+    midi_file_t     * file = MIDI_LoadFile(filename);
     MIDIPROPTIMEDIV timediv;
     MIDIPROPTEMPO   tempo;
-    MMRESULT        mmr;
-
-    file = MIDI_LoadFile(filename);
 
     if (!file)
     {
@@ -409,24 +367,16 @@ void I_Windows_RegisterSong(char *filename)
 
     timediv.cbStruct = sizeof(MIDIPROPTIMEDIV);
     timediv.dwTimeDiv = MIDI_GetFileTimeDivision(file);
-    mmr = midiStreamProperty(hMidiStream, (LPBYTE)&timediv, MIDIPROP_SET | MIDIPROP_TIMEDIV);
 
-    if (mmr != MMSYSERR_NOERROR)
-    {
-        MidiErrorMessageBox(mmr);
+    if (midiStreamProperty(hMidiStream, (LPBYTE)&timediv, MIDIPROP_SET | MIDIPROP_TIMEDIV) != MMSYSERR_NOERROR)
         return;
-    }
 
     // Set initial tempo.
     tempo.cbStruct = sizeof(MIDIPROPTIMEDIV);
     tempo.dwTempo = 500000; // 120 BMP
-    mmr = midiStreamProperty(hMidiStream, (LPBYTE)&tempo, MIDIPROP_SET | MIDIPROP_TEMPO);
 
-    if (mmr != MMSYSERR_NOERROR)
-    {
-        MidiErrorMessageBox(mmr);
+    if (midiStreamProperty(hMidiStream, (LPBYTE)&tempo, MIDIPROP_SET | MIDIPROP_TEMPO) != MMSYSERR_NOERROR)
         return;
-    }
 
     MIDItoStream(file);
 
@@ -454,19 +404,12 @@ void I_Windows_UnregisterSong(void)
 void I_Windows_ShutdownMusic(void)
 {
     MIDIHDR     *hdr = &buffer.MidiStreamHdr;
-    MMRESULT    mmr;
 
     I_Windows_StopSong();
 
-    mmr = midiOutUnprepareHeader((HMIDIOUT)hMidiStream, hdr, sizeof(MIDIHDR));
+    midiOutUnprepareHeader((HMIDIOUT)hMidiStream, hdr, sizeof(MIDIHDR));
 
-    if (mmr != MMSYSERR_NOERROR)
-        MidiErrorMessageBox(mmr);
-
-    mmr = midiStreamClose(hMidiStream);
-
-    if (mmr != MMSYSERR_NOERROR)
-        MidiErrorMessageBox(mmr);
+    midiStreamClose(hMidiStream);
 
     hMidiStream = NULL;
 
