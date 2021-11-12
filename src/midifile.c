@@ -49,7 +49,6 @@
 
 #define HEADER_CHUNK_ID "MThd"
 #define TRACK_CHUNK_ID  "MTrk"
-#define MAX_BUFFER_SIZE 0x10000
 
 #if defined(_MSC_VER) || defined(__GNUC__)
 #pragma pack(push, 1)
@@ -105,7 +104,7 @@ struct midi_file_s
 // Check the header of a chunk
 static dboolean CheckChunkHeader(chunk_header_t *chunk, const char *expected_id)
 {
-    dboolean result = (memcmp((char *)chunk->chunk_id, expected_id, 4) == 0);
+    dboolean    result = !memcmp((char *)chunk->chunk_id, expected_id, 4);
 
     if (!result)
         C_Warning(0, "CheckChunkHeader: Expected '%s' chunk header, got '%c%c%c%c'",
@@ -151,7 +150,7 @@ static dboolean ReadVariableLength(unsigned int *result, FILE *stream)
         *result |= b & 0x7F;
 
         // If the top bit is not set, this is the end.
-        if ((b & 0x80) == 0)
+        if (!(b & 0x80))
             return true;
     }
 
@@ -234,7 +233,7 @@ static dboolean ReadSysExEvent(midi_event_t *event, int event_type, FILE *stream
     // Read the byte sequence
     event->data.sysex.data = ReadByteSequence(event->data.sysex.length, stream);
 
-    if (event->data.sysex.data == NULL)
+    if (!event->data.sysex.data)
     {
         C_Warning(0, "ReadSysExEvent: Failed while reading SysEx event");
         return false;
@@ -269,7 +268,7 @@ static dboolean ReadMetaEvent(midi_event_t *event, FILE *stream)
     // Read the byte sequence
     event->data.meta.data = ReadByteSequence(event->data.meta.length, stream);
 
-    if (event->data.meta.data == NULL)
+    if (!event->data.meta.data)
     {
         C_Warning(0, "ReadSysExEvent: Failed while reading SysEx event");
         return false;
@@ -298,7 +297,7 @@ static dboolean ReadEvent(midi_event_t *event, unsigned int *last_event_type, FI
     // the top bit is not set, it is because we are using the "same
     // as previous event type" shortcut to save a byte.  Skip back
     // a byte so that we read this byte again.
-    if ((event_type & 0x80) == 0)
+    if (!(event_type & 0x80))
     {
         event_type = *last_event_type;
 
@@ -485,7 +484,7 @@ static dboolean ReadFileHeader(midi_file_t *file, FILE *stream)
 
 void MIDI_FreeFile(midi_file_t *file)
 {
-    if (file->tracks != NULL)
+    if (file->tracks)
     {
         for (unsigned int i = 0; i < file->num_tracks; i++)
             FreeTrack(&file->tracks[i]);
@@ -512,7 +511,7 @@ midi_file_t *MIDI_LoadFile(char *filename)
     // Open file
     stream = fopen(filename, "rb");
 
-    if (stream == NULL)
+    if (!stream)
     {
         C_Warning(0, "MIDI_LoadFile: Failed to open '%s'", filename);
         MIDI_FreeFile(file);

@@ -226,7 +226,7 @@ static void MIDItoStream(midi_file_t *file)
         {
             int time = 0;
 
-            if (tracks[i].iter == NULL)
+            if (!tracks[i].iter)
                 continue;
 
             time = tracks[i].absolute_time + MIDI_GetDeltaTime(tracks[i].iter);
