@@ -72,7 +72,7 @@ void I_SetMusicVolume(int volume);
 void I_PauseSong(void);
 void I_ResumeSong(void);
 void *I_RegisterSong(void *data, int size);
-void I_UnRegisterSong(void *handle);
+void I_UnregisterSong(void *handle);
 void I_PlaySong(void *handle, dboolean looping);
 void I_StopSong(void);
 dboolean I_AnySoundStillPlaying(void);

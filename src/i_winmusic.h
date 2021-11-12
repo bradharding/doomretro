@@ -43,13 +43,13 @@
 
 #include "doomtype.h"
 
-dboolean I_WIN_InitMusic(void);
-void I_WIN_PlaySong(dboolean looping);
-void I_WIN_StopSong(void);
-void I_WIN_SetMusicVolume(int volume);
-void I_WIN_RegisterSong(char *filename);
-void I_WIN_UnRegisterSong(void);
-void I_WIN_ShutdownMusic(void);
+dboolean I_Windows_InitMusic(void);
+void I_Windows_PlaySong(dboolean looping);
+void I_Windows_StopSong(void);
+void I_Windows_SetMusicVolume(int volume);
+void I_Windows_RegisterSong(char *filename);
+void I_Windows_UnregisterSong(void);
+void I_Windows_ShutdownMusic(void);
 
 #endif
 #endif

@@ -302,7 +302,7 @@ static void MIDItoStream(midi_file_t *file)
         free(tracks);
 }
 
-dboolean I_WIN_InitMusic(void)
+dboolean I_Windows_InitMusic(void)
 {
     UINT        MidiDevice = MIDI_MAPPER;
     MIDIHDR     *hdr = &buffer.MidiStreamHdr;
@@ -335,7 +335,7 @@ dboolean I_WIN_InitMusic(void)
     return true;
 }
 
-void I_WIN_SetMusicVolume(int volume)
+void I_Windows_SetMusicVolume(int volume)
 {
     volume_factor = (float)volume / 127.0f;
 
@@ -349,7 +349,7 @@ void I_WIN_SetMusicVolume(int volume)
     }
 }
 
-void I_WIN_StopSong(void)
+void I_Windows_StopSong(void)
 {
     MMRESULT mmr;
 
@@ -373,7 +373,7 @@ void I_WIN_StopSong(void)
         MidiErrorMessageBox(mmr);
 }
 
-void I_WIN_PlaySong(dboolean looping)
+void I_Windows_PlaySong(dboolean looping)
 {
     MMRESULT mmr;
 
@@ -388,7 +388,7 @@ void I_WIN_PlaySong(dboolean looping)
         MidiErrorMessageBox(mmr);
 }
 
-void I_WIN_RegisterSong(char *filename)
+void I_Windows_RegisterSong(char *filename)
 {
     midi_file_t     *file;
     MIDIPROPTIMEDIV timediv;
@@ -399,7 +399,7 @@ void I_WIN_RegisterSong(char *filename)
 
     if (!file)
     {
-        C_Warning(0, "I_WIN_RegisterSong: Failed to load MID.");
+        C_Warning(0, "I_Windows_RegisterSong: Failed to load MID.");
         return;
     }
 
@@ -439,7 +439,7 @@ void I_WIN_RegisterSong(char *filename)
     StreamOut();
 }
 
-void I_WIN_UnRegisterSong(void)
+void I_Windows_UnregisterSong(void)
 {
     if (song.native_events)
     {
@@ -451,12 +451,12 @@ void I_WIN_UnRegisterSong(void)
     song.position = 0;
 }
 
-void I_WIN_ShutdownMusic(void)
+void I_Windows_ShutdownMusic(void)
 {
     MIDIHDR     *hdr = &buffer.MidiStreamHdr;
     MMRESULT    mmr;
 
-    I_WIN_StopSong();
+    I_Windows_StopSong();
 
     mmr = midiOutUnprepareHeader((HMIDIOUT)hMidiStream, hdr, sizeof(MIDIHDR));
 

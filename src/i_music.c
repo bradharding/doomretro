@@ -50,9 +50,11 @@
 dboolean        midimusictype;
 dboolean        musmusictype;
 
-static dboolean music_initialized;
+#if defined(_WIN32)
+dboolean        windowsmidi = false;
+#endif
 
-dboolean        win_midi_stream_opened = false;
+static dboolean music_initialized;
 
 static int      current_music_volume;
 static int      paused_midi_volume;
@@ -68,16 +70,16 @@ void I_ShutdownMusic(void)
     music_initialized = false;
 
     if (mus_playing)
-        I_UnRegisterSong(mus_playing->handle);
+        I_UnregisterSong(mus_playing->handle);
 
     Mix_CloseAudio();
     SDL_QuitSubSystem(SDL_INIT_AUDIO);
 
 #if defined(_WIN32)
-    if (win_midi_stream_opened)
+    if (windowsmidi)
     {
-        I_WIN_ShutdownMusic();
-        win_midi_stream_opened = false;
+        I_Windows_ShutdownMusic();
+        windowsmidi = false;
     }
 #endif
 }
@@ -108,7 +110,7 @@ dboolean I_InitMusic(void)
     music_initialized = true;
 
 #if defined(_WIN32)
-    win_midi_stream_opened = I_WIN_InitMusic();
+    windowsmidi = I_Windows_InitMusic();
 #endif
 
     return music_initialized;
@@ -121,7 +123,7 @@ void I_SetMusicVolume(int volume)
     current_music_volume = volume;
 
 #if defined(_WIN32)
-    I_WIN_SetMusicVolume(current_music_volume);
+    I_Windows_SetMusicVolume(current_music_volume);
 #endif
 
     Mix_VolumeMusic(current_music_volume);
@@ -134,8 +136,8 @@ void I_PlaySong(void *handle, dboolean looping)
         return;
 
 #if defined(_WIN32)
-    if (midimusictype && win_midi_stream_opened)
-        I_WIN_PlaySong(looping);
+    if (midimusictype && windowsmidi)
+        I_Windows_PlaySong(looping);
     else if (handle)
 #endif
         Mix_PlayMusic(handle, (looping ? -1 : 1));
@@ -172,21 +174,21 @@ void I_StopSong(void)
         return;
 
 #if defined(_WIN32)
-    if (win_midi_stream_opened)
-        I_WIN_StopSong();
+    if (windowsmidi)
+        I_Windows_StopSong();
 #endif
 
     Mix_HaltMusic();
 }
 
-void I_UnRegisterSong(void *handle)
+void I_UnregisterSong(void *handle)
 {
     if (!music_initialized)
         return;
 
 #if defined(_WIN32)
-    if (win_midi_stream_opened)
-        I_WIN_UnRegisterSong();
+    if (windowsmidi)
+        I_Windows_UnregisterSong();
     else
 #endif
         if (handle)
@@ -235,12 +237,12 @@ void *I_RegisterSong(void *data, int size)
         }
 
 #if defined(_WIN32)
-        if (midimusictype && win_midi_stream_opened)
+        if (midimusictype && windowsmidi)
         {
             char    *filename = M_TempFile(DOOMRETRO ".mid");
 
             M_WriteFile(filename, data, size);
-            I_WIN_RegisterSong(filename);
+            I_Windows_RegisterSong(filename);
             free(filename);
             return NULL;
         }

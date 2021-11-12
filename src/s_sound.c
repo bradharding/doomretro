@@ -653,7 +653,7 @@ void S_ChangeMusic(int music_id, dboolean looping, dboolean allowrestart, dboole
 
     if (!(handle = I_RegisterSong(music->data, W_LumpLength(music->lumpnum))))
 #if defined(_WIN32)
-        if (!midimusictype || !win_midi_stream_opened)
+        if (!midimusictype || !windowsmidi)
 #endif
         {
             char    *filename = M_TempFile(DOOMRETRO ".mp3");
@@ -698,7 +698,7 @@ void S_StopMusic(void)
         I_ResumeSong();
 
     I_StopSong();
-    I_UnRegisterSong(mus_playing->handle);
+    I_UnregisterSong(mus_playing->handle);
     W_ReleaseLumpNum(mus_playing->lumpnum);
     mus_playing->data = NULL;
     mus_playing = NULL;
@@ -731,7 +731,7 @@ void S_ChangeMusInfoMusic(int lumpnum, int looping)
 
     if (!(handle = I_RegisterSong(music->data, W_LumpLength(music->lumpnum))))
 #if defined(_WIN32)
-        if (!midimusictype || !win_midi_stream_opened)
+        if (!midimusictype || !windowsmidi)
 #endif
         {
             char    *filename = M_TempFile(DOOMRETRO ".mp3");
