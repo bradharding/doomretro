@@ -643,7 +643,7 @@ void P_MobjThinker(mobj_t *mobj)
     int         flags = mobj->flags;
     int         flags2;
     player_t    *player = mobj->player;
-    sector_t    *sector;
+    sector_t    *sector = mobj->subsector->sector;
 
     // [AM] Handle interpolation unless we're an active player.
     if (mobj->interpolate == -1 || mobj->type == MT_FIRE)
@@ -676,7 +676,7 @@ void P_MobjThinker(mobj_t *mobj)
 
     // [BH] bob objects in liquid
     if ((flags2 & MF2_FEETARECLIPPED) && !(flags2 & MF2_NOLIQUIDBOB)
-        && mobj->z <= (sector = mobj->subsector->sector)->floorheight && !mobj->momz && !sector->heightsec && r_liquid_bob)
+        && mobj->z <= sector->floorheight && !mobj->momz && !sector->heightsec && r_liquid_bob)
         mobj->z += animatedliquiddiffs[(mobj->floatbob + leveltime) & 63];
 
     // [BH] bob certain power-ups
@@ -740,6 +740,14 @@ void P_MobjThinker(mobj_t *mobj)
             mobj->flags2 &= ~MF2_FALLING;
             mobj->gear = 0;
         }
+    }
+
+    if ((sector->special & KILL_MONSTERS_MASK) && mobj->z == mobj->floorz && !player && (flags & MF_SHOOTABLE) && !(flags & MF_FLOAT))
+    {
+        P_DamageMobj(mobj, NULL, NULL, 10000, false);
+
+        if (mobj->thinker.function == &P_RemoveThinkerDelayed)
+            return;
     }
 
     // cycle through states,
