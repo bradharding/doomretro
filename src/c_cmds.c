@@ -8331,7 +8331,7 @@ static void r_brightmaps_cvar_func2(char *cmd, char *parms)
     }
     else
     {
-        char *temp1 = C_LookupAliasFromValue(r_brightmaps, BOOLVALUEALIAS);
+        char    *temp1 = C_LookupAliasFromValue(r_brightmaps, BOOLVALUEALIAS);
 
         C_ShowDescription(C_GetIndex(cmd));
 
@@ -8339,7 +8339,7 @@ static void r_brightmaps_cvar_func2(char *cmd, char *parms)
             C_Output(INTEGERCVARISDEFAULT, temp1);
         else
         {
-            char *temp2 = C_LookupAliasFromValue(r_brightmaps_default, BOOLVALUEALIAS);
+            char    *temp2 = C_LookupAliasFromValue(r_brightmaps_default, BOOLVALUEALIAS);
 
             C_Output(INTEGERCVARWITHDEFAULT, temp1, temp2);
             free(temp2);

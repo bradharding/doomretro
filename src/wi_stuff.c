@@ -796,12 +796,24 @@ static void WI_InitStats(void)
     cnt_par = -1;
     cnt_pause = TICRATE;
 
-    if (M_StringCompare(playername, playername_default))
-        C_PlayerMessage("You finished " ITALICS("%s%s"),
-            mapname, (ispunctuation(mapname[strlen(mapname) - 1]) ? "" : "!"));
+    if (M_StringCompare(maptitle, mapnumandtitle))
+    {
+        if (M_StringCompare(playername, playername_default))
+            C_PlayerMessage("You finished %s%s",
+                mapname, (ispunctuation(mapname[strlen(mapname) - 1]) ? "" : "!"));
+        else
+            C_PlayerMessage("%s finished %s%s",
+                playername, mapname, (ispunctuation(mapname[strlen(mapname) - 1]) ? "" : "!"));
+    }
     else
-        C_PlayerMessage("%s finished " ITALICS("%s%s"),
-            playername, mapname, (ispunctuation(mapname[strlen(mapname) - 1]) ? "" : "!"));
+    {
+        if (M_StringCompare(playername, playername_default))
+            C_PlayerMessage("You finished " ITALICS("%s%s"),
+                mapname, (ispunctuation(mapname[strlen(mapname) - 1]) ? "" : "!"));
+        else
+            C_PlayerMessage("%s finished " ITALICS("%s%s"),
+                playername, mapname, (ispunctuation(mapname[strlen(mapname) - 1]) ? "" : "!"));
+    }
 
     C_TabbedOutput(tabs, "Kills\t" BOLD("%i%%"), (wbs->skills * 100) / wbs->maxkills);
     C_TabbedOutput(tabs, "Items\t" BOLD("%i%%"), (wbs->sitems * 100) / wbs->maxitems);
