@@ -3494,7 +3494,7 @@ static void deh_procText(DEHFILE *fpin, char *line)
             for (i = 1; i < NUMMUSIC; i++)
             {
                 // avoid short prefix erroneous match
-                if (strlen(S_music[i].name1) != fromlen)
+                if (strlen(S_music[i].name2) != fromlen)
                     continue;
 
                 if (!strncasecmp(S_music[i].name1, inbuffer, fromlen))
