@@ -346,8 +346,7 @@ void C_PlayerMessage(const char *string, ...)
     M_vsnprintf(buffer, CONSOLETEXTMAXLENGTH - 1, string, argptr);
     va_end(argptr);
 
-    if (i >= 0 && console[i].stringtype == playermessagestring && M_StringCompare(console[i].string, buffer)
-        && gametime - viewplayer->prevmessagetics < HU_MSGTIMEOUT && groupmessages)
+    if (i >= 0 && console[i].stringtype == playermessagestring && M_StringCompare(console[i].string, buffer) && groupmessages)
     {
         console[i].tics = gametime;
         console[i].timestamp[0] = '\0';
@@ -382,8 +381,7 @@ void C_PlayerObituary(const char *string, ...)
     M_vsnprintf(buffer, CONSOLETEXTMAXLENGTH - 1, string, argptr);
     va_end(argptr);
 
-    if (i >= 0 && console[i].stringtype == playermessagestring && M_StringCompare(console[i].string, buffer)
-        && gametime - prevobituarytics < HU_MSGTIMEOUT && groupmessages)
+    if (i >= 0 && console[i].stringtype == playermessagestring && M_StringCompare(console[i].string, buffer) && groupmessages)
     {
         console[i].tics = gametime;
         console[i].timestamp[0] = '\0';
