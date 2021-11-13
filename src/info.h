@@ -280,9 +280,16 @@ typedef struct
     dboolean    fullbright;
     int         blood;
     int         shadowoffset;
+
+    // MBF21
+    int         mbf21flags;
+    int         infightinggroup;
     int         projectilegroup;
     int         splashgroup;
     int         ripsound;
+    int         altspeed;
+    int         meleerange;
+
     char        name1[64];
     char        plural1[64];
     char        name2[64];

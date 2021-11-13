@@ -42,6 +42,8 @@
 #include "d_think.h"
 #include "sprites.h"
 
+#define MAXSTATEARGS    8
+
 typedef enum
 {
     S_NULL,
@@ -1165,6 +1167,7 @@ typedef struct
     statenum_t  nextstate;
     int         misc1;
     int         misc2;
+    int         args[MAXSTATEARGS]; // mbf21
     dboolean    translucent;
     dboolean    dehacked;
 } state_t;
