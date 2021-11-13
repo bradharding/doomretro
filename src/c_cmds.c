@@ -4145,15 +4145,13 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
 
     if (mus_playing && !nomusic)
     {
-        char                lumpname[9];
         int                 lumps;
         const char          *musiccomposer = P_GetMapMusicComposer((gameepisode - 1) * 10 + gamemap);
         const char          *musictitle = P_GetMapMusicTitle((gameepisode - 1) * 10 + gamemap);
         const Mix_MusicType musictype = Mix_GetMusicType(NULL);
 
-        M_snprintf(lumpname, sizeof(lumpname), "d_%s", mus_playing->name1);
-        temp = uppercase(lumpname);
-        lumps = W_CheckMultipleLumps(lumpname);
+        temp = uppercase(mus_playing->name1);
+        lumps = W_CheckMultipleLumps(mus_playing->name1);
 
         C_TabbedOutput(tabs, "Music lump\t%s%s",
             temp, ((wadtype == IWAD || ((gamemode == commercial || gameepisode > 1) && lumps == 1)
@@ -4164,7 +4162,7 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
             C_TabbedOutput(tabs, "   Title\t" ITALICS("%s"), musictitle);
         else if (sigil && gameepisode == 5)
             C_TabbedOutput(tabs, "   Title\t" ITALICS("%s"), (buckethead ? mus_playing->title2 : mus_playing->title1));
-        else if (((gamemode == commercial || gameepisode > 1) && lumps == 1)
+        else if (((gamemode == commercial || gameepisode > 1) && lumps == 1 && wadtype == IWAD)
             || (gamemode != commercial && gameepisode == 1 && lumps == 2))
             C_TabbedOutput(tabs, "   Title\t" ITALICS("%s"), mus_playing->title1);
 
@@ -4172,7 +4170,7 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
             C_TabbedOutput(tabs, "   Composer\t%s", musiccomposer);
         else if (sigil && gameepisode == 5)
             C_TabbedOutput(tabs, "   Composer\t%s", (buckethead ? "Buckethead" : "James Paddock"));
-        else if (((gamemode == commercial || gameepisode > 1) && lumps == 1)
+        else if (((gamemode == commercial || gameepisode > 1) && lumps == 1 && wadtype == IWAD)
             || (gamemode != commercial && gameepisode == 1 && lumps == 2))
             C_TabbedOutput(tabs, "   Composer\t%s", "Bobby Prince");
 

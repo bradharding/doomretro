@@ -680,6 +680,7 @@ void S_ChangeMusic(int music_id, dboolean looping, dboolean allowrestart, dboole
     I_PlaySong(handle, looping);
 
     mus_playing = music;
+    M_StringCopy(mus_playing->name1, lumpinfo[music->lumpnum]->name, sizeof(mus_playing->name1));
 
     // [crispy] musinfo.items[0] is reserved for the map's default music
     if (!musinfo.items[0])
@@ -727,16 +728,16 @@ void S_ChangeMusInfoMusic(int lumpnum, int looping)
     music->lumpnum = lumpnum;
 
     // load and register it
-    music->data = W_CacheLumpNum(music->lumpnum);
+    music->data = W_CacheLumpNum(lumpnum);
 
-    if (!(handle = I_RegisterSong(music->data, W_LumpLength(music->lumpnum))))
+    if (!(handle = I_RegisterSong(music->data, W_LumpLength(lumpnum))))
 #if defined(_WIN32)
         if (!midimusictype || !windowsmidi)
 #endif
         {
             char    *filename = M_TempFile(DOOMRETRO ".mp3");
 
-            if (W_WriteFile(filename, music->data, W_LumpLength(music->lumpnum)))
+            if (W_WriteFile(filename, music->data, W_LumpLength(lumpnum)))
                 handle = Mix_LoadMUS(filename);
 
             free(filename);
@@ -751,6 +752,7 @@ void S_ChangeMusInfoMusic(int lumpnum, int looping)
     I_PlaySong(handle, looping);
 
     mus_playing = music;
+    M_StringCopy(mus_playing->name1, lumpinfo[lumpnum]->name, sizeof(mus_playing->name1));
 
     musinfo.current_item = lumpnum;
 }
