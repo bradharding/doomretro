@@ -39,6 +39,8 @@
 #if !defined(__M_RANDOM_H__)
 #define __M_RANDOM_H__
 
+#include "m_fixed.h"
+
 #define BIGSEED 143
 
 #define RAND    rndtable[(seed = (seed + 1) & 255)]
@@ -66,6 +68,9 @@ static const unsigned char rndtable[] =
 
 extern unsigned int seed;
 extern unsigned int bigseed;
+
+int P_RandomHitscanAngle(fixed_t spread);
+int P_RandomHitscanSlope(fixed_t spread);
 
 static inline int M_Random(void)
 {

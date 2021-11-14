@@ -230,6 +230,12 @@ typedef enum
 
 typedef enum
 {
+    IG_DEFAULT,
+    IG_END
+} infightinggroup_t;
+
+typedef enum
+{
     PG_GROUPLESS = -1,
     PG_DEFAULT,
     PG_BARON,

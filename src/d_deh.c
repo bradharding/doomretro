@@ -67,6 +67,8 @@ static int      linecount;
 int             dehcount;
 dboolean        dehacked;
 
+byte            defined_codeptr_args[NUMSTATES];
+
 // killough 10/98: emulate IO whether input really comes from a file or not
 
 // haleyjd: got rid of macros for MSVC
@@ -1517,7 +1519,7 @@ typedef struct
 // killough 08/09/98: make DEH_BLOCKMAX self-adjusting
 #define DEH_BLOCKMAX    arrlen(deh_blocks)              // size of array
 #define DEH_MAXKEYLEN   32                              // as much of any key as we'll look at
-#define DEH_MOBJINFOMAX 36                              // number of ints in the mobjinfo_t structure (!)
+#define DEH_MOBJINFOMAX 42                              // number of ints in the mobjinfo_t structure (!)
 
 // Put all the block header values, and the function to be called when that
 // one is encountered, in this array:
@@ -1591,6 +1593,15 @@ static const char *deh_mobjinfo[DEH_MOBJINFOMAX] =
     "Fullbright",               // .fullbright
     "Blood",                    // .blood
     "Shadow offset"             // .shadowoffset
+
+    // mbf21
+    "MBF21 Bits",               // .mbf21flags
+    "Infighting group",         // .infightinggroup
+    "Projectile group",         // .projectilegroup
+    "Splash group",             // .splashgroup
+    "Rip sound",                // .ripsound
+    "Fast speed",               // .altspeed
+    "Melee range",              // .meleerange
 };
 
 // Strings that are used to indicate flags ("Bits" in mobjinfo)
@@ -1604,13 +1615,13 @@ static const char *deh_mobjinfo[DEH_MOBJINFOMAX] =
 #define DEH_MOBJFLAGMAX     arrlen(deh_mobjflags)
 #define DEH_MOBJFLAG2MAX    arrlen(deh_mobjflags2)
 
-struct deh_mobjflags_s
+struct deh_flag_s
 {
     char    *name;
     int     value;
 };
 
-static const struct deh_mobjflags_s deh_mobjflags[] =
+static const struct deh_flag_s deh_mobjflags[] =
 {
     { "SPECIAL",      MF_SPECIAL      },    // call P_Specialthing when touched
     { "SOLID",        MF_SOLID        },    // block movement
@@ -1655,7 +1666,7 @@ static const struct deh_mobjflags_s deh_mobjflags[] =
     { "TRANSLUCENT",  MF_TRANSLUCENT  }     // apply translucency to sprite (BOOM)
 };
 
-static const struct deh_mobjflags_s deh_mobjflags2[] =
+static const struct deh_flag_s deh_mobjflags2[] =
 {
     { "TRANSLUCENT",               MF2_TRANSLUCENT               },
     { "TRANSLUCENT_REDONLY",       MF2_TRANSLUCENT_REDONLY       },
@@ -1690,6 +1701,41 @@ static const struct deh_mobjflags_s deh_mobjflags2[] =
     { "BOSS",                      MF2_BOSS                      }
 };
 
+#define DEH_MOBJFLAGMAX_MBF21 (sizeof(deh_mobjflags_mbf21) / sizeof(*deh_mobjflags_mbf21))
+
+static const struct deh_flag_s deh_mobjflags_mbf21[] = {
+    { "LOGRAV",         MF_MBF21_LOGRAV         },  // low gravity
+    { "SHORTMRANGE",    MF_MBF21_SHORTMRANGE    },  // short missile range
+    { "DMGIGNORED",     MF_MBF21_DMGIGNORED     },  // other things ignore its attacks
+    { "NORADIUSDMG",    MF_MBF21_NORADIUSDMG    },  // doesn't take splash damage
+    { "FORCERADIUSDMG", MF_MBF21_FORCERADIUSDMG },  // causes splash damage even if target immune
+    { "HIGHERMPROB",    MF_MBF21_HIGHERMPROB    },  // higher missile attack probability
+    { "RANGEHALF",      MF_MBF21_RANGEHALF      },  // use half distance for missile attack probability
+    { "NOTHRESHOLD",    MF_MBF21_NOTHRESHOLD    },  // no targeting threshold
+    { "LONGMELEE",      MF_MBF21_LONGMELEE      },  // long melee range
+    { "BOSS",           MF_MBF21_BOSS           },  // full volume see / death sound + splash immunity
+    { "MAP07BOSS1",     MF_MBF21_MAP07BOSS1     },  // Tag 666 "boss" on doom 2 map 7
+    { "MAP07BOSS2",     MF_MBF21_MAP07BOSS2     },  // Tag 667 "boss" on doom 2 map 7
+    { "E1M8BOSS",       MF_MBF21_E1M8BOSS       },  // E1M8 boss
+    { "E2M8BOSS",       MF_MBF21_E2M8BOSS       },  // E2M8 boss
+    { "E3M8BOSS",       MF_MBF21_E3M8BOSS       },  // E3M8 boss
+    { "E4M6BOSS",       MF_MBF21_E4M6BOSS       },  // E4M6 boss
+    { "E4M8BOSS",       MF_MBF21_E4M8BOSS       },  // E4M8 boss
+    { "RIP",            MF_MBF21_RIP            },  // projectile rips through targets
+    { "FULLVOLSOUNDS",  MF_MBF21_FULLVOLSOUNDS  },  // full volume see / death sound
+    { "",               0                       }
+};
+
+static const struct deh_flag_s deh_weaponflags_mbf21[] = {
+    { "NOTHRUST",       WPF_NOTHRUST            },  // doesn't thrust Mobj's
+    { "SILENT",         WPF_SILENT              },  // weapon is silent
+    { "NOAUTOFIRE",     WPF_NOAUTOFIRE          },  // weapon won't autofire in A_WeaponReady
+    { "FLEEMELEE",      WPF_FLEEMELEE           },  // monsters consider it a melee weapon
+    { "AUTOSWITCHFROM", WPF_AUTOSWITCHFROM      },  // can be switched away from when ammo is picked up
+    { "NOAUTOSWITCHTO", WPF_NOAUTOSWITCHTO      },  // cannot be switched to when ammo is picked up
+    { "",               0                       }
+};
+
 // STATE - Dehacked block name = "Frame" and "Pointer"
 // Usage: Frame nn
 // Usage: Pointer nn (Frame nn)
@@ -1709,6 +1755,20 @@ static const char *deh_state[] =
     "Codep Frame",      // pointer to first use of action (actionf_t)
     "Unknown 1",        // .misc1
     "Unknown 2"         // .misc2
+    "Args1",            // .args[0]
+    "Args2",            // .args[1]
+    "Args3",            // .args[2]
+    "Args4",            // .args[3]
+    "Args5",            // .args[4]
+    "Args6",            // .args[5]
+    "Args7",            // .args[6]
+    "Args8",            // .args[7]
+    "MBF21 Bits",       // .flags
+};
+
+static const struct deh_flag_s deh_stateflags_mbf21[] = {
+  { "SKILL5FAST", STATEF_SKILL5FAST },  // tics halve on nightmare skill
+  { NULL,         0                 }
 };
 
 // SFXINFO_STRUCT - Dehacked block name = "Sounds"
@@ -1752,6 +1812,10 @@ static const char *deh_weapon[] =
     "Bobbing Frame",    // .readystate
     "Shooting Frame",   // .atkstate
     "Firing Frame"      // .flashstate
+
+    // MBF21
+    "Ammo per shot",  // .ammopershot
+    "MBF21 Bits",     // .flags
 };
 
 // CHEATS - Dehacked block name = "Cheat"
@@ -1899,106 +1963,170 @@ void A_VileTarget(mobj_t *actor, player_t *player, pspdef_t *psp);
 void A_WeaponReady(mobj_t *actor, player_t *player, pspdef_t *psp);
 void A_XScream(mobj_t *actor, player_t *player, pspdef_t *psp);
 
+// New MBF21 codepointers
+extern void A_SpawnObject(mobj_t *actor, player_t *player, pspdef_t *psp);
+extern void A_MonsterProjectile(mobj_t *actor, player_t *player, pspdef_t *psp);
+extern void A_MonsterBulletAttack(mobj_t *actor, player_t *player, pspdef_t *psp);
+extern void A_MonsterMeleeAttack(mobj_t *actor, player_t *player, pspdef_t *psp);
+extern void A_RadiusDamage(mobj_t *actor, player_t *player, pspdef_t *psp);
+extern void A_NoiseAlert(mobj_t *actor, player_t *player, pspdef_t *psp);
+extern void A_HealChase(mobj_t *actor, player_t *player, pspdef_t *psp);
+extern void A_SeekTracer(mobj_t *actor, player_t *player, pspdef_t *psp);
+extern void A_FindTracer(mobj_t *actor, player_t *player, pspdef_t *psp);
+extern void A_ClearTracer(mobj_t *actor, player_t *player, pspdef_t *psp);
+extern void A_JumpIfHealthBelow(mobj_t *actor, player_t *player, pspdef_t *psp);
+extern void A_JumpIfTargetInSight(mobj_t *actor, player_t *player, pspdef_t *psp);
+extern void A_JumpIfTargetCloser(mobj_t *actor, player_t *player, pspdef_t *psp);
+extern void A_JumpIfTracerInSight(mobj_t *actor, player_t *player, pspdef_t *psp);
+extern void A_JumpIfTracerCloser(mobj_t *actor, player_t *player, pspdef_t *psp);
+extern void A_JumpIfFlagsSet(mobj_t *actor, player_t *player, pspdef_t *psp);
+extern void A_AddFlags(mobj_t *actor, player_t *player, pspdef_t *psp);
+extern void A_RemoveFlags(mobj_t *actor, player_t *player, pspdef_t *psp);
+//extern void A_WeaponProjectile(mobj_t *actor, player_t *player, pspdef_t *psp);
+//extern void A_WeaponBulletAttack(mobj_t *actor, player_t *player, pspdef_t *psp);
+//extern void A_WeaponMeleeAttack(mobj_t *actor, player_t *player, pspdef_t *psp);
+//extern void A_WeaponSound(mobj_t *actor, player_t *player, pspdef_t *psp);
+//extern void A_WeaponAlert(mobj_t *actor, player_t *player, pspdef_t *psp);
+//extern void A_WeaponJump(mobj_t *actor, player_t *player, pspdef_t *psp);
+//extern void A_ConsumeAmmo(mobj_t *actor, player_t *player, pspdef_t *psp);
+//extern void A_CheckAmmo(mobj_t *actor, player_t *player, pspdef_t *psp);
+//extern void A_RefireTo(mobj_t *actor, player_t *player, pspdef_t *psp);
+//extern void A_GunFlashTo(mobj_t *actor, player_t *player, pspdef_t *psp);
+
 typedef struct
 {
-    actionf_t   cptr;           // actual pointer to the subroutine
-    const char  *lookup;        // mnemonic lookup string to be specified in BEX
+    actionf_t   cptr;                       // actual pointer to the subroutine
+    const char  *lookup;                    // mnemonic lookup string to be specified in BEX
+
+    // MBF21
+    int         argcount;                   // [XA] number of MBF21 args this action uses, if any
+    int         default_args[MAXSTATEARGS]; // default values for MBF21 args
 } deh_bexptr;
 
 static const deh_bexptr deh_bexptrs[] =
 {
-    { A_Light0,          "A_Light0"          },
-    { A_WeaponReady,     "A_WeaponReady"     },
-    { A_Lower,           "A_Lower"           },
-    { A_Raise,           "A_Raise"           },
-    { A_Punch,           "A_Punch"           },
-    { A_ReFire,          "A_ReFire"          },
-    { A_FirePistol,      "A_FirePistol"      },
-    { A_Light1,          "A_Light1"          },
-    { A_FireShotgun,     "A_FireShotgun"     },
-    { A_Light2,          "A_Light2"          },
-    { A_FireShotgun2,    "A_FireShotgun2"    },
-    { A_CheckReload,     "A_CheckReload"     },
-    { A_OpenShotgun2,    "A_OpenShotgun2"    },
-    { A_LoadShotgun2,    "A_LoadShotgun2"    },
-    { A_CloseShotgun2,   "A_CloseShotgun2"   },
-    { A_FireCGun,        "A_FireCGun"        },
-    { A_GunFlash,        "A_GunFlash"        },
-    { A_FireMissile,     "A_FireMissile"     },
-    { A_Saw,             "A_Saw"             },
-    { A_FirePlasma,      "A_FirePlasma"      },
-    { A_BFGSound,        "A_BFGSound"        },
-    { A_FireBFG,         "A_FireBFG"         },
-    { A_BFGSpray,        "A_BFGSpray"        },
-    { A_Explode,         "A_Explode"         },
-    { A_Pain,            "A_Pain"            },
-    { A_PlayerScream,    "A_PlayerScream"    },
-    { A_Fall,            "A_Fall"            },
-    { A_XScream,         "A_XScream"         },
-    { A_Look,            "A_Look"            },
-    { A_Chase,           "A_Chase"           },
-    { A_FaceTarget,      "A_FaceTarget"      },
-    { A_PosAttack,       "A_PosAttack"       },
-    { A_Scream,          "A_Scream"          },
-    { A_SPosAttack,      "A_SPosAttack"      },
-    { A_VileChase,       "A_VileChase"       },
-    { A_VileStart,       "A_VileStart"       },
-    { A_VileTarget,      "A_VileTarget"      },
-    { A_VileAttack,      "A_VileAttack"      },
-    { A_StartFire,       "A_StartFire"       },
-    { A_Fire,            "A_Fire"            },
-    { A_FireCrackle,     "A_FireCrackle"     },
-    { A_Tracer,          "A_Tracer"          },
-    { A_SkelWhoosh,      "A_SkelWhoosh"      },
-    { A_SkelFist,        "A_SkelFist"        },
-    { A_SkelMissile,     "A_SkelMissile"     },
-    { A_FatRaise,        "A_FatRaise"        },
-    { A_FatAttack1,      "A_FatAttack1"      },
-    { A_FatAttack2,      "A_FatAttack2"      },
-    { A_FatAttack3,      "A_FatAttack3"      },
-    { A_BossDeath,       "A_BossDeath"       },
-    { A_CPosAttack,      "A_CPosAttack"      },
-    { A_CPosRefire,      "A_CPosRefire"      },
-    { A_TroopAttack,     "A_TroopAttack"     },
-    { A_SargAttack,      "A_SargAttack"      },
-    { A_HeadAttack,      "A_HeadAttack"      },
-    { A_BruisAttack,     "A_BruisAttack"     },
-    { A_SkullAttack,     "A_SkullAttack"     },
-    { A_Metal,           "A_Metal"           },
-    { A_SpidRefire,      "A_SpidRefire"      },
-    { A_BabyMetal,       "A_BabyMetal"       },
-    { A_BspiAttack,      "A_BspiAttack"      },
-    { A_Hoof,            "A_Hoof"            },
-    { A_CyberAttack,     "A_CyberAttack"     },
-    { A_PainAttack,      "A_PainAttack"      },
-    { A_PainDie,         "A_PainDie"         },
-    { A_KeenDie,         "A_KeenDie"         },
-    { A_BrainPain,       "A_BrainPain"       },
-    { A_BrainScream,     "A_BrainScream"     },
-    { A_BrainDie,        "A_BrainDie"        },
-    { A_BrainAwake,      "A_BrainAwake"      },
-    { A_BrainSpit,       "A_BrainSpit"       },
-    { A_SpawnSound,      "A_SpawnSound"      },
-    { A_SpawnFly,        "A_SpawnFly"        },
-    { A_BrainExplode,    "A_BrainExplode"    },
-    { A_Detonate,        "A_Detonate"        },   // killough 08/09/98
-    { A_Mushroom,        "A_Mushroom"        },   // killough 10/98
-    { A_SkullPop,        "A_SkullPop"        },
-    { A_Die,             "A_Die"             },   // killough 11/98
-    { A_Spawn,           "A_Spawn"           },   // killough 11/98
-    { A_Turn,            "A_Turn"            },   // killough 11/98
-    { A_Face,            "A_Face"            },   // killough 11/98
-    { A_Scratch,         "A_Scratch"         },   // killough 11/98
-    { A_PlaySound,       "A_PlaySound"       },   // killough 11/98
-    { A_RandomJump,      "A_RandomJump"      },   // killough 11/98
-    { A_LineEffect,      "A_LineEffect"      },   // killough 11/98
+    { A_Light0,              "A_Light0"                                               },
+    { A_WeaponReady,         "A_WeaponReady"                                          },
+    { A_Lower,               "A_Lower"                                                },
+    { A_Raise,               "A_Raise"                                                },
+    { A_Punch,               "A_Punch"                                                },
+    { A_ReFire,              "A_ReFire"                                               },
+    { A_FirePistol,          "A_FirePistol"                                           },
+    { A_Light1,              "A_Light1"                                               },
+    { A_FireShotgun,         "A_FireShotgun"                                          },
+    { A_Light2,              "A_Light2"                                               },
+    { A_FireShotgun2,        "A_FireShotgun2"                                         },
+    { A_CheckReload,         "A_CheckReload"                                          },
+    { A_OpenShotgun2,        "A_OpenShotgun2"                                         },
+    { A_LoadShotgun2,        "A_LoadShotgun2"                                         },
+    { A_CloseShotgun2,       "A_CloseShotgun2"                                        },
+    { A_FireCGun,            "A_FireCGun"                                             },
+    { A_GunFlash,            "A_GunFlash"                                             },
+    { A_FireMissile,         "A_FireMissile"                                          },
+    { A_Saw,                 "A_Saw"                                                  },
+    { A_FirePlasma,          "A_FirePlasma"                                           },
+    { A_BFGSound,            "A_BFGSound"                                             },
+    { A_FireBFG,             "A_FireBFG"                                              },
+    { A_BFGSpray,            "A_BFGSpray"                                             },
+    { A_Explode,             "A_Explode"                                              },
+    { A_Pain,                "A_Pain"                                                 },
+    { A_PlayerScream,        "A_PlayerScream"                                         },
+    { A_Fall,                "A_Fall"                                                 },
+    { A_XScream,             "A_XScream"                                              },
+    { A_Look,                "A_Look"                                                 },
+    { A_Chase,               "A_Chase"                                                },
+    { A_FaceTarget,          "A_FaceTarget"                                           },
+    { A_PosAttack,           "A_PosAttack"                                            },
+    { A_Scream,              "A_Scream"                                               },
+    { A_SPosAttack,          "A_SPosAttack"                                           },
+    { A_VileChase,           "A_VileChase"                                            },
+    { A_VileStart,           "A_VileStart"                                            },
+    { A_VileTarget,          "A_VileTarget"                                           },
+    { A_VileAttack,          "A_VileAttack"                                           },
+    { A_StartFire,           "A_StartFire"                                            },
+    { A_Fire,                "A_Fire"                                                 },
+    { A_FireCrackle,         "A_FireCrackle"                                          },
+    { A_Tracer,              "A_Tracer"                                               },
+    { A_SkelWhoosh,          "A_SkelWhoosh"                                           },
+    { A_SkelFist,            "A_SkelFist"                                             },
+    { A_SkelMissile,         "A_SkelMissile"                                          },
+    { A_FatRaise,            "A_FatRaise"                                             },
+    { A_FatAttack1,          "A_FatAttack1"                                           },
+    { A_FatAttack2,          "A_FatAttack2"                                           },
+    { A_FatAttack3,          "A_FatAttack3"                                           },
+    { A_BossDeath,           "A_BossDeath"                                            },
+    { A_CPosAttack,          "A_CPosAttack"                                           },
+    { A_CPosRefire,          "A_CPosRefire"                                           },
+    { A_TroopAttack,         "A_TroopAttack"                                          },
+    { A_SargAttack,          "A_SargAttack"                                           },
+    { A_HeadAttack,          "A_HeadAttack"                                           },
+    { A_BruisAttack,         "A_BruisAttack"                                          },
+    { A_SkullAttack,         "A_SkullAttack"                                          },
+    { A_Metal,               "A_Metal"                                                },
+    { A_SpidRefire,          "A_SpidRefire"                                           },
+    { A_BabyMetal,           "A_BabyMetal"                                            },
+    { A_BspiAttack,          "A_BspiAttack"                                           },
+    { A_Hoof,                "A_Hoof"                                                 },
+    { A_CyberAttack,         "A_CyberAttack"                                          },
+    { A_PainAttack,          "A_PainAttack"                                           },
+    { A_PainDie,             "A_PainDie"                                              },
+    { A_KeenDie,             "A_KeenDie"                                              },
+    { A_BrainPain,           "A_BrainPain"                                            },
+    { A_BrainScream,         "A_BrainScream"                                          },
+    { A_BrainDie,            "A_BrainDie"                                             },
+    { A_BrainAwake,          "A_BrainAwake"                                           },
+    { A_BrainSpit,           "A_BrainSpit"                                            },
+    { A_SpawnSound,          "A_SpawnSound"                                           },
+    { A_SpawnFly,            "A_SpawnFly"                                             },
+    { A_BrainExplode,        "A_BrainExplode"                                         },
+    { A_Detonate,            "A_Detonate"                                             },    // killough 08/09/98
+    { A_Mushroom,            "A_Mushroom"                                             },    // killough 10/98
+    { A_SkullPop,            "A_SkullPop"                                             },
+    { A_Die,                 "A_Die"                                                  },    // killough 11/98
+    { A_Spawn,               "A_Spawn"                                                },    // killough 11/98
+    { A_Turn,                "A_Turn"                                                 },    // killough 11/98
+    { A_Face,                "A_Face"                                                 },    // killough 11/98
+    { A_Scratch,             "A_Scratch"                                              },    // killough 11/98
+    { A_PlaySound,           "A_PlaySound"                                            },    // killough 11/98
+    { A_RandomJump,          "A_RandomJump"                                           },    // killough 11/98
+    { A_LineEffect,          "A_LineEffect"                                           },    // killough 11/98
 
-    { A_FireOldBFG,      "A_FireOldBFG"      },   // killough 07/19/98: classic BFG firing function
-    { A_BetaSkullAttack, "A_BetaSkullAttack" },   // killough 10/98: beta lost souls attacked different
-    { A_Stop,            "A_Stop"            },
+    { A_FireOldBFG,          "A_FireOldBFG"                                           },    // killough 07/19/98: classic BFG firing function
+    { A_BetaSkullAttack,     "A_BetaSkullAttack"                                      },    // killough 10/98: beta lost souls attacked different
+    { A_Stop,                "A_Stop"                                                 },
+
+    // [XA] New mbf21 codepointers
+    { A_SpawnObject,         "A_SpawnObject",         8                               },
+    { A_MonsterProjectile,   "A_MonsterProjectile",   5                               },
+    { A_MonsterBulletAttack, "A_MonsterBulletAttack", 5, { 0, 0, 1, 3, 5 }            },
+    { A_MonsterMeleeAttack,  "A_MonsterMeleeAttack",  4, { 3, 8, 0, 0 }               },
+    { A_RadiusDamage,        "A_RadiusDamage",        2                               },
+    { A_NoiseAlert,          "A_NoiseAlert",          0                               },
+    { A_HealChase,           "A_HealChase",           2                               },
+    { A_SeekTracer,          "A_SeekTracer",          2                               },
+    { A_FindTracer,          "A_FindTracer",          2, { 0, 10 }                    },
+    { A_ClearTracer,         "A_ClearTracer",         0                               },
+    { A_JumpIfHealthBelow,   "A_JumpIfHealthBelow",   2                               },
+    { A_JumpIfTargetInSight, "A_JumpIfTargetInSight", 2                               },
+    { A_JumpIfTargetCloser,  "A_JumpIfTargetCloser",  2                               },
+    { A_JumpIfTracerInSight, "A_JumpIfTracerInSight", 2                               },
+    { A_JumpIfTracerCloser,  "A_JumpIfTracerCloser",  2                               },
+    { A_JumpIfFlagsSet,      "A_JumpIfFlagsSet",      3                               },
+    { A_AddFlags,            "A_AddFlags",            2                               },
+    { A_RemoveFlags,         "A_RemoveFlags",         2                               },
+    //{ A_WeaponProjectile,    "A_WeaponProjectile",    5                               },
+    //{ A_WeaponBulletAttack,  "A_WeaponBulletAttack",  5, {0, 0, 1, 5, 3 }             },
+    //{ A_WeaponMeleeAttack,   "A_WeaponMeleeAttack",   5, {2, 10, 1 * FRACUNIT, 0, 0 } },
+    //{ A_WeaponSound,         "A_WeaponSound",         2                               },
+    //{ A_WeaponAlert,         "A_WeaponAlert",         0                               },
+    //{ A_WeaponJump,          "A_WeaponJump",          2                               },
+    //{ A_ConsumeAmmo,         "A_ConsumeAmmo",         1                               },
+    //{ A_CheckAmmo,           "A_CheckAmmo",           2                               },
+    //{ A_RefireTo,            "A_RefireTo",            2                               },
+    //{ A_GunFlashTo,          "A_GunFlashTo",          2                               },
 
     // This NULL entry must be the last in the list
-    { NULL,              "A_NULL"            }    // Ty 05/16/98
+    { NULL,                  "A_NULL"                                                 }
 };
 
 // to hold startup code pointers from INFO.C
@@ -2450,8 +2578,48 @@ static void deh_procThing(DEHFILE *fpin, char *line)
                     mobjinfo[indexnum].flags2 = value;
                 }
             }
+            else if (M_StringCompare(key, "MBF21 bits"))
+            {
+                // bit set
+                if (bGetData == 1)
+                    mobjinfo[indexnum].mbf21flags = value;
+                else
+                {
+                    for (value = 0; (strval = strtok(strval, ",+| \t\f\r")); strval = NULL)
+                    {
+                        int iy;
+
+                        for (iy = 0; iy < DEH_MOBJFLAGMAX_MBF21; iy++)
+                        {
+                            if (!M_StringCompare(strval, deh_mobjflags_mbf21[iy].name))
+                                continue;
+
+                            if (devparm)
+                                C_Output("ORed value 0x%08x %s.", deh_mobjflags_mbf21[iy].value, strval);
+
+                            value |= deh_mobjflags_mbf21[iy].value;
+                            break;
+                        }
+
+                        if (iy >= DEH_MOBJFLAGMAX_MBF21)
+                            C_Warning(1, "Could not find MBF21 bit mnemonic \"%s\".", strval);
+                    }
+
+                    // Don't worry about conversion -- simply print values
+                    if (devparm)
+                        C_Output("Bits = 0x%08x = %i.", value, value);
+
+                    mobjinfo[indexnum].mbf21flags = value;
+                }
+            }
             else if (M_StringCompare(key, "Dropped item"))
-                mobjinfo[indexnum].droppeditem = (int)value - 1;
+                mobjinfo[indexnum].droppeditem = value - 1;
+            else if (M_StringCompare(key, "Infighting group"))
+                mobjinfo[indexnum].infightinggroup = value + IG_END;
+            else if (M_StringCompare(key, "Projectile group"))
+                mobjinfo[indexnum].projectilegroup = (value < 0 ? PG_GROUPLESS : value + PG_END);
+            else if (M_StringCompare(key, "Splash group"))
+                mobjinfo[indexnum].splashgroup = value + SG_END;
             else
             {
                 pix = (int *)&mobjinfo[indexnum];
@@ -2598,6 +2766,71 @@ static void deh_procFrame(DEHFILE *fpin, char *line)
 
             states[indexnum].misc2 = value;
             states[indexnum].dehacked = dehacked = !BTSX;
+        }
+        else if (!strcasecmp(key, deh_state[7]))                // Args1
+        {
+            states[indexnum].args[0] = value;
+            defined_codeptr_args[indexnum] |= (1 << 0);
+        }
+        else if (!strcasecmp(key, deh_state[8]))                // Args2
+        {
+            states[indexnum].args[1] = value;
+            defined_codeptr_args[indexnum] |= (1 << 1);
+        }
+        else if (!strcasecmp(key, deh_state[9]))                // Args3
+        {
+            states[indexnum].args[2] = value;
+            defined_codeptr_args[indexnum] |= (1 << 2);
+        }
+        else if (!strcasecmp(key, deh_state[10]))               // Args4
+        {
+            states[indexnum].args[3] = value;
+            defined_codeptr_args[indexnum] |= (1 << 3);
+        }
+        else if (!strcasecmp(key, deh_state[11]))               // Args5
+        {
+            states[indexnum].args[4] = value;
+            defined_codeptr_args[indexnum] |= (1 << 4);
+        }
+        else if (!strcasecmp(key, deh_state[12]))               // Args6
+        {
+            states[indexnum].args[5] = value;
+            defined_codeptr_args[indexnum] |= (1 << 5);
+        }
+        else if (!strcasecmp(key, deh_state[13]))               // Args7
+        {
+            states[indexnum].args[6] = value;
+            defined_codeptr_args[indexnum] |= (1 << 6);
+        }
+        else if (!strcasecmp(key, deh_state[14]))               // Args8
+        {
+            states[indexnum].args[7] = value;
+            defined_codeptr_args[indexnum] |= (1 << 7);
+        }
+
+        // MBF21: process state flags
+        else if (!strcasecmp(key, deh_state[15]))               // MBF21 Bits
+        {
+            if (!value)
+            {
+                char    *strval = "";
+
+                for (value = 0; (strval = strtok(strval, ",+| \t\f\r")); strval = NULL)
+                {
+                    const struct deh_flag_s *flag;
+
+                    for (flag = deh_stateflags_mbf21; flag->name; flag++)
+                    {
+                        if (strcasecmp(strval, flag->name))
+                            continue;
+
+                        value |= flag->value;
+                        break;
+                    }
+                }
+            }
+
+            states[indexnum].flags = value;
         }
         else if (M_StringCompare(key, "translucent"))           // Translucent
         {
@@ -2859,6 +3092,36 @@ static void deh_procWeapon(DEHFILE *fpin, char *line)
             weaponinfo[indexnum].atkstate = value;
         else if (M_StringCompare(key, deh_weapon[5]))               // Firing frame
             weaponinfo[indexnum].flashstate = value;
+        else
+            if (!strcasecmp(key, deh_weapon[6]))  // Ammo per shot
+            {
+                weaponinfo[indexnum].minammo = value;
+                weaponinfo[indexnum].intflags |= WIF_ENABLEAPS;
+            }
+            else
+                // MBF21: process weapon flags
+                if (!strcasecmp(key, deh_weapon[7]))  // MBF21 Bits
+                {
+                    if (!value)
+                    {
+                        char    *strval = "";
+
+                        for (value = 0; (strval = strtok(strval, ",+| \t\f\r")); strval = NULL)
+                        {
+                            const struct deh_flag_s* flag;
+
+                            for (flag = deh_weaponflags_mbf21; flag->name; flag++)
+                            {
+                                if (strcasecmp(strval, flag->name)) continue;
+
+                                value |= flag->value;
+                                break;
+                            }
+                        }
+                    }
+
+                    weaponinfo[indexnum].flags = value;
+                }
         else
             C_Warning(1, "Invalid weapon string index for \"%s\".", key);
     }

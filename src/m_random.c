@@ -36,5 +36,48 @@
 ========================================================================
 */
 
+#include "m_fixed.h"
+#include "m_random.h"
+#include "tables.h"
+
 unsigned int    seed;
 unsigned int    bigseed;
+
+// mbf21: [XA] Common random formulas used by codepointers
+
+//
+// P_RandomHitscanAngle
+// Outputs a random angle between (-spread, spread), as an int ('cause it can be negative).
+//   spread: Maximum angle (degrees, in fixed point -- not BAM!)
+//
+int P_RandomHitscanAngle(fixed_t spread)
+{
+    int t;
+    int64_t spread_bam;
+
+    // FixedToAngle doesn't work for negative numbers,
+    // so for convenience take just the absolute value.
+    spread_bam = (spread < 0 ? FixedToAngle(-spread) : FixedToAngle(spread));
+    t = M_BigRandom();
+    return (int)((spread_bam * (t - M_BigRandom())) / 255);
+}
+
+//
+// P_RandomHitscanSlope
+// Outputs a random angle between (-spread, spread), converted to values used for slope
+//   spread: Maximum vertical angle (degrees, in fixed point -- not BAM!)
+//
+int P_RandomHitscanSlope(fixed_t spread)
+{
+    int angle;
+
+    angle = P_RandomHitscanAngle(spread);
+
+    // clamp it, yo
+    if (angle > ANG90)
+        return finetangent[0];
+    else if (-angle > ANG90)
+        return finetangent[FINEANGLES / 2 - 1];
+    else
+        return finetangent[(ANG90 - angle) >> ANGLETOFINESHIFT];
+}

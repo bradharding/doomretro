@@ -42,7 +42,10 @@
 #include "d_think.h"
 #include "sprites.h"
 
-#define MAXSTATEARGS    8
+#define MAXSTATEARGS        8
+
+// state flags
+#define STATEF_SKILL5FAST   0x00000001  // tics halve on nightmare skill
 
 typedef enum
 {
@@ -1167,7 +1170,8 @@ typedef struct
     statenum_t  nextstate;
     int         misc1;
     int         misc2;
-    int         args[MAXSTATEARGS]; // mbf21
+    int         args[MAXSTATEARGS]; // MBF21
+    int         flags;
     dboolean    translucent;
     dboolean    dehacked;
 } state_t;

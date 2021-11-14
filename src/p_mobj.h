@@ -353,6 +353,31 @@ enum
     MF3_MISSILEMORE                 = 0x00000004
 };
 
+enum
+{
+    MF_MBF21_LOGRAV = 0x00000001, // alternate gravity setting
+    MF_MBF21_SHORTMRANGE = 0x00000002, // has short missile range (archvile)
+    MF_MBF21_DMGIGNORED = 0x00000004, // other things ignore its attacks (archvile)
+    MF_MBF21_NORADIUSDMG = 0x00000008, // doesn't take damage from blast radius
+    MF_MBF21_FORCERADIUSDMG = 0x00000010, // does radius damage to everything, no exceptions
+    MF_MBF21_HIGHERMPROB = 0x00000020, // min prob. of miss. att. = 37.5% vs 22%
+    MF_MBF21_RANGEHALF = 0x00000040, // use half actual distance for missile attack probability
+    MF_MBF21_NOTHRESHOLD = 0x00000080, // has no target threshold
+    MF_MBF21_LONGMELEE = 0x00000100, // has long melee range (revenant)
+    MF_MBF21_BOSS = 0x00000200, // mobj is a major boss
+    MF_MBF21_MAP07BOSS1 = 0x00000400, // is a MAP07 boss type 2 (667)
+    MF_MBF21_MAP07BOSS2 = 0x00000800, // is a MAP07 boss type 2 (667)
+    MF_MBF21_E1M8BOSS = 0x00001000, // is an E1M8 boss
+    MF_MBF21_E2M8BOSS = 0x00002000, // is an E2M8 boss
+    MF_MBF21_E3M8BOSS = 0x00004000, // is an E3M8 boss
+    MF_MBF21_E4M6BOSS = 0x00008000, // is an E4M6 boss
+    MF_MBF21_E4M8BOSS = 0x00010000, // is an E4M8 boss
+    MF_MBF21_RIP = 0x00020000, // missile rips through solid
+    MF_MBF21_FULLVOLSOUNDS = 0x00040000, // full volume see / death sound
+    MF_MBF21_COLOREDBLOOD = 0x00080000, // [FG] colored blood and gibs
+    MF_MBF21_FLIPPABLE = 0x00100000, // [crispy] randomly flip corpse, blood and death animation sprites
+};
+
 typedef enum
 {
     DI_EAST,
@@ -414,6 +439,7 @@ typedef struct mobj_s
     int                 flags;
     int                 flags2;
     int                 flags3;
+    int                 mbf21flags;
 
     int                 health;
 
