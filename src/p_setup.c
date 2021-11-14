@@ -303,7 +303,7 @@ mapformat_t     mapformat;
 
 const char *mapformats[] =
 {
-    "Regular",
+    "Vanilla",
     ITALICS("DeeP"),
     ITALICS("ZDOOM") " extended (uncompressed)"
 };
