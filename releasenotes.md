@@ -2451,7 +2451,7 @@
 * The `r_corpses_color` CVAR is now validated at startup.
 * If `am_external` is on but there’s only one display found, there will no longer be a crash if the graphics system is restarted.
 * The number of logical cores and amount of system RAM is now displayed in the console at startup.
-* [*ZDoom’s*](http://zdoom.org/) obituary strings are now ignored in `DEHACKED` patches so warnings aren’t displayed in the console at startup.
+* [*ZDOOM’s*](http://zdoom.org/) obituary strings are now ignored in `DEHACKED` patches so warnings aren’t displayed in the console at startup.
 * A bug has been fixed whereby a frame would be skipped when rotating monsters in the *DOOM II* cast sequence.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
@@ -2911,7 +2911,7 @@
 * The pillarboxes and letterboxes on the screen are now cleared each frame.
 * Configuration files (with the extension `.cfg`) may now be loaded through the WAD launcher.
 * If a CFG file exists in the same folder as a PWAD file with the same name, it will automatically be loaded.
-* Support has been added for maps with *DeepBSP* extended nodes v4 and [*ZDoom*](http://zdoom.org/) uncompressed normal nodes.
+* Support has been added for maps with *DeepBSP* extended nodes v4 and [*ZDOOM*](http://zdoom.org/) uncompressed normal nodes.
 * Several rendering anomalies in maps have been resolved.
 * Any flats that are missing in a map will now be rendered as sky, and a warning displayed in the console, rather than *DOOM Retro* exiting with an error.
 * Further improvements have been made to the support for *DeHackEd* lumps.

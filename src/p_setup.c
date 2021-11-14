@@ -305,7 +305,7 @@ const char *mapformats[] =
 {
     "Regular",
     ITALICS("DeeP"),
-    ITALICS("ZDoom") " extended (uncompressed)"
+    ITALICS("ZDOOM") " extended (uncompressed)"
 };
 
 dboolean        boomcompatible;
