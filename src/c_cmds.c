@@ -3929,7 +3929,7 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
         {
             if (bfgedition)
                 C_TabbedOutput(tabs, "Release date\tTuesday, October 16, 2012");
-            else if (gameepisode == 4)
+            else if (gamemode == registered)
                 C_TabbedOutput(tabs, "Release date\tSunday, April 30, 1995");
             else
                 C_TabbedOutput(tabs, "Release date\tFriday, December 10, 1993");
