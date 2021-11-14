@@ -116,6 +116,8 @@
 #define STRINGCVARISREADONLY        "It is now " BOLD("%s%s%s") " and is read-only."
 #define TIMECVARISREADONLY          "It is now " BOLD("%02i:%02i:%02i") " and is read-only."
 
+#define INDENT                      "   "
+
 alias_t     aliases[MAXALIASES];
 
 static int  ammo;
@@ -3971,19 +3973,19 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
     free(temp);
 
     temp = commify(totalkills);
-    C_TabbedOutput(tabs, "   Monsters\t%s", temp);
+    C_TabbedOutput(tabs, INDENT "Monsters\t%s", temp);
     free(temp);
 
     temp = commify(totalpickups);
-    C_TabbedOutput(tabs, "   Pickups\t%s", temp);
+    C_TabbedOutput(tabs, INDENT "Pickups\t%s", temp);
     free(temp);
 
     temp = commify(numdecorations);
-    C_TabbedOutput(tabs, "   Decorations\t%s", temp);
+    C_TabbedOutput(tabs, INDENT "Decorations\t%s", temp);
     free(temp);
 
     temp = commify(barrelcount);
-    C_TabbedOutput(tabs, "   Barrels\t%s", temp);
+    C_TabbedOutput(tabs, INDENT "Barrels\t%s", temp);
     free(temp);
 
     temp = commify(numlines);
@@ -4010,7 +4012,7 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
     C_TabbedOutput(tabs, "Nodes\t%s", temp);
     free(temp);
 
-    C_TabbedOutput(tabs, "   Format\t%s", mapformats[mapformat]);
+    C_TabbedOutput(tabs, INDENT "Format\t%s", mapformats[mapformat]);
 
     temp = commify(numsectors);
     C_TabbedOutput(tabs, "Sectors\t%s", temp);
@@ -4028,19 +4030,19 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
         }
 
         outside = outside * 100 / numsectors;
-        C_TabbedOutput(tabs, "   Inside/outside\t%i%%/%i%%", 100 - outside, outside);
+        C_TabbedOutput(tabs, INDENT "Inside/outside\t%i%%/%i%%", 100 - outside, outside);
     }
 
     temp = commify(totalsecrets);
-    C_TabbedOutput(tabs, "   Secret\t%s", temp);
+    C_TabbedOutput(tabs, INDENT "Secret\t%s", temp);
     free(temp);
 
     temp = commify(numliquid);
-    C_TabbedOutput(tabs, "   Liquid\t%s", temp);
+    C_TabbedOutput(tabs, INDENT "Liquid\t%s", temp);
     free(temp);
 
     temp = commify(numdamaging);
-    C_TabbedOutput(tabs, "   Damaging\t%s", temp);
+    C_TabbedOutput(tabs, INDENT "Damaging\t%s", temp);
     free(temp);
 
     if (blockmaprebuilt)
@@ -4154,39 +4156,39 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
         C_TabbedOutput(tabs, "Music lump\t%s", temp);
         free(temp);
 
-        C_TabbedOutput(tabs, "   %s\t%s",
+        C_TabbedOutput(tabs, INDENT "%s\t%s",
             (wadtype == IWAD ? "IWAD" : "PWAD"), leafname(lumpinfo[mus_playing->lumpnum]->wadfile->path));
 
         if (*musictitle)
-            C_TabbedOutput(tabs, "   Title\t" ITALICS("%s"), musictitle);
+            C_TabbedOutput(tabs, INDENT "Title\t" ITALICS("%s"), musictitle);
         else if (sigil && gameepisode == 5)
-            C_TabbedOutput(tabs, "   Title\t" ITALICS("%s"), (buckethead ? mus_playing->title2 : mus_playing->title1));
+            C_TabbedOutput(tabs, INDENT "Title\t" ITALICS("%s"), (buckethead ? mus_playing->title2 : mus_playing->title1));
         else if (((gamemode == commercial || gameepisode > 1) && lumps == 1 && wadtype == IWAD)
             || (gamemode != commercial && gameepisode == 1 && lumps == 2))
-            C_TabbedOutput(tabs, "   Title\t" ITALICS("%s"), mus_playing->title1);
+            C_TabbedOutput(tabs, INDENT "Title\t" ITALICS("%s"), mus_playing->title1);
 
         if (*musiccomposer)
-            C_TabbedOutput(tabs, "   Composer\t%s", musiccomposer);
+            C_TabbedOutput(tabs, INDENT "Composer\t%s", musiccomposer);
         else if (sigil && gameepisode == 5)
-            C_TabbedOutput(tabs, "   Composer\t%s", (buckethead ? "Buckethead" : "James Paddock"));
+            C_TabbedOutput(tabs, INDENT "Composer\t%s", (buckethead ? "Buckethead" : "James Paddock"));
         else if (((gamemode == commercial || gameepisode > 1) && lumps == 1 && wadtype == IWAD)
             || (gamemode != commercial && gameepisode == 1 && lumps == 2))
-            C_TabbedOutput(tabs, "   Composer\t%s", "Bobby Prince");
+            C_TabbedOutput(tabs, INDENT "Composer\t%s", "Bobby Prince");
 
         if (musmusictype)
-            C_TabbedOutput(tabs, "   Format\tMUS");
+            C_TabbedOutput(tabs, INDENT "Format\tMUS");
         else if (midimusictype || musictype == MUS_MID)
-            C_TabbedOutput(tabs, "   Format\tMIDI");
+            C_TabbedOutput(tabs, INDENT "Format\tMIDI");
         else if (musictype == MUS_OGG)
-            C_TabbedOutput(tabs, "   Format\tOgg Vorbis");
+            C_TabbedOutput(tabs, INDENT "Format\tOgg Vorbis");
         else if (musictype == MUS_MP3)
-            C_TabbedOutput(tabs, "   Format\tMP3");
+            C_TabbedOutput(tabs, INDENT "Format\tMP3");
         else if (musictype == MUS_WAV)
-            C_TabbedOutput(tabs, "   Format\tWAV");
+            C_TabbedOutput(tabs, INDENT "Format\tWAV");
         else if (musictype == MUS_FLAC)
-            C_TabbedOutput(tabs, "   Format\tFLAC");
+            C_TabbedOutput(tabs, INDENT "Format\tFLAC");
         else if (musictype == MUS_MOD)
-            C_TabbedOutput(tabs, "   Format\tMOD");
+            C_TabbedOutput(tabs, INDENT "Format\tMOD");
     }
 }
 
@@ -5236,7 +5238,7 @@ static void C_PlayerStats_Game(void)
     temp3 = commify(viewplayer->shotsfired[wp_fist]);
     temp4 = commifystat(stat_shotssuccessful_fists);
     temp5 = commifystat(stat_shotsfired_fists);
-    C_TabbedOutput(tabs, "   %s\t%s of %s (%i%%)\t%s of %s (%i%%)",
+    C_TabbedOutput(tabs, INDENT "%s\t%s of %s (%i%%)\t%s of %s (%i%%)",
         temp1, temp2, temp3,
         (viewplayer->shotsfired[wp_fist] ? viewplayer->shotssuccessful[wp_fist] * 100 / viewplayer->shotsfired[wp_fist] : 0),
         temp4, temp5,
@@ -5252,7 +5254,7 @@ static void C_PlayerStats_Game(void)
     temp3 = commify(viewplayer->shotsfired[wp_chainsaw]);
     temp4 = commifystat(stat_shotssuccessful_chainsaw);
     temp5 = commifystat(stat_shotsfired_chainsaw);
-    C_TabbedOutput(tabs, "   %s\t%s of %s (%i%%)\t%s of %s (%i%%)",
+    C_TabbedOutput(tabs, INDENT "%s\t%s of %s (%i%%)\t%s of %s (%i%%)",
         temp1, temp2, temp3,
         (viewplayer->shotsfired[wp_chainsaw] ? viewplayer->shotssuccessful[wp_chainsaw] * 100 / viewplayer->shotsfired[wp_chainsaw] : 0),
         temp4, temp5,
@@ -5268,7 +5270,7 @@ static void C_PlayerStats_Game(void)
     temp3 = commify(viewplayer->shotsfired[wp_pistol]);
     temp4 = commifystat(stat_shotssuccessful_pistol);
     temp5 = commifystat(stat_shotsfired_pistol);
-    C_TabbedOutput(tabs, "   %s\t%s of %s (%i%%)\t%s of %s (%i%%)",
+    C_TabbedOutput(tabs, INDENT "%s\t%s of %s (%i%%)\t%s of %s (%i%%)",
         temp1, temp2, temp3,
         (viewplayer->shotsfired[wp_pistol] ? viewplayer->shotssuccessful[wp_pistol] * 100 / viewplayer->shotsfired[wp_pistol] : 0),
         temp4, temp5,
@@ -5284,7 +5286,7 @@ static void C_PlayerStats_Game(void)
     temp3 = commify(viewplayer->shotsfired[wp_shotgun]);
     temp4 = commifystat(stat_shotssuccessful_shotgun);
     temp5 = commifystat(stat_shotsfired_shotgun);
-    C_TabbedOutput(tabs, "   %s\t%s of %s (%i%%)\t%s of %s (%i%%)",
+    C_TabbedOutput(tabs, INDENT "%s\t%s of %s (%i%%)\t%s of %s (%i%%)",
         temp1, temp2, temp3,
         (viewplayer->shotsfired[wp_shotgun] ? viewplayer->shotssuccessful[wp_shotgun] * 100 / viewplayer->shotsfired[wp_shotgun] : 0),
         temp4, temp5,
@@ -5302,7 +5304,7 @@ static void C_PlayerStats_Game(void)
         temp3 = commify(viewplayer->shotsfired[wp_supershotgun]);
         temp4 = commifystat(stat_shotssuccessful_supershotgun);
         temp5 = commifystat(stat_shotsfired_supershotgun);
-        C_TabbedOutput(tabs, "   %s\t%s of %s (%i%%)\t%s of %s (%i%%)",
+        C_TabbedOutput(tabs, INDENT "%s\t%s of %s (%i%%)\t%s of %s (%i%%)",
             temp1, temp2, temp3,
             (viewplayer->shotsfired[wp_supershotgun] ?
                 viewplayer->shotssuccessful[wp_supershotgun] * 100 / viewplayer->shotsfired[wp_supershotgun] : 0),
@@ -5320,7 +5322,7 @@ static void C_PlayerStats_Game(void)
     temp3 = commify(viewplayer->shotsfired[wp_chaingun]);
     temp4 = commifystat(stat_shotssuccessful_chaingun);
     temp5 = commifystat(stat_shotsfired_chaingun);
-    C_TabbedOutput(tabs, "   %s\t%s of %s (%i%%)\t%s of %s (%i%%)",
+    C_TabbedOutput(tabs, INDENT "%s\t%s of %s (%i%%)\t%s of %s (%i%%)",
         temp1, temp2, temp3,
         (viewplayer->shotsfired[wp_chaingun] ? viewplayer->shotssuccessful[wp_chaingun] * 100 / viewplayer->shotsfired[wp_chaingun] : 0),
         temp4, temp5,
@@ -5336,7 +5338,7 @@ static void C_PlayerStats_Game(void)
     temp3 = commify(viewplayer->shotsfired[wp_missile]);
     temp4 = commifystat(stat_shotssuccessful_rocketlauncher);
     temp5 = commifystat(stat_shotsfired_rocketlauncher);
-    C_TabbedOutput(tabs, "   %s\t%s of %s (%i%%)\t%s of %s (%i%%)",
+    C_TabbedOutput(tabs, INDENT "%s\t%s of %s (%i%%)\t%s of %s (%i%%)",
         temp1, temp2, temp3,
         (viewplayer->shotsfired[wp_missile] ? viewplayer->shotssuccessful[wp_missile] * 100 / viewplayer->shotsfired[wp_missile] : 0),
         temp4, temp5,
@@ -5354,7 +5356,7 @@ static void C_PlayerStats_Game(void)
         temp3 = commify(viewplayer->shotsfired[wp_plasma]);
         temp4 = commifystat(stat_shotssuccessful_plasmarifle);
         temp5 = commifystat(stat_shotsfired_plasmarifle);
-        C_TabbedOutput(tabs, "   %s\t%s of %s (%i%%)\t%s of %s (%i%%)",
+        C_TabbedOutput(tabs, INDENT "%s\t%s of %s (%i%%)\t%s of %s (%i%%)",
             temp1, temp2, temp3,
             (viewplayer->shotsfired[wp_plasma] ? viewplayer->shotssuccessful[wp_plasma] * 100 / viewplayer->shotsfired[wp_plasma] : 0),
             temp4, temp5,
@@ -5370,7 +5372,7 @@ static void C_PlayerStats_Game(void)
         temp3 = commify(viewplayer->shotsfired[wp_bfg]);
         temp4 = commifystat(stat_shotssuccessful_bfg9000);
         temp5 = commifystat(stat_shotsfired_bfg9000);
-        C_TabbedOutput(tabs, "   %s\t%s of %s (%i%%)\t%s of %s (%i%%)",
+        C_TabbedOutput(tabs, INDENT "%s\t%s of %s (%i%%)\t%s of %s (%i%%)",
             temp1, temp2, temp3,
             (viewplayer->shotsfired[wp_bfg] ? viewplayer->shotssuccessful[wp_bfg] * 100 / viewplayer->shotsfired[wp_bfg] : 0),
             temp4, temp5,
@@ -5673,7 +5675,7 @@ static void C_PlayerStats_NoGame(void)
     temp1 = sentencecase(weaponinfo[wp_fist].name);
     temp2 = commifystat(stat_shotssuccessful_fists);
     temp3 = commifystat(stat_shotsfired_fists);
-    C_TabbedOutput(tabs, "   %s\t\x96\t%s of %s (%i%%)",
+    C_TabbedOutput(tabs, INDENT "%s\t\x96\t%s of %s (%i%%)",
         temp1, temp2, temp3, (stat_shotsfired_fists ? (int)(stat_shotssuccessful_fists * 100 / stat_shotsfired_fists) : 0));
     free(temp1);
     free(temp2);
@@ -5682,7 +5684,7 @@ static void C_PlayerStats_NoGame(void)
     temp1 = sentencecase(weaponinfo[wp_chainsaw].name);
     temp2 = commifystat(stat_shotssuccessful_chainsaw);
     temp3 = commifystat(stat_shotsfired_chainsaw);
-    C_TabbedOutput(tabs, "   %s\t\x96\t%s of %s (%i%%)",
+    C_TabbedOutput(tabs, INDENT "%s\t\x96\t%s of %s (%i%%)",
         temp1, temp2, temp3, (stat_shotsfired_chainsaw ? (int)(stat_shotssuccessful_chainsaw * 100 / stat_shotsfired_chainsaw) : 0));
     free(temp1);
     free(temp2);
@@ -5691,7 +5693,7 @@ static void C_PlayerStats_NoGame(void)
     temp1 = sentencecase(weaponinfo[wp_pistol].name);
     temp2 = commifystat(stat_shotssuccessful_pistol);
     temp3 = commifystat(stat_shotsfired_pistol);
-    C_TabbedOutput(tabs, "   %s\t\x96\t%s of %s (%i%%)",
+    C_TabbedOutput(tabs, INDENT "%s\t\x96\t%s of %s (%i%%)",
         temp1, temp2, temp3, (stat_shotsfired_pistol ? (int)(stat_shotssuccessful_pistol * 100 / stat_shotsfired_pistol) : 0));
     free(temp1);
     free(temp2);
@@ -5700,7 +5702,7 @@ static void C_PlayerStats_NoGame(void)
     temp1 = sentencecase(weaponinfo[wp_shotgun].name);
     temp2 = commifystat(stat_shotssuccessful_shotgun);
     temp3 = commifystat(stat_shotsfired_shotgun);
-    C_TabbedOutput(tabs, "   %s\t\x96\t%s of %s (%i%%)",
+    C_TabbedOutput(tabs, INDENT "%s\t\x96\t%s of %s (%i%%)",
         temp1, temp2, temp3, (stat_shotsfired_shotgun ? (int)(stat_shotssuccessful_shotgun * 100 / stat_shotsfired_shotgun) : 0));
     free(temp1);
     free(temp2);
@@ -5711,7 +5713,7 @@ static void C_PlayerStats_NoGame(void)
         temp1 = sentencecase(weaponinfo[wp_supershotgun].name);
         temp2 = commifystat(stat_shotssuccessful_supershotgun);
         temp3 = commifystat(stat_shotsfired_supershotgun);
-        C_TabbedOutput(tabs, "   %s\t\x96\t%s of %s (%i%%)",
+        C_TabbedOutput(tabs, INDENT "%s\t\x96\t%s of %s (%i%%)",
             temp1, temp2, temp3,
             (stat_shotsfired_supershotgun ? (int)(stat_shotssuccessful_supershotgun * 100 / stat_shotsfired_supershotgun) : 0));
         free(temp1);
@@ -5722,7 +5724,7 @@ static void C_PlayerStats_NoGame(void)
     temp1 = sentencecase(weaponinfo[wp_chaingun].name);
     temp2 = commifystat(stat_shotssuccessful_chaingun);
     temp3 = commifystat(stat_shotsfired_chaingun);
-    C_TabbedOutput(tabs, "   %s\t\x96\t%s of %s (%i%%)",
+    C_TabbedOutput(tabs, INDENT "%s\t\x96\t%s of %s (%i%%)",
         temp1, temp2, temp3, (stat_shotsfired_chaingun ? (int)(stat_shotssuccessful_chaingun * 100 / stat_shotsfired_chaingun) : 0));
     free(temp1);
     free(temp2);
@@ -5731,7 +5733,7 @@ static void C_PlayerStats_NoGame(void)
     temp1 = sentencecase(weaponinfo[wp_missile].name);
     temp2 = commifystat(stat_shotssuccessful_rocketlauncher);
     temp3 = commifystat(stat_shotsfired_rocketlauncher);
-    C_TabbedOutput(tabs, "   %s\t\x96\t%s of %s (%i%%)",
+    C_TabbedOutput(tabs, INDENT "%s\t\x96\t%s of %s (%i%%)",
         temp1, temp2, temp3,
         (stat_shotsfired_rocketlauncher ? (int)(stat_shotssuccessful_rocketlauncher * 100 / stat_shotsfired_rocketlauncher) : 0));
     free(temp1);
@@ -5743,7 +5745,7 @@ static void C_PlayerStats_NoGame(void)
         temp1 = sentencecase(weaponinfo[wp_plasma].name);
         temp2 = commifystat(stat_shotssuccessful_plasmarifle);
         temp3 = commifystat(stat_shotsfired_plasmarifle);
-        C_TabbedOutput(tabs, "   %s\t\x96\t%s of %s (%i%%)",
+        C_TabbedOutput(tabs, INDENT "%s\t\x96\t%s of %s (%i%%)",
             temp1, temp2, temp3,
             (stat_shotsfired_plasmarifle ? (int)(stat_shotssuccessful_plasmarifle * 100 / stat_shotsfired_plasmarifle) : 0));
         free(temp1);
@@ -5753,7 +5755,7 @@ static void C_PlayerStats_NoGame(void)
         temp1 = sentencecase(weaponinfo[wp_bfg].name);
         temp2 = commifystat(stat_shotssuccessful_bfg9000);
         temp3 = commifystat(stat_shotsfired_bfg9000);
-        C_TabbedOutput(tabs, "   %s\t\x96\t%s of %s (%i%%)",
+        C_TabbedOutput(tabs, INDENT "%s\t\x96\t%s of %s (%i%%)",
             temp1, temp2, temp3, (stat_shotsfired_bfg9000 ? (int)(stat_shotssuccessful_bfg9000 * 100 / stat_shotsfired_bfg9000) : 0));
         free(temp1);
         free(temp2);

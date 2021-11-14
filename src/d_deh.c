@@ -1766,9 +1766,10 @@ static const char *deh_state[] =
     "MBF21 Bits",       // .flags
 };
 
-static const struct deh_flag_s deh_stateflags_mbf21[] = {
-  { "SKILL5FAST", STATEF_SKILL5FAST },  // tics halve on nightmare skill
-  { NULL,         0                 }
+static const struct deh_flag_s deh_stateflags_mbf21[] =
+{
+    { "SKILL5FAST", STATEF_SKILL5FAST },    // tics halve on nightmare skill
+    { NULL,         0                 }
 };
 
 // SFXINFO_STRUCT - Dehacked block name = "Sounds"
