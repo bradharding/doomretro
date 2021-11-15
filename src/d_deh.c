@@ -1754,7 +1754,7 @@ static const char *deh_state[] =
     // This is set in a separate "Pointer" block from Dehacked
     "Codep Frame",      // pointer to first use of action (actionf_t)
     "Unknown 1",        // .misc1
-    "Unknown 2"         // .misc2
+    "Unknown 2",        // .misc2
     "Args1",            // .args[0]
     "Args2",            // .args[1]
     "Args3",            // .args[2]
@@ -1763,7 +1763,7 @@ static const char *deh_state[] =
     "Args6",            // .args[5]
     "Args7",            // .args[6]
     "Args8",            // .args[7]
-    "MBF21 Bits",       // .flags
+    "MBF21 Bits"        // .flags
 };
 
 static const struct deh_flag_s deh_stateflags_mbf21[] =
@@ -1812,11 +1812,11 @@ static const char *deh_weapon[] =
     "Select Frame",     // .downstate
     "Bobbing Frame",    // .readystate
     "Shooting Frame",   // .atkstate
-    "Firing Frame"      // .flashstate
+    "Firing Frame",     // .flashstate
 
     // MBF21
     "Ammo per shot",  // .ammopershot
-    "MBF21 Bits",     // .flags
+    "MBF21 Bits"      // .flags
 };
 
 // CHEATS - Dehacked block name = "Cheat"
