@@ -1494,7 +1494,7 @@ void P_SpawnBloodSplat(fixed_t x, fixed_t y, int blood, fixed_t maxheight, mobj_
 // Moves the missile forward a bit
 //  and possibly explodes it right there.
 //
-void P_CheckMissileSpawn(mobj_t *th)
+dboolean P_CheckMissileSpawn(mobj_t *th)
 {
     th->tics = MAX(1, th->tics - (M_Random() & 3));
 
@@ -1506,11 +1506,16 @@ void P_CheckMissileSpawn(mobj_t *th)
 
     // killough 08/12/98: for non-missile objects (e.g. grenades)
     if (!(th->flags & MF_MISSILE))
-        return;
+        return true;
 
     // killough 03/15/98: no dropoff (really = don't care for missiles)
     if (!P_TryMove(th, th->x, th->y, 0))
+    {
         P_ExplodeMissile(th);
+        return false;
+    }
+
+    return true;
 }
 
 //
@@ -1554,7 +1559,7 @@ mobj_t *P_SpawnMissile(mobj_t *source, mobj_t *dest, mobjtype_t type)
 // P_SpawnPlayerMissile
 // Tries to aim at a nearby monster.
 //
-void P_SpawnPlayerMissile(mobj_t *source, mobjtype_t type)
+mobj_t *P_SpawnPlayerMissile(mobj_t *source, mobjtype_t type)
 {
     mobj_t  *th;
     angle_t an = source->angle;
@@ -1622,6 +1627,8 @@ void P_SpawnPlayerMissile(mobj_t *source, mobjtype_t type)
         th->pursuecount = 0;
     }
 
-    P_CheckMissileSpawn(th);
     A_Recoil(source->player->readyweapon);
+
+    // MBF21: return missile if it's ok
+    return (P_CheckMissileSpawn(th) ? th : NULL);
 }

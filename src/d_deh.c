@@ -1983,16 +1983,16 @@ extern void A_JumpIfTracerCloser(mobj_t *actor, player_t *player, pspdef_t *psp)
 extern void A_JumpIfFlagsSet(mobj_t *actor, player_t *player, pspdef_t *psp);
 extern void A_AddFlags(mobj_t *actor, player_t *player, pspdef_t *psp);
 extern void A_RemoveFlags(mobj_t *actor, player_t *player, pspdef_t *psp);
-//extern void A_WeaponProjectile(mobj_t *actor, player_t *player, pspdef_t *psp);
-//extern void A_WeaponBulletAttack(mobj_t *actor, player_t *player, pspdef_t *psp);
-//extern void A_WeaponMeleeAttack(mobj_t *actor, player_t *player, pspdef_t *psp);
-//extern void A_WeaponSound(mobj_t *actor, player_t *player, pspdef_t *psp);
-//extern void A_WeaponAlert(mobj_t *actor, player_t *player, pspdef_t *psp);
-//extern void A_WeaponJump(mobj_t *actor, player_t *player, pspdef_t *psp);
-//extern void A_ConsumeAmmo(mobj_t *actor, player_t *player, pspdef_t *psp);
-//extern void A_CheckAmmo(mobj_t *actor, player_t *player, pspdef_t *psp);
-//extern void A_RefireTo(mobj_t *actor, player_t *player, pspdef_t *psp);
-//extern void A_GunFlashTo(mobj_t *actor, player_t *player, pspdef_t *psp);
+extern void A_WeaponProjectile(mobj_t *actor, player_t *player, pspdef_t *psp);
+extern void A_WeaponBulletAttack(mobj_t *actor, player_t *player, pspdef_t *psp);
+extern void A_WeaponMeleeAttack(mobj_t *actor, player_t *player, pspdef_t *psp);
+extern void A_WeaponSound(mobj_t *actor, player_t *player, pspdef_t *psp);
+extern void A_WeaponAlert(mobj_t *actor, player_t *player, pspdef_t *psp);
+extern void A_WeaponJump(mobj_t *actor, player_t *player, pspdef_t *psp);
+extern void A_ConsumeAmmo(mobj_t *actor, player_t *player, pspdef_t *psp);
+extern void A_CheckAmmo(mobj_t *actor, player_t *player, pspdef_t *psp);
+extern void A_RefireTo(mobj_t *actor, player_t *player, pspdef_t *psp);
+extern void A_GunFlashTo(mobj_t *actor, player_t *player, pspdef_t *psp);
 
 typedef struct
 {
@@ -2115,16 +2115,16 @@ static const deh_bexptr deh_bexptrs[] =
     { A_JumpIfFlagsSet,      "A_JumpIfFlagsSet",      3                               },
     { A_AddFlags,            "A_AddFlags",            2                               },
     { A_RemoveFlags,         "A_RemoveFlags",         2                               },
-    //{ A_WeaponProjectile,    "A_WeaponProjectile",    5                               },
-    //{ A_WeaponBulletAttack,  "A_WeaponBulletAttack",  5, {0, 0, 1, 5, 3 }             },
-    //{ A_WeaponMeleeAttack,   "A_WeaponMeleeAttack",   5, {2, 10, 1 * FRACUNIT, 0, 0 } },
-    //{ A_WeaponSound,         "A_WeaponSound",         2                               },
-    //{ A_WeaponAlert,         "A_WeaponAlert",         0                               },
-    //{ A_WeaponJump,          "A_WeaponJump",          2                               },
-    //{ A_ConsumeAmmo,         "A_ConsumeAmmo",         1                               },
-    //{ A_CheckAmmo,           "A_CheckAmmo",           2                               },
-    //{ A_RefireTo,            "A_RefireTo",            2                               },
-    //{ A_GunFlashTo,          "A_GunFlashTo",          2                               },
+    { A_WeaponProjectile,    "A_WeaponProjectile",    5                               },
+    { A_WeaponBulletAttack,  "A_WeaponBulletAttack",  5, {0, 0, 1, 5, 3 }             },
+    { A_WeaponMeleeAttack,   "A_WeaponMeleeAttack",   5, {2, 10, 1 * FRACUNIT, 0, 0 } },
+    { A_WeaponSound,         "A_WeaponSound",         2                               },
+    { A_WeaponAlert,         "A_WeaponAlert",         0                               },
+    { A_WeaponJump,          "A_WeaponJump",          2                               },
+    { A_ConsumeAmmo,         "A_ConsumeAmmo",         1                               },
+    { A_CheckAmmo,           "A_CheckAmmo",           2                               },
+    { A_RefireTo,            "A_RefireTo",            2                               },
+    { A_GunFlashTo,          "A_GunFlashTo",          2                               },
 
     // This NULL entry must be the last in the list
     { NULL,                  "A_NULL"                                                 }

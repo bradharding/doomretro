@@ -149,9 +149,9 @@ void P_SpawnPuff(fixed_t x, fixed_t y, fixed_t z, angle_t angle);
 void P_SpawnSmokeTrail(fixed_t x, fixed_t y, fixed_t z, angle_t angle);
 void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mobj_t *target);
 void P_SpawnBloodSplat(fixed_t x, fixed_t y, int blood, fixed_t maxheight, mobj_t *target);
-void P_CheckMissileSpawn(mobj_t *th);
+dboolean P_CheckMissileSpawn(mobj_t *th);
 mobj_t *P_SpawnMissile(mobj_t *source, mobj_t *dest, mobjtype_t type);
-void P_SpawnPlayerMissile(mobj_t *source, mobjtype_t type);
+mobj_t *P_SpawnPlayerMissile(mobj_t *source, mobjtype_t type);
 void P_ExplodeMissile(mobj_t *mo);
 
 //
