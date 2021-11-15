@@ -3928,30 +3928,30 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
         if (M_StringCompare(wadname, "DOOM.WAD"))
         {
             if (bfgedition)
-                C_TabbedOutput(tabs, "Release date\tTuesday, October 16, 2012");
+                C_TabbedOutput(tabs, INDENT "Release date\tTuesday, October 16, 2012");
             else if (gamemode == registered)
-                C_TabbedOutput(tabs, "Release date\tSunday, April 30, 1995");
+                C_TabbedOutput(tabs, INDENT "Release date\tSunday, April 30, 1995");
             else
-                C_TabbedOutput(tabs, "Release date\tFriday, December 10, 1993");
+                C_TabbedOutput(tabs, INDENT "Release date\tFriday, December 10, 1993");
         }
         else if (M_StringCompare(wadname, "SIGIL_v1_21.wad")
             || M_StringCompare(wadname, "SIGIL_v1_2.wad")
             || M_StringCompare(wadname, "SIGIL_v1_1.wad")
             || M_StringCompare(wadname, "SIGIL.wad"))
-            C_TabbedOutput(tabs, "Release date\tWednesday, May 22, 2019");
+            C_TabbedOutput(tabs, INDENT "Release date\tWednesday, May 22, 2019");
         else if (M_StringCompare(wadname, "DOOM2.WAD"))
         {
             if (bfgedition)
-                C_TabbedOutput(tabs, "Release date\tTuesday, October 16, 2012");
+                C_TabbedOutput(tabs, INDENT "Release date\tTuesday, October 16, 2012");
             else
-                C_TabbedOutput(tabs, "Release date\tFriday, September 30, 1994");
+                C_TabbedOutput(tabs, INDENT "Release date\tFriday, September 30, 1994");
         }
         else if (M_StringCompare(wadname, "NERVE.WAD"))
-            C_TabbedOutput(tabs, "Release date\tWednesday, May 26, 2010");
+            C_TabbedOutput(tabs, INDENT "Release date\tWednesday, May 26, 2010");
         else if (M_StringCompare(wadname, "PLUTONIA.WAD") || M_StringCompare(wadname, "TNT.WAD"))
-            C_TabbedOutput(tabs, "Release date\tMonday, June 17, 1996");
+            C_TabbedOutput(tabs, INDENT "Release date\tMonday, June 17, 1996");
         else if (M_StringCompare(wadname, "REKKR.WAD") || M_StringCompare(wadname, "REKKRSA.WAD"))
-            C_TabbedOutput(tabs, "Release date\tTuesday, July 10, 2018");
+            C_TabbedOutput(tabs, INDENT "Release date\tTuesday, July 10, 2018");
 
         if (wadtype == PWAD)
             C_TabbedOutput(tabs, "IWAD\t%s%s", leafname(lumpinfo[W_GetLastNumForName("PLAYPAL")]->wadfile->path),
