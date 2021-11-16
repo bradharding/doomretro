@@ -3922,12 +3922,13 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
 
         M_StringCopy(wadname, leafname(lumpinfo[lump]->wadfile->path), sizeof(wadname));
 
-        C_TabbedOutput(tabs, "%s\t%s%s", (wadtype == IWAD ? "IWAD" : "PWAD"), wadname,
-            (wadtype == IWAD && bfgedition ? " " ITALICS("(BFG Edition)") : ""));
+        C_TabbedOutput(tabs, "%s\t%s", (wadtype == IWAD ? "IWAD" : "PWAD"), wadname);
 
         if (M_StringCompare(wadname, "DOOM.WAD"))
         {
-            if (bfgedition)
+            if (unity)
+                C_TabbedOutput(tabs, INDENT "Release date\tFriday, July 26, 2019");
+            else if (bfgedition)
                 C_TabbedOutput(tabs, INDENT "Release date\tTuesday, October 16, 2012");
             else if (gamemode == registered)
                 C_TabbedOutput(tabs, INDENT "Release date\tSunday, April 30, 1995");
@@ -3941,7 +3942,9 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
             C_TabbedOutput(tabs, INDENT "Release date\tWednesday, May 22, 2019");
         else if (M_StringCompare(wadname, "DOOM2.WAD"))
         {
-            if (bfgedition)
+            if (unity)
+                C_TabbedOutput(tabs, INDENT "Release date\tFriday, July 26, 2019");
+            else if (bfgedition)
                 C_TabbedOutput(tabs, INDENT "Release date\tTuesday, October 16, 2012");
             else
                 C_TabbedOutput(tabs, INDENT "Release date\tFriday, September 30, 1994");
@@ -3954,8 +3957,7 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
             C_TabbedOutput(tabs, INDENT "Release date\tTuesday, July 10, 2018");
 
         if (wadtype == PWAD)
-            C_TabbedOutput(tabs, "IWAD\t%s%s", leafname(lumpinfo[W_GetLastNumForName("PLAYPAL")]->wadfile->path),
-                (bfgedition ? " " ITALICS("(BFG Edition)") : ""));
+            C_TabbedOutput(tabs, "IWAD\t%s", leafname(lumpinfo[W_GetLastNumForName("PLAYPAL")]->wadfile->path));
     }
 
     C_TabbedOutput(tabs, "Compatibility\t%s",
