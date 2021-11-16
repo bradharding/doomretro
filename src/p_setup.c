@@ -310,6 +310,7 @@ const char *mapformats[] =
 
 dboolean        boomcompatible;
 dboolean        mbfcompatible;
+dboolean        mbf21compatible = false;
 dboolean        blockmaprebuilt;
 dboolean        nojump = false;
 dboolean        nomouselook = false;

@@ -122,6 +122,7 @@ extern const char   *mapformats[];
 
 extern dboolean     boomcompatible;
 extern dboolean     mbfcompatible;
+extern dboolean     mbf21compatible;
 extern dboolean     blockmaprebuilt;
 extern dboolean     nojump;
 extern dboolean     nomouselook;

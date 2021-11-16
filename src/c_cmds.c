@@ -3961,7 +3961,8 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
     }
 
     C_TabbedOutput(tabs, "Compatibility\t%s",
-        (mbfcompatible ? ITALICS("MBF") : (boomcompatible ? ITALICS("BOOM") : (numsegs < 32768 ? "Vanilla" : "Limit removing"))));
+        (mbf21compatible ? ITALICS("MBF21") : (mbfcompatible ? ITALICS("MBF") : (boomcompatible ? ITALICS("BOOM") :
+            (numsegs < 32768 ? "Vanilla" : "Limit removing")))));
 
     {
         int partime = G_GetParTime();
