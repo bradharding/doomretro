@@ -247,7 +247,7 @@ static dboolean ReadEvent(midi_event_t *event, unsigned int *last_event_type, FI
     if (!ReadByte(&event_type, stream))
         return false;
 
-    // All event types have their top bit set.  Therefore, if 
+    // All event types have their top bit set.  Therefore, if
     // the top bit is not set, it is because we are using the "same
     // as previous event type" shortcut to save a byte.  Skip back
     // a byte so that we read this byte again.

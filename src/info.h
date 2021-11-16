@@ -43,6 +43,8 @@
 #include "d_think.h"
 #include "states.h"
 
+#define NO_ALTSPEED -1
+
 typedef enum
 {
     MT_NULL = -1,

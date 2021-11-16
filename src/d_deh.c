@@ -1519,7 +1519,7 @@ typedef struct
 // killough 08/09/98: make DEH_BLOCKMAX self-adjusting
 #define DEH_BLOCKMAX    arrlen(deh_blocks)              // size of array
 #define DEH_MAXKEYLEN   32                              // as much of any key as we'll look at
-#define DEH_MOBJINFOMAX 42                              // number of ints in the mobjinfo_t structure (!)
+#define DEH_MOBJINFOMAX 42                              // number of mobjinfo configuration keys
 
 // Put all the block header values, and the function to be called when that
 // one is encountered, in this array:
@@ -1594,7 +1594,7 @@ static const char *deh_mobjinfo[DEH_MOBJINFOMAX] =
     "Blood",                    // .blood
     "Shadow offset"             // .shadowoffset
 
-    // mbf21
+    // MBF21
     "MBF21 Bits",               // .mbf21flags
     "Infighting group",         // .infightinggroup
     "Projectile group",         // .projectilegroup
@@ -1617,8 +1617,8 @@ static const char *deh_mobjinfo[DEH_MOBJINFOMAX] =
 
 struct deh_flag_s
 {
-    char    *name;
-    int     value;
+    const char  *name;
+    int         value;
 };
 
 static const struct deh_flag_s deh_mobjflags[] =
@@ -1701,7 +1701,7 @@ static const struct deh_flag_s deh_mobjflags2[] =
     { "BOSS",                      MF2_BOSS                      }
 };
 
-#define DEH_MOBJFLAGMAX_MBF21 (sizeof(deh_mobjflags_mbf21) / sizeof(*deh_mobjflags_mbf21))
+#define DEH_MOBJFLAGMAX_MBF21   arrlen(deh_mobjflags_mbf21)
 
 static const struct deh_flag_s deh_mobjflags_mbf21[] = {
     { "LOGRAV",         MF_MBF21_LOGRAV         },  // low gravity
@@ -1713,7 +1713,7 @@ static const struct deh_flag_s deh_mobjflags_mbf21[] = {
     { "RANGEHALF",      MF_MBF21_RANGEHALF      },  // use half distance for missile attack probability
     { "NOTHRESHOLD",    MF_MBF21_NOTHRESHOLD    },  // no targeting threshold
     { "LONGMELEE",      MF_MBF21_LONGMELEE      },  // long melee range
-    { "BOSS",           MF_MBF21_BOSS           },  // full volume see / death sound + splash immunity
+    { "BOSS",           MF_MBF21_BOSS           },  // full volume see/death sound + splash immunity
     { "MAP07BOSS1",     MF_MBF21_MAP07BOSS1     },  // Tag 666 "boss" on doom 2 map 7
     { "MAP07BOSS2",     MF_MBF21_MAP07BOSS2     },  // Tag 667 "boss" on doom 2 map 7
     { "E1M8BOSS",       MF_MBF21_E1M8BOSS       },  // E1M8 boss
@@ -1722,7 +1722,7 @@ static const struct deh_flag_s deh_mobjflags_mbf21[] = {
     { "E4M6BOSS",       MF_MBF21_E4M6BOSS       },  // E4M6 boss
     { "E4M8BOSS",       MF_MBF21_E4M8BOSS       },  // E4M8 boss
     { "RIP",            MF_MBF21_RIP            },  // projectile rips through targets
-    { "FULLVOLSOUNDS",  MF_MBF21_FULLVOLSOUNDS  },  // full volume see / death sound
+    { "FULLVOLSOUNDS",  MF_MBF21_FULLVOLSOUNDS  },  // full volume see/death sound
     { "",               0                       }
 };
 
@@ -1747,11 +1747,10 @@ static const struct deh_flag_s deh_weaponflags_mbf21[] = {
 // * states are base zero and have a dummy #0 (TROO)
 static const char *deh_state[] =
 {
-    "Sprite number",    // .sprite (spritenum_t) // an enum
+    "Sprite number",    // .sprite (spritenum_t)
     "Sprite subnumber", // .frame
     "Duration",         // .tics
     "Next frame",       // .nextstate (statenum_t)
-    // This is set in a separate "Pointer" block from Dehacked
     "Codep Frame",      // pointer to first use of action (actionf_t)
     "Unknown 1",        // .misc1
     "Unknown 2",        // .misc2
@@ -1815,8 +1814,8 @@ static const char *deh_weapon[] =
     "Firing Frame",     // .flashstate
 
     // MBF21
-    "Ammo per shot",  // .ammopershot
-    "MBF21 Bits"      // .flags
+    "Ammo per shot",    // .ammopershot
+    "MBF21 Bits"        // .flags
 };
 
 // CHEATS - Dehacked block name = "Cheat"
@@ -2687,6 +2686,7 @@ static void deh_procFrame(DEHFILE *fpin, char *line)
     char    inbuffer[DEH_BUFFERMAX];
     int     value;
     int     indexnum;
+    char    *strval;
 
     strncpy(inbuffer, line, DEH_BUFFERMAX);
 
@@ -2712,7 +2712,7 @@ static void deh_procFrame(DEHFILE *fpin, char *line)
         if (!*inbuffer)
             break;                                              // killough 11/98
 
-        if (!deh_GetData(inbuffer, key, &value, NULL))          // returns TRUE if ok
+        if (!deh_GetData(inbuffer, key, &value, &strval))       // returns TRUE if ok
         {
             C_Warning(1, "Bad data pair in \"%s\".", inbuffer);
             continue;
@@ -2813,9 +2813,6 @@ static void deh_procFrame(DEHFILE *fpin, char *line)
         else if (!strcasecmp(key, deh_state[15]))               // MBF21 Bits
         {
             if (!value)
-            {
-                char    *strval = "";
-
                 for (value = 0; (strval = strtok(strval, ",+| \t\f\r")); strval = NULL)
                 {
                     const struct deh_flag_s *flag;
@@ -2829,7 +2826,6 @@ static void deh_procFrame(DEHFILE *fpin, char *line)
                         break;
                     }
                 }
-            }
 
             states[indexnum].flags = value;
         }
@@ -3050,6 +3046,7 @@ static void deh_procWeapon(DEHFILE *fpin, char *line)
     char    inbuffer[DEH_BUFFERMAX];
     int     value;
     int     indexnum;
+    char    *strval;
 
     strncpy(inbuffer, line, DEH_BUFFERMAX);
 
@@ -3075,7 +3072,7 @@ static void deh_procWeapon(DEHFILE *fpin, char *line)
         if (!*inbuffer)
             break;                                              // killough 11/98
 
-        if (!deh_GetData(inbuffer, key, &value, NULL))          // returns TRUE if ok
+        if (!deh_GetData(inbuffer, key, &value, &strval))       // returns TRUE if ok
         {
             C_Warning(1, "Bad data pair in \"%s\".", inbuffer);
             continue;
@@ -3104,9 +3101,6 @@ static void deh_procWeapon(DEHFILE *fpin, char *line)
                 if (!strcasecmp(key, deh_weapon[7]))  // MBF21 Bits
                 {
                     if (!value)
-                    {
-                        char    *strval = "";
-
                         for (value = 0; (strval = strtok(strval, ",+| \t\f\r")); strval = NULL)
                         {
                             const struct deh_flag_s* flag;
@@ -3119,7 +3113,6 @@ static void deh_procWeapon(DEHFILE *fpin, char *line)
                                 break;
                             }
                         }
-                    }
 
                     weaponinfo[indexnum].flags = value;
                 }

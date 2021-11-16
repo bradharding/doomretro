@@ -122,7 +122,6 @@ typedef struct
 
 typedef struct
 {
-    
     unsigned int        delta_time; // Time between the previous event and this event
     midi_event_type_t   event_type; // Type of event
 
