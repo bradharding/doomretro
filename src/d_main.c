@@ -2443,6 +2443,8 @@ static void D_DoomMainSetup(void)
             creditlump = W_CacheLumpName(gamemission == doom ? (gamemode == shareware ? "CREDIT1" : "CREDIT2") : "CREDIT3");
     }
 
+    unity = (W_CheckNumForName("TITLEPIC") >= 0 && SHORT(((patch_t *)W_CacheLastLumpName("TITLEPIC"))->width) > VANILLAWIDTH);
+
     if (gameaction != ga_loadgame)
     {
         if (autostart)
