@@ -647,10 +647,9 @@ static void P_NewChaseDir(mobj_t *actor)
     else
     {
         if ((actor->flags & target->flags & MF_FRIEND) && P_ApproxDistance(deltax, deltay) < DISTFRIEND
-            && !P_IsOnLift(target) && !P_IsUnderDamage(actor))
+            && actor->subsector->sector->islift && !P_IsUnderDamage(actor))
         {
-            // Move away from friends when too close, except
-            // in certain situations (e.g. a crowded lift)
+            // Move away from friends when too close, except in certain situations (e.g. a crowded lift)
             deltax = -deltax;
             deltay = -deltay;
         }
