@@ -1678,24 +1678,21 @@ void G_SetFastParms(dboolean fast_pending)
 
     if (fast != fast_pending)               // only change if necessary
     {
+        for (int i = 0; i < NUMMOBJTYPES; ++i)
+            if (mobjinfo[i].altspeed != NO_ALTSPEED)
+                SWAP(mobjinfo[i].speed, mobjinfo[i].altspeed);
+
         if ((fast = fast_pending))
         {
-            for (int i = S_SARG_RUN1; i <= S_SARG_PAIN2; i++)
-                if (states[i].tics != 1)    // killough 04/10/98
+            for (int i = 0; i < NUMSTATES; i++)
+                if ((states[i].flags & STATEF_SKILL5FAST) && states[i].tics != 1)
                     states[i].tics >>= 1;   // don't change 1->0 since it causes cycles
-
-            mobjinfo[MT_BRUISERSHOT].speed = 20 * FRACUNIT;
-            mobjinfo[MT_HEADSHOT].speed = 20 * FRACUNIT;
-            mobjinfo[MT_TROOPSHOT].speed = 20 * FRACUNIT;
         }
         else
         {
-            for (int i = S_SARG_RUN1; i <= S_SARG_PAIN2; i++)
-                states[i].tics <<= 1;
-
-            mobjinfo[MT_BRUISERSHOT].speed = 15 * FRACUNIT;
-            mobjinfo[MT_HEADSHOT].speed = 10 * FRACUNIT;
-            mobjinfo[MT_TROOPSHOT].speed = 10 * FRACUNIT;
+            for (int i = 0; i < NUMSTATES; i++)
+                if (states[i].flags & STATEF_SKILL5FAST)
+                    states[i].tics <<= 1;
         }
     }
 }
