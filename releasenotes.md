@@ -22,6 +22,7 @@
 * Minor improvements have been made to the support of `DEHACKED` and `MAPINFO` lumps.
 * The number of times the automap and the console are opened is now displayed by the `playerstats` CCMD.
 * Player messages are now always grouped in the console, regardless of the time between them, when the `groupmessages` CVAR is `on`.
+* Friendly monsters will now move away from the player if they get too close.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

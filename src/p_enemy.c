@@ -51,6 +51,9 @@
 #include "p_tick.h"
 #include "s_sound.h"
 
+// distance friends tend to move towards players
+#define DISTFRIEND  (128 * FRACUNIT)
+
 #define BARRELRANGE (512 * FRACUNIT)
 
 int barrelms = 0;
@@ -640,6 +643,17 @@ static void P_NewChaseDir(mobj_t *actor)
         // small steps are taken to get monster away from dropoff.
         actor->movecount = 1;
         return;
+    }
+    else
+    {
+        if ((actor->flags & target->flags & MF_FRIEND) && P_ApproxDistance(deltax, deltay) < DISTFRIEND
+            && !P_IsOnLift(target) && !P_IsUnderDamage(actor))
+        {
+            // Move away from friends when too close, except
+            // in certain situations (e.g. a crowded lift)
+            deltax = -deltax;
+            deltay = -deltay;
+        }
     }
 
     P_DoNewChaseDir(actor, deltax, deltay);
