@@ -2149,6 +2149,14 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
     }
 }
 
+// MBF21: dehacked infighting groups
+static dboolean P_InfightingImmune(mobj_t *target, mobj_t *source)
+{
+    // not default behavior, and same group
+    return (mobjinfo[target->type].infightinggroup != IG_DEFAULT
+        && mobjinfo[target->type].infightinggroup == mobjinfo[source->type].infightinggroup);
+}
+
 //
 // P_DamageMobj
 // Damages both enemies and players
@@ -2363,7 +2371,9 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
     // we're awake now...
     target->reactiontime = 0;
 
-    if ((!target->threshold || type == MT_VILE) && source && source != target && source->type != MT_VILE)
+    if ((!target->threshold || (target->mbf21flags & MF_MBF21_NOTHRESHOLD))
+        && source && source != target && !(source->mbf21flags & MF_MBF21_NOTHRESHOLD)
+        && !P_InfightingImmune(target, source))
     {
         state_t *state = target->state;
         state_t *spawnstate = &states[info->spawnstate];

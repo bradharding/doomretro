@@ -545,8 +545,16 @@ floater:
             return;
         }
     }
+    else if (mo->mbf21flags & MF_MBF21_LOGRAV)
+    {
+        if (!mo->momz)
+            mo->momz = -(GRAVITY >> 3) * 2;
+        else
+            mo->momz -= GRAVITY >> 3;
+    }
     else if (!(flags & MF_NOGRAVITY))
     {
+        // still above the floor
         if (!mo->momz)
             mo->momz = -GRAVITY;
 
@@ -1245,11 +1253,6 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, dboolean spawnmonsters)
         mobj->tics = (M_BigRandom() % mobj->tics) + 1;
 
     mobj->angle = ((mthing->angle % 45) ? mthing->angle * (ANG45 / 45) : ANG45 * (mthing->angle / 45));
-
-    // [BH] identify boss monsters so sounds won't be clipped
-    if (gamemode != commercial && gamemap == 8 && ((gameepisode == 1 && type == BaronOfHell)
-        || (gameepisode == 2 && type == Cyberdemon) || (gameepisode == 3 && type == SpiderMastermind)))
-        mobj->flags2 |= MF2_BOSS;
 
     // [BH] randomly mirror corpses
     if ((flags & MF_CORPSE) && (M_BigRandom() & 1) && r_corpses_mirrored)

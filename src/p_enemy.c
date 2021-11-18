@@ -665,21 +665,20 @@ static void P_NewChaseDir(mobj_t *actor)
         deltax = -deltax;
         deltay = -deltay;
     }
-    else
-        if (target->health > 0 && (actor->flags ^ target->flags) & MF_FRIEND)
+    else if (target->health > 0 && (actor->flags ^ target->flags) & MF_FRIEND)
+    {
+        // Live enemy target
+        if (actor->info->missilestate != S_NULL && actor->type != MT_SKULL
+            && ((target->info->missilestate == S_NULL && dist < target->info->meleerange * 2)
+                || (target->player && dist < target->info->meleerange * 3
+                    && (target->player->readyweapon == wp_fist || target->player->readyweapon == wp_chainsaw))))
         {
-            // Live enemy target
-            if (actor->info->missilestate && actor->type != MT_SKULL
-                && ((!target->info->missilestate && dist < target->info->meleerange * 2)
-                    || (target->player && dist < target->info->meleerange * 3
-                        && (target->player->readyweapon == wp_fist || target->player->readyweapon == wp_chainsaw))))
-            {
-                // Back away from melee attacker
-                actor->strafecount = (M_Random() & 15);
-                deltax = -deltax;
-                deltay = -deltay;
-            }
+            // Back away from melee attacker
+            actor->strafecount = (M_Random() & 15);
+            deltax = -deltax;
+            deltay = -deltay;
         }
+    }
 
     P_DoNewChaseDir(actor, deltax, deltay);
 
@@ -1928,19 +1927,19 @@ void A_BossDeath(mobj_t *actor, player_t *player, pspdef_t *psp)
         switch (gameepisode)
         {
             case 1:
-                if (gamemap != 8 || actor->type != MT_BRUISER)
+                if (gamemap != 8 || !(actor->mbf21flags & MF_MBF21_E1M8BOSS))
                     return;
 
                 break;
 
             case 2:
-                if (gamemap != 8 || actor->type != MT_CYBORG)
+                if (gamemap != 8 || !(actor->mbf21flags & MF_MBF21_E2M8BOSS))
                     return;
 
                 break;
 
             case 3:
-                if (gamemap != 8 || actor->type != MT_SPIDER)
+                if (gamemap != 8 || !(actor->mbf21flags & MF_MBF21_E3M8BOSS))
                     return;
 
                 break;
@@ -1949,13 +1948,13 @@ void A_BossDeath(mobj_t *actor, player_t *player, pspdef_t *psp)
                 switch (gamemap)
                 {
                     case 6:
-                        if (actor->type != MT_CYBORG)
+                        if (!(actor->mbf21flags & MF_MBF21_E4M6BOSS))
                             return;
 
                         break;
 
                     case 8:
-                        if (actor->type != MT_SPIDER)
+                        if (!(actor->mbf21flags & MF_MBF21_E4M8BOSS))
                             return;
 
                         break;
@@ -1996,14 +1995,14 @@ void A_BossDeath(mobj_t *actor, player_t *player, pspdef_t *psp)
     {
         if (gamemap == 7)
         {
-            if (actor->type == MT_FATSO)
+            if (actor->mbf21flags & MF_MBF21_MAP07BOSS1)
             {
                 junk.tag = 666;
                 EV_DoFloor(&junk, lowerFloorToLowest);
                 return;
             }
 
-            if (actor->type == MT_BABY)
+            if (actor->mbf21flags & MF_MBF21_MAP07BOSS2)
             {
                 junk.tag = 667;
                 EV_DoFloor(&junk, raiseToTexture);

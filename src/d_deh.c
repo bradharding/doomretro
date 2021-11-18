@@ -1697,8 +1697,7 @@ static const struct deh_flag_s deh_mobjflags2[] =
     { "CRUSHABLE",                 MF2_CRUSHABLE                 },
     { "MASSACRE",                  MF2_MASSACRE                  },
     { "DECORATION",                MF2_DECORATION                },
-    { "MONSTERMISSILE",            MF2_MONSTERMISSILE            },
-    { "BOSS",                      MF2_BOSS                      }
+    { "MONSTERMISSILE",            MF2_MONSTERMISSILE            }
 };
 
 #define DEH_MOBJFLAGMAX_MBF21   arrlen(deh_mobjflags_mbf21)

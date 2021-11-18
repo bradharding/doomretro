@@ -430,6 +430,18 @@ static dboolean PIT_CheckLine(line_t *ld)
     return true;
 }
 
+// MBF21: dehacked projectile groups
+static dboolean P_ProjectileImmune(mobj_t *target, mobj_t *source)
+{
+    // PG_GROUPLESS means no immunity, even to own species
+    return ((mobjinfo[target->type].projectilegroup != PG_GROUPLESS || target == source)
+        // target type has default behavior, and things are the same type
+        && ((mobjinfo[target->type].projectilegroup == PG_DEFAULT && source->type == target->type)
+            // target type has special behavior, and things have the same group
+            || (mobjinfo[target->type].projectilegroup != PG_DEFAULT
+                && mobjinfo[target->type].projectilegroup == mobjinfo[source->type].projectilegroup)));
+}
+
 //
 // PIT_CheckThing
 //
@@ -551,10 +563,7 @@ static dboolean PIT_CheckThing(mobj_t *thing)
         if (tmthing->z + tmthing->height < thing->z)
             return true;                // underneath
 
-        if (tmthing->target
-            && (tmthing->target->type == type
-                || (tmthing->target->type == MT_KNIGHT && type == MT_BRUISER)
-                || (tmthing->target->type == MT_BRUISER && type == MT_KNIGHT)))
+        if (tmthing->target && P_ProjectileImmune(thing, tmthing->target))
         {
             // Don't hit same species as originator.
             if (thing == tmthing->target)
@@ -587,6 +596,23 @@ static dboolean PIT_CheckThing(mobj_t *thing)
 
         if (!(flags & MF_SHOOTABLE))
             return !(flags & MF_SOLID); // didn't do any damage
+
+              // mbf21: ripper projectile
+        if (tmthing->mbf21flags & MF_MBF21_RIP)
+        {
+            int damage = ((M_Random() & 3) + 2) * tmthing->info->damage;
+
+            if (!(thing->flags & MF_NOBLOOD))
+                P_SpawnBlood(tmthing->x, tmthing->y, tmthing->z, shootangle, damage, tmthing);
+
+            if (tmthing->info->ripsound)
+                S_StartSound(tmthing, tmthing->info->ripsound);
+
+            P_DamageMobj(thing, tmthing, tmthing->target, damage, true);
+            numspechit = 0;
+
+            return true;
+        }
 
         // damage/explode
         P_DamageMobj(thing, tmthing, tmthing->target, ((M_Random() & 7) + 1) * tmthing->info->damage, true);
@@ -1934,6 +1960,13 @@ static mobj_t   *bombspot;
 static int      bombdamage;
 static dboolean bombverticality;
 
+// MBF21: dehacked splash groups
+static dboolean P_SplashImmune(mobj_t* target, mobj_t* spot)
+{
+    // not default behavior and same group
+    return (mobjinfo[target->type].splashgroup != SG_DEFAULT && mobjinfo[target->type].splashgroup == mobjinfo[spot->type].splashgroup);
+}
+
 //
 // PIT_RadiusAttack
 // "bombsource" is the creature
@@ -1951,11 +1984,15 @@ dboolean PIT_RadiusAttack(mobj_t *thing)
         && !(thing->flags & MF_CORPSE))
         return true;
 
+    if (P_SplashImmune(thing, bombspot))
+        return true;
+
     type = thing->type;
 
     // killough 08/10/98: allow grenades to hurt anyone, unless
     // fired by Cyberdemons, in which case it won't hurt Cybers.
-    if ((bombspot->flags & MF_BOUNCES) ? (type == MT_CYBORG && bombsource->type == MT_CYBORG) : (type == MT_CYBORG || type == MT_SPIDER))
+    if ((bombspot->flags & MF_BOUNCES) ? (type == MT_CYBORG && bombsource->type == MT_CYBORG)
+        : (thing->mbf21flags & (MF_MBF21_NORADIUSDMG | MF_MBF21_BOSS) && !(bombspot->mbf21flags & MF_MBF21_FORCERADIUSDMG)))
         return true;
 
     dist = MAX(ABS(thing->x - bombspot->x), ABS(thing->y - bombspot->y)) - thing->radius;

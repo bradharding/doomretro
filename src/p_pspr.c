@@ -422,17 +422,18 @@ void A_GunFlash(mobj_t *actor, player_t *player, pspdef_t *psp)
 void A_Punch(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
     angle_t angle = actor->angle + (M_SubRandom() << 18);
-    int     slope = P_AimLineAttack(actor, angle, MELEERANGE, MF_FRIEND);
+    int     range = viewplayer->mo->info->meleerange;
+    int     slope = P_AimLineAttack(actor, angle, range, MF_FRIEND);
     int     damage = (M_Random() % 10 + 1) << 1;
 
     if (player->powers[pw_strength])
         damage *= 10;
 
     if (!linetarget)
-        slope = P_AimLineAttack(actor, angle, MELEERANGE, 0);
+        slope = P_AimLineAttack(actor, angle, range, 0);
 
     hitwall = false;
-    P_LineAttack(actor, angle, MELEERANGE, slope, damage);
+    P_LineAttack(actor, angle, range, slope, damage);
 
     player->shotsfired[wp_fist]++;
     stat_shotsfired_fists = SafeAdd(stat_shotsfired_fists, 1);
@@ -459,12 +460,13 @@ void A_Punch(mobj_t *actor, player_t *player, pspdef_t *psp)
 void A_Saw(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
     angle_t angle = actor->angle + (M_SubRandom() << 18);
-    int     slope = P_AimLineAttack(actor, angle, MELEERANGE + 1, MF_FRIEND);
+    int     range = viewplayer->mo->info->meleerange + 1;
+    int     slope = P_AimLineAttack(actor, angle, range, MF_FRIEND);
 
     if (!linetarget)
-        slope = P_AimLineAttack(actor, angle, MELEERANGE + 1, 0);
+        slope = P_AimLineAttack(actor, angle, range, 0);
 
-    P_LineAttack(actor, angle, MELEERANGE + 1, slope, 2 * (M_Random() % 10 + 1));
+    P_LineAttack(actor, angle, range, slope, 2 * (M_Random() % 10 + 1));
     A_Recoil(wp_chainsaw);
     P_NoiseAlert(actor);
 
