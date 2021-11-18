@@ -73,6 +73,10 @@
 #define MELEERANGE          (64 * FRACUNIT)
 #define MISSILERANGE        (32 * 64 * FRACUNIT)
 
+// MBF21: a couple of explicit constants for non-melee things that used to use MELEERANGE
+#define WAKEUPRANGE         (64 * FRACUNIT)
+#define SNEAKRANGE          (128 * FRACUNIT)
+
 // follow a player exclusively for 3 seconds
 #define BASETHRESHOLD       100
 

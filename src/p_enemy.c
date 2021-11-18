@@ -800,7 +800,7 @@ static dboolean P_LookForPlayer(mobj_t *actor, dboolean allaround)
 
         if (an > ANG90 && an < ANG270)
             // if real close, react anyway
-            if (P_ApproxDistance(mo->x - actor->x, mo->y - actor->y) > MELEERANGE)
+            if (P_ApproxDistance(mo->x - actor->x, mo->y - actor->y) > WAKEUPRANGE)
             {
                 // Use last known enemy if no players sighted -- killough 02/15/98
                 if (actor->lastenemy && actor->lastenemy->health > 0)
@@ -890,7 +890,7 @@ void A_Look(mobj_t *actor, player_t *player, pspdef_t *psp)
                 break;
 
             default:
-                S_StartSound(((actor->flags2 & MF2_BOSS) ? NULL : actor), actor->info->seesound);
+                S_StartSound(((actor->mbf21flags & MF_MBF21_BOSS) ? NULL : actor), actor->info->seesound);
                 break;
         }
 
@@ -899,6 +899,23 @@ void A_Look(mobj_t *actor, player_t *player, pspdef_t *psp)
     }
 
     P_SetMobjState(actor, actor->info->seestate);
+}
+
+//
+// A_FaceTarget
+//
+void A_FaceTarget(mobj_t *actor, player_t *player, pspdef_t *psp)
+{
+    mobj_t  *target = actor->target;
+
+    if (!target)
+        return;
+
+    actor->flags &= ~MF_AMBUSH;
+    actor->angle = R_PointToAngle2(actor->x, actor->y, target->x, target->y);
+
+    if (target->flags & MF_FUZZ)
+        actor->angle += M_SubRandom() << 21;
 }
 
 //
@@ -994,9 +1011,7 @@ void A_Chase(mobj_t *actor, player_t *player, pspdef_t *psp)
             // changing targets
             actor->pursuecount = BASETHRESHOLD;
 
-            // Unless (we have a live target
-            //         and it's not friendly
-            //         and we can see it)
+            // Unless (we have a live target and it's not friendly and we can see it)
             //  try to find a new one; return if successful
             if (!(target->health > 0
                 && (((((target->flags ^ actor->flags) & MF_FRIEND) || !(actor->flags & MF_FRIEND)) && P_CheckSight(actor, target))))
@@ -1026,23 +1041,6 @@ void A_Chase(mobj_t *actor, player_t *player, pspdef_t *psp)
     // make active sound
     if (info->activesound && M_Random() < 3)
         S_StartSound(actor, info->activesound);
-}
-
-//
-// A_FaceTarget
-//
-void A_FaceTarget(mobj_t *actor, player_t *player, pspdef_t *psp)
-{
-    mobj_t  *target = actor->target;
-
-    if (!target)
-        return;
-
-    actor->flags &= ~MF_AMBUSH;
-    actor->angle = R_PointToAngle2(actor->x, actor->y, target->x, target->y);
-
-    if (target->flags & MF_FUZZ)
-        actor->angle += M_SubRandom() << 21;
 }
 
 //
@@ -1837,7 +1835,7 @@ void A_Scream(mobj_t *actor, player_t *player, pspdef_t *psp)
     else if (sound == sfx_bgdth1 || sound == sfx_bgdth2)
         sound = sfx_bgdth1 + M_Random() % 2;
 
-    S_StartSound(actor, sound);
+    S_StartSound(((actor->mbf21flags & MF_MBF21_BOSS) ? NULL : actor), sound);
 }
 
 void A_XScream(mobj_t *actor, player_t *player, pspdef_t *psp)
@@ -1922,7 +1920,7 @@ void A_BossDeath(mobj_t *actor, player_t *player, pspdef_t *psp)
         if (gamemap != 7)
             return;
 
-        if (actor->type != MT_FATSO && actor->type != MT_BABY)
+        if (!(actor->mbf21flags & (MF_MBF21_MAP07BOSS1 | MF_MBF21_MAP07BOSS2)))
             return;
     }
     else
