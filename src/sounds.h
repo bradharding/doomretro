@@ -202,7 +202,7 @@ enum
 //
 // Identifiers for all sfx in game.
 //
-enum
+typedef enum
 {
     sfx_none,
     sfx_pistol,
@@ -529,6 +529,6 @@ enum
     sfx_fre199,
 
     NUMSFX
-};
+} sfxenum_t;
 
 #endif

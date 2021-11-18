@@ -155,6 +155,14 @@ typedef struct
 // [BH] Line will be shown as a wall in automap.
 #define ML_DRAWASWALL           1024
 
+// haleyjd 05/02/06: Although it was believed until now that a reserved line
+// flag was unnecessary, a problem with Ultimate DOOM E2M7 has disproven this
+// theory. It has roughly 1000 linedefs with 0xFE00 masked into the flags, so
+// making the next line flag reserved and using it to toggle off ALL extended
+// flags will preserve compatibility for such maps. I have been told this map
+// is one of the first ever created, so it may have something to do with that.
+#define ML_RESERVED             2048
+
 // MBF21
 #define ML_BLOCKLANDMONSTERS    4096
 #define ML_BLOCKPLAYERS         8192

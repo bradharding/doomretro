@@ -218,13 +218,13 @@ dboolean P_CheckAmmo(weapontype_t weapon)
 //
 // P_SubtractAmmo
 //
-static void P_SubtractAmmo(int amount)
+static void P_SubtractAmmo(void)
 {
     ammotype_t  ammotype = weaponinfo[viewplayer->readyweapon].ammotype;
 
     if (ammotype != am_noammo)
     {
-        viewplayer->ammo[ammotype] = MAX(0, viewplayer->ammo[ammotype] - amount);
+        viewplayer->ammo[ammotype] = MAX(0, viewplayer->ammo[ammotype] - weaponinfo[viewplayer->readyweapon].minammo);
         ammohighlight = I_GetTimeMS() + HUD_AMMO_HIGHLIGHT_WAIT;
     }
 }
@@ -440,7 +440,9 @@ void A_Punch(mobj_t *actor, player_t *player, pspdef_t *psp)
 
     if (linetarget || hitwall)
     {
-        P_NoiseAlert(actor);
+        if (!(weaponinfo[player->readyweapon].flags & WPF_SILENT))
+            P_NoiseAlert(actor);
+
         S_StartSound(actor, sfx_punch);
 
         // turn to face target
@@ -468,7 +470,9 @@ void A_Saw(mobj_t *actor, player_t *player, pspdef_t *psp)
 
     P_LineAttack(actor, angle, range, slope, 2 * (M_Random() % 10 + 1));
     A_Recoil(wp_chainsaw);
-    P_NoiseAlert(actor);
+
+    if (!(weaponinfo[player->readyweapon].flags & WPF_SILENT))
+        P_NoiseAlert(actor);
 
     player->shotsfired[wp_chainsaw]++;
     stat_shotsfired_chainsaw = SafeAdd(stat_shotsfired_chainsaw, 1);
@@ -507,7 +511,7 @@ void A_Saw(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_FireMissile(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    P_SubtractAmmo(1);
+    P_SubtractAmmo();
     P_SpawnPlayerMissile(actor, MT_ROCKET);
 
     player->shotsfired[wp_missile]++;
@@ -519,7 +523,7 @@ void A_FireMissile(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_FireBFG(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    P_SubtractAmmo(bfgcells);
+    P_SubtractAmmo();
     P_SpawnPlayerMissile(actor, MT_BFG);
 }
 
@@ -536,7 +540,7 @@ void A_FireOldBFG(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
     mobjtype_t  type = MT_PLASMA1;
 
-    P_SubtractAmmo(1);
+    P_SubtractAmmo();
 
     player->extralight = 2;
 
@@ -606,7 +610,7 @@ void A_FireOldBFG(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_FirePlasma(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    P_SubtractAmmo(1);
+    P_SubtractAmmo();
     P_SetPsprite(ps_flash, weaponinfo[player->readyweapon].flashstate + (M_Random() & 1));
     P_SpawnPlayerMissile(actor, MT_PLASMA);
 
@@ -671,9 +675,11 @@ static void P_GunShot(mobj_t *actor, dboolean accurate)
 //
 void A_FirePistol(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    P_NoiseAlert(actor);
+    if (!(weaponinfo[player->readyweapon].flags & WPF_SILENT))
+        P_NoiseAlert(actor);
+
     S_StartSound(actor, sfx_pistol);
-    P_SubtractAmmo(1);
+    P_SubtractAmmo();
     P_SetPsprite(ps_flash, weaponinfo[player->readyweapon].flashstate);
     P_BulletSlope(actor);
 
@@ -697,9 +703,11 @@ void A_FirePistol(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_FireShotgun(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    P_NoiseAlert(actor);
+    if (!(weaponinfo[player->readyweapon].flags & WPF_SILENT))
+        P_NoiseAlert(actor);
+
     S_StartSound(actor, sfx_shotgn);
-    P_SubtractAmmo(1);
+    P_SubtractAmmo();
     P_SetPsprite(ps_flash, weaponinfo[player->readyweapon].flashstate);
     P_BulletSlope(actor);
 
@@ -727,9 +735,11 @@ void A_FireShotgun(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_FireShotgun2(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    P_NoiseAlert(actor);
+    if (!(weaponinfo[player->readyweapon].flags & WPF_SILENT))
+        P_NoiseAlert(actor);
+
     S_StartSound(actor, sfx_dshtgn);
-    P_SubtractAmmo(2);
+    P_SubtractAmmo();
     P_SetPsprite(ps_flash, weaponinfo[player->readyweapon].flashstate);
     P_BulletSlope(actor);
 
@@ -780,8 +790,10 @@ void A_FireCGun(mobj_t *actor, player_t *player, pspdef_t *psp)
 
     S_StartSound(actor, sfx_pistol);
 
-    P_NoiseAlert(actor);
-    P_SubtractAmmo(1);
+    if (!(weaponinfo[player->readyweapon].flags & WPF_SILENT))
+        P_NoiseAlert(actor);
+
+    P_SubtractAmmo();
     P_SetPsprite(ps_flash, weaponinfo[player->readyweapon].flashstate + (unsigned int)((psp->state - &states[S_CHAIN1]) & 1));
     P_BulletSlope(actor);
 
@@ -827,7 +839,8 @@ void A_BFGSpray(mobj_t *actor, player_t *player, pspdef_t *psp)
     mobj_t  *mo = actor->target;
     angle_t an = mo->angle - ANG90 / 2;
 
-    P_NoiseAlert(actor);
+    if (!(weaponinfo[player->readyweapon].flags & WPF_SILENT))
+        P_NoiseAlert(actor);
 
     // offset angles from its attack angle
     for (int i = 0; i < 40; i++)

@@ -671,7 +671,7 @@ static void P_NewChaseDir(mobj_t *actor)
         if (actor->info->missilestate != S_NULL && actor->type != MT_SKULL
             && ((target->info->missilestate == S_NULL && dist < target->info->meleerange * 2)
                 || (target->player && dist < target->info->meleerange * 3
-                    && (target->player->readyweapon == wp_fist || target->player->readyweapon == wp_chainsaw))))
+                    && (weaponinfo[target->player->readyweapon].flags & WPF_FLEEMELEE))))
         {
             // Back away from melee attacker
             actor->strafecount = (M_Random() & 15);
@@ -1353,6 +1353,7 @@ void A_SkelFist(mobj_t *actor, player_t *player, pspdef_t *psp)
 static mobj_t   *corpsehit;
 static fixed_t  viletryx;
 static fixed_t  viletryy;
+static int      viletryradius;
 
 static dboolean PIT_VileCheck(mobj_t *thing)
 {
@@ -1370,7 +1371,7 @@ static dboolean PIT_VileCheck(mobj_t *thing)
     if (thing->info->raisestate == S_NULL)
         return true;    // monster doesn't have a raise state
 
-    maxdist = thing->info->radius + mobjinfo[MT_VILE].radius;
+    maxdist = thing->info->radius + viletryradius;
 
     if (ABS(thing->x - viletryx) > maxdist || ABS(thing->y - viletryy) > maxdist)
         return true;    // not actually touching
@@ -1396,10 +1397,10 @@ static dboolean PIT_VileCheck(mobj_t *thing)
 }
 
 //
-// A_VileChase
+// MBF21: P_HealCorpse
 // Check for resurrecting a body
 //
-void A_VileChase(mobj_t *actor, player_t *player, pspdef_t *psp)
+static dboolean P_HealCorpse(mobj_t* actor, int radius, statenum_t healstate, sfxenum_t healsound)
 {
     int movedir = actor->movedir;
 
@@ -1414,6 +1415,7 @@ void A_VileChase(mobj_t *actor, player_t *player, pspdef_t *psp)
         // check for corpses to raise
         viletryx = actor->x + speed * xspeed[movedir];
         viletryy = actor->y + speed * yspeed[movedir];
+        viletryradius = radius;
 
         xl = P_GetSafeBlockX(viletryx - bmaporgx - MAXRADIUS * 2);
         xh = P_GetSafeBlockX(viletryx - bmaporgx + MAXRADIUS * 2);
@@ -1434,8 +1436,8 @@ void A_VileChase(mobj_t *actor, player_t *player, pspdef_t *psp)
                     A_FaceTarget(actor, NULL, NULL);
                     actor->target = prevtarget;
 
-                    P_SetMobjState(actor, S_VILE_HEAL1);
-                    S_StartSound(corpsehit, sfx_slop);
+                    P_SetMobjState(actor, healstate);
+                    S_StartSound(corpsehit, healsound);
 
                     P_SetMobjState(corpsehit, info->raisestate);
 
@@ -1493,13 +1495,23 @@ void A_VileChase(mobj_t *actor, player_t *player, pspdef_t *psp)
 
                     // killough 08/29/98: add to appropriate thread
                     P_UpdateThinker(&corpsehit->thinker);
-                    return;
+                    return true;
                 }
             }
     }
 
-    // Return to normal attack.
-    A_Chase(actor, NULL, NULL);
+    return false;
+}
+
+//
+// A_VileChase
+// Check for resurrecting a body
+//
+
+void A_VileChase(mobj_t* actor, player_t* player, pspdef_t* psp)
+{
+    if (!P_HealCorpse(actor, mobjinfo[MT_VILE].radius, S_VILE_HEAL1, sfx_slop))
+        A_Chase(actor, NULL, NULL);
 }
 
 //
@@ -1612,7 +1624,7 @@ void A_VileAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
     an = actor->angle >> ANGLETOFINESHIFT;
     fire->x = target->x - FixedMul(24 * FRACUNIT, finecosine[an]);
     fire->y = target->y - FixedMul(24 * FRACUNIT, finesine[an]);
-    P_RadiusAttack(fire, actor, 70, true);
+    P_RadiusAttack(fire, actor, 70, 70, true);
 }
 
 //
@@ -1903,7 +1915,7 @@ void A_Explode(mobj_t *actor, player_t *player, pspdef_t *psp)
         }
     }
 
-    P_RadiusAttack(actor, actor->target, 128, true);
+    P_RadiusAttack(actor, actor->target, 128, 128, true);
 }
 
 //
@@ -2298,7 +2310,7 @@ void A_Die(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_Detonate(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    P_RadiusAttack(actor, actor->target, actor->info->damage, false);
+    P_RadiusAttack(actor, actor->target, actor->info->damage, actor->info->damage, false);
 }
 
 //
@@ -2649,7 +2661,7 @@ void A_RadiusDamage(mobj_t *actor, player_t *player, pspdef_t *psp)
     if (!actor->state)
         return;
 
-    P_RadiusAttack(actor, actor->target, actor->state->args[0], actor->state->args[1]);
+    P_RadiusAttack(actor, actor->target, actor->state->args[0], actor->state->args[1], true);
 }
 
 //

@@ -52,14 +52,7 @@ unsigned int    bigseed;
 //
 int P_RandomHitscanAngle(fixed_t spread)
 {
-    int t;
-    int64_t spread_bam;
-
-    // FixedToAngle doesn't work for negative numbers,
-    // so for convenience take just the absolute value.
-    spread_bam = (spread < 0 ? FixedToAngle(-spread) : FixedToAngle(spread));
-    t = M_BigRandom();
-    return (int)((spread_bam * (t - M_BigRandom())) / 255);
+    return (int)(((spread < 0 ? FixedToAngle(-spread) : FixedToAngle(spread)) * M_BigSubRandom()) / 255);
 }
 
 //
@@ -69,15 +62,7 @@ int P_RandomHitscanAngle(fixed_t spread)
 //
 int P_RandomHitscanSlope(fixed_t spread)
 {
-    int angle;
+    int angle = P_RandomHitscanAngle(spread);
 
-    angle = P_RandomHitscanAngle(spread);
-
-    // clamp it, yo
-    if (angle > ANG90)
-        return finetangent[0];
-    else if (-angle > ANG90)
-        return finetangent[FINEANGLES / 2 - 1];
-    else
-        return finetangent[(ANG90 - angle) >> ANGLETOFINESHIFT];
+    return finetangent[(angle > ANG90 ? 0 : (-angle > ANG90 ? FINEANGLES / 2 - 1 : (ANG90 - angle) >> ANGLETOFINESHIFT))];
 }

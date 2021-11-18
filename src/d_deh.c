@@ -3620,7 +3620,7 @@ static void deh_procMisc(DEHFILE *fpin, char *line)
         else if (M_StringCompare(key, deh_misc[13]))                // IDKFA Armor Class
             idkfa_armor_class = value;
         else if (M_StringCompare(key, deh_misc[14]))                // BFG Cells/Shot
-            bfgcells = value;
+            weaponinfo[wp_bfg].minammo = bfgcells = value;
         else if (M_StringCompare(key, deh_misc[15]))                // Monsters Infight
         {
             if (value == 202)

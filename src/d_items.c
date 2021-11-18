@@ -57,7 +57,9 @@ weaponinfo_t weaponinfo[NUMWEAPONS] =
         /* tics */        10,
         /* prev */        wp_bfg,
         /* next */        wp_chainsaw,
-        /* spritename */  ""
+        /* spritename */  "",
+        /* intflags */    0,
+        /* flags */       (WPF_FLEEMELEE | WPF_AUTOSWITCHFROM | WPF_NOAUTOSWITCHTO)
     },
 
     {
@@ -76,7 +78,9 @@ weaponinfo_t weaponinfo[NUMWEAPONS] =
         /* tics */        10,
         /* prev */        wp_chainsaw,
         /* next */        wp_shotgun,
-        /* spritename */  ""
+        /* spritename */  "",
+        /* intflags */    0,
+        /* flags */       WPF_AUTOSWITCHFROM
     },
 
     {
@@ -95,7 +99,9 @@ weaponinfo_t weaponinfo[NUMWEAPONS] =
         /* tics */        10,
         /* prev */        wp_pistol,
         /* next */        wp_supershotgun,
-        /* spritename */  "SHOTA0"
+        /* spritename */  "SHOTA0",
+        /* intflags */    0,
+        /* flags */       WPF_NOFLAG
     },
 
     {
@@ -114,7 +120,9 @@ weaponinfo_t weaponinfo[NUMWEAPONS] =
         /* tics */        10,
         /* prev */        wp_supershotgun,
         /* next */        wp_missile,
-        /* spritename */  "MGUNA0"
+        /* spritename */  "MGUNA0",
+        /* intflags */    0,
+        /* flags */       WPF_NOFLAG
     },
 
     {
@@ -133,7 +141,9 @@ weaponinfo_t weaponinfo[NUMWEAPONS] =
         /* tics */        20,
         /* prev */        wp_chaingun,
         /* next */        wp_plasma,
-        /* spritename */  "LAUNA0"
+        /* spritename */  "LAUNA0",
+        /* intflags */    0,
+        /* flags */       WPF_NOAUTOFIRE
     },
 
     {
@@ -152,7 +162,9 @@ weaponinfo_t weaponinfo[NUMWEAPONS] =
         /* tics */        10,
         /* prev */        wp_missile,
         /* next */        wp_bfg,
-        /* spritename */  "PLASA0"
+        /* spritename */  "PLASA0",
+        /* intflags */    0,
+        /* flags */       WPF_NOFLAG
     },
 
     {
@@ -171,7 +183,9 @@ weaponinfo_t weaponinfo[NUMWEAPONS] =
         /* tics */        30,
         /* prev */        wp_plasma,
         /* next */        wp_fist,
-        /* spritename */  "BFUGA0"
+        /* spritename */  "BFUGA0",
+        /* intflags */    0,
+        /* flags */       WPF_NOAUTOFIRE
     },
 
     {
@@ -190,7 +204,9 @@ weaponinfo_t weaponinfo[NUMWEAPONS] =
         /* tics */        10,
         /* prev */        wp_fist,
         /* next */        wp_pistol,
-        /* spritename */  "CSAWA0"
+        /* spritename */  "CSAWA0",
+        /* intflags */    0,
+        /* flags */       (WPF_NOTHRUST | WPF_FLEEMELEE | WPF_NOAUTOSWITCHTO)
     },
 
     {
@@ -209,7 +225,9 @@ weaponinfo_t weaponinfo[NUMWEAPONS] =
         /* tics */        10,
         /* prev */        wp_shotgun,
         /* next */        wp_chaingun,
-        /* spritename */  "SGN2A0"
+        /* spritename */  "SGN2A0",
+        /* intflags */    0,
+        /* flags */       WPF_NOFLAG
     }
 };
 

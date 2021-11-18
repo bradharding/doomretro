@@ -1958,6 +1958,7 @@ void P_UseLines(void)
 static mobj_t   *bombsource;
 static mobj_t   *bombspot;
 static int      bombdamage;
+static int      bombdistance;
 static dboolean bombverticality;
 
 // MBF21: dehacked splash groups
@@ -2003,7 +2004,7 @@ dboolean PIT_RadiusAttack(mobj_t *thing)
         //  doesn't use z height in blast radius
         dist = MAX(0, dist >> FRACBITS);
 
-        if (dist >= bombdamage)
+        if (dist >= bombdistance)
             return true;        // out of range
     }
     else
@@ -2012,7 +2013,7 @@ dboolean PIT_RadiusAttack(mobj_t *thing)
 
         dist = MAX(0, MAX(dist, dz) >> FRACBITS);
 
-        if (dist >= bombdamage)
+        if (dist >= bombdistance)
             return true;        // out of range
 
         // [BH] check z height for blast damage
@@ -2023,8 +2024,11 @@ dboolean PIT_RadiusAttack(mobj_t *thing)
 
     if (P_CheckSight(thing, bombspot))
     {
+        // [XA] independent damage/distance calculation.
+        int damage = (bombdamage == bombdistance ? bombdamage - dist : (bombdamage * (bombdistance - dist) / bombdistance) + 1);
+
         // must be in direct path
-        P_DamageMobj(thing, bombspot, bombsource, bombdamage - dist, true);
+        P_DamageMobj(thing, bombspot, bombsource, damage, true);
 
         // [BH] count number of times player's rockets hit a monster
         if (bombspot->type == MT_ROCKET && type != MT_BARREL && !(thing->flags & MF_CORPSE))
@@ -2046,7 +2050,7 @@ dboolean PIT_RadiusAttack(mobj_t *thing)
 // P_RadiusAttack
 // Source is the creature that caused the explosion at spot.
 //
-void P_RadiusAttack(mobj_t *spot, mobj_t *source, int damage, dboolean verticality)
+void P_RadiusAttack(mobj_t *spot, mobj_t *source, int damage, int distance, dboolean verticality)
 {
     fixed_t dist = (damage << FRACBITS) + MAXRADIUS;
     int     xh = P_GetSafeBlockX(spot->x + dist - bmaporgx);
@@ -2057,6 +2061,7 @@ void P_RadiusAttack(mobj_t *spot, mobj_t *source, int damage, dboolean verticali
     bombspot = spot;
     bombsource = source;
     bombdamage = damage;
+    bombdistance = distance;
     bombverticality = verticality;
 
     for (int y = yl; y <= yh; y++)

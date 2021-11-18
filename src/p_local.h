@@ -154,6 +154,8 @@ dboolean P_CheckMissileSpawn(mobj_t *th);
 mobj_t *P_SpawnMissile(mobj_t *source, mobj_t *dest, mobjtype_t type);
 mobj_t *P_SpawnPlayerMissile(mobj_t *source, mobjtype_t type);
 void P_ExplodeMissile(mobj_t *mo);
+dboolean P_SeekerMissile(mobj_t *actor, mobj_t **seekTarget, angle_t thresh, angle_t turnMax, dboolean seekcenter);
+int P_FaceMobj(mobj_t *source, mobj_t *target, angle_t *delta);
 
 //
 // P_ENEMY.C
@@ -247,6 +249,7 @@ dboolean P_CheckLineSide(mobj_t *actor, fixed_t x, fixed_t y);
 dboolean P_TeleportMove(mobj_t *thing, fixed_t x, fixed_t y, fixed_t z, dboolean boss);
 void P_SlideMove(mobj_t *mo);
 dboolean P_CheckSight(mobj_t *t1, mobj_t *t2);
+dboolean P_CheckFov(mobj_t* t1, mobj_t* t2, angle_t fov);
 dboolean P_DoorClosed(line_t *line);
 void P_UseLines(void);
 
@@ -261,7 +264,7 @@ fixed_t P_AimLineAttack(mobj_t *t1, angle_t angle, fixed_t distance, int mask);
 void P_LineAttack(mobj_t *t1, angle_t angle, fixed_t distance, fixed_t slope, int damage);
 
 dboolean PIT_RadiusAttack(mobj_t *thing);
-void P_RadiusAttack(mobj_t *spot, mobj_t *source, int damage, dboolean verticality);
+void P_RadiusAttack(mobj_t *spot, mobj_t *source, int damage, int distance, dboolean verticality);
 
 int P_GetMoveFactor(const mobj_t *mo, int *frictionp);      // killough 08/28/98
 int P_GetFriction(const mobj_t *mo, int *frictionfactor);   // killough 08/28/98

@@ -2922,8 +2922,8 @@ static void P_SpawnScrollers(void)
                     accel = 1;
 
                 s = lines[i].sidenum[0];
-                dx = -sides[s].textureoffset;
-                dy = sides[s].rowoffset;
+                dx = -sides[s].textureoffset / 8;
+                dy = sides[s].rowoffset / 8;
 
                 for (s = -1; (s = P_FindLineFromLineTag(l, s)) >= 0;)
                     if (s != i)
