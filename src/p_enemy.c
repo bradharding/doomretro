@@ -630,9 +630,17 @@ static fixed_t P_AvoidDropoff(mobj_t *actor)
 //
 static void P_NewChaseDir(mobj_t *actor)
 {
-    mobj_t  *target = actor->target;
-    fixed_t deltax = target->x - actor->x;
-    fixed_t deltay = target->y - actor->y;
+    mobj_t  *target;
+    fixed_t deltax;
+    fixed_t deltay;
+    fixed_t dist;
+
+    // killough 8/8/98: sometimes move away from target, keeping distance
+    //
+    // 1) Stay a certain distance away from a friend, to avoid being in their way
+    // 2) Take advantage over an enemy without missiles, by keeping distance
+
+    actor->strafecount = 0;
 
     if (actor->floorz - actor->dropoffz > 24 * FRACUNIT && actor->z <= actor->floorz
         && !(actor->flags & (MF_DROPOFF | MF_FLOAT)) && P_AvoidDropoff(actor))   // Move away from dropoff
@@ -644,18 +652,41 @@ static void P_NewChaseDir(mobj_t *actor)
         actor->movecount = 1;
         return;
     }
-    else
+
+    target = actor->target;
+    deltax = target->x - actor->x;
+    deltay = target->y - actor->y;
+    dist = P_ApproxDistance(deltax, deltay);
+
+    // Move away from friends when too close, except in certain situations (e.g. a crowded lift)
+    if ((actor->flags & target->flags & MF_FRIEND) && dist < DISTFRIEND
+        && !actor->subsector->sector->islift && !P_IsUnderDamage(actor))
     {
-        if ((actor->flags & target->flags & MF_FRIEND) && P_ApproxDistance(deltax, deltay) < DISTFRIEND
-            && !actor->subsector->sector->islift && !P_IsUnderDamage(actor))
-        {
-            // Move away from friends when too close, except in certain situations (e.g. a crowded lift)
-            deltax = -deltax;
-            deltay = -deltay;
-        }
+        deltax = -deltax;
+        deltay = -deltay;
     }
+    else
+        if (target->health > 0 && (actor->flags ^ target->flags) & MF_FRIEND)
+        {
+            // Live enemy target
+            if (actor->info->missilestate && actor->type != MT_SKULL
+                && ((!target->info->missilestate && dist < target->info->meleerange * 2)
+                    || (target->player && dist < target->info->meleerange * 3
+                        && (target->player->readyweapon == wp_fist || target->player->readyweapon == wp_chainsaw))))
+            {
+                // Back away from melee attacker
+                actor->strafecount = (M_Random() & 15);
+                deltax = -deltax;
+                deltay = -deltay;
+            }
+        }
 
     P_DoNewChaseDir(actor, deltax, deltay);
+
+    // If strafing, set movecount to strafecount so that old Doom
+    // logic still works the same, except in the strafing part
+    if (actor->strafecount)
+        actor->movecount = actor->strafecount;
 }
 
 static dboolean P_LookForMonsters(mobj_t *actor)
@@ -893,7 +924,10 @@ void A_Chase(mobj_t *actor, player_t *player, pspdef_t *psp)
     }
 
     // turn towards movement direction if not there yet
-    if (actor->movedir < 8)
+    // killough 9/7/98: keep facing towards target if strafing or backing out
+    if (actor->strafecount)
+        A_FaceTarget(actor, NULL, NULL);
+    else if (actor->movedir < 8)
     {
         int delta = (actor->angle &= (7 << 29)) - (actor->movedir << 29);
 
@@ -981,6 +1015,9 @@ void A_Chase(mobj_t *actor, player_t *player, pspdef_t *psp)
             }
         }
     }
+
+    if (actor->strafecount)
+        actor->strafecount--;
 
     // chase towards player
     if (--actor->movecount < 0 || !P_SmartMove(actor))
