@@ -392,7 +392,7 @@ static dboolean PIT_CheckLine(line_t *ld)
         // killough 08/09/98: monster-blockers don't affect friends
         // MBF21: Block land monsters
         // [BH] monster-blockers don't affect corpses
-        if (!((tmthing->flags & MF_FRIEND) || tmthing->player || (tmthing->flags3 & MF3_SPAWNEDBYPLAYER))
+        if (!((tmthing->flags & MF_FRIEND) || tmthing->player || (tmthing->flags2 & MF2_SPAWNEDBYPLAYER))
             && ((ld->flags & ML_BLOCKMONSTERS) || ((ld->flags & ML_BLOCKLANDMONSTERS) && !(tmthing->flags & MF_FLOAT)))
             && !(tmthing->flags & MF_CORPSE))
             return false;                               // block monsters only
@@ -501,7 +501,7 @@ static dboolean PIT_CheckThing(mobj_t *thing)
     if ((flags & MF_TOUCHY)                                     // touchy object
         && (tmflags & MF_SOLID)                                 // solid object touches it
         && thing->health > 0                                    // touchy object is alive
-        && ((thing->flags3 & MF3_ARMED)                         // Thing is an armed mine
+        && ((thing->flags2 & MF2_ARMED)                         // Thing is an armed mine
             || sentient(thing))                                 // ...or a sentient thing
         && (thing->type != tmtype                               // only different species
             || thing->type == MT_PLAYER)                        // ...or different players
@@ -2174,7 +2174,7 @@ static void PIT_ChangeSector(mobj_t *thing)
     }
 
     // killough 11/98: kill touchy things immediately
-    if ((flags & MF_TOUCHY) && ((thing->flags3 & MF3_ARMED) || sentient(thing)))
+    if ((flags & MF_TOUCHY) && ((thing->flags2 & MF2_ARMED) || sentient(thing)))
     {
         P_DamageMobj(thing, NULL, NULL, thing->health, true);   // kill object
         return;

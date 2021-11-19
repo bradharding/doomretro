@@ -229,7 +229,7 @@ static dboolean P_CheckMissileRange(mobj_t *actor)
     if ((actor->mbf21flags & MF_MBF21_LONGMELEE) && dist < 196)
         return false;                   // close for fist attack
 
-    if ((actor->flags3 & MF3_MISSILEMORE) || (actor->mbf21flags & MF_MBF21_RANGEHALF))
+    if (actor->mbf21flags & MF_MBF21_RANGEHALF)
         dist >>= 1;
 
     if (dist > actor->info->minmissilechance)

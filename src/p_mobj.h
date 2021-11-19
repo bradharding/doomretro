@@ -335,22 +335,13 @@ enum
     MF2_DECORATION                  = 0x10000000,
 
     // Object is a missile from a monster
-    MF2_MONSTERMISSILE              = 0x40000000,
+    MF2_MONSTERMISSILE              = 0x20000000,
 
-    // Object is a boss monster
-    MF2_BOSS                        = 0x80000000
-};
-
-enum
-{
     // Object is armed (for MF_TOUCHY objects)
-    MF3_ARMED                       = 0x00000001,
+    MF2_ARMED                       = 0x40000000,
 
     // Object was spawned by played using spawn CCMD
-    MF3_SPAWNEDBYPLAYER             = 0x00000002,
-
-    // Object has higher attack probability
-    MF3_MISSILEMORE                 = 0x00000004
+    MF2_SPAWNEDBYPLAYER             = 0x80000000
 };
 
 enum
@@ -438,7 +429,6 @@ typedef struct mobj_s
     state_t             *state;
     int                 flags;
     int                 flags2;
-    int                 flags3;
     int                 mbf21flags;
 
     int                 health;

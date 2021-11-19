@@ -282,7 +282,6 @@ typedef struct
     int         activesound;
     int         flags;
     int         flags2;
-    int         flags3;
     statenum_t  raisestate;
     int         frames;
     dboolean    fullbright;
