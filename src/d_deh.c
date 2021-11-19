@@ -3094,10 +3094,7 @@ static void deh_procWeapon(DEHFILE *fpin, char *line)
             weaponinfo[indexnum].flashstate = value;
         else
             if (!strcasecmp(key, deh_weapon[6]))  // Ammo per shot
-            {
                 weaponinfo[indexnum].minammo = value;
-                weaponinfo[indexnum].intflags |= WIF_ENABLEAPS;
-            }
             else
                 // MBF21: process weapon flags
                 if (!strcasecmp(key, deh_weapon[7]))  // MBF21 Bits

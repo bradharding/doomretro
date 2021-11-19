@@ -39,6 +39,7 @@
 #if defined(_WIN32)
 
 #include <assert.h>
+#include <string.h>
 
 #include "doomtype.h"
 #include "i_swap.h"
