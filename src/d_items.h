@@ -87,7 +87,6 @@ typedef struct
     char        spritename[9];
 
     // MBF21
-    int         intflags;
     int         flags;
 
     dboolean    altered;
