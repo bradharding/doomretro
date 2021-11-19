@@ -1857,7 +1857,7 @@ static void AM_DrawThings(void)
                     mpoint_t    point;
                     int         fx, fy;
                     const short lump = sprites[thing->sprite].spriteframes[0].lump[0];
-                    const int   width = (BETWEEN(12 << FRACBITS, MIN(spritewidth[lump], spriteheight[lump]),
+                    const int   width = (BETWEEN(12 << FRACBITS, (spritewidth[lump] + spriteheight[lump]) / 2,
                                     96 << FRACBITS) >> FRACTOMAPBITS) / 2;
 
                     if (consoleactive)
