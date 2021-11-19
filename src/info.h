@@ -269,9 +269,6 @@ typedef struct
     statenum_t  xdeathstate;
     int         deathsound;
     mobjtype_t  droppeditem;
-    int         meleethreshold;
-    int         maxattackrange;
-    int         minmissilechance;
     int         speed;
     int         radius;
     int         pickupradius;

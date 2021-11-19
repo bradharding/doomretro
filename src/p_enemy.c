@@ -217,23 +217,14 @@ static dboolean P_CheckMissileRange(mobj_t *actor)
     if (actor->info->meleestate == S_NULL)
         dist -= 128;                    // no melee attack, so fire more
 
-    if (actor->info->maxattackrange > 0 && dist > actor->info->maxattackrange)
-        return false;                   // too far away
-
     if ((actor->mbf21flags & MF_MBF21_SHORTMRANGE) && dist > 14 * 64)
         return false;                   // too far away
-
-    if (actor->info->meleestate != S_NULL && dist < actor->info->meleethreshold)
-        return false;                   // close for fist attack
 
     if ((actor->mbf21flags & MF_MBF21_LONGMELEE) && dist < 196)
         return false;                   // close for fist attack
 
     if (actor->mbf21flags & MF_MBF21_RANGEHALF)
         dist >>= 1;
-
-    if (dist > actor->info->minmissilechance)
-        dist = actor->info->minmissilechance;
 
     if ((actor->mbf21flags & MF_MBF21_HIGHERMPROB) && dist > 160)
         dist = 160;
