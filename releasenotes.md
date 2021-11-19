@@ -4,7 +4,7 @@
 
 * *DOOM Retro* is now compiled using v17.0.1 of [*Microsoft Visual Studio Community 2022*](https://www.visualstudio.com/vs/).
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
-* *DOOM Retro* now supports [*MBF21*-compatible](https://doomwiki.org/wiki/MBF21) maps and mods.
+* *DOOM Retro* now supports [*MBF21*](https://doomwiki.org/wiki/MBF21)-compatible maps and mods.
 * *DOOM Retro* will no longer crash at startup when trying to load a PWAD containing a PNG lump that hasn’t been placed between `HI_START` and `HI_END` markers.
 * A bug has been fixed whereby `.bex`, `.cfg` and `.deh` files wouldn’t load if selected in the WAD launcher.
 * The file `midiproc.exe` that allowed the music volume to be adjusted independently of the sound effects volume is no longer necessary and therefore no longer included with *DOOM Retro*.
@@ -21,10 +21,10 @@
 * The player will now smoothly slide against two-sided textures.
 * Minor improvements have been made to the alternate widescreen HUD.
 * Minor improvements have been made to the support of `DEHACKED` and `MAPINFO` lumps.
-* The number of times the automap and the console are opened is now displayed by the `playerstats` CCMD.
+* The number of times the automap and the console have been opened is now displayed by the `playerstats` CCMD.
 * Player messages are now always grouped in the console, regardless of the time between them, when the `groupmessages` CVAR is `on`.
 * The behavior of friendly monsters has been improved.
-* Thing triangles in the automap representing *MBF*-compatible helper dogs are now the correct size again when using the `IDDT` cheat.
+* Thing triangles in the automap that represent *MBF*-compatible helper dogs are now the correct size again when using the `IDDT` cheat.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
