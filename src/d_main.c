@@ -2198,6 +2198,8 @@ static void D_DoomMainSetup(void)
     D_IdentifyVersion();
     D_ProcessDehInWad();
 
+    PostProcessDeh();
+
     if (!M_StringCompare(s_VERSION, DOOMRETRO_NAMEANDVERSIONSTRING))
         I_Error("The wrong version of %s was found.", packagewad);
 

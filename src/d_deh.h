@@ -510,4 +510,7 @@ extern int      dehcount;
 void ProcessDehFile(char *filename, int lumpnum, dboolean automatic);
 void D_BuildBEXTables(void);
 
+// MBF21
+void PostProcessDeh(void);
+
 #endif

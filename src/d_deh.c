@@ -4306,3 +4306,34 @@ static int deh_GetData(char *s, char *k, int *l, char **strval)
                                         // even if pointing at the zero byte.
     return okrc;
 }
+
+static deh_bexptr null_bexptr = { NULL, "(NULL)" };
+
+void PostProcessDeh(void)
+{
+    const deh_bexptr    *bexptr_match;
+
+    for (int i = 0, j; i < NUMSTATES; i++)
+    {
+        bexptr_match = &null_bexptr;
+
+        for (j = 0; deh_bexptrs[j].cptr != NULL; ++j)
+            if (states[i].action == deh_bexptrs[j].cptr)
+            {
+                bexptr_match = &deh_bexptrs[j];
+                break;
+            }
+
+        // ensure states don't use more mbf21 args than their
+        // action pointer expects, for future-proofing's sake
+        for (j = MAXSTATEARGS - 1; j >= bexptr_match->argcount; j--)
+            if (states[i].args[j] != 0)
+                I_Error("Action %s on state %d expects no more than %d nonzero args (%d found). Check your dehacked.",
+                    bexptr_match->lookup, i, bexptr_match->argcount, j + 1);
+
+        // replace unset fields with default values
+        for (; j >= 0; j--)
+            if (!(defined_codeptr_args[i] & (1 << j)))
+                states[i].args[j] = bexptr_match->default_args[j];
+    }
+}
