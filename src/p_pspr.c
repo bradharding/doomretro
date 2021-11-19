@@ -90,7 +90,7 @@ void A_Recoil(weapontype_t weapon)
 }
 
 //
-// mbf21: P_SetPspritePtr
+// MBF21: P_SetPspritePtr
 //
 void P_SetPspritePtr(pspdef_t *psp, statenum_t stnum)
 {
@@ -970,7 +970,7 @@ void P_MovePsprites(void)
 }
 
 //
-// [XA] New mbf21 codepointers
+// [XA] New MBF21 codepointers
 //
 
 //

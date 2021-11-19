@@ -277,7 +277,7 @@ dboolean P_CheckSight(mobj_t *t1, mobj_t *t2)
 }
 
 //
-// mbf21: P_CheckFov
+// MBF21: P_CheckFov
 // Returns true if t2 is within t1's field of view.
 // Not directly related to P_CheckSight, but often
 // used in tandem.
@@ -286,11 +286,9 @@ dboolean P_CheckSight(mobj_t *t1, mobj_t *t2)
 //
 dboolean P_CheckFov(mobj_t *t1, mobj_t *t2, angle_t fov)
 {
-    angle_t angle, minang, maxang;
-
-    angle = R_PointToAngle2(t1->x, t1->y, t2->x, t2->y);
-    minang = t1->angle - fov / 2;
-    maxang = t1->angle + fov / 2;
+    angle_t angle = R_PointToAngle2(t1->x, t1->y, t2->x, t2->y);
+    angle_t minang = t1->angle - fov / 2;
+    angle_t maxang = t1->angle + fov / 2;
 
     return(minang > maxang ? angle >= minang || angle <= maxang : angle >= minang && angle <= maxang);
 }

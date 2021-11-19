@@ -45,14 +45,6 @@
 #define BFGCELLS    40
 
 //
-// mbf21: Internal weapon flags
-//
-enum wepintflags_e
-{
-    WIF_ENABLEAPS = 0x00000001, // [XA] enable "ammo per shot" field for native Doom weapon codepointers
-};
-
-//
 // MBF21: haleyjd 09/11/07: weapon flags
 //
 enum wepflags_e

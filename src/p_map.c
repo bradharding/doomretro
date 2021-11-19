@@ -597,7 +597,7 @@ static dboolean PIT_CheckThing(mobj_t *thing)
         if (!(flags & MF_SHOOTABLE))
             return !(flags & MF_SOLID); // didn't do any damage
 
-              // mbf21: ripper projectile
+        // MBF21: ripper projectile
         if (tmthing->mbf21flags & MF_MBF21_RIP)
         {
             int damage = ((M_Random() & 3) + 2) * tmthing->info->damage;
@@ -1962,7 +1962,7 @@ static int      bombdistance;
 static dboolean bombverticality;
 
 // MBF21: dehacked splash groups
-static dboolean P_SplashImmune(mobj_t* target, mobj_t* spot)
+static dboolean P_SplashImmune(mobj_t *target, mobj_t *spot)
 {
     // not default behavior and same group
     return (mobjinfo[target->type].splashgroup != SG_DEFAULT && mobjinfo[target->type].splashgroup == mobjinfo[spot->type].splashgroup);

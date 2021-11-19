@@ -830,7 +830,7 @@ int P_GetSafeBlockY(int coord)
 }
 
 //
-// mbf21: RoughBlockCheck
+// MBF21: RoughBlockCheck
 // [XA] adapted from Hexen -- used by P_RoughTargetSearch
 //
 static mobj_t *RoughBlockCheck(mobj_t *mo, int index, angle_t fov)
@@ -884,7 +884,7 @@ static mobj_t *RoughBlockCheck(mobj_t *mo, int index, angle_t fov)
 }
 
 //
-// mbf21: P_RoughTargetSearch
+// MBF21: P_RoughTargetSearch
 // Searches though the surrounding mapblocks for monsters/players
 // based on Hexen's P_RoughMonsterSearch
 //

@@ -1519,7 +1519,7 @@ typedef struct
 // killough 08/09/98: make DEH_BLOCKMAX self-adjusting
 #define DEH_BLOCKMAX    arrlen(deh_blocks)              // size of array
 #define DEH_MAXKEYLEN   32                              // as much of any key as we'll look at
-#define DEH_MOBJINFOMAX 41                              // number of mobjinfo configuration keys
+#define DEH_MOBJINFOMAX 38                              // number of mobjinfo configuration keys
 
 // Put all the block header values, and the function to be called when that
 // one is encountered, in this array:
@@ -1574,9 +1574,6 @@ static const char *deh_mobjinfo[DEH_MOBJINFOMAX] =
     "Exploding frame",          // .xdeathstate
     "Death sound",              // .deathsound
     "Dropped item",             // .droppeditem
-    "Melee threshold",          // .meleethreshold
-    "Max target range",         // .maxattackrange
-    "Min missile chance",       // .minmissilechance
     "Speed",                    // .speed
     "Width",                    // .radius
     "Pickup width",             // .pickupradius
@@ -2093,7 +2090,7 @@ static const deh_bexptr deh_bexptrs[] =
     { A_BetaSkullAttack,     "A_BetaSkullAttack"                                      },    // killough 10/98: beta lost souls attacked different
     { A_Stop,                "A_Stop"                                                 },
 
-    // [XA] New mbf21 codepointers
+    // [XA] New MBF21 codepointers
     { A_SpawnObject,         "A_SpawnObject",         8                               },
     { A_MonsterProjectile,   "A_MonsterProjectile",   5                               },
     { A_MonsterBulletAttack, "A_MonsterBulletAttack", 5, { 0, 0, 1, 3, 5 }            },
@@ -2582,10 +2579,7 @@ static void deh_procThing(DEHFILE *fpin, char *line)
             }
             else if (M_StringCompare(key, "MBF21 bits"))
             {
-                // bit set
-                if (bGetData == 1)
-                    mobjinfo[indexnum].mbf21flags = value;
-                else
+                if (!value)
                 {
                     for (value = 0; (strval = strtok(strval, ",+| \t\f\r")); strval = NULL)
                     {
@@ -2610,9 +2604,9 @@ static void deh_procThing(DEHFILE *fpin, char *line)
                     // Don't worry about conversion -- simply print values
                     if (devparm)
                         C_Output("Bits = 0x%08x = %i.", value, value);
-
-                    mobjinfo[indexnum].mbf21flags = value;
                 }
+
+                mobjinfo[indexnum].mbf21flags = value;
             }
             else if (M_StringCompare(key, "Dropped item"))
                 mobjinfo[indexnum].droppeditem = value - 1;
@@ -3102,7 +3096,7 @@ static void deh_procWeapon(DEHFILE *fpin, char *line)
                     if (!value)
                         for (value = 0; (strval = strtok(strval, ",+| \t\f\r")); strval = NULL)
                         {
-                            const struct deh_flag_s* flag;
+                            const struct deh_flag_s *flag;
 
                             for (flag = deh_weaponflags_mbf21; flag->name; flag++)
                             {
@@ -4320,7 +4314,7 @@ void PostProcessDeh(void)
                 break;
             }
 
-        // ensure states don't use more mbf21 args than their
+        // ensure states don't use more MBF21 args than their
         // action pointer expects, for future-proofing's sake
         for (j = MAXSTATEARGS - 1; j >= bexptr_match->argcount; j--)
             if (states[i].args[j] != 0)

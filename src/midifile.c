@@ -103,7 +103,7 @@ struct midi_file_s
 // Check the header of a chunk
 static dboolean CheckChunkHeader(chunk_header_t *chunk, const char *expected_id)
 {
-    return !memcmp((char*)chunk->chunk_id, expected_id, 4);
+    return !memcmp((char *)chunk->chunk_id, expected_id, 4);
 }
 
 // Read a single byte. Return false on error.

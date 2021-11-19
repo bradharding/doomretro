@@ -1916,6 +1916,8 @@ static void D_DoomMainSetup(void)
     I_PrintSystemInfo();
     C_PrintSDLVersions();
 
+    D_BuildBEXTables();
+
     iwadfile = D_FindIWAD();
 
     for (int i = 0; i < MAXALIASES; i++)
@@ -1931,8 +1933,6 @@ static void D_DoomMainSetup(void)
 
     if (M_StringCompare(iwadfolder, iwadfolder_default) || !M_FolderExists(iwadfolder))
         D_InitIWADFolder();
-
-    D_BuildBEXTables();
 
     if ((respawnmonsters = M_CheckParm("-respawn")))
         C_Output("A " BOLD("-respawn") " parameter was found on the command-line. Monsters will respawn.");

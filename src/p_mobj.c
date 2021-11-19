@@ -1634,7 +1634,7 @@ mobj_t *P_SpawnPlayerMissile(mobj_t *source, mobjtype_t type)
 }
 
 //
-// mbf21: P_SeekerMissile
+// MBF21: P_SeekerMissile
 //
 dboolean P_SeekerMissile(mobj_t *actor, mobj_t **seekTarget, angle_t thresh, angle_t turnMax, dboolean seekcenter)
 {
@@ -1688,12 +1688,12 @@ dboolean P_SeekerMissile(mobj_t *actor, mobj_t **seekTarget, angle_t thresh, ang
 }
 
 //
-// mbf21: P_FaceMobj
+// MBF21: P_FaceMobj
 // Returns 1 if 'source' needs to turn clockwise, or 0 if 'source' needs
 // to turn counter clockwise. 'delta' is set to the amount 'source'
 // needs to turn.
 //
-int P_FaceMobj(mobj_t* source, mobj_t* target, angle_t* delta)
+int P_FaceMobj(mobj_t *source, mobj_t *target, angle_t *delta)
 {
     angle_t diff;
     angle_t angle1;

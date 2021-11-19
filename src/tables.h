@@ -75,7 +75,7 @@ typedef unsigned int    angle_t;
 //  without additional checking.
 extern angle_t  tantoangle[SLOPERANGE + 1];
 
-// mbf21: More utility functions, courtesy of Quasar (James Haley).
+// MBF21: More utility functions, courtesy of Quasar (James Haley).
 // These are straight from Eternity so demos stay in sync.
 inline static angle_t FixedToAngle(fixed_t a)
 {

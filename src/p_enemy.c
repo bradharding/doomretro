@@ -151,7 +151,7 @@ dboolean P_CheckRange(mobj_t *actor, fixed_t range)
 //
 // P_CheckMeleeRange
 //
-// mbf21: add meleerange property
+// MBF21: add meleerange property
 //
 dboolean P_CheckMeleeRange(mobj_t *actor)
 {
@@ -1391,7 +1391,7 @@ static dboolean PIT_VileCheck(mobj_t *thing)
 // MBF21: P_HealCorpse
 // Check for resurrecting a body
 //
-static dboolean P_HealCorpse(mobj_t* actor, int radius, statenum_t healstate, sfxenum_t healsound)
+static dboolean P_HealCorpse(mobj_t *actor, int radius, statenum_t healstate, sfxenum_t healsound)
 {
     int movedir = actor->movedir;
 
@@ -1499,7 +1499,7 @@ static dboolean P_HealCorpse(mobj_t* actor, int radius, statenum_t healstate, sf
 // Check for resurrecting a body
 //
 
-void A_VileChase(mobj_t* actor, player_t* player, pspdef_t* psp)
+void A_VileChase(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
     if (!P_HealCorpse(actor, mobjinfo[MT_VILE].radius, S_VILE_HEAL1, sfx_slop))
         A_Chase(actor, NULL, NULL);
@@ -2443,7 +2443,7 @@ void A_LineEffect(mobj_t *actor, player_t *player, pspdef_t *psp)
 }
 
 //
-// [XA] New mbf21 codepointers
+// [XA] New MBF21 codepointers
 //
 
 //

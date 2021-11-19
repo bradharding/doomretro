@@ -43,7 +43,7 @@
 unsigned int    seed;
 unsigned int    bigseed;
 
-// mbf21: [XA] Common random formulas used by codepointers
+// MBF21: [XA] Common random formulas used by codepointers
 
 //
 // P_RandomHitscanAngle
