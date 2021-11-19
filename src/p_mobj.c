@@ -1643,7 +1643,6 @@ mobj_t *P_SpawnPlayerMissile(mobj_t *source, mobjtype_t type)
 dboolean P_SeekerMissile(mobj_t *actor, mobj_t **seekTarget, angle_t thresh, angle_t turnMax, dboolean seekcenter)
 {
     int     dir;
-    int     dist;
     angle_t delta;
     angle_t angle;
     mobj_t  *target;
@@ -1684,11 +1683,7 @@ dboolean P_SeekerMissile(mobj_t *actor, mobj_t **seekTarget, angle_t thresh, ang
     if (actor->z + actor->height < target->z || target->z + target->height < actor->z || seekcenter)
     {
         // Need to seek vertically
-        dist = P_ApproxDistance(target->x - actor->x, target->y - actor->y);
-        dist = dist / actor->info->speed;
-
-        if (dist < 1)
-            dist = 1;
+        int dist = MAX(1, P_ApproxDistance(target->x - actor->x, target->y - actor->y) / actor->info->speed);
 
         actor->momz = (target->z + (seekcenter ? target->height / 2 : 0) - actor->z) / dist;
     }
@@ -1699,7 +1694,7 @@ dboolean P_SeekerMissile(mobj_t *actor, mobj_t **seekTarget, angle_t thresh, ang
 //
 // mbf21: P_FaceMobj
 // Returns 1 if 'source' needs to turn clockwise, or 0 if 'source' needs
-// to turn counter clockwise.  'delta' is set to the amount 'source'
+// to turn counter clockwise. 'delta' is set to the amount 'source'
 // needs to turn.
 //
 int P_FaceMobj(mobj_t* source, mobj_t* target, angle_t* delta)

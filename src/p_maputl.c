@@ -891,19 +891,9 @@ static mobj_t *RoughBlockCheck(mobj_t *mo, int index, angle_t fov)
 // distance is in MAPBLOCKUNITS
 mobj_t *P_RoughTargetSearch(mobj_t *mo, angle_t fov, int distance)
 {
-    int blockX;
-    int blockY;
-    int startX, startY;
-    int blockIndex;
-    int firstStop;
-    int secondStop;
-    int thirdStop;
-    int finalStop;
-    int count;
+    int     startX = (mo->x - bmaporgx) >> MAPBLOCKSHIFT;
+    int     startY = (mo->y - bmaporgy) >> MAPBLOCKSHIFT;
     mobj_t *target;
-
-    startX = (mo->x - bmaporgx) >> MAPBLOCKSHIFT;
-    startY = (mo->y - bmaporgy) >> MAPBLOCKSHIFT;
 
     if (startX >= 0 && startX < bmapwidth && startY >= 0 && startY < bmapheight)
     {
@@ -911,10 +901,15 @@ mobj_t *P_RoughTargetSearch(mobj_t *mo, angle_t fov, int distance)
             return target;  // found a target right away
     }
 
-    for (count = 1; count <= distance; count++)
+    for (int count = 1; count <= distance; count++)
     {
-        blockX = startX - count;
-        blockY = startY - count;
+        int blockX = startX - count;
+        int blockY = startY - count;
+        int blockIndex;
+        int firstStop;
+        int secondStop;
+        int thirdStop;
+        int finalStop;
 
         if (blockY < 0)
             blockY = 0;
