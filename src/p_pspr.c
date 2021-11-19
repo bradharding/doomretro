@@ -984,43 +984,41 @@ void P_MovePsprites(void)
 //
 void A_WeaponProjectile(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-  int type, angle, pitch, spawnofs_xy, spawnofs_z;
-  mobj_t *mo;
-  int an;
+    int     type, angle, pitch, spawnofs_xy, spawnofs_z;
+    mobj_t  *mo;
+    int     an;
 
-  if (!psp->state || !psp->state->args[0])
-    return;
+    if (!psp->state || !psp->state->args[0])
+        return;
 
-  type        = psp->state->args[0] - 1;
-  angle       = psp->state->args[1];
-  pitch       = psp->state->args[2];
-  spawnofs_xy = psp->state->args[3];
-  spawnofs_z  = psp->state->args[4];
+    type = psp->state->args[0] - 1;
+    angle = psp->state->args[1];
+    pitch = psp->state->args[2];
+    spawnofs_xy = psp->state->args[3];
+    spawnofs_z = psp->state->args[4];
 
-  mo = P_SpawnPlayerMissile(player->mo, type);
-  if (!mo)
-    return;
+    if (!(mo = P_SpawnPlayerMissile(player->mo, type)))
+        return;
 
-  // adjust angle
-  mo->angle += (angle_t)(((int64_t)angle << 16) / 360);
-  an = mo->angle >> ANGLETOFINESHIFT;
-  mo->momx = FixedMul(mo->info->speed, finecosine[an]);
-  mo->momy = FixedMul(mo->info->speed, finesine[an]);
+    // adjust angle
+    mo->angle += (angle_t)(((int64_t)angle << 16) / 360);
+    an = mo->angle >> ANGLETOFINESHIFT;
+    mo->momx = FixedMul(mo->info->speed, finecosine[an]);
+    mo->momy = FixedMul(mo->info->speed, finesine[an]);
 
-  // adjust pitch (approximated, using Doom's ye olde
-  // finetangent table; same method as autoaim)
-  mo->momz += FixedMul(mo->info->speed, DegToSlope(pitch));
+    // adjust pitch (approximated, using DOOM's ye olde finetangent table; same method as autoaim)
+    mo->momz += FixedMul(mo->info->speed, DegToSlope(pitch));
 
-  // adjust position
-  an = (player->mo->angle - ANG90) >> ANGLETOFINESHIFT;
-  mo->x += FixedMul(spawnofs_xy, finecosine[an]);
-  mo->y += FixedMul(spawnofs_xy, finesine[an]);
-  mo->z += spawnofs_z;
+    // adjust position
+    an = (player->mo->angle - ANG90) >> ANGLETOFINESHIFT;
+    mo->x += FixedMul(spawnofs_xy, finecosine[an]);
+    mo->y += FixedMul(spawnofs_xy, finesine[an]);
+    mo->z += spawnofs_z;
 
-  // set tracer to the player's autoaim target,
-  // so player seeker missiles prioritizing the
-  // baddie the player is actually aiming at. ;)
-  mo->tracer = linetarget;
+    // set tracer to the player's autoaim target,
+    // so player seeker missiles prioritizing the
+    // baddie the player is actually aiming at. ;)
+    mo->tracer = linetarget;
 }
 
 //
@@ -1034,28 +1032,22 @@ void A_WeaponProjectile(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_WeaponBulletAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-  int hspread, vspread, numbullets, damagebase, damagemod;
-  int i, damage, angle, slope;
+    int hspread, vspread, numbullets, damagebase, damagemod;
 
-  if (!psp->state)
-    return;
+    if (!psp->state)
+        return;
 
-  hspread    = psp->state->args[0];
-  vspread    = psp->state->args[1];
-  numbullets = psp->state->args[2];
-  damagebase = psp->state->args[3];
-  damagemod  = psp->state->args[4];
+    hspread = psp->state->args[0];
+    vspread = psp->state->args[1];
+    numbullets = psp->state->args[2];
+    damagebase = psp->state->args[3];
+    damagemod = psp->state->args[4];
 
-  P_BulletSlope(player->mo);
+    P_BulletSlope(player->mo);
 
-  for (i = 0; i < numbullets; i++)
-  {
-    damage = (M_Random() % damagemod + 1) * damagebase;
-    angle = (int)player->mo->angle + P_RandomHitscanAngle(hspread);
-    slope = bulletslope + P_RandomHitscanSlope(vspread);
-
-    P_LineAttack(player->mo, angle, MISSILERANGE, slope, damage);
-  }
+    for (int i = 0; i < numbullets; i++)
+        P_LineAttack(player->mo, player->mo->angle + P_RandomHitscanAngle(hspread), MISSILERANGE,
+            bulletslope + P_RandomHitscanSlope(vspread), (M_Random() % damagemod + 1) * damagebase);
 }
 
 //
@@ -1069,49 +1061,48 @@ void A_WeaponBulletAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_WeaponMeleeAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-  int damagebase, damagemod, zerkfactor, hitsound, range;
-  angle_t angle;
-  int t, slope, damage;
+    int     damagebase, damagemod, zerkfactor, hitsound, range;
+    angle_t angle;
+    int     slope, damage;
 
-  if (!psp->state)
-    return;
+    if (!psp->state)
+        return;
 
-  damagebase = psp->state->args[0];
-  damagemod  = psp->state->args[1];
-  zerkfactor = psp->state->args[2];
-  hitsound   = psp->state->args[3];
-  range      = psp->state->args[4];
+    damagebase = psp->state->args[0];
+    damagemod = psp->state->args[1];
+    zerkfactor = psp->state->args[2];
+    hitsound = psp->state->args[3];
+    range = psp->state->args[4];
 
-  if (range == 0)
-    range = player->mo->info->meleerange;
+    if (!range)
+        range = player->mo->info->meleerange;
 
-  damage = (M_Random() % damagemod + 1) * damagebase;
-  if (player->powers[pw_strength])
-    damage = (damage * zerkfactor) >> FRACBITS;
+    damage = (M_Random() % damagemod + 1) * damagebase;
 
-  // slight randomization; weird vanillaism here. :P
-  angle = player->mo->angle;
+    if (player->powers[pw_strength])
+        damage = (damage * zerkfactor) >> FRACBITS;
 
-  t = M_Random();
-  angle += (t - M_Random())<<18;
+    // slight randomization; weird vanillaism here. :P
+    angle = player->mo->angle + (M_SubRandom() << 18);
 
-  // make autoaim prefer enemies
-  slope = P_AimLineAttack(player->mo, angle, range, MF_FRIEND);
-  if (!linetarget)
-    slope = P_AimLineAttack(player->mo, angle, range, 0);
+    // make autoaim prefer enemies
+    slope = P_AimLineAttack(player->mo, angle, range, MF_FRIEND);
 
-  // attack, dammit!
-  P_LineAttack(player->mo, angle, range, slope, damage);
+    if (!linetarget)
+        slope = P_AimLineAttack(player->mo, angle, range, 0);
 
-  // missed? ah, welp.
-  if (!linetarget)
-    return;
+    // attack, dammit!
+    P_LineAttack(player->mo, angle, range, slope, damage);
 
-  // un-missed!
-  S_StartSound(player->mo, hitsound);
+    // missed? ah, welp.
+    if (!linetarget)
+        return;
 
-  // turn to face target
-  player->mo->angle = R_PointToAngle2(player->mo->x, player->mo->y, linetarget->x, linetarget->y);
+    // un-missed!
+    S_StartSound(player->mo, hitsound);
+
+    // turn to face target
+    player->mo->angle = R_PointToAngle2(player->mo->x, player->mo->y, linetarget->x, linetarget->y);
 }
 
 //
@@ -1122,10 +1113,10 @@ void A_WeaponMeleeAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_WeaponSound(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-  if (!psp->state)
-    return;
+    if (!psp->state)
+        return;
 
-  S_StartSound(psp->state->args[1] ? NULL : player->mo, psp->state->args[0]);
+    S_StartSound(psp->state->args[1] ? NULL : player->mo, psp->state->args[0]);
 }
 
 //
@@ -1134,7 +1125,7 @@ void A_WeaponSound(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_WeaponAlert(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-  P_NoiseAlert(player->mo);
+    P_NoiseAlert(player->mo);
 }
 
 //
@@ -1146,11 +1137,11 @@ void A_WeaponAlert(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_WeaponJump(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-  if (!psp->state)
-    return;
+    if (!psp->state)
+        return;
 
-  if (M_Random() < psp->state->args[1])
-    P_SetPspritePtr(psp, psp->state->args[0]);
+    if (M_Random() < psp->state->args[1])
+        P_SetPspritePtr(psp, psp->state->args[0]);
 }
 
 //
@@ -1160,26 +1151,27 @@ void A_WeaponJump(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_ConsumeAmmo(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-  int amount;
-  ammotype_t type;
+    int         amount;
+    ammotype_t  type;
 
-  // don't do dumb things, kids
-  type = weaponinfo[player->readyweapon].ammotype;
-  if (!psp->state || type == am_noammo)
-    return;
+    // don't do dumb things, kids
+    type = weaponinfo[player->readyweapon].ammotype;
 
-  // use the weapon's ammo-per-shot amount if zero.
-  // to subtract zero ammo, don't call this function. ;)
-  if (psp->state->args[0] != 0)
-    amount = psp->state->args[0];
-  else
-    amount = weaponinfo[player->readyweapon].minammo;
+    if (!psp->state || type == am_noammo)
+        return;
 
-  // subtract ammo, but don't let it get below zero
-  if (player->ammo[type] >= amount)
-    player->ammo[type] -= amount;
-  else
-    player->ammo[type] = 0;
+    // use the weapon's ammo-per-shot amount if zero.
+    // to subtract zero ammo, don't call this function. ;)
+    if (psp->state->args[0] != 0)
+        amount = psp->state->args[0];
+    else
+        amount = weaponinfo[player->readyweapon].minammo;
+
+    // subtract ammo, but don't let it get below zero
+    if (player->ammo[type] >= amount)
+        player->ammo[type] -= amount;
+    else
+        player->ammo[type] = 0;
 }
 
 //
@@ -1190,20 +1182,19 @@ void A_ConsumeAmmo(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_CheckAmmo(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-  int amount;
-  ammotype_t type;
+    int         amount;
+    ammotype_t  type = weaponinfo[player->readyweapon].ammotype;
 
-  type = weaponinfo[player->readyweapon].ammotype;
-  if (!psp->state || type == am_noammo)
-    return;
+    if (!psp->state || type == am_noammo)
+        return;
 
-  if (psp->state->args[1] != 0)
-    amount = psp->state->args[1];
-  else
-    amount = weaponinfo[player->readyweapon].minammo;
+    if (psp->state->args[1] != 0)
+        amount = psp->state->args[1];
+    else
+        amount = weaponinfo[player->readyweapon].minammo;
 
-  if (player->ammo[type] < amount)
-    P_SetPspritePtr(psp, psp->state->args[0]);
+    if (player->ammo[type] < amount)
+        P_SetPspritePtr(psp, psp->state->args[0]);
 }
 
 //
@@ -1214,13 +1205,13 @@ void A_CheckAmmo(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_RefireTo(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-  if (!psp->state)
-    return;
+    if (!psp->state)
+        return;
 
-  if ((psp->state->args[1] || P_CheckAmmo(player->readyweapon))
-  &&  (player->cmd.buttons & BT_ATTACK)
-  &&  (player->pendingweapon == wp_nochange && player->health))
-    P_SetPspritePtr(psp, psp->state->args[0]);
+    if ((psp->state->args[1] || P_CheckAmmo(player->readyweapon))
+        && (player->cmd.buttons & BT_ATTACK)
+        && player->pendingweapon == wp_nochange && player->health)
+        P_SetPspritePtr(psp, psp->state->args[0]);
 }
 
 //
@@ -1231,11 +1222,11 @@ void A_RefireTo(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_GunFlashTo(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-  if (!psp->state)
-    return;
+    if (!psp->state)
+        return;
 
-  if(!psp->state->args[1])
-    P_SetMobjState(player->mo, S_PLAY_ATK2);
+    if (!psp->state->args[1])
+        P_SetMobjState(player->mo, S_PLAY_ATK2);
 
-  P_SetPsprite(ps_flash, psp->state->args[0]);
+    P_SetPsprite(ps_flash, psp->state->args[0]);
 }

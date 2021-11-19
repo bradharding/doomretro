@@ -199,6 +199,8 @@ fixed_t P_InterceptVector(divline_t *v2, divline_t *v1);
 int P_GetSafeBlockX(int coord);
 int P_GetSafeBlockY(int coord);
 
+mobj_t *P_RoughTargetSearch(mobj_t *mo, angle_t fov, int distance);
+
 extern fixed_t  opentop;
 extern fixed_t  openbottom;
 extern fixed_t  openrange;
