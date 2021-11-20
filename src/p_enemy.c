@@ -1466,7 +1466,7 @@ static dboolean P_HealCorpse(mobj_t *actor, int radius, statenum_t healstate, sf
                         else
                             M_snprintf(actorname, sizeof(actorname), "%s %s%s",
                                 ((actor->flags & MF_FRIEND) && monstercount[actor->type] == 1 ? "the" :
-                                    (isvowel(actor->info->name1[0]) ? "an" : "a")),
+                                    (isvowel(actor->info->name1[0]) && !(actor->flags & MF_FRIEND) ? "an" : "a")),
                                 ((actor->flags & MF_FRIEND) ? "friendly " : ""),
                                 (*actor->info->name1 ? actor->info->name1 : "monster"));
 
