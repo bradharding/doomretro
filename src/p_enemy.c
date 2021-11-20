@@ -161,6 +161,7 @@ dboolean P_CheckMeleeRange(mobj_t *actor)
 
     return P_CheckRange(actor, range);
 }
+
 //
 // P_HitFriend
 //
@@ -2463,9 +2464,13 @@ void A_LineEffect(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_SpawnObject(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    int     type, angle, ofs_x, ofs_y, ofs_z, vel_x, vel_y, vel_z;
+    int     type;
+    int     angle;
+    int     ofs_x, ofs_y, ofs_z;
+    int     vel_x, vel_y, vel_z;
     angle_t an;
-    int     fan, dx, dy;
+    int     fan;
+    int     dx, dy;
     mobj_t  *mo;
 
     if (!actor->state->args[0])
@@ -2507,9 +2512,9 @@ void A_SpawnObject(mobj_t *actor, player_t *player, pspdef_t *psp)
             P_SetTarget(&mo->target, actor->target);
             P_SetTarget(&mo->tracer, actor->tracer);
         }
-        // otherwise, set 'em as if a monster fired 'em
         else
         {
+            // otherwise, set 'em as if a monster fired 'em
             P_SetTarget(&mo->target, actor);
             P_SetTarget(&mo->tracer, actor->target);
         }
@@ -2530,7 +2535,11 @@ void A_SpawnObject(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_MonsterProjectile(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    int     type, angle, pitch, spawnofs_xy, spawnofs_z;
+    int     type;
+    int     angle;
+    int     pitch;
+    int     spawnofs_xy;
+    int     spawnofs_z;
     mobj_t  *mo;
     int     an;
 
@@ -2580,7 +2589,11 @@ void A_MonsterProjectile(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_MonsterBulletAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    int hspread, vspread, numbullets, damagebase, damagemod;
+    int hspread;
+    int vspread;
+    int numbullets;
+    int damagebase;
+    int damagemod;
     int aimslope;
 
     if (!actor->target)
@@ -2612,7 +2625,10 @@ void A_MonsterBulletAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_MonsterMeleeAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    int damagebase, damagemod, hitsound, range;
+    int damagebase;
+    int damagemod;
+    int hitsound;
+    int range;
 
     if (!actor->target)
         return;
@@ -2671,7 +2687,8 @@ void A_NoiseAlert(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_HealChase(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    int state, sound;
+    int state;
+    int sound;
 
     if (!actor)
         return;
@@ -2706,7 +2723,7 @@ void A_SeekTracer(mobj_t *actor, player_t *player, pspdef_t *psp)
 void A_FindTracer(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
     angle_t fov;
-    int dist;
+    int     dist;
 
     if (!actor || actor->tracer)
         return;
@@ -2829,7 +2846,8 @@ void A_JumpIfTracerCloser(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_JumpIfFlagsSet(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    unsigned int    flags, flags2;
+    unsigned int    flags;
+    unsigned int    flags2;
 
     if (!actor)
         return;

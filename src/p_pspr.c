@@ -984,7 +984,10 @@ void P_MovePsprites(void)
 //
 void A_WeaponProjectile(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    int     type, angle, pitch, spawnofs_xy, spawnofs_z;
+    int     type;
+    int     angle;
+    int     pitch;
+    int     spawnofs_xy, spawnofs_z;
     mobj_t  *mo;
     int     an;
 
@@ -1032,7 +1035,11 @@ void A_WeaponProjectile(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_WeaponBulletAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    int hspread, vspread, numbullets, damagebase, damagemod;
+    int hspread;
+    int vspread;
+    int numbullets;
+    int damagebase;
+    int damagemod;
 
     if (!psp->state)
         return;
@@ -1061,9 +1068,14 @@ void A_WeaponBulletAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_WeaponMeleeAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    int     damagebase, damagemod, zerkfactor, hitsound, range;
+    int     damagebase;
+    int     damagemod;
+    int     zerkfactor;
+    int     hitsound;
+    int     range;
     angle_t angle;
-    int     slope, damage;
+    int     slope;
+    int     damage;
 
     if (!psp->state)
         return;
