@@ -673,7 +673,7 @@ static void P_NewChaseDir(mobj_t *actor)
 
     P_DoNewChaseDir(actor, deltax, deltay);
 
-    // If strafing, set movecount to strafecount so that old Doom
+    // If strafing, set movecount to strafecount so that old DOOM
     // logic still works the same, except in the strafing part
     if (actor->strafecount)
         actor->movecount = actor->strafecount;
@@ -2551,7 +2551,7 @@ void A_MonsterProjectile(mobj_t *actor, player_t *player, pspdef_t *psp)
     mo->momx = FixedMul(mo->info->speed, finecosine[an]);
     mo->momy = FixedMul(mo->info->speed, finesine[an]);
 
-    // adjust pitch (approximated, using Doom's ye olde
+    // adjust pitch (approximated, using DOOM's ye olde
     // finetangent table; same method as monster aim)
     mo->momz += FixedMul(mo->info->speed, DegToSlope(pitch));
 

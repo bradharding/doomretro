@@ -1698,7 +1698,8 @@ static const struct deh_flag_s deh_mobjflags2[] =
 
 #define DEH_MOBJFLAGMAX_MBF21   arrlen(deh_mobjflags_mbf21)
 
-static const struct deh_flag_s deh_mobjflags_mbf21[] = {
+static const struct deh_flag_s deh_mobjflags_mbf21[] =
+{
     { "LOGRAV",         MF_MBF21_LOGRAV         },  // low gravity
     { "SHORTMRANGE",    MF_MBF21_SHORTMRANGE    },  // short missile range
     { "DMGIGNORED",     MF_MBF21_DMGIGNORED     },  // other things ignore its attacks
@@ -1721,7 +1722,8 @@ static const struct deh_flag_s deh_mobjflags_mbf21[] = {
     { "",               0                       }
 };
 
-static const struct deh_flag_s deh_weaponflags_mbf21[] = {
+static const struct deh_flag_s deh_weaponflags_mbf21[] =
+{
     { "NOTHRUST",       WPF_NOTHRUST            },  // doesn't thrust Mobj's
     { "SILENT",         WPF_SILENT              },  // weapon is silent
     { "NOAUTOFIRE",     WPF_NOAUTOFIRE          },  // weapon won't autofire in A_WeaponReady

@@ -1904,7 +1904,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
                 else
                     M_snprintf(sourcename, sizeof(sourcename), "%s %s%s",
                         ((source->flags & MF_FRIEND) && monstercount[source->type] == 1 ? "the" :
-                            (isvowel(source->info->name1[0]) && !(target->flags & MF_FRIEND) ? "an" : "a")),
+                            (isvowel(source->info->name1[0]) && !(source->flags & MF_FRIEND) ? "an" : "a")),
                         ((source->flags & MF_FRIEND) ? "friendly " : ""),
                         (*source->info->name1 ? source->info->name1 : "monster"));
 
