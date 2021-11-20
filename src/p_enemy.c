@@ -226,13 +226,16 @@ static dboolean P_CheckMissileRange(mobj_t *actor)
     if (actor->mbf21flags & MF_MBF21_RANGEHALF)
         dist >>= 1;
 
+    if (dist > 200)
+        dist = 200;
+
     if ((actor->mbf21flags & MF_MBF21_HIGHERMPROB) && dist > 160)
         dist = 160;
 
     if (M_Random() < dist)
         return false;
 
-    if (P_HitFriend(actor))
+    if ((actor->flags & MF_FRIEND) && P_HitFriend(actor))
         return false;
 
     return true;
