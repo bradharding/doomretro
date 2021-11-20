@@ -2625,8 +2625,6 @@ static void deh_procThing(DEHFILE *fpin, char *line)
 
                 if (M_StringCompare(key, "Height"))
                     mobjinfo[indexnum].projectilepassheight = 0;
-                else if (M_StringCompare(key, "Width"))
-                    mobjinfo[indexnum].pickupradius = (int)value;
                 else if (M_StringCompare(key, "Gib health"))
                     gibhealth = true;
             }
