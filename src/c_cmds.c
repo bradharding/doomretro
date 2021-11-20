@@ -7187,12 +7187,20 @@ static void timer_cmd_func2(char *cmd, char *parms)
 
             value = BETWEEN(0, value, TIMERMAXMINUTES);
 
-            if (!value && timer)
-                C_Output("The timer has been cleared.");
-            else if (value == timer)
-                C_Output("The timer has been reset to %s minute%s.", temp, (value == 1 ? "" : "s"));
-            else
-                C_Output("The timer is now %s minute%s.", temp, (value == 1 ? "" : "s"));
+            if (!togglingvanilla)
+            {
+                if (!value)
+                {
+                    if (timer)
+                        C_Output("The timer has been cleared.");
+                    else
+                        C_Warning(0, "No timer has been set.");
+                }
+                else if (value == timer)
+                    C_Output("The timer has been reset to %s minute%s.", temp, (value == 1 ? "" : "s"));
+                else
+                    C_Output("The timer is now %s minute%s.", temp, (value == 1 ? "" : "s"));
+            }
 
             P_SetTimer(value);
             free(temp);
