@@ -752,7 +752,7 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL(r_mirroredweapons, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles randomly mirroring the weapons dropped by monsters."),
     CVAR_BOOL(r_pickupeffect, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
-        "Toggles the yellow effect when the player picks something up."),
+        "Toggles the gold effect when the player picks something up."),
     CVAR_BOOL(r_playersprites, "", bool_cvars_func1, r_playersprites_cvar_func2, BOOLVALUEALIAS,
         "Toggles showing the player's weapon."),
     CVAR_BOOL(r_radsuiteffect, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
@@ -7183,9 +7183,8 @@ static void timer_cmd_func2(char *cmd, char *parms)
 
         if (value != INT_MAX)
         {
-            char    *temp = commify(value);
-
             value = BETWEEN(0, value, TIMERMAXMINUTES);
+            P_SetTimer(value);
 
             if (!togglingvanilla)
             {
@@ -7196,14 +7195,18 @@ static void timer_cmd_func2(char *cmd, char *parms)
                     else
                         C_Warning(0, "No timer has been set.");
                 }
-                else if (value == timer)
-                    C_Output("The timer has been reset to %s minute%s.", temp, (value == 1 ? "" : "s"));
                 else
-                    C_Output("The timer is now %s minute%s.", temp, (value == 1 ? "" : "s"));
-            }
+                {
+                    char    *temp = commify(value);
 
-            P_SetTimer(value);
-            free(temp);
+                    if (value == timer)
+                        C_Output("The timer has been reset to %s minute%s.", temp, (value == 1 ? "" : "s"));
+                    else
+                        C_Output("The timer is now %s minute%s.", temp, (value == 1 ? "" : "s"));
+
+                    free(temp);
+                }
+            }
         }
     }
 }
