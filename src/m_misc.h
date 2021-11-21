@@ -69,7 +69,7 @@ char *M_GetResourceFolder(void);
 char *M_GetAppDataFolder(void);
 
 char *M_GetExecutableFolder(void);
-dboolean M_StrToInt(const char *str, unsigned int *result);
+dboolean M_StrToInt(const char *str, int *result);
 const char *M_StrCaseStr(const char *haystack, const char *needle);
 void M_StringCopy(char *dest, const char *src, const size_t dest_size);
 char *M_StringReplace(char *haystack, char *needle, const char *replacement);

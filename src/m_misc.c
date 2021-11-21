@@ -437,10 +437,10 @@ char *M_StringJoin(char *s, ...)
     return result;
 }
 
-dboolean M_StrToInt(const char *str, unsigned int *result)
+dboolean M_StrToInt(const char *str, int *result)
 {
     return (sscanf(str, " 0x%2x", result) == 1 || sscanf(str, " 0X%2x", result) == 1
-        || sscanf(str, " 0%3o", result) == 1 || sscanf(str, " %10u", result) == 1);
+        || sscanf(str, " 0%3o", result) == 1 || sscanf(str, " %12d", result) == 1);
 }
 
 //
