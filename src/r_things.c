@@ -1323,7 +1323,6 @@ static void R_DrawSprite(const vissprite_t *spr)
         cliptop[i] = -1;
         clipbot[i] = viewheight;
     }
-
     // Scan drawsegs from end to start for obscuring segs.
     // The first drawseg that has a greater scale is the clip seg.
     for (drawseg_t *ds = ds_p; ds-- > drawsegs;)

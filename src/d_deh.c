@@ -2621,7 +2621,7 @@ static void deh_procThing(DEHFILE *fpin, char *line)
             else
             {
                 pix = (int *)&mobjinfo[indexnum];
-                pix[ix] = (int)value;
+                pix[ix] = value;
 
                 if (M_StringCompare(key, "Height"))
                     mobjinfo[indexnum].projectilepassheight = 0;
@@ -2630,7 +2630,7 @@ static void deh_procThing(DEHFILE *fpin, char *line)
             }
 
             if (devparm)
-                C_Output("Assigned %i to %s (%i) at index %i.", (int)value, key, indexnum, ix);
+                C_Output("Assigned %i to %s (%i) at index %i.", value, key, indexnum, ix);
         }
 
         if ((string = M_StringCompare(key, "Name1")) || (string = M_StringCompare(key, "Name")))
@@ -4019,6 +4019,7 @@ static void deh_procBexSprites(DEHFILE *fpin, char *line)
                 sprnames[rover] = M_StringDuplicate(candidate);
                 break;
             }
+
             rover++;
         }
     }
@@ -4307,7 +4308,7 @@ void PostProcessDeh(void)
     {
         bexptr_match = &null_bexptr;
 
-        for (j = 0; deh_bexptrs[j].cptr != NULL; ++j)
+        for (j = 0; deh_bexptrs[j].cptr; ++j)
             if (states[i].action == deh_bexptrs[j].cptr)
             {
                 bexptr_match = &deh_bexptrs[j];

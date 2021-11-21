@@ -418,7 +418,7 @@ static dboolean P_TryWalk(mobj_t *actor)
     if (!P_SmartMove(actor))
         return false;
 
-    actor->movecount = M_Random() & 15;
+    actor->movecount = (M_Random() & 15);
     return true;
 }
 
@@ -626,8 +626,7 @@ static fixed_t P_AvoidDropoff(mobj_t *actor)
 static void P_NewChaseDir(mobj_t *actor)
 {
     mobj_t  *target;
-    fixed_t deltax;
-    fixed_t deltay;
+    fixed_t deltax, deltay;
     fixed_t dist;
 
     // killough 8/8/98: sometimes move away from target, keeping distance
