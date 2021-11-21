@@ -2609,6 +2609,7 @@ static void deh_procThing(DEHFILE *fpin, char *line)
                 }
 
                 mobjinfo[indexnum].mbf21flags = value;
+                mbf21compatible = true;
             }
             else if (M_StringCompare(key, "Dropped item"))
                 mobjinfo[indexnum].droppeditem = value - 1;
@@ -2824,6 +2825,7 @@ static void deh_procFrame(DEHFILE *fpin, char *line)
                 }
 
             states[indexnum].flags = value;
+            mbf21compatible = true;
         }
         else if (M_StringCompare(key, "translucent"))           // Translucent
         {
@@ -3108,6 +3110,7 @@ static void deh_procWeapon(DEHFILE *fpin, char *line)
                         }
 
                     weaponinfo[indexnum].flags = value;
+                    mbf21compatible = true;
                 }
         else
             C_Warning(1, "Invalid weapon string index for \"%s\".", key);
