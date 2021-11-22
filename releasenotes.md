@@ -5,7 +5,7 @@
 * *DOOM Retro* is now compiled using v17.0.1 of [*Microsoft Visual Studio Community 2022*](https://www.visualstudio.com/vs/).
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * *DOOM Retro* now supports [*MBF21*](https://doomwiki.org/wiki/MBF21)-compatible maps and mods.
-* *DOOM Retro* will no longer crash at startup when trying to load a PWAD containing a PNG lump that hasn’t been placed between `HI_START` and `HI_END` markers.
+* *DOOM Retro* will no longer crash at startup when trying to load a PWAD containing a PNG lump.
 * A bug has been fixed whereby `.deh`, `.bex` and `.cfg` files wouldn’t load if selected in the WAD launcher.
 * The file `midiproc.exe` that allowed the music volume to be adjusted independently of the sound effects volume is no longer necessary and therefore no longer included with *DOOM Retro*.
 * Several minor changes have been made to text that is output to the console.
