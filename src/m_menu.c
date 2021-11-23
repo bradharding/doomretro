@@ -103,6 +103,7 @@ static char     saveOldString[SAVESTRINGSIZE];
 dboolean        inhelpscreens;
 dboolean        menuactive;
 dboolean        savegames;
+dboolean        quitting;
 
 char            savegamestrings[6][SAVESTRINGSIZE];
 
@@ -1992,7 +1993,7 @@ static void M_EndGame(int choice)
 }
 
 //
-// M_ReadThis
+// M_FinishReadThis
 //
 static void M_FinishReadThis(int choice)
 {
@@ -2025,10 +2026,6 @@ static const int quitsounds2[8] =
     sfx_bspact,
     sfx_sgtatk
 };
-
-dboolean        quitting;
-
-extern dboolean waspaused;
 
 static void M_QuitResponse(int key)
 {

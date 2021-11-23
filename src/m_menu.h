@@ -114,6 +114,7 @@ extern dboolean nosfx;
 extern dboolean firstevent;
 extern dboolean savegames;
 extern dboolean inhelpscreens;
+extern dboolean quitting;
 extern int      spindirection;
 extern int      spinspeed;
 extern char     savegamestrings[6][SAVESTRINGSIZE];

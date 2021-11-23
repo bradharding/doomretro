@@ -89,7 +89,7 @@ extern void (*blitfunc)(void);
 extern void (*mapblitfunc)(void);
 
 extern dboolean     sendpause;
-extern dboolean     quitting;
+extern dboolean     waspaused;
 
 extern int          keydown;
 

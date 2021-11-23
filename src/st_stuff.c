@@ -1215,7 +1215,7 @@ static void ST_UpdateFaceWidget(void)
     if (!st_facecount)
     {
         priority = 0;
-        faceindex = M_Random() % 3;
+        faceindex = M_BigRandom() % 3;
         st_facecount = ST_STRAIGHTFACECOUNT;
     }
 
