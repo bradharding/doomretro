@@ -1811,7 +1811,7 @@ static const char *deh_weapon[] =
     "Firing Frame",     // .flashstate
 
     // MBF21
-    "Ammo per shot",    // .ammopershot
+    "Ammo per shot",    // .minammo
     "MBF21 Bits"        // .flags
 };
 
@@ -2769,41 +2769,49 @@ static void deh_procFrame(DEHFILE *fpin, char *line)
         {
             states[indexnum].args[0] = value;
             defined_codeptr_args[indexnum] |= (1 << 0);
+            mbf21compatible = true;
         }
         else if (!strcasecmp(key, deh_state[8]))                // Args2
         {
             states[indexnum].args[1] = value;
             defined_codeptr_args[indexnum] |= (1 << 1);
+            mbf21compatible = true;
         }
         else if (!strcasecmp(key, deh_state[9]))                // Args3
         {
             states[indexnum].args[2] = value;
             defined_codeptr_args[indexnum] |= (1 << 2);
+            mbf21compatible = true;
         }
         else if (!strcasecmp(key, deh_state[10]))               // Args4
         {
             states[indexnum].args[3] = value;
             defined_codeptr_args[indexnum] |= (1 << 3);
+            mbf21compatible = true;
         }
         else if (!strcasecmp(key, deh_state[11]))               // Args5
         {
             states[indexnum].args[4] = value;
             defined_codeptr_args[indexnum] |= (1 << 4);
+            mbf21compatible = true;
         }
         else if (!strcasecmp(key, deh_state[12]))               // Args6
         {
             states[indexnum].args[5] = value;
             defined_codeptr_args[indexnum] |= (1 << 5);
+            mbf21compatible = true;
         }
         else if (!strcasecmp(key, deh_state[13]))               // Args7
         {
             states[indexnum].args[6] = value;
             defined_codeptr_args[indexnum] |= (1 << 6);
+            mbf21compatible = true;
         }
         else if (!strcasecmp(key, deh_state[14]))               // Args8
         {
             states[indexnum].args[7] = value;
             defined_codeptr_args[indexnum] |= (1 << 7);
+            mbf21compatible = true;
         }
 
         // MBF21: process state flags
@@ -3068,32 +3076,35 @@ static void deh_procWeapon(DEHFILE *fpin, char *line)
         lfstrip(inbuffer);
 
         if (!*inbuffer)
-            break;                                              // killough 11/98
+            break;                                          // killough 11/98
 
-        if (!deh_GetData(inbuffer, key, &value, &strval))       // returns TRUE if ok
+        if (!deh_GetData(inbuffer, key, &value, &strval))   // returns TRUE if ok
         {
             C_Warning(1, "Bad data pair in \"%s\".", inbuffer);
             continue;
         }
 
-        if (M_StringCompare(key, deh_weapon[0]))                    // Ammo type
+        if (M_StringCompare(key, deh_weapon[0]))            // Ammo type
             weaponinfo[indexnum].ammotype = value;
-        else if (M_StringCompare(key, deh_weapon[1]))               // Deselect frame
+        else if (M_StringCompare(key, deh_weapon[1]))       // Deselect frame
             weaponinfo[indexnum].upstate = value;
-        else if (M_StringCompare(key, deh_weapon[2]))               // Select frame
+        else if (M_StringCompare(key, deh_weapon[2]))       // Select frame
             weaponinfo[indexnum].downstate = value;
-        else if (M_StringCompare(key, deh_weapon[3]))               // Bobbing frame
+        else if (M_StringCompare(key, deh_weapon[3]))       // Bobbing frame
             weaponinfo[indexnum].readystate = value;
-        else if (M_StringCompare(key, deh_weapon[4]))               // Shooting frame
+        else if (M_StringCompare(key, deh_weapon[4]))       // Shooting frame
             weaponinfo[indexnum].atkstate = value;
-        else if (M_StringCompare(key, deh_weapon[5]))               // Firing frame
+        else if (M_StringCompare(key, deh_weapon[5]))       // Firing frame
             weaponinfo[indexnum].flashstate = value;
         else
-            if (!strcasecmp(key, deh_weapon[6]))  // Ammo per shot
+            if (!strcasecmp(key, deh_weapon[6]))            // Ammo per shot
+            {
                 weaponinfo[indexnum].minammo = value;
+                mbf21compatible = true;
+            }
             else
                 // MBF21: process weapon flags
-                if (!strcasecmp(key, deh_weapon[7]))  // MBF21 Bits
+                if (!strcasecmp(key, deh_weapon[7]))        // MBF21 Bits
                 {
                     if (!value)
                         for (value = 0; (strval = strtok(strval, ",+| \t\f\r")); strval = NULL)
