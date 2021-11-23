@@ -113,6 +113,8 @@ extern dboolean     musmusictype;
 extern dboolean     windowsmidi;
 #endif
 
+extern int          current_music_volume;
+
 //
 // Identifiers for all music in game.
 //

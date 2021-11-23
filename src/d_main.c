@@ -274,6 +274,8 @@ static void D_UpdateFade(void)
 //
 void D_FadeScreenToBlack(void)
 {
+    int volume = current_music_volume;
+
     if (!fade)
         return;
 
@@ -282,6 +284,7 @@ void D_FadeScreenToBlack(void)
         I_SetPaletteWithBrightness(PLAYPAL, i);
         blitfunc();
         I_SetExternalAutomapPalette();
+        I_SetMusicVolume((int)((double)volume * i));
         I_Sleep(30);
     }
 }

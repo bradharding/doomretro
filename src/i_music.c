@@ -56,7 +56,7 @@ dboolean        windowsmidi = false;
 
 static dboolean music_initialized;
 
-static int      current_music_volume;
+int             current_music_volume;
 static int      paused_midi_volume;
 
 // Shutdown music
@@ -65,8 +65,6 @@ void I_ShutdownMusic(void)
     if (!music_initialized)
         return;
 
-    Mix_FadeOutMusic(500);
-    while (Mix_PlayingMusic());
     music_initialized = false;
 
     if (mus_playing)
