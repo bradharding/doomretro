@@ -7,17 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2AF8C4AC274C3EB2006301DC /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2AF8C4AB274C3EB2006301DC /* Images.xcassets */; };
 		8A97F56C1B5BD909009FA1D9 /* d_loop.c in Sources */ = {isa = PBXBuildFile; fileRef = 8A97F56A1B5BD909009FA1D9 /* d_loop.c */; };
 		8AD637331B33390400605ECA /* p_genlin.c in Sources */ = {isa = PBXBuildFile; fileRef = 8AD637321B3338E400605ECA /* p_genlin.c */; };
 		8AF2AAB820E76665005C4E4C /* info.c in Sources */ = {isa = PBXBuildFile; fileRef = 8AF2AAB620E7665C005C4E4C /* info.c */; };
 		8AF2AAB920E76667005C4E4C /* sprites.c in Sources */ = {isa = PBXBuildFile; fileRef = 8AF2AAB520E7665B005C4E4C /* sprites.c */; };
 		8AF2AABA20E76671005C4E4C /* p_user.c in Sources */ = {isa = PBXBuildFile; fileRef = AB5A82481A8DB9EB00AF539F /* p_user.c */; };
-		963AFBC9209607830029CC36 /* i_midirpc.c in Sources */ = {isa = PBXBuildFile; fileRef = 963AFBC7209607820029CC36 /* i_midirpc.c */; };
 		9F385F291C28ADAF00BD4F2B /* SDL2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F385F281C28ADAF00BD4F2B /* SDL2.framework */; };
 		9F385F2B1C28ADBC00BD4F2B /* SDL2_mixer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F385F2A1C28ADBC00BD4F2B /* SDL2_mixer.framework */; };
 		9F385F2E1C28B0D100BD4F2B /* sc_man.c in Sources */ = {isa = PBXBuildFile; fileRef = 9F385F2C1C28B0D100BD4F2B /* sc_man.c */; };
-		9F385F321C29C03100BD4F2B /* SDL2_mixer.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9F385F2A1C28ADBC00BD4F2B /* SDL2_mixer.framework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		9F385F331C29C03100BD4F2B /* SDL2.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9F385F281C28ADAF00BD4F2B /* SDL2.framework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		9F385F321C29C03100BD4F2B /* SDL2_mixer.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9F385F2A1C28ADBC00BD4F2B /* SDL2_mixer.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		9F385F331C29C03100BD4F2B /* SDL2.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9F385F281C28ADAF00BD4F2B /* SDL2.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		AB5A81D31A8DAEB600AF539F /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB5A81D21A8DAEB600AF539F /* Cocoa.framework */; };
 		AB5A82791A8DB9EB00AF539F /* am_map.c in Sources */ = {isa = PBXBuildFile; fileRef = AB5A81DA1A8DB9EB00AF539F /* am_map.c */; };
 		AB5A827A1A8DB9EB00AF539F /* c_cmds.c in Sources */ = {isa = PBXBuildFile; fileRef = AB5A81DC1A8DB9EB00AF539F /* c_cmds.c */; };
@@ -90,7 +90,7 @@
 		F3142B161F97B1A200CCB7FD /* doomretro.iconset in Resources */ = {isa = PBXBuildFile; fileRef = F3142B151F97B1A100CCB7FD /* doomretro.iconset */; };
 		F31526711D16F69100824B66 /* doomretro.wad in Resources */ = {isa = PBXBuildFile; fileRef = F31526701D16F69100824B66 /* doomretro.wad */; };
 		F3C1ED641CF5028600C3E94F /* SDL2_image.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F3C1ED631CF5028600C3E94F /* SDL2_image.framework */; };
-		F3C1ED651CF5028B00C3E94F /* SDL2_image.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = F3C1ED631CF5028600C3E94F /* SDL2_image.framework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		F3C1ED651CF5028B00C3E94F /* SDL2_image.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = F3C1ED631CF5028600C3E94F /* SDL2_image.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F3C1ED6A1CF508B500C3E94F /* m_config.c in Sources */ = {isa = PBXBuildFile; fileRef = F3C1ED661CF508B500C3E94F /* m_config.c */; };
 		F3C1ED6B1CF508B500C3E94F /* r_patch.c in Sources */ = {isa = PBXBuildFile; fileRef = F3C1ED681CF508B500C3E94F /* r_patch.c */; };
 		F3C1ED6C1CF508FC00C3E94F /* m_controls.c in Sources */ = {isa = PBXBuildFile; fileRef = AB5A82181A8DB9EB00AF539F /* m_controls.c */; };
@@ -113,6 +113,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		2AF8C4AB274C3EB2006301DC /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		8A6AB8161B49BE8100E0666A /* doomretro.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = doomretro.icns; path = doomretroapp/doomretro.icns; sourceTree = "<group>"; };
 		8A97F56A1B5BD909009FA1D9 /* d_loop.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = d_loop.c; path = ../../src/d_loop.c; sourceTree = "<group>"; };
 		8A97F56B1B5BD909009FA1D9 /* d_loop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = d_loop.h; path = ../../src/d_loop.h; sourceTree = "<group>"; };
@@ -121,8 +122,6 @@
 		8AF2AAB320E7665B005C4E4C /* sprites.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = sprites.h; path = ../../src/sprites.h; sourceTree = "<group>"; };
 		8AF2AAB520E7665B005C4E4C /* sprites.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = sprites.c; path = ../../src/sprites.c; sourceTree = "<group>"; };
 		8AF2AAB620E7665C005C4E4C /* info.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = info.c; path = ../../src/info.c; sourceTree = "<group>"; };
-		963AFBC4209607820029CC36 /* i_midirpc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = i_midirpc.h; path = ../../src/i_midirpc.h; sourceTree = "<group>"; };
-		963AFBC7209607820029CC36 /* i_midirpc.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = i_midirpc.c; path = ../../src/i_midirpc.c; sourceTree = "<group>"; };
 		9F385F281C28ADAF00BD4F2B /* SDL2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SDL2.framework; sourceTree = "<group>"; };
 		9F385F2A1C28ADBC00BD4F2B /* SDL2_mixer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SDL2_mixer.framework; sourceTree = "<group>"; };
 		9F385F2C1C28B0D100BD4F2B /* sc_man.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = sc_man.c; path = ../../src/sc_man.c; sourceTree = "<group>"; };
@@ -183,7 +182,6 @@
 		AB5A820E1A8DB9EB00AF539F /* i_video.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = i_video.h; path = ../src/i_video.h; sourceTree = SOURCE_ROOT; };
 		AB5A820F1A8DB9EB00AF539F /* states.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.objc; fileEncoding = 4; name = states.c; path = ../src/states.c; sourceTree = SOURCE_ROOT; };
 		AB5A82101A8DB9EB00AF539F /* states.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = states.h; path = ../src/states.h; sourceTree = SOURCE_ROOT; };
-		AB5A82111A8DB9EB00AF539F /* inttypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = inttypes.h; path = ../src/inttypes.h; sourceTree = SOURCE_ROOT; };
 		AB5A82121A8DB9EB00AF539F /* m_argv.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.objc; fileEncoding = 4; name = m_argv.c; path = ../src/m_argv.c; sourceTree = SOURCE_ROOT; };
 		AB5A82131A8DB9EB00AF539F /* m_argv.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = m_argv.h; path = ../src/m_argv.h; sourceTree = SOURCE_ROOT; };
 		AB5A82141A8DB9EB00AF539F /* m_bbox.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.objc; fileEncoding = 4; name = m_bbox.c; path = ../src/m_bbox.c; sourceTree = SOURCE_ROOT; };
@@ -257,7 +255,6 @@
 		AB5A82611A8DB9EB00AF539F /* st_lib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = st_lib.h; path = ../src/st_lib.h; sourceTree = SOURCE_ROOT; };
 		AB5A82621A8DB9EB00AF539F /* st_stuff.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.objc; fileEncoding = 4; name = st_stuff.c; path = ../src/st_stuff.c; sourceTree = SOURCE_ROOT; };
 		AB5A82631A8DB9EB00AF539F /* st_stuff.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = st_stuff.h; path = ../src/st_stuff.h; sourceTree = SOURCE_ROOT; };
-		AB5A82641A8DB9EB00AF539F /* stdint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = stdint.h; path = ../src/stdint.h; sourceTree = SOURCE_ROOT; };
 		AB5A82651A8DB9EB00AF539F /* tables.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = tables.h; path = ../src/tables.h; sourceTree = SOURCE_ROOT; };
 		AB5A82661A8DB9EB00AF539F /* v_data.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.objc; fileEncoding = 4; name = v_data.c; path = ../src/v_data.c; sourceTree = SOURCE_ROOT; };
 		AB5A82671A8DB9EB00AF539F /* v_data.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = v_data.h; path = ../src/v_data.h; sourceTree = SOURCE_ROOT; };
@@ -344,6 +341,7 @@
 			isa = PBXGroup;
 			children = (
 				AB5A80E81A8DAD0100AF539F /* doomretro */,
+				2AF8C4AB274C3EB2006301DC /* Images.xcassets */,
 			);
 			path = doomretroapp;
 			sourceTree = SOURCE_ROOT;
@@ -355,8 +353,6 @@
 				8AF2AAB120E7665B005C4E4C /* info.h */,
 				8AF2AAB520E7665B005C4E4C /* sprites.c */,
 				8AF2AAB320E7665B005C4E4C /* sprites.h */,
-				963AFBC7209607820029CC36 /* i_midirpc.c */,
-				963AFBC4209607820029CC36 /* i_midirpc.h */,
 				F3CA36061F93C074009DD997 /* c_autocomplete.c */,
 				F3C1ED661CF508B500C3E94F /* m_config.c */,
 				F3C1ED671CF508B500C3E94F /* m_config.h */,
@@ -417,7 +413,6 @@
 				AB5A820A1A8DB9EB00AF539F /* i_timer.h */,
 				AB5A820D1A8DB9EB00AF539F /* i_video.c */,
 				AB5A820E1A8DB9EB00AF539F /* i_video.h */,
-				AB5A82111A8DB9EB00AF539F /* inttypes.h */,
 				AB5A82121A8DB9EB00AF539F /* m_argv.c */,
 				AB5A82131A8DB9EB00AF539F /* m_argv.h */,
 				AB5A82141A8DB9EB00AF539F /* m_bbox.c */,
@@ -494,7 +489,6 @@
 				AB5A82631A8DB9EB00AF539F /* st_stuff.h */,
 				AB5A820F1A8DB9EB00AF539F /* states.c */,
 				AB5A82101A8DB9EB00AF539F /* states.h */,
-				AB5A82641A8DB9EB00AF539F /* stdint.h */,
 				AB5A82651A8DB9EB00AF539F /* tables.h */,
 				AB5A82661A8DB9EB00AF539F /* v_data.c */,
 				AB5A82671A8DB9EB00AF539F /* v_data.h */,
@@ -543,7 +537,7 @@
 		AB5A80BA1A8DABE100AF539F /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0610;
+				LastUpgradeCheck = 1310;
 				ORGANIZATIONNAME = doomretro;
 				TargetAttributes = {
 					AB5A80C11A8DABE100AF539F = {
@@ -553,7 +547,7 @@
 			};
 			buildConfigurationList = AB5A80BD1A8DABE100AF539F /* Build configuration list for PBXProject "doomretroapp" */;
 			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
@@ -574,6 +568,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2AF8C4AC274C3EB2006301DC /* Images.xcassets in Resources */,
 				F31526711D16F69100824B66 /* doomretro.wad in Resources */,
 				F3142B161F97B1A200CCB7FD /* doomretro.iconset in Resources */,
 			);
@@ -658,7 +653,6 @@
 				AB5A82811A8DB9EB00AF539F /* doomstat.c in Sources */,
 				AB5A82AB1A8DB9EB00AF539F /* p_pspr.c in Sources */,
 				AB5A828E1A8DB9EB00AF539F /* i_colors.c in Sources */,
-				963AFBC9209607830029CC36 /* i_midirpc.c in Sources */,
 				AB5A828A1A8DB9EB00AF539F /* i_music.c in Sources */,
 				AB5A82B11A8DB9EB00AF539F /* p_telept.c in Sources */,
 				AB5A82C01A8DB9EB00AF539F /* v_data.c in Sources */,
@@ -675,25 +669,38 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "-";
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -707,7 +714,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "";
-				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
@@ -718,18 +725,29 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "-";
@@ -738,6 +756,7 @@
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = NO;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -745,7 +764,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "";
-				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = macosx;
 			};
@@ -757,6 +776,8 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
+				CODE_SIGN_IDENTITY = "-";
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -770,6 +791,8 @@
 				);
 				INFOPLIST_FILE = doomretroapp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "doom.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -780,6 +803,8 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
+				CODE_SIGN_IDENTITY = "-";
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -793,6 +818,8 @@
 				);
 				INFOPLIST_FILE = doomretroapp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "doom.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
