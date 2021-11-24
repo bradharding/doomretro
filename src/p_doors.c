@@ -265,19 +265,7 @@ dboolean EV_DoLockedDoor(line_t *line, vldoor_e type, mobj_t *thing, fixed_t spe
             {
                 // [BH] display player message distinguishing between keycard and skull key
                 // [BH] flash needed key on HUD
-                if (player->cards[it_bluecard] == CARDNOTFOUNDYET)
-                {
-                    if (vid_widescreen && r_hud && (!player->neededcardflash || player->neededcard != it_bluecard))
-                    {
-                        player->neededcard = it_bluecard;
-                        player->neededcardflash = NEEDEDCARDFLASH;
-                    }
-
-                    M_snprintf(buffer, sizeof(buffer), s_PD_BLUEO, playername,
-                        (M_StringCompare(playername, playername_default) ? "" : "s"), s_KEYCARD);
-                    HU_PlayerMessage(buffer, false, false);
-                }
-                else if (player->cards[it_blueskull] == CARDNOTFOUNDYET)
+                if (player->cards[it_blueskull] == CARDNOTFOUNDYET)
                 {
                     if (vid_widescreen && r_hud && (!player->neededcardflash || player->neededcard != it_blueskull))
                     {
@@ -287,14 +275,20 @@ dboolean EV_DoLockedDoor(line_t *line, vldoor_e type, mobj_t *thing, fixed_t spe
 
                     M_snprintf(buffer, sizeof(buffer), s_PD_BLUEO, playername,
                         (M_StringCompare(playername, playername_default) ? "" : "s"), s_SKULLKEY);
-                    HU_PlayerMessage(buffer, false, false);
                 }
                 else
                 {
+                    if (vid_widescreen && r_hud && (!player->neededcardflash || player->neededcard != it_bluecard))
+                    {
+                        player->neededcard = it_bluecard;
+                        player->neededcardflash = NEEDEDCARDFLASH;
+                    }
+
                     M_snprintf(buffer, sizeof(buffer), s_PD_BLUEO, playername,
-                        (M_StringCompare(playername, playername_default) ? "" : "s"), "key");
-                    HU_PlayerMessage(buffer, false, false);
+                        (M_StringCompare(playername, playername_default) ? "" : "s"), s_KEYCARD);
                 }
+
+                HU_PlayerMessage(buffer, false, false);
 
                 if (P_DoorClosed(line))
                     S_StartSound(player->mo, sfx_noway);    // [BH] use sfx_noway instead of sfx_oof
@@ -310,19 +304,7 @@ dboolean EV_DoLockedDoor(line_t *line, vldoor_e type, mobj_t *thing, fixed_t spe
             {
                 // [BH] display player message distinguishing between keycard and skull key
                 // [BH] flash needed key on HUD
-                if (player->cards[it_redcard] == CARDNOTFOUNDYET)
-                {
-                    if (vid_widescreen && r_hud && (!player->neededcardflash || player->neededcard != it_redcard))
-                    {
-                        player->neededcard = it_redcard;
-                        player->neededcardflash = NEEDEDCARDFLASH;
-                    }
-
-                    M_snprintf(buffer, sizeof(buffer), s_PD_REDO, playername,
-                        (M_StringCompare(playername, playername_default) ? "" : "s"), s_KEYCARD);
-                    HU_PlayerMessage(buffer, false, false);
-                }
-                else if (player->cards[it_redskull] == CARDNOTFOUNDYET)
+                if (player->cards[it_redskull] == CARDNOTFOUNDYET)
                 {
                     if (vid_widescreen && r_hud && (!player->neededcardflash || player->neededcard != it_redskull))
                     {
@@ -332,14 +314,20 @@ dboolean EV_DoLockedDoor(line_t *line, vldoor_e type, mobj_t *thing, fixed_t spe
 
                     M_snprintf(buffer, sizeof(buffer), s_PD_REDO, playername,
                         (M_StringCompare(playername, playername_default) ? "" : "s"), s_SKULLKEY);
-                    HU_PlayerMessage(buffer, false, false);
                 }
                 else
                 {
+                    if (vid_widescreen && r_hud && (!player->neededcardflash || player->neededcard != it_redcard))
+                    {
+                        player->neededcard = it_redcard;
+                        player->neededcardflash = NEEDEDCARDFLASH;
+                    }
+
                     M_snprintf(buffer, sizeof(buffer), s_PD_REDO, playername,
-                        (M_StringCompare(playername, playername_default) ? "" : "s"), "key");
-                    HU_PlayerMessage(buffer, false, false);
+                        (M_StringCompare(playername, playername_default) ? "" : "s"), s_KEYCARD);
                 }
+
+                HU_PlayerMessage(buffer, false, false);
 
                 if (P_DoorClosed(line))
                     S_StartSound(player->mo, sfx_noway);    // [BH] use sfx_noway instead of sfx_oof
@@ -355,19 +343,7 @@ dboolean EV_DoLockedDoor(line_t *line, vldoor_e type, mobj_t *thing, fixed_t spe
             {
                 // [BH] display player message distinguishing between keycard and skull key
                 // [BH] flash needed key on HUD
-                if (player->cards[it_yellowcard] == CARDNOTFOUNDYET)
-                {
-                    if (vid_widescreen && r_hud && (!player->neededcardflash || player->neededcard != it_yellowcard))
-                    {
-                        player->neededcard = it_yellowcard;
-                        player->neededcardflash = NEEDEDCARDFLASH;
-                    }
-
-                    M_snprintf(buffer, sizeof(buffer), s_PD_YELLOWO, playername,
-                        (M_StringCompare(playername, playername_default) ? "" : "s"), s_KEYCARD);
-                    HU_PlayerMessage(buffer, false, false);
-                }
-                else if (player->cards[it_yellowskull] == CARDNOTFOUNDYET)
+                if (player->cards[it_yellowskull] == CARDNOTFOUNDYET)
                 {
                     if (vid_widescreen && r_hud && (!player->neededcardflash || player->neededcard != it_yellowskull))
                     {
@@ -377,14 +353,20 @@ dboolean EV_DoLockedDoor(line_t *line, vldoor_e type, mobj_t *thing, fixed_t spe
 
                     M_snprintf(buffer, sizeof(buffer), s_PD_YELLOWO, playername,
                         (M_StringCompare(playername, playername_default) ? "" : "s"), s_SKULLKEY);
-                    HU_PlayerMessage(buffer, false, false);
                 }
                 else
                 {
+                    if (vid_widescreen && r_hud && (!player->neededcardflash || player->neededcard != it_yellowcard))
+                    {
+                        player->neededcard = it_yellowcard;
+                        player->neededcardflash = NEEDEDCARDFLASH;
+                    }
+
                     M_snprintf(buffer, sizeof(buffer), s_PD_YELLOWO, playername,
-                        (M_StringCompare(playername, playername_default) ? "" : "s"), "key");
-                    HU_PlayerMessage(buffer, false, false);
+                        (M_StringCompare(playername, playername_default) ? "" : "s"), s_KEYCARD);
                 }
+
+                HU_PlayerMessage(buffer, false, false);
 
                 if (P_DoorClosed(line))
                     S_StartSound(player->mo, sfx_noway);    // [BH] use sfx_noway instead of sfx_oof
@@ -540,19 +522,7 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
             {
                 // [BH] display player message distinguishing between keycard and skull key
                 // [BH] flash needed key on HUD
-                if (player->cards[it_bluecard] == CARDNOTFOUNDYET)
-                {
-                    if (vid_widescreen && r_hud && (!player->neededcardflash || player->neededcard != it_bluecard))
-                    {
-                        player->neededcard = it_bluecard;
-                        player->neededcardflash = NEEDEDCARDFLASH;
-                    }
-
-                    M_snprintf(buffer, sizeof(buffer), s_PD_BLUEK, playername,
-                        (M_StringCompare(playername, playername_default) ? "" : "s"), s_KEYCARD);
-                    HU_PlayerMessage(buffer, false, false);
-                }
-                else if (player->cards[it_blueskull] == CARDNOTFOUNDYET)
+                if (player->cards[it_blueskull] == CARDNOTFOUNDYET)
                 {
                     if (vid_widescreen && r_hud && (!player->neededcardflash || player->neededcard != it_blueskull))
                     {
@@ -562,14 +532,20 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
 
                     M_snprintf(buffer, sizeof(buffer), s_PD_BLUEK, playername,
                         (M_StringCompare(playername, playername_default) ? "" : "s"), s_SKULLKEY);
-                    HU_PlayerMessage(buffer, false, false);
                 }
                 else
                 {
+                    if (vid_widescreen && r_hud && (!player->neededcardflash || player->neededcard != it_bluecard))
+                    {
+                        player->neededcard = it_bluecard;
+                        player->neededcardflash = NEEDEDCARDFLASH;
+                    }
+
                     M_snprintf(buffer, sizeof(buffer), s_PD_BLUEK, playername,
-                        (M_StringCompare(playername, playername_default) ? "" : "s"), "key");
-                    HU_PlayerMessage(buffer, false, false);
+                        (M_StringCompare(playername, playername_default) ? "" : "s"), s_KEYCARD);
                 }
+
+                HU_PlayerMessage(buffer, false, false);
 
                 if (P_DoorClosed(line))
                     S_StartSound(player->mo, sfx_noway);    // [BH] use sfx_noway instead of sfx_oof
@@ -588,19 +564,7 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
             {
                 // [BH] display player message distinguishing between keycard and skull key
                 // [BH] flash needed key on HUD
-                if (player->cards[it_yellowcard] == CARDNOTFOUNDYET)
-                {
-                    if (vid_widescreen && r_hud && (!player->neededcardflash || player->neededcard != it_yellowcard))
-                    {
-                        player->neededcard = it_yellowcard;
-                        player->neededcardflash = NEEDEDCARDFLASH;
-                    }
-
-                    M_snprintf(buffer, sizeof(buffer), s_PD_YELLOWK, playername,
-                        (M_StringCompare(playername, playername_default) ? "" : "s"), s_KEYCARD);
-                    HU_PlayerMessage(buffer, false, false);
-                }
-                else if (player->cards[it_yellowskull] == CARDNOTFOUNDYET)
+                if (player->cards[it_yellowskull] == CARDNOTFOUNDYET)
                 {
                     if (vid_widescreen && r_hud && (!player->neededcardflash || player->neededcard != it_yellowskull))
                     {
@@ -610,14 +574,20 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
 
                     M_snprintf(buffer, sizeof(buffer), s_PD_YELLOWK, playername,
                         (M_StringCompare(playername, playername_default) ? "" : "s"), s_SKULLKEY);
-                    HU_PlayerMessage(buffer, false, false);
                 }
                 else
                 {
+                    if (vid_widescreen && r_hud && (!player->neededcardflash || player->neededcard != it_yellowcard))
+                    {
+                        player->neededcard = it_yellowcard;
+                        player->neededcardflash = NEEDEDCARDFLASH;
+                    }
+
                     M_snprintf(buffer, sizeof(buffer), s_PD_YELLOWK, playername,
-                        (M_StringCompare(playername, playername_default) ? "" : "s"), "key");
-                    HU_PlayerMessage(buffer, false, false);
+                        (M_StringCompare(playername, playername_default) ? "" : "s"), s_KEYCARD);
                 }
+
+                HU_PlayerMessage(buffer, false, false);
 
                 if (P_DoorClosed(line))
                     S_StartSound(player->mo, sfx_noway);    // [BH] use sfx_noway instead of sfx_oof
@@ -636,19 +606,7 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
             {
                 // [BH] display player message distinguishing between keycard and skull key
                 // [BH] flash needed key on HUD
-                if (player->cards[it_redcard] == CARDNOTFOUNDYET)
-                {
-                    if (vid_widescreen && r_hud && (!player->neededcardflash || player->neededcard != it_redcard))
-                    {
-                        player->neededcard = it_redcard;
-                        player->neededcardflash = NEEDEDCARDFLASH;
-                    }
-
-                    M_snprintf(buffer, sizeof(buffer), s_PD_REDK, playername,
-                        (M_StringCompare(playername, playername_default) ? "" : "s"), s_KEYCARD);
-                    HU_PlayerMessage(buffer, false, false);
-                }
-                else if (player->cards[it_redskull] == CARDNOTFOUNDYET)
+                if (player->cards[it_redskull] == CARDNOTFOUNDYET)
                 {
                     if (vid_widescreen && r_hud && (!player->neededcardflash || player->neededcard != it_redskull))
                     {
@@ -658,14 +616,20 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
 
                     M_snprintf(buffer, sizeof(buffer), s_PD_REDK, playername,
                         (M_StringCompare(playername, playername_default) ? "" : "s"), s_SKULLKEY);
-                    HU_PlayerMessage(buffer, false, false);
                 }
                 else
                 {
+                    if (vid_widescreen && r_hud && (!player->neededcardflash || player->neededcard != it_redcard))
+                    {
+                        player->neededcard = it_redcard;
+                        player->neededcardflash = NEEDEDCARDFLASH;
+                    }
+
                     M_snprintf(buffer, sizeof(buffer), s_PD_REDK, playername,
-                        (M_StringCompare(playername, playername_default) ? "" : "s"), "key");
-                    HU_PlayerMessage(buffer, false, false);
+                        (M_StringCompare(playername, playername_default) ? "" : "s"), s_KEYCARD);
                 }
+
+                HU_PlayerMessage(buffer, false, false);
 
                 if (P_DoorClosed(line))
                     S_StartSound(player->mo, sfx_noway);    // [BH] use sfx_noway instead of sfx_oof
