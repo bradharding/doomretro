@@ -163,7 +163,6 @@ static void M_DrawSaveLoadBorder(int x, int y);
 static void M_SetupNextMenu(menu_t *menudef);
 static void M_DrawThermo(int x, int y, int thermWidth, float thermDot, float factor, int offset);
 static void M_WriteText(int x, int y, char *string, dboolean shadow);
-static int M_StringHeight(char *string);
 
 //
 // DOOM MENU
