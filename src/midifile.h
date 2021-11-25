@@ -134,7 +134,7 @@ typedef struct
 } midi_event_t;
 
 // Load a MIDI file.
-midi_file_t *MIDI_LoadFile(char *filename);
+midi_file_t *MIDI_LoadFile(SDL_RWops *stream);
 
 // Free a MIDI file.
 void MIDI_FreeFile(midi_file_t *file);

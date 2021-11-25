@@ -237,11 +237,7 @@ void *I_RegisterSong(void *data, int size)
 #if defined(_WIN32)
         if (midimusictype && windowsmidi)
         {
-            char    *filename = M_TempFile(DOOMRETRO ".mid");
-
-            M_WriteFile(filename, data, size);
-            I_Windows_RegisterSong(filename);
-            free(filename);
+            I_Windows_RegisterSong(data, size);
             return NULL;
         }
 #endif

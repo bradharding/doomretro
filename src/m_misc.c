@@ -363,23 +363,6 @@ char *M_GetExecutableFolder(void)
 #endif
 }
 
-dboolean M_WriteFile(const char *name, const void *source, size_t length)
-{
-    FILE    *handle = fopen(name, "wb");
-    size_t  count;
-
-    if (!handle)
-        return false;
-
-    count = fwrite(source, 1, length, handle);
-    fclose(handle);
-
-    if (count < length)
-        return false;
-
-    return true;
-}
-
 char *M_TempFile(char *s)
 {
     char    *tempdir;

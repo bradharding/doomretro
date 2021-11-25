@@ -38,6 +38,8 @@
 
 #if defined(_WIN32)
 
+#include "SDL.h"
+
 #include <windows.h>
 #include <mmsystem.h>
 
@@ -347,9 +349,10 @@ void I_Windows_PlaySong(dboolean looping)
     midiStreamRestart(hMidiStream);
 }
 
-void I_Windows_RegisterSong(char *filename)
+void I_Windows_RegisterSong(void *data, int size)
 {
-    midi_file_t     * file = MIDI_LoadFile(filename);
+    SDL_RWops       *rwops = SDL_RWFromMem(data, size);
+    midi_file_t     *file = MIDI_LoadFile(rwops);
     MIDIPROPTIMEDIV timediv;
     MIDIPROPTEMPO   tempo;
 
@@ -363,14 +366,14 @@ void I_Windows_RegisterSong(char *filename)
     timediv.cbStruct = sizeof(MIDIPROPTIMEDIV);
     timediv.dwTimeDiv = MIDI_GetFileTimeDivision(file);
 
-    if (midiStreamProperty(hMidiStream, (LPBYTE)&timediv, MIDIPROP_SET | MIDIPROP_TIMEDIV) != MMSYSERR_NOERROR)
+    if (midiStreamProperty(hMidiStream, (LPBYTE)&timediv, (MIDIPROP_SET | MIDIPROP_TIMEDIV)) != MMSYSERR_NOERROR)
         return;
 
     // Set initial tempo.
     tempo.cbStruct = sizeof(MIDIPROPTIMEDIV);
     tempo.dwTempo = 500000; // 120 BPM
 
-    if (midiStreamProperty(hMidiStream, (LPBYTE)&tempo, MIDIPROP_SET | MIDIPROP_TEMPO) != MMSYSERR_NOERROR)
+    if (midiStreamProperty(hMidiStream, (LPBYTE)&tempo, (MIDIPROP_SET | MIDIPROP_TEMPO)) != MMSYSERR_NOERROR)
         return;
 
     MIDItoStream(file);
