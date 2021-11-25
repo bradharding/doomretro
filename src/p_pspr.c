@@ -675,12 +675,14 @@ static void P_GunShot(mobj_t *actor, dboolean accurate)
 //
 void A_FirePistol(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    if (!(weaponinfo[player->readyweapon].flags & WPF_SILENT))
+    weapontype_t    readyweapon = player->readyweapon;
+
+    if (!(weaponinfo[readyweapon].flags & WPF_SILENT))
         P_NoiseAlert(actor);
 
     S_StartSound(actor, sfx_pistol);
     P_SubtractAmmo();
-    P_SetPsprite(ps_flash, weaponinfo[player->readyweapon].flashstate);
+    P_SetPsprite(ps_flash, weaponinfo[readyweapon].flashstate);
     P_BulletSlope(actor);
 
     successfulshot = false;
@@ -703,12 +705,14 @@ void A_FirePistol(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_FireShotgun(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    if (!(weaponinfo[player->readyweapon].flags & WPF_SILENT))
+    weapontype_t    readyweapon = player->readyweapon;
+
+    if (!(weaponinfo[readyweapon].flags & WPF_SILENT))
         P_NoiseAlert(actor);
 
     S_StartSound(actor, sfx_shotgn);
     P_SubtractAmmo();
-    P_SetPsprite(ps_flash, weaponinfo[player->readyweapon].flashstate);
+    P_SetPsprite(ps_flash, weaponinfo[readyweapon].flashstate);
     P_BulletSlope(actor);
 
     successfulshot = false;
@@ -735,12 +739,14 @@ void A_FireShotgun(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_FireShotgun2(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    if (!(weaponinfo[player->readyweapon].flags & WPF_SILENT))
+    weapontype_t    readyweapon = player->readyweapon;
+
+    if (!(weaponinfo[readyweapon].flags & WPF_SILENT))
         P_NoiseAlert(actor);
 
     S_StartSound(actor, sfx_dshtgn);
     P_SubtractAmmo();
-    P_SetPsprite(ps_flash, weaponinfo[player->readyweapon].flashstate);
+    P_SetPsprite(ps_flash, weaponinfo[readyweapon].flashstate);
     P_BulletSlope(actor);
 
     successfulshot = false;
@@ -784,17 +790,19 @@ void A_CloseShotgun2(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_FireCGun(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
+    weapontype_t    readyweapon = player->readyweapon;
+
     // [BH] Fix <https://doomwiki.org/wiki/Chaingun_makes_two_sounds_firing_single_bullet>.
-    if (!player->ammo[weaponinfo[player->readyweapon].ammotype])
+    if (!player->ammo[weaponinfo[readyweapon].ammotype])
         return;
 
     S_StartSound(actor, sfx_pistol);
 
-    if (!(weaponinfo[player->readyweapon].flags & WPF_SILENT))
+    if (!(weaponinfo[readyweapon].flags & WPF_SILENT))
         P_NoiseAlert(actor);
 
     P_SubtractAmmo();
-    P_SetPsprite(ps_flash, weaponinfo[player->readyweapon].flashstate + (unsigned int)((psp->state - &states[S_CHAIN1]) & 1));
+    P_SetPsprite(ps_flash, weaponinfo[readyweapon].flashstate + (unsigned int)((psp->state - &states[S_CHAIN1]) & 1));
     P_BulletSlope(actor);
 
     successfulshot = false;
@@ -836,10 +844,11 @@ void A_Light2(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_BFGSpray(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    mobj_t  *mo = actor->target;
-    angle_t an = mo->angle - ANG90 / 2;
+    mobj_t          *mo = actor->target;
+    angle_t         an = mo->angle - ANG90 / 2;
+    weapontype_t    readyweapon = viewplayer->readyweapon;
 
-    if (!(weaponinfo[viewplayer->readyweapon].flags & WPF_SILENT))
+    if (!(weaponinfo[readyweapon].flags & WPF_SILENT))
         P_NoiseAlert(actor);
 
     // offset angles from its attack angle
@@ -866,16 +875,13 @@ void A_BFGSpray(mobj_t *actor, player_t *player, pspdef_t *psp)
         P_DamageMobj(linetarget, mo, mo, damage, true);
     }
 
-    if (mo->player)
-    {
-        mo->player->shotsfired[wp_bfg]++;
-        stat_shotsfired_bfg9000 = SafeAdd(stat_shotsfired_bfg9000, 1);
+    viewplayer->shotsfired[wp_bfg]++;
+    stat_shotsfired_bfg9000 = SafeAdd(stat_shotsfired_bfg9000, 1);
 
-        if (successfulshot)
-        {
-            mo->player->shotssuccessful[wp_bfg]++;
-            stat_shotssuccessful_bfg9000 = SafeAdd(stat_shotssuccessful_bfg9000, 1);
-        }
+    if (successfulshot)
+    {
+        viewplayer->shotssuccessful[wp_bfg]++;
+        stat_shotssuccessful_bfg9000 = SafeAdd(stat_shotssuccessful_bfg9000, 1);
     }
 
     successfulshot = false;
