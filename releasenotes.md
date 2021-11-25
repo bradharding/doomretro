@@ -9,7 +9,7 @@
 * *DOOM Retro* will no longer crash at startup when trying to load a PWAD containing a PNG lump.
 * A bug has been fixed whereby `.deh`, `.bex` and `.cfg` files wouldn’t load if selected in the WAD launcher.
 * The file `midiproc.exe` that allowed the music volume to be adjusted independently of the sound effects volume is no longer necessary and therefore no longer included with *DOOM Retro*.
-* Several minor changes have been made to text that is output to the console.
+* Several changes have been made to text that is output to the console.
 * Further improvements have been made to the support of [*Chex Quest*](https://doomwiki.org/wiki/Chex_Quest), [*Freedoom*](https://freedoom.github.io/), [*REKKR*](http://manbitesshark.com/) and [*REKKR: Sunken Land*](https://store.steampowered.com/app/1715690/REKKR_Sunken_Land/).
 * The `r_berserkintensity` CVAR has been renamed to `r_berserkeffect` and is now `3` rather than `2` by default.
 * The red effect when the player is injured can now be toggled using the new `r_damageeffect` CVAR, which is both `on` by default and when vanilla mode is enabled.
@@ -21,7 +21,7 @@
 * The player will no longer make a sound when trying to open a door that is currently open.
 * The player will now smoothly slide against two-sided textures.
 * Minor improvements have been made to the alternate widescreen HUD.
-* Minor improvements have been made to the support of `DEHACKED` and `MAPINFO` lumps.
+* Several improvements have been made to the support of `DEHACKED` and `MAPINFO` lumps.
 * The number of times the automap and the console have been opened are now displayed by the `playerstats` CCMD.
 * Player messages are now always grouped in the console, regardless of the time between them, when the `groupmessages` CVAR is `on`.
 * The behavior of friendly monsters has been improved.
