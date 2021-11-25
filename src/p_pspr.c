@@ -839,7 +839,7 @@ void A_BFGSpray(mobj_t *actor, player_t *player, pspdef_t *psp)
     mobj_t  *mo = actor->target;
     angle_t an = mo->angle - ANG90 / 2;
 
-    if (!(weaponinfo[player->readyweapon].flags & WPF_SILENT))
+    if (!(weaponinfo[viewplayer->readyweapon].flags & WPF_SILENT))
         P_NoiseAlert(actor);
 
     // offset angles from its attack angle
