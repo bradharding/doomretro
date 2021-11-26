@@ -715,7 +715,7 @@ dboolean P_PathTraverse(fixed_t x1, fixed_t y1, fixed_t x2, fixed_t y2, int flag
     else if (xt2 < xt1)
     {
         mapxstep = -1;
-        partial = mapx1 & (FRACUNIT - 1);
+        partial = (mapx1 & (FRACUNIT - 1));
         ystep = FixedDiv(y2 - y1, ABS(x2 - x1));
     }
 
@@ -730,7 +730,7 @@ dboolean P_PathTraverse(fixed_t x1, fixed_t y1, fixed_t x2, fixed_t y2, int flag
     else if (yt2 < yt1)
     {
         mapystep = -1;
-        partial = mapy1 & (FRACUNIT - 1);
+        partial = (mapy1 & (FRACUNIT - 1));
         xstep = FixedDiv(x2 - x1, ABS(y2 - y1));
     }
 

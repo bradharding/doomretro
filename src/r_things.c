@@ -658,7 +658,7 @@ static void R_ProjectSprite(mobj_t *thing)
 
     // decide which patch to use for sprite relative to player
     frame = thing->frame;
-    sprframe = &sprites[thing->sprite].spriteframes[frame & FF_FRAMEMASK];
+    sprframe = &sprites[thing->sprite].spriteframes[(frame & FF_FRAMEMASK)];
     flags2 = thing->flags2;
 
     if (sprframe->rotate)

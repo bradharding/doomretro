@@ -1302,7 +1302,7 @@ dboolean P_TakeSpecialThing(mobjtype_t type)
 
         // bonus health
         case MT_MISC2:
-            if ((viewplayer->cheats & CF_GODMODE))
+            if (viewplayer->cheats & CF_GODMODE)
                 return false;
 
             if (viewplayer->powers[pw_invulnerability])
@@ -1332,7 +1332,7 @@ dboolean P_TakeSpecialThing(mobjtype_t type)
 
         // soulsphere
         case MT_MISC12:
-            if ((viewplayer->cheats & CF_GODMODE))
+            if (viewplayer->cheats & CF_GODMODE)
                 return false;
 
             if (viewplayer->powers[pw_invulnerability])
@@ -1352,7 +1352,7 @@ dboolean P_TakeSpecialThing(mobjtype_t type)
 
         // mega health
         case MT_MEGA:
-            if ((viewplayer->cheats & CF_GODMODE))
+            if (viewplayer->cheats & CF_GODMODE)
                 return false;
 
             if (viewplayer->powers[pw_invulnerability])
@@ -1451,7 +1451,7 @@ dboolean P_TakeSpecialThing(mobjtype_t type)
 
         // medikit
         case MT_MISC11:
-            if ((viewplayer->cheats & CF_GODMODE))
+            if (viewplayer->cheats & CF_GODMODE)
                 return false;
 
             if (viewplayer->powers[pw_invulnerability])

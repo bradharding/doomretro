@@ -184,7 +184,7 @@ static void createPatch(int patchNum)
     patch->topoffset = SHORT(oldPatch->topoffset);
 
     // work out how much memory we need to allocate for this patch's data
-    pixelDataSize = (patch->width * patch->height + 4) & ~3;
+    pixelDataSize = ((patch->width * patch->height + 4) & ~3);
     columnsDataSize = patch->width * sizeof(rcolumn_t);
 
     // count the number of posts in each column
@@ -365,7 +365,7 @@ static void createTextureCompositePatch(int id)
     composite_patch->topoffset = 0;
 
     // work out how much memory we need to allocate for this patch's data
-    pixelDataSize = (composite_patch->width * composite_patch->height + 4) & ~3;
+    pixelDataSize = ((composite_patch->width * composite_patch->height + 4) & ~3);
     columnsDataSize = composite_patch->width * sizeof(rcolumn_t);
 
     // count the number of posts in each column

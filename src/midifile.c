@@ -134,7 +134,7 @@ static dboolean ReadVariableLength(unsigned int *result, SDL_RWops *stream)
 
         // Insert the bottom seven bits from this byte.
         *result <<= 7;
-        *result |= b & 0x7F;
+        *result |= (b & 0x7F);
 
         // If the top bit is not set, this is the end.
         if (!(b & 0x80))
@@ -148,14 +148,12 @@ static dboolean ReadVariableLength(unsigned int *result, SDL_RWops *stream)
 static void *ReadByteSequence(unsigned int num_bytes, SDL_RWops *stream)
 {
     // Allocate a buffer. Allocate one extra byte, as malloc(0) is non-portable.
-
     byte    *result = malloc(num_bytes + 1);
 
     if (!result)
         return NULL;
 
-    // Read the data:
-
+    // Read the data
     for (unsigned int i = 0; i < num_bytes; i++)
         if (!ReadByte(&result[i], stream))
         {

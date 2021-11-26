@@ -246,7 +246,7 @@ byte *R_GetTextureColumn(const rpatch_t *texpatch, int col)
     while (col < 0)
         col += texpatch->width;
 
-    return texpatch->columns[col & texpatch->widthmask].pixels;
+    return texpatch->columns[(col & texpatch->widthmask)].pixels;
 }
 
 //

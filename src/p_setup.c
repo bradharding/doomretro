@@ -2344,8 +2344,8 @@ static void P_LoadBlockMap(int lump)
         // because DOOM originally considered the offsets as always signed.
         blockmaplump[0] = SHORT(wadblockmaplump[0]);
         blockmaplump[1] = SHORT(wadblockmaplump[1]);
-        blockmaplump[2] = (unsigned int)(SHORT(wadblockmaplump[2])) & 0xFFFF;
-        blockmaplump[3] = (unsigned int)(SHORT(wadblockmaplump[3])) & 0xFFFF;
+        blockmaplump[2] = ((unsigned int)(SHORT(wadblockmaplump[2])) & 0xFFFF);
+        blockmaplump[3] = ((unsigned int)(SHORT(wadblockmaplump[3])) & 0xFFFF);
 
         // Swap all short integers to native byte ordering.
         for (int i = 4; i < count; i++)

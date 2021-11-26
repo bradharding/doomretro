@@ -2756,7 +2756,7 @@ void T_Scroll(scroll_t *scroller)
 // Add a generalized scroller to the thinker list.
 //
 // type: the enumerated type of scrolling: floor, ceiling, floor carrier,
-//   wall, floor carrier & scroller
+//   wall, floor carrier and scroller
 //
 // (dx,dy): the direction and speed of the scrolling or its acceleration
 //

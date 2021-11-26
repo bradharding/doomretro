@@ -870,7 +870,7 @@ void A_BFGSpray(mobj_t *actor, player_t *player, pspdef_t *psp)
         P_SpawnMobj(linetarget->x, linetarget->y, linetarget->z + (linetarget->height >> 2), MT_EXTRABFG);
 
         for (int j = 0; j < 15; j++)
-            damage += M_Random() & 7;
+            damage += (M_Random() & 7);
 
         P_DamageMobj(linetarget, mo, mo, damage, true);
     }
@@ -949,10 +949,10 @@ void P_MovePsprites(void)
         }
         else
         {
-            int angle = (128 * leveltime) & FINEMASK;
+            int angle = ((128 * leveltime) & FINEMASK);
 
             weapon->sx = FixedMul(bob, finecosine[angle]);
-            weapon->sy = WEAPONTOP + FixedMul(bob, finesine[angle & (FINEANGLES / 2 - 1)]);
+            weapon->sy = WEAPONTOP + FixedMul(bob, finesine[(angle & (FINEANGLES / 2 - 1))]);
         }
     }
 

@@ -54,7 +54,7 @@ typedef struct memblock_s
 // size of block header
 // cph - base on sizeof(memblock_t), which can be larger than CHUNK_SIZE on
 // 64bit architectures
-static const size_t headersize = (sizeof(memblock_t) + CHUNK_SIZE - 1) & ~(CHUNK_SIZE - 1);
+static const size_t headersize = ((sizeof(memblock_t) + CHUNK_SIZE - 1) & ~(CHUNK_SIZE - 1));
 
 static memblock_t   *blockbytag[PU_MAX];
 
@@ -75,9 +75,9 @@ void *Z_Malloc(size_t size, int tag, void **user)
     memblock_t  *block = NULL;
 
     if (!size)
-        return (user ? (*user = NULL) : NULL);          // malloc(0) returns NULL
+        return (user ? (*user = NULL) : NULL);              // malloc(0) returns NULL
 
-    size = (size + CHUNK_SIZE - 1) & ~(CHUNK_SIZE - 1); // round to chunk size
+    size = ((size + CHUNK_SIZE - 1) & ~(CHUNK_SIZE - 1));   // round to chunk size
 
     while (!(block = malloc(size + headersize)))
     {

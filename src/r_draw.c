@@ -146,7 +146,7 @@ static const byte ditherlowmatrix[DITHERSIZE * 2][DITHERSIZE * 2] =
 };
 
 #define ditherlow(x, y, intensity) \
-    (ditherlowmatrix[(y) & (DITHERSIZE * 2 - 1)][(x) & (DITHERSIZE * 2 - 1)] < (intensity))
+    (ditherlowmatrix[((y) & (DITHERSIZE * 2 - 1))][((x) & (DITHERSIZE * 2 - 1))] < (intensity))
 
 static const byte dithermatrix[DITHERSIZE][DITHERSIZE] =
 {
@@ -157,7 +157,7 @@ static const byte dithermatrix[DITHERSIZE][DITHERSIZE] =
 };
 
 #define dither(x, y, intensity) \
-    (dithermatrix[(y) & (DITHERSIZE - 1)][(x) & (DITHERSIZE - 1)] < (intensity))
+    (dithermatrix[((y) & (DITHERSIZE - 1))][((x) & (DITHERSIZE - 1))] < (intensity))
 
 //
 // A column is a vertical slice/span from a wall texture that,
@@ -475,12 +475,12 @@ void R_DrawWallColumn(void)
     {
         while (--count)
         {
-            *dest = colormap[dc_source[(frac >> FRACBITS) & heightmask]];
+            *dest = colormap[dc_source[((frac >> FRACBITS) & heightmask)]];
             dest += SCREENWIDTH;
             frac += dc_iscale;
         }
 
-        *dest = colormap[dc_source[(frac >> FRACBITS) & heightmask]];
+        *dest = colormap[dc_source[((frac >> FRACBITS) & heightmask)]];
     }
 }
 
@@ -519,12 +519,12 @@ void R_DrawDitherLowWallColumn(void)
     {
         while (--count)
         {
-            *dest = colormap[ditherlow(dc_x, y++, fracz)][dc_source[(frac >> FRACBITS) & heightmask]];
+            *dest = colormap[ditherlow(dc_x, y++, fracz)][dc_source[((frac >> FRACBITS) & heightmask)]];
             dest += SCREENWIDTH;
             frac += dc_iscale;
         }
 
-        *dest = colormap[ditherlow(dc_x, y, fracz)][dc_source[(frac >> FRACBITS) & heightmask]];
+        *dest = colormap[ditherlow(dc_x, y, fracz)][dc_source[((frac >> FRACBITS) & heightmask)]];
     }
 }
 
@@ -563,12 +563,12 @@ void R_DrawDitherWallColumn(void)
     {
         while (--count)
         {
-            *dest = colormap[dither(dc_x, y++, fracz)][dc_source[(frac >> FRACBITS) & heightmask]];
+            *dest = colormap[dither(dc_x, y++, fracz)][dc_source[((frac >> FRACBITS) & heightmask)]];
             dest += SCREENWIDTH;
             frac += dc_iscale;
         }
 
-        *dest = colormap[dither(dc_x, y, fracz)][dc_source[(frac >> FRACBITS) & heightmask]];
+        *dest = colormap[dither(dc_x, y, fracz)][dc_source[((frac >> FRACBITS) & heightmask)]];
     }
 }
 
@@ -607,13 +607,13 @@ void R_DrawBrightmapWallColumn(void)
     {
         while (--count)
         {
-            dot = dc_source[(frac >> FRACBITS) & heightmask];
+            dot = dc_source[((frac >> FRACBITS) & heightmask)];
             *dest = dc_colormap[dc_brightmap[dot]][dot];
             dest += SCREENWIDTH;
             frac += dc_iscale;
         }
 
-        dot = dc_source[(frac >> FRACBITS) & heightmask];
+        dot = dc_source[((frac >> FRACBITS) & heightmask)];
         *dest = dc_colormap[dc_brightmap[dot]][dot];
     }
 }
@@ -656,13 +656,13 @@ void R_DrawBrightmapDitherLowWallColumn(void)
     {
         while (--count)
         {
-            dot = dc_source[(frac >> FRACBITS) & heightmask];
+            dot = dc_source[((frac >> FRACBITS) & heightmask)];
             *dest = colormap[dc_brightmap[dot]][ditherlow(dc_x, y++, fracz)][dot];
             dest += SCREENWIDTH;
             frac += dc_iscale;
         }
 
-        dot = dc_source[(frac >> FRACBITS) & heightmask];
+        dot = dc_source[((frac >> FRACBITS) & heightmask)];
         *dest = colormap[dc_brightmap[dot]][ditherlow(dc_x, y, fracz)][dot];
     }
 }
@@ -705,13 +705,13 @@ void R_DrawBrightmapDitherWallColumn(void)
     {
         while (--count)
         {
-            dot = dc_source[(frac >> FRACBITS) & heightmask];
+            dot = dc_source[((frac >> FRACBITS) & heightmask)];
             *dest = colormap[dc_brightmap[dot]][dither(dc_x, y++, fracz)][dot];
             dest += SCREENWIDTH;
             frac += dc_iscale;
         }
 
-        dot = dc_source[(frac >> FRACBITS) & heightmask];
+        dot = dc_source[((frac >> FRACBITS) & heightmask)];
         *dest = colormap[dc_brightmap[dot]][dither(dc_x, y, fracz)][dot];
     }
 }

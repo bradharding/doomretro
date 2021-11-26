@@ -2690,7 +2690,7 @@ static dboolean kill_cmd_func1(char *cmd, char *parms)
                     if (killcmdtype == WolfensteinSS && !allowwolfensteinss && !states[S_SSWV_STND].dehacked)
                         result = false;
                     else
-                        result = mobjinfo[i].flags & MF_SHOOTABLE;
+                        result = (mobjinfo[i].flags & MF_SHOOTABLE);
                 }
 
                 if (temp1)
@@ -6279,7 +6279,7 @@ static dboolean resurrect_cmd_func1(char *cmd, char *parms)
                     if (resurrectcmdtype == WolfensteinSS && !allowwolfensteinss && !states[S_SSWV_STND].dehacked)
                         result = false;
                     else
-                        result = mobjinfo[i].flags & MF_SHOOTABLE;
+                        result = (mobjinfo[i].flags & MF_SHOOTABLE);
                 }
 
                 if (temp1)
