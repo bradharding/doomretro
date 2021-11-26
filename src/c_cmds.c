@@ -464,7 +464,7 @@ consolecmd_t consolecmds[] =
     CVAR_INT(am_cdwallcolor, am_cdwallcolour, color_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The color of lines in the automap indicating a change in a ceiling's height (" BOLD("0") " to " BOLD("255") ")."),
     CVAR_INT(am_crosshaircolor, am_crosshaircolour, color_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
-        "The color of the crosshair in the automap (" BOLD("0") " to " BOLD("255") ")."),
+        "The color of the crosshair in the automap when follow mode is off (" BOLD("0") " to " BOLD("255") ")."),
     CVAR_BOOL(am_external, "", bool_cvars_func1, am_external_cvar_func2, BOOLVALUEALIAS,
         "Toggles showing the automap on an external display."),
     CVAR_INT(am_fdwallcolor, am_fdwallcolour, color_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,

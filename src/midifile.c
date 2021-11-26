@@ -324,9 +324,8 @@ static void FreeEvent(midi_event_t *event)
 static dboolean ReadTrackHeader(midi_track_t *track, SDL_RWops *stream)
 {
     chunk_header_t  chunk_header;
-    size_t          records_read = SDL_RWread(stream, &chunk_header, sizeof(chunk_header_t), 1);
 
-    if (records_read < 1)
+    if (SDL_RWread(stream, &chunk_header, sizeof(chunk_header_t), 1) < 1)
         return false;
 
     if (!CheckChunkHeader(&chunk_header, TRACK_CHUNK_ID))

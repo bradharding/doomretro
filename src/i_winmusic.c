@@ -124,9 +124,7 @@ static void FillBuffer(void)
             int volume = MIDIEVENT_VOLUME(event->dwEvent);
 
             channel_volume[MIDIEVENT_CHANNEL(event->dwEvent)] = volume;
-
             volume = (int)((float)volume * volume_factor);
-
             event->dwEvent = ((event->dwEvent & 0xFF00FFFF) | ((volume & 0x7F) << 16));
         }
 
@@ -166,7 +164,6 @@ static DWORD WINAPI PlayerProc(void)
     HANDLE  events[2] = { hBufferReturnEvent, hExitEvent };
 
     while (true)
-    {
         switch (WaitForMultipleObjects(2, events, FALSE, INFINITE))
         {
             case WAIT_OBJECT_0:
@@ -178,7 +175,6 @@ static DWORD WINAPI PlayerProc(void)
             case WAIT_OBJECT_0 + 1:
                 return 0;
         }
-    }
 
     return 0;
 }
