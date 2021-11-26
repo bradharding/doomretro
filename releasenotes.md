@@ -4,6 +4,7 @@
 #### DOOM Retro v4.4
 
 * *DOOM Retro* is now compiled using v17.0.1 of [*Microsoft Visual Studio Community 2022*](https://www.visualstudio.com/vs/).
+* *DOOM Retro* now uses [*SDL v2.0.18*](https://www.libsdl.org).
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * *DOOM Retro* now supports [*MBF21*](https://doomwiki.org/wiki/MBF21)-compatible maps and mods.
 * *DOOM Retro* will no longer crash at startup when trying to load a PWAD containing a PNG lump.
