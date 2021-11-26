@@ -76,6 +76,18 @@ typedef struct
     int                 absolute_time;
 } win_midi_track_t;
 
+static const int volume_correction[] =
+{
+      0,   4,   7,  11,  13,  14,  16,  18,  21,  22,  23,  24,  24,  24,  25,  25,
+     25,  26,  26,  27,  27,  27,  28,  28,  29,  29,  29,  30,  30,  31,  31,  32,
+     32,  32,  33,  33,  34,  34,  35,  35,  36,  37,  37,  38,  38,  39,  39,  40,
+     40,  41,  42,  42,  43,  43,  44,  45,  45,  46,  47,  47,  48,  49,  49,  50,
+     51,  52,  52,  53,  54,  55,  56,  56,  57,  58,  59,  60,  61,  62,  62,  63,
+     64,  65,  66,  67,  68,  69,  70,  71,  72,  73,  74,  75,  77,  78,  79,  80,
+     81,  82,  84,  85,  86,  87,  89,  90,  91,  92,  94,  95,  96,  98,  99, 101,
+    102, 104, 105, 107, 108, 110, 112, 113, 115, 117, 118, 120, 122, 123, 125, 127
+};
+
 static float    volume_factor = 1.0f;
 
 // Save the last volume for each MIDI channel.
@@ -124,7 +136,7 @@ static void FillBuffer(void)
             int volume = MIDIEVENT_VOLUME(event->dwEvent);
 
             channel_volume[MIDIEVENT_CHANNEL(event->dwEvent)] = volume;
-            volume = (int)((float)volume * volume_factor);
+            volume = volume_correction[(int)((float)volume * volume_factor)];
             event->dwEvent = ((event->dwEvent & 0xFF00FFFF) | ((volume & 0x7F) << 16));
         }
 
@@ -226,6 +238,7 @@ static void MIDItoStream(midi_file_t *file)
 
         if (!MIDI_GetNextEvent(tracks[idx].iter, &event))
         {
+            free(tracks[idx].iter);
             tracks[idx].iter = NULL;
             continue;
         }
@@ -313,7 +326,7 @@ void I_Windows_SetMusicVolume(int volume)
     // Send MIDI controller events to adjust the volume.
     for (int i = 0; i < MIDI_CHANNELS_PER_TRACK; i++)
     {
-        int     value = (int)((float)channel_volume[i] * volume_factor);
+        int     value = volume_correction[(int)((float)channel_volume[i] * volume_factor)];
         DWORD   msg = (MIDI_EVENT_CONTROLLER | i | (MIDI_CONTROLLER_MAIN_VOLUME << 8) | (value << 16));
 
         midiOutShortMsg((HMIDIOUT)hMidiStream, msg);
