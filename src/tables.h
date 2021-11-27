@@ -71,8 +71,7 @@ extern fixed_t  finetangent[FINEANGLES / 2];
 typedef unsigned int    angle_t;
 
 // Effective size is 2049;
-// The +1 size is to handle the case when x == y
-//  without additional checking.
+// The +1 size is to handle the case when x == y without additional checking.
 extern angle_t  tantoangle[SLOPERANGE + 1];
 
 // MBF21: More utility functions, courtesy of Quasar (James Haley).
@@ -90,21 +89,13 @@ inline static fixed_t AngleToFixed(angle_t a)
 // [XA] Clamped angle->slope, for convenience
 inline static fixed_t AngleToSlope(int a)
 {
-    if (a > ANG90)
-        return finetangent[0];
-    else if (-a > ANG90)
-        return finetangent[FINEANGLES / 2 - 1];
-    else
-        return finetangent[(ANG90 - a) >> ANGLETOFINESHIFT];
+    return finetangent[(a > ANG90 ? 0 : (-a > ANG90 ? FINEANGLES / 2 - 1 : (ANG90 - a) >> ANGLETOFINESHIFT))];
 }
 
 // [XA] Ditto, using fixed-point-degrees input
 inline static fixed_t DegToSlope(fixed_t a)
 {
-    if (a >= 0)
-        return AngleToSlope(FixedToAngle(a));
-    else
-        return AngleToSlope(-(int)FixedToAngle(-a));
+    return AngleToSlope(a >= 0 ? FixedToAngle(a) : -(int)FixedToAngle(-a));
 }
 
 #endif
