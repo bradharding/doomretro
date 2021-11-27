@@ -1261,8 +1261,8 @@ static int D_OpenWADLauncher(void)
             }
 
 #if defined(_WIN32)
-            // if WAD doesn't exist (that is, entered manually and may be partial filename), look for best match
-            if (!M_FileExists(file))
+            // if WAD doesn't exist, it was entered manually and may be a typo, so look for best match
+            if (!M_FileExists(file) && strlen(leafname(file)) > 2)
             {
                 char    *temp1 = W_NearestFilename(folder, leafname(file));
 
@@ -1276,7 +1276,7 @@ static int D_OpenWADLauncher(void)
                     {
                         char    *temp2 = removeext(leafname(file));
 
-                        C_Warning(0, BOLD("\"%s\"") " couldn't be found so " BOLD("%s") " was loaded instead.",
+                        C_Warning(0, "\"%s\" couldn't be found so " BOLD("%s") " was loaded instead.",
                             temp2, leafname(temp1));
 
                         free(temp2);

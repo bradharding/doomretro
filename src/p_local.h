@@ -256,6 +256,7 @@ dboolean P_DoorClosed(line_t *line);
 void P_UseLines(void);
 
 dboolean P_ChangeSector(sector_t *sector, dboolean crunch);
+void P_CreateSecNodeList(mobj_t *thing, fixed_t x, fixed_t y);
 void P_FreeSecNodeList(void);
 void P_DelSeclist(msecnode_t *node);
 
