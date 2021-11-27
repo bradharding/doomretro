@@ -892,9 +892,9 @@ consolecmd_t consolecmds[] =
     CVAR_INT(weaponbob, "", int_cvars_func1, int_cvars_func2, CF_PERCENT, NOVALUEALIAS,
         "The amount the player's weapon bobs as they move (" BOLD("0%") " to " BOLD("100%") ")."),
     CVAR_BOOL(weaponbounce, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
-        "Toggles the bouncing of the player's weapon when they drop from a greater height."),
+        "Toggles the bounce of the player's weapon when they drop from a greater height."),
     CVAR_BOOL(weaponrecoil, "", bool_cvars_func1, weaponrecoil_cvar_func2, BOOLVALUEALIAS,
-        "Toggles the recoiling of the player's weapon when they fire it."),
+        "Toggles the recoil of the player's weapon when they fire it."),
 
     { "", "", null_func1, NULL, 0, 0, CF_NONE, NULL, 0, 0, 0, "", "" }
 };
@@ -7143,7 +7143,7 @@ static void thinglist_cmd_func2(char *cmd, char *parms)
     for (thinker_t *th = thinkers[th_mobj].cnext; th != &thinkers[th_mobj]; th = th->cnext)
     {
         mobj_t  *mobj = (mobj_t *)th;
-        char    name[33];
+        char    name[128];
         char    *temp1 = commify(mobj->id);
         char    *temp2;
 
