@@ -39,6 +39,7 @@
 #if defined(_WIN32)
 
 #include "SDL.h"
+#include "SDL_mixer.h"
 
 #include <windows.h>
 #include <mmsystem.h>
@@ -68,7 +69,7 @@ typedef struct
     dboolean            looping;
 } win_midi_song_t;
 
-static win_midi_song_t song;
+static win_midi_song_t  song;
 
 typedef struct
 {
@@ -91,7 +92,7 @@ static const int volume_correction[] =
 static float    volume_factor = 1.0f;
 
 // Save the last volume for each MIDI channel.
-static int channel_volume[MIDI_CHANNELS_PER_TRACK];
+static int      channel_volume[MIDI_CHANNELS_PER_TRACK];
 
 // Macros for use with the Windows MIDIEVENT dwEvent field.
 #define MIDIEVENT_CHANNEL(x)    (x & 0x0000000F)
@@ -149,8 +150,8 @@ static void FillBuffer(void)
 // Queue MIDI events.
 static void StreamOut(void)
 {
-    MIDIHDR     *hdr = &buffer.MidiStreamHdr;
-    int         num_events = buffer.num_events;
+    MIDIHDR *hdr = &buffer.MidiStreamHdr;
+    int     num_events = buffer.num_events;
 
     if (!num_events)
         return;
@@ -162,7 +163,8 @@ static void StreamOut(void)
 }
 
 // midiStream callback.
-static void CALLBACK MidiStreamProc(HMIDIIN hMidi, UINT uMsg, DWORD_PTR dwInstance, DWORD_PTR dwParam1, DWORD_PTR dwParam2)
+static void CALLBACK MidiStreamProc(HMIDIIN hMidi, UINT uMsg,
+    DWORD_PTR dwInstance, DWORD_PTR dwParam1, DWORD_PTR dwParam2)
 {
     if (uMsg == MOM_DONE)
         SetEvent(hBufferReturnEvent);
@@ -297,8 +299,8 @@ static void MIDItoStream(midi_file_t *file)
 
 dboolean I_Windows_InitMusic(void)
 {
-    UINT        MidiDevice = MIDI_MAPPER;
-    MIDIHDR     *hdr = &buffer.MidiStreamHdr;
+    UINT    MidiDevice = MIDI_MAPPER;
+    MIDIHDR *hdr = &buffer.MidiStreamHdr;
 
     if (midiStreamOpen(&hMidiStream, &MidiDevice, (DWORD)1, (DWORD_PTR)MidiStreamProc,
         (DWORD_PTR)NULL, CALLBACK_FUNCTION) != MMSYSERR_NOERROR)
@@ -321,7 +323,7 @@ dboolean I_Windows_InitMusic(void)
 
 void I_Windows_SetMusicVolume(int volume)
 {
-    volume_factor = (float)volume / 127.0f;
+    volume_factor = (float)volume / (MIX_MAX_VOLUME - 1);
 
     // Send MIDI controller events to adjust the volume.
     for (int i = 0; i < MIDI_CHANNELS_PER_TRACK; i++)
@@ -410,7 +412,7 @@ void I_Windows_UnregisterSong(void)
 
 void I_Windows_ShutdownMusic(void)
 {
-    MIDIHDR     *hdr = &buffer.MidiStreamHdr;
+    MIDIHDR *hdr = &buffer.MidiStreamHdr;
 
     I_Windows_StopSong();
 

@@ -509,8 +509,8 @@ unsigned int MIDI_GetDeltaTime(midi_track_iter_t *iter)
 
         return next_event->delta_time;
     }
-    else
-        return 0;
+
+    return 0;
 }
 
 // Get a pointer to the next MIDI event.
@@ -523,8 +523,8 @@ dboolean MIDI_GetNextEvent(midi_track_iter_t *iter, midi_event_t **event)
 
         return true;
     }
-    else
-        return false;
+    
+    return false;
 }
 
 unsigned int MIDI_GetFileTimeDivision(midi_file_t *file)
@@ -534,8 +534,8 @@ unsigned int MIDI_GetFileTimeDivision(midi_file_t *file)
     // Negative time division indicates SMPTE time and must be handled differently.
     if (result < 0)
         return ((signed int)(-result / 256) * (signed int)(result & 0xFF));
-    else
-        return result;
+
+    return result;
 }
 
 #endif
