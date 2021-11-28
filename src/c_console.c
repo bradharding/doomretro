@@ -1251,7 +1251,7 @@ void C_Drawer(void)
     if (consoleheight)
     {
         int             i;
-        int             x = CONSOLETEXTX;
+        int             x = CONSOLEINPUTX;
         int             y = CONSOLELINEHEIGHT * (CONSOLELINES - 1) - CONSOLELINEHEIGHT / 2 + 1;
         int             bottomline = (outputhistory == -1 ? consolestrings : outputhistory + CONSOLELINES) - 1;
         int             len;
@@ -1469,7 +1469,7 @@ void C_Drawer(void)
             if (partialinput[0] != '\0')
             {
                 consoletextfunc = &V_DrawConsoleOutputTextPatch;
-                x += C_DrawConsoleText(x, CONSOLEHEIGHT - 17, partialinput, consoleinputcolor,
+                x += C_DrawConsoleText(x, CONSOLEINPUTY, partialinput, consoleinputcolor,
                     NOBACKGROUNDCOLOR, NOBOLDCOLOR, NULL, notabs, false, true, 0);
             }
 
@@ -1485,19 +1485,19 @@ void C_Drawer(void)
                 {
                     for (i = 1; i < CONSOLELINEHEIGHT - 1; i++)
                     {
-                        int yy = CONSOLEHEIGHT - 17 + i - (CONSOLEHEIGHT - consoleheight);
+                        int yy = CONSOLEINPUTY + i - (CONSOLEHEIGHT - consoleheight);
 
                         if (yy >= CONSOLETOP)
                             screens[0][yy * SCREENWIDTH + x - 1] = consoleselectedinputbackgroundcolor;
                     }
 
                     consoletextfunc = &V_DrawConsoleInputTextPatch;
-                    x += C_DrawConsoleText(x, CONSOLEHEIGHT - 17, partialinput, consoleselectedinputcolor,
+                    x += C_DrawConsoleText(x, CONSOLEINPUTY, partialinput, consoleselectedinputcolor,
                              consoleselectedinputbackgroundcolor, NOBOLDCOLOR, NULL, notabs, false, true, 0);
 
                     for (i = 1; i < CONSOLELINEHEIGHT - 1; i++)
                     {
-                        int yy = CONSOLEHEIGHT - 17 + i - (CONSOLEHEIGHT - consoleheight);
+                        int yy = CONSOLEINPUTY + i - (CONSOLEHEIGHT - consoleheight);
 
                         if (yy >= CONSOLETOP)
                             screens[0][yy * SCREENWIDTH + x] = consoleselectedinputbackgroundcolor;
@@ -1517,7 +1517,7 @@ void C_Drawer(void)
 
             if (showcaret)
             {
-                byte    *dest = &screens[0][(consoleheight - 17) * SCREENWIDTH + x];
+                byte    *dest = &screens[0][CONSOLEINPUTY * SCREENWIDTH + x];
 
                 for (int yy = 0; yy < 14 * SCREENWIDTH; yy += SCREENWIDTH)
                 {
@@ -1546,19 +1546,19 @@ void C_Drawer(void)
             {
                 for (i = 1; i < CONSOLELINEHEIGHT - 1; i++)
                 {
-                    int yy = CONSOLEHEIGHT - 17 + i - (CONSOLEHEIGHT - consoleheight);
+                    int yy = CONSOLEINPUTY + i - (CONSOLEHEIGHT - consoleheight);
 
                     if (yy >= CONSOLETOP)
                         screens[0][yy * SCREENWIDTH + x - 1] = consoleselectedinputbackgroundcolor;
                 }
 
                 consoletextfunc = &V_DrawConsoleInputTextPatch;
-                x += C_DrawConsoleText(x, CONSOLEHEIGHT - 17, partialinput, consoleselectedinputcolor,
+                x += C_DrawConsoleText(x, CONSOLEINPUTY, partialinput, consoleselectedinputcolor,
                     consoleselectedinputbackgroundcolor, NOBOLDCOLOR, NULL, notabs, false, true, 0);
 
                 for (i = 1; i < CONSOLELINEHEIGHT - 1; i++)
                 {
-                    int yy = CONSOLEHEIGHT - 17 + i - (CONSOLEHEIGHT - consoleheight);
+                    int yy = CONSOLEINPUTY + i - (CONSOLEHEIGHT - consoleheight);
 
                     if (yy >= CONSOLETOP)
                         screens[0][yy * SCREENWIDTH + x] = consoleselectedinputbackgroundcolor;
@@ -1579,7 +1579,7 @@ void C_Drawer(void)
             if (partialinput[0] != '\0')
             {
                 consoletextfunc = &V_DrawConsoleOutputTextPatch;
-                C_DrawConsoleText(x, CONSOLEHEIGHT - 17, partialinput, consoleinputcolor,
+                C_DrawConsoleText(x, CONSOLEINPUTY, partialinput, consoleinputcolor,
                     NOBACKGROUNDCOLOR, NOBOLDCOLOR, NULL, notabs, false, true, 0);
             }
         }

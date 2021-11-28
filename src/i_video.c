@@ -2029,7 +2029,9 @@ void I_InitGraphics(void)
         SDL_setenv("SDL_VIDEODRIVER", vid_driver, true);
 #endif
 
-    SDL_InitSubSystem(SDL_INIT_VIDEO);
+    if (SDL_InitSubSystem(SDL_INIT_VIDEO))
+        I_SDLError(SDL_InitSubSystem);
+
     GetDisplays();
 
 #if defined(_DEBUG)
@@ -2039,7 +2041,8 @@ void I_InitGraphics(void)
     I_GetScreenDimensions();
 
 #if defined(_WIN32)
-    SDL_SetHintWithPriority(SDL_HINT_VIDEO_MINIMIZE_ON_FOCUS_LOSS, "1", SDL_HINT_OVERRIDE);
+    if (!(SDL_SetHintWithPriority(SDL_HINT_VIDEO_MINIMIZE_ON_FOCUS_LOSS, "1", SDL_HINT_OVERRIDE)))
+        I_SDLError(SDL_SetHintWithPriority);
 #endif
 
     SetVideoMode(true, true);
