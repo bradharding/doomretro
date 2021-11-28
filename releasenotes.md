@@ -9,8 +9,10 @@
 * *DOOM Retro* now supports [*MBF21*](https://doomwiki.org/wiki/MBF21)-compatible maps and mods.
 * *DOOM Retro* no longer crashes at startup when trying to load a PWAD containing a PNG lump.
 * A bug is fixed whereby `.deh`, `.bex` and `.cfg` files wouldn’t load if selected in the WAD launcher.
+* If a typo is made when the player enters a filename in the WAD launcher, and *DOOM Retro* is unable to find what they intended, that filename now remains when the launcher reopens so the player may correct it.
 * The file `midiproc.exe` that allows the music volume to be adjusted independently of the sound effects volume is no longer necessary and therefore no longer distributed with *DOOM Retro*.
 * Several changes have been made to text that is output to the console.
+* Minor improvements have been made to the positioning of the input and branding in the console.
 * Further improvements have been made to the support of [*Chex Quest*](https://doomwiki.org/wiki/Chex_Quest), [*Freedoom*](https://freedoom.github.io/), [*REKKR*](http://manbitesshark.com/) and [*REKKR: Sunken Land*](https://store.steampowered.com/app/1715690/REKKR_Sunken_Land/).
 * The `r_berserkintensity` CVAR is renamed `r_berserkeffect` and is now `3` rather than `2` by default.
 * The red effect when the player is injured can now be toggled using the new `r_damageeffect` CVAR, which is both `on` by default and when vanilla mode is enabled.
@@ -22,7 +24,8 @@
 * The player no longer grunts when trying to open a door that is currently open.
 * The player now smoothly slides against two-sided textures.
 * Minor improvements have been made to the alternate widescreen HUD.
-* Several improvements have been made to the support of `DEHACKED` and `MAPINFO` lumps.
+* Things altered in `DEHACKED` lumps will now always behave correctly.
+* Scrolling skies specified in `MAPINFO` lumps are now smoother.
 * The number of times the automap and the console have been opened are now displayed by the `playerstats` CCMD.
 * Player messages are now always grouped in the console, regardless of the time between them, when the `groupmessages` CVAR is `on`.
 * The behavior of friendly monsters has improved. They no longer always crowd the player when there are no other monsters nearby.
