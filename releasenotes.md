@@ -9,7 +9,7 @@
 * *DOOM Retro* now supports [*MBF21*](https://doomwiki.org/wiki/MBF21)-compatible maps and mods.
 * *DOOM Retro* no longer crashes at startup when trying to load a PWAD containing a PNG lump.
 * A bug is fixed whereby `.deh`, `.bex` and `.cfg` files wouldn’t load if selected in the WAD launcher.
-* If a typo is made when the player enters a filename in the WAD launcher, and *DOOM Retro* is unable to find what they intended, that filename now remains when the launcher reopens so the player may correct it.
+* If the player makes a typo when entering a filename in the WAD launcher, and *DOOM Retro* is unable to find what they intended, that filename now remains when the launcher reopens so the player may easily correct it.
 * The file `midiproc.exe` that allows the music volume to be adjusted independently of the sound effects volume is no longer necessary and therefore no longer distributed with *DOOM Retro*.
 * Several changes have been made to text that is output to the console.
 * Minor improvements have been made to the positioning of the input and branding in the console.
@@ -17,7 +17,7 @@
 * The `r_berserkintensity` CVAR is renamed `r_berserkeffect` and is now `3` rather than `2` by default.
 * The red effect when the player is injured can now be toggled using the new `r_damageeffect` CVAR, which is both `on` by default and when vanilla mode is enabled.
 * The red effect when the player is injured is now also smoother when the new `r_damageeffect` CVAR is `on`.
-* If the player is injured when the `r_blood` CVAR is `green` and the new `r_damageeffect` CVAR is `on`, the screen now flashes green accordingly.
+* If the player is injured when the `r_blood` CVAR is `green` and the new `r_damageeffect` CVAR is `on`, the screen now flashes green.
 * The gold effect when the player picks up an item can now be toggled using the new `r_pickupeffect` CVAR, which is both `on` by default and when vanilla mode is enabled.
 * The green effect when the player has a radiation shielding suit power-up can now be toggled using the new `r_radsuiteffect` CVAR, which is both `on` by default and when vanilla mode is enabled. If this CVAR is `off`, the screen flashes green to indicate when the power-up is about to run out.
 * Fixing a possible oversight in *Vanilla DOOM*, if the player picks up a megasphere when they have 200% green armor, that armor is now upgraded to blue armor.
@@ -26,7 +26,7 @@
 * Minor improvements have been made to the alternate widescreen HUD.
 * Things altered in `DEHACKED` lumps will now always behave correctly.
 * Scrolling skies specified in `MAPINFO` lumps are now smoother.
-* The number of times the automap and the console have been opened are now displayed by the `playerstats` CCMD.
+* The number of times the automap and the console have been opened by the player are now displayed by the `playerstats` CCMD.
 * Player messages are now always grouped in the console, regardless of the time between them, when the `groupmessages` CVAR is `on`.
 * The behavior of friendly monsters has improved. They no longer always crowd the player when there are no other monsters nearby.
 * Thing triangles in the automap that represent *MBF*-compatible helper dogs are now the correct size again when using the `IDDT` cheat.

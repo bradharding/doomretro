@@ -803,7 +803,6 @@ consolecmd_t consolecmds[] =
         "The volume level of sound effects (" BOLD("0%") " to " BOLD("100%") ")."),
     CVAR_BOOL(s_stereo, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles playing sound effects in mono or stereo."),
-    CMD_CHEAT(sascha, false),
     CCMD(save, "", alive_func1, save_cmd_func2, true, SAVECMDFORMAT,
         "Saves the game to a file."),
     CVAR_INT(savegame, "", int_cvars_func1, savegame_cvar_func2, CF_NONE, NOVALUEALIAS,
@@ -895,6 +894,7 @@ consolecmd_t consolecmds[] =
         "Toggles the bounce of the player's weapon when they drop from a greater height."),
     CVAR_BOOL(weaponrecoil, "", bool_cvars_func1, weaponrecoil_cvar_func2, BOOLVALUEALIAS,
         "Toggles the recoil of the player's weapon when they fire it."),
+    CMD_CHEAT(yinghao, false),
 
     { "", "", null_func1, NULL, 0, 0, CF_NONE, NULL, 0, 0, 0, "", "" }
 };
