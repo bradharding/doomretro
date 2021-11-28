@@ -1173,6 +1173,8 @@ static dboolean D_CheckParms(void)
 }
 
 #if defined(_WIN32) || defined(__APPLE__)
+static char *invalidwad;
+
 static int D_OpenWADLauncher(void)
 {
     int             iwadfound = -1;
@@ -1185,7 +1187,7 @@ static int D_OpenWADLauncher(void)
     ZeroMemory(&ofn, sizeof(ofn));
     ofn.lStructSize = sizeof(ofn);
     ofn.hwndOwner = NULL;
-    M_StringCopy(szFile, wad, sizeof(szFile));
+    M_StringCopy(szFile, (invalidwad ? invalidwad : wad), sizeof(szFile));
     ofn.lpstrFile = szFile;
     ofn.nMaxFile = sizeof(szFile);
     ofn.lpstrFilter = "IWAD and/or PWAD(s) (*.wad)\0*.WAD;*.IWAD;*.PWAD;*.DEH;*.BEX;*.CFG\0";
@@ -1261,13 +1263,16 @@ static int D_OpenWADLauncher(void)
             }
 
 #if defined(_WIN32)
-            // if WAD doesn't exist, it was entered manually and may be a typo, so look for best match
+            // if WAD doesn't exist, it was entered manually and there may be a typo, so look for best match
             if (!M_FileExists(file) && strlen(leafname(file)) > 2)
             {
                 char    *temp1 = W_NearestFilename(folder, leafname(file));
 
                 if (!temp1)
+                {
                     error = true;
+                    invalidwad = M_StringDuplicate((char *)ofn.lpstrFile);
+                }
                 else
                 {
                     guess = true;
