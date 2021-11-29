@@ -28,7 +28,9 @@
 * Scrolling skies specified in `MAPINFO` lumps are now smoother.
 * The number of times the automap and the console have been opened by the player are now displayed by the `playerstats` CCMD.
 * Player messages are now always grouped in the console, regardless of the time between them, when the `groupmessages` CVAR is `on`.
-* The behavior of friendly monsters has improved. They no longer always crowd the player when there are no other monsters nearby.
+* The following improvements have been made to friendly monsters:
+  * Friendly monsters no longer always crowd the player when there are no other monsters nearby.
+  * Other monsters will now target friendly monsters when they see them.
 * Thing triangles in the automap that represent *MBF*-compatible helper dogs are now the correct size again when using the `IDDT` cheat.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)

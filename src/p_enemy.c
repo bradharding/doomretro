@@ -830,7 +830,7 @@ static dboolean P_LookForPlayer(mobj_t *actor, dboolean allaround)
 
 static dboolean P_LookForTargets(mobj_t *actor, int allaround)
 {
-    if ((actor->flags & MF_FRIEND) && P_LookForMonsters(actor))
+    if (P_LookForMonsters(actor))
         return true;
 
     return P_LookForPlayer(actor, allaround);
