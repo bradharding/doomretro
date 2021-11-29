@@ -6644,12 +6644,14 @@ static void spawn_cmd_func2(char *cmd, char *parms)
                 {
                     angle_t angle = R_PointToAngle2(x, y, viewx, viewy);
                     int     flags = thing->flags;
+                    mobj_t  *fog;
 
                     thing->angle = angle;
                     thing->id = thingid++;
 
                     if (flags & MF_SHOOTABLE)
                     {
+
                         if (spawncmdfriendly)
                         {
                             thing->flags |= MF_FRIEND;
@@ -6662,14 +6664,14 @@ static void spawn_cmd_func2(char *cmd, char *parms)
                         if (flags & MF_NOGRAVITY)
                         {
                             thing->z = 32 * FRACUNIT;
-                            thing = P_SpawnMobj(x, y, 32 * FRACUNIT, MT_TFOG);
+                            fog = P_SpawnMobj(x, y, 32 * FRACUNIT, MT_TFOG);
                         }
                         else
-                            thing = P_SpawnMobj(x, y, ONFLOORZ, MT_TFOG);
+                            fog = P_SpawnMobj(x, y, ONFLOORZ, MT_TFOG);
 
                         massacre = false;
 
-                        S_StartSound(thing, sfx_telept);
+                        S_StartSound(fog, sfx_telept);
                     }
                     else
                     {
@@ -6679,13 +6681,14 @@ static void spawn_cmd_func2(char *cmd, char *parms)
                             M_SaveCVARs();
                         }
 
-                        thing = P_SpawnMobj(x, y, ((flags & MF_SPAWNCEILING) ? ONCEILINGZ :
+                        fog = P_SpawnMobj(x, y, ((flags & MF_SPAWNCEILING) ? ONCEILINGZ :
                             ((thing->flags2 & MF2_FLOATBOB) ? thing->floorz + 14 * FRACUNIT : ONFLOORZ)), MT_IFOG);
 
-                        S_StartSound(thing, sfx_itmbk);
+                        S_StartSound(fog, sfx_itmbk);
                     }
 
                     thing->angle = ANG45 * (angle / 45);
+                    fog->angle = thing->angle;
 
                     C_PlayerMessage("%s spawned %s %s%s.",
                         (M_StringCompare(playername, playername_default) ? "You" : playername),
