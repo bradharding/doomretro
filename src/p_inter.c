@@ -2300,12 +2300,23 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
         if (tplayer->mo == target)
             tplayer->attacker = source;
 
-        damagecount = tplayer->damagecount + damage;            // add damage after armor/invuln
+        if (tplayer->health <= 0)
+        {
+            tplayer->damagecount = 100;
+            P_KillMobj(target, inflicter, source);
 
-        if (damage > 0 && damagecount < 8)
-             damagecount = 8;
+            if (tplayer->health < health_min)
+                tplayer->health = health_min;
+        }
+        else
+        {
+            damagecount = tplayer->damagecount + damage;            // add damage after armor/invuln
 
-        tplayer->damagecount = MIN(damagecount, ((cheats & CF_GODMODE) ? 30 : 100));
+            if (damage > 0 && damagecount < 8)
+                damagecount = 8;
+
+            tplayer->damagecount = MIN(damagecount, ((cheats & CF_GODMODE) ? 30 : 100));
+        }
 
         if (r_shake_damage)
             I_UpdateBlitFunc(tplayer->damagecount);
@@ -2317,14 +2328,7 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
         }
 
         if (tplayer->health <= 0)
-        {
-            P_KillMobj(target, inflicter, source);
-
-            if (tplayer->health < health_min)
-                tplayer->health = health_min;
-
             return;
-        }
     }
     else
     {
