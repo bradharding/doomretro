@@ -990,7 +990,7 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
 
                 if (letter == '\'')
                 {
-                    if (!i || !isalnum(prevletter))
+                    if (!i || (!isalnum(prevletter) && prevletter != '\''))
                     {
                         patch = lsquote;
 

@@ -116,7 +116,7 @@ static uint8_t MUS2MIDcontrol[15] =
     0x79    // Reset all controllers
 };
 
-// some strings of bytes used in the midi format
+// some strings of bytes used in the MIDI format
 static uint8_t  midikey[] = { 0x00, 0xFF, 0x59, 0x02, 0x00, 0x00 };                 // C major
 static uint8_t  miditempo[] = { 0x00, 0xFF, 0x51, 0x03, 0x09, 0xA3, 0x1A };         // uS/qnote
 static uint8_t  midihdr[] = { 'M', 'T', 'h', 'd', 0, 0, 0, 6, 0, 1, 0, 0, 0, 0 };   // header (length 6, format 1)
@@ -155,12 +155,12 @@ static void TWriteByte(MIDI *mididata, int MIDItrack, unsigned char byte)
 //
 // TWriteVarLen()
 //
-// write the uint32_t value to MIDItrack track, in midi format, which is
+// write the uint32_t value to MIDItrack track, in MIDI format, which is
 // big endian, 7 bits per byte, with all bytes but the last flagged by
 // bit 8 being set, allowing the length to vary.
 //
 // Passed the Allegro MIDI structure, the track number to write,
-// and the uint32_t value to encode in midi format there
+// and the uint32_t value to encode in MIDI format there
 //
 static void TWriteVarLen(MIDI *mididata, int MIDItrack, uint32_t value)
 {
@@ -241,7 +241,7 @@ static char FirstChannelAvailable(signed char MUS2MIDchannel[MIDI_TRACKS])
 // unless its the same as the last event code and compression is enabled
 // in which case nothing is written.
 //
-// Passed the Allegro MIDI structure, the midi event code, the current
+// Passed the Allegro MIDI structure, the MIDI event code, the current
 // MIDI channel number, the current MIDI track number, and whether compression
 // (running status) is enabled.
 //
@@ -344,12 +344,12 @@ dboolean mmus2mid(uint8_t *mus, size_t size, MIDI *mididata)
     }
 
     // allocate the first track which is a special tempo/key track
-    // note multiple tracks means midi format 1
+    // note multiple tracks means MIDI format 1
 
     // set the divisions (tics per quarter note)
     mididata->divisions = 89;
 
-    // allocate for midi tempo/key track, allow for end of track
+    // allocate for MIDI tempo/key track, allow for end of track
     mididata->track[0].data = (unsigned char *)I_Realloc(mididata->track[0].data, sizeof(midikey) + sizeof(miditempo) + 4);
 
     // key C major
@@ -521,11 +521,11 @@ dboolean mmus2mid(uint8_t *mus, size_t size, MIDI *mididata)
 //
 // TWriteLength()
 //
-// Write the length of a MIDI chunk to a midi buffer. The length is four
+// Write the length of a MIDI chunk to a MIDI buffer. The length is four
 // bytes and is written byte-reversed for bigendian. The pointer to the
-// midi buffer is advanced.
+// MIDI buffer is advanced.
 //
-// Passed a pointer to the pointer to a midi buffer, and the length to write
+// Passed a pointer to the pointer to a MIDI buffer, and the length to write
 // Returns nothing
 //
 static void TWriteLength(uint8_t **midiptr, size_t length)
@@ -540,11 +540,11 @@ static void TWriteLength(uint8_t **midiptr, size_t length)
 //
 // MIDIToMidi()
 //
-// This routine converts an Allegro MIDI structure to a midi 1 format file
+// This routine converts an Allegro MIDI structure to a MIDI 1 format file
 // in memory. It is used to support memory MUS -> MIDI conversion
 //
 // Passed a pointer to an Allegro MIDI structure, a pointer to a pointer to
-// a buffer containing midi data, and a pointer to a length return.
+// a buffer containing MIDI data, and a pointer to a length return.
 //
 void MIDIToMidi(const MIDI *mididata, uint8_t **mid, int *midlen)
 {
@@ -570,7 +570,7 @@ void MIDIToMidi(const MIDI *mididata, uint8_t **mid, int *midlen)
     midihdr[12] = ((mididata->divisions >> 8) & 0x7F);
     midihdr[13] = (mididata->divisions & 0xFF);
 
-    // write the midi header
+    // write the MIDI header
     midiptr = *mid;
     memcpy(midiptr, midihdr, sizeof(midihdr));
     midiptr += sizeof(midihdr);
@@ -591,7 +591,7 @@ void MIDIToMidi(const MIDI *mididata, uint8_t **mid, int *midlen)
 }
 
 //
-// Frees all midi data allocated
+// Frees all MIDI data allocated
 //
 void FreeMIDIData(MIDI *mididata)
 {

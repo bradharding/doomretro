@@ -43,7 +43,7 @@
 
 #define MIDI_TRACKS 32
 
-typedef struct                          // a midi file
+typedef struct                          // a MIDI file
 {
     int                 divisions;      // number of tics per quarter note
 
