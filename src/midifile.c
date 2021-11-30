@@ -523,7 +523,7 @@ dboolean MIDI_GetNextEvent(midi_track_iter_t *iter, midi_event_t **event)
 
         return true;
     }
-    
+
     return false;
 }
 
