@@ -121,10 +121,11 @@ void I_SetMusicVolume(int volume)
     current_music_volume = volume;
 
 #if defined(_WIN32)
-    I_Windows_SetMusicVolume(current_music_volume);
+    if (midimusictype && windowsmidi)
+        I_Windows_SetMusicVolume(current_music_volume);
+    else
 #endif
-
-    Mix_VolumeMusic(current_music_volume);
+        Mix_VolumeMusic(current_music_volume / 2);
 }
 
 // Start playing a mid

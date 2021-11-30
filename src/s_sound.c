@@ -676,6 +676,8 @@ void S_ChangeMusic(int music_id, dboolean looping, dboolean allowrestart, dboole
 
     music->handle = handle;
 
+    S_SetMusicVolume(musicVolume * MIX_MAX_VOLUME / 31);
+
     // Play it
     I_PlaySong(handle, looping);
 
@@ -747,6 +749,8 @@ void S_ChangeMusInfoMusic(int lumpnum, int looping)
         }
 
     music->handle = handle;
+
+    S_SetMusicVolume(musicVolume * MIX_MAX_VOLUME / 31);
 
     // play it
     I_PlaySong(handle, looping);
