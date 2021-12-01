@@ -235,7 +235,6 @@ typedef struct player_s
     int             infightcount;
     int             resurrectioncount;
     int             automapopened;
-    int             consoleopened;
 } player_t;
 
 //

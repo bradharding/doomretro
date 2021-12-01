@@ -28,7 +28,7 @@
 * Minor improvements have been made to the alternate widescreen HUD.
 * Things altered in `DEHACKED` lumps will now always behave correctly.
 * Scrolling skies specified in `MAPINFO` lumps are now smoother.
-* The number of times the automap and the console have been opened by the player are now displayed by the `playerstats` CCMD.
+* The number of times the automap is opened by the player is now displayed by the `playerstats` CCMD.
 * Player messages are now always grouped in the console, regardless of the time between them, when the `groupmessages` CVAR is `on`.
 * The behavior of friendly monsters has improved. They no longer always crowd the player when there are no other monsters nearby.
 * Thing triangles in the automap that represent *MBF*-compatible helper dogs are now the correct size again when using the `IDDT` cheat.

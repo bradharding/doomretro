@@ -223,7 +223,6 @@ static default_t cvars[NUMCVARS] =
     CONFIG_VARIABLE_INT_UNSIGNED (automapopened,                    stat_automapopened,                    stat_automapopened,                    NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT_UNSIGNED (barrelsexploded,                  stat_barrelsexploded,                  stat_barrelsexploded,                  NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT_UNSIGNED (cheated,                          stat_cheated,                          stat_cheated,                          NOVALUEALIAS          ),
-    CONFIG_VARIABLE_INT_UNSIGNED (consoleopened,                    stat_consoleopened,                    stat_consoleopened,                    NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT_UNSIGNED (damageinflicted,                  stat_damageinflicted,                  stat_damageinflicted,                  NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT_UNSIGNED (damagereceived,                   stat_damagereceived,                   stat_damagereceived,                   NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT_UNSIGNED (deaths,                           stat_deaths,                           stat_deaths,                           NOVALUEALIAS          ),
