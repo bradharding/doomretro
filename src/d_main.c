@@ -1279,11 +1279,9 @@ static int D_OpenWADLauncher(void)
 
                     if (!M_StringEndsWith(temp1, leafname(file)))
                     {
-                        char    *temp2 = removeext(leafname(file));
+                        char    *temp2 = leafname((char *)ofn.lpstrFile);
 
-                        C_Warning(0, "\"%s\" couldn't be found so " BOLD("%s") " was loaded instead.",
-                            temp2, leafname(temp1));
-
+                        C_Warning(0, "\"%s\" couldn't be found. So " BOLD("%s") " was loaded instead.", temp2, leafname(temp1));
                         free(temp2);
                     }
 

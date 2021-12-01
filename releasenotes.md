@@ -9,11 +9,11 @@
 * *DOOM Retro* now supports [*MBF21*](https://doomwiki.org/wiki/MBF21)-compatible maps and mods.
 * *DOOM Retro* no longer crashes at startup when trying to load a PWAD containing a PNG lump.
 * A bug is fixed whereby `.deh`, `.bex` and `.cfg` files wouldn’t load if selected in the WAD launcher.
-* If the player makes a typo when entering a filename in the WAD launcher, and *DOOM Retro* is unable to find what they intended, that filename now remains when the launcher reopens so the player may easily correct it.
+* If the player makes a typo when entering a filename in the WAD launcher, and *DOOM Retro* is unable to find what they intended, that text now remains when the launcher reopens so the player may easily correct it.
 * The file `midiproc.exe` that allows the volume of MIDI music to be adjusted independently of the sound effects volume is no longer necessary and therefore no longer distributed with *DOOM Retro*.
 * The volume of non-MIDI music has been lowered to be consistent with the volume of MIDI music.
 * Several changes have been made to text that is output to the console.
-* Minor improvements have been made to the positioning of the input and branding in the console.
+* Minor changes have been made to the positioning of the input and branding in the console.
 * Further improvements have been made to the support of [*Chex Quest*](https://doomwiki.org/wiki/Chex_Quest), [*Freedoom*](https://freedoom.github.io/), [*REKKR*](http://manbitesshark.com/) and [*REKKR: Sunken Land*](https://store.steampowered.com/app/1715690/REKKR_Sunken_Land/).
 * The `r_berserkintensity` CVAR is renamed `r_berserkeffect` and is now `3` rather than `2` by default.
 * The red effect when the player is injured can now be toggled using the new `r_damageeffect` CVAR, which is both `on` by default and when vanilla mode is enabled.
