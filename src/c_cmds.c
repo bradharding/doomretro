@@ -8376,6 +8376,7 @@ static void r_color_cvar_func2(char *cmd, char *parms)
 
     if (r_color != r_color_old)
     {
+        D_FadeScreen(false);
         I_SetPalette(&PLAYPAL[st_palette * 768]);
         M_SaveCVARs();
     }
