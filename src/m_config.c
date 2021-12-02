@@ -52,8 +52,6 @@
 
 static dboolean cvarsloaded;
 
-#define NUMCVARS                                                213
-
 #define CONFIG_VARIABLE_INT(name1, name2, cvar, set)            { #name1, #name2, &cvar, DEFAULT_INT32,         set          }
 #define CONFIG_VARIABLE_INT_UNSIGNED(name1, name2, cvar, set)   { #name1, #name2, &cvar, DEFAULT_UINT64,        set          }
 #define CONFIG_VARIABLE_INT_PERCENT(name1, name2, cvar, set)    { #name1, #name2, &cvar, DEFAULT_INT32_PERCENT, set          }
@@ -64,7 +62,7 @@ static dboolean cvarsloaded;
 #define BLANKLINE                                               { "",     "",     NULL,  DEFAULT_OTHER,         NOVALUEALIAS }
 #define COMMENT(text)                                           { text,   "",     NULL,  DEFAULT_OTHER,         NOVALUEALIAS }
 
-static default_t cvars[NUMCVARS] =
+static default_t cvars[] =
 {
     COMMENT("; CVARs\n"),
     CONFIG_VARIABLE_INT          (alwaysrun,                        alwaysrun,                             alwaysrun,                             BOOLVALUEALIAS        ),
@@ -351,7 +349,7 @@ void M_SaveCVARs(void)
         return;
     }
 
-    for (int i = 0; i < NUMCVARS; i++)
+    for (int i = 0; i < arrlen(cvars); i++)
     {
         if (!*cvars[i].name)
         {
@@ -1099,7 +1097,7 @@ void M_LoadCVARs(char *filename)
         }
 
         // Find the setting in the list
-        for (int i = 0; i < NUMCVARS; i++)
+        for (int i = 0; i < arrlen(cvars); i++)
         {
             if (!M_StringCompare(cvar, cvars[i].name) && !M_StringCompare(cvar, cvars[i].oldname))
                 continue;       // not this one
