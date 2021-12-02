@@ -2488,10 +2488,6 @@ static void D_DoomMainSetup(void)
 #endif
     }
 
-    seconds = striptrailingzero((I_GetTimeMS() - startuptimer) / 1000.0f, 1);
-    C_Output("Startup took %s second%s to complete.", seconds, (M_StringCompare(seconds, "1") ? "" : "s"));
-    free(seconds);
-
     // Ty 04/08/98 - Add 5 lines of misc. data, only if non-blank
     // The expectation is that these will be set in a .bex file
     if ((*startup1 || *startup2 || *startup3 || *startup4 || *startup5) && !FREEDOOM)
@@ -2513,6 +2509,10 @@ static void D_DoomMainSetup(void)
         if (*startup5)
             D_ParseStartupString(startup5);
     }
+
+    seconds = striptrailingzero((I_GetTimeMS() - startuptimer) / 1000.0f, 1);
+    C_Output("Startup took %s second%s to complete.", seconds, (M_StringCompare(seconds, "1") ? "" : "s"));
+    free(seconds);
 }
 
 //
