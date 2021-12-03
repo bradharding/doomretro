@@ -759,8 +759,8 @@ static void I_ReadMouse(void)
             ev.data3 = y;
         }
 
-        D_PostEvent(&ev);
         prevmousebuttonstate = mousebuttonstate;
+        D_PostEvent(&ev);
     }
 }
 

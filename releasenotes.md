@@ -5,6 +5,8 @@
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
+* Improvements have been made to the support of [*MBF21*](https://doomwiki.org/wiki/MBF21)-compatible maps and mods.
+
 ###### Friday, December 3, 2021
 
 #### DOOM Retro v4.4

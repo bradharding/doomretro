@@ -2631,12 +2631,12 @@ dboolean M_Responder(event_t *ev)
         }
     }
 
-    if (ev->type == ev_mouse && mousewait < I_GetTime())
+    if (ev->type == ev_mouse)
     {
         if (menuactive)
         {
             // activate menu item
-            if (ev->data1 & MOUSE_LEFTBUTTON)
+            if ((ev->data1 & MOUSE_LEFTBUTTON) && mousewait < I_GetTime())
             {
                 key = KEY_ENTER;
                 mousewait = I_GetTime() + 5;
@@ -2644,7 +2644,7 @@ dboolean M_Responder(event_t *ev)
             }
 
             // previous menu
-            else if (ev->data1 & MOUSE_RIGHTBUTTON)
+            else if ((ev->data1 & MOUSE_RIGHTBUTTON) && mousewait < I_GetTime())
             {
                 key = KEY_BACKSPACE;
                 mousewait = I_GetTime() + 5;
@@ -2653,7 +2653,7 @@ dboolean M_Responder(event_t *ev)
         }
 
         // screenshot
-        if (mousescreenshot != -1 && (ev->data1 & mousescreenshot))
+        if (mousescreenshot != -1 && (ev->data1 & mousescreenshot) && mousewait < I_GetTime())
         {
             mousewait = I_GetTime() + 5;
             usinggamepad = false;
