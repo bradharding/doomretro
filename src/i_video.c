@@ -108,6 +108,7 @@ int             MAPBOTTOM;
 // CVARs
 dboolean            alwaysrun = alwaysrun_default;
 dboolean            m_acceleration = m_acceleration_default;
+dboolean            m_pointer = m_pointer_default;
 int                 r_color = r_color_default;
 float               r_gamma = r_gamma_default;
 dboolean            vid_borderlesswindow = vid_borderlesswindow_default;
