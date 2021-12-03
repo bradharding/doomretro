@@ -236,7 +236,7 @@ void I_Quit(dboolean shutdown)
 
         M_SaveCVARs();
 
-        FreeSurfaces();
+        FreeSurfaces(true);
         I_ShutdownGraphics();
         I_ShutdownKeyboard();
         I_ShutdownGamepad();
@@ -276,7 +276,7 @@ void I_Error(const char *error, ...)
 
     M_SaveCVARs();
 
-    FreeSurfaces();
+    FreeSurfaces(true);
     I_ShutdownGraphics();
     I_ShutdownKeyboard();
     I_ShutdownGamepad();

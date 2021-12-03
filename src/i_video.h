@@ -57,7 +57,7 @@ dboolean GetCapsLockState(void);
 // and sets up the video mode
 void I_InitGraphics(void);
 void I_RestartGraphics(dboolean recreatewindow);
-void FreeSurfaces(void);
+void FreeSurfaces(dboolean freewindow);
 void I_ShutdownGraphics(void);
 void I_CapFPS(int cap);
 

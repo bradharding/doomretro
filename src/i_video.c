@@ -323,16 +323,20 @@ void I_CapFPS(int cap)
 #endif
 }
 
-void FreeSurfaces(void)
+void FreeSurfaces(dboolean freewindow)
 {
     SDL_FreePalette(palette);
     SDL_FreeSurface(surface);
     SDL_FreeSurface(buffer);
     SDL_DestroyTexture(texture);
     SDL_DestroyTexture(texture_upscaled);
-    SDL_DestroyRenderer(renderer);
-    SDL_DestroyWindow(window);
-    window = NULL;
+
+    if (freewindow)
+    {
+        SDL_DestroyRenderer(renderer);
+        SDL_DestroyWindow(window);
+        window = NULL;
+    }
 }
 
 void I_ShutdownGraphics(void)
@@ -1891,8 +1895,7 @@ static void I_GetScreenDimensions(void)
 
 void I_RestartGraphics(dboolean recreatewindow)
 {
-    if (recreatewindow)
-        FreeSurfaces();
+    FreeSurfaces(recreatewindow);
 
     I_GetScreenDimensions();
 
