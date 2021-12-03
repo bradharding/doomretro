@@ -2520,7 +2520,6 @@ static void D_DoomMainSetup(void)
 //
 void D_DoomMain(void)
 {
-    D_DoomMainSetup();          // CPhipps - setup out of main execution stack
-
-    D_DoomLoop();               // never returns
+    D_DoomMainSetup();  // CPhipps - setup out of main execution stack
+    D_DoomLoop();       // never returns
 }

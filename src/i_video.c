@@ -95,15 +95,15 @@ int             MAPBOTTOM;
 #define DIRECT3DVERSION "v9.0"
 #endif
 
-#define I_SDLError(func)        I_Error(stringize(func) "() failed in %s() on line %i of %s with this error:\"%s\".", \
-                                    __FUNCTION__, __LINE__ - 1, leafname(__FILE__), SDL_GetError())
+#define I_SDLError(func)    I_Error(stringize(func) "() failed in %s() on line %i of %s with this error:\"%s\".", \
+                                __FUNCTION__, __LINE__ - 1, leafname(__FILE__), SDL_GetError())
 
-#define MAXDISPLAYS             8
+#define MAXDISPLAYS         8
 
-#define MAXUPSCALEWIDTH         (2160 / VANILLAWIDTH)
-#define MAXUPSCALEHEIGHT        (1200 / VANILLAHEIGHT)
+#define MAXUPSCALEWIDTH     (2160 / VANILLAWIDTH)
+#define MAXUPSCALEHEIGHT    (1200 / VANILLAHEIGHT)
 
-#define SHAKEANGLE              ((double)M_BigRandomInt(-1000, 1000) * r_shake_damage / 100000.0)
+#define SHAKEANGLE          ((double)M_BigRandomInt(-1000, 1000) * r_shake_damage / 100000.0)
 
 // CVARs
 dboolean            alwaysrun = alwaysrun_default;
@@ -235,7 +235,7 @@ dboolean MouseShouldBeGrabbed(void)
         return false;
 
     // always grab the mouse when on splash screen (don't want to see the mouse pointer)
-    if (splashscreen)
+    if ((splashscreen && m_pointer) || (vid_fullscreen && !m_pointer))
         return true;
 
     // when menu is active or game is paused, release the mouse
@@ -742,7 +742,13 @@ static void I_ReadMouse(void)
         ev.type = ev_mouse;
         ev.data1 = mousebuttonstate;
 
-        if (m_acceleration)
+        if ((menuactive || consoleactive) && m_pointer)
+        {
+            SDL_GetMouseState(&x, &y);
+            ev.data2 = x;
+            ev.data3 = y;
+        }
+        else if (m_acceleration)
         {
             ev.data2 = AccelerateMouse(x);
             ev.data3 = AccelerateMouse(y);
