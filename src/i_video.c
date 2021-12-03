@@ -233,8 +233,8 @@ dboolean MouseShouldBeGrabbed(void)
     if (!windowfocused)
         return false;
 
-    // always grab the mouse when fullscreen (don't want to see the mouse pointer)
-    if (vid_fullscreen)
+    // always grab the mouse when on splash screen (don't want to see the mouse pointer)
+    if (splashscreen)
         return true;
 
     // when menu is active or game is paused, release the mouse
