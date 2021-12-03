@@ -675,7 +675,7 @@ static void WI_DrawTime(int x, int y, int t)
     }
     else
         // "sucks"
-        V_DrawPatchWithShadow(x + 13 - SHORT(sucks->width), y + 1, sucks, false);
+        V_DrawPatchWithShadow(SP_TIMEX + SHORT(timepatch->width) + 6, y + 1, sucks, false);
 }
 
 static void WI_UnloadData(void);
