@@ -757,6 +757,7 @@ void C_ShowConsole(void)
         D_FadeScreen(false);
     }
 
+    I_RestoreMousePointerPosition();
     S_LowerMusicVolume();
     SDL_StartTextInput();
 }
@@ -779,6 +780,7 @@ void C_HideConsole(void)
         D_FadeScreen(false);
     }
 
+    I_SaveMousePointerPosition();
     S_SetMusicVolume(musicVolume * MIX_MAX_VOLUME / 31);
 }
 
@@ -794,6 +796,7 @@ void C_HideConsoleFast(void)
     consoleheight = 0;
     consoleactive = false;
 
+    I_SaveMousePointerPosition();
     S_SetMusicVolume(musicVolume * MIX_MAX_VOLUME / 31);
 }
 

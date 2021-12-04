@@ -234,8 +234,12 @@ dboolean MouseShouldBeGrabbed(void)
     if (!windowfocused)
         return false;
 
-    // always grab the mouse when on splash screen (don't want to see the mouse pointer)
+    // grab the mouse when on the splash screen
     if ((splashscreen && m_pointer) || (vid_fullscreen && !m_pointer))
+        return true;
+
+    // grab the mouse when fading and not in the menu or console
+    if (fadecount && !(menuactive || consoleactive))
         return true;
 
     // when menu or console is active, release the mouse
@@ -728,6 +732,18 @@ static void I_GetEvent(void)
     }
 }
 
+static int  mousepointerx, mousepointery;
+
+void I_SaveMousePointerPosition(void)
+{
+    SDL_GetMouseState(&mousepointerx, &mousepointery);
+}
+
+void I_RestoreMousePointerPosition(void)
+{
+    SDL_WarpMouseInWindow(window, mousepointerx, mousepointery);
+}
+
 static void I_ReadMouse(void)
 {
     int         x, y;
@@ -787,7 +803,6 @@ static void UpdateGrab(void)
     else if (!grab && currently_grabbed)
     {
         SetShowCursor(true);
-        SDL_WarpMouseInWindow(window, windowwidth - 10 * windowwidth / SCREENWIDTH, windowheight - 16);
         SDL_GetRelativeMouseState(NULL, NULL);
     }
 
@@ -1947,9 +1962,6 @@ void I_ToggleFullscreen(void)
         displaycentery = displayheight / 2;
 
         PositionOnCurrentDisplay();
-
-        if (menuactive || consoleactive || paused || gamestate != GS_LEVEL)
-            SDL_WarpMouseInWindow(window, windowwidth - 10 * windowwidth / SCREENWIDTH, windowheight - 16);
     }
 }
 

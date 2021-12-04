@@ -3656,6 +3656,7 @@ void M_StartControlPanel(void)
     }
 
     D_FadeScreen(false);
+    I_RestoreMousePointerPosition();
 }
 
 //
@@ -3845,6 +3846,8 @@ void M_ClearMenus(void)
 
         S_SetMusicVolume(musicVolume * MIX_MAX_VOLUME / 31);
     }
+
+    I_SaveMousePointerPosition();
 }
 
 //
