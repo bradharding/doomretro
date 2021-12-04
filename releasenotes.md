@@ -5,7 +5,9 @@
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
+* Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Improvements have been made to the support of [*MBF21*](https://doomwiki.org/wiki/MBF21)-compatible maps and mods.
+* Minor improvements have been made to the support of `DEHACKED` lumps.
 
 ###### Friday, December 3, 2021
 

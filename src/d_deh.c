@@ -2344,7 +2344,7 @@ static void deh_procBexCodePointers(DEHFILE *fpin, char *line)
     char    key[DEH_MAXKEYLEN] = "";
     char    inbuffer[DEH_BUFFERMAX] = "";
     int     indexnum;
-    char    mnemonic[DEH_MAXKEYLEN] = "";   // to hold the codepointer mnemonic
+    char    mnemonic[DEH_MAXKEYLEN] = "";       // to hold the codepointer mnemonic
 
     boomcompatible = true;
 
@@ -2354,8 +2354,8 @@ static void deh_procBexCodePointers(DEHFILE *fpin, char *line)
     // for this one, we just read 'em until we hit a blank line
     while (!dehfeof(fpin) && *inbuffer && *inbuffer != ' ')
     {
-        int         i = -1;                 // looper
-        dboolean    found = false;          // know if we found this one during lookup or not
+        int         i = -1;                     // looper
+        dboolean    found = false;              // know if we found this one during lookup or not
 
         if (!dehfgets(inbuffer, sizeof(inbuffer), fpin))
             break;
@@ -2367,10 +2367,10 @@ static void deh_procBexCodePointers(DEHFILE *fpin, char *line)
 
         // killough 08/98: allow hex numbers in input:
         if ((sscanf(inbuffer, "%s %i = %s", key, &indexnum, mnemonic) != 3)
-            || !M_StringCompare(key, "FRAME"))        // NOTE: different format from normal
+            || !M_StringCompare(key, "FRAME"))  // NOTE: different format from normal
         {
             C_Warning(1, "Invalid BEX codepointer line - must start with \"FRAME\": \"%s\".", inbuffer);
-            return;     // early return
+            return;                             // early return
         }
 
         if (devparm)
@@ -2379,10 +2379,10 @@ static void deh_procBexCodePointers(DEHFILE *fpin, char *line)
         if (indexnum < 0 || indexnum >= NUMSTATES)
         {
             C_Warning(1, "Bad pointer number %i of %i.", indexnum, NUMSTATES);
-            return;     // killough 10/98: fix SegViol
+            return;                             // killough 10/98: fix SegViol
         }
 
-        strcpy(key, "A_");      // reusing the key area to prefix the mnemonic
+        strcpy(key, "A_");                      // reusing the key area to prefix the mnemonic
         strcat(key, ptr_lstrip(mnemonic));
 
         do

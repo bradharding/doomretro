@@ -2665,7 +2665,7 @@ dboolean M_Responder(event_t *ev)
             return false;
         }
     }
-    else if (ev->type == ev_mousewheel)
+    else if (ev->type == ev_mousewheel && mousewait < I_GetTime())
     {
         if (!messagetoprint)
         {
