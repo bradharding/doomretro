@@ -238,12 +238,8 @@ dboolean MouseShouldBeGrabbed(void)
     if ((splashscreen && m_pointer) || (vid_fullscreen && !m_pointer))
         return true;
 
-    // when menu is active or game is paused, release the mouse
-    if (menuactive || consoleactive || paused)
-        return false;
-
-    // only grab mouse when playing levels
-    return (gamestate == GS_LEVEL);
+    // when menu or console is active, release the mouse
+    return !(menuactive || consoleactive);
 }
 
 static void SetShowCursor(dboolean show)
