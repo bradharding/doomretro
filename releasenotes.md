@@ -3,11 +3,12 @@
 
 #### DOOM Retro v4.4.1
 
-![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
-
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Improvements have been made to the support of [*MBF21*](https://doomwiki.org/wiki/MBF21)-compatible maps and mods.
 * Minor improvements have been made to the support of `DEHACKED` lumps.
+* The screen will now flash green as a radiation shielding suit power-up is about to run out while the player also has a berserk power-up and their fists equipped.
+
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Friday, December 3, 2021
 

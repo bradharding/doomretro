@@ -1284,10 +1284,17 @@ static void ST_DoPaletteStuff(void)
 
         if (bonuscount && r_pickupeffect)
             palette = STARTBONUSPALS + MIN((bonuscount + 7) >> 3, NUMBONUSPALS) - 1;
-        else if (viewplayer->cheats & CF_GODMODE)
-            palette = r_berserkeffect * (PLAYPALs > 2 ? 1 : 2);
         else
-            palette = MIN((viewplayer->damagecount >> 3) + r_berserkeffect * (PLAYPALs > 2 ? 1 : 2), NUMREDPALS);
+        {
+            int ironfeet = viewplayer->powers[pw_ironfeet];
+
+            if (ironfeet <= STARTFLASHING && (ironfeet & 8))
+                palette = RADIATIONPAL;
+            else if (viewplayer->cheats & CF_GODMODE)
+                palette = r_berserkeffect * (PLAYPALs > 2 ? 1 : 2);
+            else
+                palette = MIN((viewplayer->damagecount >> 3) + r_berserkeffect * (PLAYPALs > 2 ? 1 : 2), NUMREDPALS);
+        }
     }
     else
     {
