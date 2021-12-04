@@ -758,7 +758,7 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL(r_playersprites, "", bool_cvars_func1, r_playersprites_cvar_func2, BOOLVALUEALIAS,
         "Toggles showing the player's weapon."),
     CVAR_BOOL(r_radsuiteffect, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
-        "Toggles the green effect when the player has a radiation shielding suit power-up."),
+        "Toggles the green effect when the player is wearing a radiation shielding suit power-up."),
     CVAR_BOOL(r_rockettrails, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles the trail of smoke behind rockets fired by the player and cyberdemons."),
     CVAR_INT(r_screensize, "", int_cvars_func1, r_screensize_cvar_func2, CF_NONE, NOVALUEALIAS,
