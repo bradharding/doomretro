@@ -2652,7 +2652,7 @@ dboolean M_Responder(event_t *ev)
             }
 
             // select menu item
-            if ((ev->data2 || ev->data3) && mousewait < I_GetTime())
+            if ((ev->data2 || ev->data3) && mousewait < I_GetTime() && !messagetoprint)
             {
                 int x = currentMenu->x + WIDESCREENDELTA;
                 int y = currentMenu->y + OFFSET;
