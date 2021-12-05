@@ -2650,6 +2650,24 @@ dboolean M_Responder(event_t *ev)
                 mousewait = I_GetTime() + 5;
                 usinggamepad = false;
             }
+
+            // select menu item
+            if (ev->data2 || ev->data3)
+            {
+                int x = currentMenu->x + WIDESCREENDELTA;
+                int y = currentMenu->y + OFFSET;
+
+                for (int i = 0; i < currentMenu->numitems; i++, y += LINEHEIGHT - 1)
+                    if (ev->data2 > x && ev->data2 < x + M_BigStringWidth(*currentMenu->menuitems[i].text)
+                        && ev->data3 > y && ev->data3 < y + LINEHEIGHT - 1)
+                    {
+                        if (itemOn != i)
+                            S_StartSound(NULL, sfx_pstop);
+
+                        itemOn = i;
+                        break;
+                    }
+            }
         }
 
         // screenshot

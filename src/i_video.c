@@ -761,8 +761,8 @@ static void I_ReadMouse(void)
         if ((menuactive || consoleactive) && m_pointer)
         {
             SDL_GetMouseState(&x, &y);
-            ev.data2 = x * SCREENWIDTH / displaywidth;
-            ev.data3 = y * SCREENHEIGHT / displayheight;
+            ev.data2 = x * SCREENWIDTH / displaywidth / SCREENSCALE;
+            ev.data3 = y * SCREENHEIGHT / displayheight / SCREENSCALE;
         }
         else if (m_acceleration)
         {
