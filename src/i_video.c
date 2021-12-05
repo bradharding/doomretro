@@ -2088,4 +2088,6 @@ void I_InitGraphics(void)
     }
 
     while (SDL_PollEvent(&dummy));
+
+    I_SaveMousePointerPosition();
 }
