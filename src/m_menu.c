@@ -2660,6 +2660,17 @@ dboolean M_Responder(event_t *ev)
                     if (ev->data2 > menuitem->x && ev->data2 < menuitem->x + menuitem->width
                         && ev->data3 > menuitem->y && ev->data3 < menuitem->y + menuitem->height)
                     {
+                        if (currentMenu == &MainDef)
+                        {
+                            if (i == 2 && !savegames)
+                                continue;
+
+                            if (i == 3 && (gamestate != GS_LEVEL || viewplayer->health <= 0))
+                                continue;
+                        }
+                        else if (currentMenu == &OptionsDef && !i && gamestate != GS_LEVEL)
+                            continue;
+
                         if (itemOn != i)
                             S_StartSound(NULL, sfx_pstop);
 
