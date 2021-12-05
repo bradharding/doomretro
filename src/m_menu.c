@@ -2653,13 +2653,12 @@ dboolean M_Responder(event_t *ev)
 
             // select menu item
             if ((ev->data2 || ev->data3) && mousewait < I_GetTime() && !messagetoprint)
-            {
-                int x = currentMenu->x + WIDESCREENDELTA;
-                int y = currentMenu->y + OFFSET;
+                for (int i = 0; i < currentMenu->numitems; i++)
+                {
+                    menuitem_t  *menuitem = &currentMenu->menuitems[i];
 
-                for (int i = 0; i < currentMenu->numitems; i++, y += LINEHEIGHT - 1)
-                    if (ev->data2 > x && ev->data2 < x + M_BigStringWidth(*currentMenu->menuitems[i].text)
-                        && ev->data3 > y && ev->data3 < y + LINEHEIGHT - 1)
+                    if (ev->data2 > menuitem->x && ev->data2 < menuitem->x + menuitem->width
+                        && ev->data3 > menuitem->y && ev->data3 < menuitem->y + menuitem->height)
                     {
                         if (itemOn != i)
                             S_StartSound(NULL, sfx_pstop);
@@ -2667,7 +2666,7 @@ dboolean M_Responder(event_t *ev)
                         itemOn = i;
                         break;
                     }
-            }
+                }
         }
 
         // screenshot
@@ -3759,8 +3758,8 @@ void M_Drawer(void)
     if (currentMenu != &ReadDef)
     {
         // DRAW SKULL
-        char    *skullName[] = { "M_SKULL1", "M_SKULL2" };
-        patch_t *patch = W_CacheLumpName(skullName[whichSkull]);
+        char    *skullname[] = { "M_SKULL1", "M_SKULL2" };
+        patch_t *skullpatch = W_CacheLumpName(skullname[whichSkull]);
 
         if (currentMenu == &LoadDef || currentMenu == &SaveDef)
         {
@@ -3781,9 +3780,9 @@ void M_Drawer(void)
             }
 
             if (M_SKULL1)
-                M_DrawPatchWithShadow(x - 43, y + itemOn * LINEHEIGHT - 8 + OFFSET + chex, patch);
+                M_DrawPatchWithShadow(x - 43, y + itemOn * LINEHEIGHT - 8 + OFFSET + chex, skullpatch);
             else
-                M_DrawPatchWithShadow(x - 37, y + itemOn * LINEHEIGHT - 7 + OFFSET, patch);
+                M_DrawPatchWithShadow(x - 37, y + itemOn * LINEHEIGHT - 7 + OFFSET, skullpatch);
         }
         else
         {
@@ -3798,9 +3797,9 @@ void M_Drawer(void)
                 yy -= OFFSET;
 
             if (M_SKULL1)
-                M_DrawPatchWithShadow(x - 30, yy, patch);
+                M_DrawPatchWithShadow(x - 30, yy, skullpatch);
             else
-                M_DrawPatchWithShadow(x - 26, yy + 2, patch);
+                M_DrawPatchWithShadow(x - 26, yy + 2, skullpatch);
 
             for (int i = 0; i < max; i++)
             {
@@ -3810,22 +3809,64 @@ void M_Drawer(void)
                     char    **text = currentMenu->menuitems[i].text;
 
                     if (M_StringCompare(name, "M_EPI5") && sigil)
-                        M_DrawPatchWithShadow(x, y + OFFSET, W_CacheLumpName(name));
+                    {
+                        patch_t *patch = W_CacheLumpName(name);
+
+                        M_DrawPatchWithShadow(x, y + OFFSET, patch);
+                        currentMenu->menuitems[i].x = x + WIDESCREENDELTA;
+                        currentMenu->menuitems[i].y = y + OFFSET;
+                        currentMenu->menuitems[i].width = SHORT(patch->width);
+                        currentMenu->menuitems[i].height = SHORT(patch->height);
+                    }
                     else if (M_StringCompare(name, "M_NMARE"))
                     {
                         if (M_NMARE)
-                            M_DrawPatchWithShadow(x, y + OFFSET, W_CacheLumpName(name));
+                        {
+                            patch_t *patch = W_CacheLumpName(name);
+
+                            M_DrawPatchWithShadow(x, y + OFFSET, patch);
+                            currentMenu->menuitems[i].x = x + WIDESCREENDELTA;
+                            currentMenu->menuitems[i].y = y + OFFSET;
+                            currentMenu->menuitems[i].width = SHORT(patch->width);
+                            currentMenu->menuitems[i].height = SHORT(patch->height);
+                        }
                         else
                             M_DrawNightmare();
                     }
                     else if (M_StringCompare(name, "M_MSENS") && !M_MSENS)
+                    {
                         M_DrawString(x, y + OFFSET, (usinggamepad ? s_M_GAMEPADSENSITIVITY : s_M_MOUSESENSITIVITY));
+                        currentMenu->menuitems[i].x = x + WIDESCREENDELTA;
+                        currentMenu->menuitems[i].y = y + OFFSET;
+                        currentMenu->menuitems[i].width = M_BigStringWidth(usinggamepad ? s_M_GAMEPADSENSITIVITY : s_M_MOUSESENSITIVITY);
+                        currentMenu->menuitems[i].height = LINEHEIGHT - 1;
+                    }
                     else if (W_CheckNumForName(name) < 0 && **text)   // Custom Episode
+                    {
                         M_DrawString(x, y + OFFSET, *text);
+                        currentMenu->menuitems[i].x = x + WIDESCREENDELTA;
+                        currentMenu->menuitems[i].y = y + OFFSET;
+                        currentMenu->menuitems[i].width = M_BigStringWidth(*text);
+                        currentMenu->menuitems[i].height = LINEHEIGHT - 1;
+                    }
                     else if (W_CheckMultipleLumps(name) > 1 || lumpinfo[W_GetNumForName(name)]->wadfile->type == PWAD)
-                        M_DrawPatchWithShadow(x, y + OFFSET, W_CacheLumpName(name));
+                    {
+                        patch_t *patch = W_CacheLumpName(name);
+
+                        M_DrawPatchWithShadow(x, y + OFFSET, patch);
+                        currentMenu->menuitems[i].x = x + WIDESCREENDELTA;
+                        currentMenu->menuitems[i].y = y + OFFSET;
+                        currentMenu->menuitems[i].width = SHORT(patch->width);
+                        currentMenu->menuitems[i].height = SHORT(patch->height);
+                    }
                     else if (**text)
+                    {
                         M_DrawString(x, y + OFFSET, *text);
+                        currentMenu->menuitems[i].x = x + WIDESCREENDELTA;
+                        currentMenu->menuitems[i].y = y + OFFSET;
+                        currentMenu->menuitems[i].width = M_BigStringWidth(*text);
+                        currentMenu->menuitems[i].height = LINEHEIGHT - 1;
+                    }
                 }
 
                 y += LINEHEIGHT - 1;
