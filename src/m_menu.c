@@ -2639,7 +2639,7 @@ dboolean M_Responder(event_t *ev)
             if ((ev->data1 & MOUSE_LEFTBUTTON) && mousewait < I_GetTime())
             {
                 key = KEY_ENTER;
-                mousewait = I_GetTime() + 5;
+                mousewait = I_GetTime() + 8;
                 usinggamepad = false;
             }
 
@@ -2647,7 +2647,7 @@ dboolean M_Responder(event_t *ev)
             else if ((ev->data1 & MOUSE_RIGHTBUTTON) && mousewait < I_GetTime())
             {
                 key = KEY_BACKSPACE;
-                mousewait = I_GetTime() + 5;
+                mousewait = I_GetTime() + 8;
                 usinggamepad = false;
             }
 

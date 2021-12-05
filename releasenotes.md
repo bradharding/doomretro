@@ -4,6 +4,7 @@
 #### DOOM Retro v4.4.1
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
+* A mouse pointer is now shown when the menu is open and may be used to select menu items. It may be disabled by using the new `m_pointer` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
 * Minor improvements have been made to the support of [*MBF21*](https://doomwiki.org/wiki/MBF21)-compatible maps and mods.
 * Minor improvements have been made to the support of `DEHACKED` lumps.
 * The screen will now flash green as a radiation shielding suit power-up is running out while the player also has a berserk power-up and their fists equipped.
