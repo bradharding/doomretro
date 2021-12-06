@@ -519,7 +519,7 @@ dboolean MIDI_GetNextEvent(midi_track_iter_t *iter, midi_event_t **event)
     if (iter->position < iter->track->num_events)
     {
         *event = &iter->track->events[iter->position];
-        ++iter->position;
+        iter->position++;
 
         return true;
     }

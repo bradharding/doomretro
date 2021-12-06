@@ -7,9 +7,10 @@
 * A mouse pointer is now shown while the menu is open and may be used to select menu items. It may be disabled by using the new `m_pointer` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
 * Minor improvements have been made to the support of [*MBF21*](https://doomwiki.org/wiki/MBF21)-compatible maps and mods.
 * Minor improvements have been made to the support of `DEHACKED` lumps.
-* The screen will now flash green as a radiation shielding suit power-up is running out while the player also has a berserk power-up and their fists equipped.
+* The screen now flashes green as a radiation shielding suit power-up is running out while the player also has a berserk power-up and their fists equipped.
 * Minor changes have been made to text that is output to the console.
-* If the player takes an hour or more to finish a map, “SUCKS” will now be positioned correctly on the intermission screen.
+* If the player takes an hour or more to finish a map, “SUCKS” is now positioned correctly on the intermission screen.
+* Some elements in the options menu are now positioned correctly for certain PWADs.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

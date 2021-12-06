@@ -131,8 +131,8 @@ static void FillBuffer(void)
 
         *event = song.native_events[song.position];
 
-        if (MIDIEVENT_TYPE(event->dwEvent) == MIDI_EVENT_CONTROLLER &&
-            MIDIEVENT_DATA1(event->dwEvent) == MIDI_CONTROLLER_MAIN_VOLUME)
+        if (MIDIEVENT_TYPE(event->dwEvent) == MIDI_EVENT_CONTROLLER
+            && MIDIEVENT_DATA1(event->dwEvent) == MIDI_CONTROLLER_MAIN_VOLUME)
         {
             int volume = MIDIEVENT_VOLUME(event->dwEvent);
 

@@ -2661,8 +2661,8 @@ dboolean M_Responder(event_t *ev)
                 {
                     menuitem_t  *menuitem = &currentMenu->menuitems[i];
 
-                    if (ev->data2 > menuitem->x && ev->data2 < menuitem->x + menuitem->width
-                        && ev->data3 > menuitem->y && ev->data3 < menuitem->y + menuitem->height)
+                    if (ev->data2 >= menuitem->x && ev->data2 < menuitem->x + menuitem->width
+                        && ev->data3 >= menuitem->y && ev->data3 < menuitem->y + menuitem->height)
                     {
                         if (currentMenu == &MainDef)
                         {
