@@ -346,6 +346,21 @@ void I_Windows_StopSong(void)
         hPlayerThread = NULL;
     }
 
+    for (int i = 0; i < MIDI_CHANNELS_PER_TRACK; ++i)
+    {
+        // RPN sequence to adjust pitch bend range (RPN value 0x0000)
+        midiOutShortMsg((HMIDIOUT)hMidiStream, (MIDI_EVENT_CONTROLLER | i | (0x65 << 8) | (0x00 << 16)));
+        midiOutShortMsg((HMIDIOUT)hMidiStream, (MIDI_EVENT_CONTROLLER | i | (0x64 << 8) | (0x00 << 16)));
+
+        // reset pitch bend range to central tuning +/- 2 semitones and 0 cents
+        midiOutShortMsg((HMIDIOUT)hMidiStream, (MIDI_EVENT_CONTROLLER | i | (0x06 << 8) | (0x02 << 16)));
+        midiOutShortMsg((HMIDIOUT)hMidiStream, (MIDI_EVENT_CONTROLLER | i | (0x26 << 8) | (0x00 << 16)));
+
+        // end of RPN sequence
+        midiOutShortMsg((HMIDIOUT)hMidiStream, (MIDI_EVENT_CONTROLLER | i | (0x64 << 8) | (0x7F << 16)));
+        midiOutShortMsg((HMIDIOUT)hMidiStream, (MIDI_EVENT_CONTROLLER | i | (0x65 << 8) | (0x7F << 16)));
+    }
+
     midiStreamStop(hMidiStream);
     midiOutReset((HMIDIOUT)hMidiStream);
 }
