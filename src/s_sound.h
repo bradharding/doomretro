@@ -56,7 +56,7 @@
 #define DEFAULT_DEVICE              ""
 #endif
 
-#define LOWER_MUSIC_VOLUME_FACTOR   3
+#define LOWER_MUSIC_VOLUME_FACTOR   2.5f
 
 dboolean I_InitSound(void);
 void I_ShutdownSound(void);
