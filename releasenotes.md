@@ -3,6 +3,8 @@
 
 #### DOOM Retro v4.5
 
+* A mouse pointer is now shown while the menu is open that may be used to select menu items. It may be disabled by using the new `m_pointer` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
+
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Wednesday, December 8, 2021

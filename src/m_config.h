@@ -103,7 +103,7 @@ extern dboolean     m_acceleration;
 extern dboolean     m_doubleclick_use;
 extern dboolean     m_invertyaxis;
 extern dboolean     m_novertical;
-//extern dboolean     m_pointer;
+extern dboolean     m_pointer;
 extern int          m_sensitivity;
 extern dboolean     melt;
 extern dboolean     messages;
@@ -511,7 +511,7 @@ enum
 
 #define m_novertical_default                    true
 
-//#define m_pointer_default                       true
+#define m_pointer_default                       true
 
 #define m_sensitivity_min                       0
 #define m_sensitivity_default                   16

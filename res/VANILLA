@@ -48,6 +48,7 @@ infiniteheight on
 m_acceleration off
 m_doubleclick_use on
 m_novertical off
+m_pointer off
 m_sensitivity 8
 melt on
 messages on

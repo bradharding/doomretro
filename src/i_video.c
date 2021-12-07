@@ -108,7 +108,7 @@ int             MAPBOTTOM;
 // CVARs
 dboolean            alwaysrun = alwaysrun_default;
 dboolean            m_acceleration = m_acceleration_default;
-//dboolean            m_pointer = m_pointer_default;
+dboolean            m_pointer = m_pointer_default;
 int                 r_color = r_color_default;
 float               r_gamma = r_gamma_default;
 dboolean            vid_borderlesswindow = vid_borderlesswindow_default;
@@ -234,16 +234,16 @@ dboolean MouseShouldBeGrabbed(void)
     if (!windowfocused)
         return false;
 
-    // always grab the mouse when fullscreen (don't want to see the mouse pointer)
-    if (vid_fullscreen)
+    // grab the mouse when on the splash screen
+    if ((splashscreen && m_pointer) || (vid_fullscreen && !m_pointer))
         return true;
 
-    // when menu is active or game is paused, release the mouse
-    if (menuactive || consoleactive || paused)
-        return false;
+    // grab the mouse when fading and not in the menu or console
+    if (fadecount && !(menuactive || consoleactive))
+        return true;
 
-    // only grab mouse when playing levels
-    return (gamestate == GS_LEVEL);
+    // when menu or console is active, release the mouse
+    return !(menuactive || consoleactive);
 }
 
 static void SetShowCursor(dboolean show)
@@ -758,13 +758,13 @@ static void I_ReadMouse(void)
         ev.type = ev_mouse;
         ev.data1 = mousebuttonstate;
 
-        /*if ((menuactive || consoleactive) && m_pointer)
+        if ((menuactive || consoleactive) && m_pointer)
         {
             SDL_GetMouseState(&x, &y);
             ev.data2 = x * SCREENWIDTH / displaywidth / SCREENSCALE;
             ev.data3 = y * SCREENHEIGHT / displayheight / SCREENSCALE;
         }
-        else */if (m_acceleration)
+        else if (m_acceleration)
         {
             ev.data2 = AccelerateMouse(x);
             ev.data3 = AccelerateMouse(y);
