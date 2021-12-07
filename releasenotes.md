@@ -11,6 +11,7 @@
 * Minor changes have been made to text that is output to the console.
 * If the player takes an hour or more to finish a map, “SUCKS” is now positioned correctly on the intermission screen.
 * Some elements in the options menu are now positioned correctly for certain PWADs.
+* A bug is fixed whereby some MIDI music lumps wouldn’t play correctly in some instances if the `s_musicvolume` CVAR was set high enough.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

@@ -323,7 +323,7 @@ dboolean I_Windows_InitMusic(void)
 
 void I_Windows_SetMusicVolume(int volume)
 {
-    volume_factor = (float)volume / (MIX_MAX_VOLUME - 1);
+    volume_factor = (float)volume / MIX_MAX_VOLUME;
 
     // Send MIDI controller events to adjust the volume.
     for (int i = 0; i < MIDI_CHANNELS_PER_TRACK; i++)
