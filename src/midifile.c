@@ -42,7 +42,6 @@
 #include <string.h>
 
 #include "doomtype.h"
-#include "i_swap.h"
 #include "i_system.h"
 #include "midifile.h"
 

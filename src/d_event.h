@@ -97,7 +97,7 @@ enum
     // Flag, weapon change pending.
     // If true, the next 3 bits hold weapon num.
     BT_CHANGE       = 4,
-    // The 3bit weapon mask and shift, convenience.
+    // The 3-bit weapon mask and shift, convenience.
     BT_WEAPONMASK   = (8 + 16 + 32),
     BT_WEAPONSHIFT  = 3,
 
@@ -108,8 +108,7 @@ enum
     // Save the game at each console.
     BTS_SAVEGAME    = 2,
 
-    // Savegame slot numbers
-    //  occupy the second byte of buttons.
+    // Savegame slot numbers occupy the second byte of buttons.
     BTS_SAVEMASK    = (4 + 8 + 16),
     BTS_SAVESHIFT   = 2
 };

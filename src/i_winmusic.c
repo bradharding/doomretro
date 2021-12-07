@@ -218,7 +218,7 @@ static void MIDItoStream(midi_file_t *file)
         // Look for an event with a minimal delta time.
         for (int i = 0; i < num_tracks; i++)
         {
-            int time = 0;
+            int time;
 
             if (!tracks[i].iter)
                 continue;
@@ -328,8 +328,8 @@ void I_Windows_SetMusicVolume(int volume)
     // Send MIDI controller events to adjust the volume.
     for (int i = 0; i < MIDI_CHANNELS_PER_TRACK; i++)
     {
-        int     value = volume_correction[(int)((float)channel_volume[i] * volume_factor)];
-        DWORD   msg = (MIDI_EVENT_CONTROLLER | i | (MIDI_CONTROLLER_MAIN_VOLUME << 8) | (value << 16));
+        const int   value = volume_correction[(int)((float)channel_volume[i] * volume_factor)];
+        const DWORD msg = (MIDI_EVENT_CONTROLLER | i | (MIDI_CONTROLLER_MAIN_VOLUME << 8) | (value << 16));
 
         midiOutShortMsg((HMIDIOUT)hMidiStream, msg);
     }
