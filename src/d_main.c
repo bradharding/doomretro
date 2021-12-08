@@ -686,6 +686,8 @@ void D_StartTitle(int page)
 static char dehfiles[MAXDEHFILES][MAX_PATH];
 static int  dehfilecount;
 
+dboolean    dehfileignored = false;
+
 static dboolean DehFileProcessed(char *path)
 {
     for (int i = 0; i < dehfilecount; i++)
@@ -780,7 +782,10 @@ static void LoadDehFile(char *path)
         if (!DehFileProcessed(dehpath))
         {
             if (HasDehackedLump(path))
+            {
                 M_snprintf(dehwarning, sizeof(dehwarning), BOLD("%s") " was ignored.", GetCorrectCase(dehpath));
+                dehfileignored = true;
+            }
             else
                 ProcessDehFile(dehpath, 0, true);
 
@@ -798,7 +803,10 @@ static void LoadDehFile(char *path)
         if (dehpath && !DehFileProcessed(dehpath))
         {
             if (HasDehackedLump(path))
+            {
                 M_snprintf(dehwarning, sizeof(dehwarning), BOLD("%s") " was ignored.", GetCorrectCase(dehpath));
+                dehfileignored = true;
+            }
             else
                 ProcessDehFile(dehpath, 0, true);
 
