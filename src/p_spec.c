@@ -420,7 +420,7 @@ void P_SetLifts(void)
         // Check to see if it's in a sector which can be activated as a lift.
         if ((line.tag = sectors[i].tag))
         {
-            for (int j = -1; (j = P_FindLineFromLineTag(&line, j)) >= 0;)
+            for (int j = -1; (j = P_FindLineFromLineTag(&line, j)) >= 0; )
                 switch (lines[j].special)
                 {
                     case W1_Lift_LowerWaitRaise:
@@ -894,10 +894,10 @@ int P_FindLineFromLineTag(const line_t *line, int start)
 // Hash the sector tags across the sectors and linedefs.
 void P_InitTagLists(void)
 {
-    for (int i = numsectors; --i >= 0;)                     // Initially make all slots empty.
+    for (int i = numsectors; --i >= 0; )                    // Initially make all slots empty.
         sectors[i].firsttag = -1;
 
-    for (int i = numsectors; --i >= 0;)                     // Proceed from last to first sector
+    for (int i = numsectors; --i >= 0; )                    // Proceed from last to first sector
     {                                                       // so that lower sectors appear first
         int j = (unsigned int)sectors[i].tag % numsectors;  // Hash func
 
@@ -906,10 +906,10 @@ void P_InitTagLists(void)
     }
 
     // killough 04/17/98: same thing, only for linedefs
-    for (int i = numlines; --i >= 0;)                       // Initially make all slots empty.
+    for (int i = numlines; --i >= 0; )                      // Initially make all slots empty.
         lines[i].firsttag = -1;
 
-    for (int i = numlines; --i >= 0;)                       // Proceed from last to first linedef
+    for (int i = numlines; --i >= 0; )                      // Proceed from last to first linedef
     {                                                       // so that lower linedefs appear first
         int j = (unsigned int)lines[i].tag % numlines;      // Hash func
 
@@ -2587,7 +2587,7 @@ void P_SpawnSpecials(void)
             {
                 sector_t    *sec = sides[*line->sidenum].sector;
 
-                for (int s = -1; (s = P_FindSectorFromLineTag(line, s)) >= 0;)
+                for (int s = -1; (s = P_FindSectorFromLineTag(line, s)) >= 0; )
                     sectors[s].heightsec = sec;
 
                 break;
@@ -2599,7 +2599,7 @@ void P_SpawnSpecials(void)
             {
                 sector_t    *sec = sides[*line->sidenum].sector;
 
-                for (int s = -1; (s = P_FindSectorFromLineTag(line, s)) >= 0;)
+                for (int s = -1; (s = P_FindSectorFromLineTag(line, s)) >= 0; )
                     sectors[s].floorlightsec = sec;
 
                 break;
@@ -2611,7 +2611,7 @@ void P_SpawnSpecials(void)
             {
                 sector_t    *sec = sides[*line->sidenum].sector;
 
-                for (int s = -1; (s = P_FindSectorFromLineTag(line, s)) >= 0;)
+                for (int s = -1; (s = P_FindSectorFromLineTag(line, s)) >= 0; )
                     sectors[s].ceilinglightsec = sec;
 
                 break;
@@ -2627,7 +2627,7 @@ void P_SpawnSpecials(void)
             // or ceiling texture, to distinguish floor and ceiling sky.
             case TransferSkyTextureToTaggedSectors:
             case TransferSkyTextureToTaggedSectors_Flipped:
-                for (int s = -1; (s = P_FindSectorFromLineTag(line, s)) >= 0;)
+                for (int s = -1; (s = P_FindSectorFromLineTag(line, s)) >= 0; )
                     sectors[s].sky = (i | PL_SKYFLAT);
 
                 break;
@@ -2855,14 +2855,14 @@ static void P_SpawnScrollers(void)
         switch (special)
         {
             case Scroll_ScrollCeilingAccordingToLineVector:
-                for (int s = -1; (s = P_FindSectorFromLineTag(l, s)) >= 0;)
+                for (int s = -1; (s = P_FindSectorFromLineTag(l, s)) >= 0; )
                     Add_Scroller(sc_ceiling, -dx, dy, control, s, accel);
 
                 break;
 
             case Scroll_ScrollFloorAccordingToLineVector:
             case Scroll_ScrollFloorAndMoveThings:
-                for (int s = -1; (s = P_FindSectorFromLineTag(l, s)) >= 0;)
+                for (int s = -1; (s = P_FindSectorFromLineTag(l, s)) >= 0; )
                     Add_Scroller(sc_floor, -dx, dy, control, s, accel);
 
                 if (special != Scroll_ScrollFloorAndMoveThings)
@@ -2872,7 +2872,7 @@ static void P_SpawnScrollers(void)
                 dx = FixedMul(dx, CARRYFACTOR);
                 dy = FixedMul(dy, CARRYFACTOR);
 
-                for (int s = -1; (s = P_FindSectorFromLineTag(l, s)) >= 0;)
+                for (int s = -1; (s = P_FindSectorFromLineTag(l, s)) >= 0; )
                     Add_Scroller(sc_carry, dx, dy, control, s, accel);
 
                 break;
@@ -2883,7 +2883,7 @@ static void P_SpawnScrollers(void)
                 if (!l->tag)
                     Add_WallScroller(dx, dy, l, control, accel);
                 else
-                    for (int s = -1; (s = P_FindLineFromLineTag(l, s)) >= 0;)
+                    for (int s = -1; (s = P_FindLineFromLineTag(l, s)) >= 0; )
                         if (s != i)
                             Add_WallScroller(dx, dy, lines + s, control, accel);
 
@@ -2925,7 +2925,7 @@ static void P_SpawnScrollers(void)
                 dx = -sides[s].textureoffset / 8;
                 dy = sides[s].rowoffset / 8;
 
-                for (s = -1; (s = P_FindLineFromLineTag(l, s)) >= 0;)
+                for (s = -1; (s = P_FindLineFromLineTag(l, s)) >= 0; )
                     if (s != i)
                         Add_Scroller(sc_side, dx, dy, control, lines[s].sidenum[0], accel);
 
@@ -3008,7 +3008,7 @@ static void P_SpawnFriction(void)
             else
                 movefactor = MAX(32, ((friction - 0xDB34) * 0x0A) / 0x80);
 
-            for (int s = -1; (s = P_FindSectorFromLineTag(l, s)) >= 0;)
+            for (int s = -1; (s = P_FindSectorFromLineTag(l, s)) >= 0; )
             {
                 // killough 08/28/98:
                 //
@@ -3318,19 +3318,19 @@ static void P_SpawnPushers(void)
         switch (l->special)
         {
             case WindAccordingToLineVector:
-                for (int s = -1; (s = P_FindSectorFromLineTag(l, s)) >= 0;)
+                for (int s = -1; (s = P_FindSectorFromLineTag(l, s)) >= 0; )
                     Add_Pusher(p_wind, l->dx, l->dy, NULL, s);
 
                 break;
 
             case CurrentAccordingToLineVector:
-                for (int s = -1; (s = P_FindSectorFromLineTag(l, s)) >= 0;)
+                for (int s = -1; (s = P_FindSectorFromLineTag(l, s)) >= 0; )
                     Add_Pusher(p_current, l->dx, l->dy, NULL, s);
 
                 break;
 
             case WindCurrentByPushPullThingInSector:
-                for (int s = -1; (s = P_FindSectorFromLineTag(l, s)) >= 0;)
+                for (int s = -1; (s = P_FindSectorFromLineTag(l, s)) >= 0; )
                     if ((thing = P_GetPushThing(s)))    // No MT_P* means no effect
                         Add_Pusher(p_push, l->dx, l->dy, thing, s);
 

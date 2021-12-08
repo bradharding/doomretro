@@ -334,7 +334,7 @@ static dboolean P_Move(mobj_t *actor, int dropoff)  // killough 09/12/98
         //
         // Do NOT simply return false 1/4th of the time (causes monsters to
         // back out when they shouldn't, and creates secondary stickiness).
-        for (good = 0; numspechit--;)
+        for (good = 0; numspechit--; )
             if (P_UseSpecialLine(actor, spechit[numspechit], 0))
                 good |= (spechit[numspechit] == blockline ? 1 : 2);
 

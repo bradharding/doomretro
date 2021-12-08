@@ -201,7 +201,7 @@ dboolean EV_TurnTagLightsOff(line_t *line)
 {
     // search sectors for those with same tag as activating line
     // killough 10/98: replaced inefficient search with fast search
-    for (int i = -1; (i = P_FindSectorFromLineTag(line, i)) >= 0;)
+    for (int i = -1; (i = P_FindSectorFromLineTag(line, i)) >= 0; )
     {
         sector_t    *sector = sectors + i;
         int         min = sector->lightlevel;
@@ -228,7 +228,7 @@ dboolean EV_LightTurnOn(line_t *line, int bright)
 {
     // search all sectors for ones with same tag as activating line
     // killough 10/98: replace inefficient search with fast search
-    for (int i = -1; (i = P_FindSectorFromLineTag(line, i)) >= 0;)
+    for (int i = -1; (i = P_FindSectorFromLineTag(line, i)) >= 0; )
     {
         sector_t    *sector = sectors + i;
         int         tbright = bright;       // jff 5/17/98 search for maximum PER sector
@@ -307,7 +307,7 @@ void EV_LightTurnOnPartway(line_t *line, fixed_t level)
     level = BETWEEN(0, level, FRACUNIT);        // clip at extremes
 
     // search all sectors for ones with same tag as activating line
-    for (int i = -1; (i = P_FindSectorFromLineTag(line, i)) >= 0;)
+    for (int i = -1; (i = P_FindSectorFromLineTag(line, i)) >= 0; )
     {
         sector_t    *sector = sectors + i;
         int         bright = 0;

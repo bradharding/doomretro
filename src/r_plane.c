@@ -172,7 +172,7 @@ void R_ClearPlanes(void)
     }
 
     for (int i = 0; i < MAXVISPLANES; i++)
-        for (*freehead = visplanes[i], visplanes[i] = NULL; *freehead;)
+        for (*freehead = visplanes[i], visplanes[i] = NULL; *freehead; )
             freehead = &(*freehead)->next;
 
     lastopening = openings;

@@ -1221,7 +1221,7 @@ static void R_DrawBloodSplatSprite(const bloodsplatvissprite_t *splat)
 
     // Scan drawsegs from end to start for obscuring segs.
     // The first drawseg that has a greater scale is the clip seg.
-    for (drawseg_t *ds = ds_p; ds-- > drawsegs;)
+    for (drawseg_t *ds = ds_p; ds-- > drawsegs; )
     {
         const int   silhouette = ds->silhouette;
 
@@ -1325,7 +1325,7 @@ static void R_DrawSprite(const vissprite_t *spr)
     }
     // Scan drawsegs from end to start for obscuring segs.
     // The first drawseg that has a greater scale is the clip seg.
-    for (drawseg_t *ds = ds_p; ds-- > drawsegs;)
+    for (drawseg_t *ds = ds_p; ds-- > drawsegs; )
     {
         const int   silhouette = ds->silhouette;
 
@@ -1436,7 +1436,7 @@ void R_DrawMasked(void)
         R_DrawSprite(vissprite_ptrs[i]);
 
     // render any remaining masked midtextures
-    for (drawseg_t *ds = ds_p; ds-- > drawsegs;)
+    for (drawseg_t *ds = ds_p; ds-- > drawsegs; )
         if (ds->maskedtexturecol)
             R_RenderMaskedSegRange(ds, ds->x1, ds->x2);
 

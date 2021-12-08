@@ -56,7 +56,7 @@ dboolean EV_Teleport(line_t *line, int side, mobj_t *thing)
 
     // killough 01/31/98: improve performance by using
     // P_FindSectorFromLineTag() instead of simple linear search.
-    for (int i = -1; (i = P_FindSectorFromLineTag(line, i)) >= 0;)
+    for (int i = -1; (i = P_FindSectorFromLineTag(line, i)) >= 0; )
         for (thinker_t *th = thinkers[th_mobj].cnext; th != &thinkers[th_mobj]; th = th->cnext)
         {
             mobj_t  *m = (mobj_t *)th;
@@ -147,7 +147,7 @@ dboolean EV_SilentTeleport(line_t *line, int side, mobj_t *thing)
     if (side || (thing->flags & MF_MISSILE))
         return false;
 
-    for (int i = -1; (i = P_FindSectorFromLineTag(line, i)) >= 0;)
+    for (int i = -1; (i = P_FindSectorFromLineTag(line, i)) >= 0; )
         for (thinker_t *th = thinkers[th_mobj].cnext; th != &thinkers[th_mobj]; th = th->cnext)
         {
             mobj_t  *m = (mobj_t *)th;
@@ -227,7 +227,7 @@ dboolean EV_SilentLineTeleport(line_t *line, int side, mobj_t *thing, dboolean r
     if (side || (thing->flags & MF_MISSILE))
         return false;
 
-    for (int i = -1; (i = P_FindLineFromLineTag(line, i)) >= 0;)
+    for (int i = -1; (i = P_FindLineFromLineTag(line, i)) >= 0; )
     {
         line_t  *l = lines + i;
 
