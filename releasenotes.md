@@ -5,7 +5,7 @@
 
 * A mouse pointer is now shown while the menu is open that may be used to select menu items. It may be disabled by using the new `m_pointer` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
 * A crash will no longer occur when ending the game from the options menu.
-* The screen size is now always changed correctly when done so from the options menu while not playing a game.
+* The screen size is now always correct if changed from the options menu while not playing a game.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

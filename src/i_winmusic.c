@@ -302,7 +302,7 @@ dboolean I_Windows_InitMusic(void)
     UINT    MidiDevice = MIDI_MAPPER;
     MIDIHDR *hdr = &buffer.MidiStreamHdr;
 
-    if (midiStreamOpen(&hMidiStream, &MidiDevice, (DWORD)1, (DWORD_PTR)MidiStreamProc,
+    if (midiStreamOpen(&hMidiStream, &MidiDevice, (DWORD)1, (DWORD_PTR)&MidiStreamProc,
         (DWORD_PTR)NULL, CALLBACK_FUNCTION) != MMSYSERR_NOERROR)
         return false;
 
@@ -369,7 +369,7 @@ void I_Windows_PlaySong(dboolean looping)
 {
     song.looping = looping;
 
-    hPlayerThread = CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)PlayerProc, 0, 0, 0);
+    hPlayerThread = CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)&PlayerProc, 0, 0, 0);
     SetThreadPriority(hPlayerThread, THREAD_PRIORITY_TIME_CRITICAL);
 
     midiStreamRestart(hMidiStream);
