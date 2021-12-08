@@ -682,7 +682,6 @@ void S_ChangeMusic(int music_id, dboolean looping, dboolean allowrestart, dboole
     I_PlaySong(handle, looping);
 
     mus_playing = music;
-    M_StringCopy(mus_playing->name1, lumpinfo[music->lumpnum]->name, sizeof(mus_playing->name1));
 
     // [crispy] musinfo.items[0] is reserved for the map's default music
     if (!musinfo.items[0])

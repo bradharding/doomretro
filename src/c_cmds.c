@@ -4152,14 +4152,18 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
 
     if (mus_playing && !nomusic)
     {
-        int                 lumps = W_CheckMultipleLumps(mus_playing->name1);
+        int                 lumps;
+        char                namebuf[9];
         const char          *musiccomposer = P_GetMapMusicComposer((gameepisode - 1) * 10 + gamemap);
         const char          *musictitle = P_GetMapMusicTitle((gameepisode - 1) * 10 + gamemap);
         const Mix_MusicType musictype = Mix_GetMusicType(NULL);
 
         temp = uppercase(mus_playing->name1);
-        C_TabbedOutput(tabs, "Music lump\t%s", temp);
+        M_snprintf(namebuf, sizeof(namebuf), "D_%s", temp);
+        C_TabbedOutput(tabs, "Music lump\t%s", namebuf);
         free(temp);
+
+        lumps = W_CheckMultipleLumps(namebuf);
 
         C_TabbedOutput(tabs, INDENT "%s\t%s",
             (wadtype == IWAD ? "IWAD" : "PWAD"), leafname(lumpinfo[mus_playing->lumpnum]->wadfile->path));
