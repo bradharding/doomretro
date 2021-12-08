@@ -2226,7 +2226,7 @@ static void M_SizeDisplay(int choice)
             else if (r_screensize > r_screensize_min)
             {
                 C_IntCVAROutput(stringize(r_screensize), --r_screensize);
-                R_SetViewSize(menuactive ? r_screensize_max : r_screensize);
+                R_SetViewSize(menuactive && viewactive ? r_screensize_max : r_screensize);
                 AM_SetAutomapSize(automapactive ? r_screensize_max : r_screensize);
 
                 if (r_screensize == r_screensize_max - 1)
@@ -2256,7 +2256,7 @@ static void M_SizeDisplay(int choice)
             else if (r_screensize < r_screensize_max)
             {
                 C_IntCVAROutput(stringize(r_screensize), ++r_screensize);
-                R_SetViewSize(menuactive ? r_screensize_max : r_screensize);
+                R_SetViewSize(menuactive && viewactive ? r_screensize_max : r_screensize);
                 AM_SetAutomapSize(automapactive ? r_screensize_max : r_screensize);
 
                 if (r_screensize == r_screensize_max)
