@@ -1722,6 +1722,8 @@ static const struct deh_flag_s deh_mobjflags_mbf21[] =
     { "",               0                       }
 };
 
+#define DEH_WEAPONFLAGMAX_MBF21 arrlen(deh_weaponflags_mbf21)
+
 static const struct deh_flag_s deh_weaponflags_mbf21[] =
 {
     { "NOTHRUST",       WPF_NOTHRUST            },  // doesn't thrust Mobj's
@@ -3098,33 +3100,34 @@ static void deh_procWeapon(DEHFILE *fpin, char *line)
             weaponinfo[indexnum].atkstate = value;
         else if (M_StringCompare(key, deh_weapon[5]))       // Firing frame
             weaponinfo[indexnum].flashstate = value;
-        else
-            if (!strcasecmp(key, deh_weapon[6]))            // Ammo per shot
-            {
-                weaponinfo[indexnum].minammo = value;
-                mbf21compatible = true;
-            }
-            else
-                // MBF21: process weapon flags
-                if (!strcasecmp(key, deh_weapon[7]))        // MBF21 Bits
+        else if (M_StringCompare(key, deh_weapon[6]))       // Ammo per shot
+        {
+            weaponinfo[indexnum].minammo = value;
+            mbf21compatible = true;
+        }
+        else if (M_StringCompare(key, deh_weapon[7]))       // MBF21 Bits
+        {
+            if (!value)
+                for (value = 0; (strval = strtok(strval, ",+| \t\f\r")); strval = NULL)
                 {
-                    if (!value)
-                        for (value = 0; (strval = strtok(strval, ",+| \t\f\r")); strval = NULL)
-                        {
-                            const struct deh_flag_s *flag;
+                    int iy;
 
-                            for (flag = deh_weaponflags_mbf21; flag->name; flag++)
-                            {
-                                if (strcasecmp(strval, flag->name)) continue;
+                    for (iy = 0; iy < DEH_WEAPONFLAGMAX_MBF21; iy++)
+                    {
+                        if (!M_StringCompare(strval, deh_weaponflags_mbf21[iy].name))
+                            continue;
 
-                                value |= flag->value;
-                                break;
-                            }
-                        }
+                        value |= deh_weaponflags_mbf21[iy].value;
+                        break;
+                    }
 
-                    weaponinfo[indexnum].flags = value;
-                    mbf21compatible = true;
+                    if (iy >= DEH_WEAPONFLAGMAX_MBF21)
+                        C_Warning(1, "Could not find MBF21 weapon bit mnemonic \"%s\".", strval);
                 }
+
+            weaponinfo[indexnum].flags = value;
+            mbf21compatible = true;
+        }
         else
             C_Warning(1, "Invalid weapon string index for \"%s\".", key);
     }

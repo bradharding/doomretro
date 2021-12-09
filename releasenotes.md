@@ -4,6 +4,7 @@
 #### DOOM Retro v4.5
 
 * A mouse pointer is now shown while the menu is open that may be used to select menu items. It may be disabled by using the new `m_pointer` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
+* Minor improvements have been made to the support of [*MBF21*](https://doomwiki.org/wiki/MBF21)-compatible maps and mods.
 * Minor changes have been made to text that is output to the console.
 * A crash will no longer occur when ending a game from the options menu.
 * The screen size is now always correct if it is changed from the options menu while not playing a game.
