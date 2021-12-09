@@ -3102,7 +3102,7 @@ static void deh_procWeapon(DEHFILE *fpin, char *line)
             weaponinfo[indexnum].flashstate = value;
         else if (M_StringCompare(key, deh_weapon[6]))       // Ammo per shot
         {
-            weaponinfo[indexnum].minammo = value;
+            weaponinfo[indexnum].ammopershot = value;
             mbf21compatible = true;
         }
         else if (M_StringCompare(key, deh_weapon[7]))       // MBF21 Bits
@@ -3230,7 +3230,7 @@ static void deh_procPars(DEHFILE *fpin, char *line) // extension
             {
                 // Ty 07/11/98 - wrong range check, not zero-based
                 if (level < 1 || level > 33)    // base 0 array (but 1-based parm)
-                    C_Warning(1, "Invalid MAPxy value MAP%i.", level);
+                    C_Warning(1, "Invalid MAPxy value MAP%02i.", level);
                 else
                 {
                     if (devparm)
@@ -3629,7 +3629,7 @@ static void deh_procMisc(DEHFILE *fpin, char *line)
         else if (M_StringCompare(key, deh_misc[13]))                // IDKFA Armor Class
             idkfa_armor_class = value;
         else if (M_StringCompare(key, deh_misc[14]))                // BFG Cells/Shot
-            weaponinfo[wp_bfg].minammo = bfgcells = value;
+            weaponinfo[wp_bfg].ammopershot = bfgcells = value;
         else if (M_StringCompare(key, deh_misc[15]))                // Monsters Infight
         {
             if (value == 202)

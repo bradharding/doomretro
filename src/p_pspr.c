@@ -186,26 +186,26 @@ dboolean P_CheckAmmo(weapontype_t weapon)
         return true;
 
     // Return if current ammunition sufficient.
-    if (viewplayer->ammo[ammotype] >= weaponinfo[weapon].minammo && viewplayer->weaponowned[weapon])
+    if (viewplayer->ammo[ammotype] >= weaponinfo[weapon].ammopershot && viewplayer->weaponowned[weapon])
         return true;
 
     // Out of ammo, pick a weapon to change to.
     // Preferences are set here.
     if (viewplayer->weaponowned[wp_plasma]
-        && viewplayer->ammo[am_cell] >= weaponinfo[wp_plasma].minammo)
+        && viewplayer->ammo[am_cell] >= weaponinfo[wp_plasma].ammopershot)
         P_EquipWeapon(wp_plasma);
     else if (viewplayer->weaponowned[wp_supershotgun]
-        && viewplayer->ammo[am_shell] >= weaponinfo[wp_supershotgun].minammo
+        && viewplayer->ammo[am_shell] >= weaponinfo[wp_supershotgun].ammopershot
         && viewplayer->preferredshotgun == wp_supershotgun)
         P_EquipWeapon(wp_supershotgun);
     else if (viewplayer->weaponowned[wp_chaingun]
-        && viewplayer->ammo[am_clip] >= weaponinfo[wp_chaingun].minammo)
+        && viewplayer->ammo[am_clip] >= weaponinfo[wp_chaingun].ammopershot)
         P_EquipWeapon(wp_chaingun);
     else if (viewplayer->weaponowned[wp_shotgun]
-        && viewplayer->ammo[am_shell] >= weaponinfo[wp_shotgun].minammo)
+        && viewplayer->ammo[am_shell] >= weaponinfo[wp_shotgun].ammopershot)
         P_EquipWeapon(wp_shotgun);
     else if (viewplayer->weaponowned[wp_pistol]
-        && viewplayer->ammo[am_clip] >= weaponinfo[wp_pistol].minammo)
+        && viewplayer->ammo[am_clip] >= weaponinfo[wp_pistol].ammopershot)
         P_EquipWeapon(wp_pistol);
     else if (viewplayer->weaponowned[wp_chainsaw])
         P_EquipWeapon(wp_chainsaw);
@@ -224,7 +224,7 @@ static void P_SubtractAmmo(void)
 
     if (ammotype != am_noammo)
     {
-        viewplayer->ammo[ammotype] = MAX(0, viewplayer->ammo[ammotype] - weaponinfo[viewplayer->readyweapon].minammo);
+        viewplayer->ammo[ammotype] = MAX(0, viewplayer->ammo[ammotype] - weaponinfo[viewplayer->readyweapon].ammopershot);
         ammohighlight = I_GetTimeMS() + HUD_AMMO_HIGHLIGHT_WAIT;
     }
 }
@@ -1183,7 +1183,7 @@ void A_ConsumeAmmo(mobj_t *actor, player_t *player, pspdef_t *psp)
     if (psp->state->args[0] != 0)
         amount = psp->state->args[0];
     else
-        amount = weaponinfo[player->readyweapon].minammo;
+        amount = weaponinfo[player->readyweapon].ammopershot;
 
     // subtract ammo, but don't let it get below zero
     if (player->ammo[type] >= amount)
@@ -1209,7 +1209,7 @@ void A_CheckAmmo(mobj_t *actor, player_t *player, pspdef_t *psp)
     if (psp->state->args[1] != 0)
         amount = psp->state->args[1];
     else
-        amount = weaponinfo[player->readyweapon].minammo;
+        amount = weaponinfo[player->readyweapon].ammopershot;
 
     if (player->ammo[type] < amount)
         P_SetPspritePtr(psp, psp->state->args[0]);

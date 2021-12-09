@@ -65,7 +65,7 @@ typedef struct
     ammotype_t  ammotype;
     char        ammoname[255];
     char        ammoplural[255];
-    int         minammo;
+    int         ammopershot;
     int         upstate;
     int         downstate;
     int         readystate;

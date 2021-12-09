@@ -206,7 +206,7 @@ void G_NextWeapon(void)
 
         if (i == wp_fist && viewplayer->weaponowned[wp_chainsaw] && !viewplayer->powers[pw_strength])
             i = wp_chainsaw;
-    } while (!viewplayer->weaponowned[i] || viewplayer->ammo[weaponinfo[i].ammotype] < weaponinfo[i].minammo);
+    } while (!viewplayer->weaponowned[i] || viewplayer->ammo[weaponinfo[i].ammotype] < weaponinfo[i].ammopershot);
 
     if (i != readyweapon)
     {
@@ -235,7 +235,7 @@ void G_PrevWeapon(void)
 
         if (i == wp_fist && viewplayer->weaponowned[wp_chainsaw] && !viewplayer->powers[pw_strength])
             i = wp_bfg;
-    } while (!viewplayer->weaponowned[i] || viewplayer->ammo[weaponinfo[i].ammotype] < weaponinfo[i].minammo);
+    } while (!viewplayer->weaponowned[i] || viewplayer->ammo[weaponinfo[i].ammotype] < weaponinfo[i].ammopershot);
 
     if (i != readyweapon)
     {

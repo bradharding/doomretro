@@ -221,8 +221,8 @@ static dboolean P_GiveAmmoAutoSwitch(player_t *player, ammotype_t ammotype, int 
             if (player->weaponowned[i]
                 && !(weaponinfo[i].flags & WPF_NOAUTOSWITCHTO)
                 && weaponinfo[i].ammotype == ammotype
-                && weaponinfo[i].minammo > oldammo
-                && weaponinfo[i].minammo <= player->ammo[ammotype])
+                && weaponinfo[i].ammopershot > oldammo
+                && weaponinfo[i].ammopershot <= player->ammo[ammotype])
             {
                 player->pendingweapon = i;
                 break;
