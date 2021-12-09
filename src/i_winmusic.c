@@ -427,11 +427,9 @@ void I_Windows_UnregisterSong(void)
 
 void I_Windows_ShutdownMusic(void)
 {
-    MIDIHDR *hdr = &buffer.MidiStreamHdr;
-
     I_Windows_StopSong();
 
-    midiOutUnprepareHeader((HMIDIOUT)hMidiStream, hdr, sizeof(MIDIHDR));
+    midiOutUnprepareHeader((HMIDIOUT)hMidiStream, &buffer.MidiStreamHdr, sizeof(MIDIHDR));
 
     midiStreamClose(hMidiStream);
 

@@ -1658,7 +1658,7 @@ static const struct deh_flag_s deh_mobjflags[] =
 
     { "TOUCHY",       MF_TOUCHY       },    // dies on contact with solid objects (MBF)
     { "BOUNCES",      MF_BOUNCES      },    // bounces off floors, ceilings and maybe walls
-    { "FRIEND",       MF_FRIEND       },    // a friend of the player(s) (MBF)
+    { "FRIEND",       MF_FRIEND       },    // a friend of the player (MBF)
     { "TRANSLUCENT",  MF_TRANSLUCENT  }     // apply translucency to sprite (BOOM)
 };
 
