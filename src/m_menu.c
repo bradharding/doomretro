@@ -2639,48 +2639,69 @@ dboolean M_Responder(event_t *ev)
     {
         if (menuactive)
         {
-            // activate menu item
-            if ((ev->data1 & MOUSE_LEFTBUTTON) && mousewait < I_GetTime())
+            if (m_pointer)
             {
-                menuitem_t  *menuitem = &currentMenu->menuitems[itemOn];
-
-                if (ev->data2 >= menuitem->x && ev->data2 < menuitem->x + menuitem->width
-                    && ev->data3 >= menuitem->y && ev->data3 < menuitem->y + menuitem->height)
+                // activate menu item
+                if ((ev->data1 & MOUSE_LEFTBUTTON) && mousewait < I_GetTime())
                 {
-                    key = KEY_ENTER;
-                    mousewait = I_GetTime() + 8;
-                }
-
-                usinggamepad = false;
-            }
-
-            // select menu item
-            if ((ev->data2 || ev->data3) && mousewait < I_GetTime() && !messagetoprint)
-                for (int i = 0; i < currentMenu->numitems; i++)
-                {
-                    menuitem_t  *menuitem = &currentMenu->menuitems[i];
+                    menuitem_t  *menuitem = &currentMenu->menuitems[itemOn];
 
                     if (ev->data2 >= menuitem->x && ev->data2 < menuitem->x + menuitem->width
                         && ev->data3 >= menuitem->y && ev->data3 < menuitem->y + menuitem->height)
                     {
-                        if (currentMenu == &MainDef)
-                        {
-                            if (i == 2 && !savegames)
-                                continue;
-
-                            if (i == 3 && (gamestate != GS_LEVEL || viewplayer->health <= 0))
-                                continue;
-                        }
-                        else if (currentMenu == &OptionsDef && !i && gamestate != GS_LEVEL)
-                            continue;
-
-                        if (itemOn != i)
-                            S_StartSound(NULL, sfx_pstop);
-
-                        itemOn = i;
-                        break;
+                        key = KEY_ENTER;
+                        mousewait = I_GetTime() + 8;
                     }
+
+                    usinggamepad = false;
                 }
+
+                // select menu item
+                if ((ev->data2 || ev->data3) && mousewait < I_GetTime() && !messagetoprint)
+                    for (int i = 0; i < currentMenu->numitems; i++)
+                    {
+                        menuitem_t  *menuitem = &currentMenu->menuitems[i];
+
+                        if (ev->data2 >= menuitem->x && ev->data2 < menuitem->x + menuitem->width
+                            && ev->data3 >= menuitem->y && ev->data3 < menuitem->y + menuitem->height)
+                        {
+                            if (currentMenu == &MainDef)
+                            {
+                                if (i == 2 && !savegames)
+                                    continue;
+
+                                if (i == 3 && (gamestate != GS_LEVEL || viewplayer->health <= 0))
+                                    continue;
+                            }
+                            else if (currentMenu == &OptionsDef && !i && gamestate != GS_LEVEL)
+                                continue;
+
+                            if (itemOn != i)
+                                S_StartSound(NULL, sfx_pstop);
+
+                            itemOn = i;
+                            break;
+                        }
+                    }
+            }
+            else
+            {
+                // activate menu item
+                if ((ev->data1 & MOUSE_LEFTBUTTON) && mousewait < I_GetTime())
+                {
+                    key = KEY_ENTER;
+                    mousewait = I_GetTime() + 8;
+                    usinggamepad = false;
+                }
+
+                // previous menu
+                else if ((ev->data1 & MOUSE_RIGHTBUTTON) && mousewait < I_GetTime())
+                {
+                    key = KEY_BACKSPACE;
+                    mousewait = I_GetTime() + 8;
+                    usinggamepad = false;
+                }
+            }
         }
 
         // screenshot
