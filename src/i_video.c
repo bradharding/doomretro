@@ -238,12 +238,12 @@ dboolean MouseShouldBeGrabbed(void)
     if ((splashscreen && m_pointer) || (vid_fullscreen && !m_pointer))
         return true;
 
-    // grab the mouse when fading and not in the menu or console
-    if (fadecount && !(menuactive || consoleactive))
-        return true;
-
     // when menu or console is active, release the mouse
-    return !(menuactive || consoleactive);
+    if (menuactive || consoleactive)
+        return false;
+
+    // grab the mouse when playing a game
+    return viewactive;
 }
 
 static void SetShowCursor(dboolean show)
