@@ -2642,16 +2642,15 @@ dboolean M_Responder(event_t *ev)
             // activate menu item
             if ((ev->data1 & MOUSE_LEFTBUTTON) && mousewait < I_GetTime())
             {
-                key = KEY_ENTER;
-                mousewait = I_GetTime() + 8;
-                usinggamepad = false;
-            }
+                menuitem_t  *menuitem = &currentMenu->menuitems[itemOn];
 
-            // previous menu
-            else if ((ev->data1 & MOUSE_RIGHTBUTTON) && mousewait < I_GetTime())
-            {
-                key = KEY_BACKSPACE;
-                mousewait = I_GetTime() + 8;
+                if (ev->data2 >= menuitem->x && ev->data2 < menuitem->x + menuitem->width
+                    && ev->data3 >= menuitem->y && ev->data3 < menuitem->y + menuitem->height)
+                {
+                    key = KEY_ENTER;
+                    mousewait = I_GetTime() + 8;
+                }
+
                 usinggamepad = false;
             }
 
