@@ -235,7 +235,7 @@ dboolean MouseShouldBeGrabbed(void)
         return false;
 
     // grab the mouse when on the splash screen
-    if ((splashscreen && m_pointer) || (vid_fullscreen && !m_pointer))
+    if (splashscreen || !m_pointer)
         return true;
 
     // when menu or console is active, release the mouse
