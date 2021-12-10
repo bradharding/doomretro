@@ -243,7 +243,7 @@ dboolean MouseShouldBeGrabbed(void)
         return false;
 
     // grab the mouse when playing a game
-    return viewactive;
+    return (gamestate == GS_LEVEL);
 }
 
 static void SetShowCursor(dboolean show)
