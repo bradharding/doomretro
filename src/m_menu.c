@@ -3646,6 +3646,8 @@ dboolean M_Responder(event_t *ev)
 //
 void M_StartControlPanel(void)
 {
+    static dboolean firsttime = true;
+
     // intro might call this repeatedly
     if (menuactive)
         return;
@@ -3687,7 +3689,11 @@ void M_StartControlPanel(void)
     }
 
     D_FadeScreen(false);
-    I_RestoreMousePointerPosition();
+
+    if (!firsttime)
+        I_RestoreMousePointerPosition();
+    else
+        firsttime = false;
 }
 
 //
