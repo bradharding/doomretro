@@ -3830,6 +3830,7 @@ void M_Drawer(void)
             patch_t *titlepatch = W_CacheLumpName("M_DOOM");
             int     yy = y + itemOn * (LINEHEIGHT - 1) - 5 + OFFSET + chex;
             int     max = currentMenu->numitems;
+            int     widest = 0;
 
             if (currentMenu == &OptionsDef && !itemOn && gamestate != GS_LEVEL)
                 itemOn++;
@@ -3856,7 +3857,7 @@ void M_Drawer(void)
                         M_DrawPatchWithShadow(x, y + OFFSET, patch);
                         currentMenu->menuitems[i].x = x + WIDESCREENDELTA;
                         currentMenu->menuitems[i].y = y + OFFSET;
-                        currentMenu->menuitems[i].width = SHORT(patch->width);
+                        widest = MAX(widest, SHORT(patch->width));
                         currentMenu->menuitems[i].height = SHORT(patch->height);
                     }
                     else if (M_StringCompare(name, "M_NMARE"))
@@ -3868,7 +3869,7 @@ void M_Drawer(void)
                             M_DrawPatchWithShadow(x, y + OFFSET, patch);
                             currentMenu->menuitems[i].x = x + WIDESCREENDELTA;
                             currentMenu->menuitems[i].y = y + OFFSET;
-                            currentMenu->menuitems[i].width = SHORT(patch->width);
+                            widest = MAX(widest, SHORT(patch->width));
                             currentMenu->menuitems[i].height = SHORT(patch->height);
                         }
                         else
@@ -3879,7 +3880,7 @@ void M_Drawer(void)
                         M_DrawString(x, y + OFFSET, (usinggamepad ? s_M_GAMEPADSENSITIVITY : s_M_MOUSESENSITIVITY));
                         currentMenu->menuitems[i].x = x + WIDESCREENDELTA;
                         currentMenu->menuitems[i].y = y + OFFSET;
-                        currentMenu->menuitems[i].width = M_BigStringWidth(usinggamepad ? s_M_GAMEPADSENSITIVITY : s_M_MOUSESENSITIVITY);
+                        widest = MAX(widest, M_BigStringWidth(usinggamepad ? s_M_GAMEPADSENSITIVITY : s_M_MOUSESENSITIVITY));
                         currentMenu->menuitems[i].height = LINEHEIGHT - 1;
                     }
                     else if (W_CheckNumForName(name) < 0 && **text)   // Custom Episode
@@ -3887,7 +3888,7 @@ void M_Drawer(void)
                         M_DrawString(x, y + OFFSET, *text);
                         currentMenu->menuitems[i].x = x + WIDESCREENDELTA;
                         currentMenu->menuitems[i].y = y + OFFSET;
-                        currentMenu->menuitems[i].width = M_BigStringWidth(*text);
+                        widest = MAX(widest, M_BigStringWidth(*text));
                         currentMenu->menuitems[i].height = LINEHEIGHT - 1;
                     }
                     else if (W_CheckMultipleLumps(name) > 1 || lumpinfo[W_GetNumForName(name)]->wadfile->type == PWAD)
@@ -3897,7 +3898,7 @@ void M_Drawer(void)
                         M_DrawPatchWithShadow(x, y + OFFSET, patch);
                         currentMenu->menuitems[i].x = x + WIDESCREENDELTA;
                         currentMenu->menuitems[i].y = y + OFFSET;
-                        currentMenu->menuitems[i].width = SHORT(patch->width);
+                        widest = MAX(widest, SHORT(patch->width));
                         currentMenu->menuitems[i].height = SHORT(patch->height);
                     }
                     else if (**text)
@@ -3905,13 +3906,16 @@ void M_Drawer(void)
                         M_DrawString(x, y + OFFSET, *text);
                         currentMenu->menuitems[i].x = x + WIDESCREENDELTA;
                         currentMenu->menuitems[i].y = y + OFFSET;
-                        currentMenu->menuitems[i].width = M_BigStringWidth(*text);
+                        widest = MAX(widest, M_BigStringWidth(*text));
                         currentMenu->menuitems[i].height = LINEHEIGHT - 1;
                     }
                 }
 
                 y += LINEHEIGHT - 1;
             }
+
+            for (int i = 0; i < max; i++)
+                currentMenu->menuitems[i].width = widest;
         }
     }
 }
