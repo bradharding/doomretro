@@ -339,6 +339,7 @@ static void time_cvars_func2(char *cmd, char *parms);
 static void alwaysrun_cvar_func2(char *cmd, char *parms);
 static void am_external_cvar_func2(char *cmd, char *parms);
 static dboolean am_followmode_cvar_func1(char *cmd, char *parms);
+static void am_followmode_cvar_func2(char *cmd, char *parms);
 static void am_gridsize_cvar_func2(char *cmd, char *parms);
 static void am_path_cvar_func2(char *cmd, char *parms);
 static dboolean armortype_cvar_func1(char *cmd, char *parms);
@@ -469,7 +470,7 @@ consolecmd_t consolecmds[] =
         "Toggles showing the automap on an external display."),
     CVAR_INT(am_fdwallcolor, am_fdwallcolour, color_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The color of lines in the automap indicating a change in a floor's height (" BOLD("0") " to " BOLD("255") ")."),
-    CVAR_BOOL(am_followmode, "", am_followmode_cvar_func1, bool_cvars_func2, BOOLVALUEALIAS,
+    CVAR_BOOL(am_followmode, "", am_followmode_cvar_func1, am_followmode_cvar_func2, BOOLVALUEALIAS,
         "Toggles follow mode in the automap."),
     CVAR_BOOL(am_grid, "", bool_cvars_func1, bool_cvars_func2, BOOLVALUEALIAS,
         "Toggles the grid in the automap."),
@@ -7726,6 +7727,37 @@ static void am_external_cvar_func2(char *cmd, char *parms)
 static dboolean am_followmode_cvar_func1(char *cmd, char *parms)
 {
     return (!*parms || (!mapwindow && gamestate == GS_LEVEL));
+}
+
+static void am_followmode_cvar_func2(char *cmd, char *parms)
+{
+    if (*parms)
+    {
+        bool_cvars_func2(cmd, parms);
+
+        if (automapactive)
+            D_FadeScreen(false);
+    }
+    else
+    {
+        char    *temp1 = C_LookupAliasFromValue(am_followmode, BOOLVALUEALIAS);
+
+        C_ShowDescription(C_GetIndex(cmd));
+
+        if (am_followmode == am_followmode_default)
+            C_Output(INTEGERCVARISDEFAULT, temp1);
+        else
+        {
+            char    *temp2 = C_LookupAliasFromValue(am_followmode_default, BOOLVALUEALIAS);
+
+            C_Output(INTEGERCVARWITHDEFAULT, temp1, temp2);
+            free(temp2);
+        }
+
+        free(temp1);
+
+        C_Warning(0, "This CVAR is reset to its default at the start of each map.");
+    }
 }
 
 //
