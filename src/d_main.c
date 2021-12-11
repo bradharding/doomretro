@@ -1276,9 +1276,9 @@ static int D_OpenWADLauncher(void)
             // if WAD doesn't exist, it was entered manually and there may be a typo, so look for best match
             if (!M_FileExists(file) && strlen(leafname(file)) > 2)
             {
-                char    *temp1 = W_NearestFilename(folder, leafname(file));
+                char    *temp = W_NearestFilename(folder, leafname(file));
 
-                if (!temp1)
+                if (!temp)
                 {
                     error = true;
                     invalidwad = M_StringDuplicate((char *)ofn.lpstrFile);
@@ -1287,13 +1287,13 @@ static int D_OpenWADLauncher(void)
                 {
                     guess = true;
 
-                    if (!M_StringEndsWith(temp1, leafname(file)))
+                    if (!M_StringEndsWith(temp, leafname(file)))
                         C_Warning(0, "\"%s\" couldn't be found so " BOLD("%s") " was loaded instead.",
-                            leafname((char *)ofn.lpstrFile), temp1);
+                            leafname((char *)ofn.lpstrFile), temp);
 
-                    file = M_StringDuplicate(temp1);
-                    wad = M_StringDuplicate(temp1);
-                    free(temp1);
+                    file = M_StringDuplicate(temp);
+                    wad = M_StringDuplicate(temp);
+                    free(temp);
                 }
             }
             else
