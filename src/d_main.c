@@ -1261,13 +1261,15 @@ static int D_OpenWADLauncher(void)
             {
                 char    *file2 = M_StringDuplicate(file);
 
-                file = M_StringJoin(file, ".wad", NULL);
+                file = M_StringJoin(file2, ".wad", NULL);
 
                 if (!M_FileExists(file))
                     file = M_StringJoin(file2, ".iwad", NULL);
 
                 if (!M_FileExists(file))
                     file = M_StringJoin(file2, ".pwad", NULL);
+
+                free(file2);
             }
 
 #if defined(_WIN32)
@@ -1286,12 +1288,8 @@ static int D_OpenWADLauncher(void)
                     guess = true;
 
                     if (!M_StringEndsWith(temp1, leafname(file)))
-                    {
-                        char    *temp2 = leafname((char *)ofn.lpstrFile);
-
-                        C_Warning(0, "\"%s\" couldn't be found. So " BOLD("%s") " was loaded instead.", temp2, leafname(temp1));
-                        free(temp2);
-                    }
+                        C_Warning(0, "\"%s\" couldn't be found so " BOLD("%s") " was loaded instead.",
+                            leafname((char *)ofn.lpstrFile), temp1);
 
                     file = M_StringDuplicate(temp1);
                     wad = M_StringDuplicate(temp1);
