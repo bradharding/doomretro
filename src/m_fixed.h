@@ -57,6 +57,8 @@
 #define FIXED_MIN       INT32_MIN
 #define FIXED_MAX       INT32_MAX
 
+#define SWAP(a, b)      (((a) ^= (b)), ((b) ^= (a)), ((a) ^= (b)))
+
 typedef int32_t fixed_t;
 
 static inline int ABS(int a)
@@ -87,11 +89,6 @@ static inline float BETWEENF(float a, float b, float c)
 static inline int SIGN(int a)
 {
     return (a < 0 ? -1 : 1);
-}
-
-static inline int SWAP(int a, int b)
-{
-    return (a ^= b, b ^= a, a ^= b);
 }
 
 static inline fixed_t FixedMul(fixed_t a, fixed_t b)

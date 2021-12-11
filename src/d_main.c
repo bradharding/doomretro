@@ -915,54 +915,56 @@ static dboolean D_IsDehFile(char *filename)
 
 static void D_CheckSupportedPWAD(char *filename)
 {
-    if (M_StringCompare(leafname(filename), "SIGIL.wad")
-        || M_StringCompare(leafname(filename), "SIGIL_v1_1.wad")
-        || M_StringCompare(leafname(filename), "SIGIL_v1_2.wad")
-        || M_StringCompare(leafname(filename), "SIGIL_v1_21.wad"))
+    char    *leaf = leafname(filename);
+
+    if (M_StringCompare(leaf, "SIGIL_v1_21.wad")
+        || M_StringCompare(leaf, "SIGIL_v1_2.wad")
+        || M_StringCompare(leaf, "SIGIL_v1_1.wad")
+        || M_StringCompare(leaf, "SIGIL.wad"))
     {
         sigil = true;
         episode = 5;
     }
-    else if (M_StringCompare(leafname(filename), "NERVE.WAD"))
+    else if (M_StringCompare(leaf, "NERVE.WAD"))
     {
         nerve = true;
         expansion = 2;
     }
-    else if (M_StringCompare(leafname(filename), "chex.wad"))
+    else if (M_StringCompare(leaf, "chex.wad"))
         chex = chex1 = true;
-    else if (M_StringCompare(leafname(filename), "chex2.wad"))
+    else if (M_StringCompare(leaf, "chex2.wad"))
         chex = chex2 = true;
-    else if (M_StringCompare(leafname(filename), "btsx_e1.wad"))
+    else if (M_StringCompare(leaf, "btsx_e1.wad"))
         BTSX = BTSXE1 = true;
-    else if (M_StringCompare(leafname(filename), "btsx_e1a.wad"))
+    else if (M_StringCompare(leaf, "btsx_e1a.wad"))
         BTSX = BTSXE1 = BTSXE1A = true;
-    else if (M_StringCompare(leafname(filename), "btsx_e1b.wad"))
+    else if (M_StringCompare(leaf, "btsx_e1b.wad"))
         BTSX = BTSXE1 = BTSXE1B = true;
-    else if (M_StringCompare(leafname(filename), "btsx_e2a.wad"))
+    else if (M_StringCompare(leaf, "btsx_e2a.wad"))
         BTSX = BTSXE2 = BTSXE2A = true;
-    else if (M_StringCompare(leafname(filename), "btsx_e2b.wad"))
+    else if (M_StringCompare(leaf, "btsx_e2b.wad"))
         BTSX = BTSXE2 = BTSXE2B = true;
-    else if (M_StringCompare(leafname(filename), "btsx_e3a.wad"))
+    else if (M_StringCompare(leaf, "btsx_e3a.wad"))
         BTSX = BTSXE3 = BTSXE3A = true;
-    else if (M_StringCompare(leafname(filename), "btsx_e3b.wad"))
+    else if (M_StringCompare(leaf, "btsx_e3b.wad"))
         BTSX = BTSXE3 = BTSXE3B = true;
-    else if (M_StringCompare(leafname(filename), "e1m4b.wad"))
+    else if (M_StringCompare(leaf, "e1m4b.wad"))
         E1M4B = true;
-    else if (M_StringCompare(leafname(filename), "e1m8b.wad"))
+    else if (M_StringCompare(leaf, "e1m8b.wad"))
         E1M8B = true;
-    else if (M_StringCompare(leafname(filename), "d1spfx18.wad")
-        || M_StringCompare(leafname(filename), "d2spfx18.wad"))
+    else if (M_StringCompare(leaf, "d1spfx18.wad")
+        || M_StringCompare(leaf, "d2spfx18.wad"))
         sprfix18 = true;
-    else if (M_StringCompare(leafname(filename), "eviternity.wad"))
+    else if (M_StringCompare(leaf, "eviternity.wad"))
         eviternity = true;
-    else if (M_StringCompare(leafname(filename), "d4v.wad"))
+    else if (M_StringCompare(leaf, "d4v.wad"))
         doom4vanilla = true;
-    else if (M_StringCompare(leafname(filename), "REKKR.wad"))
+    else if (M_StringCompare(leaf, "REKKR.wad"))
         REKKR = true;
-    else if (M_StringCompare(leafname(filename), "rekkrsa.wad"))
+    else if (M_StringCompare(leaf, "rekkrsa.wad"))
         REKKR = REKKRSA = true;
-    else if (M_StringCompare(leafname(filename), "REKKRSL.wad")
-        || M_StringCompare(leafname(filename), "REKKRSL.iwad"))
+    else if (M_StringCompare(leaf, "REKKRSL.wad")
+        || M_StringCompare(leaf, "REKKRSL.iwad"))
         REKKR = REKKRSL = true;
 }
 
@@ -1283,7 +1285,7 @@ static int D_OpenWADLauncher(void)
                     guess = true;
 
                     if (!M_StringEndsWith(temp, leafname(file)))
-                        C_Warning(0, "\"%s\" couldn't be found so " BOLD("%s") " was loaded instead.",
+                        C_Warning(0, "\"%s\" wasn't found so " BOLD("%s") " was loaded instead.",
                             leafname((char *)ofn.lpstrFile), temp);
 
                     file = M_StringDuplicate(temp);
