@@ -2243,7 +2243,6 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
     if (tplayer)
     {
         int cheats = tplayer->cheats;
-        int damagecount;
 
         if (freeze && (!inflicter || !inflicter->player))
             return;
@@ -2311,7 +2310,7 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
         else
         {
             // add damage after armor/invuln
-            damagecount = tplayer->damagecount + damage;
+            int damagecount = tplayer->damagecount + damage;
 
             if (damage > 0 && damagecount < 8)
                 damagecount = 8;

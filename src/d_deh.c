@@ -2476,9 +2476,7 @@ static void deh_procThing(DEHFILE *fpin, char *line)
             break;              // bail out with blank line between sections
 
         // e6y: Correction of wrong processing of Bits parameter if its value is equal to zero
-        bGetData = deh_GetData(inbuffer, key, &value, &strval);
-
-        if (!bGetData)
+        if (!(bGetData = deh_GetData(inbuffer, key, &value, &strval)))
         {
             C_Warning(1, "Bad data pair in \"%s\".", inbuffer);
             continue;
@@ -2497,14 +2495,11 @@ static void deh_procThing(DEHFILE *fpin, char *line)
                     mobjinfo[indexnum].flags = value;
                 else
                 {
-                    // figure out what the bits are
-                    value = 0;
-
                     // killough 10/98: replace '+' kludge with strtok() loop
                     // Fix error-handling case ('found' var wasn't being reset)
                     //
                     // Use OR logic instead of addition, to allow repetition
-                    for (; (strval = strtok(strval, ",+| \t\f\r")); strval = NULL)
+                    for (value = 0; (strval = strtok(strval, ",+| \t\f\r")); strval = NULL)
                     {
                         int iy;
 
@@ -2585,7 +2580,10 @@ static void deh_procThing(DEHFILE *fpin, char *line)
             }
             else if (M_StringCompare(key, "MBF21 bits"))
             {
-                if (!value)
+                // bit set
+                if (bGetData == 1)
+                    mobjinfo[indexnum].mbf21flags = value;
+                else
                 {
                     for (value = 0; (strval = strtok(strval, ",+| \t\f\r")); strval = NULL)
                     {
@@ -2610,9 +2608,10 @@ static void deh_procThing(DEHFILE *fpin, char *line)
                     // Don't worry about conversion -- simply print values
                     if (devparm)
                         C_Output("Bits = 0x%08x = %i.", value, value);
+
+                    mobjinfo[indexnum].mbf21flags = value;
                 }
 
-                mobjinfo[indexnum].mbf21flags = value;
                 mbf21compatible = true;
             }
             else if (M_StringCompare(key, "Dropped item"))
@@ -3074,6 +3073,8 @@ static void deh_procWeapon(DEHFILE *fpin, char *line)
 
     while (!dehfeof(fpin) && *inbuffer && *inbuffer != ' ')
     {
+        int bGetData;
+
         if (!dehfgets(inbuffer, sizeof(inbuffer), fpin))
             break;
 
@@ -3082,7 +3083,7 @@ static void deh_procWeapon(DEHFILE *fpin, char *line)
         if (!*inbuffer)
             break;                                          // killough 11/98
 
-        if (!deh_GetData(inbuffer, key, &value, &strval))   // returns TRUE if ok
+        if (!(bGetData = deh_GetData(inbuffer, key, &value, &strval)))
         {
             C_Warning(1, "Bad data pair in \"%s\".", inbuffer);
             continue;
@@ -3107,7 +3108,10 @@ static void deh_procWeapon(DEHFILE *fpin, char *line)
         }
         else if (M_StringCompare(key, deh_weapon[7]))       // MBF21 Bits
         {
-            if (!value)
+            if (bGetData == 1)
+                weaponinfo[indexnum].flags = value;
+            else
+            {
                 for (value = 0; (strval = strtok(strval, ",+| \t\f\r")); strval = NULL)
                 {
                     int iy;
@@ -3125,7 +3129,9 @@ static void deh_procWeapon(DEHFILE *fpin, char *line)
                         C_Warning(1, "Could not find MBF21 weapon bit mnemonic \"%s\".", strval);
                 }
 
-            weaponinfo[indexnum].flags = value;
+                weaponinfo[indexnum].flags = value;
+            }
+
             mbf21compatible = true;
         }
         else
