@@ -137,8 +137,8 @@ static void FillBuffer(void)
             int volume = MIDIEVENT_VOLUME(event->dwEvent);
 
             channel_volume[MIDIEVENT_CHANNEL(event->dwEvent)] = volume;
-            volume = volume_correction[(int)((float)volume * volume_factor)];
-            event->dwEvent = ((event->dwEvent & 0xFF00FFFF) | ((volume & 0x7F) << 16));
+            event->dwEvent = ((event->dwEvent & 0xFF00FFFF)
+                | ((volume_correction[(int)((float)volume * volume_factor)] & 0x7F) << 16));
         }
 
         song.position++;
@@ -327,12 +327,8 @@ void I_Windows_SetMusicVolume(int volume)
 
     // Send MIDI controller events to adjust the volume.
     for (int i = 0; i < MIDI_CHANNELS_PER_TRACK; i++)
-    {
-        const int   value = volume_correction[(int)((float)channel_volume[i] * volume_factor)];
-        const DWORD msg = (MIDI_EVENT_CONTROLLER | i | (MIDI_CONTROLLER_MAIN_VOLUME << 8) | (value << 16));
-
-        midiOutShortMsg((HMIDIOUT)hMidiStream, msg);
-    }
+        midiOutShortMsg((HMIDIOUT)hMidiStream, (MIDI_EVENT_CONTROLLER | i | (MIDI_CONTROLLER_MAIN_VOLUME << 8)
+            | (volume_correction[(int)((float)channel_volume[i] * volume_factor)] << 16)));
 }
 
 void I_Windows_StopSong(void)

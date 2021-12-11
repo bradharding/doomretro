@@ -1092,8 +1092,7 @@ void A_CPosRefire(mobj_t *actor, player_t *player, pspdef_t *psp)
         return;
 
     // killough 11/98: prevent refiring on friends continuously
-    if (!(target = actor->target) || target->health <= 0 || (actor->flags & actor->target->flags & MF_FRIEND)
-        || !P_CheckSight(actor, target))
+    if (!(target = actor->target) || target->health <= 0 || (actor->flags & target->flags & MF_FRIEND) || !P_CheckSight(actor, target))
         P_SetMobjState(actor, actor->info->seestate);
 }
 
@@ -1115,8 +1114,7 @@ void A_SpidRefire(mobj_t *actor, player_t *player, pspdef_t *psp)
         return;
 
     // killough 11/98: prevent refiring on friends continuously
-    if (!(target = actor->target) || target->health <= 0 || (actor->flags & actor->target->flags & MF_FRIEND)
-        || !P_CheckSight(actor, target))
+    if (!(target = actor->target) || target->health <= 0 || (actor->flags & target->flags & MF_FRIEND) || !P_CheckSight(actor, target))
         P_SetMobjState(actor, actor->info->seestate);
 }
 
