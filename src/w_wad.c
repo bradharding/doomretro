@@ -230,7 +230,7 @@ static int LevenshteinDistance(char *string1, char *string2)
     return result;
 }
 
-char *W_NearestFilename(char *path, char *string)
+char *W_GuessFilename(char *path, char *string)
 {
     WIN32_FIND_DATA FindFileData;
     char            *file = M_StringJoin(path, DIR_SEPARATOR_S "*.wad", NULL);

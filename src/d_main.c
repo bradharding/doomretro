@@ -1273,17 +1273,12 @@ static int D_OpenWADLauncher(void)
             }
 
 #if defined(_WIN32)
-            // if WAD doesn't exist, it was entered manually and there may be a typo, so look for best match
+            // if WAD doesn't exist, it was entered manually and there may be a typo, so guess what was intended
             if (!M_FileExists(file) && strlen(leafname(file)) > 2)
             {
-                char    *temp = W_NearestFilename(folder, leafname(file));
+                char    *temp = W_GuessFilename(folder, leafname(file));
 
-                if (!temp)
-                {
-                    error = true;
-                    invalidwad = M_StringDuplicate((char *)ofn.lpstrFile);
-                }
-                else
+                if (temp)
                 {
                     guess = true;
 
@@ -1294,6 +1289,11 @@ static int D_OpenWADLauncher(void)
                     file = M_StringDuplicate(temp);
                     wad = M_StringDuplicate(temp);
                     free(temp);
+                }
+                else
+                {
+                    error = true;
+                    invalidwad = M_StringDuplicate((char *)ofn.lpstrFile);
                 }
             }
             else
