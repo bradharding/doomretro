@@ -525,9 +525,9 @@ void AM_ToggleMaxZoom(void)
         D_FadeScreen(false);
 }
 
-void AM_ToggleFollowMode(void)
+void AM_ToggleFollowMode(dboolean value)
 {
-    if ((am_followmode = !am_followmode))
+    if ((am_followmode = value))
     {
         m_paninc.x = 0;
         m_paninc.y = 0;
@@ -655,9 +655,9 @@ void AM_AddToPath(void)
     pathpoints[pathpointnum++].y = prevy = y;
 }
 
-void AM_ToggleRotateMode(void)
+void AM_ToggleRotateMode(dboolean value)
 {
-    if ((am_rotatemode = !am_rotatemode))
+    if ((am_rotatemode = value))
     {
         C_StrCVAROutput(stringize(am_rotatemode), "on");
         C_Output(s_AMSTR_ROTATEON);
@@ -823,7 +823,7 @@ dboolean AM_Responder(const event_t *ev)
                     if (keydown != AM_FOLLOWKEY)
                     {
                         keydown = key;
-                        AM_ToggleFollowMode();
+                        AM_ToggleFollowMode(!am_followmode);
                     }
                 }
 
@@ -857,7 +857,7 @@ dboolean AM_Responder(const event_t *ev)
                     if (keydown != AM_ROTATEKEY)
                     {
                         keydown = key;
-                        AM_ToggleRotateMode();
+                        AM_ToggleRotateMode(!am_rotatemode);
                     }
                 }
                 else
@@ -1008,7 +1008,7 @@ dboolean AM_Responder(const event_t *ev)
                 // toggle follow mode
                 else if (gamepadbuttons & gamepadautomapfollowmode)
                 {
-                    AM_ToggleFollowMode();
+                    AM_ToggleFollowMode(!am_followmode);
                     gamepadwait = I_GetTime() + 12;
                 }
 
@@ -1036,7 +1036,7 @@ dboolean AM_Responder(const event_t *ev)
                 // toggle rotate mode
                 else if (gamepadbuttons & gamepadautomaprotatemode)
                 {
-                    AM_ToggleRotateMode();
+                    AM_ToggleRotateMode(!am_rotatemode);
                     gamepadwait = I_GetTime() + 12;
                 }
 

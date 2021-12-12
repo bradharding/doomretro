@@ -1261,17 +1261,17 @@ static int D_OpenWADLauncher(void)
                 && !M_StringEndsWith(file, ".bex") && !M_StringEndsWith(file, ".cfg")
                 && !strchr(file, '.'))
             {
-                char    *file2 = M_StringDuplicate(file);
+                char    *temp = M_StringDuplicate(file);
 
-                file = M_StringJoin(file2, ".wad", NULL);
-
-                if (!M_FileExists(file))
-                    file = M_StringJoin(file2, ".iwad", NULL);
+                file = M_StringJoin(temp, ".wad", NULL);
 
                 if (!M_FileExists(file))
-                    file = M_StringJoin(file2, ".pwad", NULL);
+                    file = M_StringJoin(temp, ".iwad", NULL);
 
-                free(file2);
+                if (!M_FileExists(file))
+                    file = M_StringJoin(temp, ".pwad", NULL);
+
+                free(temp);
             }
 
 #if defined(_WIN32)

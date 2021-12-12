@@ -336,10 +336,10 @@ static void time_cvars_func2(char *cmd, char *parms);
 
 static void alwaysrun_cvar_func2(char *cmd, char *parms);
 static void am_external_cvar_func2(char *cmd, char *parms);
-static dboolean am_followmode_cvar_func1(char *cmd, char *parms);
 static void am_followmode_cvar_func2(char *cmd, char *parms);
 static void am_gridsize_cvar_func2(char *cmd, char *parms);
 static void am_path_cvar_func2(char *cmd, char *parms);
+static void am_rotatemode_cvar_func2(char *cmd, char *parms);
 static dboolean armortype_cvar_func1(char *cmd, char *parms);
 static void armortype_cvar_func2(char *cmd, char *parms);
 static void autotilt_cvar_func2(char *cmd, char *parms);
@@ -468,7 +468,7 @@ consolecmd_t consolecmds[] =
         "Toggles showing the automap on an external display."),
     CVAR_INT(am_fdwallcolor, am_fdwallcolour, color_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The color of lines in the automap indicating a change in a floor's height (" BOLD("0") " to " BOLD("255") ")."),
-    CVAR_BOOL(am_followmode, "", am_followmode_cvar_func1, am_followmode_cvar_func2, CF_MAPRESET, BOOLVALUEALIAS,
+    CVAR_BOOL(am_followmode, "", game_func1, am_followmode_cvar_func2, CF_MAPRESET, BOOLVALUEALIAS,
         "Toggles follow mode in the automap."),
     CVAR_BOOL(am_grid, "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles the grid in the automap."),
@@ -488,7 +488,7 @@ consolecmd_t consolecmds[] =
         "Toggles player stats in the automap."),
     CVAR_INT(am_reddoorcolor, am_reddoorcolour, color_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The color of doors in the automap unlocked using a red keycard or skull key (" BOLD("0") " to " BOLD("255") ")."),
-    CVAR_BOOL(am_rotatemode, "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
+    CVAR_BOOL(am_rotatemode, "", bool_cvars_func1, am_rotatemode_cvar_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles rotate mode in the automap."),
     CVAR_INT(am_teleportercolor, am_teleportercolour, color_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The color of teleporter lines in the automap (" BOLD("0") " to " BOLD("255") ")."),
@@ -956,8 +956,8 @@ static void fire_action_func(void)
 
 static void followmode_action_func(void)
 {
-    if (automapactive)
-        AM_ToggleFollowMode();
+    if (automapactive || mapwindow)
+        AM_ToggleFollowMode(!am_followmode);
 }
 
 static void forward_action_func(void)
@@ -1024,7 +1024,7 @@ static void right_action_func(void)
 static void rotatemode_action_func(void)
 {
     if (automapactive || mapwindow)
-        AM_ToggleRotateMode();
+        AM_ToggleRotateMode(!am_rotatemode);
 }
 
 static void screenshot_action_func(void)
@@ -7739,17 +7739,38 @@ static void am_external_cvar_func2(char *cmd, char *parms)
 //
 // am_followmode CVAR
 //
-static dboolean am_followmode_cvar_func1(char *cmd, char *parms)
-{
-    return (!*parms || (!mapwindow && gamestate == GS_LEVEL));
-}
-
 static void am_followmode_cvar_func2(char *cmd, char *parms)
 {
-    bool_cvars_func2(cmd, parms);
+    if (*parms)
+    {
+        const dboolean  am_followmode_old = am_followmode;
 
-    if (automapactive)
-        D_FadeScreen(false);
+        bool_cvars_func2(cmd, parms);
+
+        if (automapactive && am_followmode != am_followmode_old)
+            AM_ToggleFollowMode(am_followmode);
+    }
+    else
+    {
+        char    *temp1 = C_LookupAliasFromValue(am_followmode, BOOLVALUEALIAS);
+        int     i = C_GetIndex(cmd);
+
+        C_ShowDescription(i);
+
+        if (am_followmode == am_followmode_default)
+            C_Output(INTEGERCVARISDEFAULT, temp1);
+        else
+        {
+            char    *temp2 = C_LookupAliasFromValue(am_followmode_default, BOOLVALUEALIAS);
+
+            C_Output(INTEGERCVARWITHDEFAULT, temp1, temp2);
+            free(temp2);
+        }
+
+        free(temp1);
+
+        C_ShowWarning(i);
+    }
 }
 
 //
@@ -7797,6 +7818,44 @@ static void am_path_cvar_func2(char *cmd, char *parms)
     if (automapactive)
         D_FadeScreen(false);
 }
+
+//
+// am_rotatemode CVAR
+//
+static void am_rotatemode_cvar_func2(char *cmd, char *parms)
+{
+    if (*parms)
+    {
+        const dboolean  am_rotatemode_old = am_rotatemode;
+
+        bool_cvars_func2(cmd, parms);
+
+        if (automapactive && am_rotatemode != am_rotatemode_old)
+            AM_ToggleRotateMode(am_rotatemode);
+    }
+    else
+    {
+        char    *temp1 = C_LookupAliasFromValue(am_rotatemode, BOOLVALUEALIAS);
+        int     i = C_GetIndex(cmd);
+
+        C_ShowDescription(i);
+
+        if (am_rotatemode == am_rotatemode_default)
+            C_Output(INTEGERCVARISDEFAULT, temp1);
+        else
+        {
+            char    *temp2 = C_LookupAliasFromValue(am_rotatemode_default, BOOLVALUEALIAS);
+
+            C_Output(INTEGERCVARWITHDEFAULT, temp1, temp2);
+            free(temp2);
+        }
+
+        free(temp1);
+
+        C_ShowWarning(i);
+    }
+}
+
 
 //
 // armortype CVAR
