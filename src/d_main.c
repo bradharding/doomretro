@@ -636,7 +636,7 @@ void D_DoAdvanceTitle(void)
         {
             I_SetPalette(PLAYPAL);
             splashscreen = false;
-            I_Sleep(300);
+            I_Sleep(1000);
         }
 
         M_SetWindowCaption();
@@ -1095,6 +1095,7 @@ static dboolean D_CheckParms(void)
                 else
                     M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", iwadfolder, iwadsrequired[iwadrequired]);
 #endif
+
                 D_IdentifyIWADByName(fullpath);
 
                 if (W_AddFile(fullpath, true))
@@ -1722,6 +1723,7 @@ static int D_OpenWADLauncher(void)
                     {
                         char    *fullpath = (char *)[url fileSystemRepresentation];
 #endif
+
                         if (W_WadType(fullpath) == PWAD && !D_IsUnsupportedPWAD(fullpath) && !D_IsDehFile(fullpath))
                         {
                             D_CheckSupportedPWAD(fullpath);
@@ -2521,6 +2523,8 @@ static void D_DoomMainSetup(void)
     seconds = striptrailingzero((I_GetTimeMS() - startuptimer) / 1000.0f, 1);
     C_Output("Startup took %s second%s to complete.", seconds, (M_StringCompare(seconds, "1") ? "" : "s"));
     free(seconds);
+
+    I_Sleep(500);
 }
 
 //

@@ -7856,7 +7856,6 @@ static void am_rotatemode_cvar_func2(char *cmd, char *parms)
     }
 }
 
-
 //
 // armortype CVAR
 //
