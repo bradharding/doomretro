@@ -85,15 +85,19 @@ typedef enum
 
 enum
 {
-    CF_NONE     =   0,
-    CF_BOOLEAN  =   1,
-    CF_FLOAT    =   2,
-    CF_INTEGER  =   4,
-    CF_PERCENT  =   8,
-    CF_STRING   =  16,
-    CF_TIME     =  32,
-    CF_OTHER    =  64,
-    CF_READONLY = 128
+    CF_NONE         =    0,
+    CF_BOOLEAN      =    1,
+    CF_FLOAT        =    2,
+    CF_INTEGER      =    4,
+    CF_PERCENT      =    8,
+    CF_STRING       =   16,
+    CF_TIME         =   32,
+    CF_OTHER        =   64,
+    CF_READONLY     =  128,
+    CF_STARTUPRESET =  256,
+    CF_MAPRESET     =  512,
+    CF_NEXTMAP      = 1024,
+    CF_PISTOLSTART  = 2048
 };
 
 typedef struct
