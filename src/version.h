@@ -6,8 +6,8 @@
 
 ========================================================================
 
-  Copyright © 1993-2021 by id Software LLC, a ZeniMax Media company.
-  Copyright © 2013-2021 by Brad Harding <mailto:brad@doomretro.com>.
+  Copyright © 1993-2022 by id Software LLC, a ZeniMax Media company.
+  Copyright © 2013-2022 by Brad Harding <mailto:brad@doomretro.com>.
 
   DOOM Retro is a fork of Chocolate DOOM. For a list of credits, see
   <https://github.com/bradharding/doomretro/wiki/CREDITS>.
@@ -48,7 +48,7 @@
 #define DOOMRETRO_AUTHOR                "Brad Harding"
 #define DOOMRETRO_AUTHOREMAIL           "Brad Harding <brad@doomretro.com>"
 #define DOOMRETRO_CONFIG                "doomretro.cfg"
-#define DOOMRETRO_COPYRIGHT             "\xA9 2013\x962021 by Brad Harding. All rights reserved."
+#define DOOMRETRO_COPYRIGHT             "\xA9 2013\x962022 by Brad Harding. All rights reserved."
 #define DOOMRETRO_FILENAME              "doomretro.exe"
 #define DOOMRETRO_ICONPATH              "..\\res\\doomretro.ico"
 #define DOOMRETRO_LICENSE               "GNU General Public License v3.0"
