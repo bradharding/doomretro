@@ -758,7 +758,10 @@ void C_ShowConsole(void)
     }
 
     I_RestoreMousePointerPosition();
-    S_LowerMusicVolume();
+
+    if (gamestate == GS_LEVEL)
+        S_LowerMusicVolume();
+
     SDL_StartTextInput();
 }
 

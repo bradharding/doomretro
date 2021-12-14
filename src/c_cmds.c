@@ -9154,7 +9154,10 @@ static void s_volume_cvars_func2(char *cmd, char *parms)
         {
             s_musicvolume = value;
             musicVolume = (s_musicvolume * 31 + 50) / 100;
-            S_LowerMusicVolume();
+
+            if (gamestate == GS_LEVEL)
+                S_LowerMusicVolume();
+
             M_SaveCVARs();
         }
         else if (s_sfxvolume != value)
