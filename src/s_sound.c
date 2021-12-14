@@ -594,8 +594,7 @@ void S_SetMusicVolume(int volume)
 
 void S_LowerMusicVolume(void)
 {
-    if (s_menumusicvolume)
-        S_SetMusicVolume((int)(musicVolume * MIX_MAX_VOLUME / 31 / LOWER_MUSIC_VOLUME_FACTOR));
+    S_SetMusicVolume((int)(musicVolume * MIX_MAX_VOLUME / 31 / (s_menumusicvolume ? LOWER_MUSIC_VOLUME_FACTOR : 1.0f)));
 }
 
 void S_SetSfxVolume(int volume)
