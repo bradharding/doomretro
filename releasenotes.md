@@ -10,6 +10,7 @@
 * Minor changes have been made to text that is output to the console.
 * A crash no longer occurs when ending a game from the options menu.
 * The screen size is now always correct if changed from the options menu while not playing a game.
+* The lower music volume in the menu and console may now be disabled using the new `s_menumusicvolume` CVAR. This CVAR is `on` by default and `off` when vanilla mode is enabled.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
