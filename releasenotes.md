@@ -7,10 +7,10 @@
 * A mouse pointer is now displayed while the menu is open that may be used to select menu items. It may be disabled by the new `m_pointer` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
 * Minor improvements have been made to the support of *MBF21*-compatible maps and mods.
 * Minor improvements have been made to the playback of MIDI music.
+* Lowering the music’s volume in the menu and console may now be disabled using the new `s_menumusicvolume` CVAR. This CVAR is `on` by default and `off` when vanilla mode is enabled.
 * Minor changes have been made to text that is output to the console.
 * A crash no longer occurs when ending a game from the options menu.
 * The screen size is now always correct if changed from the options menu while not playing a game.
-* Lowering the music’s volume in the menu and console may now be disabled using the new `s_menumusicvolume` CVAR. This CVAR is `on` by default and `off` when vanilla mode is enabled.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

@@ -1524,12 +1524,7 @@ static void M_MusicVol(int choice)
             if (musicVolume > 0)
             {
                 musicVolume--;
-
-                if (gamestate == GS_LEVEL)
-                    S_LowerMusicVolume();
-                else
-                    S_SetMusicVolume(musicVolume * MIX_MAX_VOLUME / 31);
-
+                S_LowerMusicVolume();
                 S_StartSound(NULL, sfx_stnmov);
                 s_musicvolume = musicVolume * 100 / 31;
                 C_PctCVAROutput(stringize(s_musicvolume), s_musicvolume);
@@ -1542,12 +1537,7 @@ static void M_MusicVol(int choice)
             if (musicVolume < 31)
             {
                 musicVolume++;
-
-                if (gamestate == GS_LEVEL)
-                    S_LowerMusicVolume();
-                else
-                    S_SetMusicVolume(musicVolume * MIX_MAX_VOLUME / 31);
-
+                S_LowerMusicVolume();
                 S_StartSound(NULL, sfx_stnmov);
                 s_musicvolume = musicVolume * 100 / 31;
                 C_PctCVAROutput(stringize(s_musicvolume), s_musicvolume);
@@ -3705,10 +3695,9 @@ void M_StartControlPanel(void)
         }
         else
             R_SetViewSize(r_screensize_max);
-
-        S_LowerMusicVolume();
     }
 
+    S_LowerMusicVolume();
     D_FadeScreen(false);
 
     if (!firsttime)
@@ -3947,10 +3936,9 @@ void M_ClearMenus(void)
             R_SetViewSize(r_screensize);
 
         AM_SetAutomapSize(r_screensize);
-
-        S_SetMusicVolume(musicVolume * MIX_MAX_VOLUME / 31);
     }
 
+    S_SetMusicVolume(musicVolume * MIX_MAX_VOLUME / 31);
     I_SaveMousePointerPosition();
 }
 
