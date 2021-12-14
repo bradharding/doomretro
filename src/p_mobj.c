@@ -1103,8 +1103,8 @@ void P_SpawnMoreBlood(mobj_t *mobj)
 
         if (!(mobj->flags & MF_SPAWNCEILING))
         {
-            x += M_BigRandomInt(-radius / 3, radius / 3) << FRACBITS;
-            y += M_BigRandomInt(-radius / 3, radius / 3) << FRACBITS;
+            x += (M_BigRandomInt(-radius / 3, radius / 3) << FRACBITS);
+            y += (M_BigRandomInt(-radius / 3, radius / 3) << FRACBITS);
         }
 
         for (int j = 0; j < max; j++)
@@ -1541,7 +1541,7 @@ mobj_t *P_SpawnMissile(mobj_t *source, mobj_t *dest, mobjtype_t type)
 
     // fuzzy player
     if (dest->flags & MF_FUZZ)
-        an += M_SubRandom() << 20;
+        an += (M_SubRandom() << 20);
 
     th->angle = an;
     an >>= ANGLETOFINESHIFT;

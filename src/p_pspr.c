@@ -665,7 +665,7 @@ static void P_GunShot(mobj_t *actor, dboolean accurate)
     angle_t angle = actor->angle;
 
     if (!accurate)
-        angle += M_SubRandom() << 18;
+        angle += (M_SubRandom() << 18);
 
     P_LineAttack(actor, angle, MISSILERANGE, bulletslope, 5 * (M_Random() % 3 + 1));
 }

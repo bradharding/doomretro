@@ -908,7 +908,7 @@ void A_FaceTarget(mobj_t *actor, player_t *player, pspdef_t *psp)
     actor->angle = R_PointToAngle2(actor->x, actor->y, target->x, target->y);
 
     if (target->flags & MF_FUZZ)
-        actor->angle += M_SubRandom() << 21;
+        actor->angle += (M_SubRandom() << 21);
 }
 
 //
@@ -2325,9 +2325,10 @@ void A_Mushroom(mobj_t *actor, player_t *player, pspdef_t *psp)
             mobj_t  target = *actor;
             mobj_t  *mo;
 
-            target.x += i << FRACBITS;                          // Aim in many directions from source
-            target.y += j << FRACBITS;
+            target.x += (i << FRACBITS);                        // Aim in many directions from source
+            target.y += (j << FRACBITS);
             target.z += P_ApproxDistance(i, j) * misc1;         // Aim up fairly high
+
             mo = P_SpawnMissile(actor, &target, MT_FATSHOT);    // Launch fireball
             mo->momx = FixedMul(mo->momx, misc2);
             mo->momy = FixedMul(mo->momy, misc2);               // Slow down a bit

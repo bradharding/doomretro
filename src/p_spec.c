@@ -3284,8 +3284,8 @@ void T_Pusher(pusher_t *pusher)
             }
         }
 
-        thing->momx += xspeed << (FRACBITS - PUSH_FACTOR);
-        thing->momy += yspeed << (FRACBITS - PUSH_FACTOR);
+        thing->momx += (xspeed << (FRACBITS - PUSH_FACTOR));
+        thing->momy += (yspeed << (FRACBITS - PUSH_FACTOR));
     }
 }
 
