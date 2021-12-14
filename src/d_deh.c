@@ -2129,12 +2129,12 @@ static const deh_bexptr deh_bexptrs[] =
 };
 
 // to hold startup code pointers from INFO.C
-static actionf_t deh_codeptr[NUMSTATES];
+static actionf_t    deh_codeptr[NUMSTATES];
 
 // haleyjd: support for BEX SPRITES, SOUNDS, and MUSIC
-char    *deh_spritenames[NUMSPRITES + 1];
-char    *deh_musicnames[NUMMUSIC + 1];
-char    *deh_soundnames[NUMSFX + 1];
+char                *deh_spritenames[NUMSPRITES + 1];
+char                *deh_musicnames[NUMMUSIC + 1];
+char                *deh_soundnames[NUMSFX + 1];
 
 void D_BuildBEXTables(void)
 {
@@ -2154,7 +2154,14 @@ void D_BuildBEXTables(void)
         states[i].nextstate = i;
         states[i].misc1 = 0;
         states[i].misc2 = 0;
+
+        for (int j = 0; j < MAXSTATEARGS; j++)
+            states[i].args[j] = 0;
+
+        states[i].flags = 0;
+        states[i].translucent = false;
         states[i].dehacked = false;
+
         deh_codeptr[i] = states[i].action;
     }
 
@@ -2166,12 +2173,14 @@ void D_BuildBEXTables(void)
     for (i = 1; i < NUMMUSIC; i++)
         deh_musicnames[i] = M_StringDuplicate(S_music[i].name1);
 
-    deh_musicnames[0] = deh_musicnames[NUMMUSIC] = NULL;
+    deh_musicnames[0] = NULL;
+    deh_musicnames[NUMMUSIC] = NULL;
 
     for (i = 1; i < NUMSFX; i++)
         deh_soundnames[i] = (S_sfx[i].name1[0] != '\0' ? M_StringDuplicate(S_sfx[i].name1) : NULL);
 
-    deh_soundnames[0] = deh_soundnames[NUMSFX] = NULL;
+    deh_soundnames[0] = NULL;
+    deh_soundnames[NUMSFX] = NULL;
 
     // MBF21
     for (i = S_SARG_RUN1; i <= S_SARG_PAIN2; ++i)
