@@ -96,7 +96,7 @@ static channel_t    *channels;
 static sobj_t       *sobjs;
 
 int                 s_channels = s_channels_default;
-dboolean            s_menumusicvolume = s_menumusicvolume_default;
+dboolean            s_lowermenumusic = s_lowermenumusic_default;
 int                 s_musicvolume = s_musicvolume_default;
 dboolean            s_randommusic = s_randommusic_default;
 dboolean            s_randompitch = s_randompitch_default;
@@ -594,7 +594,7 @@ void S_SetMusicVolume(int volume)
 
 void S_LowerMusicVolume(void)
 {
-    S_SetMusicVolume((int)(musicVolume * MIX_MAX_VOLUME / 31 / (s_menumusicvolume ? LOWER_MUSIC_VOLUME_FACTOR : 1.0f)));
+    S_SetMusicVolume((int)(musicVolume * MIX_MAX_VOLUME / 31 / (s_lowermenumusic ? LOWER_MUSIC_VOLUME_FACTOR : 1.0f)));
 }
 
 void S_SetSfxVolume(int volume)

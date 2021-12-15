@@ -104,7 +104,7 @@ r_translucency off
 regenhealth off
 respawnitems off
 s_channels 8
-s_menumusicvolume off
+s_lowermenumusic off
 s_randommusic off
 s_randompitch off
 s_stereo on

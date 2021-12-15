@@ -794,7 +794,7 @@ consolecmd_t consolecmds[] =
         "Resurrects the " BOLD("player") ", " BOLD("all") " monsters or a type of " BOLDITALICS("monster") "."),
     CVAR_INT(s_channels, "", int_cvars_func1, int_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The number of sound effects that can be played at the same time (" BOLD("8") " to " BOLD("64") ")."),
-    CVAR_BOOL(s_menumusicvolume, "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
+    CVAR_BOOL(s_lowermenumusic, "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles lowering the music's volume in the menu and console."),
     CVAR_INT(s_musicvolume, "", s_volume_cvars_func1, s_volume_cvars_func2, CF_PERCENT, NOVALUEALIAS,
         "The volume level of music (" BOLD("0%") " to " BOLD("100%") ")."),
