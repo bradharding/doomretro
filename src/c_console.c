@@ -1349,12 +1349,16 @@ void C_Drawer(void)
                     }
 
                 if ((yy += SCREENWIDTH) >= CONSOLETOP)
+                {
+                    byte    *tinttab = (!yy ? tinttab25 : tinttab50);
+
                     for (int xx = yy + CONSOLETEXTX; xx < yy + CONSOLETEXTPIXELWIDTH + CONSOLETEXTX; xx++)
                     {
                         byte    *dest = &screens[0][xx];
 
-                        *dest = tinttab50[consoledividercolor + *dest];
+                        *dest = tinttab[consoledividercolor + *dest];
                     }
+                }
             }
             else if ((len = (int)strlen(console[i].string)))
             {
