@@ -1678,7 +1678,7 @@ void G_SetFastParms(dboolean fast_pending)
 
     if (fast != fast_pending)               // only change if necessary
     {
-        for (int i = 0; i < NUMMOBJTYPES; ++i)
+        for (int i = 0; i < NUMMOBJTYPES; i++)
             if (mobjinfo[i].altspeed != NO_ALTSPEED)
                 SWAP(mobjinfo[i].speed, mobjinfo[i].altspeed);
 

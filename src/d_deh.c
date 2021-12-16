@@ -2183,7 +2183,7 @@ void D_BuildBEXTables(void)
     deh_soundnames[NUMSFX] = NULL;
 
     // MBF21
-    for (i = S_SARG_RUN1; i <= S_SARG_PAIN2; ++i)
+    for (i = S_SARG_RUN1; i <= S_SARG_PAIN2; i++)
         states[i].flags |= STATEF_SKILL5FAST;
 }
 
@@ -4342,7 +4342,7 @@ void PostProcessDeh(void)
     {
         bexptr_match = &null_bexptr;
 
-        for (j = 0; deh_bexptrs[j].cptr; ++j)
+        for (j = 0; deh_bexptrs[j].cptr; j++)
             if (states[i].action == deh_bexptrs[j].cptr)
             {
                 bexptr_match = &deh_bexptrs[j];

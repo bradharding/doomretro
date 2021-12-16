@@ -334,7 +334,7 @@ void I_Windows_StopSong(void)
         hPlayerThread = NULL;
     }
 
-    for (int i = 0; i < MIDI_CHANNELS_PER_TRACK; ++i)
+    for (int i = 0; i < MIDI_CHANNELS_PER_TRACK; i++)
     {
         // RPN sequence to adjust pitch bend range (RPN value 0x0000)
         midiOutShortMsg((HMIDIOUT)hMidiStream, (MIDI_EVENT_CONTROLLER | i | (0x65 << 8) | (0x00 << 16)));
