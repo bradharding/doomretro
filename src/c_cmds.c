@@ -673,13 +673,8 @@ consolecmd_t consolecmds[] =
         "Shows stats about the player."),
     CCMD(print, "", null_func1, print_cmd_func2, true, PRINTCMDFORMAT,
         "Prints a player \"" BOLDITALICS("message") "\"."),
-#if defined(__APPLE__)
     CCMD(quit, exit, null_func1, quit_cmd_func2, false, "",
-        "Quits to the Finder."),
-#else
-    CCMD(quit, exit, null_func1, quit_cmd_func2, false, "",
-        "Quits to the desktop."),
-#endif
+        "Quits to the " DESKTOPNAME "."),
     CVAR_BOOL(r_althud, "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles an alternate heads-up display when in widescreen mode."),
     CVAR_INT(r_berserkeffect, "", int_cvars_func1, int_cvars_func2, CF_NONE, NOVALUEALIAS,
@@ -4193,8 +4188,8 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
 
         lumps = W_CheckMultipleLumps(namebuf);
 
-        C_TabbedOutput(tabs, INDENT "%s\t%s",
-            (wadtype == IWAD ? "IWAD" : "PWAD"), leafname(lumpinfo[mus_playing->lumpnum]->wadfile->path));
+        if (lumpinfo[mus_playing->lumpnum]->wadfile->type == PWAD)
+            C_TabbedOutput(tabs, INDENT "PWAD\t%s", leafname(lumpinfo[mus_playing->lumpnum]->wadfile->path));
 
         if (*musictitle)
             C_TabbedOutput(tabs, INDENT "Title\t" ITALICS("%s"), musictitle);
