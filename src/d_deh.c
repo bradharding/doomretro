@@ -4313,7 +4313,7 @@ static int deh_GetData(char *s, char *k, int *l, char **strval)
             okrc = 0;                       // in case "thiskey =" with no value
 
         // we've incremented t
-        if (!M_StrToInt(t, &val))
+        if (!M_StrToInt(t, (int *)&val))
         {
             val = 0;
             okrc = 2;

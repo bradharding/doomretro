@@ -793,7 +793,7 @@ void S_ParseMusInfo(char *mapid)
                     break;
 
                 // Check number in range
-                if (M_StrToInt(sc_String, &num) && num > 0 && num < MAX_MUS_ENTRIES && SC_GetString())
+                if (M_StrToInt(sc_String, (int *)&num) && num > 0 && num < MAX_MUS_ENTRIES && SC_GetString())
                 {
                     int lumpnum = W_CheckNumForName(sc_String);
 
