@@ -1003,6 +1003,7 @@ static void maxzoom_action_func(void)
 static void menu_action_func(void)
 {
     M_StartControlPanel();
+    S_StartSound(NULL, sfx_swtchn);
 }
 
 static void nextweapon_action_func(void)
@@ -1032,6 +1033,9 @@ static void rotatemode_action_func(void)
 static void screenshot_action_func(void)
 {
     G_ScreenShot();
+    S_StartSound(NULL, sfx_scrsht);
+    memset(screens[0], nearestwhite, SCREENAREA);
+    D_FadeScreen(true);
 }
 
 static void strafeleft_action_func(void)
