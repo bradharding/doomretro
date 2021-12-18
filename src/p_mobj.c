@@ -1641,9 +1641,7 @@ dboolean P_SeekerMissile(mobj_t *actor, mobj_t **seekTarget, angle_t thresh, ang
     int     dir;
     angle_t delta;
     angle_t angle;
-    mobj_t  *target;
-
-    target = *seekTarget;
+    mobj_t  *target = *seekTarget;
 
     if (target == NULL)
         return false;
@@ -1689,47 +1687,40 @@ dboolean P_SeekerMissile(mobj_t *actor, mobj_t **seekTarget, angle_t thresh, ang
 
 //
 // MBF21: P_FaceMobj
-// Returns 1 if 'source' needs to turn clockwise, or 0 if 'source' needs
+// Returns true if 'source' needs to turn clockwise, or false if 'source' needs
 // to turn counter clockwise. 'delta' is set to the amount 'source'
 // needs to turn.
 //
-int P_FaceMobj(mobj_t *source, mobj_t *target, angle_t *delta)
+dboolean P_FaceMobj(mobj_t *source, mobj_t *target, angle_t *delta)
 {
     angle_t diff;
-    angle_t angle1;
-    angle_t angle2;
-
-    angle1 = source->angle;
-    angle2 = R_PointToAngle2(source->x, source->y, target->x, target->y);
+    angle_t angle1 = source->angle;
+    angle_t angle2 = R_PointToAngle2(source->x, source->y, target->x, target->y);
 
     if (angle2 > angle1)
     {
-        diff = angle2 - angle1;
-
-        if (diff > ANG180)
+        if ((diff = angle2 - angle1) > ANG180)
         {
             *delta = ANGLE_MAX - diff;
-            return 0;
+            return false;
         }
         else
         {
             *delta = diff;
-            return 1;
+            return true;
         }
     }
     else
     {
-        diff = angle1 - angle2;
-
-        if (diff > ANG180)
+        if ((diff = angle1 - angle2) > ANG180)
         {
             *delta = ANGLE_MAX - diff;
-            return 1;
+            return true;
         }
         else
         {
             *delta = diff;
-            return 0;
+            return false;
         }
     }
 }
