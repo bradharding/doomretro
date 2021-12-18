@@ -1509,6 +1509,7 @@ void bind_cmd_func2(char *cmd, char *parms)
                                 *(int *)actions[action].keyboard1 = controls[i].value;
 
                             bound = true;
+                            C_Output("The " BOLD("%s") " action was bound to '" BOLD("%s") "'.", parm2, controls[i].control);
                             C_UnbindDuplicates(action, keyboardcontrol, controls[i].value);
 
 #if defined(_WIN32)
@@ -1535,6 +1536,7 @@ void bind_cmd_func2(char *cmd, char *parms)
                         {
                             *(int *)actions[action].mouse1 = controls[i].value;
                             bound = true;
+                            C_Output("The " BOLD("%s") " action was bound to '" BOLD("%s") "'.", parm2, controls[i].control);
                             C_UnbindDuplicates(action, mousecontrol, controls[i].value);
                         }
 
@@ -1559,6 +1561,7 @@ void bind_cmd_func2(char *cmd, char *parms)
                                 *(int *)actions[action].gamepad1 = controls[i].value;
 
                             bound = true;
+                            C_Output("The " BOLD("%s") " action was bound to '" BOLD("%s") "'.", parm2, controls[i].control);
                             C_UnbindDuplicates(action, gamepadcontrol, controls[i].value);
                         }
 
