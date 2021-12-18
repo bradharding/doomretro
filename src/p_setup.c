@@ -2444,6 +2444,7 @@ static void P_GroupLines(void)
     sector_t    *sector;
     int         i;
     int         total = numlines;
+    line_t      **linebuffer;
 
     // figgi
     for (i = 0; i < numsubsectors; i++)
@@ -2485,16 +2486,14 @@ static void P_GroupLines(void)
     }
 
     // allocate line tables for each sector
-    {
-        line_t  **linebuffer = Z_Malloc(total * sizeof(line_t *), PU_LEVEL, NULL);
+    linebuffer = Z_Malloc(total * sizeof(line_t *), PU_LEVEL, NULL);
 
-        for (i = 0, sector = sectors; i < numsectors; i++, sector++)
-        {
-            sector->lines = linebuffer;
-            linebuffer += sector->linecount;
-            sector->linecount = 0;
-            M_ClearBox(sector->blockbox);
-        }
+    for (i = 0, sector = sectors; i < numsectors; i++, sector++)
+    {
+        sector->lines = linebuffer;
+        linebuffer += sector->linecount;
+        sector->linecount = 0;
+        M_ClearBox(sector->blockbox);
     }
 
     // Enter those lines
