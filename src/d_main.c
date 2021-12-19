@@ -435,7 +435,8 @@ void D_Display(void)
                 C_UpdatePlayerStatsOverlay();
         }
 
-        C_Drawer();
+        if (consoleheight)
+            C_Drawer();
 
         // menus go directly to the screen
         M_Drawer();
