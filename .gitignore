@@ -114,6 +114,7 @@ bld/
 *.ipdb
 *.bsc
 *.recipe
+*.asm
 
 # Visual C++ cache files
 .vs/

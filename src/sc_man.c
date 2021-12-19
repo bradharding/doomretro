@@ -60,6 +60,14 @@ static dboolean sc_End;
 static dboolean ScriptOpen;
 static dboolean AlreadyGot;
 
+static void SC_ScriptError(void)
+{
+    char    *temp = commify(sc_Line);
+
+    C_Warning(1, "Line %s in the " BOLD("MAPINFO") " lump is invalid.", temp);
+    free(temp);
+}
+
 void SC_Open(char *name)
 {
     static char StringBuffer[MAX_STRING_SIZE];
@@ -214,12 +222,4 @@ int SC_MatchString(char **strings)
 dboolean SC_Compare(char *text)
 {
     return M_StringCompare(text, sc_String);
-}
-
-static void SC_ScriptError(void)
-{
-    char    *temp = commify(sc_Line);
-
-    C_Warning(1, "Line %s in the " BOLD("MAPINFO") " lump is invalid.", temp);
-    free(temp);
 }

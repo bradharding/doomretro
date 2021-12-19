@@ -1713,7 +1713,7 @@ static void P_LoadThings(int map, int lump)
     const mapthing_t    *data = (const mapthing_t *)W_CacheLumpNum(lump);
     int                 numthings;
 
-    if (!data || !(numthings = W_LumpLength(lump) / sizeof(mapthing_t)))
+    if (!(numthings = W_LumpLength(lump) / sizeof(mapthing_t)) || !data)
         I_Error("There are no things in this map.");
 
     M_BigSeed(gamemission == doom && map == 1 && canmodify ? BIGSEED : numthings);

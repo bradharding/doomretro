@@ -394,7 +394,7 @@ static void F_TextWrite(void)
     for (; count; count--)
     {
         char    letter = *ch++;
-        char    c;
+        int     c;
 
         if (!letter)
             break;
