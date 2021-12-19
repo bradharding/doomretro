@@ -1213,8 +1213,8 @@ void P_ApplyTorque(mobj_t *mo)
     else if (mo->gear < MAXGEAR)                // Else if not at max gear,
         mo->gear++;                             // move up a gear
 
-    // [JN] Reduce torque tics, don't go negative.
-    if (mo->geartime > 0)
+    // [JN] Reduce torque tics while torque is applied, don't go negative.
+    if ((mo->flags2 & MF2_FALLING) && mo->geartime > 0)
         mo->geartime--;
 }
 
