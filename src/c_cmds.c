@@ -133,6 +133,7 @@ dboolean    quitcmd = false;
 dboolean    resettingcvar = false;
 dboolean    togglingvanilla = false;
 dboolean    vanilla = false;
+dboolean    nooutput;
 
 char        *version = version_default;
 
@@ -1567,10 +1568,13 @@ void bind_cmd_func2(char *cmd, char *parms)
 
                 if (bound)
                 {
-                    if (strlen(controls[i].control) == 1)
-                        C_Output("The " BOLD("%s") " action was bound to " BOLD("'%s'") ".", parm2, controls[i].control);
-                    else
-                        C_Output("The " BOLD("%s") " action was bound to " BOLD("%s") ".", parm2, controls[i].control);
+                    if (!nooutput)
+                    {
+                        if (strlen(controls[i].control) == 1)
+                            C_Output("The " BOLD("%s") " action was bound to " BOLD("'%s'") ".", parm2, controls[i].control);
+                        else
+                            C_Output("The " BOLD("%s") " action was bound to " BOLD("%s") ".", parm2, controls[i].control);
+                    }
                 }
                 else
                 {

@@ -134,6 +134,7 @@ extern dboolean         resettingcvar;
 extern dboolean         vanilla;
 extern dboolean         togglingvanilla;
 extern dboolean         massacre;
+extern dboolean         nooutput;
 
 void alias_cmd_func2(char *cmd, char *parms);
 void bind_cmd_func2(char *cmd, char *parms);
