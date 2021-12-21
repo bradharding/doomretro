@@ -1052,9 +1052,6 @@ int             caretcolor;
 //
 static void M_DrawSave(void)
 {
-    char    left[256];
-    char    right[256];
-
     // darken background
     M_DarkBackground();
 
@@ -1082,9 +1079,11 @@ static void M_DrawSave(void)
         // draw save game description
         if (saveStringEnter && i == saveSlot)
         {
-            int j;
-            int len = (int)strlen(savegamestrings[i]);
-            int x;
+            char    left[256] = "";
+            char    right[256] = "";
+            int     j;
+            int     len = (int)strlen(savegamestrings[i]);
+            int     x;
 
             // draw text to left of text caret
             for (j = 0; j < saveCharIndex; j++)
