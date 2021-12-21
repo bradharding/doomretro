@@ -290,5 +290,5 @@ dboolean P_CheckFov(mobj_t *t1, mobj_t *t2, angle_t fov)
     angle_t minang = t1->angle - fov / 2;
     angle_t maxang = t1->angle + fov / 2;
 
-    return(minang > maxang ? angle >= minang || angle <= maxang : angle >= minang && angle <= maxang);
+    return (minang > maxang ? (angle >= minang || angle <= maxang) : (angle >= minang && angle <= maxang));
 }

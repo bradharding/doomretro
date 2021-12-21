@@ -13,6 +13,7 @@
 * Minor changes have been made to text that is output to the console.
 * A crash no longer occurs when ending a game from the options menu.
 * The screen size is now always correct if it is changed from the options menu while not playing a game.
+* The corpses of monsters will now always fall when close to an edge.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
