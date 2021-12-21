@@ -937,35 +937,6 @@ int M_CountSaveGames(void)
 }
 
 //
-// M_LoadGame
-//
-static void M_DrawLoad(void)
-{
-    M_DarkBackground();
-
-    if (M_LGTTL)
-        M_DrawCenteredPatchWithShadow(23 + OFFSET, W_CacheLumpName("M_LGTTL"));
-    else if (M_LOADG)
-        M_DrawCenteredPatchWithShadow(23 + OFFSET, W_CacheLumpName("M_LOADG"));
-    else
-    {
-        char    *temp = uppercase(s_M_LOADGAME);
-
-        M_DrawCenteredString(23 + OFFSET, temp);
-        free(temp);
-    }
-
-    for (int i = 0; i < load_end; i++)
-    {
-        int y = LoadDef.y + LINEHEIGHT * i + OFFSET;
-
-        M_DrawSaveLoadBorder(LoadDef.x - 11, y - 4);
-        M_WriteText(LoadDef.x - 2 + (M_StringCompare(savegamestrings[i], s_EMPTYSTRING) && s_EMPTYSTRING[0] == '-'
-            && s_EMPTYSTRING[1] == '\0') * 6, y - !M_LSCNTR, savegamestrings[i], false);
-    }
-}
-
-//
 // Draw border for the savegame description
 //
 static void M_DrawSaveLoadBorder(int x, int y)
@@ -1004,6 +975,39 @@ static void M_DrawSaveLoadBorder(int x, int y)
         for (int yy = 0; yy < 16; yy++)
             for (int xx = 0; xx < 9; xx++)
                 V_DrawPixel(x + xx, y + yy, lsrght[yy * 9 + xx], true);
+    }
+}
+
+//
+// M_LoadGame
+//
+static void M_DrawLoad(void)
+{
+    M_DarkBackground();
+
+    if (M_LGTTL)
+        M_DrawCenteredPatchWithShadow(23 + OFFSET, W_CacheLumpName("M_LGTTL"));
+    else if (M_LOADG)
+        M_DrawCenteredPatchWithShadow(23 + OFFSET, W_CacheLumpName("M_LOADG"));
+    else
+    {
+        char    *temp = uppercase(s_M_LOADGAME);
+
+        M_DrawCenteredString(23 + OFFSET, temp);
+        free(temp);
+    }
+
+    for (int i = 0; i < load_end; i++)
+    {
+        int y = LoadDef.y + LINEHEIGHT * i + OFFSET;
+
+        M_DrawSaveLoadBorder(LoadDef.x - 11, y - 4);
+        M_WriteText(LoadDef.x - 2 + (M_StringCompare(savegamestrings[i], s_EMPTYSTRING) && s_EMPTYSTRING[0] == '-'
+            && s_EMPTYSTRING[1] == '\0') * 6, y - !M_LSCNTR, savegamestrings[i], false);
+        currentMenu->menuitems[i].x = LoadDef.x - 11 + WIDESCREENDELTA;
+        currentMenu->menuitems[i].y = y - 4;
+        currentMenu->menuitems[i].width = 26 * 8 + 1;
+        currentMenu->menuitems[i].height = SHORT(((patch_t *)W_CacheLumpName("M_LSLEFT"))->height);
     }
 }
 
@@ -1075,6 +1079,10 @@ static void M_DrawSave(void)
 
         // draw save game slot background
         M_DrawSaveLoadBorder(LoadDef.x - 11, y - 4);
+        currentMenu->menuitems[i].x = LoadDef.x - 11 + WIDESCREENDELTA;
+        currentMenu->menuitems[i].y = y - 4;
+        currentMenu->menuitems[i].width = 26 * 8 + 1;
+        currentMenu->menuitems[i].height = SHORT(((patch_t *)W_CacheLumpName("M_LSLEFT"))->height);
 
         // draw save game description
         if (saveStringEnter && i == saveSlot)
