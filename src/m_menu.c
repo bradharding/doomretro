@@ -983,6 +983,8 @@ static void M_DrawSaveLoadBorder(int x, int y)
 //
 static void M_DrawLoad(void)
 {
+    int height = SHORT(((patch_t *)W_CacheLumpName("M_LSLEFT"))->height);
+
     M_DarkBackground();
 
     if (M_LGTTL)
@@ -1006,8 +1008,8 @@ static void M_DrawLoad(void)
             && s_EMPTYSTRING[1] == '\0') * 6, y - !M_LSCNTR, savegamestrings[i], false);
         currentMenu->menuitems[i].x = LoadDef.x - 11 + WIDESCREENDELTA;
         currentMenu->menuitems[i].y = y - 4;
-        currentMenu->menuitems[i].width = 26 * 8 + 1;
-        currentMenu->menuitems[i].height = SHORT(((patch_t *)W_CacheLumpName("M_LSLEFT"))->height);
+        currentMenu->menuitems[i].width = 209;
+        currentMenu->menuitems[i].height = height;
     }
 }
 
@@ -1056,6 +1058,8 @@ int             caretcolor;
 //
 static void M_DrawSave(void)
 {
+    int height = SHORT(((patch_t *)W_CacheLumpName("M_LSLEFT"))->height);
+
     // darken background
     M_DarkBackground();
 
@@ -1081,8 +1085,8 @@ static void M_DrawSave(void)
         M_DrawSaveLoadBorder(LoadDef.x - 11, y - 4);
         currentMenu->menuitems[i].x = LoadDef.x - 11 + WIDESCREENDELTA;
         currentMenu->menuitems[i].y = y - 4;
-        currentMenu->menuitems[i].width = 26 * 8 + 1;
-        currentMenu->menuitems[i].height = SHORT(((patch_t *)W_CacheLumpName("M_LSLEFT"))->height);
+        currentMenu->menuitems[i].width = 209;
+        currentMenu->menuitems[i].height = height;
 
         // draw save game description
         if (saveStringEnter && i == saveSlot)

@@ -43,14 +43,14 @@
 
 #define MIDI_TRACKS 32
 
-typedef struct                          // a MIDI file
+typedef struct                      // a MIDI file
 {
-    int                 divisions;      // number of tics per quarter note
+    int                 divisions;  // number of tics per quarter note
 
     struct
     {
-        unsigned char   *data;          // MIDI message stream
-        size_t          len;            // length of the track data
+        unsigned char   *data;      // MIDI message stream
+        size_t          len;        // length of the track data
     } track[MIDI_TRACKS];
 } MIDI;
 
