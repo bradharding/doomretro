@@ -43,7 +43,8 @@
 #include "c_console.h"
 #include "i_winmusic.h"
 #include "m_misc.h"
-#include "mmus2mid.h"
+#include "memio.h"
+#include "mus2mid.h"
 #include "s_sound.h"
 #include "version.h"
 
@@ -224,21 +225,31 @@ void *I_RegisterSong(void *data, int size)
                 midimusictype = true;
             else if (mmuscheckformat((uint8_t *)data, size))    // is it a MUS?
             {
-                MIDI    mididata;
-                uint8_t *mid;
-                int     midlen;
+                MEMFILE *instream;
+                MEMFILE *outstream;
+                byte *mid;
+                size_t midlen;
+                int result;
 
                 musmusictype = true;
 
-                memset(&mididata, 0, sizeof(MIDI));
+                instream = mem_fopen_read(data, size);
+                outstream = mem_fopen_write();
 
-                if (!mmus2mid((uint8_t *)data, (size_t)size, &mididata))
-                    return NULL;
+                result = mus2mid(instream, outstream);
 
-                // Hurrah! Let's make it a mid and give it to SDL_mixer
-                MIDIToMidi(&mididata, &mid, &midlen);
+                if (result == 0)
+                {
+                    void *outbuf;
 
-                FreeMIDIData(&mididata);
+                    mem_get_buf(outstream, &outbuf, &midlen);
+
+                    mid = malloc(midlen);
+                    memcpy(mid, outbuf, midlen);
+                }
+
+                mem_fclose(instream);
+                mem_fclose(outstream);
 
                 data = mid;
                 size = midlen;
