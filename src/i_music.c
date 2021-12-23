@@ -221,39 +221,33 @@ void *I_RegisterSong(void *data, int size)
         // Check for MIDI or MUS format first:
         if (size >= 14)
         {
-            if (!memcmp(data, "MThd", 4))                       // is it a MIDI?
+            if (!memcmp(data, "MThd", 4))           // is it a MIDI?
                 midimusictype = true;
-            else if (mmuscheckformat((uint8_t *)data, size))    // is it a MUS?
+            else if (!memcmp(data, "MUS\x1A", 4))   // is it a MUS?
             {
-                MEMFILE *instream;
-                MEMFILE *outstream;
-                byte *mid;
-                size_t midlen;
-                int result;
+                MEMFILE *instream = mem_fopen_read(data, size);
+                MEMFILE *outstream = mem_fopen_write();
 
                 musmusictype = true;
 
-                instream = mem_fopen_read(data, size);
-                outstream = mem_fopen_write();
-
-                result = mus2mid(instream, outstream);
-
-                if (result == 0)
+                if (!(mus2mid(instream, outstream)))
                 {
-                    void *outbuf;
+                    void    *outbuf;
+                    byte    *mid;
+                    size_t  midlen;
 
                     mem_get_buf(outstream, &outbuf, &midlen);
 
                     mid = malloc(midlen);
                     memcpy(mid, outbuf, midlen);
+                    data = mid;
+                    size = midlen;
                 }
 
                 mem_fclose(instream);
                 mem_fclose(outstream);
 
-                data = mid;
-                size = midlen;
-                midimusictype = true;                           // now it's a MIDI
+                midimusictype = true;               // now it's a MIDI
             }
         }
 

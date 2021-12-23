@@ -1,28 +1,51 @@
-//
-// Copyright(C) 1993-1996 Id Software, Inc.
-// Copyright(C) 2005-2014 Simon Howard
-//
-// This program is free software; you can redistribute it and/or
-// modify it under the terms of the GNU General Public License
-// as published by the Free Software Foundation; either version 2
-// of the License, or (at your option) any later version.
-//
-// This program is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU General Public License for more details.
-//
+﻿/*
+========================================================================
 
-#ifndef MEMIO_H
-#define MEMIO_H
+                           D O O M  R e t r o
+         The classic, refined DOOM source port. For Windows PC.
+
+========================================================================
+
+  Copyright © 1993-2022 by id Software LLC, a ZeniMax Media company.
+  Copyright © 2013-2022 by Brad Harding <mailto:brad@doomretro.com>.
+
+  DOOM Retro is a fork of Chocolate DOOM. For a list of credits, see
+  <https://github.com/bradharding/doomretro/wiki/CREDITS>.
+
+  This file is a part of DOOM Retro.
+
+  DOOM Retro is free software: you can redistribute it and/or modify it
+  under the terms of the GNU General Public License as published by the
+  Free Software Foundation, either version 3 of the License, or (at your
+  option) any later version.
+
+  DOOM Retro is distributed in the hope that it will be useful, but
+  WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+  General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with DOOM Retro. If not, see <https://www.gnu.org/licenses/>.
+
+  DOOM is a registered trademark of id Software LLC, a ZeniMax Media
+  company, in the US and/or other countries, and is used without
+  permission. All other trademarks are the property of their respective
+  holders. DOOM Retro is in no way affiliated with nor endorsed by
+  id Software.
+
+========================================================================
+*/
+
+#if !defined(__MEMIO_H__)
+#define __MEMIO_H__
 
 typedef struct _MEMFILE MEMFILE;
 
-typedef enum 
+typedef enum
 {
-	MEM_SEEK_SET,
-	MEM_SEEK_CUR,
-	MEM_SEEK_END,
+    MEM_SEEK_SET,
+    MEM_SEEK_CUR,
+    MEM_SEEK_END,
 } mem_rel_t;
 
 MEMFILE *mem_fopen_read(void *buf, size_t buflen);
@@ -34,5 +57,4 @@ void mem_fclose(MEMFILE *stream);
 long mem_ftell(MEMFILE *stream);
 int mem_fseek(MEMFILE *stream, signed long offset, mem_rel_t whence);
 
-#endif /* #ifndef MEMIO_H */
-	  
+#endif

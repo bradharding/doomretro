@@ -12,7 +12,7 @@
 * Lowering the music’s volume in the menu and console may now be disabled using the new `s_lowermenumusic` CVAR. This CVAR is `on` by default and `off` when vanilla mode is enabled.
 * Minor changes have been made to text that is output to the console.
 * A crash no longer occurs when ending a game from the options menu.
-* The screen size is now always correct if it is changed from the options menu while not playing a game.
+* The screen size is now always correct if it is changed from the options menu while no game is being played.
 * The corpses of monsters will now always fall when close to an edge.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)

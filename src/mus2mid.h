@@ -39,11 +39,9 @@
 #if !defined(__MMUS2MID_H__)
 #define __MMUS2MID_H__
 
-#include "SDL.h"
-
 #include "doomtype.h"
+#include "memio.h"
 
-dboolean mmuscheckformat(uint8_t *mus, int size);
 dboolean mus2mid(MEMFILE *musinput, MEMFILE *midioutput);
 
 #endif
