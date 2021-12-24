@@ -228,7 +228,7 @@ void *I_RegisterSong(void *data, int size)
 
                 musmusictype = true;
 
-                if (!(mus2mid(instream, outstream)))
+                if (mus2mid(instream, outstream))
                 {
                     void    *outbuf;
                     byte    *mid;
