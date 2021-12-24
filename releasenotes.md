@@ -14,7 +14,6 @@
 * A crash no longer occurs when ending a game from the options menu.
 * The screen size is now always correct if it is changed from the options menu while no game is being played.
 * The corpses of monsters will now always fall when close to an edge.
-* The `5` and `%` characters used in the status bar have been tweaked slightly.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
