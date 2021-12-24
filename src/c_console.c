@@ -996,7 +996,7 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
                 }
                 else if (letter == '"')
                 {
-                    if (!(ldquotes++ & 1))
+                    if (!i || ((i < len - 1 || ldquotes) && !(ldquotes++ & 1)))
                     {
                         patch = ldquote;
 
