@@ -283,11 +283,10 @@ static dboolean WriteChangeController_Valued(byte channel, byte control, byte va
     if (mem_fwrite(&working, 1, 1, midioutput) != 1)
         return true;
 
-    // Quirk in Vanilla DOOM? MUS controller values should be 7-bit, not 8-bit.
+    // Quirk in Vanilla DOOM? MUS controller values should be 7-bit, not 8-bit
     working = value/* & 0x7F*/;
 
-    // Fix on said quirk to stop MIDI players from complaining that the value is out of range:
-
+    // Fix on said quirk to stop MIDI players from complaining that the value is out of range
     if (working & 0x80)
         working = 0x7F;
 
@@ -315,9 +314,9 @@ static int AllocateMIDIChannel(void)
         if (channel_map[i] > max)
             max = channel_map[i];
 
-    // max is now equal to the highest-allocated MIDI channel. We can
-    // now allocate the next available channel. This also works if
-    // no channels are currently allocated (max = -1)
+    // max is now equal to the highest-allocated MIDI channel
+    // We can now allocate the next available channel
+    // This also works if no channels are currently allocated (max = -1)
     result = max + 1;
 
     // Don't allocate the MIDI percussion channel!
@@ -378,13 +377,13 @@ static dboolean ReadMusHeader(MEMFILE *file, musheader *header)
 dboolean mus2mid(MEMFILE *musinput, MEMFILE *midioutput)
 {
     // Header for the MUS file
-    musheader       musfileheader;
+    musheader   musfileheader;
 
     // Buffer used for MIDI track size record
-    byte            tracksizebuffer[4];
+    byte        tracksizebuffer[4];
 
     // Flag for when the score end marker is hit.
-    int             hitscoreend = 0;
+    int         hitscoreend = 0;
 
     // Initialize channel map to mark all channels as unused.
     for (int i = 0; i < NUM_CHANNELS; i++)
@@ -402,17 +401,17 @@ dboolean mus2mid(MEMFILE *musinput, MEMFILE *midioutput)
     mem_fwrite(midiheader, 1, sizeof(midiheader), midioutput);
     tracksize = 0;
 
-    // Now, process the MUS file:
+    // Now, process the MUS file
     while (!hitscoreend)
     {
-        // Handle a block of events:
+        // Handle a block of events
         while (!hitscoreend)
         {
             byte    eventdescriptor;
             byte    key;
             int     channel;
 
-            // Fetch channel number and event code:
+            // Fetch channel number and event code
             if (mem_fread(&eventdescriptor, 1, 1, musinput) != 1)
                 return true;
 
@@ -511,7 +510,7 @@ dboolean mus2mid(MEMFILE *musinput, MEMFILE *midioutput)
                 break;
         }
 
-        // Now we need to read the time code:
+        // Now we need to read the time code
         if (!hitscoreend)
         {
             unsigned int    timedelay = 0;

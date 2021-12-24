@@ -96,8 +96,8 @@ dboolean I_InitMusic(void)
         if (SDL_InitSubSystem(SDL_INIT_AUDIO) < 0)
             return false;
 
-        if (Mix_OpenAudioDevice(SAMPLERATE, MIX_DEFAULT_FORMAT, MIX_DEFAULT_CHANNELS, CHUNKSIZE, DEFAULT_DEVICE,
-            SDL_AUDIO_ALLOW_FREQUENCY_CHANGE) < 0)
+        if (Mix_OpenAudioDevice(SAMPLERATE, MIX_DEFAULT_FORMAT, MIX_DEFAULT_CHANNELS,
+            CHUNKSIZE, DEFAULT_DEVICE, SDL_AUDIO_ALLOW_FREQUENCY_CHANGE) < 0)
         {
             SDL_QuitSubSystem(SDL_INIT_AUDIO);
             return false;
@@ -148,9 +148,7 @@ void I_PauseSong(void)
     if (!music_initialized)
         return;
 
-    if (!midimusictype)
-        Mix_PauseMusic();
-    else
+    if (midimusictype)
     {
         paused_midi_volume = current_music_volume;
 
@@ -160,6 +158,8 @@ void I_PauseSong(void)
         Mix_VolumeMusic(0);
 #endif
     }
+    else
+        Mix_PauseMusic();
 }
 
 void I_ResumeSong(void)
@@ -167,16 +167,14 @@ void I_ResumeSong(void)
     if (!music_initialized)
         return;
 
-    if (!midimusictype)
-        Mix_ResumeMusic();
-    else
-    {
+    if (midimusictype)
 #if defined(_WIN32)
         I_Windows_SetMusicVolume(paused_midi_volume);
 #else
         Mix_VolumeMusic(paused_midi_volume);
 #endif
-    }
+    else
+        Mix_ResumeMusic();
 }
 
 void I_StopSong(void)

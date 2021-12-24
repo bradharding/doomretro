@@ -74,7 +74,7 @@ MEMFILE *mem_fopen_read(void *buf, size_t buflen)
 // Read bytes
 size_t mem_fread(void *buf, size_t size, size_t nmemb, MEMFILE *stream)
 {
-    size_t items;
+    size_t  items;
 
     if (stream->mode != MODE_READ)
         return -1;
@@ -111,7 +111,7 @@ MEMFILE *mem_fopen_write(void)
 // Write bytes to stream
 size_t mem_fwrite(const void *ptr, size_t size, size_t nmemb, MEMFILE *stream)
 {
-    size_t bytes;
+    size_t  bytes;
 
     if (stream->mode != MODE_WRITE)
         return -1;
@@ -155,7 +155,7 @@ void mem_fclose(MEMFILE *stream)
 
 int mem_fseek(MEMFILE *stream, signed long position, mem_rel_t whence)
 {
-    unsigned int newpos;
+    unsigned int    newpos;
 
     switch (whence)
     {
