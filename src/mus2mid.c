@@ -496,7 +496,7 @@ dboolean mus2mid(MEMFILE *musinput, MEMFILE *midioutput)
                     }
                     else
                     {
-                        if (controllernumber < 1 || controllernumber > 9)
+                        if (controllernumber > 9)
                             return true;
 
                         if (WriteChangeController_Valued(channel, controller_map[controllernumber], controllervalue, midioutput))

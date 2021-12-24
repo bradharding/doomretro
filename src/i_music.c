@@ -241,7 +241,7 @@ void *I_RegisterSong(void *data, int size)
                     mid = malloc(midlen);
                     memcpy(mid, outbuf, midlen);
                     data = mid;
-                    size = midlen;
+                    size = (int)midlen;
                 }
 
                 mem_fclose(instream);

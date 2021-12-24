@@ -89,7 +89,7 @@ size_t mem_fread(void *buf, size_t size, size_t nmemb, MEMFILE *stream)
     memcpy(buf, stream->buf + stream->position, items * size);
 
     // Update position
-    stream->position += items * size;
+    stream->position += (unsigned int)(items * size);
 
     return items;
 }
@@ -131,7 +131,7 @@ size_t mem_fwrite(const void *ptr, size_t size, size_t nmemb, MEMFILE *stream)
 
     // Copy into buffer
     memcpy(stream->buf + stream->position, ptr, bytes);
-    stream->position += bytes;
+    stream->position += (unsigned int)bytes;
 
     if (stream->position > stream->buflen)
         stream->buflen = stream->position;
@@ -151,11 +151,6 @@ void mem_fclose(MEMFILE *stream)
         Z_Free(stream->buf);
 
     Z_Free(stream);
-}
-
-long mem_ftell(MEMFILE *stream)
-{
-    return stream->position;
 }
 
 int mem_fseek(MEMFILE *stream, signed long position, mem_rel_t whence)
