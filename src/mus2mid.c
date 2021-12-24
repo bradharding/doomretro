@@ -345,7 +345,7 @@ static int GetMIDIChannel(int mus_channel, MEMFILE *midioutput)
 
             // First time using the channel, send an "all notes off"
             // event. This fixes "The D_DDTBLU disease" described here:
-            // https://www.doomworld.com/vb/source-ports/66802-the
+            // <https://www.doomworld.com/forum/topic/66802/>
             WriteChangeController_Valueless(channel_map[mus_channel], 0x7B, midioutput);
         }
 
@@ -380,26 +380,11 @@ dboolean mus2mid(MEMFILE *musinput, MEMFILE *midioutput)
     // Header for the MUS file
     musheader       musfileheader;
 
-    // Descriptor for the current MUS event
-    byte            eventdescriptor;
-
-
-    // Bunch of vars read from MUS lump
-    byte            key;
-    byte            controllernumber;
-    byte            controllervalue;
-
     // Buffer used for MIDI track size record
     byte            tracksizebuffer[4];
 
     // Flag for when the score end marker is hit.
     int             hitscoreend = 0;
-
-    // Temp working byte
-    byte            working;
-
-    // Used in building up time delays
-    unsigned int    timedelay;
 
     // Initialize channel map to mark all channels as unused.
     for (int i = 0; i < NUM_CHANNELS; i++)
@@ -423,17 +408,17 @@ dboolean mus2mid(MEMFILE *musinput, MEMFILE *midioutput)
         // Handle a block of events:
         while (!hitscoreend)
         {
-            int         channel;
-            musevent    event;
+            byte    eventdescriptor;
+            byte    key;
+            int     channel;
 
             // Fetch channel number and event code:
             if (mem_fread(&eventdescriptor, 1, 1, musinput) != 1)
                 return true;
 
-            channel = GetMIDIChannel(eventdescriptor & 0x0F, midioutput);
-            event = eventdescriptor & 0x70;
+            channel = GetMIDIChannel((eventdescriptor & 0x0F), midioutput);
 
-            switch (event)
+            switch (eventdescriptor & 0x70)
             {
                 case mus_releasekey:
                     if (mem_fread(&key, 1, 1, musinput) != 1)
@@ -471,6 +456,9 @@ dboolean mus2mid(MEMFILE *musinput, MEMFILE *midioutput)
                     break;
 
                 case mus_systemevent:
+                {
+                    byte    controllernumber;
+
                     if (mem_fread(&controllernumber, 1, 1, musinput) != 1)
                         return true;
 
@@ -481,8 +469,13 @@ dboolean mus2mid(MEMFILE *musinput, MEMFILE *midioutput)
                         return true;
 
                     break;
+                }
 
                 case mus_changecontroller:
+                {
+                    byte    controllernumber;
+                    byte    controllervalue;
+
                     if (mem_fread(&controllernumber, 1, 1, musinput) != 1)
                         return true;
 
@@ -504,6 +497,7 @@ dboolean mus2mid(MEMFILE *musinput, MEMFILE *midioutput)
                     }
 
                     break;
+                }
 
                 case mus_scoreend:
                     hitscoreend = 1;
@@ -511,19 +505,21 @@ dboolean mus2mid(MEMFILE *musinput, MEMFILE *midioutput)
 
                 default:
                     return true;
-                    break;
             }
 
             if (eventdescriptor & 0x80)
                 break;
         }
+
         // Now we need to read the time code:
         if (!hitscoreend)
         {
-            timedelay = 0;
+            unsigned int    timedelay = 0;
 
             while (true)
             {
+                byte    working;
+
                 if (mem_fread(&working, 1, 1, musinput) != 1)
                     return true;
 
@@ -532,6 +528,7 @@ dboolean mus2mid(MEMFILE *musinput, MEMFILE *midioutput)
                 if (!(working & 0x80))
                     break;
             }
+
             queuedtime += timedelay;
         }
     }
