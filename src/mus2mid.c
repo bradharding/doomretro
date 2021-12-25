@@ -394,7 +394,7 @@ dboolean mus2mid(MEMFILE *musinput, MEMFILE *midioutput)
         return false;
 
     // Seek to where the data is held
-    if (mem_fseek(musinput, (long)musfileheader.scorestart, MEM_SEEK_SET) != 0)
+    if (mem_fseek(musinput, (long)musfileheader.scorestart, MEM_SEEK_SET))
         return false;
 
     // So, we can assume the MUS file is faintly legit. Let's start writing MIDI data...
@@ -409,6 +409,8 @@ dboolean mus2mid(MEMFILE *musinput, MEMFILE *midioutput)
         {
             byte    eventdescriptor;
             byte    key;
+            byte    controllernumber;
+            byte    controllervalue;
             int     channel;
 
             // Fetch channel number and event code
@@ -455,9 +457,6 @@ dboolean mus2mid(MEMFILE *musinput, MEMFILE *midioutput)
                     break;
 
                 case mus_systemevent:
-                {
-                    byte    controllernumber;
-
                     if (mem_fread(&controllernumber, 1, 1, musinput) != 1)
                         return false;
 
@@ -468,13 +467,8 @@ dboolean mus2mid(MEMFILE *musinput, MEMFILE *midioutput)
                         return false;
 
                     break;
-                }
 
                 case mus_changecontroller:
-                {
-                    byte    controllernumber;
-                    byte    controllervalue;
-
                     if (mem_fread(&controllernumber, 1, 1, musinput) != 1)
                         return false;
 
@@ -496,7 +490,6 @@ dboolean mus2mid(MEMFILE *musinput, MEMFILE *midioutput)
                     }
 
                     break;
-                }
 
                 case mus_scoreend:
                     hitscoreend = 1;

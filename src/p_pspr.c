@@ -647,7 +647,7 @@ static void P_BulletSlope(mobj_t *actor)
 
                 if (!linetarget)
                 {
-                    bulletslope = P_AimLineAttack(actor, (an -= (2 << 26)), 16 * 64 * FRACUNIT, mask);
+                    bulletslope = P_AimLineAttack(actor, an - (2 << 26), 16 * 64 * FRACUNIT, mask);
 
                     if (!linetarget && usemouselook)
                         bulletslope = PLAYERSLOPE(viewplayer);

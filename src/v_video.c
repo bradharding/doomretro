@@ -89,7 +89,7 @@ void V_FillRect(int scrn, int x, int y, int width, int height, int color, dboole
 void V_FillTransRect(int scrn, int x, int y, int width, int height, int color, dboolean right)
 {
     byte        *dest = &screens[scrn][y * SCREENWIDTH + x];
-    const byte  *tint60 = &alttinttab60[(color <<= 8)];
+    const byte  *tint60 = &alttinttab60[color << 8];
 
     for (int xx = 0; xx < width; xx++)
     {
@@ -1900,8 +1900,6 @@ dboolean V_ScreenShot(void)
         M_snprintf(lbmpath1, sizeof(lbmpath1), "%s%s", screenshotfolder, lbmname1);
     } while (M_FileExists(lbmpath1));
 
-    free(temp1);
-
     result = V_SavePNG(renderer, lbmpath1);
 
     if (result && mapwindow && gamestate == GS_LEVEL)
@@ -1918,6 +1916,8 @@ dboolean V_ScreenShot(void)
 
         V_SavePNG(maprenderer, lbmpath2);
     }
+
+    free(temp1);
 
     return result;
 }
