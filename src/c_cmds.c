@@ -4966,6 +4966,21 @@ static void C_PlayerStats_Game(void)
     free(temp3);
     free(temp4);
 
+    if (gamemode == commercial)
+    {
+        temp1 = sentencecase(mobjinfo[MT_CHAINGUY].plural1);
+        temp2 = commify(viewplayer->mobjcount[MT_CHAINGUY]);
+        temp3 = commify(monstercount[MT_CHAINGUY]);
+        temp4 = commifystat(stat_monsterskilled_chaingunners);
+        C_TabbedOutput(tabs, "%s killed\t%s of %s (%i%%)\t%s",
+            temp1, temp2, temp3,
+            (monstercount[MT_CHAINGUY] ? viewplayer->mobjcount[MT_CHAINGUY] * 100 / monstercount[MT_CHAINGUY] : 0), temp4);
+        free(temp1);
+        free(temp2);
+        free(temp3);
+        free(temp4);
+    }
+
     if (gamemode != shareware)
     {
         temp1 = sentencecase(mobjinfo[MT_CYBORG].plural1);
@@ -4983,18 +4998,6 @@ static void C_PlayerStats_Game(void)
 
     if (gamemode == commercial)
     {
-        temp1 = sentencecase(mobjinfo[MT_CHAINGUY].plural1);
-        temp2 = commify(viewplayer->mobjcount[MT_CHAINGUY]);
-        temp3 = commify(monstercount[MT_CHAINGUY]);
-        temp4 = commifystat(stat_monsterskilled_heavyweapondudes);
-        C_TabbedOutput(tabs, "%s killed\t%s of %s (%i%%)\t%s",
-            temp1, temp2, temp3,
-            (monstercount[MT_CHAINGUY] ? viewplayer->mobjcount[MT_CHAINGUY] * 100 / monstercount[MT_CHAINGUY] : 0), temp4);
-        free(temp1);
-        free(temp2);
-        free(temp3);
-        free(temp4);
-
         temp1 = sentencecase(mobjinfo[MT_KNIGHT].plural1);
         temp2 = commify(viewplayer->mobjcount[MT_KNIGHT]);
         temp3 = commify(monstercount[MT_KNIGHT]);
@@ -5533,6 +5536,15 @@ static void C_PlayerStats_NoGame(void)
     free(temp1);
     free(temp2);
 
+    if (gamemode == commercial)
+    {
+        temp1 = sentencecase(mobjinfo[MT_CHAINGUY].plural1);
+        temp2 = commifystat(stat_monsterskilled_chaingunners);
+        C_TabbedOutput(tabs, "%s killed\t\x96\t%s", temp1, temp2);
+        free(temp1);
+        free(temp2);
+    }
+
     if (gamemode != shareware)
     {
         temp1 = sentencecase(mobjinfo[MT_CYBORG].plural1);
@@ -5544,12 +5556,6 @@ static void C_PlayerStats_NoGame(void)
 
     if (gamemode == commercial)
     {
-        temp1 = sentencecase(mobjinfo[MT_CHAINGUY].plural1);
-        temp2 = commifystat(stat_monsterskilled_heavyweapondudes);
-        C_TabbedOutput(tabs, "%s killed\t\x96\t%s", temp1, temp2);
-        free(temp1);
-        free(temp2);
-
         temp1 = sentencecase(mobjinfo[MT_KNIGHT].plural1);
         temp2 = commifystat(stat_monsterskilled_hellknights);
         C_TabbedOutput(tabs, "%s killed\t\x96\t%s", temp1, temp2);

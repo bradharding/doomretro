@@ -104,8 +104,8 @@ uint64_t        stat_monsterskilled_arachnotrons = 0;
 uint64_t        stat_monsterskilled_archviles = 0;
 uint64_t        stat_monsterskilled_baronsofhell = 0;
 uint64_t        stat_monsterskilled_cacodemons = 0;
+uint64_t        stat_monsterskilled_chaingunners = 0;
 uint64_t        stat_monsterskilled_cyberdemons = 0;
-uint64_t        stat_monsterskilled_heavyweapondudes = 0;
 uint64_t        stat_monsterskilled_hellknights = 0;
 uint64_t        stat_monsterskilled_imps = 0;
 uint64_t        stat_monsterskilled_lostsouls = 0;
@@ -1633,7 +1633,7 @@ void P_UpdateKillStat(mobjtype_t type, int value)
             break;
 
         case MT_CHAINGUY:
-            stat_monsterskilled_heavyweapondudes = SafeAdd(stat_monsterskilled_heavyweapondudes, value);
+            stat_monsterskilled_chaingunners = SafeAdd(stat_monsterskilled_chaingunners, value);
             break;
 
         case MT_KNIGHT:
