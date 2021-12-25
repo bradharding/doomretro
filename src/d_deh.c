@@ -4334,7 +4334,7 @@ void PostProcessDeh(void)
         // ensure states don't use more MBF21 args than their
         // action pointer expects, for future-proofing's sake
         for (j = MAXSTATEARGS - 1; j >= bexptr_match->argcount; j--)
-            if (states[i].args[j] != 0)
+            if (states[i].args[j])
                 I_Error("Action %s on state %d expects no more than %d nonzero args (%d found). Check your dehacked.",
                     bexptr_match->lookup, i, bexptr_match->argcount, j + 1);
 

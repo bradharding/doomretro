@@ -1170,26 +1170,17 @@ void A_WeaponJump(mobj_t *actor, player_t *player, pspdef_t *psp)
 void A_ConsumeAmmo(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
     int         amount;
-    ammotype_t  type;
-
-    // don't do dumb things, kids
-    type = weaponinfo[player->readyweapon].ammotype;
+    ammotype_t  type = weaponinfo[player->readyweapon].ammotype;
 
     if (!psp->state || type == am_noammo)
         return;
 
     // use the weapon's ammo-per-shot amount if zero.
     // to subtract zero ammo, don't call this function. ;)
-    if (psp->state->args[0] != 0)
-        amount = psp->state->args[0];
-    else
-        amount = weaponinfo[player->readyweapon].ammopershot;
+    amount = (psp->state->args[0] ? psp->state->args[0] : weaponinfo[player->readyweapon].ammopershot);
 
     // subtract ammo, but don't let it get below zero
-    if (player->ammo[type] >= amount)
-        player->ammo[type] -= amount;
-    else
-        player->ammo[type] = 0;
+    player->ammo[type] = MAX(0, player->ammo[type] - amount);
 }
 
 //
@@ -1206,10 +1197,7 @@ void A_CheckAmmo(mobj_t *actor, player_t *player, pspdef_t *psp)
     if (!psp->state || type == am_noammo)
         return;
 
-    if (psp->state->args[1] != 0)
-        amount = psp->state->args[1];
-    else
-        amount = weaponinfo[player->readyweapon].ammopershot;
+    amount = (psp->state->args[1] ? psp->state->args[1] : weaponinfo[player->readyweapon].ammopershot);
 
     if (player->ammo[type] < amount)
         P_SetPspritePtr(psp, psp->state->args[0]);
@@ -1228,7 +1216,8 @@ void A_RefireTo(mobj_t *actor, player_t *player, pspdef_t *psp)
 
     if ((psp->state->args[1] || P_CheckAmmo(player->readyweapon))
         && (player->cmd.buttons & BT_ATTACK)
-        && player->pendingweapon == wp_nochange && player->health)
+        && player->pendingweapon == wp_nochange
+        && player->health)
         P_SetPspritePtr(psp, psp->state->args[0]);
 }
 

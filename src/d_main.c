@@ -2372,8 +2372,11 @@ static void D_DoomMainSetup(void)
         {
             autostart = true;
 
-            stat_cheated = SafeAdd(stat_cheated, 1);
-            M_SaveCVARs();
+            if (startmap > 1)
+            {
+                stat_cheated = SafeAdd(stat_cheated, 1);
+                M_SaveCVARs();
+            }
         }
     }
 

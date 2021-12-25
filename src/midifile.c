@@ -400,8 +400,6 @@ static dboolean ReadAllTracks(midi_file_t *file, SDL_RWops *stream)
 // Read and check the header chunk
 static dboolean ReadFileHeader(midi_file_t *file, SDL_RWops *stream)
 {
-    unsigned int    format_type;
-
     if (SDL_RWread(stream, &file->header, sizeof(midi_header_t), 1) < 1)
         return false;
 
@@ -409,10 +407,7 @@ static dboolean ReadFileHeader(midi_file_t *file, SDL_RWops *stream)
         || SDL_SwapBE32(file->header.chunk_header.chunk_size) != 6)
         return false;
 
-    format_type = SDL_SwapBE16(file->header.format_type);
-    file->num_tracks = SDL_SwapBE16(file->header.num_tracks);
-
-    if ((format_type != 0 && format_type != 1) || file->num_tracks < 1)
+    if ((file->num_tracks = SDL_SwapBE16(file->header.num_tracks)) < 1 || SDL_SwapBE16(file->header.format_type) > 1)
         return false;
 
     return true;

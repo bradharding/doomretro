@@ -153,7 +153,7 @@ void mem_fclose(MEMFILE *stream)
     Z_Free(stream);
 }
 
-int mem_fseek(MEMFILE *stream, signed long position, mem_rel_t whence)
+int mem_fseek(MEMFILE *stream, long position, mem_rel_t whence)
 {
     unsigned int    newpos;
 
