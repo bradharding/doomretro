@@ -105,10 +105,6 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../src/i_gamepad.h" />
-		<Unit filename="../src/i_midirpc.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="../src/i_midirpc.h" />
 		<Unit filename="../src/i_music.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -165,10 +161,14 @@
 			<Option compilerVar="CC" />	
 		</Unit>
 		<Unit filename="../src/m_random.h" />
-		<Unit filename="../src/mmus2mid.c">
+		<Unit filename="../src/memio.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="../src/mmus2mid.h" />
+		<Unit filename="../src/memio.h" />
+		<Unit filename="../src/mus2mid.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../src/mus2mid.h" />
 		<Unit filename="../src/p_ceilng.c">
 			<Option compilerVar="CC" />
 		</Unit>
