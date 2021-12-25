@@ -11,6 +11,7 @@
 * Minor improvements have been made to the playback of MIDI music.
 * Lowering the music’s volume in the menu and console may now be disabled using the new `s_lowermenumusic` CVAR. This CVAR is `on` by default and `off` when vanilla mode is enabled.
 * Minor changes have been made to text that is output to the console.
+* Minor improvements have been made to the console’s autocomplete feature.
 * A crash no longer occurs when ending a game from the options menu.
 * The screen size is now always correct if it is changed from the options menu while no game is being played.
 * The corpses of monsters will now always fall when close to an edge.
