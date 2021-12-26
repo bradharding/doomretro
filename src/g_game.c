@@ -1760,7 +1760,8 @@ void G_InitNew(skill_t skill, int ep, int map)
     gameskill = skill;
 
     if (consolestrings == 1
-        || (!M_StringStartsWith(console[consolestrings - 2].string, "map ")
+        || (!M_StringCompare(console[consolestrings - 2].string, "newgame")
+            && !M_StringStartsWith(console[consolestrings - 2].string, "map ")
             && !M_StringStartsWith(console[consolestrings - 1].string, "load ")
             && !M_StringStartsWith(console[consolestrings - 1].string, "Warping ")))
         C_Input("newgame");
