@@ -393,7 +393,7 @@ static dboolean P_SmartMove(mobj_t *actor)
 
     // killough 09/09/98: avoid crushing ceilings or other damaging areas
     if ((onlift && M_Random() < 230          // stay on lift
-         && !actor->subsector->sector->islift)
+        && !actor->subsector->sector->islift)
         || (!underdamage                     // get away from damage
             && (underdamage = P_IsUnderDamage(actor))
             && (underdamage < 0 || M_Random() < 200)))

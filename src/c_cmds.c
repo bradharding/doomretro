@@ -2295,7 +2295,7 @@ static void give_cmd_func2(char *cmd, char *parms)
             }
         }
         else if (M_StringCompare(parm, "ammo") || M_StringCompare(parm, "fullammo")
-                 || M_StringCompare(parm, "ammunition") || M_StringCompare(parm, "fullammunition"))
+                || M_StringCompare(parm, "ammunition") || M_StringCompare(parm, "fullammunition"))
         {
             if (P_GiveFullAmmo())
             {
@@ -6921,7 +6921,7 @@ static void take_cmd_func2(char *cmd, char *parms)
                 C_Warning(0, "%s doesn't have any weapons.", playername);
         }
         else if (M_StringCompare(parm, "ammo") || M_StringCompare(parm, "allammo")
-                 || M_StringCompare(parm, "ammunition") || M_StringCompare(parm, "allammunition"))
+                || M_StringCompare(parm, "ammunition") || M_StringCompare(parm, "allammunition"))
         {
             for (ammotype_t i = 0; i < NUMAMMO; i++)
                 if (viewplayer->ammo[i])

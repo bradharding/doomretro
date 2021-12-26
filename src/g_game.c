@@ -1300,8 +1300,8 @@ static void G_DoCompleted(void)
                     break;
 
                 default:
-                   wminfo.next = gamemap;
-                   break;
+                    wminfo.next = gamemap;
+                    break;
             }
         }
     }

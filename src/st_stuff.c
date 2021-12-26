@@ -545,8 +545,8 @@ dboolean ST_Responder(event_t *ev)
 
             // 'kfa' cheat for key full ammo
             else if (cht_CheckCheat(&cheat_ammo, ev->data2) && gameskill != sk_nightmare
-                     // [BH] can only enter cheat while player is alive
-                     && viewplayer->health > 0)
+                // [BH] can only enter cheat while player is alive
+                && viewplayer->health > 0)
             {
                 dboolean    ammogiven = false;
                 dboolean    armorgiven = false;
@@ -844,8 +844,8 @@ dboolean ST_Responder(event_t *ev)
 
             // 'choppers' invulnerability and chainsaw
             else if (cht_CheckCheat(&cheat_choppers, ev->data2) && gameskill != sk_nightmare
-                     // [BH] can only enter cheat while player is alive
-                     && viewplayer->health > 0)
+                // [BH] can only enter cheat while player is alive
+                && viewplayer->health > 0)
             {
                 S_StartSound(NULL, sfx_getpow);
                 C_Input(cheat_choppers.sequence);
