@@ -1274,15 +1274,15 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, dboolean spawnmonsters)
             P_SpawnMoreBlood(mobj);
     }
 
-    // [crispy] randomly colorize space marine corpse objects
+    // [crispy] randomly colorize player corpses
     if (info->spawnstate == S_PLAY_DIE7 || info->spawnstate == S_PLAY_XDIE9)
         mobj->flags |= (M_BigRandomInt(0, 3) << MF_TRANSLATIONSHIFT);
 
     if ((mobj->flags2 & MF2_DECORATION) && type != Barrel)
         numdecorations++;
 
-    // [BH] initialize certain mobj's animations to random start frame
-    // so groups of same mobjs are deliberately out of sync
+    // [BH] initialize certain mobj's animations to a random start frame
+    // so groups of same mobjs are deliberately out of sync with each other
     if (info->frames > 1)
     {
         int     frames = M_BigRandomInt(0, info->frames);
@@ -1295,7 +1295,7 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, dboolean spawnmonsters)
     }
 
     // [BH] set random pitch for monster sounds when spawned
-    mobj->pitch = ((mobj->flags & MF_SHOOTABLE) && type != Barrel ? NORM_PITCH + M_BigRandomInt(-16, 16) : NORM_PITCH);
+    mobj->pitch = ((flags & MF_SHOOTABLE) && type != Barrel ? NORM_PITCH + M_BigRandomInt(-16, 16) : NORM_PITCH);
 
     // [BH] initialize bobbing things
     mobj->floatbob = prevthingbob = (x == prevthingx && y == prevthingy ? prevthingbob : TICRATE + M_BigRandom());

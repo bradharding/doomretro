@@ -124,7 +124,7 @@ void P_ChangeWeapon(weapontype_t newweapon);
 #define ONCEILINGZ          FIXED_MAX
 
 // Time interval for item respawning.
-#define ITEMQUEUESIZE       512
+#define ITEMQUEUESIZE       1024
 
 #define CARDNOTFOUNDYET    -1
 #define CARDNOTINMAP        0
