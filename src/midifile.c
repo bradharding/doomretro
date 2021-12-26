@@ -45,60 +45,6 @@
 #include "i_system.h"
 #include "midifile.h"
 
-#define HEADER_CHUNK_ID "MThd"
-#define TRACK_CHUNK_ID  "MTrk"
-
-#if defined(_MSC_VER) || defined(__GNUC__)
-#pragma pack(push, 1)
-#endif
-
-typedef struct
-{
-    byte            chunk_id[4];
-    unsigned int    chunk_size;
-} PACKEDATTR chunk_header_t;
-
-typedef struct
-{
-    chunk_header_t  chunk_header;
-    unsigned short  format_type;
-    unsigned short  num_tracks;
-    unsigned short  time_division;
-} PACKEDATTR midi_header_t;
-
-#if defined(_MSC_VER) || defined(__GNUC__)
-#pragma pack(pop)
-#endif
-
-typedef struct
-{
-    // Length in bytes
-    unsigned int    data_len;
-
-    // Events in this track
-    midi_event_t    *events;
-    unsigned int    num_events;
-} midi_track_t;
-
-struct midi_track_iter_s
-{
-    midi_track_t    *track;
-    unsigned int    position;
-};
-
-struct midi_file_s
-{
-    midi_header_t   header;
-
-    // All tracks in this file
-    midi_track_t    *tracks;
-    unsigned int    num_tracks;
-
-    // Data buffer used to store data read for SysEx or meta events
-    byte            *buffer;
-    unsigned int    buffer_size;
-};
-
 // Check the header of a chunk
 static dboolean CheckChunkHeader(chunk_header_t *chunk, const char *expected_id)
 {

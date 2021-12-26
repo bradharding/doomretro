@@ -41,11 +41,13 @@
 #if !defined(__MIDIFILE_H__)
 #define __MIDIFILE_H__
 
+#include "SDL.h"
+
+#include "doomdef.h"
 #include "doomtype.h"
 
-typedef struct midi_file_s          midi_file_t;
-typedef struct midi_track_iter_s    midi_track_iter_t;
-
+#define HEADER_CHUNK_ID         "MThd"
+#define TRACK_CHUNK_ID          "MTrk"
 #define MIDI_CHANNELS_PER_TRACK 16
 
 typedef enum
@@ -132,6 +134,57 @@ typedef struct
         midi_sysex_event_data_t     sysex;
     } data;
 } midi_event_t;
+
+#if defined(_MSC_VER) || defined(__GNUC__)
+#pragma pack(push, 1)
+#endif
+
+typedef struct
+{
+    byte            chunk_id[4];
+    unsigned int    chunk_size;
+} PACKEDATTR chunk_header_t;
+
+typedef struct
+{
+    chunk_header_t  chunk_header;
+    unsigned short  format_type;
+    unsigned short  num_tracks;
+    unsigned short  time_division;
+} PACKEDATTR midi_header_t;
+
+#if defined(_MSC_VER) || defined(__GNUC__)
+#pragma pack(pop)
+#endif
+
+typedef struct
+{
+    // Length in bytes
+    unsigned int    data_len;
+
+    // Events in this track
+    midi_event_t    *events;
+    unsigned int    num_events;
+} midi_track_t;
+
+typedef struct
+{
+    midi_track_t    *track;
+    unsigned int    position;
+} midi_track_iter_t;
+
+typedef struct
+{
+    midi_header_t   header;
+
+    // All tracks in this file
+    midi_track_t    *tracks;
+    unsigned int    num_tracks;
+
+    // Data buffer used to store data read for SysEx or meta events
+    byte            *buffer;
+    unsigned int    buffer_size;
+} midi_file_t;
 
 // Load a MIDI file.
 midi_file_t *MIDI_LoadFile(SDL_RWops *stream);
