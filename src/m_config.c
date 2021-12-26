@@ -1077,9 +1077,9 @@ void M_LoadCVARs(char *filename)
 
         if (M_StringCompare(cvar, "bind"))
         {
-            nooutput = ispackageconfig;
+            nobindoutput = ispackageconfig;
             bind_cmd_func2("bind", value);
-            nooutput = false;
+            nobindoutput = false;
             bindcount++;
 
             continue;

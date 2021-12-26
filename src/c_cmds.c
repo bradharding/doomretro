@@ -134,7 +134,7 @@ dboolean    quitcmd = false;
 dboolean    resettingcvar = false;
 dboolean    togglingvanilla = false;
 dboolean    vanilla = false;
-dboolean    nooutput;
+dboolean    nobindoutput;
 
 char        *version = version_default;
 
@@ -1569,7 +1569,7 @@ void bind_cmd_func2(char *cmd, char *parms)
 
                 if (bound)
                 {
-                    if (!nooutput)
+                    if (!nobindoutput)
                     {
                         if (strlen(controls[i].control) == 1)
                             C_Output("The " BOLD("%s") " action was bound to " BOLD("'%s'") ".", parm2, controls[i].control);
@@ -7354,6 +7354,8 @@ static void vanilla_cmd_func2(char *cmd, char *parms)
     {
         SC_Open("VANILLA");
 
+        nobindoutput = true;
+
         while (SC_GetString())
         {
             char    *cvar = M_StringDuplicate(sc_String);
@@ -7385,6 +7387,8 @@ static void vanilla_cmd_func2(char *cmd, char *parms)
 
             free(cvar);
         }
+
+        nobindoutput = false;
 
         SC_Close();
 
