@@ -57,7 +57,7 @@ dboolean        windowsmidi = false;
 
 static dboolean music_initialized;
 
-int             current_music_volume;
+int             current_music_volume = 0;
 static int      paused_midi_volume;
 
 // Shutdown music

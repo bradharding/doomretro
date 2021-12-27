@@ -233,7 +233,7 @@ static void MIDItoStream(midi_file_t *file)
             continue;
         }
 
-        switch ((int)event->event_type)
+        switch (event->event_type)
         {
             case MIDI_EVENT_META:
                 if (event->data.meta.type == MIDI_META_SET_TEMPO)
@@ -285,14 +285,6 @@ static void MIDItoStream(midi_file_t *file)
         free(tracks);
 }
 
-static void UpdateVolume(void)
-{
-    // Send MIDI controller events to adjust the volume.
-    for (int i = 0; i < MIDI_CHANNELS_PER_TRACK; i++)
-        midiOutShortMsg((HMIDIOUT)hMidiStream, (MIDI_EVENT_CONTROLLER | i | (MIDI_CONTROLLER_MAIN_VOLUME << 8)
-            | ((int)((float)channel_volume[i] * volume_factor) << 16)));
-}
-
 dboolean I_Windows_InitMusic(void)
 {
     UINT    MidiDevice = MIDI_MAPPER;
@@ -320,7 +312,11 @@ dboolean I_Windows_InitMusic(void)
 void I_Windows_SetMusicVolume(int volume)
 {
     volume_factor = (float)volume / MIX_MAX_VOLUME;
-    UpdateVolume();
+
+    // Send MIDI controller events to adjust the volume.
+    for (int i = 0; i < MIDI_CHANNELS_PER_TRACK; i++)
+        midiOutShortMsg((HMIDIOUT)hMidiStream, (MIDI_EVENT_CONTROLLER | i | (MIDI_CONTROLLER_MAIN_VOLUME << 8)
+            | ((int)((float)channel_volume[i] * volume_factor) << 16)));
 }
 
 void I_Windows_StopSong(void)
@@ -361,8 +357,6 @@ void I_Windows_PlaySong(dboolean looping)
     SetThreadPriority(hPlayerThread, THREAD_PRIORITY_TIME_CRITICAL);
 
     midiStreamRestart(hMidiStream);
-
-    UpdateVolume();
 }
 
 void I_Windows_RegisterSong(void *data, int size)
