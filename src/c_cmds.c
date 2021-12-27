@@ -1638,7 +1638,11 @@ void bind_cmd_func2(char *cmd, char *parms)
     if (mouselookcontrols != (keyboardmouselook || gamepadmouselook || mousemouselook != -1))
     {
         if (gamestate == GS_LEVEL)
+        {
+            suppresswarnings = true;
             R_InitSkyMap();
+            suppresswarnings = false;
+        }
 
         R_InitColumnFunctions();
     }
@@ -6041,7 +6045,10 @@ static void C_VerifyResetAll(const int key)
         // reset stretched sky
         if (gamestate == GS_LEVEL)
         {
+            suppresswarnings = true;
             R_InitSkyMap();
+            suppresswarnings = false;
+
             R_InitColumnFunctions();
         }
 
@@ -7930,7 +7937,10 @@ static void autotilt_cvar_func2(char *cmd, char *parms)
 
     if (autotilt != autotilt_old && gamestate == GS_LEVEL)
     {
+        suppresswarnings = true;
         R_InitSkyMap();
+        suppresswarnings = false;
+
         R_InitColumnFunctions();
     }
 }
@@ -8124,11 +8134,13 @@ static void mouselook_cvar_func2(char *cmd, char *parms)
     {
         if (gamestate == GS_LEVEL)
         {
+            suppresswarnings = true;
             R_InitSkyMap();
+            suppresswarnings = false;
+
             R_InitColumnFunctions();
 
-            if (gamestate == GS_LEVEL)
-                D_FadeScreen(false);
+            D_FadeScreen(false);
 
             if (!mouselook)
             {
@@ -9737,11 +9749,13 @@ static void weaponrecoil_cvar_func2(char *cmd, char *parms)
     {
         if (gamestate == GS_LEVEL)
         {
+            suppresswarnings = true;
             R_InitSkyMap();
+            suppresswarnings = false;
+
             R_InitColumnFunctions();
 
-            if (gamestate == GS_LEVEL)
-                D_FadeScreen(false);
+            D_FadeScreen(false);
 
             if (!weaponrecoil)
             {

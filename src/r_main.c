@@ -426,7 +426,10 @@ void R_ExecuteSetViewSize(void)
 
     if (gamestate == GS_LEVEL)
     {
+        suppresswarnings = true;
         R_InitSkyMap();
+        suppresswarnings = false;
+
         R_InitColumnFunctions();
     }
 

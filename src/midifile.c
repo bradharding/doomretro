@@ -284,6 +284,7 @@ static dboolean ReadTrack(midi_track_t *track, SDL_RWops *stream)
     unsigned int    last_event_type;
 
     track->num_events = 0;
+    track->num_events_mem = 0;
     track->events = NULL;
 
     // Read the header

@@ -71,6 +71,7 @@ int         lastspritelump;
 int         numspritelumps;
 
 dboolean    telefragonmap30 = false;
+dboolean    suppresswarnings = false;
 
 int         numtextures;
 texture_t   **textures;
@@ -965,7 +966,7 @@ int R_TextureNumForName(char *name)
 
     if (i == -1)
     {
-        if (*name && *name != '-')
+        if (*name && *name != '-' && !suppresswarnings)
         {
             char    *temp = uppercase(name);
 
