@@ -165,6 +165,7 @@ typedef struct
     // Events in this track
     midi_event_t    *events;
     unsigned int    num_events;
+    unsigned int    num_events_mem;
 } midi_track_t;
 
 typedef struct
