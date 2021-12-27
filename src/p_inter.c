@@ -2278,6 +2278,7 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
 
             tplayer->health -= damage;
             target->health -= damage;
+            healthhighlight = I_GetTimeMS() + HUD_HEALTH_HIGHLIGHT_WAIT;
 
             if ((cheats & CF_BUDDHA) && tplayer->health <= 0)
             {

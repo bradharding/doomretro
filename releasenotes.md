@@ -14,8 +14,9 @@
 * Minor improvements have been made to the console’s autocomplete feature.
 * A crash no longer occurs when ending a game from the options menu.
 * The screen size is now always correct if it is changed from the options menu while no game is being played.
-* The corpses of monsters will now always fall when close to an edge.
+* The corpses of monsters now always fall when close to an edge.
 * The shadows of *MBF*-compatible helper dogs are now positioned correctly.
+* The player’s health now flashes in the widescreen HUD when they are injured.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
