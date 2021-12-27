@@ -127,7 +127,6 @@ int                     con_backcolor = con_backcolor_default;
 int                     con_edgecolor = con_edgecolor_default;
 int                     warninglevel = warninglevel_default;
 
-static int              timerwidth;
 static int              zerowidth;
 
 static int              consolecaretcolor = 4;
@@ -732,8 +731,6 @@ void C_Init(void)
     brandheight = SHORT(brand->height);
     spacewidth = SHORT(consolefont[' ' - CONSOLEFONTSTART]->width);
     zerowidth = SHORT(consolefont['0' - CONSOLEFONTSTART]->width);
-
-    timerwidth = C_OverlayWidth("00:00:00", true);
 }
 
 void C_ShowConsole(void)
@@ -1161,6 +1158,7 @@ void C_UpdateFPSOverlay(void)
 
 void C_UpdateTimerOverlay(void)
 {
+    int         timerwidth;
     static char buffer[10];
     static int  prevtics;
 
@@ -1172,9 +1170,15 @@ void C_UpdateTimerOverlay(void)
         int seconds = tics % 60;
 
         if (!hours)
+        {
             M_snprintf(buffer, 10, "%02i:%02i", minutes, seconds);
+            timerwidth = C_OverlayWidth("00:00", true);
+        }
         else
+        {
             M_snprintf(buffer, 10, "%02i:%02i:%02i", hours, minutes, seconds);
+            timerwidth = C_OverlayWidth("00:00:00", true);
+        }
     }
 
     C_DrawOverlayText(screens[0], SCREENWIDTH, SCREENWIDTH - timerwidth - OVERLAYTEXTX + 1,
