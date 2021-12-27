@@ -16,7 +16,7 @@
 #
 #  DOOM Retro is free software: you can redistribute it and/or modify it
 #  under the terms of the GNU General Public License as published by the
-#  Free Software Foundation, either version 3 of the License, or (at your
+#  Free Software Foundation, either version 3 of the license, or (at your
 #  option) any later version.
 #
 #  DOOM Retro is distributed in the hope that it will be useful, but
@@ -47,7 +47,7 @@ INCLUDE(GNUInstallDirs)
 FILE(GLOB_RECURSE SOURCES ${CMAKE_SOURCE_DIR}/src/*.c)
 
 IF (NOT CMAKE_BUILD_TYPE)
-    SET(CMAKE_BUILD_TYPE "Release" CACHE STRING "Build type" FORCE)
+	SET(CMAKE_BUILD_TYPE "Release" CACHE STRING "Build type" FORCE)
 ENDIF (NOT CMAKE_BUILD_TYPE)
 
 IF (APPLE)
