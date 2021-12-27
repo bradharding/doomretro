@@ -1171,7 +1171,10 @@ void C_UpdateTimerOverlay(void)
         int minutes = ((tics %= 3600)) / 60;
         int seconds = tics % 60;
 
-        M_snprintf(buffer, 10, "%02i:%02i:%02i", hours, minutes, seconds);
+        if (!hours)
+            M_snprintf(buffer, 10, "%02i:%02i", minutes, seconds);
+        else
+            M_snprintf(buffer, 10, "%02i:%02i:%02i", hours, minutes, seconds);
     }
 
     C_DrawOverlayText(screens[0], SCREENWIDTH, SCREENWIDTH - timerwidth - OVERLAYTEXTX + 1,

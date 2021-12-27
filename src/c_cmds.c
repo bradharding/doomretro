@@ -7224,7 +7224,6 @@ static void timer_cmd_func2(char *cmd, char *parms)
         if (value != INT_MAX)
         {
             value = BETWEEN(0, value, TIMERMAXMINUTES);
-            P_SetTimer(value);
 
             if (!togglingvanilla)
             {
@@ -7247,6 +7246,8 @@ static void timer_cmd_func2(char *cmd, char *parms)
                     free(temp);
                 }
             }
+
+            P_SetTimer(value);
         }
     }
 }
