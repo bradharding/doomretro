@@ -127,6 +127,7 @@ int                     con_backcolor = con_backcolor_default;
 int                     con_edgecolor = con_edgecolor_default;
 int                     warninglevel = warninglevel_default;
 
+static int              timerwidth;
 static int              zerowidth;
 
 static int              consolecaretcolor = 4;
@@ -1158,7 +1159,6 @@ void C_UpdateFPSOverlay(void)
 
 void C_UpdateTimerOverlay(void)
 {
-    int         timerwidth;
     static char buffer[10];
     static int  prevtics;
 
