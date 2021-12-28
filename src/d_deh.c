@@ -1710,8 +1710,8 @@ static const struct deh_flag_s deh_mobjflags_mbf21[] =
     { "NOTHRESHOLD",    MF_MBF21_NOTHRESHOLD    },  // no targeting threshold
     { "LONGMELEE",      MF_MBF21_LONGMELEE      },  // long melee range
     { "BOSS",           MF_MBF21_BOSS           },  // full volume see/death sound + splash immunity
-    { "MAP07BOSS1",     MF_MBF21_MAP07BOSS1     },  // Tag 666 "boss" on doom 2 map 7
-    { "MAP07BOSS2",     MF_MBF21_MAP07BOSS2     },  // Tag 667 "boss" on doom 2 map 7
+    { "MAP07BOSS1",     MF_MBF21_MAP07BOSS1     },  // Tag 666 "boss" on DOOM 2 map 7
+    { "MAP07BOSS2",     MF_MBF21_MAP07BOSS2     },  // Tag 667 "boss" on DOOM 2 map 7
     { "E1M8BOSS",       MF_MBF21_E1M8BOSS       },  // E1M8 boss
     { "E2M8BOSS",       MF_MBF21_E2M8BOSS       },  // E2M8 boss
     { "E3M8BOSS",       MF_MBF21_E3M8BOSS       },  // E3M8 boss

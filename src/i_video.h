@@ -52,6 +52,12 @@ void I_InitKeyboard(void);
 void I_ShutdownKeyboard(void);
 dboolean GetCapsLockState(void);
 
+// Called by D_DoomLoop,
+// called before processing each tic in a frame.
+// Quick synchronous operations are performed here.
+// Can call D_PostEvent.
+void I_StartTic(void);
+
 // Called by D_DoomMain,
 // determines the hardware configuration
 // and sets up the video mode

@@ -9289,6 +9289,7 @@ static dboolean turbo_cvar_func1(char *cmd, char *parms)
         return true;
 
     sscanf(parms, "%10i", &value);
+
     return (value >= turbo_min && value <= turbo_max);
 }
 

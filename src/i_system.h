@@ -53,13 +53,6 @@
 #define DESKTOPNAME     "desktop"
 #endif
 
-//
-// Called by D_DoomLoop,
-// called before processing each tic in a frame.
-// Quick synchronous operations are performed here.
-// Can call D_PostEvent.
-void I_StartTic(void);
-
 // Called by M_Responder when quit is selected.
 // Clean exit, displays sell blurb.
 void I_Quit(dboolean shutdown);
