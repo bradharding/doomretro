@@ -2913,7 +2913,7 @@ static void P_SpawnScrollers(void)
                 int s;
 
                 if (!l->tag)
-                    I_Error("Line %d is missing a tag!", i);
+                    I_Error("Line %i is missing a tag!", i);
 
                 if (special > 1024)
                     control = sides[*l->sidenum].sector->id;

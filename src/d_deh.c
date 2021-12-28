@@ -3237,9 +3237,9 @@ static void deh_procPars(DEHFILE *fpin, char *line) // extension
         if (!*inbuffer)
             break;                              // killough 11/98
 
-        if (sscanf(inbuffer, "par %10d %10d %10d", &episode, &level, &partime) != 3)
+        if (sscanf(inbuffer, "par %10i %10i %10i", &episode, &level, &partime) != 3)
         {
-            if (sscanf(inbuffer, "par %10d %10d", &level, &partime) != 2)
+            if (sscanf(inbuffer, "par %10i %10i", &level, &partime) != 2)
                 C_Warning(1, "Invalid par time setting string \"%s\".", inbuffer);
             else
             {
@@ -4335,7 +4335,7 @@ void PostProcessDeh(void)
         // action pointer expects, for future-proofing's sake
         for (j = MAXSTATEARGS - 1; j >= bexptr_match->argcount; j--)
             if (states[i].args[j])
-                I_Error("Action %s on state %d expects no more than %d nonzero args (%d found). Check your dehacked.",
+                I_Error("Action %s on state %i expects no more than %i nonzero args (%i found). Check your dehacked.",
                     bexptr_match->lookup, i, bexptr_match->argcount, j + 1);
 
         // replace unset fields with default values

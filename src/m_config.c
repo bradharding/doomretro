@@ -556,7 +556,7 @@ static int ParseIntParameter(char *strparm, int valuealiastype)
         if (M_StringCompare(strparm, valuealiases[i].text) && valuealiastype == valuealiases[i].type)
             return valuealiases[i].value;
 
-    sscanf(strparm, "%10d", &parm);
+    sscanf(strparm, "%10i", &parm);
     return parm;
 }
 

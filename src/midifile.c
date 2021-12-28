@@ -191,19 +191,19 @@ static dboolean ReadEvent(midi_event_t *event, unsigned int *last_event_type, SD
     if (!ReadByte(&event_type, stream))
         return false;
 
-    // All event types have their top bit set.  Therefore, if
+    // All event types have their top bit set. Therefore, if
     // the top bit is not set, it is because we are using the "same
-    // as previous event type" shortcut to save a byte.  Skip back
+    // as previous event type" shortcut to save a byte. Skip back
     // a byte so that we read this byte again.
-    if (!(event_type & 0x80))
+    if (event_type & 0x80)
+        *last_event_type = event_type;
+    else
     {
         event_type = *last_event_type;
 
         if (SDL_RWseek(stream, -1, RW_SEEK_CUR) == -1)
             return false;
     }
-    else
-        *last_event_type = event_type;
 
     // Check event type
     switch (event_type & 0xF0)
@@ -355,7 +355,8 @@ static dboolean ReadFileHeader(midi_file_t *file, SDL_RWops *stream)
         || SDL_SwapBE32(file->header.chunk_header.chunk_size) != 6)
         return false;
 
-    if ((file->num_tracks = SDL_SwapBE16(file->header.num_tracks)) < 1 || SDL_SwapBE16(file->header.format_type) > 1)
+    if ((file->num_tracks = SDL_SwapBE16(file->header.num_tracks)) < 1
+        || SDL_SwapBE16(file->header.format_type) > 1)
         return false;
 
     return true;

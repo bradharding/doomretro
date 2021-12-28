@@ -2165,7 +2165,7 @@ static dboolean give_cmd_func1(char *cmd, char *parms)
                 && ((*mobjinfo[i].name1 && M_StringCompare(parm, temp1))
                     || (*mobjinfo[i].name2 && M_StringCompare(parm, temp2))
                     || (*mobjinfo[i].name3 && M_StringCompare(parm, temp3))
-                    || (sscanf(parm, "%10d", &num) == 1 && num == mobjinfo[i].doomednum && num != -1)))
+                    || (sscanf(parm, "%10i", &num) == 1 && num == mobjinfo[i].doomednum && num != -1)))
                 result = true;
 
             if (temp1)
@@ -2465,7 +2465,7 @@ static void give_cmd_func2(char *cmd, char *parms)
                     && ((*mobjinfo[i].name1 && M_StringCompare(parm, temp1))
                         || (*mobjinfo[i].name2 && M_StringCompare(parm, temp2))
                         || (*mobjinfo[i].name3 && M_StringCompare(parm, temp3))
-                        || (sscanf(parm, "%10d", &num) == 1 && num == mobjinfo[i].doomednum && num != -1)))
+                        || (sscanf(parm, "%10i", &num) == 1 && num == mobjinfo[i].doomednum && num != -1)))
                 {
                     if (gamemode != commercial && (i == MT_SUPERSHOTGUN || i == MT_MEGA))
 
@@ -2609,7 +2609,7 @@ static void if_cmd_func2(char *cmd, char *parms)
                 {
                     int value = C_LookupValueFromAlias(parm2, consolecmds[i].aliases);
 
-                    if (value != INT_MIN || sscanf(parms, "%10d", &value) == 1)
+                    if (value != INT_MIN || sscanf(parms, "%10i", &value) == 1)
                         condition = (value != INT_MIN && value == *(int *)consolecmds[i].variable);
                 }
                 else if (consolecmds[i].flags & CF_FLOAT)
@@ -2719,7 +2719,7 @@ static dboolean kill_cmd_func1(char *cmd, char *parms)
                         || (*mobjinfo[i].plural2 && M_StringCompare(parm, temp4))
                         || (*mobjinfo[i].name3 && M_StringCompare(parm, temp5))
                         || (*mobjinfo[i].plural3 && M_StringCompare(parm, temp6))
-                        || (sscanf(parm, "%10d", &num) == 1 && num == killcmdtype && num != -1)))
+                        || (sscanf(parm, "%10i", &num) == 1 && num == killcmdtype && num != -1)))
                 {
                     if (killcmdtype == WolfensteinSS && !allowwolfensteinss && !states[S_SSWV_STND].dehacked)
                         result = false;
@@ -6311,7 +6311,7 @@ static dboolean resurrect_cmd_func1(char *cmd, char *parms)
                         || (*mobjinfo[i].plural2 && M_StringCompare(parm, temp4))
                         || (*mobjinfo[i].name3 && M_StringCompare(parm, temp5))
                         || (*mobjinfo[i].plural3 && M_StringCompare(parm, temp6))
-                        || (sscanf(parm, "%10d", &num) == 1 && num == resurrectcmdtype && num != -1)))
+                        || (sscanf(parm, "%10i", &num) == 1 && num == resurrectcmdtype && num != -1)))
                 {
                     if (resurrectcmdtype == WolfensteinSS && !allowwolfensteinss && !states[S_SSWV_STND].dehacked)
                         result = false;
@@ -6583,7 +6583,7 @@ static dboolean spawn_cmd_func1(char *cmd, char *parms)
                 && ((*mobjinfo[i].name1 && M_StringCompare(parm, temp1))
                 || (*mobjinfo[i].name2 && M_StringCompare(parm, temp2))
                 || (*mobjinfo[i].name3 && M_StringCompare(parm, temp3))
-                || (sscanf(parm, "%10d", &num) == 1 && num == spawncmdtype && num != -1))
+                || (sscanf(parm, "%10i", &num) == 1 && num == spawncmdtype && num != -1))
                 && (!spawncmdfriendly || (mobjinfo[i].flags & MF_SHOOTABLE)))
                 result = true;
 
@@ -6781,7 +6781,7 @@ static dboolean take_cmd_func1(char *cmd, char *parms)
                 && ((*mobjinfo[i].name1 && M_StringCompare(parm, temp1))
                     || (*mobjinfo[i].name2 && M_StringCompare(parm, temp2))
                     || (*mobjinfo[i].name3 && M_StringCompare(parm, temp3))
-                    || (sscanf(parm, "%10d", &num) == 1 && num == mobjinfo[i].doomednum && num != -1)))
+                    || (sscanf(parm, "%10i", &num) == 1 && num == mobjinfo[i].doomednum && num != -1)))
                 result = true;
 
             if (temp1)
@@ -7042,7 +7042,7 @@ static void take_cmd_func2(char *cmd, char *parms)
                     && ((*mobjinfo[i].name1 && M_StringCompare(parm, temp1))
                         || (*mobjinfo[i].name2 && M_StringCompare(parm, temp2))
                         || (*mobjinfo[i].name3 && M_StringCompare(parm, temp3))
-                        || (sscanf(parm, "%10d", &num) == 1 && num == mobjinfo[i].doomednum && num != -1)))
+                        || (sscanf(parm, "%10i", &num) == 1 && num == mobjinfo[i].doomednum && num != -1)))
                 {
                     if (P_TakeSpecialThing(i))
                     {
@@ -7091,7 +7091,7 @@ static dboolean teleport_cmd_func1(char *cmd, char *parms)
         fixed_t x = FIXED_MIN;
         fixed_t y = FIXED_MIN;
 
-        sscanf(parms, "%10d %10d", &x, &y);
+        sscanf(parms, "%10i %10i", &x, &y);
 
         return (x != FIXED_MIN && y != FIXED_MIN);
     }
@@ -7112,7 +7112,7 @@ static void teleport_cmd_func2(char *cmd, char *parms)
         fixed_t y = FIXED_MIN;
         fixed_t z = FIXED_MIN;
 
-        sscanf(parms, "%10d %10d %10d", &x, &y, &z);
+        sscanf(parms, "%10i %10i %10i", &x, &y, &z);
 
         if (x != FIXED_MIN && y != FIXED_MIN)
         {
@@ -7219,7 +7219,7 @@ static void timer_cmd_func2(char *cmd, char *parms)
     {
         int value = INT_MAX;
 
-        sscanf(parms, "%10d", &value);
+        sscanf(parms, "%10i", &value);
 
         if (value != INT_MAX)
         {
@@ -7409,14 +7409,14 @@ static void vanilla_cmd_func2(char *cmd, char *parms)
         {
             char    parm[4];
 
-            M_snprintf(parm, sizeof(parm), "%i", s_sfxvolume);
+            M_snprintf(parm, sizeof(parm), "%i%%", s_sfxvolume);
             s_volume_cvars_func2(stringize(s_musicvolume), parm);
         }
         else if (s_sfxvolume > s_musicvolume)
         {
             char    parm[4];
 
-            M_snprintf(parm, sizeof(parm), "%i", s_musicvolume);
+            M_snprintf(parm, sizeof(parm), "%i%%", s_musicvolume);
             s_volume_cvars_func2(stringize(s_sfxvolume), parm);
         }
 
@@ -7596,7 +7596,7 @@ static dboolean int_cvars_func1(char *cmd, char *parms)
             int value = C_LookupValueFromAlias(parms, consolecmds[i].aliases);
 
             if (value == INT_MIN)
-                sscanf(parms, "%10d", &value);
+                sscanf(parms, "%10i", &value);
 
             return (value >= consolecmds[i].minimumvalue && value <= consolecmds[i].maximumvalue);
         }
@@ -7614,7 +7614,7 @@ static void int_cvars_func2(char *cmd, char *parms)
                 int value = C_LookupValueFromAlias(parms, consolecmds[i].aliases);
 
                 if (value == INT_MIN)
-                    sscanf(parms, "%10d", &value);
+                    sscanf(parms, "%10i", &value);
 
                 if (value != INT_MIN && value != *(int *)consolecmds[i].variable)
                 {
@@ -8176,7 +8176,7 @@ static void player_cvars_func2(char *cmd, char *parms)
 
         if (*parms)
         {
-            sscanf(parms, "%10d", &value);
+            sscanf(parms, "%10i", &value);
 
             if (ammotype != am_noammo && value != viewplayer->ammo[ammotype] && viewplayer->health > 0)
             {
@@ -8214,7 +8214,7 @@ static void player_cvars_func2(char *cmd, char *parms)
     {
         if (*parms)
         {
-            sscanf(parms, "%10d", &value);
+            sscanf(parms, "%10i", &value);
 
             if (value != viewplayer->armorpoints)
             {
@@ -8255,7 +8255,7 @@ static void player_cvars_func2(char *cmd, char *parms)
     {
         if (*parms)
         {
-            sscanf(parms, "%10d", &value);
+            sscanf(parms, "%10i", &value);
             value = BETWEEN(health_min, value, maxhealth);
 
             if (value != viewplayer->health)
@@ -9167,8 +9167,8 @@ static dboolean s_volume_cvars_func1(char *cmd, char *parms)
     if (!*parms)
         return true;
 
-    if (sscanf(parms, "%10d%%", &value) != 1)
-        sscanf(parms, "%10d", &value);
+    if (sscanf(parms, "%10i%%", &value) != 1)
+        sscanf(parms, "%10i", &value);
 
     return ((M_StringCompare(cmd, stringize(s_musicvolume)) && value >= s_musicvolume_min
         && value <= s_musicvolume_max) || (M_StringCompare(cmd, stringize(s_sfxvolume))
@@ -9181,8 +9181,8 @@ static void s_volume_cvars_func2(char *cmd, char *parms)
     {
         int value = INT_MIN;
 
-        if (sscanf(parms, "%10d%%", &value) != 1)
-            sscanf(parms, "%10d", &value);
+        if (sscanf(parms, "%10i%%", &value) != 1)
+            sscanf(parms, "%10i", &value);
 
         if (M_StringCompare(cmd, stringize(s_musicvolume)) && s_musicvolume != value)
         {
@@ -9288,7 +9288,7 @@ static dboolean turbo_cvar_func1(char *cmd, char *parms)
     if (!*parms)
         return true;
 
-    sscanf(parms, "%10d", &value);
+    sscanf(parms, "%10i", &value);
     return (value >= turbo_min && value <= turbo_max);
 }
 
@@ -9298,7 +9298,7 @@ static void turbo_cvar_func2(char *cmd, char *parms)
     {
         int value = INT_MIN;
 
-        sscanf(parms, "%10d", &value);
+        sscanf(parms, "%10i", &value);
 
         if (value >= turbo_min && value <= turbo_max && value != turbo)
         {
