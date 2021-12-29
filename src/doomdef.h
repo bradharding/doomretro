@@ -40,6 +40,9 @@
 #define __DOOMDEF_H__
 
 #include <stdio.h>
+#if !defined(_WIN32)
+#include <strings.h>
+#endif
 
 #include "doomtype.h"
 #include "m_controls.h"
@@ -47,8 +50,6 @@
 #if defined(_WIN32)
 #define strcasecmp  _stricmp
 #define strncasecmp _strnicmp
-#else
-#include <strings.h>
 #endif
 
 //
@@ -62,13 +63,12 @@
 #if defined(__GNUC__)
 
 #if defined(_WIN32) && !defined(__clang__)
-#define PACKEDATTR  __attribute__((packed,gcc_struct))
+#define PACKEDATTR          __attribute__((packed, gcc_struct))
 #else
-#define PACKEDATTR  __attribute__((packed))
+#define PACKEDATTR          __attribute__((packed))
 #endif
 
-#define FORMATATTR(x, y) __attribute__((format(printf, x, y)))
-
+#define FORMATATTR(x, y)    __attribute__((format(printf, x, y)))
 #else
 #define PACKEDATTR
 #define FORMATATTR(x, y)
@@ -89,21 +89,21 @@ enum
 //  to handle IWAD dependent animations etc.
 typedef enum
 {
-    shareware,          // DOOM 1 shareware, E1, M9
-    registered,         // DOOM 1 registered, E3, M27
-    commercial,         // DOOM 2 retail, E1 M34
-    retail,             // DOOM 1 retail, E4, M36
-    indetermined        // Well, no IWAD found.
+    shareware,      // DOOM 1 shareware, E1, M9
+    registered,     // DOOM 1 registered, E3, M27
+    commercial,     // DOOM 2 retail, E1 M34
+    retail,         // DOOM 1 retail, E4, M36
+    indetermined    // Well, no IWAD found.
 } GameMode_t;
 
 // Mission packs - might be useful for TC stuff?
 typedef enum
 {
-    doom,               // DOOM 1
-    doom2,              // DOOM 2
-    pack_tnt,           // TNT mission pack
-    pack_plut,          // Plutonia pack
-    pack_nerve,         // No Rest for the Living
+    doom,           // DOOM 1
+    doom2,          // DOOM 2
+    pack_tnt,       // TNT mission pack
+    pack_plut,      // Plutonia pack
+    pack_nerve,     // No Rest for the Living
 
     none
 } GameMission_t;

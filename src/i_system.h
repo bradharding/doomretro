@@ -54,7 +54,6 @@
 #endif
 
 // Called by M_Responder when quit is selected.
-// Clean exit, displays sell blurb.
 void I_Quit(dboolean shutdown);
 
 void I_Error(const char *error, ...) FORMATATTR(1, 2);

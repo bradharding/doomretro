@@ -7031,7 +7031,6 @@ static void take_cmd_func2(char *cmd, char *parms)
                 C_Warning(0, "%s doesn't have a pistol.", playername);
         }
         else
-        {
             for (int i = 0, num = -1; i < NUMMOBJTYPES; i++)
             {
                 char    *temp1 = (*mobjinfo[i].name1 ? removenonalpha(mobjinfo[i].name1) : NULL);
@@ -7071,7 +7070,6 @@ static void take_cmd_func2(char *cmd, char *parms)
                 if (result)
                     break;
             }
-        }
 
         free(parm);
     }
