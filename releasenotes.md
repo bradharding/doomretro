@@ -7,7 +7,7 @@
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * A crash no longer occurs if the player makes a typo while entering a filename in the WAD launcher.
 * A mouse pointer is now displayed while the menu is open that may be used to select menu items. It may be disabled by the new `m_pointer` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
-* Minor improvements have been made to the support of [*MBF21*](https://doomwiki.org/wiki/MBF21)-compatible maps and mods.
+* Improvements have been made to the support of [*MBF21*](https://doomwiki.org/wiki/MBF21)-compatible maps and mods.
 * Improvements have been made to the playback of MIDI music.
 * Lowering the music’s volume in the menu and console may now be disabled using the new `s_lowermenumusic` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
 * Minor changes have been made to text that is output to the console.

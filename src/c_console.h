@@ -160,8 +160,13 @@ extern dboolean     consoleactive;
 extern int          consoleheight;
 extern int          consoledirection;
 
+extern char         consoleinput[255];
 extern int          consolestrings;
 extern size_t       consolestringsmax;
+
+extern int          caretpos;
+extern int          selectstart;
+extern int          selectend;
 
 extern char         consolecheat[255];
 extern char         consolecheatparm[3];

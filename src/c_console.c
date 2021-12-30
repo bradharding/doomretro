@@ -100,18 +100,18 @@ static short            brandwidth;
 static short            brandheight;
 static short            spacewidth;
 
-static char             consoleinput[255];
+char                    consoleinput[255];
 int                     consolestrings = 0;
 size_t                  consolestringsmax = 0;
 
 static size_t           undolevels;
 static undohistory_t    *undohistory;
 
-static int              caretpos;
 static dboolean         showcaret = true;
 static int              caretwait;
-static int              selectstart;
-static int              selectend;
+int                     caretpos;
+int                     selectstart;
+int                     selectend;
 
 static dboolean         wrapbold;
 static dboolean         wrapitalics;
