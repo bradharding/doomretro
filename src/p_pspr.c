@@ -1050,6 +1050,9 @@ void A_WeaponBulletAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
     if (!psp->state)
         return;
 
+    if (!(weaponinfo[player->readyweapon].flags & WPF_SILENT))
+        P_NoiseAlert(actor);
+
     hspread = psp->state->args[0];
     vspread = psp->state->args[1];
     numbullets = psp->state->args[2];
@@ -1115,6 +1118,9 @@ void A_WeaponMeleeAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
     // missed? ah, welp.
     if (!linetarget)
         return;
+
+    if (!(weaponinfo[player->readyweapon].flags & WPF_SILENT))
+        P_NoiseAlert(actor);
 
     // un-missed!
     S_StartSound(player->mo, hitsound);
