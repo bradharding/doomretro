@@ -8639,6 +8639,7 @@ autocomplete_t autocompletelist[] =
     { "unbind +strafeleft",                          DOOM1AND2 },
     { "unbind +straferight",                         DOOM1AND2 },
     { "unbind tab",                                  DOOM1AND2 },
+    { "unbind tilde",                                DOOM1AND2 },
     { "unbind up",                                   DOOM1AND2 },
     { "unbind +use",                                 DOOM1AND2 },
     { "unbind +weapon1",                             DOOM1AND2 },

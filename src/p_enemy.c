@@ -2538,10 +2538,11 @@ void A_MonsterProjectile(mobj_t *actor, player_t *player, pspdef_t *psp)
     int     pitch;
     int     spawnofs_xy;
     int     spawnofs_z;
-    mobj_t  *mo;
     int     an;
+    mobj_t  *mo;
+    mobj_t  *target = actor->target;
 
-    if (!actor->target || !actor->state->args[0])
+    if (!target || !actor->state->args[0])
         return;
 
     type = actor->state->args[0] - 1;
@@ -2552,7 +2553,7 @@ void A_MonsterProjectile(mobj_t *actor, player_t *player, pspdef_t *psp)
 
     A_FaceTarget(actor, NULL, NULL);
 
-    if (!(mo = P_SpawnMissile(actor, actor->target, type)))
+    if (!(mo = P_SpawnMissile(actor, target, type)))
         return;
 
     // adjust angle
@@ -2573,7 +2574,7 @@ void A_MonsterProjectile(mobj_t *actor, player_t *player, pspdef_t *psp)
 
     // always set the 'tracer' field, so this pointer
     // can be used to fire seeker missiles at will.
-    P_SetTarget(&mo->tracer, actor->target);
+    P_SetTarget(&mo->tracer, target);
 }
 
 //
@@ -2623,12 +2624,13 @@ void A_MonsterBulletAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_MonsterMeleeAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    int damagebase;
-    int damagemod;
-    int hitsound;
-    int range;
+    int     damagebase;
+    int     damagemod;
+    int     hitsound;
+    int     range;
+    mobj_t *target = actor->target;
 
-    if (!actor->target)
+    if (!target)
         return;
 
     damagebase = actor->state->args[0];
@@ -2639,7 +2641,7 @@ void A_MonsterMeleeAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
     if (!range)
         range = actor->info->meleerange;
 
-    range += actor->target->info->radius - 20 * FRACUNIT;
+    range += target->info->radius - 20 * FRACUNIT;
 
     A_FaceTarget(actor, NULL, NULL);
 
@@ -2648,7 +2650,7 @@ void A_MonsterMeleeAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
 
     S_StartSound(actor, hitsound);
 
-    P_DamageMobj(actor->target, actor, actor, (M_Random() % damagemod + 1) * damagebase, true);
+    P_DamageMobj(target, actor, actor, (M_Random() % damagemod + 1) * damagebase, true);
 }
 
 //
@@ -2755,18 +2757,17 @@ void A_JumpIfHealthBelow(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_JumpIfTargetInSight(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    angle_t fov;
+    angle_t fieldofview;
+    mobj_t  *target;
 
-    if (!actor || !actor->target)
+    if (!actor || !(target = actor->target))
         return;
-
-    fov = FixedToAngle(actor->state->args[1]);
 
     // Check FOV first since it's faster
-    if (fov > 0 && !P_CheckFov(actor, actor->target, fov))
+    if ((fieldofview = FixedToAngle(actor->state->args[1])) > 0 && !P_CheckFov(actor, target, fieldofview))
         return;
 
-    if (P_CheckSight(actor, actor->target))
+    if (P_CheckSight(actor, target))
         P_SetMobjState(actor, actor->state->args[0]);
 }
 
@@ -2778,10 +2779,12 @@ void A_JumpIfTargetInSight(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_JumpIfTargetCloser(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    if (!actor || !actor->target)
+    mobj_t  *target;
+
+    if (!actor || !(target = actor->target))
         return;
 
-    if (actor->state->args[1] > P_ApproxDistance(actor->x - actor->target->x, actor->y - actor->target->y))
+    if (actor->state->args[1] > P_ApproxDistance(actor->x - target->x, actor->y - target->y))
         P_SetMobjState(actor, actor->state->args[0]);
 }
 
@@ -2793,15 +2796,13 @@ void A_JumpIfTargetCloser(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_JumpIfTracerInSight(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    angle_t fov;
+    angle_t fieldofview;
 
     if (!actor || !actor->tracer)
         return;
 
-    fov = FixedToAngle(actor->state->args[1]);
-
     // Check FOV first since it's faster
-    if (fov > 0 && !P_CheckFov(actor, actor->tracer, fov))
+    if ((fieldofview = FixedToAngle(actor->state->args[1])) > 0 && !P_CheckFov(actor, actor->tracer, fieldofview))
         return;
 
     if (P_CheckSight(actor, actor->tracer))
@@ -2827,8 +2828,8 @@ void A_JumpIfTracerCloser(mobj_t *actor, player_t *player, pspdef_t *psp)
 // A_JumpIfFlagsSet
 // Jumps to a state if caller has the specified thing flags set.
 //   args[0]: State to jump to
-//   args[1]: Standard Flag(s) to check
-//   args[2]: MBF21 Flag(s) to check
+//   args[1]: Standard flag(s) to check
+//   args[2]: MBF21 flag(s) to check
 //
 void A_JumpIfFlagsSet(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
@@ -2848,8 +2849,8 @@ void A_JumpIfFlagsSet(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 // A_AddFlags
 // Adds the specified thing flags to the caller.
-//   args[0]: Standard Flag(s) to add
-//   args[1]: MBF21 Flag(s) to add
+//   args[0]: Standard flag(s) to add
+//   args[1]: MBF21 flag(s) to add
 //
 void A_AddFlags(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
@@ -2863,8 +2864,8 @@ void A_AddFlags(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 // A_RemoveFlags
 // Removes the specified thing flags from the caller.
-//   args[0]: Flag(s) to remove
-//   args[1]: MBF21 Flag(s) to remove
+//   args[0]: flag(s) to remove
+//   args[1]: MBF21 flag(s) to remove
 //
 void A_RemoveFlags(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
