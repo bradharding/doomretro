@@ -646,7 +646,10 @@ void G_DoLoadLevel(void)
 
 void G_ToggleAlwaysRun(evtype_t type)
 {
-    char temp[255];
+    char    temp[255];
+    int     oldcaretpos = caretpos;
+    int     oldselectstart = selectstart;
+    int     oldselectend = selectend;
 
 #if defined(_WIN32)
     alwaysrun = (keyboardalwaysrun == KEY_CAPSLOCK && type == ev_keydown ? (GetKeyState(VK_CAPITAL) & 0x0001) : !alwaysrun);
@@ -657,7 +660,9 @@ void G_ToggleAlwaysRun(evtype_t type)
     M_StringCopy(temp, consoleinput, 255);
     C_StrCVAROutput(stringize(alwaysrun), (alwaysrun ? "on" : "off"));
     M_StringCopy(consoleinput, temp, 255);
-    caretpos = selectstart = selectend = (int)strlen(consoleinput);
+    caretpos = oldcaretpos;
+    selectstart = oldselectstart;
+    selectend = oldselectend;
 
     if (!consoleactive)
     {
