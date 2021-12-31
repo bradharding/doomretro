@@ -523,7 +523,7 @@ consolecmd_t consolecmds[] =
     CCMD(bindlist, "", null_func1, bindlist_cmd_func2, false, "",
         "Lists all bound controls."),
     CVAR_BOOL(centerweapon, centreweapon, bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
-        "Toggles centering the player's weapon when firing."),
+        "Toggles centering the player's weapon when it is fired."),
     CCMD(clear, "", null_func1, clear_cmd_func2, false, "",
         "Clears the console."),
     CCMD(cmdlist, ccmdlist, null_func1, cmdlist_cmd_func2, true, "[" BOLDITALICS("searchstring") "]",
