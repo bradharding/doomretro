@@ -1140,7 +1140,7 @@ void A_WeaponSound(mobj_t *actor, player_t *player, pspdef_t *psp)
     if (!psp->state)
         return;
 
-    S_StartSound(psp->state->args[1] ? NULL : player->mo, psp->state->args[0]);
+    S_StartSound((psp->state->args[1] ? NULL : player->mo), psp->state->args[0]);
 }
 
 //

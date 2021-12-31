@@ -6289,7 +6289,7 @@ autocomplete_t autocompletelist[] =
     { "if con_backcolor white then ",                DOOM1AND2 },
     { "if con_backcolor yellow ",                    DOOM1AND2 },
     { "if con_backcolor yellow then ",               DOOM1AND2 },
-    { "if con_backcolor ",                           DOOM1AND2 },
+    { "if con_edgecolor ",                           DOOM1AND2 },
     { "if con_edgecolor 180 ",                       DOOM1AND2 },
     { "if con_edgecolor 180 then ",                  DOOM1AND2 },
     { "if con_edgecolor black ",                     DOOM1AND2 },

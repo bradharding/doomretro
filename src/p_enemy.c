@@ -2685,16 +2685,10 @@ void A_NoiseAlert(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_HealChase(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    int state;
-    int sound;
-
     if (!actor)
         return;
 
-    state = actor->state->args[0];
-    sound = actor->state->args[1];
-
-    if (!P_HealCorpse(actor, actor->info->radius, state, sound))
+    if (!P_HealCorpse(actor, actor->info->radius, actor->state->args[0], actor->state->args[1]))
         A_Chase(actor, NULL, NULL);
 }
 
@@ -2720,16 +2714,10 @@ void A_SeekTracer(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_FindTracer(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    angle_t fov;
-    int     dist;
-
     if (!actor || actor->tracer)
         return;
 
-    fov = FixedToAngle(actor->state->args[0]);
-    dist = (actor->state->args[1]);
-
-    actor->tracer = P_RoughTargetSearch(actor, fov, dist);
+    actor->tracer = P_RoughTargetSearch(actor, FixedToAngle(actor->state->args[0]), actor->state->args[1]);
 }
 
 //

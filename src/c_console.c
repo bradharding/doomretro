@@ -801,7 +801,7 @@ void C_HideConsoleFast(void)
 static void C_DrawBackground(void)
 {
     static byte     blurscreen[MAXSCREENAREA];
-    int             consolebackcolor = nearestcolors[con_backcolor] << 8;
+    byte            *consolebackcolor = &tinttab50[nearestcolors[con_backcolor] << 8];
     int             height = (consoleheight + 5) * SCREENWIDTH;
 
     // blur background
@@ -837,7 +837,7 @@ static void C_DrawBackground(void)
 
     // tint background using con_backcolor CVAR
     for (int i = 0; i < height; i++)
-        screens[0][i] = tinttab50[consolebackcolor + blurscreen[i]];
+        screens[0][i] = consolebackcolor[blurscreen[i]];
 
     // apply corrugated glass effect to background
     for (int y = 1; y <= height - SCREENWIDTH * 3; y += SCREENWIDTH)
