@@ -740,6 +740,13 @@ static void R_InitSpriteLumps(void)
         mobjinfo[MT_MISC69].blood = MT_BLOOD;
         mobjinfo[MT_MISC71].blood = MT_BLOOD;
         mobjinfo[MT_MISC74].blood = MT_BLOOD;
+        mobjinfo[MT_MISC79].blood = MT_BLOOD;
+        mobjinfo[MT_MISC80].blood = MT_BLOOD;
+        mobjinfo[MT_MISC81].blood = MT_BLOOD;
+        mobjinfo[MT_MISC82].blood = MT_BLOOD;
+        mobjinfo[MT_MISC83].blood = MT_BLOOD;
+        mobjinfo[MT_MISC84].blood = MT_BLOOD;
+        mobjinfo[MT_MISC85].blood = MT_BLOOD;
 
         mobjinfo[MT_SKULL].flags2 &= ~MF2_TRANSLUCENT_REDONLY;
 
