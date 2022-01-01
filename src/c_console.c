@@ -911,7 +911,6 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
     unsigned char   prevletter = '\0';
     unsigned char   prevletter2 = '\0';
     int             startx = x;
-    int             ldquotes = 0;
 
     y -= CONSOLEHEIGHT - consoleheight;
 
@@ -984,7 +983,8 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
 
                 if (letter == '\'')
                 {
-                    if (!i || (!isalnum(prevletter) && prevletter != '\''))
+                    if (!i || prevletter == ' ' || prevletter == '\t'
+                        || prevletter == '(' || prevletter == '[' || prevletter == '{' || prevletter == '<' || prevletter == '"')
                     {
                         patch = lsquote;
 
@@ -994,7 +994,8 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
                 }
                 else if (letter == '"')
                 {
-                    if (!i || ((i < len - 1 || ldquotes) && !(ldquotes++ & 1)))
+                    if (!i || prevletter == ' ' || prevletter == '\t'
+                        || prevletter == '(' || prevletter == '[' || prevletter == '{' || prevletter == '<' || prevletter == '\'')
                     {
                         patch = ldquote;
 
