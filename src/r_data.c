@@ -717,7 +717,7 @@ static void R_InitSpriteLumps(void)
         s_M_EPISODE1 = M_StringDuplicate("Homecoming");
         s_M_EPISODE2 = M_StringDuplicate("Downfall");
         s_M_EPISODE3 = M_StringDuplicate("Otherworld");
-        s_M_EPISODE4 = M_StringDuplicate("Bonus");
+        s_M_EPISODE4 = M_StringDuplicate(REKKRSL ? "Sunken Land" : "Bonus");
 
         s_M_SKILLLEVEL1 = M_StringDuplicate("Scrapper");
         s_M_SKILLLEVEL2 = M_StringDuplicate("Brawler");
