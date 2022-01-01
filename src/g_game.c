@@ -306,6 +306,9 @@ void G_BuildTiccmd(ticcmd_t *cmd)
 
             cmd->angleturn -= FixedMul(gamepadangleturn[run], (fixed_t)(gamepadhorizontalsensitivity * FixedMul(FixedMul(x, x), x)));
         }
+
+        if (!menuactive)
+            spindirection = SIGN(cmd->angleturn);
     }
 
     if (gamepadthumbRY)
@@ -348,6 +351,9 @@ void G_BuildTiccmd(ticcmd_t *cmd)
             fixed_t x = gamepadthumbLX * 2;
 
             cmd->angleturn -= FixedMul(gamepadangleturn[run], (fixed_t)(gamepadhorizontalsensitivity * FixedMul(FixedMul(x, x), x)));
+
+            if (!menuactive)
+                spindirection = SIGN(cmd->angleturn);
         }
     }
 
@@ -362,6 +368,9 @@ void G_BuildTiccmd(ticcmd_t *cmd)
             fixed_t x = gamepadthumbLX * 2;
 
             cmd->angleturn -= FixedMul(gamepadangleturn[run], (fixed_t)(gamepadhorizontalsensitivity * FixedMul(FixedMul(x, x), x)));
+
+            if (!menuactive)
+                spindirection = SIGN(cmd->angleturn);
         }
     }
 
@@ -473,7 +482,12 @@ void G_BuildTiccmd(ticcmd_t *cmd)
         if (strafe)
             side += mousex * 2;
         else
+        {
             cmd->angleturn -= mousex * 0x08;
+
+            if (!menuactive)
+                spindirection = SIGN(cmd->angleturn);
+        }
 
         mousex = 0;
     }
@@ -506,9 +520,6 @@ void G_BuildTiccmd(ticcmd_t *cmd)
         sendsave = false;
         cmd->buttons = (BT_SPECIAL | BTS_SAVEGAME | (savegameslot << BTS_SAVESHIFT));
     }
-
-    if (cmd->angleturn && !menuactive)
-        spindirection = SIGN(cmd->angleturn);
 }
 
 static void G_SetInitialWeapon(void)

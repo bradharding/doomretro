@@ -104,13 +104,13 @@
 
 #define PENDINGCHANGE               "This change won't be effective until the next map."
 
-#define INTEGERCVARWITHDEFAULT      "It is " BOLD("%s") " and is " BOLD("%s") " by default."
+#define INTEGERCVARWITHDEFAULT      "It is " BOLD("%s") " and " BOLD("%s") " by default."
 #define INTEGERCVARWITHNODEFAULT    "It is " BOLD("%s") "."
 #define INTEGERCVARISDEFAULT        "It is its default of " BOLD("%s") "."
-#define PERCENTCVARWITHDEFAULT      "It is " BOLD("%s%%") " and is " BOLD("%s%%") " by default."
+#define PERCENTCVARWITHDEFAULT      "It is " BOLD("%s%%") " and " BOLD("%s%%") " by default."
 #define PERCENTCVARWITHNODEFAULT    "It is " BOLD("%s%%") "."
 #define PERCENTCVARISDEFAULT        "It is its default of " BOLD("%s%%") "."
-#define STRINGCVARWITHDEFAULT       "It is " BOLD("\"%s\"") " and is " BOLD("\"%s\"") " by default."
+#define STRINGCVARWITHDEFAULT       "It is " BOLD("\"%s\"") " and " BOLD("\"%s\"") " by default."
 #define STRINGCVARWITHNODEFAULT     "It is " BOLD("%s%s%s") "."
 #define STRINGCVARISDEFAULT         "It is its default of " BOLD("\"%s\"") "."
 #define TIMECVARWITHNODEFAULT       "It is " BOLD("%02i:%02i:%02i") "."
