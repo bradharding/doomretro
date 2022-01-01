@@ -749,6 +749,7 @@ static void R_InitSpriteLumps(void)
         mobjinfo[MT_MISC85].blood = MT_BLOOD;
 
         mobjinfo[MT_SKULL].flags2 &= ~MF2_TRANSLUCENT_REDONLY;
+        mobjinfo[MT_CLIP].flags2 |= MF2_TRANSLUCENT_50;
 
         M_StringCopy(weaponinfo[wp_pistol].name, "soul bow", sizeof(weaponinfo[wp_pistol].name));
         M_StringCopy(weaponinfo[wp_shotgun].name, "steel-shot launcher", sizeof(weaponinfo[wp_shotgun].name));
