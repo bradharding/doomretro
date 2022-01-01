@@ -2230,11 +2230,6 @@ static void D_DoomMainSetup(void)
 
     if (nerve && expansion == 2)
         gamemission = pack_nerve;
-    else if (gamemission == doom && !sigil && episode == 5)
-    {
-        episode = 1;
-        M_SaveCVARs();
-    }
 
     D_SetSaveGameFolder(true);
 

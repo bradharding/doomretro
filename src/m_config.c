@@ -680,9 +680,11 @@ static void M_CheckCVARs(dboolean ispackageconfig)
     if (crosshaircolor < crosshaircolor_min || crosshaircolor > crosshaircolor_max)
         crosshaircolor = crosshaircolor_default;
 
-    episode = BETWEEN(episode_min, episode, episode_max);
+    if (episode < episode_min || episode > episode_max)
+        episode = episode_default;
 
-    expansion = BETWEEN(expansion_min, expansion, expansion_max);
+    if (expansion < expansion_min || expansion > expansion_max)
+        expansion = expansion_default;
 
     if (facebackcolor < facebackcolor_min || facebackcolor > facebackcolor_max)
         facebackcolor = facebackcolor_default;

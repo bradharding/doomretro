@@ -1486,7 +1486,8 @@ static void P_LoadNodes_V4(int lump)
     W_ReleaseLumpNum(lump);
 }
 
-// MB 2021-03-01: Fix endianness for 32-bit ZDoom nodes
+// MB 2020-03-01: Fix endianness for 32-bit ZDoom nodes
+// <https://zdoom.org/wiki/Node#ZDoom_extended_nodes>
 static void P_LoadZSegs(const byte *data)
 {
     for (int i = 0; i < numsegs; i++)
@@ -1577,7 +1578,7 @@ static void P_LoadZSegs(const byte *data)
     }
 }
 
-// MB 2021-03-01: Fix endianness for 32-bit ZDoom nodes
+// MB 2020-03-01: Fix endianness for 32-bit ZDoom nodes
 // <https://zdoom.org/wiki/Node#ZDoom_extended_nodes>
 static void P_LoadZNodes(int lump)
 {
