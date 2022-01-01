@@ -1643,7 +1643,7 @@ dboolean P_SeekerMissile(mobj_t *actor, mobj_t **seekTarget, angle_t thresh, ang
     angle_t angle;
     mobj_t  *target = *seekTarget;
 
-    if (target == NULL)
+    if (!target)
         return false;
 
     if (!(target->flags & MF_SHOOTABLE))
@@ -1688,8 +1688,7 @@ dboolean P_SeekerMissile(mobj_t *actor, mobj_t **seekTarget, angle_t thresh, ang
 //
 // MBF21: P_FaceMobj
 // Returns true if 'source' needs to turn clockwise, or false if 'source' needs
-// to turn counter clockwise. 'delta' is set to the amount 'source'
-// needs to turn.
+// to turn counter clockwise. 'delta' is set to the amount 'source' needs to turn.
 //
 dboolean P_FaceMobj(mobj_t *source, mobj_t *target, angle_t *delta)
 {

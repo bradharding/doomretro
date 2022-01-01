@@ -2018,7 +2018,7 @@ static void exec_cmd_func2(char *cmd, char *parms)
             return;
         }
 
-        while (fgets(strparm, 512, file) != NULL)
+        while (fgets(strparm, 512, file))
         {
             if (strparm[0] == ';')
                 continue;

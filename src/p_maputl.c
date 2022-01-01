@@ -883,9 +883,8 @@ mobj_t *P_RoughTargetSearch(mobj_t *mo, angle_t fov, int distance)
 
     for (int count = 1; count <= distance; count++)
     {
-        int blockx = BETWEEN(0, startx - count, bmapwidth - 1);
-        int blocky = BETWEEN(0, starty - count, bmapheight - 1);
-        int blockindex = blocky * bmapwidth + blockx;
+        int blockx, blocky;
+        int blockindex;
         int firststop = startx + count;
         int secondstop;
         int thirdstop;
@@ -894,16 +893,18 @@ mobj_t *P_RoughTargetSearch(mobj_t *mo, angle_t fov, int distance)
         if (firststop < 0)
             continue;
 
+        if ((secondstop = starty + count) < 0)
+            continue;
+
         if (firststop >= bmapwidth)
             firststop = bmapwidth - 1;
 
-        secondstop = starty + count;
-
-        if (secondstop < 0)
-            continue;
-
         if (secondstop >= bmapheight)
             secondstop = bmapheight - 1;
+
+        blockx = BETWEEN(0, startx - count, bmapwidth - 1);
+        blocky = BETWEEN(0, starty - count, bmapheight - 1);
+        blockindex = blocky * bmapwidth + blockx;
 
         thirdstop = secondstop * bmapwidth + blockx;
         secondstop = secondstop * bmapwidth + firststop;
