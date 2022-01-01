@@ -1266,7 +1266,7 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, dboolean spawnmonsters)
     // [BH] spawn blood splats around corpses
     if (!(flags & (MF_SHOOTABLE | MF_NOBLOOD | MF_SPECIAL)) && mobj->blood && !chex
         && (!hacx || !(mobj->flags2 & MF2_DECORATION)) && r_bloodsplats_max
-        && (BTSX || lumpinfo[firstspritelump + sprites[mobj->sprite].spriteframes[0].lump[0]]->wadfile->type != PWAD))
+        && (BTSX || REKKR || lumpinfo[firstspritelump + sprites[mobj->sprite].spriteframes[0].lump[0]]->wadfile->type != PWAD))
     {
         mobj->bloodsplats = CORPSEBLOODSPLATS;
 
