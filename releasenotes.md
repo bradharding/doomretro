@@ -14,7 +14,9 @@
 * Minor improvements have been made to the console’s autocomplete feature.
 * A crash no longer occurs when ending a game from the options menu.
 * The screen size is now always correct if it is changed from the options menu while no game is being played.
-* Further improvements have been made to the support of [*REKKR*](http://manbitesshark.com/) and [*REKKR: Sunken Land*](https://store.steampowered.com/app/1715690/REKKR_Sunken_Land/).
+* The following improvements have been made to the support of [*REKKR*](http://manbitesshark.com/) and [*REKKR: Sunken Land*](https://store.steampowered.com/app/1715690/REKKR_Sunken_Land/):
+  * Blood splats now appear around corpses spawned at the start of a map when the `r_corpses_moreblood` CVAR is `on`.
+  * The souls of former humans are now translucent when the `r_translucency` CVAR is `on`.
 * The corpses of monsters now always fall when close to an edge.
 * The shadows of *MBF*-compatible helper dogs are now positioned correctly.
 * When the player is injured, their health now flashes in the widescreen HUD.
