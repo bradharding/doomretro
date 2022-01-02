@@ -281,7 +281,7 @@ static dboolean ReadTrackHeader(midi_track_t *track, SDL_RWops *stream)
 static dboolean ReadTrack(midi_track_t *track, SDL_RWops *stream)
 {
     midi_event_t    *new_events = NULL;
-    unsigned int    last_event_type;
+    unsigned int    last_event_type = 0;
 
     track->num_events = 0;
     track->num_events_mem = 0;
@@ -292,8 +292,6 @@ static dboolean ReadTrack(midi_track_t *track, SDL_RWops *stream)
         return false;
 
     // Then the events
-    last_event_type = 0;
-
     while (true)
     {
         midi_event_t    *event;
@@ -408,7 +406,6 @@ midi_file_t *MIDI_LoadFile(SDL_RWops *stream)
     }
 
     SDL_RWclose(stream);
-
     return file;
 }
 
@@ -461,9 +458,7 @@ dboolean MIDI_GetNextEvent(midi_track_iter_t *iter, midi_event_t **event)
 {
     if (iter->position < iter->track->num_events)
     {
-        *event = &iter->track->events[iter->position];
-        iter->position++;
-
+        *event = &iter->track->events[iter->position++];
         return true;
     }
 

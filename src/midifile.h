@@ -203,7 +203,7 @@ unsigned int MIDI_NumTracks(midi_file_t *file);
 unsigned int MIDI_NumEvents(midi_file_t *file);
 
 // Start iterating over the events in a track.
-midi_track_iter_t *MIDI_IterateTrack(midi_file_t *file, unsigned int track_num);
+midi_track_iter_t *MIDI_IterateTrack(midi_file_t *file, unsigned int track);
 
 // Get the time until the next MIDI event in a track.
 unsigned int MIDI_GetDeltaTime(midi_track_iter_t *iter);

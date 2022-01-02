@@ -125,7 +125,6 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT          (m_doubleclick_use,                m_doubleclick_use,                     m_doubleclick_use,                     BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT          (m_invertyaxis,                    m_invertyaxis,                         m_invertyaxis,                         BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT          (m_novertical,                     m_novertical,                          m_novertical,                          BOOLVALUEALIAS        ),
-    CONFIG_VARIABLE_INT          (m_pointer,                        m_pointer,                             m_pointer,                             BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT          (m_sensitivity,                    m_sensitivity,                         m_sensitivity,                         NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT          (melt,                             wipe,                                  melt,                                  BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT          (messages,                         messages,                              messages,                              BOOLVALUEALIAS        ),
@@ -745,9 +744,6 @@ static void M_CheckCVARs(dboolean ispackageconfig)
 
     if (m_novertical != false && m_novertical != true)
         m_novertical = m_novertical_default;
-
-    if (m_pointer != false && m_pointer != true)
-        m_pointer = m_pointer_default;
 
     m_sensitivity = BETWEEN(m_sensitivity_min, m_sensitivity, m_sensitivity_max);
 
