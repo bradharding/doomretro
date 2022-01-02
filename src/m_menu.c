@@ -1006,10 +1006,6 @@ static void M_DrawLoad(void)
         M_DrawSaveLoadBorder(LoadDef.x - 11, y - 4);
         M_WriteText(LoadDef.x - 2 + (M_StringCompare(savegamestrings[i], s_EMPTYSTRING) && s_EMPTYSTRING[0] == '-'
             && s_EMPTYSTRING[1] == '\0') * 6, y - !M_LSCNTR, savegamestrings[i], false);
-        currentMenu->menuitems[i].x = LoadDef.x - 11 + WIDESCREENDELTA;
-        currentMenu->menuitems[i].y = y - 4;
-        currentMenu->menuitems[i].width = 209;
-        currentMenu->menuitems[i].height = height;
     }
 }
 
@@ -1083,10 +1079,6 @@ static void M_DrawSave(void)
 
         // draw save game slot background
         M_DrawSaveLoadBorder(LoadDef.x - 11, y - 4);
-        currentMenu->menuitems[i].x = LoadDef.x - 11 + WIDESCREENDELTA;
-        currentMenu->menuitems[i].y = y - 4;
-        currentMenu->menuitems[i].width = 209;
-        currentMenu->menuitems[i].height = height;
 
         // draw save game description
         if (saveStringEnter && i == saveSlot)
@@ -3782,7 +3774,6 @@ void M_Drawer(void)
             patch_t *titlepatch = W_CacheLumpName("M_DOOM");
             int     yy = y + itemOn * (LINEHEIGHT - 1) - 5 + OFFSET + chex;
             int     max = currentMenu->numitems;
-            int     widest = 0;
 
             if (currentMenu == &OptionsDef && !itemOn && gamestate != GS_LEVEL)
                 itemOn++;
@@ -3807,10 +3798,6 @@ void M_Drawer(void)
                         patch_t *patch = W_CacheLumpName(name);
 
                         M_DrawPatchWithShadow(x, y + OFFSET, patch);
-                        currentMenu->menuitems[i].x = x + WIDESCREENDELTA;
-                        currentMenu->menuitems[i].y = y + OFFSET;
-                        widest = MAX(widest, SHORT(patch->width));
-                        currentMenu->menuitems[i].height = SHORT(patch->height);
                     }
                     else if (M_StringCompare(name, "M_NMARE"))
                     {
@@ -3819,55 +3806,26 @@ void M_Drawer(void)
                             patch_t *patch = W_CacheLumpName(name);
 
                             M_DrawPatchWithShadow(x, y + OFFSET, patch);
-                            currentMenu->menuitems[i].x = x + WIDESCREENDELTA;
-                            currentMenu->menuitems[i].y = y + OFFSET;
-                            widest = MAX(widest, SHORT(patch->width));
-                            currentMenu->menuitems[i].height = SHORT(patch->height);
                         }
                         else
                             M_DrawNightmare();
                     }
                     else if (M_StringCompare(name, "M_MSENS") && !M_MSENS)
-                    {
                         M_DrawString(x, y + OFFSET, (usinggamepad ? s_M_GAMEPADSENSITIVITY : s_M_MOUSESENSITIVITY));
-                        currentMenu->menuitems[i].x = x + WIDESCREENDELTA;
-                        currentMenu->menuitems[i].y = y + OFFSET;
-                        widest = MAX(widest, M_BigStringWidth(usinggamepad ? s_M_GAMEPADSENSITIVITY : s_M_MOUSESENSITIVITY));
-                        currentMenu->menuitems[i].height = LINEHEIGHT - 1;
-                    }
                     else if (W_CheckNumForName(name) < 0 && **text)   // Custom Episode
-                    {
                         M_DrawString(x, y + OFFSET, *text);
-                        currentMenu->menuitems[i].x = x + WIDESCREENDELTA;
-                        currentMenu->menuitems[i].y = y + OFFSET;
-                        widest = MAX(widest, M_BigStringWidth(*text));
-                        currentMenu->menuitems[i].height = LINEHEIGHT - 1;
-                    }
                     else if (W_CheckMultipleLumps(name) > 1 || lumpinfo[W_GetNumForName(name)]->wadfile->type == PWAD)
                     {
                         patch_t *patch = W_CacheLumpName(name);
 
                         M_DrawPatchWithShadow(x, y + OFFSET, patch);
-                        currentMenu->menuitems[i].x = x + WIDESCREENDELTA;
-                        currentMenu->menuitems[i].y = y + OFFSET;
-                        widest = MAX(widest, SHORT(patch->width));
-                        currentMenu->menuitems[i].height = SHORT(patch->height);
                     }
                     else if (**text)
-                    {
                         M_DrawString(x, y + OFFSET, *text);
-                        currentMenu->menuitems[i].x = x + WIDESCREENDELTA;
-                        currentMenu->menuitems[i].y = y + OFFSET;
-                        widest = MAX(widest, M_BigStringWidth(*text));
-                        currentMenu->menuitems[i].height = LINEHEIGHT - 1;
-                    }
                 }
 
                 y += LINEHEIGHT - 1;
             }
-
-            for (int i = 0; i < max; i++)
-                currentMenu->menuitems[i].width = widest;
         }
     }
 }
