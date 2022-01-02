@@ -988,7 +988,7 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
                     {
                         patch = lsquote;
 
-                        if (prevletter == '\0')
+                        if (prevletter == '\0' && formatting)
                             x--;
                     }
                 }
@@ -999,7 +999,7 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
                     {
                         patch = ldquote;
 
-                        if (prevletter == '\0')
+                        if (prevletter == '\0' && formatting)
                             x--;
                     }
                 }
