@@ -292,6 +292,7 @@ static void HUlib_DrawTextLine(hu_textline_t *l, dboolean external)
     int             maxx;
     int             maxy = (y + 10) * SCREENSCALE;
     unsigned char   prev = '\0';
+    unsigned char   prev2 = '\0';
     byte            *fb1 = screens[0];
     byte            *fb2 = screens[(r_screensize < r_screensize_max - 1 && !automapactive)];
     byte            *tinttab1 = tinttab50;
@@ -345,14 +346,14 @@ static void HUlib_DrawTextLine(hu_textline_t *l, dboolean external)
                 // [BH] display lump from PWAD with shadow
                 charwidth = SHORT(l->f[c - l->sc]->width);
 
-                if (prev == ' ' && c == '(' && !idmypos)
+                if (prev2 == '.' && prev == ' ' && c == '(' && !idmypos)
                     x -= 2;
 
                 V_DrawPatchToTempScreen(x, l->y, l->f[c - l->sc]);
             }
             else
             {
-                if (prev == ' ' && c == '(' && !idmypos)
+                if (prev2 == '.' && prev == ' ' && c == '(' && !idmypos)
                     x -= 2;
                 else
                 {
@@ -380,6 +381,7 @@ static void HUlib_DrawTextLine(hu_textline_t *l, dboolean external)
             textwidth += charwidth;
         }
 
+        prev2 = prev;
         prev = c;
     }
 
@@ -443,6 +445,7 @@ void HUlib_DrawAutomapTextLine(hu_textline_t *l, dboolean external)
     int             x = l->x;
     int             y = l->y;
     unsigned char   prev = '\0';
+    unsigned char   prev2 = '\0';
     byte            *fb = (external ? mapscreen : screens[0]);
     int             len = l->len;
 
@@ -475,7 +478,7 @@ void HUlib_DrawAutomapTextLine(hu_textline_t *l, dboolean external)
 
             if (STCFN034)
             {
-                if (prev == ' ' && c == '(')
+                if (prev2 == '.' && prev == ' ' && c == '(')
                     x -= 2;
 
                 if (r_hud_translucency)
@@ -485,7 +488,7 @@ void HUlib_DrawAutomapTextLine(hu_textline_t *l, dboolean external)
             }
             else
             {
-                if (prev == ' ' && c == '(')
+                if (prev2 == '.' && prev == ' ' && c == '(')
                     x -= 2;
                 else
                 {
@@ -510,6 +513,7 @@ void HUlib_DrawAutomapTextLine(hu_textline_t *l, dboolean external)
             x += SHORT(l->f[c - l->sc]->width) * 2;
         }
 
+        prev2 = prev;
         prev = c;
     }
 }
