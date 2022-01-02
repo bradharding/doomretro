@@ -983,23 +983,23 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
 
                 if (letter == '\'')
                 {
-                    if (!prevletter || prevletter == ' ' || prevletter == '\t'
+                    if (prevletter == '\0' || prevletter == ' ' || prevletter == '\t'
                         || prevletter == '(' || prevletter == '[' || prevletter == '{' || prevletter == '<' || prevletter == '"')
                     {
                         patch = lsquote;
 
-                        if (!i)
+                        if (prevletter == '\0')
                             x--;
                     }
                 }
                 else if (letter == '"')
                 {
-                    if (!prevletter || prevletter == ' ' || prevletter == '\t'
+                    if (prevletter == '\0' || prevletter == ' ' || prevletter == '\t'
                         || prevletter == '(' || prevletter == '[' || prevletter == '{' || prevletter == '<' || prevletter == '\'')
                     {
                         patch = ldquote;
 
-                        if (!i)
+                        if (prevletter == '\0')
                             x--;
                     }
                 }
