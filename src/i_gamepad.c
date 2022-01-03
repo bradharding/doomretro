@@ -97,12 +97,7 @@ void I_InitGamepad(void)
             const char  *name = SDL_GameControllerName(gamecontroller);
 
             if (*name)
-            {
-                if (M_StrCaseStr(name, "xinput"))
-                    C_OutputNoRepeat("An " ITALICS("XInput") " gamepad is connected.");
-                else
-                    C_OutputNoRepeat("A " ITALICS("DirectInput") " gamepad called \"%s\" is connected.", name);
-            }
+                C_OutputNoRepeat("A gamepad called \"%s\" is connected.", name);
             else
                 C_OutputNoRepeat("A gamepad is connected.");
 
