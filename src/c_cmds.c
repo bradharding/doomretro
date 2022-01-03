@@ -7183,12 +7183,14 @@ static void thinglist_cmd_func2(char *cmd, char *parms)
         char    *temp1 = commify(mobj->id);
         char    *temp2;
 
-        if (*mobj->name)
+        if (mobj == viewplayer->mo)
+            M_StringCopy(name, playername, sizeof(name));
+        else if (*mobj->name)
             M_StringCopy(name, mobj->name, sizeof(name));
         else
             M_snprintf(name, sizeof(name), "%s%s%s", ((mobj->flags & MF_CORPSE) && !(mobj->flags2 & MF2_DECORATION) ? "dead " :
                 ((mobj->flags & MF_FRIEND) && mobj->type != MT_PLAYER ? "friendly " : ((mobj->flags & MF_DROPPED) ? "dropped " : ""))),
-                (mobj->type == MT_PLAYER && mobj != viewplayer->mo ? "voodoo doll" : (*mobj->info->name1 ? mobj->info->name1 : "-")),
+                (mobj->type == MT_PLAYER ? "voodoo doll" : (*mobj->info->name1 ? mobj->info->name1 : "-")),
                 ((mobj->flags & MF_MISSILE) ? " projectile" : ""));
 
         temp2 = sentencecase(name);
