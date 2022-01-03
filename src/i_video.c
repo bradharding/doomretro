@@ -1220,9 +1220,10 @@ void I_CreateExternalAutomap(int outputlevel)
         const char  *displayname = SDL_GetDisplayName(am_displayindex);
 
         if (*displayname)
-            C_Output("Created an external automap on \"%s\" (display %i).", displayname, am_displayindex + 1);
+            C_Output("Created an external automap on \"%s\" (display %i of %i).",
+                displayname, am_displayindex + 1, numdisplays);
         else
-            C_Output("Created an external automap on display %i.", am_displayindex + 1);
+            C_Output("Created an external automap on display %i of %i.", am_displayindex + 1, numdisplays);
     }
 }
 
@@ -1419,17 +1420,9 @@ static void SetVideoMode(dboolean createwindow, dboolean output)
     if (output)
     {
         if (displayname)
-        {
-            if (numdisplays == 1)
-                C_Output("Using the \"%s\" display.", displayname);
-            else
-                C_Output("Using \"%s\" (display %i of %i).", displayname, displayindex + 1, numdisplays);
-        }
+            C_Output("Using \"%s\" (display %i of %i).", displayname, displayindex + 1, numdisplays);
         else
-        {
-            if (numdisplays != 1)
-                C_Output("Using display %i of %i.", displayindex + 1, numdisplays);
-        }
+            C_Output("Using display %i of %i.", displayindex + 1, numdisplays);
     }
 
     if (nowidescreen)
