@@ -90,11 +90,6 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
             return true;
         }
     }
-    else if (msg == WM_DEVICECHANGE)
-    {
-        I_ShutdownGamepad();
-        I_InitGamepad();
-    }
     else if (msg == WM_SIZE)
     {
         if (!vid_fullscreen)
