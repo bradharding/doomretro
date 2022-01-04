@@ -3622,7 +3622,7 @@ void M_StartControlPanel(void)
     currentMenu = &MainDef;
     itemOn = currentMenu->lastOn;
 
-    if (gp_vibrate_barrels || gp_vibrate_damage || gp_vibrate_weapons)
+    if (gp_rumble_barrels || gp_rumble_damage || gp_rumble_weapons)
     {
         restorevibrationstrength = idlevibrationstrength;
         idlevibrationstrength = 0;
@@ -3841,7 +3841,7 @@ void M_ClearMenus(void)
     menuactive = false;
     blurtic = -1;
 
-    if (gp_vibrate_barrels || gp_vibrate_damage || gp_vibrate_weapons)
+    if (gp_rumble_barrels || gp_rumble_damage || gp_rumble_weapons)
     {
         idlevibrationstrength = restorevibrationstrength;
         I_GamepadVibration(idlevibrationstrength);

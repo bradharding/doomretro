@@ -88,13 +88,13 @@ extern dboolean     gp_analog;
 extern float        gp_deadzone_left;
 extern float        gp_deadzone_right;
 extern dboolean     gp_invertyaxis;
+extern int          gp_rumble_barrels;
+extern int          gp_rumble_damage;
+extern int          gp_rumble_weapons;
 extern int          gp_sensitivity_horizontal;
 extern int          gp_sensitivity_vertical;
 extern dboolean     gp_swapthumbsticks;
 extern int          gp_thumbsticks;
-extern int          gp_vibrate_barrels;
-extern int          gp_vibrate_damage;
-extern int          gp_vibrate_weapons;
 extern dboolean     groupmessages;
 extern dboolean     infighting;
 extern dboolean     infiniteheight;
@@ -461,6 +461,18 @@ enum
 
 #define gp_invertyaxis_default                  false
 
+#define gp_rumble_barrels_min                  0
+#define gp_rumble_barrels_default              100
+#define gp_rumble_barrels_max                  200
+
+#define gp_rumble_damage_min                   0
+#define gp_rumble_damage_default               100
+#define gp_rumble_damage_max                   200
+
+#define gp_rumble_weapons_min                  0
+#define gp_rumble_weapons_default              100
+#define gp_rumble_weapons_max                  200
+
 #define gp_sensitivity_horizontal_min           0
 #define gp_sensitivity_horizontal_default       64
 #define gp_sensitivity_horizontal_max           128
@@ -474,18 +486,6 @@ enum
 #define gp_thumbsticks_min                      1
 #define gp_thumbsticks_default                  2
 #define gp_thumbsticks_max                      2
-
-#define gp_vibrate_barrels_min                  0
-#define gp_vibrate_barrels_default              100
-#define gp_vibrate_barrels_max                  200
-
-#define gp_vibrate_damage_min                   0
-#define gp_vibrate_damage_default               100
-#define gp_vibrate_damage_max                   200
-
-#define gp_vibrate_weapons_min                  0
-#define gp_vibrate_weapons_default              100
-#define gp_vibrate_weapons_max                  200
 
 #define groupmessages_default                   true
 

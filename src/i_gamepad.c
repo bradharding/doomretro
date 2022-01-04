@@ -45,13 +45,13 @@ dboolean                    gp_analog = gp_analog_default;
 float                       gp_deadzone_left = gp_deadzone_left_default;
 float                       gp_deadzone_right = gp_deadzone_right_default;
 dboolean                    gp_invertyaxis = gp_invertyaxis_default;
+int                         gp_rumble_barrels = gp_rumble_barrels_default;
+int                         gp_rumble_damage = gp_rumble_damage_default;
+int                         gp_rumble_weapons = gp_rumble_weapons_default;
 int                         gp_sensitivity_horizontal = gp_sensitivity_horizontal_default;
 int                         gp_sensitivity_vertical = gp_sensitivity_vertical_default;
 dboolean                    gp_swapthumbsticks = gp_swapthumbsticks_default;
 int                         gp_thumbsticks = gp_thumbsticks_default;
-int                         gp_vibrate_barrels = gp_vibrate_barrels_default;
-int                         gp_vibrate_damage = gp_vibrate_damage_default;
-int                         gp_vibrate_weapons = gp_vibrate_weapons_default;
 
 static SDL_Joystick         *joystick;
 static SDL_GameController   *gamecontroller;
@@ -103,7 +103,7 @@ void I_InitGamepad(void)
 
             if ((haptic = SDL_HapticOpen(deviceindex)) && !SDL_HapticRumbleInit(haptic))
             {
-                if (gp_vibrate_barrels || gp_vibrate_damage || gp_vibrate_weapons)
+                if (gp_rumble_barrels || gp_rumble_damage || gp_rumble_weapons)
                 {
                     SDL_HapticRumblePlay(haptic, 0.5f, 200);
                     SDL_Delay(300);
@@ -114,7 +114,7 @@ void I_InitGamepad(void)
             {
                 haptic = NULL;
 
-                if (gp_vibrate_barrels || gp_vibrate_damage || gp_vibrate_weapons)
+                if (gp_rumble_barrels || gp_rumble_damage || gp_rumble_weapons)
                     C_Warning(1, "This gamepad doesn't support vibration.");
             }
 

@@ -1353,9 +1353,9 @@ void P_SpawnPuff(fixed_t x, fixed_t y, fixed_t z, angle_t angle)
     {
         P_SetMobjState(th, S_PUFF3);
 
-        if (gp_vibrate_damage)
+        if (gp_rumble_damage)
         {
-            int strength = weaponinfo[wp_fist].strength * gp_vibrate_damage / 100;
+            int strength = weaponinfo[wp_fist].strength * gp_rumble_damage / 100;
 
             if (viewplayer->powers[pw_strength])
                 strength *= 2;

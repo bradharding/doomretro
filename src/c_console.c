@@ -1311,7 +1311,7 @@ void C_Drawer(void)
     consoleactive = (consoledirection == 1);
 
     // cancel any gamepad vibrations
-    if (!prevconsoleactive && (gp_vibrate_barrels || gp_vibrate_damage || gp_vibrate_weapons))
+    if (!prevconsoleactive && (gp_rumble_barrels || gp_rumble_damage || gp_rumble_weapons))
     {
         if (consoleactive)
         {

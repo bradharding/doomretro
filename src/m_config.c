@@ -114,9 +114,9 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT          (gp_sensitivity_vertical,          gp_sensitivity_vertical,               gp_sensitivity_vertical,               NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT          (gp_swapthumbsticks,               gp_swapthumbsticks,                    gp_swapthumbsticks,                    BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT          (gp_thumbsticks,                   gp_thumbsticks,                        gp_thumbsticks,                        NOVALUEALIAS          ),
-    CONFIG_VARIABLE_INT_PERCENT  (gp_vibrate_barrels,               gp_vibrate_barrels,                    gp_vibrate_barrels,                    NOVALUEALIAS          ),
-    CONFIG_VARIABLE_INT_PERCENT  (gp_vibrate_damage,                gp_vibrate_damage,                     gp_vibrate_damage,                     NOVALUEALIAS          ),
-    CONFIG_VARIABLE_INT_PERCENT  (gp_vibrate_weapons,               gp_vibrate_weapons,                    gp_vibrate_weapons,                    NOVALUEALIAS          ),
+    CONFIG_VARIABLE_INT_PERCENT  (gp_rumble_barrels,                gp_vibrate_barrels,                    gp_rumble_barrels,                     NOVALUEALIAS          ),
+    CONFIG_VARIABLE_INT_PERCENT  (gp_rumble_damage,                 gp_vibrate_damage,                     gp_rumble_damage,                      NOVALUEALIAS          ),
+    CONFIG_VARIABLE_INT_PERCENT  (gp_rumble_weapons,                gp_vibrate_weapons,                    gp_rumble_weapons,                     NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT          (groupmessages,                    groupmessages,                         groupmessages,                         BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT          (infighting,                       infighting,                            infighting,                            BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT          (infiniteheight,                   infiniteheight,                        infiniteheight,                        BOOLVALUEALIAS        ),
@@ -703,6 +703,12 @@ static void M_CheckCVARs(dboolean ispackageconfig)
     if (gp_invertyaxis != false && gp_invertyaxis != true)
         gp_invertyaxis = gp_invertyaxis_default;
 
+    gp_rumble_barrels = BETWEEN(gp_rumble_barrels_min, gp_rumble_barrels, gp_rumble_barrels_max);
+
+    gp_rumble_damage = BETWEEN(gp_rumble_damage_min, gp_rumble_damage, gp_rumble_damage_max);
+
+    gp_rumble_weapons = BETWEEN(gp_rumble_weapons_min, gp_rumble_damage, gp_rumble_weapons_max);
+
     gp_sensitivity_horizontal = BETWEEN(gp_sensitivity_horizontal_min, gp_sensitivity_horizontal, gp_sensitivity_horizontal_max);
     I_SetGamepadHorizontalSensitivity();
 
@@ -714,12 +720,6 @@ static void M_CheckCVARs(dboolean ispackageconfig)
 
     if (gp_thumbsticks < gp_thumbsticks_min || gp_thumbsticks > gp_thumbsticks_max)
         gp_thumbsticks = gp_thumbsticks_default;
-
-    gp_vibrate_barrels = BETWEEN(gp_vibrate_barrels_min, gp_vibrate_barrels, gp_vibrate_barrels_max);
-
-    gp_vibrate_damage = BETWEEN(gp_vibrate_damage_min, gp_vibrate_damage, gp_vibrate_damage_max);
-
-    gp_vibrate_weapons = BETWEEN(gp_vibrate_weapons_min, gp_vibrate_damage, gp_vibrate_weapons_max);
 
     if (groupmessages != false && groupmessages != true)
         groupmessages = groupmessages_default;
