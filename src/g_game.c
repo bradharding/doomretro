@@ -988,7 +988,7 @@ void G_Ticker(void)
                     viewplayer->fixedcolormap = 0;
                     I_SetPalette(PLAYPAL);
                     I_UpdateBlitFunc(false);
-                    I_StopGamepadVibration();
+                    I_StopGamepadRumble();
                 }
                 else
                 {

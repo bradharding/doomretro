@@ -67,11 +67,11 @@ float                       gamepadverticalsensitivity;
 short                       gamepadleftdeadzone;
 short                       gamepadrightdeadzone;
 
-int                         barrelvibrationtics = 0;
-int                         damagevibrationtics = 0;
-int                         weaponvibrationtics = 0;
-int                         idlevibrationstrength;
-int                         restorevibrationstrength;
+int                         barrelrumbletics = 0;
+int                         damagerumbletics = 0;
+int                         weaponrumbletics = 0;
+int                         idlerumblestrength;
+int                         restorerumblestrength;
 
 void I_InitGamepad(void)
 {
@@ -115,7 +115,7 @@ void I_InitGamepad(void)
                 haptic = NULL;
 
                 if (gp_rumble_barrels || gp_rumble_damage || gp_rumble_weapons)
-                    C_Warning(1, "This gamepad doesn't support vibration.");
+                    C_Warning(1, "This gamepad doesn't support rumble.");
             }
 
             SDL_SetHintWithPriority(SDL_HINT_JOYSTICK_ALLOW_BACKGROUND_EVENTS, "1", SDL_HINT_OVERRIDE);
@@ -137,9 +137,9 @@ void I_ShutdownGamepad(void)
     {
         SDL_HapticClose(haptic);
         haptic = NULL;
-        barrelvibrationtics = 0;
-        damagevibrationtics = 0;
-        weaponvibrationtics = 0;
+        barrelrumbletics = 0;
+        damagerumbletics = 0;
+        weaponrumbletics = 0;
     }
 
     SDL_GameControllerClose(gamecontroller);
@@ -151,34 +151,34 @@ void I_ShutdownGamepad(void)
     SDL_QuitSubSystem(SDL_INIT_GAMECONTROLLER | SDL_INIT_HAPTIC);
 }
 
-void I_GamepadVibration(int strength)
+void I_GamepadRumble(int strength)
 {
     static int  currentstrength;
 
     if (!haptic)
         return;
 
-    if (!strength || (lasteventtype == ev_gamepad && (strength == idlevibrationstrength || strength >= currentstrength)))
+    if (!strength || (lasteventtype == ev_gamepad && (strength == idlerumblestrength || strength >= currentstrength)))
     {
         currentstrength = MIN(strength, UINT16_MAX);
-        SDL_HapticRumblePlay(haptic, (float)strength / MAX_VIBRATION_STRENGTH, 600000);
+        SDL_HapticRumblePlay(haptic, (float)strength / MAX_RUMBLE_STRENGTH, 600000);
     }
 }
 
-void I_UpdateGamepadVibration(void)
+void I_UpdateGamepadRumble(void)
 {
     if (!haptic)
         return;
 
-    if (weaponvibrationtics && !--weaponvibrationtics && !damagevibrationtics && !barrelvibrationtics)
-        I_GamepadVibration(idlevibrationstrength);
-    else if (damagevibrationtics && !--damagevibrationtics && !barrelvibrationtics)
-        I_GamepadVibration(idlevibrationstrength);
-    else if (barrelvibrationtics && !--barrelvibrationtics)
-        I_GamepadVibration(idlevibrationstrength);
+    if (weaponrumbletics && !--weaponrumbletics && !damagerumbletics && !barrelrumbletics)
+        I_GamepadRumble(idlerumblestrength);
+    else if (damagerumbletics && !--damagerumbletics && !barrelrumbletics)
+        I_GamepadRumble(idlerumblestrength);
+    else if (barrelrumbletics && !--barrelrumbletics)
+        I_GamepadRumble(idlerumblestrength);
 }
 
-void I_StopGamepadVibration(void)
+void I_StopGamepadRumble(void)
 {
     if (haptic)
         SDL_HapticRumbleStop(haptic);

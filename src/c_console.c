@@ -1310,18 +1310,18 @@ void C_Drawer(void)
 
     consoleactive = (consoledirection == 1);
 
-    // cancel any gamepad vibrations
+    // cancel any gamepad rumble
     if (!prevconsoleactive && (gp_rumble_barrels || gp_rumble_damage || gp_rumble_weapons))
     {
         if (consoleactive)
         {
-            restorevibrationstrength = idlevibrationstrength;
-            idlevibrationstrength = 0;
+            restorerumblestrength = idlerumblestrength;
+            idlerumblestrength = 0;
         }
         else
-            idlevibrationstrength = restorevibrationstrength;
+            idlerumblestrength = restorerumblestrength;
 
-        I_GamepadVibration(idlevibrationstrength);
+        I_GamepadRumble(idlerumblestrength);
     }
 
     // cancel any screen shake

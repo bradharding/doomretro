@@ -1360,8 +1360,8 @@ void P_SpawnPuff(fixed_t x, fixed_t y, fixed_t z, angle_t angle)
             if (viewplayer->powers[pw_strength])
                 strength *= 2;
 
-            I_GamepadVibration(strength);
-            weaponvibrationtics = weaponinfo[wp_fist].tics;
+            I_GamepadRumble(strength);
+            weaponrumbletics = weaponinfo[wp_fist].tics;
         }
     }
 }

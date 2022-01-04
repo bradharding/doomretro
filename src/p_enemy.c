@@ -1901,8 +1901,8 @@ void A_Explode(mobj_t *actor, player_t *player, pspdef_t *psp)
 
             if (gp_rumble_barrels)
             {
-                I_GamepadVibration(20000 * gp_rumble_barrels / 100);
-                barrelvibrationtics = TICRATE;
+                I_GamepadRumble(20000 * gp_rumble_barrels / 100);
+                barrelrumbletics = TICRATE;
             }
         }
     }

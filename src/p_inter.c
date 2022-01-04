@@ -2324,8 +2324,8 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
 
         if (gp_rumble_damage)
         {
-            I_GamepadVibration((30000 + (100 - MIN(tplayer->health, 100)) / 100 * 30000) * gp_rumble_damage / 100);
-            damagevibrationtics += BETWEEN(12, damage, 100);
+            I_GamepadRumble((30000 + (100 - MIN(tplayer->health, 100)) / 100 * 30000) * gp_rumble_damage / 100);
+            damagerumbletics += BETWEEN(12, damage, 100);
         }
 
         if (tplayer->health <= 0)
