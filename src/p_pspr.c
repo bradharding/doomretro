@@ -287,18 +287,18 @@ void P_DropWeapon(void)
 void A_WeaponReady(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
     weapontype_t    readyweapon = player->readyweapon;
-    weapontype_t    pendingweapon = player->pendingweapon;
+    dboolean        idlechainsaw = (readyweapon == wp_chainsaw && psp->state == &states[S_SAW]);
 
-    if (readyweapon == wp_chainsaw && psp->state == &states[S_SAW])
+    if (idlechainsaw)
         S_StartSound(actor, sfx_sawidl);
 
     // check for change
     //  if player is dead, put the weapon away
-    if (pendingweapon != wp_nochange || player->health <= 0)
+    if (player->pendingweapon != wp_nochange || player->health <= 0)
     {
         if (gp_rumble_weapons)
         {
-            if (pendingweapon == wp_chainsaw && psp->state == &states[S_SAW])
+            if (idlechainsaw)
             {
                 idlerumblestrength = CHAINSAW_IDLE_RUMBLE_STRENGTH * gp_rumble_weapons / 100;
                 I_GamepadRumble(idlerumblestrength);
@@ -990,39 +990,30 @@ void P_MovePsprites(void)
 //
 void A_WeaponProjectile(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    int     type;
-    int     angle;
-    int     pitch;
-    int     spawnofs_xy, spawnofs_z;
+    int     *args = psp->state->args;
     mobj_t  *mo;
     int     an;
 
-    if (!psp->state || !psp->state->args[0])
+    if (!psp->state || !args[0])
         return;
 
-    type = psp->state->args[0] - 1;
-    angle = psp->state->args[1];
-    pitch = psp->state->args[2];
-    spawnofs_xy = psp->state->args[3];
-    spawnofs_z = psp->state->args[4];
-
-    if (!(mo = P_SpawnPlayerMissile(player->mo, type)))
+    if (!(mo = P_SpawnPlayerMissile(player->mo, args[0] - 1)))
         return;
 
     // adjust angle
-    mo->angle += (angle_t)(((int64_t)angle << 16) / 360);
+    mo->angle += (angle_t)(((int64_t)args[1] << 16) / 360);
     an = mo->angle >> ANGLETOFINESHIFT;
     mo->momx = FixedMul(mo->info->speed, finecosine[an]);
     mo->momy = FixedMul(mo->info->speed, finesine[an]);
 
     // adjust pitch (approximated, using DOOM's ye olde finetangent table; same method as autoaim)
-    mo->momz += FixedMul(mo->info->speed, DegToSlope(pitch));
+    mo->momz += FixedMul(mo->info->speed, DegToSlope(args[2]));
 
     // adjust position
     an = (player->mo->angle - ANG90) >> ANGLETOFINESHIFT;
-    mo->x += FixedMul(spawnofs_xy, finecosine[an]);
-    mo->y += FixedMul(spawnofs_xy, finesine[an]);
-    mo->z += spawnofs_z;
+    mo->x += FixedMul(args[3], finecosine[an]);
+    mo->y += FixedMul(args[3], finesine[an]);
+    mo->z += args[4];
 
     // set tracer to the player's autoaim target,
     // so player seeker missiles prioritizing the
@@ -1041,11 +1032,8 @@ void A_WeaponProjectile(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_WeaponBulletAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    int hspread;
-    int vspread;
+    int *args = psp->state->args;
     int numbullets;
-    int damagebase;
-    int damagemod;
 
     if (!psp->state)
         return;
@@ -1053,17 +1041,13 @@ void A_WeaponBulletAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
     if (!(weaponinfo[player->readyweapon].flags & WPF_SILENT))
         P_NoiseAlert(actor);
 
-    hspread = psp->state->args[0];
-    vspread = psp->state->args[1];
-    numbullets = psp->state->args[2];
-    damagebase = psp->state->args[3];
-    damagemod = psp->state->args[4];
+    numbullets = args[2];
 
     P_BulletSlope(player->mo);
 
     for (int i = 0; i < numbullets; i++)
-        P_LineAttack(player->mo, player->mo->angle + P_RandomHitscanAngle(hspread), MISSILERANGE,
-            bulletslope + P_RandomHitscanSlope(vspread), (M_Random() % damagemod + 1) * damagebase);
+        P_LineAttack(player->mo, player->mo->angle + P_RandomHitscanAngle(args[0]), MISSILERANGE,
+            bulletslope + P_RandomHitscanSlope(args[1]), (M_Random() % args[4] + 1) * args[3]);
 }
 
 //
@@ -1077,10 +1061,7 @@ void A_WeaponBulletAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_WeaponMeleeAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    int     damagebase;
-    int     damagemod;
-    int     zerkfactor;
-    int     hitsound;
+    int     *args = psp->state->args;
     int     range;
     angle_t angle;
     int     slope;
@@ -1089,19 +1070,13 @@ void A_WeaponMeleeAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
     if (!psp->state)
         return;
 
-    damagebase = psp->state->args[0];
-    damagemod = psp->state->args[1];
-    zerkfactor = psp->state->args[2];
-    hitsound = psp->state->args[3];
-    range = psp->state->args[4];
-
-    if (!range)
+    if (!(range = args[4]))
         range = player->mo->info->meleerange;
 
-    damage = (M_Random() % damagemod + 1) * damagebase;
+    damage = (M_Random() % args[1] + 1) * args[0];
 
     if (player->powers[pw_strength])
-        damage = (damage * zerkfactor) >> FRACBITS;
+        damage = (damage * args[2]) >> FRACBITS;
 
     // slight randomization; weird vanillaism here. :P
     angle = player->mo->angle + (M_SubRandom() << 18);
@@ -1123,7 +1098,7 @@ void A_WeaponMeleeAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
         P_NoiseAlert(actor);
 
     // un-missed!
-    S_StartSound(player->mo, hitsound);
+    S_StartSound(player->mo, args[3]);
 
     // turn to face target
     player->mo->angle = R_PointToAngle2(player->mo->x, player->mo->y, linetarget->x, linetarget->y);
