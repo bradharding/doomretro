@@ -298,7 +298,7 @@ void A_WeaponReady(mobj_t *actor, player_t *player, pspdef_t *psp)
     {
         if (gp_rumble_weapons)
         {
-            if (pendingweapon == wp_chainsaw && !REKKR)
+            if (pendingweapon == wp_chainsaw && psp->state == &states[S_SAW])
             {
                 idlerumblestrength = CHAINSAW_IDLE_RUMBLE_STRENGTH * gp_rumble_weapons / 100;
                 I_GamepadRumble(idlerumblestrength);
