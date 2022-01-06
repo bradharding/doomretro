@@ -2219,7 +2219,7 @@ static void PIT_ChangeSector(mobj_t *thing)
                     (*thing->info->name1 ? thing->info->name1 : "monster"));
 
             name[0] = toupper(name[0]);
-            C_PlayerObituary("%s was crushed to death.", name);
+            C_PlayerObituary("%s was crushed%s.", name, (thing->type == MT_BARREL ? "" : " to death"));
         }
     }
 }
