@@ -2462,44 +2462,32 @@ void A_LineEffect(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_SpawnObject(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    int     type;
-    int     angle;
-    int     ofs_x, ofs_y, ofs_z;
-    int     vel_x, vel_y, vel_z;
+    int     *args = actor->state->args;
     angle_t an;
     int     fan;
     int     dx, dy;
     mobj_t  *mo;
 
-    if (!actor->state->args[0])
+    if (!args[0])
         return;
 
-    type = actor->state->args[0] - 1;
-    angle = actor->state->args[1];
-    ofs_x = actor->state->args[2];
-    ofs_y = actor->state->args[3];
-    ofs_z = actor->state->args[4];
-    vel_x = actor->state->args[5];
-    vel_y = actor->state->args[6];
-    vel_z = actor->state->args[7];
-
     // calculate position offsets
-    an = actor->angle + (angle_t)(((int64_t)angle << 16) / 360);
+    an = actor->angle + (angle_t)(((int64_t)args[1] << 16) / 360);
     fan = an >> ANGLETOFINESHIFT;
-    dx = FixedMul(ofs_x, finecosine[fan]) - FixedMul(ofs_y, finesine[fan]);
-    dy = FixedMul(ofs_x, finesine[fan]) + FixedMul(ofs_y, finecosine[fan]);
+    dx = FixedMul(args[2], finecosine[fan]) - FixedMul(args[3], finesine[fan]);
+    dy = FixedMul(args[2], finesine[fan]) + FixedMul(args[3], finecosine[fan]);
 
     // spawn it, yo
-    if (!(mo = P_SpawnMobj(actor->x + dx, actor->y + dy, actor->z + ofs_z, type)))
+    if (!(mo = P_SpawnMobj(actor->x + dx, actor->y + dy, actor->z + args[4], args[0] - 1)))
         return;
 
     // angle dangle
     mo->angle = an;
 
     // set velocity
-    mo->momx = FixedMul(vel_x, finecosine[fan]) - FixedMul(vel_y, finesine[fan]);
-    mo->momy = FixedMul(vel_x, finesine[fan]) + FixedMul(vel_y, finecosine[fan]);
-    mo->momz = vel_z;
+    mo->momx = FixedMul(args[5], finecosine[fan]) - FixedMul(args[6], finesine[fan]);
+    mo->momy = FixedMul(args[5], finesine[fan]) + FixedMul(args[6], finecosine[fan]);
+    mo->momz = args[7];
 
     // if spawned object is a missile, set target+tracer
     if (mo->info->flags & (MF_MISSILE | MF_BOUNCES))
@@ -2533,44 +2521,34 @@ void A_SpawnObject(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_MonsterProjectile(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    int     type;
-    int     angle;
-    int     pitch;
-    int     spawnofs_xy;
-    int     spawnofs_z;
+    int     *args = actor->state->args;
     int     an;
     mobj_t  *mo;
     mobj_t  *target = actor->target;
 
-    if (!target || !actor->state->args[0])
+    if (!target || !args[0])
         return;
-
-    type = actor->state->args[0] - 1;
-    angle = actor->state->args[1];
-    pitch = actor->state->args[2];
-    spawnofs_xy = actor->state->args[3];
-    spawnofs_z = actor->state->args[4];
 
     A_FaceTarget(actor, NULL, NULL);
 
-    if (!(mo = P_SpawnMissile(actor, target, type)))
+    if (!(mo = P_SpawnMissile(actor, target, args[0] - 1)))
         return;
 
     // adjust angle
-    mo->angle += (angle_t)(((int64_t)angle << 16) / 360);
+    mo->angle += (angle_t)(((int64_t)args[1] << 16) / 360);
     an = mo->angle >> ANGLETOFINESHIFT;
     mo->momx = FixedMul(mo->info->speed, finecosine[an]);
     mo->momy = FixedMul(mo->info->speed, finesine[an]);
 
     // adjust pitch (approximated, using DOOM's ye olde
     // finetangent table; same method as monster aim)
-    mo->momz += FixedMul(mo->info->speed, DegToSlope(pitch));
+    mo->momz += FixedMul(mo->info->speed, DegToSlope(args[2]));
 
     // adjust position
     an = (actor->angle - ANG90) >> ANGLETOFINESHIFT;
-    mo->x += FixedMul(spawnofs_xy, finecosine[an]);
-    mo->y += FixedMul(spawnofs_xy, finesine[an]);
-    mo->z += spawnofs_z;
+    mo->x += FixedMul(args[3], finecosine[an]);
+    mo->y += FixedMul(args[3], finesine[an]);
+    mo->z += args[4];
 
     // always set the 'tracer' field, so this pointer
     // can be used to fire seeker missiles at will.
@@ -2588,21 +2566,14 @@ void A_MonsterProjectile(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_MonsterBulletAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    int hspread;
-    int vspread;
+    int *args = actor->state->args;
     int numbullets;
-    int damagebase;
-    int damagemod;
     int aimslope;
 
     if (!actor->target)
         return;
 
-    hspread = actor->state->args[0];
-    vspread = actor->state->args[1];
-    numbullets = actor->state->args[2];
-    damagebase = actor->state->args[3];
-    damagemod = actor->state->args[4];
+    numbullets = args[2];
 
     A_FaceTarget(actor, NULL, NULL);
     S_StartSound(actor, actor->info->attacksound);
@@ -2610,8 +2581,8 @@ void A_MonsterBulletAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
     aimslope = P_AimLineAttack(actor, actor->angle, MISSILERANGE, 0);
 
     for (int i = 0; i < numbullets; i++)
-        P_LineAttack(actor, actor->angle + P_RandomHitscanAngle(hspread), MISSILERANGE,
-            aimslope + P_RandomHitscanSlope(vspread), (M_Random() % damagemod + 1) * damagebase);
+        P_LineAttack(actor, actor->angle + P_RandomHitscanAngle(args[0]), MISSILERANGE,
+            aimslope + P_RandomHitscanSlope(args[1]), (M_Random() % args[4] + 1) * args[3]);
 }
 
 //
@@ -2624,21 +2595,14 @@ void A_MonsterBulletAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_MonsterMeleeAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    int     damagebase;
-    int     damagemod;
-    int     hitsound;
+    int     *args = actor->state->args;
     int     range;
-    mobj_t *target = actor->target;
+    mobj_t  *target = actor->target;
 
     if (!target)
         return;
 
-    damagebase = actor->state->args[0];
-    damagemod = actor->state->args[1];
-    hitsound = actor->state->args[2];
-    range = actor->state->args[3];
-
-    if (!range)
+    if (!(range = args[3]))
         range = actor->info->meleerange;
 
     range += target->info->radius - 20 * FRACUNIT;
@@ -2648,9 +2612,9 @@ void A_MonsterMeleeAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
     if (!P_CheckRange(actor, range))
         return;
 
-    S_StartSound(actor, hitsound);
+    S_StartSound(actor, args[2]);
 
-    P_DamageMobj(target, actor, actor, (M_Random() % damagemod + 1) * damagebase, true);
+    P_DamageMobj(target, actor, actor, (M_Random() % args[1] + 1) * args[0], true);
 }
 
 //
@@ -2661,10 +2625,12 @@ void A_MonsterMeleeAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_RadiusDamage(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
+    int *args = actor->state->args;
+
     if (!actor->state)
         return;
 
-    P_RadiusAttack(actor, actor->target, actor->state->args[0], actor->state->args[1], true);
+    P_RadiusAttack(actor, actor->target, args[0], args[1], true);
 }
 
 //
@@ -2687,10 +2653,12 @@ void A_NoiseAlert(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_HealChase(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
+    int *args = actor->state->args;
+
     if (!actor)
         return;
 
-    if (!P_HealCorpse(actor, actor->info->radius, actor->state->args[0], actor->state->args[1]))
+    if (!P_HealCorpse(actor, actor->info->radius, args[0], args[1]))
         A_Chase(actor, NULL, NULL);
 }
 
@@ -2702,10 +2670,12 @@ void A_HealChase(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_SeekTracer(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
+    int *args = actor->state->args;
+
     if (!actor)
         return;
 
-    P_SeekerMissile(actor, &actor->tracer, FixedToAngle(actor->state->args[0]), FixedToAngle(actor->state->args[1]), true);
+    P_SeekerMissile(actor, &actor->tracer, FixedToAngle(args[0]), FixedToAngle(args[1]), true);
 }
 
 //
@@ -2716,10 +2686,12 @@ void A_SeekTracer(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_FindTracer(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
+    int *args = actor->state->args;
+
     if (!actor || actor->tracer)
         return;
 
-    actor->tracer = P_RoughTargetSearch(actor, FixedToAngle(actor->state->args[0]), actor->state->args[1]);
+    actor->tracer = P_RoughTargetSearch(actor, FixedToAngle(args[0]), args[1]);
 }
 
 //
@@ -2742,11 +2714,13 @@ void A_ClearTracer(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_JumpIfHealthBelow(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
+    int *args = actor->state->args;
+
     if (!actor)
         return;
 
-    if (actor->health < actor->state->args[1])
-        P_SetMobjState(actor, actor->state->args[0]);
+    if (actor->health < args[1])
+        P_SetMobjState(actor, args[0]);
 }
 
 //
@@ -2757,6 +2731,7 @@ void A_JumpIfHealthBelow(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_JumpIfTargetInSight(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
+    int     *args = actor->state->args;
     angle_t fieldofview;
     mobj_t  *target;
 
@@ -2764,11 +2739,11 @@ void A_JumpIfTargetInSight(mobj_t *actor, player_t *player, pspdef_t *psp)
         return;
 
     // Check FOV first since it's faster
-    if ((fieldofview = FixedToAngle(actor->state->args[1])) > 0 && !P_CheckFov(actor, target, fieldofview))
+    if ((fieldofview = FixedToAngle(args[1])) > 0 && !P_CheckFov(actor, target, fieldofview))
         return;
 
     if (P_CheckSight(actor, target))
-        P_SetMobjState(actor, actor->state->args[0]);
+        P_SetMobjState(actor, args[0]);
 }
 
 //
@@ -2779,13 +2754,14 @@ void A_JumpIfTargetInSight(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_JumpIfTargetCloser(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
+    int     *args = actor->state->args;
     mobj_t  *target;
 
     if (!actor || !(target = actor->target))
         return;
 
-    if (actor->state->args[1] > P_ApproxDistance(actor->x - target->x, actor->y - target->y))
-        P_SetMobjState(actor, actor->state->args[0]);
+    if (args[1] > P_ApproxDistance(actor->x - target->x, actor->y - target->y))
+        P_SetMobjState(actor, args[0]);
 }
 
 //
@@ -2796,17 +2772,18 @@ void A_JumpIfTargetCloser(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_JumpIfTracerInSight(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
+    int     *args = actor->state->args;
     angle_t fieldofview;
 
     if (!actor || !actor->tracer)
         return;
 
     // Check FOV first since it's faster
-    if ((fieldofview = FixedToAngle(actor->state->args[1])) > 0 && !P_CheckFov(actor, actor->tracer, fieldofview))
+    if ((fieldofview = FixedToAngle(args[1])) > 0 && !P_CheckFov(actor, actor->tracer, fieldofview))
         return;
 
     if (P_CheckSight(actor, actor->tracer))
-        P_SetMobjState(actor, actor->state->args[0]);
+        P_SetMobjState(actor, args[0]);
 }
 
 //
@@ -2817,11 +2794,13 @@ void A_JumpIfTracerInSight(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_JumpIfTracerCloser(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
+    int *args = actor->state->args;
+
     if (!actor || !actor->tracer)
         return;
 
-    if (actor->state->args[1] > P_ApproxDistance(actor->x - actor->tracer->x, actor->y - actor->tracer->y))
-        P_SetMobjState(actor, actor->state->args[0]);
+    if (args[1] > P_ApproxDistance(actor->x - actor->tracer->x, actor->y - actor->tracer->y))
+        P_SetMobjState(actor, args[0]);
 }
 
 //
@@ -2833,17 +2812,18 @@ void A_JumpIfTracerCloser(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_JumpIfFlagsSet(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
+    int             *args = actor->state->args;
     unsigned int    flags;
     unsigned int    flags2;
 
     if (!actor)
         return;
 
-    flags = actor->state->args[1];
-    flags2 = actor->state->args[2];
+    flags = args[1];
+    flags2 = args[2];
 
     if ((actor->flags & flags) == flags && (actor->flags2 & flags2) == flags2)
-        P_SetMobjState(actor, actor->state->args[0]);
+        P_SetMobjState(actor, args[0]);
 }
 
 //
@@ -2854,11 +2834,13 @@ void A_JumpIfFlagsSet(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_AddFlags(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
+    int *args = actor->state->args;
+
     if (!actor)
         return;
 
-    actor->flags |= actor->state->args[0];
-    actor->flags2 |= actor->state->args[1];
+    actor->flags |= args[0];
+    actor->flags2 |= args[1];
 }
 
 //
@@ -2869,9 +2851,11 @@ void A_AddFlags(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_RemoveFlags(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
+    int *args = actor->state->args;
+
     if (!actor)
         return;
 
-    actor->flags &= ~actor->state->args[0];
-    actor->flags2 &= ~actor->state->args[1];
+    actor->flags &= ~args[0];
+    actor->flags2 &= ~args[1];
 }

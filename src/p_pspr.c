@@ -422,7 +422,7 @@ void A_GunFlash(mobj_t *actor, player_t *player, pspdef_t *psp)
 void A_Punch(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
     angle_t angle = actor->angle + (M_SubRandom() << 18);
-    int     range = viewplayer->mo->info->meleerange;
+    int     range = player->mo->info->meleerange;
     int     slope = P_AimLineAttack(actor, angle, range, MF_FRIEND);
     int     damage = (M_Random() % 10 + 1) << 1;
 
@@ -1038,10 +1038,10 @@ void A_WeaponBulletAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
     if (!psp->state)
         return;
 
+    numbullets = args[2];
+
     if (!(weaponinfo[player->readyweapon].flags & WPF_SILENT))
         P_NoiseAlert(actor);
-
-    numbullets = args[2];
 
     P_BulletSlope(player->mo);
 
@@ -1112,10 +1112,12 @@ void A_WeaponMeleeAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_WeaponSound(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
+    int *args = psp->state->args;
+
     if (!psp->state)
         return;
 
-    S_StartSound((psp->state->args[1] ? NULL : player->mo), psp->state->args[0]);
+    S_StartSound((args[1] ? NULL : player->mo), args[0]);
 }
 
 //
@@ -1136,11 +1138,13 @@ void A_WeaponAlert(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_WeaponJump(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
+    int *args = psp->state->args;
+
     if (!psp->state)
         return;
 
-    if (M_Random() < psp->state->args[1])
-        P_SetPspritePtr(psp, psp->state->args[0]);
+    if (M_Random() < args[1])
+        P_SetPspritePtr(psp, args[0]);
 }
 
 //
@@ -1150,18 +1154,14 @@ void A_WeaponJump(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_ConsumeAmmo(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    int         amount;
+    int         *args = psp->state->args;
     ammotype_t  type = weaponinfo[player->readyweapon].ammotype;
 
     if (!psp->state || type == am_noammo)
         return;
 
-    // use the weapon's ammo-per-shot amount if zero.
-    // to subtract zero ammo, don't call this function. ;)
-    amount = (psp->state->args[0] ? psp->state->args[0] : weaponinfo[player->readyweapon].ammopershot);
-
     // subtract ammo, but don't let it get below zero
-    player->ammo[type] = MAX(0, player->ammo[type] - amount);
+    player->ammo[type] = MAX(0, player->ammo[type] - (args[0] ? args[0] : weaponinfo[player->readyweapon].ammopershot));
 }
 
 //
@@ -1172,16 +1172,14 @@ void A_ConsumeAmmo(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_CheckAmmo(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    int         amount;
+    int         *args = psp->state->args;
     ammotype_t  type = weaponinfo[player->readyweapon].ammotype;
 
     if (!psp->state || type == am_noammo)
         return;
 
-    amount = (psp->state->args[1] ? psp->state->args[1] : weaponinfo[player->readyweapon].ammopershot);
-
-    if (player->ammo[type] < amount)
-        P_SetPspritePtr(psp, psp->state->args[0]);
+    if (player->ammo[type] < (args[1] ? args[1] : weaponinfo[player->readyweapon].ammopershot))
+        P_SetPspritePtr(psp, args[0]);
 }
 
 //
@@ -1192,14 +1190,16 @@ void A_CheckAmmo(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_RefireTo(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
+    int *args = psp->state->args;
+
     if (!psp->state)
         return;
 
-    if ((psp->state->args[1] || P_CheckAmmo(player->readyweapon))
+    if ((args[1] || P_CheckAmmo(player->readyweapon))
         && (player->cmd.buttons & BT_ATTACK)
         && player->pendingweapon == wp_nochange
-        P_SetPspritePtr(psp, psp->state->args[0]);
         && player->health > 0)
+        P_SetPspritePtr(psp, args[0]);
 }
 
 //
@@ -1210,11 +1210,13 @@ void A_RefireTo(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_GunFlashTo(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
+    int *args = psp->state->args;
+
     if (!psp->state)
         return;
 
-    if (!psp->state->args[1])
+    if (!args[1])
         P_SetMobjState(player->mo, S_PLAY_ATK2);
 
-    P_SetPsprite(ps_flash, psp->state->args[0]);
+    P_SetPsprite(ps_flash, args[0]);
 }
