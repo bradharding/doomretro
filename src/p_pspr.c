@@ -1198,8 +1198,8 @@ void A_RefireTo(mobj_t *actor, player_t *player, pspdef_t *psp)
     if ((psp->state->args[1] || P_CheckAmmo(player->readyweapon))
         && (player->cmd.buttons & BT_ATTACK)
         && player->pendingweapon == wp_nochange
-        && player->health)
         P_SetPspritePtr(psp, psp->state->args[0]);
+        && player->health > 0)
 }
 
 //
