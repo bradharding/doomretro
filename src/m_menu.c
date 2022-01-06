@@ -983,8 +983,6 @@ static void M_DrawSaveLoadBorder(int x, int y)
 //
 static void M_DrawLoad(void)
 {
-    int height = SHORT(((patch_t *)W_CacheLumpName("M_LSLEFT"))->height);
-
     M_DarkBackground();
 
     if (M_LGTTL)
@@ -1054,9 +1052,6 @@ int             caretcolor;
 //
 static void M_DrawSave(void)
 {
-    int height = SHORT(((patch_t *)W_CacheLumpName("M_LSLEFT"))->height);
-
-    // darken background
     M_DarkBackground();
 
     // draw menu subtitle
