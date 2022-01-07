@@ -96,6 +96,7 @@ void I_InitGamepad(void)
         {
             const char  *name = SDL_GameControllerName(gamecontroller);
 
+#if ((SDL_MAJOR_VERSION == 2 && SDL_PATCHLEVEL >= 12) || SDL_MAJOR_VERSION > 2)
             switch (SDL_GameControllerTypeForIndex(deviceindex))
             {
                 case SDL_CONTROLLER_TYPE_AMAZON_LUNA:
@@ -142,6 +143,13 @@ void I_InitGamepad(void)
 
                     break;
             }
+
+#else
+            if (*name)
+                C_Output("A gamepad called \"%s\" is connected.", name);
+            else
+                C_Output("A gamepad is connected.");
+#endif
 
             if ((haptic = SDL_HapticOpen(deviceindex)) && !SDL_HapticRumbleInit(haptic))
             {
