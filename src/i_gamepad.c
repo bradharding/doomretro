@@ -96,10 +96,52 @@ void I_InitGamepad(void)
         {
             const char  *name = SDL_GameControllerName(gamecontroller);
 
-            if (*name)
-                C_OutputNoRepeat("A gamepad called \"%s\" is connected.", name);
-            else
-                C_OutputNoRepeat("A gamepad is connected.");
+            switch (SDL_GameControllerTypeForIndex(deviceindex))
+            {
+                case SDL_CONTROLLER_TYPE_AMAZON_LUNA:
+                    C_Output("An " ITALICS("Amazon Luna") " controller is connected.");
+                    break;
+
+                case SDL_CONTROLLER_TYPE_GOOGLE_STADIA:
+                    C_Output("A " ITALICS("Google Stadia") " controller is connected.");
+                    break;
+
+                case SDL_CONTROLLER_TYPE_NINTENDO_SWITCH_PRO:
+                    C_Output("A " ITALICS("Nintendo Switch Pro") " controller is connected.");
+                    break;
+
+                case SDL_CONTROLLER_TYPE_PS3:
+                    C_Output("A " ITALICS("Sony PS3") " controller is connected.");
+                    break;
+
+                case SDL_CONTROLLER_TYPE_PS4:
+                    C_Output("A " ITALICS("Sony PS4") " controller is connected.");
+                    break;
+
+                case SDL_CONTROLLER_TYPE_PS5:
+                    C_Output("A " ITALICS("Sony PS5") " controller is connected.");
+                    break;
+
+                case SDL_CONTROLLER_TYPE_XBOX360:
+                    C_Output("A " ITALICS("Microsoft XBox 360") " controller is connected.");
+                    break;
+
+                case SDL_CONTROLLER_TYPE_XBOXONE:
+                    C_Output("A " ITALICS("Microsoft XBox One") " controller is connected.");
+                    break;
+
+                case SDL_CONTROLLER_TYPE_VIRTUAL:
+                    C_Output("A " ITALICS("Virtual Game") " controller is connected.");
+                    break;
+
+                default:
+                    if (*name)
+                        C_Output("A gamepad called \"%s\" is connected.", name);
+                    else
+                        C_Output("A gamepad is connected.");
+
+                    break;
+            }
 
             if ((haptic = SDL_HapticOpen(deviceindex)) && !SDL_HapticRumbleInit(haptic))
             {
