@@ -233,10 +233,10 @@ const control_t controls[] =
     { "rightshoulder", gamecontrollercontrol, GAMECONTROLLER_RIGHT_SHOULDER },
     { "lefttrigger",   gamecontrollercontrol, GAMECONTROLLER_LEFT_TRIGGER   },
     { "righttrigger",  gamecontrollercontrol, GAMECONTROLLER_RIGHT_TRIGGER  },
-    { "controller1",   gamecontrollercontrol, GAMECONTROLLER_A              },
-    { "controller2",   gamecontrollercontrol, GAMECONTROLLER_B              },
-    { "controller3",   gamecontrollercontrol, GAMECONTROLLER_X              },
-    { "controller4",   gamecontrollercontrol, GAMECONTROLLER_Y              },
+    { "button1",       gamecontrollercontrol, GAMECONTROLLER_A              },
+    { "button2",       gamecontrollercontrol, GAMECONTROLLER_B              },
+    { "button3",       gamecontrollercontrol, GAMECONTROLLER_X              },
+    { "button4",       gamecontrollercontrol, GAMECONTROLLER_Y              },
     { "guide",         gamecontrollercontrol, GAMECONTROLLER_GUIDE          },
     { "",              0,                     0                             }
 };
