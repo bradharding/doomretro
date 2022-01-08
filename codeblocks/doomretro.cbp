@@ -101,10 +101,10 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../src/i_colors.h" />
-		<Unit filename="../src/i_gamepad.c">
+		<Unit filename="../src/i_gamecontroller.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="../src/i_gamepad.h" />
+		<Unit filename="../src/i_gamecontroller.h" />
 		<Unit filename="../src/i_music.c">
 			<Option compilerVar="CC" />
 		</Unit>

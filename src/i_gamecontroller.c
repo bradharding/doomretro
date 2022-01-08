@@ -102,11 +102,9 @@ void I_InitGameController(void)
             else
                 C_Output("A controller is connected.");
 
-            if (gp_rumble_barrels || gp_rumble_damage || gp_rumble_weapons)
-            {
-                if (SDL_GameControllerRumble(gamecontroller, 0, 0, 0) == -1)
-                    C_Warning(1, "This controller doesn't support rumble.");
-            }
+            if ((gp_rumble_barrels || gp_rumble_damage || gp_rumble_weapons)
+                && SDL_GameControllerRumble(gamecontroller, 0, 0, 0) == -1)
+                C_Warning(1, "This controller doesn't support rumble.");
 
             I_SetGameControllerLeftDeadZone();
             I_SetGameControllerRightDeadZone();
@@ -134,6 +132,9 @@ void I_GameControllerRumble(int strength)
 {
     static int  currentstrength;
 
+    if (!gamecontroller)
+        return;
+
     if (!strength || (lasteventtype == ev_gamecontroller && (strength == idlerumblestrength || strength >= currentstrength)))
     {
         currentstrength = MIN(strength, UINT16_MAX);
@@ -141,8 +142,11 @@ void I_GameControllerRumble(int strength)
     }
 }
 
-void I_UpdateGamepadRumble(void)
+void I_UpdateGameControllerRumble(void)
 {
+    if (!gamecontroller)
+        return;
+
     if (weaponrumbletics && !--weaponrumbletics && !damagerumbletics && !barrelrumbletics)
         I_GameControllerRumble(idlerumblestrength);
     else if (damagerumbletics && !--damagerumbletics && !barrelrumbletics)
@@ -153,6 +157,9 @@ void I_UpdateGamepadRumble(void)
 
 void I_StopGameControllerRumble(void)
 {
+    if (!gamecontroller)
+        return;
+
     SDL_GameControllerRumble(gamecontroller, 0, 0, 0);
 }
 

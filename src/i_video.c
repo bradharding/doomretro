@@ -780,7 +780,7 @@ void I_StartTic(void)
 {
     I_GetEvent();
     I_ReadMouse();
-    I_UpdateGamepadRumble();
+    I_UpdateGameControllerRumble();
 }
 
 static void UpdateGrab(void)
