@@ -105,7 +105,7 @@ void I_InitGameController(void)
             else
                 C_Output("A controller is connected.");
 
-            if (!SDL_GameControllerRumble(gamecontroller, 0, 0, 0))
+            if (!SDL_GameControllerRumble(gamecontroller, 0x7FFF, 0x7FFF, 200))
                 rumble = true;
             else if (joy_rumble_barrels || joy_rumble_damage || joy_rumble_weapons)
                 C_Warning(1, "This controller doesn't support rumble.");
