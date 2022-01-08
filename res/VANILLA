@@ -137,8 +137,8 @@ bind 'm' +mark
 bind '0' +maxzoom
 bind escape +menu
 bind start +menu
-bind gamepad2 +nextweapon
-bind gamepad4 +prevweapon
+bind controller2 +nextweapon
+bind controller4 +prevweapon
 bind right +right
 bind shift +run
 bind lefttrigger +run
@@ -147,7 +147,7 @@ bind mouse2 +strafe
 bind ',' +strafeleft
 bind '.' +straferight
 bind space +use
-bind gamepad1 +use
+bind controller1 +use
 bind rightthumb +use
 bind '1' +weapon1
 bind '2' +weapon2

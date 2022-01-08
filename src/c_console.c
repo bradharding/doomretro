@@ -1310,7 +1310,7 @@ void C_Drawer(void)
 
     consoleactive = (consoledirection == 1);
 
-    // cancel any gamepad rumble
+    // cancel any controller rumble
     if (!prevconsoleactive && (joy_rumble_barrels || joy_rumble_damage || joy_rumble_weapons))
     {
         if (consoleactive)
@@ -2310,7 +2310,7 @@ dboolean C_Responder(event_t *ev)
                 outputhistory = -1;
         }
     }
-    else if (ev->type == ev_controller && (gamecontrollerbuttons && gamepadconsole) && gamecontrollerwait < I_GetTime())
+    else if (ev->type == ev_controller && (gamecontrollerbuttons && gamecontrollerconsole) && gamecontrollerwait < I_GetTime())
     {
         gamecontrollerwait = I_GetTime() + 8;
         C_HideConsole();

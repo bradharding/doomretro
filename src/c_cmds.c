@@ -140,56 +140,105 @@ char        *version = version_default;
 
 const control_t controls[] =
 {
-    { "1",             keyboardcontrol, '1'                           }, { "2",             keyboardcontrol, '2'                           },
-    { "3",             keyboardcontrol, '3'                           }, { "4",             keyboardcontrol, '4'                           },
-    { "5",             keyboardcontrol, '5'                           }, { "6",             keyboardcontrol, '6'                           },
-    { "7",             keyboardcontrol, '7'                           }, { "8",             keyboardcontrol, '8'                           },
-    { "9",             keyboardcontrol, '9'                           }, { "0",             keyboardcontrol, '0'                           },
-    { "-",             keyboardcontrol, KEY_MINUS                     }, { "=",             keyboardcontrol, KEY_EQUALS                    },
-    { "+",             keyboardcontrol, KEY_EQUALS                    }, { "backspace",     keyboardcontrol, KEY_BACKSPACE                 },
-    { "tab",           keyboardcontrol, KEY_TAB                       }, { "q",             keyboardcontrol, 'q'                           },
-    { "w",             keyboardcontrol, 'w'                           }, { "e",             keyboardcontrol, 'e'                           },
-    { "r",             keyboardcontrol, 'r'                           }, { "t",             keyboardcontrol, 't'                           },
-    { "y",             keyboardcontrol, 'y'                           }, { "u",             keyboardcontrol, 'u'                           },
-    { "i",             keyboardcontrol, 'i'                           }, { "o",             keyboardcontrol, 'o'                           },
-    { "p",             keyboardcontrol, 'p'                           }, { "[",             keyboardcontrol, '['                           },
-    { "]",             keyboardcontrol, ']'                           }, { "enter",         keyboardcontrol, KEY_ENTER                     },
-    { "ctrl",          keyboardcontrol, KEY_CTRL                      }, { "a",             keyboardcontrol, 'a'                           },
-    { "s",             keyboardcontrol, 's'                           }, { "d",             keyboardcontrol, 'd'                           },
-    { "f",             keyboardcontrol, 'f'                           }, { "g",             keyboardcontrol, 'g'                           },
-    { "h",             keyboardcontrol, 'h'                           }, { "j",             keyboardcontrol, 'j'                           },
-    { "k",             keyboardcontrol, 'k'                           }, { "l",             keyboardcontrol, 'l'                           },
-    { ";",             keyboardcontrol, ';'                           }, { "'",             keyboardcontrol, '\''                          },
-    { "shift",         keyboardcontrol, KEY_SHIFT                     }, { "\\",            keyboardcontrol, '\\'                          },
-    { "z",             keyboardcontrol, 'z'                           }, { "x",             keyboardcontrol, 'x'                           },
-    { "c",             keyboardcontrol, 'c'                           }, { "v",             keyboardcontrol, 'v'                           },
-    { "b",             keyboardcontrol, 'b'                           }, { "n",             keyboardcontrol, 'n'                           },
-    { "m",             keyboardcontrol, 'm'                           }, { ",",             keyboardcontrol, ','                           },
-    { ".",             keyboardcontrol, '.'                           }, { "/",             keyboardcontrol, '/'                           },
-    { "tilde",         keyboardcontrol, '`'                           }, { "alt",           keyboardcontrol, KEY_ALT                       },
-    { "space",         keyboardcontrol, ' '                           }, { "numlock",       keyboardcontrol, KEY_NUMLOCK                   },
-    { "capslock",      keyboardcontrol, KEY_CAPSLOCK                  }, { "scrolllock",    keyboardcontrol, KEY_SCROLLLOCK                },
-    { "home",          keyboardcontrol, KEY_HOME                      }, { "up",            keyboardcontrol, KEY_UPARROW                   },
-    { "pageup",        keyboardcontrol, KEY_PAGEUP                    }, { "left",          keyboardcontrol, KEY_LEFTARROW                 },
-    { "right",         keyboardcontrol, KEY_RIGHTARROW                }, { "end",           keyboardcontrol, KEY_END                       },
-    { "down",          keyboardcontrol, KEY_DOWNARROW                 }, { "pagedown",      keyboardcontrol, KEY_PAGEDOWN                  },
-    { "insert",        keyboardcontrol, KEY_INSERT                    }, { "printscreen",   keyboardcontrol, KEY_PRINTSCREEN               },
-    { "delete",        keyboardcontrol, KEY_DELETE                    }, { "escape",        keyboardcontrol, KEY_ESCAPE                    },
-    { "F12",           keyboardcontrol, KEY_F12                       }, { "mouse1",        mousecontrol,    0                             },
-    { "mouse2",        mousecontrol,    1                             }, { "mouse3",        mousecontrol,    2                             },
-    { "mouse4",        mousecontrol,    3                             }, { "mouse5",        mousecontrol,    4                             },
-    { "mouse6",        mousecontrol,    5                             }, { "mouse7",        mousecontrol,    6                             },
-    { "mouse8",        mousecontrol,    7                             }, { "wheelup",       mousecontrol,    MOUSE_WHEELUP                 },
-    { "wheeldown",     mousecontrol,    MOUSE_WHEELDOWN               }, { "dpadup",        gamepadcontrol,  GAMECONTROLLER_DPAD_UP        },
-    { "dpaddown",      gamepadcontrol,  GAMECONTROLLER_DPAD_DOWN      }, { "dpadleft",      gamepadcontrol,  GAMECONTROLLER_DPAD_LEFT      },
-    { "dpadright",     gamepadcontrol,  GAMECONTROLLER_DPAD_RIGHT     }, { "start",         gamepadcontrol,  GAMECONTROLLER_START          },
-    { "back",          gamepadcontrol,  GAMECONTROLLER_BACK           }, { "leftthumb",     gamepadcontrol,  GAMECONTROLLER_LEFT_THUMB     },
-    { "rightthumb",    gamepadcontrol,  GAMECONTROLLER_RIGHT_THUMB    }, { "leftshoulder",  gamepadcontrol,  GAMECONTROLLER_LEFT_SHOULDER  },
-    { "rightshoulder", gamepadcontrol,  GAMECONTROLLER_RIGHT_SHOULDER }, { "lefttrigger",   gamepadcontrol,  GAMECONTROLLER_LEFT_TRIGGER   },
-    { "righttrigger",  gamepadcontrol,  GAMECONTROLLER_RIGHT_TRIGGER  }, { "gamepad1",      gamepadcontrol,  GAMECONTROLLER_A              },
-    { "gamepad2",      gamepadcontrol,  GAMECONTROLLER_B              }, { "gamepad3",      gamepadcontrol,  GAMECONTROLLER_X              },
-    { "gamepad4",      gamepadcontrol,  GAMECONTROLLER_Y              }, { "guide",         gamepadcontrol,  GAMECONTROLLER_GUIDE          },
-    { "",              0,               0                             }
+    { "1",             keyboardcontrol,       '1'                           },
+    { "2",             keyboardcontrol,       '2'                           },
+    { "3",             keyboardcontrol,       '3'                           },
+    { "4",             keyboardcontrol,       '4'                           },
+    { "5",             keyboardcontrol,       '5'                           },
+    { "6",             keyboardcontrol,       '6'                           },
+    { "7",             keyboardcontrol,       '7'                           },
+    { "8",             keyboardcontrol,       '8'                           },
+    { "9",             keyboardcontrol,       '9'                           },
+    { "0",             keyboardcontrol,       '0'                           },
+    { "-",             keyboardcontrol,       KEY_MINUS                     },
+    { "=",             keyboardcontrol,       KEY_EQUALS                    },
+    { "+",             keyboardcontrol,       KEY_EQUALS                    },
+    { "backspace",     keyboardcontrol,       KEY_BACKSPACE                 },
+    { "tab",           keyboardcontrol,       KEY_TAB                       },
+    { "q",             keyboardcontrol,       'q'                           },
+    { "w",             keyboardcontrol,       'w'                           },
+    { "e",             keyboardcontrol,       'e'                           },
+    { "r",             keyboardcontrol,       'r'                           },
+    { "t",             keyboardcontrol,       't'                           },
+    { "y",             keyboardcontrol,       'y'                           },
+    { "u",             keyboardcontrol,       'u'                           },
+    { "i",             keyboardcontrol,       'i'                           },
+    { "o",             keyboardcontrol,       'o'                           },
+    { "p",             keyboardcontrol,       'p'                           },
+    { "[",             keyboardcontrol,       '['                           },
+    { "]",             keyboardcontrol,       ']'                           },
+    { "enter",         keyboardcontrol,       KEY_ENTER                     },
+    { "ctrl",          keyboardcontrol,       KEY_CTRL                      },
+    { "a",             keyboardcontrol,       'a'                           },
+    { "s",             keyboardcontrol,       's'                           },
+    { "d",             keyboardcontrol,       'd'                           },
+    { "f",             keyboardcontrol,       'f'                           },
+    { "g",             keyboardcontrol,       'g'                           },
+    { "h",             keyboardcontrol,       'h'                           },
+    { "j",             keyboardcontrol,       'j'                           },
+    { "k",             keyboardcontrol,       'k'                           },
+    { "l",             keyboardcontrol,       'l'                           },
+    { ";",             keyboardcontrol,       ';'                           },
+    { "'",             keyboardcontrol,       '\''                          },
+    { "shift",         keyboardcontrol,       KEY_SHIFT                     },
+    { "\\",            keyboardcontrol,       '\\'                          },
+    { "z",             keyboardcontrol,       'z'                           },
+    { "x",             keyboardcontrol,       'x'                           },
+    { "c",             keyboardcontrol,       'c'                           },
+    { "v",             keyboardcontrol,       'v'                           },
+    { "b",             keyboardcontrol,       'b'                           },
+    { "n",             keyboardcontrol,       'n'                           },
+    { "m",             keyboardcontrol,       'm'                           },
+    { ",",             keyboardcontrol,       ','                           },
+    { ".",             keyboardcontrol,       '.'                           },
+    { "/",             keyboardcontrol,       '/'                           },
+    { "tilde",         keyboardcontrol,       '`'                           },
+    { "alt",           keyboardcontrol,       KEY_ALT                       },
+    { "space",         keyboardcontrol,       ' '                           },
+    { "numlock",       keyboardcontrol,       KEY_NUMLOCK                   },
+    { "capslock",      keyboardcontrol,       KEY_CAPSLOCK                  },
+    { "scrolllock",    keyboardcontrol,       KEY_SCROLLLOCK                },
+    { "home",          keyboardcontrol,       KEY_HOME                      },
+    { "up",            keyboardcontrol,       KEY_UPARROW                   },
+    { "pageup",        keyboardcontrol,       KEY_PAGEUP                    },
+    { "left",          keyboardcontrol,       KEY_LEFTARROW                 },
+    { "right",         keyboardcontrol,       KEY_RIGHTARROW                },
+    { "end",           keyboardcontrol,       KEY_END                       },
+    { "down",          keyboardcontrol,       KEY_DOWNARROW                 },
+    { "pagedown",      keyboardcontrol,       KEY_PAGEDOWN                  },
+    { "insert",        keyboardcontrol,       KEY_INSERT                    },
+    { "printscreen",   keyboardcontrol,       KEY_PRINTSCREEN               },
+    { "delete",        keyboardcontrol,       KEY_DELETE                    },
+    { "escape",        keyboardcontrol,       KEY_ESCAPE                    },
+    { "F12",           keyboardcontrol,       KEY_F12                       },
+    { "mouse1",        mousecontrol,          0                             },
+    { "mouse2",        mousecontrol,          1                             },
+    { "mouse3",        mousecontrol,          2                             },
+    { "mouse4",        mousecontrol,          3                             },
+    { "mouse5",        mousecontrol,          4                             },
+    { "mouse6",        mousecontrol,          5                             },
+    { "mouse7",        mousecontrol,          6                             },
+    { "mouse8",        mousecontrol,          7                             },
+    { "wheelup",       mousecontrol,          MOUSE_WHEELUP                 },
+    { "wheeldown",     mousecontrol,          MOUSE_WHEELDOWN               },
+    { "dpadup",        gamecontrollercontrol, GAMECONTROLLER_DPAD_UP        },
+    { "dpaddown",      gamecontrollercontrol, GAMECONTROLLER_DPAD_DOWN      },
+    { "dpadleft",      gamecontrollercontrol, GAMECONTROLLER_DPAD_LEFT      },
+    { "dpadright",     gamecontrollercontrol, GAMECONTROLLER_DPAD_RIGHT     },
+    { "start",         gamecontrollercontrol, GAMECONTROLLER_START          },
+    { "back",          gamecontrollercontrol, GAMECONTROLLER_BACK           },
+    { "leftthumb",     gamecontrollercontrol, GAMECONTROLLER_LEFT_THUMB     },
+    { "rightthumb",    gamecontrollercontrol, GAMECONTROLLER_RIGHT_THUMB    },
+    { "leftshoulder",  gamecontrollercontrol, GAMECONTROLLER_LEFT_SHOULDER  },
+    { "rightshoulder", gamecontrollercontrol, GAMECONTROLLER_RIGHT_SHOULDER },
+    { "lefttrigger",   gamecontrollercontrol, GAMECONTROLLER_LEFT_TRIGGER   },
+    { "righttrigger",  gamecontrollercontrol, GAMECONTROLLER_RIGHT_TRIGGER  },
+    { "controller1",   gamecontrollercontrol, GAMECONTROLLER_A              },
+    { "controller2",   gamecontrollercontrol, GAMECONTROLLER_B              },
+    { "controller3",   gamecontrollercontrol, GAMECONTROLLER_X              },
+    { "controller4",   gamecontrollercontrol, GAMECONTROLLER_Y              },
+    { "guide",         gamecontrollercontrol, GAMECONTROLLER_GUIDE          },
+    { "",              0,                     0                             }
 };
 
 static void alwaysrun_action_func(void);
@@ -224,41 +273,41 @@ static void weapon7_action_func(void);
 
 action_t actions[] =
 {
-    { "+alwaysrun",   true,  alwaysrun_action_func,   &keyboardalwaysrun,         NULL,                  NULL,             &gamepadalwaysrun,         NULL         },
-    { "+automap",     false, automap_action_func,     &keyboardautomap,           NULL,                  NULL,             &gamepadautomap,           NULL         },
-    { "+back",        true,  back_action_func,        &keyboardback,              &keyboardback2,        NULL,             &gamepadback,              NULL         },
-    { "+clearmark",   true,  clearmark_action_func,   &keyboardautomapclearmark,  NULL,                  NULL,             &gamepadautomapclearmark,  NULL         },
-    { "+console",     false, console_action_func,     &keyboardconsole,           NULL,                  NULL,             &gamepadconsole,           NULL         },
-    { "+fire",        true,  fire_action_func,        &keyboardfire,              NULL,                  &mousefire,       &gamepadfire,              NULL         },
-    { "+followmode",  true,  followmode_action_func,  &keyboardautomapfollowmode, NULL,                  NULL,             &gamepadautomapfollowmode, NULL         },
-    { "+forward",     true,  forward_action_func,     &keyboardforward,           &keyboardforward2,     &mouseforward,    &gamepadforward,           NULL         },
-    { "+grid",        true,  grid_action_func,        &keyboardautomapgrid,       NULL,                  NULL,             &gamepadautomapgrid,       NULL         },
-    { "+jump",        true,  jump_action_func,        &keyboardjump,              NULL,                  &mousejump,       &gamepadjump,              NULL         },
-    { "+left",        true,  left_action_func,        &keyboardleft,              NULL,                  NULL,             &gamepadleft,              NULL         },
-    { "+mark",        true,  mark_action_func,        &keyboardautomapmark,       NULL,                  NULL,             &gamepadautomapmark,       NULL         },
-    { "+maxzoom",     true,  maxzoom_action_func,     &keyboardautomapmaxzoom,    NULL,                  NULL,             &gamepadautomapmaxzoom,    NULL         },
-    { "+menu",        true,  menu_action_func,        &keyboardmenu,              NULL,                  NULL,             &gamepadmenu,              NULL         },
-    { "+mouselook",   true,  NULL,                    &keyboardmouselook,         NULL,                  &mousemouselook,  &gamepadmouselook,         NULL         },
-    { "+nextweapon",  true,  nextweapon_action_func,  &keyboardnextweapon,        NULL,                  &mousenextweapon, &gamepadnextweapon,        NULL         },
-    { "+prevweapon",  true,  prevweapon_action_func,  &keyboardprevweapon,        NULL,                  &mouseprevweapon, &gamepadprevweapon,        NULL         },
-    { "+right",       true,  right_action_func,       &keyboardright,             NULL,                  NULL,             &gamepadright,             NULL         },
-    { "+rotatemode",  true,  rotatemode_action_func,  &keyboardautomaprotatemode, NULL,                  NULL,             &gamepadautomaprotatemode, NULL         },
-    { "+run",         true,  NULL,                    &keyboardrun,               NULL,                  &mouserun,        &gamepadrun,               NULL         },
-    { "+screenshot",  false, screenshot_action_func,  &keyboardscreenshot,        NULL,                  &mousescreenshot, NULL,                      NULL         },
-    { "+strafe",      true,  NULL,                    &keyboardstrafe,            NULL,                  &mousestrafe,     &gamepadstrafe,            NULL         },
-    { "+strafeleft",  true,  strafeleft_action_func,  &keyboardstrafeleft,        &keyboardstrafeleft2,  NULL,             &gamepadstrafeleft,        NULL         },
-    { "+straferight", true,  straferight_action_func, &keyboardstraferight,       &keyboardstraferight2, NULL,             &gamepadstraferight,       NULL         },
-    { "+use",         true,  use_action_func,         &keyboarduse,               &keyboarduse2,         &mouseuse,        &gamepaduse,               &gamepaduse2 },
-    { "+weapon1",     true,  weapon1_action_func,     &keyboardweapon1,           NULL,                  &mouseweapon1,    &gamepadweapon1,           NULL         },
-    { "+weapon2",     true,  weapon2_action_func,     &keyboardweapon2,           NULL,                  &mouseweapon2,    &gamepadweapon2,           NULL         },
-    { "+weapon3",     true,  weapon3_action_func,     &keyboardweapon3,           NULL,                  &mouseweapon3,    &gamepadweapon3,           NULL         },
-    { "+weapon4",     true,  weapon4_action_func,     &keyboardweapon4,           NULL,                  &mouseweapon4,    &gamepadweapon4,           NULL         },
-    { "+weapon5",     true,  weapon5_action_func,     &keyboardweapon5,           NULL,                  &mouseweapon5,    &gamepadweapon5,           NULL         },
-    { "+weapon6",     true,  weapon6_action_func,     &keyboardweapon6,           NULL,                  &mouseweapon6,    &gamepadweapon6,           NULL         },
-    { "+weapon7",     true,  weapon7_action_func,     &keyboardweapon7,           NULL,                  &mouseweapon7,    &gamepadweapon7,           NULL         },
-    { "+zoomin",      true,  NULL,                    &keyboardautomapzoomin,     NULL,                  NULL,             &gamepadautomapzoomin,     NULL         },
-    { "+zoomout",     true,  NULL,                    &keyboardautomapzoomout,    NULL,                  NULL,             &gamepadautomapzoomout,    NULL         },
-    { "",             false, NULL,                    NULL,                       NULL,                  NULL,             NULL,                      NULL         }
+    { "+alwaysrun",   true,  alwaysrun_action_func,   &keyboardalwaysrun,         NULL,                  NULL,             &gamecontrolleralwaysrun,         NULL                },
+    { "+automap",     false, automap_action_func,     &keyboardautomap,           NULL,                  NULL,             &gamecontrollerautomap,           NULL                },
+    { "+back",        true,  back_action_func,        &keyboardback,              &keyboardback2,        NULL,             &gamecontrollerback,              NULL                },
+    { "+clearmark",   true,  clearmark_action_func,   &keyboardautomapclearmark,  NULL,                  NULL,             &gamecontrollerautomapclearmark,  NULL                },
+    { "+console",     false, console_action_func,     &keyboardconsole,           NULL,                  NULL,             &gamecontrollerconsole,           NULL                },
+    { "+fire",        true,  fire_action_func,        &keyboardfire,              NULL,                  &mousefire,       &gamecontrollerfire,              NULL                },
+    { "+followmode",  true,  followmode_action_func,  &keyboardautomapfollowmode, NULL,                  NULL,             &gamecontrollerautomapfollowmode, NULL                },
+    { "+forward",     true,  forward_action_func,     &keyboardforward,           &keyboardforward2,     &mouseforward,    &gamecontrollerforward,           NULL                },
+    { "+grid",        true,  grid_action_func,        &keyboardautomapgrid,       NULL,                  NULL,             &gamecontrollerautomapgrid,       NULL                },
+    { "+jump",        true,  jump_action_func,        &keyboardjump,              NULL,                  &mousejump,       &gamecontrollerjump,              NULL                },
+    { "+left",        true,  left_action_func,        &keyboardleft,              NULL,                  NULL,             &gamecontrollerleft,              NULL                },
+    { "+mark",        true,  mark_action_func,        &keyboardautomapmark,       NULL,                  NULL,             &gamecontrollerautomapmark,       NULL                },
+    { "+maxzoom",     true,  maxzoom_action_func,     &keyboardautomapmaxzoom,    NULL,                  NULL,             &gamecontrollerautomapmaxzoom,    NULL                },
+    { "+menu",        true,  menu_action_func,        &keyboardmenu,              NULL,                  NULL,             &gamecontrollermenu,              NULL                },
+    { "+mouselook",   true,  NULL,                    &keyboardmouselook,         NULL,                  &mousemouselook,  &gamecontrollermouselook,         NULL                },
+    { "+nextweapon",  true,  nextweapon_action_func,  &keyboardnextweapon,        NULL,                  &mousenextweapon, &gamecontrollernextweapon,        NULL                },
+    { "+prevweapon",  true,  prevweapon_action_func,  &keyboardprevweapon,        NULL,                  &mouseprevweapon, &gamecontrollerprevweapon,        NULL                },
+    { "+right",       true,  right_action_func,       &keyboardright,             NULL,                  NULL,             &gamecontrollerright,             NULL                },
+    { "+rotatemode",  true,  rotatemode_action_func,  &keyboardautomaprotatemode, NULL,                  NULL,             &gamecontrollerautomaprotatemode, NULL                },
+    { "+run",         true,  NULL,                    &keyboardrun,               NULL,                  &mouserun,        &gamecontrollerrun,               NULL                },
+    { "+screenshot",  false, screenshot_action_func,  &keyboardscreenshot,        NULL,                  &mousescreenshot, NULL,                             NULL                },
+    { "+strafe",      true,  NULL,                    &keyboardstrafe,            NULL,                  &mousestrafe,     &gamecontrollerstrafe,            NULL                },
+    { "+strafeleft",  true,  strafeleft_action_func,  &keyboardstrafeleft,        &keyboardstrafeleft2,  NULL,             &gamecontrollerstrafeleft,        NULL                },
+    { "+straferight", true,  straferight_action_func, &keyboardstraferight,       &keyboardstraferight2, NULL,             &gamecontrollerstraferight,       NULL                },
+    { "+use",         true,  use_action_func,         &keyboarduse,               &keyboarduse2,         &mouseuse,        &gamecontrolleruse,               &gamecontrolleruse2 },
+    { "+weapon1",     true,  weapon1_action_func,     &keyboardweapon1,           NULL,                  &mouseweapon1,    &gamecontrollerweapon1,           NULL                },
+    { "+weapon2",     true,  weapon2_action_func,     &keyboardweapon2,           NULL,                  &mouseweapon2,    &gamecontrollerweapon2,           NULL                },
+    { "+weapon3",     true,  weapon3_action_func,     &keyboardweapon3,           NULL,                  &mouseweapon3,    &gamecontrollerweapon3,           NULL                },
+    { "+weapon4",     true,  weapon4_action_func,     &keyboardweapon4,           NULL,                  &mouseweapon4,    &gamecontrollerweapon4,           NULL                },
+    { "+weapon5",     true,  weapon5_action_func,     &keyboardweapon5,           NULL,                  &mouseweapon5,    &gamecontrollerweapon5,           NULL                },
+    { "+weapon6",     true,  weapon6_action_func,     &keyboardweapon6,           NULL,                  &mouseweapon6,    &gamecontrollerweapon6,           NULL                },
+    { "+weapon7",     true,  weapon7_action_func,     &keyboardweapon7,           NULL,                  &mouseweapon7,    &gamecontrollerweapon7,           NULL                },
+    { "+zoomin",      true,  NULL,                    &keyboardautomapzoomin,     NULL,                  NULL,             &gamecontrollerautomapzoomin,     NULL                },
+    { "+zoomout",     true,  NULL,                    &keyboardautomapzoomout,    NULL,                  NULL,             &gamecontrollerautomapzoomout,    NULL                },
+    { "",             false, NULL,                    NULL,                       NULL,                  NULL,             NULL,                             NULL                }
 };
 
 static dboolean alive_func1(char *cmd, char *parms);
@@ -898,12 +947,12 @@ consolecmd_t consolecmds[] =
 
 static dboolean run(void)
 {
-    return (gamekeydown[keyboardrun] ^ (!!mousebuttons[mouserun]) ^ (!!(gamecontrollerbuttons & gamepadrun)) ^ alwaysrun);
+    return (gamekeydown[keyboardrun] ^ (!!mousebuttons[mouserun]) ^ (!!(gamecontrollerbuttons & gamecontrollerrun)) ^ alwaysrun);
 }
 
 static dboolean strafe(void)
 {
-    return (gamekeydown[keyboardstrafe] || mousebuttons[mousestrafe] || (gamecontrollerbuttons & gamepadstrafe));
+    return (gamekeydown[keyboardstrafe] || mousebuttons[mousestrafe] || (gamecontrollerbuttons & gamecontrollerstrafe));
 }
 
 static void alwaysrun_action_func(void)
@@ -1335,13 +1384,13 @@ static void C_UnbindDuplicates(const int keep, const controltype_t type, const i
                 if (actions[i].mouse1 && value == *(int *)actions[i].mouse1)
                     *(int *)actions[i].mouse1 = -1;
             }
-            else if (type == gamepadcontrol)
+            else if (type == gamecontrollercontrol)
             {
-                if (actions[i].gamepad1 && value == *(int *)actions[i].gamepad1)
-                    *(int *)actions[i].gamepad1 = 0;
+                if (actions[i].gamecontroller1 && value == *(int *)actions[i].gamecontroller1)
+                    *(int *)actions[i].gamecontroller1 = 0;
 
-                if (actions[i].gamepad2 && value == *(int *)actions[i].gamepad2)
-                    *(int *)actions[i].gamepad2 = 0;
+                if (actions[i].gamecontroller2 && value == *(int *)actions[i].gamecontroller2)
+                    *(int *)actions[i].gamecontroller2 = 0;
             }
         }
 }
@@ -1352,7 +1401,7 @@ void bind_cmd_func2(char *cmd, char *parms)
     int             action = 0;
     char            parm1[128] = "";
     char            parm2[128] = "";
-    const dboolean  mouselookcontrols = (keyboardmouselook || gamepadmouselook || mousemouselook != -1);
+    const dboolean  mouselookcontrols = (keyboardmouselook || gamecontrollermouselook || mousemouselook != -1);
 
     if (sscanf(parms, "%127s %127[^\n]", parm1, parm2) <= 0)
     {
@@ -1410,20 +1459,20 @@ void bind_cmd_func2(char *cmd, char *parms)
 
                         break;
 
-                    case gamepadcontrol:
-                        if (actions[action].gamepad1 && controls[i].value == *(int *)actions[action].gamepad1)
+                    case gamecontrollercontrol:
+                        if (actions[action].gamecontroller1 && controls[i].value == *(int *)actions[action].gamecontroller1)
                         {
                             C_Output("The " BOLD("%s") " action has been unbound from the " BOLD("%s") " control.",
                                 actions[action].action, controls[i].control);
-                            *(int *)actions[action].gamepad1 = 0;
+                            *(int *)actions[action].gamecontroller1 = 0;
                             M_SaveCVARs();
                         }
 
-                        if (actions[action].gamepad2 && controls[i].value == *(int *)actions[action].gamepad2)
+                        if (actions[action].gamecontroller2 && controls[i].value == *(int *)actions[action].gamecontroller2)
                         {
                             C_Output("The " BOLD("%s") " action has been unbound from the " BOLD("%s") " control.",
                                 actions[action].action, controls[i].control);
-                            *(int *)actions[action].gamepad2 = 0;
+                            *(int *)actions[action].gamecontroller2 = 0;
                             M_SaveCVARs();
                         }
 
@@ -1457,11 +1506,11 @@ void bind_cmd_func2(char *cmd, char *parms)
                     if (actions[action].mouse1 && controls[i].value == *(int *)actions[action].mouse1)
                         C_Output(actions[action].action);
                 }
-                else if (controls[i].type == gamepadcontrol)
+                else if (controls[i].type == gamecontrollercontrol)
                 {
-                    if (actions[action].gamepad1 && controls[i].value == *(int *)actions[action].gamepad1)
+                    if (actions[action].gamecontroller1 && controls[i].value == *(int *)actions[action].gamecontroller1)
                         C_Output(actions[action].action);
-                    else if (actions[action].gamepad2 && controls[i].value == *(int *)actions[action].gamepad2)
+                    else if (actions[action].gamecontroller2 && controls[i].value == *(int *)actions[action].gamecontroller2)
                         C_Output(actions[action].action);
                 }
 
@@ -1534,26 +1583,26 @@ void bind_cmd_func2(char *cmd, char *parms)
 
                         break;
 
-                    case gamepadcontrol:
-                        if (actions[action].gamepad1)
+                    case gamecontrollercontrol:
+                        if (actions[action].gamecontroller1)
                         {
-                            if (actions[action].gamepad2
-                                && *(int *)actions[action].gamepad1
-                                && *(int *)actions[action].gamepad1 != controls[i].value)
+                            if (actions[action].gamecontroller2
+                                && *(int *)actions[action].gamecontroller1
+                                && *(int *)actions[action].gamecontroller1 != controls[i].value)
                             {
-                                if (*(int *)actions[action].gamepad2)
+                                if (*(int *)actions[action].gamecontroller2)
                                 {
-                                    *(int *)actions[action].gamepad2 = *(int *)actions[action].gamepad1;
-                                    *(int *)actions[action].gamepad1 = controls[i].value;
+                                    *(int *)actions[action].gamecontroller2 = *(int *)actions[action].gamecontroller1;
+                                    *(int *)actions[action].gamecontroller1 = controls[i].value;
                                 }
                                 else
-                                    *(int *)actions[action].gamepad2 = controls[i].value;
+                                    *(int *)actions[action].gamecontroller2 = controls[i].value;
                             }
                             else
-                                *(int *)actions[action].gamepad1 = controls[i].value;
+                                *(int *)actions[action].gamecontroller1 = controls[i].value;
 
                             bound = true;
-                            C_UnbindDuplicates(action, gamepadcontrol, controls[i].value);
+                            C_UnbindDuplicates(action, gamecontrollercontrol, controls[i].value);
                         }
 
                         break;
@@ -1614,11 +1663,11 @@ void bind_cmd_func2(char *cmd, char *parms)
                 if (actions[action].mouse1)
                     *(int *)actions[action].mouse1 = -1;
 
-                if (actions[action].gamepad1)
-                    *(int *)actions[action].gamepad1 = 0;
+                if (actions[action].gamecontroller1)
+                    *(int *)actions[action].gamecontroller1 = 0;
 
-                if (actions[action].gamepad2)
-                    *(int *)actions[action].gamepad2 = 0;
+                if (actions[action].gamecontroller2)
+                    *(int *)actions[action].gamecontroller2 = 0;
 
                 break;
             }
@@ -1632,7 +1681,7 @@ void bind_cmd_func2(char *cmd, char *parms)
         return;
     }
 
-    if (mouselookcontrols != (keyboardmouselook || gamepadmouselook || mousemouselook != -1))
+    if (mouselookcontrols != (keyboardmouselook || gamecontrollermouselook || mousemouselook != -1))
     {
         if (gamestate == GS_LEVEL)
         {
@@ -1686,11 +1735,11 @@ static void bindlist_cmd_func2(char *cmd, char *parms)
         if (actions[i].mouse1)
             C_DisplayBinds(actions[i].action, *(int *)actions[i].mouse1, mousecontrol, &count);
 
-        if (actions[i].gamepad1)
-            C_DisplayBinds(actions[i].action, *(int *)actions[i].gamepad1, gamepadcontrol, &count);
+        if (actions[i].gamecontroller1)
+            C_DisplayBinds(actions[i].action, *(int *)actions[i].gamecontroller1, gamecontrollercontrol, &count);
 
-        if (actions[i].gamepad2)
-            C_DisplayBinds(actions[i].action, *(int *)actions[i].gamepad2, gamepadcontrol, &count);
+        if (actions[i].gamecontroller2)
+            C_DisplayBinds(actions[i].action, *(int *)actions[i].gamecontroller2, gamecontrollercontrol, &count);
     }
 
     for (int i = 0; controls[i].type; i++)
@@ -6026,11 +6075,11 @@ static void C_VerifyResetAll(const int key)
             if (actions[i].mouse1)
                 *(int *)actions[i].mouse1 = -1;
 
-            if (actions[i].gamepad1)
-                *(int *)actions[i].gamepad1 = 0;
+            if (actions[i].gamecontroller1)
+                *(int *)actions[i].gamecontroller1 = 0;
 
-            if (actions[i].gamepad2)
-                *(int *)actions[i].gamepad2 = 0;
+            if (actions[i].gamecontroller2)
+                *(int *)actions[i].gamecontroller2 = 0;
         }
 
         for (int i = 0; i < NUMKEYS; i++)
@@ -6108,40 +6157,40 @@ static void C_VerifyResetAll(const int key)
         mouseweapon6 = MOUSEWEAPON6_DEFAULT;
         mouseweapon7 = MOUSEWEAPON7_DEFAULT;
 
-        gamepadalwaysrun = GAMEPADALWAYSRUN_DEFAULT;
-        gamepadautomap = GAMEPADAUTOMAP_DEFAULT;
-        gamepadautomapclearmark = GAMEPADAUTOMAPCLEARMARK_DEFAULT;
-        gamepadautomapfollowmode = GAMEPADAUTOMAPFOLLOWMODE_DEFAULT;
-        gamepadautomapgrid = GAMEPADAUTOMAPGRID_DEFAULT;
-        gamepadautomapmark = GAMEPADAUTOMAPMARK_DEFAULT;
-        gamepadautomapmaxzoom = GAMEPADAUTOMAPMAXZOOM_DEFAULT;
-        gamepadautomaprotatemode = GAMEPADAUTOMAPROTATEMODE_DEFAULT;
-        gamepadautomapzoomin = GAMEPADAUTOMAPZOOMIN_DEFAULT;
-        gamepadautomapzoomout = GAMEPADAUTOMAPZOOMOUT_DEFAULT;
-        gamepadback = GAMEPADBACK_DEFAULT;
-        gamepadconsole = GAMEPADCONSOLE_DEFAULT;
-        gamepadfire = GAMEPADFIRE_DEFAULT;
-        gamepadforward = GAMEPADFORWARD_DEFAULT;
-        gamepadjump = GAMEPADJUMP_DEFAULT;
-        gamepadleft = GAMEPADLEFT_DEFAULT;
-        gamepadmenu = GAMEPADMENU_DEFAULT;
-        gamepadmouselook = GAMEPADMOUSELOOK_DEFAULT;
-        gamepadnextweapon = GAMEPADNEXTWEAPON_DEFAULT;
-        gamepadprevweapon = GAMEPADPREVWEAPON_DEFAULT;
-        gamepadright = GAMEPADRIGHT_DEFAULT;
-        gamepadrun = GAMEPADRUN_DEFAULT;
-        gamepadstrafe = GAMEPADSTRAFE_DEFAULT;
-        gamepadstrafeleft = GAMEPADSTRAFELEFT_DEFAULT;
-        gamepadstraferight = GAMEPADSTRAFERIGHT_DEFAULT;
-        gamepaduse = GAMEPADUSE_DEFAULT;
-        gamepaduse2 = GAMEPADUSE2_DEFAULT;
-        gamepadweapon1 = GAMEPADWEAPON_DEFAULT;
-        gamepadweapon2 = GAMEPADWEAPON_DEFAULT;
-        gamepadweapon3 = GAMEPADWEAPON_DEFAULT;
-        gamepadweapon4 = GAMEPADWEAPON_DEFAULT;
-        gamepadweapon5 = GAMEPADWEAPON_DEFAULT;
-        gamepadweapon6 = GAMEPADWEAPON_DEFAULT;
-        gamepadweapon7 = GAMEPADWEAPON_DEFAULT;
+        gamecontrolleralwaysrun = GAMECONTROLLERALWAYSRUN_DEFAULT;
+        gamecontrollerautomap = GAMECONTROLLERAUTOMAP_DEFAULT;
+        gamecontrollerautomapclearmark = GAMECONTROLLERAUTOMAPCLEARMARK_DEFAULT;
+        gamecontrollerautomapfollowmode = GAMECONTROLLERAUTOMAPFOLLOWMODE_DEFAULT;
+        gamecontrollerautomapgrid = GAMECONTROLLERAUTOMAPGRID_DEFAULT;
+        gamecontrollerautomapmark = GAMECONTROLLERAUTOMAPMARK_DEFAULT;
+        gamecontrollerautomapmaxzoom = GAMECONTROLLERAUTOMAPMAXZOOM_DEFAULT;
+        gamecontrollerautomaprotatemode = GAMECONTROLLERAUTOMAPROTATEMODE_DEFAULT;
+        gamecontrollerautomapzoomin = GAMECONTROLLERAUTOMAPZOOMIN_DEFAULT;
+        gamecontrollerautomapzoomout = GAMECONTROLLERAUTOMAPZOOMOUT_DEFAULT;
+        gamecontrollerback = GAMECONTROLLERBACK_DEFAULT;
+        gamecontrollerconsole = GAMECONTROLLERCONSOLE_DEFAULT;
+        gamecontrollerfire = GAMECONTROLLERFIRE_DEFAULT;
+        gamecontrollerforward = GAMECONTROLLERFORWARD_DEFAULT;
+        gamecontrollerjump = GAMECONTROLLERJUMP_DEFAULT;
+        gamecontrollerleft = GAMECONTROLLERLEFT_DEFAULT;
+        gamecontrollermenu = GAMECONTROLLERMENU_DEFAULT;
+        gamecontrollermouselook = GAMECONTROLLERMOUSELOOK_DEFAULT;
+        gamecontrollernextweapon = GAMECONTROLLERNEXTWEAPON_DEFAULT;
+        gamecontrollerprevweapon = GAMECONTROLLERPREVWEAPON_DEFAULT;
+        gamecontrollerright = GAMECONTROLLERRIGHT_DEFAULT;
+        gamecontrollerrun = GAMECONTROLLERRUN_DEFAULT;
+        gamecontrollerstrafe = GAMECONTROLLERSTRAFE_DEFAULT;
+        gamecontrollerstrafeleft = GAMECONTROLLERSTRAFELEFT_DEFAULT;
+        gamecontrollerstraferight = GAMECONTROLLERSTRAFERIGHT_DEFAULT;
+        gamecontrolleruse = GAMECONTROLLERUSE_DEFAULT;
+        gamecontrolleruse2 = GAMECONTROLLERUSE2_DEFAULT;
+        gamecontrollerweapon1 = GAMECONTROLLERWEAPON_DEFAULT;
+        gamecontrollerweapon2 = GAMECONTROLLERWEAPON_DEFAULT;
+        gamecontrollerweapon3 = GAMECONTROLLERWEAPON_DEFAULT;
+        gamecontrollerweapon4 = GAMECONTROLLERWEAPON_DEFAULT;
+        gamecontrollerweapon5 = GAMECONTROLLERWEAPON_DEFAULT;
+        gamecontrollerweapon6 = GAMECONTROLLERWEAPON_DEFAULT;
+        gamecontrollerweapon7 = GAMECONTROLLERWEAPON_DEFAULT;
 
         // clear all aliases
         for (int i = 0; i < MAXALIASES; i++)
@@ -7348,11 +7397,11 @@ static void vanilla_cmd_func2(char *cmd, char *parms)
         if (actions[i].mouse1)
             *(int *)actions[i].mouse1 = -1;
 
-        if (actions[i].gamepad1)
-            *(int *)actions[i].gamepad1 = 0;
+        if (actions[i].gamecontroller1)
+            *(int *)actions[i].gamecontroller1 = 0;
 
-        if (actions[i].gamepad2)
-            *(int *)actions[i].gamepad2 = 0;
+        if (actions[i].gamecontroller2)
+            *(int *)actions[i].gamecontroller2 = 0;
     }
 
     if (vanilla)

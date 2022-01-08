@@ -105,7 +105,7 @@ dboolean        autosave = autosave_default;
 fixed_t         forwardmove[] = { FORWARDMOVE0, FORWARDMOVE1 };
 fixed_t         sidemove[] = { SIDEMOVE0, SIDEMOVE1 };
 fixed_t         angleturn[] = { 640, 1280, 320 };   // + slow turn
-static fixed_t  gamepadangleturn[] = { 640, 960 };
+static fixed_t  gamecontrollerangleturn[] = { 640, 960 };
 
 #define NUMWEAPONKEYS   7
 
@@ -131,15 +131,15 @@ static int *mouseweapons[NUMWEAPONKEYS] =
     &mouseweapon7
 };
 
-static int *gamepadweapons[NUMWEAPONKEYS] =
+static int *gamecontrollerweapons[NUMWEAPONKEYS] =
 {
-    &gamepadweapon1,
-    &gamepadweapon2,
-    &gamepadweapon3,
-    &gamepadweapon4,
-    &gamepadweapon5,
-    &gamepadweapon6,
-    &gamepadweapon7
+    &gamecontrollerweapon1,
+    &gamecontrollerweapon2,
+    &gamecontrollerweapon3,
+    &gamecontrollerweapon4,
+    &gamecontrollerweapon5,
+    &gamecontrollerweapon6,
+    &gamecontrollerweapon7
 };
 
 #define SLOWTURNTICS    6
@@ -268,12 +268,14 @@ void G_BuildTiccmd(ticcmd_t *cmd)
     if (automapactive && !am_followmode && viewplayer->health > 0)
         return;
 
-    strafe = (gamekeydown[keyboardstrafe] || mousebuttons[mousestrafe] || (gamecontrollerbuttons & gamepadstrafe));
-    run = (gamekeydown[keyboardrun] ^ mousebuttons[mouserun] ^ (!!(gamecontrollerbuttons & gamepadrun)) ^ alwaysrun);
-    usemouselook = (mouselook || gamekeydown[keyboardmouselook] || mousebuttons[mousemouselook] || (gamecontrollerbuttons & gamepadmouselook));
+    strafe = (gamekeydown[keyboardstrafe] || mousebuttons[mousestrafe] || (gamecontrollerbuttons & gamecontrollerstrafe));
+    run = (gamekeydown[keyboardrun] ^ mousebuttons[mouserun] ^ (!!(gamecontrollerbuttons & gamecontrollerrun)) ^ alwaysrun);
+    usemouselook = (mouselook || gamekeydown[keyboardmouselook] || mousebuttons[mousemouselook]
+        || (gamecontrollerbuttons & gamecontrollermouselook));
 
     // use two stage accelerative turning on the keyboard
-    if (gamekeydown[keyboardright] || gamekeydown[keyboardleft] || (gamecontrollerbuttons & gamepadleft) || (gamecontrollerbuttons & gamepadright))
+    if (gamekeydown[keyboardright] || gamekeydown[keyboardleft]
+        || (gamecontrollerbuttons & gamecontrollerleft) || (gamecontrollerbuttons & gamecontrollerright))
         turnheld++;
     else
         turnheld = 0;
@@ -281,30 +283,32 @@ void G_BuildTiccmd(ticcmd_t *cmd)
     // let movement keys cancel each other out
     if (strafe)
     {
-        if (gamekeydown[keyboardright] || (gamecontrollerbuttons & gamepadright))
+        if (gamekeydown[keyboardright] || (gamecontrollerbuttons & gamecontrollerright))
             side += sidemove[run];
 
-        if (gamekeydown[keyboardleft] || (gamecontrollerbuttons & gamepadleft))
+        if (gamekeydown[keyboardleft] || (gamecontrollerbuttons & gamecontrollerleft))
             side -= sidemove[run];
     }
     else
     {
-        if (gamekeydown[keyboardright] || (gamecontrollerbuttons & gamepadright))
+        if (gamekeydown[keyboardright] || (gamecontrollerbuttons & gamecontrollerright))
             cmd->angleturn -= angleturn[(turnheld < SLOWTURNTICS ? 2 : run)];
         else if (gamecontrollerthumbRX > 0)
         {
             fixed_t x = gamecontrollerthumbRX * 2;
 
-            cmd->angleturn -= FixedMul(gamepadangleturn[run], (fixed_t)(gamecontrollerhorizontalsensitivity * FixedMul(FixedMul(x, x), x)));
+            cmd->angleturn -= FixedMul(gamecontrollerangleturn[run],
+                (fixed_t)(gamecontrollerhorizontalsensitivity * FixedMul(FixedMul(x, x), x)));
         }
 
-        if (gamekeydown[keyboardleft] || (gamecontrollerbuttons & gamepadleft))
+        if (gamekeydown[keyboardleft] || (gamecontrollerbuttons & gamecontrollerleft))
             cmd->angleturn += angleturn[(turnheld < SLOWTURNTICS ? 2 : run)];
         else if (gamecontrollerthumbRX < 0)
         {
             fixed_t x = gamecontrollerthumbRX * 2;
 
-            cmd->angleturn -= FixedMul(gamepadangleturn[run], (fixed_t)(gamecontrollerhorizontalsensitivity * FixedMul(FixedMul(x, x), x)));
+            cmd->angleturn -= FixedMul(gamecontrollerangleturn[run],
+                (fixed_t)(gamecontrollerhorizontalsensitivity * FixedMul(FixedMul(x, x), x)));
         }
 
         if (!menuactive)
@@ -330,17 +334,17 @@ void G_BuildTiccmd(ticcmd_t *cmd)
         }
     }
 
-    if (gamekeydown[keyboardforward] || gamekeydown[keyboardforward2] || (gamecontrollerbuttons & gamepadforward))
+    if (gamekeydown[keyboardforward] || gamekeydown[keyboardforward2] || (gamecontrollerbuttons & gamecontrollerforward))
         forward += forwardmove[run];
     else if (gamecontrollerthumbLY < 0)
         forward -= (int)(forwardmove[run] * (float)gamecontrollerthumbLY / SHRT_MAX);
 
-    if (gamekeydown[keyboardback] || gamekeydown[keyboardback2] || (gamecontrollerbuttons & gamepadback))
+    if (gamekeydown[keyboardback] || gamekeydown[keyboardback2] || (gamecontrollerbuttons & gamecontrollerback))
         forward -= forwardmove[run];
     else if (gamecontrollerthumbLY > 0)
         forward -= (int)(forwardmove[run] * (float)gamecontrollerthumbLY / SHRT_MAX);
 
-    if (gamekeydown[keyboardstraferight] || gamekeydown[keyboardstraferight2] || (gamecontrollerbuttons & gamepadstraferight))
+    if (gamekeydown[keyboardstraferight] || gamekeydown[keyboardstraferight2] || (gamecontrollerbuttons & gamecontrollerstraferight))
         side += sidemove[run];
     else if (gamecontrollerthumbLX > 0)
     {
@@ -350,14 +354,15 @@ void G_BuildTiccmd(ticcmd_t *cmd)
         {
             fixed_t x = gamecontrollerthumbLX * 2;
 
-            cmd->angleturn -= FixedMul(gamepadangleturn[run], (fixed_t)(gamecontrollerhorizontalsensitivity * FixedMul(FixedMul(x, x), x)));
+            cmd->angleturn -= FixedMul(gamecontrollerangleturn[run],
+                (fixed_t)(gamecontrollerhorizontalsensitivity * FixedMul(FixedMul(x, x), x)));
 
             if (!menuactive)
                 spindirection = SIGN(cmd->angleturn);
         }
     }
 
-    if (gamekeydown[keyboardstrafeleft] || gamekeydown[keyboardstrafeleft2] || (gamecontrollerbuttons & gamepadstrafeleft))
+    if (gamekeydown[keyboardstrafeleft] || gamekeydown[keyboardstrafeleft2] || (gamecontrollerbuttons & gamecontrollerstrafeleft))
         side -= sidemove[run];
     else if (gamecontrollerthumbLX < 0)
     {
@@ -367,14 +372,15 @@ void G_BuildTiccmd(ticcmd_t *cmd)
         {
             fixed_t x = gamecontrollerthumbLX * 2;
 
-            cmd->angleturn -= FixedMul(gamepadangleturn[run], (fixed_t)(gamecontrollerhorizontalsensitivity * FixedMul(FixedMul(x, x), x)));
+            cmd->angleturn -= FixedMul(gamecontrollerangleturn[run],
+                (fixed_t)(gamecontrollerhorizontalsensitivity * FixedMul(FixedMul(x, x), x)));
 
             if (!menuactive)
                 spindirection = SIGN(cmd->angleturn);
         }
     }
 
-    if ((gamekeydown[keyboardjump] || mousebuttons[mousejump] || (gamecontrollerbuttons & gamepadjump)) && !nojump)
+    if ((gamekeydown[keyboardjump] || mousebuttons[mousejump] || (gamecontrollerbuttons & gamecontrollerjump)) && !nojump)
         cmd->buttons |= BT_JUMP;
 
     // buttons
@@ -382,11 +388,11 @@ void G_BuildTiccmd(ticcmd_t *cmd)
         skipaction = false;
     else if (!freeze)
     {
-        if ((mousebuttons[mousefire] || gamekeydown[keyboardfire] || (gamecontrollerbuttons & gamepadfire)))
+        if ((mousebuttons[mousefire] || gamekeydown[keyboardfire] || (gamecontrollerbuttons & gamecontrollerfire)))
             cmd->buttons |= BT_ATTACK;
 
         if (gamekeydown[keyboarduse] || gamekeydown[keyboarduse2] || mousebuttons[mouseuse]
-            || (gamecontrollerbuttons & (gamepaduse | gamepaduse2)))
+            || (gamecontrollerbuttons & (gamecontrolleruse | gamecontrolleruse2)))
         {
             cmd->buttons |= BT_USE;
             dclicks = 0;                // clear double clicks if hit use button
@@ -414,7 +420,7 @@ void G_BuildTiccmd(ticcmd_t *cmd)
                     break;
                 }
             }
-            else if (gamecontrollerbuttons & *gamepadweapons[i])
+            else if (gamecontrollerbuttons & *gamecontrollerweapons[i])
             {
                 if (viewplayer->readyweapon != i || (i == wp_fist && viewplayer->weaponowned[wp_chainsaw])
                     || (i == wp_shotgun && viewplayer->weaponowned[wp_supershotgun]))
@@ -874,7 +880,7 @@ dboolean G_Responder(event_t *ev)
                 static int  wait;
                 int         time = I_GetTime();
 
-                if ((gamecontrollerbuttons & gamepadnextweapon) && wait < time && !freeze)
+                if ((gamecontrollerbuttons & gamecontrollernextweapon) && wait < time && !freeze)
                 {
                     wait = time + 7;
 
@@ -884,7 +890,7 @@ dboolean G_Responder(event_t *ev)
                         gamecontrollerpress = false;
                     }
                 }
-                else if ((gamecontrollerbuttons & gamepadprevweapon) && wait < time && !freeze)
+                else if ((gamecontrollerbuttons & gamecontrollerprevweapon) && wait < time && !freeze)
                 {
                     wait = time + 7;
 
@@ -894,7 +900,7 @@ dboolean G_Responder(event_t *ev)
                         gamecontrollerpress = false;
                     }
                 }
-                else if ((gamecontrollerbuttons & gamepadalwaysrun) && wait < time)
+                else if ((gamecontrollerbuttons & gamecontrolleralwaysrun) && wait < time)
                 {
                     wait = time + 7;
 

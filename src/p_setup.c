@@ -3469,7 +3469,7 @@ static void P_InitMapInfo(void)
         (lumpinfo[MAPINFO]->wadfile->type == IWAD ? "IWAD" : "PWAD"), lumpinfo[MAPINFO]->wadfile->path);
     free(temp);
 
-    if (nojump && (keyboardjump || mousejump != -1 || gamepadjump))
+    if (nojump && (keyboardjump || mousejump != -1 || gamecontrollerjump))
         C_Warning(1, "This %s has disabled use of the " BOLD("+jump") " action.",
             (lumpinfo[MAPINFO]->wadfile->type == IWAD ? "IWAD" : "PWAD"));
 

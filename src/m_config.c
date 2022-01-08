@@ -517,11 +517,11 @@ void M_SaveCVARs(void)
         if (actions[i].mouse1 && *(int *)actions[i].mouse1 != -1)
             SaveBindByValue(file, actions[i].action, *(int *)actions[i].mouse1, mousecontrol);
 
-        if (actions[i].gamepad1 && *(int *)actions[i].gamepad1)
-            SaveBindByValue(file, actions[i].action, *(int *)actions[i].gamepad1, gamepadcontrol);
+        if (actions[i].gamecontroller1 && *(int *)actions[i].gamecontroller1)
+            SaveBindByValue(file, actions[i].action, *(int *)actions[i].gamecontroller1, gamecontrollercontrol);
 
-        if (actions[i].gamepad2 && *(int *)actions[i].gamepad2)
-            SaveBindByValue(file, actions[i].action, *(int *)actions[i].gamepad2, gamepadcontrol);
+        if (actions[i].gamecontroller2 && *(int *)actions[i].gamecontroller2)
+            SaveBindByValue(file, actions[i].action, *(int *)actions[i].gamecontroller2, gamecontrollercontrol);
     }
 
     for (int i = 0; controls[i].type; i++)
@@ -1048,11 +1048,11 @@ void M_LoadCVARs(char *filename)
             if (actions[i].mouse1)
                 *(int *)actions[i].mouse1 = -1;
 
-            if (actions[i].gamepad1)
-                *(int *)actions[i].gamepad1 = 0;
+            if (actions[i].gamecontroller1)
+                *(int *)actions[i].gamecontroller1 = 0;
 
-            if (actions[i].gamepad2)
-                *(int *)actions[i].gamepad2 = 0;
+            if (actions[i].gamecontroller2)
+                *(int *)actions[i].gamecontroller2 = 0;
         }
 
         for (int i = 0; i < NUMKEYS; i++)
@@ -1208,7 +1208,7 @@ void M_LoadCVARs(char *filename)
             char    *temp3 = commify(bindcount);
 
             C_Output("Loaded %s CVARs and %s player stats from " BOLD("%s") ".", temp1, temp2, filename);
-            C_Output("Bound %s actions to the keyboard, mouse and gamepad.", temp3);
+            C_Output("Bound %s actions to the keyboard, mouse and controller.", temp3);
 
             free(temp1);
             free(temp2);

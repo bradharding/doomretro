@@ -2553,7 +2553,7 @@ dboolean M_Responder(event_t *ev)
             }
 
             // exit menu
-            else if (gamecontrollerbuttons & gamepadmenu)
+            else if (gamecontrollerbuttons & gamecontrollermenu)
             {
                 key = keyboardmenu;
                 currentMenu = &MainDef;
@@ -2604,7 +2604,7 @@ dboolean M_Responder(event_t *ev)
         else
         {
             // open menu
-            if ((gamecontrollerbuttons & gamepadmenu) && gamecontrollerwait < I_GetTime())
+            if ((gamecontrollerbuttons & gamecontrollermenu) && gamecontrollerwait < I_GetTime())
             {
                 key = keyboardmenu;
                 gamecontrollerwait = I_GetTime() + 8;
@@ -2612,7 +2612,7 @@ dboolean M_Responder(event_t *ev)
             }
 
             // open console
-            else if ((gamecontrollerbuttons & gamepadconsole) && gamecontrollerwait < I_GetTime())
+            else if ((gamecontrollerbuttons & gamecontrollerconsole) && gamecontrollerwait < I_GetTime())
             {
                 gamecontrollerwait = I_GetTime() + 8;
                 usinggamecontroller = true;
