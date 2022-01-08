@@ -279,26 +279,24 @@ void P_DropWeapon(void)
 
 //
 // A_WeaponReady
-// The player can fire the weapon
-// or change to another weapon at this time.
-// Follows after getting weapon up,
-// or after previous attack/fire sequence.
+// The player can fire the weapon or change to another weapon at this time.
+// Follows after getting weapon up, or after previous attack/fire sequence.
 //
 void A_WeaponReady(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
     weapontype_t    readyweapon = player->readyweapon;
-    dboolean        idlechainsaw = (readyweapon == wp_chainsaw && psp->state == &states[S_SAW]);
+    weapontype_t    pendingweapon = player->pendingweapon;
 
-    if (idlechainsaw)
+    if (readyweapon == wp_chainsaw && psp->state == &states[S_SAW])
         S_StartSound(actor, sfx_sawidl);
 
     // check for change
     //  if player is dead, put the weapon away
-    if (player->pendingweapon != wp_nochange || player->health <= 0)
+    if (pendingweapon != wp_nochange || player->health <= 0)
     {
         if (joy_rumble_weapons)
         {
-            if (idlechainsaw)
+            if (pendingweapon == wp_chainsaw)
             {
                 idlechainsawrumblestrength = CHAINSAW_IDLE_RUMBLE_STRENGTH * joy_rumble_weapons / 100;
                 I_GameControllerRumble(idlechainsawrumblestrength);
@@ -330,13 +328,11 @@ void A_WeaponReady(mobj_t *actor, player_t *player, pspdef_t *psp)
 
 //
 // A_ReFire
-// The player can re-fire the weapon
-// without lowering it entirely.
+// The player can re-fire the weapon without lowering it entirely.
 //
 void A_ReFire(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    // check for fire
-    //  (if a weapon change is pending, let it go through instead)
+    // check for fire (if a weapon change is pending, let it go through instead)
     if ((player->cmd.buttons & BT_ATTACK) && player->pendingweapon == wp_nochange && player->health > 0)
     {
         player->refire++;
@@ -357,8 +353,7 @@ void A_CheckReload(mobj_t *actor, player_t *player, pspdef_t *psp)
 
 //
 // A_Lower
-// Lowers current weapon,
-// and changes weapon at bottom.
+// Lowers current weapon, and changes weapon at bottom.
 //
 void A_Lower(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
