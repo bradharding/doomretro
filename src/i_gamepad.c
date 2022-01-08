@@ -55,7 +55,6 @@ int                         gp_thumbsticks = gp_thumbsticks_default;
 
 static SDL_Joystick         *joystick;
 static SDL_GameController   *gamecontroller;
-static SDL_Haptic           *haptic;
 
 int                         gamepadbuttons = 0;
 short                       gamepadthumbLX = 0;
@@ -75,100 +74,39 @@ int                         restorerumblestrength;
 
 void I_InitGamepad(void)
 {
-    if (SDL_InitSubSystem(SDL_INIT_GAMECONTROLLER | SDL_INIT_HAPTIC) < 0)
+    SDL_SetHintWithPriority(SDL_HINT_JOYSTICK_HIDAPI_JOY_CONS, "1", SDL_HINT_OVERRIDE);
+    SDL_SetHintWithPriority(SDL_HINT_JOYSTICK_HIDAPI_PS4_RUMBLE, "1", SDL_HINT_OVERRIDE);
+    SDL_SetHintWithPriority(SDL_HINT_JOYSTICK_HIDAPI_PS5_RUMBLE, "1", SDL_HINT_OVERRIDE);
+    SDL_SetHintWithPriority(SDL_HINT_JOYSTICK_ALLOW_BACKGROUND_EVENTS, "1", SDL_HINT_OVERRIDE);
+    SDL_SetHintWithPriority(SDL_HINT_LINUX_JOYSTICK_DEADZONES, "1", SDL_HINT_OVERRIDE);
+
+    if (SDL_InitSubSystem(SDL_INIT_GAMECONTROLLER) < 0)
         C_Warning(1, "Gamepad support couldn't be initialized.");
     else
     {
-        int deviceindex = 0;
-
         for (int i = 0, numjoysticks = SDL_NumJoysticks(); i < numjoysticks; i++)
             if ((joystick = SDL_JoystickOpen(i)) && SDL_IsGameController(i))
             {
                 gamecontroller = SDL_GameControllerOpen(i);
-                deviceindex = i;
-
                 break;
             }
 
         if (!gamecontroller)
-            SDL_QuitSubSystem(SDL_INIT_GAMECONTROLLER | SDL_INIT_HAPTIC);
+            SDL_QuitSubSystem(SDL_INIT_GAMECONTROLLER);
         else
         {
             const char  *name = SDL_GameControllerName(gamecontroller);
 
-#if ((SDL_MAJOR_VERSION == 2 && SDL_PATCHLEVEL >= 12) || SDL_MAJOR_VERSION > 2)
-            switch (SDL_GameControllerTypeForIndex(deviceindex))
-            {
-                case SDL_CONTROLLER_TYPE_AMAZON_LUNA:
-                    C_Output("An " ITALICS("Amazon Luna") " controller is connected.");
-                    break;
-
-                case SDL_CONTROLLER_TYPE_GOOGLE_STADIA:
-                    C_Output("A " ITALICS("Google Stadia") " controller is connected.");
-                    break;
-
-                case SDL_CONTROLLER_TYPE_NINTENDO_SWITCH_PRO:
-                    C_Output("A " ITALICS("Nintendo Switch Pro") " controller is connected.");
-                    break;
-
-                case SDL_CONTROLLER_TYPE_PS3:
-                    C_Output("A " ITALICS("Sony PS3") " controller is connected.");
-                    break;
-
-                case SDL_CONTROLLER_TYPE_PS4:
-                    C_Output("A " ITALICS("Sony PS4") " controller is connected.");
-                    break;
-
-                case SDL_CONTROLLER_TYPE_PS5:
-                    C_Output("A " ITALICS("Sony PS5") " controller is connected.");
-                    break;
-
-                case SDL_CONTROLLER_TYPE_XBOX360:
-                    C_Output("A " ITALICS("Microsoft XBox 360") " controller is connected.");
-                    break;
-
-                case SDL_CONTROLLER_TYPE_XBOXONE:
-                    C_Output("A " ITALICS("Microsoft XBox One") " controller is connected.");
-                    break;
-
-                case SDL_CONTROLLER_TYPE_VIRTUAL:
-                    C_Output("A " ITALICS("Virtual Game") " controller is connected.");
-                    break;
-
-                default:
-                    if (*name)
-                        C_Output("A gamepad called \"%s\" is connected.", name);
-                    else
-                        C_Output("A gamepad is connected.");
-
-                    break;
-            }
-
-#else
             if (*name)
                 C_Output("A gamepad called \"%s\" is connected.", name);
             else
                 C_Output("A gamepad is connected.");
-#endif
 
-            if ((haptic = SDL_HapticOpen(deviceindex)) && !SDL_HapticRumbleInit(haptic))
+            if (gp_rumble_barrels || gp_rumble_damage || gp_rumble_weapons)
             {
-                if (gp_rumble_barrels || gp_rumble_damage || gp_rumble_weapons)
-                {
-                    SDL_HapticRumblePlay(haptic, 0.5f, 200);
-                    SDL_Delay(300);
-                    SDL_HapticRumblePlay(haptic, 0.5f, 200);
-                }
-            }
-            else
-            {
-                haptic = NULL;
-
-                if (gp_rumble_barrels || gp_rumble_damage || gp_rumble_weapons)
+                if (SDL_GameControllerRumble(gamecontroller, 0, 0, 0) == -1)
                     C_Warning(1, "This gamepad doesn't support rumble.");
             }
-
-            SDL_SetHintWithPriority(SDL_HINT_JOYSTICK_ALLOW_BACKGROUND_EVENTS, "1", SDL_HINT_OVERRIDE);
 
             I_SetGamepadLeftDeadZone();
             I_SetGamepadRightDeadZone();
@@ -183,43 +121,28 @@ void I_ShutdownGamepad(void)
     if (!gamecontroller)
         return;
 
-    if (haptic)
-    {
-        SDL_HapticClose(haptic);
-        haptic = NULL;
-        barrelrumbletics = 0;
-        damagerumbletics = 0;
-        weaponrumbletics = 0;
-    }
-
     SDL_GameControllerClose(gamecontroller);
     gamecontroller = NULL;
 
     SDL_JoystickClose(joystick);
     joystick = NULL;
 
-    SDL_QuitSubSystem(SDL_INIT_GAMECONTROLLER | SDL_INIT_HAPTIC);
+    SDL_QuitSubSystem(SDL_INIT_GAMECONTROLLER);
 }
 
 void I_GamepadRumble(int strength)
 {
     static int  currentstrength;
 
-    if (!haptic)
-        return;
-
     if (!strength || (lasteventtype == ev_gamepad && (strength == idlerumblestrength || strength >= currentstrength)))
     {
         currentstrength = MIN(strength, UINT16_MAX);
-        SDL_HapticRumblePlay(haptic, (float)strength / MAX_RUMBLE_STRENGTH, 600000);
+        SDL_GameControllerRumble(gamecontroller, strength, strength, 600000);
     }
 }
 
 void I_UpdateGamepadRumble(void)
 {
-    if (!haptic)
-        return;
-
     if (weaponrumbletics && !--weaponrumbletics && !damagerumbletics && !barrelrumbletics)
         I_GamepadRumble(idlerumblestrength);
     else if (damagerumbletics && !--damagerumbletics && !barrelrumbletics)
@@ -230,8 +153,7 @@ void I_UpdateGamepadRumble(void)
 
 void I_StopGamepadRumble(void)
 {
-    if (haptic)
-        SDL_HapticRumbleStop(haptic);
+    SDL_GameControllerRumble(gamecontroller, 0, 0, 0);
 }
 
 void I_SetGamepadHorizontalSensitivity(void)
