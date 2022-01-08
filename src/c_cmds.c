@@ -6734,7 +6734,6 @@ static void spawn_cmd_func2(char *cmd, char *parms)
 
                     if (flags & MF_SHOOTABLE)
                     {
-
                         if (spawncmdfriendly)
                         {
                             thing->flags |= MF_FRIEND;
