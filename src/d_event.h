@@ -53,7 +53,7 @@ typedef enum
     ev_keyup,
     ev_mouse,
     ev_mousewheel,
-    ev_gamepad,
+    ev_gamecontroller,
     ev_textinput
 } evtype_t;
 

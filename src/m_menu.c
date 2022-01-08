@@ -113,7 +113,7 @@ static short    whichSkull;             // which skull to draw
 
 static int      functionkey;
 
-static dboolean usinggamepad;
+static dboolean usinggamecontroller;
 
 // current menudef
 static menu_t   *currentMenu;
@@ -1335,7 +1335,7 @@ static void M_QuickLoad(void)
 
         M_snprintf(buffer, sizeof(buffer), s_QLPROMPT, savegamestrings[quickSaveSlot]);
         M_SplitString(buffer);
-        M_snprintf(buffer, sizeof(buffer), "%s\n\n%s", buffer, (usinggamepad ? s_PRESSA : s_PRESSYN));
+        M_snprintf(buffer, sizeof(buffer), "%s\n\n%s", buffer, (usinggamecontroller ? s_PRESSA : s_PRESSYN));
         M_StartMessage(buffer, &M_QuickLoadResponse, true);
     }
 }
@@ -1389,7 +1389,7 @@ static void M_DeleteSavegame(void)
     S_StartSound(NULL, sfx_swtchn);
     M_snprintf(buffer, sizeof(buffer), s_DELPROMPT, savegamestrings[saveSlot]);
     M_SplitString(buffer);
-    M_snprintf(buffer, sizeof(buffer), "%s\n\n%s", buffer, (usinggamepad ? s_PRESSA : s_PRESSYN));
+    M_snprintf(buffer, sizeof(buffer), "%s\n\n%s", buffer, (usinggamecontroller ? s_PRESSA : s_PRESSYN));
     M_StartMessage(buffer, &M_DeleteSavegameResponse, true);
 }
 
@@ -1725,7 +1725,7 @@ static void M_ChooseSkill(int choice)
         {
             static char buffer[160];
 
-            M_snprintf(buffer, sizeof(buffer), "%s\n\n%s", s_NIGHTMARE, (usinggamepad ? s_PRESSA : s_PRESSYN));
+            M_snprintf(buffer, sizeof(buffer), "%s\n\n%s", s_NIGHTMARE, (usinggamecontroller ? s_PRESSA : s_PRESSYN));
             M_StartMessage(buffer, &M_VerifyNightmare, true);
         }
 
@@ -1757,7 +1757,7 @@ static void M_Episode(int choice)
             {
                 static char buffer[160];
 
-                M_snprintf(buffer, sizeof(buffer), "%s\n\n%s", s_SWSTRING, (usinggamepad ? s_PRESSA : s_PRESSKEY));
+                M_snprintf(buffer, sizeof(buffer), "%s\n\n%s", s_SWSTRING, (usinggamecontroller ? s_PRESSA : s_PRESSKEY));
                 M_StartMessage(buffer, NULL, false);
             }
 
@@ -1878,7 +1878,7 @@ static void M_DrawOptions(void)
     M_DrawThermo(OptionsDef.x - 1, OptionsDef.y + 16 * (scrnsize + 1) + OFFSET + !hacx, 9, (float)(r_screensize
         + (r_screensize < r_screensize_max - 1 ? 0 : (r_screensize == r_screensize_max - 1 ? vid_widescreen : 1 + !r_hud))), 6.54f, 8);
 
-    if (usinggamepad && !M_MSENS)
+    if (usinggamecontroller && !M_MSENS)
         M_DrawThermo(OptionsDef.x - 1, OptionsDef.y + 16 * (mousesens + 1) + OFFSET + !hacx, 9,
             gp_sensitivity_horizontal / (float)gp_sensitivity_horizontal_max * 8.0f, 8.0f, 8);
     else
@@ -1978,7 +1978,7 @@ static void M_EndGame(int choice)
     {
         static char buffer[160];
 
-        M_snprintf(buffer, sizeof(buffer), "%s\n\n%s", s_ENDGAME, (usinggamepad ? s_PRESSA : s_PRESSYN));
+        M_snprintf(buffer, sizeof(buffer), "%s\n\n%s", s_ENDGAME, (usinggamecontroller ? s_PRESSA : s_PRESSYN));
         M_StartMessage(buffer, &M_EndGameResponse, true);
     }
 }
@@ -2074,7 +2074,7 @@ void M_QuitDOOM(int choice)
         M_snprintf(line1, sizeof(line1), *endmsg[NUM_QUITMESSAGES + (r = M_RandomIntNoRepeat(0, NUM_QUITMESSAGES - 1, r))],
             OPERATINGSYSTEM);
 
-    M_snprintf(line2, sizeof(line2), (usinggamepad ? s_DOSA : s_DOSY), DESKTOPNAME);
+    M_snprintf(line2, sizeof(line2), (usinggamecontroller ? s_DOSA : s_DOSY), DESKTOPNAME);
     M_snprintf(endstring, sizeof(endstring), "%s\n\n%s", line1, line2);
     M_StartMessage(endstring, &M_QuitResponse, true);
 }
@@ -2092,7 +2092,7 @@ static void M_SliderSound(void)
 
 static void M_ChangeSensitivity(int choice)
 {
-    if (usinggamepad && !M_MSENS)
+    if (usinggamecontroller && !M_MSENS)
     {
         switch (choice)
         {
@@ -2519,9 +2519,9 @@ static void M_ChangeGamma(dboolean shift)
 //
 // M_Responder
 //
-int         gamepadwait = 0;
+int         gamecontrollerwait = 0;
 int         mousewait = 0;
-dboolean    gamepadpress = false;
+dboolean    gamecontrollerpress = false;
 
 dboolean M_Responder(event_t *ev)
 {
@@ -2531,25 +2531,25 @@ dboolean M_Responder(event_t *ev)
     if (idclevtics)
         return false;
 
-    if (ev->type == ev_gamepad)
+    if (ev->type == ev_gamecontroller)
     {
-        if (menuactive && gamepadwait < I_GetTime())
+        if (menuactive && gamecontrollerwait < I_GetTime())
         {
             // activate menu item
-            if (gamecontrollerbuttons & GAMEPAD_A)
+            if (gamecontrollerbuttons & GAMECONTROLLER_A)
             {
                 key = (messagetoprint && messageNeedsInput ? 'y' : KEY_ENTER);
-                gamepadwait = I_GetTime() + 8 * !(currentMenu == &OptionsDef && itemOn == 5);
-                usinggamepad = true;
+                gamecontrollerwait = I_GetTime() + 8 * !(currentMenu == &OptionsDef && itemOn == 5);
+                usinggamecontroller = true;
             }
 
             // previous/exit menu
-            else if (gamecontrollerbuttons & GAMEPAD_B)
+            else if (gamecontrollerbuttons & GAMECONTROLLER_B)
             {
                 key = (messagetoprint && messageNeedsInput ? 'n' : KEY_BACKSPACE);
-                gamepadwait = I_GetTime() + 8;
-                gamepadpress = true;
-                usinggamepad = true;
+                gamecontrollerwait = I_GetTime() + 8;
+                gamecontrollerpress = true;
+                usinggamecontroller = true;
             }
 
             // exit menu
@@ -2558,64 +2558,64 @@ dboolean M_Responder(event_t *ev)
                 key = keyboardmenu;
                 currentMenu = &MainDef;
                 itemOn = MainDef.lastOn;
-                gamepadwait = I_GetTime() + 8;
-                usinggamepad = true;
+                gamecontrollerwait = I_GetTime() + 8;
+                usinggamecontroller = true;
             }
 
             else if (!messagetoprint)
             {
                 // select previous menu item
-                if (gamecontrollerthumbLY < 0 || gamecontrollerthumbRY < 0 || (gamecontrollerbuttons & GAMEPAD_DPAD_UP))
+                if (gamecontrollerthumbLY < 0 || gamecontrollerthumbRY < 0 || (gamecontrollerbuttons & GAMECONTROLLER_DPAD_UP))
                 {
                     key = KEY_UPARROW;
                     keywait = 0;
-                    gamepadwait = I_GetTime() + 8;
-                    usinggamepad = true;
+                    gamecontrollerwait = I_GetTime() + 8;
+                    usinggamecontroller = true;
                 }
 
                 // select next menu item
-                else if (gamecontrollerthumbLY > 0 || gamecontrollerthumbRY > 0 || (gamecontrollerbuttons & GAMEPAD_DPAD_DOWN))
+                else if (gamecontrollerthumbLY > 0 || gamecontrollerthumbRY > 0 || (gamecontrollerbuttons & GAMECONTROLLER_DPAD_DOWN))
                 {
                     key = KEY_DOWNARROW;
                     keywait = 0;
-                    gamepadwait = I_GetTime() + 8;
-                    usinggamepad = true;
+                    gamecontrollerwait = I_GetTime() + 8;
+                    usinggamecontroller = true;
                 }
 
                 // decrease slider
-                else if ((gamecontrollerthumbLX < 0 || gamecontrollerthumbRX < 0 || (gamecontrollerbuttons & GAMEPAD_DPAD_LEFT)) && !saveStringEnter
+                else if ((gamecontrollerthumbLX < 0 || gamecontrollerthumbRX < 0 || (gamecontrollerbuttons & GAMECONTROLLER_DPAD_LEFT)) && !saveStringEnter
                     && !(currentMenu == &OptionsDef && itemOn == 1))
                 {
                     key = KEY_LEFTARROW;
-                    gamepadwait = I_GetTime() + 6 * !(currentMenu == &OptionsDef && itemOn == 5);
-                    usinggamepad = true;
+                    gamecontrollerwait = I_GetTime() + 6 * !(currentMenu == &OptionsDef && itemOn == 5);
+                    usinggamecontroller = true;
                 }
 
                 // increase slider
-                else if ((gamecontrollerthumbLX > 0 || gamecontrollerthumbRX > 0 || (gamecontrollerbuttons & GAMEPAD_DPAD_RIGHT)) && !saveStringEnter
+                else if ((gamecontrollerthumbLX > 0 || gamecontrollerthumbRX > 0 || (gamecontrollerbuttons & GAMECONTROLLER_DPAD_RIGHT)) && !saveStringEnter
                     && !(currentMenu == &OptionsDef && itemOn == 1))
                 {
                     key = KEY_RIGHTARROW;
-                    gamepadwait = I_GetTime() + 6 * !(currentMenu == &OptionsDef && itemOn == 5);
-                    usinggamepad = true;
+                    gamecontrollerwait = I_GetTime() + 6 * !(currentMenu == &OptionsDef && itemOn == 5);
+                    usinggamecontroller = true;
                 }
             }
         }
         else
         {
             // open menu
-            if ((gamecontrollerbuttons & gamepadmenu) && gamepadwait < I_GetTime())
+            if ((gamecontrollerbuttons & gamepadmenu) && gamecontrollerwait < I_GetTime())
             {
                 key = keyboardmenu;
-                gamepadwait = I_GetTime() + 8;
-                usinggamepad = true;
+                gamecontrollerwait = I_GetTime() + 8;
+                usinggamecontroller = true;
             }
 
             // open console
-            else if ((gamecontrollerbuttons & gamepadconsole) && gamepadwait < I_GetTime())
+            else if ((gamecontrollerbuttons & gamepadconsole) && gamecontrollerwait < I_GetTime())
             {
-                gamepadwait = I_GetTime() + 8;
-                usinggamepad = true;
+                gamecontrollerwait = I_GetTime() + 8;
+                usinggamecontroller = true;
                 C_ShowConsole();
 
                 return false;
@@ -2632,7 +2632,7 @@ dboolean M_Responder(event_t *ev)
             {
                 key = KEY_ENTER;
                 mousewait = I_GetTime() + 8;
-                usinggamepad = false;
+                usinggamecontroller = false;
             }
 
             // previous menu
@@ -2640,7 +2640,7 @@ dboolean M_Responder(event_t *ev)
             {
                 key = KEY_BACKSPACE;
                 mousewait = I_GetTime() + 8;
-                usinggamepad = false;
+                usinggamecontroller = false;
             }
         }
 
@@ -2648,7 +2648,7 @@ dboolean M_Responder(event_t *ev)
         if (mousescreenshot != -1 && (ev->data1 & mousescreenshot) && mousewait < I_GetTime())
         {
             mousewait = I_GetTime() + 5;
-            usinggamepad = false;
+            usinggamecontroller = false;
             G_ScreenShot();
             S_StartSound(NULL, sfx_scrsht);
             memset(screens[0], nearestwhite, SCREENAREA);
@@ -2666,7 +2666,7 @@ dboolean M_Responder(event_t *ev)
             {
                 key = KEY_UPARROW;
                 mousewait = I_GetTime() + 3;
-                usinggamepad = false;
+                usinggamecontroller = false;
             }
 
             // select next menu item
@@ -2674,14 +2674,14 @@ dboolean M_Responder(event_t *ev)
             {
                 key = KEY_DOWNARROW;
                 mousewait = I_GetTime() + 3;
-                usinggamepad = false;
+                usinggamecontroller = false;
             }
         }
     }
     else if (ev->type == ev_keydown)
     {
         key = ev->data1;
-        usinggamepad = false;
+        usinggamecontroller = false;
     }
     else if (ev->type == ev_keyup)
     {
@@ -3806,7 +3806,7 @@ void M_Drawer(void)
                             M_DrawNightmare();
                     }
                     else if (M_StringCompare(name, "M_MSENS") && !M_MSENS)
-                        M_DrawString(x, y + OFFSET, (usinggamepad ? s_M_GAMEPADSENSITIVITY : s_M_MOUSESENSITIVITY));
+                        M_DrawString(x, y + OFFSET, (usinggamecontroller ? s_M_GAMECONTROLLERSENSITIVITY : s_M_MOUSESENSITIVITY));
                     else if (W_CheckNumForName(name) < 0 && **text)   // Custom Episode
                         M_DrawString(x, y + OFFSET, *text);
                     else if (W_CheckMultipleLumps(name) > 1 || lumpinfo[W_GetNumForName(name)]->wadfile->type == PWAD)

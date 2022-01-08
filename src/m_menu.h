@@ -125,6 +125,6 @@ extern menu_t   MainDef;
 extern menu_t   NewDef;
 extern menu_t   SaveDef;
 extern dboolean EpiCustom;
-extern int      gamepadwait;
+extern int      gamecontrollerwait;
 
 #endif

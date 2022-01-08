@@ -489,7 +489,7 @@ static dboolean     speedtoggle;
 
 static dboolean AM_GetSpeedToggle(void)
 {
-    return ((!!(gamecontrollerbuttons & GAMEPAD_LEFT_TRIGGER)) ^ (!!(modstate & KMOD_SHIFT)));
+    return ((!!(gamecontrollerbuttons & GAMECONTROLLER_LEFT_TRIGGER)) ^ (!!(modstate & KMOD_SHIFT)));
 }
 
 static void AM_ToggleZoomOut(void)
@@ -697,7 +697,7 @@ dboolean AM_Responder(const event_t *ev)
         if (!automapactive && !mapwindow)
         {
             if ((ev->type == ev_keydown && ev->data1 == AM_STARTKEY && keydown != AM_STARTKEY && !(modstate & KMOD_ALT))
-                || (ev->type == ev_gamepad && (gamecontrollerbuttons & gamepadautomap) && !backbuttondown))
+                || (ev->type == ev_gamecontroller && (gamecontrollerbuttons & gamepadautomap) && !backbuttondown))
             {
                 keydown = AM_STARTKEY;
                 backbuttondown = true;
@@ -973,11 +973,11 @@ dboolean AM_Responder(const event_t *ev)
                     ftom_zoommul = M_ZOOMIN + 2000;
                 }
             }
-            else if (ev->type == ev_gamepad && gamepadwait < I_GetTime())
+            else if (ev->type == ev_gamecontroller && gamecontrollerwait < I_GetTime())
             {
                 if ((gamecontrollerbuttons & gamepadautomap) && !backbuttondown)
                 {
-                    gamepadwait = I_GetTime() + 8;
+                    gamecontrollerwait = I_GetTime() + 8;
                     viewactive = true;
                     backbuttondown = true;
                     AM_Stop();
@@ -1002,42 +1002,42 @@ dboolean AM_Responder(const event_t *ev)
                 else if ((gamecontrollerbuttons & gamepadautomapmaxzoom) && !idclev && !idmus)
                 {
                     AM_ToggleMaxZoom();
-                    gamepadwait = I_GetTime() + 12;
+                    gamecontrollerwait = I_GetTime() + 12;
                 }
 
                 // toggle follow mode
                 else if (gamecontrollerbuttons & gamepadautomapfollowmode)
                 {
                     AM_ToggleFollowMode(!am_followmode);
-                    gamepadwait = I_GetTime() + 12;
+                    gamecontrollerwait = I_GetTime() + 12;
                 }
 
                 // toggle grid
                 else if (gamecontrollerbuttons & gamepadautomapgrid)
                 {
                     AM_ToggleGrid();
-                    gamepadwait = I_GetTime() + 12;
+                    gamecontrollerwait = I_GetTime() + 12;
                 }
 
                 // mark spot
                 else if ((gamecontrollerbuttons & gamepadautomapmark))
                 {
                     AM_AddMark();
-                    gamepadwait = I_GetTime() + 12;
+                    gamecontrollerwait = I_GetTime() + 12;
                 }
 
                 // clear mark(s)
                 else if (gamecontrollerbuttons & gamepadautomapclearmark)
                 {
                     AM_ClearMarks();
-                    gamepadwait = I_GetTime() + 12;
+                    gamecontrollerwait = I_GetTime() + 12;
                 }
 
                 // toggle rotate mode
                 else if (gamecontrollerbuttons & gamepadautomaprotatemode)
                 {
                     AM_ToggleRotateMode(!am_rotatemode);
-                    gamepadwait = I_GetTime() + 12;
+                    gamecontrollerwait = I_GetTime() + 12;
                 }
 
                 if (!am_followmode)

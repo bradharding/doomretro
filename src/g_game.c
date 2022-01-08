@@ -719,10 +719,10 @@ dboolean G_Responder(event_t *ev)
                 && !((ev->data1 == KEY_ENTER || ev->data1 == KEY_TAB) && altdown)
                 && ev->data1 != keyboardscreenshot)
             || (ev->type == ev_mouse && mousewait < I_GetTime() && ev->data1)
-            || (ev->type == ev_gamepad
-                && gamepadwait < I_GetTime()
+            || (ev->type == ev_gamecontroller
+                && gamecontrollerwait < I_GetTime()
                 && gamecontrollerbuttons
-                && !(gamecontrollerbuttons & (GAMEPAD_B | GAMEPAD_DPAD_UP | GAMEPAD_DPAD_DOWN | GAMEPAD_DPAD_LEFT | GAMEPAD_DPAD_RIGHT)))))
+                && !(gamecontrollerbuttons & (GAMECONTROLLER_B | GAMECONTROLLER_DPAD_UP | GAMECONTROLLER_DPAD_DOWN | GAMECONTROLLER_DPAD_LEFT | GAMECONTROLLER_DPAD_RIGHT)))))
         {
             if (ev->type == ev_keydown && ev->data1 == keyboardalwaysrun)
             {
@@ -734,7 +734,7 @@ dboolean G_Responder(event_t *ev)
                 keydown = ev->data1;
                 gamecontrollerbuttons = 0;
                 mousewait = I_GetTime() + 5;
-                gamepadwait = mousewait + 3;
+                gamecontrollerwait = mousewait + 3;
 
                 logotic = MIN(logotic, 93);
 
@@ -868,7 +868,7 @@ dboolean G_Responder(event_t *ev)
 
             return true;        // eat events
 
-        case ev_gamepad:
+        case ev_gamecontroller:
             if (!automapactive && !menuactive && !paused)
             {
                 static int  wait;
@@ -878,30 +878,30 @@ dboolean G_Responder(event_t *ev)
                 {
                     wait = time + 7;
 
-                    if (!gamepadpress || gamepadwait < time)
+                    if (!gamecontrollerpress || gamecontrollerwait < time)
                     {
                         G_NextWeapon();
-                        gamepadpress = false;
+                        gamecontrollerpress = false;
                     }
                 }
                 else if ((gamecontrollerbuttons & gamepadprevweapon) && wait < time && !freeze)
                 {
                     wait = time + 7;
 
-                    if (!gamepadpress || gamepadwait < time)
+                    if (!gamecontrollerpress || gamecontrollerwait < time)
                     {
                         G_PrevWeapon();
-                        gamepadpress = false;
+                        gamecontrollerpress = false;
                     }
                 }
                 else if ((gamecontrollerbuttons & gamepadalwaysrun) && wait < time)
                 {
                     wait = time + 7;
 
-                    if (!gamepadpress || gamepadwait < time)
+                    if (!gamecontrollerpress || gamecontrollerwait < time)
                     {
-                        G_ToggleAlwaysRun(ev_gamepad);
-                        gamepadpress = false;
+                        G_ToggleAlwaysRun(ev_gamecontroller);
+                        gamecontrollerpress = false;
                     }
                 }
             }
