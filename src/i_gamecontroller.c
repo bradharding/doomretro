@@ -136,7 +136,7 @@ void I_GameControllerRumble(int strength)
     if (!rumble)
         return;
 
-    if (!strength || (lasteventtype == ev_gamecontroller && (strength == idlechainsawrumblestrength || strength >= currentstrength)))
+    if (!strength || (lasteventtype == ev_controller && (strength == idlechainsawrumblestrength || strength >= currentstrength)))
     {
         currentstrength = MIN(strength, UINT16_MAX);
         SDL_GameControllerRumble(gamecontroller, strength, strength, UINT32_MAX);

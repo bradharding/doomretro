@@ -719,7 +719,7 @@ dboolean G_Responder(event_t *ev)
                 && !((ev->data1 == KEY_ENTER || ev->data1 == KEY_TAB) && altdown)
                 && ev->data1 != keyboardscreenshot)
             || (ev->type == ev_mouse && mousewait < I_GetTime() && ev->data1)
-            || (ev->type == ev_gamecontroller
+            || (ev->type == ev_controller
                 && gamecontrollerwait < I_GetTime()
                 && gamecontrollerbuttons
                 && !(gamecontrollerbuttons & (GAMECONTROLLER_B | GAMECONTROLLER_DPAD_UP | GAMECONTROLLER_DPAD_DOWN | GAMECONTROLLER_DPAD_LEFT | GAMECONTROLLER_DPAD_RIGHT)))))
@@ -868,7 +868,7 @@ dboolean G_Responder(event_t *ev)
 
             return true;        // eat events
 
-        case ev_gamecontroller:
+        case ev_controller:
             if (!automapactive && !menuactive && !paused)
             {
                 static int  wait;
@@ -900,7 +900,7 @@ dboolean G_Responder(event_t *ev)
 
                     if (!gamecontrollerpress || gamecontrollerwait < time)
                     {
-                        G_ToggleAlwaysRun(ev_gamecontroller);
+                        G_ToggleAlwaysRun(ev_controller);
                         gamecontrollerpress = false;
                     }
                 }

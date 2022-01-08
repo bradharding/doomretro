@@ -697,7 +697,7 @@ dboolean AM_Responder(const event_t *ev)
         if (!automapactive && !mapwindow)
         {
             if ((ev->type == ev_keydown && ev->data1 == AM_STARTKEY && keydown != AM_STARTKEY && !(modstate & KMOD_ALT))
-                || (ev->type == ev_gamecontroller && (gamecontrollerbuttons & gamepadautomap) && !backbuttondown))
+                || (ev->type == ev_controller && (gamecontrollerbuttons & gamepadautomap) && !backbuttondown))
             {
                 keydown = AM_STARTKEY;
                 backbuttondown = true;
@@ -973,7 +973,7 @@ dboolean AM_Responder(const event_t *ev)
                     ftom_zoommul = M_ZOOMIN + 2000;
                 }
             }
-            else if (ev->type == ev_gamecontroller && gamecontrollerwait < I_GetTime())
+            else if (ev->type == ev_controller && gamecontrollerwait < I_GetTime())
             {
                 if ((gamecontrollerbuttons & gamepadautomap) && !backbuttondown)
                 {

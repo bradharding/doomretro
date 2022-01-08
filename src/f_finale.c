@@ -733,7 +733,7 @@ static dboolean F_CastResponder(event_t *ev)
     if (ev->type == ev_mouse && !(ev->data1 & mousefire) && !(ev->data1 & mouseuse))
         return false;
 
-    if (ev->type == ev_gamecontroller && !(gamecontrollerbuttons & gamepadfire) && !(gamecontrollerbuttons & gamepaduse))
+    if (ev->type == ev_controller && !(gamecontrollerbuttons & gamepadfire) && !(gamecontrollerbuttons & gamepaduse))
         return false;
 
     if (castdeath)

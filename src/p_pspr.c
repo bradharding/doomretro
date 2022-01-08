@@ -245,7 +245,7 @@ void P_FireWeapon(void)
     {
         if (readyweapon == wp_chainsaw && linetarget)
         {
-            I_GameControllerRumble(MAX_RUMBLE_STRENGTH);
+            I_GameControllerRumble(UINT32_MAX);
             weaponrumbletics = weaponinfo[readyweapon].tics;
         }
         else if (readyweapon != wp_fist)
@@ -296,9 +296,9 @@ void A_WeaponReady(mobj_t *actor, player_t *player, pspdef_t *psp)
     {
         if (joy_rumble_weapons)
         {
-            if (pendingweapon == wp_chainsaw)
+            if (pendingweapon == wp_chainsaw && !REKKR)
             {
-                idlechainsawrumblestrength = CHAINSAW_IDLE_RUMBLE_STRENGTH * joy_rumble_weapons / 100;
+                idlechainsawrumblestrength = IDLE_CHAINSAW_RUMBLE_STRENGTH * joy_rumble_weapons / 100;
                 I_GameControllerRumble(idlechainsawrumblestrength);
             }
             else if (idlechainsawrumblestrength)

@@ -2531,7 +2531,7 @@ dboolean M_Responder(event_t *ev)
     if (idclevtics)
         return false;
 
-    if (ev->type == ev_gamecontroller)
+    if (ev->type == ev_controller)
     {
         if (menuactive && gamecontrollerwait < I_GetTime())
         {
