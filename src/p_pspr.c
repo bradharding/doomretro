@@ -300,12 +300,12 @@ void A_WeaponReady(mobj_t *actor, player_t *player, pspdef_t *psp)
         {
             if (idlechainsaw)
             {
-                idlerumblestrength = CHAINSAW_IDLE_RUMBLE_STRENGTH * joy_rumble_weapons / 100;
-                I_GameControllerRumble(idlerumblestrength);
+                idlechainsawrumblestrength = CHAINSAW_IDLE_RUMBLE_STRENGTH * joy_rumble_weapons / 100;
+                I_GameControllerRumble(idlechainsawrumblestrength);
             }
-            else if (idlerumblestrength)
+            else if (idlechainsawrumblestrength)
             {
-                idlerumblestrength = 0;
+                idlechainsawrumblestrength = 0;
                 I_StopGameControllerRumble();
             }
         }

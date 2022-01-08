@@ -66,11 +66,12 @@ float                       gamecontrollerverticalsensitivity;
 short                       gamecontrollerleftdeadzone;
 short                       gamecontrollerrightdeadzone;
 
+static dboolean             rumble;
 int                         barrelrumbletics = 0;
 int                         damagerumbletics = 0;
 int                         weaponrumbletics = 0;
-int                         idlerumblestrength;
-int                         restorerumblestrength;
+int                         idlechainsawrumblestrength;
+int                         restoredrumblestrength;
 
 void I_InitGameController(void)
 {
@@ -78,7 +79,6 @@ void I_InitGameController(void)
     SDL_SetHintWithPriority(SDL_HINT_JOYSTICK_HIDAPI_PS4_RUMBLE, "1", SDL_HINT_OVERRIDE);
     SDL_SetHintWithPriority(SDL_HINT_JOYSTICK_HIDAPI_PS5_RUMBLE, "1", SDL_HINT_OVERRIDE);
     SDL_SetHintWithPriority(SDL_HINT_JOYSTICK_ALLOW_BACKGROUND_EVENTS, "1", SDL_HINT_OVERRIDE);
-    SDL_SetHintWithPriority(SDL_HINT_LINUX_JOYSTICK_DEADZONES, "1", SDL_HINT_OVERRIDE);
 
     if (SDL_InitSubSystem(SDL_INIT_GAMECONTROLLER) < 0)
         C_Warning(1, "The support for controllers couldn't be initialized.");
@@ -102,8 +102,9 @@ void I_InitGameController(void)
             else
                 C_Output("A controller is connected.");
 
-            if ((joy_rumble_barrels || joy_rumble_damage || joy_rumble_weapons)
-                && SDL_GameControllerRumble(gamecontroller, 0, 0, 0) == -1)
+            if (!SDL_GameControllerRumble(gamecontroller, 0, 0, 0))
+                rumble = true;
+            else if (joy_rumble_barrels || joy_rumble_damage || joy_rumble_weapons)
                 C_Warning(1, "This controller doesn't support rumble.");
 
             I_SetGameControllerLeftDeadZone();
@@ -132,10 +133,10 @@ void I_GameControllerRumble(int strength)
 {
     static int  currentstrength;
 
-    if (!gamecontroller)
+    if (!rumble)
         return;
 
-    if (!strength || (lasteventtype == ev_gamecontroller && (strength == idlerumblestrength || strength >= currentstrength)))
+    if (!strength || (lasteventtype == ev_gamecontroller && (strength == idlechainsawrumblestrength || strength >= currentstrength)))
     {
         currentstrength = MIN(strength, UINT16_MAX);
         SDL_GameControllerRumble(gamecontroller, currentstrength, currentstrength, UINT32_MAX);
@@ -144,20 +145,20 @@ void I_GameControllerRumble(int strength)
 
 void I_UpdateGameControllerRumble(void)
 {
-    if (!gamecontroller)
+    if (!rumble)
         return;
 
     if (weaponrumbletics && !--weaponrumbletics && !damagerumbletics && !barrelrumbletics)
-        I_GameControllerRumble(idlerumblestrength);
+        I_GameControllerRumble(idlechainsawrumblestrength);
     else if (damagerumbletics && !--damagerumbletics && !barrelrumbletics)
-        I_GameControllerRumble(idlerumblestrength);
+        I_GameControllerRumble(idlechainsawrumblestrength);
     else if (barrelrumbletics && !--barrelrumbletics)
-        I_GameControllerRumble(idlerumblestrength);
+        I_GameControllerRumble(idlechainsawrumblestrength);
 }
 
 void I_StopGameControllerRumble(void)
 {
-    if (!gamecontroller)
+    if (!rumble)
         return;
 
     SDL_GameControllerRumble(gamecontroller, 0, 0, 0);

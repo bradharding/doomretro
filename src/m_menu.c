@@ -3619,8 +3619,8 @@ void M_StartControlPanel(void)
 
     if (joy_rumble_barrels || joy_rumble_damage || joy_rumble_weapons)
     {
-        restorerumblestrength = idlerumblestrength;
-        idlerumblestrength = 0;
+        restoredrumblestrength = idlechainsawrumblestrength;
+        idlechainsawrumblestrength = 0;
         I_StopGameControllerRumble();
     }
 
@@ -3838,8 +3838,8 @@ void M_ClearMenus(void)
 
     if (joy_rumble_barrels || joy_rumble_damage || joy_rumble_weapons)
     {
-        idlerumblestrength = restorerumblestrength;
-        I_GameControllerRumble(idlerumblestrength);
+        idlechainsawrumblestrength = restoredrumblestrength;
+        I_GameControllerRumble(idlechainsawrumblestrength);
     }
 
     if (gamestate == GS_LEVEL)

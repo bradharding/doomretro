@@ -1315,13 +1315,13 @@ void C_Drawer(void)
     {
         if (consoleactive)
         {
-            restorerumblestrength = idlerumblestrength;
-            idlerumblestrength = 0;
+            restoredrumblestrength = idlechainsawrumblestrength;
+            idlechainsawrumblestrength = 0;
         }
         else
-            idlerumblestrength = restorerumblestrength;
+            idlechainsawrumblestrength = restoredrumblestrength;
 
-        I_GameControllerRumble(idlerumblestrength);
+        I_GameControllerRumble(idlechainsawrumblestrength);
     }
 
     // cancel any screen shake

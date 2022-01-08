@@ -604,7 +604,7 @@ consolecmd_t consolecmds[] =
     CVAR_FLOAT(joy_deadzone_right, "", joy_deadzone_cvars_func1, joy_deadzone_cvars_func2, CF_PERCENT,
         "The dead zone of a controller's right thumbstick (" BOLD("0%") " to " BOLD("100%") ")."),
     CVAR_BOOL(joy_invertyaxis, "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
-        "Toggles inverting the vertical axis of a controller's right thumbstick when looking up or down."),
+        "Toggles inverting the vertical axis of a controller's right thumbstick when the player looks up or down."),
     CVAR_INT(joy_rumble_barrels, "", int_cvars_func1, int_cvars_func2, CF_PERCENT, NOVALUEALIAS,
         "The amount a controller rumbles when the player is near an exploding barrel (" BOLD("0%") " to " BOLD("200%") ")."),
     CVAR_INT(joy_rumble_damage, "", int_cvars_func1, int_cvars_func2, CF_PERCENT, NOVALUEALIAS,
@@ -618,7 +618,7 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL(joy_swapthumbsticks, "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles swapping a controller's left and right thumbsticks."),
     CVAR_INT(joy_thumbsticks, "", int_cvars_func1, int_cvars_func2, CF_NONE, NOVALUEALIAS,
-        "The number of thumbsticks used on a controller (" BOLD("1") " or " BOLD("2") ")."),
+        "The number of thumbsticks to use on a controller (" BOLD("1") " or " BOLD("2") ")."),
     CCMD(kill, explode, kill_cmd_func1, kill_cmd_func2, true, KILLCMDFORMAT,
         "Kills the " BOLD("player") ", " BOLD("all") " monsters, a type of " BOLDITALICS("monster") ", or explodes all " BOLD("barrels")
         " or " BOLD("missiles") "."),
