@@ -543,6 +543,10 @@ static void I_GetEvent(void)
 
                 break;
 
+            case SDL_CONTROLLERDEVICEADDED:
+                I_InitGamepad();
+                break;
+
             case SDL_CONTROLLERAXISMOTION:
                 switch (Event->caxis.axis)
                 {
