@@ -313,17 +313,17 @@ void G_BuildTiccmd(ticcmd_t *cmd)
 
     if (gamecontrollerthumbRY)
     {
-        if (usemouselook && gp_thumbsticks == 2)
+        if (usemouselook && joy_thumbsticks == 2)
         {
             if (!automapactive)
             {
                 cmd->lookdir = (int)(48 * ((float)gamecontrollerthumbRY / SHRT_MAX) * gamecontrollerverticalsensitivity);
 
-                if (!gp_invertyaxis)
+                if (!joy_invertyaxis)
                     cmd->lookdir = -cmd->lookdir;
             }
         }
-        else if (gp_thumbsticks == 1)
+        else if (joy_thumbsticks == 1)
         {
             cmd->lookdir = 0;
             forward = (int)(forwardmove[run] * (float)gamecontrollerthumbRY / SHRT_MAX);
@@ -344,7 +344,7 @@ void G_BuildTiccmd(ticcmd_t *cmd)
         side += sidemove[run];
     else if (gamecontrollerthumbLX > 0)
     {
-        if (gp_thumbsticks == 2)
+        if (joy_thumbsticks == 2)
             side += (int)(sidemove[run] * (float)gamecontrollerthumbLX / SHRT_MAX);
         else
         {
@@ -361,7 +361,7 @@ void G_BuildTiccmd(ticcmd_t *cmd)
         side -= sidemove[run];
     else if (gamecontrollerthumbLX < 0)
     {
-        if (gp_thumbsticks == 2)
+        if (joy_thumbsticks == 2)
             side += (int)(sidemove[run] * (float)gamecontrollerthumbLX / SHRT_MAX);
         else
         {

@@ -1898,9 +1898,9 @@ void A_Explode(mobj_t *actor, player_t *player, pspdef_t *psp)
         {
             barrelms = I_GetTimeMS() + BARRELMS;
 
-            if (gp_rumble_barrels)
+            if (joy_rumble_barrels)
             {
-                I_GameControllerRumble(20000 * gp_rumble_barrels / 100);
+                I_GameControllerRumble(20000 * joy_rumble_barrels / 100);
                 barrelrumbletics = TICRATE;
             }
         }

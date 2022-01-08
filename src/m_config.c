@@ -106,21 +106,21 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT          (expansion,                        expansion,                             expansion,                             NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT          (facebackcolor,                    facebackcolour,                        facebackcolor,                         NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT          (fade,                             fade,                                  fade,                                  BOOLVALUEALIAS        ),
-    CONFIG_VARIABLE_INT          (gp_analog,                        gp_analogue,                           gp_analog,                             BOOLVALUEALIAS        ),
-    CONFIG_VARIABLE_FLOAT_PERCENT(gp_deadzone_left,                 gp_deadzone_left,                      gp_deadzone_left,                      NOVALUEALIAS          ),
-    CONFIG_VARIABLE_FLOAT_PERCENT(gp_deadzone_right,                gp_deadzone_right,                     gp_deadzone_right,                     NOVALUEALIAS          ),
-    CONFIG_VARIABLE_INT          (gp_invertyaxis,                   gp_invertyaxis,                        gp_invertyaxis,                        BOOLVALUEALIAS        ),
-    CONFIG_VARIABLE_INT_PERCENT  (gp_rumble_barrels,                gp_vibrate_barrels,                    gp_rumble_barrels,                     NOVALUEALIAS          ),
-    CONFIG_VARIABLE_INT_PERCENT  (gp_rumble_damage,                 gp_vibrate_damage,                     gp_rumble_damage,                      NOVALUEALIAS          ),
-    CONFIG_VARIABLE_INT_PERCENT  (gp_rumble_weapons,                gp_vibrate_weapons,                    gp_rumble_weapons,                     NOVALUEALIAS          ),
-    CONFIG_VARIABLE_INT          (gp_sensitivity_horizontal,        gp_sensitivity_horizontal,             gp_sensitivity_horizontal,             NOVALUEALIAS          ),
-    CONFIG_VARIABLE_INT          (gp_sensitivity_vertical,          gp_sensitivity_vertical,               gp_sensitivity_vertical,               NOVALUEALIAS          ),
-    CONFIG_VARIABLE_INT          (gp_swapthumbsticks,               gp_swapthumbsticks,                    gp_swapthumbsticks,                    BOOLVALUEALIAS        ),
-    CONFIG_VARIABLE_INT          (gp_thumbsticks,                   gp_thumbsticks,                        gp_thumbsticks,                        NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT          (groupmessages,                    groupmessages,                         groupmessages,                         BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT          (infighting,                       infighting,                            infighting,                            BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT          (infiniteheight,                   infiniteheight,                        infiniteheight,                        BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_STRING       (iwadfolder,                       iwadfolder,                            iwadfolder,                            NOVALUEALIAS          ),
+    CONFIG_VARIABLE_INT          (joy_analog,                       gp_analog,                             joy_analog,                            BOOLVALUEALIAS        ),
+    CONFIG_VARIABLE_FLOAT_PERCENT(joy_deadzone_left,                gp_deadzone_left,                      joy_deadzone_left,                     NOVALUEALIAS          ),
+    CONFIG_VARIABLE_FLOAT_PERCENT(joy_deadzone_right,               gp_deadzone_right,                     joy_deadzone_right,                    NOVALUEALIAS          ),
+    CONFIG_VARIABLE_INT          (joy_invertyaxis,                  gp_invertyaxis,                        joy_invertyaxis,                       BOOLVALUEALIAS        ),
+    CONFIG_VARIABLE_INT_PERCENT  (joy_rumble_barrels,               gp_vibrate_barrels,                    joy_rumble_barrels,                    NOVALUEALIAS          ),
+    CONFIG_VARIABLE_INT_PERCENT  (joy_rumble_damage,                gp_vibrate_damage,                     joy_rumble_damage,                     NOVALUEALIAS          ),
+    CONFIG_VARIABLE_INT_PERCENT  (joy_rumble_weapons,               gp_vibrate_weapons,                    joy_rumble_weapons,                    NOVALUEALIAS          ),
+    CONFIG_VARIABLE_INT          (joy_sensitivity_horizontal,       gp_sensitivity_horizontal,             joy_sensitivity_horizontal,            NOVALUEALIAS          ),
+    CONFIG_VARIABLE_INT          (joy_sensitivity_vertical,         gp_sensitivity_vertical,               joy_sensitivity_vertical,              NOVALUEALIAS          ),
+    CONFIG_VARIABLE_INT          (joy_swapthumbsticks,              gp_swapthumbsticks,                    joy_swapthumbsticks,                   BOOLVALUEALIAS        ),
+    CONFIG_VARIABLE_INT          (joy_thumbsticks,                  gp_thumbsticks,                        joy_thumbsticks,                       NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT          (m_acceleration,                   m_acceleration,                        m_acceleration,                        BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT          (m_doubleclick_use,                m_doubleclick_use,                     m_doubleclick_use,                     BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT          (m_invertyaxis,                    m_invertyaxis,                         m_invertyaxis,                         BOOLVALUEALIAS        ),
@@ -691,36 +691,6 @@ static void M_CheckCVARs(dboolean ispackageconfig)
     if (fade != false && fade != true)
         fade = fade_default;
 
-    if (gp_analog != false && gp_analog != true)
-        gp_analog = gp_analog_default;
-
-    gp_deadzone_left = BETWEENF(gp_deadzone_left_min, gp_deadzone_left, gp_deadzone_left_max);
-    I_SetGameControllerLeftDeadZone();
-
-    gp_deadzone_right = BETWEENF(gp_deadzone_right_min, gp_deadzone_right, gp_deadzone_right_max);
-    I_SetGameControllerRightDeadZone();
-
-    if (gp_invertyaxis != false && gp_invertyaxis != true)
-        gp_invertyaxis = gp_invertyaxis_default;
-
-    gp_rumble_barrels = BETWEEN(gp_rumble_barrels_min, gp_rumble_barrels, gp_rumble_barrels_max);
-
-    gp_rumble_damage = BETWEEN(gp_rumble_damage_min, gp_rumble_damage, gp_rumble_damage_max);
-
-    gp_rumble_weapons = BETWEEN(gp_rumble_weapons_min, gp_rumble_damage, gp_rumble_weapons_max);
-
-    gp_sensitivity_horizontal = BETWEEN(gp_sensitivity_horizontal_min, gp_sensitivity_horizontal, gp_sensitivity_horizontal_max);
-    I_SetGameControllerHorizontalSensitivity();
-
-    gp_sensitivity_vertical = BETWEEN(gp_sensitivity_vertical_min, gp_sensitivity_vertical, gp_sensitivity_vertical_max);
-    I_SetGameControllerVerticalSensitivity();
-
-    if (gp_swapthumbsticks != false && gp_swapthumbsticks != true)
-        gp_swapthumbsticks = gp_swapthumbsticks_default;
-
-    if (gp_thumbsticks < gp_thumbsticks_min || gp_thumbsticks > gp_thumbsticks_max)
-        gp_thumbsticks = gp_thumbsticks_default;
-
     if (groupmessages != false && groupmessages != true)
         groupmessages = groupmessages_default;
 
@@ -732,6 +702,36 @@ static void M_CheckCVARs(dboolean ispackageconfig)
 
     if (!*iwadfolder || M_StringCompare(iwadfolder, iwadfolder_default) || !M_FolderExists(iwadfolder))
         D_InitIWADFolder();
+
+    if (joy_analog != false && joy_analog != true)
+        joy_analog = joy_analog_default;
+
+    joy_deadzone_left = BETWEENF(joy_deadzone_left_min, joy_deadzone_left, joy_deadzone_left_max);
+    I_SetGameControllerLeftDeadZone();
+
+    joy_deadzone_right = BETWEENF(joy_deadzone_right_min, joy_deadzone_right, joy_deadzone_right_max);
+    I_SetGameControllerRightDeadZone();
+
+    if (joy_invertyaxis != false && joy_invertyaxis != true)
+        joy_invertyaxis = joy_invertyaxis_default;
+
+    joy_rumble_barrels = BETWEEN(joy_rumble_barrels_min, joy_rumble_barrels, joy_rumble_barrels_max);
+
+    joy_rumble_damage = BETWEEN(joy_rumble_damage_min, joy_rumble_damage, joy_rumble_damage_max);
+
+    joy_rumble_weapons = BETWEEN(joy_rumble_weapons_min, joy_rumble_damage, joy_rumble_weapons_max);
+
+    joy_sensitivity_horizontal = BETWEEN(joy_sensitivity_horizontal_min, joy_sensitivity_horizontal, joy_sensitivity_horizontal_max);
+    I_SetGameControllerHorizontalSensitivity();
+
+    joy_sensitivity_vertical = BETWEEN(joy_sensitivity_vertical_min, joy_sensitivity_vertical, joy_sensitivity_vertical_max);
+    I_SetGameControllerVerticalSensitivity();
+
+    if (joy_swapthumbsticks != false && joy_swapthumbsticks != true)
+        joy_swapthumbsticks = joy_swapthumbsticks_default;
+
+    if (joy_thumbsticks < joy_thumbsticks_min || joy_thumbsticks > joy_thumbsticks_max)
+        joy_thumbsticks = joy_thumbsticks_default;
 
     if (m_acceleration != false && m_acceleration != true)
         m_acceleration = m_acceleration_default;

@@ -241,7 +241,7 @@ void P_FireWeapon(void)
 
     P_SetPsprite(ps_weapon, weaponinfo[readyweapon].atkstate);
 
-    if (gp_rumble_weapons)
+    if (joy_rumble_weapons)
     {
         if (readyweapon == wp_chainsaw && linetarget)
         {
@@ -250,7 +250,7 @@ void P_FireWeapon(void)
         }
         else if (readyweapon != wp_fist)
         {
-            I_GameControllerRumble(weaponinfo[readyweapon].strength * gp_rumble_weapons / 100);
+            I_GameControllerRumble(weaponinfo[readyweapon].strength * joy_rumble_weapons / 100);
             weaponrumbletics = weaponinfo[readyweapon].tics;
         }
     }
@@ -296,11 +296,11 @@ void A_WeaponReady(mobj_t *actor, player_t *player, pspdef_t *psp)
     //  if player is dead, put the weapon away
     if (player->pendingweapon != wp_nochange || player->health <= 0)
     {
-        if (gp_rumble_weapons)
+        if (joy_rumble_weapons)
         {
             if (idlechainsaw)
             {
-                idlerumblestrength = CHAINSAW_IDLE_RUMBLE_STRENGTH * gp_rumble_weapons / 100;
+                idlerumblestrength = CHAINSAW_IDLE_RUMBLE_STRENGTH * joy_rumble_weapons / 100;
                 I_GameControllerRumble(idlerumblestrength);
             }
             else if (idlerumblestrength)

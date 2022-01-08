@@ -383,7 +383,7 @@ static int AccelerateMouse(int value)
 
 static short inline clamp(short value, short deadzone)
 {
-    return (ABS(value) < deadzone ? 0 : (gp_analog ? MAX(-SDL_JOYSTICK_AXIS_MAX, value) : SIGN(value) * SDL_JOYSTICK_AXIS_MAX));
+    return (ABS(value) < deadzone ? 0 : (joy_analog ? MAX(-SDL_JOYSTICK_AXIS_MAX, value) : SIGN(value) * SDL_JOYSTICK_AXIS_MAX));
 }
 
 dboolean    altdown = false;
@@ -551,7 +551,7 @@ static void I_GetEvent(void)
                 switch (Event->caxis.axis)
                 {
                     case SDL_CONTROLLER_AXIS_LEFTX:
-                        if (gp_swapthumbsticks)
+                        if (joy_swapthumbsticks)
                             gamecontrollerthumbRX = clamp(Event->caxis.value, gamecontrollerrightdeadzone);
                         else
                             gamecontrollerthumbLX = clamp(Event->caxis.value, gamecontrollerleftdeadzone);
@@ -562,7 +562,7 @@ static void I_GetEvent(void)
                         break;
 
                     case SDL_CONTROLLER_AXIS_LEFTY:
-                        if (gp_swapthumbsticks)
+                        if (joy_swapthumbsticks)
                             gamecontrollerthumbRY = clamp(Event->caxis.value, gamecontrollerrightdeadzone);
                         else
                             gamecontrollerthumbLY = clamp(Event->caxis.value, gamecontrollerleftdeadzone);
@@ -573,7 +573,7 @@ static void I_GetEvent(void)
                         break;
 
                     case SDL_CONTROLLER_AXIS_RIGHTX:
-                        if (gp_swapthumbsticks)
+                        if (joy_swapthumbsticks)
                             gamecontrollerthumbLX = clamp(Event->caxis.value, gamecontrollerleftdeadzone);
                         else
                             gamecontrollerthumbRX = clamp(Event->caxis.value, gamecontrollerrightdeadzone);
@@ -584,7 +584,7 @@ static void I_GetEvent(void)
                         break;
 
                     case SDL_CONTROLLER_AXIS_RIGHTY:
-                        if (gp_swapthumbsticks)
+                        if (joy_swapthumbsticks)
                             gamecontrollerthumbLY = clamp(Event->caxis.value, gamecontrollerleftdeadzone);
                         else
                             gamecontrollerthumbRY = clamp(Event->caxis.value, gamecontrollerrightdeadzone);

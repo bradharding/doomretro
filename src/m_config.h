@@ -84,21 +84,21 @@ extern int          episode;
 extern int          expansion;
 extern int          facebackcolor;
 extern dboolean     fade;
-extern dboolean     gp_analog;
-extern float        gp_deadzone_left;
-extern float        gp_deadzone_right;
-extern dboolean     gp_invertyaxis;
-extern int          gp_rumble_barrels;
-extern int          gp_rumble_damage;
-extern int          gp_rumble_weapons;
-extern int          gp_sensitivity_horizontal;
-extern int          gp_sensitivity_vertical;
-extern dboolean     gp_swapthumbsticks;
-extern int          gp_thumbsticks;
 extern dboolean     groupmessages;
 extern dboolean     infighting;
 extern dboolean     infiniteheight;
 extern char         *iwadfolder;
+extern dboolean     joy_analog;
+extern float        joy_deadzone_left;
+extern float        joy_deadzone_right;
+extern dboolean     joy_invertyaxis;
+extern int          joy_rumble_barrels;
+extern int          joy_rumble_damage;
+extern int          joy_rumble_weapons;
+extern int          joy_sensitivity_horizontal;
+extern int          joy_sensitivity_vertical;
+extern dboolean     joy_swapthumbsticks;
+extern int          joy_thumbsticks;
 extern dboolean     m_acceleration;
 extern dboolean     m_doubleclick_use;
 extern dboolean     m_invertyaxis;
@@ -449,44 +449,6 @@ enum
 
 #define fade_default                            true
 
-#define gp_analog_default                       true
-
-#define gp_deadzone_left_min                    0.0f
-#define gp_deadzone_left_default                24.0f
-#define gp_deadzone_left_max                    100.0f
-
-#define gp_deadzone_right_min                   0.0f
-#define gp_deadzone_right_default               26.5f
-#define gp_deadzone_right_max                   100.0f
-
-#define gp_invertyaxis_default                  false
-
-#define gp_rumble_barrels_min                  0
-#define gp_rumble_barrels_default              100
-#define gp_rumble_barrels_max                  200
-
-#define gp_rumble_damage_min                   0
-#define gp_rumble_damage_default               100
-#define gp_rumble_damage_max                   200
-
-#define gp_rumble_weapons_min                  0
-#define gp_rumble_weapons_default              100
-#define gp_rumble_weapons_max                  200
-
-#define gp_sensitivity_horizontal_min           0
-#define gp_sensitivity_horizontal_default       64
-#define gp_sensitivity_horizontal_max           128
-
-#define gp_sensitivity_vertical_min             0
-#define gp_sensitivity_vertical_default         64
-#define gp_sensitivity_vertical_max             128
-
-#define gp_swapthumbsticks_default              false
-
-#define gp_thumbsticks_min                      1
-#define gp_thumbsticks_default                  2
-#define gp_thumbsticks_max                      2
-
 #define groupmessages_default                   true
 
 #define health_min                             -99
@@ -502,6 +464,44 @@ enum
 #else
 #define iwadfolder_default                      "/"
 #endif
+
+#define joy_analog_default                       true
+
+#define joy_deadzone_left_min                    0.0f
+#define joy_deadzone_left_default                24.0f
+#define joy_deadzone_left_max                    100.0f
+
+#define joy_deadzone_right_min                   0.0f
+#define joy_deadzone_right_default               26.5f
+#define joy_deadzone_right_max                   100.0f
+
+#define joy_invertyaxis_default                  false
+
+#define joy_rumble_barrels_min                  0
+#define joy_rumble_barrels_default              100
+#define joy_rumble_barrels_max                  200
+
+#define joy_rumble_damage_min                   0
+#define joy_rumble_damage_default               100
+#define joy_rumble_damage_max                   200
+
+#define joy_rumble_weapons_min                  0
+#define joy_rumble_weapons_default              100
+#define joy_rumble_weapons_max                  200
+
+#define joy_sensitivity_horizontal_min           0
+#define joy_sensitivity_horizontal_default       64
+#define joy_sensitivity_horizontal_max           128
+
+#define joy_sensitivity_vertical_min             0
+#define joy_sensitivity_vertical_default         64
+#define joy_sensitivity_vertical_max             128
+
+#define joy_swapthumbsticks_default              false
+
+#define joy_thumbsticks_min                      1
+#define joy_thumbsticks_default                  2
+#define joy_thumbsticks_max                      2
 
 #define m_acceleration_default                  true
 

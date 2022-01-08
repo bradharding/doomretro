@@ -19,8 +19,8 @@
 * The corpses of monsters now always fall when close to an edge.
 * The shadows of *MBF*-compatible helper dogs are now positioned correctly.
 * When the player is injured, their health now flashes in the widescreen HUD.
-* The `gp_vibrate_barrels`, `gp_vibrate_damage` and `gp_vibrate_weapons` CVARs have been renamed `gp_rumble_barrels`, `gp_rumble_damage` and `gp_rumble_weapons`.
-* Rumble now works again for those gamepads that support it.
+* All CVARs starting with `gp_` have been renamed.
+* Rumble now works again for those controllers that support it.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

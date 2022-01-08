@@ -1311,7 +1311,7 @@ void C_Drawer(void)
     consoleactive = (consoledirection == 1);
 
     // cancel any gamepad rumble
-    if (!prevconsoleactive && (gp_rumble_barrels || gp_rumble_damage || gp_rumble_weapons))
+    if (!prevconsoleactive && (joy_rumble_barrels || joy_rumble_damage || joy_rumble_weapons))
     {
         if (consoleactive)
         {

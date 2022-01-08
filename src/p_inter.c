@@ -2322,9 +2322,9 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
         if (r_shake_damage)
             I_UpdateBlitFunc(tplayer->damagecount);
 
-        if (gp_rumble_damage)
+        if (joy_rumble_damage)
         {
-            I_GameControllerRumble((30000 + (100 - MIN(tplayer->health, 100)) / 100 * 30000) * gp_rumble_damage / 100);
+            I_GameControllerRumble((30000 + (100 - MIN(tplayer->health, 100)) / 100 * 30000) * joy_rumble_damage / 100);
             damagerumbletics += BETWEEN(12, damage, 100);
         }
 

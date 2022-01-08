@@ -349,9 +349,9 @@ static dboolean crosshair_cvar_func1(char *cmd, char *parms);
 static void crosshair_cvar_func2(char *cmd, char *parms);
 static void episode_cvar_func2(char *cmd, char *parms);
 static void expansion_cvar_func2(char *cmd, char *parms);
-static dboolean gp_deadzone_cvars_func1(char *cmd, char *parms);
-static void gp_deadzone_cvars_func2(char *cmd, char *parms);
-static void gp_sensitivity_cvars_func2(char *cmd, char *parms);
+static dboolean joy_deadzone_cvars_func1(char *cmd, char *parms);
+static void joy_deadzone_cvars_func2(char *cmd, char *parms);
+static void joy_sensitivity_cvars_func2(char *cmd, char *parms);
 static void mouselook_cvar_func2(char *cmd, char *parms);
 static dboolean player_cvars_func1(char *cmd, char *parms);
 static void player_cvars_func2(char *cmd, char *parms);
@@ -567,29 +567,28 @@ consolecmd_t consolecmds[] =
         " or certain " BOLDITALICS("items") " to the player."),
     CCMD(god, "", alive_func1, god_cmd_func2, true, "[" BOLD("on") "|" BOLD("off") "]",
         "Toggles god mode."),
-    CVAR_BOOL(gp_analog, gp_analogue, bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
-        "Toggles whether movement using the gamepad's thumbsticks is analog or digital."),
-    CVAR_FLOAT(gp_deadzone_left, "", gp_deadzone_cvars_func1, gp_deadzone_cvars_func2, CF_PERCENT,
-        "The dead zone of the gamepad's left thumbstick (" BOLD("0%") " to " BOLD("100%") ")."),
-    CVAR_FLOAT(gp_deadzone_right, "", gp_deadzone_cvars_func1, gp_deadzone_cvars_func2, CF_PERCENT,
-        "The dead zone of the gamepad's right thumbstick (" BOLD("0%") " to " BOLD("100%") ")."),
-    CVAR_BOOL(gp_invertyaxis, "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
-        "Toggles inverting the vertical axis of the gamepad's right thumbstick when looking up or down."),
-    CVAR_INT(gp_rumble_barrels, "", int_cvars_func1, int_cvars_func2, CF_PERCENT, NOVALUEALIAS,
-        "The amount " ITALICS("XInput") " gamepads rumble when the player is near an exploding barrel (" BOLD("0%") " to "
-        BOLD("200%") ")."),
-    CVAR_INT(gp_rumble_damage, "", int_cvars_func1, int_cvars_func2, CF_PERCENT, NOVALUEALIAS,
-        "The amount " ITALICS("XInput") " gamepads rumble when the player receives damage (" BOLD("0%") " to " BOLD("200%") ")."),
-    CVAR_INT(gp_rumble_weapons, "", int_cvars_func1, int_cvars_func2, CF_PERCENT, NOVALUEALIAS,
-        "The amount " ITALICS("XInput") " gamepads rumble when the player fires their weapon (" BOLD("0%") " to " BOLD("200%") ")."),
-    CVAR_INT(gp_sensitivity_horizontal, "", int_cvars_func1, gp_sensitivity_cvars_func2, CF_NONE, NOVALUEALIAS,
-        "The horizontal sensitivity of the gamepad's thumbsticks (" BOLD("0") " to " BOLD("128") ")."),
-    CVAR_INT(gp_sensitivity_vertical, "", int_cvars_func1, gp_sensitivity_cvars_func2, CF_NONE, NOVALUEALIAS,
-        "The vertical sensitivity of the gamepad's thumbsticks (" BOLD("0") " to " BOLD("128") ")."),
-    CVAR_BOOL(gp_swapthumbsticks, "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
-        "Toggles swapping the gamepad's left and right thumbsticks."),
-    CVAR_INT(gp_thumbsticks, "", int_cvars_func1, int_cvars_func2, CF_NONE, NOVALUEALIAS,
-        "The number of thumbsticks used on the gamepad (" BOLD("1") " or " BOLD("2") ")."),
+    CVAR_BOOL(joy_analog, joy_analogue, bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
+        "Toggles whether movement using a controller's thumbsticks is analog or digital."),
+    CVAR_FLOAT(joy_deadzone_left, "", joy_deadzone_cvars_func1, joy_deadzone_cvars_func2, CF_PERCENT,
+        "The dead zone of a controller's left thumbstick (" BOLD("0%") " to " BOLD("100%") ")."),
+    CVAR_FLOAT(joy_deadzone_right, "", joy_deadzone_cvars_func1, joy_deadzone_cvars_func2, CF_PERCENT,
+        "The dead zone of a controller's right thumbstick (" BOLD("0%") " to " BOLD("100%") ")."),
+    CVAR_BOOL(joy_invertyaxis, "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
+        "Toggles inverting the vertical axis of a controller's right thumbstick when looking up or down."),
+    CVAR_INT(joy_rumble_barrels, "", int_cvars_func1, int_cvars_func2, CF_PERCENT, NOVALUEALIAS,
+        "The amount controllers rumble when the player is near an exploding barrel (" BOLD("0%") " to " BOLD("200%") ")."),
+    CVAR_INT(joy_rumble_damage, "", int_cvars_func1, int_cvars_func2, CF_PERCENT, NOVALUEALIAS,
+        "The amount controllers rumble when the player receives damage (" BOLD("0%") " to " BOLD("200%") ")."),
+    CVAR_INT(joy_rumble_weapons, "", int_cvars_func1, int_cvars_func2, CF_PERCENT, NOVALUEALIAS,
+        "The amount controllers rumble when the player fires their weapon (" BOLD("0%") " to " BOLD("200%") ")."),
+    CVAR_INT(joy_sensitivity_horizontal, "", int_cvars_func1, joy_sensitivity_cvars_func2, CF_NONE, NOVALUEALIAS,
+        "The horizontal sensitivity of a controller's thumbsticks (" BOLD("0") " to " BOLD("128") ")."),
+    CVAR_INT(joy_sensitivity_vertical, "", int_cvars_func1, joy_sensitivity_cvars_func2, CF_NONE, NOVALUEALIAS,
+        "The vertical sensitivity of a controller's thumbsticks (" BOLD("0") " to " BOLD("128") ")."),
+    CVAR_BOOL(joy_swapthumbsticks, "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
+        "Toggles swapping a controller's left and right thumbsticks."),
+    CVAR_INT(joy_thumbsticks, "", int_cvars_func1, int_cvars_func2, CF_NONE, NOVALUEALIAS,
+        "The number of thumbsticks used on a controller (" BOLD("1") " or " BOLD("2") ")."),
     CVAR_BOOL(groupmessages, "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles the grouping of identical player messages."),
     CVAR_INT(health, "", player_cvars_func1, player_cvars_func2, CF_PERCENT, NOVALUEALIAS,
@@ -8019,9 +8018,9 @@ static void expansion_cvar_func2(char *cmd, char *parms)
 }
 
 //
-// gp_deadzone_left and gp_deadzone_right CVARs
+// joy_deadzone_left and joy_deadzone_right CVARs
 //
-static dboolean gp_deadzone_cvars_func1(char *cmd, char *parms)
+static dboolean joy_deadzone_cvars_func1(char *cmd, char *parms)
 {
     float   value;
     int     result;
@@ -8035,7 +8034,7 @@ static dboolean gp_deadzone_cvars_func1(char *cmd, char *parms)
     return result;
 }
 
-static void gp_deadzone_cvars_func2(char *cmd, char *parms)
+static void joy_deadzone_cvars_func2(char *cmd, char *parms)
 {
     if (*parms)
     {
@@ -8044,34 +8043,34 @@ static void gp_deadzone_cvars_func2(char *cmd, char *parms)
         if (sscanf(parms, "%10f%%", &value) != 1)
             sscanf(parms, "%10f", &value);
 
-        if (M_StringCompare(cmd, stringize(gp_deadzone_left)))
+        if (M_StringCompare(cmd, stringize(joy_deadzone_left)))
         {
-            if (gp_deadzone_left != value)
+            if (joy_deadzone_left != value)
             {
-                gp_deadzone_left = BETWEENF(gp_deadzone_left_min, value, gp_deadzone_left_max);
+                joy_deadzone_left = BETWEENF(joy_deadzone_left_min, value, joy_deadzone_left_max);
                 I_SetGameControllerLeftDeadZone();
                 M_SaveCVARs();
             }
         }
-        else if (gp_deadzone_right != value)
+        else if (joy_deadzone_right != value)
         {
-            gp_deadzone_right = BETWEENF(gp_deadzone_right_min, value, gp_deadzone_right_max);
+            joy_deadzone_right = BETWEENF(joy_deadzone_right_min, value, joy_deadzone_right_max);
             I_SetGameControllerRightDeadZone();
             M_SaveCVARs();
         }
     }
-    else if (M_StringCompare(cmd, stringize(gp_deadzone_left)))
+    else if (M_StringCompare(cmd, stringize(joy_deadzone_left)))
     {
-        char    *temp1 = striptrailingzero(gp_deadzone_left, 1);
+        char    *temp1 = striptrailingzero(joy_deadzone_left, 1);
         int     i = C_GetIndex(cmd);
 
         C_ShowDescription(i);
 
-        if (gp_deadzone_left == gp_deadzone_left_default)
+        if (joy_deadzone_left == joy_deadzone_left_default)
             C_Output(PERCENTCVARISDEFAULT, temp1);
         else
         {
-            char    *temp2 = striptrailingzero(gp_deadzone_left_default, 1);
+            char    *temp2 = striptrailingzero(joy_deadzone_left_default, 1);
 
             C_Output(PERCENTCVARWITHDEFAULT, temp1, temp2);
             free(temp2);
@@ -8083,16 +8082,16 @@ static void gp_deadzone_cvars_func2(char *cmd, char *parms)
     }
     else
     {
-        char    *temp1 = striptrailingzero(gp_deadzone_right, 1);
+        char    *temp1 = striptrailingzero(joy_deadzone_right, 1);
         int     i = C_GetIndex(cmd);
 
         C_ShowDescription(i);
 
-        if (gp_deadzone_right == gp_deadzone_right_default)
+        if (joy_deadzone_right == joy_deadzone_right_default)
             C_Output(PERCENTCVARISDEFAULT, temp1);
         else
         {
-            char    *temp2 = striptrailingzero(gp_deadzone_right_default, 1);
+            char    *temp2 = striptrailingzero(joy_deadzone_right_default, 1);
 
             C_Output(PERCENTCVARWITHDEFAULT, temp1, temp2);
             free(temp2);
@@ -8105,18 +8104,18 @@ static void gp_deadzone_cvars_func2(char *cmd, char *parms)
 }
 
 //
-// gp_sensitivity_horizontal and gp_sensitivity_vertical CVARs
+// joy_sensitivity_horizontal and joy_sensitivity_vertical CVARs
 //
-static void gp_sensitivity_cvars_func2(char *cmd, char *parms)
+static void joy_sensitivity_cvars_func2(char *cmd, char *parms)
 {
-    const int   gp_sensitivity_horizontal_old = gp_sensitivity_horizontal;
-    const int   gp_sensitivity_vertical_old = gp_sensitivity_vertical;
+    const int   joy_sensitivity_horizontal_old = joy_sensitivity_horizontal;
+    const int   joy_sensitivity_vertical_old = joy_sensitivity_vertical;
 
     int_cvars_func2(cmd, parms);
 
-    if (gp_sensitivity_horizontal != gp_sensitivity_horizontal_old)
+    if (joy_sensitivity_horizontal != joy_sensitivity_horizontal_old)
         I_SetGameControllerHorizontalSensitivity();
-    else if (gp_sensitivity_vertical != gp_sensitivity_vertical_old)
+    else if (joy_sensitivity_vertical != joy_sensitivity_vertical_old)
         I_SetGameControllerVerticalSensitivity();
 }
 

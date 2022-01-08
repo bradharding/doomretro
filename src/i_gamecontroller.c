@@ -41,17 +41,17 @@
 #include "m_config.h"
 #include "m_misc.h"
 
-dboolean                    gp_analog = gp_analog_default;
-float                       gp_deadzone_left = gp_deadzone_left_default;
-float                       gp_deadzone_right = gp_deadzone_right_default;
-dboolean                    gp_invertyaxis = gp_invertyaxis_default;
-int                         gp_rumble_barrels = gp_rumble_barrels_default;
-int                         gp_rumble_damage = gp_rumble_damage_default;
-int                         gp_rumble_weapons = gp_rumble_weapons_default;
-int                         gp_sensitivity_horizontal = gp_sensitivity_horizontal_default;
-int                         gp_sensitivity_vertical = gp_sensitivity_vertical_default;
-dboolean                    gp_swapthumbsticks = gp_swapthumbsticks_default;
-int                         gp_thumbsticks = gp_thumbsticks_default;
+dboolean                    joy_analog = joy_analog_default;
+float                       joy_deadzone_left = joy_deadzone_left_default;
+float                       joy_deadzone_right = joy_deadzone_right_default;
+dboolean                    joy_invertyaxis = joy_invertyaxis_default;
+int                         joy_rumble_barrels = joy_rumble_barrels_default;
+int                         joy_rumble_damage = joy_rumble_damage_default;
+int                         joy_rumble_weapons = joy_rumble_weapons_default;
+int                         joy_sensitivity_horizontal = joy_sensitivity_horizontal_default;
+int                         joy_sensitivity_vertical = joy_sensitivity_vertical_default;
+dboolean                    joy_swapthumbsticks = joy_swapthumbsticks_default;
+int                         joy_thumbsticks = joy_thumbsticks_default;
 
 static SDL_Joystick         *joystick;
 static SDL_GameController   *gamecontroller;
@@ -102,7 +102,7 @@ void I_InitGameController(void)
             else
                 C_Output("A controller is connected.");
 
-            if ((gp_rumble_barrels || gp_rumble_damage || gp_rumble_weapons)
+            if ((joy_rumble_barrels || joy_rumble_damage || joy_rumble_weapons)
                 && SDL_GameControllerRumble(gamecontroller, 0, 0, 0) == -1)
                 C_Warning(1, "This controller doesn't support rumble.");
 
@@ -165,22 +165,22 @@ void I_StopGameControllerRumble(void)
 
 void I_SetGameControllerHorizontalSensitivity(void)
 {
-    gamecontrollerhorizontalsensitivity = (!gp_sensitivity_horizontal ? 0.0f :
-        4.0f * gp_sensitivity_horizontal / gp_sensitivity_horizontal_max + 0.2f);
+    gamecontrollerhorizontalsensitivity = (!joy_sensitivity_horizontal ? 0.0f :
+        4.0f * joy_sensitivity_horizontal / joy_sensitivity_horizontal_max + 0.2f);
 }
 
 void I_SetGameControllerVerticalSensitivity(void)
 {
-    gamecontrollerverticalsensitivity = (!gp_sensitivity_vertical ? 0.0f :
-        4.0f * gp_sensitivity_vertical / gp_sensitivity_vertical_max + 0.2f);
+    gamecontrollerverticalsensitivity = (!joy_sensitivity_vertical ? 0.0f :
+        4.0f * joy_sensitivity_vertical / joy_sensitivity_vertical_max + 0.2f);
 }
 
 void I_SetGameControllerLeftDeadZone(void)
 {
-    gamecontrollerleftdeadzone = (short)(gp_deadzone_left * SHRT_MAX / 100.0f);
+    gamecontrollerleftdeadzone = (short)(joy_deadzone_left * SHRT_MAX / 100.0f);
 }
 
 void I_SetGameControllerRightDeadZone(void)
 {
-    gamecontrollerrightdeadzone = (short)(gp_deadzone_right * SHRT_MAX / 100.0f);
+    gamecontrollerrightdeadzone = (short)(joy_deadzone_right * SHRT_MAX / 100.0f);
 }

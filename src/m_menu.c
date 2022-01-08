@@ -1880,7 +1880,7 @@ static void M_DrawOptions(void)
 
     if (usinggamecontroller && !M_MSENS)
         M_DrawThermo(OptionsDef.x - 1, OptionsDef.y + 16 * (mousesens + 1) + OFFSET + !hacx, 9,
-            gp_sensitivity_horizontal / (float)gp_sensitivity_horizontal_max * 8.0f, 8.0f, 8);
+            joy_sensitivity_horizontal / (float)joy_sensitivity_horizontal_max * 8.0f, 8.0f, 8);
     else
         M_DrawThermo(OptionsDef.x - 1, OptionsDef.y + 16 * (mousesens + 1) + OFFSET + !hacx, 9,
             m_sensitivity / (float)m_sensitivity_max * 8.0f, 8.0f, 8);
@@ -2097,14 +2097,14 @@ static void M_ChangeSensitivity(int choice)
         switch (choice)
         {
             case 0:
-                if (gp_sensitivity_horizontal > gp_sensitivity_horizontal_min)
+                if (joy_sensitivity_horizontal > joy_sensitivity_horizontal_min)
                 {
-                    if (gp_sensitivity_horizontal & 1)
-                        gp_sensitivity_horizontal++;
+                    if (joy_sensitivity_horizontal & 1)
+                        joy_sensitivity_horizontal++;
 
-                    gp_sensitivity_horizontal -= 2;
+                    joy_sensitivity_horizontal -= 2;
                     I_SetGameControllerHorizontalSensitivity();
-                    C_IntCVAROutput(stringize(gp_sensitivity_horizontal), gp_sensitivity_horizontal);
+                    C_IntCVAROutput(stringize(joy_sensitivity_horizontal), joy_sensitivity_horizontal);
                     M_SliderSound();
                     M_SaveCVARs();
                 }
@@ -2112,14 +2112,14 @@ static void M_ChangeSensitivity(int choice)
                 break;
 
             case 1:
-                if (gp_sensitivity_horizontal < gp_sensitivity_horizontal_max)
+                if (joy_sensitivity_horizontal < joy_sensitivity_horizontal_max)
                 {
-                    if (gp_sensitivity_horizontal & 1)
-                        gp_sensitivity_horizontal--;
+                    if (joy_sensitivity_horizontal & 1)
+                        joy_sensitivity_horizontal--;
 
-                    gp_sensitivity_horizontal += 2;
+                    joy_sensitivity_horizontal += 2;
                     I_SetGameControllerHorizontalSensitivity();
-                    C_IntCVAROutput(stringize(gp_sensitivity_horizontal), gp_sensitivity_horizontal);
+                    C_IntCVAROutput(stringize(joy_sensitivity_horizontal), joy_sensitivity_horizontal);
                     M_SliderSound();
                     M_SaveCVARs();
                 }
@@ -3617,7 +3617,7 @@ void M_StartControlPanel(void)
     currentMenu = &MainDef;
     itemOn = currentMenu->lastOn;
 
-    if (gp_rumble_barrels || gp_rumble_damage || gp_rumble_weapons)
+    if (joy_rumble_barrels || joy_rumble_damage || joy_rumble_weapons)
     {
         restorerumblestrength = idlerumblestrength;
         idlerumblestrength = 0;
@@ -3836,7 +3836,7 @@ void M_ClearMenus(void)
     menuactive = false;
     blurtic = -1;
 
-    if (gp_rumble_barrels || gp_rumble_damage || gp_rumble_weapons)
+    if (joy_rumble_barrels || joy_rumble_damage || joy_rumble_weapons)
     {
         idlerumblestrength = restorerumblestrength;
         I_GameControllerRumble(idlerumblestrength);
