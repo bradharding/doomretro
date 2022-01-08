@@ -51,7 +51,7 @@
 #include "g_game.h"
 #include "hu_stuff.h"
 #include "i_colors.h"
-#include "i_gamepad.h"
+#include "i_gamecontroller.h"
 #include "i_swap.h"
 #include "i_system.h"
 #include "i_timer.h"
@@ -1321,7 +1321,7 @@ void C_Drawer(void)
         else
             idlerumblestrength = restorerumblestrength;
 
-        I_GamepadRumble(idlerumblestrength);
+        I_GameControllerRumble(idlerumblestrength);
     }
 
     // cancel any screen shake
@@ -2310,7 +2310,7 @@ dboolean C_Responder(event_t *ev)
                 outputhistory = -1;
         }
     }
-    else if (ev->type == ev_gamepad && (gamepadbuttons && gamepadconsole) && gamepadwait < I_GetTime())
+    else if (ev->type == ev_gamepad && (gamecontrollerbuttons && gamepadconsole) && gamepadwait < I_GetTime())
     {
         gamepadwait = I_GetTime() + 8;
         C_HideConsole();

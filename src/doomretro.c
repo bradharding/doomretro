@@ -44,7 +44,7 @@
 #endif
 
 #include "d_main.h"
-#include "i_gamepad.h"
+#include "i_gamecontroller.h"
 #include "m_argv.h"
 #include "m_config.h"
 #include "m_misc.h"

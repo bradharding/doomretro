@@ -50,7 +50,7 @@
 
 #include "c_console.h"
 #include "d_main.h"
-#include "i_gamepad.h"
+#include "i_gamecontroller.h"
 #include "i_timer.h"
 #include "m_config.h"
 #include "m_misc.h"
@@ -239,7 +239,7 @@ void I_Quit(dboolean shutdown)
         FreeSurfaces(true);
         I_ShutdownGraphics();
         I_ShutdownKeyboard();
-        I_ShutdownGamepad();
+        I_ShutdownGameController();
         I_ShutdownTimer();
     }
 
@@ -279,7 +279,7 @@ void I_Error(const char *error, ...)
     FreeSurfaces(true);
     I_ShutdownGraphics();
     I_ShutdownKeyboard();
-    I_ShutdownGamepad();
+    I_ShutdownGameController();
     I_ShutdownTimer();
 
     W_CloseFiles();

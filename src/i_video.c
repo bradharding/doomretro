@@ -57,7 +57,7 @@
 #include "g_game.h"
 #include "hu_stuff.h"
 #include "i_colors.h"
-#include "i_gamepad.h"
+#include "i_gamecontroller.h"
 #include "i_system.h"
 #include "i_timer.h"
 #include "m_cheat.h"
@@ -544,7 +544,7 @@ static void I_GetEvent(void)
                 break;
 
             case SDL_CONTROLLERDEVICEADDED:
-                I_InitGamepad();
+                I_InitGameController();
                 break;
 
             case SDL_CONTROLLERAXISMOTION:
@@ -552,9 +552,9 @@ static void I_GetEvent(void)
                 {
                     case SDL_CONTROLLER_AXIS_LEFTX:
                         if (gp_swapthumbsticks)
-                            gamepadthumbRX = clamp(Event->caxis.value, gamepadrightdeadzone);
+                            gamecontrollerthumbRX = clamp(Event->caxis.value, gamecontrollerrightdeadzone);
                         else
-                            gamepadthumbLX = clamp(Event->caxis.value, gamepadleftdeadzone);
+                            gamecontrollerthumbLX = clamp(Event->caxis.value, gamecontrollerleftdeadzone);
 
                         event.type = ev_gamepad;
                         D_PostEvent(&event);
@@ -563,9 +563,9 @@ static void I_GetEvent(void)
 
                     case SDL_CONTROLLER_AXIS_LEFTY:
                         if (gp_swapthumbsticks)
-                            gamepadthumbRY = clamp(Event->caxis.value, gamepadrightdeadzone);
+                            gamecontrollerthumbRY = clamp(Event->caxis.value, gamecontrollerrightdeadzone);
                         else
-                            gamepadthumbLY = clamp(Event->caxis.value, gamepadleftdeadzone);
+                            gamecontrollerthumbLY = clamp(Event->caxis.value, gamecontrollerleftdeadzone);
 
                         event.type = ev_gamepad;
                         D_PostEvent(&event);
@@ -574,9 +574,9 @@ static void I_GetEvent(void)
 
                     case SDL_CONTROLLER_AXIS_RIGHTX:
                         if (gp_swapthumbsticks)
-                            gamepadthumbLX = clamp(Event->caxis.value, gamepadleftdeadzone);
+                            gamecontrollerthumbLX = clamp(Event->caxis.value, gamecontrollerleftdeadzone);
                         else
-                            gamepadthumbRX = clamp(Event->caxis.value, gamepadrightdeadzone);
+                            gamecontrollerthumbRX = clamp(Event->caxis.value, gamecontrollerrightdeadzone);
 
                         event.type = ev_gamepad;
                         D_PostEvent(&event);
@@ -585,9 +585,9 @@ static void I_GetEvent(void)
 
                     case SDL_CONTROLLER_AXIS_RIGHTY:
                         if (gp_swapthumbsticks)
-                            gamepadthumbLY = clamp(Event->caxis.value, gamepadleftdeadzone);
+                            gamecontrollerthumbLY = clamp(Event->caxis.value, gamecontrollerleftdeadzone);
                         else
-                            gamepadthumbRY = clamp(Event->caxis.value, gamepadrightdeadzone);
+                            gamecontrollerthumbRY = clamp(Event->caxis.value, gamecontrollerrightdeadzone);
 
                         event.type = ev_gamepad;
                         D_PostEvent(&event);
@@ -596,9 +596,9 @@ static void I_GetEvent(void)
 
                     case SDL_CONTROLLER_AXIS_TRIGGERLEFT:
                         if (Event->caxis.value >= GAMEPAD_TRIGGER_THRESHOLD)
-                            gamepadbuttons |= GAMEPAD_LEFT_TRIGGER;
+                            gamecontrollerbuttons |= GAMEPAD_LEFT_TRIGGER;
                         else
-                            gamepadbuttons &= ~GAMEPAD_LEFT_TRIGGER;
+                            gamecontrollerbuttons &= ~GAMEPAD_LEFT_TRIGGER;
 
                         event.type = ev_gamepad;
                         D_PostEvent(&event);
@@ -607,9 +607,9 @@ static void I_GetEvent(void)
 
                     case SDL_CONTROLLER_AXIS_TRIGGERRIGHT:
                         if (Event->caxis.value >= GAMEPAD_TRIGGER_THRESHOLD)
-                            gamepadbuttons |= GAMEPAD_RIGHT_TRIGGER;
+                            gamecontrollerbuttons |= GAMEPAD_RIGHT_TRIGGER;
                         else
-                            gamepadbuttons &= ~GAMEPAD_RIGHT_TRIGGER;
+                            gamecontrollerbuttons &= ~GAMEPAD_RIGHT_TRIGGER;
 
                         event.type = ev_gamepad;
                         D_PostEvent(&event);
@@ -620,14 +620,14 @@ static void I_GetEvent(void)
                 break;
 
             case SDL_CONTROLLERBUTTONDOWN:
-                gamepadbuttons |= (1 << Event->cbutton.button);
+                gamecontrollerbuttons |= (1 << Event->cbutton.button);
                 event.type = ev_gamepad;
                 D_PostEvent(&event);
 
                 break;
 
             case SDL_CONTROLLERBUTTONUP:
-                gamepadbuttons &= ~(1 << Event->cbutton.button);
+                gamecontrollerbuttons &= ~(1 << Event->cbutton.button);
                 keydown = 0;
                 event.type = ev_gamepad;
                 D_PostEvent(&event);

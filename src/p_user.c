@@ -39,7 +39,7 @@
 #include "c_console.h"
 #include "doomstat.h"
 #include "g_game.h"
-#include "i_gamepad.h"
+#include "i_gamecontroller.h"
 #include "m_config.h"
 #include "m_menu.h"
 #include "p_inter.h"

@@ -40,7 +40,7 @@
 #include "doomstat.h"
 #include "g_game.h"
 #include "hu_stuff.h"
-#include "i_gamepad.h"
+#include "i_gamecontroller.h"
 #include "m_config.h"
 #include "m_misc.h"
 #include "m_random.h"
@@ -1360,7 +1360,7 @@ void P_SpawnPuff(fixed_t x, fixed_t y, fixed_t z, angle_t angle)
             if (viewplayer->powers[pw_strength])
                 strength *= 2;
 
-            I_GamepadRumble(strength);
+            I_GameControllerRumble(strength);
             weaponrumbletics = weaponinfo[wp_fist].tics;
         }
     }

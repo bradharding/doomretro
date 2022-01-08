@@ -44,7 +44,7 @@
 #include "doomstat.h"
 #include "hu_stuff.h"
 #include "i_colors.h"
-#include "i_gamepad.h"
+#include "i_gamecontroller.h"
 #include "i_system.h"
 #include "i_timer.h"
 #include "m_bbox.h"
@@ -489,7 +489,7 @@ static dboolean     speedtoggle;
 
 static dboolean AM_GetSpeedToggle(void)
 {
-    return ((!!(gamepadbuttons & GAMEPAD_LEFT_TRIGGER)) ^ (!!(modstate & KMOD_SHIFT)));
+    return ((!!(gamecontrollerbuttons & GAMEPAD_LEFT_TRIGGER)) ^ (!!(modstate & KMOD_SHIFT)));
 }
 
 static void AM_ToggleZoomOut(void)
@@ -691,13 +691,13 @@ dboolean AM_Responder(const event_t *ev)
     {
         static dboolean backbuttondown;
 
-        if (!(gamepadbuttons & gamepadautomap))
+        if (!(gamecontrollerbuttons & gamepadautomap))
             backbuttondown = false;
 
         if (!automapactive && !mapwindow)
         {
             if ((ev->type == ev_keydown && ev->data1 == AM_STARTKEY && keydown != AM_STARTKEY && !(modstate & KMOD_ALT))
-                || (ev->type == ev_gamepad && (gamepadbuttons & gamepadautomap) && !backbuttondown))
+                || (ev->type == ev_gamepad && (gamecontrollerbuttons & gamepadautomap) && !backbuttondown))
             {
                 keydown = AM_STARTKEY;
                 backbuttondown = true;
@@ -975,7 +975,7 @@ dboolean AM_Responder(const event_t *ev)
             }
             else if (ev->type == ev_gamepad && gamepadwait < I_GetTime())
             {
-                if ((gamepadbuttons & gamepadautomap) && !backbuttondown)
+                if ((gamecontrollerbuttons & gamepadautomap) && !backbuttondown)
                 {
                     gamepadwait = I_GetTime() + 8;
                     viewactive = true;
@@ -985,56 +985,56 @@ dboolean AM_Responder(const event_t *ev)
                 }
 
                 // zoom out
-                else if ((gamepadbuttons & gamepadautomapzoomout) && !(gamepadbuttons & gamepadautomapzoomin))
+                else if ((gamecontrollerbuttons & gamepadautomapzoomout) && !(gamecontrollerbuttons & gamepadautomapzoomin))
                 {
                     movement = true;
                     AM_ToggleZoomOut();
                 }
 
                 // zoom in
-                else if ((gamepadbuttons & gamepadautomapzoomin) && !(gamepadbuttons & gamepadautomapzoomout))
+                else if ((gamecontrollerbuttons & gamepadautomapzoomin) && !(gamecontrollerbuttons & gamepadautomapzoomout))
                 {
                     movement = true;
                     AM_ToggleZoomIn();
                 }
 
                 // toggle maximum zoom
-                else if ((gamepadbuttons & gamepadautomapmaxzoom) && !idclev && !idmus)
+                else if ((gamecontrollerbuttons & gamepadautomapmaxzoom) && !idclev && !idmus)
                 {
                     AM_ToggleMaxZoom();
                     gamepadwait = I_GetTime() + 12;
                 }
 
                 // toggle follow mode
-                else if (gamepadbuttons & gamepadautomapfollowmode)
+                else if (gamecontrollerbuttons & gamepadautomapfollowmode)
                 {
                     AM_ToggleFollowMode(!am_followmode);
                     gamepadwait = I_GetTime() + 12;
                 }
 
                 // toggle grid
-                else if (gamepadbuttons & gamepadautomapgrid)
+                else if (gamecontrollerbuttons & gamepadautomapgrid)
                 {
                     AM_ToggleGrid();
                     gamepadwait = I_GetTime() + 12;
                 }
 
                 // mark spot
-                else if ((gamepadbuttons & gamepadautomapmark))
+                else if ((gamecontrollerbuttons & gamepadautomapmark))
                 {
                     AM_AddMark();
                     gamepadwait = I_GetTime() + 12;
                 }
 
                 // clear mark(s)
-                else if (gamepadbuttons & gamepadautomapclearmark)
+                else if (gamecontrollerbuttons & gamepadautomapclearmark)
                 {
                     AM_ClearMarks();
                     gamepadwait = I_GetTime() + 12;
                 }
 
                 // toggle rotate mode
-                else if (gamepadbuttons & gamepadautomaprotatemode)
+                else if (gamecontrollerbuttons & gamepadautomaprotatemode)
                 {
                     AM_ToggleRotateMode(!am_rotatemode);
                     gamepadwait = I_GetTime() + 12;
@@ -1043,67 +1043,67 @@ dboolean AM_Responder(const event_t *ev)
                 if (!am_followmode)
                 {
                     // pan right with left thumbstick
-                    if (gamepadthumbLX > 0)
+                    if (gamecontrollerthumbLX > 0)
                     {
                         movement = true;
                         speedtoggle = AM_GetSpeedToggle();
-                        m_paninc.x = (fixed_t)(FTOM(F_PANINC) * ((float)gamepadthumbLX / SHRT_MAX) * 1.2f);
+                        m_paninc.x = (fixed_t)(FTOM(F_PANINC) * ((float)gamecontrollerthumbLX / SHRT_MAX) * 1.2f);
                     }
 
                     // pan left with left thumbstick
-                    else if (gamepadthumbLX < 0)
+                    else if (gamecontrollerthumbLX < 0)
                     {
                         movement = true;
                         speedtoggle = AM_GetSpeedToggle();
-                        m_paninc.x = (fixed_t)(FTOM(F_PANINC) * ((float)(gamepadthumbLX) / SHRT_MAX) * 1.2f);
+                        m_paninc.x = (fixed_t)(FTOM(F_PANINC) * ((float)(gamecontrollerthumbLX) / SHRT_MAX) * 1.2f);
                     }
 
                     // pan right with right thumbstick
-                    if (gamepadthumbRX > 0 && gamepadthumbRX > gamepadthumbLX)
+                    if (gamecontrollerthumbRX > 0 && gamecontrollerthumbRX > gamecontrollerthumbLX)
                     {
                         movement = true;
                         speedtoggle = AM_GetSpeedToggle();
-                        m_paninc.x = (fixed_t)(FTOM(F_PANINC) * ((float)gamepadthumbRX / SHRT_MAX) * 1.2f);
+                        m_paninc.x = (fixed_t)(FTOM(F_PANINC) * ((float)gamecontrollerthumbRX / SHRT_MAX) * 1.2f);
                     }
 
                     // pan left with right thumbstick
-                    else if (gamepadthumbRX < 0 && gamepadthumbRX < gamepadthumbLX)
+                    else if (gamecontrollerthumbRX < 0 && gamecontrollerthumbRX < gamecontrollerthumbLX)
                     {
                         movement = true;
                         speedtoggle = AM_GetSpeedToggle();
-                        m_paninc.x = (fixed_t)(FTOM(F_PANINC) * ((float)(gamepadthumbRX) / SHRT_MAX) * 1.2f);
+                        m_paninc.x = (fixed_t)(FTOM(F_PANINC) * ((float)(gamecontrollerthumbRX) / SHRT_MAX) * 1.2f);
                     }
 
                     // pan up with left thumbstick
-                    if (gamepadthumbLY < 0)
+                    if (gamecontrollerthumbLY < 0)
                     {
                         movement = true;
                         speedtoggle = AM_GetSpeedToggle();
-                        m_paninc.y = (fixed_t)(FTOM(F_PANINC) * (-(float)(gamepadthumbLY) / SHRT_MAX) * 1.2f);
+                        m_paninc.y = (fixed_t)(FTOM(F_PANINC) * (-(float)(gamecontrollerthumbLY) / SHRT_MAX) * 1.2f);
                     }
 
                     // pan down with left thumbstick
-                    else if (gamepadthumbLY > 0)
+                    else if (gamecontrollerthumbLY > 0)
                     {
                         movement = true;
                         speedtoggle = AM_GetSpeedToggle();
-                        m_paninc.y = -(fixed_t)(FTOM(F_PANINC) * ((float)gamepadthumbLY / SHRT_MAX) * 1.2f);
+                        m_paninc.y = -(fixed_t)(FTOM(F_PANINC) * ((float)gamecontrollerthumbLY / SHRT_MAX) * 1.2f);
                     }
 
                     // pan up with right thumbstick
-                    if (gamepadthumbRY < 0 && gamepadthumbRY < gamepadthumbLY)
+                    if (gamecontrollerthumbRY < 0 && gamecontrollerthumbRY < gamecontrollerthumbLY)
                     {
                         movement = true;
                         speedtoggle = AM_GetSpeedToggle();
-                        m_paninc.y = -(fixed_t)(FTOM(F_PANINC) * ((float)(gamepadthumbRY) / SHRT_MAX) * 1.2f);
+                        m_paninc.y = -(fixed_t)(FTOM(F_PANINC) * ((float)(gamecontrollerthumbRY) / SHRT_MAX) * 1.2f);
                     }
 
                     // pan down with right thumbstick
-                    else if (gamepadthumbRY > 0 && gamepadthumbRY > gamepadthumbLY)
+                    else if (gamecontrollerthumbRY > 0 && gamecontrollerthumbRY > gamecontrollerthumbLY)
                     {
                         movement = true;
                         speedtoggle = AM_GetSpeedToggle();
-                        m_paninc.y = -(fixed_t)(FTOM(F_PANINC) * ((float)gamepadthumbRY / SHRT_MAX) * 1.2f);
+                        m_paninc.y = -(fixed_t)(FTOM(F_PANINC) * ((float)gamecontrollerthumbRY / SHRT_MAX) * 1.2f);
                     }
                 }
 

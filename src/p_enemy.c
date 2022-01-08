@@ -40,7 +40,7 @@
 #include "c_console.h"
 #include "doomstat.h"
 #include "g_game.h"
-#include "i_gamepad.h"
+#include "i_gamecontroller.h"
 #include "i_timer.h"
 #include "m_bbox.h"
 #include "m_config.h"
@@ -1900,7 +1900,7 @@ void A_Explode(mobj_t *actor, player_t *player, pspdef_t *psp)
 
             if (gp_rumble_barrels)
             {
-                I_GamepadRumble(20000 * gp_rumble_barrels / 100);
+                I_GameControllerRumble(20000 * gp_rumble_barrels / 100);
                 barrelrumbletics = TICRATE;
             }
         }

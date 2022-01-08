@@ -45,7 +45,7 @@
 #include "d_main.h"
 #include "doomstat.h"
 #include "g_game.h"
-#include "i_gamepad.h"
+#include "i_gamecontroller.h"
 #include "m_config.h"
 #include "m_misc.h"
 #include "version.h"
@@ -695,10 +695,10 @@ static void M_CheckCVARs(dboolean ispackageconfig)
         gp_analog = gp_analog_default;
 
     gp_deadzone_left = BETWEENF(gp_deadzone_left_min, gp_deadzone_left, gp_deadzone_left_max);
-    I_SetGamepadLeftDeadZone();
+    I_SetGameControllerLeftDeadZone();
 
     gp_deadzone_right = BETWEENF(gp_deadzone_right_min, gp_deadzone_right, gp_deadzone_right_max);
-    I_SetGamepadRightDeadZone();
+    I_SetGameControllerRightDeadZone();
 
     if (gp_invertyaxis != false && gp_invertyaxis != true)
         gp_invertyaxis = gp_invertyaxis_default;
@@ -710,10 +710,10 @@ static void M_CheckCVARs(dboolean ispackageconfig)
     gp_rumble_weapons = BETWEEN(gp_rumble_weapons_min, gp_rumble_damage, gp_rumble_weapons_max);
 
     gp_sensitivity_horizontal = BETWEEN(gp_sensitivity_horizontal_min, gp_sensitivity_horizontal, gp_sensitivity_horizontal_max);
-    I_SetGamepadHorizontalSensitivity();
+    I_SetGameControllerHorizontalSensitivity();
 
     gp_sensitivity_vertical = BETWEEN(gp_sensitivity_vertical_min, gp_sensitivity_vertical, gp_sensitivity_vertical_max);
-    I_SetGamepadVerticalSensitivity();
+    I_SetGameControllerVerticalSensitivity();
 
     if (gp_swapthumbsticks != false && gp_swapthumbsticks != true)
         gp_swapthumbsticks = gp_swapthumbsticks_default;

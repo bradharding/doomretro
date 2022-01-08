@@ -36,8 +36,8 @@
 ========================================================================
 */
 
-#if !defined(__I_GAMEPAD_H__)
-#define __I_GAMEPAD_H__
+#if !defined(__I_GAMECONTROLLER_H__)
+#define __I_GAMECONTROLLER_H__
 
 #include "doomtype.h"
 
@@ -68,26 +68,26 @@ extern int      barrelrumbletics;
 extern int      damagerumbletics;
 extern int      weaponrumbletics;
 
-extern int      gamepadbuttons;
-extern short    gamepadthumbLX;
-extern short    gamepadthumbLY;
-extern short    gamepadthumbRX;
-extern short    gamepadthumbRY;
+extern int      gamecontrollerbuttons;
+extern short    gamecontrollerthumbLX;
+extern short    gamecontrollerthumbLY;
+extern short    gamecontrollerthumbRX;
+extern short    gamecontrollerthumbRY;
 extern int      idlerumblestrength;
 extern int      restorerumblestrength;
-extern float    gamepadhorizontalsensitivity;
-extern float    gamepadverticalsensitivity;
-extern short    gamepadleftdeadzone;
-extern short    gamepadrightdeadzone;
+extern float    gamecontrollerhorizontalsensitivity;
+extern float    gamecontrollerverticalsensitivity;
+extern short    gamecontrollerleftdeadzone;
+extern short    gamecontrollerrightdeadzone;
 
-void I_InitGamepad(void);
-void I_ShutdownGamepad(void);
-void I_GamepadRumble(int strength);
+void I_InitGameController(void);
+void I_ShutdownGameController(void);
+void I_GameControllerRumble(int strength);
 void I_UpdateGamepadRumble(void);
-void I_StopGamepadRumble(void);
-void I_SetGamepadHorizontalSensitivity(void);
-void I_SetGamepadVerticalSensitivity(void);
-void I_SetGamepadLeftDeadZone(void);
-void I_SetGamepadRightDeadZone(void);
+void I_StopGameControllerRumble(void);
+void I_SetGameControllerHorizontalSensitivity(void);
+void I_SetGameControllerVerticalSensitivity(void);
+void I_SetGameControllerLeftDeadZone(void);
+void I_SetGameControllerRightDeadZone(void);
 
 #endif

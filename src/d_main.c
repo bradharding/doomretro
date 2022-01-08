@@ -59,7 +59,7 @@
 #include "g_game.h"
 #include "hu_stuff.h"
 #include "i_colors.h"
-#include "i_gamepad.h"
+#include "i_gamecontroller.h"
 #include "i_swap.h"
 #include "i_system.h"
 #include "i_timer.h"
@@ -2216,7 +2216,7 @@ static void D_DoomMainSetup(void)
 
     I_InitGraphics();
 
-    I_InitGamepad();
+    I_InitGameController();
 
     D_IdentifyVersion();
     D_ProcessDehInWad();

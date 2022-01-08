@@ -39,7 +39,7 @@
 #if !defined(__M_CONFIG_H__)
 #define __M_CONFIG_H__
 
-#include "i_gamepad.h"
+#include "i_gamecontroller.h"
 #include "p_local.h"
 #include "version.h"
 

@@ -37,7 +37,7 @@
 */
 
 #include "c_console.h"
-#include "i_gamepad.h"
+#include "i_gamecontroller.h"
 #include "m_config.h"
 #include "m_misc.h"
 
@@ -56,15 +56,15 @@ int                         gp_thumbsticks = gp_thumbsticks_default;
 static SDL_Joystick         *joystick;
 static SDL_GameController   *gamecontroller;
 
-int                         gamepadbuttons = 0;
-short                       gamepadthumbLX = 0;
-short                       gamepadthumbLY = 0;
-short                       gamepadthumbRX = 0;
-short                       gamepadthumbRY = 0;
-float                       gamepadhorizontalsensitivity;
-float                       gamepadverticalsensitivity;
-short                       gamepadleftdeadzone;
-short                       gamepadrightdeadzone;
+int                         gamecontrollerbuttons = 0;
+short                       gamecontrollerthumbLX = 0;
+short                       gamecontrollerthumbLY = 0;
+short                       gamecontrollerthumbRX = 0;
+short                       gamecontrollerthumbRY = 0;
+float                       gamecontrollerhorizontalsensitivity;
+float                       gamecontrollerverticalsensitivity;
+short                       gamecontrollerleftdeadzone;
+short                       gamecontrollerrightdeadzone;
 
 int                         barrelrumbletics = 0;
 int                         damagerumbletics = 0;
@@ -72,7 +72,7 @@ int                         weaponrumbletics = 0;
 int                         idlerumblestrength;
 int                         restorerumblestrength;
 
-void I_InitGamepad(void)
+void I_InitGameController(void)
 {
     SDL_SetHintWithPriority(SDL_HINT_JOYSTICK_HIDAPI_JOY_CONS, "1", SDL_HINT_OVERRIDE);
     SDL_SetHintWithPriority(SDL_HINT_JOYSTICK_HIDAPI_PS4_RUMBLE, "1", SDL_HINT_OVERRIDE);
@@ -81,7 +81,7 @@ void I_InitGamepad(void)
     SDL_SetHintWithPriority(SDL_HINT_LINUX_JOYSTICK_DEADZONES, "1", SDL_HINT_OVERRIDE);
 
     if (SDL_InitSubSystem(SDL_INIT_GAMECONTROLLER) < 0)
-        C_Warning(1, "Gamepad support couldn't be initialized.");
+        C_Warning(1, "Controller support couldn't be initialized.");
     else
     {
         for (int i = 0, numjoysticks = SDL_NumJoysticks(); i < numjoysticks; i++)
@@ -98,25 +98,25 @@ void I_InitGamepad(void)
             const char  *name = SDL_GameControllerName(gamecontroller);
 
             if (*name)
-                C_Output("A gamepad called \"%s\" is connected.", name);
+                C_Output("A controller called \"%s\" is connected.", name);
             else
-                C_Output("A gamepad is connected.");
+                C_Output("A controller is connected.");
 
             if (gp_rumble_barrels || gp_rumble_damage || gp_rumble_weapons)
             {
                 if (SDL_GameControllerRumble(gamecontroller, 0, 0, 0) == -1)
-                    C_Warning(1, "This gamepad doesn't support rumble.");
+                    C_Warning(1, "This controller doesn't support rumble.");
             }
 
-            I_SetGamepadLeftDeadZone();
-            I_SetGamepadRightDeadZone();
-            I_SetGamepadHorizontalSensitivity();
-            I_SetGamepadVerticalSensitivity();
+            I_SetGameControllerLeftDeadZone();
+            I_SetGameControllerRightDeadZone();
+            I_SetGameControllerHorizontalSensitivity();
+            I_SetGameControllerVerticalSensitivity();
         }
     }
 }
 
-void I_ShutdownGamepad(void)
+void I_ShutdownGameController(void)
 {
     if (!gamecontroller)
         return;
@@ -130,7 +130,7 @@ void I_ShutdownGamepad(void)
     SDL_QuitSubSystem(SDL_INIT_GAMECONTROLLER);
 }
 
-void I_GamepadRumble(int strength)
+void I_GameControllerRumble(int strength)
 {
     static int  currentstrength;
 
@@ -144,36 +144,36 @@ void I_GamepadRumble(int strength)
 void I_UpdateGamepadRumble(void)
 {
     if (weaponrumbletics && !--weaponrumbletics && !damagerumbletics && !barrelrumbletics)
-        I_GamepadRumble(idlerumblestrength);
+        I_GameControllerRumble(idlerumblestrength);
     else if (damagerumbletics && !--damagerumbletics && !barrelrumbletics)
-        I_GamepadRumble(idlerumblestrength);
+        I_GameControllerRumble(idlerumblestrength);
     else if (barrelrumbletics && !--barrelrumbletics)
-        I_GamepadRumble(idlerumblestrength);
+        I_GameControllerRumble(idlerumblestrength);
 }
 
-void I_StopGamepadRumble(void)
+void I_StopGameControllerRumble(void)
 {
     SDL_GameControllerRumble(gamecontroller, 0, 0, 0);
 }
 
-void I_SetGamepadHorizontalSensitivity(void)
+void I_SetGameControllerHorizontalSensitivity(void)
 {
-    gamepadhorizontalsensitivity = (!gp_sensitivity_horizontal ? 0.0f :
+    gamecontrollerhorizontalsensitivity = (!gp_sensitivity_horizontal ? 0.0f :
         4.0f * gp_sensitivity_horizontal / gp_sensitivity_horizontal_max + 0.2f);
 }
 
-void I_SetGamepadVerticalSensitivity(void)
+void I_SetGameControllerVerticalSensitivity(void)
 {
-    gamepadverticalsensitivity = (!gp_sensitivity_vertical ? 0.0f :
+    gamecontrollerverticalsensitivity = (!gp_sensitivity_vertical ? 0.0f :
         4.0f * gp_sensitivity_vertical / gp_sensitivity_vertical_max + 0.2f);
 }
 
-void I_SetGamepadLeftDeadZone(void)
+void I_SetGameControllerLeftDeadZone(void)
 {
-    gamepadleftdeadzone = (short)(gp_deadzone_left * SHRT_MAX / 100.0f);
+    gamecontrollerleftdeadzone = (short)(gp_deadzone_left * SHRT_MAX / 100.0f);
 }
 
-void I_SetGamepadRightDeadZone(void)
+void I_SetGameControllerRightDeadZone(void)
 {
-    gamepadrightdeadzone = (short)(gp_deadzone_right * SHRT_MAX / 100.0f);
+    gamecontrollerrightdeadzone = (short)(gp_deadzone_right * SHRT_MAX / 100.0f);
 }

@@ -51,7 +51,7 @@
 #include "g_game.h"
 #include "hu_stuff.h"
 #include "i_colors.h"
-#include "i_gamepad.h"
+#include "i_gamecontroller.h"
 #include "i_system.h"
 #include "i_timer.h"
 #include "m_cheat.h"
@@ -899,12 +899,12 @@ consolecmd_t consolecmds[] =
 
 static dboolean run(void)
 {
-    return (gamekeydown[keyboardrun] ^ (!!mousebuttons[mouserun]) ^ (!!(gamepadbuttons & gamepadrun)) ^ alwaysrun);
+    return (gamekeydown[keyboardrun] ^ (!!mousebuttons[mouserun]) ^ (!!(gamecontrollerbuttons & gamepadrun)) ^ alwaysrun);
 }
 
 static dboolean strafe(void)
 {
-    return (gamekeydown[keyboardstrafe] || mousebuttons[mousestrafe] || (gamepadbuttons & gamepadstrafe));
+    return (gamekeydown[keyboardstrafe] || mousebuttons[mousestrafe] || (gamecontrollerbuttons & gamepadstrafe));
 }
 
 static void alwaysrun_action_func(void)
@@ -8049,14 +8049,14 @@ static void gp_deadzone_cvars_func2(char *cmd, char *parms)
             if (gp_deadzone_left != value)
             {
                 gp_deadzone_left = BETWEENF(gp_deadzone_left_min, value, gp_deadzone_left_max);
-                I_SetGamepadLeftDeadZone();
+                I_SetGameControllerLeftDeadZone();
                 M_SaveCVARs();
             }
         }
         else if (gp_deadzone_right != value)
         {
             gp_deadzone_right = BETWEENF(gp_deadzone_right_min, value, gp_deadzone_right_max);
-            I_SetGamepadRightDeadZone();
+            I_SetGameControllerRightDeadZone();
             M_SaveCVARs();
         }
     }
@@ -8115,9 +8115,9 @@ static void gp_sensitivity_cvars_func2(char *cmd, char *parms)
     int_cvars_func2(cmd, parms);
 
     if (gp_sensitivity_horizontal != gp_sensitivity_horizontal_old)
-        I_SetGamepadHorizontalSensitivity();
+        I_SetGameControllerHorizontalSensitivity();
     else if (gp_sensitivity_vertical != gp_sensitivity_vertical_old)
-        I_SetGamepadVerticalSensitivity();
+        I_SetGameControllerVerticalSensitivity();
 }
 
 //

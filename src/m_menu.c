@@ -47,7 +47,7 @@
 #include "g_game.h"
 #include "hu_stuff.h"
 #include "i_colors.h"
-#include "i_gamepad.h"
+#include "i_gamecontroller.h"
 #include "i_swap.h"
 #include "i_system.h"
 #include "i_timer.h"
@@ -2103,7 +2103,7 @@ static void M_ChangeSensitivity(int choice)
                         gp_sensitivity_horizontal++;
 
                     gp_sensitivity_horizontal -= 2;
-                    I_SetGamepadHorizontalSensitivity();
+                    I_SetGameControllerHorizontalSensitivity();
                     C_IntCVAROutput(stringize(gp_sensitivity_horizontal), gp_sensitivity_horizontal);
                     M_SliderSound();
                     M_SaveCVARs();
@@ -2118,7 +2118,7 @@ static void M_ChangeSensitivity(int choice)
                         gp_sensitivity_horizontal--;
 
                     gp_sensitivity_horizontal += 2;
-                    I_SetGamepadHorizontalSensitivity();
+                    I_SetGameControllerHorizontalSensitivity();
                     C_IntCVAROutput(stringize(gp_sensitivity_horizontal), gp_sensitivity_horizontal);
                     M_SliderSound();
                     M_SaveCVARs();
@@ -2536,7 +2536,7 @@ dboolean M_Responder(event_t *ev)
         if (menuactive && gamepadwait < I_GetTime())
         {
             // activate menu item
-            if (gamepadbuttons & GAMEPAD_A)
+            if (gamecontrollerbuttons & GAMEPAD_A)
             {
                 key = (messagetoprint && messageNeedsInput ? 'y' : KEY_ENTER);
                 gamepadwait = I_GetTime() + 8 * !(currentMenu == &OptionsDef && itemOn == 5);
@@ -2544,7 +2544,7 @@ dboolean M_Responder(event_t *ev)
             }
 
             // previous/exit menu
-            else if (gamepadbuttons & GAMEPAD_B)
+            else if (gamecontrollerbuttons & GAMEPAD_B)
             {
                 key = (messagetoprint && messageNeedsInput ? 'n' : KEY_BACKSPACE);
                 gamepadwait = I_GetTime() + 8;
@@ -2553,7 +2553,7 @@ dboolean M_Responder(event_t *ev)
             }
 
             // exit menu
-            else if (gamepadbuttons & gamepadmenu)
+            else if (gamecontrollerbuttons & gamepadmenu)
             {
                 key = keyboardmenu;
                 currentMenu = &MainDef;
@@ -2565,7 +2565,7 @@ dboolean M_Responder(event_t *ev)
             else if (!messagetoprint)
             {
                 // select previous menu item
-                if (gamepadthumbLY < 0 || gamepadthumbRY < 0 || (gamepadbuttons & GAMEPAD_DPAD_UP))
+                if (gamecontrollerthumbLY < 0 || gamecontrollerthumbRY < 0 || (gamecontrollerbuttons & GAMEPAD_DPAD_UP))
                 {
                     key = KEY_UPARROW;
                     keywait = 0;
@@ -2574,7 +2574,7 @@ dboolean M_Responder(event_t *ev)
                 }
 
                 // select next menu item
-                else if (gamepadthumbLY > 0 || gamepadthumbRY > 0 || (gamepadbuttons & GAMEPAD_DPAD_DOWN))
+                else if (gamecontrollerthumbLY > 0 || gamecontrollerthumbRY > 0 || (gamecontrollerbuttons & GAMEPAD_DPAD_DOWN))
                 {
                     key = KEY_DOWNARROW;
                     keywait = 0;
@@ -2583,7 +2583,7 @@ dboolean M_Responder(event_t *ev)
                 }
 
                 // decrease slider
-                else if ((gamepadthumbLX < 0 || gamepadthumbRX < 0 || (gamepadbuttons & GAMEPAD_DPAD_LEFT)) && !saveStringEnter
+                else if ((gamecontrollerthumbLX < 0 || gamecontrollerthumbRX < 0 || (gamecontrollerbuttons & GAMEPAD_DPAD_LEFT)) && !saveStringEnter
                     && !(currentMenu == &OptionsDef && itemOn == 1))
                 {
                     key = KEY_LEFTARROW;
@@ -2592,7 +2592,7 @@ dboolean M_Responder(event_t *ev)
                 }
 
                 // increase slider
-                else if ((gamepadthumbLX > 0 || gamepadthumbRX > 0 || (gamepadbuttons & GAMEPAD_DPAD_RIGHT)) && !saveStringEnter
+                else if ((gamecontrollerthumbLX > 0 || gamecontrollerthumbRX > 0 || (gamecontrollerbuttons & GAMEPAD_DPAD_RIGHT)) && !saveStringEnter
                     && !(currentMenu == &OptionsDef && itemOn == 1))
                 {
                     key = KEY_RIGHTARROW;
@@ -2604,7 +2604,7 @@ dboolean M_Responder(event_t *ev)
         else
         {
             // open menu
-            if ((gamepadbuttons & gamepadmenu) && gamepadwait < I_GetTime())
+            if ((gamecontrollerbuttons & gamepadmenu) && gamepadwait < I_GetTime())
             {
                 key = keyboardmenu;
                 gamepadwait = I_GetTime() + 8;
@@ -2612,7 +2612,7 @@ dboolean M_Responder(event_t *ev)
             }
 
             // open console
-            else if ((gamepadbuttons & gamepadconsole) && gamepadwait < I_GetTime())
+            else if ((gamecontrollerbuttons & gamepadconsole) && gamepadwait < I_GetTime())
             {
                 gamepadwait = I_GetTime() + 8;
                 usinggamepad = true;
@@ -3440,7 +3440,7 @@ dboolean M_Responder(event_t *ev)
                 functionkey = 0;
                 M_ClearMenus();
                 S_StartSound(NULL, sfx_swtchx);
-                gamepadbuttons = 0;
+                gamecontrollerbuttons = 0;
                 ev->data1 = 0;
                 firstevent = true;
             }
@@ -3621,7 +3621,7 @@ void M_StartControlPanel(void)
     {
         restorerumblestrength = idlerumblestrength;
         idlerumblestrength = 0;
-        I_StopGamepadRumble();
+        I_StopGameControllerRumble();
     }
 
     viewplayer->fixedcolormap = 0;
@@ -3839,7 +3839,7 @@ void M_ClearMenus(void)
     if (gp_rumble_barrels || gp_rumble_damage || gp_rumble_weapons)
     {
         idlerumblestrength = restorerumblestrength;
-        I_GamepadRumble(idlerumblestrength);
+        I_GameControllerRumble(idlerumblestrength);
     }
 
     if (gamestate == GS_LEVEL)

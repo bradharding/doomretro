@@ -39,7 +39,7 @@
 #include "doomstat.h"
 #include "g_game.h"
 #include "hu_stuff.h"
-#include "i_gamepad.h"
+#include "i_gamecontroller.h"
 #include "i_timer.h"
 #include "m_config.h"
 #include "m_random.h"
@@ -245,12 +245,12 @@ void P_FireWeapon(void)
     {
         if (readyweapon == wp_chainsaw && linetarget)
         {
-            I_GamepadRumble(MAX_RUMBLE_STRENGTH);
+            I_GameControllerRumble(MAX_RUMBLE_STRENGTH);
             weaponrumbletics = weaponinfo[readyweapon].tics;
         }
         else if (readyweapon != wp_fist)
         {
-            I_GamepadRumble(weaponinfo[readyweapon].strength * gp_rumble_weapons / 100);
+            I_GameControllerRumble(weaponinfo[readyweapon].strength * gp_rumble_weapons / 100);
             weaponrumbletics = weaponinfo[readyweapon].tics;
         }
     }
@@ -301,12 +301,12 @@ void A_WeaponReady(mobj_t *actor, player_t *player, pspdef_t *psp)
             if (idlechainsaw)
             {
                 idlerumblestrength = CHAINSAW_IDLE_RUMBLE_STRENGTH * gp_rumble_weapons / 100;
-                I_GamepadRumble(idlerumblestrength);
+                I_GameControllerRumble(idlerumblestrength);
             }
             else if (idlerumblestrength)
             {
                 idlerumblestrength = 0;
-                I_StopGamepadRumble();
+                I_StopGameControllerRumble();
             }
         }
 

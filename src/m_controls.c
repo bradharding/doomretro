@@ -36,7 +36,7 @@
 ========================================================================
 */
 
-#include "i_gamepad.h"
+#include "i_gamecontroller.h"
 #include "m_config.h"
 #include "p_local.h"
 
