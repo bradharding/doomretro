@@ -81,7 +81,7 @@ void I_InitGameController(void)
     SDL_SetHintWithPriority(SDL_HINT_LINUX_JOYSTICK_DEADZONES, "1", SDL_HINT_OVERRIDE);
 
     if (SDL_InitSubSystem(SDL_INIT_GAMECONTROLLER) < 0)
-        C_Warning(1, "Controller support couldn't be initialized.");
+        C_Warning(1, "The support for controllers couldn't be initialized.");
     else
     {
         for (int i = 0, numjoysticks = SDL_NumJoysticks(); i < numjoysticks; i++)
@@ -138,7 +138,7 @@ void I_GameControllerRumble(int strength)
     if (!strength || (lasteventtype == ev_gamecontroller && (strength == idlerumblestrength || strength >= currentstrength)))
     {
         currentstrength = MIN(strength, UINT16_MAX);
-        SDL_GameControllerRumble(gamecontroller, strength, strength, 600000);
+        SDL_GameControllerRumble(gamecontroller, currentstrength, currentstrength, UINT32_MAX);
     }
 }
 
