@@ -547,6 +547,10 @@ static void I_GetEvent(void)
                 I_InitGameController();
                 break;
 
+            case SDL_CONTROLLERDEVICEREMOVED:
+                I_ShutdownGameController();
+                break;
+
             case SDL_CONTROLLERAXISMOTION:
                 switch (Event->caxis.axis)
                 {
