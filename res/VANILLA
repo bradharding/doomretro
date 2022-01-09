@@ -137,8 +137,6 @@ bind 'm' +mark
 bind '0' +maxzoom
 bind escape +menu
 bind start +menu
-bind button2 +nextweapon
-bind button4 +prevweapon
 bind right +right
 bind shift +run
 bind lefttrigger +run
