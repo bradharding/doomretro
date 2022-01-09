@@ -125,6 +125,8 @@ void I_InitGameController(void)
         I_SetGameControllerRightDeadZone();
         I_SetGameControllerHorizontalSensitivity();
         I_SetGameControllerVerticalSensitivity();
+
+        SDL_GameControllerSetLED(gamecontroller, 255, 0, 0);
     }
 }
 
