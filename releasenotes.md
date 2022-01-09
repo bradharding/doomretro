@@ -10,6 +10,12 @@
 * Improvements have been made to the support of [*MBF21*](https://doomwiki.org/wiki/MBF21)-compatible maps and mods.
 * Improvements have been made to the playback of MIDI music.
 * Lowering the music’s volume in the menu and console may now be disabled using the new `s_lowermenumusic` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
+* Extensive changes have been made to the support for controllers:
+  * Rumble now works again for those controllers that support it.
+  * The `gp_vibrate_barrels`, `gp_vibrate_damage` and `gp_vibrate_weapons` CVARs have been renamed `joy_rumble_barrels`, `joy_rumble_damage` and `joy_rumble_weapons`.
+  * All other CVARs that start with `gp_` now start with `joy_`.
+  * The controls `gamepad1` to `gamepad4`, used with the `bind` CCMD, have been renamed `button1` to `button4`.
+  * The LEDs in PS4 and PS5 controllers are now red when connected.
 * Minor changes have been made to text that is output to the console.
 * Minor improvements have been made to the console’s autocomplete feature.
 * A crash no longer occurs when ending a game from the options menu.
@@ -20,8 +26,6 @@
 * The corpses of monsters now always fall when close to an edge.
 * The shadows of *MBF*-compatible helper dogs are now positioned correctly.
 * When the player is injured, their health now flashes in the widescreen HUD.
-* Every CVAR starting with `gp_` has been renamed.
-* Rumble now works again for those controllers that support it.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
