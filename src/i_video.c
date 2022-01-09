@@ -2033,7 +2033,7 @@ void I_InitGraphics(void)
         SDL_setenv("SDL_VIDEODRIVER", vid_driver, true);
 #endif
 
-    if (SDL_InitSubSystem(SDL_INIT_VIDEO))
+    if (SDL_InitSubSystem(SDL_INIT_VIDEO) < 0)
         I_SDLError(SDL_InitSubSystem);
 
     GetDisplays();
