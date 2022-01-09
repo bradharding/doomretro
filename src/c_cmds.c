@@ -140,105 +140,105 @@ char        *version = version_default;
 
 const control_t controls[] =
 {
-    { "1",             keyboardcontrol,       '1'                           },
-    { "2",             keyboardcontrol,       '2'                           },
-    { "3",             keyboardcontrol,       '3'                           },
-    { "4",             keyboardcontrol,       '4'                           },
-    { "5",             keyboardcontrol,       '5'                           },
-    { "6",             keyboardcontrol,       '6'                           },
-    { "7",             keyboardcontrol,       '7'                           },
-    { "8",             keyboardcontrol,       '8'                           },
-    { "9",             keyboardcontrol,       '9'                           },
-    { "0",             keyboardcontrol,       '0'                           },
-    { "-",             keyboardcontrol,       KEY_MINUS                     },
-    { "=",             keyboardcontrol,       KEY_EQUALS                    },
-    { "+",             keyboardcontrol,       KEY_EQUALS                    },
-    { "backspace",     keyboardcontrol,       KEY_BACKSPACE                 },
-    { "tab",           keyboardcontrol,       KEY_TAB                       },
-    { "q",             keyboardcontrol,       'q'                           },
-    { "w",             keyboardcontrol,       'w'                           },
-    { "e",             keyboardcontrol,       'e'                           },
-    { "r",             keyboardcontrol,       'r'                           },
-    { "t",             keyboardcontrol,       't'                           },
-    { "y",             keyboardcontrol,       'y'                           },
-    { "u",             keyboardcontrol,       'u'                           },
-    { "i",             keyboardcontrol,       'i'                           },
-    { "o",             keyboardcontrol,       'o'                           },
-    { "p",             keyboardcontrol,       'p'                           },
-    { "[",             keyboardcontrol,       '['                           },
-    { "]",             keyboardcontrol,       ']'                           },
-    { "enter",         keyboardcontrol,       KEY_ENTER                     },
-    { "ctrl",          keyboardcontrol,       KEY_CTRL                      },
-    { "a",             keyboardcontrol,       'a'                           },
-    { "s",             keyboardcontrol,       's'                           },
-    { "d",             keyboardcontrol,       'd'                           },
-    { "f",             keyboardcontrol,       'f'                           },
-    { "g",             keyboardcontrol,       'g'                           },
-    { "h",             keyboardcontrol,       'h'                           },
-    { "j",             keyboardcontrol,       'j'                           },
-    { "k",             keyboardcontrol,       'k'                           },
-    { "l",             keyboardcontrol,       'l'                           },
-    { ";",             keyboardcontrol,       ';'                           },
-    { "'",             keyboardcontrol,       '\''                          },
-    { "shift",         keyboardcontrol,       KEY_SHIFT                     },
-    { "\\",            keyboardcontrol,       '\\'                          },
-    { "z",             keyboardcontrol,       'z'                           },
-    { "x",             keyboardcontrol,       'x'                           },
-    { "c",             keyboardcontrol,       'c'                           },
-    { "v",             keyboardcontrol,       'v'                           },
-    { "b",             keyboardcontrol,       'b'                           },
-    { "n",             keyboardcontrol,       'n'                           },
-    { "m",             keyboardcontrol,       'm'                           },
-    { ",",             keyboardcontrol,       ','                           },
-    { ".",             keyboardcontrol,       '.'                           },
-    { "/",             keyboardcontrol,       '/'                           },
-    { "tilde",         keyboardcontrol,       '`'                           },
-    { "alt",           keyboardcontrol,       KEY_ALT                       },
-    { "space",         keyboardcontrol,       ' '                           },
-    { "numlock",       keyboardcontrol,       KEY_NUMLOCK                   },
-    { "capslock",      keyboardcontrol,       KEY_CAPSLOCK                  },
-    { "scrolllock",    keyboardcontrol,       KEY_SCROLLLOCK                },
-    { "home",          keyboardcontrol,       KEY_HOME                      },
-    { "up",            keyboardcontrol,       KEY_UPARROW                   },
-    { "pageup",        keyboardcontrol,       KEY_PAGEUP                    },
-    { "left",          keyboardcontrol,       KEY_LEFTARROW                 },
-    { "right",         keyboardcontrol,       KEY_RIGHTARROW                },
-    { "end",           keyboardcontrol,       KEY_END                       },
-    { "down",          keyboardcontrol,       KEY_DOWNARROW                 },
-    { "pagedown",      keyboardcontrol,       KEY_PAGEDOWN                  },
-    { "insert",        keyboardcontrol,       KEY_INSERT                    },
-    { "printscreen",   keyboardcontrol,       KEY_PRINTSCREEN               },
-    { "delete",        keyboardcontrol,       KEY_DELETE                    },
-    { "escape",        keyboardcontrol,       KEY_ESCAPE                    },
-    { "F12",           keyboardcontrol,       KEY_F12                       },
-    { "mouse1",        mousecontrol,          0                             },
-    { "mouse2",        mousecontrol,          1                             },
-    { "mouse3",        mousecontrol,          2                             },
-    { "mouse4",        mousecontrol,          3                             },
-    { "mouse5",        mousecontrol,          4                             },
-    { "mouse6",        mousecontrol,          5                             },
-    { "mouse7",        mousecontrol,          6                             },
-    { "mouse8",        mousecontrol,          7                             },
-    { "wheelup",       mousecontrol,          MOUSE_WHEELUP                 },
-    { "wheeldown",     mousecontrol,          MOUSE_WHEELDOWN               },
-    { "dpadup",        gamecontrollercontrol, GAMECONTROLLER_DPAD_UP        },
-    { "dpaddown",      gamecontrollercontrol, GAMECONTROLLER_DPAD_DOWN      },
-    { "dpadleft",      gamecontrollercontrol, GAMECONTROLLER_DPAD_LEFT      },
-    { "dpadright",     gamecontrollercontrol, GAMECONTROLLER_DPAD_RIGHT     },
-    { "start",         gamecontrollercontrol, GAMECONTROLLER_START          },
-    { "back",          gamecontrollercontrol, GAMECONTROLLER_BACK           },
-    { "leftthumb",     gamecontrollercontrol, GAMECONTROLLER_LEFT_THUMB     },
-    { "rightthumb",    gamecontrollercontrol, GAMECONTROLLER_RIGHT_THUMB    },
-    { "leftshoulder",  gamecontrollercontrol, GAMECONTROLLER_LEFT_SHOULDER  },
-    { "rightshoulder", gamecontrollercontrol, GAMECONTROLLER_RIGHT_SHOULDER },
-    { "lefttrigger",   gamecontrollercontrol, GAMECONTROLLER_LEFT_TRIGGER   },
-    { "righttrigger",  gamecontrollercontrol, GAMECONTROLLER_RIGHT_TRIGGER  },
-    { "button1",       gamecontrollercontrol, GAMECONTROLLER_A              },
-    { "button2",       gamecontrollercontrol, GAMECONTROLLER_B              },
-    { "button3",       gamecontrollercontrol, GAMECONTROLLER_X              },
-    { "button4",       gamecontrollercontrol, GAMECONTROLLER_Y              },
-    { "guide",         gamecontrollercontrol, GAMECONTROLLER_GUIDE          },
-    { "",              0,                     0                             }
+    { "1",             "",         keyboardcontrol,       '1'                           },
+    { "2",             "",         keyboardcontrol,       '2'                           },
+    { "3",             "",         keyboardcontrol,       '3'                           },
+    { "4",             "",         keyboardcontrol,       '4'                           },
+    { "5",             "",         keyboardcontrol,       '5'                           },
+    { "6",             "",         keyboardcontrol,       '6'                           },
+    { "7",             "",         keyboardcontrol,       '7'                           },
+    { "8",             "",         keyboardcontrol,       '8'                           },
+    { "9",             "",         keyboardcontrol,       '9'                           },
+    { "0",             "",         keyboardcontrol,       '0'                           },
+    { "-",             "",         keyboardcontrol,       KEY_MINUS                     },
+    { "=",             "",         keyboardcontrol,       KEY_EQUALS                    },
+    { "+",             "",         keyboardcontrol,       KEY_EQUALS                    },
+    { "backspace",     "",         keyboardcontrol,       KEY_BACKSPACE                 },
+    { "tab",           "",         keyboardcontrol,       KEY_TAB                       },
+    { "q",             "",         keyboardcontrol,       'q'                           },
+    { "w",             "",         keyboardcontrol,       'w'                           },
+    { "e",             "",         keyboardcontrol,       'e'                           },
+    { "r",             "",         keyboardcontrol,       'r'                           },
+    { "t",             "",         keyboardcontrol,       't'                           },
+    { "y",             "",         keyboardcontrol,       'y'                           },
+    { "u",             "",         keyboardcontrol,       'u'                           },
+    { "i",             "",         keyboardcontrol,       'i'                           },
+    { "o",             "",         keyboardcontrol,       'o'                           },
+    { "p",             "",         keyboardcontrol,       'p'                           },
+    { "[",             "",         keyboardcontrol,       '['                           },
+    { "]",             "",         keyboardcontrol,       ']'                           },
+    { "enter",         "",         keyboardcontrol,       KEY_ENTER                     },
+    { "ctrl",          "",         keyboardcontrol,       KEY_CTRL                      },
+    { "a",             "",         keyboardcontrol,       'a'                           },
+    { "s",             "",         keyboardcontrol,       's'                           },
+    { "d",             "",         keyboardcontrol,       'd'                           },
+    { "f",             "",         keyboardcontrol,       'f'                           },
+    { "g",             "",         keyboardcontrol,       'g'                           },
+    { "h",             "",         keyboardcontrol,       'h'                           },
+    { "j",             "",         keyboardcontrol,       'j'                           },
+    { "k",             "",         keyboardcontrol,       'k'                           },
+    { "l",             "",         keyboardcontrol,       'l'                           },
+    { ";",             "",         keyboardcontrol,       ';'                           },
+    { "'",             "",         keyboardcontrol,       '\''                          },
+    { "shift",         "",         keyboardcontrol,       KEY_SHIFT                     },
+    { "\\",            "",         keyboardcontrol,       '\\'                          },
+    { "z",             "",         keyboardcontrol,       'z'                           },
+    { "x",             "",         keyboardcontrol,       'x'                           },
+    { "c",             "",         keyboardcontrol,       'c'                           },
+    { "v",             "",         keyboardcontrol,       'v'                           },
+    { "b",             "",         keyboardcontrol,       'b'                           },
+    { "n",             "",         keyboardcontrol,       'n'                           },
+    { "m",             "",         keyboardcontrol,       'm'                           },
+    { ",",             "",         keyboardcontrol,       ','                           },
+    { ".",             "",         keyboardcontrol,       '.'                           },
+    { "/",             "",         keyboardcontrol,       '/'                           },
+    { "tilde",         "",         keyboardcontrol,       '`'                           },
+    { "alt",           "",         keyboardcontrol,       KEY_ALT                       },
+    { "space",         "",         keyboardcontrol,       ' '                           },
+    { "numlock",       "",         keyboardcontrol,       KEY_NUMLOCK                   },
+    { "capslock",      "",         keyboardcontrol,       KEY_CAPSLOCK                  },
+    { "scrolllock",    "",         keyboardcontrol,       KEY_SCROLLLOCK                },
+    { "home",          "",         keyboardcontrol,       KEY_HOME                      },
+    { "up",            "",         keyboardcontrol,       KEY_UPARROW                   },
+    { "pageup",        "",         keyboardcontrol,       KEY_PAGEUP                    },
+    { "left",          "",         keyboardcontrol,       KEY_LEFTARROW                 },
+    { "right",         "",         keyboardcontrol,       KEY_RIGHTARROW                },
+    { "end",           "",         keyboardcontrol,       KEY_END                       },
+    { "down",          "",         keyboardcontrol,       KEY_DOWNARROW                 },
+    { "pagedown",      "",         keyboardcontrol,       KEY_PAGEDOWN                  },
+    { "insert",        "",         keyboardcontrol,       KEY_INSERT                    },
+    { "printscreen",   "",         keyboardcontrol,       KEY_PRINTSCREEN               },
+    { "delete",        "",         keyboardcontrol,       KEY_DELETE                    },
+    { "escape",        "",         keyboardcontrol,       KEY_ESCAPE                    },
+    { "F12",           "",         keyboardcontrol,       KEY_F12                       },
+    { "mouse1",        "",         mousecontrol,          0                             },
+    { "mouse2",        "",         mousecontrol,          1                             },
+    { "mouse3",        "",         mousecontrol,          2                             },
+    { "mouse4",        "",         mousecontrol,          3                             },
+    { "mouse5",        "",         mousecontrol,          4                             },
+    { "mouse6",        "",         mousecontrol,          5                             },
+    { "mouse7",        "",         mousecontrol,          6                             },
+    { "mouse8",        "",         mousecontrol,          7                             },
+    { "wheelup",       "",         mousecontrol,          MOUSE_WHEELUP                 },
+    { "wheeldown",     "",         mousecontrol,          MOUSE_WHEELDOWN               },
+    { "dpadup",        "",         gamecontrollercontrol, GAMECONTROLLER_DPAD_UP        },
+    { "dpaddown",      "",         gamecontrollercontrol, GAMECONTROLLER_DPAD_DOWN      },
+    { "dpadleft",      "",         gamecontrollercontrol, GAMECONTROLLER_DPAD_LEFT      },
+    { "dpadright",     "",         gamecontrollercontrol, GAMECONTROLLER_DPAD_RIGHT     },
+    { "start",         "",         gamecontrollercontrol, GAMECONTROLLER_START          },
+    { "back",          "",         gamecontrollercontrol, GAMECONTROLLER_BACK           },
+    { "leftthumb",     "",         gamecontrollercontrol, GAMECONTROLLER_LEFT_THUMB     },
+    { "rightthumb",    "",         gamecontrollercontrol, GAMECONTROLLER_RIGHT_THUMB    },
+    { "leftshoulder",  "",         gamecontrollercontrol, GAMECONTROLLER_LEFT_SHOULDER  },
+    { "rightshoulder", "",         gamecontrollercontrol, GAMECONTROLLER_RIGHT_SHOULDER },
+    { "lefttrigger",   "",         gamecontrollercontrol, GAMECONTROLLER_LEFT_TRIGGER   },
+    { "righttrigger",  "",         gamecontrollercontrol, GAMECONTROLLER_RIGHT_TRIGGER},
+    { "button1",       "gamepad1", gamecontrollercontrol, GAMECONTROLLER_A},
+    { "button2",       "gamepad1", gamecontrollercontrol, GAMECONTROLLER_B              },
+    { "button3",       "gamepad1", gamecontrollercontrol, GAMECONTROLLER_X              },
+    { "button4",       "gamepad1", gamecontrollercontrol, GAMECONTROLLER_Y              },
+    { "guide",         "gamepad1", gamecontrollercontrol, GAMECONTROLLER_GUIDE          },
+    { "",              "",         0,                     0                             }
 };
 
 static void alwaysrun_action_func(void);
@@ -1415,13 +1415,13 @@ void bind_cmd_func2(char *cmd, char *parms)
 
     while (controls[i].type)
     {
-        if (M_StringCompare(parm1, controls[i].control))
+        if (M_StringCompare(parm1, controls[i].control1) || (*controls[i].control2 && M_StringCompare(parm1, controls[i].control2)))
             break;
 
         i++;
     }
 
-    if (*controls[i].control)
+    if (*controls[i].control1)
     {
         if (M_StringCompare(cmd, "unbind"))
         {
@@ -1433,7 +1433,7 @@ void bind_cmd_func2(char *cmd, char *parms)
                         if (actions[action].keyboard1 && controls[i].value == *(int *)actions[action].keyboard1)
                         {
                             C_Output("The " BOLD("%s") " action has been unbound from the " BOLD("%s") " control.",
-                                actions[action].action, controls[i].control);
+                                actions[action].action, controls[i].control1);
                             *(int *)actions[action].keyboard1 = 0;
                             M_SaveCVARs();
                         }
@@ -1441,7 +1441,7 @@ void bind_cmd_func2(char *cmd, char *parms)
                         if (actions[action].keyboard2 && controls[i].value == *(int *)actions[action].keyboard2)
                         {
                             C_Output("The " BOLD("%s") " action has been unbound from the " BOLD("%s") " control.",
-                                actions[action].action, controls[i].control);
+                                actions[action].action, controls[i].control1);
                             *(int *)actions[action].keyboard2 = 0;
                             M_SaveCVARs();
                         }
@@ -1452,7 +1452,7 @@ void bind_cmd_func2(char *cmd, char *parms)
                         if (actions[action].mouse1 && controls[i].value == *(int *)actions[action].mouse1)
                         {
                             C_Output("The " BOLD("%s") " action has been unbound from the " BOLD("%s") " control.",
-                                actions[action].action, controls[i].control);
+                                actions[action].action, controls[i].control1);
                             *(int *)actions[action].mouse1 = -1;
                             M_SaveCVARs();
                         }
@@ -1463,7 +1463,7 @@ void bind_cmd_func2(char *cmd, char *parms)
                         if (actions[action].gamecontroller1 && controls[i].value == *(int *)actions[action].gamecontroller1)
                         {
                             C_Output("The " BOLD("%s") " action has been unbound from the " BOLD("%s") " control.",
-                                actions[action].action, controls[i].control);
+                                actions[action].action, controls[i].control1);
                             *(int *)actions[action].gamecontroller1 = 0;
                             M_SaveCVARs();
                         }
@@ -1471,7 +1471,7 @@ void bind_cmd_func2(char *cmd, char *parms)
                         if (actions[action].gamecontroller2 && controls[i].value == *(int *)actions[action].gamecontroller2)
                         {
                             C_Output("The " BOLD("%s") " action has been unbound from the " BOLD("%s") " control.",
-                                actions[action].action, controls[i].control);
+                                actions[action].action, controls[i].control1);
                             *(int *)actions[action].gamecontroller2 = 0;
                             M_SaveCVARs();
                         }
@@ -1617,18 +1617,18 @@ void bind_cmd_func2(char *cmd, char *parms)
                 {
                     if (!nobindoutput)
                     {
-                        if (strlen(controls[i].control) == 1)
-                            C_Output("The " BOLD("%s") " action was bound to " BOLD("'%s'") ".", parm2, controls[i].control);
+                        if (strlen(controls[i].control1) == 1)
+                            C_Output("The " BOLD("%s") " action was bound to " BOLD("'%s'") ".", parm2, controls[i].control1);
                         else
-                            C_Output("The " BOLD("%s") " action was bound to " BOLD("%s") ".", parm2, controls[i].control);
+                            C_Output("The " BOLD("%s") " action was bound to " BOLD("%s") ".", parm2, controls[i].control1);
                     }
                 }
                 else
                 {
-                    if (strlen(controls[i].control) == 1)
-                        C_Warning(0, "The " BOLD("%s") " action can't be bound to " BOLD("'%s'") ".", parm2, controls[i].control);
+                    if (strlen(controls[i].control1) == 1)
+                        C_Warning(0, "The " BOLD("%s") " action can't be bound to " BOLD("'%s'") ".", parm2, controls[i].control1);
                     else
-                        C_Warning(0, "The " BOLD("%s") " action can't be bound to " BOLD("%s") ".", parm2, controls[i].control);
+                        C_Warning(0, "The " BOLD("%s") " action can't be bound to " BOLD("%s") ".", parm2, controls[i].control1);
 
                     return;
                 }
@@ -1703,7 +1703,7 @@ static void C_DisplayBinds(const char *action, const int value, const controltyp
 
     for (int i = 0; controls[i].type; i++)
     {
-        const char  *control = controls[i].control;
+        const char  *control = controls[i].control1;
 
         if (controls[i].type == type && controls[i].value == value)
         {
@@ -1744,7 +1744,7 @@ static void bindlist_cmd_func2(char *cmd, char *parms)
 
     for (int i = 0; controls[i].type; i++)
     {
-        const char  *control = controls[i].control;
+        const char  *control = controls[i].control1;
         const int   value = controls[i].value;
 
         if (controls[i].type == keyboardcontrol && keyactionlist[value][0])
