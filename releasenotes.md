@@ -13,7 +13,7 @@
 * Extensive improvements have been made to the support for controllers:
   * Rumble now works again for those controllers that support it.
   * The `gp_vibrate_barrels`, `gp_vibrate_damage` and `gp_vibrate_weapons` CVARs have been renamed `joy_rumble_barrels`, `joy_rumble_damage` and `joy_rumble_weapons`.
-  * All other CVARs that start with `gp_` now start with `joy_`.
+  * All other CVARs that start with `gp_` now start with `joy_` instead.
   * The controls `gamepad1` to `gamepad4`, used by the `bind` CCMD, have been renamed `button1` to `button4`.
   * The LEDs on PS4 and PS5 controllers are now red when connected.
 * Several minor changes have been made to text that is output to the console.
