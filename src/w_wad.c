@@ -46,6 +46,7 @@
 #include "i_swap.h"
 #include "i_system.h"
 #include "m_misc.h"
+#include "version.h"
 #include "w_merge.h"
 #include "w_wad.h"
 #include "z_zone.h"
@@ -355,10 +356,13 @@ dboolean W_AddFile(char *filename, dboolean automatic)
 
     free(fileinfo);
 
-    temp = commify((int64_t)numlumps - startlump);
-    C_Output("%s %s lump%s from the %s " BOLD("%s") ".", (automatic ? "Automatically added" : "Added"), temp,
-        (numlumps - startlump == 1 ? "" : "s"), (wadfile->type == IWAD ? "IWAD" : "PWAD"), wadfile->path);
-    free(temp);
+    if (!M_StringCompare(leafname(filename), DOOMRETRO_WAD) && !devparm)
+    {
+        temp = commify((int64_t)numlumps - startlump);
+        C_Output("%s %s lump%s from the %s " BOLD("%s") ".", (automatic ? "Automatically added" : "Added"), temp,
+            (numlumps - startlump == 1 ? "" : "s"), (wadfile->type == IWAD ? "IWAD" : "PWAD"), wadfile->path);
+        free(temp);
+    }
 
     if (M_StringCompare(file, "SIGIL_v1_21.wad")
         || M_StringCompare(file, "SIGIL_v1_2.wad")

@@ -47,6 +47,7 @@
 #include "m_misc.h"
 #include "p_local.h"
 #include "sounds.h"
+#include "version.h"
 #include "w_wad.h"
 #include "z_zone.h"
 
@@ -2325,9 +2326,10 @@ void ProcessDehFile(char *filename, int lumpnum, dboolean automatic)
         char    *temp1 = commify(linecount);
         char    *temp2 = uppercase(lumpinfo[lumpnum]->name);
 
-        C_Output("Parsed %s line%s from the " BOLD("%s") " lump in the %s " BOLD("%s") "%s.",
-            temp1, (linecount == 1 ? "" : "s"), temp2, (W_WadType(filename) == IWAD ? "IWAD" : "PWAD"),
-            filename, (dehfileignored ? " instead" : ""));
+        if (!M_StringCompare(leafname(filename), DOOMRETRO_WAD) && !devparm)
+            C_Output("Parsed %s line%s from the " BOLD("%s") " lump in the %s " BOLD("%s") "%s.",
+                temp1, (linecount == 1 ? "" : "s"), temp2, (W_WadType(filename) == IWAD ? "IWAD" : "PWAD"),
+                filename, (dehfileignored ? " instead" : ""));
 
         dehfileignored = false;
         free(temp1);

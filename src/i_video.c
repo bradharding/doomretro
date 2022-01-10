@@ -1787,8 +1787,9 @@ static void SetVideoMode(dboolean createwindow, dboolean output)
     {
         wadfile_t   *playpalwad = lumpinfo[W_CheckNumForName("PLAYPAL")]->wadfile;
 
-        C_Output("Using the 256-color palette from the " BOLD("PLAYPAL") " lump in the %s " BOLD("%s") ".",
-            (playpalwad->type == IWAD ? "IWAD" : "PWAD"), playpalwad->path);
+        if (!M_StringCompare(leafname(playpalwad->path), DOOMRETRO_WAD) && !devparm)
+            C_Output("Using the 256-color palette from the " BOLD("PLAYPAL") " lump in the %s " BOLD("%s") ".",
+                (playpalwad->type == IWAD ? "IWAD" : "PWAD"), playpalwad->path);
 
         if (gammaindex == 10)
             C_Output("There is no gamma correction.");
