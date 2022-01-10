@@ -121,7 +121,9 @@ void I_InitGameController(void)
         I_SetGameControllerHorizontalSensitivity();
         I_SetGameControllerVerticalSensitivity();
 
+#if (SDL_MAJOR_VERSION == 2 && SDL_PATCHLEVEL >= 14) || SDL_MAJOR_VERSION > 2
         SDL_GameControllerSetLED(gamecontroller, 255, 0, 0);
+#endif
     }
 }
 
