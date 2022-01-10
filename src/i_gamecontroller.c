@@ -39,7 +39,6 @@
 #include "c_console.h"
 #include "i_gamecontroller.h"
 #include "m_config.h"
-#include "m_misc.h"
 
 dboolean                    joy_analog = joy_analog_default;
 float                       joy_deadzone_left = joy_deadzone_left_default;
@@ -87,7 +86,7 @@ void I_InitGameController(void)
 
     if (SDL_InitSubSystem(SDL_INIT_GAMECONTROLLER) < 0)
     {
-        C_Warning(1, "The support for controllers couldn't be initialized.");
+        C_Warning(1, "Support for controllers couldn't be initialized.");
         return;
     }
 
