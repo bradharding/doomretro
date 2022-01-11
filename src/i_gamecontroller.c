@@ -53,6 +53,8 @@ dboolean                    joy_swapthumbsticks = joy_swapthumbsticks_default;
 int                         joy_thumbsticks = joy_thumbsticks_default;
 
 static SDL_GameController   *gamecontroller;
+static dboolean             gamecontrollerconnected;
+static dboolean             gamecontrollerhasrumble;
 
 int                         gamecontrollerbuttons = 0;
 short                       gamecontrollerthumbLX = 0;
@@ -63,9 +65,6 @@ float                       gamecontrollerhorizontalsensitivity;
 float                       gamecontrollerverticalsensitivity;
 short                       gamecontrollerleftdeadzone;
 short                       gamecontrollerrightdeadzone;
-
-static dboolean             gamecontrollerconnected;
-static dboolean             gamecontrollerhasrumble;
 
 int                         barrelrumbletics = 0;
 int                         damagerumbletics = 0;
@@ -130,11 +129,10 @@ void I_ShutdownGameController(void)
     if (!gamecontroller)
         return;
 
-    SDL_GameControllerClose(gamecontroller);
-    gamecontroller = NULL;
-
     gamecontrollerconnected = false;
     gamecontrollerhasrumble = false;
+
+    SDL_GameControllerClose(gamecontroller);
 
     SDL_QuitSubSystem(SDL_INIT_GAMECONTROLLER);
 }
