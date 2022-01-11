@@ -52,7 +52,6 @@ int                         joy_sensitivity_vertical = joy_sensitivity_vertical_
 dboolean                    joy_swapthumbsticks = joy_swapthumbsticks_default;
 int                         joy_thumbsticks = joy_thumbsticks_default;
 
-static SDL_Joystick         *joystick;
 static SDL_GameController   *gamecontroller;
 
 int                         gamecontrollerbuttons = 0;
@@ -91,7 +90,7 @@ void I_InitGameController(void)
     }
 
     for (int i = 0, numjoysticks = SDL_NumJoysticks(); i < numjoysticks; i++)
-        if ((joystick = SDL_JoystickOpen(i)) && SDL_IsGameController(i))
+        if (SDL_IsGameController(i))
         {
             gamecontroller = SDL_GameControllerOpen(i);
             break;
@@ -133,9 +132,6 @@ void I_ShutdownGameController(void)
 
     SDL_GameControllerClose(gamecontroller);
     gamecontroller = NULL;
-
-    SDL_JoystickClose(joystick);
-    joystick = NULL;
 
     gamecontrollerconnected = false;
     gamecontrollerhasrumble = false;
