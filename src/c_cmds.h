@@ -59,8 +59,7 @@ typedef enum
 
 typedef struct
 {
-    char            *control1;
-    char            *control2;
+    char            *control;
     controltype_t   type;
     int             value;
 } control_t;

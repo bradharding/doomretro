@@ -321,7 +321,7 @@ static void SaveBindByValue(FILE *file, char *action, int value, controltype_t t
     for (int i = 0; controls[i].type; i++)
         if (controls[i].type == type && controls[i].value == value)
         {
-            SaveBind(file, controls[i].control1, action);
+            SaveBind(file, controls[i].control, action);
             break;
         }
 }
@@ -526,9 +526,9 @@ void M_SaveCVARs(void)
 
     for (int i = 0; controls[i].type; i++)
         if (controls[i].type == keyboardcontrol && keyactionlist[controls[i].value][0])
-            SaveBind(file, controls[i].control1, keyactionlist[controls[i].value]);
+            SaveBind(file, controls[i].control, keyactionlist[controls[i].value]);
         else if (controls[i].type == mousecontrol && mouseactionlist[controls[i].value][0])
-            SaveBind(file, controls[i].control1, mouseactionlist[controls[i].value]);
+            SaveBind(file, controls[i].control, mouseactionlist[controls[i].value]);
 
     for (int i = 0; i < MAXALIASES; i++)
         if (*aliases[i].name)
