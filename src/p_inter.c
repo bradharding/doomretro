@@ -1805,13 +1805,13 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
                                 (*target->info->name1 ? target->info->name1 : "monster"));
 
                         if (readyweapon == wp_fist && viewplayer->powers[pw_strength])
-                            C_PlayerObituary("You %s %s with your %s while %s.",
+                            C_PlayerObituary("You %s %s using your %s while %s.",
                                 (target->type == MT_BARREL ? "exploded" : (gibbed ? "gibbed" : "killed")),
                                 targetname,
                                 weaponinfo[readyweapon].name,
                                 powerupnames[pw_strength]);
                         else
-                            C_PlayerObituary("You %s %s with your %s.",
+                            C_PlayerObituary("You %s %s using your %s.",
                                 (target->type == MT_BARREL ? "exploded" : (gibbed ? "gibbed" : "killed")),
                                 targetname,
                                 weaponinfo[readyweapon].name);
@@ -1826,7 +1826,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
                                 playername,
                                 (playergender == playergender_male ? "him" : (playergender == playergender_female ? "her" : "them")));
                         else
-                            C_PlayerObituary("%s %s %sself with %s own %s.",
+                            C_PlayerObituary("%s %s %sself using %s own %s.",
                                 playername,
                                 (gibbed ? "gibbed" : "killed"),
                                 (playergender == playergender_male ? "him" : (playergender == playergender_female ? "her" : "them")),
@@ -1847,7 +1847,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
                                 (*target->info->name1 ? target->info->name1 : "monster"));
 
                         if (readyweapon == wp_fist && viewplayer->powers[pw_strength])
-                            C_PlayerObituary("%s %s %s with %s %s while %s.",
+                            C_PlayerObituary("%s %s %s using %s %s while %s.",
                                 playername,
                                 (target->type == MT_BARREL ? "exploded" : (gibbed ? "gibbed" : "killed")),
                                 targetname,
@@ -1856,7 +1856,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
                                 weaponinfo[readyweapon].name,
                                 powerupnames[pw_strength]);
                         else
-                            C_PlayerObituary("%s %s %s with %s %s.",
+                            C_PlayerObituary("%s %s %s using %s %s.",
                                 playername,
                                 (target->type == MT_BARREL ? "exploded" : (gibbed ? "gibbed" : "killed")),
                                 targetname,
