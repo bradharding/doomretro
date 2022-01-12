@@ -74,8 +74,10 @@ int                         restoredrumblestrength;
 
 void I_InitGameController(void)
 {
+    if (gamecontrollerconnected)
+        return;
+
 #if (SDL_MAJOR_VERSION == 2 && SDL_PATCHLEVEL >= 18) || SDL_MAJOR_VERSION > 2
-    SDL_SetHintWithPriority(SDL_HINT_JOYSTICK_HIDAPI_JOY_CONS, "1", SDL_HINT_OVERRIDE);
     SDL_SetHintWithPriority(SDL_HINT_JOYSTICK_HIDAPI_PS4_RUMBLE, "1", SDL_HINT_OVERRIDE);
     SDL_SetHintWithPriority(SDL_HINT_JOYSTICK_HIDAPI_PS5_RUMBLE, "1", SDL_HINT_OVERRIDE);
 #endif
@@ -97,7 +99,7 @@ void I_InitGameController(void)
 
     if (!gamecontroller)
         SDL_QuitSubSystem(SDL_INIT_GAMECONTROLLER);
-    else if (!gamecontrollerconnected)
+    else
     {
         const char  *name = SDL_GameControllerName(gamecontroller);
 
