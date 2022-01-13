@@ -986,27 +986,28 @@ void A_WeaponProjectile(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
     mobj_t  *mo;
     int     an;
+    state_t *state = psp->state;
 
-    if (!psp->state || !psp->state->args[0])
+    if (!state || !state->args[0])
         return;
 
-    if (!(mo = P_SpawnPlayerMissile(player->mo, psp->state->args[0] - 1)))
+    if (!(mo = P_SpawnPlayerMissile(player->mo, state->args[0] - 1)))
         return;
 
     // adjust angle
-    mo->angle += (angle_t)(((int64_t)psp->state->args[1] << 16) / 360);
+    mo->angle += (angle_t)(((int64_t)state->args[1] << 16) / 360);
     an = mo->angle >> ANGLETOFINESHIFT;
     mo->momx = FixedMul(mo->info->speed, finecosine[an]);
     mo->momy = FixedMul(mo->info->speed, finesine[an]);
 
     // adjust pitch (approximated, using DOOM's ye olde finetangent table; same method as autoaim)
-    mo->momz += FixedMul(mo->info->speed, DegToSlope(psp->state->args[2]));
+    mo->momz += FixedMul(mo->info->speed, DegToSlope(state->args[2]));
 
     // adjust position
     an = (player->mo->angle - ANG90) >> ANGLETOFINESHIFT;
-    mo->x += FixedMul(psp->state->args[3], finecosine[an]);
-    mo->y += FixedMul(psp->state->args[3], finesine[an]);
-    mo->z += psp->state->args[4];
+    mo->x += FixedMul(state->args[3], finecosine[an]);
+    mo->y += FixedMul(state->args[3], finesine[an]);
+    mo->z += state->args[4];
 
     // set tracer to the player's autoaim target,
     // so player seeker missiles prioritizing the
@@ -1025,12 +1026,13 @@ void A_WeaponProjectile(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_WeaponBulletAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    int numbullets;
+    int     numbullets;
+    state_t *state = psp->state;
 
-    if (!psp->state)
+    if (!state)
         return;
 
-    numbullets = psp->state->args[2];
+    numbullets = state->args[2];
 
     if (!(weaponinfo[player->readyweapon].flags & WPF_SILENT))
         P_NoiseAlert(actor);
@@ -1038,8 +1040,8 @@ void A_WeaponBulletAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
     P_BulletSlope(player->mo);
 
     for (int i = 0; i < numbullets; i++)
-        P_LineAttack(player->mo, player->mo->angle + P_RandomHitscanAngle(psp->state->args[0]), MISSILERANGE,
-            bulletslope + P_RandomHitscanSlope(psp->state->args[1]), (M_Random() % psp->state->args[4] + 1) * psp->state->args[3]);
+        P_LineAttack(player->mo, player->mo->angle + P_RandomHitscanAngle(state->args[0]), MISSILERANGE,
+            bulletslope + P_RandomHitscanSlope(state->args[1]), (M_Random() % state->args[4] + 1) * state->args[3]);
 }
 
 //
@@ -1057,17 +1059,18 @@ void A_WeaponMeleeAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
     angle_t angle;
     int     slope;
     int     damage;
+    state_t *state = psp->state;
 
-    if (!psp->state)
+    if (!state)
         return;
 
-    if (!(range = psp->state->args[4]))
+    if (!(range = state->args[4]))
         range = player->mo->info->meleerange;
 
-    damage = (M_Random() % psp->state->args[1] + 1) * psp->state->args[0];
+    damage = (M_Random() % state->args[1] + 1) * state->args[0];
 
     if (player->powers[pw_strength])
-        damage = (damage * psp->state->args[2]) >> FRACBITS;
+        damage = (damage * state->args[2]) >> FRACBITS;
 
     // slight randomization; weird vanillaism here. :P
     angle = player->mo->angle + (M_SubRandom() << 18);
@@ -1089,7 +1092,7 @@ void A_WeaponMeleeAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
         P_NoiseAlert(actor);
 
     // un-missed!
-    S_StartSound(player->mo, psp->state->args[3]);
+    S_StartSound(player->mo, state->args[3]);
 
     // turn to face target
     player->mo->angle = R_PointToAngle2(player->mo->x, player->mo->y, linetarget->x, linetarget->y);
@@ -1103,10 +1106,12 @@ void A_WeaponMeleeAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_WeaponSound(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    if (!psp->state)
+    state_t *state = psp->state;
+
+    if (!state)
         return;
 
-    S_StartSound((psp->state->args[1] ? NULL : player->mo), psp->state->args[0]);
+    S_StartSound((state->args[1] ? NULL : player->mo), state->args[0]);
 }
 
 //
@@ -1127,11 +1132,13 @@ void A_WeaponAlert(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_WeaponJump(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    if (!psp->state)
+    state_t *state = psp->state;
+
+    if (!state)
         return;
 
-    if (M_Random() < psp->state->args[1])
-        P_SetPspritePtr(psp, psp->state->args[0]);
+    if (M_Random() < state->args[1])
+        P_SetPspritePtr(psp, state->args[0]);
 }
 
 //
@@ -1141,14 +1148,15 @@ void A_WeaponJump(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_ConsumeAmmo(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    weapontype_t    readyweapon = player->readyweapon;
-    ammotype_t      type = weaponinfo[readyweapon].ammotype;
+    state_t         *state = psp->state;
+    weaponinfo_t    readyweapon = weaponinfo[player->readyweapon];
+    ammotype_t      type = readyweapon.ammotype;
 
-    if (!psp->state || type == am_noammo)
+    if (!state || type == am_noammo)
         return;
 
     // subtract ammo, but don't let it get below zero
-    player->ammo[type] = MAX(0, player->ammo[type] - (psp->state->args[0] ? psp->state->args[0] : weaponinfo[readyweapon].ammopershot));
+    player->ammo[type] = MAX(0, player->ammo[type] - (state->args[0] ? state->args[0] : readyweapon.ammopershot));
 }
 
 //
@@ -1159,14 +1167,15 @@ void A_ConsumeAmmo(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_CheckAmmo(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    weapontype_t    readyweapon = player->readyweapon;
-    ammotype_t      type = weaponinfo[readyweapon].ammotype;
+    state_t         *state = psp->state;
+    weaponinfo_t    readyweapon = weaponinfo[player->readyweapon];
+    ammotype_t      type = readyweapon.ammotype;
 
-    if (!psp->state || type == am_noammo)
+    if (!state || type == am_noammo)
         return;
 
-    if (player->ammo[type] < (psp->state->args[1] ? psp->state->args[1] : weaponinfo[readyweapon].ammopershot))
-        P_SetPspritePtr(psp, psp->state->args[0]);
+    if (player->ammo[type] < (state->args[1] ? state->args[1] : readyweapon.ammopershot))
+        P_SetPspritePtr(psp, state->args[0]);
 }
 
 //
@@ -1177,14 +1186,16 @@ void A_CheckAmmo(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_RefireTo(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    if (!psp->state)
+    state_t *state = psp->state;
+
+    if (!state)
         return;
 
-    if ((psp->state->args[1] || P_CheckAmmo(player->readyweapon))
+    if ((state->args[1] || P_CheckAmmo(player->readyweapon))
         && (player->cmd.buttons & BT_ATTACK)
         && player->pendingweapon == wp_nochange
         && player->health > 0)
-        P_SetPspritePtr(psp, psp->state->args[0]);
+        P_SetPspritePtr(psp, state->args[0]);
 }
 
 //
@@ -1195,11 +1206,13 @@ void A_RefireTo(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_GunFlashTo(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    if (!psp->state)
+    state_t *state = psp->state;
+
+    if (!state)
         return;
 
-    if (!psp->state->args[1])
+    if (!state->args[1])
         P_SetMobjState(player->mo, S_PLAY_ATK2);
 
-    P_SetPsprite(ps_flash, psp->state->args[0]);
+    P_SetPsprite(ps_flash, state->args[0]);
 }
