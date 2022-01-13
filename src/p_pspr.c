@@ -670,14 +670,14 @@ static void P_GunShot(mobj_t *actor, dboolean accurate)
 //
 void A_FirePistol(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    weapontype_t    readyweapon = player->readyweapon;
+    weaponinfo_t    readyweapon = weaponinfo[player->readyweapon];
 
-    if (!(weaponinfo[readyweapon].flags & WPF_SILENT))
+    if (!(readyweapon.flags & WPF_SILENT))
         P_NoiseAlert(actor);
 
     S_StartSound(actor, sfx_pistol);
     P_SubtractAmmo();
-    P_SetPsprite(ps_flash, weaponinfo[readyweapon].flashstate);
+    P_SetPsprite(ps_flash, readyweapon.flashstate);
     P_BulletSlope(actor);
 
     successfulshot = false;
@@ -700,14 +700,14 @@ void A_FirePistol(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_FireShotgun(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    weapontype_t    readyweapon = player->readyweapon;
+    weaponinfo_t    readyweapon = weaponinfo[player->readyweapon];
 
-    if (!(weaponinfo[readyweapon].flags & WPF_SILENT))
+    if (!(readyweapon.flags & WPF_SILENT))
         P_NoiseAlert(actor);
 
     S_StartSound(actor, sfx_shotgn);
     P_SubtractAmmo();
-    P_SetPsprite(ps_flash, weaponinfo[readyweapon].flashstate);
+    P_SetPsprite(ps_flash, readyweapon.flashstate);
     P_BulletSlope(actor);
 
     successfulshot = false;
@@ -734,14 +734,14 @@ void A_FireShotgun(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_FireShotgun2(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    weapontype_t    readyweapon = player->readyweapon;
+    weaponinfo_t    readyweapon = weaponinfo[player->readyweapon];
 
-    if (!(weaponinfo[readyweapon].flags & WPF_SILENT))
+    if (!(readyweapon.flags & WPF_SILENT))
         P_NoiseAlert(actor);
 
     S_StartSound(actor, sfx_dshtgn);
     P_SubtractAmmo();
-    P_SetPsprite(ps_flash, weaponinfo[readyweapon].flashstate);
+    P_SetPsprite(ps_flash, readyweapon.flashstate);
     P_BulletSlope(actor);
 
     successfulshot = false;
@@ -785,19 +785,19 @@ void A_CloseShotgun2(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_FireCGun(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    weapontype_t    readyweapon = player->readyweapon;
+    weaponinfo_t    readyweapon = weaponinfo[player->readyweapon];
 
     // [BH] Fix <https://doomwiki.org/wiki/Chaingun_makes_two_sounds_firing_single_bullet>.
-    if (!player->ammo[weaponinfo[readyweapon].ammotype])
+    if (!player->ammo[readyweapon.ammotype])
         return;
 
     S_StartSound(actor, sfx_pistol);
 
-    if (!(weaponinfo[readyweapon].flags & WPF_SILENT))
+    if (!(readyweapon.flags & WPF_SILENT))
         P_NoiseAlert(actor);
 
     P_SubtractAmmo();
-    P_SetPsprite(ps_flash, weaponinfo[readyweapon].flashstate + (unsigned int)((psp->state - &states[S_CHAIN1]) & 1));
+    P_SetPsprite(ps_flash, readyweapon.flashstate + (unsigned int)((psp->state - &states[S_CHAIN1]) & 1));
     P_BulletSlope(actor);
 
     successfulshot = false;
@@ -841,9 +841,8 @@ void A_BFGSpray(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
     mobj_t          *mo = actor->target;
     angle_t         an = mo->angle - ANG90 / 2;
-    weapontype_t    readyweapon = viewplayer->readyweapon;
 
-    if (!(weaponinfo[readyweapon].flags & WPF_SILENT))
+    if (!(weaponinfo[viewplayer->readyweapon].flags & WPF_SILENT))
         P_NoiseAlert(actor);
 
     // offset angles from its attack angle
@@ -1142,14 +1141,14 @@ void A_WeaponJump(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_ConsumeAmmo(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    ammotype_t  type = weaponinfo[player->readyweapon].ammotype;
+    weapontype_t    readyweapon = player->readyweapon;
+    ammotype_t      type = weaponinfo[readyweapon].ammotype;
 
     if (!psp->state || type == am_noammo)
         return;
 
     // subtract ammo, but don't let it get below zero
-    player->ammo[type] = MAX(0, player->ammo[type] - (psp->state->args[0] ? psp->state->args[0] :
-        weaponinfo[player->readyweapon].ammopershot));
+    player->ammo[type] = MAX(0, player->ammo[type] - (psp->state->args[0] ? psp->state->args[0] : weaponinfo[readyweapon].ammopershot));
 }
 
 //
@@ -1160,12 +1159,13 @@ void A_ConsumeAmmo(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_CheckAmmo(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    ammotype_t  type = weaponinfo[player->readyweapon].ammotype;
+    weapontype_t    readyweapon = player->readyweapon;
+    ammotype_t      type = weaponinfo[readyweapon].ammotype;
 
     if (!psp->state || type == am_noammo)
         return;
 
-    if (player->ammo[type] < (psp->state->args[1] ? psp->state->args[1] : weaponinfo[player->readyweapon].ammopershot))
+    if (player->ammo[type] < (psp->state->args[1] ? psp->state->args[1] : weaponinfo[readyweapon].ammopershot))
         P_SetPspritePtr(psp, psp->state->args[0]);
 }
 
