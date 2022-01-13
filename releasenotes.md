@@ -1,6 +1,12 @@
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/releasenotes1.png#gh-light-mode-only)
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/releasenotes2.png#gh-dark-mode-only)
 
+#### DOOM Retro v4.4.3
+
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
+
+###### Friday, January 14, 2022
+
 #### DOOM Retro v4.4.2
 
 * *DOOM Retro* is now compiled using v17.0.5 of [*Microsoft Visual Studio Community 2022*](https://www.visualstudio.com/vs/).
