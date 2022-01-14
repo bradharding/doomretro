@@ -108,7 +108,11 @@ void I_InitGameController(void)
         else
             C_Output("A controller is connected.");
 
+#if (SDL_MAJOR_VERSION == 2 && SDL_PATCHLEVEL >= 18) || SDL_MAJOR_VERSION > 2
+        if (SDL_GameControllerHasRumble(gamecontroller))
+#else
         if (!SDL_GameControllerRumble(gamecontroller, 0, 0, 0))
+#endif
             gamecontrollerhasrumble = true;
         else if (joy_rumble_barrels || joy_rumble_damage || joy_rumble_weapons)
             C_Warning(1, "This controller doesn't support rumble.");
