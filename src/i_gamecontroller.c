@@ -37,8 +37,13 @@
 */
 
 #include "c_console.h"
+#include "doomstat.h"
 #include "i_gamecontroller.h"
 #include "m_config.h"
+
+#if SDL_MAJOR_VERSION < 2 || (SDL_MAJOR_VERSION == 2 && SDL_PATCHLEVEL < 18)
+#define SDL_GameControllerHasRumble(gamecontroller) !SDL_GameControllerRumble(gamecontroller, 0, 0, 0)
+#endif
 
 dboolean                    joy_analog = joy_analog_default;
 float                       joy_deadzone_left = joy_deadzone_left_default;
@@ -90,6 +95,9 @@ void I_InitGameController(void)
         return;
     }
 
+    if (devparm)
+        SDL_GameControllerAddMappingsFromFile("gamecontrollerdb.txt");
+
     for (int i = 0, numjoysticks = SDL_NumJoysticks(); i < numjoysticks; i++)
         if (SDL_IsGameController(i))
         {
@@ -108,11 +116,7 @@ void I_InitGameController(void)
         else
             C_Output("A controller is connected.");
 
-#if (SDL_MAJOR_VERSION == 2 && SDL_PATCHLEVEL >= 18) || SDL_MAJOR_VERSION > 2
         if (SDL_GameControllerHasRumble(gamecontroller))
-#else
-        if (!SDL_GameControllerRumble(gamecontroller, 0, 0, 0))
-#endif
             gamecontrollerhasrumble = true;
         else if (joy_rumble_barrels || joy_rumble_damage || joy_rumble_weapons)
             C_Warning(1, "This controller doesn't support rumble.");
