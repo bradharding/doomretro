@@ -4220,7 +4220,7 @@ static void lfstrip(char *s)        // strip the \r and/or \n off of a line
 {
     char    *p = s + strlen(s);
 
-    while (p > s && (*--p == '\r' || *p == '\n'))
+    while (p > s && (*(--p) == '\r' || *p == '\n'))
         *p = 0;
 }
 
@@ -4230,11 +4230,11 @@ static void lfstrip(char *s)        // strip the \r and/or \n off of a line
 // Args:    s -- the string to work on
 // Returns: void -- the string is modified in place
 //
-static void rstrip(char *s)         // strip trailing whitespace
+static void rstrip(char *s)                         // strip trailing whitespace
 {
-    char    *p = s + strlen(s);     // killough 04/04/98: same here
+    char    *p = s + strlen(s);                     // killough 04/04/98: same here
 
-    while (p > s && isspace((unsigned char)*--p))  // break on first non-whitespace
+    while (p > s && isspace((unsigned char)*(--p))) // break on first non-whitespace
         *p = '\0';
 }
 

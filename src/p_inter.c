@@ -2324,25 +2324,19 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
         if (tplayer->health <= 0)
             return;
     }
-    else
+    else if ((target->health -= damage) <= 0)   // do the damage
     {
-        // do the damage
-        target->health -= damage;
+        if (!(flags & MF_FUZZ) && (type == MT_BARREL || (type == MT_PAIN && !doom4vanilla) || type == MT_SKULL))
+            target->colfunc = tlredcolfunc;
 
-        if (target->health <= 0)
-        {
-            if (!(flags & MF_FUZZ) && (type == MT_BARREL || (type == MT_PAIN && !doom4vanilla) || type == MT_SKULL))
-                target->colfunc = tlredcolfunc;
+        // [crispy] the lethal pellet of a point-blank SSG blast
+        // gets an extra damage boost for the occasional gib chance
+        if (splayer && splayer->readyweapon == wp_supershotgun && info->xdeathstate != S_NULL
+            && damage >= 10 && info->gibhealth < 0 && P_CheckMeleeRange(target))
+            target->health = info->gibhealth - 1;
 
-            // [crispy] the lethal pellet of a point-blank SSG blast
-            // gets an extra damage boost for the occasional gib chance
-            if (splayer && splayer->readyweapon == wp_supershotgun && info->xdeathstate
-                && damage >= 10 && info->gibhealth < 0 && P_CheckMeleeRange(target))
-                target->health = info->gibhealth - 1;
-
-            P_KillMobj(target, inflicter, source);
-            return;
-        }
+        P_KillMobj(target, inflicter, source);
+        return;
     }
 
     if (M_Random() < info->painchance && !(flags & MF_SKULLFLY) && (!tplayer || !(viewplayer->cheats & CF_GODMODE)))

@@ -991,7 +991,7 @@ void M_NormalizeSlashes(char *str)
             *p = DIR_SEPARATOR;
 
     // Remove trailing slashes
-    while (p > str && *--p == DIR_SEPARATOR)
+    while (p > str && *(--p) == DIR_SEPARATOR)
         *p = 0;
 
     // Collapse multiple slashes
@@ -1010,5 +1010,5 @@ char *pronoun(pronountype_t type)
     else if (type == reflexive)
         return (playergender == playergender_male ? "himself" : (playergender == playergender_female ? "herself" : "themselves"));
     else
-        return "";
+        return ITALICS("pronoun");
 }
