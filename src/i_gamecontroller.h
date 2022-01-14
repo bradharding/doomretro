@@ -39,6 +39,8 @@
 #if !defined(__I_GAMECONTROLLER_H__)
 #define __I_GAMECONTROLLER_H__
 
+#include "SDL.h"
+
 #include "doomtype.h"
 
 #define GAMECONTROLLER_A                    0x00000001
@@ -62,6 +64,14 @@
 #define GAMECONTROLLER_TRIGGER_THRESHOLD    3855
 
 #define IDLE_CHAINSAW_RUMBLE_STRENGTH       15000
+
+#if SDL_MAJOR_VERSION < 2 || (SDL_MAJOR_VERSION == 2 && SDL_PATCHLEVEL < 14)
+#define SDL_GameControllerSetLED(gamecontroller, red, green, blue)
+#endif
+
+#if SDL_MAJOR_VERSION < 2 || (SDL_MAJOR_VERSION == 2 && SDL_PATCHLEVEL < 18)
+#define SDL_GameControllerHasRumble(gamecontroller) !SDL_GameControllerRumble(gamecontroller, 0, 0, 0)
+#endif
 
 extern int      barrelrumbletics;
 extern int      damagerumbletics;

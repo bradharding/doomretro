@@ -2331,8 +2331,7 @@ static void give_cmd_func2(char *cmd, char *parms)
                 if (M_StringCompare(playername, playername_default))
                     C_PlayerMessage("You were given all your weapons.");
                 else
-                    C_PlayerMessage("%s was given all %s weapons.", playername,
-                        (playergender == playergender_male ? "his" : (playergender == playergender_female ? "her" : "their")));
+                    C_PlayerMessage("%s was given all %s weapons.", playername, pronoun(possessive));
 
                 C_HideConsole();
             }
@@ -2341,8 +2340,7 @@ static void give_cmd_func2(char *cmd, char *parms)
                 if (M_StringCompare(playername, playername_default))
                     C_Warning(0, "You already have all of your weapons.");
                 else
-                    C_Warning(0, "%s already has all of %s weapons.", playername,
-                        (playergender == playergender_male ? "his" : (playergender == playergender_female ? "her" : "their")));
+                    C_Warning(0, "%s already has all of %s weapons.", playername, pronoun(possessive));
 
                 free(parm);
                 return;
@@ -2858,8 +2856,7 @@ static void kill_cmd_func2(char *cmd, char *parms)
             if (M_StringCompare(playername, playername_default))
                 C_PlayerMessage("You killed yourself.");
             else
-                C_PlayerMessage("%s killed %sself.",
-                    playername, (playergender == playergender_male ? "him" : (playergender == playergender_female ? "her" : "them")));
+                C_PlayerMessage("%s killed %s.", playername, pronoun(reflexive));
 
             C_HideConsole();
         }
@@ -6435,10 +6432,9 @@ static void resurrect_cmd_func2(char *cmd, char *parms)
         if (M_StringCompare(parm, "player") || M_StringCompare(parm, "me") || (*playername && M_StringCompare(parm, playername)))
         {
             P_ResurrectPlayer(initial_health);
-            M_snprintf(buffer, sizeof(buffer), "%s resurrected %sself.",
+            M_snprintf(buffer, sizeof(buffer), "%s resurrected %s.",
                 playername,
-                (M_StringCompare(playername, playername_default) ? "your" : (playergender == playergender_male ? "him" :
-                    (playergender == playergender_female ? "her" : "them"))));
+                (M_StringCompare(playername, playername_default) ? "your" : pronoun(reflexive)));
             buffer[0] = toupper(buffer[0]);
             C_PlayerMessage(buffer);
             C_HideConsole();
@@ -6941,8 +6937,7 @@ static void take_cmd_func2(char *cmd, char *parms)
                 if (M_StringCompare(playername, playername_default))
                     C_PlayerMessage("You killed yourself.");
                 else
-                    C_PlayerMessage("%s killed %sself.",
-                        playername, (playergender == playergender_male ? "him" : (playergender == playergender_female ? "her" : "them")));
+                    C_PlayerMessage("%s killed %s.", playername, pronoun(reflexive));
 
                 C_HideConsole();
             }
@@ -8328,10 +8323,9 @@ static void player_cvars_func2(char *cmd, char *parms)
 
                         P_ResurrectPlayer(value);
                         P_AddBonus();
-                        M_snprintf(buffer, sizeof(buffer), "%s resurrected %sself.",
+                        M_snprintf(buffer, sizeof(buffer), "%s resurrected %s.",
                             playername,
-                            (M_StringCompare(playername, playername_default) ? "your" : (playergender == playergender_male ? "him" :
-                                (playergender == playergender_female ? "her" : "them"))));
+                            (M_StringCompare(playername, playername_default) ? "your" : pronoun(reflexive)));
                         buffer[0] = toupper(buffer[0]);
                         C_PlayerMessage(buffer);
                     }

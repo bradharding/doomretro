@@ -61,6 +61,7 @@
 
 #include "c_console.h"
 #include "i_system.h"
+#include "m_config.h"
 #include "m_misc.h"
 #include "version.h"
 #include "w_file.h"
@@ -998,4 +999,16 @@ void M_NormalizeSlashes(char *str)
         if (*p++ == DIR_SEPARATOR)
             while (*p == DIR_SEPARATOR)
                 p++;
+}
+
+char *pronoun(pronountype_t type)
+{
+    if (type == personal)
+        return (playergender == playergender_male ? "he" : (playergender == playergender_female ? "she" : "they"));
+    else if (type == possessive)
+        return (playergender == playergender_male ? "his" : (playergender == playergender_female ? "her" : "their"));
+    else if (type == reflexive)
+        return (playergender == playergender_male ? "himself" : (playergender == playergender_female ? "herself" : "themselves"));
+    else
+        return "";
 }

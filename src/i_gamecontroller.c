@@ -41,10 +41,6 @@
 #include "i_gamecontroller.h"
 #include "m_config.h"
 
-#if SDL_MAJOR_VERSION < 2 || (SDL_MAJOR_VERSION == 2 && SDL_PATCHLEVEL < 18)
-#define SDL_GameControllerHasRumble(gamecontroller) !SDL_GameControllerRumble(gamecontroller, 0, 0, 0)
-#endif
-
 dboolean                    joy_analog = joy_analog_default;
 float                       joy_deadzone_left = joy_deadzone_left_default;
 float                       joy_deadzone_right = joy_deadzone_right_default;
@@ -101,37 +97,33 @@ void I_InitGameController(void)
     for (int i = 0, numjoysticks = SDL_NumJoysticks(); i < numjoysticks; i++)
         if (SDL_IsGameController(i))
         {
+            const char  *name;
+
             gamecontroller = SDL_GameControllerOpen(i);
-            break;
+
+            gamecontrollerconnected = true;
+
+            if ((name = SDL_GameControllerName(gamecontroller)))
+                C_Output("A controller called \"%s\" is connected.", name);
+            else
+                C_Output("A controller is connected.");
+
+            if (SDL_GameControllerHasRumble(gamecontroller))
+                gamecontrollerhasrumble = true;
+            else if (joy_rumble_barrels || joy_rumble_damage || joy_rumble_weapons)
+                C_Warning(1, "This controller doesn't support rumble.");
+
+            I_SetGameControllerLeftDeadZone();
+            I_SetGameControllerRightDeadZone();
+            I_SetGameControllerHorizontalSensitivity();
+            I_SetGameControllerVerticalSensitivity();
+
+            SDL_GameControllerSetLED(gamecontroller, 255, 0, 0);
+
+            return;
         }
 
-    if (!gamecontroller)
-        SDL_QuitSubSystem(SDL_INIT_GAMECONTROLLER);
-    else
-    {
-        const char  *name = SDL_GameControllerName(gamecontroller);
-
-        if (*name)
-            C_Output("A controller called \"%s\" is connected.", name);
-        else
-            C_Output("A controller is connected.");
-
-        if (SDL_GameControllerHasRumble(gamecontroller))
-            gamecontrollerhasrumble = true;
-        else if (joy_rumble_barrels || joy_rumble_damage || joy_rumble_weapons)
-            C_Warning(1, "This controller doesn't support rumble.");
-
-        gamecontrollerconnected = true;
-
-        I_SetGameControllerLeftDeadZone();
-        I_SetGameControllerRightDeadZone();
-        I_SetGameControllerHorizontalSensitivity();
-        I_SetGameControllerVerticalSensitivity();
-
-#if (SDL_MAJOR_VERSION == 2 && SDL_PATCHLEVEL >= 14) || SDL_MAJOR_VERSION > 2
-        SDL_GameControllerSetLED(gamecontroller, 255, 0, 0);
-#endif
-    }
+    SDL_QuitSubSystem(SDL_INIT_GAMECONTROLLER);
 }
 
 void I_ShutdownGameController(void)
@@ -139,9 +131,7 @@ void I_ShutdownGameController(void)
     if (!gamecontroller)
         return;
 
-#if (SDL_MAJOR_VERSION == 2 && SDL_PATCHLEVEL >= 14) || SDL_MAJOR_VERSION > 2
     SDL_GameControllerSetLED(gamecontroller, 0, 0, 255);
-#endif
 
     gamecontrollerconnected = false;
     gamecontrollerhasrumble = false;

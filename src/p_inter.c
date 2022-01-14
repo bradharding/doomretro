@@ -961,8 +961,7 @@ dboolean P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message,
                     M_snprintf(buffer, sizeof(buffer),
                         s_GOTMEDINEED,
                         playername,
-                        (M_StringCompare(playername, playername_default) ? playername_default :
-                            (playergender == playergender_male ? "he" : (playergender == playergender_female ? "she" : "they"))));
+                        (M_StringCompare(playername, playername_default) ? playername_default : pronoun(personal)));
 
                     if (buffer[0])
                         buffer[0] = toupper(buffer[0]);
@@ -1706,7 +1705,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
                             (gibbed ? "gibbed" : "killed"),
                             (*inflicter->info->name1 && isvowel(inflicter->info->name1[0]) ? "an" : "a"),
                             (*inflicter->info->name1 ? inflicter->info->name1 : "monster"),
-                            (playergender == playergender_male ? "he" : (playergender == playergender_female ? "she" : "they")));
+                            pronoun(personal));
                 }
                 else
                 {
@@ -1822,15 +1821,13 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
                     if (target->player)
                     {
                         if (healthcvar)
-                            C_PlayerObituary("%s killed %sself.",
-                                playername,
-                                (playergender == playergender_male ? "him" : (playergender == playergender_female ? "her" : "them")));
+                            C_PlayerObituary("%s killed %s.", playername, pronoun(reflexive));
                         else
-                            C_PlayerObituary("%s %s %sself using %s own %s.",
+                            C_PlayerObituary("%s %s %s using %s own %s.",
                                 playername,
                                 (gibbed ? "gibbed" : "killed"),
-                                (playergender == playergender_male ? "him" : (playergender == playergender_female ? "her" : "them")),
-                                (playergender == playergender_male ? "his" : (playergender == playergender_female ? "her" : "their")),
+                                pronoun(reflexive),
+                                pronoun(possessive),
                                 weaponinfo[readyweapon].name);
                     }
                     else
@@ -1851,8 +1848,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
                                 playername,
                                 (target->type == MT_BARREL ? "exploded" : (gibbed ? "gibbed" : "killed")),
                                 targetname,
-                                (playergender == playergender_male ? "his" :
-                                    (playergender == playergender_female ? "her" : "their")),
+                                pronoun(possessive),
                                 weaponinfo[readyweapon].name,
                                 powerupnames[pw_strength]);
                         else
@@ -1860,8 +1856,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
                                 playername,
                                 (target->type == MT_BARREL ? "exploded" : (gibbed ? "gibbed" : "killed")),
                                 targetname,
-                                (playergender == playergender_male ? "his" :
-                                    (playergender == playergender_female ? "her" : "their")),
+                                pronoun(possessive),
                                 weaponinfo[readyweapon].name);
                     }
                 }
@@ -1976,9 +1971,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
                     if (M_StringCompare(playername, playername_default))
                         C_PlayerObituary("You blew yourself up.");
                     else
-                        C_PlayerObituary("%s blew %sself up.",
-                            playername,
-                            (playergender == playergender_male ? "him" : (playergender == playergender_female ? "her" : "them")));
+                        C_PlayerObituary("%s blew %s up.", playername, pronoun(reflexive));
                 }
             }
         }

@@ -48,6 +48,13 @@
 
 #include "doomtype.h"
 
+typedef enum
+{
+    personal,
+    possessive,
+    reflexive
+} pronountype_t;
+
 void M_MakeDirectory(const char *path);
 dboolean M_FileExists(const char *filename);
 dboolean M_FolderExists(const char *folder);
@@ -107,5 +114,6 @@ char *striptrailingzero(float value, int precision);
 int hextodec(char *hex);
 void M_StripQuotes(char *str);
 void M_NormalizeSlashes(char *str);
+char *pronoun(pronountype_t type);
 
 #endif
