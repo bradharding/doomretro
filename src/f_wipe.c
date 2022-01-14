@@ -68,7 +68,7 @@ static void wipe_initMelt(void)
     wipe_shittyColMajorXform((short *)screens[3]);
 
     // setup initial column positions (y < 0 => not ready to scroll yet)
-    y[0] = y[1] = -(M_Random() & 15);
+    y[0] = y[1] = -(M_BigRandom() & 15);
 
     for (int i = 2; i < SCREENWIDTH - 1; i += 2)
         y[i] = y[i + 1] = BETWEEN(-15, y[i - 1] + M_BigRandom() % 3 - 1, 0);
