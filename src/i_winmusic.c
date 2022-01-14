@@ -359,6 +359,16 @@ void I_Windows_PlaySong(dboolean looping)
     midiStreamRestart(hMidiStream);
 }
 
+void I_Windows_PauseSong(void)
+{
+    midiStreamPause(hMidiStream);
+}
+
+void I_Windows_ResumeSong(void)
+{
+    midiStreamRestart(hMidiStream);
+}
+
 void I_Windows_RegisterSong(void *data, int size)
 {
     SDL_RWops       *rwops = SDL_RWFromMem(data, size);

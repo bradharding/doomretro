@@ -3,6 +3,8 @@
 
 #### DOOM Retro v4.4.3
 
+* MIDI music will now pause rather than be muted when the game is paused when the window loses focus or by pressing the <kbd>PAUSE</kbd> key.
+
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Friday, January 14, 2022

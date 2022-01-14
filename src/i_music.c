@@ -150,11 +150,10 @@ void I_PauseSong(void)
 
     if (midimusictype)
     {
-        paused_midi_volume = current_music_volume;
-
 #if defined(_WIN32)
-        I_Windows_SetMusicVolume(0);
+        I_Windows_PauseSong();
 #else
+        paused_midi_volume = current_music_volume;
         Mix_VolumeMusic(0);
 #endif
     }
@@ -169,7 +168,7 @@ void I_ResumeSong(void)
 
     if (midimusictype)
 #if defined(_WIN32)
-        I_Windows_SetMusicVolume(paused_midi_volume);
+        I_Windows_ResumeSong();
 #else
         Mix_VolumeMusic(paused_midi_volume);
 #endif
