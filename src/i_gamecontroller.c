@@ -135,6 +135,10 @@ void I_ShutdownGameController(void)
     if (!gamecontroller)
         return;
 
+#if (SDL_MAJOR_VERSION == 2 && SDL_PATCHLEVEL >= 14) || SDL_MAJOR_VERSION > 2
+    SDL_GameControllerSetLED(gamecontroller, 0, 0, 255);
+#endif
+
     gamecontrollerconnected = false;
     gamecontrollerhasrumble = false;
 
