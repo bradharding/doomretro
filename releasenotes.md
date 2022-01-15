@@ -3,7 +3,9 @@
 
 #### DOOM Retro v4.4.3
 
-* MIDI music will now pause rather than be muted when the game is paused when the window loses focus or by pressing the <kbd>PAUSE</kbd> key.
+* Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
+* MIDI music will now pause rather than be muted when the game is paused if the window loses focus or the <kbd>PAUSE</kbd> key is pressed.
+* The LEDs on PS4 and PS5 controllers now change back to blue when quitting *DOOM Retro*.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

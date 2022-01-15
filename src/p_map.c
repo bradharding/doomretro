@@ -240,10 +240,8 @@ dboolean P_TeleportMove(mobj_t *thing, fixed_t x, fixed_t y, fixed_t z, dboolean
     newsec = R_PointInSubsector(x, y)->sector;
     ceilingline = NULL;
 
-    // The base floor/ceiling is from the subsector
-    // that contains the point.
-    // Any contacted lines the step closer together
-    // will adjust them.
+    // The base floor/ceiling is from the subsector that contains the point.
+    // Any contacted lines the step closer together will adjust them.
     tmfloorz = tmdropoffz = newsec->floorheight;
     tmceilingz = newsec->ceilingheight;
 
@@ -1992,8 +1990,8 @@ dboolean PIT_RadiusAttack(mobj_t *thing)
 
     // killough 08/10/98: allow grenades to hurt anyone, unless
     // fired by Cyberdemons, in which case it won't hurt Cybers.
-    if ((bombspot->flags & MF_BOUNCES) ? (type == MT_CYBORG && bombsource->type == MT_CYBORG)
-        : (thing->mbf21flags & (MF_MBF21_NORADIUSDMG | MF_MBF21_BOSS) && !(bombspot->mbf21flags & MF_MBF21_FORCERADIUSDMG)))
+    if ((bombspot->flags & MF_BOUNCES) ? (type == MT_CYBORG && bombsource->type == MT_CYBORG) :
+        (thing->mbf21flags & (MF_MBF21_NORADIUSDMG | MF_MBF21_BOSS) && !(bombspot->mbf21flags & MF_MBF21_FORCERADIUSDMG)))
         return true;
 
     dist = MAX(ABS(thing->x - bombspot->x), ABS(thing->y - bombspot->y)) - thing->radius;
@@ -2009,9 +2007,7 @@ dboolean PIT_RadiusAttack(mobj_t *thing)
     }
     else
     {
-        fixed_t dz = ABS(thing->z + (thing->height >> 1) - bombspot->z);
-
-        dist = MAX(0, MAX(dist, dz) >> FRACBITS);
+        dist = MAX(0, MAX(dist, ABS(thing->z + (thing->height >> 1) - bombspot->z)) >> FRACBITS);
 
         if (dist >= bombdistance)
             return true;        // out of range
