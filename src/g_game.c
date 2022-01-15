@@ -728,7 +728,8 @@ dboolean G_Responder(event_t *ev)
             || (ev->type == ev_controller
                 && gamecontrollerwait < I_GetTime()
                 && gamecontrollerbuttons
-                && !(gamecontrollerbuttons & (GAMECONTROLLER_B | GAMECONTROLLER_DPAD_UP | GAMECONTROLLER_DPAD_DOWN | GAMECONTROLLER_DPAD_LEFT | GAMECONTROLLER_DPAD_RIGHT)))))
+                && !(gamecontrollerbuttons & (GAMECONTROLLER_B | GAMECONTROLLER_DPAD_UP | GAMECONTROLLER_DPAD_DOWN
+                    | GAMECONTROLLER_DPAD_LEFT | GAMECONTROLLER_DPAD_RIGHT)))))
         {
             if (ev->type == ev_keydown && ev->data1 == keyboardalwaysrun)
             {

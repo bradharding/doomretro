@@ -4,12 +4,12 @@
 #### DOOM Retro v4.4.3
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
-* MIDI music will now pause rather than be muted when the game is paused if the window loses focus or the <kbd>PAUSE</kbd> key is pressed.
+* MIDI music will now actually pause rather than just be muted when the game is paused if the window loses focus or the <kbd>PAUSE</kbd> key is pressed.
 * Further improvements have been made to the support for controllers:
   * The LEDs on *PS4* and *PS5* controllers now change back to blue when quitting *DOOM Retro*.
-  * Support has been added for the paddles on *Xbox Elite* controllers. Use the `paddle1` to `paddle4` parameters with the `bind` CCMD.
-  * Support has been added for the touchpad on *PS4* and *PS5* controllers. Use the `touchpad` parameter with the `bind` CCMD.
-  * Support has been added for the *Xbox Series X* share button, the *PS5* microphone button and the *Nintendo Switch Pro* capture button. Use the `misc1` parameter with the `bind` CCMD.
+  * The paddles on *Xbox Elite* controllers can now be bound to an action by using the `paddle1` to `paddle4` parameters with the `bind` CCMD.
+  * The touchpad on *PS4* and *PS5* controllers can now be bound to an action using the `touchpad` parameter with the `bind` CCMD.
+  * The *Xbox Series X* share button, the *PS5* microphone button and the *Nintendo Switch Pro* capture button can now be bound to an action using the `misc1` parameter with the `bind` CCMD.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
