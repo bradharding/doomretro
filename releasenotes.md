@@ -5,7 +5,11 @@
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * MIDI music will now pause rather than be muted when the game is paused if the window loses focus or the <kbd>PAUSE</kbd> key is pressed.
-* The LEDs on PS4 and PS5 controllers now change back to blue when quitting *DOOM Retro*.
+* Further improvements have been made to the support for controllers:
+  * The LEDs on *PS4* and *PS5* controllers now change back to blue when quitting *DOOM Retro*.
+  * Support has been added for the paddles on *Xbox Elite* controllers. Use the `paddle1` to `paddle4` parameters with the `bind` CCMD.
+  * Support has been added for the touchpad on *PS4* and *PS5* controllers. Use the `touchpad` parameter with the `bind` CCMD.
+  * Support has been added for the *Xbox Series X* share button, the *PS5* microphone button and the *Nintendo Switch Pro* capture button. Use the `misc1` parameter with the `bind` CCMD.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
@@ -22,7 +26,7 @@
 * Lowering the music’s volume in the menu and console may now be disabled using the new `s_lowermenumusic` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
 * Extensive improvements have been made to the support for controllers:
   * Rumble now works again for those controllers that support it.
-  * The LEDs on PS4 and PS5 controllers are now red when connected.
+  * The LEDs on *PS4* and *PS5* controllers are now red when connected.
   * The `gp_vibrate_barrels`, `gp_vibrate_damage` and `gp_vibrate_weapons` CVARs have been renamed `joy_rumble_barrels`, `joy_rumble_damage` and `joy_rumble_weapons`.
   * All other CVARs that start with `gp_` now start with `joy_`.
   * The `gamepad1` to `gamepad4` parameters used by the `bind` CCMD have been renamed `button1` to `button4`.
