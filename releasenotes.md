@@ -6,9 +6,9 @@
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * MIDI music will now actually pause rather than just be muted when the game is paused if the window loses focus or the <kbd>PAUSE</kbd> key is pressed.
 * Further improvements have been made to the support for controllers:
-  * The LEDs on *PS4 DualShock* and *PS5 DualSense* controllers now change back to blue when quitting *DOOM Retro*.
-  * The paddles on *Xbox Elite* controllers can now be bound to an action by using the `paddle1` to `paddle4` parameters with the `bind` CCMD.
-  * The touchpad on *PS4 DualShock* and *PS5 DualSense* controllers can now be bound to an action using the `touchpad` parameter with the `bind` CCMD.
+  * The LEDs on the *PS4 DualShock 4* controller and the *PS5 DualSense* controller now change back to blue when quitting *DOOM Retro*.
+  * The paddles on the *Xbox Elite* controller can now be bound to an action by using the `paddle1` to `paddle4` parameters with the `bind` CCMD.
+  * The touchpad on the *PS4 DualShock 4* controller and the *PS5 DualSense* controller can now be bound to an action using the `touchpad` parameter with the `bind` CCMD.
   * The *Xbox Series X* controller’s share button, the *PS5 DualSense* controller’s microphone button and the *Nintendo Switch* pro controller’s capture button can now be bound to an action using the `misc1` parameter with the `bind` CCMD.
 * Minor improvements have been made to the support of [*MBF21*](https://doomwiki.org/wiki/MBF21)-compatible maps and mods.
 
@@ -27,7 +27,7 @@
 * Lowering the music’s volume in the menu and console may now be disabled using the new `s_lowermenumusic` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
 * Extensive improvements have been made to the support for controllers:
   * Rumble now works again for those controllers that support it.
-  * The LEDs on *PS4 DualShock* and *PS5 DualSense* controllers are now red when connected.
+  * The LEDs on the *PS4 DualShock 4* controller and the *PS5 DualSense* controller now turn red when connected.
   * The `gp_vibrate_barrels`, `gp_vibrate_damage` and `gp_vibrate_weapons` CVARs have been renamed `joy_rumble_barrels`, `joy_rumble_damage` and `joy_rumble_weapons`.
   * All other CVARs that start with `gp_` now start with `joy_`.
   * The `gamepad1` to `gamepad4` parameters used by the `bind` CCMD have been renamed `button1` to `button4`.
