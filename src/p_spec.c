@@ -2898,25 +2898,16 @@ static void P_SpawnScrollers(void)
                 break;
 
             // MBF21
-            case 1024:
-            case 1025:
-            case 1026:
+            case Scroll_ScrollWallWithSameTagUsingSidedefOffsets:
+            case Scroll_ScrollWallWithSameTagUsingSidedefOffsetsWhenSectorChangesHeight:
+            case Scroll_ScrollWallWithSameTagUsingSidedefOffsetsAcceleratesWhenSectorChangesHeight:
             {
                 int s;
 
-                if (!l->tag)
-                {
-                    char    *temp = commify(i);
-
-                    C_Warning(1, "Linedef %s has no tag.", temp);
-                    free(temp);
-                    break;
-                }
-
-                if (special > 1024)
+                if (special >= Scroll_ScrollWallWithSameTagUsingSidedefOffsetsWhenSectorChangesHeight)
                     control = sides[*l->sidenum].sector->id;
 
-                if (special == 1026)
+                if (special == Scroll_ScrollWallWithSameTagUsingSidedefOffsetsAcceleratesWhenSectorChangesHeight)
                     accel = 1;
 
                 s = lines[i].sidenum[0];

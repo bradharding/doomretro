@@ -10,6 +10,7 @@
   * The paddles on *Xbox Elite* controllers can now be bound to an action by using the `paddle1` to `paddle4` parameters with the `bind` CCMD.
   * The touchpad on *PS4* and *PS5* controllers can now be bound to an action using the `touchpad` parameter with the `bind` CCMD.
   * The *Xbox Series X* share button, the *PS5* microphone button and the *Nintendo Switch Pro* capture button can now be bound to an action using the `misc1` parameter with the `bind` CCMD.
+* Minor improvements have been made to the support of [*MBF21*](https://doomwiki.org/wiki/MBF21)-compatible maps and mods.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

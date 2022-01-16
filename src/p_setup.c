@@ -315,7 +315,7 @@ dboolean        blockmaprebuilt;
 dboolean        nojump = false;
 dboolean        nomouselook = false;
 
-const char *linespecials[] =
+const char *linespecials[NUMLINESPECIALS] =
 {
     "",
     "DR Door open wait close (also monsters)",
@@ -711,15 +711,16 @@ static void P_CheckLinedefs(void)
                 free(temp2);
             }
         }
-        else if (ld->special <= NUMLINESPECIALS)
+        else
         {
             if (!P_CheckTag(ld))
             {
                 char    *temp = commify(ld->id);
 
                 C_Warning(2, "Linedef %s has %s line special %i (\"%s\") but no tag.",
-                    temp, (ld->special < BOOMLINESPECIALS ? "the" : (ld->special < MBFLINESPECIALS ? "the " ITALICS("MBF")
-                    "-compatible" : "the " ITALICS("BOOM-") "compatible")), ld->special, linespecials[ld->special]);
+                    temp, (ld->special < BOOMLINESPECIALS ? "the" : (ld->special < MBF21LINESPECIALS ? "the " ITALICS("MBF21") "-compatible" :
+                    (ld->special < MBFLINESPECIALS ? "the " ITALICS("MBF") "-compatible" : "the " ITALICS("BOOM") "-compatible"))),
+                    ld->special, linespecials[ld->special]);
                 free(temp);
             }
             else if (ld->tag < 0 || P_FindSectorFromLineTag(ld, -1) == -1)
@@ -728,8 +729,9 @@ static void P_CheckLinedefs(void)
                 char    *temp2 = commify(ld->tag);
 
                 C_Warning(2, "Linedef %s has %s line special %i (\"%s\") but an unknown tag of %s.",
-                    temp1, (ld->special < BOOMLINESPECIALS ? "the" : (ld->special < MBFLINESPECIALS ? "the " ITALICS("MBF")
-                    "-compatible" : "the " ITALICS("BOOM-") "compatible")), ld->special, linespecials[ld->special], temp2);
+                    temp1, (ld->special < BOOMLINESPECIALS ? "the" : (ld->special < MBF21LINESPECIALS ? "the " ITALICS("MBF21") "-compatible" :
+                    (ld->special < MBFLINESPECIALS ? "the " ITALICS("MBF") "-compatible" : "the " ITALICS("BOOM") "-compatible"))),
+                    ld->special, linespecials[ld->special], temp2);
                 free(temp1);
                 free(temp2);
             }
@@ -994,19 +996,22 @@ static void P_LoadSegs(int lump)
                         {
                             if (li->linedef->special)
                                 C_Warning(2, "The %sline special of linedef %s has been changed from %i (\"%s\") to %i (\"%s\").",
-                                    (li->linedef->special < BOOMLINESPECIALS ? "" : (li->linedef->special < MBFLINESPECIALS ?
-                                    ITALICS("MBF-") "compatible " : ITALICS("BOOM-") "compatible ")), temp, li->linedef->special,
+                                    (li->linedef->special < BOOMLINESPECIALS ? "the" : (li->linedef->special < MBF21LINESPECIALS ?
+                                    "the " ITALICS("MBF21") "-compatible" : (li->linedef->special < MBFLINESPECIALS ? "the " ITALICS("MBF")
+                                    "-compatible" : "the " ITALICS("BOOM") "-compatible"))), temp, li->linedef->special,
                                     linespecials[li->linedef->special], linefix[j].special, linespecials[linefix[j].special]);
                             else
                                 C_Warning(2, "The %sline special %i (\"%s\") has been added to linedef %s.",
-                                    (li->linedef->special < BOOMLINESPECIALS ? "" : (li->linedef->special < MBFLINESPECIALS ?
-                                    ITALICS("MBF-") "compatible " : ITALICS("BOOM-") "compatible ")), linefix[j].special,
+                                    (li->linedef->special < BOOMLINESPECIALS ? "the" : (li->linedef->special < MBF21LINESPECIALS ?
+                                    "the " ITALICS("MBF21") "-compatible" : (li->linedef->special < MBFLINESPECIALS ? "the " ITALICS("MBF")
+                                    "-compatible" : "the " ITALICS("BOOM") "-compatible"))), linefix[j].special,
                                     linespecials[linefix[j].special], temp);
                         }
                         else
                             C_Warning(2, "The %sline special of linedef %s has been removed.",
-                                (li->linedef->special < BOOMLINESPECIALS ? "" : (li->linedef->special < MBFLINESPECIALS ?
-                                ITALICS("MBF-") "compatible " : ITALICS("BOOM-") "compatible ")), temp);
+                                (li->linedef->special < BOOMLINESPECIALS ? "the" : (li->linedef->special < MBF21LINESPECIALS ?
+                                "the " ITALICS("MBF21") "-compatible" : (li->linedef->special < MBFLINESPECIALS ? "the " ITALICS("MBF")
+                                "-compatible" : "the " ITALICS("BOOM") "-compatible"))), temp);
 
                         li->linedef->special = linefix[j].special;
                         free(temp);
@@ -1035,7 +1040,9 @@ static void P_LoadSegs(int lump)
                     break;
                 }
 
-        if (li->linedef->special >= MBFLINESPECIALS)
+        if (li->linedef->special >= MBF21LINESPECIALS)
+            mbf21compatible = true;
+        else if (li->linedef->special >= MBFLINESPECIALS)
             mbfcompatible = true;
         else if (li->linedef->special >= BOOMLINESPECIALS)
             boomcompatible = true;
@@ -1571,7 +1578,9 @@ static void P_LoadZSegs(const byte *data)
 
         li->offset = GetOffset(li->v1, (side ? ldef->v2 : ldef->v1));
 
-        if (li->linedef->special >= MBFLINESPECIALS)
+        if (li->linedef->special >= MBF21LINESPECIALS)
+            mbf21compatible = true;
+        else if (li->linedef->special >= MBFLINESPECIALS)
             mbfcompatible = true;
         else if (li->linedef->special >= BOOMLINESPECIALS)
             boomcompatible = true;
@@ -3618,4 +3627,11 @@ void P_Init(void)
     R_InitSprites();
     P_CheckSpechits();
     P_CheckIntercepts();
+
+    linespecials[Scroll_ScrollWallWithSameTagUsingSidedefOffsets] =
+        "Scroll wall with same tag using sidedef offsets";
+    linespecials[Scroll_ScrollWallWithSameTagUsingSidedefOffsetsWhenSectorChangesHeight] =
+        "Scroll wall with same tag using sidedef offsets when sector changes height";
+    linespecials[Scroll_ScrollWallWithSameTagUsingSidedefOffsetsAcceleratesWhenSectorChangesHeight] =
+        "Scroll wall with same tag using sidedef offsets accelerates when sector changes height";
 }
