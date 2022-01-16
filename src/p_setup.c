@@ -315,7 +315,7 @@ dboolean        blockmaprebuilt;
 dboolean        nojump = false;
 dboolean        nomouselook = false;
 
-const char *linespecials[NUMLINESPECIALS] =
+const char *linespecials[NUMLINESPECIALS + 1] =
 {
     "",
     "DR Door open wait close (also monsters)",
