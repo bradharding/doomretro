@@ -1988,7 +1988,7 @@ static void D_DoomMainSetup(void)
 
         if (p < myargc - 1)
         {
-            scale = atoi(myargv[p + 1]);
+            scale = strtol(myargv[p + 1], NULL, 10);
 
             if (scale >= 10 && scale <= 400 && scale != 100)
                 C_Output("A " BOLD("-turbo") " parameter was found on the command-line. The player will be %i%% their normal speed.",
@@ -2340,7 +2340,7 @@ static void D_DoomMainSetup(void)
                 && toupper(myargv[p + 1][2]) == 'P' && isdigit((int)myargv[p + 1][3]) && isdigit((int)myargv[p + 1][4]))
                 startmap = (myargv[p + 1][3] - '0') * 10 + myargv[p + 1][4] - '0';
             else
-                startmap = atoi(myargv[p + 1]);
+                startmap = strtol(myargv[p + 1], NULL, 10);
 
             M_snprintf(lumpname, sizeof(lumpname), "MAP%02i", startmap);
         }
@@ -2391,7 +2391,8 @@ static void D_DoomMainSetup(void)
 
     C_Init();
 
-    if ((startloadgame = ((p = M_CheckParmWithArgs("-loadgame", 1, 1)) ? atoi(myargv[p + 1]) : -1)) >= 0 && startloadgame <= 5)
+    if ((startloadgame = ((p = M_CheckParmWithArgs("-loadgame", 1, 1)) ? strtol(myargv[p + 1], NULL, 10) : -1)) >= 0
+        && startloadgame <= 5)
     {
         menuactive = false;
         splashscreen = false;

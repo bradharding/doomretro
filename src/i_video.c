@@ -1289,8 +1289,8 @@ void GetWindowSize(void)
     {
         char    *temp1 = uncommify(width);
         char    *temp2 = uncommify(height);
-        int     w = atoi(temp1);
-        int     h = atoi(temp2);
+        int     w = strtol(temp1, NULL, 10);
+        int     h = strtol(temp2, NULL, 10);
 
         if (w < VANILLAWIDTH + windowborderwidth || h < VANILLAWIDTH * 3 / 4 + windowborderheight)
         {

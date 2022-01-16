@@ -2489,7 +2489,7 @@ void P_SpawnSpecials(void)
 
     if (p)
     {
-        int minutes = atoi(myargv[p + 1]);
+        int minutes = strtol(myargv[p + 1], NULL, 10);
 
         if (minutes > 0)
         {
