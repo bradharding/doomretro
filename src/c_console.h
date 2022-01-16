@@ -205,7 +205,6 @@ void C_IntCVAROutput(char *cvar, int value);
 void C_PctCVAROutput(char *cvar, int value);
 void C_StrCVAROutput(char *cvar, char *string);
 void C_Output(const char *string, ...);
-void C_OutputNoRepeat(const char *string, ...);
 void C_TabbedOutput(const int tabs[3], const char *string, ...);
 void C_Header(const int tabs[3], patch_t *header, const char *string);
 void C_Warning(const int minwarninglevel, const char *string, ...);

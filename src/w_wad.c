@@ -291,7 +291,6 @@ dboolean W_AddFile(char *filename, dboolean automatic)
     filelump_t      *fileinfo;
     filelump_t      *filerover;
     lumpinfo_t      *filelumps;
-    char            *temp;
     char            *file = leafname(filename);
 
     // open the file and add to directory
@@ -358,7 +357,8 @@ dboolean W_AddFile(char *filename, dboolean automatic)
 
     if (!M_StringCompare(leafname(filename), DOOMRETRO_WAD) && !devparm)
     {
-        temp = commify((int64_t)numlumps - startlump);
+        char    *temp = commify((int64_t)numlumps - startlump);
+
         C_Output("%s %s lump%s from the %s " BOLD("%s") ".", (automatic ? "Automatically added" : "Added"), temp,
             (numlumps - startlump == 1 ? "" : "s"), (wadfile->type == IWAD ? "IWAD" : "PWAD"), wadfile->path);
         free(temp);
