@@ -266,8 +266,7 @@ void C_TabbedOutput(const int tabs[3], const char *string, ...)
     console[consolestrings].stringtype = outputstring;
     memcpy(console[consolestrings].tabs, tabs, sizeof(console[consolestrings].tabs));
     console[consolestrings].indent = (tabs[2] ? tabs[2] : (tabs[1] ? tabs[1] : tabs[0])) - 10;
-    console[consolestrings].wrap = 0;
-    consolestrings++;
+    console[consolestrings++].wrap = 0;
     outputhistory = -1;
 }
 
@@ -281,8 +280,7 @@ void C_Header(const int tabs[3], patch_t *header, const char *string)
     console[consolestrings].header = header;
     M_StringCopy(console[consolestrings].string, string, sizeof(console[consolestrings].string));
     console[consolestrings].indent = 0;
-    console[consolestrings].wrap = (int)strlen(string);
-    consolestrings++;
+    console[consolestrings++].wrap = (int)strlen(string);
     outputhistory = -1;
 }
 
@@ -961,8 +959,8 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
 
                 if (letter == '\'')
                 {
-                    if (prevletter == '\0' || prevletter == ' ' || prevletter == '\t'
-                        || prevletter == '(' || prevletter == '[' || prevletter == '{' || prevletter == '<' || prevletter == '"')
+                    if (prevletter == '\0' || prevletter == ' ' || prevletter == '\t' || prevletter == '('
+                        || prevletter == '[' || prevletter == '{' || prevletter == '<' || prevletter == '"')
                     {
                         patch = lsquote;
 
@@ -972,8 +970,8 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
                 }
                 else if (letter == '"')
                 {
-                    if (prevletter == '\0' || prevletter == ' ' || prevletter == '\t'
-                        || prevletter == '(' || prevletter == '[' || prevletter == '{' || prevletter == '<' || prevletter == '\'')
+                    if (prevletter == '\0' || prevletter == ' ' || prevletter == '\t' || prevletter == '('
+                        || prevletter == '[' || prevletter == '{' || prevletter == '<' || prevletter == '\'')
                     {
                         patch = ldquote;
 

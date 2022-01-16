@@ -2571,9 +2571,6 @@ void P_SpawnSpecials(void)
     for (int i = 0; i < maxbuttons; i++)
         memset(&buttonlist[i], 0, sizeof(button_t));
 
-    // P_InitTagLists() must be called before P_FindSectorFromLineTag()
-    // or P_FindLineFromLineTag() can be called.
-
     P_SpawnScrollers();                 // killough 03/07/98: Add generalized scrollers
     P_SpawnFriction();                  // phares 03/12/98: New friction model using linedefs
     P_SpawnPushers();                   // phares 03/20/98: New pusher model using linedefs
@@ -2581,8 +2578,7 @@ void P_SpawnSpecials(void)
     for (int i = 0; i < numlines; i++, line++)
         switch (line->special)
         {
-            // killough 03/07/98:
-            // support for drawn heights coming from different sector
+            // killough 03/07/98: support for drawn heights coming from different sector
             case CreateFakeCeilingAndFloor:
             {
                 sector_t    *sec = sides[*line->sidenum].sector;
@@ -2593,8 +2589,7 @@ void P_SpawnSpecials(void)
                 break;
             }
 
-            // killough 03/16/98: Add support for setting
-            // floor lighting independently (e.g. lava)
+            // killough 03/16/98: Add support for setting floor lighting independently (e.g. lava)
             case Floor_ChangeBrightnessToThisBrightness:
             {
                 sector_t    *sec = sides[*line->sidenum].sector;
@@ -2605,8 +2600,7 @@ void P_SpawnSpecials(void)
                 break;
             }
 
-            // killough 04/11/98: Add support for setting
-            // ceiling lighting independently
+            // killough 04/11/98: Add support for setting ceiling lighting independently
             case Ceiling_ChangeBrightnessToThisBrightness:
             {
                 sector_t    *sec = sides[*line->sidenum].sector;
@@ -2618,7 +2612,6 @@ void P_SpawnSpecials(void)
             }
 
             // killough 10/98:
-            //
             // Support for sky textures being transferred from sidedefs.
             // Allows scrolling and other effects (but if scrolling is
             // used, then the same sector tag needs to be used for the
@@ -2635,7 +2628,6 @@ void P_SpawnSpecials(void)
 }
 
 // killough 02/28/98:
-//
 // This function, with the help of r_plane.c and r_bsp.c, supports generalized
 // scrolling floors and walls, with optional mobj-carrying properties, e.g.
 // conveyor belts, rivers, etc. A linedef with a special type affects all
@@ -2688,14 +2680,14 @@ void T_Scroll(scroll_t *scroller)
         scroller->vdy = (dy += scroller->vdy);
     }
 
-    if (!(dx | dy))                             // no-op if both (x,y) offsets 0
+    if (!(dx | dy))                 // no-op if both (x,y) offsets 0
         return;
 
     switch (scroller->type)
     {
         sector_t    *sec;
 
-        case sc_side:                           // killough 03/07/98: Scroll wall texture
+        case sc_side:               // killough 03/07/98: Scroll wall texture
         {
             side_t  *side = sides + scroller->affectee;
 
@@ -2705,14 +2697,14 @@ void T_Scroll(scroll_t *scroller)
             break;
         }
 
-        case sc_floor:                          // killough 03/07/98: Scroll floor texture
+        case sc_floor:              // killough 03/07/98: Scroll floor texture
             sec = sectors + scroller->affectee;
             sec->floorxoffset += dx;
             sec->flooryoffset += dy;
 
             break;
 
-        case sc_ceiling:                        // killough 03/07/98: Scroll ceiling texture
+        case sc_ceiling:            // killough 03/07/98: Scroll ceiling texture
             sec = sectors + scroller->affectee;
             sec->ceilingxoffset += dx;
             sec->ceilingyoffset += dy;
@@ -2722,7 +2714,7 @@ void T_Scroll(scroll_t *scroller)
         case sc_carry:
         {
             fixed_t height;
-            fixed_t waterheight;                // killough 04/04/98: add waterheight
+            fixed_t waterheight;    // killough 04/04/98: add waterheight
 
             // killough 03/07/98: Carry things on floor
             // killough 03/20/98: Use new sector list which reflects true members
@@ -2825,9 +2817,9 @@ static void P_SpawnScrollers(void)
 
     for (int i = 0; i < numlines; i++, l++)
     {
-        fixed_t     dx = l->dx >> SCROLL_SHIFT;             // direction and speed of scrolling
+        fixed_t     dx = l->dx >> SCROLL_SHIFT;                             // direction and speed of scrolling
         fixed_t     dy = l->dy >> SCROLL_SHIFT;
-        int         control = -1;                           // no control sector or acceleration
+        int         control = -1;                                           // no control sector or acceleration
         dboolean    accel = false;
         int         special = l->special;
 
@@ -2905,7 +2897,7 @@ static void P_SpawnScrollers(void)
                 Add_Scroller(sc_side, -FRACUNIT, 0, -1, lines[i].sidenum[0], accel);
                 break;
 
-                // MBF21
+            // MBF21
             case 1024:
             case 1025:
             case 1026:
@@ -2913,7 +2905,13 @@ static void P_SpawnScrollers(void)
                 int s;
 
                 if (!l->tag)
-                    I_Error("Line %i is missing a tag!", i);
+                {
+                    char    *temp = commify(i);
+
+                    C_Warning(1, "Linedef %s has no tag.", temp);
+                    free(temp);
+                    break;
+                }
 
                 if (special > 1024)
                     control = sides[*l->sidenum].sector->id;
@@ -3003,7 +3001,7 @@ static void P_SpawnFriction(void)
             // The following check might seem odd. At the time of movement,
             // the move distance is multiplied by 'friction/0x10000', so a
             // higher friction value actually means 'less friction'.
-            if (friction > ORIG_FRICTION)       // ice
+            if (friction > ORIG_FRICTION)   // ice
                 movefactor = MAX(32, ((0x10092 - friction) * 0x70) / 0x0158);
             else
                 movefactor = MAX(32, ((friction - 0xDB34) * 0x0A) / 0x80);
