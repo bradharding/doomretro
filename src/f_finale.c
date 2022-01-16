@@ -580,7 +580,7 @@ static void F_CastTicker(void)
         if (!castdeath && caststate == &states[S_PLAY_ATK1])
             goto stopattack;    // Oh, gross hack!
 
-        st = (caststate->action == &A_RandomJump && M_BigRandom() < caststate->misc2 ? caststate->misc1 : caststate->nextstate);
+        st = (caststate->action == &A_RandomJump && (M_BigRandom() & 255) < caststate->misc2 ? caststate->misc1 : caststate->nextstate);
         caststate = &states[st];
         castframes++;
 
@@ -692,7 +692,7 @@ stopattack:
     {
         if (caststate->action == &A_RandomJump)
         {
-            caststate = &states[M_BigRandom() < caststate->misc2 ? caststate->misc1 : caststate->nextstate];
+            caststate = &states[(M_BigRandom() & 255) < caststate->misc2 ? caststate->misc1 : caststate->nextstate];
             casttics = caststate->tics;
         }
 
@@ -768,7 +768,7 @@ static dboolean F_CastResponder(event_t *ev)
 
     if (casttics == -1 && caststate->action == &A_RandomJump)
     {
-        caststate = &states[(M_BigRandom() < caststate->misc2 ? caststate->misc1 : caststate->nextstate)];
+        caststate = &states[((M_BigRandom() & 255) < caststate->misc2 ? caststate->misc1 : caststate->nextstate)];
         casttics = caststate->tics;
     }
 

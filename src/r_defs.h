@@ -589,7 +589,7 @@ enum
     Scroll_ScrollWallWithSameTagUsingSidedefOffsetsWhenSectorChangesHeight            = 1025,
     Scroll_ScrollWallWithSameTagUsingSidedefOffsetsAcceleratesWhenSectorChangesHeight = 1026,
 
-    NUMLINESPECIALS                                                                   = 1026
+    NUMLINESPECIALS                                                                   = 1027
 };
 
 enum

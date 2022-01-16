@@ -928,7 +928,7 @@ void D_SetGameDescription(void)
                 s_CAPTION_DOOM2, s_CAPTION_NERVE);
     }
     else if (modifiedgame && !sigil && !chex && !BTSX && !REKKR)
-        C_Output("Playing " BOLD("%s") ".", gamedescription);
+        C_Output("Playing " ITALICS("%s") ".", gamedescription);
     else
     {
         if (bfgedition && !chex && !BTSX && !REKKR)
