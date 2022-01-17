@@ -444,6 +444,15 @@ static void createTextureCompositePatch(int id)
     {
         texpatch = &texture->patches[i];
         patchNum = texpatch->patch;
+
+        if (!CheckIfPatch(patchNum) && patchNum < numlumps)
+        {
+            if (lumpinfo[patchNum]->size > 0)
+                C_Warning(1, "The " BOLD("%s") " patch is in an unknown format.", lumpinfo[patchNum]->name);
+
+            patchNum = W_GetNumForName("TNT1A0");
+        }
+
         oldPatch = (const patch_t *)W_CacheLumpNum(patchNum);
 
         for (int x = 0; x < SHORT(oldPatch->width); x++)
