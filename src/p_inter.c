@@ -2014,7 +2014,7 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
         if (!(target->flags & MF_FUZZ))
             target->bloodsplats = CORPSEBLOODSPLATS;
 
-        if (r_corpses_mirrored && (M_BigRandom() & 1) && type != MT_CHAINGUY && type != MT_CYBORG && (type != MT_PAIN || !doom4vanilla))
+        if (r_corpses_mirrored && (M_Random() & 1) && type != MT_CHAINGUY && type != MT_CYBORG && (type != MT_PAIN || !doom4vanilla))
             target->flags2 |= MF2_MIRRORED;
     }
 
@@ -2109,7 +2109,7 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
             mo = P_SpawnMobj(target->x, target->y, target->floorz + target->height * 3 / 2 - 3 * FRACUNIT, info->droppeditem);
             mo->momx = (target->momx >> 1) + (M_SubRandom() << 8);
             mo->momy = (target->momy >> 1) + (M_SubRandom() << 8);
-            mo->momz = 4 * FRACUNIT + ((M_BigRandom() & 255) << 9);
+            mo->momz = 2 * FRACUNIT + ((M_BigRandom() & 255) << 8);
         }
         else
             mo = P_SpawnMobj(target->x, target->y, ONFLOORZ, info->droppeditem);
@@ -2118,7 +2118,7 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
         mo->flags |= MF_DROPPED;    // special versions of items
         mo->geartime = 15;
 
-        if (r_mirroredweapons && (M_BigRandom() & 1))
+        if (r_mirroredweapons && (M_Random() & 1))
             mo->flags2 |= MF2_MIRRORED;
 
         if (massacre)
@@ -2186,7 +2186,7 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
         fixed_t         thrust = damage * (FRACUNIT >> 3) * 100 / (corpse ? MAX(200, info->mass) : info->mass);
 
         // make fall forwards sometimes
-        if (damage < 40 && damage > target->health && target->z - inflicter->z > 64 * FRACUNIT && (M_BigRandom() & 1))
+        if (damage < 40 && damage > target->health && target->z - inflicter->z > 64 * FRACUNIT && (M_Random() & 1))
         {
             ang += ANG180;
             thrust *= 4;
@@ -2215,7 +2215,7 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
                 P_SetMobjState(target, state);
                 S_StartSound(target, sfx_slop);
 
-                if (M_BigRandom() & 1)
+                if (M_Random() & 1)
                     target->flags2 ^= MF2_MIRRORED;
 
                 if (con_obituaries)

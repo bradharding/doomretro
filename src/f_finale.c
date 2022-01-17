@@ -761,7 +761,7 @@ static dboolean F_CastResponder(event_t *ev)
     castdeath = true;
 
     if (r_corpses_mirrored && type != MT_CHAINGUY && type != MT_CYBORG)
-        castdeathflip = (M_BigRandom() & 1);
+        castdeathflip = (M_Random() & 1);
 
     caststate = &states[mobjinfo[type].deathstate];
     casttics = caststate->tics;

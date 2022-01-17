@@ -1254,11 +1254,11 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, dboolean spawnmonsters)
     mobj->angle = ((mthing->angle % 45) ? mthing->angle * (ANG45 / 45) : ANG45 * (mthing->angle / 45));
 
     // [BH] randomly mirror corpses
-    if ((flags & MF_CORPSE) && (M_BigRandom() & 1) && r_corpses_mirrored)
+    if ((flags & MF_CORPSE) && (M_Random() & 1) && r_corpses_mirrored)
         mobj->flags2 |= MF2_MIRRORED;
 
     // [BH] randomly mirror weapons
-    if ((type == SuperShotgun || (type >= Shotgun && type <= BFG9000)) && (M_BigRandom() & 1) && r_mirroredweapons)
+    if ((type == SuperShotgun || (type >= Shotgun && type <= BFG9000)) && (M_Random() & 1) && r_mirroredweapons)
         mobj->flags2 |= MF2_MIRRORED;
 
     info = mobj->info;
@@ -1326,7 +1326,7 @@ void P_SpawnPuff(fixed_t x, fixed_t y, fixed_t z, angle_t angle)
     th->momz = FRACUNIT;
     th->angle = angle;
     th->flags = info->flags;
-    th->flags2 = (info->flags2 | ((M_BigRandom() & 1) * MF2_MIRRORED));
+    th->flags2 = (info->flags2 | ((M_Random() & 1) * MF2_MIRRORED));
 
     th->state = st;
     th->tics = MAX(1, st->tics - (M_BigRandom() & 3));
@@ -1375,7 +1375,7 @@ void P_SpawnSmokeTrail(fixed_t x, fixed_t y, fixed_t z, angle_t angle)
 
     th->momz = FRACUNIT / 2;
     th->angle = angle;
-    th->flags2 |= (M_BigRandom() & 1) * MF2_MIRRORED;
+    th->flags2 |= (M_Random() & 1) * MF2_MIRRORED;
 }
 
 //
@@ -1404,7 +1404,7 @@ void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mo
         th->x = x + M_BigRandomInt(-2, 2) * FRACUNIT;
         th->y = y + M_BigRandomInt(-2, 2) * FRACUNIT;
         th->flags = info->flags;
-        th->flags2 = (info->flags2 | ((M_BigRandom() & 1) * MF2_MIRRORED));
+        th->flags2 = (info->flags2 | ((M_Random() & 1) * MF2_MIRRORED));
 
         th->state = st;
         th->tics = MAX(1, st->tics - (M_BigRandom() & 2));
@@ -1462,7 +1462,7 @@ void P_SpawnBloodSplat(fixed_t x, fixed_t y, int blood, fixed_t maxheight, mobj_
                 int patch = firstbloodsplatlump + (M_BigRandom() & 7);
 
                 splat->patch = patch;
-                splat->flip = (M_BigRandom() & 1);
+                splat->flip = (M_Random() & 1);
 
                 if (blood == FUZZYBLOOD)
                 {

@@ -50,7 +50,7 @@ dboolean EV_Teleport(line_t *line, int side, mobj_t *thing)
     if (side || (thing->flags & MF_MISSILE))
         return false;
 
-    // [BH] Don't teleport corpses once kill ccmd used
+    // [BH] Don't teleport corpses or the items they drop once kill CCMD used
     if (thing->flags2 & MF2_MASSACRE)
         return false;
 

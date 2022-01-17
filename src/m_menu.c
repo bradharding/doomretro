@@ -3895,7 +3895,7 @@ void M_Init(void)
     messageString = NULL;
     messageLastMenuActive = false;
     quickSaveSlot = -1;
-    spindirection = ((M_BigRandom() & 1) ? 1 : -1);
+    spindirection = ((M_Random() & 1) ? 1 : -1);
 
     for (int i = 0; i < 256; i++)
         blues[i] = nearestcolors[blues[i]];
