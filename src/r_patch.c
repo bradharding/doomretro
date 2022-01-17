@@ -36,36 +36,6 @@
 ========================================================================
 */
 
-/*
-**---------------------------------------------------------------------------
-** Copyright 2004-2006 Randy Heit
-** All rights reserved.
-**
-** Redistribution and use in source and binary forms, with or without
-** modification, are permitted provided that the following conditions
-** are met:
-**
-** 1. Redistributions of source code must retain the above copyright
-**    notice, this list of conditions and the following disclaimer.
-** 2. Redistributions in binary form must reproduce the above copyright
-**    notice, this list of conditions and the following disclaimer in the
-**    documentation and/or other materials provided with the distribution.
-** 3. The name of the author may not be used to endorse or promote products
-**    derived from this software without specific prior written permission.
-**
-** THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
-** IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
-** OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
-** IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
-** INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
-** NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
-** DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
-** THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-** (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
-** THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-**---------------------------------------------------------------------------
-*/
-
 #include "c_console.h"
 #include "doomstat.h"
 #include "i_swap.h"
@@ -127,8 +97,7 @@ static dboolean CheckIfPatch(int lump)
             short   width = SHORT(patch->width);
             short   height = SHORT(patch->height);
 
-            if ((result = (height > 0 && height <= 16384 && width > 0 && width <= 16384 && width < size / 4)))
-            {
+            if ((result = (width > 0 && width <= 16384 && width < size / 4 && height > 0 && height <= 16384)))
                 // The dimensions seem like they might be valid for a patch, so
                 // check the column directory for extra security. All columns
                 // must begin after the column directory, and none of them must
@@ -144,7 +113,6 @@ static dboolean CheckIfPatch(int lump)
                         break;
                     }
                 }
-            }
         }
 
         W_ReleaseLumpNum(lump);
@@ -167,7 +135,7 @@ static void createPatch(int patchNum)
     const unsigned char *oldColumnPixelData;
     int                 numPostsUsedSoFar;
 
-    if (!CheckIfPatch(patchNum) && patchNum < numlumps)
+    if (!CheckIfPatch(patchNum))
     {
         if (lumpinfo[patchNum]->size > 0)
             C_Warning(1, "The " BOLD("%.8s") " patch is in an unknown format.", lumpinfo[patchNum]->name);
@@ -377,7 +345,7 @@ static void createTextureCompositePatch(int id)
         texpatch = &texture->patches[i];
         patchNum = texpatch->patch;
 
-        if (!CheckIfPatch(patchNum) && patchNum < numlumps)
+        if (!CheckIfPatch(patchNum))
         {
             if (lumpinfo[patchNum]->size > 0)
                 C_Warning(1, "The " BOLD("%s") " patch is in an unknown format.", lumpinfo[patchNum]->name);
@@ -445,7 +413,7 @@ static void createTextureCompositePatch(int id)
         texpatch = &texture->patches[i];
         patchNum = texpatch->patch;
 
-        if (!CheckIfPatch(patchNum) && patchNum < numlumps)
+        if (!CheckIfPatch(patchNum))
         {
             if (lumpinfo[patchNum]->size > 0)
                 C_Warning(1, "The " BOLD("%s") " patch is in an unknown format.", lumpinfo[patchNum]->name);
@@ -594,9 +562,9 @@ static void createTextureCompositePatch(int id)
 
             // this pixel is a hole
             if (x && prevColumn->pixels[y - 1] != 0xFF)
-                column->pixels[y] = prevColumn->pixels[y];      // copy the color from the left
+                column->pixels[y] = prevColumn->pixels[y];  // copy the color from the left
             else
-                column->pixels[y] = column->pixels[y - 1];      // copy the color from above
+                column->pixels[y] = column->pixels[y - 1];  // copy the color from above
         }
     }
 
