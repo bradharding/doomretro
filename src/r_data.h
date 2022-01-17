@@ -144,5 +144,6 @@ int R_ColormapNumForName(char *name);   // killough 04/04/98
 extern byte         grays[256];
 extern texture_t    **textures;
 extern dboolean     suppresswarnings;
+extern int          numspritelumps;
 
 #endif

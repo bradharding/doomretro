@@ -60,8 +60,6 @@ static short    FIREBLU1;
 static short    SKY1;
 static short    STEP2;
 
-extern int      numspritelumps;
-
 static dboolean getIsSolidAtSpot(const column_t *column, int spot)
 {
     if (!column)
@@ -92,7 +90,9 @@ static dboolean CheckIfPatch(int lump)
         const patch_t       *patch = W_CacheLumpNum(lump);
         const unsigned char *magic = (const unsigned char *)patch;
 
-        if (magic[0] != 0x89 || magic[1] != 'P' || magic[2] != 'N' || magic[3] != 'G')
+        if (magic[0] == 0x89 && magic[1] == 'P' && magic[2] == 'N' && magic[3] == 'G')
+            C_Warning(1, "The " BOLD("%.8s") " patch is an unsupported PNG lump and will be ignored.", lumpinfo[lump]->name);
+        else
         {
             short   width = SHORT(patch->width);
             short   height = SHORT(patch->height);
@@ -110,6 +110,10 @@ static dboolean CheckIfPatch(int lump)
                     if (ofs < (unsigned int)width * 4 + 8 || ofs >= (unsigned int)size)
                     {
                         result = false;
+
+                        if (lumpinfo[lump]->size > 0)
+                            C_Warning(1, "The " BOLD("%.8s") " patch is in an unknown format and will be ignored.", lumpinfo[lump]->name);
+
                         break;
                     }
                 }
@@ -136,12 +140,7 @@ static void createPatch(int patchNum)
     int                 numPostsUsedSoFar;
 
     if (!CheckIfPatch(patchNum))
-    {
-        if (lumpinfo[patchNum]->size > 0)
-            C_Warning(1, "The " BOLD("%.8s") " patch is in an unknown format.", lumpinfo[patchNum]->name);
-
         patchNum = W_GetNumForName("TNT1A0");
-    }
 
     oldPatch = W_CacheLumpNum(patchNum);
     patch = &patches[patchNum];
@@ -346,12 +345,7 @@ static void createTextureCompositePatch(int id)
         patchNum = texpatch->patch;
 
         if (!CheckIfPatch(patchNum))
-        {
-            if (lumpinfo[patchNum]->size > 0)
-                C_Warning(1, "The " BOLD("%s") " patch is in an unknown format.", lumpinfo[patchNum]->name);
-
             patchNum = W_GetNumForName("TNT1A0");
-        }
 
         oldPatch = (const patch_t *)W_CacheLumpNum(patchNum);
 
@@ -414,12 +408,7 @@ static void createTextureCompositePatch(int id)
         patchNum = texpatch->patch;
 
         if (!CheckIfPatch(patchNum))
-        {
-            if (lumpinfo[patchNum]->size > 0)
-                C_Warning(1, "The " BOLD("%s") " patch is in an unknown format.", lumpinfo[patchNum]->name);
-
             patchNum = W_GetNumForName("TNT1A0");
-        }
 
         oldPatch = (const patch_t *)W_CacheLumpNum(patchNum);
 
