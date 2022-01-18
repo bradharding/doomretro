@@ -104,10 +104,10 @@ static dboolean CheckIfPatch(int lump)
                 // point past the end of the patch.
                 for (int x = 0; x < width; x++)
                 {
-                    unsigned int    ofs = LONG(patch->columnofs[x]);
+                    unsigned int    offset = LONG(patch->columnoffset[x]);
 
                     // Need one byte for an empty column (but there's patches that don't know that!)
-                    if (ofs < (unsigned int)width * 4 + 8 || ofs >= (unsigned int)size)
+                    if (offset < (unsigned int)width * 4 + 8 || offset >= (unsigned int)size)
                     {
                         result = false;
 
@@ -160,7 +160,7 @@ static void createPatch(int patchNum)
 
     for (int x = 0; x < patch->width; x++)
     {
-        oldColumn = (const column_t *)((const byte *)oldPatch + LONG(oldPatch->columnofs[x]));
+        oldColumn = (const column_t *)((const byte *)oldPatch + LONG(oldPatch->columnoffset[x]));
         numPostsInColumn[x] = 0;
 
         while (oldColumn->topdelta != 0xFF)
@@ -194,7 +194,7 @@ static void createPatch(int patchNum)
     {
         int top = -1;
 
-        oldColumn = (const column_t *)((const byte *)oldPatch + LONG(oldPatch->columnofs[x]));
+        oldColumn = (const column_t *)((const byte *)oldPatch + LONG(oldPatch->columnoffset[x]));
 
         // setup the column's data
         patch->columns[x].pixels = &patch->pixels[x * patch->height];
@@ -361,7 +361,7 @@ static void createTextureCompositePatch(int id)
 
             countsInColumn[tx].patches++;
 
-            oldColumn = (const column_t *)((const byte *)oldPatch + LONG(oldPatch->columnofs[x]));
+            oldColumn = (const column_t *)((const byte *)oldPatch + LONG(oldPatch->columnoffset[x]));
 
             while (oldColumn->topdelta != 0xFF)
             {
@@ -423,7 +423,7 @@ static void createTextureCompositePatch(int id)
             if (tx >= composite_patch->width)
                 break;
 
-            oldColumn = (const column_t *)((const byte *)oldPatch + LONG(oldPatch->columnofs[x]));
+            oldColumn = (const column_t *)((const byte *)oldPatch + LONG(oldPatch->columnoffset[x]));
 
             while (oldColumn->topdelta != 0xFF)
             {

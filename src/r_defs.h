@@ -894,12 +894,12 @@ typedef struct
 // of patches.
 typedef struct
 {
-    short               width;          // bounding box size
+    short               width;              // bounding box size
     short               height;
-    short               leftoffset;     // pixels to the left of origin
-    short               topoffset;      // pixels below the origin
-    int                 columnofs[8];   // only [width] used
-    // the [0] is &columnofs[width]
+    short               leftoffset;         // pixels to the left of origin
+    short               topoffset;          // pixels below the origin
+    int                 columnoffset[8];    // only [width] used
+    // the [0] is &columnoffset[width]
 } PACKEDATTR patch_t;
 
 #if defined(_MSC_VER) || defined(__GNUC__)

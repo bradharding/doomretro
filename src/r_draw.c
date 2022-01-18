@@ -1714,9 +1714,9 @@ void R_FillBackScreen(void)
 //
 // Copy a screen buffer.
 //
-void R_VideoErase(unsigned int ofs, int count)
+void R_VideoErase(unsigned int offset, int count)
 {
-    memcpy(screens[0] + ofs, screens[1] + ofs, count);
+    memcpy(screens[0] + offset, screens[1] + offset, count);
 }
 
 //
@@ -1728,22 +1728,20 @@ void R_DrawViewBorder(void)
 {
     int top = (SCREENHEIGHT - SBARHEIGHT - viewheight) / 2;
     int side = (SCREENWIDTH - viewwidth) / 2;
-    int ofs;
+    int offset = top * SCREENWIDTH - side;
 
     // copy top and one line of left side
     R_VideoErase(0, top * SCREENWIDTH + side);
 
     // copy one line of right side and bottom
-    ofs = (viewheight + top) * SCREENWIDTH - side;
-    R_VideoErase(ofs, top * SCREENWIDTH + side);
+    R_VideoErase((viewheight + top) * SCREENWIDTH - side, top * SCREENWIDTH + side);
 
     // copy sides using wraparound
-    ofs = top * SCREENWIDTH + SCREENWIDTH - side;
     side *= 2;
 
     for (int i = 1; i < viewheight; i++)
     {
-        R_VideoErase(ofs, side);
-        ofs += SCREENWIDTH;
+        offset += SCREENWIDTH;
+        R_VideoErase(offset, side);
     }
 }

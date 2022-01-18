@@ -143,7 +143,7 @@ void R_DrawTranslatedColumn(void);
 void R_DrawDitherLowTranslatedColumn(void);
 void R_DrawDitherTranslatedColumn(void);
 
-void R_VideoErase(unsigned int ofs, int count);
+void R_VideoErase(unsigned int offset, int count);
 
 extern int          ds_x1;
 extern int          ds_x2;

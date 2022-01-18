@@ -941,7 +941,7 @@ static void F_CastDrawer(void)
 //
 static void F_DrawPatchCol(int x, patch_t *patch, int col)
 {
-    column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnofs[col]));
+    column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnoffset[col]));
     byte        *desttop = &screens[0][x];
 
     // step through the posts in a column
