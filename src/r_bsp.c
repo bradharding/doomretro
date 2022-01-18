@@ -110,7 +110,7 @@ void R_InitClipSegs(void)
         + sizeof(*frontsector->floorlightsec) + sizeof(*frontsector->ceilinglightsec)
         + sizeof(frontsector->floorpic) + sizeof(frontsector->ceilingpic)
         + sizeof(frontsector->lightlevel);
-    solidcol = calloc(SCREENWIDTH, sizeof(*solidcol));
+    solidcol = calloc(MAXWIDTH, sizeof(*solidcol));
 }
 
 //
@@ -118,7 +118,7 @@ void R_InitClipSegs(void)
 //
 void R_ClearClipSegs(void)
 {
-    memset(solidcol, 0, SCREENWIDTH);
+    memset(solidcol, 0, MAXWIDTH);
 }
 
 // killough 01/18/98 -- This function is used to fix the automap bug which
