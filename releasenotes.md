@@ -11,6 +11,7 @@
   * The touchpad on the *PS4 DualShock 4* controller and the *PS5 DualSense* controller can now be bound to an action using the `touchpad` parameter with the `bind` CCMD.
   * The *Xbox Series X* controller’s share button, the *PS5 DualSense* controller’s microphone button and the *Nintendo Switch* pro controller’s capture button can now be bound to an action using the `misc1` parameter with the `bind` CCMD.
 * Minor improvements have been made to the support of [*MBF21*](https://doomwiki.org/wiki/MBF21)-compatible maps and mods.
+* Minor changes have been made to text that is output to the console.
 * *DOOM Retro* no longer crashes at startup when trying to load a PWAD containing a PNG lump.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)

@@ -353,8 +353,8 @@ void I_Windows_PlaySong(dboolean looping)
 {
     song.looping = looping;
 
-    hPlayerThread = CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)&PlayerProc, 0, 0, 0);
-    SetThreadPriority(hPlayerThread, THREAD_PRIORITY_TIME_CRITICAL);
+    if ((hPlayerThread = CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)&PlayerProc, 0, 0, 0)))
+        SetThreadPriority(hPlayerThread, THREAD_PRIORITY_TIME_CRITICAL);
 
     midiStreamRestart(hMidiStream);
 }
