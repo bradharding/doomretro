@@ -1721,24 +1721,24 @@ void R_VideoErase(unsigned int offset, int count)
 
 //
 // R_DrawViewBorder
-// Draws the border around the view
-//  for different size windows?
+// Draws the border around the view for different size windows?
 //
 void R_DrawViewBorder(void)
 {
-    int top = (SCREENHEIGHT - SBARHEIGHT - viewheight) / 2;
+    int top = (SCREENHEIGHT - SBARHEIGHT - viewheight) * SCREENWIDTH / 2;
     int side = (SCREENWIDTH - viewwidth) / 2;
-    int offset = top * SCREENWIDTH - side;
+    int count = top + side;
+    int offset = top - side;
 
     // copy top and one line of left side
-    R_VideoErase(0, top * SCREENWIDTH + side);
+    R_VideoErase(0, count);
 
     // copy one line of right side and bottom
-    R_VideoErase((viewheight + top) * SCREENWIDTH - side, top * SCREENWIDTH + side);
+    R_VideoErase(viewheight * SCREENWIDTH + offset, count);
 
-    // copy sides using wraparound
     side *= 2;
 
+    // copy sides using wraparound
     for (int i = 1; i < viewheight; i++)
     {
         offset += SCREENWIDTH;

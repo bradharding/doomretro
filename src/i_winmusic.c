@@ -160,7 +160,7 @@ static void CALLBACK MidiStreamProc(HMIDIIN hMidi, UINT uMsg,
 
 // The Windows API documentation states: "Applications should not call any
 // multimedia functions from inside the callback function, as doing so can
-// cause a deadlock." We use thread to avoid possible deadlocks.
+// cause a deadlock." We use a thread to avoid possible deadlocks.
 static DWORD WINAPI PlayerProc(void)
 {
     HANDLE  events[2] = { hBufferReturnEvent, hExitEvent };
@@ -230,6 +230,7 @@ static void MIDItoStream(midi_file_t *file)
         {
             free(tracks[idx].iter);
             tracks[idx].iter = NULL;
+
             continue;
         }
 
