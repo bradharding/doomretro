@@ -137,7 +137,6 @@ static void createPatch(int patchNum)
     int                 *numPostsInColumn;
     int                 numPostsTotal;
     const unsigned char *oldColumnPixelData;
-    int                 numPostsUsedSoFar;
 
     if (!CheckIfPatch(patchNum))
         patchNum = W_GetNumForName("TNT1A0");
@@ -188,9 +187,7 @@ static void createPatch(int patchNum)
     memset(patch->pixels, 0xFF, (size_t)patch->width * patch->height);
 
     // fill in the pixels, posts, and columns
-    numPostsUsedSoFar = 0;
-
-    for (int x = 0; x < patch->width; x++)
+    for (int x = 0, numPostsUsedSoFar = 0; x < patch->width; x++)
     {
         int top = -1;
 
@@ -322,7 +319,6 @@ static void createTextureCompositePatch(int id)
     int                 dataSize;
     int                 numPostsTotal;
     const unsigned char *oldColumnPixelData;
-    int                 numPostsUsedSoFar;
     count_t             *countsInColumn;
 
     composite_patch->width = texture->width;
@@ -390,9 +386,7 @@ static void createTextureCompositePatch(int id)
 
     memset(composite_patch->pixels, 0xFF, (size_t)composite_patch->width * composite_patch->height);
 
-    numPostsUsedSoFar = 0;
-
-    for (int x = 0; x < texture->width; x++)
+    for (int x = 0, numPostsUsedSoFar = 0; x < texture->width; x++)
     {
         // setup the column's data
         composite_patch->columns[x].pixels = &composite_patch->pixels[x * composite_patch->height];

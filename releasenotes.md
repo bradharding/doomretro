@@ -4,7 +4,7 @@
 #### DOOM Retro v4.4.3
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
-* MIDI music will now actually pause rather than just be muted when the game is paused if the window loses focus or the <kbd>PAUSE</kbd> key is pressed.
+* MIDI music will now actually be paused rather than just muted when the game is paused if the window loses focus or the <kbd>PAUSE</kbd> key is pressed.
 * Further improvements have been made to the support for controllers:
   * The LEDs on the *PS4 DualShock 4* controller and the *PS5 DualSense* controller now change back to blue when quitting *DOOM Retro*.
   * The paddles on the *Xbox Elite* controller can now be bound to an action by using the `paddle1` to `paddle4` parameters with the `bind` CCMD.
