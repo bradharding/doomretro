@@ -51,6 +51,7 @@ extern char     **episodes[];
 extern char     **expansions[];
 extern char     **skilllevels[];
 extern char     *packageconfig;
+extern char     *packagewad;
 extern char     *pwadfile;
 extern dboolean advancetitle;
 extern dboolean splashscreen;

@@ -83,8 +83,6 @@ int         numlumps;
 static int          numwads;
 static wadfile_t    *wadlist[MAXWADS];
 
-extern char *packagewad;
-
 static dboolean IsFreedoom(const char *iwadname)
 {
     FILE        *fp = fopen(iwadname, "rb");
@@ -291,6 +289,7 @@ dboolean W_AddFile(char *filename, dboolean automatic)
     filelump_t      *fileinfo;
     filelump_t      *filerover;
     lumpinfo_t      *filelumps;
+    char            *temp;
     char            *file = leafname(filename);
 
     // open the file and add to directory
@@ -302,7 +301,9 @@ dboolean W_AddFile(char *filename, dboolean automatic)
     if (numwads < MAXWADS)
         wadlist[numwads++] = wadfile;
 
-    M_StringCopy(wadfile->path, GetCorrectCase(filename), sizeof(wadfile->path));
+    temp = M_StringDuplicate(filename);
+    M_StringCopy(wadfile->path, GetCorrectCase(temp), sizeof(wadfile->path));
+    free(temp);
 
     if ((wadfile->freedoom = IsFreedoom(filename)))
         FREEDOOM = true;
