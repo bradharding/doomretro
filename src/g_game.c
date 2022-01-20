@@ -551,10 +551,10 @@ static void G_ResetPlayer(void)
     viewplayer->armortype = armortype_none;
     viewplayer->preferredshotgun = wp_shotgun;
     viewplayer->fistorchainsaw = wp_fist;
+    viewplayer->backpack = false;
     memset(viewplayer->weaponowned, false, sizeof(viewplayer->weaponowned));
     memset(viewplayer->ammo, 0, sizeof(viewplayer->ammo));
     G_SetInitialWeapon();
-    viewplayer->backpack = false;
 }
 
 //
@@ -772,14 +772,14 @@ dboolean G_Responder(event_t *ev)
     if (gamestate == GS_LEVEL)
     {
         if (ST_Responder(ev))
-            return true;        // status window ate it
+            return true;    // status window ate it
 
         if (AM_Responder(ev))
-            return true;        // automap ate it
+            return true;    // automap ate it
     }
 
     if (gamestate == GS_FINALE && F_Responder(ev))
-        return true;            // finale ate the event
+        return true;        // finale ate the event
 
     switch (ev->type)
     {
@@ -813,7 +813,7 @@ dboolean G_Responder(event_t *ev)
                     C_ExecuteInputString(keyactionlist[key]);
             }
 
-            return true;        // eat events
+            return true;    // eat events
 
         case ev_keyup:
             keydown = 0;
@@ -821,7 +821,7 @@ dboolean G_Responder(event_t *ev)
             if (ev->data1 < NUMKEYS)
                 gamekeydown[ev->data1] = false;
 
-            return false;       // always let key up events filter down
+            return false;   // always let key up events filter down
 
         case ev_mouse:
         {
@@ -835,9 +835,9 @@ dboolean G_Responder(event_t *ev)
 
             if (!automapactive && !menuactive && !paused && !freeze)
             {
-                if (mousenextweapon < MAX_MOUSE_BUTTONS && mousebuttons[mousenextweapon])
+                if (mousebuttons[mousenextweapon])
                     G_NextWeapon();
-                else if (mouseprevweapon < MAX_MOUSE_BUTTONS && mousebuttons[mouseprevweapon])
+                else if (mousebuttons[mouseprevweapon])
                     G_PrevWeapon();
             }
 
@@ -847,7 +847,7 @@ dboolean G_Responder(event_t *ev)
                 mousey = -ev->data3 * m_sensitivity / 10;
             }
 
-            return true;        // eat events
+            return true;    // eat events
         }
 
         case ev_mousewheel:
@@ -873,7 +873,7 @@ dboolean G_Responder(event_t *ev)
                 }
             }
 
-            return true;        // eat events
+            return true;    // eat events
 
         case ev_controller:
             if (!automapactive && !menuactive && !paused)
@@ -913,7 +913,7 @@ dboolean G_Responder(event_t *ev)
                 }
             }
 
-            return true;        // eat events
+            return true;    // eat events
 
         default:
             return false;
@@ -1169,10 +1169,10 @@ int pars[6][10] =
 // DOOM II Par Times
 int cpars[33] =
 {
-     30,  90, 120, 120,  90, 150, 120, 120, 270,  90,   //  1-10
+     30,  90, 120, 120,  90, 150, 120, 120, 270,  90,   // 01-10
     210, 150, 150, 150, 210, 150, 420, 150, 210, 150,   // 11-20
     240, 150, 180, 150, 150, 300, 330, 420, 300, 180,   // 21-30
-    120,  30,   0                                       // 31-33
+    120,  30,   0                                       // 31-32
 };
 
 // [BH] No Rest For The Living Par Times

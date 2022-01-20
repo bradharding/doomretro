@@ -74,7 +74,7 @@ static int P_DivlineSide(fixed_t x, fixed_t y, const divline_t *node)
         fixed_t left = (node->dy >> FRACBITS) * ((x - node->x) >> FRACBITS);
         fixed_t right = ((y - node->y) >> FRACBITS) * (node->dx >> FRACBITS);
 
-        return (right < left ? 0 : (left == right ? 2 : 1));
+        return (left == right ? 2 : (left < right));
     }
 }
 
