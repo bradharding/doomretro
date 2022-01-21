@@ -358,8 +358,7 @@ dboolean W_AddFile(char *filename, dboolean automatic)
 
     if (!M_StringCompare(leafname(filename), DOOMRETRO_WAD) && !devparm)
     {
-        char    *temp = commify((int64_t)numlumps - startlump);
-
+        temp = commify((int64_t)numlumps - startlump);
         C_Output("%s %s lump%s from the %s " BOLD("%s") ".", (automatic ? "Automatically added" : "Added"), temp,
             (numlumps - startlump == 1 ? "" : "s"), (wadfile->type == IWAD ? "IWAD" : "PWAD"), wadfile->path);
         free(temp);

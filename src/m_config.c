@@ -566,7 +566,7 @@ static float ParseFloatParameter(char *strparm, int valuealiastype)
         if (M_StringCompare(strparm, valuealiases[i].text) && valuealiastype == valuealiases[i].type)
             return (float)valuealiases[i].value;
 
-    return (float)atof(strparm);
+    return (float)strtod(strparm, NULL);
 }
 
 static void M_CheckCVARs(dboolean ispackageconfig)
