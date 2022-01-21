@@ -835,9 +835,9 @@ dboolean G_Responder(event_t *ev)
 
             if (!automapactive && !menuactive && !paused && !freeze)
             {
-                if (mousebuttons[mousenextweapon])
+                if (mousenextweapon < MAX_MOUSE_BUTTONS && mousebuttons[mousenextweapon])
                     G_NextWeapon();
-                else if (mousebuttons[mouseprevweapon])
+                else if (mouseprevweapon < MAX_MOUSE_BUTTONS && mousebuttons[mouseprevweapon])
                     G_PrevWeapon();
             }
 
