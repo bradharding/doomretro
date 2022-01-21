@@ -12,7 +12,10 @@
   * The *Xbox Series X* controller’s share button, the *PS5 DualSense* controller’s microphone button and the *Nintendo Switch* pro controller’s capture button can now be bound to an action using the `misc1` parameter with the `bind` CCMD.
 * Minor improvements have been made to the support of [*MBF21*](https://doomwiki.org/wiki/MBF21)-compatible maps and mods.
 * Minor changes have been made to text that is output to the console.
-* *DOOM Retro* no longer crashes at startup when trying to load a PWAD containing a PNG lump.
+* Crashes no longer occur in the following instances:
+  * At startup when trying to load a PWAD containing a PNG lump.
+  * When loading two or more PWADs without an IWAD in the WAD launcher.
+  * Very occasionally enabling widescreen during a game by pressing the <kbd>&ndash;</kbd> key.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
