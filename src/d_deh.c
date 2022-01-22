@@ -2449,16 +2449,19 @@ static void deh_procThing(DEHFILE *fpin, char *line)
     int     *pix;           // Ptr to int, since all Thing structure entries are ints
     char    *strval;
 
-    strncpy(inbuffer, line, DEH_BUFFERMAX - 1);
+    M_StringCopy(inbuffer, line, DEH_BUFFERMAX - 1);
+
+    if ((ix = sscanf(inbuffer, "%s %i", key, &indexnum)) != 2)
+    {
+        C_Warning(1, "Bad data pair in \"%s\".", inbuffer);
+        return;
+    }
 
     if (devparm)
+    {
         C_Output("Thing line: \"%s\"", inbuffer);
-
-    // killough 08/98: allow hex numbers in input:
-    ix = sscanf(inbuffer, "%s %i", key, &indexnum);
-
-    if (devparm)
         C_Output("count = %i, Thing %i", ix, indexnum);
+    }
 
     // Note that the mobjinfo[] array is base zero, but object numbers
     // in the dehacked file start with one. Grumble.
@@ -2699,10 +2702,13 @@ static void deh_procFrame(DEHFILE *fpin, char *line)
     int     indexnum;
     char    *strval;
 
-    strncpy(inbuffer, line, DEH_BUFFERMAX - 1);
+    M_StringCopy(inbuffer, line, DEH_BUFFERMAX - 1);
 
-    // killough 08/98: allow hex numbers in input:
-    sscanf(inbuffer, "%s %i", key, &indexnum);
+    if (sscanf(inbuffer, "%s %i", key, &indexnum) != 2)
+    {
+        C_Warning(1, "Bad data pair in \"%s\".", inbuffer);
+        return;
+    }
 
     if (devparm)
         C_Output("Processing Frame at index %i: %s", indexnum, key);
@@ -2876,10 +2882,8 @@ static void deh_procPointer(DEHFILE *fpin, char *line)
     int     value;
     int     indexnum;
 
-    strncpy(inbuffer, line, DEH_BUFFERMAX - 1);
-    // NOTE: different format from normal
+    M_StringCopy(inbuffer, line, DEH_BUFFERMAX - 1);
 
-    // killough 08/98: allow hex numbers in input, fix error case:
     if (sscanf(inbuffer, "%*s %*i (%s %i)", key, &indexnum) != 2)
     {
         C_Warning(1, "Bad data pair in \"%s\".", inbuffer);
@@ -2953,10 +2957,13 @@ static void deh_procSounds(DEHFILE *fpin, char *line)
     int     value;
     int     indexnum;
 
-    strncpy(inbuffer, line, DEH_BUFFERMAX - 1);
+    M_StringCopy(inbuffer, line, DEH_BUFFERMAX - 1);
 
-    // killough 08/98: allow hex numbers in input:
-    sscanf(inbuffer, "%s %i", key, &indexnum);
+    if (sscanf(inbuffer, "%s %i", key, &indexnum) != 2)
+    {
+        C_Warning(1, "Bad data pair in \"%s\".", inbuffer);
+        return;
+    }
 
     if (devparm)
         C_Output("Processing Sounds at index %i: %s", indexnum, key);
@@ -3017,10 +3024,13 @@ static void deh_procAmmo(DEHFILE *fpin, char *line)
     int     value;
     int     indexnum;
 
-    strncpy(inbuffer, line, DEH_BUFFERMAX - 1);
+    M_StringCopy(inbuffer, line, DEH_BUFFERMAX - 1);
 
-    // killough 08/98: allow hex numbers in input:
-    sscanf(inbuffer, "%s %i", key, &indexnum);
+    if (sscanf(inbuffer, "%s %i", key, &indexnum) != 2)
+    {
+        C_Warning(1, "Bad data pair in \"%s\".", inbuffer);
+        return;
+    }
 
     if (devparm)
         C_Output("Processing Ammo at index %i: %s", indexnum, key);
@@ -3068,10 +3078,13 @@ static void deh_procWeapon(DEHFILE *fpin, char *line)
     int     indexnum;
     char    *strval;
 
-    strncpy(inbuffer, line, DEH_BUFFERMAX - 1);
+    M_StringCopy(inbuffer, line, DEH_BUFFERMAX - 1);
 
-    // killough 08/98: allow hex numbers in input:
-    sscanf(inbuffer, "%s %i", key, &indexnum);
+    if (sscanf(inbuffer, "%s %i", key, &indexnum) != 2)
+    {
+        C_Warning(1, "Bad data pair in \"%s\".", inbuffer);
+        return;
+    }
 
     if (devparm)
         C_Output("Processing Weapon at index %i: %s", indexnum, key);
@@ -3163,12 +3176,16 @@ static void deh_procSprite(DEHFILE *fpin, char *line)   // Not supported
     char    inbuffer[DEH_BUFFERMAX];
     int     indexnum;
 
+    M_StringCopy(inbuffer, line, DEH_BUFFERMAX - 1);
+
+    if (sscanf(inbuffer, "%s %i", key, &indexnum) != 2)
+    {
+        C_Warning(1, "Bad data pair in \"%s\".", inbuffer);
+        return;
+    }
+
     // Too little is known about what this is supposed to do, and
     // there are better ways of handling sprite renaming. Not supported.
-    strncpy(inbuffer, line, DEH_BUFFERMAX - 1);
-
-    // killough 08/98: allow hex numbers in input:
-    sscanf(inbuffer, "%s %i", key, &indexnum);
     C_Warning(1, "Ignoring sprite offset change at index %i: \"%s\".", indexnum, key);
 
     while (!dehfeof(fpin) && *inbuffer && *inbuffer != ' ')
@@ -3219,9 +3236,14 @@ static void deh_procPars(DEHFILE *fpin, char *line) // extension
     // of parameters on the line determines which group of par values
     // is being changed. Error checking is done based on current fixed
     // array sizes of [4][10] and [32]
-    strncpy(inbuffer, line, DEH_BUFFERMAX - 1);
 
-    sscanf(inbuffer, "%s %i", key, &indexnum);
+    M_StringCopy(inbuffer, line, DEH_BUFFERMAX - 1);
+
+    if (sscanf(inbuffer, "%s %i", key, &indexnum) != 2)
+    {
+        C_Warning(1, "Bad data pair in \"%s\".", inbuffer);
+        return;
+    }
 
     if (devparm)
         C_Output("Processing Par value at index %i: %s", indexnum, key);
@@ -3675,8 +3697,8 @@ static void deh_procText(DEHFILE *fpin, char *line)
         return;                             // ************** Early return
     }
 
-    // killough 08/98: allow hex numbers in input:
-    sscanf(line, "%s %i %10i", key, &fromlen, &tolen);
+    if (sscanf(line, "%s %i %10i", key, &fromlen, &tolen) != 3)
+        return;
 
     if (devparm)
         C_Output("Processing Text (key = %s, from = %i, to = %i)", key, fromlen, tolen);

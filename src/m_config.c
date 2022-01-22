@@ -549,14 +549,13 @@ void M_SaveCVARs(void)
 // Parses integer values in the configuration file
 static int ParseIntParameter(char *strparm, int valuealiastype)
 {
-    int parm = INT_MAX;
+    int parm;
 
     for (int i = 0; *valuealiases[i].text; i++)
         if (M_StringCompare(strparm, valuealiases[i].text) && valuealiastype == valuealiases[i].type)
             return valuealiases[i].value;
 
-    sscanf(strparm, "%10i", &parm);
-    return parm;
+    return (sscanf(strparm, "%10i", &parm) == 1 ? parm : INT_MAX);
 }
 
 // Parses float values in the configuration file

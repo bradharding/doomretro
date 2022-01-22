@@ -3,11 +3,11 @@
 
 #### DOOM Retro v4.4.3
 
-* Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
+* Optimizations have been made to further improve the overall performance of *DOOM Retro*.
 * Crashes no longer occur in the following instances:
   * When loading two or more PWADs without an IWAD in the WAD launcher.
-  * At startup when trying to load a PWAD containing a PNG lump.
-  * Very occasionally when enabling widescreen during a game by pressing the <kbd>&ndash;</kbd> key.
+  * When loading a PWAD containing a PNG lump.
+  * When enabling widescreen during a game by pressing the <kbd>&ndash;</kbd> key.
 * MIDI music will now actually be paused rather than just muted when the game is paused if the window loses focus or the <kbd>PAUSE</kbd> key is pressed.
 * Further improvements have been made to the support for controllers:
   * The LEDs on *PS4 DualShock 4* and *PS5 DualSense* controllers now change back to blue when quitting *DOOM Retro*.
