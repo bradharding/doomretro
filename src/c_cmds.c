@@ -3411,11 +3411,9 @@ static dboolean map_cmd_func1(char *cmd, char *parms)
                         result = (W_CheckNumForName(parm) >= 0);
                     else
                     {
-                        if (sscanf(parm, "E%1iM0%1i", &mapcmdepisode, &mapcmdmap) != 2)
-                            sscanf(parm, "E%1iM%2i", &mapcmdepisode, &mapcmdmap);
-
-                        if (mapcmdmap && ((mapcmdepisode == 1 && BTSXE1) || (mapcmdepisode == 2 && BTSXE2)
-                            || (mapcmdepisode == 3 && BTSXE3)))
+                        if ((sscanf(parm, "E%1iM0%1i", &mapcmdepisode, &mapcmdmap) == 2
+                            || sscanf(parm, "E%1iM%2i", &mapcmdepisode, &mapcmdmap) == 2)
+                            && ((mapcmdepisode == 1 && BTSXE1) || (mapcmdepisode == 2 && BTSXE2) || (mapcmdepisode == 3 && BTSXE3)))
                         {
                             char    lump[6];
 
@@ -3449,29 +3447,20 @@ static dboolean map_cmd_func1(char *cmd, char *parms)
                 M_StringCopy(mapcmdlump, temp2, sizeof(mapcmdlump));
                 free(temp2);
 
-                mapcmdepisode = -1;
-                mapcmdmap = -1;
-
                 if (gamemode == commercial)
                 {
                     mapcmdepisode = 1;
-                    sscanf(mapcmdlump, "MAP0%1i", &mapcmdmap);
 
-                    if (mapcmdmap == -1)
-                        sscanf(mapcmdlump, "MAP%2i", &mapcmdmap);
+                    if (sscanf(mapcmdlump, "MAP0%1i", &mapcmdmap) != 1 || sscanf(mapcmdlump, "MAP%2i", &mapcmdmap) != 1)
+                        continue;
                 }
                 else
                 {
-                    sscanf(mapcmdlump, "E%1iM%1iB", &mapcmdepisode, &mapcmdmap);
-
-                    if (gamemode != shareware && strlen(mapcmdlump) == 5 && mapcmdepisode != -1 && mapcmdmap != -1)
+                    if (sscanf(mapcmdlump, "E%1iM%1iB", &mapcmdepisode, &mapcmdmap) == 2 && gamemode != shareware)
                         M_StringCopy(speciallumpname, mapcmdlump, sizeof(speciallumpname));
-                    else
-                        sscanf(mapcmdlump, "E%1iM%1i", &mapcmdepisode, &mapcmdmap);
+                    else if (sscanf(mapcmdlump, "E%1iM%1i", &mapcmdepisode, &mapcmdmap) != 2)
+                        continue;
                 }
-
-                if (mapcmdepisode == -1 || mapcmdmap == -1)
-                    continue;
 
                 M_StringCopy(wadname, leafname(lumpinfo[i]->wadfile->path), sizeof(wadname));
                 replaced = (W_CheckMultipleLumps(mapcmdlump) > 1 && !chex && !FREEDOOM);
