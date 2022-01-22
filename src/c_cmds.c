@@ -3643,8 +3643,8 @@ static void maplist_cmd_func2(char *cmd, char *parms)
     // search through lumps for maps
     for (int i = numlumps - 1; i >= 0; i--)
     {
-        int         ep = -1;
-        int         map = -1;
+        int         ep;
+        int         map;
         char        lump[9];
         char        wadname[MAX_PATH];
         dboolean    replaced;
@@ -3660,22 +3660,19 @@ static void maplist_cmd_func2(char *cmd, char *parms)
         if (gamemode == commercial)
         {
             ep = 1;
-            sscanf(lump, "MAP0%1i", &map);
 
-            if (map == -1)
-                sscanf(lump, "MAP%2i", &map);
+            if (sscanf(lump, "MAP0%1i", &map) != 1 && sscanf(lump, "MAP%2i", &map) != 1)
+                continue;
         }
         else
         {
-            sscanf(lump, "E%1iM%1iB", &ep, &map);
-
-            if (gamemode != shareware && strlen(lump) == 5 && ep != -1 && map != -1)
+            if (sscanf(lump, "E%1iM%1iB", &ep, &map) == 2 && gamemode != shareware)
                 M_StringCopy(speciallumpname, lump, sizeof(speciallumpname));
-            else
-                sscanf(lump, "E%1iM%1i", &ep, &map);
+            else if (sscanf(lump, "E%1iM%1i", &ep, &map) != 2)
+                continue;
         }
 
-        if (ep-- == -1 || map-- == -1 || mapfound[ep * 10 + map + 1])
+        if (mapfound[--ep * 10 + (--map) + 1])
             continue;
 
         if (!*speciallumpname)
@@ -4797,12 +4794,9 @@ static weapontype_t favoriteweapon(dboolean total)
 
 char *distancetraveled(uint64_t value, dboolean allowzero)
 {
-    char    *result = malloc(20);
-
-    result[0] = '\0';
-
     if (value > 0 || allowzero)
     {
+        char        *result = malloc(20);
         const float feet = (float)value / UNITSPERFOOT;
 
         if (units == units_imperial)
@@ -4853,9 +4847,11 @@ char *distancetraveled(uint64_t value, dboolean allowzero)
             else if (allowzero)
                 M_StringCopy(result, "0 meters", 20);
         }
+
+        return result;
     }
 
-    return result;
+    return "";
 }
 
 //

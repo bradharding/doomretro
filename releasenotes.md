@@ -34,7 +34,7 @@
 * Lowering the music’s volume in the menu and console may now be disabled using the new `s_lowermenumusic` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
 * Extensive improvements have been made to the support for controllers:
   * Rumble now works again for those controllers that support it.
-  * The LEDs on the *PS4 DualShock 4* controller and the *PS5 DualSense* controller now turn red when connected.
+  * The LEDs on *PS4 DualShock 4* and *PS5 DualSense* controllers now turn red when connected.
   * The `gp_vibrate_barrels`, `gp_vibrate_damage` and `gp_vibrate_weapons` CVARs have been renamed `joy_rumble_barrels`, `joy_rumble_damage` and `joy_rumble_weapons`.
   * All other CVARs that start with `gp_` now start with `joy_`.
   * The `gamepad1` to `gamepad4` parameters used by the `bind` CCMD have been renamed `button1` to `button4`.
