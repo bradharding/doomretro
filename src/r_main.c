@@ -80,10 +80,10 @@ fixed_t             fractionaltic;
 
 angle_t             clipangle;
 
-// The viewangletox[viewangle + FINEANGLES/4] lookup
-// maps the visible view angles to screen X coordinates,
+// The viewangletox[viewangle + FINEANGLES / 4] lookup
+// maps the visible view angles to screen x coordinates,
 // flattening the arc to a flat projection plane.
-// There will be many angles mapped to the same X.
+// There will be many angles mapped to the same x.
 int                 viewangletox[FINEANGLES / 2];
 
 // The xtoviewangleangle[] table maps a screen pixel
@@ -353,7 +353,7 @@ static void R_InitTextureMapping(void)
 void R_InitLightTables(void)
 {
     int width = (FixedMul(SCREENWIDTH, FixedDiv(FRACUNIT,
-                    finetangent[FINEANGLES / 4 + ((r_fov + WIDEFOVDELTA) * FINEANGLES / 360) / 2])) + 1) / 2 * FRACUNIT;
+                 finetangent[FINEANGLES / 4 + (r_fov + WIDEFOVDELTA) * FINEANGLES / 360 / 2])) + 1) / 2 * FRACUNIT;
 
     c_zlight = malloc(numcolormaps * sizeof(*c_zlight));
     c_scalelight = malloc(numcolormaps * sizeof(*c_scalelight));
@@ -946,11 +946,11 @@ static void R_SetupFrame(void)
         }
     }
 
-    if (barrelms)
+    if (barrelms && !consoleactive && !menuactive && !paused)
     {
         int time = I_GetTimeMS();
 
-        if (barrelms > time && !consoleactive && !menuactive && !paused)
+        if (barrelms > time)
         {
             viewx += M_RandomInt(-3, 3) * FRACUNIT * (barrelms - time) / BARRELMS;
             viewy += M_RandomInt(-3, 3) * FRACUNIT * (barrelms - time) / BARRELMS;

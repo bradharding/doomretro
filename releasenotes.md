@@ -7,13 +7,13 @@
 * Crashes no longer occur in the following instances:
   * When loading two or more PWADs without an IWAD in the WAD launcher.
   * At startup when trying to load a PWAD containing a PNG lump.
-  * Very occasionally enabling widescreen during a game by pressing the <kbd>&ndash;</kbd> key.
+  * Very occasionally when enabling widescreen during a game by pressing the <kbd>&ndash;</kbd> key.
 * MIDI music will now actually be paused rather than just muted when the game is paused if the window loses focus or the <kbd>PAUSE</kbd> key is pressed.
 * Further improvements have been made to the support for controllers:
-  * The LEDs on the *PS4 DualShock 4* controller and the *PS5 DualSense* controller now change back to blue when quitting *DOOM Retro*.
-  * A press of the left thumbstick is now bound to the `+alwaysrun` action by default.
-  * The paddles on the *Xbox Elite* controller can now be bound to an action by using the `paddle1` to `paddle4` parameters with the `bind` CCMD.
-  * The touchpad on the *PS4 DualShock 4* controller and the *PS5 DualSense* controller can now be bound to an action using the `touchpad` parameter with the `bind` CCMD.
+  * The LEDs on *PS4 DualShock 4* and *PS5 DualSense* controllers now change back to blue when quitting *DOOM Retro*.
+  * Left thumbsticks are now bound to the `+alwaysrun` action by default.
+  * The paddles on *Xbox Elite* controllers can now be bound to an action by using the `paddle1` to `paddle4` parameters with the `bind` CCMD.
+  * The touchpad on *PS4 DualShock 4* and *PS5 DualSense* controllers can now be bound to an action using the `touchpad` parameter with the `bind` CCMD.
   * The *Xbox Series X* controller’s share button, the *PS5 DualSense* controller’s microphone button and the *Nintendo Switch* pro controller’s capture button can now be bound to an action using the `misc1` parameter with the `bind` CCMD.
 * Minor improvements have been made to the support of [*MBF21*](https://doomwiki.org/wiki/MBF21)-compatible maps and mods.
 * Minor changes have been made to text that is output to the console.
