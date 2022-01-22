@@ -7604,10 +7604,9 @@ static dboolean float_cvars_func1(char *cmd, char *parms)
     for (int i = 0; *consolecmds[i].name; i++)
         if (M_StringCompare(cmd, consolecmds[i].name) && consolecmds[i].type == CT_CVAR && (consolecmds[i].flags & CF_FLOAT))
         {
-            float   value = FLT_MIN;
+            float   value;
 
-            sscanf(parms, "%10f", &value);
-            return (value != FLT_MIN);
+            return (sscanf(parms, "%10f", &value) == 1);
         }
 
     return false;
@@ -7626,10 +7625,8 @@ static dboolean int_cvars_func1(char *cmd, char *parms)
         {
             int value = C_LookupValueFromAlias(parms, consolecmds[i].aliases);
 
-            if (value == INT_MIN)
-                sscanf(parms, "%10i", &value);
-
-            return (value >= consolecmds[i].minimumvalue && value <= consolecmds[i].maximumvalue);
+            return ((value != INT_MIN || sscanf(parms, "%10i", &value) == 1)
+                && value >= consolecmds[i].minimumvalue && value <= consolecmds[i].maximumvalue);
         }
 
     return false;
@@ -7644,10 +7641,7 @@ static void int_cvars_func2(char *cmd, char *parms)
             {
                 int value = C_LookupValueFromAlias(parms, consolecmds[i].aliases);
 
-                if (value == INT_MIN)
-                    sscanf(parms, "%10i", &value);
-
-                if (value != INT_MIN && value != *(int *)consolecmds[i].variable)
+                if ((value != INT_MIN || sscanf(parms, "%10i", &value) == 1) && value != *(int *)consolecmds[i].variable)
                 {
                     *(int *)consolecmds[i].variable = value;
                     M_SaveCVARs();
@@ -8057,40 +8051,33 @@ static void expansion_cvar_func2(char *cmd, char *parms)
 static dboolean joy_deadzone_cvars_func1(char *cmd, char *parms)
 {
     float   value;
-    int     result;
 
-    if (!*parms)
-        return true;
-
-    if ((result = sscanf(parms, "%10f%%", &value)) != 1)
-        result = sscanf(parms, "%10f", &value);
-
-    return result;
+    return (!*parms || sscanf(parms, "%10f%%", &value) == 1 || sscanf(parms, "%10f", &value) == 1);
 }
 
 static void joy_deadzone_cvars_func2(char *cmd, char *parms)
 {
     if (*parms)
     {
-        float   value = 0;
+        float   value;
 
-        if (sscanf(parms, "%10f%%", &value) != 1)
-            sscanf(parms, "%10f", &value);
-
-        if (M_StringCompare(cmd, stringize(joy_deadzone_left)))
+        if (sscanf(parms, "%10f%%", &value) == 1 || sscanf(parms, "%10f", &value) == 1)
         {
-            if (joy_deadzone_left != value)
+            if (M_StringCompare(cmd, stringize(joy_deadzone_left)))
             {
-                joy_deadzone_left = BETWEENF(joy_deadzone_left_min, value, joy_deadzone_left_max);
-                I_SetGameControllerLeftDeadZone();
+                if (joy_deadzone_left != value)
+                {
+                    joy_deadzone_left = BETWEENF(joy_deadzone_left_min, value, joy_deadzone_left_max);
+                    I_SetGameControllerLeftDeadZone();
+                    M_SaveCVARs();
+                }
+            }
+            else if (joy_deadzone_right != value)
+            {
+                joy_deadzone_right = BETWEENF(joy_deadzone_right_min, value, joy_deadzone_right_max);
+                I_SetGameControllerRightDeadZone();
                 M_SaveCVARs();
             }
-        }
-        else if (joy_deadzone_right != value)
-        {
-            joy_deadzone_right = BETWEENF(joy_deadzone_right_min, value, joy_deadzone_right_max);
-            I_SetGameControllerRightDeadZone();
-            M_SaveCVARs();
         }
     }
     else if (M_StringCompare(cmd, stringize(joy_deadzone_left)))
@@ -8207,9 +8194,8 @@ static void player_cvars_func2(char *cmd, char *parms)
 
         if (*parms)
         {
-            sscanf(parms, "%10i", &value);
-
-            if (ammotype != am_noammo && value != viewplayer->ammo[ammotype] && viewplayer->health > 0)
+            if (sscanf(parms, "%10i", &value) == 1 && ammotype != am_noammo
+                && value != viewplayer->ammo[ammotype] && viewplayer->health > 0)
             {
                 if (value > viewplayer->ammo[ammotype])
                 {
@@ -8245,9 +8231,7 @@ static void player_cvars_func2(char *cmd, char *parms)
     {
         if (*parms)
         {
-            sscanf(parms, "%10i", &value);
-
-            if (value != viewplayer->armorpoints)
+            if (sscanf(parms, "%10i", &value) == 1 && value != viewplayer->armorpoints)
             {
                 if (value > viewplayer->armorpoints)
                 {
@@ -8286,11 +8270,10 @@ static void player_cvars_func2(char *cmd, char *parms)
     {
         if (*parms)
         {
-            sscanf(parms, "%10i", &value);
-            value = BETWEEN(health_min, value, maxhealth);
-
-            if (value != viewplayer->health)
+            if (sscanf(parms, "%10i", &value) == 1 && value != viewplayer->health)
             {
+                value = BETWEEN(health_min, value, maxhealth);
+
                 if (viewplayer->health <= 0)
                 {
                     if (value <= 0)
@@ -8741,10 +8724,7 @@ static void r_gamma_cvar_func2(char *cmd, char *parms)
     {
         float   value = (float)C_LookupValueFromAlias(parms, GAMMAVALUEALIAS);
 
-        if (value == INT_MIN)
-            sscanf(parms, "%10f", &value);
-
-        if (value != INT_MIN && value != r_gamma)
+        if ((value != INT_MIN || sscanf(parms, "%10f", &value) == 1) && value != r_gamma)
         {
             r_gamma = BETWEENF(r_gamma_min, value, r_gamma_max);
             I_SetGamma(r_gamma);
@@ -9192,27 +9172,27 @@ static void r_translucency_cvar_func2(char *cmd, char *parms)
 //
 static dboolean s_volume_cvars_func1(char *cmd, char *parms)
 {
-    int value = INT_MIN;
+    int value;
 
     if (!*parms)
         return true;
 
-    if (sscanf(parms, "%10i%%", &value) != 1)
-        sscanf(parms, "%10i", &value);
+    if (sscanf(parms, "%10i%%", &value) != 1 && sscanf(parms, "%10i", &value) != 1)
+        return false;
 
-    return ((M_StringCompare(cmd, stringize(s_musicvolume)) && value >= s_musicvolume_min
-        && value <= s_musicvolume_max) || (M_StringCompare(cmd, stringize(s_sfxvolume))
-        && value >= s_sfxvolume_min && value <= s_sfxvolume_max));
+    return ((M_StringCompare(cmd, stringize(s_musicvolume)) && value >= s_musicvolume_min && value <= s_musicvolume_max)
+        || (M_StringCompare(cmd, stringize(s_sfxvolume)) && value >= s_sfxvolume_min && value <= s_sfxvolume_max));
 }
 
 static void s_volume_cvars_func2(char *cmd, char *parms)
 {
     if (*parms)
     {
-        int value = INT_MIN;
+        int value;
 
-        if (sscanf(parms, "%10i%%", &value) != 1)
-            sscanf(parms, "%10i", &value);
+
+        if (sscanf(parms, "%10i%%", &value) != 1 && sscanf(parms, "%10i", &value) != 1)
+            return;
 
         if (M_StringCompare(cmd, stringize(s_musicvolume)) && s_musicvolume != value)
         {
@@ -9313,14 +9293,12 @@ static void skilllevel_cvar_func2(char *cmd, char *parms)
 //
 static dboolean turbo_cvar_func1(char *cmd, char *parms)
 {
-    int value = INT_MIN;
+    int value;
 
     if (!*parms)
         return true;
 
-    sscanf(parms, "%10i", &value);
-
-    return (value >= turbo_min && value <= turbo_max);
+    return ((sscanf(parms, "%10i%%", &value) == 1 || sscanf(parms, "%10i", &value) == 1) && value >= turbo_min && value <= turbo_max);
 }
 
 static void turbo_cvar_func2(char *cmd, char *parms)
@@ -9329,7 +9307,8 @@ static void turbo_cvar_func2(char *cmd, char *parms)
     {
         int value = INT_MIN;
 
-        sscanf(parms, "%10i", &value);
+        if (sscanf(parms, "%10i%%", &value) != 1 && sscanf(parms, "%10i", &value) != 1)
+            return;
 
         if (value >= turbo_min && value <= turbo_max && value != turbo)
         {
