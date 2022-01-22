@@ -7139,12 +7139,9 @@ static dboolean teleport_cmd_func1(char *cmd, char *parms)
         return true;
     else
     {
-        fixed_t x = FIXED_MIN;
-        fixed_t y = FIXED_MIN;
+        fixed_t x, y;
 
-        sscanf(parms, "%10i %10i", &x, &y);
-
-        return (x != FIXED_MIN && y != FIXED_MIN);
+        return (sscanf(parms, "%10i %10i", &x, &y) == 2);
     }
 }
 
@@ -7159,18 +7156,15 @@ static void teleport_cmd_func2(char *cmd, char *parms)
     }
     else
     {
-        fixed_t x = FIXED_MIN;
-        fixed_t y = FIXED_MIN;
-        fixed_t z = FIXED_MIN;
+        fixed_t x, y;
+        fixed_t z = ONFLOORZ;
 
-        sscanf(parms, "%10i %10i %10i", &x, &y, &z);
-
-        if (x != FIXED_MIN && y != FIXED_MIN)
+        if (sscanf(parms, "%10i %10i %10i", &x, &y, &z) >= 2)
         {
             mobj_t          *mo = viewplayer->mo;
             const fixed_t   oldx = viewx;
             const fixed_t   oldy = viewy;
-            const fixed_t   oldz = viewz;
+            const fixed_t   oldz = mo->floorz;
 
             x <<= FRACBITS;
             y <<= FRACBITS;
