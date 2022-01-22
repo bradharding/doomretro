@@ -7249,11 +7249,9 @@ static void timer_cmd_func2(char *cmd, char *parms)
     }
     else
     {
-        int value = INT_MAX;
+        int value;
 
-        sscanf(parms, "%10i", &value);
-
-        if (value != INT_MAX)
+        if (sscanf(parms, "%10i", &value) == 1)
         {
             value = BETWEEN(0, value, TIMERMAXMINUTES);
 
@@ -7270,10 +7268,11 @@ static void timer_cmd_func2(char *cmd, char *parms)
                 {
                     char    *temp = commify(value);
 
-                    if (value == timer)
-                        C_Output("The timer has been reset to %s minute%s.", temp, (value == 1 ? "" : "s"));
+                    if (timer)
+                        C_Output("The timer has been %s to %s minute%s.",
+                            temp, (value == timer ? "reset" : "changed"), (value == 1 ? "" : "s"));
                     else
-                        C_Output("The timer is now %s minute%s.", temp, (value == 1 ? "" : "s"));
+                        C_Output("A timer has been set for %s minute%s.", temp, (value == 1 ? "" : "s"));
 
                     free(temp);
                 }
