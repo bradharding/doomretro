@@ -420,6 +420,7 @@ static void player_cvars_func2(char *cmd, char *parms);
 static dboolean playergender_cvar_func1(char *cmd, char *parms);
 static void playergender_cvar_func2(char *cmd, char *parms);
 static void playername_cvar_func2(char *cmd, char *parms);
+static void r_althud_cvar_func2(char *cmd, char *parms);
 static dboolean r_blood_cvar_func1(char *cmd, char *parms);
 static void r_blood_cvar_func2(char *cmd, char *parms);
 static void r_bloodsplats_translucency_cvar_func2(char *cmd, char *parms);
@@ -736,7 +737,7 @@ consolecmd_t consolecmds[] =
         "Prints a player \"" BOLDITALICS("message") "\"."),
     CCMD(quit, exit, null_func1, quit_cmd_func2, false, "",
         "Quits to the " DESKTOPNAME "."),
-    CVAR_BOOL(r_althud, "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
+    CVAR_BOOL(r_althud, "", bool_cvars_func1, r_althud_cvar_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles an alternate heads-up display when in widescreen mode."),
     CVAR_INT(r_berserkeffect, "", int_cvars_func1, int_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The intensity of the red effect when the player has a berserk power-up and their fists equipped (" BOLD("0") " to " BOLD("8")
@@ -8038,7 +8039,7 @@ static void expansion_cvar_func2(char *cmd, char *parms)
 
     if (expansion != expansion_old && gamemode == commercial)
     {
-        ExpDef.lastOn = (nerve ? expansion : 1) - 1;
+        ExpDef.lastOn = (nerve ? expansion - 1 : 0);
 
         if (gamestate != GS_LEVEL)
             gamemission = (expansion == 2 && nerve ? pack_nerve : doom2);
@@ -8404,6 +8405,19 @@ static void playername_cvar_func2(char *cmd, char *parms)
 }
 
 //
+// r_althud CVAR
+//
+static void r_althud_cvar_func2(char *cmd, char *parms)
+{
+    const dboolean  r_althud_old = r_althud;
+
+    bool_cvars_func2(cmd, parms);
+
+    if (r_althud != r_althud_old && gamestate == GS_LEVEL)
+        D_FadeScreen(false);
+}
+
+//
 // r_blood CVAR
 //
 static dboolean r_blood_cvar_func1(char *cmd, char *parms)
@@ -8552,7 +8566,6 @@ static void r_color_cvar_func2(char *cmd, char *parms)
     {
         D_FadeScreen(false);
         I_SetPalette(&PLAYPAL[st_palette * 768]);
-        M_SaveCVARs();
     }
 }
 
@@ -8771,7 +8784,14 @@ static void r_gamma_cvar_func2(char *cmd, char *parms)
 static void r_hud_cvar_func2(char *cmd, char *parms)
 {
     if (r_screensize == r_screensize_max || !*parms || resettingcvar)
+    {
+        const dboolean  r_hud_old = r_hud;
+
         bool_cvars_func2(cmd, parms);
+
+        if (r_hud != r_hud_old && gamestate == GS_LEVEL)
+            D_FadeScreen(false);
+    }
 }
 
 //
