@@ -3217,9 +3217,7 @@ extern int      cpars[33];
 //
 static void deh_procPars(DEHFILE *fpin, char *line) // extension
 {
-    char    key[DEH_MAXKEYLEN];
     char    inbuffer[DEH_BUFFERMAX];
-    int     indexnum;
     int     episode;
     int     level;
     int     partime;
@@ -3238,15 +3236,6 @@ static void deh_procPars(DEHFILE *fpin, char *line) // extension
     // array sizes of [4][10] and [32]
 
     M_StringCopy(inbuffer, line, DEH_BUFFERMAX - 1);
-
-    if (sscanf(inbuffer, "%s %i", key, &indexnum) != 2)
-    {
-        C_Warning(1, "Bad data pair in \"%s\".", inbuffer);
-        return;
-    }
-
-    if (devparm)
-        C_Output("Processing Par value at index %i: %s", indexnum, key);
 
     while (!dehfeof(fpin) && *inbuffer && *inbuffer != ' ')
     {
