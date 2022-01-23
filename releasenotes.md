@@ -12,12 +12,13 @@
 * Further improvements have been made to the support for controllers:
   * The LEDs on *PS4 DualShock 4* and *PS5 DualSense* controllers now change back to blue when quitting *DOOM Retro*.
   * Left thumbsticks are now bound to the `+alwaysrun` action by default.
-  * The paddles on *Xbox Elite* controllers can now be bound to an action by using the `paddle1` to `paddle4` parameters with the `bind` CCMD.
-  * The touchpad on *PS4 DualShock 4* and *PS5 DualSense* controllers can now be bound to an action using the `touchpad` parameter with the `bind` CCMD.
-  * The *Xbox Series X* controller’s share button, the *PS5 DualSense* controller’s microphone button and the *Nintendo Switch* pro controller’s capture button can now be bound to an action using the `misc1` parameter with the `bind` CCMD.
+  * The paddles on *Xbox Elite* controllers can now be bound to an action by using `paddle1` to `paddle4` with the `bind` CCMD.
+  * The touchpad on *PS4 DualShock 4* and *PS5 DualSense* controllers can now be bound to an action by using `touchpad` with the `bind` CCMD.
+  * The *Xbox Series X* controller’s share button, the *PS5 DualSense* controller’s microphone button and the *Nintendo Switch* pro controller’s capture button can now be bound to an action by using `misc1` with the `bind` CCMD.
 * Minor improvements have been made to the support of [*MBF21*](https://doomwiki.org/wiki/MBF21)-compatible maps and mods.
 * Minor changes have been made to text that is output to the console.
 * The player’s teleport fog is now positioned correctly when using the `teleport` CCMD.
+* The `armortype` CVAR is now set to `none` if the `armor` CVAR is set to `0` in the console.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

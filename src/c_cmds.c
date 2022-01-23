@@ -8198,10 +8198,12 @@ static void player_cvars_func2(char *cmd, char *parms)
             if (sscanf(parms, "%10i", &value) == 1 && ammotype != am_noammo
                 && value != viewplayer->ammo[ammotype] && viewplayer->health > 0)
             {
+                if (value != viewplayer->ammo[ammotype])
+                    ammohighlight = I_GetTimeMS() + HUD_AMMO_HIGHLIGHT_WAIT;
+
                 if (value > viewplayer->ammo[ammotype])
                 {
                     P_UpdateAmmoStat(ammotype, value - viewplayer->ammo[ammotype]);
-                    ammohighlight = I_GetTimeMS() + HUD_AMMO_HIGHLIGHT_WAIT;
                     P_AddBonus();
                     S_StartSound(NULL, sfx_itemup);
                 }
@@ -8234,17 +8236,19 @@ static void player_cvars_func2(char *cmd, char *parms)
         {
             if (sscanf(parms, "%10i", &value) == 1 && value != viewplayer->armorpoints)
             {
+                if (value != viewplayer->armorpoints)
+                    armorhighlight = I_GetTimeMS() + HUD_ARMOR_HIGHLIGHT_WAIT;
+
                 if (value > viewplayer->armorpoints)
                 {
                     P_UpdateArmorStat(value - viewplayer->armorpoints);
-                    armorhighlight = I_GetTimeMS() + HUD_ARMOR_HIGHLIGHT_WAIT;
                     P_AddBonus();
                     S_StartSound(NULL, sfx_itemup);
                 }
 
-                viewplayer->armorpoints = MIN(value, max_armor);
-
-                if (!viewplayer->armortype)
+                if (!(viewplayer->armorpoints = MIN(value, max_armor)))
+                    viewplayer->armortype = armortype_none;
+                else if (!viewplayer->armortype)
                     viewplayer->armortype = armortype_green;
 
                 C_HideConsole();
@@ -8275,6 +8279,9 @@ static void player_cvars_func2(char *cmd, char *parms)
             {
                 value = BETWEEN(health_min, value, maxhealth);
 
+                if (value != viewplayer->health)
+                    healthhighlight = I_GetTimeMS() + HUD_HEALTH_HIGHLIGHT_WAIT;
+
                 if (viewplayer->health <= 0)
                 {
                     if (value <= 0)
@@ -8286,7 +8293,6 @@ static void player_cvars_func2(char *cmd, char *parms)
 
                         viewplayer->health = value;
                         viewplayer->mo->health = value;
-                        healthhighlight = I_GetTimeMS() + HUD_HEALTH_HIGHLIGHT_WAIT;
                     }
                     else
                     {
@@ -8314,7 +8320,6 @@ static void player_cvars_func2(char *cmd, char *parms)
                         P_UpdateHealthStat(value - viewplayer->health);
                         viewplayer->health = value;
                         viewplayer->mo->health = value;
-                        healthhighlight = I_GetTimeMS() + HUD_HEALTH_HIGHLIGHT_WAIT;
                         P_AddBonus();
                         S_StartSound(NULL, sfx_itemup);
                     }
