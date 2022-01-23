@@ -41,10 +41,9 @@
 #if !defined(__MIDIFILE_H__)
 #define __MIDIFILE_H__
 
-#include "SDL.h"
-
 #include "doomdef.h"
 #include "doomtype.h"
+#include "SDL.h"
 
 #define HEADER_CHUNK_ID         "MThd"
 #define TRACK_CHUNK_ID          "MTrk"

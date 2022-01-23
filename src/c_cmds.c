@@ -8198,8 +8198,7 @@ static void player_cvars_func2(char *cmd, char *parms)
             if (sscanf(parms, "%10i", &value) == 1 && ammotype != am_noammo
                 && value != viewplayer->ammo[ammotype] && viewplayer->health > 0)
             {
-                if (value != viewplayer->ammo[ammotype])
-                    ammohighlight = I_GetTimeMS() + HUD_AMMO_HIGHLIGHT_WAIT;
+                ammohighlight = I_GetTimeMS() + HUD_AMMO_HIGHLIGHT_WAIT;
 
                 if (value > viewplayer->ammo[ammotype])
                 {
@@ -8236,8 +8235,7 @@ static void player_cvars_func2(char *cmd, char *parms)
         {
             if (sscanf(parms, "%10i", &value) == 1 && value != viewplayer->armorpoints)
             {
-                if (value != viewplayer->armorpoints)
-                    armorhighlight = I_GetTimeMS() + HUD_ARMOR_HIGHLIGHT_WAIT;
+                armorhighlight = I_GetTimeMS() + HUD_ARMOR_HIGHLIGHT_WAIT;
 
                 if (value > viewplayer->armorpoints)
                 {
@@ -8279,8 +8277,7 @@ static void player_cvars_func2(char *cmd, char *parms)
             {
                 value = BETWEEN(health_min, value, maxhealth);
 
-                if (value != viewplayer->health)
-                    healthhighlight = I_GetTimeMS() + HUD_HEALTH_HIGHLIGHT_WAIT;
+                healthhighlight = I_GetTimeMS() + HUD_HEALTH_HIGHLIGHT_WAIT;
 
                 if (viewplayer->health <= 0)
                 {

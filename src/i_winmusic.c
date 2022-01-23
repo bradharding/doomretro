@@ -38,15 +38,14 @@
 
 #if defined(_WIN32)
 
-#include "SDL.h"
-#include "SDL_mixer.h"
-
 #include <windows.h>
 #include <mmsystem.h>
 
 #include "doomtype.h"
 #include "m_misc.h"
 #include "midifile.h"
+#include "SDL.h"
+#include "SDL_mixer.h"
 
 static HMIDISTRM        hMidiStream;
 static HANDLE           hBufferReturnEvent;

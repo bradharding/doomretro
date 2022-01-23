@@ -39,9 +39,8 @@
 #if !defined(__I_GAMECONTROLLER_H__)
 #define __I_GAMECONTROLLER_H__
 
-#include "SDL.h"
-
 #include "doomtype.h"
+#include "SDL.h"
 
 #define GAMECONTROLLER_A                    0x00000001
 #define GAMECONTROLLER_B                    0x00000002
