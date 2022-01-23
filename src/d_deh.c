@@ -1537,7 +1537,7 @@ static const deh_block deh_blocks[] =
     /*  8 */ { "Misc",      deh_procMisc            },
     /*  9 */ { "Text",      deh_procText            },  // --  end of standard "deh" entries,
 
-    //     begin BOOM Extensions (BEX)
+    // begin BOOM Extensions (BEX)
     /* 10 */ { "[STRINGS]", deh_procStrings         },  // new string changes
     /* 11 */ { "[PARS]",    deh_procPars            },  // alternative block marker
     /* 12 */ { "[CODEPTR]", deh_procBexCodePointers },  // bex codepointers by mnemonic
@@ -3215,7 +3215,7 @@ extern int      cpars[33];
 //          line  -- current line in file to process
 // Returns: void
 //
-static void deh_procPars(DEHFILE *fpin, char *line) // extension
+static void deh_procPars(DEHFILE *fpin, char *line)
 {
     char    inbuffer[DEH_BUFFERMAX];
     int     episode;

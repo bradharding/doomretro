@@ -996,22 +996,22 @@ static void P_LoadSegs(int lump)
                         {
                             if (li->linedef->special)
                                 C_Warning(2, "The %sline special of linedef %s has been changed from %i (\"%s\") to %i (\"%s\").",
-                                    (li->linedef->special < BOOMLINESPECIALS ? "the" : (li->linedef->special < MBF21LINESPECIALS ?
-                                    "the " ITALICS("MBF21") "-compatible" : (li->linedef->special < MBFLINESPECIALS ? "the " ITALICS("MBF")
-                                    "-compatible" : "the " ITALICS("BOOM") "-compatible"))), temp, li->linedef->special,
+                                    (li->linedef->special < BOOMLINESPECIALS ? "" : (li->linedef->special < MBF21LINESPECIALS ?
+                                    ITALICS("MBF21") "-compatible " : (li->linedef->special < MBFLINESPECIALS ? ITALICS("MBF")
+                                    "-compatible " : ITALICS("BOOM") "-compatible "))), temp, li->linedef->special,
                                     linespecials[li->linedef->special], linefix[j].special, linespecials[linefix[j].special]);
                             else
                                 C_Warning(2, "The %sline special %i (\"%s\") has been added to linedef %s.",
-                                    (li->linedef->special < BOOMLINESPECIALS ? "the" : (li->linedef->special < MBF21LINESPECIALS ?
-                                    "the " ITALICS("MBF21") "-compatible" : (li->linedef->special < MBFLINESPECIALS ? "the " ITALICS("MBF")
-                                    "-compatible" : "the " ITALICS("BOOM") "-compatible"))), linefix[j].special,
+                                    (li->linedef->special < BOOMLINESPECIALS ? "" : (li->linedef->special < MBF21LINESPECIALS ?
+                                    ITALICS("MBF21") "-compatible " : (li->linedef->special < MBFLINESPECIALS ? ITALICS("MBF")
+                                    "-compatible " : ITALICS("BOOM") "-compatible "))), linefix[j].special,
                                     linespecials[linefix[j].special], temp);
                         }
                         else
                             C_Warning(2, "The %sline special of linedef %s has been removed.",
-                                (li->linedef->special < BOOMLINESPECIALS ? "the" : (li->linedef->special < MBF21LINESPECIALS ?
-                                "the " ITALICS("MBF21") "-compatible" : (li->linedef->special < MBFLINESPECIALS ? "the " ITALICS("MBF")
-                                "-compatible" : "the " ITALICS("BOOM") "-compatible"))), temp);
+                                (li->linedef->special < BOOMLINESPECIALS ? "" : (li->linedef->special < MBF21LINESPECIALS ?
+                                ITALICS("MBF21") "-compatible " : (li->linedef->special < MBFLINESPECIALS ? ITALICS("MBF")
+                                "-compatible " : ITALICS("BOOM") "-compatible "))), temp);
 
                         li->linedef->special = linefix[j].special;
                         free(temp);
