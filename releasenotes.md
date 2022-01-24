@@ -5,10 +5,10 @@
 
 * Optimizations have been made to further improve the overall performance of *DOOM Retro*.
 * Crashes no longer occur in the following instances:
-  * When loading two or more PWADs without an IWAD in the WAD launcher.
+  * When loading two or more PWADs without an IWAD using the WAD launcher.
   * When loading a PWAD containing a PNG lump.
   * When enabling widescreen during a game by pressing the <kbd>&ndash;</kbd> key.
-* MIDI music will now actually pause rather than just mute when the game is paused if the window loses focus or the <kbd>PAUSE</kbd> key is pressed.
+* MIDI music will now actually pause rather than just be muted when *DOOM Retro’s* window loses focus or the <kbd>PAUSE</kbd> key is pressed.
 * Further improvements have been made to the support for controllers:
   * The LEDs on *PS4 DualShock 4* and *PS5 DualSense* controllers now change back to blue when quitting *DOOM Retro*.
   * Left thumbsticks are now bound to the `+alwaysrun` action by default.
@@ -19,6 +19,7 @@
 * Minor changes have been made to text that is output to the console.
 * The player’s teleport fog is now positioned correctly when using the `teleport` CCMD.
 * The `armortype` CVAR is now set to `none` if the `armor` CVAR is set to `0` in the console.
+* The player’s health, armor or ammo will now always flash in the widescreen HUD if changed using the `health`, `armor` or `ammo` CVARs in the console.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
