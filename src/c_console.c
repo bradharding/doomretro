@@ -40,9 +40,6 @@
 #include <Windows.h>
 #endif
 
-#include "SDL_image.h"
-#include "SDL_mixer.h"
-
 #include "c_cmds.h"
 #include "c_console.h"
 #include "d_deh.h"
@@ -61,6 +58,8 @@
 #include "p_spec.h"
 #include "r_main.h"
 #include "s_sound.h"
+#include "SDL_image.h"
+#include "SDL_mixer.h"
 #include "st_stuff.h"
 #include "v_video.h"
 #include "version.h"
@@ -608,7 +607,7 @@ static void C_DrawScrollbar(void)
 
         // init scrollbar grip
         if (faceend - facestart > 8)
-            for (int y = gripstart; y < gripstart + SCREENWIDTH * 6; y += SCREENWIDTH * 2)
+            for (int y = gripstart; y < gripstart + 6 * SCREENWIDTH; y += 2 * SCREENWIDTH)
                 if (y - offset >= CONSOLETOP)
                     for (int x = CONSOLESCROLLBARX + 1; x < CONSOLESCROLLBARX + CONSOLESCROLLBARWIDTH - 1; x++)
                         screens[1][y - offset + x] = screens[0][y - offset + x];
@@ -621,7 +620,7 @@ static void C_DrawScrollbar(void)
 
         // draw scrollbar grip
         if (faceend - facestart > 8)
-            for (int y = gripstart; y < gripstart + SCREENWIDTH * 6; y += SCREENWIDTH * 2)
+            for (int y = gripstart; y < gripstart + 6 * SCREENWIDTH; y += 2 * SCREENWIDTH)
                 if (y - offset >= CONSOLETOP)
                     for (int x = CONSOLESCROLLBARX + 1; x < CONSOLESCROLLBARX + CONSOLESCROLLBARWIDTH - 1; x++)
                         screens[0][y - offset + x] = screens[1][y - offset + x];
@@ -795,7 +794,7 @@ static void C_DrawBackground(void)
         for (int x = y + SCREENWIDTH - 1; x >= y + 1; x--)
             blurscreen[x] = tinttab50[(blurscreen[x - SCREENWIDTH - 1] << 8) + blurscreen[x]];
 
-    for (int y = 0; y <= height - SCREENWIDTH * 2; y += SCREENWIDTH)
+    for (int y = 0; y <= height - 2 * SCREENWIDTH; y += SCREENWIDTH)
         for (int x = y; x <= y + SCREENWIDTH - 1; x++)
             blurscreen[x] = tinttab50[(blurscreen[x + SCREENWIDTH] << 8) + blurscreen[x]];
 
@@ -803,7 +802,7 @@ static void C_DrawBackground(void)
         for (int x = y; x <= y + SCREENWIDTH - 1; x++)
             blurscreen[x] = tinttab50[(blurscreen[x - SCREENWIDTH] << 8) + blurscreen[x]];
 
-    for (int y = 0; y <= height - SCREENWIDTH * 2; y += SCREENWIDTH)
+    for (int y = 0; y <= height - 2 * SCREENWIDTH; y += SCREENWIDTH)
         for (int x = y + SCREENWIDTH - 1; x >= y + 1; x--)
             blurscreen[x] = tinttab50[(blurscreen[x + SCREENWIDTH - 1] << 8) + blurscreen[x]];
 
@@ -816,7 +815,7 @@ static void C_DrawBackground(void)
         screens[0][i] = consolebackcolor[blurscreen[i]];
 
     // apply corrugated glass effect to background
-    for (int y = 1; y <= height - SCREENWIDTH * 3; y += SCREENWIDTH)
+    for (int y = 1; y <= height - 3 * SCREENWIDTH; y += SCREENWIDTH)
     {
         for (int x = 2; x < SCREENWIDTH - 1; x += 3)
             screens[0][y + x] = colormaps[0][6 * 256 + screens[0][y + x + ((((y + x) % SCREENWIDTH) % SCREENWIDTH) ? -1 : 1)]];
@@ -837,7 +836,7 @@ static void C_DrawBackground(void)
         brand, consoleedgecolor);
 
     // draw bottom edge
-    for (int i = height - SCREENWIDTH * 3; i < height; i++)
+    for (int i = height - 3 * SCREENWIDTH; i < height; i++)
     {
         byte    *dot = *screens + i;
 

@@ -248,7 +248,7 @@ static void D_UpdateFade(void)
         }
 
         if (r_ditheredlighting)
-            for (int y = 0; y < SCREENAREA; y += SCREENWIDTH * 2)
+            for (int y = 0; y < SCREENAREA; y += 2 * SCREENWIDTH)
             {
                 for (int x = y; x < y + SCREENWIDTH; x += 2)
                 {
@@ -257,7 +257,7 @@ static void D_UpdateFade(void)
                     *dot = tinttab90[(*dot << 8) + fadescreen[x]];
                 }
 
-                y += SCREENWIDTH * 2;
+                y += 2 * SCREENWIDTH;
 
                 for (int x = y + 1; x < y + SCREENWIDTH; x += 2)
                 {

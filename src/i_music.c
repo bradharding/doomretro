@@ -38,14 +38,13 @@
 
 #include <string.h>
 
-#include "SDL_mixer.h"
-
 #include "c_console.h"
 #include "i_winmusic.h"
 #include "m_misc.h"
 #include "memio.h"
 #include "mus2mid.h"
 #include "s_sound.h"
+#include "SDL_mixer.h"
 #include "version.h"
 
 dboolean        midimusictype;

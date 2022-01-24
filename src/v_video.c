@@ -36,8 +36,6 @@
 ========================================================================
 */
 
-#include "SDL_image.h"
-
 #include "c_cmds.h"
 #include "c_console.h"
 #include "d_main.h"
@@ -54,6 +52,7 @@
 #include "p_setup.h"
 #include "r_draw.h"
 #include "r_main.h"
+#include "SDL_image.h"
 #include "v_video.h"
 #include "version.h"
 #include "w_wad.h"
@@ -138,7 +137,7 @@ void V_FillSoftTransRect(int scrn, int x, int y, int width, int height, int colo
             *dot = *(tinttab1 + *dot);
             dot += SCREENWIDTH;
             *dot = *(tinttab2 + *dot);
-            dot += SCREENWIDTH * ((size_t)height + 1);
+            dot += ((size_t)height + 1) * SCREENWIDTH;
             *dot = *(tinttab2 + *dot);
             dot += SCREENWIDTH;
             *dot = *(tinttab1 + *dot);
