@@ -20,6 +20,7 @@
 * The player’s teleport fog is now positioned correctly when using the `teleport` CCMD.
 * The `armortype` CVAR is now set to `none` if the `armor` CVAR is set to `0` in the console.
 * The player’s health, armor or ammo will now always flash in the widescreen HUD if changed using the `health`, `armor` or `ammo` CVARs in the console.
+* Removing a behavior taken from [*MBF*](https://doomwiki.org/wiki/MBF), monsters no longer back away from the player with their fists or chainsaw equipped if they get too close.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

@@ -476,7 +476,6 @@ typedef struct mobj_s
     int                 geartime;               // [JN] Duration of torque simulation
 
     short               pursuecount;
-    short               strafecount;
 
     int                 bloodsplats;
 
