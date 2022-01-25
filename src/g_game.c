@@ -395,7 +395,7 @@ void G_BuildTiccmd(ticcmd_t *cmd)
             || (gamecontrollerbuttons & (gamecontrolleruse | gamecontrolleruse2)))
         {
             cmd->buttons |= BT_USE;
-            dclicks = 0;                // clear double clicks if hit use button
+            dclicks = 0;
         }
     }
 

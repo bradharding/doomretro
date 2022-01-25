@@ -602,10 +602,9 @@ static void P_NightmareRespawn(mobj_t *mobj)
 
     // something is occupying it's position?
     if (!P_CheckPosition(mobj, x, y))
-        return;         // no respawn
+        return; // no respawn
 
-    // spawn a teleport fog at old spot
-    //  because of removal of the body?
+    // spawn a teleport fog at the old spot
     mo = P_SpawnMobj(mobj->x, mobj->y, z, MT_TFOG);
     mo->angle = mobj->angle;
 
@@ -640,8 +639,10 @@ static void P_NightmareRespawn(mobj_t *mobj)
     P_RemoveMobj(mobj);
 
     if (con_obituaries)
-        C_PlayerMessage("%s %s has respawned.",
-            (isvowel(mo->info->name1[0]) ? "An" : "A"), (*mo->info->name1 ? mo->info->name1 : "monster"));
+        C_PlayerMessage("%s dead%s%s respawned.",
+            ((mo->flags & MF_FRIEND) && monstercount[mo->type] == 1 ? "The" : "A"),
+            ((mo->flags & MF_FRIEND) ? ", friendly " : " "),
+            (*mo->info->name1 ? mo->info->name1 : "monster"));
 }
 
 //
