@@ -640,7 +640,8 @@ static void P_NightmareRespawn(mobj_t *mobj)
     P_RemoveMobj(mobj);
 
     if (con_obituaries)
-        C_PlayerMessage("%s %s has respawned.", (isvowel(mo->info->name1[0]) ? "An" : "A"), mo->info->name1);
+        C_PlayerMessage("%s %s has respawned.",
+            (isvowel(mo->info->name1[0]) ? "An" : "A"), (*mo->info->name1 ? mo->info->name1 : "monster"));
 }
 
 //
@@ -1175,7 +1176,7 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, dboolean spawnmonsters)
     if (options & MTF_NOTSINGLE)
         return NULL;
 
-    if (!(options & (gameskill == sk_baby ? 1 : (gameskill == sk_nightmare ? 4 : 1 << (gameskill - 1)))))
+    if (!(options & (gameskill == sk_baby ? 1 : (gameskill == sk_nightmare ? 4 : (1 << (gameskill - 1))))))
         return NULL;
 
     // killough 08/23/98: use table for faster lookup
