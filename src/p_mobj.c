@@ -1151,7 +1151,7 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, dboolean spawnmonsters)
     // bits that weren't used in DOOM (such as HellMaker wads). So we should
     // then simply ignore all upper bits.
     if (options & MTF_RESERVED)
-        options &= MTF_EASY | MTF_NORMAL | MTF_HARD | MTF_AMBUSH | MTF_NOTSINGLE;
+        options &= (MTF_EASY | MTF_NORMAL | MTF_HARD | MTF_AMBUSH | MTF_NOTSINGLE);
 
     // check for players specially
     if (type == Player1Start)

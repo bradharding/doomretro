@@ -43,6 +43,7 @@
 #include "i_system.h"
 #include "m_config.h"
 #include "m_misc.h"
+#include "p_inter.h"
 #include "p_local.h"
 #include "p_saveg.h"
 #include "p_setup.h"
@@ -435,9 +436,6 @@ static void saveg_write_pspdef_t(pspdef_t *str)
     saveg_write32(str->sx);
     saveg_write32(str->sy);
 }
-
-extern int  oldhealth;
-extern int  cardsfound;
 
 //
 // player_t

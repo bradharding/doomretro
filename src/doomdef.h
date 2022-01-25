@@ -163,17 +163,17 @@ typedef enum
 // Skill flags.
 enum
 {
-    MTF_EASY =       1,
-    MTF_NORMAL =     2,
-    MTF_HARD =       4,
-    MTF_AMBUSH =     8,
+    MTF_EASY      =   1,
+    MTF_NORMAL    =   2,
+    MTF_HARD      =   4,
+    MTF_AMBUSH    =   8,
 
     // killough 11/98
-    MTF_NOTSINGLE = 16,
-    MTF_NOTDM =     32,
-    MTF_NOTCOOP =   64,
-    MTF_FRIEND =   128,
-    MTF_RESERVED = 256
+    MTF_NOTSINGLE =  16,
+    MTF_NOTDM     =  32,
+    MTF_NOTCOOP   =  64,
+    MTF_FRIEND    = 128,
+    MTF_RESERVED  = 256
 };
 
 typedef enum
@@ -272,4 +272,5 @@ enum
 #define MORE_FRICTION_MOMENTUM  15000   // mud factor based on momentum
 #define ORIG_FRICTION           0xE800  // original value
 #define ORIG_FRICTION_FACTOR    2048    // original value
+
 #endif
