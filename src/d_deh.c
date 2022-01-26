@@ -4022,7 +4022,7 @@ static void deh_procBexSprites(DEHFILE *fpin, char *line)
 
         // do it
         memset(candidate, 0, sizeof(candidate));
-        strncpy(candidate, ptr_lstrip(strval), 4);
+        M_StringCopy(candidate, ptr_lstrip(strval), 4);
 
         if (strlen(candidate) != 4)
         {
@@ -4091,7 +4091,7 @@ static void deh_procBexSounds(DEHFILE *fpin, char *line)
 
         // do it
         memset(candidate, 0, 7);
-        strncpy(candidate, ptr_lstrip(strval), 6);
+        M_StringCopy(candidate, ptr_lstrip(strval), 6);
         len = strlen(candidate);
 
         if (len < 1 || len > 6)
@@ -4155,7 +4155,7 @@ static void deh_procBexMusic(DEHFILE *fpin, char *line)
 
         // do it
         memset(candidate, 0, 7);
-        strncpy(candidate, ptr_lstrip(strval), 6);
+        M_StringCopy(candidate, ptr_lstrip(strval), 6);
         len = strlen(candidate);
 
         if (len < 1 || len > 6)

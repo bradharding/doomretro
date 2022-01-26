@@ -3094,7 +3094,7 @@ static void P_InitMapInfo(void)
 
             if (sscanf(sc_String, "%i", &map) != 1 || map < 0 || map > 99)
             {
-                char    *temp = uppercase(sc_String);
+                temp = uppercase(sc_String);
 
                 if (gamemode == commercial)
                 {

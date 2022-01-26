@@ -427,18 +427,17 @@ void P_UpdateHealthStat(int num)
 //
 dboolean P_GiveBody(int num, int max, dboolean stat)
 {
-    int oldhealth;
+    int health = viewplayer->health;
 
-    if (viewplayer->health >= max)
+    if (health >= max)
         return false;
 
-    oldhealth = viewplayer->health;
-    viewplayer->health = MIN(oldhealth + num, max);
+    viewplayer->health = MIN(health + num, max);
     viewplayer->mo->health = viewplayer->health;
     healthhighlight = I_GetTimeMS() + HUD_HEALTH_HIGHLIGHT_WAIT;
 
     if (stat)
-        P_UpdateHealthStat(viewplayer->health - oldhealth);
+        P_UpdateHealthStat(viewplayer->health - health);
 
     return true;
 }
@@ -500,11 +499,11 @@ dboolean P_GiveArmor(armortype_t armortype, dboolean stat)
 int cardsfound;
 
 //
-// P_InitCards
+// P_InitCards()
 //
 void P_InitCards(void)
 {
-    int cardsprites[] = { SPR_BKEY, SPR_YKEY, SPR_RKEY, SPR_BSKU, SPR_YSKU, SPR_RSKU };
+    const int   cardsprites[] = { SPR_BKEY, SPR_YKEY, SPR_RKEY, SPR_BSKU, SPR_YSKU, SPR_RSKU };
 
     for (int i = 0; i < NUMCARDS; i++)
         viewplayer->cards[i] = CARDNOTINMAP;
