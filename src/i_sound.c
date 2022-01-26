@@ -329,7 +329,7 @@ dboolean CacheSFX(sfxinfo_t *sfxinfo)
         if (length > lumplen - 8 || length <= 48)
             return false;
 
-        ExpandSoundData(sfxinfo, data + 24, (data[2] | (data[3] << 8)), 8, length - 32);
+        ExpandSoundData(sfxinfo, data + 16, (data[2] | (data[3] << 8)), 8, length - 32);
         return true;
     }
     else

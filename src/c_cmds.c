@@ -420,7 +420,6 @@ static void player_cvars_func2(char *cmd, char *parms);
 static dboolean playergender_cvar_func1(char *cmd, char *parms);
 static void playergender_cvar_func2(char *cmd, char *parms);
 static void playername_cvar_func2(char *cmd, char *parms);
-static void r_althud_cvar_func2(char *cmd, char *parms);
 static dboolean r_blood_cvar_func1(char *cmd, char *parms);
 static void r_blood_cvar_func2(char *cmd, char *parms);
 static void r_bloodsplats_translucency_cvar_func2(char *cmd, char *parms);
@@ -436,7 +435,6 @@ static void r_gamma_cvar_func2(char *cmd, char *parms);
 static void r_hud_cvar_func2(char *cmd, char *parms);
 static void r_hud_translucency_cvar_func2(char *cmd, char *parms);
 static void r_lowpixelsize_cvar_func2(char *cmd, char *parms);
-static void r_playersprites_cvar_func2(char *cmd, char *parms);
 static void r_screensize_cvar_func2(char *cmd, char *parms);
 static void r_shadows_translucency_cvar_func2(char *cmd, char *parms);
 static dboolean r_skycolor_cvar_func1(char *cmd, char *parms);
@@ -737,7 +735,7 @@ consolecmd_t consolecmds[] =
         "Prints a player \"" BOLDITALICS("message") "\"."),
     CCMD(quit, exit, null_func1, quit_cmd_func2, false, "",
         "Quits to the " DESKTOPNAME "."),
-    CVAR_BOOL(r_althud, "", bool_cvars_func1, r_althud_cvar_func2, CF_NONE, BOOLVALUEALIAS,
+    CVAR_BOOL(r_althud, "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles an alternate heads-up display when in widescreen mode."),
     CVAR_INT(r_berserkeffect, "", int_cvars_func1, int_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The intensity of the red effect when the player has a berserk power-up and their fists equipped (" BOLD("0") " to " BOLD("8")
@@ -811,7 +809,7 @@ consolecmd_t consolecmds[] =
         "Toggles randomly mirroring the weapons dropped by monsters."),
     CVAR_BOOL(r_pickupeffect, "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles the gold effect when the player picks something up."),
-    CVAR_BOOL(r_playersprites, "", bool_cvars_func1, r_playersprites_cvar_func2, CF_NONE, BOOLVALUEALIAS,
+    CVAR_BOOL(r_playersprites, "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles showing the player's weapon."),
     CVAR_BOOL(r_radsuiteffect, "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles the green effect when the player is wearing a radiation shielding suit power-up."),
@@ -984,8 +982,6 @@ static void automap_action_func(void)
         AM_Start(true);
     else
         AM_Stop();
-
-    D_FadeScreen(false);
 }
 
 static void back_action_func(void)
@@ -7567,7 +7563,6 @@ static void color_cvars_func2(char *cmd, char *parms)
             M_snprintf(buffer, sizeof(buffer), "%i", nearestcolors[color[i].value]);
             int_cvars_func2(cmd, buffer);
             AM_SetColors();
-            D_FadeScreen(false);
 
             return;
         }
@@ -7588,10 +7583,7 @@ static void color_cvars_func2(char *cmd, char *parms)
         int_cvars_func2(cmd, parms);
 
     if (*parms)
-    {
         AM_SetColors();
-        D_FadeScreen(false);
-    }
 }
 
 //
@@ -7871,9 +7863,6 @@ static void am_path_cvar_func2(char *cmd, char *parms)
         stat_cheated = SafeAdd(stat_cheated, 1);
         M_SaveCVARs();
     }
-
-    if (automapactive)
-        D_FadeScreen(false);
 }
 
 //
@@ -8160,8 +8149,6 @@ static void mouselook_cvar_func2(char *cmd, char *parms)
 
             R_InitColumnFunctions();
 
-            D_FadeScreen(false);
-
             if (!mouselook)
             {
                 viewplayer->lookdir = 0;
@@ -8407,19 +8394,6 @@ static void playername_cvar_func2(char *cmd, char *parms)
 }
 
 //
-// r_althud CVAR
-//
-static void r_althud_cvar_func2(char *cmd, char *parms)
-{
-    const dboolean  r_althud_old = r_althud;
-
-    bool_cvars_func2(cmd, parms);
-
-    if (r_althud != r_althud_old && gamestate == GS_LEVEL)
-        D_FadeScreen(false);
-}
-
-//
 // r_blood CVAR
 //
 static dboolean r_blood_cvar_func1(char *cmd, char *parms)
@@ -8527,9 +8501,6 @@ static void r_brightmaps_cvar_func2(char *cmd, char *parms)
             M_SaveCVARs();
             I_SetPalette(&PLAYPAL[st_palette * 768]);
             R_InitColumnFunctions();
-
-            if (gamestate == GS_LEVEL)
-                D_FadeScreen(false);
         }
     }
     else
@@ -8565,10 +8536,7 @@ static void r_color_cvar_func2(char *cmd, char *parms)
     int_cvars_func2(cmd, parms);
 
     if (r_color != r_color_old)
-    {
-        D_FadeScreen(false);
         I_SetPalette(&PLAYPAL[st_palette * 768]);
-    }
 }
 
 //
@@ -8591,9 +8559,6 @@ static void r_detail_cvar_func2(char *cmd, char *parms)
             M_SaveCVARs();
             STLib_Init();
             R_InitColumnFunctions();
-
-            if (gamestate == GS_LEVEL)
-                D_FadeScreen(false);
         }
     }
     else
@@ -8634,9 +8599,6 @@ static void r_ditheredlighting_cvar_func2(char *cmd, char *parms)
             M_SaveCVARs();
             I_SetPalette(&PLAYPAL[st_palette * 768]);
             R_InitColumnFunctions();
-
-            if (gamestate == GS_LEVEL)
-                D_FadeScreen(false);
         }
     }
     else
@@ -8718,10 +8680,7 @@ static void r_fov_cvar_func2(char *cmd, char *parms)
         R_InitLightTables();
 
         if (gamestate == GS_LEVEL)
-        {
             S_StartSound(NULL, sfx_stnmov);
-            D_FadeScreen(false);
-        }
     }
 }
 
@@ -8790,9 +8749,6 @@ static void r_hud_cvar_func2(char *cmd, char *parms)
         const dboolean  r_hud_old = r_hud;
 
         bool_cvars_func2(cmd, parms);
-
-        if (r_hud != r_hud_old && gamestate == GS_LEVEL)
-            D_FadeScreen(false);
     }
 }
 
@@ -8856,47 +8812,6 @@ static void r_lowpixelsize_cvar_func2(char *cmd, char *parms)
             C_Output(INTEGERCVARISDEFAULT, r_lowpixelsize);
         else
             C_Output(INTEGERCVARWITHDEFAULT, r_lowpixelsize, r_lowpixelsize_default);
-
-        C_ShowWarning(i);
-    }
-}
-
-//
-// r_playersprites CVAR
-//
-static void r_playersprites_cvar_func2(char *cmd, char *parms)
-{
-    if (*parms)
-    {
-        const int   value = C_LookupValueFromAlias(parms, BOOLVALUEALIAS);
-
-        if ((value == 0 || value == 1) && value != r_playersprites)
-        {
-            r_playersprites = value;
-            M_SaveCVARs();
-
-            if (gamestate == GS_LEVEL)
-                D_FadeScreen(false);
-        }
-    }
-    else
-    {
-        char    *temp1 = C_LookupAliasFromValue(r_playersprites, BOOLVALUEALIAS);
-        int     i = C_GetIndex(cmd);
-
-        C_ShowDescription(i);
-
-        if (r_playersprites == r_playersprites_default)
-            C_Output(INTEGERCVARISDEFAULT, temp1);
-        else
-        {
-            char    *temp2 = C_LookupAliasFromValue(r_playersprites_default, BOOLVALUEALIAS);
-
-            C_Output(INTEGERCVARWITHDEFAULT, temp1, temp2);
-            free(temp2);
-        }
-
-        free(temp1);
 
         C_ShowWarning(i);
     }
@@ -9092,9 +9007,6 @@ static void r_textures_cvar_func2(char *cmd, char *parms)
             r_textures = value;
             M_SaveCVARs();
             R_InitColumnFunctions();
-
-            if (gamestate == GS_LEVEL)
-                D_FadeScreen(false);
 
             for (int i = 0; i < numsectors; i++)
             {
@@ -9787,8 +9699,6 @@ static void weaponrecoil_cvar_func2(char *cmd, char *parms)
             suppresswarnings = false;
 
             R_InitColumnFunctions();
-
-            D_FadeScreen(false);
 
             if (!weaponrecoil)
             {
