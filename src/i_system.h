@@ -44,13 +44,13 @@
 
 #if defined(_WIN32)
 #define OPERATINGSYSTEM "Windows"
-#define DESKTOPNAME     "desktop"
+#define DESKTOP         "desktop"
 #elif defined(__APPLE__)
 #define OPERATINGSYSTEM "macOS"
-#define DESKTOPNAME     "Finder"
+#define DESKTOP         "Finder"
 #else
 #define OPERATINGSYSTEM "Linux"
-#define DESKTOPNAME     "desktop"
+#define DESKTOP         "desktop"
 #endif
 
 // Called by M_Responder when quit is selected.
@@ -61,6 +61,6 @@ void I_Error(const char *error, ...) FORMATATTR(1, 2);
 void I_PrintWindowsVersion(void);
 void I_PrintSystemInfo(void);
 
-void *I_Realloc(void *ptr, size_t size);
+void *I_Realloc(void *block, size_t size);
 
 #endif

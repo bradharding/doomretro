@@ -3085,35 +3085,33 @@ static void P_InitMapInfo(void)
 
     while (SC_GetString())
     {
-        int ep = -1;
-        int map = -1;
+        int ep;
+        int map;
 
         if (SC_Compare("MAP"))
         {
             SC_MustGetString();
-            sscanf(sc_String, "%i", &map);
 
-            if (map < 0 || map > 99)
+            if (sscanf(sc_String, "%i", &map) != 1 || map < 0 || map > 99)
             {
-                char    *buffer = uppercase(sc_String);
+                char    *temp = uppercase(sc_String);
 
                 if (gamemode == commercial)
                 {
                     ep = 1;
-                    sscanf(buffer, "MAP0%1i", &map);
 
-                    if (map == -1)
-                        sscanf(buffer, "MAP%2i", &map);
+                    if (sscanf(temp, "MAP0%1i", &map) != 1 && sscanf(temp, "MAP%2i", &map) != 1)
+                        continue;
                 }
                 else
                 {
-                    sscanf(buffer, "E%1iM%1i", &ep, &map);
-
-                    if (ep != -1 && map != -1)
+                    if (sscanf(temp, "E%1iM%1i", &ep, &map) == 2)
                         map += (ep - 1) * 10;
+                    else
+                        continue;
                 }
 
-                free(buffer);
+                free(temp);
             }
 
             if (map < 0 || map > 99)

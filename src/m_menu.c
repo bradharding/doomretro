@@ -2074,7 +2074,7 @@ void M_QuitDOOM(int choice)
         M_snprintf(line1, sizeof(line1), *endmsg[NUM_QUITMESSAGES + (r = M_RandomIntNoRepeat(0, NUM_QUITMESSAGES - 1, r))],
             OPERATINGSYSTEM);
 
-    M_snprintf(line2, sizeof(line2), (usinggamecontroller ? s_DOSA : s_DOSY), DESKTOPNAME);
+    M_snprintf(line2, sizeof(line2), (usinggamecontroller ? s_DOSA : s_DOSY), DESKTOP);
     M_snprintf(endstring, sizeof(endstring), "%s\n\n%s", line1, line2);
     M_StartMessage(endstring, &M_QuitResponse, true);
 }
