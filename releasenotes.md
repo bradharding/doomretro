@@ -17,10 +17,11 @@
   * The *Xbox Series X* controller’s share button, the *PS5 DualSense* controller’s microphone button and the *Nintendo Switch* pro controller’s capture button can now be bound to an action by using `misc1` with the `bind` CCMD.
 * Minor improvements have been made to the support of [*MBF21*](https://doomwiki.org/wiki/MBF21)-compatible maps and mods.
 * Minor changes have been made to text that is output to the console.
+* Fade transitions are no longer applied if the console is open and the `fade` CVAR is `on`.
 * The player’s teleport fog is now positioned correctly when using the `teleport` CCMD.
 * The `armortype` CVAR is now set to `none` if the `armor` CVAR is set to `0` in the console.
 * The player’s health, armor or ammo will now always flash in the widescreen HUD if changed using the `health`, `armor` or `ammo` CVARs in the console.
-* Removing a behavior taken from [*MBF*](https://doomwiki.org/wiki/MBF), monsters no longer back away if the player has their fists or chainsaw equipped and they get too close.
+* Removing a behavior originally from the [*MBF*](https://doomwiki.org/wiki/MBF) source port, monsters no longer back away if the player has their fists or chainsaw equipped and they get too close.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
