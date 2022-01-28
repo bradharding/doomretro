@@ -4026,7 +4026,9 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
             C_TabbedOutput(tabs, INDENT "Release date\tWednesday, May 26, 2010");
         else if (M_StringCompare(wadname, "PLUTONIA.WAD") || M_StringCompare(wadname, "TNT.WAD"))
             C_TabbedOutput(tabs, INDENT "Release date\tMonday, June 17, 1996");
-        else if (M_StringCompare(wadname, "REKKR.WAD") || M_StringCompare(wadname, "REKKRSA.WAD"))
+        else if (REKKRSL)
+            C_TabbedOutput(tabs, INDENT "Release date\Monday, October 11, 2021");
+        else if (REKKR)
             C_TabbedOutput(tabs, INDENT "Release date\tTuesday, July 10, 2018");
 
         if (wadtype == PWAD)
