@@ -3085,7 +3085,7 @@ static void P_InitMapInfo(void)
 
     while (SC_GetString())
     {
-        int ep;
+        int ep = 1;
         int map;
 
         if (SC_Compare("MAP"))
@@ -3098,17 +3098,15 @@ static void P_InitMapInfo(void)
 
                 if (gamemode == commercial)
                 {
-                    ep = 1;
-
                     if (sscanf(temp, "MAP0%1i", &map) != 1 && sscanf(temp, "MAP%2i", &map) != 1)
                         continue;
                 }
                 else
                 {
-                    if (sscanf(temp, "E%1iM%1i", &ep, &map) == 2)
-                        map += (ep - 1) * 10;
-                    else
+                    if (sscanf(temp, "E%1iM%1i", &ep, &map) != 2)
                         continue;
+
+                    map += (ep - 1) * 10;
                 }
 
                 free(temp);

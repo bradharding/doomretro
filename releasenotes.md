@@ -7,7 +7,7 @@
 * Crashes no longer occur in the following instances:
   * When loading two or more PWADs without an IWAD using the WAD launcher.
   * When loading a PWAD containing a PNG lump.
-  * When enabling widescreen during a game by pressing the <kbd>&ndash;</kbd> key.
+  * When sometimes enabling widescreen during a game by pressing the <kbd>&ndash;</kbd> key.
 * MIDI music will now actually pause rather than just be muted when *DOOM Retro’s* window loses focus or the <kbd>PAUSE</kbd> key is pressed.
 * Further improvements have been made to the support for controllers:
   * The LEDs on *PS4 DualShock 4* and *PS5 DualSense* controllers now change back to blue when quitting *DOOM Retro*.
@@ -15,7 +15,7 @@
   * The paddles on *Xbox Elite* controllers can now be bound to an action by using `paddle1` to `paddle4` with the `bind` CCMD.
   * The touchpad on *PS4 DualShock 4* and *PS5 DualSense* controllers can now be bound to an action by using `touchpad` with the `bind` CCMD.
   * The *Xbox Series X* controller’s share button, the *PS5 DualSense* controller’s microphone button and the *Nintendo Switch* pro controller’s capture button can now be bound to an action by using `misc1` with the `bind` CCMD.
-* Minor improvements have been made to the support of [*MBF21*](https://doomwiki.org/wiki/MBF21)-compatible maps and mods.
+* Minor improvements have been made to the support of [*MBF21*](https://doomwiki.org/wiki/MBF21)-compatible WADs.
 * Minor changes have been made to text that is output to the console.
 * Fade transitions are no longer applied if the console is open and the `fade` CVAR is `on`.
 * The player’s teleport fog is now positioned correctly when using the `teleport` CCMD.
