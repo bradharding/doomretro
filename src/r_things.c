@@ -328,7 +328,7 @@ static bloodsplatvissprite_t    bloodsplatvissprites[r_bloodsplats_max_max];
 //
 void R_InitSprites(void)
 {
-    for (int i = 0; i < SCREENWIDTH; i++)
+    for (int i = 0; i < MAXWIDTH; i++)
         negonearray[i] = -1;
 
     R_InitSpriteDefs();
