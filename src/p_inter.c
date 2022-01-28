@@ -499,7 +499,7 @@ dboolean P_GiveArmor(armortype_t armortype, dboolean stat)
 int cardsfound;
 
 //
-// P_InitCards()
+// P_InitCards
 //
 void P_InitCards(void)
 {

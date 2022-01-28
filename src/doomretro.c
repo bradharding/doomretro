@@ -192,13 +192,13 @@ void I_ShutdownWindows32(void)
 
 int main(int argc, char **argv)
 {
-    myargc = argc;
-
     if ((myargv = (char **)malloc(myargc * sizeof(myargv[0]))))
+    {
         memcpy(myargv, argv, myargc * sizeof(myargv[0]));
 
-    for (int i = 0; i < myargc; i++)
-        M_NormalizeSlashes(myargv[i]);
+        for (int i = 0; i < myargc; i++)
+            M_NormalizeSlashes(myargv[i]);
+    }
 
 #if defined(_WIN32)
     hInstanceMutex = CreateMutex(NULL, true, DOOMRETRO_MUTEX);
