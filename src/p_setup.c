@@ -3231,7 +3231,7 @@ static void P_InitMapInfo(void)
 
                         case MCMD_INTERTEXTSECRET:
                         {
-                            char    buf[1024] = "";
+                            char    buffer[1024] = "";
 
                             while (SC_GetString())
                             {
@@ -3241,22 +3241,22 @@ static void P_InitMapInfo(void)
                                     break;
                                 }
 
-                                if (!buf[0])
-                                    M_StringCopy(buf, sc_String, sizeof(buf));
+                                if (!buffer[0])
+                                    M_StringCopy(buffer, sc_String, sizeof(buffer));
                                 else
                                 {
-                                    strcat(buf, "\n");
-                                    strcat(buf, sc_String);
+                                    strcat(buffer, "\n");
+                                    strcat(buffer, sc_String);
                                 }
                             }
 
-                            M_StringCopy(info->intertextsecret, buf, sizeof(info->intertextsecret));
+                            M_StringCopy(info->intertextsecret, buffer, sizeof(info->intertextsecret));
                             break;
                         }
 
                         case MCMD_INTERTEXT:
                         {
-                            char    buf[1024] = "";
+                            char    buffer[1024] = "";
 
                             while (SC_GetString())
                             {
@@ -3266,16 +3266,16 @@ static void P_InitMapInfo(void)
                                     break;
                                 }
 
-                                if (!buf[0])
-                                    M_StringCopy(buf, sc_String, sizeof(buf));
+                                if (!buffer[0])
+                                    M_StringCopy(buffer, sc_String, sizeof(buffer));
                                 else
                                 {
-                                    strcat(buf, "\n");
-                                    strcat(buf, sc_String);
+                                    strcat(buffer, "\n");
+                                    strcat(buffer, sc_String);
                                 }
                             }
 
-                            M_StringCopy(info->intertext, buf, sizeof(info->intertext));
+                            M_StringCopy(info->intertext, buffer, sizeof(info->intertext));
                             break;
                         }
 
@@ -3318,7 +3318,7 @@ static void P_InitMapInfo(void)
                         case MCMD_NEXT:
                         {
                             int nextepisode = 1;
-                            int nextmap = -1;
+                            int nextmap;
 
                             SC_MustGetString();
 
@@ -3328,7 +3328,8 @@ static void P_InitMapInfo(void)
                                 break;
                             }
 
-                            sscanf(sc_String, "%i", &nextmap);
+                            if (sscanf(sc_String, "%i", &nextmap) != 1)
+                                continue;
 
                             if (nextmap < 0 || nextmap > 99)
                             {
@@ -3336,13 +3337,14 @@ static void P_InitMapInfo(void)
 
                                 if (gamemode == commercial)
                                 {
-                                    sscanf(buffer, "MAP0%1i", &nextmap);
-
-                                    if (nextmap == -1)
-                                        sscanf(buffer, "MAP%2i", &nextmap);
+                                    if (sscanf(buffer, "MAP0%1i", &nextmap) != 1 && sscanf(buffer, "MAP%2i", &nextmap) != 1)
+                                        continue;
                                 }
                                 else
-                                    sscanf(buffer, "E%1iM%1i", &nextepisode, &nextmap);
+                                {
+                                    if (sscanf(buffer, "E%1iM%1i", &nextepisode, &nextmap) != 2)
+                                        continue;
+                                }
 
                                 free(buffer);
                             }
@@ -3399,10 +3401,12 @@ static void P_InitMapInfo(void)
                         case MCMD_SECRETNEXT:
                         {
                             int nextepisode = 1;
-                            int nextmap = -1;
+                            int nextmap;
 
                             SC_MustGetString();
-                            sscanf(sc_String, "%i", &nextmap);
+
+                            if (sscanf(sc_String, "%i", &nextmap) != 1)
+                                continue;
 
                             if (nextmap < 0 || nextmap > 99)
                             {
@@ -3410,13 +3414,14 @@ static void P_InitMapInfo(void)
 
                                 if (gamemode == commercial)
                                 {
-                                    sscanf(buffer, "MAP0%1i", &nextmap);
-
-                                    if (nextmap == -1)
-                                        sscanf(buffer, "MAP%2i", &nextmap);
+                                    if (sscanf(buffer, "MAP0%1i", &nextmap) != 1 && sscanf(buffer, "MAP%2i", &nextmap) != 1)
+                                        continue;
                                 }
                                 else
-                                    sscanf(buffer, "E%1iM%1i", &nextepisode, &nextmap);
+                                {
+                                    if (sscanf(buffer, "E%1iM%1i", &nextepisode, &nextmap) != 2)
+                                        continue;
+                                }
 
                                 free(buffer);
                             }
@@ -3629,5 +3634,5 @@ void P_Init(void)
     linespecials[Scroll_ScrollWallWithSameTagUsingSidedefOffsetsWhenSectorChangesHeight] =
         "Scroll wall with same tag using sidedef offsets when sector changes height";
     linespecials[Scroll_ScrollWallWithSameTagUsingSidedefOffsetsAcceleratesWhenSectorChangesHeight] =
-        "Scroll wall with same tag using sidedef offsets accelerates when sector changes height";
+        "Scroll wall with same tag using sidedef offsets (accelerates when sector changes height)";
 }
