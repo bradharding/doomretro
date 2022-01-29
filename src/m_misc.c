@@ -382,7 +382,7 @@ char *M_TempFile(char *s)
 
 // Return a newly-malloced string with all the strings given as arguments
 // concatenated together.
-char *M_StringJoin(char *s, ...)
+char *M_StringJoin(const char *s, ...)
 {
     char        *result;
     const char  *v;
@@ -487,12 +487,12 @@ static char *stristr(char *ch1, char *ch2)
 //
 // String replace function.
 //
-char *M_StringReplace(char *haystack, char *needle, const char *replacement)
+char *M_StringReplace(char *haystack, const char *needle, const char *replacement)
 {
     static char buffer[4096];
     char        *p;
 
-    if (!(p = stristr(haystack, needle)))
+    if (!(p = stristr(haystack, (char *)needle)))
         return haystack;
 
     strncpy(buffer, haystack, p - haystack);
@@ -502,7 +502,7 @@ char *M_StringReplace(char *haystack, char *needle, const char *replacement)
     return buffer;
 }
 
-void M_StringReplaceAll(char *haystack, char *needle, const char *replacement)
+void M_StringReplaceAll(char *haystack, const char *needle, const char *replacement)
 {
     char    buffer[1024] = "";
     char    *insert_point = &buffer[0];
@@ -512,7 +512,7 @@ void M_StringReplaceAll(char *haystack, char *needle, const char *replacement)
 
     while (true)
     {
-        char    *p = stristr(tmp, needle);
+        char    *p = stristr(tmp, (char *)needle);
 
         if (!p)
         {

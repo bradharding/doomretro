@@ -189,7 +189,7 @@ void C_Input(const char *string, ...)
     selectend = 0;
 }
 
-void C_IntCVAROutput(char *cvar, int value)
+void C_IntCVAROutput(const char *cvar, int value)
 {
     char    *temp1 = M_StringJoin(cvar, " ", NULL);
     char    *temp2 = commify(value);
@@ -202,7 +202,7 @@ void C_IntCVAROutput(char *cvar, int value)
     free(temp2);
 }
 
-void C_PctCVAROutput(char *cvar, int value)
+void C_PctCVAROutput(const char *cvar, int value)
 {
     char    *temp1 = M_StringJoin(cvar, " ", NULL);
     char    *temp2 = commify(value);
@@ -215,7 +215,7 @@ void C_PctCVAROutput(char *cvar, int value)
     free(temp2);
 }
 
-void C_StrCVAROutput(char *cvar, char *string)
+void C_StrCVAROutput(const char *cvar, const char *string)
 {
     char    *temp = M_StringJoin(cvar, " ", NULL);
 

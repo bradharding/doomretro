@@ -8747,11 +8747,7 @@ static void r_gamma_cvar_func2(char *cmd, char *parms)
 static void r_hud_cvar_func2(char *cmd, char *parms)
 {
     if (r_screensize == r_screensize_max || !*parms || resettingcvar)
-    {
-        const dboolean  r_hud_old = r_hud;
-
         bool_cvars_func2(cmd, parms);
-    }
 }
 
 //
