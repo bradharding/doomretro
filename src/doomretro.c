@@ -192,6 +192,8 @@ void I_ShutdownWindows32(void)
 
 int main(int argc, char **argv)
 {
+    myargc = argc;
+
     if ((myargv = (char **)malloc(myargc * sizeof(myargv[0]))))
     {
         memcpy(myargv, argv, myargc * sizeof(myargv[0]));
