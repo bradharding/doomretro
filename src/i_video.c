@@ -143,7 +143,6 @@ static SDL_Palette  *palette;
 static SDL_Color    colors[256];
 byte                *PLAYPAL;
 
-static byte         *oscreen;
 byte                *mapscreen;
 SDL_Window          *mapwindow = NULL;
 SDL_Renderer        *maprenderer;
@@ -2059,7 +2058,9 @@ void I_InitGraphics(void)
     if (vid_fullscreen)
         SetShowCursor(false);
 
-    mapscreen = oscreen = malloc(MAXSCREENAREA);
+    if ((mapscreen = malloc(MAXSCREENAREA)))
+        memset(mapscreen, nearestblack, MAPAREA);
+
     I_CreateExternalAutomap(2);
 
 #if defined(_WIN32)
@@ -2073,10 +2074,7 @@ void I_InitGraphics(void)
     blitfunc();
 
     if (mapwindow)
-    {
-        memset(mapscreen, nearestblack, MAPAREA);
         mapblitfunc();
-    }
 
     while (SDL_PollEvent(&dummy));
 
