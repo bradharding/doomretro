@@ -76,8 +76,6 @@ int             idkfa_armor_class = armortype_blue;
 int             bfgcells = BFGCELLS;
 dboolean        species_infighting = false;
 
-int             prevobituarytics = 0;
-
 // a weapon is found with two clip loads,
 // a big item has five clip loads
 int             maxammo[] =  { 200, 50, 300, 50 };
@@ -1975,8 +1973,6 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
             }
         }
     }
-
-    prevobituarytics = gametime;
 }
 
 //
