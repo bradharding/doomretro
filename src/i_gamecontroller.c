@@ -99,19 +99,20 @@ void I_InitGameController(void)
         if (SDL_IsGameController(i))
         {
             const char  *name;
+            dboolean    repeated = false;
 
             gamecontroller = SDL_GameControllerOpen(i);
 
             gamecontrollerconnected = true;
 
             if ((name = SDL_GameControllerName(gamecontroller)))
-                C_Output("A controller called \"%s\" is connected.", name);
+                repeated = C_OutputNoRepeat("A controller called \"%s\" is connected.", name);
             else
-                C_Output("A controller is connected.");
+                repeated = C_OutputNoRepeat("A controller is connected.");
 
             if (SDL_GameControllerHasRumble(gamecontroller))
                 gamecontrollerhasrumble = true;
-            else if (joy_rumble_barrels || joy_rumble_damage || joy_rumble_weapons)
+            else if (!repeated && (joy_rumble_barrels || joy_rumble_damage || joy_rumble_weapons))
                 C_Warning(1, "This controller doesn't support rumble.");
 
             I_SetGameControllerLeftDeadZone();

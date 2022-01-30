@@ -3,6 +3,8 @@
 
 #### DOOM Retro v4.4.4
 
+* Controllers connected after *DOOM Retro* has started are now recognized again.
+
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Saturday, January 29, 2022
