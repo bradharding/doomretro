@@ -3,8 +3,9 @@
 
 #### DOOM Retro v4.4.4
 
+* Optimizations have been made to further improve the overall performance of *DOOM Retro*.
 * Controllers connected after *DOOM Retro* has started are now recognized again.
-* A bug is fixed whereby the wrong player message was displayed when the player picked up ammo in some instances.
+* A bug is fixed whereby the wrong message was displayed when the player picked up some ammo in some instances.
 * Minor improvements have been made to the support of `DEHACKED` lumps.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
