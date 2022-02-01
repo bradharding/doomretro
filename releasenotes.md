@@ -4,6 +4,7 @@
 #### DOOM Retro v4.4.4
 
 * Controllers connected after *DOOM Retro* has started are now recognized again.
+* A bug is fixed whereby the wrong player message was displayed when the player picked up ammo in some instances.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

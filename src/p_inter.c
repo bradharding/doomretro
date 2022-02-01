@@ -214,7 +214,7 @@ static dboolean P_TakeWeapon(weapontype_t weapon)
 static dboolean P_GiveAmmoAutoSwitch(player_t *player, ammotype_t ammotype, int oldammo)
 {
     if ((weaponinfo[player->readyweapon].flags & WPF_AUTOSWITCHFROM) && weaponinfo[player->readyweapon].ammotype != ammotype)
-        for (int i = NUMWEAPONS - 1; i > player->readyweapon; --i)
+        for (int i = NUMWEAPONS - 1; i > player->readyweapon; i--)
         {
             if (player->weaponowned[i]
                 && !(weaponinfo[i].flags & WPF_NOAUTOSWITCHTO)
@@ -264,7 +264,9 @@ static int P_GiveAmmo(ammotype_t ammotype, int num, dboolean stat)
     if (stat)
         P_UpdateAmmoStat(ammotype, viewplayer->ammo[ammotype] - oldammo);
 
-    return P_GiveAmmoAutoSwitch(viewplayer, ammotype, oldammo);
+    P_GiveAmmoAutoSwitch(viewplayer, ammotype, oldammo);
+
+    return num;
 }
 
 //
