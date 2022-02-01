@@ -1,6 +1,12 @@
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/releasenotes1.png#gh-light-mode-only)
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/releasenotes2.png#gh-dark-mode-only)
 
+#### DOOM Retro v4.4.4
+
+* Controllers connected after *DOOM Retro* has started are now recognized again.
+
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
+
 ###### Saturday, January 29, 2022
 
 #### DOOM Retro v4.4.3
