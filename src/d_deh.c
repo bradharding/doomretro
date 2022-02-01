@@ -132,6 +132,20 @@ char    *s_PRESSKEY = PRESSKEY;
 char    *s_PRESSYN = PRESSYN;
 char    *s_PRESSA = "";
 char    *s_QUITMSG = QUITMSG;
+char    *s_QUITMSG1 = QUITMSG1;
+char    *s_QUITMSG2 = QUITMSG2;
+char    *s_QUITMSG3 = QUITMSG3;
+char    *s_QUITMSG4 = QUITMSG4;
+char    *s_QUITMSG5 = QUITMSG5;
+char    *s_QUITMSG6 = QUITMSG6;
+char    *s_QUITMSG7 = QUITMSG7;
+char    *s_QUITMSG8 = QUITMSG8;
+char    *s_QUITMSG9 = QUITMSG9;
+char    *s_QUITMSG10 = QUITMSG10;
+char    *s_QUITMSG11 = QUITMSG11;
+char    *s_QUITMSG12 = QUITMSG12;
+char    *s_QUITMSG13 = QUITMSG13;
+char    *s_QUITMSG14 = QUITMSG14;
 char    *s_LOADNET = LOADNET;
 char    *s_QLOADNET = QLOADNET;
 char    *s_QSAVESPOT = QSAVESPOT;
@@ -513,21 +527,6 @@ char    *s_CC_SPIDER = CC_SPIDER;
 char    *s_CC_CYBER = CC_CYBER;
 char    *s_CC_HERO = CC_HERO;
 
-char    *s_DOOM_ENDMSG1 = DOOM_ENDMSG1;
-char    *s_DOOM_ENDMSG2 = DOOM_ENDMSG2;
-char    *s_DOOM_ENDMSG3 = DOOM_ENDMSG3;
-char    *s_DOOM_ENDMSG4 = DOOM_ENDMSG4;
-char    *s_DOOM_ENDMSG5 = DOOM_ENDMSG5;
-char    *s_DOOM_ENDMSG6 = DOOM_ENDMSG6;
-char    *s_DOOM_ENDMSG7 = DOOM_ENDMSG7;
-char    *s_DOOM2_ENDMSG1 = DOOM2_ENDMSG1;
-char    *s_DOOM2_ENDMSG2 = DOOM2_ENDMSG2;
-char    *s_DOOM2_ENDMSG3 = DOOM2_ENDMSG3;
-char    *s_DOOM2_ENDMSG4 = DOOM2_ENDMSG4;
-char    *s_DOOM2_ENDMSG5 = DOOM2_ENDMSG5;
-char    *s_DOOM2_ENDMSG6 = DOOM2_ENDMSG6;
-char    *s_DOOM2_ENDMSG7 = DOOM2_ENDMSG7;
-
 char    *s_M_NEWGAME = "";
 char    *s_M_OPTIONS = "";
 char    *s_M_LOADGAME = "";
@@ -709,6 +708,20 @@ deh_strs deh_strlookup[] =
     { &s_PRESSYN,                     "PRESSYN"                     },
     { &s_PRESSA,                      "PRESSA"                      },
     { &s_QUITMSG,                     "QUITMSG"                     },
+    { &s_QUITMSG1,                    "QUITMSG1"                    },
+    { &s_QUITMSG2,                    "QUITMSG2"                    },
+    { &s_QUITMSG3,                    "QUITMSG3"                    },
+    { &s_QUITMSG4,                    "QUITMSG4"                    },
+    { &s_QUITMSG5,                    "QUITMSG5"                    },
+    { &s_QUITMSG6,                    "QUITMSG6"                    },
+    { &s_QUITMSG7,                    "QUITMSG7"                    },
+    { &s_QUITMSG8,                    "QUITMSG8"                    },
+    { &s_QUITMSG9,                    "QUITMSG9"                    },
+    { &s_QUITMSG10,                   "QUITMSG10"                   },
+    { &s_QUITMSG11,                   "QUITMSG11"                   },
+    { &s_QUITMSG12,                   "QUITMSG12"                   },
+    { &s_QUITMSG13,                   "QUITMSG13"                   },
+    { &s_QUITMSG14,                   "QUITMSG14"                   },
     { &s_LOADNET,                     "LOADNET"                     },
     { &s_QLOADNET,                    "QLOADNET"                    },
     { &s_QSAVESPOT,                   "QSAVESPOT"                   },
@@ -1086,21 +1099,6 @@ deh_strs deh_strlookup[] =
     { &s_CC_SPIDER,                   "CC_SPIDER"                   },
     { &s_CC_CYBER,                    "CC_CYBER"                    },
     { &s_CC_HERO,                     "CC_HERO"                     },
-
-    { &s_DOOM_ENDMSG1,                "DOOM_ENDMSG1"                },
-    { &s_DOOM_ENDMSG2,                "DOOM_ENDMSG2"                },
-    { &s_DOOM_ENDMSG3,                "DOOM_ENDMSG3"                },
-    { &s_DOOM_ENDMSG4,                "DOOM_ENDMSG4"                },
-    { &s_DOOM_ENDMSG5,                "DOOM_ENDMSG5"                },
-    { &s_DOOM_ENDMSG6,                "DOOM_ENDMSG6"                },
-    { &s_DOOM_ENDMSG7,                "DOOM_ENDMSG7"                },
-    { &s_DOOM2_ENDMSG1,               "DOOM2_ENDMSG1"               },
-    { &s_DOOM2_ENDMSG2,               "DOOM2_ENDMSG2"               },
-    { &s_DOOM2_ENDMSG3,               "DOOM2_ENDMSG3"               },
-    { &s_DOOM2_ENDMSG4,               "DOOM2_ENDMSG4"               },
-    { &s_DOOM2_ENDMSG5,               "DOOM2_ENDMSG5"               },
-    { &s_DOOM2_ENDMSG6,               "DOOM2_ENDMSG6"               },
-    { &s_DOOM2_ENDMSG7,               "DOOM2_ENDMSG7"               },
 
     { &s_M_NEWGAME,                   "M_NEWGAME"                   },
     { &s_M_OPTIONS,                   "M_OPTIONS"                   },
