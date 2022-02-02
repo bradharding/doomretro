@@ -222,7 +222,11 @@ static dboolean P_GiveAmmoAutoSwitch(player_t *player, ammotype_t ammotype, int 
                 && weaponinfo[i].ammopershot > oldammo
                 && weaponinfo[i].ammopershot <= player->ammo[ammotype])
             {
-                player->pendingweapon = i;
+                if (i == wp_supershotgun && viewplayer->weaponowned[wp_shotgun] && viewplayer->preferredshotgun == wp_shotgun)
+                    player->pendingweapon = wp_shotgun;
+                else
+                    player->pendingweapon = i;
+
                 break;
             }
         }

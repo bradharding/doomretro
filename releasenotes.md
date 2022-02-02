@@ -6,6 +6,7 @@
 * Optimizations have been made to further improve the overall performance of *DOOM Retro*.
 * Controllers connected after *DOOM Retro* has started are now recognized again.
 * A bug is fixed whereby the wrong message was displayed when the player picked up some ammo in some instances.
+* If the player runs out of shells while firing their shotgun, they will now automatically equip their shotgun again rather than the super shotgun when later picking up more shells.
 * Minor improvements have been made to the support of `DEHACKED` lumps.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
