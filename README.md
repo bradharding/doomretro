@@ -1,5 +1,4 @@
-![](https://github.com/bradharding/www.doomretro.com/raw/master/readme1.png#gh-light-mode-only)
-![](https://github.com/bradharding/www.doomretro.com/raw/master/readme2.png#gh-dark-mode-only)
+![](https://github.com/bradharding/www.doomretro.com/raw/master/readme.png)
 <br>
 <br>
 <br>

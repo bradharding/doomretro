@@ -1,5 +1,4 @@
-![](https://github.com/bradharding/www.doomretro.com/raw/master/releasenotes1.png#gh-light-mode-only)
-![](https://github.com/bradharding/www.doomretro.com/raw/master/releasenotes2.png#gh-dark-mode-only)
+![](https://github.com/bradharding/www.doomretro.com/raw/master/releasenotes.png)
 
 #### DOOM Retro v4.4.4
 
