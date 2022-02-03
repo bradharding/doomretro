@@ -3156,6 +3156,12 @@ static void deh_procWeapon(DEHFILE *fpin, char *line)
 
             mbf21compatible = true;
         }
+        else if (M_StringCompare(key, "Name"))
+            M_StringCopy(weaponinfo[indexnum].name, lowercase(trimwhitespace(strval)), sizeof(weaponinfo[indexnum].name));
+        else if (M_StringCompare(key, "Ammo name"))
+            M_StringCopy(weaponinfo[indexnum].ammoname, lowercase(trimwhitespace(strval)), sizeof(weaponinfo[indexnum].ammoname));
+        else if (M_StringCompare(key, "Ammo plural"))
+            M_StringCopy(weaponinfo[indexnum].ammoplural, lowercase(trimwhitespace(strval)), sizeof(weaponinfo[indexnum].ammoplural));
         else
             C_Warning(1, "Invalid weapon string index for \"%s\".", key);
     }
