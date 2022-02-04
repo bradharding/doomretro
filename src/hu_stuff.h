@@ -56,7 +56,7 @@
 #define HU_MSGTIMEOUT               (4 * TICRATE)
 
 #define HUD_HEALTH_X                55
-#define HUD_HEALTH_Y                (SCREENHEIGHT - 28)
+#define HUD_HEALTH_Y                (SCREENHEIGHT - 32)
 #define HUD_HEALTH_MIN              10
 #define HUD_HEALTH_WAIT             250
 #define HUD_HEALTH_HIGHLIGHT_WAIT   250
@@ -78,7 +78,7 @@
 
 #define ALTHUD_LEFT_X               56
 #define ALTHUD_RIGHT_X              (SCREENWIDTH - 179)
-#define ALTHUD_Y                    (SCREENHEIGHT - 37)
+#define ALTHUD_Y                    (SCREENHEIGHT - 41)
 
 //
 // HEADS UP TEXT
