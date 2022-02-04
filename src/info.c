@@ -1750,7 +1750,7 @@ mobjinfo_t mobjinfo[] =
         /* ripsound             */ sfx_none,
         /* altspeed             */ NO_ALTSPEED,
         /* meleerange           */ MELEERANGE,
-        /* name1                */ "rocket",
+        /* name1                */ "rocket launcher",
         /* plural1              */ "",
         /* name2                */ "",
         /* plural2              */ "",
@@ -3277,7 +3277,7 @@ mobjinfo_t mobjinfo[] =
         /* plural3              */ ""
     },
 
-    // Rocket (MT_MISC18)
+    // Rockets (MT_MISC18)
     {
         /* doomednum            */ Rocket,
         /* spawnstate           */ S_ROCK,
@@ -3318,8 +3318,8 @@ mobjinfo_t mobjinfo[] =
         /* ripsound             */ sfx_none,
         /* altspeed             */ NO_ALTSPEED,
         /* meleerange           */ MELEERANGE,
-        /* name1                */ "rocket ammo",
-        /* plural1              */ "rocket ammo",
+        /* name1                */ "rockets",
+        /* plural1              */ "rockets",
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
@@ -3473,7 +3473,7 @@ mobjinfo_t mobjinfo[] =
         /* plural3              */ ""
     },
 
-    // Shotgun Shells (MT_MISC22)
+    // Shells (MT_MISC22)
     {
         /* doomednum            */ ShotgunShells,
         /* spawnstate           */ S_SHEL,
@@ -3514,10 +3514,10 @@ mobjinfo_t mobjinfo[] =
         /* ripsound             */ sfx_none,
         /* altspeed             */ NO_ALTSPEED,
         /* meleerange           */ MELEERANGE,
-        /* name1                */ "shotgun shell",
-        /* plural1              */ "shotgun shells",
-        /* name2                */ "shell",
-        /* plural2              */ "shells",
+        /* name1                */ "shells",
+        /* plural1              */ "shells",
+        /* name2                */ "",
+        /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
     },

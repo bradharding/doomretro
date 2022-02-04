@@ -694,7 +694,7 @@ char    *s_OB_FRIENDLY4 = "";
 
 // Do this for a lookup--the pointer (loaded above) is cross-referenced
 // to a string key that is the same as the define above. We will use
-// M_StringDuplicates to set these new values that we read from the file, orphaning
+// M_StringDuplicate to set these new values that we read from the file, orphaning
 // the original value set above.
 
 deh_strs deh_strlookup[] =

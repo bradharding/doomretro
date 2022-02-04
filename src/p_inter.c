@@ -1540,7 +1540,7 @@ dboolean P_TakeSpecialThing(mobjtype_t type)
         case MT_MISC21:
             return P_TakeAmmo(am_cell, 5);
 
-        // shells
+        // shell
         case MT_MISC22:
             return P_TakeAmmo(am_shell, 1);
 
