@@ -542,28 +542,20 @@ void HUlib_EraseTextLine(hu_textline_t *l)
         l->needsupdate--;
 }
 
-void HUlib_InitSText(hu_stext_t *s, int x, int y, int h, patch_t **font, int startchar, dboolean *on)
+void HUlib_InitSText(hu_stext_t *s, int x, int y, patch_t **font, int startchar, dboolean *on)
 {
-    s->h = h;
     s->on = on;
     s->laston = true;
-    s->cl = 0;
 
-    for (int i = 0; i < h; i++)
-        HUlib_InitTextLine(&s->l[i], x, y - i * (SHORT(font[0]->height) + 1), font, startchar);
+    HUlib_InitTextLine(&s->l, x, y, font, startchar);
 }
 
 static void HUlib_AddLineToSText(hu_stext_t *s)
 {
-    // add a clear line
-    if (++s->cl == s->h)
-        s->cl = 0;
-
-    HUlib_ClearTextLine(&s->l[s->cl]);
+    HUlib_ClearTextLine(&s->l);
 
     // everything needs updating
-    for (int i = 0; i < s->h; i++)
-        s->l[i].needsupdate = 4;
+    s->l.needsupdate = 4;
 }
 
 void HUlib_AddMessageToSText(hu_stext_t *s, const char *msg)
@@ -571,7 +563,7 @@ void HUlib_AddMessageToSText(hu_stext_t *s, const char *msg)
     HUlib_AddLineToSText(s);
 
     while (*msg)
-        HUlib_AddCharToTextLine(&s->l[s->cl], *(msg++));
+        HUlib_AddCharToTextLine(&s->l, *(msg++));
 }
 
 void HUlib_DrawSText(hu_stext_t *s, dboolean external)
@@ -580,32 +572,18 @@ void HUlib_DrawSText(hu_stext_t *s, dboolean external)
         return;             // if not on, don't draw
 
     // draw everything
-    for (int i = 0; i < s->h; i++)
-    {
-        int             idx = s->cl - i;
-        hu_textline_t   *l;
-
-        if (idx < 0)
-            idx += s->h;    // handle queue of lines
-
-        l = &s->l[idx];
-
-        if (r_althud && r_screensize == r_screensize_max)
-            HUlib_DrawAltHUDTextLine(l);
-        else
-            HUlib_DrawTextLine(l, external);
-    }
+    if (r_althud && r_screensize == r_screensize_max)
+        HUlib_DrawAltHUDTextLine(&s->l);
+    else
+        HUlib_DrawTextLine(&s->l, external);
 }
 
 void HUlib_EraseSText(hu_stext_t *s)
 {
-    for (int i = 0; i < s->h; i++)
-    {
-        if (s->laston && !*s->on)
-            s->l[i].needsupdate = 4;
+    if (s->laston && !*s->on)
+        s->l.needsupdate = 4;
 
-        HUlib_EraseTextLine(&s->l[i]);
-    }
+    HUlib_EraseTextLine(&s->l);
 
     s->laston = *s->on;
 }

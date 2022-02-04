@@ -43,7 +43,6 @@
 #include "r_defs.h"
 
 // font stuff
-#define HU_MAXLINES         4
 #define HU_MAXLINELENGTH    512
 
 #define HU_ALTHUDMSGX       30
@@ -73,9 +72,7 @@ typedef struct
 //  (child of Text Line widget)
 typedef struct
 {
-    hu_textline_t   l[HU_MAXLINES];                 // text lines to draw
-    int             h;                              // height in lines
-    int             cl;                             // current line number
+    hu_textline_t   l;                              // text line to draw
 
     // pointer to dboolean stating whether to update window
     dboolean        *on;
@@ -106,7 +103,7 @@ void HUlib_EraseTextLine(hu_textline_t *l);
 // Scrolling Text window widget routines
 //
 
-void HUlib_InitSText(hu_stext_t *s, int x, int y, int h, patch_t **font, int startchar, dboolean *on);
+void HUlib_InitSText(hu_stext_t *s, int x, int y, patch_t **font, int startchar, dboolean *on);
 
 void HUlib_AddMessageToSText(hu_stext_t *s, const char *msg);
 

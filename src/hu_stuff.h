@@ -52,7 +52,6 @@
 
 #define HU_MSGX                     3
 #define HU_MSGY                     2
-#define HU_MSGHEIGHT                1       // in lines
 
 #define HU_MSGTIMEOUT               (4 * TICRATE)
 

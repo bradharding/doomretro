@@ -273,7 +273,7 @@ void HU_Start(void)
     message_external = false;
 
     // create the message widget
-    HUlib_InitSText(&w_message, w_message.l->x, w_message.l->y, HU_MSGHEIGHT, hu_font, HU_FONTSTART, &message_on);
+    HUlib_InitSText(&w_message, w_message.l.x, w_message.l.y, hu_font, HU_FONTSTART, &message_on);
 
     // create the map title widget
     HUlib_InitTextLine(&w_title, w_title.x, w_title.y, hu_font, HU_FONTSTART);
@@ -1085,27 +1085,27 @@ void HU_Drawer(void)
     if (menuactive || paused)
         return;
 
-    if (w_message.l->l[0])
+    if (w_message.l.l)
     {
         if (vanilla && !vid_widescreen)
         {
-            w_message.l->x = 0;
-            w_message.l->y = 0;
+            w_message.l.x = 0;
+            w_message.l.y = 0;
         }
         else if ((r_screensize == r_screensize_max && !r_althud) || message_external)
         {
-            w_message.l->x = HU_MSGX * SCREENSCALE + 8;
-            w_message.l->y = HU_MSGY * SCREENSCALE + 4;
+            w_message.l.x = HU_MSGX * SCREENSCALE + 8;
+            w_message.l.y = HU_MSGY * SCREENSCALE + 4;
         }
         else if (vid_widescreen && r_screensize == r_screensize_max - 1)
         {
-            w_message.l->x = HU_MSGX + WIDESCREENDELTA;
-            w_message.l->y = HU_MSGY;
+            w_message.l.x = HU_MSGX + WIDESCREENDELTA;
+            w_message.l.y = HU_MSGY;
         }
         else
         {
-            w_message.l->x = HU_MSGX;
-            w_message.l->y = HU_MSGY;
+            w_message.l.x = HU_MSGX;
+            w_message.l.y = HU_MSGY;
         }
 
         HUlib_DrawSText(&w_message, message_external);
@@ -1236,7 +1236,7 @@ void HU_Ticker(void)
 
             M_StringCopy(message, viewplayer->message, sizeof(message));
 
-            while (M_StringWidth(message) > SCREENWIDTH / SCREENSCALE - w_message.l->x * 2 - 6)
+            while (M_StringWidth(message) > SCREENWIDTH / SCREENSCALE - w_message.l.x * 2 - 6)
             {
                 if (len >= 2 && message[len - 2] == ' ')
                 {
