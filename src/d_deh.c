@@ -2999,13 +2999,22 @@ static void deh_procSounds(DEHFILE *fpin, char *line)
             /* nop */;
         else if (M_StringCompare(key, deh_sfxinfo[6]))      // Zero 4
             /* nop */;
-        else  if (M_StringCompare(key, deh_sfxinfo[7]))     // Neg. One 1
+        else if (M_StringCompare(key, deh_sfxinfo[7]))      // Neg. One 1
             /* nop */;
         else if (M_StringCompare(key, deh_sfxinfo[8]))      // Neg. One 2
             S_sfx[indexnum].lumpnum = value;
         else if (devparm)
             C_Warning(1, "Invalid sound string index for \"%s\"", key);
     }
+}
+
+static weapontype_t deh_getWeaponFromAmmoType(int ammotype)
+{
+    for (int i = 0; i < NUMAMMO; i++)
+        if (ammotype == weaponinfo[i].ammotype)
+            return i;
+
+    return 0;
 }
 
 // ====================================================================
@@ -3057,12 +3066,17 @@ static void deh_procAmmo(DEHFILE *fpin, char *line)
             maxammo[indexnum] = value;
         else if (M_StringCompare(key, deh_ammo[1]))         // Per ammo
             clipammo[indexnum] = value;
-        else if (M_StringCompare(key, "Name"))
-            M_StringCopy(weaponinfo[indexnum].ammoname, lowercase(trimwhitespace(strval)), sizeof(weaponinfo[indexnum].ammoname));
-        else if (M_StringCompare(key, "Plural"))
-            M_StringCopy(weaponinfo[indexnum].ammoplural, lowercase(trimwhitespace(strval)), sizeof(weaponinfo[indexnum].ammoplural));
         else
-            C_Warning(1, "Invalid ammo string index for \"%s\".", key);
+        {
+            weapontype_t    type = deh_getWeaponFromAmmoType(indexnum);
+
+            if (M_StringCompare(key, "Name"))
+                M_StringCopy(weaponinfo[type].ammoname, lowercase(trimwhitespace(strval)), sizeof(weaponinfo[type].ammoname));
+            else if (M_StringCompare(key, "Plural"))
+                M_StringCopy(weaponinfo[type].ammoplural, lowercase(trimwhitespace(strval)), sizeof(weaponinfo[type].ammoplural));
+            else
+                C_Warning(1, "Invalid ammo string index for \"%s\".", key);
+        }
     }
 }
 
