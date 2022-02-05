@@ -7,10 +7,10 @@
 * A bug is fixed whereby the wrong message was displayed when the player picked up ammo in some instances.
 * If the player runs out of shells while firing their shotgun, they will now automatically equip their shotgun again rather than the super shotgun when later picking up more shells.
 * Minor improvements have been made to the support of `DEHACKED` lumps.
-* The widescreen HUD is now slightly higher on the screen.
+* The widescreen HUD is now positioned slightly higher.
 * The following changes have been made when the `r_textures` CVAR is `off` and `r_translucency` CVAR is `on`:
-  * Translucency is applied to the muzzle flash of the player’s weapon.
-  * Translucency is applied to the player’s weapon when they have a partial invisibility power-up.
+  * The muzzle flash of the player’s weapon is now translucent.
+  * The player’s weapon is now translucent when they have a partial invisibility power-up.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
