@@ -3008,15 +3008,6 @@ static void deh_procSounds(DEHFILE *fpin, char *line)
     }
 }
 
-static weapontype_t deh_getWeaponFromAmmoType(int ammotype)
-{
-    for (int i = 0; i < NUMAMMO; i++)
-        if (ammotype == weaponinfo[i].ammotype)
-            return i;
-
-    return 0;
-}
-
 // ====================================================================
 // deh_procAmmo
 // Purpose: Handle DEH Ammo block
@@ -3066,17 +3057,19 @@ static void deh_procAmmo(DEHFILE *fpin, char *line)
             maxammo[indexnum] = value;
         else if (M_StringCompare(key, deh_ammo[1]))         // Per ammo
             clipammo[indexnum] = value;
-        else
+        else if (M_StringCompare(key, "Name") || M_StringCompare(key, "Plural"))
         {
-            weapontype_t    type = deh_getWeaponFromAmmoType(indexnum);
-
-            if (M_StringCompare(key, "Name"))
-                M_StringCopy(weaponinfo[type].ammoname, lowercase(trimwhitespace(strval)), sizeof(weaponinfo[type].ammoname));
-            else if (M_StringCompare(key, "Plural"))
-                M_StringCopy(weaponinfo[type].ammoplural, lowercase(trimwhitespace(strval)), sizeof(weaponinfo[type].ammoplural));
-            else
-                C_Warning(1, "Invalid ammo string index for \"%s\".", key);
+            for (int i = 0; i < NUMWEAPONS; i++)
+                if (indexnum == weaponinfo[i].ammotype)
+                {
+                    if (M_StringCompare(key, "Name"))
+                        M_StringCopy(weaponinfo[i].ammoname, lowercase(trimwhitespace(strval)), sizeof(weaponinfo[i].ammoname));
+                    else if (M_StringCompare(key, "Plural"))
+                        M_StringCopy(weaponinfo[i].ammoplural, lowercase(trimwhitespace(strval)), sizeof(weaponinfo[i].ammoplural));
+                }
         }
+        else
+            C_Warning(1, "Invalid ammo string index for \"%s\".", key);
     }
 }
 
