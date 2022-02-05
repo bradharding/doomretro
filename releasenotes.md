@@ -1,5 +1,11 @@
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/releasenotes.png)
 
+#### DOOM Retro v4.4.5
+
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
+
+###### Sunday, February 6, 2022
+
 #### DOOM Retro v4.4.4
 
 * Optimizations have been made to further improve the overall performance of *DOOM Retro*.
@@ -8,7 +14,7 @@
 * If the player runs out of shells while firing their shotgun, they will now automatically equip their shotgun again rather than the super shotgun when later picking up more shells.
 * Minor improvements have been made to the support of `DEHACKED` lumps.
 * The widescreen HUD is now positioned slightly higher.
-* The following changes have been made when the `r_textures` CVAR is `off` and `r_translucency` CVAR is `on`:
+* The following changes have been made when the `r_textures` CVAR is `off` and the `r_translucency` CVAR is `on`:
   * The muzzle flash of the player’s weapon is now translucent.
   * The player’s weapon is now translucent when they have a partial invisibility power-up.
 
