@@ -37,6 +37,7 @@
 */
 
 #include "d_items.h"
+#include "info.h"
 #include "states.h"
 
 weaponinfo_t weaponinfo[NUMWEAPONS] =
@@ -225,10 +226,10 @@ weaponinfo_t weaponinfo[NUMWEAPONS] =
 char *powerupnames[NUMPOWERS] =
 {
     "",
-    "invulnerability",
-    "berserk",
-    "partial invisibility",
-    "radiation shielding suit",
-    "computer area map",
-    "light amplification visor"
+    (char *)mobjinfo[MT_INV].name1,
+    (char *)mobjinfo[MT_MISC13].name1,
+    (char *)mobjinfo[MT_INS].name1,
+    (char *)mobjinfo[MT_MISC14].name1,
+    (char *)mobjinfo[MT_MISC15].name1,
+    (char *)mobjinfo[MT_MISC16].name1
 };
