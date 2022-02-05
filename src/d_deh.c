@@ -3021,6 +3021,7 @@ static void deh_procAmmo(DEHFILE *fpin, char *line)
     char    inbuffer[DEH_BUFFERMAX];
     int     value;
     int     indexnum;
+    char    *strval;
 
     M_StringCopy(inbuffer, line, DEH_BUFFERMAX - 1);
 
@@ -3046,7 +3047,7 @@ static void deh_procAmmo(DEHFILE *fpin, char *line)
         if (!*inbuffer)
             break;                                          // killough 11/98
 
-        if (!deh_GetData(inbuffer, key, &value, NULL))      // returns TRUE if ok
+        if (!deh_GetData(inbuffer, key, &value, &strval))   // returns TRUE if ok
         {
             C_Warning(1, "Bad data pair in \"%s\".", inbuffer);
             continue;
@@ -3056,6 +3057,10 @@ static void deh_procAmmo(DEHFILE *fpin, char *line)
             maxammo[indexnum] = value;
         else if (M_StringCompare(key, deh_ammo[1]))         // Per ammo
             clipammo[indexnum] = value;
+        else if (M_StringCompare(key, "Name"))
+            M_StringCopy(weaponinfo[indexnum].ammoname, lowercase(trimwhitespace(strval)), sizeof(weaponinfo[indexnum].ammoname));
+        else if (M_StringCompare(key, "Plural"))
+            M_StringCopy(weaponinfo[indexnum].ammoplural, lowercase(trimwhitespace(strval)), sizeof(weaponinfo[indexnum].ammoplural));
         else
             C_Warning(1, "Invalid ammo string index for \"%s\".", key);
     }
@@ -3158,10 +3163,6 @@ static void deh_procWeapon(DEHFILE *fpin, char *line)
         }
         else if (M_StringCompare(key, "Name"))
             M_StringCopy(weaponinfo[indexnum].name, lowercase(trimwhitespace(strval)), sizeof(weaponinfo[indexnum].name));
-        else if (M_StringCompare(key, "Ammo name"))
-            M_StringCopy(weaponinfo[indexnum].ammoname, lowercase(trimwhitespace(strval)), sizeof(weaponinfo[indexnum].ammoname));
-        else if (M_StringCompare(key, "Ammo plural"))
-            M_StringCopy(weaponinfo[indexnum].ammoplural, lowercase(trimwhitespace(strval)), sizeof(weaponinfo[indexnum].ammoplural));
         else
             C_Warning(1, "Invalid weapon string index for \"%s\".", key);
     }
