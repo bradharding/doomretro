@@ -845,17 +845,25 @@ static void C_DrawBackground(void)
     for (int y = (consoleheight & 1); y <= height - 3 * SCREENWIDTH; y += SCREENWIDTH)
     {
         for (int x = y + 2; x < y + SCREENWIDTH - 1; x += 3)
-            screens[0][x] = colormaps[0][6 * 256 + screens[0][x + ((x % SCREENWIDTH) ? -1 : 1)]];
+        {
+            byte    *dot = *screens + x;
 
-        y += SCREENWIDTH;
+            *dot = colormaps[0][6 * 256 + *(dot + ((x % SCREENWIDTH) ? -1 : 1))];
+        }
 
-        for (int x = y + 1; x < y + SCREENWIDTH - 1; x += 3)
-            screens[0][x] = colormaps[0][6 * 256 + screens[0][x + ((x % SCREENWIDTH) ? -1 : 1)]];
+        for (int x = (y += SCREENWIDTH) + 1; x < y + SCREENWIDTH - 1; x += 3)
+        {
+            byte    *dot = *screens + x;
 
-        y += SCREENWIDTH;
+            *dot = colormaps[0][6 * 256 + *(dot + ((x % SCREENWIDTH) ? -1 : 1))];
+        }
 
-        for (int x = y; x < y + SCREENWIDTH - 1; x += 3)
-            screens[0][x] = colormaps[0][6 * 256 + screens[0][x + ((x % SCREENWIDTH) ? -1 : 1)]];
+        for (int x = (y += SCREENWIDTH); x < y + SCREENWIDTH - 1; x += 3)
+        {
+            byte    *dot = *screens + x;
+
+            *dot = colormaps[0][6 * 256 + *(dot + ((x % SCREENWIDTH) ? -1 : 1))];
+        }
     }
 
     // draw branding
