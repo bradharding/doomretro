@@ -76,6 +76,8 @@ dboolean    suppresswarnings = false;
 int         numtextures;
 texture_t   **textures;
 
+char        berserk[64];
+
 // needed for texture pegging
 fixed_t     *textureheight;
 byte        **brightmap;
@@ -573,6 +575,8 @@ static void R_InitSpriteLumps(void)
         }
     }
 
+    M_StringCopy(berserk, M_StringReplace(powerupnames[pw_strength], " power-up", ""), sizeof(berserk));
+
     // [BH] compatibility fixes
     if (FREEDOOM)
     {
@@ -725,7 +729,7 @@ static void R_InitSpriteLumps(void)
         s_M_SKILLLEVEL4 = M_StringDuplicate("Wrecker");
         s_M_SKILLLEVEL5 = M_StringDuplicate("Berserker");
 
-        powerupnames[pw_strength] = M_StringDuplicate("wode");
+        M_StringCopy(berserk, "wode", sizeof(berserk));
 
         mobjinfo[MT_HEAD].blood = MT_BLOOD;
         mobjinfo[MT_KNIGHT].blood = MT_BLOOD;

@@ -1803,7 +1803,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
                                 (target->type == MT_BARREL ? "exploded" : (gibbed ? "gibbed" : "killed")),
                                 targetname,
                                 weaponinfo[readyweapon].name,
-                                powerupnames[pw_strength]);
+                                berserk);
                         else
                             C_PlayerObituary("You %s %s using your %s.",
                                 (target->type == MT_BARREL ? "exploded" : (gibbed ? "gibbed" : "killed")),
@@ -1845,7 +1845,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
                                 targetname,
                                 pronoun(possessive),
                                 weaponinfo[readyweapon].name,
-                                powerupnames[pw_strength]);
+                                berserk);
                         else
                             C_PlayerObituary("%s %s %s using %s %s.",
                                 playername,
