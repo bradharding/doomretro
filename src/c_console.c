@@ -844,18 +844,18 @@ static void C_DrawBackground(void)
     // apply corrugated glass effect to background
     for (int y = (consoleheight & 1); y <= height - 3 * SCREENWIDTH; y += SCREENWIDTH)
     {
-        for (int x = 2; x < SCREENWIDTH - 1; x += 3)
-            screens[0][y + x] = colormaps[0][6 * 256 + screens[0][y + x + (((y + x) % SCREENWIDTH) ? -1 : 1)]];
+        for (int x = y + 2; x < y + SCREENWIDTH - 1; x += 3)
+            screens[0][x] = colormaps[0][6 * 256 + screens[0][x + ((x % SCREENWIDTH) ? -1 : 1)]];
 
         y += SCREENWIDTH;
 
-        for (int x = 1; x < SCREENWIDTH - 1; x += 3)
-            screens[0][y + x] = colormaps[0][6 * 256 + screens[0][y + x + (((y + x) % SCREENWIDTH) ? -1 : 1)]];
+        for (int x = y + 1; x < y + SCREENWIDTH - 1; x += 3)
+            screens[0][x] = colormaps[0][6 * 256 + screens[0][x + ((x % SCREENWIDTH) ? -1 : 1)]];
 
         y += SCREENWIDTH;
 
-        for (int x = 0; x < SCREENWIDTH - 1; x += 3)
-            screens[0][y + x] = colormaps[0][6 * 256 + screens[0][y + x + (((y + x) % SCREENWIDTH) ? -1 : 1)]];
+        for (int x = y; x < y + SCREENWIDTH - 1; x += 3)
+            screens[0][x] = colormaps[0][6 * 256 + screens[0][x + ((x % SCREENWIDTH) ? -1 : 1)]];
     }
 
     // draw branding
@@ -1268,7 +1268,7 @@ void C_Drawer(void)
         consoleheight = CONSOLEHEIGHT;
     else if (consolewait < tics)
     {
-        consolewait = tics + 10;
+        consolewait = tics + 12;
 
         if (consoledirection == 1)
         {
