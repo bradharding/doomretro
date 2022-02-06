@@ -845,22 +845,22 @@ static void C_DrawBackground(void)
     for (int y = 1; y <= height - 3 * SCREENWIDTH; y += SCREENWIDTH)
     {
         for (int x = 2; x < SCREENWIDTH - 1; x += 3)
-            screens[0][y + x] = colormaps[0][6 * 256 + screens[0][y + x + ((((y + x) % SCREENWIDTH) % SCREENWIDTH) ? -1 : 1)]];
+            screens[0][y + x] = colormaps[0][6 * 256 + screens[0][y + x + (((y + x) % SCREENWIDTH) ? -1 : 1)]];
 
         y += SCREENWIDTH;
 
         for (int x = 1; x < SCREENWIDTH - 1; x += 3)
-            screens[0][y + x] = colormaps[0][6 * 256 + screens[0][y + x + ((((y + x) % SCREENWIDTH) % SCREENWIDTH) ? -1 : 1)]];
+            screens[0][y + x] = colormaps[0][6 * 256 + screens[0][y + x + (((y + x) % SCREENWIDTH) ? -1 : 1)]];
 
         y += SCREENWIDTH;
 
         for (int x = 0; x < SCREENWIDTH - 1; x += 3)
-            screens[0][y + x] = colormaps[0][6 * 256 + screens[0][y + x + ((((y + x) % SCREENWIDTH) % SCREENWIDTH) ? -1 : 1)]];
+            screens[0][y + x] = colormaps[0][6 * 256 + screens[0][y + x + (((y + x) % SCREENWIDTH) ? -1 : 1)]];
     }
 
     // draw branding
-    V_DrawConsoleBrandingPatch(SCREENWIDTH - brandwidth + (vid_widescreen ? 0 : 18), consoleheight - brandheight + 2,
-        brand, consoleedgecolor);
+    V_DrawConsoleBrandingPatch(SCREENWIDTH - brandwidth + (vid_widescreen ? 0 : 18),
+        consoleheight - brandheight + 2, brand, consoleedgecolor);
 
     // draw bottom edge
     for (int i = height - 3 * SCREENWIDTH; i < height; i++)
