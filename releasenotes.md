@@ -2,6 +2,7 @@
 
 #### DOOM Retro v4.4.5
 
+* Optimizations have been made to further improve the overall performance of *DOOM Retro*.
 * Minor changes have been made to text that is output to the console.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)

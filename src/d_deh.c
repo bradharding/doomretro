@@ -2439,13 +2439,13 @@ static void deh_procBexCodePointers(DEHFILE *fpin, char *line)
 //
 static void deh_procThing(DEHFILE *fpin, char *line)
 {
-    char    key[DEH_MAXKEYLEN];
-    char    inbuffer[DEH_BUFFERMAX];
-    int     value;
-    int     indexnum;
-    int     ix;
-    int     *pix;           // Ptr to int, since all Thing structure entries are ints
-    char    *strval;
+    char        key[DEH_MAXKEYLEN];
+    char        inbuffer[DEH_BUFFERMAX];
+    int         value;
+    int         indexnum;
+    int         ix;
+    char        *strval;
+    dboolean    found = false;
 
     M_StringCopy(inbuffer, line, DEH_BUFFERMAX - 1);
 
@@ -2636,7 +2636,8 @@ static void deh_procThing(DEHFILE *fpin, char *line)
                 mobjinfo[indexnum].splashgroup = value + SG_END;
             else
             {
-                pix = (int *)&mobjinfo[indexnum];
+                int *pix = (int *)&mobjinfo[indexnum];
+
                 pix[ix] = value;
 
                 if (M_StringCompare(key, "Height"))
@@ -2647,23 +2648,29 @@ static void deh_procThing(DEHFILE *fpin, char *line)
 
             if (devparm)
                 C_Output("Assigned %i to %s (%i) at index %i.", value, key, indexnum, ix);
+
+            found = true;
+            break;
         }
 
-        if ((string = M_StringCompare(key, "Name1")) || (string = M_StringCompare(key, "Name")))
-            M_StringCopy(mobjinfo[indexnum].name1, lowercase(trimwhitespace(strval)), sizeof(mobjinfo[indexnum].name1));
-        else if ((string = M_StringCompare(key, "Plural1")) || (string = M_StringCompare(key, "Plural")))
-            M_StringCopy(mobjinfo[indexnum].plural1, lowercase(trimwhitespace(strval)), sizeof(mobjinfo[indexnum].plural1));
-        else if ((string = M_StringCompare(key, "Name2")))
-            M_StringCopy(mobjinfo[indexnum].name2, lowercase(trimwhitespace(strval)), sizeof(mobjinfo[indexnum].name2));
-        else if ((string = M_StringCompare(key, "Plural2")))
-            M_StringCopy(mobjinfo[indexnum].plural2, lowercase(trimwhitespace(strval)), sizeof(mobjinfo[indexnum].plural2));
-        else if ((string = M_StringCompare(key, "Name3")))
-            M_StringCopy(mobjinfo[indexnum].name3, lowercase(trimwhitespace(strval)), sizeof(mobjinfo[indexnum].name3));
-        else if ((string = M_StringCompare(key, "Plural3")))
-            M_StringCopy(mobjinfo[indexnum].plural3, lowercase(trimwhitespace(strval)), sizeof(mobjinfo[indexnum].plural3));
+        if (!found)
+        {
+            if ((string = M_StringCompare(key, "Name")) || (string = M_StringCompare(key, "Name1")))
+                M_StringCopy(mobjinfo[indexnum].name1, lowercase(trimwhitespace(strval)), sizeof(mobjinfo[indexnum].name1));
+            else if ((string = M_StringCompare(key, "Plural")) || (string = M_StringCompare(key, "Plural1")))
+                M_StringCopy(mobjinfo[indexnum].plural1, lowercase(trimwhitespace(strval)), sizeof(mobjinfo[indexnum].plural1));
+            else if ((string = M_StringCompare(key, "Name2")))
+                M_StringCopy(mobjinfo[indexnum].name2, lowercase(trimwhitespace(strval)), sizeof(mobjinfo[indexnum].name2));
+            else if ((string = M_StringCompare(key, "Plural2")))
+                M_StringCopy(mobjinfo[indexnum].plural2, lowercase(trimwhitespace(strval)), sizeof(mobjinfo[indexnum].plural2));
+            else if ((string = M_StringCompare(key, "Name3")))
+                M_StringCopy(mobjinfo[indexnum].name3, lowercase(trimwhitespace(strval)), sizeof(mobjinfo[indexnum].name3));
+            else if ((string = M_StringCompare(key, "Plural3")))
+                M_StringCopy(mobjinfo[indexnum].plural3, lowercase(trimwhitespace(strval)), sizeof(mobjinfo[indexnum].plural3));
 
-        if (string && devparm)
-            C_Output("Assigned %s to %s (%i) at index %i.", lowercase(trimwhitespace(strval)), key, indexnum, ix);
+            if (string && devparm)
+                C_Output("Assigned %s to %s (%i) at index %i.", lowercase(trimwhitespace(strval)), key, indexnum, ix);
+        }
 
         if (!gibhealth && mobjinfo[indexnum].spawnhealth && !mobjinfo[indexnum].gibhealth)
             mobjinfo[indexnum].gibhealth = -mobjinfo[indexnum].spawnhealth;

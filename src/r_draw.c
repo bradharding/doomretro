@@ -55,7 +55,7 @@
 //  not the architecture of the frame buffer.
 // Conveniently, the frame buffer is a linear one,
 //  and we need only the base address,
-//  and the total size == width*height*depth/8.,
+//  and the total size == width * height * depth / 8.
 //
 
 int         viewwidth;
