@@ -842,7 +842,7 @@ static void C_DrawBackground(void)
         screens[0][i] = consolebackcolor[blurscreen[i]];
 
     // apply corrugated glass effect to background
-    for (int y = (consoleheight & 2); y <= height - 3 * SCREENWIDTH; y += SCREENWIDTH)
+    for (int y = consoleheight % 3; y <= height - 3 * SCREENWIDTH; y += SCREENWIDTH)
     {
         for (int x = y + 2; x < y + SCREENWIDTH - 1; x += 3)
         {
