@@ -2069,10 +2069,9 @@ void M_QuitDOOM(int choice)
     if (deh_strlookup[p_QUITMSG].assigned == 2)
         M_StringCopy(line1, s_QUITMSG, sizeof(line1));
     else if (gamemission == doom)
-        M_snprintf(line1, sizeof(line1), *endmsg[(r = M_RandomIntNoRepeat(0, NUM_QUITMESSAGES - 1, r))], OPERATINGSYSTEM);
+        M_snprintf(line1, sizeof(line1), *endmsg[(r = M_RandomIntNoRepeat(0, NUM_QUITMESSAGES - 1, r))], WINDOWS);
     else
-        M_snprintf(line1, sizeof(line1), *endmsg[NUM_QUITMESSAGES + (r = M_RandomIntNoRepeat(0, NUM_QUITMESSAGES - 1, r))],
-            OPERATINGSYSTEM);
+        M_snprintf(line1, sizeof(line1), *endmsg[NUM_QUITMESSAGES + (r = M_RandomIntNoRepeat(0, NUM_QUITMESSAGES - 1, r))], WINDOWS);
 
     M_snprintf(line2, sizeof(line2), (usinggamecontroller ? s_DOSA : s_DOSY), DESKTOP);
     M_snprintf(endstring, sizeof(endstring), "%s\n\n%s", line1, line2);

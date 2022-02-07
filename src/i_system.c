@@ -42,15 +42,10 @@
 #include <unistd.h>
 #endif
 
-#if defined(__APPLE__)
-#define PC  "Mac"
-#else
-#define PC  "PC"
-#endif
-
 #include "c_console.h"
 #include "d_main.h"
 #include "i_gamecontroller.h"
+#include "i_system.h"
 #include "i_timer.h"
 #include "m_config.h"
 #include "m_misc.h"

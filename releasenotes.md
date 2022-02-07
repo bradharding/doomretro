@@ -4,7 +4,7 @@
 
 * Optimizations have been made to further improve the overall performance of *DOOM Retro*.
 * Minor changes have been made to text that is output to the console.
-* The corrugated glass effect of the console’s background now moves with the rest of the console when it opens and closes.
+* The corrugated glass effect of the console’s background now shifts with the rest of the console as it opens and closes.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

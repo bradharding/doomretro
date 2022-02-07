@@ -43,14 +43,17 @@
 #include "doomdef.h"
 
 #if defined(_WIN32)
-#define OPERATINGSYSTEM "Windows"
-#define DESKTOP         "desktop"
+#define PC      "PC"
+#define WINDOWS "Windows"
+#define DESKTOP "desktop"
 #elif defined(__APPLE__)
-#define OPERATINGSYSTEM "macOS"
-#define DESKTOP         "Finder"
+#define PC      "Mac"
+#define WINDOWS "macOS"
+#define DESKTOP "Finder"
 #else
-#define OPERATINGSYSTEM "Linux"
-#define DESKTOP         "desktop"
+#define PC      "PC"
+#define WINDOWS "Linux"
+#define DESKTOP "desktop"
 #endif
 
 // Called by M_Responder when quit is selected.
