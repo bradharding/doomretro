@@ -1217,6 +1217,8 @@ void I_CreateExternalAutomap(int outputlevel)
         I_SDLError(SDL_SetPaletteColors);
 
     mapscreen = mapsurface->pixels;
+    memset(mapscreen, nearestblack, MAPAREA);
+
     map_rect.w = MAPWIDTH;
     map_rect.h = MAPHEIGHT;
 
@@ -2057,9 +2059,6 @@ void I_InitGraphics(void)
 
     if (vid_fullscreen)
         SetShowCursor(false);
-
-    if ((mapscreen = malloc(MAXSCREENAREA)))
-        memset(mapscreen, nearestblack, MAPAREA);
 
     I_CreateExternalAutomap(2);
 
