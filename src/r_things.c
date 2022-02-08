@@ -175,9 +175,6 @@ static void R_InitSpriteDefs(void)
         int next;
     } *hash;
 
-    if (!numentries)
-        return;
-
     sprites = Z_Calloc(NUMSPRITES, sizeof(*sprites), PU_STATIC, NULL);
 
     // Create hash table based on just the first four letters of each sprite
