@@ -4793,9 +4793,10 @@ static weapontype_t favoriteweapon(dboolean total)
 
 char *distancetraveled(uint64_t value, dboolean allowzero)
 {
+    char    result[20] = "";
+
     if (value > 0 || allowzero)
     {
-        char        *result = malloc(20);
         const float feet = (float)value / UNITSPERFOOT;
 
         if (units == units_imperial)
@@ -4846,11 +4847,9 @@ char *distancetraveled(uint64_t value, dboolean allowzero)
             else if (allowzero)
                 M_StringCopy(result, "0 meters", 20);
         }
-
-        return result;
     }
 
-    return "";
+    return M_StringDuplicate(result);
 }
 
 //
