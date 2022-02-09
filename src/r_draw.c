@@ -1532,9 +1532,8 @@ void R_DrawSpan(void)
 
 void R_DrawDitherLowSpan(void)
 {
-    int                 x = ds_x1;
-    int                 count = ds_x2 - x;
-    byte                *dest = ylookup0[ds_y] + x;
+    int                 count = ds_x2 - ds_x1;
+    byte                *dest = ylookup0[ds_y] + ds_x1;
     fixed_t             xfrac = ds_xfrac;
     fixed_t             yfrac = ds_yfrac;
     const lighttable_t  *colormap[2] = { ds_colormap, ds_nextcolormap };
@@ -1542,19 +1541,18 @@ void R_DrawDitherLowSpan(void)
 
     while (--count)
     {
-        *dest++ = colormap[ditherlow(x++, ds_y, fracz)][ds_source[((xfrac >> 16) & 63) | ((yfrac >> 10) & 4032)]];
+        *dest++ = colormap[ditherlow(ds_x1++, ds_y, fracz)][ds_source[((xfrac >> 16) & 63) | ((yfrac >> 10) & 4032)]];
         xfrac += ds_xstep;
         yfrac += ds_ystep;
     }
 
-    *dest = colormap[ditherlow(x, ds_y, fracz)][ds_source[((xfrac >> 16) & 63) | ((yfrac >> 10) & 4032)]];
+    *dest = colormap[ditherlow(ds_x1, ds_y, fracz)][ds_source[((xfrac >> 16) & 63) | ((yfrac >> 10) & 4032)]];
 }
 
 void R_DrawDitherSpan(void)
 {
-    int                 x = ds_x1;
-    int                 count = ds_x2 - x;
-    byte                *dest = ylookup0[ds_y] + x;
+    int                 count = ds_x2 - ds_x1;
+    byte                *dest = ylookup0[ds_y] + ds_x1;
     fixed_t             xfrac = ds_xfrac;
     fixed_t             yfrac = ds_yfrac;
     const lighttable_t  *colormap[2] = { ds_colormap, ds_nextcolormap };
@@ -1562,12 +1560,12 @@ void R_DrawDitherSpan(void)
 
     while (--count)
     {
-        *dest++ = colormap[dither(x++, ds_y, fracz)][ds_source[((xfrac >> 16) & 63) | ((yfrac >> 10) & 4032)]];
+        *dest++ = colormap[dither(ds_x1++, ds_y, fracz)][ds_source[((xfrac >> 16) & 63) | ((yfrac >> 10) & 4032)]];
         xfrac += ds_xstep;
         yfrac += ds_ystep;
     }
 
-    *dest = colormap[dither(x, ds_y, fracz)][ds_source[((xfrac >> 16) & 63) | ((yfrac >> 10) & 4032)]];
+    *dest = colormap[dither(ds_x1, ds_y, fracz)][ds_source[((xfrac >> 16) & 63) | ((yfrac >> 10) & 4032)]];
 }
 
 void R_DrawColorSpan(void)
