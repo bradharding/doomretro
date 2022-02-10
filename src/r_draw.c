@@ -171,7 +171,7 @@ void R_DrawColumn(void)
 {
     int                 count = dc_yh - dc_yl + 1;
     byte                *dest = ylookup0[dc_yl] + dc_x;
-    const lighttable_t  *colormap = *dc_colormap;
+    const lighttable_t  *colormap = dc_colormap[0];
 
     while (--count)
     {
@@ -221,7 +221,7 @@ void R_DrawCorrectedColumn(void)
 {
     int                 count = dc_yh - dc_yl + 1;
     byte                *dest = ylookup0[dc_yl] + dc_x;
-    const lighttable_t  *colormap = *dc_colormap;
+    const lighttable_t  *colormap = dc_colormap[0];
 
     while (--count)
     {
@@ -435,7 +435,7 @@ void R_DrawWallColumn(void)
     int                 count = dc_yh - dc_yl + 1;
     byte                *dest = ylookup0[dc_yl] + dc_x;
     fixed_t             frac = dc_texturemid + (dc_yl - centery) * dc_iscale;
-    const lighttable_t  *colormap = *dc_colormap;
+    const lighttable_t  *colormap = dc_colormap[0];
     fixed_t             heightmask = dc_texheight - 1;
 
     if (dc_texheight & heightmask)
@@ -720,7 +720,7 @@ void R_DrawFlippedSkyColumn(void)
     int                 count = dc_yh - dc_yl + 1;
     byte                *dest = ylookup0[dc_yl] + dc_x;
     fixed_t             frac = dc_texturemid + (dc_yl - centery) * dc_iscale;
-    const lighttable_t  *colormap = *dc_colormap;
+    const lighttable_t  *colormap = dc_colormap[0];
     fixed_t             i;
 
     while (--count)
@@ -752,7 +752,7 @@ void R_DrawRedToBlueColumn(void)
 {
     int                 count = dc_yh - dc_yl + 1;
     byte                *dest = ylookup0[dc_yl] + dc_x;
-    const lighttable_t  *colormap = *dc_colormap;
+    const lighttable_t  *colormap = dc_colormap[0];
 
     while (--count)
     {
@@ -802,7 +802,7 @@ void R_DrawTranslucentRedToBlue33Column(void)
 {
     int                 count = dc_yh - dc_yl + 1;
     byte                *dest = ylookup0[dc_yl] + dc_x;
-    const lighttable_t  *colormap = *dc_colormap;
+    const lighttable_t  *colormap = dc_colormap[0];
 
     while (--count)
     {
@@ -818,7 +818,7 @@ void R_DrawRedToGreenColumn(void)
 {
     int                 count = dc_yh - dc_yl + 1;
     byte                *dest = ylookup0[dc_yl] + dc_x;
-    const lighttable_t  *colormap = *dc_colormap;
+    const lighttable_t  *colormap = dc_colormap[0];
 
     while (--count)
     {
@@ -868,7 +868,7 @@ void R_DrawTranslucentRedToGreen33Column(void)
 {
     int                 count = dc_yh - dc_yl + 1;
     byte                *dest = ylookup0[dc_yl] + dc_x;
-    const lighttable_t  *colormap = *dc_colormap;
+    const lighttable_t  *colormap = dc_colormap[0];
 
     while (--count)
     {
@@ -884,7 +884,7 @@ void R_DrawTranslucentColumn(void)
 {
     int                 count = dc_yh - dc_yl + 1;
     byte                *dest = ylookup0[dc_yl] + dc_x;
-    const lighttable_t  *colormap = *dc_colormap;
+    const lighttable_t  *colormap = dc_colormap[0];
 
     while (--count)
     {
@@ -900,7 +900,7 @@ void R_DrawTranslucent50Column(void)
 {
     int                 count = dc_yh - dc_yl + 1;
     byte                *dest = ylookup0[dc_yl] + dc_x;
-    const lighttable_t  *colormap = *dc_colormap;
+    const lighttable_t  *colormap = dc_colormap[0];
 
     dc_iscale -= SPARKLEFIX;
     dc_texturefrac += SPARKLEFIX;
@@ -959,7 +959,7 @@ void R_DrawCorrectedTranslucent50Column(void)
 {
     int                 count = dc_yh - dc_yl + 1;
     byte                *dest = ylookup0[dc_yl] + dc_x;
-    const lighttable_t  *colormap = *dc_colormap;
+    const lighttable_t  *colormap = dc_colormap[0];
 
     while (--count)
     {
@@ -1022,7 +1022,7 @@ void R_DrawTranslucent33Column(void)
 {
     int                 count = dc_yh - dc_yl + 1;
     byte                *dest = ylookup0[dc_yl] + dc_x;
-    const lighttable_t  *colormap = *dc_colormap;
+    const lighttable_t  *colormap = dc_colormap[0];
 
     while (--count)
     {
@@ -1038,7 +1038,7 @@ void R_DrawTranslucentRedColumn(void)
 {
     int                 count = dc_yh - dc_yl + 1;
     byte                *dest = ylookup0[dc_yl] + dc_x;
-    const lighttable_t  *colormap = *dc_colormap;
+    const lighttable_t  *colormap = dc_colormap[0];
 
     while (--count)
     {
@@ -1054,7 +1054,7 @@ void R_DrawTranslucentRedWhiteColumn1(void)
 {
     int                 count = dc_yh - dc_yl + 1;
     byte                *dest = ylookup0[dc_yl] + dc_x;
-    const lighttable_t  *colormap = *dc_colormap;
+    const lighttable_t  *colormap = dc_colormap[0];
 
     while (--count)
     {
@@ -1070,7 +1070,7 @@ void R_DrawTranslucentRedWhiteColumn2(void)
 {
     int                 count = dc_yh - dc_yl + 1;
     byte                *dest = ylookup0[dc_yl] + dc_x;
-    const lighttable_t  *colormap = *dc_colormap;
+    const lighttable_t  *colormap = dc_colormap[0];
 
     while (--count)
     {
@@ -1086,7 +1086,7 @@ void R_DrawTranslucentRedWhite50Column(void)
 {
     int                 count = dc_yh - dc_yl + 1;
     byte                *dest = ylookup0[dc_yl] + dc_x;
-    const lighttable_t  *colormap = *dc_colormap;
+    const lighttable_t  *colormap = dc_colormap[0];
 
     while (--count)
     {
@@ -1102,7 +1102,7 @@ void R_DrawTranslucentGreenColumn(void)
 {
     int                 count = dc_yh - dc_yl + 1;
     byte                *dest = ylookup0[dc_yl] + dc_x;
-    const lighttable_t  *colormap = *dc_colormap;
+    const lighttable_t  *colormap = dc_colormap[0];
 
     while (--count)
     {
@@ -1118,7 +1118,7 @@ void R_DrawTranslucentBlueColumn(void)
 {
     int                 count = dc_yh - dc_yl + 1;
     byte                *dest = ylookup0[dc_yl] + dc_x;
-    const lighttable_t  *colormap = *dc_colormap;
+    const lighttable_t  *colormap = dc_colormap[0];
 
     while (--count)
     {
@@ -1134,7 +1134,7 @@ void R_DrawTranslucentRed33Column(void)
 {
     int                 count = dc_yh - dc_yl + 1;
     byte                *dest = ylookup0[dc_yl] + dc_x;
-    const lighttable_t  *colormap = *dc_colormap;
+    const lighttable_t  *colormap = dc_colormap[0];
 
     while (--count)
     {
@@ -1150,7 +1150,7 @@ void R_DrawTranslucentGreen33Column(void)
 {
     int                 count = dc_yh - dc_yl + 1;
     byte                *dest = ylookup0[dc_yl] + dc_x;
-    const lighttable_t  *colormap = *dc_colormap;
+    const lighttable_t  *colormap = dc_colormap[0];
 
     while (--count)
     {
@@ -1166,7 +1166,7 @@ void R_DrawTranslucentBlue25Column(void)
 {
     int                 count = dc_yh - dc_yl + 1;
     byte                *dest = ylookup0[dc_yl] + dc_x;
-    const lighttable_t  *colormap = *dc_colormap;
+    const lighttable_t  *colormap = dc_colormap[0];
 
     while (--count)
     {
@@ -1361,7 +1361,7 @@ void R_DrawTranslatedColumn(void)
 {
     int                 count = dc_yh - dc_yl + 1;
     byte                *dest = ylookup0[dc_yl] + dc_x;
-    const lighttable_t  *colormap = *dc_colormap;
+    const lighttable_t  *colormap = dc_colormap[0];
 
     while (--count)
     {
@@ -1466,17 +1466,18 @@ byte            *ds_source;
 //
 void R_DrawSpan(void)
 {
-    int     count = ds_x2 - ds_x1;
-    byte    *dest = ylookup0[ds_y] + ds_x1;
+    int                 count = ds_x2 - ds_x1;
+    byte                *dest = ylookup0[ds_y] + ds_x1;
+    const lighttable_t  *colormap = ds_colormap[0];
 
     while (--count)
     {
-        *dest++ = ds_colormap[0][ds_source[((ds_xfrac >> 16) & 63) | ((ds_yfrac >> 10) & 4032)]];
+        *dest++ = colormap[ds_source[((ds_xfrac >> 16) & 63) | ((ds_yfrac >> 10) & 4032)]];
         ds_xfrac += ds_xstep;
         ds_yfrac += ds_ystep;
     }
 
-    *dest = ds_colormap[0][ds_source[((ds_xfrac >> 16) & 63) | ((ds_yfrac >> 10) & 4032)]];
+    *dest = colormap[ds_source[((ds_xfrac >> 16) & 63) | ((ds_yfrac >> 10) & 4032)]];
 }
 
 void R_DrawDitherLowSpan(void)

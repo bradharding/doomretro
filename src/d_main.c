@@ -2498,24 +2498,32 @@ static void D_DoomMainSetup(void)
 
     // Ty 04/08/98 - Add 5 lines of misc. data, only if non-blank
     // The expectation is that these will be set in a .bex file
-    if ((*startup1 || *startup2 || *startup3 || *startup4 || *startup5) && !FREEDOOM)
+    if (*startup1 && !FREEDOOM)
     {
         C_AddConsoleDivider();
 
         if (*startup1)
+        {
             D_ParseStartupString(startup1);
 
-        if (*startup2)
-            D_ParseStartupString(startup2);
+            if (*startup2)
+            {
+                D_ParseStartupString(startup2);
 
-        if (*startup3)
-            D_ParseStartupString(startup3);
+                if (*startup3)
+                {
+                    D_ParseStartupString(startup3);
 
-        if (*startup4)
-            D_ParseStartupString(startup4);
+                    if (*startup4)
+                    {
+                        D_ParseStartupString(startup4);
 
-        if (*startup5)
-            D_ParseStartupString(startup5);
+                        if (*startup5)
+                            D_ParseStartupString(startup5);
+                    }
+                }
+            }
+        }
     }
 
     seconds = striptrailingzero((I_GetTimeMS() - startuptimer) / 1000.0f, 1);

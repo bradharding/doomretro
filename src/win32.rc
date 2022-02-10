@@ -60,7 +60,7 @@ BEGIN
     BEGIN
         BLOCK "040904B0"
         BEGIN
-            VALUE "CompanyName",      DOOMRETRO_AUTHOREMAIL
+            VALUE "CompanyName",      DOOMRETRO_CREATOREMAIL
             VALUE "FileDescription",  DOOMRETRO_NAME
             VALUE "FileVersion",      DOOMRETRO_VERSIONSTRING
             VALUE "InternalName",     DOOMRETRO

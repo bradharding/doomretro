@@ -45,10 +45,11 @@
 #define DOOMRETRO_SAVEGAMEVERSIONSTRING "DOOM Retro v3.6"
 
 #define DOOMRETRO                       "doomretro"
-#define DOOMRETRO_AUTHOR                "Brad Harding"
-#define DOOMRETRO_AUTHOREMAIL           "Brad Harding <brad@doomretro.com>"
 #define DOOMRETRO_CONFIG                "doomretro.cfg"
-#define DOOMRETRO_COPYRIGHT             "\xA9 2013\x962022 by Brad Harding. All rights reserved."
+#define DOOMRETRO_COPYRIGHT             "Copyright \xA9 2013\x962022 by Brad Harding. All rights " \
+                                        "reserved."
+#define DOOMRETRO_CREATOR               "Brad Harding"
+#define DOOMRETRO_CREATOREMAIL          "Brad Harding <brad@doomretro.com>"
 #define DOOMRETRO_FILENAME              "doomretro.exe"
 #define DOOMRETRO_ICONPATH              "..\\res\\doomretro.ico"
 #define DOOMRETRO_LICENSE               "GNU General Public License v3.0"
