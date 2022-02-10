@@ -150,8 +150,7 @@ extern int          ds_x2;
 extern int          ds_y;
 extern int          ds_z;
 
-extern lighttable_t *ds_colormap;
-extern lighttable_t *ds_nextcolormap;
+extern lighttable_t *ds_colormap[2];
 
 extern fixed_t      ds_xfrac;
 extern fixed_t      ds_yfrac;

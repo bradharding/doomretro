@@ -94,7 +94,6 @@ static void R_MapPlane(int y, int x1)
     static fixed_t  cachedviewsindistance[MAXHEIGHT];
     static fixed_t  cachedxstep[MAXHEIGHT];
     static fixed_t  cachedystep[MAXHEIGHT];
-    fixed_t         distance;
     fixed_t         viewcosdistance;
     fixed_t         viewsindistance;
     int             dx;
@@ -107,15 +106,15 @@ static void R_MapPlane(int y, int x1)
             return;
 
         cachedheight[y] = planeheight;
-        distance = cacheddistance[y] = FixedMul(planeheight, yslope[y]);
-        viewcosdistance = cachedviewcosdistance[y] = FixedMul(viewcos, distance);
-        viewsindistance = cachedviewsindistance[y] = FixedMul(viewsin, distance);
+        ds_z = cacheddistance[y] = FixedMul(planeheight, yslope[y]);
+        viewcosdistance = cachedviewcosdistance[y] = FixedMul(viewcos, ds_z);
+        viewsindistance = cachedviewsindistance[y] = FixedMul(viewsin, ds_z);
         ds_xstep = cachedxstep[y] = FixedMul(viewsin, planeheight) / dy;
         ds_ystep = cachedystep[y] = FixedMul(viewcos, planeheight) / dy;
     }
     else
     {
-        distance = cacheddistance[y];
+        ds_z = cacheddistance[y];
         viewcosdistance = cachedviewcosdistance[y];
         viewsindistance = cachedviewsindistance[y];
         ds_xstep = cachedxstep[y];
@@ -125,30 +124,25 @@ static void R_MapPlane(int y, int x1)
     dx = x1 - centerx;
     ds_xfrac = viewx + xoffset + viewcosdistance + dx * ds_xstep;
     ds_yfrac = -viewy + yoffset - viewsindistance + dx * ds_ystep;
+    ds_y = y;
+    ds_x1 = x1;
 
     if (fixedcolormap)
     {
-        ds_colormap = fixedcolormap;
-        ds_nextcolormap = fixedcolormap;
-
-        ds_y = y;
-        ds_x1 = x1;
+        ds_colormap[0] = fixedcolormap;
+        ds_colormap[1] = fixedcolormap;
 
         altspanfunc();
     }
     else
     {
-        ds_colormap = planezlight[BETWEEN(0, distance >> LIGHTZSHIFT, MAXLIGHTZ - 1)];
-
-        ds_y = y;
-        ds_x1 = x1;
+        ds_colormap[0] = planezlight[BETWEEN(0, ds_z >> LIGHTZSHIFT, MAXLIGHTZ - 1)];
 
         if (r_ditheredlighting)
         {
-            ds_nextcolormap = planezlight[BETWEEN(0, (distance >> LIGHTZSHIFT) + 1, MAXLIGHTZ - 1)];
-            ds_z = distance;
+            ds_colormap[1] = planezlight[BETWEEN(0, (ds_z >> LIGHTZSHIFT) + 1, MAXLIGHTZ - 1)];
 
-            if (ds_colormap == ds_nextcolormap)
+            if (ds_colormap[0] == ds_colormap[1])
                 altspanfunc();
             else
                 spanfunc();
