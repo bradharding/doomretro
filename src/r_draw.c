@@ -145,8 +145,8 @@ static const byte ditherlowmatrix[DITHERSIZE * 2][DITHERSIZE * 2] =
     { 112, 112, 144, 144,  64,  64, 160, 160 }
 };
 
-#define ditherlow(x, dc_yl, intensity) \
-    (ditherlowmatrix[((dc_yl) & (DITHERSIZE * 2 - 1))][((x) & (DITHERSIZE * 2 - 1))] < (intensity))
+#define ditherlow(x, y, intensity) \
+    (ditherlowmatrix[((y) & (DITHERSIZE * 2 - 1))][((x) & (DITHERSIZE * 2 - 1))] < (intensity))
 
 static const byte dithermatrix[DITHERSIZE][DITHERSIZE] =
 {
@@ -156,8 +156,8 @@ static const byte dithermatrix[DITHERSIZE][DITHERSIZE] =
     { 112, 144,  64, 160 }
 };
 
-#define dither(x, dc_yl, intensity) \
-    (dithermatrix[((dc_yl) & (DITHERSIZE - 1))][((x) & (DITHERSIZE - 1))] < (intensity))
+#define dither(x, y, intensity) \
+    (dithermatrix[((y) & (DITHERSIZE - 1))][((x) & (DITHERSIZE - 1))] < (intensity))
 
 //
 // A column is a vertical slice/span from a wall texture that,
@@ -1579,8 +1579,8 @@ void R_InitBuffer(int width, int height)
 
 void R_FillBezel(void)
 {
-    byte    *src = (byte *)grnrock;
-    byte    *dest = &screens[0][(SCREENHEIGHT - SBARHEIGHT) * SCREENWIDTH];
+    const byte  *src = (byte *)grnrock;
+    byte        *dest = &screens[0][(SCREENHEIGHT - SBARHEIGHT) * SCREENWIDTH];
 
     for (int y = SCREENHEIGHT - SBARHEIGHT; y < SCREENHEIGHT; y++)
         for (int x = 0; x < SCREENWIDTH; x += 2)
@@ -1609,8 +1609,8 @@ void R_FillBezel(void)
 //
 void R_FillBackScreen(void)
 {
-    byte    *src = (byte *)grnrock;
-    byte    *dest = screens[1];
+    const byte  *src = (byte *)grnrock;
+    byte        *dest = screens[1];
 
     for (int y = 0; y < SCREENHEIGHT - SBARHEIGHT; y++)
         for (int x = 0; x < SCREENWIDTH; x += 2)
@@ -1623,10 +1623,10 @@ void R_FillBackScreen(void)
 
     if (st_drawbrdr)
     {
-        int x1 = viewwindowx / 2 - WIDESCREENDELTA;
-        int y1 = viewwindowy / 2;
-        int x2 = viewwidth / 2 + x1;
-        int y2 = viewheight / 2 + y1;
+        const int   x1 = viewwindowx / 2 - WIDESCREENDELTA;
+        const int   y1 = viewwindowy / 2;
+        const int   x2 = viewwidth / 2 + x1;
+        const int   y2 = viewheight / 2 + y1;
 
         for (int x = x1; x < x2 - 8; x += 8)
         {
@@ -1667,10 +1667,10 @@ void R_VideoErase(unsigned int offset, int count)
 //
 void R_DrawViewBorder(void)
 {
-    int top = (SCREENHEIGHT - SBARHEIGHT - viewheight) * SCREENWIDTH / 2;
-    int side = (SCREENWIDTH - viewwidth) / 2;
-    int count = top + side;
-    int offset = top - side;
+    const int   top = (SCREENHEIGHT - SBARHEIGHT - viewheight) * SCREENWIDTH / 2;
+    int         side = (SCREENWIDTH - viewwidth) / 2;
+    int         offset = top - side;
+    const int   count = top + side;
 
     // copy top and one line of left side
     R_VideoErase(0, count);
@@ -1681,7 +1681,7 @@ void R_DrawViewBorder(void)
     side *= 2;
 
     // copy sides using wraparound
-    for (int i = 1; i < viewheight; i++)
+    for (int y = 1; y < viewheight; y++)
     {
         offset += SCREENWIDTH;
         R_VideoErase(offset, side);
