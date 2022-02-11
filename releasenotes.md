@@ -9,6 +9,8 @@
 * Crashes no longer occur in the following instances:
   * Sometimes when the player moves at the start of a map while the automap is open and the `am_path` CVAR is `on`.
   * When loading *DOOM Retro* as a non-*Steam* game through *Steam* and a controller is connected.
+  * When a map ends after the music has been changed using a `MUSINFO` lump.
+  * When a map contains a line with an invalid special.
 * Further improvements have been made to the support for [*DOOM 4 VANILLA*](https://www.doomworld.com/forum/topic/108725).
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
