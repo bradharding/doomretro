@@ -724,25 +724,29 @@ static void P_CheckLinedefs(void)
         {
             if (!P_CheckTag(ld))
             {
-                char    *temp = commify(ld->id);
+                char    *temp1 = commify(ld->id);
+                char    *temp2 = commify(ld->special);
 
-                C_Warning(2, "Linedef %s has %s line special %i (\"%s\") but no tag.",
-                    temp, (ld->special < BOOMLINESPECIALS ? "the" : (ld->special < MBF21LINESPECIALS ? "the " ITALICS("MBF21")
+                C_Warning(2, "Linedef %s has %s line special %s (\"%s\") but no tag.",
+                    temp1, (ld->special < BOOMLINESPECIALS ? "the" : (ld->special < MBF21LINESPECIALS ? "the " ITALICS("MBF21")
                     "-compatible" : (ld->special < MBFLINESPECIALS ? "the " ITALICS("MBF") "-compatible" : "the " ITALICS("BOOM")
-                    "-compatible"))), ld->special, linespecials[ld->special]);
-                free(temp);
+                    "-compatible"))), temp2, linespecials[ld->special]);
+                free(temp1);
+                free(temp2);
             }
             else if (ld->tag < 0 || P_FindSectorFromLineTag(ld, -1) == -1)
             {
                 char    *temp1 = commify(ld->id);
-                char    *temp2 = commify(ld->tag);
+                char    *temp2 = commify(ld->special);
+                char    *temp3 = commify(ld->tag);
 
-                C_Warning(2, "Linedef %s has %s line special %i (\"%s\") but an unknown tag of %s.",
+                C_Warning(2, "Linedef %s has %s line special %s (\"%s\") but an unknown tag of %s.",
                     temp1, (ld->special < BOOMLINESPECIALS ? "the" : (ld->special < MBF21LINESPECIALS ? "the " ITALICS("MBF21")
                     "-compatible" : (ld->special < MBFLINESPECIALS ? "the " ITALICS("MBF") "-compatible" : "the " ITALICS("BOOM")
-                    "-compatible"))), ld->special, linespecials[ld->special], temp2);
+                    "-compatible"))), temp2, linespecials[ld->special], temp3);
                 free(temp1);
                 free(temp2);
+                free(temp3);
             }
         }
 }
