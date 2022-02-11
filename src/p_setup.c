@@ -1194,7 +1194,9 @@ static void P_LoadSegs_V4(int lump)
 
         li->offset = GetOffset(li->v1, (side ? ldef->v2 : ldef->v1));
 
-        if (li->linedef->special >= MBFLINESPECIALS)
+        if (li->linedef->special >= MBF21LINESPECIALS)
+            mbf21compatible = true;
+        else if (li->linedef->special >= MBFLINESPECIALS)
             mbfcompatible = true;
         else if (li->linedef->special >= BOOMLINESPECIALS)
             boomcompatible = true;
