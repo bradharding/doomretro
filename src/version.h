@@ -46,8 +46,7 @@
 
 #define DOOMRETRO                       "doomretro"
 #define DOOMRETRO_CONFIG                "doomretro.cfg"
-#define DOOMRETRO_COPYRIGHT             "Copyright \xA9 2013\x962022 by Brad Harding. All rights " \
-                                        "reserved."
+#define DOOMRETRO_COPYRIGHT             "Copyright \xA9 2013\x962022 by Brad Harding. All rights reserved."
 #define DOOMRETRO_CREATOR               "Brad Harding"
 #define DOOMRETRO_CREATOREMAIL          "Brad Harding <brad@doomretro.com>"
 #define DOOMRETRO_FILENAME              "doomretro.exe"
@@ -57,11 +56,11 @@
 #define DOOMRETRO_NAME                  "DOOM Retro"
 #define DOOMRETRO_PLACEOFORIGIN         "Western Sydney, Australia"
 #define DOOMRETRO_SAVE                  "doomretro%i.save"
-#define DOOMRETRO_TRADEMARKS            "DOOM is a registered trademark of id Software LLC, a " \
-                                        "ZeniMax Media company, in the US and/or other countries, " \
-                                        "and is used without permission. All other trademarks are " \
-                                        "the property of their respective holders. DOOM Retro is " \
-                                        "in no way affiliated with nor endorsed by id Software."
+#define DOOMRETRO_TRADEMARKS            "DOOM is a registered trademark of id Software LLC, a ZeniMax " \
+                                        "Media company, in the US and/or other countries, and is used " \
+                                        "without permission. All other trademarks are the property of " \
+                                        "their respective holders. DOOM Retro is in no way affiliated " \
+                                        "with nor endorsed by id Software."
 #define DOOMRETRO_WAD                   "doomretro.wad"
 #define DOOMRETRO_WIKINAME              "DOOM Retro Wiki"
 #define DOOMRETRO_WIKIURL               "https://github.com/bradharding/doomretro/wiki"

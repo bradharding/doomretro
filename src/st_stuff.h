@@ -48,7 +48,6 @@
 #define RADIATIONPAL            (STARTBONUSPALS + NUMBONUSPALS)
 
 // Size of status bar.
-// Now sensitive for scaling.
 #define ST_WIDTH                SCREENWIDTH
 
 // Number of status faces.

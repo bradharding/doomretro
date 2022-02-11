@@ -5,10 +5,10 @@
 * *DOOM Retro* is now compiled using v17.0.6 of [*Microsoft Visual Studio Community 2022*](https://www.visualstudio.com/vs/).
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Minor changes have been made to text that is output to the console.
-* The console’s background now shifts with the rest of the console as it opens and closes.
+* The pattern of the console’s background now shifts with the rest of the console as it opens and closes.
 * Crashes no longer occur in the following instances:
-  * When sometimes moving the player at the start of a map while the automap is open and the `am_path` CVAR is `on`.
-  * When loading *DOOM Retro* as a non-*Steam* game through *Steam* and using a *Steam* controller.
+  * Sometimes when the player moves at the start of a map while the automap is open and the `am_path` CVAR is `on`.
+  * When loading *DOOM Retro* as a non-*Steam* game through *Steam* and a controller is connected.
 * Further improvements have been made to the support for [*DOOM 4 VANILLA*](https://www.doomworld.com/forum/topic/108725).
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)

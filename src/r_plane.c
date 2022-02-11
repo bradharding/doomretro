@@ -357,6 +357,30 @@ static void R_MakeSpans(visplane_t *pl)
 static int  offsets[1024 * 4096];
 
 //
+// R_InitDistortedFlats
+// [BH] Moved to separate function and called at startup
+//
+void R_InitDistortedFlats(void)
+{
+    for (int i = 0, *offset = offsets; i < 1024 * SPEED; i += SPEED, offset += 4096)
+        for (int y = 0; y < 64; y++)
+            for (int x = 0; x < 64; x++)
+            {
+                int x1, y1;
+                int sinvalue, sinvalue2;
+
+                sinvalue = finesine[((y * SWIRLFACTOR + i * 5 + 900) & 8191)] * 2;
+                sinvalue2 = finesine[((x * SWIRLFACTOR2 + i * 4 + 300) & 8191)] * 2;
+                x1 = x + 128 + (sinvalue >> FRACBITS) + (sinvalue2 >> FRACBITS);
+                sinvalue = finesine[((x * SWIRLFACTOR + i * 3 + 700) & 8191)] * 2;
+                sinvalue2 = finesine[((y * SWIRLFACTOR2 + i * 4 + 1200) & 8191)] * 2;
+                y1 = y + 128 + (sinvalue >> FRACBITS) + (sinvalue2 >> FRACBITS);
+
+                offset[(y << 6) + x] = ((y1 & 63) << 6) + (x1 & 63);
+            }
+}
+
+//
 // R_DistortedFlat
 // Generates a distorted flat from a normal one using a two-dimensional sine wave pattern.
 // [crispy] Optimized to precalculate offsets
@@ -393,30 +417,6 @@ static byte *R_DistortedFlat(int flatnum)
     }
 
     return distortedflat;
-}
-
-//
-// R_InitDistortedFlats
-// [BH] Moved to separate function and called at startup
-//
-void R_InitDistortedFlats(void)
-{
-    for (int i = 0, *offset = offsets; i < 1024 * SPEED; i += SPEED, offset += 4096)
-        for (int y = 0; y < 64; y++)
-            for (int x = 0; x < 64; x++)
-            {
-                int x1, y1;
-                int sinvalue, sinvalue2;
-
-                sinvalue = finesine[((y * SWIRLFACTOR + i * 5 + 900) & 8191)] * 2;
-                sinvalue2 = finesine[((x * SWIRLFACTOR2 + i * 4 + 300) & 8191)] * 2;
-                x1 = x + 128 + (sinvalue >> FRACBITS) + (sinvalue2 >> FRACBITS);
-                sinvalue = finesine[((x * SWIRLFACTOR + i * 3 + 700) & 8191)] * 2;
-                sinvalue2 = finesine[((y * SWIRLFACTOR2 + i * 4 + 1200) & 8191)] * 2;
-                y1 = y + 128 + (sinvalue >> FRACBITS) + (sinvalue2 >> FRACBITS);
-
-                offset[(y << 6) + x] = ((y1 & 63) << 6) + (x1 & 63);
-            }
 }
 
 //
