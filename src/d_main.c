@@ -755,28 +755,35 @@ typedef struct
 } loaddehlast_t;
 
 // [BH] A list of DeHackEd files to load last
-static loaddehlast_t loaddehlast[8] =
+static loaddehlast_t loaddehlast[] =
 {
-    { "VORTEX_DoomRetro.deh" },
+    { "1_VORTEX.deh"         },
     { "2_MARKV.deh"          },
     { "3_HELLST.deh"         },
     { "3_REAPER.deh"         },
     { "4_HAR.deh"            },
     { "5_GRNADE.deh"         },
     { "6_LIGHT.deh"          },
-    { "7_GAUSS.deh"          }
+    { "7_GAUSS.deh"          },
+    { "VORTEX_DoomRetro.deh" },
+    { ""                     }
 };
 
 static void LoadDehFile(char *path)
 {
+    int     i = 0;
     char    *dehpath;
 
-    for (int i = 0; i < 8; i++)
+    while (*loaddehlast[i].filename)
+    {
         if (M_StringEndsWith(path, loaddehlast[i].filename))
         {
             loaddehlast[i].present = true;
             return;
         }
+
+        i++;
+    }
 
     if ((dehpath = FindDehPath(path, ".bex", ".[Bb][Ee][Xx]")))
     {
@@ -1845,6 +1852,7 @@ static void D_ProcessDehCommandLine(void)
 static void D_ProcessDehInWad(void)
 {
     dboolean    process = (!M_CheckParm("-nodeh") && !M_CheckParm("-nobex"));
+    int         j = 0;
 
     if (*dehwarning)
         C_Warning(1, dehwarning);
@@ -1887,9 +1895,13 @@ static void D_ProcessDehInWad(void)
                 ProcessDehFile(NULL, i, false);
     }
 
-    for (int i = 0; i < 8; i++)
-        if (loaddehlast[i].present)
-            ProcessDehFile(loaddehlast[i].filename, 0, false);
+    while (*loaddehlast[j].filename)
+    {
+        if (loaddehlast[j].present)
+            ProcessDehFile(loaddehlast[j].filename, 0, false);
+
+        j++;
+    }
 }
 
 static void D_ParseStartupString(const char *string)
