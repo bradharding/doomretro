@@ -711,6 +711,15 @@ static void P_CheckLinedefs(void)
                 free(temp2);
             }
         }
+        else if (ld->special >= NUMLINESPECIALS)
+        {
+            char    *temp1 = commify(ld->id);
+            char    *temp2 = commify(ld->special);
+
+            C_Warning(2, "Linedef %s has an invalid line special of %s.", temp1, temp2);
+            free(temp1);
+            free(temp2);
+        }
         else
         {
             if (!P_CheckTag(ld))
