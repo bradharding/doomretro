@@ -6719,11 +6719,10 @@ static void spawn_cmd_func2(char *cmd, char *parms)
 
                 if ((thing = P_SpawnMapThing(&mthing, true)))
                 {
-                    angle_t angle = R_PointToAngle2(x, y, viewx, viewy);
                     int     flags = thing->flags;
                     mobj_t  *fog;
 
-                    thing->angle = angle;
+                    thing->angle = R_PointToAngle2(x, y, viewx, viewy);
                     thing->id = thingid++;
 
                     if (flags & MF_SHOOTABLE)
@@ -6763,7 +6762,6 @@ static void spawn_cmd_func2(char *cmd, char *parms)
                         S_StartSound(fog, sfx_itmbk);
                     }
 
-                    thing->angle = ANG45 * (angle / 45);
                     fog->angle = thing->angle;
 
                     C_PlayerMessage("%s spawned %s %s%s.",

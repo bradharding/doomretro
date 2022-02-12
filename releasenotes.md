@@ -14,6 +14,7 @@
 * Music can now continue to play in the background when *DOOM Retro’s* window loses focus by enabling the new `s_musicinbackground` CVAR, which is `off` by default.
 * Further improvements have been made to the support for [*DOOM 4 VANILLA*](https://www.doomworld.com/forum/topic/108725).
 * Control of the mouse is no longer lost if the external automap is shown on another display when the `am_external` CVAR is `on`.
+* The monsters spawned using the `spawn` CCMD now face the player.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
@@ -24,7 +25,7 @@
 * Optimizations have been made to further improve the overall performance of *DOOM Retro*.
 * Controllers connected after *DOOM Retro* has started are now recognized again.
 * A bug is fixed whereby the wrong message was displayed when the player picked up ammo in some instances.
-* If the player runs out of shells while firing their shotgun, they will now automatically equip their shotgun again rather than the super shotgun when later picking up more shells.
+* If the player runs out of shells while firing their shotgun, they will now automatically equip their shotgun again rather than their super shotgun when later picking up more shells.
 * Minor improvements have been made to the support of `DEHACKED` lumps.
 * The widescreen HUD is now positioned slightly higher.
 * The following changes have been made when the `r_textures` CVAR is `off` and the `r_translucency` CVAR is `on`:
