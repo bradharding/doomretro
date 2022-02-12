@@ -910,7 +910,7 @@ void A_Chase(mobj_t *actor, player_t *player, pspdef_t *psp)
     // turn towards movement direction if not there yet
     if (actor->movedir < 8)
     {
-        int delta = (actor->angle &= (7 << 29)) - (actor->movedir << 29);
+        int delta = (actor->angle &= (7U << 29)) - (actor->movedir << 29);
 
         if (delta > 0)
             actor->angle -= ANG90 / 2;
