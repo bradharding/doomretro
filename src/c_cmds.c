@@ -9123,7 +9123,6 @@ static void s_volume_cvars_func2(char *cmd, char *parms)
     {
         int value;
 
-
         if (sscanf(parms, "%10i%%", &value) != 1 && sscanf(parms, "%10i", &value) != 1)
             return;
 

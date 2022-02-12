@@ -1003,31 +1003,50 @@ static void P_LoadSegs(int lump)
 
                     if (linefix[j].special != DEFAULT)
                     {
-                        char    *temp = commify(linedefnum);
 
                         if (linefix[j].special)
                         {
                             if (li->linedef->special)
-                                C_Warning(2, "%s line special of linedef %s has been changed from %i (\"%s\") to %i (\"%s\").",
+                            {
+                                char    *temp1 = commify(linedefnum);
+                                char    *temp2 = commify(li->linedef->special);
+                                char    *temp3 = commify(linefix[j].special);
+
+                                C_Warning(2, "%s line special of linedef %s has been changed from %s (\"%s\") to %s (\"%s\").",
                                     (li->linedef->special < BOOMLINESPECIALS ? "The" : (li->linedef->special < MBF21LINESPECIALS ?
                                     "The " ITALICS("MBF21") "-compatible" : (li->linedef->special < MBFLINESPECIALS ? "The " ITALICS("MBF")
-                                    "-compatible" : "The " ITALICS("BOOM") "-compatible"))), temp, li->linedef->special,
-                                    linespecials[li->linedef->special], linefix[j].special, linespecials[linefix[j].special]);
+                                    "-compatible" : "The " ITALICS("BOOM") "-compatible"))), temp1, temp2,
+                                    linespecials[li->linedef->special], temp3, linespecials[linefix[j].special]);
+                                free(temp1);
+                                free(temp2);
+                                free(temp3);
+                            }
                             else
-                                C_Warning(2, "%s line special %i (\"%s\") has been added to linedef %s.",
+                            {
+                                char    *temp1 = commify(linefix[j].special);
+                                char    *temp2 = commify(linedefnum);
+
+                                C_Warning(2, "%s line special %s (\"%s\") has been added to linedef %s.",
                                     (li->linedef->special < BOOMLINESPECIALS ? "The" : (li->linedef->special < MBF21LINESPECIALS ?
                                     "The " ITALICS("MBF21") "-compatible" : (li->linedef->special < MBFLINESPECIALS ? "The " ITALICS("MBF")
-                                    "-compatible" : "The " ITALICS("BOOM") "-compatible"))), linefix[j].special,
-                                    linespecials[linefix[j].special], temp);
+                                    "-compatible" : "The " ITALICS("BOOM") "-compatible"))), temp1, linespecials[linefix[j].special],
+                                    temp2);
+                                free(temp1);
+                                free(temp2);
+                            }
                         }
                         else
+                        {
+                            char    *temp = commify(linedefnum);
+
                             C_Warning(2, "%s line special of linedef %s has been removed.",
                                 (li->linedef->special < BOOMLINESPECIALS ? "The" : (li->linedef->special < MBF21LINESPECIALS ?
                                 "The " ITALICS("MBF21") "-compatible" : (li->linedef->special < MBFLINESPECIALS ? "The " ITALICS("MBF")
                                 "-compatible" : "The " ITALICS("BOOM") "-compatible"))), temp);
+                            free(temp);
+                        }
 
                         li->linedef->special = linefix[j].special;
-                        free(temp);
                     }
 
                     if (linefix[j].tag != DEFAULT)

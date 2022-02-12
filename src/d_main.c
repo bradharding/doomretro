@@ -2386,19 +2386,12 @@ static void D_DoomMainSetup(void)
     }
 
     M_Init();
-
     R_Init();
-
     P_Init();
-
     S_Init();
-
     HU_Init();
-
     ST_Init();
-
     AM_Init();
-
     C_Init();
 
     if ((startloadgame = ((p = M_CheckParmWithArgs("-loadgame", 1, 1)) ? strtol(myargv[p + 1], NULL, 10) : -1)) >= 0
