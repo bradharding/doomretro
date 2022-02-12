@@ -1093,18 +1093,6 @@ void I_SetPaletteWithBrightness(byte *playpal, double brightness)
     SDL_SetPaletteColors(palette, colors, 0, 256);
 }
 
-static void I_RestoreFocus(void)
-{
-#if defined(_WIN32)
-    SDL_SysWMinfo   info;
-
-    SDL_VERSION(&info.version);
-
-    if (SDL_GetWindowWMInfo(window, &info))
-        SetFocus(info.info.win.window);
-#endif
-}
-
 static void GetDisplays(void)
 {
     numdisplays = MIN(SDL_GetNumVideoDisplays(), MAXDISPLAYS);
@@ -1213,8 +1201,6 @@ void I_CreateExternalAutomap(int outputlevel)
 
     map_rect.w = MAPWIDTH;
     map_rect.h = MAPHEIGHT;
-
-    I_RestoreFocus();
 
     if (outputlevel == 2)
     {
@@ -2046,6 +2032,9 @@ void I_InitGraphics(void)
     if (!(SDL_SetHintWithPriority(SDL_HINT_VIDEO_MINIMIZE_ON_FOCUS_LOSS, "1", SDL_HINT_OVERRIDE)))
         I_SDLError(SDL_SetHintWithPriority);
 #endif
+
+    if (!(SDL_SetHintWithPriority(SDL_HINT_MOUSE_RELATIVE_MODE_WARP, "1", SDL_HINT_OVERRIDE)))
+        I_SDLError(SDL_SetHintWithPriority);
 
     SetVideoMode(true, true);
 
