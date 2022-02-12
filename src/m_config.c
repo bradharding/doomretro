@@ -181,6 +181,7 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT          (r_translucency,                   r_translucency,                        r_translucency,                        BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT          (s_channels,                       s_channels,                            s_channels,                            NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT          (s_lowermenumusic,                 s_lowermenumusic,                      s_lowermenumusic,                      BOOLVALUEALIAS        ),
+    CONFIG_VARIABLE_INT          (s_musicinbackground,              s_musicinbackground,                   s_musicinbackground,                   BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT_PERCENT  (s_musicvolume,                    s_musicvolume,                         s_musicvolume,                         NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT          (s_randommusic,                    s_randommusic,                         s_randommusic,                         BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT          (s_randompitch,                    s_randompitch,                         s_randompitch,                         BOOLVALUEALIAS        ),
@@ -923,6 +924,9 @@ static void M_CheckCVARs(dboolean ispackageconfig)
 
     if (s_lowermenumusic != false && s_lowermenumusic != true)
         s_lowermenumusic = s_lowermenumusic_default;
+
+    if (s_musicinbackground != false && s_musicinbackground != true)
+        s_musicinbackground = s_musicinbackground_default;
 
     s_musicvolume = BETWEEN(s_musicvolume_min, s_musicvolume, s_musicvolume_max);
     musicVolume = (s_musicvolume * 31 + 50) / 100;

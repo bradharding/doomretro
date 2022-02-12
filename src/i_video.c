@@ -654,10 +654,7 @@ static void I_GetEvent(void)
                     {
                         case SDL_WINDOWEVENT_FOCUS_GAINED:
                             windowfocused = true;
-
-                            if (menuactive || consoleactive)
-                                S_ResumeMusic();
-
+                            S_ResumeMusic();
                             I_InitKeyboard();
                             break;
 
@@ -666,7 +663,7 @@ static void I_GetEvent(void)
 
                             if (gamestate == GS_LEVEL && !paused)
                             {
-                                if (menuactive || consoleactive)
+                                if (!s_musicinbackground)
                                     S_PauseMusic();
                                 else
                                     sendpause = true;

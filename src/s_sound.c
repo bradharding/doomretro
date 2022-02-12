@@ -97,6 +97,7 @@ static sobj_t       *sobjs;
 
 int                 s_channels = s_channels_default;
 dboolean            s_lowermenumusic = s_lowermenumusic_default;
+dboolean            s_musicinbackground = s_musicinbackground_default;
 int                 s_musicvolume = s_musicvolume_default;
 dboolean            s_randommusic = s_randommusic_default;
 dboolean            s_randompitch = s_randompitch_default;

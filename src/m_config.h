@@ -160,6 +160,7 @@ extern dboolean     r_textures;
 extern dboolean     r_translucency;
 extern int          s_channels;
 extern dboolean     s_lowermenumusic;
+extern dboolean     s_musicinbackground;
 extern int          s_musicvolume;
 extern dboolean     s_randommusic;
 extern dboolean     s_randompitch;
@@ -653,6 +654,8 @@ enum
 #define s_channels_max                          64
 
 #define s_lowermenumusic_default                true
+
+#define s_musicinbackground_default             false
 
 #define s_musicvolume_min                       0
 #define s_musicvolume_default                   100

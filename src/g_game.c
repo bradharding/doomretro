@@ -990,7 +990,6 @@ void G_Ticker(void)
             case BTS_PAUSE:
                 if ((paused = !paused))
                 {
-                    S_PauseMusic();
                     S_StartSound(NULL, sfx_swtchn);
                     viewplayer->fixedcolormap = 0;
                     I_SetPalette(PLAYPAL);
