@@ -228,6 +228,10 @@ extern int          windowborderheight;
 
 dboolean MouseShouldBeGrabbed(void)
 {
+    // if the window doesn't have focus, never grab it
+    if (!windowfocused)
+        return false;
+
     // always grab the mouse when fullscreen (don't want to see the mouse pointer)
     if (vid_fullscreen)
         return true;
