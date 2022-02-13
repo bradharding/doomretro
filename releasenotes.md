@@ -16,6 +16,7 @@
 * Control of the mouse is no longer lost if the external automap is shown on another display when the `am_external` CVAR is `on`.
 * The monsters spawned using the `spawn` CCMD now face the player.
 * The intensity of the red effect when the player is injured and the `r_damageeffect` is `on` has increased to be more consistent with *Vanilla DOOM*.
+* Dithered lighting is now applied to missing wall textures if the `r_ditheredlighting` CVAR is `on`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
