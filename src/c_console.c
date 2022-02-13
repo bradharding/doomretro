@@ -1285,7 +1285,7 @@ void C_Drawer(void)
                 const int consoledown[CONSOLEDOWNSIZE] =
                 {
                      12,  29,  45,  60,  84,  97, 109, 120, 130, 139, 147, 154, 160, 165,
-                    169, 173, 176, 179, 182, 184, 186, 188, 190, 191, 192, 193, 194, 195
+                    169, 173, 176, 179, 182, 184, 186, 188, 190, 192, 194, 194, 195, 195
                 };
 
                 if (consoleheight > consoledown[consoleanim])
