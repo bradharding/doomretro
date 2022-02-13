@@ -394,12 +394,7 @@ static void R_RenderSegLoop(void)
             dc_yh = yh;
 
             if (missingmidtexture)
-            {
-                if (r_ditheredlighting)
-                    R_DrawColorDitherColumn();
-                else
-                    R_DrawColorColumn();
-            }
+                missingcolfunc();
             else
             {
                 dc_source = R_GetTextureColumn(R_CacheTextureCompositePatchNum(midtexture), texturecolumn);
@@ -450,12 +445,7 @@ static void R_RenderSegLoop(void)
                     dc_yh = mid;
 
                     if (missingtoptexture)
-                    {
-                        if (r_ditheredlighting)
-                            R_DrawColorDitherColumn();
-                        else
-                            R_DrawColorColumn();
-                    }
+                        missingcolfunc();
                     else
                     {
                         dc_source = R_GetTextureColumn(R_CacheTextureCompositePatchNum(toptexture), texturecolumn);
@@ -511,12 +501,7 @@ static void R_RenderSegLoop(void)
                     dc_yh = yh;
 
                     if (missingbottomtexture)
-                    {
-                        if (r_ditheredlighting)
-                            R_DrawColorDitherColumn();
-                        else
-                            R_DrawColorColumn();
-                    }
+                        missingcolfunc();
                     else
                     {
                         dc_source = R_GetTextureColumn(R_CacheTextureCompositePatchNum(bottomtexture), texturecolumn);
