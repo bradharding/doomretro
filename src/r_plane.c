@@ -145,7 +145,10 @@ static void R_MapPlane(int y, int x1)
             if (ds_colormap[0] == ds_colormap[1])
                 altspanfunc();
             else
+            {
+                ds_z = ((ds_z >> 12) & 255);
                 spanfunc();
+            }
         }
         else
             spanfunc();

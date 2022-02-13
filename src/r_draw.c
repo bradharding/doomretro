@@ -145,8 +145,7 @@ static const byte ditherlowmatrix[DITHERSIZE * 2][DITHERSIZE * 2] =
     { 112, 112, 144, 144,  64,  64, 160, 160 }
 };
 
-#define ditherlow(x, y, intensity) \
-    (ditherlowmatrix[((y) & (DITHERSIZE * 2 - 1))][((x) & (DITHERSIZE * 2 - 1))] < (intensity))
+#define ditherlow(x, y, z)  (ditherlowmatrix[((y) & (DITHERSIZE * 2 - 1))][((x) & (DITHERSIZE * 2 - 1))] < (z))
 
 static const byte dithermatrix[DITHERSIZE][DITHERSIZE] =
 {
@@ -156,8 +155,7 @@ static const byte dithermatrix[DITHERSIZE][DITHERSIZE] =
     { 112, 144,  64, 160 }
 };
 
-#define dither(x, y, intensity) \
-    (dithermatrix[((y) & (DITHERSIZE - 1))][((x) & (DITHERSIZE - 1))] < (intensity))
+#define dither(x, y, z)     (dithermatrix[((y) & (DITHERSIZE - 1))][((x) & (DITHERSIZE - 1))] < (z))
 
 //
 // A column is a vertical slice/span from a wall texture that,
@@ -1482,34 +1480,32 @@ void R_DrawSpan(void)
 
 void R_DrawDitherLowSpan(void)
 {
-    int         count = ds_x2 - ds_x1;
-    byte        *dest = ylookup0[ds_y] + ds_x1;
-    const int   fracz = ((ds_z >> 12) & 255);
+    int     count = ds_x2 - ds_x1;
+    byte    *dest = ylookup0[ds_y] + ds_x1;
 
     while (--count)
     {
-        *dest++ = ds_colormap[ditherlow(ds_x1++, ds_y, fracz)][ds_source[((ds_xfrac >> 16) & 63) | ((ds_yfrac >> 10) & 4032)]];
+        *dest++ = ds_colormap[ditherlow(ds_x1++, ds_y, ds_z)][ds_source[((ds_xfrac >> 16) & 63) | ((ds_yfrac >> 10) & 4032)]];
         ds_xfrac += ds_xstep;
         ds_yfrac += ds_ystep;
     }
 
-    *dest = ds_colormap[ditherlow(ds_x1, ds_y, fracz)][ds_source[((ds_xfrac >> 16) & 63) | ((ds_yfrac >> 10) & 4032)]];
+    *dest = ds_colormap[ditherlow(ds_x1, ds_y, ds_z)][ds_source[((ds_xfrac >> 16) & 63) | ((ds_yfrac >> 10) & 4032)]];
 }
 
 void R_DrawDitherSpan(void)
 {
-    int         count = ds_x2 - ds_x1;
-    byte        *dest = ylookup0[ds_y] + ds_x1;
-    const int   fracz = ((ds_z >> 12) & 255);
+    int     count = ds_x2 - ds_x1;
+    byte    *dest = ylookup0[ds_y] + ds_x1;
 
     while (--count)
     {
-        *dest++ = ds_colormap[dither(ds_x1++, ds_y, fracz)][ds_source[((ds_xfrac >> 16) & 63) | ((ds_yfrac >> 10) & 4032)]];
+        *dest++ = ds_colormap[dither(ds_x1++, ds_y, ds_z)][ds_source[((ds_xfrac >> 16) & 63) | ((ds_yfrac >> 10) & 4032)]];
         ds_xfrac += ds_xstep;
         ds_yfrac += ds_ystep;
     }
 
-    *dest = ds_colormap[dither(ds_x1, ds_y, fracz)][ds_source[((ds_xfrac >> 16) & 63) | ((ds_yfrac >> 10) & 4032)]];
+    *dest = ds_colormap[dither(ds_x1, ds_y, ds_z)][ds_source[((ds_xfrac >> 16) & 63) | ((ds_yfrac >> 10) & 4032)]];
 }
 
 void R_DrawColorSpan(void)
@@ -1526,26 +1522,24 @@ void R_DrawColorSpan(void)
 
 void R_DrawDitherLowColorSpan(void)
 {
-    int         count = ds_x2 - ds_x1;
-    byte        *dest = ylookup0[ds_y] + ds_x1;
-    const int   fracz = ((ds_z >> 12) & 255);
+    int     count = ds_x2 - ds_x1;
+    byte    *dest = ylookup0[ds_y] + ds_x1;
 
     while (--count)
-        *dest++ = ds_colormap[ditherlow(ds_x1++, ds_y, fracz)][NOTEXTURECOLOR];
+        *dest++ = ds_colormap[ditherlow(ds_x1++, ds_y, ds_z)][NOTEXTURECOLOR];
 
-    *dest = ds_colormap[ditherlow(ds_x1, ds_y, fracz)][NOTEXTURECOLOR];
+    *dest = ds_colormap[ditherlow(ds_x1, ds_y, ds_z)][NOTEXTURECOLOR];
 }
 
 void R_DrawDitherColorSpan(void)
 {
-    int         count = ds_x2 - ds_x1;
-    byte        *dest = ylookup0[ds_y] + ds_x1;
-    const int   fracz = ((ds_z >> 12) & 255);
+    int     count = ds_x2 - ds_x1;
+    byte    *dest = ylookup0[ds_y] + ds_x1;
 
     while (--count)
-        *dest++ = ds_colormap[dither(ds_x1++, ds_y, fracz)][NOTEXTURECOLOR];
+        *dest++ = ds_colormap[dither(ds_x1++, ds_y, ds_z)][NOTEXTURECOLOR];
 
-    *dest = ds_colormap[dither(ds_x1, ds_y, fracz)][NOTEXTURECOLOR];
+    *dest = ds_colormap[dither(ds_x1, ds_y, ds_z)][NOTEXTURECOLOR];
 }
 
 //

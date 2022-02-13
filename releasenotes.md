@@ -15,7 +15,7 @@
 * Further improvements have been made to the support for [*DOOM 4 VANILLA*](https://www.doomworld.com/forum/topic/108725).
 * Control of the mouse is no longer lost if the external automap is shown on another display when the `am_external` CVAR is `on`.
 * The monsters spawned using the `spawn` CCMD now face the player.
-* The intensity of the red effect when the player is injured and the `r_damageeffect` is `on` is now more consistent with *Vanilla DOOM*.
+* The intensity of the red effect when the player is injured and the `r_damageeffect` is `on` has increased to be more consistent with *Vanilla DOOM*.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
