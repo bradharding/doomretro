@@ -6,17 +6,18 @@
 * Optimizations have been made to further improve the overall performance of *DOOM Retro*.
 * Crashes no longer occur in the following instances:
   * Sometimes when the player moves at the start of a map while the automap is open and the `am_path` CVAR is `on`.
-  * When loading *DOOM Retro* as a non-*Steam* game through *Steam* and a controller is connected.
+  * When running *DOOM Retro* as a non-*Steam* game through *Steam* and a controller is connected.
   * When the player exits a map after the music has been changed using a `MUSINFO` lump.
   * When a map contains a linedef with an invalid special.
 * Minor changes have been made to text that is output to the console.
 * The diagonal pattern of the console’s background now shifts with the rest of the console as it opens and closes.
 * Music can now continue to play in the background when *DOOM Retro’s* window loses focus by enabling the new `s_musicinbackground` CVAR, which is `off` by default.
 * Further improvements have been made to the support for [*DOOM 4 VANILLA*](https://www.doomworld.com/forum/topic/108725).
-* Control of the mouse is no longer lost if the external automap is shown on another display when the `am_external` CVAR is `on`.
-* The monsters spawned using the `spawn` CCMD now face the player.
+* Use of the mouse is no longer lost if the external automap is shown on another display when the `am_external` CVAR is `on`.
+* Monsters spawned using the `spawn` CCMD now face the player.
 * The intensity of the red effect when the player is injured and the `r_damageeffect` is `on` has increased to be more consistent with *Vanilla DOOM*.
 * Dithered lighting is now applied to missing wall textures if the `r_ditheredlighting` CVAR is `on`.
+* The gold effect when the player picks up an item now appears correctly in [*Chex Quest*](https://doomwiki.org/wiki/Chex_Quest), [*Freedoom*](https://freedoom.github.io/), [*HacX: Twitch ’n Kill*](http://www.drnostromo.com/hacx/) and [*REKKR*](http://manbitesshark.com/).
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
