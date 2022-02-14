@@ -448,7 +448,10 @@ static void R_DrawVisSprite(const vissprite_t *vis)
     int             baseclip;
 
     spryscale = vis->scale;
-    dc_z = spryscale;
+
+    if (r_ditheredlighting)
+        dc_z = ((spryscale >> 5) & 255);
+
     dc_colormap[0] = vis->colormap;
     dc_nextcolormap[0] = vis->nextcolormap;
     dc_iscale = FixedDiv(FRACUNIT, spryscale);
@@ -492,7 +495,10 @@ static void R_DrawVisSpriteWithShadow(const vissprite_t *vis)
     const int       flags = mobj->flags;
 
     spryscale = vis->scale;
-    dc_z = spryscale;
+
+    if (r_ditheredlighting)
+        dc_z = ((spryscale >> 5) & 255);
+
     dc_colormap[0] = vis->colormap;
     dc_nextcolormap[0] = vis->nextcolormap;
     dc_black = dc_colormap[0][nearestblack];
