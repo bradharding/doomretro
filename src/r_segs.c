@@ -298,8 +298,12 @@ void R_RenderMaskedSegRange(drawseg_t *ds, const int x1, const int x2)
                 int index = MIN(spryscale >> LIGHTSCALESHIFT, MAXLIGHTSCALE - 1);
 
                 dc_colormap[0] = walllights[index];
-                dc_nextcolormap[0] = walllightsnext[index];
-                dc_z = spryscale;
+
+                if (r_ditheredlighting)
+                {
+                    dc_nextcolormap[0] = walllightsnext[index];
+                    dc_z = ((spryscale >> 5) & 255);
+                }
             }
 
             dc_iscale = UINT_MAX / (unsigned int)spryscale;
@@ -378,8 +382,12 @@ static void R_RenderSegLoop(void)
                 int index = MIN(rw_scale >> LIGHTSCALESHIFT, MAXLIGHTSCALE - 1);
 
                 dc_colormap[0] = walllights[index];
-                dc_nextcolormap[0] = walllightsnext[index];
-                dc_z = rw_scale;
+
+                if (r_ditheredlighting)
+                {
+                    dc_nextcolormap[0] = walllightsnext[index];
+                    dc_z = ((rw_scale >> 5) & 255);
+                }
             }
 
             dc_x = rw_x;
