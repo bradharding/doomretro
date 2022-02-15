@@ -1710,7 +1710,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
                             (*inflicter->info->name1 && isvowel(inflicter->info->name1[0]) ? "an" : "a"),
                             (*inflicter->info->name1 ? inflicter->info->name1 : "monster"),
                             (inflicter->type == inflicter->inflicter
-                                || M_StringCompare(inflicter->info->name1, (mobjinfo[inflicter->inflicter].name1) ? "another" :
+                                || (M_StringCompare(inflicter->info->name1, mobjinfo[inflicter->inflicter].name1) ? "another" :
                                 (isvowel(mobjinfo[inflicter->inflicter].name1[0]) ? "an" : "a"))),
                             (*mobjinfo[inflicter->inflicter].name1 ? mobjinfo[inflicter->inflicter].name1 : "monster"));
                     else
@@ -1720,7 +1720,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
                             (*inflicter->info->name1 && isvowel(inflicter->info->name1[0]) ? "an" : "a"),
                             (*inflicter->info->name1 ? inflicter->info->name1 : "monster"),
                             (inflicter->type == inflicter->inflicter
-                                || M_StringCompare(inflicter->info->name1, (mobjinfo[inflicter->inflicter].name1) ? "another" :
+                                || (M_StringCompare(inflicter->info->name1, mobjinfo[inflicter->inflicter].name1) ? "another" :
                                 (isvowel(mobjinfo[inflicter->inflicter].name1[0]) ? "an" : "a"))),
                             (*mobjinfo[inflicter->inflicter].name1 ? mobjinfo[inflicter->inflicter].name1 : "monster"));
                 }
@@ -1761,7 +1761,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
                         (*inflicter->info->name1 && isvowel(inflicter->info->name1[0]) ? "an" : "a"),
                         (*inflicter->info->name1 ? inflicter->info->name1 : "monster"),
                         (inflicter->type == inflicter->inflicter
-                            || M_StringCompare(inflicter->info->name1, (mobjinfo[inflicter->inflicter].name1) ? "another" :
+                            || (M_StringCompare(inflicter->info->name1, mobjinfo[inflicter->inflicter].name1) ? "another" :
                             (*mobjinfo[inflicter->inflicter].name1 && isvowel(mobjinfo[inflicter->inflicter].name1[0]) ? "an" : "a"))),
                         (*mobjinfo[inflicter->inflicter].name1 ? mobjinfo[inflicter->inflicter].name1 : "monster"));
 
