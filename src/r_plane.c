@@ -129,9 +129,7 @@ static void R_MapPlane(int y, int x1)
 
     if (fixedcolormap)
     {
-        ds_colormap[0] = fixedcolormap;
-        ds_colormap[1] = fixedcolormap;
-
+        ds_colormap[0] = ds_colormap[1] = fixedcolormap;
         altspanfunc();
     }
     else

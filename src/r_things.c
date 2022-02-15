@@ -1164,8 +1164,7 @@ static void R_DrawPlayerSprite(pspdef_t *psp, dboolean invisibility, dboolean te
             else
             {
                 sector_t *sec = viewplayer->mo->subsector->sector;
-                short    lightlevel = (sec->floorlightsec ? sec->floorlightsec : sec)->lightlevel;
-                int      lightnum = (lightlevel >> OLDLIGHTSEGSHIFT) + extralight;
+                int      lightnum = ((sec->floorlightsec ? sec->floorlightsec : sec)->lightlevel >> OLDLIGHTSEGSHIFT) + extralight;
 
                 vis->colormap = psprscalelight[MIN(lightnum, OLDLIGHTLEVELS - 1)][MIN(lightnum + 16, OLDMAXLIGHTSCALE - 1)];
             }

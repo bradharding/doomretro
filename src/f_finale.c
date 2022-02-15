@@ -692,7 +692,7 @@ stopattack:
     {
         if (caststate->action == &A_RandomJump)
         {
-            caststate = &states[(M_BigRandom() & 255) < caststate->misc2 ? caststate->misc1 : caststate->nextstate];
+            caststate = &states[((M_BigRandom() & 255) < caststate->misc2 ? caststate->misc1 : caststate->nextstate)];
             casttics = caststate->tics;
         }
 
