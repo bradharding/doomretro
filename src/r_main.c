@@ -348,19 +348,13 @@ static void R_InitTextureMapping(void)
 
 //
 // R_InitLightTables
-// Only inits the zlight table, because the scalelight table changes with view size.
 //
 void R_InitLightTables(void)
 {
     int width = (FixedMul(SCREENWIDTH, FixedDiv(FRACUNIT,
                  finetangent[FINEANGLES / 4 + (r_fov + WIDEFOVDELTA) * FINEANGLES / 360 / 2])) + 1) / 2 * FRACUNIT;
 
-    c_zlight = malloc(numcolormaps * sizeof(*c_zlight));
-    c_scalelight = malloc(numcolormaps * sizeof(*c_scalelight));
-    c_psprscalelight = malloc(numcolormaps * sizeof(*c_psprscalelight));
-
-    // Calculate the light levels to use
-    //  for each level/distance combination.
+    // Calculate the light levels to use for each level/distance combination.
     for (int i = 0; i < LIGHTLEVELS; i++)
     {
         const int   start = ((LIGHTLEVELS - LIGHTBRIGHT - i) * 2) * NUMCOLORMAPS / LIGHTLEVELS;
@@ -869,6 +863,11 @@ void R_Init(void)
     R_InitPointToAngle();
     R_InitTables();
     R_SetViewSize(r_screensize);
+
+    c_zlight = malloc(numcolormaps * sizeof(*c_zlight));
+    c_scalelight = malloc(numcolormaps * sizeof(*c_scalelight));
+    c_psprscalelight = malloc(numcolormaps * sizeof(*c_psprscalelight));
+
     R_InitLightTables();
     R_InitTranslationTables();
     R_InitPatches();
