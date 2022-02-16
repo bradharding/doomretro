@@ -2,7 +2,7 @@
 
 #### DOOM Retro v4.4.5
 
-* *DOOM Retro* is now compiled using v17.0.6 of [*Microsoft Visual Studio Community 2022*](https://www.visualstudio.com/vs/).
+* *DOOM Retro* is now compiled using v17.1.0 of [*Microsoft Visual Studio Community 2022*](https://www.visualstudio.com/vs/).
 * Optimizations have been made to further improve the overall performance of *DOOM Retro*.
 * Crashes no longer occur in the following instances:
   * Sometimes when the player moves at the start of a map while the automap is open and the `am_path` CVAR is `on`.
