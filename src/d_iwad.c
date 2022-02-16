@@ -797,7 +797,7 @@ void D_SetSaveGameFolder(dboolean output)
 
         if (*pwadfile)
         {
-            char    *temp = removeext(pwadfile);
+            char    *temp = removeext(GetCorrectCase(pwadfile));
 
             savegamefolder = M_StringJoin(savegamefolder, temp, DIR_SEPARATOR_S, NULL);
             free(temp);
@@ -886,7 +886,7 @@ void D_SetGameDescription(void)
     {
         // DOOM 1. But which version?
         if (modifiedgame && *pwadfile)
-            M_StringCopy(gamedescription, pwadfile, sizeof(gamedescription));
+            M_StringCopy(gamedescription, GetCorrectCase(pwadfile), sizeof(gamedescription));
         else if (FREEDOOM)
             M_StringCopy(gamedescription, s_CAPTION_FREEDOOM1, sizeof(gamedescription));
         else if (gamemode == retail)
@@ -904,7 +904,7 @@ void D_SetGameDescription(void)
             if (M_StringCompare(pwadfile, "nerve.wad"))
                 M_StringCopy(gamedescription, s_CAPTION_DOOM2, sizeof(gamedescription));
             else
-                M_StringCopy(gamedescription, pwadfile, sizeof(gamedescription));
+                M_StringCopy(gamedescription, GetCorrectCase(pwadfile), sizeof(gamedescription));
         }
         else if (FREEDOOM)
             M_StringCopy(gamedescription, (FREEDM ? s_CAPTION_FREEDM : s_CAPTION_FREEDOOM2), sizeof(gamedescription));
