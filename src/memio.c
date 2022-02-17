@@ -46,7 +46,7 @@
 typedef enum
 {
     MODE_READ,
-    MODE_WRITE,
+    MODE_WRITE
 } memfile_mode_t;
 
 struct _MEMFILE

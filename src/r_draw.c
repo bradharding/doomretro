@@ -131,7 +131,7 @@ byte            *dc_black33;
 byte            *dc_black40;
 byte            *dc_source;
 
-#define         DITHERSIZE  4
+#define DITHERSIZE  4
 
 static const byte ditherlowmatrix[DITHERSIZE * 2][DITHERSIZE * 2] =
 {

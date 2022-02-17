@@ -123,7 +123,7 @@ static registryvalue_t uninstall_values[] =
         HKEY_LOCAL_MACHINE,
         SOFTWARE_KEY "\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Doom Shareware for Windows 95",
         "UninstallString"
-    },
+    }
 };
 
 // Values installed by the GOG.com and Collector's Edition versions
@@ -208,7 +208,7 @@ static const char *steam_install_subdirs[] =
     "steamapps\\common\\Ultimate Doom\\rerelease\\DOOM_Data\\StreamingAssets",
     "steamapps\\common\\Ultimate Doom\\base"
     "steamapps\\common\\DOOM 3 BFG Edition\\base\\wads",
-    "steamapps\\common\\Final Doom\\base",
+    "steamapps\\common\\Final Doom\\base"
 };
 
 static char *GetRegistryString(registryvalue_t *reg_val)
