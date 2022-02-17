@@ -70,7 +70,6 @@ int         firstspritelump;
 int         lastspritelump;
 int         numspritelumps;
 
-dboolean    telefragonmap30 = false;
 dboolean    suppresswarnings = false;
 
 int         numtextures;
@@ -515,13 +514,6 @@ static void R_InitSpriteLumps(void)
                 mobjinfo[MT_BRUISER].blood = MT_BLOOD;
                 mobjinfo[MT_KNIGHT].blood = MT_BLOOD;
             }
-        }
-        else if (M_StringCompare(sc_String, "TELEFRAGONMAP30"))
-        {
-            SC_MustGetString();
-
-            if (M_StringCompare(pwadfile, sc_String))
-                telefragonmap30 = true;
         }
     }
 

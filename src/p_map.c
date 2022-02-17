@@ -46,6 +46,7 @@
 #include "m_misc.h"
 #include "m_random.h"
 #include "p_local.h"
+#include "p_setup.h"
 #include "s_sound.h"
 #include "z_zone.h"
 
@@ -94,7 +95,6 @@ dboolean        infiniteheight = infiniteheight_default;
 uint64_t        stat_distancetraveled = 0;
 
 extern dboolean successfulshot;
-extern dboolean telefragonmap30;
 
 //
 // TELEPORT MOVE
@@ -223,7 +223,7 @@ dboolean P_TeleportMove(mobj_t *thing, fixed_t x, fixed_t y, fixed_t z, dboolean
     sector_t    *newsec;
     fixed_t     radius = thing->radius;
 
-    telefrag = (thing->player || boss || (gamemap == 30 && telefragonmap30));
+    telefrag = (thing->player || boss || P_GetAllowMonsterTelefrags((gameepisode - 1) * 10 + gamemap));
 
     // kill anything occupying the position
     tmthing = thing;

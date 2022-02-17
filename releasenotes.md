@@ -18,6 +18,7 @@
 * The intensity of the red effect when the player is injured and the `r_damageeffect` is `on` has increased to be more consistent with *Vanilla DOOM*.
 * Dithered lighting is now applied to missing wall textures if the `r_ditheredlighting` CVAR is `on`.
 * The gold effect when the player picks up an item now appears correctly in [*Chex Quest*](https://doomwiki.org/wiki/Chex_Quest), [*Freedoom*](https://freedoom.github.io/), [*HacX: Twitch ’n Kill*](http://www.drnostromo.com/hacx/) and [*REKKR*](http://manbitesshark.com/).
+* *DOOM Retro* now recognizes `allowmonstertelefrags` in `MAPINFO` lumps.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

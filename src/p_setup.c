@@ -66,42 +66,43 @@
 #define MAPINFO_SCRIPT_NAME     "MAPINFO"
 #define UMAPINFO_SCRIPT_NAME    "UMAPINFO"
 
-#define MAXMAPINFO              100
+#define MAXMAPINFO                 100
 
-#define NUMLIQUIDS              256
+#define NUMLIQUIDS                 256
 
-#define MCMD_AUTHOR             1
-#define MCMD_CLUSTER            2
-#define MCMD_ENDBUNNY           3
-#define MCMD_ENDCAST            4
-#define MCMD_ENDGAME            5
-#define MCMD_ENDPIC             6
-#define MCMD_ENTERPIC           7
-#define MCMD_EPISODE            8
-#define MCMD_INTERBACKDROP      9
-#define MCMD_INTERMUSIC         10
-#define MCMD_INTERTEXT          11
-#define MCMD_INTERTEXTSECRET    12
-#define MCMD_LEVELNAME          13
-#define MCMD_LEVELPIC           14
-#define MCMD_LIQUID             15
-#define MCMD_MUSIC              16
-#define MCMD_MUSICCOMPOSER      17
-#define MCMD_MUSICTITLE         18
-#define MCMD_NEXT               19
-#define MCMD_NEXTSECRET         20
-#define MCMD_NOBRIGHTMAP        21
-#define MCMD_NOFREELOOK         22
-#define MCMD_NOJUMP             23
-#define MCMD_NOLIQUID           24
-#define MCMD_NOMOUSELOOK        25
-#define MCMD_PAR                26
-#define MCMD_PARTIME            27
-#define MCMD_PISTOLSTART        28
-#define MCMD_SECRETNEXT         29
-#define MCMD_SKY1               30
-#define MCMD_SKYTEXTURE         31
-#define MCMD_TITLEPATCH         32
+#define MCMD_AUTHOR                  1
+#define MCMD_CLUSTER                 2
+#define MCMD_ENDBUNNY                3
+#define MCMD_ENDCAST                 4
+#define MCMD_ENDGAME                 5
+#define MCMD_ENDPIC                  6
+#define MCMD_ENTERPIC                7
+#define MCMD_EPISODE                 8
+#define MCMD_INTERBACKDROP           9
+#define MCMD_INTERMUSIC             10
+#define MCMD_INTERTEXT              11
+#define MCMD_INTERTEXTSECRET        12
+#define MCMD_LEVELNAME              13
+#define MCMD_LEVELPIC               14
+#define MCMD_LIQUID                 15
+#define MCMD_MUSIC                  16
+#define MCMD_MUSICCOMPOSER          17
+#define MCMD_MUSICTITLE             18
+#define MCMD_NEXT                   19
+#define MCMD_NEXTSECRET             20
+#define MCMD_NOBRIGHTMAP            21
+#define MCMD_NOFREELOOK             22
+#define MCMD_NOJUMP                 23
+#define MCMD_NOLIQUID               24
+#define MCMD_NOMOUSELOOK            25
+#define MCMD_PAR                    26
+#define MCMD_PARTIME                27
+#define MCMD_PISTOLSTART            28
+#define MCMD_SECRETNEXT             29
+#define MCMD_SKY1                   30
+#define MCMD_SKYTEXTURE             31
+#define MCMD_TITLEPATCH             32
+#define MCMD_ALLOWMONSTERTELEFRAGS  33
 
 typedef struct mapinfo_s mapinfo_t;
 
@@ -133,6 +134,7 @@ struct mapinfo_s
     int         sky1texture;
     int         sky1scrolldelta;
     int         titlepatch;
+    dboolean    allowmonstertelefrags;
 };
 
 //
@@ -251,7 +253,7 @@ static char *mapcmdnames[] =
     "SKY1",
     "SKYTEXTURE",
     "TITLEPATCH",
-    NULL
+    "ALLOWMONSTERTELEFRAGS"
 };
 
 static int mapcmdids[] =
@@ -287,6 +289,7 @@ static int mapcmdids[] =
     MCMD_SKY1,
     MCMD_SKYTEXTURE,
     MCMD_TITLEPATCH,
+    MCMD_ALLOWMONSTERTELEFRAGS
 };
 
 dboolean        canmodify;
@@ -3488,6 +3491,10 @@ static void P_InitMapInfo(void)
                             info->titlepatch = W_CheckNumForName(sc_String);
 
                             break;
+
+                        case MCMD_ALLOWMONSTERTELEFRAGS:
+                            info->allowmonstertelefrags = true;
+                            break;
                     }
             }
 
@@ -3649,6 +3656,11 @@ int P_GetMapSky1ScrollDelta(int map)
 int P_GetMapTitlePatch(int map)
 {
     return mapinfo[map].titlepatch;
+}
+
+int P_GetAllowMonsterTelefrags(int map)
+{
+    return mapinfo[map].allowmonstertelefrags;
 }
 
 //
