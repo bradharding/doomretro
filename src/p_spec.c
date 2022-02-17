@@ -2413,9 +2413,7 @@ dboolean EV_DoDonut(line_t *line)
         if (P_SectorActive(floor_special, s1))
             continue;
 
-        s2 = getNextSector(s1->lines[0], s1);
-
-        if (!s2)
+        if (!(s2 = getNextSector(s1->lines[0], s1)))
             continue;
 
         if (P_SectorActive(floor_special, s2))

@@ -788,12 +788,10 @@ void D_SetSaveGameFolder(dboolean output)
     else
     {
         char    *appdatafolder = M_GetAppDataFolder();
-        char    *savegamefolder_free;
 
         M_MakeDirectory(appdatafolder);
         savegamefolder = M_StringJoin(appdatafolder, DIR_SEPARATOR_S, "savegames", DIR_SEPARATOR_S, NULL);
         M_MakeDirectory(savegamefolder);
-        savegamefolder_free = savegamefolder;
 
         if (*pwadfile)
         {
@@ -806,7 +804,6 @@ void D_SetSaveGameFolder(dboolean output)
             savegamefolder = M_StringJoin(savegamefolder, SaveGameIWADName(), DIR_SEPARATOR_S, NULL);
 
         free(appdatafolder);
-        free(savegamefolder_free);
     }
 
     M_MakeDirectory(savegamefolder);
