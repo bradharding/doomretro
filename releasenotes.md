@@ -2,6 +2,8 @@
 
 #### DOOM Retro v4.4.6
 
+* Minor improvements have been made to the support of `MAPINFO` lumps.
+
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Friday, February 18, 2022

@@ -62,10 +62,6 @@
 #include "w_wad.h"
 #include "z_zone.h"
 
-#define RMAPINFO_SCRIPT_NAME    "RMAPINFO"
-#define MAPINFO_SCRIPT_NAME     "MAPINFO"
-#define UMAPINFO_SCRIPT_NAME    "UMAPINFO"
-
 #define MAXMAPINFO                 100
 
 #define NUMLIQUIDS                 256
@@ -295,8 +291,6 @@ static int mapcmdids[] =
 
 dboolean        canmodify;
 dboolean        transferredsky;
-static int      UMAPINFO;
-static int      RMAPINFO;
 static int      MAPINFO;
 
 dboolean        r_fixmaperrors = r_fixmaperrors_default;
@@ -3071,19 +3065,6 @@ static int  noliquidlumps;
 
 static void P_InitMapInfo(void)
 {
-    int         mapmax = 1;
-    int         mcmdvalue;
-    mapinfo_t   *info;
-    char        *temp;
-
-    if (sigil || M_CheckParm("-nomapinfo"))
-        return;
-
-    if ((RMAPINFO = MAPINFO = W_CheckNumForName(RMAPINFO_SCRIPT_NAME)) < 0)
-        if ((UMAPINFO = MAPINFO = W_CheckNumForName(UMAPINFO_SCRIPT_NAME)) < 0)
-            if ((MAPINFO = W_CheckNumForName(MAPINFO_SCRIPT_NAME)) < 0)
-                return;
-
     for (int i = 0; i < MAXMAPINFO; i++)
     {
         mapinfo[i].author[0] = '\0';
@@ -3118,8 +3099,20 @@ static void P_InitMapInfo(void)
         mapinfo[i].sky1scrolldelta = 0;
         mapinfo[i].titlepatch = 0;
     }
+}
 
-    SC_Open(RMAPINFO >= 0 ? RMAPINFO_SCRIPT_NAME : (UMAPINFO >= 0 ? UMAPINFO_SCRIPT_NAME : MAPINFO_SCRIPT_NAME));
+static void P_ParseMapInfo(char *scriptname)
+{
+    int         mapmax = 1;
+    int         mcmdvalue;
+    mapinfo_t   *info;
+    char        *temp1;
+    char        *temp2;
+
+    if (W_CheckNumForName(scriptname) < 0)
+        return;
+
+    SC_Open(scriptname);
 
     while (SC_GetString())
     {
@@ -3132,7 +3125,7 @@ static void P_InitMapInfo(void)
 
             if (sscanf(sc_String, "%i", &map) != 1 || map < 0 || map > 99)
             {
-                temp = uppercase(sc_String);
+                char    *temp = uppercase(sc_String);
 
                 if (gamemode == commercial)
                 {
@@ -3515,11 +3508,12 @@ static void P_InitMapInfo(void)
 
     SC_Close();
 
-    temp = commify(sc_Line);
-    C_Output("Parsed %s line%s from the " BOLD("%s") " lump in the %s " BOLD("%s") ".",
-        temp, (sc_Line == 1 ? "" : "s"), (RMAPINFO >= 0 ? "RMAPINFO" : (UMAPINFO >= 0 ? "UMAPINFO" : "MAPINFO")),
-        (lumpinfo[MAPINFO]->wadfile->type == IWAD ? "IWAD" : "PWAD"), lumpinfo[MAPINFO]->wadfile->path);
-    free(temp);
+    temp1 = commify(sc_Line);
+    temp2 = uppercase(scriptname);
+    C_Output("Parsed %s line%s from the " BOLD("%s") " lump in the %s " BOLD("%s") ".", temp1, (sc_Line == 1 ? "" : "s"),
+        temp2, (lumpinfo[MAPINFO]->wadfile->type == IWAD ? "IWAD" : "PWAD"), lumpinfo[MAPINFO]->wadfile->path);
+    free(temp1);
+    free(temp2);
 
     if (nojump && (keyboardjump || mousejump != -1 || gamecontrollerjump))
         C_Warning(1, "This %s has disabled use of the " BOLD("+jump") " action.",
@@ -3671,7 +3665,16 @@ void P_Init(void)
 {
     P_InitSwitchList();
     P_InitPicAnims();
-    P_InitMapInfo();
+
+    if (!M_CheckParm("-nomapinfo") && !sigil)
+    {
+        P_InitMapInfo();
+        P_ParseMapInfo("ZMAPINFO");
+        P_ParseMapInfo("MAPINFO");
+        P_ParseMapInfo("UMAPINFO");
+        P_ParseMapInfo("RMAPINFO");
+    }
+
     R_InitSprites();
     P_CheckSpechits();
     P_CheckIntercepts();
