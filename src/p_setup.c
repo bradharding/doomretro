@@ -709,15 +709,6 @@ static void P_CheckLinedefs(void)
                 free(temp2);
             }
         }
-        else if (ld->special >= NUMLINESPECIALS)
-        {
-            char    *temp1 = commify(ld->id);
-            char    *temp2 = commify(ld->special);
-
-            C_Warning(2, "Linedef %s has an invalid line special of %s.", temp1, temp2);
-            free(temp1);
-            free(temp2);
-        }
         else
         {
             if (!P_CheckTag(ld))
@@ -725,10 +716,17 @@ static void P_CheckLinedefs(void)
                 char    *temp1 = commify(ld->id);
                 char    *temp2 = commify(ld->special);
 
-                C_Warning(2, "Linedef %s has %s line special %s (\"%s\") but no tag.",
-                    temp1, (ld->special < BOOMLINESPECIALS ? "the" : (ld->special < MBF21LINESPECIALS ? "the " ITALICS("MBF21")
-                    "-compatible" : (ld->special < MBFLINESPECIALS ? "the " ITALICS("MBF") "-compatible" : "the " ITALICS("BOOM")
-                    "-compatible"))), temp2, linespecials[ld->special]);
+                if (ld->special < NUMLINESPECIALS)
+                    C_Warning(2, "Linedef %s has %s line special %s (\"%s\") but no tag.",
+                        temp1, (ld->special < BOOMLINESPECIALS ? "the" : (ld->special < MBFLINESPECIALS ? "the " ITALICS("BOOM")
+                        "-compatible" : (ld->special < MBF21LINESPECIALS ? "the " ITALICS("MBF") "-compatible" : "the " ITALICS("MBF21")
+                        "-compatible"))), temp2, linespecials[ld->special]);
+                else
+                    C_Warning(2, "Linedef %s has %s line special %s but no tag.",
+                        temp1, (ld->special < BOOMLINESPECIALS ? "the" : (ld->special < MBFLINESPECIALS ? "the " ITALICS("BOOM")
+                        "-compatible" : (ld->special < MBF21LINESPECIALS ? "the " ITALICS("MBF") "-compatible" : "the " ITALICS("MBF21")
+                        "-compatible"))), temp2);
+
                 free(temp1);
                 free(temp2);
             }
@@ -738,10 +736,17 @@ static void P_CheckLinedefs(void)
                 char    *temp2 = commify(ld->special);
                 char    *temp3 = commify(ld->tag);
 
-                C_Warning(2, "Linedef %s has %s line special %s (\"%s\") but an unknown tag of %s.",
-                    temp1, (ld->special < BOOMLINESPECIALS ? "the" : (ld->special < MBF21LINESPECIALS ? "the " ITALICS("MBF21")
-                    "-compatible" : (ld->special < MBFLINESPECIALS ? "the " ITALICS("MBF") "-compatible" : "the " ITALICS("BOOM")
-                    "-compatible"))), temp2, linespecials[ld->special], temp3);
+                if (ld->special < NUMLINESPECIALS)
+                    C_Warning(2, "Linedef %s has %s line special %s (\"%s\") but an unknown tag of %s.",
+                        temp1, (ld->special < BOOMLINESPECIALS ? "the" : (ld->special < MBFLINESPECIALS ? "the " ITALICS("BOOM")
+                        "-compatible" : (ld->special < MBF21LINESPECIALS ? "the " ITALICS("MBF") "-compatible" : "the " ITALICS("MBF21")
+                        "-compatible"))), temp2, linespecials[ld->special], temp3);
+                else
+                    C_Warning(2, "Linedef %s has %s line special %s but an unknown tag of %s.",
+                        temp1, (ld->special < BOOMLINESPECIALS ? "the" : (ld->special < MBFLINESPECIALS ? "the " ITALICS("BOOM")
+                        "-compatible" : (ld->special < MBF21LINESPECIALS ? "the " ITALICS("MBF") "-compatible" : "the " ITALICS("MBF21")
+                        "-compatible"))), temp2, temp3);
+
                 free(temp1);
                 free(temp2);
                 free(temp3);
@@ -1011,9 +1016,9 @@ static void P_LoadSegs(int lump)
                                 char    *temp3 = commify(linefix[j].special);
 
                                 C_Warning(2, "%s line special of linedef %s has been changed from %s (\"%s\") to %s (\"%s\").",
-                                    (li->linedef->special < BOOMLINESPECIALS ? "The" : (li->linedef->special < MBF21LINESPECIALS ?
-                                    "The " ITALICS("MBF21") "-compatible" : (li->linedef->special < MBFLINESPECIALS ? "The " ITALICS("MBF")
-                                    "-compatible" : "The " ITALICS("BOOM") "-compatible"))), temp1, temp2,
+                                    (li->linedef->special < BOOMLINESPECIALS ? "The" : (li->linedef->special < MBFLINESPECIALS ?
+                                    "The " ITALICS("BOOM") "-compatible" : (li->linedef->special < MBF21LINESPECIALS ? "The " ITALICS("MBF")
+                                    "-compatible" : "The " ITALICS("MBF21") "-compatible"))), temp1, temp2,
                                     linespecials[li->linedef->special], temp3, linespecials[linefix[j].special]);
                                 free(temp1);
                                 free(temp2);
@@ -1025,9 +1030,9 @@ static void P_LoadSegs(int lump)
                                 char    *temp2 = commify(linedefnum);
 
                                 C_Warning(2, "%s line special %s (\"%s\") has been added to linedef %s.",
-                                    (li->linedef->special < BOOMLINESPECIALS ? "The" : (li->linedef->special < MBF21LINESPECIALS ?
-                                    "The " ITALICS("MBF21") "-compatible" : (li->linedef->special < MBFLINESPECIALS ? "The " ITALICS("MBF")
-                                    "-compatible" : "The " ITALICS("BOOM") "-compatible"))), temp1, linespecials[linefix[j].special],
+                                    (li->linedef->special < BOOMLINESPECIALS ? "The" : (li->linedef->special < MBFLINESPECIALS ?
+                                    "The " ITALICS("BOOM") "-compatible" : (li->linedef->special < MBF21LINESPECIALS ? "The " ITALICS("MBF")
+                                    "-compatible" : "The " ITALICS("MBF21") "-compatible"))), temp1, linespecials[linefix[j].special],
                                     temp2);
                                 free(temp1);
                                 free(temp2);
@@ -1038,9 +1043,9 @@ static void P_LoadSegs(int lump)
                             char    *temp = commify(linedefnum);
 
                             C_Warning(2, "%s line special of linedef %s has been removed.",
-                                (li->linedef->special < BOOMLINESPECIALS ? "The" : (li->linedef->special < MBF21LINESPECIALS ?
-                                "The " ITALICS("MBF21") "-compatible" : (li->linedef->special < MBFLINESPECIALS ? "The " ITALICS("MBF")
-                                "-compatible" : "The " ITALICS("BOOM") "-compatible"))), temp);
+                                (li->linedef->special < BOOMLINESPECIALS ? "The" : (li->linedef->special < MBFLINESPECIALS ?
+                                "The " ITALICS("BOOM") "-compatible" : (li->linedef->special < MBF21LINESPECIALS ? "The " ITALICS("MBF")
+                                "-compatible" : "The " ITALICS("MBF21") "-compatible"))), temp);
                             free(temp);
                         }
 
@@ -1070,11 +1075,13 @@ static void P_LoadSegs(int lump)
                     break;
                 }
 
-        if (li->linedef->special >= MBF21LINESPECIALS)
+        if (li->linedef->special >= MBF21LINESPECIALS && li->linedef->special < NUMLINESPECIALS)
             mbf21compatible = true;
-        else if (li->linedef->special >= MBFLINESPECIALS)
+
+        if (li->linedef->special >= MBFLINESPECIALS && li->linedef->special < MBF21LINESPECIALS)
             mbfcompatible = true;
-        else if (li->linedef->special >= BOOMLINESPECIALS)
+
+        if (li->linedef->special >= BOOMLINESPECIALS)
             boomcompatible = true;
     }
 
@@ -1215,11 +1222,13 @@ static void P_LoadSegs_V4(int lump)
 
         li->offset = GetOffset(li->v1, (side ? ldef->v2 : ldef->v1));
 
-        if (li->linedef->special >= MBF21LINESPECIALS)
+        if (li->linedef->special >= MBF21LINESPECIALS && li->linedef->special < NUMLINESPECIALS)
             mbf21compatible = true;
-        else if (li->linedef->special >= MBFLINESPECIALS)
+
+        if (li->linedef->special >= MBFLINESPECIALS && li->linedef->special < MBF21LINESPECIALS)
             mbfcompatible = true;
-        else if (li->linedef->special >= BOOMLINESPECIALS)
+
+        if (li->linedef->special >= BOOMLINESPECIALS)
             boomcompatible = true;
     }
 
@@ -1610,11 +1619,13 @@ static void P_LoadZSegs(const byte *data)
 
         li->offset = GetOffset(li->v1, (side ? ldef->v2 : ldef->v1));
 
-        if (li->linedef->special >= MBF21LINESPECIALS)
+        if (li->linedef->special >= MBF21LINESPECIALS && li->linedef->special < NUMLINESPECIALS)
             mbf21compatible = true;
-        else if (li->linedef->special >= MBFLINESPECIALS)
+
+        if (li->linedef->special >= MBFLINESPECIALS && li->linedef->special < MBF21LINESPECIALS)
             mbfcompatible = true;
-        else if (li->linedef->special >= BOOMLINESPECIALS)
+
+        if (li->linedef->special >= BOOMLINESPECIALS)
             boomcompatible = true;
     }
 }
