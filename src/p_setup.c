@@ -253,7 +253,8 @@ static char *mapcmdnames[] =
     "SKY1",
     "SKYTEXTURE",
     "TITLEPATCH",
-    "ALLOWMONSTERTELEFRAGS"
+    "ALLOWMONSTERTELEFRAGS",
+    NULL
 };
 
 static int mapcmdids[] =
