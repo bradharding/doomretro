@@ -3514,14 +3514,6 @@ static void P_ParseMapInfo(char *scriptname)
         temp2, (lumpinfo[MAPINFO]->wadfile->type == IWAD ? "IWAD" : "PWAD"), lumpinfo[MAPINFO]->wadfile->path);
     free(temp1);
     free(temp2);
-
-    if (nojump && (keyboardjump || mousejump != -1 || gamecontrollerjump))
-        C_Warning(1, "This %s has disabled use of the " BOLD("+jump") " action.",
-            (lumpinfo[MAPINFO]->wadfile->type == IWAD ? "IWAD" : "PWAD"));
-
-    if (nomouselook)
-        C_Warning(1, "This %s has disabled use of the " BOLD("mouselook") " CVAR and " BOLD("+mouselook") " action.",
-            (lumpinfo[MAPINFO]->wadfile->type == IWAD ? "IWAD" : "PWAD"));
 }
 
 char *P_GetMapAuthor(int map)
@@ -3673,6 +3665,14 @@ void P_Init(void)
         P_ParseMapInfo("MAPINFO");
         P_ParseMapInfo("UMAPINFO");
         P_ParseMapInfo("RMAPINFO");
+
+        if (nojump && (keyboardjump || mousejump != -1 || gamecontrollerjump))
+            C_Warning(1, "This %s has disabled use of the " BOLD("+jump") " action.",
+                (lumpinfo[MAPINFO]->wadfile->type == IWAD ? "IWAD" : "PWAD"));
+
+        if (nomouselook)
+            C_Warning(1, "This %s has disabled use of the " BOLD("mouselook") " CVAR and " BOLD("+mouselook") " action.",
+                (lumpinfo[MAPINFO]->wadfile->type == IWAD ? "IWAD" : "PWAD"));
     }
 
     R_InitSprites();
