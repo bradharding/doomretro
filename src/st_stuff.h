@@ -99,7 +99,7 @@ extern patch_t  *faces[ST_NUMFACES];
 extern int      st_faceindex;
 extern int      oldhealth;
 
-extern patch_t  *grnrock;
+extern byte     *grnrock;
 extern patch_t  *brdr_t;
 extern patch_t  *brdr_b;
 extern patch_t  *brdr_l;

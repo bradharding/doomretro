@@ -214,7 +214,7 @@ static st_number_t          w_ammo[4];
 // max ammo widgets
 static st_number_t          w_maxammo[4];
 
-patch_t                     *grnrock;
+byte                        *grnrock;
 patch_t                     *brdr_t;
 patch_t                     *brdr_b;
 patch_t                     *brdr_l;
@@ -1497,7 +1497,7 @@ static void ST_LoadUnloadGraphics(load_callback_t callback)
     callback("STFDEAD0", &faces[facenum]);
 
     // back screen
-    callback((gamemode == commercial ? "GRNROCK" : "FLOOR7_2"), &grnrock);
+    callback((gamemode == commercial ? "GRNROCK" : "FLOOR7_2"), &(patch_t *)grnrock);
     callback("BRDR_T", &brdr_t);
     callback("BRDR_B", &brdr_b);
     callback("BRDR_L", &brdr_l);

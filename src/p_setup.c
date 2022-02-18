@@ -3112,6 +3112,8 @@ static void P_ParseMapInfo(char *scriptname)
     if (W_CheckNumForName(scriptname) < 0)
         return;
 
+    MAPINFO = 1;
+
     SC_Open(scriptname);
 
     while (SC_GetString())
