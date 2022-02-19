@@ -1182,12 +1182,12 @@ void C_UpdateTimerOverlay(void)
 
         if (!hours)
         {
-            M_snprintf(buffer, 10, "%02i:%02i", minutes, seconds);
+            M_snprintf(buffer, sizeof(buffer), "%02i:%02i", minutes, seconds);
             timerwidth = C_OverlayWidth("00:00", true);
         }
         else
         {
-            M_snprintf(buffer, 10, "%02i:%02i:%02i", hours, minutes, seconds);
+            M_snprintf(buffer, sizeof(buffer), "%02i:%02i:%02i", hours, minutes, seconds);
             timerwidth = C_OverlayWidth("00:00:00", true);
         }
     }
@@ -1223,7 +1223,7 @@ void C_UpdatePlayerStatsOverlay(void)
         char    *temp1 = commify(viewplayer->killcount);
         char    *temp2 = commify(totalkills);
 
-        M_snprintf(buffer, 32, "%s of %s kills", temp1, temp2);
+        M_snprintf(buffer, sizeof(buffer), "%s of %s kills", temp1, temp2);
         C_DrawOverlayText(mapscreen, MAPWIDTH, x - C_OverlayWidth(buffer, false), y, buffer, consoleoverlaycolor, false);
         free(temp1);
         free(temp2);
@@ -1235,7 +1235,7 @@ void C_UpdatePlayerStatsOverlay(void)
         char    *temp1 = commify(viewplayer->itemcount);
         char    *temp2 = commify(totalitems);
 
-        M_snprintf(buffer, 32, "%s of %s items", temp1, temp2);
+        M_snprintf(buffer, sizeof(buffer), "%s of %s items", temp1, temp2);
         C_DrawOverlayText(mapscreen, MAPWIDTH, x - C_OverlayWidth(buffer, false),
             (y += OVERLAYLINEHEIGHT), buffer, consoleoverlaycolor, false);
         free(temp1);
@@ -1248,7 +1248,7 @@ void C_UpdatePlayerStatsOverlay(void)
         char    *temp1 = commify(viewplayer->secretcount);
         char    *temp2 = commify(totalsecrets);
 
-        M_snprintf(buffer, 32, "%s of %s secrets", temp1, temp2);
+        M_snprintf(buffer, sizeof(buffer), "%s of %s secrets", temp1, temp2);
         C_DrawOverlayText(mapscreen, MAPWIDTH, x - C_OverlayWidth(buffer, false),
             y + OVERLAYLINEHEIGHT, buffer, consoleoverlaycolor, false);
         free(temp1);

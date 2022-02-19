@@ -1497,7 +1497,7 @@ static void ST_LoadUnloadGraphics(load_callback_t callback)
     callback("STFDEAD0", &faces[facenum]);
 
     // back screen
-    callback((gamemode == commercial ? "GRNROCK" : "FLOOR7_2"), (patch_t **) &grnrock);
+    callback((gamemode == commercial ? "GRNROCK" : "FLOOR7_2"), (patch_t **)&grnrock);
     callback("BRDR_T", &brdr_t);
     callback("BRDR_B", &brdr_b);
     callback("BRDR_L", &brdr_l);
