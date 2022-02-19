@@ -3690,7 +3690,7 @@ static void maplist_cmd_func2(char *cmd, char *parms)
                 {
                     temp = titlecase(*mapinfoname ? mapinfoname : *mapnames[ep * 9 + map]);
                     removemapnum(temp);
-                    M_snprintf(maps[count++], 256, "%s\t" ITALICS("%s") "\t%s", lump,
+                    M_snprintf(maps[count++], sizeof(maps[0]), "%s\t" ITALICS("%s") "\t%s", lump,
                         (replaced && dehcount == 1 && !*mapinfoname ? "-" : temp), wadname);
                     free(temp);
                 }
@@ -3706,7 +3706,7 @@ static void maplist_cmd_func2(char *cmd, char *parms)
                         {
                             temp = titlecase(M_StringReplace(*mapnames2[map], ": ", "\t" ITALICSTOGGLE));
                             removemapnum(temp);
-                            M_snprintf(maps[count++], 256, "%s" ITALICSTOGGLE "\t%s", temp, wadname);
+                            M_snprintf(maps[count++], sizeof(maps[0]), "%s" ITALICSTOGGLE "\t%s", temp, wadname);
                             free(temp);
                         }
                     }
@@ -3714,7 +3714,7 @@ static void maplist_cmd_func2(char *cmd, char *parms)
                     {
                         temp = titlecase(*mapinfoname ? mapinfoname : (bfgedition ? *mapnames2_bfg[map] : *mapnames2[map]));
                         removemapnum(temp);
-                        M_snprintf(maps[count++], 256, "%s\t" ITALICS("%s") "\t%s", lump,
+                        M_snprintf(maps[count++], sizeof(maps[0]), "%s\t" ITALICS("%s") "\t%s", lump,
                             (replaced && dehcount == 1 && !nerve && !*mapinfoname ? "-" : temp), wadname);
                         free(temp);
                     }
@@ -3727,7 +3727,7 @@ static void maplist_cmd_func2(char *cmd, char *parms)
                 {
                     temp = titlecase(*mapinfoname ? mapinfoname : *mapnamesn[map]);
                     removemapnum(temp);
-                    M_snprintf(maps[count++], 256, "%s\t" ITALICS("%s") "\t%s", lump, temp, wadname);
+                    M_snprintf(maps[count++], sizeof(maps[0]), "%s\t" ITALICS("%s") "\t%s", lump, temp, wadname);
                     free(temp);
                 }
 
@@ -3738,7 +3738,7 @@ static void maplist_cmd_func2(char *cmd, char *parms)
                 {
                     temp = titlecase(*mapinfoname ? mapinfoname : *mapnamesp[map]);
                     removemapnum(temp);
-                    M_snprintf(maps[count++], 256, "%s\t" ITALICS("%s") "\t%s", lump,
+                    M_snprintf(maps[count++], sizeof(maps[0]), "%s\t" ITALICS("%s") "\t%s", lump,
                         (replaced && dehcount == 1 && !*mapinfoname ? "-" : temp), wadname);
                     free(temp);
                 }
@@ -3750,7 +3750,7 @@ static void maplist_cmd_func2(char *cmd, char *parms)
                 {
                     temp = titlecase(*mapinfoname ? mapinfoname : *mapnamest[map]);
                     removemapnum(temp);
-                    M_snprintf(maps[count++], 256, "%s\t" ITALICS("%s") "\t%s", lump,
+                    M_snprintf(maps[count++], sizeof(maps[0]), "%s\t" ITALICS("%s") "\t%s", lump,
                         (replaced && dehcount == 1 && !*mapinfoname ? "-" : temp), wadname);
                     free(temp);
                 }
@@ -4809,19 +4809,19 @@ char *distancetraveled(uint64_t value, dboolean allowzero)
                 {
                     char    *temp = commify((int64_t)feet);
 
-                    M_snprintf(result, 20, "%s %s", temp, (M_StringCompare(temp, "1") ? "foot" : "feet"));
+                    M_snprintf(result, sizeof(result), "%s %s", temp, (M_StringCompare(temp, "1") ? "foot" : "feet"));
                     free(temp);
                 }
                 else
                 {
                     char    *temp = striptrailingzero(feet / FEETPERMILE, 2);
 
-                    M_snprintf(result, 20, "%s miles", temp);
+                    M_snprintf(result, sizeof(result), "%s miles", temp);
                     free(temp);
                 }
             }
             else if (allowzero)
-                M_StringCopy(result, "0 feet", 20);
+                M_StringCopy(result, "0 feet", sizeof(result));
         }
         else
         {
@@ -4834,7 +4834,7 @@ char *distancetraveled(uint64_t value, dboolean allowzero)
                     char    *temp = striptrailingzero(meters, 1);
 
                     if (!M_StringCompare(temp, "0.0"))
-                        M_snprintf(result, 20, "%s meters", temp);
+                        M_snprintf(result, sizeof(result), "%s meters", temp);
 
                     free(temp);
                 }
@@ -4842,12 +4842,12 @@ char *distancetraveled(uint64_t value, dboolean allowzero)
                 {
                     char    *temp = striptrailingzero(meters / METERSPERKILOMETER, 2);
 
-                    M_snprintf(result, 20, "%s kilometers", temp);
+                    M_snprintf(result, sizeof(result), "%s kilometers", temp);
                     free(temp);
                 }
             }
             else if (allowzero)
-                M_StringCopy(result, "0 meters", 20);
+                M_StringCopy(result, "0 meters", sizeof(result));
         }
     }
 

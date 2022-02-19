@@ -3987,7 +3987,7 @@ static void deh_procBexSprites(DEHFILE *fpin, char *line)
 
         // do it
         memset(candidate, 0, sizeof(candidate));
-        M_StringCopy(candidate, ptr_lstrip(strval), 4);
+        M_StringCopy(candidate, ptr_lstrip(strval), sizeof(candidate));
 
         if (strlen(candidate) != 4)
         {
@@ -4056,7 +4056,7 @@ static void deh_procBexSounds(DEHFILE *fpin, char *line)
 
         // do it
         memset(candidate, 0, 7);
-        M_StringCopy(candidate, ptr_lstrip(strval), 6);
+        M_StringCopy(candidate, ptr_lstrip(strval), sizeof(candidate));
         len = strlen(candidate);
 
         if (len < 1 || len > 6)
@@ -4074,7 +4074,7 @@ static void deh_procBexSounds(DEHFILE *fpin, char *line)
                 if (devparm)
                     C_Output("Substituting \"%s\" for sound \"%s\"\n", candidate, deh_soundnames[rover]);
 
-                M_StringCopy(S_sfx[rover].name1, candidate, 9);
+                M_StringCopy(S_sfx[rover].name1, candidate, sizeof(S_sfx[rover].name1));
                 break;
             }
 
@@ -4120,7 +4120,7 @@ static void deh_procBexMusic(DEHFILE *fpin, char *line)
 
         // do it
         memset(candidate, 0, 7);
-        M_StringCopy(candidate, ptr_lstrip(strval), 6);
+        M_StringCopy(candidate, ptr_lstrip(strval), sizeof(candidate));
         len = strlen(candidate);
 
         if (len < 1 || len > 6)
@@ -4138,7 +4138,7 @@ static void deh_procBexMusic(DEHFILE *fpin, char *line)
                 if (devparm)
                     C_Output("Substituting \"%s\" for music \"%s\"", candidate, deh_musicnames[rover]);
 
-                M_StringCopy(S_music[rover].name1, candidate, 9);
+                M_StringCopy(S_music[rover].name1, candidate, sizeof(S_music[rover].name1));
                 break;
             }
 
