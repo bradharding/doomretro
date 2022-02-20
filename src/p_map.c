@@ -977,18 +977,18 @@ mobj_t *P_CheckOnMobj(mobj_t *thing)
 
 dboolean P_IsInLiquid(mobj_t *thing)
 {
-    fixed_t floorz;
+    fixed_t z;
 
     if (thing->flags & MF_NOGRAVITY)
         return false;
 
-    floorz = thing->floorz;
+    z = thing->z;
 
     for (const struct msecnode_s *seclist = thing->touching_sectorlist; seclist; seclist = seclist->m_tnext)
     {
         sector_t    *sector = seclist->m_sector;
 
-        if (sector->terraintype == SOLID && sector->floorheight >= floorz)
+        if (sector->terraintype == SOLID || z > sector->interpfloorheight)
             return false;
     }
 
