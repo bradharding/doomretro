@@ -773,10 +773,11 @@ static void LoadDehFile(char *path)
 {
     int     i = 0;
     char    *dehpath;
+    char    *temp = leafname(path);
 
     while (*loaddehlast[i].filename)
     {
-        if (M_StringEndsWith(path, loaddehlast[i].filename))
+        if (M_StringEndsWith(temp, loaddehlast[i].filename))
         {
             loaddehlast[i].present = true;
             return;
@@ -1833,9 +1834,10 @@ static int D_OpenWADLauncher(void)
 }
 #endif
 
-static void D_ProcessDehCommandLine(void)
+static void D_ProcessDehOnCmdLine(void)
 {
     int p = M_CheckParm("-deh");
+    int j = 0;
 
     if (p || (p = M_CheckParm("-bex")))
     {
@@ -1846,6 +1848,14 @@ static void D_ProcessDehCommandLine(void)
                 deh = (M_StringCompare(myargv[p], "-deh") || M_StringCompare(myargv[p], "-bex"));
             else if (deh)
                 ProcessDehFile(myargv[p], 0, false);
+    }
+
+    while (*loaddehlast[j].filename)
+    {
+        if (loaddehlast[j].present)
+            ProcessDehFile(loaddehlast[j].filename, 0, false);
+
+        j++;
     }
 }
 
@@ -1960,8 +1970,6 @@ static void D_DoomMainSetup(void)
         aliases[i].name[0] = '\0';
         aliases[i].string[0] = '\0';
     }
-
-    D_ProcessDehCommandLine();
 
     // Load configuration files before initializing other subsystems.
     M_LoadCVARs(packageconfig);
@@ -2230,6 +2238,7 @@ static void D_DoomMainSetup(void)
 
     D_IdentifyVersion();
     D_ProcessDehInWad();
+    D_ProcessDehOnCmdLine();
 
     PostProcessDeh();
 
