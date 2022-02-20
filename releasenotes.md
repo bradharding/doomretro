@@ -5,7 +5,8 @@
 * Optimizations have been made to further improve the overall performance of *DOOM Retro*.
 * Minor improvements have been made to the support of `MAPINFO` lumps.
 * Minor changes have been made to text that is output to the console.
-* `.deh` and `.bex` files speicifed on the command-line will now be parsed correctly.
+* `.deh` and `.bex` files specified on the command-line will now be parsed correctly.
+* Further improvements have been made to the support for [*DOOM 4 VANILLA*](https://www.doomworld.com/forum/topic/108725).
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
