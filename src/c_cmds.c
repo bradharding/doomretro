@@ -7767,7 +7767,7 @@ static void am_external_cvar_func2(char *cmd, char *parms)
     {
         if (am_external)
         {
-            I_CreateExternalAutomap(1);
+            I_CreateExternalAutomap();
             am_followmode = true;
 
             if (gamestate == GS_LEVEL)

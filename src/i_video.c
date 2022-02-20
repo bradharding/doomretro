@@ -1109,7 +1109,7 @@ static void GetDisplays(void)
     }
 }
 
-void I_CreateExternalAutomap(int outputlevel)
+void I_CreateExternalAutomap(void)
 {
     uint32_t    pixelformat;
     uint32_t    rmask;
@@ -1118,6 +1118,7 @@ void I_CreateExternalAutomap(int outputlevel)
     uint32_t    amask;
     int         bpp;
     int         am_displayindex = !displayindex;
+    const char  *displayname;
 
     mapscreen = *screens;
     mapblitfunc = &nullfunc;
@@ -1129,7 +1130,7 @@ void I_CreateExternalAutomap(int outputlevel)
 
     if (numdisplays == 1)
     {
-        if (outputlevel >= 1 && !togglingvanilla)
+        if (!togglingvanilla)
             C_Warning(1, "An external automap couldn't be created. Only one display was found.");
 
         return;
@@ -1206,16 +1207,10 @@ void I_CreateExternalAutomap(int outputlevel)
     map_rect.w = MAPWIDTH;
     map_rect.h = MAPHEIGHT;
 
-    if (outputlevel == 2)
-    {
-        const char  *displayname = SDL_GetDisplayName(am_displayindex);
-
-        if (*displayname)
-            C_Output("Created an external automap on \"%s\" (display %i of %i).",
-                displayname, am_displayindex + 1, numdisplays);
-        else
-            C_Output("Created an external automap on display %i of %i.", am_displayindex + 1, numdisplays);
-    }
+    if ((displayname = SDL_GetDisplayName(am_displayindex)))
+        C_Output("Using \"%s\" (display %i of %i) for the automap.", displayname, displayindex + 1, numdisplays);
+    else
+        C_Output("Using display %i of %i for the automap.", displayindex + 1, numdisplays);
 }
 
 void I_DestroyExternalAutomap(void)
@@ -2042,7 +2037,7 @@ void I_InitGraphics(void)
     if (vid_fullscreen)
         SetShowCursor(false);
 
-    I_CreateExternalAutomap(2);
+    I_CreateExternalAutomap();
 
 #if defined(_WIN32)
     I_InitWindows32();

@@ -80,7 +80,7 @@ void I_SetSimplePalette(byte *playpal);
 void I_SetPaletteWithBrightness(byte *playpal, double brightness);
 
 void I_UpdateBlitFunc(dboolean shake);
-void I_CreateExternalAutomap(int outputlevel);
+void I_CreateExternalAutomap(void);
 void I_DestroyExternalAutomap(void);
 
 void I_ToggleFullscreen(void);
