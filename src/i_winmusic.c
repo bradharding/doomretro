@@ -266,6 +266,10 @@ static void MIDItoStream(midi_file_t *file)
                     | (MEVT_SHORTMSG << 24));
 
                 break;
+
+            case MIDI_EVENT_SYSEX:
+            case MIDI_EVENT_SYSEX_SPLIT:
+                break;
         }
 
         if (data)

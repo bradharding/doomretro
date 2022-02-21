@@ -299,8 +299,6 @@ gamestate_t wipegamestate = GS_TITLESCREEN;
 
 void D_Display(void)
 {
-    static dboolean     viewactivestate;
-    static dboolean     menuactivestate;
     static dboolean     pausedstate = false;
     static gamestate_t  oldgamestate = GS_NONE;
     static int          saved_gametime = -1;
@@ -373,13 +371,8 @@ void D_Display(void)
         ST_Drawer((viewheight == SCREENHEIGHT), true);
 
         // see if the border needs to be initially drawn
-        if (oldgamestate != GS_LEVEL)
-        {
-            viewactivestate = false;    // view was not active
-
-            if (viewwidth != SCREENWIDTH)
-                R_FillBackScreen();     // draw the pattern into the back screen
-        }
+        if (oldgamestate != GS_LEVEL && viewwidth != SCREENWIDTH)
+            R_FillBackScreen();
 
         // see if the border needs to be updated to the screen
         if (!automapactive)
@@ -395,8 +388,6 @@ void D_Display(void)
         HU_Drawer();
     }
 
-    menuactivestate = menuactive;
-    viewactivestate = viewactive;
     oldgamestate = wipegamestate = gamestate;
 
     // draw pause pic

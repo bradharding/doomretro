@@ -3277,7 +3277,7 @@ static void deh_procPars(DEHFILE *fpin, char *line)
             {
                 // Ty 07/11/98 - wrong range check, not zero-based
                 if (level < 1 || level > 33)    // base 0 array (but 1-based parm)
-                    C_Warning(1, "Invalid MAP" ITALICS("xy") "value MAP %02i.", level);
+                    C_Warning(1, "Invalid MAP" ITALICS("xy") " value MAP %02i.", level);
                 else
                 {
                     if (devparm)

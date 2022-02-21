@@ -52,12 +52,13 @@ dboolean        musmusictype;
 
 #if defined(_WIN32)
 dboolean        windowsmidi = false;
+#else
+static int      paused_midi_volume;
 #endif
 
 static dboolean music_initialized;
 
 int             current_music_volume = 0;
-static int      paused_midi_volume;
 
 // Shutdown music
 void I_ShutdownMusic(void)

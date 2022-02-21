@@ -5,12 +5,12 @@
 * Optimizations have been made to further improve the overall performance of *DOOM Retro*.
 * The following changes have been made to the support of `MAPINFO` lumps:
   * Instead of only parsing the first `MAPINFO`, `UMAPINFO` or `RMAPINFO` lump found in a PWAD, now all of these lumps will be parsed if found.
-  * `ZMAPINFO` lumps are now also supported.
+  * `ZMAPINFO` lumps are now also parsed.
 * Minor changes have been made to text that is output to the console.
 * `.deh` and `.bex` files specified on the command-line will now always be parsed correctly.
 * Further improvements have been made to the support for [*DOOM 4 VANILLA*](https://www.doomworld.com/forum/topic/108725).
-* The widescreen status bar now appears correctly on display resolutions that have an aspect ratio narrower than 16:9.
-* The bottom edges of the corpses of flying monsters will no longer be clipped while they fall into a liquid sector.
+* The widescreen status bar now appears correctly on display resolutions that have an aspect ratio less than 16:9.
+* The bottom of sprites are no longer clipped while falling above a liquid sector if the `r_liquid_clipsprites` CVAR is `on`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

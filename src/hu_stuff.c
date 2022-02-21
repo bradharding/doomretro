@@ -1085,7 +1085,7 @@ void HU_Drawer(void)
     if (menuactive || paused)
         return;
 
-    if (w_message.l.l)
+    if (*w_message.l.l)
     {
         if (vanilla && !vid_widescreen)
         {
