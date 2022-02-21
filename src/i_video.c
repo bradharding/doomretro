@@ -660,6 +660,7 @@ static void I_GetEvent(void)
                             windowfocused = true;
                             S_ResumeMusic();
                             I_InitKeyboard();
+
                             break;
 
                         case SDL_WINDOWEVENT_FOCUS_LOST:
