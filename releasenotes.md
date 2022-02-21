@@ -9,8 +9,8 @@
 * Minor changes have been made to text that is output to the console.
 * `.deh` and `.bex` files specified on the command-line will now always be parsed correctly.
 * Further improvements have been made to the support for [*DOOM 4 VANILLA*](https://www.doomworld.com/forum/topic/108725).
-* The status bar now renders correctly on display resolutions narrower than a 16:9 aspect ratio.
-* The bottom edge of corpses of flying monsters will no longer be clipped as they fall into a liquid sector.
+* The widescreen status bar now appears correctly on display resolutions that have an aspect ratio narrower than 16:9.
+* The bottom edges of the corpses of flying monsters will no longer be clipped while they fall into a liquid sector.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

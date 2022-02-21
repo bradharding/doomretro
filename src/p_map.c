@@ -1005,11 +1005,11 @@ dboolean P_TryMove(mobj_t *thing, fixed_t x, fixed_t y, int dropoff)
     fixed_t oldx, oldy;
     int     flags;
 
-    felldown = false;           // killough 11/98
+    felldown = false;   // killough 11/98
     floatok = false;
 
     if (!P_CheckPosition(thing, x, y))
-        return false;           // solid wall or thing
+        return false;   // solid wall or thing
 
     flags = thing->flags;
 
@@ -1055,7 +1055,7 @@ dboolean P_TryMove(mobj_t *thing, fixed_t x, fixed_t y, int dropoff)
     oldy = thing->y;
     thing->floorz = tmfloorz;
     thing->ceilingz = tmceilingz;
-    thing->dropoffz = tmdropoffz;       // killough 11/98: keep track of dropoffs
+    thing->dropoffz = tmdropoffz;   // killough 11/98: keep track of dropoffs
     thing->x = x;
     thing->y = y;
 
