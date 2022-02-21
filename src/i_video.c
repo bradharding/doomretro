@@ -665,13 +665,10 @@ static void I_GetEvent(void)
                         case SDL_WINDOWEVENT_FOCUS_LOST:
                             windowfocused = false;
 
-                            if (gamestate == GS_LEVEL && !paused)
-                            {
-                                if (!s_musicinbackground)
-                                    S_PauseMusic();
-                                else
-                                    sendpause = true;
-                            }
+                            if (!s_musicinbackground)
+                                S_PauseMusic();
+                            else if (gamestate == GS_LEVEL && !paused)
+                                sendpause = true;
 
                             I_ShutdownKeyboard();
                             break;
