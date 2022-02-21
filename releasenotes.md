@@ -11,6 +11,8 @@
 * Further improvements have been made to the support for [*DOOM 4 VANILLA*](https://www.doomworld.com/forum/topic/108725).
 * The widescreen status bar now appears correctly on display resolutions with an aspect ratio less than 16:9.
 * The bottom of sprites are no longer clipped while falling above a liquid sector if the `r_liquid_clipsprites` CVAR is `on`.
+* The music’s volume is now lowered if the <kbd>PAUSE</kbd> key is pressed and the `s_lowermusicvolume` CVAR is `on`.
+* Music will now always stop playing in the background if the `s_musicinbackground` CVAR is `off`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
