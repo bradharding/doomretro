@@ -283,15 +283,15 @@ void G_BuildTiccmd(ticcmd_t *cmd)
     // let movement keys cancel each other out
     if (strafe)
     {
-        if (gamekeydown[keyboardright] || (gamecontrollerbuttons & gamecontrollerright))
+        if (gamekeydown[keyboardright] || mousebuttons[mouseright] || (gamecontrollerbuttons & gamecontrollerright))
             side += sidemove[run];
 
-        if (gamekeydown[keyboardleft] || (gamecontrollerbuttons & gamecontrollerleft))
+        if (gamekeydown[keyboardleft] || mousebuttons[mouseright] || (gamecontrollerbuttons & gamecontrollerleft))
             side -= sidemove[run];
     }
     else
     {
-        if (gamekeydown[keyboardright] || (gamecontrollerbuttons & gamecontrollerright))
+        if (gamekeydown[keyboardright] || mousebuttons[mouseright] || (gamecontrollerbuttons & gamecontrollerright))
             cmd->angleturn -= angleturn[(turnheld < SLOWTURNTICS ? 2 : run)];
         else if (gamecontrollerthumbRX > 0)
         {
@@ -301,7 +301,7 @@ void G_BuildTiccmd(ticcmd_t *cmd)
                 (fixed_t)(gamecontrollerhorizontalsensitivity * FixedMul(FixedMul(x, x), x)));
         }
 
-        if (gamekeydown[keyboardleft] || (gamecontrollerbuttons & gamecontrollerleft))
+        if (gamekeydown[keyboardleft] || mousebuttons[mouseright] || (gamecontrollerbuttons & gamecontrollerleft))
             cmd->angleturn += angleturn[(turnheld < SLOWTURNTICS ? 2 : run)];
         else if (gamecontrollerthumbRX < 0)
         {

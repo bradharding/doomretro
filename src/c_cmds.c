@@ -296,14 +296,14 @@ action_t actions[] =
     { "+forward",     true,  forward_action_func,     &keyboardforward,           &keyboardforward2,     &mouseforward,     &gamecontrollerforward,           NULL                },
     { "+grid",        true,  grid_action_func,        &keyboardautomapgrid,       NULL,                  NULL,              &gamecontrollerautomapgrid,       NULL                },
     { "+jump",        true,  jump_action_func,        &keyboardjump,              NULL,                  &mousejump,        &gamecontrollerjump,              NULL                },
-    { "+left",        true,  left_action_func,        &keyboardleft,              NULL,                  NULL,              &gamecontrollerleft,              NULL                },
+    { "+left",        true,  left_action_func,        &keyboardleft,              NULL,                  &mouseleft,        &gamecontrollerleft,              NULL                },
     { "+mark",        true,  mark_action_func,        &keyboardautomapmark,       NULL,                  NULL,              &gamecontrollerautomapmark,       NULL                },
     { "+maxzoom",     true,  maxzoom_action_func,     &keyboardautomapmaxzoom,    NULL,                  NULL,              &gamecontrollerautomapmaxzoom,    NULL                },
     { "+menu",        true,  menu_action_func,        &keyboardmenu,              NULL,                  NULL,              &gamecontrollermenu,              NULL                },
     { "+mouselook",   true,  NULL,                    &keyboardmouselook,         NULL,                  &mousemouselook,   &gamecontrollermouselook,         NULL                },
     { "+nextweapon",  true,  nextweapon_action_func,  &keyboardnextweapon,        NULL,                  &mousenextweapon,  &gamecontrollernextweapon,        NULL                },
     { "+prevweapon",  true,  prevweapon_action_func,  &keyboardprevweapon,        NULL,                  &mouseprevweapon,  &gamecontrollerprevweapon,        NULL                },
-    { "+right",       true,  right_action_func,       &keyboardright,             NULL,                  NULL,              &gamecontrollerright,             NULL                },
+    { "+right",       true,  right_action_func,       &keyboardright,             NULL,                  &mouseright,       &gamecontrollerright,             NULL                },
     { "+rotatemode",  true,  rotatemode_action_func,  &keyboardautomaprotatemode, NULL,                  NULL,              &gamecontrollerautomaprotatemode, NULL                },
     { "+run",         true,  NULL,                    &keyboardrun,               NULL,                  &mouserun,         &gamecontrollerrun,               NULL                },
     { "+screenshot",  false, screenshot_action_func,  &keyboardscreenshot,        NULL,                  &mousescreenshot,  NULL,                             NULL                },
@@ -6138,9 +6138,11 @@ static void C_VerifyResetAll(const int key)
         mousefire = MOUSEFIRE_DEFAULT;
         mouseforward = MOUSEFORWARD_DEFAULT;
         mousejump = MOUSEJUMP_DEFAULT;
+        mouseleft = MOUSELEFT_DEFAULT;
         mousemouselook = MOUSEMOUSELOOK_DEFAULT;
         mousenextweapon = MOUSENEXTWEAPON_DEFAULT;
         mouseprevweapon = MOUSEPREVWEAPON_DEFAULT;
+        mouseright = MOUSERIGHT_DEFAULT;
         mouserun = MOUSERUN_DEFAULT;
         mousescreenshot = MOUSESCREENSHOT_DEFAULT;
         mousestrafe = MOUSESTRAFE_DEFAULT;

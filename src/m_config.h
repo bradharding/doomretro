@@ -848,9 +848,11 @@ enum
 #define MOUSEFIRE_DEFAULT                       0
 #define MOUSEFORWARD_DEFAULT                   -1
 #define MOUSEJUMP_DEFAULT                      -1
+#define MOUSELEFT_DEFAULT                      -1
 #define MOUSEMOUSELOOK_DEFAULT                 -1
 #define MOUSENEXTWEAPON_DEFAULT                 MOUSE_WHEELDOWN
 #define MOUSEPREVWEAPON_DEFAULT                 MOUSE_WHEELUP
+#define MOUSERIGHT_DEFAULT                     -1
 #define MOUSERUN_DEFAULT                       -1
 #define MOUSESCREENSHOT_DEFAULT                -1
 #define MOUSESTRAFE_DEFAULT                    -1
