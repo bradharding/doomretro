@@ -334,17 +334,20 @@ void G_BuildTiccmd(ticcmd_t *cmd)
         }
     }
 
-    if (gamekeydown[keyboardforward] || gamekeydown[keyboardforward2] || (gamecontrollerbuttons & gamecontrollerforward))
+    if (gamekeydown[keyboardforward] || gamekeydown[keyboardforward2]
+        || mousebuttons[mouseforward] || (gamecontrollerbuttons & gamecontrollerforward))
         forward += forwardmove[run];
     else if (gamecontrollerthumbLY < 0)
         forward -= (int)(forwardmove[run] * (float)gamecontrollerthumbLY / SHRT_MAX);
 
-    if (gamekeydown[keyboardback] || gamekeydown[keyboardback2] || (gamecontrollerbuttons & gamecontrollerback))
+    if (gamekeydown[keyboardback] || gamekeydown[keyboardback2]
+        || mousebuttons[mouseback] || (gamecontrollerbuttons & gamecontrollerback))
         forward -= forwardmove[run];
     else if (gamecontrollerthumbLY > 0)
         forward -= (int)(forwardmove[run] * (float)gamecontrollerthumbLY / SHRT_MAX);
 
-    if (gamekeydown[keyboardstraferight] || gamekeydown[keyboardstraferight2] || (gamecontrollerbuttons & gamecontrollerstraferight))
+    if (gamekeydown[keyboardstraferight] || gamekeydown[keyboardstraferight2]
+        || mousebuttons[mousestraferight] || (gamecontrollerbuttons & gamecontrollerstraferight))
         side += sidemove[run];
     else if (gamecontrollerthumbLX > 0)
     {
@@ -362,7 +365,8 @@ void G_BuildTiccmd(ticcmd_t *cmd)
         }
     }
 
-    if (gamekeydown[keyboardstrafeleft] || gamekeydown[keyboardstrafeleft2] || (gamecontrollerbuttons & gamecontrollerstrafeleft))
+    if (gamekeydown[keyboardstrafeleft] || gamekeydown[keyboardstrafeleft2]
+        || mousebuttons[mousestrafeleft] || (gamecontrollerbuttons & gamecontrollerstrafeleft))
         side -= sidemove[run];
     else if (gamecontrollerthumbLX < 0)
     {
@@ -430,16 +434,6 @@ void G_BuildTiccmd(ticcmd_t *cmd)
                 }
             }
         }
-
-    if (mousebuttons[mouseforward])
-        forward += forwardmove[run];
-    else if (mousebuttons[mouseback])
-        forward -= forwardmove[run];
-
-    if (mousebuttons[mousestraferight])
-        side += sidemove[run];
-    else if (mousebuttons[mousestrafeleft])
-        side -= sidemove[run];
 
     if (m_doubleclick_use)
     {
