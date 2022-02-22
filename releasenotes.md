@@ -13,6 +13,7 @@
 * The bottom of sprites are no longer clipped while falling above a liquid sector if the `r_liquid_clipsprites` CVAR is `on`.
 * The music’s volume is now lowered if the <kbd>PAUSE</kbd> key is pressed and the `s_lowermusicvolume` CVAR is `on`.
 * Music will now always stop playing in the background if the `s_musicinbackground` CVAR is `off`.
+* The `+back`, `+strafeleft` and `+straferight` actions may now be bound to a mouse button.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

@@ -81,6 +81,7 @@ extern int  keyboardweapon5;
 extern int  keyboardweapon6;
 extern int  keyboardweapon7;
 
+extern int  mouseback;
 extern int  mousefire;
 extern int  mouseforward;
 extern int  mousejump;
@@ -90,6 +91,8 @@ extern int  mouseprevweapon;
 extern int  mouserun;
 extern int  mousescreenshot;
 extern int  mousestrafe;
+extern int  mousestrafeleft;
+extern int  mousestraferight;
 extern int  mouseuse;
 extern int  mouseweapon1;
 extern int  mouseweapon2;

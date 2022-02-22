@@ -844,6 +844,7 @@ enum
 #define KEYWEAPON6_DEFAULT                      '6'
 #define KEYWEAPON7_DEFAULT                      '7'
 
+#define MOUSEBACK_DEFAULT                      -1
 #define MOUSEFIRE_DEFAULT                       0
 #define MOUSEFORWARD_DEFAULT                   -1
 #define MOUSEJUMP_DEFAULT                      -1
@@ -853,6 +854,8 @@ enum
 #define MOUSERUN_DEFAULT                       -1
 #define MOUSESCREENSHOT_DEFAULT                -1
 #define MOUSESTRAFE_DEFAULT                    -1
+#define MOUSESTRAFELEFT_DEFAULT                -1
+#define MOUSESTRAFERIGHT_DEFAULT               -1
 #define MOUSEUSE_DEFAULT                       -1
 #define MOUSEWEAPON1_DEFAULT                   -1
 #define MOUSEWEAPON2_DEFAULT                   -1

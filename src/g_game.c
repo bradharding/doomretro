@@ -433,6 +433,13 @@ void G_BuildTiccmd(ticcmd_t *cmd)
 
     if (mousebuttons[mouseforward])
         forward += forwardmove[run];
+    else if (mousebuttons[mouseback])
+        forward -= forwardmove[run];
+
+    if (mousebuttons[mousestraferight])
+        side += sidemove[run];
+    else if (mousebuttons[mousestrafeleft])
+        side -= sidemove[run];
 
     if (m_doubleclick_use)
     {

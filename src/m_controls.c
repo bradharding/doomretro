@@ -80,6 +80,7 @@ int keyboardweapon5 = KEYWEAPON5_DEFAULT;
 int keyboardweapon6 = KEYWEAPON6_DEFAULT;
 int keyboardweapon7 = KEYWEAPON7_DEFAULT;
 
+int mouseback = MOUSEBACK_DEFAULT;
 int mousefire = MOUSEFIRE_DEFAULT;
 int mouseforward = MOUSEFORWARD_DEFAULT;
 int mousejump = MOUSEJUMP_DEFAULT;
@@ -89,6 +90,8 @@ int mouseprevweapon = MOUSEPREVWEAPON_DEFAULT;
 int mouserun = MOUSERUN_DEFAULT;
 int mousescreenshot = MOUSESCREENSHOT_DEFAULT;
 int mousestrafe = MOUSESTRAFE_DEFAULT;
+int mousestrafeleft = MOUSESTRAFELEFT_DEFAULT;
+int mousestraferight = MOUSESTRAFERIGHT_DEFAULT;
 int mouseuse = MOUSEUSE_DEFAULT;
 int mouseweapon1 = MOUSEWEAPON1_DEFAULT;
 int mouseweapon2 = MOUSEWEAPON2_DEFAULT;
