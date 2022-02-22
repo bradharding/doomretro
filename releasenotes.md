@@ -4,15 +4,15 @@
 
 * Optimizations have been made to further improve the overall performance of *DOOM Retro*.
 * The following changes have been made to the support of `MAPINFO` lumps:
-  * Instead of only parsing the first `MAPINFO`, `UMAPINFO` or `RMAPINFO` lump that is found in a PWAD, now all of these lumps will be parsed if found.
+  * Instead of only parsing the first `MAPINFO`, `UMAPINFO` or `RMAPINFO` lump that is found in a PWAD, now all of these lumps are parsed if found.
   * `ZMAPINFO` lumps are now also parsed.
 * Minor changes have been made to text that is output to the console.
-* `.deh` and `.bex` files specified on the command-line will now always be parsed correctly.
+* `.deh` and `.bex` files specified on the command-line are now always parsed correctly.
 * Further improvements have been made to the support for [*DOOM 4 VANILLA*](https://www.doomworld.com/forum/topic/108725).
 * The widescreen status bar now appears correctly on display resolutions with an aspect ratio less than 16:9.
 * The bottom of sprites are no longer clipped while falling above a liquid sector if the `r_liquid_clipsprites` CVAR is `on`.
 * The music’s volume is now lowered if the <kbd>PAUSE</kbd> key is pressed and the `s_lowermusicvolume` CVAR is `on`.
-* Music will now always stop playing in the background if the `s_musicinbackground` CVAR is `off`.
+* Music now always stops playing in the background when *DOOM Retro’s* window loses focus and the `s_musicinbackground` CVAR is `off`.
 * The `+back`, `+left`, `+right`, `+strafeleft` and `+straferight` actions may now be bound to a mouse button using the `bind` CCMD.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
