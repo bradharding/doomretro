@@ -6,6 +6,8 @@
 
 Open the <b><i>[DOOM Retro Wiki](https://github.com/bradharding/doomretro/wiki)</i></b> for more information.
 
+<br>
+
 [![](https://img.shields.io/github/languages/top/bradharding/doomretro.svg)](https://github.com/bradharding/doomretro/search?l=c)
 [![](https://img.shields.io/github/languages/code-size/bradharding/doomretro.svg)](https://github.com/bradharding/doomretro)
 [![](https://img.shields.io/tokei/lines/github/bradharding/doomretro)](https://github.com/bradharding/doomretro)
