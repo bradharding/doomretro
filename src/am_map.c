@@ -123,16 +123,16 @@ static byte *am_crosshaircolor2;
 #define AM_PANLEFTKEY   keyboardleft
 #define AM_PANLEFTKEY2  keyboardstrafeleft
 #define AM_PANLEFTKEY3  keyboardstrafeleft2
-#define AM_ZOOMINKEY    keyboardautomapzoomin
-#define AM_ZOOMOUTKEY   keyboardautomapzoomout
+#define AM_ZOOMINKEY    keyboardzoomin
+#define AM_ZOOMOUTKEY   keyboardzoomout
 #define AM_STARTKEY     keyboardautomap
 #define AM_ENDKEY       keyboardautomap
-#define AM_GOBIGKEY     keyboardautomapmaxzoom
-#define AM_FOLLOWKEY    keyboardautomapfollowmode
-#define AM_GRIDKEY      keyboardautomapgrid
-#define AM_MARKKEY      keyboardautomapmark
-#define AM_CLEARMARKKEY keyboardautomapclearmark
-#define AM_ROTATEKEY    keyboardautomaprotatemode
+#define AM_GOBIGKEY     keyboardmaxzoom
+#define AM_FOLLOWKEY    keyboardfollowmode
+#define AM_GRIDKEY      keyboardgrid
+#define AM_MARKKEY      keyboardmark
+#define AM_CLEARMARKKEY keyboardclearmark
+#define AM_ROTATEKEY    keyboardrotatemode
 
 // scale on entry
 // [BH] changed to initial zoom level of E1M1: Hangar so each map zoom level is consistent
@@ -985,58 +985,58 @@ dboolean AM_Responder(const event_t *ev)
                 }
 
                 // zoom out
-                else if ((gamecontrollerbuttons & gamecontrollerautomapzoomout)
-                    && !(gamecontrollerbuttons & gamecontrollerautomapzoomin))
+                else if ((gamecontrollerbuttons & gamecontrollerzoomout)
+                    && !(gamecontrollerbuttons & gamecontrollerzoomin))
                 {
                     movement = true;
                     AM_ToggleZoomOut();
                 }
 
                 // zoom in
-                else if ((gamecontrollerbuttons & gamecontrollerautomapzoomin)
-                    && !(gamecontrollerbuttons & gamecontrollerautomapzoomout))
+                else if ((gamecontrollerbuttons & gamecontrollerzoomin)
+                    && !(gamecontrollerbuttons & gamecontrollerzoomout))
                 {
                     movement = true;
                     AM_ToggleZoomIn();
                 }
 
                 // toggle maximum zoom
-                else if ((gamecontrollerbuttons & gamecontrollerautomapmaxzoom) && !idclev && !idmus)
+                else if ((gamecontrollerbuttons & gamecontrollermaxzoom) && !idclev && !idmus)
                 {
                     AM_ToggleMaxZoom();
                     gamecontrollerwait = I_GetTime() + 12;
                 }
 
                 // toggle follow mode
-                else if (gamecontrollerbuttons & gamecontrollerautomapfollowmode)
+                else if (gamecontrollerbuttons & gamecontrollerfollowmode)
                 {
                     AM_ToggleFollowMode(!am_followmode);
                     gamecontrollerwait = I_GetTime() + 12;
                 }
 
                 // toggle grid
-                else if (gamecontrollerbuttons & gamecontrollerautomapgrid)
+                else if (gamecontrollerbuttons & gamecontrollergrid)
                 {
                     AM_ToggleGrid();
                     gamecontrollerwait = I_GetTime() + 12;
                 }
 
                 // mark spot
-                else if ((gamecontrollerbuttons & gamecontrollerautomapmark))
+                else if ((gamecontrollerbuttons & gamecontrollermark))
                 {
                     AM_AddMark();
                     gamecontrollerwait = I_GetTime() + 12;
                 }
 
                 // clear mark(s)
-                else if (gamecontrollerbuttons & gamecontrollerautomapclearmark)
+                else if (gamecontrollerbuttons & gamecontrollerclearmark)
                 {
                     AM_ClearMarks();
                     gamecontrollerwait = I_GetTime() + 12;
                 }
 
                 // toggle rotate mode
-                else if (gamecontrollerbuttons & gamecontrollerautomaprotatemode)
+                else if (gamecontrollerbuttons & gamecontrollerrotatemode)
                 {
                     AM_ToggleRotateMode(!am_rotatemode);
                     gamecontrollerwait = I_GetTime() + 12;
