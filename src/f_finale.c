@@ -364,8 +364,6 @@ void F_Ticker(void)
 static void F_TextWrite(void)
 {
     // draw some of the text onto the screen
-    int         w;
-    int         count = MAX(0, FixedDiv((finalecount - 10) * FRACUNIT, TextSpeed()) >> FRACBITS);
     const char  *ch = finaletext;
     int         cx = 12;
     int         cy = 10;
@@ -391,10 +389,11 @@ static void F_TextWrite(void)
     else
         V_DrawPatch(0, 0, 0, W_CacheLumpNum(lumpnum));
 
-    for (; count; count--)
+    for (int count = MAX(0, FixedDiv((finalecount - 10) * FRACUNIT, TextSpeed()) >> FRACBITS); count; count--)
     {
         char    letter = *ch++;
         int     c;
+        int     w;
 
         if (!letter)
             break;
@@ -856,7 +855,17 @@ static void F_CastDrawer(void)
     V_DrawWidePatch((SCREENWIDTH / SCREENSCALE - SHORT(patch->width)) / 2, 0, 0, patch);
 
     if (M_StringCompare(castorder[castnum].name, *castorder[castnum].dehackedname))
-        F_CastPrint(type == MT_PLAYER ? playername : mobjinfo[type].name1);
+    {
+        if (type == MT_PLAYER)
+            F_CastPrint(playername);
+        else
+        {
+            char    *name = M_StringJoin("The ", mobjinfo[type].name1, NULL);
+
+            F_CastPrint(name);
+            free(name);
+        }
+    }
     else
         F_CastPrint(*castorder[castnum].dehackedname);
 
