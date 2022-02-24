@@ -716,10 +716,7 @@ void S_ChangeMusInfoMusic(int lumpnum, int looping)
     musicinfo_t *music;
     void        *handle;
 
-    if (nomusic)
-        return;
-
-    if (mus_playing && mus_playing->lumpnum == lumpnum)
+    if (nomusic || (mus_playing && mus_playing->lumpnum == lumpnum))
         return;
 
     music = &S_music[mus_musinfo];

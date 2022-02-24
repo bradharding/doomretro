@@ -1166,13 +1166,14 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, dboolean spawnmonsters)
     if ((type >= Player2Start && type <= Player4Start) || type == PlayerDeathmatchStart)
         return NULL;
 
+    if (type == VisualModeCamera)
+        return NULL;
+
     if (type >= MusicSourceMin && type <= MusicSourceMax)
     {
         musicid = type - MusicSourceMin;
         type = MusicSourceMax;
     }
-    else if (type == VisualModeCamera)
-        return NULL;
 
     if (options & MTF_NOTSINGLE)
         return NULL;
