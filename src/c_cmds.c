@@ -2620,11 +2620,11 @@ static void god_cmd_func2(char *cmd, char *parms)
 static void help_cmd_func2(char *cmd, char *parms)
 {
 #if defined(_WIN32)
-    ShellExecute(NULL, "open", DOOMRETRO_WIKIURL, NULL, NULL, SW_SHOWNORMAL);
+    (VOID)ShellExecute(NULL, "open", DOOMRETRO_WIKIURL, NULL, NULL, SW_SHOWNORMAL);
 #elif defined(__linux__) || defined(__FreeBSD__) || defined(__HAIKU__)
-    system("xdg-open " DOOMRETRO_WIKIURL);
+    (void)system("xdg-open " DOOMRETRO_WIKIURL);
 #elif defined(__APPLE__)
-    system("open " DOOMRETRO_WIKIURL);
+    (void)system("open " DOOMRETRO_WIKIURL);
 #endif
 }
 
@@ -3137,11 +3137,11 @@ static void kill_cmd_func2(char *cmd, char *parms)
 static void license_cmd_func2(char *cmd, char *parms)
 {
 #if defined(_WIN32)
-    ShellExecute(NULL, "open", DOOMRETRO_WIKILICENSEURL, NULL, NULL, SW_SHOWNORMAL);
+    (VOID)ShellExecute(NULL, "open", DOOMRETRO_WIKILICENSEURL, NULL, NULL, SW_SHOWNORMAL);
 #elif defined(__linux__)
-    system("xdg-open " DOOMRETRO_WIKILICENSEURL);
+    (void)system("xdg-open " DOOMRETRO_WIKILICENSEURL);
 #elif defined(__APPLE__)
-    system("open " DOOMRETRO_WIKILICENSEURL);
+    (void)system("open " DOOMRETRO_WIKILICENSEURL);
 #endif
 }
 
