@@ -363,7 +363,7 @@ static int  offsets[1024 * 4096];
 //
 void R_InitDistortedFlats(void)
 {
-    for (int i = 0, *offset = offsets; i < 1024 * SPEED; i += SPEED, offset += 4096)
+    for (int i = 0, *offset = offsets; i < 1024 * SPEED; i += SPEED, offset += 64 * 64)
         for (int y = 0; y < 64; y++)
             for (int x = 0; x < 64; x++)
             {
@@ -388,7 +388,7 @@ void R_InitDistortedFlats(void)
 //
 static byte *R_DistortedFlat(int flatnum)
 {
-    static byte distortedflat[4096];
+    static byte distortedflat[64 * 64];
     static int  prevgametime = -1;
     static int  prevflatnum = -1;
     static byte *normalflat;
@@ -405,7 +405,7 @@ static byte *R_DistortedFlat(int flatnum)
             prevflatnum = flatnum;
         }
 
-        for (int i = 0; i < 4096; i++)
+        for (int i = 0; i < 64 * 64; i++)
             distortedflat[i] = normalflat[offset[i]];
     }
     else if (prevflatnum != flatnum)
@@ -413,7 +413,7 @@ static byte *R_DistortedFlat(int flatnum)
         normalflat = lumpinfo[firstflat + flatnum]->cache;
         prevflatnum = flatnum;
 
-        for (int i = 0; i < 4096; i++)
+        for (int i = 0; i < 64 * 64; i++)
             distortedflat[i] = normalflat[offset[i]];
     }
 

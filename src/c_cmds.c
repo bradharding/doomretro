@@ -2076,7 +2076,7 @@ static void exec_cmd_func2(char *cmd, char *parms)
             return;
         }
 
-        while (fgets(strparm, 512, file))
+        while (fgets(strparm, sizeof(strparm), file))
         {
             if (strparm[0] == ';')
                 continue;
@@ -2622,9 +2622,9 @@ static void help_cmd_func2(char *cmd, char *parms)
 #if defined(_WIN32)
     ShellExecute(NULL, "open", DOOMRETRO_WIKIURL, NULL, NULL, SW_SHOWNORMAL);
 #elif defined(__linux__) || defined(__FreeBSD__) || defined(__HAIKU__)
-    int result = system("xdg-open " DOOMRETRO_WIKIURL);
+    system("xdg-open " DOOMRETRO_WIKIURL);
 #elif defined(__APPLE__)
-    int result = system("open " DOOMRETRO_WIKIURL);
+    system("open " DOOMRETRO_WIKIURL);
 #endif
 }
 
@@ -3072,7 +3072,6 @@ static void kill_cmd_func2(char *cmd, char *parms)
 
                 if (kills)
                 {
-                    char    buffer[1024];
                     char    *temp = commify(kills);
 
                     if (M_StringCompare(playername, playername_default))
@@ -3122,7 +3121,8 @@ static void kill_cmd_func2(char *cmd, char *parms)
                             C_Warning(0, "There are no %s in " ITALICS("%s."), mobjinfo[type].plural1, gamedescription);
                     }
                     else
-                        C_Warning(0, "There are no %s %s kill.", mobjinfo[type].plural1, (dead ? "left to" : "to"));
+                        C_Warning(0, "There are no %s %s %s.", mobjinfo[type].plural1, (dead ? "left to" : "to"),
+                            (type == MT_BARREL ? "explode" : "kill"));
                 }
             }
         }
@@ -3139,9 +3139,9 @@ static void license_cmd_func2(char *cmd, char *parms)
 #if defined(_WIN32)
     ShellExecute(NULL, "open", DOOMRETRO_WIKILICENSEURL, NULL, NULL, SW_SHOWNORMAL);
 #elif defined(__linux__)
-    int result = system("xdg-open " DOOMRETRO_WIKILICENSEURL);
+    system("xdg-open " DOOMRETRO_WIKILICENSEURL);
 #elif defined(__APPLE__)
-    int result = system("open " DOOMRETRO_WIKILICENSEURL);
+    system("open " DOOMRETRO_WIKILICENSEURL);
 #endif
 }
 
