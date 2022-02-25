@@ -3075,12 +3075,6 @@ static void kill_cmd_func2(char *cmd, char *parms)
                     char    buffer[1024];
                     char    *temp = commify(kills);
 
-                    M_snprintf(buffer, sizeof(buffer), "%s %s %s %s now %s.",
-                        (kills == 1 ? "The" : "All"), temp, (kills == 1 ? mobjinfo[type].name1 : mobjinfo[type].plural1),
-                        (type == MT_BARREL ? (kills == 1 ? "has" : "have") : (kills == 1 ? "is" : "are")),
-                        (type == MT_BARREL ? "exploded" : "dead"));
-                    C_Output(buffer);
-
                     if (M_StringCompare(playername, playername_default))
                     {
                         if (kills == 1)
@@ -3123,19 +3117,12 @@ static void kill_cmd_func2(char *cmd, char *parms)
                     if (gamemode != commercial)
                     {
                         if (killcmdtype >= ArchVile && killcmdtype <= MonstersSpawner)
-                        {
                             C_Warning(0, "There are no %s in " ITALICS("%s."), mobjinfo[type].plural1, gamedescription);
-                            return;
-                        }
                         else if (gamemode == shareware && (killcmdtype == Cyberdemon || killcmdtype == SpiderMastermind))
-                        {
                             C_Warning(0, "There are no %s in " ITALICS("%s."), mobjinfo[type].plural1, gamedescription);
-                            return;
-                        }
                     }
-
-                    C_Warning(0, "There are no %s %s %s.", mobjinfo[type].plural1, (dead ? "left to" : "to"),
-                        (type == MT_BARREL ? "explode" : "kill"));
+                    else
+                        C_Warning(0, "There are no %s %s kill.", mobjinfo[type].plural1, (dead ? "left to" : "to"));
                 }
             }
         }
