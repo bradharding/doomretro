@@ -674,7 +674,7 @@ static void F_CastTicker(void)
         }
 
         if (caststate == &states[S_PLAY_ATK1])
-            S_StartSound(viewplayer->mo, sfx_dshtgn);
+            S_StartSound(NULL, sfx_dshtgn);
     }
 
     if (castattacking && (castframes == 24 || caststate == &states[mobjinfo[castorder[castnum].type].seestate]))
@@ -854,8 +854,8 @@ static void F_CastDrawer(void)
 
     V_DrawWidePatch((SCREENWIDTH / SCREENSCALE - SHORT(patch->width)) / 2, 0, 0, patch);
 
-    if (M_StringCompare(castorder[castnum].name, *castorder[castnum].dehackedname))
-        F_CastPrint(type == MT_PLAYER ? playername : mobjinfo[type].name1);
+    if (type == MT_PLAYER && M_StringCompare(castorder[castnum].name, *castorder[castnum].dehackedname))
+        F_CastPrint(playername);
     else
         F_CastPrint(*castorder[castnum].dehackedname);
 

@@ -298,7 +298,6 @@ void V_DrawShadowPatch(int x, int y, patch_t *patch)
     byte        *desttop;
     const int   w = SHORT(patch->width) << FRACBITS;
 
-    y -= SHORT(patch->topoffset) / 10;
     x -= SHORT(patch->leftoffset);
     x += WIDESCREENDELTA;   // [crispy] horizontal widescreen offset
 
@@ -347,7 +346,6 @@ void V_DrawSolidShadowPatch(int x, int y, patch_t *patch)
     byte        *desttop;
     const int   w = SHORT(patch->width) << FRACBITS;
 
-    y -= SHORT(patch->topoffset) / 10;
     x -= SHORT(patch->leftoffset);
     x += WIDESCREENDELTA;   // [crispy] horizontal widescreen offset
 
@@ -381,7 +379,6 @@ void V_DrawSpectreShadowPatch(int x, int y, patch_t *patch)
     const int   w = SHORT(patch->width) << FRACBITS;
     const byte  *shadow = &tinttab40[nearestblack << 8];
 
-    y -= SHORT(patch->topoffset) / 10;
     x -= SHORT(patch->leftoffset);
     x += WIDESCREENDELTA;   // [crispy] horizontal widescreen offset
 
@@ -423,7 +420,6 @@ void V_DrawSolidSpectreShadowPatch(int x, int y, patch_t *patch)
     byte        *desttop;
     const int   w = SHORT(patch->width) << FRACBITS;
 
-    y -= SHORT(patch->topoffset) / 10;
     x -= SHORT(patch->leftoffset);
     x += WIDESCREENDELTA;   // [crispy] horizontal widescreen offset
 
