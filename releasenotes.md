@@ -2,6 +2,7 @@
 
 #### DOOM Retro v4.4.8
 
+* Optimizations have been made to further improve the overall performance of *DOOM Retro*.
 * The current map’s title in the automap is no longer translucent when the `r_hud_translucency` CVAR is `off`.
 * Minor changes have been made to text that is output to the console.
 * Further improvements have been made to the support of [*Chex Quest*](https://doomwiki.org/wiki/Chex_Quest).

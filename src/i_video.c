@@ -788,10 +788,7 @@ static void UpdateGrab(void)
     if (grab && !currently_grabbed)
         SetShowCursor(false);
     else if (!grab && currently_grabbed)
-    {
         SetShowCursor(true);
-        SDL_GetRelativeMouseState(NULL, NULL);
-    }
 
     currently_grabbed = grab;
 }
