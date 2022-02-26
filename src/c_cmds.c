@@ -2547,7 +2547,7 @@ static void give_cmd_func2(char *cmd, char *parms)
                                 if (M_StringCompare(playername, playername_default))
                                     C_PlayerMessage("You were given %s.", mobjinfo[i].name1);
                                 else
-                                    C_PlayerMessage("%s was given %s.", mobjinfo[i].name1);
+                                    C_PlayerMessage("%s was given %s.", playername, mobjinfo[i].name1);
                             }
                             else
                             {
