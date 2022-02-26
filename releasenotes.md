@@ -1,5 +1,13 @@
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/releasenotes.png)
 
+#### DOOM Retro v4.4.8
+
+* The current map’s title in the automap is no longer translucent when the `r_hud_translucency` CVAR is `off`.
+
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
+
+###### Saturday, February 26, 2022
+
 #### DOOM Retro v4.4.7
 
 * Optimizations have been made to further improve the overall performance of *DOOM Retro*.
