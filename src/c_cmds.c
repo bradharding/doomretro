@@ -2542,11 +2542,22 @@ static void give_cmd_func2(char *cmd, char *parms)
 
                         if (P_TouchSpecialThing(thing, viewplayer->mo, false, false))
                         {
-                            if (M_StringCompare(playername, playername_default))
-                                C_PlayerMessage("You were given %s %s.", (isvowel(mobjinfo[i].name1[0]) ? "an" : "a"), mobjinfo[i].name1);
+                            if (thing->type == MT_MISC0 || thing->type == MT_MISC1)
+                            {
+                                if (M_StringCompare(playername, playername_default))
+                                    C_PlayerMessage("You were given %s.", mobjinfo[i].name1);
+                                else
+                                    C_PlayerMessage("%s was given %s.", mobjinfo[i].name1);
+                            }
                             else
-                                C_PlayerMessage("%s was given %s %s.",
-                                    playername, (isvowel(mobjinfo[i].name1[0]) ? "an" : "a"), mobjinfo[i].name1);
+                            {
+                                if (M_StringCompare(playername, playername_default))
+                                    C_PlayerMessage("You were given %s %s.",
+                                        (isvowel(mobjinfo[i].name1[0]) ? "an" : "a"), mobjinfo[i].name1);
+                                else
+                                    C_PlayerMessage("%s was given %s %s.",
+                                        playername, (isvowel(mobjinfo[i].name1[0]) ? "an" : "a"), mobjinfo[i].name1);
+                            }
 
                             C_HideConsole();
                         }
