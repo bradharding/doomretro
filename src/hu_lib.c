@@ -91,7 +91,7 @@ dboolean HUlib_AddCharToTextLine(hu_textline_t *t, char ch)
 }
 
 // [BH] draw an individual character to temporary buffer
-static void HU_DrawChar(int x, int y, int ch, int screenwidth)
+static void HU_DrawChar(int x, int y, int ch, byte *screen, int screenwidth)
 {
     int w = (int)strlen(smallcharset[ch]) / 10;
 
@@ -105,7 +105,7 @@ static void HU_DrawChar(int x, int y, int ch, int screenwidth)
             for (int yy = 0; yy < SCREENSCALE; yy++)
                 for (int xx = 0; xx < SCREENSCALE; xx++)
                 {
-                    byte    *dest = &tempscreen[(j + yy) * screenwidth + (i + xx)];
+                    byte    *dest = &screen[(j + yy) * screenwidth + (i + xx)];
 
                     if (src == PINK)
                         *dest = 0;
@@ -374,7 +374,7 @@ static void HUlib_DrawTextLine(hu_textline_t *l, dboolean external)
 
                 // [BH] draw individual character
                 charwidth = (int)strlen(smallcharset[j]) / 10 - 1;
-                HU_DrawChar(x, y - 1, j, screenwidth);
+                HU_DrawChar(x, y - 1, j, tempscreen, screenwidth);
             }
 
             x += charwidth;
@@ -507,7 +507,10 @@ void HUlib_DrawAutomapTextLine(hu_textline_t *l, dboolean external)
                     }
                 }
 
-                HU_DrawTranslucentChar(x / 2, y / 2 - 1, j, fb, w);
+                if (r_hud_translucency)
+                    HU_DrawTranslucentChar(x / 2, y / 2 - 1, j, fb, w);
+                else
+                    HU_DrawChar(x / 2, y / 2 - 1, j, fb, w);
             }
 
             x += SHORT(l->f[c - l->sc]->width) * 2;
