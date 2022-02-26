@@ -6767,11 +6767,16 @@ static void spawn_cmd_func2(char *cmd, char *parms)
 
                     fog->angle = thing->angle;
 
-                    C_PlayerMessage("%s spawned %s %s%s.",
-                        (M_StringCompare(playername, playername_default) ? "You" : playername),
-                        (isvowel(mobjinfo[type].name1[0]) ? "an" : "a"),
-                        (spawncmdfriendly ? "friendly " : ""),
-                        mobjinfo[type].name1);
+                    if (thing->type == MT_MISC0 || thing->type == MT_MISC1)
+                        C_PlayerMessage("%s spawned %s.",
+                            (M_StringCompare(playername, playername_default) ? "You" : playername),
+                            mobjinfo[type].name1);
+                    else
+                        C_PlayerMessage("%s spawned %s %s%s.",
+                            (M_StringCompare(playername, playername_default) ? "You" : playername),
+                            (isvowel(mobjinfo[type].name1[0]) ? "an" : "a"),
+                            (spawncmdfriendly ? "friendly " : ""),
+                            mobjinfo[type].name1);
 
                     C_HideConsole();
                 }
