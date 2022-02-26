@@ -898,8 +898,8 @@ static int AltHUDNumber2Width(int val)
 
 static void HU_DrawAltHUD(void)
 {
-    dboolean        invert = ((viewplayer->fixedcolormap == INVERSECOLORMAP) ^ (!r_textures));
-    int             color = (invert ? colormaps[0][32 * 256 + nearestwhite] : nearestwhite);
+    int             color = ((viewplayer->fixedcolormap == INVERSECOLORMAP) ^ (!r_textures) ?
+                        colormaps[0][32 * 256 + nearestwhite] : nearestwhite);
     int             health = MAX(health_min, viewplayer->health);
     int             armor = viewplayer->armorpoints;
     int             barcolor2 = (health < HUD_HEALTH_MIN ? red : (health >= 100 ? green : color));
@@ -942,7 +942,7 @@ static void HU_DrawAltHUD(void)
 
         if ((armor *= 200 / max_armor) > 100)
         {
-            fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 2, 100 + 1, 4, barcolor1, true);
+            fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 2, 101, 4, barcolor1, true);
             fillrectfunc2(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 2, armor - 100 + (armor == 200), 4, barcolor2, false);
         }
         else

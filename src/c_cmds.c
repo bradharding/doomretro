@@ -2620,7 +2620,7 @@ static void god_cmd_func2(char *cmd, char *parms)
 static void help_cmd_func2(char *cmd, char *parms)
 {
 #if defined(_WIN32)
-    (VOID)ShellExecute(NULL, "open", DOOMRETRO_WIKIURL, NULL, NULL, SW_SHOWNORMAL);
+    (void)ShellExecute(NULL, "open", DOOMRETRO_WIKIURL, NULL, NULL, SW_SHOWNORMAL);
 #elif defined(__linux__) || defined(__FreeBSD__) || defined(__HAIKU__)
     (void)system("xdg-open " DOOMRETRO_WIKIURL);
 #elif defined(__APPLE__)
@@ -3137,7 +3137,7 @@ static void kill_cmd_func2(char *cmd, char *parms)
 static void license_cmd_func2(char *cmd, char *parms)
 {
 #if defined(_WIN32)
-    (VOID)ShellExecute(NULL, "open", DOOMRETRO_WIKILICENSEURL, NULL, NULL, SW_SHOWNORMAL);
+    (void)ShellExecute(NULL, "open", DOOMRETRO_WIKILICENSEURL, NULL, NULL, SW_SHOWNORMAL);
 #elif defined(__linux__)
     (void)system("xdg-open " DOOMRETRO_WIKILICENSEURL);
 #elif defined(__APPLE__)
