@@ -293,6 +293,9 @@ static int mapcmdids[] =
     MCMD_COMPAT_CORPSEGIBS
 };
 
+dboolean        allowmonstertelefrags;
+dboolean        compat_corpsegibs;
+
 dboolean        canmodify;
 dboolean        transferredsky;
 static int      MAPINFO;
@@ -3068,6 +3071,9 @@ void P_SetupLevel(int ep, int map)
 
     if (gamemode != shareware)
         S_ParseMusInfo(lumpname);
+
+    allowmonstertelefrags = P_GetAllowMonsterTelefrags((ep - 1) * 10 + map);
+    compat_corpsegibs = P_GetCompatCorpseGibs((ep - 1) * 10 + map);
 }
 
 static int  liquidlumps;

@@ -36,6 +36,7 @@
 ========================================================================
 */
 
+#include "am_map.h"
 #include "c_console.h"
 #include "doomstat.h"
 #include "g_game.h"
@@ -1037,9 +1038,6 @@ void P_SetPlayerViewHeight(void)
 // Most of the player structure stays unchanged
 //  between levels.
 //
-extern int  lastlevel;
-extern int  lastepisode;
-
 static void P_SpawnPlayer(const mapthing_t *mthing)
 {
     mobj_t  *mobj;

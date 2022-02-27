@@ -86,6 +86,9 @@ typedef struct
     fixed_t     bbox[4];
 } am_frame_t;
 
+extern int          lastlevel;
+extern int          lastepisode;
+
 extern mpoint_t     *markpoints;
 extern int          markpointnum;
 extern int          markpointnum_max;

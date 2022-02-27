@@ -41,8 +41,11 @@
 
 extern dboolean     canmodify;
 extern dboolean     samelevel;
-extern dboolean     skipblstart;    // MaxW: Skip initial blocklist short
+extern dboolean     skipblstart;
 extern const char   *linespecials[];
+
+extern dboolean     allowmonstertelefrags;
+extern dboolean     compat_corpsegibs;
 
 extern char         mapnum[6];
 extern char         maptitle[256];

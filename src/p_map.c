@@ -223,7 +223,7 @@ dboolean P_TeleportMove(mobj_t *thing, fixed_t x, fixed_t y, fixed_t z, dboolean
     sector_t    *newsec;
     fixed_t     radius = thing->radius;
 
-    telefrag = (thing->player || boss || P_GetAllowMonsterTelefrags((gameepisode - 1) * 10 + gamemap));
+    telefrag = (thing->player || boss || allowmonstertelefrags);
 
     // kill anything occupying the position
     tmthing = thing;

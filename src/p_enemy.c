@@ -1339,7 +1339,7 @@ static dboolean PIT_VileCheck(mobj_t *thing)
     corpsehit->momx = 0;
     corpsehit->momy = 0;
 
-    if (P_GetCompatCorpseGibs((gameepisode - 1) * 10 + gamemap))
+    if (compat_corpsegibs)
     {
         corpsehit->height <<= 2;
         corpsehit->flags2 |= MF2_RESURRECTING;
@@ -1412,7 +1412,7 @@ static dboolean P_HealCorpse(mobj_t *actor, int radius, statenum_t healstate, sf
 
                     P_SetMobjState(corpsehit, info->raisestate);
 
-                    if (P_GetCompatCorpseGibs((gameepisode - 1) * 10 + gamemap))
+                    if (compat_corpsegibs)
                         corpsehit->height <<= 2;
                     else
                     {
