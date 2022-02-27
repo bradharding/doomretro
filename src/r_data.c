@@ -634,16 +634,6 @@ static void R_InitSpriteLumps(void)
         M_StringCopy(mobjinfo[MT_PAIN].name1, "summoner", sizeof(mobjinfo[MT_PAIN].name1));
         M_StringCopy(mobjinfo[MT_PAIN].plural1, "summoners", sizeof(mobjinfo[MT_PAIN].plural1));
     }
-    else if (chex)
-    {
-        s_M_SKILLLEVEL1 = M_StringDuplicate("Easy does it");
-        s_M_SKILLLEVEL2 = M_StringDuplicate("Not so sticky");
-        s_M_SKILLLEVEL3 = M_StringDuplicate("Gobs of goo");
-        s_M_SKILLLEVEL4 = M_StringDuplicate("Extreme ooze");
-        s_M_SKILLLEVEL5 = M_StringDuplicate("Super slimey!");
-
-        mobjinfo[MT_BLOOD].blood = GREENBLOOD;
-    }
     else if (hacx)
     {
         s_M_SKILLLEVEL1 = M_StringDuplicate("Please don't shoot!");

@@ -41,6 +41,11 @@ STSTR_DQDOFF = Invincible Mode OFF
 STSTR_KFAADDED = Super zorch added.
 STSTR_FAADDED = Zorch added.
 STSTR_CHOPPERS = Eat Chex(R)!
+M_SKILLLEVEL1 = Easy does it
+M_SKILLLEVEL2 = Not so sticky
+M_SKILLLEVEL3 = Gobs of goo
+M_SKILLLEVEL4 = Extreme ooze
+M_SKILLLEVEL5 = Super slimey!
 
 Frame 537
 Duration = 3
@@ -54,18 +59,35 @@ Duration = 0
 Thing 2 (Zombieman)
 Close attack frame = 184
 Far attack frame = 0
+Name = flemoidus commonus
+Plural = flemoidus commonus
 
 Thing 3 (Shotgun guy)
 Close attack frame = 217
 Far attack frame = 0
+Name = flemoidus bipedicus
+Plural = flemoidus bipedicus
+
+Thing 12 (Imp)
+Name = armored flemoidus bipedicus
+Plural = armored flemoidus bipedicus
+
+Thing 13 (Demon)
+Name = flemoidus cycloptis
+Plural = flemoidus cycloptis
 
 Thing 16 (Boss)
 Width = 2883584
 Height = 6553600
 Speed = 0
+Name = flembrane
+Plural = flembranes
 
 Thing 19
 Height = 0
+
+Thing 39
+Blood = 122
 
 [PARS]
 par 1 1 110
