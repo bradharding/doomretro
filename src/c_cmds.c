@@ -115,7 +115,7 @@
 #define STRINGCVARISDEFAULT         "It is its default of " BOLD("\"%s\"") "."
 #define TIMECVARWITHNODEFAULT       "It is " BOLD("%02i:%02i:%02i") "."
 
-#define INDENT                      "   "
+#define INDENT                      "      "
 
 alias_t     aliases[MAXALIASES];
 
