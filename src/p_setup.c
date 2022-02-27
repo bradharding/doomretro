@@ -1771,9 +1771,9 @@ static void P_LoadZNodes(int lump)
 static void P_LoadThings(int map, int lump)
 {
     const mapthing_t    *data = (const mapthing_t *)W_CacheLumpNum(lump);
-    int                 numthings;
+    int                 numthings = W_LumpLength(lump) / sizeof(mapthing_t);
 
-    if (!(numthings = W_LumpLength(lump) / sizeof(mapthing_t)) || !data)
+    if (!numthings || !data)
         I_Error("There are no things in this map.");
 
     M_BigSeed(gamemission == doom && map == 1 && canmodify ? BIGSEED : numthings);
@@ -3054,12 +3054,13 @@ void P_SetupLevel(int ep, int map)
     pathpoints = NULL;
 
     massacre = false;
+    map = (ep - 1) * 10 + map;
 
-    P_GetMapLiquids((ep - 1) * 10 + map);
-    P_GetMapNoLiquids((ep - 1) * 10 + map);
+    P_GetMapLiquids(map);
+    P_GetMapNoLiquids(map);
     P_SetLiquids();
 
-    P_LoadThings((ep - 1) * 10 + map, lumpnum + ML_THINGS);
+    P_LoadThings(map, lumpnum + ML_THINGS);
 
     P_InitCards();
 
@@ -3077,9 +3078,9 @@ void P_SetupLevel(int ep, int map)
     if (gamemode != shareware)
         S_ParseMusInfo(lumpname);
 
-    allowmonstertelefrags = P_GetAllowMonsterTelefrags((ep - 1) * 10 + map);
-    compat_corpsegibs = P_GetCompatCorpseGibs((ep - 1) * 10 + map);
-    compat_limitpain = P_GetCompatLimitPain((ep - 1) * 10 + map);
+    allowmonstertelefrags = mapinfo[map].allowmonstertelefrags;
+    compat_corpsegibs = mapinfo[map].compat_corpsegibs;
+    compat_limitpain = mapinfo[map].compat_limitpain;
 }
 
 static int  liquidlumps;
@@ -3675,21 +3676,6 @@ int P_GetMapSky1ScrollDelta(int map)
 int P_GetMapTitlePatch(int map)
 {
     return mapinfo[map].titlepatch;
-}
-
-int P_GetAllowMonsterTelefrags(int map)
-{
-    return mapinfo[map].allowmonstertelefrags;
-}
-
-int P_GetCompatCorpseGibs(int map)
-{
-    return mapinfo[map].compat_corpsegibs;
-}
-
-int P_GetCompatLimitPain(int map)
-{
-    return mapinfo[map].compat_limitpain;
 }
 
 //
