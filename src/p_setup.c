@@ -99,6 +99,7 @@
 #define MCMD_SKYTEXTURE             31
 #define MCMD_TITLEPATCH             32
 #define MCMD_ALLOWMONSTERTELEFRAGS  33
+#define MCMD_COMPAT_CORPSEGIBS      34
 
 typedef struct mapinfo_s mapinfo_t;
 
@@ -131,6 +132,7 @@ struct mapinfo_s
     int         sky1scrolldelta;
     int         titlepatch;
     dboolean    allowmonstertelefrags;
+    dboolean    compat_corpsegibs;
 };
 
 //
@@ -250,6 +252,7 @@ static char *mapcmdnames[] =
     "SKYTEXTURE",
     "TITLEPATCH",
     "ALLOWMONSTERTELEFRAGS",
+    "COMPAT_CORPSEGIBS",
     NULL
 };
 
@@ -286,7 +289,8 @@ static int mapcmdids[] =
     MCMD_SKY1,
     MCMD_SKYTEXTURE,
     MCMD_TITLEPATCH,
-    MCMD_ALLOWMONSTERTELEFRAGS
+    MCMD_ALLOWMONSTERTELEFRAGS,
+    MCMD_COMPAT_CORPSEGIBS
 };
 
 dboolean        canmodify;
@@ -3497,6 +3501,10 @@ static void P_ParseMapInfo(char *scriptname)
                         case MCMD_ALLOWMONSTERTELEFRAGS:
                             info->allowmonstertelefrags = true;
                             break;
+
+                        case MCMD_COMPAT_CORPSEGIBS:
+                            info->compat_corpsegibs = true;
+                            break;
                     }
             }
 
@@ -3656,6 +3664,11 @@ int P_GetMapTitlePatch(int map)
 int P_GetAllowMonsterTelefrags(int map)
 {
     return mapinfo[map].allowmonstertelefrags;
+}
+
+int P_GetCompatCorpseGibs(int map)
+{
+    return mapinfo[map].compat_corpsegibs;
 }
 
 //

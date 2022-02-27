@@ -48,6 +48,7 @@
 #include "m_random.h"
 #include "p_inter.h"
 #include "p_local.h"
+#include "p_setup.h"
 #include "p_tick.h"
 #include "s_sound.h"
 
@@ -1319,8 +1320,6 @@ static dboolean PIT_VileCheck(mobj_t *thing)
 {
     int         maxdist;
     dboolean    check;
-    fixed_t     height;
-    fixed_t     radius;
 
     if (!(thing->flags & MF_CORPSE))
         return true;    // not a monster
@@ -1340,18 +1339,30 @@ static dboolean PIT_VileCheck(mobj_t *thing)
     corpsehit->momx = 0;
     corpsehit->momy = 0;
 
-    // [BH] fix <https://doomwiki.org/wiki/Ghost_monster>
-    height = corpsehit->height;
-    radius = corpsehit->radius;
-    corpsehit->height = corpsehit->info->height;
-    corpsehit->radius = corpsehit->info->radius;
-    corpsehit->flags |= MF_SOLID;
-    corpsehit->flags2 |= MF2_RESURRECTING;
-    check = P_CheckPosition(corpsehit, corpsehit->x, corpsehit->y);
-    corpsehit->height = height;
-    corpsehit->radius = radius;
-    corpsehit->flags &= ~MF_SOLID;
-    corpsehit->flags2 &= ~MF2_RESURRECTING;
+    if (P_GetCompatCorpseGibs((gameepisode - 1) * 10 + gamemap))
+    {
+        corpsehit->height <<= 2;
+        corpsehit->flags2 |= MF2_RESURRECTING;
+        check = P_CheckPosition(corpsehit, corpsehit->x, corpsehit->y);
+        corpsehit->flags2 &= ~MF2_RESURRECTING;
+        corpsehit->height >>= 2;
+    }
+    else
+    {
+        // [BH] fix <https://doomwiki.org/wiki/Ghost_monster>
+        fixed_t height = corpsehit->height;
+        fixed_t radius = corpsehit->radius;
+
+        corpsehit->height = corpsehit->info->height;
+        corpsehit->radius = corpsehit->info->radius;
+        corpsehit->flags |= MF_SOLID;
+        corpsehit->flags2 |= MF2_RESURRECTING;
+        check = P_CheckPosition(corpsehit, corpsehit->x, corpsehit->y);
+        corpsehit->height = height;
+        corpsehit->radius = radius;
+        corpsehit->flags &= ~MF_SOLID;
+        corpsehit->flags2 &= ~MF2_RESURRECTING;
+    }
 
     return !check;        // got one, so stop checking
 }
@@ -1401,9 +1412,14 @@ static dboolean P_HealCorpse(mobj_t *actor, int radius, statenum_t healstate, sf
 
                     P_SetMobjState(corpsehit, info->raisestate);
 
-                    // [BH] fix <https://doomwiki.org/wiki/Ghost_monster>
-                    corpsehit->height = info->height;
-                    corpsehit->radius = info->radius;
+                    if (P_GetCompatCorpseGibs((gameepisode - 1) * 10 + gamemap))
+                        corpsehit->height <<= 2;
+                    else
+                    {
+                        // [BH] fix <https://doomwiki.org/wiki/Ghost_monster>
+                        corpsehit->height = info->height;
+                        corpsehit->radius = info->radius;
+                    }
 
                     // killough 07/18/98: friendliness is transferred from AV to raised corpse
                     corpsehit->flags = ((info->flags & ~MF_FRIEND) | (actor->flags & MF_FRIEND));

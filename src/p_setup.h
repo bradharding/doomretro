@@ -81,5 +81,6 @@ int P_GetMapSky1Texture(int map);
 int P_GetMapSky1ScrollDelta(int map);
 int P_GetMapTitlePatch(int map);
 int P_GetAllowMonsterTelefrags(int map);
+int P_GetCompatCorpseGibs(int map);
 
 #endif
