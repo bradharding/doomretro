@@ -46,6 +46,7 @@ extern const char   *linespecials[];
 
 extern dboolean     allowmonstertelefrags;
 extern dboolean     compat_corpsegibs;
+extern dboolean     compat_limitpain;
 
 extern char         mapnum[6];
 extern char         maptitle[256];
@@ -85,5 +86,6 @@ int P_GetMapSky1ScrollDelta(int map);
 int P_GetMapTitlePatch(int map);
 int P_GetAllowMonsterTelefrags(int map);
 int P_GetCompatCorpseGibs(int map);
+int P_GetCompatLimitPain(int map);
 
 #endif

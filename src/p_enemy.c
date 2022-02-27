@@ -1746,9 +1746,17 @@ static void A_PainShootSkull(mobj_t *actor, angle_t angle)
     fixed_t         x = actor->x + FixedMul(prestep, finecosine[an]);
     fixed_t         y = actor->y + FixedMul(prestep, finesine[an]);
 
-    // [BH] removed check for number of lost souls
+    if (compat_limitpain)
+    {
+        // count total number of skulls currently on the level
+        int count = 20;
 
-    // Check whether the Lost Soul is being fired through a 1-sided
+        for (thinker_t *th = thinkers[th_mobj].cnext; th != &thinkers[th_mobj]; th = th->cnext)
+            if (((mobj_t *)th)->type == MT_SKULL && --count < 0)
+                return;
+    }
+
+    // Check whether the lost soul is being fired through a 1-sided
     // wall or an impassible line, or a "monsters can't cross" line.
     // If it is, then we don't allow the spawn.
     if (P_CheckLineSide(actor, x, y))

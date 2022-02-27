@@ -100,6 +100,7 @@
 #define MCMD_TITLEPATCH             32
 #define MCMD_ALLOWMONSTERTELEFRAGS  33
 #define MCMD_COMPAT_CORPSEGIBS      34
+#define MCMD_COMPAT_LIMITPAIN       35
 
 typedef struct mapinfo_s mapinfo_t;
 
@@ -133,6 +134,7 @@ struct mapinfo_s
     int         titlepatch;
     dboolean    allowmonstertelefrags;
     dboolean    compat_corpsegibs;
+    dboolean    compat_limitpain;
 };
 
 //
@@ -253,6 +255,7 @@ static char *mapcmdnames[] =
     "TITLEPATCH",
     "ALLOWMONSTERTELEFRAGS",
     "COMPAT_CORPSEGIBS",
+    "COMPAT_LIMITPAIN",
     NULL
 };
 
@@ -290,11 +293,13 @@ static int mapcmdids[] =
     MCMD_SKYTEXTURE,
     MCMD_TITLEPATCH,
     MCMD_ALLOWMONSTERTELEFRAGS,
-    MCMD_COMPAT_CORPSEGIBS
+    MCMD_COMPAT_CORPSEGIBS,
+    MCMD_COMPAT_LIMITPAIN
 };
 
 dboolean        allowmonstertelefrags;
 dboolean        compat_corpsegibs;
+dboolean        compat_limitpain;
 
 dboolean        canmodify;
 dboolean        transferredsky;
@@ -3074,6 +3079,7 @@ void P_SetupLevel(int ep, int map)
 
     allowmonstertelefrags = P_GetAllowMonsterTelefrags((ep - 1) * 10 + map);
     compat_corpsegibs = P_GetCompatCorpseGibs((ep - 1) * 10 + map);
+    compat_limitpain = P_GetCompatLimitPain((ep - 1) * 10 + map);
 }
 
 static int  liquidlumps;
@@ -3511,6 +3517,10 @@ static void P_ParseMapInfo(char *scriptname)
                         case MCMD_COMPAT_CORPSEGIBS:
                             info->compat_corpsegibs = true;
                             break;
+
+                        case MCMD_COMPAT_LIMITPAIN:
+                            info->compat_limitpain = true;
+                            break;
                     }
             }
 
@@ -3675,6 +3685,11 @@ int P_GetAllowMonsterTelefrags(int map)
 int P_GetCompatCorpseGibs(int map)
 {
     return mapinfo[map].compat_corpsegibs;
+}
+
+int P_GetCompatLimitPain(int map)
+{
+    return mapinfo[map].compat_limitpain;
 }
 
 //
