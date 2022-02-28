@@ -1717,8 +1717,7 @@ static const struct deh_flag_s deh_mobjflags_mbf21[] =
     { "E4M6BOSS",       MF_MBF21_E4M6BOSS       },  // E4M6 boss
     { "E4M8BOSS",       MF_MBF21_E4M8BOSS       },  // E4M8 boss
     { "RIP",            MF_MBF21_RIP            },  // projectile rips through targets
-    { "FULLVOLSOUNDS",  MF_MBF21_FULLVOLSOUNDS  },  // full volume see/death sound
-    { "",               0                       }
+    { "FULLVOLSOUNDS",  MF_MBF21_FULLVOLSOUNDS  }   // full volume see/death sound
 };
 
 #define DEH_WEAPONFLAGMAX_MBF21 arrlen(deh_weaponflags_mbf21)
@@ -1730,8 +1729,7 @@ static const struct deh_flag_s deh_weaponflags_mbf21[] =
     { "NOAUTOFIRE",     WPF_NOAUTOFIRE          },  // weapon won't autofire in A_WeaponReady
     { "FLEEMELEE",      WPF_FLEEMELEE           },  // monsters consider it a melee weapon
     { "AUTOSWITCHFROM", WPF_AUTOSWITCHFROM      },  // can be switched away from when ammo is picked up
-    { "NOAUTOSWITCHTO", WPF_NOAUTOSWITCHTO      },  // cannot be switched to when ammo is picked up
-    { "",               0                       }
+    { "NOAUTOSWITCHTO", WPF_NOAUTOSWITCHTO      }   // cannot be switched to when ammo is picked up
 };
 
 // STATE - Dehacked block name = "Frame" and "Pointer"

@@ -166,6 +166,8 @@ static SDL_Rect     displays[MAXDISPLAYS];
 
 // Bit mask of mouse button state
 static unsigned int mousebuttonstate;
+static int          mousepointerx;
+static int          mousepointery;
 
 static const int buttons[MAX_MOUSE_BUTTONS + 1] =
 {
@@ -724,8 +726,6 @@ static void I_GetEvent(void)
         }
     }
 }
-
-static int  mousepointerx, mousepointery;
 
 void I_SaveMousePointerPosition(void)
 {

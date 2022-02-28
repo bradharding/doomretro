@@ -90,9 +90,7 @@
 #endif
 #endif
 
-//
 // Create a directory
-//
 void M_MakeDirectory(const char *path)
 {
 #if defined(_WIN32)
@@ -427,11 +425,7 @@ dboolean M_StrToInt(const char *str, int *result)
         || sscanf(str, " 0%3o", (unsigned int *)result) == 1 || sscanf(str, " %12d", result) == 1);
 }
 
-//
-// M_StrCaseStr
-//
 // Case-insensitive version of strstr()
-//
 const char *M_StrCaseStr(const char *haystack, const char *needle)
 {
     int haystack_len = (int)strlen(haystack);
@@ -484,9 +478,7 @@ static char *stristr(char *ch1, char *ch2)
     return chRet;
 }
 
-//
 // String replace function.
-//
 char *M_StringReplace(char *haystack, const char *needle, const char *replacement)
 {
     static char buffer[4096];
