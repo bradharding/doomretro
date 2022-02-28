@@ -5,6 +5,7 @@
 * Optimizations have been made to further improve the overall performance of *DOOM Retro*.
 * The current map’s title in the automap is no longer translucent when the `r_hud_translucency` CVAR is `off`.
 * Minor changes have been made to text that is output to the console.
+* Further improvements have been made to the support of [*MBF21*](https://doomwiki.org/wiki/MBF21)-compatible WADs.
 * Further improvements have been made to the support of [*Chex Quest*](https://doomwiki.org/wiki/Chex_Quest).
 * *DOOM Retro* now recognizes the presence of `compat_corpsegibs` and `compat_limitpain` in `MAPINFO` lumps.
 
