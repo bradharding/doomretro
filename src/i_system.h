@@ -43,15 +43,15 @@
 #include "doomdef.h"
 
 #if defined(_WIN32)
-#define PC      "PC"
+#define PCHW    "PC"
 #define WINDOWS "Windows"
 #define DESKTOP "desktop"
 #elif defined(__APPLE__)
-#define PC      "Mac"
+#define PCHW    "Mac"
 #define WINDOWS "macOS"
 #define DESKTOP "Finder"
 #else
-#define PC      "PC"
+#define PCHW    "PC"
 #define WINDOWS "Linux"
 #define DESKTOP "desktop"
 #endif

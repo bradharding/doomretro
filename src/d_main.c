@@ -2027,12 +2027,12 @@ static void D_DoomMainSetup(void)
     I_InitTimer();
 
     if (!stat_runs)
-        C_Output("This is the first time " ITALICS(DOOMRETRO_NAME) " has been run on this " PC ".");
+        C_Output("This is the first time " ITALICS(DOOMRETRO_NAME) " has been run on this " PCHW ".");
     else
     {
         char    *temp = commify(SafeAdd(stat_runs, 1));
 
-        C_Output(ITALICS(DOOMRETRO_NAME) " has now been run %s times on this " PC ".", temp);
+        C_Output(ITALICS(DOOMRETRO_NAME) " has now been run %s times on this " PCHW ".", temp);
         free(temp);
     }
 
