@@ -126,6 +126,7 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT          (m_invertyaxis,                    m_invertyaxis,                         m_invertyaxis,                         BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT          (m_novertical,                     m_novertical,                          m_novertical,                          BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT          (m_sensitivity,                    m_sensitivity,                         m_sensitivity,                         NOVALUEALIAS          ),
+    CONFIG_VARIABLE_INT          (m_smoothing,                      m_smoothing,                           m_smoothing,                           BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT          (melt,                             wipe,                                  melt,                                  BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT          (messages,                         messages,                              messages,                              BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT          (mouselook,                        mouselook,                             mouselook,                             BOOLVALUEALIAS        ),
@@ -746,6 +747,9 @@ static void M_CheckCVARs(dboolean ispackageconfig)
         m_novertical = m_novertical_default;
 
     m_sensitivity = BETWEEN(m_sensitivity_min, m_sensitivity, m_sensitivity_max);
+
+    if (m_smoothing != false && m_smoothing != true)
+        m_smoothing = m_smoothing_default;
 
     if (melt != false && melt != true)
         melt = melt_default;

@@ -108,6 +108,7 @@ int             MAPBOTTOM;
 // CVARs
 dboolean            alwaysrun = alwaysrun_default;
 dboolean            m_acceleration = m_acceleration_default;
+dboolean            m_smoothing = m_smoothing_default;
 int                 r_color = r_color_default;
 float               r_gamma = r_gamma_default;
 dboolean            vid_borderlesswindow = vid_borderlesswindow_default;
@@ -737,12 +738,31 @@ void I_RestoreMousePointerPosition(void)
     SDL_WarpMouseInWindow(window, mousepointerx, mousepointery);
 }
 
+static void SmoothMouse(int *x, int *y)
+{
+    static int      xx = 0;
+    static int      yy = 0;
+    const fixed_t   fractic = (((int64_t)I_GetTimeMS() * TICRATE) % 1000) * FRACUNIT / 1000;
+    const fixed_t   adjustment = FixedDiv(fractic, FRACUNIT + fractic);
+
+    *x += xx;
+    xx = FixedMul(*x, adjustment);
+    *x -= xx;
+
+    *y += yy;
+    yy = FixedMul(*y, adjustment);
+    *y -= yy;
+}
+
 static void I_ReadMouse(void)
 {
     int         x, y;
     static int  prevmousebuttonstate = -1;
 
     SDL_GetRelativeMouseState(&x, &y);
+
+    if (m_smoothing)
+        SmoothMouse(&x, &y);
 
     if (x || y || mousebuttonstate != prevmousebuttonstate)
     {

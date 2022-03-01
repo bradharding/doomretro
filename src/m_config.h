@@ -104,6 +104,7 @@ extern dboolean     m_doubleclick_use;
 extern dboolean     m_invertyaxis;
 extern dboolean     m_novertical;
 extern int          m_sensitivity;
+extern dboolean     m_smoothing;
 extern dboolean     melt;
 extern dboolean     messages;
 extern dboolean     mouselook;
@@ -515,6 +516,8 @@ enum
 #define m_sensitivity_min                  0
 #define m_sensitivity_default              16
 #define m_sensitivity_max                  128
+
+#define m_smoothing_default                true
 
 #define melt_default                       true
 
