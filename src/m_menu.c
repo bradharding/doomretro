@@ -3606,8 +3606,6 @@ dboolean M_Responder(event_t *ev)
 //
 void M_StartControlPanel(void)
 {
-    static dboolean firsttime = true;
-
     // intro might call this repeatedly
     if (menuactive)
         return;
@@ -3648,11 +3646,6 @@ void M_StartControlPanel(void)
 
     S_LowerMusicVolume();
     D_FadeScreen(false);
-
-    if (!firsttime)
-        I_RestoreMousePointerPosition();
-    else
-        firsttime = false;
 }
 
 //
@@ -3854,7 +3847,6 @@ void M_ClearMenus(void)
     }
 
     S_SetMusicVolume(musicVolume * MIX_MAX_VOLUME / 31);
-    I_SaveMousePointerPosition();
 }
 
 //

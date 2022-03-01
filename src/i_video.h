@@ -66,9 +66,6 @@ void FreeSurfaces(dboolean freewindow);
 void I_ShutdownGraphics(void);
 void I_CapFPS(int cap);
 
-void I_SaveMousePointerPosition(void);
-void I_RestoreMousePointerPosition(void);
-
 void GetWindowPosition(void);
 void GetWindowSize(void);
 void GetScreenResolution(void);

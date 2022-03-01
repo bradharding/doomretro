@@ -167,8 +167,6 @@ static SDL_Rect     displays[MAXDISPLAYS];
 
 // Bit mask of mouse button state
 static unsigned int mousebuttonstate;
-static int          mousepointerx;
-static int          mousepointery;
 
 static const int buttons[MAX_MOUSE_BUTTONS + 1] =
 {
@@ -726,16 +724,6 @@ static void I_GetEvent(void)
                 break;
         }
     }
-}
-
-void I_SaveMousePointerPosition(void)
-{
-    SDL_GetMouseState(&mousepointerx, &mousepointery);
-}
-
-void I_RestoreMousePointerPosition(void)
-{
-    SDL_WarpMouseInWindow(window, mousepointerx, mousepointery);
 }
 
 static void SmoothMouse(int *x, int *y)
@@ -2068,6 +2056,4 @@ void I_InitGraphics(void)
         mapblitfunc();
 
     while (SDL_PollEvent(&dummy));
-
-    I_SaveMousePointerPosition();
 }
