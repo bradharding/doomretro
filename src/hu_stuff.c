@@ -898,7 +898,7 @@ static int AltHUDNumber2Width(int val)
 
 static void HU_DrawAltHUD(void)
 {
-    int             color = ((viewplayer->fixedcolormap == INVERSECOLORMAP) ^ (!r_textures) ?
+    int             color = (((viewplayer->fixedcolormap == INVERSECOLORMAP) ^ (!r_textures)) ?
                         colormaps[0][32 * 256 + nearestwhite] : nearestwhite);
     int             health = MAX(health_min, viewplayer->health);
     int             armor = viewplayer->armorpoints;

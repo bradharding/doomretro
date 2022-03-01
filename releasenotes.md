@@ -3,7 +3,7 @@
 #### DOOM Retro v4.4.8
 
 * Optimizations have been made to further improve the overall performance of *DOOM Retro*.
-* The smoothing of mouse movement can now be toggled using the new `m_smoothing` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
+* Movement of the mouse is now significantly smoother. This can be toggled using the new `m_smoothing` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
 * The current map’s title in the automap is no longer translucent when the `r_hud_translucency` CVAR is `off`.
 * Minor changes have been made to text that is output to the console.
 * Further improvements have been made to the support of [*MBF21*](https://doomwiki.org/wiki/MBF21)-compatible WADs.
