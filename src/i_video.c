@@ -729,7 +729,6 @@ static void I_GetEvent(void)
 static void SmoothMouse(int *x, int *y)
 {
     static int      xx = 0;
-    static int      yy = 0;
     const fixed_t   fractic = (((int64_t)I_GetTimeMS() * TICRATE) % 1000) * FRACUNIT / 1000;
     const fixed_t   adjustment = FixedDiv(fractic, FRACUNIT + fractic);
 
@@ -737,9 +736,14 @@ static void SmoothMouse(int *x, int *y)
     xx = FixedMul(*x, adjustment);
     *x -= xx;
 
-    *y += yy;
-    yy = FixedMul(*y, adjustment);
-    *y -= yy;
+    if (mouselook)
+    {
+        static int  yy = 0;
+
+        *y += yy;
+        yy = FixedMul(*y, adjustment);
+        *y -= yy;
+    }
 }
 
 static void I_ReadMouse(void)
