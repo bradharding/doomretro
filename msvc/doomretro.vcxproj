@@ -497,6 +497,7 @@
     <None Include="..\res\VANILLA" />
     <None Include="..\src\doomretro.manifest" />
     <None Include="..\src\Makefile" />
+    <None Include="..\src\Makefile.mingw" />
     <None Include="..\src\Makefile.osx" />
   </ItemGroup>
   <ItemGroup>
