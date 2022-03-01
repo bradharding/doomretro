@@ -75,7 +75,6 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT          (am_crosshaircolor,                am_crosshaircolour,                    am_crosshaircolor,                     NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT          (am_external,                      am_external,                           am_external,                           BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT          (am_fdwallcolor,                   am_fdwallcolour,                       am_fdwallcolor,                        NOVALUEALIAS          ),
-    CONFIG_VARIABLE_INT          (am_followmode,                    am_followmode,                         am_followmode,                         BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT          (am_grid,                          am_grid,                               am_grid,                               BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT          (am_gridcolor,                     am_gridcolour,                         am_gridcolor,                          NOVALUEALIAS          ),
     CONFIG_VARIABLE_OTHER        (am_gridsize,                      am_gridsize,                           am_gridsize,                           NOVALUEALIAS          ),
@@ -207,7 +206,6 @@ static default_t cvars[] =
     CONFIG_VARIABLE_STRING       (vid_scaleapi,                     vid_scaleapi,                          vid_scaleapi,                          NOVALUEALIAS          ),
     CONFIG_VARIABLE_STRING       (vid_scalefilter,                  vid_scalefilter,                       vid_scalefilter,                       NOVALUEALIAS          ),
     CONFIG_VARIABLE_OTHER        (vid_screenresolution,             vid_screenresolution,                  vid_screenresolution,                  NOVALUEALIAS          ),
-    CONFIG_VARIABLE_INT          (vid_showfps,                      vid_showfps,                           vid_showfps,                           BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT          (vid_vsync,                        vid_vsync,                             vid_vsync,                             VSYNCVALUEALIAS       ),
     CONFIG_VARIABLE_INT          (vid_widescreen,                   vid_widescreen,                        vid_widescreen,                        BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_OTHER        (vid_windowpos,                    vid_windowposition,                    vid_windowpos,                         NOVALUEALIAS          ),
@@ -602,9 +600,6 @@ static void M_CheckCVARs(dboolean ispackageconfig)
     if (am_fdwallcolor < am_fdwallcolor_min || am_fdwallcolor > am_fdwallcolor_max)
         am_fdwallcolor = am_fdwallcolor_default;
 
-    if (am_followmode != false && am_followmode != true)
-        am_followmode = am_followmode_default;
-
     if (am_grid != false && am_grid != true)
         am_grid = am_grid_default;
 
@@ -992,9 +987,6 @@ static void M_CheckCVARs(dboolean ispackageconfig)
         && !M_StringCompare(vid_scalefilter, vid_scalefilter_nearest)
         && !M_StringCompare(vid_scalefilter, vid_scalefilter_nearest_linear))
         vid_scalefilter = vid_scalefilter_default;
-
-    if (ispackageconfig)
-        vid_showfps = vid_showfps_default;
 
     if (vid_vsync < vid_vsync_min || vid_vsync > vid_vsync_max)
         vid_vsync = vid_vsync_default;
