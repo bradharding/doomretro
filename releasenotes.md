@@ -1,6 +1,6 @@
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/releasenotes.png)
 
-#### DOOM Retro v4.4.8
+#### DOOM Retro v4.5
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Movement of the mouse is now significantly smoother. This can be toggled using the new `m_smoothing` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
