@@ -320,7 +320,7 @@ static void P_ReduceDamageCount(void)
 static void P_DeathThink(void)
 {
     static dboolean facingkiller;
-    static int      deathcount = 0;
+    static int      deathcount;
     mobj_t          *mo = viewplayer->mo;
     mobj_t          *attacker = viewplayer->attacker;
 

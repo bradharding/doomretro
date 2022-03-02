@@ -3,7 +3,7 @@
 #### DOOM Retro v4.5
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
-* Movement of the mouse is now significantly smoother. This can be toggled using the new `m_smoothing` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
+* Using the mouse to turn the player is now significantly smoother. This can be toggled using the new `m_smoothing` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
 * The current map’s title in the automap is no longer translucent when the `r_hud_translucency` CVAR is `off`.
 * Minor changes have been made to text that is output to the console.
 * Minor improvements have been made to the support of `DEHACKED` lumps.

@@ -2225,7 +2225,7 @@ void ProcessDehFile(char *filename, int lumpnum, dboolean automatic)
         dboolean            match = false;
         unsigned int        i;
         static unsigned int last_i = DEH_BLOCKMAX - 1;
-        static int          filepos = 0;
+        static int          filepos;
 
         lfstrip(inbuffer);
 
