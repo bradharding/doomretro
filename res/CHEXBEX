@@ -112,3 +112,27 @@ Lite-amp Goggles = joshuastorms
 Level Warp = leesnyder
 Player Position = kimhyers
 Map cheat = sherrill
+
+Weapon 0 (bootspoon)
+Name = bootspoon
+
+Weapon 1 (mini zorcher)
+Name = mini zorcher
+
+Weapon 2 (large zorcher)
+Name = large zorcher
+
+Weapon 3 (rapid zorcher)
+Name = rapid zorcher
+
+Weapon 4 (zorch propulsor)
+Name = zorch propulsor
+
+Weapon 5 (phasing zorcher)
+Name = phasing zorcher
+
+Weapon 6 (LAZ device)
+Name = LAZ device
+
+Weapon 7 (super bootspork)
+Name = super bootspork
