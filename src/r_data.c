@@ -634,6 +634,17 @@ static void R_InitSpriteLumps(void)
         M_StringCopy(mobjinfo[MT_PAIN].name1, "summoner", sizeof(mobjinfo[MT_PAIN].name1));
         M_StringCopy(mobjinfo[MT_PAIN].plural1, "summoners", sizeof(mobjinfo[MT_PAIN].plural1));
     }
+    else if (chex)
+    {
+        M_StringCopy(weaponinfo[wp_fist].name, "bootspoon", sizeof(weaponinfo[wp_fist].name));
+        M_StringCopy(weaponinfo[wp_pistol].name, "mini zorcher", sizeof(weaponinfo[wp_pistol].name));
+        M_StringCopy(weaponinfo[wp_shotgun].name, "large zorcher", sizeof(weaponinfo[wp_shotgun].name));
+        M_StringCopy(weaponinfo[wp_chaingun].name, "rapid zorcher", sizeof(weaponinfo[wp_chaingun].name));
+        M_StringCopy(weaponinfo[wp_missile].name, "zorch propulsor", sizeof(weaponinfo[wp_missile].name));
+        M_StringCopy(weaponinfo[wp_plasma].name, "phasing zorcher", sizeof(weaponinfo[wp_plasma].name));
+        M_StringCopy(weaponinfo[wp_bfg].name, "LAZ device", sizeof(weaponinfo[wp_bfg].name));
+        M_StringCopy(weaponinfo[wp_chainsaw].name, "super bootspork", sizeof(weaponinfo[wp_chainsaw].name));
+    }
     else if (hacx)
     {
         s_M_SKILLLEVEL1 = M_StringDuplicate("Please don't shoot!");
