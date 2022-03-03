@@ -66,6 +66,7 @@ dboolean        BTSXE3A;
 dboolean        BTSXE3B;
 dboolean        E1M4B;
 dboolean        E1M8B;
+dboolean        onehumanity;
 dboolean        sprfix18;
 dboolean        eviternity;
 dboolean        doom4vanilla;

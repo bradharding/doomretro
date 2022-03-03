@@ -112,6 +112,7 @@ extern dboolean         BTSXE3A;
 extern dboolean         BTSXE3B;
 extern dboolean         E1M4B;
 extern dboolean         E1M8B;
+extern dboolean         onehumanity;
 extern dboolean         sprfix18;
 extern dboolean         eviternity;
 extern dboolean         doom4vanilla;

@@ -948,6 +948,8 @@ static void D_CheckSupportedPWAD(char *filename)
         E1M4B = true;
     else if (M_StringCompare(leaf, "e1m8b.wad"))
         E1M8B = true;
+    else if (M_StringCompare(leaf, "one-humanity.wad"))
+        onehumanity = true;
     else if (M_StringCompare(leaf, "d1spfx18.wad")
         || M_StringCompare(leaf, "d2spfx18.wad"))
         sprfix18 = true;

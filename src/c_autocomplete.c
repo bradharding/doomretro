@@ -7664,6 +7664,7 @@ autocomplete_t autocompletelist[] =
     { "map nukageprocessing",                        DOOM2ONLY },
     { "map odysseyofnoises",                         DOOM2ONLY },
     { "map omen",                                    DOOM2ONLY },
+    { "map onehumanity",                             DOOM2ONLY },
     { "map onslaught",                               DOOM2ONLY },
     { "map oofdestruction",                          DOOM2ONLY },
     { "map openseason",                              DOOM2ONLY },
