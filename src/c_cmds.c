@@ -697,8 +697,6 @@ consolecmd_t consolecmds[] =
         "Toggles no vertical movement of the mouse."),
     CVAR_INT(m_sensitivity, "", int_cvars_func1, int_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The mouse's sensitivity (" BOLD("0") " to " BOLD("128") ")."),
-    CVAR_BOOL(m_smoothing, "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
-        "Toggles the smoothing of mouse movement."),
     CCMD(map, warp, map_cmd_func1, map_cmd_func2, true, MAPCMDFORMAT1,
         "Warps the player to another map."),
     CCMD(maplist, "", null_func1, maplist_cmd_func2, false, "",

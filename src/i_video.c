@@ -108,7 +108,6 @@ int             MAPBOTTOM;
 // CVARs
 dboolean            alwaysrun = alwaysrun_default;
 dboolean            m_acceleration = m_acceleration_default;
-dboolean            m_smoothing = m_smoothing_default;
 int                 r_color = r_color_default;
 float               r_gamma = r_gamma_default;
 dboolean            vid_borderlesswindow = vid_borderlesswindow_default;
@@ -752,8 +751,7 @@ static void I_ReadMouse(void)
 
     SDL_GetRelativeMouseState(&x, &y);
 
-    if (m_smoothing)
-        SmoothMouse(&x, &y);
+    SmoothMouse(&x, &y);
 
     if (x || y || mousebuttonstate != prevmousebuttonstate)
     {
