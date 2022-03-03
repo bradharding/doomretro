@@ -447,10 +447,6 @@ void D_Display(void)
             WaitForSingleObject(CapFPSEvent, 1000);
 #endif
 
-        // Figure out how far into the current tic we're in as a fixed_t
-        if (vid_capfps != TICRATE)
-            fractionaltic = (((int64_t)I_GetTimeMS() * TICRATE) % 1000) * FRACUNIT / 1000;
-
         return;
     }
 

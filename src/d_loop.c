@@ -55,6 +55,9 @@ void TryRunTics(void)
 
     lastmadetic += newtics;
 
+    if (vid_capfps != TICRATE)
+        fractionaltic = (((int64_t)I_GetTimeMS() * TICRATE) % 1000) * FRACUNIT / 1000;
+
     while (newtics--)
     {
         I_StartTic();
