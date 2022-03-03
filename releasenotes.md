@@ -1,6 +1,6 @@
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/releasenotes.png)
 
-#### DOOM Retro v4.5
+#### DOOM Retro v4.4.8
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Using the mouse to turn the player is now significantly smoother.
