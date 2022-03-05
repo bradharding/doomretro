@@ -36,8 +36,7 @@
 ========================================================================
 */
 
-#if !defined(__HU_LIB_H__)
-#define __HU_LIB_H__
+#pragma once
 
 // We are referring to patches.
 #include "r_defs.h"
@@ -117,5 +116,4 @@ extern void (*althudtextfunc)(int, int, byte *, patch_t *, dboolean, int, int, b
 
 extern dboolean s_STSTR_BEHOLD2;
 extern byte     tempscreen[MAXSCREENAREA];
-
-#endif
+#pragma once

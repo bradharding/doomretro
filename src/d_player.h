@@ -36,8 +36,7 @@
 ========================================================================
 */
 
-#if !defined(__D_PLAYER_H__)
-#define __D_PLAYER_H__
+#pragma once
 
 // The player data structure depends on a number
 // of other structs: items (internal inventory),
@@ -264,5 +263,3 @@ typedef struct
     int             ssecret;
     int             stime;
 } wbstartstruct_t;
-
-#endif

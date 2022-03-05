@@ -36,8 +36,7 @@
 ========================================================================
 */
 
-#if !defined(__R_STATE_H__)
-#define __R_STATE_H__
+#pragma once
 
 // Need data structure definitions.
 #include "d_player.h"
@@ -144,5 +143,3 @@ extern angle_t      xtoviewangle[MAXWIDTH + 1];
 
 extern visplane_t   *floorplane;
 extern visplane_t   *ceilingplane;
-
-#endif

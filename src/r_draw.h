@@ -36,8 +36,7 @@
 ========================================================================
 */
 
-#if !defined(__R_DRAW_H__)
-#define __R_DRAW_H__
+#pragma once
 
 #include "m_random.h"
 
@@ -185,5 +184,3 @@ void R_FillBackScreen(void);
 
 // If the view size is not fullscreen, draws a border around it.
 void R_DrawViewBorder(void);
-
-#endif

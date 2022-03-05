@@ -36,8 +36,7 @@
 ========================================================================
 */
 
-#if !defined(__M_CONFIG_H__)
-#define __M_CONFIG_H__
+#pragma once
 
 #include "i_gamecontroller.h"
 #include "p_local.h"
@@ -921,5 +920,3 @@ extern valuealias_t     valuealiases[];
 
 void M_LoadCVARs(char *filename);
 void M_SaveCVARs(void);
-
-#endif

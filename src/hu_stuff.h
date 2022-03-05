@@ -36,8 +36,7 @@
 ========================================================================
 */
 
-#if !defined(__HU_STUFF_H__)
-#define __HU_STUFF_H__
+#pragma once
 
 #include "r_defs.h"
 
@@ -109,5 +108,3 @@ extern int      message_counter;
 extern dboolean message_dontfuckwithme;
 extern dboolean message_fadeon;
 extern short    minuspatchwidth;
-
-#endif

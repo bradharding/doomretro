@@ -36,8 +36,7 @@
 ========================================================================
 */
 
-#if !defined(__M_CHEAT_H__)
-#define __M_CHEAT_H__
+#pragma once
 
 //
 // CHEAT SEQUENCE PACKAGE
@@ -84,4 +83,3 @@ extern cheatseq_t   cheat_clev;
 extern cheatseq_t   cheat_clev_xy;
 extern cheatseq_t   cheat_mypos;
 extern cheatseq_t   cheat_amap;
-#endif

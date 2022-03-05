@@ -36,12 +36,9 @@
 ========================================================================
 */
 
-#if !defined(__MMUS2MID_H__)
-#define __MMUS2MID_H__
+#pragma once
 
 #include "doomtype.h"
 #include "memio.h"
 
 dboolean mus2mid(MEMFILE *musinput, MEMFILE *midioutput);
-
-#endif

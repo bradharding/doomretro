@@ -36,8 +36,7 @@
 ========================================================================
 */
 
-#if !defined(__D_ITEMS_H__)
-#define __D_ITEMS_H__
+#pragma once
 
 #include "doomdef.h"
 #include "doomtype.h"
@@ -86,4 +85,3 @@ typedef struct
 
 extern weaponinfo_t weaponinfo[NUMWEAPONS];
 extern char         *powerupnames[NUMPOWERS];
-#endif

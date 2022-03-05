@@ -36,8 +36,7 @@
 ========================================================================
 */
 
-#if !defined(__I_COLORS_H__)
-#define __I_COLORS_H__
+#pragma once
 
 #include "doomtype.h"
 #include "r_defs.h"
@@ -90,5 +89,3 @@ void FindNearestColors(byte *palette);
 
 int FindBrightDominantColor(patch_t *patch);
 int FindDominantEdgeColor(patch_t *patch);
-
-#endif

@@ -36,8 +36,7 @@
 ========================================================================
 */
 
-#if !defined(__C_CMDS_H__)
-#define __C_CMDS_H__
+#pragma once
 
 #include "doomtype.h"
 
@@ -142,5 +141,3 @@ void bind_cmd_func2(char *cmd, char *parms);
 int C_GetIndex(const char *cmd);
 dboolean C_ExecuteAlias(const char *alias);
 char *distancetraveled(uint64_t value, dboolean allowzero);
-
-#endif

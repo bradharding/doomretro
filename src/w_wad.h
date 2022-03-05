@@ -36,8 +36,7 @@
 ========================================================================
 */
 
-#if !defined(__W_WAD_H__)
-#define __W_WAD_H__
+#pragma once
 
 #include "w_file.h"
 
@@ -112,5 +111,3 @@ void W_CloseFiles(void);
 
 GameMission_t IWADRequiredByPWAD(char *pwadname);
 dboolean HasDehackedLump(const char *pwadname);
-
-#endif

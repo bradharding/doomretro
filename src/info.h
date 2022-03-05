@@ -36,8 +36,7 @@
 ========================================================================
 */
 
-#if !defined(__INFO_H__)
-#define __INFO_H__
+#pragma once
 
 #include "doomtype.h"
 #include "d_think.h"
@@ -305,5 +304,3 @@ typedef struct
 } mobjinfo_t;
 
 extern mobjinfo_t   mobjinfo[];
-
-#endif

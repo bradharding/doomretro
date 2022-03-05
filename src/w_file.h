@@ -36,8 +36,7 @@
 ========================================================================
 */
 
-#if !defined(__W_FILE_H__)
-#define __W_FILE_H__
+#pragma once
 
 #include <stdio.h>
 
@@ -91,5 +90,3 @@ void W_CloseFile(wadfile_t *wad);
 size_t W_Read(wadfile_t *wad, unsigned int offset, void *buffer, size_t buffer_len);
 
 dboolean W_WriteFile(char const *name, const void *source, size_t length);
-
-#endif

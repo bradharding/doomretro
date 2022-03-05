@@ -36,8 +36,7 @@
 ========================================================================
 */
 
-#if !defined(__R_SKY_H__)
-#define __R_SKY_H__
+#pragma once
 
 // SKY, store the number for name.
 #define SKYFLATNAME         "F_SKY1"
@@ -55,5 +54,3 @@ extern fixed_t  skyiscale;
 extern dboolean canmouselook;
 
 void R_InitSkyMap(void);
-
-#endif

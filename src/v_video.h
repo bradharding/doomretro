@@ -36,8 +36,7 @@
 ========================================================================
 */
 
-#if !defined(__V_VIDEO_H__)
-#define __V_VIDEO_H__
+#pragma once
 
 #include "r_data.h"
 #include "w_file.h"
@@ -122,5 +121,3 @@ void V_LowGraphicDetail_Menu(void);
 void V_InvertScreen(void);
 
 dboolean V_ScreenShot(void);
-
-#endif

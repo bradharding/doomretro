@@ -36,8 +36,7 @@
 ========================================================================
 */
 
-#if !defined(__M_CONTROLS_H__)
-#define __M_CONTROLS_H__
+#pragma once
 
 #include "doomkeys.h"
 
@@ -138,5 +137,3 @@ extern int  gamecontrollerweapon4;
 extern int  gamecontrollerweapon5;
 extern int  gamecontrollerweapon6;
 extern int  gamecontrollerweapon7;
-
-#endif

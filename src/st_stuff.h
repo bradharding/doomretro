@@ -36,8 +36,7 @@
 ========================================================================
 */
 
-#if !defined(__ST_STUFF_H__)
-#define __ST_STUFF_H__
+#pragma once
 
 // Palette indices.
 // For damage/bonus red-/gold-shifts
@@ -110,5 +109,3 @@ extern patch_t  *brdr_bl;
 extern patch_t  *brdr_br;
 
 extern dboolean st_drawbrdr;
-
-#endif

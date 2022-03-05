@@ -36,8 +36,7 @@
 ========================================================================
 */
 
-#if !defined(__D_DEH_H__)
-#define __D_DEH_H__
+#pragma once
 
 #include "doomtype.h"
 
@@ -510,5 +509,3 @@ void D_BuildBEXTables(void);
 
 // MBF21
 void PostProcessDeh(void);
-
-#endif

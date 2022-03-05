@@ -36,8 +36,7 @@
 ========================================================================
 */
 
-#if !defined(__SC_MAN_H__)
-#define __SC_MAN_H__
+#pragma once
 
 #include "doomtype.h"
 
@@ -54,5 +53,3 @@ void SC_MustGetNumber(void);
 void SC_UnGet(void);
 dboolean SC_Compare(char *text);
 int SC_MatchString(char **strings);
-
-#endif

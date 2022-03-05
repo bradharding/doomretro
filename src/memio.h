@@ -36,8 +36,7 @@
 ========================================================================
 */
 
-#if !defined(__MEMIO_H__)
-#define __MEMIO_H__
+#pragma once
 
 typedef struct _MEMFILE MEMFILE;
 
@@ -55,5 +54,3 @@ size_t mem_fwrite(const void *ptr, size_t size, size_t nmemb, MEMFILE *stream);
 void mem_get_buf(MEMFILE *stream, void **buf, size_t *buflen);
 void mem_fclose(MEMFILE *stream);
 int mem_fseek(MEMFILE *stream, long offset, mem_rel_t whence);
-
-#endif

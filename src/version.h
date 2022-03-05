@@ -36,8 +36,7 @@
 ========================================================================
 */
 
-#if !defined(__VERSION_H__)
-#define __VERSION_H__
+#pragma once
 
 #define DOOMRETRO_VERSION               4,4,9,0
 #define DOOMRETRO_VERSIONSTRING         "4.4.9"
@@ -65,5 +64,3 @@
 #define DOOMRETRO_WIKINAME              "DOOM Retro Wiki"
 #define DOOMRETRO_WIKIURL               "https://github.com/bradharding/doomretro/wiki"
 #define DOOMRETRO_WIKILICENSEURL        "https://github.com/bradharding/doomretro/wiki/LICENSE"
-
-#endif

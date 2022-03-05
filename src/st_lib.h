@@ -36,8 +36,7 @@
 ========================================================================
 */
 
-#if !defined(__ST_LIB_H__)
-#define __ST_LIB_H__
+#pragma once
 
 #include "r_defs.h"
 
@@ -121,5 +120,3 @@ void STlib_UpdateMultIcon(st_multicon_t *mi, dboolean refresh);
 void STlib_UpdateArmsIcon(st_multicon_t *mi, dboolean refresh, int i);
 
 void STLib_Init(void);
-
-#endif

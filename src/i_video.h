@@ -36,8 +36,7 @@
 ========================================================================
 */
 
-#if !defined(__I_VIDEO_H__)
-#define __I_VIDEO_H__
+#pragma once
 
 #include "doomtype.h"
 #include "SDL.h"
@@ -118,5 +117,3 @@ extern byte         *mapscreen;
 extern byte         *PLAYPAL;
 
 extern dboolean     altdown;
-
-#endif

@@ -36,8 +36,7 @@
 ========================================================================
 */
 
-#if !defined(__S_SOUND_H__)
-#define __S_SOUND_H__
+#pragma once
 
 #include "SDL_mixer.h"
 #include "sounds.h"
@@ -143,5 +142,3 @@ void S_ChangeMusInfoMusic(int lumpnum, int looping);
 void S_ParseMusInfo(char *mapid);
 void MusInfoThinker(mobj_t *thing);
 void T_MAPMusic(void);
-
-#endif

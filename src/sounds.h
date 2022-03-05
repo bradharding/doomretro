@@ -36,8 +36,7 @@
 ========================================================================
 */
 
-#if !defined(__SOUNDS_H__)
-#define __SOUNDS_H__
+#pragma once
 
 #include "doomtype.h"
 
@@ -532,5 +531,3 @@ typedef enum
 
     NUMSFX
 } sfxenum_t;
-
-#endif

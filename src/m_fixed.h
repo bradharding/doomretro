@@ -36,8 +36,7 @@
 ========================================================================
 */
 
-#if !defined(__M_FIXED_H__)
-#define __M_FIXED_H__
+#pragma once
 
 #include "doomtype.h"
 
@@ -110,5 +109,3 @@ static inline uint64_t SafeAdd(uint64_t a, uint64_t b)
 {
     return (b > UINT64_MAX - a ? UINT64_MAX : a + b);
 }
-
-#endif

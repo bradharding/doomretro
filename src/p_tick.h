@@ -36,8 +36,7 @@
 ========================================================================
 */
 
-#if !defined(__P_TICK_H__)
-#define __P_TICK_H__
+#pragma once
 
 #if defined(__GNUG__)
 #pragma interface
@@ -66,5 +65,3 @@ enum
 };
 
 extern thinker_t    thinkers[];
-
-#endif

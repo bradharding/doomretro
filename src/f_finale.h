@@ -36,8 +36,7 @@
 ========================================================================
 */
 
-#if !defined(__F_FINALE_H__)
-#define __F_FINALE_H__
+#pragma once
 
 //
 // FINALE
@@ -53,5 +52,3 @@ void F_Ticker(void);
 void F_Drawer(void);
 
 void F_StartFinale(void);
-
-#endif

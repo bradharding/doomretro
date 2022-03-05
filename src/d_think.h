@@ -36,8 +36,7 @@
 ========================================================================
 */
 
-#if !defined(__D_THINK_H__)
-#define __D_THINK_H__
+#pragma once
 
 #if defined(__GNUG__)
 #pragma interface
@@ -75,5 +74,3 @@ typedef struct thinker_s
     // [BH] active during menu
     dboolean            menu;
 } thinker_t;
-
-#endif

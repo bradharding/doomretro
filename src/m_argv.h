@@ -36,8 +36,7 @@
 ========================================================================
 */
 
-#if !defined(__M_ARGV_H__)
-#define __M_ARGV_H__
+#pragma once
 
 //
 // MISC
@@ -53,5 +52,3 @@ int M_CheckParm(const char *check);
 // following the specified argument.
 int M_CheckParmWithArgs(const char *check, int num_args, int start);
 int M_CheckParmsWithArgs(const char *check1, const char *check2, const char *check3, int num_args, int start);
-
-#endif

@@ -36,8 +36,7 @@
 ========================================================================
 */
 
-#if !defined(__M_RANDOM_H__)
-#define __M_RANDOM_H__
+#pragma once
 
 #include "m_fixed.h"
 
@@ -131,5 +130,3 @@ static inline void M_BigSeed(unsigned int value)
 {
     bigseed = value;
 }
-
-#endif

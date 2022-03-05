@@ -36,8 +36,7 @@
 ========================================================================
 */
 
-#if !defined(__P_SAVEG_H__)
-#define __P_SAVEG_H__
+#pragma once
 
 // maximum size of a savegame description
 #define SAVESTRINGSIZE          256
@@ -98,5 +97,3 @@ void P_UnArchiveMap(void);
 void P_RestoreTargets(void);
 
 extern FILE *save_stream;
-
-#endif

@@ -36,8 +36,7 @@
 ========================================================================
 */
 
-#if !defined(__R_PATCH_H__)
-#define __R_PATCH_H__
+#pragma once
 
 typedef struct
 {
@@ -79,5 +78,3 @@ const rcolumn_t *R_GetPatchColumnWrapped(const rpatch_t *patch, int columnIndex)
 const rcolumn_t *R_GetPatchColumnClamped(const rpatch_t *patch, int columnIndex);
 
 void R_InitPatches(void);
-
-#endif

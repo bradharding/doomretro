@@ -36,8 +36,7 @@
 ========================================================================
 */
 
-#if !defined(__I_GAMECONTROLLER_H__)
-#define __I_GAMECONTROLLER_H__
+#pragma once
 
 #include "doomtype.h"
 #include "SDL.h"
@@ -103,5 +102,3 @@ void I_SetGameControllerHorizontalSensitivity(void);
 void I_SetGameControllerVerticalSensitivity(void);
 void I_SetGameControllerLeftDeadZone(void);
 void I_SetGameControllerRightDeadZone(void);
-
-#endif

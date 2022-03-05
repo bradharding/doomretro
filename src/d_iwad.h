@@ -36,8 +36,7 @@
 ========================================================================
 */
 
-#if !defined(__D_IWAD_H__)
-#define __D_IWAD_H__
+#pragma once
 
 #include "doomdef.h"
 
@@ -49,5 +48,3 @@ void D_IdentifyVersion(void);
 void D_SetGameDescription(void);
 void D_IdentifyIWADByName(char *name);
 void D_InitIWADFolder(void);
-
-#endif

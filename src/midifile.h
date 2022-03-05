@@ -38,8 +38,7 @@
 
 #if defined(_WIN32)
 
-#if !defined(__MIDIFILE_H__)
-#define __MIDIFILE_H__
+#pragma once
 
 #include "doomdef.h"
 #include "doomtype.h"
@@ -209,7 +208,5 @@ unsigned int MIDI_GetDeltaTime(midi_track_iter_t *iter);
 
 // Get a pointer to the next MIDI event.
 dboolean MIDI_GetNextEvent(midi_track_iter_t *iter, midi_event_t **event);
-
-#endif
 
 #endif

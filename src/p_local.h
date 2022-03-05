@@ -36,8 +36,7 @@
 ========================================================================
 */
 
-#if !defined(__P_LOCAL_H__)
-#define __P_LOCAL_H__
+#pragma once
 
 #include "d_main.h"
 #include "r_local.h"
@@ -326,5 +325,3 @@ extern int      clipammo[];
 // P_SPEC.C
 //
 #include "p_spec.h"
-
-#endif

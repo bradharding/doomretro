@@ -36,8 +36,7 @@
 ========================================================================
 */
 
-#if !defined(__P_SPEC_H__)
-#define __P_SPEC_H__
+#pragma once
 
 // jff 2/23/98 identify the special classes that can share sectors
 typedef enum
@@ -853,5 +852,3 @@ dboolean EV_DoGenStairs(line_t *line);
 dboolean EV_DoGenCrusher(line_t *line);
 dboolean EV_DoGenDoor(line_t *line);
 dboolean EV_DoGenLockedDoor(line_t *line);
-
-#endif

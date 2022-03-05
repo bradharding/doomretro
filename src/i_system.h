@@ -36,8 +36,7 @@
 ========================================================================
 */
 
-#if !defined(__I_SYSTEM_H__)
-#define __I_SYSTEM_H__
+#pragma once
 
 #include "d_event.h"
 #include "doomdef.h"
@@ -65,5 +64,3 @@ void I_PrintWindowsVersion(void);
 void I_PrintSystemInfo(void);
 
 void *I_Realloc(void *block, size_t size);
-
-#endif

@@ -36,8 +36,7 @@
 ========================================================================
 */
 
-#if !defined(__P_SETUP_H__)
-#define __P_SETUP_H__
+#pragma once
 
 extern dboolean     canmodify;
 extern dboolean     samelevel;
@@ -84,5 +83,3 @@ int P_GetMapSecretNext(int map);
 int P_GetMapSky1Texture(int map);
 int P_GetMapSky1ScrollDelta(int map);
 int P_GetMapTitlePatch(int map);
-
-#endif

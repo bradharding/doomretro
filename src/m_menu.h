@@ -36,8 +36,7 @@
 ========================================================================
 */
 
-#if !defined(__M_MENU_H__)
-#define __M_MENU_H__
+#pragma once
 
 #include "p_saveg.h"
 
@@ -126,5 +125,3 @@ extern menu_t   NewDef;
 extern menu_t   SaveDef;
 extern dboolean EpiCustom;
 extern int      gamecontrollerwait;
-
-#endif

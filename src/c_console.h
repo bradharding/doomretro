@@ -36,8 +36,7 @@
 ========================================================================
 */
 
-#if !defined(__C_CONSOLE_H__)
-#define __C_CONSOLE_H__
+#pragma once
 
 #include "d_event.h"
 #include "doomdef.h"
@@ -228,5 +227,3 @@ void C_UpdatePathOverlay(void);
 void C_UpdatePlayerStatsOverlay(void);
 char *C_CreateTimeStamp(int index);
 void C_ResetWrappedLines(void);
-
-#endif

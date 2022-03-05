@@ -36,8 +36,7 @@
 ========================================================================
 */
 
-#if !defined(__DSTRINGS_H__)
-#define __DSTRINGS_H__
+#pragma once
 
 // All important printed strings.
 #include "d_englsh.h"
@@ -68,5 +67,3 @@
 #define QUITMSG14           "you're lucky i don't smack\nyou for thinking about leaving."
 
 extern char **endmsg[];
-
-#endif

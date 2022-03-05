@@ -36,8 +36,7 @@
 ========================================================================
 */
 
-#if !defined(__P_MOBJ_H__)
-#define __P_MOBJ_H__
+#pragma once
 
 #include "doomdata.h"
 #include "info.h"
@@ -517,5 +516,3 @@ typedef struct bloodsplat_s
 
 extern int  prevthingx, prevthingy;
 extern int  prevthingbob;
-
-#endif

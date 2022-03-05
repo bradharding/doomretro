@@ -36,8 +36,7 @@
 ========================================================================
 */
 
-#if !defined(__D_MAIN_H__)
-#define __D_MAIN_H__
+#pragma once
 
 #include "d_event.h"
 #include "doomdef.h"
@@ -90,5 +89,3 @@ void D_StartTitle(int page);
 void D_FadeScreenToBlack(void);
 void D_FadeScreen(dboolean screenshot);
 dboolean D_IsDOOMIWAD(char *filename);
-
-#endif

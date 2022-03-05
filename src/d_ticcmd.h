@@ -36,8 +36,7 @@
 ========================================================================
 */
 
-#if !defined(__D_TICCMD_H__)
-#define __D_TICCMD_H__
+#pragma once
 
 // The data sampled per tic..
 // Mainly movements/button commands per game tic.
@@ -50,5 +49,3 @@ typedef struct
     byte            buttons;
     int             lookdir;
 } ticcmd_t;
-
-#endif

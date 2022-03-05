@@ -36,8 +36,7 @@
 ========================================================================
 */
 
-#if !defined(__DOOMDATA_H__)
-#define __DOOMDATA_H__
+#pragma once
 
 // Some global defines, that configure the game.
 #include "doomdef.h"
@@ -283,6 +282,4 @@ typedef struct
 
 #if defined(_MSC_VER) || defined(__GNUC__)
 #pragma pack(pop)
-#endif
-
 #endif

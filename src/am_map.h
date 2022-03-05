@@ -36,8 +36,7 @@
 ========================================================================
 */
 
-#if !defined(__AM_MAP_H__)
-#define __AM_MAP_H__
+#pragma once
 
 #include "d_event.h"
 #include "m_fixed.h"
@@ -101,5 +100,3 @@ extern am_frame_t   am_frame;
 extern int          direction;
 
 dboolean keystate(int key);
-
-#endif

@@ -36,8 +36,7 @@
 ========================================================================
 */
 
-#if !defined(__P_INTER_H__)
-#define __P_INTER_H__
+#pragma once
 
 dboolean P_GiveBody(int num, int max, dboolean stat);
 dboolean P_GiveMegaHealth(dboolean stat);
@@ -58,5 +57,3 @@ void P_UpdateKillStat(mobjtype_t type, int value);
 void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source);
 
 extern int  cardsfound;
-
-#endif

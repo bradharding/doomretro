@@ -36,8 +36,7 @@
 ========================================================================
 */
 
-#if !defined(__SPRITES_H__)
-#define __SPRITES_H__
+#pragma once
 
 typedef enum
 {
@@ -97,5 +96,3 @@ typedef struct
 
 extern char         *sprnames[];
 extern sproffset_t  sproffsets[];
-
-#endif

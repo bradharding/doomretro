@@ -36,8 +36,7 @@
 ========================================================================
 */
 
-#if !defined(__P_PSPR_H__)
-#define __P_PSPR_H__
+#pragma once
 
 // Basic data types.
 // Needs fixed point, and BAM angles.
@@ -82,5 +81,3 @@ dboolean P_CheckAmmo(weapontype_t weapon);
 void P_EquipWeapon(weapontype_t weapon);
 
 extern dboolean skippsprinterp;
-
-#endif

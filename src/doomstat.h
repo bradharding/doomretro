@@ -36,8 +36,7 @@
 ========================================================================
 */
 
-#if !defined(__DOOMSTAT_H__)
-#define __DOOMSTAT_H__
+#pragma once
 
 #include <time.h>
 
@@ -227,5 +226,3 @@ extern gamestate_t      wipegamestate;
 extern int              skyflatnum;
 
 extern ticcmd_t         localcmds[BACKUPTICS];
-
-#endif

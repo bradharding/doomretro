@@ -36,8 +36,7 @@
 ========================================================================
 */
 
-#if !defined(__Z_ZONE_H__)
-#define __Z_ZONE_H__
+#pragma once
 
 // Include system definitions so that prototypes become
 // active before macro replacements below are in effect.
@@ -65,5 +64,3 @@ void *Z_Calloc(size_t n1, size_t n2, int tag, void **user);
 void Z_Free(void *ptr);
 void Z_FreeTags(int lowtag, int hightag);
 void Z_ChangeTag(void *ptr, int tag);
-
-#endif

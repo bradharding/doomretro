@@ -36,8 +36,7 @@
 ========================================================================
 */
 
-#if !defined(__I_TIMER_H__)
-#define __I_TIMER_H__
+#pragma once
 
 // Called by D_DoomLoop,
 // returns current time in tics.
@@ -53,5 +52,3 @@ void I_Sleep(int ms);
 void I_InitTimer(void);
 
 void I_ShutdownTimer(void);
-
-#endif

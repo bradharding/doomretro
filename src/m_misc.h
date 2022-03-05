@@ -36,8 +36,7 @@
 ========================================================================
 */
 
-#if !defined(__M_MISC_H__)
-#define __M_MISC_H__
+#pragma once
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -115,5 +114,3 @@ int hextodec(char *hex);
 void M_StripQuotes(char *str);
 void M_NormalizeSlashes(char *str);
 char *pronoun(pronountype_t type);
-
-#endif

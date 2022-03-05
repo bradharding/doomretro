@@ -36,8 +36,7 @@
 ========================================================================
 */
 
-#if !defined(__G_GAME_H__)
-#define __G_GAME_H__
+#pragma once
 
 #include "d_event.h"
 #include "i_video.h"
@@ -119,5 +118,3 @@ extern char         savename[MAX_PATH];
 extern dboolean     usemouselook;
 extern dboolean     secretexit;
 extern gameaction_t loadaction;
-
-#endif

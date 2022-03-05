@@ -36,8 +36,7 @@
 ========================================================================
 */
 
-#if !defined(__R_DATA_H__)
-#define __R_DATA_H__
+#pragma once
 
 #include "r_defs.h"
 #include "r_patch.h"
@@ -146,5 +145,3 @@ extern byte         grays[256];
 extern texture_t    **textures;
 extern dboolean     suppresswarnings;
 extern int          numspritelumps;
-
-#endif

@@ -36,8 +36,7 @@
 ========================================================================
 */
 
-#if !defined(__DOOMKEYS_H__)
-#define __DOOMKEYS_H__
+#pragma once
 
 //
 // DOOM keyboard definition.
@@ -105,5 +104,3 @@
 #define KEYP_PERIOD     0x010A
 #define KEYP_EQUALS     KEY_EQUALS
 #define KEYP_ENTER      KEY_ENTER
-
-#endif

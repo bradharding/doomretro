@@ -36,8 +36,7 @@
 ========================================================================
 */
 
-#if !defined(__DOOMTYPE_H__)
-#define __DOOMTYPE_H__
+#pragma once
 
 #include <inttypes.h>
 #include <limits.h>
@@ -61,5 +60,3 @@ typedef enum
 #endif
 
 #define arrlen(array)   (sizeof(array) / sizeof(*array))
-
-#endif

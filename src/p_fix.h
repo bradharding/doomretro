@@ -36,8 +36,7 @@
 ========================================================================
 */
 
-#if !defined(__P_FIX_H__)
-#define __P_FIX_H__
+#pragma once
 
 #include "m_fixed.h"
 
@@ -110,5 +109,3 @@ typedef struct
 } thingfix_t;
 
 extern thingfix_t   thingfix[];
-
-#endif

@@ -36,8 +36,7 @@
 ========================================================================
 */
 
-#if !defined(__STATES_H__)
-#define __STATES_H__
+#pragma once
 
 #include "d_think.h"
 #include "sprites.h"
@@ -1177,4 +1176,3 @@ typedef struct
 } state_t;
 
 extern state_t  states[NUMSTATES];
-#endif

@@ -36,8 +36,7 @@
 ========================================================================
 */
 
-#if !defined(__TABLES_H__)
-#define __TABLES_H__
+#pragma once
 
 #include "m_fixed.h"
 
@@ -97,5 +96,3 @@ inline static fixed_t DegToSlope(fixed_t a)
 {
     return AngleToSlope(a >= 0 ? FixedToAngle(a) : -(int)FixedToAngle(-a));
 }
-
-#endif
