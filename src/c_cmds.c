@@ -7674,12 +7674,12 @@ static void int_cvars_func2(char *cmd, char *parms)
                     char    *temp1 = C_LookupAliasFromValue(*(int *)consolecmds[i].variable, consolecmds[i].aliases);
 
                     if (*(int *)consolecmds[i].variable == (int)consolecmds[i].defaultnumber)
-                        C_Output(INTEGERCVARISDEFAULT, temp1);
+                        C_Output(((consolecmds[i].flags & CF_READONLY) ? INTEGERCVARWITHNODEFAULT : INTEGERCVARISDEFAULT), temp1);
                     else
                     {
                         char    *temp2 = C_LookupAliasFromValue((int)consolecmds[i].defaultnumber, consolecmds[i].aliases);
 
-                        C_Output(INTEGERCVARWITHDEFAULT, temp1, temp2);
+                        C_Output(((consolecmds[i].flags & CF_READONLY) ? INTEGERCVARWITHNODEFAULT : INTEGERCVARWITHDEFAULT), temp1, temp2);
                         free(temp2);
                     }
 
