@@ -236,6 +236,9 @@ char    *s_PD_ALL3 = "";
 char    *s_PD_ALL6 = "";
 char    *s_KEYCARD = "";
 char    *s_SKULLKEY = "";
+char    *s_PD_BLUECO = "";
+char    *s_PD_REDCO = "";
+char    *s_PD_YELLOWCO = "";
 
 char    *s_SECRET = "";
 
@@ -688,6 +691,8 @@ char    *s_OB_FRIENDLY1 = "";
 char    *s_OB_FRIENDLY2 = "";
 char    *s_OB_FRIENDLY3 = "";
 char    *s_OB_FRIENDLY4 = "";
+char    *s_OB_VOODOO = "";
+char    *s_OB_MPDEFAULT = "";
 
 // end d_deh.h variable declarations
 // ====================================================================
@@ -812,6 +817,9 @@ deh_strs deh_strlookup[] =
     { &s_PD_ALL6,                     "PD_ALL6"                     },
     { &s_KEYCARD,                     "KEYCARD"                     },
     { &s_SKULLKEY,                    "SKULLKEY"                    },
+    { &s_PD_BLUECO,                   "PD_BLUECO"                   },
+    { &s_PD_REDCO,                    "PD_REDCO"                    },
+    { &s_PD_YELLOWCO,                 "PD_YELLOWCO"                 },
 
     { &s_SECRET,                      "SECRET"                      },
 
@@ -1258,7 +1266,9 @@ deh_strs deh_strlookup[] =
     { &s_OB_FRIENDLY1,                "OB_FRIENDLY1"                },
     { &s_OB_FRIENDLY2,                "OB_FRIENDLY2"                },
     { &s_OB_FRIENDLY3,                "OB_FRIENDLY3"                },
-    { &s_OB_FRIENDLY4,                "OB_FRIENDLY4"                }
+    { &s_OB_FRIENDLY4,                "OB_FRIENDLY4"                },
+    { &s_OB_VOODOO,                   "OB_VOODOO"                   },
+    { &s_OB_MPDEFAULT,                "OB_MPDEFAULT"                }
 };
 
 static const int deh_numstrlookup = sizeof(deh_strlookup) / sizeof(deh_strlookup[0]);
