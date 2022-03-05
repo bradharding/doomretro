@@ -2358,8 +2358,8 @@ void C_PrintCompileDate(void)
             "July", "August", "September", "October", "November", "December"
         };
 
-        C_Output("Your %i-bit " ITALICS("%s") " app of " ITALICS("%s") " was built with love in %s by %s at %i:%02i%s on %s, %s %i, %i.",
-            8 * (int)sizeof(intptr_t), WINDOWS, DOOMRETRO_NAMEANDVERSIONSTRING, DOOMRETRO_PLACEOFORIGIN, DOOMRETRO_CREATOR,
+        C_Output("Your %i-bit " ITALICS("%s") " app of " ITALICS("%s") " was built with love by %s in %s at %i:%02i%s on %s, %s %i, %i.",
+            8 * (int)sizeof(intptr_t), WINDOWS, DOOMRETRO_NAMEANDVERSIONSTRING, DOOMRETRO_CREATOR, DOOMRETRO_PLACEOFORIGIN,
             (hour ? hour - 12 * (hour > 12) : 12), minute, (hour < 12 ? "am" : "pm"),
             dayofweek(day, month + 1, year), months[month], day, year);
     }
