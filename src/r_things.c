@@ -852,6 +852,7 @@ static void R_ProjectBloodSplat(const bloodsplat_t *splat)
     bloodsplatvissprite_t   *vis;
     fixed_t                 fx = splat->x;
     fixed_t                 fy = splat->y;
+    fixed_t                 dist;
     fixed_t                 width;
     fixed_t                 tr_x = fx - viewx;
     fixed_t                 tr_y = fy - viewy;
@@ -861,10 +862,10 @@ static void R_ProjectBloodSplat(const bloodsplat_t *splat)
     if (tz < MINZ)
         return;
 
-    if (((xscale = FixedDiv(projection, tz)) < FRACUNIT / 4)
-        || (xscale < FRACUNIT / 3 && (skip[0]++ % 2))
-        || (xscale < FRACUNIT / 2 && (skip[1]++ % 3))
-        || (xscale < FRACUNIT && (skip[2]++ % 4)))
+    if ((dist = P_ApproxDistance(tr_x, tr_y) >> FRACBITS) > 5000
+        || (dist > 2500 && skip[0]++ % 2)
+        || (dist > 1250 && skip[1]++ % 3)
+        || (dist > 625 && skip[2]++ % 4))
         return;
 
     // too far off the side?
@@ -873,6 +874,7 @@ static void R_ProjectBloodSplat(const bloodsplat_t *splat)
 
     // calculate edges of the shape
     tx -= ((width = splat->width) >> 1);
+    xscale = FixedDiv(projection, tz);
 
     // off the right side?
     if ((x1 = (centerxfrac + FixedMul(tx, xscale)) >> FRACBITS) >= viewwidth)
