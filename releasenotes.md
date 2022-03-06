@@ -3,7 +3,7 @@
 #### DOOM Retro v4.4.9
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
-* The level of detail of blood splats in a map now decreases the further they are away from the player.
+* The number of blood splats drawn in a map now decreases the further away they are from the player.
 * Blood and bullet puffs are now translucent when the `r_textures` CVAR is `off` and the `r_translucency` CVAR is `on`.
 * Minor changes have been made to text that is output to the console.
 * Minor improvements have been made to the support of `DEHACKED` lumps.

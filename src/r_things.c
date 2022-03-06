@@ -653,10 +653,8 @@ static void R_ProjectSprite(mobj_t *thing)
     if (tz < MINZ)
         return;
 
-    tx = FixedMul(tr_x, viewsin) - FixedMul(tr_y, viewcos);
-
     // too far off the side?
-    if (ABS(tx) > (tz << 2))
+    if (ABS((tx = FixedMul(tr_x, viewsin) - FixedMul(tr_y, viewcos))) > (tz << 2))
         return;
 
     // decide which patch to use for sprite relative to player
@@ -836,8 +834,10 @@ static void R_ProjectSprite(mobj_t *thing)
     else
     {
         // diminished light
-        vis->colormap = spritelights[MIN(xscale >> LIGHTSCALESHIFT, MAXLIGHTSCALE - 1)];
-        vis->nextcolormap = nextspritelights[MIN(xscale >> LIGHTSCALESHIFT, MAXLIGHTSCALE - 1)];
+        int i = MIN(xscale >> LIGHTSCALESHIFT, MAXLIGHTSCALE - 1);
+
+        vis->colormap = spritelights[i];
+        vis->nextcolormap = nextspritelights[i];
     }
 }
 
@@ -862,27 +862,24 @@ static void R_ProjectBloodSplat(const bloodsplat_t *splat)
         return;
 
     if (((xscale = FixedDiv(projection, tz)) < FRACUNIT / 4)
-        || (xscale < FRACUNIT / 3 && (skip[0]++ % 4))
+        || (xscale < FRACUNIT / 3 && (skip[0]++ % 2))
         || (xscale < FRACUNIT / 2 && (skip[1]++ % 3))
-        || (xscale < FRACUNIT && (skip[2]++ % 2)))
+        || (xscale < FRACUNIT && (skip[2]++ % 4)))
         return;
 
-    tx = FixedMul(tr_x, viewsin) - FixedMul(tr_y, viewcos);
-
     // too far off the side?
-    if (ABS(tx) > (tz << 2))
+    if (ABS((tx = FixedMul(tr_x, viewsin) - FixedMul(tr_y, viewcos))) > (tz << 2))
         return;
 
     // calculate edges of the shape
-    width = splat->width;
-    tx -= (width >> 1);
+    tx -= ((width = splat->width) >> 1);
 
     // off the right side?
-    if ((x1 = (centerxfrac + FRACUNIT / 2 + FixedMul(tx, xscale)) >> FRACBITS) >= viewwidth)
+    if ((x1 = (centerxfrac + FixedMul(tx, xscale)) >> FRACBITS) >= viewwidth)
         return;
 
     // off the left side
-    if ((x2 = ((centerxfrac + FRACUNIT / 2 + FixedMul(tx + width, xscale)) >> FRACBITS) - 1) < 0)
+    if ((x2 = ((centerxfrac + FixedMul(tx + width, xscale)) >> FRACBITS) - 1) < 0)
         return;
 
     // quickly reject splats with bad x ranges
@@ -981,9 +978,9 @@ void R_AddSprites(sector_t *sec, int lightlevel)
                 prevlightlevel = lightlevel;
             }
 
-            skip[0] = 0;
-            skip[1] = 0;
-            skip[2] = 0;
+            skip[0] = 1;
+            skip[1] = 1;
+            skip[2] = 1;
 
             do
             {
