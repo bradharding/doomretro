@@ -841,7 +841,7 @@ static void R_ProjectSprite(mobj_t *thing)
     }
 }
 
-static int skip[4];
+static int skip[3];
 
 static void R_ProjectBloodSplat(const bloodsplat_t *splat)
 {
@@ -861,10 +861,10 @@ static void R_ProjectBloodSplat(const bloodsplat_t *splat)
     if (tz < MINZ)
         return;
 
-    if ((xscale = FixedDiv(projection, tz)) < FRACUNIT / 4 && (skip[0]++ % 1)
-        || (xscale < FRACUNIT / 3 && (skip[1]++ % 2))
-        || (xscale < FRACUNIT / 2 && (skip[2]++ % 3))
-        || (xscale < FRACUNIT && (skip[3]++ % 4)))
+    if (((xscale = FixedDiv(projection, tz)) < FRACUNIT / 4)
+        || (xscale < FRACUNIT / 3 && (skip[0]++ % 4))
+        || (xscale < FRACUNIT / 2 && (skip[1]++ % 3))
+        || (xscale < FRACUNIT && (skip[2]++ % 2)))
         return;
 
     tx = FixedMul(tr_x, viewsin) - FixedMul(tr_y, viewcos);
@@ -984,7 +984,6 @@ void R_AddSprites(sector_t *sec, int lightlevel)
             skip[0] = 0;
             skip[1] = 0;
             skip[2] = 0;
-            skip[3] = 0;
 
             do
             {
