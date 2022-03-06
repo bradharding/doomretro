@@ -988,7 +988,7 @@ dboolean P_IsInLiquid(mobj_t *thing)
     {
         sector_t    *sector = seclist->m_sector;
 
-        if (sector->terraintype == SOLID || z > sector->floorheight + FRACUNIT)
+        if (sector->terraintype == SOLID || (!thing->player && z > sector->floorheight + FRACUNIT))
             return false;
     }
 
