@@ -7,6 +7,7 @@
 * Blood and bullet puffs are now translucent when the `r_textures` CVAR is `off` and the `r_translucency` CVAR is `on`.
 * Minor changes have been made to text that is output to the console.
 * Minor improvements have been made to the support of `DEHACKED` lumps.
+* The player will now move between two liquid sectors of differing heights smoothly again.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

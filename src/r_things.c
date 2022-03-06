@@ -708,7 +708,7 @@ static void R_ProjectSprite(mobj_t *thing)
     if ((x1 = (centerxfrac + FixedMul(tx, xscale)) >> FRACBITS) >= viewwidth)
         return;
 
-    // off the left side
+    // off the left side?
     if ((x2 = ((centerxfrac + FixedMul(tx + width, xscale) - FRACUNIT / 2) >> FRACBITS)) < 0)
         return;
 
@@ -880,7 +880,7 @@ static void R_ProjectBloodSplat(const bloodsplat_t *splat)
     if ((x1 = (centerxfrac + FixedMul(tx, xscale)) >> FRACBITS) >= viewwidth)
         return;
 
-    // off the left side
+    // off the left side?
     if ((x2 = ((centerxfrac + FixedMul(tx + width, xscale)) >> FRACBITS) - 1) < 0)
         return;
 
