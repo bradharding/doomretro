@@ -3758,15 +3758,11 @@ void M_Drawer(void)
         }
         else
         {
-            patch_t *titlepatch = W_CacheLumpName("M_DOOM");
-            int     yy = y + itemOn * (LINEHEIGHT - 1) - 5 + OFFSET + chex;
-            int     max = currentMenu->numitems;
+            int yy = y + itemOn * (LINEHEIGHT - 1) - 5 + OFFSET + chex;
+            int max = currentMenu->numitems;
 
             if (currentMenu == &OptionsDef && !itemOn && gamestate != GS_LEVEL)
                 itemOn++;
-
-            if (currentMenu == &MainDef && titlepatch && SHORT(titlepatch->height) >= VANILLAHEIGHT)
-                yy -= OFFSET;
 
             if (M_SKULL1)
                 M_DrawPatchWithShadow(x - 30, yy, skullpatch);
