@@ -1557,7 +1557,11 @@ static void M_DrawMainMenu(void)
 
     if (M_DOOM)
     {
-        M_DrawPatchWithShadow(94, 2 + OFFSET, patch);
+        if (SHORT(patch->height) == VANILLAHEIGHT)
+            V_DrawPatch(94, 2, 0, patch);
+        else
+            M_DrawPatchWithShadow(94, 2 + OFFSET, patch);
+
         MainDef.x = 97;
         MainDef.y = 72;
     }
