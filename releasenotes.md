@@ -8,6 +8,7 @@
 * Minor changes have been made to text that is output to the console.
 * Minor improvements have been made to the support of `DEHACKED` lumps.
 * The player will now move between two liquid sectors of differing heights smoothly again.
+* Sprites in liquid sectors now bob correctly if in view when the player is first spawned into a map and the `r_liquid_bob` CVAR is `on`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
