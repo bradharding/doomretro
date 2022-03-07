@@ -1064,7 +1064,7 @@ static void P_SpawnPlayer(const mapthing_t *mthing)
     viewplayer->mo->momx = 0;
     viewplayer->mo->momy = 0;
     viewplayer->mo->bloodsplats = CORPSEBLOODSPLATS;
-    viewplayer->mo->floatbob = M_BigRandom();
+    viewplayer->mo->floatbob = (M_BigRandom() & 63);
     viewplayer->momx = 0;
     viewplayer->momy = 0;
     viewplayer->lookdir = 0;
@@ -1255,11 +1255,11 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, dboolean spawnmonsters)
     mobj->angle = ((mthing->angle % 45) ? mthing->angle * (ANG45 / 45) : ANG45 * (mthing->angle / 45));
 
     // [BH] randomly mirror corpses
-    if ((flags & MF_CORPSE) && (M_Random() & 1) && r_corpses_mirrored)
+    if ((flags & MF_CORPSE) && (M_BigRandom() & 1) && r_corpses_mirrored)
         mobj->flags2 |= MF2_MIRRORED;
 
     // [BH] randomly mirror weapons
-    if ((type == SuperShotgun || (type >= Shotgun && type <= BFG9000)) && (M_Random() & 1) && r_mirroredweapons)
+    if ((type == SuperShotgun || (type >= Shotgun && type <= BFG9000)) && (M_BigRandom() & 1) && r_mirroredweapons)
         mobj->flags2 |= MF2_MIRRORED;
 
     info = mobj->info;
@@ -1299,7 +1299,7 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, dboolean spawnmonsters)
     mobj->pitch = ((flags & MF_SHOOTABLE) && type != Barrel ? NORM_PITCH + M_BigRandomInt(-16, 16) : NORM_PITCH);
 
     // [BH] initialize bobbing things
-    mobj->floatbob = prevthingbob = (x == prevthingx && y == prevthingy ? prevthingbob : TICRATE * 2 + M_BigRandom());
+    mobj->floatbob = prevthingbob = (x == prevthingx && y == prevthingy ? prevthingbob : (M_BigRandom() & 63));
     prevthingx = x;
     prevthingy = y;
 
