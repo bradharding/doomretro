@@ -3,16 +3,15 @@
 #### DOOM Retro v4.4.9
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
-* The amount of blood splats drawn at any time now decreases the further away they are from the player.
+* The amount of blood splats drawn now decreases the further away they are from the player.
 * Blood and bullet puffs are now translucent when the `r_textures` CVAR is `off` and the `r_translucency` CVAR is `on`.
 * Minor changes have been made to text that is output to the console.
-* Minor improvements have been made to the support of `DEHACKED` lumps.
 * The player will now move between two liquid sectors of differing heights smoothly again.
 * Sprites in liquid sectors now bob correctly if in view when the player is first spawned into a map and the `r_liquid_bob` CVAR is `on`.
-* The main menu is now rendered correctly when certain PWADs with custom menu lumps are loaded.
+* The main menu now displays correctly when certain PWADs with custom menu lumps are loaded.
 * All sound effects now stop playing the moment either the menu or console are opened, or the game is paused.
 * The red effect when the player is injured now fades if the menu is opened.
-* The red effect when the player is injured now fades quicker if the console is opened.
+* The red effect when the player is injured now fades quicker than before if the console is opened.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
