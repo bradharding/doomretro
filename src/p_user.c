@@ -526,16 +526,19 @@ void P_PlayerThink(void)
     mobj_t      *mo = viewplayer->mo;
     static int  motionblur;
 
+    if (viewplayer->bonuscount)
+        viewplayer->bonuscount--;
+
     if (menuactive)
     {
+        if (viewplayer->damagecount)
+            viewplayer->damagecount = MAX(0, viewplayer->damagecount - 5);
+
         if (!inhelpscreens && ((messagetoprint && !consoleactive) || !messagetoprint))
             mo->angle += ANG1 / (spinspeed = MIN(spinspeed + 1, 512)) * 8 * spindirection;
 
         return;
     }
-
-    if (viewplayer->bonuscount)
-        viewplayer->bonuscount--;
 
     if (consoleactive)
     {

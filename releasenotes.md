@@ -11,6 +11,7 @@
 * Sprites in liquid sectors now bob correctly if in view when the player is first spawned into a map and the `r_liquid_bob` CVAR is `on`.
 * The main menu is now rendered correctly when certain PWADs with custom menu lumps are loaded.
 * All sound effects now stop playing the moment either the menu or console are opened, or the game is paused.
+* The red effect when the player is injured now fades if the menu is opened.
 * The red effect when the player is injured now fades quicker if the console is opened.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
