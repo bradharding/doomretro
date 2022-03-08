@@ -537,10 +537,16 @@ void P_PlayerThink(void)
     if (viewplayer->bonuscount)
         viewplayer->bonuscount--;
 
+    if (consoleactive)
+    {
+        if (viewplayer->damagecount)
+            viewplayer->damagecount = MAX(0, viewplayer->damagecount - 5);
+
+        return;
+    }
+
     P_ReduceDamageCount();
 
-    if (consoleactive)
-        return;
 
     // [AM] Assume we can interpolate at the beginning of the tic.
     mo->interpolate = 1;

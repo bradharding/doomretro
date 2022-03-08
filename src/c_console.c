@@ -745,9 +745,6 @@ void C_ShowConsole(void)
     caretwait = 0;
     skipaction = false;
 
-    if (viewplayer)
-        viewplayer->damagecount = MIN(viewplayer->damagecount, (NUMREDPALS - 1) << 3);
-
     for (int i = 0; i < MAX_MOUSE_BUTTONS; i++)
         mousebuttons[i] = false;
 
