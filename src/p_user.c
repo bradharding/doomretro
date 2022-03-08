@@ -547,7 +547,6 @@ void P_PlayerThink(void)
 
     P_ReduceDamageCount();
 
-
     // [AM] Assume we can interpolate at the beginning of the tic.
     mo->interpolate = 1;
 
