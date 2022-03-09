@@ -1939,7 +1939,8 @@ void M_EndingGame(void)
     if (gamemission == pack_nerve)
         gamemission = doom2;
 
-    C_Input("endgame");
+    if (!M_StringCompare(console[consolestrings - 1].string, "endgame"))
+        C_Input("endgame");
 
     C_AddConsoleDivider();
     M_SetWindowCaption();
