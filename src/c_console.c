@@ -1264,8 +1264,7 @@ void C_Drawer(void)
     int             i;
     int             x = CONSOLEINPUTX;
     int             y = CONSOLELINEHEIGHT * (CONSOLELINES - 1) - CONSOLELINEHEIGHT / 2 + 1;
-    int             bottomline = (outputhistory == -1 ? consolestrings : outputhistory + CONSOLELINES)
-                        - (gamestate != GS_TITLESCREEN ? 2 : 3);
+    int             bottomline = (outputhistory == -1 ? consolestrings : outputhistory + CONSOLELINES) - 1;
     int             len;
     char            partialinput[255];
     const dboolean  prevconsoleactive = consoleactive;
