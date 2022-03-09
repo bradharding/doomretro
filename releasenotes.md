@@ -2,6 +2,7 @@
 
 #### DOOM Retro v4.4.9
 
+* *DOOM Retro* is now compiled using v17.1.1 of [*Microsoft Visual Studio Community 2022*](https://www.visualstudio.com/vs/).
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * The amount of blood splats drawn now decreases the further away they are from the player.
 * Blood and bullet puffs are now translucent when the `r_textures` CVAR is `off` and the `r_translucency` CVAR is `on`.
