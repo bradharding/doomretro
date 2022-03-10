@@ -7,7 +7,7 @@
 * The amount of blood splats drawn now decreases the further away they are from the player.
 * Blood and bullet puffs are now translucent when the `r_textures` CVAR is `off` and the `r_translucency` CVAR is `on`.
 * Minor changes have been made to text that is output to the console.
-* The player will now move between two liquid sectors of differing heights smoothly again.
+* The player and monsters will now move between two liquid sectors of differing heights smoothly again.
 * Sprites in liquid sectors now bob correctly if in view when the player is first spawned into a map and the `r_liquid_bob` CVAR is `on`.
 * The main menu now displays correctly when certain PWADs with custom menu lumps are loaded.
 * All sound effects now stop playing the moment either the menu or console are opened, or the game is paused.
