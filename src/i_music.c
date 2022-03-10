@@ -104,8 +104,6 @@ dboolean I_InitMusic(void)
         }
     }
 
-    SDL_PauseAudio(0);
-
     music_initialized = true;
 
 #if defined(_WIN32)

@@ -458,7 +458,6 @@ dboolean I_InitSound(void)
         return false;
 
     Mix_AllocateChannels(s_channels_max);
-    SDL_PauseAudio(0);
     sound_initialized = true;
 
     return true;
