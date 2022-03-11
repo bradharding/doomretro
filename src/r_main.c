@@ -903,8 +903,6 @@ static void R_SetupFrame(void)
     mobj_t  *mo = viewplayer->mo;
     int     pitch = 0;
 
-    centery = viewheight / 2;
-
     // [AM] Interpolate the player camera if the feature is enabled.
     if (vid_capfps != TICRATE
         // Don't interpolate if the player did something that would necessitate turning it off for a tic.
@@ -940,9 +938,6 @@ static void R_SetupFrame(void)
             pitch = BETWEEN(-LOOKDIRMAX, pitch + viewplayer->recoil, LOOKDIRMAX);
     }
 
-    if (pitch)
-        centery += pitch * 2 * (r_screensize + 3) / 10;
-
     if (barrelms && !consoleactive && !menuactive && !paused)
     {
         int time = I_GetTimeMS();
@@ -954,6 +949,14 @@ static void R_SetupFrame(void)
             viewz += M_RandomInt(-2, 2) * FRACUNIT * (barrelms - time) / BARRELMS;
         }
     }
+
+    if (automapactive)
+        return;
+
+    centery = viewheight / 2;
+
+    if (pitch)
+        centery += pitch * 2 * (r_screensize + 3) / 10;
 
     extralight = viewplayer->extralight << 2;
 
@@ -1013,17 +1016,17 @@ void R_RenderPlayerView(void)
 {
     R_SetupFrame();
 
-    // Clear buffers.
-    R_ClearClipSegs();
-    R_ClearDrawSegs();
-    R_ClearPlanes();
-    R_ClearSprites();
-
     if (automapactive)
     {
         R_RenderBSPNode(numnodes - 1);
         return;
     }
+
+    // Clear buffers.
+    R_ClearClipSegs();
+    R_ClearDrawSegs();
+    R_ClearPlanes();
+    R_ClearSprites();
 
     if (r_homindicator)
         V_FillRect(0, viewwindowx, viewwindowy, viewwidth, viewheight, ((leveltime % 20) < 9 ? nearestred :
