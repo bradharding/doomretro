@@ -74,10 +74,6 @@ fixed_t             viewsin;
 
 player_t            *viewplayer = NULL;
 
-// [AM] Fractional part of the current tic, in the half-open
-//      range of [0.0, 1.0). Used for interpolation.
-fixed_t             fractionaltic;
-
 angle_t             clipangle;
 
 // The viewangletox[viewangle + FINEANGLES / 4] lookup

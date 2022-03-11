@@ -92,10 +92,6 @@ extern int          extralight;
 extern lighttable_t *fixedcolormap;
 extern dboolean     setsizeneeded;
 
-// [AM] Fractional part of the current tic, in the half-open
-//      range of [0.0, 1.0). Used for interpolation.
-extern fixed_t      fractionaltic;
-
 //
 // Function pointers to switch refresh/drawing functions.
 // Used to select shadow mode etc.

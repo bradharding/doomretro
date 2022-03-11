@@ -56,7 +56,6 @@
 #include "m_menu.h"
 #include "m_misc.h"
 #include "p_spec.h"
-#include "r_main.h"
 #include "s_sound.h"
 #include "SDL_image.h"
 #include "SDL_mixer.h"

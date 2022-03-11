@@ -38,8 +38,12 @@
 
 #pragma once
 
+#include "m_fixed.h"
+
 // Tic handling related.
 #define BACKUPTICS  8
+
+extern fixed_t  fractionaltic;
 
 // how many tics to run?
 void TryRunTics(void);

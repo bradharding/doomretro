@@ -44,6 +44,10 @@
 #include "m_config.h"
 #include "m_menu.h"
 
+// [AM] Fractional part of the current tic, in the half-open
+//      range of [0.0, 1.0). Used for interpolation.
+fixed_t     fractionaltic;
+
 ticcmd_t    localcmds[BACKUPTICS];
 
 void TryRunTics(void)
@@ -65,9 +69,7 @@ void TryRunTics(void)
         if (maketic - gametime > BACKUPTICS / 2)
             break;
 
-        G_BuildTiccmd(&localcmds[maketic % BACKUPTICS]);
-
-        maketic++;
+        G_BuildTiccmd(&localcmds[maketic++ % BACKUPTICS]);
     }
 
     if (!(runtics = maketic - gametime) && vid_capfps != TICRATE)

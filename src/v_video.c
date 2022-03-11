@@ -51,7 +51,6 @@
 #include "m_random.h"
 #include "p_setup.h"
 #include "r_draw.h"
-#include "r_main.h"
 #include "SDL_image.h"
 #include "v_video.h"
 #include "version.h"

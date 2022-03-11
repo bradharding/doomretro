@@ -65,7 +65,6 @@
 #include "m_menu.h"
 #include "m_misc.h"
 #include "m_random.h"
-#include "r_main.h"
 #include "s_sound.h"
 #include "st_stuff.h"
 #include "v_video.h"
@@ -2032,9 +2031,6 @@ void I_InitGraphics(void)
     if (!(SDL_SetHintWithPriority(SDL_HINT_VIDEO_MINIMIZE_ON_FOCUS_LOSS, "1", SDL_HINT_OVERRIDE)))
         I_SDLError(SDL_SetHintWithPriority);
 #endif
-
-    if (!(SDL_SetHintWithPriority(SDL_HINT_MOUSE_RELATIVE_MODE_WARP, "1", SDL_HINT_OVERRIDE)))
-        I_SDLError(SDL_SetHintWithPriority);
 
     SetVideoMode(true, true);
 

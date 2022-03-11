@@ -40,7 +40,6 @@
 #include "doomstat.h"
 #include "m_config.h"
 #include "p_setup.h"
-#include "r_main.h"
 #include "r_sky.h"
 
 //
