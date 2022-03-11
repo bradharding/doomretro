@@ -2760,7 +2760,8 @@ static dboolean kill_cmd_func1(char *cmd, char *parms)
     else if (M_StringCompare(parm, "monster") || M_StringCompare(parm, "monsters") || M_StringCompare(parm, "all")
         || M_StringCompare(parm, "friend") || M_StringCompare(parm, "friends")
         || M_StringCompare(parm, "friendly monster") || M_StringCompare(parm, "friendly monsters")
-        || M_StringCompare(parm, "missile") || M_StringCompare(parm, "missiles"))
+        || M_StringCompare(parm, "missile") || M_StringCompare(parm, "missiles")
+        || M_StringCompare(parm, "items") || M_StringCompare(parm, "decorations") || M_StringCompare(parm, "everything"))
         result = true;
     else
     {
@@ -3003,6 +3004,105 @@ static void kill_cmd_func2(char *cmd, char *parms)
                 }
                 else
                     C_Warning(0, "There are no missiles to explode.");
+            }
+            else if (M_StringCompare(parm, "items"))
+            {
+                for (int i = 0; i < numsectors; i++)
+                {
+                    mobj_t  *thing = sectors[i].thinglist;
+
+                    while (thing)
+                    {
+                        if (thing->flags & MF_SPECIAL)
+                        {
+                            P_RemoveMobj(thing);
+                            kills++;
+                        }
+
+                        thing = thing->snext;
+                    }
+                }
+
+                if (kills)
+                {
+                    char    *temp = commify(kills);
+
+                    if (M_StringCompare(playername, playername_default))
+                        C_PlayerMessage("You removed %s item%s.", (kills == 1 ? "one" : temp), (kills == 1 ? "" : "s"));
+                    else
+                        C_PlayerMessage("%s removed %s item%s.", playername, (kills == 1 ? "one" : temp), (kills == 1 ? "" : "s"));
+
+                    C_HideConsole();
+                    free(temp);
+                }
+                else
+                    C_Warning(0, "There are no items to remove.");
+            }
+            else if (M_StringCompare(parm, "decorations"))
+            {
+                for (int i = 0; i < numsectors; i++)
+                {
+                    mobj_t  *thing = sectors[i].thinglist;
+
+                    while (thing)
+                    {
+                        if (thing->flags2 & MF2_DECORATION)
+                        {
+                            P_RemoveMobj(thing);
+                            kills++;
+                        }
+
+                        thing = thing->snext;
+                    }
+                }
+
+                if (kills)
+                {
+                    char    *temp = commify(kills);
+
+                    if (M_StringCompare(playername, playername_default))
+                        C_PlayerMessage("You removed %s decoration%s.", (kills == 1 ? "one" : temp), (kills == 1 ? "" : "s"));
+                    else
+                        C_PlayerMessage("%s removed %s decoration%s.", playername, (kills == 1 ? "one" : temp), (kills == 1 ? "" : "s"));
+
+                    C_HideConsole();
+                    free(temp);
+                }
+                else
+                    C_Warning(0, "There are no decorations to remove.");
+            }
+            else if (M_StringCompare(parm, "everything"))
+            {
+                for (int i = 0; i < numsectors; i++)
+                {
+                    mobj_t  *thing = sectors[i].thinglist;
+
+                    while (thing)
+                    {
+                        if (((thing->flags & MF_SHOOTABLE) && !thing->player) || (thing->flags & MF_SPECIAL)
+                            || (thing->flags2 & MF2_DECORATION) || (thing->flags2 & MF2_MONSTERMISSILE))
+                        {
+                            P_RemoveMobj(thing);
+                            kills++;
+                        }
+
+                        thing = thing->snext;
+                    }
+
+                    P_RemoveBloodsplats();
+                }
+
+                if (kills)
+                {
+                    if (M_StringCompare(playername, playername_default))
+                        C_PlayerMessage("You removed everything.");
+                    else
+                        C_PlayerMessage("%s removed everything.");
+
+                    C_HideConsole();
+                }
+                else
+                    C_Warning(0, "There is nothing to remove.");
             }
             else if (killcmdmobj)
             {

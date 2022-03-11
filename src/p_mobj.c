@@ -926,6 +926,27 @@ void P_RemoveBloodMobj(mobj_t *mobj)
 }
 
 //
+// P_RemoveBloodsplats
+//
+void P_RemoveBloodsplats(void)
+{
+    for (int i = 0; i < numsectors; i++)
+    {
+        bloodsplat_t    *splat = sectors[i].splatlist;
+
+        while (splat)
+        {
+            bloodsplat_t    *next = splat->next;
+
+            P_UnsetBloodSplatPosition(splat);
+            splat = next;
+        }
+    }
+
+    r_bloodsplats_total = 0;
+}
+
+//
 // P_FindDoomedNum
 // Finds a mobj type with a matching doomednum
 // killough 08/24/98: rewrote to use hashing

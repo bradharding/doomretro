@@ -1295,20 +1295,8 @@ void P_UnArchiveThinkers(void)
     P_InitThinkers();
 
     // remove all bloodsplats
-    for (int i = 0; i < numsectors; i++)
-    {
-        bloodsplat_t    *splat = sectors[i].splatlist;
+    P_RemoveBloodsplats();
 
-        while (splat)
-        {
-            bloodsplat_t    *next = splat->next;
-
-            P_UnsetBloodSplatPosition(splat);
-            splat = next;
-        }
-    }
-
-    r_bloodsplats_total = 0;
     thingindex = 0;
 
     // read in saved thinkers

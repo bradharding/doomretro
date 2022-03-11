@@ -140,6 +140,7 @@ mobjtype_t P_FindDoomedNum(int type);
 
 void P_RemoveMobj(mobj_t *mobj);
 void P_RemoveBloodMobj(mobj_t *mobj);
+void P_RemoveBloodsplats(void);
 dboolean P_SetMobjState(mobj_t *mobj, statenum_t state);
 void P_MobjThinker(mobj_t *mobj);
 
