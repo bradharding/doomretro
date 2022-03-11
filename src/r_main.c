@@ -918,17 +918,13 @@ static void R_SetupFrame(void)
         viewz = viewplayer->oldviewz + FixedMul(viewplayer->viewz - viewplayer->oldviewz, fractionaltic);
         viewangle = R_InterpolateAngle(mo->oldangle, mo->angle, fractionaltic);
 
-        if (canmouselook || weaponrecoil)
-        {
+        if (canmouselook)
             pitch = (viewplayer->oldlookdir + (int)((viewplayer->lookdir - viewplayer->oldlookdir)
                 * FIXED2DOUBLE(fractionaltic))) / MLOOKUNIT;
 
-            if (weaponrecoil)
-                pitch = BETWEEN(-LOOKDIRMAX, pitch + viewplayer->oldrecoil + FixedMul(viewplayer->recoil - viewplayer->oldrecoil,
-                    fractionaltic), LOOKDIRMAX);
-
-            centery += pitch * 2 * (r_screensize + 3) / 10;
-        }
+        if (weaponrecoil)
+            pitch = BETWEEN(-LOOKDIRMAX, pitch + viewplayer->oldrecoil + FixedMul(viewplayer->recoil - viewplayer->oldrecoil,
+                fractionaltic), LOOKDIRMAX);
     }
     else
     {
@@ -937,16 +933,15 @@ static void R_SetupFrame(void)
         viewz = viewplayer->viewz;
         viewangle = mo->angle;
 
-        if (canmouselook || weaponrecoil)
-        {
+        if (canmouselook)
             pitch = viewplayer->lookdir / MLOOKUNIT;
 
-            if (weaponrecoil)
-                pitch = BETWEEN(-LOOKDIRMAX, pitch + viewplayer->recoil, LOOKDIRMAX);
-
-            centery += pitch * 2 * (r_screensize + 3) / 10;
-        }
+        if (weaponrecoil)
+            pitch = BETWEEN(-LOOKDIRMAX, pitch + viewplayer->recoil, LOOKDIRMAX);
     }
+
+    if (pitch)
+        centery += pitch * 2 * (r_screensize + 3) / 10;
 
     if (barrelms && !consoleactive && !menuactive && !paused)
     {

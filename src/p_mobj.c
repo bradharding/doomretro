@@ -938,22 +938,22 @@ mobjtype_t P_FindDoomedNum(int type)
         int next;
     } *hash;
 
-    mobjtype_t  i;
+    int i;
 
     if (!hash)
     {
         hash = Z_Malloc(NUMMOBJTYPES * sizeof(*hash), PU_CACHE, (void **)&hash);
 
-        for (i = 0; i < NUMMOBJTYPES; i++)
-            hash[i].first = NUMMOBJTYPES;
+        for (int j = 0; j < NUMMOBJTYPES; j++)
+            hash[j].first = NUMMOBJTYPES;
 
-        for (i = 0; i < NUMMOBJTYPES; i++)
-            if (mobjinfo[i].doomednum != -1)
+        for (int j = 0; j < NUMMOBJTYPES; j++)
+            if (mobjinfo[j].doomednum != -1)
             {
-                int    h = mobjinfo[i].doomednum % NUMMOBJTYPES;
+                int    h = mobjinfo[j].doomednum % NUMMOBJTYPES;
 
-                hash[i].next = hash[h].first;
-                hash[h].first = i;
+                hash[j].next = hash[h].first;
+                hash[h].first = j;
             }
     }
 

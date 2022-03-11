@@ -82,7 +82,7 @@ static dboolean getIsSolidAtSpot(const column_t *column, int spot)
 // Checks if the lump can be a DOOM patch
 static dboolean CheckIfPatch(int lump)
 {
-    int         size = W_LumpLength(lump);
+    const int   size = W_LumpLength(lump);
     dboolean    result = false;
 
     if (size >= 13)
@@ -94,8 +94,8 @@ static dboolean CheckIfPatch(int lump)
             C_Warning(1, "The " BOLD("%.8s") " patch is an unsupported PNG lump and will be ignored.", lumpinfo[lump]->name);
         else
         {
-            short   width = SHORT(patch->width);
-            short   height = SHORT(patch->height);
+            const short width = SHORT(patch->width);
+            const short height = SHORT(patch->height);
 
             if ((result = (width > 0 && width <= 16384 && width < size / 4 && height > 0 && height <= 16384)))
                 // The dimensions seem like they might be valid for a patch, so
@@ -104,7 +104,7 @@ static dboolean CheckIfPatch(int lump)
                 // point past the end of the patch.
                 for (int x = 0; x < width; x++)
                 {
-                    unsigned int    offset = LONG(patch->columnoffset[x]);
+                    const unsigned int  offset = LONG(patch->columnoffset[x]);
 
                     // Need one byte for an empty column (but there's patches that don't know that!)
                     if (offset < (unsigned int)width * 4 + 8 || offset >= (unsigned int)size)
@@ -307,8 +307,8 @@ static void removePostFromColumn(rcolumn_t *column, int post)
 static void createTextureCompositePatch(int id)
 {
     rpatch_t            *composite_patch = &texture_composites[id];
-    texture_t           *texture = textures[id];
-    texpatch_t          *texpatch;
+    const texture_t     *texture = textures[id];
+    const texpatch_t    *texpatch;
     int                 patchNum;
     const patch_t       *oldPatch;
     const column_t      *oldColumn;

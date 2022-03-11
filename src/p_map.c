@@ -216,12 +216,12 @@ int P_GetMoveFactor(const mobj_t *mo, int *frictionp)
 //
 dboolean P_TeleportMove(mobj_t *thing, fixed_t x, fixed_t y, fixed_t z, dboolean boss)
 {
-    int         xl;
-    int         xh;
-    int         yl;
-    int         yh;
-    sector_t    *newsec;
-    fixed_t     radius = thing->radius;
+    int             xl;
+    int             xh;
+    int             yl;
+    int             yh;
+    const sector_t  *newsec;
+    const fixed_t   radius = thing->radius;
 
     telefrag = (thing->player || boss || allowmonstertelefrags);
 
@@ -326,9 +326,9 @@ static dboolean PIT_CrossLine(line_t *ld)
 // assuming NO movement occurs -- used to avoid sticky situations.
 static int untouched(line_t *ld)
 {
-    fixed_t x, y;
-    fixed_t bbox[4];
-    fixed_t tmradius = tmthing->radius;
+    fixed_t         x, y;
+    fixed_t         bbox[4];
+    const fixed_t   tmradius = tmthing->radius;
 
     return ((bbox[BOXRIGHT] = (x = tmthing->x) + tmradius) <= ld->bbox[BOXLEFT]
         || (bbox[BOXLEFT] = x - tmradius) >= ld->bbox[BOXRIGHT]
@@ -445,13 +445,13 @@ static dboolean P_ProjectileImmune(mobj_t *target, mobj_t *source)
 //
 static dboolean PIT_CheckThing(mobj_t *thing)
 {
-    fixed_t     blockdist;
-    dboolean    unblocking = false;
-    int         flags = thing->flags;
-    int         tmflags = tmthing->flags;
-    dboolean    corpse = (flags & MF_CORPSE);
-    mobjtype_t  type = thing->type;
-    mobjtype_t  tmtype = tmthing->type;
+    fixed_t             blockdist;
+    dboolean            unblocking = false;
+    const int           flags = thing->flags;
+    const int           tmflags = tmthing->flags;
+    const dboolean      corpse = (flags & MF_CORPSE);
+    const mobjtype_t    type = thing->type;
+    const mobjtype_t    tmtype = tmthing->type;
 
     // [BH] apply small amount of momentum to a corpse when a monster walks over it
     if (((corpse && type != MT_BARREL) || (flags & MF_DROPPED)) && !thing->nudge
@@ -598,7 +598,7 @@ static dboolean PIT_CheckThing(mobj_t *thing)
         // MBF21: ripper projectile
         if (tmthing->mbf21flags & MF_MBF21_RIP)
         {
-            int damage = ((M_Random() & 3) + 2) * tmthing->info->damage;
+            const int   damage = ((M_Random() & 3) + 2) * tmthing->info->damage;
 
             if (!(thing->flags & MF_NOBLOOD))
                 P_SpawnBlood(tmthing->x, tmthing->y, tmthing->z, shootangle, damage, tmthing);
@@ -784,12 +784,12 @@ static dboolean PIT_CheckOnMobjZ(mobj_t *thing)
 //
 dboolean P_CheckPosition(mobj_t *thing, fixed_t x, fixed_t y)
 {
-    int         xl;
-    int         xh;
-    int         yl;
-    int         yh;
-    sector_t    *newsec;
-    fixed_t     radius = thing->radius;
+    int             xl;
+    int             xh;
+    int             yl;
+    int             yh;
+    const sector_t  *newsec;
+    fixed_t         radius = thing->radius;
 
     tmthing = thing;
 
@@ -917,15 +917,15 @@ static void P_FakeZMovement(mobj_t *mo)
 //
 mobj_t *P_CheckOnMobj(mobj_t *thing)
 {
-    int         xl;
-    int         xh;
-    int         yl;
-    int         yh;
-    sector_t    *newsec;
-    fixed_t     x = thing->x;
-    fixed_t     y = thing->y;
-    mobj_t      oldmo = *thing; // save the old mobj before the fake zmovement
-    fixed_t     radius;
+    int             xl;
+    int             xh;
+    int             yl;
+    int             yh;
+    const sector_t  *newsec;
+    const fixed_t   x = thing->x;
+    const fixed_t   y = thing->y;
+    const mobj_t    oldmo = *thing; // save the old mobj before the fake zmovement
+    fixed_t         radius;
 
     tmthing = thing;
 
@@ -977,7 +977,7 @@ mobj_t *P_CheckOnMobj(mobj_t *thing)
 
 dboolean P_IsInLiquid(mobj_t *thing)
 {
-    int         flags = thing->flags;
+    const int   flags = thing->flags;
     dboolean    corpse;
     fixed_t     z;
 
@@ -1181,14 +1181,14 @@ static dboolean PIT_ApplyTorque(line_t *ld)
 //
 void P_ApplyTorque(mobj_t *mo)
 {
-    int x = mo->x;
-    int y = mo->y;
-    int radius = mo->radius;
-    int xl = P_GetSafeBlockX((tmbbox[BOXLEFT] = x - radius) - bmaporgx);
-    int xh = P_GetSafeBlockX((tmbbox[BOXRIGHT] = x + radius) - bmaporgx);
-    int yl = P_GetSafeBlockY((tmbbox[BOXBOTTOM] = y - radius) - bmaporgy);
-    int yh = P_GetSafeBlockY((tmbbox[BOXTOP] = y + radius) - bmaporgy);
-    int flags2 = mo->flags2;                    // Remember the current state, for gear-change
+    const int   x = mo->x;
+    const int   y = mo->y;
+    const int   radius = mo->radius;
+    const int   xl = P_GetSafeBlockX((tmbbox[BOXLEFT] = x - radius) - bmaporgx);
+    const int   xh = P_GetSafeBlockX((tmbbox[BOXRIGHT] = x + radius) - bmaporgx);
+    const int   yl = P_GetSafeBlockY((tmbbox[BOXBOTTOM] = y - radius) - bmaporgy);
+    const int   yh = P_GetSafeBlockY((tmbbox[BOXTOP] = y + radius) - bmaporgy);
+    const int   flags2 = mo->flags2;            // Remember the current state, for gear-change
 
     tmthing = mo;
     validcount++;                               // prevents checking same line twice
@@ -1231,10 +1231,10 @@ void P_ApplyTorque(mobj_t *mo)
 //
 static dboolean P_ThingHeightClip(mobj_t *thing)
 {
-    fixed_t     oldfloorz = thing->floorz;      // haleyjd
-    dboolean    onfloor = (thing->z == oldfloorz);
-    int         flags2 = thing->flags2;
-    player_t    *player = thing->player;
+    const fixed_t   oldfloorz = thing->floorz;  // haleyjd
+    const dboolean  onfloor = (thing->z == oldfloorz);
+    const int       flags2 = thing->flags2;
+    const player_t  *player = thing->player;
 
     P_CheckPosition(thing, thing->x, thing->y);
 
@@ -1306,9 +1306,9 @@ static void P_HitSlideLine(line_t *ld)
     // Check for the special cases of horizontal or vertical walls.
 
     // killough 10/98: only bounce if hit hard (prevents wobbling)
-    dboolean    icyfloor = (P_ApproxDistance(tmxmove, tmymove) > 4 * FRACUNIT
-                            && slidemo->z <= slidemo->floorz
-                            && P_GetFriction(slidemo, NULL) > ORIG_FRICTION);
+    const dboolean  icyfloor = (P_ApproxDistance(tmxmove, tmymove) > 4 * FRACUNIT
+                                && slidemo->z <= slidemo->floorz
+                                && P_GetFriction(slidemo, NULL) > ORIG_FRICTION);
 
     if (ld->slopetype == ST_HORIZONTAL)
     {
@@ -1381,8 +1381,8 @@ static void P_HitSlideLine(line_t *ld)
 //
 static dboolean PTR_SlideTraverse(intercept_t *in)
 {
-    line_t          *li = in->d.line;
-    unsigned short  flags = li->flags;
+    line_t                  *li = in->d.line;
+    const unsigned short    flags = li->flags;
 
     // [JN] Treat two sided linedefs as single sided for smooth sliding.
     if ((flags & ML_BLOCKING) && (flags & ML_TWOSIDED))
@@ -1430,8 +1430,8 @@ isblocking:
 // killough 11/98: reformatted
 void P_SlideMove(mobj_t *mo)
 {
-    int     hitcount = 3;
-    fixed_t radius = mo->radius;
+    int             hitcount = 3;
+    const fixed_t   radius = mo->radius;
 
     slidemo = mo;               // the object that's sliding
 
@@ -1488,14 +1488,9 @@ stairstep:
 
         // fudge a bit to make sure it doesn't hit
         if ((bestslidefrac -= 0x0800) > 0)
-        {
-            fixed_t newx = FixedMul(mo->momx, bestslidefrac);
-            fixed_t newy = FixedMul(mo->momy, bestslidefrac);
-
             // killough 03/15/98: Allow objects to drop off ledges
-            if (!P_TryMove(mo, mo->x + newx, mo->y + newy, 1))
+            if (!P_TryMove(mo, mo->x + FixedMul(mo->momx, bestslidefrac), mo->y + FixedMul(mo->momy, bestslidefrac), 1))
                 goto stairstep;
-        }
 
         // Now continue along the wall.
         // First calculate remainder.
@@ -1687,8 +1682,8 @@ static dboolean PTR_ShootTraverse(intercept_t *in)
         // clip shots on floor and ceiling
         if ((side = li->sidenum[P_PointOnLineSide(shootthing->x, shootthing->y, li)]) != NO_INDEX)
         {
-            sector_t    *sector = sides[side].sector;
-            fixed_t     ceilingz = sector->interpceilingheight;
+            const sector_t  *sector = sides[side].sector;
+            const fixed_t   ceilingz = sector->interpceilingheight;
 
             if (z > ceilingz && distz)
             {
@@ -1767,7 +1762,7 @@ static dboolean PTR_ShootTraverse(intercept_t *in)
         P_SpawnPuff(x, y, z, shootangle);
     else
     {
-        mobjtype_t  type = th->type;
+        const mobjtype_t    type = th->type;
 
         if (type == MT_SKULL && !(th->flags & MF_FUZZ))
             P_SpawnPuff(x, y, z - 8 * FRACUNIT, shootangle);
@@ -1908,8 +1903,8 @@ static dboolean PTR_UseTraverse(intercept_t *in)
 //
 static dboolean PTR_NoWayTraverse(intercept_t *in)
 {
-    line_t          *ld = in->d.line;
-    unsigned short  flags = ld->flags;
+    line_t                  *ld = in->d.line;
+    const unsigned short    flags = ld->flags;
 
     return (ld->special || ((flags & ML_TWOSIDED) && (flags & ML_BLOCKING)) || !((flags & ML_BLOCKING)
         || (P_LineOpening(ld), (openrange <= 0 || openbottom > usething->z + 24 * FRACUNIT || opentop < usething->z + usething->height))));
@@ -1917,7 +1912,7 @@ static dboolean PTR_NoWayTraverse(intercept_t *in)
 
 dboolean P_DoorClosed(line_t *line)
 {
-    mobj_t  *mo = viewplayer->mo;
+    const mobj_t    *mo = viewplayer->mo;
 
     P_LineOpening(line);
 
@@ -2051,11 +2046,11 @@ dboolean PIT_RadiusAttack(mobj_t *thing)
 //
 void P_RadiusAttack(mobj_t *spot, mobj_t *source, int damage, int distance, dboolean verticality)
 {
-    fixed_t dist = (damage << FRACBITS) + MAXRADIUS;
-    int     xh = P_GetSafeBlockX(spot->x + dist - bmaporgx);
-    int     xl = P_GetSafeBlockX(spot->x - dist - bmaporgx);
-    int     yh = P_GetSafeBlockY(spot->y + dist - bmaporgy);
-    int     yl = P_GetSafeBlockY(spot->y - dist - bmaporgy);
+    const fixed_t   dist = (damage << FRACBITS) + MAXRADIUS;
+    const int       xh = P_GetSafeBlockX(spot->x + dist - bmaporgx);
+    const int       xl = P_GetSafeBlockX(spot->x - dist - bmaporgx);
+    const int       yh = P_GetSafeBlockY(spot->y + dist - bmaporgy);
+    const int       yl = P_GetSafeBlockY(spot->y - dist - bmaporgy);
 
     bombspot = spot;
     bombsource = source;
@@ -2086,7 +2081,7 @@ static dboolean nofit;
 //
 static void PIT_ChangeSector(mobj_t *thing)
 {
-    int flags = thing->flags;
+    const int   flags = thing->flags;
 
     if (P_ThingHeightClip(thing))
         return;         // keep checking
@@ -2102,13 +2097,13 @@ static void PIT_ChangeSector(mobj_t *thing)
 
         if (!(flags & MF_NOBLOOD))
         {
-            int         radius = ((spritewidth[sprites[thing->sprite].spriteframes[0].lump[0]] >> FRACBITS) >> 1) + 12;
-            int         max = M_RandomInt(50, 100) + radius;
-            int         x = thing->x;
-            int         y = thing->y;
-            int         blood = mobjinfo[thing->blood].blood;
-            int         floorz = thing->floorz;
-            mobjtype_t  type = thing->type;
+            const int           radius = ((spritewidth[sprites[thing->sprite].spriteframes[0].lump[0]] >> FRACBITS) >> 1) + 12;
+            const int           max = M_RandomInt(50, 100) + radius;
+            const int           x = thing->x;
+            const int           y = thing->y;
+            const int           blood = mobjinfo[thing->blood].blood;
+            const int           floorz = thing->floorz;
+            const mobjtype_t    type = thing->type;
 
             for (int i = 0; i < max; i++)
             {
@@ -2430,15 +2425,15 @@ static dboolean PIT_GetSectors(line_t *ld)
 // killough 11/98: reformatted
 void P_CreateSecNodeList(mobj_t *thing, fixed_t x, fixed_t y)
 {
-    int         xl;
-    int         xh;
-    int         yl;
-    int         yh;
-    msecnode_t  *node = sector_list;
-    mobj_t      *saved_tmthing = tmthing;
-    fixed_t     saved_tmx = tmx;
-    fixed_t     saved_tmy = tmy;
-    fixed_t     radius = thing->info->pickupradius;
+    int             xl;
+    int             xh;
+    int             yl;
+    int             yh;
+    msecnode_t      *node = sector_list;
+    mobj_t          *saved_tmthing = tmthing;
+    const fixed_t   saved_tmx = tmx;
+    const fixed_t   saved_tmy = tmy;
+    fixed_t         radius = thing->info->pickupradius;
 
     // First, clear out the existing m_thing fields. As each node is
     // added or verified as needed, m_thing will be set properly. When

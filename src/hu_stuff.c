@@ -125,28 +125,28 @@ static void (*fillrectfunc2)(int, int, int, int, int, int, dboolean);
 
 static struct
 {
-    char    *patchname;
-    int     mobjnum;
-    patch_t *patch;
+    const char  *patchname;
+    const int   mobjnum;
+    patch_t     *patch;
 } ammopic[] = {
-    { "CLIPA0", MT_CLIP   },
-    { "SHELA0", MT_MISC22 },
-    { "CELLA0", MT_MISC20 },
-    { "ROCKA0", MT_MISC18 }
+    { "CLIPA0", MT_CLIP,   NULL },
+    { "SHELA0", MT_MISC22, NULL },
+    { "CELLA0", MT_MISC20, NULL },
+    { "ROCKA0", MT_MISC18, NULL }
 };
 
 static struct
 {
-    char    *patchnamea;
-    char    *patchnameb;
-    patch_t *patch;
+    const char  *patchnamea;
+    const char  *patchnameb;
+    patch_t     *patch;
 } keypics[] = {
-    { "BKEYA0", "BKEYB0" },
-    { "YKEYA0", "YKEYB0" },
-    { "RKEYA0", "RKEYB0" },
-    { "BSKUA0", "BSKUB0" },
-    { "YSKUA0", "YSKUB0" },
-    { "RSKUA0", "RSKUB0" }
+    { "BKEYA0", "BKEYB0", NULL },
+    { "YKEYA0", "YKEYB0", NULL },
+    { "RKEYA0", "RKEYB0", NULL },
+    { "BSKUA0", "BSKUB0", NULL },
+    { "YSKUA0", "YSKUB0", NULL },
+    { "RSKUA0", "RSKUB0", NULL }
 };
 
 static void HU_AltInit(void);
@@ -215,7 +215,7 @@ void HU_Init(void)
     if (W_CheckNumForName("STTMINUS") >= 0)
         if (W_CheckMultipleLumps("STTMINUS") > 1 || W_CheckMultipleLumps("STTNUM0") == 1)
         {
-            patch_t *patch = W_CacheLumpName("STTNUM0");
+            const patch_t   *patch = W_CacheLumpName("STTNUM0");
 
             minuspatch = W_CacheLumpName("STTMINUS");
             minuspatchwidth = SHORT(minuspatch->width);
@@ -666,7 +666,7 @@ static void HU_DrawHUD(void)
     if (health > 0)
     {
         const weapontype_t  pendingweapon = viewplayer->pendingweapon;
-        ammotype_t          ammotype = weaponinfo[(pendingweapon != wp_nochange ? pendingweapon : viewplayer->readyweapon)].ammotype;
+        const ammotype_t    ammotype = weaponinfo[(pendingweapon != wp_nochange ? pendingweapon : viewplayer->readyweapon)].ammotype;
         int                 ammo;
 
         if (ammotype != am_noammo && (ammo = viewplayer->ammo[ammotype]))
@@ -714,12 +714,12 @@ typedef struct
 
 static altkeypic_t altkeypics[NUMCARDS] =
 {
-    { BLUE   },
-    { YELLOW },
-    { RED    },
-    { BLUE   },
-    { YELLOW },
-    { RED    }
+    { BLUE,   NULL },
+    { YELLOW, NULL },
+    { RED,    NULL },
+    { BLUE,   NULL },
+    { YELLOW, NULL },
+    { RED,    NULL }
 };
 
 static patch_t  *altnum[10];
@@ -786,7 +786,7 @@ static void HU_AltInit(void)
 
     for (int i = 1; i < NUMWEAPONS; i++)
     {
-        int lump = W_CheckNumForName(weaponinfo[i].spritename);
+        const int   lump = W_CheckNumForName(weaponinfo[i].spritename);
 
         if (lump >= 0 && lumpinfo[lump]->wadfile->type == PWAD)
         {
@@ -898,7 +898,7 @@ static int AltHUDNumber2Width(int val)
 
 static void HU_DrawAltHUD(void)
 {
-    int             color = (((viewplayer->fixedcolormap == INVERSECOLORMAP) ^ (!r_textures)) ?
+    const int       color = (((viewplayer->fixedcolormap == INVERSECOLORMAP) ^ (!r_textures)) ?
                         colormaps[0][32 * 256 + nearestwhite] : nearestwhite);
     int             health = MAX(health_min, viewplayer->health);
     int             armor = viewplayer->armorpoints;
