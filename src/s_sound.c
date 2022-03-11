@@ -293,7 +293,7 @@ static int S_GetMusicNum(void)
     {
         if (gamemission == pack_nerve)
         {
-            int nmus[] =
+            const int   nmus[] =
             {
                 mus_messag,
                 mus_ddtblu,
@@ -320,7 +320,7 @@ static int S_GetMusicNum(void)
             mnum = mus_e5m1 + (s_randommusic ? M_RandomIntNoRepeat(1, 9, gamemap) : gamemap) - 1;
         else
         {
-            int spmus[] =
+            const int   spmus[] =
             {
                 // Song - Who? - Where?
                 mus_e3m4,   // American     E4M1

@@ -13,6 +13,7 @@
 * All sound effects now stop playing the moment either the menu or console are opened, or the game is paused.
 * The red effect when the player is injured now fades if the menu is opened.
 * The red effect when the player is injured now fades quicker than before if the console is opened.
+* Use of the mouse is no longer lost if the external automap is shown on another display when the `am_external` CVAR is `on`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
