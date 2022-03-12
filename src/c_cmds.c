@@ -3152,14 +3152,19 @@ static void kill_cmd_func2(char *cmd, char *parms)
             }
             else if (M_StringCompare(parm, "blood") || M_StringCompare(parm, "bloodsplat") || M_StringCompare(parm, "bloodsplats"))
             {
-                P_RemoveBloodsplats();
+                if (r_bloodsplats_total)
+                {
+                    P_RemoveBloodsplats();
 
-                if (M_StringCompare(playername, playername_default))
-                    C_PlayerMessage("You removed all blood splats.");
+                    if (M_StringCompare(playername, playername_default))
+                        C_PlayerMessage("You removed all blood splats.");
+                    else
+                        C_PlayerMessage("%s removed all blood splats.", playername);
+
+                    C_HideConsole();
+                }
                 else
-                    C_PlayerMessage("%s removed all blood splats.", playername);
-
-                C_HideConsole();
+                    C_Warning(0, "There are no blood splats to remove.");
             }
             else if (killcmdmobj)
             {
