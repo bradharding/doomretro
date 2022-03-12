@@ -78,12 +78,11 @@ char *P_TempSaveGameFile(void)
     return filename;
 }
 
-// Get the filename of the save game file to use for the specified slot.
+// Get the filename of the savegame to use for the specified slot.
 char *P_SaveGameFile(int slot)
 {
     static char *filename;
     static int  filename_size;
-    char        basename[32];
 
     if (!filename)
     {
@@ -91,9 +90,7 @@ char *P_SaveGameFile(int slot)
         filename = malloc(filename_size);
     }
 
-    M_snprintf(basename, sizeof(basename), DOOMRETRO_SAVE, slot);
-    M_snprintf(filename, filename_size, "%s%s", savegamefolder, basename);
-
+    M_snprintf(filename, filename_size, "%s" DOOMRETRO_SAVE, savegamefolder, slot);
     return filename;
 }
 
