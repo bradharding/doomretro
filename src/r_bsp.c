@@ -411,8 +411,7 @@ static void R_AddLine(seg_t *line)
 //
 // R_CheckBBox
 // Checks BSP node/subtree bounding box.
-// Returns true
-//  if some part of the bbox might be visible.
+// Returns true if some part of the bbox might be visible.
 //
 static dboolean R_CheckBBox(const fixed_t *bspcoord)
 {

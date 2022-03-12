@@ -127,8 +127,8 @@ static int saveg_read32(void)
 {
     int result = saveg_read8();
 
-    result |= saveg_read8() << 8;
-    result |= saveg_read8() << 16;
+    result |= (saveg_read8() << 8);
+    result |= (saveg_read8() << 16);
 
     return (result | (saveg_read8() << 24));
 }
