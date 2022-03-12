@@ -91,7 +91,8 @@
 #define PLAYCMDFORMAT               BOLDITALICS("soundeffect") "|" BOLDITALICS("music")
 #define NAMECMDFORMAT               "[" BOLD("friendly") " ]" BOLDITALICS("monster") " " BOLDITALICS("name")
 #define PRINTCMDFORMAT              "[" BOLD("\"") "]" BOLDITALICS("message") "[" BOLD("\"") "]"
-#define REMOVECMDFORMAT             BOLD("corpses") "|" BOLD("decorations") "|" BOLD("items") "|" BOLD("everything")
+#define REMOVECMDFORMAT             BOLD("items") "|" BOLD("decorations") "|" BOLD("corpses") "|" BOLD("bloodsplats") "|" \
+                                    BOLD("everything")
 #define RESETCMDFORMAT              BOLDITALICS("CVAR")
 #define RESURRECTCMDFORMAT          BOLD("player") "|" BOLD("all") "|[" BOLD("friendly") " ]" BOLDITALICS("monster")
 #define SAVECMDFORMAT               BOLDITALICS("filename") BOLD(".save")
@@ -838,7 +839,7 @@ consolecmd_t consolecmds[] =
     CCMD("regenhealth", "", null_func1, regenhealth_cmd_func2, true, "[" BOLD("on") "|" BOLD("off") "]",
         "Toggles the regeneration of the player's health by 1% per second when it's below 100%."),
     CCMD("remove", "", kill_cmd_func1, kill_cmd_func2, true, REMOVECMDFORMAT,
-        "Removes all " BOLD("items") "," BOLD("decorations") "," BOLD("corpses") "," BOLD("bloodsplats") ", or " BOLD("everything") "."),
+        "Removes all " BOLD("items") ", " BOLD("decorations") ", " BOLD("corpses") ", " BOLD("bloodsplats") ", or " BOLD("everything") "."),
     CCMD("reset", "", null_func1, reset_cmd_func2, true, RESETCMDFORMAT,
         "Resets a " BOLDITALICS("CVAR") " to its default."),
     CCMD("resetall", "", null_func1, resetall_cmd_func2, false, "",
@@ -2765,7 +2766,11 @@ static dboolean kill_cmd_func1(char *cmd, char *parms)
         || M_StringCompare(parm, "friend") || M_StringCompare(parm, "friends")
         || M_StringCompare(parm, "friendly monster") || M_StringCompare(parm, "friendly monsters")
         || M_StringCompare(parm, "missile") || M_StringCompare(parm, "missiles")
-        || M_StringCompare(parm, "items") || M_StringCompare(parm, "decorations") || M_StringCompare(parm, "everything"))
+        || M_StringCompare(parm, "item") || M_StringCompare(parm, "items")
+        || M_StringCompare(parm, "decoration") || M_StringCompare(parm, "decorations")
+        || M_StringCompare(parm, "corpse") || M_StringCompare(parm, "corpses")
+        || M_StringCompare(parm, "blood") || M_StringCompare(parm, "bloodsplat") || M_StringCompare(parm, "bloodsplats")
+        || M_StringCompare(parm, "everything"))
         result = true;
     else
     {
@@ -2893,7 +2898,6 @@ static void kill_cmd_func2(char *cmd, char *parms)
             dboolean    enemies = (M_StringCompare(parm, "monster") || M_StringCompare(parm, "monsters"));
             dboolean    all = M_StringCompare(parm, "all");
             int         kills = 0;
-            int         prevkills = totalkills;
 
             if (friends || enemies || all)
             {
@@ -2952,18 +2956,16 @@ static void kill_cmd_func2(char *cmd, char *parms)
                     if (M_StringCompare(playername, playername_default))
                     {
                         if (kills == 1)
-                            C_PlayerMessage("You killed the only %smonster in this map.", (kills < prevkills ? "remaining " : ""));
+                            C_PlayerMessage("You killed the only monster in this map.");
                         else
-                            C_PlayerMessage("You killed %s %s monsters in this map.", (kills < prevkills ? "the remaining" : "all"), temp);
+                            C_PlayerMessage("You killed %s monsters in this map.", temp);
                     }
                     else
                     {
                         if (kills == 1)
-                            C_PlayerMessage("%s killed the only %smonster in this map.",
-                                playername, (kills < prevkills ? "remaining " : ""));
+                            C_PlayerMessage("%s killed the only monster in this map.");
                         else
-                            C_PlayerMessage("%s killed %s %s monsters in this map.",
-                                playername, (kills < prevkills ? "the remaining" : "all"), temp);
+                            C_PlayerMessage("%s killed %s monsters in this map.", temp);
                     }
 
                     C_HideConsole();
@@ -2998,9 +3000,11 @@ static void kill_cmd_func2(char *cmd, char *parms)
                     char    *temp = commify(kills);
 
                     if (M_StringCompare(playername, playername_default))
-                        C_PlayerMessage("You exploded %s missile%s.", (kills == 1 ? "one" : temp), (kills == 1 ? "" : "s"));
+                        C_PlayerMessage("You exploded %s missile%s.",
+                            (kills == 1 ? "one" : temp), (kills == 1 ? "" : "s"));
                     else
-                        C_PlayerMessage("%s exploded %s missile%s.", playername, (kills == 1 ? "one" : temp), (kills == 1 ? "" : "s"));
+                        C_PlayerMessage("%s exploded %s missile%s.",
+                            playername, (kills == 1 ? "one" : temp), (kills == 1 ? "" : "s"));
 
                     C_HideConsole();
                     viewplayer->cheated++;
@@ -3034,9 +3038,11 @@ static void kill_cmd_func2(char *cmd, char *parms)
                     char    *temp = commify(kills);
 
                     if (M_StringCompare(playername, playername_default))
-                        C_PlayerMessage("You removed %s item%s.", (kills == 1 ? "one" : temp), (kills == 1 ? "" : "s"));
+                        C_PlayerMessage("You removed %s item%s.",
+                            (kills == 1 ? "one" : temp), (kills == 1 ? "" : "s"));
                     else
-                        C_PlayerMessage("%s removed %s item%s.", playername, (kills == 1 ? "one" : temp), (kills == 1 ? "" : "s"));
+                        C_PlayerMessage("%s removed %s item%s.",
+                            playername, (kills == 1 ? "one" : temp), (kills == 1 ? "" : "s"));
 
                     C_HideConsole();
                     free(temp);
@@ -3067,9 +3073,11 @@ static void kill_cmd_func2(char *cmd, char *parms)
                     char    *temp = commify(kills);
 
                     if (M_StringCompare(playername, playername_default))
-                        C_PlayerMessage("You removed %s decoration%s.", (kills == 1 ? "one" : temp), (kills == 1 ? "" : "s"));
+                        C_PlayerMessage("You removed %s decoration%s.",
+                            (kills == 1 ? "one" : temp), (kills == 1 ? "" : "s"));
                     else
-                        C_PlayerMessage("%s removed %s decoration%s.", playername, (kills == 1 ? "one" : temp), (kills == 1 ? "" : "s"));
+                        C_PlayerMessage("%s removed %s decoration%s.",
+                            playername, (kills == 1 ? "one" : temp), (kills == 1 ? "" : "s"));
 
                     C_HideConsole();
                     free(temp);
@@ -3237,31 +3245,27 @@ static void kill_cmd_func2(char *cmd, char *parms)
                     if (M_StringCompare(playername, playername_default))
                     {
                         if (kills == 1)
-                            C_PlayerMessage("You %s the only %s%s in this map.",
+                            C_PlayerMessage("You %s the only %s in this map.",
                                 (type == MT_BARREL ? "exploded" : "killed"),
-                                (kills < prevkills ? "remaining " : ""),
                                 mobjinfo[type].name1);
                         else
-                            C_PlayerMessage("You %s all the %s %s%s in this map.",
+                            C_PlayerMessage("You %s all the %s %s in this map.",
                                 (type == MT_BARREL ? "exploded" : "killed"),
                                 temp,
-                                (kills < prevkills ? "remaining " : ""),
                                 mobjinfo[type].plural1);
                     }
                     else
                     {
                         if (kills == 1)
-                            C_PlayerMessage("%s %s the only %s%s in this map.",
+                            C_PlayerMessage("%s %s the only %s in this map.",
                                 playername,
                                 (type == MT_BARREL ? "exploded" : "killed"),
-                                (kills < prevkills ? "remaining " : ""),
                                 mobjinfo[type].name1);
                         else
-                            C_PlayerMessage("%s %s all the %s %s%s in this map.",
+                            C_PlayerMessage("%s %s all the %s %s in this map.",
                                 playername,
                                 (type == MT_BARREL ? "exploded" : "killed"),
                                 temp,
-                                (kills < prevkills ? "remaining " : ""),
                                 mobjinfo[type].plural1);
                     }
 

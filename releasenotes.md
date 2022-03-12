@@ -15,7 +15,7 @@
 * The red effect when the player is injured now fades quicker than before if the console is opened.
 * Use of the mouse is no longer lost if the external automap is shown on another display when the `am_external` CVAR is `on`.
 * The new `explode` CCMD is now used instead of the `kill` CCMD to explode all `barrels` or `missiles` in the map.
-* There is also a new `remove` CCMD that may be used to remove all `items`, `decorations`, `corpses`, `bloodsplats` or `everything` in the map.
+* There is also a new `remove` CCMD that may be used to remove all `items`, `decorations`, `corpses`, `bloodsplats`, or `everything` in the map.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
