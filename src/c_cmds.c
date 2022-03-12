@@ -3102,7 +3102,7 @@ static void kill_cmd_func2(char *cmd, char *parms)
                     if (M_StringCompare(playername, playername_default))
                         C_PlayerMessage("You removed everything.");
                     else
-                        C_PlayerMessage("%s removed everything.");
+                        C_PlayerMessage("%s removed everything.", playername);
 
                     C_HideConsole();
                 }
