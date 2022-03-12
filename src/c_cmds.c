@@ -82,8 +82,7 @@
                                     BOLD("all") "|" BOLDITALICS("item")
 #define IFCMDFORMAT                 BOLDITALICS("CVAR") " " BOLDITALICS("value") " " BOLD("then") " [" BOLD("\"") "]" \
                                     BOLDITALICS("command") "[" BOLD(";") " " BOLDITALICS("command") " ..." BOLD("\"") "]"
-#define KILLCMDFORMAT               BOLD("player") "|" BOLD("all") "|[" BOLD("friendly") " ]" BOLDITALICS("monster") "|" BOLD("barrels") \
-                                    "|" BOLD("missiles")
+#define KILLCMDFORMAT               BOLD("player") "|" BOLD("all") "|[" BOLD("friendly") " ]" BOLDITALICS("monster")
 #define LOADCMDFORMAT               BOLDITALICS("filename") BOLD(".save")
 #define MAPCMDFORMAT1               BOLD("E") BOLDITALICS("x") BOLD("M") BOLDITALICS("y") "[" BOLD("B") "]|" BOLDITALICS("title") "|" \
                                     BOLD("first") "|" BOLD("previous") "|" BOLD("next") "|" BOLD("last") "|" BOLD("random")
@@ -2857,8 +2856,10 @@ static void kill_cmd_func2(char *cmd, char *parms)
 
     if (!*parm)
     {
-        C_ShowDescription(C_GetIndex(cmd));
-        C_Output(BOLD("%s") " %s", cmd, KILLCMDFORMAT);
+        int i = C_GetIndex(cmd);
+
+        C_ShowDescription(i);
+        C_Output(BOLD("%s") " %s", cmd, consolecmds[i].format);
     }
     else
     {
