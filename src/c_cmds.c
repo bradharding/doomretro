@@ -3094,9 +3094,9 @@ static void kill_cmd_func2(char *cmd, char *parms)
 
                         thing = thing->snext;
                     }
-
-                    P_RemoveBloodsplats();
                 }
+
+                P_RemoveBloodsplats();
 
                 if (kills)
                 {
@@ -3109,6 +3109,49 @@ static void kill_cmd_func2(char *cmd, char *parms)
                 }
                 else
                     C_Warning(0, "There is nothing to remove.");
+            }
+            else if (M_StringCompare(parm, "corpses"))
+            {
+                for (int i = 0; i < numsectors; i++)
+                {
+                    mobj_t  *thing = sectors[i].thinglist;
+
+                    while (thing)
+                    {
+                        if (thing->flags & MF_CORPSE)
+                        {
+                            P_RemoveMobj(thing);
+                            kills++;
+                        }
+
+                        thing = thing->snext;
+                    }
+                }
+
+                P_RemoveBloodsplats();
+
+                if (kills)
+                {
+                    if (M_StringCompare(playername, playername_default))
+                        C_PlayerMessage("You removed all corpses.");
+                    else
+                        C_PlayerMessage("%s removed all corpses.", playername);
+
+                    C_HideConsole();
+                }
+                else
+                    C_Warning(0, "There are no corpses to remove.");
+            }
+            else if (M_StringCompare(parm, "bloodsplats"))
+            {
+                P_RemoveBloodsplats();
+
+                if (M_StringCompare(playername, playername_default))
+                    C_PlayerMessage("You removed all blood splats.");
+                else
+                    C_PlayerMessage("%s removed all blood splats.", playername);
+
+                C_HideConsole();
             }
             else if (killcmdmobj)
             {
