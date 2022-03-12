@@ -838,7 +838,7 @@ consolecmd_t consolecmds[] =
     CCMD("regenhealth", "", null_func1, regenhealth_cmd_func2, true, "[" BOLD("on") "|" BOLD("off") "]",
         "Toggles the regeneration of the player's health by 1% per second when it's below 100%."),
     CCMD("remove", "", kill_cmd_func1, kill_cmd_func2, true, REMOVECMDFORMAT,
-        "Removes all " BOLD("items") "," BOLD("decorations") "," BOLD("corpses") " or " BOLD("everything") "."),
+        "Removes all " BOLD("items") "," BOLD("decorations") "," BOLD("corpses") "," BOLD("bloodsplats") ", or " BOLD("everything") "."),
     CCMD("reset", "", null_func1, reset_cmd_func2, true, RESETCMDFORMAT,
         "Resets a " BOLDITALICS("CVAR") " to its default."),
     CCMD("resetall", "", null_func1, resetall_cmd_func2, false, "",
@@ -3011,7 +3011,7 @@ static void kill_cmd_func2(char *cmd, char *parms)
                 else
                     C_Warning(0, "There are no missiles to explode.");
             }
-            else if (M_StringCompare(parm, "items"))
+            else if (M_StringCompare(parm, "item") || M_StringCompare(parm, "items"))
             {
                 for (int i = 0; i < numsectors; i++)
                 {
@@ -3044,7 +3044,7 @@ static void kill_cmd_func2(char *cmd, char *parms)
                 else
                     C_Warning(0, "There are no items to remove.");
             }
-            else if (M_StringCompare(parm, "decorations"))
+            else if (M_StringCompare(parm, "decoration") || M_StringCompare(parm, "decorations"))
             {
                 for (int i = 0; i < numsectors; i++)
                 {
@@ -3108,9 +3108,9 @@ static void kill_cmd_func2(char *cmd, char *parms)
                     C_HideConsole();
                 }
                 else
-                    C_Warning(0, "There is nothing to remove.");
+                    C_Warning(0, "There is nothing left to remove.");
             }
-            else if (M_StringCompare(parm, "corpses"))
+            else if (M_StringCompare(parm, "corpse") || M_StringCompare(parm, "corpses"))
             {
                 for (int i = 0; i < numsectors; i++)
                 {
@@ -3142,7 +3142,7 @@ static void kill_cmd_func2(char *cmd, char *parms)
                 else
                     C_Warning(0, "There are no corpses to remove.");
             }
-            else if (M_StringCompare(parm, "bloodsplats"))
+            else if (M_StringCompare(parm, "blood") || M_StringCompare(parm, "bloodsplat") || M_StringCompare(parm, "bloodsplats"))
             {
                 P_RemoveBloodsplats();
 
