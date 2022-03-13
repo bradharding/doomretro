@@ -1099,7 +1099,13 @@ void HU_Drawer(void)
         }
         else if (vid_widescreen && r_screensize == r_screensize_max - 1)
         {
-            w_message.l.x = HU_MSGX + WIDESCREENDELTA;
+            int width = M_StringWidth(w_message.l.l);
+
+            if (width > SCREENWIDTH / SCREENSCALE - w_message.l.x * 2 - 6)
+                w_message.l.x = (SCREENWIDTH / SCREENSCALE - M_StringWidth(w_message.l.l)) / 2;
+            else
+                w_message.l.x = HU_MSGX + WIDESCREENDELTA;
+
             w_message.l.y = HU_MSGY;
         }
         else
@@ -1236,25 +1242,26 @@ void HU_Ticker(void)
 
             M_StringCopy(message, viewplayer->message, sizeof(message));
 
-            while (M_StringWidth(message) > SCREENWIDTH / SCREENSCALE - w_message.l.x * 2 - 6)
-            {
-                if (len >= 2 && message[len - 2] == ' ')
+            if (!vid_widescreen)
+                while (M_StringWidth(message) > SCREENWIDTH / SCREENSCALE - w_message.l.x * 2 - 6)
                 {
-                    message[len - 2] = '.';
-                    message[len - 1] = '.';
-                    message[len] = '.';
-                    message[len + 1] = '\0';
-                }
-                else if (len >= 1)
-                {
-                    message[len - 1] = '.';
-                    message[len] = '.';
-                    message[len + 1] = '.';
-                    message[len + 2] = '\0';
-                }
+                    if (len >= 2 && message[len - 2] == ' ')
+                    {
+                        message[len - 2] = '.';
+                        message[len - 1] = '.';
+                        message[len] = '.';
+                        message[len + 1] = '\0';
+                    }
+                    else if (len >= 1)
+                    {
+                        message[len - 1] = '.';
+                        message[len] = '.';
+                        message[len + 1] = '.';
+                        message[len + 2] = '\0';
+                    }
 
-                len--;
-            }
+                    len--;
+                }
 
             HUlib_AddMessageToSText(&w_message, message);
             message_fadeon = (!message_on || message_counter <= 5);
