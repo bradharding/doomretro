@@ -2032,6 +2032,9 @@ void I_InitGraphics(void)
         I_SDLError(SDL_SetHintWithPriority);
 #endif
 
+    if (!(SDL_SetHintWithPriority(SDL_HINT_MOUSE_RELATIVE_MODE_WARP, "1", SDL_HINT_OVERRIDE)))
+        I_SDLError(SDL_SetHintWithPriority);
+
     SetVideoMode(true, true);
 
     if (vid_fullscreen)

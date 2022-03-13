@@ -4588,8 +4588,8 @@ static void name_cmd_func2(char *cmd, char *parms)
         {
             M_StripQuotes(namecmdnew);
 
-            C_PlayerMessage("The %s%s nearest to %s has been %s " BOLD("%s") ".",
-                (namecmdfriendly ? "friendly " : ""), namecmdold, playername, (*bestmobj->name ? "renamed" : "named"), namecmdnew);
+            C_PlayerMessage("The nearest %s%s has been %s " BOLD("%s") ".",
+                (namecmdfriendly ? "friendly " : ""), namecmdold, (*bestmobj->name ? "renamed" : "named"), namecmdnew);
 
             M_StringCopy(bestmobj->name, namecmdnew, sizeof(bestmobj->name));
         }

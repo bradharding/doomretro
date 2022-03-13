@@ -433,9 +433,11 @@ midi_track_iter_t *MIDI_IterateTrack(midi_file_t *file, unsigned int track)
 
     assert(track < file->num_tracks);
 
-    iter = malloc(sizeof(*iter));
-    iter->track = &file->tracks[track];
-    iter->position = 0;
+    if ((iter = malloc(sizeof(*iter))))
+    {
+        iter->track = &file->tracks[track];
+        iter->position = 0;
+    }
 
     return iter;
 }
