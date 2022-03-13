@@ -2957,16 +2957,20 @@ static void kill_cmd_func2(char *cmd, char *parms)
                     if (M_StringCompare(playername, playername_default))
                     {
                         if (kills == 1)
-                            C_PlayerMessage("You killed the only monster in this map.");
+                            C_PlayerMessage("You killed the only monster %s this map.",
+                                (!totalkills ? "in" : "left in"));
                         else
-                            C_PlayerMessage("You killed %s monsters in this map.", temp);
+                            C_PlayerMessage("You killed %s monsters %s this map.",
+                                temp, (!totalkills ? "in" : "left in"));
                     }
                     else
                     {
                         if (kills == 1)
-                            C_PlayerMessage("%s killed the only monster in this map.", playername);
+                            C_PlayerMessage("%s killed the only monster %s this map.",
+                                playername, (!totalkills ? "in" : "left in"));
                         else
-                            C_PlayerMessage("%s killed %s monsters in this map.", playername, temp);
+                            C_PlayerMessage("%s killed %s monsters %s this map.",
+                                playername, temp, (!totalkills ? "in" : "left in"));
                     }
 
                     C_HideConsole();
@@ -3251,28 +3255,32 @@ static void kill_cmd_func2(char *cmd, char *parms)
                     if (M_StringCompare(playername, playername_default))
                     {
                         if (kills == 1)
-                            C_PlayerMessage("You %s the only %s in this map.",
+                            C_PlayerMessage("You %s the only %s %s this map.",
                                 (type == MT_BARREL ? "exploded" : "killed"),
-                                mobjinfo[type].name1);
+                                mobjinfo[type].name1,
+                                (!viewplayer->mobjcount[type] ? "in" : "left in"));
                         else
-                            C_PlayerMessage("You %s all the %s %s in this map.",
+                            C_PlayerMessage("You %s all %s %s %s this map.",
                                 (type == MT_BARREL ? "exploded" : "killed"),
                                 temp,
-                                mobjinfo[type].plural1);
+                                mobjinfo[type].plural1,
+                                (!viewplayer->mobjcount[type] ? "in" : "left in"));
                     }
                     else
                     {
                         if (kills == 1)
-                            C_PlayerMessage("%s %s the only %s in this map.",
+                            C_PlayerMessage("%s %s the only %s %s this map.",
                                 playername,
                                 (type == MT_BARREL ? "exploded" : "killed"),
-                                mobjinfo[type].name1);
+                                mobjinfo[type].name1,
+                                (!viewplayer->mobjcount[type] ? "in" : "left in"));
                         else
-                            C_PlayerMessage("%s %s all the %s %s in this map.",
+                            C_PlayerMessage("%s %s all %s %s %s this map.",
                                 playername,
                                 (type == MT_BARREL ? "exploded" : "killed"),
                                 temp,
-                                mobjinfo[type].plural1);
+                                mobjinfo[type].plural1,
+                                (!viewplayer->mobjcount[type] ? "in" : "left in"));
                     }
 
                     C_HideConsole();
