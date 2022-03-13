@@ -11,7 +11,7 @@
 * Sprites in liquid sectors now bob correctly if in view when the player is first spawned into a map and the `r_liquid_bob` CVAR is `on`.
 * The main menu now displays correctly when certain PWADs with custom menu lumps are loaded.
 * All sound effects now stop playing the moment either the menu or console are opened, or the game is paused.
-* The red effect when the player is injured now quickly fades if the menu is opened.
+* The red effect when the player is injured now fades if the menu is opened.
 * The red effect when the player is injured now fades quicker than before if the console is opened.
 * Use of the mouse is no longer lost if the external automap is shown on another display when the `am_external` CVAR is `on`.
 * The new `explode` CCMD is now used instead of the `kill` CCMD to explode all `barrels` or `missiles` in the map.

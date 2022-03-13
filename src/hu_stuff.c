@@ -1102,7 +1102,7 @@ void HU_Drawer(void)
             int width = M_StringWidth(w_message.l.l);
 
             if (width > SCREENWIDTH / SCREENSCALE - w_message.l.x * 2 - 6)
-                w_message.l.x = (SCREENWIDTH / SCREENSCALE - M_StringWidth(w_message.l.l)) / 2;
+                w_message.l.x = (SCREENWIDTH / SCREENSCALE - width) / 2;
             else
                 w_message.l.x = HU_MSGX + WIDESCREENDELTA;
 
