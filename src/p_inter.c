@@ -1685,6 +1685,8 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
     {
         if (inflicter && inflicter->type == MT_BARREL && target->type != MT_BARREL)
         {
+            char    *inflictername = inflicter->info->name1;
+
             if (target->player)
             {
                 if (inflicter->inflicter == MT_PLAYER)
@@ -1692,14 +1694,14 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
                     if (M_StringCompare(playername, playername_default))
                         C_PlayerObituary("You were %s by %s %s that you exploded.",
                             (gibbed ? "gibbed" : "killed"),
-                            (*inflicter->info->name1 && isvowel(inflicter->info->name1[0]) ? "an" : "a"),
-                            (*inflicter->info->name1 ? inflicter->info->name1 : "monster"));
+                            (inflictername && isvowel(inflictername[0]) ? "an" : "a"),
+                            (inflictername ? inflictername : "barrel"));
                     else
                         C_PlayerObituary("%s was %s by %s %s that %s exploded.",
                             playername,
                             (gibbed ? "gibbed" : "killed"),
-                            (*inflicter->info->name1 && isvowel(inflicter->info->name1[0]) ? "an" : "a"),
-                            (*inflicter->info->name1 ? inflicter->info->name1 : "monster"),
+                            (inflictername && isvowel(inflictername[0]) ? "an" : "a"),
+                            (inflictername ? inflictername : "barrel"),
                             pronoun(personal));
                 }
                 else
@@ -1707,20 +1709,20 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
                     if (M_StringCompare(playername, playername_default))
                         C_PlayerObituary("You were %s by %s %s that %s %s exploded.",
                             (gibbed ? "gibbed" : "killed"),
-                            (*inflicter->info->name1 && isvowel(inflicter->info->name1[0]) ? "an" : "a"),
-                            (*inflicter->info->name1 ? inflicter->info->name1 : "monster"),
+                            (inflictername && isvowel(inflictername[0]) ? "an" : "a"),
+                            (inflictername ? inflictername : "barrel"),
                             (inflicter->type == inflicter->inflicter
-                                || M_StringCompare(inflicter->info->name1, mobjinfo[inflicter->inflicter].name1) ? "another" :
+                                || M_StringCompare(inflictername, mobjinfo[inflicter->inflicter].name1) ? "another" :
                                 (isvowel(mobjinfo[inflicter->inflicter].name1[0]) ? "an" : "a")),
                             (*mobjinfo[inflicter->inflicter].name1 ? mobjinfo[inflicter->inflicter].name1 : "monster"));
                     else
                         C_PlayerObituary("%s was %s by %s %s that %s %s exploded.",
                             playername,
                             (gibbed ? "gibbed" : "killed"),
-                            (*inflicter->info->name1 && isvowel(inflicter->info->name1[0]) ? "an" : "a"),
-                            (*inflicter->info->name1 ? inflicter->info->name1 : "monster"),
+                            (inflictername && isvowel(inflictername[0]) ? "an" : "a"),
+                            (inflictername ? inflictername : "barrel"),
                             (inflicter->type == inflicter->inflicter
-                                || M_StringCompare(inflicter->info->name1, mobjinfo[inflicter->inflicter].name1) ? "another" :
+                                || M_StringCompare(inflictername, mobjinfo[inflicter->inflicter].name1) ? "another" :
                                 (isvowel(mobjinfo[inflicter->inflicter].name1[0]) ? "an" : "a")),
                             (*mobjinfo[inflicter->inflicter].name1 ? mobjinfo[inflicter->inflicter].name1 : "monster"));
                 }
@@ -1745,23 +1747,23 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
                     C_PlayerObituary("%s was %s by %s %s that %s exploded.",
                         temp,
                         (gibbed ? "gibbed" : "killed"),
-                        (*inflicter->info->name1 && isvowel(inflicter->info->name1[0]) ? "an" : "a"),
-                        (*inflicter->info->name1 ? inflicter->info->name1 : "monster"),
+                        (inflictername && isvowel(inflictername[0]) ? "an" : "a"),
+                        (inflictername ? inflictername : "barrel"),
                         playername);
-                else if (inflicter == target)
+                else if (source == target)
                     C_PlayerObituary("%s was %s by %s %s that they exploded.",
                         temp,
                         (gibbed ? "gibbed" : "killed"),
-                        (*inflicter->info->name1 && isvowel(inflicter->info->name1[0]) ? "an" : "a"),
-                        (*inflicter->info->name1 ? inflicter->info->name1 : "monster"));
+                        (inflictername && isvowel(inflictername[0]) ? "an" : "a"),
+                        (inflictername ? inflictername : "barrel"));
                 else
                     C_PlayerObituary("%s was %s by %s %s that %s %s exploded.",
                         temp,
                         (gibbed ? "gibbed" : "killed"),
-                        (*inflicter->info->name1 && isvowel(inflicter->info->name1[0]) ? "an" : "a"),
-                        (*inflicter->info->name1 ? inflicter->info->name1 : "monster"),
+                        (inflictername && isvowel(inflictername[0]) ? "an" : "a"),
+                        (inflictername ? inflictername : "barrel"),
                         (inflicter->type == inflicter->inflicter
-                            || M_StringCompare(inflicter->info->name1, mobjinfo[inflicter->inflicter].name1) ? "another" :
+                            || M_StringCompare(inflictername, mobjinfo[inflicter->inflicter].name1) ? "another" :
                             (*mobjinfo[inflicter->inflicter].name1 && isvowel(mobjinfo[inflicter->inflicter].name1[0]) ? "an" : "a")),
                         (*mobjinfo[inflicter->inflicter].name1 ? mobjinfo[inflicter->inflicter].name1 : "monster"));
 
