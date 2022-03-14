@@ -3098,8 +3098,11 @@ static void kill_cmd_func2(char *cmd, char *parms)
 
                     while (thing)
                     {
-                        if (((thing->flags & MF_SHOOTABLE) && !thing->player) || (thing->flags & MF_SPECIAL)
-                            || (thing->flags2 & MF2_DECORATION) || (thing->flags2 & MF2_MONSTERMISSILE))
+                        const int   flags = thing->flags;
+                        const int   flags2 = thing->flags2;
+
+                        if (((flags & MF_SHOOTABLE) && !thing->player) || (flags & MF_CORPSE) || (flags & MF_SPECIAL)
+                            || (flags2 & MF2_DECORATION) || (flags2 & MF2_MONSTERMISSILE))
                         {
                             P_RemoveMobj(thing);
                             kills++;
