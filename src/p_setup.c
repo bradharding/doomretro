@@ -734,7 +734,7 @@ static void P_CheckLinedefs(void)
                         "-compatible" : (ld->special < MBF21LINESPECIALS ? "an " ITALICS("MBF") "-compatible" : "an " ITALICS("MBF21")
                         "-compatible"))), temp2, linespecials[ld->special]);
                 else
-                    C_Warning(2, "Linedef %s has the " ITALICS("BOOM") "-compatible generalized line special %s but no tag.", temp1, temp2);
+                    C_Warning(2, "Linedef %s has a " ITALICS("BOOM") "-compatible generalized line special %s but no tag.", temp1, temp2);
 
                 free(temp1);
                 free(temp2);
@@ -751,7 +751,7 @@ static void P_CheckLinedefs(void)
                         "-compatible" : (ld->special < MBF21LINESPECIALS ? "an " ITALICS("MBF") "-compatible" : "an " ITALICS("MBF21")
                         "-compatible"))), temp2, linespecials[ld->special], temp3);
                 else
-                    C_Warning(2, "Linedef %s has the " ITALICS("BOOM") "-compatible generalized line special %s but an unknown tag of %s.",
+                    C_Warning(2, "Linedef %s has a " ITALICS("BOOM") "-compatible generalized line special %s but an unknown tag of %s.",
                         temp1, temp2, temp3);
 
                 free(temp1);

@@ -2,7 +2,9 @@
 
 #### DOOM Retro v4.4.10
 
+* Minor changes have been made to text that is output to the console.
 * The automap will now update correctly again if the player moves around while it is open.
+* Text displayed in the top right of the screen while the automap is open is now less translucent.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
