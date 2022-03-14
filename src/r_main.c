@@ -1016,17 +1016,17 @@ void R_RenderPlayerView(void)
 {
     R_SetupFrame();
 
-    if (automapactive)
-    {
-        R_RenderBSPNode(numnodes - 1);
-        return;
-    }
-
     // Clear buffers.
     R_ClearClipSegs();
     R_ClearDrawSegs();
     R_ClearPlanes();
     R_ClearSprites();
+
+    if (automapactive)
+    {
+        R_RenderBSPNode(numnodes - 1);
+        return;
+    }
 
     if (r_homindicator)
         V_FillRect(0, viewwindowx, viewwindowy, viewwidth, viewheight, ((leveltime % 20) < 9 ? nearestred :

@@ -2,6 +2,8 @@
 
 #### DOOM Retro v4.4.10
 
+* The automap will now update correctly again if the player moves around while it is open.
+
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Monday, March 14, 2022
