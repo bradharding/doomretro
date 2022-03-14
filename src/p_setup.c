@@ -729,12 +729,12 @@ static void P_CheckLinedefs(void)
                 char    *temp2 = commify(ld->special);
 
                 if (ld->special < NUMLINESPECIALS)
-                    C_Warning(2, "Linedef %s has %s line special %s (\"%s\") but no tag.",
+                    C_Warning(2, "Linedef %s has %s line special of %s (\"%s\") but no tag.",
                         temp1, (ld->special < BOOMLINESPECIALS ? "a" : (ld->special < MBFLINESPECIALS ? "a " ITALICS("BOOM")
                         "-compatible" : (ld->special < MBF21LINESPECIALS ? "an " ITALICS("MBF") "-compatible" : "an " ITALICS("MBF21")
                         "-compatible"))), temp2, linespecials[ld->special]);
                 else
-                    C_Warning(2, "Linedef %s has a " ITALICS("BOOM") "-compatible generalized line special %s but no tag.", temp1, temp2);
+                    C_Warning(2, "Linedef %s has a " ITALICS("BOOM") "-compatible generalized line special of %s but no tag.", temp1, temp2);
 
                 free(temp1);
                 free(temp2);
@@ -746,12 +746,12 @@ static void P_CheckLinedefs(void)
                 char    *temp3 = commify(ld->tag);
 
                 if (ld->special < NUMLINESPECIALS)
-                    C_Warning(2, "Linedef %s has %s line special %s (\"%s\") but an unknown tag of %s.",
+                    C_Warning(2, "Linedef %s has %s line special of %s (\"%s\") but an unknown tag of %s.",
                         temp1, (ld->special < BOOMLINESPECIALS ? "a" : (ld->special < MBFLINESPECIALS ? "a " ITALICS("BOOM")
                         "-compatible" : (ld->special < MBF21LINESPECIALS ? "an " ITALICS("MBF") "-compatible" : "an " ITALICS("MBF21")
                         "-compatible"))), temp2, linespecials[ld->special], temp3);
                 else
-                    C_Warning(2, "Linedef %s has a " ITALICS("BOOM") "-compatible generalized line special %s but an unknown tag of %s.",
+                    C_Warning(2, "Linedef %s has a " ITALICS("BOOM") "-compatible generalized line special of %s but an unknown tag of %s.",
                         temp1, temp2, temp3);
 
                 free(temp1);
