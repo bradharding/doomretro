@@ -730,8 +730,8 @@ static void P_CheckLinedefs(void)
 
                 if (ld->special < NUMLINESPECIALS)
                     C_Warning(2, "Linedef %s has %s line special %s (\"%s\") but no tag.",
-                        temp1, (ld->special < BOOMLINESPECIALS ? "the" : (ld->special < MBFLINESPECIALS ? "the " ITALICS("BOOM")
-                        "-compatible" : (ld->special < MBF21LINESPECIALS ? "the " ITALICS("MBF") "-compatible" : "the " ITALICS("MBF21")
+                        temp1, (ld->special < BOOMLINESPECIALS ? "a" : (ld->special < MBFLINESPECIALS ? "a " ITALICS("BOOM")
+                        "-compatible" : (ld->special < MBF21LINESPECIALS ? "an " ITALICS("MBF") "-compatible" : "an " ITALICS("MBF21")
                         "-compatible"))), temp2, linespecials[ld->special]);
                 else
                     C_Warning(2, "Linedef %s has the " ITALICS("BOOM") "-compatible generalized line special %s but no tag.", temp1, temp2);
@@ -747,8 +747,8 @@ static void P_CheckLinedefs(void)
 
                 if (ld->special < NUMLINESPECIALS)
                     C_Warning(2, "Linedef %s has %s line special %s (\"%s\") but an unknown tag of %s.",
-                        temp1, (ld->special < BOOMLINESPECIALS ? "the" : (ld->special < MBFLINESPECIALS ? "the " ITALICS("BOOM")
-                        "-compatible" : (ld->special < MBF21LINESPECIALS ? "the " ITALICS("MBF") "-compatible" : "the " ITALICS("MBF21")
+                        temp1, (ld->special < BOOMLINESPECIALS ? "a" : (ld->special < MBFLINESPECIALS ? "a " ITALICS("BOOM")
+                        "-compatible" : (ld->special < MBF21LINESPECIALS ? "an " ITALICS("MBF") "-compatible" : "an " ITALICS("MBF21")
                         "-compatible"))), temp2, linespecials[ld->special], temp3);
                 else
                     C_Warning(2, "Linedef %s has the " ITALICS("BOOM") "-compatible generalized line special %s but an unknown tag of %s.",
