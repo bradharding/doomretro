@@ -3038,6 +3038,8 @@ static void kill_cmd_func2(char *cmd, char *parms)
                     {
                         if (thing->flags & MF_SPECIAL)
                         {
+                            P_SpawnMobj(thing->x, thing->y, thing->z, MT_IFOG);
+                            S_StartSound(thing, sfx_itmbk);
                             P_RemoveMobj(thing);
                             kills++;
                         }
@@ -3073,6 +3075,8 @@ static void kill_cmd_func2(char *cmd, char *parms)
                     {
                         if (thing->flags2 & MF2_DECORATION)
                         {
+                            P_SpawnMobj(thing->x, thing->y, thing->z, MT_TFOG);
+                            S_StartSound(thing, sfx_telept);
                             P_RemoveMobj(thing);
                             kills++;
                         }
@@ -3109,9 +3113,24 @@ static void kill_cmd_func2(char *cmd, char *parms)
                         const int   flags = thing->flags;
                         const int   flags2 = thing->flags2;
 
-                        if (((flags & MF_SHOOTABLE) && !thing->player) || (flags & MF_CORPSE) || (flags & MF_SPECIAL)
-                            || (flags2 & MF2_DECORATION) || (flags2 & MF2_MONSTERMISSILE))
+                        if (((flags & MF_SHOOTABLE) && !thing->player) || (flags & MF_CORPSE) || (flags2 & MF2_DECORATION))
                         {
+                            P_SpawnMobj(thing->x, thing->y, thing->z, MT_TFOG);
+                            S_StartSound(thing, sfx_telept);
+                            P_RemoveMobj(thing);
+                            kills++;
+                        }
+                        else if ((flags & MF_SPECIAL) || (flags2 & MF2_MONSTERMISSILE))
+                        {
+                            P_SpawnMobj(thing->x, thing->y, thing->z, MT_IFOG);
+                            S_StartSound(thing, sfx_itmbk);
+                            P_RemoveMobj(thing);
+                            kills++;
+                        }
+                        else if (flags2 & MF2_MONSTERMISSILE)
+                        {
+                            P_SpawnMobj(thing->x, thing->y, thing->z, MT_IFOG);
+                            S_StartSound(thing, sfx_itmbk);
                             P_RemoveMobj(thing);
                             kills++;
                         }
@@ -3144,6 +3163,8 @@ static void kill_cmd_func2(char *cmd, char *parms)
                     {
                         if (thing->flags & MF_CORPSE)
                         {
+                            P_SpawnMobj(thing->x, thing->y, thing->z, MT_TFOG);
+                            S_StartSound(thing, sfx_telept);
                             P_RemoveMobj(thing);
                             kills++;
                         }
@@ -3211,7 +3232,6 @@ static void kill_cmd_func2(char *cmd, char *parms)
             else
             {
                 const mobjtype_t    type = P_FindDoomedNum(killcmdtype);
-                int                 dead = 0;
 
                 for (int i = 0; i < numsectors; i++)
                 {
