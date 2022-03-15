@@ -2899,6 +2899,7 @@ static void kill_cmd_func2(char *cmd, char *parms)
             dboolean    enemies = (M_StringCompare(parm, "monster") || M_StringCompare(parm, "monsters"));
             dboolean    all = M_StringCompare(parm, "all");
             int         kills = 0;
+            int         dead = 0;
 
             if (friends || enemies || all)
             {
@@ -2925,13 +2926,18 @@ static void kill_cmd_func2(char *cmd, char *parms)
 
                                 if (type == MT_PAIN)
                                 {
-                                    A_Fall(thing, NULL, NULL);
-                                    P_SetMobjState(thing, S_PAIN_DIE6);
-                                    viewplayer->mobjcount[MT_PAIN]++;
-                                    stat_monsterskilled_painelementals = SafeAdd(stat_monsterskilled_painelementals, 1);
-                                    viewplayer->killcount++;
-                                    stat_monsterskilled = SafeAdd(stat_monsterskilled, 1);
-                                    kills++;
+                                    if (thing->health > 0)
+                                    {
+                                        A_Fall(thing, NULL, NULL);
+                                        P_SetMobjState(thing, S_PAIN_DIE6);
+                                        viewplayer->mobjcount[MT_PAIN]++;
+                                        stat_monsterskilled_painelementals = SafeAdd(stat_monsterskilled_painelementals, 1);
+                                        viewplayer->killcount++;
+                                        stat_monsterskilled = SafeAdd(stat_monsterskilled, 1);
+                                        kills++;
+                                    }
+                                    else
+                                        dead++;
                                 }
                                 else if ((flags & MF_SHOOTABLE) && type != MT_PLAYER && type != MT_BARREL && (type != MT_HEAD || !hacx))
                                 {
@@ -2943,6 +2949,8 @@ static void kill_cmd_func2(char *cmd, char *parms)
 
                                     kills++;
                                 }
+                                else if (thing->flags & MF_CORPSE)
+                                    dead++;
                             }
                         }
 
@@ -2958,19 +2966,19 @@ static void kill_cmd_func2(char *cmd, char *parms)
                     {
                         if (kills == 1)
                             C_PlayerMessage("You killed the only monster %s this map.",
-                                (!totalkills ? "in" : "left in"));
+                                (!dead ? "in" : "left in"));
                         else
-                            C_PlayerMessage("You killed %s monsters %s this map.",
-                                temp, (!totalkills ? "in" : "left in"));
+                            C_PlayerMessage("You killed the %s monsters %s this map.",
+                                temp, (!dead ? "in" : "left in"));
                     }
                     else
                     {
                         if (kills == 1)
                             C_PlayerMessage("%s killed the only monster %s this map.",
-                                playername, (!totalkills ? "in" : "left in"));
+                                playername, (!dead ? "in" : "left in"));
                         else
-                            C_PlayerMessage("%s killed %s monsters %s this map.",
-                                playername, temp, (!totalkills ? "in" : "left in"));
+                            C_PlayerMessage("%s killed the %s monsters %s this map.",
+                                playername, temp, (!dead ? "in" : "left in"));
                     }
 
                     C_HideConsole();
@@ -2980,7 +2988,7 @@ static void kill_cmd_func2(char *cmd, char *parms)
                     free(temp);
                 }
                 else
-                    C_Warning(0, "There are no monsters %s kill.", (!totalkills ? "to" : "left to"));
+                    C_Warning(0, "There are no monsters %s kill.", (!dead ? "to" : "left to"));
             }
             else if (M_StringCompare(parm, "missile") || M_StringCompare(parm, "missiles"))
             {
@@ -3261,13 +3269,13 @@ static void kill_cmd_func2(char *cmd, char *parms)
                             C_PlayerMessage("You %s the only %s %s this map.",
                                 (type == MT_BARREL ? "exploded" : "killed"),
                                 mobjinfo[type].name1,
-                                (!viewplayer->mobjcount[type] ? "in" : "left in"));
+                                (!dead ? "in" : "left in"));
                         else
                             C_PlayerMessage("You %s all %s %s %s this map.",
                                 (type == MT_BARREL ? "exploded" : "killed"),
                                 temp,
                                 mobjinfo[type].plural1,
-                                (!viewplayer->mobjcount[type] ? "in" : "left in"));
+                                (!dead ? "in" : "left in"));
                     }
                     else
                     {
@@ -3276,14 +3284,14 @@ static void kill_cmd_func2(char *cmd, char *parms)
                                 playername,
                                 (type == MT_BARREL ? "exploded" : "killed"),
                                 mobjinfo[type].name1,
-                                (!viewplayer->mobjcount[type] ? "in" : "left in"));
+                                (!dead ? "in" : "left in"));
                         else
                             C_PlayerMessage("%s %s all %s %s %s this map.",
                                 playername,
                                 (type == MT_BARREL ? "exploded" : "killed"),
                                 temp,
                                 mobjinfo[type].plural1,
-                                (!viewplayer->mobjcount[type] ? "in" : "left in"));
+                                (!dead ? "in" : "left in"));
                     }
 
                     C_HideConsole();
