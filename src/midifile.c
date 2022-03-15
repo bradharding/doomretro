@@ -469,7 +469,7 @@ unsigned int MIDI_GetFileTimeDivision(midi_file_t *file)
 
     // Negative time division indicates SMPTE time and must be handled differently.
     if (result < 0)
-        return ((-result / 256) * (result & 0xFF));
+        return (-result / 256 * (result & 0xFF));
 
     return result;
 }

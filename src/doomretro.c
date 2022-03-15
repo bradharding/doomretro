@@ -54,7 +54,6 @@ int windowborderwidth = 0;
 int windowborderheight = 0;
 
 #if defined(_WIN32)
-
 #if !defined(SM_CXPADDEDBORDER)
 #define SM_CXPADDEDBORDER   92
 #endif
