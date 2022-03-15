@@ -68,12 +68,12 @@ static dboolean ReadByte(byte *result, SDL_RWops *stream)
 // Read a variable-length value.
 static dboolean ReadVariableLength(unsigned int *result, SDL_RWops *stream)
 {
-    byte    b = 0;
-
     *result = 0;
 
     for (int i = 0; i < 4; i++)
     {
+        byte    b;
+
         if (!ReadByte(&b, stream))
             return false;
 
@@ -114,7 +114,7 @@ static void *ReadByteSequence(unsigned int num_bytes, SDL_RWops *stream)
 // (three byte) otherwise it is single parameter (two byte)
 static dboolean ReadChannelEvent(midi_event_t *event, byte event_type, dboolean two_param, SDL_RWops *stream)
 {
-    byte    b = 0;
+    byte    b;
 
     // Set basics
     event->event_type = (event_type & 0xF0);
@@ -158,7 +158,7 @@ static dboolean ReadSysExEvent(midi_event_t *event, int event_type, SDL_RWops *s
 // Read meta event
 static dboolean ReadMetaEvent(midi_event_t *event, SDL_RWops *stream)
 {
-    byte    b = 0;
+    byte    b;
 
     event->event_type = MIDI_EVENT_META;
 
@@ -446,11 +446,7 @@ midi_track_iter_t *MIDI_IterateTrack(midi_file_t *file, unsigned int track)
 unsigned int MIDI_GetDeltaTime(midi_track_iter_t *iter)
 {
     if (iter->position < iter->track->num_events)
-    {
-        midi_event_t    *next_event = &iter->track->events[iter->position];
-
-        return next_event->delta_time;
-    }
+        return iter->track->events[iter->position].delta_time;
 
     return 0;
 }
@@ -473,7 +469,7 @@ unsigned int MIDI_GetFileTimeDivision(midi_file_t *file)
 
     // Negative time division indicates SMPTE time and must be handled differently.
     if (result < 0)
-        return ((signed int)(-result / 256) * (signed int)(result & 0xFF));
+        return ((-result / 256) * (result & 0xFF));
 
     return result;
 }
