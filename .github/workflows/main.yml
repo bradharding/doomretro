@@ -13,4 +13,4 @@ jobs:
       - uses: actions/checkout@v1
       
       - name: Make
-        run: $GITHUB_WORKSPACE/main.sh clean
+        run: scripts/main.sh clean
