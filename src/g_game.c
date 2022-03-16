@@ -292,13 +292,21 @@ void G_BuildTiccmd(ticcmd_t *cmd)
     else
     {
         if (gamekeydown[keyboardright] || mousebuttons[mouseright] || (gamecontrollerbuttons & gamecontrollerright))
+        {
             cmd->angleturn -= angleturn[(turnheld < SLOWTURNTICS ? 2 : run)];
+
+            if (!menuactive)
+                spindirection = SIGN(cmd->angleturn);
+        }
         else if (gamecontrollerthumbRX > 0)
         {
             fixed_t x = gamecontrollerthumbRX * 2;
 
             cmd->angleturn -= FixedMul(gamecontrollerangleturn[run],
                 (fixed_t)(gamecontrollerhorizontalsensitivity * FixedMul(FixedMul(x, x), x)));
+
+            if (!menuactive)
+                spindirection = SIGN(cmd->angleturn);
         }
 
         if (gamekeydown[keyboardleft] || mousebuttons[mouseright] || (gamecontrollerbuttons & gamecontrollerleft))
@@ -309,10 +317,10 @@ void G_BuildTiccmd(ticcmd_t *cmd)
 
             cmd->angleturn -= FixedMul(gamecontrollerangleturn[run],
                 (fixed_t)(gamecontrollerhorizontalsensitivity * FixedMul(FixedMul(x, x), x)));
-        }
 
-        if (!menuactive)
-            spindirection = SIGN(cmd->angleturn);
+            if (!menuactive)
+                spindirection = SIGN(cmd->angleturn);
+        }
     }
 
     if (gamecontrollerthumbRY)
