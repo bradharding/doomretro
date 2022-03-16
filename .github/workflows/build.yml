@@ -13,4 +13,4 @@ jobs:
       - uses: actions/checkout@v1
       
       - name: Make
-        run: scripts/main.sh clean
+        run: scripts/build.sh clean
