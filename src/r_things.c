@@ -367,7 +367,7 @@ static int64_t  shadowshift;
 
 static void (*shadowcolfunc)(void);
 
-static void R_BlastShadowColumn(const rcolumn_t *column)
+static void inline R_BlastShadowColumn(const rcolumn_t *column)
 {
     while (dc_numposts--)
     {
@@ -380,7 +380,7 @@ static void R_BlastShadowColumn(const rcolumn_t *column)
     }
 }
 
-static void R_BlastSpriteColumn(const rcolumn_t *column)
+static void inline R_BlastSpriteColumn(const rcolumn_t *column)
 {
     unsigned char   *pixels = column->pixels;
 
@@ -400,7 +400,7 @@ static void R_BlastSpriteColumn(const rcolumn_t *column)
     }
 }
 
-static void R_BlastPlayerSpriteColumn(const rcolumn_t *column)
+static void inline R_BlastPlayerSpriteColumn(const rcolumn_t *column)
 {
     unsigned char   *pixels = column->pixels;
 
@@ -420,7 +420,7 @@ static void R_BlastPlayerSpriteColumn(const rcolumn_t *column)
     }
 }
 
-static void R_BlastBloodSplatColumn(const rcolumn_t *column)
+static void inline R_BlastBloodSplatColumn(const rcolumn_t *column)
 {
     while (dc_numposts--)
     {

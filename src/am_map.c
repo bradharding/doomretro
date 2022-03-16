@@ -145,52 +145,57 @@ typedef struct
     mpoint_t    b;
 } mline_t;
 
-dboolean        automapactive;
+dboolean            automapactive;
 
-static mpoint_t m_paninc;       // how far the window pans each tic (map coords)
-static fixed_t  mtof_zoommul;   // how far the window zooms in each tic (map coords)
-static fixed_t  ftom_zoommul;   // how far the window zooms in each tic (fb coords)
+static mpoint_t     m_paninc;       // how far the window pans each tic (map coords)
+static fixed_t      mtof_zoommul;   // how far the window zooms in each tic (map coords)
+static fixed_t      ftom_zoommul;   // how far the window zooms in each tic (fb coords)
 
 // LL x,y where the window is on the map (map coords)
-static fixed_t  m_x = FIXED_MAX, m_y = FIXED_MAX;
+static fixed_t      m_x = FIXED_MAX, m_y = FIXED_MAX;
 
 // width/height of window on map (map coords)
-static fixed_t  m_w, m_h;
+static fixed_t      m_w, m_h;
 
 // based on level size
-static fixed_t  min_x, min_y;
-static fixed_t  max_x, max_y;
+static fixed_t      min_x, min_y;
+static fixed_t      max_x, max_y;
 
-static fixed_t  min_scale_mtof; // used to tell when to stop zooming out
-static fixed_t  max_scale_mtof; // used to tell when to stop zooming in
+static fixed_t      min_scale_mtof; // used to tell when to stop zooming out
+static fixed_t      max_scale_mtof; // used to tell when to stop zooming in
 
 // old stuff for recovery later
-static fixed_t  old_m_w, old_m_h;
-static fixed_t  old_m_x, old_m_y;
+static fixed_t      old_m_w, old_m_h;
+static fixed_t      old_m_x, old_m_y;
 
 // used by MTOF to scale from map-to-frame-buffer coords
-static fixed_t  scale_mtof;
+static fixed_t      scale_mtof;
 
 // used by FTOM to scale from frame-buffer-to-map coords (=1/scale_mtof)
-static fixed_t  scale_ftom;
+static fixed_t      scale_ftom;
 
-mpoint_t        *markpoints;    // where the points are
-int             markpointnum;   // next point to be assigned
-int             markpointnum_max;
+int                 lastlevel = -1;
+int                 lastepisode = -1;
 
-mpoint_t        *pathpoints;
-int             pathpointnum;
-int             pathpointnum_max;
+mpoint_t            *markpoints;    // where the points are
+int                 markpointnum;   // next point to be assigned
+int                 markpointnum_max;
 
-static int      gridwidth;
-static int      gridheight;
+mpoint_t            *pathpoints;
+int                 pathpointnum;
+int                 pathpointnum_max;
 
-static dboolean bigstate;
-static dboolean movement;
-int             keydown;
-int             direction;
+static int          gridwidth;
+static int          gridheight;
 
-am_frame_t      am_frame;
+static dboolean     bigstate;
+static dboolean     movement;
+static dboolean     speedtoggle;
+static SDL_Keymod   modstate;
+int                 keydown;
+int                 direction;
+
+am_frame_t          am_frame;
 
 static dboolean isteleportline[NUMLINESPECIALS];
 
@@ -423,9 +428,6 @@ void AM_Stop(void)
     HU_ClearMessages();
 }
 
-int lastlevel = -1;
-int lastepisode = -1;
-
 void AM_Start(const dboolean mainwindow)
 {
     if (lastlevel != gamemap || lastepisode != gameepisode || !mainwindow)
@@ -462,9 +464,6 @@ static void AM_MaxOutWindowScale(void)
     scale_ftom = FixedDiv(FRACUNIT, scale_mtof);
     AM_ActivateNewScale();
 }
-
-static SDL_Keymod   modstate;
-static dboolean     speedtoggle;
 
 static dboolean AM_GetSpeedToggle(void)
 {
@@ -1731,7 +1730,7 @@ static void AM_DrawThingTriangle(const mline_t *lineguy, const int lineguylines,
 }
 
 #define PLAYERARROWLINES        8
-#define CHEATPLAYERARROWLINES   19
+#define CHEATPLAYERARROWLINES  19
 
 static void AM_DrawPlayer(void)
 {
