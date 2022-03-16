@@ -1285,16 +1285,17 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, dboolean spawnmonsters)
 
     info = mobj->info;
 
-    // [BH] spawn blood splats around corpses
-    if (!(flags & (MF_SHOOTABLE | MF_NOBLOOD | MF_SPECIAL)) && mobj->blood && !chex
-        && (!hacx || !(mobj->flags2 & MF2_DECORATION)) && r_bloodsplats_max
-        && (BTSX || REKKR || lumpinfo[firstspritelump + sprites[mobj->sprite].spriteframes[0].lump[0]]->wadfile->type != PWAD))
-    {
-        mobj->bloodsplats = CORPSEBLOODSPLATS;
+    mobj->bloodsplats = CORPSEBLOODSPLATS;
 
-        if (r_corpses_moreblood && mobj->subsector->sector->terraintype == SOLID)
-            P_SpawnMoreBlood(mobj);
-    }
+    // [BH] spawn blood splats around corpses
+    if (r_corpses_moreblood
+        && r_bloodsplats_max
+        && !(flags & (MF_SHOOTABLE | MF_NOBLOOD | MF_SPECIAL))
+        && mobj->blood
+        && (!hacx || !(mobj->flags2 & MF2_DECORATION))
+        && (moreblood || lumpinfo[firstspritelump + sprites[mobj->sprite].spriteframes[0].lump[0]]->wadfile->type != PWAD)
+        && mobj->subsector->sector->terraintype == SOLID)
+        P_SpawnMoreBlood(mobj);
 
     // [crispy] randomly colorize player corpses
     if (info->spawnstate == S_PLAY_DIE7 || info->spawnstate == S_PLAY_XDIE9)

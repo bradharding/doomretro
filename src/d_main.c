@@ -930,6 +930,8 @@ static void D_CheckSupportedPWAD(char *filename)
         chex = chex1 = true;
     else if (M_StringCompare(leaf, "chex2.wad"))
         chex = chex2 = true;
+    else if (M_StringCompare(leaf, "aaliens.wad"))
+        moreblood = true;
     else if (M_StringCompare(leaf, "btsx_e1.wad"))
         BTSX = BTSXE1 = true;
     else if (M_StringCompare(leaf, "btsx_e1a.wad"))
@@ -964,6 +966,9 @@ static void D_CheckSupportedPWAD(char *filename)
     else if (M_StringCompare(leaf, "REKKRSL.wad")
         || M_StringCompare(leaf, "REKKRSL.iwad"))
         REKKR = REKKRSL = true;
+
+    if (BTSX || REKKR)
+        moreblood = true;
 }
 
 static dboolean D_IsUnsupportedPWAD(char *filename)

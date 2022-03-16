@@ -74,6 +74,8 @@ dboolean        REKKR;
 dboolean        REKKRSA;
 dboolean        REKKRSL;
 
+dboolean        moreblood;
+
 // Set if homebrew PWAD stuff has been added.
 dboolean        modifiedgame = false;
 

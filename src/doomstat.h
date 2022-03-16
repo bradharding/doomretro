@@ -119,6 +119,8 @@ extern dboolean         REKKR;
 extern dboolean         REKKRSA;
 extern dboolean         REKKRSL;
 
+extern dboolean         moreblood;
+
 extern dboolean         DMENUPIC;
 extern dboolean         DSSECRET;
 extern dboolean         FREEDOOM;
