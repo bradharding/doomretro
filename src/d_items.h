@@ -60,27 +60,27 @@ enum wepflags_e
 // Weapon info: sprite frames, ammunition use.
 typedef struct
 {
-    char        name[255];
-    ammotype_t  ammotype;
-    char        ammoname[255];
-    char        ammoplural[255];
-    int         ammopershot;
-    int         upstate;
-    int         downstate;
-    int         readystate;
-    int         atkstate;
-    int         flashstate;
-    int         recoil;
-    int         strength;
-    int         tics;
-    int         prev;
-    int         next;
-    char        spritename[9];
+    char            name[255];
+    ammotype_t      ammotype;
+    char            ammoname[255];
+    char            ammoplural[255];
+    int             ammopershot;
+    int             upstate;
+    int             downstate;
+    int             readystate;
+    int             atkstate;
+    int             flashstate;
+    int             recoil;
+    int             strength;
+    int             tics;
+    weapontype_t    prev;
+    weapontype_t    next;
+    char            spritename[9];
 
     // MBF21
-    int         flags;
+    int             flags;
 
-    dboolean    altered;
+    dboolean        altered;
 } weaponinfo_t;
 
 extern weaponinfo_t weaponinfo[NUMWEAPONS];
