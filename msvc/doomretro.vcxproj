@@ -484,6 +484,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\.gitattributes" />
+    <None Include="..\.github\FUNDING.yml" />
+    <None Include="..\.github\workflows\build.yml" />
     <None Include="..\.gitignore" />
     <None Include="..\.tokeignore" />
     <None Include="..\CODEOWNERS" />
@@ -499,6 +501,7 @@
     <None Include="..\src\Makefile" />
     <None Include="..\src\Makefile.mingw" />
     <None Include="..\src\Makefile.osx" />
+    <None Include="..\xcode\doomretroapp\Info.plist" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\CMakeLists.txt" />
