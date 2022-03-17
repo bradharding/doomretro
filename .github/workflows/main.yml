@@ -1,15 +1,16 @@
-name: build
+name: DOOM Retro
 
 on: [push, pull_request]
 
 jobs:
-  build-2004:
-
+  build:
     runs-on: ubuntu-20.04
+
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
     steps:
-    - uses: actions/checkout@v1
-    - name: build_and_test
-      run: scripts/build.sh clean
-      
+      - uses: actions/checkout@v1
+
+      - name: Make
+        run: main.sh clean
