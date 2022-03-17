@@ -10,6 +10,7 @@
 * Item or teleport fogs now appear for all things removed using the `remove` CCMD.
 * Corpses will now be removed along with everything else when `remove everything` is entered in the console.
 * A compatibility fix has been implemented that adds blood splats to decorative corpses in [*Ancient Aliens*](https://www.doomworld.com/idgames/levels/doom2/Ports/megawads/aaliens).
+* If the player picks up more than one of the same item at exactly the same coordinates, the resulting message and gold effect will now be the same as if it were only one item.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

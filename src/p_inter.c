@@ -752,7 +752,10 @@ dboolean P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message,
     int         sound = sfx_itemup;
     static int  prevsound;
     static int  prevtic;
+    static int  prevtype;
+    static int  prevx, prevy;
     int         temp;
+    dboolean    duplicate;
 
     if (freeze)
         return false;
@@ -765,6 +768,8 @@ dboolean P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message,
     if ((delta = special->z - toucher->z) > toucher->height || delta < -8 * FRACUNIT)
         return false;   // out of reach
 
+    duplicate = (special->type == prevtype && special->x == prevx && special->y == prevy);
+
     // Identify by sprite.
     switch (special->sprite)
     {
@@ -773,7 +778,7 @@ dboolean P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message,
             if (!P_GiveArmor(green_armor_class, stat))
                 return false;
 
-            if (message)
+            if (message && !duplicate)
                 HU_PlayerMessage(s_GOTARMOR, true, false);
 
             break;
@@ -783,7 +788,7 @@ dboolean P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message,
             if (!P_GiveArmor(blue_armor_class, stat))
                 return false;
 
-            if (message)
+            if (message && !duplicate)
                 HU_PlayerMessage(s_GOTMEGA, true, false);
 
             break;
@@ -798,7 +803,7 @@ dboolean P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message,
                 healthhighlight = I_GetTimeMS() + HUD_HEALTH_HIGHLIGHT_WAIT;
             }
 
-            if (message)
+            if (message && !duplicate)
                 HU_PlayerMessage(s_GOTHTHBONUS, true, false);
 
             break;
@@ -815,7 +820,7 @@ dboolean P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message,
                     viewplayer->armortype = armortype_green;
             }
 
-            if (message)
+            if (message && !duplicate)
                 HU_PlayerMessage(s_GOTARMBONUS, true, false);
 
             break;
@@ -830,7 +835,7 @@ dboolean P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message,
                 healthhighlight = I_GetTimeMS() + HUD_HEALTH_HIGHLIGHT_WAIT;
             }
 
-            if (message)
+            if (message && !duplicate)
                 HU_PlayerMessage(s_GOTSUPER, true, false);
 
             sound = sfx_getpow;
@@ -842,7 +847,7 @@ dboolean P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message,
             P_GiveArmor(blue_armor_class, stat);
             viewplayer->armortype = blue_armor_class;
 
-            if (message)
+            if (message && !duplicate)
                 HU_PlayerMessage(s_GOTMSPHERE, true, false);
 
             sound = sfx_getpow;
@@ -854,7 +859,7 @@ dboolean P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message,
             {
                 P_GiveCard(it_bluecard);
 
-                if (message)
+                if (message && !duplicate)
                     HU_PlayerMessage(s_GOTBLUECARD, true, false);
 
                 break;
@@ -868,7 +873,7 @@ dboolean P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message,
             {
                 P_GiveCard(it_yellowcard);
 
-                if (message)
+                if (message && !duplicate)
                     HU_PlayerMessage(s_GOTYELWCARD, true, false);
 
                 break;
@@ -882,7 +887,7 @@ dboolean P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message,
             {
                 P_GiveCard(it_redcard);
 
-                if (message)
+                if (message && !duplicate)
                     HU_PlayerMessage(s_GOTREDCARD, true, false);
 
                 break;
@@ -896,7 +901,7 @@ dboolean P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message,
             {
                 P_GiveCard(it_blueskull);
 
-                if (message)
+                if (message && !duplicate)
                     HU_PlayerMessage(s_GOTBLUESKUL, true, false);
 
                 break;
@@ -910,7 +915,7 @@ dboolean P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message,
             {
                 P_GiveCard(it_yellowskull);
 
-                if (message)
+                if (message && !duplicate)
                     HU_PlayerMessage(s_GOTYELWSKUL, true, false);
 
                 break;
@@ -924,7 +929,7 @@ dboolean P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message,
             {
                 P_GiveCard(it_redskull);
 
-                if (message)
+                if (message && !duplicate)
                     HU_PlayerMessage(s_GOTREDSKULL, true, false);
 
                 break;
@@ -937,7 +942,7 @@ dboolean P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message,
             if (!P_GiveBody(10, MAXHEALTH, stat))
                 return false;
 
-            if (message)
+            if (message && !duplicate)
                 HU_PlayerMessage(s_GOTSTIM, true, false);
 
             break;
@@ -947,7 +952,7 @@ dboolean P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message,
             if (!P_GiveBody(25, MAXHEALTH, stat))
                 return false;
 
-            if (message)
+            if (message && !duplicate)
             {
                 if (viewplayer->health < 50 && !(viewplayer->cheats & CF_BUDDHA))
                 {
@@ -974,7 +979,7 @@ dboolean P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message,
         case SPR_PINV:
             P_GivePower(pw_invulnerability);
 
-            if (message)
+            if (message && !duplicate)
                 HU_PlayerMessage(s_GOTINVUL, true, false);
 
             sound = sfx_getpow;
@@ -987,7 +992,7 @@ dboolean P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message,
 
             P_GivePower(pw_strength);
 
-            if (message)
+            if (message && !duplicate)
                 HU_PlayerMessage(s_GOTBERSERK, true, false);
 
             if (!strength)
@@ -1008,7 +1013,7 @@ dboolean P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message,
         case SPR_PINS:
             P_GivePower(pw_invisibility);
 
-            if (message)
+            if (message && !duplicate)
                 HU_PlayerMessage(s_GOTINVIS, true, false);
 
             sound = sfx_getpow;
@@ -1018,7 +1023,7 @@ dboolean P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message,
         case SPR_SUIT:
             P_GivePower(pw_ironfeet);
 
-            if (message)
+            if (message && !duplicate)
                 HU_PlayerMessage(s_GOTSUIT, true, false);
 
             sound = sfx_getpow;
@@ -1028,7 +1033,7 @@ dboolean P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message,
         case SPR_PMAP:
             P_GivePower(pw_allmap);
 
-            if (message)
+            if (message && !duplicate)
                 HU_PlayerMessage(s_GOTMAP, true, false);
 
             sound = sfx_getpow;
@@ -1038,7 +1043,7 @@ dboolean P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message,
         case SPR_PVIS:
             P_GivePower(pw_infrared);
 
-            if (message)
+            if (message && !duplicate)
                 HU_PlayerMessage(s_GOTVISOR, true, false);
 
             sound = sfx_getpow;
@@ -1049,7 +1054,7 @@ dboolean P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message,
             if (!P_GiveAmmo(am_clip, !(special->flags & MF_DROPPED), stat))
                 return false;
 
-            if (message)
+            if (message && !duplicate)
                 HU_PlayerMessage(s_GOTCLIP, true, false);
 
             break;
@@ -1059,7 +1064,7 @@ dboolean P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message,
             if (!P_GiveAmmo(am_clip, 5, stat))
                 return false;
 
-            if (message)
+            if (message && !duplicate)
                 HU_PlayerMessage(s_GOTCLIPBOX, true, false);
 
             break;
@@ -1069,7 +1074,7 @@ dboolean P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message,
             if (!(temp = P_GiveAmmo(am_misl, 1, stat)))
                 return false;
 
-            if (message)
+            if (message && !duplicate)
             {
                 if (temp == clipammo[am_misl] || deh_strlookup[p_GOTROCKET].assigned == 2 || hacx)
                     HU_PlayerMessage(s_GOTROCKET, true, false);
@@ -1084,7 +1089,7 @@ dboolean P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message,
             if (!P_GiveAmmo(am_misl, 5, stat))
                 return false;
 
-            if (message)
+            if (message && !duplicate)
                 HU_PlayerMessage(s_GOTROCKBOX, true, false);
 
             break;
@@ -1094,7 +1099,7 @@ dboolean P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message,
             if (!(temp = P_GiveAmmo(am_cell, 1, stat)))
                 return false;
 
-            if (message)
+            if (message && !duplicate)
             {
                 if (temp == clipammo[am_cell] || deh_strlookup[p_GOTCELL].assigned == 2 || hacx)
                     HU_PlayerMessage(s_GOTCELL, true, false);
@@ -1109,7 +1114,7 @@ dboolean P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message,
             if (!P_GiveAmmo(am_cell, 5, stat))
                 return false;
 
-            if (message)
+            if (message && !duplicate)
                 HU_PlayerMessage(s_GOTCELLBOX, true, false);
 
             break;
@@ -1119,7 +1124,7 @@ dboolean P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message,
             if (!(temp = P_GiveAmmo(am_shell, 1, stat)))
                 return false;
 
-            if (message)
+            if (message && !duplicate)
             {
                 if (temp == clipammo[am_shell] || deh_strlookup[p_GOTSHELLS].assigned == 2 || hacx)
                     HU_PlayerMessage(s_GOTSHELLS, true, false);
@@ -1134,7 +1139,7 @@ dboolean P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message,
             if (!P_GiveAmmo(am_shell, 5, stat))
                 return false;
 
-            if (message)
+            if (message && !duplicate)
                 HU_PlayerMessage(s_GOTSHELLBOX, true, false);
 
             break;
@@ -1144,7 +1149,7 @@ dboolean P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message,
             if (!P_GiveBackpack(true, stat))
                 return false;
 
-            if (message)
+            if (message && !duplicate)
                 HU_PlayerMessage(s_GOTBACKPACK, true, false);
 
             break;
@@ -1154,7 +1159,7 @@ dboolean P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message,
             if (!P_GiveWeapon(wp_bfg, false, stat))
                 return false;
 
-            if (message)
+            if (message && !duplicate)
                 HU_PlayerMessage(s_GOTBFG9000, true, false);
 
             sound = sfx_wpnup;
@@ -1165,7 +1170,7 @@ dboolean P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message,
             if (!P_GiveWeapon(wp_chaingun, (special->flags & MF_DROPPED), stat))
                 return false;
 
-            if (message)
+            if (message && !duplicate)
                 HU_PlayerMessage(s_GOTCHAINGUN, true, false);
 
             sound = sfx_wpnup;
@@ -1178,7 +1183,7 @@ dboolean P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message,
 
             viewplayer->fistorchainsaw = wp_chainsaw;
 
-            if (message)
+            if (message && !duplicate)
                 HU_PlayerMessage(s_GOTCHAINSAW, true, false);
 
             sound = sfx_wpnup;
@@ -1189,7 +1194,7 @@ dboolean P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message,
             if (!P_GiveWeapon(wp_missile, false, stat))
                 return false;
 
-            if (message)
+            if (message && !duplicate)
                 HU_PlayerMessage(s_GOTLAUNCHER, true, false);
 
             sound = sfx_wpnup;
@@ -1200,7 +1205,7 @@ dboolean P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message,
             if (!P_GiveWeapon(wp_plasma, false, stat))
                 return false;
 
-            if (message)
+            if (message && !duplicate)
                 HU_PlayerMessage(s_GOTPLASMA, true, false);
 
             sound = sfx_wpnup;
@@ -1216,7 +1221,7 @@ dboolean P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message,
             if (!temp)
                 viewplayer->preferredshotgun = wp_shotgun;
 
-            if (message)
+            if (message && !duplicate)
                 HU_PlayerMessage(s_GOTSHOTGUN, true, false);
 
             sound = sfx_wpnup;
@@ -1232,7 +1237,7 @@ dboolean P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message,
             if (!temp)
                 viewplayer->preferredshotgun = wp_supershotgun;
 
-            if (message)
+            if (message && !duplicate)
                 HU_PlayerMessage(s_GOTSHOTGUN2, true, false);
 
             sound = sfx_wpnup;
@@ -1256,7 +1261,13 @@ dboolean P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message,
     }
 
     P_RemoveMobj(special);
-    P_AddBonus();
+
+    if (!duplicate)
+        P_AddBonus();
+
+    prevtype = special->type;
+    prevx = special->x;
+    prevy = special->y;
 
     return true;
 }
