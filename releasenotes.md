@@ -9,6 +9,7 @@
 * Text displayed in the top right of the screen while the automap is open is now less translucent.
 * Item or teleport fogs now appear for all things removed using the `remove` CCMD.
 * Corpses will now be removed along with everything else when `remove everything` is entered in the console.
+* A compatibility fix has been implemented that adds blood splats to decorative corpses in [*Ancient Aliens*](https://www.doomworld.com/idgames/levels/doom2/Ports/megawads/aaliens).
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
