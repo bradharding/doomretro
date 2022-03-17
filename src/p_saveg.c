@@ -1330,15 +1330,18 @@ void P_UnArchiveThinkers(void)
             {
                 bloodsplat_t    *splat = malloc(sizeof(*splat));
 
-                saveg_read_bloodsplat_t(splat);
-
-                if (r_bloodsplats_total < r_bloodsplats_max)
+                if (splat)
                 {
-                    splat->width = spritewidth[splat->patch];
-                    splat->sector = R_PointInSubsector(splat->x, splat->y)->sector;
-                    P_SetBloodSplatPosition(splat);
-                    splat->colfunc = (splat->blood == FUZZYBLOOD ? fuzzcolfunc : bloodsplatcolfunc);
-                    r_bloodsplats_total++;
+                    saveg_read_bloodsplat_t(splat);
+
+                    if (r_bloodsplats_total < r_bloodsplats_max)
+                    {
+                        splat->width = spritewidth[splat->patch];
+                        splat->sector = R_PointInSubsector(splat->x, splat->y)->sector;
+                        P_SetBloodSplatPosition(splat);
+                        splat->colfunc = (splat->blood == FUZZYBLOOD ? fuzzcolfunc : bloodsplatcolfunc);
+                        r_bloodsplats_total++;
+                    }
                 }
 
                 break;

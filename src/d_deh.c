@@ -3814,70 +3814,71 @@ static void deh_procStrings(DEHFILE *fpin, char *line)
         C_Output("Processing extended string substitution");
 
     if (!holdstring)
-        holdstring = malloc(maxstrlen * sizeof(*holdstring));
+        if ((holdstring = malloc(maxstrlen * sizeof(*holdstring))))
+        {
+            *holdstring = '\0';                 // empty string to start with
+            strncpy(inbuffer, line, DEH_BUFFERMAX - 1);
 
-    *holdstring = '\0';                 // empty string to start with
-    strncpy(inbuffer, line, DEH_BUFFERMAX - 1);
-
-    // Ty 04/24/98 - have to allow inbuffer to start with a blank for
-    // the continuations of C1TEXT etc.
-    while (!dehfeof(fpin) && *inbuffer)
-    {
-        int len;
-
-        if (!dehfgets(inbuffer, sizeof(inbuffer), fpin))
-            break;
-
-        if (*inbuffer == '#' || (*inbuffer == '/' && *(inbuffer + 1) == '/'))
-            continue;                   // skip comment lines
-
-        lfstrip(inbuffer);
-
-        if (!*inbuffer && !*holdstring)
-            break;                      // killough 11/98
-
-        if (!*holdstring)               // first one--get the key
-            if (!deh_GetData(inbuffer, key, &value, &strval))   // returns TRUE if ok
+            // Ty 04/24/98 - have to allow inbuffer to start with a blank for
+            // the continuations of C1TEXT etc.
+            while (!dehfeof(fpin) && *inbuffer)
             {
-                C_Warning(1, "Bad data pair in \"%s\".", inbuffer);
-                continue;
+                int len;
+
+                    if (!dehfgets(inbuffer, sizeof(inbuffer), fpin))
+                        break;
+
+                if (*inbuffer == '#' || (*inbuffer == '/' && *(inbuffer + 1) == '/'))
+                    continue;                   // skip comment lines
+
+                lfstrip(inbuffer);
+
+                if (!*inbuffer && !*holdstring)
+                    break;                      // killough 11/98
+
+                if (!*holdstring)               // first one--get the key
+                    if (!deh_GetData(inbuffer, key, &value, &strval))   // returns TRUE if ok
+                    {
+                        C_Warning(1, "Bad data pair in \"%s\".", inbuffer);
+                        continue;
+                    }
+
+                len = (int)strlen(inbuffer);
+
+                while (strlen(holdstring) + len > (unsigned int)maxstrlen)
+                {
+                    // killough 11/98: allocate enough the first time
+                    maxstrlen = (int)strlen(holdstring) + len;
+
+                    if (devparm)
+                        C_Output("* increased buffer from to %i for buffer size %i", maxstrlen, len);
+
+                    holdstring = I_Realloc(holdstring, maxstrlen * sizeof(*holdstring));
+                }
+
+                // concatenate the whole buffer if continuation or the value if first
+                strcat(holdstring, ptr_lstrip(*holdstring ? inbuffer : strval));
+                rstrip(holdstring);
+
+                // delete any trailing blanks past the backslash
+                // note that blanks before the backslash will be concatenated
+                // but ones at the beginning of the next line will not, allowing
+                // indentation in the file to read well without affecting the
+                // string itself.
+                if (holdstring[strlen(holdstring) - 1] == '\\')
+                {
+                    holdstring[strlen(holdstring) - 1] = '\0';
+                    continue;           // ready to concatenate
+                }
+
+                if (*holdstring)        // didn't have a backslash, trap above would catch that
+                {
+                    // go process the current string
+                    deh_procStringSub(key, NULL, trimwhitespace(holdstring));
+                    *holdstring = '\0';  // empty string for the next one
+                }
             }
-
-        len = (int)strlen(inbuffer);
-
-        while (strlen(holdstring) + len > (unsigned int)maxstrlen)
-        {
-            // killough 11/98: allocate enough the first time
-            maxstrlen = (int)strlen(holdstring) + len;
-
-            if (devparm)
-                C_Output("* increased buffer from to %i for buffer size %i", maxstrlen, len);
-
-            holdstring = I_Realloc(holdstring, maxstrlen * sizeof(*holdstring));
         }
-
-        // concatenate the whole buffer if continuation or the value if first
-        strcat(holdstring, ptr_lstrip(*holdstring ? inbuffer : strval));
-        rstrip(holdstring);
-
-        // delete any trailing blanks past the backslash
-        // note that blanks before the backslash will be concatenated
-        // but ones at the beginning of the next line will not, allowing
-        // indentation in the file to read well without affecting the
-        // string itself.
-        if (holdstring[strlen(holdstring) - 1] == '\\')
-        {
-            holdstring[strlen(holdstring) - 1] = '\0';
-            continue;           // ready to concatenate
-        }
-
-        if (*holdstring)        // didn't have a backslash, trap above would catch that
-        {
-            // go process the current string
-            deh_procStringSub(key, NULL, trimwhitespace(holdstring));
-            *holdstring = '\0';  // empty string for the next one
-        }
-    }
 }
 
 // ====================================================================
@@ -3923,8 +3924,10 @@ static dboolean deh_procStringSub(char *key, char *lookfor, char *newstring)
                     C_Output("Assigned key %s to \"%s\"", key, newstring);
                 else
                 {
-                    C_Output("Assigned \"%.12s%s\" to \"%.12s%s\" at key %s", lookfor, (strlen(lookfor) > 12 ? "..." : ""),
-                        newstring, (strlen(newstring) > 12 ? "..." : ""), deh_strlookup[i].lookup);
+                    if (lookfor)
+                        C_Output("Assigned \"%.12s%s\" to \"%.12s%s\" at key %s", lookfor, (strlen(lookfor) > 12 ? "..." : ""),
+                            newstring, (strlen(newstring) > 12 ? "..." : ""), deh_strlookup[i].lookup);
+
                     C_Output("*BEX FORMAT:");
                     C_Output("%s = %s", deh_strlookup[i].lookup, dehReformatStr(newstring));
                     C_Output("*END BEX");
