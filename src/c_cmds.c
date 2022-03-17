@@ -3097,6 +3097,9 @@ static void kill_cmd_func2(char *cmd, char *parms)
                             playername, (kills == 1 ? "one" : temp), (kills == 1 ? "" : "s"));
 
                     C_HideConsole();
+                    viewplayer->cheated++;
+                    stat_cheated = SafeAdd(stat_cheated, 1);
+                    M_SaveCVARs();
                     free(temp);
                 }
                 else
@@ -3149,6 +3152,9 @@ static void kill_cmd_func2(char *cmd, char *parms)
                         C_PlayerMessage("%s removed everything.", playername);
 
                     C_HideConsole();
+                    viewplayer->cheated++;
+                    stat_cheated = SafeAdd(stat_cheated, 1);
+                    M_SaveCVARs();
                 }
                 else
                     C_Warning(0, "There is nothing left to remove.");
