@@ -7,11 +7,12 @@
 * Minor changes have been made to text that is output to the console.
 * The obituary displayed when a monster kills themselves by exploding a barrel is now correct when the `con_obituaries` CVAR is `on`.
 * The movement of the mouse now always affects the direction the menu’s background spins.
-* The automap will now update correctly again if the player moves around while it is open.
-* Text displayed in the top right of the screen while the automap is open is now less translucent.
-* A subtle shadow is now applied at the bottom of the automap when the `r_screensize` CVAR is `7` or less.
+* The following improvements have been made to the automap:
+  * The automap will now update correctly again if the player moves around while it is open.
+  * Text displayed in the top right of the screen while the automap is open is now less translucent.
+  * A subtle shadow is now applied to the bottom edge of the automap when the `r_screensize` CVAR is `7` or less.
 * The following improvements have been made to the `remove` CCMD:
-  * Item and teleport fogs now appear for all things removed.
+  * Item and teleport fogs now appear for all things that are removed.
   * Corpses will now be removed along with everything else when the `everything` parameter is used.
   * A type of item may now be specified as a parameter. For example, `remove healthbonuses` will remove all health bonuses in the map.
 * Compatibility fixes have been implemented that add blood splats to decorative corpses, and correct the offsets of sprites, in [*Ancient Aliens*](https://www.doomworld.com/idgames/levels/doom2/Ports/megawads/aaliens).
