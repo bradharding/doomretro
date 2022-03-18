@@ -132,9 +132,9 @@ static void HU_DrawTranslucentChar(int x, int y, int ch, byte *screen, int scree
                     byte    *dest = &screen[(j + yy) * screenwidth + (i + xx)];
 
                     if (src == PINK)
-                        *dest = tinttab50[(nearestblack << 8) + *dest];
+                        *dest = tinttab60[(nearestblack << 8) + *dest];
                     else if (src != ' ')
-                        *dest = tinttab75[(src << 8) + *dest];
+                        *dest = tinttab80[(src << 8) + *dest];
                 }
         }
 }
