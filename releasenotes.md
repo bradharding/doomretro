@@ -16,6 +16,7 @@
   * A type of item may now be specified as a parameter. For example, `remove healthbonuses` will remove all health bonuses in the map.
 * Compatibility fixes have been implemented that add blood splats to decorative corpses, and correct the offsets of sprites, in [*Ancient Aliens*](https://www.doomworld.com/idgames/levels/doom2/Ports/megawads/aaliens).
 * If the player picks up more than one of the same item that are all in exactly the same position, the resulting message and gold effect will now be the same as if they picked up only one item.
+* Changing the `r_fov` CVAR from its default of `90` is now only effective when the `vid_widescreen` CVAR is `on`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
