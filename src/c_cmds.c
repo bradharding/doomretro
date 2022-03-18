@@ -91,8 +91,8 @@
 #define PLAYCMDFORMAT               BOLDITALICS("soundeffect") "|" BOLDITALICS("music")
 #define NAMECMDFORMAT               "[" BOLD("friendly") " ]" BOLDITALICS("monster") " " BOLDITALICS("name")
 #define PRINTCMDFORMAT              "[" BOLD("\"") "]" BOLDITALICS("message") "[" BOLD("\"") "]"
-#define REMOVECMDFORMAT             BOLD("items") "|" BOLD("decorations") "|" BOLD("corpses") "|" BOLD("bloodsplats") "|" \
-                                    BOLD("everything")
+#define REMOVECMDFORMAT             BOLD("decorations") "|" BOLD("corpses") "|" BOLD("bloodsplats") "|" BOLD("items") "|" \
+                                    BOLDITALICS("item") "|" BOLD("everything")
 #define RESETCMDFORMAT              BOLDITALICS("CVAR")
 #define RESURRECTCMDFORMAT          BOLD("player") "|" BOLD("all") "|[" BOLD("friendly") " ]" BOLDITALICS("monster")
 #define SAVECMDFORMAT               BOLDITALICS("filename") BOLD(".save")
@@ -2802,7 +2802,9 @@ static dboolean kill_cmd_func1(char *cmd, char *parms)
                     if (killcmdtype == WolfensteinSS && !allowwolfensteinss && !states[S_SSWV_STND].dehacked)
                         result = false;
                     else
-                        result = (mobjinfo[i].flags & MF_SHOOTABLE);
+                        result = ((mobjinfo[i].flags & MF_SHOOTABLE)
+                            || (mobjinfo[i].flags & MF_SPECIAL)
+                            || (mobjinfo[i].flags2 & MF2_DECORATION));
                 }
 
                 if (temp1)
@@ -2859,6 +2861,7 @@ void A_Fall(mobj_t *actor, player_t *player, pspdef_t *psp);
 static void kill_cmd_func2(char *cmd, char *parms)
 {
     char    *parm = removenonalpha(parms);
+    char    *killed = (M_StringCompare(cmd, "explode") ? "exploded" : (M_StringCompare(cmd, "remove") ? "removed" : "killed"));
 
     if (!*parm)
     {
@@ -3279,6 +3282,20 @@ static void kill_cmd_func2(char *cmd, char *parms)
                             }
                             else if (thing->flags & MF_CORPSE)
                                 dead++;
+                            else if (thing->flags & MF_SPECIAL)
+                            {
+                                P_SpawnMobj(thing->x, thing->y, thing->z, MT_IFOG);
+                                S_StartSound(thing, sfx_itmbk);
+                                P_RemoveMobj(thing);
+                                kills++;
+                            }
+                            else if (thing->flags2 & MF2_DECORATION)
+                            {
+                                P_SpawnMobj(thing->x, thing->y, thing->z, MT_TFOG);
+                                S_StartSound(thing, sfx_itmbk);
+                                P_RemoveMobj(thing);
+                                kills++;
+                            }
                         }
 
                         thing = thing->snext;
@@ -3293,12 +3310,12 @@ static void kill_cmd_func2(char *cmd, char *parms)
                     {
                         if (kills == 1)
                             C_PlayerMessage("You %s the only %s %s this map.",
-                                (type == MT_BARREL ? "exploded" : "killed"),
+                                killed,
                                 mobjinfo[type].name1,
                                 (!dead ? "in" : "left in"));
                         else
                             C_PlayerMessage("You %s all %s %s %s this map.",
-                                (type == MT_BARREL ? "exploded" : "killed"),
+                                killed,
                                 temp,
                                 mobjinfo[type].plural1,
                                 (!dead ? "in" : "left in"));
@@ -3308,13 +3325,13 @@ static void kill_cmd_func2(char *cmd, char *parms)
                         if (kills == 1)
                             C_PlayerMessage("%s %s the only %s %s this map.",
                                 playername,
-                                (type == MT_BARREL ? "exploded" : "killed"),
+                                killed,
                                 mobjinfo[type].name1,
                                 (!dead ? "in" : "left in"));
                         else
                             C_PlayerMessage("%s %s all %s %s %s this map.",
                                 playername,
-                                (type == MT_BARREL ? "exploded" : "killed"),
+                                killed,
                                 temp,
                                 mobjinfo[type].plural1,
                                 (!dead ? "in" : "left in"));
@@ -3336,8 +3353,7 @@ static void kill_cmd_func2(char *cmd, char *parms)
                             C_Warning(0, "There are no %s in " ITALICS("%s."), mobjinfo[type].plural1, gamedescription);
                     }
                     else
-                        C_Warning(0, "There are no %s %s %s.", mobjinfo[type].plural1, (dead ? "left to" : "to"),
-                            (type == MT_BARREL ? "explode" : "kill"));
+                        C_Warning(0, "There are no %s %s %s.", mobjinfo[type].plural1, (dead ? "left to" : "to"), cmd);
                 }
             }
         }
