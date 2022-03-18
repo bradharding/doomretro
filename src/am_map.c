@@ -2047,6 +2047,23 @@ static void AM_DrawSolidCrosshair(void)
     *dot = am_crosshaircolor;
 }
 
+#define DARKLEVELS 6
+
+void AM_StatusBarShadow(void)
+{
+    for (int i = 0; i < DARKLEVELS; i++)
+    {
+        byte    *colormap = &colormaps[0][(DARKLEVELS - i) * 1024];
+
+        for (int x = 0; x < MAPWIDTH; x++)
+        {
+            byte    *dot = &mapscreen[(MAPHEIGHT - i - 1) * MAPWIDTH + x];
+
+            *dot = *(*dot + colormap);
+        }
+    }
+}
+
 static void AM_SetFrameVariables(void)
 {
     const fixed_t   dx = m_w / 2;
@@ -2111,6 +2128,9 @@ void AM_Drawer(void)
         AM_DrawMarks();
 
     AM_DrawPlayer();
+
+    if (r_screensize < r_screensize_max)
+        AM_StatusBarShadow();
 
     if (!am_followmode)
     {

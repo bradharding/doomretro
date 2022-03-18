@@ -7,10 +7,11 @@
 * Minor changes have been made to text that is output to the console.
 * The automap will now update correctly again if the player moves around while it is open.
 * Text displayed in the top right of the screen while the automap is open is now less translucent.
-* Item or teleport fogs now appear for all things removed using the `remove` CCMD.
+* Item and teleport fogs now appear for all things removed using the `remove` CCMD.
 * Corpses will now be removed along with everything else when `remove everything` is entered in the console.
-* Compatibility fix has been implemented that adds blood splats to decorative corpses, and fixes the offsets of sprites, in [*Ancient Aliens*](https://www.doomworld.com/idgames/levels/doom2/Ports/megawads/aaliens).
-* If the player picks up more than one of the same item at exactly the same coordinates, the resulting message and gold effect will now be the same as if it were only one item.
+* Compatibility fixes have been implemented that add blood splats to decorative corpses, and correct the offsets of sprites, in [*Ancient Aliens*](https://www.doomworld.com/idgames/levels/doom2/Ports/megawads/aaliens).
+* If the player picks up more than one of the same item that is at exactly the same coordinates, the resulting message and gold effect will now be the same as if they picked up only one item.
+* A subtle shadow is now applied at the bottom of the automap when the `r_screensize` CVAR is `7` or less.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
