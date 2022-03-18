@@ -840,6 +840,8 @@ dboolean EV_DoElevator(line_t *line, elevator_e elevtype)
         sec->floordata = elevator;
         sec->ceilingdata = elevator;
         elevator->type = elevtype;
+        elevator->sector = sec;
+        elevator->speed = ELEVATORSPEED;
 
         // set up the fields according to the type of elevator action
         switch (elevtype)
@@ -847,8 +849,6 @@ dboolean EV_DoElevator(line_t *line, elevator_e elevtype)
             // elevator down to next floor
             case elevateDown:
                 elevator->direction = DOWN;
-                elevator->sector = sec;
-                elevator->speed = ELEVATORSPEED;
                 elevator->floordestheight = P_FindNextLowestFloor(sec, sec->floorheight);
                 elevator->ceilingdestheight = elevator->floordestheight + sec->ceilingheight - sec->floorheight;
 
@@ -857,8 +857,6 @@ dboolean EV_DoElevator(line_t *line, elevator_e elevtype)
             // elevator up to next floor
             case elevateUp:
                 elevator->direction = UP;
-                elevator->sector = sec;
-                elevator->speed = ELEVATORSPEED;
                 elevator->floordestheight = P_FindNextHighestFloor(sec, sec->floorheight);
                 elevator->ceilingdestheight = elevator->floordestheight + sec->ceilingheight - sec->floorheight;
 
@@ -866,8 +864,6 @@ dboolean EV_DoElevator(line_t *line, elevator_e elevtype)
 
             // elevator to floor height of activating switch's front sector
             case elevateCurrent:
-                elevator->sector = sec;
-                elevator->speed = ELEVATORSPEED;
                 elevator->floordestheight = line->frontsector->floorheight;
                 elevator->ceilingdestheight = elevator->floordestheight + sec->ceilingheight - sec->floorheight;
                 elevator->direction = (elevator->floordestheight > sec->floorheight ? UP : DOWN);
