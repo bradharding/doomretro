@@ -1130,17 +1130,10 @@ dboolean I_CreateExternalAutomap(void)
 
     GetDisplays();
 
-    if (numdisplays == 1)
+    if (am_display > numdisplays)
     {
         if (!togglingvanilla)
-            C_Warning(1, "An external automap couldn't be created. Only one display was found.");
-
-        return false;
-    }
-    else if (am_display > numdisplays)
-    {
-        if (!togglingvanilla)
-            C_Warning(1, "An external automap couldn't be created. Unable to find display %i.", am_display);
+            C_Warning(1, "An external automap couldn't be created. Display %i couldn't be found.", am_display);
 
         return false;
     }
@@ -1410,7 +1403,7 @@ static void SetVideoMode(dboolean createwindow, dboolean output)
     if (displayindex >= numdisplays)
     {
         if (output)
-            C_Warning(1, "Unable to find display %i.", vid_display);
+            C_Warning(1, "Display %i couldn't be found.", vid_display);
 
         displayname = SDL_GetDisplayName((displayindex = vid_display_default - 1));
         instead = true;

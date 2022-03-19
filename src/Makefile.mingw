@@ -39,7 +39,7 @@
 # [gibbon] For MinGW
 CC = gcc
 CFLAGS = -D_WIN32 -DWIN_32_LEAN_AND_MEAN
-LDFLAGS = -Wl,-subsystem,windows -lmingw32 -lcomdlg32 -lwinmm -lgdi32 -lkernel32 -luser32 -lSDL2main -lSDL2 -lSDL2_mixer -lSDL2_image 
+LDFLAGS = -Wl,-subsystem,windows -lmingw32 -lcomdlg32 -lwinmm -lgdi32 -lkernel32 -luser32 -lSDL2main -lSDL2 -lSDL2_mixer -lSDL2_image
 
 SRCS = $(wildcard *.c)
 
