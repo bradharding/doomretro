@@ -3342,7 +3342,7 @@ static void kill_cmd_func2(char *cmd, char *parms)
                     }
                     else
                         C_Warning(0, "There are no %s %s %s.", mobjinfo[type].plural1,
-                            (viewplayer->killcount ? "left to" : "to"), cmd);
+                            (viewplayer->mobjcount[type] ? "left to" : "to"), cmd);
                 }
             }
         }
