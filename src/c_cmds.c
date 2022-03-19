@@ -908,7 +908,7 @@ consolecmd_t consolecmds[] =
         "The number of frames per second at which to cap the framerate (" BOLD("off") ", or " BOLD("10") " to " BOLD("1,000") "). "
         "Interpolation is disabled when this CVAR is " BOLD("35") "."),
     CVAR_INT(vid_display, "", int_cvars_func1, vid_display_cvar_func2, CF_NONE, NOVALUEALIAS,
-        "The display used to play " ITALICS(DOOMRETRO_NAME) "."),
+        "The display used to play " ITALICS(DOOMRETRO_NAME) " on."),
 #if !defined(_WIN32)
     CVAR_STR(vid_driver, "", null_func1, str_cvars_func2, CF_NONE,
         "The video driver used to play " ITALICS(DOOMRETRO_NAME) "."),

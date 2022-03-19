@@ -52,9 +52,7 @@
 #include "p_tick.h"
 #include "s_sound.h"
 
-// distance friends tend to move towards players
-#define DISTFRIEND  (128 * FRACUNIT)
-
+#define DISTFRIEND  (128 * FRACUNIT)    // distance friends tend to move towards players
 #define BARRELRANGE (512 * FRACUNIT)
 
 int barrelms = 0;
@@ -125,7 +123,7 @@ void P_NoiseAlert(mobj_t *target)
 //
 // P_CheckRange
 //
-dboolean P_CheckRange(mobj_t *actor, fixed_t range)
+static dboolean P_CheckRange(mobj_t *actor, fixed_t range)
 {
     mobj_t  *target = actor->target;
 
@@ -156,11 +154,7 @@ dboolean P_CheckRange(mobj_t *actor, fixed_t range)
 //
 dboolean P_CheckMeleeRange(mobj_t *actor)
 {
-    int range = actor->info->meleerange;
-
-    range += actor->target->info->radius - 20 * FRACUNIT;
-
-    return P_CheckRange(actor, range);
+    return P_CheckRange(actor, actor->info->meleerange + actor->target->info->radius - 20 * FRACUNIT);
 }
 
 //
