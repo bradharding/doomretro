@@ -1417,7 +1417,7 @@ static void SetVideoMode(dboolean createwindow, dboolean output)
     if (nowidescreen)
     {
         consolecmds[C_GetIndex(stringize(vid_widescreen))].flags |= CF_READONLY;
-        C_Warning(0, "The aspect ratio of this display is too low to support widescreen modes.");
+        C_Warning(1, "The aspect ratio of this display is too low to support widescreen modes.");
     }
 
     if (vid_vsync)
@@ -1906,7 +1906,7 @@ void I_ToggleFullscreen(void)
     {
         menuactive = false;
         C_ShowConsole();
-        C_Warning(0, "Unable to switch to %s.", (vid_fullscreen ? "a window" : "fullscreen"));
+        C_Warning(1, "Unable to switch to %s.", (vid_fullscreen ? "a window" : "fullscreen"));
 
         return;
     }
