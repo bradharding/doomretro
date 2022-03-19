@@ -427,7 +427,7 @@ static dboolean P_TryWalk(mobj_t *actor)
 //
 static void P_DoNewChaseDir(mobj_t *actor, fixed_t deltax, fixed_t deltay)
 {
-    dirtype_t opposite[] =
+    const dirtype_t opposite[] =
     {
         DI_WEST,
         DI_SOUTHWEST,
@@ -440,7 +440,7 @@ static void P_DoNewChaseDir(mobj_t *actor, fixed_t deltax, fixed_t deltay)
         DI_NODIR
     };
 
-    dirtype_t diags[] =
+    const dirtype_t diags[] =
     {
         DI_NORTHWEST,
         DI_NORTHEAST,
@@ -815,9 +815,9 @@ static dboolean P_LookForTargets(mobj_t *actor, int allaround)
 //
 void A_Look(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    mobj_t      *target;
-    int         flags = actor->flags;
-    dboolean    friend = (flags & MF_FRIEND);
+    mobj_t          *target;
+    const int       flags = actor->flags;
+    const dboolean  friend = (flags & MF_FRIEND);
 
     actor->threshold = 0;       // any shot will wake up
 
@@ -1344,8 +1344,8 @@ static dboolean PIT_VileCheck(mobj_t *thing)
     else
     {
         // [BH] fix <https://doomwiki.org/wiki/Ghost_monster>
-        fixed_t height = corpsehit->height;
-        fixed_t radius = corpsehit->radius;
+        const fixed_t   height = corpsehit->height;
+        const fixed_t   radius = corpsehit->radius;
 
         corpsehit->height = corpsehit->info->height;
         corpsehit->radius = corpsehit->info->radius;
@@ -1371,11 +1371,11 @@ static dboolean P_HealCorpse(mobj_t *actor, int radius, statenum_t healstate, sf
 
     if (movedir != DI_NODIR)
     {
-        int xl;
-        int xh;
-        int yl;
-        int yh;
-        int speed = actor->info->speed;
+        int         xl;
+        int         xh;
+        int         yl;
+        int         yh;
+        const int   speed = actor->info->speed;
 
         // check for corpses to raise
         viletryx = actor->x + speed * xspeed[movedir];
@@ -1804,7 +1804,7 @@ void A_PainAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
 
 void A_PainDie(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    angle_t angle = actor->angle;
+    const angle_t   angle = actor->angle;
 
     A_Fall(actor, NULL, NULL);
     A_PainShootSkull(actor, angle + ANG90);
@@ -1860,7 +1860,7 @@ void A_SkullPop(mobj_t *actor, player_t *player, pspdef_t *psp)
 
 void A_Pain(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    int painsound = actor->info->painsound;
+    const int   painsound = actor->info->painsound;
 
     if (painsound)
         S_StartSound(actor, painsound);
@@ -2066,9 +2066,7 @@ void A_BrainScream(mobj_t *actor, player_t *player, pspdef_t *psp)
     // [BH] Fix <https://doomwiki.org/wiki/Lopsided_final_boss_explosions>
     for (int x = actor->x - 258 * FRACUNIT; x < actor->x + 258 * FRACUNIT; x += 8 * FRACUNIT)
     {
-        int     y = actor->y - 320 * FRACUNIT;
-        int     z = 128 + M_Random() * 2 * FRACUNIT;
-        mobj_t  *th = P_SpawnMobj(x, y, z, MT_ROCKET);
+        mobj_t  *th = P_SpawnMobj(x, actor->y - 320 * FRACUNIT, 128 + M_Random() * 2 * FRACUNIT, MT_ROCKET);
 
         th->momz = M_Random() * 512;
         P_SetMobjState(th, S_BRAINEXPLODE1);
@@ -2296,11 +2294,11 @@ void A_Detonate(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_Mushroom(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    int     n = actor->info->damage;
+    const int     n = actor->info->damage;
 
     // Mushroom parameters are part of code pointer's state
-    fixed_t misc1 = (actor->state->misc1 ? actor->state->misc1 : 4 * FRACUNIT);
-    fixed_t misc2 = (actor->state->misc2 ? actor->state->misc2 : FRACUNIT / 2);
+    const fixed_t misc1 = (actor->state->misc1 ? actor->state->misc1 : 4 * FRACUNIT);
+    const fixed_t misc2 = (actor->state->misc2 ? actor->state->misc2 : FRACUNIT / 2);
 
     A_Explode(actor, NULL, NULL);                               // First make normal explosion
 

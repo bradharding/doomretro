@@ -103,9 +103,9 @@ static buffer_t buffer;
 // Message for midiStream errors.
 static void MidiErrorMessage(DWORD dwError)
 {
-    char        szErrorBuf[MAXERRORLENGTH];
-    MMRESULT    mmr = midiOutGetErrorText(dwError, (LPSTR)szErrorBuf, MAXERRORLENGTH);
+    char    szErrorBuf[MAXERRORLENGTH];
 
+    midiOutGetErrorText(dwError, (LPSTR)szErrorBuf, MAXERRORLENGTH);
     C_Warning(2, "midiStream Error: %s", szErrorBuf);
 }
 
