@@ -2902,7 +2902,6 @@ static void kill_cmd_func2(char *cmd, char *parms)
             dboolean    enemies = (M_StringCompare(parm, "monster") || M_StringCompare(parm, "monsters"));
             dboolean    all = M_StringCompare(parm, "all");
             int         kills = 0;
-            int         dead = 0;
 
             if (friends || enemies || all)
             {
@@ -2929,18 +2928,13 @@ static void kill_cmd_func2(char *cmd, char *parms)
 
                                 if (type == MT_PAIN)
                                 {
-                                    if (thing->health > 0)
-                                    {
-                                        A_Fall(thing, NULL, NULL);
-                                        P_SetMobjState(thing, S_PAIN_DIE6);
-                                        viewplayer->mobjcount[MT_PAIN]++;
-                                        stat_monsterskilled_painelementals = SafeAdd(stat_monsterskilled_painelementals, 1);
-                                        viewplayer->killcount++;
-                                        stat_monsterskilled = SafeAdd(stat_monsterskilled, 1);
-                                        kills++;
-                                    }
-                                    else
-                                        dead++;
+                                    A_Fall(thing, NULL, NULL);
+                                    P_SetMobjState(thing, S_PAIN_DIE6);
+                                    viewplayer->mobjcount[MT_PAIN]++;
+                                    stat_monsterskilled_painelementals = SafeAdd(stat_monsterskilled_painelementals, 1);
+                                    viewplayer->killcount++;
+                                    stat_monsterskilled = SafeAdd(stat_monsterskilled, 1);
+                                    kills++;
                                 }
                                 else if ((flags & MF_SHOOTABLE) && type != MT_PLAYER && type != MT_BARREL && (type != MT_HEAD || !hacx))
                                 {
@@ -2952,8 +2946,6 @@ static void kill_cmd_func2(char *cmd, char *parms)
 
                                     kills++;
                                 }
-                                else if (thing->flags & MF_CORPSE)
-                                    dead++;
                             }
                         }
 
@@ -2969,19 +2961,19 @@ static void kill_cmd_func2(char *cmd, char *parms)
                     {
                         if (kills == 1)
                             C_PlayerMessage("You killed the only monster %s this map.",
-                                (!dead ? "in" : "left in"));
+                                (viewplayer->killcount == 1 ? "in" : "left in"));
                         else
                             C_PlayerMessage("You killed the %s monsters %s this map.",
-                                temp, (!dead ? "in" : "left in"));
+                                temp, (viewplayer->killcount == kills ? "in" : "left in"));
                     }
                     else
                     {
                         if (kills == 1)
                             C_PlayerMessage("%s killed the only monster %s this map.",
-                                playername, (!dead ? "in" : "left in"));
+                                playername, (viewplayer->killcount == 1 ? "in" : "left in"));
                         else
                             C_PlayerMessage("%s killed the %s monsters %s this map.",
-                                playername, temp, (!dead ? "in" : "left in"));
+                                playername, temp, (viewplayer->killcount == kills ? "in" : "left in"));
                     }
 
                     C_HideConsole();
@@ -2991,7 +2983,7 @@ static void kill_cmd_func2(char *cmd, char *parms)
                     free(temp);
                 }
                 else
-                    C_Warning(0, "There are no monsters %s kill.", (!dead ? "to" : "left to"));
+                    C_Warning(0, "There are no monsters %s %s.", (viewplayer->killcount ? "left to" : "to"), cmd);
             }
             else if (M_StringCompare(parm, "missile") || M_StringCompare(parm, "missiles"))
             {
@@ -3262,8 +3254,6 @@ static void kill_cmd_func2(char *cmd, char *parms)
                                     stat_monsterskilled = SafeAdd(stat_monsterskilled, 1);
                                     kills++;
                                 }
-                                else
-                                    dead++;
                             }
                             else if ((thing->flags & MF_SHOOTABLE) && thing->health > 0)
                             {
@@ -3280,8 +3270,6 @@ static void kill_cmd_func2(char *cmd, char *parms)
 
                                 kills++;
                             }
-                            else if (thing->flags & MF_CORPSE)
-                                dead++;
                             else if (thing->flags & MF_SPECIAL)
                             {
                                 P_SpawnMobj(thing->x, thing->y, thing->z, MT_IFOG);
@@ -3312,13 +3300,13 @@ static void kill_cmd_func2(char *cmd, char *parms)
                             C_PlayerMessage("You %s the only %s %s this map.",
                                 killed,
                                 mobjinfo[type].name1,
-                                (!dead ? "in" : "left in"));
+                                (viewplayer->mobjcount[type] == 1 ? "in" : "left in"));
                         else
                             C_PlayerMessage("You %s all %s %s %s this map.",
                                 killed,
                                 temp,
                                 mobjinfo[type].plural1,
-                                (!dead ? "in" : "left in"));
+                                (viewplayer->mobjcount[type] == kills ? "in" : "left in"));
                     }
                     else
                     {
@@ -3327,14 +3315,14 @@ static void kill_cmd_func2(char *cmd, char *parms)
                                 playername,
                                 killed,
                                 mobjinfo[type].name1,
-                                (!dead ? "in" : "left in"));
+                                (viewplayer->mobjcount[type] == 1 ? "in" : "left in"));
                         else
                             C_PlayerMessage("%s %s all %s %s %s this map.",
                                 playername,
                                 killed,
                                 temp,
                                 mobjinfo[type].plural1,
-                                (!dead ? "in" : "left in"));
+                                (viewplayer->mobjcount[type] == kills ? "in" : "left in"));
                     }
 
                     C_HideConsole();
@@ -3353,7 +3341,8 @@ static void kill_cmd_func2(char *cmd, char *parms)
                             C_Warning(0, "There are no %s in " ITALICS("%s."), mobjinfo[type].plural1, gamedescription);
                     }
                     else
-                        C_Warning(0, "There are no %s %s %s.", mobjinfo[type].plural1, (dead ? "left to" : "to"), cmd);
+                        C_Warning(0, "There are no %s %s %s.", mobjinfo[type].plural1,
+                            (viewplayer->killcount ? "left to" : "to"), cmd);
                 }
             }
         }
