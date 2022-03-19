@@ -401,6 +401,7 @@ static void str_cvars_func2(char *cmd, char *parms);
 static void time_cvars_func2(char *cmd, char *parms);
 
 static void alwaysrun_cvar_func2(char *cmd, char *parms);
+static void am_display_cvar_func2(char *cmd, char *parms);
 static void am_external_cvar_func2(char *cmd, char *parms);
 static void am_followmode_cvar_func2(char *cmd, char *parms);
 static void am_gridsize_cvar_func2(char *cmd, char *parms);
@@ -529,6 +530,8 @@ consolecmd_t consolecmds[] =
         "The color of lines in the automap indicating a change in a ceiling's height (" BOLD("0") " to " BOLD("255") ")."),
     CVAR_INT(am_crosshaircolor, am_crosshaircolour, color_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The color of the crosshair in the automap when follow mode is off (" BOLD("0") " to " BOLD("255") ")."),
+    CVAR_INT(am_display, "", int_cvars_func1, am_display_cvar_func2, CF_NONE, NOVALUEALIAS,
+        "The display used to show the external automap."),
     CVAR_BOOL(am_external, "", bool_cvars_func1, am_external_cvar_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles showing the automap on an external display."),
     CVAR_INT(am_fdwallcolor, am_fdwallcolour, color_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
@@ -7972,6 +7975,36 @@ static void alwaysrun_cvar_func2(char *cmd, char *parms)
 }
 
 //
+// am_display CVAR
+//
+static void am_display_cvar_func2(char *cmd, char *parms)
+{
+    const int   am_display_old = am_display;
+
+    int_cvars_func2(cmd, parms);
+
+    if (am_display != am_display_old && am_external)
+    {
+        I_DestroyExternalAutomap();
+
+        if (I_CreateExternalAutomap())
+        {
+            if (gamestate == GS_LEVEL)
+                AM_Start(false);
+        }
+        else
+        {
+            mapscreen = *screens;
+
+            if (gamestate == GS_LEVEL)
+                AM_Stop();
+        }
+
+        AM_SetAutomapSize(r_screensize);
+    }
+}
+
+//
 // am_external CVAR
 //
 static void am_external_cvar_func2(char *cmd, char *parms)
@@ -7984,11 +8017,11 @@ static void am_external_cvar_func2(char *cmd, char *parms)
     {
         if (am_external)
         {
-            I_CreateExternalAutomap();
-            am_followmode = true;
-
-            if (gamestate == GS_LEVEL)
-                AM_Start(false);
+            if (I_CreateExternalAutomap())
+            {
+                if (gamestate == GS_LEVEL)
+                    AM_Start(false);
+            }
         }
         else
         {

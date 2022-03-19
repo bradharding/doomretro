@@ -73,6 +73,7 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT          (am_bluedoorcolor,                 am_bluedoorcolour,                     am_bluedoorcolor,                      NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT          (am_cdwallcolor,                   am_cdwallcolour,                       am_cdwallcolor,                        NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT          (am_crosshaircolor,                am_crosshaircolour,                    am_crosshaircolor,                     NOVALUEALIAS          ),
+    CONFIG_VARIABLE_INT          (am_display,                       am_display,                            am_display,                            NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT          (am_external,                      am_external,                           am_external,                           BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT          (am_fdwallcolor,                   am_fdwallcolour,                       am_fdwallcolor,                        NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT          (am_grid,                          am_grid,                               am_grid,                               BOOLVALUEALIAS        ),
@@ -592,6 +593,8 @@ static void M_CheckCVARs(dboolean ispackageconfig)
 
     if (am_crosshaircolor < am_crosshaircolor_min || am_crosshaircolor > am_crosshaircolor_max)
         am_crosshaircolor = am_crosshaircolor_default;
+
+    am_display = MAX(am_display_min, am_display);
 
     if (am_external != false && am_external != true)
         am_external = am_external_default;

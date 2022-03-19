@@ -61,6 +61,7 @@ int         am_backcolor = am_backcolor_default;
 int         am_bluedoorcolor = am_bluedoorcolor_default;
 int         am_cdwallcolor = am_cdwallcolor_default;
 int         am_crosshaircolor = am_crosshaircolor_default;
+int         am_display = am_display_default;
 dboolean    am_external = am_external_default;
 int         am_fdwallcolor = am_fdwallcolor_default;
 dboolean    am_followmode = am_followmode_default;

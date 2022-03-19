@@ -50,6 +50,7 @@ extern int          am_backcolor;
 extern int          am_bluedoorcolor;
 extern int          am_cdwallcolor;
 extern int          am_crosshaircolor;
+extern int          am_display;
 extern dboolean     am_external;
 extern int          am_fdwallcolor;
 extern dboolean     am_followmode;
@@ -334,6 +335,10 @@ enum
 #define am_crosshaircolor_min              0
 #define am_crosshaircolor_default          4
 #define am_crosshaircolor_max              255
+
+#define am_display_min                     1
+#define am_display_default                 2
+#define am_display_max                     INT_MAX
 
 #define am_external_default                false
 

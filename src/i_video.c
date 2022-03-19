@@ -1112,7 +1112,7 @@ static void GetDisplays(void)
     }
 }
 
-void I_CreateExternalAutomap(void)
+dboolean I_CreateExternalAutomap(void)
 {
     uint32_t    pixelformat;
     uint32_t    rmask;
@@ -1120,14 +1120,13 @@ void I_CreateExternalAutomap(void)
     uint32_t    bmask;
     uint32_t    amask;
     int         bpp;
-    int         am_displayindex = !displayindex;
     const char  *displayname;
 
     mapscreen = *screens;
     mapblitfunc = &nullfunc;
 
     if (!am_external)
-        return;
+        return false;
 
     GetDisplays();
 
@@ -1136,7 +1135,14 @@ void I_CreateExternalAutomap(void)
         if (!togglingvanilla)
             C_Warning(1, "An external automap couldn't be created. Only one display was found.");
 
-        return;
+        return false;
+    }
+    else if (am_display > numdisplays)
+    {
+        if (!togglingvanilla)
+            C_Warning(1, "An external automap couldn't be created. Unable to find display %i.", am_display);
+
+        return false;
     }
 
     if (!(SDL_SetHintWithPriority(SDL_HINT_VIDEO_MINIMIZE_ON_FOCUS_LOSS, "0", SDL_HINT_OVERRIDE)))
@@ -1145,12 +1151,12 @@ void I_CreateExternalAutomap(void)
     if (!(SDL_SetHintWithPriority(SDL_HINT_MOUSE_RELATIVE_MODE_WARP, "1", SDL_HINT_OVERRIDE)))
         I_SDLError(SDL_SetHintWithPriority);
 
-    if (!mapwindow && !(mapwindow = SDL_CreateWindow("Automap", SDL_WINDOWPOS_UNDEFINED_DISPLAY(am_displayindex),
-        SDL_WINDOWPOS_UNDEFINED_DISPLAY(am_displayindex), 0, 0, (SDL_WINDOW_FULLSCREEN_DESKTOP | SDL_WINDOW_SKIP_TASKBAR))))
+    if (!mapwindow && !(mapwindow = SDL_CreateWindow("Automap", SDL_WINDOWPOS_UNDEFINED_DISPLAY(am_display - 1),
+        SDL_WINDOWPOS_UNDEFINED_DISPLAY(am_display - 1), 0, 0, (SDL_WINDOW_FULLSCREEN_DESKTOP | SDL_WINDOW_SKIP_TASKBAR))))
         I_SDLError(SDL_CreateWindow);
 
     MAPHEIGHT = VANILLAHEIGHT * SCREENSCALE;
-    MAPWIDTH = MIN(((displays[am_displayindex].w * MAPHEIGHT / displays[am_displayindex].h + 1) & ~3), MAXWIDTH);
+    MAPWIDTH = MIN(((displays[am_display - 1].w * MAPHEIGHT / displays[am_display - 1].h + 1) & ~3), MAXWIDTH);
     MAPAREA = MAPWIDTH * MAPHEIGHT;
 
     if (!(maprenderer = SDL_CreateRenderer(mapwindow, -1, SDL_RENDERER_TARGETTEXTURE)))
@@ -1210,10 +1216,12 @@ void I_CreateExternalAutomap(void)
     map_rect.w = MAPWIDTH;
     map_rect.h = MAPHEIGHT;
 
-    if ((displayname = SDL_GetDisplayName(am_displayindex)))
-        C_Output("Using \"%s\" (display %i of %i) for the automap.", displayname, displayindex + 1, numdisplays);
+    if ((displayname = SDL_GetDisplayName(am_display - 1)))
+        C_Output("Using \"%s\" (display %i of %i) to show the external automap.", displayname, am_display, numdisplays);
     else
-        C_Output("Using display %i of %i for the automap.", displayindex + 1, numdisplays);
+        C_Output("Using display %i of %i to show the external automap.", am_display, numdisplays);
+
+    return true;
 }
 
 void I_DestroyExternalAutomap(void)
@@ -1397,27 +1405,31 @@ static void SetVideoMode(dboolean createwindow, dboolean output)
     int                 bpp = 0;
     SDL_RendererInfo    rendererinfo;
     const char          *displayname = SDL_GetDisplayName((displayindex = vid_display - 1));
+    dboolean            instead = false;
 
-    if (displayindex < 0 || displayindex >= numdisplays)
+    if (displayindex >= numdisplays)
     {
         if (output)
             C_Warning(1, "Unable to find display %i.", vid_display);
 
         displayname = SDL_GetDisplayName((displayindex = vid_display_default - 1));
+        instead = true;
     }
 
     if (output)
     {
         if (displayname)
-            C_Output("Using \"%s\" (display %i of %i).", displayname, displayindex + 1, numdisplays);
+            C_Output("Using \"%s\" (display %i of %i)%s.",
+                displayname, displayindex + 1, numdisplays, (instead ? " instead" : ""));
         else
-            C_Output("Using display %i of %i.", displayindex + 1, numdisplays);
+            C_Output("Using display %i of %i%s.",
+                displayindex + 1, numdisplays, (instead ? " instead" : ""));
     }
 
     if (nowidescreen)
     {
         consolecmds[C_GetIndex(stringize(vid_widescreen))].flags |= CF_READONLY;
-        C_Warning(1, "The aspect ratio of this display is too low to support widescreen modes.");
+        C_Warning(1, "The aspect ratio of display %i is too low to support widescreen modes.", displayindex + 1);
     }
 
     if (vid_vsync)
