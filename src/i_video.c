@@ -1130,7 +1130,7 @@ dboolean I_CreateExternalAutomap(void)
 
     GetDisplays();
 
-    if (am_display > numdisplays)
+    if (am_display > numdisplays || am_display == vid_display)
     {
         if (!togglingvanilla)
             C_Warning(1, "An external automap couldn't be created. Display %i couldn't be found.", am_display);

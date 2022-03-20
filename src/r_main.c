@@ -412,7 +412,7 @@ void R_ExecuteSetViewSize(void)
     fovscale = finetangent[FINEANGLES / 4 + ((vid_widescreen ? r_fov : r_fov_default) + WIDEFOVDELTA) * FINEANGLES / 360 / 2];
     projection = FixedDiv(centerxfrac, fovscale);
 
-    R_InitBuffer(viewwidth, viewheight);
+    R_InitBuffer();
     R_InitTextureMapping();
 
     pspriteiscale = FixedDiv(FRACUNIT, pspritescale);

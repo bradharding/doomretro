@@ -1553,13 +1553,13 @@ void R_DrawDitherColorSpan(void)
 //
 // R_InitBuffer
 //
-void R_InitBuffer(int width, int height)
+void R_InitBuffer(void)
 {
     // Handle resize, e.g. smaller view windows with border and/or status bar.
-    viewwindowx = (SCREENWIDTH - width) / 2;
+    viewwindowx = (SCREENWIDTH - viewwidth) / 2;
 
     // Same with base row offset.
-    viewwindowy = (width == SCREENWIDTH ? 0 : (SCREENHEIGHT - SBARHEIGHT - height) / 2);
+    viewwindowy = (viewwidth == SCREENWIDTH ? 0 : (SCREENHEIGHT - SBARHEIGHT - viewheight) / 2);
 
     for (int i = 0, y = viewwindowy * SCREENWIDTH + viewwindowx; y < SCREENAREA; i++, y += SCREENWIDTH)
     {
@@ -1593,7 +1593,7 @@ void R_FillBezel(void)
         for (int x = 0; x < (SCREENWIDTH - NONWIDEWIDTH) / 2 / SCREENSCALE; x += 8)
             V_DrawPatch(x - WIDESCREENDELTA, VANILLAHEIGHT - VANILLASBARHEIGHT, 0, brdr_b);
 
-        for (int x = SCREENWIDTH / SCREENSCALE - 8; x >= ((SCREENWIDTH - NONWIDEWIDTH) / 2 + NONWIDEWIDTH) / SCREENSCALE - 8; x -= 8)
+        for (int x = SCREENWIDTH / SCREENSCALE - 8; x >= (SCREENWIDTH + NONWIDEWIDTH) / 2 / SCREENSCALE - 8; x -= 8)
             V_DrawPatch(x - WIDESCREENDELTA, VANILLAHEIGHT - VANILLASBARHEIGHT, 0, brdr_b);
     }
 }
