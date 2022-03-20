@@ -3,6 +3,7 @@
 #### DOOM Retro v4.5
 
 * Minor changes have been made to text that is output to the console.
+* The display the external automap is shown on can now be specified using the new `am_display` CVAR, which is `2` by default.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
