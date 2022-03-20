@@ -451,6 +451,8 @@ void R_DrawPlanes(void)
                     // to use info lumps.
                     angle_t         an = viewangle;
 
+                    const angle_t   *skyangle = (r_linearskies ? linearskyangle : xtoviewangle);
+
                     if (picnum & PL_SKYFLAT)
                     {
                         // Sky linedef
@@ -507,10 +509,8 @@ void R_DrawPlanes(void)
                     for (dc_x = pl->left; dc_x <= pl->right; dc_x++)
                         if ((dc_yl = pl->top[dc_x]) != UINT_MAX && dc_yl <= (dc_yh = pl->bottom[dc_x]))
                         {
-                            int angle = (r_linearskies ? linearskyangle[dc_x] : xtoviewangle[dc_x]);
-
                             dc_source = R_GetTextureColumn(tex_patch,
-                                ((((an + angle) ^ flip) / (1 << (ANGLETOSKYSHIFT - FRACBITS))) + skycolumnoffset) / FRACUNIT);
+                                ((((an + skyangle[dc_x]) ^ flip) / (1 << (ANGLETOSKYSHIFT - FRACBITS))) + skycolumnoffset) / FRACUNIT);
 
                             skycolfunc();
                         }

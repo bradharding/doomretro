@@ -5,7 +5,7 @@
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Minor changes have been made to text that is output to the console.
 * The display used to show the external automap can now be specified using the new `am_display` CVAR, which is `2` by default.
-* Skies are now drawn horizontally linear. This can be toggled `off` using the new `r_linearskies` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
+* Skies are now drawn horizontally linear and no longer stretch at the left and right edges of the player’s view. This can be toggled `off` using the new `r_linearskies` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
