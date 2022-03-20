@@ -159,6 +159,7 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT          (r_homindicator,                   r_homindicator,                        r_homindicator,                        BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT          (r_hud,                            r_hud,                                 r_hud,                                 BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT          (r_hud_translucency,               r_hud_translucency,                    r_hud_translucency,                    BOOLVALUEALIAS        ),
+    CONFIG_VARIABLE_INT          (r_linearskies,                    r_linearskies,                         r_linearskies,                         BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT          (r_liquid_bob,                     r_liquid_bob,                          r_liquid_bob,                          BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT          (r_liquid_clipsprites,             r_liquid_clipsprites,                  r_liquid_clipsprites,                  BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT          (r_liquid_current,                 r_liquid_current,                      r_liquid_current,                      BOOLVALUEALIAS        ),
@@ -849,6 +850,9 @@ static void M_CheckCVARs(dboolean ispackageconfig)
 
     if (r_hud_translucency != false && r_hud_translucency != true)
         r_hud_translucency = r_hud_translucency_default;
+
+    if (r_linearskies != false && r_linearskies != true)
+        r_linearskies = r_linearskies_default;
 
     if (r_liquid_bob != false && r_liquid_bob != true)
         r_liquid_bob = r_liquid_bob_default;

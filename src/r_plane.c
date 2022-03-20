@@ -79,6 +79,7 @@ fixed_t             yslopes[LOOKDIRS][MAXHEIGHT];
 
 static fixed_t      cachedheight[MAXHEIGHT];
 
+dboolean            r_linearskies = r_linearskies_default;
 dboolean            r_liquid_current = r_liquid_current_default;
 dboolean            r_liquid_swirl = r_liquid_swirl_default;
 
@@ -506,8 +507,10 @@ void R_DrawPlanes(void)
                     for (dc_x = pl->left; dc_x <= pl->right; dc_x++)
                         if ((dc_yl = pl->top[dc_x]) != UINT_MAX && dc_yl <= (dc_yh = pl->bottom[dc_x]))
                         {
+                            int angle = (r_linearskies ? linearskyangle[dc_x] : xtoviewangle[dc_x]);
+
                             dc_source = R_GetTextureColumn(tex_patch,
-                                ((((an + xtoviewangle[dc_x]) ^ flip) / (1 << (ANGLETOSKYSHIFT - FRACBITS))) + skycolumnoffset) / FRACUNIT);
+                                ((((an + angle) ^ flip) / (1 << (ANGLETOSKYSHIFT - FRACBITS))) + skycolumnoffset) / FRACUNIT);
 
                             skycolfunc();
                         }
