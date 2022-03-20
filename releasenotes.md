@@ -4,7 +4,9 @@
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Minor changes have been made to text that is output to the console.
-* The display used to show the external automap can now be specified using the new `am_display` CVAR, which is `2` by default.
+* The following changes have been made to the external automap:
+  * The display used to show the external automap can now be specified using the new `am_display` CVAR, which is `2` by default.
+  * Zooming in and out of the external automap is now only possible if the `+zoomin` and `+zoomout` actions are rebound from the <kbd><b>+</b></kbd> and <kbd><b>&ndash;</b></kbd> keys.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

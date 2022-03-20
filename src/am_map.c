@@ -764,14 +764,14 @@ dboolean AM_Responder(const event_t *ev)
                 }
 
                 // zoom out
-                else if (key == keyboardzoomout && !movement)
+                else if (key == keyboardzoomout && !movement && (!mapwindow || keyboardzoomout != KEY_MINUS))
                 {
                     keydown = key;
                     AM_ToggleZoomOut();
                 }
 
                 // zoom in
-                else if (key == keyboardzoomin && !movement)
+                else if (key == keyboardzoomin && !movement && (!mapwindow || keyboardzoomout != KEY_EQUALS))
                 {
                     keydown = key;
                     AM_ToggleZoomIn();
