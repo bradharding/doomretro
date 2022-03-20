@@ -799,8 +799,6 @@ consolecmd_t consolecmds[] =
         "Toggles a heads-up display in widescreen mode."),
     CVAR_BOOL(r_hud_translucency, "", bool_cvars_func1, r_hud_translucency_cvar_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles the translucency of the heads-up display in widescreen mode."),
-    CVAR_BOOL(r_linearsky, "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
-        "Toggles the sky to be horizontally linear."),
     CVAR_BOOL(r_liquid_bob, "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles the bob of liquid sectors and the sprites in them."),
     CVAR_BOOL(r_liquid_clipsprites, "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,

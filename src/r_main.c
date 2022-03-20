@@ -84,12 +84,10 @@ angle_t             clipangle;
 // There will be many angles mapped to the same x.
 int                 viewangletox[FINEANGLES / 2];
 
-// The xtoviewangleangle[] table maps a screen pixel
+// The xtoviewangle[] table maps a screen pixel
 // to the lowest viewangle that maps back to x ranges
 // from clipangle to -clipangle.
 angle_t             xtoviewangle[MAXWIDTH + 1];
-
-angle_t             linearskyangle[MAXWIDTH + 1];
 
 fixed_t             finesine[5 * FINEANGLES / 4];
 fixed_t             *finecosine = &finesine[FINEANGLES / 4];
@@ -335,10 +333,6 @@ static void R_InitTextureMapping(void)
         for (i = 0; viewangletox[i] > x; i++);
 
         xtoviewangle[x] = (i << ANGLETOFINESHIFT) - ANG90;
-
-        // [crispy] calculate sky angle for drawing horizontally linear skies.
-        // Taken from GZDoom and refactored for integer math.
-        linearskyangle[x] = ((viewwidth / 2 - x) * ((SCREENWIDTH << 6) / viewwidth)) * (ANG90 / (NONWIDEWIDTH << 6));
     }
 
     // Take out the fencepost cases from viewangletox.
