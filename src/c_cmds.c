@@ -2963,20 +2963,20 @@ static void kill_cmd_func2(char *cmd, char *parms)
                     if (M_StringCompare(playername, playername_default))
                     {
                         if (kills == 1)
-                            C_PlayerMessage("You killed the only monster %s this map.",
-                                (viewplayer->killcount == 1 ? "in" : "left in"));
+                            C_PlayerMessage("You %s the only monster %s this map.",
+                                killed, (viewplayer->killcount == 1 ? "in" : "left in"));
                         else
-                            C_PlayerMessage("You killed the %s monsters %s this map.",
-                                temp, (viewplayer->killcount == kills ? "in" : "left in"));
+                            C_PlayerMessage("You %s the %s monsters %s this map.",
+                                killed, temp, (viewplayer->killcount == kills ? "in" : "left in"));
                     }
                     else
                     {
                         if (kills == 1)
-                            C_PlayerMessage("%s killed the only monster %s this map.",
-                                playername, (viewplayer->killcount == 1 ? "in" : "left in"));
+                            C_PlayerMessage("%s %s the only monster %s this map.",
+                                playername, killed, (viewplayer->killcount == 1 ? "in" : "left in"));
                         else
-                            C_PlayerMessage("%s killed the %s monsters %s this map.",
-                                playername, temp, (viewplayer->killcount == kills ? "in" : "left in"));
+                            C_PlayerMessage("%s %s the %s monsters %s this map.",
+                                playername, killed, temp, (viewplayer->killcount == kills ? "in" : "left in"));
                     }
 
                     C_HideConsole();
@@ -3011,11 +3011,11 @@ static void kill_cmd_func2(char *cmd, char *parms)
                     char    *temp = commify(kills);
 
                     if (M_StringCompare(playername, playername_default))
-                        C_PlayerMessage("You exploded %s missile%s.",
-                            (kills == 1 ? "one" : temp), (kills == 1 ? "" : "s"));
+                        C_PlayerMessage("You %s %s missile%s.",
+                            killed, (kills == 1 ? "one" : temp), (kills == 1 ? "" : "s"));
                     else
-                        C_PlayerMessage("%s exploded %s missile%s.",
-                            playername, (kills == 1 ? "one" : temp), (kills == 1 ? "" : "s"));
+                        C_PlayerMessage("%s %s %s missile%s.",
+                            playername, killed, (kills == 1 ? "one" : temp), (kills == 1 ? "" : "s"));
 
                     C_HideConsole();
                     viewplayer->cheated++;
@@ -3024,7 +3024,7 @@ static void kill_cmd_func2(char *cmd, char *parms)
                     free(temp);
                 }
                 else
-                    C_Warning(0, "There are no missiles to explode.");
+                    C_Warning(0, "There are no missiles to %s.", cmd);
             }
             else if (M_StringCompare(parm, "item") || M_StringCompare(parm, "items"))
             {
@@ -3051,17 +3051,17 @@ static void kill_cmd_func2(char *cmd, char *parms)
                     char    *temp = commify(kills);
 
                     if (M_StringCompare(playername, playername_default))
-                        C_PlayerMessage("You removed %s item%s.",
-                            (kills == 1 ? "one" : temp), (kills == 1 ? "" : "s"));
+                        C_PlayerMessage("You %s %s item%s.",
+                            killed, (kills == 1 ? "one" : temp), (kills == 1 ? "" : "s"));
                     else
-                        C_PlayerMessage("%s removed %s item%s.",
-                            playername, (kills == 1 ? "one" : temp), (kills == 1 ? "" : "s"));
+                        C_PlayerMessage("%s %s %s item%s.",
+                            playername, killed, (kills == 1 ? "one" : temp), (kills == 1 ? "" : "s"));
 
                     C_HideConsole();
                     free(temp);
                 }
                 else
-                    C_Warning(0, "There are no items to remove.");
+                    C_Warning(0, "There are no items to %s.", cmd);
             }
             else if (M_StringCompare(parm, "decoration") || M_StringCompare(parm, "decorations"))
             {
@@ -3088,11 +3088,11 @@ static void kill_cmd_func2(char *cmd, char *parms)
                     char    *temp = commify(kills);
 
                     if (M_StringCompare(playername, playername_default))
-                        C_PlayerMessage("You removed %s decoration%s.",
-                            (kills == 1 ? "one" : temp), (kills == 1 ? "" : "s"));
+                        C_PlayerMessage("You %s %s decoration%s.",
+                            killed, (kills == 1 ? "one" : temp), (kills == 1 ? "" : "s"));
                     else
-                        C_PlayerMessage("%s removed %s decoration%s.",
-                            playername, (kills == 1 ? "one" : temp), (kills == 1 ? "" : "s"));
+                        C_PlayerMessage("%s %s %s decoration%s.",
+                            playername, killed, (kills == 1 ? "one" : temp), (kills == 1 ? "" : "s"));
 
                     C_HideConsole();
                     viewplayer->cheated++;
@@ -3101,7 +3101,7 @@ static void kill_cmd_func2(char *cmd, char *parms)
                     free(temp);
                 }
                 else
-                    C_Warning(0, "There are no decorations to remove.");
+                    C_Warning(0, "There are no decorations to %s.", cmd);
             }
             else if (M_StringCompare(parm, "everything"))
             {
@@ -3145,9 +3145,9 @@ static void kill_cmd_func2(char *cmd, char *parms)
                 if (kills)
                 {
                     if (M_StringCompare(playername, playername_default))
-                        C_PlayerMessage("You removed everything.");
+                        C_PlayerMessage("You %s everything.", killed);
                     else
-                        C_PlayerMessage("%s removed everything.", playername);
+                        C_PlayerMessage("%s %s everything.", playername, killed);
 
                     C_HideConsole();
                     viewplayer->cheated++;
@@ -3155,7 +3155,7 @@ static void kill_cmd_func2(char *cmd, char *parms)
                     M_SaveCVARs();
                 }
                 else
-                    C_Warning(0, "There is nothing left to remove.");
+                    C_Warning(0, "There is nothing left to %s.", cmd);
             }
             else if (M_StringCompare(parm, "corpse") || M_StringCompare(parm, "corpses"))
             {
@@ -3182,14 +3182,14 @@ static void kill_cmd_func2(char *cmd, char *parms)
                 if (kills)
                 {
                     if (M_StringCompare(playername, playername_default))
-                        C_PlayerMessage("You removed all corpses.");
+                        C_PlayerMessage("You %s all corpses.", killed);
                     else
-                        C_PlayerMessage("%s removed all corpses.", playername);
+                        C_PlayerMessage("%s %s all corpses.", playername, killed);
 
                     C_HideConsole();
                 }
                 else
-                    C_Warning(0, "There are no corpses to remove.");
+                    C_Warning(0, "There are no corpses to %s.", cmd);
             }
             else if (M_StringCompare(parm, "blood") || M_StringCompare(parm, "bloodsplat") || M_StringCompare(parm, "bloodsplats"))
             {
@@ -3198,14 +3198,14 @@ static void kill_cmd_func2(char *cmd, char *parms)
                     P_RemoveBloodsplats();
 
                     if (M_StringCompare(playername, playername_default))
-                        C_PlayerMessage("You removed all blood splats.");
+                        C_PlayerMessage("You %s all blood splats.", killed);
                     else
-                        C_PlayerMessage("%s removed all blood splats.", playername);
+                        C_PlayerMessage("%s %s all blood splats.", playername, killed);
 
                     C_HideConsole();
                 }
                 else
-                    C_Warning(0, "There are no blood splats to remove.");
+                    C_Warning(0, "There are no blood splats to %s.", cmd);
             }
             else if (killcmdmobj)
             {
@@ -3223,9 +3223,9 @@ static void kill_cmd_func2(char *cmd, char *parms)
                 }
 
                 if (M_StringCompare(playername, playername_default))
-                    C_PlayerMessage("You killed %s.", temp);
+                    C_PlayerMessage("You %s %s.", killed, temp);
                 else
-                    C_PlayerMessage("%s killed %s.", playername, temp);
+                    C_PlayerMessage("%s %s %s.", playername, killed, temp);
 
                 C_HideConsole();
                 viewplayer->cheated++;
