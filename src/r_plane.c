@@ -79,7 +79,7 @@ fixed_t             yslopes[LOOKDIRS][MAXHEIGHT];
 
 static fixed_t      cachedheight[MAXHEIGHT];
 
-dboolean            r_linearskies = r_linearskies_default;
+dboolean            r_linearsky = r_linearsky_default;
 dboolean            r_liquid_current = r_liquid_current_default;
 dboolean            r_liquid_swirl = r_liquid_swirl_default;
 
@@ -451,7 +451,7 @@ void R_DrawPlanes(void)
                     // to use info lumps.
                     angle_t         an = viewangle;
 
-                    const angle_t   *skyangle = (r_linearskies ? linearskyangle : xtoviewangle);
+                    const angle_t   *skyangle = (r_linearsky ? linearskyangle : xtoviewangle);
 
                     if (picnum & PL_SKYFLAT)
                     {
