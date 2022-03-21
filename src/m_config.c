@@ -555,7 +555,7 @@ static int ParseIntParameter(char *strparm, int valuealiastype)
         if (M_StringCompare(strparm, valuealiases[i].text) && valuealiastype == valuealiases[i].type)
             return valuealiases[i].value;
 
-    return (sscanf(strparm, "%10i", &parm) == 1 ? parm : INT_MAX);
+    return (sscanf(strparm, "%10i", &parm) == 1 ? parm : 0);
 }
 
 // Parses float values in the configuration file

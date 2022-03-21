@@ -430,7 +430,10 @@ static void ST_RefreshBackground(void)
 
 static void ST_PlayerCheated(void)
 {
-    C_Warning(0, "%s cheated.", (M_StringCompare(playername, playername_default) ? "You" : playername));
+    C_Warning(0, "%s cheated%s.",
+        (M_StringCompare(playername, playername_default) ? "You" : playername),
+        (viewplayer->cheated ? " again" : ""));
+
     stat_cheated = SafeAdd(stat_cheated, 1);
     viewplayer->cheated++;
 }
