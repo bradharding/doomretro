@@ -443,6 +443,8 @@ static int ST_CalcPainOffset(void);
 // Respond to keyboard input events, intercept cheats.
 dboolean ST_Responder(event_t *ev)
 {
+    dboolean    cheatfailed = false;
+
     // if a user keypress...
     if (ev->type == ev_keydown || *consolecheat)
     {
@@ -490,8 +492,6 @@ dboolean ST_Responder(event_t *ev)
                     viewplayer->health = oldhealth;
                     viewplayer->mo->health = oldhealth;
                 }
-
-                message_dontfuckwithme = true;
             }
 
             // 'fa' cheat for killer fucking arsenal
@@ -540,9 +540,9 @@ dboolean ST_Responder(event_t *ev)
                     ST_PlayerCheated();
                     C_Output(s_STSTR_FAADDED);
                     HU_SetPlayerMessage(s_STSTR_FAADDED, false, false);
-
-                    message_dontfuckwithme = true;
                 }
+                else
+                    cheatfailed = true;
             }
 
             // 'kfa' cheat for key full ammo
@@ -597,9 +597,9 @@ dboolean ST_Responder(event_t *ev)
                     ST_PlayerCheated();
                     C_Output(s_STSTR_KFAADDED);
                     HU_SetPlayerMessage(s_STSTR_KFAADDED, false, false);
-
-                    message_dontfuckwithme = true;
                 }
+                else
+                    cheatfailed = true;
             }
 
             // 'mus' cheat for changing music
@@ -640,7 +640,6 @@ dboolean ST_Responder(event_t *ev)
                             C_Output(msg);
                             HU_SetPlayerMessage(msg, false, false);
 
-                            message_dontfuckwithme = true;
                             free(temp);
                         }
                         else
@@ -673,8 +672,6 @@ dboolean ST_Responder(event_t *ev)
                     C_Output(s_STSTR_NCOFF);
                     HU_SetPlayerMessage(s_STSTR_NCOFF, false, false);
                 }
-
-                message_dontfuckwithme = true;
             }
 
             // 'behold?' power-up cheats
@@ -814,7 +811,8 @@ dboolean ST_Responder(event_t *ev)
                     message_dontfuckwithme = true;
                     idbehold = false;
 
-                    C_HideConsole();
+                    if (!cheatfailed)
+                        C_HideConsole();
 
                     return true;
                 }
