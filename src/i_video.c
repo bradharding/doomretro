@@ -1422,7 +1422,7 @@ static void SetVideoMode(dboolean createwindow, dboolean output)
     if (nowidescreen && output)
     {
         consolecmds[C_GetIndex(stringize(vid_widescreen))].flags |= CF_READONLY;
-        C_Warning(1, "The aspect ratio of display %i is too low to show " DOOMRETRO_NAME " in widescreen.",
+        C_Warning(1, "The aspect ratio of display %i is too low to show " ITALICS(DOOMRETRO_NAME) " in widescreen.",
             displayindex + 1);
     }
 
