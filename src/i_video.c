@@ -471,7 +471,7 @@ static void I_GetEvent(void)
                     {
                         idbehold = false;
                         HU_ClearMessages();
-                        C_Input(cheat_powerup[6].sequence);
+                        C_Cheat(cheat_powerup[6].sequence);
                         C_Output(s_STSTR_BEHOLD);
                     }
 
@@ -524,7 +524,7 @@ static void I_GetEvent(void)
                 {
                     HU_ClearMessages();
                     idbehold = false;
-                    C_Input(cheat_powerup[6].sequence);
+                    C_Cheat(cheat_powerup[6].sequence);
                     C_Output(s_STSTR_BEHOLD);
                 }
 

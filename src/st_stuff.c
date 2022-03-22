@@ -448,13 +448,13 @@ static int ST_CalcPainOffset(void);
 // Respond to keyboard input events, intercept cheats.
 dboolean ST_Responder(event_t *ev)
 {
-    dboolean    cheatfailed = false;
-
     // if a user keypress...
     if (ev->type == ev_keydown || *consolecheat)
     {
         if (!menuactive && !paused)     // [BH] no cheats when in menu or paused
         {
+            dboolean    cheatfailed = false;
+
             if (!*consolecheat && cht_CheckCheat(&cheat_mus, ev->data2) && !nomusic && musicVolume)
                 idmus = true;
 
@@ -952,20 +952,22 @@ dboolean ST_Responder(event_t *ev)
 
                 if (viewplayer->cheats & CF_ALLMAP)
                 {
-                    viewplayer->cheats ^= CF_ALLMAP;
-                    viewplayer->cheats ^= CF_ALLMAP_THINGS;
+                    viewplayer->cheats &= ~CF_ALLMAP;
+                    viewplayer->cheats |= CF_ALLMAP_THINGS;
                     ST_PlayerCheated(cheat_amap.sequence, true);
                 }
                 else if (viewplayer->cheats & CF_ALLMAP_THINGS)
                 {
-                    viewplayer->cheats ^= CF_ALLMAP_THINGS;
+                    viewplayer->cheats &= ~CF_ALLMAP_THINGS;
                     ST_PlayerCheated(cheat_amap.sequence, false);
                 }
                 else
                 {
-                    viewplayer->cheats ^= CF_ALLMAP;
+                    viewplayer->cheats |= CF_ALLMAP;
                     ST_PlayerCheated(cheat_amap.sequence, true);
                 }
+
+                D_FadeScreen(false);
             }
 
             // 'clev' change-level cheat

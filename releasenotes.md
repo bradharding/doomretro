@@ -12,7 +12,7 @@
   * The cheat is now replaced with a series of bullet characters when displayed in the console.
   * The cheat no longer appears in the console’s input history when pressing the <kbd><b>&uarr;</b></kbd> or <kbd><b>&darr;</b></kbd> keys.
   * A warning is now displayed in the console indicating that the player has cheated.
-  * A fade effect is no longer be applied if the `fade` CVAR is `on`.
+  * A fade effect is no longer be applied in most cases if the `fade` CVAR is `on`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
