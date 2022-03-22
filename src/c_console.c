@@ -84,6 +84,7 @@ static patch_t          *trademark;
 static patch_t          *copyright;
 static patch_t          *regomark;
 static patch_t          *multiply;
+static patch_t          *bullet;
 static patch_t          *warning;
 
 patch_t                 *bindlist;
@@ -186,6 +187,26 @@ void C_Input(const char *string, ...)
     caretpos = 0;
     selectstart = 0;
     selectend = 0;
+}
+
+void C_Cheat(const char *string)
+{
+    char        buffer[CONSOLETEXTMAXLENGTH] = "";
+    const int   len = (int)strlen(string);
+
+    for (int i = 0; i < len; i++)
+        buffer[i] = '\x95';
+
+    buffer[len] = '\0';
+
+    if (consolestrings >= (int)consolestringsmax)
+        console = I_Realloc(console, (consolestringsmax += CONSOLESTRINGSMAX) * sizeof(*console));
+
+    M_StringCopy(console[consolestrings].string, buffer, sizeof(console[consolestrings].string));
+    console[consolestrings].indent = 0;
+    console[consolestrings].wrap = 0;
+    console[consolestrings++].stringtype = cheatstring;
+    outputhistory = -1;
 }
 
 void C_IntCVAROutput(const char *cvar, int value)
@@ -496,6 +517,11 @@ static int C_TextWidth(const char *text, const dboolean formatting, const dboole
             italics = !italics;
             continue;
         }
+        else if (letter == 149)
+        {
+            width += SHORT(bullet->width);
+            i++;
+        }
         else if (letter == 150)
         {
             width += SHORT(endash->width);
@@ -695,11 +721,13 @@ void C_Init(void)
     consolescrollbarfacecolor = nearestcolors[consolescrollbarfacecolor];
 
     consolecolors[inputstring] = consoleinputtooutputcolor;
+    consolecolors[cheatstring] = consoleinputtooutputcolor;
     consolecolors[outputstring] = consoleoutputcolor;
     consolecolors[warningstring] = consolewarningcolor;
     consolecolors[playermessagestring] = consoleplayermessagecolor;
 
     consoleboldcolors[inputstring] = consoleboldcolor;
+    consoleboldcolors[cheatstring] = consoleboldcolor;
     consoleboldcolors[outputstring] = consoleboldcolor;
     consoleboldcolors[warningstring] = consolewarningboldcolor;
     consoleboldcolors[playermessagestring] = consoleplayermessagecolor;
@@ -710,6 +738,7 @@ void C_Init(void)
     brand = W_CacheLastLumpName("DRBRAND");
     lsquote = W_CacheLastLumpName("DRFON145");
     ldquote = W_CacheLastLumpName("DRFON147");
+    bullet = W_CacheLastLumpName("DRFON149");
     endash = W_CacheLastLumpName("DRFON150");
     trademark = W_CacheLastLumpName("DRFON153");
     copyright = W_CacheLastLumpName("DRFON169");
@@ -954,6 +983,8 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
                 else
                     x = (x > tabs[++tab] ? x + spacewidth : tabs[tab]);
             }
+            else if (letter == 149)
+                patch = bullet;
             else if (letter == 150)
                 patch = endash;
             else if (letter == 153)
@@ -1439,7 +1470,7 @@ void C_Drawer(void)
             else if (stringtype == outputstring)
                 C_DrawConsoleText(CONSOLETEXTX, y, text, consoleoutputcolor,
                     NOBACKGROUNDCOLOR, consoleboldcolor, tinttab66, console[i].tabs, true, true, i);
-            else if (stringtype == inputstring)
+            else if (stringtype == inputstring || stringtype == cheatstring)
                 C_DrawConsoleText(CONSOLETEXTX, y, text, consoleinputcolor,
                     NOBACKGROUNDCOLOR, consoleboldcolor, tinttab66, notabs, true, true, i);
             else if (stringtype == warningstring)
