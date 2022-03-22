@@ -9,9 +9,10 @@
   * Zooming in and out of the external automap is now only possible if the `+zoomin` and `+zoomout` actions are rebound from the <kbd><b>+</b></kbd> and <kbd><b>&ndash;</b></kbd> keys.
 * If the `r_fov` CVAR is changed from its default of `90`, it is now effective again when the `vid_widescreen` CVAR is `off`.
 * The following changes have been made when the player enters a cheat:
-  * The cheat sequence will no longer appear in the console.
-  * A warning will be displayed in the console indicating that the player has cheated.
-  * A fade effect will no longer be applied if the `fade` CVAR is `on`.
+  * The cheat is now replaced with a series of bullet characters when displayed in the console.
+  * The cheat no longer appears in the console’s input history when pressing the <kbd><b>&uarr;</b></kbd> or <kbd><b>&darr;</b></kbd> keys.
+  * A warning is now displayed in the console indicating that the player has cheated.
+  * A fade effect is no longer be applied if the `fade` CVAR is `on`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
@@ -98,7 +99,7 @@
 * Further improvements have been made to the support for [*DOOM 4 VANILLA*](https://www.doomworld.com/forum/topic/108725).
 * The widescreen status bar now appears correctly on display resolutions with an aspect ratio less than 16:9.
 * The bottom of sprites are no longer clipped while falling above a liquid sector if the `r_liquid_clipsprites` CVAR is `on`.
-* The music’s volume is now lowered if the <kbd>PAUSE</kbd> key is pressed and the `s_lowermusicvolume` CVAR is `on`.
+* The music’s volume is now lowered if the <kbd><b>PAUSE</b></kbd> key is pressed and the `s_lowermusicvolume` CVAR is `on`.
 * Music now always stops playing in the background when *DOOM Retro’s* window loses focus and the `s_musicinbackground` CVAR is `off`.
 * The `+back`, `+left`, `+right`, `+strafeleft` and `+straferight` actions may now be bound to a mouse button using the `bind` CCMD.
 
@@ -152,8 +153,8 @@
 * Crashes no longer occur in the following instances:
   * When loading two or more PWADs without an IWAD using the WAD launcher.
   * When loading a PWAD containing a PNG lump.
-  * When sometimes enabling widescreen during a game by pressing the <kbd>+</kbd> key.
-* MIDI music will now actually pause rather than just be muted when *DOOM Retro’s* window loses focus or the <kbd>PAUSE</kbd> key is pressed.
+  * When sometimes enabling widescreen during a game by pressing the <kbd><b>+</b></kbd> key.
+* MIDI music will now actually pause rather than just be muted when *DOOM Retro’s* window loses focus or the <kbd><b>PAUSE</b></kbd> key is pressed.
 * Further improvements have been made to the support for controllers:
   * The LEDs on *PS4 DualShock 4* and *PS5 DualSense* controllers now change back to blue when quitting *DOOM Retro*.
   * Left thumbsticks are now bound to the `+alwaysrun` action by default.
