@@ -32,7 +32,7 @@
 * The following improvements have been made to the `remove` CCMD:
   * Item and teleport fogs now appear for all things that are removed.
   * Corpses will now be removed along with everything else when the `everything` parameter is used.
-  * A type of item may now be specified as a parameter. For example, `remove healthbonuses` will remove all health bonuses in the map.
+  * A type of item may now be specified as a parameter. For example, `remove healthbonuses` will remove all health bonuses from the map.
 * Compatibility fixes have been implemented that add blood splats to decorative corpses, and correct the offsets of sprites, in [*Ancient Aliens*](https://www.doomworld.com/idgames/levels/doom2/Ports/megawads/aaliens).
 * If the player picks up multiples of the same item, and they are all in exactly the same position, the resulting message and gold effect will now be the same as if they picked up only one item.
 * If the `r_fov` CVAR is changed from its default of `90`, it is now only effective when the `vid_widescreen` CVAR is `on`.

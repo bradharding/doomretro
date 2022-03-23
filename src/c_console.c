@@ -977,12 +977,7 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
             if (letter == ' ' && formatting)
                 x += spacewidth;
             else if (letter == '\t')
-            {
-                if (vid_widescreen)
-                    x = (x > tabs[++tab] + 18 ? x + spacewidth : tabs[tab] + 18);
-                else
-                    x = (x > tabs[++tab] ? x + spacewidth : tabs[tab]);
-            }
+                x = (x > tabs[++tab] + 18 * vid_widescreen ? x + spacewidth : tabs[tab] + 18 * vid_widescreen);
             else if (letter == 149)
                 patch = bullet;
             else if (letter == 150)
