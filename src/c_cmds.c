@@ -106,16 +106,16 @@
 
 #define PENDINGCHANGE               "This change won't be effective until the next map."
 
-#define INTEGERCVARWITHDEFAULT      "It is " BOLD("%s") " and is " BOLD("%s") " by default."
-#define INTEGERCVARWITHNODEFAULT    "It is " BOLD("%s") "."
-#define INTEGERCVARISDEFAULT        "It is its default of " BOLD("%s") "."
-#define PERCENTCVARWITHDEFAULT      "It is " BOLD("%s%%") " and is " BOLD("%s%%") " by default."
-#define PERCENTCVARWITHNODEFAULT    "It is " BOLD("%s%%") "."
-#define PERCENTCVARISDEFAULT        "It is its default of " BOLD("%s%%") "."
-#define STRINGCVARWITHDEFAULT       "It is " BOLD("\"%s\"") " and is " BOLD("\"%s\"") " by default."
-#define STRINGCVARWITHNODEFAULT     "It is " BOLD("%s%s%s") "."
-#define STRINGCVARISDEFAULT         "It is its default of " BOLD("\"%s\"") "."
-#define TIMECVARWITHNODEFAULT       "It is " BOLD("%02i:%02i:%02i") "."
+#define INTEGERCVARWITHDEFAULT      "It is currently " BOLD("%s") " and is " BOLD("%s") " by default."
+#define INTEGERCVARWITHNODEFAULT    "It is currently " BOLD("%s") "."
+#define INTEGERCVARISDEFAULT        "It is currently its default of " BOLD("%s") "."
+#define PERCENTCVARWITHDEFAULT      "It is currently " BOLD("%s%%") " and is " BOLD("%s%%") " by default."
+#define PERCENTCVARWITHNODEFAULT    "It is currently " BOLD("%s%%") "."
+#define PERCENTCVARISDEFAULT        "It is currently its default of " BOLD("%s%%") "."
+#define STRINGCVARWITHDEFAULT       "It is currently " BOLD("\"%s\"") " and is " BOLD("\"%s\"") " by default."
+#define STRINGCVARWITHNODEFAULT     "It is currently " BOLD("%s%s%s") "."
+#define STRINGCVARISDEFAULT         "It is currently its default of " BOLD("\"%s\"") "."
+#define TIMECVARWITHNODEFAULT       "It is currently " BOLD("%02i:%02i:%02i") "."
 
 #define INDENT                      "      "
 
@@ -1835,7 +1835,7 @@ static void C_DumpConsoleStringToFile(int index)
         int             tabcount = 0;
 
         if (console[index].stringtype == warningstring)
-            fputs((console[index].line == 1 ? "! " : (string[0] == ' ' ? " " : "  ")), condumpfile);
+            fputs((console[index].line == 1 ? "/!\\ " : (string[0] == ' ' ? " " : "  ")), condumpfile);
 
         for (int inpos = 0; inpos < len; inpos++)
         {
