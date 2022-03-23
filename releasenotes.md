@@ -2,6 +2,7 @@
 
 #### DOOM Retro v4.5
 
+* *DOOM Retro* is now compiled using v17.1.2 of [*Microsoft Visual Studio Community 2022*](https://www.visualstudio.com/vs/).
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Minor changes have been made to text that is output to the console.
 * The following changes have been made to the external automap:
