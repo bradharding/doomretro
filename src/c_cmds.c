@@ -1957,15 +1957,17 @@ static void cvarlist_cmd_func2(char *cmd, char *parms)
                     C_TabbedOutput(tabs, "%i.\t" BOLD("%s\t%i") "\t%s", count, consolecmds[i].name,
                         viewplayer->ammo[weaponinfo[viewplayer->readyweapon].ammotype], consolecmds[i].description);
                 else
-                    C_TabbedOutput(tabs, "%i.\t" BOLD("%s\t0") "\t%s", count, consolecmds[i].name, consolecmds[i].description);
+                    C_TabbedOutput(tabs, "%i.\t" BOLD("%s\t%i") "\t%s",
+                        count, consolecmds[i].name, ammo_default, consolecmds[i].description);
             }
             else if (M_StringCompare(consolecmds[i].name, stringize(armor)))
             {
                 if (gamestate == GS_LEVEL)
-                    C_TabbedOutput(tabs, "%i.\t" BOLD("%s\t%i%%") "\t%s", count, consolecmds[i].name, viewplayer->armorpoints,
-                        consolecmds[i].description);
+                    C_TabbedOutput(tabs, "%i.\t" BOLD("%s\t%i%%") "\t%s",
+                        count, consolecmds[i].name, viewplayer->armorpoints, consolecmds[i].description);
                 else
-                    C_TabbedOutput(tabs, "%i.\t" BOLD("%s\t0%%") "\t%s", count, consolecmds[i].name, consolecmds[i].description);
+                    C_TabbedOutput(tabs, "%i.\t" BOLD("%s\t%i%%") "\t%s",
+                        count, consolecmds[i].name, armor_default, consolecmds[i].description);
             }
             else if (M_StringCompare(consolecmds[i].name, stringize(armortype)))
             {
@@ -1982,22 +1984,28 @@ static void cvarlist_cmd_func2(char *cmd, char *parms)
             else if (M_StringCompare(consolecmds[i].name, stringize(health)))
             {
                 if (gamestate == GS_LEVEL)
-                    C_TabbedOutput(tabs, "%i.\t" BOLD("%s\t%i%%") "\t%s", count, consolecmds[i].name, viewplayer->health,
-                        consolecmds[i].description);
+                    C_TabbedOutput(tabs, "%i.\t" BOLD("%s\t%i%%") "\t%s",
+                        count, consolecmds[i].name, viewplayer->health, consolecmds[i].description);
                 else
-                    C_TabbedOutput(tabs, "%i.\t" BOLD("%s\t0%%") "\t%s", count, consolecmds[i].name, consolecmds[i].description);
+                    C_TabbedOutput(tabs, "%i.\t" BOLD("%s\t%i%%") "\t%s",
+                        count, consolecmds[i].name, health_default, consolecmds[i].description);
             }
             else if (M_StringCompare(consolecmds[i].name, stringize(weapon)))
             {
                 if (gamestate == GS_LEVEL)
                 {
-                    char *temp = C_LookupAliasFromValue(viewplayer->readyweapon, WEAPONVALUEALIAS);
+                    char    *temp = C_LookupAliasFromValue(viewplayer->readyweapon, WEAPONVALUEALIAS);
 
                     C_TabbedOutput(tabs, "%i.\t" BOLD("%s\t%s") "\t%s", count, consolecmds[i].name, temp, consolecmds[i].description);
                     free(temp);
                 }
                 else
-                    C_TabbedOutput(tabs, "%i.\t" BOLD("%s\tnone") "\t%s", count, consolecmds[i].name, consolecmds[i].description);
+                {
+                    char    *temp = C_LookupAliasFromValue(weapon_default, WEAPONVALUEALIAS);
+
+                    C_TabbedOutput(tabs, "%i.\t" BOLD("%s\t%s") "\t%s", count, consolecmds[i].name, temp, consolecmds[i].description);
+                    free(temp);
+                }
             }
             else if (consolecmds[i].flags & CF_BOOLEAN)
             {
