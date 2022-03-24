@@ -1873,6 +1873,7 @@ static void condump_cmd_func2(char *cmd, char *parms)
                 int             len = (int)strlen(string);
                 unsigned int    outpos = 0;
                 int             tabcount = 0;
+                unsigned char   prevletter = '\0';
 
                 if (console[i].stringtype == warningstring)
                     fputs((console[i].line == 1 ? "/!\\ " : (string[0] == ' ' ? " " : "  ")), file);
@@ -1899,11 +1900,33 @@ static void condump_cmd_func2(char *cmd, char *parms)
                             outpos++;
                         }
                     }
+                    else if (letter == '\'')
+                    {
+                        if (prevletter == '\0' || prevletter == ' ' || prevletter == '\t' || prevletter == '('
+                            || prevletter == '[' || prevletter == '{' || prevletter == '<' || prevletter == '"')
+                            fputc('\x91', file);
+                        else
+                            fputc('\x92', file);
+
+                        outpos++;
+                    }
+                    else if (letter == '"')
+                    {
+                        if (prevletter == '\0' || prevletter == ' ' || prevletter == '\t' || prevletter == '('
+                            || prevletter == '[' || prevletter == '{' || prevletter == '<' || prevletter == '\'')
+                            fputc('\x93', file);
+                        else
+                            fputc('\x94', file);
+
+                        outpos++;
+                    }
                     else if (letter != '\n' && letter != BOLDTOGGLECHAR && letter != ITALICSTOGGLECHAR)
                     {
                         fputc(letter, file);
                         outpos++;
                     }
+
+                    prevletter = letter;
                 }
 
                 if (console[i].stringtype == playermessagestring)
