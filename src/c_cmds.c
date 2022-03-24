@@ -1823,72 +1823,6 @@ static FILE *condumpfile = NULL;
 //
 // condump CCMD
 //
-static void C_DumpConsoleStringToFile(int index)
-{
-    if (console[index].stringtype == dividerstring)
-        fprintf(condumpfile, "%s\n", DIVIDERSTRING);
-    else
-    {
-        char            *string = M_StringDuplicate(console[index].string);
-        int             len = (int)strlen(string);
-        unsigned int    outpos = 0;
-        int             tabcount = 0;
-
-        if (console[index].stringtype == warningstring)
-            fputs((console[index].line == 1 ? "/!\\ " : (string[0] == ' ' ? " " : "  ")), condumpfile);
-
-        for (int inpos = 0; inpos < len; inpos++)
-        {
-            const unsigned char letter = string[inpos];
-
-            if (letter != '\n' && letter != BOLDTOGGLECHAR && letter != ITALICSTOGGLECHAR)
-            {
-                if (letter == '\t')
-                {
-                    const unsigned int  tabstop = console[index].tabs[tabcount] / 5;
-
-                    if (outpos < tabstop)
-                    {
-                        for (unsigned int spaces = 0; spaces < tabstop - outpos; spaces++)
-                            fputc(' ', condumpfile);
-
-                        outpos = tabstop;
-                        tabcount++;
-                    }
-                    else
-                    {
-                        fputc(' ', condumpfile);
-                        outpos++;
-                    }
-                }
-                else
-                {
-                    fputc(letter, condumpfile);
-                    outpos++;
-                }
-            }
-        }
-
-        if (console[index].stringtype == playermessagestring)
-        {
-            char    buffer[9];
-
-            for (unsigned int spaces = 0; spaces < 92 - outpos; spaces++)
-                fputc(' ', condumpfile);
-
-            M_StringCopy(buffer, C_CreateTimeStamp(index), sizeof(buffer));
-
-            if (strlen(buffer) == 7)
-                fputc(' ', condumpfile);
-
-            fputs(C_CreateTimeStamp(index), condumpfile);
-        }
-
-        fputc('\n', condumpfile);
-        free(string);
-    }
-}
-
 static dboolean condump_cmd_func1(char *cmd, char *parms)
 {
     return (consolestrings > 1);
@@ -1917,17 +1851,77 @@ static void condump_cmd_func2(char *cmd, char *parms)
             free(temp);
         }
     }
-    else if (strchr(parms, '.'))
-        M_snprintf(filename, sizeof(filename), "%s" DIR_SEPARATOR_S "%s", consolefolder, parms);
     else
-        M_snprintf(filename, sizeof(filename), "%s" DIR_SEPARATOR_S "%s.txt", consolefolder, parms);
+        M_snprintf(filename, sizeof(filename), "%s" DIR_SEPARATOR_S "%s%s",
+            consolefolder, parms, (strchr(parms, '.') ? "" : ".txt"));
 
     if ((condumpfile = fopen(filename, "wt")))
     {
         char    *temp = commify((int64_t)consolestrings - 2);
 
-        for (int i = 1; i < consolestrings; i++)
-            C_DumpConsoleStringToFile(i);
+        for (int i = 1; i < consolestrings - 1; i++)
+            if (console[i].stringtype == dividerstring)
+                fprintf(condumpfile, "%s\n", DIVIDERSTRING);
+            else
+            {
+                char            *string = M_StringDuplicate(console[i].string);
+                int             len = (int)strlen(string);
+                unsigned int    outpos = 0;
+                int             tabcount = 0;
+
+                if (console[i].stringtype == warningstring)
+                    fputs((console[i].line == 1 ? "/!\\ " : (string[0] == ' ' ? " " : "  ")), condumpfile);
+
+                for (int inpos = 0; inpos < len; inpos++)
+                {
+                    const unsigned char letter = string[inpos];
+
+                    if (letter != '\n' && letter != BOLDTOGGLECHAR && letter != ITALICSTOGGLECHAR)
+                    {
+                        if (letter == '\t')
+                        {
+                            const unsigned int  tabstop = console[i].tabs[tabcount] / 5;
+
+                            if (outpos < tabstop)
+                            {
+                                for (unsigned int spaces = 0; spaces < tabstop - outpos; spaces++)
+                                    fputc(' ', condumpfile);
+
+                                outpos = tabstop;
+                                tabcount++;
+                            }
+                            else
+                            {
+                                fputc(' ', condumpfile);
+                                outpos++;
+                            }
+                        }
+                        else
+                        {
+                            fputc(letter, condumpfile);
+                            outpos++;
+                        }
+                    }
+                }
+
+                if (console[i].stringtype == playermessagestring)
+                {
+                    char    buffer[9];
+
+                    for (unsigned int spaces = 0; spaces < 92 - outpos; spaces++)
+                        fputc(' ', condumpfile);
+
+                    M_StringCopy(buffer, C_CreateTimeStamp(i), sizeof(buffer));
+
+                    if (strlen(buffer) == 7)
+                        fputc(' ', condumpfile);
+
+                    fputs(C_CreateTimeStamp(i), condumpfile);
+                }
+
+                fputc('\n', condumpfile);
+                free(string);
+            }
 
         fclose(condumpfile);
 
