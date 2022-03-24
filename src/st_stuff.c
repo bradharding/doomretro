@@ -434,7 +434,7 @@ static void ST_PlayerCheated(char *cheat, dboolean warning)
 
     if (warning)
     {
-        C_Warning(0, "%s cheated%s.",
+        C_Warning(0, "%s cheated%s!",
             (M_StringCompare(playername, playername_default) ? "You" : playername),
             (viewplayer->cheated ? " again" : ""));
 
