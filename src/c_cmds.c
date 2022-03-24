@@ -9950,7 +9950,8 @@ static void weapon_cvar_func2(char *cmd, char *parms)
     {
         const int   value = C_LookupValueFromAlias(parms, WEAPONVALUEALIAS);
 
-        if (value != INT_MIN && value != viewplayer->readyweapon && viewplayer->pendingweapon == wp_nochange)
+        if (value != INT_MIN && value != viewplayer->readyweapon
+            && viewplayer->weaponowned[value] && viewplayer->pendingweapon == wp_nochange)
         {
             viewplayer->pendingweapon = value;
             C_HideConsole();
