@@ -1818,8 +1818,6 @@ static void cmdlist_cmd_func2(char *cmd, char *parms)
         }
 }
 
-static FILE *condumpfile = NULL;
-
 //
 // condump CCMD
 //
@@ -1830,9 +1828,10 @@ static dboolean condump_cmd_func1(char *cmd, char *parms)
 
 static void condump_cmd_func2(char *cmd, char *parms)
 {
+    char        consolefolder[MAX_PATH];
     char        filename[MAX_PATH];
     const char  *appdatafolder = M_GetAppDataFolder();
-    char        consolefolder[MAX_PATH];
+    FILE        *file;
 
     M_snprintf(consolefolder, sizeof(consolefolder), "%s" DIR_SEPARATOR_S "console", appdatafolder);
     M_MakeDirectory(consolefolder);
@@ -1855,13 +1854,13 @@ static void condump_cmd_func2(char *cmd, char *parms)
         M_snprintf(filename, sizeof(filename), "%s" DIR_SEPARATOR_S "%s%s",
             consolefolder, parms, (strchr(parms, '.') ? "" : ".txt"));
 
-    if ((condumpfile = fopen(filename, "wt")))
+    if ((file = fopen(filename, "wt")))
     {
         char    *temp = commify((int64_t)consolestrings - 2);
 
         for (int i = 1; i < consolestrings - 1; i++)
             if (console[i].stringtype == dividerstring)
-                fprintf(condumpfile, "%s\n", DIVIDERSTRING);
+                fprintf(file, "%s\n", DIVIDERSTRING);
             else
             {
                 char            *string = M_StringDuplicate(console[i].string);
@@ -1870,37 +1869,34 @@ static void condump_cmd_func2(char *cmd, char *parms)
                 int             tabcount = 0;
 
                 if (console[i].stringtype == warningstring)
-                    fputs((console[i].line == 1 ? "/!\\ " : (string[0] == ' ' ? " " : "  ")), condumpfile);
+                    fputs((console[i].line == 1 ? "/!\\ " : (string[0] == ' ' ? " " : "  ")), file);
 
                 for (int inpos = 0; inpos < len; inpos++)
                 {
                     const unsigned char letter = string[inpos];
 
-                    if (letter != '\n' && letter != BOLDTOGGLECHAR && letter != ITALICSTOGGLECHAR)
+                    if (letter == '\t')
                     {
-                        if (letter == '\t')
+                        const unsigned int  tabstop = console[i].tabs[tabcount] / 5;
+
+                        if (outpos < tabstop)
                         {
-                            const unsigned int  tabstop = console[i].tabs[tabcount] / 5;
+                            for (unsigned int spaces = 0; spaces < tabstop - outpos; spaces++)
+                                fputc(' ', file);
 
-                            if (outpos < tabstop)
-                            {
-                                for (unsigned int spaces = 0; spaces < tabstop - outpos; spaces++)
-                                    fputc(' ', condumpfile);
-
-                                outpos = tabstop;
-                                tabcount++;
-                            }
-                            else
-                            {
-                                fputc(' ', condumpfile);
-                                outpos++;
-                            }
+                            outpos = tabstop;
+                            tabcount++;
                         }
                         else
                         {
-                            fputc(letter, condumpfile);
+                            fputc(' ', file);
                             outpos++;
                         }
+                    }
+                    else if (letter != '\n' && letter != BOLDTOGGLECHAR && letter != ITALICSTOGGLECHAR)
+                    {
+                        fputc(letter, file);
+                        outpos++;
                     }
                 }
 
@@ -1909,21 +1905,21 @@ static void condump_cmd_func2(char *cmd, char *parms)
                     char    buffer[9];
 
                     for (unsigned int spaces = 0; spaces < 92 - outpos; spaces++)
-                        fputc(' ', condumpfile);
+                        fputc(' ', file);
 
                     M_StringCopy(buffer, C_CreateTimeStamp(i), sizeof(buffer));
 
                     if (strlen(buffer) == 7)
-                        fputc(' ', condumpfile);
+                        fputc(' ', file);
 
-                    fputs(C_CreateTimeStamp(i), condumpfile);
+                    fputs(buffer, file);
                 }
 
-                fputc('\n', condumpfile);
+                fputc('\n', file);
                 free(string);
             }
 
-        fclose(condumpfile);
+        fclose(file);
 
         C_Output("Dumped %s lines from the console to " BOLD("%s") ".", temp, filename);
         free(temp);
