@@ -768,6 +768,10 @@ enum
 #define warninglevel_default               1
 #define warninglevel_max                   2
 
+#define weapon_min                         wp_fist
+#define weapon_default                     wp_pistol
+#define weapon_max                         wp_supershotgun
+
 #define weaponbob_min                      0
 #define weaponbob_default                  75
 #define weaponbob_max                      100
@@ -896,7 +900,8 @@ typedef enum
     ARMORTYPEVALUEALIAS,
     CROSSHAIRVALUEALIAS,
     VSYNCVALUEALIAS,
-    PLAYERGENDERVALUEALIAS
+    PLAYERGENDERVALUEALIAS,
+    WEAPONVALUEALIAS
 } valuealias_type_t;
 
 typedef struct

@@ -125,6 +125,7 @@ static int  ammo;
 static int  armor;
 static int  armortype;
 static int  health;
+static int  weapon;
 
 static int  mapcmdepisode;
 static int  mapcmdmap;
@@ -470,6 +471,8 @@ static void vid_vsync_cvar_func2(char *cmd, char *parms);
 static void vid_widescreen_cvar_func2(char *cmd, char *parms);
 static void vid_windowpos_cvar_func2(char *cmd, char *parms);
 static void vid_windowsize_cvar_func2(char *cmd, char *parms);
+static dboolean weapon_cvar_func1(char *cmd, char *parms);
+static void weapon_cvar_func2(char *cmd, char *parms);
 static void weaponrecoil_cvar_func2(char *cmd, char *parms);
 
 static int C_LookupValueFromAlias(const char *text, const valuealias_type_t valuealiastype)
@@ -957,6 +960,9 @@ consolecmd_t consolecmds[] =
 #endif
     CVAR_INT(warninglevel, "", int_cvars_func1, int_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The console's warning level (" BOLD("0") ", " BOLD("1") " or " BOLD("2") ")."),
+    CVAR_INT(weapon, "", weapon_cvar_func1, weapon_cvar_func2, CF_NONE, WEAPONVALUEALIAS,
+        "The player's currently equipped weapon (" BOLD("fists") ", " BOLD("chainsaw") ", " BOLD("pistol") ", " BOLD("shotgun") ", " \
+        BOLD("supershotgun") ", " BOLD("chaingun") ", " BOLD("rocketlauncher") ", " BOLD("plasmarifle") " or " BOLD("bfg9000") ")."),
     CVAR_INT(weaponbob, "", int_cvars_func1, int_cvars_func2, CF_PERCENT, NOVALUEALIAS,
         "The amount the player's weapon bobs as they move (" BOLD("0%") " to " BOLD("100%") ")."),
     CVAR_BOOL(weaponbounce, "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
@@ -1980,6 +1986,18 @@ static void cvarlist_cmd_func2(char *cmd, char *parms)
                         consolecmds[i].description);
                 else
                     C_TabbedOutput(tabs, "%i.\t" BOLD("%s\t0%%") "\t%s", count, consolecmds[i].name, consolecmds[i].description);
+            }
+            else if (M_StringCompare(consolecmds[i].name, stringize(weapon)))
+            {
+                if (gamestate == GS_LEVEL)
+                {
+                    char *temp = C_LookupAliasFromValue(viewplayer->readyweapon, WEAPONVALUEALIAS);
+
+                    C_TabbedOutput(tabs, "%i.\t" BOLD("%s\t%s") "\t%s", count, consolecmds[i].name, temp, consolecmds[i].description);
+                    free(temp);
+                }
+                else
+                    C_TabbedOutput(tabs, "%i.\t" BOLD("%s\tnone") "\t%s", count, consolecmds[i].name, consolecmds[i].description);
             }
             else if (consolecmds[i].flags & CF_BOOLEAN)
             {
@@ -6156,7 +6174,8 @@ static void reset_cmd_func2(char *cmd, char *parms)
     if (M_StringCompare(parms, "ammo")
         || M_StringCompare(parms, "armor") || M_StringCompare(parms, "armour")
         || M_StringCompare(parms, "armortype") || M_StringCompare(parms, "armourtype")
-        || M_StringCompare(parms, "health"))
+        || M_StringCompare(parms, "health")
+        || M_StringCompare(parms, "weapon"))
         return;
 
     resettingcvar = true;
@@ -9912,6 +9931,44 @@ static void vid_windowsize_cvar_func2(char *cmd, char *parms)
             C_Output(INTEGERCVARISDEFAULT, vid_windowsize);
         else
             C_Output(INTEGERCVARWITHDEFAULT, vid_windowsize, vid_windowsize_default);
+
+        C_ShowWarning(i);
+    }
+}
+
+//
+// weapon CVAR
+//
+static dboolean weapon_cvar_func1(char *cmd, char *parms)
+{
+    return (!*parms || (C_LookupValueFromAlias(parms, WEAPONVALUEALIAS) != INT_MIN && gamestate == GS_LEVEL));
+}
+
+static void weapon_cvar_func2(char *cmd, char *parms)
+{
+    if (*parms)
+    {
+        const int   value = C_LookupValueFromAlias(parms, WEAPONVALUEALIAS);
+
+        if (value != INT_MIN && value != viewplayer->readyweapon && viewplayer->pendingweapon == wp_nochange)
+        {
+            viewplayer->pendingweapon = value;
+            C_HideConsole();
+        }
+    }
+    else
+    {
+        int i = C_GetIndex(cmd);
+
+        C_ShowDescription(i);
+
+        if (gamestate == GS_LEVEL)
+        {
+            char    *temp = C_LookupAliasFromValue(viewplayer->readyweapon, WEAPONVALUEALIAS);
+
+            C_Output(INTEGERCVARWITHNODEFAULT, temp);
+            free(temp);
+        }
 
         C_ShowWarning(i);
     }

@@ -287,25 +287,29 @@ static default_t cvars[] =
 
 valuealias_t valuealiases[] =
 {
-    { "off",       0, BOOLVALUEALIAS         }, { "on",        1, BOOLVALUEALIAS         },
-    { "0",         0, BOOLVALUEALIAS         }, { "1",         1, BOOLVALUEALIAS         },
-    { "no",        0, BOOLVALUEALIAS         }, { "yes",       1, BOOLVALUEALIAS         },
-    { "false",     0, BOOLVALUEALIAS         }, { "true",      1, BOOLVALUEALIAS         },
-    { "low",       0, DETAILVALUEALIAS       }, { "high",      1, DETAILVALUEALIAS       },
-    { "off",       1, GAMMAVALUEALIAS        }, { "none",      0, BLOODVALUEALIAS        },
-    { "off",       0, BLOODVALUEALIAS        }, { "red",       1, BLOODVALUEALIAS        },
-    { "all",       2, BLOODVALUEALIAS        }, { "green",     3, BLOODVALUEALIAS        },
-    { "nofuzz",    4, BLOODVALUEALIAS        }, { "on",        4, BLOODVALUEALIAS        },
-    { "imperial",  0, UNITSVALUEALIAS        }, { "metric",    1, UNITSVALUEALIAS        },
-    { "off",       0, CAPVALUEALIAS          }, { "none",     -1, SKYCOLORVALUEALIAS     },
-    { "off",      -1, SKYCOLORVALUEALIAS     }, { "none",      0, ARMORTYPEVALUEALIAS    },
-    { "green",     1, ARMORTYPEVALUEALIAS    }, { "blue",      2, ARMORTYPEVALUEALIAS    },
-    { "none",      0, CROSSHAIRVALUEALIAS    }, { "off",       0, CROSSHAIRVALUEALIAS    },
-    { "cross",     1, CROSSHAIRVALUEALIAS    }, { "on",        1, CROSSHAIRVALUEALIAS    },
-    { "dot",       2, CROSSHAIRVALUEALIAS    }, { "adaptive", -1, VSYNCVALUEALIAS        },
-    { "off",       0, VSYNCVALUEALIAS        }, { "on",        1, VSYNCVALUEALIAS        },
-    { "other",     0, PLAYERGENDERVALUEALIAS }, { "male",      1, PLAYERGENDERVALUEALIAS },
-    { "female",    2, PLAYERGENDERVALUEALIAS }, { "",          0, NOVALUEALIAS           }
+    { "off",            0, BOOLVALUEALIAS         }, { "on",             1, BOOLVALUEALIAS         },
+    { "0",              0, BOOLVALUEALIAS         }, { "1",              1, BOOLVALUEALIAS         },
+    { "no",             0, BOOLVALUEALIAS         }, { "yes",            1, BOOLVALUEALIAS         },
+    { "false",          0, BOOLVALUEALIAS         }, { "true",           1, BOOLVALUEALIAS         },
+    { "low",            0, DETAILVALUEALIAS       }, { "high",           1, DETAILVALUEALIAS       },
+    { "off",            1, GAMMAVALUEALIAS        }, { "none",           0, BLOODVALUEALIAS        },
+    { "off",            0, BLOODVALUEALIAS        }, { "red",            1, BLOODVALUEALIAS        },
+    { "all",            2, BLOODVALUEALIAS        }, { "green",          3, BLOODVALUEALIAS        },
+    { "nofuzz",         4, BLOODVALUEALIAS        }, { "on",             4, BLOODVALUEALIAS        },
+    { "imperial",       0, UNITSVALUEALIAS        }, { "metric",         1, UNITSVALUEALIAS        },
+    { "off",            0, CAPVALUEALIAS          }, { "none",          -1, SKYCOLORVALUEALIAS     },
+    { "off",           -1, SKYCOLORVALUEALIAS     }, { "none",           0, ARMORTYPEVALUEALIAS    },
+    { "green",          1, ARMORTYPEVALUEALIAS    }, { "blue",           2, ARMORTYPEVALUEALIAS    },
+    { "none",           0, CROSSHAIRVALUEALIAS    }, { "off",            0, CROSSHAIRVALUEALIAS    },
+    { "cross",          1, CROSSHAIRVALUEALIAS    }, { "on",             1, CROSSHAIRVALUEALIAS    },
+    { "dot",            2, CROSSHAIRVALUEALIAS    }, { "adaptive",      -1, VSYNCVALUEALIAS        },
+    { "off",            0, VSYNCVALUEALIAS        }, { "on",             1, VSYNCVALUEALIAS        },
+    { "other",          0, PLAYERGENDERVALUEALIAS }, { "fists",          0, WEAPONVALUEALIAS       },
+    { "pistol",         1, WEAPONVALUEALIAS       }, { "shotgun",        2, WEAPONVALUEALIAS       },
+    { "chaingun",       3, WEAPONVALUEALIAS       }, { "rocketlauncher", 4, WEAPONVALUEALIAS       },
+    { "plasmarifle",    5, WEAPONVALUEALIAS       }, { "bfg9000",        6, WEAPONVALUEALIAS       },
+    { "chainsaw",       7, WEAPONVALUEALIAS       }, { "supershotgun",   8, WEAPONVALUEALIAS       },
+    { "",               0, NOVALUEALIAS           }
 };
 
 static void SaveBind(FILE *file, char *control, char *action)
