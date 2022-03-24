@@ -9972,21 +9972,25 @@ static void vid_windowsize_cvar_func2(char *cmd, char *parms)
 //
 static dboolean weapon_cvar_func1(char *cmd, char *parms)
 {
-    return (!*parms || (C_LookupValueFromAlias(parms, WEAPONVALUEALIAS) != INT_MIN && gamestate == GS_LEVEL));
+    if (!*parms)
+        return true;
+    else if (gamestate != GS_LEVEL || viewplayer->pendingweapon != wp_nochange)
+        return false;
+    else
+    {
+        const int   value = C_LookupValueFromAlias(parms, WEAPONVALUEALIAS);
+
+        return (C_LookupValueFromAlias(parms, WEAPONVALUEALIAS) != INT_MIN
+            && value != viewplayer->readyweapon && viewplayer->weaponowned[value]);
+    }
 }
 
 static void weapon_cvar_func2(char *cmd, char *parms)
 {
     if (*parms)
     {
-        const int   value = C_LookupValueFromAlias(parms, WEAPONVALUEALIAS);
-
-        if (value != INT_MIN && value != viewplayer->readyweapon
-            && viewplayer->weaponowned[value] && viewplayer->pendingweapon == wp_nochange)
-        {
-            viewplayer->pendingweapon = value;
-            C_HideConsole();
-        }
+        viewplayer->pendingweapon = C_LookupValueFromAlias(parms, WEAPONVALUEALIAS);
+        C_HideConsole();
     }
     else
     {
