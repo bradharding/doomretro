@@ -6219,31 +6219,49 @@ static void reset_cmd_func2(char *cmd, char *parms)
         {
             if (flags & (CF_BOOLEAN | CF_INTEGER))
             {
-                char    *temp1 = C_LookupAliasFromValue((int)consolecmds[i].defaultnumber, consolecmds[i].aliases);
-                char    *temp2 = uncommify(temp1);
-                char    *temp3 = M_StringJoin(parms, " ", temp2, NULL);
+                if (*(int *)consolecmds[i].variable != (int)consolecmds[i].defaultnumber)
+                {
+                    char    *temp1 = C_LookupAliasFromValue((int)consolecmds[i].defaultnumber, consolecmds[i].aliases);
+                    char    *temp2 = uncommify(temp1);
+                    char    *temp3 = M_StringJoin(parms, " ", temp2, NULL);
 
-                C_ValidateInput(temp3);
-                free(temp1);
-                free(temp2);
-                free(temp3);
+                    C_ValidateInput(temp3);
+                    C_Output("The " BOLD("%s") " CVAR has been reset to its default.", consolecmds[i].name);
+                    free(temp1);
+                    free(temp2);
+                    free(temp3);
+                }
+                else
+                    C_Warning(0, "The " BOLD("%s") " CVAR is already set to its default.", consolecmds[i].name);
             }
             else if (flags & CF_FLOAT)
             {
-                char    *temp1 = striptrailingzero(consolecmds[i].defaultnumber, 1);
-                char    *temp2 = M_StringJoin(parms, " ", temp1, NULL);
+                if (*(float *)consolecmds[i].variable != consolecmds[i].defaultnumber)
+                {
+                    char    *temp1 = striptrailingzero(consolecmds[i].defaultnumber, 1);
+                    char    *temp2 = M_StringJoin(parms, " ", temp1, NULL);
 
-                C_ValidateInput(temp2);
-                free(temp1);
-                free(temp2);
+                    C_ValidateInput(temp2);
+                    C_Output("The " BOLD("%s") " CVAR has been reset to its default.", consolecmds[i].name);
+                    free(temp1);
+                    free(temp2);
+                }
+                else
+                    C_Warning(0, "The " BOLD("%s") " CVAR is already set to its default.", consolecmds[i].name);
             }
             else
             {
-                char    *temp = M_StringJoin(parms, " ", (*consolecmds[i].defaultstring ? consolecmds[i].defaultstring : EMPTYVALUE),
-                            NULL);
+                if (!M_StringCompare(*(char **)consolecmds[i].variable, consolecmds[i].defaultstring))
+                {
+                    char    *temp = M_StringJoin(parms, " ", (*consolecmds[i].defaultstring ? consolecmds[i].defaultstring : EMPTYVALUE),
+                                NULL);
 
-                C_ValidateInput(temp);
-                free(temp);
+                    C_ValidateInput(temp);
+                    C_Output("The " BOLD("%s") " CVAR has been reset to its default.", consolecmds[i].name);
+                    free(temp);
+                }
+                else
+                    C_Warning(0, "The " BOLD("%s") " CVAR is already set to its default.", consolecmds[i].name);
             }
 
 #if defined(_WIN32)
