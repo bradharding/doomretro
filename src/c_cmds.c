@@ -8235,19 +8235,14 @@ static void armortype_cvar_func2(char *cmd, char *parms)
     }
     else
     {
-        int i = C_GetIndex(cmd);
+        int     i = C_GetIndex(cmd);
+        char    *temp = C_LookupAliasFromValue((gamestate == GS_LEVEL ? viewplayer->armortype : armortype_default), ARMORTYPEVALUEALIAS);
 
         C_ShowDescription(i);
-
-        if (gamestate == GS_LEVEL)
-        {
-            char    *temp = C_LookupAliasFromValue(viewplayer->armortype, ARMORTYPEVALUEALIAS);
-
-            C_Output(INTEGERCVARWITHNODEFAULT, temp);
-            free(temp);
-        }
-
+        C_Output(INTEGERCVARWITHNODEFAULT, temp);
         C_ShowWarning(i);
+
+        free(temp);
     }
 }
 
@@ -8510,19 +8505,15 @@ static void player_cvars_func2(char *cmd, char *parms)
         }
         else
         {
-            int i = C_GetIndex(cmd);
+            int     i = C_GetIndex(cmd);
+            char    *temp = commify(gamestate == GS_LEVEL ?
+                        (ammotype == am_noammo ? 0 : viewplayer->ammo[ammotype]) : ammo_default);
 
             C_ShowDescription(i);
-
-            if (gamestate == GS_LEVEL)
-            {
-                char    *temp = commify(ammotype == am_noammo ? 0 : viewplayer->ammo[ammotype]);
-
-                C_Output(INTEGERCVARWITHNODEFAULT, temp);
-                free(temp);
-            }
-
+            C_Output(INTEGERCVARWITHNODEFAULT, temp);
             C_ShowWarning(i);
+
+            free(temp);
         }
     }
     else if (M_StringCompare(cmd, stringize(armor)))
@@ -8550,19 +8541,14 @@ static void player_cvars_func2(char *cmd, char *parms)
         }
         else
         {
-            int i = C_GetIndex(cmd);
+            int     i = C_GetIndex(cmd);
+            char    *temp = commify(gamestate == GS_LEVEL ? viewplayer->armorpoints : armor_default);
 
             C_ShowDescription(i);
-
-            if (gamestate == GS_LEVEL)
-            {
-                char    *temp = commify(viewplayer->armorpoints);
-
-                C_Output(PERCENTCVARWITHNODEFAULT, temp);
-                free(temp);
-            }
-
+            C_Output(PERCENTCVARWITHNODEFAULT, temp);
             C_ShowWarning(i);
+
+            free(temp);
         }
     }
     else if (M_StringCompare(cmd, stringize(health)) && !(viewplayer->cheats & CF_GODMODE) && !viewplayer->powers[pw_invulnerability])
@@ -8623,19 +8609,14 @@ static void player_cvars_func2(char *cmd, char *parms)
         }
         else
         {
-            int i = C_GetIndex(cmd);
+            int     i = C_GetIndex(cmd);
+            char    *temp = commify(gamestate == GS_LEVEL ? viewplayer->health : health_default);
 
             C_ShowDescription(i);
-
-            if (gamestate == GS_LEVEL)
-            {
-                char    *temp = commify(viewplayer->health);
-
-                C_Output(PERCENTCVARWITHNODEFAULT, temp);
-                free(temp);
-            }
-
+            C_Output(PERCENTCVARWITHNODEFAULT, temp);
             C_ShowWarning(i);
+
+            free(temp);
         }
     }
 }
@@ -10012,19 +9993,14 @@ static void weapon_cvar_func2(char *cmd, char *parms)
     }
     else
     {
-        int i = C_GetIndex(cmd);
+        int     i = C_GetIndex(cmd);
+        char    *temp = C_LookupAliasFromValue((gamestate == GS_LEVEL ? viewplayer->readyweapon : weapon_default), WEAPONVALUEALIAS);
 
         C_ShowDescription(i);
-
-        if (gamestate == GS_LEVEL)
-        {
-            char    *temp = C_LookupAliasFromValue(viewplayer->readyweapon, WEAPONVALUEALIAS);
-
-            C_Output(INTEGERCVARWITHNODEFAULT, temp);
-            free(temp);
-        }
-
+        C_Output(INTEGERCVARWITHNODEFAULT, temp);
         C_ShowWarning(i);
+
+        free(temp);
     }
 }
 
