@@ -1197,15 +1197,15 @@ static void C_ShowWarning(int index)
     int flags = consolecmds[index].flags;
 
     if (flags & CF_READONLY)
-        C_Warning(0, "This CVAR is read-only.");
+        C_Warning(0, "It is read-only.");
     else if (flags & CF_STARTUPRESET)
-        C_Warning(0, "This CVAR is reset to its default during startup.");
+        C_Warning(0, "It is reset to its default during startup.");
     else if (flags & CF_MAPRESET)
-        C_Warning(0, "This CVAR is reset to its default at the start of each map.");
+        C_Warning(0, "It is reset to its default at the start of each map.");
     else if ((flags & CF_NEXTMAP) && gamestate == GS_LEVEL)
-        C_Warning(0, "Changing this CVAR won't be effective until the next map.");
+        C_Warning(0, "Changing it won't be effective until the next map.");
     else if ((flags & CF_PISTOLSTART) && pistolstart)
-        C_Warning(0, "This CVAR has no effect while the " BOLD("pistolstart") " CCMD is used.");
+        C_Warning(0, "It has no effect if the " BOLD("pistolstart") " CCMD has been used.");
 }
 
 static dboolean alive_func1(char *cmd, char *parms)

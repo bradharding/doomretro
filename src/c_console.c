@@ -1239,9 +1239,9 @@ void C_UpdatePathOverlay(void)
 
 void C_UpdatePlayerStatsOverlay(void)
 {
-    int     x = MAPWIDTH - OVERLAYTEXTX + 1;
-    int     y = OVERLAYTEXTY + (OVERLAYLINEHEIGHT + OVERLAYSPACING)
-                * ((vid_showfps && automapactive) + (!!timeremaining && automapactive) + pathoverlay);
+    int x = MAPWIDTH - OVERLAYTEXTX + 1;
+    int y = OVERLAYTEXTY + (OVERLAYLINEHEIGHT + OVERLAYSPACING)
+            * ((vid_showfps && automapactive) + (!!timeremaining && automapactive) + pathoverlay);
 
     if (totalkills)
     {

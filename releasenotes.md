@@ -4,11 +4,11 @@
 
 * *DOOM Retro* is now compiled using v17.1.2 of [*Microsoft Visual Studio Community 2022*](https://www.visualstudio.com/vs/).
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
-* Minor changes have been made to text that is output to the console.
+* Several changes have been made to text that is output to the console.
 * Minor improvements have been made to the console’s autocomplete feature.
 * The following changes have been made to the external automap:
   * The display used to show the external automap can now be specified using the new `am_display` CVAR, which is `2` by default.
-  * Zooming in and out of the external automap is now only possible if the `+zoomin` and `+zoomout` actions are rebound from the <kbd><b>+</b></kbd> and <kbd><b>&ndash;</b></kbd> keys.
+  * So as to not interfere when adjusting the size of the player’s view, zooming in and out of the external automap is now only possible if the `+zoomin` and `+zoomout` actions are rebound from the <kbd><b>+</b></kbd> and <kbd><b>&ndash;</b></kbd> keys.
 * If the `r_fov` CVAR is changed from its default of `90`, it is now effective again when the `vid_widescreen` CVAR is `off`.
 * The following changes have been made when the player enters a cheat:
   * The cheat is now replaced with a series of placeholder characters when displayed in the console.
