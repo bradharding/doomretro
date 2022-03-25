@@ -3128,14 +3128,15 @@ static void P_ParseMapInfo(char *scriptname)
 {
     int         mapmax = 1;
     int         mcmdvalue;
+    int         lump;
     mapinfo_t   *info;
     char        *temp1;
     char        *temp2;
 
-    if (W_CheckNumForName(scriptname) < 0)
+    if ((lump = W_CheckNumForName(scriptname)) < 0)
         return;
 
-    MAPINFO = 1;
+    MAPINFO = lump;
 
     SC_Open(scriptname);
 
