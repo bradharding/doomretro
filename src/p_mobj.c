@@ -693,7 +693,10 @@ void P_MobjThinker(mobj_t *mobj)
     // [BH] bob certain power-ups
     else if ((flags2 & MF2_FLOATBOB) && !(flags & MF_CORPSE) && r_floatbob)
     {
-        mobj->z = BETWEEN(mobj->floorz - 1, mobj->z + floatbobdiffs[((mobj->floatbob + leveltime) & 63)], mobj->ceilingz);
+        fixed_t floatbob = floatbobdiffs[((mobj->floatbob + leveltime) & 63)];
+
+        if (mobj->z + floatbob >= mobj->floorz && mobj->z + floatbob < mobj->ceilingz)
+            mobj->z += floatbob;
 
         if (mobj->momx || mobj->momy)
             P_ZMovement(mobj);
