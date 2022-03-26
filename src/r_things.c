@@ -422,17 +422,14 @@ static void inline R_BlastPlayerSpriteColumn(const rcolumn_t *column)
 
 static void inline R_BlastBloodSplatColumn(const rcolumn_t *column)
 {
-    while (dc_numposts--)
-    {
-        const rpost_t   *post = &column->posts[dc_numposts];
+    const rpost_t   *post = &column->posts[0];
 
-        // calculate unclipped screen coordinates for post
-        const int64_t   topscreen = sprtopscreen + (int64_t)spryscale * post->topdelta;
+    // calculate unclipped screen coordinates for post
+    const int64_t   topscreen = sprtopscreen + (int64_t)spryscale * post->topdelta;
 
-        if ((dc_yh = MIN((int)((topscreen + (int64_t)spryscale * post->length) >> FRACBITS), dc_floorclip)) >= 0)
-            if ((dc_yl = MAX(dc_ceilingclip, (int)((topscreen + FRACUNIT) >> FRACBITS))) <= dc_yh)
-                colfunc();
-    }
+    if ((dc_yh = MIN((int)((topscreen + (int64_t)spryscale * post->length) >> FRACBITS), dc_floorclip)) >= 0)
+        if ((dc_yl = MAX(dc_ceilingclip, (int)((topscreen + FRACUNIT) >> FRACBITS))) <= dc_yh)
+            colfunc();
 }
 
 //
@@ -592,7 +589,7 @@ static void R_DrawBloodSplatVisSprite(const bloodsplatvissprite_t *vis)
     {
         const rcolumn_t *column = &columns[frac >> FRACBITS];
 
-        if ((dc_numposts = column->numposts))
+        if (column->numposts)
         {
             dc_ceilingclip = mceilingclip[dc_x] + 1;
             dc_floorclip = mfloorclip[dc_x] - 1;
