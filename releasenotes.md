@@ -17,6 +17,7 @@
   * A fade effect is no longer be applied in most cases if the `fade` CVAR is `on`.
 * The player’s currently equipped weapon can now be changed using the new `weapon` CVAR. It can be `fists`, `chainsaw`, `pistol`, `shotgun`, `supershotgun`, `chaingun`, `rocketlauncher`, `plasmarifle` or `bfg9000`.
 * Power-ups that bob when the `r_floatbob` CVAR is `on` will no longer attempt to bob at all if the ceiling above is too low.
+* Blood splats are now left on the floor when shooting monsters that are on a descending lift.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

@@ -491,7 +491,7 @@ floater:
                 fixed_t x = mo->x;
                 fixed_t y = mo->y;
 
-                P_SpawnBloodSplat(x, y, blood, floorz, NULL);
+                P_SpawnBloodSplat(x, y, blood, (floorz += 8 * FRACUNIT), NULL);
 
                 if (blood != FUZZYBLOOD)
                 {
