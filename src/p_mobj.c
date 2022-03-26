@@ -491,7 +491,7 @@ floater:
                 fixed_t x = mo->x;
                 fixed_t y = mo->y;
 
-                P_SpawnBloodSplat(x, y, blood, (floorz += 8 * FRACUNIT), NULL);
+                P_SpawnBloodSplat(x, y, blood, 0, NULL);
 
                 if (blood != FUZZYBLOOD)
                 {
@@ -500,8 +500,8 @@ floater:
                     fixed_t x2 = M_BigRandomIntNoRepeat(-5, 5, x1) << FRACBITS;
                     fixed_t y2 = M_BigRandomIntNoRepeat(-5, 5, y1) << FRACBITS;
 
-                    P_SpawnBloodSplat(x + x1, y + y1, blood, floorz, NULL);
-                    P_SpawnBloodSplat(x - x2, y - y2, blood, floorz, NULL);
+                    P_SpawnBloodSplat(x + x1, y + y1, blood, 0, NULL);
+                    P_SpawnBloodSplat(x - x2, y - y2, blood, 0, NULL);
                 }
             }
 
@@ -1479,7 +1479,7 @@ void P_SpawnBloodSplat(fixed_t x, fixed_t y, int blood, fixed_t maxheight, mobj_
     {
         sector_t    *sec = R_PointInSubsector(x, y)->sector;
 
-        if (sec->terraintype == SOLID && sec->interpfloorheight <= maxheight && sec->floorpic != skyflatnum)
+        if (sec->terraintype == SOLID && (!maxheight || sec->interpfloorheight <= maxheight) && sec->floorpic != skyflatnum)
         {
             bloodsplat_t    *splat = malloc(sizeof(*splat));
 
@@ -1488,7 +1488,7 @@ void P_SpawnBloodSplat(fixed_t x, fixed_t y, int blood, fixed_t maxheight, mobj_
                 int patch = firstbloodsplatlump + (M_BigRandom() & 7);
 
                 splat->patch = patch;
-                splat->flip = (M_Random() & 1);
+                splat->flip = (M_BigRandom() & 1);
 
                 if (blood == FUZZYBLOOD)
                 {
