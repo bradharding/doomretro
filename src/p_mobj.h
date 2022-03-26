@@ -46,8 +46,9 @@
 #define REDBLOOD            184
 #define GREENBLOOD          122
 #define BLUEBLOOD           204
-#define FUZZYBLOOD          -1
+#define FUZZYBLOOD         -1
 
+#define BLOODSPLATLUMPS     8
 #define CORPSEBLOODSPLATS   512
 
 // killough 11/98:

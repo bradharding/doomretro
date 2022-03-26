@@ -580,7 +580,7 @@ static void R_DrawBloodSplatVisSprite(const bloodsplatvissprite_t *vis)
     fixed_t         frac = vis->startfrac;
     const fixed_t   xiscale = vis->xiscale;
     const fixed_t   x2 = vis->x2;
-    const rcolumn_t *columns = R_CachePatchNum(vis->patch + firstspritelump)->columns;
+    const rcolumn_t *columns = R_CachePatchNum(vis->patch)->columns;
 
     spryscale = vis->scale;
     colfunc = vis->colfunc;
