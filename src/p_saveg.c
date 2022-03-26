@@ -379,7 +379,7 @@ static void saveg_read_bloodsplat_t(bloodsplat_t *str)
     str->x = saveg_read32();
     str->y = saveg_read32();
     str->patch = saveg_read32();
-    str->flip = saveg_read_bool();
+    saveg_read_bool();          // deprecated
     str->blood = saveg_read32();
 }
 
@@ -388,7 +388,7 @@ static void saveg_write_bloodsplat_t(bloodsplat_t *str)
     saveg_write32(str->x);
     saveg_write32(str->y);
     saveg_write32(str->patch);
-    saveg_write_bool(str->flip);
+    saveg_write_bool(false);    // deprecated
     saveg_write32(str->blood);
 }
 

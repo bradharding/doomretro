@@ -48,7 +48,7 @@
 #define BLUEBLOOD           204
 #define FUZZYBLOOD         -1
 
-#define BLOODSPLATLUMPS     8
+#define BLOODSPLATLUMPS     12
 #define CORPSEBLOODSPLATS   512
 
 // killough 11/98:
@@ -510,7 +510,6 @@ typedef struct bloodsplat_s
     int                 patch;
     fixed_t             width;
     struct sector_s     *sector;
-    dboolean            flip;
     int                 blood;
     void                (*colfunc)(void);
 } bloodsplat_t;

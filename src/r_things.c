@@ -914,35 +914,17 @@ static void R_ProjectBloodSplat(const bloodsplat_t *splat)
 
     vis->texturemid = floorheight + FRACUNIT - viewz;
 
-    if (splat->flip)
-    {
-        vis->xiscale = -FixedDiv(FRACUNIT, xscale);
+    vis->xiscale = FixedDiv(FRACUNIT, xscale);
 
-        if (x1 < 0)
-        {
-            vis->x1 = 0;
-            vis->startfrac = width - 1 - vis->xiscale * x1;
-        }
-        else
-        {
-            vis->x1 = x1;
-            vis->startfrac = width - 1;
-        }
+    if (x1 < 0)
+    {
+        vis->x1 = 0;
+        vis->startfrac = -vis->xiscale * x1;
     }
     else
     {
-        vis->xiscale = FixedDiv(FRACUNIT, xscale);
-
-        if (x1 < 0)
-        {
-            vis->x1 = 0;
-            vis->startfrac = -vis->xiscale * x1;
-        }
-        else
-        {
-            vis->x1 = x1;
-            vis->startfrac = 0;
-        }
+        vis->x1 = x1;
+        vis->startfrac = 0;
     }
 
     vis->x2 = MIN(x2, viewwidth - 1);
