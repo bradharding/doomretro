@@ -1904,9 +1904,9 @@ static void condump_cmd_func2(char *cmd, char *parms)
                     {
                         if (prevletter == '\0' || prevletter == ' ' || prevletter == '\t' || prevletter == '('
                             || prevletter == '[' || prevletter == '{' || prevletter == '<' || prevletter == '"')
-                            fputc('\x91', file);
+                            fputc(145, file);
                         else
-                            fputc('\x92', file);
+                            fputc(146, file);
 
                         outpos++;
                     }
@@ -1914,9 +1914,9 @@ static void condump_cmd_func2(char *cmd, char *parms)
                     {
                         if (prevletter == '\0' || prevletter == ' ' || prevletter == '\t' || prevletter == '('
                             || prevletter == '[' || prevletter == '{' || prevletter == '<' || prevletter == '\'')
-                            fputc('\x93', file);
+                            fputc(147, file);
                         else
-                            fputc('\x94', file);
+                            fputc(148, file);
 
                         outpos++;
                     }
