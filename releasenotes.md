@@ -9,11 +9,11 @@
 * The following changes have been made to the external automap:
   * The display used to show the external automap can now be specified using the new `am_display` CVAR, which is `2` by default.
   * So as to not interfere when adjusting the size of the player’s view, zooming in and out of the external automap is now only possible if the `+zoomin` and `+zoomout` actions are rebound from the <kbd><b>+</b></kbd> and <kbd><b>&ndash;</b></kbd> keys.
-* Changing the `r_fov` CVAR from its default of `90` is now effective again when the `vid_widescreen` CVAR is `off`.
+* Changing the `r_fov` CVAR from its default of `90`° is now effective again when the `vid_widescreen` CVAR is `off`.
 * The following changes have been made when the player enters a cheat:
   * The cheat is now replaced with a series of placeholder characters when displayed in the console.
-  * The cheat no longer appears in the console’s input history when pressing the <kbd><b>&uarr;</b></kbd> or <kbd><b>&darr;</b></kbd> keys.
-  * A warning is now displayed in the console indicating that the player has cheated.
+  * The cheat is now skipped in the console’s input history when pressing the <kbd><b>&uarr;</b></kbd> or <kbd><b>&darr;</b></kbd> keys.
+  * A warning is now displayed in the console indicating that the player cheated.
   * Fade effects are no longer be applied in most cases if the `fade` CVAR is `on`.
 * The player’s currently equipped weapon can now be changed using the new `weapon` CVAR. It can be `fists`, `chainsaw`, `pistol`, `shotgun`, `supershotgun`, `chaingun`, `rocketlauncher`, `plasmarifle` or `bfg9000`.
 * Power-ups that bob when the `r_floatbob` CVAR is `on` no longer attempt to bob at all if the ceiling above is too low.
@@ -40,7 +40,7 @@
   * A type of item may now be specified as a parameter. For example, `remove healthbonuses` will remove all health bonuses from the map.
 * Compatibility fixes have been implemented that add blood splats to decorative corpses, and correct the offsets of sprites, in [*Ancient Aliens*](https://www.doomworld.com/idgames/levels/doom2/Ports/megawads/aaliens).
 * If the player picks up multiples of the same item, and they are all in exactly the same position, the resulting message and gold effect will now be the same as if they picked up only one item.
-* If the `r_fov` CVAR is changed from its default of `90`, it is now only effective when the `vid_widescreen` CVAR is `on`.
+* If the `r_fov` CVAR is changed from its default of `90`°, it is now only effective when the `vid_widescreen` CVAR is `on`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

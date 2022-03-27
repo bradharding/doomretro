@@ -1472,7 +1472,7 @@ void C_Drawer(void)
                 C_DrawConsoleText(CONSOLETEXTX, y, text, consolewarningcolor,
                     NOBACKGROUNDCOLOR, consolewarningboldcolor, tinttab66, notabs, true, true, i);
             else
-                V_DrawConsolePatch(CONSOLETEXTX, y + 4 - (CONSOLEHEIGHT - consoleheight),
+                V_DrawConsolePatch(CONSOLETEXTX - 1, y + 4 - (CONSOLEHEIGHT - consoleheight),
                     console[i].header, CONSOLETEXTPIXELWIDTH + 2);
 
             if (wrap < len && i < bottomline)
