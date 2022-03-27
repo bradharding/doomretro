@@ -837,8 +837,6 @@ static void R_ProjectSprite(mobj_t *thing)
     }
 }
 
-static int skip[3];
-
 static void R_ProjectBloodSplat(const bloodsplat_t *splat)
 {
     fixed_t                 tx;
@@ -950,10 +948,6 @@ void R_AddSprites(sector_t *sec, int lightlevel)
                     scalelight[BETWEEN(0, ((lightlevel + 4) >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)] : spritelights);
                 prevlightlevel = lightlevel;
             }
-
-            skip[0] = 1;
-            skip[1] = 1;
-            skip[2] = 1;
 
             do
             {
