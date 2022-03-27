@@ -1884,7 +1884,7 @@ static void condump_cmd_func2(char *cmd, char *parms)
 
                     if (letter == '\t')
                     {
-                        const unsigned int  tabstop = console[i].tabs[tabcount] / 5;
+                        const unsigned int  tabstop = console[i].tabs[tabcount] / 6;
 
                         if (outpos < tabstop)
                         {
