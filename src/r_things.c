@@ -43,16 +43,15 @@
 #include "i_system.h"
 #include "m_config.h"
 #include "m_menu.h"
-#include "p_local.h"
 #include "v_video.h"
 #include "w_wad.h"
 #include "z_zone.h"
 
-#define MAX_SPRITE_FRAMES   29
-#define MINZ                (4 * FRACUNIT)
-#define BASEYCENTER         (VANILLAHEIGHT / 2)
+#define MAXSPRITEFRAMES 29
+#define MINZ            (4 * FRACUNIT)
+#define BASEYCENTER     (VANILLAHEIGHT / 2)
 
-#define MAXVISSPRITES       128
+#define MAXVISSPRITES   128
 
 //
 // Sprite rotation 0 is facing the viewer, rotation 1 is one angle turn CLOCKWISE around the axis.
@@ -83,7 +82,7 @@ short                   firstbloodsplatlump;
 
 dboolean                allowwolfensteinss = true;
 
-static spriteframe_t    sprtemp[MAX_SPRITE_FRAMES];
+static spriteframe_t    sprtemp[MAXSPRITEFRAMES];
 static int              maxframe;
 
 static dboolean         drawshadows;
@@ -101,12 +100,12 @@ extern dboolean         drawbloodsplats;
 // R_InstallSpriteLump
 // Local function for R_InitSprites.
 //
-static void R_InstallSpriteLump(const lumpinfo_t *lump, const int lumpnum, const unsigned int frame,
-    const char rot, const dboolean flipped)
+static void R_InstallSpriteLump(const lumpinfo_t *lump, const int lumpnum,
+    const unsigned int frame, const char rot, const dboolean flipped)
 {
     unsigned int    rotation = (rot >= '0' && rot <= '9' ? rot - '0' : (rot >= 'A' ? rot - 'A' + 10 : 17));
 
-    if (frame >= MAX_SPRITE_FRAMES || rotation > 16)
+    if (frame >= MAXSPRITEFRAMES || rotation > 16)
     {
         I_Error("R_InstallSpriteLump: Bad frame characters in lump %s", lump->name);
         return;
@@ -186,7 +185,7 @@ static void R_InitSpriteDefs(void)
 
     for (unsigned int i = 0; i < numentries; i++)                   // Prepend each sprite to hash chain
     {
-        int j = R_SpriteNameHash(lumpinfo[i + firstspritelump]->name) % numentries;
+        const int   j = R_SpriteNameHash(lumpinfo[i + firstspritelump]->name) % numentries;
 
         hash[i].next = hash[j].index;
         hash[j].index = i;
@@ -202,7 +201,7 @@ static void R_InitSpriteDefs(void)
         {
             memset(sprtemp, -1, sizeof(sprtemp));
 
-            for (int k = 0; k < MAX_SPRITE_FRAMES; k++)
+            for (int k = 0; k < MAXSPRITEFRAMES; k++)
                 sprtemp[k].flip = 0;
 
             maxframe = -1;
@@ -296,8 +295,8 @@ static void R_InitSpriteDefs(void)
         allowwolfensteinss = false;
     else
     {
-        short   poss = sprites[SPR_POSS].spriteframes[0].lump[0];
-        short   sswv = sprites[SPR_SSWV].spriteframes[0].lump[0];
+        const short poss = sprites[SPR_POSS].spriteframes[0].lump[0];
+        const short sswv = sprites[SPR_SSWV].spriteframes[0].lump[0];
 
         if (spritewidth[poss] == spritewidth[sswv]
             && spriteheight[poss] == spriteheight[sswv]
@@ -423,8 +422,6 @@ static void inline R_BlastPlayerSpriteColumn(const rcolumn_t *column)
 static void inline R_BlastBloodSplatColumn(const rcolumn_t *column)
 {
     const rpost_t   *post = &column->posts[0];
-
-    // calculate unclipped screen coordinates for post
     const int64_t   topscreen = sprtopscreen + (int64_t)spryscale * post->topdelta;
 
     if ((dc_yh = MIN((int)((topscreen + (int64_t)spryscale * post->length) >> FRACBITS), dc_floorclip)) >= 0)
