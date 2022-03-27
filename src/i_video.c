@@ -1694,7 +1694,11 @@ static void SetVideoMode(dboolean createwindow, dboolean output)
         if (output)
         {
             typedef const GLubyte   *(APIENTRY *glStringFn_t)(GLenum);
+            typedef const GLubyte   *(APIENTRY *glStringiFn_t)(GLenum, GLuint);
+            typedef const void       (APIENTRY *glGetIntegervFn_t)(GLenum, GLint *);
             glStringFn_t            pglGetString = (glStringFn_t)SDL_GL_GetProcAddress("glGetString");
+            glGetIntegervFn_t       pglGetIntegerv = (glGetIntegervFn_t)SDL_GL_GetProcAddress("glGetIntegerv");
+            glStringiFn_t           pglGetStringi = (glStringiFn_t)SDL_GL_GetProcAddress("glGetStringi");
 
             if (pglGetString)
             {
@@ -1704,6 +1708,18 @@ static void SetVideoMode(dboolean createwindow, dboolean output)
                 if (graphicscard && vendor)
                     C_Output("Using %s " ITALICS("%s") " graphics card from " ITALICS("%s."),
                         (isvowel(graphicscard[0]) || M_StringStartsWith(graphicscard, "NVIDIA") ? "an" : "a"), graphicscard, vendor);
+
+                if (pglGetIntegerv && pglGetStringi)
+                {
+                    GLint nexts, i;
+                    pglGetIntegerv(GL_NUM_EXTENSIONS, &nexts);
+
+                    for (i = 0; i < nexts; i ++)
+                    {
+                        const char *ext = (const char *)pglGetStringi(GL_EXTENSIONS, i);
+                        C_Output("Extension " ITALICS("%s") " supported", ext);
+                    }
+                }
             }
         }
 
