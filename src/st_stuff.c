@@ -434,10 +434,13 @@ static void ST_PlayerCheated(char *cheat, dboolean warning)
 
     if (warning)
     {
+        static dboolean cheated;
+
         C_Warning(0, "%s cheated%s!",
             (M_StringCompare(playername, playername_default) ? "You" : playername),
-            (viewplayer->cheated ? " again" : ""));
+            (cheated ? " again" : ""));
 
+        cheated = true;
         stat_cheated = SafeAdd(stat_cheated, 1);
         viewplayer->cheated++;
     }
