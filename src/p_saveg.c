@@ -387,7 +387,7 @@ static void saveg_write_bloodsplat_t(bloodsplat_t *str)
 {
     saveg_write32(str->x);
     saveg_write32(str->y);
-    saveg_write32(str->patch);
+    saveg_write32(str->patch - firstspritelump);
     saveg_write_bool(false);    // deprecated
     saveg_write32(str->blood);
 }
@@ -1337,6 +1337,7 @@ void P_UnArchiveThinkers(void)
                     if (r_bloodsplats_total < r_bloodsplats_max)
                     {
                         splat->width = spritewidth[splat->patch];
+                        splat->patch += firstspritelump;
                         splat->sector = R_PointInSubsector(splat->x, splat->y)->sector;
                         P_SetBloodSplatPosition(splat);
                         splat->colfunc = (splat->blood == FUZZYBLOOD ? fuzzcolfunc : bloodsplatcolfunc);
