@@ -1488,18 +1488,7 @@ void P_SpawnBloodSplat(fixed_t x, fixed_t y, int blood, fixed_t maxheight, mobj_
                 int patch = firstbloodsplatlump + (M_BigRandom() & (BLOODSPLATLUMPS - 1));
 
                 splat->patch = firstspritelump + patch;
-
-                if (blood == FUZZYBLOOD)
-                {
-                    splat->colfunc = fuzzcolfunc;
-                    splat->blood = blood;
-                }
-                else
-                {
-                    splat->colfunc = bloodsplatcolfunc;
-                    splat->blood = blood + M_BigRandomInt(-2, 1);
-                }
-
+                splat->blood = (blood == FUZZYBLOOD ? FUZZYBLOOD : blood + M_BigRandomInt(-2, 1));
                 splat->x = x;
                 splat->y = y;
                 splat->width = spritewidth[patch];

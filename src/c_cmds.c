@@ -8740,17 +8740,6 @@ static void r_bloodsplats_translucency_cvar_func2(char *cmd, char *parms)
             r_bloodsplats_translucency = value;
             M_SaveCVARs();
             R_InitColumnFunctions();
-
-            for (int i = 0; i < numsectors; i++)
-            {
-                bloodsplat_t    *splat = sectors[i].splatlist;
-
-                while (splat)
-                {
-                    splat->colfunc = (splat->blood == FUZZYBLOOD ? fuzzcolfunc : bloodsplatcolfunc);
-                    splat = splat->next;
-                }
-            }
         }
     }
     else
@@ -9296,20 +9285,13 @@ static void r_textures_cvar_func2(char *cmd, char *parms)
 
             for (int i = 0; i < numsectors; i++)
             {
-                mobj_t          *mo = sectors[i].thinglist;
-                bloodsplat_t    *splat = sectors[i].splatlist;
+                mobj_t  *mo = sectors[i].thinglist;
 
                 while (mo)
                 {
                     mo->colfunc = mo->info->colfunc;
                     P_SetShadowColumnFunction(mo);
                     mo = mo->snext;
-                }
-
-                while (splat)
-                {
-                    splat->colfunc = (splat->blood == FUZZYBLOOD ? fuzzcolfunc : bloodsplatcolfunc);
-                    splat = splat->next;
                 }
             }
         }

@@ -14,7 +14,7 @@
   * The cheat is now replaced with a series of placeholder characters when displayed in the console.
   * The cheat is now skipped in the console’s input history when pressing the <kbd><b>&uarr;</b></kbd> or <kbd><b>&darr;</b></kbd> keys.
   * A warning is now displayed in the console indicating that the player cheated.
-  * Fade effects are no longer be applied in most cases if the `fade` CVAR is `on`.
+  * Fade effects are no longer applied in most cases if the `fade` CVAR is `on`.
 * The player’s currently equipped weapon can now be changed using the new `weapon` CVAR. It can be `fists`, `chainsaw`, `pistol`, `shotgun`, `supershotgun`, `chaingun`, `rocketlauncher`, `plasmarifle` or `bfg9000`.
 * Power-ups that bob when the `r_floatbob` CVAR is `on` no longer attempt to bob at all if the ceiling above is too low.
 * Blood splats are now left on the floor if blood falls on a descending sector.
