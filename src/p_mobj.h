@@ -43,10 +43,10 @@
 #include "states.h"
 #include "tables.h"
 
+#define FUZZYBLOOD         -1
 #define REDBLOOD            184
 #define GREENBLOOD          122
 #define BLUEBLOOD           204
-#define FUZZYBLOOD         -1
 
 #define BLOODSPLATLUMPS     12
 #define CORPSEBLOODSPLATS   512

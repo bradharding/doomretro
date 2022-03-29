@@ -3708,12 +3708,7 @@ void M_Drawer(void)
                 start += (int)strlen(string);
             }
 
-            x = (VANILLAWIDTH - M_StringWidth(string)) / 2;
-
-            if (!M_StringWidth(string))
-                y -= 4;
-
-            M_WriteText(x, y, string, true);
+            M_WriteText((VANILLAWIDTH - M_StringWidth(string)) / 2, y, string, true);
             y += SHORT(hu_font[0]->height) + 1;
         }
 

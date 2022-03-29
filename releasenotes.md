@@ -23,6 +23,7 @@
   * Blood splats now retain their randomness in shade if the `r_blood` CVAR is changed.
   * The translucency of blood splats when the `r_textures` CVAR is `off` now depends on the `r_bloodsplats_translucency` rather than `r_translucency` CVAR.
   * Blood splats are now left on the floor as intended if blood falls on a moving sector.
+* The “automap opened” stat shown by the `playerstats` CCMD is now reset at the start of each map as intended.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

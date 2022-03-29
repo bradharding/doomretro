@@ -988,7 +988,7 @@ typedef struct
     //  we might as well insert the same name eight times.
     int                 rotate;
 
-    // Lump to use for view angles 0-7.
+    // Lump to use for view angles 0-15.
     short               lump[16];
 
     // Flip bit (1 = flip) to use for view angles 0-15.
