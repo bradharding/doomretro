@@ -1469,6 +1469,41 @@ void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mo
 }
 
 //
+// P_SetBloodSplatColor
+//
+void P_SetBloodSplatColor(bloodsplat_t *splat)
+{
+    if (r_blood == r_blood_nofuzz)
+    {
+        splat->visblood = (splat->blood == FUZZYBLOOD ? REDBLOOD : splat->blood) + M_BigRandomInt(-2, 1);
+        splat->viscolfunc = bloodsplatcolfunc;
+    }
+    else if (r_blood == r_blood_all)
+    {
+        if (splat->blood == FUZZYBLOOD)
+        {
+            splat->visblood = FUZZYBLOOD;
+            splat->viscolfunc = fuzzcolfunc;
+        }
+        else
+        {
+            splat->visblood = splat->blood + M_BigRandomInt(-2, 1);
+            splat->viscolfunc = bloodsplatcolfunc;
+        }
+    }
+    else if (r_blood == r_blood_red)
+    {
+        splat->visblood = REDBLOOD + M_BigRandomInt(-2, 1);
+        splat->viscolfunc = bloodsplatcolfunc;
+    }
+    else
+    {
+        splat->visblood = GREENBLOOD + M_BigRandomInt(-2, 1);
+        splat->viscolfunc = bloodsplatcolfunc;
+    }
+}
+
+//
 // P_SpawnBloodSplat
 //
 void P_SpawnBloodSplat(fixed_t x, fixed_t y, int blood, fixed_t maxheight, mobj_t *target)
@@ -1488,7 +1523,8 @@ void P_SpawnBloodSplat(fixed_t x, fixed_t y, int blood, fixed_t maxheight, mobj_
                 int patch = firstbloodsplatlump + (M_BigRandom() & (BLOODSPLATLUMPS - 1));
 
                 splat->patch = firstspritelump + patch;
-                splat->blood = (blood == FUZZYBLOOD ? FUZZYBLOOD : blood + M_BigRandomInt(-2, 1));
+                splat->blood = blood;
+                P_SetBloodSplatColor(splat);
                 splat->x = x;
                 splat->y = y;
                 splat->width = spritewidth[patch];

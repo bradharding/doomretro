@@ -963,7 +963,7 @@ typedef struct
     lighttable_t        *colormap;
     lighttable_t        *nextcolormap;
     void                (*colfunc)(void);
-    fixed_t             blood;
+    int                 blood;
 } bloodsplatvissprite_t;
 
 //

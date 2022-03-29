@@ -149,6 +149,7 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, dboolean spawnmonsters);
 void P_SpawnPuff(fixed_t x, fixed_t y, fixed_t z, angle_t angle);
 void P_SpawnSmokeTrail(fixed_t x, fixed_t y, fixed_t z, angle_t angle);
 void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mobj_t *target);
+void P_SetBloodSplatColor(bloodsplat_t *splat);
 void P_SpawnBloodSplat(fixed_t x, fixed_t y, int blood, fixed_t maxheight, mobj_t *target);
 dboolean P_CheckMissileSpawn(mobj_t *th);
 mobj_t *P_SpawnMissile(mobj_t *source, mobj_t *dest, mobjtype_t type);

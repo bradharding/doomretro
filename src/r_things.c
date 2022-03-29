@@ -878,28 +878,8 @@ static void R_ProjectBloodSplat(const bloodsplat_t *splat)
     vis->scale = xscale;
     vis->gx = fx;
     vis->gy = fy;
-
-    if (r_blood == r_blood_nofuzz)
-    {
-        vis->blood = (splat->blood == FUZZYBLOOD ? REDBLOOD : splat->blood);
-        vis->colfunc = bloodsplatcolfunc;
-    }
-    else if (r_blood == r_blood_all)
-    {
-        vis->blood = splat->blood;
-        vis->colfunc = (splat->blood == FUZZYBLOOD && pausesprites && r_textures ? &R_DrawPausedFuzzColumn : bloodsplatcolfunc);
-    }
-    else if (r_blood == r_blood_red)
-    {
-        vis->blood = REDBLOOD;
-        vis->colfunc = bloodsplatcolfunc;
-    }
-    else
-    {
-        vis->blood = GREENBLOOD;
-        vis->colfunc = bloodsplatcolfunc;
-    }
-
+    vis->blood = splat->visblood;
+    vis->colfunc = splat->viscolfunc;
     vis->texturemid = floorheight + FRACUNIT - viewz;
     vis->xiscale = FixedDiv(FRACUNIT, xscale);
 

@@ -8701,6 +8701,17 @@ static void r_blood_cvar_func2(char *cmd, char *parms)
         {
             r_blood = value;
             M_SaveCVARs();
+
+            for (int i = 0; i < numsectors; i++)
+            {
+                bloodsplat_t    *splat = sectors[i].splatlist;
+
+                while (splat)
+                {
+                    P_SetBloodSplatColor(splat);
+                    splat = splat->next;
+                }
+            }
         }
     }
     else

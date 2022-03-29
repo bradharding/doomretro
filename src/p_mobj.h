@@ -511,6 +511,8 @@ typedef struct bloodsplat_s
     fixed_t             width;
     struct sector_s     *sector;
     int                 blood;
+    int                 visblood;
+    void                (*viscolfunc)(void);
 } bloodsplat_t;
 
 extern int  prevthingx, prevthingy;
