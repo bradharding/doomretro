@@ -17,7 +17,12 @@
   * Fade effects are no longer applied in most cases if the `fade` CVAR is `on`.
 * The player’s currently equipped weapon can now be changed using the new `weapon` CVAR. It can be `fists`, `chainsaw`, `pistol`, `shotgun`, `supershotgun`, `chaingun`, `rocketlauncher`, `plasmarifle` or `bfg9000`.
 * Power-ups that bob when the `r_floatbob` CVAR is `on` no longer attempt to bob at all if the ceiling above is too low.
-* Blood splats are now left on the floor if blood falls on a descending sector.
+* The following changes have been made to blood splats:
+  * Extensive optimizations have been made when displaying blood splats.
+  * The number of blood splats displayed no longer depends on their distance from the player.
+  * Blood splats now retain their randomness in shade if the `r_blood` CVAR is changed.
+  * The translucency of blood splats when the `r_textures` CVAR is `off` now depends on the `r_bloodsplats_translucency` rather than `r_translucency` CVAR.
+  * Blood splats are now left on the floor as intended if blood falls on a moving sector.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
