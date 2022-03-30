@@ -3699,6 +3699,9 @@ void M_Drawer(void)
                     foundnewline = true;
                     start += i + 1;
 
+                    if (messageString[start] != '\n')
+                        y -= 3;
+
                     break;
                 }
 
