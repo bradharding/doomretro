@@ -9296,13 +9296,20 @@ static void r_textures_cvar_func2(char *cmd, char *parms)
 
             for (int i = 0; i < numsectors; i++)
             {
-                mobj_t  *mo = sectors[i].thinglist;
+                mobj_t          *mo = sectors[i].thinglist;
+                bloodsplat_t    *splat = sectors[i].splatlist;
 
                 while (mo)
                 {
                     mo->colfunc = mo->info->colfunc;
                     P_SetShadowColumnFunction(mo);
                     mo = mo->snext;
+                }
+
+                while (splat)
+                {
+                    P_SetBloodSplatColor(splat);
+                    splat = splat->next;
                 }
             }
         }
