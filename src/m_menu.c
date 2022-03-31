@@ -2352,7 +2352,7 @@ static int M_StringHeight(char *string)
 
     for (int i = 1; i < len; i++)
         if (string[i] == '\n')
-            h += (string[i - 1] == '\n' ? 4 : (STCFN034 ? SHORT(hu_font[0]->height) + 1 : 8));
+            h += (string[i - 1] == '\n' ? 3 : (STCFN034 ? SHORT(hu_font[0]->height) + 1 : 8));
 
     return h;
 }
@@ -3681,7 +3681,7 @@ void M_Drawer(void)
 
         M_DarkBackground();
 
-        y = (VANILLAHEIGHT - M_StringHeight(messageString)) / 2 - 1;
+        y = (VANILLAHEIGHT - M_StringHeight(messageString)) / 2;
 
         while (messageString[start] != '\0')
         {
@@ -3712,7 +3712,7 @@ void M_Drawer(void)
             }
 
             M_WriteText((VANILLAWIDTH - M_StringWidth(string)) / 2, y, string, true);
-            y += SHORT(hu_font[0]->height) + 1;
+            y += (STCFN034 ? SHORT(hu_font[0]->height) + 1 : 8) + 1;
         }
 
         return;
