@@ -356,13 +356,14 @@ static vissprite_t *R_NewVisSprite(void)
     return (vissprites + num_vissprite++);
 }
 
-int             *mfloorclip;
-int             *mceilingclip;
+int         *mfloorclip;
+int         *mceilingclip;
 
-fixed_t         spryscale;
-int64_t         sprtopscreen;
-static int64_t  shadowtopscreen;
-static int64_t  shadowshift;
+fixed_t     spryscale;
+int64_t     sprtopscreen;
+static int  shadowtopscreen;
+static int  shadowshift;
+static int  splattopscreen;
 
 static void (*shadowcolfunc)(void);
 
@@ -371,10 +372,10 @@ static void inline R_BlastShadowColumn(const rcolumn_t *column)
     while (dc_numposts--)
     {
         const rpost_t   *post = &column->posts[dc_numposts];
-        const int64_t   topscreen = shadowtopscreen + (int64_t)spryscale * post->topdelta;
+        const int       topscreen = shadowtopscreen + spryscale * post->topdelta;
 
-        if ((dc_yh = MIN((int)(((topscreen + (int64_t)spryscale * post->length) >> FRACBITS) / 10 + shadowshift), dc_floorclip)) >= 0)
-            if ((dc_yl = MAX(dc_ceilingclip, (int)(((topscreen + FRACUNIT) >> FRACBITS) / 10 + shadowshift))) <= dc_yh)
+        if ((dc_yh = MIN((((topscreen + spryscale * post->length) >> FRACBITS) / 10 + shadowshift), dc_floorclip)) >= 0)
+            if ((dc_yl = MAX(dc_ceilingclip, ((topscreen + FRACUNIT) >> FRACBITS) / 10 + shadowshift)) <= dc_yh)
                 shadowcolfunc();
     }
 }
@@ -422,10 +423,10 @@ static void inline R_BlastPlayerSpriteColumn(const rcolumn_t *column)
 static void inline R_BlastBloodSplatColumn(const rcolumn_t *column)
 {
     const rpost_t   *post = &column->posts[0];
-    const int64_t   topscreen = sprtopscreen + (int64_t)spryscale * post->topdelta;
+    const int       topscreen = splattopscreen + spryscale * post->topdelta;
 
-    if ((dc_yh = MIN((int)((topscreen + (int64_t)spryscale * post->length) >> FRACBITS), mfloorclip[dc_x] + 1)) >= 0)
-        if ((dc_yl = MAX(mceilingclip[dc_x] - 1, (int)((topscreen + FRACUNIT) >> FRACBITS))) <= dc_yh)
+    if ((dc_yh = MIN((topscreen + spryscale * post->length) >> FRACBITS, mfloorclip[dc_x] + 1)) >= 0)
+        if ((dc_yl = MAX(mceilingclip[dc_x] - 1, (topscreen + FRACUNIT) >> FRACBITS)) <= dc_yh)
             colfunc();
 }
 
@@ -521,7 +522,7 @@ static void R_DrawVisSpriteWithShadow(const vissprite_t *vis)
 
     sprtopscreen = (int64_t)centeryfrac - FixedMul(dc_texturemid, spryscale);
     shadowcolfunc = mobj->shadowcolfunc;
-    shadowtopscreen = (int64_t)centeryfrac - FixedMul(vis->shadowpos, spryscale);
+    shadowtopscreen = centeryfrac - FixedMul(vis->shadowpos, spryscale);
     shadowshift = (shadowtopscreen * 9 / 10) >> FRACBITS;
     fuzzpos = 0;
 
@@ -579,7 +580,7 @@ static void R_DrawBloodSplatVisSprite(const bloodsplatvissprite_t *vis)
     spryscale = vis->scale;
     colfunc = vis->colfunc;
     dc_blood = &tinttab50[(dc_solidblood = vis->colormap[vis->blood]) << 8];
-    sprtopscreen = (int64_t)centeryfrac - FixedMul(vis->texturemid, spryscale);
+    splattopscreen = centeryfrac - FixedMul(vis->texturemid, spryscale);
     fuzzpos = 0;
 
     for (dc_x = vis->x1; dc_x <= x2; dc_x++, frac += xiscale)
