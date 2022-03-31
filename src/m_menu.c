@@ -2347,14 +2347,14 @@ int M_StringWidth(char *string)
 //
 static int M_StringHeight(char *string)
 {
-    int h = (STCFN034 ? SHORT(hu_font[0]->height) + 1 : 8);
+    int h = (STCFN034 ? SHORT(hu_font[0]->height) : 8) + 1;
     int len = (int)strlen(string);
 
     for (int i = 1; i < len; i++)
         if (string[i] == '\n')
-            h += (string[i - 1] == '\n' ? 3 : (STCFN034 ? SHORT(hu_font[0]->height) + 1 : 8));
+            h += (string[i - 1] == '\n' ? 3 : (STCFN034 ? SHORT(hu_font[0]->height) : 8) + 1);
 
-    return h;
+    return (h - 1);
 }
 
 //
@@ -3676,7 +3676,7 @@ void M_Drawer(void)
     // Center string and print it.
     if (messagetoprint)
     {
-        char    string[80];
+        char    string[255];
         int     start = 0;
 
         M_DarkBackground();
@@ -3699,9 +3699,6 @@ void M_Drawer(void)
                     foundnewline = true;
                     start += i + 1;
 
-                    if (messageString[start] != '\n')
-                        y -= 3;
-
                     break;
                 }
 
@@ -3711,8 +3708,13 @@ void M_Drawer(void)
                 start += (int)strlen(string);
             }
 
-            M_WriteText((VANILLAWIDTH - M_StringWidth(string)) / 2, y, string, true);
-            y += (STCFN034 ? SHORT(hu_font[0]->height) + 1 : 8) + 1;
+            if (*string)
+            {
+                M_WriteText((VANILLAWIDTH - M_StringWidth(string)) / 2, y, string, true);
+                y += (STCFN034 ? SHORT(hu_font[0]->height) + 1 : 8) + 1;
+            }
+            else
+                y += 3;
         }
 
         return;
