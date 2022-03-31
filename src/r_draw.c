@@ -317,15 +317,7 @@ void R_DrawShadowColumn(void)
     int     count = dc_yh - dc_yl;
     byte    *dest = ylookup0[dc_yl] + dc_x;
 
-    if (!count)
-        *dest = *(*dest + dc_black33);
-    else if (count == 1)
-    {
-        *dest = *(*dest + dc_black33);
-        dest += SCREENWIDTH;
-        *dest = *(*dest + dc_black33);
-    }
-    else
+    if (count)
     {
         *dest = *(*dest + dc_black33);
         dest += SCREENWIDTH;
@@ -338,6 +330,8 @@ void R_DrawShadowColumn(void)
 
         *dest = *(*dest + (dc_yh == dc_floorclip ? dc_black40 : dc_black33));
     }
+    else
+        *dest = *(*dest + dc_black33);
 }
 
 void R_DrawFuzzyShadowColumn(void)
