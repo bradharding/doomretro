@@ -1212,14 +1212,14 @@ static void ST_UpdateFaceWidget(void)
     if (!st_facecount)
     {
         priority = 0;
-        faceindex = (consoleactive || freeze ? 1 : M_BigRandom() % 3);
+        faceindex = (consoleactive || freeze ? ST_STRAIGHTFACE : M_BigRandom() % ST_NUMSTRAIGHTFACES);
         st_facecount = ST_STRAIGHTFACECOUNT;
     }
 
     st_facecount--;
 
     // [crispy] fix status bar face hysteresis
-    st_faceindex = painoffset + faceindex;
+    st_faceindex = faceindex + painoffset;
 }
 
 static void ST_UpdateWidgets(void)

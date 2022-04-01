@@ -11,12 +11,12 @@
   * So as to not interfere when adjusting the size of the player’s view, zooming in and out of the external automap is now only possible if the `+zoomin` and `+zoomout` actions are rebound from the <kbd><b>+</b></kbd> and <kbd><b>&ndash;</b></kbd> keys.
 * Changing the `r_fov` CVAR from its default of `90`° is now effective again when the `vid_widescreen` CVAR is `off`.
 * The following changes have been made when the player enters a cheat:
-  * The cheat is now redacted in the console.
+  * Displaying the cheat in the console is now redacted.
   * The cheat is now skipped in the console’s input history when pressing the <kbd><b>&uarr;</b></kbd> or <kbd><b>&darr;</b></kbd> keys.
   * A warning is now displayed in the console indicating that the player cheated.
   * Fade effects are no longer applied in most cases if the `fade` CVAR is `on`.
 * The player’s currently equipped weapon can now be changed using the new `weapon` CVAR. It can be `fists`, `chainsaw`, `pistol`, `shotgun`, `supershotgun`, `chaingun`, `rocketlauncher`, `plasmarifle` or `bfg9000`.
-* Power-ups that bob when the `r_floatbob` CVAR is `on` no longer attempt to bob at all if the ceiling above is too low.
+* Power-ups that bob when the `r_floatbob` CVAR is `on` no longer bob at all if the ceiling above is too low.
 * The following changes have been made to blood splats:
   * Extensive optimizations have been made to the rendering of blood splats.
   * The amount of blood splats rendered no longer depends on their distance from the player.
@@ -24,7 +24,7 @@
   * The translucency of blood splats when the `r_textures` CVAR is `off` now depends on the `r_bloodsplats_translucency` rather than `r_translucency` CVAR.
   * Blood splats are now left on the floor as intended if blood falls on a moving sector.
 * The “automap opened” stat shown by the `playerstats` CCMD is now reset at the start of each map as intended.
-* The player’s face in the status bar and widescreen HUD now always looks directly forward while the console is open.
+* The player’s face in the status bar and widescreen HUD now always looks forward while the console is open.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
