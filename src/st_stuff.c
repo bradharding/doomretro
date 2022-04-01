@@ -1192,7 +1192,7 @@ static void ST_UpdateFaceWidget(void)
     {
         static int  lastattackdown = -1;
 
-        if (viewplayer->attackdown)
+        if (viewplayer->attackdown && !consoleactive)
         {
             if (lastattackdown == -1)
                 lastattackdown = ST_RAMPAGEDELAY;
