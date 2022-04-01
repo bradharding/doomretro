@@ -608,21 +608,28 @@ void P_CheckTerrainType(sector_t *sector)
                 r_bloodsplats_total--;
                 splat = next;
             }
+
+            for (msecnode_t *node = sector->touching_thinglist; node; node = node->m_snext)
+            {
+                mobj_t  *thing = node->m_thing;
+
+                if (!(thing->flags & MF_SPAWNCEILING) && (thing->flags2 & MF2_FOOTCLIP))
+                    thing->flags2 |= MF2_FEETARECLIPPED;
+                else
+                    thing->flags2 &= ~MF2_FEETARECLIPPED;
+            }
         }
         else
         {
             sector->floorxoffset = 0;
             sector->flooryoffset = 0;
-        }
 
-        for (msecnode_t *node = sector->touching_thinglist; node; node = node->m_snext)
-        {
-            mobj_t  *thing = node->m_thing;
+            for (msecnode_t *node = sector->touching_thinglist; node; node = node->m_snext)
+            {
+                mobj_t  *thing = node->m_thing;
 
-            if (isliquid && !(thing->flags & MF_SPAWNCEILING) && (thing->flags2 & MF2_FOOTCLIP))
-                thing->flags2 |= MF2_FEETARECLIPPED;
-            else
                 thing->flags2 &= ~MF2_FEETARECLIPPED;
+            }
         }
     }
 }
