@@ -1212,7 +1212,7 @@ static void ST_UpdateFaceWidget(void)
     if (!st_facecount)
     {
         priority = 0;
-        faceindex = M_BigRandom() % 3;
+        faceindex = (consoleactive || freeze ? 1 : M_BigRandom() % 3);
         st_facecount = ST_STRAIGHTFACECOUNT;
     }
 
@@ -1244,19 +1244,13 @@ void ST_Ticker(void)
 {
     if (r_screensize < r_screensize_max)
     {
-        if (!freeze && !paused && !menuactive && !consoleactive)
-        {
-            ST_UpdateWidgets();
-            st_oldhealth = viewplayer->health;
-        }
+        ST_UpdateWidgets();
+        st_oldhealth = viewplayer->health;
     }
     else if (r_hud && !r_althud)
     {
-        if (!freeze && !paused && !menuactive && !consoleactive)
-        {
-            ST_UpdateFaceWidget();
-            st_oldhealth = viewplayer->health;
-        }
+        ST_UpdateFaceWidget();
+        st_oldhealth = viewplayer->health;
     }
 
     // [BH] action the IDCLEV cheat after a small delay to allow its player message to display
@@ -1391,7 +1385,7 @@ void ST_Drawer(dboolean fullscreen, dboolean refresh)
     // Do red/gold-shifts from damage/items
     ST_DoPaletteStuff();
 
-    if (r_screensize == r_screensize_max || (menuactive && !consoleactive) || inhelpscreens)
+    if (r_screensize == r_screensize_max || menuactive || paused || inhelpscreens)
         return;
 
     st_statusbaron = !fullscreen;
