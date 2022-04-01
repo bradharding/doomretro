@@ -962,8 +962,8 @@ typedef struct
     int                 patch;
     lighttable_t        *colormap;
     lighttable_t        *nextcolormap;
+    int                 color;
     void                (*colfunc)(void);
-    int                 blood;
 } bloodsplatvissprite_t;
 
 //

@@ -510,8 +510,8 @@ typedef struct bloodsplat_s
     int                 patch;
     fixed_t             width;
     struct sector_s     *sector;
-    int                 blood;
-    int                 visblood;
+    int                 color;
+    int                 viscolor;
     void                (*viscolfunc)(void);
 } bloodsplat_t;
 

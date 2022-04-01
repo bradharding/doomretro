@@ -120,8 +120,8 @@ fixed_t         dc_iscale;
 fixed_t         dc_texturemid;
 fixed_t         dc_texheight;
 fixed_t         dc_texturefrac;
-byte            dc_solidblood;
-byte            *dc_blood;
+byte            dc_solidbloodcolor;
+byte            *dc_bloodcolor;
 byte            *dc_brightmap;
 int             dc_floorclip;
 int             dc_ceilingclip;
@@ -401,11 +401,11 @@ void R_DrawBloodSplatColumn(void)
 
     while (--count)
     {
-        *dest = *(*dest + dc_blood);
+        *dest = *(*dest + dc_bloodcolor);
         dest += SCREENWIDTH;
     }
 
-    *dest = *(*dest + dc_blood);
+    *dest = *(*dest + dc_bloodcolor);
 }
 
 void R_DrawSolidBloodSplatColumn(void)
@@ -415,11 +415,11 @@ void R_DrawSolidBloodSplatColumn(void)
 
     while (--count)
     {
-        *dest = dc_solidblood;
+        *dest = dc_solidbloodcolor;
         dest += SCREENWIDTH;
     }
 
-    *dest = dc_solidblood;
+    *dest = dc_solidbloodcolor;
 }
 
 void R_DrawWallColumn(void)

@@ -579,7 +579,7 @@ static void R_DrawBloodSplatVisSprite(const bloodsplatvissprite_t *vis)
 
     spryscale = vis->scale;
     colfunc = vis->colfunc;
-    dc_blood = &tinttab50[(dc_solidblood = vis->colormap[vis->blood]) << 8];
+    dc_bloodcolor = &tinttab50[(dc_solidbloodcolor = vis->colormap[vis->color]) << 8];
     splattopscreen = centeryfrac - FixedMul(vis->texturemid, spryscale);
     fuzzpos = 0;
 
@@ -875,7 +875,7 @@ static void R_ProjectBloodSplat(const bloodsplat_t *splat)
     vis->scale = xscale;
     vis->gx = fx;
     vis->gy = fy;
-    vis->blood = splat->visblood;
+    vis->color = splat->viscolor;
     vis->colfunc = splat->viscolfunc;
     vis->texturemid = floorheight + FRACUNIT - viewz;
     vis->xiscale = FixedDiv(FRACUNIT, xscale);

@@ -20,7 +20,7 @@
 * The following changes have been made to blood splats:
   * Extensive optimizations have been made to the rendering of blood splats.
   * The number of blood splats displayed no longer depends on their distance from the player.
-  * Blood splats now retain their randomness in shade if the `r_blood` CVAR is changed.
+  * Blood splats now retain their random shades of color if the `r_blood` CVAR is changed.
   * The translucency of blood splats when the `r_textures` CVAR is `off` now depends on the `r_bloodsplats_translucency` rather than `r_translucency` CVAR.
   * Blood splats are now left on the floor as intended if blood falls on a moving sector.
 * The “automap opened” stat shown by the `playerstats` CCMD is now reset at the start of each map as intended.

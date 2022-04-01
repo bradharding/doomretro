@@ -588,6 +588,9 @@ manual_floor:
     return rtn;
 }
 
+//
+// P_CheckTerrainType()
+//
 void P_CheckTerrainType(sector_t *sector)
 {
     terraintype_t   oldterraintype = sector->terraintype;
@@ -625,11 +628,7 @@ void P_CheckTerrainType(sector_t *sector)
             sector->flooryoffset = 0;
 
             for (msecnode_t *node = sector->touching_thinglist; node; node = node->m_snext)
-            {
-                mobj_t  *thing = node->m_thing;
-
-                thing->flags2 &= ~MF2_FEETARECLIPPED;
-            }
+                node->m_thing->flags2 &= ~MF2_FEETARECLIPPED;
         }
     }
 }

@@ -1475,30 +1475,30 @@ void P_SetBloodSplatColor(bloodsplat_t *splat)
 {
     if (r_blood == r_blood_nofuzz)
     {
-        splat->visblood = (splat->blood == FUZZYBLOOD ? REDBLOOD : splat->blood) + M_BigRandomInt(-2, 1);
+        splat->viscolor = (splat->color == FUZZYBLOOD ? REDBLOOD : splat->color) + M_BigRandomInt(-2, 1);
         splat->viscolfunc = bloodsplatcolfunc;
     }
     else if (r_blood == r_blood_all)
     {
-        if (splat->blood == FUZZYBLOOD)
+        if (splat->color == FUZZYBLOOD)
         {
-            splat->visblood = FUZZYBLOOD;
+            splat->viscolor = FUZZYBLOOD;
             splat->viscolfunc = fuzzcolfunc;
         }
         else
         {
-            splat->visblood = splat->blood + M_BigRandomInt(-2, 1);
+            splat->viscolor = splat->color + M_BigRandomInt(-2, 1);
             splat->viscolfunc = bloodsplatcolfunc;
         }
     }
     else if (r_blood == r_blood_red)
     {
-        splat->visblood = REDBLOOD + M_BigRandomInt(-2, 1);
+        splat->viscolor = REDBLOOD + M_BigRandomInt(-2, 1);
         splat->viscolfunc = bloodsplatcolfunc;
     }
     else
     {
-        splat->visblood = GREENBLOOD + M_BigRandomInt(-2, 1);
+        splat->viscolor = GREENBLOOD + M_BigRandomInt(-2, 1);
         splat->viscolfunc = bloodsplatcolfunc;
     }
 }
@@ -1506,7 +1506,7 @@ void P_SetBloodSplatColor(bloodsplat_t *splat)
 //
 // P_SpawnBloodSplat
 //
-void P_SpawnBloodSplat(fixed_t x, fixed_t y, int blood, fixed_t maxheight, mobj_t *target)
+void P_SpawnBloodSplat(fixed_t x, fixed_t y, int color, fixed_t maxheight, mobj_t *target)
 {
     if (r_bloodsplats_total >= r_bloodsplats_max)
         return;
@@ -1523,7 +1523,7 @@ void P_SpawnBloodSplat(fixed_t x, fixed_t y, int blood, fixed_t maxheight, mobj_
                 int patch = firstbloodsplatlump + (M_BigRandom() & (BLOODSPLATLUMPS - 1));
 
                 splat->patch = firstspritelump + patch;
-                splat->blood = blood;
+                splat->color = color;
                 P_SetBloodSplatColor(splat);
                 splat->x = x;
                 splat->y = y;
