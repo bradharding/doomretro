@@ -239,7 +239,11 @@ char *M_GetAppDataFolder(void)
         closedir(resourcedir);
         free(executablefolder);
 
+#ifndef __HAIKU__
         return M_StringJoin(buffer, DIR_SEPARATOR_S ".config" DIR_SEPARATOR_S DOOMRETRO, NULL);
+#else
+        return M_StringJoin(buffer, DIR_SEPARATOR_S "config" DIR_SEPARATOR_S "settings" DIR_SEPARATOR_S DOOMRETRO, NULL);
+#endif
 #endif
     }
     else
