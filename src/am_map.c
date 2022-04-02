@@ -39,6 +39,7 @@
 #include <string.h>
 
 #include "am_map.h"
+#include "c_cmds.h"
 #include "c_console.h"
 #include "d_deh.h"
 #include "doomstat.h"
@@ -2128,7 +2129,7 @@ void AM_Drawer(void)
 
     AM_DrawPlayer();
 
-    if (r_screensize < r_screensize_max)
+    if (r_screensize < r_screensize_max && !vanilla)
         AM_StatusBarShadow();
 
     if (!am_followmode)
