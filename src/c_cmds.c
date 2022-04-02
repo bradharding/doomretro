@@ -7527,35 +7527,37 @@ static void timer_cmd_func2(char *cmd, char *parms)
     {
         int value;
 
-        if (sscanf(parms, "%10i", &value) == 1)
+        if (M_StringCompare(parms, "off"))
+            value = 0;
+        else if (sscanf(parms, "%10i", &value) != 1)
+            return;
+
+        value = BETWEEN(0, value, TIMERMAXMINUTES);
+
+        if (!togglingvanilla)
         {
-            value = BETWEEN(0, value, TIMERMAXMINUTES);
-
-            if (!togglingvanilla)
+            if (!value)
             {
-                if (!value)
-                {
-                    if (timer)
-                        C_Output("The timer has been cleared.");
-                    else
-                        C_Warning(0, "No timer has been set.");
-                }
+                if (timer)
+                    C_Output("The timer has been cleared.");
                 else
-                {
-                    char    *temp = commify(value);
-
-                    if (timer)
-                        C_Output("The timer has been %s to %s minute%s.",
-                            temp, (value == timer ? "reset" : "changed"), (value == 1 ? "" : "s"));
-                    else
-                        C_Output("A timer has been set for %s minute%s.", temp, (value == 1 ? "" : "s"));
-
-                    free(temp);
-                }
+                    C_Warning(0, "No timer has been set.");
             }
+            else
+            {
+                char    *temp = commify(value);
 
-            P_SetTimer(value);
+                if (timer)
+                    C_Output("The timer has been %s to %s minute%s.",
+                        temp, (value == timer ? "reset" : "changed"), (value == 1 ? "" : "s"));
+                else
+                    C_Output("A timer has been set for %s minute%s.", temp, (value == 1 ? "" : "s"));
+
+                free(temp);
+            }
         }
+
+        P_SetTimer(value);
     }
 }
 
