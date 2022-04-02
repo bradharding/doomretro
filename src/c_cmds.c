@@ -4323,6 +4323,10 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
     C_TabbedOutput(tabs, "Linedefs\t%s", temp);
     free(temp);
 
+    temp = commify(numspeciallines);
+    C_TabbedOutput(tabs, INDENT "Special\t%s", temp);
+    free(temp);
+
     temp = commify(numsides);
     C_TabbedOutput(tabs, "Sidedefs\t%s", temp);
     free(temp);

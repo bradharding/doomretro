@@ -160,6 +160,7 @@ int                 numnodes;
 node_t              *nodes;
 
 int                 numlines;
+int                 numspeciallines;
 line_t              *lines;
 
 int                 numsides;
@@ -704,6 +705,8 @@ static void P_CheckLinedefs(void)
 {
     line_t  *ld = lines;
 
+    numspeciallines = 0;
+
     for (int i = numlines; i--; ld++)
         if (!ld->special)
         {
@@ -758,6 +761,8 @@ static void P_CheckLinedefs(void)
                 free(temp2);
                 free(temp3);
             }
+            else
+                numspeciallines++;
         }
 }
 
