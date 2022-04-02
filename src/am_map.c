@@ -2048,17 +2048,15 @@ static void AM_DrawSolidCrosshair(void)
     *dot = am_crosshaircolor;
 }
 
-#define DARKLEVELS 6
-
 void AM_StatusBarShadow(void)
 {
-    for (int i = 0; i < DARKLEVELS; i++)
+    for (int i = 24, y = 0; y < 6; i -= 4, y++)
     {
-        byte    *colormap = &colormaps[0][(DARKLEVELS - i) * 1024];
+        byte    *colormap = &colormaps[0][i * 256];
 
         for (int x = 0; x < MAPWIDTH; x++)
         {
-            byte    *dot = &mapscreen[(MAPHEIGHT - i - 1) * MAPWIDTH + x];
+            byte    *dot = &mapscreen[(MAPHEIGHT - y - 1) * MAPWIDTH + x];
 
             *dot = *(*dot + colormap);
         }
