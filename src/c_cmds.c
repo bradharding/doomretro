@@ -4277,12 +4277,12 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
             C_TabbedOutput(tabs, INDENT "Release date\tWednesday, May 26, 2010");
         else if (M_StringCompare(wadname, "PLUTONIA.WAD") || M_StringCompare(wadname, "TNT.WAD"))
             C_TabbedOutput(tabs, INDENT "Release date\tMonday, June 17, 1996");
+        else if (onehumanity)
+            C_TabbedOutput(tabs, INDENT "Release date\tWednesday, March 2, 2022");
         else if (REKKRSL)
             C_TabbedOutput(tabs, INDENT "Release date\tMonday, October 11, 2021");
         else if (REKKR)
             C_TabbedOutput(tabs, INDENT "Release date\tTuesday, July 10, 2018");
-        else if (onehumanity)
-            C_TabbedOutput(tabs, INDENT "Release date\tWednesday, March 2, 2022");
 
         if (wadtype == PWAD)
             C_TabbedOutput(tabs, "IWAD\t%s", leafname(lumpinfo[W_GetLastNumForName("PLAYPAL")]->wadfile->path));

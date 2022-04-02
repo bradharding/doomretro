@@ -27,6 +27,7 @@
 * The player’s face in the status bar and widescreen HUD now always looks forward while the console is open.
 * A timer set using the `timer` CCMD can now be turned off by using `off` as a parameter in the console.
 * Minor improvements have been made to how *MBF*-compatible helper dogs are displayed.
+* The `mapstats` CCMD now displays the number of linedefs that have line specials.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

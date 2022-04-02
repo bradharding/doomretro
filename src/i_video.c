@@ -1356,7 +1356,7 @@ static char *getaspectratio(int width, int height)
         height *= 2;
     }
 
-    M_snprintf(ratio, sizeof(ratio), "%s %i:%i", (width == 8 ? "an" : "a"), width, height);
+    M_snprintf(ratio, sizeof(ratio), "%i:%i", width, height);
     return ratio;
 }
 
@@ -1478,7 +1478,7 @@ static void SetVideoMode(dboolean createwindow, dboolean output)
                 char    *temp1 = commify(width);
                 char    *temp2 = commify(height);
 
-                C_Output("Staying at the native desktop resolution of %sx%s with %s aspect ratio.",
+                C_Output("Staying at the native desktop resolution of %sx%s with a %s aspect ratio.",
                     temp1, temp2, getaspectratio(width, height));
 
                 free(temp1);
@@ -1500,7 +1500,7 @@ static void SetVideoMode(dboolean createwindow, dboolean output)
                 char    *temp1 = commify(width);
                 char    *temp2 = commify(height);
 
-                C_Output("Switched to a resolution of %sx%s with %s aspect ratio.", temp1, temp2, getaspectratio(width, height));
+                C_Output("Switched to a resolution of %sx%s with a %s aspect ratio.", temp1, temp2, getaspectratio(width, height));
 
                 free(temp1);
                 free(temp2);
