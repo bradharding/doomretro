@@ -1253,6 +1253,8 @@ void C_UpdatePlayerStatsOverlay(void)
         C_DrawOverlayText(mapscreen, MAPWIDTH, x - C_OverlayWidth(buffer, false), y, buffer, consoleoverlaycolor, false);
         free(temp1);
         free(temp2);
+
+        y += OVERLAYLINEHEIGHT;
     }
 
     if (totalitems)
@@ -1262,10 +1264,11 @@ void C_UpdatePlayerStatsOverlay(void)
         char    *temp2 = commify(totalitems);
 
         M_snprintf(buffer, sizeof(buffer), "%s of %s items", temp1, temp2);
-        C_DrawOverlayText(mapscreen, MAPWIDTH, x - C_OverlayWidth(buffer, false),
-            (y += OVERLAYLINEHEIGHT), buffer, consoleoverlaycolor, false);
+        C_DrawOverlayText(mapscreen, MAPWIDTH, x - C_OverlayWidth(buffer, false), y, buffer, consoleoverlaycolor, false);
         free(temp1);
         free(temp2);
+
+        y += OVERLAYLINEHEIGHT;
     }
 
     if (totalsecrets)
@@ -1275,8 +1278,7 @@ void C_UpdatePlayerStatsOverlay(void)
         char    *temp2 = commify(totalsecrets);
 
         M_snprintf(buffer, sizeof(buffer), "%s of %s secrets", temp1, temp2);
-        C_DrawOverlayText(mapscreen, MAPWIDTH, x - C_OverlayWidth(buffer, false),
-            y + OVERLAYLINEHEIGHT, buffer, consoleoverlaycolor, false);
+        C_DrawOverlayText(mapscreen, MAPWIDTH, x - C_OverlayWidth(buffer, false), y, buffer, consoleoverlaycolor, false);
         free(temp1);
         free(temp2);
     }
