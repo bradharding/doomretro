@@ -1207,15 +1207,11 @@ void C_UpdateTimerOverlay(void)
         int seconds = tics % 60;
 
         if (!hours)
-        {
-            M_snprintf(buffer, sizeof(buffer), "%02i:%02i", minutes, seconds);
-            timerwidth = C_OverlayWidth("00:00", true);
-        }
+            M_snprintf(buffer, sizeof(buffer), "%i:%02i", minutes, seconds);
         else
-        {
-            M_snprintf(buffer, sizeof(buffer), "%02i:%02i:%02i", hours, minutes, seconds);
-            timerwidth = C_OverlayWidth("00:00:00", true);
-        }
+            M_snprintf(buffer, sizeof(buffer), "%i:%02i:%02i", hours, minutes, seconds);
+
+        timerwidth = C_OverlayWidth(buffer, true);
     }
 
     C_DrawOverlayText(screens[0], SCREENWIDTH, SCREENWIDTH - timerwidth - OVERLAYTEXTX + 1,
@@ -1229,12 +1225,15 @@ void C_UpdatePathOverlay(void)
 
     if (*temp)
     {
-        pathoverlay = true;
         C_DrawOverlayText(mapscreen, MAPWIDTH, MAPWIDTH - C_OverlayWidth(temp, true) - OVERLAYTEXTX + 1,
             OVERLAYTEXTY + (OVERLAYLINEHEIGHT + OVERLAYSPACING) * ((vid_showfps && automapactive) + (!!timeremaining && automapactive)),
             temp, consoleoverlaycolor, true);
         free(temp);
+
+        pathoverlay = true;
     }
+    else
+        pathoverlay = false;
 }
 
 void C_UpdatePlayerStatsOverlay(void)
@@ -1282,8 +1281,6 @@ void C_UpdatePlayerStatsOverlay(void)
         free(temp1);
         free(temp2);
     }
-
-    pathoverlay = false;
 }
 
 void C_Drawer(void)

@@ -25,7 +25,7 @@
   * Blood splats are now left on the floor as intended if blood falls on a moving sector.
 * The “automap opened” stat shown by the `playerstats` CCMD is now reset at the start of each map as intended.
 * The player’s face in the status bar and widescreen HUD now always looks forward while the console is open.
-* A timer set using the `timer` CCMD can now be turned off by using `off` as a parameter in the console.
+* A timer set using the `timer` CCMD can now be turned off by using `off` as a parameter.
 * Minor improvements have been made to how *MBF*-compatible helper dogs are displayed.
 * The `mapstats` CCMD now displays the number of linedefs that have line specials.
 
