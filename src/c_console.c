@@ -145,8 +145,7 @@ static int              consolewarningcolor = 180;
 static int              consolewarningboldcolor = 176;
 static int              consoledividercolor = 100;
 static int              consolescrollbartrackcolor = 100;
-static int              consolescrollbarfacecolor1 = 96;
-static int              consolescrollbarfacecolor2 = 92;
+static int              consolescrollbarfacecolor = 96;
 static int              consoleedgecolor;
 
 static int              consolecolors[STRINGTYPES];
@@ -156,7 +155,6 @@ static byte             *consolebevel;
 static byte             *consoleautomapbevel;
 
 dboolean                scrollbardrawn;
-static int              scrollbarfaceanim;
 
 static void (*consoletextfunc)(byte *, int, int, int, patch_t *, int, int, int, dboolean, byte *);
 
@@ -647,10 +645,7 @@ static void C_DrawScrollbar(void)
                     * MAX(0, consolestrings - CONSOLELINES) / consolestrings;
 
     if (!facestart && trackend == faceend * SCREENWIDTH)
-    {
         scrollbardrawn = false;
-        scrollbarfaceanim = 0;
-    }
     else
     {
         const int   offset = (CONSOLEHEIGHT - consoleheight) * SCREENWIDTH;
@@ -673,7 +668,7 @@ static void C_DrawScrollbar(void)
         for (int y = facestart * SCREENWIDTH; y < faceend * SCREENWIDTH; y += SCREENWIDTH)
             if (y - offset >= CONSOLETOP)
                 for (int x = CONSOLESCROLLBARX; x < CONSOLESCROLLBARX + CONSOLESCROLLBARWIDTH; x++)
-                    screens[0][y - offset + x] = (scrollbarfaceanim ? consolescrollbarfacecolor2 : consolescrollbarfacecolor1);
+                    screens[0][y - offset + x] = consolescrollbarfacecolor;
 
         // draw scrollbar grip
         if (faceend - facestart > 8)
@@ -688,9 +683,6 @@ static void C_DrawScrollbar(void)
                 screens[0][faceend * SCREENWIDTH - offset + x] = tinttab20[screens[0][faceend * SCREENWIDTH - offset + x]];
 
         scrollbardrawn = true;
-
-        if (scrollbarfaceanim)
-            scrollbarfaceanim--;
     }
 }
 
@@ -726,8 +718,7 @@ void C_Init(void)
     consolewarningboldcolor = nearestcolors[consolewarningboldcolor];
     consoledividercolor = nearestcolors[consoledividercolor] << 8;
     consolescrollbartrackcolor = nearestcolors[consolescrollbartrackcolor] << 8;
-    consolescrollbarfacecolor1 = nearestcolors[consolescrollbarfacecolor1];
-    consolescrollbarfacecolor2 = nearestcolors[consolescrollbarfacecolor2];
+    consolescrollbarfacecolor = nearestcolors[consolescrollbarfacecolor];
 
     consolecolors[inputstring] = consoleinputtooutputcolor;
     consolecolors[cheatstring] = consoleinputtooutputcolor;
@@ -2090,7 +2081,6 @@ dboolean C_Responder(event_t *ev)
                 if (modstate & KMOD_CTRL)
                 {
                     scrollspeed = MIN(scrollspeed + 4, TICRATE * 8);
-                    scrollbarfaceanim = CONSOLESCROLLBARFACEANIM;
 
                     if (consolestrings > CONSOLELINES)
                         outputhistory = (outputhistory == -1 ? consolestrings - (CONSOLELINES + 1) :
@@ -2125,7 +2115,6 @@ dboolean C_Responder(event_t *ev)
                 if (modstate & KMOD_CTRL)
                 {
                     scrollspeed = MIN(scrollspeed + 4, TICRATE * 8);
-                    scrollbarfaceanim = CONSOLESCROLLBARFACEANIM;
 
                     if (outputhistory != -1 && (outputhistory += scrollspeed / TICRATE) + CONSOLELINES >= consolestrings)
                         outputhistory = -1;
@@ -2164,7 +2153,6 @@ dboolean C_Responder(event_t *ev)
             case KEY_PAGEUP:
                 // scroll output up
                 scrollspeed = MIN(scrollspeed + 4, TICRATE * 8);
-                scrollbarfaceanim = CONSOLESCROLLBARFACEANIM;
 
                 if (consolestrings > CONSOLELINES)
                     outputhistory = (outputhistory == -1 ? consolestrings - (CONSOLELINES + 1) :
@@ -2175,7 +2163,6 @@ dboolean C_Responder(event_t *ev)
             case KEY_PAGEDOWN:
                 // scroll output down
                 scrollspeed = MIN(scrollspeed + 4, TICRATE * 8);
-                scrollbarfaceanim = CONSOLESCROLLBARFACEANIM;
 
                 if (outputhistory != -1 && (outputhistory += scrollspeed / TICRATE) + CONSOLELINES >= consolestrings)
                     outputhistory = -1;
@@ -2349,8 +2336,6 @@ dboolean C_Responder(event_t *ev)
         {
             if (consolestrings > CONSOLELINES)
                 outputhistory = (outputhistory == -1 ? consolestrings - (CONSOLELINES + 1) : MAX(0, outputhistory - 1));
-
-            scrollbarfaceanim = CONSOLESCROLLBARFACEANIM;
         }
 
         // scroll output down
@@ -2358,8 +2343,6 @@ dboolean C_Responder(event_t *ev)
         {
             if (outputhistory != -1 && ++outputhistory + CONSOLELINES == consolestrings)
                 outputhistory = -1;
-
-            scrollbarfaceanim = CONSOLESCROLLBARFACEANIM;
         }
     }
     else if (ev->type == ev_controller && (gamecontrollerbuttons && gamecontrollerconsole) && gamecontrollerwait < I_GetTime())
