@@ -5,6 +5,7 @@
 * *DOOM Retro* is now compiled using v17.1.3 of [*Microsoft Visual Studio Community 2022*](https://www.visualstudio.com/vs/).
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Several changes have been made to text that is output to the console.
+* The scrollbar in the console is now highlighted when scrolling.
 * Minor improvements have been made to the console’s autocomplete feature.
 * The following changes have been made to the external automap:
   * The display used to show the external automap can now be specified using the new `am_display` CVAR, which is `2` by default.
