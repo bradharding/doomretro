@@ -154,7 +154,12 @@ static dboolean P_CheckRange(mobj_t *actor, fixed_t range)
 //
 dboolean P_CheckMeleeRange(mobj_t *actor)
 {
-    return P_CheckRange(actor, actor->info->meleerange + actor->target->info->radius - 20 * FRACUNIT);
+    mobj_t  *target = actor->target;
+
+    if (!target)
+        return;
+
+    return P_CheckRange(actor, actor->info->meleerange + target->info->radius - 20 * FRACUNIT);
 }
 
 //
