@@ -157,7 +157,7 @@ dboolean P_CheckMeleeRange(mobj_t *actor)
     mobj_t  *target = actor->target;
 
     if (!target)
-        return;
+        return false;
 
     return P_CheckRange(actor, actor->info->meleerange + target->info->radius - 20 * FRACUNIT);
 }
