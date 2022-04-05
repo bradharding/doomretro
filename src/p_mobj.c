@@ -1234,7 +1234,7 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, dboolean spawnmonsters)
     if (mobjinfo[i].flags & MF_COUNTKILL)
     {
         // don't spawn any monsters if -nomonsters
-        if (!spawnmonsters && type != CommanderKeen)
+        if (!spawnmonsters)
             return NULL;
 
         // killough 07/20/98: exclude friends
