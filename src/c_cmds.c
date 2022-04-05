@@ -2981,7 +2981,7 @@ static void kill_cmd_func2(char *cmd, char *parms)
                                 else if ((flags & MF_SHOOTABLE) && type != MT_PLAYER && type != MT_BARREL && (type != MT_HEAD || !hacx))
                                 {
                                     thing->flags2 |= MF2_MASSACRE;
-                                    P_DamageMobj(thing, NULL, NULL, thing->health, false);
+                                    P_DamageMobj(thing, NULL, NULL, thing->health, false, false);
 
                                     if (!(flags & MF_NOBLOOD))
                                         P_SpawnMoreBlood(thing);
@@ -3251,7 +3251,7 @@ static void kill_cmd_func2(char *cmd, char *parms)
                 char    *temp = sentencecase(parm);
 
                 killcmdmobj->flags2 |= MF2_MASSACRE;
-                P_DamageMobj(killcmdmobj, NULL, NULL, killcmdmobj->health, false);
+                P_DamageMobj(killcmdmobj, NULL, NULL, killcmdmobj->health, false, false);
 
                 if (!(killcmdmobj->flags & MF_NOBLOOD))
                 {
@@ -3300,7 +3300,7 @@ static void kill_cmd_func2(char *cmd, char *parms)
                             else if ((thing->flags & MF_SHOOTABLE) && thing->health > 0)
                             {
                                 thing->flags2 |= MF2_MASSACRE;
-                                P_DamageMobj(thing, NULL, NULL, thing->health, false);
+                                P_DamageMobj(thing, NULL, NULL, thing->health, false, false);
 
                                 if (!(thing->flags & MF_NOBLOOD))
                                 {
@@ -7151,7 +7151,7 @@ static void take_cmd_func2(char *cmd, char *parms)
 
             if (viewplayer->health > initial_health)
             {
-                P_DamageMobj(viewplayer->mo, viewplayer->mo, NULL, viewplayer->health - initial_health, false);
+                P_DamageMobj(viewplayer->mo, viewplayer->mo, NULL, viewplayer->health - initial_health, false, false);
                 result = true;
             }
 
@@ -7207,7 +7207,7 @@ static void take_cmd_func2(char *cmd, char *parms)
             if (viewplayer->health > 0 && !(viewplayer->cheats & CF_GODMODE) && !viewplayer->powers[pw_invulnerability])
             {
                 healthcvar = true;
-                P_DamageMobj(viewplayer->mo, viewplayer->mo, NULL, viewplayer->health - !!(viewplayer->cheats & CF_BUDDHA), false);
+                P_DamageMobj(viewplayer->mo, viewplayer->mo, NULL, viewplayer->health - !!(viewplayer->cheats & CF_BUDDHA), false, false);
                 healthcvar = false;
 
                 if (M_StringCompare(playername, playername_default))
@@ -8599,7 +8599,7 @@ static void player_cvars_func2(char *cmd, char *parms)
                     if (value < viewplayer->health)
                     {
                         healthcvar = true;
-                        P_DamageMobj(viewplayer->mo, viewplayer->mo, viewplayer->mo, viewplayer->health - value, false);
+                        P_DamageMobj(viewplayer->mo, viewplayer->mo, viewplayer->mo, viewplayer->health - value, false, false);
                         healthcvar = false;
                     }
                     else

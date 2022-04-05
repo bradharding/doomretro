@@ -300,7 +300,7 @@ extern int          blockmapyneg;
 dboolean P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dboolean stat);
 dboolean P_TakeSpecialThing(mobjtype_t type);
 
-void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage, dboolean adjust);
+void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage, dboolean adjust, dboolean telefragged);
 
 void P_ResurrectMobj(mobj_t *target);
 

@@ -28,6 +28,7 @@
 * A timer set using the `timer` CCMD can now be turned off by using `off` as a parameter.
 * Minor improvements have been made to how *MBF*-compatible helper dogs are displayed.
 * The `mapstats` CCMD now displays the number of linedefs that have line specials.
+* Obituaries are now displayed in the console when the player or a monster is telefragged.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

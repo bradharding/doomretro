@@ -135,7 +135,7 @@ static dboolean PIT_StompThing(mobj_t *thing)
             return true;    // underneath
     }
 
-    P_DamageMobj(thing, tmthing, tmthing, 10000, true);   // Stomp!
+    P_DamageMobj(thing, tmthing, tmthing, 10000, true, true);   // Stomp!
 
     return true;
 }
@@ -496,19 +496,19 @@ static dboolean PIT_CheckThing(mobj_t *thing)
     // If a solid object of a different type comes in contact with a touchy
     // thing, and the touchy thing is not the sole one moving relative to fixed
     // surroundings such as walls, then the touchy thing dies immediately.
-    if ((flags & MF_TOUCHY)                                     // touchy object
-        && (tmflags & MF_SOLID)                                 // solid object touches it
-        && thing->health > 0                                    // touchy object is alive
-        && ((thing->flags2 & MF2_ARMED)                         // Thing is an armed mine
-            || sentient(thing))                                 // ...or a sentient thing
-        && (thing->type != tmtype                               // only different species
-            || thing->type == MT_PLAYER)                        // ...or different players
-        && thing->z + thing->height >= tmthing->z               // touches vertically
+    if ((flags & MF_TOUCHY)                                             // touchy object
+        && (tmflags & MF_SOLID)                                         // solid object touches it
+        && thing->health > 0                                            // touchy object is alive
+        && ((thing->flags2 & MF2_ARMED)                                 // Thing is an armed mine
+            || sentient(thing))                                         // ...or a sentient thing
+        && (thing->type != tmtype                                       // only different species
+            || thing->type == MT_PLAYER)                                // ...or different players
+        && thing->z + thing->height >= tmthing->z                       // touches vertically
         && tmthing->z + tmthing->height >= thing->z
-        && ((type ^ MT_PAIN) | (tmtype ^ MT_SKULL))             // PEs and lost souls are considered same
-        && ((type ^ MT_SKULL) | (tmtype ^ MT_PAIN)))            // (but Barons and Knights are intentionally not)
+        && ((type ^ MT_PAIN) | (tmtype ^ MT_SKULL))                     // PEs and lost souls are considered same
+        && ((type ^ MT_SKULL) | (tmtype ^ MT_PAIN)))                    // (but Barons and Knights are intentionally not)
     {
-        P_DamageMobj(thing, NULL, NULL, thing->health, true);   // kill object
+        P_DamageMobj(thing, NULL, NULL, thing->health, true, false);    // kill object
         return true;
     }
 
@@ -533,7 +533,7 @@ static dboolean PIT_CheckThing(mobj_t *thing)
     // check for skulls slamming into things
     if ((tmflags & MF_SKULLFLY) && ((flags & MF_SOLID) || infiniteheight))
     {
-        P_DamageMobj(thing, tmthing, tmthing, ((M_Random() & 7) + 1) * tmthing->info->damage, true);
+        P_DamageMobj(thing, tmthing, tmthing, ((M_Random() & 7) + 1) * tmthing->info->damage, true, false);
 
         tmthing->flags &= ~MF_SKULLFLY;
         tmthing->momx = 0;
@@ -606,14 +606,14 @@ static dboolean PIT_CheckThing(mobj_t *thing)
             if (tmthing->info->ripsound)
                 S_StartSound(tmthing, tmthing->info->ripsound);
 
-            P_DamageMobj(thing, tmthing, tmthing->target, damage, true);
+            P_DamageMobj(thing, tmthing, tmthing->target, damage, true, false);
             numspechit = 0;
 
             return true;
         }
 
         // damage/explode
-        P_DamageMobj(thing, tmthing, tmthing->target, ((M_Random() & 7) + 1) * tmthing->info->damage, true);
+        P_DamageMobj(thing, tmthing, tmthing->target, ((M_Random() & 7) + 1) * tmthing->info->damage, true, false);
 
         if (thing->type != MT_BARREL)
         {
@@ -1778,7 +1778,7 @@ static dboolean PTR_ShootTraverse(intercept_t *in)
     if (la_damage)
     {
         successfulshot = true;
-        P_DamageMobj(th, shootthing, shootthing, la_damage, true);
+        P_DamageMobj(th, shootthing, shootthing, la_damage, true, false);
     }
 
     // don't go any farther
@@ -2022,7 +2022,7 @@ dboolean PIT_RadiusAttack(mobj_t *thing)
         int damage = (bombdamage == bombdistance ? bombdamage - dist : (bombdamage * (bombdistance - dist) / bombdistance) + 1);
 
         // must be in direct path
-        P_DamageMobj(thing, bombspot, bombsource, damage, true);
+        P_DamageMobj(thing, bombspot, bombsource, damage, true, false);
 
         // [BH] count number of times player's rockets hit a monster
         if (bombspot->type == MT_ROCKET && type != MT_BARREL && !(thing->flags & MF_CORPSE))
@@ -2170,12 +2170,12 @@ static void PIT_ChangeSector(mobj_t *thing)
     // killough 11/98: kill touchy things immediately
     if ((flags & MF_TOUCHY) && ((thing->flags2 & MF2_ARMED) || sentient(thing)))
     {
-        P_DamageMobj(thing, NULL, NULL, thing->health, true);   // kill object
+        P_DamageMobj(thing, NULL, NULL, thing->health, true, false);    // kill object
         return;
     }
 
     if (!(flags & MF_SHOOTABLE))
-        return;                                                 // assume it is bloody gibs or something
+        return;                                                         // assume it is bloody gibs or something
 
     nofit = true;
 
@@ -2197,7 +2197,7 @@ static void PIT_ChangeSector(mobj_t *thing)
             }
         }
 
-        P_DamageMobj(thing, NULL, NULL, 10, true);
+        P_DamageMobj(thing, NULL, NULL, 10, true, false);
 
         if (thing->health <= 0 && !thing->player && con_obituaries)
         {

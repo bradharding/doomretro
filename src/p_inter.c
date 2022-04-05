@@ -1690,9 +1690,34 @@ void P_UpdateKillStat(mobjtype_t type, int value)
     }
 }
 
-static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, dboolean gibbed)
+static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, dboolean gibbed, dboolean telefragged)
 {
-    if (source)
+    if (telefragged)
+    {
+        if (target->player)
+        {
+            if (M_StringCompare(playername, playername_default))
+                C_PlayerObituary("You were telefragged.");
+            else
+                C_PlayerObituary("%s was telefragged.", playername);
+        }
+        else
+        {
+            char    targetname[33];
+
+            if (*target->name)
+                M_StringCopy(targetname, target->name, sizeof(targetname));
+            else
+                M_snprintf(targetname, sizeof(targetname), "%s %s%s",
+                    ((target->flags & MF_FRIEND) && monstercount[target->type] == 1 ? "The" :
+                        (*target->info->name1 && isvowel(target->info->name1[0]) && !(target->flags & MF_FRIEND) ? "An" : "A")),
+                    ((target->flags & MF_FRIEND) ? "friendly " : ""),
+                    (*target->info->name1 ? target->info->name1 : "monster"));
+
+            C_PlayerObituary("%s was telefragged.", targetname);
+        }
+    }
+    else if (source)
     {
         if (inflicter && inflicter->type == MT_BARREL && target->type != MT_BARREL)
         {
@@ -1872,74 +1897,46 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
         }
         else
         {
-            if (source->type == MT_TFOG)
-            {
-                if (target->player)
-                {
-                    if (M_StringCompare(playername, playername_default))
-                        C_PlayerObituary("You were telefragged.");
-                    else
-                        C_PlayerObituary("%s was telefragged.", playername);
-                }
-                else
-                {
-                    char    targetname[33];
+            char    sourcename[33];
+            char    *temp;
 
-                    if (*target->name)
-                        M_StringCopy(targetname, target->name, sizeof(targetname));
-                    else
-                        M_snprintf(targetname, sizeof(targetname), "%s %s%s",
-                            ((target->flags & MF_FRIEND) && monstercount[target->type] == 1 ? "the" :
-                                (*target->info->name1 && isvowel(target->info->name1[0]) && !(target->flags & MF_FRIEND) ? "an" : "a")),
-                            ((target->flags & MF_FRIEND) ? "friendly " : ""),
-                            (*target->info->name1 ? target->info->name1 : "monster"));
+            if (*source->name)
+                M_StringCopy(sourcename, source->name, sizeof(sourcename));
+            else
+                M_snprintf(sourcename, sizeof(sourcename), "%s %s%s",
+                    ((source->flags & MF_FRIEND) && monstercount[source->type] == 1 ? "the" :
+                        (*source->info->name1 && isvowel(source->info->name1[0]) && !(source->flags & MF_FRIEND) ? "an" : "a")),
+                    ((source->flags & MF_FRIEND) ? "friendly " : ""),
+                    (*source->info->name1 ? source->info->name1 : "monster"));
 
-                    C_PlayerObituary("%s was telefragged.", targetname);
-                }
-            }
+            temp = sentencecase(sourcename);
+
+            if (target->player)
+                C_PlayerObituary("%s %s %s.",
+                    temp,
+                    (gibbed ? "gibbed" : "killed"),
+                    playername);
             else
             {
-                char    sourcename[33];
-                char    *temp;
+                char    targetname[33];
 
-                if (*source->name)
-                    M_StringCopy(sourcename, source->name, sizeof(sourcename));
+                if (*target->name)
+                    M_StringCopy(targetname, target->name, sizeof(targetname));
                 else
-                    M_snprintf(sourcename, sizeof(sourcename), "%s %s%s",
-                        ((source->flags & MF_FRIEND) && monstercount[source->type] == 1 ? "the" :
-                            (*source->info->name1 && isvowel(source->info->name1[0]) && !(source->flags & MF_FRIEND) ? "an" : "a")),
-                        ((source->flags & MF_FRIEND) ? "friendly " : ""),
-                        (*source->info->name1 ? source->info->name1 : "monster"));
+                    M_snprintf(targetname, sizeof(targetname), "%s %s%s",
+                        (source->type == target->type || M_StringCompare(source->info->name1, target->info->name1) ? "another" :
+                            ((target->flags & MF_FRIEND) && monstercount[target->type] == 1 ? "the" :
+                            (*target->info->name1 && isvowel(target->info->name1[0]) && !(target->flags & MF_FRIEND) ? "an" : "a"))),
+                        ((target->flags & MF_FRIEND) ? "friendly " : ""),
+                        (*target->info->name1 ? target->info->name1 : "monster"));
 
-                temp = sentencecase(sourcename);
-
-                if (target->player)
-                    C_PlayerObituary("%s %s %s.",
-                        temp,
-                        (gibbed ? "gibbed" : "killed"),
-                        playername);
-                else
-                {
-                    char    targetname[33];
-
-                    if (*target->name)
-                        M_StringCopy(targetname, target->name, sizeof(targetname));
-                    else
-                        M_snprintf(targetname, sizeof(targetname), "%s %s%s",
-                            (source->type == target->type || M_StringCompare(source->info->name1, target->info->name1) ? "another" :
-                                ((target->flags & MF_FRIEND) && monstercount[target->type] == 1 ? "the" :
-                                (*target->info->name1 && isvowel(target->info->name1[0]) && !(target->flags & MF_FRIEND) ? "an" : "a"))),
-                            ((target->flags & MF_FRIEND) ? "friendly " : ""),
-                            (*target->info->name1 ? target->info->name1 : "monster"));
-
-                    C_PlayerObituary("%s %s %s.",
-                        temp,
-                        (target->type == MT_BARREL ? "exploded" : (gibbed ? "gibbed" : "killed")),
-                        targetname);
-                }
-
-                free(temp);
+                C_PlayerObituary("%s %s %s.",
+                    temp,
+                    (target->type == MT_BARREL ? "exploded" : (gibbed ? "gibbed" : "killed")),
+                    targetname);
             }
+
+            free(temp);
         }
     }
     else if (target->player && target->player->mo == target)
@@ -1989,7 +1986,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
 //
 // P_KillMobj
 //
-void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
+void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, dboolean telefragged)
 {
     dboolean    gibbed;
     mobjtype_t  type = target->type;
@@ -2099,7 +2096,7 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source)
         target->flags2 &= ~MF2_CASTSHADOW;
 
     if (con_obituaries && !hacx && (!massacre || type == MT_BARREL))
-        P_WriteObituary(target, inflicter, source, gibbed);
+        P_WriteObituary(target, inflicter, source, gibbed, telefragged);
 
     if (chex)
         return;
@@ -2151,7 +2148,7 @@ static dboolean P_InfightingImmune(mobj_t *target, mobj_t *source)
 // Source can be NULL for slime, barrel explosions
 // and other environmental stuff.
 //
-void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage, dboolean adjust)
+void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage, dboolean adjust, dboolean telefragged)
 {
     player_t    *splayer = NULL;
     player_t    *tplayer;
@@ -2225,7 +2222,7 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
                     target->flags2 ^= MF2_MIRRORED;
 
                 if (con_obituaries)
-                    P_WriteObituary(target, inflicter, source, true);
+                    P_WriteObituary(target, inflicter, source, true, false);
             }
         }
 
@@ -2302,7 +2299,7 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
         if (tplayer->health <= 0)
         {
             tplayer->damagecount = 100;
-            P_KillMobj(target, inflicter, source);
+            P_KillMobj(target, inflicter, source, telefragged);
 
             if (tplayer->health < health_min)
                 tplayer->health = health_min;
@@ -2341,7 +2338,7 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
             && damage >= 10 && info->gibhealth < 0 && P_CheckMeleeRange(target))
             target->health = info->gibhealth - 1;
 
-        P_KillMobj(target, inflicter, source);
+        P_KillMobj(target, inflicter, source, telefragged);
         return;
     }
 
