@@ -135,7 +135,7 @@ static dboolean PIT_StompThing(mobj_t *thing)
             return true;    // underneath
     }
 
-    P_DamageMobj(thing, tmthing, tmthing, 10000, true, true);   // Stomp!
+    P_DamageMobj(thing, NULL, tmthing, 10000, true, true);   // Stomp!
 
     return true;
 }
