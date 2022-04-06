@@ -420,15 +420,6 @@ static void inline R_BlastPlayerSpriteColumn(const rcolumn_t *column)
     }
 }
 
-static void inline R_BlastBloodSplatColumn(const rpost_t *post)
-{
-    const int   topscreen = splattopscreen + spryscale * post->topdelta;
-
-    if ((dc_yh = MIN((topscreen + spryscale * post->length) >> FRACBITS, mfloorclip[dc_x] - 1)) >= 0)
-        if ((dc_yl = MAX(mceilingclip[dc_x], topscreen >> FRACBITS)) <= dc_yh)
-            colfunc();
-}
-
 //
 // R_DrawVisSprite
 //
@@ -587,7 +578,14 @@ static void R_DrawBloodSplatVisSprite(const bloodsplatvissprite_t *vis)
         const rcolumn_t *column = &columns[frac >> FRACBITS];
 
         if (column->numposts)
-            R_BlastBloodSplatColumn(column->posts);
+        {
+            const rpost_t   *post = column->posts;
+            const int       topscreen = splattopscreen + spryscale * post->topdelta;
+
+            if ((dc_yh = MIN((topscreen + spryscale * post->length) >> FRACBITS, clipbot[dc_x] - 1)) >= 0)
+                if ((dc_yl = MAX(cliptop[dc_x], topscreen >> FRACBITS)) <= dc_yh)
+                    colfunc();
+        }
     }
 }
 
@@ -1210,8 +1208,6 @@ static void R_DrawBloodSplatSprite(const bloodsplatvissprite_t *splat)
     }
 
     // all clipping has been performed, so draw the blood splat
-    mceilingclip = cliptop;
-    mfloorclip = clipbot;
     R_DrawBloodSplatVisSprite(splat);
 }
 
