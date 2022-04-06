@@ -28,7 +28,10 @@
 * A timer set using the `timer` CCMD can now be turned off by using `off` as a parameter.
 * Minor improvements have been made to how *MBF*-compatible helper dogs are displayed.
 * The `mapstats` CCMD now displays the number of linedefs that have line specials.
+* A crash will no longer occur when the player or a monster is telefragged.
 * Obituaries are now displayed in the console when the player or a monster is telefragged.
+* Commander Keens are no longer spawned at the start of a map when the `nomonsters` CCMD has been entered in the console, or the `-nomonsters` parameter has been specified on the command-line.
+* Minor improvements have been made to the support of `MAPINFO` lumps.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
