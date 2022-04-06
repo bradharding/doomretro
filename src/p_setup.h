@@ -46,6 +46,7 @@ extern const char   *linespecials[];
 extern dboolean     allowmonstertelefrags;
 extern dboolean     compat_corpsegibs;
 extern dboolean     compat_limitpain;
+extern dboolean     nograduallighting;
 
 extern char         mapnum[6];
 extern char         maptitle[256];

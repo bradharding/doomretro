@@ -88,7 +88,7 @@ void T_MoveCeiling(ceiling_t *ceiling)
                         break;
                 }
 
-            if (r_graduallighting)
+            if (r_graduallighting && !nograduallighting)
                 P_GradualLightingToCeiling(ceiling);
 
             if (res == pastdest)
@@ -143,7 +143,7 @@ void T_MoveCeiling(ceiling_t *ceiling)
                         S_StartSectorSound(&ceiling->sector->soundorg, sfx_stnmov);
                 }
 
-            if (r_graduallighting)
+            if (r_graduallighting && !nograduallighting)
                 P_GradualLightingToCeiling(ceiling);
 
             if (res == pastdest)

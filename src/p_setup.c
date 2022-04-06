@@ -101,6 +101,7 @@
 #define MCMD_ALLOWMONSTERTELEFRAGS  33
 #define MCMD_COMPAT_CORPSEGIBS      34
 #define MCMD_COMPAT_LIMITPAIN       35
+#define MCMD_NOGRADUALLIGHTING      36
 
 typedef struct mapinfo_s mapinfo_t;
 
@@ -135,6 +136,7 @@ struct mapinfo_s
     dboolean    allowmonstertelefrags;
     dboolean    compat_corpsegibs;
     dboolean    compat_limitpain;
+    dboolean    nograduallighting;
 };
 
 //
@@ -257,6 +259,7 @@ static char *mapcmdnames[] =
     "ALLOWMONSTERTELEFRAGS",
     "COMPAT_CORPSEGIBS",
     "COMPAT_LIMITPAIN",
+    "NOGRADUALLIGHTING",
     NULL
 };
 
@@ -295,12 +298,14 @@ static int mapcmdids[] =
     MCMD_TITLEPATCH,
     MCMD_ALLOWMONSTERTELEFRAGS,
     MCMD_COMPAT_CORPSEGIBS,
-    MCMD_COMPAT_LIMITPAIN
+    MCMD_COMPAT_LIMITPAIN,
+    MCMD_NOGRADUALLIGHTING
 };
 
 dboolean        allowmonstertelefrags;
 dboolean        compat_corpsegibs;
 dboolean        compat_limitpain;
+dboolean        nograduallighting;
 
 dboolean        canmodify;
 dboolean        transferredsky;
@@ -3086,6 +3091,7 @@ void P_SetupLevel(int ep, int map)
     allowmonstertelefrags = mapinfo[map].allowmonstertelefrags;
     compat_corpsegibs = mapinfo[map].compat_corpsegibs;
     compat_limitpain = mapinfo[map].compat_limitpain;
+    nograduallighting = mapinfo[map].nograduallighting;
 }
 
 static int  liquidlumps;
@@ -3527,6 +3533,10 @@ static void P_ParseMapInfo(char *scriptname)
 
                         case MCMD_COMPAT_LIMITPAIN:
                             info->compat_limitpain = true;
+                            break;
+
+                        case MCMD_NOGRADUALLIGHTING:
+                            info->nograduallighting = true;
                             break;
                     }
             }

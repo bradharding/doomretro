@@ -42,6 +42,7 @@
 #include "m_config.h"
 #include "m_misc.h"
 #include "p_local.h"
+#include "p_setup.h"
 #include "p_tick.h"
 #include "s_sound.h"
 #include "z_zone.h"
@@ -137,7 +138,7 @@ void T_VerticalDoor(vldoor_t *door)
 
             // killough 10/98: implement gradual lighting effects
             // [BH] enhanced to apply effects to all doors
-            if (r_graduallighting)
+            if (r_graduallighting && !nograduallighting)
                 T_GradualLightingToDoor(door);
 
             if (res == pastdest)
@@ -208,7 +209,7 @@ void T_VerticalDoor(vldoor_t *door)
 
             // killough 10/98: implement gradual lighting effects
             // [BH] enhanced to apply effects to all doors
-            if (r_graduallighting)
+            if (r_graduallighting && !nograduallighting)
                 T_GradualLightingToDoor(door);
 
             if (res == pastdest)
