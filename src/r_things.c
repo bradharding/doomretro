@@ -426,7 +426,7 @@ static void inline R_BlastBloodSplatColumn(const rcolumn_t *column)
     const int       topscreen = splattopscreen + spryscale * post->topdelta;
 
     if ((dc_yh = MIN((topscreen + spryscale * post->length) >> FRACBITS, mfloorclip[dc_x] - 1)) >= 0)
-        if ((dc_yl = MAX(mceilingclip[dc_x] + 1, (topscreen + FRACUNIT) >> FRACBITS)) <= dc_yh)
+        if ((dc_yl = MAX(mceilingclip[dc_x], topscreen >> FRACBITS)) <= dc_yh)
             colfunc();
 }
 
