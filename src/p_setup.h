@@ -45,6 +45,7 @@ extern const char   *linespecials[];
 
 extern dboolean     allowmonstertelefrags;
 extern dboolean     compat_corpsegibs;
+extern dboolean     compat_light;
 extern dboolean     compat_limitpain;
 extern dboolean     nograduallighting;
 

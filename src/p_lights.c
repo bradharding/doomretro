@@ -39,6 +39,7 @@
 #include "doomstat.h"
 #include "m_random.h"
 #include "p_local.h"
+#include "p_setup.h"
 #include "p_tick.h"
 #include "z_zone.h"
 
@@ -244,6 +245,9 @@ dboolean EV_LightTurnOn(line_t *line, int bright)
             }
 
         sector->lightlevel = sector->oldlightlevel = tbright;
+
+        if (compat_light)
+            bright = tbright;
     }
 
     return true;
