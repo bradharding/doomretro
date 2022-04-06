@@ -420,10 +420,9 @@ static void inline R_BlastPlayerSpriteColumn(const rcolumn_t *column)
     }
 }
 
-static void inline R_BlastBloodSplatColumn(const rcolumn_t *column)
+static void inline R_BlastBloodSplatColumn(const rpost_t *post)
 {
-    const rpost_t   *post = &column->posts[0];
-    const int       topscreen = splattopscreen + spryscale * post->topdelta;
+    const int   topscreen = splattopscreen + spryscale * post->topdelta;
 
     if ((dc_yh = MIN((topscreen + spryscale * post->length) >> FRACBITS, mfloorclip[dc_x] - 1)) >= 0)
         if ((dc_yl = MAX(mceilingclip[dc_x], topscreen >> FRACBITS)) <= dc_yh)
@@ -588,7 +587,7 @@ static void R_DrawBloodSplatVisSprite(const bloodsplatvissprite_t *vis)
         const rcolumn_t *column = &columns[frac >> FRACBITS];
 
         if (column->numposts)
-            R_BlastBloodSplatColumn(column);
+            R_BlastBloodSplatColumn(column->posts);
     }
 }
 
