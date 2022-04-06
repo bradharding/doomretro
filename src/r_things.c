@@ -367,11 +367,14 @@ static int  splattopscreen;
 
 static void (*shadowcolfunc)(void);
 
-static void inline R_BlastShadowColumn(const rcolumn_t *column)
+//
+// R_BlastShadowColumn
+//
+static void inline R_BlastShadowColumn(const rpost_t *posts)
 {
     while (dc_numposts--)
     {
-        const rpost_t   *post = &column->posts[dc_numposts];
+        const rpost_t   *post = &posts[dc_numposts];
         const int       topscreen = shadowtopscreen + spryscale * post->topdelta;
 
         if ((dc_yh = MIN((((topscreen + spryscale * post->length) >> FRACBITS) / 10 + shadowshift), dc_floorclip)) >= 0)
@@ -380,6 +383,9 @@ static void inline R_BlastShadowColumn(const rcolumn_t *column)
     }
 }
 
+//
+// R_BlastSpriteColumn
+//
 static void inline R_BlastSpriteColumn(const rcolumn_t *column)
 {
     unsigned char   *pixels = column->pixels;
@@ -400,6 +406,9 @@ static void inline R_BlastSpriteColumn(const rcolumn_t *column)
     }
 }
 
+//
+// R_BlastPlayerSpriteColumn
+//
 static void inline R_BlastPlayerSpriteColumn(const rcolumn_t *column)
 {
     unsigned char   *pixels = column->pixels;
@@ -524,7 +533,7 @@ static void R_DrawVisSpriteWithShadow(const vissprite_t *vis)
         {
             dc_ceilingclip = mceilingclip[dc_x] + 1;
             dc_floorclip = mfloorclip[dc_x] - 1;
-            R_BlastShadowColumn(column);
+            R_BlastShadowColumn(column->posts);
             dc_numposts = column->numposts;
             R_BlastSpriteColumn(column);
         }
@@ -571,7 +580,6 @@ static void R_DrawBloodSplatVisSprite(const bloodsplatvissprite_t *vis)
     colfunc = vis->colfunc;
     dc_bloodcolor = &tinttab50[(dc_solidbloodcolor = vis->colormap[vis->color]) << 8];
     splattopscreen = centeryfrac - FixedMul(vis->texturemid, spryscale);
-    fuzzpos = 0;
 
     for (dc_x = vis->x1; dc_x <= x2; dc_x++, frac += xiscale)
     {
