@@ -743,7 +743,7 @@ dboolean ST_Responder(event_t *ev)
                             }
                         }
 
-                        M_snprintf(buffer, sizeof(buffer), "%s %c",
+                        M_snprintf(buffer, sizeof(buffer), "%s " BOLDTOGGLE "%c" BOLDTOGGLE,
                             s_STSTR_BEHOLD, toupper(cheat_powerup[i - 1].sequence[strlen(cheat_powerup[i - 1].sequence) - 1]));
                         ST_PlayerCheated(cheat_powerup[i - 1].sequence, buffer, true);
 
@@ -793,7 +793,7 @@ dboolean ST_Responder(event_t *ev)
                             viewplayer->powers[i] = STARTFLASHING * (i != pw_allmap);
                         }
 
-                        M_snprintf(buffer, sizeof(buffer), "%s %c",
+                        M_snprintf(buffer, sizeof(buffer), "%s " BOLDTOGGLE "%c" BOLDTOGGLE,
                             s_STSTR_BEHOLD, toupper(cheat_powerup[i - 1].sequence[strlen(cheat_powerup[i - 1].sequence) - 1]));
                         ST_PlayerCheated(cheat_powerup[i - 1].sequence, buffer, false);
 
