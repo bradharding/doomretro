@@ -428,9 +428,12 @@ static void ST_RefreshBackground(void)
 #endif
 }
 
-static void ST_PlayerCheated(char *cheat, dboolean warning)
+static void ST_PlayerCheated(char *cheat, char *output, dboolean warning)
 {
     C_Cheat(cheat);
+
+    if (output)
+        C_Output(output);
 
     if (warning)
     {
@@ -487,13 +490,13 @@ dboolean ST_Responder(event_t *ev)
                     if (oldhealth < initial_health)
                         P_AddBonus();
 
-                    ST_PlayerCheated(cheat_god.sequence, true);
+                    ST_PlayerCheated(cheat_god.sequence, NULL, true);
                     C_Output(s_STSTR_DQDON);
                     HU_SetPlayerMessage(s_STSTR_DQDON, false, false);
                 }
                 else
                 {
-                    ST_PlayerCheated(cheat_god.sequence, false);
+                    ST_PlayerCheated(cheat_god.sequence, NULL, false);
                     C_Output(s_STSTR_DQDOFF);
                     HU_SetPlayerMessage(s_STSTR_DQDOFF, false, false);
 
@@ -546,13 +549,13 @@ dboolean ST_Responder(event_t *ev)
                     // [BH] flash screen
                     P_AddBonus();
 
-                    ST_PlayerCheated(cheat_ammonokey.sequence, true);
+                    ST_PlayerCheated(cheat_ammonokey.sequence, NULL, true);
                     C_Output(s_STSTR_FAADDED);
                     HU_SetPlayerMessage(s_STSTR_FAADDED, false, false);
                 }
                 else
                 {
-                    ST_PlayerCheated(cheat_ammonokey.sequence, false);
+                    ST_PlayerCheated(cheat_ammonokey.sequence, NULL, false);
                     cheatfailed = true;
                 }
             }
@@ -606,13 +609,13 @@ dboolean ST_Responder(event_t *ev)
                     // [BH] flash screen
                     P_AddBonus();
 
-                    ST_PlayerCheated(cheat_ammo.sequence, true);
+                    ST_PlayerCheated(cheat_ammo.sequence, NULL, true);
                     C_Output(s_STSTR_KFAADDED);
                     HU_SetPlayerMessage(s_STSTR_KFAADDED, false, false);
                 }
                 else
                 {
-                    ST_PlayerCheated(cheat_ammo.sequence, false);
+                    ST_PlayerCheated(cheat_ammo.sequence, NULL, false);
                     cheatfailed = true;
                 }
             }
@@ -651,7 +654,7 @@ dboolean ST_Responder(event_t *ev)
 
                             S_ChangeMusic(musnum, 1, true, false);
 
-                            ST_PlayerCheated(cheat_mus_xy.sequence, false);
+                            ST_PlayerCheated(cheat_mus_xy.sequence, NULL, false);
                             M_snprintf(msg, sizeof(msg), s_STSTR_MUS, temp);
                             C_Output(msg);
                             HU_SetPlayerMessage(msg, false, false);
@@ -679,13 +682,13 @@ dboolean ST_Responder(event_t *ev)
 
                 if (viewplayer->cheats & CF_NOCLIP)
                 {
-                    ST_PlayerCheated((gamemode == commercial ? cheat_commercial_noclip.sequence : cheat_noclip.sequence), true);
+                    ST_PlayerCheated((gamemode == commercial ? cheat_commercial_noclip.sequence : cheat_noclip.sequence), NULL, true);
                     C_Output(s_STSTR_NCON);
                     HU_SetPlayerMessage(s_STSTR_NCON, false, false);
                 }
                 else
                 {
-                    ST_PlayerCheated((gamemode == commercial ? cheat_commercial_noclip.sequence : cheat_noclip.sequence), false);
+                    ST_PlayerCheated((gamemode == commercial ? cheat_commercial_noclip.sequence : cheat_noclip.sequence), NULL, false);
                     C_Output(s_STSTR_NCOFF);
                     HU_SetPlayerMessage(s_STSTR_NCOFF, false, false);
                 }
@@ -698,8 +701,9 @@ dboolean ST_Responder(event_t *ev)
                     // [BH] can only enter cheat while player is alive
                     && viewplayer->health > 0)
                 {
+                    static char buffer[128];
+
                     S_StartSound(NULL, sfx_getpow);
-                    C_Output(s_STSTR_BEHOLD);
 
                     if ((i != pw_strength && viewplayer->powers[i] >= 0 && viewplayer->powers[i] <= STARTFLASHING)
                         || (i == pw_strength && !viewplayer->powers[i]))
@@ -739,7 +743,9 @@ dboolean ST_Responder(event_t *ev)
                             }
                         }
 
-                        ST_PlayerCheated(cheat_powerup[i - 1].sequence, true);
+                        M_snprintf(buffer, sizeof(buffer), "%s %c",
+                            s_STSTR_BEHOLD, toupper(cheat_powerup[i - 1].sequence[strlen(cheat_powerup[i - 1].sequence) - 1]));
+                        ST_PlayerCheated(cheat_powerup[i - 1].sequence, buffer, true);
 
                         if (!M_StringCompare(s_STSTR_BEHOLDX, STSTR_BEHOLDX))
                         {
@@ -787,7 +793,9 @@ dboolean ST_Responder(event_t *ev)
                             viewplayer->powers[i] = STARTFLASHING * (i != pw_allmap);
                         }
 
-                        ST_PlayerCheated(cheat_powerup[i - 1].sequence, false);
+                        M_snprintf(buffer, sizeof(buffer), "%s %c",
+                            s_STSTR_BEHOLD, toupper(cheat_powerup[i - 1].sequence[strlen(cheat_powerup[i - 1].sequence) - 1]));
+                        ST_PlayerCheated(cheat_powerup[i - 1].sequence, buffer, false);
 
                         if (!M_StringCompare(s_STSTR_BEHOLDX, STSTR_BEHOLDX))
                         {
@@ -880,7 +888,7 @@ dboolean ST_Responder(event_t *ev)
                     P_GivePower(pw_invulnerability);
                     viewplayer->powers[pw_invulnerability] = -1;
 
-                    ST_PlayerCheated(cheat_choppers.sequence, true);
+                    ST_PlayerCheated(cheat_choppers.sequence, NULL, true);
                     C_Output(s_STSTR_CHOPPERS);
                     HU_SetPlayerMessage(s_STSTR_CHOPPERS, false, false);
 
@@ -900,7 +908,7 @@ dboolean ST_Responder(event_t *ev)
                     viewplayer->weaponowned[wp_chainsaw] = viewplayer->chainsawbeforechoppers;
                     oldweaponsowned[wp_chainsaw] = viewplayer->chainsawbeforechoppers;
 
-                    ST_PlayerCheated(cheat_choppers.sequence, false);
+                    ST_PlayerCheated(cheat_choppers.sequence, NULL, false);
                 }
             }
 
@@ -914,10 +922,10 @@ dboolean ST_Responder(event_t *ev)
                 viewplayer->cheats ^= CF_MYPOS;
 
                 if (viewplayer->cheats & CF_MYPOS)
-                    ST_PlayerCheated(cheat_mypos.sequence, true);
+                    ST_PlayerCheated(cheat_mypos.sequence, NULL, true);
                 else
                 {
-                    ST_PlayerCheated(cheat_mypos.sequence, false);
+                    ST_PlayerCheated(cheat_mypos.sequence, NULL, false);
                     HU_ClearMessages();
                 }
             }
@@ -935,13 +943,13 @@ dboolean ST_Responder(event_t *ev)
                     if (viewplayer->powers[pw_invulnerability] > STARTFLASHING)
                         viewplayer->powers[pw_invulnerability] = STARTFLASHING;
 
-                    ST_PlayerCheated(cheat_buddha.sequence, true);
+                    ST_PlayerCheated(cheat_buddha.sequence, NULL, true);
                     C_Output(s_STSTR_BUDDHAON);
                     HU_SetPlayerMessage(s_STSTR_BUDDHAON, false, false);
                 }
                 else
                 {
-                    ST_PlayerCheated(cheat_buddha.sequence, false);
+                    ST_PlayerCheated(cheat_buddha.sequence, NULL, false);
                     C_Output(s_STSTR_BUDDHAOFF);
                     HU_SetPlayerMessage(s_STSTR_BUDDHAOFF, false, false);
                 }
@@ -957,17 +965,17 @@ dboolean ST_Responder(event_t *ev)
                 {
                     viewplayer->cheats &= ~CF_ALLMAP;
                     viewplayer->cheats |= CF_ALLMAP_THINGS;
-                    ST_PlayerCheated(cheat_amap.sequence, true);
+                    ST_PlayerCheated(cheat_amap.sequence, NULL, true);
                 }
                 else if (viewplayer->cheats & CF_ALLMAP_THINGS)
                 {
                     viewplayer->cheats &= ~CF_ALLMAP_THINGS;
-                    ST_PlayerCheated(cheat_amap.sequence, false);
+                    ST_PlayerCheated(cheat_amap.sequence, NULL, false);
                 }
                 else
                 {
                     viewplayer->cheats |= CF_ALLMAP;
-                    ST_PlayerCheated(cheat_amap.sequence, true);
+                    ST_PlayerCheated(cheat_amap.sequence, NULL, true);
                 }
 
                 D_FadeScreen(false);
@@ -1012,7 +1020,7 @@ dboolean ST_Responder(event_t *ev)
                     static char message[128];
 
                     S_StartSound(NULL, sfx_getpow);
-                    ST_PlayerCheated(cheat_clev_xy.sequence, true);
+                    ST_PlayerCheated(cheat_clev_xy.sequence, NULL, true);
 
                     if (BTSX)
                         M_snprintf(lump, sizeof(lump), "E%iM%c%c", (BTSXE1 ? 1 : (BTSXE2 ? 2 : 3)), buffer[0], buffer[1]);
