@@ -368,22 +368,6 @@ static int  splattopscreen;
 static void (*shadowcolfunc)(void);
 
 //
-// R_BlastShadowColumn
-//
-static void inline R_BlastShadowColumn(const rpost_t *posts)
-{
-    while (dc_numposts--)
-    {
-        const rpost_t   *post = &posts[dc_numposts];
-        const int       topscreen = shadowtopscreen + spryscale * post->topdelta;
-
-        if ((dc_yh = MIN((((topscreen + spryscale * post->length) >> FRACBITS) / 10 + shadowshift), dc_floorclip)) >= 0)
-            if ((dc_yl = MAX(dc_ceilingclip, ((topscreen + FRACUNIT) >> FRACBITS) / 10 + shadowshift)) <= dc_yh)
-                shadowcolfunc();
-    }
-}
-
-//
 // R_BlastSpriteColumn
 //
 static void inline R_BlastSpriteColumn(const rcolumn_t *column)
@@ -531,9 +515,21 @@ static void R_DrawVisSpriteWithShadow(const vissprite_t *vis)
 
         if ((dc_numposts = column->numposts))
         {
+            const rpost_t   *posts = column->posts;
+
             dc_ceilingclip = mceilingclip[dc_x] + 1;
             dc_floorclip = mfloorclip[dc_x] - 1;
-            R_BlastShadowColumn(column->posts);
+
+            while (dc_numposts--)
+            {
+                const rpost_t   *post = &posts[dc_numposts];
+                const int       topscreen = shadowtopscreen + spryscale * post->topdelta;
+
+                if ((dc_yh = MIN((((topscreen + spryscale * post->length) >> FRACBITS) / 10 + shadowshift), dc_floorclip)) >= 0)
+                    if ((dc_yl = MAX(dc_ceilingclip, ((topscreen + FRACUNIT) >> FRACBITS) / 10 + shadowshift)) <= dc_yh)
+                        shadowcolfunc();
+            }
+
             dc_numposts = column->numposts;
             R_BlastSpriteColumn(column);
         }

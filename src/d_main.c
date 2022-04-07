@@ -1937,7 +1937,7 @@ static void D_DoomMainSetup(void)
     char    *iwadfile;
     int     startloadgame;
     char    *resourcefolder = M_GetResourceFolder();
-    char    *temp;
+    char    *seconds;
 
     packagewad = M_StringJoin(resourcefolder, DIR_SEPARATOR_S, DOOMRETRO_WAD, NULL);
     free(resourcefolder);
@@ -2534,9 +2534,9 @@ static void D_DoomMainSetup(void)
         }
     }
 
-    temp = striptrailingzero((I_GetTimeMS() - startuptimer) / 1000.0f, 1);
-    C_Output("Startup took %s second%s to complete.", temp, (M_StringCompare(temp, "1") ? "" : "s"));
-    free(temp);
+    seconds = striptrailingzero((I_GetTimeMS() - startuptimer) / 1000.0f, 1);
+    C_Output("Startup took %s second%s to complete.", seconds, (M_StringCompare(seconds, "1") ? "" : "s"));
+    free(seconds);
 
     I_Sleep(500);
 }
