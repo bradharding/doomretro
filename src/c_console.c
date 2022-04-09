@@ -1321,8 +1321,7 @@ void C_Drawer(void)
                 else
                     consoleheight = consoledown[consoleanim];
 
-                consoleanim++;
-                consoleactive = false;
+                consoleactive = (consoleanim++ > CONSOLEDOWNSIZE / 2);
             }
             else
                 consoleactive = true;
@@ -1341,8 +1340,7 @@ void C_Drawer(void)
                 else
                     consoleheight = consoleup[consoleanim];
 
-                consoleanim++;
-                consoleactive = false;
+                consoleactive = (consoleanim++ < CONSOLEUPSIZE / 2);
             }
             else
                 consoleactive = true;
