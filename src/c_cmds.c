@@ -5499,13 +5499,13 @@ static void C_PlayerStats_Game(void)
 
     temp1 = commify(viewplayer->itemspickedup_armor);
     temp2 = commifystat(stat_itemspickedup_armor);
-    C_TabbedOutput(tabs, "Armor picked up\t%s%%\t%s%%", temp1, temp2);
+    C_TabbedOutput(tabs, "Armor picked up\t%s\t%s", temp1, temp2);
     free(temp1);
     free(temp2);
 
     temp1 = commify(viewplayer->itemspickedup_health);
     temp2 = commifystat(stat_itemspickedup_health);
-    C_TabbedOutput(tabs, "Health picked up\t%s%%\t%s%%", temp1, temp2);
+    C_TabbedOutput(tabs, "Health picked up\t%s\t%s", temp1, temp2);
     free(temp1);
     free(temp2);
 
@@ -5523,13 +5523,13 @@ static void C_PlayerStats_Game(void)
 
     temp1 = commify(viewplayer->damageinflicted);
     temp2 = commifystat(stat_damageinflicted);
-    C_TabbedOutput(tabs, "Damage inflicted\t%s%%\t%s%%", temp1, temp2);
+    C_TabbedOutput(tabs, "Damage inflicted\t%s\t%s", temp1, temp2);
     free(temp1);
     free(temp2);
 
     temp1 = commify(viewplayer->damagereceived);
     temp2 = commifystat(stat_damagereceived);
-    C_TabbedOutput(tabs, "Damage received\t%s%%\t%s%%", temp1, temp2);
+    C_TabbedOutput(tabs, "Damage received\t%s\t%s", temp1, temp2);
     free(temp1);
     free(temp2);
 
@@ -5965,11 +5965,11 @@ static void C_PlayerStats_NoGame(void)
     free(temp1);
 
     temp1 = commifystat(stat_itemspickedup_armor);
-    C_TabbedOutput(tabs, "Armor picked up\t\x96\t%s%%", temp1);
+    C_TabbedOutput(tabs, "Armor picked up\t\x96\t%s", temp1);
     free(temp1);
 
     temp1 = commifystat(stat_itemspickedup_health);
-    C_TabbedOutput(tabs, "Health picked up\t\x96\t%s%%", temp1);
+    C_TabbedOutput(tabs, "Health picked up\t\x96\t%s", temp1);
     free(temp1);
 
     temp1 = commifystat(stat_secretsfound);
@@ -5979,11 +5979,11 @@ static void C_PlayerStats_NoGame(void)
     C_TabbedOutput(tabs, "Time played\t\x96\t%02i:%02i:%02i", time2 / 3600, (time2 % 3600) / 60, (time2 % 3600) % 60);
 
     temp1 = commifystat(stat_damageinflicted);
-    C_TabbedOutput(tabs, "Damage inflicted\t\x96\t%s%%", temp1);
+    C_TabbedOutput(tabs, "Damage inflicted\t\x96\t%s", temp1);
     free(temp1);
 
     temp1 = commifystat(stat_damagereceived);
-    C_TabbedOutput(tabs, "Damage received\t\x96\t%s%%", temp1);
+    C_TabbedOutput(tabs, "Damage received\t\x96\t%s", temp1);
     free(temp1);
 
     temp1 = commifystat(stat_deaths);
