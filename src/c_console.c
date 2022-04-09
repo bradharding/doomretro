@@ -1298,7 +1298,10 @@ void C_Drawer(void)
 
     // adjust console height
     if (gamestate == GS_TITLESCREEN)
+    {
         consoleheight = CONSOLEHEIGHT;
+        consoleactive = true;
+    }
     else if (consolewait < tics)
     {
         consolewait = tics + 12;
@@ -1319,7 +1322,10 @@ void C_Drawer(void)
                     consoleheight = consoledown[consoleanim];
 
                 consoleanim++;
+                consoleactive = false;
             }
+            else
+                consoleactive = true;
         }
         else
         {
@@ -1336,14 +1342,15 @@ void C_Drawer(void)
                     consoleheight = consoleup[consoleanim];
 
                 consoleanim++;
+                consoleactive = false;
             }
+            else
+                consoleactive = true;
         }
     }
 
     if (vid_motionblur && consoleheight < CONSOLEHEIGHT)
         I_SetMotionBlur(0);
-
-    consoleactive = (consoledirection == 1);
 
     // cancel any controller rumble
     if (!prevconsoleactive && (joy_rumble_barrels || joy_rumble_damage || joy_rumble_weapons))
