@@ -10,6 +10,7 @@
 * The following changes have been made to the external automap:
   * The display used to show the external automap can now be specified using the new `am_display` CVAR, which is `2` by default.
   * So as to not interfere when adjusting the size of the player’s view, zooming in and out of the external automap is now only possible if the `+zoomin` and `+zoomout` actions are rebound from the <kbd><b>+</b></kbd> and <kbd><b>&ndash;</b></kbd> keys.
+* The player stats shown in the automap when the `am_playerstats` CVAR is `on` are now positioned correctly if there are no monsters in the map.
 * Changing the `r_fov` CVAR from its default of `90`° is now effective again when the `vid_widescreen` CVAR is `off`.
 * The following changes have been made when the player enters a cheat:
   * Displaying the cheat in the console is now redacted.
@@ -26,14 +27,17 @@
   * The translucency of blood splats when the `r_textures` CVAR is `off` now depends on the `r_bloodsplats_translucency` rather than `r_translucency` CVAR.
   * Blood splats are now left on the floor as intended if blood falls on a moving sector.
 * The “automap opened” stat shown by the `playerstats` CCMD is now reset at the start of each map as intended.
+* Centered messages are now spaced better vertically.
 * The player’s face in the status bar and widescreen HUD now always looks forward while the console is open.
 * A timer set using the `timer` CCMD can now be turned off by using `off` as a parameter.
 * Minor improvements have been made to how *MBF*-compatible helper dogs are displayed.
 * The `mapstats` CCMD now displays the number of linedefs that have line specials.
-* A crash will no longer occur when the player or a monster is telefragged.
+* A crash no longer occurs when the player or a monster is telefragged.
 * Obituaries are now displayed in the console when the player or a monster is telefragged.
 * Commander Keens are no longer spawned at the start of a map when the `nomonsters` CCMD has been entered in the console, or the `-nomonsters` parameter has been specified on the command-line.
-* Minor improvements have been made to the support of `MAPINFO` lumps.
+* The following changes have been made to the support of `MAPINFO` lumps:
+  * `compat_light` can now be used so when a light level changes to the highest light level found in neighboring sectors, the search is made only for the first tagged sector, like in *Vanilla DOOM*.
+  * `nograduallighting` can now be used to disable the effects of the `r_graduallighting` CVAR.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
