@@ -16,6 +16,7 @@
   * The cheat is now skipped in the console’s input history when pressing the <kbd><b>&uarr;</b></kbd> or <kbd><b>&darr;</b></kbd> keys.
   * A warning is now displayed in the console indicating that the player cheated.
   * Fade effects are no longer applied in most cases if the `fade` CVAR is `on`.
+* Pausing and then resuming the animation of liquid sectors is now smoother when opening and then closing the console.
 * The player’s currently equipped weapon can now be changed using the new `weapon` CVAR. It can be `fists`, `chainsaw`, `pistol`, `shotgun`, `supershotgun`, `chaingun`, `rocketlauncher`, `plasmarifle` or `bfg9000`.
 * Power-ups that bob when the `r_floatbob` CVAR is `on` no longer bob at all if the ceiling above them is too low.
 * The following changes have been made to blood splats:
