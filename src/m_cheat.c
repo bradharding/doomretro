@@ -41,6 +41,7 @@
 
 #include "c_console.h"
 #include "doomstat.h"
+#include "hu_stuff.h"
 #include "m_cheat.h"
 #include "m_misc.h"
 
@@ -71,8 +72,8 @@ dboolean cht_CheckCheat(cheatseq_t *cht, unsigned char key)
         return true;
     }
 
-    // [BH] you have two seconds to enter all characters of a cheat sequence
-    if (cht->timeout && leveltime - cht->timeout > CHEATTIMEOUT)
+    // [BH] you have 4 seconds to enter all characters of a cheat sequence correctly
+    if (cht->timeout && leveltime - cht->timeout > HU_MSGTIMEOUT)
     {
         cht->chars_read = 0;
         cht->param_chars_read = 0;
