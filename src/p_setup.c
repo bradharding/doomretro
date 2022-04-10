@@ -2999,6 +2999,7 @@ void P_SetupLevel(int ep, int map)
     free(temp1);
 
     leveltime = 0;
+    animatedliquidtic = 0;
     animatedliquiddiff = 2 * FRACUNIT;
     animatedliquidxdir = M_BigRandomInt(-FRACUNIT, FRACUNIT) / 12;
     animatedliquidydir = M_BigRandomInt(-FRACUNIT, FRACUNIT) / 12;

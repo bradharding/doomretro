@@ -389,15 +389,15 @@ void R_InitDistortedFlats(void)
 static byte *R_DistortedFlat(int flatnum)
 {
     static byte distortedflat[64 * 64];
-    static int  prevgametime = -1;
     static int  prevflatnum = -1;
+    static int  prevtic = -1;
     static byte *normalflat;
     static int  *offset = offsets;
 
-    if (prevgametime != gametime && updateswirl)
+    if (prevtic != animatedliquidtic && updateswirl)
     {
-        offset = &offsets[(gametime & 1023) << 12];
-        prevgametime = gametime;
+        offset = &offsets[(animatedliquidtic & 1023) << 12];
+        prevtic = animatedliquidtic;
 
         if (prevflatnum != flatnum)
         {

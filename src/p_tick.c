@@ -193,6 +193,8 @@ void P_Ticker(void)
     if (consoleactive || inhelpscreens)
         return;
 
+    animatedliquidtic++;
+
     if (menuactive && !freeze)
     {
         for (currentthinker = thinkers[th_misc].cnext; currentthinker != &thinkers[th_misc]; currentthinker = currentthinker->cnext)

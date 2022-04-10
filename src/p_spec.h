@@ -49,6 +49,7 @@ typedef enum
 
 extern int              timer;
 extern int              timeremaining;
+extern int              animatedliquidtic;
 extern fixed_t          animatedliquiddiff;
 extern fixed_t          animatedliquidxdir;
 extern fixed_t          animatedliquidydir;
