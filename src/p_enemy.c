@@ -127,9 +127,6 @@ static dboolean P_CheckRange(mobj_t *actor, fixed_t range)
 {
     mobj_t  *target = actor->target;
 
-    if (!target)
-        return false;
-
     // killough 07/18/98: friendly monsters don't attack other friends
     if (actor->flags & target->flags & MF_FRIEND)
         return false;
