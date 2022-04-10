@@ -115,7 +115,8 @@
 #define STRINGCVARWITHDEFAULT       "It is currently " BOLD("\"%s\"") " and is " BOLD("\"%s\"") " by default."
 #define STRINGCVARWITHNODEFAULT     "It is currently " BOLD("%s%s%s") "."
 #define STRINGCVARISDEFAULT         "It is currently its default of " BOLD("\"%s\"") "."
-#define TIMECVARWITHNODEFAULT       "It is currently " BOLD("%02i:%02i:%02i") "."
+#define TIMECVARWITHNODEFAULT1      "It is currently " BOLD("%i:%02i") "."
+#define TIMECVARWITHNODEFAULT2      "It is currently " BOLD("%i:%02i:%02i") "."
 
 #define INDENT                      "      "
 
@@ -2077,10 +2078,17 @@ static void cvarlist_cmd_func2(char *cmd, char *parms)
                     (M_StringCompare(consolecmds[i].name, stringize(version)) ? "" : "\""), consolecmds[i].description);
             else if (consolecmds[i].flags & CF_TIME)
             {
-                const int   tics = *(int *)consolecmds[i].variable / TICRATE;
+                int tics = *(int *)consolecmds[i].variable / TICRATE;
+                int hours = tics / 3600;
+                int minutes = ((tics %= 3600)) / 60;
+                int seconds = tics % 60;
 
-                C_TabbedOutput(tabs, "%i.\t" BOLD("%s\t%02i:%02i:%02i") "\t%s", count, consolecmds[i].name,
-                    tics / 3600, (tics % 3600) / 60, (tics % 3600) % 60, consolecmds[i].description);
+                if (!hours)
+                    C_TabbedOutput(tabs, "%i.\t" BOLD("%s\t%i:%02i") "\t%s", count, consolecmds[i].name,
+                        minutes, seconds, consolecmds[i].description);
+                else
+                    C_TabbedOutput(tabs, "%i.\t" BOLD("%s\t%i:%02i:%02i") "\t%s", count, consolecmds[i].name,
+                        hours, minutes, seconds, consolecmds[i].description);
             }
             else if (consolecmds[i].flags & CF_OTHER)
                 C_TabbedOutput(tabs, "%i.\t" BOLD("%s\t%s") "\t%s", count, consolecmds[i].name,
@@ -5518,7 +5526,7 @@ static void C_PlayerStats_Game(void)
     free(temp2);
     free(temp3);
 
-    C_TabbedOutput(tabs, "Time played\t%02i:%02i:%02i\t%02i:%02i:%02i",
+    C_TabbedOutput(tabs, "Time played\t%i:%02i:%02i\t%i:%02i:%02i",
         time1 / 3600, (time1 % 3600) / 60, (time1 % 3600) % 60, time2 / 3600, (time2 % 3600) / 60, (time2 % 3600) % 60);
 
     temp1 = commify(viewplayer->damageinflicted);
@@ -5976,7 +5984,7 @@ static void C_PlayerStats_NoGame(void)
     C_TabbedOutput(tabs, "Secrets found\t\x96\t%s", temp1);
     free(temp1);
 
-    C_TabbedOutput(tabs, "Time played\t\x96\t%02i:%02i:%02i", time2 / 3600, (time2 % 3600) / 60, (time2 % 3600) % 60);
+    C_TabbedOutput(tabs, "Time played\t\x96\t%i:%02i:%02i", time2 / 3600, (time2 % 3600) / 60, (time2 % 3600) % 60);
 
     temp1 = commifystat(stat_damageinflicted);
     C_TabbedOutput(tabs, "Damage inflicted\t\x96\t%s", temp1);
@@ -8021,10 +8029,18 @@ static void time_cvars_func2(char *cmd, char *parms)
     for (int i = 0; *consolecmds[i].name; i++)
         if (M_StringCompare(cmd, consolecmds[i].name) && consolecmds[i].type == CT_CVAR && (consolecmds[i].flags & CF_TIME))
         {
-            const int   tics = *(int *)consolecmds[i].variable / TICRATE;
+            int tics = *(int *)consolecmds[i].variable / TICRATE;
+            int hours = tics / 3600;
+            int minutes = ((tics %= 3600)) / 60;
+            int seconds = tics % 60;
 
             C_ShowDescription(i);
-            C_Output(TIMECVARWITHNODEFAULT, tics / 3600, (tics % 3600) / 60, (tics % 3600) % 60);
+
+            if (!hours)
+                C_Output(TIMECVARWITHNODEFAULT1, minutes, seconds);
+            else
+                C_Output(TIMECVARWITHNODEFAULT2, hours, minutes, seconds);
+
             C_ShowWarning(i);
 
             break;
