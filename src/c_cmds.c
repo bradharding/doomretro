@@ -592,6 +592,7 @@ consolecmd_t consolecmds[] =
         "Binds an " BOLDITALICS("+action") " or string of " BOLDITALICS("commands") " to a " BOLDITALICS("control") "."),
     CCMD("bindlist", "", null_func1, bindlist_cmd_func2, false, "",
         "Lists all controls bound to an " BOLDITALICS("+action") " or string of commands."),
+    CMD_CHEAT(buddha, false),
     CVAR_BOOL(centerweapon, centreweapon, bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles centering the player's weapon when it's fired."),
     CCMD("clear", "", null_func1, clear_cmd_func2, false, "",
@@ -970,7 +971,6 @@ consolecmd_t consolecmds[] =
         "Toggles the player's weapon bouncing when they fall from a greater height."),
     CVAR_BOOL(weaponrecoil, "", bool_cvars_func1, weaponrecoil_cvar_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles the player's weapon recoiling when they fire it."),
-    CMD_CHEAT(yinghao, false),
 
     { "", "", null_func1, NULL, 0, 0, CF_NONE, NULL, 0, 0, 0, "", "" }
 };

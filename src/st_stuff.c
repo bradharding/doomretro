@@ -284,7 +284,7 @@ cheatseq_t cheat_clev = CHEAT("idclev", 0);
 cheatseq_t cheat_clev_xy = CHEAT("idclev", 2);
 cheatseq_t cheat_mypos = CHEAT("idmypos", 0);
 cheatseq_t cheat_amap = CHEAT("iddt", 0);
-cheatseq_t cheat_buddha = CHEAT("yinghao", 0);
+cheatseq_t cheat_buddha = CHEAT("buddha", 0);
 
 static dboolean movekey(char key)
 {
@@ -628,10 +628,7 @@ dboolean ST_Responder(event_t *ev)
                 // [BH] only display message if parameter is valid
                 cht_GetParam(&cheat_mus_xy, buffer);
 
-                // [BH] rewritten to use mus[] LUT
-                // [BH] fix crash if IDMUS0y and IDMUSx0 entered in DOOM,
-                //  IDMUS21 to IDMUS39 entered in shareware, and IDMUS00
-                //  entered in DOOM II
+                // [BH] Fix <https://doomwiki.org/wiki/IDMUS_requests_invalid_music>.
                 if (buffer[0] >= '0' && buffer[0] <= '9' && buffer[1] >= '0' && buffer[1] <= '9')
                 {
                     int musnum = (buffer[0] - '0') * 10 + (buffer[1] - '0');
