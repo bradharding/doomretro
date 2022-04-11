@@ -13,7 +13,7 @@
 * The player stats shown in the automap when the `am_playerstats` CVAR is `on` are now positioned correctly if there are no monsters in the map.
 * Changing the `r_fov` CVAR from its default of `90`° is now effective again when the `vid_widescreen` CVAR is `off`.
 * The following changes have been made when the player enters a cheat:
-  * The player now has 4 seconds to enter all the characters required for a cheat.
+  * More time is now given to enter the `IDBEHOLD` cheat.
   * Displaying the cheat in the console is now redacted.
   * The cheat is now skipped in the console’s input history when pressing the <kbd><b>&uarr;</b></kbd> or <kbd><b>&darr;</b></kbd> keys.
   * A warning is now displayed in the console indicating that the player cheated.

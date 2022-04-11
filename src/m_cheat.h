@@ -43,13 +43,14 @@
 //
 
 // declaring a cheat
-#define CHEAT(value, parameters)    { value, parameters, 0, 0, "", 0 }
+#define CHEAT(value, parameters, longtimeout)   { value, parameters, longtimeout, 0, 0, "", 0 }
 
 typedef struct
 {
     // settings for this cheat
     char        *sequence;
     int         parameter_chars;
+    dboolean    longtimeout;
 
     // state used during the game
     size_t      chars_read;

@@ -261,31 +261,31 @@ dboolean                    r_radsuiteffect = r_radsuiteffect_default;
 
 uint64_t                    stat_cheated = 0;
 
-cheatseq_t cheat_mus = CHEAT("idmus", 0);
-cheatseq_t cheat_mus_xy = CHEAT("idmus", 2);
-cheatseq_t cheat_god = CHEAT("iddqd", 0);
-cheatseq_t cheat_ammo = CHEAT("idkfa", 0);
-cheatseq_t cheat_ammonokey = CHEAT("idfa", 0);
-cheatseq_t cheat_noclip = CHEAT("idspispopd", 0);
-cheatseq_t cheat_commercial_noclip = CHEAT("idclip", 0);
+cheatseq_t cheat_mus = CHEAT("idmus", 0, false);
+cheatseq_t cheat_mus_xy = CHEAT("idmus", 2, false);
+cheatseq_t cheat_god = CHEAT("iddqd", 0, false);
+cheatseq_t cheat_ammo = CHEAT("idkfa", 0, false);
+cheatseq_t cheat_ammonokey = CHEAT("idfa", 0, false);
+cheatseq_t cheat_noclip = CHEAT("idspispopd", 0, false);
+cheatseq_t cheat_commercial_noclip = CHEAT("idclip", 0, false);
 
 cheatseq_t cheat_powerup[7] =
 {
-    CHEAT("idbeholdv", 0),
-    CHEAT("idbeholds", 0),
-    CHEAT("idbeholdi", 0),
-    CHEAT("idbeholdr", 0),
-    CHEAT("idbeholda", 0),
-    CHEAT("idbeholdl", 0),
-    CHEAT("idbehold",  0)
+    CHEAT("idbeholdv", 0, true),
+    CHEAT("idbeholds", 0, true),
+    CHEAT("idbeholdi", 0, true),
+    CHEAT("idbeholdr", 0, true),
+    CHEAT("idbeholda", 0, true),
+    CHEAT("idbeholdl", 0, true),
+    CHEAT("idbehold",  0, true)
 };
 
-cheatseq_t cheat_choppers = CHEAT("idchoppers", 0);
-cheatseq_t cheat_clev = CHEAT("idclev", 0);
-cheatseq_t cheat_clev_xy = CHEAT("idclev", 2);
-cheatseq_t cheat_mypos = CHEAT("idmypos", 0);
-cheatseq_t cheat_amap = CHEAT("iddt", 0);
-cheatseq_t cheat_buddha = CHEAT("buddha", 0);
+cheatseq_t cheat_choppers = CHEAT("idchoppers", 0, false);
+cheatseq_t cheat_clev = CHEAT("idclev", 0, false);
+cheatseq_t cheat_clev_xy = CHEAT("idclev", 2, false);
+cheatseq_t cheat_mypos = CHEAT("idmypos", 0, false);
+cheatseq_t cheat_amap = CHEAT("iddt", 0, false);
+cheatseq_t cheat_buddha = CHEAT("buddha", 0, false);
 
 static dboolean movekey(char key)
 {
