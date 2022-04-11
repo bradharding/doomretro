@@ -5944,12 +5944,6 @@ static void C_PlayerStats_NoGame(void)
     free(temp1);
     free(temp2);
 
-    temp1 = sentencecase(mobjinfo[MT_BARREL].plural1);
-    temp2 = commifystat(stat_barrelsexploded);
-    C_TabbedOutput(tabs, "%s exploded\t\x96\t%s", temp1, temp2);
-    free(temp1);
-    free(temp2);
-
     temp1 = commifystat(stat_monstersresurrected);
     C_TabbedOutput(tabs, "Monsters resurrected\t\x96\t%s", temp1);
     free(temp1);
@@ -5957,6 +5951,12 @@ static void C_PlayerStats_NoGame(void)
     temp1 = commifystat(stat_monsterstelefragged);
     C_TabbedOutput(tabs, "Monsters telefragged\t\x96\t%s", temp1);
     free(temp1);
+
+    temp1 = sentencecase(mobjinfo[MT_BARREL].plural1);
+    temp2 = commifystat(stat_barrelsexploded);
+    C_TabbedOutput(tabs, "%s exploded\t\x96\t%s", temp1, temp2);
+    free(temp1);
+    free(temp2);
 
     temp1 = commifystat(stat_itemspickedup);
     C_TabbedOutput(tabs, "Items picked up\t\x96\t%s", temp1);
