@@ -50,8 +50,8 @@
 //
 
 //
-// Called in st_stuff module, which handles the input.
-// Returns true if the cheat was successful, false if failed.
+// Called in st_stuff.c, which handles the input.
+// Returns true if the cheat was successful, false if it failed.
 //
 char    cheatkey = '\0';
 

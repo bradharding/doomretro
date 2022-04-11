@@ -116,6 +116,7 @@ uint64_t        stat_monsterskilled_spectres = 0;
 uint64_t        stat_monsterskilled_spidermasterminds = 0;
 uint64_t        stat_monsterskilled_zombiemen = 0;
 uint64_t        stat_monstersresurrected = 0;
+uint64_t        stat_monsterstelefragged = 0;
 uint64_t        stat_suicides = 0;
 
 extern dboolean healthcvar;
@@ -2119,7 +2120,15 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, dboolean tele
         }
     }
     else
+    {
         target->flags2 &= ~MF2_NOLIQUIDBOB;
+
+        if (telefragged)
+        {
+            viewplayer->telefragcount++;
+            stat_monsterstelefragged = SafeAdd(stat_monsterstelefragged, 1);
+        }
+    }
 
     if ((gibbed = (gibhealth < 0 && target->health < gibhealth && info->xdeathstate != S_NULL && !(source && source->type == MT_DOGS))))
         P_SetMobjState(target, info->xdeathstate);

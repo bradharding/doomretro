@@ -64,7 +64,7 @@ int                 maxbuttons = MAXBUTTONS;
 // when activated, and in the case of buttons, change back after a timeout.
 //
 // This routine modified to read its data from a predefined lump or
-// PWAD lump called SWITCHES rather than a static table in this module to
+// PWAD lump called SWITCHES rather than a static table in this file to
 // allow WAD designers to insert or modify switches.
 //
 // Lump format is an array of byte packed switchlist_t structures, terminated

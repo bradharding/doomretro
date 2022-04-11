@@ -605,6 +605,7 @@ void G_DoLoadLevel(void)
     viewplayer->prevmessagetics = 0;
     viewplayer->infightcount = 0;
     viewplayer->resurrectioncount = 0;
+    viewplayer->telefragcount = 0;
     viewplayer->automapopened = 0;
 
     freeze = false;
