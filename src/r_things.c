@@ -139,7 +139,7 @@ static void R_InstallSpriteLump(const lumpinfo_t *lump, const int lumpnum,
         sprtemp[frame].lump[rotation] = lumpnum - firstspritelump;
 
         if (flipped)
-            sprtemp[frame].flip |= 1 << rotation;
+            sprtemp[frame].flip |= (1 << rotation);
 
         sprtemp[frame].rotate = 1;              // jff 4/24/98 only change if rot used
     }

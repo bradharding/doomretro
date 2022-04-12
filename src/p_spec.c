@@ -2322,7 +2322,7 @@ void P_UpdateSpecials(void)
                     flattranslation[i] = firstflat + pic;
             }
 
-    animatedliquiddiff += animatedliquiddiffs[gametime & 63];
+    animatedliquiddiff += animatedliquiddiffs[animatedliquidtic & 63];
     animatedliquidxoffs += animatedliquidxdir;
 
     if (animatedliquidxoffs > 64 * FRACUNIT)

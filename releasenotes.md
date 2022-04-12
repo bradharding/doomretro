@@ -13,29 +13,28 @@
 * The player stats shown in the automap when the `am_playerstats` CVAR is `on` are now positioned correctly if there are no monsters in the map.
 * Changing the `r_fov` CVAR from its default of `90`° is now effective again when the `vid_widescreen` CVAR is `off`.
 * The following changes have been made when the player enters a cheat:
-  * More time is now given to enter the `IDBEHOLD` cheat.
+  * More time is now given to the player to enter the `IDBEHOLD` cheat.
   * Displaying the cheat in the console is now redacted.
   * The cheat is now skipped in the console’s input history when pressing the <kbd><b>&uarr;</b></kbd> or <kbd><b>&darr;</b></kbd> keys.
   * A warning is now displayed in the console indicating that the player cheated.
-  * Fade effects are no longer applied in most cases if the `fade` CVAR is `on`.
+  * Fade effects are no longer applied once a cheat is entered in most cases if the `fade` CVAR is `on`.
 * Pausing and then resuming the animation of any liquid sectors in view is now smoother when opening and then closing the console.
 * The player’s currently equipped weapon can now be changed using the new `weapon` CVAR. It can be `fists`, `chainsaw`, `pistol`, `shotgun`, `supershotgun`, `chaingun`, `rocketlauncher`, `plasmarifle` or `bfg9000`.
 * Power-ups that bob when the `r_floatbob` CVAR is `on` no longer bob at all if the ceiling above them is too low.
 * The following changes have been made to blood splats:
   * Extensive optimizations have been made to the rendering of blood splats.
   * The amount of blood splats rendered no longer depends on their distance from the player.
-  * Blood splats now retain their random shades of color if the `r_blood` CVAR is changed.
+  * Blood splats now retain their random shades of color if the `r_blood` CVAR is changed in the console.
   * The translucency of blood splats when the `r_textures` CVAR is `off` now depends on the `r_bloodsplats_translucency` rather than `r_translucency` CVAR.
   * Blood splats are now left on the floor as intended if blood falls on a moving sector.
-* The “automap opened” stat shown by the `playerstats` CCMD is now reset at the start of each map as intended.
 * Centered messages are now spaced better vertically.
 * The player’s face in the status bar and widescreen HUD now always looks forward while the console is open.
 * A timer set using the `timer` CCMD can now be turned off by using `off` as a parameter.
 * Minor improvements have been made to how *MBF*-compatible helper dogs are displayed.
-* The `mapstats` CCMD now displays the number of linedefs that have line specials.
-* A crash no longer occurs when the player or a monster is telefragged.
+* The “automap opened” stat shown by the `playerstats` CCMD is now reset at the start of each map as intended.
+* The `playerstats` CCMD now displays number of monsters that have been telefragged.
 * Obituaries are now displayed in the console when the player or a monster is telefragged.
-* The number of monsters that are telefragged are now displayed by the `playerstats` CCMD.
+* The `mapstats` CCMD now displays the number of linedefs that have line specials.
 * Commander Keens are no longer spawned at the start of a map when the `nomonsters` CCMD has been entered in the console, or the `-nomonsters` parameter has been specified on the command-line.
 * The following changes have been made to the support of `MAPINFO` lumps:
   * `compat_light` can now be used so when a light level changes to the highest light level found in neighboring sectors, the search is made only for the first tagged sector, like in *Vanilla DOOM*.
