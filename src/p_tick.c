@@ -161,6 +161,19 @@ void P_RemoveThinker(thinker_t *thinker)
 }
 
 //
+// P_RemoveThinkerNow
+//
+void P_RemoveThinkerNow(thinker_t *thinker)
+{
+    thinker_t *next = thinker->next;
+    thinker_t *th = thinker->cnext;
+
+    (next->prev = thinker->prev)->next = next;
+    (th->cprev = currentthinker = thinker->cprev)->cnext = th;
+    Z_Free(thinker);
+}
+
+//
 // P_SetTarget
 //
 // This function is used to keep track of pointer references to mobj thinkers.

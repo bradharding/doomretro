@@ -248,7 +248,7 @@ void T_MoveFloor(floormove_t *floor)
     }
 
     floor->sector->floordata = NULL;
-    P_RemoveThinker(&floor->thinker);
+    P_RemoveThinkerNow(&floor->thinker);
 
     // jff 2/26/98 implement stair retrigger lockout while still building
     // note this only applies to the retriggerable generalized stairs
@@ -328,7 +328,7 @@ void T_MoveElevator(elevator_t *elevator)
     {
         sec->floordata = NULL;
         sec->ceilingdata = NULL;
-        P_RemoveThinker(&elevator->thinker);    // remove elevator from actives
+        P_RemoveThinkerNow(&elevator->thinker); // remove elevator from actives
 
         // make floor stop sound
         // [BH] don't make stop sound if floor already at its destination height
