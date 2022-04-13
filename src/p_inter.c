@@ -1697,7 +1697,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
     {
         if (target->player)
         {
-            char    sourcename[64];
+            char    sourcename[128];
 
             if (*source->name)
                 M_StringCopy(sourcename, source->name, sizeof(sourcename));
@@ -1719,7 +1719,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
         }
         else if (source->player)
         {
-            char    targetname[64];
+            char    targetname[128];
 
             if (*target->name)
                 M_StringCopy(targetname, target->name, sizeof(targetname));
@@ -1741,8 +1741,8 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
         }
         else
         {
-            char    sourcename[64];
-            char    targetname[64];
+            char    sourcename[128];
+            char    targetname[128];
 
             if (*source->name)
                 M_StringCopy(sourcename, source->name, sizeof(sourcename));
@@ -1821,7 +1821,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
             }
             else
             {
-                char    targetname[64];
+                char    targetname[128];
                 char    *temp;
 
                 if (*target->name)
@@ -1885,7 +1885,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
                     }
                     else
                     {
-                        char    targetname[64];
+                        char    targetname[128];
 
                         if (*target->name)
                             M_StringCopy(targetname, target->name, sizeof(targetname));
@@ -1929,7 +1929,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
                     }
                     else
                     {
-                        char    targetname[64];
+                        char    targetname[128];
 
                         if (*target->name)
                             M_StringCopy(targetname, target->name, sizeof(targetname));
@@ -1965,7 +1965,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
         }
         else
         {
-            char    sourcename[64];
+            char    sourcename[128];
             char    *temp;
 
             if (*source->name)
@@ -1990,7 +1990,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
                     playername);
             else
             {
-                char    targetname[64];
+                char    targetname[128];
 
                 if (*target->name)
                     M_StringCopy(targetname, target->name, sizeof(targetname));

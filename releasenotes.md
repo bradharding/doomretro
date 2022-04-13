@@ -4,7 +4,7 @@
 
 * *DOOM Retro* is now compiled using v17.1.4 of [*Microsoft Visual Studio Community 2022*](https://www.visualstudio.com/vs/).
 * *DOOM Retro* now uses [*SDL v2.0.22*](https://www.libsdl.org).
-* Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
+* Extensive optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Several changes have been made to text that is output to the console.
 * Minor improvements have been made to the console’s autocomplete feature.
 * The following changes have been made to the external automap:
@@ -17,7 +17,7 @@
   * Displaying the cheat in the console is now redacted.
   * The cheat is now skipped in the console’s input history when pressing the <kbd><b>&uarr;</b></kbd> or <kbd><b>&darr;</b></kbd> keys.
   * A warning is now displayed in the console indicating that the player cheated.
-  * Fade effects are no longer applied once a cheat is entered in most cases if the `fade` CVAR is `on`.
+  * Fade effects are no longer applied once a cheat is entered in most cases.
 * Pausing and then resuming the animation of any liquid sectors in view is now smoother when opening and then closing the console.
 * The player’s currently equipped weapon can now be changed using the new `weapon` CVAR. It can be `fists`, `chainsaw`, `pistol`, `shotgun`, `supershotgun`, `chaingun`, `rocketlauncher`, `plasmarifle` or `bfg9000`.
 * Power-ups that bob when the `r_floatbob` CVAR is `on` no longer bob at all if the ceiling above them is too low.
