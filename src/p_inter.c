@@ -1702,11 +1702,15 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
             if (*source->name)
                 M_StringCopy(sourcename, source->name, sizeof(sourcename));
             else
+            {
+                dboolean    friendly = (source->flags & MF_FRIEND);
+
                 M_snprintf(sourcename, sizeof(sourcename), "%s %s%s",
-                    ((source->flags & MF_FRIEND) && monstercount[source->type] == 1 ? "the" :
-                        (*source->info->name1 && isvowel(source->info->name1[0]) && !(source->flags & MF_FRIEND) ? "an" : "a")),
-                    ((source->flags & MF_FRIEND) ? "friendly " : ""),
+                    (friendly && monstercount[source->type] == 1 ? "the" :
+                        (*source->info->name1 && isvowel(source->info->name1[0]) && !friendly ? "an" : "a")),
+                    (friendly ? "friendly " : ""),
                     (*source->info->name1 ? source->info->name1 : "monster"));
+            }
 
             if (M_StringCompare(playername, playername_default))
                 C_PlayerObituary("You were telefragged by %s.", sourcename);
@@ -1720,11 +1724,15 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
             if (*target->name)
                 M_StringCopy(targetname, target->name, sizeof(targetname));
             else
+            {
+                dboolean    friendly = (target->flags & MF_FRIEND);
+
                 M_snprintf(targetname, sizeof(targetname), "%s %s%s",
-                    ((target->flags & MF_FRIEND) && monstercount[target->type] == 1 ? "the" :
-                        (*target->info->name1 && isvowel(target->info->name1[0]) && !(target->flags & MF_FRIEND) ? "an" : "a")),
-                    ((target->flags & MF_FRIEND) ? "friendly " : ""),
+                    (friendly && monstercount[target->type] == 1 ? "the" :
+                        (*target->info->name1 && isvowel(target->info->name1[0]) && !friendly ? "an" : "a")),
+                    (friendly ? "friendly " : ""),
                     (*target->info->name1 ? target->info->name1 : "monster"));
+            }
 
             if (M_StringCompare(playername, playername_default))
                 C_PlayerObituary("You telefragged %s.", targetname);
@@ -1739,20 +1747,28 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
             if (*source->name)
                 M_StringCopy(sourcename, source->name, sizeof(sourcename));
             else
+            {
+                dboolean    friendly = (source->flags & MF_FRIEND);
+
                 M_snprintf(sourcename, sizeof(sourcename), "%s %s%s",
-                    ((source->flags & MF_FRIEND) && monstercount[source->type] == 1 ? "The" :
-                        (*source->info->name1 && isvowel(source->info->name1[0]) && !(source->flags & MF_FRIEND) ? "An" : "A")),
-                    ((source->flags & MF_FRIEND) ? "friendly " : ""),
+                    (friendly && monstercount[source->type] == 1 ? "The" :
+                        (*source->info->name1 && isvowel(source->info->name1[0]) && !friendly ? "An" : "A")),
+                    (friendly ? "friendly " : ""),
                     (*source->info->name1 ? source->info->name1 : "monster"));
+            }
 
             if (*target->name)
                 M_StringCopy(targetname, target->name, sizeof(targetname));
             else
+            {
+                dboolean    friendly = (target->flags & MF_FRIEND);
+
                 M_snprintf(targetname, sizeof(targetname), "%s %s%s",
-                    ((target->flags & MF_FRIEND) && monstercount[target->type] == 1 ? "the" :
-                        (*target->info->name1 && isvowel(target->info->name1[0]) && !(target->flags & MF_FRIEND) ? "an" : "a")),
-                    ((target->flags & MF_FRIEND) ? "friendly " : ""),
+                    (friendly && monstercount[target->type] == 1 ? "the" :
+                        (*target->info->name1 && isvowel(target->info->name1[0]) && !friendly ? "an" : "a")),
+                    (friendly ? "friendly " : ""),
                     (*target->info->name1 ? target->info->name1 : "monster"));
+            }
 
             C_PlayerObituary("%s was telefragged by %s.", targetname, sourcename);
         }
@@ -1811,11 +1827,15 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
                 if (*target->name)
                     M_StringCopy(targetname, target->name, sizeof(targetname));
                 else
+                {
+                    dboolean    friendly = (target->flags & MF_FRIEND);
+
                     M_snprintf(targetname, sizeof(targetname), "%s %s%s",
-                        ((target->flags & MF_FRIEND) && monstercount[target->type] == 1 ? "the" :
-                            (*target->info->name1 && isvowel(target->info->name1[0]) && !(target->flags & MF_FRIEND) ? "an" : "a")),
-                        ((target->flags & MF_FRIEND) ? "friendly " : ""),
+                        (friendly && monstercount[target->type] == 1 ? "the" :
+                            (*target->info->name1 && isvowel(target->info->name1[0]) && !friendly ? "an" : "a")),
+                        (friendly ? "friendly " : ""),
                         (*target->info->name1 ? target->info->name1 : "monster"));
+                }
 
                 temp = sentencecase(targetname);
 
@@ -1870,11 +1890,15 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
                         if (*target->name)
                             M_StringCopy(targetname, target->name, sizeof(targetname));
                         else
+                        {
+                            dboolean    friendly = (target->flags & MF_FRIEND);
+
                             M_snprintf(targetname, sizeof(targetname), "%s %s%s",
-                                ((target->flags & MF_FRIEND) && monstercount[target->type] == 1 ? "the" :
-                                    (*target->info->name1 && isvowel(target->info->name1[0]) && !(target->flags & MF_FRIEND) ? "an" : "a")),
-                                ((target->flags & MF_FRIEND) ? "friendly " : ""),
+                                (friendly && monstercount[target->type] == 1 ? "the" :
+                                    (*target->info->name1 && isvowel(target->info->name1[0]) && !friendly ? "an" : "a")),
+                                (friendly ? "friendly " : ""),
                                 (*target->info->name1 ? target->info->name1 : "monster"));
+                        }
 
                         if (readyweapon == wp_fist && viewplayer->powers[pw_strength])
                             C_PlayerObituary("You %s %s using your %s while %s.",
@@ -1910,11 +1934,15 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
                         if (*target->name)
                             M_StringCopy(targetname, target->name, sizeof(targetname));
                         else
+                        {
+                            dboolean    friendly = (target->flags & MF_FRIEND);
+
                             M_snprintf(targetname, sizeof(targetname), "%s %s%s",
-                                ((target->flags & MF_FRIEND) && monstercount[target->type] == 1 ? "the" :
-                                    (*target->info->name1 && isvowel(target->info->name1[0]) && !(target->flags & MF_FRIEND) ? "an" : "a")),
-                                ((target->flags & MF_FRIEND) ? "friendly " : ""),
+                                (friendly && monstercount[target->type] == 1 ? "the" :
+                                    (*target->info->name1 && isvowel(target->info->name1[0]) && !friendly ? "an" : "a")),
+                                (friendly ? "friendly " : ""),
                                 (*target->info->name1 ? target->info->name1 : "monster"));
+                        }
 
                         if (readyweapon == wp_fist && viewplayer->powers[pw_strength])
                             C_PlayerObituary("%s %s %s using %s %s while %s.",
@@ -1943,11 +1971,15 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
             if (*source->name)
                 M_StringCopy(sourcename, source->name, sizeof(sourcename));
             else
+            {
+                dboolean    friendly = (source->flags & MF_FRIEND);
+
                 M_snprintf(sourcename, sizeof(sourcename), "%s %s%s",
-                    ((source->flags & MF_FRIEND) && monstercount[source->type] == 1 ? "the" :
-                        (*source->info->name1 && isvowel(source->info->name1[0]) && !(source->flags & MF_FRIEND) ? "an" : "a")),
-                    ((source->flags & MF_FRIEND) ? "friendly " : ""),
+                    (friendly && monstercount[source->type] == 1 ? "the" :
+                        (*source->info->name1 && isvowel(source->info->name1[0]) && !friendly ? "an" : "a")),
+                    (friendly ? "friendly " : ""),
                     (*source->info->name1 ? source->info->name1 : "monster"));
+            }
 
             temp = sentencecase(sourcename);
 
@@ -1963,12 +1995,16 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
                 if (*target->name)
                     M_StringCopy(targetname, target->name, sizeof(targetname));
                 else
+                {
+                    dboolean    friendly = (target->flags & MF_FRIEND);
+
                     M_snprintf(targetname, sizeof(targetname), "%s %s%s",
                         (source->type == target->type || M_StringCompare(source->info->name1, target->info->name1) ? "another" :
-                            ((target->flags & MF_FRIEND) && monstercount[target->type] == 1 ? "the" :
-                            (*target->info->name1 && isvowel(target->info->name1[0]) && !(target->flags & MF_FRIEND) ? "an" : "a"))),
-                        ((target->flags & MF_FRIEND) ? "friendly " : ""),
+                            (friendly && monstercount[target->type] == 1 ? "the" :
+                            (*target->info->name1 && isvowel(target->info->name1[0]) && !friendly ? "an" : "a"))),
+                        (friendly ? "friendly " : ""),
                         (*target->info->name1 ? target->info->name1 : "monster"));
+}
 
                 C_PlayerObituary("%s %s %s.",
                     temp,

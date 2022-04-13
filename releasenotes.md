@@ -32,8 +32,8 @@
 * A timer set using the `timer` CCMD can now be turned off by using `off` as a parameter.
 * Minor improvements have been made to how *MBF*-compatible helper dogs are displayed.
 * The “automap opened” stat shown by the `playerstats` CCMD is now reset at the start of each map as intended.
-* The `playerstats` CCMD now displays number of monsters that have been telefragged.
-* Obituaries are now displayed in the console when the player or a monster is telefragged.
+* The `playerstats` CCMD now displays the number of monsters that have been telefragged.
+* Obituaries are now displayed in the console whenever the player or a monster is telefragged.
 * The `mapstats` CCMD now displays the number of linedefs that have line specials.
 * Commander Keens are no longer spawned at the start of a map when the `nomonsters` CCMD has been entered in the console, or the `-nomonsters` parameter has been specified on the command-line.
 * The following changes have been made to the support of `MAPINFO` lumps:

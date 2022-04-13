@@ -97,7 +97,7 @@ int P_BoxOnLineSide(fixed_t *tmbox, line_t *ld)
 
 //
 // P_PointOnDivlineSide
-// Returns 0 or 1.
+// Returns 0 or 1
 //
 static int P_PointOnDivlineSide(fixed_t x, fixed_t y, divline_t *line)
 {
@@ -114,7 +114,7 @@ static int P_PointOnDivlineSide(fixed_t x, fixed_t y, divline_t *line)
 //
 fixed_t P_InterceptVector(divline_t *v2, divline_t *v1)
 {
-    int64_t den = ((int64_t)v1->dy * v2->dx - (int64_t)v1->dx * v2->dy) >> FRACBITS;
+    const int64_t   den = ((int64_t)v1->dy * v2->dx - (int64_t)v1->dx * v2->dy) >> FRACBITS;
 
     if (!den)
         return 0;
@@ -452,7 +452,7 @@ static intercept_t  *intercept_p;
 void P_CheckIntercepts(void)
 {
     static size_t   num_intercepts;
-    size_t          offset = intercept_p - intercepts;
+    const size_t    offset = intercept_p - intercepts;
 
     if (offset >= num_intercepts)
     {
@@ -471,12 +471,13 @@ divline_t   dltrace;
 //
 static dboolean PIT_AddLineIntercepts(line_t *ld)
 {
-    int         s1, s2;
+    int         s1;
+    int         s2;
     fixed_t     frac;
     divline_t   dl;
 
     // avoid precision problems with two routines
-    if (dltrace.dx > 16 * FRACUNIT || dltrace.dy > 16 * FRACUNIT || dltrace.dx < -16 * FRACUNIT || dltrace.dy < -16 * FRACUNIT)
+    if (dltrace.dx < -16 * FRACUNIT || dltrace.dx > 16 * FRACUNIT || dltrace.dy < -16 * FRACUNIT || dltrace.dy > 16 * FRACUNIT)
     {
         s1 = P_PointOnDivlineSide(ld->v1->x, ld->v1->y, &dltrace);
         s2 = P_PointOnDivlineSide(ld->v2->x, ld->v2->y, &dltrace);
@@ -514,11 +515,11 @@ static dboolean PIT_AddLineIntercepts(line_t *ld)
 //
 static dboolean PIT_AddThingIntercepts(mobj_t *thing)
 {
-    int         numfronts = 0;
-    divline_t   dl;
-    fixed_t     radius = thing->radius;
-    fixed_t     x = thing->x;
-    fixed_t     y = thing->y;
+    int             numfronts = 0;
+    divline_t       dl;
+    const fixed_t   radius = thing->radius;
+    const fixed_t   x = thing->x;
+    const fixed_t   y = thing->y;
 
     // [RH] Don't check a corner to corner crosssection for hit.
     // Instead, check against the actual bounding box.
@@ -873,9 +874,9 @@ static mobj_t *RoughBlockCheck(mobj_t *mo, int index, angle_t fov)
 // distance is in MAPBLOCKUNITS
 mobj_t *P_RoughTargetSearch(mobj_t *mo, angle_t fov, int distance)
 {
-    int     startx = (mo->x - bmaporgx) >> MAPBLOCKSHIFT;
-    int     starty = (mo->y - bmaporgy) >> MAPBLOCKSHIFT;
-    mobj_t  *target;
+    const int   startx = (mo->x - bmaporgx) >> MAPBLOCKSHIFT;
+    const int   starty = (mo->y - bmaporgy) >> MAPBLOCKSHIFT;
+    mobj_t      *target;
 
     if (startx >= 0 && startx < bmapwidth && starty >= 0 && starty < bmapheight
         && (target = RoughBlockCheck(mo, starty * bmapwidth + startx, fov)))

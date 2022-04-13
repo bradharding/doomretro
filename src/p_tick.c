@@ -178,7 +178,7 @@ void P_RemoveThinkerNow(thinker_t *thinker)
 //
 // This function is used to keep track of pointer references to mobj thinkers.
 // In DOOM, objects such as lost souls could sometimes be removed despite
-// their still being referenced. In BOOM, 'target' mobj fields were tested
+// them still being referenced. In BOOM, 'target' mobj fields were tested
 // during each gametic, and any objects pointed to by them would be prevented
 // from being removed. But this was incomplete, and was slow (every mobj was
 // checked during every gametic). Now, we keep a count of the number of
