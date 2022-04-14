@@ -346,7 +346,7 @@ static void R_MakeSpans(visplane_t *pl)
 }
 
 // Ripple Effect from SMMU (r_ripple.cpp) by Simon Howard
-#define SPEED           40
+#define SPEED           24
 
 // swirl factors determine the number of waves per flat width
 // 1 cycle per 64 units
