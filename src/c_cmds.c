@@ -8646,7 +8646,7 @@ static void player_cvars_func2(char *cmd, char *parms)
         else
         {
             int     i = C_GetIndex(cmd);
-            char    *temp = commify(gamestate == GS_LEVEL ? viewplayer->health : health_default);
+            char    *temp = commify(gamestate == GS_LEVEL ? (negativehealth ? viewplayer->health : MAX(0, viewplayer->health)) : health_default);
 
             C_ShowDescription(i);
             C_Output(PERCENTCVARWITHNODEFAULT, temp);

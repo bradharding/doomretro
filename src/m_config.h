@@ -532,7 +532,7 @@ enum
 #define movebob_default                    75
 #define movebob_max                        100
 
-#define negativehealth_default             false
+#define negativehealth_default             true
 
 #define playergender_min                   playergender_other
 #define playergender_default               playergender_male
