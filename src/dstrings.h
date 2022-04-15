@@ -67,3 +67,4 @@
 #define QUITMSG14           "you're lucky i don't smack\nyou for thinking about leaving."
 
 extern char **endmsg[];
+extern char *devendmsg[];
