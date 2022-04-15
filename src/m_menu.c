@@ -2067,18 +2067,24 @@ void M_QuitDOOM(int choice)
     static char endstring[320];
     static char line1[160];
     static char line2[160];
-    static int  r = -1;
 
     quitting = true;
 
     if (deh_strlookup[p_QUITMSG].assigned == 2)
         M_StringCopy(line1, s_QUITMSG, sizeof(line1));
-    else if (devparm)
-        M_StringCopy(line1, devendmsg[(r = M_RandomIntNoRepeat(0, NUM_QUITMESSAGES - 1, r))], sizeof(line1));
-    else if (gamemission == doom)
-        M_snprintf(line1, sizeof(line1), *endmsg[(r = M_RandomIntNoRepeat(0, NUM_QUITMESSAGES - 1, r))], WINDOWS);
     else
-        M_snprintf(line1, sizeof(line1), *endmsg[NUM_QUITMESSAGES + (r = M_RandomIntNoRepeat(0, NUM_QUITMESSAGES - 1, r))], WINDOWS);
+    {
+        static int  msg = -1;
+
+        msg = M_RandomIntNoRepeat(0, NUM_QUITMESSAGES - 1, msg);
+
+        if (devparm)
+            M_StringCopy(line1, devendmsg[msg], sizeof(line1));
+        else if (gamemission == doom)
+            M_snprintf(line1, sizeof(line1), *endmsg[msg], WINDOWS);
+        else
+            M_snprintf(line1, sizeof(line1), *endmsg[NUM_QUITMESSAGES + msg], WINDOWS);
+    }
 
     M_snprintf(line2, sizeof(line2), (usinggamecontroller ? s_DOSA : s_DOSY), DESKTOP);
     M_snprintf(endstring, sizeof(endstring), "%s\n\n%s", line1, line2);
