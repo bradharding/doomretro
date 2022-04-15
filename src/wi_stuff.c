@@ -595,45 +595,39 @@ static void WI_DrawAnimatedBack(void)
 //
 static int WI_DrawNum(int x, int y, int n, int digits)
 {
-    // if non-number, do not draw it
-    if (n == 1994)
-        return 0;
-    else
+    int fontwidth = SHORT(num[0]->width);
+
+    if (digits < 0)
     {
-        int fontwidth = SHORT(num[0]->width);
-
-        if (digits < 0)
+        if (!n)
+            // make variable-length zeros 1 digit long
+            digits = 1;
+        else
         {
-            if (!n)
-                // make variable-length zeros 1 digit long
-                digits = 1;
-            else
+            int temp = n;
+
+            // figure out # of digits in #
+            digits = 0;
+
+            while (temp)
             {
-                int temp = n;
-
-                // figure out # of digits in #
-                digits = 0;
-
-                while (temp)
-                {
-                    temp /= 10;
-                    digits++;
-                }
+                temp /= 10;
+                digits++;
             }
         }
-
-        // draw the new number
-        while (digits--)
-        {
-            x -= fontwidth;
-            x += 2 * (n % 10 == 1);
-            V_DrawPatchWithShadow(x + 1, y + 1, num[n % 10], true);
-            x -= 2 * (n % 10 == 1);
-            n /= 10;
-        }
-
-        return x;
     }
+
+    // draw the new number
+    while (digits--)
+    {
+        x -= fontwidth;
+        x += 2 * (n % 10 == 1);
+        V_DrawPatchWithShadow(x + 1, y + 1, num[n % 10], true);
+        x -= 2 * (n % 10 == 1);
+        n /= 10;
+    }
+
+    return x;
 }
 
 static void WI_DrawPercent(int x, int y, int p)
