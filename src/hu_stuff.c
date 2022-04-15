@@ -310,7 +310,7 @@ static void DrawHUDNumber(int *x, int y, int val, byte *translucency, void (*dra
 
     if (val < 0)
     {
-        if (minuspatch)
+        if (negativehealth && minuspatch)
         {
             val = -val;
             drawhudnumfunc(*x, y + minuspatchy, minuspatch, translucency);
@@ -352,7 +352,7 @@ static int HUDNumberWidth(int val)
 
     if (val < 0)
     {
-        if (minuspatch)
+        if (negativehealth && minuspatch)
         {
             val = -val;
             width = minuspatchwidth;
@@ -815,12 +815,14 @@ static void HU_AltInit(void)
 
 static void DrawAltHUDNumber(int x, int y, int val, int color)
 {
-    if (val < 0)
+    if (val < 0 && negativehealth)
     {
         val = -val;
         althudfunc(x - altminuspatchwidth - (val == 1 || val == 7 || (val >= 10 && val <= 19) || (val >= 70 && val <= 79)
             || (val >= 100 && val <= 199) ? 1 : 2), y, altminuspatch, WHITE, color);
     }
+    else
+        val = 0;
 
     if (val >= 100)
     {
