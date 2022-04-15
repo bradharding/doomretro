@@ -724,6 +724,8 @@ consolecmd_t consolecmds[] =
         "The amount the player's view bobs as they move (" BOLD("0%") " to " BOLD("100%") ")."),
     CCMD("name", "", name_cmd_func1, name_cmd_func2, true, NAMECMDFORMAT,
         "Gives a " BOLDITALICS("name") " to the " BOLDITALICS("monster") " nearest to the player."),
+    CVAR_BOOL(negativehealth, "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
+        "Toggles displaying the player's health less than 0 if they die."),
     CCMD("newgame", "", null_func1, newgame_cmd_func2, true, "",
         "Starts a new game."),
     CCMD("noclip", "", game_func1, noclip_cmd_func2, true, "[" BOLD("on") "|" BOLD("off") "]",

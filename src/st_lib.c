@@ -43,6 +43,8 @@
 #include "st_lib.h"
 #include "v_video.h"
 
+dboolean    negativehealth = negativehealth_default;
+
 dboolean    usesmallnums;
 
 static void (*statbarnumfunc)(int, int, int, int, int, patch_t *);
@@ -121,7 +123,7 @@ static void STlib_DrawHighNum(int number, int color, int shadow, int x, int y, p
 
 void STlib_UpdateBigNum(st_number_t *n)
 {
-    int num = ABS(*n->num);
+    int num = (negativehealth ? ABS(*n->num) : MAX(0, *n->num));
 
     // if non-number, do not draw it
     if (num == 1994)

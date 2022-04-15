@@ -30,6 +30,7 @@
   * Blood splats are now left on the floor as intended if blood falls on a moving sector.
 * Centered messages are now spaced better vertically.
 * The player’s face in the status bar and widescreen HUD now always looks forward while the console is open.
+* Displaying the player’s health less than 0 if they die can now be toggled using the new `negativehealth` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
 * A timer set using the `timer` CCMD can now be turned off by using `off` as a parameter.
 * Minor improvements have been made to how *MBF*-compatible helper dogs are displayed.
 * The “automap opened” stat shown by the `playerstats` CCMD is now reset at the start of each map as intended.

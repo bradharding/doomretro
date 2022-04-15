@@ -53,6 +53,7 @@ melt on
 messages on
 mouselook off
 movebob 100%
+negativehealth off
 notarget off
 pistolstart off
 playername "you"

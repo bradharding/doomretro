@@ -108,6 +108,7 @@ extern dboolean     melt;
 extern dboolean     messages;
 extern dboolean     mouselook;
 extern int          movebob;
+extern dboolean     negativehealth;
 extern int          playergender;
 extern char         *playername;
 extern dboolean     r_althud;
@@ -530,6 +531,8 @@ enum
 #define movebob_min                        0
 #define movebob_default                    75
 #define movebob_max                        100
+
+#define negativehealth_default             false
 
 #define playergender_min                   playergender_other
 #define playergender_default               playergender_male

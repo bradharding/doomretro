@@ -130,6 +130,7 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT          (messages,                         messages,                              messages,                              BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT          (mouselook,                        mouselook,                             mouselook,                             BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT_PERCENT  (movebob,                          movebob,                               movebob,                               NOVALUEALIAS          ),
+    CONFIG_VARIABLE_INT          (negativehealth,                   negativehealth,                        negativehealth,                        BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT          (playergender,                     playergender,                          playergender,                          PLAYERGENDERVALUEALIAS),
     CONFIG_VARIABLE_STRING       (playername,                       playername,                            playername,                            NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT          (r_althud,                         r_althud,                              r_althud,                              BOOLVALUEALIAS        ),
