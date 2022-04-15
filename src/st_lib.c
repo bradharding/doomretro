@@ -137,20 +137,16 @@ void STlib_UpdateBigNum(st_number_t *n)
         if (!num)
             V_DrawPatch(x - w, n->y, 0, n->p[0]);
         else
-        {
-            int numdigits = n->width;
-
             // draw the new number
-            while (num && numdigits--)
+            while (num)
             {
                 x -= w;
                 V_DrawPatch(x, n->y, 0, n->p[num % 10]);
                 num /= 10;
             }
-        }
 
         // draw a minus sign if necessary
-        if (negativehealth && (num = *n->num) < 0 && minuspatch)
+        if ((num = *n->num) < 0 && negativehealth && minuspatch)
         {
             if ((num >= -199 && num <= -100) || (num >= -79 && num <= -70) || (num >= -19 && num <= -10) || num == -7 || num == -1)
                 x += 2;
