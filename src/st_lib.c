@@ -121,17 +121,16 @@ static void STlib_DrawHighNum(int number, int color, int shadow, int x, int y, p
     }
 }
 
-void STlib_UpdateBigNum(st_number_t *n)
+void STlib_UpdateBigAmmoNum(st_number_t *n)
 {
-    int num = (negativehealth ? ABS(*n->num) : MAX(0, *n->num));
-
     // if non-number, do not draw it
-    if (num == 1994)
+    if (*n->num == 1994)
         return;
     else
     {
-        int x = n->x;
-        int w = SHORT(n->p[0]->width);
+        int         num = *n->num;
+        int         x = n->x;
+        const int   w = SHORT(n->p[0]->width);
 
         // in the special case of 0, you draw 0
         if (!num)
@@ -140,19 +139,54 @@ void STlib_UpdateBigNum(st_number_t *n)
             // draw the new number
             while (num)
             {
-                x -= w;
-                V_DrawPatch(x, n->y, 0, n->p[num % 10]);
+                V_DrawPatch((x -= w), n->y, 0, n->p[num % 10]);
                 num /= 10;
             }
+    }
+}
 
-        // draw a minus sign if necessary
-        if ((num = *n->num) < 0 && negativehealth && minuspatch)
+void STlib_UpdateBigArmorNum(st_number_t *n)
+{
+    int         num = *n->num;
+    int         x = n->x;
+    const int   w = SHORT(n->p[0]->width);
+
+    // in the special case of 0, you draw 0
+    if (!num)
+        V_DrawPatch(x - w, n->y, 0, n->p[0]);
+    else
+        // draw the new number
+        while (num)
         {
-            if ((num >= -199 && num <= -100) || (num >= -79 && num <= -70) || (num >= -19 && num <= -10) || num == -7 || num == -1)
-                x += 2;
-
-            V_DrawPatch(x - minuspatchwidth, n->y, 0, minuspatch);
+            V_DrawPatch((x -= w), n->y, 0, n->p[num % 10]);
+            num /= 10;
         }
+}
+
+void STlib_UpdateBigHealthNum(st_number_t *n)
+{
+    int         num = (negativehealth ? ABS(*n->num) : MAX(0, *n->num));
+    int         x = n->x;
+    const int   w = SHORT(n->p[0]->width);
+
+    // in the special case of 0, you draw 0
+    if (!num)
+        V_DrawPatch(x - w, n->y, 0, n->p[0]);
+    else
+        // draw the new number
+        while (num)
+        {
+            V_DrawPatch((x -= w), n->y, 0, n->p[num % 10]);
+            num /= 10;
+        }
+
+    // draw a minus sign if necessary
+    if ((num = *n->num) < 0 && negativehealth && minuspatch)
+    {
+        if ((num >= -199 && num <= -100) || (num >= -79 && num <= -70) || (num >= -19 && num <= -10) || num == -7 || num == -1)
+            x += 2;
+
+        V_DrawPatch(x - minuspatchwidth, n->y, 0, minuspatch);
     }
 }
 
@@ -184,12 +218,28 @@ void STlib_InitPercent(st_percent_t *p, int x, int y, patch_t **pl, int *num, pa
     p->p = percent;
 }
 
-void STlib_UpdatePercent(st_percent_t *per, int refresh)
+void STlib_UpdateAmmoPercent(st_percent_t *per, int refresh)
 {
     if (refresh)
         V_DrawPatch(per->n.x, per->n.y, 0, per->p);
 
-    STlib_UpdateBigNum(&per->n);
+    STlib_UpdateBigAmmoNum(&per->n);
+}
+
+void STlib_UpdateArmorPercent(st_percent_t *per, int refresh)
+{
+    if (refresh)
+        V_DrawPatch(per->n.x, per->n.y, 0, per->p);
+
+    STlib_UpdateBigArmorNum(&per->n);
+}
+
+void STlib_UpdateHealthPercent(st_percent_t *per, int refresh)
+{
+    if (refresh)
+        V_DrawPatch(per->n.x, per->n.y, 0, per->p);
+
+    STlib_UpdateBigHealthNum(&per->n);
 }
 
 void STlib_InitMultIcon(st_multicon_t *mi, int x, int y, patch_t **il, int *inum)

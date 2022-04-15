@@ -104,13 +104,17 @@ extern dboolean usesmallnums;
 // Number widget routines
 void STlib_InitNum(st_number_t *n, int x, int y, patch_t **pl, int *num, int width);
 
-void STlib_UpdateBigNum(st_number_t *n);
+void STlib_UpdateBigAmmoNum(st_number_t *n);
+void STlib_UpdateBigArmorNum(st_number_t *n);
+void STlib_UpdateBigHealthNum(st_number_t *n);
 void STlib_UpdateSmallNum(st_number_t *n);
 
 // Percent widget routines
 void STlib_InitPercent(st_percent_t *p, int x, int y, patch_t **pl, int *num, patch_t *percent);
 
-void STlib_UpdatePercent(st_percent_t *per, int refresh);
+void STlib_UpdateHealthPercent(st_percent_t *per, int refresh);
+void STlib_UpdateAmmoPercent(st_percent_t *per, int refresh);
+void STlib_UpdateArmorPercent(st_percent_t *per, int refresh);
 
 // Multiple Icon widget routines
 void STlib_InitMultIcon(st_multicon_t *mi, int x, int y, patch_t **il, int *inum);

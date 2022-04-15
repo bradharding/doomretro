@@ -1330,7 +1330,7 @@ static void ST_DoPaletteStuff(void)
 
 static void ST_DrawWidgets(dboolean refresh)
 {
-    STlib_UpdateBigNum(&w_ready);
+    STlib_UpdateBigAmmoNum(&w_ready);
 
     STlib_UpdateSmallNum(&w_ammo[0]);
     STlib_UpdateSmallNum(&w_ammo[1]);
@@ -1342,8 +1342,8 @@ static void ST_DrawWidgets(dboolean refresh)
     STlib_UpdateSmallNum(&w_maxammo[2]);
     STlib_UpdateSmallNum(&w_maxammo[3]);
 
-    STlib_UpdatePercent(&w_health, refresh);
-    STlib_UpdatePercent(&w_armor, refresh);
+    STlib_UpdateHealthPercent(&w_health, refresh);
+    STlib_UpdateArmorPercent(&w_armor, refresh);
 
     st_shotguns = (viewplayer->weaponowned[wp_shotgun] || viewplayer->weaponowned[wp_supershotgun]);
 
