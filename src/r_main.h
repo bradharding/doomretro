@@ -105,7 +105,6 @@ extern void (*altbmapwallcolfunc)(void);
 extern void (*segcolfunc)(void);
 extern void (*translatedcolfunc)(void);
 extern void (*basecolfunc)(void);
-extern void (*fuzzcolfunc)(void);
 extern void (*tlcolfunc)(void);
 extern void (*tl50colfunc)(void);
 extern void (*tl50segcolfunc)(void);

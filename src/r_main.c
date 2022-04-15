@@ -478,7 +478,6 @@ void (*altbmapwallcolfunc)(void);
 void (*segcolfunc)(void);
 void (*translatedcolfunc)(void);
 void (*basecolfunc)(void);
-void (*fuzzcolfunc)(void);
 void (*tlcolfunc)(void);
 void (*tl50colfunc)(void);
 void (*tl50segcolfunc)(void);
@@ -506,8 +505,6 @@ void R_InitColumnFunctions(void)
 {
     if (r_textures)
     {
-        fuzzcolfunc = &R_DrawFuzzColumn;
-
         if (r_skycolor == r_skycolor_default)
             skycolfunc = (canmodify && !transferredsky && (gamemode != commercial || gamemap < 21) && !canmouselook ?
                 &R_DrawFlippedSkyColumn : &R_DrawWallColumn);
@@ -674,7 +671,6 @@ void R_InitColumnFunctions(void)
     }
     else
     {
-        fuzzcolfunc = &R_DrawTranslucent50ColorColumn;
         skycolfunc = (r_skycolor == r_skycolor_default ? &R_DrawColorColumn : &R_DrawSkyColorColumn);
 
         if (r_ditheredlighting)
@@ -786,8 +782,13 @@ void R_InitColumnFunctions(void)
         }
         else if (flags & MF_FUZZ)
         {
-            info->colfunc = fuzzcolfunc;
-            info->altcolfunc = fuzzcolfunc;
+            if ((flags2 & MF2_BLOOD) && r_blood != r_blood_all)
+                info->colfunc = info->altcolfunc = (r_translucency ? &R_DrawTranslucent33Column : &R_DrawColumn);
+            else
+            {
+                info->colfunc = &R_DrawFuzzColumn;
+                info->altcolfunc = &R_DrawFuzzColumn;
+            }
         }
         else if (flags2 & MF2_TRANSLUCENT_REDONLY)
         {

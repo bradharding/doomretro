@@ -744,17 +744,7 @@ static void R_ProjectSprite(mobj_t *thing)
     else
         vis->shadowpos = 1;
 
-    if (thing->flags & MF_FUZZ)
-    {
-        if (r_blood == r_blood_nofuzz && thing->type == MT_FUZZYBLOOD)
-            vis->colfunc = (r_translucency ? &R_DrawTranslucent33Column : &R_DrawColumn);
-        else if (pausesprites)
-            vis->colfunc = (r_textures && thing->colfunc == fuzzcolfunc ? &R_DrawPausedFuzzColumn : thing->colfunc);
-        else
-            vis->colfunc = (invulnerable && r_textures ? thing->altcolfunc : thing->colfunc);
-    }
-    else
-        vis->colfunc = (invulnerable && r_textures ? thing->altcolfunc : thing->colfunc);
+    vis->colfunc = (invulnerable && r_textures ? thing->altcolfunc : thing->colfunc);
 
     // foot clipping
     if ((flags2 & MF2_FEETARECLIPPED) && !heightsec && r_liquid_clipsprites)
