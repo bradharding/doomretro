@@ -37,6 +37,7 @@
 */
 
 #include "d_deh.h"
+#include "dstrings.h"
 
 char **endmsg[] =
 {
@@ -63,15 +64,12 @@ char **endmsg[] =
 
 char *devendmsg[] =
 {
-    // UNUSED messages included in the source release
-    "Fuck you, pussy!\nGet the fuck out!",
-    "You quit now and I'll jizz\nin your cysthole!",
-    "If you leave, I'll make\nthe lord drink my jizz.",
-    "Hey, Ron! Can we say\n\"fuck\" in this game?",
-    "I'd leave. This is just more\nmonsters and levels. What a load!",
-    "Suck it down, asshole!\nYou're a fucking wimp!",
-    "Don't quit now!\nWe're still spending your money!",
-
-    // Internal debug. Different style, too.
-    "THIS IS NO MESSAGE!\nPage intentionally left blank."
+    DEVQUITMSG1,
+    DEVQUITMSG2,
+    DEVQUITMSG3,
+    DEVQUITMSG4,
+    DEVQUITMSG5,
+    DEVQUITMSG6,
+    DEVQUITMSG7,
+    DEVQUITMSG8
 };
