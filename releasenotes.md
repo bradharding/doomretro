@@ -19,7 +19,7 @@
   * A warning is now displayed in the console indicating that the player cheated.
   * Fade effects are no longer applied once a cheat is entered in most cases.
 * Pausing and then resuming the animation of any liquid sectors in view is now smoother when opening and then closing the console.
-  * The swirling animation of liquid sectors when the `r_liquid_swirl` CVAR is `on` has been slowed down slightly to better sync with the bobbing animation when the `r_liquid_bob` CVAR is `on`.
+* The swirling animation of liquid sectors when the `r_liquid_swirl` CVAR is `on` has been slowed down slightly to better sync with the bobbing animation when the `r_liquid_bob` CVAR is `on`.
 * The player’s currently equipped weapon can now be changed using the new `weapon` CVAR. It can be `fists`, `chainsaw`, `pistol`, `shotgun`, `supershotgun`, `chaingun`, `rocketlauncher`, `plasmarifle` or `bfg9000`.
 * Power-ups that bob when the `r_floatbob` CVAR is `on` no longer bob at all if the ceiling above them is too low.
 * The following changes have been made to blood splats:

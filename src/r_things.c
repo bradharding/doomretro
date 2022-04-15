@@ -81,6 +81,7 @@ spritedef_t             *sprites;
 short                   firstbloodsplatlump;
 
 dboolean                allowwolfensteinss = true;
+dboolean                pausesprites = false;
 
 static spriteframe_t    sprtemp[MAXSPRITEFRAMES];
 static int              maxframe;
@@ -88,7 +89,6 @@ static int              maxframe;
 static dboolean         drawshadows;
 static dboolean         interpolatesprites;
 static dboolean         invulnerable;
-static dboolean         pausesprites;
 static fixed_t          floorheight;
 
 dboolean                r_liquid_clipsprites = r_liquid_clipsprites_default;

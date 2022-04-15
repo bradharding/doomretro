@@ -1182,36 +1182,41 @@ void R_DrawTranslucentBlue25Column(void)
 //
 void R_DrawFuzzColumn(void)
 {
-    byte    *dest;
-    int     count = dc_yh - dc_yl;
-
-    if (!count)
-        return;
-
-    dest = ylookup0[dc_yl] + dc_x;
-
-    // top
-    if (!dc_yl)
-        *dest = fullcolormap[6 * 256 + dest[(fuzztable[fuzzpos++] = FUZZ(0, 1))]];
-    else if (!(M_BigRandom() & 3))
-        *dest = fullcolormap[12 * 256 + dest[(fuzztable[fuzzpos++] = FUZZ(-1, 1))]];
-
-    dest += SCREENWIDTH;
-
-    while (--count)
+    if (pausesprites)
+        R_DrawPausedFuzzColumn();
+    else
     {
-        // middle
-        *dest = fullcolormap[6 * 256 + dest[(fuzztable[fuzzpos++] = FUZZ(-1, 1))]];
-        dest += SCREENWIDTH;
-    }
+        byte    *dest;
+        int     count = dc_yh - dc_yl;
 
-    // bottom
-    *dest = fullcolormap[5 * 256 + dest[(fuzztable[fuzzpos++] = FUZZ(-1, 0))]];
+        if (!count)
+            return;
 
-    if (dc_yh < dc_floorclip && !(M_BigRandom() & 3))
-    {
+        dest = ylookup0[dc_yl] + dc_x;
+
+        // top
+        if (!dc_yl)
+            *dest = fullcolormap[6 * 256 + dest[(fuzztable[fuzzpos++] = FUZZ(0, 1))]];
+        else if (!(M_BigRandom() & 3))
+            *dest = fullcolormap[12 * 256 + dest[(fuzztable[fuzzpos++] = FUZZ(-1, 1))]];
+
         dest += SCREENWIDTH;
-        *dest = fullcolormap[14 * 256 + dest[(fuzztable[fuzzpos++] = FUZZ(-1, 0))]];
+
+        while (--count)
+        {
+            // middle
+            *dest = fullcolormap[6 * 256 + dest[(fuzztable[fuzzpos++] = FUZZ(-1, 1))]];
+            dest += SCREENWIDTH;
+        }
+
+        // bottom
+        *dest = fullcolormap[5 * 256 + dest[(fuzztable[fuzzpos++] = FUZZ(-1, 0))]];
+
+        if (dc_yh < dc_floorclip && !(M_BigRandom() & 3))
+        {
+            dest += SCREENWIDTH;
+            *dest = fullcolormap[14 * 256 + dest[(fuzztable[fuzzpos++] = FUZZ(-1, 0))]];
+        }
     }
 }
 
