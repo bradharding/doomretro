@@ -46,6 +46,8 @@
 #include <X11/XKBlib.h>
 #endif
 
+#include <math.h>
+
 #include "SDL_opengl.h"
 
 #include "am_map.h"
