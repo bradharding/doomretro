@@ -815,14 +815,17 @@ static void HU_AltInit(void)
 
 static void DrawAltHUDNumber(int x, int y, int val, int color)
 {
-    if (val < 0 && negativehealth)
+    if (val < 0)
     {
-        val = -val;
-        althudfunc(x - altminuspatchwidth - (val == 1 || val == 7 || (val >= 10 && val <= 19) || (val >= 70 && val <= 79)
-            || (val >= 100 && val <= 199) ? 1 : 2), y, altminuspatch, WHITE, color);
+        if (negativehealth)
+        {
+            val = -val;
+            althudfunc(x - altminuspatchwidth - (val == 1 || val == 7 || (val >= 10 && val <= 19) || (val >= 70 && val <= 79)
+                || (val >= 100 && val <= 199) ? 1 : 2), y, altminuspatch, WHITE, color);
+        }
+        else
+            val = 0;
     }
-    else
-        val = 0;
 
     if (val >= 100)
     {
