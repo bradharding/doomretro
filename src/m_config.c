@@ -762,6 +762,9 @@ static void M_CheckCVARs(dboolean ispackageconfig)
 
     movebob = BETWEEN(movebob_min, movebob, movebob_max);
 
+    if (negativehealth != false && negativehealth != true)
+        negativehealth = negativehealth_default;
+
     if (playergender < playergender_min || playergender > playergender_max)
         playergender = playergender_default;
 
