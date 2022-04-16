@@ -962,7 +962,7 @@ static void WI_UpdateStats(void)
 static void WI_DrawStats(void)
 {
     // line height
-    int lh = 3 * SHORT(num[0]->height) / 2;
+    const int   lh = 3 * SHORT(num[0]->height) / 2;
 
     WI_SlamBackground();
 

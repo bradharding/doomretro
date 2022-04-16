@@ -1067,7 +1067,7 @@ dboolean ST_Responder(event_t *ev)
 
 static int ST_CalcPainOffset(void)
 {
-    int         newhealth = MIN(viewplayer->health, 100);
+    const int   newhealth = MIN(viewplayer->health, 100);
     static int  lastcalc;
     static int  health = -1;
 
@@ -1230,9 +1230,9 @@ static void ST_UpdateFaceWidget(void)
 
 static void ST_UpdateWidgets(void)
 {
-    static int      largeammo = 1994;   // means "n/a"
-    weapontype_t    readyweapon = viewplayer->readyweapon;
-    ammotype_t      ammotype = weaponinfo[readyweapon].ammotype;
+    static int          largeammo = 1994;   // means "n/a"
+    const weapontype_t  readyweapon = viewplayer->readyweapon;
+    const ammotype_t    ammotype = weaponinfo[readyweapon].ammotype;
 
     w_ready.num = (ammotype == am_noammo ? &largeammo : &viewplayer->ammo[ammotype]);
     w_ready.data = readyweapon;
@@ -1277,13 +1277,13 @@ static void ST_DoPaletteStuff(void)
         && (viewplayer->pendingweapon == wp_fist || (viewplayer->readyweapon == wp_fist && viewplayer->pendingweapon == wp_nochange))
         && viewplayer->health > 0)
     {
-        int bonuscount = viewplayer->bonuscount;
+        const int   bonuscount = viewplayer->bonuscount;
 
         if (bonuscount && r_pickupeffect)
             palette = STARTBONUSPALS + MIN((bonuscount + 7) >> 3, NUMBONUSPALS) - 1;
         else
         {
-            int ironfeet = viewplayer->powers[pw_ironfeet];
+            const int   ironfeet = viewplayer->powers[pw_ironfeet];
 
             if (ironfeet <= STARTFLASHING && (ironfeet & 8))
                 palette = RADIATIONPAL;
@@ -1295,7 +1295,7 @@ static void ST_DoPaletteStuff(void)
     }
     else
     {
-        int damagecount = viewplayer->damagecount;
+        const int   damagecount = viewplayer->damagecount;
 
         if (damagecount && !(viewplayer->cheats & CF_GODMODE) && r_damageeffect)
             palette = (chex || r_blood == r_blood_green ? RADIATIONPAL :
@@ -1308,7 +1308,7 @@ static void ST_DoPaletteStuff(void)
                 palette = STARTBONUSPALS + MIN((bonuscount + 7) >> 3, NUMBONUSPALS) - 1;
             else
             {
-                int ironfeet = viewplayer->powers[pw_ironfeet];
+                const int   ironfeet = viewplayer->powers[pw_ironfeet];
 
                 if (ironfeet)
                 {

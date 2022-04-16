@@ -78,7 +78,7 @@ static void STlib_DrawLowNum(int number, int color, int shadow, int x, int y, pa
 
     for (int i = 0, j = (y * SCREENWIDTH + x) * SCREENSCALE; i < 96; i++)
     {
-        char    dot = lownums[number][i];
+        const char  dot = lownums[number][i];
 
         if (dot == '1')
             screens[0][j + i / 8 * SCREENWIDTH + (i & 7)] = color;
@@ -112,7 +112,7 @@ static void STlib_DrawHighNum(int number, int color, int shadow, int x, int y, p
 
     for (int i = 0, j = (y * SCREENWIDTH + x) * SCREENSCALE; i < 96; i++)
     {
-        char    dot = highnums[number][i];
+        const char  dot = highnums[number][i];
 
         if (dot == '1')
             screens[0][j + i / 8 * SCREENWIDTH + (i & 7)] = color;
@@ -199,17 +199,13 @@ void STlib_UpdateSmallNum(st_number_t *n)
     if (!num)
         statbarnumfunc(0, 160, 47, x - 4, n->y, n->p[0]);
     else
-    {
-        int numdigits = n->width;
-
         // draw the new number
-        while (num && numdigits--)
+        while (num)
         {
             x -= 4;
             statbarnumfunc(num % 10, 160, 47, x, n->y, n->p[num % 10]);
             num /= 10;
         }
-    }
 }
 
 void STlib_InitPercent(st_percent_t *p, int x, int y, patch_t **pl, int *num, patch_t *percent)
