@@ -686,11 +686,8 @@ char *commify(int64_t value)
 
         n = result + sizeof(result) - pt;
 
-        do
-        {
-            pt -= 3;
-
-            if (pt > result)
+        while (true)
+            if ((pt -= 3) > result)
             {
                 memmove(pt + 1, pt, n);
                 *pt = ',';
@@ -698,7 +695,6 @@ char *commify(int64_t value)
             }
             else
                 break;
-        } while (true);
     }
 
     return M_StringDuplicate(result);
@@ -719,8 +715,7 @@ char *commifystat(uint64_t value)
 
         n = result + sizeof(result) - pt;
 
-        do
-        {
+        while (true)
             if ((pt -= 3) > result)
             {
                 memmove(pt + 1, pt, n);
@@ -729,7 +724,6 @@ char *commifystat(uint64_t value)
             }
             else
                 break;
-        } while (true);
     }
 
     return M_StringDuplicate(result);

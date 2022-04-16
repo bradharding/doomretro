@@ -1146,8 +1146,8 @@ void HU_Drawer(void)
     {
         if (crosshair != crosshair_none)
         {
-            ammotype_t  ammotype = weaponinfo[viewplayer->readyweapon].ammotype;
-            actionf_t   action;
+            const ammotype_t    ammotype = weaponinfo[viewplayer->readyweapon].ammotype;
+            actionf_t           action;
 
             if (ammotype != am_noammo && viewplayer->ammo[ammotype]
                 && (action = viewplayer->psprites[ps_weapon].state->action) != &A_Raise && action != &A_Lower)
@@ -1201,8 +1201,7 @@ void HU_Ticker(void)
         message_on = false;
         message_nottobefuckedwith = false;
     }
-
-    if (idmypos)
+    else if (idmypos)
     {
         // [BH] display and constantly update message for IDMYPOS cheat
         char    buffer[80];

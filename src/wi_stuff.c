@@ -309,7 +309,7 @@ static void WI_SlamBackground(void)
 // [BH] Draws character of "<Levelname>"
 static void WI_DrawWILVchar(int x, int y, int i)
 {
-    int w = (int)strlen(wilv[i]) / 13;
+    const int   w = (int)strlen(wilv[i]) / 13;
 
     for (int y1 = 0; y1 < 13; y1++)
         for (int x1 = 0; x1 < w; x1++)
@@ -338,9 +338,9 @@ static const int chartoi[130] =
 
 static void WI_DrawWILV(int y, char *str)
 {
-    int len = (int)strlen(str);
-    int w = 0;
-    int x;
+    const int   len = (int)strlen(str);
+    int         w = 0;
+    int         x;
 
     for (int i = 0; i < len; i++)
     {
@@ -371,15 +371,15 @@ static void WI_DrawWILV(int y, char *str)
 // Draws "<Levelname> Finished!"
 static void WI_DrawLF(void)
 {
-    int x = (VANILLAWIDTH - SHORT(finished->width)) / 2;
-    int y = WI_TITLEY;
-    int titlepatch = P_GetMapTitlePatch(wbs->epsd * 10 + wbs->last + 1);
+    const int   x = (VANILLAWIDTH - SHORT(finished->width)) / 2;
+    int         y = WI_TITLEY;
+    const int   titlepatch = P_GetMapTitlePatch(wbs->epsd * 10 + wbs->last + 1);
 
     // draw <LevelName>
     if (titlepatch > 0)
     {
-        patch_t *patch = W_CacheLumpNum(titlepatch);
-        short   height = SHORT(patch->height);
+        patch_t     *patch = W_CacheLumpNum(titlepatch);
+        const short height = SHORT(patch->height);
 
         if (height < VANILLAHEIGHT)
             V_DrawPatchWithShadow((VANILLAWIDTH - SHORT(patch->width)) / 2 + 1, y + 1, patch, false);
@@ -399,8 +399,8 @@ static void WI_DrawLF(void)
 
         if (W_CheckMultipleLumps(name) > 1 && !nerve)
         {
-            patch_t *patch = lnames[wbs->last];
-            short   height = SHORT(patch->height);
+            patch_t     *patch = lnames[wbs->last];
+            const short height = SHORT(patch->height);
 
             if (height < VANILLAHEIGHT)
                 V_DrawPatchWithShadow((VANILLAWIDTH - SHORT(patch->width)) / 2 + 1, y + 1, patch, false);
@@ -426,9 +426,9 @@ static void WI_DrawLF(void)
 // Draws "Entering <LevelName>"
 static void WI_DrawEL(void)
 {
-    int x = (VANILLAWIDTH - SHORT(entering->width)) / 2;
-    int y = WI_TITLEY;
-    int titlepatch = P_GetMapTitlePatch(wbs->epsd * 10 + wbs->next + 1);
+    const int   x = (VANILLAWIDTH - SHORT(entering->width)) / 2;
+    int         y = WI_TITLEY;
+    const int   titlepatch = P_GetMapTitlePatch(wbs->epsd * 10 + wbs->next + 1);
 
     // draw "Entering"
     V_DrawPatchWithShadow(x + 1, y + 1, entering, false);
@@ -438,8 +438,8 @@ static void WI_DrawEL(void)
 
     if (titlepatch > 0)
     {
-        patch_t *patch = W_CacheLumpNum(titlepatch);
-        short   height = SHORT(patch->height);
+        patch_t     *patch = W_CacheLumpNum(titlepatch);
+        const short height = SHORT(patch->height);
 
         if (height < VANILLAHEIGHT)
             V_DrawPatchWithShadow((VANILLAWIDTH - SHORT(patch->width)) / 2 + 1, y + 1, patch, false);
@@ -457,8 +457,8 @@ static void WI_DrawEL(void)
 
         if (W_CheckMultipleLumps(name) > 1 && !nerve)
         {
-            patch_t *patch = lnames[wbs->next];
-            short   height = SHORT(patch->height);
+            patch_t     *patch = lnames[wbs->next];
+            const short height = SHORT(patch->height);
 
             if (height < VANILLAHEIGHT)
                 V_DrawPatchWithShadow((VANILLAWIDTH - SHORT(patch->width)) / 2 + 1, y + 1, patch, false);
@@ -477,10 +477,10 @@ static void WI_DrawOnLnode(int n, patch_t *c[])
 
     do
     {
-        int left = lnodes[wbs->epsd][n].x - SHORT(c[i]->leftoffset);
-        int top = lnodes[wbs->epsd][n].y - SHORT(c[i]->topoffset);
-        int right = left + SHORT(c[i]->width);
-        int bottom = top + SHORT(c[i]->height);
+        const int   left = lnodes[wbs->epsd][n].x - SHORT(c[i]->leftoffset);
+        const int   top = lnodes[wbs->epsd][n].y - SHORT(c[i]->topoffset);
+        const int   right = left + SHORT(c[i]->width);
+        const int   bottom = top + SHORT(c[i]->height);
 
         if (left >= 0 && right < VANILLAWIDTH && top >= 0 && bottom < VANILLAHEIGHT)
             fits = true;
@@ -595,7 +595,7 @@ static void WI_DrawAnimatedBack(void)
 //
 static int WI_DrawNum(int x, int y, int n, int digits)
 {
-    int fontwidth = SHORT(num[0]->width);
+    const int   fontwidth = SHORT(num[0]->width);
 
     if (digits < 0)
     {
@@ -1169,7 +1169,7 @@ static void WI_LoadData(void)
         lump = W_CacheLastLumpName("INTERPIC");
     else if (gamemode == commercial)
     {
-        int lumpnum = P_GetMapEnterPic(gamemap);
+        const int   lumpnum = P_GetMapEnterPic(gamemap);
 
         if (lumpnum > 0)
             lump = W_CacheLumpNum(lumpnum);
