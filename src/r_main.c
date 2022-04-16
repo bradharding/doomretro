@@ -784,13 +784,18 @@ void R_InitColumnFunctions(void)
         }
         else if (flags & MF_FUZZ)
         {
-            if ((flags2 & MF2_BLOOD) && r_blood != r_blood_all)
-                info->colfunc = info->altcolfunc = (r_translucency ? &R_DrawTranslucent33Column : &R_DrawColumn);
-            else
+            if (r_textures)
             {
-                info->colfunc = &R_DrawFuzzColumn;
-                info->altcolfunc = &R_DrawFuzzColumn;
+                if ((flags2 & MF2_BLOOD) && r_blood != r_blood_all)
+                    info->colfunc = info->altcolfunc = (r_translucency ? &R_DrawTranslucent33Column : &R_DrawColumn);
+                else
+                {
+                    info->colfunc = &R_DrawFuzzColumn;
+                    info->altcolfunc = &R_DrawFuzzColumn;
+                }
             }
+            else
+                info->colfunc = info->altcolfunc = (r_translucency ? &R_DrawTranslucent50ColorColumn : &R_DrawColorColumn);
         }
         else if (flags2 & MF2_TRANSLUCENT_REDONLY)
         {
