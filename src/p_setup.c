@@ -3067,8 +3067,8 @@ void P_SetupLevel(int ep, int map)
     markpoints = NULL;
 
     pathpointnum = 0;
-    pathpointnum_max = 0;
-    pathpoints = NULL;
+    pathpointnum_max = 1024;
+    pathpoints = I_Realloc(pathpoints, pathpointnum_max * sizeof(*pathpoints));
 
     massacre = false;
     map = (ep - 1) * 10 + map;

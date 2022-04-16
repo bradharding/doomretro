@@ -617,9 +617,8 @@ void AM_ClearMarks(void)
 
 void AM_AddToPath(void)
 {
-    mobj_t      *mo = viewplayer->mo;
-    const int   x = mo->x >> FRACTOMAPBITS;
-    const int   y = mo->y >> FRACTOMAPBITS;
+    const int   x = viewx >> FRACTOMAPBITS;
+    const int   y = viewy >> FRACTOMAPBITS;
     static int  prevx = INT_MAX;
     static int  prevy = INT_MAX;
 
