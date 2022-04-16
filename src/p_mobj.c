@@ -1482,7 +1482,7 @@ void P_SetBloodSplatColor(bloodsplat_t *splat)
     {
         if (splat->color == FUZZYBLOOD && r_textures)
         {
-            splat->viscolor = FUZZYBLOOD;
+            splat->viscolor = 0;
             splat->viscolfunc = &R_DrawFuzzColumn;
         }
         else
