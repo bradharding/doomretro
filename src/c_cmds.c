@@ -916,7 +916,7 @@ consolecmd_t consolecmds[] =
         "Toggles using a borderless window when fullscreen."),
     CVAR_INT(vid_capfps, "", vid_capfps_cvar_func1, vid_capfps_cvar_func2, CF_NONE, CAPVALUEALIAS,
         "The number of frames per second at which to cap the framerate (" BOLD("off") ", or " BOLD("10") " to " BOLD("1,000") "). "
-        "Interpolation is disabled when this CVAR is " BOLD("35") "."),
+        "There is no interpolation between frames when this CVAR is " BOLD("35") "."),
     CVAR_INT(vid_display, "", int_cvars_func1, vid_display_cvar_func2, CF_NONE, NOVALUEALIAS,
         "The display used to play " ITALICS(DOOMRETRO_NAME) " on."),
 #if !defined(_WIN32)
