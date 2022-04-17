@@ -935,7 +935,7 @@ void R_AddSprites(sector_t *sec, int lightlevel)
         else
             return;
 
-        drawshadows = (sec->terraintype == SOLID && !fixedcolormap && r_shadows && sec->floorpic != skyflatnum);
+        drawshadows = (sec->terraintype == SOLID && !fixedcolormap && r_shadows);
     }
     else if (thing)
     {

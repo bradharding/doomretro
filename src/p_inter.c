@@ -2028,17 +2028,16 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
         }
         else
         {
-            if (sector->terraintype != SOLID)
+            if (sector->terraintype >= LIQUID)
             {
                 char *liquids[] =
                 {
-                    "",      "liquid",     "nukage", "water",     "lava", "blood",
-                    "slime", "gray slime", "goop",   "icy water", "tar",  "sludge"
+                    "liquid", "nukage", "water", "lava", "blood", "slime", "gray slime", "goop", "icy water", "tar", "sludge"
                 };
 
                 C_PlayerObituary("%s died in %s.",
                     (M_StringCompare(playername, playername_default) ? "You" : playername),
-                    liquids[sector->terraintype]);
+                    liquids[sector->terraintype - 2]);
             }
             else
             {

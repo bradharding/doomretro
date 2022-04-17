@@ -403,7 +403,7 @@ void P_SetLiquids(void)
     numliquid = 0;
 
     for (int i = 0; i < numsectors; i++)
-        if ((sectors[i].terraintype = terraintypes[sectors[i].floorpic]) != SOLID)
+        if ((sectors[i].terraintype = terraintypes[sectors[i].floorpic]) >= LIQUID)
             numliquid++;
 }
 

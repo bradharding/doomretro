@@ -60,6 +60,7 @@ void R_InitSkyMap(void)
     int map = (gameepisode - 1) * 10 + gamemap;
 
     skyflatnum = R_FlatNumForName(SKYFLATNAME);
+    terraintypes[skyflatnum] = SKY;
     skytexture = P_GetMapSky1Texture(map);
     canmouselook = ((mouselook || keyboardmouselook || mousemouselook != -1 || autotilt
         || (weaponrecoil && r_screensize == r_screensize_max)) && !nomouselook);

@@ -308,7 +308,7 @@ static void R_MakeSpans(visplane_t *pl)
     static int  spanstart[MAXHEIGHT];
     int         stop = pl->right + 1;
 
-    if (terraintypes[pl->picnum] != SOLID && r_liquid_current)
+    if (terraintypes[pl->picnum] >= LIQUID && r_liquid_current)
     {
         xoffset = animatedliquidxoffs;
         yoffset = animatedliquidyoffs;
@@ -515,7 +515,7 @@ void R_DrawPlanes(void)
                 else
                 {
                     // regular flat
-                    ds_source = (terraintypes[picnum] != SOLID && r_liquid_swirl ?
+                    ds_source = (terraintypes[picnum] >= LIQUID && r_liquid_swirl ?
                         R_DistortedFlat(picnum) : lumpinfo[flattranslation[picnum]]->cache);
 
                     R_MakeSpans(pl);

@@ -992,7 +992,7 @@ dboolean P_IsInLiquid(mobj_t *thing)
     {
         sector_t    *sector = seclist->m_sector;
 
-        if (sector->terraintype == SOLID || (corpse && z > sector->floorheight + FRACUNIT))
+        if (sector->terraintype < LIQUID || (corpse && z > sector->floorheight + FRACUNIT))
             return false;
     }
 
@@ -1700,7 +1700,7 @@ static dboolean PTR_ShootTraverse(intercept_t *in)
 
                 if (z < floorz && distz)
                 {
-                    if (sector->terraintype != SOLID || sector->floorpic == skyflatnum)
+                    if (sector->terraintype != SOLID)
                         return false;
 
                     frac = -FixedDiv(FixedMul(frac, shootz - floorz), distz);
