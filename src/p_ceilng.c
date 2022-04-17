@@ -50,8 +50,8 @@ ceilinglist_t   *activeceilings;
 
 static void P_GradualLightingToCeiling(ceiling_t *ceiling)
 {
-    sector_t    *sector = ceiling->sector;
-    fixed_t     level = ceiling->topheight - sector->floorheight;
+    sector_t        *sector = ceiling->sector;
+    const fixed_t   level = ceiling->topheight - sector->floorheight;
 
     if (level > 0 && !islightspecial[sector->special] && sector->ceilingpic != skyflatnum)
         EV_LightByAdjacentSectors(sector, FixedDiv(sector->ceilingheight - sector->floorheight, level));

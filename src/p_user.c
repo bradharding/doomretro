@@ -459,7 +459,7 @@ void P_ResurrectPlayer(int health)
 
 void P_ChangeWeapon(weapontype_t newweapon)
 {
-    weapontype_t    readyweapon = viewplayer->readyweapon;
+    const weapontype_t  readyweapon = viewplayer->readyweapon;
 
     if (newweapon == wp_fist)
     {
@@ -486,7 +486,7 @@ void P_ChangeWeapon(weapontype_t newweapon)
     else
     {
         // Don't switch to a weapon without any or enough ammo.
-        ammotype_t  ammotype = weaponinfo[newweapon].ammotype;
+        const ammotype_t    ammotype = weaponinfo[newweapon].ammotype;
 
         if (ammotype != am_noammo && viewplayer->ammo[ammotype] < weaponinfo[newweapon].ammopershot)
             newweapon = wp_nochange;

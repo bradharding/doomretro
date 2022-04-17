@@ -2185,8 +2185,8 @@ static void PIT_ChangeSector(mobj_t *thing)
         if (!(flags & MF_NOBLOOD) && thing->blood && r_blood != r_blood_none
             && (thing->type != MT_PLAYER || (!viewplayer->powers[pw_invulnerability] && !(viewplayer->cheats & CF_GODMODE))))
         {
-            mobjtype_t  type = ((thing->flags & MF_FUZZ) ? MT_FUZZYBLOOD : thing->blood);
-            int         z = thing->z + thing->height * 2 / 3;
+            const mobjtype_t    type = ((thing->flags & MF_FUZZ) ? MT_FUZZYBLOOD : thing->blood);
+            const int           z = thing->z + thing->height * 2 / 3;
 
             for (int i = 0; i < 4; i++)
             {

@@ -179,7 +179,7 @@ static void P_BringUpWeapon(void)
 //
 dboolean P_CheckAmmo(weapontype_t weapon)
 {
-    ammotype_t  ammotype = weaponinfo[weapon].ammotype;
+    const ammotype_t    ammotype = weaponinfo[weapon].ammotype;
 
     // Some do not need ammunition anyway.
     if (ammotype == am_noammo)
@@ -220,7 +220,7 @@ dboolean P_CheckAmmo(weapontype_t weapon)
 //
 static void P_SubtractAmmo(void)
 {
-    ammotype_t  ammotype = weaponinfo[viewplayer->readyweapon].ammotype;
+    const ammotype_t    ammotype = weaponinfo[viewplayer->readyweapon].ammotype;
 
     if (ammotype != am_noammo)
     {
@@ -234,7 +234,7 @@ static void P_SubtractAmmo(void)
 //
 void P_FireWeapon(void)
 {
-    weapontype_t    readyweapon = viewplayer->readyweapon;
+    const weapontype_t  readyweapon = viewplayer->readyweapon;
 
     if (!P_CheckAmmo(readyweapon) || (automapactive && !am_followmode))
         return;
@@ -284,8 +284,8 @@ void P_DropWeapon(void)
 //
 void A_WeaponReady(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    weapontype_t    readyweapon = player->readyweapon;
-    weapontype_t    pendingweapon = player->pendingweapon;
+    const weapontype_t  readyweapon = player->readyweapon;
+    const weapontype_t  pendingweapon = player->pendingweapon;
 
     if (readyweapon == wp_chainsaw && psp->state == &states[S_SAW])
         S_StartSound(actor, sfx_sawidl);
@@ -670,7 +670,7 @@ static void P_GunShot(mobj_t *actor, dboolean accurate)
 //
 void A_FirePistol(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    weaponinfo_t    readyweapon = weaponinfo[player->readyweapon];
+    const weaponinfo_t  readyweapon = weaponinfo[player->readyweapon];
 
     if (!(readyweapon.flags & WPF_SILENT))
         P_NoiseAlert(actor);
@@ -700,7 +700,7 @@ void A_FirePistol(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_FireShotgun(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    weaponinfo_t    readyweapon = weaponinfo[player->readyweapon];
+    const weaponinfo_t  readyweapon = weaponinfo[player->readyweapon];
 
     if (!(readyweapon.flags & WPF_SILENT))
         P_NoiseAlert(actor);
@@ -734,7 +734,7 @@ void A_FireShotgun(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_FireShotgun2(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    weaponinfo_t    readyweapon = weaponinfo[player->readyweapon];
+    const weaponinfo_t  readyweapon = weaponinfo[player->readyweapon];
 
     if (!(readyweapon.flags & WPF_SILENT))
         P_NoiseAlert(actor);
@@ -785,7 +785,7 @@ void A_CloseShotgun2(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_FireCGun(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    weaponinfo_t    readyweapon = weaponinfo[player->readyweapon];
+    const weaponinfo_t  readyweapon = weaponinfo[player->readyweapon];
 
     // [BH] Fix <https://doomwiki.org/wiki/Chaingun_makes_two_sounds_firing_single_bullet>.
     if (!player->ammo[readyweapon.ammotype])
@@ -1148,9 +1148,9 @@ void A_WeaponJump(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_ConsumeAmmo(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    state_t         *state = psp->state;
-    weaponinfo_t    readyweapon = weaponinfo[player->readyweapon];
-    ammotype_t      type = readyweapon.ammotype;
+    state_t             *state = psp->state;
+    const weaponinfo_t  readyweapon = weaponinfo[player->readyweapon];
+    const ammotype_t    type = readyweapon.ammotype;
 
     if (!state || type == am_noammo)
         return;
@@ -1167,9 +1167,9 @@ void A_ConsumeAmmo(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_CheckAmmo(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    state_t         *state = psp->state;
-    weaponinfo_t    readyweapon = weaponinfo[player->readyweapon];
-    ammotype_t      type = readyweapon.ammotype;
+    state_t             *state = psp->state;
+    const weaponinfo_t  readyweapon = weaponinfo[player->readyweapon];
+    const ammotype_t    type = readyweapon.ammotype;
 
     if (!state || type == am_noammo)
         return;

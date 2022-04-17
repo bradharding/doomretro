@@ -196,9 +196,9 @@ void G_RemoveChoppers(void)
 
 void G_NextWeapon(void)
 {
-    weapontype_t    pendingweapon = viewplayer->pendingweapon;
-    weapontype_t    readyweapon = viewplayer->readyweapon;
-    weapontype_t    i = (pendingweapon == wp_nochange ? readyweapon : pendingweapon);
+    const weapontype_t  pendingweapon = viewplayer->pendingweapon;
+    const weapontype_t  readyweapon = viewplayer->readyweapon;
+    weapontype_t        i = (pendingweapon == wp_nochange ? readyweapon : pendingweapon);
 
     do
     {
@@ -225,9 +225,9 @@ void G_NextWeapon(void)
 
 void G_PrevWeapon(void)
 {
-    weapontype_t    pendingweapon = viewplayer->pendingweapon;
-    weapontype_t    readyweapon = viewplayer->readyweapon;
-    weapontype_t    i = (pendingweapon == wp_nochange ? readyweapon : pendingweapon);
+    const weapontype_t  pendingweapon = viewplayer->pendingweapon;
+    const weapontype_t  readyweapon = viewplayer->readyweapon;
+    weapontype_t        i = (pendingweapon == wp_nochange ? readyweapon : pendingweapon);
 
     do
     {

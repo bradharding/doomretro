@@ -1197,7 +1197,7 @@ static void C_ShowDescription(int index)
 
 static void C_ShowWarning(int index)
 {
-    int flags = consolecmds[index].flags;
+    const int   flags = consolecmds[index].flags;
 
     if (flags & CF_READONLY)
         C_Warning(0, "It is read-only.");
@@ -4662,9 +4662,9 @@ static void name_cmd_func2(char *cmd, char *parms)
 
         for (thinker_t *th = thinkers[th_mobj].cnext; th != &thinkers[th_mobj]; th = th->cnext)
         {
-            mobj_t      *mobj = (mobj_t *)th;
-            int         flags = mobj->flags;
-            mobjtype_t  type = mobj->type;
+            mobj_t              *mobj = (mobj_t *)th;
+            const int           flags = mobj->flags;
+            const mobjtype_t    type = mobj->type;
 
             if (((namecmdanymonster && (flags & MF_SHOOTABLE) && type != MT_BARREL && type != MT_PLAYER) || type == namecmdtype)
                 && ((namecmdfriendly && (flags & MF_FRIEND)) || !namecmdfriendly)
@@ -6955,8 +6955,8 @@ static void spawn_cmd_func2(char *cmd, char *parms)
     }
     else
     {
-        dboolean    spawn = true;
-        mobjtype_t  type = P_FindDoomedNum(spawncmdtype);
+        dboolean            spawn = true;
+        const mobjtype_t    type = P_FindDoomedNum(spawncmdtype);
 
         if (gamemode != commercial)
         {
@@ -7018,8 +7018,8 @@ static void spawn_cmd_func2(char *cmd, char *parms)
 
                 if ((thing = P_SpawnMapThing(&mthing, true)))
                 {
-                    int     flags = thing->flags;
-                    mobj_t  *fog;
+                    const int   flags = thing->flags;
+                    mobj_t      *fog;
 
                     thing->angle = R_PointToAngle2(x, y, viewx, viewy);
                     thing->id = thingid++;
@@ -8146,8 +8146,8 @@ static void am_followmode_cvar_func2(char *cmd, char *parms)
     }
     else
     {
-        char    *temp1 = C_LookupAliasFromValue(am_followmode, BOOLVALUEALIAS);
-        int     i = C_GetIndex(cmd);
+        char        *temp1 = C_LookupAliasFromValue(am_followmode, BOOLVALUEALIAS);
+        const int   i = C_GetIndex(cmd);
 
         C_ShowDescription(i);
 
@@ -8226,8 +8226,8 @@ static void am_rotatemode_cvar_func2(char *cmd, char *parms)
     }
     else
     {
-        char    *temp1 = C_LookupAliasFromValue(am_rotatemode, BOOLVALUEALIAS);
-        int     i = C_GetIndex(cmd);
+        char        *temp1 = C_LookupAliasFromValue(am_rotatemode, BOOLVALUEALIAS);
+        const int   i = C_GetIndex(cmd);
 
         C_ShowDescription(i);
 
@@ -8271,8 +8271,9 @@ static void armortype_cvar_func2(char *cmd, char *parms)
     }
     else
     {
-        int     i = C_GetIndex(cmd);
-        char    *temp = C_LookupAliasFromValue((gamestate == GS_LEVEL ? viewplayer->armortype : armortype_default), ARMORTYPEVALUEALIAS);
+        char        *temp = C_LookupAliasFromValue((gamestate == GS_LEVEL ? viewplayer->armortype : armortype_default),
+                        ARMORTYPEVALUEALIAS);
+        const int   i = C_GetIndex(cmd);
 
         C_ShowDescription(i);
         C_Output(INTEGERCVARWITHNODEFAULT, temp);
@@ -8323,8 +8324,8 @@ static void crosshair_cvar_func2(char *cmd, char *parms)
     }
     else
     {
-        char    *temp1 = C_LookupAliasFromValue(crosshair, CROSSHAIRVALUEALIAS);
-        int     i = C_GetIndex(cmd);
+        char        *temp1 = C_LookupAliasFromValue(crosshair, CROSSHAIRVALUEALIAS);
+        const int   i = C_GetIndex(cmd);
 
         C_ShowDescription(i);
 
@@ -8412,8 +8413,8 @@ static void joy_deadzone_cvars_func2(char *cmd, char *parms)
     }
     else if (M_StringCompare(cmd, stringize(joy_deadzone_left)))
     {
-        char    *temp1 = striptrailingzero(joy_deadzone_left, 1);
-        int     i = C_GetIndex(cmd);
+        char        *temp1 = striptrailingzero(joy_deadzone_left, 1);
+        const int   i = C_GetIndex(cmd);
 
         C_ShowDescription(i);
 
@@ -8433,8 +8434,8 @@ static void joy_deadzone_cvars_func2(char *cmd, char *parms)
     }
     else
     {
-        char    *temp1 = striptrailingzero(joy_deadzone_right, 1);
-        int     i = C_GetIndex(cmd);
+        char        *temp1 = striptrailingzero(joy_deadzone_right, 1);
+        const int   i = C_GetIndex(cmd);
 
         C_ShowDescription(i);
 
@@ -8517,8 +8518,8 @@ static void player_cvars_func2(char *cmd, char *parms)
 
     if (M_StringCompare(cmd, stringize(ammo)))
     {
-        weapontype_t    readyweapon = viewplayer->readyweapon;
-        ammotype_t      ammotype = weaponinfo[readyweapon].ammotype;
+        const weapontype_t  readyweapon = viewplayer->readyweapon;
+        const ammotype_t    ammotype = weaponinfo[readyweapon].ammotype;
 
         if (*parms)
         {
@@ -8541,9 +8542,9 @@ static void player_cvars_func2(char *cmd, char *parms)
         }
         else
         {
-            int     i = C_GetIndex(cmd);
-            char    *temp = commify(gamestate == GS_LEVEL ?
-                        (ammotype == am_noammo ? 0 : viewplayer->ammo[ammotype]) : ammo_default);
+            const int   i = C_GetIndex(cmd);
+            char        *temp = commify(gamestate == GS_LEVEL ?
+                            (ammotype == am_noammo ? 0 : viewplayer->ammo[ammotype]) : ammo_default);
 
             C_ShowDescription(i);
             C_Output(INTEGERCVARWITHNODEFAULT, temp);
@@ -8577,8 +8578,8 @@ static void player_cvars_func2(char *cmd, char *parms)
         }
         else
         {
-            int     i = C_GetIndex(cmd);
-            char    *temp = commify(gamestate == GS_LEVEL ? viewplayer->armorpoints : armor_default);
+            const int   i = C_GetIndex(cmd);
+            char        *temp = commify(gamestate == GS_LEVEL ? viewplayer->armorpoints : armor_default);
 
             C_ShowDescription(i);
             C_Output(PERCENTCVARWITHNODEFAULT, temp);
@@ -8645,8 +8646,9 @@ static void player_cvars_func2(char *cmd, char *parms)
         }
         else
         {
-            int     i = C_GetIndex(cmd);
-            char    *temp = commify(gamestate == GS_LEVEL ? (negativehealth ? viewplayer->health : MAX(0, viewplayer->health)) : health_default);
+            char        *temp = commify(gamestate == GS_LEVEL ?
+                            (negativehealth ? viewplayer->health : MAX(0, viewplayer->health)) : health_default);
+            const int   i = C_GetIndex(cmd);
 
             C_ShowDescription(i);
             C_Output(PERCENTCVARWITHNODEFAULT, temp);
@@ -8679,8 +8681,8 @@ static void playergender_cvar_func2(char *cmd, char *parms)
     }
     else
     {
-        char    *temp1 = C_LookupAliasFromValue(playergender, PLAYERGENDERVALUEALIAS);
-        int     i = C_GetIndex(cmd);
+        char        *temp1 = C_LookupAliasFromValue(playergender, PLAYERGENDERVALUEALIAS);
+        const int   i = C_GetIndex(cmd);
 
         C_ShowDescription(i);
 
@@ -8752,8 +8754,8 @@ static void r_blood_cvar_func2(char *cmd, char *parms)
     }
     else
     {
-        char    *temp1 = C_LookupAliasFromValue(r_blood, BLOODVALUEALIAS);
-        int     i = C_GetIndex(cmd);
+        char        *temp1 = C_LookupAliasFromValue(r_blood, BLOODVALUEALIAS);
+        const int   i = C_GetIndex(cmd);
 
         C_ShowDescription(i);
 
@@ -8791,8 +8793,8 @@ static void r_bloodsplats_translucency_cvar_func2(char *cmd, char *parms)
     }
     else
     {
-        char    *temp1 = C_LookupAliasFromValue(r_bloodsplats_translucency, BOOLVALUEALIAS);
-        int     i = C_GetIndex(cmd);
+        char        *temp1 = C_LookupAliasFromValue(r_bloodsplats_translucency, BOOLVALUEALIAS);
+        const int   i = C_GetIndex(cmd);
 
         C_ShowDescription(i);
 
@@ -8831,8 +8833,8 @@ static void r_brightmaps_cvar_func2(char *cmd, char *parms)
     }
     else
     {
-        char    *temp1 = C_LookupAliasFromValue(r_brightmaps, BOOLVALUEALIAS);
-        int     i = C_GetIndex(cmd);
+        char        *temp1 = C_LookupAliasFromValue(r_brightmaps, BOOLVALUEALIAS);
+        const int   i = C_GetIndex(cmd);
 
         C_ShowDescription(i);
 
@@ -8889,8 +8891,8 @@ static void r_detail_cvar_func2(char *cmd, char *parms)
     }
     else
     {
-        char    *temp1 = C_LookupAliasFromValue(r_detail, DETAILVALUEALIAS);
-        int     i = C_GetIndex(cmd);
+        char        *temp1 = C_LookupAliasFromValue(r_detail, DETAILVALUEALIAS);
+        const int   i = C_GetIndex(cmd);
 
         C_ShowDescription(i);
 
@@ -8929,8 +8931,8 @@ static void r_ditheredlighting_cvar_func2(char *cmd, char *parms)
     }
     else
     {
-        char    *temp1 = C_LookupAliasFromValue(r_ditheredlighting, BOOLVALUEALIAS);
-        int     i = C_GetIndex(cmd);
+        char        *temp1 = C_LookupAliasFromValue(r_ditheredlighting, BOOLVALUEALIAS);
+        const int   i = C_GetIndex(cmd);
 
         C_ShowDescription(i);
 
@@ -8970,8 +8972,8 @@ static void r_fixmaperrors_cvar_func2(char *cmd, char *parms)
     }
     else
     {
-        char    *temp1 = C_LookupAliasFromValue(r_fixmaperrors, BOOLVALUEALIAS);
-        int     i = C_GetIndex(cmd);
+        char        *temp1 = C_LookupAliasFromValue(r_fixmaperrors, BOOLVALUEALIAS);
+        const int   i = C_GetIndex(cmd);
 
         C_ShowDescription(i);
 
@@ -9034,9 +9036,9 @@ static void r_gamma_cvar_func2(char *cmd, char *parms)
     }
     else
     {
-        char    buffer1[128];
-        int     len;
-        int     i = C_GetIndex(cmd);
+        char        buffer1[128];
+        int         len;
+        const int   i = C_GetIndex(cmd);
 
         M_snprintf(buffer1, sizeof(buffer1), "%.2f", r_gamma);
         len = (int)strlen(buffer1);
@@ -9092,8 +9094,8 @@ static void r_hud_translucency_cvar_func2(char *cmd, char *parms)
     }
     else
     {
-        char    *temp1 = C_LookupAliasFromValue(r_hud_translucency, BOOLVALUEALIAS);
-        int     i = C_GetIndex(cmd);
+        char        *temp1 = C_LookupAliasFromValue(r_hud_translucency, BOOLVALUEALIAS);
+        const int   i = C_GetIndex(cmd);
 
         C_ShowDescription(i);
 
@@ -9174,8 +9176,8 @@ static void r_screensize_cvar_func2(char *cmd, char *parms)
     }
     else
     {
-        char    *temp1 = commify(r_screensize);
-        int i = C_GetIndex(cmd);
+        char        *temp1 = commify(r_screensize);
+        const int   i = C_GetIndex(cmd);
 
         C_ShowDescription(i);
 
@@ -9223,8 +9225,8 @@ static void r_shadows_translucency_cvar_func2(char *cmd, char *parms)
     }
     else
     {
-        char    *temp1 = C_LookupAliasFromValue(r_shadows_translucency, BOOLVALUEALIAS);
-        int     i = C_GetIndex(cmd);
+        char        *temp1 = C_LookupAliasFromValue(r_shadows_translucency, BOOLVALUEALIAS);
+        const int   i = C_GetIndex(cmd);
 
         C_ShowDescription(i);
 
@@ -9294,8 +9296,8 @@ static void r_supersampling_cvar_func2(char *cmd, char *parms)
     }
     else
     {
-        char    *temp1 = C_LookupAliasFromValue(r_supersampling, BOOLVALUEALIAS);
-        int     i = C_GetIndex(cmd);
+        char        *temp1 = C_LookupAliasFromValue(r_supersampling, BOOLVALUEALIAS);
+        const int   i = C_GetIndex(cmd);
 
         C_ShowDescription(i);
 
@@ -9352,8 +9354,8 @@ static void r_textures_cvar_func2(char *cmd, char *parms)
     }
     else
     {
-        char    *temp1 = C_LookupAliasFromValue(r_textures, BOOLVALUEALIAS);
-        int     i = C_GetIndex(cmd);
+        char        *temp1 = C_LookupAliasFromValue(r_textures, BOOLVALUEALIAS);
+        const int   i = C_GetIndex(cmd);
 
         C_ShowDescription(i);
 
@@ -9402,8 +9404,8 @@ static void r_translucency_cvar_func2(char *cmd, char *parms)
     }
     else
     {
-        char    *temp1 = C_LookupAliasFromValue(r_translucency, BOOLVALUEALIAS);
-        int     i = C_GetIndex(cmd);
+        char        *temp1 = C_LookupAliasFromValue(r_translucency, BOOLVALUEALIAS);
+        const int   i = C_GetIndex(cmd);
 
         C_ShowDescription(i);
 
@@ -9466,8 +9468,8 @@ static void s_volume_cvars_func2(char *cmd, char *parms)
     }
     else if (M_StringCompare(cmd, stringize(s_musicvolume)))
     {
-        char    *temp1 = commify(s_musicvolume);
-        int     i = C_GetIndex(cmd);
+        char        *temp1 = commify(s_musicvolume);
+        const int   i = C_GetIndex(cmd);
 
         C_ShowDescription(i);
 
@@ -9487,8 +9489,8 @@ static void s_volume_cvars_func2(char *cmd, char *parms)
     }
     else
     {
-        char    *temp1 = commify(s_sfxvolume);
-        int     i = C_GetIndex(cmd);
+        char        *temp1 = commify(s_sfxvolume);
+        const int   i = C_GetIndex(cmd);
 
         C_ShowDescription(i);
 
@@ -9581,8 +9583,8 @@ static void turbo_cvar_func2(char *cmd, char *parms)
     }
     else
     {
-        char    *temp1 = commify(turbo);
-        int     i = C_GetIndex(cmd);
+        char        *temp1 = commify(turbo);
+        const int   i = C_GetIndex(cmd);
 
         C_ShowDescription(i);
 
@@ -9624,8 +9626,8 @@ static void units_cvar_func2(char *cmd, char *parms)
     }
     else
     {
-        char    *temp1 = C_LookupAliasFromValue(units, UNITSVALUEALIAS);
-        int     i = C_GetIndex(cmd);
+        char        *temp1 = C_LookupAliasFromValue(units, UNITSVALUEALIAS);
+        const int   i = C_GetIndex(cmd);
 
         C_ShowDescription(i);
 
@@ -9894,8 +9896,8 @@ static void vid_vsync_cvar_func2(char *cmd, char *parms)
     }
     else
     {
-        char    *temp1 = C_LookupAliasFromValue(vid_vsync, VSYNCVALUEALIAS);
-        int     i = C_GetIndex(cmd);
+        char        *temp1 = C_LookupAliasFromValue(vid_vsync, VSYNCVALUEALIAS);
+        const int   i = C_GetIndex(cmd);
 
         C_ShowDescription(i);
 
@@ -10029,8 +10031,9 @@ static void weapon_cvar_func2(char *cmd, char *parms)
     }
     else
     {
-        int     i = C_GetIndex(cmd);
-        char    *temp = C_LookupAliasFromValue((gamestate == GS_LEVEL ? viewplayer->readyweapon : weapon_default), WEAPONVALUEALIAS);
+        char    *temp = C_LookupAliasFromValue((gamestate == GS_LEVEL ? viewplayer->readyweapon : weapon_default),
+                    WEAPONVALUEALIAS);
+        const   int   i = C_GetIndex(cmd);
 
         C_ShowDescription(i);
         C_Output(INTEGERCVARWITHNODEFAULT, temp);

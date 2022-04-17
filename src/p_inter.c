@@ -219,8 +219,8 @@ static dboolean P_TakeWeapon(weapontype_t weapon)
 //
 static int P_GiveAmmo(ammotype_t ammotype, int num, dboolean stat)
 {
-    int             oldammo;
-    weapontype_t    readyweapon = viewplayer->readyweapon;
+    int                 oldammo;
+    const weapontype_t  readyweapon = viewplayer->readyweapon;
 
     if (ammotype == am_noammo)
         return 0;
@@ -329,9 +329,9 @@ void P_AddBonus(void)
 //
 static dboolean P_GiveWeapon(weapontype_t weapon, dboolean dropped, dboolean stat)
 {
-    dboolean    gaveammo = false;
-    dboolean    gaveweapon = false;
-    ammotype_t  ammotype = weaponinfo[weapon].ammotype;
+    dboolean            gaveammo = false;
+    dboolean            gaveweapon = false;
+    const ammotype_t    ammotype = weaponinfo[weapon].ammotype;
 
     if (ammotype != am_noammo)
         // give one clip with a dropped weapon, two clips with a found weapon
@@ -1870,7 +1870,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
         {
             if (source->player->mo == source)
             {
-                weapontype_t    readyweapon = viewplayer->readyweapon;
+                const weapontype_t  readyweapon = viewplayer->readyweapon;
 
                 if (M_StringCompare(playername, playername_default))
                 {
@@ -2064,10 +2064,10 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
 //
 void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, dboolean telefragged)
 {
-    dboolean    gibbed;
-    mobjtype_t  type = target->type;
-    mobjinfo_t  *info = &mobjinfo[type];
-    int         gibhealth = info->gibhealth;
+    dboolean            gibbed;
+    const mobjtype_t    type = target->type;
+    mobjinfo_t          *info = &mobjinfo[type];
+    const int           gibhealth = info->gibhealth;
 
     target->flags &= ~(MF_SHOOTABLE | MF_FLOAT | MF_SKULLFLY);
 
@@ -2234,13 +2234,13 @@ static dboolean P_InfightingImmune(mobj_t *target, mobj_t *source)
 //
 void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage, dboolean adjust, dboolean telefragged)
 {
-    player_t    *splayer = NULL;
-    player_t    *tplayer;
-    int         flags = target->flags;
-    dboolean    corpse = (flags & MF_CORPSE);
-    mobjtype_t  type = target->type;
-    mobjinfo_t  *info = &mobjinfo[type];
-    dboolean    justhit = false;
+    player_t            *splayer = NULL;
+    player_t            *tplayer;
+    const int           flags = target->flags;
+    const dboolean      corpse = (flags & MF_CORPSE);
+    const mobjtype_t    type = target->type;
+    mobjinfo_t          *info = &mobjinfo[type];
+    dboolean            justhit = false;
 
     if (!(flags & (MF_SHOOTABLE | MF_BOUNCES)) && (!corpse || !r_corpses_slide))
         return;

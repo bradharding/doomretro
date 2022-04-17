@@ -80,20 +80,18 @@ dboolean HUlib_AddCharToTextLine(hu_textline_t *t, char ch)
 {
     if (t->len == HU_MAXLINELENGTH)
         return false;
-    else
-    {
-        t->l[t->len++] = ch;
-        t->l[t->len] = '\0';
-        t->needsupdate = 4;
 
-        return true;
-    }
+    t->l[t->len++] = ch;
+    t->l[t->len] = '\0';
+    t->needsupdate = 4;
+
+    return true;
 }
 
 // [BH] draw an individual character to temporary buffer
 static void HU_DrawChar(int x, int y, int ch, byte *screen, int screenwidth)
 {
-    int w = (int)strlen(smallcharset[ch]) / 10;
+    const int   w = (int)strlen(smallcharset[ch]) / 10;
 
     for (int y1 = 0; y1 < 10; y1++)
         for (int x1 = 0; x1 < w; x1++)
@@ -117,7 +115,7 @@ static void HU_DrawChar(int x, int y, int ch, byte *screen, int screenwidth)
 
 static void HU_DrawTranslucentChar(int x, int y, int ch, byte *screen, int screenwidth)
 {
-    int w = (int)strlen(smallcharset[ch]) / 10;
+    const int   w = (int)strlen(smallcharset[ch]) / 10;
 
     for (int y1 = 0; y1 < 10; y1++)
         for (int x1 = 0; x1 < w; x1++)
@@ -145,7 +143,7 @@ static void HUlib_DrawAltHUDTextLine(hu_textline_t *l)
     unsigned char   prevletter = '\0';
     int             x = 10;
     int             color = nearestwhite;
-    int             len = l->len;
+    const int       len = l->len;
     byte            *tinttab = tinttab50;
 
     if (!automapactive)
@@ -237,7 +235,7 @@ void HUlib_DrawAltAutomapTextLine(hu_textline_t *l, dboolean external)
     unsigned char   prevletter = '\0';
     int             x = 10;
     byte            *fb1 = (external ? mapscreen : screens[0]);
-    int             len = l->len;
+    const int       len = l->len;
 
     for (int i = 0; i < len; i++)
     {
@@ -290,7 +288,7 @@ static void HUlib_DrawTextLine(hu_textline_t *l, dboolean external)
     int             x = l->x;
     int             y = l->y;
     int             maxx;
-    int             maxy = (y + 10) * SCREENSCALE;
+    const int       maxy = (y + 10) * SCREENSCALE;
     unsigned char   prev = '\0';
     unsigned char   prev2 = '\0';
     byte            *fb1 = screens[0];
@@ -311,8 +309,8 @@ static void HUlib_DrawTextLine(hu_textline_t *l, dboolean external)
 
     for (int i = 0; i < len; i++)
     {
-        unsigned char   c = toupper(l->l[i]);
-        int             charwidth = 0;
+        const unsigned char c = toupper(l->l[i]);
+        int                 charwidth = 0;
 
         if (c == ' ')
         {
@@ -391,7 +389,7 @@ static void HUlib_DrawTextLine(hu_textline_t *l, dboolean external)
         for (int y1 = 0; y1 < 4; y1++)
             for (int x1 = 0; x1 < VANILLAWIDTH; x1++)
             {
-                unsigned char   src = underscores[y1 * VANILLAWIDTH + x1];
+                const unsigned char src = underscores[y1 * VANILLAWIDTH + x1];
 
                 if (src != ' ')
                     for (int y2 = 0; y2 < SCREENSCALE; y2++)
@@ -441,7 +439,7 @@ static void HUlib_DrawTextLine(hu_textline_t *l, dboolean external)
 
 void HUlib_DrawAutomapTextLine(hu_textline_t *l, dboolean external)
 {
-    int             w = (external ? MAPWIDTH : SCREENWIDTH);
+    const int       w = (external ? MAPWIDTH : SCREENWIDTH);
     int             x = l->x;
     int             y = l->y;
     unsigned char   prev = '\0';
@@ -451,7 +449,7 @@ void HUlib_DrawAutomapTextLine(hu_textline_t *l, dboolean external)
 
     for (int i = 0; i < len; i++)
     {
-        unsigned char   c = toupper(l->l[i]);
+        const unsigned char c = toupper(l->l[i]);
 
         if (c == ' ')
             x += (vanilla ? 8 : (i > 0 && (prev == '.' || prev == '!' || prev == '?') ? 10 : 6));
@@ -572,7 +570,7 @@ void HUlib_AddMessageToSText(hu_stext_t *s, const char *msg)
 void HUlib_DrawSText(hu_stext_t *s, dboolean external)
 {
     if (!*s->on)
-        return;             // if not on, don't draw
+        return; // if not on, don't draw
 
     // draw everything
     if (r_althud && r_screensize == r_screensize_max)

@@ -365,9 +365,9 @@ static void P_XYMovement(mobj_t *mo)
 //
 static void P_ZMovement(mobj_t *mo)
 {
-    player_t    *player = mo->player;
-    int         flags = mo->flags;
-    fixed_t     floorz = mo->floorz;
+    player_t        *player = mo->player;
+    const int       flags = mo->flags;
+    const fixed_t   floorz = mo->floorz;
 
     // killough 07/11/98:
     // BFG fireballs bounced on floors and ceilings in Pre-Beta DOOM
@@ -651,7 +651,7 @@ static void P_NightmareRespawn(mobj_t *mobj)
 //
 void P_MobjThinker(mobj_t *mobj)
 {
-    int         flags = mobj->flags;
+    const int   flags = mobj->flags;
     int         flags2;
     player_t    *player = mobj->player;
     sector_t    *sector = mobj->subsector->sector;
@@ -872,7 +872,7 @@ static int          iqueuetail;
 //
 void P_RemoveMobj(mobj_t *mobj)
 {
-    int flags = mobj->flags;
+    const int   flags = mobj->flags;
 
     if ((flags & MF_SPECIAL) && !(flags & MF_DROPPED))
     {

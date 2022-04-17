@@ -1805,7 +1805,7 @@ static void P_LoadThings(int map, int lump)
     {
         mapthing_t  mt = data[thingid];
         dboolean    spawn = true;
-        short       type = SHORT(mt.type);
+        const short type = SHORT(mt.type);
 
         if (gamemode != commercial && type >= ArchVile && type <= MonstersSpawner && W_CheckMultipleLumps("DEHACKED") == 1)
         {

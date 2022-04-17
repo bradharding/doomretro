@@ -834,13 +834,13 @@ static void F_CastPrint(const char *text)
 //
 static void F_CastDrawer(void)
 {
-    spritedef_t     *sprdef;
-    spriteframe_t   *sprframe;
-    int             lump;
-    int             rot = 0;
-    patch_t         *patch;
-    int             y = VANILLAHEIGHT - 30;
-    mobjtype_t      type = castorder[castnum].type;
+    spritedef_t         *sprdef;
+    spriteframe_t       *sprframe;
+    int                 lump;
+    int                 rot = 0;
+    patch_t             *patch;
+    int                 y = VANILLAHEIGHT - 30;
+    const mobjtype_t    type = castorder[castnum].type;
 
     if (gamemission == pack_plut)
         patch = W_CacheLumpName("BOSSBAC2");
