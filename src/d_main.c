@@ -569,7 +569,7 @@ void D_PageDrawer(void)
         I_SetSimplePalette(&splashpal[pagetic < 9 ? (9 - pagetic) * 768 : (pagetic <= 94 ? 0 : (pagetic - 94) * 768)]);
 
         if (pagetic == 100)
-            S_StartSound(NULL, sfx_splash);
+            S_StartSound(NULL, sfx_splscr);
 
         return;
     }

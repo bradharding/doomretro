@@ -8032,6 +8032,7 @@ autocomplete_t autocompletelist[] =
     { "play DSSLOP",                                 DOOM1AND2 },
     { "play DSSPIDTH",                               DOOM1AND2 },
     { "play DSSPISIT",                               DOOM1AND2 },
+    { "play DSSPLSCR",                               DOOM1AND2 },
     { "play DSSSDTH",                                DOOM2ONLY },
     { "play DSSSSIT",                                DOOM2ONLY },
     { "play DSSTNMOV",                               DOOM1AND2 },
