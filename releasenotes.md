@@ -17,7 +17,7 @@
   * Displaying the cheat in the console is now redacted.
   * The cheat is now skipped in the console’s input history when pressing the <kbd><b>&uarr;</b></kbd> or <kbd><b>&darr;</b></kbd> keys.
   * A warning is now displayed in the console indicating that the player cheated.
-  * Fade effects are no longer applied once a cheat is entered in most cases.
+  * Fade effects are no longer applied once the cheat is entered in most cases.
 * Pausing and then resuming the animation of any liquid sectors in view is now smoother when opening and then closing the console.
 * The swirling animation of liquid sectors when the `r_liquid_swirl` CVAR is `on` has been slowed down slightly to better sync with the bobbing animation when the `r_liquid_bob` CVAR is `on`.
 * The player’s currently equipped weapon can now be changed using the new `weapon` CVAR. It can be `fists`, `chainsaw`, `pistol`, `shotgun`, `supershotgun`, `chaingun`, `rocketlauncher`, `plasmarifle` or `bfg9000`.
