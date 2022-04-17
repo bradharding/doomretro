@@ -8739,6 +8739,7 @@ static void r_blood_cvar_func2(char *cmd, char *parms)
         {
             r_blood = value;
             M_SaveCVARs();
+            R_InitColumnFunctions();
 
             for (int i = 0; i < numsectors; i++)
             {
