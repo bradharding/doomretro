@@ -327,6 +327,7 @@ typedef enum
     sfx_gibdth,
 
     sfx_scrsht,
+    sfx_splash,
 
     sfx_fre000 = 500,
     sfx_fre001,
