@@ -881,6 +881,7 @@ enum
 
 typedef enum
 {
+    DEFAULT_BOOL,
     DEFAULT_INT32,
     DEFAULT_UINT64,
     DEFAULT_INT32_PERCENT,
