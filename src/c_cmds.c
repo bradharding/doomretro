@@ -3681,7 +3681,7 @@ static dboolean map_cmd_func1(char *cmd, char *parms)
                     }
                 }
             }
-            else if (sscanf(parm, "E%1iM%1i", &mapcmdepisode, &mapcmdmap) == 2)
+            else if (sscanf(parm, "E%1iM%i", &mapcmdepisode, &mapcmdmap) == 2)
                 result = (chex && mapcmdepisode > 1 ? false : (W_CheckNumForName(parm) >= 0));
             else if (FREEDOOM && sscanf(parm, "C%1iM%1i", &mapcmdepisode, &mapcmdmap) == 2)
             {
@@ -3716,7 +3716,7 @@ static dboolean map_cmd_func1(char *cmd, char *parms)
                 {
                     if (sscanf(mapcmdlump, "E%1iM%1iB", &mapcmdepisode, &mapcmdmap) == 2 && gamemode != shareware)
                         M_StringCopy(speciallumpname, mapcmdlump, sizeof(speciallumpname));
-                    else if (sscanf(mapcmdlump, "E%1iM%1i", &mapcmdepisode, &mapcmdmap) != 2)
+                    else if (sscanf(mapcmdlump, "E%1iM%i", &mapcmdepisode, &mapcmdmap) != 2)
                         continue;
                 }
 
@@ -3926,7 +3926,7 @@ static void maplist_cmd_func2(char *cmd, char *parms)
         {
             if (sscanf(lump, "E%1iM%1iB", &ep, &map) == 2 && gamemode != shareware)
                 M_StringCopy(speciallumpname, lump, sizeof(speciallumpname));
-            else if (sscanf(lump, "E%1iM%1i", &ep, &map) != 2)
+            else if (sscanf(lump, "E%1iM%i", &ep, &map) != 2)
                 continue;
         }
 

@@ -1784,9 +1784,6 @@ void G_InitNew(skill_t skill, int ep, int map)
         }
     }
 
-    if (map > 9 && gamemode != commercial)
-        map = 9;
-
     // [BH] Fix <https://doomwiki.org/wiki/Demon_speed_bug>.
     G_SetFastParms(fastparm || skill == sk_nightmare);
 
