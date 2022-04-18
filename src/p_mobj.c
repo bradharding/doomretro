@@ -1520,7 +1520,7 @@ void P_SpawnBloodSplat(fixed_t x, fixed_t y, int color, fixed_t maxheight, mobj_
 
             if (splat)
             {
-                int patch = firstbloodsplatlump + (M_BigRandom() & (BLOODSPLATLUMPS - 1));
+                const int   patch = firstbloodsplatlump + (M_BigRandom() & (BLOODSPLATLUMPS - 1));
 
                 splat->patch = firstspritelump + patch;
                 splat->color = color;

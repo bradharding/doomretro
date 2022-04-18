@@ -2037,7 +2037,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, d
 
                 C_PlayerObituary("%s died in %s.",
                     (M_StringCompare(playername, playername_default) ? "You" : playername),
-                    liquids[sector->terraintype - 2]);
+                    liquids[sector->terraintype - LIQUID]);
             }
             else
             {
