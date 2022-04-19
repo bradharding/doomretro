@@ -38,7 +38,7 @@
 
 #if defined(_WIN32)
 
-#include <windows.h>
+#include <Windows.h>
 #include <mmsystem.h>
 
 #include "c_console.h"

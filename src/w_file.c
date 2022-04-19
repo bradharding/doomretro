@@ -37,7 +37,7 @@
 */
 
 #if defined(_WIN32)
-#include <windows.h>
+#include <Windows.h>
 #include <stdlib.h>
 #endif
 
