@@ -57,7 +57,7 @@ typedef struct menu_s
     short           x;
     short           y;
     int             lastOn;
-    boolean        change;
+    boolean         change;
 } menu_t;
 
 //
@@ -105,15 +105,15 @@ void M_QuitDOOM(int choice);
 
 void M_AddEpisode(int map, int ep, const char *lumpname, const char *string);
 
-extern boolean messagetoprint;
+extern boolean  messagetoprint;
 
-extern boolean nomusic;
-extern boolean nosound;
-extern boolean nosfx;
-extern boolean firstevent;
-extern boolean savegames;
-extern boolean inhelpscreens;
-extern boolean quitting;
+extern boolean  nomusic;
+extern boolean  nosound;
+extern boolean  nosfx;
+extern boolean  firstevent;
+extern boolean  savegames;
+extern boolean  inhelpscreens;
+extern boolean  quitting;
 extern int      spindirection;
 extern int      spinspeed;
 extern char     savegamestrings[6][SAVESTRINGSIZE];
@@ -123,5 +123,5 @@ extern menu_t   LoadDef;
 extern menu_t   MainDef;
 extern menu_t   NewDef;
 extern menu_t   SaveDef;
-extern boolean EpiCustom;
+extern boolean  EpiCustom;
 extern int      gamecontrollerwait;

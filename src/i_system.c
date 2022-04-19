@@ -254,7 +254,7 @@ void I_Error(const char *error, ...)
 {
     va_list         argptr;
     char            msgbuf[512];
-    static boolean already_quitting;
+    static boolean  already_quitting;
 
     if (already_quitting)
         exit(-1);

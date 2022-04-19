@@ -66,7 +66,7 @@ typedef struct
     native_event_t      *native_events;
     int                 num_events;
     int                 position;
-    boolean            looping;
+    boolean             looping;
 } win_midi_song_t;
 
 static win_midi_song_t  song;

@@ -65,14 +65,14 @@ typedef struct
 
 typedef struct
 {
-    char        *action;
-    boolean    hideconsole;
-    void        (*func)(void);
-    void        *keyboard1;
-    void        *keyboard2;
-    void        *mouse1;
-    void        *gamecontroller1;
-    void        *gamecontroller2;
+    char    *action;
+    boolean hideconsole;
+    void    (*func)(void);
+    void    *keyboard1;
+    void    *keyboard2;
+    void    *mouse1;
+    void    *gamecontroller1;
+    void    *gamecontroller2;
 } action_t;
 
 typedef enum
@@ -103,9 +103,9 @@ typedef struct
 {
     char        *name;
     char        *alternate;
-    boolean    (*func1)(char *cmd, char *parms);
+    boolean     (*func1)(char *cmd, char *parms);
     void        (*func2)(char *cmd, char *parms);
-    boolean    parameters;
+    boolean     parameters;
     cmdtype_t   type;
     int         flags;
     void        *variable;
@@ -128,12 +128,12 @@ extern action_t         actions[];
 extern const control_t  controls[];
 extern consolecmd_t     consolecmds[];
 extern alias_t          aliases[MAXALIASES];
-extern boolean         executingalias;
-extern boolean         resettingcvar;
-extern boolean         vanilla;
-extern boolean         togglingvanilla;
-extern boolean         massacre;
-extern boolean         nobindoutput;
+extern boolean          executingalias;
+extern boolean          resettingcvar;
+extern boolean          vanilla;
+extern boolean          togglingvanilla;
+extern boolean          massacre;
+extern boolean          nobindoutput;
 
 void alias_cmd_func2(char *cmd, char *parms);
 void bind_cmd_func2(char *cmd, char *parms);

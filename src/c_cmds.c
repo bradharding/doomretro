@@ -132,13 +132,13 @@ static int  mapcmdepisode;
 static int  mapcmdmap;
 static char mapcmdlump[7];
 
-boolean    executingalias = false;
-boolean    healthcvar = false;
-boolean    quitcmd = false;
-boolean    resettingcvar = false;
-boolean    togglingvanilla = false;
-boolean    vanilla = false;
-boolean    nobindoutput;
+boolean     executingalias = false;
+boolean     healthcvar = false;
+boolean     nobindoutput;
+boolean     quitcmd = false;
+boolean     resettingcvar = false;
+boolean     togglingvanilla = false;
+boolean     vanilla = false;
 
 char        *version = version_default;
 
@@ -1220,7 +1220,7 @@ static boolean cheat_func1(char *cmd, char *parms)
 {
     if (M_StringCompare(cmd, cheat_clev.sequence))
     {
-        boolean    result;
+        boolean result;
 
         if (gamemode == commercial)
         {
@@ -1431,7 +1431,7 @@ void bind_cmd_func2(char *cmd, char *parms)
     int             action = 0;
     char            parm1[128] = "";
     char            parm2[128] = "";
-    const boolean  mouselookcontrols = (keyboardmouselook || gamecontrollermouselook || mousemouselook != -1);
+    const boolean   mouselookcontrols = (keyboardmouselook || gamecontrollermouselook || mousemouselook != -1);
 
     if (sscanf(parms, "%127s %127[^\n]", parm1, parm2) <= 0)
     {
@@ -1559,7 +1559,7 @@ void bind_cmd_func2(char *cmd, char *parms)
 
             if (*actions[action].action)
             {
-                boolean    bound = false;
+                boolean bound = false;
 
                 switch (controls[i].type)
                 {
@@ -2246,8 +2246,8 @@ static void freeze_cmd_func2(char *cmd, char *parms)
 //
 static boolean give_cmd_func1(char *cmd, char *parms)
 {
-    boolean    result = false;
-    char        *parm;
+    boolean result = false;
+    char    *parm;
 
     if (gamestate != GS_LEVEL)
         return false;
@@ -2315,7 +2315,7 @@ static void give_cmd_func2(char *cmd, char *parms)
     {
         if (M_StringCompare(parm, "all") || M_StringCompare(parm, "everything"))
         {
-            boolean    result = false;
+            boolean result = false;
 
             if (P_GiveBackpack(false, false))
                 result = true;
@@ -2570,10 +2570,10 @@ static void give_cmd_func2(char *cmd, char *parms)
         {
             for (int i = 0, num = -1; i < NUMMOBJTYPES; i++)
             {
-                boolean    result = false;
-                char        *temp1 = (*mobjinfo[i].name1 ? removenonalpha(mobjinfo[i].name1) : NULL);
-                char        *temp2 = (*mobjinfo[i].name2 ? removenonalpha(mobjinfo[i].name2) : NULL);
-                char        *temp3 = (*mobjinfo[i].name3 ? removenonalpha(mobjinfo[i].name3) : NULL);
+                boolean result = false;
+                char    *temp1 = (*mobjinfo[i].name1 ? removenonalpha(mobjinfo[i].name1) : NULL);
+                char    *temp2 = (*mobjinfo[i].name2 ? removenonalpha(mobjinfo[i].name2) : NULL);
+                char    *temp3 = (*mobjinfo[i].name3 ? removenonalpha(mobjinfo[i].name3) : NULL);
 
                 if ((mobjinfo[i].flags & MF_SPECIAL)
                     && ((*mobjinfo[i].name1 && M_StringCompare(parm, temp1))
@@ -2593,8 +2593,8 @@ static void give_cmd_func2(char *cmd, char *parms)
                             (isvowel(mobjinfo[i].name1[0]) ? "an" : "a"), mobjinfo[i].name1, gamedescription);
                     else
                     {
-                        boolean    old_freeze = freeze;
-                        mobj_t      *thing = P_SpawnMobj(viewx, viewy, viewz, i);
+                        boolean old_freeze = freeze;
+                        mobj_t  *thing = P_SpawnMobj(viewx, viewy, viewz, i);
 
                         freeze = false;
 
@@ -2724,7 +2724,7 @@ static void if_cmd_func2(char *cmd, char *parms)
     for (int i = 0; *consolecmds[i].name; i++)
         if (M_StringCompare(parm1, consolecmds[i].name))
         {
-            boolean    condition = false;
+            boolean condition = false;
 
             M_StripQuotes(parm2);
 
@@ -2796,12 +2796,12 @@ static void if_cmd_func2(char *cmd, char *parms)
 //
 static int      killcmdtype = NUMMOBJTYPES;
 static mobj_t   *killcmdmobj;
-boolean        massacre;
+boolean         massacre;
 
 static boolean kill_cmd_func1(char *cmd, char *parms)
 {
-    boolean    result = false;
-    char        *parm;
+    boolean result = false;
+    char    *parm;
 
     if (gamestate != GS_LEVEL)
         return false;
@@ -2949,11 +2949,11 @@ static void kill_cmd_func2(char *cmd, char *parms)
         }
         else
         {
-            boolean    friends = (M_StringCompare(parm, "friend") || M_StringCompare(parm, "friends")
-                            || M_StringCompare(parm, "friendly monster") || M_StringCompare(parm, "friendly monsters"));
-            boolean    enemies = (M_StringCompare(parm, "monster") || M_StringCompare(parm, "monsters"));
-            boolean    all = M_StringCompare(parm, "all");
-            int         kills = 0;
+            boolean friends = (M_StringCompare(parm, "friend") || M_StringCompare(parm, "friends")
+                        || M_StringCompare(parm, "friendly monster") || M_StringCompare(parm, "friendly monsters"));
+            boolean enemies = (M_StringCompare(parm, "monster") || M_StringCompare(parm, "monsters"));
+            boolean all = M_StringCompare(parm, "all");
+            int     kills = 0;
 
             if (friends || enemies || all)
             {
@@ -3446,9 +3446,9 @@ static boolean map_cmd_func1(char *cmd, char *parms)
         return true;
     else
     {
-        boolean    result = false;
-        char        *temp1 = removenonalpha(parms);
-        char        *parm = uppercase(temp1);
+        boolean result = false;
+        char    *temp1 = removenonalpha(parms);
+        char    *parm = uppercase(temp1);
 
         mapcmdepisode = 0;
         mapcmdmap = 0;
@@ -3696,11 +3696,11 @@ static boolean map_cmd_func1(char *cmd, char *parms)
         {
             for (int i = 0; i < numlumps; i++)
             {
-                char        wadname[MAX_PATH];
-                boolean    replaced;
-                boolean    pwad;
-                char        mapinfoname[128];
-                char        *temp2 = uppercase(lumpinfo[i]->name);
+                char    wadname[MAX_PATH];
+                boolean replaced;
+                boolean pwad;
+                char    mapinfoname[128];
+                char    *temp2 = uppercase(lumpinfo[i]->name);
 
                 M_StringCopy(mapcmdlump, temp2, sizeof(mapcmdlump));
                 free(temp2);
@@ -3894,21 +3894,21 @@ static void maplist_cmd_func2(char *cmd, char *parms)
     const int   tabs[3] = { 40, 93, 370 };
     int         count = 0;
     char        (*maps)[256] = malloc(numlumps * sizeof(char *));
-    boolean    mapfound[50] = { false };
+    boolean     mapfound[50] = { false };
 
     C_Header(tabs, maplist, MAPLISTHEADER);
 
     // search through lumps for maps
     for (int i = numlumps - 1; i >= 0; i--)
     {
-        int         ep;
-        int         map;
-        char        lump[9];
-        char        wadname[MAX_PATH];
-        boolean    replaced;
-        boolean    pwad;
-        char        mapinfoname[128];
-        char        *temp = uppercase(lumpinfo[i]->name);
+        int     ep;
+        int     map;
+        char    lump[9];
+        char    wadname[MAX_PATH];
+        boolean replaced;
+        boolean pwad;
+        char    mapinfoname[128];
+        char    *temp = uppercase(lumpinfo[i]->name);
 
         M_StringCopy(lump, temp, sizeof(lump));
         free(temp);
@@ -4544,8 +4544,8 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
 //
 // name CCMD
 //
-static boolean namecmdfriendly;
-static boolean namecmdanymonster;
+static boolean  namecmdfriendly;
+static boolean  namecmdanymonster;
 static char     namecmdnew[128];
 static char     namecmdold[128];
 static int      namecmdtype = NUMMOBJTYPES;
@@ -4588,10 +4588,10 @@ static boolean name_cmd_func1(char *cmd, char *parms)
         for (int i = 0; i < NUMMOBJTYPES; i++)
             if ((mobjinfo[i].flags & MF_SHOOTABLE) && i != MT_PLAYER && i != MT_BARREL)
             {
-                boolean    result = false;
-                char        *temp1 = (*mobjinfo[i].name1 ? removenonalpha(mobjinfo[i].name1) : NULL);
-                char        *temp2 = (*mobjinfo[i].name2 ? removenonalpha(mobjinfo[i].name2) : NULL);
-                char        *temp3 = (*mobjinfo[i].name3 ? removenonalpha(mobjinfo[i].name3) : NULL);
+                boolean result = false;
+                char    *temp1 = (*mobjinfo[i].name1 ? removenonalpha(mobjinfo[i].name1) : NULL);
+                char    *temp2 = (*mobjinfo[i].name2 ? removenonalpha(mobjinfo[i].name2) : NULL);
+                char    *temp3 = (*mobjinfo[i].name3 ? removenonalpha(mobjinfo[i].name3) : NULL);
 
                 if (*mobjinfo[i].name1 && M_StringStartsWith(parm, temp1))
                 {
@@ -6608,8 +6608,8 @@ static mobj_t   *resurrectcmdmobj;
 
 static boolean resurrect_cmd_func1(char *cmd, char *parms)
 {
-    boolean    result = false;
-    char        *parm;
+    boolean result = false;
+    char    *parm;
 
     if (gamestate != GS_LEVEL)
         return false;
@@ -6710,8 +6710,8 @@ static boolean resurrect_cmd_func1(char *cmd, char *parms)
 
 static void resurrect_cmd_func2(char *cmd, char *parms)
 {
-    char        *parm = removenonalpha(parms);
-    boolean    cheated = false;
+    char    *parm = removenonalpha(parms);
+    boolean cheated = false;
 
     if (!*parm)
     {
@@ -6736,11 +6736,11 @@ static void resurrect_cmd_func2(char *cmd, char *parms)
         }
         else
         {
-            boolean    friends = (M_StringCompare(parm, "friend") || M_StringCompare(parm, "friends")
-                            || M_StringCompare(parm, "friendly monster") || M_StringCompare(parm, "friendly monsters"));
-            boolean    enemies = (M_StringCompare(parm, "monster") || M_StringCompare(parm, "monsters"));
-            boolean    all = M_StringCompare(parm, "all");
-            int         resurrected = 0;
+            boolean friends = (M_StringCompare(parm, "friend") || M_StringCompare(parm, "friends")
+                        || M_StringCompare(parm, "friendly monster") || M_StringCompare(parm, "friendly monsters"));
+            boolean enemies = (M_StringCompare(parm, "monster") || M_StringCompare(parm, "monsters"));
+            boolean all = M_StringCompare(parm, "all");
+            int     resurrected = 0;
 
             if (friends || enemies || all)
             {
@@ -6893,12 +6893,12 @@ static void save_cmd_func2(char *cmd, char *parms)
 // spawn CCMD
 //
 static int      spawncmdtype = NUMMOBJTYPES;
-static boolean spawncmdfriendly;
+static boolean  spawncmdfriendly;
 
 static boolean spawn_cmd_func1(char *cmd, char *parms)
 {
-    boolean    result = false;
-    char        *parm = removenonalpha(parms);
+    boolean result = false;
+    char    *parm = removenonalpha(parms);
 
     if (!*parm)
         return true;
@@ -6955,7 +6955,7 @@ static void spawn_cmd_func2(char *cmd, char *parms)
     }
     else
     {
-        boolean            spawn = true;
+        boolean             spawn = true;
         const mobjtype_t    type = P_FindDoomedNum(spawncmdtype);
 
         if (gamemode != commercial)
@@ -7088,8 +7088,8 @@ static void spawn_cmd_func2(char *cmd, char *parms)
 //
 static boolean take_cmd_func1(char *cmd, char *parms)
 {
-    boolean    result = false;
-    char        *parm;
+    boolean result = false;
+    char    *parm;
 
     if (gamestate != GS_LEVEL)
         return false;
@@ -7153,7 +7153,7 @@ static void take_cmd_func2(char *cmd, char *parms)
     }
     else
     {
-        boolean    result = false;
+        boolean result = false;
 
         if (M_StringCompare(parm, "all") || M_StringCompare(parm, "everything"))
         {
@@ -7656,8 +7656,8 @@ static void unbind_cmd_func2(char *cmd, char *parms)
 //
 static void vanilla_cmd_func2(char *cmd, char *parms)
 {
-    static boolean buddha;
-    static boolean hud;
+    static boolean  buddha;
+    static boolean  hud;
 
     if (*parms)
     {
@@ -7846,8 +7846,8 @@ static struct
 
 static boolean color_cvars_func1(char *cmd, char *parms)
 {
-    char        *temp;
-    boolean    result = false;
+    char    *temp;
+    boolean result = false;
 
     for (int i = 0; *color[i].name; i++)
         if (M_StringCompare(parms, color[i].name))
@@ -8103,7 +8103,7 @@ static void am_display_cvar_func2(char *cmd, char *parms)
 //
 static void am_external_cvar_func2(char *cmd, char *parms)
 {
-    const boolean  am_external_old = am_external;
+    const boolean   am_external_old = am_external;
 
     bool_cvars_func2(cmd, parms);
 
@@ -8137,7 +8137,7 @@ static void am_followmode_cvar_func2(char *cmd, char *parms)
 {
     if (*parms)
     {
-        const boolean  am_followmode_old = am_followmode;
+        const boolean   am_followmode_old = am_followmode;
 
         bool_cvars_func2(cmd, parms);
 
@@ -8217,7 +8217,7 @@ static void am_rotatemode_cvar_func2(char *cmd, char *parms)
 {
     if (*parms)
     {
-        const boolean  am_rotatemode_old = am_rotatemode;
+        const boolean   am_rotatemode_old = am_rotatemode;
 
         bool_cvars_func2(cmd, parms);
 
@@ -8288,7 +8288,7 @@ static void armortype_cvar_func2(char *cmd, char *parms)
 //
 static void autotilt_cvar_func2(char *cmd, char *parms)
 {
-    const boolean  autotilt_old = autotilt;
+    const boolean   autotilt_old = autotilt;
 
     bool_cvars_func2(cmd, parms);
 
@@ -8476,7 +8476,7 @@ static void joy_sensitivity_cvars_func2(char *cmd, char *parms)
 //
 static void mouselook_cvar_func2(char *cmd, char *parms)
 {
-    const boolean  mouselook_old = mouselook;
+    const boolean   mouselook_old = mouselook;
 
     bool_cvars_func2(cmd, parms);
 
@@ -9653,7 +9653,7 @@ static void units_cvar_func2(char *cmd, char *parms)
 //
 static void vid_borderlesswindow_cvar_func2(char *cmd, char *parms)
 {
-    const boolean  vid_borderlesswindow_old = vid_borderlesswindow;
+    const boolean   vid_borderlesswindow_old = vid_borderlesswindow;
 
     bool_cvars_func2(cmd, parms);
 
@@ -9719,7 +9719,7 @@ static void vid_display_cvar_func2(char *cmd, char *parms)
 //
 static void vid_fullscreen_cvar_func2(char *cmd, char *parms)
 {
-    const boolean  vid_fullscreen_old = vid_fullscreen;
+    const boolean   vid_fullscreen_old = vid_fullscreen;
 
     bool_cvars_func2(cmd, parms);
 
@@ -9732,7 +9732,7 @@ static void vid_fullscreen_cvar_func2(char *cmd, char *parms)
 //
 static void vid_pillarboxes_cvar_func2(char *cmd, char *parms)
 {
-    const boolean  vid_pillarboxes_old = vid_pillarboxes;
+    const boolean   vid_pillarboxes_old = vid_pillarboxes;
 
     bool_cvars_func2(cmd, parms);
 
@@ -9859,7 +9859,7 @@ extern int      frames;
 
 static void vid_showfps_cvar_func2(char *cmd, char *parms)
 {
-    const boolean  vid_showfps_old = vid_showfps;
+    const boolean   vid_showfps_old = vid_showfps;
 
     bool_cvars_func2(cmd, parms);
 
@@ -9923,7 +9923,7 @@ static void vid_vsync_cvar_func2(char *cmd, char *parms)
 //
 static void vid_widescreen_cvar_func2(char *cmd, char *parms)
 {
-    const boolean  vid_widescreen_old = vid_widescreen;
+    const boolean   vid_widescreen_old = vid_widescreen;
 
     bool_cvars_func2(cmd, parms);
 
@@ -10049,7 +10049,7 @@ static void weapon_cvar_func2(char *cmd, char *parms)
 //
 static void weaponrecoil_cvar_func2(char *cmd, char *parms)
 {
-    const boolean  weaponrecoil_old = weaponrecoil;
+    const boolean   weaponrecoil_old = weaponrecoil;
 
     bool_cvars_func2(cmd, parms);
 

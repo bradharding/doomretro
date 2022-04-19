@@ -72,5 +72,5 @@ typedef struct thinker_s
     unsigned int        references;
 
     // [BH] active during menu
-    boolean            menu;
+    boolean             menu;
 } thinker_t;

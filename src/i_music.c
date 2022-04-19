@@ -47,16 +47,16 @@
 #include "SDL_mixer.h"
 #include "version.h"
 
-boolean        midimusictype;
-boolean        musmusictype;
+boolean         midimusictype;
+boolean         musmusictype;
 
 #if defined(_WIN32)
-boolean        windowsmidi = false;
+boolean         windowsmidi = false;
 #else
 static int      paused_midi_volume;
 #endif
 
-static boolean music_initialized;
+static boolean  music_initialized;
 
 int             current_music_volume = 0;
 

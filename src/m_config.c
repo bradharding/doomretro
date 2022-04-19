@@ -346,7 +346,7 @@ void M_SaveCVARs(void)
 
     if (!(file = fopen(packageconfig, "wt")))
     {
-        static boolean warning;
+        static boolean  warning;
 
         if (!warning)
         {
@@ -379,8 +379,8 @@ void M_SaveCVARs(void)
         {
             case DEFAULT_BOOL:
             {
-                boolean    alias = false;
-                int         value = *(boolean *)cvars[i].location;
+                boolean alias = false;
+                int     value = *(boolean *)cvars[i].location;
 
                 for (int j = 0; *valuealiases[j].text; j++)
                     if (value == valuealiases[j].value && cvars[i].valuealiastype == valuealiases[j].type)
@@ -404,8 +404,8 @@ void M_SaveCVARs(void)
 
             case DEFAULT_INT32:
             {
-                boolean    alias = false;
-                int         value = *(int *)cvars[i].location;
+                boolean alias = false;
+                int     value = *(int *)cvars[i].location;
 
                 for (int j = 0; *valuealiases[j].text; j++)
                     if (value == valuealiases[j].value && cvars[i].valuealiastype == valuealiases[j].type)
@@ -439,8 +439,8 @@ void M_SaveCVARs(void)
 
             case DEFAULT_INT32_PERCENT:
             {
-                boolean    alias = false;
-                int         value = *(int *)cvars[i].location;
+                boolean alias = false;
+                int     value = *(int *)cvars[i].location;
 
                 for (int j = 0; *valuealiases[j].text; j++)
                     if (value == valuealiases[j].value && cvars[i].valuealiastype == valuealiases[j].type)
@@ -464,8 +464,8 @@ void M_SaveCVARs(void)
 
             case DEFAULT_FLOAT:
             {
-                boolean    alias = false;
-                float       value = *(float *)cvars[i].location;
+                boolean alias = false;
+                float   value = *(float *)cvars[i].location;
 
                 for (int j = 0; *valuealiases[j].text; j++)
                     if (value == valuealiases[j].value && cvars[i].valuealiastype == valuealiases[j].type)
@@ -495,8 +495,8 @@ void M_SaveCVARs(void)
 
             case DEFAULT_FLOAT_PERCENT:
             {
-                boolean    alias = false;
-                float       value = *(float *)cvars[i].location;
+                boolean alias = false;
+                float   value = *(float *)cvars[i].location;
 
                 for (int j = 0; *valuealiases[j].text; j++)
                     if (value == valuealiases[j].value && cvars[i].valuealiastype == valuealiases[j].type)
@@ -1044,10 +1044,10 @@ static void M_CheckCVARs(boolean ispackageconfig)
 //
 void M_LoadCVARs(char *filename)
 {
-    boolean    ispackageconfig = M_StringEndsWith(filename, DOOMRETRO_CONFIG);
-    int         bindcount = 0;
-    int         cvarcount = 0;
-    int         statcount = 0;
+    const boolean   ispackageconfig = M_StringEndsWith(filename, DOOMRETRO_CONFIG);
+    int             bindcount = 0;
+    int             cvarcount = 0;
+    int             statcount = 0;
 
     // read the file in, overriding any set defaults
     FILE        *file = fopen(filename, "rt");

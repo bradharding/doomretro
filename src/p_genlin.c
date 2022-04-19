@@ -56,8 +56,8 @@
 boolean EV_DoGenFloor(line_t *line)
 {
     int                 secnum = -1;
-    boolean            rtn = false;
-    boolean            manual = false;
+    boolean             rtn = false;
+    boolean             manual = false;
     sector_t            *sec;
     floormove_t         *floor;
     const unsigned int  value = line->special - GenFloorBase;
@@ -90,6 +90,7 @@ boolean EV_DoGenFloor(line_t *line)
 
         secnum = sec->id;
         manual = true;
+
         goto manual_floor;
     }
 
@@ -262,8 +263,8 @@ manual_floor:
 boolean EV_DoGenCeiling(line_t *line)
 {
     int                 secnum = -1;
-    boolean            rtn = false;
-    boolean            manual = false;
+    boolean             rtn = false;
+    boolean             manual = false;
     fixed_t             targheight;
     sector_t            *sec;
     ceiling_t           *ceiling;
@@ -297,6 +298,7 @@ boolean EV_DoGenCeiling(line_t *line)
 
         secnum = sec->id;
         manual = true;
+
         goto manual_ceiling;
     }
 
@@ -477,8 +479,8 @@ boolean EV_DoGenLift(line_t *line)
 {
     plat_t              *plat;
     int                 secnum = -1;
-    boolean            rtn = false;
-    boolean            manual = false;
+    boolean             rtn = false;
+    boolean             manual = false;
     sector_t            *sec;
     const unsigned int  value = line->special - GenLiftBase;
 
@@ -511,6 +513,7 @@ boolean EV_DoGenLift(line_t *line)
 
         secnum = sec->id;
         manual = true;
+
         goto manual_lift;
     }
 
@@ -632,9 +635,9 @@ boolean EV_DoGenStairs(line_t *line)
     int                 height;
     int                 newsecnum;
     int                 texture;
-    boolean            okay;
-    boolean            rtn = false;
-    boolean            manual = false;
+    boolean             okay;
+    boolean             rtn = false;
+    boolean             manual = false;
     sector_t            *sec;
     sector_t            *tsec;
     floormove_t         *floor;
@@ -668,6 +671,7 @@ boolean EV_DoGenStairs(line_t *line)
 
         secnum = sec->id;
         manual = true;
+
         goto manual_stair;
     }
 
@@ -838,8 +842,8 @@ manual_stair:
 boolean EV_DoGenCrusher(line_t *line)
 {
     int                 secnum = -1;
-    boolean            rtn = false;
-    boolean            manual = false;
+    boolean             rtn = false;
+    boolean             manual = false;
     sector_t            *sec;
     ceiling_t           *ceiling;
     const unsigned int  value = line->special - GenCrusherBase;
@@ -872,6 +876,7 @@ boolean EV_DoGenCrusher(line_t *line)
 
         secnum = sec->id;
         manual = true;
+
         goto manual_crusher;
     }
 
@@ -950,10 +955,10 @@ manual_crusher:
 boolean EV_DoGenLockedDoor(line_t *line)
 {
     int                 secnum = -1;
-    boolean            rtn = false;
+    boolean             rtn = false;
     sector_t            *sec;
     vldoor_t            *door;
-    boolean            manual = false;
+    boolean             manual = false;
     const unsigned int  value = line->special - GenLockedBase;
 
     // parse the bit fields in the line's special type
@@ -980,6 +985,7 @@ boolean EV_DoGenLockedDoor(line_t *line)
 
         secnum = sec->id;
         manual = true;
+
         goto manual_locked;
     }
 
@@ -1068,9 +1074,9 @@ manual_locked:
 boolean EV_DoGenDoor(line_t *line)
 {
     int                 secnum = -1;
-    boolean            rtn = false;
+    boolean             rtn = false;
     sector_t            *sec;
-    boolean            manual = false;
+    boolean             manual = false;
     vldoor_t            *door;
     const unsigned int  value = line->special - GenDoorBase;
 
@@ -1099,6 +1105,7 @@ boolean EV_DoGenDoor(line_t *line)
 
         secnum = sec->id;
         manual = true;
+
         goto manual_door;
     }
 

@@ -81,11 +81,11 @@ int             gameepisode;
 int             gamemap;
 char            speciallumpname[6] = "";
 
-boolean        paused;
-boolean        sendpause;                          // send a pause event next tic
-static boolean sendsave;                           // send a save event next tic
+boolean         paused;
+boolean         sendpause;                          // send a pause event next tic
+static boolean  sendsave;                           // send a save event next tic
 
-boolean        viewactive;
+boolean         viewactive;
 
 int             gametime = 0;
 int             totalkills;                         // for intermission
@@ -97,8 +97,8 @@ int             barrelcount;
 
 wbstartstruct_t wminfo;                             // parms for world map/intermission
 
-boolean        autoload = autoload_default;
-boolean        autosave = autosave_default;
+boolean         autoload = autoload_default;
+boolean         autosave = autosave_default;
 
 #define MAXPLMOVE       forwardmove[1]
 
@@ -144,12 +144,12 @@ static int *gamecontrollerweapons[NUMWEAPONKEYS] =
 
 #define SLOWTURNTICS    6
 
-boolean        gamekeydown[NUMKEYS] = { 0 };
+boolean         gamekeydown[NUMKEYS] = { 0 };
 char            keyactionlist[NUMKEYS][255] = { "" };
 static int      turnheld;                       // for accelerative turning
 
-static boolean mousearray[MAX_MOUSE_BUTTONS + 1];
-boolean        *mousebuttons = &mousearray[1]; // allow [-1]
+static boolean  mousearray[MAX_MOUSE_BUTTONS + 1];
+boolean         *mousebuttons = &mousearray[1]; // allow [-1]
 char            mouseactionlist[MAX_MOUSE_BUTTONS + 2][255] = { "" };
 
 boolean        skipaction = false;
@@ -157,18 +157,18 @@ boolean        skipaction = false;
 static int      mousex;
 static int      mousey;
 
-boolean        m_doubleclick_use = m_doubleclick_use_default;
-boolean        m_invertyaxis = m_invertyaxis_default;
-boolean        m_novertical = m_novertical_default;
-boolean        mouselook = mouselook_default;
+boolean         m_doubleclick_use = m_doubleclick_use_default;
+boolean         m_invertyaxis = m_invertyaxis_default;
+boolean         m_novertical = m_novertical_default;
+boolean         mouselook = mouselook_default;
 
-boolean        usemouselook = false;
+boolean         usemouselook = false;
 
 static int      dclicktime;
-static boolean dclickstate;
+static boolean  dclickstate;
 static int      dclicks;
 static int      dclicktime2;
-static boolean dclickstate2;
+static boolean  dclickstate2;
 static int      dclicks2;
 
 static int      savegameslot;
@@ -258,10 +258,10 @@ void G_PrevWeapon(void)
 //
 void G_BuildTiccmd(ticcmd_t *cmd)
 {
-    boolean    strafe;
-    int         run;
-    int         forward = 0;
-    int         side = 0;
+    boolean strafe;
+    int     run;
+    int     forward = 0;
+    int     side = 0;
 
     memset(cmd, 0, sizeof(ticcmd_t));
 
@@ -445,7 +445,7 @@ void G_BuildTiccmd(ticcmd_t *cmd)
 
     if (m_doubleclick_use)
     {
-        boolean    bstrafe;
+        boolean bstrafe;
 
         // forward double click
         if (mousebuttons[mouseforward] != dclickstate && dclicktime > 1)
@@ -1164,7 +1164,7 @@ void G_ScreenShot(void)
         C_Warning(0, "A screenshot couldn't be taken.");
 }
 
-boolean    newpars = false;
+boolean newpars = false;
 
 // DOOM Par Times
 int pars[6][10] =
@@ -1716,7 +1716,7 @@ static void G_DoNewGame(void)
 // lockups when idclev was used in conjunction with -fast.
 void G_SetFastParms(boolean fast_pending)
 {
-    static boolean fast = false;           // remembers fast state
+    static boolean  fast = false;           // remembers fast state
 
     if (fast != fast_pending)               // only change if necessary
     {

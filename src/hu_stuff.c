@@ -76,19 +76,19 @@
 patch_t                 *hu_font[HU_FONTSIZE];
 static hu_textline_t    w_title;
 
-boolean                message_on;
-boolean                message_fadeon;
-boolean                message_dontfuckwithme;
-static boolean         message_external;
-static boolean         message_nottobefuckedwith;
+boolean                 message_on;
+boolean                 message_fadeon;
+boolean                 message_dontfuckwithme;
+static boolean          message_external;
+static boolean          message_nottobefuckedwith;
 
-boolean                idbehold;
-boolean                s_STSTR_BEHOLD2;
+boolean                 idbehold;
+boolean                 s_STSTR_BEHOLD2;
 
 static hu_stext_t       w_message;
 int                     message_counter;
 
-static boolean         headsupactive;
+static boolean          headsupactive;
 
 patch_t                 *minuspatch = NULL;
 short                   minuspatchwidth;
@@ -98,17 +98,17 @@ static patch_t          *bluearmorpatch;
 
 int                     crosshair = crosshair_default;
 int                     crosshaircolor = crosshaircolor_default;
-boolean                groupmessages = groupmessages_default;
+boolean                 groupmessages = groupmessages_default;
 int                     playergender = playergender_default;
 char                    *playername = playername_default;
-boolean                r_althud = r_althud_default;
-boolean                r_diskicon = r_diskicon_default;
-boolean                r_hud = r_hud_default;
-boolean                r_hud_translucency = r_hud_translucency_default;
+boolean                 r_althud = r_althud_default;
+boolean                 r_diskicon = r_diskicon_default;
+boolean                 r_hud = r_hud_default;
+boolean                 r_hud_translucency = r_hud_translucency_default;
 
 static patch_t          *stdisk;
 static short            stdiskwidth;
-boolean                drawdisk;
+boolean                 drawdisk;
 
 static int              coloroffset;
 
@@ -532,17 +532,17 @@ int armorhighlight = 0;
 
 static void HU_DrawHUD(void)
 {
-    const int           health = MAX(health_min, viewplayer->health);
-    const int           armor = viewplayer->armorpoints;
-    static boolean     healthanim;
-    const boolean      gamepaused = (consoleactive || freeze);
-    byte                *translucency = (health <= 0 || (health < HUD_HEALTH_MIN && healthanim)
-                            || health >= HUD_HEALTH_MIN || gamepaused ? tinttab75 : tinttab25);
-    patch_t             *patch = faces[st_faceindex];
-    const int           currenttime = I_GetTimeMS();
-    int                 keypic_x = HUD_KEYS_X;
-    static int          keywait;
-    static boolean     showkey;
+    const int       health = MAX(health_min, viewplayer->health);
+    const int       armor = viewplayer->armorpoints;
+    static boolean  healthanim;
+    const boolean   gamepaused = (consoleactive || freeze);
+    byte            *translucency = (health <= 0 || (health < HUD_HEALTH_MIN && healthanim)
+                        || health >= HUD_HEALTH_MIN || gamepaused ? tinttab75 : tinttab25);
+    patch_t         *patch = faces[st_faceindex];
+    const int       currenttime = I_GetTimeMS();
+    int             keypic_x = HUD_KEYS_X;
+    static int      keywait;
+    static boolean  showkey;
 
     if (patch)
         hudfunc(HUD_HEALTH_X - SHORT(patch->width) / 2 - 1, HUD_HEALTH_Y - SHORT(patch->height) - 2, patch, tinttab75);
@@ -672,7 +672,7 @@ static void HU_DrawHUD(void)
         if (ammotype != am_noammo && (ammo = viewplayer->ammo[ammotype]))
         {
             int             ammo_x = HUDNumberWidth(ammo);
-            static boolean ammoanim;
+            static boolean  ammoanim;
 
             ammo_x = HUD_AMMO_X - (ammo_x + (ammo_x & 1)) / 2;
             translucency = (ammoanim || ammo >= HUD_AMMO_MIN || gamepaused ? tinttab75 : tinttab25);
@@ -746,7 +746,7 @@ static void HU_AltInit(void)
     char        buffer[9];
     patch_t     *altkeypatch;
     patch_t     *altskullpatch;
-    boolean    weaponschanged = false;
+    boolean     weaponschanged = false;
 
     for (int i = 0; i < 10; i++)
     {
@@ -911,7 +911,7 @@ static void HU_DrawAltHUD(void)
     int             barcolor1 = barcolor2;
     int             keypic_x = ALTHUD_RIGHT_X;
     static int      keywait;
-    static boolean showkey;
+    static boolean  showkey;
     int             powerup = 0;
     int             powerupbar = 0;
     int             max = 1;
@@ -992,7 +992,7 @@ static void HU_DrawAltHUD(void)
 
     if (viewplayer->neededcardflash)
     {
-        const boolean  gamepaused = (consoleactive || freeze);
+        const boolean   gamepaused = (consoleactive || freeze);
         const int       neededcard = viewplayer->neededcard;
 
         if (neededcard == it_allkeys)
@@ -1193,7 +1193,7 @@ void HU_Erase(void)
 
 void HU_Ticker(void)
 {
-    const boolean  idmypos = (viewplayer->cheats & CF_MYPOS);
+    const boolean   idmypos = (viewplayer->cheats & CF_MYPOS);
 
     // tic down message counter if message is up
     if (message_counter && !menuactive && !idmypos && !--message_counter)

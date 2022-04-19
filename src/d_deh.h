@@ -56,7 +56,7 @@ typedef struct
     int     assigned;       // [BH] counter indicating string has been assigned
 } deh_strs;
 
-extern boolean dehacked;
+extern boolean  dehacked;
 extern deh_strs deh_strlookup[];
 
 extern char     *s_VERSION;

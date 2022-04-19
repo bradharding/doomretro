@@ -47,7 +47,7 @@
 #include "s_sound.h"
 #include "z_zone.h"
 
-boolean    r_graduallighting = r_graduallighting_default;
+boolean r_graduallighting = r_graduallighting_default;
 
 static void T_GradualLightingToDoor(vldoor_t *door)
 {
@@ -384,7 +384,7 @@ boolean EV_DoLockedDoor(line_t *line, vldoor_e type, mobj_t *thing, fixed_t spee
 boolean EV_DoDoor(line_t *line, vldoor_e type, fixed_t speed)
 {
     int         secnum = -1;
-    boolean    rtn = false;
+    boolean     rtn = false;
     sector_t    *sec;
 
     if (P_ProcessNoTagLines(line, &sec, &secnum))

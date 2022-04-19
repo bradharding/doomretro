@@ -138,8 +138,8 @@ typedef struct
     stringtype_t    stringtype;
     int             wrap;
     int             indent;
-    boolean        bold;
-    boolean        italics;
+    boolean         bold;
+    boolean         italics;
     patch_t         *header;
     int             tabs[3];
     int             tics;
@@ -156,7 +156,7 @@ extern patch_t      *thinglist;
 
 extern console_t    *console;
 
-extern boolean     consoleactive;
+extern boolean      consoleactive;
 extern int          consoleheight;
 extern int          consoledirection;
 
@@ -172,7 +172,7 @@ extern char         consolecheat[255];
 extern char         consolecheatparm[3];
 extern char         consolecmdparm[255];
 
-extern boolean     scrollbardrawn;
+extern boolean      scrollbardrawn;
 
 typedef struct
 {

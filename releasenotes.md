@@ -10,7 +10,7 @@
 * The following changes have been made to the external automap:
   * The display used to show the external automap can now be specified using the new `am_display` CVAR, which is `2` by default.
   * So as to not also occur when adjusting the size of the player’s view, zooming in and out of the external automap is now only possible if the `+zoomin` and `+zoomout` actions are rebound from the <kbd><b>+</b></kbd> and <kbd><b>&ndash;</b></kbd> keys.
-* The player stats shown in the automap when the `am_playerstats` CVAR is `on` are now positioned correctly if there are no monsters in the map.
+* The player’s stats shown in the automap when the `am_playerstats` CVAR is `on` are now positioned correctly if there are no monsters in the map.
 * The `am_followmode` CVAR will no longer be changed when enabling vanilla mode using the `vanilla` CCMD.
 * Changing the `r_fov` CVAR from its default of `90`° is now effective again when the `vid_widescreen` CVAR is `off`.
 * The following changes have been made when the player enters a cheat:
@@ -37,7 +37,7 @@
 * The “automap opened” stat shown by the `playerstats` CCMD is now reset at the start of each map as intended.
 * The `playerstats` CCMD now displays how many monsters have been telefragged.
 * Obituaries are now displayed in the console whenever the player or a monster is telefragged.
-* The `map` CCMD can now be used to open maps such as `E1M10`.
+* The `map` CCMD can now be used to open maps <code>E<i>x</i>M<i>yy</i></code> where <code><i>yy</i></code> is between `10` and `99`.
 * The `mapstats` CCMD now displays how many linedefs have line specials in the current map.
 * Commander Keens are no longer spawned at the start of a map when the `nomonsters` CCMD has been entered in the console, or the `-nomonsters` parameter has been specified on the command-line.
 * The following changes have been made to the support of `MAPINFO` lumps:

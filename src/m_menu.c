@@ -71,7 +71,7 @@
 int             episode = episode_default;
 int             expansion = expansion_default;
 int             m_sensitivity = m_sensitivity_default;
-boolean        messages = messages_default;
+boolean         messages = messages_default;
 int             r_detail = r_detail_default;
 int             r_screensize = r_screensize_default;
 int             savegame = savegame_default;
@@ -81,29 +81,29 @@ int             skilllevel = skilllevel_default;
 int             quickSaveSlot;
 
 // true = message to be printed
-boolean        messagetoprint;
+boolean         messagetoprint;
 // ...and here is the message string!
 static char     *messageString;
 
 static int      messageLastMenuActive;
 
 // timed message = no input from user
-static boolean messageNeedsInput;
+static boolean  messageNeedsInput;
 
 static void (*messageRoutine)(int);
 
 // we are going to be entering a savegame string
-static boolean saveStringEnter;
+static boolean  saveStringEnter;
 static int      saveSlot;               // which slot to save in
 static int      saveCharIndex;          // which char we're editing
 
 // old save description before edit
 static char     saveOldString[SAVESTRINGSIZE];
 
-boolean        inhelpscreens;
-boolean        menuactive;
-boolean        savegames;
-boolean        quitting;
+boolean         inhelpscreens;
+boolean         menuactive;
+boolean         savegames;
+boolean         quitting;
 
 char            savegamestrings[6][SAVESTRINGSIZE];
 
@@ -113,7 +113,7 @@ static short    whichSkull;             // which skull to draw
 
 static int      functionkey;
 
-static boolean usinggamecontroller;
+static boolean  usinggamecontroller;
 
 // current menudef
 static menu_t   *currentMenu;
@@ -677,9 +677,9 @@ void M_DrawString(int x, int y, char *string)
 
     for (int i = 0; i < len; i++)
     {
-        int         j = -1;
-        int         k = 0;
-        boolean    overlapping = false;
+        int     j = -1;
+        int     k = 0;
+        boolean overlapping = false;
 
         if (string[i] < 123)
             j = chartoi[(int)string[i]];
@@ -1043,7 +1043,7 @@ static void M_LoadGame(int choice)
     M_ReadSaveStrings();
 }
 
-static boolean showcaret;
+static boolean  showcaret;
 static int      caretwait;
 int             caretcolor;
 
@@ -1160,8 +1160,8 @@ static char *RemoveMapNum(char *string)
 
 void M_UpdateSaveGameName(int i)
 {
-    boolean    match = false;
-    int         len = (int)strlen(savegamestrings[i]);
+    boolean match = false;
+    int     len = (int)strlen(savegamestrings[i]);
 
     if (M_StringCompare(savegamestrings[i], s_EMPTYSTRING))
         match = true;
@@ -1583,7 +1583,7 @@ static void M_DrawMainMenu(void)
 // M_Episode
 //
 static int      epi;
-boolean        EpiCustom;
+boolean         EpiCustom;
 static short    EpiMenuMap[] = { 1, 1, 1, 1, -1, -1, -1, -1 };
 static short    EpiMenuEpi[] = { 1, 2, 3, 4, -1, -1, -1, -1 };
 
@@ -1930,7 +1930,7 @@ static void M_ChangeMessages(int choice)
 //
 // M_EndGame
 //
-static boolean endinggame;
+static boolean  endinggame;
 
 void M_EndingGame(void)
 {
@@ -2531,9 +2531,9 @@ static void M_ChangeGamma(boolean shift)
 //
 // M_Responder
 //
-int         gamecontrollerwait = 0;
-int         mousewait = 0;
-boolean    gamecontrollerpress = false;
+int     gamecontrollerwait = 0;
+int     mousewait = 0;
+boolean gamecontrollerpress = false;
 
 boolean M_Responder(event_t *ev)
 {
@@ -2800,8 +2800,8 @@ boolean M_Responder(event_t *ev)
             case KEY_ENTER:
                 if (!keydown)
                 {
-                    int         len = (int)strlen(savegamestrings[saveSlot]);
-                    boolean    allspaces = true;
+                    int     len = (int)strlen(savegamestrings[saveSlot]);
+                    boolean allspaces = true;
 
                     keydown = key;
 
@@ -3693,8 +3693,8 @@ void M_Drawer(void)
 
         while (messageString[start] != '\0')
         {
-            int         len = (int)strlen(messageString + start);
-            boolean    foundnewline = false;
+            int     len = (int)strlen(messageString + start);
+            boolean foundnewline = false;
 
             for (int i = 0; i < len; i++)
                 if (messageString[start + i] == '\n')

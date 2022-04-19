@@ -343,7 +343,7 @@ void T_MoveElevator(elevator_t *elevator)
 boolean EV_DoFloor(line_t *line, floor_e floortype)
 {
     int         secnum = -1;
-    boolean    rtn = false;
+    boolean     rtn = false;
     sector_t    *sec;
 
     if (P_ProcessNoTagLines(line, &sec, &secnum))
@@ -597,9 +597,7 @@ void P_CheckTerrainType(sector_t *sector)
 
     if ((sector->terraintype = terraintypes[sector->floorpic]) != oldterraintype)
     {
-        boolean    isliquid = (sector->terraintype >= LIQUID);
-
-        if (isliquid)
+        if (sector->terraintype >= LIQUID)
         {
             bloodsplat_t    *splat = sector->splatlist;
 
@@ -646,8 +644,8 @@ void P_CheckTerrainType(sector_t *sector)
 //
 boolean EV_DoChange(line_t *line, change_e changetype)
 {
-    int         secnum = -1;
-    boolean    rtn = false;
+    int     secnum = -1;
+    boolean rtn = false;
 
     // change all sectors with the same tag as the linedef
     while ((secnum = P_FindSectorFromLineTag(line, secnum)) >= 0)
@@ -713,7 +711,7 @@ boolean EV_BuildStairs(line_t *line, fixed_t speed, fixed_t stairsize, boolean c
 {
     int         ssec = -1;
     int         minssec = -1;
-    boolean    rtn = false;
+    boolean     rtn = false;
     int         secnum = -1;
     sector_t    *sec;
 
@@ -728,7 +726,7 @@ boolean EV_BuildStairs(line_t *line, fixed_t speed, fixed_t stairsize, boolean c
     while ((ssec = P_FindSectorFromLineTagWithLowerBound(line, ssec, minssec)) >= 0)
     {
         floormove_t *floor;
-        boolean    okay;
+        boolean     okay;
         int         height;
         int         texture;
 
@@ -823,8 +821,8 @@ manual_stair:
 //
 boolean EV_DoElevator(line_t *line, elevator_e elevtype)
 {
-    int         secnum = -1;
-    boolean    rtn = false;
+    int     secnum = -1;
+    boolean rtn = false;
 
     // act on all sectors with the same tag as the triggering linedef
     while ((secnum = P_FindSectorFromLineTag(line, secnum)) >= 0)

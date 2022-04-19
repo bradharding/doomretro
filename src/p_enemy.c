@@ -367,14 +367,14 @@ static boolean P_Move(mobj_t *actor, int dropoff)  // killough 09/12/98
 //
 static boolean P_SmartMove(mobj_t *actor)
 {
-    mobj_t      *target = actor->target;
-    int         dropoff = 0;
-    int         underdamage = P_IsUnderDamage(actor);
+    mobj_t  *target = actor->target;
+    int     dropoff = 0;
+    int     underdamage = P_IsUnderDamage(actor);
 
     // killough 09/12/98: stay on a lift if target is on one
-    boolean    onlift = (target && target->health > 0
-                    && target->subsector->sector->tag == actor->subsector->sector->tag
-                    && actor->subsector->sector->islift);
+    boolean onlift = (target && target->health > 0
+                && target->subsector->sector->tag == actor->subsector->sector->tag
+                && actor->subsector->sector->islift);
 
     // killough 10/98: allow dogs to drop off of taller ledges sometimes.
     // dropoff == 1 means always allow it, dropoff == 2 means only up to 128 high,
@@ -453,7 +453,7 @@ static void P_DoNewChaseDir(mobj_t *actor, fixed_t deltax, fixed_t deltay)
     dirtype_t       xdir, ydir;
     const dirtype_t olddir = actor->movedir;
     const dirtype_t turnaround = opposite[olddir];
-    boolean        attempts[NUMDIRS - 1] = { false };
+    boolean         attempts[NUMDIRS - 1] = { false };
 
     xdir = (deltax > 10 * FRACUNIT ? DI_EAST : (deltax < -10 * FRACUNIT ? DI_WEST : DI_NODIR));
     ydir = (deltay < -10 * FRACUNIT ? DI_SOUTH : (deltay > 10 * FRACUNIT ? DI_NORTH : DI_NODIR));
@@ -819,7 +819,7 @@ void A_Look(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
     mobj_t          *target;
     const int       flags = actor->flags;
-    const boolean  friend = (flags & MF_FRIEND);
+    const boolean   friend = (flags & MF_FRIEND);
 
     actor->threshold = 0;       // any shot will wake up
 
@@ -1314,8 +1314,8 @@ static int      viletryradius;
 
 static boolean PIT_VileCheck(mobj_t *thing)
 {
-    int         maxdist;
-    boolean    check;
+    int     maxdist;
+    boolean check;
 
     if (!(thing->flags & MF_CORPSE))
         return true;    // not a monster
@@ -2128,7 +2128,7 @@ static mobj_t *A_NextBrainTarget(void)
 void A_BrainSpit(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
     mobj_t          *target;
-    static boolean easy;
+    static boolean  easy;
 
     easy = !easy;
 

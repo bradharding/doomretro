@@ -83,7 +83,7 @@ int             SCREENAREA;
 int             WIDESCREENDELTA;    // [crispy] horizontal widescreen offset
 int             WIDEFOVDELTA;
 
-boolean        nowidescreen = false;
+boolean         nowidescreen = false;
 
 int             MAPWIDTH;
 unsigned int    MAPHEIGHT = VANILLAHEIGHT * SCREENSCALE;
@@ -107,29 +107,29 @@ int             MAPBOTTOM;
 #define SHAKEANGLE          ((double)M_BigRandomInt(-1000, 1000) * r_shake_damage / 100000.0)
 
 // CVARs
-boolean            alwaysrun = alwaysrun_default;
-boolean            m_acceleration = m_acceleration_default;
+boolean             alwaysrun = alwaysrun_default;
+boolean             m_acceleration = m_acceleration_default;
 int                 r_color = r_color_default;
 float               r_gamma = r_gamma_default;
-boolean            vid_borderlesswindow = vid_borderlesswindow_default;
+boolean             vid_borderlesswindow = vid_borderlesswindow_default;
 int                 vid_capfps = vid_capfps_default;
 int                 vid_display = vid_display_default;
 #if !defined(_WIN32)
 char                *vid_driver = vid_driver_default;
 #endif
-boolean            vid_fullscreen = vid_fullscreen_default;
+boolean             vid_fullscreen = vid_fullscreen_default;
 int                 vid_motionblur = vid_motionblur_default;
-boolean            vid_pillarboxes = vid_pillarboxes_default;
+boolean             vid_pillarboxes = vid_pillarboxes_default;
 char                *vid_scaleapi = vid_scaleapi_default;
 char                *vid_scalefilter = vid_scalefilter_default;
 char                *vid_screenresolution = vid_screenresolution_default;
-boolean            vid_showfps = vid_showfps_default;
+boolean             vid_showfps = vid_showfps_default;
 int                 vid_vsync = vid_vsync_default;
-boolean            vid_widescreen = vid_widescreen_default;
+boolean             vid_widescreen = vid_widescreen_default;
 char                *vid_windowpos = vid_windowpos_default;
 char                *vid_windowsize = vid_windowsize_default;
 
-static boolean     manuallypositioning;
+static boolean      manuallypositioning;
 
 SDL_Window          *window = NULL;
 static int          windowid;
@@ -155,11 +155,11 @@ static byte         *mappixels;
 static int          mappitch;
 static SDL_Palette  *mappalette;
 
-static boolean     nearestlinear;
+static boolean      nearestlinear;
 static int          upscaledwidth;
 static int          upscaledheight;
 
-static boolean     software;
+static boolean      software;
 
 static int          displayindex;
 static int          numdisplays;
@@ -189,9 +189,9 @@ static int          displayheight;
 static int          displaycenterx;
 static int          displaycentery;
 
-boolean            windowfocused = true;
+boolean             windowfocused = true;
 
-static boolean     keys[NUMKEYS];
+static boolean      keys[NUMKEYS];
 
 static byte         gammatable[GAMMALEVELS][256];
 
@@ -220,7 +220,7 @@ int                 refreshrate;
 HANDLE              CapFPSEvent;
 #endif
 
-static boolean     capslock;
+static boolean      capslock;
 
 evtype_t            lasteventtype = ev_none;
 
@@ -390,8 +390,8 @@ static short inline clamp(short value, short deadzone)
     return (ABS(value) < deadzone ? 0 : (joy_analog ? MAX(-SDL_JOYSTICK_AXIS_MAX, value) : SIGN(value) * SDL_JOYSTICK_AXIS_MAX));
 }
 
-boolean    altdown = false;
-boolean    waspaused = false;
+boolean altdown = false;
+boolean waspaused = false;
 
 static const SDL_Scancode keypad[] =
 {
@@ -411,7 +411,7 @@ static void I_GetEvent(void)
         event_t         event;
 
 #if !defined(_WIN32)
-        static boolean enterdown;
+        static boolean  enterdown;
 #endif
 
         switch (Event->type)
@@ -789,8 +789,8 @@ void I_StartTic(void)
 
 static void UpdateGrab(void)
 {
-    boolean        grab = MouseShouldBeGrabbed();
-    static boolean currently_grabbed;
+    boolean         grab = MouseShouldBeGrabbed();
+    static boolean  currently_grabbed;
 
     if (grab == currently_grabbed)
         return;
@@ -988,7 +988,7 @@ static void I_Blit_Automap_NearestLinear(void)
 
 void I_UpdateBlitFunc(boolean shake)
 {
-    boolean    nearest = (nearestlinear && (displayheight % VANILLAHEIGHT));
+    const boolean   nearest = (nearestlinear && (displayheight % VANILLAHEIGHT));
 
     if (shake && !software)
         blitfunc = (nearest ? (vid_showfps ? &I_Blit_NearestLinear_ShowFPS_Shake : &I_Blit_NearestLinear_Shake) :
@@ -1396,7 +1396,7 @@ static void SetVideoMode(boolean createwindow, boolean output)
     int                 bpp = 0;
     SDL_RendererInfo    rendererinfo;
     const char          *displayname = SDL_GetDisplayName((displayindex = vid_display - 1));
-    boolean            instead = false;
+    boolean             instead = false;
 
     if (displayindex >= numdisplays)
     {
