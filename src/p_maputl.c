@@ -336,7 +336,7 @@ void P_SetBloodSplatPosition(bloodsplat_t *splat)
 // The validcount flags are used to avoid checking lines that are marked in multiple mapblocks, so
 // increment validcount before the first call to P_BlockLinesIterator, then make one or more calls to it.
 //
-dboolean P_BlockLinesIterator(int x, int y, dboolean func(line_t *))
+boolean P_BlockLinesIterator(int x, int y, boolean func(line_t *))
 {
     if (x < 0 || y < 0 || x >= bmapwidth || y >= bmapheight)
         return true;
@@ -367,7 +367,7 @@ dboolean P_BlockLinesIterator(int x, int y, dboolean func(line_t *))
 //
 // P_BlockThingsIterator
 //
-dboolean P_BlockThingsIterator(int x, int y, dboolean func(mobj_t *))
+boolean P_BlockThingsIterator(int x, int y, boolean func(mobj_t *))
 {
     if (x < 0 || y < 0 || x >= bmapwidth || y >= bmapheight)
         return true;
@@ -469,7 +469,7 @@ divline_t   dltrace;
 // Looks for lines in the given block that intercept the given trace to add to the intercepts list.
 // A line is crossed if its endpoints are on opposite sides of the trace.
 //
-static dboolean PIT_AddLineIntercepts(line_t *ld)
+static boolean PIT_AddLineIntercepts(line_t *ld)
 {
     int         s1;
     int         s2;
@@ -513,7 +513,7 @@ static dboolean PIT_AddLineIntercepts(line_t *ld)
 //
 // PIT_AddThingIntercepts
 //
-static dboolean PIT_AddThingIntercepts(mobj_t *thing)
+static boolean PIT_AddThingIntercepts(mobj_t *thing)
 {
     int             numfronts = 0;
     divline_t       dl;
@@ -609,7 +609,7 @@ static dboolean PIT_AddThingIntercepts(mobj_t *thing)
 // P_TraverseIntercepts
 // Returns true if the traverser function returns true for all lines.
 //
-static dboolean P_TraverseIntercepts(traverser_t func, fixed_t maxfrac)
+static boolean P_TraverseIntercepts(traverser_t func, fixed_t maxfrac)
 {
     size_t      count = intercept_p - intercepts;
     intercept_t *in = NULL;
@@ -644,7 +644,7 @@ static dboolean P_TraverseIntercepts(traverser_t func, fixed_t maxfrac)
 //
 #define MAX_SIGHT_COUNT 64
 
-dboolean P_PathTraverse(fixed_t x1, fixed_t y1, fixed_t x2, fixed_t y2, int flags, traverser_t trav)
+boolean P_PathTraverse(fixed_t x1, fixed_t y1, fixed_t x2, fixed_t y2, int flags, traverser_t trav)
 {
     fixed_t xt1, yt1;
     fixed_t xt2, yt2;

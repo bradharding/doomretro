@@ -77,7 +77,7 @@ typedef struct
     fixed_t sx, sy;
 } pspdef_t;
 
-dboolean P_CheckAmmo(weapontype_t weapon);
+boolean P_CheckAmmo(weapontype_t weapon);
 void P_EquipWeapon(weapontype_t weapon);
 
-extern dboolean skippsprinterp;
+extern boolean skippsprinterp;

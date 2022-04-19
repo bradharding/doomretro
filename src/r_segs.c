@@ -43,19 +43,19 @@
 #include "m_config.h"
 #include "p_local.h"
 
-static dboolean     segtextured;        // True if any of the segs textures might be visible.
+static boolean     segtextured;        // True if any of the segs textures might be visible.
 
-static dboolean     markfloor;          // False if the back side is the same plane.
-static dboolean     markceiling;
+static boolean     markfloor;          // False if the back side is the same plane.
+static boolean     markceiling;
 
-static dboolean     maskedtexture;
+static boolean     maskedtexture;
 static int          toptexture;
 static int          midtexture;
 static int          bottomtexture;
 
-static dboolean     missingtoptexture;
-static dboolean     missingmidtexture;
-static dboolean     missingbottomtexture;
+static boolean     missingtoptexture;
+static boolean     missingmidtexture;
+static boolean     missingbottomtexture;
 
 static fixed_t      toptexheight;
 static fixed_t      midtexheight;
@@ -97,9 +97,9 @@ lighttable_t        **walllightsnext;
 
 static int          *maskedtexturecol;  // dropoff overflow
 
-dboolean            r_brightmaps = r_brightmaps_default;
+boolean            r_brightmaps = r_brightmaps_default;
 
-extern dboolean     usebrightmaps;
+extern boolean     usebrightmaps;
 
 //
 // R_FixWiggle()
@@ -320,7 +320,7 @@ void R_RenderMaskedSegRange(drawseg_t *ds, const int x1, const int x2)
 // Can draw or mark the starting pixel of floor and ceiling textures.
 // CALLED: CORE LOOPING ROUTINE.
 //
-static dboolean didsolidcol;
+static boolean didsolidcol;
 
 static void R_RenderSegLoop(void)
 {

@@ -72,7 +72,7 @@ typedef struct wadfile_s wadfile_t;
 struct wadfile_s
 {
     FILE        *fstream;
-    dboolean    freedoom;
+    boolean    freedoom;
     char        path[MAX_PATH];
     int         type;
 };
@@ -89,4 +89,4 @@ void W_CloseFile(wadfile_t *wad);
 // Returns the number of bytes read.
 size_t W_Read(wadfile_t *wad, unsigned int offset, void *buffer, size_t buffer_len);
 
-dboolean W_WriteFile(char const *name, const void *source, size_t length);
+boolean W_WriteFile(char const *name, const void *source, size_t length);

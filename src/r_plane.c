@@ -79,10 +79,10 @@ fixed_t             yslopes[LOOKDIRS][MAXHEIGHT];
 
 static fixed_t      cachedheight[MAXHEIGHT];
 
-dboolean            r_liquid_current = r_liquid_current_default;
-dboolean            r_liquid_swirl = r_liquid_swirl_default;
+boolean            r_liquid_current = r_liquid_current_default;
+boolean            r_liquid_swirl = r_liquid_swirl_default;
 
-static dboolean     updateswirl;
+static boolean     updateswirl;
 
 //
 // R_MapPlane

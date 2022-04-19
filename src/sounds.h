@@ -105,11 +105,11 @@ extern musicinfo_t  S_music[];
 
 extern musicinfo_t  *mus_playing;
 
-extern dboolean     midimusictype;
-extern dboolean     musmusictype;
+extern boolean     midimusictype;
+extern boolean     musmusictype;
 
 #if defined(_WIN32)
-extern dboolean     windowsmidi;
+extern boolean     windowsmidi;
 #endif
 
 extern int          current_music_volume;

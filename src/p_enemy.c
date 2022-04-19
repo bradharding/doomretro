@@ -123,7 +123,7 @@ void P_NoiseAlert(mobj_t *target)
 //
 // P_CheckRange
 //
-static dboolean P_CheckRange(mobj_t *actor, fixed_t range)
+static boolean P_CheckRange(mobj_t *actor, fixed_t range)
 {
     mobj_t  *target = actor->target;
 
@@ -149,7 +149,7 @@ static dboolean P_CheckRange(mobj_t *actor, fixed_t range)
 //
 // MBF21: add meleerange property
 //
-dboolean P_CheckMeleeRange(mobj_t *actor)
+boolean P_CheckMeleeRange(mobj_t *actor)
 {
     mobj_t  *target = actor->target;
 
@@ -165,7 +165,7 @@ dboolean P_CheckMeleeRange(mobj_t *actor)
 // killough 12/98
 // This function tries to prevent shooting at friends
 //
-static dboolean P_HitFriend(mobj_t *actor)
+static boolean P_HitFriend(mobj_t *actor)
 {
     mobj_t  *target;
 
@@ -181,7 +181,7 @@ static dboolean P_HitFriend(mobj_t *actor)
 //
 // P_CheckMissileRange
 //
-static dboolean P_CheckMissileRange(mobj_t *actor)
+static boolean P_CheckMissileRange(mobj_t *actor)
 {
     fixed_t dist;
     mobj_t  *target = actor->target;
@@ -275,7 +275,7 @@ static const fixed_t    yspeed[] = { 0, 47000, FRACUNIT, 47000, 0, -47000, -FRAC
 extern line_t   **spechit;
 extern int      numspechit;
 
-static dboolean P_Move(mobj_t *actor, int dropoff)  // killough 09/12/98
+static boolean P_Move(mobj_t *actor, int dropoff)  // killough 09/12/98
 {
     fixed_t tryx, tryy;
     fixed_t deltax, deltay;
@@ -365,14 +365,14 @@ static dboolean P_Move(mobj_t *actor, int dropoff)  // killough 09/12/98
 //
 // killough 09/12/98: Same as P_Move(), except smarter
 //
-static dboolean P_SmartMove(mobj_t *actor)
+static boolean P_SmartMove(mobj_t *actor)
 {
     mobj_t      *target = actor->target;
     int         dropoff = 0;
     int         underdamage = P_IsUnderDamage(actor);
 
     // killough 09/12/98: stay on a lift if target is on one
-    dboolean    onlift = (target && target->health > 0
+    boolean    onlift = (target && target->health > 0
                     && target->subsector->sector->tag == actor->subsector->sector->tag
                     && actor->subsector->sector->islift);
 
@@ -410,7 +410,7 @@ static dboolean P_SmartMove(mobj_t *actor)
 // If a door is in the way,
 // an OpenDoor call is made to start it opening.
 //
-static dboolean P_TryWalk(mobj_t *actor)
+static boolean P_TryWalk(mobj_t *actor)
 {
     if (!P_SmartMove(actor))
         return false;
@@ -453,7 +453,7 @@ static void P_DoNewChaseDir(mobj_t *actor, fixed_t deltax, fixed_t deltay)
     dirtype_t       xdir, ydir;
     const dirtype_t olddir = actor->movedir;
     const dirtype_t turnaround = opposite[olddir];
-    dboolean        attempts[NUMDIRS - 1] = { false };
+    boolean        attempts[NUMDIRS - 1] = { false };
 
     xdir = (deltax > 10 * FRACUNIT ? DI_EAST : (deltax < -10 * FRACUNIT ? DI_WEST : DI_NODIR));
     ydir = (deltay < -10 * FRACUNIT ? DI_SOUTH : (deltay > 10 * FRACUNIT ? DI_NORTH : DI_NODIR));
@@ -560,7 +560,7 @@ static fixed_t  dropoff_deltax;
 static fixed_t  dropoff_deltay;
 static fixed_t  floorz;
 
-static dboolean PIT_AvoidDropoff(line_t *line)
+static boolean PIT_AvoidDropoff(line_t *line)
 {
     if (line->backsector                                                            // Ignore one-sided linedefs
         && tmbbox[BOXRIGHT] > line->bbox[BOXLEFT]
@@ -653,7 +653,7 @@ static void P_NewChaseDir(mobj_t *actor)
     P_DoNewChaseDir(actor, deltax, deltay);
 }
 
-static dboolean P_LookForMonsters(mobj_t *actor)
+static boolean P_LookForMonsters(mobj_t *actor)
 {
     // Remember last enemy
     if (actor->lastenemy && actor->lastenemy->health > 0
@@ -711,7 +711,7 @@ static dboolean P_LookForMonsters(mobj_t *actor)
 // If allaround is false, only look 180 degrees in front.
 // Returns true if the player is targeted.
 //
-static dboolean P_LookForPlayer(mobj_t *actor, dboolean allaround)
+static boolean P_LookForPlayer(mobj_t *actor, boolean allaround)
 {
     mobj_t  *mo = viewplayer->mo;
 
@@ -799,7 +799,7 @@ static dboolean P_LookForPlayer(mobj_t *actor, dboolean allaround)
     return true;
 }
 
-static dboolean P_LookForTargets(mobj_t *actor, int allaround)
+static boolean P_LookForTargets(mobj_t *actor, int allaround)
 {
     if ((actor->flags & MF_FRIEND) && P_LookForMonsters(actor))
         return true;
@@ -819,7 +819,7 @@ void A_Look(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
     mobj_t          *target;
     const int       flags = actor->flags;
-    const dboolean  friend = (flags & MF_FRIEND);
+    const boolean  friend = (flags & MF_FRIEND);
 
     actor->threshold = 0;       // any shot will wake up
 
@@ -1312,10 +1312,10 @@ static fixed_t  viletryx;
 static fixed_t  viletryy;
 static int      viletryradius;
 
-static dboolean PIT_VileCheck(mobj_t *thing)
+static boolean PIT_VileCheck(mobj_t *thing)
 {
     int         maxdist;
-    dboolean    check;
+    boolean    check;
 
     if (!(thing->flags & MF_CORPSE))
         return true;    // not a monster
@@ -1367,7 +1367,7 @@ static dboolean PIT_VileCheck(mobj_t *thing)
 // MBF21: P_HealCorpse
 // Check for resurrecting a body
 //
-static dboolean P_HealCorpse(mobj_t *actor, int radius, statenum_t healstate, sfxenum_t healsound)
+static boolean P_HealCorpse(mobj_t *actor, int radius, statenum_t healstate, sfxenum_t healsound)
 {
     int movedir = actor->movedir;
 
@@ -2128,7 +2128,7 @@ static mobj_t *A_NextBrainTarget(void)
 void A_BrainSpit(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
     mobj_t          *target;
-    static dboolean easy;
+    static boolean easy;
 
     easy = !easy;
 

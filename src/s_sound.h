@@ -56,25 +56,25 @@
 
 #define LOWER_MUSIC_VOLUME_FACTOR   2.5f
 
-dboolean I_InitSound(void);
+boolean I_InitSound(void);
 void I_ShutdownSound(void);
-dboolean CacheSFX(sfxinfo_t *sfxinfo);
+boolean CacheSFX(sfxinfo_t *sfxinfo);
 void I_UpdateSoundParms(int channel, int vol, int sep);
 int I_StartSound(sfxinfo_t *sfxinfo, int channel, int vol, int sep, int pitch);
 void I_StopSound(int channel);
 void I_FadeOutSound(int channel);
-dboolean I_SoundIsPlaying(int channel);
+boolean I_SoundIsPlaying(int channel);
 
-dboolean I_InitMusic(void);
+boolean I_InitMusic(void);
 void I_ShutdownMusic(void);
 void I_SetMusicVolume(int volume);
 void I_PauseSong(void);
 void I_ResumeSong(void);
 void *I_RegisterSong(void *data, int size);
 void I_UnregisterSong(void *handle);
-void I_PlaySong(void *handle, dboolean looping);
+void I_PlaySong(void *handle, boolean looping);
 void I_StopSong(void);
-dboolean I_AnySoundStillPlaying(void);
+boolean I_AnySoundStillPlaying(void);
 
 //
 // Initializes sound stuff, including volume
@@ -108,7 +108,7 @@ void S_StartMusic(int music_id);
 
 // Start music using <music_id> from sounds.h,
 //  and set whether looping
-void S_ChangeMusic(int music_id, dboolean looping, dboolean allowrestart, dboolean mapstart);
+void S_ChangeMusic(int music_id, boolean looping, boolean allowrestart, boolean mapstart);
 
 // Stops the music for sure.
 void S_StopMusic(void);

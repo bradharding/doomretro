@@ -50,7 +50,7 @@
 #include "m_misc.h"
 #include "version.h"
 
-static dboolean cvarsloaded;
+static boolean cvarsloaded;
 
 #define CONFIG_VARIABLE_BOOL(name1, name2, cvar, set)           { #name1, #name2, &cvar, DEFAULT_BOOL,          set          }
 #define CONFIG_VARIABLE_INT(name1, name2, cvar, set)            { #name1, #name2, &cvar, DEFAULT_INT32,         set          }
@@ -346,7 +346,7 @@ void M_SaveCVARs(void)
 
     if (!(file = fopen(packageconfig, "wt")))
     {
-        static dboolean warning;
+        static boolean warning;
 
         if (!warning)
         {
@@ -379,8 +379,8 @@ void M_SaveCVARs(void)
         {
             case DEFAULT_BOOL:
             {
-                dboolean    alias = false;
-                int         value = *(dboolean *)cvars[i].location;
+                boolean    alias = false;
+                int         value = *(boolean *)cvars[i].location;
 
                 for (int j = 0; *valuealiases[j].text; j++)
                     if (value == valuealiases[j].value && cvars[i].valuealiastype == valuealiases[j].type)
@@ -404,7 +404,7 @@ void M_SaveCVARs(void)
 
             case DEFAULT_INT32:
             {
-                dboolean    alias = false;
+                boolean    alias = false;
                 int         value = *(int *)cvars[i].location;
 
                 for (int j = 0; *valuealiases[j].text; j++)
@@ -439,7 +439,7 @@ void M_SaveCVARs(void)
 
             case DEFAULT_INT32_PERCENT:
             {
-                dboolean    alias = false;
+                boolean    alias = false;
                 int         value = *(int *)cvars[i].location;
 
                 for (int j = 0; *valuealiases[j].text; j++)
@@ -464,7 +464,7 @@ void M_SaveCVARs(void)
 
             case DEFAULT_FLOAT:
             {
-                dboolean    alias = false;
+                boolean    alias = false;
                 float       value = *(float *)cvars[i].location;
 
                 for (int j = 0; *valuealiases[j].text; j++)
@@ -495,7 +495,7 @@ void M_SaveCVARs(void)
 
             case DEFAULT_FLOAT_PERCENT:
             {
-                dboolean    alias = false;
+                boolean    alias = false;
                 float       value = *(float *)cvars[i].location;
 
                 for (int j = 0; *valuealiases[j].text; j++)
@@ -600,7 +600,7 @@ static float ParseFloatParameter(char *strparm, int valuealiastype)
     return (float)strtod(strparm, NULL);
 }
 
-static void M_CheckCVARs(dboolean ispackageconfig)
+static void M_CheckCVARs(boolean ispackageconfig)
 {
     if (alwaysrun != false && alwaysrun != true)
         alwaysrun = alwaysrun_default;
@@ -1044,7 +1044,7 @@ static void M_CheckCVARs(dboolean ispackageconfig)
 //
 void M_LoadCVARs(char *filename)
 {
-    dboolean    ispackageconfig = M_StringEndsWith(filename, DOOMRETRO_CONFIG);
+    boolean    ispackageconfig = M_StringEndsWith(filename, DOOMRETRO_CONFIG);
     int         bindcount = 0;
     int         cvarcount = 0;
     int         statcount = 0;
@@ -1161,7 +1161,7 @@ void M_LoadCVARs(char *filename)
                 {
                     char    *temp = uncommify(value);
 
-                    *(dboolean *)cvars[i].location = ParseIntParameter(temp, cvars[i].valuealiastype);
+                    *(boolean *)cvars[i].location = ParseIntParameter(temp, cvars[i].valuealiastype);
                     free(temp);
                     cvarcount++;
 

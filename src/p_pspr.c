@@ -50,11 +50,11 @@
 #define LOWERSPEED  (6 * FRACUNIT)
 #define RAISESPEED  (6 * FRACUNIT)
 
-dboolean        autoaim = autoaim_default;
-dboolean        centerweapon = centerweapon_default;
+boolean        autoaim = autoaim_default;
+boolean        centerweapon = centerweapon_default;
 int             weaponbob = weaponbob_default;
-dboolean        weaponbounce = weaponbounce_default;
-dboolean        weaponrecoil = weaponrecoil_default;
+boolean        weaponbounce = weaponbounce_default;
+boolean        weaponrecoil = weaponrecoil_default;
 
 uint64_t        stat_shotsfired_fists = 0;
 uint64_t        stat_shotsfired_chainsaw = 0;
@@ -75,10 +75,10 @@ uint64_t        stat_shotssuccessful_rocketlauncher = 0;
 uint64_t        stat_shotssuccessful_plasmarifle = 0;
 uint64_t        stat_shotssuccessful_bfg9000 = 0;
 
-dboolean        successfulshot;
-dboolean        skippsprinterp;
+boolean        successfulshot;
+boolean        skippsprinterp;
 
-extern dboolean hitwall;
+extern boolean hitwall;
 
 //
 // A_Recoil
@@ -177,7 +177,7 @@ static void P_BringUpWeapon(void)
 // Returns true if there is enough ammo to shoot.
 // If not, selects the next weapon to use.
 //
-dboolean P_CheckAmmo(weapontype_t weapon)
+boolean P_CheckAmmo(weapontype_t weapon)
 {
     const ammotype_t    ammotype = weaponinfo[weapon].ammotype;
 
@@ -655,7 +655,7 @@ static void P_BulletSlope(mobj_t *actor)
 //
 // P_GunShot
 //
-static void P_GunShot(mobj_t *actor, dboolean accurate)
+static void P_GunShot(mobj_t *actor, boolean accurate)
 {
     angle_t angle = actor->angle;
 

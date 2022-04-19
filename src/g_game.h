@@ -83,13 +83,13 @@ void G_WorldDone(void);
 void G_BuildTiccmd(ticcmd_t *cmd);
 
 void G_Ticker(void);
-dboolean G_Responder(event_t *ev);
+boolean G_Responder(event_t *ev);
 
 void G_PlayerReborn(void);
 
 void G_ScreenShot(void);
 
-void G_SetFastParms(dboolean fast_pending);
+void G_SetFastParms(boolean fast_pending);
 void G_SetMovementSpeed(int scale);
 void G_ToggleAlwaysRun(evtype_t type);
 
@@ -102,9 +102,9 @@ void G_LoadedGameMessage(void);
 extern fixed_t      forwardmove[2];
 extern fixed_t      sidemove[2];
 extern fixed_t      angleturn[3];
-extern dboolean     gamekeydown[NUMKEYS];
-extern dboolean     *mousebuttons;
-extern dboolean     gamecontrollerpress;
+extern boolean     gamekeydown[NUMKEYS];
+extern boolean     *mousebuttons;
+extern boolean     gamecontrollerpress;
 extern char         lbmname1[MAX_PATH];
 extern char         lbmpath1[MAX_PATH];
 extern char         lbmpath2[MAX_PATH];
@@ -113,8 +113,8 @@ extern char         mouseactionlist[MAX_MOUSE_BUTTONS + 2][255];
 extern int          mousewait;
 extern int          quickSaveSlot;
 extern int          st_facecount;
-extern dboolean     skipaction;
+extern boolean     skipaction;
 extern char         savename[MAX_PATH];
-extern dboolean     usemouselook;
-extern dboolean     secretexit;
+extern boolean     usemouselook;
+extern boolean     secretexit;
 extern gameaction_t loadaction;

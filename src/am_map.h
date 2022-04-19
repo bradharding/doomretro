@@ -50,7 +50,7 @@ typedef struct
 } mpoint_t;
 
 // Called by main loop.
-dboolean AM_Responder(const event_t *ev);
+boolean AM_Responder(const event_t *ev);
 
 // Called by main loop.
 void AM_Ticker(void);
@@ -59,12 +59,12 @@ void AM_Ticker(void);
 void AM_Drawer(void);
 void AM_ClearFB(void);
 
-void AM_Start(const dboolean mainwindow);
+void AM_Start(const boolean mainwindow);
 void AM_ClearMarks(void);
-void AM_ToggleFollowMode(dboolean value);
+void AM_ToggleFollowMode(boolean value);
 void AM_ToggleGrid(void);
 void AM_AddMark(void);
-void AM_ToggleRotateMode(dboolean value);
+void AM_ToggleRotateMode(boolean value);
 void AM_ToggleMaxZoom(void);
 
 // Called to force the automap to quit if the level is completed while it is up.
@@ -99,4 +99,4 @@ extern int          pathpointnum_max;
 extern am_frame_t   am_frame;
 extern int          direction;
 
-dboolean keystate(int key);
+boolean keystate(int key);

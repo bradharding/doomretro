@@ -93,7 +93,7 @@ static int FindInList(searchlist_t *list, char *name)
     return -1;
 }
 
-static dboolean SetupList(searchlist_t *list, searchlist_t *src_list, char *startname, char *endname, char *startname2, char *endname2)
+static boolean SetupList(searchlist_t *list, searchlist_t *src_list, char *startname, char *endname, char *startname2, char *endname2)
 {
     int startlump = FindInList(src_list, startname);
 
@@ -141,7 +141,7 @@ static void InitSpriteList(void)
     sprite_frames = Z_Malloc(sprite_frames_alloced * sizeof(*sprite_frames), PU_STATIC, NULL);
 }
 
-static dboolean ValidSpriteLumpName(char *name)
+static boolean ValidSpriteLumpName(char *name)
 {
     if (name[0] == '\0' || name[1] == '\0' || name[2] == '\0' || name[3] == '\0')
         return false;
@@ -198,7 +198,7 @@ static sprite_frame_t *FindSpriteFrame(char *name, char frame)
 }
 
 // Check if sprite lump is needed in the new WAD
-static dboolean SpriteLumpNeeded(lumpinfo_t *lump)
+static boolean SpriteLumpNeeded(lumpinfo_t *lump)
 {
     sprite_frame_t  *sprite;
     int             angle_num;
@@ -267,7 +267,7 @@ static void AddSpriteLump(lumpinfo_t *lump)
     static int      MISFB0;
     static int      SHT2A0;
     static int      SHT2E0;
-    dboolean        ispackagewad = M_StringCompare(leafname(lump->wadfile->path), DOOMRETRO_WAD);
+    boolean        ispackagewad = M_StringCompare(leafname(lump->wadfile->path), DOOMRETRO_WAD);
 
     if (!ValidSpriteLumpName(lump->name))
         return;
@@ -522,7 +522,7 @@ static void DoMerge(void)
 }
 
 // Merge in a file by name
-dboolean W_MergeFile(char *filename, dboolean automatic)
+boolean W_MergeFile(char *filename, boolean automatic)
 {
     int old_numlumps = numlumps;
 

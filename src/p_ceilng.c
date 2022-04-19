@@ -225,10 +225,10 @@ void T_MoveCeiling(ceiling_t *ceiling)
 // EV_DoCeiling
 // Move a ceiling up/down and all around!
 //
-dboolean EV_DoCeiling(line_t *line, ceiling_e type)
+boolean EV_DoCeiling(line_t *line, ceiling_e type)
 {
     int         secnum = -1;
-    dboolean    rtn = false;
+    boolean    rtn = false;
     sector_t    *sec;
 
     if (P_ProcessNoTagLines(line, &sec, &secnum))
@@ -401,9 +401,9 @@ void P_RemoveAllActiveCeilings(void)
 // P_ActivateInStasisCeiling
 // Restart a ceiling that's in-stasis
 //
-dboolean P_ActivateInStasisCeiling(line_t *line)
+boolean P_ActivateInStasisCeiling(line_t *line)
 {
-    dboolean    result = false;
+    boolean    result = false;
 
     for (ceilinglist_t *list = activeceilings; list; list = list->next)
     {
@@ -424,9 +424,9 @@ dboolean P_ActivateInStasisCeiling(line_t *line)
 // EV_CeilingCrushStop
 // Stop a ceiling from crushing!
 //
-dboolean EV_CeilingCrushStop(line_t *line)
+boolean EV_CeilingCrushStop(line_t *line)
 {
-    dboolean    result = false;
+    boolean    result = false;
 
     for (ceilinglist_t *list = activeceilings; list; list = list->next)
     {

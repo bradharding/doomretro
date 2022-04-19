@@ -56,7 +56,7 @@ typedef struct
     int     assigned;       // [BH] counter indicating string has been assigned
 } deh_strs;
 
-extern dboolean dehacked;
+extern boolean dehacked;
 extern deh_strs deh_strlookup[];
 
 extern char     *s_VERSION;
@@ -507,7 +507,7 @@ extern char     **mapnamesn[];
 
 extern int      dehcount;
 
-void ProcessDehFile(char *filename, int lumpnum, dboolean automatic);
+void ProcessDehFile(char *filename, int lumpnum, boolean automatic);
 void D_BuildBEXTables(void);
 
 // MBF21

@@ -90,8 +90,8 @@ void HU_Ticker(void);
 void HU_Drawer(void);
 void HU_Erase(void);
 
-void HU_SetPlayerMessage(char *message, dboolean group, dboolean external);
-void HU_PlayerMessage(char *message, dboolean group, dboolean external);
+void HU_SetPlayerMessage(char *message, boolean group, boolean external);
+void HU_PlayerMessage(char *message, boolean group, boolean external);
 
 void HU_ClearMessages(void);
 void HU_DrawDisk(void);
@@ -102,9 +102,9 @@ extern patch_t  *minuspatch;
 extern int      healthhighlight;
 extern int      ammohighlight;
 extern int      armorhighlight;
-extern dboolean drawdisk;
-extern dboolean idbehold;
+extern boolean drawdisk;
+extern boolean idbehold;
 extern int      message_counter;
-extern dboolean message_dontfuckwithme;
-extern dboolean message_fadeon;
+extern boolean message_dontfuckwithme;
+extern boolean message_fadeon;
 extern short    minuspatchwidth;

@@ -53,7 +53,7 @@ int         skyscrolldelta;
 
 fixed_t     skyiscale;
 
-dboolean    canmouselook = false;
+boolean    canmouselook = false;
 
 void R_InitSkyMap(void)
 {

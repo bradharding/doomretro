@@ -73,9 +73,9 @@ typedef struct
 {
     hu_textline_t   l;                              // text line to draw
 
-    // pointer to dboolean stating whether to update window
-    dboolean        *on;
-    dboolean        laston;                         // last value of *->on.
+    // pointer to boolean stating whether to update window
+    boolean        *on;
+    boolean        laston;                         // last value of *->on.
 } hu_stext_t;
 
 //
@@ -89,11 +89,11 @@ typedef struct
 void HUlib_InitTextLine(hu_textline_t *t, int x, int y, patch_t **f, int sc);
 
 // returns success
-dboolean HUlib_AddCharToTextLine(hu_textline_t *t, char ch);
+boolean HUlib_AddCharToTextLine(hu_textline_t *t, char ch);
 
 // draws text line
-void HUlib_DrawAutomapTextLine(hu_textline_t *l, dboolean external);
-void HUlib_DrawAltAutomapTextLine(hu_textline_t *l, dboolean external);
+void HUlib_DrawAutomapTextLine(hu_textline_t *l, boolean external);
+void HUlib_DrawAltAutomapTextLine(hu_textline_t *l, boolean external);
 
 // erases text line
 void HUlib_EraseTextLine(hu_textline_t *l);
@@ -102,18 +102,18 @@ void HUlib_EraseTextLine(hu_textline_t *l);
 // Scrolling Text window widget routines
 //
 
-void HUlib_InitSText(hu_stext_t *s, int x, int y, patch_t **font, int startchar, dboolean *on);
+void HUlib_InitSText(hu_stext_t *s, int x, int y, patch_t **font, int startchar, boolean *on);
 
 void HUlib_AddMessageToSText(hu_stext_t *s, const char *msg);
 
 // draws stext
-void HUlib_DrawSText(hu_stext_t *s, dboolean external);
+void HUlib_DrawSText(hu_stext_t *s, boolean external);
 
 // erases all stext lines
 void HUlib_EraseSText(hu_stext_t *s);
 
-extern void (*althudtextfunc)(int, int, byte *, patch_t *, dboolean, int, int, byte *);
+extern void (*althudtextfunc)(int, int, byte *, patch_t *, boolean, int, int, byte *);
 
-extern dboolean s_STSTR_BEHOLD2;
+extern boolean s_STSTR_BEHOLD2;
 extern byte     tempscreen[MAXSCREENAREA];
 #pragma once

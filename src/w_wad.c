@@ -83,7 +83,7 @@ int         numlumps;
 static int          numwads;
 static wadfile_t    *wadlist[MAXWADS];
 
-static dboolean IsFreedoom(const char *iwadname)
+static boolean IsFreedoom(const char *iwadname)
 {
     FILE        *fp = fopen(iwadname, "rb");
     wadinfo_t   header;
@@ -112,7 +112,7 @@ static dboolean IsFreedoom(const char *iwadname)
     return result;
 }
 
-static dboolean IsBFGEdition(const char *iwadname)
+static boolean IsBFGEdition(const char *iwadname)
 {
     FILE        *fp = fopen(iwadname, "rb");
     wadinfo_t   header;
@@ -151,7 +151,7 @@ static dboolean IsBFGEdition(const char *iwadname)
     return (result1 && result2);
 }
 
-dboolean IsUltimateDOOM(const char *iwadname)
+boolean IsUltimateDOOM(const char *iwadname)
 {
     FILE        *fp = fopen(iwadname, "rb");
     wadinfo_t   header;
@@ -280,9 +280,9 @@ char *W_GuessFilename(char *path, char *string)
 // Files with a .wad extension are wadlink files
 //  with multiple lumps.
 //
-dboolean W_AddFile(char *filename, dboolean automatic)
+boolean W_AddFile(char *filename, boolean automatic)
 {
-    static dboolean packagewadadded;
+    static boolean packagewadadded;
     wadinfo_t       header;
     size_t          length;
     int             startlump;
@@ -414,7 +414,7 @@ unsigned int W_LumpNameHash(const char *s)
     return hash;
 }
 
-dboolean HasDehackedLump(const char *pwadname)
+boolean HasDehackedLump(const char *pwadname)
 {
     FILE        *fp = fopen(pwadname, "rb");
     filelump_t  lump;

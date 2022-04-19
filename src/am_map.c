@@ -64,19 +64,19 @@ int         am_bluedoorcolor = am_bluedoorcolor_default;
 int         am_cdwallcolor = am_cdwallcolor_default;
 int         am_crosshaircolor = am_crosshaircolor_default;
 int         am_display = am_display_default;
-dboolean    am_external = am_external_default;
+boolean    am_external = am_external_default;
 int         am_fdwallcolor = am_fdwallcolor_default;
-dboolean    am_followmode = am_followmode_default;
-dboolean    am_grid = am_grid_default;
+boolean    am_followmode = am_followmode_default;
+boolean    am_grid = am_grid_default;
 int         am_gridcolor = am_gridcolor_default;
 char        *am_gridsize = am_gridsize_default;
 int         am_markcolor = am_markcolor_default;
-dboolean    am_path = am_path_default;
+boolean    am_path = am_path_default;
 int         am_pathcolor = am_pathcolor_default;
 int         am_playercolor = am_playercolor_default;
-dboolean    am_playerstats = am_playerstats_default;
+boolean    am_playerstats = am_playerstats_default;
 int         am_reddoorcolor = am_reddoorcolor_default;
-dboolean    am_rotatemode = am_rotatemode_default;
+boolean    am_rotatemode = am_rotatemode_default;
 int         am_teleportercolor = am_teleportercolor_default;
 int         am_thingcolor = am_thingcolor_default;
 int         am_tswallcolor = am_tswallcolor_default;
@@ -148,7 +148,7 @@ typedef struct
     mpoint_t    b;
 } mline_t;
 
-dboolean            automapactive;
+boolean            automapactive;
 
 static mpoint_t     m_paninc;       // how far the window pans each tic (map coords)
 static fixed_t      mtof_zoommul;   // how far the window zooms in each tic (map coords)
@@ -191,16 +191,16 @@ int                 pathpointnum_max;
 static int          gridwidth;
 static int          gridheight;
 
-static dboolean     bigstate;
-static dboolean     movement;
-static dboolean     speedtoggle;
+static boolean     bigstate;
+static boolean     movement;
+static boolean     speedtoggle;
 static SDL_Keymod   modstate;
 int                 keydown;
 int                 direction;
 
 am_frame_t          am_frame;
 
-static dboolean isteleportline[NUMLINESPECIALS];
+static boolean isteleportline[NUMLINESPECIALS];
 
 static void AM_Rotate(fixed_t *x, fixed_t *y, angle_t angle);
 static void (*putbigdot)(unsigned int, unsigned int, const byte *);
@@ -391,7 +391,7 @@ void AM_SetAutomapSize(int screensize)
     m_h = FTOM(MAPHEIGHT);
 }
 
-static void AM_InitVariables(const dboolean mainwindow)
+static void AM_InitVariables(const boolean mainwindow)
 {
     automapactive = mainwindow;
 
@@ -431,7 +431,7 @@ void AM_Stop(void)
     HU_ClearMessages();
 }
 
-void AM_Start(const dboolean mainwindow)
+void AM_Start(const boolean mainwindow)
 {
     if (lastlevel != gamemap || lastepisode != gameepisode || !mainwindow)
     {
@@ -468,7 +468,7 @@ static void AM_MaxOutWindowScale(void)
     AM_ActivateNewScale();
 }
 
-static dboolean AM_GetSpeedToggle(void)
+static boolean AM_GetSpeedToggle(void)
 {
     return ((!!(gamecontrollerbuttons & GAMECONTROLLER_LEFT_TRIGGER)) ^ (!!(modstate & KMOD_SHIFT)));
 }
@@ -506,7 +506,7 @@ void AM_ToggleMaxZoom(void)
         D_FadeScreen(false);
 }
 
-void AM_ToggleFollowMode(dboolean value)
+void AM_ToggleFollowMode(boolean value)
 {
     if ((am_followmode = value))
     {
@@ -632,7 +632,7 @@ void AM_AddToPath(void)
     pathpoints[pathpointnum++].y = prevy = y;
 }
 
-void AM_ToggleRotateMode(dboolean value)
+void AM_ToggleRotateMode(boolean value)
 {
     if ((am_rotatemode = value))
     {
@@ -657,7 +657,7 @@ void AM_ToggleRotateMode(dboolean value)
 //
 // Handle events (user inputs) in automap mode
 //
-dboolean AM_Responder(const event_t *ev)
+boolean AM_Responder(const event_t *ev)
 {
     int rc = false;
 
@@ -666,7 +666,7 @@ dboolean AM_Responder(const event_t *ev)
 
     if (!menuactive && !paused)
     {
-        static dboolean backbuttondown;
+        static boolean backbuttondown;
 
         if (!(gamecontrollerbuttons & gamecontrollerautomap))
             backbuttondown = false;
@@ -1211,7 +1211,7 @@ void AM_ClearFB(void)
 //
 // Based on Cohen-Sutherland clipping algorithm but with a slightly faster reject and precalculated
 // slopes. If the speed is needed, use a hash algorithm to handle the common cases.
-static dboolean AM_ClipMline(int *x0, int *y0, int *x1, int *y1)
+static boolean AM_ClipMline(int *x0, int *y0, int *x1, int *y1)
 {
     enum
     {
@@ -1285,8 +1285,8 @@ static inline void PUTBIGDOT(unsigned int x, unsigned int y, const byte *color)
     if (x < (unsigned int)MAPWIDTH)
     {
         byte            *dot = mapscreen + y + x;
-        const dboolean  attop = (y < MAPAREA);
-        const dboolean  atbottom = (y < (unsigned int)MAPBOTTOM);
+        const boolean  attop = (y < MAPAREA);
+        const boolean  atbottom = (y < (unsigned int)MAPBOTTOM);
 
         if (attop)
             *dot = *(*dot + color);

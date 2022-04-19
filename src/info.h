@@ -280,7 +280,7 @@ typedef struct
     int         flags2;
     statenum_t  raisestate;
     int         frames;
-    dboolean    fullbright;
+    boolean    fullbright;
     int         blood;
     int         shadowoffset;
 

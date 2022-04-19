@@ -58,7 +58,7 @@ struct allocated_sound_s
     allocated_sound_t       *next;
 };
 
-static dboolean             sound_initialized;
+static boolean             sound_initialized;
 
 static allocated_sound_t    *channels_playing[s_channels_max];
 
@@ -106,7 +106,7 @@ static void FreeAllocatedSound(allocated_sound_t *snd)
 
 // Search from the tail backwards along the allocated sounds list, find and free a sound that is
 // not in use, to free up memory. Return true for success.
-static dboolean FindAndFreeSound(void)
+static boolean FindAndFreeSound(void)
 {
     allocated_sound_t   *snd = allocated_sounds_tail;
 
@@ -271,7 +271,7 @@ static void ExpandSoundData(sfxinfo_t *sfxinfo, byte *data, int samplerate, int 
 
 // Load and convert a sound effect
 // Returns true if successful
-dboolean CacheSFX(sfxinfo_t *sfxinfo)
+boolean CacheSFX(sfxinfo_t *sfxinfo)
 {
     // need to load the sound
     int     lumpnum = sfxinfo->lumpnum;
@@ -409,12 +409,12 @@ void I_FadeOutSound(int channel)
         FreeAllocatedSound(snd);
 }
 
-dboolean I_SoundIsPlaying(int channel)
+boolean I_SoundIsPlaying(int channel)
 {
     return Mix_Playing(channel);
 }
 
-dboolean I_AnySoundStillPlaying(void)
+boolean I_AnySoundStillPlaying(void)
 {
     return Mix_Playing(-1);
 }
@@ -429,7 +429,7 @@ void I_ShutdownSound(void)
     sound_initialized = false;
 }
 
-dboolean I_InitSound(void)
+boolean I_InitSound(void)
 {
     const SDL_version   *linked = Mix_Linked_Version();
     uint16_t            mixer_format;

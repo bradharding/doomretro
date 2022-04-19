@@ -55,7 +55,7 @@
 //
 char    cheatkey = '\0';
 
-dboolean cht_CheckCheat(cheatseq_t *cht, unsigned char key)
+boolean cht_CheckCheat(cheatseq_t *cht, unsigned char key)
 {
     if (*consolecheat && M_StringCompare(consolecheat, cht->sequence))
     {

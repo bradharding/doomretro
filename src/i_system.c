@@ -221,7 +221,7 @@ void I_PrintSystemInfo(void)
 void I_ShutdownWindows32(void);
 #endif
 
-void I_Quit(dboolean shutdown)
+void I_Quit(boolean shutdown)
 {
     if (shutdown)
     {
@@ -254,7 +254,7 @@ void I_Error(const char *error, ...)
 {
     va_list         argptr;
     char            msgbuf[512];
-    static dboolean already_quitting;
+    static boolean already_quitting;
 
     if (already_quitting)
         exit(-1);

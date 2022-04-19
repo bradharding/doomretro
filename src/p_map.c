@@ -58,10 +58,10 @@ static int      ls_x, ls_y;     // Lost Soul position for Lost Soul checks      
 
 // If "floatok" true, move would be ok
 // if within "tmfloorz - tmceilingz".
-dboolean        floatok;
+boolean        floatok;
 
 // killough 11/98: if "felldown" true, object was pushed down ledge
-dboolean        felldown;
+boolean        felldown;
 
 fixed_t         tmbbox[4];
 fixed_t         tmfloorz;
@@ -87,15 +87,15 @@ static angle_t  shootangle;     // [BH] angle of blood and puffs for automap
 // Temporary holder for thing_sectorlist threads
 msecnode_t      *sector_list;   // phares 03/16/98
 
-dboolean        infight;
+boolean        infight;
 
 static mobj_t   *onmobj;
 
-dboolean        infiniteheight = infiniteheight_default;
+boolean        infiniteheight = infiniteheight_default;
 
 uint64_t        stat_distancetraveled = 0;
 
-extern dboolean successfulshot;
+extern boolean successfulshot;
 
 //
 // TELEPORT MOVE
@@ -104,9 +104,9 @@ extern dboolean successfulshot;
 //
 // PIT_StompThing
 //
-static dboolean telefrag;   // killough 08/09/98: whether to telefrag at exit
+static boolean telefrag;   // killough 08/09/98: whether to telefrag at exit
 
-static dboolean PIT_StompThing(mobj_t *thing)
+static boolean PIT_StompThing(mobj_t *thing)
 {
     fixed_t blockdist;
 
@@ -215,7 +215,7 @@ int P_GetMoveFactor(const mobj_t *mo, int *frictionp)
 //
 // P_TeleportMove
 //
-dboolean P_TeleportMove(mobj_t *thing, fixed_t x, fixed_t y, fixed_t z, dboolean boss)
+boolean P_TeleportMove(mobj_t *thing, fixed_t x, fixed_t y, fixed_t z, boolean boss)
 {
     int             xl;
     int             xh;
@@ -310,7 +310,7 @@ dboolean P_TeleportMove(mobj_t *thing, fixed_t x, fixed_t y, fixed_t z, dboolean
 // [BH] Allow pain elementals to shoot lost souls through 2-sided walls with an ML_BLOCKMONSTERS
 //  flag. This is a compromise between BOOM and Vanilla DOOM behaviors, and allows pain elementals
 //  at the end of REQUIEM.WAD's MAP04 to do their thing.
-static dboolean PIT_CrossLine(line_t *ld)
+static boolean PIT_CrossLine(line_t *ld)
 {
     if (!(ld->flags & ML_TWOSIDED) || (ld->flags & (ML_BLOCKING/* | ML_BLOCKMONSTERS*/)))
         if (!(tmbbox[BOXLEFT] > ld->bbox[BOXRIGHT]
@@ -354,7 +354,7 @@ void P_CheckSpechits(void)
 // PIT_CheckLine
 // Adjusts tmfloorz and tmceilingz as lines are contacted
 //
-static dboolean PIT_CheckLine(line_t *ld)
+static boolean PIT_CheckLine(line_t *ld)
 {
     if (tmbbox[BOXRIGHT] <= ld->bbox[BOXLEFT] || tmbbox[BOXLEFT] >= ld->bbox[BOXRIGHT]
         || tmbbox[BOXTOP] <= ld->bbox[BOXBOTTOM] || tmbbox[BOXBOTTOM] >= ld->bbox[BOXTOP])
@@ -430,7 +430,7 @@ static dboolean PIT_CheckLine(line_t *ld)
 }
 
 // MBF21: dehacked projectile groups
-static dboolean P_ProjectileImmune(mobj_t *target, mobj_t *source)
+static boolean P_ProjectileImmune(mobj_t *target, mobj_t *source)
 {
     // PG_GROUPLESS means no immunity, even to own species
     return ((mobjinfo[target->type].projectilegroup != PG_GROUPLESS || target == source)
@@ -444,13 +444,13 @@ static dboolean P_ProjectileImmune(mobj_t *target, mobj_t *source)
 //
 // PIT_CheckThing
 //
-static dboolean PIT_CheckThing(mobj_t *thing)
+static boolean PIT_CheckThing(mobj_t *thing)
 {
     fixed_t             blockdist;
-    dboolean            unblocking = false;
+    boolean            unblocking = false;
     const int           flags = thing->flags;
     const int           tmflags = tmthing->flags;
-    const dboolean      corpse = (flags & MF_CORPSE);
+    const boolean      corpse = (flags & MF_CORPSE);
     const mobjtype_t    type = thing->type;
     const mobjtype_t    tmtype = tmthing->type;
 
@@ -687,7 +687,7 @@ static dboolean PIT_CheckThing(mobj_t *thing)
 // Then check the PE and LS to see if they're on different
 // sides of the blocking line. If so, return true, otherwise
 // false.
-dboolean P_CheckLineSide(mobj_t *actor, fixed_t x, fixed_t y)
+boolean P_CheckLineSide(mobj_t *actor, fixed_t x, fixed_t y)
 {
     int xl;
     int xh;
@@ -725,7 +725,7 @@ dboolean P_CheckLineSide(mobj_t *actor, fixed_t x, fixed_t y)
 //
 // PIT_CheckOnMobjZ
 //
-static dboolean PIT_CheckOnMobjZ(mobj_t *thing)
+static boolean PIT_CheckOnMobjZ(mobj_t *thing)
 {
     fixed_t blockdist;
 
@@ -783,7 +783,7 @@ static dboolean PIT_CheckOnMobjZ(mobj_t *thing)
 //  speciallines[]
 //  numspeciallines
 //
-dboolean P_CheckPosition(mobj_t *thing, fixed_t x, fixed_t y)
+boolean P_CheckPosition(mobj_t *thing, fixed_t x, fixed_t y)
 {
     int             xl;
     int             xh;
@@ -976,10 +976,10 @@ mobj_t *P_CheckOnMobj(mobj_t *thing)
     return NULL;
 }
 
-dboolean P_IsInLiquid(mobj_t *thing)
+boolean P_IsInLiquid(mobj_t *thing)
 {
     const int   flags = thing->flags;
-    dboolean    corpse;
+    boolean    corpse;
     fixed_t     z;
 
     if (flags & MF_NOGRAVITY)
@@ -1004,7 +1004,7 @@ dboolean P_IsInLiquid(mobj_t *thing)
 // Attempt to move to a new position,
 // crossing special lines unless MF_TELEPORT is set.
 //
-dboolean P_TryMove(mobj_t *thing, fixed_t x, fixed_t y, int dropoff)
+boolean P_TryMove(mobj_t *thing, fixed_t x, fixed_t y, int dropoff)
 {
     fixed_t oldx, oldy;
     int     flags;
@@ -1110,7 +1110,7 @@ dboolean P_TryMove(mobj_t *thing, fixed_t x, fixed_t y, int dropoff)
 // If more than one linedef is contacted, the effects are cumulative,
 // so balancing is possible.
 //
-static dboolean PIT_ApplyTorque(line_t *ld)
+static boolean PIT_ApplyTorque(line_t *ld)
 {
     // If thing touches two-sided pivot linedef
     if (ld->backsector
@@ -1230,10 +1230,10 @@ void P_ApplyTorque(mobj_t *mo)
 // the z will be set to the lowest value
 // and false will be returned.
 //
-static dboolean P_ThingHeightClip(mobj_t *thing)
+static boolean P_ThingHeightClip(mobj_t *thing)
 {
     const fixed_t   oldfloorz = thing->floorz;  // haleyjd
-    const dboolean  onfloor = (thing->z == oldfloorz);
+    const boolean  onfloor = (thing->z == oldfloorz);
     const int       flags2 = thing->flags2;
     const player_t  *player = thing->player;
 
@@ -1307,7 +1307,7 @@ static void P_HitSlideLine(line_t *ld)
     // Check for the special cases of horizontal or vertical walls.
 
     // killough 10/98: only bounce if hit hard (prevents wobbling)
-    const dboolean  icyfloor = (P_ApproxDistance(tmxmove, tmymove) > 4 * FRACUNIT
+    const boolean  icyfloor = (P_ApproxDistance(tmxmove, tmymove) > 4 * FRACUNIT
                                 && slidemo->z <= slidemo->floorz
                                 && P_GetFriction(slidemo, NULL) > ORIG_FRICTION);
 
@@ -1380,7 +1380,7 @@ static void P_HitSlideLine(line_t *ld)
 //
 // PTR_SlideTraverse
 //
-static dboolean PTR_SlideTraverse(intercept_t *in)
+static boolean PTR_SlideTraverse(intercept_t *in)
 {
     line_t                  *li = in->d.line;
     const unsigned short    flags = li->flags;
@@ -1547,7 +1547,7 @@ static fixed_t  bottomslope;
 // PTR_AimTraverse
 // Sets linetarget and aimslope when a target is aimed at.
 //
-static dboolean PTR_AimTraverse(intercept_t *in)
+static boolean PTR_AimTraverse(intercept_t *in)
 {
     mobj_t  *th;
     fixed_t thingtopslope;
@@ -1632,12 +1632,12 @@ static dboolean PTR_AimTraverse(intercept_t *in)
     return false;                       // don't go any farther
 }
 
-dboolean    hitwall;
+boolean    hitwall;
 
 //
 // PTR_ShootTraverse
 //
-static dboolean PTR_ShootTraverse(intercept_t *in)
+static boolean PTR_ShootTraverse(intercept_t *in)
 {
     fixed_t x, y, z;
     fixed_t frac;
@@ -1852,7 +1852,7 @@ void P_LineAttack(mobj_t *t1, angle_t angle, fixed_t distance, fixed_t slope, in
 //
 static mobj_t   *usething;
 
-static dboolean PTR_UseTraverse(intercept_t *in)
+static boolean PTR_UseTraverse(intercept_t *in)
 {
     int     side = 0;
     line_t  *line = in->d.line;
@@ -1902,7 +1902,7 @@ static dboolean PTR_UseTraverse(intercept_t *in)
 //
 // by Lee Killough
 //
-static dboolean PTR_NoWayTraverse(intercept_t *in)
+static boolean PTR_NoWayTraverse(intercept_t *in)
 {
     line_t                  *ld = in->d.line;
     const unsigned short    flags = ld->flags;
@@ -1911,7 +1911,7 @@ static dboolean PTR_NoWayTraverse(intercept_t *in)
         || (P_LineOpening(ld), (openrange <= 0 || openbottom > usething->z + 24 * FRACUNIT || opentop < usething->z + usething->height))));
 }
 
-dboolean P_DoorClosed(line_t *line)
+boolean P_DoorClosed(line_t *line)
 {
     const mobj_t    *mo = viewplayer->mo;
 
@@ -1956,10 +1956,10 @@ static mobj_t   *bombsource;
 static mobj_t   *bombspot;
 static int      bombdamage;
 static int      bombdistance;
-static dboolean bombverticality;
+static boolean bombverticality;
 
 // MBF21: dehacked splash groups
-static dboolean P_SplashImmune(mobj_t *target, mobj_t *spot)
+static boolean P_SplashImmune(mobj_t *target, mobj_t *spot)
 {
     // not default behavior and same group
     return (mobjinfo[target->type].splashgroup != SG_DEFAULT && mobjinfo[target->type].splashgroup == mobjinfo[spot->type].splashgroup);
@@ -1970,7 +1970,7 @@ static dboolean P_SplashImmune(mobj_t *target, mobj_t *spot)
 // "bombsource" is the creature
 // that caused the explosion at "bombspot".
 //
-dboolean PIT_RadiusAttack(mobj_t *thing)
+boolean PIT_RadiusAttack(mobj_t *thing)
 {
     fixed_t     dist;
     mobjtype_t  type;
@@ -2045,7 +2045,7 @@ dboolean PIT_RadiusAttack(mobj_t *thing)
 // P_RadiusAttack
 // Source is the creature that caused the explosion at spot.
 //
-void P_RadiusAttack(mobj_t *spot, mobj_t *source, int damage, int distance, dboolean verticality)
+void P_RadiusAttack(mobj_t *spot, mobj_t *source, int damage, int distance, boolean verticality)
 {
     const fixed_t   dist = (damage << FRACBITS) + MAXRADIUS;
     const int       xh = P_GetSafeBlockX(spot->x + dist - bmaporgx);
@@ -2074,8 +2074,8 @@ void P_RadiusAttack(mobj_t *spot, mobj_t *source, int damage, int distance, dboo
 // If crunch is true, they will take damage as they are being crushed.
 // If crunch is false, you should set the sector height back the way it was and call P_ChangeSector() again to undo the changes.
 //
-static dboolean crushchange;
-static dboolean nofit;
+static boolean crushchange;
+static boolean nofit;
 
 //
 // PIT_ChangeSector
@@ -2226,7 +2226,7 @@ static void PIT_ChangeSector(mobj_t *thing)
 // sector. Both more accurate and faster.
 // [BH] renamed from P_CheckSector to P_ChangeSector to replace old one entirely
 //
-dboolean P_ChangeSector(sector_t *sector, dboolean crunch)
+boolean P_ChangeSector(sector_t *sector, boolean crunch)
 {
     msecnode_t  *n;
 
@@ -2388,7 +2388,7 @@ void P_DelSeclist(msecnode_t *node)
 // cross through it. You have already decided that the object is allowed
 // at this location, so don't bother with checking impassable or
 // blocking lines.
-static dboolean PIT_GetSectors(line_t *ld)
+static boolean PIT_GetSectors(line_t *ld)
 {
     if (tmbbox[BOXRIGHT] <= ld->bbox[BOXLEFT] || tmbbox[BOXLEFT] >= ld->bbox[BOXRIGHT]
         || tmbbox[BOXTOP] <= ld->bbox[BOXBOTTOM] || tmbbox[BOXBOTTOM] >= ld->bbox[BOXTOP])

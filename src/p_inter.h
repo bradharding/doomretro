@@ -38,17 +38,17 @@
 
 #pragma once
 
-dboolean P_GiveBody(int num, int max, dboolean stat);
-dboolean P_GiveMegaHealth(dboolean stat);
-dboolean P_GiveArmor(armortype_t armortype, dboolean stat);
-dboolean P_GiveAllCards(void);
-dboolean P_GiveAllKeyCards(void);
-dboolean P_GiveAllSkullKeys(void);
-dboolean P_GiveAllCardsInMap(void);
-dboolean P_GivePower(int power);
-dboolean P_GiveAllWeapons(void);
-dboolean P_GiveBackpack(dboolean giveammo, dboolean stat);
-dboolean P_GiveFullAmmo(void);
+boolean P_GiveBody(int num, int max, boolean stat);
+boolean P_GiveMegaHealth(boolean stat);
+boolean P_GiveArmor(armortype_t armortype, boolean stat);
+boolean P_GiveAllCards(void);
+boolean P_GiveAllKeyCards(void);
+boolean P_GiveAllSkullKeys(void);
+boolean P_GiveAllCardsInMap(void);
+boolean P_GivePower(int power);
+boolean P_GiveAllWeapons(void);
+boolean P_GiveBackpack(boolean giveammo, boolean stat);
+boolean P_GiveFullAmmo(void);
 void P_AddBonus(void);
 void P_UpdateAmmoStat(ammotype_t ammotype, int num);
 void P_UpdateArmorStat(int num);

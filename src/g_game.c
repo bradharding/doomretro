@@ -81,11 +81,11 @@ int             gameepisode;
 int             gamemap;
 char            speciallumpname[6] = "";
 
-dboolean        paused;
-dboolean        sendpause;                          // send a pause event next tic
-static dboolean sendsave;                           // send a save event next tic
+boolean        paused;
+boolean        sendpause;                          // send a pause event next tic
+static boolean sendsave;                           // send a save event next tic
 
-dboolean        viewactive;
+boolean        viewactive;
 
 int             gametime = 0;
 int             totalkills;                         // for intermission
@@ -97,8 +97,8 @@ int             barrelcount;
 
 wbstartstruct_t wminfo;                             // parms for world map/intermission
 
-dboolean        autoload = autoload_default;
-dboolean        autosave = autosave_default;
+boolean        autoload = autoload_default;
+boolean        autosave = autosave_default;
 
 #define MAXPLMOVE       forwardmove[1]
 
@@ -144,31 +144,31 @@ static int *gamecontrollerweapons[NUMWEAPONKEYS] =
 
 #define SLOWTURNTICS    6
 
-dboolean        gamekeydown[NUMKEYS] = { 0 };
+boolean        gamekeydown[NUMKEYS] = { 0 };
 char            keyactionlist[NUMKEYS][255] = { "" };
 static int      turnheld;                       // for accelerative turning
 
-static dboolean mousearray[MAX_MOUSE_BUTTONS + 1];
-dboolean        *mousebuttons = &mousearray[1]; // allow [-1]
+static boolean mousearray[MAX_MOUSE_BUTTONS + 1];
+boolean        *mousebuttons = &mousearray[1]; // allow [-1]
 char            mouseactionlist[MAX_MOUSE_BUTTONS + 2][255] = { "" };
 
-dboolean        skipaction = false;
+boolean        skipaction = false;
 
 static int      mousex;
 static int      mousey;
 
-dboolean        m_doubleclick_use = m_doubleclick_use_default;
-dboolean        m_invertyaxis = m_invertyaxis_default;
-dboolean        m_novertical = m_novertical_default;
-dboolean        mouselook = mouselook_default;
+boolean        m_doubleclick_use = m_doubleclick_use_default;
+boolean        m_invertyaxis = m_invertyaxis_default;
+boolean        m_novertical = m_novertical_default;
+boolean        mouselook = mouselook_default;
 
-dboolean        usemouselook = false;
+boolean        usemouselook = false;
 
 static int      dclicktime;
-static dboolean dclickstate;
+static boolean dclickstate;
 static int      dclicks;
 static int      dclicktime2;
-static dboolean dclickstate2;
+static boolean dclickstate2;
 static int      dclicks2;
 
 static int      savegameslot;
@@ -258,7 +258,7 @@ void G_PrevWeapon(void)
 //
 void G_BuildTiccmd(ticcmd_t *cmd)
 {
-    dboolean    strafe;
+    boolean    strafe;
     int         run;
     int         forward = 0;
     int         side = 0;
@@ -445,7 +445,7 @@ void G_BuildTiccmd(ticcmd_t *cmd)
 
     if (m_doubleclick_use)
     {
-        dboolean    bstrafe;
+        boolean    bstrafe;
 
         // forward double click
         if (mousebuttons[mouseforward] != dclickstate && dclicktime > 1)
@@ -715,7 +715,7 @@ void G_ToggleAlwaysRun(evtype_t type)
 // G_Responder
 // Get info needed to make ticcmd_ts for the players.
 //
-dboolean G_Responder(event_t *ev)
+boolean G_Responder(event_t *ev)
 {
     int key;
 
@@ -1164,7 +1164,7 @@ void G_ScreenShot(void)
         C_Warning(0, "A screenshot couldn't be taken.");
 }
 
-dboolean    newpars = false;
+boolean    newpars = false;
 
 // DOOM Par Times
 int pars[6][10] =
@@ -1197,7 +1197,7 @@ static const int npars[9] =
 //
 // G_DoCompleted
 //
-dboolean secretexit;
+boolean secretexit;
 
 void G_ExitLevel(void)
 {
@@ -1714,9 +1714,9 @@ static void G_DoNewGame(void)
 
 // killough 04/10/98: New function to fix bug which caused DOOM
 // lockups when idclev was used in conjunction with -fast.
-void G_SetFastParms(dboolean fast_pending)
+void G_SetFastParms(boolean fast_pending)
 {
-    static dboolean fast = false;           // remembers fast state
+    static boolean fast = false;           // remembers fast state
 
     if (fast != fast_pending)               // only change if necessary
     {

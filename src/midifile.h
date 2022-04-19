@@ -207,6 +207,6 @@ midi_track_iter_t *MIDI_IterateTrack(midi_file_t *file, unsigned int track);
 unsigned int MIDI_GetDeltaTime(midi_track_iter_t *iter);
 
 // Get a pointer to the next MIDI event.
-dboolean MIDI_GetNextEvent(midi_track_iter_t *iter, midi_event_t **event);
+boolean MIDI_GetNextEvent(midi_track_iter_t *iter, midi_event_t **event);
 
 #endif

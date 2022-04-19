@@ -168,7 +168,7 @@ void P_StartButton(line_t *line, bwhere_e where, int texture, int time)
 // Function that changes wall texture.
 // Tell it if switch is ok to use again (true=yes, it's a button).
 //
-void P_ChangeSwitchTexture(line_t *line, dboolean useagain)
+void P_ChangeSwitchTexture(line_t *line, boolean useagain)
 {
     int     sidenum = line->sidenum[0];
     short   *toptexture = &sides[sidenum].toptexture;
@@ -216,7 +216,7 @@ void P_ChangeSwitchTexture(line_t *line, dboolean useagain)
 // Called when a thing uses a special line.
 // Only the front sides of lines are usable.
 //
-dboolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
+boolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
 {
     int special;
 
@@ -228,7 +228,7 @@ dboolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
     {
         // pointer to line function is NULL by default, set non-null if
         // line special is push or switch generalized linedef type
-        dboolean (*linefunc)(line_t *line) = NULL;
+        boolean (*linefunc)(line_t *line) = NULL;
 
         // check each range of generalized linedefs
         if (special >= GenFloorBase)

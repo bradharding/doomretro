@@ -43,9 +43,9 @@
 #include "st_lib.h"
 #include "v_video.h"
 
-dboolean    negativehealth = negativehealth_default;
+boolean    negativehealth = negativehealth_default;
 
-dboolean    usesmallnums;
+boolean    usesmallnums;
 
 static void (*statbarnumfunc)(int, int, int, int, int, patch_t *);
 
@@ -247,7 +247,7 @@ void STlib_InitMultIcon(st_multicon_t *mi, int x, int y, patch_t **il, int *inum
     mi->p = il;
 }
 
-void STlib_UpdateMultIcon(st_multicon_t *mi, dboolean refresh)
+void STlib_UpdateMultIcon(st_multicon_t *mi, boolean refresh)
 {
     if ((mi->oldinum != *mi->inum || refresh) && *mi->inum != -1)
     {
@@ -256,7 +256,7 @@ void STlib_UpdateMultIcon(st_multicon_t *mi, dboolean refresh)
     }
 }
 
-void STlib_UpdateArmsIcon(st_multicon_t *mi, dboolean refresh, int i)
+void STlib_UpdateArmsIcon(st_multicon_t *mi, boolean refresh, int i)
 {
     if ((mi->oldinum != *mi->inum || refresh) && *mi->inum != -1)
     {

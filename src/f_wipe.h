@@ -44,4 +44,4 @@
 
 void wipe_StartScreen(void);
 void wipe_EndScreen(void);
-dboolean wipe_ScreenWipe(void);
+boolean wipe_ScreenWipe(void);

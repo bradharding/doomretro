@@ -473,7 +473,7 @@ static const iwads_t iwads[] =
 #if !defined(_WIN32) && !defined(__APPLE__)
 // Returns true if the specified path is a path to a file
 // of the specified name.
-static dboolean DirIsFile(char *path, char *filename)
+static boolean DirIsFile(char *path, char *filename)
 {
     return (strchr(path, DIR_SEPARATOR) && !strcasecmp(leafname(path), filename));
 }
@@ -597,7 +597,7 @@ static void AddDoomWADPath(void)
 static void BuildIWADDirList(void)
 {
     char            *doomwaddir;
-    static dboolean iwad_dirs_built;
+    static boolean iwad_dirs_built;
 
     if (iwad_dirs_built)
         return;
@@ -776,7 +776,7 @@ static char *SaveGameIWADName(void)
 //
 // Chooses the directory used to store saved games.
 //
-void D_SetSaveGameFolder(dboolean output)
+void D_SetSaveGameFolder(boolean output)
 {
     int p = M_CheckParmsWithArgs("-save", "-savedir", "", 1, 1);
 

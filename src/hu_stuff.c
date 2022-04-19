@@ -76,19 +76,19 @@
 patch_t                 *hu_font[HU_FONTSIZE];
 static hu_textline_t    w_title;
 
-dboolean                message_on;
-dboolean                message_fadeon;
-dboolean                message_dontfuckwithme;
-static dboolean         message_external;
-static dboolean         message_nottobefuckedwith;
+boolean                message_on;
+boolean                message_fadeon;
+boolean                message_dontfuckwithme;
+static boolean         message_external;
+static boolean         message_nottobefuckedwith;
 
-dboolean                idbehold;
-dboolean                s_STSTR_BEHOLD2;
+boolean                idbehold;
+boolean                s_STSTR_BEHOLD2;
 
 static hu_stext_t       w_message;
 int                     message_counter;
 
-static dboolean         headsupactive;
+static boolean         headsupactive;
 
 patch_t                 *minuspatch = NULL;
 short                   minuspatchwidth;
@@ -98,17 +98,17 @@ static patch_t          *bluearmorpatch;
 
 int                     crosshair = crosshair_default;
 int                     crosshaircolor = crosshaircolor_default;
-dboolean                groupmessages = groupmessages_default;
+boolean                groupmessages = groupmessages_default;
 int                     playergender = playergender_default;
 char                    *playername = playername_default;
-dboolean                r_althud = r_althud_default;
-dboolean                r_diskicon = r_diskicon_default;
-dboolean                r_hud = r_hud_default;
-dboolean                r_hud_translucency = r_hud_translucency_default;
+boolean                r_althud = r_althud_default;
+boolean                r_diskicon = r_diskicon_default;
+boolean                r_hud = r_hud_default;
+boolean                r_hud_translucency = r_hud_translucency_default;
 
 static patch_t          *stdisk;
 static short            stdiskwidth;
-dboolean                drawdisk;
+boolean                drawdisk;
 
 static int              coloroffset;
 
@@ -119,9 +119,9 @@ static void (*hudfunc)(int, int, patch_t *, byte *);
 static void (*hudnumfunc)(int, int, patch_t *, byte *);
 
 static void (*althudfunc)(int, int, patch_t *, int, int);
-void (*althudtextfunc)(int, int, byte *, patch_t *, dboolean, int, int, byte *);
-static void (*fillrectfunc)(int, int, int, int, int, int, dboolean);
-static void (*fillrectfunc2)(int, int, int, int, int, int, dboolean);
+void (*althudtextfunc)(int, int, byte *, patch_t *, boolean, int, int, byte *);
+static void (*fillrectfunc)(int, int, int, int, int, int, boolean);
+static void (*fillrectfunc2)(int, int, int, int, int, int, boolean);
 
 static struct
 {
@@ -534,15 +534,15 @@ static void HU_DrawHUD(void)
 {
     const int           health = MAX(health_min, viewplayer->health);
     const int           armor = viewplayer->armorpoints;
-    static dboolean     healthanim;
-    const dboolean      gamepaused = (consoleactive || freeze);
+    static boolean     healthanim;
+    const boolean      gamepaused = (consoleactive || freeze);
     byte                *translucency = (health <= 0 || (health < HUD_HEALTH_MIN && healthanim)
                             || health >= HUD_HEALTH_MIN || gamepaused ? tinttab75 : tinttab25);
     patch_t             *patch = faces[st_faceindex];
     const int           currenttime = I_GetTimeMS();
     int                 keypic_x = HUD_KEYS_X;
     static int          keywait;
-    static dboolean     showkey;
+    static boolean     showkey;
 
     if (patch)
         hudfunc(HUD_HEALTH_X - SHORT(patch->width) / 2 - 1, HUD_HEALTH_Y - SHORT(patch->height) - 2, patch, tinttab75);
@@ -672,7 +672,7 @@ static void HU_DrawHUD(void)
         if (ammotype != am_noammo && (ammo = viewplayer->ammo[ammotype]))
         {
             int             ammo_x = HUDNumberWidth(ammo);
-            static dboolean ammoanim;
+            static boolean ammoanim;
 
             ammo_x = HUD_AMMO_X - (ammo_x + (ammo_x & 1)) / 2;
             translucency = (ammoanim || ammo >= HUD_AMMO_MIN || gamepaused ? tinttab75 : tinttab25);
@@ -746,7 +746,7 @@ static void HU_AltInit(void)
     char        buffer[9];
     patch_t     *altkeypatch;
     patch_t     *altskullpatch;
-    dboolean    weaponschanged = false;
+    boolean    weaponschanged = false;
 
     for (int i = 0; i < 10; i++)
     {
@@ -911,7 +911,7 @@ static void HU_DrawAltHUD(void)
     int             barcolor1 = barcolor2;
     int             keypic_x = ALTHUD_RIGHT_X;
     static int      keywait;
-    static dboolean showkey;
+    static boolean showkey;
     int             powerup = 0;
     int             powerupbar = 0;
     int             max = 1;
@@ -992,7 +992,7 @@ static void HU_DrawAltHUD(void)
 
     if (viewplayer->neededcardflash)
     {
-        const dboolean  gamepaused = (consoleactive || freeze);
+        const boolean  gamepaused = (consoleactive || freeze);
         const int       neededcard = viewplayer->neededcard;
 
         if (neededcard == it_allkeys)
@@ -1193,7 +1193,7 @@ void HU_Erase(void)
 
 void HU_Ticker(void)
 {
-    const dboolean  idmypos = (viewplayer->cheats & CF_MYPOS);
+    const boolean  idmypos = (viewplayer->cheats & CF_MYPOS);
 
     // tic down message counter if message is up
     if (message_counter && !menuactive && !idmypos && !--message_counter)
@@ -1279,7 +1279,7 @@ void HU_Ticker(void)
     }
 }
 
-void HU_SetPlayerMessage(char *message, dboolean group, dboolean external)
+void HU_SetPlayerMessage(char *message, boolean group, boolean external)
 {
     M_StringReplaceAll(message, "%%", "%");
 
@@ -1312,7 +1312,7 @@ void HU_SetPlayerMessage(char *message, dboolean group, dboolean external)
     message_external = (external && mapwindow);
 }
 
-void HU_PlayerMessage(char *message, dboolean group, dboolean external)
+void HU_PlayerMessage(char *message, boolean group, boolean external)
 {
     char    buffer[133] = "";
     int     len = (int)strlen(message);

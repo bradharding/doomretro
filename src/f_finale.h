@@ -43,7 +43,7 @@
 //
 
 // Called by main loop.
-dboolean F_Responder(event_t *ev);
+boolean F_Responder(event_t *ev);
 
 // Called by main loop.
 void F_Ticker(void);

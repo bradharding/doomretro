@@ -66,7 +66,7 @@
 
 console_t               *console = NULL;
 
-dboolean                consoleactive;
+boolean                consoleactive;
 int                     consoleheight = 0;
 int                     consoledirection = -1;
 static int              consoleanim;
@@ -106,15 +106,15 @@ size_t                  consolestringsmax = 0;
 static size_t           undolevels;
 static undohistory_t    *undohistory;
 
-static dboolean         showcaret = true;
+static boolean         showcaret = true;
 static int              caretwait;
 int                     caretpos;
 int                     selectstart;
 int                     selectend;
 
-static dboolean         wrapbold;
-static dboolean         wrapitalics;
-static dboolean         pathoverlay;
+static boolean         wrapbold;
+static boolean         wrapitalics;
+static boolean         pathoverlay;
 
 char                    consolecheat[255];
 char                    consolecheatparm[3];
@@ -154,13 +154,13 @@ static int              consoleboldcolors[STRINGTYPES];
 static byte             *consolebevel;
 static byte             *consoleautomapbevel;
 
-dboolean                scrollbardrawn;
+boolean                scrollbardrawn;
 
-static void (*consoletextfunc)(byte *, int, int, int, patch_t *, int, int, int, dboolean, byte *);
+static void (*consoletextfunc)(byte *, int, int, int, patch_t *, int, int, int, boolean, byte *);
 
 extern int              framespersecond;
 extern int              refreshrate;
-extern dboolean         quitcmd;
+extern boolean         quitcmd;
 
 void C_Input(const char *string, ...)
 {
@@ -269,7 +269,7 @@ void C_Output(const char *string, ...)
     outputhistory = -1;
 }
 
-dboolean C_OutputNoRepeat(const char *string, ...)
+boolean C_OutputNoRepeat(const char *string, ...)
 {
     char    buffer[CONSOLETEXTMAXLENGTH] = "";
 
@@ -496,9 +496,9 @@ const kern_t altkern[] =
     { 'v',  'j',  -2 }, { 'w',  'j',  -2 }, { 'x',  'j',  -2 }, { 'z',  'j',  -2 }, { '\0', '\0',  0 }
 };
 
-static int C_TextWidth(const char *text, const dboolean formatting, const dboolean kerning)
+static int C_TextWidth(const char *text, const boolean formatting, const boolean kerning)
 {
-    dboolean        italics = false;
+    boolean        italics = false;
     const int       len = (int)strlen(text);
     unsigned char   prevletter = '\0';
     int             width = 0;
@@ -608,7 +608,7 @@ static int C_TextWidth(const char *text, const dboolean formatting, const dboole
     return width;
 }
 
-static int C_OverlayWidth(const char *text, const dboolean monospaced)
+static int C_OverlayWidth(const char *text, const boolean monospaced)
 {
     const int       len = (int)strlen(text);
     int             width = 0;
@@ -936,10 +936,10 @@ static void C_DrawBackground(void)
 }
 
 static int C_DrawConsoleText(int x, int y, char *text, const int color1, const int color2, const int boldcolor,
-    byte *translucency, const int tabs[3], const dboolean formatting, const dboolean kerning, const int index)
+    byte *translucency, const int tabs[3], const boolean formatting, const boolean kerning, const int index)
 {
-    dboolean        bold = wrapbold;
-    dboolean        italics = wrapitalics;
+    boolean        bold = wrapbold;
+    boolean        italics = wrapitalics;
     int             tab = -1;
     int             len = (int)strlen(text);
     unsigned char   prevletter = '\0';
@@ -1096,7 +1096,7 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
     return (x - startx);
 }
 
-static void C_DrawOverlayText(byte *screen, int screenwidth, int x, int y, const char *text, const int color, const dboolean monospaced)
+static void C_DrawOverlayText(byte *screen, int screenwidth, int x, int y, const char *text, const int color, const boolean monospaced)
 {
     const int       len = (int)strlen(text);
     byte            *tinttab = (r_hud_translucency ? (automapactive ? tinttab75 : tinttab50) : NULL);
@@ -1291,7 +1291,7 @@ void C_Drawer(void)
     int             bottomline = (outputhistory == -1 ? consolestrings : outputhistory + CONSOLELINES) - 1;
     int             len;
     char            partialinput[255];
-    const dboolean  prevconsoleactive = consoleactive;
+    const boolean  prevconsoleactive = consoleactive;
     static int      consolewait;
     int             tics = I_GetTimeMS();
     const int       notabs[3] = { 0 };
@@ -1629,7 +1629,7 @@ void C_Drawer(void)
     I_Sleep(1);
 }
 
-dboolean C_ExecuteInputString(const char *input)
+boolean C_ExecuteInputString(const char *input)
 {
     char    *string = M_StringDuplicate(input);
     char    *strings[255];
@@ -1649,7 +1649,7 @@ dboolean C_ExecuteInputString(const char *input)
     return true;
 }
 
-dboolean C_ValidateInput(char *input)
+boolean C_ValidateInput(char *input)
 {
     const int   length = (int)strlen(input);
 
@@ -1744,7 +1744,7 @@ dboolean C_ValidateInput(char *input)
     return false;
 }
 
-dboolean C_Responder(event_t *ev)
+boolean C_Responder(event_t *ev)
 {
     static int  autocomplete = -1;
     static int  scrollspeed = TICRATE;
@@ -1847,7 +1847,7 @@ dboolean C_Responder(event_t *ev)
                 // confirm input
                 if (consoleinput[0] != '\0')
                 {
-                    dboolean    result = false;
+                    boolean    result = false;
 
                     if (M_StringStartsWith(consoleinput, "bind ") || M_StringStartsWith(consoleinput, "unbind "))
                     {
@@ -1990,7 +1990,7 @@ dboolean C_Responder(event_t *ev)
                     static char input[255];
                     char        prefix[255] = "";
                     int         spaces1;
-                    dboolean    endspace1;
+                    boolean    endspace1;
 
                     for (i = len - 1; i >= 0; i--)
                         if (consoleinput[i] == ';')
@@ -2030,7 +2030,7 @@ dboolean C_Responder(event_t *ev)
                     {
                         static char output[255];
                         int         spaces2;
-                        dboolean    endspace2;
+                        boolean    endspace2;
                         int         len2;
                         int         game;
 

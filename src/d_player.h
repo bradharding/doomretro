@@ -141,7 +141,7 @@ typedef struct player_s
     int             cards[NUMCARDS];
     int             neededcard;
     int             neededcardflash;
-    dboolean        backpack;
+    boolean        backpack;
 
     weapontype_t    readyweapon;
 
@@ -153,8 +153,8 @@ typedef struct player_s
     int             maxammo[NUMAMMO];
 
     // True if button down last tic.
-    dboolean        attackdown;
-    dboolean        usedown;
+    boolean        attackdown;
+    boolean        usedown;
 
     // Bit flags, for cheats and debug.
     // See cheat_t, above.
@@ -191,12 +191,12 @@ typedef struct player_s
     pspdef_t        psprites[NUMPSPRITES];
 
     // True if secret level has been done.
-    dboolean        didsecret;
+    boolean        didsecret;
 
     weapontype_t    preferredshotgun;
     weapontype_t    fistorchainsaw;
-    dboolean        invulnbeforechoppers;
-    dboolean        chainsawbeforechoppers;
+    boolean        invulnbeforechoppers;
+    boolean        chainsawbeforechoppers;
     weapontype_t    weaponbeforechoppers;
 
     // [AM] Previous position of viewz before think.
@@ -246,7 +246,7 @@ typedef struct
     int             epsd;           // episode # (0-2)
 
     // if true, splash the secret level
-    dboolean        didsecret;
+    boolean        didsecret;
 
     // previous and next levels, origin 0
     int             last;

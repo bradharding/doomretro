@@ -71,7 +71,7 @@
 int             episode = episode_default;
 int             expansion = expansion_default;
 int             m_sensitivity = m_sensitivity_default;
-dboolean        messages = messages_default;
+boolean        messages = messages_default;
 int             r_detail = r_detail_default;
 int             r_screensize = r_screensize_default;
 int             savegame = savegame_default;
@@ -81,29 +81,29 @@ int             skilllevel = skilllevel_default;
 int             quickSaveSlot;
 
 // true = message to be printed
-dboolean        messagetoprint;
+boolean        messagetoprint;
 // ...and here is the message string!
 static char     *messageString;
 
 static int      messageLastMenuActive;
 
 // timed message = no input from user
-static dboolean messageNeedsInput;
+static boolean messageNeedsInput;
 
 static void (*messageRoutine)(int);
 
 // we are going to be entering a savegame string
-static dboolean saveStringEnter;
+static boolean saveStringEnter;
 static int      saveSlot;               // which slot to save in
 static int      saveCharIndex;          // which char we're editing
 
 // old save description before edit
 static char     saveOldString[SAVESTRINGSIZE];
 
-dboolean        inhelpscreens;
-dboolean        menuactive;
-dboolean        savegames;
-dboolean        quitting;
+boolean        inhelpscreens;
+boolean        menuactive;
+boolean        savegames;
+boolean        quitting;
 
 char            savegamestrings[6][SAVESTRINGSIZE];
 
@@ -113,7 +113,7 @@ static short    whichSkull;             // which skull to draw
 
 static int      functionkey;
 
-static dboolean usinggamecontroller;
+static boolean usinggamecontroller;
 
 // current menudef
 static menu_t   *currentMenu;
@@ -162,7 +162,7 @@ static void M_DrawSave(void);
 static void M_DrawSaveLoadBorder(int x, int y);
 static void M_SetupNextMenu(menu_t *menudef);
 static void M_DrawThermo(int x, int y, int thermWidth, float thermDot, float factor, int offset);
-static void M_WriteText(int x, int y, char *string, dboolean shadow);
+static void M_WriteText(int x, int y, char *string, boolean shadow);
 
 //
 // DOOM MENU
@@ -599,7 +599,7 @@ static void M_DarkBlueBackground(void)
 // M_DrawChar
 //  draw a character on screen
 //
-static void M_DrawChar(int x, int y, int i, dboolean overlapping)
+static void M_DrawChar(int x, int y, int i, boolean overlapping)
 {
     int w = (int)strlen(redcharset[i]) / 18;
 
@@ -679,7 +679,7 @@ void M_DrawString(int x, int y, char *string)
     {
         int         j = -1;
         int         k = 0;
-        dboolean    overlapping = false;
+        boolean    overlapping = false;
 
         if (string[i] < 123)
             j = chartoi[(int)string[i]];
@@ -860,7 +860,7 @@ static byte saveg_read8(FILE *file)
 //
 // M_CheckSaveGame
 //
-static dboolean M_CheckSaveGame(int *ep, int *map, int slot)
+static boolean M_CheckSaveGame(int *ep, int *map, int slot)
 {
     FILE    *file = fopen(P_SaveGameFile(slot), "rb");
     int     mission;
@@ -1043,7 +1043,7 @@ static void M_LoadGame(int choice)
     M_ReadSaveStrings();
 }
 
-static dboolean showcaret;
+static boolean showcaret;
 static int      caretwait;
 int             caretcolor;
 
@@ -1160,7 +1160,7 @@ static char *RemoveMapNum(char *string)
 
 void M_UpdateSaveGameName(int i)
 {
-    dboolean    match = false;
+    boolean    match = false;
     int         len = (int)strlen(savegamestrings[i]);
 
     if (M_StringCompare(savegamestrings[i], s_EMPTYSTRING))
@@ -1583,7 +1583,7 @@ static void M_DrawMainMenu(void)
 // M_Episode
 //
 static int      epi;
-dboolean        EpiCustom;
+boolean        EpiCustom;
 static short    EpiMenuMap[] = { 1, 1, 1, 1, -1, -1, -1, -1 };
 static short    EpiMenuEpi[] = { 1, 2, 3, 4, -1, -1, -1, -1 };
 
@@ -1930,7 +1930,7 @@ static void M_ChangeMessages(int choice)
 //
 // M_EndGame
 //
-static dboolean endinggame;
+static boolean endinggame;
 
 void M_EndingGame(void)
 {
@@ -2308,7 +2308,7 @@ static void M_DrawThermo(int x, int y, int thermWidth, float thermDot, float fac
     V_DrawPatch(x + offset + (int)(thermDot * factor), y, 0, W_CacheLumpName("M_THERMO"));
 }
 
-void M_StartMessage(char *string, void *routine, dboolean input)
+void M_StartMessage(char *string, void *routine, boolean input)
 {
     messageLastMenuActive = menuactive;
     messagetoprint = true;
@@ -2368,7 +2368,7 @@ static int M_StringHeight(char *string)
 //
 //  Write a char
 //
-void M_DrawSmallChar(int x, int y, int i, dboolean shadow)
+void M_DrawSmallChar(int x, int y, int i, boolean shadow)
 {
     int w = (int)strlen(smallcharset[i]) / 10;
 
@@ -2381,7 +2381,7 @@ void M_DrawSmallChar(int x, int y, int i, dboolean shadow)
 //
 // Write a string
 //
-static void M_WriteText(int x, int y, char *string, dboolean shadow)
+static void M_WriteText(int x, int y, char *string, boolean shadow)
 {
     int     w;
     char    *ch = string;
@@ -2464,7 +2464,7 @@ static void M_ShowHelp(int choice)
         R_SetViewSize(r_screensize_max);
 }
 
-static void M_ChangeGamma(dboolean shift)
+static void M_ChangeGamma(boolean shift)
 {
     static int  gammawait;
 
@@ -2533,9 +2533,9 @@ static void M_ChangeGamma(dboolean shift)
 //
 int         gamecontrollerwait = 0;
 int         mousewait = 0;
-dboolean    gamecontrollerpress = false;
+boolean    gamecontrollerpress = false;
 
-dboolean M_Responder(event_t *ev)
+boolean M_Responder(event_t *ev)
 {
     int         key = -1;
     static int  keywait;
@@ -2801,7 +2801,7 @@ dboolean M_Responder(event_t *ev)
                 if (!keydown)
                 {
                     int         len = (int)strlen(savegamestrings[saveSlot]);
-                    dboolean    allspaces = true;
+                    boolean    allspaces = true;
 
                     keydown = key;
 
@@ -3694,7 +3694,7 @@ void M_Drawer(void)
         while (messageString[start] != '\0')
         {
             int         len = (int)strlen(messageString + start);
-            dboolean    foundnewline = false;
+            boolean    foundnewline = false;
 
             for (int i = 0; i < len; i++)
                 if (messageString[start + i] == '\n')

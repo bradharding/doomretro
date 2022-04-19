@@ -47,7 +47,7 @@
 #include "s_sound.h"
 #include "z_zone.h"
 
-dboolean    r_graduallighting = r_graduallighting_default;
+boolean    r_graduallighting = r_graduallighting_default;
 
 static void T_GradualLightingToDoor(vldoor_t *door)
 {
@@ -250,7 +250,7 @@ void T_VerticalDoor(vldoor_t *door)
 // EV_DoLockedDoor
 // Move a locked door up/down
 //
-dboolean EV_DoLockedDoor(line_t *line, vldoor_e type, mobj_t *thing, fixed_t speed)
+boolean EV_DoLockedDoor(line_t *line, vldoor_e type, mobj_t *thing, fixed_t speed)
 {
     player_t    *player = thing->player;
     static char buffer[1024];
@@ -381,10 +381,10 @@ dboolean EV_DoLockedDoor(line_t *line, vldoor_e type, mobj_t *thing, fixed_t spe
     return EV_DoDoor(line, type, speed);
 }
 
-dboolean EV_DoDoor(line_t *line, vldoor_e type, fixed_t speed)
+boolean EV_DoDoor(line_t *line, vldoor_e type, fixed_t speed)
 {
     int         secnum = -1;
-    dboolean    rtn = false;
+    boolean    rtn = false;
     sector_t    *sec;
 
     if (P_ProcessNoTagLines(line, &sec, &secnum))

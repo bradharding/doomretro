@@ -71,13 +71,13 @@
 //
 
 // Called by main loop.
-dboolean ST_Responder(event_t *ev);
+boolean ST_Responder(event_t *ev);
 
 // Called by main loop.
 void ST_Ticker(void);
 
 // Called by main loop.
-void ST_Drawer(dboolean fullscreen, dboolean refresh);
+void ST_Drawer(boolean fullscreen, boolean refresh);
 
 // Called when the console player is spawned on each level.
 void ST_Start(void);
@@ -85,15 +85,15 @@ void ST_Start(void);
 // Called by startup code.
 void ST_Init(void);
 
-extern dboolean idclev;
+extern boolean idclev;
 extern int      idclevtics;
-extern dboolean idmus;
+extern boolean idmus;
 extern int      st_palette;
-extern dboolean oldweaponsowned[NUMWEAPONS];
+extern boolean oldweaponsowned[NUMWEAPONS];
 extern patch_t  *tallnum[10];
 extern patch_t  *tallpercent;
 extern short    tallpercentwidth;
-extern dboolean emptytallpercent;
+extern boolean emptytallpercent;
 extern int      caretcolor;
 extern patch_t  *faces[ST_NUMFACES];
 extern int      st_faceindex;
@@ -109,4 +109,4 @@ extern patch_t  *brdr_tr;
 extern patch_t  *brdr_bl;
 extern patch_t  *brdr_br;
 
-extern dboolean st_drawbrdr;
+extern boolean st_drawbrdr;

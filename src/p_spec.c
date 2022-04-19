@@ -60,7 +60,7 @@
 #include "w_wad.h"
 #include "z_zone.h"
 
-dboolean islightspecial[] =
+boolean islightspecial[] =
 {
     false, true,  true,  true, false, false, false, false, true,
     false, false, false, true, true,  false, false, false, true
@@ -72,7 +72,7 @@ dboolean islightspecial[] =
 //
 typedef struct
 {
-    dboolean    istexture;
+    boolean    istexture;
     int         picnum;
     int         basepic;
     int         numpics;
@@ -102,7 +102,7 @@ typedef struct
 
 uint64_t        stat_secretsfound = 0;
 
-dboolean        r_liquid_bob = r_liquid_bob_default;
+boolean        r_liquid_bob = r_liquid_bob_default;
 
 int             animatedliquidtic;
 fixed_t         animatedliquiddiff;
@@ -130,7 +130,7 @@ static anim_t   *lastanim;
 static anim_t   *anims;             // new structure w/o limits -- killough
 
 terraintype_t   *terraintypes;
-dboolean        *isteleport;
+boolean        *isteleport;
 
 // killough 03/07/98: Initialize generalized scrolling
 static void P_SpawnScrollers(void);
@@ -169,7 +169,7 @@ static void SetTerrainType(anim_t *anim, terraintype_t terraintype)
 //
 void P_InitPicAnims(void)
 {
-    size_t      size = ((size_t)numflats + 1) * sizeof(dboolean);
+    size_t      size = ((size_t)numflats + 1) * sizeof(boolean);
 
     int         lump = W_GetNumForName("ANIMATED");
     animdef_t   *animdefs = W_CacheLumpNum(lump);
@@ -226,7 +226,7 @@ void P_InitPicAnims(void)
         else
         {
             int         basepic;
-            dboolean    isliquid = false;
+            boolean    isliquid = false;
 
             if (R_CheckFlatNumForName(animdefs[i].startname) == -1)
                 continue;
@@ -324,7 +324,7 @@ void P_InitPicAnims(void)
 
     while (SC_GetString())
     {
-        dboolean    noliquid = M_StringCompare(sc_String, "NOLIQUID");
+        boolean    noliquid = M_StringCompare(sc_String, "NOLIQUID");
 
         if (noliquid || M_StringCompare(sc_String, "LIQUID"))
         {
@@ -504,7 +504,7 @@ sector_t *getSector(int currentSector, int line, int side)
 // Given the sector number and the line number,
 //  it will tell you whether the line is two-sided or not.
 //
-dboolean twoSided(int sector, int line)
+boolean twoSided(int sector, int line)
 {
     // jff 1/26/98 return what is actually needed, whether the line
     // has two sidedefs, rather than whether the 2S flag is set
@@ -950,12 +950,12 @@ int P_FindMinSurroundingLight(sector_t *sec, int min)
 //  generalized locked doors
 //
 // killough 11/98: reformatted
-dboolean P_CanUnlockGenDoor(line_t *line)
+boolean P_CanUnlockGenDoor(line_t *line)
 {
     static char     buffer[1024];
 
     // does this line special distinguish between skulls and keys?
-    const dboolean  skulliscard = (line->special & LockedNKeys) >> LockedNKeysShift;
+    const boolean  skulliscard = (line->special & LockedNKeys) >> LockedNKeysShift;
 
     // determine for each case of lock type if player's keys are adequate
     switch ((line->special & LockedKey) >> LockedKeyShift)
@@ -1156,7 +1156,7 @@ dboolean P_CanUnlockGenDoor(line_t *line)
 //  succeeding in starting multiple specials on one sector
 //
 // killough 11/98: reformatted
-dboolean P_SectorActive(special_e t, sector_t *sec)
+boolean P_SectorActive(special_e t, sector_t *sec)
 {
     return (t == floor_special ? !!sec->floordata :     // return whether
         (t == ceiling_special ? !!sec->ceilingdata :    // thinker of same
@@ -1174,7 +1174,7 @@ dboolean P_SectorActive(special_e t, sector_t *sec)
 //
 // jff 2/27/98 Added to check for zero tag allowed for regular special types
 //
-dboolean P_CheckTag(line_t *line)
+boolean P_CheckTag(line_t *line)
 {
     // tag not zero, allowed
     if (line->tag)
@@ -1274,7 +1274,7 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
     {
         // pointer to line function is NULL by default, set non-NULL if
         // line special is walkover generalized linedef type
-        dboolean (*linefunc)(line_t *line) = NULL;
+        boolean (*linefunc)(line_t *line) = NULL;
 
         // check each range of generalized linedefs
         if (line->special >= GenEnd)
@@ -1367,7 +1367,7 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
 
     if (!thing->player)
     {
-        dboolean    okay = false;
+        boolean    okay = false;
 
         switch (line->special)
         {
@@ -2039,7 +2039,7 @@ void P_ShootSpecialLine(mobj_t *thing, line_t *line)
     // jff 02/04/98 add check here for generalized linedef
     // pointer to line function is NULL by default, set non-null if
     // line special is gun triggered generalized linedef type
-    dboolean (*linefunc)(line_t *line) = NULL;
+    boolean (*linefunc)(line_t *line) = NULL;
 
     // check each range of generalized linedefs
     if (line->special >= GenEnd)
@@ -2400,10 +2400,10 @@ void P_UpdateSpecials(void)
 //
 // Special stuff that cannot be categorized
 //
-dboolean EV_DoDonut(line_t *line)
+boolean EV_DoDonut(line_t *line)
 {
     int         secnum = -1;
-    dboolean    rtn = false;
+    boolean    rtn = false;
 
     while ((secnum = P_FindSectorFromLineTag(line, secnum)) >= 0)
     {
@@ -2758,7 +2758,7 @@ void T_Scroll(scroll_t *scroller)
 //
 // accel: true if this is an accelerative effect
 //
-static void Add_Scroller(int type, fixed_t dx, fixed_t dy, int control, int affectee, dboolean accel)
+static void Add_Scroller(int type, fixed_t dx, fixed_t dy, int control, int affectee, boolean accel)
 {
     scroll_t    *scroller = Z_Calloc(1, sizeof(*scroller), PU_LEVSPEC, NULL);
 
@@ -2786,7 +2786,7 @@ static void Add_Scroller(int type, fixed_t dx, fixed_t dy, int control, int affe
 //
 // killough 10/98:
 // fix scrolling aliasing problems, caused by long linedefs causing overflowing
-static void Add_WallScroller(int64_t dx, int64_t dy, const line_t *l, int control, dboolean accel)
+static void Add_WallScroller(int64_t dx, int64_t dy, const line_t *l, int control, boolean accel)
 {
     fixed_t x = ABS(l->dx);
     fixed_t y = ABS(l->dy);
@@ -2819,7 +2819,7 @@ static void P_SpawnScrollers(void)
         fixed_t     dx = l->dx >> SCROLL_SHIFT;                             // direction and speed of scrolling
         fixed_t     dy = l->dy >> SCROLL_SHIFT;
         int         control = -1;                                           // no control sector or acceleration
-        dboolean    accel = false;
+        boolean    accel = false;
         int         special = l->special;
 
         // killough 03/07/98: Types 245-249 are same as 250-254 except that the
@@ -3095,7 +3095,7 @@ static void Add_Pusher(int type, int x_mag, int y_mag, mobj_t *source, int affec
 
 static pusher_t *tmpusher;  // pusher structure for blockmap searches
 
-static dboolean PIT_PushThing(mobj_t *thing)
+static boolean PIT_PushThing(mobj_t *thing)
 {
     if ((sentient(thing) || (thing->flags & MF_SHOOTABLE)) && !(thing->flags & MF_NOCLIP))
     {
@@ -3326,9 +3326,9 @@ static void P_SpawnPushers(void)
         }
 }
 
-dboolean    zerotag_manual;
+boolean    zerotag_manual;
 
-dboolean P_ProcessNoTagLines(line_t *line, sector_t **sec, int *secnum)
+boolean P_ProcessNoTagLines(line_t *line, sector_t **sec, int *secnum)
 {
     zerotag_manual = false;
 

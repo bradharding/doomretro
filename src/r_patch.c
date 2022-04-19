@@ -59,7 +59,7 @@ static short    FIREBLU1;
 static short    SKY1;
 static short    STEP2;
 
-static dboolean getIsSolidAtSpot(const column_t *column, int spot)
+static boolean getIsSolidAtSpot(const column_t *column, int spot)
 {
     if (!column)
         return false;
@@ -79,10 +79,10 @@ static dboolean getIsSolidAtSpot(const column_t *column, int spot)
 }
 
 // Checks if the lump can be a DOOM patch
-static dboolean CheckIfPatch(int lump)
+static boolean CheckIfPatch(int lump)
 {
     const int   size = W_LumpLength(lump);
-    dboolean    result = false;
+    boolean    result = false;
 
     if (size >= 13)
     {

@@ -96,13 +96,13 @@ static channel_t    *channels;
 static sobj_t       *sobjs;
 
 int                 s_channels = s_channels_default;
-dboolean            s_lowermenumusic = s_lowermenumusic_default;
-dboolean            s_musicinbackground = s_musicinbackground_default;
+boolean            s_lowermenumusic = s_lowermenumusic_default;
+boolean            s_musicinbackground = s_musicinbackground_default;
 int                 s_musicvolume = s_musicvolume_default;
-dboolean            s_randommusic = s_randommusic_default;
-dboolean            s_randompitch = s_randompitch_default;
+boolean            s_randommusic = s_randommusic_default;
+boolean            s_randompitch = s_randompitch_default;
 int                 s_sfxvolume = s_sfxvolume_default;
-dboolean            s_stereo = s_stereo_default;
+boolean            s_stereo = s_stereo_default;
 
 // Maximum volume of a sound effect.
 // Internal default is max out of 0-31.
@@ -115,13 +115,13 @@ int                 musicVolume;
 static int          snd_SfxVolume;
 
 // Whether songs are mus_paused
-static dboolean     mus_paused;
+static boolean     mus_paused;
 
 // Music currently being played
 musicinfo_t         *mus_playing;
 
-dboolean            nosfx;
-dboolean            nomusic;
+boolean            nosfx;
+boolean            nomusic;
 
 musinfo_t           musinfo;
 
@@ -426,11 +426,11 @@ static int S_GetChannel(mobj_t *origin, sfxinfo_t *sfxinfo)
 // Changes volume and stereo-separation variables from the norm of a sound
 // effect to be played. If the sound is not audible, returns false. Otherwise,
 // modifies parameters and returns true.
-static dboolean S_AdjustSoundParms(mobj_t *origin, int *vol, int *sep)
+static boolean S_AdjustSoundParms(mobj_t *origin, int *vol, int *sep)
 {
     fixed_t     dist = 0;
     mobj_t      *listener = viewplayer->mo;
-    dboolean    boss = (origin->mbf21flags & MF_MBF21_BOSS);
+    boolean    boss = (origin->mbf21flags & MF_MBF21_BOSS);
     fixed_t     x = origin->x;
     fixed_t     y = origin->y;
 
@@ -608,7 +608,7 @@ void S_StartMusic(int music_id)
     S_ChangeMusic(music_id, false, false, false);
 }
 
-void S_ChangeMusic(int music_id, dboolean looping, dboolean allowrestart, dboolean mapstart)
+void S_ChangeMusic(int music_id, boolean looping, boolean allowrestart, boolean mapstart)
 {
     musicinfo_t *music = &S_music[music_id];
     char        namebuf[9];

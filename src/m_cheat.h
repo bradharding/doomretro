@@ -50,7 +50,7 @@ typedef struct
     // settings for this cheat
     char        *sequence;
     int         parameter_chars;
-    dboolean    longtimeout;
+    boolean    longtimeout;
 
     // state used during the game
     size_t      chars_read;
@@ -59,10 +59,10 @@ typedef struct
 
     int         timeout;
 
-    dboolean    movekey;
+    boolean    movekey;
 } cheatseq_t;
 
-dboolean cht_CheckCheat(cheatseq_t *cht, unsigned char key);
+boolean cht_CheckCheat(cheatseq_t *cht, unsigned char key);
 
 void cht_GetParam(cheatseq_t *cht, char *buffer);
 

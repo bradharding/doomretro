@@ -142,7 +142,7 @@ size_t W_Read(wadfile_t *wad, unsigned int offset, void *buffer, size_t buffer_l
     return fread(buffer, 1, buffer_len, wad->fstream);
 }
 
-dboolean W_WriteFile(char const *name, const void *source, size_t length)
+boolean W_WriteFile(char const *name, const void *source, size_t length)
 {
     FILE    *fstream = fopen(name, "wb");
 

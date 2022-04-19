@@ -76,7 +76,7 @@ void HUlib_InitTextLine(hu_textline_t *t, int x, int y, patch_t **f, int sc)
     HUlib_ClearTextLine(t);
 }
 
-dboolean HUlib_AddCharToTextLine(hu_textline_t *t, char ch)
+boolean HUlib_AddCharToTextLine(hu_textline_t *t, char ch)
 {
     if (t->len == HU_MAXLINELENGTH)
         return false;
@@ -139,7 +139,7 @@ static void HU_DrawTranslucentChar(int x, int y, int ch, byte *screen, int scree
 
 static void HUlib_DrawAltHUDTextLine(hu_textline_t *l)
 {
-    dboolean        italics = false;
+    boolean        italics = false;
     unsigned char   prevletter = '\0';
     int             x = 10;
     int             color = nearestwhite;
@@ -230,7 +230,7 @@ static void HUlib_DrawAltHUDTextLine(hu_textline_t *l)
     }
 }
 
-void HUlib_DrawAltAutomapTextLine(hu_textline_t *l, dboolean external)
+void HUlib_DrawAltAutomapTextLine(hu_textline_t *l, boolean external)
 {
     unsigned char   prevletter = '\0';
     int             x = 10;
@@ -282,7 +282,7 @@ const kern_t kern[] =
     { 'Y', ',',  -1 }, { 'Y', '.',  -1 }, {  0,   0,    0 }
 };
 
-static void HUlib_DrawTextLine(hu_textline_t *l, dboolean external)
+static void HUlib_DrawTextLine(hu_textline_t *l, boolean external)
 {
     int             textwidth = 0;
     int             x = l->x;
@@ -296,7 +296,7 @@ static void HUlib_DrawTextLine(hu_textline_t *l, dboolean external)
     byte            *tinttab1 = tinttab50;
     byte            *tinttab2 = tinttab80;
     int             len = l->len;
-    const dboolean  idmypos = (viewplayer->cheats & CF_MYPOS);
+    const boolean  idmypos = (viewplayer->cheats & CF_MYPOS);
     const int       screenwidth = (external ? MAPWIDTH : SCREENWIDTH);
 
     if (external)
@@ -437,7 +437,7 @@ static void HUlib_DrawTextLine(hu_textline_t *l, dboolean external)
         }
 }
 
-void HUlib_DrawAutomapTextLine(hu_textline_t *l, dboolean external)
+void HUlib_DrawAutomapTextLine(hu_textline_t *l, boolean external)
 {
     const int       w = (external ? MAPWIDTH : SCREENWIDTH);
     int             x = l->x;
@@ -543,7 +543,7 @@ void HUlib_EraseTextLine(hu_textline_t *l)
         l->needsupdate--;
 }
 
-void HUlib_InitSText(hu_stext_t *s, int x, int y, patch_t **font, int startchar, dboolean *on)
+void HUlib_InitSText(hu_stext_t *s, int x, int y, patch_t **font, int startchar, boolean *on)
 {
     s->on = on;
     s->laston = true;
@@ -567,7 +567,7 @@ void HUlib_AddMessageToSText(hu_stext_t *s, const char *msg)
         HUlib_AddCharToTextLine(&s->l, *(msg++));
 }
 
-void HUlib_DrawSText(hu_stext_t *s, dboolean external)
+void HUlib_DrawSText(hu_stext_t *s, boolean external)
 {
     if (!*s->on)
         return; // if not on, don't draw

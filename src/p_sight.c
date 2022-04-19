@@ -82,7 +82,7 @@ static int P_DivlineSide(fixed_t x, fixed_t y, const divline_t *node)
 // P_CrossSubsector
 // Returns true if strace crosses the given subsector successfully.
 //
-static dboolean P_CrossSubsector(int num)
+static boolean P_CrossSubsector(int num)
 {
     subsector_t *sub = subsectors + num;
     seg_t       *seg = segs + sub->firstline;
@@ -182,7 +182,7 @@ static dboolean P_CrossSubsector(int num)
 // P_CrossBSPNode
 // Returns true if strace crosses the given node successfully.
 //
-static dboolean P_CrossBSPNode(int bspnum)
+static boolean P_CrossBSPNode(int bspnum)
 {
     while (!(bspnum & NF_SUBSECTOR))
     {
@@ -205,7 +205,7 @@ static dboolean P_CrossBSPNode(int bspnum)
 // P_CheckSight
 // Returns true if a straight line between t1 and t2 is unobstructed. Uses REJECT.
 //
-dboolean P_CheckSight(mobj_t *t1, mobj_t *t2)
+boolean P_CheckSight(mobj_t *t1, mobj_t *t2)
 {
     const sector_t  *s1 = t1->subsector->sector;
     const sector_t  *s2 = t2->subsector->sector;
@@ -284,7 +284,7 @@ dboolean P_CheckSight(mobj_t *t1, mobj_t *t2)
 //
 // Adapted from Eternity, so big thanks to Quasar
 //
-dboolean P_CheckFov(mobj_t *t1, mobj_t *t2, angle_t fov)
+boolean P_CheckFov(mobj_t *t1, mobj_t *t2, angle_t fov)
 {
     angle_t angle = R_PointToAngle2(t1->x, t1->y, t2->x, t2->y);
     angle_t minang = t1->angle - fov / 2;

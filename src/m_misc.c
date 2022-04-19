@@ -101,7 +101,7 @@ void M_MakeDirectory(const char *path)
 }
 
 // Check if a file exists
-dboolean M_FileExists(const char *filename)
+boolean M_FileExists(const char *filename)
 {
     FILE    *fstream = fopen(filename, "r");
 
@@ -169,7 +169,7 @@ char *M_FileCaseExists(const char *path)
 #endif
 
 // Check if a folder exists
-dboolean M_FolderExists(const char *folder)
+boolean M_FolderExists(const char *folder)
 {
     struct stat status;
 
@@ -423,7 +423,7 @@ char *M_StringJoin(const char *s, ...)
     return result;
 }
 
-dboolean M_StrToInt(const char *str, int *result)
+boolean M_StrToInt(const char *str, int *result)
 {
     return (sscanf(str, " 0x%2x", (unsigned int *)result) == 1 || sscanf(str, " 0X%2x", (unsigned int *)result) == 1
         || sscanf(str, " 0%3o", (unsigned int *)result) == 1 || sscanf(str, " %12d", result) == 1);
@@ -541,13 +541,13 @@ char *M_StringDuplicate(const char *orig)
 
 // Returns true if str1 and str2 are the same.
 // (Case-insensitive, return value reverse of strcasecmp() to avoid confusion.
-dboolean M_StringCompare(const char *str1, const char *str2)
+boolean M_StringCompare(const char *str1, const char *str2)
 {
     return !strcasecmp(str1, str2);
 }
 
 // Returns true if string begins with the specified prefix.
-dboolean M_StringStartsWith(const char *s, const char *prefix)
+boolean M_StringStartsWith(const char *s, const char *prefix)
 {
     size_t  len = strlen(prefix);
 
@@ -555,7 +555,7 @@ dboolean M_StringStartsWith(const char *s, const char *prefix)
 }
 
 // Returns true if string begins with the specified prefix.
-dboolean M_StringStartsWithExact(const char *s, const char *prefix)
+boolean M_StringStartsWithExact(const char *s, const char *prefix)
 {
     size_t  len = strlen(prefix);
 
@@ -563,7 +563,7 @@ dboolean M_StringStartsWithExact(const char *s, const char *prefix)
 }
 
 // Returns true if string ends with the specified suffix.
-dboolean M_StringEndsWith(const char *s, const char *suffix)
+boolean M_StringEndsWith(const char *s, const char *suffix)
 {
     size_t  len1 = strlen(s);
     size_t  len2 = strlen(suffix);
@@ -752,7 +752,7 @@ char *uncommify(const char *input)
     return p;
 }
 
-dboolean wildcard(char *input, char *pattern)
+boolean wildcard(char *input, char *pattern)
 {
     if (!*pattern)
         return true;
@@ -896,17 +896,17 @@ char *removeext(const char *file)
     return newstr;
 }
 
-dboolean isvowel(const char ch)
+boolean isvowel(const char ch)
 {
     return !!strchr("aeiouAEIOU", ch);
 }
 
-dboolean ispunctuation(const char ch)
+boolean ispunctuation(const char ch)
 {
     return !!strchr(".!?", ch);
 }
 
-dboolean isbreak(const char ch)
+boolean isbreak(const char ch)
 {
     return !!strchr(" /\\-", ch);
 }
