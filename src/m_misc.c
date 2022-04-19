@@ -39,7 +39,7 @@
 #if defined(_WIN32)
 #pragma warning( disable : 4091 )
 
-#include <ShlObj.h>
+#include <Windows.h>
 #include <io.h>
 #include <sys/types.h>
 #include <sys/stat.h>
