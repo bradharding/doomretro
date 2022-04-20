@@ -252,8 +252,8 @@ static boolean SpriteLumpNeeded(lumpinfo_t *lump)
 
 static struct
 {
-    char    *spr1;
-    char    *spr2;
+    const char  *spr1;
+    const char  *spr2;
 } weaponsprites[] = {
     { "PUNG", ""     }, { "PISG", "PISF" }, { "SHTG", "SHTF" }, { "CHGG", "CHGF" }, { "MISG", "MISF" },
     { "PLSG", "PLSF" }, { "BFGG", "BFGF" }, { "SAWG", ""     }, { "SHT2", "SHT2" }, { "",     ""     }
@@ -524,7 +524,7 @@ static void DoMerge(void)
 // Merge in a file by name
 boolean W_MergeFile(char *filename, boolean automatic)
 {
-    int old_numlumps = numlumps;
+    const int   old_numlumps = numlumps;
 
     // Load PWAD
     if (!W_AddFile(filename, automatic))

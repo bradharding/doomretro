@@ -6711,7 +6711,6 @@ static boolean resurrect_cmd_func1(char *cmd, char *parms)
 static void resurrect_cmd_func2(char *cmd, char *parms)
 {
     char    *parm = removenonalpha(parms);
-    boolean cheated = false;
 
     if (!*parm)
     {
@@ -6721,6 +6720,7 @@ static void resurrect_cmd_func2(char *cmd, char *parms)
     else
     {
         char    buffer[1024];
+        boolean cheated = false;
 
         if (M_StringCompare(parm, "player") || M_StringCompare(parm, "me") || (*playername && M_StringCompare(parm, playername)))
         {

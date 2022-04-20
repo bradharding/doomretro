@@ -94,5 +94,5 @@ typedef struct
     boolean sprfix18;
 } sproffset_t;
 
-extern char         *sprnames[];
-extern sproffset_t  sproffsets[];
+extern char                 *sprnames[];
+extern const sproffset_t    sproffsets[];

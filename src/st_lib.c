@@ -214,14 +214,6 @@ void STlib_InitPercent(st_percent_t *p, int x, int y, patch_t **pl, int *num, pa
     p->p = percent;
 }
 
-void STlib_UpdateAmmoPercent(st_percent_t *per, int refresh)
-{
-    if (refresh)
-        V_DrawPatch(per->n.x, per->n.y, 0, per->p);
-
-    STlib_UpdateBigAmmoNum(&per->n);
-}
-
 void STlib_UpdateArmorPercent(st_percent_t *per, int refresh)
 {
     if (refresh)

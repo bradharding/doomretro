@@ -113,7 +113,6 @@ void STlib_UpdateSmallNum(st_number_t *n);
 void STlib_InitPercent(st_percent_t *p, int x, int y, patch_t **pl, int *num, patch_t *percent);
 
 void STlib_UpdateHealthPercent(st_percent_t *per, int refresh);
-void STlib_UpdateAmmoPercent(st_percent_t *per, int refresh);
 void STlib_UpdateArmorPercent(st_percent_t *per, int refresh);
 
 // Multiple Icon widget routines
