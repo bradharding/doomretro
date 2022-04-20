@@ -2741,7 +2741,7 @@ void P_MapName(int ep, int map)
                 M_StringCopy(mapnumandtitle, mapnum, sizeof(mapnumandtitle));
                 M_StringCopy(automaptitle, mapnum, sizeof(mapnumandtitle));
             }
-            else
+            else if (map - 1 < arrlen(*mapnames))
                 M_StringCopy(maptitle, trimwhitespace(*mapnames[(ep - 1) * 9 + map - 1]), sizeof(maptitle));
 
             break;
@@ -2758,7 +2758,7 @@ void P_MapName(int ep, int map)
                 M_StringCopy(mapnumandtitle, mapnum, sizeof(mapnumandtitle));
                 M_StringCopy(automaptitle, mapnum, sizeof(mapnumandtitle));
             }
-            else
+            else if (map - 1 < arrlen(*mapnames2_bfg))
                 M_StringCopy(maptitle, trimwhitespace(bfgedition && (!modifiedgame || nerve) ?
                     *mapnames2_bfg[map - 1] : *mapnames2[map - 1]), sizeof(maptitle));
 
@@ -2769,7 +2769,7 @@ void P_MapName(int ep, int map)
 
             if (*mapinfoname)
                 M_StringCopy(maptitle, mapinfoname, sizeof(maptitle));
-            else
+            else if (map - 1 < arrlen(*mapnamesn))
                 M_StringCopy(maptitle, trimwhitespace(*mapnamesn[map - 1]), sizeof(maptitle));
 
             break;
@@ -2786,7 +2786,7 @@ void P_MapName(int ep, int map)
                 M_StringCopy(mapnumandtitle, mapnum, sizeof(mapnumandtitle));
                 M_StringCopy(automaptitle, mapnum, sizeof(mapnumandtitle));
             }
-            else
+            else if (map - 1 < arrlen(*mapnamesp))
                 M_StringCopy(maptitle, trimwhitespace(*mapnamesp[map - 1]), sizeof(maptitle));
 
             break;
@@ -2803,7 +2803,7 @@ void P_MapName(int ep, int map)
                 M_StringCopy(mapnumandtitle, mapnum, sizeof(mapnumandtitle));
                 M_StringCopy(automaptitle, mapnum, sizeof(mapnumandtitle));
             }
-            else
+            else if (map - 1 < arrlen(*mapnamest))
                 M_StringCopy(maptitle, trimwhitespace(*mapnamest[map - 1]), sizeof(maptitle));
 
             break;
