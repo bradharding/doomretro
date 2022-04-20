@@ -3766,13 +3766,13 @@ void M_Drawer(void)
             }
 
             if (M_SKULL1)
-                M_DrawPatchWithShadow(x - 43, y + itemOn * LINEHEIGHT - 8 + OFFSET + chex, skullpatch);
+                M_DrawPatchWithShadow(x - 43, y + itemOn * LINEHEIGHT - 8 + OFFSET + (chex ? 1 : 0), skullpatch);
             else
                 M_DrawPatchWithShadow(x - 37, y + itemOn * LINEHEIGHT - 7 + OFFSET, skullpatch);
         }
         else
         {
-            int yy = y + itemOn * (LINEHEIGHT - 1) - 5 + OFFSET + chex;
+            int yy = y + itemOn * (LINEHEIGHT - 1) - 5 + OFFSET + (chex ? 1 : 0);
             int max = currentMenu->numitems;
 
             if (currentMenu == &OptionsDef && !itemOn && gamestate != GS_LEVEL)

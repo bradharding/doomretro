@@ -891,7 +891,7 @@ static void C_DrawBackground(void)
     }
 
     // draw branding
-    V_DrawConsoleBrandingPatch(SCREENWIDTH - brandwidth + 18 * vid_widescreen,
+    V_DrawConsoleBrandingPatch(SCREENWIDTH - brandwidth + (vid_widescreen ? 18 : 0),
         consoleheight - brandheight + 2, brand, consoleedgecolor);
 
     // draw bottom edge
@@ -977,7 +977,12 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
             if (letter == ' ' && formatting)
                 x += spacewidth;
             else if (letter == '\t')
-                x = (x > tabs[++tab] + 18 * vid_widescreen ? x + spacewidth : tabs[tab] + 18 * vid_widescreen);
+            {
+                if (vid_widescreen)
+                    x = (x > tabs[++tab] + 18 ? x + spacewidth : tabs[tab] + 18);
+                else
+                    x = (x > tabs[++tab] ? x + spacewidth : tabs[tab]);
+            }
             else if (letter == 149)
                 patch = bullet;
             else if (letter == 150)

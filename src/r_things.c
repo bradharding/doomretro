@@ -1076,7 +1076,7 @@ static void R_DrawPlayerSprite(pspdef_t *psp, boolean invisibility, boolean text
                     /* SPR_BFGF */ tlcolfunc,          tl50colfunc
                 };
 
-                vis->colfunc = colfuncs[spr * 2 + invulnerable];
+                vis->colfunc = colfuncs[(invulnerable ? spr * 2 + 1 : spr * 2)];
             }
             else
                 vis->colfunc = basecolfunc;

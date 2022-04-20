@@ -77,7 +77,7 @@
 #define ST_GODFACE          (ST_NUMPAINFACES * ST_FACESTRIDE)
 #define ST_DEADFACE         (ST_GODFACE + 1)
 
-#define ST_FACESX           (143 + chex)
+#define ST_FACESX           (chex ? 144 : 143)
 #define ST_FACESY           168
 
 #define ST_FACEBACKX        (144 * SCREENSCALE + WIDESCREENDELTA * 2)
@@ -407,7 +407,7 @@ static void ST_RefreshBackground(void)
             R_FillBezel();
 
         V_DrawWidePatch((SCREENWIDTH / SCREENSCALE - sbarwidth) / 2, VANILLAHEIGHT - VANILLASBARHEIGHT, 0, sbar);
-        V_DrawPatch(ST_ARMSBGX + hacx * 4, VANILLAHEIGHT - VANILLASBARHEIGHT, 0, armsbg);
+        V_DrawPatch((hacx ? ST_ARMSBGX + 4 : ST_ARMSBGX), VANILLAHEIGHT - VANILLASBARHEIGHT, 0, armsbg);
     }
     else if (r_detail == r_detail_low)
     {

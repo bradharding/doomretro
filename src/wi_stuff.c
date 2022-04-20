@@ -992,8 +992,8 @@ static void WI_DrawStats(void)
 
     if (wbs->partime)
     {
-        V_DrawPatchWithShadow(VANILLAWIDTH / 2 + SP_TIMEX + (BTSX ? 0 : SP_TIMEX - FREEDOOM * 17 + 3), SP_TIMEY + 1, par, false);
-        WI_DrawTime(VANILLAWIDTH - SP_TIMEX - 2 - (BTSX || FREEDOOM) * 17, SP_TIMEY, cnt_par);
+        V_DrawPatchWithShadow(VANILLAWIDTH / 2 + SP_TIMEX + (BTSX ? 0 : SP_TIMEX - (FREEDOOM ? 17 : 0) + 3), SP_TIMEY + 1, par, false);
+        WI_DrawTime(VANILLAWIDTH - SP_TIMEX - 2 - (BTSX || FREEDOOM ? 17 : 0), SP_TIMEY, cnt_par);
     }
 }
 
