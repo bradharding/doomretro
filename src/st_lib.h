@@ -91,7 +91,7 @@ typedef struct
     patch_t     **p;
 } st_multicon_t;
 
-extern boolean usesmallnums;
+extern boolean  usesmallnums;
 
 //
 // Widget creation, access, and update routines

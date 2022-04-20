@@ -85,15 +85,15 @@ void ST_Start(void);
 // Called by startup code.
 void ST_Init(void);
 
-extern boolean idclev;
+extern boolean  idclev;
 extern int      idclevtics;
-extern boolean idmus;
+extern boolean  idmus;
 extern int      st_palette;
-extern boolean oldweaponsowned[NUMWEAPONS];
+extern boolean  oldweaponsowned[NUMWEAPONS];
 extern patch_t  *tallnum[10];
 extern patch_t  *tallpercent;
 extern short    tallpercentwidth;
-extern boolean emptytallpercent;
+extern boolean  emptytallpercent;
 extern int      caretcolor;
 extern patch_t  *faces[ST_NUMFACES];
 extern int      st_faceindex;
@@ -109,4 +109,4 @@ extern patch_t  *brdr_tr;
 extern patch_t  *brdr_bl;
 extern patch_t  *brdr_br;
 
-extern boolean st_drawbrdr;
+extern boolean  st_drawbrdr;

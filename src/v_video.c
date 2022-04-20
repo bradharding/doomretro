@@ -58,15 +58,15 @@
 #include "z_zone.h"
 
 #define WHITE       4
-#define LIGHTGRAY   82
+#define LIGHTGRAY  82
 
-byte        *screens[NUMSCREENS];
-int         lowpixelwidth;
-int         lowpixelheight;
-char        screenshotfolder[MAX_PATH];
+byte    *screens[NUMSCREENS];
+int     lowpixelwidth;
+int     lowpixelheight;
+char    screenshotfolder[MAX_PATH];
 
-char        *r_lowpixelsize = r_lowpixelsize_default;
-boolean    r_supersampling = r_supersampling_default;
+char    *r_lowpixelsize = r_lowpixelsize_default;
+boolean r_supersampling = r_supersampling_default;
 
 void (*postprocessfunc)(int, int, int, int, int, int);
 
@@ -1812,9 +1812,9 @@ char    lbmpath2[MAX_PATH];
 
 static boolean V_SavePNG(SDL_Renderer *sdlrenderer, char *path)
 {
-    boolean    result = false;
-    int         width;
-    int         height;
+    boolean result = false;
+    int     width;
+    int     height;
 
     if (!SDL_GetRendererOutputSize(sdlrenderer, &width, &height))
     {
@@ -1834,10 +1834,10 @@ static boolean V_SavePNG(SDL_Renderer *sdlrenderer, char *path)
 
 boolean V_ScreenShot(void)
 {
-    boolean    result = false;
-    char        mapname[128];
-    char        *temp1;
-    int         count = 0;
+    boolean result = false;
+    char    mapname[128];
+    char    *temp1;
+    int     count = 0;
 
     if (consoleactive)
         M_StringCopy(mapname, "Console", sizeof(mapname));

@@ -45,15 +45,15 @@
 //
 // sky mapping
 //
-int         skyflatnum;
-int         skytexture;
-int         skytexturemid;
-int         skycolumnoffset;
-int         skyscrolldelta;
+int     skyflatnum;
+int     skytexture;
+int     skytexturemid;
+int     skycolumnoffset;
+int     skyscrolldelta;
 
-fixed_t     skyiscale;
+fixed_t skyiscale;
 
-boolean    canmouselook = false;
+boolean canmouselook = false;
 
 void R_InitSkyMap(void)
 {

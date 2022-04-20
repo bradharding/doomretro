@@ -51,6 +51,6 @@ extern int      skytexturemid;
 extern int      skycolumnoffset;
 extern int      skyscrolldelta;
 extern fixed_t  skyiscale;
-extern boolean canmouselook;
+extern boolean  canmouselook;
 
 void R_InitSkyMap(void);

@@ -43,9 +43,9 @@
 #include "st_lib.h"
 #include "v_video.h"
 
-boolean    negativehealth = negativehealth_default;
+boolean negativehealth = negativehealth_default;
 
-boolean    usesmallnums;
+boolean usesmallnums;
 
 static void (*statbarnumfunc)(int, int, int, int, int, patch_t *);
 

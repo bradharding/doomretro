@@ -157,10 +157,10 @@
 #define ST_MAXAMMO3Y        185
 
 // ST_Start() has just been called
-static boolean             st_firsttime;
+static boolean              st_firsttime;
 
 // whether left-side main status bar is active
-static boolean             st_statusbaron;
+static boolean              st_statusbaron;
 
 // main bar left
 static patch_t              *sbar;
@@ -174,7 +174,7 @@ patch_t                     *tallnum[10];
 // tall % sign
 patch_t                     *tallpercent;
 short                       tallpercentwidth;
-boolean                    emptytallpercent;
+boolean                     emptytallpercent;
 
 // 0-9, short, yellow (,different!) numbers
 static patch_t              *shortnum[10];
@@ -225,13 +225,13 @@ patch_t                     *brdr_tr;
 patch_t                     *brdr_bl;
 patch_t                     *brdr_br;
 
-boolean                    st_drawbrdr;
+boolean                     st_drawbrdr;
 
 // used to use appropriately pained face
 static int                  st_oldhealth = -1;
 
 // used for evil grin
-boolean                    oldweaponsowned[NUMWEAPONS];
+boolean                     oldweaponsowned[NUMWEAPONS];
 
 int                         st_palette = 0;
 
@@ -248,16 +248,16 @@ static int                  keyboxes[3];
 
 int                         oldhealth = 100;
 
-boolean                    idclev;
+boolean                     idclev;
 int                         idclevtics;
 
-boolean                    idmus;
+boolean                     idmus;
 
 int                         facebackcolor = facebackcolor_default;
 int                         r_berserkeffect = r_berserkeffect_default;
-boolean                    r_damageeffect = r_damageeffect_default;
-boolean                    r_pickupeffect = r_pickupeffect_default;
-boolean                    r_radsuiteffect = r_radsuiteffect_default;
+boolean                     r_damageeffect = r_damageeffect_default;
+boolean                     r_pickupeffect = r_pickupeffect_default;
+boolean                     r_radsuiteffect = r_radsuiteffect_default;
 
 uint64_t                    stat_cheated = 0;
 
@@ -438,7 +438,7 @@ static void ST_PlayerCheated(char *cheat, char *output, boolean warning)
 
     if (warning)
     {
-        static boolean cheated;
+        static boolean  cheated;
 
         C_Warning(0, "%s cheated%s!",
             (M_StringCompare(playername, playername_default) ? "You" : playername),
@@ -460,7 +460,7 @@ boolean ST_Responder(event_t *ev)
     {
         if (!menuactive && !paused)     // [BH] no cheats when in menu or paused
         {
-            boolean    cheatfailed = false;
+            boolean cheatfailed = false;
 
             if (!*consolecheat && cht_CheckCheat(&cheat_mus, ev->data2) && !nomusic && musicVolume)
                 idmus = true;
@@ -510,10 +510,10 @@ boolean ST_Responder(event_t *ev)
             // 'fa' cheat for killer fucking arsenal
             else if (cht_CheckCheat(&cheat_ammonokey, ev->data2) && gameskill != sk_nightmare && viewplayer->health > 0)
             {
-                boolean    ammogiven = false;
-                boolean    armorgiven = false;
-                boolean    berserkgiven = false;
-                boolean    weaponsgiven = false;
+                boolean ammogiven = false;
+                boolean armorgiven = false;
+                boolean berserkgiven = false;
+                boolean weaponsgiven = false;
 
                 // [BH] note if player doesn't have full armor before giving it
                 if (viewplayer->armorpoints < idfa_armor || viewplayer->armortype < idfa_armor_class)
@@ -566,11 +566,11 @@ boolean ST_Responder(event_t *ev)
                 // [BH] can only enter cheat while player is alive
                 && viewplayer->health > 0)
             {
-                boolean    ammogiven = false;
-                boolean    armorgiven = false;
-                boolean    berserkgiven = false;
-                boolean    keysgiven = false;
-                boolean    weaponsgiven = false;
+                boolean ammogiven = false;
+                boolean armorgiven = false;
+                boolean berserkgiven = false;
+                boolean keysgiven = false;
+                boolean weaponsgiven = false;
 
                 // [BH] note if player doesn't have full armor before giving it
                 if (viewplayer->armorpoints < idkfa_armor || viewplayer->armortype < idkfa_armor_class)
@@ -1119,7 +1119,7 @@ static void ST_UpdateFaceWidget(void)
         if (viewplayer->bonuscount)
         {
             // picking up bonus
-            boolean    doevilgrin = false;
+            boolean doevilgrin = false;
 
             for (int i = 0; i < NUMWEAPONS; i++)
                 if (oldweaponsowned[i] != viewplayer->weaponowned[i])

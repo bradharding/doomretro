@@ -57,7 +57,7 @@ uint64_t    stat_timeplayed = 0;
 
 // killough 08/29/98: we maintain several separate threads, each containing
 // a special class of thinkers, to allow more efficient searches.
-thinker_t       thinkers[th_all + 1];
+thinker_t   thinkers[th_all + 1];
 
 //
 // P_InitThinkers

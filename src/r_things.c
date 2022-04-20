@@ -80,21 +80,21 @@ spritedef_t             *sprites;
 
 short                   firstbloodsplatlump;
 
-boolean                allowwolfensteinss = true;
-boolean                pausesprites = false;
+boolean                 allowwolfensteinss = true;
+boolean                 pausesprites = false;
 
 static spriteframe_t    sprtemp[MAXSPRITEFRAMES];
 static int              maxframe;
 
-static boolean         drawshadows;
-static boolean         interpolatesprites;
-static boolean         invulnerable;
+static boolean          drawshadows;
+static boolean          interpolatesprites;
+static boolean          invulnerable;
 static fixed_t          floorheight;
 
-boolean                r_liquid_clipsprites = r_liquid_clipsprites_default;
-boolean                r_playersprites = r_playersprites_default;
+boolean                 r_liquid_clipsprites = r_liquid_clipsprites_default;
+boolean                 r_playersprites = r_playersprites_default;
 
-extern boolean         drawbloodsplats;
+extern boolean          drawbloodsplats;
 
 //
 // R_InstallSpriteLump
@@ -607,7 +607,7 @@ static void R_ProjectSprite(mobj_t *thing)
     spriteframe_t   *sprframe;
     int             lump;
     fixed_t         width;
-    boolean        flip;
+    boolean         flip;
     vissprite_t     *vis;
     sector_t        *heightsec;
     int             flags2;
@@ -963,7 +963,7 @@ void R_AddSprites(sector_t *sec, int lightlevel)
 //
 // R_DrawPlayerSprite
 //
-static boolean muzzleflash;
+static boolean  muzzleflash;
 
 static void R_DrawPlayerSprite(pspdef_t *psp, boolean invisibility, boolean texture, boolean altered)
 {
@@ -1117,7 +1117,7 @@ static void R_DrawPlayerSprite(pspdef_t *psp, boolean invisibility, boolean text
 static void R_DrawPlayerSprites(void)
 {
     int         invisibility = viewplayer->powers[pw_invisibility];
-    boolean    altered = (weaponinfo[viewplayer->readyweapon].altered || !r_fixspriteoffsets);
+    boolean     altered = (weaponinfo[viewplayer->readyweapon].altered || !r_fixspriteoffsets);
     pspdef_t    *weapon = viewplayer->psprites;
     pspdef_t    *flash = weapon + 1;
     state_t     *weaponstate = weapon->state;

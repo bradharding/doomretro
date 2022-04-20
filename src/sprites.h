@@ -87,11 +87,11 @@ typedef enum
 
 typedef struct
 {
-    char        name[9];
-    short       x, y;
-    short       width;
-    short       height;
-    boolean    sprfix18;
+    char    name[9];
+    short   x, y;
+    short   width;
+    short   height;
+    boolean sprfix18;
 } sproffset_t;
 
 extern char         *sprnames[];

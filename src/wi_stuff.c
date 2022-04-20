@@ -234,7 +234,7 @@ static anim_t *anims[] =
 #define SHOWNEXTLOCDELAY    4
 
 // used to accelerate or skip a stage
-boolean                acceleratestage;
+boolean                 acceleratestage;
 
 // specifies current state
 static stateenum_t      state;
@@ -472,8 +472,8 @@ static void WI_DrawEL(void)
 
 static void WI_DrawOnLnode(int n, patch_t *c[])
 {
-    boolean    fits = false;
-    int         i = 0;
+    boolean fits = false;
+    int     i = 0;
 
     do
     {
@@ -696,7 +696,7 @@ static void WI_UpdateNoState(void)
         G_WorldDone();
 }
 
-static boolean snl_pointeron;
+static boolean  snl_pointeron;
 
 static void WI_InitShowNextLoc(void)
 {
@@ -829,7 +829,7 @@ static void WI_InitStats(void)
 static void WI_UpdateStats(void)
 {
     // e6y
-    static boolean play_early_explosion = true;
+    static boolean  play_early_explosion = true;
 
     WI_UpdateAnimatedBack();
 

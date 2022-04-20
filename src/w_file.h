@@ -71,10 +71,10 @@ typedef struct wadfile_s wadfile_t;
 
 struct wadfile_s
 {
-    FILE        *fstream;
-    boolean    freedoom;
-    char        path[MAX_PATH];
-    int         type;
+    FILE    *fstream;
+    boolean freedoom;
+    char    path[MAX_PATH];
+    int     type;
 };
 
 // Open the specified file. Returns a pointer to a new wadfile_t

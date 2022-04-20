@@ -282,7 +282,7 @@ char *W_GuessFilename(char *path, char *string)
 //
 boolean W_AddFile(char *filename, boolean automatic)
 {
-    static boolean packagewadadded;
+    static boolean  packagewadadded;
     wadinfo_t       header;
     size_t          length;
     int             startlump;
