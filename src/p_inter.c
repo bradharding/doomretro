@@ -74,16 +74,16 @@ int             idfa_armor_class = armortype_blue;
 int             idkfa_armor = 200;
 int             idkfa_armor_class = armortype_blue;
 int             bfgcells = BFGCELLS;
-boolean        species_infighting = false;
+boolean         species_infighting = false;
 
 // a weapon is found with two clip loads,
 // a big item has five clip loads
 int             maxammo[] =  { 200, 50, 300, 50 };
 int             clipammo[] = {  10,  4,  20,  1 };
 
-boolean        con_obituaries = con_obituaries_default;
-boolean        r_mirroredweapons = r_mirroredweapons_default;
-boolean        tossdrop = tossdrop_default;
+boolean         con_obituaries = con_obituaries_default;
+boolean         r_mirroredweapons = r_mirroredweapons_default;
+boolean         tossdrop = tossdrop_default;
 
 uint64_t        stat_barrelsexploded = 0;
 uint64_t        stat_damageinflicted = 0;
@@ -119,7 +119,7 @@ uint64_t        stat_monstersresurrected = 0;
 uint64_t        stat_monsterstelefragged = 0;
 uint64_t        stat_suicides = 0;
 
-extern boolean healthcvar;
+extern boolean  healthcvar;
 
 void P_UpdateAmmoStat(ammotype_t ammotype, int num)
 {
@@ -271,7 +271,7 @@ static int P_GiveAmmo(ammotype_t ammotype, int num, boolean stat)
 //
 boolean P_GiveBackpack(boolean giveammo, boolean stat)
 {
-    boolean    result = false;
+    boolean result = false;
 
     if (!viewplayer->backpack)
     {
@@ -298,7 +298,7 @@ boolean P_GiveBackpack(boolean giveammo, boolean stat)
 //
 boolean P_GiveFullAmmo(void)
 {
-    boolean    result = false;
+    boolean result = false;
 
     for (int i = 0; i < NUMAMMO; i++)
         if (viewplayer->ammo[i] < viewplayer->maxammo[i])
@@ -329,8 +329,8 @@ void P_AddBonus(void)
 //
 static boolean P_GiveWeapon(weapontype_t weapon, boolean dropped, boolean stat)
 {
-    boolean            gaveammo = false;
-    boolean            gaveweapon = false;
+    boolean             gaveammo = false;
+    boolean             gaveweapon = false;
     const ammotype_t    ammotype = weaponinfo[weapon].ammotype;
 
     if (ammotype != am_noammo)
@@ -352,7 +352,7 @@ static boolean P_GiveWeapon(weapontype_t weapon, boolean dropped, boolean stat)
 //
 boolean P_GiveAllWeapons(void)
 {
-    boolean    result = false;
+    boolean result = false;
 
     if (!viewplayer->weaponowned[wp_chainsaw])
     {
@@ -444,7 +444,7 @@ boolean P_GiveBody(int num, int max, boolean stat)
 //
 boolean P_GiveMegaHealth(boolean stat)
 {
-    boolean    result = false;
+    boolean result = false;
 
     if (!(viewplayer->cheats & CF_GODMODE))
     {
@@ -592,7 +592,7 @@ static void P_GiveCard(card_t card)
 //
 boolean P_GiveAllCards(void)
 {
-    boolean    result = false;
+    boolean result = false;
 
     for (int i = 0; i < NUMCARDS; i++)
         if (viewplayer->cards[i] <= 0)
@@ -609,7 +609,7 @@ boolean P_GiveAllCards(void)
 //
 boolean P_GiveAllKeyCards(void)
 {
-    boolean    result = false;
+    boolean result = false;
 
     if (viewplayer->cards[it_bluecard] <= 0)
     {
@@ -637,7 +637,7 @@ boolean P_GiveAllKeyCards(void)
 //
 boolean P_GiveAllSkullKeys(void)
 {
-    boolean    result = false;
+    boolean result = false;
 
     if (viewplayer->cards[it_blueskull] <= 0)
     {
@@ -665,8 +665,8 @@ boolean P_GiveAllSkullKeys(void)
 //
 boolean P_GiveAllCardsInMap(void)
 {
-    boolean    skulliscard = true;
-    boolean    result = false;
+    boolean skulliscard = true;
+    boolean result = false;
 
     for (int i = 0; i < numlines; i++)
         if (lines[i].special >= GenLockedBase && !((lines[i].special & LockedNKeys) >> LockedNKeysShift))
@@ -706,7 +706,7 @@ boolean P_GivePower(int power)
         /* pw_infrared        */ INFRATICS
     };
 
-    boolean    given;
+    boolean given;
 
     if (viewplayer->powers[power] < 0)
         return false;
@@ -756,7 +756,7 @@ boolean P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, boolean message, b
     static int  prevtype;
     static int  prevx, prevy;
     int         temp;
-    boolean    duplicate;
+    boolean     duplicate;
 
     if (freeze)
         return false;
@@ -989,7 +989,7 @@ boolean P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, boolean message, b
         // berserk power-up
         case SPR_PSTR:
         {
-            boolean    strength = viewplayer->powers[pw_strength];
+            const boolean   strength = viewplayer->powers[pw_strength];
 
             P_GivePower(pw_strength);
 
@@ -1703,7 +1703,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, b
                 M_StringCopy(sourcename, source->name, sizeof(sourcename));
             else
             {
-                boolean    friendly = (source->flags & MF_FRIEND);
+                const boolean   friendly = (source->flags & MF_FRIEND);
 
                 M_snprintf(sourcename, sizeof(sourcename), "%s %s%s",
                     (friendly && monstercount[source->type] == 1 ? "the" :
@@ -1725,7 +1725,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, b
                 M_StringCopy(targetname, target->name, sizeof(targetname));
             else
             {
-                boolean    friendly = (target->flags & MF_FRIEND);
+                const boolean   friendly = (target->flags & MF_FRIEND);
 
                 M_snprintf(targetname, sizeof(targetname), "%s %s%s",
                     (friendly && monstercount[target->type] == 1 ? "the" :
@@ -1748,7 +1748,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, b
                 M_StringCopy(sourcename, source->name, sizeof(sourcename));
             else
             {
-                boolean    friendly = (source->flags & MF_FRIEND);
+                const boolean   friendly = (source->flags & MF_FRIEND);
 
                 M_snprintf(sourcename, sizeof(sourcename), "%s %s%s",
                     (friendly && monstercount[source->type] == 1 ? "The" :
@@ -1761,7 +1761,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, b
                 M_StringCopy(targetname, target->name, sizeof(targetname));
             else
             {
-                boolean    friendly = (target->flags & MF_FRIEND);
+                const boolean   friendly = (target->flags & MF_FRIEND);
 
                 M_snprintf(targetname, sizeof(targetname), "%s %s%s",
                     (friendly && monstercount[target->type] == 1 ? "the" :
@@ -1828,7 +1828,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, b
                     M_StringCopy(targetname, target->name, sizeof(targetname));
                 else
                 {
-                    boolean    friendly = (target->flags & MF_FRIEND);
+                    const boolean   friendly = (target->flags & MF_FRIEND);
 
                     M_snprintf(targetname, sizeof(targetname), "%s %s%s",
                         (friendly && monstercount[target->type] == 1 ? "the" :
@@ -1891,7 +1891,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, b
                             M_StringCopy(targetname, target->name, sizeof(targetname));
                         else
                         {
-                            boolean    friendly = (target->flags & MF_FRIEND);
+                            const boolean   friendly = (target->flags & MF_FRIEND);
 
                             M_snprintf(targetname, sizeof(targetname), "%s %s%s",
                                 (friendly && monstercount[target->type] == 1 ? "the" :
@@ -1935,7 +1935,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, b
                             M_StringCopy(targetname, target->name, sizeof(targetname));
                         else
                         {
-                            boolean    friendly = (target->flags & MF_FRIEND);
+                            const boolean   friendly = (target->flags & MF_FRIEND);
 
                             M_snprintf(targetname, sizeof(targetname), "%s %s%s",
                                 (friendly && monstercount[target->type] == 1 ? "the" :
@@ -1972,7 +1972,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, b
                 M_StringCopy(sourcename, source->name, sizeof(sourcename));
             else
             {
-                boolean    friendly = (source->flags & MF_FRIEND);
+                const boolean   friendly = (source->flags & MF_FRIEND);
 
                 M_snprintf(sourcename, sizeof(sourcename), "%s %s%s",
                     (friendly && monstercount[source->type] == 1 ? "the" :
@@ -1996,7 +1996,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, b
                     M_StringCopy(targetname, target->name, sizeof(targetname));
                 else
                 {
-                    boolean    friendly = (target->flags & MF_FRIEND);
+                    const boolean   friendly = (target->flags & MF_FRIEND);
 
                     M_snprintf(targetname, sizeof(targetname), "%s %s%s",
                         (source->type == target->type || M_StringCompare(source->info->name1, target->info->name1) ? "another" :
@@ -2063,7 +2063,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, b
 //
 void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, boolean telefragged)
 {
-    boolean            gibbed;
+    boolean             gibbed;
     const mobjtype_t    type = target->type;
     mobjinfo_t          *info = &mobjinfo[type];
     const int           gibhealth = info->gibhealth;
@@ -2236,10 +2236,10 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
     player_t            *splayer = NULL;
     player_t            *tplayer;
     const int           flags = target->flags;
-    const boolean      corpse = (flags & MF_CORPSE);
+    const boolean       corpse = (flags & MF_CORPSE);
     const mobjtype_t    type = target->type;
     mobjinfo_t          *info = &mobjinfo[type];
-    boolean            justhit = false;
+    boolean             justhit = false;
 
     if (!(flags & (MF_SHOOTABLE | MF_BOUNCES)) && (!corpse || !r_corpses_slide))
         return;

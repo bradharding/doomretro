@@ -109,37 +109,37 @@ typedef struct mapinfo_s mapinfo_t;
 
 struct mapinfo_s
 {
-    char        author[128];
-    int         cluster;
-    boolean    endbunny;
-    boolean    endcast;
-    boolean    endgame;
-    int         endpic;
-    int         enterpic;
-    char        interbackdrop[9];
-    int         intermusic;
-    char        intertext[1024];
-    char        intertextsecret[1024];
-    int         liquid[NUMLIQUIDS];
-    int         music;
-    char        musiccomposer[128];
-    char        musictitle[128];
-    char        name[128];
-    int         next;
-    boolean    nojump;
-    int         noliquid[NUMLIQUIDS];
-    boolean    nomouselook;
-    int         par;
-    boolean    pistolstart;
-    int         secretnext;
-    int         sky1texture;
-    int         sky1scrolldelta;
-    int         titlepatch;
-    boolean    allowmonstertelefrags;
-    boolean    compat_corpsegibs;
-    boolean    compat_light;
-    boolean    compat_limitpain;
-    boolean    nograduallighting;
+    char    author[128];
+    int     cluster;
+    boolean endbunny;
+    boolean endcast;
+    boolean endgame;
+    int     endpic;
+    int     enterpic;
+    char    interbackdrop[9];
+    int     intermusic;
+    char    intertext[1024];
+    char    intertextsecret[1024];
+    int     liquid[NUMLIQUIDS];
+    int     music;
+    char    musiccomposer[128];
+    char    musictitle[128];
+    char    name[128];
+    int     next;
+    boolean nojump;
+    int     noliquid[NUMLIQUIDS];
+    boolean nomouselook;
+    int     par;
+    boolean pistolstart;
+    int     secretnext;
+    int     sky1texture;
+    int     sky1scrolldelta;
+    int     titlepatch;
+    boolean allowmonstertelefrags;
+    boolean compat_corpsegibs;
+    boolean compat_light;
+    boolean compat_limitpain;
+    boolean nograduallighting;
 };
 
 //
@@ -212,7 +212,7 @@ mobj_t              **blocklinks;
 int                 blockmapxneg = -257;
 int                 blockmapyneg = -257;
 
-boolean            skipblstart;            // MaxW: Skip initial blocklist short
+boolean             skipblstart;            // MaxW: Skip initial blocklist short
 
 // REJECT
 // For fast sight rejection.
@@ -307,19 +307,19 @@ static int mapcmdids[] =
     MCMD_COMPAT_LIGHT
 };
 
-boolean        allowmonstertelefrags;
-boolean        compat_corpsegibs;
-boolean        compat_light;
-boolean        compat_limitpain;
-boolean        nograduallighting;
+boolean         allowmonstertelefrags;
+boolean         compat_corpsegibs;
+boolean         compat_light;
+boolean         compat_limitpain;
+boolean         nograduallighting;
 
-boolean        canmodify;
-boolean        transferredsky;
+boolean         canmodify;
+boolean         transferredsky;
 static int      MAPINFO;
 
 boolean        r_fixmaperrors = r_fixmaperrors_default;
 
-boolean        samelevel;
+boolean         samelevel;
 
 mapformat_t     mapformat;
 
@@ -330,12 +330,12 @@ const char *mapformats[] =
     ITALICS("ZDOOM") " extended (uncompressed)"
 };
 
-boolean        boomcompatible;
-boolean        mbfcompatible;
-boolean        mbf21compatible = false;
-boolean        blockmaprebuilt;
-boolean        nojump = false;
-boolean        nomouselook = false;
+boolean         boomcompatible;
+boolean         mbfcompatible;
+boolean         mbf21compatible = false;
+boolean         blockmaprebuilt;
+boolean         nojump = false;
+boolean         nomouselook = false;
 
 const char *linespecials[NUMLINESPECIALS] =
 {
@@ -1804,7 +1804,7 @@ static void P_LoadThings(int map, int lump)
     for (thingid = 0; thingid < numthings; thingid++)
     {
         mapthing_t  mt = data[thingid];
-        boolean    spawn = true;
+        boolean     spawn = true;
         const short type = SHORT(mt.type);
 
         if (gamemode != commercial && type >= ArchVile && type <= MonstersSpawner && W_CheckMultipleLumps("DEHACKED") == 1)
@@ -2125,8 +2125,8 @@ static void P_LoadSideDefs2(int lump)
 //
 static boolean P_VerifyBlockMap(int count)
 {
-    boolean    isvalid = true;
-    int         *maxoffs = blockmaplump + count;
+    boolean isvalid = true;
+    int     *maxoffs = blockmaplump + count;
 
     skipblstart = true;
 
@@ -2723,8 +2723,8 @@ char    automaptitle[512];
 // Determine map name to use
 void P_MapName(int ep, int map)
 {
-    boolean    mapnumonly = false;
-    char        *mapinfoname = trimwhitespace(P_GetMapName((ep - 1) * 10 + map));
+    boolean mapnumonly = false;
+    char    *mapinfoname = trimwhitespace(P_GetMapName((ep - 1) * 10 + map));
 
     switch (gamemission)
     {

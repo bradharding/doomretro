@@ -158,7 +158,7 @@ boolean EV_DoPlat(line_t *line, plattype_e type, int amount)
 {
     plat_t      *plat;
     int         secnum = -1;
-    boolean    rtn = false;
+    boolean     rtn = false;
     sector_t    *sec;
 
     if (P_ProcessNoTagLines(line, &sec, &secnum))

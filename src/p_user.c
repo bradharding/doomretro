@@ -54,16 +54,16 @@
 #define STEP1DISTANCE   24
 #define STEP2DISTANCE   32
 
-boolean    autotilt = autotilt_default;
-boolean    autouse = autouse_default;
-boolean    infighting = infighting_default;
-int         movebob = movebob_default;
-boolean    r_liquid_lowerview = r_liquid_lowerview_default;
-int         r_shake_damage = r_shake_damage_default;
-int         stillbob = stillbob_default;
+boolean autotilt = autotilt_default;
+boolean autouse = autouse_default;
+boolean infighting = infighting_default;
+int     movebob = movebob_default;
+boolean r_liquid_lowerview = r_liquid_lowerview_default;
+int     r_shake_damage = r_shake_damage_default;
+int     stillbob = stillbob_default;
 
-boolean    autousing = false;
-int         deadlookdir = -1;
+boolean autousing = false;
+int     deadlookdir = -1;
 
 //
 // Movement
@@ -319,7 +319,7 @@ static void P_ReduceDamageCount(void)
 //
 static void P_DeathThink(void)
 {
-    static boolean facingkiller;
+    static boolean  facingkiller;
     static int      deathcount;
     mobj_t          *mo = viewplayer->mo;
     mobj_t          *attacker = viewplayer->attacker;

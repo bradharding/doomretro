@@ -498,7 +498,7 @@ typedef struct mobj_s
 
     char                name[33];
 
-    boolean            madesound;
+    boolean             madesound;
     mobjtype_t          inflicter;
 } mobj_t;
 

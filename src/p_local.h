@@ -106,7 +106,7 @@ void P_SetPsprite(size_t position, statenum_t stnum);
 #define MLOOKUNIT           8
 #define PLAYERSLOPE(a)      ((((a)->lookdir / MLOOKUNIT) << FRACBITS) / 153)
 
-extern boolean autousing;
+extern boolean  autousing;
 extern int      deadlookdir;
 extern fixed_t  animatedliquiddiffs[64];
 
@@ -180,7 +180,7 @@ typedef struct
 typedef struct
 {
     fixed_t     frac;           // along trace line
-    boolean    isaline;
+    boolean     isaline;
 
     union
     {
@@ -233,15 +233,15 @@ void P_CheckIntercepts(void);
 // If "floatok" true, move would be ok
 // if within "tmfloorz - tmceilingz".
 extern fixed_t      attackrange;
-extern boolean     floatok;
-extern boolean     felldown;       // killough 11/98: indicates object pushed off ledge
+extern boolean      floatok;
+extern boolean      felldown;       // killough 11/98: indicates object pushed off ledge
 extern fixed_t      tmfloorz;
 extern fixed_t      tmbbox[4];      // phares 03/20/98
 extern msecnode_t   *sector_list;
 extern line_t       *ceilingline;
 extern line_t       *blockline;
 
-extern boolean     infight;
+extern boolean      infight;
 
 void P_CheckSpechits(void);
 boolean P_CheckPosition(mobj_t *thing, fixed_t x, fixed_t y);
@@ -319,7 +319,7 @@ extern int      max_soul;
 extern int      soul_health;
 extern int      mega_health;
 extern int      bfgcells;
-extern boolean species_infighting;
+extern boolean  species_infighting;
 extern int      maxammo[];
 extern int      clipammo[];
 

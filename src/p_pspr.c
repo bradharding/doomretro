@@ -50,11 +50,11 @@
 #define LOWERSPEED  (6 * FRACUNIT)
 #define RAISESPEED  (6 * FRACUNIT)
 
-boolean        autoaim = autoaim_default;
-boolean        centerweapon = centerweapon_default;
+boolean         autoaim = autoaim_default;
+boolean         centerweapon = centerweapon_default;
 int             weaponbob = weaponbob_default;
-boolean        weaponbounce = weaponbounce_default;
-boolean        weaponrecoil = weaponrecoil_default;
+boolean         weaponbounce = weaponbounce_default;
+boolean         weaponrecoil = weaponrecoil_default;
 
 uint64_t        stat_shotsfired_fists = 0;
 uint64_t        stat_shotsfired_chainsaw = 0;
@@ -75,10 +75,10 @@ uint64_t        stat_shotssuccessful_rocketlauncher = 0;
 uint64_t        stat_shotssuccessful_plasmarifle = 0;
 uint64_t        stat_shotssuccessful_bfg9000 = 0;
 
-boolean        successfulshot;
-boolean        skippsprinterp;
+boolean         successfulshot;
+boolean         skippsprinterp;
 
-extern boolean hitwall;
+extern boolean  hitwall;
 
 //
 // A_Recoil

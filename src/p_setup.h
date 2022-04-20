@@ -38,16 +38,16 @@
 
 #pragma once
 
-extern boolean     canmodify;
-extern boolean     samelevel;
-extern boolean     skipblstart;
+extern boolean      canmodify;
+extern boolean      samelevel;
+extern boolean      skipblstart;
 extern const char   *linespecials[];
 
-extern boolean     allowmonstertelefrags;
-extern boolean     compat_corpsegibs;
-extern boolean     compat_light;
-extern boolean     compat_limitpain;
-extern boolean     nograduallighting;
+extern boolean      allowmonstertelefrags;
+extern boolean      compat_corpsegibs;
+extern boolean      compat_light;
+extern boolean      compat_limitpain;
+extern boolean      nograduallighting;
 
 extern char         mapnum[6];
 extern char         maptitle[256];

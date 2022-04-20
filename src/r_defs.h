@@ -203,7 +203,7 @@ typedef struct sector_s
 
     terraintype_t       terraintype;
 
-    boolean            islift;
+    boolean             islift;
 } sector_t;
 
 //
@@ -613,7 +613,7 @@ enum
     LightFlickers_Randomly                              = 17
 };
 
-extern boolean islightspecial[];
+extern const boolean islightspecial[];
 
 enum
 {

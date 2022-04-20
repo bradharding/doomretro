@@ -60,7 +60,7 @@
 #include "w_wad.h"
 #include "z_zone.h"
 
-boolean islightspecial[] =
+const boolean islightspecial[] =
 {
     false, true,  true,  true, false, false, false, false, true,
     false, false, false, true, true,  false, false, false, true
@@ -72,11 +72,11 @@ boolean islightspecial[] =
 //
 typedef struct
 {
-    boolean    istexture;
-    int         picnum;
-    int         basepic;
-    int         numpics;
-    int         speed;
+    boolean istexture;
+    int     picnum;
+    int     basepic;
+    int     numpics;
+    int     speed;
 } anim_t;
 
 #if defined(_MSC_VER) || defined(__GNUC__)
@@ -102,7 +102,7 @@ typedef struct
 
 uint64_t        stat_secretsfound = 0;
 
-boolean        r_liquid_bob = r_liquid_bob_default;
+boolean         r_liquid_bob = r_liquid_bob_default;
 
 int             animatedliquidtic;
 fixed_t         animatedliquiddiff;
@@ -130,7 +130,7 @@ static anim_t   *lastanim;
 static anim_t   *anims;             // new structure w/o limits -- killough
 
 terraintype_t   *terraintypes;
-boolean        *isteleport;
+boolean         *isteleport;
 
 // killough 03/07/98: Initialize generalized scrolling
 static void P_SpawnScrollers(void);
@@ -223,8 +223,8 @@ void P_InitPicAnims(void)
         }
         else
         {
-            int         basepic;
-            boolean    isliquid = false;
+            int     basepic;
+            boolean isliquid = false;
 
             if (R_CheckFlatNumForName(animdefs[i].startname) == -1)
                 continue;
@@ -322,7 +322,7 @@ void P_InitPicAnims(void)
 
     while (SC_GetString())
     {
-        boolean    noliquid = M_StringCompare(sc_String, "NOLIQUID");
+        const boolean   noliquid = M_StringCompare(sc_String, "NOLIQUID");
 
         if (noliquid || M_StringCompare(sc_String, "LIQUID"))
         {
@@ -953,7 +953,7 @@ boolean P_CanUnlockGenDoor(line_t *line)
     static char     buffer[1024];
 
     // does this line special distinguish between skulls and keys?
-    const boolean  skulliscard = (line->special & LockedNKeys) >> LockedNKeysShift;
+    const boolean   skulliscard = (line->special & LockedNKeys) >> LockedNKeysShift;
 
     // determine for each case of lock type if player's keys are adequate
     switch ((line->special & LockedKey) >> LockedKeyShift)
@@ -1365,7 +1365,7 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
 
     if (!thing->player)
     {
-        boolean    okay = false;
+        boolean okay = false;
 
         switch (line->special)
         {
@@ -2400,8 +2400,8 @@ void P_UpdateSpecials(void)
 //
 boolean EV_DoDonut(line_t *line)
 {
-    int         secnum = -1;
-    boolean    rtn = false;
+    int     secnum = -1;
+    boolean rtn = false;
 
     while ((secnum = P_FindSectorFromLineTag(line, secnum)) >= 0)
     {
@@ -2814,11 +2814,11 @@ static void P_SpawnScrollers(void)
 
     for (int i = 0; i < numlines; i++, l++)
     {
-        fixed_t     dx = l->dx >> SCROLL_SHIFT;                             // direction and speed of scrolling
-        fixed_t     dy = l->dy >> SCROLL_SHIFT;
-        int         control = -1;                                           // no control sector or acceleration
-        boolean    accel = false;
-        int         special = l->special;
+        fixed_t dx = l->dx >> SCROLL_SHIFT;                                 // direction and speed of scrolling
+        fixed_t dy = l->dy >> SCROLL_SHIFT;
+        int     control = -1;                                               // no control sector or acceleration
+        boolean accel = false;
+        int     special = l->special;
 
         // killough 03/07/98: Types 245-249 are same as 250-254 except that the
         // first side's sector's heights cause scrolling when they change, and
@@ -3324,7 +3324,7 @@ static void P_SpawnPushers(void)
         }
 }
 
-boolean    zerotag_manual;
+boolean zerotag_manual;
 
 boolean P_ProcessNoTagLines(line_t *line, sector_t **sec, int *secnum)
 {
