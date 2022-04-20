@@ -169,8 +169,6 @@ static void SetTerrainType(anim_t *anim, terraintype_t terraintype)
 //
 void P_InitPicAnims(void)
 {
-    size_t      size = ((size_t)numflats + 1) * sizeof(boolean);
-
     int         lump = W_GetNumForName("ANIMATED");
     animdef_t   *animdefs = W_CacheLumpNum(lump);
     size_t      maxanims = 0;
@@ -188,8 +186,8 @@ void P_InitPicAnims(void)
     short       SLIME01 = R_CheckFlatNumForName("SLIME01");
     short       SLIME08 = R_CheckFlatNumForName("SLIME08");
 
-    terraintypes = Z_Calloc(1, size, PU_STATIC, NULL);
-    isteleport = Z_Calloc(1, size, PU_STATIC, NULL);
+    terraintypes = Z_Calloc(1, ((size_t)numflats + 1) * sizeof(*terraintypes), PU_STATIC, NULL);
+    isteleport = Z_Calloc(1, ((size_t)numflats + 1) * sizeof(*isteleport), PU_STATIC, NULL);
 
     RROCK05 = R_CheckFlatNumForName("RROCK05");
     RROCK08 = R_CheckFlatNumForName("RROCK08");
