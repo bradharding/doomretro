@@ -20,6 +20,7 @@
   * A warning is now displayed in the console indicating that the player cheated.
   * Fade effects are no longer applied once the cheat is entered in most cases.
 * Pausing and then resuming the animation of any liquid sectors in view is now smoother when opening and then closing the console.
+* The branding in the console is now positioned correctly again when the `vid_widescreen` CVAR is `on`.
 * The swirling animation of liquid sectors when the `r_liquid_swirl` CVAR is `on` has been slowed down slightly to better sync with the bobbing animation when the `r_liquid_bob` CVAR is `on`.
 * The player’s currently equipped weapon can now be changed using the new `weapon` CVAR. It can be `fists`, `chainsaw`, `pistol`, `shotgun`, `supershotgun`, `chaingun`, `rocketlauncher`, `plasmarifle` or `bfg9000`.
 * Power-ups that bob when the `r_floatbob` CVAR is `on` no longer bob at all if the ceiling above them is too low.
@@ -27,7 +28,7 @@
   * Extensive optimizations have been made to the rendering of blood splats.
   * The amount of blood splats rendered no longer depends on their distance from the player.
   * Blood splats now retain their random shades of color if the `r_blood` CVAR is changed in the console.
-  * The translucency of blood splats when the `r_textures` CVAR is `off` now depends on the `r_bloodsplats_translucency` rather than `r_translucency` CVAR.
+  * The translucency of blood splats when the `r_textures` CVAR is `off` now depends on the `r_bloodsplats_translucency` CVAR rather than `r_translucency` CVAR.
   * Blood splats are now left on the floor as intended if blood falls on a moving sector.
 * Centered messages are now spaced better vertically.
 * The player’s face in the status bar and widescreen HUD now always looks forward while the console is open.
