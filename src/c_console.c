@@ -1115,8 +1115,8 @@ static void C_DrawOverlayText(byte *screen, int screenwidth, int x, int y, const
             x += spacewidth;
         else
         {
-            patch_t *patch = consolefont[letter - CONSOLEFONTSTART];
-            int     width = SHORT(patch->width);
+            patch_t     *patch = consolefont[letter - CONSOLEFONTSTART];
+            const int   width = SHORT(patch->width);
 
             if (isdigit(letter) && monospaced)
             {
@@ -1220,7 +1220,7 @@ void C_UpdateTimerOverlay(void)
     }
 
     C_DrawOverlayText(screens[0], SCREENWIDTH, SCREENWIDTH - timerwidth - OVERLAYTEXTX + 1,
-        OVERLAYTEXTY + (OVERLAYLINEHEIGHT + OVERLAYSPACING) * vid_showfps, buffer,
+        OVERLAYTEXTY + (OVERLAYLINEHEIGHT + OVERLAYSPACING) * (int)vid_showfps, buffer,
         (((viewplayer->fixedcolormap == INVERSECOLORMAP) ^ (!r_textures)) && !automapactive ? nearestblack : consoleoverlaycolor), true);
 }
 
@@ -1231,7 +1231,7 @@ void C_UpdatePathOverlay(void)
     if (*temp)
     {
         C_DrawOverlayText(mapscreen, MAPWIDTH, MAPWIDTH - C_OverlayWidth(temp, true) - OVERLAYTEXTX + 1,
-            OVERLAYTEXTY + (OVERLAYLINEHEIGHT + OVERLAYSPACING) * ((vid_showfps && automapactive) + (!!timeremaining && automapactive)),
+            OVERLAYTEXTY + (OVERLAYLINEHEIGHT + OVERLAYSPACING) * ((int)(vid_showfps && automapactive) + (int)(!!timeremaining && automapactive)),
             temp, consoleoverlaycolor, true);
         free(temp);
 
@@ -1243,9 +1243,9 @@ void C_UpdatePathOverlay(void)
 
 void C_UpdatePlayerStatsOverlay(void)
 {
-    int x = MAPWIDTH - OVERLAYTEXTX + 1;
-    int y = OVERLAYTEXTY + (OVERLAYLINEHEIGHT + OVERLAYSPACING)
-            * ((vid_showfps && automapactive) + (!!timeremaining && automapactive) + pathoverlay);
+    const int   x = MAPWIDTH - OVERLAYTEXTX + 1;
+    int         y = OVERLAYTEXTY + (OVERLAYLINEHEIGHT + OVERLAYSPACING)
+                    * ((int)(vid_showfps && automapactive) + (int)(!!timeremaining && automapactive) + (int)pathoverlay);
 
     if (totalkills)
     {

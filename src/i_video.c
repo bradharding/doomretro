@@ -1023,9 +1023,9 @@ void I_SetPalette(byte *playpal)
         for (int i = 0; i < 256; i++)
         {
             byte    *gamma = gammatable[gammaindex];
-            byte    r = gamma[*playpal++];
-            byte    g = gamma[*playpal++];
-            byte    b = gamma[*playpal++];
+            double  r = gamma[*playpal++];
+            double  g = gamma[*playpal++];
+            double  b = gamma[*playpal++];
             double  p = sqrt(r * r * 0.299 + g * g * 0.587 + b * b * 0.114);
 
             colors[i].r = (byte)(p + (r - p) * color);

@@ -1277,7 +1277,7 @@ deh_strs deh_strlookup[] =
     { &s_OB_MPDEFAULT,                "OB_MPDEFAULT"                }
 };
 
-static const int deh_numstrlookup = sizeof(deh_strlookup) / sizeof(deh_strlookup[0]);
+static const int    deh_numstrlookup = sizeof(deh_strlookup) / sizeof(deh_strlookup[0]);
 
 // DOOM shareware/registered/retail (Ultimate) names.
 char **mapnames[] =
@@ -1491,6 +1491,13 @@ char **mapnamesn[] =
     &s_NHUSTR_8,
     &s_NHUSTR_9
 };
+
+const int   nummapnames = sizeof(mapnames) / sizeof(mapnames[0]);
+const int   nummapnames2 = sizeof(mapnames2) / sizeof(mapnames2[0]);
+const int   nummapnames2_bfg = sizeof(mapnames2_bfg) / sizeof(mapnames2_bfg[0]);
+const int   nummapnamesp = sizeof(mapnamesp) / sizeof(mapnamesp[0]);
+const int   nummapnamest = sizeof(mapnamest) / sizeof(mapnamest[0]);
+const int   nummapnamesn = sizeof(mapnamesn) / sizeof(mapnamesn[0]);
 
 // Function prototypes
 static void lfstrip(char *s);       // strip the \r and/or \n off of a line
