@@ -5,6 +5,7 @@ am_allmapfdwallcolor 99
 am_allmapwallcolor 99
 am_backcolor 0
 am_bluedoorcolor 231
+am_bluekeycolor 112
 am_cdwallcolor 231
 am_crosshaircolor 96
 am_external off
@@ -17,12 +18,14 @@ am_path off
 am_playercolor 209
 am_playerstats off
 am_reddoorcolor 231
+am_redkeycolor 112
 am_rotatemode off
 am_teleportercolor 184
 am_thingcolor 112
 am_tswallcolor 96
 am_wallcolor 176
 am_yellowdoorcolor 231
+am_yellowkeycolor 112
 autoaim on
 autoload off
 autosave off

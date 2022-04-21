@@ -48,6 +48,7 @@ extern int      am_allmapfdwallcolor;
 extern int      am_allmapwallcolor;
 extern int      am_backcolor;
 extern int      am_bluedoorcolor;
+extern int      am_bluekeycolor;
 extern int      am_cdwallcolor;
 extern int      am_crosshaircolor;
 extern int      am_display;
@@ -63,12 +64,14 @@ extern int      am_pathcolor;
 extern int      am_playercolor;
 extern boolean  am_playerstats;
 extern int      am_reddoorcolor;
+extern int      am_redkeycolor;
 extern boolean  am_rotatemode;
 extern int      am_teleportercolor;
 extern int      am_thingcolor;
 extern int      am_tswallcolor;
 extern int      am_wallcolor;
 extern int      am_yellowdoorcolor;
+extern int      am_yellowkeycolor;
 extern boolean  autoaim;
 extern boolean  autoload;
 extern boolean  autosave;
@@ -327,8 +330,12 @@ enum
 #define am_backcolor_max                   255
 
 #define am_bluedoorcolor_min               0
-#define am_bluedoorcolor_default           160
+#define am_bluedoorcolor_default           am_cdwallcolor_default
 #define am_bluedoorcolor_max               255
+
+#define am_bluekeycolor_min                0
+#define am_bluekeycolor_default            am_thingcolor_default
+#define am_bluekeycolor_max                255
 
 #define am_cdwallcolor_min                 0
 #define am_cdwallcolor_default             160
@@ -375,8 +382,12 @@ enum
 #define am_playerstats_default             false
 
 #define am_reddoorcolor_min                0
-#define am_reddoorcolor_default            160
+#define am_reddoorcolor_default            am_cdwallcolor_default
 #define am_reddoorcolor_max                255
+
+#define am_redkeycolor_min                 0
+#define am_redkeycolor_default             am_thingcolor_default
+#define am_redkeycolor_max                 255
 
 #define am_rotatemode_default              true
 
@@ -397,8 +408,12 @@ enum
 #define am_wallcolor_max                   255
 
 #define am_yellowdoorcolor_min             0
-#define am_yellowdoorcolor_default         160
+#define am_yellowdoorcolor_default         am_cdwallcolor_default
 #define am_yellowdoorcolor_max             255
+
+#define am_yellowkeycolor_min              0
+#define am_yellowkeycolor_default          am_thingcolor_default
+#define am_yellowkeycolor_max              255
 
 #define ammo_min                           0
 #define ammo_default                       50

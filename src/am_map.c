@@ -61,6 +61,7 @@ int         am_allmapfdwallcolor = am_allmapfdwallcolor_default;
 int         am_allmapwallcolor = am_allmapwallcolor_default;
 int         am_backcolor = am_backcolor_default;
 int         am_bluedoorcolor = am_bluedoorcolor_default;
+int         am_bluekeycolor = am_bluekeycolor_default;
 int         am_cdwallcolor = am_cdwallcolor_default;
 int         am_crosshaircolor = am_crosshaircolor_default;
 int         am_display = am_display_default;
@@ -76,12 +77,14 @@ int         am_pathcolor = am_pathcolor_default;
 int         am_playercolor = am_playercolor_default;
 boolean     am_playerstats = am_playerstats_default;
 int         am_reddoorcolor = am_reddoorcolor_default;
+int         am_redkeycolor = am_redkeycolor_default;
 boolean     am_rotatemode = am_rotatemode_default;
 int         am_teleportercolor = am_teleportercolor_default;
 int         am_thingcolor = am_thingcolor_default;
 int         am_tswallcolor = am_tswallcolor_default;
 int         am_wallcolor = am_wallcolor_default;
 int         am_yellowdoorcolor = am_yellowdoorcolor_default;
+int         am_yellowkeycolor = am_yellowkeycolor_default;
 
 uint64_t    stat_automapopened = 0;
 
@@ -98,6 +101,9 @@ uint64_t    stat_automapopened = 0;
 
 static byte playercolor;
 static byte thingcolor;
+static byte bluekeycolor;
+static byte redkeycolor;
+static byte yellowkeycolor;
 static byte markcolor;
 static byte backcolor;
 static byte pathcolor;
@@ -314,6 +320,9 @@ void AM_SetColors(void)
 
     playercolor = nearestcolors[am_playercolor];
     thingcolor = nearestcolors[am_thingcolor];
+    bluekeycolor = nearestcolors[am_bluekeycolor];
+    redkeycolor = nearestcolors[am_redkeycolor];
+    yellowkeycolor = nearestcolors[am_yellowkeycolor];
     markcolor = nearestcolors[am_markcolor];
     backcolor = nearestcolors[am_backcolor];
     pathcolor = nearestcolors[am_pathcolor];
@@ -1698,7 +1707,7 @@ static void AM_DrawTranslucentPlayerArrow(const mline_t *lineguy, const int line
 }
 
 static void AM_DrawThingTriangle(const mline_t *lineguy, const int lineguylines,
-    const fixed_t scale, angle_t angle, fixed_t x, fixed_t y)
+    const fixed_t scale, angle_t angle, fixed_t x, fixed_t y, byte color)
 {
     for (int i = 0; i < lineguylines; i++)
     {
@@ -1724,7 +1733,7 @@ static void AM_DrawThingTriangle(const mline_t *lineguy, const int lineguylines,
         AM_Rotate(&x1, &y1, angle);
         AM_Rotate(&x2, &y2, angle);
 
-        AM_DrawFline(x + x1, y + y1, x + x2, y + y2, &thingcolor, &PUTDOT2);
+        AM_DrawFline(x + x1, y + y1, x + x2, y + y2, &color, &PUTDOT2);
     }
 }
 
@@ -1856,7 +1865,20 @@ static void AM_DrawThings(void)
                     fy = CYMTOF(point.y);
 
                     if (fx >= -width && fx <= MAPWIDTH + width && fy >= -width && fy <= (int)MAPHEIGHT + width)
-                        AM_DrawThingTriangle(thingtriangle, THINGTRIANGLELINES, width, thing->angle - angleoffset, point.x, point.y);
+                    {
+                        mobjtype_t  type = thing->type;
+                        byte        color = thingcolor;
+
+                        if (type == MT_MISC4 || type == MT_MISC9)
+                            color = bluekeycolor;
+                        else if (type == MT_MISC5 || type == MT_MISC8)
+                            color = redkeycolor;
+                        else if (type == MT_MISC6 || type == MT_MISC7)
+                            color = yellowkeycolor;
+
+                        AM_DrawThingTriangle(thingtriangle, THINGTRIANGLELINES, width,
+                            thing->angle - angleoffset, point.x, point.y, color);
+                    }
                 }
 
                 thing = thing->snext;

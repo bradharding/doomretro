@@ -72,6 +72,7 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT          (am_allmapwallcolor,               am_allmapwallcolour,                   am_allmapwallcolor,                    NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT          (am_backcolor,                     am_backcolour,                         am_backcolor,                          NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT          (am_bluedoorcolor,                 am_bluedoorcolour,                     am_bluedoorcolor,                      NOVALUEALIAS          ),
+    CONFIG_VARIABLE_INT          (am_bluekeycolor,                  am_bluekeycolour,                      am_bluekeycolor,                       NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT          (am_cdwallcolor,                   am_cdwallcolour,                       am_cdwallcolor,                        NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT          (am_crosshaircolor,                am_crosshaircolour,                    am_crosshaircolor,                     NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT          (am_display,                       am_display,                            am_display,                            NOVALUEALIAS          ),
@@ -86,12 +87,14 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT          (am_playercolor,                   am_playercolour,                       am_playercolor,                        NOVALUEALIAS          ),
     CONFIG_VARIABLE_BOOL         (am_playerstats,                   am_playerstats,                        am_playerstats,                        BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT          (am_reddoorcolor,                  am_reddoorcolour,                      am_reddoorcolor,                       NOVALUEALIAS          ),
+    CONFIG_VARIABLE_INT          (am_redkeycolor,                   am_redkeycolour,                       am_redkeycolor,                        NOVALUEALIAS          ),
     CONFIG_VARIABLE_BOOL         (am_rotatemode,                    am_rotatemode,                         am_rotatemode,                         BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT          (am_teleportercolor,               am_teleportercolour,                   am_teleportercolor,                    NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT          (am_thingcolor,                    am_thingcolour,                        am_thingcolor,                         NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT          (am_tswallcolor,                   am_tswallcolour,                       am_tswallcolor,                        NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT          (am_wallcolor,                     am_wallcolour,                         am_wallcolor,                          NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT          (am_yellowdoorcolor,               am_yellowdoorcolour,                   am_yellowdoorcolor,                    NOVALUEALIAS          ),
+    CONFIG_VARIABLE_INT          (am_yellowkeycolor,                am_yellowkeycolour,                    am_yellowkeycolor,                     NOVALUEALIAS          ),
     CONFIG_VARIABLE_BOOL         (autoaim,                          autoaim,                               autoaim,                               BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_BOOL         (autoload,                         autoload,                              autoload,                              BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_BOOL         (autosave,                         autosave,                              autosave,                              BOOLVALUEALIAS        ),
@@ -620,6 +623,9 @@ static void M_CheckCVARs(boolean ispackageconfig)
     if (am_bluedoorcolor < am_bluedoorcolor_min || am_bluedoorcolor > am_bluedoorcolor_max)
         am_bluedoorcolor = am_bluedoorcolor_default;
 
+    if (am_bluekeycolor < am_bluekeycolor_min || am_bluekeycolor > am_bluekeycolor_max)
+        am_bluekeycolor = am_bluekeycolor_default;
+
     if (am_cdwallcolor < am_cdwallcolor_min || am_cdwallcolor > am_cdwallcolor_max)
         am_cdwallcolor = am_cdwallcolor_default;
 
@@ -658,6 +664,9 @@ static void M_CheckCVARs(boolean ispackageconfig)
     if (am_reddoorcolor < am_reddoorcolor_min || am_reddoorcolor > am_reddoorcolor_max)
         am_reddoorcolor = am_reddoorcolor_default;
 
+    if (am_redkeycolor < am_redkeycolor_min || am_redkeycolor > am_redkeycolor_max)
+        am_redkeycolor = am_redkeycolor_default;
+
     if (am_rotatemode != false && am_rotatemode != true)
         am_rotatemode = am_rotatemode_default;
 
@@ -675,6 +684,9 @@ static void M_CheckCVARs(boolean ispackageconfig)
 
     if (am_yellowdoorcolor < am_yellowdoorcolor_min || am_yellowdoorcolor > am_yellowdoorcolor_max)
         am_yellowdoorcolor = am_yellowdoorcolor_default;
+
+    if (am_yellowkeycolor < am_yellowkeycolor_min || am_yellowkeycolor > am_yellowkeycolor_max)
+        am_yellowkeycolor = am_yellowkeycolor_default;
 
     if (autoaim != false && autoaim != true)
         autoaim = autoaim_default;
