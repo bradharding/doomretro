@@ -478,7 +478,7 @@ static boolean PIT_CheckThing(mobj_t *thing)
 
     // [BH] specify standard radius of 20 for pickups here as thing->radius
     // has been changed to allow better clipping
-    blockdist = thing->info->pickupradius + tmthing->radius;
+    blockdist = ((flags & MF_SPECIAL) ? thing->info->pickupradius : thing->info->radius) + tmthing->radius;
 
     if (ABS(thing->x - tmx) >= blockdist || ABS(thing->y - tmy) >= blockdist)
         return true;                    // didn't hit it
