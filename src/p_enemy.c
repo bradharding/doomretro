@@ -1778,6 +1778,7 @@ static void A_PainShootSkull(mobj_t *actor, angle_t angle)
     newmobj->flags = ((newmobj->flags & ~MF_FRIEND) | (actor->flags & MF_FRIEND));
 
     // [BH] count lost soul in player stats
+    totalkills++;
     monstercount[MT_SKULL]++;
 
     // killough 08/29/98: add to appropriate thread
