@@ -1910,7 +1910,7 @@ static void D_ProcessDehInWad(void)
 
 static void D_ParseStartupString(const char *string)
 {
-    size_t  len = strlen(string);
+    const size_t    len = strlen(string);
 
     for (size_t i = 0, start = 0; i < len; i++)
         if (string[i] == '\n' || i == len - 1)

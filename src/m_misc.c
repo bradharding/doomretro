@@ -549,7 +549,7 @@ boolean M_StringCompare(const char *str1, const char *str2)
 // Returns true if string begins with the specified prefix.
 boolean M_StringStartsWith(const char *s, const char *prefix)
 {
-    size_t  len = strlen(prefix);
+    const size_t    len = strlen(prefix);
 
     return (strlen(s) >= len && !strncasecmp(s, prefix, len));
 }
@@ -557,7 +557,7 @@ boolean M_StringStartsWith(const char *s, const char *prefix)
 // Returns true if string begins with the specified prefix.
 boolean M_StringStartsWithExact(const char *s, const char *prefix)
 {
-    size_t  len = strlen(prefix);
+    const size_t    len = strlen(prefix);
 
     return (strlen(s) >= len && !strncmp(s, prefix, len));
 }
@@ -565,8 +565,8 @@ boolean M_StringStartsWithExact(const char *s, const char *prefix)
 // Returns true if string ends with the specified suffix.
 boolean M_StringEndsWith(const char *s, const char *suffix)
 {
-    size_t  len1 = strlen(s);
-    size_t  len2 = strlen(suffix);
+    const size_t    len1 = strlen(s);
+    const size_t    len2 = strlen(suffix);
 
     return (len1 >= len2 && M_StringCompare(s + len1 - len2, suffix));
 }
@@ -643,8 +643,8 @@ char *lowercase(char *str)
 
 char *titlecase(const char *str)
 {
-    char    *newstr = M_StringDuplicate(str);
-    int     len = (int)strlen(newstr);
+    char        *newstr = M_StringDuplicate(str);
+    const int   len = (int)strlen(newstr);
 
     if (len > 0)
     {
@@ -783,8 +783,8 @@ int gcd(int a, int b)
 
 int numspaces(char *str)
 {
-    int result = 0;
-    int len = (int)strlen(str);
+    int         result = 0;
+    const int   len = (int)strlen(str);
 
     for (int i = 0; i < len; i++)
         result += (str[i] == ' ');
@@ -860,8 +860,8 @@ char *trimwhitespace(char *input)
 
 char *makevalidfilename(const char *input)
 {
-    char    *newstr = M_StringDuplicate(input);
-    int     len = (int)strlen(newstr);
+    char        *newstr = M_StringDuplicate(input);
+    const int   len = (int)strlen(newstr);
 
     for (int i = 0; i < len; i++)
         if (strchr("\\/:?\"<>|", newstr[i]))
@@ -997,8 +997,6 @@ char *pronoun(pronountype_t type)
         return (playergender == playergender_male ? "he" : (playergender == playergender_female ? "she" : "they"));
     else if (type == possessive)
         return (playergender == playergender_male ? "his" : (playergender == playergender_female ? "her" : "their"));
-    else if (type == reflexive)
-        return (playergender == playergender_male ? "himself" : (playergender == playergender_female ? "herself" : "themselves"));
     else
-        return ITALICS("pronoun");
+        return (playergender == playergender_male ? "himself" : (playergender == playergender_female ? "herself" : "themselves"));
 }

@@ -2108,7 +2108,7 @@ static void PIT_ChangeSector(mobj_t *thing)
 
             for (int i = 0; i < max; i++)
             {
-                int angle = M_BigRandomInt(0, FINEANGLES - 1);
+                const int   angle = M_BigRandomInt(0, FINEANGLES - 1);
 
                 P_SpawnBloodSplat(x + FixedMul(M_RandomInt(0, radius) << FRACBITS, finecosine[angle]),
                     y + FixedMul(M_RandomInt(0, radius) << FRACBITS, finesine[angle]), blood, true, floorz, NULL);
@@ -2202,7 +2202,7 @@ static void PIT_ChangeSector(mobj_t *thing)
 
         if (thing->health <= 0 && !thing->player && con_obituaries)
         {
-            char    name[33];
+            char    name[128];
 
             if (*thing->name)
                 M_StringCopy(name, thing->name, sizeof(name));

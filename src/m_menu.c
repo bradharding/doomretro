@@ -673,7 +673,7 @@ static struct
 void M_DrawString(int x, int y, char *string)
 {
     static char prev;
-    int         len = (int)strlen(string);
+    const int   len = (int)strlen(string);
 
     for (int i = 0; i < len; i++)
     {
@@ -728,7 +728,7 @@ static int M_BigStringWidth(char *string)
 {
     int         w = 0;
     static char prev;
-    int         len = (int)strlen(string);
+    const int   len = (int)strlen(string);
 
     for (int i = 0; i < len; i++)
     {
@@ -765,7 +765,7 @@ void M_DrawCenteredString(int y, char *string)
 //
 static void M_SplitString(char *string)
 {
-    int len = (int)strlen(string);
+    const int   len = (int)strlen(string);
 
     for (int i = len / 2 - 1; i < len; i++)
         if (string[i] == ' ')
@@ -1078,11 +1078,11 @@ static void M_DrawSave(void)
         // draw save game description
         if (saveStringEnter && i == saveSlot)
         {
-            char    left[256] = "";
-            char    right[256] = "";
-            int     j;
-            int     len = (int)strlen(savegamestrings[i]);
-            int     x;
+            char        left[256] = "";
+            char        right[256] = "";
+            int         j;
+            const int   len = (int)strlen(savegamestrings[i]);
+            int         x;
 
             // draw text to left of text caret
             for (j = 0; j < saveCharIndex; j++)
@@ -2341,8 +2341,8 @@ static int M_CharacterWidth(char ch, char prev)
 //
 int M_StringWidth(char *string)
 {
-    int w = M_CharacterWidth(string[0], '\0');
-    int len = (int)strlen(string);
+    int         w = M_CharacterWidth(string[0], '\0');
+    const int   len = (int)strlen(string);
 
     for (int i = 1; i < len; i++)
         w += M_CharacterWidth(string[i], string[i - 1]);
@@ -2355,8 +2355,8 @@ int M_StringWidth(char *string)
 //
 static int M_StringHeight(char *string)
 {
-    int h = (STCFN034 ? SHORT(hu_font[0]->height) : 8) + 1;
-    int len = (int)strlen(string);
+    int         h = (STCFN034 ? SHORT(hu_font[0]->height) : 8) + 1;
+    const int   len = (int)strlen(string);
 
     for (int i = 1; i < len; i++)
         if (string[i] == '\n')
@@ -2719,7 +2719,7 @@ boolean M_Responder(event_t *ev)
 
             if (ch >= ' ' && ch <= '_' && M_StringWidth(savegamestrings[saveSlot]) + M_CharacterWidth(ch, 0) <= SAVESTRINGPIXELWIDTH)
             {
-                int len = (int)strlen(savegamestrings[saveSlot]);
+                const int   len = (int)strlen(savegamestrings[saveSlot]);
 
                 savegamestrings[saveSlot][len + 1] = '\0';
 
@@ -2750,7 +2750,7 @@ boolean M_Responder(event_t *ev)
 
                 if (saveCharIndex > 0)
                 {
-                    int len = (int)strlen(savegamestrings[saveSlot]);
+                    const int   len = (int)strlen(savegamestrings[saveSlot]);
 
                     for (int j = saveCharIndex - 1; j < len; j++)
                         savegamestrings[saveSlot][j] = savegamestrings[saveSlot][j + 1];
@@ -2765,7 +2765,7 @@ boolean M_Responder(event_t *ev)
             // delete character right of caret
             case KEY_DELETE:
             {
-                int len = (int)strlen(savegamestrings[saveSlot]);
+                const int   len = (int)strlen(savegamestrings[saveSlot]);
 
                 keydown = key;
 
@@ -2800,8 +2800,8 @@ boolean M_Responder(event_t *ev)
             case KEY_ENTER:
                 if (!keydown)
                 {
-                    int     len = (int)strlen(savegamestrings[saveSlot]);
-                    boolean allspaces = true;
+                    const int   len = (int)strlen(savegamestrings[saveSlot]);
+                    boolean     allspaces = true;
 
                     keydown = key;
 
@@ -2858,7 +2858,7 @@ boolean M_Responder(event_t *ev)
             // move caret to end
             case KEY_END:
             {
-                int len = (int)strlen(savegamestrings[saveSlot]);
+                const int   len = (int)strlen(savegamestrings[saveSlot]);
 
                 if (saveCharIndex < len)
                 {
@@ -3693,8 +3693,8 @@ void M_Drawer(void)
 
         while (messageString[start] != '\0')
         {
-            int     len = (int)strlen(messageString + start);
-            boolean foundnewline = false;
+            const int   len = (int)strlen(messageString + start);
+            boolean     foundnewline = false;
 
             for (int i = 0; i < len; i++)
                 if (messageString[start + i] == '\n')

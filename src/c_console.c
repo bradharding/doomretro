@@ -941,7 +941,7 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
     boolean         bold = wrapbold;
     boolean         italics = wrapitalics;
     int             tab = -1;
-    int             len = (int)strlen(text);
+    const int       len = (int)strlen(text);
     unsigned char   prevletter = '\0';
     unsigned char   prevletter2 = '\0';
     int             startx = x;

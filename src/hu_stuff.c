@@ -1314,8 +1314,8 @@ void HU_SetPlayerMessage(char *message, boolean group, boolean external)
 
 void HU_PlayerMessage(char *message, boolean group, boolean external)
 {
-    char    buffer[133] = "";
-    int     len = (int)strlen(message);
+    char        buffer[133] = "";
+    const int   len = (int)strlen(message);
 
     if (!len)
         return;

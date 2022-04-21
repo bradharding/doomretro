@@ -1438,8 +1438,8 @@ static boolean P_HealCorpse(mobj_t *actor, int radius, statenum_t healstate, sfx
                     // [BH] display an obituary message in the console
                     if (con_obituaries)
                     {
-                        char    actorname[33];
-                        char    corpsehitname[33];
+                        char    actorname[128];
+                        char    corpsehitname[128];
                         char    *temp;
 
                         if (*actor->name)

@@ -1873,7 +1873,7 @@ static void condump_cmd_func2(char *cmd, char *parms)
             else
             {
                 char            *string = M_StringDuplicate(console[i].string);
-                int             len = (int)strlen(string);
+                const int       len = (int)strlen(string);
                 unsigned int    outpos = 0;
                 int             tabcount = 0;
                 unsigned char   prevletter = '\0';

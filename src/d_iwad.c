@@ -247,7 +247,7 @@ static char *GetRegistryString(registryvalue_t *reg_val)
 // Check for the uninstall strings from the CD versions
 static void CheckUninstallStrings(void)
 {
-    int len = (int)strlen(UNINSTALLER_STRING);
+    const int   len = (int)strlen(UNINSTALLER_STRING);
 
     for (size_t i = 0; i < arrlen(uninstall_values); i++)
     {

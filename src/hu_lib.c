@@ -295,7 +295,7 @@ static void HUlib_DrawTextLine(hu_textline_t *l, boolean external)
     byte            *fb2 = screens[(r_screensize < r_screensize_max - 1 && !automapactive)];
     byte            *tinttab1 = tinttab50;
     byte            *tinttab2 = tinttab80;
-    int             len = l->len;
+    const int       len = l->len;
     const boolean   idmypos = (viewplayer->cheats & CF_MYPOS);
     const int       screenwidth = (external ? MAPWIDTH : SCREENWIDTH);
 
@@ -445,7 +445,7 @@ void HUlib_DrawAutomapTextLine(hu_textline_t *l, boolean external)
     unsigned char   prev = '\0';
     unsigned char   prev2 = '\0';
     byte            *fb = (external ? mapscreen : screens[0]);
-    int             len = l->len;
+    const int       len = l->len;
 
     for (int i = 0; i < len; i++)
     {
