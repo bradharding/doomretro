@@ -7,12 +7,12 @@
 * Extensive optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Several changes have been made to text that is output to the console.
 * Minor improvements have been made to the console’s autocomplete feature.
-* Fade effects are now applied when displaying the title screen at startup when the `fade` CVAR is `on`.
+* A fade effect is now applied when displaying the title screen at startup and the `fade` CVAR is `on`.
 * The following changes have been made to the external automap:
   * The display used to show the external automap can now be specified using the new `am_display` CVAR, which is `2` by default.
   * So as to not also occur when adjusting the size of the player’s view, zooming in and out of the external automap is now only possible if the `+zoomin` and `+zoomout` actions are rebound from the <kbd><b>+</b></kbd> and <kbd><b>&ndash;</b></kbd> keys.
 * The player’s stats shown in the automap when the `am_playerstats` CVAR is `on` are now positioned correctly if there are no monsters in the map.
-* The colors of keycards and skull keys in the automap displayed when using the `IDDT` cheat can now be changed using the new `am_redkeycolor`, `am_yellowkeycolor` and `am_bluekeycolor` CVARs. These CVARs are `116` by default and when vanilla mode is enabled (such that there is no apparent difference until one of them is changed).
+* The colors of keycards and skull keys in the automap displayed when using the `IDDT` cheat can now be changed using the new `am_redkeycolor`, `am_yellowkeycolor` and `am_bluekeycolor` CVARs. These CVARs are `112` by default and when vanilla mode is enabled (such that there is no apparent difference until one of them is changed).
 * When a pain elemental spawns a lost soul, the number of monsters the player has left to kill now increases as intended.
 * The `am_followmode` CVAR will no longer be changed when enabling vanilla mode using the `vanilla` CCMD.
 * Changing the `r_fov` CVAR from its default of `90`° is now effective again when the `vid_widescreen` CVAR is `off`.
