@@ -7,7 +7,7 @@
 * Extensive optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Several changes have been made to text that is output to the console.
 * Minor improvements have been made to the console’s autocomplete feature.
-* Fade effects are now applied when displaying the title and credits screens when the `fade` CVAR is `on`.
+* Fade effects are now applied when displaying the title screen at startup when the `fade` CVAR is `on`.
 * The following changes have been made to the external automap:
   * The display used to show the external automap can now be specified using the new `am_display` CVAR, which is `2` by default.
   * So as to not also occur when adjusting the size of the player’s view, zooming in and out of the external automap is now only possible if the `+zoomin` and `+zoomout` actions are rebound from the <kbd><b>+</b></kbd> and <kbd><b>&ndash;</b></kbd> keys.

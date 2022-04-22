@@ -547,9 +547,10 @@ void D_PageTicker(void)
         D_AdvanceTitle();
 
         if (splashscreen)
+        {
             memset(screens[0], nearestblack, SCREENAREA);
-
-        D_FadeScreen(false);
+            D_FadeScreen(false);
+        }
     }
 }
 
@@ -624,6 +625,8 @@ void D_DoAdvanceTitle(void)
             I_SetPalette(PLAYPAL);
             splashscreen = false;
             I_Sleep(1000);
+            memset(screens[0], nearestblack, SCREENAREA);
+            D_FadeScreen(false);
         }
 
         M_SetWindowCaption();
