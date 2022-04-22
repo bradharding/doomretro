@@ -7837,27 +7837,10 @@ static void bool_cvars_func2(char *cmd, char *parms)
 // color CVARs
 //
 
-static struct
-{
-    char    *name;
-    int     value;
-} color[] = {
-    { "black",       0 }, { "blue",      200 }, { "brick",      32 }, { "brown",      64 },
-    { "cream",      48 }, { "darkbrown",  77 }, { "darkgray",  109 }, { "darkgrey",  109 },
-    { "darkgreen", 124 }, { "darkred",   189 }, { "gold",      163 }, { "gray",       95 },
-    { "grey",       95 }, { "green",     112 }, { "lightblue", 193 }, { "olive",     152 },
-    { "orange",    216 }, { "purple",    253 }, { "red",       176 }, { "tan",       144 },
-    { "white",       4 }, { "yellow",    231 }, { "",            0 }
-};
-
 static boolean color_cvars_func1(char *cmd, char *parms)
 {
     char    *temp;
     boolean result = false;
-
-    for (int i = 0; *color[i].name; i++)
-        if (M_StringCompare(parms, color[i].name))
-            return true;
 
     temp = M_SubString(parms, 1, 6);
     result = ((strlen(parms) == 7 && parms[0] == '#' && hextodec(temp) >= 0) || int_cvars_func1(cmd, parms));
@@ -7869,16 +7852,6 @@ static boolean color_cvars_func1(char *cmd, char *parms)
 static void color_cvars_func2(char *cmd, char *parms)
 {
     char    buffer[8];
-
-    for (int i = 0; *color[i].name; i++)
-        if (M_StringCompare(parms, color[i].name))
-        {
-            M_snprintf(buffer, sizeof(buffer), "%i", nearestcolors[color[i].value]);
-            int_cvars_func2(cmd, buffer);
-            AM_SetColors();
-
-            return;
-        }
 
     if (strlen(parms) == 7 && parms[0] == '#')
     {
