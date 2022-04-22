@@ -7839,22 +7839,26 @@ static void bool_cvars_func2(char *cmd, char *parms)
 
 static boolean color_cvars_func1(char *cmd, char *parms)
 {
-    char    *temp;
-    boolean result = false;
+    if (!*parms)
+        return true;
+    else
+    {
+        char    *temp;
+        boolean result = false;
 
-    temp = M_SubString(parms, 1, 6);
-    result = ((strlen(parms) == 7 && parms[0] == '#' && hextodec(temp) >= 0) || int_cvars_func1(cmd, parms));
-    free(temp);
+        temp = M_SubString(parms, 1, 6);
+        result = ((strlen(parms) == 7 && parms[0] == '#' && hextodec(temp) >= 0) || int_cvars_func1(cmd, parms));
+        free(temp);
 
-    return result;
+        return result;
+    }
 }
 
 static void color_cvars_func2(char *cmd, char *parms)
 {
-    char    buffer[8];
-
     if (strlen(parms) == 7 && parms[0] == '#')
     {
+        char    buffer[8];
         char    *temp1 = M_SubString(parms, 1, 2);
         char    *temp2 = M_SubString(parms, 3, 2);
         char    *temp3 = M_SubString(parms, 5, 2);

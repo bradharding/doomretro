@@ -7,24 +7,24 @@
 * Extensive optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Several changes have been made to text that is output to the console.
 * Minor improvements have been made to the console’s autocomplete feature.
-* A fade effect is now applied when displaying the title screen at startup and the `fade` CVAR is `on`.
+* The title screen now fades from black at startup when the `fade` CVAR is `on`.
 * The following changes have been made to the external automap:
   * The display used to show the external automap can now be specified using the new `am_display` CVAR, which is `2` by default.
   * So as to not also occur when adjusting the size of the player’s view, zooming in and out of the external automap is now only possible if the `+zoomin` and `+zoomout` actions are rebound from the <kbd><b>+</b></kbd> and <kbd><b>&ndash;</b></kbd> keys.
 * The player’s stats shown in the automap when the `am_playerstats` CVAR is `on` are now positioned correctly if there are no monsters in the map.
-* The colors of keycards and skull keys in the automap displayed when using the `IDDT` cheat can now be changed using the new `am_redkeycolor`, `am_yellowkeycolor` and `am_bluekeycolor` CVARs. These CVARs are `112` by default (the same as the `am_thingcolor` CVAR) and when vanilla mode is enabled.
+* The colors of keycards and skull keys in the automap visible when using the `IDDT` cheat can now be changed using the new `am_redkeycolor`, `am_yellowkeycolor` and `am_bluekeycolor` CVARs. These CVARs are `112` by default (the same as the `am_thingcolor` CVAR) and when vanilla mode is enabled.
 * When a pain elemental spawns a lost soul, the number of monsters the player has left to kill now increases as intended.
 * The `am_followmode` CVAR no longer changes when enabling vanilla mode using the `vanilla` CCMD.
 * Changing the `r_fov` CVAR from its default of `90`° is now effective again when the `vid_widescreen` CVAR is `off`.
 * The following changes have been made when the player enters a cheat:
-  * More time is now given to the player to enter the `IDBEHOLD` cheat.
-  * Displaying the cheat in the console is now redacted.
-  * The cheat is now skipped in the console’s input history when pressing the <kbd><b>&uarr;</b></kbd> or <kbd><b>&darr;</b></kbd> keys.
-  * A warning is now displayed in the console indicating that the player cheated.
+  * More time has been given to the player to enter the `IDBEHOLD` cheat.
+  * Displaying a cheat in the console is now redacted.
+  * Cheats are now skipped in the console’s input history when pressing the <kbd><b>&uarr;</b></kbd> or <kbd><b>&darr;</b></kbd> keys.
+  * A warning is now displayed in the console indicating when the player has cheated.
   * Fade effects are no longer applied when entering most cheats and the `fade` CVAR is `on`.
 * Pausing and then resuming the animation of any liquid sectors in view is now smoother when opening and then closing the console.
 * The branding in the console is now positioned correctly again when the `vid_widescreen` CVAR is `on`.
-* The swirling animation of liquid sectors when the `r_liquid_swirl` CVAR is `on` has been slowed down slightly to better sync with the bobbing animation when the `r_liquid_bob` CVAR is `on`.
+* The swirl of liquid sectors when the `r_liquid_swirl` CVAR is `on` has been slowed down slightly to better sync with their bob when the `r_liquid_bob` CVAR is `on`.
 * The player’s currently equipped weapon can now be changed using the new `weapon` CVAR. It can be `fists`, `chainsaw`, `pistol`, `shotgun`, `supershotgun`, `chaingun`, `rocketlauncher`, `plasmarifle` or `bfg9000`.
 * Power-ups that bob when the `r_floatbob` CVAR is `on` no longer bob at all if the ceiling above them is too low.
 * The following changes have been made to blood splats:
@@ -47,7 +47,7 @@
 * The following changes have been made to the support of `MAPINFO` lumps:
   * `compat_light` can now be used so when a light level changes to the highest light level found in neighboring sectors, the search is made only for the first tagged sector, like in *Vanilla DOOM*.
   * `nograduallighting` can now be used to disable the effects of the `r_graduallighting` CVAR.
-* A bug is fixed whereby the bounding box of monsters specified in a `DEHACKED` lump would be incorrect in some instances.
+* A bug is fixed whereby the bounding box of monsters changed in a `DEHACKED` lump would be incorrect in some instances.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
