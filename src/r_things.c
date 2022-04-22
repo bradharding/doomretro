@@ -1226,21 +1226,23 @@ static void msort(vissprite_t **s, vissprite_t **t, unsigned int n)
             memcpy(d, s1, n1 * sizeof(void *));
 
         memcpy(s, t, n * sizeof(void *));
+        return;
     }
-    else
-        for (unsigned int i = 1; i < n; i++)
+
+    for (unsigned int i = 1; i < n; i++)
+    {
+        vissprite_t     *temp = s[i];
+        const fixed_t   scale = temp->scale;
+
+        if (s[i - 1]->scale < scale)
         {
-            vissprite_t *temp = s[i];
+            unsigned int    j = i;
 
-            if (s[i - 1]->scale < temp->scale)
-            {
-                unsigned int    j = i;
+            while ((s[j] = s[j - 1])->scale < scale && --j);
 
-                while ((s[j] = s[j - 1])->scale < temp->scale && --j);
-
-                s[j] = temp;
-            }
+            s[j] = temp;
         }
+    }
 }
 
 static void R_SortVisSprites(void)
