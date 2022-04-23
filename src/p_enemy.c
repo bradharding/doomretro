@@ -854,7 +854,7 @@ void A_Look(mobj_t *actor, player_t *player, pspdef_t *psp)
                 break;
 
             default:
-                S_StartSound(((actor->mbf21flags & MF_MBF21_BOSS) ? NULL : actor), actor->info->seesound);
+                S_StartSound(((actor->mbf21flags & (MF_MBF21_BOSS | MF_MBF21_FULLVOLSOUNDS)) ? NULL : actor), actor->info->seesound);
                 break;
         }
 
@@ -1827,7 +1827,7 @@ void A_Scream(mobj_t *actor, player_t *player, pspdef_t *psp)
     else if (sound == sfx_bgdth1 || sound == sfx_bgdth2)
         sound = sfx_bgdth1 + M_Random() % 2;
 
-    S_StartSound(((actor->mbf21flags & MF_MBF21_BOSS) ? NULL : actor), sound);
+    S_StartSound(((actor->mbf21flags & (MF_MBF21_BOSS | MF_MBF21_FULLVOLSOUNDS)) ? NULL : actor), sound);
 }
 
 void A_XScream(mobj_t *actor, player_t *player, pspdef_t *psp)

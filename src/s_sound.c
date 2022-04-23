@@ -430,7 +430,6 @@ static boolean S_AdjustSoundParms(mobj_t *origin, int *vol, int *sep)
 {
     fixed_t     dist = 0;
     mobj_t      *listener = viewplayer->mo;
-    boolean     boss = (origin->mbf21flags & MF_MBF21_BOSS);
     fixed_t     x = origin->x;
     fixed_t     y = origin->y;
 
@@ -455,7 +454,7 @@ static boolean S_AdjustSoundParms(mobj_t *origin, int *vol, int *sep)
         return (*vol > 0);
     }
 
-    if (!boss && dist > S_CLIPPING_DIST)
+    if (dist > S_CLIPPING_DIST)
         return false;
 
     // stereo separation
@@ -471,7 +470,7 @@ static boolean S_AdjustSoundParms(mobj_t *origin, int *vol, int *sep)
     }
 
     // volume calculation
-    *vol = (dist < S_CLOSE_DIST || boss ? snd_SfxVolume : snd_SfxVolume * (S_CLIPPING_DIST - dist) / S_ATTENUATOR);
+    *vol = (dist < S_CLOSE_DIST ? snd_SfxVolume : snd_SfxVolume * (S_CLIPPING_DIST - dist) / S_ATTENUATOR);
 
     return (*vol > 0);
 }
