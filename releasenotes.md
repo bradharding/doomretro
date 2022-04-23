@@ -49,6 +49,7 @@
   * `compat_light` can now be used so when a light level changes to the highest light level found in neighboring sectors, the search is made only for the first tagged sector, like in *Vanilla DOOM*.
   * `nograduallighting` can now be used to disable the effects of the `r_graduallighting` CVAR.
 * A bug is fixed whereby the bounding box of monsters changed in a `DEHACKED` lump would be incorrect in some instances.
+* Flying monsters are now spawned at the correct height when using the `spawn` CCMD.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

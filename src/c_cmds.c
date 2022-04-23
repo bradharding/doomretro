@@ -7047,8 +7047,8 @@ static void spawn_cmd_func2(char *cmd, char *parms)
 
                         if (flags & MF_NOGRAVITY)
                         {
-                            thing->z = 32 * FRACUNIT;
-                            fog = P_SpawnMobj(x, y, 32 * FRACUNIT, MT_TFOG);
+                            thing->z = thing->floorz + 32 * FRACUNIT;
+                            fog = P_SpawnMobj(x, y, thing->z, MT_TFOG);
                         }
                         else
                             fog = P_SpawnMobj(x, y, ONFLOORZ, MT_TFOG);
