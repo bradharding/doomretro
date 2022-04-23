@@ -50,6 +50,7 @@
   * `nograduallighting` can now be used to disable the effects of the `r_graduallighting` CVAR.
 * A bug is fixed whereby the bounding box of monsters changed in a `DEHACKED` lump would be incorrect in some instances.
 * Flying monsters are now spawned at the correct height when using the `spawn` CCMD.
+* Sliding corpses can now move other corpses slightly when the `r_corpses_nudge` CVAR is `on`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
