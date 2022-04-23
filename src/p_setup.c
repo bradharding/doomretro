@@ -157,6 +157,7 @@ sector_t            *sectors;
 
 int                 numliquid;
 int                 numdamaging;
+int                 nummoving;
 
 int                 numsubsectors;
 subsector_t         *subsectors;
@@ -1315,6 +1316,7 @@ static void P_LoadSectors(int lump)
     numsectors = W_LumpLength(lump) / sizeof(mapsector_t);
     sectors = calloc_IfSameLevel(sectors, numsectors, sizeof(sector_t));
     numdamaging = 0;
+    nummoving = 0;
 
     for (int i = 0; i < numsectors; i++)
     {

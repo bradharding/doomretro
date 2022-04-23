@@ -350,14 +350,19 @@ void P_AddActivePlat(plat_t *plat)
 {
     platlist_t  *list = malloc(sizeof(*list));
 
-    list->plat = plat;
-    plat->list = list;
+    if (list)
+    {
+        list->plat = plat;
+        plat->list = list;
 
-    if ((list->next = activeplats))
-        list->next->prev = &list->next;
+        if ((list->next = activeplats))
+            list->next->prev = &list->next;
 
-    list->prev = &activeplats;
-    activeplats = list;
+        list->prev = &activeplats;
+        activeplats = list;
+
+        nummoving++;
+    }
 }
 
 //

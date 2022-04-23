@@ -90,6 +90,7 @@ extern sector_t     *sectors;
 
 extern int          numliquid;
 extern int          numdamaging;
+extern int          nummoving;
 
 extern int          numsubsectors;
 extern subsector_t  *subsectors;

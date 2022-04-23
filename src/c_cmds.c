@@ -4396,6 +4396,10 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
     C_TabbedOutput(tabs, INDENT "Damaging\t%s", temp);
     free(temp);
 
+    temp = commify(nummoving);
+    C_TabbedOutput(tabs, INDENT "Moving\t%s", temp);
+    free(temp);
+
     if (blockmaprebuilt)
         C_TabbedOutput(tabs, "Blockmap\tRebuilt");
 

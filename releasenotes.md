@@ -9,6 +9,7 @@
 * Minor improvements have been made to the console’s autocomplete feature.
 * The title screen now fades from black at startup when the `fade` CVAR is `on`.
 * The following changes have been made to the external automap:
+  * Moving the mouse to turn the player is now smoother.
   * The display used to show the external automap can now be specified using the new `am_display` CVAR, which is `2` by default.
   * So as to not also occur when adjusting the size of the player’s view, zooming in and out of the external automap is now only possible if the `+zoomin` and `+zoomout` actions are rebound from the <kbd><b>+</b></kbd> and <kbd><b>&ndash;</b></kbd> keys.
 * The player’s stats shown in the automap when the `am_playerstats` CVAR is `on` are now positioned correctly if there are no monsters in the map.
@@ -42,7 +43,7 @@
 * The `playerstats` CCMD now displays how many monsters have been telefragged.
 * Obituaries are now displayed in the console whenever the player or a monster is telefragged and the `con_obituaries` CVAR is `on`.
 * The `map` CCMD can now be used to warp the player to maps up to <code>E9M99</code> and <code>MAP99</code>.
-* The `mapstats` CCMD now displays how many linedefs have line specials in the current map.
+* The `mapstats` CCMD now displays how many linedefs have line specials, and how many sectors can move, in the current map.
 * Commander Keens are no longer spawned at the start of a map when the `nomonsters` CCMD has been entered in the console, or the `-nomonsters` parameter has been specified on the command-line.
 * The following changes have been made to the support of `MAPINFO` lumps:
   * `compat_light` can now be used so when a light level changes to the highest light level found in neighboring sectors, the search is made only for the first tagged sector, like in *Vanilla DOOM*.
