@@ -625,8 +625,6 @@ void D_DoAdvanceTitle(void)
             I_SetPalette(PLAYPAL);
             splashscreen = false;
             I_Sleep(1000);
-            memset(screens[0], nearestblack, SCREENAREA);
-            D_FadeScreen(false);
         }
 
         M_SetWindowCaption();

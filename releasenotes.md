@@ -7,11 +7,10 @@
 * Extensive optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Several changes have been made to text that is output to the console.
 * Minor improvements have been made to the console’s autocomplete feature.
-* The title screen now fades from black at startup when the `fade` CVAR is `on`.
 * The following changes have been made to the external automap:
   * Moving the mouse to turn the player is now smoother.
   * The display used to show the external automap can now be specified using the new `am_display` CVAR, which is `2` by default.
-  * Zooming in and out of the external automap is now only possible if the `+zoomin` and `+zoomout` actions are rebound from the <kbd><b>+</b></kbd> and <kbd><b>&ndash;</b></kbd> keys. Those particular keys are used to adjust the size of the player’s view.
+  * Zooming in and out of the external automap is now only possible if the `+zoomin` and `+zoomout` actions are rebound from the <kbd><b>+</b></kbd> and <kbd><b>&ndash;</b></kbd> keys. These keys are always used to adjust the size of the player’s view.
 * The player’s stats shown in the automap when the `am_playerstats` CVAR is `on` are now positioned correctly if there are no monsters in the map.
 * The colors of keycards and skull keys in the automap visible when using the `IDDT` cheat can now be changed using the new `am_redkeycolor`, `am_yellowkeycolor` and `am_bluekeycolor` CVARs. These CVARs are `112` by default (the same as the `am_thingcolor` CVAR) and when vanilla mode is enabled.
 * When a pain elemental spawns a lost soul, the number of monsters the player has left to kill now increases as intended.
@@ -50,8 +49,9 @@
   * `compat_light` can now be used so when a light level changes to the highest light level found in neighboring sectors, the search is made only for the first tagged sector, like in *Vanilla DOOM*.
   * `nograduallighting` can now be used to disable the effects of the `r_graduallighting` CVAR.
 * A bug is fixed whereby the bounding box of monsters changed in a `DEHACKED` lump would be incorrect in some instances.
-* Flying monsters are now spawned at the correct height when using the `spawn` CCMD.
+* Flying monsters now spawn at the correct height when using the `spawn` CCMD.
 * Sliding corpses can now move other corpses slightly when the `r_corpses_nudge` CVAR is `on`.
+* Only the alert and death sounds of cyberdemons and spider masterminds are now at full volume.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

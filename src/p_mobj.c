@@ -743,8 +743,8 @@ void P_MobjThinker(mobj_t *mobj)
     {
         mobj->flags2 |= MF2_ARMED;  // arm a mine which has come to rest
 
-        // killough 09/12/98: objects fall off ledges if they are hanging off
-        // slightly push off of ledge if hanging more than halfway off
+        // killough 09/12/98: objects fall off ledges if they are hanging off slightly.
+        // push off of ledge if hanging more than halfway off
         if (((flags & MF_CORPSE) || (flags & MF_DROPPED) || mobj->type == MT_BARREL)
             && mobj->geartime > 0 && mobj->z - mobj->dropoffz > 2 * FRACUNIT)
             P_ApplyTorque(mobj);

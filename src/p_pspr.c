@@ -152,8 +152,7 @@ void P_EquipWeapon(weapontype_t weapon)
 
 //
 // P_BringUpWeapon
-// Starts bringing the pending weapon up
-// from the bottom of the screen.
+// Starts bringing the pending weapon up from the bottom of the screen.
 //
 static void P_BringUpWeapon(void)
 {
@@ -190,7 +189,6 @@ boolean P_CheckAmmo(weapontype_t weapon)
         return true;
 
     // Out of ammo, pick a weapon to change to.
-    // Preferences are set here.
     if (viewplayer->weaponowned[wp_plasma]
         && viewplayer->ammo[am_cell] >= weaponinfo[wp_plasma].ammopershot)
         P_EquipWeapon(wp_plasma);
