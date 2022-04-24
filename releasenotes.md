@@ -52,6 +52,7 @@
 * Flying monsters now spawn at the correct height when using the `spawn` CCMD.
 * Sliding corpses can now move other corpses slightly when the `r_corpses_nudge` CVAR is `on`.
 * Only the alert and death sounds of cyberdemons and spider masterminds are now at full volume.
+* The names of savegames are now only truncated as they appear in the load and save game menus.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
