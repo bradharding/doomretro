@@ -1579,7 +1579,7 @@ void G_SaveGame(int slot, char *description, char *name)
 
 static void G_DoSaveGame(void)
 {
-    char    *temp_savegame_file = P_TempSaveGameFile();
+    char    *temp_savegame_file = M_TempFile(DOOMRETRO ".save");
     char    *savegame_file = (consoleactive ? savename : P_SaveGameFile(savegameslot));
 
     // Open the savegame file for writing. We write to a temporary file
