@@ -56,14 +56,14 @@
 #define SAVEGAME_EOF    0x1D
 #define TARGETLIMIT     4192
 
-FILE            *save_stream;
+FILE        *save_stream;
 
-static int      thingindex;
-static int      targets[TARGETLIMIT];
-static int      tracers[TARGETLIMIT];
-static int      lastenemies[TARGETLIMIT];
-static int      soundtargets[TARGETLIMIT];
-static int      attacker;
+static int  thingindex;
+static int  targets[TARGETLIMIT];
+static int  tracers[TARGETLIMIT];
+static int  lastenemies[TARGETLIMIT];
+static int  soundtargets[TARGETLIMIT];
+static int  attacker;
 
 // Get the filename of the savegame to use for the specified slot.
 char *P_SaveGameFile(int slot)

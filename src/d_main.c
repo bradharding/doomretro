@@ -561,7 +561,7 @@ void D_PageDrawer(void)
 {
     if (splashscreen)
     {
-        int x = (SCREENWIDTH - NONWIDEWIDTH) / 2;
+        const int   x = (SCREENWIDTH - NONWIDEWIDTH) / 2;
 
         memset(screens[0], nearestblack, SCREENAREA);
         V_DrawBigPatch(x + 143, 167, logolump[BETWEEN(0, 94 - logotic, 17)]);
@@ -838,6 +838,7 @@ static boolean D_IsDOOM1IWAD(char *filename)
         || M_StringCompare(file, "DOOM1.WAD")
         || M_StringCompare(file, "DOOMU.WAD")
         || M_StringCompare(file, "BFGDOOM.WAD")
+        || M_StringCompare(file, "UNITYDOOM.WAD")
         || M_StringCompare(file, "DOOMBFG.WAD")
         || M_StringCompare(file, "DOOMUNITY.WAD"));
 }
@@ -849,6 +850,7 @@ static boolean D_IsDOOM2IWAD(char *filename)
     return (M_StringCompare(file, "DOOM2.WAD")
         || M_StringCompare(file, "DOOM2F.WAD")
         || M_StringCompare(file, "BFGDOOM2.WAD")
+        || M_StringCompare(file, "UNITYDOOM2.WAD")
         || M_StringCompare(file, "DOOM2BFG.WAD")
         || M_StringCompare(file, "DOOM2UNITY.WAD"));
 }

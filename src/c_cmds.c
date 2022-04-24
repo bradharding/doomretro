@@ -795,7 +795,7 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL(r_ditheredlighting, "", bool_cvars_func1, r_ditheredlighting_cvar_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles dithered lighting cast on textures and sprites."),
     CVAR_BOOL(r_fixmaperrors, "", bool_cvars_func1, r_fixmaperrors_cvar_func2, CF_NEXTMAP, BOOLVALUEALIAS,
-        "Toggles fixing the mapping errors in the " ITALICS("DOOM") " and " ITALICS("DOOM II") " IWADs."),
+        "Toggles fixing mapping errors in the " ITALICS("DOOM") " and " ITALICS("DOOM II") " IWADs."),
     CVAR_BOOL(r_fixspriteoffsets, "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles fixing sprite offsets."),
     CVAR_BOOL(r_floatbob, "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
@@ -2695,11 +2695,14 @@ static void god_cmd_func2(char *cmd, char *parms)
 static void help_cmd_func2(char *cmd, char *parms)
 {
 #if defined(_WIN32)
-    (void)ShellExecute(NULL, "open", DOOMRETRO_WIKIURL, NULL, NULL, SW_SHOWNORMAL);
+    if (!ShellExecute(NULL, "open", DOOMRETRO_WIKIURL, NULL, NULL, SW_SHOWNORMAL))
+        C_Warning(0, "The " ITALICS(DOOMRETRO_WIKINAME) " couldn't be opened.");
 #elif defined(__linux__) || defined(__FreeBSD__) || defined(__HAIKU__)
-    (void)system("xdg-open " DOOMRETRO_WIKIURL);
+    if (!system("xdg-open " DOOMRETRO_WIKIURL))
+        C_Warning(0, "The " ITALICS(DOOMRETRO_WIKINAME) " couldn't be opened.");
 #elif defined(__APPLE__)
-    (void)system("open " DOOMRETRO_WIKIURL);
+    if (!system("open " DOOMRETRO_WIKIURL))
+        C_Warning(0, "The " ITALICS(DOOMRETRO_WIKINAME) " couldn't be opened.");
 #endif
 }
 
