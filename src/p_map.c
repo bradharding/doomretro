@@ -1433,6 +1433,7 @@ void P_SlideMove(mobj_t *mo)
 {
     int             hitcount = 3;
     const fixed_t   radius = mo->radius;
+    player_t        *player = mo->player;
 
     slidemo = mo;               // the object that's sliding
 
@@ -1511,13 +1512,13 @@ stairstep:
         mo->momy = tmymove;
 
         // killough 10/98: affect the bobbing the same way (but not voodoo dolls)
-        if (mo->player && mo->player->mo == mo)
+        if (player && player->mo == mo)
         {
-            if (ABS(mo->player->momx) > ABS(tmxmove))
-                mo->player->momx = tmxmove;
+            if (ABS(player->momx) > ABS(tmxmove))
+                player->momx = tmxmove;
 
-            if (ABS(mo->player->momy) > ABS(tmymove))
-                mo->player->momy = tmymove;
+            if (ABS(player->momy) > ABS(tmymove))
+                player->momy = tmymove;
         }
     } while (!P_TryMove(mo, mo->x + tmxmove, mo->y + tmymove, 1));
 }

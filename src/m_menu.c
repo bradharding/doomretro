@@ -1125,9 +1125,6 @@ static void M_DrawSave(void)
             len--;
         }
 
-        // draw save game slot background
-        M_DrawSaveLoadBorder(LoadDef.x - 11, y - 4);
-
         // draw save game description
         if (saveStringEnter && i == saveSlot)
         {
