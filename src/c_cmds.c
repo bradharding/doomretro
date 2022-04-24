@@ -2696,14 +2696,12 @@ static void help_cmd_func2(char *cmd, char *parms)
 {
 #if defined(_WIN32)
     if (!ShellExecute(NULL, "open", DOOMRETRO_WIKIURL, NULL, NULL, SW_SHOWNORMAL))
-        C_Warning(0, "The " ITALICS(DOOMRETRO_WIKINAME) " couldn't be opened.");
 #elif defined(__linux__) || defined(__FreeBSD__) || defined(__HAIKU__)
     if (!system("xdg-open " DOOMRETRO_WIKIURL))
-        C_Warning(0, "The " ITALICS(DOOMRETRO_WIKINAME) " couldn't be opened.");
 #elif defined(__APPLE__)
     if (!system("open " DOOMRETRO_WIKIURL))
-        C_Warning(0, "The " ITALICS(DOOMRETRO_WIKINAME) " couldn't be opened.");
 #endif
+        C_Warning(0, "The " ITALICS(DOOMRETRO_WIKINAME) " couldn't be opened.");
 }
 
 //
@@ -3418,12 +3416,13 @@ static void kill_cmd_func2(char *cmd, char *parms)
 static void license_cmd_func2(char *cmd, char *parms)
 {
 #if defined(_WIN32)
-    (void)ShellExecute(NULL, "open", DOOMRETRO_WIKILICENSEURL, NULL, NULL, SW_SHOWNORMAL);
-#elif defined(__linux__)
-    (void)system("xdg-open " DOOMRETRO_WIKILICENSEURL);
+    if (!ShellExecute(NULL, "open", DOOMRETRO_WIKILICENSEURL, NULL, NULL, SW_SHOWNORMAL))
+#elif defined(__linux__) || defined(__FreeBSD__) || defined(__HAIKU__)
+    if (!system("xdg-open " DOOMRETRO_WIKILICENSEURL))
 #elif defined(__APPLE__)
-    (void)system("open " DOOMRETRO_WIKILICENSEURL);
+    if (!system("open " DOOMRETRO_WIKILICENSEURL))
 #endif
+        C_Warning(0, "The " ITALICS(DOOMRETRO_LICENSE) " couldn't be displayed.");
 }
 
 //
