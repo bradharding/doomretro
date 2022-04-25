@@ -51,8 +51,8 @@
 * A bug is fixed whereby the bounding box of monsters changed in a `DEHACKED` lump would be incorrect in some instances.
 * Flying monsters now spawn at the correct height when using the `spawn` CCMD.
 * Sliding corpses can now move other corpses slightly when the `r_corpses_nudge` CVAR is `on`.
-* Only the alert and death sounds of cyberdemons and spider masterminds are now at full volume.
-* The names of savegames are now only truncated as they appear in the load and save game menus.
+* Now only the alert and death sounds of cyberdemons and spider masterminds are at full volume.
+* Savegame descriptions in the console and player messages are no longer truncated when loading or saving a game.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

@@ -845,7 +845,7 @@ static mobj_t *RoughBlockCheck(mobj_t *mo, int index, angle_t fov)
         }
 
         // skip actors outside of specified FOV
-        if (fov > 0 && !P_CheckFov(mo, link, fov))
+        if (fov > 0 && !P_CheckFOV(mo, link, fov))
         {
             link = link->bnext;
             continue;

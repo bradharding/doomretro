@@ -277,14 +277,14 @@ boolean P_CheckSight(mobj_t *t1, mobj_t *t2)
 }
 
 //
-// MBF21: P_CheckFov
+// MBF21: P_CheckFOV
 // Returns true if t2 is within t1's field of view.
 // Not directly related to P_CheckSight, but often
 // used in tandem.
 //
 // Adapted from Eternity, so big thanks to Quasar
 //
-boolean P_CheckFov(mobj_t *t1, mobj_t *t2, angle_t fov)
+boolean P_CheckFOV(mobj_t *t1, mobj_t *t2, angle_t fov)
 {
     angle_t angle = R_PointToAngle2(t1->x, t1->y, t2->x, t2->y);
     angle_t minang = t1->angle - fov / 2;

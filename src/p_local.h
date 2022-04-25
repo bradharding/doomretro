@@ -252,7 +252,7 @@ boolean P_CheckLineSide(mobj_t *actor, fixed_t x, fixed_t y);
 boolean P_TeleportMove(mobj_t *thing, fixed_t x, fixed_t y, fixed_t z, boolean boss);
 void P_SlideMove(mobj_t *mo);
 boolean P_CheckSight(mobj_t *t1, mobj_t *t2);
-boolean P_CheckFov(mobj_t *t1, mobj_t *t2, angle_t fov);
+boolean P_CheckFOV(mobj_t *t1, mobj_t *t2, angle_t fov);
 boolean P_DoorClosed(line_t *line);
 void P_UseLines(void);
 

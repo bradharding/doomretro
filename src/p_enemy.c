@@ -2711,7 +2711,7 @@ void A_JumpIfTargetInSight(mobj_t *actor, player_t *player, pspdef_t *psp)
         return;
 
     // Check FOV first since it's faster
-    if ((fieldofview = FixedToAngle(actor->state->args[1])) > 0 && !P_CheckFov(actor, target, fieldofview))
+    if ((fieldofview = FixedToAngle(actor->state->args[1])) > 0 && !P_CheckFOV(actor, target, fieldofview))
         return;
 
     if (P_CheckSight(actor, target))
@@ -2749,7 +2749,7 @@ void A_JumpIfTracerInSight(mobj_t *actor, player_t *player, pspdef_t *psp)
         return;
 
     // Check FOV first since it's faster
-    if ((fieldofview = FixedToAngle(actor->state->args[1])) > 0 && !P_CheckFov(actor, actor->tracer, fieldofview))
+    if ((fieldofview = FixedToAngle(actor->state->args[1])) > 0 && !P_CheckFOV(actor, actor->tracer, fieldofview))
         return;
 
     if (P_CheckSight(actor, actor->tracer))
