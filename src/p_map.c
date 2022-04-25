@@ -979,22 +979,16 @@ mobj_t *P_CheckOnMobj(mobj_t *thing)
 boolean P_IsInLiquid(mobj_t *thing)
 {
     const int   flags = thing->flags;
-    boolean     corpse;
-    fixed_t     z;
+    sector_t    *sector;
 
     if (flags & MF_NOGRAVITY)
         return false;
 
-    corpse = (flags & MF_CORPSE);
-    z = thing->z;
+    if ((sector = thing->subsector->sector)->terraintype < LIQUID)
+        return false;
 
-    for (const struct msecnode_s *seclist = thing->touching_sectorlist; seclist; seclist = seclist->m_tnext)
-    {
-        sector_t    *sector = seclist->m_sector;
-
-        if (sector->terraintype < LIQUID || (corpse && z > sector->floorheight + FRACUNIT))
-            return false;
-    }
+    if ((flags & MF_CORPSE) && thing->z > sector->floorheight + FRACUNIT)
+        return false;
 
     return true;
 }
