@@ -8779,6 +8779,17 @@ static void r_bloodsplats_translucency_cvar_func2(char *cmd, char *parms)
             r_bloodsplats_translucency = value;
             M_SaveCVARs();
             R_InitColumnFunctions();
+
+            for (int i = 0; i < numsectors; i++)
+            {
+                bloodsplat_t    *splat = sectors[i].splatlist;
+
+                while (splat)
+                {
+                    P_SetBloodSplatColor(splat);
+                    splat = splat->next;
+                }
+            }
         }
     }
     else
