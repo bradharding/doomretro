@@ -976,6 +976,9 @@ mobj_t *P_CheckOnMobj(mobj_t *thing)
     return NULL;
 }
 
+//
+// P_IsInLiquid
+//
 boolean P_IsInLiquid(mobj_t *thing)
 {
     const int   flags = thing->flags;
