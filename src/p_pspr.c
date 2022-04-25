@@ -368,15 +368,15 @@ void A_Lower(mobj_t *actor, player_t *player, pspdef_t *psp)
         return;         // don't bring weapon back up
     }
 
-    // The old weapon has been lowered off the screen,
-    // so change the weapon and start raising it
+    // Player is dead, so keep the weapon off screen.
     if (player->health <= 0)
     {
-        // Player is dead, so keep the weapon off screen.
         P_SetPsprite(ps_weapon, S_NULL);
         return;
     }
 
+    // The old weapon has been lowered off the screen,
+    // so change the weapon and start raising it
     if (player->pendingweapon != wp_nochange)
         player->readyweapon = player->pendingweapon;
 

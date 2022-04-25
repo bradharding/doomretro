@@ -1064,7 +1064,7 @@ boolean P_TryMove(mobj_t *thing, fixed_t x, fixed_t y, int dropoff)
 
     if (thing->player && thing->player->mo == thing && (x != oldx || y != oldy))
     {
-        fixed_t dist = (fixed_t)(hypot((double)x - oldx, (double)y - oldy)) >> FRACBITS;
+        const int   dist = (int)(hypot((double)x - oldx, (double)y - oldy)) >> FRACBITS;
 
         stat_distancetraveled = SafeAdd(stat_distancetraveled, dist);
         viewplayer->distancetraveled += dist;
@@ -1085,7 +1085,7 @@ boolean P_TryMove(mobj_t *thing, fixed_t x, fixed_t y, int dropoff)
 
             if (ld->special)
             {
-                int oldside = P_PointOnLineSide(oldx, oldy, ld);
+                const int   oldside = P_PointOnLineSide(oldx, oldy, ld);
 
                 if (oldside != P_PointOnLineSide(thing->x, thing->y, ld))
                     P_CrossSpecialLine(ld, oldside, thing);
