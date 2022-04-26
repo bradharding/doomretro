@@ -981,17 +981,29 @@ mobj_t *P_CheckOnMobj(mobj_t *thing)
 //
 boolean P_IsInLiquid(mobj_t *thing)
 {
-    const int   flags = thing->flags;
-    sector_t    *sector;
+    if (thing->player)
+    {
+        for (const struct msecnode_s *seclist = thing->touching_sectorlist; seclist; seclist = seclist->m_tnext)
+            if (seclist->m_sector->terraintype < LIQUID)
+                return false;
+    }
+    else
+    {
+        const int   flags = thing->flags;
 
-    if (flags & MF_NOGRAVITY)
-        return false;
+        if (flags & MF_NOGRAVITY)
+            return false;
+        else
+        {
+            sector_t    *sector = thing->subsector->sector;
 
-    if ((sector = thing->subsector->sector)->terraintype < LIQUID)
-        return false;
+            if (sector->terraintype < LIQUID)
+                return false;
 
-    if ((flags & MF_CORPSE) && thing->z > sector->floorheight + FRACUNIT)
-        return false;
+            if ((flags & MF_CORPSE) && thing->z > sector->floorheight + FRACUNIT)
+                return false;
+        }
+    }
 
     return true;
 }
