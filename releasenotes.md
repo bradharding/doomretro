@@ -10,9 +10,9 @@
 * The following changes have been made to the external automap:
   * Moving the mouse to turn the player is now smoother.
   * The display used to show the external automap can now be specified using the new `am_display` CVAR, which is `2` by default.
-  * Zooming in and out of the external automap is now only possible if the `+zoomin` and `+zoomout` actions are rebound from the <kbd><b>+</b></kbd> and <kbd><b>&ndash;</b></kbd> keys. These keys are always used to adjust the size of the player’s view.
+  * Zooming in and out of the external automap is now only possible if the `+zoomin` and `+zoomout` actions are rebound from the <kbd><b>+</b></kbd> and <kbd><b>&ndash;</b></kbd> keys.
 * The player’s stats shown in the automap when the `am_playerstats` CVAR is `on` are now positioned correctly if there are no monsters in the map.
-* The colors of keycards and skull keys in the automap visible when using the `IDDT` cheat can now be changed using the new `am_redkeycolor`, `am_yellowkeycolor` and `am_bluekeycolor` CVARs. These CVARs are `112` by default (the same as the `am_thingcolor` CVAR) and when vanilla mode is enabled.
+* The colors of keycards and skull keys in the automap, visible only when using the `IDDT` cheat, can now be changed using the new `am_redkeycolor`, `am_yellowkeycolor` and `am_bluekeycolor` CVARs. These CVARs are `112` by default (the same as the `am_thingcolor` CVAR) and when vanilla mode is enabled.
 * When a pain elemental spawns a lost soul, the number of monsters the player has left to kill now increases as intended.
 * The `am_followmode` CVAR no longer changes when enabling vanilla mode using the `vanilla` CCMD.
 * Changing the `r_fov` CVAR from its default of `90`° is now effective again when the `vid_widescreen` CVAR is `off`.
