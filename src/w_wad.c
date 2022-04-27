@@ -370,12 +370,12 @@ boolean W_AddFile(char *filename, boolean automatic)
         || M_StringCompare(file, "SIGIL.wad"))
     {
         autosigil = automatic;
-        C_Output(ITALICS("SIGIL") " is now available to play from the episode menu.");
+        C_Output("John Romero's " ITALICS("SIGIL") " is now available to play from the episode menu.");
     }
     else if (M_StringCompare(file, "SIGIL_SHREDS.WAD") || M_StringCompare(file, "SIGIL_SHREDS_COMPAT.wad"))
     {
         buckethead = true;
-        C_Output("Buckethead's soundtrack will be played during " ITALICS("SIGIL."));
+        C_Output("Buckethead's soundtrack will now be heard while playing " ITALICS("SIGIL."));
     }
     else if (M_StringCompare(file, "DOOM.WAD"))
         C_Output(ITALICS("E1M4B: Phobos Mission Control") " and " ITALICS("E1M8B: Tech Gone Bad")

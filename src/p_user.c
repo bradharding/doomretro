@@ -631,11 +631,15 @@ void P_PlayerThink(void)
 
     // [BH] Check all sectors player is touching are special
     for (const struct msecnode_s *seclist = mo->touching_sectorlist; seclist; seclist = seclist->m_tnext)
-        if (seclist->m_sector->special && mo->z == seclist->m_sector->floorheight)
+    {
+        sector_t    *sector = seclist->m_sector;
+
+        if (sector->special && mo->z == sector->floorheight)
         {
-            P_PlayerInSpecialSector(seclist->m_sector);
+            P_PlayerInSpecialSector(sector);
             break;
         }
+    }
 
     if ((cmd->buttons & BT_JUMP) && (mo->z <= mo->floorz || (mo->flags2 & MF2_ONMOBJ)) && !viewplayer->jumptics)
     {
