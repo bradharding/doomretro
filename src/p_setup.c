@@ -774,7 +774,12 @@ static void P_CheckLinedefs(void)
                 free(temp3);
             }
             else
+            {
                 numspeciallines++;
+
+                if (M_StrCaseStr(linespecials[ld->special], "Door") || M_StrCaseStr(linespecials[ld->special], "Lift"))
+                    nummoving++;
+            }
         }
 }
 
