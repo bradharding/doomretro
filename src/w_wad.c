@@ -100,7 +100,7 @@ static boolean IsFreedoom(const char *iwadname)
 
         fseek(fp, LONG(header.infotableofs), SEEK_SET);
 
-        for (header.numlumps = LONG(header.numlumps); header.numlumps && fread(&lump, sizeof(lump), 1, fp); header.numlumps--)
+        for (int i = LONG(header.numlumps); i && fread(&lump, sizeof(lump), 1, fp); i--)
             if (n[0] == 'F' && n[1] == 'R' && n[2] == 'E' && n[3] == 'E' && n[4] == 'D' && n[5] == 'O' && n[6] == 'O' && n[7] == 'M')
             {
                 result = true;
@@ -130,7 +130,7 @@ static boolean IsBFGEdition(const char *iwadname)
 
         fseek(fp, LONG(header.infotableofs), SEEK_SET);
 
-        for (header.numlumps = LONG(header.numlumps); header.numlumps && fread(&lump, sizeof(lump), 1, fp); header.numlumps--)
+        for (int i = LONG(header.numlumps); i && fread(&lump, sizeof(lump), 1, fp); i--)
             if (n[0] == 'D' && n[1] == 'M' && n[2] == 'E' && n[3] == 'N' && n[4] == 'U' && n[5] == 'P' && n[6] == 'I' && n[7] == 'C')
             {
                 result1 = true;
@@ -168,7 +168,7 @@ boolean IsUltimateDOOM(const char *iwadname)
 
         fseek(fp, LONG(header.infotableofs), SEEK_SET);
 
-        for (header.numlumps = LONG(header.numlumps); header.numlumps && fread(&lump, sizeof(lump), 1, fp); header.numlumps--)
+        for (int i = LONG(header.numlumps); i && fread(&lump, sizeof(lump), 1, fp); i--)
             if (n[0] == 'E' && n[1] == '4' && n[2] == 'M' && n[3] == '1')
             {
                 result = true;
@@ -207,23 +207,26 @@ static int LevenshteinDistance(char *string1, char *string2)
     {
         int *column = malloc((length1 + 1) * sizeof(int));
 
-        for (int y = 1; (size_t)y <= length1; y++)
-            column[y] = y;
-
-        for (int x = 1; (size_t)x <= length2; x++)
+        if (column)
         {
-            column[0] = x;
+            for (int y = 1; (size_t)y <= length1; y++)
+                column[y] = y;
 
-            for (int y = 1, lastdiagonal = x - 1, olddiagonal; (size_t)y <= length1; y++)
+            for (int x = 1; (size_t)x <= length2; x++)
             {
-                olddiagonal = column[y];
-                column[y] = MIN(MIN(column[y], column[y - 1]) + 1, lastdiagonal + (string1[y - 1] != string2[x - 1]));
-                lastdiagonal = olddiagonal;
-            }
-        }
+                column[0] = x;
 
-        result = column[length1];
-        free(column);
+                for (int y = 1, lastdiagonal = x - 1, olddiagonal; (size_t)y <= length1; y++)
+                {
+                    olddiagonal = column[y];
+                    column[y] = MIN(MIN(column[y], column[y - 1]) + 1, lastdiagonal + (string1[y - 1] != string2[x - 1]));
+                    lastdiagonal = olddiagonal;
+                }
+            }
+
+            result = column[length1];
+            free(column);
+        }
     }
 
     return result;
@@ -430,7 +433,7 @@ boolean HasDehackedLump(const char *pwadname)
     {
         fseek(fp, LONG(header.infotableofs), SEEK_SET);
 
-        for (header.numlumps = LONG(header.numlumps); header.numlumps && fread(&lump, sizeof(lump), 1, fp); header.numlumps--)
+        for (int i = LONG(header.numlumps); i && fread(&lump, sizeof(lump), 1, fp); i--)
             if (n[0] == 'D' && n[1] == 'E' && n[2] == 'H' && n[3] == 'A' && n[4] == 'C' && n[5] == 'K' && n[6] == 'E' && n[7] == 'D')
             {
                 result = true;
@@ -466,7 +469,7 @@ GameMission_t IWADRequiredByPWAD(char *pwadname)
 
             fseek(fp, LONG(header.infotableofs), SEEK_SET);
 
-            for (header.numlumps = LONG(header.numlumps); header.numlumps && fread(&lump, sizeof(lump), 1, fp); header.numlumps--)
+            for (int i = LONG(header.numlumps); (i && fread(&lump, sizeof(lump), 1, fp)); i--)
                 if (n[0] == 'E' && isdigit((int)n[1]) && n[2] == 'M' && isdigit((int)n[3]) && n[4] == '\0')
                 {
                     result = doom;
