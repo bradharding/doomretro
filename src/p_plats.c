@@ -361,7 +361,7 @@ void P_AddActivePlat(plat_t *plat)
         list->prev = &activeplats;
         activeplats = list;
 
-        nummoving++;
+        nummovable++;
     }
 }
 

@@ -157,7 +157,7 @@ sector_t            *sectors;
 
 int                 numliquid;
 int                 numdamaging;
-int                 nummoving;
+int                 nummovable;
 
 int                 numsubsectors;
 subsector_t         *subsectors;
@@ -778,7 +778,7 @@ static void P_CheckLinedefs(void)
                 numspeciallines++;
 
                 if (M_StrCaseStr(linespecials[ld->special], "Door") || M_StrCaseStr(linespecials[ld->special], "Lift"))
-                    nummoving++;
+                    nummovable++;
             }
         }
 }
@@ -1321,7 +1321,7 @@ static void P_LoadSectors(int lump)
     numsectors = W_LumpLength(lump) / sizeof(mapsector_t);
     sectors = calloc_IfSameLevel(sectors, numsectors, sizeof(sector_t));
     numdamaging = 0;
-    nummoving = 0;
+    nummovable = 0;
 
     for (int i = 0; i < numsectors; i++)
     {

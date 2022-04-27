@@ -364,7 +364,7 @@ void P_AddActiveCeiling(ceiling_t *ceiling)
     list->prev = &activeceilings;
     activeceilings = list;
 
-    nummoving++;
+    nummovable++;
 }
 
 //
