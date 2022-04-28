@@ -2522,11 +2522,17 @@ static void deh_procThing(DEHFILE *fpin, char *line)
         else if ((string = M_StringCompare(key, "Plural")) || (string = M_StringCompare(key, "Plural1")))
             M_StringCopy(mobjinfo[indexnum].plural1, lowercase(trimwhitespace(strval)), sizeof(mobjinfo[indexnum].plural1));
         else if ((string = M_StringCompare(key, "Name2")))
+        {
             M_StringCopy(mobjinfo[indexnum].name2, lowercase(trimwhitespace(strval)), sizeof(mobjinfo[indexnum].name2));
+            M_snprintf(mobjinfo[indexnum].plural2, sizeof(mobjinfo[indexnum].plural2), "%ss", mobjinfo[indexnum].name2);
+        }
         else if ((string = M_StringCompare(key, "Plural2")))
             M_StringCopy(mobjinfo[indexnum].plural2, lowercase(trimwhitespace(strval)), sizeof(mobjinfo[indexnum].plural2));
         else if ((string = M_StringCompare(key, "Name3")))
+        {
             M_StringCopy(mobjinfo[indexnum].name3, lowercase(trimwhitespace(strval)), sizeof(mobjinfo[indexnum].name3));
+            M_snprintf(mobjinfo[indexnum].plural3, sizeof(mobjinfo[indexnum].plural3), "%ss", mobjinfo[indexnum].name3);
+        }
         else if ((string = M_StringCompare(key, "Plural3")))
             M_StringCopy(mobjinfo[indexnum].plural3, lowercase(trimwhitespace(strval)), sizeof(mobjinfo[indexnum].plural3));
 

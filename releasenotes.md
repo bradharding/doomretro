@@ -54,7 +54,7 @@
 * Sliding corpses can now move other corpses slightly when the `r_corpses_nudge` CVAR is `on`.
 * Now only the alert and death sounds of cyberdemons and spider masterminds are at full volume.
 * Savegame descriptions in the console and player messages are no longer truncated when loading or saving a game.
-* Further improvements have been made to the support of [*Freedoom*](https://freedoom.github.io/).
+* Further improvements have been made to the support for [*Freedoom: Phase 1*](https://freedoom.github.io/) and [*Freedoom: Phase 2*](https://freedoom.github.io/).
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
