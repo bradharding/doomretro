@@ -599,6 +599,12 @@ static void R_InitSpriteLumps(void)
         M_StringCopy(weaponinfo[wp_chainsaw].name, "angle grinder", sizeof(weaponinfo[wp_chainsaw].name));
         M_StringCopy(weaponinfo[wp_supershotgun].name, "double-barreled shotgun", sizeof(weaponinfo[wp_supershotgun].name));
 
+        M_StringCopy(mobjinfo[MT_MISC13].name1, "steroids", sizeof(mobjinfo[MT_MISC13].name1));
+        M_StringCopy(mobjinfo[MT_INS].name1, "stealth sphere", sizeof(mobjinfo[MT_INS].name1));
+        M_StringCopy(mobjinfo[MT_MISC14].name1, "hazard suit", sizeof(mobjinfo[MT_MISC14].name1));
+        M_StringCopy(mobjinfo[MT_MISC15].name1, "tactical survey map", sizeof(mobjinfo[MT_MISC15].name1));
+        M_StringCopy(mobjinfo[MT_MISC16].name1, "night vision goggles", sizeof(mobjinfo[MT_MISC16].name1));
+
         M_StringCopy(mobjinfo[MT_POSSESSED].name1, "zombie", sizeof(mobjinfo[MT_POSSESSED].name1));
         M_StringCopy(mobjinfo[MT_POSSESSED].plural1, "zombies", sizeof(mobjinfo[MT_POSSESSED].plural1));
         M_StringCopy(mobjinfo[MT_SHOTGUY].name1, "shotgun zombie", sizeof(mobjinfo[MT_SHOTGUY].name1));
