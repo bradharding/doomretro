@@ -2515,7 +2515,10 @@ static void deh_procThing(DEHFILE *fpin, char *line)
         }
 
         if ((string = M_StringCompare(key, "Name")) || (string = M_StringCompare(key, "Name1")))
+        {
             M_StringCopy(mobjinfo[indexnum].name1, lowercase(trimwhitespace(strval)), sizeof(mobjinfo[indexnum].name1));
+            M_snprintf(mobjinfo[indexnum].plural1, sizeof(mobjinfo[indexnum].plural1), "%ss", mobjinfo[indexnum].name1);
+        }
         else if ((string = M_StringCompare(key, "Plural")) || (string = M_StringCompare(key, "Plural1")))
             M_StringCopy(mobjinfo[indexnum].plural1, lowercase(trimwhitespace(strval)), sizeof(mobjinfo[indexnum].plural1));
         else if ((string = M_StringCompare(key, "Name2")))
