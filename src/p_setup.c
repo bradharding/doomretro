@@ -777,7 +777,8 @@ static void P_CheckLinedefs(void)
             {
                 numspeciallines++;
 
-                if (M_StrCaseStr(linespecials[ld->special], "Door") || M_StrCaseStr(linespecials[ld->special], "Lift"))
+                if (ld->special < NUMLINESPECIALS
+                    && (M_StrCaseStr(linespecials[ld->special], "Door") || M_StrCaseStr(linespecials[ld->special], "Lift")))
                     nummovable++;
             }
         }
