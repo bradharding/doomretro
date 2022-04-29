@@ -1541,7 +1541,6 @@ void P_UnArchiveSpecials(void)
 
                 saveg_read_lightflash_t(flash);
                 flash->thinker.function = &T_LightFlash;
-                flash->thinker.menu = true;
                 P_AddThinker(&flash->thinker);
 
                 break;
@@ -1553,7 +1552,6 @@ void P_UnArchiveSpecials(void)
 
                 saveg_read_strobe_t(strobe);
                 strobe->thinker.function = &T_StrobeFlash;
-                strobe->thinker.menu = true;
                 P_AddThinker(&strobe->thinker);
 
                 break;
@@ -1565,7 +1563,6 @@ void P_UnArchiveSpecials(void)
 
                 saveg_read_glow_t(glow);
                 glow->thinker.function = &T_Glow;
-                glow->thinker.menu = true;
                 P_AddThinker(&glow->thinker);
 
                 break;
@@ -1577,7 +1574,6 @@ void P_UnArchiveSpecials(void)
 
                 saveg_read_fireflicker_t(flick);
                 flick->thinker.function = &T_FireFlicker;
-                flick->thinker.menu = true;
                 P_AddThinker(&flick->thinker);
 
                 break;
@@ -1590,7 +1586,6 @@ void P_UnArchiveSpecials(void)
                 saveg_read_elevator_t(elevator);
                 elevator->sector->ceilingdata = elevator;
                 elevator->thinker.function = &T_MoveElevator;
-                elevator->thinker.menu = false;
                 P_AddThinker(&elevator->thinker);
 
                 break;
@@ -1602,7 +1597,6 @@ void P_UnArchiveSpecials(void)
 
                 saveg_read_scroll_t(scroll);
                 scroll->thinker.function = &T_Scroll;
-                scroll->thinker.menu = true;
                 P_AddThinker(&scroll->thinker);
 
                 break;

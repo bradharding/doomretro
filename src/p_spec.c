@@ -2709,33 +2709,35 @@ void T_Scroll(scroll_t *scroller)
             break;
 
         case sc_carry:
-        {
-            fixed_t height;
-            fixed_t waterheight;    // killough 04/04/98: add waterheight
 
-            // killough 03/07/98: Carry things on floor
-            // killough 03/20/98: Use new sector list which reflects true members
-            // killough 03/27/98: Fix carrier bug
-            // killough 04/04/98: Underwater, carry things even w/o gravity
-            sec = sectors + scroller->affectee;
-            height = sec->floorheight;
-            waterheight = (sec->heightsec && sec->heightsec->floorheight > height ? sec->heightsec->floorheight : FIXED_MIN);
-
-            // Move objects only if on floor or underwater,
-            // non-floating, and clipped.
-            for (msecnode_t *node = sec->touching_thinglist; node; node = node->m_snext)
+            if (!menuactive)
             {
-                mobj_t  *thing = node->m_thing;
+                fixed_t height;
+                fixed_t waterheight;    // killough 04/04/98: add waterheight
 
-                if (!(thing->flags & MF_NOCLIP) && (!((thing->flags & MF_NOGRAVITY) || thing->z > height) || thing->z < waterheight))
+                // killough 03/07/98: Carry things on floor
+                // killough 03/20/98: Use new sector list which reflects true members
+                // killough 03/27/98: Fix carrier bug
+                // killough 04/04/98: Underwater, carry things even w/o gravity
+                sec = sectors + scroller->affectee;
+                height = sec->floorheight;
+                waterheight = (sec->heightsec && sec->heightsec->floorheight > height ? sec->heightsec->floorheight : FIXED_MIN);
+
+                // Move objects only if on floor or underwater,
+                // non-floating, and clipped.
+                for (msecnode_t *node = sec->touching_thinglist; node; node = node->m_snext)
                 {
-                    thing->momx += dx;
-                    thing->momy += dy;
+                    mobj_t  *thing = node->m_thing;
+
+                    if (!(thing->flags & MF_NOCLIP) && (!((thing->flags & MF_NOGRAVITY) || thing->z > height) || thing->z < waterheight))
+                    {
+                        thing->momx += dx;
+                        thing->momy += dy;
+                    }
                 }
             }
 
             break;
-        }
     }
 }
 
@@ -2769,9 +2771,7 @@ static void Add_Scroller(int type, fixed_t dx, fixed_t dy, int control, int affe
         scroller->last_height = sectors[control].floorheight + sectors[control].ceilingheight;
 
     scroller->affectee = affectee;
-
     scroller->thinker.function = &T_Scroll;
-    scroller->thinker.menu = (type != sc_carry);
     P_AddThinker(&scroller->thinker);
 }
 
@@ -3077,9 +3077,7 @@ static void Add_Pusher(int type, int x_mag, int y_mag, mobj_t *source, int affec
     }
 
     pusher->affectee = affectee;
-
     pusher->thinker.function = &T_Pusher;
-    pusher->thinker.menu = false;
     P_AddThinker(&pusher->thinker);
 }
 
