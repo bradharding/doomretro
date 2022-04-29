@@ -54,6 +54,6 @@ void P_UpdateAmmoStat(ammotype_t ammotype, int num);
 void P_UpdateArmorStat(int num);
 void P_UpdateHealthStat(int num);
 void P_UpdateKillStat(mobjtype_t type, int value);
-void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source);
+void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, boolean telefragged);
 
 extern int  cardsfound;
