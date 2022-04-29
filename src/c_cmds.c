@@ -2824,7 +2824,7 @@ static boolean kill_cmd_func1(char *cmd, char *parms)
         result = (viewplayer->health > 0);
     else if (M_StringCompare(parm, "monster") || M_StringCompare(parm, "monsters") || M_StringCompare(parm, "all")
         || M_StringCompare(parm, "friend") || M_StringCompare(parm, "friends")
-        || M_StringCompare(parm, "friendly monster") || M_StringCompare(parm, "friendly monsters")
+        || M_StringCompare(parm, "friendlymonster") || M_StringCompare(parm, "friendlymonsters")
         || M_StringCompare(parm, "missile") || M_StringCompare(parm, "missiles")
         || M_StringCompare(parm, "item") || M_StringCompare(parm, "items")
         || M_StringCompare(parm, "decoration") || M_StringCompare(parm, "decorations")
@@ -2957,7 +2957,7 @@ static void kill_cmd_func2(char *cmd, char *parms)
         else
         {
             boolean friends = (M_StringCompare(parm, "friend") || M_StringCompare(parm, "friends")
-                        || M_StringCompare(parm, "friendly monster") || M_StringCompare(parm, "friendly monsters"));
+                        || M_StringCompare(parm, "friendlymonster") || M_StringCompare(parm, "friendlymonsters"));
             boolean enemies = (M_StringCompare(parm, "monster") || M_StringCompare(parm, "monsters"));
             boolean all = M_StringCompare(parm, "all");
             int     kills = 0;
