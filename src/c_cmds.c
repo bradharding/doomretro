@@ -2945,7 +2945,7 @@ static void kill_cmd_func2(char *cmd, char *parms)
                 viewplayer->fixedcolormap = 0;
 
             viewplayer->mo->flags2 |= MF2_MASSACRE;
-            P_KillMobj(viewplayer->mo, NULL, viewplayer->mo);
+            P_KillMobj(viewplayer->mo, NULL, viewplayer->mo, false);
 
             if (M_StringCompare(playername, playername_default))
                 C_PlayerMessage("You killed yourself.");
