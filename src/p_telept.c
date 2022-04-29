@@ -193,7 +193,7 @@ boolean EV_SilentTeleport(line_t *line, int side, mobj_t *thing)
                 if (player && player->mo == thing)
                 {
                     // Save the current deltaviewheight, used in stepping
-                    fixed_t deltaviewheight = player->deltaviewheight;
+                    const fixed_t   deltaviewheight = player->deltaviewheight;
 
                     // Clear deltaviewheight, since we don't want any changes
                     player->deltaviewheight = 0;

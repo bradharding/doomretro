@@ -50,11 +50,11 @@
 #include "w_wad.h"
 
 // killough 02/08/98: Remove switch limit
-static int          *switchlist;        // killough
-static int          numswitches;        // killough
+static int  *switchlist;    // killough
+static int  numswitches;    // killough
 
-button_t            *buttonlist = NULL;
-int                 maxbuttons = MAXBUTTONS;
+button_t    *buttonlist = NULL;
+int         maxbuttons = MAXBUTTONS;
 
 //
 // P_InitSwitchList
@@ -80,7 +80,7 @@ void P_InitSwitchList(void)
     int             index = 0;
     int             episode = (gamemode == registered || gamemode == retail ? 2 : (gamemode == commercial ? 3 : 1));
     switchlist_t    *alphSwitchList;                        // jff 3/23/98 pointer to switch table
-    int             lump = W_GetNumForName("SWITCHES");     // cph - new WAD lump handling
+    const int       lump = W_GetNumForName("SWITCHES");     // cph - new WAD lump handling
 
     // jff 3/23/98 read the switch table from a predefined lump
     alphSwitchList = (switchlist_t *)W_CacheLumpNum(lump);
@@ -170,10 +170,10 @@ void P_StartButton(line_t *line, bwhere_e where, int texture, int time)
 //
 void P_ChangeSwitchTexture(line_t *line, boolean useagain)
 {
-    int     sidenum = line->sidenum[0];
-    short   *toptexture = &sides[sidenum].toptexture;
-    short   *midtexture = &sides[sidenum].midtexture;
-    short   *bottomtexture = &sides[sidenum].bottomtexture;
+    const int   sidenum = line->sidenum[0];
+    short       *toptexture = &sides[sidenum].toptexture;
+    short       *midtexture = &sides[sidenum].midtexture;
+    short       *bottomtexture = &sides[sidenum].bottomtexture;
 
     if (!useagain)
         line->special = 0;

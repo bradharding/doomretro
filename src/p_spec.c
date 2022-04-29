@@ -893,26 +893,26 @@ int P_FindLineFromLineTag(const line_t *line, int start)
 // Hash the sector tags across the sectors and linedefs.
 void P_InitTagLists(void)
 {
-    for (int i = numsectors; --i >= 0; )                    // Initially make all slots empty.
+    for (int i = numsectors; --i >= 0; )                            // Initially make all slots empty.
         sectors[i].firsttag = -1;
 
-    for (int i = numsectors; --i >= 0; )                    // Proceed from last to first sector
-    {                                                       // so that lower sectors appear first
-        int j = (unsigned int)sectors[i].tag % numsectors;  // Hash func
+    for (int i = numsectors; --i >= 0; )                            // Proceed from last to first sector
+    {                                                               // so that lower sectors appear first
+        const int   j = (unsigned int)sectors[i].tag % numsectors;  // Hash func
 
-        sectors[i].nexttag = sectors[j].firsttag;           // Prepend sector to chain
+        sectors[i].nexttag = sectors[j].firsttag;                   // Prepend sector to chain
         sectors[j].firsttag = i;
     }
 
     // killough 04/17/98: same thing, only for linedefs
-    for (int i = numlines; --i >= 0; )                      // Initially make all slots empty.
+    for (int i = numlines; --i >= 0; )                              // Initially make all slots empty.
         lines[i].firsttag = -1;
 
-    for (int i = numlines; --i >= 0; )                      // Proceed from last to first linedef
-    {                                                       // so that lower linedefs appear first
-        int j = (unsigned int)lines[i].tag % numlines;      // Hash func
+    for (int i = numlines; --i >= 0; )                              // Proceed from last to first linedef
+    {                                                               // so that lower linedefs appear first
+        const int   j = (unsigned int)lines[i].tag % numlines;      // Hash func
 
-        lines[i].nexttag = lines[j].firsttag;               // Prepend linedef to chain
+        lines[i].nexttag = lines[j].firsttag;                       // Prepend linedef to chain
         lines[j].firsttag = i;
     }
 }

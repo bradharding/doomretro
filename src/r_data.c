@@ -603,6 +603,8 @@ static void R_InitSpriteLumps(void)
         M_StringCopy(weaponinfo[wp_missile].ammoplural, "missiles", sizeof(weaponinfo[wp_missile].ammoplural));
         M_StringCopy(weaponinfo[wp_plasma].ammoname, "polaric recharge", sizeof(weaponinfo[wp_plasma].ammoname));
         M_StringCopy(weaponinfo[wp_plasma].ammoplural, "polaric recharges", sizeof(weaponinfo[wp_plasma].ammoplural));
+        M_StringCopy(weaponinfo[wp_bfg].ammoname, "polaric recharge", sizeof(weaponinfo[wp_bfg].ammoname));
+        M_StringCopy(weaponinfo[wp_bfg].ammoplural, "polaric recharges", sizeof(weaponinfo[wp_bfg].ammoplural));
 
         M_StringCopy(mobjinfo[MT_MISC0].name1, "light armor vest", sizeof(mobjinfo[MT_MISC0].name1));
         M_StringCopy(mobjinfo[MT_MISC0].plural1, "light armor vests", sizeof(mobjinfo[MT_MISC0].plural1));

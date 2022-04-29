@@ -435,7 +435,7 @@ void R_DrawPlanes(void)
         for (visplane_t *pl = visplanes[i]; pl; pl = pl->next)
             if (pl->modified && pl->left <= pl->right)
             {
-                int picnum = pl->picnum;
+                const int   picnum = pl->picnum;
 
                 if (picnum == skyflatnum || (picnum & PL_SKYFLAT))
                 {
