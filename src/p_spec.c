@@ -2709,7 +2709,6 @@ void T_Scroll(scroll_t *scroller)
             break;
 
         case sc_carry:
-
             if (!menuactive)
             {
                 fixed_t height;

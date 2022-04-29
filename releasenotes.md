@@ -44,7 +44,7 @@
 * The `playerstats` CCMD now displays how many monsters have been telefragged.
 * Obituaries are now displayed in the console whenever the player or a monster is telefragged and the `con_obituaries` CVAR is `on`.
 * The `map` CCMD can now be used to warp the player to maps up to <code>E9M99</code> and <code>MAP99</code>.
-* The `mapstats` CCMD now displays how many linedefs have line specials, and how many sectors can move, in the current map.
+* The `mapstats` CCMD now displays how many linedefs have line specials in the current map.
 * Commander Keens are no longer spawned at the start of a map when the `nomonsters` CCMD has been entered in the console, or the `-nomonsters` parameter has been specified on the command-line.
 * The following changes have been made to the support of `MAPINFO` lumps:
   * `compat_light` can now be used so when a light level changes to the highest light level found in neighboring sectors, the search is made only for the first tagged sector, like in *Vanilla DOOM*.
