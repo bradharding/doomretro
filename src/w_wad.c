@@ -381,10 +381,10 @@ boolean W_AddFile(char *filename, boolean automatic)
         C_Output("Buckethead's soundtrack will now be heard while playing " ITALICS("SIGIL."));
     }
     else if (M_StringCompare(file, "DOOM.WAD"))
-        C_Output(ITALICS("E1M4B: Phobos Mission Control") " and " ITALICS("E1M8B: Tech Gone Bad")
+        C_Output("John Romero's " ITALICS("E1M4B: Phobos Mission Control") " and " ITALICS("E1M8B: Tech Gone Bad")
             " are now available to play using the " BOLD("map") " CCMD.");
     else if (M_StringCompare(file, "NERVE.WAD"))
-        C_Output(ITALICS("No Rest For The Living") " is now available to play from the expansion menu.");
+        C_Output("Nerve Software's " ITALICS("No Rest For The Living") " is now available to play from the expansion menu.");
 
     if (!packagewadadded)
     {

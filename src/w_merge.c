@@ -140,6 +140,7 @@ static void SetupLists(void)
 static void InitSpriteList(void)
 {
     sprite_frames = Z_Malloc(sprite_frames_alloced * sizeof(*sprite_frames), PU_STATIC, NULL);
+    num_sprite_frames = 0;
 }
 
 static boolean ValidSpriteLumpName(char *name)
@@ -372,17 +373,11 @@ static void GenerateSpriteList(void)
 //    already been merged into the IWAD's sections.
 static void DoMerge(void)
 {
-    section_t   current_section;
-    lumpinfo_t  **newlumps;
-    int         num_newlumps;
-
-    // Can't ever have more lumps than we already have
-    newlumps = calloc(numlumps, sizeof(lumpinfo_t *));
-    num_newlumps = 0;
+    int         num_newlumps = 0;
+    lumpinfo_t  **newlumps = calloc(numlumps, sizeof(lumpinfo_t *));
+    section_t   current_section = SECTION_NORMAL;
 
     // Add IWAD lumps
-    current_section = SECTION_NORMAL;
-
     for (int i = 0; i < iwad.numlumps; i++)
     {
         lumpinfo_t  *lump = iwad.lumps[i];
@@ -402,14 +397,13 @@ static void DoMerge(void)
                 // Have we reached the end of the section?
                 if (!strncasecmp(lump->name, "F_END", 8))
                 {
-                    // Add all new flats from the PWAD to the end
-                    // of the section
+                    // Add all new flats from the PWAD to the end of the section
                     for (int n = 0; n < pwad_flats.numlumps; n++)
                         newlumps[num_newlumps++] = pwad_flats.lumps[n];
 
                     newlumps[num_newlumps++] = lump;
 
-                    // back to normal reading
+                    // Back to normal reading
                     current_section = SECTION_NORMAL;
                 }
                 else
@@ -433,10 +427,10 @@ static void DoMerge(void)
                         if (SpriteLumpNeeded(pwad_sprites.lumps[n]))
                             newlumps[num_newlumps++] = pwad_sprites.lumps[n];
 
-                    // copy the ending
+                    // Copy the ending
                     newlumps[num_newlumps++] = lump;
 
-                    // back to normal reading
+                    // Back to normal reading
                     current_section = SECTION_NORMAL;
                 }
                 else
@@ -482,16 +476,14 @@ static void DoMerge(void)
             case SECTION_FLATS:
                 // PWAD flats are ignored (already merged)
                 if (!strncasecmp(lump->name, "FF_END", 8) || !strncasecmp(lump->name, "F_END", 8))
-                    // end of section
-                    current_section = SECTION_NORMAL;
+                    current_section = SECTION_NORMAL;   // end of section
 
                 break;
 
             case SECTION_SPRITES:
                 // PWAD sprites are ignored (already merged)
                 if (!strncasecmp(lump->name, "SS_END", 8) || !strncasecmp(lump->name, "S_END", 8))
-                    // end of section
-                    current_section = SECTION_NORMAL;
+                    current_section = SECTION_NORMAL;   // end of section
 
                 break;
 
@@ -509,7 +501,7 @@ static void DoMerge(void)
                         free(temp);
                     }
 
-                    current_section = SECTION_NORMAL;
+                    current_section = SECTION_NORMAL;   // end of section
                 }
 
                 break;
