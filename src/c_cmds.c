@@ -109,6 +109,8 @@
 #define INTEGERCVARWITHDEFAULT      "It is currently " BOLD("%s") " and is " BOLD("%s") " by default."
 #define INTEGERCVARWITHNODEFAULT    "It is currently " BOLD("%s") "."
 #define INTEGERCVARISDEFAULT        "It is currently its default of " BOLD("%s") "."
+#define DEGREESCVARWITHDEFAULT      "It is currently " BOLD("%i") "\xB0 and is " BOLD("%i") "\xB0 by default."
+#define DEGREESCVARISDEFAULT        "It is currently its default of " BOLD("%i") "\xB0."
 #define PERCENTCVARWITHDEFAULT      "It is currently " BOLD("%s%%") " and is " BOLD("%s%%") " by default."
 #define PERCENTCVARWITHNODEFAULT    "It is currently " BOLD("%s%%") "."
 #define PERCENTCVARISDEFAULT        "It is currently its default of " BOLD("%s%%") "."
@@ -8995,17 +8997,33 @@ static void r_fixmaperrors_cvar_func2(char *cmd, char *parms)
 //
 static void r_fov_cvar_func2(char *cmd, char *parms)
 {
-    const int   r_fov_old = r_fov;
-
-    int_cvars_func2(cmd, parms);
-
-    if (r_fov != r_fov_old)
+    if (*parms)
     {
-        setsizeneeded = true;
-        R_InitLightTables();
+        int value;
 
-        if (gamestate == GS_LEVEL)
-            S_StartSound(NULL, sfx_stnmov);
+        if (sscanf(parms, "%10i", &value) == 1 && value != r_fov)
+        {
+            r_fov = value;
+            M_SaveCVARs();
+            setsizeneeded = true;
+            R_InitLightTables();
+
+            if (gamestate == GS_LEVEL)
+                S_StartSound(NULL, sfx_stnmov);
+        }
+    }
+    else
+    {
+        const int   i = C_GetIndex(cmd);
+
+        C_ShowDescription(i);
+
+        if (r_fov == r_fov_default)
+            C_Output(DEGREESCVARISDEFAULT, r_fov);
+        else
+            C_Output(DEGREESCVARWITHDEFAULT, r_fov, r_fov_default);
+
+        C_ShowWarning(i);
     }
 }
 
