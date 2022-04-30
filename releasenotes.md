@@ -17,11 +17,11 @@
 * The `am_followmode` CVAR no longer changes when enabling vanilla mode using the `vanilla` CCMD.
 * Changing the `r_fov` CVAR from its default of `90`° is now effective again when the `vid_widescreen` CVAR is `off`.
 * The following changes have been made when the player enters a cheat:
-  * More time has been given to the player to enter the `IDBEHOLD` cheat.
-  * Displaying a cheat in the console is now redacted.
-  * Cheats are now skipped in the console’s input history when pressing the <kbd><b>&uarr;</b></kbd> or <kbd><b>&darr;</b></kbd> keys.
-  * A warning is now displayed in the console indicating the player has cheated.
+  * The display of the cheat in the console is now redacted.
+  * The cheat is now skipped in the console’s input history when pressing the <kbd><b>&uarr;</b></kbd> or <kbd><b>&darr;</b></kbd> keys.
+  * A warning is now displayed in the console indicating that the player has cheated.
   * Fade effects are no longer applied when entering most cheats and the `fade` CVAR is `on`.
+  * More time has been given to the player to enter the `IDBEHOLD` cheat.
 * The pausing and then resuming of any liquid sectors in view when opening and then closing the console is now smoother.
 * Improvements have been made in determining whether something is in liquid or not.
 * The branding in the console is now positioned correctly again when the `vid_widescreen` CVAR is `on`.

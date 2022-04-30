@@ -284,16 +284,16 @@ static void P_XYMovement(mobj_t *mo)
     if (corpse && !(mo->flags & MF_NOBLOOD) && r_corpses_slide && r_corpses_smearblood
         && (mo->momx || mo->momy) && mo->bloodsplats && r_bloodsplats_max && !mo->nudge)
     {
-        int max = MIN((ABS(mo->momx) + ABS(mo->momy)) >> (FRACBITS - 2), 8);
+        const int   max = MIN((ABS(mo->momx) + ABS(mo->momy)) >> (FRACBITS - 2), 8);
 
         if (max)
         {
-            int blood = mobjinfo[mo->blood].blood;
+            const int   blood = mobjinfo[mo->blood].blood;
 
             if (blood)
             {
-                int     radius = (spritewidth[sprites[mo->sprite].spriteframes[mo->frame & FF_FRAMEMASK].lump[0]] >> FRACBITS) >> 1;
-                fixed_t floorz = mo->floorz;
+                const int       radius = (spritewidth[sprites[mo->sprite].spriteframes[mo->frame & FF_FRAMEMASK].lump[0]] >> FRACBITS) >> 1;
+                const fixed_t   floorz = mo->floorz;
 
                 for (int i = 0; i < max; i++)
                     P_SpawnBloodSplat(mo->x + (M_BigRandomInt(-radius, radius) << FRACBITS),
@@ -1119,11 +1119,11 @@ void P_SpawnMoreBlood(mobj_t *mobj)
 
     if (blood)
     {
-        int     radius = ((spritewidth[sprites[mobj->sprite].spriteframes[0].lump[0]] >> FRACBITS) >> 1) + 12;
-        int     max = M_BigRandomInt(150, 200) + radius;
-        fixed_t x = mobj->x;
-        fixed_t y = mobj->y;
-        fixed_t floorz = mobj->floorz;
+        const int       radius = ((spritewidth[sprites[mobj->sprite].spriteframes[0].lump[0]] >> FRACBITS) >> 1) + 12;
+        const int       max = M_BigRandomInt(150, 200) + radius;
+        const fixed_t   floorz = mobj->floorz;
+        fixed_t         x = mobj->x;
+        fixed_t         y = mobj->y;
 
         if (!(mobj->flags & MF_SPAWNCEILING))
         {

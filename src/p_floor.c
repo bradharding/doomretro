@@ -45,12 +45,6 @@
 #include "s_sound.h"
 #include "z_zone.h"
 
-#define FLOOR   0
-#define CEILING 1
-
-#define DOWN   -1
-#define UP      1
-
 //
 // FLOORS
 //
@@ -64,12 +58,12 @@ result_e T_MovePlane(sector_t *sector, fixed_t speed, fixed_t dest, boolean crus
 
     switch (floororceiling)
     {
-        case FLOOR:
+        case 0:
             sector->oldfloorheight = sector->floorheight;
 
             switch (direction)
             {
-                case DOWN:
+                case -1:
                     if (sector->floorheight - speed < dest)
                     {
                         sector->floorheight = dest;
@@ -90,7 +84,7 @@ result_e T_MovePlane(sector_t *sector, fixed_t speed, fixed_t dest, boolean crus
 
                     break;
 
-                case UP:
+                case 1:
                     dest = MIN(dest, sector->ceilingheight);
 
                     if (sector->floorheight + speed > dest)
@@ -123,12 +117,12 @@ result_e T_MovePlane(sector_t *sector, fixed_t speed, fixed_t dest, boolean crus
 
             break;
 
-        case CEILING:
+        case 1:
             sector->oldceilingheight = sector->ceilingheight;
 
             switch (direction)
             {
-                case DOWN:
+                case -1:
                     dest = MAX(dest, sector->floorheight);
 
                     if (sector->ceilingheight - speed < dest)
@@ -162,7 +156,7 @@ result_e T_MovePlane(sector_t *sector, fixed_t speed, fixed_t dest, boolean crus
 
                     break;
 
-                case UP:
+                case 1:
                     if (sector->ceilingheight + speed > dest)
                     {
                         sector->ceilingheight = dest;
@@ -208,7 +202,7 @@ void T_MoveFloor(floormove_t *floor)
         return;
     }
 
-    if (floor->direction == UP)
+    if (floor->direction == 1)
     {
         switch (floor->type)
         {
@@ -227,7 +221,7 @@ void T_MoveFloor(floormove_t *floor)
                 break;
         }
     }
-    else if (floor->direction == DOWN)
+    else if (floor->direction == -1)
     {
         switch (floor->type)
         {
@@ -301,7 +295,7 @@ void T_MoveElevator(elevator_t *elevator)
     result_e    res;
     sector_t    *sec = elevator->sector;
 
-    if (elevator->direction == DOWN)            // moving down
+    if (elevator->direction == -1)              // moving down
     {
         // jff 4/7/98 reverse order of ceiling/floor
         res = T_MovePlane(sec, elevator->speed, elevator->ceilingdestheight, false, 1, elevator->direction);
@@ -383,7 +377,7 @@ manual_floor:
         switch (floortype)
         {
             case lowerFloor:
-                floor->direction = DOWN;
+                floor->direction = -1;
                 floor->sector = sec;
                 floor->speed = FLOORSPEED;
                 floor->floordestheight = P_FindHighestFloorSurrounding(sec);
@@ -391,7 +385,7 @@ manual_floor:
                 break;
 
             case lowerFloor24:
-                floor->direction = DOWN;
+                floor->direction = -1;
                 floor->sector = sec;
                 floor->speed = FLOORSPEED;
                 floor->floordestheight = floor->sector->floorheight + 24 * FRACUNIT;
@@ -399,7 +393,7 @@ manual_floor:
                 break;
 
             case lowerFloor32Turbo:
-                floor->direction = DOWN;
+                floor->direction = -1;
                 floor->sector = sec;
                 floor->speed = FLOORSPEED * 4;
                 floor->floordestheight = floor->sector->floorheight + 32 * FRACUNIT;
@@ -407,7 +401,7 @@ manual_floor:
                 break;
 
             case lowerFloorToLowest:
-                floor->direction = DOWN;
+                floor->direction = -1;
                 floor->sector = sec;
                 floor->speed = FLOORSPEED;
                 floor->floordestheight = P_FindLowestFloorSurrounding(sec);
@@ -415,7 +409,7 @@ manual_floor:
                 break;
 
             case lowerFloorToNearest:
-                floor->direction = DOWN;
+                floor->direction = -1;
                 floor->sector = sec;
                 floor->speed = FLOORSPEED;
                 floor->floordestheight = P_FindNextLowestFloor(sec, sec->floorheight);
@@ -423,7 +417,7 @@ manual_floor:
                 break;
 
             case turboLower:
-                floor->direction = DOWN;
+                floor->direction = -1;
                 floor->sector = sec;
                 floor->speed = FLOORSPEED * 4;
                 floor->floordestheight = P_FindHighestFloorSurrounding(sec);
@@ -437,7 +431,7 @@ manual_floor:
                 floor->crush = true;
 
             case raiseFloor:
-                floor->direction = UP;
+                floor->direction = 1;
                 floor->sector = sec;
                 floor->speed = FLOORSPEED;
                 floor->floordestheight = MIN(P_FindLowestCeilingSurrounding(sec), sec->ceilingheight)
@@ -446,7 +440,7 @@ manual_floor:
                 break;
 
             case raiseFloorTurbo:
-                floor->direction = UP;
+                floor->direction = 1;
                 floor->sector = sec;
                 floor->speed = FLOORSPEED * 4;
                 floor->floordestheight = P_FindNextHighestFloor(sec, sec->floorheight);
@@ -454,7 +448,7 @@ manual_floor:
                 break;
 
             case raiseFloorToNearest:
-                floor->direction = UP;
+                floor->direction = 1;
                 floor->sector = sec;
                 floor->speed = FLOORSPEED;
                 floor->floordestheight = P_FindNextHighestFloor(sec, sec->floorheight);
@@ -462,7 +456,7 @@ manual_floor:
                 break;
 
             case raiseFloor24:
-                floor->direction = UP;
+                floor->direction = 1;
                 floor->sector = sec;
                 floor->speed = FLOORSPEED;
                 floor->floordestheight = sec->floorheight + 24 * FRACUNIT;
@@ -470,7 +464,7 @@ manual_floor:
                 break;
 
             case raiseFloor32Turbo:
-                floor->direction = UP;
+                floor->direction = 1;
                 floor->sector = sec;
                 floor->speed = FLOORSPEED * 4;
                 floor->floordestheight = sec->floorheight + 32 * FRACUNIT;
@@ -478,7 +472,7 @@ manual_floor:
                 break;
 
             case raiseFloor512:
-                floor->direction = UP;
+                floor->direction = 1;
                 floor->sector = sec;
                 floor->speed = FLOORSPEED;
                 floor->floordestheight = sec->floorheight + 512 * FRACUNIT;
@@ -486,7 +480,7 @@ manual_floor:
                 break;
 
             case raiseFloor24AndChange:
-                floor->direction = UP;
+                floor->direction = 1;
                 floor->sector = sec;
                 floor->speed = FLOORSPEED;
                 floor->floordestheight = sec->floorheight + 24 * FRACUNIT;
@@ -516,7 +510,7 @@ manual_floor:
             {
                 int minsize = 32000 << FRACBITS;
 
-                floor->direction = UP;
+                floor->direction = 1;
                 floor->sector = sec;
                 floor->speed = FLOORSPEED;
 
@@ -539,7 +533,7 @@ manual_floor:
             }
 
             case lowerAndChange:
-                floor->direction = DOWN;
+                floor->direction = -1;
                 floor->sector = sec;
                 floor->speed = FLOORSPEED;
                 floor->floordestheight = P_FindLowestFloorSurrounding(sec);
@@ -746,7 +740,7 @@ manual_stair:
         P_AddThinker(&floor->thinker);
 
         sec->floordata = floor;
-        floor->direction = UP;
+        floor->direction = 1;
         floor->sector = sec;
 
         floor->speed = speed;
@@ -794,7 +788,7 @@ manual_stair:
                 P_AddThinker(&floor->thinker);
 
                 sec->floordata = floor;
-                floor->direction = UP;
+                floor->direction = 1;
                 floor->sector = sec;
                 floor->speed = speed;
                 floor->floordestheight = height;
@@ -852,7 +846,7 @@ boolean EV_DoElevator(line_t *line, elevator_e elevtype)
         {
             // elevator down to next floor
             case elevateDown:
-                elevator->direction = DOWN;
+                elevator->direction = -1;
                 elevator->floordestheight = P_FindNextLowestFloor(sec, sec->floorheight);
                 elevator->ceilingdestheight = elevator->floordestheight + sec->ceilingheight - sec->floorheight;
 
@@ -860,7 +854,7 @@ boolean EV_DoElevator(line_t *line, elevator_e elevtype)
 
             // elevator up to next floor
             case elevateUp:
-                elevator->direction = UP;
+                elevator->direction = 1;
                 elevator->floordestheight = P_FindNextHighestFloor(sec, sec->floorheight);
                 elevator->ceilingdestheight = elevator->floordestheight + sec->ceilingheight - sec->floorheight;
 
@@ -870,7 +864,7 @@ boolean EV_DoElevator(line_t *line, elevator_e elevtype)
             case elevateCurrent:
                 elevator->floordestheight = line->frontsector->floorheight;
                 elevator->ceilingdestheight = elevator->floordestheight + sec->ceilingheight - sec->floorheight;
-                elevator->direction = (elevator->floordestheight > sec->floorheight ? UP : DOWN);
+                elevator->direction = (elevator->floordestheight > sec->floorheight ? 1 : -1);
 
                 break;
         }
