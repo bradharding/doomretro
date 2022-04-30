@@ -2041,6 +2041,11 @@ static void cvarlist_cmd_func2(char *cmd, char *parms)
                     free(temp);
                 }
             }
+            else if (M_StringCompare(consolecmds[i].name, stringize(r_fov)))
+            {
+                C_TabbedOutput(tabs, "%i.\t" BOLD("%s\t%i") "\xB0\t%s", count, consolecmds[i].name,
+                    *(int *)consolecmds[i].variable, consolecmds[i].description);
+            }
             else if (consolecmds[i].flags & CF_BOOLEAN)
             {
                 char    *temp = C_LookupAliasFromValue(*(boolean *)consolecmds[i].variable, consolecmds[i].aliases);
