@@ -2297,11 +2297,11 @@ void A_Detonate(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_Mushroom(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    const int     n = actor->info->damage;
+    const int       n = actor->info->damage;
 
     // Mushroom parameters are part of code pointer's state
-    const fixed_t misc1 = (actor->state->misc1 ? actor->state->misc1 : 4 * FRACUNIT);
-    const fixed_t misc2 = (actor->state->misc2 ? actor->state->misc2 : FRACUNIT / 2);
+    const fixed_t   misc1 = (actor->state->misc1 ? actor->state->misc1 : 4 * FRACUNIT);
+    const fixed_t   misc2 = (actor->state->misc2 ? actor->state->misc2 : FRACUNIT / 2);
 
     A_Explode(actor, NULL, NULL);                               // First make normal explosion
 

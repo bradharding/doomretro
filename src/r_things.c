@@ -162,7 +162,7 @@ static void R_InstallSpriteLump(const lumpinfo_t *lump, const int lumpnum,
 // 01/25/98, 01/31/98 killough : Rewritten for performance
 //
 // Empirically verified to have excellent hash properties across standard DOOM sprites:
-#define R_SpriteNameHash(s) ((s[0] - ((size_t)s[1] * 3 - (size_t)s[3] * 2 - s[2]) * 2))
+#define R_SpriteNameHash(s) (s[0] - ((size_t)s[1] * 3 - (size_t)s[3] * 2 - s[2]) * 2)
 
 static void R_InitSpriteDefs(void)
 {
@@ -178,12 +178,12 @@ static void R_InitSpriteDefs(void)
 
     // Create hash table based on just the first four letters of each sprite
     // killough 01/31/98
-    hash = Z_Malloc(numentries * sizeof(*hash), PU_STATIC, NULL);   // allocate hash table
+    hash = malloc(numentries * sizeof(*hash));      // allocate hash table
 
-    for (unsigned int i = 0; i < numentries; i++)                   // initialize hash table as empty
+    for (unsigned int i = 0; i < numentries; i++)   // initialize hash table as empty
         hash[i].index = -1;
 
-    for (unsigned int i = 0; i < numentries; i++)                   // Prepend each sprite to hash chain
+    for (unsigned int i = 0; i < numentries; i++)   // Prepend each sprite to hash chain
     {
         const int   j = R_SpriteNameHash(lumpinfo[i + firstspritelump]->name) % numentries;
 
@@ -286,7 +286,7 @@ static void R_InitSpriteDefs(void)
         }
     }
 
-    Z_Free(hash);   // free hash table
+    free(hash); // free hash table
 
     firstbloodsplatlump = sprites[SPR_BLD2].spriteframes[0].lump[0];
 
