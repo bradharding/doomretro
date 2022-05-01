@@ -2435,7 +2435,7 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
     target->reactiontime = 0;
 
     if ((!target->threshold || (target->mbf21flags & MF_MBF21_NOTHRESHOLD))
-        && source && source != target && !(source->mbf21flags & MF_MBF21_NOTHRESHOLD)
+        && source && source != target && !(source->mbf21flags & MF_MBF21_DMGIGNORED)
         && !P_InfightingImmune(target, source))
     {
         state_t *state = target->state;
