@@ -67,7 +67,7 @@ boolean r_floatbob = r_floatbob_default;
 boolean r_rockettrails = r_rockettrails_default;
 boolean r_shadows = r_shadows_default;
 
-static fixed_t floatbobdiffs[64] =
+static const fixed_t floatbobdiffs[64] =
 {
      25695,  25695,  25447,  24955,  24222,  23256,  22066,  20663,
      19062,  17277,  15325,  13226,  10999,   8667,   6251,   3775,
@@ -196,10 +196,10 @@ static void P_XYMovement(mobj_t *mo)
 
     do
     {
-        fixed_t stepx = MIN(xmove, MAXMOVE_STEP);
-        fixed_t stepy = MIN(ymove, MAXMOVE_STEP);
-        fixed_t ptryx = mo->x + ((stepdir & 1) ? -stepx : stepx);
-        fixed_t ptryy = mo->y + ((stepdir & 2) ? -stepy : stepy);
+        const fixed_t   stepx = MIN(xmove, MAXMOVE_STEP);
+        const fixed_t   stepy = MIN(ymove, MAXMOVE_STEP);
+        const fixed_t   ptryx = mo->x + ((stepdir & 1) ? -stepx : stepx);
+        const fixed_t   ptryy = mo->y + ((stepdir & 2) ? -stepy : stepy);
 
         xmove -= stepx;
         ymove -= stepy;
@@ -217,11 +217,11 @@ static void P_XYMovement(mobj_t *mo)
             {
                 if (blockline)
                 {
-                    fixed_t r = ((blockline->dx >> FRACBITS) * mo->momx + (blockline->dy >> FRACBITS) * mo->momy)
-                                / ((blockline->dx >> FRACBITS) * (blockline->dx >> FRACBITS)
-                                + (blockline->dy >> FRACBITS) * (blockline->dy >> FRACBITS));
-                    fixed_t x = FixedMul(r, blockline->dx);
-                    fixed_t y = FixedMul(r, blockline->dy);
+                    const fixed_t   r = ((blockline->dx >> FRACBITS) * mo->momx + (blockline->dy >> FRACBITS) * mo->momy)
+                                        / ((blockline->dx >> FRACBITS) * (blockline->dx >> FRACBITS)
+                                        + (blockline->dy >> FRACBITS) * (blockline->dy >> FRACBITS));
+                    const fixed_t   x = FixedMul(r, blockline->dx);
+                    const fixed_t   y = FixedMul(r, blockline->dy);
 
                     // reflect momentum away from wall
                     mo->momx = x * 2 - mo->momx;
@@ -344,7 +344,7 @@ static void P_XYMovement(mobj_t *mo)
         // killough 10/98: changed to work with new bobbing method.
         // Reducing player momentum is no longer needed to reduce
         // bobbing, so ice works much better now.
-        fixed_t friction = P_GetFriction(mo, NULL);
+        const fixed_t   friction = P_GetFriction(mo, NULL);
 
         mo->momx = FixedMul(mo->momx, friction);
         mo->momy = FixedMul(mo->momy, friction);
@@ -470,7 +470,7 @@ floater:
     // float down towards target if too close
     if (!((flags ^ MF_FLOAT) & (MF_FLOAT | MF_SKULLFLY | MF_INFLOAT)) && mo->target)
     {
-        fixed_t delta = (mo->target->z + (mo->height >> 1) - mo->z) * 3;
+        const fixed_t   delta = (mo->target->z + (mo->height >> 1) - mo->z) * 3;
 
         if (P_ApproxDistance(mo->x - mo->target->x, mo->y - mo->target->y) < ABS(delta))
             mo->z += SIGN(delta) * FLOATSPEED;
@@ -488,17 +488,17 @@ floater:
 
             if (r_bloodsplats_max)
             {
-                fixed_t x = mo->x;
-                fixed_t y = mo->y;
+                const fixed_t   x = mo->x;
+                const fixed_t   y = mo->y;
 
                 P_SpawnBloodSplat(x, y, blood, false, 0, NULL);
 
                 if (blood != FUZZYBLOOD)
                 {
-                    fixed_t x1 = M_BigRandomInt(-5, 5) << FRACBITS;
-                    fixed_t y1 = M_BigRandomInt(-5, 5) << FRACBITS;
-                    fixed_t x2 = M_BigRandomIntNoRepeat(-5, 5, x1) << FRACBITS;
-                    fixed_t y2 = M_BigRandomIntNoRepeat(-5, 5, y1) << FRACBITS;
+                    const fixed_t   x1 = M_BigRandomInt(-5, 5) << FRACBITS;
+                    const fixed_t   y1 = M_BigRandomInt(-5, 5) << FRACBITS;
+                    const fixed_t   x2 = M_BigRandomIntNoRepeat(-5, 5, x1) << FRACBITS;
+                    const fixed_t   y2 = M_BigRandomIntNoRepeat(-5, 5, y1) << FRACBITS;
 
                     P_SpawnBloodSplat(x + x1, y + y1, blood, false, 0, NULL);
                     P_SpawnBloodSplat(x - x2, y - y2, blood, false, 0, NULL);
@@ -588,11 +588,11 @@ floater:
 //
 static void P_NightmareRespawn(mobj_t *mobj)
 {
-    fixed_t     x = mobj->spawnpoint.x << FRACBITS;
-    fixed_t     y = mobj->spawnpoint.y << FRACBITS;
-    fixed_t     z = ((mobj->flags & MF_SPAWNCEILING) ? ONCEILINGZ : ONFLOORZ);
-    mobj_t      *mo;
-    mapthing_t  *mthing = &mobj->spawnpoint;
+    fixed_t         x = mobj->spawnpoint.x << FRACBITS;
+    fixed_t         y = mobj->spawnpoint.y << FRACBITS;
+    const fixed_t   z = ((mobj->flags & MF_SPAWNCEILING) ? ONCEILINGZ : ONFLOORZ);
+    mobj_t          *mo;
+    mapthing_t      *mthing = &mobj->spawnpoint;
 
     // [BH] Fix <https://doomwiki.org/wiki/(0,0)_respawning_bug>.
     if (!x && !y)
@@ -693,7 +693,7 @@ void P_MobjThinker(mobj_t *mobj)
     // [BH] bob certain power-ups
     else if ((flags2 & MF2_FLOATBOB) && !(flags & MF_CORPSE) && r_floatbob)
     {
-        fixed_t floatbob = floatbobdiffs[((mobj->floatbob + leveltime) & 63)];
+        const fixed_t   floatbob = floatbobdiffs[((mobj->floatbob + leveltime) & 63)];
 
         if (mobj->z + floatbob >= mobj->floorz && mobj->z + floatbob < mobj->ceilingz)
             mobj->z += floatbob;
@@ -1410,13 +1410,13 @@ void P_SpawnSmokeTrail(fixed_t x, fixed_t y, fixed_t z, angle_t angle)
 //
 void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mobj_t *target)
 {
-    int         minz = target->z;
-    int         maxz = minz + spriteheight[sprites[target->sprite].spriteframes[0].lump[0]];
-    mobjtype_t  type = (r_blood == r_blood_red ? MT_BLOOD : (r_blood == r_blood_green ? MT_GREENBLOOD :
-                    (target->blood ? target->blood : MT_BLOOD)));
-    mobjinfo_t  *info = &mobjinfo[type];
-    int         blood = info->blood;
-    state_t     *st = &states[info->spawnstate];
+    const int           minz = target->z;
+    const int           maxz = minz + spriteheight[sprites[target->sprite].spriteframes[0].lump[0]];
+    const mobjtype_t    type = (r_blood == r_blood_red ? MT_BLOOD : (r_blood == r_blood_green ? MT_GREENBLOOD :
+                            (target->blood ? target->blood : MT_BLOOD)));
+    mobjinfo_t          *info = &mobjinfo[type];
+    const int           blood = info->blood;
+    state_t             *st = &states[info->spawnstate];
 
     angle += ANG180;
 
@@ -1686,7 +1686,7 @@ mobj_t *P_SpawnPlayerMissile(mobj_t *source, mobjtype_t type)
 //
 // MBF21: P_SeekerMissile
 //
-boolean P_SeekerMissile(mobj_t *actor, mobj_t **seekTarget, angle_t thresh, angle_t turnMax, boolean seekcenter)
+boolean P_SeekerMissile(mobj_t *actor, mobj_t **seekTarget, angle_t thresh, angle_t turnmax, boolean seekcenter)
 {
     int     dir;
     angle_t delta;
@@ -1709,8 +1709,8 @@ boolean P_SeekerMissile(mobj_t *actor, mobj_t **seekTarget, angle_t thresh, angl
     {
         delta >>= 1;
 
-        if (delta > turnMax)
-            delta = turnMax;
+        if (delta > turnmax)
+            delta = turnmax;
     }
 
     if (dir)
@@ -1724,13 +1724,10 @@ boolean P_SeekerMissile(mobj_t *actor, mobj_t **seekTarget, angle_t thresh, angl
     actor->momx = FixedMul(actor->info->speed, finecosine[angle]);
     actor->momy = FixedMul(actor->info->speed, finesine[angle]);
 
+    // Need to seek vertically
     if (actor->z + actor->height < target->z || target->z + target->height < actor->z || seekcenter)
-    {
-        // Need to seek vertically
-        int dist = MAX(1, P_ApproxDistance(target->x - actor->x, target->y - actor->y) / actor->info->speed);
-
-        actor->momz = (target->z + (seekcenter ? target->height / 2 : 0) - actor->z) / dist;
-    }
+        actor->momz = (target->z + (seekcenter ? target->height / 2 : 0) - actor->z)
+            / MAX(1, P_ApproxDistance(target->x - actor->x, target->y - actor->y) / actor->info->speed);
 
     return true;
 }
@@ -1742,9 +1739,9 @@ boolean P_SeekerMissile(mobj_t *actor, mobj_t **seekTarget, angle_t thresh, angl
 //
 boolean P_FaceMobj(mobj_t *source, mobj_t *target, angle_t *delta)
 {
-    angle_t diff;
-    angle_t angle1 = source->angle;
-    angle_t angle2 = R_PointToAngle2(source->x, source->y, target->x, target->y);
+    angle_t         diff;
+    const angle_t   angle1 = source->angle;
+    const angle_t   angle2 = R_PointToAngle2(source->x, source->y, target->x, target->y);
 
     if (angle2 > angle1)
     {
@@ -1753,23 +1750,16 @@ boolean P_FaceMobj(mobj_t *source, mobj_t *target, angle_t *delta)
             *delta = ANGLE_MAX - diff;
             return false;
         }
-        else
-        {
-            *delta = diff;
-            return true;
-        }
+
+        *delta = diff;
+        return true;
     }
-    else
+    else if ((diff = angle1 - angle2) > ANG180)
     {
-        if ((diff = angle1 - angle2) > ANG180)
-        {
-            *delta = ANGLE_MAX - diff;
-            return true;
-        }
-        else
-        {
-            *delta = diff;
-            return false;
-        }
+        *delta = ANGLE_MAX - diff;
+        return true;
     }
+
+    *delta = diff;
+    return false;
 }

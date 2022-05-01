@@ -1360,7 +1360,7 @@ static boolean PIT_VileCheck(mobj_t *thing)
         corpsehit->flags2 &= ~MF2_RESURRECTING;
     }
 
-    return !check;        // got one, so stop checking
+    return !check;      // got one, so stop checking
 }
 
 //
@@ -1369,7 +1369,7 @@ static boolean PIT_VileCheck(mobj_t *thing)
 //
 static boolean P_HealCorpse(mobj_t *actor, int radius, statenum_t healstate, sfxenum_t healsound)
 {
-    int movedir = actor->movedir;
+    const dirtype_t movedir = actor->movedir;
 
     if (movedir != DI_NODIR)
     {
@@ -1391,7 +1391,6 @@ static boolean P_HealCorpse(mobj_t *actor, int radius, statenum_t healstate, sfx
 
         for (int bx = xl; bx <= xh; bx++)
             for (int by = yl; by <= yh; by++)
-            {
                 // Call PIT_VileCheck() to check whether object is a corpse that can be raised.
                 if (!P_BlockThingsIterator(bx, by, &PIT_VileCheck))
                 {
@@ -1469,7 +1468,6 @@ static boolean P_HealCorpse(mobj_t *actor, int radius, statenum_t healstate, sfx
                     P_UpdateThinker(&corpsehit->thinker);
                     return true;
                 }
-            }
     }
 
     return false;
