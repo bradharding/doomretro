@@ -1419,7 +1419,6 @@ static boolean P_HealCorpse(mobj_t *actor, int radius, statenum_t healstate, sfx
                     // killough 07/18/98: friendliness is transferred from AV to raised corpse
                     corpsehit->flags = ((info->flags & ~MF_FRIEND) | (actor->flags & MF_FRIEND));
 
-                    corpsehit->flags2 = info->flags2;
                     corpsehit->health = info->spawnhealth;
                     corpsehit->shadowoffset = info->shadowoffset;
                     P_SetTarget(&corpsehit->target, NULL);
@@ -2779,15 +2778,15 @@ void A_JumpIfTracerCloser(mobj_t *actor, player_t *player, pspdef_t *psp)
 void A_JumpIfFlagsSet(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
     int flags;
-    int flags2;
+    int mbf21flags;
 
     if (!actor)
         return;
 
     flags = actor->state->args[1];
-    flags2 = actor->state->args[2];
+    mbf21flags = actor->state->args[2];
 
-    if ((actor->flags & flags) == flags && (actor->flags2 & flags2) == flags2)
+    if ((actor->flags & flags) == flags && (actor->mbf21flags & mbf21flags) == mbf21flags)
         P_SetMobjState(actor, actor->state->args[0]);
 }
 
@@ -2803,7 +2802,7 @@ void A_AddFlags(mobj_t *actor, player_t *player, pspdef_t *psp)
         return;
 
     actor->flags |= actor->state->args[0];
-    actor->flags2 |= actor->state->args[1];
+    actor->mbf21flags |= actor->state->args[1];
 }
 
 //
@@ -2818,5 +2817,5 @@ void A_RemoveFlags(mobj_t *actor, player_t *player, pspdef_t *psp)
         return;
 
     actor->flags &= ~actor->state->args[0];
-    actor->flags2 &= ~actor->state->args[1];
+    actor->mbf21flags &= ~actor->state->args[1];
 }
