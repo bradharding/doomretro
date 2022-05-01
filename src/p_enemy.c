@@ -1419,7 +1419,7 @@ static boolean P_HealCorpse(mobj_t *actor, int radius, statenum_t healstate, sfx
                     // killough 07/18/98: friendliness is transferred from AV to raised corpse
                     corpsehit->flags = ((info->flags & ~MF_FRIEND) | (actor->flags & MF_FRIEND));
 
-                    corpsehit->flags2 = info->flags2;
+                    corpsehit->flags2 &= ~MF2_MIRRORED;
                     corpsehit->health = info->spawnhealth;
                     corpsehit->shadowoffset = info->shadowoffset;
                     P_SetTarget(&corpsehit->target, NULL);
