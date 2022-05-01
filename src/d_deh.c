@@ -2924,7 +2924,7 @@ static void deh_procPointer(DEHFILE *fpin, char *line)
     }
 
     if (devparm)
-        C_Output("Processing Pointer at index %i: %s", indexnum, key);
+        C_Output("Processing pointer at index %i: %s", indexnum, key);
 
     if (indexnum < 0 || indexnum >= NUMSTATES)
     {

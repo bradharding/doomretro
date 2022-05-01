@@ -377,7 +377,7 @@ static void P_ZMovement(mobj_t *mo)
     {
         mo->z += mo->momz;
 
-        if (mo->z <= floorz)                                // bounce off floors
+        if (mo->z <= floorz)                            // bounce off floors
         {
             mo->z = floorz;
 
@@ -385,10 +385,10 @@ static void P_ZMovement(mobj_t *mo)
             {
                 mo->momz = -mo->momz;
 
-                if (!(flags & MF_NOGRAVITY))                // bounce back with decay
+                if (!(flags & MF_NOGRAVITY))            // bounce back with decay
                 {
-                    mo->momz = ((flags & MF_FLOAT) ?        // floaters fall slowly
-                        ((flags & MF_DROPOFF) ?             // DROPOFF indicates rate
+                    mo->momz = ((flags & MF_FLOAT) ?    // floaters fall slowly
+                        ((flags & MF_DROPOFF) ?         // DROPOFF indicates rate
                         FixedMul(mo->momz, (fixed_t)(0.85 * FRACUNIT)) :
                         FixedMul(mo->momz, (fixed_t)(0.70 * FRACUNIT))) :
                         FixedMul(mo->momz, (fixed_t)(0.45 * FRACUNIT)));
@@ -415,11 +415,11 @@ static void P_ZMovement(mobj_t *mo)
             if (mo->momz > 0)
             {
                 if (mo->subsector->sector->ceilingpic != skyflatnum)
-                    mo->momz = -mo->momz;                   // always bounce off non-sky ceiling
+                    mo->momz = -mo->momz;               // always bounce off non-sky ceiling
                 else if (flags & MF_MISSILE)
-                    P_RemoveMobj(mo);                       // missiles don't bounce off skies
+                    P_RemoveMobj(mo);                   // missiles don't bounce off skies
                 else if (flags & MF_NOGRAVITY)
-                    mo->momz = -mo->momz;                   // bounce unless under gravity
+                    mo->momz = -mo->momz;               // bounce unless under gravity
 
                 if ((flags & MF_FLOAT) && sentient(mo))
                     goto floater;
@@ -429,7 +429,7 @@ static void P_ZMovement(mobj_t *mo)
         }
         else
         {
-            if (!(flags & MF_NOGRAVITY))                    // free-fall under gravity
+            if (!(flags & MF_NOGRAVITY))                // free-fall under gravity
                 mo->momz -= mo->info->mass * (GRAVITY / 256);
 
             if ((flags & MF_FLOAT) && sentient(mo))
@@ -445,7 +445,7 @@ static void P_ZMovement(mobj_t *mo)
         {
             if (ceilingline && ceilingline->backsector && ceilingline->backsector->ceilingpic == skyflatnum
                 && mo->z > ceilingline->backsector->ceilingheight)
-                P_RemoveMobj(mo);                           // don't explode on skies
+                P_RemoveMobj(mo);                       // don't explode on skies
             else
                 P_ExplodeMissile(mo);
         }
@@ -557,9 +557,9 @@ floater:
     {
         // still above the floor
         if (!mo->momz)
-            mo->momz = -GRAVITY;
-
-        mo->momz -= GRAVITY;
+            mo->momz = -GRAVITY * 2;
+        else
+            mo->momz -= GRAVITY;
     }
 
     if (mo->z + mo->height > mo->ceilingz)
@@ -756,7 +756,8 @@ void P_MobjThinker(mobj_t *mobj)
         }
     }
 
-    if ((sector->special & KILL_MONSTERS_MASK) && mobj->z == mobj->floorz && !player && (flags & MF_SHOOTABLE) && !(flags & MF_FLOAT))
+    if ((sector->special & KILL_MONSTERS_MASK) && mobj->z == mobj->floorz
+        && !player && (flags & MF_SHOOTABLE) && !(flags & MF_FLOAT))
     {
         P_DamageMobj(mobj, NULL, NULL, 10000, false, false);
 
@@ -764,8 +765,7 @@ void P_MobjThinker(mobj_t *mobj)
             return;
     }
 
-    // cycle through states,
-    //  calling action functions at transitions
+    // cycle through states, calling action functions at transitions
     if (mobj->tics != -1)
     {
         if (!--mobj->tics)
