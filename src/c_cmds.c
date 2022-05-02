@@ -9972,7 +9972,13 @@ static void vid_windowpos_cvar_func2(char *cmd, char *parms)
             M_SaveCVARs();
 
             if (!vid_fullscreen)
-                SDL_SetWindowPosition(window, windowx, windowy);
+            {
+                if (M_StringCompare(vid_windowpos, vid_windowpos_centered)
+                    || M_StringCompare(vid_windowpos, vid_windowpos_centred))
+                    SDL_SetWindowPosition(window, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED);
+                else
+                    SDL_SetWindowPosition(window, windowx, windowy);
+            }
         }
 
         free(parm);
