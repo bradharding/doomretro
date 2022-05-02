@@ -101,9 +101,10 @@
 #define MCMD_TITLEPATCH             32
 #define MCMD_ALLOWMONSTERTELEFRAGS  33
 #define MCMD_COMPAT_CORPSEGIBS      34
-#define MCMD_COMPAT_LIMITPAIN       35
-#define MCMD_NOGRADUALLIGHTING      36
-#define MCMD_COMPAT_LIGHT           37
+#define MCMD_COMPAT_VILEGHOSTS      35
+#define MCMD_COMPAT_LIMITPAIN       36
+#define MCMD_NOGRADUALLIGHTING      37
+#define MCMD_COMPAT_LIGHT           38
 
 typedef struct mapinfo_s mapinfo_t;
 
@@ -261,6 +262,7 @@ static char *mapcmdnames[] =
     "TITLEPATCH",
     "ALLOWMONSTERTELEFRAGS",
     "COMPAT_CORPSEGIBS",
+    "COMPAT_VILEGHOSTS",
     "COMPAT_LIMITPAIN",
     "NOGRADUALLIGHTING",
     "COMPAT_LIGHT",
@@ -302,6 +304,7 @@ static int mapcmdids[] =
     MCMD_TITLEPATCH,
     MCMD_ALLOWMONSTERTELEFRAGS,
     MCMD_COMPAT_CORPSEGIBS,
+    MCMD_COMPAT_VILEGHOSTS,
     MCMD_COMPAT_LIMITPAIN,
     MCMD_NOGRADUALLIGHTING,
     MCMD_COMPAT_LIGHT
@@ -3538,6 +3541,7 @@ static void P_ParseMapInfo(char *scriptname)
                             break;
 
                         case MCMD_COMPAT_CORPSEGIBS:
+                        case MCMD_COMPAT_VILEGHOSTS:
                             info->compat_corpsegibs = true;
                             break;
 
