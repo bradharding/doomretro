@@ -183,7 +183,8 @@ void STlib_UpdateBigHealthNum(st_number_t *n)
     // draw a minus sign if necessary
     if ((num = *n->num) < 0 && negativehealth && minuspatch)
     {
-        if ((num >= -199 && num <= -100) || (num >= -79 && num <= -70) || (num >= -19 && num <= -10) || num == -7 || num == -1)
+        if ((num >= -199 && num <= -100) || (num >= -79 && num <= -70)
+            || (num >= -19 && num <= -10) || num == -7 || num == -1)
             x += 2;
 
         V_DrawPatch(x - minuspatchwidth, n->y, 0, minuspatch);
@@ -236,14 +237,14 @@ void STlib_InitMultIcon(st_multicon_t *mi, int x, int y, patch_t **il, int *inum
     mi->y = y;
     mi->oldinum = -1;
     mi->inum = inum;
-    mi->p = il;
+    mi->patch = il;
 }
 
 void STlib_UpdateMultIcon(st_multicon_t *mi, boolean refresh)
 {
     if ((mi->oldinum != *mi->inum || refresh) && *mi->inum != -1)
     {
-        V_DrawPatch(mi->x, mi->y, 0, mi->p[*mi->inum]);
+        V_DrawPatch(mi->x, mi->y, 0, mi->patch[*mi->inum]);
         mi->oldinum = *mi->inum;
     }
 }
@@ -252,12 +253,13 @@ void STlib_UpdateArmsIcon(st_multicon_t *mi, boolean refresh, int i)
 {
     if ((mi->oldinum != *mi->inum || refresh) && *mi->inum != -1)
     {
-        statbarnumfunc(i + 2, (*mi->inum ? 160 : 93), 47, mi->x, mi->y, mi->p[*mi->inum]);
+        statbarnumfunc(i + 2, (*mi->inum ? 160 : 93), 47, mi->x, mi->y, mi->patch[*mi->inum]);
         mi->oldinum = *mi->inum;
     }
 }
 
 void STLib_Init(void)
 {
-    statbarnumfunc = (!usesmallnums ? &STlib_DrawLowNumPatch : (r_detail == r_detail_high ? &STlib_DrawHighNum : &STlib_DrawLowNum));
+    statbarnumfunc = (!usesmallnums ? &STlib_DrawLowNumPatch :
+        (r_detail == r_detail_high ? &STlib_DrawHighNum : &STlib_DrawLowNum));
 }

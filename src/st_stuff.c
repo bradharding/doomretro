@@ -1332,9 +1332,6 @@ static void ST_DoPaletteStuff(void)
 
 static void ST_DrawWidgets(boolean refresh)
 {
-    static int      keywait;
-    static boolean  showkey;
-
     STlib_UpdateBigAmmoNum(&w_ready);
 
     STlib_UpdateSmallNum(&w_ammo[0]);
@@ -1374,6 +1371,8 @@ static void ST_DrawWidgets(boolean refresh)
 
     if (viewplayer->neededcardflash)
     {
+        static int      keywait;
+        static boolean  showkey;
         const boolean   gamepaused = (consoleactive || freeze);
 
         if (!gamepaused)
@@ -1390,13 +1389,13 @@ static void ST_DrawWidgets(boolean refresh)
 
         if (flashkeys && (showkey || gamepaused))
         {
-            const int       neededcard = viewplayer->neededcard;
+            const int   neededcard = viewplayer->neededcard;
 
             if (neededcard != it_allkeys)
             {
                 st_multicon_t   *keybox = &w_keyboxes[(neededcard > it_redcard ? neededcard - 3 : neededcard)];
 
-                V_DrawPatch(keybox->x, keybox->y, 0, keybox->p[neededcard]);
+                V_DrawPatch(keybox->x, keybox->y, 0, keybox->patch[neededcard]);
             }
         }
     }

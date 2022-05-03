@@ -88,7 +88,7 @@ typedef struct
     int         *inum;
 
     // list of icons
-    patch_t     **p;
+    patch_t     **patch;
 } st_multicon_t;
 
 extern boolean  usesmallnums;
