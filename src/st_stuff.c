@@ -1374,7 +1374,6 @@ static void ST_DrawWidgets(boolean refresh)
     if (viewplayer->neededcardflash)
     {
         const boolean   gamepaused = (consoleactive || freeze);
-        st_multicon_t   keybox;
 
         if (!gamepaused)
         {
@@ -1390,13 +1389,10 @@ static void ST_DrawWidgets(boolean refresh)
 
         if (showkey || gamepaused)
         {
-            int neededcard = viewplayer->neededcard;
+            const int       neededcard = viewplayer->neededcard;
+            st_multicon_t   *keybox = &w_keyboxes[(neededcard > it_redcard ? neededcard - 3 : neededcard)];
 
-            if (neededcard > it_redcard)
-                neededcard -= 3;
-
-            keybox = w_keyboxes[neededcard];
-            V_DrawPatch(keybox.x, keybox.y, 0, keybox.p[neededcard]);
+            V_DrawPatch(keybox->x, keybox->y, 0, keybox->p[neededcard]);
         }
     }
 }
