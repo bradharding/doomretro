@@ -87,6 +87,7 @@ extern int      episode;
 extern int      expansion;
 extern int      facebackcolor;
 extern boolean  fade;
+extern boolean  flashkeys;
 extern boolean  groupmessages;
 extern boolean  infighting;
 extern boolean  infiniteheight;
@@ -470,6 +471,8 @@ enum
 #define facebackcolor_max                  255
 
 #define fade_default                       true
+
+#define flashkeys_default                  true
 
 #define groupmessages_default              true
 

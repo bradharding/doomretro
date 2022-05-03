@@ -37,6 +37,7 @@
 * Centered messages are now spaced better vertically.
 * The player’s face in the status bar and widescreen HUD now always looks forward while the console is open.
 * Displaying the player’s health as less than `0%` when they die can now be toggled using the new `negativehealth` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
+* When the player tries to open a locked door that they don’t have the keycard or skull key for, that key will now flash in the status bar as it already does in the widescreen HUD. This feature can now also be disabled using the new `flashkeys` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
 * A timer set using the `timer` CCMD can now be turned off by using `off` as a parameter.
 * Minor improvements have been made to how *MBF*-compatible helper dogs are displayed.
 * The following improvements have been made to the support of [*MBF21*](https://doomwiki.org/wiki/MBF21)-compatible WADs:
@@ -59,7 +60,6 @@
 * Savegame descriptions in the console and player messages are no longer truncated when loading or saving a game.
 * Further improvements have been made to the support of [*Freedoom: Phase 1*](https://freedoom.github.io/) and [*Freedoom: Phase 2*](https://freedoom.github.io/).
 * The window will now be positioned correctly when changing the `vid_windowpos` CVAR to `centered` in the console and the `vid_fullscreen` CVAR is `off`.
-* When the player tries to open a locked door that they don’t have the keycard or skull key for, that key will now flash in the status bar as it does in the widescreen HUD.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

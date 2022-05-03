@@ -35,6 +35,7 @@ centerweapon off
 crosshair none
 facebackcolor 5
 fade off
+flashkeys off
 freeze off
 groupmessages off
 infighting off

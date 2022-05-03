@@ -255,6 +255,7 @@ int                         idclevtics;
 boolean                     idmus;
 
 int                         facebackcolor = facebackcolor_default;
+boolean                     flashkeys = flashkeys_default;
 int                         r_berserkeffect = r_berserkeffect_default;
 boolean                     r_damageeffect = r_damageeffect_default;
 boolean                     r_pickupeffect = r_pickupeffect_default;
@@ -1387,7 +1388,7 @@ static void ST_DrawWidgets(boolean refresh)
             }
         }
 
-        if (showkey || gamepaused)
+        if (flashkeys && (showkey || gamepaused))
         {
             const int       neededcard = viewplayer->neededcard;
             st_multicon_t   *keybox = &w_keyboxes[(neededcard > it_redcard ? neededcard - 3 : neededcard)];

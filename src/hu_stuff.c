@@ -635,7 +635,7 @@ static void HU_DrawHUD(void)
                 viewplayer->neededcardflash--;
             }
 
-            if (showkey || gamepaused)
+            if (flashkeys && (showkey || gamepaused))
                 for (int i = 0; i < NUMCARDS; i++)
                     if ((patch = keypics[i].patch) && viewplayer->cards[i] != i)
                     {
@@ -653,7 +653,7 @@ static void HU_DrawHUD(void)
                 viewplayer->neededcardflash--;
             }
 
-            if (showkey || gamepaused)
+            if (flashkeys && (showkey || gamepaused))
                 hudfunc(keypic_x - SHORT(patch->width), HUD_KEYS_Y - (SHORT(patch->height) - 16), patch, tinttab75);
         }
     }
@@ -1009,7 +1009,7 @@ static void HU_DrawAltHUD(void)
                 }
             }
 
-            if (showkey || gamepaused)
+            if (flashkeys && (showkey || gamepaused))
                 for (int i = 0; i < NUMCARDS; i++)
                     if (viewplayer->cards[i] != i)
                     {
@@ -1034,7 +1034,7 @@ static void HU_DrawAltHUD(void)
                 }
             }
 
-            if (showkey || gamepaused)
+            if (flashkeys && (showkey || gamepaused))
             {
                 altkeypic_t altkeypic = altkeypics[neededcard];
 

@@ -639,6 +639,8 @@ consolecmd_t consolecmds[] =
         "Toggles a fading effect when transitioning between some screens."),
     CCMD("fastmonsters", "", fastmonsters_cmd_func1, fastmonsters_cmd_func2, true, "[" BOLD("on") "|" BOLD("off") "]",
         "Toggles fast monsters."),
+    CVAR_BOOL(flashkeys, "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
+        "Toggles flashing the required keycard or skull key when the player tries to open a locked door."),
     CCMD("freeze", "", game_func1, freeze_cmd_func2, true, "[" BOLD("on") "|" BOLD("off") "]",
         "Toggles freeze mode."),
     CVAR_TIME(gametime, "", null_func1, time_cvars_func2,

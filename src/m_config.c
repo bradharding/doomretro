@@ -110,6 +110,7 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT          (expansion,                        expansion,                             expansion,                             NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT          (facebackcolor,                    facebackcolour,                        facebackcolor,                         NOVALUEALIAS          ),
     CONFIG_VARIABLE_BOOL         (fade,                             fade,                                  fade,                                  BOOLVALUEALIAS        ),
+    CONFIG_VARIABLE_BOOL         (flashkeys,                        flashkeys,                             flashkeys,                             BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_BOOL         (groupmessages,                    groupmessages,                         groupmessages,                         BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_BOOL         (infighting,                       infighting,                            infighting,                            BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_BOOL         (infiniteheight,                   infiniteheight,                        infiniteheight,                        BOOLVALUEALIAS        ),
@@ -732,6 +733,9 @@ static void M_CheckCVARs(boolean ispackageconfig)
 
     if (fade != false && fade != true)
         fade = fade_default;
+
+    if (flashkeys != false && flashkeys != true)
+        flashkeys = flashkeys_default;
 
     if (groupmessages != false && groupmessages != true)
         groupmessages = groupmessages_default;
