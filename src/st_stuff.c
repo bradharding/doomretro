@@ -48,6 +48,7 @@
 #include "hu_stuff.h"
 #include "i_colors.h"
 #include "i_swap.h"
+#include "i_timer.h"
 #include "m_cheat.h"
 #include "m_config.h"
 #include "m_menu.h"
@@ -1330,6 +1331,9 @@ static void ST_DoPaletteStuff(void)
 
 static void ST_DrawWidgets(boolean refresh)
 {
+    static int      keywait;
+    static boolean  showkey;
+
     STlib_UpdateBigAmmoNum(&w_ready);
 
     STlib_UpdateSmallNum(&w_ammo[0]);
@@ -1366,6 +1370,35 @@ static void ST_DrawWidgets(boolean refresh)
     STlib_UpdateMultIcon(&w_keyboxes[0], refresh);
     STlib_UpdateMultIcon(&w_keyboxes[1], refresh);
     STlib_UpdateMultIcon(&w_keyboxes[2], refresh);
+
+    if (viewplayer->neededcardflash)
+    {
+        const boolean   gamepaused = (consoleactive || freeze);
+        st_multicon_t   keybox;
+
+        if (!gamepaused)
+        {
+            int currenttime = I_GetTimeMS();
+
+            if (keywait < currenttime)
+            {
+                showkey = !showkey;
+                keywait = currenttime + HUD_KEY_WAIT;
+                viewplayer->neededcardflash--;
+            }
+        }
+
+        if (showkey || gamepaused)
+        {
+            int neededcard = viewplayer->neededcard;
+
+            if (neededcard > it_redcard)
+                neededcard -= 3;
+
+            keybox = w_keyboxes[neededcard];
+            V_DrawPatch(keybox.x, keybox.y, 0, keybox.p[neededcard]);
+        }
+    }
 }
 
 static void ST_DoRefresh(void)

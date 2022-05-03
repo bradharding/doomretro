@@ -1036,7 +1036,7 @@ static void HU_DrawAltHUD(void)
 
             if (showkey || gamepaused)
             {
-                altkeypic_t altkeypic = altkeypics[viewplayer->neededcard];
+                altkeypic_t altkeypic = altkeypics[neededcard];
 
                 althudfunc(keypic_x, ALTHUD_Y, altkeypic.patch, WHITE, altkeypic.color);
             }
