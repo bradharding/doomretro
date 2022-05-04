@@ -427,7 +427,7 @@ static byte *R_DistortedFlat(int flatnum)
 void R_DrawPlanes(void)
 {
     if (r_liquid_swirl)
-        updateswirl = (!consoleactive && !inhelpscreens && !paused && !freeze);
+        updateswirl = !(consoleactive || inhelpscreens || paused || freeze);
 
     dc_colormap[0] = (viewplayer->fixedcolormap == INVERSECOLORMAP && r_textures ? fixedcolormap : fullcolormap);
 

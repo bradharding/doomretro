@@ -1433,8 +1433,8 @@ void ST_Drawer(boolean fullscreen, boolean refresh)
     // If just after ST_Start(), refresh all
     if (st_firsttime)
         ST_DoRefresh();
-    // Otherwise, update as little as possible
     else
+        // Otherwise, update as little as possible
         ST_DiffDraw();
 }
 

@@ -1599,8 +1599,7 @@ void R_FillBezel(void)
 
 //
 // R_FillBackScreen
-// Fills the back screen with a pattern
-//  for variable screen sizes
+// Fills the back screen with a pattern for variable screen sizes.
 // Also draws a beveled edge.
 //
 void R_FillBackScreen(void)
