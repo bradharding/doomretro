@@ -999,7 +999,7 @@ static void HU_DrawAltHUD(void)
         {
             if (!gamepaused)
             {
-                int currenttime = I_GetTimeMS();
+                const int   currenttime = I_GetTimeMS();
 
                 if (keywait < currenttime)
                 {
@@ -1024,7 +1024,7 @@ static void HU_DrawAltHUD(void)
         {
             if (!gamepaused)
             {
-                int currenttime = I_GetTimeMS();
+                const int   currenttime = I_GetTimeMS();
 
                 if (keywait < currenttime)
                 {

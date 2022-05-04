@@ -1115,7 +1115,7 @@ static void P_SpawnPlayer(const mapthing_t *mthing)
 //
 void P_SpawnMoreBlood(mobj_t *mobj)
 {
-    int blood = mobjinfo[mobj->blood].blood;
+    const int   blood = mobjinfo[mobj->blood].blood;
 
     if (blood)
     {
@@ -1209,7 +1209,8 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, boolean spawnmonsters)
         // [BH] make unknown thing type non-fatal and show console warning instead
         char    *temp = commify(thingid);
 
-        C_Warning(2, "Thing %s at (%i,%i) wasn't spawned because its type is unknown.", temp, mthing->x, mthing->y);
+        C_Warning(2, "Thing %s at (%i,%i) wasn't spawned because its type is unknown.",
+            temp, mthing->x, mthing->y);
         free(temp);
 
         return NULL;
@@ -1219,12 +1220,14 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, boolean spawnmonsters)
     if (!(options & (MTF_EASY | MTF_NORMAL | MTF_HARD)) && (!canmodify || !r_fixmaperrors))
     {
         if (*mobjinfo[i].name1)
-            C_Warning(2, "The %s at (%i,%i) wasn't spawned because it has no skill flags.", mobjinfo[i].name1, mthing->x, mthing->y);
+            C_Warning(2, "The %s at (%i,%i) wasn't spawned because it has no skill flags.",
+                mobjinfo[i].name1, mthing->x, mthing->y);
         else
         {
             char    *temp = commify(thingid);
 
-            C_Warning(2, "Thing %s at (%i,%i) wasn't spawned because it has no skill flags.", temp, mthing->x, mthing->y);
+            C_Warning(2, "Thing %s at (%i,%i) wasn't spawned because it has no skill flags.",
+                temp, mthing->x, mthing->y);
             free(temp);
         }
 

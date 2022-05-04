@@ -1371,13 +1371,13 @@ static void ST_DrawWidgets(boolean refresh)
 
     if (viewplayer->neededcardflash)
     {
-        static int      keywait;
         static boolean  showkey;
         const boolean   gamepaused = (consoleactive || freeze);
 
         if (!gamepaused)
         {
-            int currenttime = I_GetTimeMS();
+            static int  keywait;
+            const int   currenttime = I_GetTimeMS();
 
             if (keywait < currenttime)
             {
