@@ -2441,7 +2441,7 @@ boolean EV_DoDonut(line_t *line)
             floor->speed = FLOORSPEED / 2;
             floor->texture = s3->floorpic;
             floor->floordestheight = s3->floorheight;
-            floor->stopsound = (floor->sector->floorheight != floor->floordestheight);
+            floor->stopsound = (s2->floorheight != floor->floordestheight);
 
             // Spawn lowering donut-hole
             floor = Z_Calloc(1, sizeof(*floor), PU_LEVSPEC, NULL);
@@ -2455,7 +2455,7 @@ boolean EV_DoDonut(line_t *line)
             floor->sector = s1;
             floor->speed = FLOORSPEED / 2;
             floor->floordestheight = s3->floorheight;
-            floor->stopsound = (floor->sector->floorheight != floor->floordestheight);
+            floor->stopsound = (s1->floorheight != floor->floordestheight);
 
             break;
         }
@@ -2794,8 +2794,8 @@ static void Add_WallScroller(int64_t dx, int64_t dy, const line_t *l, int contro
 
     d = FixedDiv(x, finesine[(tantoangle[FixedDiv(y, x) >> DBITS] + ANG90) >> ANGLETOFINESHIFT]);
 
-    x = (fixed_t)(((int64_t)dy * -(int64_t)l->dy - (int64_t)dx * (int64_t)l->dx) / (int64_t)d); // killough 10/98:
-    y = (fixed_t)(((int64_t)dy * (int64_t)l->dx - (int64_t)dx * (int64_t)l->dy) / (int64_t)d);  // Use int64_t arithmetic
+    x = (fixed_t)((dy * -(int64_t)l->dy - dx * (int64_t)l->dx) / d);    // killough 10/98:
+    y = (fixed_t)((dy * (int64_t)l->dx - dx * (int64_t)l->dy) / d);     // Use int64_t arithmetic
     Add_Scroller(sc_side, x, y, control, *l->sidenum, accel);
 }
 

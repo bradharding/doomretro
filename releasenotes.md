@@ -21,7 +21,7 @@
   * The cheat is now skipped in the console’s input history when pressing the <kbd><b>&uarr;</b></kbd> or <kbd><b>&darr;</b></kbd> keys.
   * A warning is now displayed in the console indicating that the player has cheated.
   * Fade effects are no longer applied when entering most cheats and the `fade` CVAR is `on`.
-  * More time has been given to the player to enter the `IDBEHOLD` cheat.
+  * More time has been given to the player to enter the `IDBEHOLDx` cheat.
 * The pausing and then resuming of any liquid sectors in view when opening and then closing the console is now smoother.
 * Improvements have been made in determining whether something is in liquid or not.
 * The branding in the console is now positioned correctly again when the `vid_widescreen` CVAR is `on`.

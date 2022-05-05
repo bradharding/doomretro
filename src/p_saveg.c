@@ -1590,7 +1590,6 @@ void P_UnArchiveSpecials(void)
                 saveg_read_elevator_t(elevator);
                 elevator->sector->ceilingdata = elevator;
                 elevator->thinker.function = &T_MoveElevator;
-                elevator->thinker.menu = false;
                 P_AddThinker(&elevator->thinker);
 
                 break;
@@ -1614,7 +1613,6 @@ void P_UnArchiveSpecials(void)
 
                 saveg_read_pusher_t(pusher);
                 pusher->thinker.function = &T_Pusher;
-                pusher->thinker.menu = false;
                 pusher->source = P_GetPushThing(pusher->affectee);
                 P_AddThinker(&pusher->thinker);
 
