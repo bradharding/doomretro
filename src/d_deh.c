@@ -2571,6 +2571,11 @@ static void deh_procThing(DEHFILE *fpin, char *line)
                             if (devparm)
                                 C_Output("ORed value 0x%08x %s.", deh_mobjflags[iy].value, strval);
 
+                            if (M_StringCompare(key, "TRANSLUCENT"))
+                                boomcompatible = true;
+                            else if (M_StringCompare(key, "TOUCHY") || M_StringCompare(key, "BOUNCES") || M_StringCompare(key, "FRIEND"))
+                                mbfcompatible = true;
+
                             value |= deh_mobjflags[iy].value;
                             break;
                         }
@@ -2617,11 +2622,6 @@ static void deh_procThing(DEHFILE *fpin, char *line)
 
                             if (devparm)
                                 C_Output("ORed value 0x%08x %s.", deh_mobjflags2[iy].value, strval);
-
-                            if (M_StringCompare(key, "TRANSLUCENT"))
-                                boomcompatible = true;
-                            else if (M_StringCompare(key, "TOUCHY") || M_StringCompare(key, "BOUNCES") || M_StringCompare(key, "FRIEND"))
-                                mbfcompatible = true;
 
                             value |= deh_mobjflags2[iy].value;
                             break;
