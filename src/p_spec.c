@@ -2709,7 +2709,6 @@ void T_Scroll(scroll_t *scroller)
             break;
 
         case sc_carry:
-            if (!menuactive)
             {
                 fixed_t height;
                 fixed_t waterheight;    // killough 04/04/98: add waterheight
@@ -2771,6 +2770,7 @@ static void Add_Scroller(int type, fixed_t dx, fixed_t dy, int control, int affe
 
     scroller->affectee = affectee;
     scroller->thinker.function = &T_Scroll;
+    scroller->thinker.menu = (type != sc_carry);
     P_AddThinker(&scroller->thinker);
 }
 
@@ -3077,6 +3077,7 @@ static void Add_Pusher(int type, int x_mag, int y_mag, mobj_t *source, int affec
 
     pusher->affectee = affectee;
     pusher->thinker.function = &T_Pusher;
+    pusher->thinker.menu = false;
     P_AddThinker(&pusher->thinker);
 }
 
