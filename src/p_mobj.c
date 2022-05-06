@@ -1282,8 +1282,13 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, boolean spawnmonsters)
     mobj->angle = ((mthing->angle % 45) ? mthing->angle * (ANG45 / 45) : ANG45 * (mthing->angle / 45));
 
     // [BH] randomly mirror corpses
-    if ((flags & MF_CORPSE) && (M_BigRandom() & 1) && r_corpses_mirrored)
-        mobj->flags2 |= MF2_MIRRORED;
+    if (flags & MF_CORPSE)
+    {
+        mobj->geartime = 15;
+
+        if ((M_BigRandom() & 1) && r_corpses_mirrored)
+            mobj->flags2 |= MF2_MIRRORED;
+    }
 
     // [BH] randomly mirror weapons
     if ((type == SuperShotgun || (type >= Shotgun && type <= BFG9000)) && (M_BigRandom() & 1) && r_mirroredweapons)
