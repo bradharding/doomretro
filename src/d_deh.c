@@ -1613,7 +1613,7 @@ static const char *deh_mobjinfo[DEH_MOBJINFOMAX] =
     "Shadow offset",            // .shadowoffset
 
     // MBF21
-    "MBF21 Bits",               // .mbf21flags
+    "MBF21 bits",               // .mbf21flags
     "Infighting group",         // .infightinggroup
     "Projectile group",         // .projectilegroup
     "Splash group",             // .splashgroup
@@ -1781,7 +1781,7 @@ static const char *deh_state[] =
     "Args6",            // .args[5]
     "Args7",            // .args[6]
     "Args8",            // .args[7]
-    "MBF21 Bits"        // .flags
+    "MBF21 bits"        // .flags
 };
 
 static const struct deh_flag_s deh_stateflags_mbf21[] =
@@ -1825,16 +1825,16 @@ static const char *deh_ammo[] =
 // Basically a list of frames and what kind of ammo (see above) it uses.
 static const char *deh_weapon[] =
 {
-    "Ammo Type",        // .ammo
-    "Deselect Frame",   // .upstate
-    "Select Frame",     // .downstate
-    "Bobbing Frame",    // .readystate
-    "Shooting Frame",   // .atkstate
-    "Firing Frame",     // .flashstate
+    "Ammo type",        // .ammo
+    "Deselect frame",   // .upstate
+    "Select frame",     // .downstate
+    "Bobbing frame",    // .readystate
+    "Shooting frame",   // .atkstate
+    "Firing frame",     // .flashstate
 
     // MBF21
     "Ammo per shot",    // .minammo
-    "MBF21 Bits"        // .flags
+    "MBF21 bits"        // .flags
 };
 
 // CHEATS - Dehacked block name = "Cheat"
@@ -1843,22 +1843,22 @@ static const char *deh_weapon[] =
 // These are just plain funky terms compared with id's
 static const char *deh_cheat[] =
 {
-    "Change Music",     // idmus
+    "Change music",     // idmus
     "Chainsaw",         // idchoppers
-    "God Mode",         // iddqd
-    "Ammo & Keys",      // idkfa
+    "God mode",         // iddqd
+    "Ammo & keys",      // idkfa
     "Ammo",             // idfa
-    "No Clipping 1",    // idspispopd
-    "No Clipping 2",    // idclip
+    "No clipping 1",    // idspispopd
+    "No clipping 2",    // idclip
     "Invincibility",    // idbeholdv
     "Berserk",          // idbeholds
     "Invisibility",     // idbeholdi
-    "Radiation Suit",   // idbeholdr
+    "Radiation suit",   // idbeholdr
     "Auto-map",         // idbeholda
-    "Lite-Amp Goggles", // idbeholdl
-    "BEHOLD Menu",      // idbehold
-    "Level Warp",       // idclev
-    "Player Position"   // idmypos
+    "Lite-amp goggles", // idbeholdl
+    "BEHOLD menu",      // idbehold
+    "Level warp",       // idclev
+    "Player position"   // idmypos
 };
 
 // MISC - Dehacked block name = "Misc"
@@ -1866,22 +1866,22 @@ static const char *deh_cheat[] =
 // Always uses a zero in the dehacked file, for consistency. No meaning.
 static const char *deh_misc[] =
 {
-    "Initial Health",           // initial_health
-    "Initial Bullets",          // initial_bullets
-    "Max Health",               // maxhealth
-    "Max Armor",                // max_armor
-    "Green Armor Class",        // green_armor_class
-    "Blue Armor Class",         // blue_armor_class
-    "Max Soulsphere",           // max_soul
-    "Soulsphere Health",        // soul_health
-    "Megasphere Health",        // mega_health
-    "God Mode Health",          // god_health
-    "IDFA Armor",               // idfa_armor
-    "IDFA Armor Class",         // idfa_armor_class
-    "IDKFA Armor",              // idkfa_armor
-    "IDKFA Armor Class",        // idkfa_armor_class
-    "BFG Cells/Shot",           // BFGCELLS
-    "Monsters Infight"          // species_infighting
+    "Initial health",           // initial_health
+    "Initial bullets",          // initial_bullets
+    "Max health",               // maxhealth
+    "Max armor",                // max_armor
+    "Green armor class",        // green_armor_class
+    "Blue armor class",         // blue_armor_class
+    "Max soulsphere",           // max_soul
+    "Soulsphere health",        // soul_health
+    "Megasphere health",        // mega_health
+    "God mode health",          // god_health
+    "IDFA armor",               // idfa_armor
+    "IDFA armor class",         // idfa_armor_class
+    "IDKFA armor",              // idkfa_armor
+    "IDKFA armor class",        // idkfa_armor_class
+    "BFG cells/shot",           // BFGCELLS
+    "Monsters infight"          // species_infighting
 };
 
 // TEXT - Dehacked block name = "Text"
@@ -2868,7 +2868,7 @@ static void deh_procFrame(DEHFILE *fpin, char *line)
         }
 
         // MBF21: process state flags
-        else if (!strcasecmp(key, deh_state[15]))               // MBF21 Bits
+        else if (!strcasecmp(key, deh_state[15]))               // MBF21 bits
         {
             if (!value)
                 for (value = 0; (strval = strtok(strval, ",+| \t\f\r")); strval = NULL)
@@ -3175,7 +3175,7 @@ static void deh_procWeapon(DEHFILE *fpin, char *line)
             weaponinfo[indexnum].ammopershot = value;
             mbf21compatible = true;
         }
-        else if (M_StringCompare(key, deh_weapon[7]))       // MBF21 Bits
+        else if (M_StringCompare(key, deh_weapon[7]))       // MBF21 bits
         {
             if (bGetData == 1)
                 weaponinfo[indexnum].flags = value;

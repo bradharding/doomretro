@@ -1703,6 +1703,38 @@ mobj_t *P_SpawnPlayerMissile(mobj_t *source, mobjtype_t type)
 }
 
 //
+// MBF21: P_FaceMobj
+// Returns true if 'source' needs to turn clockwise, or false if 'source' needs
+// to turn counter clockwise. 'delta' is set to the amount 'source' needs to turn.
+//
+static boolean P_FaceMobj(mobj_t *source, mobj_t *target, angle_t *delta)
+{
+    angle_t         diff;
+    const angle_t   angle1 = source->angle;
+    const angle_t   angle2 = R_PointToAngle2(source->x, source->y, target->x, target->y);
+
+    if (angle2 > angle1)
+    {
+        if ((diff = angle2 - angle1) > ANG180)
+        {
+            *delta = ANGLE_MAX - diff;
+            return false;
+        }
+
+        *delta = diff;
+        return true;
+    }
+    else if ((diff = angle1 - angle2) > ANG180)
+    {
+        *delta = ANGLE_MAX - diff;
+        return true;
+    }
+
+    *delta = diff;
+    return false;
+}
+
+//
 // MBF21: P_SeekerMissile
 //
 boolean P_SeekerMissile(mobj_t *actor, mobj_t **seekTarget, angle_t thresh, angle_t turnmax, boolean seekcenter)
@@ -1749,36 +1781,4 @@ boolean P_SeekerMissile(mobj_t *actor, mobj_t **seekTarget, angle_t thresh, angl
             / MAX(1, P_ApproxDistance(target->x - actor->x, target->y - actor->y) / actor->info->speed);
 
     return true;
-}
-
-//
-// MBF21: P_FaceMobj
-// Returns true if 'source' needs to turn clockwise, or false if 'source' needs
-// to turn counter clockwise. 'delta' is set to the amount 'source' needs to turn.
-//
-boolean P_FaceMobj(mobj_t *source, mobj_t *target, angle_t *delta)
-{
-    angle_t         diff;
-    const angle_t   angle1 = source->angle;
-    const angle_t   angle2 = R_PointToAngle2(source->x, source->y, target->x, target->y);
-
-    if (angle2 > angle1)
-    {
-        if ((diff = angle2 - angle1) > ANG180)
-        {
-            *delta = ANGLE_MAX - diff;
-            return false;
-        }
-
-        *delta = diff;
-        return true;
-    }
-    else if ((diff = angle1 - angle2) > ANG180)
-    {
-        *delta = ANGLE_MAX - diff;
-        return true;
-    }
-
-    *delta = diff;
-    return false;
 }
