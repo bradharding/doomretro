@@ -17,6 +17,7 @@
 * When a pain elemental spawns a lost soul, the number of monsters the player has left to kill now increases as intended.
 * The `am_followmode` CVAR no longer changes when enabling vanilla mode using the `vanilla` CCMD.
 * Changing the `r_fov` CVAR from its default of `90`° is now effective again when the `vid_widescreen` CVAR is `off`.
+* The effects of changing the `r_corpses_mirrored` and `r_mirroredweapons` CVARs in the console are now immediate.
 * The following changes have been made when the player enters a cheat:
   * The display of the cheat in the console is now redacted.
   * The cheat is now skipped in the console’s input history when pressing the <kbd><b>&uarr;</b></kbd> or <kbd><b>&darr;</b></kbd> keys.
