@@ -1150,8 +1150,7 @@ void P_SpawnMoreBlood(mobj_t *mobj)
 
 //
 // P_SpawnMapThing
-// The fields of the mapthing should
-//  already be in host byte order.
+// The fields of the mapthing should already be in host byte order.
 //
 int prevthingx, prevthingy;
 int prevthingbob;
@@ -1164,6 +1163,7 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, boolean spawnmonsters)
     short       type = mthing->type;
     short       options = mthing->options;
     int         flags;
+    int         flags2;
     int         musicid = 0;
     mobjinfo_t  *info;
 
@@ -1257,18 +1257,19 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, boolean spawnmonsters)
     mobj->spawnpoint = *mthing;
     mobj->musicid = musicid;
 
+    flags = mobj->flags;
+    flags2 = mobj->flags2;
+
     numspawnedthings++;
 
     if (mthing->options & MTF_AMBUSH)
         mobj->flags |= MF_AMBUSH;
 
-    if (!(mobj->flags & MF_FRIEND) && (options & MTF_FRIEND))
+    if (!(flags & MF_FRIEND) && (options & MTF_FRIEND))
     {
         mobj->flags |= MF_FRIEND;   // killough 10/98
         mbfcompatible = true;
     }
-
-    flags = mobj->flags;
 
     if (flags & MF_COUNTITEM)
         totalitems++;
@@ -1303,7 +1304,7 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, boolean spawnmonsters)
         && r_bloodsplats_max
         && !(flags & (MF_SHOOTABLE | MF_NOBLOOD | MF_SPECIAL))
         && mobj->blood
-        && (!hacx || !(mobj->flags2 & MF2_DECORATION))
+        && (!hacx || !(flags2 & MF2_DECORATION))
         && (moreblood || lumpinfo[firstspritelump + sprites[mobj->sprite].spriteframes[0].lump[0]]->wadfile->type != PWAD)
         && mobj->subsector->sector->terraintype == SOLID)
         P_SpawnMoreBlood(mobj);
@@ -1312,7 +1313,7 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, boolean spawnmonsters)
     if (info->spawnstate == S_PLAY_DIE7 || info->spawnstate == S_PLAY_XDIE9)
         mobj->flags |= (M_BigRandomInt(0, 3) << MF_TRANSLATIONSHIFT);
 
-    if ((mobj->flags2 & MF2_DECORATION) && type != Barrel)
+    if ((flags2 & MF2_DECORATION) && type != Barrel)
         numdecorations++;
 
     // [BH] initialize certain mobj's animations to a random start frame
@@ -1332,9 +1333,19 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, boolean spawnmonsters)
     mobj->pitch = ((flags & MF_SHOOTABLE) && type != Barrel ? NORM_PITCH + M_BigRandomInt(-16, 16) : NORM_PITCH);
 
     // [BH] initialize bobbing things
-    mobj->floatbob = prevthingbob = (x == prevthingx && y == prevthingy ? prevthingbob : (M_BigRandom() & 63));
-    prevthingx = x;
-    prevthingy = y;
+    if (!(flags2 & MF2_NOLIQUIDBOB))
+    {
+        if (x == prevthingx && y == prevthingy)
+            mobj->floatbob = prevthingbob;
+        else
+        {
+            mobj->floatbob = (M_BigRandom() & 63);
+
+            prevthingbob = mobj->floatbob;
+            prevthingx = x;
+            prevthingy = y;
+        }
+    }
 
     return mobj;
 }
@@ -1678,8 +1689,8 @@ mobj_t *P_SpawnPlayerMissile(mobj_t *source, mobjtype_t type)
 
     P_NoiseAlert(source);
 
-    if (type == MT_ROCKET && r_rockettrails && !(th->flags & MF_BOUNCES) && viewplayer->readyweapon == wp_missile
-        && !chex && !hacx)
+    if (type == MT_ROCKET && r_rockettrails && !(th->flags & MF_BOUNCES)
+        && viewplayer->readyweapon == wp_missile && !chex && !hacx)
     {
         th->flags2 |= MF2_SMOKETRAIL;
         th->pursuecount = 0;
