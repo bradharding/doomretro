@@ -12,6 +12,7 @@
   * The display used to show the external automap can now be specified using the new `am_display` CVAR, which is `2` by default.
   * Zooming in and out of the external automap is now only possible if the `+zoomin` and `+zoomout` actions are rebound from the <kbd><b>+</b></kbd> and <kbd><b>&ndash;</b></kbd> keys.
 * The player’s stats shown in the automap when the `am_playerstats` CVAR is `on` are now positioned correctly if there are no monsters in the map.
+* Text displayed in the top right of the screen while the automap is open is now slightly more translucent.
 * The colors of keycards and skull keys in the automap, visible only when using the `IDDT` cheat, can now be changed using the new `am_redkeycolor`, `am_yellowkeycolor` and `am_bluekeycolor` CVARs. These CVARs are `112` by default (the same as the `am_thingcolor` CVAR) and when vanilla mode is enabled.
 * When a pain elemental spawns a lost soul, the number of monsters the player has left to kill now increases as intended.
 * The `am_followmode` CVAR no longer changes when enabling vanilla mode using the `vanilla` CCMD.

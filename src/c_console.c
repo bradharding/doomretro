@@ -1104,7 +1104,7 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
 static void C_DrawOverlayText(byte *screen, int screenwidth, int x, int y, const char *text, const int color, const boolean monospaced)
 {
     const int       len = (int)strlen(text);
-    byte            *tinttab = (r_hud_translucency ? (automapactive ? tinttab75 : tinttab50) : NULL);
+    byte            *tinttab = (r_hud_translucency ? (automapactive ? tinttab70 : tinttab50) : NULL);
     unsigned char   prevletter = '\0';
 
     for (int i = 0; i < len; i++)
