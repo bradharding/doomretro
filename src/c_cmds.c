@@ -432,6 +432,7 @@ static void r_blood_cvar_func2(char *cmd, char *parms);
 static void r_bloodsplats_translucency_cvar_func2(char *cmd, char *parms);
 static void r_brightmaps_cvar_func2(char *cmd, char *parms);
 static void r_color_cvar_func2(char *cmd, char *parms);
+static void r_corpses_mirrored_cvar_func2(char *cmd, char *parms);
 static boolean r_detail_cvar_func1(char *cmd, char *parms);
 static void r_detail_cvar_func2(char *cmd, char *parms);
 static void r_ditheredlighting_cvar_func2(char *cmd, char *parms);
@@ -442,6 +443,7 @@ static void r_gamma_cvar_func2(char *cmd, char *parms);
 static void r_hud_cvar_func2(char *cmd, char *parms);
 static void r_hud_translucency_cvar_func2(char *cmd, char *parms);
 static void r_lowpixelsize_cvar_func2(char *cmd, char *parms);
+static void r_mirroredweapons_cvar_func2(char *cmd, char *parms);
 static void r_screensize_cvar_func2(char *cmd, char *parms);
 static void r_shadows_translucency_cvar_func2(char *cmd, char *parms);
 static boolean r_skycolor_cvar_func1(char *cmd, char *parms);
@@ -780,7 +782,7 @@ consolecmd_t consolecmds[] =
         "Toggles randomly colored marine corpses."),
     CVAR_BOOL(r_corpses_gib, "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles some corpses gibbing in reaction to nearby barrel and rocket explosions."),
-    CVAR_BOOL(r_corpses_mirrored, "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
+    CVAR_BOOL(r_corpses_mirrored, "", bool_cvars_func1, r_corpses_mirrored_cvar_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles randomly mirrored corpses."),
     CVAR_BOOL(r_corpses_moreblood, "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles blood splats spawned around corpses when a map is loaded."),
@@ -828,7 +830,7 @@ consolecmd_t consolecmds[] =
         "Toggles the swirl of liquid sectors."),
     CVAR_OTHER(r_lowpixelsize, "", null_func1, r_lowpixelsize_cvar_func2,
         "The size of each pixel when the graphic detail is low (" BOLDITALICS("width") BOLD("\xD7") BOLDITALICS("height") ")."),
-    CVAR_BOOL(r_mirroredweapons, "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
+    CVAR_BOOL(r_mirroredweapons, "", bool_cvars_func1, r_mirroredweapons_cvar_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles randomly mirroring the weapons dropped by monsters."),
     CVAR_BOOL(r_pickupeffect, "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles the gold effect when the player picks something up."),
@@ -8874,6 +8876,65 @@ static void r_color_cvar_func2(char *cmd, char *parms)
 }
 
 //
+// r_corpses_mirrored CVAR
+//
+static void r_corpses_mirrored_cvar_func2(char *cmd, char *parms)
+{
+    if (*parms)
+    {
+        const int   value = C_LookupValueFromAlias(parms, BOOLVALUEALIAS);
+
+        if ((value == 0 || value == 1) && value != r_corpses_mirrored)
+        {
+            r_corpses_mirrored = value;
+            M_SaveCVARs();
+
+            for (int i = 0; i < numsectors; i++)
+            {
+                mobj_t  *mo = sectors[i].thinglist;
+
+                while (mo)
+                {
+                    if (mo->flags & MF_CORPSE)
+                    {
+                        if (r_corpses_mirrored)
+                        {
+                            if (M_BigRandom() & 1)
+                                mo->flags |= MF2_MIRRORED;
+                        }
+                        else
+                            mo->flags2 &= ~MF2_MIRRORED;
+                    }
+
+                    mo = mo->snext;
+                }
+            }
+        }
+    }
+    else
+    {
+        char        *temp1 = C_LookupAliasFromValue(r_corpses_mirrored, BOOLVALUEALIAS);
+        const int   i = C_GetIndex(cmd);
+
+        C_ShowDescription(i);
+
+        if (r_corpses_mirrored == r_corpses_mirrored_default)
+            C_Output(INTEGERCVARISDEFAULT, temp1);
+        else
+        {
+            char    *temp2 = C_LookupAliasFromValue(r_corpses_mirrored_default, BOOLVALUEALIAS);
+
+            C_Output(INTEGERCVARWITHDEFAULT, temp1, temp2);
+            free(temp2);
+        }
+
+        free(temp1);
+
+        C_ShowWarning(i);
+    }
+}
+
+//
 // r_detail CVAR
 //
 static boolean r_detail_cvar_func1(char *cmd, char *parms)
@@ -9158,6 +9219,67 @@ static void r_lowpixelsize_cvar_func2(char *cmd, char *parms)
             C_Output(INTEGERCVARISDEFAULT, r_lowpixelsize);
         else
             C_Output(INTEGERCVARWITHDEFAULT, r_lowpixelsize, r_lowpixelsize_default);
+
+        C_ShowWarning(i);
+    }
+}
+
+//
+// r_mirroredweapons CVAR
+//
+static void r_mirroredweapons_cvar_func2(char *cmd, char *parms)
+{
+    if (*parms)
+    {
+        const int   value = C_LookupValueFromAlias(parms, BOOLVALUEALIAS);
+
+        if ((value == 0 || value == 1) && value != r_mirroredweapons)
+        {
+            r_mirroredweapons = value;
+            M_SaveCVARs();
+
+            for (int i = 0; i < numsectors; i++)
+            {
+                mobj_t  *mo = sectors[i].thinglist;
+
+                while (mo)
+                {
+                    const mobjtype_t    type = mo->type;
+
+                    if ((type >= MT_MISC25 && type <= MT_SUPERSHOTGUN) || (mo->flags & MF_DROPPED))
+                    {
+                        if (r_mirroredweapons)
+                        {
+                            if (M_BigRandom() & 1)
+                                mo->flags |= MF2_MIRRORED;
+                        }
+                        else
+                            mo->flags2 &= ~MF2_MIRRORED;
+                    }
+
+                    mo = mo->snext;
+                }
+            }
+        }
+    }
+    else
+    {
+        char        *temp1 = C_LookupAliasFromValue(r_mirroredweapons, BOOLVALUEALIAS);
+        const int   i = C_GetIndex(cmd);
+
+        C_ShowDescription(i);
+
+        if (r_mirroredweapons == r_mirroredweapons_default)
+            C_Output(INTEGERCVARISDEFAULT, temp1);
+        else
+        {
+            char    *temp2 = C_LookupAliasFromValue(r_mirroredweapons_default, BOOLVALUEALIAS);
+
+            C_Output(INTEGERCVARWITHDEFAULT, temp1, temp2);
+            free(temp2);
+        }
+
+        free(temp1);
 
         C_ShowWarning(i);
     }
