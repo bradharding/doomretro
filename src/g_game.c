@@ -686,7 +686,10 @@ void G_ToggleAlwaysRun(evtype_t type)
 #endif
 
     M_StringCopy(temp, consoleinput, sizeof(temp));
-    C_StrCVAROutput(stringize(alwaysrun), (alwaysrun ? "on" : "off"));
+
+    if (!consolestrings || M_StringCompare(console[consolestrings - 1].string, "+alwaysrun"))
+        C_StrCVAROutput(stringize(alwaysrun), (alwaysrun ? "on" : "off"));
+
     M_StringCopy(consoleinput, temp, sizeof(consoleinput));
     caretpos = oldcaretpos;
     selectstart = oldselectstart;
