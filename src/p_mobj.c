@@ -1246,8 +1246,6 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, boolean spawnmonsters)
 
         monstercount[i]++;
     }
-    else if (i == MT_BARREL)
-        barrelcount++;
 
     // spawn it
     x = mthing->x << FRACBITS;
@@ -1313,7 +1311,12 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, boolean spawnmonsters)
     if (info->spawnstate == S_PLAY_DIE7 || info->spawnstate == S_PLAY_XDIE9)
         mobj->flags |= (M_BigRandomInt(0, 3) << MF_TRANSLATIONSHIFT);
 
-    if ((flags2 & MF2_DECORATION) && type != Barrel)
+    if (type == Barrel)
+    {
+        barrelcount++;
+        mobj->geartime = 15;
+    }
+    else if (flags2 & MF2_DECORATION)
         numdecorations++;
 
     // [BH] initialize certain mobj's animations to a random start frame
