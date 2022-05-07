@@ -91,6 +91,7 @@ extern lighttable_t **colormaps;
 extern int          extralight;
 extern lighttable_t *fixedcolormap;
 extern boolean      setsizeneeded;
+extern boolean      drawbloodsplats;
 
 //
 // Function pointers to switch refresh/drawing functions.

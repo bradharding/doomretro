@@ -96,17 +96,15 @@ boolean                 r_playersprites = r_playersprites_default;
 
 static const fixed_t floatbobdiffs[64] =
 {
-     25695,  25695,  25447,  24955,  24222,  23256,  22066,  20663,
-     19062,  17277,  15325,  13226,  10999,   8667,   6251,   3775,
-      1262,  -1262,  -3775,  -6251,  -8667, -10999, -13226, -15325,
-    -17277, -19062, -20663, -22066, -23256, -24222, -24955, -25447,
-    -25695, -25695, -25447, -24955, -24222, -23256, -22066, -20663,
-    -19062, -17277, -15325, -13226, -11000,  -8667,  -6251,  -3775,
-     -1262,   1262,   3775,   6251,   8667,  10999,  13226,  15325,
-     17277,  19062,  20663,  22066,  23256,  24222,  24955,  25447
+     205560,  205560,  203576,  199640,  193776,  186048,  176528,  165304,
+     152496,  138216,  122600,  105808,   87992,   69336,   50008,   30200,
+      10096,  -10096,  -30200,  -50008,  -69336,  -87992, -105808, -122600,
+    -138216, -152496, -165304, -176528, -186048, -193776, -199640, -203576,
+    -205560, -205560, -203576, -199640, -193776, -186048, -176528, -165304,
+    -152496, -138216, -122600, -105808,  -88000,  -69336,  -50008,  -30200,
+     -10096,   10096,   30200,   50008,   69336,   87992,  105808,  122600,
+     138216,  152496,  165304,  176528,  186048,  193776,  199640,  203576
 };
-
-extern boolean          drawbloodsplats;
 
 //
 // R_InstallSpriteLump
@@ -664,13 +662,13 @@ static void R_ProjectSprite(mobj_t *thing)
     frame = thing->frame;
     sprframe = &sprites[thing->sprite].spriteframes[(frame & FF_FRAMEMASK)];
 
-    if (((flags2 = thing->flags2) & MF2_FLOATBOB) && !(thing->flags & MF_CORPSE) && r_floatbob)
-        fz += floatbobdiffs[((thing->floatbob + leveltime) & 63)] * 8;
+    if (((flags2 = thing->flags2) & MF2_FLOATBOB) && r_floatbob)
+        fz += floatbobdiffs[((thing->floatbob + leveltime) & 63)];
 
     if (sprframe->rotate)
     {
         // choose a different rotation based on player view
-        angle_t ang = R_PointToAngle(fx, fy);
+        const angle_t   ang = R_PointToAngle(fx, fy);
 
         if (sprframe->lump[0] == sprframe->lump[1])
             rot = (ang - thing->angle + (angle_t)(ANG45 / 2) * 9) >> 28;
