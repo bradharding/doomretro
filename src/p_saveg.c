@@ -1286,7 +1286,7 @@ void P_UnArchiveThinkers(void)
     // read in saved thinkers
     while (true)
     {
-        byte    tclass = saveg_read8();
+        const byte  tclass = saveg_read8();
 
         switch (tclass)
         {
@@ -1478,7 +1478,7 @@ void P_UnArchiveSpecials(void)
     // read in saved thinkers
     while (true)
     {
-        byte    tclass = saveg_read8();
+        const byte  tclass = saveg_read8();
 
         switch (tclass)
         {

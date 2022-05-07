@@ -4114,7 +4114,7 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
 {
     const int   tabs[3] = { 120, 240, 0 };
     char        *temp;
-    int         lump = (nerve && gamemission == doom2 ? W_GetLastNumForName(mapnum) : W_CheckNumForName(mapnum));
+    const int   lump = (nerve && gamemission == doom2 ? W_GetLastNumForName(mapnum) : W_CheckNumForName(mapnum));
     int         wadtype = lumpinfo[lump]->wadfile->type;
 
     if (M_StringEndsWith(lumpinfo[lump]->wadfile->path, "DOOM2.WAD")
@@ -4322,7 +4322,7 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
             (numsegs < 32768 ? "Vanilla" : "Limit removing")))));
 
     {
-        int partime = G_GetParTime();
+        const int   partime = G_GetParTime();
 
         if (partime)
             C_TabbedOutput(tabs, "Par time\t%02i:%02i", partime / 60, partime % 60);
@@ -4387,7 +4387,7 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
 
         for (int i = 0; i < numsectors; i++)
         {
-            short   picnum = sectors[i].ceilingpic;
+            const short picnum = sectors[i].ceilingpic;
 
             if (picnum == skyflatnum || (picnum & PL_SKYFLAT))
                 outside++;
@@ -4417,8 +4417,8 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
         int max_x = INT_MIN;
         int min_y = INT_MAX;
         int max_y = INT_MIN;
-        int max_c = INT_MIN;
-        int min_f = INT_MAX;
+        int max_ceilingheight = INT_MIN;
+        int min_floorheight = INT_MAX;
         int width;
         int height;
         int depth;
@@ -4444,14 +4444,14 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
 
         for (int i = 0; i < numsectors; i++)
         {
-            if (max_c < sectors[i].ceilingheight)
-                max_c = sectors[i].ceilingheight;
+            if (max_ceilingheight < sectors[i].ceilingheight)
+                max_ceilingheight = sectors[i].ceilingheight;
 
-            if (min_f > sectors[i].floorheight)
-                min_f = sectors[i].floorheight;
+            if (min_floorheight > sectors[i].floorheight)
+                min_floorheight = sectors[i].floorheight;
         }
 
-        depth = ((max_c >> FRACBITS) - (min_f >> FRACBITS)) / UNITSPERFOOT;
+        depth = ((max_ceilingheight >> FRACBITS) - (min_floorheight >> FRACBITS)) / UNITSPERFOOT;
 
         if (units == units_metric)
         {
