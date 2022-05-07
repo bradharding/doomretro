@@ -1908,7 +1908,7 @@ void I_ToggleFullscreen(void)
     {
         menuactive = false;
         C_ShowConsole();
-        C_Warning(1, "Unable to switch to %s.", (vid_fullscreen ? "a window" : "fullscreen"));
+        C_Warning(0, "Unable to switch to %s.", (vid_fullscreen ? "a window" : "fullscreen"));
 
         return;
     }

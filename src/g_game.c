@@ -1493,7 +1493,7 @@ void G_DoLoadGame(void)
     {
         menuactive = false;
         C_ShowConsole();
-        C_Warning(1, BOLD("%s") " couldn't be loaded.", savename);
+        C_Warning(0, BOLD("%s") " couldn't be loaded.", savename);
         loadaction = ga_nothing;
 
         return;
@@ -1593,7 +1593,7 @@ static void G_DoSaveGame(void)
     {
         menuactive = false;
         C_ShowConsole();
-        C_Warning(1, BOLD("%s") " couldn't be saved.", savegame_file);
+        C_Warning(0, BOLD("%s") " couldn't be saved.", savegame_file);
     }
     else
     {

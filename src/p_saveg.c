@@ -1017,7 +1017,7 @@ boolean P_ReadSaveGameHeader(char *description)
         menuactive = false;
         quickSaveSlot = -1;
         C_ShowConsole();
-        C_Warning(1, "This savegame is incompatible with " ITALICS(DOOMRETRO_NAMEANDVERSIONSTRING "."));
+        C_Warning(0, "This savegame is incompatible with " ITALICS(DOOMRETRO_NAMEANDVERSIONSTRING "."));
 
         return false;   // bad version
     }
