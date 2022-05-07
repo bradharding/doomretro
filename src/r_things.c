@@ -94,6 +94,18 @@ static fixed_t          floorheight;
 boolean                 r_liquid_clipsprites = r_liquid_clipsprites_default;
 boolean                 r_playersprites = r_playersprites_default;
 
+static const fixed_t floatbobdiffs[64] =
+{
+     25695,  25695,  25447,  24955,  24222,  23256,  22066,  20663,
+     19062,  17277,  15325,  13226,  10999,   8667,   6251,   3775,
+      1262,  -1262,  -3775,  -6251,  -8667, -10999, -13226, -15325,
+    -17277, -19062, -20663, -22066, -23256, -24222, -24955, -25447,
+    -25695, -25695, -25447, -24955, -24222, -23256, -22066, -20663,
+    -19062, -17277, -15325, -13226, -11000,  -8667,  -6251,  -3775,
+     -1262,   1262,   3775,   6251,   8667,  10999,  13226,  15325,
+     17277,  19062,  20663,  22066,  23256,  24222,  24955,  25447
+};
+
 extern boolean          drawbloodsplats;
 
 //
@@ -651,7 +663,9 @@ static void R_ProjectSprite(mobj_t *thing)
     // decide which patch to use for sprite relative to player
     frame = thing->frame;
     sprframe = &sprites[thing->sprite].spriteframes[(frame & FF_FRAMEMASK)];
-    flags2 = thing->flags2;
+
+    if (((flags2 = thing->flags2) & MF2_FLOATBOB) && !(thing->flags & MF_CORPSE) && r_floatbob)
+        fz += floatbobdiffs[((thing->floatbob + leveltime) & 63)] * 8;
 
     if (sprframe->rotate)
     {
