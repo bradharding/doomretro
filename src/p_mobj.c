@@ -1259,7 +1259,7 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, boolean spawnmonsters)
     // [BH] randomly mirror corpses
     if (flags & MF_CORPSE)
     {
-        mobj->geartime = 15;
+        mobj->geartime = MAXGEARTIME;
 
         if ((M_BigRandom() & 1) && r_corpses_mirrored)
             mobj->flags2 |= MF2_MIRRORED;
@@ -1290,7 +1290,7 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, boolean spawnmonsters)
     if (type == Barrel)
     {
         barrelcount++;
-        mobj->geartime = 15;
+        mobj->geartime = MAXGEARTIME;
     }
     else if (flags2 & MF2_DECORATION)
         numdecorations++;

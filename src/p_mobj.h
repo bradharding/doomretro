@@ -55,6 +55,7 @@
 // For torque simulation:
 #define OVERDRIVE           6
 #define MAXGEAR             (OVERDRIVE + 16)
+#define MAXGEARTIME         15
 
 // killough 11/98:
 // Whether an object is "sentient" or not. Used for environmental influences.
