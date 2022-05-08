@@ -51,14 +51,7 @@
 #include "v_data.h"
 #include "v_video.h"
 
-byte            tempscreen[MAXSCREENAREA];
-
-extern patch_t  *consolefont[CONSOLEFONTSIZE];
-extern patch_t  *degree;
-extern patch_t  *lsquote;
-extern patch_t  *ldquote;
-extern patch_t  *unknownchar;
-extern patch_t  *altunderscores;
+byte    tempscreen[MAXSCREENAREA];
 
 static void HUlib_ClearTextLine(hu_textline_t *t)
 {

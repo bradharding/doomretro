@@ -29,7 +29,7 @@
 * The branding in the console is now positioned correctly again when the `vid_widescreen` CVAR is `on`.
 * The swirl of liquid sectors when the `r_liquid_swirl` CVAR is `on` has been slowed down slightly to better sync with their bob when the `r_liquid_bob` CVAR is also `on`.
 * The player’s currently equipped weapon can now be changed using the new `weapon` CVAR. It can be `fists`, `chainsaw`, `pistol`, `shotgun`, `supershotgun`, `chaingun`, `rocketlauncher`, `plasmarifle` or `bfg9000`.
-* Power-ups that bob when the `r_floatbob` CVAR is `on` no longer bob at all if the ceiling above them is too low.
+* The bobbing of power-ups when the `r_floatbob` CVAR is `on` is no longer affected if the ceiling above them is too low.
 * The following changes have been made to blood splats:
   * Extensive optimizations have been made to the rendering of blood splats.
   * The amount of blood splats rendered no longer depends on their distance from the player.

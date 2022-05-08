@@ -146,6 +146,13 @@ typedef struct
     char            timestamp[9];
 } console_t;
 
+extern patch_t      *consolefont[CONSOLEFONTSIZE];
+extern patch_t      *degree;
+extern patch_t      *lsquote;
+extern patch_t      *ldquote;
+extern patch_t      *unknownchar;
+extern patch_t      *altunderscores;
+
 extern patch_t      *bindlist;
 extern patch_t      *cmdlist;
 extern patch_t      *cvarlist;
