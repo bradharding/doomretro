@@ -43,6 +43,7 @@
 #include "i_system.h"
 #include "m_config.h"
 #include "m_misc.h"
+#include "p_fix.h"
 #include "p_inter.h"
 #include "p_local.h"
 #include "p_saveg.h"
@@ -1181,6 +1182,11 @@ void P_UnArchiveWorld(void)
     for (int i = 0; i < numlines; i++, line++)
     {
         line->flags = saveg_read16();
+
+        // [BH] Fix some linedefs in E2M7 only due to MBF21's ML_BLOCKPLAYERS flag
+        if (E2M7)
+            line->flags = ((unsigned int)line->flags & 0x03FF);
+
         line->special = saveg_read16();
         line->tag = saveg_read16();
 
