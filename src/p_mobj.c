@@ -628,7 +628,7 @@ static void P_NightmareRespawn(mobj_t *mobj)
     P_RemoveMobj(mobj);
 
     if (con_obituaries)
-        C_PlayerMessage("%s dead%s%s respawned.",
+        C_PlayerMessage("%s dead%s%s has respawned.",
             ((mo->flags & MF_FRIEND) && monstercount[mo->type] == 1 ? "The" : "A"),
             ((mo->flags & MF_FRIEND) ? ", friendly " : " "),
             (*mo->info->name1 ? mo->info->name1 : "monster"));
