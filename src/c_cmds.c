@@ -3244,8 +3244,6 @@ static void kill_cmd_func2(char *cmd, char *parms)
                     }
                 }
 
-                P_RemoveBloodsplats();
-
                 if (kills)
                 {
                     if (M_StringCompare(playername, playername_default))
