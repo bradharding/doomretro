@@ -1923,6 +1923,11 @@ static void P_LoadLineDefs(int lump)
 
         ld->id = i;
         ld->flags = (unsigned short)SHORT(mld->flags);
+
+        // [BH] Fix some linedefs in E2M7 only due to MBF21's ML_BLOCKPLAYERS flag
+        if (E2M7)
+            ld->flags = ((unsigned int)ld->flags & 0x03FF);
+
         ld->special = SHORT(mld->special);
         ld->tag = SHORT(mld->tag);
         v1 = ld->v1 = &vertexes[(unsigned short)SHORT(mld->v1)];

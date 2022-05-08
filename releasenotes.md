@@ -45,6 +45,7 @@
 * The following improvements have been made to the support of [*MBF21*](https://doomwiki.org/wiki/MBF21)-compatible WADs:
   * The `DMGIGNORED` and `FULLVOLSOUNDS` flags now work correctly.
   * The `JumpIfFlagsSet`, `AddFlags` and `RemoveFlags` code pointers now work correctly.
+  * The player can now walk over certain linedefs in E2M7 again.
 * The “automap opened” stat shown by the `playerstats` CCMD is now reset at the start of each map as intended.
 * The `playerstats` CCMD now displays how many monsters have been telefragged.
 * Obituaries are now displayed in the console whenever the player or a monster is telefragged and the `con_obituaries` CVAR is `on`.
