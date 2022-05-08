@@ -449,18 +449,10 @@ static void I_GetEvent(void)
 
                 if (event.data1)
                 {
-                    if (altdown)
+                    if (altdown && event.data1 == KEY_F4)
                     {
-                        if (event.data1 == KEY_F4)
-                        {
-                            I_Sleep(300);
-                            I_Quit(true);
-                        }
-                        else if (event.data1 == KEY_TAB)
-                        {
-                            event.data1 = 0;
-                            event.data2 = 0;
-                        }
+                        I_Sleep(300);
+                        I_Quit(true);
                     }
 
                     if (!isdigit(event.data2))
