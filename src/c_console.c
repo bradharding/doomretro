@@ -214,7 +214,7 @@ void C_IntCVAROutput(const char *cvar, int value)
     char    *temp1 = M_StringJoin(cvar, " ", NULL);
     char    *temp2 = commify(value);
 
-    if (consolestrings && groupmessages && M_StringStartsWithExact(console[consolestrings - 1].string, temp1))
+    if (consolestrings && M_StringStartsWithExact(console[consolestrings - 1].string, temp1))
         consolestrings--;
 
     C_Input("%s %s", cvar, temp2);
@@ -227,7 +227,7 @@ void C_PctCVAROutput(const char *cvar, int value)
     char    *temp1 = M_StringJoin(cvar, " ", NULL);
     char    *temp2 = commify(value);
 
-    if (consolestrings && groupmessages && M_StringStartsWithExact(console[consolestrings - 1].string, temp1))
+    if (consolestrings && M_StringStartsWithExact(console[consolestrings - 1].string, temp1))
         consolestrings--;
 
     C_Input("%s %s%%", cvar, temp2);
@@ -239,7 +239,7 @@ void C_StrCVAROutput(const char *cvar, const char *string)
 {
     char    *temp = M_StringJoin(cvar, " ", NULL);
 
-    if (consolestrings && groupmessages && M_StringStartsWithExact(console[consolestrings - 1].string, temp))
+    if (consolestrings && M_StringStartsWithExact(console[consolestrings - 1].string, temp))
         consolestrings--;
 
     C_Input("%s %s", cvar, string);
