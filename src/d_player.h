@@ -232,6 +232,7 @@ typedef struct player_s
     int             itemspickedup_armor;
     int             itemspickedup_health;
     int             infightcount;
+    int             respawncount;
     int             resurrectioncount;
     int             telefragcount;
     int             automapopened;

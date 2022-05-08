@@ -632,6 +632,9 @@ static void P_NightmareRespawn(mobj_t *mobj)
             ((mo->flags & MF_FRIEND) && monstercount[mo->type] == 1 ? "The" : "A"),
             ((mo->flags & MF_FRIEND) ? ", friendly " : " "),
             (*mo->info->name1 ? mo->info->name1 : "monster"));
+
+    viewplayer->respawncount++;
+    stat_monstersrespawned = SafeAdd(stat_monstersrespawned, 1);
 }
 
 //

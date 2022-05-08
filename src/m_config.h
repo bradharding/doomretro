@@ -209,6 +209,7 @@ extern uint64_t stat_monsterskilled_shotgunguys;
 extern uint64_t stat_monsterskilled_spectres;
 extern uint64_t stat_monsterskilled_spidermasterminds;
 extern uint64_t stat_monsterskilled_zombiemen;
+extern uint64_t stat_monstersrespawned;
 extern uint64_t stat_monstersresurrected;
 extern uint64_t stat_monsterstelefragged;
 extern uint64_t stat_runs;

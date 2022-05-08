@@ -604,6 +604,7 @@ void G_DoLoadLevel(void)
     viewplayer->prevmessage[0] = '\0';
     viewplayer->prevmessagetics = 0;
     viewplayer->infightcount = 0;
+    viewplayer->respawncount = 0;
     viewplayer->resurrectioncount = 0;
     viewplayer->telefragcount = 0;
     viewplayer->automapopened = 0;

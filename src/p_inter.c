@@ -115,6 +115,7 @@ uint64_t        stat_monsterskilled_shotgunguys = 0;
 uint64_t        stat_monsterskilled_spectres = 0;
 uint64_t        stat_monsterskilled_spidermasterminds = 0;
 uint64_t        stat_monsterskilled_zombiemen = 0;
+uint64_t        stat_monstersrespawned = 0;
 uint64_t        stat_monstersresurrected = 0;
 uint64_t        stat_monsterstelefragged = 0;
 uint64_t        stat_suicides = 0;
