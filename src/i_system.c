@@ -252,9 +252,9 @@ void I_Quit(bool shutdown)
 //
 void I_Error(const char *error, ...)
 {
-    va_list         argptr;
-    char            msgbuf[512];
-    static bool  already_quitting;
+    va_list     argptr;
+    char        msgbuf[512];
+    static bool already_quitting;
 
     if (already_quitting)
         exit(-1);

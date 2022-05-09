@@ -48,18 +48,18 @@
 typedef struct
 {
     // settings for this cheat
-    char        *sequence;
-    int         parameter_chars;
-    bool     longtimeout;
+    char    *sequence;
+    int     parameter_chars;
+    bool    longtimeout;
 
     // state used during the game
-    size_t      chars_read;
-    int         param_chars_read;
-    char        parameter_buf[5];
+    size_t  chars_read;
+    int     param_chars_read;
+    char    parameter_buf[5];
 
-    int         timeout;
+    int     timeout;
 
-    bool     movekey;
+    bool    movekey;
 } cheatseq_t;
 
 bool cht_CheckCheat(cheatseq_t *cht, unsigned char key);

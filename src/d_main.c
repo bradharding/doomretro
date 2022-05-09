@@ -133,9 +133,9 @@ char            *savegamefolder;
 
 char            *pwadfile = "";
 
-bool         fade = fade_default;
+bool            fade = fade_default;
 char            *iwadfolder = iwadfolder_default;
-bool         melt = melt_default;
+bool            melt = melt_default;
 int             turbo = turbo_default;
 int             units = units_default;
 
@@ -152,35 +152,35 @@ static char     dehwarning[256] = "";
 char            *previouswad;
 #endif
 
-bool         devparm;                // started game with -devparm
-bool         fastparm;               // checkparm of -fast
-bool         freeze;
-bool         nomonsters;             // checkparm of -nomonsters
-bool         pistolstart;            // [BH] checkparm of -pistolstart
-bool         regenhealth;
-bool         respawnitems;
-bool         respawnmonsters;        // checkparm of -respawn
+bool            devparm;                // started game with -devparm
+bool            fastparm;               // checkparm of -fast
+bool            freeze;
+bool            nomonsters;             // checkparm of -nomonsters
+bool            pistolstart;            // [BH] checkparm of -pistolstart
+bool            regenhealth;
+bool            respawnitems;
+bool            respawnmonsters;        // checkparm of -respawn
 
 uint64_t        stat_runs = 0;
 
 skill_t         startskill;
 int             startepisode;
 static int      startmap;
-bool         autostart;
+bool            autostart;
 
-bool         advancetitle;
-bool         dowipe;
-static bool  forcewipe;
+bool            advancetitle;
+bool            dowipe;
+static bool     forcewipe;
 
 static byte     fadescreen[MAXSCREENAREA];
 int             fadecount = 0;
 
-bool         splashscreen = true;
+bool            splashscreen = true;
 
 static int      startuptimer;
 
-bool         realframe;
-static bool  error;
+bool            realframe;
+static bool     error;
 
 struct tm       gamestarttime;
 
@@ -299,13 +299,13 @@ gamestate_t wipegamestate = GS_TITLESCREEN;
 
 void D_Display(void)
 {
-    static bool      pausedstate = false;
+    static bool         pausedstate = false;
     static gamestate_t  oldgamestate = GS_NONE;
     static int          saved_gametime = -1;
     int                 nowtime;
     int                 tics;
     int                 wipestart;
-    bool             done;
+    bool                done;
 
     if (vid_capfps != TICRATE && (realframe = (gametime > saved_gametime)))
         saved_gametime = gametime;
@@ -599,7 +599,7 @@ void D_DoAdvanceTitle(void)
 
     if (titlesequence == 1)
     {
-        static bool  flag = true;
+        static bool flag = true;
 
         if (flag)
         {
@@ -674,7 +674,7 @@ void D_StartTitle(int page)
 static char dehfiles[MAXDEHFILES][MAX_PATH];
 static int  dehfilecount;
 
-bool     dehfileignored = false;
+bool        dehfileignored = false;
 
 static bool DehFileProcessed(char *path)
 {
@@ -738,7 +738,7 @@ static char *FindDehPath(char *path, char *ext, char *pattern)
 typedef struct
 {
     char    filename[MAX_PATH];
-    bool present;
+    bool    present;
 } loaddehlast_t;
 
 // [BH] A list of DeHackEd files to load last
@@ -980,7 +980,7 @@ static bool D_IsUnsupportedPWAD(char *filename)
 
 static bool D_CheckParms(void)
 {
-    bool result = false;
+    bool    result = false;
 
     if (myargc == 2
         && (M_StringEndsWith(myargv[1], ".wad") || M_StringEndsWith(myargv[1], ".iwad") || M_StringEndsWith(myargv[1], ".pwad")))
@@ -1194,7 +1194,7 @@ static char *invalidwad;
 static int D_OpenWADLauncher(void)
 {
     int             iwadfound = -1;
-    bool         fileopenedok;
+    bool            fileopenedok;
 
 #if defined(_WIN32)
     OPENFILENAME    ofn;
@@ -1230,8 +1230,8 @@ static int D_OpenWADLauncher(void)
 
     if (fileopenedok)
     {
-        bool onlyoneselected;
-        bool guess = false;
+        bool    onlyoneselected;
+        bool    guess = false;
 
 #if defined(__APPLE__)
         NSArray     *urls = [panel URLs];
@@ -1506,8 +1506,8 @@ static int D_OpenWADLauncher(void)
         else
         {
             // more than one file was selected
-            bool isDOOM2 = false;
-            bool sharewareiwad = false;
+            bool    isDOOM2 = false;
+            bool    sharewareiwad = false;
 
 #if defined(_WIN32)
             LPSTR   iwadpass1 = ofn.lpstrFile;
@@ -1712,7 +1712,7 @@ static int D_OpenWADLauncher(void)
                 // if an IWAD has now been found, make second pass through the PWADs to merge them
                 if (iwadfound)
                 {
-                    bool mapspresent = false;
+                    bool    mapspresent = false;
 
 #if defined(_WIN32)
                     pwadpass2 = &pwadpass2[lstrlen(pwadpass2) + 1];
@@ -1837,7 +1837,7 @@ static void D_ProcessDehOnCmdLine(void)
 
     if (p || (p = M_CheckParm("-bex")))
     {
-        bool deh = true;
+        bool    deh = true;
 
         while (++p < myargc)
             if (*myargv[p] == '-')
@@ -1857,7 +1857,7 @@ static void D_ProcessDehOnCmdLine(void)
 
 static void D_ProcessDehInWad(void)
 {
-    bool process = (!M_CheckParm("-nodeh") && !M_CheckParm("-nobex"));
+    bool    process = (!M_CheckParm("-nodeh") && !M_CheckParm("-nobex"));
     int     j = 0;
 
     if (*dehwarning)

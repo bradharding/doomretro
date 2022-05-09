@@ -80,7 +80,7 @@ typedef struct
     // MBF21
     int             flags;
 
-    bool         altered;
+    bool            altered;
 } weaponinfo_t;
 
 extern weaponinfo_t weaponinfo[NUMWEAPONS];

@@ -351,7 +351,7 @@ void M_SaveCVARs(void)
 
     if (!(file = fopen(packageconfig, "wt")))
     {
-        static bool  warning;
+        static bool warning;
 
         if (!warning)
         {
@@ -384,7 +384,7 @@ void M_SaveCVARs(void)
         {
             case DEFAULT_BOOL:
             {
-                bool alias = false;
+                bool    alias = false;
                 int     value = *(bool *)cvars[i].location;
 
                 for (int j = 0; *valuealiases[j].text; j++)
@@ -409,7 +409,7 @@ void M_SaveCVARs(void)
 
             case DEFAULT_INT32:
             {
-                bool alias = false;
+                bool    alias = false;
                 int     value = *(int *)cvars[i].location;
 
                 for (int j = 0; *valuealiases[j].text; j++)
@@ -444,7 +444,7 @@ void M_SaveCVARs(void)
 
             case DEFAULT_INT32_PERCENT:
             {
-                bool alias = false;
+                bool    alias = false;
                 int     value = *(int *)cvars[i].location;
 
                 for (int j = 0; *valuealiases[j].text; j++)
@@ -469,7 +469,7 @@ void M_SaveCVARs(void)
 
             case DEFAULT_FLOAT:
             {
-                bool alias = false;
+                bool    alias = false;
                 float   value = *(float *)cvars[i].location;
 
                 for (int j = 0; *valuealiases[j].text; j++)
@@ -500,7 +500,7 @@ void M_SaveCVARs(void)
 
             case DEFAULT_FLOAT_PERCENT:
             {
-                bool alias = false;
+                bool    alias = false;
                 float   value = *(float *)cvars[i].location;
 
                 for (int j = 0; *valuealiases[j].text; j++)
@@ -1061,10 +1061,10 @@ static void M_CheckCVARs(bool ispackageconfig)
 //
 void M_LoadCVARs(char *filename)
 {
-    const bool   ispackageconfig = M_StringEndsWith(filename, DOOMRETRO_CONFIG);
-    int             bindcount = 0;
-    int             cvarcount = 0;
-    int             statcount = 0;
+    const bool  ispackageconfig = M_StringEndsWith(filename, DOOMRETRO_CONFIG);
+    int         bindcount = 0;
+    int         cvarcount = 0;
+    int         statcount = 0;
 
     // read the file in, overriding any set defaults
     FILE        *file = fopen(filename, "rt");

@@ -65,20 +65,20 @@ int         am_bluekeycolor = am_bluekeycolor_default;
 int         am_cdwallcolor = am_cdwallcolor_default;
 int         am_crosshaircolor = am_crosshaircolor_default;
 int         am_display = am_display_default;
-bool     am_external = am_external_default;
+bool        am_external = am_external_default;
 int         am_fdwallcolor = am_fdwallcolor_default;
-bool     am_followmode = am_followmode_default;
-bool     am_grid = am_grid_default;
+bool        am_followmode = am_followmode_default;
+bool        am_grid = am_grid_default;
 int         am_gridcolor = am_gridcolor_default;
 char        *am_gridsize = am_gridsize_default;
 int         am_markcolor = am_markcolor_default;
-bool     am_path = am_path_default;
+bool        am_path = am_path_default;
 int         am_pathcolor = am_pathcolor_default;
 int         am_playercolor = am_playercolor_default;
-bool     am_playerstats = am_playerstats_default;
+bool        am_playerstats = am_playerstats_default;
 int         am_reddoorcolor = am_reddoorcolor_default;
 int         am_redkeycolor = am_redkeycolor_default;
-bool     am_rotatemode = am_rotatemode_default;
+bool        am_rotatemode = am_rotatemode_default;
 int         am_teleportercolor = am_teleportercolor_default;
 int         am_thingcolor = am_thingcolor_default;
 int         am_tswallcolor = am_tswallcolor_default;
@@ -154,7 +154,7 @@ typedef struct
     mpoint_t    b;
 } mline_t;
 
-bool             automapactive;
+bool                automapactive;
 
 static mpoint_t     m_paninc;       // how far the window pans each tic (map coords)
 static fixed_t      mtof_zoommul;   // how far the window zooms in each tic (map coords)
@@ -197,16 +197,16 @@ int                 pathpointnum_max;
 static int          gridwidth;
 static int          gridheight;
 
-static bool      bigstate;
-static bool      movement;
-static bool      speedtoggle;
+static bool         bigstate;
+static bool         movement;
+static bool         speedtoggle;
 static SDL_Keymod   modstate;
 int                 keydown;
 int                 direction;
 
 am_frame_t          am_frame;
 
-static bool      isteleportline[NUMLINESPECIALS];
+static bool         isteleportline[NUMLINESPECIALS];
 
 static void AM_Rotate(fixed_t *x, fixed_t *y, angle_t angle);
 static void (*putbigdot)(unsigned int, unsigned int, const byte *);
@@ -675,7 +675,7 @@ bool AM_Responder(const event_t *ev)
 
     if (!menuactive && !paused)
     {
-        static bool  backbuttondown;
+        static bool backbuttondown;
 
         if (!(gamecontrollerbuttons & gamecontrollerautomap))
             backbuttondown = false;
@@ -1293,9 +1293,9 @@ static inline void PUTBIGDOT(unsigned int x, unsigned int y, const byte *color)
 {
     if (x < (unsigned int)MAPWIDTH)
     {
-        byte            *dot = mapscreen + y + x;
-        const bool   attop = (y < MAPAREA);
-        const bool   atbottom = (y < (unsigned int)MAPBOTTOM);
+        byte        *dot = mapscreen + y + x;
+        const bool  attop = (y < MAPAREA);
+        const bool  atbottom = (y < (unsigned int)MAPBOTTOM);
 
         if (attop)
             *dot = *(*dot + color);

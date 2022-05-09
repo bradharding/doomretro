@@ -134,13 +134,13 @@ static int  mapcmdepisode;
 static int  mapcmdmap;
 static char mapcmdlump[7];
 
-bool     executingalias = false;
-bool     healthcvar = false;
-bool     nobindoutput;
-bool     quitcmd = false;
-bool     resettingcvar = false;
-bool     togglingvanilla = false;
-bool     vanilla = false;
+bool        executingalias = false;
+bool        healthcvar = false;
+bool        nobindoutput;
+bool        quitcmd = false;
+bool        resettingcvar = false;
+bool        togglingvanilla = false;
+bool        vanilla = false;
 
 char        *version = version_default;
 
@@ -1232,7 +1232,7 @@ static bool cheat_func1(char *cmd, char *parms)
 {
     if (M_StringCompare(cmd, cheat_clev.sequence))
     {
-        bool result;
+        bool    result;
 
         if (gamemode == commercial)
         {
@@ -1439,11 +1439,11 @@ static void C_UnbindDuplicates(const int keep, const controltype_t type, const i
 
 void bind_cmd_func2(char *cmd, char *parms)
 {
-    int             i = 0;
-    int             action = 0;
-    char            parm1[128] = "";
-    char            parm2[128] = "";
-    const bool   mouselookcontrols = (keyboardmouselook || gamecontrollermouselook || mousemouselook != -1);
+    int         i = 0;
+    int         action = 0;
+    char        parm1[128] = "";
+    char        parm2[128] = "";
+    const bool  mouselookcontrols = (keyboardmouselook || gamecontrollermouselook || mousemouselook != -1);
 
     if (sscanf(parms, "%127s %127[^\n]", parm1, parm2) <= 0)
     {
@@ -1571,7 +1571,7 @@ void bind_cmd_func2(char *cmd, char *parms)
 
             if (*actions[action].action)
             {
-                bool bound = false;
+                bool    bound = false;
 
                 switch (controls[i].type)
                 {
@@ -2263,7 +2263,7 @@ static void freeze_cmd_func2(char *cmd, char *parms)
 //
 static bool give_cmd_func1(char *cmd, char *parms)
 {
-    bool result = false;
+    bool    result = false;
     char    *parm;
 
     if (gamestate != GS_LEVEL)
@@ -2332,7 +2332,7 @@ static void give_cmd_func2(char *cmd, char *parms)
     {
         if (M_StringCompare(parm, "all") || M_StringCompare(parm, "everything"))
         {
-            bool result = false;
+            bool    result = false;
 
             if (P_GiveBackpack(false, false))
                 result = true;
@@ -2587,7 +2587,7 @@ static void give_cmd_func2(char *cmd, char *parms)
         {
             for (int i = 0, num = -1; i < NUMMOBJTYPES; i++)
             {
-                bool result = false;
+                bool    result = false;
                 char    *temp1 = (*mobjinfo[i].name1 ? removenonalpha(mobjinfo[i].name1) : NULL);
                 char    *temp2 = (*mobjinfo[i].name2 ? removenonalpha(mobjinfo[i].name2) : NULL);
                 char    *temp3 = (*mobjinfo[i].name3 ? removenonalpha(mobjinfo[i].name3) : NULL);
@@ -2610,7 +2610,7 @@ static void give_cmd_func2(char *cmd, char *parms)
                             (isvowel(mobjinfo[i].name1[0]) ? "an" : "a"), mobjinfo[i].name1, gamedescription);
                     else
                     {
-                        bool old_freeze = freeze;
+                        bool    old_freeze = freeze;
                         mobj_t  *thing = P_SpawnMobj(viewx, viewy, viewz, i);
 
                         freeze = false;
@@ -2742,7 +2742,7 @@ static void if_cmd_func2(char *cmd, char *parms)
     for (int i = 0; *consolecmds[i].name; i++)
         if (M_StringCompare(parm1, consolecmds[i].name))
         {
-            bool condition = false;
+            bool    condition = false;
 
             M_StripQuotes(parm2);
 
@@ -2814,11 +2814,11 @@ static void if_cmd_func2(char *cmd, char *parms)
 //
 static int      killcmdtype = NUMMOBJTYPES;
 static mobj_t   *killcmdmobj;
-bool         massacre;
+bool            massacre;
 
 static bool kill_cmd_func1(char *cmd, char *parms)
 {
-    bool result = false;
+    bool    result = false;
     char    *parm;
 
     if (gamestate != GS_LEVEL)
@@ -2967,10 +2967,10 @@ static void kill_cmd_func2(char *cmd, char *parms)
         }
         else
         {
-            bool friends = (M_StringCompare(parm, "friend") || M_StringCompare(parm, "friends")
+            bool    friends = (M_StringCompare(parm, "friend") || M_StringCompare(parm, "friends")
                         || M_StringCompare(parm, "friendlymonster") || M_StringCompare(parm, "friendlymonsters"));
-            bool enemies = (M_StringCompare(parm, "monster") || M_StringCompare(parm, "monsters"));
-            bool all = M_StringCompare(parm, "all");
+            bool    enemies = (M_StringCompare(parm, "monster") || M_StringCompare(parm, "monsters"));
+            bool    all = M_StringCompare(parm, "all");
             int     kills = 0;
 
             if (friends || enemies || all)
@@ -3463,7 +3463,7 @@ static bool map_cmd_func1(char *cmd, char *parms)
         return true;
     else
     {
-        bool result = false;
+        bool    result = false;
         char    *temp1 = removenonalpha(parms);
         char    *parm = uppercase(temp1);
 
@@ -3714,8 +3714,8 @@ static bool map_cmd_func1(char *cmd, char *parms)
             for (int i = 0; i < numlumps; i++)
             {
                 char    wadname[MAX_PATH];
-                bool replaced;
-                bool pwad;
+                bool    replaced;
+                bool    pwad;
                 char    mapinfoname[128];
                 char    *temp2 = uppercase(lumpinfo[i]->name);
 
@@ -3911,7 +3911,7 @@ static void maplist_cmd_func2(char *cmd, char *parms)
     const int   tabs[3] = { 40, 93, 370 };
     int         count = 0;
     char        (*maps)[256] = malloc(numlumps * sizeof(char *));
-    bool     mapfound[50] = { false };
+    bool        mapfound[50] = { false };
 
     C_Header(tabs, maplist, MAPLISTHEADER);
 
@@ -3922,8 +3922,8 @@ static void maplist_cmd_func2(char *cmd, char *parms)
         int     map;
         char    lump[9];
         char    wadname[MAX_PATH];
-        bool replaced;
-        bool pwad;
+        bool    replaced;
+        bool    pwad;
         char    mapinfoname[128];
         char    *temp = uppercase(lumpinfo[i]->name);
 
@@ -4561,11 +4561,11 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
 //
 // name CCMD
 //
-static bool  namecmdfriendly;
-static bool  namecmdanymonster;
-static char     namecmdnew[128];
-static char     namecmdold[128];
-static int      namecmdtype = NUMMOBJTYPES;
+static bool namecmdfriendly;
+static bool namecmdanymonster;
+static char namecmdnew[128];
+static char namecmdold[128];
+static int  namecmdtype = NUMMOBJTYPES;
 
 static bool name_cmd_func1(char *cmd, char *parms)
 {
@@ -4605,7 +4605,7 @@ static bool name_cmd_func1(char *cmd, char *parms)
         for (int i = 0; i < NUMMOBJTYPES; i++)
             if ((mobjinfo[i].flags & MF_SHOOTABLE) && i != MT_PLAYER && i != MT_BARREL)
             {
-                bool result = false;
+                bool    result = false;
                 char    *temp1 = (*mobjinfo[i].name1 ? removenonalpha(mobjinfo[i].name1) : NULL);
                 char    *temp2 = (*mobjinfo[i].name2 ? removenonalpha(mobjinfo[i].name2) : NULL);
                 char    *temp3 = (*mobjinfo[i].name3 ? removenonalpha(mobjinfo[i].name3) : NULL);
@@ -6635,7 +6635,7 @@ static mobj_t   *resurrectcmdmobj;
 
 static bool resurrect_cmd_func1(char *cmd, char *parms)
 {
-    bool result = false;
+    bool    result = false;
     char    *parm;
 
     if (gamestate != GS_LEVEL)
@@ -6747,7 +6747,7 @@ static void resurrect_cmd_func2(char *cmd, char *parms)
     else
     {
         char    buffer[1024];
-        bool cheated = false;
+        bool    cheated = false;
 
         if (M_StringCompare(parm, "player") || M_StringCompare(parm, "me") || (*playername && M_StringCompare(parm, playername)))
         {
@@ -6763,10 +6763,10 @@ static void resurrect_cmd_func2(char *cmd, char *parms)
         }
         else
         {
-            bool friends = (M_StringCompare(parm, "friend") || M_StringCompare(parm, "friends")
+            bool    friends = (M_StringCompare(parm, "friend") || M_StringCompare(parm, "friends")
                         || M_StringCompare(parm, "friendly monster") || M_StringCompare(parm, "friendly monsters"));
-            bool enemies = (M_StringCompare(parm, "monster") || M_StringCompare(parm, "monsters"));
-            bool all = M_StringCompare(parm, "all");
+            bool    enemies = (M_StringCompare(parm, "monster") || M_StringCompare(parm, "monsters"));
+            bool    all = M_StringCompare(parm, "all");
             int     resurrected = 0;
 
             if (friends || enemies || all)
@@ -6919,12 +6919,12 @@ static void save_cmd_func2(char *cmd, char *parms)
 //
 // spawn CCMD
 //
-static int      spawncmdtype = NUMMOBJTYPES;
-static bool  spawncmdfriendly;
+static int  spawncmdtype = NUMMOBJTYPES;
+static bool spawncmdfriendly;
 
 static bool spawn_cmd_func1(char *cmd, char *parms)
 {
-    bool result = false;
+    bool    result = false;
     char    *parm = removenonalpha(parms);
 
     if (!*parm)
@@ -6982,7 +6982,7 @@ static void spawn_cmd_func2(char *cmd, char *parms)
     }
     else
     {
-        bool             spawn = true;
+        bool                spawn = true;
         const mobjtype_t    type = P_FindDoomedNum(spawncmdtype);
 
         if (gamemode != commercial)
@@ -7115,7 +7115,7 @@ static void spawn_cmd_func2(char *cmd, char *parms)
 //
 static bool take_cmd_func1(char *cmd, char *parms)
 {
-    bool result = false;
+    bool    result = false;
     char    *parm;
 
     if (gamestate != GS_LEVEL)
@@ -7180,7 +7180,7 @@ static void take_cmd_func2(char *cmd, char *parms)
     }
     else
     {
-        bool result = false;
+        bool    result = false;
 
         if (M_StringCompare(parm, "all") || M_StringCompare(parm, "everything"))
         {
@@ -7683,8 +7683,8 @@ static void unbind_cmd_func2(char *cmd, char *parms)
 //
 static void vanilla_cmd_func2(char *cmd, char *parms)
 {
-    static bool  buddha;
-    static bool  hud;
+    static bool buddha;
+    static bool hud;
 
     if (*parms)
     {
@@ -7865,7 +7865,7 @@ static bool color_cvars_func1(char *cmd, char *parms)
     else
     {
         char    *temp;
-        bool result = false;
+        bool    result = false;
 
         temp = M_SubString(parms, 1, 6);
         result = ((strlen(parms) == 7 && parms[0] == '#' && hextodec(temp) >= 0) || int_cvars_func1(cmd, parms));
@@ -8107,7 +8107,7 @@ static void am_display_cvar_func2(char *cmd, char *parms)
 //
 static void am_external_cvar_func2(char *cmd, char *parms)
 {
-    const bool   am_external_old = am_external;
+    const bool  am_external_old = am_external;
 
     bool_cvars_func2(cmd, parms);
 
@@ -8141,7 +8141,7 @@ static void am_followmode_cvar_func2(char *cmd, char *parms)
 {
     if (*parms)
     {
-        const bool   am_followmode_old = am_followmode;
+        const bool  am_followmode_old = am_followmode;
 
         bool_cvars_func2(cmd, parms);
 
@@ -8221,7 +8221,7 @@ static void am_rotatemode_cvar_func2(char *cmd, char *parms)
 {
     if (*parms)
     {
-        const bool   am_rotatemode_old = am_rotatemode;
+        const bool  am_rotatemode_old = am_rotatemode;
 
         bool_cvars_func2(cmd, parms);
 
@@ -8292,7 +8292,7 @@ static void armortype_cvar_func2(char *cmd, char *parms)
 //
 static void autotilt_cvar_func2(char *cmd, char *parms)
 {
-    const bool   autotilt_old = autotilt;
+    const bool  autotilt_old = autotilt;
 
     bool_cvars_func2(cmd, parms);
 
@@ -8480,7 +8480,7 @@ static void joy_sensitivity_cvars_func2(char *cmd, char *parms)
 //
 static void mouselook_cvar_func2(char *cmd, char *parms)
 {
-    const bool   mouselook_old = mouselook;
+    const bool  mouselook_old = mouselook;
 
     bool_cvars_func2(cmd, parms);
 
@@ -9804,7 +9804,7 @@ static void units_cvar_func2(char *cmd, char *parms)
 //
 static void vid_borderlesswindow_cvar_func2(char *cmd, char *parms)
 {
-    const bool   vid_borderlesswindow_old = vid_borderlesswindow;
+    const bool  vid_borderlesswindow_old = vid_borderlesswindow;
 
     bool_cvars_func2(cmd, parms);
 
@@ -9870,7 +9870,7 @@ static void vid_display_cvar_func2(char *cmd, char *parms)
 //
 static void vid_fullscreen_cvar_func2(char *cmd, char *parms)
 {
-    const bool   vid_fullscreen_old = vid_fullscreen;
+    const bool  vid_fullscreen_old = vid_fullscreen;
 
     bool_cvars_func2(cmd, parms);
 
@@ -9883,7 +9883,7 @@ static void vid_fullscreen_cvar_func2(char *cmd, char *parms)
 //
 static void vid_pillarboxes_cvar_func2(char *cmd, char *parms)
 {
-    const bool   vid_pillarboxes_old = vid_pillarboxes;
+    const bool  vid_pillarboxes_old = vid_pillarboxes;
 
     bool_cvars_func2(cmd, parms);
 
@@ -10010,7 +10010,7 @@ extern int      frames;
 
 static void vid_showfps_cvar_func2(char *cmd, char *parms)
 {
-    const bool   vid_showfps_old = vid_showfps;
+    const bool  vid_showfps_old = vid_showfps;
 
     bool_cvars_func2(cmd, parms);
 
@@ -10074,7 +10074,7 @@ static void vid_vsync_cvar_func2(char *cmd, char *parms)
 //
 static void vid_widescreen_cvar_func2(char *cmd, char *parms)
 {
-    const bool   vid_widescreen_old = vid_widescreen;
+    const bool  vid_widescreen_old = vid_widescreen;
 
     bool_cvars_func2(cmd, parms);
 
@@ -10206,7 +10206,7 @@ static void weapon_cvar_func2(char *cmd, char *parms)
 //
 static void weaponrecoil_cvar_func2(char *cmd, char *parms)
 {
-    const bool   weaponrecoil_old = weaponrecoil;
+    const bool  weaponrecoil_old = weaponrecoil;
 
     bool_cvars_func2(cmd, parms);
 

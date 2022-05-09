@@ -92,7 +92,7 @@ static void wipe_Melt(int i, int dy)
 
 static bool wipe_doMelt(void)
 {
-    bool done = true;
+    bool    done = true;
 
     for (int i = 0; i < SCREENWIDTH / 2; i++)
         if (y[i] < 0)
@@ -128,7 +128,7 @@ void wipe_EndScreen(void)
 bool wipe_ScreenWipe(void)
 {
     // when false, stop the wipe
-    static bool  go;
+    static bool go;
 
     // initial stuff
     if (!go)

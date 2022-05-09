@@ -596,8 +596,8 @@ static void AddDoomWADPath(void)
 //
 static void BuildIWADDirList(void)
 {
-    char            *doomwaddir;
-    static bool  iwad_dirs_built;
+    char        *doomwaddir;
+    static bool iwad_dirs_built;
 
     if (iwad_dirs_built)
         return;

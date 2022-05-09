@@ -92,8 +92,8 @@ void I_WindowResizeBlit(void);
 extern void (*blitfunc)(void);
 extern void (*mapblitfunc)(void);
 
-extern bool      sendpause;
-extern bool      waspaused;
+extern bool         sendpause;
+extern bool         waspaused;
 
 extern int          keydown;
 
@@ -105,7 +105,7 @@ extern int          windowy;
 extern int          windowheight;
 extern int          windowwidth;
 
-extern bool      windowfocused;
+extern bool         windowfocused;
 
 extern SDL_Window   *window;
 extern SDL_Renderer *renderer;
@@ -116,4 +116,4 @@ extern byte         *mapscreen;
 
 extern byte         *PLAYPAL;
 
-extern bool      altdown;
+extern bool         altdown;

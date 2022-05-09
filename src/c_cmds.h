@@ -66,7 +66,7 @@ typedef struct
 typedef struct
 {
     char    *action;
-    bool hideconsole;
+    bool    hideconsole;
     void    (*func)(void);
     void    *keyboard1;
     void    *keyboard2;
@@ -103,9 +103,9 @@ typedef struct
 {
     char        *name;
     char        *alternate;
-    bool     (*func1)(char *cmd, char *parms);
+    bool        (*func1)(char *cmd, char *parms);
     void        (*func2)(char *cmd, char *parms);
-    bool     parameters;
+    bool        parameters;
     cmdtype_t   type;
     int         flags;
     void        *variable;
@@ -128,12 +128,12 @@ extern action_t         actions[];
 extern const control_t  controls[];
 extern consolecmd_t     consolecmds[];
 extern alias_t          aliases[MAXALIASES];
-extern bool          executingalias;
-extern bool          resettingcvar;
-extern bool          vanilla;
-extern bool          togglingvanilla;
-extern bool          massacre;
-extern bool          nobindoutput;
+extern bool             executingalias;
+extern bool             resettingcvar;
+extern bool             vanilla;
+extern bool             togglingvanilla;
+extern bool             massacre;
+extern bool             nobindoutput;
 
 void alias_cmd_func2(char *cmd, char *parms);
 void bind_cmd_func2(char *cmd, char *parms);

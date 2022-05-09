@@ -62,13 +62,13 @@ typedef struct
     FILE    *f;
 } DEHFILE;
 
-static bool  addtocount;
-static int      linecount;
+static bool addtocount;
+static int  linecount;
 
-int             dehcount;
-bool         dehacked;
+int         dehcount;
+bool        dehacked;
 
-byte            defined_codeptr_args[NUMSTATES];
+byte        defined_codeptr_args[NUMSTATES];
 
 // killough 10/98: emulate IO whether input really comes from a file or not
 
@@ -1569,7 +1569,7 @@ static const deh_block deh_blocks[] =
 };
 
 // flag to skip included deh-style text, used with INCLUDE NOTEXT directive
-static bool  includenotext;
+static bool includenotext;
 
 // MOBJINFO - Dehacked block name = "Thing"
 // Usage: Thing nn (name)
@@ -2249,7 +2249,7 @@ void ProcessDehFile(char *filename, int lumpnum, bool automatic)
     // loop until end of file
     while (dehfgets(inbuffer, sizeof(inbuffer), filein))
     {
-        bool             match = false;
+        bool                match = false;
         unsigned int        i;
         static unsigned int last_i = DEH_BLOCKMAX - 1;
         static int          filepos;
@@ -2273,7 +2273,7 @@ void ProcessDehFile(char *filename, int lumpnum, bool automatic)
             // killough 10/98: moved to here
 
             char    *nextfile;
-            bool oldnotext = includenotext;              // killough 10/98
+            bool    oldnotext = includenotext;              // killough 10/98
 
             // killough 10/98: exclude if inside wads (only to discourage
             // the practice, since the code could otherwise handle it)
@@ -2391,7 +2391,7 @@ static void deh_procBexCodePointers(DEHFILE *fpin, char *line)
     while (!dehfeof(fpin) && *inbuffer && *inbuffer != ' ')
     {
         int     i = -1;                         // looper
-        bool found = false;                  // know if we found this one during lookup or not
+        bool    found = false;                  // know if we found this one during lookup or not
 
         if (!dehfgets(inbuffer, sizeof(inbuffer), fpin))
             break;
@@ -2493,8 +2493,8 @@ static void deh_procThing(DEHFILE *fpin, char *line)
     {
         // e6y: Correction of wrong processing of Bits parameter if its value is equal to zero
         int     bGetData;
-        bool gibhealth = false;
-        bool string = false;
+        bool    gibhealth = false;
+        bool    string = false;
 
         if (!dehfgets(inbuffer, sizeof(inbuffer), fpin))
             break;
@@ -3251,9 +3251,9 @@ static void deh_procSprite(DEHFILE *fpin, char *line)   // Not supported
     }
 }
 
-extern bool  newpars;
-extern int      pars[6][10];
-extern int      cpars[33];
+extern bool newpars;
+extern int  pars[6][10];
+extern int  cpars[33];
 
 // ====================================================================
 // deh_procPars
@@ -3663,7 +3663,7 @@ static void deh_procText(DEHFILE *fpin, char *line)
     char    inbuffer[DEH_BUFFERMAX * 2];                    // can't use line -- double size buffer too.
     int     i;                                              // loop variable
     int     fromlen, tolen;                                 // as specified on the text block line
-    bool found = false;                                  // to allow early exit once found
+    bool    found = false;                                  // to allow early exit once found
     char    *line2 = NULL;                                  // duplicate line for rerouting
 
     // Ty 04/11/98 - Included file may have NOTEXT skip flag set
@@ -3910,7 +3910,7 @@ static void deh_procStrings(DEHFILE *fpin, char *line)
 //
 static bool deh_procStringSub(char *key, char *lookfor, char *newstring)
 {
-    bool found = false;  // loop exit flag
+    bool    found = false;  // loop exit flag
 
     for (int i = 0; i < deh_numstrlookup; i++)
     {

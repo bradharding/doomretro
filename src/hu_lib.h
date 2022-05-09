@@ -74,8 +74,8 @@ typedef struct
     hu_textline_t   l;                              // text line to draw
 
     // pointer to bool stating whether to update window
-    bool         *on;
-    bool         laston;                         // last value of *->on.
+    bool            *on;
+    bool            laston;                         // last value of *->on.
 } hu_stext_t;
 
 //
@@ -114,6 +114,6 @@ void HUlib_EraseSText(hu_stext_t *s);
 
 extern void (*althudtextfunc)(int, int, byte *, patch_t *, bool, int, int, byte *);
 
-extern bool  s_STSTR_BEHOLD2;
+extern bool     s_STSTR_BEHOLD2;
 extern byte     tempscreen[MAXSCREENAREA];
 #pragma once

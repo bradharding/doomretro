@@ -58,7 +58,7 @@ struct allocated_sound_s
     allocated_sound_t       *next;
 };
 
-static bool              sound_initialized;
+static bool                 sound_initialized;
 
 static allocated_sound_t    *channels_playing[s_channels_max];
 

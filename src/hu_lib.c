@@ -132,7 +132,7 @@ static void HU_DrawTranslucentChar(int x, int y, int ch, byte *screen, int scree
 
 static void HUlib_DrawAltHUDTextLine(hu_textline_t *l)
 {
-    bool         italics = false;
+    bool            italics = false;
     unsigned char   prevletter = '\0';
     int             x = 10;
     int             color = nearestwhite;
@@ -289,7 +289,7 @@ static void HUlib_DrawTextLine(hu_textline_t *l, bool external)
     byte            *tinttab1 = tinttab50;
     byte            *tinttab2 = tinttab80;
     const int       len = l->len;
-    const bool   idmypos = (viewplayer->cheats & CF_MYPOS);
+    const bool      idmypos = (viewplayer->cheats & CF_MYPOS);
     const int       screenwidth = (external ? MAPWIDTH : SCREENWIDTH);
 
     if (external)

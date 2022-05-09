@@ -85,9 +85,9 @@ static bool F_CastResponder(event_t *ev);
 void WI_CheckForAccelerate(void);
 void A_RandomJump(mobj_t *actor, player_t *player, pspdef_t *psp);
 
-static bool          midstage;               // whether we're in "mid-stage"
+static bool             midstage;               // whether we're in "mid-stage"
 
-extern bool          acceleratestage;        // accelerate intermission screens
+extern bool             acceleratestage;        // accelerate intermission screens
 
 //
 // F_ConsoleFinaleText
@@ -497,13 +497,13 @@ static int      castnum;
 static int      casttics;
 static state_t  *caststate;
 static int      castrot;
-static bool  castdeath;
-static bool  castdeathflip;
+static bool     castdeath;
+static bool     castdeathflip;
 static int      castframes;
-static bool  castonmelee;
-static bool  castattacking;
+static bool     castonmelee;
+static bool     castattacking;
 
-bool         firstevent;
+bool            firstevent;
 
 // [crispy] randomize seestate and deathstate sounds in the cast
 static int F_RandomizeSound(int sound)

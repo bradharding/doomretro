@@ -50,14 +50,14 @@
 // ------------------------
 // Command line parameters.
 //
-extern bool          nomonsters;             // checkparm of -nomonsters
-extern bool          regenhealth;
-extern bool          respawnitems;
-extern bool          respawnmonsters;        // checkparm of -respawn
-extern bool          pistolstart;            // [BH] checkparm of -pistolstart
-extern bool          fastparm;               // checkparm of -fast
+extern bool             nomonsters;             // checkparm of -nomonsters
+extern bool             regenhealth;
+extern bool             respawnitems;
+extern bool             respawnmonsters;        // checkparm of -respawn
+extern bool             pistolstart;            // [BH] checkparm of -pistolstart
+extern bool             fastparm;               // checkparm of -fast
 
-extern bool          devparm;                // DEBUG: launched with -devparm
+extern bool             devparm;                // DEBUG: launched with -devparm
 
 // -----------------------------------------------------
 // Game Mode - identify IWAD as shareware, retail etc.
@@ -67,7 +67,7 @@ extern GameMission_t    gamemission;
 extern char             gamedescription[255];
 
 // Set if homebrew PWAD stuff has been added.
-extern bool          modifiedgame;
+extern bool             modifiedgame;
 
 // -------------------------------------------
 // Selected skill type, map etc.
@@ -86,72 +86,72 @@ extern int              gameepisode;
 extern int              gamemap;
 extern char             speciallumpname[6];
 
-extern bool          freeze;
+extern bool             freeze;
 
-extern bool          sigil;
-extern bool          autosigil;
-extern bool          buckethead;
-extern bool          nerve;
-extern bool          bfgedition;
-extern bool          unity;
+extern bool             sigil;
+extern bool             autosigil;
+extern bool             buckethead;
+extern bool             nerve;
+extern bool             bfgedition;
+extern bool             unity;
 
-extern bool          chex;
-extern bool          chex1;
-extern bool          chex2;
-extern bool          hacx;
-extern bool          BTSX;
-extern bool          BTSXE1;
-extern bool          BTSXE1A;
-extern bool          BTSXE1B;
-extern bool          BTSXE2;
-extern bool          BTSXE2A;
-extern bool          BTSXE2B;
-extern bool          BTSXE3;
-extern bool          BTSXE3A;
-extern bool          BTSXE3B;
-extern bool          E1M4B;
-extern bool          E1M8B;
-extern bool          onehumanity;
-extern bool          sprfix18;
-extern bool          eviternity;
-extern bool          doom4vanilla;
-extern bool          REKKR;
-extern bool          REKKRSA;
-extern bool          REKKRSL;
+extern bool             chex;
+extern bool             chex1;
+extern bool             chex2;
+extern bool             hacx;
+extern bool             BTSX;
+extern bool             BTSXE1;
+extern bool             BTSXE1A;
+extern bool             BTSXE1B;
+extern bool             BTSXE2;
+extern bool             BTSXE2A;
+extern bool             BTSXE2B;
+extern bool             BTSXE3;
+extern bool             BTSXE3A;
+extern bool             BTSXE3B;
+extern bool             E1M4B;
+extern bool             E1M8B;
+extern bool             onehumanity;
+extern bool             sprfix18;
+extern bool             eviternity;
+extern bool             doom4vanilla;
+extern bool             REKKR;
+extern bool             REKKRSA;
+extern bool             REKKRSL;
 
-extern bool          moreblood;
+extern bool             moreblood;
 
-extern bool          DMENUPIC;
-extern bool          DSSECRET;
-extern bool          FREEDOOM;
-extern bool          FREEDM;
-extern bool          M_DOOM;
-extern bool          M_EPISOD;
-extern bool          M_GDHIGH;
-extern bool          M_GDLOW;
-extern bool          M_LGTTL;
-extern bool          M_LOADG;
-extern bool          M_LSCNTR;
-extern bool          M_MSENS;
-extern bool          M_MSGOFF;
-extern bool          M_MSGON;
-extern bool          M_NEWG;
-extern bool          M_NGAME;
-extern bool          M_NMARE;
-extern bool          M_OPTTTL;
-extern bool          M_PAUSE;
-extern bool          M_SAVEG;
-extern bool          M_SGTTL;
-extern bool          M_SKILL;
-extern bool          M_SKULL1;
-extern bool          M_SVOL;
+extern bool             DMENUPIC;
+extern bool             DSSECRET;
+extern bool             FREEDOOM;
+extern bool             FREEDM;
+extern bool             M_DOOM;
+extern bool             M_EPISOD;
+extern bool             M_GDHIGH;
+extern bool             M_GDLOW;
+extern bool             M_LGTTL;
+extern bool             M_LOADG;
+extern bool             M_LSCNTR;
+extern bool             M_MSENS;
+extern bool             M_MSGOFF;
+extern bool             M_MSGON;
+extern bool             M_NEWG;
+extern bool             M_NGAME;
+extern bool             M_NMARE;
+extern bool             M_OPTTTL;
+extern bool             M_PAUSE;
+extern bool             M_SAVEG;
+extern bool             M_SGTTL;
+extern bool             M_SKILL;
+extern bool             M_SKULL1;
+extern bool             M_SVOL;
 extern short            RROCK05;
 extern short            RROCK08;
 extern short            SLIME09;
 extern short            SLIME12;
-extern bool          STCFN034;
-extern bool          STYSNUM0;
-extern bool          WISCRT2;
+extern bool             STCFN034;
+extern bool             STYSNUM0;
+extern bool             WISCRT2;
 
 extern int              PLAYPALs;
 extern int              STBARs;
@@ -173,11 +173,11 @@ extern int              musicVolume;
 // Status flags for refresh.
 //
 
-extern bool          automapactive;  // In automap mode?
-extern bool          menuactive;     // Menu overlaid?
-extern bool          paused;         // Game Pause?
+extern bool             automapactive;  // In automap mode?
+extern bool             menuactive;     // Menu overlaid?
+extern bool             paused;         // Game Pause?
 
-extern bool          viewactive;
+extern bool             viewactive;
 
 // -------------------------------------
 // Scores, rating.
@@ -205,7 +205,7 @@ extern gamestate_t      gamestate;
 extern int              gametime;
 extern struct tm        gamestarttime;
 
-extern bool          realframe;
+extern bool             realframe;
 
 // Intermission stats.
 // Parameters for world map/intermission.
