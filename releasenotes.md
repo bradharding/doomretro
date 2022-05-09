@@ -15,7 +15,7 @@
 * Text displayed in the top right of the screen while the automap is open is now slightly more translucent.
 * The colors of keycards and skull keys in the automap when the `IDDT` cheat is used can now be changed using the new `am_redkeycolor`, `am_yellowkeycolor` and `am_bluekeycolor` CVARs. These CVARs are all `112` by default (the same as the `am_thingcolor` CVAR) and when vanilla mode is enabled.
 * When a pain elemental spawns a lost soul, the number of monsters the player has left to kill now increases as intended.
-* When a monster respawns, either when using the *Nightmare!* skill level or the `respawnmonsters` CCMD,  the number of monsters the player has left to kill now increases.
+* When a monster respawns, either by using the *Nightmare!* skill level or the `respawnmonsters` CCMD, the number of monsters the player has left to kill now increases.
 * The `am_followmode` CVAR no longer changes when enabling vanilla mode using the `vanilla` CCMD.
 * Changing the `r_fov` CVAR from its default of `90`° is now effective again when the `vid_widescreen` CVAR is `off`.
 * The effects of changing the `r_corpses_mirrored` and `r_mirroredweapons` CVARs in the console are now immediate.
@@ -48,7 +48,7 @@
   * The `JumpIfFlagsSet`, `AddFlags` and `RemoveFlags` code pointers now work correctly.
   * The player can now walk over certain linedefs in E2M7 again.
 * The “automap opened” stat shown by the `playerstats` CCMD is now reset at the start of each map as intended.
-* The `playerstats` CCMD now displays how many monsters have been telefragged and how many have respawned.
+* The `playerstats` CCMD now displays how many monsters have been telefragged and also how many have respawned.
 * Obituaries are now displayed in the console whenever the player or a monster is telefragged and the `con_obituaries` CVAR is `on`.
 * The `map` CCMD can now be used to warp the player to maps up to <code>E9M99</code> and <code>MAP99</code>.
 * The `mapstats` CCMD now displays how many linedefs have line specials in the current map.

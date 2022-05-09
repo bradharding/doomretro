@@ -5465,6 +5465,12 @@ static void C_PlayerStats_Game(void)
     free(temp3);
     free(temp4);
 
+    temp1 = commify(viewplayer->respawncount);
+    temp2 = commifystat(stat_monstersrespawned);
+    C_TabbedOutput(tabs, "Monsters respawned\t%s\t%s", temp1, temp2);
+    free(temp1);
+    free(temp2);
+
     temp1 = commify(viewplayer->resurrectioncount);
     temp2 = commifystat(stat_monstersresurrected);
     C_TabbedOutput(tabs, "Monsters resurrected\t%s\t%s", temp1, temp2);
@@ -5474,12 +5480,6 @@ static void C_PlayerStats_Game(void)
     temp1 = commify(viewplayer->telefragcount);
     temp2 = commifystat(stat_monsterstelefragged);
     C_TabbedOutput(tabs, "Monsters telefragged\t%s\t%s", temp1, temp2);
-    free(temp1);
-    free(temp2);
-
-    temp1 = commify(viewplayer->respawncount);
-    temp2 = commifystat(stat_monstersrespawned);
-    C_TabbedOutput(tabs, "Monsters respawned\t%s\t%s", temp1, temp2);
     free(temp1);
     free(temp2);
 
@@ -5969,16 +5969,16 @@ static void C_PlayerStats_NoGame(void)
     free(temp1);
     free(temp2);
 
+    temp1 = commifystat(stat_monstersrespawned);
+    C_TabbedOutput(tabs, "Monsters respawned\t\x96\t%s", temp1);
+    free(temp1);
+
     temp1 = commifystat(stat_monstersresurrected);
     C_TabbedOutput(tabs, "Monsters resurrected\t\x96\t%s", temp1);
     free(temp1);
 
     temp1 = commifystat(stat_monsterstelefragged);
     C_TabbedOutput(tabs, "Monsters telefragged\t\x96\t%s", temp1);
-    free(temp1);
-
-    temp1 = commifystat(stat_monstersrespawned);
-    C_TabbedOutput(tabs, "Monsters respawned\t\x96\t%s", temp1);
     free(temp1);
 
     temp1 = sentencecase(mobjinfo[MT_BARREL].plural1);
