@@ -338,16 +338,16 @@ char *M_GetExecutableFolder(void)
         return exe;
     }
 #elif defined(__APPLE__)
-    char        *exe = malloc(MAX_PATH);
+    char        exe[MAX_PATH];
     uint32_t    len = MAX_PATH;
 
     if (_NSGetExecutablePath(exe, &len))
     {
         strcpy(exe, ".");
-        return exe;
+        return M_StringDuplicate(exe);
     }
 
-    return dirname(exe);
+    return M_StringDuplicate(dirname(exe));
 #elif defined(__HAIKU__)
     char    *exe = malloc(MAX_PATH);
 

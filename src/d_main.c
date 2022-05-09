@@ -2253,9 +2253,7 @@ static void D_DoomMainSetup(void)
     C_Output("All files created using the " BOLD("condump") " CCMD will be saved in "
         BOLD("%s" DIR_SEPARATOR_S "console" DIR_SEPARATOR_S) ".", appdatafolder);
 
-#if !defined(__APPLE__)
     free(appdatafolder);
-#endif
 
     // Check for -file in shareware
     if (modifiedgame)
