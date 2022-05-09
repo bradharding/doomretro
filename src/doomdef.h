@@ -131,7 +131,7 @@ extern int          SCREENAREA;
 extern int          WIDESCREENDELTA;
 extern int          WIDEFOVDELTA;
 
-extern boolean      nowidescreen;
+extern bool      nowidescreen;
 
 extern int          MAPWIDTH;
 extern unsigned int MAPHEIGHT;

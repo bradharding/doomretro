@@ -66,7 +66,7 @@ typedef struct
     native_event_t      *native_events;
     int                 num_events;
     int                 position;
-    boolean             looping;
+    bool             looping;
 } win_midi_song_t;
 
 static win_midi_song_t  song;
@@ -300,7 +300,7 @@ static void MIDItoStream(midi_file_t *file)
         free(tracks);
 }
 
-boolean I_Windows_InitMusic(void)
+bool I_Windows_InitMusic(void)
 {
     UINT        MidiDevice = MIDI_MAPPER;
     MIDIHDR     *hdr = &buffer.MidiStreamHdr;
@@ -376,7 +376,7 @@ void I_Windows_StopSong(void)
         MidiErrorMessage(mmr);
 }
 
-void I_Windows_PlaySong(boolean looping)
+void I_Windows_PlaySong(bool looping)
 {
     MMRESULT    mmr;
 

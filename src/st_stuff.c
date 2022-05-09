@@ -158,10 +158,10 @@
 #define ST_MAXAMMO3Y        185
 
 // ST_Start() has just been called
-static boolean              st_firsttime;
+static bool              st_firsttime;
 
 // whether left-side main status bar is active
-static boolean              st_statusbaron;
+static bool              st_statusbaron;
 
 // main bar left
 static patch_t              *sbar;
@@ -175,7 +175,7 @@ patch_t                     *tallnum[10];
 // tall % sign
 patch_t                     *tallpercent;
 short                       tallpercentwidth;
-boolean                     emptytallpercent;
+bool                     emptytallpercent;
 
 // 0-9, short, yellow (,different!) numbers
 static patch_t              *shortnum[10];
@@ -226,13 +226,13 @@ patch_t                     *brdr_tr;
 patch_t                     *brdr_bl;
 patch_t                     *brdr_br;
 
-boolean                     st_drawbrdr;
+bool                     st_drawbrdr;
 
 // used to use appropriately pained face
 static int                  st_oldhealth = -1;
 
 // used for evil grin
-boolean                     oldweaponsowned[NUMWEAPONS];
+bool                     oldweaponsowned[NUMWEAPONS];
 
 int                         st_palette = 0;
 
@@ -249,17 +249,17 @@ static int                  keyboxes[3];
 
 int                         oldhealth = 100;
 
-boolean                     idclev;
+bool                     idclev;
 int                         idclevtics;
 
-boolean                     idmus;
+bool                     idmus;
 
 int                         facebackcolor = facebackcolor_default;
-boolean                     flashkeys = flashkeys_default;
+bool                     flashkeys = flashkeys_default;
 int                         r_berserkeffect = r_berserkeffect_default;
-boolean                     r_damageeffect = r_damageeffect_default;
-boolean                     r_pickupeffect = r_pickupeffect_default;
-boolean                     r_radsuiteffect = r_radsuiteffect_default;
+bool                     r_damageeffect = r_damageeffect_default;
+bool                     r_pickupeffect = r_pickupeffect_default;
+bool                     r_radsuiteffect = r_radsuiteffect_default;
 
 uint64_t                    stat_cheated = 0;
 
@@ -289,7 +289,7 @@ cheatseq_t cheat_mypos = CHEAT("idmypos", 0, false);
 cheatseq_t cheat_amap = CHEAT("iddt", 0, false);
 cheatseq_t cheat_buddha = CHEAT("buddha", 0, false);
 
-static boolean movekey(char key)
+static bool movekey(char key)
 {
     return (key == keyboardright || key == keyboardleft || key == keyboardforward || key == keyboardforward2
         || key == keyboardback || key == keyboardback2 || key == keyboardstrafeleft || key == keyboardstraferight);
@@ -431,7 +431,7 @@ static void ST_RefreshBackground(void)
 #endif
 }
 
-static void ST_PlayerCheated(char *cheat, char *output, boolean warning)
+static void ST_PlayerCheated(char *cheat, char *output, bool warning)
 {
     C_Cheat(cheat);
 
@@ -440,7 +440,7 @@ static void ST_PlayerCheated(char *cheat, char *output, boolean warning)
 
     if (warning)
     {
-        static boolean  cheated;
+        static bool  cheated;
 
         C_Warning(0, "%s cheated%s!",
             (M_StringCompare(playername, playername_default) ? "You" : playername),
@@ -455,14 +455,14 @@ static void ST_PlayerCheated(char *cheat, char *output, boolean warning)
 static int ST_CalcPainOffset(void);
 
 // Respond to keyboard input events, intercept cheats.
-boolean ST_Responder(event_t *ev)
+bool ST_Responder(event_t *ev)
 {
     // if a user keypress...
     if (ev->type == ev_keydown || *consolecheat)
     {
         if (!menuactive && !paused)     // [BH] no cheats when in menu or paused
         {
-            boolean cheatfailed = false;
+            bool cheatfailed = false;
 
             if (!*consolecheat && cht_CheckCheat(&cheat_mus, ev->data2) && !nomusic && musicVolume)
                 idmus = true;
@@ -512,10 +512,10 @@ boolean ST_Responder(event_t *ev)
             // 'fa' cheat for killer fucking arsenal
             else if (cht_CheckCheat(&cheat_ammonokey, ev->data2) && gameskill != sk_nightmare && viewplayer->health > 0)
             {
-                boolean ammogiven = false;
-                boolean armorgiven = false;
-                boolean berserkgiven = false;
-                boolean weaponsgiven = false;
+                bool ammogiven = false;
+                bool armorgiven = false;
+                bool berserkgiven = false;
+                bool weaponsgiven = false;
 
                 // [BH] note if player doesn't have full armor before giving it
                 if (viewplayer->armorpoints < idfa_armor || viewplayer->armortype < idfa_armor_class)
@@ -568,11 +568,11 @@ boolean ST_Responder(event_t *ev)
                 // [BH] can only enter cheat while player is alive
                 && viewplayer->health > 0)
             {
-                boolean ammogiven = false;
-                boolean armorgiven = false;
-                boolean berserkgiven = false;
-                boolean keysgiven = false;
-                boolean weaponsgiven = false;
+                bool ammogiven = false;
+                bool armorgiven = false;
+                bool berserkgiven = false;
+                bool keysgiven = false;
+                bool weaponsgiven = false;
 
                 // [BH] note if player doesn't have full armor before giving it
                 if (viewplayer->armorpoints < idkfa_armor || viewplayer->armortype < idkfa_armor_class)
@@ -1121,7 +1121,7 @@ static void ST_UpdateFaceWidget(void)
         if (viewplayer->bonuscount)
         {
             // picking up bonus
-            boolean doevilgrin = false;
+            bool doevilgrin = false;
 
             for (int i = 0; i < NUMWEAPONS; i++)
                 if (oldweaponsowned[i] != viewplayer->weaponowned[i])
@@ -1330,7 +1330,7 @@ static void ST_DoPaletteStuff(void)
     }
 }
 
-static void ST_DrawWidgets(boolean refresh)
+static void ST_DrawWidgets(bool refresh)
 {
     STlib_UpdateBigAmmoNum(&w_ready);
 
@@ -1371,8 +1371,8 @@ static void ST_DrawWidgets(boolean refresh)
 
     if (viewplayer->neededcardflash)
     {
-        static boolean  showkey;
-        const boolean   gamepaused = (consoleactive || freeze);
+        static bool  showkey;
+        const bool   gamepaused = (consoleactive || freeze);
 
         if (!gamepaused)
         {
@@ -1419,7 +1419,7 @@ static void ST_DiffDraw(void)
     ST_DrawWidgets(false);
 }
 
-void ST_Drawer(boolean fullscreen, boolean refresh)
+void ST_Drawer(bool fullscreen, bool refresh)
 {
     // Do red/gold-shifts from damage/items
     ST_DoPaletteStuff();

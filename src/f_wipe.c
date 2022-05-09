@@ -90,9 +90,9 @@ static void wipe_Melt(int i, int dy)
         d[j] = *s++;
 }
 
-static boolean wipe_doMelt(void)
+static bool wipe_doMelt(void)
 {
-    boolean done = true;
+    bool done = true;
 
     for (int i = 0; i < SCREENWIDTH / 2; i++)
         if (y[i] < 0)
@@ -125,10 +125,10 @@ void wipe_EndScreen(void)
     memcpy(screens[0], screens[2], SCREENAREA);
 }
 
-boolean wipe_ScreenWipe(void)
+bool wipe_ScreenWipe(void)
 {
     // when false, stop the wipe
-    static boolean  go;
+    static bool  go;
 
     // initial stuff
     if (!go)

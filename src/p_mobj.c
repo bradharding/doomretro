@@ -57,16 +57,16 @@
 int     r_blood = r_blood_default;
 int     r_bloodsplats_max = r_bloodsplats_max_default;
 int     r_bloodsplats_total;
-boolean r_corpses_color = r_corpses_color_default;
-boolean r_corpses_gib = r_corpses_gib_default;
-boolean r_corpses_mirrored = r_corpses_mirrored_default;
-boolean r_corpses_moreblood = r_corpses_moreblood_default;
-boolean r_corpses_nudge = r_corpses_nudge_default;
-boolean r_corpses_slide = r_corpses_slide_default;
-boolean r_corpses_smearblood = r_corpses_smearblood_default;
-boolean r_floatbob = r_floatbob_default;
-boolean r_rockettrails = r_rockettrails_default;
-boolean r_shadows = r_shadows_default;
+bool r_corpses_color = r_corpses_color_default;
+bool r_corpses_gib = r_corpses_gib_default;
+bool r_corpses_mirrored = r_corpses_mirrored_default;
+bool r_corpses_moreblood = r_corpses_moreblood_default;
+bool r_corpses_nudge = r_corpses_nudge_default;
+bool r_corpses_slide = r_corpses_slide_default;
+bool r_corpses_smearblood = r_corpses_smearblood_default;
+bool r_floatbob = r_floatbob_default;
+bool r_rockettrails = r_rockettrails_default;
+bool r_shadows = r_shadows_default;
 
 void A_Recoil(weapontype_t weapon);
 
@@ -74,7 +74,7 @@ void A_Recoil(weapontype_t weapon);
 // P_SetMobjState
 // Returns true if the mobj is still present.
 //
-boolean P_SetMobjState(mobj_t *mobj, statenum_t state)
+bool P_SetMobjState(mobj_t *mobj, statenum_t state)
 {
     do
     {
@@ -143,7 +143,7 @@ static void P_XYMovement(mobj_t *mo)
     fixed_t     xmove, ymove;
     mobjtype_t  type;
     int         flags2;
-    boolean     corpse;
+    bool     corpse;
     int         stepdir = 0;
 
     if (!(mo->momx | mo->momy))
@@ -1135,7 +1135,7 @@ void P_SpawnMoreBlood(mobj_t *mobj)
 int prevthingx, prevthingy;
 int prevthingbob;
 
-mobj_t *P_SpawnMapThing(mapthing_t *mthing, boolean spawnmonsters)
+mobj_t *P_SpawnMapThing(mapthing_t *mthing, bool spawnmonsters)
 {
     mobjtype_t  i;
     mobj_t      *mobj;
@@ -1508,7 +1508,7 @@ void P_SetBloodSplatColor(bloodsplat_t *splat)
 //
 // P_SpawnBloodSplat
 //
-void P_SpawnBloodSplat(fixed_t x, fixed_t y, int color, boolean usemaxheight, fixed_t maxheight, mobj_t *target)
+void P_SpawnBloodSplat(fixed_t x, fixed_t y, int color, bool usemaxheight, fixed_t maxheight, mobj_t *target)
 {
     if (r_bloodsplats_total >= r_bloodsplats_max)
         return;
@@ -1546,7 +1546,7 @@ void P_SpawnBloodSplat(fixed_t x, fixed_t y, int color, boolean usemaxheight, fi
 // Moves the missile forward a bit
 //  and possibly explodes it right there.
 //
-boolean P_CheckMissileSpawn(mobj_t *th)
+bool P_CheckMissileSpawn(mobj_t *th)
 {
     th->tics = MAX(1, th->tics - (M_Random() & 3));
 
@@ -1690,7 +1690,7 @@ mobj_t *P_SpawnPlayerMissile(mobj_t *source, mobjtype_t type)
 // Returns true if 'source' needs to turn clockwise, or false if 'source' needs
 // to turn counter clockwise. 'delta' is set to the amount 'source' needs to turn.
 //
-static boolean P_FaceMobj(mobj_t *source, mobj_t *target, angle_t *delta)
+static bool P_FaceMobj(mobj_t *source, mobj_t *target, angle_t *delta)
 {
     angle_t         diff;
     const angle_t   angle1 = source->angle;
@@ -1720,7 +1720,7 @@ static boolean P_FaceMobj(mobj_t *source, mobj_t *target, angle_t *delta)
 //
 // MBF21: P_SeekerMissile
 //
-boolean P_SeekerMissile(mobj_t *actor, mobj_t **seekTarget, angle_t thresh, angle_t turnmax, boolean seekcenter)
+bool P_SeekerMissile(mobj_t *actor, mobj_t **seekTarget, angle_t thresh, angle_t turnmax, bool seekcenter)
 {
     int     dir;
     angle_t delta;

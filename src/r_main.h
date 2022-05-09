@@ -90,8 +90,8 @@ extern int          numcolormaps;   // killough 04/04/98: dynamic number of maps
 extern lighttable_t **colormaps;
 extern int          extralight;
 extern lighttable_t *fixedcolormap;
-extern boolean      setsizeneeded;
-extern boolean      drawbloodsplats;
+extern bool      setsizeneeded;
+extern bool      drawbloodsplats;
 
 //
 // Function pointers to switch refresh/drawing functions.

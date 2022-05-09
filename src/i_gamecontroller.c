@@ -41,21 +41,21 @@
 #include "i_gamecontroller.h"
 #include "m_config.h"
 
-boolean                     joy_analog = joy_analog_default;
+bool                     joy_analog = joy_analog_default;
 float                       joy_deadzone_left = joy_deadzone_left_default;
 float                       joy_deadzone_right = joy_deadzone_right_default;
-boolean                     joy_invertyaxis = joy_invertyaxis_default;
+bool                     joy_invertyaxis = joy_invertyaxis_default;
 int                         joy_rumble_barrels = joy_rumble_barrels_default;
 int                         joy_rumble_damage = joy_rumble_damage_default;
 int                         joy_rumble_weapons = joy_rumble_weapons_default;
 int                         joy_sensitivity_horizontal = joy_sensitivity_horizontal_default;
 int                         joy_sensitivity_vertical = joy_sensitivity_vertical_default;
-boolean                     joy_swapthumbsticks = joy_swapthumbsticks_default;
+bool                     joy_swapthumbsticks = joy_swapthumbsticks_default;
 int                         joy_thumbsticks = joy_thumbsticks_default;
 
 static SDL_GameController   *gamecontroller;
-static boolean              gamecontrollerconnected;
-static boolean              gamecontrollerhasrumble;
+static bool              gamecontrollerconnected;
+static bool              gamecontrollerhasrumble;
 
 int                         gamecontrollerbuttons = 0;
 short                       gamecontrollerthumbLX = 0;
@@ -99,7 +99,7 @@ void I_InitGameController(void)
         if (SDL_IsGameController(i))
         {
             const char  *name;
-            boolean     repeated = false;
+            bool     repeated = false;
 
             gamecontroller = SDL_GameControllerOpen(i);
 

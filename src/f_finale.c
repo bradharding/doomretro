@@ -80,14 +80,14 @@ static char             *finaleflat;
 
 static void F_StartCast(void);
 static void F_CastTicker(void);
-static boolean F_CastResponder(event_t *ev);
+static bool F_CastResponder(event_t *ev);
 
 void WI_CheckForAccelerate(void);
 void A_RandomJump(mobj_t *actor, player_t *player, pspdef_t *psp);
 
-static boolean          midstage;               // whether we're in "mid-stage"
+static bool          midstage;               // whether we're in "mid-stage"
 
-extern boolean          acceleratestage;        // accelerate intermission screens
+extern bool          acceleratestage;        // accelerate intermission screens
 
 //
 // F_ConsoleFinaleText
@@ -289,7 +289,7 @@ void F_StartFinale(void)
     F_ConsoleFinaleText();
 }
 
-boolean F_Responder(event_t *ev)
+bool F_Responder(event_t *ev)
 {
     if (finalestage == F_STAGE_CAST)
         return F_CastResponder(ev);
@@ -497,13 +497,13 @@ static int      castnum;
 static int      casttics;
 static state_t  *caststate;
 static int      castrot;
-static boolean  castdeath;
-static boolean  castdeathflip;
+static bool  castdeath;
+static bool  castdeathflip;
 static int      castframes;
-static boolean  castonmelee;
-static boolean  castattacking;
+static bool  castonmelee;
+static bool  castattacking;
 
-boolean         firstevent;
+bool         firstevent;
 
 // [crispy] randomize seestate and deathstate sounds in the cast
 static int F_RandomizeSound(int sound)
@@ -703,7 +703,7 @@ stopattack:
 //
 // F_CastResponder
 //
-static boolean F_CastResponder(event_t *ev)
+static bool F_CastResponder(event_t *ev)
 {
     mobjtype_t  type;
 

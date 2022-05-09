@@ -80,19 +80,19 @@ spritedef_t             *sprites;
 
 short                   firstbloodsplatlump;
 
-boolean                 allowwolfensteinss = true;
-boolean                 pausesprites = false;
+bool                 allowwolfensteinss = true;
+bool                 pausesprites = false;
 
 static spriteframe_t    sprtemp[MAXSPRITEFRAMES];
 static int              maxframe;
 
-static boolean          drawshadows;
-static boolean          interpolatesprites;
-static boolean          invulnerable;
+static bool          drawshadows;
+static bool          interpolatesprites;
+static bool          invulnerable;
 static fixed_t          floorheight;
 
-boolean                 r_liquid_clipsprites = r_liquid_clipsprites_default;
-boolean                 r_playersprites = r_playersprites_default;
+bool                 r_liquid_clipsprites = r_liquid_clipsprites_default;
+bool                 r_playersprites = r_playersprites_default;
 
 static const fixed_t floatbobdiffs[64] =
 {
@@ -111,7 +111,7 @@ static const fixed_t floatbobdiffs[64] =
 // Local function for R_InitSprites.
 //
 static void R_InstallSpriteLump(const lumpinfo_t *lump, const int lumpnum,
-    const unsigned int frame, const char rot, const boolean flipped)
+    const unsigned int frame, const char rot, const bool flipped)
 {
     unsigned int    rotation = (rot >= '0' && rot <= '9' ? rot - '0' : (rot >= 'A' ? rot - 'A' + 10 : 17));
 
@@ -617,7 +617,7 @@ static void R_ProjectSprite(mobj_t *thing)
     spriteframe_t   *sprframe;
     int             lump;
     fixed_t         width;
-    boolean         flip;
+    bool         flip;
     vissprite_t     *vis;
     sector_t        *heightsec;
     int             flags2;
@@ -975,9 +975,9 @@ void R_AddSprites(sector_t *sec, int lightlevel)
 //
 // R_DrawPlayerSprite
 //
-static boolean  muzzleflash;
+static bool  muzzleflash;
 
-static void R_DrawPlayerSprite(pspdef_t *psp, boolean invisibility, boolean texture, boolean altered)
+static void R_DrawPlayerSprite(pspdef_t *psp, bool invisibility, bool texture, bool altered)
 {
     fixed_t         tx;
     int             x1, x2;
@@ -1129,7 +1129,7 @@ static void R_DrawPlayerSprite(pspdef_t *psp, boolean invisibility, boolean text
 static void R_DrawPlayerSprites(void)
 {
     int         invisibility = viewplayer->powers[pw_invisibility];
-    boolean     altered = (weaponinfo[viewplayer->readyweapon].altered || !r_fixspriteoffsets);
+    bool     altered = (weaponinfo[viewplayer->readyweapon].altered || !r_fixspriteoffsets);
     pspdef_t    *weapon = viewplayer->psprites;
     pspdef_t    *flash = weapon + 1;
     state_t     *weaponstate = weapon->state;

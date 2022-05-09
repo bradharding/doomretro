@@ -71,7 +71,7 @@ struct lumpinfo_s
 extern lumpinfo_t   **lumpinfo;
 extern int          numlumps;
 
-boolean IsUltimateDOOM(const char *iwadname);
+bool IsUltimateDOOM(const char *iwadname);
 
 char *GetCorrectCase(char *path);
 
@@ -79,7 +79,7 @@ char *GetCorrectCase(char *path);
 char *W_GuessFilename(char *path, char *string);
 #endif
 
-boolean W_AddFile(char *filename, boolean automatic);
+bool W_AddFile(char *filename, bool automatic);
 int W_WadType(char *filename);
 
 int W_CheckNumForName(const char *name);
@@ -110,4 +110,4 @@ void W_ReleaseLumpNum(int lumpnum);
 void W_CloseFiles(void);
 
 GameMission_t IWADRequiredByPWAD(char *pwadname);
-boolean HasDehackedLump(const char *pwadname);
+bool HasDehackedLump(const char *pwadname);

@@ -998,7 +998,7 @@ void P_WriteSaveGameHeader(char *description)
 //
 // Read the header for a savegame
 //
-boolean P_ReadSaveGameHeader(char *description)
+bool P_ReadSaveGameHeader(char *description)
 {
     byte    a, b, c;
     char    vcheck[VERSIONSIZE];
@@ -1055,7 +1055,7 @@ boolean P_ReadSaveGameHeader(char *description)
 //
 // Read the end of file marker. Returns true if read successfully.
 //
-boolean P_ReadSaveGameEOF(void)
+bool P_ReadSaveGameEOF(void)
 {
     return (saveg_read8() == SAVEGAME_EOF);
 }

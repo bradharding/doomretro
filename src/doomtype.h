@@ -42,7 +42,6 @@
 #include <limits.h>
 #include <stdbool.h>
 
-typedef _Bool   boolean;
 typedef uint8_t byte;
 
 #if defined(_WIN32)

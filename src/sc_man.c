@@ -56,9 +56,9 @@ static char     *ScriptBuffer;
 static char     *ScriptPtr;
 static char     *ScriptEndPtr;
 static int      ScriptLumpNum;
-static boolean  sc_End;
-static boolean  ScriptOpen;
-static boolean  AlreadyGot;
+static bool  sc_End;
+static bool  ScriptOpen;
+static bool  AlreadyGot;
 
 static void SC_ScriptError(void)
 {
@@ -97,10 +97,10 @@ void SC_Close(void)
     }
 }
 
-boolean SC_GetString(void)
+bool SC_GetString(void)
 {
     char    *text;
-    boolean foundToken = false;
+    bool foundToken = false;
 
     if (AlreadyGot)
     {
@@ -188,7 +188,7 @@ void SC_MustGetString(void)
         SC_ScriptError();
 }
 
-boolean SC_GetNumber(void)
+bool SC_GetNumber(void)
 {
     if (SC_GetString())
     {
@@ -219,7 +219,7 @@ int SC_MatchString(char **strings)
     return -1;
 }
 
-boolean SC_Compare(char *text)
+bool SC_Compare(char *text)
 {
     return M_StringCompare(text, sc_String);
 }

@@ -50,14 +50,14 @@
 // ------------------------
 // Command line parameters.
 //
-extern boolean          nomonsters;             // checkparm of -nomonsters
-extern boolean          regenhealth;
-extern boolean          respawnitems;
-extern boolean          respawnmonsters;        // checkparm of -respawn
-extern boolean          pistolstart;            // [BH] checkparm of -pistolstart
-extern boolean          fastparm;               // checkparm of -fast
+extern bool          nomonsters;             // checkparm of -nomonsters
+extern bool          regenhealth;
+extern bool          respawnitems;
+extern bool          respawnmonsters;        // checkparm of -respawn
+extern bool          pistolstart;            // [BH] checkparm of -pistolstart
+extern bool          fastparm;               // checkparm of -fast
 
-extern boolean          devparm;                // DEBUG: launched with -devparm
+extern bool          devparm;                // DEBUG: launched with -devparm
 
 // -----------------------------------------------------
 // Game Mode - identify IWAD as shareware, retail etc.
@@ -67,7 +67,7 @@ extern GameMission_t    gamemission;
 extern char             gamedescription[255];
 
 // Set if homebrew PWAD stuff has been added.
-extern boolean          modifiedgame;
+extern bool          modifiedgame;
 
 // -------------------------------------------
 // Selected skill type, map etc.
@@ -77,7 +77,7 @@ extern boolean          modifiedgame;
 extern skill_t          startskill;
 extern int              startepisode;
 
-extern boolean          autostart;
+extern bool          autostart;
 
 // Selected by user.
 extern skill_t          gameskill;
@@ -86,72 +86,72 @@ extern int              gameepisode;
 extern int              gamemap;
 extern char             speciallumpname[6];
 
-extern boolean          freeze;
+extern bool          freeze;
 
-extern boolean          sigil;
-extern boolean          autosigil;
-extern boolean          buckethead;
-extern boolean          nerve;
-extern boolean          bfgedition;
-extern boolean          unity;
+extern bool          sigil;
+extern bool          autosigil;
+extern bool          buckethead;
+extern bool          nerve;
+extern bool          bfgedition;
+extern bool          unity;
 
-extern boolean          chex;
-extern boolean          chex1;
-extern boolean          chex2;
-extern boolean          hacx;
-extern boolean          BTSX;
-extern boolean          BTSXE1;
-extern boolean          BTSXE1A;
-extern boolean          BTSXE1B;
-extern boolean          BTSXE2;
-extern boolean          BTSXE2A;
-extern boolean          BTSXE2B;
-extern boolean          BTSXE3;
-extern boolean          BTSXE3A;
-extern boolean          BTSXE3B;
-extern boolean          E1M4B;
-extern boolean          E1M8B;
-extern boolean          onehumanity;
-extern boolean          sprfix18;
-extern boolean          eviternity;
-extern boolean          doom4vanilla;
-extern boolean          REKKR;
-extern boolean          REKKRSA;
-extern boolean          REKKRSL;
+extern bool          chex;
+extern bool          chex1;
+extern bool          chex2;
+extern bool          hacx;
+extern bool          BTSX;
+extern bool          BTSXE1;
+extern bool          BTSXE1A;
+extern bool          BTSXE1B;
+extern bool          BTSXE2;
+extern bool          BTSXE2A;
+extern bool          BTSXE2B;
+extern bool          BTSXE3;
+extern bool          BTSXE3A;
+extern bool          BTSXE3B;
+extern bool          E1M4B;
+extern bool          E1M8B;
+extern bool          onehumanity;
+extern bool          sprfix18;
+extern bool          eviternity;
+extern bool          doom4vanilla;
+extern bool          REKKR;
+extern bool          REKKRSA;
+extern bool          REKKRSL;
 
-extern boolean          moreblood;
+extern bool          moreblood;
 
-extern boolean          DMENUPIC;
-extern boolean          DSSECRET;
-extern boolean          FREEDOOM;
-extern boolean          FREEDM;
-extern boolean          M_DOOM;
-extern boolean          M_EPISOD;
-extern boolean          M_GDHIGH;
-extern boolean          M_GDLOW;
-extern boolean          M_LGTTL;
-extern boolean          M_LOADG;
-extern boolean          M_LSCNTR;
-extern boolean          M_MSENS;
-extern boolean          M_MSGOFF;
-extern boolean          M_MSGON;
-extern boolean          M_NEWG;
-extern boolean          M_NGAME;
-extern boolean          M_NMARE;
-extern boolean          M_OPTTTL;
-extern boolean          M_PAUSE;
-extern boolean          M_SAVEG;
-extern boolean          M_SGTTL;
-extern boolean          M_SKILL;
-extern boolean          M_SKULL1;
-extern boolean          M_SVOL;
+extern bool          DMENUPIC;
+extern bool          DSSECRET;
+extern bool          FREEDOOM;
+extern bool          FREEDM;
+extern bool          M_DOOM;
+extern bool          M_EPISOD;
+extern bool          M_GDHIGH;
+extern bool          M_GDLOW;
+extern bool          M_LGTTL;
+extern bool          M_LOADG;
+extern bool          M_LSCNTR;
+extern bool          M_MSENS;
+extern bool          M_MSGOFF;
+extern bool          M_MSGON;
+extern bool          M_NEWG;
+extern bool          M_NGAME;
+extern bool          M_NMARE;
+extern bool          M_OPTTTL;
+extern bool          M_PAUSE;
+extern bool          M_SAVEG;
+extern bool          M_SGTTL;
+extern bool          M_SKILL;
+extern bool          M_SKULL1;
+extern bool          M_SVOL;
 extern short            RROCK05;
 extern short            RROCK08;
 extern short            SLIME09;
 extern short            SLIME12;
-extern boolean          STCFN034;
-extern boolean          STYSNUM0;
-extern boolean          WISCRT2;
+extern bool          STCFN034;
+extern bool          STYSNUM0;
+extern bool          WISCRT2;
 
 extern int              PLAYPALs;
 extern int              STBARs;
@@ -173,11 +173,11 @@ extern int              musicVolume;
 // Status flags for refresh.
 //
 
-extern boolean          automapactive;  // In automap mode?
-extern boolean          menuactive;     // Menu overlaid?
-extern boolean          paused;         // Game Pause?
+extern bool          automapactive;  // In automap mode?
+extern bool          menuactive;     // Menu overlaid?
+extern bool          paused;         // Game Pause?
 
-extern boolean          viewactive;
+extern bool          viewactive;
 
 // -------------------------------------
 // Scores, rating.
@@ -205,7 +205,7 @@ extern gamestate_t      gamestate;
 extern int              gametime;
 extern struct tm        gamestarttime;
 
-extern boolean          realframe;
+extern bool          realframe;
 
 // Intermission stats.
 // Parameters for world map/intermission.

@@ -66,7 +66,7 @@
 
 console_t               *console = NULL;
 
-boolean                 consoleactive;
+bool                 consoleactive;
 int                     consoleheight = 0;
 int                     consoledirection = -1;
 static int              consoleanim;
@@ -106,15 +106,15 @@ size_t                  consolestringsmax = 0;
 static size_t           undolevels;
 static undohistory_t    *undohistory;
 
-static boolean          showcaret = true;
+static bool          showcaret = true;
 static int              caretwait;
 int                     caretpos;
 int                     selectstart;
 int                     selectend;
 
-static boolean          wrapbold;
-static boolean          wrapitalics;
-static boolean          pathoverlay;
+static bool          wrapbold;
+static bool          wrapitalics;
+static bool          pathoverlay;
 
 char                    consolecheat[255];
 char                    consolecheatparm[3];
@@ -154,13 +154,13 @@ static int              consoleboldcolors[STRINGTYPES];
 static byte             *consolebevel;
 static byte             *consoleautomapbevel;
 
-boolean                 scrollbardrawn;
+bool                 scrollbardrawn;
 
-static void (*consoletextfunc)(byte *, int, int, int, patch_t *, int, int, int, boolean, byte *);
+static void (*consoletextfunc)(byte *, int, int, int, patch_t *, int, int, int, bool, byte *);
 
 extern int              framespersecond;
 extern int              refreshrate;
-extern boolean          quitcmd;
+extern bool          quitcmd;
 
 void C_Input(const char *string, ...)
 {
@@ -269,7 +269,7 @@ void C_Output(const char *string, ...)
     outputhistory = -1;
 }
 
-boolean C_OutputNoRepeat(const char *string, ...)
+bool C_OutputNoRepeat(const char *string, ...)
 {
     char    buffer[CONSOLETEXTMAXLENGTH] = "";
 
@@ -496,9 +496,9 @@ const kern_t altkern[] =
     { 'v',  'j',  -2 }, { 'w',  'j',  -2 }, { 'x',  'j',  -2 }, { 'z',  'j',  -2 }, { '\0', '\0',  0 }
 };
 
-static int C_TextWidth(const char *text, const boolean formatting, const boolean kerning)
+static int C_TextWidth(const char *text, const bool formatting, const bool kerning)
 {
-    boolean         italics = false;
+    bool         italics = false;
     const int       len = (int)strlen(text);
     unsigned char   prevletter = '\0';
     int             width = 0;
@@ -608,7 +608,7 @@ static int C_TextWidth(const char *text, const boolean formatting, const boolean
     return width;
 }
 
-static int C_OverlayWidth(const char *text, const boolean monospaced)
+static int C_OverlayWidth(const char *text, const bool monospaced)
 {
     const int       len = (int)strlen(text);
     int             width = 0;
@@ -936,10 +936,10 @@ static void C_DrawBackground(void)
 }
 
 static int C_DrawConsoleText(int x, int y, char *text, const int color1, const int color2, const int boldcolor,
-    byte *translucency, const int tabs[3], const boolean formatting, const boolean kerning, const int index)
+    byte *translucency, const int tabs[3], const bool formatting, const bool kerning, const int index)
 {
-    boolean         bold = wrapbold;
-    boolean         italics = wrapitalics;
+    bool         bold = wrapbold;
+    bool         italics = wrapitalics;
     int             tab = -1;
     const int       len = (int)strlen(text);
     unsigned char   prevletter = '\0';
@@ -1101,7 +1101,7 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
     return (x - startx);
 }
 
-static void C_DrawOverlayText(byte *screen, int screenwidth, int x, int y, const char *text, const int color, const boolean monospaced)
+static void C_DrawOverlayText(byte *screen, int screenwidth, int x, int y, const char *text, const int color, const bool monospaced)
 {
     const int       len = (int)strlen(text);
     byte            *tinttab = (r_hud_translucency ? (automapactive ? tinttab70 : tinttab50) : NULL);
@@ -1296,7 +1296,7 @@ void C_Drawer(void)
     int             bottomline = (outputhistory == -1 ? consolestrings : outputhistory + CONSOLELINES) - 1;
     int             len;
     char            partialinput[255];
-    const boolean   prevconsoleactive = consoleactive;
+    const bool   prevconsoleactive = consoleactive;
     static int      consolewait;
     int             tics = I_GetTimeMS();
     const int       notabs[3] = { 0 };
@@ -1634,7 +1634,7 @@ void C_Drawer(void)
     I_Sleep(1);
 }
 
-boolean C_ExecuteInputString(const char *input)
+bool C_ExecuteInputString(const char *input)
 {
     char    *string = M_StringDuplicate(input);
     char    *strings[255];
@@ -1654,7 +1654,7 @@ boolean C_ExecuteInputString(const char *input)
     return true;
 }
 
-boolean C_ValidateInput(char *input)
+bool C_ValidateInput(char *input)
 {
     const int   length = (int)strlen(input);
 
@@ -1749,7 +1749,7 @@ boolean C_ValidateInput(char *input)
     return false;
 }
 
-boolean C_Responder(event_t *ev)
+bool C_Responder(event_t *ev)
 {
     static int  autocomplete = -1;
     static int  scrollspeed = TICRATE;
@@ -1852,7 +1852,7 @@ boolean C_Responder(event_t *ev)
                 // confirm input
                 if (consoleinput[0] != '\0')
                 {
-                    boolean result = false;
+                    bool result = false;
 
                     if (M_StringStartsWith(consoleinput, "bind ") || M_StringStartsWith(consoleinput, "unbind "))
                     {
@@ -1995,7 +1995,7 @@ boolean C_Responder(event_t *ev)
                     static char input[255];
                     char        prefix[255] = "";
                     int         spaces1;
-                    boolean     endspace1;
+                    bool     endspace1;
 
                     for (i = len - 1; i >= 0; i--)
                         if (consoleinput[i] == ';')
@@ -2035,7 +2035,7 @@ boolean C_Responder(event_t *ev)
                     {
                         static char output[255];
                         int         spaces2;
-                        boolean     endspace2;
+                        bool     endspace2;
                         int         len2;
                         int         game;
 

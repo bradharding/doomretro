@@ -43,7 +43,7 @@
 //
 // TELEPORTATION
 //
-boolean EV_Teleport(line_t *line, int side, mobj_t *thing)
+bool EV_Teleport(line_t *line, int side, mobj_t *thing)
 {
     // Don't teleport missiles.
     // Don't teleport if hit back of line, so you can get out of teleporter.
@@ -139,7 +139,7 @@ boolean EV_Teleport(line_t *line, int side, mobj_t *thing)
 // Silent TELEPORTATION, by Lee Killough
 // Primarily for rooms-over-rooms etc.
 //
-boolean EV_SilentTeleport(line_t *line, int side, mobj_t *thing)
+bool EV_SilentTeleport(line_t *line, int side, mobj_t *thing)
 {
     // don't teleport missiles
     // Don't teleport if hit back of line,
@@ -222,7 +222,7 @@ boolean EV_SilentTeleport(line_t *line, int side, mobj_t *thing)
 // maximum fixed_t units to move object to avoid hiccups
 #define FUDGEFACTOR 10
 
-boolean EV_SilentLineTeleport(line_t *line, int side, mobj_t *thing, boolean reverse)
+bool EV_SilentLineTeleport(line_t *line, int side, mobj_t *thing, bool reverse)
 {
     if (side || (thing->flags & MF_MISSILE))
         return false;
@@ -260,7 +260,7 @@ boolean EV_SilentLineTeleport(line_t *line, int side, mobj_t *thing, boolean rev
             player_t    *player = (thing->player && thing->player->mo == thing ? thing->player : NULL);
 
             // Whether walking towards first side of exit linedef steps down
-            boolean     stepdown = (l->frontsector->floorheight < l->backsector->floorheight);
+            bool     stepdown = (l->frontsector->floorheight < l->backsector->floorheight);
 
             // Height of thing above ground
             fixed_t     z = thing->z - thing->floorz;

@@ -54,15 +54,15 @@
 #define STEP1DISTANCE   24
 #define STEP2DISTANCE   32
 
-boolean autotilt = autotilt_default;
-boolean autouse = autouse_default;
-boolean infighting = infighting_default;
+bool autotilt = autotilt_default;
+bool autouse = autouse_default;
+bool infighting = infighting_default;
 int     movebob = movebob_default;
-boolean r_liquid_lowerview = r_liquid_lowerview_default;
+bool r_liquid_lowerview = r_liquid_lowerview_default;
 int     r_shake_damage = r_shake_damage_default;
 int     stillbob = stillbob_default;
 
-boolean autousing = false;
+bool autousing = false;
 int     deadlookdir = -1;
 
 //
@@ -98,7 +98,7 @@ static void P_Bob(angle_t angle, fixed_t move)
 //
 // P_IsSelfReferencingSector
 //
-static boolean P_IsSelfReferencingSector(sector_t *sec)
+static bool P_IsSelfReferencingSector(sector_t *sec)
 {
     const int   linecount = sec->linecount;
     int         count = 0;
@@ -197,7 +197,7 @@ void P_CalcHeight(void)
 //
 // P_CheckForSteps
 //
-static boolean P_CheckForSteps(fixed_t width)
+static bool P_CheckForSteps(fixed_t width)
 {
     sector_t    *sector1 = R_PointInSubsector(viewx + width * viewcos, viewy + width * viewsin)->sector;
     sector_t    *sector2 = R_PointInSubsector(viewx + width * 2 * viewcos, viewy + width * 2 * viewsin)->sector;
@@ -319,7 +319,7 @@ static void P_ReduceDamageCount(void)
 //
 static void P_DeathThink(void)
 {
-    static boolean  facingkiller;
+    static bool  facingkiller;
     static int      deathcount;
     mobj_t          *mo = viewplayer->mo;
     mobj_t          *attacker = viewplayer->attacker;

@@ -115,7 +115,7 @@ static STICKYKEYS   g_StartupStickyKeys = { sizeof(STICKYKEYS), 0 };
 static TOGGLEKEYS   g_StartupToggleKeys = { sizeof(TOGGLEKEYS), 0 };
 static FILTERKEYS   g_StartupFilterKeys = { sizeof(FILTERKEYS), 0 };
 
-static void I_AccessibilityShortcutKeys(boolean bAllowKeys)
+static void I_AccessibilityShortcutKeys(bool bAllowKeys)
 {
     if (bAllowKeys)
     {

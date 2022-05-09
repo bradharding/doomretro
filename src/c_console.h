@@ -138,8 +138,8 @@ typedef struct
     stringtype_t    stringtype;
     int             wrap;
     int             indent;
-    boolean         bold;
-    boolean         italics;
+    bool         bold;
+    bool         italics;
     patch_t         *header;
     int             tabs[3];
     int             tics;
@@ -163,7 +163,7 @@ extern patch_t      *thinglist;
 
 extern console_t    *console;
 
-extern boolean      consoleactive;
+extern bool      consoleactive;
 extern int          consoleheight;
 extern int          consoledirection;
 
@@ -179,7 +179,7 @@ extern char         consolecheat[255];
 extern char         consolecheatparm[3];
 extern char         consolecmdparm[255];
 
-extern boolean      scrollbardrawn;
+extern bool      scrollbardrawn;
 
 typedef struct
 {
@@ -213,7 +213,7 @@ void C_IntCVAROutput(const char *cvar, int value);
 void C_PctCVAROutput(const char *cvar, int value);
 void C_StrCVAROutput(const char *cvar, const char *string);
 void C_Output(const char *string, ...);
-boolean C_OutputNoRepeat(const char *string, ...);
+bool C_OutputNoRepeat(const char *string, ...);
 void C_TabbedOutput(const int tabs[3], const char *string, ...);
 void C_Header(const int tabs[3], patch_t *header, const char *string);
 void C_Warning(const int minwarninglevel, const char *string, ...);
@@ -225,9 +225,9 @@ void C_ShowConsole(void);
 void C_HideConsole(void);
 void C_HideConsoleFast(void);
 void C_Drawer(void);
-boolean C_ExecuteInputString(const char *input);
-boolean C_ValidateInput(char *input);
-boolean C_Responder(event_t *ev);
+bool C_ExecuteInputString(const char *input);
+bool C_ValidateInput(char *input);
+bool C_Responder(event_t *ev);
 void C_PrintCompileDate(void);
 void C_PrintSDLVersions(void);
 void C_UpdateFPSOverlay(void);

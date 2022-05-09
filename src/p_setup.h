@@ -38,16 +38,16 @@
 
 #pragma once
 
-extern boolean      canmodify;
-extern boolean      samelevel;
-extern boolean      skipblstart;
+extern bool      canmodify;
+extern bool      samelevel;
+extern bool      skipblstart;
 extern const char   *linespecials[];
 
-extern boolean      allowmonstertelefrags;
-extern boolean      compat_corpsegibs;
-extern boolean      compat_light;
-extern boolean      compat_limitpain;
-extern boolean      nograduallighting;
+extern bool      allowmonstertelefrags;
+extern bool      compat_corpsegibs;
+extern bool      compat_light;
+extern bool      compat_limitpain;
+extern bool      nograduallighting;
 
 extern char         mapnum[6];
 extern char         maptitle[256];
@@ -65,9 +65,9 @@ char *P_GetInterBackrop(int map);
 int P_GetInterMusic(int map);
 char *P_GetInterText(int map);
 char *P_GetInterSecretText(int map);
-boolean P_GetMapEndBunny(int map);
-boolean P_GetMapEndCast(int map);
-boolean P_GetMapEndGame(int map);
+bool P_GetMapEndBunny(int map);
+bool P_GetMapEndCast(int map);
+bool P_GetMapEndGame(int map);
 int P_GetMapEndPic(int map);
 int P_GetMapEnterPic(int map);
 void P_GetMapLiquids(int map);
@@ -76,11 +76,11 @@ char *P_GetMapMusicComposer(int map);
 char *P_GetMapMusicTitle(int map);
 char *P_GetMapName(int map);
 int P_GetMapNext(int map);
-boolean P_GetMapNoJump(int map);
+bool P_GetMapNoJump(int map);
 void P_GetMapNoLiquids(int map);
-boolean P_GetMapNoMouselook(int map);
+bool P_GetMapNoMouselook(int map);
 int P_GetMapPar(int map);
-boolean P_GetMapPistolStart(int map);
+bool P_GetMapPistolStart(int map);
 int P_GetMapSecretNext(int map);
 int P_GetMapSky1Texture(int map);
 int P_GetMapSky1ScrollDelta(int map);

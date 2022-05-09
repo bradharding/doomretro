@@ -46,10 +46,10 @@ extern int  sc_Line;
 
 void SC_Open(char *name);
 void SC_Close(void);
-boolean SC_GetString(void);
+bool SC_GetString(void);
 void SC_MustGetString(void);
-boolean SC_GetNumber(void);
+bool SC_GetNumber(void);
 void SC_MustGetNumber(void);
 void SC_UnGet(void);
-boolean SC_Compare(char *text);
+bool SC_Compare(char *text);
 int SC_MatchString(char **strings);

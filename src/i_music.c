@@ -47,16 +47,16 @@
 #include "SDL_mixer.h"
 #include "version.h"
 
-boolean         midimusictype;
-boolean         musmusictype;
+bool         midimusictype;
+bool         musmusictype;
 
 #if defined(_WIN32)
-boolean         windowsmidi = false;
+bool         windowsmidi = false;
 #else
 static int      paused_midi_volume;
 #endif
 
-static boolean  music_initialized;
+static bool  music_initialized;
 
 int             current_music_volume = 0;
 
@@ -84,7 +84,7 @@ void I_ShutdownMusic(void)
 }
 
 // Initialize music subsystem
-boolean I_InitMusic(void)
+bool I_InitMusic(void)
 {
     int         freq = MIX_DEFAULT_FREQUENCY;
     int         channels;
@@ -128,7 +128,7 @@ void I_SetMusicVolume(int volume)
 }
 
 // Start playing a mid
-void I_PlaySong(void *handle, boolean looping)
+void I_PlaySong(void *handle, bool looping)
 {
     if (!music_initialized)
         return;

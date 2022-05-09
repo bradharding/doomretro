@@ -45,10 +45,10 @@
 
 #define GAMMALEVELS         31
 
-boolean MouseShouldBeGrabbed(void);
+bool MouseShouldBeGrabbed(void);
 void I_InitKeyboard(void);
 void I_ShutdownKeyboard(void);
-boolean GetCapsLockState(void);
+bool GetCapsLockState(void);
 
 // Called by D_DoomLoop,
 // called before processing each tic in a frame.
@@ -60,8 +60,8 @@ void I_StartTic(void);
 // determines the hardware configuration
 // and sets up the video mode
 void I_InitGraphics(void);
-void I_RestartGraphics(boolean recreatewindow);
-void FreeSurfaces(boolean freewindow);
+void I_RestartGraphics(bool recreatewindow);
+void FreeSurfaces(bool freewindow);
 void I_ShutdownGraphics(void);
 void I_CapFPS(int cap);
 
@@ -75,8 +75,8 @@ void I_SetExternalAutomapPalette(void);
 void I_SetSimplePalette(byte *playpal);
 void I_SetPaletteWithBrightness(byte *playpal, double brightness);
 
-void I_UpdateBlitFunc(boolean shake);
-boolean I_CreateExternalAutomap(void);
+void I_UpdateBlitFunc(bool shake);
+bool I_CreateExternalAutomap(void);
 void I_DestroyExternalAutomap(void);
 
 void I_ToggleFullscreen(void);
@@ -92,8 +92,8 @@ void I_WindowResizeBlit(void);
 extern void (*blitfunc)(void);
 extern void (*mapblitfunc)(void);
 
-extern boolean      sendpause;
-extern boolean      waspaused;
+extern bool      sendpause;
+extern bool      waspaused;
 
 extern int          keydown;
 
@@ -105,7 +105,7 @@ extern int          windowy;
 extern int          windowheight;
 extern int          windowwidth;
 
-extern boolean      windowfocused;
+extern bool      windowfocused;
 
 extern SDL_Window   *window;
 extern SDL_Renderer *renderer;
@@ -116,4 +116,4 @@ extern byte         *mapscreen;
 
 extern byte         *PLAYPAL;
 
-extern boolean      altdown;
+extern bool      altdown;

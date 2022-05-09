@@ -91,7 +91,7 @@ typedef struct
     short   x, y;
     short   width;
     short   height;
-    boolean sprfix18;
+    bool sprfix18;
 } sproffset_t;
 
 extern char                 *sprnames[];

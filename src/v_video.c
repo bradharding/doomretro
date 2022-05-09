@@ -66,14 +66,14 @@ int     lowpixelheight;
 char    screenshotfolder[MAX_PATH];
 
 char    *r_lowpixelsize = r_lowpixelsize_default;
-boolean r_supersampling = r_supersampling_default;
+bool r_supersampling = r_supersampling_default;
 
 void (*postprocessfunc)(int, int, int, int, int, int);
 
 //
 // V_FillRect
 //
-void V_FillRect(int scrn, int x, int y, int width, int height, int color, boolean right)
+void V_FillRect(int scrn, int x, int y, int width, int height, int color, bool right)
 {
     byte    *dest = &screens[scrn][y * SCREENWIDTH + x];
 
@@ -84,7 +84,7 @@ void V_FillRect(int scrn, int x, int y, int width, int height, int color, boolea
     }
 }
 
-void V_FillTransRect(int scrn, int x, int y, int width, int height, int color, boolean right)
+void V_FillTransRect(int scrn, int x, int y, int width, int height, int color, bool right)
 {
     byte        *dest = &screens[scrn][y * SCREENWIDTH + x];
     const byte  *tint60 = &alttinttab60[color << 8];
@@ -98,7 +98,7 @@ void V_FillTransRect(int scrn, int x, int y, int width, int height, int color, b
     }
 }
 
-void V_FillSoftTransRect(int scrn, int x, int y, int width, int height, int color, boolean right)
+void V_FillSoftTransRect(int scrn, int x, int y, int width, int height, int color, bool right)
 {
     byte        *dest = &screens[scrn][y * SCREENWIDTH + x];
     byte        *dot;
@@ -500,7 +500,7 @@ void V_DrawBigPatch(int x, int y, patch_t *patch)
 }
 
 void V_DrawConsoleInputTextPatch(byte *screen, int screenwidth, int x, int y, patch_t *patch, int width, int color,
-    int backgroundcolor, boolean italics, byte *translucency)
+    int backgroundcolor, bool italics, byte *translucency)
 {
     byte    *desttop = &screens[0][y * screenwidth + x];
 
@@ -535,7 +535,7 @@ void V_DrawConsoleInputTextPatch(byte *screen, int screenwidth, int x, int y, pa
 }
 
 void V_DrawConsoleOutputTextPatch(byte *screen, int screenwidth, int x, int y, patch_t *patch, int width, int color,
-    int backgroundcolor, boolean italics, byte *translucency)
+    int backgroundcolor, bool italics, byte *translucency)
 {
     byte        *desttop = &screen[y * screenwidth + x];
     const int   italicize[] = { 2, 2, 2, 1, 1, 1, 1, 0, 0, 0, 0, -1, -1, -1 };
@@ -684,7 +684,7 @@ void V_DrawConsoleBrandingPatch(int x, int y, patch_t *patch, int color)
     }
 }
 
-boolean V_IsEmptyPatch(patch_t *patch)
+bool V_IsEmptyPatch(patch_t *patch)
 {
     const int   w = SHORT(patch->width);
 
@@ -811,7 +811,7 @@ void V_DrawTranslucentHUDText(int x, int y, byte *screen, patch_t *patch, int sc
     }
 }
 
-void V_DrawAltHUDText(int x, int y, byte *screen, patch_t *patch, boolean italics, int color, int screenwidth, byte *tinttab)
+void V_DrawAltHUDText(int x, int y, byte *screen, patch_t *patch, bool italics, int color, int screenwidth, byte *tinttab)
 {
     byte        *desttop = &screen[y * screenwidth + x];
     const int   w = SHORT(patch->width);
@@ -849,7 +849,7 @@ void V_DrawAltHUDText(int x, int y, byte *screen, patch_t *patch, boolean italic
     }
 }
 
-void V_DrawTranslucentAltHUDText(int x, int y, byte *screen, patch_t *patch, boolean italics, int color, int screenwidth, byte *tinttab)
+void V_DrawTranslucentAltHUDText(int x, int y, byte *screen, patch_t *patch, bool italics, int color, int screenwidth, byte *tinttab)
 {
     byte        *desttop = &screen[y * screenwidth + x];
     const int   w = SHORT(patch->width);
@@ -887,7 +887,7 @@ void V_DrawTranslucentAltHUDText(int x, int y, byte *screen, patch_t *patch, boo
     }
 }
 
-void V_DrawPatchWithShadow(int x, int y, patch_t *patch, boolean flag)
+void V_DrawPatchWithShadow(int x, int y, patch_t *patch, bool flag)
 {
     byte        *desttop;
     const int   w = SHORT(patch->width) << FRACBITS;
@@ -1574,7 +1574,7 @@ void V_DrawTranslucentNoGreenPatch(int x, int y, patch_t *patch)
     }
 }
 
-void V_DrawPixel(int x, int y, byte color, boolean drawshadow)
+void V_DrawPixel(int x, int y, byte color, bool drawshadow)
 {
     x += WIDESCREENDELTA;   // [crispy] horizontal widescreen offset
 
@@ -1810,9 +1810,9 @@ char    lbmname1[MAX_PATH];
 char    lbmpath1[MAX_PATH];
 char    lbmpath2[MAX_PATH];
 
-static boolean V_SavePNG(SDL_Renderer *sdlrenderer, char *path)
+static bool V_SavePNG(SDL_Renderer *sdlrenderer, char *path)
 {
-    boolean result = false;
+    bool result = false;
     int     width;
     int     height;
 
@@ -1832,9 +1832,9 @@ static boolean V_SavePNG(SDL_Renderer *sdlrenderer, char *path)
     return result;
 }
 
-boolean V_ScreenShot(void)
+bool V_ScreenShot(void)
 {
-    boolean result = false;
+    bool result = false;
     char    mapname[128];
     char    *temp1;
     int     count = 0;

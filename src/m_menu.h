@@ -57,7 +57,7 @@ typedef struct menu_s
     short           x;
     short           y;
     int             lastOn;
-    boolean         change;
+    bool         change;
 } menu_t;
 
 //
@@ -68,7 +68,7 @@ typedef struct menu_s
 // Even when the menu is not displayed,
 // this can resize the view and change game parameters.
 // Does all the real work of the menu interaction.
-boolean M_Responder(event_t *ev);
+bool M_Responder(event_t *ev);
 
 // Called by main loop,
 // only used for menu (skull cursor) animation.
@@ -89,7 +89,7 @@ void M_ClearMenus(void);
 void M_EndingGame(void);
 
 void M_DarkBackground(void);
-void M_DrawSmallChar(int x, int y, int i, boolean shadow);
+void M_DrawSmallChar(int x, int y, int i, bool shadow);
 void M_DrawString(int x, int y, char *string);
 void M_DrawCenteredString(int y, char *string);
 int M_StringWidth(char *string);
@@ -99,21 +99,21 @@ void M_SetWindowCaption(void);
 void M_UpdateSaveGameName(int i);
 int M_CountSaveGames(void);
 
-void M_StartMessage(char *string, void *routine, boolean input);
+void M_StartMessage(char *string, void *routine, bool input);
 
 void M_QuitDOOM(int choice);
 
 void M_AddEpisode(int map, int ep, const char *lumpname, const char *string);
 
-extern boolean  messagetoprint;
+extern bool  messagetoprint;
 
-extern boolean  nomusic;
-extern boolean  nosound;
-extern boolean  nosfx;
-extern boolean  firstevent;
-extern boolean  savegames;
-extern boolean  inhelpscreens;
-extern boolean  quitting;
+extern bool  nomusic;
+extern bool  nosound;
+extern bool  nosfx;
+extern bool  firstevent;
+extern bool  savegames;
+extern bool  inhelpscreens;
+extern bool  quitting;
 extern int      spindirection;
 extern int      spinspeed;
 extern char     savegamestrings[6][SAVESTRINGSIZE];
@@ -123,5 +123,5 @@ extern menu_t   LoadDef;
 extern menu_t   MainDef;
 extern menu_t   NewDef;
 extern menu_t   SaveDef;
-extern boolean  EpiCustom;
+extern bool  EpiCustom;
 extern int      gamecontrollerwait;

@@ -96,13 +96,13 @@ static channel_t    *channels;
 static sobj_t       *sobjs;
 
 int                 s_channels = s_channels_default;
-boolean             s_lowermenumusic = s_lowermenumusic_default;
-boolean             s_musicinbackground = s_musicinbackground_default;
+bool             s_lowermenumusic = s_lowermenumusic_default;
+bool             s_musicinbackground = s_musicinbackground_default;
 int                 s_musicvolume = s_musicvolume_default;
-boolean             s_randommusic = s_randommusic_default;
-boolean             s_randompitch = s_randompitch_default;
+bool             s_randommusic = s_randommusic_default;
+bool             s_randompitch = s_randompitch_default;
 int                 s_sfxvolume = s_sfxvolume_default;
-boolean             s_stereo = s_stereo_default;
+bool             s_stereo = s_stereo_default;
 
 // Maximum volume of a sound effect.
 // Internal default is max out of 0-31.
@@ -115,13 +115,13 @@ int                 musicVolume;
 static int          snd_SfxVolume;
 
 // Whether songs are mus_paused
-static boolean      mus_paused;
+static bool      mus_paused;
 
 // Music currently being played
 musicinfo_t         *mus_playing;
 
-boolean             nosfx;
-boolean             nomusic;
+bool             nosfx;
+bool             nomusic;
 
 musinfo_t           musinfo;
 
@@ -426,7 +426,7 @@ static int S_GetChannel(mobj_t *origin, sfxinfo_t *sfxinfo)
 // Changes volume and stereo-separation variables from the norm of a sound
 // effect to be played. If the sound is not audible, returns false. Otherwise,
 // modifies parameters and returns true.
-static boolean S_AdjustSoundParms(mobj_t *origin, int *vol, int *sep)
+static bool S_AdjustSoundParms(mobj_t *origin, int *vol, int *sep)
 {
     fixed_t     dist = 0;
     mobj_t      *listener = viewplayer->mo;
@@ -607,7 +607,7 @@ void S_StartMusic(int music_id)
     S_ChangeMusic(music_id, false, false, false);
 }
 
-void S_ChangeMusic(int music_id, boolean looping, boolean allowrestart, boolean mapstart)
+void S_ChangeMusic(int music_id, bool looping, bool allowrestart, bool mapstart)
 {
     musicinfo_t *music = &S_music[music_id];
     char        namebuf[9];

@@ -38,22 +38,22 @@
 
 #pragma once
 
-boolean P_GiveBody(int num, int max, boolean stat);
-boolean P_GiveMegaHealth(boolean stat);
-boolean P_GiveArmor(armortype_t armortype, boolean stat);
-boolean P_GiveAllCards(void);
-boolean P_GiveAllKeyCards(void);
-boolean P_GiveAllSkullKeys(void);
-boolean P_GiveAllCardsInMap(void);
-boolean P_GivePower(int power);
-boolean P_GiveAllWeapons(void);
-boolean P_GiveBackpack(boolean giveammo, boolean stat);
-boolean P_GiveFullAmmo(void);
+bool P_GiveBody(int num, int max, bool stat);
+bool P_GiveMegaHealth(bool stat);
+bool P_GiveArmor(armortype_t armortype, bool stat);
+bool P_GiveAllCards(void);
+bool P_GiveAllKeyCards(void);
+bool P_GiveAllSkullKeys(void);
+bool P_GiveAllCardsInMap(void);
+bool P_GivePower(int power);
+bool P_GiveAllWeapons(void);
+bool P_GiveBackpack(bool giveammo, bool stat);
+bool P_GiveFullAmmo(void);
 void P_AddBonus(void);
 void P_UpdateAmmoStat(ammotype_t ammotype, int num);
 void P_UpdateArmorStat(int num);
 void P_UpdateHealthStat(int num);
 void P_UpdateKillStat(mobjtype_t type, int value);
-void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, boolean telefragged);
+void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, bool telefragged);
 
 extern int  cardsfound;

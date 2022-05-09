@@ -56,7 +56,7 @@
 #endif
 
 // Called by M_Responder when quit is selected.
-void I_Quit(boolean shutdown);
+void I_Quit(bool shutdown);
 
 void I_Error(const char *error, ...) FORMATATTR(1, 2);
 

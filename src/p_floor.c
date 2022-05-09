@@ -52,7 +52,7 @@
 //
 // Move a plane (floor or ceiling) and check for crushing
 //
-result_e T_MovePlane(sector_t *sector, fixed_t speed, fixed_t dest, boolean crush, int floororceiling, int direction)
+result_e T_MovePlane(sector_t *sector, fixed_t speed, fixed_t dest, bool crush, int floororceiling, int direction)
 {
     sector->oldgametime = gametime;
 
@@ -334,10 +334,10 @@ void T_MoveElevator(elevator_t *elevator)
 //
 // HANDLE FLOOR TYPES
 //
-boolean EV_DoFloor(line_t *line, floor_e floortype)
+bool EV_DoFloor(line_t *line, floor_e floortype)
 {
     int         secnum = -1;
-    boolean     rtn = false;
+    bool     rtn = false;
     sector_t    *sec;
 
     if (P_ProcessNoTagLines(line, &sec, &secnum))
@@ -636,10 +636,10 @@ void P_CheckTerrainType(sector_t *sector)
 //
 // jff 3/15/98 added to better support generalized sector types
 //
-boolean EV_DoChange(line_t *line, change_e changetype)
+bool EV_DoChange(line_t *line, change_e changetype)
 {
     int     secnum = -1;
-    boolean rtn = false;
+    bool rtn = false;
 
     // change all sectors with the same tag as the linedef
     while ((secnum = P_FindSectorFromLineTag(line, secnum)) >= 0)
@@ -701,11 +701,11 @@ static int P_FindSectorFromLineTagWithLowerBound(line_t *l, int start, int min)
     return start;
 }
 
-boolean EV_BuildStairs(line_t *line, fixed_t speed, fixed_t stairsize, boolean crushing)
+bool EV_BuildStairs(line_t *line, fixed_t speed, fixed_t stairsize, bool crushing)
 {
     int         ssec = -1;
     int         minssec = -1;
-    boolean     rtn = false;
+    bool     rtn = false;
     int         secnum = -1;
     sector_t    *sec;
 
@@ -720,7 +720,7 @@ boolean EV_BuildStairs(line_t *line, fixed_t speed, fixed_t stairsize, boolean c
     while ((ssec = P_FindSectorFromLineTagWithLowerBound(line, ssec, minssec)) >= 0)
     {
         floormove_t *floor;
-        boolean     okay;
+        bool     okay;
         int         height;
         int         texture;
 
@@ -813,10 +813,10 @@ manual_stair:
 //
 // jff 02/22/98 new type to move floor and ceiling in parallel
 //
-boolean EV_DoElevator(line_t *line, elevator_e elevtype)
+bool EV_DoElevator(line_t *line, elevator_e elevtype)
 {
     int     secnum = -1;
-    boolean rtn = false;
+    bool rtn = false;
 
     // act on all sectors with the same tag as the triggering linedef
     while ((secnum = P_FindSectorFromLineTag(line, secnum)) >= 0)
