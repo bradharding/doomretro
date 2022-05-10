@@ -58,10 +58,10 @@ static int      ls_x, ls_y;     // Lost Soul position for Lost Soul checks      
 
 // If "floatok" true, move would be ok
 // if within "tmfloorz - tmceilingz".
-bool         floatok;
+bool            floatok;
 
 // killough 11/98: if "felldown" true, object was pushed down ledge
-bool         felldown;
+bool            felldown;
 
 fixed_t         tmbbox[4];
 fixed_t         tmfloorz;
@@ -87,15 +87,15 @@ static angle_t  shootangle;     // [BH] angle of blood and puffs for automap
 // Temporary holder for thing_sectorlist threads
 msecnode_t      *sector_list;   // phares 03/16/98
 
-bool         infight;
+bool            infight;
 
 static mobj_t   *onmobj;
 
-bool         infiniteheight = infiniteheight_default;
+bool            infiniteheight = infiniteheight_default;
 
 uint64_t        stat_distancetraveled = 0;
 
-extern bool  successfulshot;
+extern bool     successfulshot;
 
 //
 // TELEPORT MOVE
@@ -104,7 +104,7 @@ extern bool  successfulshot;
 //
 // PIT_StompThing
 //
-static bool  telefrag;   // killough 08/09/98: whether to telefrag at exit
+static bool telefrag;   // killough 08/09/98: whether to telefrag at exit
 
 static bool PIT_StompThing(mobj_t *thing)
 {
@@ -447,10 +447,10 @@ static bool P_ProjectileImmune(mobj_t *target, mobj_t *source)
 static bool PIT_CheckThing(mobj_t *thing)
 {
     fixed_t             blockdist;
-    bool             unblocking = false;
+    bool                unblocking = false;
     const int           flags = thing->flags;
     const int           tmflags = tmthing->flags;
-    const bool       corpse = (flags & MF_CORPSE);
+    const bool          corpse = (flags & MF_CORPSE);
     const mobjtype_t    type = thing->type;
     const mobjtype_t    tmtype = tmthing->type;
 
@@ -1242,7 +1242,7 @@ void P_ApplyTorque(mobj_t *mo)
 static bool P_ThingHeightClip(mobj_t *thing)
 {
     const fixed_t   oldfloorz = thing->floorz;  // haleyjd
-    const bool   onfloor = (thing->z == oldfloorz);
+    const bool      onfloor = (thing->z == oldfloorz);
     const int       flags2 = thing->flags2;
     const player_t  *player = thing->player;
 
@@ -1316,9 +1316,9 @@ static void P_HitSlideLine(line_t *ld)
     // Check for the special cases of horizontal or vertical walls.
 
     // killough 10/98: only bounce if hit hard (prevents wobbling)
-    const bool   icyfloor = (P_ApproxDistance(tmxmove, tmymove) > 4 * FRACUNIT
-                                && slidemo->z <= slidemo->floorz
-                                && P_GetFriction(slidemo, NULL) > ORIG_FRICTION);
+    const bool  icyfloor = (P_ApproxDistance(tmxmove, tmymove) > 4 * FRACUNIT
+                            && slidemo->z <= slidemo->floorz
+                            && P_GetFriction(slidemo, NULL) > ORIG_FRICTION);
 
     if (ld->slopetype == ST_HORIZONTAL)
     {
@@ -1642,7 +1642,7 @@ static bool PTR_AimTraverse(intercept_t *in)
     return false;                       // don't go any farther
 }
 
-bool hitwall;
+bool    hitwall;
 
 //
 // PTR_ShootTraverse
@@ -1966,7 +1966,7 @@ static mobj_t   *bombsource;
 static mobj_t   *bombspot;
 static int      bombdamage;
 static int      bombdistance;
-static bool  bombverticality;
+static bool     bombverticality;
 
 // MBF21: dehacked splash groups
 static bool P_SplashImmune(mobj_t *target, mobj_t *spot)
@@ -2084,8 +2084,8 @@ void P_RadiusAttack(mobj_t *spot, mobj_t *source, int damage, int distance, bool
 // If crunch is true, they will take damage as they are being crushed.
 // If crunch is false, you should set the sector height back the way it was and call P_ChangeSector() again to undo the changes.
 //
-static bool  crushchange;
-static bool  nofit;
+static bool crushchange;
+static bool nofit;
 
 //
 // PIT_ChangeSector

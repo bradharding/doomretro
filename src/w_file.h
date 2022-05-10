@@ -72,7 +72,7 @@ typedef struct wadfile_s wadfile_t;
 struct wadfile_s
 {
     FILE    *fstream;
-    bool freedoom;
+    bool    freedoom;
     char    path[MAX_PATH];
     int     type;
 };

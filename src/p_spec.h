@@ -57,9 +57,9 @@ extern fixed_t          animatedliquidxoffs;
 extern fixed_t          animatedliquidyoffs;
 
 extern terraintype_t    *terraintypes;
-extern bool          *isteleport;
+extern bool             *isteleport;
 
-extern bool          zerotag_manual;
+extern bool             zerotag_manual;
 
 // at game start
 void P_InitPicAnims(void);
@@ -288,7 +288,7 @@ typedef struct
     int                 count;
     plat_e              status;
     plat_e              oldstatus;
-    bool             crush;
+    bool                crush;
     int                 tag;
     plattype_e          type;
 
@@ -417,7 +417,7 @@ typedef struct
     fixed_t                 topheight;
     fixed_t                 speed;
     fixed_t                 oldspeed;
-    bool                 crush;
+    bool                    crush;
 
     // jff 02/04/98 add these to support ceiling changers
     int                     newspecial;
@@ -529,14 +529,14 @@ typedef struct
 {
     thinker_t   thinker;
     floor_e     type;
-    bool     crush;
+    bool        crush;
     sector_t    *sector;
     int         direction;
     int         newspecial;
     short       texture;
     fixed_t     floordestheight;
     fixed_t     speed;
-    bool     stopsound;
+    bool        stopsound;
 } floormove_t;
 
 typedef struct
@@ -548,7 +548,7 @@ typedef struct
     fixed_t     floordestheight;
     fixed_t     ceilingdestheight;
     fixed_t     speed;
-    bool     stopsound;
+    bool        stopsound;
 } elevator_t;
 
 #define ELEVATORSPEED   (FRACUNIT * 4)

@@ -158,10 +158,10 @@
 #define ST_MAXAMMO3Y        185
 
 // ST_Start() has just been called
-static bool              st_firsttime;
+static bool                 st_firsttime;
 
 // whether left-side main status bar is active
-static bool              st_statusbaron;
+static bool                 st_statusbaron;
 
 // main bar left
 static patch_t              *sbar;
@@ -175,7 +175,7 @@ patch_t                     *tallnum[10];
 // tall % sign
 patch_t                     *tallpercent;
 short                       tallpercentwidth;
-bool                     emptytallpercent;
+bool                        emptytallpercent;
 
 // 0-9, short, yellow (,different!) numbers
 static patch_t              *shortnum[10];
@@ -226,13 +226,13 @@ patch_t                     *brdr_tr;
 patch_t                     *brdr_bl;
 patch_t                     *brdr_br;
 
-bool                     st_drawbrdr;
+bool                        st_drawbrdr;
 
 // used to use appropriately pained face
 static int                  st_oldhealth = -1;
 
 // used for evil grin
-bool                     oldweaponsowned[NUMWEAPONS];
+bool                        oldweaponsowned[NUMWEAPONS];
 
 int                         st_palette = 0;
 
@@ -249,17 +249,17 @@ static int                  keyboxes[3];
 
 int                         oldhealth = 100;
 
-bool                     idclev;
+bool                        idclev;
 int                         idclevtics;
 
-bool                     idmus;
+bool                        idmus;
 
 int                         facebackcolor = facebackcolor_default;
-bool                     flashkeys = flashkeys_default;
+bool                        flashkeys = flashkeys_default;
 int                         r_berserkeffect = r_berserkeffect_default;
-bool                     r_damageeffect = r_damageeffect_default;
-bool                     r_pickupeffect = r_pickupeffect_default;
-bool                     r_radsuiteffect = r_radsuiteffect_default;
+bool                        r_damageeffect = r_damageeffect_default;
+bool                        r_pickupeffect = r_pickupeffect_default;
+bool                        r_radsuiteffect = r_radsuiteffect_default;
 
 uint64_t                    stat_cheated = 0;
 
@@ -440,7 +440,7 @@ static void ST_PlayerCheated(char *cheat, char *output, bool warning)
 
     if (warning)
     {
-        static bool  cheated;
+        static bool cheated;
 
         C_Warning(0, "%s cheated%s!",
             (M_StringCompare(playername, playername_default) ? "You" : playername),
@@ -512,10 +512,10 @@ bool ST_Responder(event_t *ev)
             // 'fa' cheat for killer fucking arsenal
             else if (cht_CheckCheat(&cheat_ammonokey, ev->data2) && gameskill != sk_nightmare && viewplayer->health > 0)
             {
-                bool ammogiven = false;
-                bool armorgiven = false;
-                bool berserkgiven = false;
-                bool weaponsgiven = false;
+                bool    ammogiven = false;
+                bool    armorgiven = false;
+                bool    berserkgiven = false;
+                bool    weaponsgiven = false;
 
                 // [BH] note if player doesn't have full armor before giving it
                 if (viewplayer->armorpoints < idfa_armor || viewplayer->armortype < idfa_armor_class)
@@ -568,11 +568,11 @@ bool ST_Responder(event_t *ev)
                 // [BH] can only enter cheat while player is alive
                 && viewplayer->health > 0)
             {
-                bool ammogiven = false;
-                bool armorgiven = false;
-                bool berserkgiven = false;
-                bool keysgiven = false;
-                bool weaponsgiven = false;
+                bool    ammogiven = false;
+                bool    armorgiven = false;
+                bool    berserkgiven = false;
+                bool    keysgiven = false;
+                bool    weaponsgiven = false;
 
                 // [BH] note if player doesn't have full armor before giving it
                 if (viewplayer->armorpoints < idkfa_armor || viewplayer->armortype < idkfa_armor_class)
@@ -1121,7 +1121,7 @@ static void ST_UpdateFaceWidget(void)
         if (viewplayer->bonuscount)
         {
             // picking up bonus
-            bool doevilgrin = false;
+            bool    doevilgrin = false;
 
             for (int i = 0; i < NUMWEAPONS; i++)
                 if (oldweaponsowned[i] != viewplayer->weaponowned[i])
@@ -1371,8 +1371,8 @@ static void ST_DrawWidgets(bool refresh)
 
     if (viewplayer->neededcardflash)
     {
-        static bool  showkey;
-        const bool   gamepaused = (consoleactive || freeze);
+        static bool showkey;
+        const bool  gamepaused = (consoleactive || freeze);
 
         if (!gamepaused)
         {

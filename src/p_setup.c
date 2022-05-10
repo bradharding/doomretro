@@ -112,9 +112,9 @@ struct mapinfo_s
 {
     char    author[128];
     int     cluster;
-    bool endbunny;
-    bool endcast;
-    bool endgame;
+    bool    endbunny;
+    bool    endcast;
+    bool    endgame;
     int     endpic;
     int     enterpic;
     char    interbackdrop[9];
@@ -127,20 +127,20 @@ struct mapinfo_s
     char    musictitle[128];
     char    name[128];
     int     next;
-    bool nojump;
+    bool    nojump;
     int     noliquid[NUMLIQUIDS];
-    bool nomouselook;
+    bool    nomouselook;
     int     par;
-    bool pistolstart;
+    bool    pistolstart;
     int     secretnext;
     int     sky1texture;
     int     sky1scrolldelta;
     int     titlepatch;
-    bool allowmonstertelefrags;
-    bool compat_corpsegibs;
-    bool compat_light;
-    bool compat_limitpain;
-    bool nograduallighting;
+    bool    allowmonstertelefrags;
+    bool    compat_corpsegibs;
+    bool    compat_light;
+    bool    compat_limitpain;
+    bool    nograduallighting;
 };
 
 //
@@ -213,7 +213,7 @@ mobj_t              **blocklinks;
 int                 blockmapxneg = -257;
 int                 blockmapyneg = -257;
 
-bool             skipblstart;            // MaxW: Skip initial blocklist short
+bool                skipblstart;            // MaxW: Skip initial blocklist short
 
 // REJECT
 // For fast sight rejection.
@@ -310,19 +310,19 @@ static int mapcmdids[] =
     MCMD_COMPAT_LIGHT
 };
 
-bool         allowmonstertelefrags;
-bool         compat_corpsegibs;
-bool         compat_light;
-bool         compat_limitpain;
-bool         nograduallighting;
+bool            allowmonstertelefrags;
+bool            compat_corpsegibs;
+bool            compat_light;
+bool            compat_limitpain;
+bool            nograduallighting;
 
-bool         canmodify;
-bool         transferredsky;
+bool            canmodify;
+bool            transferredsky;
 static int      MAPINFO;
 
-bool        r_fixmaperrors = r_fixmaperrors_default;
+bool            r_fixmaperrors = r_fixmaperrors_default;
 
-bool         samelevel;
+bool            samelevel;
 
 mapformat_t     mapformat;
 
@@ -333,12 +333,12 @@ const char *mapformats[] =
     ITALICS("ZDOOM") " extended (uncompressed)"
 };
 
-bool         boomcompatible;
-bool         mbfcompatible;
-bool         mbf21compatible = false;
-bool         blockmaprebuilt;
-bool         nojump = false;
-bool         nomouselook = false;
+bool            boomcompatible;
+bool            mbfcompatible;
+bool            mbf21compatible = false;
+bool            blockmaprebuilt;
+bool            nojump = false;
+bool            nomouselook = false;
 
 const char *linespecials[NUMLINESPECIALS] =
 {
@@ -1807,7 +1807,7 @@ static void P_LoadThings(int map, int lump)
     for (thingid = 0; thingid < numthings; thingid++)
     {
         mapthing_t  mt = data[thingid];
-        bool     spawn = true;
+        bool        spawn = true;
         const short type = SHORT(mt.type);
 
         if (gamemode != commercial && type >= ArchVile && type <= MonstersSpawner && W_CheckMultipleLumps("DEHACKED") == 1)
@@ -2133,7 +2133,7 @@ static void P_LoadSideDefs2(int lump)
 //
 static bool P_VerifyBlockMap(int count)
 {
-    bool isvalid = true;
+    bool    isvalid = true;
     int     *maxoffs = blockmaplump + count;
 
     skipblstart = true;
@@ -2731,7 +2731,7 @@ char    automaptitle[512];
 // Determine map name to use
 void P_MapName(int ep, int map)
 {
-    bool mapnumonly = false;
+    bool    mapnumonly = false;
     char    *mapinfoname = trimwhitespace(P_GetMapName((ep - 1) * 10 + map));
 
     switch (gamemission)

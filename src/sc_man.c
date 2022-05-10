@@ -56,9 +56,9 @@ static char     *ScriptBuffer;
 static char     *ScriptPtr;
 static char     *ScriptEndPtr;
 static int      ScriptLumpNum;
-static bool  sc_End;
-static bool  ScriptOpen;
-static bool  AlreadyGot;
+static bool     sc_End;
+static bool     ScriptOpen;
+static bool     AlreadyGot;
 
 static void SC_ScriptError(void)
 {
@@ -100,7 +100,7 @@ void SC_Close(void)
 bool SC_GetString(void)
 {
     char    *text;
-    bool foundToken = false;
+    bool    foundToken = false;
 
     if (AlreadyGot)
     {

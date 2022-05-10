@@ -80,19 +80,19 @@ spritedef_t             *sprites;
 
 short                   firstbloodsplatlump;
 
-bool                 allowwolfensteinss = true;
-bool                 pausesprites = false;
+bool                    allowwolfensteinss = true;
+bool                    pausesprites = false;
 
 static spriteframe_t    sprtemp[MAXSPRITEFRAMES];
 static int              maxframe;
 
-static bool          drawshadows;
-static bool          interpolatesprites;
-static bool          invulnerable;
+static bool             drawshadows;
+static bool             interpolatesprites;
+static bool             invulnerable;
 static fixed_t          floorheight;
 
-bool                 r_liquid_clipsprites = r_liquid_clipsprites_default;
-bool                 r_playersprites = r_playersprites_default;
+bool                    r_liquid_clipsprites = r_liquid_clipsprites_default;
+bool                    r_playersprites = r_playersprites_default;
 
 static const fixed_t floatbobdiffs[64] =
 {
@@ -617,7 +617,7 @@ static void R_ProjectSprite(mobj_t *thing)
     spriteframe_t   *sprframe;
     int             lump;
     fixed_t         width;
-    bool         flip;
+    bool            flip;
     vissprite_t     *vis;
     sector_t        *heightsec;
     int             flags2;
@@ -975,7 +975,7 @@ void R_AddSprites(sector_t *sec, int lightlevel)
 //
 // R_DrawPlayerSprite
 //
-static bool  muzzleflash;
+static bool muzzleflash;
 
 static void R_DrawPlayerSprite(pspdef_t *psp, bool invisibility, bool texture, bool altered)
 {
@@ -1129,7 +1129,7 @@ static void R_DrawPlayerSprite(pspdef_t *psp, bool invisibility, bool texture, b
 static void R_DrawPlayerSprites(void)
 {
     int         invisibility = viewplayer->powers[pw_invisibility];
-    bool     altered = (weaponinfo[viewplayer->readyweapon].altered || !r_fixspriteoffsets);
+    bool        altered = (weaponinfo[viewplayer->readyweapon].altered || !r_fixspriteoffsets);
     pspdef_t    *weapon = viewplayer->psprites;
     pspdef_t    *flash = weapon + 1;
     state_t     *weaponstate = weapon->state;

@@ -58,7 +58,7 @@ int                 validcount = 1;
 
 lighttable_t        *fixedcolormap;
 
-bool             usebrightmaps;
+bool                usebrightmaps;
 
 int                 centerx;
 int                 centery;
@@ -111,19 +111,19 @@ lighttable_t        **colormaps;
 // bumped light from gun blasts
 int                 extralight;
 
-bool             drawbloodsplats;
+bool                drawbloodsplats;
 
-bool             r_bloodsplats_translucency = r_bloodsplats_translucency_default;
-bool             r_ditheredlighting = r_ditheredlighting_default;
+bool                r_bloodsplats_translucency = r_bloodsplats_translucency_default;
+bool                r_ditheredlighting = r_ditheredlighting_default;
 int                 r_fov = r_fov_default;
-bool             r_homindicator = r_homindicator_default;
-bool             r_shadows_translucency = r_shadows_translucency_default;
-bool             r_shake_barrels = r_shake_barrels_default;
+bool                r_homindicator = r_homindicator_default;
+bool                r_shadows_translucency = r_shadows_translucency_default;
+bool                r_shake_barrels = r_shake_barrels_default;
 int                 r_skycolor = r_skycolor_default;
-bool             r_textures = r_textures_default;
-bool             r_translucency = r_translucency_default;
+bool                r_textures = r_textures_default;
+bool                r_translucency = r_translucency_default;
 
-extern bool      transferredsky;
+extern bool         transferredsky;
 extern lighttable_t **walllights;
 
 //
@@ -376,7 +376,7 @@ void R_InitLightTables(void)
 // Do not really change anything here, because it might be in the middle of a refresh.
 // The change will take effect next refresh.
 //
-bool     setsizeneeded;
+bool        setsizeneeded;
 static int  setblocks;
 
 void R_SetViewSize(int blocks)

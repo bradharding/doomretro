@@ -74,16 +74,16 @@ int             idfa_armor_class = armortype_blue;
 int             idkfa_armor = 200;
 int             idkfa_armor_class = armortype_blue;
 int             bfgcells = BFGCELLS;
-bool         species_infighting = false;
+bool            species_infighting = false;
 
 // a weapon is found with two clip loads,
 // a big item has five clip loads
 int             maxammo[] =  { 200, 50, 300, 50 };
 int             clipammo[] = {  10,  4,  20,  1 };
 
-bool         con_obituaries = con_obituaries_default;
-bool         r_mirroredweapons = r_mirroredweapons_default;
-bool         tossdrop = tossdrop_default;
+bool            con_obituaries = con_obituaries_default;
+bool            r_mirroredweapons = r_mirroredweapons_default;
+bool            tossdrop = tossdrop_default;
 
 uint64_t        stat_barrelsexploded = 0;
 uint64_t        stat_damageinflicted = 0;
@@ -120,7 +120,7 @@ uint64_t        stat_monstersresurrected = 0;
 uint64_t        stat_monsterstelefragged = 0;
 uint64_t        stat_suicides = 0;
 
-extern bool  healthcvar;
+extern bool     healthcvar;
 
 void P_UpdateAmmoStat(ammotype_t ammotype, int num)
 {
@@ -272,7 +272,7 @@ static int P_GiveAmmo(ammotype_t ammotype, int num, bool stat)
 //
 bool P_GiveBackpack(bool giveammo, bool stat)
 {
-    bool result = false;
+    bool    result = false;
 
     if (!viewplayer->backpack)
     {
@@ -299,7 +299,7 @@ bool P_GiveBackpack(bool giveammo, bool stat)
 //
 bool P_GiveFullAmmo(void)
 {
-    bool result = false;
+    bool    result = false;
 
     for (int i = 0; i < NUMAMMO; i++)
         if (viewplayer->ammo[i] < viewplayer->maxammo[i])
@@ -330,8 +330,8 @@ void P_AddBonus(void)
 //
 static bool P_GiveWeapon(weapontype_t weapon, bool dropped, bool stat)
 {
-    bool             gaveammo = false;
-    bool             gaveweapon = false;
+    bool                gaveammo = false;
+    bool                gaveweapon = false;
     const ammotype_t    ammotype = weaponinfo[weapon].ammotype;
 
     if (ammotype != am_noammo)
@@ -353,7 +353,7 @@ static bool P_GiveWeapon(weapontype_t weapon, bool dropped, bool stat)
 //
 bool P_GiveAllWeapons(void)
 {
-    bool result = false;
+    bool    result = false;
 
     if (!viewplayer->weaponowned[wp_chainsaw])
     {
@@ -445,7 +445,7 @@ bool P_GiveBody(int num, int max, bool stat)
 //
 bool P_GiveMegaHealth(bool stat)
 {
-    bool result = false;
+    bool    result = false;
 
     if (!(viewplayer->cheats & CF_GODMODE))
     {
@@ -593,7 +593,7 @@ static void P_GiveCard(card_t card)
 //
 bool P_GiveAllCards(void)
 {
-    bool result = false;
+    bool    result = false;
 
     for (int i = 0; i < NUMCARDS; i++)
         if (viewplayer->cards[i] <= 0)
@@ -610,7 +610,7 @@ bool P_GiveAllCards(void)
 //
 bool P_GiveAllKeyCards(void)
 {
-    bool result = false;
+    bool    result = false;
 
     if (viewplayer->cards[it_bluecard] <= 0)
     {
@@ -638,7 +638,7 @@ bool P_GiveAllKeyCards(void)
 //
 bool P_GiveAllSkullKeys(void)
 {
-    bool result = false;
+    bool    result = false;
 
     if (viewplayer->cards[it_blueskull] <= 0)
     {
@@ -666,8 +666,8 @@ bool P_GiveAllSkullKeys(void)
 //
 bool P_GiveAllCardsInMap(void)
 {
-    bool skulliscard = true;
-    bool result = false;
+    bool    skulliscard = true;
+    bool    result = false;
 
     for (int i = 0; i < numlines; i++)
         if (lines[i].special >= GenLockedBase && !((lines[i].special & LockedNKeys) >> LockedNKeysShift))
@@ -707,7 +707,7 @@ bool P_GivePower(int power)
         /* pw_infrared        */ INFRATICS
     };
 
-    bool given;
+    bool    given;
 
     if (viewplayer->powers[power] < 0)
         return false;
@@ -757,7 +757,7 @@ bool P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, bool message, bool st
     static int  prevtype;
     static int  prevx, prevy;
     int         temp;
-    bool     duplicate;
+    bool        duplicate;
 
     if (freeze)
         return false;
@@ -990,7 +990,7 @@ bool P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, bool message, bool st
         // berserk power-up
         case SPR_PSTR:
         {
-            const bool   strength = viewplayer->powers[pw_strength];
+            const int   strength = viewplayer->powers[pw_strength];
 
             P_GivePower(pw_strength);
 
@@ -1704,7 +1704,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, b
                 M_StringCopy(sourcename, source->name, sizeof(sourcename));
             else
             {
-                const bool   friendly = (source->flags & MF_FRIEND);
+                const bool  friendly = (source->flags & MF_FRIEND);
 
                 M_snprintf(sourcename, sizeof(sourcename), "%s %s%s",
                     (friendly && monstercount[source->type] == 1 ? "the" :
@@ -1726,7 +1726,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, b
                 M_StringCopy(targetname, target->name, sizeof(targetname));
             else
             {
-                const bool   friendly = (target->flags & MF_FRIEND);
+                const bool  friendly = (target->flags & MF_FRIEND);
 
                 M_snprintf(targetname, sizeof(targetname), "%s %s%s",
                     (friendly && monstercount[target->type] == 1 ? "the" :
@@ -1749,7 +1749,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, b
                 M_StringCopy(sourcename, source->name, sizeof(sourcename));
             else
             {
-                const bool   friendly = (source->flags & MF_FRIEND);
+                const bool  friendly = (source->flags & MF_FRIEND);
 
                 M_snprintf(sourcename, sizeof(sourcename), "%s %s%s",
                     (friendly && monstercount[source->type] == 1 ? "The" :
@@ -1762,7 +1762,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, b
                 M_StringCopy(targetname, target->name, sizeof(targetname));
             else
             {
-                const bool   friendly = (target->flags & MF_FRIEND);
+                const bool  friendly = (target->flags & MF_FRIEND);
 
                 M_snprintf(targetname, sizeof(targetname), "%s %s%s",
                     (friendly && monstercount[target->type] == 1 ? "the" :
@@ -1829,7 +1829,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, b
                     M_StringCopy(targetname, target->name, sizeof(targetname));
                 else
                 {
-                    const bool   friendly = (target->flags & MF_FRIEND);
+                    const bool  friendly = (target->flags & MF_FRIEND);
 
                     M_snprintf(targetname, sizeof(targetname), "%s %s%s",
                         (friendly && monstercount[target->type] == 1 ? "the" :
@@ -1892,7 +1892,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, b
                             M_StringCopy(targetname, target->name, sizeof(targetname));
                         else
                         {
-                            const bool   friendly = (target->flags & MF_FRIEND);
+                            const bool  friendly = (target->flags & MF_FRIEND);
 
                             M_snprintf(targetname, sizeof(targetname), "%s %s%s",
                                 (friendly && monstercount[target->type] == 1 ? "the" :
@@ -1936,7 +1936,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, b
                             M_StringCopy(targetname, target->name, sizeof(targetname));
                         else
                         {
-                            const bool   friendly = (target->flags & MF_FRIEND);
+                            const bool  friendly = (target->flags & MF_FRIEND);
 
                             M_snprintf(targetname, sizeof(targetname), "%s %s%s",
                                 (friendly && monstercount[target->type] == 1 ? "the" :
@@ -1973,7 +1973,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, b
                 M_StringCopy(sourcename, source->name, sizeof(sourcename));
             else
             {
-                const bool   friendly = (source->flags & MF_FRIEND);
+                const bool  friendly = (source->flags & MF_FRIEND);
 
                 M_snprintf(sourcename, sizeof(sourcename), "%s %s%s",
                     (friendly && monstercount[source->type] == 1 ? "the" :
@@ -1997,7 +1997,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, b
                     M_StringCopy(targetname, target->name, sizeof(targetname));
                 else
                 {
-                    const bool   friendly = (target->flags & MF_FRIEND);
+                    const bool  friendly = (target->flags & MF_FRIEND);
 
                     M_snprintf(targetname, sizeof(targetname), "%s %s%s",
                         (source->type == target->type || M_StringCompare(source->info->name1, target->info->name1) ? "another" :
@@ -2064,7 +2064,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, b
 //
 void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, bool telefragged)
 {
-    bool             gibbed;
+    bool                gibbed;
     const mobjtype_t    type = target->type;
     mobjinfo_t          *info = &mobjinfo[type];
     const int           gibhealth = info->gibhealth;
@@ -2238,10 +2238,10 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
     player_t            *splayer = NULL;
     player_t            *tplayer;
     const int           flags = target->flags;
-    const bool       corpse = (flags & MF_CORPSE);
+    const bool          corpse = (flags & MF_CORPSE);
     const mobjtype_t    type = target->type;
     mobjinfo_t          *info = &mobjinfo[type];
-    bool             justhit = false;
+    bool                justhit = false;
 
     if (!(flags & (MF_SHOOTABLE | MF_BOUNCES)) && (!corpse || !r_corpses_slide))
         return;

@@ -50,35 +50,35 @@
 #define LOWERSPEED  (6 * FRACUNIT)
 #define RAISESPEED  (6 * FRACUNIT)
 
-bool         autoaim = autoaim_default;
-bool         centerweapon = centerweapon_default;
-int             weaponbob = weaponbob_default;
-bool         weaponbounce = weaponbounce_default;
-bool         weaponrecoil = weaponrecoil_default;
+bool        autoaim = autoaim_default;
+bool        centerweapon = centerweapon_default;
+int         weaponbob = weaponbob_default;
+bool        weaponbounce = weaponbounce_default;
+bool        weaponrecoil = weaponrecoil_default;
 
-uint64_t        stat_shotsfired_fists = 0;
-uint64_t        stat_shotsfired_chainsaw = 0;
-uint64_t        stat_shotsfired_pistol = 0;
-uint64_t        stat_shotsfired_shotgun = 0;
-uint64_t        stat_shotsfired_supershotgun = 0;
-uint64_t        stat_shotsfired_chaingun = 0;
-uint64_t        stat_shotsfired_rocketlauncher = 0;
-uint64_t        stat_shotsfired_plasmarifle = 0;
-uint64_t        stat_shotsfired_bfg9000 = 0;
-uint64_t        stat_shotssuccessful_fists = 0;
-uint64_t        stat_shotssuccessful_chainsaw = 0;
-uint64_t        stat_shotssuccessful_pistol = 0;
-uint64_t        stat_shotssuccessful_shotgun = 0;
-uint64_t        stat_shotssuccessful_supershotgun = 0;
-uint64_t        stat_shotssuccessful_chaingun = 0;
-uint64_t        stat_shotssuccessful_rocketlauncher = 0;
-uint64_t        stat_shotssuccessful_plasmarifle = 0;
-uint64_t        stat_shotssuccessful_bfg9000 = 0;
+uint64_t    stat_shotsfired_fists = 0;
+uint64_t    stat_shotsfired_chainsaw = 0;
+uint64_t    stat_shotsfired_pistol = 0;
+uint64_t    stat_shotsfired_shotgun = 0;
+uint64_t    stat_shotsfired_supershotgun = 0;
+uint64_t    stat_shotsfired_chaingun = 0;
+uint64_t    stat_shotsfired_rocketlauncher = 0;
+uint64_t    stat_shotsfired_plasmarifle = 0;
+uint64_t    stat_shotsfired_bfg9000 = 0;
+uint64_t    stat_shotssuccessful_fists = 0;
+uint64_t    stat_shotssuccessful_chainsaw = 0;
+uint64_t    stat_shotssuccessful_pistol = 0;
+uint64_t    stat_shotssuccessful_shotgun = 0;
+uint64_t    stat_shotssuccessful_supershotgun = 0;
+uint64_t    stat_shotssuccessful_chaingun = 0;
+uint64_t    stat_shotssuccessful_rocketlauncher = 0;
+uint64_t    stat_shotssuccessful_plasmarifle = 0;
+uint64_t    stat_shotssuccessful_bfg9000 = 0;
 
-bool         successfulshot;
-bool         skippsprinterp;
+bool        successfulshot;
+bool        skippsprinterp;
 
-extern bool  hitwall;
+extern bool hitwall;
 
 //
 // A_Recoil

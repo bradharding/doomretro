@@ -80,4 +80,4 @@ typedef struct
 bool P_CheckAmmo(weapontype_t weapon);
 void P_EquipWeapon(weapontype_t weapon);
 
-extern bool  skippsprinterp;
+extern bool skippsprinterp;

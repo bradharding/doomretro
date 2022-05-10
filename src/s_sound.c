@@ -96,13 +96,13 @@ static channel_t    *channels;
 static sobj_t       *sobjs;
 
 int                 s_channels = s_channels_default;
-bool             s_lowermenumusic = s_lowermenumusic_default;
-bool             s_musicinbackground = s_musicinbackground_default;
+bool                s_lowermenumusic = s_lowermenumusic_default;
+bool                s_musicinbackground = s_musicinbackground_default;
 int                 s_musicvolume = s_musicvolume_default;
-bool             s_randommusic = s_randommusic_default;
-bool             s_randompitch = s_randompitch_default;
+bool                s_randommusic = s_randommusic_default;
+bool                s_randompitch = s_randompitch_default;
 int                 s_sfxvolume = s_sfxvolume_default;
-bool             s_stereo = s_stereo_default;
+bool                s_stereo = s_stereo_default;
 
 // Maximum volume of a sound effect.
 // Internal default is max out of 0-31.
@@ -115,13 +115,13 @@ int                 musicVolume;
 static int          snd_SfxVolume;
 
 // Whether songs are mus_paused
-static bool      mus_paused;
+static bool         mus_paused;
 
 // Music currently being played
 musicinfo_t         *mus_playing;
 
-bool             nosfx;
-bool             nomusic;
+bool                nosfx;
+bool                nomusic;
 
 musinfo_t           musinfo;
 

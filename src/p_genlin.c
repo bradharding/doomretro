@@ -56,8 +56,8 @@
 bool EV_DoGenFloor(line_t *line)
 {
     int                 secnum = -1;
-    bool             rtn = false;
-    bool             manual = false;
+    bool                rtn = false;
+    bool                manual = false;
     sector_t            *sec;
     floormove_t         *floor;
     const unsigned int  value = line->special - GenFloorBase;
@@ -263,8 +263,8 @@ manual_floor:
 bool EV_DoGenCeiling(line_t *line)
 {
     int                 secnum = -1;
-    bool             rtn = false;
-    bool             manual = false;
+    bool                rtn = false;
+    bool                manual = false;
     fixed_t             targheight;
     sector_t            *sec;
     ceiling_t           *ceiling;
@@ -479,8 +479,8 @@ bool EV_DoGenLift(line_t *line)
 {
     plat_t              *plat;
     int                 secnum = -1;
-    bool             rtn = false;
-    bool             manual = false;
+    bool                rtn = false;
+    bool                manual = false;
     sector_t            *sec;
     const unsigned int  value = line->special - GenLiftBase;
 
@@ -635,9 +635,9 @@ bool EV_DoGenStairs(line_t *line)
     int                 height;
     int                 newsecnum;
     int                 texture;
-    bool             okay;
-    bool             rtn = false;
-    bool             manual = false;
+    bool                okay;
+    bool                rtn = false;
+    bool                manual = false;
     sector_t            *sec;
     sector_t            *tsec;
     floormove_t         *floor;
@@ -842,8 +842,8 @@ manual_stair:
 bool EV_DoGenCrusher(line_t *line)
 {
     int                 secnum = -1;
-    bool             rtn = false;
-    bool             manual = false;
+    bool                rtn = false;
+    bool                manual = false;
     sector_t            *sec;
     ceiling_t           *ceiling;
     const unsigned int  value = line->special - GenCrusherBase;
@@ -955,10 +955,10 @@ manual_crusher:
 bool EV_DoGenLockedDoor(line_t *line)
 {
     int                 secnum = -1;
-    bool             rtn = false;
+    bool                rtn = false;
     sector_t            *sec;
     vldoor_t            *door;
-    bool             manual = false;
+    bool                manual = false;
     const unsigned int  value = line->special - GenLockedBase;
 
     // parse the bit fields in the line's special type
@@ -1074,9 +1074,9 @@ manual_locked:
 bool EV_DoGenDoor(line_t *line)
 {
     int                 secnum = -1;
-    bool             rtn = false;
+    bool                rtn = false;
     sector_t            *sec;
-    bool             manual = false;
+    bool                manual = false;
     vldoor_t            *door;
     const unsigned int  value = line->special - GenDoorBase;
 

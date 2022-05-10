@@ -57,16 +57,16 @@
 int     r_blood = r_blood_default;
 int     r_bloodsplats_max = r_bloodsplats_max_default;
 int     r_bloodsplats_total;
-bool r_corpses_color = r_corpses_color_default;
-bool r_corpses_gib = r_corpses_gib_default;
-bool r_corpses_mirrored = r_corpses_mirrored_default;
-bool r_corpses_moreblood = r_corpses_moreblood_default;
-bool r_corpses_nudge = r_corpses_nudge_default;
-bool r_corpses_slide = r_corpses_slide_default;
-bool r_corpses_smearblood = r_corpses_smearblood_default;
-bool r_floatbob = r_floatbob_default;
-bool r_rockettrails = r_rockettrails_default;
-bool r_shadows = r_shadows_default;
+bool    r_corpses_color = r_corpses_color_default;
+bool    r_corpses_gib = r_corpses_gib_default;
+bool    r_corpses_mirrored = r_corpses_mirrored_default;
+bool    r_corpses_moreblood = r_corpses_moreblood_default;
+bool    r_corpses_nudge = r_corpses_nudge_default;
+bool    r_corpses_slide = r_corpses_slide_default;
+bool    r_corpses_smearblood = r_corpses_smearblood_default;
+bool    r_floatbob = r_floatbob_default;
+bool    r_rockettrails = r_rockettrails_default;
+bool    r_shadows = r_shadows_default;
 
 void A_Recoil(weapontype_t weapon);
 
@@ -143,7 +143,7 @@ static void P_XYMovement(mobj_t *mo)
     fixed_t     xmove, ymove;
     mobjtype_t  type;
     int         flags2;
-    bool     corpse;
+    bool        corpse;
     int         stepdir = 0;
 
     if (!(mo->momx | mo->momy))

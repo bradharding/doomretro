@@ -50,7 +50,7 @@
 extern fixed_t      *textureheight;
 
 extern byte         **brightmap;
-extern bool      *nobrightmap;
+extern bool         *nobrightmap;
 
 // needed for pre rendering (fracs)
 extern fixed_t      *spritewidth;
@@ -120,12 +120,12 @@ typedef enum
 extern mapformat_t  mapformat;
 extern const char   *mapformats[];
 
-extern bool      boomcompatible;
-extern bool      mbfcompatible;
-extern bool      mbf21compatible;
-extern bool      blockmaprebuilt;
-extern bool      nojump;
-extern bool      nomouselook;
+extern bool         boomcompatible;
+extern bool         mbfcompatible;
+extern bool         mbf21compatible;
+extern bool         blockmaprebuilt;
+extern bool         nojump;
+extern bool         nomouselook;
 
 //
 // POV data.

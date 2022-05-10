@@ -285,7 +285,7 @@ char *W_GuessFilename(char *path, char *string)
 //
 bool W_AddFile(char *filename, bool automatic)
 {
-    static bool  packagewadadded;
+    static bool     packagewadadded;
     wadinfo_t       header;
     size_t          length;
     int             startlump;

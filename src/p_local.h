@@ -106,7 +106,7 @@ void P_SetPsprite(size_t position, statenum_t stnum);
 #define MLOOKUNIT           8
 #define PLAYERSLOPE(a)      ((((a)->lookdir / MLOOKUNIT) << FRACBITS) / 153)
 
-extern bool  autousing;
+extern bool     autousing;
 extern int      deadlookdir;
 extern fixed_t  animatedliquiddiffs[64];
 
@@ -179,7 +179,7 @@ typedef struct
 typedef struct
 {
     fixed_t     frac;           // along trace line
-    bool     isaline;
+    bool        isaline;
 
     union
     {
@@ -232,15 +232,15 @@ void P_CheckIntercepts(void);
 // If "floatok" true, move would be ok
 // if within "tmfloorz - tmceilingz".
 extern fixed_t      attackrange;
-extern bool      floatok;
-extern bool      felldown;       // killough 11/98: indicates object pushed off ledge
+extern bool         floatok;
+extern bool         felldown;       // killough 11/98: indicates object pushed off ledge
 extern fixed_t      tmfloorz;
 extern fixed_t      tmbbox[4];      // phares 03/20/98
 extern msecnode_t   *sector_list;
 extern line_t       *ceilingline;
 extern line_t       *blockline;
 
-extern bool      infight;
+extern bool         infight;
 
 void P_CheckSpechits(void);
 bool P_CheckPosition(mobj_t *thing, fixed_t x, fixed_t y);
@@ -303,24 +303,24 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
 
 void P_ResurrectMobj(mobj_t *target);
 
-extern int      god_health;
-extern int      idfa_armor;
-extern int      idfa_armor_class;
-extern int      idkfa_armor;
-extern int      idkfa_armor_class;
-extern int      initial_health;
-extern int      initial_bullets;
-extern int      maxhealth;
-extern int      max_armor;
-extern int      green_armor_class;
-extern int      blue_armor_class;
-extern int      max_soul;
-extern int      soul_health;
-extern int      mega_health;
-extern int      bfgcells;
-extern bool  species_infighting;
-extern int      maxammo[];
-extern int      clipammo[];
+extern int  god_health;
+extern int  idfa_armor;
+extern int  idfa_armor_class;
+extern int  idkfa_armor;
+extern int  idkfa_armor_class;
+extern int  initial_health;
+extern int  initial_bullets;
+extern int  maxhealth;
+extern int  max_armor;
+extern int  green_armor_class;
+extern int  blue_armor_class;
+extern int  max_soul;
+extern int  soul_health;
+extern int  mega_health;
+extern int  bfgcells;
+extern bool species_infighting;
+extern int  maxammo[];
+extern int  clipammo[];
 
 //
 // P_SPEC.C

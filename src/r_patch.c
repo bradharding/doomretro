@@ -82,7 +82,7 @@ static bool getIsSolidAtSpot(const column_t *column, int spot)
 static bool CheckIfPatch(int lump)
 {
     const int   size = W_LumpLength(lump);
-    bool     result = false;
+    bool        result = false;
 
     if (size >= 13)
     {

@@ -71,7 +71,7 @@
 int             episode = episode_default;
 int             expansion = expansion_default;
 int             m_sensitivity = m_sensitivity_default;
-bool         messages = messages_default;
+bool            messages = messages_default;
 int             r_detail = r_detail_default;
 int             r_screensize = r_screensize_default;
 int             savegame = savegame_default;
@@ -81,29 +81,29 @@ int             skilllevel = skilllevel_default;
 int             quickSaveSlot;
 
 // true = message to be printed
-bool         messagetoprint;
+bool            messagetoprint;
 // ...and here is the message string!
 static char     *messageString;
 
 static int      messageLastMenuActive;
 
 // timed message = no input from user
-static bool  messageNeedsInput;
+static bool     messageNeedsInput;
 
 static void (*messageRoutine)(int);
 
 // we are going to be entering a savegame string
-static bool  saveStringEnter;
+static bool     saveStringEnter;
 static int      saveSlot;               // which slot to save in
 static int      saveCharIndex;          // which char we're editing
 
 // old save description before edit
 static char     saveOldString[SAVESTRINGSIZE];
 
-bool         inhelpscreens;
-bool         menuactive;
-bool         savegames;
-bool         quitting;
+bool            inhelpscreens;
+bool            menuactive;
+bool            savegames;
+bool            quitting;
 
 char            savegamestrings[6][SAVESTRINGSIZE];
 
@@ -113,7 +113,7 @@ static short    whichSkull;             // which skull to draw
 
 static int      functionkey;
 
-static bool  usinggamecontroller;
+static bool     usinggamecontroller;
 
 // current menudef
 static menu_t   *currentMenu;
@@ -679,7 +679,7 @@ void M_DrawString(int x, int y, char *string)
     {
         int     j = -1;
         int     k = 0;
-        bool overlapping = false;
+        bool    overlapping = false;
 
         if (string[i] < 123)
             j = chartoi[(int)string[i]];
@@ -1069,9 +1069,9 @@ static void M_LoadGame(int choice)
     M_ReadSaveStrings();
 }
 
-static bool  showcaret;
-static int      caretwait;
-int             caretcolor;
+static bool showcaret;
+static int  caretwait;
+int         caretcolor;
 
 //
 //  M_SaveGame
@@ -1209,8 +1209,8 @@ static char *RemoveMapNum(char *string)
 
 void M_UpdateSaveGameName(int i)
 {
-    bool match = false;
-    int     len = (int)strlen(savegamestrings[i]);
+    bool        match = false;
+    const int   len = (int)strlen(savegamestrings[i]);
 
     if (M_StringCompare(savegamestrings[i], s_EMPTYSTRING))
         match = true;
@@ -1609,7 +1609,7 @@ static void M_DrawMainMenu(void)
 // M_Episode
 //
 static int      epi;
-bool         EpiCustom;
+bool            EpiCustom;
 static short    EpiMenuMap[] = { 1, 1, 1, 1, -1, -1, -1, -1 };
 static short    EpiMenuEpi[] = { 1, 2, 3, 4, -1, -1, -1, -1 };
 
@@ -1956,7 +1956,7 @@ static void M_ChangeMessages(int choice)
 //
 // M_EndGame
 //
-static bool  endinggame;
+static bool endinggame;
 
 void M_EndingGame(void)
 {
@@ -2559,7 +2559,7 @@ static void M_ChangeGamma(bool shift)
 //
 int     gamecontrollerwait = 0;
 int     mousewait = 0;
-bool gamecontrollerpress = false;
+bool    gamecontrollerpress = false;
 
 bool M_Responder(event_t *ev)
 {
@@ -2827,7 +2827,7 @@ bool M_Responder(event_t *ev)
                 if (!keydown)
                 {
                     const int   len = (int)strlen(savegamestrings[saveSlot]);
-                    bool     allspaces = true;
+                    bool        allspaces = true;
 
                     keydown = key;
 
@@ -3720,7 +3720,7 @@ void M_Drawer(void)
         while (messageString[start] != '\0')
         {
             const int   len = (int)strlen(messageString + start);
-            bool     foundnewline = false;
+            bool        foundnewline = false;
 
             for (int i = 0; i < len; i++)
                 if (messageString[start + i] == '\n')

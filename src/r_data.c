@@ -70,7 +70,7 @@ int         firstspritelump;
 int         lastspritelump;
 int         numspritelumps;
 
-bool     suppresswarnings = false;
+bool        suppresswarnings = false;
 
 int         numtextures;
 texture_t   **textures;
@@ -80,7 +80,7 @@ char        berserk[64];
 // needed for texture pegging
 fixed_t     *textureheight;
 byte        **brightmap;
-bool     *nobrightmap;
+bool        *nobrightmap;
 
 // for global animation
 int         *flattranslation;
@@ -95,7 +95,7 @@ fixed_t     *spritetopoffset;
 fixed_t     *newspriteoffset;
 fixed_t     *newspritetopoffset;
 
-bool     r_fixspriteoffsets = r_fixspriteoffsets_default;
+bool        r_fixspriteoffsets = r_fixspriteoffsets_default;
 
 byte        grays[256];
 
@@ -488,7 +488,7 @@ static void R_InitFlats(void)
 //
 static void R_InitSpriteLumps(void)
 {
-    bool fixspriteoffsets = false;
+    bool    fixspriteoffsets = false;
 
     SC_Open("DRCOMPAT");
 
@@ -887,7 +887,7 @@ static void R_InitSpriteLumps(void)
 //
 static void R_InitColormaps(void)
 {
-    bool     COLORMAP = (W_CheckMultipleLumps("COLORMAP") > 1);
+    bool        COLORMAP = (W_CheckMultipleLumps("COLORMAP") > 1);
     byte        *palsrc;
     byte        *palette;
     wadfile_t   *colormapwad;
@@ -1065,7 +1065,7 @@ int R_TextureNumForName(char *name)
 // to avoid using alloca(), and to improve performance.
 void R_PrecacheLevel(void)
 {
-    bool *hitlist = calloc(MAX(numtextures, numflats), sizeof(bool));
+    bool    *hitlist = calloc(MAX(numtextures, numflats), sizeof(bool));
 
     // Precache flats.
     for (int i = 0; i < numsectors; i++)

@@ -260,7 +260,7 @@ bool EV_SilentLineTeleport(line_t *line, int side, mobj_t *thing, bool reverse)
             player_t    *player = (thing->player && thing->player->mo == thing ? thing->player : NULL);
 
             // Whether walking towards first side of exit linedef steps down
-            bool     stepdown = (l->frontsector->floorheight < l->backsector->floorheight);
+            bool        stepdown = (l->frontsector->floorheight < l->backsector->floorheight);
 
             // Height of thing above ground
             fixed_t     z = thing->z - thing->floorz;

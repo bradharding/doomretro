@@ -66,7 +66,7 @@ int     lowpixelheight;
 char    screenshotfolder[MAX_PATH];
 
 char    *r_lowpixelsize = r_lowpixelsize_default;
-bool r_supersampling = r_supersampling_default;
+bool    r_supersampling = r_supersampling_default;
 
 void (*postprocessfunc)(int, int, int, int, int, int);
 
@@ -1812,7 +1812,7 @@ char    lbmpath2[MAX_PATH];
 
 static bool V_SavePNG(SDL_Renderer *sdlrenderer, char *path)
 {
-    bool result = false;
+    bool    result = false;
     int     width;
     int     height;
 
@@ -1834,7 +1834,7 @@ static bool V_SavePNG(SDL_Renderer *sdlrenderer, char *path)
 
 bool V_ScreenShot(void)
 {
-    bool result = false;
+    bool    result = false;
     char    mapname[128];
     char    *temp1;
     int     count = 0;

@@ -72,7 +72,7 @@ const bool islightspecial[] =
 //
 typedef struct
 {
-    bool istexture;
+    bool    istexture;
     int     picnum;
     int     basepic;
     int     numpics;
@@ -102,7 +102,7 @@ typedef struct
 
 uint64_t        stat_secretsfound = 0;
 
-bool         r_liquid_bob = r_liquid_bob_default;
+bool            r_liquid_bob = r_liquid_bob_default;
 
 int             animatedliquidtic;
 fixed_t         animatedliquiddiff;
@@ -130,7 +130,7 @@ static anim_t   *lastanim;
 static anim_t   *anims;             // new structure w/o limits -- killough
 
 terraintype_t   *terraintypes;
-bool         *isteleport;
+bool            *isteleport;
 
 // killough 03/07/98: Initialize generalized scrolling
 static void P_SpawnScrollers(void);
@@ -224,7 +224,7 @@ void P_InitPicAnims(void)
         else
         {
             int     basepic;
-            bool isliquid = false;
+            bool    isliquid = false;
 
             if (R_CheckFlatNumForName(animdefs[i].startname) == -1)
                 continue;
@@ -322,7 +322,7 @@ void P_InitPicAnims(void)
 
     while (SC_GetString())
     {
-        const bool   noliquid = M_StringCompare(sc_String, "NOLIQUID");
+        const bool  noliquid = M_StringCompare(sc_String, "NOLIQUID");
 
         if (noliquid || M_StringCompare(sc_String, "LIQUID"))
         {
@@ -950,10 +950,10 @@ int P_FindMinSurroundingLight(sector_t *sec, int min)
 // killough 11/98: reformatted
 bool P_CanUnlockGenDoor(line_t *line)
 {
-    static char     buffer[1024];
+    static char buffer[1024];
 
     // does this line special distinguish between skulls and keys?
-    const bool   skulliscard = (line->special & LockedNKeys) >> LockedNKeysShift;
+    const bool  skulliscard = (line->special & LockedNKeys) >> LockedNKeysShift;
 
     // determine for each case of lock type if player's keys are adequate
     switch ((line->special & LockedKey) >> LockedKeyShift)
@@ -1365,7 +1365,7 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
 
     if (!thing->player)
     {
-        bool okay = false;
+        bool    okay = false;
 
         switch (line->special)
         {
@@ -2401,7 +2401,7 @@ void P_UpdateSpecials(void)
 bool EV_DoDonut(line_t *line)
 {
     int     secnum = -1;
-    bool rtn = false;
+    bool    rtn = false;
 
     while ((secnum = P_FindSectorFromLineTag(line, secnum)) >= 0)
     {
@@ -2816,7 +2816,7 @@ static void P_SpawnScrollers(void)
         fixed_t dx = l->dx >> SCROLL_SHIFT;                                 // direction and speed of scrolling
         fixed_t dy = l->dy >> SCROLL_SHIFT;
         int     control = -1;                                               // no control sector or acceleration
-        bool accel = false;
+        bool    accel = false;
         int     special = l->special;
 
         // killough 03/07/98: Types 245-249 are same as 250-254 except that the
@@ -3322,7 +3322,7 @@ static void P_SpawnPushers(void)
         }
 }
 
-bool zerotag_manual;
+bool    zerotag_manual;
 
 bool P_ProcessNoTagLines(line_t *line, sector_t **sec, int *secnum)
 {

@@ -203,7 +203,7 @@ typedef struct sector_s
 
     terraintype_t       terraintype;
 
-    bool             islift;
+    bool                islift;
 } sector_t;
 
 //
@@ -231,9 +231,9 @@ typedef struct
     // for other functions.
     int                 special;
 
-    bool            missingtoptexture;
-    bool            missingmidtexture;
-    bool            missingbottomtexture;
+    bool                missingtoptexture;
+    bool                missingmidtexture;
+    bool                missingbottomtexture;
 } side_t;
 
 //
@@ -613,7 +613,7 @@ enum
     LightFlickers_Randomly                              = 17
 };
 
-extern const bool islightspecial[];
+extern const bool   islightspecial[];
 
 enum
 {
@@ -786,7 +786,7 @@ typedef struct msecnode_s
     struct msecnode_s   *m_tnext;       // next msecnode_t for this thing
     struct msecnode_s   *m_sprev;       // prev msecnode_t for this sector
     struct msecnode_s   *m_snext;       // next msecnode_t for this sector
-    bool            visited;        // killough 04/04/98, 4/7/98: used in search algorithms
+    bool                visited;        // killough 04/04/98, 4/7/98: used in search algorithms
 } msecnode_t;
 
 //
@@ -1035,7 +1035,7 @@ typedef struct visplane_s
 
     unsigned int        pad4;
 
-    bool            modified;
+    bool                modified;
 } visplane_t;
 
 #endif

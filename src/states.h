@@ -1171,8 +1171,8 @@ typedef struct
     int         misc2;
     int         args[MAXSTATEARGS]; // MBF21
     int         flags;
-    bool     translucent;
-    bool     dehacked;
+    bool        translucent;
+    bool        dehacked;
 } state_t;
 
 extern state_t  states[NUMSTATES];

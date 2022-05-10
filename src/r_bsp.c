@@ -254,7 +254,7 @@ sector_t *R_FakeFlat(sector_t *sec, sector_t *tempsec, int *floorlightlevel, int
     if (s)
     {
         sector_t    *heightsec = viewplayer->mo->subsector->sector->heightsec;
-        bool     underwater = (heightsec && viewz <= heightsec->interpfloorheight);
+        bool        underwater = (heightsec && viewz <= heightsec->interpfloorheight);
 
         // Replace sector being drawn, with a copy to be hacked
         *tempsec = *sec;

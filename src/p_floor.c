@@ -337,7 +337,7 @@ void T_MoveElevator(elevator_t *elevator)
 bool EV_DoFloor(line_t *line, floor_e floortype)
 {
     int         secnum = -1;
-    bool     rtn = false;
+    bool        rtn = false;
     sector_t    *sec;
 
     if (P_ProcessNoTagLines(line, &sec, &secnum))
@@ -639,7 +639,7 @@ void P_CheckTerrainType(sector_t *sector)
 bool EV_DoChange(line_t *line, change_e changetype)
 {
     int     secnum = -1;
-    bool rtn = false;
+    bool    rtn = false;
 
     // change all sectors with the same tag as the linedef
     while ((secnum = P_FindSectorFromLineTag(line, secnum)) >= 0)
@@ -705,7 +705,7 @@ bool EV_BuildStairs(line_t *line, fixed_t speed, fixed_t stairsize, bool crushin
 {
     int         ssec = -1;
     int         minssec = -1;
-    bool     rtn = false;
+    bool        rtn = false;
     int         secnum = -1;
     sector_t    *sec;
 
@@ -816,7 +816,7 @@ manual_stair:
 bool EV_DoElevator(line_t *line, elevator_e elevtype)
 {
     int     secnum = -1;
-    bool rtn = false;
+    bool    rtn = false;
 
     // act on all sectors with the same tag as the triggering linedef
     while ((secnum = P_FindSectorFromLineTag(line, secnum)) >= 0)
