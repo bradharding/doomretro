@@ -239,34 +239,12 @@ static void D_UpdateFade(void)
     }
 
     if (tinttab)
-    {
         for (int i = 0; i < SCREENAREA; i++)
         {
             byte    *dot = *screens + i;
 
             *dot = tinttab[(*dot << 8) + fadescreen[i]];
         }
-
-        if (r_ditheredlighting)
-            for (int y = 0; y < SCREENAREA; y += 2 * SCREENWIDTH)
-            {
-                for (int x = y; x < y + SCREENWIDTH; x += 2)
-                {
-                    byte    *dot = *screens + x;
-
-                    *dot = tinttab75[(*dot << 8) + fadescreen[x]];
-                }
-
-                y += 2 * SCREENWIDTH;
-
-                for (int x = y + 1; x < y + SCREENWIDTH; x += 2)
-                {
-                    byte    *dot = *screens + x;
-
-                    *dot = tinttab75[(*dot << 8) + fadescreen[x]];
-                }
-            }
-    }
 }
 
 //
