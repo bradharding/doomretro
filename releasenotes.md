@@ -26,6 +26,7 @@
   * More time has been given to the player to enter the `IDBEHOLDx` cheat.
 * The pausing and then resuming of any liquid sectors in view when opening and then closing the console is now smoother.
 * Improvements have been made in determining whether something is in liquid or not.
+* Dithering is no longer applied to fade transitions if both the `fade` and `r_ditheredlighting` CVARs are `on`.
 * The branding in the console is now positioned correctly again when the `vid_widescreen` CVAR is `on`.
 * The swirl of liquid sectors when the `r_liquid_swirl` CVAR is `on` has been slowed down slightly to better sync with their bob when the `r_liquid_bob` CVAR is also `on`.
 * The player’s currently equipped weapon can now be changed using the new `weapon` CVAR. It can be `fists`, `chainsaw`, `pistol`, `shotgun`, `supershotgun`, `chaingun`, `rocketlauncher`, `plasmarifle` or `bfg9000`.

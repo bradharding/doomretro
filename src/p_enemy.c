@@ -199,7 +199,7 @@ static bool P_CheckMissileRange(mobj_t *actor)
         return (!(actor->flags & MF_FRIEND)
             || (target->health > 0
                 && (!(target->flags & MF_FRIEND)
-                    || (target->player ? M_Random() > 128 : !(target->flags & MF_JUSTHIT) && M_Random() > 128))));
+                    || (target->player ? M_Random() > 128 : (!(target->flags & MF_JUSTHIT) && M_Random() > 128)))));
     }
 
     // killough 07/18/98: friendly monsters don't attack other friendly
@@ -562,10 +562,10 @@ static fixed_t  floorz;
 
 static bool PIT_AvoidDropoff(line_t *line)
 {
-    if (line->backsector                                                            // Ignore one-sided linedefs
+    if (line->backsector                                                            // ignore one-sided linedefs
         && tmbbox[BOXRIGHT] > line->bbox[BOXLEFT]
         && tmbbox[BOXLEFT] < line->bbox[BOXRIGHT]
-        && tmbbox[BOXTOP] > line->bbox[BOXBOTTOM]                                   // Linedef must be contacted
+        && tmbbox[BOXTOP] > line->bbox[BOXBOTTOM]                                   // linedef must be contacted
         && tmbbox[BOXBOTTOM] < line->bbox[BOXTOP]
         && P_BoxOnLineSide(tmbbox, line) == -1)
     {
@@ -594,7 +594,7 @@ static bool PIT_AvoidDropoff(line_t *line)
 //
 // Driver for above
 //
-static fixed_t P_AvoidDropoff(mobj_t *actor)
+static bool P_AvoidDropoff(mobj_t *actor)
 {
     const int   xh = P_GetSafeBlockX((tmbbox[BOXRIGHT] = actor->x + actor->radius) - bmaporgx);
     const int   xl = P_GetSafeBlockX((tmbbox[BOXLEFT] = actor->x - actor->radius) - bmaporgx);
@@ -612,7 +612,7 @@ static fixed_t P_AvoidDropoff(mobj_t *actor)
         for (int by = yl; by <= yh; by++)
             P_BlockLinesIterator(bx, by, &PIT_AvoidDropoff);    // all contacted lines
 
-    return (dropoff_deltax | dropoff_deltay);                   // Non-zero if movement prescribed
+    return (dropoff_deltax || dropoff_deltay);                  // false if movement prescribed
 }
 
 //
@@ -627,7 +627,7 @@ static void P_NewChaseDir(mobj_t *actor)
     fixed_t dist;
 
     if (actor->floorz - actor->dropoffz > 24 * FRACUNIT && actor->z <= actor->floorz
-        && !(actor->flags & (MF_DROPOFF | MF_FLOAT)) && P_AvoidDropoff(actor))   // Move away from dropoff
+        && !(actor->flags & (MF_DROPOFF | MF_FLOAT)) && P_AvoidDropoff(actor))   // move away from dropoff
     {
         P_DoNewChaseDir(actor, dropoff_deltax, dropoff_deltay);
 
