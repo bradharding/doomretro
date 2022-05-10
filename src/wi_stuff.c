@@ -896,7 +896,6 @@ static void WI_UpdateStats(void)
             }
         }
     }
-
     else if (sp_state == 8)
     {
         // e6y: do not play count sound after explosion sound

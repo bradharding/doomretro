@@ -210,9 +210,8 @@ static bool SpriteLumpNeeded(lumpinfo_t *lump)
 
     // check the first frame
     sprite = FindSpriteFrame(lump->name, lump->name[4]);
-    angle_num = lump->name[5] - '0';
 
-    if (!angle_num)
+    if (!(angle_num = lump->name[5] - '0'))
     {
         // must check all frames
         for (int i = 0; i < 8; i++)
@@ -233,9 +232,8 @@ static bool SpriteLumpNeeded(lumpinfo_t *lump)
         return false;
 
     sprite = FindSpriteFrame(lump->name, lump->name[6]);
-    angle_num = lump->name[7] - '0';
 
-    if (!angle_num)
+    if (!(angle_num = lump->name[7] - '0'))
     {
         // must check all frames
         for (int i = 0; i < 8; i++)

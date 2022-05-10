@@ -287,8 +287,6 @@ void S_StopSounds(void)
 
 static int S_GetMusicNum(void)
 {
-    int mnum;
-
     if (gamemode == commercial)
     {
         if (gamemission == pack_nerve)
@@ -306,18 +304,18 @@ static int S_GetMusicNum(void)
                 mus_ddtblu
             };
 
-            mnum = nmus[(s_randommusic ? M_RandomIntNoRepeat(1, 9, gamemap) : gamemap) - 1];
+            return nmus[(s_randommusic ? M_RandomIntNoRepeat(1, 9, gamemap) : gamemap) - 1];
         }
         else
-            mnum = mus_runnin + (s_randommusic ? M_RandomIntNoRepeat(1, 32, gamemap) : gamemap) - 1;
+            return (mus_runnin + (s_randommusic ? M_RandomIntNoRepeat(1, 32, gamemap) : gamemap) - 1);
     }
     else
     {
         if (gameepisode < 4)
-            mnum = mus_e1m1 + (s_randommusic ? M_RandomIntNoRepeat(1, 21, (gameepisode - 1) * 9 + gamemap) :
-                (gameepisode - 1) * 9 + gamemap) - 1;
+            return (mus_e1m1 + (s_randommusic ? M_RandomIntNoRepeat(1, 21, (gameepisode - 1) * 9 + gamemap) :
+                (gameepisode - 1) * 9 + gamemap) - 1);
         else if (gameepisode == 5 && sigil)
-            mnum = mus_e5m1 + (s_randommusic ? M_RandomIntNoRepeat(1, 9, gamemap) : gamemap) - 1;
+            return (mus_e5m1 + (s_randommusic ? M_RandomIntNoRepeat(1, 9, gamemap) : gamemap) - 1);
         else
         {
             const int   spmus[] =
@@ -334,11 +332,9 @@ static int S_GetMusicNum(void)
                 mus_e1m9    // Tim          E4M9
             };
 
-            mnum = spmus[(s_randommusic ? M_RandomIntNoRepeat(1, 9, gamemap) : gamemap) - 1];
+            return spmus[(s_randommusic ? M_RandomIntNoRepeat(1, 9, gamemap) : gamemap) - 1];
         }
     }
-
-    return mnum;
 }
 
 //
