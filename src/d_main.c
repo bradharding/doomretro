@@ -254,7 +254,7 @@ static void D_UpdateFade(void)
                 {
                     byte    *dot = *screens + x;
 
-                    *dot = tinttab90[(*dot << 8) + fadescreen[x]];
+                    *dot = tinttab75[(*dot << 8) + fadescreen[x]];
                 }
 
                 y += 2 * SCREENWIDTH;
@@ -263,7 +263,7 @@ static void D_UpdateFade(void)
                 {
                     byte    *dot = *screens + x;
 
-                    *dot = tinttab90[(*dot << 8) + fadescreen[x]];
+                    *dot = tinttab75[(*dot << 8) + fadescreen[x]];
                 }
             }
     }
