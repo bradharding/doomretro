@@ -241,9 +241,9 @@ static void D_UpdateFade(void)
     if (tinttab)
         for (int i = 0; i < SCREENAREA; i++)
         {
-            byte    *dot = *screens + i;
+            byte *dot = *screens + i;
 
-            *dot = tinttab[(*dot << 8) + fadescreen[i]];
+            *dot = colormaps[0][M_BigRandomInt(0, 3) * 256 + tinttab[(*dot << 8) + fadescreen[i]]];
         }
 }
 
@@ -252,8 +252,6 @@ static void D_UpdateFade(void)
 //
 void D_FadeScreenToBlack(void)
 {
-    int volume = current_music_volume;
-
     if (!fade)
         return;
 
@@ -262,7 +260,7 @@ void D_FadeScreenToBlack(void)
         I_SetPaletteWithBrightness(PLAYPAL, i);
         blitfunc();
         I_SetExternalAutomapPalette();
-        I_SetMusicVolume((int)((double)volume * i));
+        I_SetMusicVolume((int)(current_music_volume * i));
         I_Sleep(30);
     }
 }
