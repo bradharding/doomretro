@@ -1011,15 +1011,15 @@ void I_SetPalette(byte *playpal)
     }
     else
     {
-        double  color = r_color / 100.0;
+        const double    color = r_color / 100.0;
 
         for (int i = 0; i < 256; i++)
         {
-            byte    *gamma = gammatable[gammaindex];
-            double  r = gamma[*playpal++];
-            double  g = gamma[*playpal++];
-            double  b = gamma[*playpal++];
-            double  p = sqrt(r * r * 0.299 + g * g * 0.587 + b * b * 0.114);
+            byte            *gamma = gammatable[gammaindex];
+            const double    r = gamma[*playpal++];
+            const double    g = gamma[*playpal++];
+            const double    b = gamma[*playpal++];
+            const double    p = sqrt(r * r * 0.299 + g * g * 0.587 + b * b * 0.114);
 
             colors[i].r = (byte)(p + (r - p) * color);
             colors[i].g = (byte)(p + (g - p) * color);
@@ -1069,15 +1069,15 @@ void I_SetPaletteWithBrightness(byte *playpal, double brightness)
     }
     else
     {
-        double  color = r_color / 100.0;
+        const double    color = r_color / 100.0;
 
         for (int i = 0; i < 256; i++)
         {
-            byte    *gamma = gammatable[gammaindex];
-            double  r = gamma[*playpal++] * brightness;
-            double  g = gamma[*playpal++] * brightness;
-            double  b = gamma[*playpal++] * brightness;
-            double  p = sqrt(r * r * 0.299 + g * g * 0.587 + b * b * 0.114);
+            byte            *gamma = gammatable[gammaindex];
+            const double    r = gamma[*playpal++] * brightness;
+            const double    g = gamma[*playpal++] * brightness;
+            const double    b = gamma[*playpal++] * brightness;
+            const double    p = sqrt(r * r * 0.299 + g * g * 0.587 + b * b * 0.114);
 
             colors[i].r = (byte)(p + (r - p) * color);
             colors[i].g = (byte)(p + (g - p) * color);
@@ -1124,7 +1124,7 @@ bool I_CreateExternalAutomap(void)
     if (am_display > numdisplays || am_display == vid_display)
     {
         if (!togglingvanilla)
-            C_Warning(1, "An external automap couldn't be created. Display %i couldn't be found.", am_display);
+            C_Warning(1, "An external automap couldn't be created. Display %i wasn't found.", am_display);
 
         return false;
     }
@@ -1198,9 +1198,9 @@ bool I_CreateExternalAutomap(void)
     map_rect.h = MAPHEIGHT;
 
     if ((displayname = SDL_GetDisplayName(am_display - 1)))
-        C_Output("Using \"%s\" (display %i of %i) to show the external automap.", displayname, am_display, numdisplays);
+        C_Output("Using \"%s\" (display %i of %i) to show an external automap.", displayname, am_display, numdisplays);
     else
-        C_Output("Using display %i of %i to show the external automap.", am_display, numdisplays);
+        C_Output("Using display %i of %i to show an external automap.", am_display, numdisplays);
 
     return true;
 }
