@@ -323,19 +323,19 @@ char *M_GetExecutableFolder(void)
         return M_StringDuplicate(dirname(exe));
     }
 #elif defined(__FreeBSD__) || defined(__DragonFly__)
-    char    *exe = malloc(MAX_PATH);
-    size_t  len = MAX_PATH;
+    char        exe[MAX_PATH];
+    size_t      len = MAX_PATH;
     int     mib[] = { CTL_KERN, KERN_PROC, KERN_PROC_PATHNAME, -1 };
 
     if (!sysctl(mib, 4, exe, &len, NULL, 0))
     {
         exe[len] = '\0';
-        return dirname(exe);
+        return M_StringDuplicate(dirname(exe));
     }
     else
     {
         strcpy(exe, ".");
-        return exe;
+        return M_StringDuplicate(exe);
     }
 #elif defined(__APPLE__)
     char        exe[MAX_PATH];
@@ -349,15 +349,15 @@ char *M_GetExecutableFolder(void)
 
     return M_StringDuplicate(dirname(exe));
 #elif defined(__HAIKU__)
-    char    *exe = malloc(MAX_PATH);
+    char        exe[MAX_PATH];
 
     exe[0] = '\0';
 
     if (find_path(B_APP_IMAGE_SYMBOL, B_FIND_PATH_IMAGE_PATH, NULL, exe, MAX_PATH) == B_OK)
-        return dirname(exe);
+        return M_StringDuplicate(dirname(exe));
 
     strcpy(exe, ".");
-    return exe;
+    return M_StringDuplicate(exe);
 #else
     char    *folder = malloc(2);
 
