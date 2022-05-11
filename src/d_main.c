@@ -243,7 +243,7 @@ static void D_UpdateFade(void)
         {
             byte *dot = *screens + i;
 
-            *dot = colormaps[0][M_BigRandomInt(0, 3) * 256 + tinttab[(*dot << 8) + fadescreen[i]]];
+            *dot = tinttab[(*dot << 8) + fadescreen[i]];
         }
 }
 
