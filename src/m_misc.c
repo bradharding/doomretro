@@ -323,8 +323,8 @@ char *M_GetExecutableFolder(void)
         return M_StringDuplicate(dirname(exe));
     }
 #elif defined(__FreeBSD__) || defined(__DragonFly__)
-    char        exe[MAX_PATH];
-    size_t      len = MAX_PATH;
+    char    exe[MAX_PATH];
+    size_t  len = MAX_PATH;
     int     mib[] = { CTL_KERN, KERN_PROC, KERN_PROC_PATHNAME, -1 };
 
     if (!sysctl(mib, 4, exe, &len, NULL, 0))
@@ -349,7 +349,7 @@ char *M_GetExecutableFolder(void)
 
     return M_StringDuplicate(dirname(exe));
 #elif defined(__HAIKU__)
-    char        exe[MAX_PATH];
+    char    exe[MAX_PATH];
 
     exe[0] = '\0';
 

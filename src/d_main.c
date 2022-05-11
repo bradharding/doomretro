@@ -226,7 +226,7 @@ static void D_UpdateFade(void)
 {
     static byte *tinttab;
     static int  fadewait;
-    int         tics = I_GetTimeMS();
+    const int   tics = I_GetTimeMS();
 
     if (fadewait < tics)
     {
@@ -241,7 +241,7 @@ static void D_UpdateFade(void)
     if (tinttab)
         for (int i = 0; i < SCREENAREA; i++)
         {
-            byte *dot = *screens + i;
+            byte    *dot = *screens + i;
 
             *dot = tinttab[(*dot << 8) + fadescreen[i]];
         }
