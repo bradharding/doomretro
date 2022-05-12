@@ -1391,7 +1391,24 @@ static void ST_DrawWidgets(bool refresh)
         {
             const int   neededcard = viewplayer->neededcard;
 
-            if (neededcard != it_allkeys)
+            if (neededcard == it_allkeys)
+            {
+                if (viewplayer->cards[it_bluecard] == CARDNOTINMAP)
+                    for (int i = 0; i < NUMCARDS / 2; i++)
+                    {
+                        st_multicon_t   *keybox = &w_keyboxes[i];
+
+                        V_DrawPatch(keybox->x, keybox->y, 0, keybox->patch[i + 3]);
+                    }
+                else
+                    for (int i = 0; i < NUMCARDS / 2; i++)
+                    {
+                        st_multicon_t   *keybox = &w_keyboxes[i];
+
+                        V_DrawPatch(keybox->x, keybox->y, 0, keybox->patch[i]);
+                    }
+            }
+            else
             {
                 st_multicon_t   *keybox = &w_keyboxes[(neededcard > it_redcard ? neededcard - 3 : neededcard)];
 
