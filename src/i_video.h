@@ -6,8 +6,8 @@
 
 ========================================================================
 
-  Copyright © 1993-2021 by id Software LLC, a ZeniMax Media company.
-  Copyright © 2013-2021 by Brad Harding <mailto:brad@doomretro.com>.
+  Copyright © 1993-2022 by id Software LLC, a ZeniMax Media company.
+  Copyright © 2013-2022 by Brad Harding <mailto:brad@doomretro.com>.
 
   DOOM Retro is a fork of Chocolate DOOM. For a list of credits, see
   <https://github.com/bradharding/doomretro/wiki/CREDITS>.
@@ -16,7 +16,7 @@
 
   DOOM Retro is free software: you can redistribute it and/or modify it
   under the terms of the GNU General Public License as published by the
-  Free Software Foundation, either version 3 of the License, or (at your
+  Free Software Foundation, either version 3 of the license, or (at your
   option) any later version.
 
   DOOM Retro is distributed in the hope that it will be useful, but
@@ -36,28 +36,32 @@
 ========================================================================
 */
 
-#if !defined(__I_VIDEO_H__)
-#define __I_VIDEO_H__
-
-#include "SDL.h"
+#pragma once
 
 #include "doomtype.h"
+#include "SDL.h"
 
 #define MAX_MOUSE_BUTTONS   8
 
 #define GAMMALEVELS         31
 
-dboolean MouseShouldBeGrabbed(void);
+bool MouseShouldBeGrabbed(void);
 void I_InitKeyboard(void);
 void I_ShutdownKeyboard(void);
-dboolean GetCapsLockState(void);
+bool GetCapsLockState(void);
+
+// Called by D_DoomLoop,
+// called before processing each tic in a frame.
+// Quick synchronous operations are performed here.
+// Can call D_PostEvent.
+void I_StartTic(void);
 
 // Called by D_DoomMain,
 // determines the hardware configuration
 // and sets up the video mode
 void I_InitGraphics(void);
-void I_RestartGraphics(dboolean recreatewindow);
-void FreeSurfaces(void);
+void I_RestartGraphics(bool recreatewindow);
+void FreeSurfaces(bool freewindow);
 void I_ShutdownGraphics(void);
 void I_CapFPS(int cap);
 
@@ -71,8 +75,8 @@ void I_SetExternalAutomapPalette(void);
 void I_SetSimplePalette(byte *playpal);
 void I_SetPaletteWithBrightness(byte *playpal, double brightness);
 
-void I_UpdateBlitFunc(dboolean shake);
-void I_CreateExternalAutomap(int outputlevel);
+void I_UpdateBlitFunc(bool shake);
+bool I_CreateExternalAutomap(void);
 void I_DestroyExternalAutomap(void);
 
 void I_ToggleFullscreen(void);
@@ -88,8 +92,8 @@ void I_WindowResizeBlit(void);
 extern void (*blitfunc)(void);
 extern void (*mapblitfunc)(void);
 
-extern dboolean     sendpause;
-extern dboolean     quitting;
+extern bool         sendpause;
+extern bool         waspaused;
 
 extern int          keydown;
 
@@ -101,7 +105,7 @@ extern int          windowy;
 extern int          windowheight;
 extern int          windowwidth;
 
-extern dboolean     windowfocused;
+extern bool         windowfocused;
 
 extern SDL_Window   *window;
 extern SDL_Renderer *renderer;
@@ -112,6 +116,4 @@ extern byte         *mapscreen;
 
 extern byte         *PLAYPAL;
 
-extern dboolean     altdown;
-
-#endif
+extern bool         altdown;

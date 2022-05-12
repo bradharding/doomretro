@@ -6,8 +6,8 @@
 
 ========================================================================
 
-  Copyright © 1993-2021 by id Software LLC, a ZeniMax Media company.
-  Copyright © 2013-2021 by Brad Harding <mailto:brad@doomretro.com>.
+  Copyright © 1993-2022 by id Software LLC, a ZeniMax Media company.
+  Copyright © 2013-2022 by Brad Harding <mailto:brad@doomretro.com>.
 
   DOOM Retro is a fork of Chocolate DOOM. For a list of credits, see
   <https://github.com/bradharding/doomretro/wiki/CREDITS>.
@@ -16,7 +16,7 @@
 
   DOOM Retro is free software: you can redistribute it and/or modify it
   under the terms of the GNU General Public License as published by the
-  Free Software Foundation, either version 3 of the License, or (at your
+  Free Software Foundation, either version 3 of the license, or (at your
   option) any later version.
 
   DOOM Retro is distributed in the hope that it will be useful, but
@@ -36,25 +36,26 @@
 ========================================================================
 */
 
-#if !defined(__P_MOBJ_H__)
-#define __P_MOBJ_H__
+#pragma once
 
 #include "doomdata.h"
 #include "info.h"
 #include "states.h"
 #include "tables.h"
 
+#define FUZZYBLOOD         -1
 #define REDBLOOD            184
 #define GREENBLOOD          122
 #define BLUEBLOOD           204
-#define FUZZYBLOOD          -1
 
+#define BLOODSPLATLUMPS     12
 #define CORPSEBLOODSPLATS   512
 
 // killough 11/98:
 // For torque simulation:
 #define OVERDRIVE           6
 #define MAXGEAR             (OVERDRIVE + 16)
+#define MAXGEARTIME         15
 
 // killough 11/98:
 // Whether an object is "sentient" or not. Used for environmental influences.
@@ -233,12 +234,17 @@ enum
     // Hmm ???.
     MF_TRANSLATIONSHIFT = 0x0000001A,
 
-    MF_TOUCHY           = 0x10000000,   // killough 11/98: dies when solids touch it
-    MF_BOUNCES          = 0x20000000,   // killough 07/11/98: for beta BFG fireballs
-    MF_FRIEND           = 0x40000000,   // killough 07/18/98: friendly monsters
+    // killough 11/98: dies when solids touch it
+    MF_TOUCHY           = 0x10000000,
 
-    // Translucent sprite?              // phares
-    MF_TRANSLUCENT      = 0x80000000    // phares
+    // killough 07/11/98: for beta BFG fireballs
+    MF_BOUNCES          = 0x20000000,
+
+    // killough 07/18/98: friendly monsters
+    MF_FRIEND           = 0x40000000,
+
+    // Translucent sprite?
+    MF_TRANSLUCENT      = 0x80000000
 };
 
 enum
@@ -330,22 +336,36 @@ enum
     MF2_DECORATION                  = 0x10000000,
 
     // Object is a missile from a monster
-    MF2_MONSTERMISSILE              = 0x40000000,
+    MF2_MONSTERMISSILE              = 0x20000000,
 
-    // Object is a boss monster
-    MF2_BOSS                        = 0x80000000
+    // Object is armed (for MF_TOUCHY objects)
+    MF2_ARMED                       = 0x40000000,
+
+    // Object was spawned by played using spawn CCMD
+    MF2_SPAWNEDBYPLAYER             = 0x80000000
 };
 
 enum
 {
-    // Object is armed (for MF_TOUCHY objects)
-    MF3_ARMED                       = 0x00000001,
-
-    // Object was spawned by played using spawn CCMD
-    MF3_SPAWNEDBYPLAYER             = 0x00000002,
-
-    // Object has higher attack probability
-    MF3_MISSILEMORE                 = 0x00000004
+    MF_MBF21_LOGRAV         = 0x00000001,   // alternate gravity setting
+    MF_MBF21_SHORTMRANGE    = 0x00000002,   // has short missile range (archvile)
+    MF_MBF21_DMGIGNORED     = 0x00000004,   // other things ignore its attacks (archvile)
+    MF_MBF21_NORADIUSDMG    = 0x00000008,   // doesn't take damage from blast radius
+    MF_MBF21_FORCERADIUSDMG = 0x00000010,   // does radius damage to everything, no exceptions
+    MF_MBF21_HIGHERMPROB    = 0x00000020,   // min prob. of miss. att. = 37.5% vs 22%
+    MF_MBF21_RANGEHALF      = 0x00000040,   // use half actual distance for missile attack probability
+    MF_MBF21_NOTHRESHOLD    = 0x00000080,   // has no target threshold
+    MF_MBF21_LONGMELEE      = 0x00000100,   // has long melee range (revenant)
+    MF_MBF21_BOSS           = 0x00000200,   // mobj is a major boss
+    MF_MBF21_MAP07BOSS1     = 0x00000400,   // is a MAP07 boss type 2 (667)
+    MF_MBF21_MAP07BOSS2     = 0x00000800,   // is a MAP07 boss type 2 (667)
+    MF_MBF21_E1M8BOSS       = 0x00001000,   // is an E1M8 boss
+    MF_MBF21_E2M8BOSS       = 0x00002000,   // is an E2M8 boss
+    MF_MBF21_E3M8BOSS       = 0x00004000,   // is an E3M8 boss
+    MF_MBF21_E4M6BOSS       = 0x00008000,   // is an E4M6 boss
+    MF_MBF21_E4M8BOSS       = 0x00010000,   // is an E4M8 boss
+    MF_MBF21_RIP            = 0x00020000,   // missile rips through solid
+    MF_MBF21_FULLVOLSOUNDS  = 0x00040000    // full volume see / death sound
 };
 
 typedef enum
@@ -408,7 +428,7 @@ typedef struct mobj_s
     state_t             *state;
     int                 flags;
     int                 flags2;
-    int                 flags3;
+    int                 mbf21flags;
 
     int                 health;
 
@@ -457,7 +477,6 @@ typedef struct mobj_s
     int                 geartime;               // [JN] Duration of torque simulation
 
     short               pursuecount;
-    short               strafecount;
 
     int                 bloodsplats;
 
@@ -480,7 +499,7 @@ typedef struct mobj_s
 
     char                name[33];
 
-    dboolean            madesound;
+    bool                madesound;
     mobjtype_t          inflicter;
 } mobj_t;
 
@@ -492,12 +511,10 @@ typedef struct bloodsplat_s
     int                 patch;
     fixed_t             width;
     struct sector_s     *sector;
-    dboolean            flip;
-    int                 blood;
-    void                (*colfunc)(void);
+    int                 color;
+    int                 viscolor;
+    void                (*viscolfunc)(void);
 } bloodsplat_t;
 
 extern int  prevthingx, prevthingy;
 extern int  prevthingbob;
-
-#endif

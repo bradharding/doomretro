@@ -6,8 +6,8 @@
 
 ========================================================================
 
-  Copyright © 1993-2021 by id Software LLC, a ZeniMax Media company.
-  Copyright © 2013-2021 by Brad Harding <mailto:brad@doomretro.com>.
+  Copyright © 1993-2022 by id Software LLC, a ZeniMax Media company.
+  Copyright © 2013-2022 by Brad Harding <mailto:brad@doomretro.com>.
 
   DOOM Retro is a fork of Chocolate DOOM. For a list of credits, see
   <https://github.com/bradharding/doomretro/wiki/CREDITS>.
@@ -16,7 +16,7 @@
 
   DOOM Retro is free software: you can redistribute it and/or modify it
   under the terms of the GNU General Public License as published by the
-  Free Software Foundation, either version 3 of the License, or (at your
+  Free Software Foundation, either version 3 of the license, or (at your
   option) any later version.
 
   DOOM Retro is distributed in the hope that it will be useful, but
@@ -44,16 +44,16 @@
 #endif
 
 #include "d_main.h"
-#include "i_gamepad.h"
+#include "i_gamecontroller.h"
 #include "m_argv.h"
 #include "m_config.h"
+#include "m_misc.h"
 #include "version.h"
 
 int windowborderwidth = 0;
 int windowborderheight = 0;
 
 #if defined(_WIN32)
-
 #if !defined(SM_CXPADDEDBORDER)
 #define SM_CXPADDEDBORDER   92
 #endif
@@ -90,10 +90,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
         }
     }
     else if (msg == WM_DEVICECHANGE)
-    {
-        I_ShutdownGamepad();
-        I_InitGamepad();
-    }
+        I_InitGameController();
     else if (msg == WM_SIZE)
     {
         if (!vid_fullscreen)
@@ -118,7 +115,7 @@ static STICKYKEYS   g_StartupStickyKeys = { sizeof(STICKYKEYS), 0 };
 static TOGGLEKEYS   g_StartupToggleKeys = { sizeof(TOGGLEKEYS), 0 };
 static FILTERKEYS   g_StartupFilterKeys = { sizeof(FILTERKEYS), 0 };
 
-static void I_AccessibilityShortcutKeys(dboolean bAllowKeys)
+static void I_AccessibilityShortcutKeys(bool bAllowKeys)
 {
     if (bAllowKeys)
     {
@@ -198,8 +195,13 @@ int main(int argc, char **argv)
 {
     myargc = argc;
 
-    if((myargv = (char **)malloc(myargc * sizeof(myargv[0]))))
+    if ((myargv = (char **)malloc(myargc * sizeof(myargv[0]))))
+    {
         memcpy(myargv, argv, myargc * sizeof(myargv[0]));
+
+        for (int i = 0; i < myargc; i++)
+            M_NormalizeSlashes(myargv[i]);
+    }
 
 #if defined(_WIN32)
     hInstanceMutex = CreateMutex(NULL, true, DOOMRETRO_MUTEX);

@@ -6,8 +6,8 @@
 
 ========================================================================
 
-  Copyright © 1993-2021 by id Software LLC, a ZeniMax Media company.
-  Copyright © 2013-2021 by Brad Harding <mailto:brad@doomretro.com>.
+  Copyright © 1993-2022 by id Software LLC, a ZeniMax Media company.
+  Copyright © 2013-2022 by Brad Harding <mailto:brad@doomretro.com>.
 
   DOOM Retro is a fork of Chocolate DOOM. For a list of credits, see
   <https://github.com/bradharding/doomretro/wiki/CREDITS>.
@@ -16,7 +16,7 @@
 
   DOOM Retro is free software: you can redistribute it and/or modify it
   under the terms of the GNU General Public License as published by the
-  Free Software Foundation, either version 3 of the License, or (at your
+  Free Software Foundation, either version 3 of the license, or (at your
   option) any later version.
 
   DOOM Retro is distributed in the hope that it will be useful, but
@@ -52,7 +52,7 @@
 #define B   8
 #define X  16
 
-static byte filter[256] =
+const static byte filter[256] =
 {
     0,   X,   0,   0,   R|B, 0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0, //   0 to  15
     R,   R,   R,   R,   R,   R,   R,   R,   R,   R,   R,   R,   R,   R,   R,   R, //  16 to  31
@@ -193,7 +193,7 @@ int FindBrightDominantColor(patch_t *patch)
 
     for (int x = 0; x < width; x++)
     {
-        column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnofs[x]));
+        column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnoffset[x]));
 
         // step through the posts in a column
         while (column->topdelta != 0xFF)
@@ -235,7 +235,7 @@ int FindDominantEdgeColor(patch_t *patch)
 
         for (int x = 0; x < 8; x++)
         {
-            column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnofs[x]));
+            column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnoffset[x]));
             byte        *source = (byte *)column + 3;
             const int   length = column->length;
 
@@ -245,7 +245,7 @@ int FindDominantEdgeColor(patch_t *patch)
 
         for (int x = width - 8; x < width; x++)
         {
-            column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnofs[x]));
+            column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnoffset[x]));
             byte        *source = (byte *)column + 3;
             const int   length = column->length;
 

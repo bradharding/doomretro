@@ -6,8 +6,8 @@
 
 ========================================================================
 
-  Copyright © 1993-2021 by id Software LLC, a ZeniMax Media company.
-  Copyright © 2013-2021 by Brad Harding <mailto:brad@doomretro.com>.
+  Copyright © 1993-2022 by id Software LLC, a ZeniMax Media company.
+  Copyright © 2013-2022 by Brad Harding <mailto:brad@doomretro.com>.
 
   DOOM Retro is a fork of Chocolate DOOM. For a list of credits, see
   <https://github.com/bradharding/doomretro/wiki/CREDITS>.
@@ -16,7 +16,7 @@
 
   DOOM Retro is free software: you can redistribute it and/or modify it
   under the terms of the GNU General Public License as published by the
-  Free Software Foundation, either version 3 of the License, or (at your
+  Free Software Foundation, either version 3 of the license, or (at your
   option) any later version.
 
   DOOM Retro is distributed in the hope that it will be useful, but
@@ -43,6 +43,8 @@
 #include "i_system.h"
 #include "m_config.h"
 #include "m_misc.h"
+#include "p_fix.h"
+#include "p_inter.h"
 #include "p_local.h"
 #include "p_saveg.h"
 #include "p_setup.h"
@@ -55,34 +57,20 @@
 #define SAVEGAME_EOF    0x1D
 #define TARGETLIMIT     4192
 
-FILE            *save_stream;
+FILE        *save_stream;
 
-static int      thingindex;
-static int      targets[TARGETLIMIT];
-static int      tracers[TARGETLIMIT];
-static int      lastenemies[TARGETLIMIT];
-static int      soundtargets[TARGETLIMIT];
-static int      attacker;
+static int  thingindex;
+static int  targets[TARGETLIMIT];
+static int  tracers[TARGETLIMIT];
+static int  lastenemies[TARGETLIMIT];
+static int  soundtargets[TARGETLIMIT];
+static int  attacker;
 
-// Get the filename of a temporary file to write the savegame to. After
-// the file has been successfully saved, it will be renamed to the
-// real file.
-char *P_TempSaveGameFile(void)
-{
-    static char *filename;
-
-    if (!filename)
-        filename = M_StringJoin(savegamefolder, "temp.save", NULL);
-
-    return filename;
-}
-
-// Get the filename of the save game file to use for the specified slot.
+// Get the filename of the savegame to use for the specified slot.
 char *P_SaveGameFile(int slot)
 {
     static char *filename;
     static int  filename_size;
-    char        basename[32];
 
     if (!filename)
     {
@@ -90,9 +78,7 @@ char *P_SaveGameFile(int slot)
         filename = malloc(filename_size);
     }
 
-    M_snprintf(basename, sizeof(basename), DOOMRETRO_SAVE, slot);
-    M_snprintf(filename, filename_size, "%s%s", savegamefolder, basename);
-
+    M_snprintf(filename, filename_size, "%s" DOOMRETRO_SAVE, savegamefolder, slot);
     return filename;
 }
 
@@ -129,8 +115,8 @@ static int saveg_read32(void)
 {
     int result = saveg_read8();
 
-    result |= saveg_read8() << 8;
-    result |= saveg_read8() << 16;
+    result |= (saveg_read8() << 8);
+    result |= (saveg_read8() << 16);
 
     return (result | (saveg_read8() << 24));
 }
@@ -233,7 +219,7 @@ static void saveg_read_mobj_t(mobj_t *str)
     str->state = ((state = saveg_read32()) > 0 && state < NUMSTATES ? &states[state] : NULL);
     str->flags = saveg_read32();
     str->flags2 = saveg_read32();
-    str->flags3 = saveg_read32();
+    str->mbf21flags = saveg_read32();
     str->health = saveg_read32();
     str->movedir = saveg_read32();
     str->movecount = saveg_read32();
@@ -264,7 +250,7 @@ static void saveg_read_mobj_t(mobj_t *str)
     str->pitch = saveg_read32();
     str->id = saveg_read32();
     str->pursuecount = saveg_read16();
-    str->strafecount = saveg_read16();
+    saveg_read16(); // strafecount
 
     if (str->flags & MF_SHOOTABLE)
         for (int i = 0, len = 33; i < len; i++)
@@ -313,7 +299,7 @@ static void saveg_write_mobj_t(mobj_t *str)
     saveg_write32((int)(str->state - states));
     saveg_write32(str->flags);
     saveg_write32(str->flags2);
-    saveg_write32(str->flags3);
+    saveg_write32(str->mbf21flags);
     saveg_write32(str->health);
     saveg_write32(str->movedir);
     saveg_write32(str->movecount);
@@ -338,7 +324,7 @@ static void saveg_write_mobj_t(mobj_t *str)
     saveg_write32(str->pitch);
     saveg_write32(str->id);
     saveg_write16(str->pursuecount);
-    saveg_write16(str->strafecount);
+    saveg_write16(0);   // strafecount
 
     if (str->flags & MF_SHOOTABLE)
     {
@@ -381,17 +367,17 @@ static void saveg_read_bloodsplat_t(bloodsplat_t *str)
     str->x = saveg_read32();
     str->y = saveg_read32();
     str->patch = saveg_read32();
-    str->flip = saveg_read_bool();
-    str->blood = saveg_read32();
+    saveg_read_bool();          // deprecated
+    str->color = saveg_read32();
 }
 
 static void saveg_write_bloodsplat_t(bloodsplat_t *str)
 {
     saveg_write32(str->x);
     saveg_write32(str->y);
-    saveg_write32(str->patch);
-    saveg_write_bool(str->flip);
-    saveg_write32(str->blood);
+    saveg_write32(str->patch - firstspritelump);
+    saveg_write_bool(false);    // deprecated
+    saveg_write32(str->color);
 }
 
 //
@@ -435,9 +421,6 @@ static void saveg_write_pspdef_t(pspdef_t *str)
     saveg_write32(str->sx);
     saveg_write32(str->sy);
 }
-
-extern int  oldhealth;
-extern int  cardsfound;
 
 //
 // player_t
@@ -548,11 +531,11 @@ static void saveg_read_player_t(void)
 
     viewplayer->infightcount = saveg_read32();
     viewplayer->resurrectioncount = saveg_read32();
+    viewplayer->automapopened = saveg_read32();
+    viewplayer->telefragcount = saveg_read32();
+    viewplayer->respawncount = saveg_read32();
 
     // [BH] For future features without breaking savegame compatibility
-    saveg_read32();
-    saveg_read32();
-    saveg_read32();
     saveg_read32();
     saveg_read32();
     saveg_read32();
@@ -658,11 +641,11 @@ static void saveg_write_player_t(void)
 
     saveg_write32(viewplayer->infightcount);
     saveg_write32(viewplayer->resurrectioncount);
+    saveg_write32(viewplayer->automapopened);
+    saveg_write32(viewplayer->telefragcount);
+    saveg_write32(viewplayer->respawncount);
 
     // [BH] For future features without breaking savegame compatibility
-    saveg_write32(0);
-    saveg_write32(0);
-    saveg_write32(0);
     saveg_write32(0);
     saveg_write32(0);
     saveg_write32(0);
@@ -1015,7 +998,7 @@ void P_WriteSaveGameHeader(char *description)
 //
 // Read the header for a savegame
 //
-dboolean P_ReadSaveGameHeader(char *description)
+bool P_ReadSaveGameHeader(char *description)
 {
     byte    a, b, c;
     char    vcheck[VERSIONSIZE];
@@ -1035,7 +1018,7 @@ dboolean P_ReadSaveGameHeader(char *description)
         menuactive = false;
         quickSaveSlot = -1;
         C_ShowConsole();
-        C_Warning(1, "This savegame is incompatible with " ITALICS(DOOMRETRO_NAMEANDVERSIONSTRING "."));
+        C_Warning(0, "This savegame is incompatible with " ITALICS(DOOMRETRO_NAMEANDVERSIONSTRING "."));
 
         return false;   // bad version
     }
@@ -1072,7 +1055,7 @@ dboolean P_ReadSaveGameHeader(char *description)
 //
 // Read the end of file marker. Returns true if read successfully.
 //
-dboolean P_ReadSaveGameEOF(void)
+bool P_ReadSaveGameEOF(void)
 {
     return (saveg_read8() == SAVEGAME_EOF);
 }
@@ -1199,6 +1182,11 @@ void P_UnArchiveWorld(void)
     for (int i = 0; i < numlines; i++, line++)
     {
         line->flags = saveg_read16();
+
+        // [BH] Fix some linedefs in E2M7 only due to MBF21's ML_BLOCKPLAYERS flag
+        if (E2M7)
+            line->flags = ((unsigned int)line->flags & 0x03FF);
+
         line->special = saveg_read16();
         line->tag = saveg_read16();
 
@@ -1297,26 +1285,14 @@ void P_UnArchiveThinkers(void)
     P_InitThinkers();
 
     // remove all bloodsplats
-    for (int i = 0; i < numsectors; i++)
-    {
-        bloodsplat_t    *splat = sectors[i].splatlist;
+    P_RemoveBloodsplats();
 
-        while (splat)
-        {
-            bloodsplat_t    *next = splat->next;
-
-            P_UnsetBloodSplatPosition(splat);
-            splat = next;
-        }
-    }
-
-    r_bloodsplats_total = 0;
     thingindex = 0;
 
     // read in saved thinkers
     while (true)
     {
-        byte    tclass = saveg_read8();
+        const byte  tclass = saveg_read8();
 
         switch (tclass)
         {
@@ -1347,15 +1323,19 @@ void P_UnArchiveThinkers(void)
             {
                 bloodsplat_t    *splat = malloc(sizeof(*splat));
 
-                saveg_read_bloodsplat_t(splat);
-
-                if (r_bloodsplats_total < r_bloodsplats_max)
+                if (splat)
                 {
-                    splat->width = spritewidth[splat->patch];
-                    splat->sector = R_PointInSubsector(splat->x, splat->y)->sector;
-                    P_SetBloodSplatPosition(splat);
-                    splat->colfunc = (splat->blood == FUZZYBLOOD ? fuzzcolfunc : bloodsplatcolfunc);
-                    r_bloodsplats_total++;
+                    saveg_read_bloodsplat_t(splat);
+
+                    if (r_bloodsplats_total < r_bloodsplats_max)
+                    {
+                        splat->width = spritewidth[splat->patch];
+                        splat->patch += firstspritelump;
+                        P_SetBloodSplatColor(splat);
+                        splat->sector = R_PointInSubsector(splat->x, splat->y)->sector;
+                        P_SetBloodSplatPosition(splat);
+                        r_bloodsplats_total++;
+                    }
                 }
 
                 break;
@@ -1504,7 +1484,7 @@ void P_UnArchiveSpecials(void)
     // read in saved thinkers
     while (true)
     {
-        byte    tclass = saveg_read8();
+        const byte  tclass = saveg_read8();
 
         switch (tclass)
         {
@@ -1616,7 +1596,6 @@ void P_UnArchiveSpecials(void)
                 saveg_read_elevator_t(elevator);
                 elevator->sector->ceilingdata = elevator;
                 elevator->thinker.function = &T_MoveElevator;
-                elevator->thinker.menu = false;
                 P_AddThinker(&elevator->thinker);
 
                 break;

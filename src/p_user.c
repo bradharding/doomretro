@@ -6,8 +6,8 @@
 
 ========================================================================
 
-  Copyright © 1993-2021 by id Software LLC, a ZeniMax Media company.
-  Copyright © 2013-2021 by Brad Harding <mailto:brad@doomretro.com>.
+  Copyright © 1993-2022 by id Software LLC, a ZeniMax Media company.
+  Copyright © 2013-2022 by Brad Harding <mailto:brad@doomretro.com>.
 
   DOOM Retro is a fork of Chocolate DOOM. For a list of credits, see
   <https://github.com/bradharding/doomretro/wiki/CREDITS>.
@@ -16,7 +16,7 @@
 
   DOOM Retro is free software: you can redistribute it and/or modify it
   under the terms of the GNU General Public License as published by the
-  Free Software Foundation, either version 3 of the License, or (at your
+  Free Software Foundation, either version 3 of the license, or (at your
   option) any later version.
 
   DOOM Retro is distributed in the hope that it will be useful, but
@@ -39,7 +39,7 @@
 #include "c_console.h"
 #include "doomstat.h"
 #include "g_game.h"
-#include "i_gamepad.h"
+#include "i_gamecontroller.h"
 #include "m_config.h"
 #include "m_menu.h"
 #include "p_inter.h"
@@ -54,16 +54,16 @@
 #define STEP1DISTANCE   24
 #define STEP2DISTANCE   32
 
-dboolean        autotilt = autotilt_default;
-dboolean        autouse = autouse_default;
-dboolean        infighting = infighting_default;
-int             movebob = movebob_default;
-dboolean        r_liquid_lowerview = r_liquid_lowerview_default;
-int             r_shake_damage = r_shake_damage_default;
-int             stillbob = stillbob_default;
+bool    autotilt = autotilt_default;
+bool    autouse = autouse_default;
+bool    infighting = infighting_default;
+int     movebob = movebob_default;
+bool    r_liquid_lowerview = r_liquid_lowerview_default;
+int     r_shake_damage = r_shake_damage_default;
+int     stillbob = stillbob_default;
 
-dboolean        autousing = false;
-int             deadlookdir = -1;
+bool    autousing = false;
+int     deadlookdir = -1;
 
 //
 // Movement
@@ -98,7 +98,7 @@ static void P_Bob(angle_t angle, fixed_t move)
 //
 // P_IsSelfReferencingSector
 //
-static dboolean P_IsSelfReferencingSector(sector_t *sec)
+static bool P_IsSelfReferencingSector(sector_t *sec)
 {
     const int   linecount = sec->linecount;
     int         count = 0;
@@ -171,7 +171,7 @@ void P_CalcHeight(void)
                 viewplayer->deltaviewheight = 1;
         }
 
-        viewplayer->viewz += FixedMul(bob, finesine[(FINEANGLES / 20 * leveltime) & FINEMASK]);
+        viewplayer->viewz += FixedMul(bob, finesine[((FINEANGLES / 20 * leveltime) & FINEMASK)]);
     }
 
     if (mo->flags2 & MF2_FEETARECLIPPED)
@@ -197,7 +197,7 @@ void P_CalcHeight(void)
 //
 // P_CheckForSteps
 //
-static dboolean P_CheckForSteps(fixed_t width)
+static bool P_CheckForSteps(fixed_t width)
 {
     sector_t    *sector1 = R_PointInSubsector(viewx + width * viewcos, viewy + width * viewsin)->sector;
     sector_t    *sector2 = R_PointInSubsector(viewx + width * 2 * viewcos, viewy + width * 2 * viewsin)->sector;
@@ -235,7 +235,7 @@ void P_MovePlayer(void)
     signed char forward = cmd->forwardmove;
     signed char side = cmd->sidemove;
 
-    mo->angle += (cmd->angleturn * turbo / 100) << FRACBITS;
+    mo->angle += ((cmd->angleturn * turbo / 100) << FRACBITS);
 
     // killough 10/98:
     //
@@ -243,7 +243,7 @@ void P_MovePlayer(void)
     // anomalies. The thrust applied to bobbing is always the same strength on
     // ice, because the player still "works just as hard" to move, while the
     // thrust applied to the movement varies with 'movefactor'.
-    if ((forward | side) && (mo->z <= mo->floorz || (mo->flags2 & MF2_ONMOBJ)))
+    if ((forward | side) && (mo->z <= mo->floorz || (mo->flags & MF_BOUNCES) || (mo->flags2 & MF2_ONMOBJ)))
     {
         int     friction;
         int     movefactor = P_GetMoveFactor(mo, &friction);
@@ -319,13 +319,13 @@ static void P_ReduceDamageCount(void)
 //
 static void P_DeathThink(void)
 {
-    static dboolean facingkiller;
-    static int      deathcount = 0;
-    mobj_t          *mo = viewplayer->mo;
-    mobj_t          *attacker = viewplayer->attacker;
+    static bool facingkiller;
+    static int  deathcount;
+    mobj_t      *mo = viewplayer->mo;
+    mobj_t      *attacker = viewplayer->attacker;
 
-    weaponvibrationtics = 1;
-    idlevibrationstrength = 0;
+    weaponrumbletics = 1;
+    idlechainsawrumblestrength = 0;
     freeze = false;
     infight = (infighting && !(viewplayer->cheats & CF_NOTARGET));
 
@@ -403,7 +403,7 @@ static void P_DeathThink(void)
         || ((viewplayer->cmd.buttons & BT_ATTACK) && !viewplayer->damagecount && deathcount > TICRATE * 2))
     {
         deathcount = 0;
-        damagevibrationtics = 1;
+        damagerumbletics = 1;
         viewplayer->playerstate = PST_REBORN;
         facingkiller = false;
         skipaction = true;
@@ -459,7 +459,7 @@ void P_ResurrectPlayer(int health)
 
 void P_ChangeWeapon(weapontype_t newweapon)
 {
-    weapontype_t    readyweapon = viewplayer->readyweapon;
+    const weapontype_t  readyweapon = viewplayer->readyweapon;
 
     if (newweapon == wp_fist)
     {
@@ -486,9 +486,9 @@ void P_ChangeWeapon(weapontype_t newweapon)
     else
     {
         // Don't switch to a weapon without any or enough ammo.
-        ammotype_t  ammotype = weaponinfo[newweapon].ammotype;
+        const ammotype_t    ammotype = weaponinfo[newweapon].ammotype;
 
-        if (ammotype != am_noammo && viewplayer->ammo[ammotype] < weaponinfo[newweapon].minammo)
+        if (ammotype != am_noammo && viewplayer->ammo[ammotype] < weaponinfo[newweapon].ammopershot)
             newweapon = wp_nochange;
 
         // Select the preferred shotgun.
@@ -526,21 +526,29 @@ void P_PlayerThink(void)
     mobj_t      *mo = viewplayer->mo;
     static int  motionblur;
 
+    if (viewplayer->bonuscount)
+        viewplayer->bonuscount--;
+
     if (menuactive)
     {
+        if (viewplayer->damagecount)
+            viewplayer->damagecount = MAX(0, viewplayer->damagecount - 5);
+
         if (!inhelpscreens && ((messagetoprint && !consoleactive) || !messagetoprint))
             mo->angle += ANG1 / (spinspeed = MIN(spinspeed + 1, 512)) * 8 * spindirection;
 
         return;
     }
 
-    if (viewplayer->bonuscount)
-        viewplayer->bonuscount--;
+    if (consoleactive)
+    {
+        if (viewplayer->damagecount)
+            viewplayer->damagecount = MAX(0, viewplayer->damagecount - 5);
+
+        return;
+    }
 
     P_ReduceDamageCount();
-
-    if (consoleactive)
-        return;
 
     // [AM] Assume we can interpolate at the beginning of the tic.
     mo->interpolate = 1;
@@ -623,11 +631,15 @@ void P_PlayerThink(void)
 
     // [BH] Check all sectors player is touching are special
     for (const struct msecnode_s *seclist = mo->touching_sectorlist; seclist; seclist = seclist->m_tnext)
-        if (seclist->m_sector->special && mo->z == seclist->m_sector->floorheight)
+    {
+        sector_t    *sector = seclist->m_sector;
+
+        if (sector->special && mo->z == sector->floorheight)
         {
-            P_PlayerInSpecialSector(seclist->m_sector);
+            P_PlayerInSpecialSector(sector);
             break;
         }
+    }
 
     if ((cmd->buttons & BT_JUMP) && (mo->z <= mo->floorz || (mo->flags2 & MF2_ONMOBJ)) && !viewplayer->jumptics)
     {

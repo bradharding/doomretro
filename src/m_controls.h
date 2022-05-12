@@ -6,8 +6,8 @@
 
 ========================================================================
 
-  Copyright © 1993-2021 by id Software LLC, a ZeniMax Media company.
-  Copyright © 2013-2021 by Brad Harding <mailto:brad@doomretro.com>.
+  Copyright © 1993-2022 by id Software LLC, a ZeniMax Media company.
+  Copyright © 2013-2022 by Brad Harding <mailto:brad@doomretro.com>.
 
   DOOM Retro is a fork of Chocolate DOOM. For a list of credits, see
   <https://github.com/bradharding/doomretro/wiki/CREDITS>.
@@ -16,7 +16,7 @@
 
   DOOM Retro is free software: you can redistribute it and/or modify it
   under the terms of the GNU General Public License as published by the
-  Free Software Foundation, either version 3 of the License, or (at your
+  Free Software Foundation, either version 3 of the license, or (at your
   option) any later version.
 
   DOOM Retro is distributed in the hope that it will be useful, but
@@ -36,21 +36,20 @@
 ========================================================================
 */
 
-#if !defined(__M_CONTROLS_H__)
-#define __M_CONTROLS_H__
+#pragma once
 
 #include "doomkeys.h"
 
 extern int  keyboardalwaysrun;
 extern int  keyboardautomap;
-extern int  keyboardautomapclearmark;
-extern int  keyboardautomapfollowmode;
-extern int  keyboardautomapgrid;
-extern int  keyboardautomapmark;
-extern int  keyboardautomapmaxzoom;
-extern int  keyboardautomaprotatemode;
-extern int  keyboardautomapzoomin;
-extern int  keyboardautomapzoomout;
+extern int  keyboardclearmark;
+extern int  keyboardfollowmode;
+extern int  keyboardgrid;
+extern int  keyboardmark;
+extern int  keyboardmaxzoom;
+extern int  keyboardrotatemode;
+extern int  keyboardzoomin;
+extern int  keyboardzoomout;
 extern int  keyboardback;
 extern int  keyboardback2;
 extern int  keyboardconsole;
@@ -81,15 +80,20 @@ extern int  keyboardweapon5;
 extern int  keyboardweapon6;
 extern int  keyboardweapon7;
 
+extern int  mouseback;
 extern int  mousefire;
 extern int  mouseforward;
 extern int  mousejump;
+extern int  mouseleft;
 extern int  mousemouselook;
 extern int  mousenextweapon;
 extern int  mouseprevweapon;
+extern int  mouseright;
 extern int  mouserun;
 extern int  mousescreenshot;
 extern int  mousestrafe;
+extern int  mousestrafeleft;
+extern int  mousestraferight;
 extern int  mouseuse;
 extern int  mouseweapon1;
 extern int  mouseweapon2;
@@ -99,39 +103,37 @@ extern int  mouseweapon5;
 extern int  mouseweapon6;
 extern int  mouseweapon7;
 
-extern int  gamepadalwaysrun;
-extern int  gamepadautomap;
-extern int  gamepadautomapclearmark;
-extern int  gamepadautomapfollowmode;
-extern int  gamepadautomapgrid;
-extern int  gamepadautomapmark;
-extern int  gamepadautomapmaxzoom;
-extern int  gamepadautomaprotatemode;
-extern int  gamepadautomapzoomin;
-extern int  gamepadautomapzoomout;
-extern int  gamepadback;
-extern int  gamepadconsole;
-extern int  gamepadfire;
-extern int  gamepadforward;
-extern int  gamepadjump;
-extern int  gamepadleft;
-extern int  gamepadmenu;
-extern int  gamepadmouselook;
-extern int  gamepadnextweapon;
-extern int  gamepadprevweapon;
-extern int  gamepadright;
-extern int  gamepadrun;
-extern int  gamepadstrafe;
-extern int  gamepadstrafeleft;
-extern int  gamepadstraferight;
-extern int  gamepaduse;
-extern int  gamepaduse2;
-extern int  gamepadweapon1;
-extern int  gamepadweapon2;
-extern int  gamepadweapon3;
-extern int  gamepadweapon4;
-extern int  gamepadweapon5;
-extern int  gamepadweapon6;
-extern int  gamepadweapon7;
-
-#endif
+extern int  gamecontrolleralwaysrun;
+extern int  gamecontrollerautomap;
+extern int  gamecontrollerclearmark;
+extern int  gamecontrollerfollowmode;
+extern int  gamecontrollergrid;
+extern int  gamecontrollermark;
+extern int  gamecontrollermaxzoom;
+extern int  gamecontrollerrotatemode;
+extern int  gamecontrollerzoomin;
+extern int  gamecontrollerzoomout;
+extern int  gamecontrollerback;
+extern int  gamecontrollerconsole;
+extern int  gamecontrollerfire;
+extern int  gamecontrollerforward;
+extern int  gamecontrollerjump;
+extern int  gamecontrollerleft;
+extern int  gamecontrollermenu;
+extern int  gamecontrollermouselook;
+extern int  gamecontrollernextweapon;
+extern int  gamecontrollerprevweapon;
+extern int  gamecontrollerright;
+extern int  gamecontrollerrun;
+extern int  gamecontrollerstrafe;
+extern int  gamecontrollerstrafeleft;
+extern int  gamecontrollerstraferight;
+extern int  gamecontrolleruse;
+extern int  gamecontrolleruse2;
+extern int  gamecontrollerweapon1;
+extern int  gamecontrollerweapon2;
+extern int  gamecontrollerweapon3;
+extern int  gamecontrollerweapon4;
+extern int  gamecontrollerweapon5;
+extern int  gamecontrollerweapon6;
+extern int  gamecontrollerweapon7;

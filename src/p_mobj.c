@@ -6,8 +6,8 @@
 
 ========================================================================
 
-  Copyright © 1993-2021 by id Software LLC, a ZeniMax Media company.
-  Copyright © 2013-2021 by Brad Harding <mailto:brad@doomretro.com>.
+  Copyright © 1993-2022 by id Software LLC, a ZeniMax Media company.
+  Copyright © 2013-2022 by Brad Harding <mailto:brad@doomretro.com>.
 
   DOOM Retro is a fork of Chocolate DOOM. For a list of credits, see
   <https://github.com/bradharding/doomretro/wiki/CREDITS>.
@@ -16,7 +16,7 @@
 
   DOOM Retro is free software: you can redistribute it and/or modify it
   under the terms of the GNU General Public License as published by the
-  Free Software Foundation, either version 3 of the License, or (at your
+  Free Software Foundation, either version 3 of the license, or (at your
   option) any later version.
 
   DOOM Retro is distributed in the hope that it will be useful, but
@@ -36,14 +36,16 @@
 ========================================================================
 */
 
+#include "am_map.h"
 #include "c_console.h"
 #include "doomstat.h"
 #include "g_game.h"
 #include "hu_stuff.h"
-#include "i_gamepad.h"
+#include "i_gamecontroller.h"
 #include "m_config.h"
 #include "m_misc.h"
 #include "m_random.h"
+#include "p_inter.h"
 #include "p_local.h"
 #include "p_setup.h"
 #include "p_tick.h"
@@ -52,31 +54,19 @@
 #include "w_wad.h"
 #include "z_zone.h"
 
-int         r_blood = r_blood_default;
-int         r_bloodsplats_max = r_bloodsplats_max_default;
-int         r_bloodsplats_total;
-dboolean    r_corpses_color = r_corpses_color_default;
-dboolean    r_corpses_gib = r_corpses_gib_default;
-dboolean    r_corpses_mirrored = r_corpses_mirrored_default;
-dboolean    r_corpses_moreblood = r_corpses_moreblood_default;
-dboolean    r_corpses_nudge = r_corpses_nudge_default;
-dboolean    r_corpses_slide = r_corpses_slide_default;
-dboolean    r_corpses_smearblood = r_corpses_smearblood_default;
-dboolean    r_floatbob = r_floatbob_default;
-dboolean    r_rockettrails = r_rockettrails_default;
-dboolean    r_shadows = r_shadows_default;
-
-static fixed_t floatbobdiffs[64] =
-{
-     25695,  25695,  25447,  24955,  24222,  23256,  22066,  20663,
-     19062,  17277,  15325,  13226,  10999,   8667,   6251,   3775,
-      1262,  -1262,  -3775,  -6251,  -8667, -10999, -13226, -15325,
-    -17277, -19062, -20663, -22066, -23256, -24222, -24955, -25447,
-    -25695, -25695, -25447, -24955, -24222, -23256, -22066, -20663,
-    -19062, -17277, -15325, -13226, -11000,  -8667,  -6251,  -3775,
-     -1262,   1262,   3775,   6251,   8667,  10999,  13226,  15325,
-     17277,  19062,  20663,  22066,  23256,  24222,  24955,  25447
-};
+int     r_blood = r_blood_default;
+int     r_bloodsplats_max = r_bloodsplats_max_default;
+int     r_bloodsplats_total;
+bool    r_corpses_color = r_corpses_color_default;
+bool    r_corpses_gib = r_corpses_gib_default;
+bool    r_corpses_mirrored = r_corpses_mirrored_default;
+bool    r_corpses_moreblood = r_corpses_moreblood_default;
+bool    r_corpses_nudge = r_corpses_nudge_default;
+bool    r_corpses_slide = r_corpses_slide_default;
+bool    r_corpses_smearblood = r_corpses_smearblood_default;
+bool    r_floatbob = r_floatbob_default;
+bool    r_rockettrails = r_rockettrails_default;
+bool    r_shadows = r_shadows_default;
 
 void A_Recoil(weapontype_t weapon);
 
@@ -84,7 +74,7 @@ void A_Recoil(weapontype_t weapon);
 // P_SetMobjState
 // Returns true if the mobj is still present.
 //
-dboolean P_SetMobjState(mobj_t *mobj, statenum_t state)
+bool P_SetMobjState(mobj_t *mobj, statenum_t state)
 {
     do
     {
@@ -153,7 +143,7 @@ static void P_XYMovement(mobj_t *mo)
     fixed_t     xmove, ymove;
     mobjtype_t  type;
     int         flags2;
-    dboolean    corpse;
+    bool        corpse;
     int         stepdir = 0;
 
     if (!(mo->momx | mo->momy))
@@ -195,10 +185,10 @@ static void P_XYMovement(mobj_t *mo)
 
     do
     {
-        fixed_t stepx = MIN(xmove, MAXMOVE_STEP);
-        fixed_t stepy = MIN(ymove, MAXMOVE_STEP);
-        fixed_t ptryx = mo->x + ((stepdir & 1) ? -stepx : stepx);
-        fixed_t ptryy = mo->y + ((stepdir & 2) ? -stepy : stepy);
+        const fixed_t   stepx = MIN(xmove, MAXMOVE_STEP);
+        const fixed_t   stepy = MIN(ymove, MAXMOVE_STEP);
+        const fixed_t   ptryx = mo->x + ((stepdir & 1) ? -stepx : stepx);
+        const fixed_t   ptryy = mo->y + ((stepdir & 2) ? -stepy : stepy);
 
         xmove -= stepx;
         ymove -= stepy;
@@ -216,11 +206,11 @@ static void P_XYMovement(mobj_t *mo)
             {
                 if (blockline)
                 {
-                    fixed_t r = ((blockline->dx >> FRACBITS) * mo->momx + (blockline->dy >> FRACBITS) * mo->momy)
-                                / ((blockline->dx >> FRACBITS) * (blockline->dx >> FRACBITS)
-                                + (blockline->dy >> FRACBITS) * (blockline->dy >> FRACBITS));
-                    fixed_t x = FixedMul(r, blockline->dx);
-                    fixed_t y = FixedMul(r, blockline->dy);
+                    const fixed_t   r = ((blockline->dx >> FRACBITS) * mo->momx + (blockline->dy >> FRACBITS) * mo->momy)
+                                        / ((blockline->dx >> FRACBITS) * (blockline->dx >> FRACBITS)
+                                        + (blockline->dy >> FRACBITS) * (blockline->dy >> FRACBITS));
+                    const fixed_t   x = FixedMul(r, blockline->dx);
+                    const fixed_t   y = FixedMul(r, blockline->dy);
 
                     // reflect momentum away from wall
                     mo->momx = x * 2 - mo->momx;
@@ -283,20 +273,20 @@ static void P_XYMovement(mobj_t *mo)
     if (corpse && !(mo->flags & MF_NOBLOOD) && r_corpses_slide && r_corpses_smearblood
         && (mo->momx || mo->momy) && mo->bloodsplats && r_bloodsplats_max && !mo->nudge)
     {
-        int max = MIN((ABS(mo->momx) + ABS(mo->momy)) >> (FRACBITS - 2), 8);
+        const int   max = MIN((ABS(mo->momx) + ABS(mo->momy)) >> (FRACBITS - 2), 8);
 
         if (max)
         {
-            int blood = mobjinfo[mo->blood].blood;
+            const int   blood = mobjinfo[mo->blood].blood;
 
             if (blood)
             {
-                int     radius = (spritewidth[sprites[mo->sprite].spriteframes[mo->frame & FF_FRAMEMASK].lump[0]] >> FRACBITS) >> 1;
-                fixed_t floorz = mo->floorz;
+                const int       radius = (spritewidth[sprites[mo->sprite].spriteframes[mo->frame & FF_FRAMEMASK].lump[0]] >> FRACBITS) >> 1;
+                const fixed_t   floorz = mo->floorz;
 
                 for (int i = 0; i < max; i++)
                     P_SpawnBloodSplat(mo->x + (M_BigRandomInt(-radius, radius) << FRACBITS),
-                        mo->y + (M_BigRandomInt(-radius, radius) << FRACBITS), blood, floorz, mo);
+                        mo->y + (M_BigRandomInt(-radius, radius) << FRACBITS), blood, true, floorz, mo);
             }
         }
     }
@@ -343,7 +333,7 @@ static void P_XYMovement(mobj_t *mo)
         // killough 10/98: changed to work with new bobbing method.
         // Reducing player momentum is no longer needed to reduce
         // bobbing, so ice works much better now.
-        fixed_t friction = P_GetFriction(mo, NULL);
+        const fixed_t   friction = P_GetFriction(mo, NULL);
 
         mo->momx = FixedMul(mo->momx, friction);
         mo->momy = FixedMul(mo->momy, friction);
@@ -364,9 +354,9 @@ static void P_XYMovement(mobj_t *mo)
 //
 static void P_ZMovement(mobj_t *mo)
 {
-    player_t    *player = mo->player;
-    int         flags = mo->flags;
-    fixed_t     floorz = mo->floorz;
+    player_t        *player = mo->player;
+    const int       flags = mo->flags;
+    const fixed_t   floorz = mo->floorz;
 
     // killough 07/11/98:
     // BFG fireballs bounced on floors and ceilings in Pre-Beta DOOM
@@ -376,7 +366,7 @@ static void P_ZMovement(mobj_t *mo)
     {
         mo->z += mo->momz;
 
-        if (mo->z <= floorz)                                // bounce off floors
+        if (mo->z <= floorz)                            // bounce off floors
         {
             mo->z = floorz;
 
@@ -384,10 +374,10 @@ static void P_ZMovement(mobj_t *mo)
             {
                 mo->momz = -mo->momz;
 
-                if (!(flags & MF_NOGRAVITY))                // bounce back with decay
+                if (!(flags & MF_NOGRAVITY))            // bounce back with decay
                 {
-                    mo->momz = ((flags & MF_FLOAT) ?        // floaters fall slowly
-                        ((flags & MF_DROPOFF) ?             // DROPOFF indicates rate
+                    mo->momz = ((flags & MF_FLOAT) ?    // floaters fall slowly
+                        ((flags & MF_DROPOFF) ?         // DROPOFF indicates rate
                         FixedMul(mo->momz, (fixed_t)(0.85 * FRACUNIT)) :
                         FixedMul(mo->momz, (fixed_t)(0.70 * FRACUNIT))) :
                         FixedMul(mo->momz, (fixed_t)(0.45 * FRACUNIT)));
@@ -398,8 +388,8 @@ static void P_ZMovement(mobj_t *mo)
                 }
 
                 // killough 11/98: touchy objects explode on impact
-                if ((flags & MF_TOUCHY) && (mo->flags3 & MF3_ARMED) && mo->health > 0)
-                    P_DamageMobj(mo, NULL, NULL, mo->health, true);
+                if ((flags & MF_TOUCHY) && (mo->flags2 & MF2_ARMED) && mo->health > 0)
+                    P_DamageMobj(mo, NULL, NULL, mo->health, true, false);
                 else if ((flags & MF_FLOAT) && sentient(mo))
                     goto floater;
 
@@ -414,11 +404,11 @@ static void P_ZMovement(mobj_t *mo)
             if (mo->momz > 0)
             {
                 if (mo->subsector->sector->ceilingpic != skyflatnum)
-                    mo->momz = -mo->momz;                   // always bounce off non-sky ceiling
+                    mo->momz = -mo->momz;               // always bounce off non-sky ceiling
                 else if (flags & MF_MISSILE)
-                    P_RemoveMobj(mo);                       // missiles don't bounce off skies
+                    P_RemoveMobj(mo);                   // missiles don't bounce off skies
                 else if (flags & MF_NOGRAVITY)
-                    mo->momz = -mo->momz;                   // bounce unless under gravity
+                    mo->momz = -mo->momz;               // bounce unless under gravity
 
                 if ((flags & MF_FLOAT) && sentient(mo))
                     goto floater;
@@ -428,7 +418,7 @@ static void P_ZMovement(mobj_t *mo)
         }
         else
         {
-            if (!(flags & MF_NOGRAVITY))                    // free-fall under gravity
+            if (!(flags & MF_NOGRAVITY))                // free-fall under gravity
                 mo->momz -= mo->info->mass * (GRAVITY / 256);
 
             if ((flags & MF_FLOAT) && sentient(mo))
@@ -444,7 +434,7 @@ static void P_ZMovement(mobj_t *mo)
         {
             if (ceilingline && ceilingline->backsector && ceilingline->backsector->ceilingpic == skyflatnum
                 && mo->z > ceilingline->backsector->ceilingheight)
-                P_RemoveMobj(mo);                           // don't explode on skies
+                P_RemoveMobj(mo);                       // don't explode on skies
             else
                 P_ExplodeMissile(mo);
         }
@@ -469,7 +459,7 @@ floater:
     // float down towards target if too close
     if (!((flags ^ MF_FLOAT) & (MF_FLOAT | MF_SKULLFLY | MF_INFLOAT)) && mo->target)
     {
-        fixed_t delta = (mo->target->z + (mo->height >> 1) - mo->z) * 3;
+        const fixed_t   delta = (mo->target->z + (mo->height >> 1) - mo->z) * 3;
 
         if (P_ApproxDistance(mo->x - mo->target->x, mo->y - mo->target->y) < ABS(delta))
             mo->z += SIGN(delta) * FLOATSPEED;
@@ -487,20 +477,20 @@ floater:
 
             if (r_bloodsplats_max)
             {
-                fixed_t x = mo->x;
-                fixed_t y = mo->y;
+                const fixed_t   x = mo->x;
+                const fixed_t   y = mo->y;
 
-                P_SpawnBloodSplat(x, y, blood, floorz, NULL);
+                P_SpawnBloodSplat(x, y, blood, false, 0, NULL);
 
                 if (blood != FUZZYBLOOD)
                 {
-                    fixed_t x1 = M_BigRandomInt(-5, 5) << FRACBITS;
-                    fixed_t y1 = M_BigRandomInt(-5, 5) << FRACBITS;
-                    fixed_t x2 = M_BigRandomIntNoRepeat(-5, 5, x1) << FRACBITS;
-                    fixed_t y2 = M_BigRandomIntNoRepeat(-5, 5, y1) << FRACBITS;
+                    const fixed_t   x1 = M_BigRandomInt(-5, 5) << FRACBITS;
+                    const fixed_t   y1 = M_BigRandomInt(-5, 5) << FRACBITS;
+                    const fixed_t   x2 = M_BigRandomIntNoRepeat(-5, 5, x1) << FRACBITS;
+                    const fixed_t   y2 = M_BigRandomIntNoRepeat(-5, 5, y1) << FRACBITS;
 
-                    P_SpawnBloodSplat(x + x1, y + y1, blood, floorz, NULL);
-                    P_SpawnBloodSplat(x - x2, y - y2, blood, floorz, NULL);
+                    P_SpawnBloodSplat(x + x1, y + y1, blood, false, 0, NULL);
+                    P_SpawnBloodSplat(x - x2, y - y2, blood, false, 0, NULL);
                 }
             }
 
@@ -514,8 +504,8 @@ floater:
         if (mo->momz < 0)
         {
             // killough 11/98: touchy objects explode on impact
-            if (flags & MF_TOUCHY && (mo->flags3 & MF3_ARMED) && mo->health > 0)
-                P_DamageMobj(mo, NULL, NULL, mo->health, true);
+            if ((flags & MF_TOUCHY) && (mo->flags2 & MF2_ARMED) && mo->health > 0)
+                P_DamageMobj(mo, NULL, NULL, mo->health, true, false);
             else if (player && player->mo == mo)
             {
                 player->jumptics = 7;
@@ -545,12 +535,20 @@ floater:
             return;
         }
     }
-    else if (!(flags & MF_NOGRAVITY))
+    else if (mo->mbf21flags & MF_MBF21_LOGRAV)
     {
         if (!mo->momz)
-            mo->momz = -GRAVITY;
-
-        mo->momz -= GRAVITY;
+            mo->momz = -(GRAVITY >> 3) * 2;
+        else
+            mo->momz -= GRAVITY >> 3;
+    }
+    else if (!(flags & MF_NOGRAVITY))
+    {
+        // still above the floor
+        if (!mo->momz)
+            mo->momz = -GRAVITY * 2;
+        else
+            mo->momz -= GRAVITY;
     }
 
     if (mo->z + mo->height > mo->ceilingz)
@@ -579,11 +577,11 @@ floater:
 //
 static void P_NightmareRespawn(mobj_t *mobj)
 {
-    fixed_t     x = mobj->spawnpoint.x << FRACBITS;
-    fixed_t     y = mobj->spawnpoint.y << FRACBITS;
-    fixed_t     z = ((mobj->flags & MF_SPAWNCEILING) ? ONCEILINGZ : ONFLOORZ);
-    mobj_t      *mo;
-    mapthing_t  *mthing = &mobj->spawnpoint;
+    fixed_t         x = mobj->spawnpoint.x << FRACBITS;
+    fixed_t         y = mobj->spawnpoint.y << FRACBITS;
+    const fixed_t   z = ((mobj->flags & MF_SPAWNCEILING) ? ONCEILINGZ : ONFLOORZ);
+    mobj_t          *mo;
+    mapthing_t      *mthing = &mobj->spawnpoint;
 
     // [BH] Fix <https://doomwiki.org/wiki/(0,0)_respawning_bug>.
     if (!x && !y)
@@ -594,10 +592,9 @@ static void P_NightmareRespawn(mobj_t *mobj)
 
     // something is occupying it's position?
     if (!P_CheckPosition(mobj, x, y))
-        return;         // no respawn
+        return; // no respawn
 
-    // spawn a teleport fog at old spot
-    //  because of removal of the body?
+    // spawn a teleport fog at the old spot
     mo = P_SpawnMobj(mobj->x, mobj->y, z, MT_TFOG);
     mo->angle = mobj->angle;
 
@@ -632,7 +629,13 @@ static void P_NightmareRespawn(mobj_t *mobj)
     P_RemoveMobj(mobj);
 
     if (con_obituaries)
-        C_PlayerMessage("%s %s has respawned.", (isvowel(mo->info->name1[0]) ? "An" : "A"), mo->info->name1);
+        C_PlayerMessage("%s dead%s%s has respawned.",
+            ((mo->flags & MF_FRIEND) && monstercount[mo->type] == 1 ? "The" : "A"),
+            ((mo->flags & MF_FRIEND) ? ", friendly " : " "),
+            (*mo->info->name1 ? mo->info->name1 : "monster"));
+
+    viewplayer->respawncount++;
+    stat_monstersrespawned = SafeAdd(stat_monstersrespawned, 1);
 }
 
 //
@@ -640,10 +643,10 @@ static void P_NightmareRespawn(mobj_t *mobj)
 //
 void P_MobjThinker(mobj_t *mobj)
 {
-    int         flags = mobj->flags;
+    const int   flags = mobj->flags;
     int         flags2;
     player_t    *player = mobj->player;
-    sector_t    *sector;
+    sector_t    *sector = mobj->subsector->sector;
 
     // [AM] Handle interpolation unless we're an active player.
     if (mobj->interpolate == -1 || mobj->type == MT_FIRE)
@@ -676,17 +679,8 @@ void P_MobjThinker(mobj_t *mobj)
 
     // [BH] bob objects in liquid
     if ((flags2 & MF2_FEETARECLIPPED) && !(flags2 & MF2_NOLIQUIDBOB)
-        && mobj->z <= (sector = mobj->subsector->sector)->floorheight && !mobj->momz && !sector->heightsec && r_liquid_bob)
-        mobj->z += animatedliquiddiffs[(mobj->floatbob + leveltime) & 63];
-
-    // [BH] bob certain power-ups
-    else if ((flags2 & MF2_FLOATBOB) && !(flags & MF_CORPSE) && r_floatbob)
-    {
-        mobj->z = BETWEEN(mobj->floorz - 1, mobj->z + floatbobdiffs[(mobj->floatbob + leveltime) & 63], mobj->ceilingz);
-
-        if (mobj->momx || mobj->momy)
-            P_ZMovement(mobj);
-    }
+        && mobj->z <= sector->floorheight && !sector->heightsec && r_liquid_bob)
+        mobj->z += animatedliquiddiffs[((mobj->floatbob + animatedliquidtic) & 63)];
     else if (mobj->z != mobj->floorz || mobj->momz)
     {
         if ((flags2 & MF2_PASSMOBJ) && !infiniteheight)
@@ -727,10 +721,10 @@ void P_MobjThinker(mobj_t *mobj)
     }
     else if (!(mobj->momx | mobj->momy) && !sentient(mobj))
     {
-        mobj->flags3 |= MF3_ARMED;  // arm a mine which has come to rest
+        mobj->flags2 |= MF2_ARMED;  // arm a mine which has come to rest
 
-        // killough 09/12/98: objects fall off ledges if they are hanging off
-        // slightly push off of ledge if hanging more than halfway off
+        // killough 09/12/98: objects fall off ledges if they are hanging off slightly.
+        // push off of ledge if hanging more than halfway off
         if (((flags & MF_CORPSE) || (flags & MF_DROPPED) || mobj->type == MT_BARREL)
             && mobj->geartime > 0 && mobj->z - mobj->dropoffz > 2 * FRACUNIT)
             P_ApplyTorque(mobj);
@@ -742,8 +736,16 @@ void P_MobjThinker(mobj_t *mobj)
         }
     }
 
-    // cycle through states,
-    //  calling action functions at transitions
+    if ((sector->special & KILL_MONSTERS_MASK) && mobj->z == mobj->floorz
+        && !player && (flags & MF_SHOOTABLE) && !(flags & MF_FLOAT))
+    {
+        P_DamageMobj(mobj, NULL, NULL, 10000, false, false);
+
+        if (mobj->thinker.function == &P_RemoveThinkerDelayed)
+            return;
+    }
+
+    // cycle through states, calling action functions at transitions
     if (mobj->tics != -1)
     {
         if (!--mobj->tics)
@@ -786,7 +788,7 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
     mobj->radius = info->radius;
     mobj->flags = info->flags;
     mobj->flags2 = info->flags2;
-    mobj->flags3 = info->flags3;
+    mobj->mbf21flags = info->mbf21flags;
     mobj->health = info->spawnhealth;
 
     if (gameskill != sk_nightmare)
@@ -850,7 +852,7 @@ static int          iqueuetail;
 //
 void P_RemoveMobj(mobj_t *mobj)
 {
-    int flags = mobj->flags;
+    const int   flags = mobj->flags;
 
     if ((flags & MF_SPECIAL) && !(flags & MF_DROPPED))
     {
@@ -903,7 +905,28 @@ void P_RemoveBloodMobj(mobj_t *mobj)
     }
 
     // free block
-    P_RemoveThinker((thinker_t *)mobj);
+    P_RemoveThinkerNow((thinker_t *)mobj);
+}
+
+//
+// P_RemoveBloodsplats
+//
+void P_RemoveBloodsplats(void)
+{
+    for (int i = 0; i < numsectors; i++)
+    {
+        bloodsplat_t    *splat = sectors[i].splatlist;
+
+        while (splat)
+        {
+            bloodsplat_t    *next = splat->next;
+
+            P_UnsetBloodSplatPosition(splat);
+            splat = next;
+        }
+    }
+
+    r_bloodsplats_total = 0;
 }
 
 //
@@ -919,22 +942,22 @@ mobjtype_t P_FindDoomedNum(int type)
         int next;
     } *hash;
 
-    mobjtype_t  i;
+    int i;
 
     if (!hash)
     {
         hash = Z_Malloc(NUMMOBJTYPES * sizeof(*hash), PU_CACHE, (void **)&hash);
 
-        for (i = 0; i < NUMMOBJTYPES; i++)
-            hash[i].first = NUMMOBJTYPES;
+        for (int j = 0; j < NUMMOBJTYPES; j++)
+            hash[j].first = NUMMOBJTYPES;
 
-        for (i = 0; i < NUMMOBJTYPES; i++)
-            if (mobjinfo[i].doomednum != -1)
+        for (int j = 0; j < NUMMOBJTYPES; j++)
+            if (mobjinfo[j].doomednum != -1)
             {
-                int    h = mobjinfo[i].doomednum % NUMMOBJTYPES;
+                int    h = mobjinfo[j].doomednum % NUMMOBJTYPES;
 
-                hash[i].next = hash[h].first;
-                hash[h].first = i;
+                hash[j].next = hash[h].first;
+                hash[h].first = j;
             }
     }
 
@@ -1019,9 +1042,6 @@ void P_SetPlayerViewHeight(void)
 // Most of the player structure stays unchanged
 //  between levels.
 //
-extern int  lastlevel;
-extern int  lastepisode;
-
 static void P_SpawnPlayer(const mapthing_t *mthing)
 {
     mobj_t  *mobj;
@@ -1048,7 +1068,7 @@ static void P_SpawnPlayer(const mapthing_t *mthing)
     viewplayer->mo->momx = 0;
     viewplayer->mo->momy = 0;
     viewplayer->mo->bloodsplats = CORPSEBLOODSPLATS;
-    viewplayer->mo->floatbob = M_BigRandom();
+    viewplayer->mo->floatbob = (M_BigRandom() & 63);
     viewplayer->momx = 0;
     viewplayer->momy = 0;
     viewplayer->lookdir = 0;
@@ -1075,20 +1095,20 @@ static void P_SpawnPlayer(const mapthing_t *mthing)
 //
 void P_SpawnMoreBlood(mobj_t *mobj)
 {
-    int blood = mobjinfo[mobj->blood].blood;
+    const int   blood = mobjinfo[mobj->blood].blood;
 
     if (blood)
     {
-        int     radius = ((spritewidth[sprites[mobj->sprite].spriteframes[0].lump[0]] >> FRACBITS) >> 1) + 12;
-        int     max = M_BigRandomInt(150, 200) + radius;
-        fixed_t x = mobj->x;
-        fixed_t y = mobj->y;
-        fixed_t floorz = mobj->floorz;
+        const int       radius = ((spritewidth[sprites[mobj->sprite].spriteframes[0].lump[0]] >> FRACBITS) >> 1) + 12;
+        const int       max = M_BigRandomInt(150, 200) + radius;
+        const fixed_t   floorz = mobj->floorz;
+        fixed_t         x = mobj->x;
+        fixed_t         y = mobj->y;
 
         if (!(mobj->flags & MF_SPAWNCEILING))
         {
-            x += M_BigRandomInt(-radius / 3, radius / 3) << FRACBITS;
-            y += M_BigRandomInt(-radius / 3, radius / 3) << FRACBITS;
+            x += (M_BigRandomInt(-radius / 3, radius / 3) << FRACBITS);
+            y += (M_BigRandomInt(-radius / 3, radius / 3) << FRACBITS);
         }
 
         for (int j = 0; j < max; j++)
@@ -1103,20 +1123,19 @@ void P_SpawnMoreBlood(mobj_t *mobj)
             fx = x + FixedMul(M_BigRandomInt(0, radius) << FRACBITS, finecosine[angle]);
             fy = y + FixedMul(M_BigRandomInt(0, radius) << FRACBITS, finesine[angle]);
 
-            P_SpawnBloodSplat(fx, fy, blood, floorz, mobj);
+            P_SpawnBloodSplat(fx, fy, blood, true, floorz, mobj);
         }
     }
 }
 
 //
 // P_SpawnMapThing
-// The fields of the mapthing should
-//  already be in host byte order.
+// The fields of the mapthing should already be in host byte order.
 //
 int prevthingx, prevthingy;
 int prevthingbob;
 
-mobj_t *P_SpawnMapThing(mapthing_t *mthing, dboolean spawnmonsters)
+mobj_t *P_SpawnMapThing(mapthing_t *mthing, bool spawnmonsters)
 {
     mobjtype_t  i;
     mobj_t      *mobj;
@@ -1124,6 +1143,7 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, dboolean spawnmonsters)
     short       type = mthing->type;
     short       options = mthing->options;
     int         flags;
+    int         flags2;
     int         musicid = 0;
     mobjinfo_t  *info;
 
@@ -1135,7 +1155,7 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, dboolean spawnmonsters)
     // bits that weren't used in DOOM (such as HellMaker wads). So we should
     // then simply ignore all upper bits.
     if (options & MTF_RESERVED)
-        options &= MTF_EASY | MTF_NORMAL | MTF_HARD | MTF_AMBUSH | MTF_NOTSINGLE;
+        options &= (MTF_EASY | MTF_NORMAL | MTF_HARD | MTF_AMBUSH | MTF_NOTSINGLE);
 
     // check for players specially
     if (type == Player1Start)
@@ -1148,18 +1168,19 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, dboolean spawnmonsters)
     if ((type >= Player2Start && type <= Player4Start) || type == PlayerDeathmatchStart)
         return NULL;
 
+    if (type == VisualModeCamera)
+        return NULL;
+
     if (type >= MusicSourceMin && type <= MusicSourceMax)
     {
         musicid = type - MusicSourceMin;
         type = MusicSourceMax;
     }
-    else if (type == VisualModeCamera)
-        return NULL;
 
     if (options & MTF_NOTSINGLE)
         return NULL;
 
-    if (!(options & (gameskill == sk_baby ? 1 : (gameskill == sk_nightmare ? 4 : 1 << (gameskill - 1)))))
+    if (!(options & (gameskill == sk_baby ? 1 : (gameskill == sk_nightmare ? 4 : (1 << (gameskill - 1))))))
         return NULL;
 
     // killough 08/23/98: use table for faster lookup
@@ -1168,7 +1189,8 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, dboolean spawnmonsters)
         // [BH] make unknown thing type non-fatal and show console warning instead
         char    *temp = commify(thingid);
 
-        C_Warning(2, "Thing %s at (%i,%i) wasn't spawned because its type is unknown.", temp, mthing->x, mthing->y);
+        C_Warning(2, "Thing %s at (%i,%i) wasn't spawned because its type is unknown.",
+            temp, mthing->x, mthing->y);
         free(temp);
 
         return NULL;
@@ -1178,12 +1200,14 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, dboolean spawnmonsters)
     if (!(options & (MTF_EASY | MTF_NORMAL | MTF_HARD)) && (!canmodify || !r_fixmaperrors))
     {
         if (*mobjinfo[i].name1)
-            C_Warning(2, "The %s at (%i,%i) wasn't spawned because it has no skill flags.", mobjinfo[i].name1, mthing->x, mthing->y);
+            C_Warning(2, "The %s at (%i,%i) wasn't spawned because it has no skill flags.",
+                mobjinfo[i].name1, mthing->x, mthing->y);
         else
         {
             char    *temp = commify(thingid);
 
-            C_Warning(2, "Thing %s at (%i,%i) wasn't spawned because it has no skill flags.", temp, mthing->x, mthing->y);
+            C_Warning(2, "Thing %s at (%i,%i) wasn't spawned because it has no skill flags.",
+                temp, mthing->x, mthing->y);
             free(temp);
         }
 
@@ -1193,7 +1217,7 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, dboolean spawnmonsters)
     if (mobjinfo[i].flags & MF_COUNTKILL)
     {
         // don't spawn any monsters if -nomonsters
-        if (!spawnmonsters && type != CommanderKeen)
+        if (!spawnmonsters)
             return NULL;
 
         // killough 07/20/98: exclude friends
@@ -1202,8 +1226,6 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, dboolean spawnmonsters)
 
         monstercount[i]++;
     }
-    else if (i == MT_BARREL)
-        barrelcount++;
 
     // spawn it
     x = mthing->x << FRACBITS;
@@ -1213,18 +1235,19 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, dboolean spawnmonsters)
     mobj->spawnpoint = *mthing;
     mobj->musicid = musicid;
 
+    flags = mobj->flags;
+    flags2 = mobj->flags2;
+
     numspawnedthings++;
 
     if (mthing->options & MTF_AMBUSH)
         mobj->flags |= MF_AMBUSH;
 
-    if (!(mobj->flags & MF_FRIEND) && (options & MTF_FRIEND))
+    if (!(flags & MF_FRIEND) && (options & MTF_FRIEND))
     {
         mobj->flags |= MF_FRIEND;   // killough 10/98
         mbfcompatible = true;
     }
-
-    flags = mobj->flags;
 
     if (flags & MF_COUNTITEM)
         totalitems++;
@@ -1237,48 +1260,51 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, dboolean spawnmonsters)
 
     mobj->angle = ((mthing->angle % 45) ? mthing->angle * (ANG45 / 45) : ANG45 * (mthing->angle / 45));
 
-    // [BH] identify boss monsters so sounds won't be clipped
-    if (gamemode != commercial && gamemap == 8 && ((gameepisode == 1 && type == BaronOfHell)
-        || (gameepisode == 2 && type == Cyberdemon) || (gameepisode == 3 && type == SpiderMastermind)))
-        mobj->flags2 |= MF2_BOSS;
-
     // [BH] randomly mirror corpses
-    if ((flags & MF_CORPSE) && (M_BigRandom() & 1) && r_corpses_mirrored)
-        mobj->flags2 |= MF2_MIRRORED;
+    if (flags & MF_CORPSE)
+    {
+        mobj->geartime = MAXGEARTIME;
+
+        if ((M_BigRandom() & 1) && r_corpses_mirrored)
+            mobj->flags2 |= MF2_MIRRORED;
+    }
 
     // [BH] randomly mirror weapons
     if ((type == SuperShotgun || (type >= Shotgun && type <= BFG9000)) && (M_BigRandom() & 1) && r_mirroredweapons)
         mobj->flags2 |= MF2_MIRRORED;
 
-    if (type == Revenant || type == LostSoul || type == SpiderMastermind || type == Cyberdemon)
-        mobj->flags3 |= MF3_MISSILEMORE;
-
     info = mobj->info;
 
+    mobj->bloodsplats = CORPSEBLOODSPLATS;
+
     // [BH] spawn blood splats around corpses
-    if (!(flags & (MF_SHOOTABLE | MF_NOBLOOD | MF_SPECIAL)) && mobj->blood && !chex
-        && (!hacx || !(mobj->flags2 & MF2_DECORATION)) && r_bloodsplats_max
-        && (BTSX || lumpinfo[firstspritelump + sprites[mobj->sprite].spriteframes[0].lump[0]]->wadfile->type != PWAD))
-    {
-        mobj->bloodsplats = CORPSEBLOODSPLATS;
+    if (r_corpses_moreblood
+        && r_bloodsplats_max
+        && !(flags & (MF_SHOOTABLE | MF_NOBLOOD | MF_SPECIAL))
+        && mobj->blood
+        && (!hacx || !(flags2 & MF2_DECORATION))
+        && (moreblood || lumpinfo[firstspritelump + sprites[mobj->sprite].spriteframes[0].lump[0]]->wadfile->type != PWAD)
+        && mobj->subsector->sector->terraintype == SOLID)
+        P_SpawnMoreBlood(mobj);
 
-        if (r_corpses_moreblood && mobj->subsector->sector->terraintype == SOLID)
-            P_SpawnMoreBlood(mobj);
-    }
-
-    // [crispy] randomly colorize space marine corpse objects
+    // [crispy] randomly colorize player corpses
     if (info->spawnstate == S_PLAY_DIE7 || info->spawnstate == S_PLAY_XDIE9)
         mobj->flags |= (M_BigRandomInt(0, 3) << MF_TRANSLATIONSHIFT);
 
-    if ((mobj->flags2 & MF2_DECORATION) && type != Barrel)
+    if (type == Barrel)
+    {
+        barrelcount++;
+        mobj->geartime = MAXGEARTIME;
+    }
+    else if (flags2 & MF2_DECORATION)
         numdecorations++;
 
-    // [BH] initialize certain mobj's animations to random start frame
-    // so groups of same mobjs are deliberately out of sync
+    // [BH] initialize certain mobj's animations to a random start frame
+    // so groups of same mobjs are deliberately out of sync with each other
     if (info->frames > 1)
     {
-        int     frames = M_BigRandomInt(0, info->frames);
-        state_t *st = mobj->state;
+        const int   frames = M_BigRandomInt(0, info->frames);
+        state_t     *st = mobj->state;
 
         for (int j = 0; j < frames && st->nextstate != S_NULL; j++)
             st = &states[st->nextstate];
@@ -1287,12 +1313,22 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, dboolean spawnmonsters)
     }
 
     // [BH] set random pitch for monster sounds when spawned
-    mobj->pitch = ((mobj->flags & MF_SHOOTABLE) && type != Barrel ? NORM_PITCH + M_BigRandomInt(-16, 16) : NORM_PITCH);
+    mobj->pitch = ((flags & MF_SHOOTABLE) && type != Barrel ? NORM_PITCH + M_BigRandomInt(-16, 16) : NORM_PITCH);
 
     // [BH] initialize bobbing things
-    mobj->floatbob = prevthingbob = (x == prevthingx && y == prevthingy ? prevthingbob : TICRATE + M_BigRandom());
-    prevthingx = x;
-    prevthingy = y;
+    if (!(flags2 & MF2_NOLIQUIDBOB))
+    {
+        if (x == prevthingx && y == prevthingy)
+            mobj->floatbob = prevthingbob;
+        else
+        {
+            mobj->floatbob = (M_BigRandom() & 63);
+
+            prevthingbob = mobj->floatbob;
+            prevthingx = x;
+            prevthingy = y;
+        }
+    }
 
     return mobj;
 }
@@ -1318,7 +1354,7 @@ void P_SpawnPuff(fixed_t x, fixed_t y, fixed_t z, angle_t angle)
     th->momz = FRACUNIT;
     th->angle = angle;
     th->flags = info->flags;
-    th->flags2 = (info->flags2 | ((M_BigRandom() & 1) * MF2_MIRRORED));
+    th->flags2 = (info->flags2 | ((M_Random() & 1) * MF2_MIRRORED));
 
     th->state = st;
     th->tics = MAX(1, st->tics - (M_BigRandom() & 3));
@@ -1345,15 +1381,15 @@ void P_SpawnPuff(fixed_t x, fixed_t y, fixed_t z, angle_t angle)
     {
         P_SetMobjState(th, S_PUFF3);
 
-        if (gp_vibrate_damage)
+        if (joy_rumble_damage)
         {
-            int strength = weaponinfo[wp_fist].strength * gp_vibrate_damage / 100;
+            int strength = weaponinfo[wp_fist].strength * joy_rumble_damage / 100;
 
             if (viewplayer->powers[pw_strength])
                 strength *= 2;
 
-            I_GamepadVibration(strength);
-            weaponvibrationtics = weaponinfo[wp_fist].tics;
+            I_GameControllerRumble(strength);
+            weaponrumbletics = weaponinfo[wp_fist].tics;
         }
     }
 }
@@ -1367,7 +1403,7 @@ void P_SpawnSmokeTrail(fixed_t x, fixed_t y, fixed_t z, angle_t angle)
 
     th->momz = FRACUNIT / 2;
     th->angle = angle;
-    th->flags2 |= (M_BigRandom() & 1) * MF2_MIRRORED;
+    th->flags2 |= (M_Random() & 1) * MF2_MIRRORED;
 }
 
 //
@@ -1376,13 +1412,13 @@ void P_SpawnSmokeTrail(fixed_t x, fixed_t y, fixed_t z, angle_t angle)
 //
 void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mobj_t *target)
 {
-    int         minz = target->z;
-    int         maxz = minz + spriteheight[sprites[target->sprite].spriteframes[0].lump[0]];
-    int         type = (r_blood == r_blood_red ? MT_BLOOD : (r_blood == r_blood_green ? MT_GREENBLOOD :
-                    (target->blood ? target->blood : MT_BLOOD)));
-    mobjinfo_t  *info = &mobjinfo[type];
-    int         blood = info->blood;
-    state_t     *st = &states[info->spawnstate];
+    const int           minz = target->z;
+    const int           maxz = minz + spriteheight[sprites[target->sprite].spriteframes[0].lump[0]];
+    const mobjtype_t    type = (r_blood == r_blood_red ? MT_BLOOD : (r_blood == r_blood_green ? MT_GREENBLOOD :
+                            (target->blood ? target->blood : MT_BLOOD)));
+    mobjinfo_t          *info = &mobjinfo[type];
+    const int           blood = info->blood;
+    state_t             *st = &states[info->spawnstate];
 
     angle += ANG180;
 
@@ -1396,7 +1432,7 @@ void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mo
         th->x = x + M_BigRandomInt(-2, 2) * FRACUNIT;
         th->y = y + M_BigRandomInt(-2, 2) * FRACUNIT;
         th->flags = info->flags;
-        th->flags2 = (info->flags2 | ((M_BigRandom() & 1) * MF2_MIRRORED));
+        th->flags2 = (info->flags2 | ((M_Random() & 1) * MF2_MIRRORED));
 
         th->state = st;
         th->tics = MAX(1, st->tics - (M_BigRandom() & 2));
@@ -1435,9 +1471,44 @@ void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mo
 }
 
 //
+// P_SetBloodSplatColor
+//
+void P_SetBloodSplatColor(bloodsplat_t *splat)
+{
+    if (r_blood == r_blood_nofuzz)
+    {
+        splat->viscolor = (splat->color == FUZZYBLOOD ? REDBLOOD : splat->color) + M_BigRandomInt(-2, 1);
+        splat->viscolfunc = bloodsplatcolfunc;
+    }
+    else if (r_blood == r_blood_all)
+    {
+        if (splat->color == FUZZYBLOOD && r_textures)
+        {
+            splat->viscolor = 0;
+            splat->viscolfunc = &R_DrawFuzzColumn;
+        }
+        else
+        {
+            splat->viscolor = splat->color + M_BigRandomInt(-2, 1);
+            splat->viscolfunc = bloodsplatcolfunc;
+        }
+    }
+    else if (r_blood == r_blood_red)
+    {
+        splat->viscolor = REDBLOOD + M_BigRandomInt(-2, 1);
+        splat->viscolfunc = bloodsplatcolfunc;
+    }
+    else
+    {
+        splat->viscolor = GREENBLOOD + M_BigRandomInt(-2, 1);
+        splat->viscolfunc = bloodsplatcolfunc;
+    }
+}
+
+//
 // P_SpawnBloodSplat
 //
-void P_SpawnBloodSplat(fixed_t x, fixed_t y, int blood, fixed_t maxheight, mobj_t *target)
+void P_SpawnBloodSplat(fixed_t x, fixed_t y, int color, bool usemaxheight, fixed_t maxheight, mobj_t *target)
 {
     if (r_bloodsplats_total >= r_bloodsplats_max)
         return;
@@ -1445,28 +1516,17 @@ void P_SpawnBloodSplat(fixed_t x, fixed_t y, int blood, fixed_t maxheight, mobj_
     {
         sector_t    *sec = R_PointInSubsector(x, y)->sector;
 
-        if (sec->terraintype == SOLID && sec->interpfloorheight <= maxheight && sec->floorpic != skyflatnum)
+        if (sec->terraintype == SOLID && (!usemaxheight || sec->interpfloorheight <= maxheight))
         {
             bloodsplat_t    *splat = malloc(sizeof(*splat));
 
             if (splat)
             {
-                int patch = firstbloodsplatlump + (M_BigRandom() & 7);
+                const int   patch = firstbloodsplatlump + (M_BigRandom() & (BLOODSPLATLUMPS - 1));
 
-                splat->patch = patch;
-                splat->flip = (M_BigRandom() & 1);
-
-                if (blood == FUZZYBLOOD)
-                {
-                    splat->colfunc = fuzzcolfunc;
-                    splat->blood = blood;
-                }
-                else
-                {
-                    splat->colfunc = bloodsplatcolfunc;
-                    splat->blood = blood + M_BigRandomInt(-2, 1);
-                }
-
+                splat->patch = firstspritelump + patch;
+                splat->color = color;
+                P_SetBloodSplatColor(splat);
                 splat->x = x;
                 splat->y = y;
                 splat->width = spritewidth[patch];
@@ -1486,7 +1546,7 @@ void P_SpawnBloodSplat(fixed_t x, fixed_t y, int blood, fixed_t maxheight, mobj_
 // Moves the missile forward a bit
 //  and possibly explodes it right there.
 //
-void P_CheckMissileSpawn(mobj_t *th)
+bool P_CheckMissileSpawn(mobj_t *th)
 {
     th->tics = MAX(1, th->tics - (M_Random() & 3));
 
@@ -1498,11 +1558,16 @@ void P_CheckMissileSpawn(mobj_t *th)
 
     // killough 08/12/98: for non-missile objects (e.g. grenades)
     if (!(th->flags & MF_MISSILE))
-        return;
+        return true;
 
     // killough 03/15/98: no dropoff (really = don't care for missiles)
     if (!P_TryMove(th, th->x, th->y, 0))
+    {
         P_ExplodeMissile(th);
+        return false;
+    }
+
+    return true;
 }
 
 //
@@ -1528,7 +1593,7 @@ mobj_t *P_SpawnMissile(mobj_t *source, mobj_t *dest, mobjtype_t type)
 
     // fuzzy player
     if (dest->flags & MF_FUZZ)
-        an += M_SubRandom() << 20;
+        an += (M_SubRandom() << 20);
 
     th->angle = an;
     an >>= ANGLETOFINESHIFT;
@@ -1546,7 +1611,7 @@ mobj_t *P_SpawnMissile(mobj_t *source, mobj_t *dest, mobjtype_t type)
 // P_SpawnPlayerMissile
 // Tries to aim at a nearby monster.
 //
-void P_SpawnPlayerMissile(mobj_t *source, mobjtype_t type)
+mobj_t *P_SpawnPlayerMissile(mobj_t *source, mobjtype_t type)
 {
     mobj_t  *th;
     angle_t an = source->angle;
@@ -1568,11 +1633,11 @@ void P_SpawnPlayerMissile(mobj_t *source, mobjtype_t type)
 
             if (!linetarget)
             {
-                slope = P_AimLineAttack(source, (an += 1 << 26), 16 * 64 * FRACUNIT, mask);
+                slope = P_AimLineAttack(source, (an += (1 << 26)), 16 * 64 * FRACUNIT, mask);
 
                 if (!linetarget)
                 {
-                    slope = P_AimLineAttack(source, (an -= 2 << 26), 16 * 64 * FRACUNIT, mask);
+                    slope = P_AimLineAttack(source, (an -= (2 << 26)), 16 * 64 * FRACUNIT, mask);
 
                     if (!linetarget)
                     {
@@ -1607,13 +1672,96 @@ void P_SpawnPlayerMissile(mobj_t *source, mobjtype_t type)
 
     P_NoiseAlert(source);
 
-    if (type == MT_ROCKET && r_rockettrails && !(th->flags & MF_BOUNCES) && viewplayer->readyweapon == wp_missile
-        && !chex && !hacx && !doom4vanilla)
+    if (type == MT_ROCKET && r_rockettrails && !(th->flags & MF_BOUNCES)
+        && viewplayer->readyweapon == wp_missile && !chex && !hacx)
     {
         th->flags2 |= MF2_SMOKETRAIL;
         th->pursuecount = 0;
     }
 
-    P_CheckMissileSpawn(th);
     A_Recoil(source->player->readyweapon);
+
+    // MBF21: return missile if it's ok
+    return (P_CheckMissileSpawn(th) ? th : NULL);
+}
+
+//
+// MBF21: P_FaceMobj
+// Returns true if 'source' needs to turn clockwise, or false if 'source' needs
+// to turn counter clockwise. 'delta' is set to the amount 'source' needs to turn.
+//
+static bool P_FaceMobj(mobj_t *source, mobj_t *target, angle_t *delta)
+{
+    angle_t         diff;
+    const angle_t   angle1 = source->angle;
+    const angle_t   angle2 = R_PointToAngle2(source->x, source->y, target->x, target->y);
+
+    if (angle2 > angle1)
+    {
+        if ((diff = angle2 - angle1) > ANG180)
+        {
+            *delta = ANGLE_MAX - diff;
+            return false;
+        }
+
+        *delta = diff;
+        return true;
+    }
+    else if ((diff = angle1 - angle2) > ANG180)
+    {
+        *delta = ANGLE_MAX - diff;
+        return true;
+    }
+
+    *delta = diff;
+    return false;
+}
+
+//
+// MBF21: P_SeekerMissile
+//
+bool P_SeekerMissile(mobj_t *actor, mobj_t **seekTarget, angle_t thresh, angle_t turnmax, bool seekcenter)
+{
+    int     dir;
+    angle_t delta;
+    angle_t angle;
+    mobj_t  *target = *seekTarget;
+
+    if (!target)
+        return false;
+
+    if (!(target->flags & MF_SHOOTABLE))
+    {
+        // Target died
+        *seekTarget = NULL;
+        return false;
+    }
+
+    dir = P_FaceMobj(actor, target, &delta);
+
+    if (delta > thresh)
+    {
+        delta >>= 1;
+
+        if (delta > turnmax)
+            delta = turnmax;
+    }
+
+    if (dir)
+        // Turn clockwise
+        actor->angle += delta;
+    else
+        // Turn counter clockwise
+        actor->angle -= delta;
+
+    angle = actor->angle >> ANGLETOFINESHIFT;
+    actor->momx = FixedMul(actor->info->speed, finecosine[angle]);
+    actor->momy = FixedMul(actor->info->speed, finesine[angle]);
+
+    // Need to seek vertically
+    if (actor->z + actor->height < target->z || target->z + target->height < actor->z || seekcenter)
+        actor->momz = (target->z + (seekcenter ? target->height / 2 : 0) - actor->z)
+            / MAX(1, P_ApproxDistance(target->x - actor->x, target->y - actor->y) / actor->info->speed);
+
+    return true;
 }

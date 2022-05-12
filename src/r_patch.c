@@ -6,8 +6,8 @@
 
 ========================================================================
 
-  Copyright © 1993-2021 by id Software LLC, a ZeniMax Media company.
-  Copyright © 2013-2021 by Brad Harding <mailto:brad@doomretro.com>.
+  Copyright © 1993-2022 by id Software LLC, a ZeniMax Media company.
+  Copyright © 2013-2022 by Brad Harding <mailto:brad@doomretro.com>.
 
   DOOM Retro is a fork of Chocolate DOOM. For a list of credits, see
   <https://github.com/bradharding/doomretro/wiki/CREDITS>.
@@ -16,7 +16,7 @@
 
   DOOM Retro is free software: you can redistribute it and/or modify it
   under the terms of the GNU General Public License as published by the
-  Free Software Foundation, either version 3 of the License, or (at your
+  Free Software Foundation, either version 3 of the license, or (at your
   option) any later version.
 
   DOOM Retro is distributed in the hope that it will be useful, but
@@ -36,36 +36,6 @@
 ========================================================================
 */
 
-/*
-**---------------------------------------------------------------------------
-** Copyright 2004-2006 Randy Heit
-** All rights reserved.
-**
-** Redistribution and use in source and binary forms, with or without
-** modification, are permitted provided that the following conditions
-** are met:
-**
-** 1. Redistributions of source code must retain the above copyright
-**    notice, this list of conditions and the following disclaimer.
-** 2. Redistributions in binary form must reproduce the above copyright
-**    notice, this list of conditions and the following disclaimer in the
-**    documentation and/or other materials provided with the distribution.
-** 3. The name of the author may not be used to endorse or promote products
-**    derived from this software without specific prior written permission.
-**
-** THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
-** IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
-** OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
-** IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
-** INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
-** NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
-** DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
-** THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-** (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
-** THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-**---------------------------------------------------------------------------
-*/
-
 #include "c_console.h"
 #include "doomstat.h"
 #include "i_swap.h"
@@ -77,8 +47,7 @@
 // Patches.
 // A patch holds one or more columns.
 // Patches are used for sprites and all masked pictures,
-// and we compose textures from the TEXTURE1/2 lists
-// of patches.
+// and we compose textures from the TEXTURE1/2 lists  of patches.
 //
 
 // Re-engineered patch support
@@ -90,9 +59,7 @@ static short    FIREBLU1;
 static short    SKY1;
 static short    STEP2;
 
-extern int      numspritelumps;
-
-static dboolean getIsSolidAtSpot(const column_t *column, int spot)
+static bool getIsSolidAtSpot(const column_t *column, int spot)
 {
     if (!column)
         return false;
@@ -112,38 +79,43 @@ static dboolean getIsSolidAtSpot(const column_t *column, int spot)
 }
 
 // Checks if the lump can be a DOOM patch
-static dboolean CheckIfPatch(int lump)
+static bool CheckIfPatch(int lump)
 {
-    int         size = W_LumpLength(lump);
-    dboolean    result = false;
+    const int   size = W_LumpLength(lump);
+    bool        result = false;
 
     if (size >= 13)
     {
-        const patch_t   *patch = W_CacheLumpNum(lump);
+        const patch_t       *patch = W_CacheLumpNum(lump);
+        const unsigned char *magic = (const unsigned char *)patch;
 
-        if (memcmp(patch, "\x89PNG", 4))
+        if (magic[0] == 0x89 && magic[1] == 'P' && magic[2] == 'N' && magic[3] == 'G')
+            C_Warning(1, "The " BOLD("%.8s") " patch is an unsupported PNG lump and will be ignored.", lumpinfo[lump]->name);
+        else
         {
-            short   width = SHORT(patch->width);
-            short   height = SHORT(patch->height);
+            const short width = SHORT(patch->width);
+            const short height = SHORT(patch->height);
 
-            if ((result = (height > 0 && height <= 16384 && width > 0 && width <= 16384 && width < size / 4)))
-            {
+            if ((result = (width > 0 && width <= 16384 && width < size / 4 && height > 0 && height <= 16384)))
                 // The dimensions seem like they might be valid for a patch, so
                 // check the column directory for extra security. All columns
                 // must begin after the column directory, and none of them must
                 // point past the end of the patch.
                 for (int x = 0; x < width; x++)
                 {
-                    unsigned int    ofs = LONG(patch->columnofs[x]);
+                    const unsigned int  offset = LONG(patch->columnoffset[x]);
 
                     // Need one byte for an empty column (but there's patches that don't know that!)
-                    if (ofs < (unsigned int)width * 4 + 8 || ofs >= (unsigned int)size)
+                    if (offset < (unsigned int)width * 4 + 8 || offset >= (unsigned int)size)
                     {
                         result = false;
+
+                        if (lumpinfo[lump]->size > 0)
+                            C_Warning(1, "The " BOLD("%.8s") " patch is in an unknown format and will be ignored.", lumpinfo[lump]->name);
+
                         break;
                     }
                 }
-            }
         }
 
         W_ReleaseLumpNum(lump);
@@ -164,15 +136,9 @@ static void createPatch(int patchNum)
     int                 *numPostsInColumn;
     int                 numPostsTotal;
     const unsigned char *oldColumnPixelData;
-    int                 numPostsUsedSoFar;
 
-    if (!CheckIfPatch(patchNum) && patchNum < numlumps)
-    {
-        if (lumpinfo[patchNum]->size > 0)
-            C_Warning(1, "The " BOLD("%.8s") " patch is in an unknown format.", lumpinfo[patchNum]->name);
-
+    if (!CheckIfPatch(patchNum))
         patchNum = W_GetNumForName("TNT1A0");
-    }
 
     oldPatch = W_CacheLumpNum(patchNum);
     patch = &patches[patchNum];
@@ -183,7 +149,7 @@ static void createPatch(int patchNum)
     patch->topoffset = SHORT(oldPatch->topoffset);
 
     // work out how much memory we need to allocate for this patch's data
-    pixelDataSize = (patch->width * patch->height + 4) & ~3;
+    pixelDataSize = ((patch->width * patch->height + 4) & ~3);
     columnsDataSize = patch->width * sizeof(rcolumn_t);
 
     // count the number of posts in each column
@@ -192,7 +158,7 @@ static void createPatch(int patchNum)
 
     for (int x = 0; x < patch->width; x++)
     {
-        oldColumn = (const column_t *)((const byte *)oldPatch + LONG(oldPatch->columnofs[x]));
+        oldColumn = (const column_t *)((const byte *)oldPatch + LONG(oldPatch->columnoffset[x]));
         numPostsInColumn[x] = 0;
 
         while (oldColumn->topdelta != 0xFF)
@@ -220,13 +186,11 @@ static void createPatch(int patchNum)
     memset(patch->pixels, 0xFF, (size_t)patch->width * patch->height);
 
     // fill in the pixels, posts, and columns
-    numPostsUsedSoFar = 0;
-
-    for (int x = 0; x < patch->width; x++)
+    for (int x = 0, numPostsUsedSoFar = 0; x < patch->width; x++)
     {
         int top = -1;
 
-        oldColumn = (const column_t *)((const byte *)oldPatch + LONG(oldPatch->columnofs[x]));
+        oldColumn = (const column_t *)((const byte *)oldPatch + LONG(oldPatch->columnoffset[x]));
 
         // setup the column's data
         patch->columns[x].pixels = &patch->pixels[x * patch->height];
@@ -237,7 +201,7 @@ static void createPatch(int patchNum)
         {
             int len = oldColumn->length;
 
-            //e6y: support for DeePsea's true tall patches
+            // e6y: support for DeePsea's true tall patches
             if (oldColumn->topdelta <= top)
                 top += oldColumn->topdelta;
             else
@@ -342,8 +306,8 @@ static void removePostFromColumn(rcolumn_t *column, int post)
 static void createTextureCompositePatch(int id)
 {
     rpatch_t            *composite_patch = &texture_composites[id];
-    texture_t           *texture = textures[id];
-    texpatch_t          *texpatch;
+    const texture_t     *texture = textures[id];
+    const texpatch_t    *texpatch;
     int                 patchNum;
     const patch_t       *oldPatch;
     const column_t      *oldColumn;
@@ -354,7 +318,6 @@ static void createTextureCompositePatch(int id)
     int                 dataSize;
     int                 numPostsTotal;
     const unsigned char *oldColumnPixelData;
-    int                 numPostsUsedSoFar;
     count_t             *countsInColumn;
 
     composite_patch->width = texture->width;
@@ -364,7 +327,7 @@ static void createTextureCompositePatch(int id)
     composite_patch->topoffset = 0;
 
     // work out how much memory we need to allocate for this patch's data
-    pixelDataSize = (composite_patch->width * composite_patch->height + 4) & ~3;
+    pixelDataSize = ((composite_patch->width * composite_patch->height + 4) & ~3);
     columnsDataSize = composite_patch->width * sizeof(rcolumn_t);
 
     // count the number of posts in each column
@@ -375,15 +338,11 @@ static void createTextureCompositePatch(int id)
     {
         texpatch = &texture->patches[i];
         patchNum = texpatch->patch;
+
+        if (!CheckIfPatch(patchNum))
+            patchNum = W_GetNumForName("TNT1A0");
+
         oldPatch = (const patch_t *)W_CacheLumpNum(patchNum);
-
-        if (!CheckIfPatch(patchNum) && patchNum < numlumps)
-        {
-            if (lumpinfo[patchNum]->size > 0)
-                C_Warning(1, "The " BOLD("%s") " patch is in an unknown format.", lumpinfo[patchNum]->name);
-
-            return;
-        }
 
         for (int x = 0; x < SHORT(oldPatch->width); x++)
         {
@@ -397,7 +356,7 @@ static void createTextureCompositePatch(int id)
 
             countsInColumn[tx].patches++;
 
-            oldColumn = (const column_t *)((const byte *)oldPatch + LONG(oldPatch->columnofs[x]));
+            oldColumn = (const column_t *)((const byte *)oldPatch + LONG(oldPatch->columnoffset[x]));
 
             while (oldColumn->topdelta != 0xFF)
             {
@@ -426,9 +385,7 @@ static void createTextureCompositePatch(int id)
 
     memset(composite_patch->pixels, 0xFF, (size_t)composite_patch->width * composite_patch->height);
 
-    numPostsUsedSoFar = 0;
-
-    for (int x = 0; x < texture->width; x++)
+    for (int x = 0, numPostsUsedSoFar = 0; x < texture->width; x++)
     {
         // setup the column's data
         composite_patch->columns[x].pixels = &composite_patch->pixels[x * composite_patch->height];
@@ -442,6 +399,10 @@ static void createTextureCompositePatch(int id)
     {
         texpatch = &texture->patches[i];
         patchNum = texpatch->patch;
+
+        if (!CheckIfPatch(patchNum))
+            patchNum = W_GetNumForName("TNT1A0");
+
         oldPatch = (const patch_t *)W_CacheLumpNum(patchNum);
 
         for (int x = 0; x < SHORT(oldPatch->width); x++)
@@ -455,7 +416,7 @@ static void createTextureCompositePatch(int id)
             if (tx >= composite_patch->width)
                 break;
 
-            oldColumn = (const column_t *)((const byte *)oldPatch + LONG(oldPatch->columnofs[x]));
+            oldColumn = (const column_t *)((const byte *)oldPatch + LONG(oldPatch->columnoffset[x]));
 
             while (oldColumn->topdelta != 0xFF)
             {
@@ -583,9 +544,9 @@ static void createTextureCompositePatch(int id)
 
             // this pixel is a hole
             if (x && prevColumn->pixels[y - 1] != 0xFF)
-                column->pixels[y] = prevColumn->pixels[y];      // copy the color from the left
+                column->pixels[y] = prevColumn->pixels[y];  // copy the color from the left
             else
-                column->pixels[y] = column->pixels[y - 1];      // copy the color from above
+                column->pixels[y] = column->pixels[y - 1];  // copy the color from above
         }
     }
 

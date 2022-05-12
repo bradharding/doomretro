@@ -6,8 +6,8 @@
 
 ========================================================================
 
-  Copyright © 1993-2021 by id Software LLC, a ZeniMax Media company.
-  Copyright © 2013-2021 by Brad Harding <mailto:brad@doomretro.com>.
+  Copyright © 1993-2022 by id Software LLC, a ZeniMax Media company.
+  Copyright © 2013-2022 by Brad Harding <mailto:brad@doomretro.com>.
 
   DOOM Retro is a fork of Chocolate DOOM. For a list of credits, see
   <https://github.com/bradharding/doomretro/wiki/CREDITS>.
@@ -16,7 +16,7 @@
 
   DOOM Retro is free software: you can redistribute it and/or modify it
   under the terms of the GNU General Public License as published by the
-  Free Software Foundation, either version 3 of the License, or (at your
+  Free Software Foundation, either version 3 of the license, or (at your
   option) any later version.
 
   DOOM Retro is distributed in the hope that it will be useful, but
@@ -123,7 +123,7 @@ static registryvalue_t uninstall_values[] =
         HKEY_LOCAL_MACHINE,
         SOFTWARE_KEY "\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Doom Shareware for Windows 95",
         "UninstallString"
-    },
+    }
 };
 
 // Values installed by the GOG.com and Collector's Edition versions
@@ -208,7 +208,7 @@ static const char *steam_install_subdirs[] =
     "steamapps\\common\\Ultimate Doom\\rerelease\\DOOM_Data\\StreamingAssets",
     "steamapps\\common\\Ultimate Doom\\base"
     "steamapps\\common\\DOOM 3 BFG Edition\\base\\wads",
-    "steamapps\\common\\Final Doom\\base",
+    "steamapps\\common\\Final Doom\\base"
 };
 
 static char *GetRegistryString(registryvalue_t *reg_val)
@@ -247,7 +247,7 @@ static char *GetRegistryString(registryvalue_t *reg_val)
 // Check for the uninstall strings from the CD versions
 static void CheckUninstallStrings(void)
 {
-    int len = (int)strlen(UNINSTALLER_STRING);
+    const int   len = (int)strlen(UNINSTALLER_STRING);
 
     for (size_t i = 0; i < arrlen(uninstall_values); i++)
     {
@@ -473,7 +473,7 @@ static const iwads_t iwads[] =
 #if !defined(_WIN32) && !defined(__APPLE__)
 // Returns true if the specified path is a path to a file
 // of the specified name.
-static dboolean DirIsFile(char *path, char *filename)
+static bool DirIsFile(char *path, char *filename)
 {
     return (strchr(path, DIR_SEPARATOR) && !strcasecmp(leafname(path), filename));
 }
@@ -509,7 +509,7 @@ static char *CheckDirectoryHasIWAD(char *dir, char *iwadname)
 // Returns the location of the IWAD if found, otherwise NULL.
 static char *SearchDirectoryForIWAD(char *dir)
 {
-    for (size_t i = 0; i < arrlen(iwads); ++i)
+    for (size_t i = 0; i < arrlen(iwads); i++)
     {
         char    *filename = CheckDirectoryHasIWAD(dir, iwads[i].name);
 
@@ -596,8 +596,8 @@ static void AddDoomWADPath(void)
 //
 static void BuildIWADDirList(void)
 {
-    char            *doomwaddir;
-    static dboolean iwad_dirs_built;
+    char        *doomwaddir;
+    static bool iwad_dirs_built;
 
     if (iwad_dirs_built)
         return;
@@ -680,8 +680,6 @@ void D_InitIWADFolder(void)
         if (M_FolderExists(iwad_dirs[i]))
         {
             iwadfolder = M_StringDuplicate(iwad_dirs[i]);
-            M_StringReplaceAll(iwadfolder, "/", "\\");
-
             break;
         }
 
@@ -778,7 +776,7 @@ static char *SaveGameIWADName(void)
 //
 // Chooses the directory used to store saved games.
 //
-void D_SetSaveGameFolder(dboolean output)
+void D_SetSaveGameFolder(bool output)
 {
     int p = M_CheckParmsWithArgs("-save", "-savedir", "", 1, 1);
 
@@ -790,16 +788,14 @@ void D_SetSaveGameFolder(dboolean output)
     else
     {
         char    *appdatafolder = M_GetAppDataFolder();
-        char    *savegamefolder_free;
 
         M_MakeDirectory(appdatafolder);
         savegamefolder = M_StringJoin(appdatafolder, DIR_SEPARATOR_S, "savegames", DIR_SEPARATOR_S, NULL);
         M_MakeDirectory(savegamefolder);
-        savegamefolder_free = savegamefolder;
 
         if (*pwadfile)
         {
-            char    *temp = removeext(pwadfile);
+            char    *temp = removeext(GetCorrectCase(pwadfile));
 
             savegamefolder = M_StringJoin(savegamefolder, temp, DIR_SEPARATOR_S, NULL);
             free(temp);
@@ -808,7 +804,6 @@ void D_SetSaveGameFolder(dboolean output)
             savegamefolder = M_StringJoin(savegamefolder, SaveGameIWADName(), DIR_SEPARATOR_S, NULL);
 
         free(appdatafolder);
-        free(savegamefolder_free);
     }
 
     M_MakeDirectory(savegamefolder);
@@ -888,7 +883,7 @@ void D_SetGameDescription(void)
     {
         // DOOM 1. But which version?
         if (modifiedgame && *pwadfile)
-            M_StringCopy(gamedescription, pwadfile, sizeof(gamedescription));
+            M_StringCopy(gamedescription, GetCorrectCase(pwadfile), sizeof(gamedescription));
         else if (FREEDOOM)
             M_StringCopy(gamedescription, s_CAPTION_FREEDOOM1, sizeof(gamedescription));
         else if (gamemode == retail)
@@ -906,7 +901,7 @@ void D_SetGameDescription(void)
             if (M_StringCompare(pwadfile, "nerve.wad"))
                 M_StringCopy(gamedescription, s_CAPTION_DOOM2, sizeof(gamedescription));
             else
-                M_StringCopy(gamedescription, pwadfile, sizeof(gamedescription));
+                M_StringCopy(gamedescription, GetCorrectCase(pwadfile), sizeof(gamedescription));
         }
         else if (FREEDOOM)
             M_StringCopy(gamedescription, (FREEDM ? s_CAPTION_FREEDM : s_CAPTION_FREEDOOM2), sizeof(gamedescription));
@@ -930,7 +925,7 @@ void D_SetGameDescription(void)
                 s_CAPTION_DOOM2, s_CAPTION_NERVE);
     }
     else if (modifiedgame && !sigil && !chex && !BTSX && !REKKR)
-        C_Output("Playing " BOLD("%s") ".", gamedescription);
+        C_Output("Playing " ITALICS("%s") ".", gamedescription);
     else
     {
         if (bfgedition && !chex && !BTSX && !REKKR)

@@ -6,8 +6,8 @@
 
 ========================================================================
 
-  Copyright © 1993-2021 by id Software LLC, a ZeniMax Media company.
-  Copyright © 2013-2021 by Brad Harding <mailto:brad@doomretro.com>.
+  Copyright © 1993-2022 by id Software LLC, a ZeniMax Media company.
+  Copyright © 2013-2022 by Brad Harding <mailto:brad@doomretro.com>.
 
   DOOM Retro is a fork of Chocolate DOOM. For a list of credits, see
   <https://github.com/bradharding/doomretro/wiki/CREDITS>.
@@ -16,7 +16,7 @@
 
   DOOM Retro is free software: you can redistribute it and/or modify it
   under the terms of the GNU General Public License as published by the
-  Free Software Foundation, either version 3 of the License, or (at your
+  Free Software Foundation, either version 3 of the license, or (at your
   option) any later version.
 
   DOOM Retro is distributed in the hope that it will be useful, but
@@ -36,8 +36,7 @@
 ========================================================================
 */
 
-#if !defined(__R_DRAW_H__)
-#define __R_DRAW_H__
+#pragma once
 
 #include "m_random.h"
 
@@ -60,8 +59,8 @@ extern fixed_t          dc_iscale;
 extern fixed_t          dc_texturemid;
 extern fixed_t          dc_texheight;
 extern fixed_t          dc_texturefrac;
-extern byte             dc_solidblood;
-extern byte             *dc_blood;
+extern byte             dc_solidbloodcolor;
+extern byte             *dc_bloodcolor;
 extern byte             *dc_brightmap;
 extern int              dc_floorclip;
 extern int              dc_ceilingclip;
@@ -143,15 +142,14 @@ void R_DrawTranslatedColumn(void);
 void R_DrawDitherLowTranslatedColumn(void);
 void R_DrawDitherTranslatedColumn(void);
 
-void R_VideoErase(unsigned int ofs, int count);
+void R_VideoErase(unsigned int offset, int count);
 
 extern int          ds_x1;
 extern int          ds_x2;
 extern int          ds_y;
 extern int          ds_z;
 
-extern lighttable_t *ds_colormap;
-extern lighttable_t *ds_nextcolormap;
+extern lighttable_t *ds_colormap[2];
 
 extern fixed_t      ds_xfrac;
 extern fixed_t      ds_yfrac;
@@ -173,7 +171,7 @@ void R_DrawColorSpan(void);
 void R_DrawDitherLowColorSpan(void);
 void R_DrawDitherColorSpan(void);
 
-void R_InitBuffer(int width, int height);
+void R_InitBuffer(void);
 
 // Initialize color translation tables,
 //  for player rendering etc.
@@ -186,5 +184,3 @@ void R_FillBackScreen(void);
 
 // If the view size is not fullscreen, draws a border around it.
 void R_DrawViewBorder(void);
-
-#endif

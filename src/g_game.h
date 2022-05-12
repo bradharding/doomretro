@@ -6,8 +6,8 @@
 
 ========================================================================
 
-  Copyright © 1993-2021 by id Software LLC, a ZeniMax Media company.
-  Copyright © 2013-2021 by Brad Harding <mailto:brad@doomretro.com>.
+  Copyright © 1993-2022 by id Software LLC, a ZeniMax Media company.
+  Copyright © 2013-2022 by Brad Harding <mailto:brad@doomretro.com>.
 
   DOOM Retro is a fork of Chocolate DOOM. For a list of credits, see
   <https://github.com/bradharding/doomretro/wiki/CREDITS>.
@@ -16,7 +16,7 @@
 
   DOOM Retro is free software: you can redistribute it and/or modify it
   under the terms of the GNU General Public License as published by the
-  Free Software Foundation, either version 3 of the License, or (at your
+  Free Software Foundation, either version 3 of the license, or (at your
   option) any later version.
 
   DOOM Retro is distributed in the hope that it will be useful, but
@@ -36,8 +36,7 @@
 ========================================================================
 */
 
-#if !defined(__G_GAME_H__)
-#define __G_GAME_H__
+#pragma once
 
 #include "d_event.h"
 #include "i_video.h"
@@ -84,13 +83,13 @@ void G_WorldDone(void);
 void G_BuildTiccmd(ticcmd_t *cmd);
 
 void G_Ticker(void);
-dboolean G_Responder(event_t *ev);
+bool G_Responder(event_t *ev);
 
 void G_PlayerReborn(void);
 
 void G_ScreenShot(void);
 
-void G_SetFastParms(dboolean fast_pending);
+void G_SetFastParms(bool fast_pending);
 void G_SetMovementSpeed(int scale);
 void G_ToggleAlwaysRun(evtype_t type);
 
@@ -103,9 +102,9 @@ void G_LoadedGameMessage(void);
 extern fixed_t      forwardmove[2];
 extern fixed_t      sidemove[2];
 extern fixed_t      angleturn[3];
-extern dboolean     gamekeydown[NUMKEYS];
-extern dboolean     *mousebuttons;
-extern dboolean     gamepadpress;
+extern bool         gamekeydown[NUMKEYS];
+extern bool         *mousebuttons;
+extern bool         gamecontrollerpress;
 extern char         lbmname1[MAX_PATH];
 extern char         lbmpath1[MAX_PATH];
 extern char         lbmpath2[MAX_PATH];
@@ -114,10 +113,8 @@ extern char         mouseactionlist[MAX_MOUSE_BUTTONS + 2][255];
 extern int          mousewait;
 extern int          quickSaveSlot;
 extern int          st_facecount;
-extern dboolean     skipaction;
+extern bool         skipaction;
 extern char         savename[MAX_PATH];
-extern dboolean     usemouselook;
-extern dboolean     secretexit;
+extern bool         usemouselook;
+extern bool         secretexit;
 extern gameaction_t loadaction;
-
-#endif

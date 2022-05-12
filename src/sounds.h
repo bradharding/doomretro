@@ -6,8 +6,8 @@
 
 ========================================================================
 
-  Copyright © 1993-2021 by id Software LLC, a ZeniMax Media company.
-  Copyright © 2013-2021 by Brad Harding <mailto:brad@doomretro.com>.
+  Copyright © 1993-2022 by id Software LLC, a ZeniMax Media company.
+  Copyright © 2013-2022 by Brad Harding <mailto:brad@doomretro.com>.
 
   DOOM Retro is a fork of Chocolate DOOM. For a list of credits, see
   <https://github.com/bradharding/doomretro/wiki/CREDITS>.
@@ -16,7 +16,7 @@
 
   DOOM Retro is free software: you can redistribute it and/or modify it
   under the terms of the GNU General Public License as published by the
-  Free Software Foundation, either version 3 of the License, or (at your
+  Free Software Foundation, either version 3 of the license, or (at your
   option) any later version.
 
   DOOM Retro is distributed in the hope that it will be useful, but
@@ -36,8 +36,7 @@
 ========================================================================
 */
 
-#if !defined(__SOUNDS_H__)
-#define __SOUNDS_H__
+#pragma once
 
 #include "doomtype.h"
 
@@ -106,8 +105,14 @@ extern musicinfo_t  S_music[];
 
 extern musicinfo_t  *mus_playing;
 
-extern dboolean     midimusictype;
-extern dboolean     musmusictype;
+extern bool         midimusictype;
+extern bool         musmusictype;
+
+#if defined(_WIN32)
+extern bool         windowsmidi;
+#endif
+
+extern int          current_music_volume;
 
 //
 // Identifiers for all music in game.
@@ -198,7 +203,7 @@ enum
 //
 // Identifiers for all sfx in game.
 //
-enum
+typedef enum
 {
     sfx_none,
     sfx_pistol,
@@ -525,6 +530,4 @@ enum
     sfx_fre199,
 
     NUMSFX
-};
-
-#endif
+} sfxenum_t;

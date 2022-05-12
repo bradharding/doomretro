@@ -6,8 +6,8 @@
 
 ========================================================================
 
-  Copyright © 1993-2021 by id Software LLC, a ZeniMax Media company.
-  Copyright © 2013-2021 by Brad Harding <mailto:brad@doomretro.com>.
+  Copyright © 1993-2022 by id Software LLC, a ZeniMax Media company.
+  Copyright © 2013-2022 by Brad Harding <mailto:brad@doomretro.com>.
 
   DOOM Retro is a fork of Chocolate DOOM. For a list of credits, see
   <https://github.com/bradharding/doomretro/wiki/CREDITS>.
@@ -16,7 +16,7 @@
 
   DOOM Retro is free software: you can redistribute it and/or modify it
   under the terms of the GNU General Public License as published by the
-  Free Software Foundation, either version 3 of the License, or (at your
+  Free Software Foundation, either version 3 of the license, or (at your
   option) any later version.
 
   DOOM Retro is distributed in the hope that it will be useful, but
@@ -46,6 +46,8 @@
 #include <X11/XKBlib.h>
 #endif
 
+#include <math.h>
+
 #include "SDL_opengl.h"
 
 #include "am_map.h"
@@ -57,7 +59,7 @@
 #include "g_game.h"
 #include "hu_stuff.h"
 #include "i_colors.h"
-#include "i_gamepad.h"
+#include "i_gamecontroller.h"
 #include "i_system.h"
 #include "i_timer.h"
 #include "m_cheat.h"
@@ -65,7 +67,6 @@
 #include "m_menu.h"
 #include "m_misc.h"
 #include "m_random.h"
-#include "r_main.h"
 #include "s_sound.h"
 #include "st_stuff.h"
 #include "v_video.h"
@@ -82,47 +83,53 @@ int             SCREENAREA;
 int             WIDESCREENDELTA;    // [crispy] horizontal widescreen offset
 int             WIDEFOVDELTA;
 
-dboolean        nowidescreen = false;
+bool            nowidescreen = false;
 
 int             MAPWIDTH;
 unsigned int    MAPHEIGHT = VANILLAHEIGHT * SCREENSCALE;
 unsigned int    MAPAREA;
 int             MAPBOTTOM;
 
-#define I_SDLError(func)        I_Error(stringize(func) "() failed in %s() on line %i of %s with this error:\"%s\".", \
-                                    __FUNCTION__, __LINE__ - 1, leafname(__FILE__), SDL_GetError())
+#if defined(SDL_VIDEO_RENDER_D3D11)
+#define DIRECT3DVERSION "v11.0"
+#else
+#define DIRECT3DVERSION "v9.0"
+#endif
 
-#define MAXDISPLAYS             8
+#define I_SDLError(func)    I_Error(stringize(func) "() failed in %s() on line %i of %s with this error:\"%s\".", \
+                                __FUNCTION__, __LINE__ - 1, leafname(__FILE__), SDL_GetError())
 
-#define MAXUPSCALEWIDTH         (2160 / VANILLAWIDTH)
-#define MAXUPSCALEHEIGHT        (1200 / VANILLAHEIGHT)
+#define MAXDISPLAYS         8
 
-#define SHAKEANGLE              ((double)M_BigRandomInt(-1000, 1000) * r_shake_damage / 100000.0)
+#define MAXUPSCALEWIDTH     (2160 / VANILLAWIDTH)
+#define MAXUPSCALEHEIGHT    (1200 / VANILLAHEIGHT)
+
+#define SHAKEANGLE          ((double)M_BigRandomInt(-1000, 1000) * r_shake_damage / 100000.0)
 
 // CVARs
-dboolean            alwaysrun = alwaysrun_default;
-dboolean            m_acceleration = m_acceleration_default;
+bool                alwaysrun = alwaysrun_default;
+bool                m_acceleration = m_acceleration_default;
 int                 r_color = r_color_default;
 float               r_gamma = r_gamma_default;
-dboolean            vid_borderlesswindow = vid_borderlesswindow_default;
+bool                vid_borderlesswindow = vid_borderlesswindow_default;
 int                 vid_capfps = vid_capfps_default;
 int                 vid_display = vid_display_default;
 #if !defined(_WIN32)
 char                *vid_driver = vid_driver_default;
 #endif
-dboolean            vid_fullscreen = vid_fullscreen_default;
+bool                vid_fullscreen = vid_fullscreen_default;
 int                 vid_motionblur = vid_motionblur_default;
-dboolean            vid_pillarboxes = vid_pillarboxes_default;
+bool                vid_pillarboxes = vid_pillarboxes_default;
 char                *vid_scaleapi = vid_scaleapi_default;
 char                *vid_scalefilter = vid_scalefilter_default;
 char                *vid_screenresolution = vid_screenresolution_default;
-dboolean            vid_showfps = vid_showfps_default;
+bool                vid_showfps = vid_showfps_default;
 int                 vid_vsync = vid_vsync_default;
-dboolean            vid_widescreen = vid_widescreen_default;
+bool                vid_widescreen = vid_widescreen_default;
 char                *vid_windowpos = vid_windowpos_default;
 char                *vid_windowsize = vid_windowsize_default;
 
-static dboolean     manuallypositioning;
+static bool         manuallypositioning;
 
 SDL_Window          *window = NULL;
 static int          windowid;
@@ -137,7 +144,6 @@ static SDL_Palette  *palette;
 static SDL_Color    colors[256];
 byte                *PLAYPAL;
 
-static byte         *oscreen;
 byte                *mapscreen;
 SDL_Window          *mapwindow = NULL;
 SDL_Renderer        *maprenderer;
@@ -149,11 +155,11 @@ static byte         *mappixels;
 static int          mappitch;
 static SDL_Palette  *mappalette;
 
-static dboolean     nearestlinear;
+static bool         nearestlinear;
 static int          upscaledwidth;
 static int          upscaledheight;
 
-static dboolean     software;
+static bool         software;
 
 static int          displayindex;
 static int          numdisplays;
@@ -183,9 +189,9 @@ static int          displayheight;
 static int          displaycenterx;
 static int          displaycentery;
 
-dboolean            windowfocused = true;
+bool                windowfocused = true;
 
-static dboolean     keys[NUMKEYS];
+static bool         keys[NUMKEYS];
 
 static byte         gammatable[GAMMALEVELS][256];
 
@@ -214,14 +220,14 @@ int                 refreshrate;
 HANDLE              CapFPSEvent;
 #endif
 
-static dboolean     capslock;
+static bool         capslock;
 
 evtype_t            lasteventtype = ev_none;
 
 extern int          windowborderwidth;
 extern int          windowborderheight;
 
-dboolean MouseShouldBeGrabbed(void)
+bool MouseShouldBeGrabbed(void)
 {
     // if the window doesn't have focus, never grab it
     if (!windowfocused)
@@ -239,7 +245,7 @@ dboolean MouseShouldBeGrabbed(void)
     return (gamestate == GS_LEVEL);
 }
 
-static void SetShowCursor(dboolean show)
+static void SetShowCursor(bool show)
 {
     SDL_PumpEvents();
     SDL_SetRelativeMouseMode(!show);
@@ -270,7 +276,7 @@ static int translatekey[] =
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 };
 
-dboolean keystate(int key)
+bool keystate(int key)
 {
     const uint8_t   *state = SDL_GetKeyboardState(NULL);
 
@@ -316,16 +322,20 @@ void I_CapFPS(int cap)
 #endif
 }
 
-void FreeSurfaces(void)
+void FreeSurfaces(bool freewindow)
 {
     SDL_FreePalette(palette);
     SDL_FreeSurface(surface);
     SDL_FreeSurface(buffer);
     SDL_DestroyTexture(texture);
     SDL_DestroyTexture(texture_upscaled);
-    SDL_DestroyRenderer(renderer);
-    SDL_DestroyWindow(window);
-    window = NULL;
+
+    if (freewindow)
+    {
+        SDL_DestroyRenderer(renderer);
+        SDL_DestroyWindow(window);
+        window = NULL;
+    }
 }
 
 void I_ShutdownGraphics(void)
@@ -340,7 +350,7 @@ static void ToggleCapsLockState(void)
     keybd_event(VK_CAPITAL, 0x45, KEYEVENTF_KEYUP, (uintptr_t)0);
 }
 #elif defined(X11)
-static void SetCapsLockState(dboolean enabled)
+static void SetCapsLockState(bool enabled)
 {
     Display *dpy = XOpenDisplay(0);
 
@@ -350,7 +360,7 @@ static void SetCapsLockState(dboolean enabled)
 }
 #endif
 
-dboolean GetCapsLockState(void)
+bool GetCapsLockState(void)
 {
 #if defined(_WIN32)
     return (GetKeyState(VK_CAPITAL) & 0xFFFF);
@@ -377,11 +387,11 @@ static int AccelerateMouse(int value)
 
 static short inline clamp(short value, short deadzone)
 {
-    return (ABS(value) < deadzone ? 0 : (gp_analog ? MAX(-SDL_JOYSTICK_AXIS_MAX, value) : SIGN(value) * SDL_JOYSTICK_AXIS_MAX));
+    return (ABS(value) < deadzone ? 0 : (joy_analog ? MAX(-SDL_JOYSTICK_AXIS_MAX, value) : SIGN(value) * SDL_JOYSTICK_AXIS_MAX));
 }
 
-dboolean    altdown = false;
-dboolean    waspaused = false;
+bool    altdown = false;
+bool    waspaused = false;
 
 static const SDL_Scancode keypad[] =
 {
@@ -401,7 +411,7 @@ static void I_GetEvent(void)
         event_t         event;
 
 #if !defined(_WIN32)
-        static dboolean enterdown;
+        static bool     enterdown;
 #endif
 
         switch (Event->type)
@@ -435,22 +445,14 @@ static void I_GetEvent(void)
                 if (event.data2 < SDLK_SPACE || event.data2 > SDLK_z)
                     event.data2 = 0;
 
-                altdown = Event->key.keysym.mod & KMOD_ALT;
+                altdown = (Event->key.keysym.mod & KMOD_ALT);
 
                 if (event.data1)
                 {
-                    if (altdown)
+                    if (altdown && event.data1 == KEY_F4)
                     {
-                        if (event.data1 == KEY_F4)
-                        {
-                            I_Sleep(300);
-                            I_Quit(true);
-                        }
-                        else if (event.data1 == KEY_TAB)
-                        {
-                            event.data1 = 0;
-                            event.data2 = 0;
-                        }
+                        I_Sleep(300);
+                        I_Quit(true);
                     }
 
                     if (!isdigit(event.data2))
@@ -463,7 +465,7 @@ static void I_GetEvent(void)
                     {
                         idbehold = false;
                         HU_ClearMessages();
-                        C_Input(cheat_powerup[6].sequence);
+                        C_Cheat(cheat_powerup[6].sequence);
                         C_Output(s_STSTR_BEHOLD);
                     }
 
@@ -493,7 +495,7 @@ static void I_GetEvent(void)
 
                 event.type = ev_keyup;
                 event.data1 = translatekey[scancode];
-                altdown = Event->key.keysym.mod & KMOD_ALT;
+                altdown = (Event->key.keysym.mod & KMOD_ALT);
                 keydown = 0;
 
 #if !defined(_WIN32)
@@ -516,7 +518,7 @@ static void I_GetEvent(void)
                 {
                     HU_ClearMessages();
                     idbehold = false;
-                    C_Input(cheat_powerup[6].sequence);
+                    C_Cheat(cheat_powerup[6].sequence);
                     C_Output(s_STSTR_BEHOLD);
                 }
 
@@ -541,67 +543,67 @@ static void I_GetEvent(void)
                 switch (Event->caxis.axis)
                 {
                     case SDL_CONTROLLER_AXIS_LEFTX:
-                        if (gp_swapthumbsticks)
-                            gamepadthumbRX = clamp(Event->caxis.value, gamepadrightdeadzone);
+                        if (joy_swapthumbsticks)
+                            gamecontrollerthumbRX = clamp(Event->caxis.value, gamecontrollerrightdeadzone);
                         else
-                            gamepadthumbLX = clamp(Event->caxis.value, gamepadleftdeadzone);
+                            gamecontrollerthumbLX = clamp(Event->caxis.value, gamecontrollerleftdeadzone);
 
-                        event.type = ev_gamepad;
+                        event.type = ev_controller;
                         D_PostEvent(&event);
 
                         break;
 
                     case SDL_CONTROLLER_AXIS_LEFTY:
-                        if (gp_swapthumbsticks)
-                            gamepadthumbRY = clamp(Event->caxis.value, gamepadrightdeadzone);
+                        if (joy_swapthumbsticks)
+                            gamecontrollerthumbRY = clamp(Event->caxis.value, gamecontrollerrightdeadzone);
                         else
-                            gamepadthumbLY = clamp(Event->caxis.value, gamepadleftdeadzone);
+                            gamecontrollerthumbLY = clamp(Event->caxis.value, gamecontrollerleftdeadzone);
 
-                        event.type = ev_gamepad;
+                        event.type = ev_controller;
                         D_PostEvent(&event);
 
                         break;
 
                     case SDL_CONTROLLER_AXIS_RIGHTX:
-                        if (gp_swapthumbsticks)
-                            gamepadthumbLX = clamp(Event->caxis.value, gamepadleftdeadzone);
+                        if (joy_swapthumbsticks)
+                            gamecontrollerthumbLX = clamp(Event->caxis.value, gamecontrollerleftdeadzone);
                         else
-                            gamepadthumbRX = clamp(Event->caxis.value, gamepadrightdeadzone);
+                            gamecontrollerthumbRX = clamp(Event->caxis.value, gamecontrollerrightdeadzone);
 
-                        event.type = ev_gamepad;
+                        event.type = ev_controller;
                         D_PostEvent(&event);
 
                         break;
 
                     case SDL_CONTROLLER_AXIS_RIGHTY:
-                        if (gp_swapthumbsticks)
-                            gamepadthumbLY = clamp(Event->caxis.value, gamepadleftdeadzone);
+                        if (joy_swapthumbsticks)
+                            gamecontrollerthumbLY = clamp(Event->caxis.value, gamecontrollerleftdeadzone);
                         else
-                            gamepadthumbRY = clamp(Event->caxis.value, gamepadrightdeadzone);
+                            gamecontrollerthumbRY = clamp(Event->caxis.value, gamecontrollerrightdeadzone);
 
-                        event.type = ev_gamepad;
+                        event.type = ev_controller;
                         D_PostEvent(&event);
 
                         break;
 
                     case SDL_CONTROLLER_AXIS_TRIGGERLEFT:
-                        if (Event->caxis.value >= GAMEPAD_TRIGGER_THRESHOLD)
-                            gamepadbuttons |= GAMEPAD_LEFT_TRIGGER;
+                        if (Event->caxis.value >= GAMECONTROLLER_TRIGGER_THRESHOLD)
+                            gamecontrollerbuttons |= GAMECONTROLLER_LEFT_TRIGGER;
                         else
-                            gamepadbuttons &= ~GAMEPAD_LEFT_TRIGGER;
+                            gamecontrollerbuttons &= ~GAMECONTROLLER_LEFT_TRIGGER;
 
-                        event.type = ev_gamepad;
+                        event.type = ev_controller;
                         D_PostEvent(&event);
 
                         break;
 
                     case SDL_CONTROLLER_AXIS_TRIGGERRIGHT:
-                        if (Event->caxis.value >= GAMEPAD_TRIGGER_THRESHOLD)
-                            gamepadbuttons |= GAMEPAD_RIGHT_TRIGGER;
+                        if (Event->caxis.value >= GAMECONTROLLER_TRIGGER_THRESHOLD)
+                            gamecontrollerbuttons |= GAMECONTROLLER_RIGHT_TRIGGER;
                         else
-                            gamepadbuttons &= ~GAMEPAD_RIGHT_TRIGGER;
+                            gamecontrollerbuttons &= ~GAMECONTROLLER_RIGHT_TRIGGER;
 
-                        event.type = ev_gamepad;
+                        event.type = ev_controller;
                         D_PostEvent(&event);
 
                         break;
@@ -610,16 +612,16 @@ static void I_GetEvent(void)
                 break;
 
             case SDL_CONTROLLERBUTTONDOWN:
-                gamepadbuttons |= (1 << Event->cbutton.button);
-                event.type = ev_gamepad;
+                gamecontrollerbuttons |= (1 << Event->cbutton.button);
+                event.type = ev_controller;
                 D_PostEvent(&event);
 
                 break;
 
             case SDL_CONTROLLERBUTTONUP:
-                gamepadbuttons &= ~(1 << Event->cbutton.button);
+                gamecontrollerbuttons &= ~(1 << Event->cbutton.button);
                 keydown = 0;
-                event.type = ev_gamepad;
+                event.type = ev_controller;
                 D_PostEvent(&event);
 
                 break;
@@ -649,23 +651,18 @@ static void I_GetEvent(void)
                     {
                         case SDL_WINDOWEVENT_FOCUS_GAINED:
                             windowfocused = true;
-
-                            if (menuactive || consoleactive)
-                                S_ResumeMusic();
-
+                            S_ResumeMusic();
                             I_InitKeyboard();
+
                             break;
 
                         case SDL_WINDOWEVENT_FOCUS_LOST:
                             windowfocused = false;
 
-                            if (gamestate == GS_LEVEL && !paused)
-                            {
-                                if (menuactive || consoleactive)
-                                    S_PauseMusic();
-                                else
-                                    sendpause = true;
-                            }
+                            if (!s_musicinbackground)
+                                S_PauseMusic();
+                            else if (gamestate == GS_LEVEL && !paused)
+                                sendpause = true;
 
                             I_ShutdownKeyboard();
                             break;
@@ -721,12 +718,34 @@ static void I_GetEvent(void)
     }
 }
 
+static void SmoothMouse(int *x, int *y)
+{
+    const fixed_t   tic = (((int64_t)I_GetTimeMS() * TICRATE) % 1000) * FRACUNIT / 1000;
+    const fixed_t   adjustment = FixedDiv(tic, FRACUNIT + tic);
+    static int      xx;
+
+    *x += xx;
+    xx = FixedMul(*x, adjustment);
+    *x -= xx;
+
+    if (mouselook)
+    {
+        static int  yy;
+
+        *y += yy;
+        yy = FixedMul(*y, adjustment);
+        *y -= yy;
+    }
+}
+
 static void I_ReadMouse(void)
 {
     int         x, y;
     static int  prevmousebuttonstate = -1;
 
     SDL_GetRelativeMouseState(&x, &y);
+
+    SmoothMouse(&x, &y);
 
     if (x || y || mousebuttonstate != prevmousebuttonstate)
     {
@@ -746,8 +765,8 @@ static void I_ReadMouse(void)
             ev.data3 = y;
         }
 
-        D_PostEvent(&ev);
         prevmousebuttonstate = mousebuttonstate;
+        D_PostEvent(&ev);
     }
 }
 
@@ -758,13 +777,13 @@ void I_StartTic(void)
 {
     I_GetEvent();
     I_ReadMouse();
-    I_UpdateGamepadVibration();
+    I_UpdateGameControllerRumble();
 }
 
 static void UpdateGrab(void)
 {
-    dboolean        grab = MouseShouldBeGrabbed();
-    static dboolean currently_grabbed;
+    bool        grab = MouseShouldBeGrabbed();
+    static bool currently_grabbed;
 
     if (grab == currently_grabbed)
         return;
@@ -772,11 +791,7 @@ static void UpdateGrab(void)
     if (grab && !currently_grabbed)
         SetShowCursor(false);
     else if (!grab && currently_grabbed)
-    {
         SetShowCursor(true);
-        SDL_WarpMouseInWindow(window, windowwidth - 10 * windowwidth / SCREENWIDTH, windowheight - 16);
-        SDL_GetRelativeMouseState(NULL, NULL);
-    }
 
     currently_grabbed = grab;
 }
@@ -898,7 +913,6 @@ static void I_Blit_Shake(void)
     SDL_LowerBlit(surface, &src_rect, buffer, &src_rect);
     SDL_UpdateTexture(texture, &src_rect, pixels, pitch);
     SDL_RenderClear(renderer);
-    SDL_RenderCopy(renderer, texture, &src_rect, NULL);
     SDL_RenderCopyEx(renderer, texture, &src_rect, NULL, SHAKEANGLE, NULL, SDL_FLIP_NONE);
     SDL_RenderPresent(renderer);
 }
@@ -911,7 +925,6 @@ static void I_Blit_NearestLinear_Shake(void)
     SDL_UpdateTexture(texture, &src_rect, pixels, pitch);
     SDL_RenderClear(renderer);
     SDL_SetRenderTarget(renderer, texture_upscaled);
-    SDL_RenderCopy(renderer, texture, &src_rect, NULL);
     SDL_RenderCopyEx(renderer, texture, &src_rect, NULL, SHAKEANGLE, NULL, SDL_FLIP_NONE);
     SDL_SetRenderTarget(renderer, NULL);
     SDL_RenderCopy(renderer, texture_upscaled, NULL, NULL);
@@ -926,7 +939,6 @@ static void I_Blit_ShowFPS_Shake(void)
     SDL_LowerBlit(surface, &src_rect, buffer, &src_rect);
     SDL_UpdateTexture(texture, &src_rect, pixels, pitch);
     SDL_RenderClear(renderer);
-    SDL_RenderCopy(renderer, texture, &src_rect, NULL);
     SDL_RenderCopyEx(renderer, texture, &src_rect, NULL, SHAKEANGLE, NULL, SDL_FLIP_NONE);
     SDL_RenderPresent(renderer);
 }
@@ -940,7 +952,6 @@ static void I_Blit_NearestLinear_ShowFPS_Shake(void)
     SDL_UpdateTexture(texture, &src_rect, pixels, pitch);
     SDL_RenderClear(renderer);
     SDL_SetRenderTarget(renderer, texture_upscaled);
-    SDL_RenderCopy(renderer, texture, &src_rect, NULL);
     SDL_RenderCopyEx(renderer, texture, &src_rect, NULL, SHAKEANGLE, NULL, SDL_FLIP_NONE);
     SDL_SetRenderTarget(renderer, NULL);
     SDL_RenderCopy(renderer, texture_upscaled, NULL, NULL);
@@ -968,9 +979,9 @@ static void I_Blit_Automap_NearestLinear(void)
     SDL_RenderPresent(maprenderer);
 }
 
-void I_UpdateBlitFunc(dboolean shake)
+void I_UpdateBlitFunc(bool shake)
 {
-    dboolean    nearest = (nearestlinear && (displayheight % VANILLAHEIGHT));
+    const bool  nearest = (nearestlinear && (displayheight % VANILLAHEIGHT));
 
     if (shake && !software)
         blitfunc = (nearest ? (vid_showfps ? &I_Blit_NearestLinear_ShowFPS_Shake : &I_Blit_NearestLinear_Shake) :
@@ -1000,15 +1011,15 @@ void I_SetPalette(byte *playpal)
     }
     else
     {
-        double  color = r_color / 100.0;
+        const double    color = r_color / 100.0;
 
         for (int i = 0; i < 256; i++)
         {
-            byte    *gamma = gammatable[gammaindex];
-            byte    r = gamma[*playpal++];
-            byte    g = gamma[*playpal++];
-            byte    b = gamma[*playpal++];
-            double  p = sqrt((double)r * r * 0.299 + (double)g * g * 0.587 + (double)b * b * 0.114);
+            byte            *gamma = gammatable[gammaindex];
+            const double    r = gamma[*playpal++];
+            const double    g = gamma[*playpal++];
+            const double    b = gamma[*playpal++];
+            const double    p = sqrt(r * r * 0.299 + g * g * 0.587 + b * b * 0.114);
 
             colors[i].r = (byte)(p + (r - p) * color);
             colors[i].g = (byte)(p + (g - p) * color);
@@ -1058,15 +1069,15 @@ void I_SetPaletteWithBrightness(byte *playpal, double brightness)
     }
     else
     {
-        double  color = r_color / 100.0;
+        const double    color = r_color / 100.0;
 
         for (int i = 0; i < 256; i++)
         {
-            byte    *gamma = gammatable[gammaindex];
-            double  r = gamma[*playpal++] * brightness;
-            double  g = gamma[*playpal++] * brightness;
-            double  b = gamma[*playpal++] * brightness;
-            double  p = sqrt(r * r * 0.299 + g * g * 0.587 + b * b * 0.114);
+            byte            *gamma = gammatable[gammaindex];
+            const double    r = gamma[*playpal++] * brightness;
+            const double    g = gamma[*playpal++] * brightness;
+            const double    b = gamma[*playpal++] * brightness;
+            const double    p = sqrt(r * r * 0.299 + g * g * 0.587 + b * b * 0.114);
 
             colors[i].r = (byte)(p + (r - p) * color);
             colors[i].g = (byte)(p + (g - p) * color);
@@ -1075,18 +1086,6 @@ void I_SetPaletteWithBrightness(byte *playpal, double brightness)
     }
 
     SDL_SetPaletteColors(palette, colors, 0, 256);
-}
-
-static void I_RestoreFocus(void)
-{
-#if defined(_WIN32)
-    SDL_SysWMinfo   info;
-
-    SDL_VERSION(&info.version);
-
-    if (SDL_GetWindowWMInfo(window, &info))
-        SetFocus(info.info.win.window);
-#endif
 }
 
 static void GetDisplays(void)
@@ -1104,7 +1103,7 @@ static void GetDisplays(void)
     }
 }
 
-void I_CreateExternalAutomap(int outputlevel)
+bool I_CreateExternalAutomap(void)
 {
     uint32_t    pixelformat;
     uint32_t    rmask;
@@ -1112,33 +1111,33 @@ void I_CreateExternalAutomap(int outputlevel)
     uint32_t    bmask;
     uint32_t    amask;
     int         bpp;
-    int         am_displayindex = !displayindex;
+    const char  *displayname;
 
     mapscreen = *screens;
     mapblitfunc = &nullfunc;
 
     if (!am_external)
-        return;
+        return false;
 
     GetDisplays();
 
-    if (numdisplays == 1)
+    if (am_display > numdisplays || am_display == vid_display)
     {
-        if (outputlevel >= 1 && !togglingvanilla)
-            C_Warning(1, "An external automap couldn't be created. Only one display was found.");
+        if (!togglingvanilla)
+            C_Warning(1, "An external automap couldn't be created. Display %i wasn't found.", am_display);
 
-        return;
+        return false;
     }
 
     if (!(SDL_SetHintWithPriority(SDL_HINT_VIDEO_MINIMIZE_ON_FOCUS_LOSS, "0", SDL_HINT_OVERRIDE)))
         I_SDLError(SDL_SetHintWithPriority);
 
-    if (!mapwindow && !(mapwindow = SDL_CreateWindow("Automap", SDL_WINDOWPOS_UNDEFINED_DISPLAY(am_displayindex),
-        SDL_WINDOWPOS_UNDEFINED_DISPLAY(am_displayindex), 0, 0, (SDL_WINDOW_FULLSCREEN_DESKTOP | SDL_WINDOW_SKIP_TASKBAR))))
+    if (!mapwindow && !(mapwindow = SDL_CreateWindow("Automap", SDL_WINDOWPOS_UNDEFINED_DISPLAY(am_display - 1),
+        SDL_WINDOWPOS_UNDEFINED_DISPLAY(am_display - 1), 0, 0, (SDL_WINDOW_FULLSCREEN_DESKTOP | SDL_WINDOW_SKIP_TASKBAR))))
         I_SDLError(SDL_CreateWindow);
 
     MAPHEIGHT = VANILLAHEIGHT * SCREENSCALE;
-    MAPWIDTH = MIN((displays[am_displayindex].w * MAPHEIGHT / displays[am_displayindex].h + 1) & ~3, MAXWIDTH);
+    MAPWIDTH = MIN(((displays[am_display - 1].w * MAPHEIGHT / displays[am_display - 1].h + 1) & ~3), MAXWIDTH);
     MAPAREA = MAPWIDTH * MAPHEIGHT;
 
     if (!(maprenderer = SDL_CreateRenderer(mapwindow, -1, SDL_RENDERER_TARGETTEXTURE)))
@@ -1193,20 +1192,17 @@ void I_CreateExternalAutomap(int outputlevel)
         I_SDLError(SDL_SetPaletteColors);
 
     mapscreen = mapsurface->pixels;
+    memset(mapscreen, nearestblack, MAPAREA);
+
     map_rect.w = MAPWIDTH;
     map_rect.h = MAPHEIGHT;
 
-    I_RestoreFocus();
+    if ((displayname = SDL_GetDisplayName(am_display - 1)))
+        C_Output("Using \"%s\" (display %i of %i) to show an external automap.", displayname, am_display, numdisplays);
+    else
+        C_Output("Using display %i of %i to show an external automap.", am_display, numdisplays);
 
-    if (outputlevel == 2)
-    {
-        const char  *displayname = SDL_GetDisplayName(am_displayindex);
-
-        if (*displayname)
-            C_Output("Created an external automap on \"%s\" (display %i).", displayname, am_displayindex + 1);
-        else
-            C_Output("Created an external automap on display %i.", am_displayindex + 1);
-    }
+    return true;
 }
 
 void I_DestroyExternalAutomap(void)
@@ -1233,7 +1229,7 @@ void GetWindowPosition(void)
         windowx = 0;
         windowy = 0;
     }
-    else if (sscanf(vid_windowpos, "(%10d,%10d)", &x, &y) != 2)
+    else if (sscanf(vid_windowpos, "(%10i,%10i)", &x, &y) != 2)
     {
         windowx = 0;
         windowy = 0;
@@ -1263,8 +1259,8 @@ void GetWindowSize(void)
     {
         char    *temp1 = uncommify(width);
         char    *temp2 = uncommify(height);
-        int     w = atoi(temp1);
-        int     h = atoi(temp2);
+        int     w = strtol(temp1, NULL, 10);
+        int     h = strtol(temp2, NULL, 10);
 
         if (w < VANILLAWIDTH + windowborderwidth || h < VANILLAWIDTH * 3 / 4 + windowborderheight)
         {
@@ -1290,7 +1286,7 @@ void GetWindowSize(void)
     }
 }
 
-static dboolean ValidScreenMode(int width, int height)
+static bool ValidScreenMode(int width, int height)
 {
     const int   modes = SDL_GetNumDisplayModes(displayindex);
 
@@ -1319,7 +1315,7 @@ void GetScreenResolution(void)
         int width;
         int height;
 
-        if (sscanf(vid_screenresolution, "%10dx%10d", &width, &height) != 2 || !ValidScreenMode(width, height))
+        if (sscanf(vid_screenresolution, "%10ix%10i", &width, &height) != 2 || !ValidScreenMode(width, height))
         {
             screenwidth = 0;
             screenheight = 0;
@@ -1348,7 +1344,7 @@ static char *getaspectratio(int width, int height)
         height *= 2;
     }
 
-    M_snprintf(ratio, sizeof(ratio), "%s %i:%i", (width == 8 ? "an" : "a"), width, height);
+    M_snprintf(ratio, sizeof(ratio), "%i:%i", width, height);
     return ratio;
 }
 
@@ -1377,7 +1373,7 @@ void I_SetMotionBlur(int percent)
     }
 }
 
-static void SetVideoMode(dboolean createwindow, dboolean output)
+static void SetVideoMode(bool createwindow, bool output)
 {
     int                 rendererflags = SDL_RENDERER_TARGETTEXTURE;
     int                 windowflags = SDL_WINDOW_RESIZABLE;
@@ -1390,35 +1386,32 @@ static void SetVideoMode(dboolean createwindow, dboolean output)
     int                 bpp = 0;
     SDL_RendererInfo    rendererinfo;
     const char          *displayname = SDL_GetDisplayName((displayindex = vid_display - 1));
+    bool                instead = false;
 
-    if (displayindex < 0 || displayindex >= numdisplays)
+    if (displayindex >= numdisplays)
     {
         if (output)
-            C_Warning(1, "Unable to find display %i.", vid_display);
+            C_Warning(1, "Display %i couldn't be found.", vid_display);
 
         displayname = SDL_GetDisplayName((displayindex = vid_display_default - 1));
+        instead = true;
     }
 
     if (output)
     {
         if (displayname)
-        {
-            if (numdisplays == 1)
-                C_Output("Using the \"%s\" display.", displayname);
-            else
-                C_Output("Using \"%s\" (display %i of %i).", displayname, displayindex + 1, numdisplays);
-        }
+            C_Output("Using \"%s\" (display %i of %i)%s.",
+                displayname, displayindex + 1, numdisplays, (instead ? " instead" : ""));
         else
-        {
-            if (numdisplays != 1)
-                C_Output("Using display %i of %i.", displayindex + 1, numdisplays);
-        }
+            C_Output("Using display %i of %i%s.",
+                displayindex + 1, numdisplays, (instead ? " instead" : ""));
     }
 
-    if (nowidescreen)
+    if (nowidescreen && output)
     {
         consolecmds[C_GetIndex(stringize(vid_widescreen))].flags |= CF_READONLY;
-        C_Warning(0, "The aspect ratio of this display is too low to support widescreen modes.");
+        C_Warning(1, "The aspect ratio of display %i is too low to show " ITALICS(DOOMRETRO_NAME) " in widescreen.",
+            displayindex + 1);
     }
 
     if (vid_vsync)
@@ -1473,7 +1466,7 @@ static void SetVideoMode(dboolean createwindow, dboolean output)
                 char    *temp1 = commify(width);
                 char    *temp2 = commify(height);
 
-                C_Output("Staying at the native desktop resolution of %sx%s with %s aspect ratio.",
+                C_Output("Staying at the native desktop resolution of %sx%s with a %s aspect ratio.",
                     temp1, temp2, getaspectratio(width, height));
 
                 free(temp1);
@@ -1495,7 +1488,7 @@ static void SetVideoMode(dboolean createwindow, dboolean output)
                 char    *temp1 = commify(width);
                 char    *temp2 = commify(height);
 
-                C_Output("Switched to a resolution of %sx%s with %s aspect ratio.", temp1, temp2, getaspectratio(width, height));
+                C_Output("Switched to a resolution of %sx%s with a %s aspect ratio.", temp1, temp2, getaspectratio(width, height));
 
                 free(temp1);
                 free(temp2);
@@ -1569,7 +1562,7 @@ static void SetVideoMode(dboolean createwindow, dboolean output)
         }
     }
 
-    if (SDL_RenderSetLogicalSize(renderer, SCREENWIDTH * !vid_widescreen, ACTUALHEIGHT) < 0)
+    if (SDL_RenderSetLogicalSize(renderer, !vid_widescreen * SCREENWIDTH, ACTUALHEIGHT) < 0)
         I_SDLError(SDL_RenderSetLogicalSize);
 
     if (output)
@@ -1625,8 +1618,7 @@ static void SetVideoMode(dboolean createwindow, dboolean output)
                     I_SDLError(SDL_SetHintWithPriority);
 
                 if (output)
-                    C_Output("This scaling is now done using hardware acceleration with " ITALICS("Direct3D %s."),
-                        (SDL_VIDEO_RENDER_D3D11 ? "v11.0" : "v9.0"));
+                    C_Output("This scaling is now done using hardware acceleration with " ITALICS("Direct3D " DIRECT3DVERSION "."));
 #endif
             }
             else
@@ -1645,8 +1637,7 @@ static void SetVideoMode(dboolean createwindow, dboolean output)
         else if (M_StringCompare(rendererinfo.name, vid_scaleapi_direct3d))
         {
             if (output)
-                C_Output("This scaling is done using hardware acceleration with " ITALICS("Direct3D %s."),
-                    (SDL_VIDEO_RENDER_D3D11 ? "v11.0" : "v9.0"));
+                C_Output("This scaling is done using hardware acceleration with " ITALICS("Direct3D " DIRECT3DVERSION "."));
 
             if (!M_StringCompare(vid_scaleapi, vid_scaleapi_direct3d))
             {
@@ -1654,7 +1645,7 @@ static void SetVideoMode(dboolean createwindow, dboolean output)
                 M_SaveCVARs();
             }
         }
-#endif
+#else
         else if (M_StringCompare(rendererinfo.name, vid_scaleapi_opengles))
         {
             if (output)
@@ -1665,6 +1656,7 @@ static void SetVideoMode(dboolean createwindow, dboolean output)
             if (output)
                 C_Output("This scaling is done using hardware acceleration with " ITALICS("OpenGL ES 2."));
         }
+#endif
         else if (M_StringCompare(rendererinfo.name, vid_scaleapi_software))
         {
             software = true;
@@ -1770,8 +1762,9 @@ static void SetVideoMode(dboolean createwindow, dboolean output)
     {
         wadfile_t   *playpalwad = lumpinfo[W_CheckNumForName("PLAYPAL")]->wadfile;
 
-        C_Output("Using the 256-color palette from the " BOLD("PLAYPAL") " lump in the %s " BOLD("%s") ".",
-            (playpalwad->type == IWAD ? "IWAD" : "PWAD"), playpalwad->path);
+        if (!M_StringCompare(leafname(playpalwad->path), DOOMRETRO_WAD) && !devparm)
+            C_Output("Using the 256-color palette from the " BOLD("PLAYPAL") " lump in the %s " BOLD("%s") ".",
+                (playpalwad->type == IWAD ? "IWAD" : "PWAD"), playpalwad->path);
 
         if (gammaindex == 10)
             C_Output("There is no gamma correction.");
@@ -1859,7 +1852,7 @@ static void I_GetScreenDimensions(void)
             height = windowheight;
         }
 
-        SCREENWIDTH = MIN((width * ACTUALHEIGHT / height + 1) & ~3, MAXWIDTH);
+        SCREENWIDTH = MIN(((width * ACTUALHEIGHT / height + 1) & ~3), MAXWIDTH);
 
         // r_fov * 0.82 is vertical FOV for 4:3 aspect ratio
         WIDEFOVDELTA = (int)(atan(width / (height / tan(r_fov * 0.82 * M_PI / 360.0))) * 360.0 / M_PI) - r_fov;
@@ -1877,10 +1870,9 @@ static void I_GetScreenDimensions(void)
     GetPixelSize();
 }
 
-void I_RestartGraphics(dboolean recreatewindow)
+void I_RestartGraphics(bool recreatewindow)
 {
-    if (recreatewindow)
-        FreeSurfaces();
+    FreeSurfaces(recreatewindow);
 
     I_GetScreenDimensions();
 
@@ -1936,9 +1928,6 @@ void I_ToggleFullscreen(void)
         displaycentery = displayheight / 2;
 
         PositionOnCurrentDisplay();
-
-        if (menuactive || consoleactive || paused || gamestate != GS_LEVEL)
-            SDL_WarpMouseInWindow(window, windowwidth - 10 * windowwidth / SCREENWIDTH, windowheight - 16);
     }
 }
 
@@ -2024,7 +2013,9 @@ void I_InitGraphics(void)
         SDL_setenv("SDL_VIDEODRIVER", vid_driver, true);
 #endif
 
-    SDL_InitSubSystem(SDL_INIT_VIDEO);
+    if (SDL_InitSubSystem(SDL_INIT_VIDEO) < 0)
+        I_SDLError(SDL_InitSubSystem);
+
     GetDisplays();
 
 #if defined(_DEBUG)
@@ -2034,16 +2025,16 @@ void I_InitGraphics(void)
     I_GetScreenDimensions();
 
 #if defined(_WIN32)
-    SDL_SetHintWithPriority(SDL_HINT_VIDEO_MINIMIZE_ON_FOCUS_LOSS, "1", SDL_HINT_OVERRIDE);
+    if (!(SDL_SetHintWithPriority(SDL_HINT_VIDEO_MINIMIZE_ON_FOCUS_LOSS, "1", SDL_HINT_OVERRIDE)))
+        I_SDLError(SDL_SetHintWithPriority);
 #endif
 
     SetVideoMode(true, true);
 
+    I_CreateExternalAutomap();
+
     if (vid_fullscreen)
         SetShowCursor(false);
-
-    mapscreen = oscreen = malloc(MAXSCREENAREA);
-    I_CreateExternalAutomap(2);
 
 #if defined(_WIN32)
     I_InitWindows32();
@@ -2056,10 +2047,7 @@ void I_InitGraphics(void)
     blitfunc();
 
     if (mapwindow)
-    {
-        memset(mapscreen, nearestblack, MAPAREA);
         mapblitfunc();
-    }
 
     while (SDL_PollEvent(&dummy));
 }

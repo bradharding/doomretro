@@ -6,8 +6,8 @@
 
 ========================================================================
 
-  Copyright © 1993-2021 by id Software LLC, a ZeniMax Media company.
-  Copyright © 2013-2021 by Brad Harding <mailto:brad@doomretro.com>.
+  Copyright © 1993-2022 by id Software LLC, a ZeniMax Media company.
+  Copyright © 2013-2022 by Brad Harding <mailto:brad@doomretro.com>.
 
   DOOM Retro is a fork of Chocolate DOOM. For a list of credits, see
   <https://github.com/bradharding/doomretro/wiki/CREDITS>.
@@ -16,7 +16,7 @@
 
   DOOM Retro is free software: you can redistribute it and/or modify it
   under the terms of the GNU General Public License as published by the
-  Free Software Foundation, either version 3 of the License, or (at your
+  Free Software Foundation, either version 3 of the license, or (at your
   option) any later version.
 
   DOOM Retro is distributed in the hope that it will be useful, but
@@ -96,11 +96,13 @@ static channel_t    *channels;
 static sobj_t       *sobjs;
 
 int                 s_channels = s_channels_default;
+bool                s_lowermenumusic = s_lowermenumusic_default;
+bool                s_musicinbackground = s_musicinbackground_default;
 int                 s_musicvolume = s_musicvolume_default;
-dboolean            s_randommusic = s_randommusic_default;
-dboolean            s_randompitch = s_randompitch_default;
+bool                s_randommusic = s_randommusic_default;
+bool                s_randompitch = s_randompitch_default;
 int                 s_sfxvolume = s_sfxvolume_default;
-dboolean            s_stereo = s_stereo_default;
+bool                s_stereo = s_stereo_default;
 
 // Maximum volume of a sound effect.
 // Internal default is max out of 0-31.
@@ -113,19 +115,15 @@ int                 musicVolume;
 static int          snd_SfxVolume;
 
 // Whether songs are mus_paused
-static dboolean     mus_paused;
+static bool         mus_paused;
 
 // Music currently being played
 musicinfo_t         *mus_playing;
 
-dboolean            nosfx;
-dboolean            nomusic;
+bool                nosfx;
+bool                nomusic;
 
 musinfo_t           musinfo;
-
-#if defined(_WIN32)
-extern dboolean     serverMidiPlaying;
-#endif
 
 // Initialize sound effects.
 static void InitSfxModule(void)
@@ -284,18 +282,16 @@ void S_StopSounds(void)
 
     for (int cnum = 0; cnum < s_channels; cnum++)
         if (channels[cnum].sfxinfo)
-            S_StopChannel(cnum);
+            I_FadeOutSound(cnum);
 }
 
 static int S_GetMusicNum(void)
 {
-    int mnum;
-
     if (gamemode == commercial)
     {
         if (gamemission == pack_nerve)
         {
-            int nmus[] =
+            const int   nmus[] =
             {
                 mus_messag,
                 mus_ddtblu,
@@ -308,21 +304,21 @@ static int S_GetMusicNum(void)
                 mus_ddtblu
             };
 
-            mnum = nmus[(s_randommusic ? M_RandomIntNoRepeat(1, 9, gamemap) : gamemap) - 1];
+            return nmus[(s_randommusic ? M_RandomIntNoRepeat(1, 9, gamemap) : gamemap) - 1];
         }
         else
-            mnum = mus_runnin + (s_randommusic ? M_RandomIntNoRepeat(1, 32, gamemap) : gamemap) - 1;
+            return (mus_runnin + (s_randommusic ? M_RandomIntNoRepeat(1, 32, gamemap) : gamemap) - 1);
     }
     else
     {
         if (gameepisode < 4)
-            mnum = mus_e1m1 + (s_randommusic ? M_RandomIntNoRepeat(1, 21, (gameepisode - 1) * 9 + gamemap) :
-                (gameepisode - 1) * 9 + gamemap) - 1;
+            return (mus_e1m1 + (s_randommusic ? M_RandomIntNoRepeat(1, 21, (gameepisode - 1) * 9 + gamemap) :
+                (gameepisode - 1) * 9 + gamemap) - 1);
         else if (gameepisode == 5 && sigil)
-            mnum = mus_e5m1 + (s_randommusic ? M_RandomIntNoRepeat(1, 9, gamemap) : gamemap) - 1;
+            return (mus_e5m1 + (s_randommusic ? M_RandomIntNoRepeat(1, 9, gamemap) : gamemap) - 1);
         else
         {
-            int spmus[] =
+            const int   spmus[] =
             {
                 // Song - Who? - Where?
                 mus_e3m4,   // American     E4M1
@@ -336,11 +332,9 @@ static int S_GetMusicNum(void)
                 mus_e1m9    // Tim          E4M9
             };
 
-            mnum = spmus[(s_randommusic ? M_RandomIntNoRepeat(1, 9, gamemap) : gamemap) - 1];
+            return spmus[(s_randommusic ? M_RandomIntNoRepeat(1, 9, gamemap) : gamemap) - 1];
         }
     }
-
-    return mnum;
 }
 
 //
@@ -428,11 +422,10 @@ static int S_GetChannel(mobj_t *origin, sfxinfo_t *sfxinfo)
 // Changes volume and stereo-separation variables from the norm of a sound
 // effect to be played. If the sound is not audible, returns false. Otherwise,
 // modifies parameters and returns true.
-static dboolean S_AdjustSoundParms(mobj_t *origin, int *vol, int *sep)
+static bool S_AdjustSoundParms(mobj_t *origin, int *vol, int *sep)
 {
     fixed_t     dist = 0;
     mobj_t      *listener = viewplayer->mo;
-    dboolean    boss = (origin->flags2 & MF2_BOSS);
     fixed_t     x = origin->x;
     fixed_t     y = origin->y;
 
@@ -457,7 +450,7 @@ static dboolean S_AdjustSoundParms(mobj_t *origin, int *vol, int *sep)
         return (*vol > 0);
     }
 
-    if (!boss && dist > S_CLIPPING_DIST)
+    if (dist > S_CLIPPING_DIST)
         return false;
 
     // stereo separation
@@ -473,7 +466,7 @@ static dboolean S_AdjustSoundParms(mobj_t *origin, int *vol, int *sep)
     }
 
     // volume calculation
-    *vol = (dist < S_CLOSE_DIST || boss ? snd_SfxVolume : snd_SfxVolume * (S_CLIPPING_DIST - dist) / S_ATTENUATOR);
+    *vol = (dist < S_CLOSE_DIST ? snd_SfxVolume : snd_SfxVolume * (S_CLIPPING_DIST - dist) / S_ATTENUATOR);
 
     return (*vol > 0);
 }
@@ -597,12 +590,7 @@ void S_SetMusicVolume(int volume)
 
 void S_LowerMusicVolume(void)
 {
-#if defined(_WIN32)
-    if (!serverMidiPlaying && (musmusictype || midimusictype || Mix_GetMusicType(NULL) == MUS_MID))
-        return;
-#endif
-
-    S_SetMusicVolume(musicVolume * MIX_MAX_VOLUME / 31 / LOWER_MUSIC_VOLUME_FACTOR);
+    S_SetMusicVolume((int)(musicVolume * MIX_MAX_VOLUME / 31 / (s_lowermenumusic ? LOWER_MUSIC_VOLUME_FACTOR : 1.0f)));
 }
 
 void S_SetSfxVolume(int volume)
@@ -615,7 +603,7 @@ void S_StartMusic(int music_id)
     S_ChangeMusic(music_id, false, false, false);
 }
 
-void S_ChangeMusic(int music_id, dboolean looping, dboolean allowrestart, dboolean mapstart)
+void S_ChangeMusic(int music_id, bool looping, bool allowrestart, bool mapstart)
 {
     musicinfo_t *music = &S_music[music_id];
     char        namebuf[9];
@@ -624,6 +612,7 @@ void S_ChangeMusic(int music_id, dboolean looping, dboolean allowrestart, dboole
 
     // current music which should play
     musinfo.current_item = -1;
+    S_music[mus_musinfo].lumpnum = -1;
 
     if (nomusic || (mus_playing == music && !allowrestart))
         return;
@@ -656,22 +645,20 @@ void S_ChangeMusic(int music_id, dboolean looping, dboolean allowrestart, dboole
         return;
     }
 
-    // load & register it
+    // load and register it
     music->data = W_CacheLumpNum(music->lumpnum);
 
     if (!(handle = I_RegisterSong(music->data, W_LumpLength(music->lumpnum))))
 #if defined(_WIN32)
-        if (!serverMidiPlaying)
+        if (!midimusictype || !windowsmidi)
 #endif
         {
-            char    *filename = M_StringJoin(namebuf, ".mp3", NULL);
-            char    *path = M_TempFile(filename);
+            char    *filename = M_TempFile(DOOMRETRO ".mp3");
 
-            if (W_WriteFile(path, music->data, W_LumpLength(music->lumpnum)))
-                handle = Mix_LoadMUS(path);
+            if (W_WriteFile(filename, music->data, W_LumpLength(music->lumpnum)))
+                handle = Mix_LoadMUS(filename);
 
             free(filename);
-            free(path);
 
             if (!handle)
             {
@@ -685,6 +672,8 @@ void S_ChangeMusic(int music_id, dboolean looping, dboolean allowrestart, dboole
         }
 
     music->handle = handle;
+
+    S_SetMusicVolume(musicVolume * MIX_MAX_VOLUME / 31);
 
     // Play it
     I_PlaySong(handle, looping);
@@ -708,8 +697,11 @@ void S_StopMusic(void)
         I_ResumeSong();
 
     I_StopSong();
-    I_UnRegisterSong(mus_playing->handle);
-    W_ReleaseLumpNum(mus_playing->lumpnum);
+    I_UnregisterSong(mus_playing->handle);
+
+    if (mus_playing->lumpnum >= 0)
+        W_ReleaseLumpNum(mus_playing->lumpnum);
+
     mus_playing->data = NULL;
     mus_playing = NULL;
 }
@@ -717,11 +709,9 @@ void S_StopMusic(void)
 void S_ChangeMusInfoMusic(int lumpnum, int looping)
 {
     musicinfo_t *music;
+    void        *handle;
 
-    if (nomusic)
-        return;
-
-    if (mus_playing && mus_playing->lumpnum == lumpnum)
+    if (nomusic || (mus_playing && mus_playing->lumpnum == lumpnum))
         return;
 
     music = &S_music[mus_musinfo];
@@ -735,14 +725,34 @@ void S_ChangeMusInfoMusic(int lumpnum, int looping)
     // save lumpnum
     music->lumpnum = lumpnum;
 
-    // load & register it
-    music->data = W_CacheLumpNum(music->lumpnum);
-    music->handle = I_RegisterSong(music->data, W_LumpLength(music->lumpnum));
+    // load and register it
+    music->data = W_CacheLumpNum(lumpnum);
+
+    if (!(handle = I_RegisterSong(music->data, W_LumpLength(lumpnum))))
+#if defined(_WIN32)
+        if (!midimusictype || !windowsmidi)
+#endif
+        {
+            char    *filename = M_TempFile(DOOMRETRO ".mp3");
+
+            if (W_WriteFile(filename, music->data, W_LumpLength(lumpnum)))
+                handle = Mix_LoadMUS(filename);
+
+            free(filename);
+
+            if (!handle)
+                return;
+        }
+
+    music->handle = handle;
+
+    S_SetMusicVolume(musicVolume * MIX_MAX_VOLUME / 31);
 
     // play it
-    I_PlaySong(music->handle, looping);
+    I_PlaySong(handle, looping);
 
     mus_playing = music;
+    M_StringCopy(mus_playing->name1, lumpinfo[lumpnum]->name, sizeof(mus_playing->name1));
 
     musinfo.current_item = lumpnum;
 }
@@ -779,7 +789,7 @@ void S_ParseMusInfo(char *mapid)
                     break;
 
                 // Check number in range
-                if (M_StrToInt(sc_String, &num) && num > 0 && num < MAX_MUS_ENTRIES && SC_GetString())
+                if (M_StrToInt(sc_String, (int *)&num) && num > 0 && num < MAX_MUS_ENTRIES && SC_GetString())
                 {
                     int lumpnum = W_CheckNumForName(sc_String);
 

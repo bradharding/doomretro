@@ -6,8 +6,8 @@
 
 ========================================================================
 
-  Copyright © 1993-2021 by id Software LLC, a ZeniMax Media company.
-  Copyright © 2013-2021 by Brad Harding <mailto:brad@doomretro.com>.
+  Copyright © 1993-2022 by id Software LLC, a ZeniMax Media company.
+  Copyright © 2013-2022 by Brad Harding <mailto:brad@doomretro.com>.
 
   DOOM Retro is a fork of Chocolate DOOM. For a list of credits, see
   <https://github.com/bradharding/doomretro/wiki/CREDITS>.
@@ -16,7 +16,7 @@
 
   DOOM Retro is free software: you can redistribute it and/or modify it
   under the terms of the GNU General Public License as published by the
-  Free Software Foundation, either version 3 of the License, or (at your
+  Free Software Foundation, either version 3 of the license, or (at your
   option) any later version.
 
   DOOM Retro is distributed in the hope that it will be useful, but
@@ -36,8 +36,7 @@
 ========================================================================
 */
 
-#if !defined(__P_FIX_H__)
-#define __P_FIX_H__
+#pragma once
 
 #include "m_fixed.h"
 
@@ -45,6 +44,7 @@
 #define REMOVE  0
 
 #define E2M2    (gamemission == doom && gameepisode == 2 && gamemap == 2 && canmodify)
+#define E2M7    (gamemission == doom && gameepisode == 2 && gamemap == 7 && canmodify)
 #define E4M3    (gamemission == doom && gameepisode == 4 && gamemap == 3 && canmodify)
 #define MAP04   (gamemission == doom2 && gamemap == 4 && canmodify)
 #define MAP12   (gamemission == doom2 && gamemap == 12 && canmodify)
@@ -110,5 +110,3 @@ typedef struct
 } thingfix_t;
 
 extern thingfix_t   thingfix[];
-
-#endif

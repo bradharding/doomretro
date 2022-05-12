@@ -6,8 +6,8 @@
 
 ========================================================================
 
-  Copyright © 1993-2021 by id Software LLC, a ZeniMax Media company.
-  Copyright © 2013-2021 by Brad Harding <mailto:brad@doomretro.com>.
+  Copyright © 1993-2022 by id Software LLC, a ZeniMax Media company.
+  Copyright © 2013-2022 by Brad Harding <mailto:brad@doomretro.com>.
 
   DOOM Retro is a fork of Chocolate DOOM. For a list of credits, see
   <https://github.com/bradharding/doomretro/wiki/CREDITS>.
@@ -16,7 +16,7 @@
 
   DOOM Retro is free software: you can redistribute it and/or modify it
   under the terms of the GNU General Public License as published by the
-  Free Software Foundation, either version 3 of the License, or (at your
+  Free Software Foundation, either version 3 of the license, or (at your
   option) any later version.
 
   DOOM Retro is distributed in the hope that it will be useful, but
@@ -39,7 +39,7 @@
 #if defined(_WIN32)
 #pragma warning( disable : 4091 )
 
-#include <ShlObj.h>
+#include <Windows.h>
 #include <io.h>
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -61,6 +61,7 @@
 
 #include "c_console.h"
 #include "i_system.h"
+#include "m_config.h"
 #include "m_misc.h"
 #include "version.h"
 #include "w_file.h"
@@ -89,9 +90,7 @@
 #endif
 #endif
 
-//
 // Create a directory
-//
 void M_MakeDirectory(const char *path)
 {
 #if defined(_WIN32)
@@ -102,7 +101,7 @@ void M_MakeDirectory(const char *path)
 }
 
 // Check if a file exists
-dboolean M_FileExists(const char *filename)
+bool M_FileExists(const char *filename)
 {
     FILE    *fstream = fopen(filename, "r");
 
@@ -170,7 +169,7 @@ char *M_FileCaseExists(const char *path)
 #endif
 
 // Check if a folder exists
-dboolean M_FolderExists(const char *folder)
+bool M_FolderExists(const char *folder)
 {
     struct stat status;
 
@@ -240,7 +239,11 @@ char *M_GetAppDataFolder(void)
         closedir(resourcedir);
         free(executablefolder);
 
+#if defined(__HAIKU__)
+        return M_StringJoin(buffer, DIR_SEPARATOR_S "config" DIR_SEPARATOR_S "settings" DIR_SEPARATOR_S DOOMRETRO, NULL);
+#else
         return M_StringJoin(buffer, DIR_SEPARATOR_S ".config" DIR_SEPARATOR_S DOOMRETRO, NULL);
+#endif
 #endif
     }
     else
@@ -320,41 +323,41 @@ char *M_GetExecutableFolder(void)
         return M_StringDuplicate(dirname(exe));
     }
 #elif defined(__FreeBSD__) || defined(__DragonFly__)
-    char    *exe = malloc(MAX_PATH);
+    char    exe[MAX_PATH];
     size_t  len = MAX_PATH;
     int     mib[] = { CTL_KERN, KERN_PROC, KERN_PROC_PATHNAME, -1 };
 
     if (!sysctl(mib, 4, exe, &len, NULL, 0))
     {
         exe[len] = '\0';
-        return dirname(exe);
+        return M_StringDuplicate(dirname(exe));
     }
     else
     {
         strcpy(exe, ".");
-        return exe;
+        return M_StringDuplicate(exe);
     }
 #elif defined(__APPLE__)
-    char        *exe = malloc(MAX_PATH);
+    char        exe[MAX_PATH];
     uint32_t    len = MAX_PATH;
 
     if (_NSGetExecutablePath(exe, &len))
     {
         strcpy(exe, ".");
-        return exe;
+        return M_StringDuplicate(exe);
     }
 
-    return dirname(exe);
+    return M_StringDuplicate(dirname(exe));
 #elif defined(__HAIKU__)
-    char    *exe = malloc(MAX_PATH);
+    char    exe[MAX_PATH];
 
     exe[0] = '\0';
 
     if (find_path(B_APP_IMAGE_SYMBOL, B_FIND_PATH_IMAGE_PATH, NULL, exe, MAX_PATH) == B_OK)
-        return dirname(exe);
+        return M_StringDuplicate(dirname(exe));
 
     strcpy(exe, ".");
-    return exe;
+    return M_StringDuplicate(exe);
 #else
     char    *folder = malloc(2);
 
@@ -381,7 +384,7 @@ char *M_TempFile(char *s)
 
 // Return a newly-malloced string with all the strings given as arguments
 // concatenated together.
-char *M_StringJoin(char *s, ...)
+char *M_StringJoin(const char *s, ...)
 {
     char        *result;
     const char  *v;
@@ -420,17 +423,13 @@ char *M_StringJoin(char *s, ...)
     return result;
 }
 
-dboolean M_StrToInt(const char *str, unsigned int *result)
+bool M_StrToInt(const char *str, int *result)
 {
-    return (sscanf(str, " 0x%2x", result) == 1 || sscanf(str, " 0X%2x", result) == 1
-        || sscanf(str, " 0%3o", result) == 1 || sscanf(str, " %10u", result) == 1);
+    return (sscanf(str, " 0x%2x", (unsigned int *)result) == 1 || sscanf(str, " 0X%2x", (unsigned int *)result) == 1
+        || sscanf(str, " 0%3o", (unsigned int *)result) == 1 || sscanf(str, " %12d", result) == 1);
 }
 
-//
-// M_StrCaseStr
-//
 // Case-insensitive version of strstr()
-//
 const char *M_StrCaseStr(const char *haystack, const char *needle)
 {
     int haystack_len = (int)strlen(haystack);
@@ -483,15 +482,13 @@ static char *stristr(char *ch1, char *ch2)
     return chRet;
 }
 
-//
 // String replace function.
-//
-char *M_StringReplace(char *haystack, char *needle, const char *replacement)
+char *M_StringReplace(char *haystack, const char *needle, const char *replacement)
 {
     static char buffer[4096];
     char        *p;
 
-    if (!(p = stristr(haystack, needle)))
+    if (!(p = stristr(haystack, (char *)needle)))
         return haystack;
 
     strncpy(buffer, haystack, p - haystack);
@@ -501,7 +498,7 @@ char *M_StringReplace(char *haystack, char *needle, const char *replacement)
     return buffer;
 }
 
-void M_StringReplaceAll(char *haystack, char *needle, const char *replacement)
+void M_StringReplaceAll(char *haystack, const char *needle, const char *replacement)
 {
     char    buffer[1024] = "";
     char    *insert_point = &buffer[0];
@@ -511,7 +508,7 @@ void M_StringReplaceAll(char *haystack, char *needle, const char *replacement)
 
     while (true)
     {
-        char    *p = stristr(tmp, needle);
+        char    *p = stristr(tmp, (char *)needle);
 
         if (!p)
         {
@@ -544,32 +541,32 @@ char *M_StringDuplicate(const char *orig)
 
 // Returns true if str1 and str2 are the same.
 // (Case-insensitive, return value reverse of strcasecmp() to avoid confusion.
-dboolean M_StringCompare(const char *str1, const char *str2)
+bool M_StringCompare(const char *str1, const char *str2)
 {
     return !strcasecmp(str1, str2);
 }
 
 // Returns true if string begins with the specified prefix.
-dboolean M_StringStartsWith(const char *s, const char *prefix)
+bool M_StringStartsWith(const char *s, const char *prefix)
 {
-    size_t  len = strlen(prefix);
+    const size_t    len = strlen(prefix);
 
     return (strlen(s) >= len && !strncasecmp(s, prefix, len));
 }
 
 // Returns true if string begins with the specified prefix.
-dboolean M_StringStartsWithExact(const char *s, const char *prefix)
+bool M_StringStartsWithExact(const char *s, const char *prefix)
 {
-    size_t  len = strlen(prefix);
+    const size_t    len = strlen(prefix);
 
     return (strlen(s) >= len && !strncmp(s, prefix, len));
 }
 
 // Returns true if string ends with the specified suffix.
-dboolean M_StringEndsWith(const char *s, const char *suffix)
+bool M_StringEndsWith(const char *s, const char *suffix)
 {
-    size_t  len1 = strlen(s);
-    size_t  len2 = strlen(suffix);
+    const size_t    len1 = strlen(s);
+    const size_t    len2 = strlen(suffix);
 
     return (len1 >= len2 && M_StringCompare(s + len1 - len2, suffix));
 }
@@ -646,8 +643,8 @@ char *lowercase(char *str)
 
 char *titlecase(const char *str)
 {
-    char    *newstr = M_StringDuplicate(str);
-    int     len = (int)strlen(newstr);
+    char        *newstr = M_StringDuplicate(str);
+    const int   len = (int)strlen(newstr);
 
     if (len > 0)
     {
@@ -689,11 +686,8 @@ char *commify(int64_t value)
 
         n = result + sizeof(result) - pt;
 
-        do
-        {
-            pt -= 3;
-
-            if (pt > result)
+        while (true)
+            if ((pt -= 3) > result)
             {
                 memmove(pt + 1, pt, n);
                 *pt = ',';
@@ -701,7 +695,6 @@ char *commify(int64_t value)
             }
             else
                 break;
-        } while (true);
     }
 
     return M_StringDuplicate(result);
@@ -722,8 +715,7 @@ char *commifystat(uint64_t value)
 
         n = result + sizeof(result) - pt;
 
-        do
-        {
+        while (true)
             if ((pt -= 3) > result)
             {
                 memmove(pt + 1, pt, n);
@@ -732,7 +724,6 @@ char *commifystat(uint64_t value)
             }
             else
                 break;
-        } while (true);
     }
 
     return M_StringDuplicate(result);
@@ -761,7 +752,7 @@ char *uncommify(const char *input)
     return p;
 }
 
-dboolean wildcard(char *input, char *pattern)
+bool wildcard(char *input, char *pattern)
 {
     if (!*pattern)
         return true;
@@ -792,8 +783,8 @@ int gcd(int a, int b)
 
 int numspaces(char *str)
 {
-    int result = 0;
-    int len = (int)strlen(str);
+    int         result = 0;
+    const int   len = (int)strlen(str);
 
     for (int i = 0; i < len; i++)
         result += (str[i] == ' ');
@@ -869,8 +860,8 @@ char *trimwhitespace(char *input)
 
 char *makevalidfilename(const char *input)
 {
-    char    *newstr = M_StringDuplicate(input);
-    int     len = (int)strlen(newstr);
+    char        *newstr = M_StringDuplicate(input);
+    const int   len = (int)strlen(newstr);
 
     for (int i = 0; i < len; i++)
         if (strchr("\\/:?\"<>|", newstr[i]))
@@ -905,17 +896,17 @@ char *removeext(const char *file)
     return newstr;
 }
 
-dboolean isvowel(const char ch)
+bool isvowel(const char ch)
 {
     return !!strchr("aeiouAEIOU", ch);
 }
 
-dboolean ispunctuation(const char ch)
+bool ispunctuation(const char ch)
 {
     return !!strchr(".!?", ch);
 }
 
-dboolean isbreak(const char ch)
+bool isbreak(const char ch)
 {
     return !!strchr(" /\\-", ch);
 }
@@ -963,19 +954,49 @@ int hextodec(char *hex)
     int ret = 0;
 
     while (*hex && ret >= 0)
-        ret = ((ret << 4) || hextable[*hex++]);
+        ret = ((ret << 4) | hextable[(int)(*hex++)]);
 
     return ret;
 }
 
-void M_StripQuotes(char *string)
+void M_StripQuotes(char *str)
 {
-    int len = (int)strlen(string);
+    int len = (int)strlen(str);
 
-    if (len > 2 && ((string[0] == '"' && string[len - 1] == '"') || (string[0] == '\'' && string[len - 1] == '\'')))
+    if (len > 2 && ((str[0] == '"' && str[len - 1] == '"') || (str[0] == '\'' && str[len - 1] == '\'')))
     {
         len -= 2;
-        memmove(string, string + 1, len);
-        string[len] = '\0';
+        memmove(str, str + 1, len);
+        str[len] = '\0';
     }
+}
+
+void M_NormalizeSlashes(char *str)
+{
+    char    *p;
+
+    // Convert all slashes/backslashes to DIR_SEPARATOR
+    for (p = str; *p; p++)
+        if ((*p == '/' || *p == '\\') && *p != DIR_SEPARATOR)
+            *p = DIR_SEPARATOR;
+
+    // Remove trailing slashes
+    while (p > str && *(--p) == DIR_SEPARATOR)
+        *p = 0;
+
+    // Collapse multiple slashes
+    for (p = str; (*str++ = *p); )
+        if (*p++ == DIR_SEPARATOR)
+            while (*p == DIR_SEPARATOR)
+                p++;
+}
+
+char *pronoun(pronountype_t type)
+{
+    if (type == personal)
+        return (playergender == playergender_male ? "he" : (playergender == playergender_female ? "she" : "they"));
+    else if (type == possessive)
+        return (playergender == playergender_male ? "his" : (playergender == playergender_female ? "her" : "their"));
+    else
+        return (playergender == playergender_male ? "himself" : (playergender == playergender_female ? "herself" : "themselves"));
 }

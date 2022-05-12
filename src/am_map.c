@@ -6,8 +6,8 @@
 
 ========================================================================
 
-  Copyright © 1993-2021 by id Software LLC, a ZeniMax Media company.
-  Copyright © 2013-2021 by Brad Harding <mailto:brad@doomretro.com>.
+  Copyright © 1993-2022 by id Software LLC, a ZeniMax Media company.
+  Copyright © 2013-2022 by Brad Harding <mailto:brad@doomretro.com>.
 
   DOOM Retro is a fork of Chocolate DOOM. For a list of credits, see
   <https://github.com/bradharding/doomretro/wiki/CREDITS>.
@@ -16,7 +16,7 @@
 
   DOOM Retro is free software: you can redistribute it and/or modify it
   under the terms of the GNU General Public License as published by the
-  Free Software Foundation, either version 3 of the License, or (at your
+  Free Software Foundation, either version 3 of the license, or (at your
   option) any later version.
 
   DOOM Retro is distributed in the hope that it will be useful, but
@@ -36,15 +36,17 @@
 ========================================================================
 */
 
+#include <math.h>
 #include <string.h>
 
 #include "am_map.h"
+#include "c_cmds.h"
 #include "c_console.h"
 #include "d_deh.h"
 #include "doomstat.h"
 #include "hu_stuff.h"
 #include "i_colors.h"
-#include "i_gamepad.h"
+#include "i_gamecontroller.h"
 #include "i_system.h"
 #include "i_timer.h"
 #include "m_bbox.h"
@@ -54,26 +56,37 @@
 #include "p_local.h"
 #include "st_stuff.h"
 
-// Automap colors
-int am_allmapcdwallcolor = am_allmapcdwallcolor_default;
-int am_allmapfdwallcolor = am_allmapfdwallcolor_default;
-int am_allmapwallcolor = am_allmapwallcolor_default;
-int am_backcolor = am_backcolor_default;
-int am_bluedoorcolor = am_bluedoorcolor_default;
-int am_cdwallcolor = am_cdwallcolor_default;
-int am_crosshaircolor = am_crosshaircolor_default;
-int am_fdwallcolor = am_fdwallcolor_default;
-int am_gridcolor = am_gridcolor_default;
-int am_markcolor = am_markcolor_default;
-int am_pathcolor = am_pathcolor_default;
-int am_playercolor = am_playercolor_default;
-dboolean am_playerstats = am_playerstats_default;
-int am_reddoorcolor = am_reddoorcolor_default;
-int am_teleportercolor = am_teleportercolor_default;
-int am_thingcolor = am_thingcolor_default;
-int am_tswallcolor = am_tswallcolor_default;
-int am_wallcolor = am_wallcolor_default;
-int am_yellowdoorcolor = am_yellowdoorcolor_default;
+int         am_allmapcdwallcolor = am_allmapcdwallcolor_default;
+int         am_allmapfdwallcolor = am_allmapfdwallcolor_default;
+int         am_allmapwallcolor = am_allmapwallcolor_default;
+int         am_backcolor = am_backcolor_default;
+int         am_bluedoorcolor = am_bluedoorcolor_default;
+int         am_bluekeycolor = am_bluekeycolor_default;
+int         am_cdwallcolor = am_cdwallcolor_default;
+int         am_crosshaircolor = am_crosshaircolor_default;
+int         am_display = am_display_default;
+bool        am_external = am_external_default;
+int         am_fdwallcolor = am_fdwallcolor_default;
+bool        am_followmode = am_followmode_default;
+bool        am_grid = am_grid_default;
+int         am_gridcolor = am_gridcolor_default;
+char        *am_gridsize = am_gridsize_default;
+int         am_markcolor = am_markcolor_default;
+bool        am_path = am_path_default;
+int         am_pathcolor = am_pathcolor_default;
+int         am_playercolor = am_playercolor_default;
+bool        am_playerstats = am_playerstats_default;
+int         am_reddoorcolor = am_reddoorcolor_default;
+int         am_redkeycolor = am_redkeycolor_default;
+bool        am_rotatemode = am_rotatemode_default;
+int         am_teleportercolor = am_teleportercolor_default;
+int         am_thingcolor = am_thingcolor_default;
+int         am_tswallcolor = am_tswallcolor_default;
+int         am_wallcolor = am_wallcolor_default;
+int         am_yellowdoorcolor = am_yellowdoorcolor_default;
+int         am_yellowkeycolor = am_yellowkeycolor_default;
+
+uint64_t    stat_automapopened = 0;
 
 // Automap color priorities
 #define PATHPRIORITY        9
@@ -88,6 +101,9 @@ int am_yellowdoorcolor = am_yellowdoorcolor_default;
 
 static byte playercolor;
 static byte thingcolor;
+static byte bluekeycolor;
+static byte redkeycolor;
+static byte yellowkeycolor;
 static byte markcolor;
 static byte backcolor;
 static byte pathcolor;
@@ -105,27 +121,6 @@ static byte *allmapcdwallcolor;
 static byte *tswallcolor;
 static byte *gridcolor;
 static byte *am_crosshaircolor2;
-
-#define AM_PANDOWNKEY   keyboardback
-#define AM_PANDOWNKEY2  keyboardback2
-#define AM_PANUPKEY     keyboardforward
-#define AM_PANUPKEY2    keyboardforward2
-#define AM_PANRIGHTKEY  keyboardright
-#define AM_PANRIGHTKEY2 keyboardstraferight
-#define AM_PANRIGHTKEY3 keyboardstraferight2
-#define AM_PANLEFTKEY   keyboardleft
-#define AM_PANLEFTKEY2  keyboardstrafeleft
-#define AM_PANLEFTKEY3  keyboardstrafeleft2
-#define AM_ZOOMINKEY    keyboardautomapzoomin
-#define AM_ZOOMOUTKEY   keyboardautomapzoomout
-#define AM_STARTKEY     keyboardautomap
-#define AM_ENDKEY       keyboardautomap
-#define AM_GOBIGKEY     keyboardautomapmaxzoom
-#define AM_FOLLOWKEY    keyboardautomapfollowmode
-#define AM_GRIDKEY      keyboardautomapgrid
-#define AM_MARKKEY      keyboardautomapmark
-#define AM_CLEARMARKKEY keyboardautomapclearmark
-#define AM_ROTATEKEY    keyboardautomaprotatemode
 
 // scale on entry
 // [BH] changed to initial zoom level of E1M1: Hangar so each map zoom level is consistent
@@ -159,7 +154,7 @@ typedef struct
     mpoint_t    b;
 } mline_t;
 
-dboolean            automapactive;
+bool                automapactive;
 
 static mpoint_t     m_paninc;       // how far the window pans each tic (map coords)
 static fixed_t      mtof_zoommul;   // how far the window zooms in each tic (map coords)
@@ -188,6 +183,9 @@ static fixed_t      scale_mtof;
 // used by FTOM to scale from frame-buffer-to-map coords (=1/scale_mtof)
 static fixed_t      scale_ftom;
 
+int                 lastlevel = -1;
+int                 lastepisode = -1;
+
 mpoint_t            *markpoints;    // where the points are
 int                 markpointnum;   // next point to be assigned
 int                 markpointnum_max;
@@ -196,24 +194,19 @@ mpoint_t            *pathpoints;
 int                 pathpointnum;
 int                 pathpointnum_max;
 
-dboolean            am_external = am_external_default;
-dboolean            am_followmode = am_followmode_default;
-dboolean            am_grid = am_grid_default;
-char                *am_gridsize = am_gridsize_default;
-dboolean            am_path = am_path_default;
-dboolean            am_rotatemode = am_rotatemode_default;
-
 static int          gridwidth;
 static int          gridheight;
 
-static dboolean     bigstate;
-static dboolean     movement;
+static bool         bigstate;
+static bool         movement;
+static bool         speedtoggle;
+static SDL_Keymod   modstate;
 int                 keydown;
 int                 direction;
 
 am_frame_t          am_frame;
 
-static dboolean     isteleportline[NUMLINESPECIALS];
+static bool         isteleportline[NUMLINESPECIALS];
 
 static void AM_Rotate(fixed_t *x, fixed_t *y, angle_t angle);
 static void (*putbigdot)(unsigned int, unsigned int, const byte *);
@@ -327,6 +320,9 @@ void AM_SetColors(void)
 
     playercolor = nearestcolors[am_playercolor];
     thingcolor = nearestcolors[am_thingcolor];
+    bluekeycolor = nearestcolors[am_bluekeycolor];
+    redkeycolor = nearestcolors[am_redkeycolor];
+    yellowkeycolor = nearestcolors[am_yellowkeycolor];
     markcolor = nearestcolors[am_markcolor];
     backcolor = nearestcolors[am_backcolor];
     pathcolor = nearestcolors[am_pathcolor];
@@ -404,7 +400,7 @@ void AM_SetAutomapSize(int screensize)
     m_h = FTOM(MAPHEIGHT);
 }
 
-static void AM_InitVariables(const dboolean mainwindow)
+static void AM_InitVariables(const bool mainwindow)
 {
     automapactive = mainwindow;
 
@@ -444,10 +440,7 @@ void AM_Stop(void)
     HU_ClearMessages();
 }
 
-int lastlevel = -1;
-int lastepisode = -1;
-
-void AM_Start(const dboolean mainwindow)
+void AM_Start(const bool mainwindow)
 {
     if (lastlevel != gamemap || lastepisode != gameepisode || !mainwindow)
     {
@@ -455,6 +448,11 @@ void AM_Start(const dboolean mainwindow)
         lastlevel = gamemap;
         lastepisode = gameepisode;
     }
+
+    stat_automapopened = SafeAdd(stat_automapopened, 1);
+
+    if (viewplayer)
+        viewplayer->automapopened++;
 
     AM_InitVariables(mainwindow);
 }
@@ -479,12 +477,9 @@ static void AM_MaxOutWindowScale(void)
     AM_ActivateNewScale();
 }
 
-static SDL_Keymod   modstate;
-static dboolean     speedtoggle;
-
-static dboolean AM_GetSpeedToggle(void)
+static bool AM_GetSpeedToggle(void)
 {
-    return ((!!(gamepadbuttons & GAMEPAD_LEFT_TRIGGER)) ^ (!!(modstate & KMOD_SHIFT)));
+    return ((!!(gamecontrollerbuttons & GAMECONTROLLER_LEFT_TRIGGER)) ^ (!!(modstate & KMOD_SHIFT)));
 }
 
 static void AM_ToggleZoomOut(void)
@@ -520,9 +515,9 @@ void AM_ToggleMaxZoom(void)
         D_FadeScreen(false);
 }
 
-void AM_ToggleFollowMode(void)
+void AM_ToggleFollowMode(bool value)
 {
-    if ((am_followmode = !am_followmode))
+    if ((am_followmode = value))
     {
         m_paninc.x = 0;
         m_paninc.y = 0;
@@ -631,9 +626,8 @@ void AM_ClearMarks(void)
 
 void AM_AddToPath(void)
 {
-    mobj_t      *mo = viewplayer->mo;
-    const int   x = mo->x >> FRACTOMAPBITS;
-    const int   y = mo->y >> FRACTOMAPBITS;
+    const int   x = viewx >> FRACTOMAPBITS;
+    const int   y = viewy >> FRACTOMAPBITS;
     static int  prevx = INT_MAX;
     static int  prevy = INT_MAX;
 
@@ -641,18 +635,15 @@ void AM_AddToPath(void)
         return;
 
     if (pathpointnum >= pathpointnum_max)
-    {
-        pathpointnum_max = (pathpointnum_max ? pathpointnum_max * 2 : 1024);
-        pathpoints = I_Realloc(pathpoints, pathpointnum_max * sizeof(*pathpoints));
-    }
+        pathpoints = I_Realloc(pathpoints, (pathpointnum_max *= 2) * sizeof(*pathpoints));
 
     pathpoints[pathpointnum].x = prevx = x;
     pathpoints[pathpointnum++].y = prevy = y;
 }
 
-void AM_ToggleRotateMode(void)
+void AM_ToggleRotateMode(bool value)
 {
-    if ((am_rotatemode = !am_rotatemode))
+    if ((am_rotatemode = value))
     {
         C_StrCVAROutput(stringize(am_rotatemode), "on");
         C_Output(s_AMSTR_ROTATEON);
@@ -675,7 +666,7 @@ void AM_ToggleRotateMode(void)
 //
 // Handle events (user inputs) in automap mode
 //
-dboolean AM_Responder(const event_t *ev)
+bool AM_Responder(const event_t *ev)
 {
     int rc = false;
 
@@ -684,17 +675,17 @@ dboolean AM_Responder(const event_t *ev)
 
     if (!menuactive && !paused)
     {
-        static dboolean backbuttondown;
+        static bool backbuttondown;
 
-        if (!(gamepadbuttons & gamepadautomap))
+        if (!(gamecontrollerbuttons & gamecontrollerautomap))
             backbuttondown = false;
 
         if (!automapactive && !mapwindow)
         {
-            if ((ev->type == ev_keydown && ev->data1 == AM_STARTKEY && keydown != AM_STARTKEY && !(modstate & KMOD_ALT))
-                || (ev->type == ev_gamepad && (gamepadbuttons & gamepadautomap) && !backbuttondown))
+            if ((ev->type == ev_keydown && ev->data1 == keyboardautomap && keydown != keyboardautomap && !(modstate & KMOD_ALT))
+                || (ev->type == ev_controller && (gamecontrollerbuttons & gamecontrollerautomap) && !backbuttondown))
             {
-                keydown = AM_STARTKEY;
+                keydown = keyboardautomap;
                 backbuttondown = true;
                 AM_Start(true);
                 viewactive = false;
@@ -712,7 +703,7 @@ dboolean AM_Responder(const event_t *ev)
                 key = ev->data1;
 
                 // pan right
-                if (key == AM_PANRIGHTKEY || key == AM_PANRIGHTKEY2 || key == AM_PANRIGHTKEY3)
+                if (key == keyboardright || key == keyboardstraferight || key == keyboardstraferight2)
                 {
                     keydown = key;
 
@@ -729,7 +720,7 @@ dboolean AM_Responder(const event_t *ev)
                 }
 
                 // pan left
-                else if (key == AM_PANLEFTKEY || key == AM_PANLEFTKEY2 || key == AM_PANLEFTKEY3)
+                else if (key == keyboardleft || key == keyboardstrafeleft || key == keyboardstrafeleft2)
                 {
                     keydown = key;
 
@@ -746,7 +737,7 @@ dboolean AM_Responder(const event_t *ev)
                 }
 
                 // pan up
-                else if (key == AM_PANUPKEY || key == AM_PANUPKEY2)
+                else if (key == keyboardforward || key == keyboardforward2)
                 {
                     keydown = key;
 
@@ -763,7 +754,7 @@ dboolean AM_Responder(const event_t *ev)
                 }
 
                 // pan down
-                else if (key == AM_PANDOWNKEY || key == AM_PANDOWNKEY2)
+                else if (key == keyboardback || key == keyboardback2)
                 {
                     keydown = key;
 
@@ -780,21 +771,21 @@ dboolean AM_Responder(const event_t *ev)
                 }
 
                 // zoom out
-                else if (key == AM_ZOOMOUTKEY && !movement)
+                else if (key == keyboardzoomout && !movement && (!mapwindow || keyboardzoomout != KEY_MINUS))
                 {
                     keydown = key;
                     AM_ToggleZoomOut();
                 }
 
                 // zoom in
-                else if (key == AM_ZOOMINKEY && !movement)
+                else if (key == keyboardzoomin && !movement && (!mapwindow || keyboardzoomin != KEY_EQUALS))
                 {
                     keydown = key;
                     AM_ToggleZoomIn();
                 }
 
                 // leave automap
-                else if (key == AM_ENDKEY && !(modstate & KMOD_ALT) && keydown != AM_ENDKEY && !mapwindow)
+                else if (key == keyboardautomap && !(modstate & KMOD_ALT) && keydown != keyboardautomap && !mapwindow)
                 {
                     keydown = key;
                     viewactive = true;
@@ -803,9 +794,9 @@ dboolean AM_Responder(const event_t *ev)
                 }
 
                 // toggle maximum zoom
-                else if (key == AM_GOBIGKEY && !idclev && !idmus)
+                else if (key == keyboardmaxzoom && !idclev && !idmus)
                 {
-                    if (keydown != AM_GOBIGKEY)
+                    if (keydown != keyboardmaxzoom)
                     {
                         keydown = key;
                         AM_ToggleMaxZoom();
@@ -813,19 +804,19 @@ dboolean AM_Responder(const event_t *ev)
                 }
 
                 // toggle follow mode
-                else if (key == AM_FOLLOWKEY)
+                else if (key == keyboardfollowmode)
                 {
-                    if (keydown != AM_FOLLOWKEY)
+                    if (keydown != keyboardfollowmode)
                     {
                         keydown = key;
-                        AM_ToggleFollowMode();
+                        AM_ToggleFollowMode(!am_followmode);
                     }
                 }
 
                 // toggle grid
-                else if (key == AM_GRIDKEY)
+                else if (key == keyboardgrid)
                 {
-                    if (keydown != AM_GRIDKEY)
+                    if (keydown != keyboardgrid)
                     {
                         keydown = key;
                         AM_ToggleGrid();
@@ -833,9 +824,9 @@ dboolean AM_Responder(const event_t *ev)
                 }
 
                 // mark spot
-                else if (key == AM_MARKKEY)
+                else if (key == keyboardmark)
                 {
-                    if (keydown != AM_MARKKEY)
+                    if (keydown != keyboardmark)
                     {
                         keydown = key;
                         AM_AddMark();
@@ -843,16 +834,16 @@ dboolean AM_Responder(const event_t *ev)
                 }
 
                 // clear mark(s)
-                else if (key == AM_CLEARMARKKEY)
+                else if (key == keyboardclearmark)
                     AM_ClearMarks();
 
                 // toggle rotate mode
-                else if (key == AM_ROTATEKEY)
+                else if (key == keyboardrotatemode)
                 {
-                    if (keydown != AM_ROTATEKEY)
+                    if (keydown != keyboardrotatemode)
                     {
                         keydown = key;
-                        AM_ToggleRotateMode();
+                        AM_ToggleRotateMode(!am_rotatemode);
                     }
                 }
                 else
@@ -862,40 +853,40 @@ dboolean AM_Responder(const event_t *ev)
             {
                 key = ev->data1;
 
-                if (key == AM_CLEARMARKKEY)
+                if (key == keyboardclearmark)
                     markpress = 0;
 
                 keydown = 0;
 
-                if ((key == AM_ZOOMOUTKEY || key == AM_ZOOMINKEY) && !movement)
+                if ((key == keyboardzoomout || key == keyboardzoomin) && !movement)
                 {
                     mtof_zoommul = FRACUNIT;
                     ftom_zoommul = FRACUNIT;
                 }
-                else if (key == AM_FOLLOWKEY)
+                else if (key == keyboardfollowmode)
                 {
                     int key2 = 0;
 
-                    if (keystate(AM_PANLEFTKEY))
-                        key2 = AM_PANLEFTKEY;
-                    else if (keystate(AM_PANLEFTKEY2))
-                        key2 = AM_PANLEFTKEY2;
-                    else if (keystate(AM_PANLEFTKEY3))
-                        key2 = AM_PANLEFTKEY3;
-                    else if (keystate(AM_PANRIGHTKEY))
-                        key2 = AM_PANRIGHTKEY;
-                    else if (keystate(AM_PANRIGHTKEY2))
-                        key2 = AM_PANRIGHTKEY2;
-                    else if (keystate(AM_PANRIGHTKEY3))
-                        key2 = AM_PANRIGHTKEY3;
-                    else if (keystate(AM_PANUPKEY))
-                        key2 = AM_PANUPKEY;
-                    else if (keystate(AM_PANUPKEY2))
-                        key2 = AM_PANUPKEY2;
-                    else if (keystate(AM_PANDOWNKEY))
-                        key2 = AM_PANDOWNKEY;
-                    else if (keystate(AM_PANDOWNKEY2))
-                        key2 = AM_PANDOWNKEY2;
+                    if (keystate(keyboardleft))
+                        key2 = keyboardleft;
+                    else if (keystate(keyboardstrafeleft))
+                        key2 = keyboardstrafeleft;
+                    else if (keystate(keyboardstrafeleft2))
+                        key2 = keyboardstrafeleft2;
+                    else if (keystate(keyboardright))
+                        key2 = keyboardright;
+                    else if (keystate(keyboardstraferight))
+                        key2 = keyboardstraferight;
+                    else if (keystate(keyboardstraferight2))
+                        key2 = keyboardstraferight2;
+                    else if (keystate(keyboardforward))
+                        key2 = keyboardforward;
+                    else if (keystate(keyboardforward2))
+                        key2 = keyboardforward2;
+                    else if (keystate(keyboardback))
+                        key2 = keyboardback;
+                    else if (keystate(keyboardback2))
+                        key2 = keyboardback2;
 
                     if (key2)
                     {
@@ -909,38 +900,38 @@ dboolean AM_Responder(const event_t *ev)
                 }
                 else if (!am_followmode)
                 {
-                    if (key == AM_PANLEFTKEY || key == AM_PANLEFTKEY2 || key == AM_PANLEFTKEY3)
+                    if (key == keyboardleft || key == keyboardstrafeleft || key == keyboardstrafeleft2)
                     {
                         speedtoggle = AM_GetSpeedToggle();
 
-                        if (keystate(AM_PANRIGHTKEY) || keystate(AM_PANRIGHTKEY2) || keystate(AM_PANRIGHTKEY3))
+                        if (keystate(keyboardright) || keystate(keyboardstraferight) || keystate(keyboardstraferight2))
                             m_paninc.x = FTOM(F_PANINC);
                         else
                             m_paninc.x = 0;
                     }
-                    else if (key == AM_PANRIGHTKEY || key == AM_PANRIGHTKEY2 || key == AM_PANRIGHTKEY3)
+                    else if (key == keyboardright || key == keyboardstraferight || key == keyboardstraferight2)
                     {
                         speedtoggle = AM_GetSpeedToggle();
 
-                        if (keystate(AM_PANLEFTKEY) || keystate(AM_PANLEFTKEY2) || keystate(AM_PANLEFTKEY3))
+                        if (keystate(keyboardleft) || keystate(keyboardstrafeleft) || keystate(keyboardstrafeleft2))
                             m_paninc.x = -FTOM(F_PANINC);
                         else
                             m_paninc.x = 0;
                     }
-                    else if (key == AM_PANUPKEY || key == AM_PANUPKEY2)
+                    else if (key == keyboardforward || key == keyboardforward2)
                     {
                         speedtoggle = AM_GetSpeedToggle();
 
-                        if (keystate(AM_PANDOWNKEY) || keystate(AM_PANDOWNKEY2))
+                        if (keystate(keyboardback) || keystate(keyboardback2))
                             m_paninc.y = FTOM(F_PANINC);
                         else
                             m_paninc.y = 0;
                     }
-                    else if (key == AM_PANDOWNKEY || key == AM_PANDOWNKEY2)
+                    else if (key == keyboardback || key == keyboardback2)
                     {
                         speedtoggle = AM_GetSpeedToggle();
 
-                        if (keystate(AM_PANUPKEY) || keystate(AM_PANUPKEY2))
+                        if (keystate(keyboardforward) || keystate(keyboardforward2))
                             m_paninc.y = -FTOM(F_PANINC);
                         else
                             m_paninc.y = 0;
@@ -968,11 +959,11 @@ dboolean AM_Responder(const event_t *ev)
                     ftom_zoommul = M_ZOOMIN + 2000;
                 }
             }
-            else if (ev->type == ev_gamepad && gamepadwait < I_GetTime())
+            else if (ev->type == ev_controller && gamecontrollerwait < I_GetTime())
             {
-                if ((gamepadbuttons & gamepadautomap) && !backbuttondown)
+                if ((gamecontrollerbuttons & gamecontrollerautomap) && !backbuttondown)
                 {
-                    gamepadwait = I_GetTime() + 8;
+                    gamecontrollerwait = I_GetTime() + 8;
                     viewactive = true;
                     backbuttondown = true;
                     AM_Stop();
@@ -980,125 +971,127 @@ dboolean AM_Responder(const event_t *ev)
                 }
 
                 // zoom out
-                else if ((gamepadbuttons & gamepadautomapzoomout) && !(gamepadbuttons & gamepadautomapzoomin))
+                else if ((gamecontrollerbuttons & gamecontrollerzoomout)
+                    && !(gamecontrollerbuttons & gamecontrollerzoomin))
                 {
                     movement = true;
                     AM_ToggleZoomOut();
                 }
 
                 // zoom in
-                else if ((gamepadbuttons & gamepadautomapzoomin) && !(gamepadbuttons & gamepadautomapzoomout))
+                else if ((gamecontrollerbuttons & gamecontrollerzoomin)
+                    && !(gamecontrollerbuttons & gamecontrollerzoomout))
                 {
                     movement = true;
                     AM_ToggleZoomIn();
                 }
 
                 // toggle maximum zoom
-                else if ((gamepadbuttons & gamepadautomapmaxzoom) && !idclev && !idmus)
+                else if ((gamecontrollerbuttons & gamecontrollermaxzoom) && !idclev && !idmus)
                 {
                     AM_ToggleMaxZoom();
-                    gamepadwait = I_GetTime() + 12;
+                    gamecontrollerwait = I_GetTime() + 12;
                 }
 
                 // toggle follow mode
-                else if (gamepadbuttons & gamepadautomapfollowmode)
+                else if (gamecontrollerbuttons & gamecontrollerfollowmode)
                 {
-                    AM_ToggleFollowMode();
-                    gamepadwait = I_GetTime() + 12;
+                    AM_ToggleFollowMode(!am_followmode);
+                    gamecontrollerwait = I_GetTime() + 12;
                 }
 
                 // toggle grid
-                else if (gamepadbuttons & gamepadautomapgrid)
+                else if (gamecontrollerbuttons & gamecontrollergrid)
                 {
                     AM_ToggleGrid();
-                    gamepadwait = I_GetTime() + 12;
+                    gamecontrollerwait = I_GetTime() + 12;
                 }
 
                 // mark spot
-                else if ((gamepadbuttons & gamepadautomapmark))
+                else if ((gamecontrollerbuttons & gamecontrollermark))
                 {
                     AM_AddMark();
-                    gamepadwait = I_GetTime() + 12;
+                    gamecontrollerwait = I_GetTime() + 12;
                 }
 
                 // clear mark(s)
-                else if (gamepadbuttons & gamepadautomapclearmark)
+                else if (gamecontrollerbuttons & gamecontrollerclearmark)
                 {
                     AM_ClearMarks();
-                    gamepadwait = I_GetTime() + 12;
+                    gamecontrollerwait = I_GetTime() + 12;
                 }
 
                 // toggle rotate mode
-                else if (gamepadbuttons & gamepadautomaprotatemode)
+                else if (gamecontrollerbuttons & gamecontrollerrotatemode)
                 {
-                    AM_ToggleRotateMode();
-                    gamepadwait = I_GetTime() + 12;
+                    AM_ToggleRotateMode(!am_rotatemode);
+                    gamecontrollerwait = I_GetTime() + 12;
                 }
 
                 if (!am_followmode)
                 {
                     // pan right with left thumbstick
-                    if (gamepadthumbLX > 0)
+                    if (gamecontrollerthumbLX > 0)
                     {
                         movement = true;
                         speedtoggle = AM_GetSpeedToggle();
-                        m_paninc.x = (fixed_t)(FTOM(F_PANINC) * ((float)gamepadthumbLX / SHRT_MAX) * 1.2f);
+                        m_paninc.x = (fixed_t)(FTOM(F_PANINC) * ((float)gamecontrollerthumbLX / SHRT_MAX) * 1.2f);
                     }
 
                     // pan left with left thumbstick
-                    else if (gamepadthumbLX < 0)
+                    else if (gamecontrollerthumbLX < 0)
                     {
                         movement = true;
                         speedtoggle = AM_GetSpeedToggle();
-                        m_paninc.x = (fixed_t)(FTOM(F_PANINC) * ((float)(gamepadthumbLX) / SHRT_MAX) * 1.2f);
+                        m_paninc.x = (fixed_t)(FTOM(F_PANINC) * ((float)(gamecontrollerthumbLX) / SHRT_MAX) * 1.2f);
                     }
 
                     // pan right with right thumbstick
-                    if (gamepadthumbRX > 0 && gamepadthumbRX > gamepadthumbLX)
+                    if (gamecontrollerthumbRX > 0 && gamecontrollerthumbRX > gamecontrollerthumbLX)
                     {
                         movement = true;
                         speedtoggle = AM_GetSpeedToggle();
-                        m_paninc.x = (fixed_t)(FTOM(F_PANINC) * ((float)gamepadthumbRX / SHRT_MAX) * 1.2f);
+                        m_paninc.x = (fixed_t)(FTOM(F_PANINC) * ((float)gamecontrollerthumbRX / SHRT_MAX) * 1.2f);
                     }
 
                     // pan left with right thumbstick
-                    else if (gamepadthumbRX < 0 && gamepadthumbRX < gamepadthumbLX)
+                    else if (gamecontrollerthumbRX < 0 && gamecontrollerthumbRX < gamecontrollerthumbLX)
                     {
                         movement = true;
                         speedtoggle = AM_GetSpeedToggle();
-                        m_paninc.x = (fixed_t)(FTOM(F_PANINC) * ((float)(gamepadthumbRX) / SHRT_MAX) * 1.2f);
+                        m_paninc.x = (fixed_t)(FTOM(F_PANINC) * ((float)(gamecontrollerthumbRX) / SHRT_MAX) * 1.2f);
                     }
 
                     // pan up with left thumbstick
-                    if (gamepadthumbLY < 0)
+                    if (gamecontrollerthumbLY < 0)
                     {
                         movement = true;
                         speedtoggle = AM_GetSpeedToggle();
-                        m_paninc.y = (fixed_t)(FTOM(F_PANINC) * (-(float)(gamepadthumbLY) / SHRT_MAX) * 1.2f);
+                        m_paninc.y = (fixed_t)(FTOM(F_PANINC) * (-(float)(gamecontrollerthumbLY) / SHRT_MAX) * 1.2f);
                     }
 
                     // pan down with left thumbstick
-                    else if (gamepadthumbLY > 0)
+                    else if (gamecontrollerthumbLY > 0)
                     {
                         movement = true;
                         speedtoggle = AM_GetSpeedToggle();
-                        m_paninc.y = -(fixed_t)(FTOM(F_PANINC) * ((float)gamepadthumbLY / SHRT_MAX) * 1.2f);
+                        m_paninc.y = -(fixed_t)(FTOM(F_PANINC) * ((float)gamecontrollerthumbLY / SHRT_MAX) * 1.2f);
                     }
 
                     // pan up with right thumbstick
-                    if (gamepadthumbRY < 0 && gamepadthumbRY < gamepadthumbLY)
+                    if (gamecontrollerthumbRY < 0 && gamecontrollerthumbRY < gamecontrollerthumbLY)
                     {
                         movement = true;
                         speedtoggle = AM_GetSpeedToggle();
-                        m_paninc.y = -(fixed_t)(FTOM(F_PANINC) * ((float)(gamepadthumbRY) / SHRT_MAX) * 1.2f);
+                        m_paninc.y = -(fixed_t)(FTOM(F_PANINC) * ((float)(gamecontrollerthumbRY) / SHRT_MAX) * 1.2f);
                     }
 
                     // pan down with right thumbstick
-                    else if (gamepadthumbRY > 0 && gamepadthumbRY > gamepadthumbLY)
+                    else if (gamecontrollerthumbRY > 0 && gamecontrollerthumbRY > gamecontrollerthumbLY)
                     {
                         movement = true;
                         speedtoggle = AM_GetSpeedToggle();
-                        m_paninc.y = -(fixed_t)(FTOM(F_PANINC) * ((float)gamepadthumbRY / SHRT_MAX) * 1.2f);
+                        m_paninc.y = -(fixed_t)(FTOM(F_PANINC) * ((float)gamecontrollerthumbRY / SHRT_MAX) * 1.2f);
                     }
                 }
 
@@ -1227,7 +1220,7 @@ void AM_ClearFB(void)
 //
 // Based on Cohen-Sutherland clipping algorithm but with a slightly faster reject and precalculated
 // slopes. If the speed is needed, use a hash algorithm to handle the common cases.
-static dboolean AM_ClipMline(int *x0, int *y0, int *x1, int *y1)
+static bool AM_ClipMline(int *x0, int *y0, int *x1, int *y1)
 {
     enum
     {
@@ -1300,9 +1293,9 @@ static inline void PUTBIGDOT(unsigned int x, unsigned int y, const byte *color)
 {
     if (x < (unsigned int)MAPWIDTH)
     {
-        byte            *dot = mapscreen + y + x;
-        const dboolean  attop = (y < MAPAREA);
-        const dboolean  atbottom = (y < (unsigned int)MAPBOTTOM);
+        byte        *dot = mapscreen + y + x;
+        const bool  attop = (y < MAPAREA);
+        const bool  atbottom = (y < (unsigned int)MAPBOTTOM);
 
         if (attop)
             *dot = *(*dot + color);
@@ -1714,7 +1707,7 @@ static void AM_DrawTranslucentPlayerArrow(const mline_t *lineguy, const int line
 }
 
 static void AM_DrawThingTriangle(const mline_t *lineguy, const int lineguylines,
-    const fixed_t scale, angle_t angle, fixed_t x, fixed_t y)
+    const fixed_t scale, angle_t angle, fixed_t x, fixed_t y, byte color)
 {
     for (int i = 0; i < lineguylines; i++)
     {
@@ -1740,12 +1733,12 @@ static void AM_DrawThingTriangle(const mline_t *lineguy, const int lineguylines,
         AM_Rotate(&x1, &y1, angle);
         AM_Rotate(&x2, &y2, angle);
 
-        AM_DrawFline(x + x1, y + y1, x + x2, y + y2, &thingcolor, &PUTDOT2);
+        AM_DrawFline(x + x1, y + y1, x + x2, y + y2, &color, &PUTDOT2);
     }
 }
 
 #define PLAYERARROWLINES        8
-#define CHEATPLAYERARROWLINES   19
+#define CHEATPLAYERARROWLINES  19
 
 static void AM_DrawPlayer(void)
 {
@@ -1850,8 +1843,8 @@ static void AM_DrawThings(void)
                 {
                     mpoint_t    point;
                     int         fx, fy;
-                    const short lump = sprites[thing->sprite].spriteframes[0].lump[0];
-                    const int   width = (BETWEEN(12 << FRACBITS, MIN(spritewidth[lump], spriteheight[lump]),
+                    const short sprite = sprites[thing->sprite].spriteframes[0].lump[0];
+                    const int   width = (BETWEEN(12 << FRACBITS, (spritewidth[sprite] + spriteheight[sprite]) / 2,
                                     96 << FRACBITS) >> FRACTOMAPBITS) / 2;
 
                     if (consoleactive)
@@ -1872,7 +1865,20 @@ static void AM_DrawThings(void)
                     fy = CYMTOF(point.y);
 
                     if (fx >= -width && fx <= MAPWIDTH + width && fy >= -width && fy <= (int)MAPHEIGHT + width)
-                        AM_DrawThingTriangle(thingtriangle, THINGTRIANGLELINES, width, thing->angle - angleoffset, point.x, point.y);
+                    {
+                        mobjtype_t  type = thing->type;
+                        byte        color = thingcolor;
+
+                        if (type == MT_MISC4 || type == MT_MISC9)
+                            color = bluekeycolor;
+                        else if (type == MT_MISC5 || type == MT_MISC8)
+                            color = redkeycolor;
+                        else if (type == MT_MISC6 || type == MT_MISC7)
+                            color = yellowkeycolor;
+
+                        AM_DrawThingTriangle(thingtriangle, THINGTRIANGLELINES, width,
+                            thing->angle - angleoffset, point.x, point.y, color);
+                    }
                 }
 
                 thing = thing->snext;
@@ -1969,13 +1975,14 @@ static void AM_DrawMarks(void)
 
 static void AM_DrawPath(void)
 {
-    if (pathpointnum >= 1)
+    if (pathpointnum > 1)
     {
-        mpoint_t        end;
-        const mobj_t    *mo = viewplayer->mo;
+        mpoint_t    end;
 
         if (am_rotatemode)
         {
+            mpoint_t    player = { viewx >> FRACTOMAPBITS, viewy >> FRACTOMAPBITS };
+
             for (int i = 1; i < pathpointnum; i++)
             {
                 mpoint_t    start = { pathpoints[i - 1].x, pathpoints[i - 1].y };
@@ -1991,13 +1998,8 @@ static void AM_DrawPath(void)
                 AM_DrawFline(start.x, start.y, end.x, end.y, &pathcolor, &PUTDOT2);
             }
 
-            if (pathpointnum > 1)
-            {
-                mpoint_t    player = { mo->x >> FRACTOMAPBITS, mo->y >> FRACTOMAPBITS };
-
-                AM_RotatePoint(&player);
-                AM_DrawFline(end.x, end.y, player.x, player.y, &pathcolor, &PUTDOT2);
-            }
+            AM_RotatePoint(&player);
+            AM_DrawFline(end.x, end.y, player.x, player.y, &pathcolor, &PUTDOT2);
         }
         else
         {
@@ -2014,8 +2016,7 @@ static void AM_DrawPath(void)
                 AM_DrawFline(start.x, start.y, end.x, end.y, &pathcolor, &PUTDOT2);
             }
 
-            if (pathpointnum > 1)
-                AM_DrawFline(end.x, end.y, mo->x >> FRACTOMAPBITS, mo->y >> FRACTOMAPBITS, &pathcolor, &PUTDOT2);
+            AM_DrawFline(end.x, end.y, viewx >> FRACTOMAPBITS, viewy >> FRACTOMAPBITS, &pathcolor, &PUTDOT2);
         }
     }
 }
@@ -2060,6 +2061,21 @@ static void AM_DrawSolidCrosshair(void)
     *dot = am_crosshaircolor;
     dot += MAPWIDTH;
     *dot = am_crosshaircolor;
+}
+
+void AM_StatusBarShadow(void)
+{
+    for (int i = 24, y = 0; y < 6; i -= 4, y++)
+    {
+        byte    *colormap = &colormaps[0][i * 256];
+
+        for (int x = 0; x < MAPWIDTH; x++)
+        {
+            byte    *dot = &mapscreen[(MAPHEIGHT - y - 1) * MAPWIDTH + x];
+
+            *dot = *(*dot + colormap);
+        }
+    }
 }
 
 static void AM_SetFrameVariables(void)
@@ -2126,6 +2142,9 @@ void AM_Drawer(void)
         AM_DrawMarks();
 
     AM_DrawPlayer();
+
+    if (r_screensize < r_screensize_max && !vanilla)
+        AM_StatusBarShadow();
 
     if (!am_followmode)
     {

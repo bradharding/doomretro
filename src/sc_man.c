@@ -6,8 +6,8 @@
 
 ========================================================================
 
-  Copyright © 1993-2021 by id Software LLC, a ZeniMax Media company.
-  Copyright © 2013-2021 by Brad Harding <mailto:brad@doomretro.com>.
+  Copyright © 1993-2022 by id Software LLC, a ZeniMax Media company.
+  Copyright © 2013-2022 by Brad Harding <mailto:brad@doomretro.com>.
 
   DOOM Retro is a fork of Chocolate DOOM. For a list of credits, see
   <https://github.com/bradharding/doomretro/wiki/CREDITS>.
@@ -16,7 +16,7 @@
 
   DOOM Retro is free software: you can redistribute it and/or modify it
   under the terms of the GNU General Public License as published by the
-  Free Software Foundation, either version 3 of the License, or (at your
+  Free Software Foundation, either version 3 of the license, or (at your
   option) any later version.
 
   DOOM Retro is distributed in the hope that it will be useful, but
@@ -56,9 +56,17 @@ static char     *ScriptBuffer;
 static char     *ScriptPtr;
 static char     *ScriptEndPtr;
 static int      ScriptLumpNum;
-static dboolean sc_End;
-static dboolean ScriptOpen;
-static dboolean AlreadyGot;
+static bool     sc_End;
+static bool     ScriptOpen;
+static bool     AlreadyGot;
+
+static void SC_ScriptError(void)
+{
+    char    *temp = commify(sc_Line);
+
+    C_Warning(1, "Line %s in the " BOLD("MAPINFO") " lump is invalid.", temp);
+    free(temp);
+}
 
 void SC_Open(char *name)
 {
@@ -89,10 +97,10 @@ void SC_Close(void)
     }
 }
 
-dboolean SC_GetString(void)
+bool SC_GetString(void)
 {
-    char        *text;
-    dboolean    foundToken = false;
+    char    *text;
+    bool    foundToken = false;
 
     if (AlreadyGot)
     {
@@ -180,7 +188,7 @@ void SC_MustGetString(void)
         SC_ScriptError();
 }
 
-dboolean SC_GetNumber(void)
+bool SC_GetNumber(void)
 {
     if (SC_GetString())
     {
@@ -211,15 +219,7 @@ int SC_MatchString(char **strings)
     return -1;
 }
 
-dboolean SC_Compare(char *text)
+bool SC_Compare(char *text)
 {
     return M_StringCompare(text, sc_String);
-}
-
-static void SC_ScriptError(void)
-{
-    char    *temp = commify(sc_Line);
-
-    C_Warning(1, "Line %s in the " BOLD("MAPINFO") " lump is invalid.", temp);
-    free(temp);
 }

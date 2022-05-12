@@ -6,8 +6,8 @@
 
 ========================================================================
 
-  Copyright © 1993-2021 by id Software LLC, a ZeniMax Media company.
-  Copyright © 2013-2021 by Brad Harding <mailto:brad@doomretro.com>.
+  Copyright © 1993-2022 by id Software LLC, a ZeniMax Media company.
+  Copyright © 2013-2022 by Brad Harding <mailto:brad@doomretro.com>.
 
   DOOM Retro is a fork of Chocolate DOOM. For a list of credits, see
   <https://github.com/bradharding/doomretro/wiki/CREDITS>.
@@ -16,7 +16,7 @@
 
   DOOM Retro is free software: you can redistribute it and/or modify it
   under the terms of the GNU General Public License as published by the
-  Free Software Foundation, either version 3 of the License, or (at your
+  Free Software Foundation, either version 3 of the license, or (at your
   option) any later version.
 
   DOOM Retro is distributed in the hope that it will be useful, but
@@ -36,8 +36,7 @@
 ========================================================================
 */
 
-#if !defined(__TABLES_H__)
-#define __TABLES_H__
+#pragma once
 
 #include "m_fixed.h"
 
@@ -62,6 +61,7 @@ extern fixed_t  finetangent[FINEANGLES / 2];
 #define ANG90               0x40000000
 #define ANG180              0x80000000
 #define ANG270              0xC0000000
+#define ANGLE_MAX           0xFFFFFFFF
 
 #define SLOPERANGE          2048
 #define SLOPEBITS           11
@@ -70,8 +70,29 @@ extern fixed_t  finetangent[FINEANGLES / 2];
 typedef unsigned int    angle_t;
 
 // Effective size is 2049;
-// The +1 size is to handle the case when x == y
-//  without additional checking.
+// The +1 size is to handle the case when x == y without additional checking.
 extern angle_t  tantoangle[SLOPERANGE + 1];
 
-#endif
+// MBF21: More utility functions, courtesy of Quasar (James Haley).
+// These are straight from Eternity so demos stay in sync.
+inline static angle_t FixedToAngle(fixed_t a)
+{
+    return (angle_t)(((uint64_t)a * ANG1) >> FRACBITS);
+}
+
+inline static fixed_t AngleToFixed(angle_t a)
+{
+    return (fixed_t)(((uint64_t)a << FRACBITS) / ANG1);
+}
+
+// [XA] Clamped angle->slope, for convenience
+inline static fixed_t AngleToSlope(int a)
+{
+    return finetangent[(a > ANG90 ? 0 : (-a > ANG90 ? FINEANGLES / 2 - 1 : (ANG90 - a) >> ANGLETOFINESHIFT))];
+}
+
+// [XA] Ditto, using fixed-point-degrees input
+inline static fixed_t DegToSlope(fixed_t a)
+{
+    return AngleToSlope(a >= 0 ? FixedToAngle(a) : -(int)FixedToAngle(-a));
+}

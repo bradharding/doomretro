@@ -6,8 +6,8 @@
 
 ========================================================================
 
-  Copyright © 1993-2021 by id Software LLC, a ZeniMax Media company.
-  Copyright © 2013-2021 by Brad Harding <mailto:brad@doomretro.com>.
+  Copyright © 1993-2022 by id Software LLC, a ZeniMax Media company.
+  Copyright © 2013-2022 by Brad Harding <mailto:brad@doomretro.com>.
 
   DOOM Retro is a fork of Chocolate DOOM. For a list of credits, see
   <https://github.com/bradharding/doomretro/wiki/CREDITS>.
@@ -16,7 +16,7 @@
 
   DOOM Retro is free software: you can redistribute it and/or modify it
   under the terms of the GNU General Public License as published by the
-  Free Software Foundation, either version 3 of the License, or (at your
+  Free Software Foundation, either version 3 of the license, or (at your
   option) any later version.
 
   DOOM Retro is distributed in the hope that it will be useful, but
@@ -70,15 +70,17 @@ int         firstspritelump;
 int         lastspritelump;
 int         numspritelumps;
 
-dboolean    telefragonmap30 = false;
+bool        suppresswarnings = false;
 
 int         numtextures;
 texture_t   **textures;
 
+char        berserk[64];
+
 // needed for texture pegging
 fixed_t     *textureheight;
 byte        **brightmap;
-dboolean    *nobrightmap;
+bool        *nobrightmap;
 
 // for global animation
 int         *flattranslation;
@@ -93,7 +95,7 @@ fixed_t     *spritetopoffset;
 fixed_t     *newspriteoffset;
 fixed_t     *newspritetopoffset;
 
-dboolean    r_fixspriteoffsets = r_fixspriteoffsets_default;
+bool        r_fixspriteoffsets = r_fixspriteoffsets_default;
 
 byte        grays[256];
 
@@ -246,7 +248,7 @@ byte *R_GetTextureColumn(const rpatch_t *texpatch, int col)
     while (col < 0)
         col += texpatch->width;
 
-    return texpatch->columns[col & texpatch->widthmask].pixels;
+    return texpatch->columns[(col & texpatch->widthmask)].pixels;
 }
 
 //
@@ -486,7 +488,7 @@ static void R_InitFlats(void)
 //
 static void R_InitSpriteLumps(void)
 {
-    dboolean    fixspriteoffsets = false;
+    bool    fixspriteoffsets = false;
 
     SC_Open("DRCOMPAT");
 
@@ -512,13 +514,6 @@ static void R_InitSpriteLumps(void)
                 mobjinfo[MT_BRUISER].blood = MT_BLOOD;
                 mobjinfo[MT_KNIGHT].blood = MT_BLOOD;
             }
-        }
-        else if (M_StringCompare(sc_String, "TELEFRAGONMAP30"))
-        {
-            SC_MustGetString();
-
-            if (M_StringCompare(pwadfile, sc_String))
-                telefragonmap30 = true;
         }
     }
 
@@ -548,7 +543,7 @@ static void R_InitSpriteLumps(void)
             spritetopoffset[i] = newspritetopoffset[i] = SHORT(patch->topoffset) << FRACBITS;
 
             // [BH] override sprite offsets in WAD with those in sproffsets[] in info.c
-            if (!FREEDOOM && !hacx)
+            if (!FREEDOOM && !chex && !hacx)
             {
                 int j = 0;
 
@@ -572,6 +567,8 @@ static void R_InitSpriteLumps(void)
         }
     }
 
+    M_StringCopy(berserk, M_StringReplace(powerupnames[pw_strength], " power-up", ""), sizeof(berserk));
+
     // [BH] compatibility fixes
     if (FREEDOOM)
     {
@@ -587,7 +584,6 @@ static void R_InitSpriteLumps(void)
         s_M_SKILLLEVEL5 = M_StringDuplicate("Insanity!");
 
         states[S_BAR1].nextstate = S_BAR2;
-
         mobjinfo[MT_BARREL].frames = 2;
 
         mobjinfo[MT_HEAD].blood = MT_BLOOD;
@@ -602,6 +598,78 @@ static void R_InitSpriteLumps(void)
         M_StringCopy(weaponinfo[wp_bfg].name, "SKAG 1337", sizeof(weaponinfo[wp_bfg].name));
         M_StringCopy(weaponinfo[wp_chainsaw].name, "angle grinder", sizeof(weaponinfo[wp_chainsaw].name));
         M_StringCopy(weaponinfo[wp_supershotgun].name, "double-barreled shotgun", sizeof(weaponinfo[wp_supershotgun].name));
+
+        M_StringCopy(weaponinfo[wp_missile].ammoname, "missile", sizeof(weaponinfo[wp_missile].ammoname));
+        M_StringCopy(weaponinfo[wp_missile].ammoplural, "missiles", sizeof(weaponinfo[wp_missile].ammoplural));
+        M_StringCopy(weaponinfo[wp_plasma].ammoname, "polaric recharge", sizeof(weaponinfo[wp_plasma].ammoname));
+        M_StringCopy(weaponinfo[wp_plasma].ammoplural, "polaric recharges", sizeof(weaponinfo[wp_plasma].ammoplural));
+        M_StringCopy(weaponinfo[wp_bfg].ammoname, "polaric recharge", sizeof(weaponinfo[wp_bfg].ammoname));
+        M_StringCopy(weaponinfo[wp_bfg].ammoplural, "polaric recharges", sizeof(weaponinfo[wp_bfg].ammoplural));
+
+        M_StringCopy(mobjinfo[MT_MISC0].name1, "light armor vest", sizeof(mobjinfo[MT_MISC0].name1));
+        M_StringCopy(mobjinfo[MT_MISC0].plural1, "light armor vests", sizeof(mobjinfo[MT_MISC0].plural1));
+        M_StringCopy(mobjinfo[MT_MISC1].name1, "heavy armor vest", sizeof(mobjinfo[MT_MISC1].name1));
+        M_StringCopy(mobjinfo[MT_MISC1].plural1, "heavy armor vests", sizeof(mobjinfo[MT_MISC1].plural1));
+        M_StringCopy(mobjinfo[MT_MISC2].name1, "1% health bonus", sizeof(mobjinfo[MT_MISC2].name1));
+        M_StringCopy(mobjinfo[MT_MISC2].plural1, "1% health bonuses", sizeof(mobjinfo[MT_MISC2].plural1));
+        M_StringCopy(mobjinfo[MT_MISC3].name1, "1% armor bonus", sizeof(mobjinfo[MT_MISC3].name1));
+        M_StringCopy(mobjinfo[MT_MISC3].plural1, "1% armor bonuses", sizeof(mobjinfo[MT_MISC3].plural1));
+        M_StringCopy(mobjinfo[MT_MISC4].name1, "blue passcard", sizeof(mobjinfo[MT_MISC4].name1));
+        M_StringCopy(mobjinfo[MT_MISC4].plural1, "blue passcards", sizeof(mobjinfo[MT_MISC4].plural1));
+        M_StringCopy(mobjinfo[MT_MISC5].name1, "red passcard", sizeof(mobjinfo[MT_MISC5].name1));
+        M_StringCopy(mobjinfo[MT_MISC5].plural1, "red passcards", sizeof(mobjinfo[MT_MISC5].plural1));
+        M_StringCopy(mobjinfo[MT_MISC6].name1, "yellow passcard", sizeof(mobjinfo[MT_MISC6].name1));
+        M_StringCopy(mobjinfo[MT_MISC6].plural1, "yellow passcards", sizeof(mobjinfo[MT_MISC6].plural1));
+        M_StringCopy(mobjinfo[MT_MISC7].name1, "yellow skeleton key", sizeof(mobjinfo[MT_MISC7].name1));
+        M_StringCopy(mobjinfo[MT_MISC7].plural1, "yellow skeleton keys", sizeof(mobjinfo[MT_MISC7].plural1));
+        M_StringCopy(mobjinfo[MT_MISC8].name1, "red skeleton key", sizeof(mobjinfo[MT_MISC8].name1));
+        M_StringCopy(mobjinfo[MT_MISC8].plural1, "red skeleton keys", sizeof(mobjinfo[MT_MISC8].plural1));
+        M_StringCopy(mobjinfo[MT_MISC9].name1, "blue skeleton key", sizeof(mobjinfo[MT_MISC9].name1));
+        M_StringCopy(mobjinfo[MT_MISC9].plural1, "blue skeleton keys", sizeof(mobjinfo[MT_MISC9].plural1));
+        M_StringCopy(mobjinfo[MT_MISC10].name1, "small health pack", sizeof(mobjinfo[MT_MISC10].name1));
+        M_StringCopy(mobjinfo[MT_MISC10].plural1, "small health packs", sizeof(mobjinfo[MT_MISC10].plural1));
+        M_StringCopy(mobjinfo[MT_MISC11].name1, "large health pack", sizeof(mobjinfo[MT_MISC11].name1));
+        M_StringCopy(mobjinfo[MT_MISC11].plural1, "large health packs", sizeof(mobjinfo[MT_MISC11].plural1));
+        M_StringCopy(mobjinfo[MT_MISC12].name1, "overdrive sphere", sizeof(mobjinfo[MT_MISC12].name1));
+        M_StringCopy(mobjinfo[MT_MISC12].plural1, "overdrive spheres", sizeof(mobjinfo[MT_MISC12].plural1));
+        M_StringCopy(mobjinfo[MT_MISC13].name1, "steroids", sizeof(mobjinfo[MT_MISC13].name1));
+        M_StringCopy(mobjinfo[MT_MISC13].plural1, "steroids", sizeof(mobjinfo[MT_MISC13].plural1));
+        M_StringCopy(mobjinfo[MT_INS].name1, "stealth sphere", sizeof(mobjinfo[MT_INS].name1));
+        M_StringCopy(mobjinfo[MT_INS].plural1, "stealth spheres", sizeof(mobjinfo[MT_INS].plural1));
+        M_StringCopy(mobjinfo[MT_MISC14].name1, "hazard suit", sizeof(mobjinfo[MT_MISC14].name1));
+        M_StringCopy(mobjinfo[MT_MISC14].plural1, "hazard suits", sizeof(mobjinfo[MT_MISC14].plural1));
+        M_StringCopy(mobjinfo[MT_MISC15].name1, "tactical survey map", sizeof(mobjinfo[MT_MISC15].name1));
+        M_StringCopy(mobjinfo[MT_MISC15].plural1, "tactical survey maps", sizeof(mobjinfo[MT_MISC15].plural1));
+        M_StringCopy(mobjinfo[MT_MISC16].name1, "night vision goggles", sizeof(mobjinfo[MT_MISC16].name1));
+        M_StringCopy(mobjinfo[MT_MISC16].plural1, "night vision goggles", sizeof(mobjinfo[MT_MISC16].plural1));
+        M_StringCopy(mobjinfo[MT_MEGA].name1, "ultra-overdrive sphere", sizeof(mobjinfo[MT_MEGA].name1));
+        M_StringCopy(mobjinfo[MT_MEGA].plural1, "ultra-overdrive spheres", sizeof(mobjinfo[MT_MEGA].plural1));
+        M_StringCopy(mobjinfo[MT_CLIP].name1, "ammo clip", sizeof(mobjinfo[MT_CLIP].name1));
+        M_StringCopy(mobjinfo[MT_CLIP].plural1, "ammo clips", sizeof(mobjinfo[MT_CLIP].plural1));
+        M_StringCopy(mobjinfo[MT_MISC17].name1, "box of ammo", sizeof(mobjinfo[MT_MISC17].name1));
+        M_StringCopy(mobjinfo[MT_MISC17].plural1, "boxes of ammo", sizeof(mobjinfo[MT_MISC17].plural1));
+        M_StringCopy(mobjinfo[MT_MISC18].name1, "missile", sizeof(mobjinfo[MT_MISC18].name1));
+        M_StringCopy(mobjinfo[MT_MISC18].plural1, "missiles", sizeof(mobjinfo[MT_MISC18].plural1));
+        M_StringCopy(mobjinfo[MT_MISC19].name1, "crate of missiles", sizeof(mobjinfo[MT_MISC19].name1));
+        M_StringCopy(mobjinfo[MT_MISC19].plural1, "crates of missiles", sizeof(mobjinfo[MT_MISC19].plural1));
+        M_StringCopy(mobjinfo[MT_MISC20].name1, "small polaric recharge", sizeof(mobjinfo[MT_MISC20].name1));
+        M_StringCopy(mobjinfo[MT_MISC20].plural1, "small polaric recharges", sizeof(mobjinfo[MT_MISC20].plural1));
+        M_StringCopy(mobjinfo[MT_MISC21].name1, "large polaric recharge", sizeof(mobjinfo[MT_MISC21].name1));
+        M_StringCopy(mobjinfo[MT_MISC21].plural1, "large polaric recharges", sizeof(mobjinfo[MT_MISC21].plural1));
+        M_StringCopy(mobjinfo[MT_MISC25].name1, "SKAG 1337", sizeof(mobjinfo[MT_MISC25].name1));
+        M_StringCopy(mobjinfo[MT_MISC25].plural1, "SKAG 1337s", sizeof(mobjinfo[MT_MISC25].plural1));
+        M_StringCopy(mobjinfo[MT_CHAINGUN].name1, "minigun", sizeof(mobjinfo[MT_CHAINGUN].name1));
+        M_StringCopy(mobjinfo[MT_CHAINGUN].plural1, "miniguns", sizeof(mobjinfo[MT_CHAINGUN].plural1));
+        M_StringCopy(mobjinfo[MT_MISC26].name1, "angle grinder", sizeof(mobjinfo[MT_MISC26].name1));
+        M_StringCopy(mobjinfo[MT_MISC26].plural1, "angle grinders", sizeof(mobjinfo[MT_MISC26].plural1));
+        M_StringCopy(mobjinfo[MT_MISC27].name1, "missile launcher", sizeof(mobjinfo[MT_MISC27].name1));
+        M_StringCopy(mobjinfo[MT_MISC27].plural1, "missile launchers", sizeof(mobjinfo[MT_MISC27].plural1));
+        M_StringCopy(mobjinfo[MT_MISC28].name1, "polaric energy cannon", sizeof(mobjinfo[MT_MISC28].name1));
+        M_StringCopy(mobjinfo[MT_MISC28].plural1, "polaric energy cannons", sizeof(mobjinfo[MT_MISC28].plural1));
+        M_StringCopy(mobjinfo[MT_SHOTGUN].name1, "pump-action shotgun", sizeof(mobjinfo[MT_SHOTGUN].name1));
+        M_StringCopy(mobjinfo[MT_SHOTGUN].plural1, "pump-action shotguns", sizeof(mobjinfo[MT_SHOTGUN].plural1));
+        M_StringCopy(mobjinfo[MT_SUPERSHOTGUN].name1, "double-barreled shotgun", sizeof(mobjinfo[MT_SUPERSHOTGUN].name1));
+        M_StringCopy(mobjinfo[MT_SUPERSHOTGUN].plural1, "double-barreled shotguns", sizeof(mobjinfo[MT_SUPERSHOTGUN].plural1));
 
         M_StringCopy(mobjinfo[MT_POSSESSED].name1, "zombie", sizeof(mobjinfo[MT_POSSESSED].name1));
         M_StringCopy(mobjinfo[MT_POSSESSED].plural1, "zombies", sizeof(mobjinfo[MT_POSSESSED].plural1));
@@ -637,16 +705,6 @@ static void R_InitSpriteLumps(void)
         M_StringCopy(mobjinfo[MT_CYBORG].plural1, "assault tripods", sizeof(mobjinfo[MT_CYBORG].plural1));
         M_StringCopy(mobjinfo[MT_PAIN].name1, "summoner", sizeof(mobjinfo[MT_PAIN].name1));
         M_StringCopy(mobjinfo[MT_PAIN].plural1, "summoners", sizeof(mobjinfo[MT_PAIN].plural1));
-    }
-    else if (chex)
-    {
-        s_M_SKILLLEVEL1 = M_StringDuplicate("Easy does it");
-        s_M_SKILLLEVEL2 = M_StringDuplicate("Not so sticky");
-        s_M_SKILLLEVEL3 = M_StringDuplicate("Gobs of goo");
-        s_M_SKILLLEVEL4 = M_StringDuplicate("Extreme ooze");
-        s_M_SKILLLEVEL5 = M_StringDuplicate("Super slimey!");
-
-        mobjinfo[MT_BLOOD].blood = GREENBLOOD;
     }
     else if (hacx)
     {
@@ -717,7 +775,7 @@ static void R_InitSpriteLumps(void)
         s_M_EPISODE1 = M_StringDuplicate("Homecoming");
         s_M_EPISODE2 = M_StringDuplicate("Downfall");
         s_M_EPISODE3 = M_StringDuplicate("Otherworld");
-        s_M_EPISODE4 = M_StringDuplicate("Bonus");
+        s_M_EPISODE4 = M_StringDuplicate(REKKRSL ? "Sunken Land" : "Bonus");
 
         s_M_SKILLLEVEL1 = M_StringDuplicate("Scrapper");
         s_M_SKILLLEVEL2 = M_StringDuplicate("Brawler");
@@ -725,12 +783,31 @@ static void R_InitSpriteLumps(void)
         s_M_SKILLLEVEL4 = M_StringDuplicate("Wrecker");
         s_M_SKILLLEVEL5 = M_StringDuplicate("Berserker");
 
-        powerupnames[pw_strength] = M_StringDuplicate("wode");
+        M_StringCopy(berserk, "wode", sizeof(berserk));
 
         mobjinfo[MT_HEAD].blood = MT_BLOOD;
         mobjinfo[MT_KNIGHT].blood = MT_BLOOD;
+        mobjinfo[MT_MISC57].blood = MT_BLOOD;
+        mobjinfo[MT_MISC58].blood = MT_BLOOD;
+        mobjinfo[MT_MISC61].blood = MT_BLOOD;
+        mobjinfo[MT_MISC62].blood = MT_BLOOD;
+        mobjinfo[MT_MISC63].blood = MT_BLOOD;
+        mobjinfo[MT_MISC64].blood = MT_BLOOD;
+        mobjinfo[MT_MISC67].blood = MT_BLOOD;
+        mobjinfo[MT_MISC68].blood = MT_BLOOD;
+        mobjinfo[MT_MISC69].blood = MT_BLOOD;
+        mobjinfo[MT_MISC71].blood = MT_BLOOD;
+        mobjinfo[MT_MISC74].blood = MT_BLOOD;
+        mobjinfo[MT_MISC79].blood = MT_BLOOD;
+        mobjinfo[MT_MISC80].blood = MT_BLOOD;
+        mobjinfo[MT_MISC81].blood = MT_BLOOD;
+        mobjinfo[MT_MISC82].blood = MT_BLOOD;
+        mobjinfo[MT_MISC83].blood = MT_BLOOD;
+        mobjinfo[MT_MISC84].blood = MT_BLOOD;
+        mobjinfo[MT_MISC85].blood = MT_BLOOD;
 
         mobjinfo[MT_SKULL].flags2 &= ~MF2_TRANSLUCENT_REDONLY;
+        mobjinfo[MT_CLIP].flags2 |= MF2_TRANSLUCENT_50;
 
         M_StringCopy(weaponinfo[wp_pistol].name, "soul bow", sizeof(weaponinfo[wp_pistol].name));
         M_StringCopy(weaponinfo[wp_shotgun].name, "steel-shot launcher", sizeof(weaponinfo[wp_shotgun].name));
@@ -810,7 +887,7 @@ static void R_InitSpriteLumps(void)
 //
 static void R_InitColormaps(void)
 {
-    dboolean    COLORMAP = (W_CheckMultipleLumps("COLORMAP") > 1);
+    bool        COLORMAP = (W_CheckMultipleLumps("COLORMAP") > 1);
     byte        *palsrc;
     byte        *palette;
     wadfile_t   *colormapwad;
@@ -966,7 +1043,7 @@ int R_TextureNumForName(char *name)
 
     if (i == -1)
     {
-        if (*name && *name != '-')
+        if (*name && *name != '-' && !suppresswarnings)
         {
             char    *temp = uppercase(name);
 
@@ -988,7 +1065,7 @@ int R_TextureNumForName(char *name)
 // to avoid using alloca(), and to improve performance.
 void R_PrecacheLevel(void)
 {
-    dboolean    *hitlist = calloc(MAX(numtextures, numflats), sizeof(dboolean));
+    bool    *hitlist = calloc(MAX(numtextures, numflats), sizeof(bool));
 
     // Precache flats.
     for (int i = 0; i < numsectors; i++)

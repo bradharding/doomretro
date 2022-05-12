@@ -6,8 +6,8 @@
 
 ========================================================================
 
-  Copyright © 1993-2021 by id Software LLC, a ZeniMax Media company.
-  Copyright © 2013-2021 by Brad Harding <mailto:brad@doomretro.com>.
+  Copyright © 1993-2022 by id Software LLC, a ZeniMax Media company.
+  Copyright © 2013-2022 by Brad Harding <mailto:brad@doomretro.com>.
 
   DOOM Retro is a fork of Chocolate DOOM. For a list of credits, see
   <https://github.com/bradharding/doomretro/wiki/CREDITS>.
@@ -16,7 +16,7 @@
 
   DOOM Retro is free software: you can redistribute it and/or modify it
   under the terms of the GNU General Public License as published by the
-  Free Software Foundation, either version 3 of the License, or (at your
+  Free Software Foundation, either version 3 of the license, or (at your
   option) any later version.
 
   DOOM Retro is distributed in the hope that it will be useful, but
@@ -36,35 +36,33 @@
 ========================================================================
 */
 
-#if !defined(__M_CHEAT_H__)
-#define __M_CHEAT_H__
+#pragma once
 
 //
 // CHEAT SEQUENCE PACKAGE
 //
 
 // declaring a cheat
-#define CHEAT(value, parameters)    { value, parameters, 0, 0, "", 0 }
-
-#define CHEATTIMEOUT                (2 * TICRATE)
+#define CHEAT(value, parameters, longtimeout)   { value, parameters, longtimeout, 0, 0, "", 0 }
 
 typedef struct
 {
     // settings for this cheat
-    char        *sequence;
-    int         parameter_chars;
+    char    *sequence;
+    int     parameter_chars;
+    bool    longtimeout;
 
     // state used during the game
-    size_t      chars_read;
-    int         param_chars_read;
-    char        parameter_buf[5];
+    size_t  chars_read;
+    int     param_chars_read;
+    char    parameter_buf[5];
 
-    int         timeout;
+    int     timeout;
 
-    dboolean    movekey;
+    bool    movekey;
 } cheatseq_t;
 
-dboolean cht_CheckCheat(cheatseq_t *cht, unsigned char key);
+bool cht_CheckCheat(cheatseq_t *cht, unsigned char key);
 
 void cht_GetParam(cheatseq_t *cht, char *buffer);
 
@@ -84,4 +82,3 @@ extern cheatseq_t   cheat_clev;
 extern cheatseq_t   cheat_clev_xy;
 extern cheatseq_t   cheat_mypos;
 extern cheatseq_t   cheat_amap;
-#endif

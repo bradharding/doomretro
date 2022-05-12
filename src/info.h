@@ -6,8 +6,8 @@
 
 ========================================================================
 
-  Copyright © 1993-2021 by id Software LLC, a ZeniMax Media company.
-  Copyright © 2013-2021 by Brad Harding <mailto:brad@doomretro.com>.
+  Copyright © 1993-2022 by id Software LLC, a ZeniMax Media company.
+  Copyright © 2013-2022 by Brad Harding <mailto:brad@doomretro.com>.
 
   DOOM Retro is a fork of Chocolate DOOM. For a list of credits, see
   <https://github.com/bradharding/doomretro/wiki/CREDITS>.
@@ -16,7 +16,7 @@
 
   DOOM Retro is free software: you can redistribute it and/or modify it
   under the terms of the GNU General Public License as published by the
-  Free Software Foundation, either version 3 of the License, or (at your
+  Free Software Foundation, either version 3 of the license, or (at your
   option) any later version.
 
   DOOM Retro is distributed in the hope that it will be useful, but
@@ -36,12 +36,13 @@
 ========================================================================
 */
 
-#if !defined(__INFO_H__)
-#define __INFO_H__
+#pragma once
 
 #include "doomtype.h"
 #include "d_think.h"
 #include "states.h"
+
+#define NO_ALTSPEED -1
 
 typedef enum
 {
@@ -228,6 +229,26 @@ typedef enum
     NUMMOBJTYPES
 } mobjtype_t;
 
+typedef enum
+{
+    IG_DEFAULT,
+    IG_END
+} infightinggroup_t;
+
+typedef enum
+{
+    PG_GROUPLESS = -1,
+    PG_DEFAULT,
+    PG_BARON,
+    PG_END
+} projectilegroup_t;
+
+typedef enum
+{
+    SG_DEFAULT,
+    SG_END
+} splashgroup_t;
+
 typedef struct
 {
     int         doomednum;
@@ -247,9 +268,6 @@ typedef struct
     statenum_t  xdeathstate;
     int         deathsound;
     mobjtype_t  droppeditem;
-    int         meleethreshold;
-    int         maxattackrange;
-    int         minmissilechance;
     int         speed;
     int         radius;
     int         pickupradius;
@@ -260,12 +278,21 @@ typedef struct
     int         activesound;
     int         flags;
     int         flags2;
-    int         flags3;
     statenum_t  raisestate;
     int         frames;
-    dboolean    fullbright;
+    bool        fullbright;
     int         blood;
     int         shadowoffset;
+
+    // MBF21
+    int         mbf21flags;
+    int         infightinggroup;
+    int         projectilegroup;
+    int         splashgroup;
+    int         ripsound;
+    int         altspeed;
+    int         meleerange;
+
     char        name1[64];
     char        plural1[64];
     char        name2[64];
@@ -277,5 +304,3 @@ typedef struct
 } mobjinfo_t;
 
 extern mobjinfo_t   mobjinfo[];
-
-#endif

@@ -6,8 +6,8 @@
 
 ========================================================================
 
-  Copyright © 1993-2021 by id Software LLC, a ZeniMax Media company.
-  Copyright © 2013-2021 by Brad Harding <mailto:brad@doomretro.com>.
+  Copyright © 1993-2022 by id Software LLC, a ZeniMax Media company.
+  Copyright © 2013-2022 by Brad Harding <mailto:brad@doomretro.com>.
 
   DOOM Retro is a fork of Chocolate DOOM. For a list of credits, see
   <https://github.com/bradharding/doomretro/wiki/CREDITS>.
@@ -16,7 +16,7 @@
 
   DOOM Retro is free software: you can redistribute it and/or modify it
   under the terms of the GNU General Public License as published by the
-  Free Software Foundation, either version 3 of the License, or (at your
+  Free Software Foundation, either version 3 of the license, or (at your
   option) any later version.
 
   DOOM Retro is distributed in the hope that it will be useful, but
@@ -154,11 +154,11 @@ void T_PlatRaise(plat_t *plat)
 // Do Platforms
 //  "amount" is only used for SOME platforms.
 //
-dboolean EV_DoPlat(line_t *line, plattype_e type, int amount)
+bool EV_DoPlat(line_t *line, plattype_e type, int amount)
 {
     plat_t      *plat;
     int         secnum = -1;
-    dboolean    rtn = false;
+    bool        rtn = false;
     sector_t    *sec;
 
     if (P_ProcessNoTagLines(line, &sec, &secnum))
@@ -199,7 +199,7 @@ manual_plat:
                 return rtn;
         }
 
-        // Find lowest & highest floors around sector
+        // Find lowest and highest floors around sector
         rtn = true;
         plat = Z_Calloc(1, sizeof(*plat), PU_LEVSPEC, NULL);
 
@@ -288,7 +288,7 @@ manual_plat:
             sec->lines[i]->flags &= ~ML_SECRET;
 
         if (zerotag_manual)
-            return rtn; //e6y
+            return rtn; // e6y
     }
 
     return rtn;
@@ -325,7 +325,7 @@ void P_ActivateInStasis(int tag)
 // EV_StopPlat
 // Handler for "stop perpetual floor" linedef type
 //
-dboolean EV_StopPlat(line_t *line)
+bool EV_StopPlat(line_t *line)
 {
     for (platlist_t *platlist = activeplats; platlist; platlist = platlist->next)   // search the active plats
     {
@@ -350,14 +350,17 @@ void P_AddActivePlat(plat_t *plat)
 {
     platlist_t  *list = malloc(sizeof(*list));
 
-    list->plat = plat;
-    plat->list = list;
+    if (list)
+    {
+        list->plat = plat;
+        plat->list = list;
 
-    if ((list->next = activeplats))
-        list->next->prev = &list->next;
+        if ((list->next = activeplats))
+            list->next->prev = &list->next;
 
-    list->prev = &activeplats;
-    activeplats = list;
+        list->prev = &activeplats;
+        activeplats = list;
+    }
 }
 
 //

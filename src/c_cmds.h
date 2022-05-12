@@ -6,8 +6,8 @@
 
 ========================================================================
 
-  Copyright © 1993-2021 by id Software LLC, a ZeniMax Media company.
-  Copyright © 2013-2021 by Brad Harding <mailto:brad@doomretro.com>.
+  Copyright © 1993-2022 by id Software LLC, a ZeniMax Media company.
+  Copyright © 2013-2022 by Brad Harding <mailto:brad@doomretro.com>.
 
   DOOM Retro is a fork of Chocolate DOOM. For a list of credits, see
   <https://github.com/bradharding/doomretro/wiki/CREDITS>.
@@ -16,7 +16,7 @@
 
   DOOM Retro is free software: you can redistribute it and/or modify it
   under the terms of the GNU General Public License as published by the
-  Free Software Foundation, either version 3 of the License, or (at your
+  Free Software Foundation, either version 3 of the license, or (at your
   option) any later version.
 
   DOOM Retro is distributed in the hope that it will be useful, but
@@ -36,8 +36,7 @@
 ========================================================================
 */
 
-#if !defined(__C_CMDS_H__)
-#define __C_CMDS_H__
+#pragma once
 
 #include "doomtype.h"
 
@@ -52,9 +51,9 @@
 
 typedef enum
 {
-    keyboardcontrol = 1,
-    mousecontrol    = 2,
-    gamepadcontrol  = 3
+    keyboardcontrol       = 1,
+    mousecontrol          = 2,
+    gamecontrollercontrol = 3
 } controltype_t;
 
 typedef struct
@@ -66,14 +65,14 @@ typedef struct
 
 typedef struct
 {
-    char        *action;
-    dboolean    hideconsole;
-    void        (*func)(void);
-    void        *keyboard1;
-    void        *keyboard2;
-    void        *mouse1;
-    void        *gamepad1;
-    void        *gamepad2;
+    char    *action;
+    bool    hideconsole;
+    void    (*func)(void);
+    void    *keyboard1;
+    void    *keyboard2;
+    void    *mouse1;
+    void    *gamecontroller1;
+    void    *gamecontroller2;
 } action_t;
 
 typedef enum
@@ -85,24 +84,28 @@ typedef enum
 
 enum
 {
-    CF_NONE     =   0,
-    CF_BOOLEAN  =   1,
-    CF_FLOAT    =   2,
-    CF_INTEGER  =   4,
-    CF_PERCENT  =   8,
-    CF_STRING   =  16,
-    CF_TIME     =  32,
-    CF_OTHER    =  64,
-    CF_READONLY = 128
+    CF_NONE         =    0,
+    CF_BOOLEAN      =    1,
+    CF_FLOAT        =    2,
+    CF_INTEGER      =    4,
+    CF_PERCENT      =    8,
+    CF_STRING       =   16,
+    CF_TIME         =   32,
+    CF_OTHER        =   64,
+    CF_READONLY     =  128,
+    CF_STARTUPRESET =  256,
+    CF_MAPRESET     =  512,
+    CF_NEXTMAP      = 1024,
+    CF_PISTOLSTART  = 2048
 };
 
 typedef struct
 {
     char        *name;
     char        *alternate;
-    dboolean    (*func1)(char *cmd, char *parms);
+    bool        (*func1)(char *cmd, char *parms);
     void        (*func2)(char *cmd, char *parms);
-    dboolean    parameters;
+    bool        parameters;
     cmdtype_t   type;
     int         flags;
     void        *variable;
@@ -125,17 +128,16 @@ extern action_t         actions[];
 extern const control_t  controls[];
 extern consolecmd_t     consolecmds[];
 extern alias_t          aliases[MAXALIASES];
-extern dboolean         executingalias;
-extern dboolean         resettingcvar;
-extern dboolean         vanilla;
-extern dboolean         togglingvanilla;
-extern dboolean         massacre;
+extern bool             executingalias;
+extern bool             resettingcvar;
+extern bool             vanilla;
+extern bool             togglingvanilla;
+extern bool             massacre;
+extern bool             nobindoutput;
 
 void alias_cmd_func2(char *cmd, char *parms);
 void bind_cmd_func2(char *cmd, char *parms);
 
 int C_GetIndex(const char *cmd);
-dboolean C_ExecuteAlias(const char *alias);
-char *distancetraveled(uint64_t value, dboolean allowzero);
-
-#endif
+bool C_ExecuteAlias(const char *alias);
+char *distancetraveled(uint64_t value, bool allowzero);

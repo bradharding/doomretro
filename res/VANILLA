@@ -5,11 +5,11 @@ am_allmapfdwallcolor 99
 am_allmapwallcolor 99
 am_backcolor 0
 am_bluedoorcolor 231
+am_bluekeycolor 112
 am_cdwallcolor 231
 am_crosshaircolor 96
 am_external off
 am_fdwallcolor 64
-am_followmode on
 am_grid off
 am_gridcolor 104
 am_gridsize 128x128
@@ -18,12 +18,14 @@ am_path off
 am_playercolor 209
 am_playerstats off
 am_reddoorcolor 231
+am_redkeycolor 112
 am_rotatemode off
 am_teleportercolor 184
 am_thingcolor 112
 am_tswallcolor 96
 am_wallcolor 176
 am_yellowdoorcolor 231
+am_yellowkeycolor 112
 autoaim on
 autoload off
 autosave off
@@ -33,18 +35,19 @@ centerweapon off
 crosshair none
 facebackcolor 5
 fade off
+flashkeys off
 freeze off
-gp_analog off
-gp_invertyaxis off
-gp_sensitivity_horizontal 16
-gp_swapthumbsticks off
-gp_thumbsticks 1
-gp_vibrate_barrels 0%
-gp_vibrate_damage 0%
-gp_vibrate_weapons 0%
 groupmessages off
 infighting off
 infiniteheight on
+joy_analog off
+joy_invertyaxis off
+joy_rumble_barrels 0%
+joy_rumble_damage 0%
+joy_rumble_weapons 0%
+joy_sensitivity_horizontal 16
+joy_swapthumbsticks off
+joy_thumbsticks 1
 m_acceleration off
 m_doubleclick_use on
 m_novertical off
@@ -53,6 +56,7 @@ melt on
 messages on
 mouselook off
 movebob 100%
+negativehealth off
 notarget off
 pistolstart off
 playername "you"
@@ -103,6 +107,7 @@ r_translucency off
 regenhealth off
 respawnitems off
 s_channels 8
+s_lowermenumusic off
 s_randommusic off
 s_randompitch off
 s_stereo on
@@ -136,8 +141,6 @@ bind 'm' +mark
 bind '0' +maxzoom
 bind escape +menu
 bind start +menu
-bind gamepad2 +nextweapon
-bind gamepad4 +prevweapon
 bind right +right
 bind shift +run
 bind lefttrigger +run
@@ -146,7 +149,7 @@ bind mouse2 +strafe
 bind ',' +strafeleft
 bind '.' +straferight
 bind space +use
-bind gamepad1 +use
+bind button1 +use
 bind rightthumb +use
 bind '1' +weapon1
 bind '2' +weapon2

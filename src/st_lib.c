@@ -6,8 +6,8 @@
 
 ========================================================================
 
-  Copyright © 1993-2021 by id Software LLC, a ZeniMax Media company.
-  Copyright © 2013-2021 by Brad Harding <mailto:brad@doomretro.com>.
+  Copyright © 1993-2022 by id Software LLC, a ZeniMax Media company.
+  Copyright © 2013-2022 by Brad Harding <mailto:brad@doomretro.com>.
 
   DOOM Retro is a fork of Chocolate DOOM. For a list of credits, see
   <https://github.com/bradharding/doomretro/wiki/CREDITS>.
@@ -16,7 +16,7 @@
 
   DOOM Retro is free software: you can redistribute it and/or modify it
   under the terms of the GNU General Public License as published by the
-  Free Software Foundation, either version 3 of the License, or (at your
+  Free Software Foundation, either version 3 of the license, or (at your
   option) any later version.
 
   DOOM Retro is distributed in the hope that it will be useful, but
@@ -43,7 +43,9 @@
 #include "st_lib.h"
 #include "v_video.h"
 
-dboolean    usesmallnums;
+bool    negativehealth = negativehealth_default;
+
+bool    usesmallnums;
 
 static void (*statbarnumfunc)(int, int, int, int, int, patch_t *);
 
@@ -76,7 +78,7 @@ static void STlib_DrawLowNum(int number, int color, int shadow, int x, int y, pa
 
     for (int i = 0, j = (y * SCREENWIDTH + x) * SCREENSCALE; i < 96; i++)
     {
-        char    dot = lownums[number][i];
+        const char  dot = lownums[number][i];
 
         if (dot == '1')
             screens[0][j + i / 8 * SCREENWIDTH + (i & 7)] = color;
@@ -110,7 +112,7 @@ static void STlib_DrawHighNum(int number, int color, int shadow, int x, int y, p
 
     for (int i = 0, j = (y * SCREENWIDTH + x) * SCREENSCALE; i < 96; i++)
     {
-        char    dot = highnums[number][i];
+        const char  dot = highnums[number][i];
 
         if (dot == '1')
             screens[0][j + i / 8 * SCREENWIDTH + (i & 7)] = color;
@@ -119,42 +121,73 @@ static void STlib_DrawHighNum(int number, int color, int shadow, int x, int y, p
     }
 }
 
-void STlib_UpdateBigNum(st_number_t *n)
+void STlib_UpdateBigAmmoNum(st_number_t *n)
 {
-    int num = ABS(*n->num);
-
     // if non-number, do not draw it
-    if (num == 1994)
+    if (*n->num == 1994)
         return;
     else
     {
-        int x = n->x;
-        int w = SHORT(n->p[0]->width);
+        int         num = *n->num;
+        int         x = n->x;
+        const int   w = SHORT(n->p[0]->width);
 
         // in the special case of 0, you draw 0
         if (!num)
             V_DrawPatch(x - w, n->y, 0, n->p[0]);
         else
-        {
-            int numdigits = n->width;
-
             // draw the new number
-            while (num && numdigits--)
+            while (num)
             {
-                x -= w;
-                V_DrawPatch(x, n->y, 0, n->p[num % 10]);
+                V_DrawPatch((x -= w), n->y, 0, n->p[num % 10]);
                 num /= 10;
             }
-        }
+    }
+}
 
-        // draw a minus sign if necessary
-        if ((num = *n->num) < 0 && minuspatch)
+void STlib_UpdateBigArmorNum(st_number_t *n)
+{
+    int         num = *n->num;
+    int         x = n->x;
+    const int   w = SHORT(n->p[0]->width);
+
+    // in the special case of 0, you draw 0
+    if (!num)
+        V_DrawPatch(x - w, n->y, 0, n->p[0]);
+    else
+        // draw the new number
+        while (num)
         {
-            if ((num >= -199 && num <= -100) || (num >= -79 && num <= -70) || (num >= -19 && num <= -10) || num == -7 || num == -1)
-                x += 2;
-
-            V_DrawPatch(x - minuspatchwidth, n->y, 0, minuspatch);
+            V_DrawPatch((x -= w), n->y, 0, n->p[num % 10]);
+            num /= 10;
         }
+}
+
+void STlib_UpdateBigHealthNum(st_number_t *n)
+{
+    int         num = (negativehealth ? ABS(*n->num) : MAX(0, *n->num));
+    int         x = n->x;
+    const int   w = SHORT(n->p[0]->width);
+
+    // in the special case of 0, you draw 0
+    if (!num)
+        V_DrawPatch(x - w, n->y, 0, n->p[0]);
+    else
+        // draw the new number
+        while (num)
+        {
+            V_DrawPatch((x -= w), n->y, 0, n->p[num % 10]);
+            num /= 10;
+        }
+
+    // draw a minus sign if necessary
+    if ((num = *n->num) < 0 && negativehealth && minuspatch)
+    {
+        if ((num >= -199 && num <= -100) || (num >= -79 && num <= -70)
+            || (num >= -19 && num <= -10) || num == -7 || num == -1)
+            x += 2;
+
+        V_DrawPatch(x - minuspatchwidth, n->y, 0, minuspatch);
     }
 }
 
@@ -167,17 +200,13 @@ void STlib_UpdateSmallNum(st_number_t *n)
     if (!num)
         statbarnumfunc(0, 160, 47, x - 4, n->y, n->p[0]);
     else
-    {
-        int numdigits = n->width;
-
         // draw the new number
-        while (num && numdigits--)
+        while (num)
         {
             x -= 4;
             statbarnumfunc(num % 10, 160, 47, x, n->y, n->p[num % 10]);
             num /= 10;
         }
-    }
 }
 
 void STlib_InitPercent(st_percent_t *p, int x, int y, patch_t **pl, int *num, patch_t *percent)
@@ -186,12 +215,20 @@ void STlib_InitPercent(st_percent_t *p, int x, int y, patch_t **pl, int *num, pa
     p->p = percent;
 }
 
-void STlib_UpdatePercent(st_percent_t *per, int refresh)
+void STlib_UpdateArmorPercent(st_percent_t *per, int refresh)
 {
     if (refresh)
         V_DrawPatch(per->n.x, per->n.y, 0, per->p);
 
-    STlib_UpdateBigNum(&per->n);
+    STlib_UpdateBigArmorNum(&per->n);
+}
+
+void STlib_UpdateHealthPercent(st_percent_t *per, int refresh)
+{
+    if (refresh)
+        V_DrawPatch(per->n.x, per->n.y, 0, per->p);
+
+    STlib_UpdateBigHealthNum(&per->n);
 }
 
 void STlib_InitMultIcon(st_multicon_t *mi, int x, int y, patch_t **il, int *inum)
@@ -200,28 +237,29 @@ void STlib_InitMultIcon(st_multicon_t *mi, int x, int y, patch_t **il, int *inum
     mi->y = y;
     mi->oldinum = -1;
     mi->inum = inum;
-    mi->p = il;
+    mi->patch = il;
 }
 
-void STlib_UpdateMultIcon(st_multicon_t *mi, dboolean refresh)
+void STlib_UpdateMultIcon(st_multicon_t *mi, bool refresh)
 {
     if ((mi->oldinum != *mi->inum || refresh) && *mi->inum != -1)
     {
-        V_DrawPatch(mi->x, mi->y, 0, mi->p[*mi->inum]);
+        V_DrawPatch(mi->x, mi->y, 0, mi->patch[*mi->inum]);
         mi->oldinum = *mi->inum;
     }
 }
 
-void STlib_UpdateArmsIcon(st_multicon_t *mi, dboolean refresh, int i)
+void STlib_UpdateArmsIcon(st_multicon_t *mi, bool refresh, int i)
 {
     if ((mi->oldinum != *mi->inum || refresh) && *mi->inum != -1)
     {
-        statbarnumfunc(i + 2, (*mi->inum ? 160 : 93), 47, mi->x, mi->y, mi->p[*mi->inum]);
+        statbarnumfunc(i + 2, (*mi->inum ? 160 : 93), 47, mi->x, mi->y, mi->patch[*mi->inum]);
         mi->oldinum = *mi->inum;
     }
 }
 
 void STLib_Init(void)
 {
-    statbarnumfunc = (!usesmallnums ? &STlib_DrawLowNumPatch : (r_detail == r_detail_high ? &STlib_DrawHighNum : &STlib_DrawLowNum));
+    statbarnumfunc = (!usesmallnums ? &STlib_DrawLowNumPatch :
+        (r_detail == r_detail_high ? &STlib_DrawHighNum : &STlib_DrawLowNum));
 }

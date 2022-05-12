@@ -6,8 +6,8 @@
 
 ========================================================================
 
-  Copyright © 1993-2021 by id Software LLC, a ZeniMax Media company.
-  Copyright © 2013-2021 by Brad Harding <mailto:brad@doomretro.com>.
+  Copyright © 1993-2022 by id Software LLC, a ZeniMax Media company.
+  Copyright © 2013-2022 by Brad Harding <mailto:brad@doomretro.com>.
 
   DOOM Retro is a fork of Chocolate DOOM. For a list of credits, see
   <https://github.com/bradharding/doomretro/wiki/CREDITS>.
@@ -16,7 +16,7 @@
 
   DOOM Retro is free software: you can redistribute it and/or modify it
   under the terms of the GNU General Public License as published by the
-  Free Software Foundation, either version 3 of the License, or (at your
+  Free Software Foundation, either version 3 of the license, or (at your
   option) any later version.
 
   DOOM Retro is distributed in the hope that it will be useful, but
@@ -36,8 +36,7 @@
 ========================================================================
 */
 
-#if !defined(__HU_STUFF_H__)
-#define __HU_STUFF_H__
+#pragma once
 
 #include "r_defs.h"
 
@@ -52,12 +51,11 @@
 
 #define HU_MSGX                     3
 #define HU_MSGY                     2
-#define HU_MSGHEIGHT                1       // in lines
 
 #define HU_MSGTIMEOUT               (4 * TICRATE)
 
 #define HUD_HEALTH_X                55
-#define HUD_HEALTH_Y                (SCREENHEIGHT - 28)
+#define HUD_HEALTH_Y                (SCREENHEIGHT - 32)
 #define HUD_HEALTH_MIN              10
 #define HUD_HEALTH_WAIT             250
 #define HUD_HEALTH_HIGHLIGHT_WAIT   250
@@ -79,7 +77,7 @@
 
 #define ALTHUD_LEFT_X               56
 #define ALTHUD_RIGHT_X              (SCREENWIDTH - 179)
-#define ALTHUD_Y                    (SCREENHEIGHT - 37)
+#define ALTHUD_Y                    (SCREENHEIGHT - 41)
 
 //
 // HEADS UP TEXT
@@ -92,8 +90,8 @@ void HU_Ticker(void);
 void HU_Drawer(void);
 void HU_Erase(void);
 
-void HU_SetPlayerMessage(char *message, dboolean group, dboolean external);
-void HU_PlayerMessage(char *message, dboolean group, dboolean external);
+void HU_SetPlayerMessage(char *message, bool group, bool external);
+void HU_PlayerMessage(char *message, bool group, bool external);
 
 void HU_ClearMessages(void);
 void HU_DrawDisk(void);
@@ -104,11 +102,9 @@ extern patch_t  *minuspatch;
 extern int      healthhighlight;
 extern int      ammohighlight;
 extern int      armorhighlight;
-extern dboolean drawdisk;
-extern dboolean idbehold;
+extern bool     drawdisk;
+extern bool     idbehold;
 extern int      message_counter;
-extern dboolean message_dontfuckwithme;
-extern dboolean message_fadeon;
+extern bool     message_dontfuckwithme;
+extern bool     message_fadeon;
 extern short    minuspatchwidth;
-
-#endif

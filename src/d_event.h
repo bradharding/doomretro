@@ -6,8 +6,8 @@
 
 ========================================================================
 
-  Copyright © 1993-2021 by id Software LLC, a ZeniMax Media company.
-  Copyright © 2013-2021 by Brad Harding <mailto:brad@doomretro.com>.
+  Copyright © 1993-2022 by id Software LLC, a ZeniMax Media company.
+  Copyright © 2013-2022 by Brad Harding <mailto:brad@doomretro.com>.
 
   DOOM Retro is a fork of Chocolate DOOM. For a list of credits, see
   <https://github.com/bradharding/doomretro/wiki/CREDITS>.
@@ -16,7 +16,7 @@
 
   DOOM Retro is free software: you can redistribute it and/or modify it
   under the terms of the GNU General Public License as published by the
-  Free Software Foundation, either version 3 of the License, or (at your
+  Free Software Foundation, either version 3 of the license, or (at your
   option) any later version.
 
   DOOM Retro is distributed in the hope that it will be useful, but
@@ -36,8 +36,7 @@
 ========================================================================
 */
 
-#if !defined(__D_EVENT_H__)
-#define __D_EVENT_H__
+#pragma once
 
 #include "i_video.h"
 
@@ -53,7 +52,7 @@ typedef enum
     ev_keyup,
     ev_mouse,
     ev_mousewheel,
-    ev_gamepad,
+    ev_controller,
     ev_textinput
 } evtype_t;
 
@@ -97,7 +96,7 @@ enum
     // Flag, weapon change pending.
     // If true, the next 3 bits hold weapon num.
     BT_CHANGE       = 4,
-    // The 3bit weapon mask and shift, convenience.
+    // The 3-bit weapon mask and shift, convenience.
     BT_WEAPONMASK   = (8 + 16 + 32),
     BT_WEAPONSHIFT  = 3,
 
@@ -108,8 +107,7 @@ enum
     // Save the game at each console.
     BTS_SAVEGAME    = 2,
 
-    // Savegame slot numbers
-    //  occupy the second byte of buttons.
+    // Savegame slot numbers occupy the second byte of buttons.
     BTS_SAVEMASK    = (4 + 8 + 16),
     BTS_SAVESHIFT   = 2
 };
@@ -119,5 +117,3 @@ enum
 //
 extern gameaction_t gameaction;
 extern evtype_t     lasteventtype;
-
-#endif

@@ -6,8 +6,8 @@
 
 ========================================================================
 
-  Copyright © 1993-2021 by id Software LLC, a ZeniMax Media company.
-  Copyright © 2013-2021 by Brad Harding <mailto:brad@doomretro.com>.
+  Copyright © 1993-2022 by id Software LLC, a ZeniMax Media company.
+  Copyright © 2013-2022 by Brad Harding <mailto:brad@doomretro.com>.
 
   DOOM Retro is a fork of Chocolate DOOM. For a list of credits, see
   <https://github.com/bradharding/doomretro/wiki/CREDITS>.
@@ -16,7 +16,7 @@
 
   DOOM Retro is free software: you can redistribute it and/or modify it
   under the terms of the GNU General Public License as published by the
-  Free Software Foundation, either version 3 of the License, or (at your
+  Free Software Foundation, either version 3 of the license, or (at your
   option) any later version.
 
   DOOM Retro is distributed in the hope that it will be useful, but
@@ -36,8 +36,7 @@
 ========================================================================
 */
 
-#if !defined(__P_LOCAL_H__)
-#define __P_LOCAL_H__
+#pragma once
 
 #include "d_main.h"
 #include "r_local.h"
@@ -72,6 +71,7 @@
 #define USERANGE            (64 * FRACUNIT)
 #define MELEERANGE          (64 * FRACUNIT)
 #define MISSILERANGE        (32 * 64 * FRACUNIT)
+#define WAKEUPRANGE         (64 * FRACUNIT)
 
 // follow a player exclusively for 3 seconds
 #define BASETHRESHOLD       100
@@ -106,7 +106,7 @@ void P_SetPsprite(size_t position, statenum_t stnum);
 #define MLOOKUNIT           8
 #define PLAYERSLOPE(a)      ((((a)->lookdir / MLOOKUNIT) << FRACBITS) / 153)
 
-extern dboolean autousing;
+extern bool     autousing;
 extern int      deadlookdir;
 extern fixed_t  animatedliquiddiffs[64];
 
@@ -123,7 +123,7 @@ void P_ChangeWeapon(weapontype_t newweapon);
 #define ONCEILINGZ          FIXED_MAX
 
 // Time interval for item respawning.
-#define ITEMQUEUESIZE       512
+#define ITEMQUEUESIZE       1024
 
 #define CARDNOTFOUNDYET    -1
 #define CARDNOTINMAP        0
@@ -140,19 +140,22 @@ mobjtype_t P_FindDoomedNum(int type);
 
 void P_RemoveMobj(mobj_t *mobj);
 void P_RemoveBloodMobj(mobj_t *mobj);
-dboolean P_SetMobjState(mobj_t *mobj, statenum_t state);
+void P_RemoveBloodsplats(void);
+bool P_SetMobjState(mobj_t *mobj, statenum_t state);
 void P_MobjThinker(mobj_t *mobj);
 
 void P_SpawnMoreBlood(mobj_t *mobj);
-mobj_t *P_SpawnMapThing(mapthing_t *mthing, dboolean spawnmonsters);
+mobj_t *P_SpawnMapThing(mapthing_t *mthing, bool spawnmonsters);
 void P_SpawnPuff(fixed_t x, fixed_t y, fixed_t z, angle_t angle);
 void P_SpawnSmokeTrail(fixed_t x, fixed_t y, fixed_t z, angle_t angle);
 void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mobj_t *target);
-void P_SpawnBloodSplat(fixed_t x, fixed_t y, int blood, fixed_t maxheight, mobj_t *target);
-void P_CheckMissileSpawn(mobj_t *th);
+void P_SetBloodSplatColor(bloodsplat_t *splat);
+void P_SpawnBloodSplat(fixed_t x, fixed_t y, int color, bool usemaxheight, fixed_t maxheight, mobj_t *target);
+bool P_CheckMissileSpawn(mobj_t *th);
 mobj_t *P_SpawnMissile(mobj_t *source, mobj_t *dest, mobjtype_t type);
-void P_SpawnPlayerMissile(mobj_t *source, mobjtype_t type);
+mobj_t *P_SpawnPlayerMissile(mobj_t *source, mobjtype_t type);
 void P_ExplodeMissile(mobj_t *mo);
+bool P_SeekerMissile(mobj_t *actor, mobj_t **seekTarget, angle_t thresh, angle_t turnMax, bool seekcenter);
 
 //
 // P_ENEMY.C
@@ -162,7 +165,7 @@ void P_ExplodeMissile(mobj_t *mo);
 extern int  barrelms;
 
 void P_NoiseAlert(mobj_t *target);
-dboolean P_CheckMeleeRange(mobj_t *actor);
+bool P_CheckMeleeRange(mobj_t *actor);
 
 //
 // P_MAPUTL.C
@@ -176,7 +179,7 @@ typedef struct
 typedef struct
 {
     fixed_t     frac;           // along trace line
-    dboolean    isaline;
+    bool        isaline;
 
     union
     {
@@ -185,7 +188,7 @@ typedef struct
     } d;
 } intercept_t;
 
-typedef dboolean (*traverser_t)(intercept_t *in);
+typedef bool (*traverser_t)(intercept_t *in);
 
 fixed_t P_ApproxDistance(fixed_t dx, fixed_t dy);
 int P_PointOnLineSide(fixed_t x, fixed_t y, line_t *line);
@@ -196,6 +199,8 @@ fixed_t P_InterceptVector(divline_t *v2, divline_t *v1);
 int P_GetSafeBlockX(int coord);
 int P_GetSafeBlockY(int coord);
 
+mobj_t *P_RoughTargetSearch(mobj_t *mo, angle_t fov, int distance);
+
 extern fixed_t  opentop;
 extern fixed_t  openbottom;
 extern fixed_t  openrange;
@@ -203,15 +208,15 @@ extern fixed_t  lowfloor;
 
 void P_LineOpening(line_t *line);
 
-dboolean P_BlockLinesIterator(int x, int y, dboolean func(line_t *));
-dboolean P_BlockThingsIterator(int x, int y, dboolean func(mobj_t *));
+bool P_BlockLinesIterator(int x, int y, bool func(line_t *));
+bool P_BlockThingsIterator(int x, int y, bool func(mobj_t *));
 
 #define PT_ADDLINES     1
 #define PT_ADDTHINGS    2
 
 extern divline_t    dltrace;
 
-dboolean P_PathTraverse(fixed_t x1, fixed_t y1, fixed_t x2, fixed_t y2, int flags, traverser_t trav);
+bool P_PathTraverse(fixed_t x1, fixed_t y1, fixed_t x2, fixed_t y2, int flags, traverser_t trav);
 
 void P_UnsetThingPosition(mobj_t *thing);
 void P_UnsetBloodSplatPosition(bloodsplat_t *splat);
@@ -227,29 +232,31 @@ void P_CheckIntercepts(void);
 // If "floatok" true, move would be ok
 // if within "tmfloorz - tmceilingz".
 extern fixed_t      attackrange;
-extern dboolean     floatok;
-extern dboolean     felldown;       // killough 11/98: indicates object pushed off ledge
+extern bool         floatok;
+extern bool         felldown;       // killough 11/98: indicates object pushed off ledge
 extern fixed_t      tmfloorz;
 extern fixed_t      tmbbox[4];      // phares 03/20/98
 extern msecnode_t   *sector_list;
 extern line_t       *ceilingline;
 extern line_t       *blockline;
 
-extern dboolean     infight;
+extern bool         infight;
 
 void P_CheckSpechits(void);
-dboolean P_CheckPosition(mobj_t *thing, fixed_t x, fixed_t y);
+bool P_CheckPosition(mobj_t *thing, fixed_t x, fixed_t y);
 mobj_t *P_CheckOnMobj(mobj_t *thing);
-dboolean P_IsInLiquid(mobj_t *thing);
-dboolean P_TryMove(mobj_t *thing, fixed_t x, fixed_t y, int dropoff);
-dboolean P_CheckLineSide(mobj_t *actor, fixed_t x, fixed_t y);
-dboolean P_TeleportMove(mobj_t *thing, fixed_t x, fixed_t y, fixed_t z, dboolean boss);
+bool P_IsInLiquid(mobj_t *thing);
+bool P_TryMove(mobj_t *thing, fixed_t x, fixed_t y, int dropoff);
+bool P_CheckLineSide(mobj_t *actor, fixed_t x, fixed_t y);
+bool P_TeleportMove(mobj_t *thing, fixed_t x, fixed_t y, fixed_t z, bool boss);
 void P_SlideMove(mobj_t *mo);
-dboolean P_CheckSight(mobj_t *t1, mobj_t *t2);
-dboolean P_DoorClosed(line_t *line);
+bool P_CheckSight(mobj_t *t1, mobj_t *t2);
+bool P_CheckFOV(mobj_t *t1, mobj_t *t2, angle_t fov);
+bool P_DoorClosed(line_t *line);
 void P_UseLines(void);
 
-dboolean P_ChangeSector(sector_t *sector, dboolean crunch);
+bool P_ChangeSector(sector_t *sector, bool crunch);
+void P_CreateSecNodeList(mobj_t *thing, fixed_t x, fixed_t y);
 void P_FreeSecNodeList(void);
 void P_DelSeclist(msecnode_t *node);
 
@@ -259,8 +266,8 @@ fixed_t P_AimLineAttack(mobj_t *t1, angle_t angle, fixed_t distance, int mask);
 
 void P_LineAttack(mobj_t *t1, angle_t angle, fixed_t distance, fixed_t slope, int damage);
 
-dboolean PIT_RadiusAttack(mobj_t *thing);
-void P_RadiusAttack(mobj_t *spot, mobj_t *source, int damage, dboolean verticality);
+bool PIT_RadiusAttack(mobj_t *thing);
+void P_RadiusAttack(mobj_t *spot, mobj_t *source, int damage, int distance, bool verticality);
 
 int P_GetMoveFactor(const mobj_t *mo, int *frictionp);      // killough 08/28/98
 int P_GetFriction(const mobj_t *mo, int *frictionfactor);   // killough 08/28/98
@@ -289,36 +296,33 @@ extern int          blockmapyneg;
 //
 #define MAXHEALTH   100
 
-dboolean P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, dboolean message, dboolean stat);
-dboolean P_TakeSpecialThing(mobjtype_t type);
+bool P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, bool message, bool stat);
+bool P_TakeSpecialThing(mobjtype_t type);
 
-void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage, dboolean adjust);
+void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage, bool adjust, bool telefragged);
 
 void P_ResurrectMobj(mobj_t *target);
 
-extern int      god_health;
-extern int      idfa_armor;
-extern int      idfa_armor_class;
-extern int      idkfa_armor;
-extern int      idkfa_armor_class;
-extern int      initial_health;
-extern int      initial_bullets;
-extern int      maxhealth;
-extern int      max_armor;
-extern int      green_armor_class;
-extern int      blue_armor_class;
-extern int      max_soul;
-extern int      soul_health;
-extern int      mega_health;
-extern int      bfgcells;
-extern dboolean species_infighting;
-extern int      maxammo[];
-extern int      clipammo[];
-extern int      prevobituarytics;
+extern int  god_health;
+extern int  idfa_armor;
+extern int  idfa_armor_class;
+extern int  idkfa_armor;
+extern int  idkfa_armor_class;
+extern int  initial_health;
+extern int  initial_bullets;
+extern int  maxhealth;
+extern int  max_armor;
+extern int  green_armor_class;
+extern int  blue_armor_class;
+extern int  max_soul;
+extern int  soul_health;
+extern int  mega_health;
+extern int  bfgcells;
+extern bool species_infighting;
+extern int  maxammo[];
+extern int  clipammo[];
 
 //
 // P_SPEC.C
 //
 #include "p_spec.h"
-
-#endif

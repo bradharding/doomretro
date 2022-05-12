@@ -6,8 +6,8 @@
 
 ========================================================================
 
-  Copyright © 1993-2021 by id Software LLC, a ZeniMax Media company.
-  Copyright © 2013-2021 by Brad Harding <mailto:brad@doomretro.com>.
+  Copyright © 1993-2022 by id Software LLC, a ZeniMax Media company.
+  Copyright © 2013-2022 by Brad Harding <mailto:brad@doomretro.com>.
 
   DOOM Retro is a fork of Chocolate DOOM. For a list of credits, see
   <https://github.com/bradharding/doomretro/wiki/CREDITS>.
@@ -16,7 +16,7 @@
 
   DOOM Retro is free software: you can redistribute it and/or modify it
   under the terms of the GNU General Public License as published by the
-  Free Software Foundation, either version 3 of the License, or (at your
+  Free Software Foundation, either version 3 of the license, or (at your
   option) any later version.
 
   DOOM Retro is distributed in the hope that it will be useful, but
@@ -36,8 +36,7 @@
 ========================================================================
 */
 
-#if !defined(__M_FIXED_H__)
-#define __M_FIXED_H__
+#pragma once
 
 #include "doomtype.h"
 
@@ -56,6 +55,7 @@
 #define FIXED2DOUBLE(a) ((a) / (double)FRACUNIT)
 #define FIXED_MIN       INT32_MIN
 #define FIXED_MAX       INT32_MAX
+
 #define SWAP(a, b)      (((a) ^= (b)), ((b) ^= (a)), ((a) ^= (b)))
 
 typedef int32_t fixed_t;
@@ -97,7 +97,7 @@ static inline fixed_t FixedMul(fixed_t a, fixed_t b)
 
 static inline fixed_t FixedDiv(fixed_t a, fixed_t b)
 {
-    return (((int64_t)ABS(a) >> 15) >= ABS(b) ? (((int64_t)(a ^ b) >> 31) ^ FIXED_MAX) : (fixed_t)(((int64_t)a << FRACBITS) / b));
+    return (((int64_t)ABS(a) >> 15) >= ABS(b) ? (((int64_t)(a ^ b) >> 31) ^ FIXED_MAX) : (((int64_t)a << FRACBITS) / b));
 }
 
 static inline fixed_t FixedMod(fixed_t a, fixed_t b)
@@ -105,9 +105,7 @@ static inline fixed_t FixedMod(fixed_t a, fixed_t b)
     return ((b & (b - 1)) ? ((a %= b) < 0 ? a + b : a) : (a & (b - 1)));
 }
 
-static inline uint64_t SafeAdd(uint64_t a, uint64_t b)
+static inline uint64_t SafeAdd(uint64_t a, int b)
 {
     return (b > UINT64_MAX - a ? UINT64_MAX : a + b);
 }
-
-#endif

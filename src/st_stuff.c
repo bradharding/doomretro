@@ -6,8 +6,8 @@
 
 ========================================================================
 
-  Copyright © 1993-2021 by id Software LLC, a ZeniMax Media company.
-  Copyright © 2013-2021 by Brad Harding <mailto:brad@doomretro.com>.
+  Copyright © 1993-2022 by id Software LLC, a ZeniMax Media company.
+  Copyright © 2013-2022 by Brad Harding <mailto:brad@doomretro.com>.
 
   DOOM Retro is a fork of Chocolate DOOM. For a list of credits, see
   <https://github.com/bradharding/doomretro/wiki/CREDITS>.
@@ -16,7 +16,7 @@
 
   DOOM Retro is free software: you can redistribute it and/or modify it
   under the terms of the GNU General Public License as published by the
-  Free Software Foundation, either version 3 of the License, or (at your
+  Free Software Foundation, either version 3 of the license, or (at your
   option) any later version.
 
   DOOM Retro is distributed in the hope that it will be useful, but
@@ -37,6 +37,7 @@
 */
 
 #include <ctype.h>
+#include <string.h>
 
 #include "am_map.h"
 #include "c_console.h"
@@ -47,6 +48,7 @@
 #include "hu_stuff.h"
 #include "i_colors.h"
 #include "i_swap.h"
+#include "i_timer.h"
 #include "m_cheat.h"
 #include "m_config.h"
 #include "m_menu.h"
@@ -76,7 +78,7 @@
 #define ST_GODFACE          (ST_NUMPAINFACES * ST_FACESTRIDE)
 #define ST_DEADFACE         (ST_GODFACE + 1)
 
-#define ST_FACESX           (143 + chex)
+#define ST_FACESX           (chex ? 144 : 143)
 #define ST_FACESY           168
 
 #define ST_FACEBACKX        (144 * SCREENSCALE + WIDESCREENDELTA * 2)
@@ -156,10 +158,10 @@
 #define ST_MAXAMMO3Y        185
 
 // ST_Start() has just been called
-static dboolean             st_firsttime;
+static bool                 st_firsttime;
 
 // whether left-side main status bar is active
-static dboolean             st_statusbaron;
+static bool                 st_statusbaron;
 
 // main bar left
 static patch_t              *sbar;
@@ -173,7 +175,7 @@ patch_t                     *tallnum[10];
 // tall % sign
 patch_t                     *tallpercent;
 short                       tallpercentwidth;
-dboolean                    emptytallpercent;
+bool                        emptytallpercent;
 
 // 0-9, short, yellow (,different!) numbers
 static patch_t              *shortnum[10];
@@ -214,7 +216,7 @@ static st_number_t          w_ammo[4];
 // max ammo widgets
 static st_number_t          w_maxammo[4];
 
-patch_t                     *grnrock;
+byte                        *grnrock;
 patch_t                     *brdr_t;
 patch_t                     *brdr_b;
 patch_t                     *brdr_l;
@@ -224,13 +226,13 @@ patch_t                     *brdr_tr;
 patch_t                     *brdr_bl;
 patch_t                     *brdr_br;
 
-dboolean                    st_drawbrdr;
+bool                        st_drawbrdr;
 
 // used to use appropriately pained face
 static int                  st_oldhealth = -1;
 
 // used for evil grin
-dboolean                    oldweaponsowned[NUMWEAPONS];
+bool                        oldweaponsowned[NUMWEAPONS];
 
 int                         st_palette = 0;
 
@@ -247,46 +249,47 @@ static int                  keyboxes[3];
 
 int                         oldhealth = 100;
 
-dboolean                    idclev;
+bool                        idclev;
 int                         idclevtics;
 
-dboolean                    idmus;
+bool                        idmus;
 
 int                         facebackcolor = facebackcolor_default;
+bool                        flashkeys = flashkeys_default;
 int                         r_berserkeffect = r_berserkeffect_default;
-int                         r_damageeffect = r_damageeffect_default;
-int                         r_pickupeffect = r_pickupeffect_default;
-int                         r_radsuiteffect = r_radsuiteffect_default;
+bool                        r_damageeffect = r_damageeffect_default;
+bool                        r_pickupeffect = r_pickupeffect_default;
+bool                        r_radsuiteffect = r_radsuiteffect_default;
 
 uint64_t                    stat_cheated = 0;
 
-cheatseq_t cheat_mus = CHEAT("idmus", 0);
-cheatseq_t cheat_mus_xy = CHEAT("idmus", 2);
-cheatseq_t cheat_god = CHEAT("iddqd", 0);
-cheatseq_t cheat_ammo = CHEAT("idkfa", 0);
-cheatseq_t cheat_ammonokey = CHEAT("idfa", 0);
-cheatseq_t cheat_noclip = CHEAT("idspispopd", 0);
-cheatseq_t cheat_commercial_noclip = CHEAT("idclip", 0);
+cheatseq_t cheat_mus = CHEAT("idmus", 0, false);
+cheatseq_t cheat_mus_xy = CHEAT("idmus", 2, false);
+cheatseq_t cheat_god = CHEAT("iddqd", 0, false);
+cheatseq_t cheat_ammo = CHEAT("idkfa", 0, false);
+cheatseq_t cheat_ammonokey = CHEAT("idfa", 0, false);
+cheatseq_t cheat_noclip = CHEAT("idspispopd", 0, false);
+cheatseq_t cheat_commercial_noclip = CHEAT("idclip", 0, false);
 
 cheatseq_t cheat_powerup[7] =
 {
-    CHEAT("idbeholdv", 0),
-    CHEAT("idbeholds", 0),
-    CHEAT("idbeholdi", 0),
-    CHEAT("idbeholdr", 0),
-    CHEAT("idbeholda", 0),
-    CHEAT("idbeholdl", 0),
-    CHEAT("idbehold",  0)
+    CHEAT("idbeholdv", 0, true),
+    CHEAT("idbeholds", 0, true),
+    CHEAT("idbeholdi", 0, true),
+    CHEAT("idbeholdr", 0, true),
+    CHEAT("idbeholda", 0, true),
+    CHEAT("idbeholdl", 0, true),
+    CHEAT("idbehold",  0, true)
 };
 
-cheatseq_t cheat_choppers = CHEAT("idchoppers", 0);
-cheatseq_t cheat_clev = CHEAT("idclev", 0);
-cheatseq_t cheat_clev_xy = CHEAT("idclev", 2);
-cheatseq_t cheat_mypos = CHEAT("idmypos", 0);
-cheatseq_t cheat_amap = CHEAT("iddt", 0);
-cheatseq_t cheat_buddha = CHEAT("sascha", 0);
+cheatseq_t cheat_choppers = CHEAT("idchoppers", 0, false);
+cheatseq_t cheat_clev = CHEAT("idclev", 0, false);
+cheatseq_t cheat_clev_xy = CHEAT("idclev", 2, false);
+cheatseq_t cheat_mypos = CHEAT("idmypos", 0, false);
+cheatseq_t cheat_amap = CHEAT("iddt", 0, false);
+cheatseq_t cheat_buddha = CHEAT("buddha", 0, false);
 
-static dboolean movekey(char key)
+static bool movekey(char key)
 {
     return (key == keyboardright || key == keyboardleft || key == keyboardforward || key == keyboardforward2
         || key == keyboardback || key == keyboardback2 || key == keyboardstrafeleft || key == keyboardstraferight);
@@ -406,7 +409,7 @@ static void ST_RefreshBackground(void)
             R_FillBezel();
 
         V_DrawWidePatch((SCREENWIDTH / SCREENSCALE - sbarwidth) / 2, VANILLAHEIGHT - VANILLASBARHEIGHT, 0, sbar);
-        V_DrawPatch(ST_ARMSBGX + hacx * 4, VANILLAHEIGHT - VANILLASBARHEIGHT, 0, armsbg);
+        V_DrawPatch((hacx ? ST_ARMSBGX + 4 : ST_ARMSBGX), VANILLAHEIGHT - VANILLASBARHEIGHT, 0, armsbg);
     }
     else if (r_detail == r_detail_low)
     {
@@ -428,16 +431,39 @@ static void ST_RefreshBackground(void)
 #endif
 }
 
+static void ST_PlayerCheated(char *cheat, char *output, bool warning)
+{
+    C_Cheat(cheat);
+
+    if (output)
+        C_Output(output);
+
+    if (warning)
+    {
+        static bool cheated;
+
+        C_Warning(0, "%s cheated%s!",
+            (M_StringCompare(playername, playername_default) ? "You" : playername),
+            (cheated ? " again" : ""));
+
+        cheated = true;
+        stat_cheated = SafeAdd(stat_cheated, 1);
+        viewplayer->cheated++;
+    }
+}
+
 static int ST_CalcPainOffset(void);
 
 // Respond to keyboard input events, intercept cheats.
-dboolean ST_Responder(event_t *ev)
+bool ST_Responder(event_t *ev)
 {
     // if a user keypress...
     if (ev->type == ev_keydown || *consolecheat)
     {
         if (!menuactive && !paused)     // [BH] no cheats when in menu or paused
         {
+            bool cheatfailed = false;
+
             if (!*consolecheat && cht_CheckCheat(&cheat_mus, ev->data2) && !nomusic && musicVolume)
                 idmus = true;
 
@@ -445,7 +471,6 @@ dboolean ST_Responder(event_t *ev)
             if (cht_CheckCheat(&cheat_god, ev->data2) && gameskill != sk_nightmare)
             {
                 S_StartSound(NULL, sfx_getpow);
-                C_Input(cheat_god.sequence);
 
                 // [BH] if player is dead, resurrect them first
                 if (viewplayer->health <= 0)
@@ -468,14 +493,13 @@ dboolean ST_Responder(event_t *ev)
                     if (oldhealth < initial_health)
                         P_AddBonus();
 
+                    ST_PlayerCheated(cheat_god.sequence, NULL, true);
                     C_Output(s_STSTR_DQDON);
                     HU_SetPlayerMessage(s_STSTR_DQDON, false, false);
-
-                    stat_cheated = SafeAdd(stat_cheated, 1);
-                    viewplayer->cheated++;
                 }
                 else
                 {
+                    ST_PlayerCheated(cheat_god.sequence, NULL, false);
                     C_Output(s_STSTR_DQDOFF);
                     HU_SetPlayerMessage(s_STSTR_DQDOFF, false, false);
 
@@ -483,18 +507,15 @@ dboolean ST_Responder(event_t *ev)
                     viewplayer->health = oldhealth;
                     viewplayer->mo->health = oldhealth;
                 }
-
-                D_FadeScreen(false);
-                message_dontfuckwithme = true;
             }
 
             // 'fa' cheat for killer fucking arsenal
             else if (cht_CheckCheat(&cheat_ammonokey, ev->data2) && gameskill != sk_nightmare && viewplayer->health > 0)
             {
-                dboolean    ammogiven = false;
-                dboolean    armorgiven = false;
-                dboolean    berserkgiven = false;
-                dboolean    weaponsgiven = false;
+                bool    ammogiven = false;
+                bool    armorgiven = false;
+                bool    berserkgiven = false;
+                bool    weaponsgiven = false;
 
                 // [BH] note if player doesn't have full armor before giving it
                 if (viewplayer->armorpoints < idfa_armor || viewplayer->armortype < idfa_armor_class)
@@ -527,32 +548,31 @@ dboolean ST_Responder(event_t *ev)
                 if (ammogiven || armorgiven || berserkgiven || weaponsgiven)
                 {
                     S_StartSound(NULL, sfx_getpow);
-                    C_Input(cheat_ammonokey.sequence);
 
                     // [BH] flash screen
                     P_AddBonus();
 
+                    ST_PlayerCheated(cheat_ammonokey.sequence, NULL, true);
                     C_Output(s_STSTR_FAADDED);
                     HU_SetPlayerMessage(s_STSTR_FAADDED, false, false);
-                    message_dontfuckwithme = true;
-
-                    stat_cheated = SafeAdd(stat_cheated, 1);
-                    viewplayer->cheated++;
                 }
-
-                D_FadeScreen(false);
+                else
+                {
+                    ST_PlayerCheated(cheat_ammonokey.sequence, NULL, false);
+                    cheatfailed = true;
+                }
             }
 
             // 'kfa' cheat for key full ammo
             else if (cht_CheckCheat(&cheat_ammo, ev->data2) && gameskill != sk_nightmare
-                     // [BH] can only enter cheat while player is alive
-                     && viewplayer->health > 0)
+                // [BH] can only enter cheat while player is alive
+                && viewplayer->health > 0)
             {
-                dboolean    ammogiven = false;
-                dboolean    armorgiven = false;
-                dboolean    berserkgiven = false;
-                dboolean    keysgiven = false;
-                dboolean    weaponsgiven = false;
+                bool    ammogiven = false;
+                bool    armorgiven = false;
+                bool    berserkgiven = false;
+                bool    keysgiven = false;
+                bool    weaponsgiven = false;
 
                 // [BH] note if player doesn't have full armor before giving it
                 if (viewplayer->armorpoints < idkfa_armor || viewplayer->armortype < idkfa_armor_class)
@@ -588,20 +608,19 @@ dboolean ST_Responder(event_t *ev)
                 if (ammogiven || armorgiven || berserkgiven || weaponsgiven || keysgiven)
                 {
                     S_StartSound(NULL, sfx_getpow);
-                    C_Input(cheat_ammo.sequence);
 
                     // [BH] flash screen
                     P_AddBonus();
 
+                    ST_PlayerCheated(cheat_ammo.sequence, NULL, true);
                     C_Output(s_STSTR_KFAADDED);
                     HU_SetPlayerMessage(s_STSTR_KFAADDED, false, false);
-                    message_dontfuckwithme = true;
-
-                    stat_cheated = SafeAdd(stat_cheated, 1);
-                    viewplayer->cheated++;
                 }
-
-                D_FadeScreen(false);
+                else
+                {
+                    ST_PlayerCheated(cheat_ammo.sequence, NULL, false);
+                    cheatfailed = true;
+                }
             }
 
             // 'mus' cheat for changing music
@@ -612,10 +631,7 @@ dboolean ST_Responder(event_t *ev)
                 // [BH] only display message if parameter is valid
                 cht_GetParam(&cheat_mus_xy, buffer);
 
-                // [BH] rewritten to use mus[] LUT
-                // [BH] fix crash if IDMUS0y and IDMUSx0 entered in DOOM,
-                //  IDMUS21 to IDMUS39 entered in shareware, and IDMUS00
-                //  entered in DOOM II
+                // [BH] Fix <https://doomwiki.org/wiki/IDMUS_requests_invalid_music>.
                 if (buffer[0] >= '0' && buffer[0] <= '9' && buffer[1] >= '0' && buffer[1] <= '9')
                 {
                     int musnum = (buffer[0] - '0') * 10 + (buffer[1] - '0');
@@ -635,14 +651,14 @@ dboolean ST_Responder(event_t *ev)
                             char        *temp = uppercase(S_music[musnum].name1);
 
                             S_StartSound(NULL, sfx_getpow);
-                            C_Input("%s%c%c", cheat_mus_xy.sequence, buffer[0], buffer[1]);
 
                             S_ChangeMusic(musnum, 1, true, false);
 
+                            ST_PlayerCheated(cheat_mus_xy.sequence, NULL, false);
                             M_snprintf(msg, sizeof(msg), s_STSTR_MUS, temp);
                             C_Output(msg);
                             HU_SetPlayerMessage(msg, false, false);
-                            message_dontfuckwithme = true;
+
                             free(temp);
                         }
                         else
@@ -661,27 +677,20 @@ dboolean ST_Responder(event_t *ev)
                 && viewplayer->health > 0)
             {
                 S_StartSound(NULL, sfx_getpow);
-                C_Input(gamemode == commercial ? cheat_commercial_noclip.sequence : cheat_noclip.sequence);
 
                 viewplayer->cheats ^= CF_NOCLIP;
 
                 if (viewplayer->cheats & CF_NOCLIP)
                 {
+                    ST_PlayerCheated((gamemode == commercial ? cheat_commercial_noclip.sequence : cheat_noclip.sequence), NULL, true);
                     C_Output(s_STSTR_NCON);
                     HU_SetPlayerMessage(s_STSTR_NCON, false, false);
                 }
                 else
                 {
+                    ST_PlayerCheated((gamemode == commercial ? cheat_commercial_noclip.sequence : cheat_noclip.sequence), NULL, false);
                     C_Output(s_STSTR_NCOFF);
                     HU_SetPlayerMessage(s_STSTR_NCOFF, false, false);
-                }
-
-                message_dontfuckwithme = true;
-
-                if (viewplayer->cheats & CF_NOCLIP)
-                {
-                    stat_cheated = SafeAdd(stat_cheated, 1);
-                    viewplayer->cheated++;
                 }
             }
 
@@ -692,9 +701,9 @@ dboolean ST_Responder(event_t *ev)
                     // [BH] can only enter cheat while player is alive
                     && viewplayer->health > 0)
                 {
+                    static char buffer[128];
+
                     S_StartSound(NULL, sfx_getpow);
-                    C_Input(cheat_powerup[i - 1].sequence);
-                    C_Output(s_STSTR_BEHOLD);
 
                     if ((i != pw_strength && viewplayer->powers[i] >= 0 && viewplayer->powers[i] <= STARTFLASHING)
                         || (i == pw_strength && !viewplayer->powers[i]))
@@ -734,6 +743,10 @@ dboolean ST_Responder(event_t *ev)
                             }
                         }
 
+                        M_snprintf(buffer, sizeof(buffer), "%s " BOLDTOGGLE "%c" BOLDTOGGLE,
+                            s_STSTR_BEHOLD, toupper(cheat_powerup[i - 1].sequence[strlen(cheat_powerup[i - 1].sequence) - 1]));
+                        ST_PlayerCheated(cheat_powerup[i - 1].sequence, buffer, true);
+
                         if (!M_StringCompare(s_STSTR_BEHOLDX, STSTR_BEHOLDX))
                         {
                             C_Output(s_STSTR_BEHOLDX);
@@ -748,9 +761,6 @@ dboolean ST_Responder(event_t *ev)
                             C_Output(message);
                             HU_SetPlayerMessage(message, false, false);
                         }
-
-                        stat_cheated = SafeAdd(stat_cheated, 1);
-                        viewplayer->cheated++;
                     }
                     else
                     {
@@ -782,6 +792,10 @@ dboolean ST_Responder(event_t *ev)
                             // [BH] start flashing palette to indicate power-up about to run out
                             viewplayer->powers[i] = STARTFLASHING * (i != pw_allmap);
                         }
+
+                        M_snprintf(buffer, sizeof(buffer), "%s " BOLDTOGGLE "%c" BOLDTOGGLE,
+                            s_STSTR_BEHOLD, toupper(cheat_powerup[i - 1].sequence[strlen(cheat_powerup[i - 1].sequence) - 1]));
+                        ST_PlayerCheated(cheat_powerup[i - 1].sequence, buffer, false);
 
                         if (!M_StringCompare(s_STSTR_BEHOLDX, STSTR_BEHOLDX))
                         {
@@ -821,11 +835,11 @@ dboolean ST_Responder(event_t *ev)
                     cheat_buddha.chars_read = 0;
                     cheatkey = '\0';
 
-                    D_FadeScreen(false);
                     message_dontfuckwithme = true;
                     idbehold = false;
 
-                    C_HideConsole();
+                    if (!cheatfailed)
+                        C_HideConsole();
 
                     return true;
                 }
@@ -842,13 +856,12 @@ dboolean ST_Responder(event_t *ev)
                 message_dontfuckwithme = true;
             }
 
-            // 'choppers' invulnerability & chainsaw
+            // 'choppers' invulnerability and chainsaw
             else if (cht_CheckCheat(&cheat_choppers, ev->data2) && gameskill != sk_nightmare
-                     // [BH] can only enter cheat while player is alive
-                     && viewplayer->health > 0)
+                // [BH] can only enter cheat while player is alive
+                && viewplayer->health > 0)
             {
                 S_StartSound(NULL, sfx_getpow);
-                C_Input(cheat_choppers.sequence);
 
                 if (!(viewplayer->cheats & CF_CHOPPERS))
                 {
@@ -875,15 +888,12 @@ dboolean ST_Responder(event_t *ev)
                     P_GivePower(pw_invulnerability);
                     viewplayer->powers[pw_invulnerability] = -1;
 
+                    ST_PlayerCheated(cheat_choppers.sequence, NULL, true);
                     C_Output(s_STSTR_CHOPPERS);
                     HU_SetPlayerMessage(s_STSTR_CHOPPERS, false, false);
-                    D_FadeScreen(false);
+
                     message_dontfuckwithme = true;
-
                     viewplayer->cheats |= CF_CHOPPERS;
-
-                    stat_cheated = SafeAdd(stat_cheated, 1);
-                    viewplayer->cheated++;
                 }
                 else
                 {
@@ -897,6 +907,8 @@ dboolean ST_Responder(event_t *ev)
 
                     viewplayer->weaponowned[wp_chainsaw] = viewplayer->chainsawbeforechoppers;
                     oldweaponsowned[wp_chainsaw] = viewplayer->chainsawbeforechoppers;
+
+                    ST_PlayerCheated(cheat_choppers.sequence, NULL, false);
                 }
             }
 
@@ -904,25 +916,23 @@ dboolean ST_Responder(event_t *ev)
             else if (cht_CheckCheat(&cheat_mypos, ev->data2))
             {
                 S_StartSound(NULL, sfx_getpow);
-                C_Input(cheat_mypos.sequence);
 
                 // [BH] message stays on screen until toggled off again using
                 //  cheat. Code is in hu_stuff.c.
                 viewplayer->cheats ^= CF_MYPOS;
 
                 if (viewplayer->cheats & CF_MYPOS)
-                {
-                    stat_cheated = SafeAdd(stat_cheated, 1);
-                    viewplayer->cheated++;
-                }
+                    ST_PlayerCheated(cheat_mypos.sequence, NULL, true);
                 else
+                {
+                    ST_PlayerCheated(cheat_mypos.sequence, NULL, false);
                     HU_ClearMessages();
+                }
             }
 
             else if (cht_CheckCheat(&cheat_buddha, ev->data2) && gameskill != sk_nightmare && viewplayer->health > 0)
             {
                 S_StartSound(NULL, sfx_getpow);
-                C_Input(cheat_buddha.sequence);
 
                 viewplayer->cheats ^= CF_BUDDHA;
 
@@ -933,14 +943,13 @@ dboolean ST_Responder(event_t *ev)
                     if (viewplayer->powers[pw_invulnerability] > STARTFLASHING)
                         viewplayer->powers[pw_invulnerability] = STARTFLASHING;
 
+                    ST_PlayerCheated(cheat_buddha.sequence, NULL, true);
                     C_Output(s_STSTR_BUDDHAON);
                     HU_SetPlayerMessage(s_STSTR_BUDDHAON, false, false);
-
-                    stat_cheated = SafeAdd(stat_cheated, 1);
-                    viewplayer->cheated++;
                 }
                 else
                 {
+                    ST_PlayerCheated(cheat_buddha.sequence, NULL, false);
                     C_Output(s_STSTR_BUDDHAOFF);
                     HU_SetPlayerMessage(s_STSTR_BUDDHAOFF, false, false);
                 }
@@ -951,26 +960,25 @@ dboolean ST_Responder(event_t *ev)
             else if ((automapactive || mapwindow) && cht_CheckCheat(&cheat_amap, ev->data2))
             {
                 S_StartSound(NULL, sfx_getpow);
-                C_Input(cheat_amap.sequence);
-                D_FadeScreen(false);
 
                 if (viewplayer->cheats & CF_ALLMAP)
                 {
-                    viewplayer->cheats ^= CF_ALLMAP;
-                    viewplayer->cheats ^= CF_ALLMAP_THINGS;
-
-                    stat_cheated = SafeAdd(stat_cheated, 1);
-                    viewplayer->cheated++;
+                    viewplayer->cheats &= ~CF_ALLMAP;
+                    viewplayer->cheats |= CF_ALLMAP_THINGS;
+                    ST_PlayerCheated(cheat_amap.sequence, NULL, true);
                 }
                 else if (viewplayer->cheats & CF_ALLMAP_THINGS)
-                    viewplayer->cheats ^= CF_ALLMAP_THINGS;
+                {
+                    viewplayer->cheats &= ~CF_ALLMAP_THINGS;
+                    ST_PlayerCheated(cheat_amap.sequence, NULL, false);
+                }
                 else
                 {
-                    viewplayer->cheats ^= CF_ALLMAP;
-
-                    stat_cheated = SafeAdd(stat_cheated, 1);
-                    viewplayer->cheated++;
+                    viewplayer->cheats |= CF_ALLMAP;
+                    ST_PlayerCheated(cheat_amap.sequence, NULL, true);
                 }
+
+                D_FadeScreen(false);
             }
 
             // 'clev' change-level cheat
@@ -1012,7 +1020,7 @@ dboolean ST_Responder(event_t *ev)
                     static char message[128];
 
                     S_StartSound(NULL, sfx_getpow);
-                    C_Input("%s%c%c", cheat_clev_xy.sequence, buffer[0], buffer[1]);
+                    ST_PlayerCheated(cheat_clev_xy.sequence, NULL, true);
 
                     if (BTSX)
                         M_snprintf(lump, sizeof(lump), "E%iM%c%c", (BTSXE1 ? 1 : (BTSXE2 ? 2 : 3)), buffer[0], buffer[1]);
@@ -1025,7 +1033,6 @@ dboolean ST_Responder(event_t *ev)
                     HU_SetPlayerMessage(message, false, false);
 
                     // [BH] always display message
-                    viewplayer->message = message;
                     message_dontfuckwithme = true;
 
                     // [BH] delay map change by 1 second to allow message to be displayed
@@ -1043,8 +1050,6 @@ dboolean ST_Responder(event_t *ev)
                     idclevtics = MAPCHANGETICS;
                     quickSaveSlot = -1;
                     drawdisk = true;
-                    stat_cheated = SafeAdd(stat_cheated, 1);
-                    viewplayer->cheated++;
                 }
             }
         }
@@ -1064,7 +1069,7 @@ dboolean ST_Responder(event_t *ev)
 
 static int ST_CalcPainOffset(void)
 {
-    int         newhealth = MIN(viewplayer->health, 100);
+    const int   newhealth = MIN(viewplayer->health, 100);
     static int  lastcalc;
     static int  health = -1;
 
@@ -1116,7 +1121,7 @@ static void ST_UpdateFaceWidget(void)
         if (viewplayer->bonuscount)
         {
             // picking up bonus
-            dboolean    doevilgrin = false;
+            bool    doevilgrin = false;
 
             for (int i = 0; i < NUMWEAPONS; i++)
                 if (oldweaponsowned[i] != viewplayer->weaponowned[i])
@@ -1195,7 +1200,7 @@ static void ST_UpdateFaceWidget(void)
     {
         static int  lastattackdown = -1;
 
-        if (viewplayer->attackdown)
+        if (viewplayer->attackdown && !consoleactive)
         {
             if (lastattackdown == -1)
                 lastattackdown = ST_RAMPAGEDELAY;
@@ -1215,23 +1220,23 @@ static void ST_UpdateFaceWidget(void)
     if (!st_facecount)
     {
         priority = 0;
-        faceindex = M_Random() % 3;
+        faceindex = (consoleactive || freeze ? ST_STRAIGHTFACE : M_BigRandom() % ST_NUMSTRAIGHTFACES);
         st_facecount = ST_STRAIGHTFACECOUNT;
     }
 
     st_facecount--;
 
     // [crispy] fix status bar face hysteresis
-    st_faceindex = painoffset + faceindex;
+    st_faceindex = faceindex + painoffset;
 }
 
 static void ST_UpdateWidgets(void)
 {
-    static int      largeammo = 1994;   // means "n/a"
-    weapontype_t    readyweapon = viewplayer->readyweapon;
-    ammotype_t      ammotype = weaponinfo[readyweapon].ammotype;
+    static int          largeammo = 1994;   // means "n/a"
+    const weapontype_t  readyweapon = viewplayer->readyweapon;
+    const ammotype_t    ammotype = weaponinfo[readyweapon].ammotype;
 
-    w_ready.num = (ammotype == am_noammo || viewplayer->health <= 0 ? &largeammo : &viewplayer->ammo[ammotype]);
+    w_ready.num = (ammotype == am_noammo ? &largeammo : &viewplayer->ammo[ammotype]);
     w_ready.data = readyweapon;
 
     // update keycard multiple widgets
@@ -1247,19 +1252,13 @@ void ST_Ticker(void)
 {
     if (r_screensize < r_screensize_max)
     {
-        if (!freeze && !paused && !menuactive && !consoleactive)
-        {
-            ST_UpdateWidgets();
-            st_oldhealth = viewplayer->health;
-        }
+        ST_UpdateWidgets();
+        st_oldhealth = viewplayer->health;
     }
     else if (r_hud && !r_althud)
     {
-        if (!freeze && !paused && !menuactive && !consoleactive)
-        {
-            ST_UpdateFaceWidget();
-            st_oldhealth = viewplayer->health;
-        }
+        ST_UpdateFaceWidget();
+        st_oldhealth = viewplayer->health;
     }
 
     // [BH] action the IDCLEV cheat after a small delay to allow its player message to display
@@ -1280,22 +1279,29 @@ static void ST_DoPaletteStuff(void)
         && (viewplayer->pendingweapon == wp_fist || (viewplayer->readyweapon == wp_fist && viewplayer->pendingweapon == wp_nochange))
         && viewplayer->health > 0)
     {
-        int bonuscount = viewplayer->bonuscount;
+        const int   bonuscount = viewplayer->bonuscount;
 
         if (bonuscount && r_pickupeffect)
             palette = STARTBONUSPALS + MIN((bonuscount + 7) >> 3, NUMBONUSPALS) - 1;
-        else if (viewplayer->cheats & CF_GODMODE)
-            palette = r_berserkeffect * (PLAYPALs > 2 ? 2 : 1);
         else
-            palette = MIN((viewplayer->damagecount >> 3) + r_berserkeffect * (PLAYPALs > 2 ? 2 : 1), NUMREDPALS);
+        {
+            const int   ironfeet = viewplayer->powers[pw_ironfeet];
+
+            if (ironfeet <= STARTFLASHING && (ironfeet & 8))
+                palette = RADIATIONPAL;
+            else if (viewplayer->cheats & CF_GODMODE)
+                palette = r_berserkeffect * (PLAYPALs > 2 ? 1 : 2);
+            else
+                palette = MIN((viewplayer->damagecount >> 3) + r_berserkeffect * (PLAYPALs > 2 ? 1 : 2), NUMREDPALS);
+        }
     }
     else
     {
-        int damagecount = viewplayer->damagecount;
+        const int   damagecount = viewplayer->damagecount;
 
         if (damagecount && !(viewplayer->cheats & CF_GODMODE) && r_damageeffect)
             palette = (chex || r_blood == r_blood_green ? RADIATIONPAL :
-                STARTREDPALS + MIN((damagecount + NUMREDPALS) >> 3, NUMREDPALS) - 1);
+                STARTREDPALS + MIN((damagecount + 8) / (PLAYPALs > 2 ? 8 : 5), NUMREDPALS) - 1);
         else if (viewplayer->health > 0)
         {
             int bonuscount = viewplayer->bonuscount;
@@ -1304,7 +1310,7 @@ static void ST_DoPaletteStuff(void)
                 palette = STARTBONUSPALS + MIN((bonuscount + 7) >> 3, NUMBONUSPALS) - 1;
             else
             {
-                int ironfeet = viewplayer->powers[pw_ironfeet];
+                const int   ironfeet = viewplayer->powers[pw_ironfeet];
 
                 if (ironfeet)
                 {
@@ -1324,9 +1330,9 @@ static void ST_DoPaletteStuff(void)
     }
 }
 
-static void ST_DrawWidgets(dboolean refresh)
+static void ST_DrawWidgets(bool refresh)
 {
-    STlib_UpdateBigNum(&w_ready);
+    STlib_UpdateBigAmmoNum(&w_ready);
 
     STlib_UpdateSmallNum(&w_ammo[0]);
     STlib_UpdateSmallNum(&w_ammo[1]);
@@ -1338,8 +1344,8 @@ static void ST_DrawWidgets(dboolean refresh)
     STlib_UpdateSmallNum(&w_maxammo[2]);
     STlib_UpdateSmallNum(&w_maxammo[3]);
 
-    STlib_UpdatePercent(&w_health, refresh);
-    STlib_UpdatePercent(&w_armor, refresh);
+    STlib_UpdateHealthPercent(&w_health, refresh);
+    STlib_UpdateArmorPercent(&w_armor, refresh);
 
     st_shotguns = (viewplayer->weaponowned[wp_shotgun] || viewplayer->weaponowned[wp_supershotgun]);
 
@@ -1362,6 +1368,37 @@ static void ST_DrawWidgets(dboolean refresh)
     STlib_UpdateMultIcon(&w_keyboxes[0], refresh);
     STlib_UpdateMultIcon(&w_keyboxes[1], refresh);
     STlib_UpdateMultIcon(&w_keyboxes[2], refresh);
+
+    if (viewplayer->neededcardflash)
+    {
+        static bool showkey;
+        const bool  gamepaused = (consoleactive || freeze);
+
+        if (!gamepaused)
+        {
+            static int  keywait;
+            const int   currenttime = I_GetTimeMS();
+
+            if (keywait < currenttime)
+            {
+                showkey = !showkey;
+                keywait = currenttime + HUD_KEY_WAIT;
+                viewplayer->neededcardflash--;
+            }
+        }
+
+        if (flashkeys && (showkey || gamepaused))
+        {
+            const int   neededcard = viewplayer->neededcard;
+
+            if (neededcard != it_allkeys)
+            {
+                st_multicon_t   *keybox = &w_keyboxes[(neededcard > it_redcard ? neededcard - 3 : neededcard)];
+
+                V_DrawPatch(keybox->x, keybox->y, 0, keybox->patch[neededcard]);
+            }
+        }
+    }
 }
 
 static void ST_DoRefresh(void)
@@ -1382,12 +1419,12 @@ static void ST_DiffDraw(void)
     ST_DrawWidgets(false);
 }
 
-void ST_Drawer(dboolean fullscreen, dboolean refresh)
+void ST_Drawer(bool fullscreen, bool refresh)
 {
     // Do red/gold-shifts from damage/items
     ST_DoPaletteStuff();
 
-    if (r_screensize == r_screensize_max || (menuactive && !consoleactive) || inhelpscreens)
+    if (r_screensize == r_screensize_max || menuactive || paused)
         return;
 
     st_statusbaron = !fullscreen;
@@ -1396,8 +1433,8 @@ void ST_Drawer(dboolean fullscreen, dboolean refresh)
     // If just after ST_Start(), refresh all
     if (st_firsttime)
         ST_DoRefresh();
-    // Otherwise, update as little as possible
     else
+        // Otherwise, update as little as possible
         ST_DiffDraw();
 }
 
@@ -1490,7 +1527,7 @@ static void ST_LoadUnloadGraphics(load_callback_t callback)
     callback("STFDEAD0", &faces[facenum]);
 
     // back screen
-    callback((gamemode == commercial ? "GRNROCK" : "FLOOR7_2"), &grnrock);
+    callback((gamemode == commercial ? "GRNROCK" : "FLOOR7_2"), (patch_t **)&grnrock);
     callback("BRDR_T", &brdr_t);
     callback("BRDR_B", &brdr_b);
     callback("BRDR_L", &brdr_l);
@@ -1522,8 +1559,7 @@ static void ST_LoadUnloadGraphics(load_callback_t callback)
 static void ST_LoadCallback(char *lumpname, patch_t **variable)
 {
     if (M_StringCompare(lumpname, "STARMS") || M_StringCompare(lumpname, "STBAR") || M_StringCompare(lumpname, "STFGOD0"))
-        *variable = ((FREEDOOM && !modifiedgame) || chex || hacx || REKKRSA ?
-            W_CacheLastLumpName(lumpname) : W_CacheLumpName(lumpname));
+        *variable = ((FREEDOOM && !modifiedgame) || chex || hacx || REKKRSA ? W_CacheLastLumpName(lumpname) : W_CacheLumpName(lumpname));
     else
         *variable = W_CacheLumpName(lumpname);
 }

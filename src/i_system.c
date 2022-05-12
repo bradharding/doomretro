@@ -6,8 +6,8 @@
 
 ========================================================================
 
-  Copyright © 1993-2021 by id Software LLC, a ZeniMax Media company.
-  Copyright © 2013-2021 by Brad Harding <mailto:brad@doomretro.com>.
+  Copyright © 1993-2022 by id Software LLC, a ZeniMax Media company.
+  Copyright © 2013-2022 by Brad Harding <mailto:brad@doomretro.com>.
 
   DOOM Retro is a fork of Chocolate DOOM. For a list of credits, see
   <https://github.com/bradharding/doomretro/wiki/CREDITS>.
@@ -16,7 +16,7 @@
 
   DOOM Retro is free software: you can redistribute it and/or modify it
   under the terms of the GNU General Public License as published by the
-  Free Software Foundation, either version 3 of the License, or (at your
+  Free Software Foundation, either version 3 of the license, or (at your
   option) any later version.
 
   DOOM Retro is distributed in the hope that it will be useful, but
@@ -42,15 +42,10 @@
 #include <unistd.h>
 #endif
 
-#if defined(__APPLE__)
-#define PC  "Mac"
-#else
-#define PC  "PC"
-#endif
-
 #include "c_console.h"
 #include "d_main.h"
-#include "i_gamepad.h"
+#include "i_gamecontroller.h"
+#include "i_system.h"
 #include "i_timer.h"
 #include "m_config.h"
 #include "m_misc.h"
@@ -193,11 +188,13 @@ void I_PrintWindowsVersion(void)
             }
 
             if (wcslen(info.szCSDVersion) > 0)
-                C_Output("Running on %i-bit " ITALICS("Microsoft Windows %s%s%s (%ws)") " (Build %s).",
+                C_Output("Running on the %i-bit edition of " ITALICS("Microsoft Windows %s%s%s (%ws)") " (Build %s).",
                     bits, infoname, (*typename ? " " : ""), typename, info.szCSDVersion, build);
-            else
-                C_Output("Running on %i-bit " ITALICS("Microsoft Windows %s%s%s") " (Build %s).",
+            else if (info.dwMajorVersion < 10 || info.dwBuildNumber < 22000)
+                C_Output("Running on the %i-bit edition of " ITALICS("Microsoft Windows %s%s%s") " (Build %s).",
                     bits, infoname, (*typename ? " " : ""), typename, build);
+            else
+                C_Output("Running on " ITALICS("Microsoft Windows %s") " (Build %s).", infoname, build);
 
             free(build);
         }
@@ -213,7 +210,7 @@ void I_PrintSystemInfo(void)
     int     cores = SDL_GetCPUCount();
     char    *RAM = commify(SDL_GetSystemRAM() / 1000);
 
-    C_Output("There %s %i core%s and %sGB of RAM on this " PC ".", (cores == 1 ? "is" : "are"), cores, (cores == 1 ? "" : "s"), RAM);
+    C_Output("There %s %i core%s and %sGB of RAM on this " PCHW ".", (cores == 1 ? "is" : "are"), cores, (cores == 1 ? "" : "s"), RAM);
     free(RAM);
 }
 
@@ -224,7 +221,7 @@ void I_PrintSystemInfo(void)
 void I_ShutdownWindows32(void);
 #endif
 
-void I_Quit(dboolean shutdown)
+void I_Quit(bool shutdown)
 {
     if (shutdown)
     {
@@ -234,10 +231,10 @@ void I_Quit(dboolean shutdown)
 
         M_SaveCVARs();
 
-        FreeSurfaces();
+        FreeSurfaces(true);
         I_ShutdownGraphics();
         I_ShutdownKeyboard();
-        I_ShutdownGamepad();
+        I_ShutdownGameController();
         I_ShutdownTimer();
     }
 
@@ -255,9 +252,9 @@ void I_Quit(dboolean shutdown)
 //
 void I_Error(const char *error, ...)
 {
-    va_list         argptr;
-    char            msgbuf[512];
-    static dboolean already_quitting;
+    va_list     argptr;
+    char        msgbuf[512];
+    static bool already_quitting;
 
     if (already_quitting)
         exit(-1);
@@ -274,10 +271,10 @@ void I_Error(const char *error, ...)
 
     M_SaveCVARs();
 
-    FreeSurfaces();
+    FreeSurfaces(true);
     I_ShutdownGraphics();
     I_ShutdownKeyboard();
-    I_ShutdownGamepad();
+    I_ShutdownGameController();
     I_ShutdownTimer();
 
     W_CloseFiles();
@@ -305,14 +302,13 @@ void I_Error(const char *error, ...)
 //
 // I_Realloc
 //
-void *I_Realloc(void *ptr, size_t size)
+void *I_Realloc(void *block, size_t size)
 {
-    void    *newp = realloc(ptr, size);
+    void    *newp = realloc(block, size);
 
     if (!newp && size)
         I_Error("I_Realloc: Failure trying to reallocate %zu bytes", size);
 
-    ptr = newp;
-
-    return ptr;
+    block = newp;
+    return block;
 }

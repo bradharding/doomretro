@@ -6,8 +6,8 @@
 
 ========================================================================
 
-  Copyright © 1993-2021 by id Software LLC, a ZeniMax Media company.
-  Copyright © 2013-2021 by Brad Harding <mailto:brad@doomretro.com>.
+  Copyright © 1993-2022 by id Software LLC, a ZeniMax Media company.
+  Copyright © 2013-2022 by Brad Harding <mailto:brad@doomretro.com>.
 
   DOOM Retro is a fork of Chocolate DOOM. For a list of credits, see
   <https://github.com/bradharding/doomretro/wiki/CREDITS>.
@@ -16,7 +16,7 @@
 
   DOOM Retro is free software: you can redistribute it and/or modify it
   under the terms of the GNU General Public License as published by the
-  Free Software Foundation, either version 3 of the License, or (at your
+  Free Software Foundation, either version 3 of the license, or (at your
   option) any later version.
 
   DOOM Retro is distributed in the hope that it will be useful, but
@@ -79,10 +79,10 @@ fixed_t             yslopes[LOOKDIRS][MAXHEIGHT];
 
 static fixed_t      cachedheight[MAXHEIGHT];
 
-dboolean            r_liquid_current = r_liquid_current_default;
-dboolean            r_liquid_swirl = r_liquid_swirl_default;
+bool                r_liquid_current = r_liquid_current_default;
+bool                r_liquid_swirl = r_liquid_swirl_default;
 
-static dboolean     updateswirl;
+static bool         updateswirl;
 
 //
 // R_MapPlane
@@ -94,7 +94,6 @@ static void R_MapPlane(int y, int x1)
     static fixed_t  cachedviewsindistance[MAXHEIGHT];
     static fixed_t  cachedxstep[MAXHEIGHT];
     static fixed_t  cachedystep[MAXHEIGHT];
-    fixed_t         distance;
     fixed_t         viewcosdistance;
     fixed_t         viewsindistance;
     int             dx;
@@ -107,15 +106,15 @@ static void R_MapPlane(int y, int x1)
             return;
 
         cachedheight[y] = planeheight;
-        distance = cacheddistance[y] = FixedMul(planeheight, yslope[y]);
-        viewcosdistance = cachedviewcosdistance[y] = FixedMul(viewcos, distance);
-        viewsindistance = cachedviewsindistance[y] = FixedMul(viewsin, distance);
+        ds_z = cacheddistance[y] = FixedMul(planeheight, yslope[y]);
+        viewcosdistance = cachedviewcosdistance[y] = FixedMul(viewcos, ds_z);
+        viewsindistance = cachedviewsindistance[y] = FixedMul(viewsin, ds_z);
         ds_xstep = cachedxstep[y] = FixedMul(viewsin, planeheight) / dy;
         ds_ystep = cachedystep[y] = FixedMul(viewcos, planeheight) / dy;
     }
     else
     {
-        distance = cacheddistance[y];
+        ds_z = cacheddistance[y];
         viewcosdistance = cachedviewcosdistance[y];
         viewsindistance = cachedviewsindistance[y];
         ds_xstep = cachedxstep[y];
@@ -125,33 +124,29 @@ static void R_MapPlane(int y, int x1)
     dx = x1 - centerx;
     ds_xfrac = viewx + xoffset + viewcosdistance + dx * ds_xstep;
     ds_yfrac = -viewy + yoffset - viewsindistance + dx * ds_ystep;
+    ds_y = y;
+    ds_x1 = x1;
 
     if (fixedcolormap)
     {
-        ds_colormap = fixedcolormap;
-        ds_nextcolormap = fixedcolormap;
-
-        ds_y = y;
-        ds_x1 = x1;
-
+        ds_colormap[0] = ds_colormap[1] = fixedcolormap;
         altspanfunc();
     }
     else
     {
-        ds_colormap = planezlight[BETWEEN(0, distance >> LIGHTZSHIFT, MAXLIGHTZ - 1)];
-
-        ds_y = y;
-        ds_x1 = x1;
+        ds_colormap[0] = planezlight[BETWEEN(0, ds_z >> LIGHTZSHIFT, MAXLIGHTZ - 1)];
 
         if (r_ditheredlighting)
         {
-            ds_nextcolormap = planezlight[BETWEEN(0, (distance >> LIGHTZSHIFT) + 1, MAXLIGHTZ - 1)];
-            ds_z = distance;
+            ds_colormap[1] = planezlight[BETWEEN(0, (ds_z >> LIGHTZSHIFT) + 1, MAXLIGHTZ - 1)];
 
-            if (ds_colormap == ds_nextcolormap)
+            if (ds_colormap[0] == ds_colormap[1])
                 altspanfunc();
             else
+            {
+                ds_z = ((ds_z >> 12) & 255);
                 spanfunc();
+            }
         }
         else
             spanfunc();
@@ -172,7 +167,7 @@ void R_ClearPlanes(void)
     }
 
     for (int i = 0; i < MAXVISPLANES; i++)
-        for (*freehead = visplanes[i], visplanes[i] = NULL; *freehead;)
+        for (*freehead = visplanes[i], visplanes[i] = NULL; *freehead; )
             freehead = &(*freehead)->next;
 
     lastopening = openings;
@@ -313,7 +308,7 @@ static void R_MakeSpans(visplane_t *pl)
     static int  spanstart[MAXHEIGHT];
     int         stop = pl->right + 1;
 
-    if (terraintypes[pl->picnum] != SOLID && r_liquid_current)
+    if (terraintypes[pl->picnum] >= LIQUID && r_liquid_current)
     {
         xoffset = animatedliquidxoffs;
         yoffset = animatedliquidyoffs;
@@ -351,7 +346,7 @@ static void R_MakeSpans(visplane_t *pl)
 }
 
 // Ripple Effect from SMMU (r_ripple.cpp) by Simon Howard
-#define SPEED           40
+#define SPEED           24
 
 // swirl factors determine the number of waves per flat width
 // 1 cycle per 64 units
@@ -363,22 +358,46 @@ static void R_MakeSpans(visplane_t *pl)
 static int  offsets[1024 * 4096];
 
 //
+// R_InitDistortedFlats
+// [BH] Moved to separate function and called at startup
+//
+void R_InitDistortedFlats(void)
+{
+    for (int i = 0, *offset = offsets; i < 1024 * SPEED; i += SPEED, offset += 64 * 64)
+        for (int y = 0; y < 64; y++)
+            for (int x = 0; x < 64; x++)
+            {
+                int x1, y1;
+                int sinvalue, sinvalue2;
+
+                sinvalue = finesine[((y * SWIRLFACTOR + i * 5 + 900) & 8191)] * 2;
+                sinvalue2 = finesine[((x * SWIRLFACTOR2 + i * 4 + 300) & 8191)] * 2;
+                x1 = x + 128 + (sinvalue >> FRACBITS) + (sinvalue2 >> FRACBITS);
+                sinvalue = finesine[((x * SWIRLFACTOR + i * 3 + 700) & 8191)] * 2;
+                sinvalue2 = finesine[((y * SWIRLFACTOR2 + i * 4 + 1200) & 8191)] * 2;
+                y1 = y + 128 + (sinvalue >> FRACBITS) + (sinvalue2 >> FRACBITS);
+
+                offset[(y << 6) + x] = ((y1 & 63) << 6) + (x1 & 63);
+            }
+}
+
+//
 // R_DistortedFlat
 // Generates a distorted flat from a normal one using a two-dimensional sine wave pattern.
 // [crispy] Optimized to precalculate offsets
 //
 static byte *R_DistortedFlat(int flatnum)
 {
-    static byte distortedflat[4096];
-    static int  prevgametime = -1;
+    static byte distortedflat[64 * 64];
     static int  prevflatnum = -1;
+    static int  prevtic = -1;
     static byte *normalflat;
     static int  *offset = offsets;
 
-    if (prevgametime != gametime && updateswirl)
+    if (prevtic != animatedliquidtic && updateswirl)
     {
-        offset = &offsets[(gametime & 1023) << 12];
-        prevgametime = gametime;
+        offset = &offsets[(animatedliquidtic & 1023) << 12];
+        prevtic = animatedliquidtic;
 
         if (prevflatnum != flatnum)
         {
@@ -386,7 +405,7 @@ static byte *R_DistortedFlat(int flatnum)
             prevflatnum = flatnum;
         }
 
-        for (int i = 0; i < 4096; i++)
+        for (int i = 0; i < 64 * 64; i++)
             distortedflat[i] = normalflat[offset[i]];
     }
     else if (prevflatnum != flatnum)
@@ -394,35 +413,11 @@ static byte *R_DistortedFlat(int flatnum)
         normalflat = lumpinfo[firstflat + flatnum]->cache;
         prevflatnum = flatnum;
 
-        for (int i = 0; i < 4096; i++)
+        for (int i = 0; i < 64 * 64; i++)
             distortedflat[i] = normalflat[offset[i]];
     }
 
     return distortedflat;
-}
-
-//
-// R_InitDistortedFlats
-// [BH] Moved to separate function and called at startup
-//
-void R_InitDistortedFlats(void)
-{
-    for (int i = 0, *offset = offsets; i < 1024 * SPEED; i += SPEED, offset += 4096)
-        for (int y = 0; y < 64; y++)
-            for (int x = 0; x < 64; x++)
-            {
-                int x1, y1;
-                int sinvalue, sinvalue2;
-
-                sinvalue = finesine[(y * SWIRLFACTOR + i * 5 + 900) & 8191] * 2;
-                sinvalue2 = finesine[(x * SWIRLFACTOR2 + i * 4 + 300) & 8191] * 2;
-                x1 = x + 128 + (sinvalue >> FRACBITS) + (sinvalue2 >> FRACBITS);
-                sinvalue = finesine[(x * SWIRLFACTOR + i * 3 + 700) & 8191] * 2;
-                sinvalue2 = finesine[(y * SWIRLFACTOR2 + i * 4 + 1200) & 8191] * 2;
-                y1 = y + 128 + (sinvalue >> FRACBITS) + (sinvalue2 >> FRACBITS);
-
-                offset[(y << 6) + x] = ((y1 & 63) << 6) + (x1 & 63);
-            }
 }
 
 //
@@ -432,7 +427,7 @@ void R_InitDistortedFlats(void)
 void R_DrawPlanes(void)
 {
     if (r_liquid_swirl)
-        updateswirl = (!consoleactive && !inhelpscreens && !paused && !freeze);
+        updateswirl = !(consoleactive || inhelpscreens || paused || freeze);
 
     dc_colormap[0] = (viewplayer->fixedcolormap == INVERSECOLORMAP && r_textures ? fixedcolormap : fullcolormap);
 
@@ -440,7 +435,7 @@ void R_DrawPlanes(void)
         for (visplane_t *pl = visplanes[i]; pl; pl = pl->next)
             if (pl->modified && pl->left <= pl->right)
             {
-                int picnum = pl->picnum;
+                const int   picnum = pl->picnum;
 
                 if (picnum == skyflatnum || (picnum & PL_SKYFLAT))
                 {
@@ -448,7 +443,6 @@ void R_DrawPlanes(void)
                     int             texture;
                     angle_t         flip = 0U;
                     const rpatch_t  *tex_patch;
-                    int             skyoffset = skycolumnoffset >> FRACBITS;
 
                     // killough 10/98: allow skies to come from sidedefs.
                     // Allows scrolling and/or animated skies, as well as
@@ -513,7 +507,7 @@ void R_DrawPlanes(void)
                         if ((dc_yl = pl->top[dc_x]) != UINT_MAX && dc_yl <= (dc_yh = pl->bottom[dc_x]))
                         {
                             dc_source = R_GetTextureColumn(tex_patch,
-                                (((an + xtoviewangle[dc_x]) ^ flip) >> ANGLETOSKYSHIFT) + skyoffset);
+                                ((((an + xtoviewangle[dc_x]) ^ flip) / (1 << (ANGLETOSKYSHIFT - FRACBITS))) + skycolumnoffset) / FRACUNIT);
 
                             skycolfunc();
                         }
@@ -521,7 +515,7 @@ void R_DrawPlanes(void)
                 else
                 {
                     // regular flat
-                    ds_source = (terraintypes[picnum] != SOLID && r_liquid_swirl ?
+                    ds_source = (terraintypes[picnum] >= LIQUID && r_liquid_swirl ?
                         R_DistortedFlat(picnum) : lumpinfo[flattranslation[picnum]]->cache);
 
                     R_MakeSpans(pl);

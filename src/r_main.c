@@ -6,8 +6,8 @@
 
 ========================================================================
 
-  Copyright © 1993-2021 by id Software LLC, a ZeniMax Media company.
-  Copyright © 2013-2021 by Brad Harding <mailto:brad@doomretro.com>.
+  Copyright © 1993-2022 by id Software LLC, a ZeniMax Media company.
+  Copyright © 2013-2022 by Brad Harding <mailto:brad@doomretro.com>.
 
   DOOM Retro is a fork of Chocolate DOOM. For a list of credits, see
   <https://github.com/bradharding/doomretro/wiki/CREDITS>.
@@ -16,7 +16,7 @@
 
   DOOM Retro is free software: you can redistribute it and/or modify it
   under the terms of the GNU General Public License as published by the
-  Free Software Foundation, either version 3 of the License, or (at your
+  Free Software Foundation, either version 3 of the license, or (at your
   option) any later version.
 
   DOOM Retro is distributed in the hope that it will be useful, but
@@ -36,6 +36,8 @@
 ========================================================================
 */
 
+#include <math.h>
+
 #include "c_cmds.h"
 #include "c_console.h"
 #include "doomstat.h"
@@ -49,12 +51,14 @@
 #include "r_sky.h"
 #include "v_video.h"
 
+#define WHITE   4
+
 // increment every time a check is made
 int                 validcount = 1;
 
 lighttable_t        *fixedcolormap;
 
-dboolean            usebrightmaps;
+bool                usebrightmaps;
 
 int                 centerx;
 int                 centery;
@@ -74,19 +78,15 @@ fixed_t             viewsin;
 
 player_t            *viewplayer = NULL;
 
-// [AM] Fractional part of the current tic, in the half-open
-//      range of [0.0, 1.0). Used for interpolation.
-fixed_t             fractionaltic;
-
 angle_t             clipangle;
 
-// The viewangletox[viewangle + FINEANGLES/4] lookup
-// maps the visible view angles to screen X coordinates,
+// The viewangletox[viewangle + FINEANGLES / 4] lookup
+// maps the visible view angles to screen x coordinates,
 // flattening the arc to a flat projection plane.
-// There will be many angles mapped to the same X.
+// There will be many angles mapped to the same x.
 int                 viewangletox[FINEANGLES / 2];
 
-// The xtoviewangleangle[] table maps a screen pixel
+// The xtoviewangle[] table maps a screen pixel
 // to the lowest viewangle that maps back to x ranges
 // from clipangle to -clipangle.
 angle_t             xtoviewangle[MAXWIDTH + 1];
@@ -111,19 +111,19 @@ lighttable_t        **colormaps;
 // bumped light from gun blasts
 int                 extralight;
 
-dboolean            drawbloodsplats;
+bool                drawbloodsplats;
 
-dboolean            r_bloodsplats_translucency = r_bloodsplats_translucency_default;
-dboolean            r_ditheredlighting = r_ditheredlighting_default;
+bool                r_bloodsplats_translucency = r_bloodsplats_translucency_default;
+bool                r_ditheredlighting = r_ditheredlighting_default;
 int                 r_fov = r_fov_default;
-dboolean            r_homindicator = r_homindicator_default;
-dboolean            r_shadows_translucency = r_shadows_translucency_default;
-dboolean            r_shake_barrels = r_shake_barrels_default;
+bool                r_homindicator = r_homindicator_default;
+bool                r_shadows_translucency = r_shadows_translucency_default;
+bool                r_shake_barrels = r_shake_barrels_default;
 int                 r_skycolor = r_skycolor_default;
-dboolean            r_textures = r_textures_default;
-dboolean            r_translucency = r_translucency_default;
+bool                r_textures = r_textures_default;
+bool                r_translucency = r_translucency_default;
 
-extern dboolean     transferredsky;
+extern bool         transferredsky;
 extern lighttable_t **walllights;
 
 //
@@ -348,19 +348,13 @@ static void R_InitTextureMapping(void)
 
 //
 // R_InitLightTables
-// Only inits the zlight table, because the scalelight table changes with view size.
 //
 void R_InitLightTables(void)
 {
-    int width = (FixedMul(SCREENWIDTH, FixedDiv(FRACUNIT,
-                    finetangent[FINEANGLES / 4 + ((r_fov + WIDEFOVDELTA) * FINEANGLES / 360) / 2])) + 1) / 2 * FRACUNIT;
+    const int width = (FixedMul(SCREENWIDTH, FixedDiv(FRACUNIT, finetangent[FINEANGLES / 4
+                      + (r_fov + WIDEFOVDELTA) * FINEANGLES / 360 / 2])) + 1) / 2 * FRACUNIT;
 
-    c_zlight = malloc(numcolormaps * sizeof(*c_zlight));
-    c_scalelight = malloc(numcolormaps * sizeof(*c_scalelight));
-    c_psprscalelight = malloc(numcolormaps * sizeof(*c_psprscalelight));
-
-    // Calculate the light levels to use
-    //  for each level/distance combination.
+    // Calculate the light levels to use for each level/distance combination.
     for (int i = 0; i < LIGHTLEVELS; i++)
     {
         const int   start = ((LIGHTLEVELS - LIGHTBRIGHT - i) * 2) * NUMCOLORMAPS / LIGHTLEVELS;
@@ -382,7 +376,7 @@ void R_InitLightTables(void)
 // Do not really change anything here, because it might be in the middle of a refresh.
 // The change will take effect next refresh.
 //
-dboolean    setsizeneeded;
+bool        setsizeneeded;
 static int  setblocks;
 
 void R_SetViewSize(int blocks)
@@ -419,14 +413,17 @@ void R_ExecuteSetViewSize(void)
     fovscale = finetangent[FINEANGLES / 4 + (r_fov + WIDEFOVDELTA) * FINEANGLES / 360 / 2];
     projection = FixedDiv(centerxfrac, fovscale);
 
-    R_InitBuffer(viewwidth, viewheight);
+    R_InitBuffer();
     R_InitTextureMapping();
 
     pspriteiscale = FixedDiv(FRACUNIT, pspritescale);
 
     if (gamestate == GS_LEVEL)
     {
+        suppresswarnings = true;
         R_InitSkyMap();
+        suppresswarnings = false;
+
         R_InitColumnFunctions();
     }
 
@@ -477,12 +474,12 @@ void R_ExecuteSetViewSize(void)
 void (*colfunc)(void);
 void (*wallcolfunc)(void);
 void (*altwallcolfunc)(void);
+void (*missingcolfunc)(void);
 void (*bmapwallcolfunc)(void);
 void (*altbmapwallcolfunc)(void);
 void (*segcolfunc)(void);
 void (*translatedcolfunc)(void);
 void (*basecolfunc)(void);
-void (*fuzzcolfunc)(void);
 void (*tlcolfunc)(void);
 void (*tl50colfunc)(void);
 void (*tl50segcolfunc)(void);
@@ -510,8 +507,6 @@ void R_InitColumnFunctions(void)
 {
     if (r_textures)
     {
-        fuzzcolfunc = &R_DrawFuzzColumn;
-
         if (r_skycolor == r_skycolor_default)
             skycolfunc = (canmodify && !transferredsky && (gamemode != commercial || gamemap < 21) && !canmouselook ?
                 &R_DrawFlippedSkyColumn : &R_DrawWallColumn);
@@ -525,6 +520,7 @@ void R_InitColumnFunctions(void)
                 basecolfunc = &R_DrawDitherLowColumn;
                 translatedcolfunc = &R_DrawDitherLowTranslatedColumn;
                 wallcolfunc = &R_DrawDitherLowWallColumn;
+                missingcolfunc = &R_DrawColorDitherLowColumn;
                 bmapwallcolfunc = &R_DrawBrightmapDitherLowWallColumn;
                 segcolfunc = &R_DrawDitherLowColumn;
                 tl50segcolfunc = (r_translucency ? &R_DrawDitherLowTranslucent50Column : &R_DrawDitherLowColumn);
@@ -537,6 +533,7 @@ void R_InitColumnFunctions(void)
                 basecolfunc = &R_DrawDitherColumn;
                 translatedcolfunc = &R_DrawDitherTranslatedColumn;
                 wallcolfunc = &R_DrawDitherWallColumn;
+                missingcolfunc = &R_DrawColorDitherColumn;
                 bmapwallcolfunc = &R_DrawBrightmapDitherWallColumn;
                 segcolfunc = &R_DrawDitherColumn;
                 tl50segcolfunc = (r_translucency ? &R_DrawDitherTranslucent50Column : &R_DrawDitherColumn);
@@ -619,6 +616,7 @@ void R_InitColumnFunctions(void)
             translatedcolfunc = &R_DrawTranslatedColumn;
             wallcolfunc = &R_DrawWallColumn;
             altwallcolfunc = &R_DrawWallColumn;
+            missingcolfunc = &R_DrawColorColumn;
             bmapwallcolfunc = &R_DrawBrightmapWallColumn;
             altbmapwallcolfunc = &R_DrawBrightmapWallColumn;
             segcolfunc = &R_DrawColumn;
@@ -675,7 +673,6 @@ void R_InitColumnFunctions(void)
     }
     else
     {
-        fuzzcolfunc = &R_DrawTranslucent50ColorColumn;
         skycolfunc = (r_skycolor == r_skycolor_default ? &R_DrawColorColumn : &R_DrawSkyColorColumn);
 
         if (r_ditheredlighting)
@@ -685,15 +682,16 @@ void R_InitColumnFunctions(void)
                 basecolfunc = &R_DrawColorDitherLowColumn;
                 translatedcolfunc = &R_DrawColorDitherLowColumn;
                 wallcolfunc = &R_DrawColorDitherLowColumn;
+                missingcolfunc = &R_DrawColorDitherLowColumn;
                 bmapwallcolfunc = &R_DrawColorDitherLowColumn;
                 segcolfunc = &R_DrawColorDitherLowColumn;
                 tl50segcolfunc = (r_translucency ? &R_DrawTranslucent50ColorDitherLowColumn : &R_DrawColorDitherLowColumn);
                 spanfunc = &R_DrawDitherLowColorSpan;
                 redtobluecolfunc = &R_DrawColorDitherLowColumn;
                 redtogreencolfunc = &R_DrawColorDitherLowColumn;
-                tlcolfunc = &R_DrawColorDitherLowColumn;
-                tl50colfunc = &R_DrawColorDitherLowColumn;
-                tl33colfunc = &R_DrawColorDitherLowColumn;
+                tlcolfunc = (r_translucency ? &R_DrawTranslucent50ColorColumn : &R_DrawColorDitherLowColumn);
+                tl50colfunc = (r_translucency ? &R_DrawTranslucent50ColorColumn : &R_DrawColorDitherLowColumn);
+                tl33colfunc = (r_translucency ? &R_DrawTranslucent50ColorColumn : &R_DrawColorDitherLowColumn);
                 tlgreencolfunc = &R_DrawColorDitherLowColumn;
                 tlredcolfunc = &R_DrawColorDitherLowColumn;
                 tlredwhitecolfunc1 = &R_DrawColorDitherLowColumn;
@@ -711,15 +709,16 @@ void R_InitColumnFunctions(void)
                 basecolfunc = &R_DrawColorDitherColumn;
                 translatedcolfunc = &R_DrawColorDitherColumn;
                 wallcolfunc = &R_DrawColorDitherColumn;
+                missingcolfunc = &R_DrawColorDitherColumn;
                 bmapwallcolfunc = &R_DrawColorDitherColumn;
                 segcolfunc = &R_DrawColorDitherColumn;
                 tl50segcolfunc = (r_translucency ? &R_DrawTranslucent50ColorDitherColumn : &R_DrawColorDitherColumn);
                 spanfunc = &R_DrawDitherColorSpan;
                 redtobluecolfunc = &R_DrawColorDitherColumn;
                 redtogreencolfunc = &R_DrawColorDitherColumn;
-                tlcolfunc = &R_DrawColorDitherColumn;
-                tl50colfunc = &R_DrawColorDitherColumn;
-                tl33colfunc = &R_DrawColorDitherColumn;
+                tlcolfunc = (r_translucency ? &R_DrawTranslucent50ColorColumn : &R_DrawColorDitherColumn);
+                tl50colfunc = (r_translucency ? &R_DrawTranslucent50ColorColumn : &R_DrawColorDitherColumn);
+                tl33colfunc = (r_translucency ? &R_DrawTranslucent50ColorColumn : &R_DrawColorDitherColumn);
                 tlgreencolfunc = &R_DrawColorDitherColumn;
                 tlredcolfunc = &R_DrawColorDitherColumn;
                 tlredwhitecolfunc1 = &R_DrawColorDitherColumn;
@@ -742,6 +741,7 @@ void R_InitColumnFunctions(void)
             basecolfunc = &R_DrawColorColumn;
             translatedcolfunc = &R_DrawColorColumn;
             wallcolfunc = &R_DrawColorColumn;
+            missingcolfunc = &R_DrawColorColumn;
             altwallcolfunc = &R_DrawColorColumn;
             bmapwallcolfunc = &R_DrawColorColumn;
             altbmapwallcolfunc = &R_DrawColorColumn;
@@ -751,9 +751,9 @@ void R_InitColumnFunctions(void)
             altspanfunc = &R_DrawColorSpan;
             redtobluecolfunc = &R_DrawColorColumn;
             redtogreencolfunc = &R_DrawColorColumn;
-            tlcolfunc = &R_DrawColorColumn;
-            tl50colfunc = &R_DrawColorColumn;
-            tl33colfunc = &R_DrawColorColumn;
+            tlcolfunc = (r_translucency ? &R_DrawTranslucent50ColorColumn : &R_DrawColorColumn);
+            tl50colfunc = (r_translucency ? &R_DrawTranslucent50ColorColumn : &R_DrawColorColumn);
+            tl33colfunc = (r_translucency ? &R_DrawTranslucent50ColorColumn : &R_DrawColorColumn);
             tlgreencolfunc = &R_DrawColorColumn;
             tlredcolfunc = &R_DrawColorColumn;
             tlredwhitecolfunc1 = &R_DrawColorColumn;
@@ -767,7 +767,7 @@ void R_InitColumnFunctions(void)
             tlredtogreen33colfunc = &R_DrawColorColumn;
         }
 
-        bloodsplatcolfunc = (r_translucency ? &R_DrawTranslucent50ColorColumn : &R_DrawColorColumn);
+        bloodsplatcolfunc = (r_bloodsplats_translucency ? &R_DrawTranslucent50ColorColumn : &R_DrawColorColumn);
         psprcolfunc = &R_DrawColorColumn;
     }
 
@@ -784,8 +784,18 @@ void R_InitColumnFunctions(void)
         }
         else if (flags & MF_FUZZ)
         {
-            info->colfunc = fuzzcolfunc;
-            info->altcolfunc = fuzzcolfunc;
+            if (r_textures)
+            {
+                if ((flags2 & MF2_BLOOD) && r_blood != r_blood_all)
+                    info->colfunc = info->altcolfunc = (r_translucency ? &R_DrawTranslucent33Column : &R_DrawColumn);
+                else
+                {
+                    info->colfunc = &R_DrawFuzzColumn;
+                    info->altcolfunc = &R_DrawFuzzColumn;
+                }
+            }
+            else
+                info->colfunc = info->altcolfunc = (r_translucency ? &R_DrawTranslucent50ColorColumn : &R_DrawColorColumn);
         }
         else if (flags2 & MF2_TRANSLUCENT_REDONLY)
         {
@@ -859,6 +869,11 @@ void R_Init(void)
     R_InitPointToAngle();
     R_InitTables();
     R_SetViewSize(r_screensize);
+
+    c_zlight = malloc(numcolormaps * sizeof(*c_zlight));
+    c_scalelight = malloc(numcolormaps * sizeof(*c_scalelight));
+    c_psprscalelight = malloc(numcolormaps * sizeof(*c_psprscalelight));
+
     R_InitLightTables();
     R_InitTranslationTables();
     R_InitPatches();
@@ -898,8 +913,6 @@ static void R_SetupFrame(void)
     mobj_t  *mo = viewplayer->mo;
     int     pitch = 0;
 
-    centery = viewheight / 2;
-
     // [AM] Interpolate the player camera if the feature is enabled.
     if (vid_capfps != TICRATE
         // Don't interpolate if the player did something that would necessitate turning it off for a tic.
@@ -913,17 +926,13 @@ static void R_SetupFrame(void)
         viewz = viewplayer->oldviewz + FixedMul(viewplayer->viewz - viewplayer->oldviewz, fractionaltic);
         viewangle = R_InterpolateAngle(mo->oldangle, mo->angle, fractionaltic);
 
-        if (canmouselook || weaponrecoil)
-        {
+        if (canmouselook)
             pitch = (viewplayer->oldlookdir + (int)((viewplayer->lookdir - viewplayer->oldlookdir)
                 * FIXED2DOUBLE(fractionaltic))) / MLOOKUNIT;
 
-            if (weaponrecoil)
-                pitch = BETWEEN(-LOOKDIRMAX, pitch + viewplayer->oldrecoil + FixedMul(viewplayer->recoil - viewplayer->oldrecoil,
-                    fractionaltic), LOOKDIRMAX);
-
-            centery += pitch * 2 * (r_screensize + 3) / 10;
-        }
+        if (weaponrecoil)
+            pitch = BETWEEN(-LOOKDIRMAX, pitch + viewplayer->oldrecoil + FixedMul(viewplayer->recoil - viewplayer->oldrecoil,
+                fractionaltic), LOOKDIRMAX);
     }
     else
     {
@@ -932,28 +941,32 @@ static void R_SetupFrame(void)
         viewz = viewplayer->viewz;
         viewangle = mo->angle;
 
-        if (canmouselook || weaponrecoil)
-        {
+        if (canmouselook)
             pitch = viewplayer->lookdir / MLOOKUNIT;
 
-            if (weaponrecoil)
-                pitch = BETWEEN(-LOOKDIRMAX, pitch + viewplayer->recoil, LOOKDIRMAX);
-
-            centery += pitch * 2 * (r_screensize + 3) / 10;
-        }
+        if (weaponrecoil)
+            pitch = BETWEEN(-LOOKDIRMAX, pitch + viewplayer->recoil, LOOKDIRMAX);
     }
 
-    if (barrelms)
+    if (barrelms && !consoleactive && !menuactive && !paused)
     {
         int time = I_GetTimeMS();
 
-        if (barrelms > time && !consoleactive && !menuactive && !paused)
+        if (barrelms > time)
         {
             viewx += M_RandomInt(-3, 3) * FRACUNIT * (barrelms - time) / BARRELMS;
             viewy += M_RandomInt(-3, 3) * FRACUNIT * (barrelms - time) / BARRELMS;
             viewz += M_RandomInt(-2, 2) * FRACUNIT * (barrelms - time) / BARRELMS;
         }
     }
+
+    if (automapactive)
+        return;
+
+    centery = viewheight / 2;
+
+    if (pitch)
+        centery += pitch * 2 * (r_screensize + 3) / 10;
 
     extralight = viewplayer->extralight << 2;
 
@@ -1027,10 +1040,10 @@ void R_RenderPlayerView(void)
 
     if (r_homindicator)
         V_FillRect(0, viewwindowx, viewwindowy, viewwidth, viewheight, ((leveltime % 20) < 9 ? nearestred :
-            (viewplayer->fixedcolormap == INVERSECOLORMAP ? colormaps[0][32 * 256 + 4] : nearestblack)), false);
+            (viewplayer->fixedcolormap == INVERSECOLORMAP ? colormaps[0][32 * 256 + WHITE] : nearestblack)), false);
     else if ((viewplayer->cheats & CF_NOCLIP) || freeze)
         V_FillRect(0, viewwindowx, viewwindowy, viewwidth, viewheight,
-            (viewplayer->fixedcolormap == INVERSECOLORMAP ? colormaps[0][32 * 256 + 4] : nearestblack), false);
+            (viewplayer->fixedcolormap == INVERSECOLORMAP ? colormaps[0][32 * 256 + WHITE] : nearestblack), false);
 
     R_RenderBSPNode(numnodes - 1);  // head node is the last node output
     R_DrawPlanes();

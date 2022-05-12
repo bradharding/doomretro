@@ -6,8 +6,8 @@
 
 ========================================================================
 
-  Copyright © 1993-2021 by id Software LLC, a ZeniMax Media company.
-  Copyright © 2013-2021 by Brad Harding <mailto:brad@doomretro.com>.
+  Copyright © 1993-2022 by id Software LLC, a ZeniMax Media company.
+  Copyright © 2013-2022 by Brad Harding <mailto:brad@doomretro.com>.
 
   DOOM Retro is a fork of Chocolate DOOM. For a list of credits, see
   <https://github.com/bradharding/doomretro/wiki/CREDITS>.
@@ -16,7 +16,7 @@
 
   DOOM Retro is free software: you can redistribute it and/or modify it
   under the terms of the GNU General Public License as published by the
-  Free Software Foundation, either version 3 of the License, or (at your
+  Free Software Foundation, either version 3 of the license, or (at your
   option) any later version.
 
   DOOM Retro is distributed in the hope that it will be useful, but
@@ -53,11 +53,11 @@
 // jff 02/04/98 Added this routine (and file) to handle generalized
 // floor movers using bit fields in the line special type.
 //
-dboolean EV_DoGenFloor(line_t *line)
+bool EV_DoGenFloor(line_t *line)
 {
     int                 secnum = -1;
-    dboolean            rtn = false;
-    dboolean            manual = false;
+    bool                rtn = false;
+    bool                manual = false;
     sector_t            *sec;
     floormove_t         *floor;
     const unsigned int  value = line->special - GenFloorBase;
@@ -90,6 +90,7 @@ dboolean EV_DoGenFloor(line_t *line)
 
         secnum = sec->id;
         manual = true;
+
         goto manual_floor;
     }
 
@@ -259,11 +260,11 @@ manual_floor:
 // jff 02/04/98 Added this routine (and file) to handle generalized
 // floor movers using bit fields in the line special type.
 //
-dboolean EV_DoGenCeiling(line_t *line)
+bool EV_DoGenCeiling(line_t *line)
 {
     int                 secnum = -1;
-    dboolean            rtn = false;
-    dboolean            manual = false;
+    bool                rtn = false;
+    bool                manual = false;
     fixed_t             targheight;
     sector_t            *sec;
     ceiling_t           *ceiling;
@@ -297,6 +298,7 @@ dboolean EV_DoGenCeiling(line_t *line)
 
         secnum = sec->id;
         manual = true;
+
         goto manual_ceiling;
     }
 
@@ -473,12 +475,12 @@ manual_ceiling:
 // Passed the linedef activating the lift
 // Returns true if a thinker is created
 //
-dboolean EV_DoGenLift(line_t *line)
+bool EV_DoGenLift(line_t *line)
 {
     plat_t              *plat;
     int                 secnum = -1;
-    dboolean            rtn = false;
-    dboolean            manual = false;
+    bool                rtn = false;
+    bool                manual = false;
     sector_t            *sec;
     const unsigned int  value = line->special - GenLiftBase;
 
@@ -511,6 +513,7 @@ dboolean EV_DoGenLift(line_t *line)
 
         secnum = sec->id;
         manual = true;
+
         goto manual_lift;
     }
 
@@ -625,16 +628,16 @@ manual_lift:
 // Passed the linedef activating the stairs
 // Returns true if a thinker is created
 //
-dboolean EV_DoGenStairs(line_t *line)
+bool EV_DoGenStairs(line_t *line)
 {
     int                 secnum = -1;
     int                 osecnum;        // jff 3/4/98 preserve loop index
     int                 height;
     int                 newsecnum;
     int                 texture;
-    dboolean            okay;
-    dboolean            rtn = false;
-    dboolean            manual = false;
+    bool                okay;
+    bool                rtn = false;
+    bool                manual = false;
     sector_t            *sec;
     sector_t            *tsec;
     floormove_t         *floor;
@@ -668,6 +671,7 @@ dboolean EV_DoGenStairs(line_t *line)
 
         secnum = sec->id;
         manual = true;
+
         goto manual_stair;
     }
 
@@ -835,11 +839,11 @@ manual_stair:
 // Passed the linedef activating the crusher
 // Returns true if a thinker created
 //
-dboolean EV_DoGenCrusher(line_t *line)
+bool EV_DoGenCrusher(line_t *line)
 {
     int                 secnum = -1;
-    dboolean            rtn = false;
-    dboolean            manual = false;
+    bool                rtn = false;
+    bool                manual = false;
     sector_t            *sec;
     ceiling_t           *ceiling;
     const unsigned int  value = line->special - GenCrusherBase;
@@ -872,6 +876,7 @@ dboolean EV_DoGenCrusher(line_t *line)
 
         secnum = sec->id;
         manual = true;
+
         goto manual_crusher;
     }
 
@@ -947,13 +952,13 @@ manual_crusher:
 // Passed the linedef activating the generalized locked door
 // Returns true if a thinker created
 //
-dboolean EV_DoGenLockedDoor(line_t *line)
+bool EV_DoGenLockedDoor(line_t *line)
 {
     int                 secnum = -1;
-    dboolean            rtn = false;
+    bool                rtn = false;
     sector_t            *sec;
     vldoor_t            *door;
-    dboolean            manual = false;
+    bool                manual = false;
     const unsigned int  value = line->special - GenLockedBase;
 
     // parse the bit fields in the line's special type
@@ -980,6 +985,7 @@ dboolean EV_DoGenLockedDoor(line_t *line)
 
         secnum = sec->id;
         manual = true;
+
         goto manual_locked;
     }
 
@@ -1065,12 +1071,12 @@ manual_locked:
 // Passed the linedef activating the generalized door
 // Returns true if a thinker created
 //
-dboolean EV_DoGenDoor(line_t *line)
+bool EV_DoGenDoor(line_t *line)
 {
     int                 secnum = -1;
-    dboolean            rtn = false;
+    bool                rtn = false;
     sector_t            *sec;
-    dboolean            manual = false;
+    bool                manual = false;
     vldoor_t            *door;
     const unsigned int  value = line->special - GenDoorBase;
 
@@ -1099,6 +1105,7 @@ dboolean EV_DoGenDoor(line_t *line)
 
         secnum = sec->id;
         manual = true;
+
         goto manual_door;
     }
 

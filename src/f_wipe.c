@@ -6,8 +6,8 @@
 
 ========================================================================
 
-  Copyright © 1993-2021 by id Software LLC, a ZeniMax Media company.
-  Copyright © 2013-2021 by Brad Harding <mailto:brad@doomretro.com>.
+  Copyright © 1993-2022 by id Software LLC, a ZeniMax Media company.
+  Copyright © 2013-2022 by Brad Harding <mailto:brad@doomretro.com>.
 
   DOOM Retro is a fork of Chocolate DOOM. For a list of credits, see
   <https://github.com/bradharding/doomretro/wiki/CREDITS>.
@@ -16,7 +16,7 @@
 
   DOOM Retro is free software: you can redistribute it and/or modify it
   under the terms of the GNU General Public License as published by the
-  Free Software Foundation, either version 3 of the License, or (at your
+  Free Software Foundation, either version 3 of the license, or (at your
   option) any later version.
 
   DOOM Retro is distributed in the hope that it will be useful, but
@@ -68,7 +68,7 @@ static void wipe_initMelt(void)
     wipe_shittyColMajorXform((short *)screens[3]);
 
     // setup initial column positions (y < 0 => not ready to scroll yet)
-    y[0] = y[1] = -(M_Random() & 15);
+    y[0] = y[1] = -(M_BigRandom() & 15);
 
     for (int i = 2; i < SCREENWIDTH - 1; i += 2)
         y[i] = y[i + 1] = BETWEEN(-15, y[i - 1] + M_BigRandom() % 3 - 1, 0);
@@ -90,9 +90,9 @@ static void wipe_Melt(int i, int dy)
         d[j] = *s++;
 }
 
-static dboolean wipe_doMelt(void)
+static bool wipe_doMelt(void)
 {
-    dboolean    done = true;
+    bool    done = true;
 
     for (int i = 0; i < SCREENWIDTH / 2; i++)
         if (y[i] < 0)
@@ -125,10 +125,10 @@ void wipe_EndScreen(void)
     memcpy(screens[0], screens[2], SCREENAREA);
 }
 
-dboolean wipe_ScreenWipe(void)
+bool wipe_ScreenWipe(void)
 {
     // when false, stop the wipe
-    static dboolean go;
+    static bool go;
 
     // initial stuff
     if (!go)

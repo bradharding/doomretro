@@ -6,8 +6,8 @@
 
 ========================================================================
 
-  Copyright © 1993-2021 by id Software LLC, a ZeniMax Media company.
-  Copyright © 2013-2021 by Brad Harding <mailto:brad@doomretro.com>.
+  Copyright © 1993-2022 by id Software LLC, a ZeniMax Media company.
+  Copyright © 2013-2022 by Brad Harding <mailto:brad@doomretro.com>.
 
   DOOM Retro is a fork of Chocolate DOOM. For a list of credits, see
   <https://github.com/bradharding/doomretro/wiki/CREDITS>.
@@ -16,7 +16,7 @@
 
   DOOM Retro is free software: you can redistribute it and/or modify it
   under the terms of the GNU General Public License as published by the
-  Free Software Foundation, either version 3 of the License, or (at your
+  Free Software Foundation, either version 3 of the license, or (at your
   option) any later version.
 
   DOOM Retro is distributed in the hope that it will be useful, but
@@ -45,15 +45,14 @@
 #include "d_main.h"
 #include "doomstat.h"
 #include "g_game.h"
-#include "i_gamepad.h"
+#include "i_gamecontroller.h"
 #include "m_config.h"
 #include "m_misc.h"
 #include "version.h"
 
-static dboolean cvarsloaded;
+static bool cvarsloaded;
 
-#define NUMCVARS                                                212
-
+#define CONFIG_VARIABLE_BOOL(name1, name2, cvar, set)           { #name1, #name2, &cvar, DEFAULT_BOOL,          set          }
 #define CONFIG_VARIABLE_INT(name1, name2, cvar, set)            { #name1, #name2, &cvar, DEFAULT_INT32,         set          }
 #define CONFIG_VARIABLE_INT_UNSIGNED(name1, name2, cvar, set)   { #name1, #name2, &cvar, DEFAULT_UINT64,        set          }
 #define CONFIG_VARIABLE_INT_PERCENT(name1, name2, cvar, set)    { #name1, #name2, &cvar, DEFAULT_INT32_PERCENT, set          }
@@ -64,151 +63,157 @@ static dboolean cvarsloaded;
 #define BLANKLINE                                               { "",     "",     NULL,  DEFAULT_OTHER,         NOVALUEALIAS }
 #define COMMENT(text)                                           { text,   "",     NULL,  DEFAULT_OTHER,         NOVALUEALIAS }
 
-static default_t cvars[NUMCVARS] =
+static default_t cvars[] =
 {
     COMMENT("; CVARs\n"),
-    CONFIG_VARIABLE_INT          (alwaysrun,                        alwaysrun,                             alwaysrun,                             BOOLVALUEALIAS        ),
+    CONFIG_VARIABLE_BOOL         (alwaysrun,                        alwaysrun,                             alwaysrun,                             BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT          (am_allmapcdwallcolor,             am_allmapcdwallcolour,                 am_allmapcdwallcolor,                  NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT          (am_allmapfdwallcolor,             am_allmapfdwallcolour,                 am_allmapfdwallcolor,                  NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT          (am_allmapwallcolor,               am_allmapwallcolour,                   am_allmapwallcolor,                    NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT          (am_backcolor,                     am_backcolour,                         am_backcolor,                          NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT          (am_bluedoorcolor,                 am_bluedoorcolour,                     am_bluedoorcolor,                      NOVALUEALIAS          ),
+    CONFIG_VARIABLE_INT          (am_bluekeycolor,                  am_bluekeycolour,                      am_bluekeycolor,                       NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT          (am_cdwallcolor,                   am_cdwallcolour,                       am_cdwallcolor,                        NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT          (am_crosshaircolor,                am_crosshaircolour,                    am_crosshaircolor,                     NOVALUEALIAS          ),
-    CONFIG_VARIABLE_INT          (am_external,                      am_external,                           am_external,                           BOOLVALUEALIAS        ),
+    CONFIG_VARIABLE_INT          (am_display,                       am_display,                            am_display,                            NOVALUEALIAS          ),
+    CONFIG_VARIABLE_BOOL         (am_external,                      am_external,                           am_external,                           BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT          (am_fdwallcolor,                   am_fdwallcolour,                       am_fdwallcolor,                        NOVALUEALIAS          ),
-    CONFIG_VARIABLE_INT          (am_followmode,                    am_followmode,                         am_followmode,                         BOOLVALUEALIAS        ),
-    CONFIG_VARIABLE_INT          (am_grid,                          am_grid,                               am_grid,                               BOOLVALUEALIAS        ),
+    CONFIG_VARIABLE_BOOL         (am_grid,                          am_grid,                               am_grid,                               BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT          (am_gridcolor,                     am_gridcolour,                         am_gridcolor,                          NOVALUEALIAS          ),
     CONFIG_VARIABLE_OTHER        (am_gridsize,                      am_gridsize,                           am_gridsize,                           NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT          (am_markcolor,                     am_markcolour,                         am_markcolor,                          NOVALUEALIAS          ),
-    CONFIG_VARIABLE_INT          (am_path,                          am_path,                               am_path,                               BOOLVALUEALIAS        ),
+    CONFIG_VARIABLE_BOOL         (am_path,                          am_path,                               am_path,                               BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT          (am_pathcolor,                     am_pathcolour,                         am_pathcolor,                          NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT          (am_playercolor,                   am_playercolour,                       am_playercolor,                        NOVALUEALIAS          ),
-    CONFIG_VARIABLE_INT          (am_playerstats,                   am_playerstats,                        am_playerstats,                        BOOLVALUEALIAS        ),
+    CONFIG_VARIABLE_BOOL         (am_playerstats,                   am_playerstats,                        am_playerstats,                        BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT          (am_reddoorcolor,                  am_reddoorcolour,                      am_reddoorcolor,                       NOVALUEALIAS          ),
-    CONFIG_VARIABLE_INT          (am_rotatemode,                    am_rotatemode,                         am_rotatemode,                         BOOLVALUEALIAS        ),
+    CONFIG_VARIABLE_INT          (am_redkeycolor,                   am_redkeycolour,                       am_redkeycolor,                        NOVALUEALIAS          ),
+    CONFIG_VARIABLE_BOOL         (am_rotatemode,                    am_rotatemode,                         am_rotatemode,                         BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT          (am_teleportercolor,               am_teleportercolour,                   am_teleportercolor,                    NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT          (am_thingcolor,                    am_thingcolour,                        am_thingcolor,                         NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT          (am_tswallcolor,                   am_tswallcolour,                       am_tswallcolor,                        NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT          (am_wallcolor,                     am_wallcolour,                         am_wallcolor,                          NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT          (am_yellowdoorcolor,               am_yellowdoorcolour,                   am_yellowdoorcolor,                    NOVALUEALIAS          ),
-    CONFIG_VARIABLE_INT          (autoaim,                          autoaim,                               autoaim,                               BOOLVALUEALIAS        ),
-    CONFIG_VARIABLE_INT          (autoload,                         autoload,                              autoload,                              BOOLVALUEALIAS        ),
-    CONFIG_VARIABLE_INT          (autosave,                         autosave,                              autosave,                              BOOLVALUEALIAS        ),
-    CONFIG_VARIABLE_INT          (autotilt,                         autotilt,                              autotilt,                              BOOLVALUEALIAS        ),
-    CONFIG_VARIABLE_INT          (autouse,                          autouse,                               autouse,                               BOOLVALUEALIAS        ),
-    CONFIG_VARIABLE_INT          (centerweapon,                     centreweapon,                          centerweapon,                          BOOLVALUEALIAS        ),
+    CONFIG_VARIABLE_INT          (am_yellowkeycolor,                am_yellowkeycolour,                    am_yellowkeycolor,                     NOVALUEALIAS          ),
+    CONFIG_VARIABLE_BOOL         (autoaim,                          autoaim,                               autoaim,                               BOOLVALUEALIAS        ),
+    CONFIG_VARIABLE_BOOL         (autoload,                         autoload,                              autoload,                              BOOLVALUEALIAS        ),
+    CONFIG_VARIABLE_BOOL         (autosave,                         autosave,                              autosave,                              BOOLVALUEALIAS        ),
+    CONFIG_VARIABLE_BOOL         (autotilt,                         autotilt,                              autotilt,                              BOOLVALUEALIAS        ),
+    CONFIG_VARIABLE_BOOL         (autouse,                          autouse,                               autouse,                               BOOLVALUEALIAS        ),
+    CONFIG_VARIABLE_BOOL         (centerweapon,                     centreweapon,                          centerweapon,                          BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT          (con_backcolor,                    con_backcolour,                        con_backcolor,                         NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT          (con_edgecolor,                    con_edgecolour,                        con_edgecolor,                         NOVALUEALIAS          ),
-    CONFIG_VARIABLE_INT          (con_obituaries,                   con_obituaries,                        con_obituaries,                        BOOLVALUEALIAS        ),
+    CONFIG_VARIABLE_BOOL         (con_obituaries,                   con_obituaries,                        con_obituaries,                        BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT          (crosshair,                        crosshair,                             crosshair,                             CROSSHAIRVALUEALIAS   ),
     CONFIG_VARIABLE_INT          (crosshaircolor,                   crosshaircolour,                       crosshaircolor,                        NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT          (episode,                          episode,                               episode,                               NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT          (expansion,                        expansion,                             expansion,                             NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT          (facebackcolor,                    facebackcolour,                        facebackcolor,                         NOVALUEALIAS          ),
-    CONFIG_VARIABLE_INT          (fade,                             fade,                                  fade,                                  BOOLVALUEALIAS        ),
-    CONFIG_VARIABLE_INT          (gp_analog,                        gp_analogue,                           gp_analog,                             BOOLVALUEALIAS        ),
-    CONFIG_VARIABLE_FLOAT_PERCENT(gp_deadzone_left,                 gp_deadzone_left,                      gp_deadzone_left,                      NOVALUEALIAS          ),
-    CONFIG_VARIABLE_FLOAT_PERCENT(gp_deadzone_right,                gp_deadzone_right,                     gp_deadzone_right,                     NOVALUEALIAS          ),
-    CONFIG_VARIABLE_INT          (gp_invertyaxis,                   gp_invertyaxis,                        gp_invertyaxis,                        BOOLVALUEALIAS        ),
-    CONFIG_VARIABLE_INT          (gp_sensitivity_horizontal,        gp_sensitivity_horizontal,             gp_sensitivity_horizontal,             NOVALUEALIAS          ),
-    CONFIG_VARIABLE_INT          (gp_sensitivity_vertical,          gp_sensitivity_vertical,               gp_sensitivity_vertical,               NOVALUEALIAS          ),
-    CONFIG_VARIABLE_INT          (gp_swapthumbsticks,               gp_swapthumbsticks,                    gp_swapthumbsticks,                    BOOLVALUEALIAS        ),
-    CONFIG_VARIABLE_INT          (gp_thumbsticks,                   gp_thumbsticks,                        gp_thumbsticks,                        NOVALUEALIAS          ),
-    CONFIG_VARIABLE_INT_PERCENT  (gp_vibrate_barrels,               gp_vibrate_barrels,                    gp_vibrate_barrels,                    NOVALUEALIAS          ),
-    CONFIG_VARIABLE_INT_PERCENT  (gp_vibrate_damage,                gp_vibrate_damage,                     gp_vibrate_damage,                     NOVALUEALIAS          ),
-    CONFIG_VARIABLE_INT_PERCENT  (gp_vibrate_weapons,               gp_vibrate_weapons,                    gp_vibrate_weapons,                    NOVALUEALIAS          ),
-    CONFIG_VARIABLE_INT          (groupmessages,                    groupmessages,                         groupmessages,                         BOOLVALUEALIAS        ),
-    CONFIG_VARIABLE_INT          (infighting,                       infighting,                            infighting,                            BOOLVALUEALIAS        ),
-    CONFIG_VARIABLE_INT          (infiniteheight,                   infiniteheight,                        infiniteheight,                        BOOLVALUEALIAS        ),
+    CONFIG_VARIABLE_BOOL         (fade,                             fade,                                  fade,                                  BOOLVALUEALIAS        ),
+    CONFIG_VARIABLE_BOOL         (flashkeys,                        flashkeys,                             flashkeys,                             BOOLVALUEALIAS        ),
+    CONFIG_VARIABLE_BOOL         (groupmessages,                    groupmessages,                         groupmessages,                         BOOLVALUEALIAS        ),
+    CONFIG_VARIABLE_BOOL         (infighting,                       infighting,                            infighting,                            BOOLVALUEALIAS        ),
+    CONFIG_VARIABLE_BOOL         (infiniteheight,                   infiniteheight,                        infiniteheight,                        BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_STRING       (iwadfolder,                       iwadfolder,                            iwadfolder,                            NOVALUEALIAS          ),
-    CONFIG_VARIABLE_INT          (m_acceleration,                   m_acceleration,                        m_acceleration,                        BOOLVALUEALIAS        ),
-    CONFIG_VARIABLE_INT          (m_doubleclick_use,                m_doubleclick_use,                     m_doubleclick_use,                     BOOLVALUEALIAS        ),
-    CONFIG_VARIABLE_INT          (m_invertyaxis,                    m_invertyaxis,                         m_invertyaxis,                         BOOLVALUEALIAS        ),
-    CONFIG_VARIABLE_INT          (m_novertical,                     m_novertical,                          m_novertical,                          BOOLVALUEALIAS        ),
+    CONFIG_VARIABLE_BOOL         (joy_analog,                       gp_analog,                             joy_analog,                            BOOLVALUEALIAS        ),
+    CONFIG_VARIABLE_FLOAT_PERCENT(joy_deadzone_left,                gp_deadzone_left,                      joy_deadzone_left,                     NOVALUEALIAS          ),
+    CONFIG_VARIABLE_FLOAT_PERCENT(joy_deadzone_right,               gp_deadzone_right,                     joy_deadzone_right,                    NOVALUEALIAS          ),
+    CONFIG_VARIABLE_BOOL         (joy_invertyaxis,                  gp_invertyaxis,                        joy_invertyaxis,                       BOOLVALUEALIAS        ),
+    CONFIG_VARIABLE_INT_PERCENT  (joy_rumble_barrels,               gp_vibrate_barrels,                    joy_rumble_barrels,                    NOVALUEALIAS          ),
+    CONFIG_VARIABLE_INT_PERCENT  (joy_rumble_damage,                gp_vibrate_damage,                     joy_rumble_damage,                     NOVALUEALIAS          ),
+    CONFIG_VARIABLE_INT_PERCENT  (joy_rumble_weapons,               gp_vibrate_weapons,                    joy_rumble_weapons,                    NOVALUEALIAS          ),
+    CONFIG_VARIABLE_INT          (joy_sensitivity_horizontal,       gp_sensitivity_horizontal,             joy_sensitivity_horizontal,            NOVALUEALIAS          ),
+    CONFIG_VARIABLE_INT          (joy_sensitivity_vertical,         gp_sensitivity_vertical,               joy_sensitivity_vertical,              NOVALUEALIAS          ),
+    CONFIG_VARIABLE_BOOL         (joy_swapthumbsticks,              gp_swapthumbsticks,                    joy_swapthumbsticks,                   BOOLVALUEALIAS        ),
+    CONFIG_VARIABLE_INT          (joy_thumbsticks,                  gp_thumbsticks,                        joy_thumbsticks,                       NOVALUEALIAS          ),
+    CONFIG_VARIABLE_BOOL         (m_acceleration,                   m_acceleration,                        m_acceleration,                        BOOLVALUEALIAS        ),
+    CONFIG_VARIABLE_BOOL         (m_doubleclick_use,                m_doubleclick_use,                     m_doubleclick_use,                     BOOLVALUEALIAS        ),
+    CONFIG_VARIABLE_BOOL         (m_invertyaxis,                    m_invertyaxis,                         m_invertyaxis,                         BOOLVALUEALIAS        ),
+    CONFIG_VARIABLE_BOOL         (m_novertical,                     m_novertical,                          m_novertical,                          BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT          (m_sensitivity,                    m_sensitivity,                         m_sensitivity,                         NOVALUEALIAS          ),
-    CONFIG_VARIABLE_INT          (melt,                             wipe,                                  melt,                                  BOOLVALUEALIAS        ),
-    CONFIG_VARIABLE_INT          (messages,                         messages,                              messages,                              BOOLVALUEALIAS        ),
-    CONFIG_VARIABLE_INT          (mouselook,                        mouselook,                             mouselook,                             BOOLVALUEALIAS        ),
+    CONFIG_VARIABLE_BOOL         (melt,                             wipe,                                  melt,                                  BOOLVALUEALIAS        ),
+    CONFIG_VARIABLE_BOOL         (messages,                         messages,                              messages,                              BOOLVALUEALIAS        ),
+    CONFIG_VARIABLE_BOOL         (mouselook,                        mouselook,                             mouselook,                             BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT_PERCENT  (movebob,                          movebob,                               movebob,                               NOVALUEALIAS          ),
+    CONFIG_VARIABLE_BOOL         (negativehealth,                   negativehealth,                        negativehealth,                        BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT          (playergender,                     playergender,                          playergender,                          PLAYERGENDERVALUEALIAS),
     CONFIG_VARIABLE_STRING       (playername,                       playername,                            playername,                            NOVALUEALIAS          ),
-    CONFIG_VARIABLE_INT          (r_althud,                         r_althud,                              r_althud,                              BOOLVALUEALIAS        ),
+    CONFIG_VARIABLE_BOOL         (r_althud,                         r_althud,                              r_althud,                              BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT          (r_berserkeffect,                  r_berserkeffect,                       r_berserkeffect,                       NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT          (r_blood,                          r_blood,                               r_blood,                               BLOODVALUEALIAS       ),
     CONFIG_VARIABLE_INT          (r_bloodsplats_max,                r_bloodsplats_max,                     r_bloodsplats_max,                     NOVALUEALIAS          ),
-    CONFIG_VARIABLE_INT          (r_bloodsplats_translucency,       r_bloodsplats_translucency,            r_bloodsplats_translucency,            BOOLVALUEALIAS        ),
-    CONFIG_VARIABLE_INT          (r_brightmaps,                     r_brightmaps,                          r_brightmaps,                          BOOLVALUEALIAS        ),
+    CONFIG_VARIABLE_BOOL         (r_bloodsplats_translucency,       r_bloodsplats_translucency,            r_bloodsplats_translucency,            BOOLVALUEALIAS        ),
+    CONFIG_VARIABLE_BOOL         (r_brightmaps,                     r_brightmaps,                          r_brightmaps,                          BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT_PERCENT  (r_color,                          r_colour,                              r_color,                               NOVALUEALIAS          ),
-    CONFIG_VARIABLE_INT          (r_corpses_color,                  r_corpses_colour,                      r_corpses_color,                       BOOLVALUEALIAS        ),
-    CONFIG_VARIABLE_INT          (r_corpses_gib,                    r_corpses_gib,                         r_corpses_gib,                         BOOLVALUEALIAS        ),
-    CONFIG_VARIABLE_INT          (r_corpses_mirrored,               r_corpses_mirrored,                    r_corpses_mirrored,                    BOOLVALUEALIAS        ),
-    CONFIG_VARIABLE_INT          (r_corpses_moreblood,              r_corpses_moreblood,                   r_corpses_moreblood,                   BOOLVALUEALIAS        ),
-    CONFIG_VARIABLE_INT          (r_corpses_nudge,                  r_corpses_nudge,                       r_corpses_nudge,                       BOOLVALUEALIAS        ),
-    CONFIG_VARIABLE_INT          (r_corpses_slide,                  r_corpses_slide,                       r_corpses_slide,                       BOOLVALUEALIAS        ),
-    CONFIG_VARIABLE_INT          (r_corpses_smearblood,             r_corpses_smearblood,                  r_corpses_smearblood,                  BOOLVALUEALIAS        ),
-    CONFIG_VARIABLE_INT          (r_damageeffect,                   r_pickupeffect,                        r_damageeffect,                        BOOLVALUEALIAS        ),
+    CONFIG_VARIABLE_BOOL         (r_corpses_color,                  r_corpses_colour,                      r_corpses_color,                       BOOLVALUEALIAS        ),
+    CONFIG_VARIABLE_BOOL         (r_corpses_gib,                    r_corpses_gib,                         r_corpses_gib,                         BOOLVALUEALIAS        ),
+    CONFIG_VARIABLE_BOOL         (r_corpses_mirrored,               r_corpses_mirrored,                    r_corpses_mirrored,                    BOOLVALUEALIAS        ),
+    CONFIG_VARIABLE_BOOL         (r_corpses_moreblood,              r_corpses_moreblood,                   r_corpses_moreblood,                   BOOLVALUEALIAS        ),
+    CONFIG_VARIABLE_BOOL         (r_corpses_nudge,                  r_corpses_nudge,                       r_corpses_nudge,                       BOOLVALUEALIAS        ),
+    CONFIG_VARIABLE_BOOL         (r_corpses_slide,                  r_corpses_slide,                       r_corpses_slide,                       BOOLVALUEALIAS        ),
+    CONFIG_VARIABLE_BOOL         (r_corpses_smearblood,             r_corpses_smearblood,                  r_corpses_smearblood,                  BOOLVALUEALIAS        ),
+    CONFIG_VARIABLE_BOOL         (r_damageeffect,                   r_pickupeffect,                        r_damageeffect,                        BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT          (r_detail,                         r_detail,                              r_detail,                              DETAILVALUEALIAS      ),
-    CONFIG_VARIABLE_INT          (r_diskicon,                       r_diskicon,                            r_diskicon,                            BOOLVALUEALIAS        ),
-    CONFIG_VARIABLE_INT          (r_ditheredlighting,               r_ditheredlighting,                    r_ditheredlighting,                    BOOLVALUEALIAS        ),
-    CONFIG_VARIABLE_INT          (r_fixmaperrors,                   r_fixmaperrors,                        r_fixmaperrors,                        BOOLVALUEALIAS        ),
-    CONFIG_VARIABLE_INT          (r_fixspriteoffsets,               r_fixspriteoffsets,                    r_fixspriteoffsets,                    BOOLVALUEALIAS        ),
-    CONFIG_VARIABLE_INT          (r_floatbob,                       r_floatbob,                            r_floatbob,                            BOOLVALUEALIAS        ),
+    CONFIG_VARIABLE_BOOL         (r_diskicon,                       r_diskicon,                            r_diskicon,                            BOOLVALUEALIAS        ),
+    CONFIG_VARIABLE_BOOL         (r_ditheredlighting,               r_ditheredlighting,                    r_ditheredlighting,                    BOOLVALUEALIAS        ),
+    CONFIG_VARIABLE_BOOL         (r_fixmaperrors,                   r_fixmaperrors,                        r_fixmaperrors,                        BOOLVALUEALIAS        ),
+    CONFIG_VARIABLE_BOOL         (r_fixspriteoffsets,               r_fixspriteoffsets,                    r_fixspriteoffsets,                    BOOLVALUEALIAS        ),
+    CONFIG_VARIABLE_BOOL         (r_floatbob,                       r_floatbob,                            r_floatbob,                            BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT          (r_fov,                            r_fov,                                 r_fov,                                 NOVALUEALIAS          ),
     CONFIG_VARIABLE_FLOAT        (r_gamma,                          r_gamma,                               r_gamma,                               GAMMAVALUEALIAS       ),
-    CONFIG_VARIABLE_INT          (r_graduallighting,                r_graduallighting,                     r_graduallighting,                     BOOLVALUEALIAS        ),
-    CONFIG_VARIABLE_INT          (r_homindicator,                   r_homindicator,                        r_homindicator,                        BOOLVALUEALIAS        ),
-    CONFIG_VARIABLE_INT          (r_hud,                            r_hud,                                 r_hud,                                 BOOLVALUEALIAS        ),
-    CONFIG_VARIABLE_INT          (r_hud_translucency,               r_hud_translucency,                    r_hud_translucency,                    BOOLVALUEALIAS        ),
-    CONFIG_VARIABLE_INT          (r_liquid_bob,                     r_liquid_bob,                          r_liquid_bob,                          BOOLVALUEALIAS        ),
-    CONFIG_VARIABLE_INT          (r_liquid_clipsprites,             r_liquid_clipsprites,                  r_liquid_clipsprites,                  BOOLVALUEALIAS        ),
-    CONFIG_VARIABLE_INT          (r_liquid_current,                 r_liquid_current,                      r_liquid_current,                      BOOLVALUEALIAS        ),
-    CONFIG_VARIABLE_INT          (r_liquid_lowerview,               r_liquid_lowerview,                    r_liquid_lowerview,                    BOOLVALUEALIAS        ),
-    CONFIG_VARIABLE_INT          (r_liquid_swirl,                   r_liquid_swirl,                        r_liquid_swirl,                        BOOLVALUEALIAS        ),
+    CONFIG_VARIABLE_BOOL         (r_graduallighting,                r_graduallighting,                     r_graduallighting,                     BOOLVALUEALIAS        ),
+    CONFIG_VARIABLE_BOOL         (r_homindicator,                   r_homindicator,                        r_homindicator,                        BOOLVALUEALIAS        ),
+    CONFIG_VARIABLE_BOOL         (r_hud,                            r_hud,                                 r_hud,                                 BOOLVALUEALIAS        ),
+    CONFIG_VARIABLE_BOOL         (r_hud_translucency,               r_hud_translucency,                    r_hud_translucency,                    BOOLVALUEALIAS        ),
+    CONFIG_VARIABLE_BOOL         (r_liquid_bob,                     r_liquid_bob,                          r_liquid_bob,                          BOOLVALUEALIAS        ),
+    CONFIG_VARIABLE_BOOL         (r_liquid_clipsprites,             r_liquid_clipsprites,                  r_liquid_clipsprites,                  BOOLVALUEALIAS        ),
+    CONFIG_VARIABLE_BOOL         (r_liquid_current,                 r_liquid_current,                      r_liquid_current,                      BOOLVALUEALIAS        ),
+    CONFIG_VARIABLE_BOOL         (r_liquid_lowerview,               r_liquid_lowerview,                    r_liquid_lowerview,                    BOOLVALUEALIAS        ),
+    CONFIG_VARIABLE_BOOL         (r_liquid_swirl,                   r_liquid_swirl,                        r_liquid_swirl,                        BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_OTHER        (r_lowpixelsize,                   r_lowpixelsize,                        r_lowpixelsize,                        NOVALUEALIAS          ),
-    CONFIG_VARIABLE_INT          (r_mirroredweapons,                r_mirroredweapons,                     r_mirroredweapons,                     BOOLVALUEALIAS        ),
-    CONFIG_VARIABLE_INT          (r_pickupeffect,                   r_pickupeffect,                        r_pickupeffect,                        BOOLVALUEALIAS        ),
-    CONFIG_VARIABLE_INT          (r_playersprites,                  r_playersprites,                       r_playersprites,                       BOOLVALUEALIAS        ),
-    CONFIG_VARIABLE_INT          (r_radsuiteffect,                  r_radsuiteffect,                       r_radsuiteffect,                       BOOLVALUEALIAS        ),
-    CONFIG_VARIABLE_INT          (r_rockettrails,                   r_rockettrails,                        r_rockettrails,                        BOOLVALUEALIAS        ),
+    CONFIG_VARIABLE_BOOL         (r_mirroredweapons,                r_mirroredweapons,                     r_mirroredweapons,                     BOOLVALUEALIAS        ),
+    CONFIG_VARIABLE_BOOL         (r_pickupeffect,                   r_pickupeffect,                        r_pickupeffect,                        BOOLVALUEALIAS        ),
+    CONFIG_VARIABLE_BOOL         (r_playersprites,                  r_playersprites,                       r_playersprites,                       BOOLVALUEALIAS        ),
+    CONFIG_VARIABLE_BOOL         (r_radsuiteffect,                  r_radsuiteffect,                       r_radsuiteffect,                       BOOLVALUEALIAS        ),
+    CONFIG_VARIABLE_BOOL         (r_rockettrails,                   r_rockettrails,                        r_rockettrails,                        BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT          (r_screensize,                     r_screensize,                          r_screensize,                          NOVALUEALIAS          ),
-    CONFIG_VARIABLE_INT          (r_shadows,                        r_shadows,                             r_shadows,                             BOOLVALUEALIAS        ),
-    CONFIG_VARIABLE_INT          (r_shadows_translucency,           r_shadows_translucency,                r_shadows_translucency,                BOOLVALUEALIAS        ),
-    CONFIG_VARIABLE_INT          (r_shake_barrels,                  r_shake_barrels,                       r_shake_barrels,                       BOOLVALUEALIAS        ),
+    CONFIG_VARIABLE_BOOL         (r_shadows,                        r_shadows,                             r_shadows,                             BOOLVALUEALIAS        ),
+    CONFIG_VARIABLE_BOOL         (r_shadows_translucency,           r_shadows_translucency,                r_shadows_translucency,                BOOLVALUEALIAS        ),
+    CONFIG_VARIABLE_BOOL         (r_shake_barrels,                  r_shake_barrels,                       r_shake_barrels,                       BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT_PERCENT  (r_shake_damage,                   r_shake_damage,                        r_shake_damage,                        NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT          (r_skycolor,                       r_skycolour,                           r_skycolor,                            SKYCOLORVALUEALIAS    ),
-    CONFIG_VARIABLE_INT          (r_supersampling,                  r_supersampling,                       r_supersampling,                       BOOLVALUEALIAS        ),
-    CONFIG_VARIABLE_INT          (r_textures,                       r_textures,                            r_textures,                            BOOLVALUEALIAS        ),
-    CONFIG_VARIABLE_INT          (r_translucency,                   r_translucency,                        r_translucency,                        BOOLVALUEALIAS        ),
+    CONFIG_VARIABLE_BOOL         (r_supersampling,                  r_supersampling,                       r_supersampling,                       BOOLVALUEALIAS        ),
+    CONFIG_VARIABLE_BOOL         (r_textures,                       r_textures,                            r_textures,                            BOOLVALUEALIAS        ),
+    CONFIG_VARIABLE_BOOL         (r_translucency,                   r_translucency,                        r_translucency,                        BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT          (s_channels,                       s_channels,                            s_channels,                            NOVALUEALIAS          ),
+    CONFIG_VARIABLE_BOOL         (s_lowermenumusic,                 s_lowermenumusic,                      s_lowermenumusic,                      BOOLVALUEALIAS        ),
+    CONFIG_VARIABLE_BOOL         (s_musicinbackground,              s_musicinbackground,                   s_musicinbackground,                   BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT_PERCENT  (s_musicvolume,                    s_musicvolume,                         s_musicvolume,                         NOVALUEALIAS          ),
-    CONFIG_VARIABLE_INT          (s_randommusic,                    s_randommusic,                         s_randommusic,                         BOOLVALUEALIAS        ),
-    CONFIG_VARIABLE_INT          (s_randompitch,                    s_randompitch,                         s_randompitch,                         BOOLVALUEALIAS        ),
+    CONFIG_VARIABLE_BOOL         (s_randommusic,                    s_randommusic,                         s_randommusic,                         BOOLVALUEALIAS        ),
+    CONFIG_VARIABLE_BOOL         (s_randompitch,                    s_randompitch,                         s_randompitch,                         BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT_PERCENT  (s_sfxvolume,                      s_sfxvolume,                           s_sfxvolume,                           NOVALUEALIAS          ),
-    CONFIG_VARIABLE_INT          (s_stereo,                         s_stereo,                              s_stereo,                              BOOLVALUEALIAS        ),
+    CONFIG_VARIABLE_BOOL         (s_stereo,                         s_stereo,                              s_stereo,                              BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT          (savegame,                         savegame,                              savegame,                              NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT          (skilllevel,                       skilllevel,                            skilllevel,                            NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT_PERCENT  (stillbob,                         stillbob,                              stillbob,                              NOVALUEALIAS          ),
-    CONFIG_VARIABLE_INT          (tossdrop,                         tossdrop,                              tossdrop,                              BOOLVALUEALIAS        ),
+    CONFIG_VARIABLE_BOOL         (tossdrop,                         tossdrop,                              tossdrop,                              BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT_PERCENT  (turbo,                            turbo,                                 turbo,                                 NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT          (units,                            units,                                 units,                                 UNITSVALUEALIAS       ),
     CONFIG_VARIABLE_STRING       (version,                          version,                               version,                               NOVALUEALIAS          ),
-    CONFIG_VARIABLE_INT          (vid_borderlesswindow,             vid_borderlesswindow,                  vid_borderlesswindow,                  BOOLVALUEALIAS        ),
+    CONFIG_VARIABLE_BOOL         (vid_borderlesswindow,             vid_borderlesswindow,                  vid_borderlesswindow,                  BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT          (vid_capfps,                       vid_capfps,                            vid_capfps,                            CAPVALUEALIAS         ),
     CONFIG_VARIABLE_INT          (vid_display,                      vid_display,                           vid_display,                           NOVALUEALIAS          ),
 #if !defined(_WIN32)
     CONFIG_VARIABLE_STRING       (vid_driver,                       vid_driver,                            vid_driver,                            NOVALUEALIAS          ),
 #endif
-    CONFIG_VARIABLE_INT          (vid_fullscreen,                   vid_fullscreen,                        vid_fullscreen,                        BOOLVALUEALIAS        ),
+    CONFIG_VARIABLE_BOOL         (vid_fullscreen,                   vid_fullscreen,                        vid_fullscreen,                        BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT_PERCENT  (vid_motionblur,                   vid_motionblur,                        vid_motionblur,                        NOVALUEALIAS          ),
-    CONFIG_VARIABLE_INT          (vid_pillarboxes,                  vid_pillarboxes,                       vid_pillarboxes,                       BOOLVALUEALIAS        ),
+    CONFIG_VARIABLE_BOOL         (vid_pillarboxes,                  vid_pillarboxes,                       vid_pillarboxes,                       BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_STRING       (vid_scaleapi,                     vid_scaleapi,                          vid_scaleapi,                          NOVALUEALIAS          ),
     CONFIG_VARIABLE_STRING       (vid_scalefilter,                  vid_scalefilter,                       vid_scalefilter,                       NOVALUEALIAS          ),
     CONFIG_VARIABLE_OTHER        (vid_screenresolution,             vid_screenresolution,                  vid_screenresolution,                  NOVALUEALIAS          ),
-    CONFIG_VARIABLE_INT          (vid_showfps,                      vid_showfps,                           vid_showfps,                           BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT          (vid_vsync,                        vid_vsync,                             vid_vsync,                             VSYNCVALUEALIAS       ),
-    CONFIG_VARIABLE_INT          (vid_widescreen,                   vid_widescreen,                        vid_widescreen,                        BOOLVALUEALIAS        ),
+    CONFIG_VARIABLE_BOOL         (vid_widescreen,                   vid_widescreen,                        vid_widescreen,                        BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_OTHER        (vid_windowpos,                    vid_windowposition,                    vid_windowpos,                         NOVALUEALIAS          ),
     CONFIG_VARIABLE_OTHER        (vid_windowsize,                   vid_windowsize,                        vid_windowsize,                        NOVALUEALIAS          ),
 #if defined(_WIN32)
@@ -216,10 +221,11 @@ static default_t cvars[NUMCVARS] =
 #endif
     CONFIG_VARIABLE_INT          (warninglevel,                     warninglevel,                          warninglevel,                          NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT_PERCENT  (weaponbob,                        weaponbob,                             weaponbob,                             NOVALUEALIAS          ),
-    CONFIG_VARIABLE_INT          (weaponbounce,                     weaponbounce,                          weaponbounce,                          BOOLVALUEALIAS        ),
-    CONFIG_VARIABLE_INT          (weaponrecoil,                     weaponrecoil,                          weaponrecoil,                          BOOLVALUEALIAS        ),
+    CONFIG_VARIABLE_BOOL         (weaponbounce,                     weaponbounce,                          weaponbounce,                          BOOLVALUEALIAS        ),
+    CONFIG_VARIABLE_BOOL         (weaponrecoil,                     weaponrecoil,                          weaponrecoil,                          BOOLVALUEALIAS        ),
     BLANKLINE,
     COMMENT("; player stats\n"),
+    CONFIG_VARIABLE_INT_UNSIGNED (automapopened,                    stat_automapopened,                    stat_automapopened,                    NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT_UNSIGNED (barrelsexploded,                  stat_barrelsexploded,                  stat_barrelsexploded,                  NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT_UNSIGNED (cheated,                          stat_cheated,                          stat_cheated,                          NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT_UNSIGNED (damageinflicted,                  stat_damageinflicted,                  stat_damageinflicted,                  NOVALUEALIAS          ),
@@ -242,8 +248,8 @@ static default_t cvars[NUMCVARS] =
     CONFIG_VARIABLE_INT_UNSIGNED (monsterskilled_archviles,         stat_monsterskilled_archviles,         stat_monsterskilled_archviles,         NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT_UNSIGNED (monsterskilled_baronsofhell,      stat_monsterskilled_baronsofhell,      stat_monsterskilled_baronsofhell,      NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT_UNSIGNED (monsterskilled_cacodemons,        stat_monsterskilled_cacodemons,        stat_monsterskilled_cacodemons,        NOVALUEALIAS          ),
+    CONFIG_VARIABLE_INT_UNSIGNED (monsterskilled_chaingunners,      stat_monsterskilled_heavyweapondudes,  stat_monsterskilled_chaingunners,      NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT_UNSIGNED (monsterskilled_cyberdemons,       stat_monsterskilled_cyberdemons,       stat_monsterskilled_cyberdemons,       NOVALUEALIAS          ),
-    CONFIG_VARIABLE_INT_UNSIGNED (monsterskilled_heavyweapondudes,  stat_monsterskilled_heavyweapondudes,  stat_monsterskilled_heavyweapondudes,  NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT_UNSIGNED (monsterskilled_hellknights,       stat_monsterskilled_hellknights,       stat_monsterskilled_hellknights,       NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT_UNSIGNED (monsterskilled_imps,              stat_monsterskilled_imps,              stat_monsterskilled_imps,              NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT_UNSIGNED (monsterskilled_lostsouls,         stat_monsterskilled_lostsouls,         stat_monsterskilled_lostsouls,         NOVALUEALIAS          ),
@@ -255,7 +261,9 @@ static default_t cvars[NUMCVARS] =
     CONFIG_VARIABLE_INT_UNSIGNED (monsterskilled_spectres,          stat_monsterskilled_spectres,          stat_monsterskilled_spectres,          NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT_UNSIGNED (monsterskilled_spidermasterminds, stat_monsterskilled_spidermasterminds, stat_monsterskilled_spidermasterminds, NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT_UNSIGNED (monsterskilled_zombiemen,         stat_monsterskilled_zombiemen,         stat_monsterskilled_zombiemen,         NOVALUEALIAS          ),
+    CONFIG_VARIABLE_INT_UNSIGNED (monstersrespawned,                stat_monstersrespawned,                stat_monstersrespawned,                NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT_UNSIGNED (monstersresurrected,              stat_monstersresurrected,              stat_monstersresurrected,              NOVALUEALIAS          ),
+    CONFIG_VARIABLE_INT_UNSIGNED (monsterstelefragged,              stat_monsterstelefragged,              stat_monsterstelefragged,              NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT_UNSIGNED (runs,                             stat_runs,                             stat_runs,                             NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT_UNSIGNED (secretsfound,                     stat_secretsrevealed,                  stat_secretsfound,                     NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT_UNSIGNED (shotsfired_fists,                 stat_shotsfired_fists,                 stat_shotsfired_fists,                 NOVALUEALIAS          ),
@@ -287,25 +295,29 @@ static default_t cvars[NUMCVARS] =
 
 valuealias_t valuealiases[] =
 {
-    { "off",       0, BOOLVALUEALIAS         }, { "on",        1, BOOLVALUEALIAS         },
-    { "0",         0, BOOLVALUEALIAS         }, { "1",         1, BOOLVALUEALIAS         },
-    { "no",        0, BOOLVALUEALIAS         }, { "yes",       1, BOOLVALUEALIAS         },
-    { "false",     0, BOOLVALUEALIAS         }, { "true",      1, BOOLVALUEALIAS         },
-    { "low",       0, DETAILVALUEALIAS       }, { "high",      1, DETAILVALUEALIAS       },
-    { "off",       1, GAMMAVALUEALIAS        }, { "none",      0, BLOODVALUEALIAS        },
-    { "off",       0, BLOODVALUEALIAS        }, { "red",       1, BLOODVALUEALIAS        },
-    { "all",       2, BLOODVALUEALIAS        }, { "green",     3, BLOODVALUEALIAS        },
-    { "nofuzz",    4, BLOODVALUEALIAS        }, { "on",        4, BLOODVALUEALIAS        },
-    { "imperial",  0, UNITSVALUEALIAS        }, { "metric",    1, UNITSVALUEALIAS        },
-    { "off",       0, CAPVALUEALIAS          }, { "none",     -1, SKYCOLORVALUEALIAS     },
-    { "off",      -1, SKYCOLORVALUEALIAS     }, { "none",      0, ARMORTYPEVALUEALIAS    },
-    { "green",     1, ARMORTYPEVALUEALIAS    }, { "blue",      2, ARMORTYPEVALUEALIAS    },
-    { "none",      0, CROSSHAIRVALUEALIAS    }, { "off",       0, CROSSHAIRVALUEALIAS    },
-    { "cross",     1, CROSSHAIRVALUEALIAS    }, { "on",        1, CROSSHAIRVALUEALIAS    },
-    { "dot",       2, CROSSHAIRVALUEALIAS    }, { "adaptive", -1, VSYNCVALUEALIAS        },
-    { "off",       0, VSYNCVALUEALIAS        }, { "on",        1, VSYNCVALUEALIAS        },
-    { "other",     0, PLAYERGENDERVALUEALIAS }, { "male",      1, PLAYERGENDERVALUEALIAS },
-    { "female",    2, PLAYERGENDERVALUEALIAS }, { "",          0, NOVALUEALIAS           }
+    { "off",            0, BOOLVALUEALIAS         }, { "on",             1, BOOLVALUEALIAS         },
+    { "0",              0, BOOLVALUEALIAS         }, { "1",              1, BOOLVALUEALIAS         },
+    { "no",             0, BOOLVALUEALIAS         }, { "yes",            1, BOOLVALUEALIAS         },
+    { "false",          0, BOOLVALUEALIAS         }, { "true",           1, BOOLVALUEALIAS         },
+    { "low",            0, DETAILVALUEALIAS       }, { "high",           1, DETAILVALUEALIAS       },
+    { "off",            1, GAMMAVALUEALIAS        }, { "none",           0, BLOODVALUEALIAS        },
+    { "off",            0, BLOODVALUEALIAS        }, { "red",            1, BLOODVALUEALIAS        },
+    { "all",            2, BLOODVALUEALIAS        }, { "green",          3, BLOODVALUEALIAS        },
+    { "nofuzz",         4, BLOODVALUEALIAS        }, { "on",             4, BLOODVALUEALIAS        },
+    { "imperial",       0, UNITSVALUEALIAS        }, { "metric",         1, UNITSVALUEALIAS        },
+    { "off",            0, CAPVALUEALIAS          }, { "none",          -1, SKYCOLORVALUEALIAS     },
+    { "off",           -1, SKYCOLORVALUEALIAS     }, { "none",           0, ARMORTYPEVALUEALIAS    },
+    { "green",          1, ARMORTYPEVALUEALIAS    }, { "blue",           2, ARMORTYPEVALUEALIAS    },
+    { "none",           0, CROSSHAIRVALUEALIAS    }, { "off",            0, CROSSHAIRVALUEALIAS    },
+    { "cross",          1, CROSSHAIRVALUEALIAS    }, { "on",             1, CROSSHAIRVALUEALIAS    },
+    { "dot",            2, CROSSHAIRVALUEALIAS    }, { "adaptive",      -1, VSYNCVALUEALIAS        },
+    { "off",            0, VSYNCVALUEALIAS        }, { "on",             1, VSYNCVALUEALIAS        },
+    { "other",          0, PLAYERGENDERVALUEALIAS }, { "fists",          0, WEAPONVALUEALIAS       },
+    { "pistol",         1, WEAPONVALUEALIAS       }, { "shotgun",        2, WEAPONVALUEALIAS       },
+    { "chaingun",       3, WEAPONVALUEALIAS       }, { "rocketlauncher", 4, WEAPONVALUEALIAS       },
+    { "plasmarifle",    5, WEAPONVALUEALIAS       }, { "bfg9000",        6, WEAPONVALUEALIAS       },
+    { "chainsaw",       7, WEAPONVALUEALIAS       }, { "supershotgun",   8, WEAPONVALUEALIAS       },
+    { "",               0, NOVALUEALIAS           }
 };
 
 static void SaveBind(FILE *file, char *control, char *action)
@@ -339,18 +351,18 @@ void M_SaveCVARs(void)
 
     if (!(file = fopen(packageconfig, "wt")))
     {
-        static dboolean warning;
+        static bool warning;
 
         if (!warning)
         {
             warning = true;
-            C_Warning(1, BOLD("%s") " couldn't be saved.", packageconfig);
+            C_Warning(0, BOLD("%s") " couldn't be saved.", packageconfig);
         }
 
         return;
     }
 
-    for (int i = 0; i < NUMCVARS; i++)
+    for (int i = 0; i < arrlen(cvars); i++)
     {
         if (!*cvars[i].name)
         {
@@ -370,13 +382,13 @@ void M_SaveCVARs(void)
         // Print the value
         switch (cvars[i].type)
         {
-            case DEFAULT_INT32:
+            case DEFAULT_BOOL:
             {
-                dboolean    alias = false;
-                int         v = *(int *)cvars[i].location;
+                bool    alias = false;
+                int     value = *(bool *)cvars[i].location;
 
                 for (int j = 0; *valuealiases[j].text; j++)
-                    if (v == valuealiases[j].value && cvars[i].valuealiastype == valuealiases[j].type)
+                    if (value == valuealiases[j].value && cvars[i].valuealiastype == valuealiases[j].type)
                     {
                         fputs(valuealiases[j].text, file);
                         alias = true;
@@ -386,7 +398,32 @@ void M_SaveCVARs(void)
 
                 if (!alias)
                 {
-                    char    *temp = commify(v);
+                    char    *temp = commify(value);
+
+                    fputs(temp, file);
+                    free(temp);
+                }
+
+                break;
+            }
+
+            case DEFAULT_INT32:
+            {
+                bool    alias = false;
+                int     value = *(int *)cvars[i].location;
+
+                for (int j = 0; *valuealiases[j].text; j++)
+                    if (value == valuealiases[j].value && cvars[i].valuealiastype == valuealiases[j].type)
+                    {
+                        fputs(valuealiases[j].text, file);
+                        alias = true;
+
+                        break;
+                    }
+
+                if (!alias)
+                {
+                    char    *temp = commify(value);
 
                     fputs(temp, file);
                     free(temp);
@@ -407,11 +444,11 @@ void M_SaveCVARs(void)
 
             case DEFAULT_INT32_PERCENT:
             {
-                dboolean    alias = false;
-                int         v = *(int *)cvars[i].location;
+                bool    alias = false;
+                int     value = *(int *)cvars[i].location;
 
                 for (int j = 0; *valuealiases[j].text; j++)
-                    if (v == valuealiases[j].value && cvars[i].valuealiastype == valuealiases[j].type)
+                    if (value == valuealiases[j].value && cvars[i].valuealiastype == valuealiases[j].type)
                     {
                         fputs(valuealiases[j].text, file);
                         alias = true;
@@ -421,7 +458,7 @@ void M_SaveCVARs(void)
 
                 if (!alias)
                 {
-                    char    *temp = commify(v);
+                    char    *temp = commify(value);
 
                     fprintf(file, "%s%%", temp);
                     free(temp);
@@ -432,11 +469,11 @@ void M_SaveCVARs(void)
 
             case DEFAULT_FLOAT:
             {
-                dboolean    alias = false;
-                float       v = *(float *)cvars[i].location;
+                bool    alias = false;
+                float   value = *(float *)cvars[i].location;
 
                 for (int j = 0; *valuealiases[j].text; j++)
-                    if (v == valuealiases[j].value && cvars[i].valuealiastype == valuealiases[j].type)
+                    if (value == valuealiases[j].value && cvars[i].valuealiastype == valuealiases[j].type)
                     {
                         fputs(valuealiases[j].text, file);
                         alias = true;
@@ -449,7 +486,7 @@ void M_SaveCVARs(void)
                     static char buffer[128];
                     int         len;
 
-                    M_snprintf(buffer, sizeof(buffer), "%.2f", v);
+                    M_snprintf(buffer, sizeof(buffer), "%.2f", value);
                     len = (int)strlen(buffer);
 
                     if (len >= 2 && buffer[len - 1] == '0' && buffer[len - 2] == '0')
@@ -463,11 +500,11 @@ void M_SaveCVARs(void)
 
             case DEFAULT_FLOAT_PERCENT:
             {
-                dboolean    alias = false;
-                float       v = *(float *)cvars[i].location;
+                bool    alias = false;
+                float   value = *(float *)cvars[i].location;
 
                 for (int j = 0; *valuealiases[j].text; j++)
-                    if (v == valuealiases[j].value && cvars[i].valuealiastype == valuealiases[j].type)
+                    if (value == valuealiases[j].value && cvars[i].valuealiastype == valuealiases[j].type)
                     {
                         fputs(valuealiases[j].text, file);
                         alias = true;
@@ -477,7 +514,7 @@ void M_SaveCVARs(void)
 
                 if (!alias)
                 {
-                    char    *temp = striptrailingzero(v, 1);
+                    char    *temp = striptrailingzero(value, 1);
 
                     fprintf(file, "%s%%", temp);
                     free(temp);
@@ -517,11 +554,11 @@ void M_SaveCVARs(void)
         if (actions[i].mouse1 && *(int *)actions[i].mouse1 != -1)
             SaveBindByValue(file, actions[i].action, *(int *)actions[i].mouse1, mousecontrol);
 
-        if (actions[i].gamepad1 && *(int *)actions[i].gamepad1)
-            SaveBindByValue(file, actions[i].action, *(int *)actions[i].gamepad1, gamepadcontrol);
+        if (actions[i].gamecontroller1 && *(int *)actions[i].gamecontroller1)
+            SaveBindByValue(file, actions[i].action, *(int *)actions[i].gamecontroller1, gamecontrollercontrol);
 
-        if (actions[i].gamepad2 && *(int *)actions[i].gamepad2)
-            SaveBindByValue(file, actions[i].action, *(int *)actions[i].gamepad2, gamepadcontrol);
+        if (actions[i].gamecontroller2 && *(int *)actions[i].gamecontroller2)
+            SaveBindByValue(file, actions[i].action, *(int *)actions[i].gamecontroller2, gamecontrollercontrol);
     }
 
     for (int i = 0; controls[i].type; i++)
@@ -549,14 +586,13 @@ void M_SaveCVARs(void)
 // Parses integer values in the configuration file
 static int ParseIntParameter(char *strparm, int valuealiastype)
 {
-    int parm = INT_MAX;
+    int parm;
 
     for (int i = 0; *valuealiases[i].text; i++)
         if (M_StringCompare(strparm, valuealiases[i].text) && valuealiastype == valuealiases[i].type)
             return valuealiases[i].value;
 
-    sscanf(strparm, "%10d", &parm);
-    return parm;
+    return (sscanf(strparm, "%10i", &parm) == 1 ? parm : 0);
 }
 
 // Parses float values in the configuration file
@@ -566,10 +602,10 @@ static float ParseFloatParameter(char *strparm, int valuealiastype)
         if (M_StringCompare(strparm, valuealiases[i].text) && valuealiastype == valuealiases[i].type)
             return (float)valuealiases[i].value;
 
-    return (float)atof(strparm);
+    return (float)strtod(strparm, NULL);
 }
 
-static void M_CheckCVARs(dboolean ispackageconfig)
+static void M_CheckCVARs(bool ispackageconfig)
 {
     if (alwaysrun != false && alwaysrun != true)
         alwaysrun = alwaysrun_default;
@@ -589,20 +625,22 @@ static void M_CheckCVARs(dboolean ispackageconfig)
     if (am_bluedoorcolor < am_bluedoorcolor_min || am_bluedoorcolor > am_bluedoorcolor_max)
         am_bluedoorcolor = am_bluedoorcolor_default;
 
+    if (am_bluekeycolor < am_bluekeycolor_min || am_bluekeycolor > am_bluekeycolor_max)
+        am_bluekeycolor = am_bluekeycolor_default;
+
     if (am_cdwallcolor < am_cdwallcolor_min || am_cdwallcolor > am_cdwallcolor_max)
         am_cdwallcolor = am_cdwallcolor_default;
 
     if (am_crosshaircolor < am_crosshaircolor_min || am_crosshaircolor > am_crosshaircolor_max)
         am_crosshaircolor = am_crosshaircolor_default;
 
+    am_display = MAX(am_display_min, am_display);
+
     if (am_external != false && am_external != true)
         am_external = am_external_default;
 
     if (am_fdwallcolor < am_fdwallcolor_min || am_fdwallcolor > am_fdwallcolor_max)
         am_fdwallcolor = am_fdwallcolor_default;
-
-    if (am_followmode != false && am_followmode != true)
-        am_followmode = am_followmode_default;
 
     if (am_grid != false && am_grid != true)
         am_grid = am_grid_default;
@@ -628,6 +666,9 @@ static void M_CheckCVARs(dboolean ispackageconfig)
     if (am_reddoorcolor < am_reddoorcolor_min || am_reddoorcolor > am_reddoorcolor_max)
         am_reddoorcolor = am_reddoorcolor_default;
 
+    if (am_redkeycolor < am_redkeycolor_min || am_redkeycolor > am_redkeycolor_max)
+        am_redkeycolor = am_redkeycolor_default;
+
     if (am_rotatemode != false && am_rotatemode != true)
         am_rotatemode = am_rotatemode_default;
 
@@ -645,6 +686,9 @@ static void M_CheckCVARs(dboolean ispackageconfig)
 
     if (am_yellowdoorcolor < am_yellowdoorcolor_min || am_yellowdoorcolor > am_yellowdoorcolor_max)
         am_yellowdoorcolor = am_yellowdoorcolor_default;
+
+    if (am_yellowkeycolor < am_yellowkeycolor_min || am_yellowkeycolor > am_yellowkeycolor_max)
+        am_yellowkeycolor = am_yellowkeycolor_default;
 
     if (autoaim != false && autoaim != true)
         autoaim = autoaim_default;
@@ -679,9 +723,11 @@ static void M_CheckCVARs(dboolean ispackageconfig)
     if (crosshaircolor < crosshaircolor_min || crosshaircolor > crosshaircolor_max)
         crosshaircolor = crosshaircolor_default;
 
-    episode = BETWEEN(episode_min, episode, episode_max);
+    if (episode < episode_min || episode > episode_max)
+        episode = episode_default;
 
-    expansion = BETWEEN(expansion_min, expansion, expansion_max);
+    if (expansion < expansion_min || expansion > expansion_max)
+        expansion = expansion_default;
 
     if (facebackcolor < facebackcolor_min || facebackcolor > facebackcolor_max)
         facebackcolor = facebackcolor_default;
@@ -689,35 +735,8 @@ static void M_CheckCVARs(dboolean ispackageconfig)
     if (fade != false && fade != true)
         fade = fade_default;
 
-    if (gp_analog != false && gp_analog != true)
-        gp_analog = gp_analog_default;
-
-    gp_deadzone_left = BETWEENF(gp_deadzone_left_min, gp_deadzone_left, gp_deadzone_left_max);
-    I_SetGamepadLeftDeadZone();
-
-    gp_deadzone_right = BETWEENF(gp_deadzone_right_min, gp_deadzone_right, gp_deadzone_right_max);
-    I_SetGamepadRightDeadZone();
-
-    if (gp_invertyaxis != false && gp_invertyaxis != true)
-        gp_invertyaxis = gp_invertyaxis_default;
-
-    gp_sensitivity_horizontal = BETWEEN(gp_sensitivity_horizontal_min, gp_sensitivity_horizontal, gp_sensitivity_horizontal_max);
-    I_SetGamepadHorizontalSensitivity();
-
-    gp_sensitivity_vertical = BETWEEN(gp_sensitivity_vertical_min, gp_sensitivity_vertical, gp_sensitivity_vertical_max);
-    I_SetGamepadVerticalSensitivity();
-
-    if (gp_swapthumbsticks != false && gp_swapthumbsticks != true)
-        gp_swapthumbsticks = gp_swapthumbsticks_default;
-
-    if (gp_thumbsticks < gp_thumbsticks_min || gp_thumbsticks > gp_thumbsticks_max)
-        gp_thumbsticks = gp_thumbsticks_default;
-
-    gp_vibrate_barrels = BETWEEN(gp_vibrate_barrels_min, gp_vibrate_barrels, gp_vibrate_barrels_max);
-
-    gp_vibrate_damage = BETWEEN(gp_vibrate_damage_min, gp_vibrate_damage, gp_vibrate_damage_max);
-
-    gp_vibrate_weapons = BETWEEN(gp_vibrate_weapons_min, gp_vibrate_damage, gp_vibrate_weapons_max);
+    if (flashkeys != false && flashkeys != true)
+        flashkeys = flashkeys_default;
 
     if (groupmessages != false && groupmessages != true)
         groupmessages = groupmessages_default;
@@ -730,6 +749,36 @@ static void M_CheckCVARs(dboolean ispackageconfig)
 
     if (!*iwadfolder || M_StringCompare(iwadfolder, iwadfolder_default) || !M_FolderExists(iwadfolder))
         D_InitIWADFolder();
+
+    if (joy_analog != false && joy_analog != true)
+        joy_analog = joy_analog_default;
+
+    joy_deadzone_left = BETWEENF(joy_deadzone_left_min, joy_deadzone_left, joy_deadzone_left_max);
+    I_SetGameControllerLeftDeadZone();
+
+    joy_deadzone_right = BETWEENF(joy_deadzone_right_min, joy_deadzone_right, joy_deadzone_right_max);
+    I_SetGameControllerRightDeadZone();
+
+    if (joy_invertyaxis != false && joy_invertyaxis != true)
+        joy_invertyaxis = joy_invertyaxis_default;
+
+    joy_rumble_barrels = BETWEEN(joy_rumble_barrels_min, joy_rumble_barrels, joy_rumble_barrels_max);
+
+    joy_rumble_damage = BETWEEN(joy_rumble_damage_min, joy_rumble_damage, joy_rumble_damage_max);
+
+    joy_rumble_weapons = BETWEEN(joy_rumble_weapons_min, joy_rumble_damage, joy_rumble_weapons_max);
+
+    joy_sensitivity_horizontal = BETWEEN(joy_sensitivity_horizontal_min, joy_sensitivity_horizontal, joy_sensitivity_horizontal_max);
+    I_SetGameControllerHorizontalSensitivity();
+
+    joy_sensitivity_vertical = BETWEEN(joy_sensitivity_vertical_min, joy_sensitivity_vertical, joy_sensitivity_vertical_max);
+    I_SetGameControllerVerticalSensitivity();
+
+    if (joy_swapthumbsticks != false && joy_swapthumbsticks != true)
+        joy_swapthumbsticks = joy_swapthumbsticks_default;
+
+    if (joy_thumbsticks < joy_thumbsticks_min || joy_thumbsticks > joy_thumbsticks_max)
+        joy_thumbsticks = joy_thumbsticks_default;
 
     if (m_acceleration != false && m_acceleration != true)
         m_acceleration = m_acceleration_default;
@@ -755,6 +804,9 @@ static void M_CheckCVARs(dboolean ispackageconfig)
         mouselook = mouselook_default;
 
     movebob = BETWEEN(movebob_min, movebob, movebob_max);
+
+    if (negativehealth != false && negativehealth != true)
+        negativehealth = negativehealth_default;
 
     if (playergender < playergender_min || playergender > playergender_max)
         playergender = playergender_default;
@@ -920,6 +972,12 @@ static void M_CheckCVARs(dboolean ispackageconfig)
 
     s_channels = BETWEEN(s_channels_min, s_channels, s_channels_max);
 
+    if (s_lowermenumusic != false && s_lowermenumusic != true)
+        s_lowermenumusic = s_lowermenumusic_default;
+
+    if (s_musicinbackground != false && s_musicinbackground != true)
+        s_musicinbackground = s_musicinbackground_default;
+
     s_musicvolume = BETWEEN(s_musicvolume_min, s_musicvolume, s_musicvolume_max);
     musicVolume = (s_musicvolume * 31 + 50) / 100;
 
@@ -969,19 +1027,17 @@ static void M_CheckCVARs(dboolean ispackageconfig)
     if (!M_StringCompare(vid_scaleapi, vid_scaleapi_software)
 #if defined(_WIN32)
         && !M_StringCompare(vid_scaleapi, vid_scaleapi_direct3d)
-#endif
-        && !M_StringCompare(vid_scaleapi, vid_scaleapi_opengl)
+#else
         && !M_StringCompare(vid_scaleapi, vid_scaleapi_opengles)
-        && !M_StringCompare(vid_scaleapi, vid_scaleapi_opengles2))
+        && !M_StringCompare(vid_scaleapi, vid_scaleapi_opengles2)
+#endif
+        && !M_StringCompare(vid_scaleapi, vid_scaleapi_opengl))
         vid_scaleapi = vid_scaleapi_default;
 
     if (!M_StringCompare(vid_scalefilter, vid_scalefilter_linear)
         && !M_StringCompare(vid_scalefilter, vid_scalefilter_nearest)
         && !M_StringCompare(vid_scalefilter, vid_scalefilter_nearest_linear))
         vid_scalefilter = vid_scalefilter_default;
-
-    if (ispackageconfig)
-        vid_showfps = vid_showfps_default;
 
     if (vid_vsync < vid_vsync_min || vid_vsync > vid_vsync_max)
         vid_vsync = vid_vsync_default;
@@ -1005,7 +1061,7 @@ static void M_CheckCVARs(dboolean ispackageconfig)
 //
 void M_LoadCVARs(char *filename)
 {
-    dboolean    ispackageconfig = M_StringEndsWith(filename, DOOMRETRO_CONFIG);
+    const bool  ispackageconfig = M_StringEndsWith(filename, DOOMRETRO_CONFIG);
     int         bindcount = 0;
     int         cvarcount = 0;
     int         statcount = 0;
@@ -1042,11 +1098,11 @@ void M_LoadCVARs(char *filename)
             if (actions[i].mouse1)
                 *(int *)actions[i].mouse1 = -1;
 
-            if (actions[i].gamepad1)
-                *(int *)actions[i].gamepad1 = 0;
+            if (actions[i].gamecontroller1)
+                *(int *)actions[i].gamecontroller1 = 0;
 
-            if (actions[i].gamepad2)
-                *(int *)actions[i].gamepad2 = 0;
+            if (actions[i].gamecontroller2)
+                *(int *)actions[i].gamecontroller2 = 0;
         }
 
         for (int i = 0; i < NUMKEYS; i++)
@@ -1069,7 +1125,9 @@ void M_LoadCVARs(char *filename)
 
         if (M_StringCompare(cvar, "bind"))
         {
+            nobindoutput = ispackageconfig;
             bind_cmd_func2("bind", value);
+            nobindoutput = false;
             bindcount++;
 
             continue;
@@ -1097,7 +1155,7 @@ void M_LoadCVARs(char *filename)
         }
 
         // Find the setting in the list
-        for (int i = 0; i < NUMCVARS; i++)
+        for (int i = 0; i < arrlen(cvars); i++)
         {
             if (!M_StringCompare(cvar, cvars[i].name) && !M_StringCompare(cvar, cvars[i].oldname))
                 continue;       // not this one
@@ -1111,6 +1169,17 @@ void M_LoadCVARs(char *filename)
 
                     temp[strlen(temp) - 1] = '\0';
                     *(char **)cvars[i].location = temp;
+                    cvarcount++;
+
+                    break;
+                }
+
+                case DEFAULT_BOOL:
+                {
+                    char    *temp = uncommify(value);
+
+                    *(bool *)cvars[i].location = ParseIntParameter(temp, cvars[i].valuealiastype);
+                    free(temp);
                     cvarcount++;
 
                     break;
@@ -1131,13 +1200,15 @@ void M_LoadCVARs(char *filename)
                 {
                     char    *temp = uncommify(value);
 
-                    sscanf(temp, "%24" PRIu64, (uint64_t *)cvars[i].location);
+                    if (sscanf(temp, "%24" PRIu64, (uint64_t *)cvars[i].location) == 1)
+                    {
+                        if (*(int *)cvars[i].location < 0)
+                            *(uint64_t *)cvars[i].location = 0;
+
+                        statcount++;
+                    }
+
                     free(temp);
-
-                    if (*(int *)cvars[i].location < 0)
-                        *(uint64_t *)cvars[i].location = 0;
-
-                    statcount++;
                     break;
                 }
 
@@ -1200,7 +1271,7 @@ void M_LoadCVARs(char *filename)
             char    *temp3 = commify(bindcount);
 
             C_Output("Loaded %s CVARs and %s player stats from " BOLD("%s") ".", temp1, temp2, filename);
-            C_Output("Bound %s actions to the keyboard, mouse and gamepad.", temp3);
+            C_Output("Bound %s actions to the keyboard, mouse and controller.", temp3);
 
             free(temp1);
             free(temp2);

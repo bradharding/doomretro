@@ -6,8 +6,8 @@
 
 ========================================================================
 
-  Copyright © 1993-2021 by id Software LLC, a ZeniMax Media company.
-  Copyright © 2013-2021 by Brad Harding <mailto:brad@doomretro.com>.
+  Copyright © 1993-2022 by id Software LLC, a ZeniMax Media company.
+  Copyright © 2013-2022 by Brad Harding <mailto:brad@doomretro.com>.
 
   DOOM Retro is a fork of Chocolate DOOM. For a list of credits, see
   <https://github.com/bradharding/doomretro/wiki/CREDITS>.
@@ -16,7 +16,7 @@
 
   DOOM Retro is free software: you can redistribute it and/or modify it
   under the terms of the GNU General Public License as published by the
-  Free Software Foundation, either version 3 of the License, or (at your
+  Free Software Foundation, either version 3 of the license, or (at your
   option) any later version.
 
   DOOM Retro is distributed in the hope that it will be useful, but
@@ -50,8 +50,8 @@ ceilinglist_t   *activeceilings;
 
 static void P_GradualLightingToCeiling(ceiling_t *ceiling)
 {
-    sector_t    *sector = ceiling->sector;
-    fixed_t     level = ceiling->topheight - sector->floorheight;
+    sector_t        *sector = ceiling->sector;
+    const fixed_t   level = ceiling->topheight - sector->floorheight;
 
     if (level > 0 && !islightspecial[sector->special] && sector->ceilingpic != skyflatnum)
         EV_LightByAdjacentSectors(sector, FixedDiv(sector->ceilingheight - sector->floorheight, level));
@@ -88,7 +88,7 @@ void T_MoveCeiling(ceiling_t *ceiling)
                         break;
                 }
 
-            if (r_graduallighting)
+            if (r_graduallighting && !nograduallighting)
                 P_GradualLightingToCeiling(ceiling);
 
             if (res == pastdest)
@@ -143,7 +143,7 @@ void T_MoveCeiling(ceiling_t *ceiling)
                         S_StartSectorSound(&ceiling->sector->soundorg, sfx_stnmov);
                 }
 
-            if (r_graduallighting)
+            if (r_graduallighting && !nograduallighting)
                 P_GradualLightingToCeiling(ceiling);
 
             if (res == pastdest)
@@ -225,10 +225,10 @@ void T_MoveCeiling(ceiling_t *ceiling)
 // EV_DoCeiling
 // Move a ceiling up/down and all around!
 //
-dboolean EV_DoCeiling(line_t *line, ceiling_e type)
+bool EV_DoCeiling(line_t *line, ceiling_e type)
 {
     int         secnum = -1;
-    dboolean    rtn = false;
+    bool        rtn = false;
     sector_t    *sec;
 
     if (P_ProcessNoTagLines(line, &sec, &secnum))
@@ -338,7 +338,7 @@ manual_ceiling:
             sec->lines[i]->flags &= ~ML_SECRET;
 
         if (zerotag_manual)
-            return rtn; //e6y
+            return rtn; // e6y
     }
 
     return rtn;
@@ -374,7 +374,7 @@ void P_RemoveActiveCeiling(ceiling_t *ceiling)
     ceilinglist_t   *list = ceiling->list;
 
     ceiling->sector->ceilingdata = NULL;
-    P_RemoveThinker(&ceiling->thinker);
+    P_RemoveThinkerNow(&ceiling->thinker);
 
     if ((*list->prev = list->next))
         list->next->prev = list->prev;
@@ -401,9 +401,9 @@ void P_RemoveAllActiveCeilings(void)
 // P_ActivateInStasisCeiling
 // Restart a ceiling that's in-stasis
 //
-dboolean P_ActivateInStasisCeiling(line_t *line)
+bool P_ActivateInStasisCeiling(line_t *line)
 {
-    dboolean    result = false;
+    bool    result = false;
 
     for (ceilinglist_t *list = activeceilings; list; list = list->next)
     {
@@ -424,9 +424,9 @@ dboolean P_ActivateInStasisCeiling(line_t *line)
 // EV_CeilingCrushStop
 // Stop a ceiling from crushing!
 //
-dboolean EV_CeilingCrushStop(line_t *line)
+bool EV_CeilingCrushStop(line_t *line)
 {
-    dboolean    result = false;
+    bool    result = false;
 
     for (ceilinglist_t *list = activeceilings; list; list = list->next)
     {

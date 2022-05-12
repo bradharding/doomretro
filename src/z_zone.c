@@ -6,8 +6,8 @@
 
 ========================================================================
 
-  Copyright © 1993-2021 by id Software LLC, a ZeniMax Media company.
-  Copyright © 2013-2021 by Brad Harding <mailto:brad@doomretro.com>.
+  Copyright © 1993-2022 by id Software LLC, a ZeniMax Media company.
+  Copyright © 2013-2022 by Brad Harding <mailto:brad@doomretro.com>.
 
   DOOM Retro is a fork of Chocolate DOOM. For a list of credits, see
   <https://github.com/bradharding/doomretro/wiki/CREDITS>.
@@ -16,7 +16,7 @@
 
   DOOM Retro is free software: you can redistribute it and/or modify it
   under the terms of the GNU General Public License as published by the
-  Free Software Foundation, either version 3 of the License, or (at your
+  Free Software Foundation, either version 3 of the license, or (at your
   option) any later version.
 
   DOOM Retro is distributed in the hope that it will be useful, but
@@ -54,7 +54,7 @@ typedef struct memblock_s
 // size of block header
 // cph - base on sizeof(memblock_t), which can be larger than CHUNK_SIZE on
 // 64bit architectures
-static const size_t headersize = (sizeof(memblock_t) + CHUNK_SIZE - 1) & ~(CHUNK_SIZE - 1);
+static const size_t headersize = ((sizeof(memblock_t) + CHUNK_SIZE - 1) & ~(CHUNK_SIZE - 1));
 
 static memblock_t   *blockbytag[PU_MAX];
 
@@ -75,9 +75,9 @@ void *Z_Malloc(size_t size, int tag, void **user)
     memblock_t  *block = NULL;
 
     if (!size)
-        return (user ? (*user = NULL) : NULL);          // malloc(0) returns NULL
+        return (user ? (*user = NULL) : NULL);              // malloc(0) returns NULL
 
-    size = (size + CHUNK_SIZE - 1) & ~(CHUNK_SIZE - 1); // round to chunk size
+    size = ((size + CHUNK_SIZE - 1) & ~(CHUNK_SIZE - 1));   // round to chunk size
 
     while (!(block = malloc(size + headersize)))
     {

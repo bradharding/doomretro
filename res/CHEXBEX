@@ -1,51 +1,51 @@
-Patch File for DeHackEd v3.0
-Doom version = 19
-Patch format = 6
-
 [STRINGS]
 E1TEXT = Are you prepared for the next mission?
-GOTARMOR = Picked up the Chex(R) Armor.
-GOTMEGA = Picked up the Super Chex(R) Armor!
-GOTHTHBONUS = Picked up a glass of water.
-GOTARMBONUS = Picked up slime repellent.
-GOTSTIM = Picked up a bowl of fruit.
-GOTMEDINEED = Picked up some needed vegetables!
-GOTMEDIKIT = Picked up a bowl of vegetables.
-GOTSUPER = Supercharge Breakfast!
-GOTBLUECARD = Picked up a blue key.
-GOTYELWCARD = Picked up a yellow key.
-GOTREDCARD = Picked up a red key.
-GOTSUIT = Slimeproof Suit
-GOTCLIP = Picked up a mini zorch recharge.
-GOTCLIPBOX = Picked up a mini zorch pack.
-GOTROCKET = Picked up a zorch propulsor recharge.
-GOTROCKETX2 = Picked up a zorch propulsor recharge.
-GOTROCKBOX = Picked up a zorch propulsor pack.
-GOTCELL = Picked up a phasing zorcher recharge.
-GOTCELLX2 = Picked up a phasing zorcher recharge.
-GOTCELLBOX = Picked up a phasing zorcher pack.
-GOTSHELLS = Picked up a large zorcher recharge.
-GOTSHELLSX2 = Picked up a large zorcher recharge.
-GOTSHELLBOX = Picked up a large zorcher pack.
-GOTBACKPACK = Picked up a Zorchpak!
-GOTBFG9000 = You got the LAZ Device!
-GOTCHAINGUN = You got the Rapid Zorcher!
-GOTCHAINSAW = You got the Super Bootspork!
-GOTLAUNCHER = You got the Zorch Propulsor!
-GOTPLASMA = You got the Phasing Zorcher!
-GOTSHOTGUN = You got the Large Zorcher!
-GOTSHOTGUN2 = You got the Super Large Zorcher!
-KEYCARD = key
+GOTARMOR = %s picked up the Chex(R) Armor.
+GOTMEGA = %s picked up the Super Chex(R) Armor!
+GOTHTHBONUS = %s picked up a glass of water.
+GOTARMBONUS = %s picked up slime repellent.
+GOTSTIM = %s picked up a bowl of fruit.
+GOTMEDINEED = %s picked up some needed vegetables!
+GOTMEDIKIT = %s picked up a bowl of vegetables.
+GOTSUPER = Supercharged breakfast!
+GOTBLUECARD = %s picked up a blue key.
+GOTYELWCARD = %s picked up a yellow key.
+GOTREDCARD = %s picked up a red key.
+GOTSUIT = %s picked up a slimeproof suit.
+GOTCLIP = %s picked up a mini zorch recharge.
+GOTCLIPBOX = %s picked up a mini zorch pack.
+GOTROCKET = %s picked up a zorch propulsor recharge.
+GOTROCKETX2 = %s picked up a zorch propulsor recharge.
+GOTROCKBOX = %s picked up a zorch propulsor pack.
+GOTCELL = %s picked up a phasing zorcher recharge.
+GOTCELLX2 = %s picked up a phasing zorcher recharge.
+GOTCELLBOX = %s picked up a phasing zorcher pack.
+GOTSHELLS = %s picked up a large zorcher recharge.
+GOTSHELLSX2 = %s picked up a large zorcher recharge.
+GOTSHELLBOX = %s picked up a large zorcher pack.
+GOTBACKPACK = %s picked up a zorchpak!
+GOTBFG9000 = %s got the LAZ device!
+GOTCHAINGUN = %s got the rapid zorcher!
+GOTCHAINSAW = %s got the super bootspork!
+GOTLAUNCHER = %s got the zorch propulsor!
+GOTPLASMA = %s got the phasing zorcher!
+GOTSHOTGUN = %s got the large zorcher!
+GOTSHOTGUN2 = %s got the super large zorcher!
 HUSTR_E1M1 = E1M1: Landing Zone
 HUSTR_E1M2 = E1M2: Storage Facility
 HUSTR_E1M3 = E1M3: Experimental Lab
 HUSTR_E1M4 = E1M4: Arboretum
-HUSTR_E1M5 = E1M5: Caverns of Bazoik
-STSTR_DQDON = Invincible Mode On
-STSTR_DQDOFF = Invincible Mode Off
-STSTR_KFAADDED = Super Zorch Added
-STSTR_FAADDED = Zorch Added
+HUSTR_E1M5 = E1M5: Caverns Of Bazoik
+STSTR_DQDON = Invincible mode ON
+STSTR_DQDOFF = Invincible Mode OFF
+STSTR_KFAADDED = Super zorch added.
+STSTR_FAADDED = Zorch added.
 STSTR_CHOPPERS = Eat Chex(R)!
+M_SKILLLEVEL1 = Easy does it
+M_SKILLLEVEL2 = Not so sticky
+M_SKILLLEVEL3 = Gobs of goo
+M_SKILLLEVEL4 = Extreme ooze
+M_SKILLLEVEL5 = Super slimey!
 
 Frame 537
 Duration = 3
@@ -59,18 +59,35 @@ Duration = 0
 Thing 2 (Zombieman)
 Close attack frame = 184
 Far attack frame = 0
+Name = flemoidus commonus
+Plural = flemoidus commonus
 
 Thing 3 (Shotgun guy)
 Close attack frame = 217
 Far attack frame = 0
+Name = flemoidus bipedicus
+Plural = flemoidus bipedicus
+
+Thing 12 (Imp)
+Name = armored flemoidus bipedicus
+Plural = armored flemoidus bipedicus
+
+Thing 13 (Demon)
+Name = flemoidus cycloptis
+Plural = flemoidus cycloptis
 
 Thing 16 (Boss)
 Width = 2883584
 Height = 6553600
 Speed = 0
+Name = flembrane
+Plural = flembranes
 
 Thing 19
 Height = 0
+
+Thing 39
+Blood = 122
 
 [PARS]
 par 1 1 110
@@ -78,3 +95,44 @@ par 1 2 180
 par 1 3 200
 par 1 4 240
 par 1 5 300
+
+Cheat 0
+Chainsaw = joelkoenigs
+God mode = davidbrus
+Ammo & Keys = scottholman
+Ammo = mikekoenigs
+No Clipping 1 = charlesjacobi
+No Clipping 2 = charlesjacobi
+Invincibility = andrewbenson
+Berserk = deanhyers
+Invisibility = marybregi
+Radiation Suit = allen
+Auto-map = digitalcafe
+Lite-amp Goggles = joshuastorms
+Level Warp = leesnyder
+Player Position = kimhyers
+Map cheat = sherrill
+
+Weapon 0 (bootspoon)
+Name = bootspoon
+
+Weapon 1 (mini zorcher)
+Name = mini zorcher
+
+Weapon 2 (large zorcher)
+Name = large zorcher
+
+Weapon 3 (rapid zorcher)
+Name = rapid zorcher
+
+Weapon 4 (zorch propulsor)
+Name = zorch propulsor
+
+Weapon 5 (phasing zorcher)
+Name = phasing zorcher
+
+Weapon 6 (LAZ device)
+Name = LAZ device
+
+Weapon 7 (super bootspork)
+Name = super bootspork

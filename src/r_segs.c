@@ -6,8 +6,8 @@
 
 ========================================================================
 
-  Copyright © 1993-2021 by id Software LLC, a ZeniMax Media company.
-  Copyright © 2013-2021 by Brad Harding <mailto:brad@doomretro.com>.
+  Copyright © 1993-2022 by id Software LLC, a ZeniMax Media company.
+  Copyright © 2013-2022 by Brad Harding <mailto:brad@doomretro.com>.
 
   DOOM Retro is a fork of Chocolate DOOM. For a list of credits, see
   <https://github.com/bradharding/doomretro/wiki/CREDITS>.
@@ -16,7 +16,7 @@
 
   DOOM Retro is free software: you can redistribute it and/or modify it
   under the terms of the GNU General Public License as published by the
-  Free Software Foundation, either version 3 of the License, or (at your
+  Free Software Foundation, either version 3 of the license, or (at your
   option) any later version.
 
   DOOM Retro is distributed in the hope that it will be useful, but
@@ -43,63 +43,63 @@
 #include "m_config.h"
 #include "p_local.h"
 
-static dboolean     segtextured;        // True if any of the segs textures might be visible.
+static bool     segtextured;        // True if any of the segs textures might be visible.
 
-static dboolean     markfloor;          // False if the back side is the same plane.
-static dboolean     markceiling;
+static bool     markfloor;          // False if the back side is the same plane.
+static bool     markceiling;
 
-static dboolean     maskedtexture;
-static int          toptexture;
-static int          midtexture;
-static int          bottomtexture;
+static bool     maskedtexture;
+static int      toptexture;
+static int      midtexture;
+static int      bottomtexture;
 
-static dboolean     missingtoptexture;
-static dboolean     missingmidtexture;
-static dboolean     missingbottomtexture;
+static bool     missingtoptexture;
+static bool     missingmidtexture;
+static bool     missingbottomtexture;
 
-static fixed_t      toptexheight;
-static fixed_t      midtexheight;
-static fixed_t      bottomtexheight;
+static fixed_t  toptexheight;
+static fixed_t  midtexheight;
+static fixed_t  bottomtexheight;
 
-static byte         *topbrightmap;
-static byte         *midbrightmap;
-static byte         *bottombrightmap;
+static byte     *topbrightmap;
+static byte     *midbrightmap;
+static byte     *bottombrightmap;
 
-static angle_t      rw_normalangle;
-static fixed_t      rw_distance;
+static angle_t  rw_normalangle;
+static fixed_t  rw_distance;
 
 //
 // regular wall
 //
-static int          rw_x;
-static int          rw_stopx;
-static angle_t      rw_centerangle;
-static fixed_t      rw_offset;
-static fixed_t      rw_scale;
-static fixed_t      rw_scalestep;
-static fixed_t      rw_midtexturemid;
-static fixed_t      rw_toptexturemid;
-static fixed_t      rw_bottomtexturemid;
+static int      rw_x;
+static int      rw_stopx;
+static angle_t  rw_centerangle;
+static fixed_t  rw_offset;
+static fixed_t  rw_scale;
+static fixed_t  rw_scalestep;
+static fixed_t  rw_midtexturemid;
+static fixed_t  rw_toptexturemid;
+static fixed_t  rw_bottomtexturemid;
 
-static int64_t      pixhigh;
-static int64_t      pixlow;
-static fixed_t      pixhighstep;
-static fixed_t      pixlowstep;
+static int64_t  pixhigh;
+static int64_t  pixlow;
+static fixed_t  pixhighstep;
+static fixed_t  pixlowstep;
 
-static int64_t      topfrac;
-static fixed_t      topstep;
+static int64_t  topfrac;
+static fixed_t  topstep;
 
-static int64_t      bottomfrac;
-static fixed_t      bottomstep;
+static int64_t  bottomfrac;
+static fixed_t  bottomstep;
 
-lighttable_t        **walllights;
-lighttable_t        **walllightsnext;
+lighttable_t    **walllights;
+lighttable_t    **walllightsnext;
 
-static int          *maskedtexturecol;  // dropoff overflow
+static int      *maskedtexturecol;  // dropoff overflow
 
-dboolean            r_brightmaps = r_brightmaps_default;
+bool            r_brightmaps = r_brightmaps_default;
 
-extern dboolean     usebrightmaps;
+extern bool     usebrightmaps;
 
 //
 // R_FixWiggle()
@@ -114,7 +114,7 @@ extern dboolean     usebrightmaps;
 //   causing full-screen HOM, and possible program crashes.
 //
 //  Therefore, Vanilla DOOM clamps this scale calculation, preventing it
-//   from becoming larger than 0x400000 (64*FRACUNIT). This number was
+//   from becoming larger than 0x400000 (64 * FRACUNIT). This number was
 //   chosen carefully, to allow reasonably-tight angles, with reasonably
 //   tall sectors to be rendered, within the limits of the fixed-point
 //   math system being used. When the scale gets clamped, DOOM cannot
@@ -245,7 +245,9 @@ void R_RenderMaskedSegRange(drawseg_t *ds, const int x1, const int x2)
         short       lightlevel = R_FakeFlat(frontsector, &tempsec, NULL, NULL, false)->lightlevel;
 
         walllights = GetLightTable(lightlevel);
-        walllightsnext = (r_ditheredlighting ? GetLightTable(lightlevel + 4) : walllights);
+
+        if (r_ditheredlighting)
+            walllightsnext = GetLightTable(lightlevel + 4);
     }
 
     maskedtexturecol = ds->maskedtexturecol;
@@ -296,8 +298,12 @@ void R_RenderMaskedSegRange(drawseg_t *ds, const int x1, const int x2)
                 int index = MIN(spryscale >> LIGHTSCALESHIFT, MAXLIGHTSCALE - 1);
 
                 dc_colormap[0] = walllights[index];
-                dc_nextcolormap[0] = walllightsnext[index];
-                dc_z = spryscale;
+
+                if (r_ditheredlighting)
+                {
+                    dc_nextcolormap[0] = walllightsnext[index];
+                    dc_z = ((spryscale >> 5) & 255);
+                }
             }
 
             dc_iscale = UINT_MAX / (unsigned int)spryscale;
@@ -314,7 +320,7 @@ void R_RenderMaskedSegRange(drawseg_t *ds, const int x1, const int x2)
 // Can draw or mark the starting pixel of floor and ceiling textures.
 // CALLED: CORE LOOPING ROUTINE.
 //
-static dboolean didsolidcol;
+static bool didsolidcol;
 
 static void R_RenderSegLoop(void)
 {
@@ -376,8 +382,12 @@ static void R_RenderSegLoop(void)
                 int index = MIN(rw_scale >> LIGHTSCALESHIFT, MAXLIGHTSCALE - 1);
 
                 dc_colormap[0] = walllights[index];
-                dc_nextcolormap[0] = walllightsnext[index];
-                dc_z = rw_scale;
+
+                if (r_ditheredlighting)
+                {
+                    dc_nextcolormap[0] = walllightsnext[index];
+                    dc_z = ((rw_scale >> 5) & 255);
+                }
             }
 
             dc_x = rw_x;
@@ -392,7 +402,7 @@ static void R_RenderSegLoop(void)
             dc_yh = yh;
 
             if (missingmidtexture)
-                R_DrawColorColumn();
+                missingcolfunc();
             else
             {
                 dc_source = R_GetTextureColumn(R_CacheTextureCompositePatchNum(midtexture), texturecolumn);
@@ -405,7 +415,7 @@ static void R_RenderSegLoop(void)
 
                     if (r_ditheredlighting)
                     {
-                        if (dc_colormap == dc_nextcolormap)
+                        if (!memcmp(dc_colormap, dc_nextcolormap, arrlen(dc_colormap)))
                             altbmapwallcolfunc();
                         else
                             bmapwallcolfunc();
@@ -415,7 +425,7 @@ static void R_RenderSegLoop(void)
                 }
                 else if (r_ditheredlighting)
                 {
-                    if (dc_colormap == dc_nextcolormap)
+                    if (!memcmp(dc_colormap, dc_nextcolormap, arrlen(dc_colormap)))
                         altwallcolfunc();
                     else
                         wallcolfunc();
@@ -443,7 +453,7 @@ static void R_RenderSegLoop(void)
                     dc_yh = mid;
 
                     if (missingtoptexture)
-                        R_DrawColorColumn();
+                        missingcolfunc();
                     else
                     {
                         dc_source = R_GetTextureColumn(R_CacheTextureCompositePatchNum(toptexture), texturecolumn);
@@ -457,7 +467,7 @@ static void R_RenderSegLoop(void)
 
                             if (r_ditheredlighting)
                             {
-                                if (dc_colormap == dc_nextcolormap)
+                                if (!memcmp(dc_colormap, dc_nextcolormap, arrlen(dc_colormap)))
                                     altbmapwallcolfunc();
                                 else
                                     bmapwallcolfunc();
@@ -467,7 +477,7 @@ static void R_RenderSegLoop(void)
                         }
                         else if (r_ditheredlighting)
                         {
-                            if (dc_colormap == dc_nextcolormap)
+                            if (!memcmp(dc_colormap, dc_nextcolormap, arrlen(dc_colormap)))
                                 altwallcolfunc();
                             else
                                 wallcolfunc();
@@ -499,7 +509,7 @@ static void R_RenderSegLoop(void)
                     dc_yh = yh;
 
                     if (missingbottomtexture)
-                        R_DrawColorColumn();
+                        missingcolfunc();
                     else
                     {
                         dc_source = R_GetTextureColumn(R_CacheTextureCompositePatchNum(bottomtexture), texturecolumn);
@@ -512,7 +522,7 @@ static void R_RenderSegLoop(void)
 
                             if (r_ditheredlighting)
                             {
-                                if (dc_colormap == dc_nextcolormap)
+                                if (!memcmp(dc_colormap, dc_nextcolormap, arrlen(dc_colormap)))
                                     altbmapwallcolfunc();
                                 else
                                     bmapwallcolfunc();
@@ -522,7 +532,7 @@ static void R_RenderSegLoop(void)
                         }
                         else if (r_ditheredlighting)
                         {
-                            if (dc_colormap == dc_nextcolormap)
+                            if (!memcmp(dc_colormap, dc_nextcolormap, arrlen(dc_colormap)))
                                 altwallcolfunc();
                             else
                                 wallcolfunc();
@@ -646,7 +656,7 @@ void R_StoreWallRange(const int start, const int stop)
             openings = I_Realloc(openings, maxopenings * sizeof(*openings));
             lastopening = openings + pos;
 
-            // jff 8/9/98 borrowed fix for openings from ZDOOM1.14
+            // jff 8/9/98 borrowed fix for openings from ZDOOM 1.14
             // [RH] We also need to adjust the openings pointers that
             //    were already stored in drawsegs.
             for (drawseg_t *ds = drawsegs; ds < ds_p; ds++)
@@ -667,7 +677,7 @@ void R_StoreWallRange(const int start, const int stop)
     worldbottom = frontsector->interpfloorheight - viewz;
 
     // [BH] animate liquid sectors
-    if (frontsector->terraintype != SOLID
+    if (frontsector->terraintype >= LIQUID
         && (!frontsector->heightsec || viewz > frontsector->heightsec->interpfloorheight)
         && r_liquid_bob)
         worldbottom += animatedliquiddiff;
@@ -768,7 +778,7 @@ void R_StoreWallRange(const int start, const int stop)
             worldtop = worldhigh;
 
         // [BH] animate liquid sectors
-        if (backsector->terraintype != SOLID
+        if (backsector->terraintype >= LIQUID
             && backsector->interpfloorheight >= frontsector->interpfloorheight
             && (!backsector->heightsec || viewz > backsector->heightsec->interpfloorheight)
             && r_liquid_bob)
@@ -877,7 +887,9 @@ void R_StoreWallRange(const int start, const int stop)
             short   lightlevel = frontsector->lightlevel;
 
             walllights = GetLightTable(lightlevel);
-            walllightsnext = (r_ditheredlighting ? GetLightTable(lightlevel + 4) : walllights);
+
+            if (r_ditheredlighting)
+                walllightsnext = GetLightTable(lightlevel + 4);
         }
     }
 

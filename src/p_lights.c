@@ -6,8 +6,8 @@
 
 ========================================================================
 
-  Copyright © 1993-2021 by id Software LLC, a ZeniMax Media company.
-  Copyright © 2013-2021 by Brad Harding <mailto:brad@doomretro.com>.
+  Copyright © 1993-2022 by id Software LLC, a ZeniMax Media company.
+  Copyright © 2013-2022 by Brad Harding <mailto:brad@doomretro.com>.
 
   DOOM Retro is a fork of Chocolate DOOM. For a list of credits, see
   <https://github.com/bradharding/doomretro/wiki/CREDITS>.
@@ -16,7 +16,7 @@
 
   DOOM Retro is free software: you can redistribute it and/or modify it
   under the terms of the GNU General Public License as published by the
-  Free Software Foundation, either version 3 of the License, or (at your
+  Free Software Foundation, either version 3 of the license, or (at your
   option) any later version.
 
   DOOM Retro is distributed in the hope that it will be useful, but
@@ -39,6 +39,7 @@
 #include "doomstat.h"
 #include "m_random.h"
 #include "p_local.h"
+#include "p_setup.h"
 #include "p_tick.h"
 #include "z_zone.h"
 
@@ -161,7 +162,7 @@ void T_StrobeFlash(strobe_t *strobe)
 // After the map has been loaded, scan each sector
 // for specials that spawn thinkers
 //
-void P_SpawnStrobeFlash(sector_t *sector, int fastorslow, dboolean insync)
+void P_SpawnStrobeFlash(sector_t *sector, int fastorslow, bool insync)
 {
     strobe_t    *strobe = Z_Malloc(sizeof(*strobe), PU_LEVSPEC, NULL);
 
@@ -184,7 +185,7 @@ void P_SpawnStrobeFlash(sector_t *sector, int fastorslow, dboolean insync)
 //
 // Start strobing lights (usually from a trigger)
 //
-dboolean EV_StartLightStrobing(line_t *line)
+bool EV_StartLightStrobing(line_t *line)
 {
     int secnum = -1;
 
@@ -197,11 +198,11 @@ dboolean EV_StartLightStrobing(line_t *line)
 //
 // TURN LINE'S TAG LIGHTS OFF
 //
-dboolean EV_TurnTagLightsOff(line_t *line)
+bool EV_TurnTagLightsOff(line_t *line)
 {
     // search sectors for those with same tag as activating line
     // killough 10/98: replaced inefficient search with fast search
-    for (int i = -1; (i = P_FindSectorFromLineTag(line, i)) >= 0;)
+    for (int i = -1; (i = P_FindSectorFromLineTag(line, i)) >= 0; )
     {
         sector_t    *sector = sectors + i;
         int         min = sector->lightlevel;
@@ -224,11 +225,11 @@ dboolean EV_TurnTagLightsOff(line_t *line)
 //
 // TURN LINE'S TAG LIGHTS ON
 //
-dboolean EV_LightTurnOn(line_t *line, int bright)
+bool EV_LightTurnOn(line_t *line, int bright)
 {
     // search all sectors for ones with same tag as activating line
     // killough 10/98: replace inefficient search with fast search
-    for (int i = -1; (i = P_FindSectorFromLineTag(line, i)) >= 0;)
+    for (int i = -1; (i = P_FindSectorFromLineTag(line, i)) >= 0; )
     {
         sector_t    *sector = sectors + i;
         int         tbright = bright;       // jff 5/17/98 search for maximum PER sector
@@ -244,6 +245,9 @@ dboolean EV_LightTurnOn(line_t *line, int bright)
             }
 
         sector->lightlevel = sector->oldlightlevel = tbright;
+
+        if (compat_light)
+            bright = tbright;
     }
 
     return true;
@@ -307,7 +311,7 @@ void EV_LightTurnOnPartway(line_t *line, fixed_t level)
     level = BETWEEN(0, level, FRACUNIT);        // clip at extremes
 
     // search all sectors for ones with same tag as activating line
-    for (int i = -1; (i = P_FindSectorFromLineTag(line, i)) >= 0;)
+    for (int i = -1; (i = P_FindSectorFromLineTag(line, i)) >= 0; )
     {
         sector_t    *sector = sectors + i;
         int         bright = 0;

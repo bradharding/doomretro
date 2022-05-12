@@ -6,8 +6,8 @@
 
 ========================================================================
 
-  Copyright © 1993-2021 by id Software LLC, a ZeniMax Media company.
-  Copyright © 2013-2021 by Brad Harding <mailto:brad@doomretro.com>.
+  Copyright © 1993-2022 by id Software LLC, a ZeniMax Media company.
+  Copyright © 2013-2022 by Brad Harding <mailto:brad@doomretro.com>.
 
   DOOM Retro is a fork of Chocolate DOOM. For a list of credits, see
   <https://github.com/bradharding/doomretro/wiki/CREDITS>.
@@ -16,7 +16,7 @@
 
   DOOM Retro is free software: you can redistribute it and/or modify it
   under the terms of the GNU General Public License as published by the
-  Free Software Foundation, either version 3 of the License, or (at your
+  Free Software Foundation, either version 3 of the license, or (at your
   option) any later version.
 
   DOOM Retro is distributed in the hope that it will be useful, but
@@ -40,8 +40,6 @@
 #include "m_bbox.h"
 #include "p_local.h"
 #include "p_setup.h"
-
-void P_CreateSecNodeList(mobj_t *thing, fixed_t x, fixed_t y);
 
 //
 // P_ApproxDistance
@@ -99,7 +97,7 @@ int P_BoxOnLineSide(fixed_t *tmbox, line_t *ld)
 
 //
 // P_PointOnDivlineSide
-// Returns 0 or 1.
+// Returns 0 or 1
 //
 static int P_PointOnDivlineSide(fixed_t x, fixed_t y, divline_t *line)
 {
@@ -111,14 +109,12 @@ static int P_PointOnDivlineSide(fixed_t x, fixed_t y, divline_t *line)
 
 //
 // P_InterceptVector
-// Returns the fractional intercept point
-// along the first divline.
-// This is only called by the addthings
-// and addlines traversers.
+// Returns the fractional intercept point along the first divline.
+// This is only called by the addthings and addlines traversers.
 //
 fixed_t P_InterceptVector(divline_t *v2, divline_t *v1)
 {
-    int64_t den = ((int64_t)v1->dy * v2->dx - (int64_t)v1->dx * v2->dy) >> FRACBITS;
+    const int64_t   den = ((int64_t)v1->dy * v2->dx - (int64_t)v1->dx * v2->dy) >> FRACBITS;
 
     if (!den)
         return 0;
@@ -128,8 +124,7 @@ fixed_t P_InterceptVector(divline_t *v2, divline_t *v1)
 
 //
 // P_LineOpening
-// Sets opentop and openbottom to the window
-// through a two sided line.
+// Sets opentop and openbottom to the window through a two sided line.
 // OPTIMIZE: keep this precalculated
 //
 fixed_t opentop;
@@ -177,10 +172,8 @@ void P_LineOpening(line_t *line)
 
 //
 // P_UnsetThingPosition
-// Unlinks a thing from block map and sectors.
-// On each position change, BLOCKMAP and other
-// lookups maintaining lists of things inside
-// these structures need to be updated.
+// Unlinks a thing from block map and sectors. On each position change, BLOCKMAP and other
+// lookups maintaining lists of things inside these structures need to be updated.
 //
 void P_UnsetThingPosition(mobj_t *thing)
 {
@@ -248,8 +241,7 @@ void P_UnsetBloodSplatPosition(bloodsplat_t *splat)
 
 //
 // P_SetThingPosition
-// Links a thing into both a block and a subsector
-// based on its x y.
+// Links a thing into both a block and a subsector based on its x y.
 // Sets thing->subsector properly
 //
 void P_SetThingPosition(mobj_t *thing)
@@ -335,21 +327,16 @@ void P_SetBloodSplatPosition(bloodsplat_t *splat)
 
 //
 // BLOCK MAP ITERATORS
-// For each line/thing in the given mapblock,
-// call the passed PIT_* function.
-// If the function returns false,
-// exit with false without checking anything else.
+// For each line/thing in the given mapblock, call the passed PIT_* function.
+// If the function returns false, exit with false without checking anything else.
 //
 
 //
 // P_BlockLinesIterator
-// The validcount flags are used to avoid checking lines
-// that are marked in multiple mapblocks,
-// so increment validcount before the first call
-// to P_BlockLinesIterator, then make one or more calls
-// to it.
+// The validcount flags are used to avoid checking lines that are marked in multiple mapblocks, so
+// increment validcount before the first call to P_BlockLinesIterator, then make one or more calls to it.
 //
-dboolean P_BlockLinesIterator(int x, int y, dboolean func(line_t *))
+bool P_BlockLinesIterator(int x, int y, bool func(line_t *))
 {
     if (x < 0 || y < 0 || x >= bmapwidth || y >= bmapheight)
         return true;
@@ -380,7 +367,7 @@ dboolean P_BlockLinesIterator(int x, int y, dboolean func(line_t *))
 //
 // P_BlockThingsIterator
 //
-dboolean P_BlockThingsIterator(int x, int y, dboolean func(mobj_t *))
+bool P_BlockThingsIterator(int x, int y, bool func(mobj_t *))
 {
     if (x < 0 || y < 0 || x >= bmapwidth || y >= bmapheight)
         return true;
@@ -465,7 +452,7 @@ static intercept_t  *intercept_p;
 void P_CheckIntercepts(void)
 {
     static size_t   num_intercepts;
-    size_t          offset = intercept_p - intercepts;
+    const size_t    offset = intercept_p - intercepts;
 
     if (offset >= num_intercepts)
     {
@@ -479,21 +466,18 @@ divline_t   dltrace;
 
 //
 // PIT_AddLineIntercepts
-// Looks for lines in the given block
-// that intercept the given trace
-// to add to the intercepts list.
+// Looks for lines in the given block that intercept the given trace to add to the intercepts list.
+// A line is crossed if its endpoints are on opposite sides of the trace.
 //
-// A line is crossed if its endpoints
-// are on opposite sides of the trace.
-//
-static dboolean PIT_AddLineIntercepts(line_t *ld)
+static bool PIT_AddLineIntercepts(line_t *ld)
 {
-    int         s1, s2;
+    int         s1;
+    int         s2;
     fixed_t     frac;
     divline_t   dl;
 
     // avoid precision problems with two routines
-    if (dltrace.dx > 16 * FRACUNIT || dltrace.dy > 16 * FRACUNIT || dltrace.dx < -16 * FRACUNIT || dltrace.dy < -16 * FRACUNIT)
+    if (dltrace.dx < -16 * FRACUNIT || dltrace.dx > 16 * FRACUNIT || dltrace.dy < -16 * FRACUNIT || dltrace.dy > 16 * FRACUNIT)
     {
         s1 = P_PointOnDivlineSide(ld->v1->x, ld->v1->y, &dltrace);
         s2 = P_PointOnDivlineSide(ld->v2->x, ld->v2->y, &dltrace);
@@ -529,13 +513,13 @@ static dboolean PIT_AddLineIntercepts(line_t *ld)
 //
 // PIT_AddThingIntercepts
 //
-static dboolean PIT_AddThingIntercepts(mobj_t *thing)
+static bool PIT_AddThingIntercepts(mobj_t *thing)
 {
-    int         numfronts = 0;
-    divline_t   dl;
-    fixed_t     radius = thing->radius;
-    fixed_t     x = thing->x;
-    fixed_t     y = thing->y;
+    int             numfronts = 0;
+    divline_t       dl;
+    const fixed_t   radius = thing->radius;
+    const fixed_t   x = thing->x;
+    const fixed_t   y = thing->y;
 
     // [RH] Don't check a corner to corner crosssection for hit.
     // Instead, check against the actual bounding box.
@@ -623,10 +607,9 @@ static dboolean PIT_AddThingIntercepts(mobj_t *thing)
 
 //
 // P_TraverseIntercepts
-// Returns true if the traverser function returns true
-// for all lines.
+// Returns true if the traverser function returns true for all lines.
 //
-static dboolean P_TraverseIntercepts(traverser_t func, fixed_t maxfrac)
+static bool P_TraverseIntercepts(traverser_t func, fixed_t maxfrac)
 {
     size_t      count = intercept_p - intercepts;
     intercept_t *in = NULL;
@@ -656,12 +639,12 @@ static dboolean P_TraverseIntercepts(traverser_t func, fixed_t maxfrac)
 
 //
 // P_PathTraverse
-// Traces a line from (x1,y1) to (x2,y2),
-// calling the traverser function for each.
-// Returns true if the traverser function returns true
-// for all lines.
+// Traces a line from (x1,y1) to (x2,y2), calling the traverser function for each.
+// Returns true if the traverser function returns true for all lines.
 //
-dboolean P_PathTraverse(fixed_t x1, fixed_t y1, fixed_t x2, fixed_t y2, int flags, traverser_t trav)
+#define MAX_SIGHT_COUNT 64
+
+bool P_PathTraverse(fixed_t x1, fixed_t y1, fixed_t x2, fixed_t y2, int flags, traverser_t trav)
 {
     fixed_t xt1, yt1;
     fixed_t xt2, yt2;
@@ -715,7 +698,7 @@ dboolean P_PathTraverse(fixed_t x1, fixed_t y1, fixed_t x2, fixed_t y2, int flag
     else if (xt2 < xt1)
     {
         mapxstep = -1;
-        partial = mapx1 & (FRACUNIT - 1);
+        partial = (mapx1 & (FRACUNIT - 1));
         ystep = FixedDiv(y2 - y1, ABS(x2 - x1));
     }
 
@@ -730,19 +713,18 @@ dboolean P_PathTraverse(fixed_t x1, fixed_t y1, fixed_t x2, fixed_t y2, int flag
     else if (yt2 < yt1)
     {
         mapystep = -1;
-        partial = mapy1 & (FRACUNIT - 1);
+        partial = (mapy1 & (FRACUNIT - 1));
         xstep = FixedDiv(x2 - x1, ABS(y2 - y1));
     }
 
     xintercept = mapx1 + FixedMul(partial, xstep);
 
     // Step through map blocks.
-    // Count is present to prevent a round off error
-    // from skipping the break.
+    // Count is present to prevent a round off error from skipping the break.
     mapx = xt1;
     mapy = yt1;
 
-    for (int count = 0; count < 1000; count++)
+    for (int count = 0; count < MAX_SIGHT_COUNT; count++)
     {
         if (flags & PT_ADDLINES)
             if (!P_BlockLinesIterator(mapx, mapy, &PIT_AddLineIntercepts))
@@ -760,7 +742,8 @@ dboolean P_PathTraverse(fixed_t x1, fixed_t y1, fixed_t x2, fixed_t y2, int flag
         {
             case 0:
                 // neither xintercept nor yintercept match!
-                return false;
+                count = MAX_SIGHT_COUNT;
+                break;
 
             case 1:
                 // xintercept matches
@@ -827,4 +810,128 @@ int P_GetSafeBlockY(int coord)
         return (coord & 0x01FF);    // Broke height boundary
 
     return coord;
+}
+
+//
+// MBF21: RoughBlockCheck
+// [XA] adapted from Hexen -- used by P_RoughTargetSearch
+//
+static mobj_t *RoughBlockCheck(mobj_t *mo, int index, angle_t fov)
+{
+    mobj_t  *link = blocklinks[index];
+
+    while (link)
+    {
+        // skip non-shootable actors
+        if (!(link->flags & MF_SHOOTABLE))
+        {
+            link = link->bnext;
+            continue;
+        }
+
+        // skip the projectile's owner
+        if (link == mo->target)
+        {
+            link = link->bnext;
+            continue;
+        }
+
+        // skip actors on the same "team", unless infighting
+        if (mo->target && !((link->flags ^ mo->target->flags) & MF_FRIEND)
+            && mo->target->target != link && !(link->player && mo->target->player))
+        {
+            link = link->bnext;
+            continue;
+        }
+
+        // skip actors outside of specified FOV
+        if (fov > 0 && !P_CheckFOV(mo, link, fov))
+        {
+            link = link->bnext;
+            continue;
+        }
+
+        // skip actors not in line of sight
+        if (!P_CheckSight(mo, link))
+        {
+            link = link->bnext;
+            continue;
+        }
+
+        // all good! return it.
+        return link;
+    }
+
+    // couldn't find a valid target
+    return NULL;
+}
+
+//
+// MBF21: P_RoughTargetSearch
+// Searches though the surrounding mapblocks for monsters/players
+// based on Hexen's P_RoughMonsterSearch
+//
+// distance is in MAPBLOCKUNITS
+mobj_t *P_RoughTargetSearch(mobj_t *mo, angle_t fov, int distance)
+{
+    const int   startx = (mo->x - bmaporgx) >> MAPBLOCKSHIFT;
+    const int   starty = (mo->y - bmaporgy) >> MAPBLOCKSHIFT;
+    mobj_t      *target;
+
+    if (startx >= 0 && startx < bmapwidth && starty >= 0 && starty < bmapheight
+        && (target = RoughBlockCheck(mo, starty * bmapwidth + startx, fov)))
+        return target;  // found a target right away
+
+    for (int count = 1; count <= distance; count++)
+    {
+        int blockx, blocky;
+        int blockindex;
+        int firststop = startx + count;
+        int secondstop;
+        int thirdstop;
+        int finalstop;
+
+        if (firststop < 0)
+            continue;
+
+        if ((secondstop = starty + count) < 0)
+            continue;
+
+        if (firststop >= bmapwidth)
+            firststop = bmapwidth - 1;
+
+        if (secondstop >= bmapheight)
+            secondstop = bmapheight - 1;
+
+        blockx = BETWEEN(0, startx - count, bmapwidth - 1);
+        blocky = BETWEEN(0, starty - count, bmapheight - 1);
+        blockindex = blocky * bmapwidth + blockx;
+
+        thirdstop = secondstop * bmapwidth + blockx;
+        secondstop = secondstop * bmapwidth + firststop;
+        firststop += blocky * bmapwidth;
+        finalstop = blockindex;
+
+        // Trace the first block section (along the top)
+        for (; blockindex <= firststop; blockindex++)
+            if ((target = RoughBlockCheck(mo, blockindex, fov)))
+                return target;
+
+        // Trace the second block section (right edge)
+        for (blockindex--; blockindex <= secondstop; blockindex += bmapwidth)
+            if ((target = RoughBlockCheck(mo, blockindex, fov)))
+                return target;
+
+        // Trace the third block section (bottom edge)
+        for (blockindex -= bmapwidth; blockindex >= thirdstop; blockindex--)
+            if ((target = RoughBlockCheck(mo, blockindex, fov)))
+                return target;
+
+        // Trace the final block section (left edge)
+        for (blockindex++; blockindex > finalstop; blockindex -= bmapwidth)
+            if ((target = RoughBlockCheck(mo, blockindex, fov)))
+                return target;
+    }
+
+    return NULL;
 }

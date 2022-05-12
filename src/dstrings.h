@@ -6,8 +6,8 @@
 
 ========================================================================
 
-  Copyright © 1993-2021 by id Software LLC, a ZeniMax Media company.
-  Copyright © 2013-2021 by Brad Harding <mailto:brad@doomretro.com>.
+  Copyright © 1993-2022 by id Software LLC, a ZeniMax Media company.
+  Copyright © 2013-2022 by Brad Harding <mailto:brad@doomretro.com>.
 
   DOOM Retro is a fork of Chocolate DOOM. For a list of credits, see
   <https://github.com/bradharding/doomretro/wiki/CREDITS>.
@@ -16,7 +16,7 @@
 
   DOOM Retro is free software: you can redistribute it and/or modify it
   under the terms of the GNU General Public License as published by the
-  Free Software Foundation, either version 3 of the License, or (at your
+  Free Software Foundation, either version 3 of the license, or (at your
   option) any later version.
 
   DOOM Retro is distributed in the hope that it will be useful, but
@@ -36,8 +36,7 @@
 ========================================================================
 */
 
-#if !defined(__DSTRINGS_H__)
-#define __DSTRINGS_H__
+#pragma once
 
 // All important printed strings.
 #include "d_englsh.h"
@@ -45,28 +44,39 @@
 // Misc. other strings.
 #define SAVEGAMENAME        "doomsav"
 
-// QuitDOOM messages
+// Quit DOOM messages
 // 8 per each game type
 #define NUM_QUITMESSAGES    8
 
-// DOOM1
-#define DOOM_ENDMSG1        "please don't leave, there's more\ndemons to toast!"
-#define DOOM_ENDMSG2        "let's beat it -- this is turning\ninto a bloodbath!"
-#define DOOM_ENDMSG3        "i wouldn't leave if i were you.\ndos is much worse."
-#define DOOM_ENDMSG4        "you're trying to say you like dos\nbetter than me, right?"
-#define DOOM_ENDMSG5        "don't leave yet -- there's a\ndemon around that corner!"
-#define DOOM_ENDMSG6        "ya know, next time you come in here\ni'm gonna toast ya."
-#define DOOM_ENDMSG7        "go ahead and leave. see if i care."
+// Quit DOOM messages
+#define QUITMSG1            "please don't leave, there's more\ndemons to toast!"
+#define QUITMSG2            "let's beat it -- this is turning\ninto a bloodbath!"
+#define QUITMSG3            "i wouldn't leave if i were you.\ndos is much worse."
+#define QUITMSG4            "you're trying to say you like dos\nbetter than me, right?"
+#define QUITMSG5            "don't leave yet -- there's a\ndemon around that corner!"
+#define QUITMSG6            "ya know, next time you come in here\ni'm gonna toast ya."
+#define QUITMSG7            "go ahead and leave. see if i care."
 
-// QuitDOOM II messages
-#define DOOM2_ENDMSG1       "you want to quit?\nthen, thou hast lost an eighth!"
-#define DOOM2_ENDMSG2       "don't go now, there's a \ndimensional shambler waiting\nat the dos prompt!"
-#define DOOM2_ENDMSG3       "get outta here and go back\nto your boring programs."
-#define DOOM2_ENDMSG4       "if i were your boss, i'd \n deathmatch ya in a minute!"
-#define DOOM2_ENDMSG5       "look, bud. you leave now\nand you forfeit your body count!"
-#define DOOM2_ENDMSG6       "just leave. when you come\nback, i'll be waiting with a bat."
-#define DOOM2_ENDMSG7       "you're lucky i don't smack\nyou for thinking about leaving."
+// Quit DOOM II messages
+#define QUITMSG8            "you want to quit?\nthen, thou hast lost an eighth!"
+#define QUITMSG9            "don't go now, there's a \ndimensional shambler waiting\nat the dos prompt!"
+#define QUITMSG10           "get outta here and go back\nto your boring programs."
+#define QUITMSG11           "if i were your boss, i'd \n deathmatch ya in a minute!"
+#define QUITMSG12           "look, bud. you leave now\nand you forfeit your body count!"
+#define QUITMSG13           "just leave. when you come\nback, i'll be waiting with a bat."
+#define QUITMSG14           "you're lucky i don't smack\nyou for thinking about leaving."
+
+// UNUSED messages included in the source release
+#define DEVQUITMSG1         "Fuck you, pussy!\nGet the fuck out!"
+#define DEVQUITMSG2         "You quit now and I'll\njizz in your cysthole!"
+#define DEVQUITMSG3         "If you leave, I'll make\nthe lord drink my jizz."
+#define DEVQUITMSG4         "Hey, Ron! Can we say\n\"fuck\" in this game?"
+#define DEVQUITMSG5         "I'd leave. There's just more\nmonsters and maps. What a load!"
+#define DEVQUITMSG6         "Suck it down, asshole!\nYou're a fucking wimp!"
+#define DEVQUITMSG7         "Don't quit now!\nWe're still spending your money!"
+
+// Internal debug. Different style, too.
+#define DEVQUITMSG8         "THIS IS NO MESSAGE!\nPage intentionally left blank."
 
 extern char **endmsg[];
-
-#endif
+extern char *devendmsg[];

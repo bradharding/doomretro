@@ -6,8 +6,8 @@
 
 ========================================================================
 
-  Copyright © 1993-2021 by id Software LLC, a ZeniMax Media company.
-  Copyright © 2013-2021 by Brad Harding <mailto:brad@doomretro.com>.
+  Copyright © 1993-2022 by id Software LLC, a ZeniMax Media company.
+  Copyright © 2013-2022 by Brad Harding <mailto:brad@doomretro.com>.
 
   DOOM Retro is a fork of Chocolate DOOM. For a list of credits, see
   <https://github.com/bradharding/doomretro/wiki/CREDITS>.
@@ -16,7 +16,7 @@
 
   DOOM Retro is free software: you can redistribute it and/or modify it
   under the terms of the GNU General Public License as published by the
-  Free Software Foundation, either version 3 of the License, or (at your
+  Free Software Foundation, either version 3 of the license, or (at your
   option) any later version.
 
   DOOM Retro is distributed in the hope that it will be useful, but
@@ -36,8 +36,7 @@
 ========================================================================
 */
 
-#if !defined(__M_ARGV_H__)
-#define __M_ARGV_H__
+#pragma once
 
 //
 // MISC
@@ -47,11 +46,9 @@ extern char **myargv;
 
 // Returns the position of the given parameter
 // in the arg list (0 if not found).
-int M_CheckParm(char *check);
+int M_CheckParm(const char *check);
 
 // Same as M_CheckParm, but checks that num_args arguments are available
 // following the specified argument.
-int M_CheckParmWithArgs(char *check, int num_args, int start);
-int M_CheckParmsWithArgs(char *check1, char *check2, char *check3, int num_args, int start);
-
-#endif
+int M_CheckParmWithArgs(const char *check, int num_args, int start);
+int M_CheckParmsWithArgs(const char *check1, const char *check2, const char *check3, int num_args, int start);

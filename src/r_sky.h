@@ -6,8 +6,8 @@
 
 ========================================================================
 
-  Copyright © 1993-2021 by id Software LLC, a ZeniMax Media company.
-  Copyright © 2013-2021 by Brad Harding <mailto:brad@doomretro.com>.
+  Copyright © 1993-2022 by id Software LLC, a ZeniMax Media company.
+  Copyright © 2013-2022 by Brad Harding <mailto:brad@doomretro.com>.
 
   DOOM Retro is a fork of Chocolate DOOM. For a list of credits, see
   <https://github.com/bradharding/doomretro/wiki/CREDITS>.
@@ -16,7 +16,7 @@
 
   DOOM Retro is free software: you can redistribute it and/or modify it
   under the terms of the GNU General Public License as published by the
-  Free Software Foundation, either version 3 of the License, or (at your
+  Free Software Foundation, either version 3 of the license, or (at your
   option) any later version.
 
   DOOM Retro is distributed in the hope that it will be useful, but
@@ -36,8 +36,7 @@
 ========================================================================
 */
 
-#if !defined(__R_SKY_H__)
-#define __R_SKY_H__
+#pragma once
 
 // SKY, store the number for name.
 #define SKYFLATNAME         "F_SKY1"
@@ -52,8 +51,6 @@ extern int      skytexturemid;
 extern int      skycolumnoffset;
 extern int      skyscrolldelta;
 extern fixed_t  skyiscale;
-extern dboolean canmouselook;
+extern bool     canmouselook;
 
 void R_InitSkyMap(void);
-
-#endif

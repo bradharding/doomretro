@@ -6,8 +6,8 @@
 
 ========================================================================
 
-  Copyright © 1993-2021 by id Software LLC, a ZeniMax Media company.
-  Copyright © 2013-2021 by Brad Harding <mailto:brad@doomretro.com>.
+  Copyright © 1993-2022 by id Software LLC, a ZeniMax Media company.
+  Copyright © 2013-2022 by Brad Harding <mailto:brad@doomretro.com>.
 
   DOOM Retro is a fork of Chocolate DOOM. For a list of credits, see
   <https://github.com/bradharding/doomretro/wiki/CREDITS>.
@@ -16,7 +16,7 @@
 
   DOOM Retro is free software: you can redistribute it and/or modify it
   under the terms of the GNU General Public License as published by the
-  Free Software Foundation, either version 3 of the License, or (at your
+  Free Software Foundation, either version 3 of the license, or (at your
   option) any later version.
 
   DOOM Retro is distributed in the hope that it will be useful, but
@@ -36,8 +36,7 @@
 ========================================================================
 */
 
-#if !defined(__M_MENU_H__)
-#define __M_MENU_H__
+#pragma once
 
 #include "p_saveg.h"
 
@@ -58,7 +57,7 @@ typedef struct menu_s
     short           x;
     short           y;
     int             lastOn;
-    dboolean        change;
+    bool            change;
 } menu_t;
 
 //
@@ -69,7 +68,7 @@ typedef struct menu_s
 // Even when the menu is not displayed,
 // this can resize the view and change game parameters.
 // Does all the real work of the menu interaction.
-dboolean M_Responder(event_t *ev);
+bool M_Responder(event_t *ev);
 
 // Called by main loop,
 // only used for menu (skull cursor) animation.
@@ -90,7 +89,7 @@ void M_ClearMenus(void);
 void M_EndingGame(void);
 
 void M_DarkBackground(void);
-void M_DrawSmallChar(int x, int y, int i, dboolean shadow);
+void M_DrawSmallChar(int x, int y, int i, bool shadow);
 void M_DrawString(int x, int y, char *string);
 void M_DrawCenteredString(int y, char *string);
 int M_StringWidth(char *string);
@@ -100,20 +99,21 @@ void M_SetWindowCaption(void);
 void M_UpdateSaveGameName(int i);
 int M_CountSaveGames(void);
 
-void M_StartMessage(char *string, void *routine, dboolean input);
+void M_StartMessage(char *string, void *routine, bool input);
 
 void M_QuitDOOM(int choice);
 
 void M_AddEpisode(int map, int ep, const char *lumpname, const char *string);
 
-extern dboolean messagetoprint;
+extern bool     messagetoprint;
 
-extern dboolean nomusic;
-extern dboolean nosound;
-extern dboolean nosfx;
-extern dboolean firstevent;
-extern dboolean savegames;
-extern dboolean inhelpscreens;
+extern bool     nomusic;
+extern bool     nosound;
+extern bool     nosfx;
+extern bool     firstevent;
+extern bool     savegames;
+extern bool     inhelpscreens;
+extern bool     quitting;
 extern int      spindirection;
 extern int      spinspeed;
 extern char     savegamestrings[6][SAVESTRINGSIZE];
@@ -123,7 +123,5 @@ extern menu_t   LoadDef;
 extern menu_t   MainDef;
 extern menu_t   NewDef;
 extern menu_t   SaveDef;
-extern dboolean EpiCustom;
-extern int      gamepadwait;
-
-#endif
+extern bool     EpiCustom;
+extern int      gamecontrollerwait;

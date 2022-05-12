@@ -6,8 +6,8 @@
 
 ========================================================================
 
-  Copyright © 1993-2021 by id Software LLC, a ZeniMax Media company.
-  Copyright © 2013-2021 by Brad Harding <mailto:brad@doomretro.com>.
+  Copyright © 1993-2022 by id Software LLC, a ZeniMax Media company.
+  Copyright © 2013-2022 by Brad Harding <mailto:brad@doomretro.com>.
 
   DOOM Retro is a fork of Chocolate DOOM. For a list of credits, see
   <https://github.com/bradharding/doomretro/wiki/CREDITS>.
@@ -16,7 +16,7 @@
 
   DOOM Retro is free software: you can redistribute it and/or modify it
   under the terms of the GNU General Public License as published by the
-  Free Software Foundation, either version 3 of the License, or (at your
+  Free Software Foundation, either version 3 of the license, or (at your
   option) any later version.
 
   DOOM Retro is distributed in the hope that it will be useful, but
@@ -36,39 +36,31 @@
 ========================================================================
 */
 
-#if !defined(__I_SYSTEM_H__)
-#define __I_SYSTEM_H__
+#pragma once
 
 #include "d_event.h"
 #include "doomdef.h"
 
 #if defined(_WIN32)
-#define OPERATINGSYSTEM "Windows"
-#define DESKTOPNAME     "desktop"
+#define PCHW    "PC"
+#define WINDOWS "Windows"
+#define DESKTOP "desktop"
 #elif defined(__APPLE__)
-#define OPERATINGSYSTEM "macOS"
-#define DESKTOPNAME     "Finder"
+#define PCHW    "Mac"
+#define WINDOWS "macOS"
+#define DESKTOP "Finder"
 #else
-#define OPERATINGSYSTEM "Linux"
-#define DESKTOPNAME     "desktop"
+#define PCHW    "PC"
+#define WINDOWS "Linux"
+#define DESKTOP "desktop"
 #endif
 
-//
-// Called by D_DoomLoop,
-// called before processing each tic in a frame.
-// Quick synchronous operations are performed here.
-// Can call D_PostEvent.
-void I_StartTic(void);
-
 // Called by M_Responder when quit is selected.
-// Clean exit, displays sell blurb.
-void I_Quit(dboolean shutdown);
+void I_Quit(bool shutdown);
 
 void I_Error(const char *error, ...) FORMATATTR(1, 2);
 
 void I_PrintWindowsVersion(void);
 void I_PrintSystemInfo(void);
 
-void *I_Realloc(void *ptr, size_t size);
-
-#endif
+void *I_Realloc(void *block, size_t size);

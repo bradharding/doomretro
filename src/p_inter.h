@@ -6,8 +6,8 @@
 
 ========================================================================
 
-  Copyright © 1993-2021 by id Software LLC, a ZeniMax Media company.
-  Copyright © 2013-2021 by Brad Harding <mailto:brad@doomretro.com>.
+  Copyright © 1993-2022 by id Software LLC, a ZeniMax Media company.
+  Copyright © 2013-2022 by Brad Harding <mailto:brad@doomretro.com>.
 
   DOOM Retro is a fork of Chocolate DOOM. For a list of credits, see
   <https://github.com/bradharding/doomretro/wiki/CREDITS>.
@@ -16,7 +16,7 @@
 
   DOOM Retro is free software: you can redistribute it and/or modify it
   under the terms of the GNU General Public License as published by the
-  Free Software Foundation, either version 3 of the License, or (at your
+  Free Software Foundation, either version 3 of the license, or (at your
   option) any later version.
 
   DOOM Retro is distributed in the hope that it will be useful, but
@@ -36,25 +36,24 @@
 ========================================================================
 */
 
-#if !defined(__P_INTER_H__)
-#define __P_INTER_H__
+#pragma once
 
-dboolean P_GiveBody(int num, int max, dboolean stat);
-dboolean P_GiveMegaHealth(dboolean stat);
-dboolean P_GiveArmor(armortype_t armortype, dboolean stat);
-dboolean P_GiveAllCards(void);
-dboolean P_GiveAllKeyCards(void);
-dboolean P_GiveAllSkullKeys(void);
-dboolean P_GiveAllCardsInMap(void);
-dboolean P_GivePower(int power);
-dboolean P_GiveAllWeapons(void);
-dboolean P_GiveBackpack(dboolean giveammo, dboolean stat);
-dboolean P_GiveFullAmmo(void);
+bool P_GiveBody(int num, int max, bool stat);
+bool P_GiveMegaHealth(bool stat);
+bool P_GiveArmor(armortype_t armortype, bool stat);
+bool P_GiveAllCards(void);
+bool P_GiveAllKeyCards(void);
+bool P_GiveAllSkullKeys(void);
+bool P_GiveAllCardsInMap(void);
+bool P_GivePower(int power);
+bool P_GiveAllWeapons(void);
+bool P_GiveBackpack(bool giveammo, bool stat);
+bool P_GiveFullAmmo(void);
 void P_AddBonus(void);
 void P_UpdateAmmoStat(ammotype_t ammotype, int num);
 void P_UpdateArmorStat(int num);
 void P_UpdateHealthStat(int num);
 void P_UpdateKillStat(mobjtype_t type, int value);
-void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source);
+void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, bool telefragged);
 
-#endif
+extern int  cardsfound;

@@ -6,8 +6,8 @@
 
 ========================================================================
 
-  Copyright © 1993-2021 by id Software LLC, a ZeniMax Media company.
-  Copyright © 2013-2021 by Brad Harding <mailto:brad@doomretro.com>.
+  Copyright © 1993-2022 by id Software LLC, a ZeniMax Media company.
+  Copyright © 2013-2022 by Brad Harding <mailto:brad@doomretro.com>.
 
   DOOM Retro is a fork of Chocolate DOOM. For a list of credits, see
   <https://github.com/bradharding/doomretro/wiki/CREDITS>.
@@ -16,7 +16,7 @@
 
   DOOM Retro is free software: you can redistribute it and/or modify it
   under the terms of the GNU General Public License as published by the
-  Free Software Foundation, either version 3 of the License, or (at your
+  Free Software Foundation, either version 3 of the license, or (at your
   option) any later version.
 
   DOOM Retro is distributed in the hope that it will be useful, but
@@ -36,31 +36,31 @@
 ========================================================================
 */
 
-#include "i_gamepad.h"
+#include "i_gamecontroller.h"
 #include "m_config.h"
 #include "p_local.h"
 
 int keyboardalwaysrun = KEYALWAYSRUN_DEFAULT;
 int keyboardautomap = KEYAUTOMAP_DEFAULT;
-int keyboardautomapclearmark = KEYAUTOMAPCLEARMARK_DEFAULT;
-int keyboardautomapfollowmode = KEYAUTOMAPFOLLOWMODE_DEFAULT;
-int keyboardautomapgrid = KEYAUTOMAPGRID_DEFAULT;
-int keyboardautomapmark = KEYAUTOMAPMARK_DEFAULT;
-int keyboardautomapmaxzoom = KEYAUTOMAPMAXZOOM_DEFAULT;
-int keyboardautomaprotatemode = KEYAUTOMAPROTATEMODE_DEFAULT;
-int keyboardautomapzoomin = KEYAUTOMAPZOOMIN_DEFAULT;
-int keyboardautomapzoomout = KEYAUTOMAPZOOMOUT_DEFAULT;
 int keyboardback = KEYDOWN_DEFAULT;
 int keyboardback2 = KEYDOWN2_DEFAULT;
+int keyboardclearmark = KEYCLEARMARK_DEFAULT;
 int keyboardconsole = KEYCONSOLE_DEFAULT;
 int keyboardfire = KEYFIRE_DEFAULT;
+int keyboardfollowmode = KEYFOLLOWMODE_DEFAULT;
+int keyboardforward = KEYUP_DEFAULT;
+int keyboardforward2 = KEYUP2_DEFAULT;
+int keyboardgrid = KEYGRID_DEFAULT;
 int keyboardjump = KEYJUMP_DEFAULT;
 int keyboardleft = KEYLEFT_DEFAULT;
+int keyboardmark = KEYMARK_DEFAULT;
+int keyboardmaxzoom = KEYMAXZOOM_DEFAULT;
 int keyboardmenu = KEY_ESCAPE;
 int keyboardmouselook = KEYMOUSELOOK_DEFAULT;
 int keyboardnextweapon = KEYNEXTWEAPON_DEFAULT;
 int keyboardprevweapon = KEYPREVWEAPON_DEFAULT;
 int keyboardright = KEYRIGHT_DEFAULT;
+int keyboardrotatemode = KEYROTATEMODE_DEFAULT;
 int keyboardrun = KEYRUN_DEFAULT;
 int keyboardscreenshot = KEYSCREENSHOT_DEFAULT;
 int keyboardstrafe = KEYSTRAFE_DEFAULT;
@@ -68,8 +68,6 @@ int keyboardstrafeleft = KEYSTRAFELEFT_DEFAULT;
 int keyboardstrafeleft2 = KEYSTRAFELEFT2_DEFAULT;
 int keyboardstraferight = KEYSTRAFERIGHT_DEFAULT;
 int keyboardstraferight2 = KEYSTRAFERIGHT2_DEFAULT;
-int keyboardforward = KEYUP_DEFAULT;
-int keyboardforward2 = KEYUP2_DEFAULT;
 int keyboarduse = KEYUSE_DEFAULT;
 int keyboarduse2 = KEYUSE2_DEFAULT;
 int keyboardweapon1 = KEYWEAPON1_DEFAULT;
@@ -79,16 +77,23 @@ int keyboardweapon4 = KEYWEAPON4_DEFAULT;
 int keyboardweapon5 = KEYWEAPON5_DEFAULT;
 int keyboardweapon6 = KEYWEAPON6_DEFAULT;
 int keyboardweapon7 = KEYWEAPON7_DEFAULT;
+int keyboardzoomin = KEYZOOMIN_DEFAULT;
+int keyboardzoomout = KEYZOOMOUT_DEFAULT;
 
+int mouseback = MOUSEBACK_DEFAULT;
 int mousefire = MOUSEFIRE_DEFAULT;
 int mouseforward = MOUSEFORWARD_DEFAULT;
 int mousejump = MOUSEJUMP_DEFAULT;
+int mouseleft = MOUSELEFT_DEFAULT;
 int mousemouselook = MOUSEMOUSELOOK_DEFAULT;
 int mousenextweapon = MOUSENEXTWEAPON_DEFAULT;
 int mouseprevweapon = MOUSEPREVWEAPON_DEFAULT;
+int mouseright = MOUSERIGHT_DEFAULT;
 int mouserun = MOUSERUN_DEFAULT;
 int mousescreenshot = MOUSESCREENSHOT_DEFAULT;
 int mousestrafe = MOUSESTRAFE_DEFAULT;
+int mousestrafeleft = MOUSESTRAFELEFT_DEFAULT;
+int mousestraferight = MOUSESTRAFERIGHT_DEFAULT;
 int mouseuse = MOUSEUSE_DEFAULT;
 int mouseweapon1 = MOUSEWEAPON1_DEFAULT;
 int mouseweapon2 = MOUSEWEAPON2_DEFAULT;
@@ -98,37 +103,37 @@ int mouseweapon5 = MOUSEWEAPON5_DEFAULT;
 int mouseweapon6 = MOUSEWEAPON6_DEFAULT;
 int mouseweapon7 = MOUSEWEAPON7_DEFAULT;
 
-int gamepadalwaysrun = GAMEPADALWAYSRUN_DEFAULT;
-int gamepadautomap = GAMEPADAUTOMAP_DEFAULT;
-int gamepadautomapclearmark = GAMEPADAUTOMAPCLEARMARK_DEFAULT;
-int gamepadautomapfollowmode = GAMEPADAUTOMAPFOLLOWMODE_DEFAULT;
-int gamepadautomapgrid = GAMEPADAUTOMAPGRID_DEFAULT;
-int gamepadautomapmark = GAMEPADAUTOMAPMARK_DEFAULT;
-int gamepadautomapmaxzoom = GAMEPADAUTOMAPMAXZOOM_DEFAULT;
-int gamepadautomaprotatemode = GAMEPADAUTOMAPROTATEMODE_DEFAULT;
-int gamepadautomapzoomin = GAMEPADAUTOMAPZOOMIN_DEFAULT;
-int gamepadautomapzoomout = GAMEPADAUTOMAPZOOMOUT_DEFAULT;
-int gamepadback = GAMEPADBACK_DEFAULT;
-int gamepadconsole = GAMEPADCONSOLE_DEFAULT;
-int gamepadfire = GAMEPADFIRE_DEFAULT;
-int gamepadforward = GAMEPADFORWARD_DEFAULT;
-int gamepadjump = GAMEPADJUMP_DEFAULT;
-int gamepadleft = GAMEPADLEFT_DEFAULT;
-int gamepadmenu = GAMEPADMENU_DEFAULT;
-int gamepadmouselook = GAMEPADMOUSELOOK_DEFAULT;
-int gamepadnextweapon = GAMEPADNEXTWEAPON_DEFAULT;
-int gamepadprevweapon = GAMEPADPREVWEAPON_DEFAULT;
-int gamepadright = GAMEPADRIGHT_DEFAULT;
-int gamepadrun = GAMEPADRUN_DEFAULT;
-int gamepadstrafe = GAMEPADSTRAFE_DEFAULT;
-int gamepadstrafeleft = GAMEPADSTRAFELEFT_DEFAULT;
-int gamepadstraferight = GAMEPADSTRAFERIGHT_DEFAULT;
-int gamepaduse = GAMEPADUSE_DEFAULT;
-int gamepaduse2 = GAMEPADUSE2_DEFAULT;
-int gamepadweapon1 = GAMEPADWEAPON_DEFAULT;
-int gamepadweapon2 = GAMEPADWEAPON_DEFAULT;
-int gamepadweapon3 = GAMEPADWEAPON_DEFAULT;
-int gamepadweapon4 = GAMEPADWEAPON_DEFAULT;
-int gamepadweapon5 = GAMEPADWEAPON_DEFAULT;
-int gamepadweapon6 = GAMEPADWEAPON_DEFAULT;
-int gamepadweapon7 = GAMEPADWEAPON_DEFAULT;
+int gamecontrolleralwaysrun = GAMECONTROLLERALWAYSRUN_DEFAULT;
+int gamecontrollerautomap = GAMECONTROLLERAUTOMAP_DEFAULT;
+int gamecontrollerback = GAMECONTROLLERBACK_DEFAULT;
+int gamecontrollerclearmark = GAMECONTROLLERCLEARMARK_DEFAULT;
+int gamecontrollerconsole = GAMECONTROLLERCONSOLE_DEFAULT;
+int gamecontrollerfire = GAMECONTROLLERFIRE_DEFAULT;
+int gamecontrollerfollowmode = GAMECONTROLLERFOLLOWMODE_DEFAULT;
+int gamecontrollerforward = GAMECONTROLLERFORWARD_DEFAULT;
+int gamecontrollergrid = GAMECONTROLLERGRID_DEFAULT;
+int gamecontrollerjump = GAMECONTROLLERJUMP_DEFAULT;
+int gamecontrollerleft = GAMECONTROLLERLEFT_DEFAULT;
+int gamecontrollermark = GAMECONTROLLERMARK_DEFAULT;
+int gamecontrollermaxzoom = GAMECONTROLLERMAXZOOM_DEFAULT;
+int gamecontrollermenu = GAMECONTROLLERMENU_DEFAULT;
+int gamecontrollermouselook = GAMECONTROLLERMOUSELOOK_DEFAULT;
+int gamecontrollernextweapon = GAMECONTROLLERNEXTWEAPON_DEFAULT;
+int gamecontrollerprevweapon = GAMECONTROLLERPREVWEAPON_DEFAULT;
+int gamecontrollerright = GAMECONTROLLERRIGHT_DEFAULT;
+int gamecontrollerrotatemode = GAMECONTROLLERROTATEMODE_DEFAULT;
+int gamecontrollerrun = GAMECONTROLLERRUN_DEFAULT;
+int gamecontrollerstrafe = GAMECONTROLLERSTRAFE_DEFAULT;
+int gamecontrollerstrafeleft = GAMECONTROLLERSTRAFELEFT_DEFAULT;
+int gamecontrollerstraferight = GAMECONTROLLERSTRAFERIGHT_DEFAULT;
+int gamecontrolleruse = GAMECONTROLLERUSE_DEFAULT;
+int gamecontrolleruse2 = GAMECONTROLLERUSE2_DEFAULT;
+int gamecontrollerweapon1 = GAMECONTROLLERWEAPON_DEFAULT;
+int gamecontrollerweapon2 = GAMECONTROLLERWEAPON_DEFAULT;
+int gamecontrollerweapon3 = GAMECONTROLLERWEAPON_DEFAULT;
+int gamecontrollerweapon4 = GAMECONTROLLERWEAPON_DEFAULT;
+int gamecontrollerweapon5 = GAMECONTROLLERWEAPON_DEFAULT;
+int gamecontrollerweapon6 = GAMECONTROLLERWEAPON_DEFAULT;
+int gamecontrollerweapon7 = GAMECONTROLLERWEAPON_DEFAULT;
+int gamecontrollerzoomin = GAMECONTROLLERZOOMIN_DEFAULT;
+int gamecontrollerzoomout = GAMECONTROLLERZOOMOUT_DEFAULT;

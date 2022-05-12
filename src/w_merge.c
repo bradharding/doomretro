@@ -6,8 +6,8 @@
 
 ========================================================================
 
-  Copyright © 1993-2021 by id Software LLC, a ZeniMax Media company.
-  Copyright © 2013-2021 by Brad Harding <mailto:brad@doomretro.com>.
+  Copyright © 1993-2022 by id Software LLC, a ZeniMax Media company.
+  Copyright © 2013-2022 by Brad Harding <mailto:brad@doomretro.com>.
 
   DOOM Retro is a fork of Chocolate DOOM. For a list of credits, see
   <https://github.com/bradharding/doomretro/wiki/CREDITS>.
@@ -16,7 +16,7 @@
 
   DOOM Retro is free software: you can redistribute it and/or modify it
   under the terms of the GNU General Public License as published by the
-  Free Software Foundation, either version 3 of the License, or (at your
+  Free Software Foundation, either version 3 of the license, or (at your
   option) any later version.
 
   DOOM Retro is distributed in the hope that it will be useful, but
@@ -93,7 +93,8 @@ static int FindInList(searchlist_t *list, char *name)
     return -1;
 }
 
-static dboolean SetupList(searchlist_t *list, searchlist_t *src_list, char *startname, char *endname, char *startname2, char *endname2)
+static bool SetupList(searchlist_t *list, searchlist_t *src_list,
+    char *startname, char *endname, char *startname2, char *endname2)
 {
     int startlump = FindInList(src_list, startname);
 
@@ -139,9 +140,10 @@ static void SetupLists(void)
 static void InitSpriteList(void)
 {
     sprite_frames = Z_Malloc(sprite_frames_alloced * sizeof(*sprite_frames), PU_STATIC, NULL);
+    num_sprite_frames = 0;
 }
 
-static dboolean ValidSpriteLumpName(char *name)
+static bool ValidSpriteLumpName(char *name)
 {
     if (name[0] == '\0' || name[1] == '\0' || name[2] == '\0' || name[3] == '\0')
         return false;
@@ -198,7 +200,7 @@ static sprite_frame_t *FindSpriteFrame(char *name, char frame)
 }
 
 // Check if sprite lump is needed in the new WAD
-static dboolean SpriteLumpNeeded(lumpinfo_t *lump)
+static bool SpriteLumpNeeded(lumpinfo_t *lump)
 {
     sprite_frame_t  *sprite;
     int             angle_num;
@@ -208,9 +210,8 @@ static dboolean SpriteLumpNeeded(lumpinfo_t *lump)
 
     // check the first frame
     sprite = FindSpriteFrame(lump->name, lump->name[4]);
-    angle_num = lump->name[5] - '0';
 
-    if (!angle_num)
+    if (!(angle_num = lump->name[5] - '0'))
     {
         // must check all frames
         for (int i = 0; i < 8; i++)
@@ -231,9 +232,8 @@ static dboolean SpriteLumpNeeded(lumpinfo_t *lump)
         return false;
 
     sprite = FindSpriteFrame(lump->name, lump->name[6]);
-    angle_num = lump->name[7] - '0';
 
-    if (!angle_num)
+    if (!(angle_num = lump->name[7] - '0'))
     {
         // must check all frames
         for (int i = 0; i < 8; i++)
@@ -252,8 +252,8 @@ static dboolean SpriteLumpNeeded(lumpinfo_t *lump)
 
 static struct
 {
-    char    *spr1;
-    char    *spr2;
+    const char  *spr1;
+    const char  *spr2;
 } weaponsprites[] = {
     { "PUNG", ""     }, { "PISG", "PISF" }, { "SHTG", "SHTF" }, { "CHGG", "CHGF" }, { "MISG", "MISF" },
     { "PLSG", "PLSF" }, { "BFGG", "BFGF" }, { "SAWG", ""     }, { "SHT2", "SHT2" }, { "",     ""     }
@@ -267,7 +267,7 @@ static void AddSpriteLump(lumpinfo_t *lump)
     static int      MISFB0;
     static int      SHT2A0;
     static int      SHT2E0;
-    dboolean        ispackagewad = M_StringCompare(leafname(lump->wadfile->path), DOOMRETRO_WAD);
+    bool            ispackagewad = M_StringCompare(leafname(lump->wadfile->path), DOOMRETRO_WAD);
 
     if (!ValidSpriteLumpName(lump->name))
         return;
@@ -295,7 +295,7 @@ static void AddSpriteLump(lumpinfo_t *lump)
 
         if (M_StringCompare(lump->name, "BAR1A0") || M_StringCompare(lump->name, "BAR1B0"))
         {
-            states[S_BAR3].nextstate = S_BAR2;
+            states[S_BAR1].nextstate = S_BAR2;
             mobjinfo[MT_BARREL].frames = 2;
         }
     }
@@ -371,17 +371,11 @@ static void GenerateSpriteList(void)
 //    already been merged into the IWAD's sections.
 static void DoMerge(void)
 {
-    section_t   current_section;
-    lumpinfo_t  **newlumps;
-    int         num_newlumps;
-
-    // Can't ever have more lumps than we already have
-    newlumps = calloc(numlumps, sizeof(lumpinfo_t *));
-    num_newlumps = 0;
+    int         num_newlumps = 0;
+    lumpinfo_t  **newlumps = calloc(numlumps, sizeof(lumpinfo_t *));
+    section_t   current_section = SECTION_NORMAL;
 
     // Add IWAD lumps
-    current_section = SECTION_NORMAL;
-
     for (int i = 0; i < iwad.numlumps; i++)
     {
         lumpinfo_t  *lump = iwad.lumps[i];
@@ -401,14 +395,13 @@ static void DoMerge(void)
                 // Have we reached the end of the section?
                 if (!strncasecmp(lump->name, "F_END", 8))
                 {
-                    // Add all new flats from the PWAD to the end
-                    // of the section
+                    // Add all new flats from the PWAD to the end of the section
                     for (int n = 0; n < pwad_flats.numlumps; n++)
                         newlumps[num_newlumps++] = pwad_flats.lumps[n];
 
                     newlumps[num_newlumps++] = lump;
 
-                    // back to normal reading
+                    // Back to normal reading
                     current_section = SECTION_NORMAL;
                 }
                 else
@@ -432,10 +425,10 @@ static void DoMerge(void)
                         if (SpriteLumpNeeded(pwad_sprites.lumps[n]))
                             newlumps[num_newlumps++] = pwad_sprites.lumps[n];
 
-                    // copy the ending
+                    // Copy the ending
                     newlumps[num_newlumps++] = lump;
 
-                    // back to normal reading
+                    // Back to normal reading
                     current_section = SECTION_NORMAL;
                 }
                 else
@@ -481,16 +474,14 @@ static void DoMerge(void)
             case SECTION_FLATS:
                 // PWAD flats are ignored (already merged)
                 if (!strncasecmp(lump->name, "FF_END", 8) || !strncasecmp(lump->name, "F_END", 8))
-                    // end of section
-                    current_section = SECTION_NORMAL;
+                    current_section = SECTION_NORMAL;   // end of section
 
                 break;
 
             case SECTION_SPRITES:
                 // PWAD sprites are ignored (already merged)
                 if (!strncasecmp(lump->name, "SS_END", 8) || !strncasecmp(lump->name, "S_END", 8))
-                    // end of section
-                    current_section = SECTION_NORMAL;
+                    current_section = SECTION_NORMAL;   // end of section
 
                 break;
 
@@ -508,7 +499,7 @@ static void DoMerge(void)
                         free(temp);
                     }
 
-                    current_section = SECTION_NORMAL;
+                    current_section = SECTION_NORMAL;   // end of section
                 }
 
                 break;
@@ -522,9 +513,9 @@ static void DoMerge(void)
 }
 
 // Merge in a file by name
-dboolean W_MergeFile(char *filename, dboolean automatic)
+bool W_MergeFile(char *filename, bool automatic)
 {
-    int old_numlumps = numlumps;
+    const int   old_numlumps = numlumps;
 
     // Load PWAD
     if (!W_AddFile(filename, automatic))

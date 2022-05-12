@@ -6,8 +6,8 @@
 
 ========================================================================
 
-  Copyright © 1993-2021 by id Software LLC, a ZeniMax Media company.
-  Copyright © 2013-2021 by Brad Harding <mailto:brad@doomretro.com>.
+  Copyright © 1993-2022 by id Software LLC, a ZeniMax Media company.
+  Copyright © 2013-2022 by Brad Harding <mailto:brad@doomretro.com>.
 
   DOOM Retro is a fork of Chocolate DOOM. For a list of credits, see
   <https://github.com/bradharding/doomretro/wiki/CREDITS>.
@@ -16,7 +16,7 @@
 
   DOOM Retro is free software: you can redistribute it and/or modify it
   under the terms of the GNU General Public License as published by the
-  Free Software Foundation, either version 3 of the License, or (at your
+  Free Software Foundation, either version 3 of the license, or (at your
   option) any later version.
 
   DOOM Retro is distributed in the hope that it will be useful, but
@@ -38,25 +38,27 @@
 
 #include <string.h>
 
-#include "SDL_mixer.h"
-
 #include "c_console.h"
-#include "i_midirpc.h"
-#include "mmus2mid.h"
+#include "i_winmusic.h"
+#include "m_misc.h"
+#include "memio.h"
+#include "mus2mid.h"
 #include "s_sound.h"
+#include "SDL_mixer.h"
+#include "version.h"
 
-dboolean        midimusictype;
-dboolean        musmusictype;
-
-static dboolean music_initialized;
-
-static int      current_music_volume;
-static int      paused_midi_volume;
+bool        midimusictype;
+bool        musmusictype;
 
 #if defined(_WIN32)
-static dboolean midirpc;
-dboolean        serverMidiPlaying;
+bool        windowsmidi = false;
+#else
+static int  paused_midi_volume;
 #endif
+
+static bool music_initialized;
+
+int         current_music_volume = 0;
 
 // Shutdown music
 void I_ShutdownMusic(void)
@@ -64,51 +66,48 @@ void I_ShutdownMusic(void)
     if (!music_initialized)
         return;
 
-    Mix_FadeOutMusic(500);
-    while (Mix_PlayingMusic());
     music_initialized = false;
 
     if (mus_playing)
-        I_UnRegisterSong(mus_playing->handle);
+        I_UnregisterSong(mus_playing->handle);
 
     Mix_CloseAudio();
     SDL_QuitSubSystem(SDL_INIT_AUDIO);
 
 #if defined(_WIN32)
-    I_MidiRPCClientShutDown();
+    if (windowsmidi)
+    {
+        I_Windows_ShutdownMusic();
+        windowsmidi = false;
+    }
 #endif
 }
 
 // Initialize music subsystem
-dboolean I_InitMusic(void)
+bool I_InitMusic(void)
 {
     int         freq = MIX_DEFAULT_FREQUENCY;
     int         channels;
     uint16_t    format;
 
-    // If SDL_mixer is not initialized, we have to initialize it
-    // and have the responsibility to shut it down later on.
+    // If SDL_mixer is not initialized, we have to initialize it and have the responsibility to shut it down later on.
     if (!Mix_QuerySpec(&freq, &format, &channels))
     {
         if (SDL_InitSubSystem(SDL_INIT_AUDIO) < 0)
             return false;
 
-        if (Mix_OpenAudioDevice(SAMPLERATE, MIX_DEFAULT_FORMAT, MIX_DEFAULT_CHANNELS, CHUNKSIZE, DEFAULT_DEVICE,
-            SDL_AUDIO_ALLOW_FREQUENCY_CHANGE) < 0)
+        if (Mix_OpenAudioDevice(SAMPLERATE, MIX_DEFAULT_FORMAT, MIX_DEFAULT_CHANNELS,
+            CHUNKSIZE, DEFAULT_DEVICE, SDL_AUDIO_ALLOW_FREQUENCY_CHANGE) < 0)
         {
             SDL_QuitSubSystem(SDL_INIT_AUDIO);
             return false;
         }
     }
 
-    SDL_PauseAudio(0);
-
     music_initialized = true;
 
 #if defined(_WIN32)
-    // Initialize RPC server
-    if (I_MidiRPCInitServer())
-        midirpc = I_MidiRPCInitClient();
+    windowsmidi = I_Windows_InitMusic();
 #endif
 
     return music_initialized;
@@ -121,34 +120,24 @@ void I_SetMusicVolume(int volume)
     current_music_volume = volume;
 
 #if defined(_WIN32)
-    // adjust server volume
-    if (serverMidiPlaying)
-    {
-        I_MidiRPCSetVolume(current_music_volume);
-        return;
-    }
+    if (midimusictype && windowsmidi)
+        I_Windows_SetMusicVolume(current_music_volume);
+    else
 #endif
-
-    Mix_VolumeMusic(current_music_volume);
+        Mix_VolumeMusic(current_music_volume / 2);
 }
 
 // Start playing a mid
-void I_PlaySong(void *handle, dboolean looping)
+void I_PlaySong(void *handle, bool looping)
 {
     if (!music_initialized)
         return;
 
 #if defined(_WIN32)
-    if (serverMidiPlaying)
-    {
-        I_MidiRPCPlaySong(looping);
-        I_MidiRPCSetVolume(current_music_volume);
-
-        return;
-    }
+    if (midimusictype && windowsmidi)
+        I_Windows_PlaySong(looping);
+    else if (handle)
 #endif
-
-    if (handle)
         Mix_PlayMusic(handle, (looping ? -1 : 1));
 }
 
@@ -157,21 +146,17 @@ void I_PauseSong(void)
     if (!music_initialized)
         return;
 
+    if (midimusictype)
+    {
 #if defined(_WIN32)
-    if (serverMidiPlaying)
-    {
-        I_MidiRPCPauseSong();
-        return;
-    }
-#endif
-
-    if (!midimusictype)
-        Mix_PauseMusic();
-    else
-    {
-        paused_midi_volume = Mix_VolumeMusic(-1);
+        I_Windows_PauseSong();
+#else
+        paused_midi_volume = current_music_volume;
         Mix_VolumeMusic(0);
+#endif
     }
+    else
+        Mix_PauseMusic();
 }
 
 void I_ResumeSong(void)
@@ -179,18 +164,14 @@ void I_ResumeSong(void)
     if (!music_initialized)
         return;
 
+    if (midimusictype)
 #if defined(_WIN32)
-    if (serverMidiPlaying)
-    {
-        I_MidiRPCResumeSong();
-        return;
-    }
-#endif
-
-    if (!midimusictype)
-        Mix_ResumeMusic();
-    else
+        I_Windows_ResumeSong();
+#else
         Mix_VolumeMusic(paused_midi_volume);
+#endif
+    else
+        Mix_ResumeMusic();
 }
 
 void I_StopSong(void)
@@ -199,35 +180,25 @@ void I_StopSong(void)
         return;
 
 #if defined(_WIN32)
-    if (serverMidiPlaying)
-    {
-        I_MidiRPCStopSong();
-        serverMidiPlaying = false;
-
-        return;
-    }
+    if (windowsmidi)
+        I_Windows_StopSong();
 #endif
 
     Mix_HaltMusic();
 }
 
-void I_UnRegisterSong(void *handle)
+void I_UnregisterSong(void *handle)
 {
     if (!music_initialized)
         return;
 
 #if defined(_WIN32)
-    if (serverMidiPlaying)
-    {
-        I_MidiRPCStopSong();
-        serverMidiPlaying = false;
-
-        return;
-    }
+    if (windowsmidi)
+        I_Windows_UnregisterSong();
+    else
 #endif
-
-    if (handle)
-        Mix_FreeMusic(handle);
+        if (handle)
+            Mix_FreeMusic(handle);
 }
 
 void *I_RegisterSong(void *data, int size)
@@ -245,40 +216,44 @@ void *I_RegisterSong(void *data, int size)
         // Check for MIDI or MUS format first:
         if (size >= 14)
         {
-            if (!memcmp(data, "MThd", 4))                       // is it a MIDI?
+            if (!memcmp(data, "MThd", 4))           // is it a MIDI?
                 midimusictype = true;
-            else if (mmuscheckformat((uint8_t *)data, size))    // is it a MUS?
+            else if (!memcmp(data, "MUS\x1A", 4))   // is it a MUS?
             {
-                MIDI    mididata;
-                uint8_t *mid;
-                int     midlen;
+                MEMFILE *instream = mem_fopen_read(data, size);
+                MEMFILE *outstream = mem_fopen_write();
 
                 musmusictype = true;
 
-                memset(&mididata, 0, sizeof(MIDI));
+                if (mus2mid(instream, outstream))
+                {
+                    void    *outbuf;
+                    byte    *mid;
+                    size_t  midlen;
 
-                if (!mmus2mid((uint8_t *)data, (size_t)size, &mididata))
-                    return NULL;
+                    mem_get_buf(outstream, &outbuf, &midlen);
 
-                // Hurrah! Let's make it a mid and give it to SDL_mixer
-                MIDIToMidi(&mididata, &mid, &midlen);
+                    if ((mid = malloc(midlen)))
+                    {
+                        memcpy(mid, outbuf, midlen);
+                        data = mid;
+                        size = (int)midlen;
+                    }
+                }
 
-                FreeMIDIData(&mididata);
+                mem_fclose(instream);
+                mem_fclose(outstream);
 
-                data = mid;
-                size = midlen;
-                midimusictype = true;                           // now it's a MIDI
+                midimusictype = true;               // now it's a MIDI
             }
         }
 
 #if defined(_WIN32)
-        // Check for option to invoke RPC server if is MIDI
-        if (midimusictype && midirpc)
-            if (I_MidiRPCRegisterSong(data, size))
-            {
-                serverMidiPlaying = true;
-                return NULL;        // server will play this song
-            }
+        if (midimusictype && windowsmidi)
+        {
+            I_Windows_RegisterSong(data, size);
+            return NULL;
+        }
 #endif
 
         if ((rwops = SDL_RWFromMem(data, size)))

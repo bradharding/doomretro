@@ -6,8 +6,8 @@
 
 ========================================================================
 
-  Copyright © 1993-2021 by id Software LLC, a ZeniMax Media company.
-  Copyright © 2013-2021 by Brad Harding <mailto:brad@doomretro.com>.
+  Copyright © 1993-2022 by id Software LLC, a ZeniMax Media company.
+  Copyright © 2013-2022 by Brad Harding <mailto:brad@doomretro.com>.
 
   DOOM Retro is a fork of Chocolate DOOM. For a list of credits, see
   <https://github.com/bradharding/doomretro/wiki/CREDITS>.
@@ -16,7 +16,7 @@
 
   DOOM Retro is free software: you can redistribute it and/or modify it
   under the terms of the GNU General Public License as published by the
-  Free Software Foundation, either version 3 of the License, or (at your
+  Free Software Foundation, either version 3 of the license, or (at your
   option) any later version.
 
   DOOM Retro is distributed in the hope that it will be useful, but
@@ -36,11 +36,15 @@
 ========================================================================
 */
 
-#if !defined(__STATES_H__)
-#define __STATES_H__
+#pragma once
 
 #include "d_think.h"
 #include "sprites.h"
+
+#define MAXSTATEARGS        8
+
+// state flags
+#define STATEF_SKILL5FAST   0x00000001  // tics halve on nightmare skill
 
 typedef enum
 {
@@ -1165,9 +1169,10 @@ typedef struct
     statenum_t  nextstate;
     int         misc1;
     int         misc2;
-    dboolean    translucent;
-    dboolean    dehacked;
+    int         args[MAXSTATEARGS]; // MBF21
+    int         flags;
+    bool        translucent;
+    bool        dehacked;
 } state_t;
 
 extern state_t  states[NUMSTATES];
-#endif

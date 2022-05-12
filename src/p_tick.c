@@ -6,8 +6,8 @@
 
 ========================================================================
 
-  Copyright © 1993-2021 by id Software LLC, a ZeniMax Media company.
-  Copyright © 2013-2021 by Brad Harding <mailto:brad@doomretro.com>.
+  Copyright © 1993-2022 by id Software LLC, a ZeniMax Media company.
+  Copyright © 2013-2022 by Brad Harding <mailto:brad@doomretro.com>.
 
   DOOM Retro is a fork of Chocolate DOOM. For a list of credits, see
   <https://github.com/bradharding/doomretro/wiki/CREDITS>.
@@ -16,7 +16,7 @@
 
   DOOM Retro is free software: you can redistribute it and/or modify it
   under the terms of the GNU General Public License as published by the
-  Free Software Foundation, either version 3 of the License, or (at your
+  Free Software Foundation, either version 3 of the license, or (at your
   option) any later version.
 
   DOOM Retro is distributed in the hope that it will be useful, but
@@ -57,7 +57,7 @@ uint64_t    stat_timeplayed = 0;
 
 // killough 08/29/98: we maintain several separate threads, each containing
 // a special class of thinkers, to allow more efficient searches.
-thinker_t       thinkers[th_all + 1];
+thinker_t   thinkers[th_all + 1];
 
 //
 // P_InitThinkers
@@ -161,11 +161,24 @@ void P_RemoveThinker(thinker_t *thinker)
 }
 
 //
+// P_RemoveThinkerNow
+//
+void P_RemoveThinkerNow(thinker_t *thinker)
+{
+    thinker_t *next = thinker->next;
+    thinker_t *th = thinker->cnext;
+
+    (next->prev = thinker->prev)->next = next;
+    (th->cprev = currentthinker = thinker->cprev)->cnext = th;
+    Z_Free(thinker);
+}
+
+//
 // P_SetTarget
 //
 // This function is used to keep track of pointer references to mobj thinkers.
 // In DOOM, objects such as lost souls could sometimes be removed despite
-// their still being referenced. In BOOM, 'target' mobj fields were tested
+// them still being referenced. In BOOM, 'target' mobj fields were tested
 // during each gametic, and any objects pointed to by them would be prevented
 // from being removed. But this was incomplete, and was slow (every mobj was
 // checked during every gametic). Now, we keep a count of the number of
@@ -192,6 +205,8 @@ void P_Ticker(void)
 
     if (consoleactive || inhelpscreens)
         return;
+
+    animatedliquidtic++;
 
     if (menuactive && !freeze)
     {

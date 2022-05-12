@@ -6,8 +6,8 @@
 
 ========================================================================
 
-  Copyright © 1993-2021 by id Software LLC, a ZeniMax Media company.
-  Copyright © 2013-2021 by Brad Harding <mailto:brad@doomretro.com>.
+  Copyright © 1993-2022 by id Software LLC, a ZeniMax Media company.
+  Copyright © 2013-2022 by Brad Harding <mailto:brad@doomretro.com>.
 
   DOOM Retro is a fork of Chocolate DOOM. For a list of credits, see
   <https://github.com/bradharding/doomretro/wiki/CREDITS>.
@@ -16,7 +16,7 @@
 
   DOOM Retro is free software: you can redistribute it and/or modify it
   under the terms of the GNU General Public License as published by the
-  Free Software Foundation, either version 3 of the License, or (at your
+  Free Software Foundation, either version 3 of the license, or (at your
   option) any later version.
 
   DOOM Retro is distributed in the hope that it will be useful, but
@@ -40,7 +40,7 @@
 
 #include "version.h"
 
-LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_AUS
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 
 IDI_ICON1 ICON DISCARDABLE DOOMRETRO_ICONPATH
 
@@ -60,7 +60,7 @@ BEGIN
     BEGIN
         BLOCK "040904B0"
         BEGIN
-            VALUE "CompanyName",      DOOMRETRO_AUTHOREMAIL
+            VALUE "CompanyName",      DOOMRETRO_CREATOREMAIL
             VALUE "FileDescription",  DOOMRETRO_NAME
             VALUE "FileVersion",      DOOMRETRO_VERSIONSTRING
             VALUE "InternalName",     DOOMRETRO
@@ -73,6 +73,6 @@ BEGIN
     END
     BLOCK "VarFileInfo"
     BEGIN
-        VALUE "Translation", 0x0C09, 1200
+        VALUE "Translation", 0x0409, 1200
     END
 END

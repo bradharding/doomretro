@@ -6,8 +6,8 @@
 
 ========================================================================
 
-  Copyright © 1993-2021 by id Software LLC, a ZeniMax Media company.
-  Copyright © 2013-2021 by Brad Harding <mailto:brad@doomretro.com>.
+  Copyright © 1993-2022 by id Software LLC, a ZeniMax Media company.
+  Copyright © 2013-2022 by Brad Harding <mailto:brad@doomretro.com>.
 
   DOOM Retro is a fork of Chocolate DOOM. For a list of credits, see
   <https://github.com/bradharding/doomretro/wiki/CREDITS>.
@@ -16,7 +16,7 @@
 
   DOOM Retro is free software: you can redistribute it and/or modify it
   under the terms of the GNU General Public License as published by the
-  Free Software Foundation, either version 3 of the License, or (at your
+  Free Software Foundation, either version 3 of the license, or (at your
   option) any later version.
 
   DOOM Retro is distributed in the hope that it will be useful, but
@@ -36,8 +36,7 @@
 ========================================================================
 */
 
-#if !defined(__P_SAVEG_H__)
-#define __P_SAVEG_H__
+#pragma once
 
 // maximum size of a savegame description
 #define SAVESTRINGSIZE          256
@@ -68,18 +67,15 @@ enum
     tc_endspecials
 };
 
-// temporary filename to use while saving.
-char *P_TempSaveGameFile(void);
-
 // filename to use for a savegame slot
 char *P_SaveGameFile(int slot);
 
 // Savegame file header read/write functions
-dboolean P_ReadSaveGameHeader(char *description);
+bool P_ReadSaveGameHeader(char *description);
 void P_WriteSaveGameHeader(char *description);
 
 // Savegame end-of-file read/write functions
-dboolean P_ReadSaveGameEOF(void);
+bool P_ReadSaveGameEOF(void);
 void P_WriteSaveGameEOF(void);
 
 // Persistent storage/archiving.
@@ -98,5 +94,3 @@ void P_UnArchiveMap(void);
 void P_RestoreTargets(void);
 
 extern FILE *save_stream;
-
-#endif

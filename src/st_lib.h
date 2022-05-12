@@ -6,8 +6,8 @@
 
 ========================================================================
 
-  Copyright © 1993-2021 by id Software LLC, a ZeniMax Media company.
-  Copyright © 2013-2021 by Brad Harding <mailto:brad@doomretro.com>.
+  Copyright © 1993-2022 by id Software LLC, a ZeniMax Media company.
+  Copyright © 2013-2022 by Brad Harding <mailto:brad@doomretro.com>.
 
   DOOM Retro is a fork of Chocolate DOOM. For a list of credits, see
   <https://github.com/bradharding/doomretro/wiki/CREDITS>.
@@ -16,7 +16,7 @@
 
   DOOM Retro is free software: you can redistribute it and/or modify it
   under the terms of the GNU General Public License as published by the
-  Free Software Foundation, either version 3 of the License, or (at your
+  Free Software Foundation, either version 3 of the license, or (at your
   option) any later version.
 
   DOOM Retro is distributed in the hope that it will be useful, but
@@ -36,8 +36,7 @@
 ========================================================================
 */
 
-#if !defined(__ST_LIB_H__)
-#define __ST_LIB_H__
+#pragma once
 
 #include "r_defs.h"
 
@@ -89,10 +88,10 @@ typedef struct
     int         *inum;
 
     // list of icons
-    patch_t     **p;
+    patch_t     **patch;
 } st_multicon_t;
 
-extern dboolean usesmallnums;
+extern bool usesmallnums;
 
 //
 // Widget creation, access, and update routines
@@ -105,21 +104,22 @@ extern dboolean usesmallnums;
 // Number widget routines
 void STlib_InitNum(st_number_t *n, int x, int y, patch_t **pl, int *num, int width);
 
-void STlib_UpdateBigNum(st_number_t *n);
+void STlib_UpdateBigAmmoNum(st_number_t *n);
+void STlib_UpdateBigArmorNum(st_number_t *n);
+void STlib_UpdateBigHealthNum(st_number_t *n);
 void STlib_UpdateSmallNum(st_number_t *n);
 
 // Percent widget routines
 void STlib_InitPercent(st_percent_t *p, int x, int y, patch_t **pl, int *num, patch_t *percent);
 
-void STlib_UpdatePercent(st_percent_t *per, int refresh);
+void STlib_UpdateHealthPercent(st_percent_t *per, int refresh);
+void STlib_UpdateArmorPercent(st_percent_t *per, int refresh);
 
 // Multiple Icon widget routines
 void STlib_InitMultIcon(st_multicon_t *mi, int x, int y, patch_t **il, int *inum);
 
-void STlib_UpdateMultIcon(st_multicon_t *mi, dboolean refresh);
+void STlib_UpdateMultIcon(st_multicon_t *mi, bool refresh);
 
-void STlib_UpdateArmsIcon(st_multicon_t *mi, dboolean refresh, int i);
+void STlib_UpdateArmsIcon(st_multicon_t *mi, bool refresh, int i);
 
 void STLib_Init(void);
-
-#endif

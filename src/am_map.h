@@ -6,8 +6,8 @@
 
 ========================================================================
 
-  Copyright © 1993-2021 by id Software LLC, a ZeniMax Media company.
-  Copyright © 2013-2021 by Brad Harding <mailto:brad@doomretro.com>.
+  Copyright © 1993-2022 by id Software LLC, a ZeniMax Media company.
+  Copyright © 2013-2022 by Brad Harding <mailto:brad@doomretro.com>.
 
   DOOM Retro is a fork of Chocolate DOOM. For a list of credits, see
   <https://github.com/bradharding/doomretro/wiki/CREDITS>.
@@ -16,7 +16,7 @@
 
   DOOM Retro is free software: you can redistribute it and/or modify it
   under the terms of the GNU General Public License as published by the
-  Free Software Foundation, either version 3 of the License, or (at your
+  Free Software Foundation, either version 3 of the license, or (at your
   option) any later version.
 
   DOOM Retro is distributed in the hope that it will be useful, but
@@ -36,8 +36,7 @@
 ========================================================================
 */
 
-#if !defined(__AM_MAP_H__)
-#define __AM_MAP_H__
+#pragma once
 
 #include "d_event.h"
 #include "m_fixed.h"
@@ -51,7 +50,7 @@ typedef struct
 } mpoint_t;
 
 // Called by main loop.
-dboolean AM_Responder(const event_t *ev);
+bool AM_Responder(const event_t *ev);
 
 // Called by main loop.
 void AM_Ticker(void);
@@ -60,12 +59,12 @@ void AM_Ticker(void);
 void AM_Drawer(void);
 void AM_ClearFB(void);
 
-void AM_Start(const dboolean mainwindow);
+void AM_Start(const bool mainwindow);
 void AM_ClearMarks(void);
-void AM_ToggleFollowMode(void);
+void AM_ToggleFollowMode(bool value);
 void AM_ToggleGrid(void);
 void AM_AddMark(void);
-void AM_ToggleRotateMode(void);
+void AM_ToggleRotateMode(bool value);
 void AM_ToggleMaxZoom(void);
 
 // Called to force the automap to quit if the level is completed while it is up.
@@ -86,6 +85,9 @@ typedef struct
     fixed_t     bbox[4];
 } am_frame_t;
 
+extern int          lastlevel;
+extern int          lastepisode;
+
 extern mpoint_t     *markpoints;
 extern int          markpointnum;
 extern int          markpointnum_max;
@@ -97,6 +99,4 @@ extern int          pathpointnum_max;
 extern am_frame_t   am_frame;
 extern int          direction;
 
-dboolean keystate(int key);
-
-#endif
+bool keystate(int key);

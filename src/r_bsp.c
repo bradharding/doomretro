@@ -6,8 +6,8 @@
 
 ========================================================================
 
-  Copyright © 1993-2021 by id Software LLC, a ZeniMax Media company.
-  Copyright © 2013-2021 by Brad Harding <mailto:brad@doomretro.com>.
+  Copyright © 1993-2022 by id Software LLC, a ZeniMax Media company.
+  Copyright © 2013-2022 by Brad Harding <mailto:brad@doomretro.com>.
 
   DOOM Retro is a fork of Chocolate DOOM. For a list of credits, see
   <https://github.com/bradharding/doomretro/wiki/CREDITS>.
@@ -16,7 +16,7 @@
 
   DOOM Retro is free software: you can redistribute it and/or modify it
   under the terms of the GNU General Public License as published by the
-  Free Software Foundation, either version 3 of the License, or (at your
+  Free Software Foundation, either version 3 of the license, or (at your
   option) any later version.
 
   DOOM Retro is distributed in the hope that it will be useful, but
@@ -42,7 +42,6 @@
 #include "doomstat.h"
 #include "m_bbox.h"
 #include "m_config.h"
-#include "r_main.h"
 #include "r_plane.h"
 #include "r_segs.h"
 #include "r_things.h"
@@ -74,7 +73,7 @@ byte        *solidcol;
 //
 // Replaces the old R_Clip*WallSegment functions. It draws bits of walls in those
 // columns which aren't solid, and updates the solidcol[] array appropriately
-static void R_ClipWallSegment(int first, int last, dboolean solid)
+static void R_ClipWallSegment(int first, int last, bool solid)
 {
     while (first < last)
         if (solidcol[first])
@@ -110,7 +109,7 @@ void R_InitClipSegs(void)
         + sizeof(*frontsector->floorlightsec) + sizeof(*frontsector->ceilinglightsec)
         + sizeof(frontsector->floorpic) + sizeof(frontsector->ceilingpic)
         + sizeof(frontsector->lightlevel);
-    solidcol = calloc(SCREENWIDTH, sizeof(*solidcol));
+    solidcol = calloc(MAXWIDTH, sizeof(*solidcol));
 }
 
 //
@@ -118,7 +117,7 @@ void R_InitClipSegs(void)
 //
 void R_ClearClipSegs(void)
 {
-    memset(solidcol, 0, SCREENWIDTH);
+    memset(solidcol, 0, MAXWIDTH);
 }
 
 // killough 01/18/98 -- This function is used to fix the automap bug which
@@ -242,7 +241,7 @@ static void R_InterpolateSector(sector_t *sector)
 //
 // killough 04/11/98, 04/13/98: fix bugs, add 'back' parameter
 //
-sector_t *R_FakeFlat(sector_t *sec, sector_t *tempsec, int *floorlightlevel, int *ceilinglightlevel, dboolean back)
+sector_t *R_FakeFlat(sector_t *sec, sector_t *tempsec, int *floorlightlevel, int *ceilinglightlevel, bool back)
 {
     const sector_t  *s = sec->heightsec;
 
@@ -255,7 +254,7 @@ sector_t *R_FakeFlat(sector_t *sec, sector_t *tempsec, int *floorlightlevel, int
     if (s)
     {
         sector_t    *heightsec = viewplayer->mo->subsector->sector->heightsec;
-        dboolean    underwater = (heightsec && viewz <= heightsec->interpfloorheight);
+        bool        underwater = (heightsec && viewz <= heightsec->interpfloorheight);
 
         // Replace sector being drawn, with a copy to be hacked
         *tempsec = *sec;
@@ -412,10 +411,9 @@ static void R_AddLine(seg_t *line)
 //
 // R_CheckBBox
 // Checks BSP node/subtree bounding box.
-// Returns true
-//  if some part of the bbox might be visible.
+// Returns true if some part of the bbox might be visible.
 //
-static dboolean R_CheckBBox(const fixed_t *bspcoord)
+static bool R_CheckBBox(const fixed_t *bspcoord)
 {
     const byte checkcoord[12][4] =
     {
@@ -534,7 +532,7 @@ static void R_Subsector(int num)
 
     // killough 09/18/98: Fix underwater slowdown, by passing real sector
     // instead of fake one. Improve sprite lighting by basing sprite
-    // lightlevels on floor & ceiling lightlevels in the surrounding area.
+    // lightlevels on floor and ceiling lightlevels in the surrounding area.
     //
     // 10/98 killough:
     //

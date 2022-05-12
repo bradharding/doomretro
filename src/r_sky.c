@@ -6,8 +6,8 @@
 
 ========================================================================
 
-  Copyright © 1993-2021 by id Software LLC, a ZeniMax Media company.
-  Copyright © 2013-2021 by Brad Harding <mailto:brad@doomretro.com>.
+  Copyright © 1993-2022 by id Software LLC, a ZeniMax Media company.
+  Copyright © 2013-2022 by Brad Harding <mailto:brad@doomretro.com>.
 
   DOOM Retro is a fork of Chocolate DOOM. For a list of credits, see
   <https://github.com/bradharding/doomretro/wiki/CREDITS>.
@@ -16,7 +16,7 @@
 
   DOOM Retro is free software: you can redistribute it and/or modify it
   under the terms of the GNU General Public License as published by the
-  Free Software Foundation, either version 3 of the License, or (at your
+  Free Software Foundation, either version 3 of the license, or (at your
   option) any later version.
 
   DOOM Retro is distributed in the hope that it will be useful, but
@@ -40,27 +40,27 @@
 #include "doomstat.h"
 #include "m_config.h"
 #include "p_setup.h"
-#include "r_main.h"
 #include "r_sky.h"
 
 //
 // sky mapping
 //
-int         skyflatnum;
-int         skytexture;
-int         skytexturemid;
-int         skycolumnoffset = 0;
-int         skyscrolldelta;
+int     skyflatnum;
+int     skytexture;
+int     skytexturemid;
+int     skycolumnoffset;
+int     skyscrolldelta;
 
-fixed_t     skyiscale;
+fixed_t skyiscale;
 
-dboolean    canmouselook = false;
+bool    canmouselook = false;
 
 void R_InitSkyMap(void)
 {
     int map = (gameepisode - 1) * 10 + gamemap;
 
     skyflatnum = R_FlatNumForName(SKYFLATNAME);
+    terraintypes[skyflatnum] = SKY;
     skytexture = P_GetMapSky1Texture(map);
     canmouselook = ((mouselook || keyboardmouselook || mousemouselook != -1 || autotilt
         || (weaponrecoil && r_screensize == r_screensize_max)) && !nomouselook);

@@ -6,8 +6,8 @@
 
 ========================================================================
 
-  Copyright © 1993-2021 by id Software LLC, a ZeniMax Media company.
-  Copyright © 2013-2021 by Brad Harding <mailto:brad@doomretro.com>.
+  Copyright © 1993-2022 by id Software LLC, a ZeniMax Media company.
+  Copyright © 2013-2022 by Brad Harding <mailto:brad@doomretro.com>.
 
   DOOM Retro is a fork of Chocolate DOOM. For a list of credits, see
   <https://github.com/bradharding/doomretro/wiki/CREDITS>.
@@ -16,7 +16,7 @@
 
   DOOM Retro is free software: you can redistribute it and/or modify it
   under the terms of the GNU General Public License as published by the
-  Free Software Foundation, either version 3 of the License, or (at your
+  Free Software Foundation, either version 3 of the license, or (at your
   option) any later version.
 
   DOOM Retro is distributed in the hope that it will be useful, but
@@ -36,11 +36,9 @@
 ========================================================================
 */
 
-#if !defined(__S_SOUND_H__)
-#define __S_SOUND_H__
+#pragma once
 
 #include "SDL_mixer.h"
-
 #include "sounds.h"
 
 #define CHUNKSIZE                   1024
@@ -49,33 +47,34 @@
 #if !defined(__HAIKU__)
 #define DEFAULT_DEVICE              NULL
 #if defined(__sun)
-#define Mix_OpenAudioDevice(freq, format, channels, chunk, dev, chgs) Mix_OpenAudio(freq, format, channels, chunk)
+#define Mix_OpenAudioDevice(freq, format, channels, chunk, dev, chgs)   Mix_OpenAudio(freq, format, channels, chunk)
 #endif
 #else
 // Triggers a segfault if no name is provided even though the default device is empty
 #define DEFAULT_DEVICE              ""
 #endif
 
-#define LOWER_MUSIC_VOLUME_FACTOR   3
+#define LOWER_MUSIC_VOLUME_FACTOR   2.5f
 
-dboolean I_InitSound(void);
+bool I_InitSound(void);
 void I_ShutdownSound(void);
-dboolean CacheSFX(sfxinfo_t *sfxinfo);
+bool CacheSFX(sfxinfo_t *sfxinfo);
 void I_UpdateSoundParms(int channel, int vol, int sep);
 int I_StartSound(sfxinfo_t *sfxinfo, int channel, int vol, int sep, int pitch);
 void I_StopSound(int channel);
-dboolean I_SoundIsPlaying(int channel);
+void I_FadeOutSound(int channel);
+bool I_SoundIsPlaying(int channel);
 
-dboolean I_InitMusic(void);
+bool I_InitMusic(void);
 void I_ShutdownMusic(void);
 void I_SetMusicVolume(int volume);
 void I_PauseSong(void);
 void I_ResumeSong(void);
 void *I_RegisterSong(void *data, int size);
-void I_UnRegisterSong(void *handle);
-void I_PlaySong(void *handle, dboolean looping);
+void I_UnregisterSong(void *handle);
+void I_PlaySong(void *handle, bool looping);
 void I_StopSong(void);
-dboolean I_AnySoundStillPlaying(void);
+bool I_AnySoundStillPlaying(void);
 
 //
 // Initializes sound stuff, including volume
@@ -109,9 +108,9 @@ void S_StartMusic(int music_id);
 
 // Start music using <music_id> from sounds.h,
 //  and set whether looping
-void S_ChangeMusic(int music_id, dboolean looping, dboolean allowrestart, dboolean mapstart);
+void S_ChangeMusic(int music_id, bool looping, bool allowrestart, bool mapstart);
 
-// Stops the music fer sure.
+// Stops the music for sure.
 void S_StopMusic(void);
 
 // Stop and resume music, during game PAUSE.
@@ -119,7 +118,7 @@ void S_PauseMusic(void);
 void S_ResumeMusic(void);
 
 //
-// Updates music & sounds
+// Updates music and sounds
 //
 void S_UpdateSounds(void);
 
@@ -144,5 +143,3 @@ void S_ChangeMusInfoMusic(int lumpnum, int looping);
 void S_ParseMusInfo(char *mapid);
 void MusInfoThinker(mobj_t *thing);
 void T_MAPMusic(void);
-
-#endif

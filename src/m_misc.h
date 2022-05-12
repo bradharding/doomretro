@@ -6,8 +6,8 @@
 
 ========================================================================
 
-  Copyright © 1993-2021 by id Software LLC, a ZeniMax Media company.
-  Copyright © 2013-2021 by Brad Harding <mailto:brad@doomretro.com>.
+  Copyright © 1993-2022 by id Software LLC, a ZeniMax Media company.
+  Copyright © 2013-2022 by Brad Harding <mailto:brad@doomretro.com>.
 
   DOOM Retro is a fork of Chocolate DOOM. For a list of credits, see
   <https://github.com/bradharding/doomretro/wiki/CREDITS>.
@@ -16,7 +16,7 @@
 
   DOOM Retro is free software: you can redistribute it and/or modify it
   under the terms of the GNU General Public License as published by the
-  Free Software Foundation, either version 3 of the License, or (at your
+  Free Software Foundation, either version 3 of the license, or (at your
   option) any later version.
 
   DOOM Retro is distributed in the hope that it will be useful, but
@@ -36,8 +36,7 @@
 ========================================================================
 */
 
-#if !defined(__M_MISC_H__)
-#define __M_MISC_H__
+#pragma once
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -48,9 +47,16 @@
 
 #include "doomtype.h"
 
+typedef enum
+{
+    personal,
+    possessive,
+    reflexive
+} pronountype_t;
+
 void M_MakeDirectory(const char *path);
-dboolean M_FileExists(const char *filename);
-dboolean M_FolderExists(const char *folder);
+bool M_FileExists(const char *filename);
+bool M_FolderExists(const char *folder);
 char *M_ExtractFolder(char *path);
 
 #if !defined(_WIN32) && !defined(__APPLE__)
@@ -69,21 +75,21 @@ char *M_GetResourceFolder(void);
 char *M_GetAppDataFolder(void);
 
 char *M_GetExecutableFolder(void);
-dboolean M_StrToInt(const char *str, unsigned int *result);
+bool M_StrToInt(const char *str, int *result);
 const char *M_StrCaseStr(const char *haystack, const char *needle);
 void M_StringCopy(char *dest, const char *src, const size_t dest_size);
-char *M_StringReplace(char *haystack, char *needle, const char *replacement);
-void M_StringReplaceAll(char *haystack, char *needle, const char *replacement);
+char *M_StringReplace(char *haystack, const char *needle, const char *replacement);
+void M_StringReplaceAll(char *haystack, const char *needle, const char *replacement);
 char *M_TempFile(char *s);
-char *M_StringJoin(char *s, ...);
-dboolean M_StringStartsWith(const char *s, const char *prefix);
-dboolean M_StringStartsWithExact(const char *s, const char *prefix);
-dboolean M_StringEndsWith(const char *s, const char *suffix);
+char *M_StringJoin(const char *s, ...);
+bool M_StringStartsWith(const char *s, const char *prefix);
+bool M_StringStartsWithExact(const char *s, const char *prefix);
+bool M_StringEndsWith(const char *s, const char *suffix);
 void M_vsnprintf(char *buf, int buf_len, const char *s, va_list args);
 void M_snprintf(char *buf, int buf_len, const char *s, ...);
 char *M_SubString(const char *str, size_t begin, size_t len);
 char *M_StringDuplicate(const char *orig);
-dboolean M_StringCompare(const char *str1, const char *str2);
+bool M_StringCompare(const char *str1, const char *str2);
 char *uppercase(const char *str);
 char *lowercase(char *str);
 char *titlecase(const char *str);
@@ -91,7 +97,7 @@ char *sentencecase(const char *str);
 char *commify(int64_t value);
 char *commifystat(uint64_t value);
 char *uncommify(const char *input);
-dboolean wildcard(char *input, char *pattern);
+bool wildcard(char *input, char *pattern);
 int gcd(int a, int b);
 int numspaces(char *str);
 char *removespaces(const char *input);
@@ -100,11 +106,11 @@ char *trimwhitespace(char *input);
 char *makevalidfilename(const char *input);
 char *leafname(char *path);
 char *removeext(const char *file);
-dboolean isvowel(const char ch);
-dboolean ispunctuation(const char ch);
-dboolean isbreak(const char ch);
+bool isvowel(const char ch);
+bool ispunctuation(const char ch);
+bool isbreak(const char ch);
 char *striptrailingzero(float value, int precision);
 int hextodec(char *hex);
-void M_StripQuotes(char *string);
-
-#endif
+void M_StripQuotes(char *str);
+void M_NormalizeSlashes(char *str);
+char *pronoun(pronountype_t type);

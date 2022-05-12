@@ -6,8 +6,8 @@
 
 ========================================================================
 
-  Copyright © 1993-2021 by id Software LLC, a ZeniMax Media company.
-  Copyright © 2013-2021 by Brad Harding <mailto:brad@doomretro.com>.
+  Copyright © 1993-2022 by id Software LLC, a ZeniMax Media company.
+  Copyright © 2013-2022 by Brad Harding <mailto:brad@doomretro.com>.
 
   DOOM Retro is a fork of Chocolate DOOM. For a list of credits, see
   <https://github.com/bradharding/doomretro/wiki/CREDITS>.
@@ -16,7 +16,7 @@
 
   DOOM Retro is free software: you can redistribute it and/or modify it
   under the terms of the GNU General Public License as published by the
-  Free Software Foundation, either version 3 of the License, or (at your
+  Free Software Foundation, either version 3 of the license, or (at your
   option) any later version.
 
   DOOM Retro is distributed in the hope that it will be useful, but
@@ -36,8 +36,7 @@
 ========================================================================
 */
 
-#if !defined(__P_SPEC_H__)
-#define __P_SPEC_H__
+#pragma once
 
 // jff 2/23/98 identify the special classes that can share sectors
 typedef enum
@@ -46,10 +45,11 @@ typedef enum
     ceiling_special
 } special_e;
 
-#define TIMERMAXMINUTES 3600
+#define TIMERMAXMINUTES (24 * 60)
 
 extern int              timer;
 extern int              timeremaining;
+extern int              animatedliquidtic;
 extern fixed_t          animatedliquiddiff;
 extern fixed_t          animatedliquidxdir;
 extern fixed_t          animatedliquidydir;
@@ -57,9 +57,9 @@ extern fixed_t          animatedliquidxoffs;
 extern fixed_t          animatedliquidyoffs;
 
 extern terraintype_t    *terraintypes;
-extern dboolean         *isteleport;
+extern bool             *isteleport;
 
-extern dboolean         zerotag_manual;
+extern bool             zerotag_manual;
 
 // at game start
 void P_InitPicAnims(void);
@@ -73,12 +73,12 @@ void P_SetLifts(void);
 // every tic
 void P_UpdateSpecials(void);
 
-dboolean P_SectorActive(special_e t, sector_t *sec);
+bool P_SectorActive(special_e t, sector_t *sec);
 
-dboolean P_CheckTag(line_t *line);
+bool P_CheckTag(line_t *line);
 
 // when needed
-dboolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side);
+bool P_UseSpecialLine(mobj_t *thing, line_t *line, int side);
 
 void P_ShootSpecialLine(mobj_t *thing, line_t *line);
 
@@ -86,7 +86,7 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing);
 
 void P_PlayerInSpecialSector(sector_t *sector);
 
-dboolean twoSided(int sector, int line);
+bool twoSided(int sector, int line);
 
 sector_t *getSector(int currentSector, int line, int side);
 
@@ -120,16 +120,16 @@ void P_InitTagLists(void);
 
 int P_FindMinSurroundingLight(sector_t *sec, int min);
 
-dboolean P_CanUnlockGenDoor(line_t *line);
+bool P_CanUnlockGenDoor(line_t *line);
 
 sector_t *getNextSector(line_t *line, sector_t *sec);
 
-dboolean P_ProcessNoTagLines(line_t *line, sector_t **sec, int *secnum);
+bool P_ProcessNoTagLines(line_t *line, sector_t **sec, int *secnum);
 
 //
 // SPECIAL
 //
-dboolean EV_DoDonut(line_t *line);
+bool EV_DoDonut(line_t *line);
 
 //
 // P_LIGHTS.C
@@ -184,12 +184,12 @@ void T_LightFlash(lightflash_t *flash);
 void P_SpawnLightFlash(sector_t *sector);
 void T_StrobeFlash(strobe_t *flash);
 
-void P_SpawnStrobeFlash(sector_t *sector, int fastorslow, dboolean insync);
+void P_SpawnStrobeFlash(sector_t *sector, int fastorslow, bool insync);
 
-dboolean EV_StartLightStrobing(line_t *line);
-dboolean EV_TurnTagLightsOff(line_t *line);
+bool EV_StartLightStrobing(line_t *line);
+bool EV_TurnTagLightsOff(line_t *line);
 
-dboolean EV_LightTurnOn(line_t *line, int bright);
+bool EV_LightTurnOn(line_t *line, int bright);
 
 void EV_LightTurnOnPartway(line_t *line, fixed_t level);        // killough 10/10/98
 void EV_LightByAdjacentSectors(sector_t *sector, fixed_t level);
@@ -245,7 +245,7 @@ extern int      maxbuttons;
 
 void P_InitSwitchList(void);
 void P_StartButton(line_t *line, bwhere_e where, int texture, int time);
-void P_ChangeSwitchTexture(line_t *line, dboolean useagain);
+void P_ChangeSwitchTexture(line_t *line, bool useagain);
 
 //
 // P_PLATS.C
@@ -288,7 +288,7 @@ typedef struct
     int                 count;
     plat_e              status;
     plat_e              oldstatus;
-    dboolean            crush;
+    bool                crush;
     int                 tag;
     plattype_e          type;
 
@@ -311,12 +311,12 @@ extern platlist_t   *activeplats;
 void T_PlatStay(plat_t *plat);
 void T_PlatRaise(plat_t *plat);
 
-dboolean EV_DoPlat(line_t *line, plattype_e type, int amount);
+bool EV_DoPlat(line_t *line, plattype_e type, int amount);
 
 void P_AddActivePlat(plat_t *plat);
 void P_RemoveActivePlat(plat_t *plat);
 void P_RemoveAllActivePlats(void);
-dboolean EV_StopPlat(line_t *line);
+bool EV_StopPlat(line_t *line);
 void P_ActivateInStasis(int tag);
 
 //
@@ -374,9 +374,9 @@ typedef struct
 
 void EV_VerticalDoor(line_t *line, mobj_t *thing);
 
-dboolean EV_DoDoor(line_t *line, vldoor_e type, fixed_t speed);
+bool EV_DoDoor(line_t *line, vldoor_e type, fixed_t speed);
 
-dboolean EV_DoLockedDoor(line_t *line, vldoor_e type, mobj_t *thing, fixed_t speed);
+bool EV_DoLockedDoor(line_t *line, vldoor_e type, mobj_t *thing, fixed_t speed);
 
 void T_VerticalDoor(vldoor_t *door);
 void P_SpawnDoorCloseIn30(sector_t *sec);
@@ -417,7 +417,7 @@ typedef struct
     fixed_t                 topheight;
     fixed_t                 speed;
     fixed_t                 oldspeed;
-    dboolean                crush;
+    bool                    crush;
 
     // jff 02/04/98 add these to support ceiling changers
     int                     newspecial;
@@ -443,15 +443,15 @@ typedef struct ceilinglist_s
 
 extern ceilinglist_t    *activeceilings;
 
-dboolean EV_DoCeiling(line_t *line, ceiling_e type);
+bool EV_DoCeiling(line_t *line, ceiling_e type);
 
 void T_CeilingStay(ceiling_t *ceiling);
 void T_MoveCeiling(ceiling_t *ceiling);
 void P_AddActiveCeiling(ceiling_t *ceiling);
 void P_RemoveActiveCeiling(ceiling_t *ceiling);
 void P_RemoveAllActiveCeilings(void);
-dboolean EV_CeilingCrushStop(line_t *line);
-dboolean P_ActivateInStasisCeiling(line_t *line);
+bool EV_CeilingCrushStop(line_t *line);
+bool P_ActivateInStasisCeiling(line_t *line);
 
 //
 // P_FLOOR.C
@@ -529,14 +529,14 @@ typedef struct
 {
     thinker_t   thinker;
     floor_e     type;
-    dboolean    crush;
+    bool        crush;
     sector_t    *sector;
     int         direction;
     int         newspecial;
     short       texture;
     fixed_t     floordestheight;
     fixed_t     speed;
-    dboolean    stopsound;
+    bool        stopsound;
 } floormove_t;
 
 typedef struct
@@ -548,7 +548,7 @@ typedef struct
     fixed_t     floordestheight;
     fixed_t     ceilingdestheight;
     fixed_t     speed;
-    dboolean    stopsound;
+    bool        stopsound;
 } elevator_t;
 
 #define ELEVATORSPEED   (FRACUNIT * 4)
@@ -561,11 +561,11 @@ typedef enum
     pastdest
 } result_e;
 
-result_e T_MovePlane(sector_t *sector, fixed_t speed, fixed_t dest, dboolean crush, int floororceiling, int direction);
-dboolean EV_BuildStairs(line_t *line, fixed_t speed, fixed_t stairsize, dboolean crushing);
-dboolean EV_DoFloor(line_t *line, floor_e floortype);
-dboolean EV_DoChange(line_t *line, change_e changetype);
-dboolean EV_DoElevator(line_t *line, elevator_e elevtype);
+result_e T_MovePlane(sector_t *sector, fixed_t speed, fixed_t dest, bool crush, int floororceiling, int direction);
+bool EV_BuildStairs(line_t *line, fixed_t speed, fixed_t stairsize, bool crushing);
+bool EV_DoFloor(line_t *line, floor_e floortype);
+bool EV_DoChange(line_t *line, change_e changetype);
+bool EV_DoElevator(line_t *line, elevator_e elevtype);
 void T_MoveFloor(floormove_t *floor);
 void T_MoveElevator(elevator_t *elevator);
 void P_CheckTerrainType(sector_t *sector);
@@ -622,9 +622,9 @@ mobj_t *P_GetPushThing(int s);
 //
 // P_TELEPT.C
 //
-dboolean EV_Teleport(line_t *line, int side, mobj_t *thing);
-dboolean EV_SilentTeleport(line_t *line, int side, mobj_t *thing);
-dboolean EV_SilentLineTeleport(line_t *line, int side, mobj_t *thing, dboolean reverse);
+bool EV_Teleport(line_t *line, int side, mobj_t *thing);
+bool EV_SilentTeleport(line_t *line, int side, mobj_t *thing);
+bool EV_SilentLineTeleport(line_t *line, int side, mobj_t *thing, bool reverse);
 
 // jff 3/14/98 add bits and shifts for generalized sector types
 #define DAMAGE_MASK             0x0060
@@ -636,6 +636,10 @@ dboolean EV_SilentLineTeleport(line_t *line, int side, mobj_t *thing, dboolean r
 // reserved by BOOM spec - not implemented?
 // bit 10: suppress all sounds within the sector
 // bit 11: disable any sounds due to floor or ceiling motion by the sector
+
+// MBF21
+#define DEATH_MASK              0x1000  // bit 12
+#define KILL_MONSTERS_MASK      0x2000  // bit 13
 
 // jff 02/04/98 Define masks, shifts, for fields in generalized linedef types
 #define GenEnd                  0x8000
@@ -842,12 +846,10 @@ enum
     AllKeys
 };
 
-dboolean EV_DoGenFloor(line_t *line);
-dboolean EV_DoGenCeiling(line_t *line);
-dboolean EV_DoGenLift(line_t *line);
-dboolean EV_DoGenStairs(line_t *line);
-dboolean EV_DoGenCrusher(line_t *line);
-dboolean EV_DoGenDoor(line_t *line);
-dboolean EV_DoGenLockedDoor(line_t *line);
-
-#endif
+bool EV_DoGenFloor(line_t *line);
+bool EV_DoGenCeiling(line_t *line);
+bool EV_DoGenLift(line_t *line);
+bool EV_DoGenStairs(line_t *line);
+bool EV_DoGenCrusher(line_t *line);
+bool EV_DoGenDoor(line_t *line);
+bool EV_DoGenLockedDoor(line_t *line);

@@ -6,8 +6,8 @@
 
 ========================================================================
 
-  Copyright © 1993-2021 by id Software LLC, a ZeniMax Media company.
-  Copyright © 2013-2021 by Brad Harding <mailto:brad@doomretro.com>.
+  Copyright © 1993-2022 by id Software LLC, a ZeniMax Media company.
+  Copyright © 2013-2022 by Brad Harding <mailto:brad@doomretro.com>.
 
   DOOM Retro is a fork of Chocolate DOOM. For a list of credits, see
   <https://github.com/bradharding/doomretro/wiki/CREDITS>.
@@ -16,7 +16,7 @@
 
   DOOM Retro is free software: you can redistribute it and/or modify it
   under the terms of the GNU General Public License as published by the
-  Free Software Foundation, either version 3 of the License, or (at your
+  Free Software Foundation, either version 3 of the license, or (at your
   option) any later version.
 
   DOOM Retro is distributed in the hope that it will be useful, but
@@ -48,7 +48,7 @@
 #include "g_game.h"
 #include "hu_stuff.h"
 #include "i_colors.h"
-#include "i_gamepad.h"
+#include "i_gamecontroller.h"
 #include "i_system.h"
 #include "i_timer.h"
 #include "m_cheat.h"
@@ -81,11 +81,11 @@ int             gameepisode;
 int             gamemap;
 char            speciallumpname[6] = "";
 
-dboolean        paused;
-dboolean        sendpause;                          // send a pause event next tic
-static dboolean sendsave;                           // send a save event next tic
+bool            paused;
+bool            sendpause;                          // send a pause event next tic
+static bool     sendsave;                           // send a save event next tic
 
-dboolean        viewactive;
+bool            viewactive;
 
 int             gametime = 0;
 int             totalkills;                         // for intermission
@@ -97,15 +97,15 @@ int             barrelcount;
 
 wbstartstruct_t wminfo;                             // parms for world map/intermission
 
-dboolean        autoload = autoload_default;
-dboolean        autosave = autosave_default;
+bool            autoload = autoload_default;
+bool            autosave = autosave_default;
 
 #define MAXPLMOVE       forwardmove[1]
 
 fixed_t         forwardmove[] = { FORWARDMOVE0, FORWARDMOVE1 };
 fixed_t         sidemove[] = { SIDEMOVE0, SIDEMOVE1 };
 fixed_t         angleturn[] = { 640, 1280, 320 };   // + slow turn
-static fixed_t  gamepadangleturn[] = { 640, 960 };
+static fixed_t  gamecontrollerangleturn[] = { 640, 960 };
 
 #define NUMWEAPONKEYS   7
 
@@ -131,44 +131,44 @@ static int *mouseweapons[NUMWEAPONKEYS] =
     &mouseweapon7
 };
 
-static int *gamepadweapons[NUMWEAPONKEYS] =
+static int *gamecontrollerweapons[NUMWEAPONKEYS] =
 {
-    &gamepadweapon1,
-    &gamepadweapon2,
-    &gamepadweapon3,
-    &gamepadweapon4,
-    &gamepadweapon5,
-    &gamepadweapon6,
-    &gamepadweapon7
+    &gamecontrollerweapon1,
+    &gamecontrollerweapon2,
+    &gamecontrollerweapon3,
+    &gamecontrollerweapon4,
+    &gamecontrollerweapon5,
+    &gamecontrollerweapon6,
+    &gamecontrollerweapon7
 };
 
 #define SLOWTURNTICS    6
 
-dboolean        gamekeydown[NUMKEYS] = { 0 };
+bool            gamekeydown[NUMKEYS] = { 0 };
 char            keyactionlist[NUMKEYS][255] = { "" };
 static int      turnheld;                       // for accelerative turning
 
-static dboolean mousearray[MAX_MOUSE_BUTTONS + 1];
-dboolean        *mousebuttons = &mousearray[1]; // allow [-1]
+static bool     mousearray[MAX_MOUSE_BUTTONS + 1];
+bool            *mousebuttons = &mousearray[1]; // allow [-1]
 char            mouseactionlist[MAX_MOUSE_BUTTONS + 2][255] = { "" };
 
-dboolean        skipaction = false;
+bool            skipaction = false;
 
 static int      mousex;
 static int      mousey;
 
-dboolean        m_doubleclick_use = m_doubleclick_use_default;
-dboolean        m_invertyaxis = m_invertyaxis_default;
-dboolean        m_novertical = m_novertical_default;
-dboolean        mouselook = mouselook_default;
+bool            m_doubleclick_use = m_doubleclick_use_default;
+bool            m_invertyaxis = m_invertyaxis_default;
+bool            m_novertical = m_novertical_default;
+bool            mouselook = mouselook_default;
 
-dboolean        usemouselook = false;
+bool            usemouselook = false;
 
 static int      dclicktime;
-static dboolean dclickstate;
+static bool     dclickstate;
 static int      dclicks;
 static int      dclicktime2;
-static dboolean dclickstate2;
+static bool     dclickstate2;
 static int      dclicks2;
 
 static int      savegameslot;
@@ -196,9 +196,9 @@ void G_RemoveChoppers(void)
 
 void G_NextWeapon(void)
 {
-    weapontype_t    pendingweapon = viewplayer->pendingweapon;
-    weapontype_t    readyweapon = viewplayer->readyweapon;
-    weapontype_t    i = (pendingweapon == wp_nochange ? readyweapon : pendingweapon);
+    const weapontype_t  pendingweapon = viewplayer->pendingweapon;
+    const weapontype_t  readyweapon = viewplayer->readyweapon;
+    weapontype_t        i = (pendingweapon == wp_nochange ? readyweapon : pendingweapon);
 
     do
     {
@@ -206,7 +206,7 @@ void G_NextWeapon(void)
 
         if (i == wp_fist && viewplayer->weaponowned[wp_chainsaw] && !viewplayer->powers[pw_strength])
             i = wp_chainsaw;
-    } while (!viewplayer->weaponowned[i] || viewplayer->ammo[weaponinfo[i].ammotype] < weaponinfo[i].minammo);
+    } while (!viewplayer->weaponowned[i] || viewplayer->ammo[weaponinfo[i].ammotype] < weaponinfo[i].ammopershot);
 
     if (i != readyweapon)
     {
@@ -225,9 +225,9 @@ void G_NextWeapon(void)
 
 void G_PrevWeapon(void)
 {
-    weapontype_t    pendingweapon = viewplayer->pendingweapon;
-    weapontype_t    readyweapon = viewplayer->readyweapon;
-    weapontype_t    i = (pendingweapon == wp_nochange ? readyweapon : pendingweapon);
+    const weapontype_t  pendingweapon = viewplayer->pendingweapon;
+    const weapontype_t  readyweapon = viewplayer->readyweapon;
+    weapontype_t        i = (pendingweapon == wp_nochange ? readyweapon : pendingweapon);
 
     do
     {
@@ -235,7 +235,7 @@ void G_PrevWeapon(void)
 
         if (i == wp_fist && viewplayer->weaponowned[wp_chainsaw] && !viewplayer->powers[pw_strength])
             i = wp_bfg;
-    } while (!viewplayer->weaponowned[i] || viewplayer->ammo[weaponinfo[i].ammotype] < weaponinfo[i].minammo);
+    } while (!viewplayer->weaponowned[i] || viewplayer->ammo[weaponinfo[i].ammotype] < weaponinfo[i].ammopershot);
 
     if (i != readyweapon)
     {
@@ -258,22 +258,24 @@ void G_PrevWeapon(void)
 //
 void G_BuildTiccmd(ticcmd_t *cmd)
 {
-    dboolean    strafe;
-    int         run;
-    int         forward = 0;
-    int         side = 0;
+    bool    strafe;
+    int     run;
+    int     forward = 0;
+    int     side = 0;
 
     memset(cmd, 0, sizeof(ticcmd_t));
 
     if (automapactive && !am_followmode && viewplayer->health > 0)
         return;
 
-    strafe = (gamekeydown[keyboardstrafe] || mousebuttons[mousestrafe] || (gamepadbuttons & gamepadstrafe));
-    run = (gamekeydown[keyboardrun] ^ mousebuttons[mouserun] ^ (!!(gamepadbuttons & gamepadrun)) ^ alwaysrun);
-    usemouselook = (mouselook || gamekeydown[keyboardmouselook] || mousebuttons[mousemouselook] || (gamepadbuttons & gamepadmouselook));
+    strafe = (gamekeydown[keyboardstrafe] || mousebuttons[mousestrafe] || (gamecontrollerbuttons & gamecontrollerstrafe));
+    run = (gamekeydown[keyboardrun] ^ mousebuttons[mouserun] ^ (!!(gamecontrollerbuttons & gamecontrollerrun)) ^ alwaysrun);
+    usemouselook = (mouselook || gamekeydown[keyboardmouselook] || mousebuttons[mousemouselook]
+        || (gamecontrollerbuttons & gamecontrollermouselook));
 
     // use two stage accelerative turning on the keyboard
-    if (gamekeydown[keyboardright] || gamekeydown[keyboardleft] || (gamepadbuttons & gamepadleft) || (gamepadbuttons & gamepadright))
+    if (gamekeydown[keyboardright] || gamekeydown[keyboardleft]
+        || (gamecontrollerbuttons & gamecontrollerleft) || (gamecontrollerbuttons & gamecontrollerright))
         turnheld++;
     else
         turnheld = 0;
@@ -281,91 +283,116 @@ void G_BuildTiccmd(ticcmd_t *cmd)
     // let movement keys cancel each other out
     if (strafe)
     {
-        if (gamekeydown[keyboardright] || (gamepadbuttons & gamepadright))
+        if (gamekeydown[keyboardright] || mousebuttons[mouseright] || (gamecontrollerbuttons & gamecontrollerright))
             side += sidemove[run];
 
-        if (gamekeydown[keyboardleft] || (gamepadbuttons & gamepadleft))
+        if (gamekeydown[keyboardleft] || mousebuttons[mouseright] || (gamecontrollerbuttons & gamecontrollerleft))
             side -= sidemove[run];
     }
     else
     {
-        if (gamekeydown[keyboardright] || (gamepadbuttons & gamepadright))
-            cmd->angleturn -= angleturn[(turnheld < SLOWTURNTICS ? 2 : run)];
-        else if (gamepadthumbRX > 0)
+        if (gamekeydown[keyboardright] || mousebuttons[mouseright] || (gamecontrollerbuttons & gamecontrollerright))
         {
-            fixed_t x = gamepadthumbRX * 2;
+            cmd->angleturn -= angleturn[(turnheld < SLOWTURNTICS ? 2 : run)];
 
-            cmd->angleturn -= FixedMul(gamepadangleturn[run], (fixed_t)(gamepadhorizontalsensitivity * FixedMul(FixedMul(x, x), x)));
+            if (!menuactive)
+                spindirection = SIGN(cmd->angleturn);
+        }
+        else if (gamecontrollerthumbRX > 0)
+        {
+            fixed_t x = gamecontrollerthumbRX * 2;
+
+            cmd->angleturn -= FixedMul(gamecontrollerangleturn[run],
+                (fixed_t)(gamecontrollerhorizontalsensitivity * FixedMul(FixedMul(x, x), x)));
+
+            if (!menuactive)
+                spindirection = SIGN(cmd->angleturn);
         }
 
-        if (gamekeydown[keyboardleft] || (gamepadbuttons & gamepadleft))
+        if (gamekeydown[keyboardleft] || mousebuttons[mouseright] || (gamecontrollerbuttons & gamecontrollerleft))
             cmd->angleturn += angleturn[(turnheld < SLOWTURNTICS ? 2 : run)];
-        else if (gamepadthumbRX < 0)
+        else if (gamecontrollerthumbRX < 0)
         {
-            fixed_t x = gamepadthumbRX * 2;
+            fixed_t x = gamecontrollerthumbRX * 2;
 
-            cmd->angleturn -= FixedMul(gamepadangleturn[run], (fixed_t)(gamepadhorizontalsensitivity * FixedMul(FixedMul(x, x), x)));
+            cmd->angleturn -= FixedMul(gamecontrollerangleturn[run],
+                (fixed_t)(gamecontrollerhorizontalsensitivity * FixedMul(FixedMul(x, x), x)));
+
+            if (!menuactive)
+                spindirection = SIGN(cmd->angleturn);
         }
     }
 
-    if (gamepadthumbRY)
+    if (gamecontrollerthumbRY)
     {
-        if (usemouselook && gp_thumbsticks == 2)
+        if (usemouselook && joy_thumbsticks == 2)
         {
             if (!automapactive)
             {
-                cmd->lookdir = (int)(48 * ((float)gamepadthumbRY / SHRT_MAX) * gamepadverticalsensitivity);
+                cmd->lookdir = (int)(48 * ((float)gamecontrollerthumbRY / SHRT_MAX) * gamecontrollerverticalsensitivity);
 
-                if (!gp_invertyaxis)
+                if (!joy_invertyaxis)
                     cmd->lookdir = -cmd->lookdir;
             }
         }
-        else if (gp_thumbsticks == 1)
+        else if (joy_thumbsticks == 1)
         {
             cmd->lookdir = 0;
-            forward = (int)(forwardmove[run] * (float)gamepadthumbRY / SHRT_MAX);
+            forward = (int)(forwardmove[run] * (float)gamecontrollerthumbRY / SHRT_MAX);
         }
     }
 
-    if (gamekeydown[keyboardforward] || gamekeydown[keyboardforward2] || (gamepadbuttons & gamepadforward))
+    if (gamekeydown[keyboardforward] || gamekeydown[keyboardforward2]
+        || mousebuttons[mouseforward] || (gamecontrollerbuttons & gamecontrollerforward))
         forward += forwardmove[run];
-    else if (gamepadthumbLY < 0)
-        forward -= (int)(forwardmove[run] * (float)gamepadthumbLY / SHRT_MAX);
+    else if (gamecontrollerthumbLY < 0)
+        forward -= (int)(forwardmove[run] * (float)gamecontrollerthumbLY / SHRT_MAX);
 
-    if (gamekeydown[keyboardback] || gamekeydown[keyboardback2] || (gamepadbuttons & gamepadback))
+    if (gamekeydown[keyboardback] || gamekeydown[keyboardback2]
+        || mousebuttons[mouseback] || (gamecontrollerbuttons & gamecontrollerback))
         forward -= forwardmove[run];
-    else if (gamepadthumbLY > 0)
-        forward -= (int)(forwardmove[run] * (float)gamepadthumbLY / SHRT_MAX);
+    else if (gamecontrollerthumbLY > 0)
+        forward -= (int)(forwardmove[run] * (float)gamecontrollerthumbLY / SHRT_MAX);
 
-    if (gamekeydown[keyboardstraferight] || gamekeydown[keyboardstraferight2] || (gamepadbuttons & gamepadstraferight))
+    if (gamekeydown[keyboardstraferight] || gamekeydown[keyboardstraferight2]
+        || mousebuttons[mousestraferight] || (gamecontrollerbuttons & gamecontrollerstraferight))
         side += sidemove[run];
-    else if (gamepadthumbLX > 0)
+    else if (gamecontrollerthumbLX > 0)
     {
-        if (gp_thumbsticks == 2)
-            side += (int)(sidemove[run] * (float)gamepadthumbLX / SHRT_MAX);
+        if (joy_thumbsticks == 2)
+            side += (int)(sidemove[run] * (float)gamecontrollerthumbLX / SHRT_MAX);
         else
         {
-            fixed_t x = gamepadthumbLX * 2;
+            fixed_t x = gamecontrollerthumbLX * 2;
 
-            cmd->angleturn -= FixedMul(gamepadangleturn[run], (fixed_t)(gamepadhorizontalsensitivity * FixedMul(FixedMul(x, x), x)));
+            cmd->angleturn -= FixedMul(gamecontrollerangleturn[run],
+                (fixed_t)(gamecontrollerhorizontalsensitivity * FixedMul(FixedMul(x, x), x)));
+
+            if (!menuactive)
+                spindirection = SIGN(cmd->angleturn);
         }
     }
 
-    if (gamekeydown[keyboardstrafeleft] || gamekeydown[keyboardstrafeleft2] || (gamepadbuttons & gamepadstrafeleft))
+    if (gamekeydown[keyboardstrafeleft] || gamekeydown[keyboardstrafeleft2]
+        || mousebuttons[mousestrafeleft] || (gamecontrollerbuttons & gamecontrollerstrafeleft))
         side -= sidemove[run];
-    else if (gamepadthumbLX < 0)
+    else if (gamecontrollerthumbLX < 0)
     {
-        if (gp_thumbsticks == 2)
-            side += (int)(sidemove[run] * (float)gamepadthumbLX / SHRT_MAX);
+        if (joy_thumbsticks == 2)
+            side += (int)(sidemove[run] * (float)gamecontrollerthumbLX / SHRT_MAX);
         else
         {
-            fixed_t x = gamepadthumbLX * 2;
+            fixed_t x = gamecontrollerthumbLX * 2;
 
-            cmd->angleturn -= FixedMul(gamepadangleturn[run], (fixed_t)(gamepadhorizontalsensitivity * FixedMul(FixedMul(x, x), x)));
+            cmd->angleturn -= FixedMul(gamecontrollerangleturn[run],
+                (fixed_t)(gamecontrollerhorizontalsensitivity * FixedMul(FixedMul(x, x), x)));
+
+            if (!menuactive)
+                spindirection = SIGN(cmd->angleturn);
         }
     }
 
-    if ((gamekeydown[keyboardjump] || mousebuttons[mousejump] || (gamepadbuttons & gamepadjump)) && !nojump)
+    if ((gamekeydown[keyboardjump] || mousebuttons[mousejump] || (gamecontrollerbuttons & gamecontrollerjump)) && !nojump)
         cmd->buttons |= BT_JUMP;
 
     // buttons
@@ -373,14 +400,14 @@ void G_BuildTiccmd(ticcmd_t *cmd)
         skipaction = false;
     else if (!freeze)
     {
-        if ((mousebuttons[mousefire] || gamekeydown[keyboardfire] || (gamepadbuttons & gamepadfire)))
+        if ((mousebuttons[mousefire] || gamekeydown[keyboardfire] || (gamecontrollerbuttons & gamecontrollerfire)))
             cmd->buttons |= BT_ATTACK;
 
         if (gamekeydown[keyboarduse] || gamekeydown[keyboarduse2] || mousebuttons[mouseuse]
-            || (gamepadbuttons & (gamepaduse | gamepaduse2)))
+            || (gamecontrollerbuttons & (gamecontrolleruse | gamecontrolleruse2)))
         {
             cmd->buttons |= BT_USE;
-            dclicks = 0;                // clear double clicks if hit use button
+            dclicks = 0;
         }
     }
 
@@ -405,7 +432,7 @@ void G_BuildTiccmd(ticcmd_t *cmd)
                     break;
                 }
             }
-            else if (gamepadbuttons & *gamepadweapons[i])
+            else if (gamecontrollerbuttons & *gamecontrollerweapons[i])
             {
                 if (viewplayer->readyweapon != i || (i == wp_fist && viewplayer->weaponowned[wp_chainsaw])
                     || (i == wp_shotgun && viewplayer->weaponowned[wp_supershotgun]))
@@ -416,12 +443,9 @@ void G_BuildTiccmd(ticcmd_t *cmd)
             }
         }
 
-    if (mousebuttons[mouseforward])
-        forward += forwardmove[run];
-
     if (m_doubleclick_use)
     {
-        dboolean    bstrafe;
+        bool    bstrafe;
 
         // forward double click
         if (mousebuttons[mouseforward] != dclickstate && dclicktime > 1)
@@ -473,7 +497,12 @@ void G_BuildTiccmd(ticcmd_t *cmd)
         if (strafe)
             side += mousex * 2;
         else
+        {
             cmd->angleturn -= mousex * 0x08;
+
+            if (!menuactive)
+                spindirection = SIGN(cmd->angleturn);
+        }
 
         mousex = 0;
     }
@@ -506,9 +535,6 @@ void G_BuildTiccmd(ticcmd_t *cmd)
         sendsave = false;
         cmd->buttons = (BT_SPECIAL | BTS_SAVEGAME | (savegameslot << BTS_SAVESHIFT));
     }
-
-    if (cmd->angleturn && !menuactive)
-        spindirection = SIGN(cmd->angleturn);
 }
 
 static void G_SetInitialWeapon(void)
@@ -534,10 +560,10 @@ static void G_ResetPlayer(void)
     viewplayer->armortype = armortype_none;
     viewplayer->preferredshotgun = wp_shotgun;
     viewplayer->fistorchainsaw = wp_fist;
+    viewplayer->backpack = false;
     memset(viewplayer->weaponowned, false, sizeof(viewplayer->weaponowned));
     memset(viewplayer->ammo, 0, sizeof(viewplayer->ammo));
     G_SetInitialWeapon();
-    viewplayer->backpack = false;
 }
 
 //
@@ -578,7 +604,10 @@ void G_DoLoadLevel(void)
     viewplayer->prevmessage[0] = '\0';
     viewplayer->prevmessagetics = 0;
     viewplayer->infightcount = 0;
+    viewplayer->respawncount = 0;
     viewplayer->resurrectioncount = 0;
+    viewplayer->telefragcount = 0;
+    viewplayer->automapopened = 0;
 
     freeze = false;
 
@@ -609,6 +638,8 @@ void G_DoLoadLevel(void)
     P_MapName(ep, gamemap);
 
     P_SetupLevel(ep, gamemap);
+
+    skycolumnoffset = 0;
 
     R_InitSkyMap();
     R_InitColumnFunctions();
@@ -644,13 +675,26 @@ void G_DoLoadLevel(void)
 
 void G_ToggleAlwaysRun(evtype_t type)
 {
+    char    temp[255];
+    int     oldcaretpos = caretpos;
+    int     oldselectstart = selectstart;
+    int     oldselectend = selectend;
+
 #if defined(_WIN32)
     alwaysrun = (keyboardalwaysrun == KEY_CAPSLOCK && type == ev_keydown ? (GetKeyState(VK_CAPITAL) & 0x0001) : !alwaysrun);
 #else
     alwaysrun = !alwaysrun;
 #endif
 
-    C_StrCVAROutput(stringize(alwaysrun), (alwaysrun ? "on" : "off"));
+    M_StringCopy(temp, consoleinput, sizeof(temp));
+
+    if (!consolestrings || M_StringCompare(console[consolestrings - 1].string, "+alwaysrun"))
+        C_StrCVAROutput(stringize(alwaysrun), (alwaysrun ? "on" : "off"));
+
+    M_StringCopy(consoleinput, temp, sizeof(consoleinput));
+    caretpos = oldcaretpos;
+    selectstart = oldselectstart;
+    selectend = oldselectend;
 
     if (!consoleactive)
     {
@@ -675,7 +719,7 @@ void G_ToggleAlwaysRun(evtype_t type)
 // G_Responder
 // Get info needed to make ticcmd_ts for the players.
 //
-dboolean G_Responder(event_t *ev)
+bool G_Responder(event_t *ev)
 {
     int key;
 
@@ -696,10 +740,11 @@ dboolean G_Responder(event_t *ev)
                 && !((ev->data1 == KEY_ENTER || ev->data1 == KEY_TAB) && altdown)
                 && ev->data1 != keyboardscreenshot)
             || (ev->type == ev_mouse && mousewait < I_GetTime() && ev->data1)
-            || (ev->type == ev_gamepad
-                && gamepadwait < I_GetTime()
-                && gamepadbuttons
-                && !(gamepadbuttons & (GAMEPAD_B | GAMEPAD_DPAD_UP | GAMEPAD_DPAD_DOWN | GAMEPAD_DPAD_LEFT | GAMEPAD_DPAD_RIGHT)))))
+            || (ev->type == ev_controller
+                && gamecontrollerwait < I_GetTime()
+                && gamecontrollerbuttons
+                && !(gamecontrollerbuttons & (GAMECONTROLLER_B | GAMECONTROLLER_DPAD_UP | GAMECONTROLLER_DPAD_DOWN
+                    | GAMECONTROLLER_DPAD_LEFT | GAMECONTROLLER_DPAD_RIGHT)))))
         {
             if (ev->type == ev_keydown && ev->data1 == keyboardalwaysrun)
             {
@@ -709,9 +754,9 @@ dboolean G_Responder(event_t *ev)
             else
             {
                 keydown = ev->data1;
-                gamepadbuttons = 0;
+                gamecontrollerbuttons = 0;
                 mousewait = I_GetTime() + 5;
-                gamepadwait = mousewait + 3;
+                gamecontrollerwait = mousewait + 3;
 
                 logotic = MIN(logotic, 93);
 
@@ -742,14 +787,14 @@ dboolean G_Responder(event_t *ev)
     if (gamestate == GS_LEVEL)
     {
         if (ST_Responder(ev))
-            return true;        // status window ate it
+            return true;    // status window ate it
 
         if (AM_Responder(ev))
-            return true;        // automap ate it
+            return true;    // automap ate it
     }
 
     if (gamestate == GS_FINALE && F_Responder(ev))
-        return true;            // finale ate the event
+        return true;        // finale ate the event
 
     switch (ev->type)
     {
@@ -783,7 +828,7 @@ dboolean G_Responder(event_t *ev)
                     C_ExecuteInputString(keyactionlist[key]);
             }
 
-            return true;        // eat events
+            return true;    // eat events
 
         case ev_keyup:
             keydown = 0;
@@ -791,7 +836,7 @@ dboolean G_Responder(event_t *ev)
             if (ev->data1 < NUMKEYS)
                 gamekeydown[ev->data1] = false;
 
-            return false;       // always let key up events filter down
+            return false;   // always let key up events filter down
 
         case ev_mouse:
         {
@@ -817,7 +862,7 @@ dboolean G_Responder(event_t *ev)
                 mousey = -ev->data3 * m_sensitivity / 10;
             }
 
-            return true;        // eat events
+            return true;    // eat events
         }
 
         case ev_mousewheel:
@@ -843,47 +888,47 @@ dboolean G_Responder(event_t *ev)
                 }
             }
 
-            return true;        // eat events
+            return true;    // eat events
 
-        case ev_gamepad:
+        case ev_controller:
             if (!automapactive && !menuactive && !paused)
             {
                 static int  wait;
                 int         time = I_GetTime();
 
-                if ((gamepadbuttons & gamepadnextweapon) && wait < time && !freeze)
+                if ((gamecontrollerbuttons & gamecontrollernextweapon) && wait < time && !freeze)
                 {
                     wait = time + 7;
 
-                    if (!gamepadpress || gamepadwait < time)
+                    if (!gamecontrollerpress || gamecontrollerwait < time)
                     {
                         G_NextWeapon();
-                        gamepadpress = false;
+                        gamecontrollerpress = false;
                     }
                 }
-                else if ((gamepadbuttons & gamepadprevweapon) && wait < time && !freeze)
+                else if ((gamecontrollerbuttons & gamecontrollerprevweapon) && wait < time && !freeze)
                 {
                     wait = time + 7;
 
-                    if (!gamepadpress || gamepadwait < time)
+                    if (!gamecontrollerpress || gamecontrollerwait < time)
                     {
                         G_PrevWeapon();
-                        gamepadpress = false;
+                        gamecontrollerpress = false;
                     }
                 }
-                else if ((gamepadbuttons & gamepadalwaysrun) && wait < time)
+                else if ((gamecontrollerbuttons & gamecontrolleralwaysrun) && wait < time)
                 {
                     wait = time + 7;
 
-                    if (!gamepadpress || gamepadwait < time)
+                    if (!gamecontrollerpress || gamecontrollerwait < time)
                     {
-                        G_ToggleAlwaysRun(ev_gamepad);
-                        gamepadpress = false;
+                        G_ToggleAlwaysRun(ev_controller);
+                        gamecontrollerpress = false;
                     }
                 }
             }
 
-            return true;        // eat events
+            return true;    // eat events
 
         default:
             return false;
@@ -960,18 +1005,20 @@ void G_Ticker(void)
             case BTS_PAUSE:
                 if ((paused = !paused))
                 {
-                    S_PauseMusic();
+                    S_StopSounds();
                     S_StartSound(NULL, sfx_swtchn);
                     viewplayer->fixedcolormap = 0;
                     I_SetPalette(PLAYPAL);
                     I_UpdateBlitFunc(false);
-                    I_StopGamepadVibration();
+                    I_StopGameControllerRumble();
+                    S_LowerMusicVolume();
                 }
                 else
                 {
                     S_ResumeMusic();
                     S_StartSound(NULL, sfx_swtchx);
                     I_SetPalette(&PLAYPAL[st_palette * 768]);
+                    S_SetMusicVolume(musicVolume * MIX_MAX_VOLUME / 31);
                 }
 
                 break;
@@ -1121,7 +1168,7 @@ void G_ScreenShot(void)
         C_Warning(0, "A screenshot couldn't be taken.");
 }
 
-dboolean    newpars = false;
+bool    newpars = false;
 
 // DOOM Par Times
 int pars[6][10] =
@@ -1139,10 +1186,10 @@ int pars[6][10] =
 // DOOM II Par Times
 int cpars[33] =
 {
-     30,  90, 120, 120,  90, 150, 120, 120, 270,  90,   //  1-10
+     30,  90, 120, 120,  90, 150, 120, 120, 270,  90,   // 01-10
     210, 150, 150, 150, 210, 150, 420, 150, 210, 150,   // 11-20
     240, 150, 180, 150, 150, 300, 330, 420, 300, 180,   // 21-30
-    120,  30,   0                                       // 31-33
+    120,  30,   0                                       // 31-32
 };
 
 // [BH] No Rest For The Living Par Times
@@ -1154,7 +1201,7 @@ static const int npars[9] =
 //
 // G_DoCompleted
 //
-dboolean secretexit;
+bool    secretexit;
 
 void G_ExitLevel(void)
 {
@@ -1225,7 +1272,7 @@ static void G_DoCompleted(void)
         {
             case 8:
                 // [BH] this episode is complete, so select the next episode in the menu
-                if ((gamemode == registered && gameepisode < 3) || (gamemode == retail && gameepisode < 4 + sigil))
+                if ((gamemode == registered && gameepisode < 3) || (gamemode == retail && gameepisode < (sigil ? 5 : 4)))
                 {
                     episode++;
                     EpiDef.lastOn++;
@@ -1298,8 +1345,8 @@ static void G_DoCompleted(void)
                     break;
 
                 default:
-                   wminfo.next = gamemap;
-                   break;
+                    wminfo.next = gamemap;
+                    break;
             }
         }
     }
@@ -1354,7 +1401,8 @@ static void G_DoCompleted(void)
     stat_mapscompleted = SafeAdd(stat_mapscompleted, 1);
     M_SaveCVARs();
 
-    C_Input("exitmap");
+    if (!consolestrings || (!M_StringCompare(console[consolestrings - 1].string, "exitmap")))
+        C_Input("exitmap");
 
     WI_Start(&wminfo);
 }
@@ -1446,7 +1494,7 @@ void G_DoLoadGame(void)
     {
         menuactive = false;
         C_ShowConsole();
-        C_Warning(1, BOLD("%s") " couldn't be loaded.", savename);
+        C_Warning(0, BOLD("%s") " couldn't be loaded.", savename);
         loadaction = ga_nothing;
 
         return;
@@ -1535,7 +1583,7 @@ void G_SaveGame(int slot, char *description, char *name)
 
 static void G_DoSaveGame(void)
 {
-    char    *temp_savegame_file = P_TempSaveGameFile();
+    char    *temp_savegame_file = M_TempFile(DOOMRETRO ".save");
     char    *savegame_file = (consoleactive ? savename : P_SaveGameFile(savegameslot));
 
     // Open the savegame file for writing. We write to a temporary file
@@ -1546,7 +1594,7 @@ static void G_DoSaveGame(void)
     {
         menuactive = false;
         C_ShowConsole();
-        C_Warning(1, BOLD("%s") " couldn't be saved.", savegame_file);
+        C_Warning(0, BOLD("%s") " couldn't be saved.", savegame_file);
     }
     else
     {
@@ -1670,30 +1718,27 @@ static void G_DoNewGame(void)
 
 // killough 04/10/98: New function to fix bug which caused DOOM
 // lockups when idclev was used in conjunction with -fast.
-void G_SetFastParms(dboolean fast_pending)
+void G_SetFastParms(bool fast_pending)
 {
-    static dboolean fast = false;           // remembers fast state
+    static bool fast = false;               // remembers fast state
 
     if (fast != fast_pending)               // only change if necessary
     {
+        for (int i = 0; i < NUMMOBJTYPES; i++)
+            if (mobjinfo[i].altspeed != NO_ALTSPEED)
+                SWAP(mobjinfo[i].speed, mobjinfo[i].altspeed);
+
         if ((fast = fast_pending))
         {
-            for (int i = S_SARG_RUN1; i <= S_SARG_PAIN2; i++)
-                if (states[i].tics != 1)    // killough 04/10/98
+            for (int i = 0; i < NUMSTATES; i++)
+                if ((states[i].flags & STATEF_SKILL5FAST) && states[i].tics != 1)
                     states[i].tics >>= 1;   // don't change 1->0 since it causes cycles
-
-            mobjinfo[MT_BRUISERSHOT].speed = 20 * FRACUNIT;
-            mobjinfo[MT_HEADSHOT].speed = 20 * FRACUNIT;
-            mobjinfo[MT_TROOPSHOT].speed = 20 * FRACUNIT;
         }
         else
         {
-            for (int i = S_SARG_RUN1; i <= S_SARG_PAIN2; i++)
-                states[i].tics <<= 1;
-
-            mobjinfo[MT_BRUISERSHOT].speed = 15 * FRACUNIT;
-            mobjinfo[MT_HEADSHOT].speed = 10 * FRACUNIT;
-            mobjinfo[MT_TROOPSHOT].speed = 10 * FRACUNIT;
+            for (int i = 0; i < NUMSTATES; i++)
+                if (states[i].flags & STATEF_SKILL5FAST)
+                    states[i].tics <<= 1;
         }
     }
 }
@@ -1743,9 +1788,6 @@ void G_InitNew(skill_t skill, int ep, int map)
         }
     }
 
-    if (map > 9 && gamemode != commercial)
-        map = 9;
-
     // [BH] Fix <https://doomwiki.org/wiki/Demon_speed_bug>.
     G_SetFastParms(fastparm || skill == sk_nightmare);
 
@@ -1760,7 +1802,8 @@ void G_InitNew(skill_t skill, int ep, int map)
     gameskill = skill;
 
     if (consolestrings == 1
-        || (!M_StringStartsWith(console[consolestrings - 2].string, "map ")
+        || (!M_StringCompare(console[consolestrings - 2].string, "newgame")
+            && !M_StringStartsWith(console[consolestrings - 2].string, "map ")
             && !M_StringStartsWith(console[consolestrings - 1].string, "load ")
             && !M_StringStartsWith(console[consolestrings - 1].string, "Warping ")))
         C_Input("newgame");

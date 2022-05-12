@@ -6,8 +6,8 @@
 
 ========================================================================
 
-  Copyright © 1993-2021 by id Software LLC, a ZeniMax Media company.
-  Copyright © 2013-2021 by Brad Harding <mailto:brad@doomretro.com>.
+  Copyright © 1993-2022 by id Software LLC, a ZeniMax Media company.
+  Copyright © 2013-2022 by Brad Harding <mailto:brad@doomretro.com>.
 
   DOOM Retro is a fork of Chocolate DOOM. For a list of credits, see
   <https://github.com/bradharding/doomretro/wiki/CREDITS>.
@@ -16,7 +16,7 @@
 
   DOOM Retro is free software: you can redistribute it and/or modify it
   under the terms of the GNU General Public License as published by the
-  Free Software Foundation, either version 3 of the License, or (at your
+  Free Software Foundation, either version 3 of the license, or (at your
   option) any later version.
 
   DOOM Retro is distributed in the hope that it will be useful, but
@@ -38,12 +38,11 @@
 
 #include <string.h>
 
-#include "SDL_mixer.h"
-
 #include "c_console.h"
 #include "i_system.h"
 #include "m_config.h"
 #include "s_sound.h"
+#include "SDL_mixer.h"
 #include "version.h"
 #include "w_wad.h"
 
@@ -59,7 +58,7 @@ struct allocated_sound_s
     allocated_sound_t       *next;
 };
 
-static dboolean             sound_initialized;
+static bool                 sound_initialized;
 
 static allocated_sound_t    *channels_playing[s_channels_max];
 
@@ -107,7 +106,7 @@ static void FreeAllocatedSound(allocated_sound_t *snd)
 
 // Search from the tail backwards along the allocated sounds list, find and free a sound that is
 // not in use, to free up memory. Return true for success.
-static dboolean FindAndFreeSound(void)
+static bool FindAndFreeSound(void)
 {
     allocated_sound_t   *snd = allocated_sounds_tail;
 
@@ -272,7 +271,7 @@ static void ExpandSoundData(sfxinfo_t *sfxinfo, byte *data, int samplerate, int 
 
 // Load and convert a sound effect
 // Returns true if successful
-dboolean CacheSFX(sfxinfo_t *sfxinfo)
+bool CacheSFX(sfxinfo_t *sfxinfo)
 {
     // need to load the sound
     int     lumpnum = sfxinfo->lumpnum;
@@ -330,7 +329,7 @@ dboolean CacheSFX(sfxinfo_t *sfxinfo)
         if (length > lumplen - 8 || length <= 48)
             return false;
 
-        ExpandSoundData(sfxinfo, data + 24, (data[2] | (data[3] << 8)), 8, length - 32);
+        ExpandSoundData(sfxinfo, data + 16, (data[2] | (data[3] << 8)), 8, length - 32);
         return true;
     }
     else
@@ -393,12 +392,29 @@ void I_StopSound(int channel)
     ReleaseSoundOnChannel(channel);
 }
 
-dboolean I_SoundIsPlaying(int channel)
+void I_FadeOutSound(int channel)
+{
+    allocated_sound_t *snd = channels_playing[channel];
+
+    if (!snd)
+        return;
+
+    Mix_FadeOutChannel(channel, 500);
+
+    channels_playing[channel] = NULL;
+    UnlockAllocatedSound(snd);
+
+    // if the sound is a pitch-shift and it's not in use, immediately free it
+    if (snd->pitch != NORM_PITCH && snd->use_count <= 0)
+        FreeAllocatedSound(snd);
+}
+
+bool I_SoundIsPlaying(int channel)
 {
     return Mix_Playing(channel);
 }
 
-dboolean I_AnySoundStillPlaying(void)
+bool I_AnySoundStillPlaying(void)
 {
     return Mix_Playing(-1);
 }
@@ -413,7 +429,7 @@ void I_ShutdownSound(void)
     sound_initialized = false;
 }
 
-dboolean I_InitSound(void)
+bool I_InitSound(void)
 {
     const SDL_version   *linked = Mix_Linked_Version();
     uint16_t            mixer_format;
@@ -442,7 +458,6 @@ dboolean I_InitSound(void)
         return false;
 
     Mix_AllocateChannels(s_channels_max);
-    SDL_PauseAudio(0);
     sound_initialized = true;
 
     return true;

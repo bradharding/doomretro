@@ -6,8 +6,8 @@
 
 ========================================================================
 
-  Copyright © 1993-2021 by id Software LLC, a ZeniMax Media company.
-  Copyright © 2013-2021 by Brad Harding <mailto:brad@doomretro.com>.
+  Copyright © 1993-2022 by id Software LLC, a ZeniMax Media company.
+  Copyright © 2013-2022 by Brad Harding <mailto:brad@doomretro.com>.
 
   DOOM Retro is a fork of Chocolate DOOM. For a list of credits, see
   <https://github.com/bradharding/doomretro/wiki/CREDITS>.
@@ -16,7 +16,7 @@
 
   DOOM Retro is free software: you can redistribute it and/or modify it
   under the terms of the GNU General Public License as published by the
-  Free Software Foundation, either version 3 of the License, or (at your
+  Free Software Foundation, either version 3 of the license, or (at your
   option) any later version.
 
   DOOM Retro is distributed in the hope that it will be useful, but
@@ -36,8 +36,7 @@
 ========================================================================
 */
 
-#if !defined(__ST_STUFF_H__)
-#define __ST_STUFF_H__
+#pragma once
 
 // Palette indices.
 // For damage/bonus red-/gold-shifts
@@ -48,7 +47,6 @@
 #define RADIATIONPAL            (STARTBONUSPALS + NUMBONUSPALS)
 
 // Size of status bar.
-// Now sensitive for scaling.
 #define ST_WIDTH                SCREENWIDTH
 
 // Number of status faces.
@@ -63,6 +61,7 @@
 
 #define ST_NUMFACES             (ST_FACESTRIDE * ST_NUMPAINFACES + ST_NUMEXTRAFACES)
 
+#define ST_STRAIGHTFACE         1
 #define ST_STRAIGHTFACECOUNT    (TICRATE / 2)
 
 #define MAPCHANGETICS           TICRATE
@@ -72,13 +71,13 @@
 //
 
 // Called by main loop.
-dboolean ST_Responder(event_t *ev);
+bool ST_Responder(event_t *ev);
 
 // Called by main loop.
 void ST_Ticker(void);
 
 // Called by main loop.
-void ST_Drawer(dboolean fullscreen, dboolean refresh);
+void ST_Drawer(bool fullscreen, bool refresh);
 
 // Called when the console player is spawned on each level.
 void ST_Start(void);
@@ -86,20 +85,21 @@ void ST_Start(void);
 // Called by startup code.
 void ST_Init(void);
 
-extern dboolean idclev;
+extern bool     idclev;
 extern int      idclevtics;
-extern dboolean idmus;
+extern bool     idmus;
 extern int      st_palette;
-extern dboolean oldweaponsowned[NUMWEAPONS];
+extern bool     oldweaponsowned[NUMWEAPONS];
 extern patch_t  *tallnum[10];
 extern patch_t  *tallpercent;
 extern short    tallpercentwidth;
-extern dboolean emptytallpercent;
+extern bool     emptytallpercent;
 extern int      caretcolor;
 extern patch_t  *faces[ST_NUMFACES];
 extern int      st_faceindex;
+extern int      oldhealth;
 
-extern patch_t  *grnrock;
+extern byte     *grnrock;
 extern patch_t  *brdr_t;
 extern patch_t  *brdr_b;
 extern patch_t  *brdr_l;
@@ -109,6 +109,4 @@ extern patch_t  *brdr_tr;
 extern patch_t  *brdr_bl;
 extern patch_t  *brdr_br;
 
-extern dboolean st_drawbrdr;
-
-#endif
+extern bool     st_drawbrdr;

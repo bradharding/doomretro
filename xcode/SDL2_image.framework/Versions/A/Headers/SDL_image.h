@@ -1,6 +1,6 @@
 /*
   SDL_image:  An example image loading library for use with SDL
-  Copyright (C) 1997-2017 Sam Lantinga <slouken@libsdl.org>
+  Copyright (C) 1997-2019 Sam Lantinga <slouken@libsdl.org>
 
   This software is provided 'as-is', without any express or implied
   warranty.  In no event will the authors be held liable for any damages
@@ -24,9 +24,9 @@
 #ifndef SDL_IMAGE_H_
 #define SDL_IMAGE_H_
 
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_version.h>
-#include <SDL2/begin_code.h>
+#include "SDL.h"
+#include "SDL_version.h"
+#include "begin_code.h"
 
 /* Set up for C function definitions, even when using C++ */
 #ifdef __cplusplus
@@ -37,7 +37,7 @@ extern "C" {
 */
 #define SDL_IMAGE_MAJOR_VERSION 2
 #define SDL_IMAGE_MINOR_VERSION 0
-#define SDL_IMAGE_PATCHLEVEL    2
+#define SDL_IMAGE_PATCHLEVEL    5
 
 /* This macro can be used to fill a version structure with the compile-time
  * version of the SDL_image library.
@@ -156,6 +156,6 @@ extern DECLSPEC int SDLCALL IMG_SaveJPG_RW(SDL_Surface *surface, SDL_RWops *dst,
 #ifdef __cplusplus
 }
 #endif
-#include <SDL2/close_code.h>
+#include "close_code.h"
 
 #endif /* SDL_IMAGE_H_ */

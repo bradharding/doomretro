@@ -6,8 +6,8 @@
 
 ========================================================================
 
-  Copyright © 1993-2021 by id Software LLC, a ZeniMax Media company.
-  Copyright © 2013-2021 by Brad Harding <mailto:brad@doomretro.com>.
+  Copyright © 1993-2022 by id Software LLC, a ZeniMax Media company.
+  Copyright © 2013-2022 by Brad Harding <mailto:brad@doomretro.com>.
 
   DOOM Retro is a fork of Chocolate DOOM. For a list of credits, see
   <https://github.com/bradharding/doomretro/wiki/CREDITS>.
@@ -16,7 +16,7 @@
 
   DOOM Retro is free software: you can redistribute it and/or modify it
   under the terms of the GNU General Public License as published by the
-  Free Software Foundation, either version 3 of the License, or (at your
+  Free Software Foundation, either version 3 of the license, or (at your
   option) any later version.
 
   DOOM Retro is distributed in the hope that it will be useful, but
@@ -66,15 +66,15 @@ static los_t    los;            // cph - made static
 static int P_DivlineSide(fixed_t x, fixed_t y, const divline_t *node)
 {
     if (!node->dx)
-        return (x == node->x ? 2 : (x <= node->x ? node->dy > 0 : node->dy < 0));
+        return (x == node->x ? 2 : (x < node->x ? (node->dy > 0) : (node->dy < 0)));
     else if (!node->dy)
-        return (y == node->y ? 2 : (y <= node->y ? node->dx < 0 : node->dx > 0));
+        return (y == node->y ? 2 : (y < node->y ? (node->dx < 0) : (node->dx > 0)));
     else
     {
         fixed_t left = (node->dy >> FRACBITS) * ((x - node->x) >> FRACBITS);
         fixed_t right = ((y - node->y) >> FRACBITS) * (node->dx >> FRACBITS);
 
-        return (right < left ? 0 : (left == right ? 2 : 1));
+        return (left == right ? 2 : (left < right));
     }
 }
 
@@ -82,7 +82,7 @@ static int P_DivlineSide(fixed_t x, fixed_t y, const divline_t *node)
 // P_CrossSubsector
 // Returns true if strace crosses the given subsector successfully.
 //
-static dboolean P_CrossSubsector(int num)
+static bool P_CrossSubsector(int num)
 {
     subsector_t *sub = subsectors + num;
     seg_t       *seg = segs + sub->firstline;
@@ -182,7 +182,7 @@ static dboolean P_CrossSubsector(int num)
 // P_CrossBSPNode
 // Returns true if strace crosses the given node successfully.
 //
-static dboolean P_CrossBSPNode(int bspnum)
+static bool P_CrossBSPNode(int bspnum)
 {
     while (!(bspnum & NF_SUBSECTOR))
     {
@@ -205,7 +205,7 @@ static dboolean P_CrossBSPNode(int bspnum)
 // P_CheckSight
 // Returns true if a straight line between t1 and t2 is unobstructed. Uses REJECT.
 //
-dboolean P_CheckSight(mobj_t *t1, mobj_t *t2)
+bool P_CheckSight(mobj_t *t1, mobj_t *t2)
 {
     const sector_t  *s1 = t1->subsector->sector;
     const sector_t  *s2 = t2->subsector->sector;
@@ -274,4 +274,21 @@ dboolean P_CheckSight(mobj_t *t1, mobj_t *t2)
 
     // the head node is the last node output
     return P_CrossBSPNode(numnodes - 1);
+}
+
+//
+// MBF21: P_CheckFOV
+// Returns true if t2 is within t1's field of view.
+// Not directly related to P_CheckSight, but often
+// used in tandem.
+//
+// Adapted from Eternity, so big thanks to Quasar
+//
+bool P_CheckFOV(mobj_t *t1, mobj_t *t2, angle_t fov)
+{
+    angle_t angle = R_PointToAngle2(t1->x, t1->y, t2->x, t2->y);
+    angle_t minang = t1->angle - fov / 2;
+    angle_t maxang = t1->angle + fov / 2;
+
+    return (minang > maxang ? (angle >= minang || angle <= maxang) : (angle >= minang && angle <= maxang));
 }

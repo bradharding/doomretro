@@ -6,8 +6,8 @@
 
 ========================================================================
 
-  Copyright © 1993-2021 by id Software LLC, a ZeniMax Media company.
-  Copyright © 2013-2021 by Brad Harding <mailto:brad@doomretro.com>.
+  Copyright © 1993-2022 by id Software LLC, a ZeniMax Media company.
+  Copyright © 2013-2022 by Brad Harding <mailto:brad@doomretro.com>.
 
   DOOM Retro is a fork of Chocolate DOOM. For a list of credits, see
   <https://github.com/bradharding/doomretro/wiki/CREDITS>.
@@ -16,7 +16,7 @@
 
   DOOM Retro is free software: you can redistribute it and/or modify it
   under the terms of the GNU General Public License as published by the
-  Free Software Foundation, either version 3 of the License, or (at your
+  Free Software Foundation, either version 3 of the license, or (at your
   option) any later version.
 
   DOOM Retro is distributed in the hope that it will be useful, but
@@ -36,8 +36,7 @@
 ========================================================================
 */
 
-#if !defined(__D_PLAYER_H__)
-#define __D_PLAYER_H__
+#pragma once
 
 // The player data structure depends on a number
 // of other structs: items (internal inventory),
@@ -142,7 +141,7 @@ typedef struct player_s
     int             cards[NUMCARDS];
     int             neededcard;
     int             neededcardflash;
-    dboolean        backpack;
+    bool            backpack;
 
     weapontype_t    readyweapon;
 
@@ -154,8 +153,8 @@ typedef struct player_s
     int             maxammo[NUMAMMO];
 
     // True if button down last tic.
-    dboolean        attackdown;
-    dboolean        usedown;
+    bool            attackdown;
+    bool            usedown;
 
     // Bit flags, for cheats and debug.
     // See cheat_t, above.
@@ -192,12 +191,12 @@ typedef struct player_s
     pspdef_t        psprites[NUMPSPRITES];
 
     // True if secret level has been done.
-    dboolean        didsecret;
+    bool            didsecret;
 
     weapontype_t    preferredshotgun;
     weapontype_t    fistorchainsaw;
-    dboolean        invulnbeforechoppers;
-    dboolean        chainsawbeforechoppers;
+    bool            invulnbeforechoppers;
+    bool            chainsawbeforechoppers;
     weapontype_t    weaponbeforechoppers;
 
     // [AM] Previous position of viewz before think.
@@ -233,7 +232,10 @@ typedef struct player_s
     int             itemspickedup_armor;
     int             itemspickedup_health;
     int             infightcount;
+    int             respawncount;
     int             resurrectioncount;
+    int             telefragcount;
+    int             automapopened;
 } player_t;
 
 //
@@ -245,7 +247,7 @@ typedef struct
     int             epsd;           // episode # (0-2)
 
     // if true, splash the secret level
-    dboolean        didsecret;
+    bool            didsecret;
 
     // previous and next levels, origin 0
     int             last;
@@ -263,5 +265,3 @@ typedef struct
     int             ssecret;
     int             stime;
 } wbstartstruct_t;
-
-#endif

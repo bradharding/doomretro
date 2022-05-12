@@ -6,8 +6,8 @@
 
 ========================================================================
 
-  Copyright © 1993-2021 by id Software LLC, a ZeniMax Media company.
-  Copyright © 2013-2021 by Brad Harding <mailto:brad@doomretro.com>.
+  Copyright © 1993-2022 by id Software LLC, a ZeniMax Media company.
+  Copyright © 2013-2022 by Brad Harding <mailto:brad@doomretro.com>.
 
   DOOM Retro is a fork of Chocolate DOOM. For a list of credits, see
   <https://github.com/bradharding/doomretro/wiki/CREDITS>.
@@ -16,7 +16,7 @@
 
   DOOM Retro is free software: you can redistribute it and/or modify it
   under the terms of the GNU General Public License as published by the
-  Free Software Foundation, either version 3 of the License, or (at your
+  Free Software Foundation, either version 3 of the license, or (at your
   option) any later version.
 
   DOOM Retro is distributed in the hope that it will be useful, but
@@ -50,11 +50,11 @@
 #include "w_wad.h"
 
 // killough 02/08/98: Remove switch limit
-static int          *switchlist;        // killough
-static int          numswitches;        // killough
+static int  *switchlist;    // killough
+static int  numswitches;    // killough
 
-button_t            *buttonlist = NULL;
-int                 maxbuttons = MAXBUTTONS;
+button_t    *buttonlist = NULL;
+int         maxbuttons = MAXBUTTONS;
 
 //
 // P_InitSwitchList
@@ -64,7 +64,7 @@ int                 maxbuttons = MAXBUTTONS;
 // when activated, and in the case of buttons, change back after a timeout.
 //
 // This routine modified to read its data from a predefined lump or
-// PWAD lump called SWITCHES rather than a static table in this module to
+// PWAD lump called SWITCHES rather than a static table in this file to
 // allow WAD designers to insert or modify switches.
 //
 // Lump format is an array of byte packed switchlist_t structures, terminated
@@ -80,7 +80,7 @@ void P_InitSwitchList(void)
     int             index = 0;
     int             episode = (gamemode == registered || gamemode == retail ? 2 : (gamemode == commercial ? 3 : 1));
     switchlist_t    *alphSwitchList;                        // jff 3/23/98 pointer to switch table
-    int             lump = W_GetNumForName("SWITCHES");     // cph - new WAD lump handling
+    const int       lump = W_GetNumForName("SWITCHES");     // cph - new WAD lump handling
 
     // jff 3/23/98 read the switch table from a predefined lump
     alphSwitchList = (switchlist_t *)W_CacheLumpNum(lump);
@@ -168,12 +168,12 @@ void P_StartButton(line_t *line, bwhere_e where, int texture, int time)
 // Function that changes wall texture.
 // Tell it if switch is ok to use again (true=yes, it's a button).
 //
-void P_ChangeSwitchTexture(line_t *line, dboolean useagain)
+void P_ChangeSwitchTexture(line_t *line, bool useagain)
 {
-    int     sidenum = line->sidenum[0];
-    short   *toptexture = &sides[sidenum].toptexture;
-    short   *midtexture = &sides[sidenum].midtexture;
-    short   *bottomtexture = &sides[sidenum].bottomtexture;
+    const int   sidenum = line->sidenum[0];
+    short       *toptexture = &sides[sidenum].toptexture;
+    short       *midtexture = &sides[sidenum].midtexture;
+    short       *bottomtexture = &sides[sidenum].bottomtexture;
 
     if (!useagain)
         line->special = 0;
@@ -216,7 +216,7 @@ void P_ChangeSwitchTexture(line_t *line, dboolean useagain)
 // Called when a thing uses a special line.
 // Only the front sides of lines are usable.
 //
-dboolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
+bool P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
 {
     int special;
 
@@ -228,7 +228,7 @@ dboolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
     {
         // pointer to line function is NULL by default, set non-null if
         // line special is push or switch generalized linedef type
-        dboolean (*linefunc)(line_t *line) = NULL;
+        bool (*linefunc)(line_t *line) = NULL;
 
         // check each range of generalized linedefs
         if (special >= GenFloorBase)

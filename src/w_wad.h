@@ -6,8 +6,8 @@
 
 ========================================================================
 
-  Copyright © 1993-2021 by id Software LLC, a ZeniMax Media company.
-  Copyright © 2013-2021 by Brad Harding <mailto:brad@doomretro.com>.
+  Copyright © 1993-2022 by id Software LLC, a ZeniMax Media company.
+  Copyright © 2013-2022 by Brad Harding <mailto:brad@doomretro.com>.
 
   DOOM Retro is a fork of Chocolate DOOM. For a list of credits, see
   <https://github.com/bradharding/doomretro/wiki/CREDITS>.
@@ -16,7 +16,7 @@
 
   DOOM Retro is free software: you can redistribute it and/or modify it
   under the terms of the GNU General Public License as published by the
-  Free Software Foundation, either version 3 of the License, or (at your
+  Free Software Foundation, either version 3 of the license, or (at your
   option) any later version.
 
   DOOM Retro is distributed in the hope that it will be useful, but
@@ -36,8 +36,7 @@
 ========================================================================
 */
 
-#if !defined(__W_WAD_H__)
-#define __W_WAD_H__
+#pragma once
 
 #include "w_file.h"
 
@@ -72,15 +71,15 @@ struct lumpinfo_s
 extern lumpinfo_t   **lumpinfo;
 extern int          numlumps;
 
-dboolean IsUltimateDOOM(const char *iwadname);
+bool IsUltimateDOOM(const char *iwadname);
 
 char *GetCorrectCase(char *path);
 
 #if defined(_WIN32)
-char *W_NearestFilename(char *path, char *string);
+char *W_GuessFilename(char *path, char *string);
 #endif
 
-dboolean W_AddFile(char *filename, dboolean automatic);
+bool W_AddFile(char *filename, bool automatic);
 int W_WadType(char *filename);
 
 int W_CheckNumForName(const char *name);
@@ -111,6 +110,4 @@ void W_ReleaseLumpNum(int lumpnum);
 void W_CloseFiles(void);
 
 GameMission_t IWADRequiredByPWAD(char *pwadname);
-dboolean HasDehackedLump(const char *pwadname);
-
-#endif
+bool HasDehackedLump(const char *pwadname);

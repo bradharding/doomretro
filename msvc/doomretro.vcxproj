@@ -100,16 +100,9 @@
     <ExecutablePath>$(ExecutablePath);$(MSBuildFrameworkToolsPath32);</ExecutablePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <Midl>
-      <HeaderFileName>..\midiproc\midiproc.h</HeaderFileName>
-      <OutputDirectory>..\</OutputDirectory>
-      <GenerateStublessProxies>true</GenerateStublessProxies>
-      <ApplicationConfigurationMode>true</ApplicationConfigurationMode>
-      <StructMemberAlignment>8</StructMemberAlignment>
-    </Midl>
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\src;$(ProjectDir)..\SDL2-2.0.16\include;$(ProjectDir)..\sdl2_mixer-2.0.4\include;$(ProjectDir)..\SDL2_image-2.0.5\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\src;$(ProjectDir)..\SDL2-2.0.22\include;$(ProjectDir)..\sdl2_mixer-2.0.4\include;$(ProjectDir)..\SDL2_image-2.0.5\include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -126,7 +119,7 @@
       <BrowseInformation>true</BrowseInformation>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>SDL2.lib;SDL2_mixer.lib;SDL2_image.lib;SDL2main.lib;rpcrt4.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2_mixer.lib;SDL2_image.lib;SDL2main.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)doomretro.exe</OutputFile>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
@@ -134,7 +127,7 @@
       </DataExecutionPrevention>
       <TargetMachine>MachineX86</TargetMachine>
       <GenerateMapFile>false</GenerateMapFile>
-      <AdditionalLibraryDirectories>$(ProjectDir)..\SDL2-2.0.16\lib\x86;$(ProjectDir)..\sdl2_mixer-2.0.4\lib\x86;$(ProjectDir)..\SDL2_image-2.0.5\lib\x86</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ProjectDir)..\SDL2-2.0.22\lib\x86;$(ProjectDir)..\sdl2_mixer-2.0.4\lib\x86;$(ProjectDir)..\SDL2_image-2.0.5\lib\x86</AdditionalLibraryDirectories>
     </Link>
     <ResourceCompile>
       <SuppressStartupBanner>false</SuppressStartupBanner>
@@ -148,16 +141,9 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <Midl>
-      <HeaderFileName>..\midiproc\midiproc.h</HeaderFileName>
-      <OutputDirectory>..\</OutputDirectory>
-      <GenerateStublessProxies>true</GenerateStublessProxies>
-      <ApplicationConfigurationMode>true</ApplicationConfigurationMode>
-      <StructMemberAlignment>8</StructMemberAlignment>
-    </Midl>
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\src;$(ProjectDir)..\SDL2-2.0.16\include;$(ProjectDir)..\sdl2_mixer-2.0.4\include;$(ProjectDir)..\SDL2_image-2.0.5\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\src;$(ProjectDir)..\SDL2-2.0.22\include;$(ProjectDir)..\sdl2_mixer-2.0.4\include;$(ProjectDir)..\SDL2_image-2.0.5\include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -174,14 +160,14 @@
       <BrowseInformation>true</BrowseInformation>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>SDL2.lib;SDL2_mixer.lib;SDL2_image.lib;SDL2main.lib;rpcrt4.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2_mixer.lib;SDL2_image.lib;SDL2main.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)doomretro.exe</OutputFile>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <DataExecutionPrevention>
       </DataExecutionPrevention>
       <GenerateMapFile>false</GenerateMapFile>
-      <AdditionalLibraryDirectories>$(ProjectDir)..\SDL2-2.0.16\lib\x64;$(ProjectDir)..\sdl2_mixer-2.0.4\lib\x64;$(ProjectDir)..\SDL2_image-2.0.5\lib\x64</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ProjectDir)..\SDL2-2.0.22\lib\x64;$(ProjectDir)..\sdl2_mixer-2.0.4\lib\x64;$(ProjectDir)..\SDL2_image-2.0.5\lib\x64</AdditionalLibraryDirectories>
     </Link>
     <ResourceCompile>
       <SuppressStartupBanner>false</SuppressStartupBanner>
@@ -195,17 +181,10 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <Midl>
-      <HeaderFileName>..\midiproc\midiproc.h</HeaderFileName>
-      <OutputDirectory>..\</OutputDirectory>
-      <GenerateStublessProxies>true</GenerateStublessProxies>
-      <ApplicationConfigurationMode>true</ApplicationConfigurationMode>
-      <StructMemberAlignment>8</StructMemberAlignment>
-    </Midl>
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\src;$(ProjectDir)..\SDL2-2.0.16\include;$(ProjectDir)..\sdl2_mixer-2.0.4\include;$(ProjectDir)..\SDL2_image-2.0.5\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\src;$(ProjectDir)..\SDL2-2.0.22\include;$(ProjectDir)..\sdl2_mixer-2.0.4\include;$(ProjectDir)..\SDL2_image-2.0.5\include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_VCLIBS_VERSION=1;_MSC_PLATFORM_TOOLSET=$(PlatformToolsetVersion);WIN32_LEAN_AND_MEAN;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -234,7 +213,7 @@
       <EnableFiberSafeOptimizations>true</EnableFiberSafeOptimizations>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>SDL2.lib;SDL2_mixer.lib;SDL2_image.lib;SDL2main.lib;rpcrt4.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2_mixer.lib;SDL2_image.lib;SDL2main.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)doomretro.exe</OutputFile>
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
@@ -255,7 +234,7 @@
       <EnableUAC>false</EnableUAC>
       <GenerateMapFile>true</GenerateMapFile>
       <MapExports>false</MapExports>
-      <AdditionalLibraryDirectories>$(ProjectDir)..\SDL2-2.0.16\lib\x86;$(ProjectDir)..\sdl2_mixer-2.0.4\lib\x86;$(ProjectDir)..\SDL2_image-2.0.5\lib\x86</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ProjectDir)..\SDL2-2.0.22\lib\x86;$(ProjectDir)..\sdl2_mixer-2.0.4\lib\x86;$(ProjectDir)..\SDL2_image-2.0.5\lib\x86</AdditionalLibraryDirectories>
     </Link>
     <Manifest>
       <AdditionalManifestFiles>..\src\doomretro.manifest</AdditionalManifestFiles>
@@ -269,17 +248,10 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <Midl>
-      <HeaderFileName>..\midiproc\midiproc.h</HeaderFileName>
-      <OutputDirectory>..\</OutputDirectory>
-      <GenerateStublessProxies>true</GenerateStublessProxies>
-      <ApplicationConfigurationMode>true</ApplicationConfigurationMode>
-      <StructMemberAlignment>8</StructMemberAlignment>
-    </Midl>
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\src;$(ProjectDir)..\SDL2-2.0.16\include;$(ProjectDir)..\sdl2_mixer-2.0.4\include;$(ProjectDir)..\SDL2_image-2.0.5\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\src;$(ProjectDir)..\SDL2-2.0.22\include;$(ProjectDir)..\sdl2_mixer-2.0.4\include;$(ProjectDir)..\SDL2_image-2.0.5\include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_VCLIBS_VERSION=1;_MSC_PLATFORM_TOOLSET=$(PlatformToolsetVersion);WIN32_LEAN_AND_MEAN;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -308,7 +280,7 @@
       <EnableFiberSafeOptimizations>true</EnableFiberSafeOptimizations>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>SDL2.lib;SDL2_mixer.lib;SDL2_image.lib;SDL2main.lib;rpcrt4.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2_mixer.lib;SDL2_image.lib;SDL2main.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)doomretro.exe</OutputFile>
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
@@ -328,7 +300,7 @@
       <EnableUAC>false</EnableUAC>
       <GenerateMapFile>true</GenerateMapFile>
       <MapExports>false</MapExports>
-      <AdditionalLibraryDirectories>$(ProjectDir)..\SDL2-2.0.16\lib\x64;$(ProjectDir)..\sdl2_mixer-2.0.4\lib\x64;$(ProjectDir)..\SDL2_image-2.0.5\lib\x64</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ProjectDir)..\SDL2-2.0.22\lib\x64;$(ProjectDir)..\sdl2_mixer-2.0.4\lib\x64;$(ProjectDir)..\SDL2_image-2.0.5\lib\x64</AdditionalLibraryDirectories>
     </Link>
     <Manifest>
       <AdditionalManifestFiles>..\src\doomretro.manifest</AdditionalManifestFiles>
@@ -367,13 +339,15 @@
     <ClInclude Include="..\src\hu_lib.h" />
     <ClInclude Include="..\src\hu_stuff.h" />
     <ClInclude Include="..\src\i_colors.h" />
-    <ClInclude Include="..\src\i_gamepad.h" />
-    <ClInclude Include="..\src\i_midirpc.h" />
+    <ClInclude Include="..\src\i_gamecontroller.h" />
     <ClInclude Include="..\src\i_swap.h" />
     <ClInclude Include="..\src\i_system.h" />
     <ClInclude Include="..\src\i_timer.h" />
     <ClInclude Include="..\src\i_video.h" />
     <ClInclude Include="..\src\info.h" />
+    <ClInclude Include="..\src\i_winmusic.h" />
+    <ClInclude Include="..\src\memio.h" />
+    <ClInclude Include="..\src\midifile.h" />
     <ClInclude Include="..\src\m_argv.h" />
     <ClInclude Include="..\src\m_bbox.h" />
     <ClInclude Include="..\src\m_cheat.h" />
@@ -383,7 +357,7 @@
     <ClInclude Include="..\src\m_menu.h" />
     <ClInclude Include="..\src\m_misc.h" />
     <ClInclude Include="..\src\m_random.h" />
-    <ClInclude Include="..\src\mmus2mid.h" />
+    <ClInclude Include="..\src\mus2mid.h" />
     <ClInclude Include="..\src\p_fix.h" />
     <ClInclude Include="..\src\p_inter.h" />
     <ClInclude Include="..\src\p_local.h" />
@@ -423,7 +397,6 @@
     <ClInclude Include="..\src\z_zone.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\midiproc\midiproc_c.c" />
     <ClCompile Include="..\src\am_map.c" />
     <ClCompile Include="..\src\c_autocomplete.c" />
     <ClCompile Include="..\src\c_cmds.c" />
@@ -442,14 +415,16 @@
     <ClCompile Include="..\src\hu_lib.c" />
     <ClCompile Include="..\src\hu_stuff.c" />
     <ClCompile Include="..\src\i_colors.c" />
-    <ClCompile Include="..\src\i_gamepad.c" />
-    <ClCompile Include="..\src\i_midirpc.c" />
+    <ClCompile Include="..\src\i_gamecontroller.c" />
     <ClCompile Include="..\src\i_music.c" />
     <ClCompile Include="..\src\i_sound.c" />
     <ClCompile Include="..\src\i_system.c" />
     <ClCompile Include="..\src\i_timer.c" />
     <ClCompile Include="..\src\i_video.c" />
     <ClCompile Include="..\src\info.c" />
+    <ClCompile Include="..\src\i_winmusic.c" />
+    <ClCompile Include="..\src\memio.c" />
+    <ClCompile Include="..\src\midifile.c" />
     <ClCompile Include="..\src\m_argv.c" />
     <ClCompile Include="..\src\m_bbox.c" />
     <ClCompile Include="..\src\m_cheat.c" />
@@ -458,7 +433,7 @@
     <ClCompile Include="..\src\m_menu.c" />
     <ClCompile Include="..\src\m_misc.c" />
     <ClCompile Include="..\src\m_random.c" />
-    <ClCompile Include="..\src\mmus2mid.c" />
+    <ClCompile Include="..\src\mus2mid.c" />
     <ClCompile Include="..\src\p_ceilng.c" />
     <ClCompile Include="..\src\p_doors.c" />
     <ClCompile Include="..\src\p_enemy.c" />
@@ -509,9 +484,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\.gitattributes" />
+    <None Include="..\.github\FUNDING.yml" />
+    <None Include="..\.github\workflows\build.yml" />
     <None Include="..\.gitignore" />
     <None Include="..\.tokeignore" />
     <None Include="..\CODEOWNERS" />
+    <None Include="..\CODE_OF_CONDUCT.md" />
     <None Include="..\LICENSE" />
     <None Include="..\README.md" />
     <None Include="..\releasenotes.md" />
@@ -522,7 +500,9 @@
     <None Include="..\res\VANILLA" />
     <None Include="..\src\doomretro.manifest" />
     <None Include="..\src\Makefile" />
+    <None Include="..\src\Makefile.mingw" />
     <None Include="..\src\Makefile.osx" />
+    <None Include="..\xcode\doomretroapp\Info.plist" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\CMakeLists.txt" />

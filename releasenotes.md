@@ -1,22 +1,307 @@
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/releasenotes.png)
 
-#### DOOM Retro v4.3.1
+#### DOOM Retro v4.5
 
-* *DOOM Retro* is now compiled using [*Microsoft Visual Studio Community 2022*](https://www.visualstudio.com/vs/).
+* *DOOM Retro* is now compiled using v17.2.0 of [*Microsoft Visual Studio Community 2022*](https://www.visualstudio.com/vs/).
+* *DOOM Retro* now uses [*SDL v2.0.22*](https://www.libsdl.org).
+* Extensive optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
+* Moving the mouse to turn the player is now even smoother.
+* Several changes have been made to text that is output to the console.
+* Minor improvements have been made to the console’s autocomplete feature.
+* The following changes have been made to the external automap:
+  * The display used to show the external automap can now be specified using the new `am_display` CVAR, which is `2` by default.
+  * Zooming in and out of the external automap is now only possible if the `+zoomin` and `+zoomout` actions are rebound from the <kbd><b>+</b></kbd> and <kbd><b>&ndash;</b></kbd> keys.
+* The player’s stats shown in the automap when the `am_playerstats` CVAR is `on` are now positioned correctly if there are no monsters in the map.
+* Text displayed in the top right of the screen while the automap is open is now slightly more translucent.
+* The colors of keycards and skull keys in the automap when the `IDDT` cheat is used can now be changed using the new `am_redkeycolor`, `am_yellowkeycolor` and `am_bluekeycolor` CVARs. These CVARs are all `112` by default (the same as the `am_thingcolor` CVAR) and when vanilla mode is enabled.
+* When a pain elemental spawns a lost soul, the number of monsters the player has left to kill now increases as intended.
+* The `am_followmode` CVAR no longer changes when enabling vanilla mode using the `vanilla` CCMD.
+* Changing the `r_fov` CVAR from its default of `90`° is now effective again when the `vid_widescreen` CVAR is `off`.
+* The effects of changing the `r_corpses_mirrored` and `r_mirroredweapons` CVARs in the console are now immediate.
+* The following changes have been made when the player enters a cheat:
+  * The display of the cheat in the console is now redacted.
+  * The cheat is now skipped in the console’s input history when pressing the <kbd><b>&uarr;</b></kbd> or <kbd><b>&darr;</b></kbd> keys.
+  * A warning is now displayed in the console indicating that the player has cheated.
+  * Fade effects are no longer applied when entering most cheats and the `fade` CVAR is `on`.
+  * More time has been given to the player to enter the `IDBEHOLDx` cheat.
+* The pausing and then resuming of any liquid sectors in view when opening and then closing the console is now smoother.
+* Improvements have been made in determining whether something is in liquid or not.
+* Dithering is no longer applied to fade transitions if both the `fade` and `r_ditheredlighting` CVARs are `on`.
+* The branding in the console is now positioned correctly again when the `vid_widescreen` CVAR is `on`.
+* The swirl of liquid sectors when the `r_liquid_swirl` CVAR is `on` has been slowed down slightly to better sync with their bob when the `r_liquid_bob` CVAR is also `on`.
+* The player’s currently equipped weapon can now be changed using the new `weapon` CVAR. It can be `fists`, `chainsaw`, `pistol`, `shotgun`, `supershotgun`, `chaingun`, `rocketlauncher`, `plasmarifle` or `bfg9000`.
+* The bobbing of power-ups when the `r_floatbob` CVAR is `on` is no longer affected if the ceiling above them is too low.
+* The following changes have been made to blood splats:
+  * Extensive optimizations have been made to the rendering of blood splats.
+  * The amount of blood splats rendered no longer depends on their distance from the player.
+  * Blood splats now retain their random shades of color if the `r_blood` CVAR is changed in the console.
+  * The translucency of blood splats when the `r_textures` CVAR is `off` now depends on the `r_bloodsplats_translucency` CVAR rather than the `r_translucency` CVAR.
+  * Blood splats are now left on the floor as intended if blood falls on a moving sector.
+* Centered messages are now spaced better vertically.
+* The player’s face in the status bar and widescreen HUD now always looks forward while the console is open.
+* Displaying the player’s health as less than `0%` when they die can now be toggled using the new `negativehealth` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
+* When the player tries to open a locked door that they don’t have the keycard or skull key for, that key now flashes in the status bar as it already does in the widescreen HUD. This feature can also now be disabled using the new `flashkeys` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
+* A timer set using the `timer` CCMD can now be turned off by using `off` as a parameter.
+* Minor improvements have been made to how *MBF*-compatible helper dogs are displayed.
+* The following improvements have been made to the support of [*MBF21*](https://doomwiki.org/wiki/MBF21)-compatible WADs:
+  * The `DMGIGNORED` and `FULLVOLSOUNDS` flags now work correctly.
+  * The `JumpIfFlagsSet`, `AddFlags` and `RemoveFlags` code pointers now work correctly.
+  * The player can now walk over certain linedefs in E2M7 again.
+* The “automap opened” stat shown by the `playerstats` CCMD is now reset at the start of each map as intended.
+* The `playerstats` CCMD now displays how many monsters have been telefragged and also how many have respawned.
+* Obituaries are now displayed in the console whenever the player or a monster is telefragged and the `con_obituaries` CVAR is `on`.
+* The `map` CCMD can now be used to warp the player to maps up to <code>E9M99</code> and <code>MAP99</code>.
+* The `mapstats` CCMD now displays how many linedefs have line specials in the current map.
+* Commander Keens are no longer spawned at the start of a map when the `nomonsters` CCMD has been entered in the console, or the `-nomonsters` parameter has been specified on the command-line.
+* The following changes have been made to the support of `MAPINFO` lumps:
+  * `compat_light` can now be used so when a light level changes to the highest light level found in neighboring sectors, the search is made only for the first tagged sector, like in *Vanilla DOOM*.
+  * `nograduallighting` can now be used to disable the effects of the `r_graduallighting` CVAR.
+  * `compat_vileghosts` can now be used instead of `compat_coprsegibs`.
+* A bug is fixed whereby the bounding box of monsters changed in a `DEHACKED` lump would be incorrect in some instances.
+* Flying monsters now spawn at the correct height when using the `spawn` CCMD.
+* Sliding corpses can now cause other corpses to slide when the `r_corpses_nudge` CVAR is `on`.
+* Minor improvements have been made to the sliding of decorative corpses and barrels that are too close to an edge.
+* Now only the alert and death sounds of cyberdemons and spider masterminds are at full volume.
+* Savegame descriptions in the console and player messages are no longer truncated when loading or saving a game.
+* Further improvements have been made to the support of [*Freedoom: Phase 1*](https://freedoom.github.io/) and [*Freedoom: Phase 2*](https://freedoom.github.io/).
+* The window will now be positioned correctly when changing the `vid_windowpos` CVAR to `centered` in the console and the `vid_fullscreen` CVAR is `off`.
+* Blood splats are no longer removed when using the `remove` CCMD to remove all corpses.
+
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
+
+###### Saturday, March 19, 2022
+
+#### DOOM Retro v4.4.10
+
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
-* *DOOM Retro* will no longer crash at startup when trying to load a PWAD containing a PNG lump that hasn’t been placed between `HI_START` and `HI_END` markers.
+* Moving the mouse to turn the player is now even smoother.
 * Minor changes have been made to text that is output to the console.
-* Further improvements have been made to the support for [*REKKR*](http://manbitesshark.com/) and [*REKKR: Sunken Land*](https://store.steampowered.com/app/1715690/REKKR_Sunken_Land/).
-* The `vid_scaleapi` CVAR may now also be set to `opengles` or `opengles2`.
-* The `r_berserkintensity` CVAR has been renamed to `r_berserkeffect` and is now `4` by default.
-* The effect when the player is injured can now be toggled using the new `r_damageeffect` CVAR, which is both `on` by default and when vanilla mode is enabled.
-* The effect when the player is injured is now also smoother when the new `r_damageeffect` CVAR is `on`.
-* If the player is injured when the `r_blood` CVAR is `green` and the new `r_damageeffect` CVAR is `on`, the screen will now flash green accordingly.
-* The effect when the player picks up an item can now be toggled using the new `r_pickupeffect` CVAR, which is both `on` by default and when vanilla mode is enabled.
-* The effect when the player has a radiation shielding suit power-up can now be toggled using the new `r_radsuiteffect` CVAR, which is both `on` by default and when vanilla mode is enabled. If this CVAR is `off`, the screen will flash to indicate when the power-up is about to run out.
-* If the player picks up a megasphere power-up while they have 200% green armor, their armor will now be upgraded to blue armor.
-* The player will no longer make a sound when trying to open a door that is already open.
+* The obituary displayed when a monster kills themselves by exploding a barrel is now correct when the `con_obituaries` CVAR is `on`.
+* The movement of the mouse now always affects the direction the menu’s background spins.
+* The following improvements have been made to the automap:
+  * The automap will now update correctly again if the player moves around while it is open.
+  * Text displayed in the top right of the screen while the automap is open is now less translucent.
+  * A subtle shadow is now applied to the bottom edge of the automap when the `r_screensize` CVAR is `7` or less.
+* The following improvements have been made to the `remove` CCMD:
+  * Item and teleport fogs now appear for all things that are removed.
+  * Corpses will now be removed along with everything else when the `everything` parameter is used.
+  * A type of item may now be specified as a parameter. For example, `remove healthbonuses` will remove all health bonuses from the map.
+* Compatibility fixes have been implemented that add blood splats to decorative corpses, and correct the offsets of sprites, in [*Ancient Aliens*](https://www.doomworld.com/idgames/levels/doom2/Ports/megawads/aaliens).
+* If the player picks up multiples of the same item, and they are all in exactly the same position, the resulting message and gold effect will now be the same as if they picked up only one item.
+* If the `r_fov` CVAR is changed from its default of `90`°, it is now only effective when the `vid_widescreen` CVAR is `on`.
+
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
+
+###### Monday, March 14, 2022
+
+#### DOOM Retro v4.4.9
+
+* *DOOM Retro* is now compiled using v17.1.1 of [*Microsoft Visual Studio Community 2022*](https://www.visualstudio.com/vs/).
+* Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
+* The amount of blood splats drawn now decreases the further away they are from the player.
+* Blood and bullet puffs are now translucent when the `r_textures` CVAR is `off` and the `r_translucency` CVAR is `on`.
+* Minor changes have been made to text that is output to the console.
+* The player and monsters will now move between two liquid sectors of differing heights smoothly again.
+* Sprites in liquid sectors now bob correctly if in view when the player is first spawned into a map and the `r_liquid_bob` CVAR is `on`.
+* The main menu now displays correctly when certain PWADs with custom menu lumps are loaded.
+* All sound effects now stop playing the moment either the menu or console are opened, or the game is paused.
+* The red effect when the player is injured now fades if the menu is opened.
+* The red effect when the player is injured now fades quicker than before if the console is opened.
+* Use of the mouse is no longer lost if the external automap is shown on another display when the `am_external` CVAR is `on`.
+* The new `explode` CCMD is now used instead of the `kill` CCMD to explode all `barrels` or `missiles` in the map.
+* There is also a new `remove` CCMD that may be used to remove all `items`, `decorations`, `corpses`, `bloodsplats`, or `everything` in the map.
+* Long player messages are now centered rather than truncated when the `r_screensize` CVAR is `7` and the `vid_widescreen` CVAR is `on`.
+
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
+
+###### Friday, March 4, 2022
+
+#### DOOM Retro v4.4.8
+
+* Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
+* Using the mouse to turn the player is now significantly smoother.
+* The current map’s title in the automap is no longer translucent when the `r_hud_translucency` CVAR is `off`.
+* Minor changes have been made to text that is output to the console.
+* Minor improvements have been made to the support of `DEHACKED` lumps.
+* Further improvements have been made to the support of [*MBF21*](https://doomwiki.org/wiki/MBF21)-compatible WADs.
+* Further improvements have been made to the support of [*Chex Quest*](https://doomwiki.org/wiki/Chex_Quest).
+* *DOOM Retro* now recognizes the presence of `compat_corpsegibs` and `compat_limitpain` in `MAPINFO` lumps.
+
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
+
+###### Saturday, February 26, 2022
+
+#### DOOM Retro v4.4.7
+
+* Optimizations have been made to further improve the overall performance of *DOOM Retro*.
+* Minor changes have been made to text that is output to the console.
+* The lighting cast on walls and sprites now appears correctly again when the `r_ditheredlighting` CVAR is `on`.
+
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
+
+###### Thursday, February 24, 2022
+
+#### DOOM Retro v4.4.6
+
+* Optimizations have been made to further improve the overall performance of *DOOM Retro*.
+* The following changes have been made to the support of `MAPINFO` lumps:
+  * Instead of only parsing the first `MAPINFO`, `UMAPINFO` or `RMAPINFO` lump that is found in a PWAD, now all of these lumps are parsed if found.
+  * `ZMAPINFO` lumps are now also parsed.
+* Minor changes have been made to text that is output to the console.
+* `.deh` and `.bex` files specified on the command-line are now always parsed correctly.
+* Further improvements have been made to the support for [*DOOM 4 VANILLA*](https://www.doomworld.com/forum/topic/108725).
+* The widescreen status bar now appears correctly on display resolutions with an aspect ratio less than 16:9.
+* The bottom of sprites are no longer clipped while falling above a liquid sector if the `r_liquid_clipsprites` CVAR is `on`.
+* The music’s volume is now lowered if the <kbd><b>PAUSE</b></kbd> key is pressed and the `s_lowermusicvolume` CVAR is `on`.
+* Music now always stops playing in the background when *DOOM Retro’s* window loses focus and the `s_musicinbackground` CVAR is `off`.
+* The `+back`, `+left`, `+right`, `+strafeleft` and `+straferight` actions may now be bound to a mouse button using the `bind` CCMD.
+
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
+
+###### Friday, February 18, 2022
+
+#### DOOM Retro v4.4.5
+
+* *DOOM Retro* is now compiled using v17.1 of [*Microsoft Visual Studio Community 2022*](https://www.visualstudio.com/vs/).
+* Optimizations have been made to further improve the overall performance of *DOOM Retro*.
+* Crashes no longer occur in the following instances:
+  * Sometimes when the player moves at the start of a map while the automap is open and the `am_path` CVAR is `on`.
+  * When running *DOOM Retro* as a non-*Steam* game through *Steam* and a controller is connected.
+  * When the player exits a map after the music has been changed using a `MUSINFO` lump.
+  * When a map contains a linedef with an invalid special.
+* Minor changes have been made to text that is output to the console.
+* The diagonal pattern of the console’s background now shifts with the rest of the console as it opens and closes.
+* Music can now continue to play in the background when *DOOM Retro’s* window loses focus by enabling the new `s_musicinbackground` CVAR, which is `off` by default.
+* Further improvements have been made to the support for [*DOOM 4 VANILLA*](https://www.doomworld.com/forum/topic/108725).
+* Use of the mouse is no longer lost if the external automap is shown on another display when the `am_external` CVAR is `on`.
+* Monsters spawned using the `spawn` CCMD now face the player.
+* The intensity of the red effect when the player is injured and the `r_damageeffect` is `on` has increased to be more consistent with *Vanilla DOOM*.
+* Dithered lighting is now applied to missing wall textures if the `r_ditheredlighting` CVAR is `on`.
+* The gold effect when the player picks up an item now appears correctly in [*Chex Quest*](https://doomwiki.org/wiki/Chex_Quest), [*Freedoom*](https://freedoom.github.io/), [*HacX: Twitch ’n Kill*](http://www.drnostromo.com/hacx/) and [*REKKR*](http://manbitesshark.com/).
+* *DOOM Retro* now recognizes the presence of `allowmonstertelefrags` in `MAPINFO` lumps.
+
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
+
+###### Sunday, February 6, 2022
+
+#### DOOM Retro v4.4.4
+
+* Optimizations have been made to further improve the overall performance of *DOOM Retro*.
+* Controllers connected after *DOOM Retro* has started are now recognized again.
+* A bug is fixed whereby the wrong message was displayed when the player picked up ammo in some instances.
+* If the player runs out of shells while firing their shotgun, they will now automatically equip their shotgun again rather than their super shotgun when later picking up more shells.
+* Minor improvements have been made to the support of `DEHACKED` lumps.
+* The widescreen HUD is now positioned slightly higher.
+* The following changes have been made when the `r_textures` CVAR is `off` and the `r_translucency` CVAR is `on`:
+  * The muzzle flash of the player’s weapon is now translucent.
+  * The player’s weapon is now translucent when they have a partial invisibility power-up.
+
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
+
+###### Saturday, January 29, 2022
+
+#### DOOM Retro v4.4.3
+
+* Optimizations have been made to further improve the overall performance of *DOOM Retro*.
+* Crashes no longer occur in the following instances:
+  * When loading two or more PWADs without an IWAD using the WAD launcher.
+  * When loading a PWAD containing a PNG lump.
+  * When sometimes enabling widescreen during a game by pressing the <kbd><b>+</b></kbd> key.
+* MIDI music will now actually pause rather than just be muted when *DOOM Retro’s* window loses focus or the <kbd><b>PAUSE</b></kbd> key is pressed.
+* Further improvements have been made to the support for controllers:
+  * The LEDs on *PS4 DualShock 4* and *PS5 DualSense* controllers now change back to blue when quitting *DOOM Retro*.
+  * Left thumbsticks are now bound to the `+alwaysrun` action by default.
+  * The paddles on *Xbox Elite* controllers can now be bound to an action by using `paddle1` to `paddle4` with the `bind` CCMD.
+  * The touchpad on *PS4 DualShock 4* and *PS5 DualSense* controllers can now be bound to an action by using `touchpad` with the `bind` CCMD.
+  * The *Xbox Series X* controller’s share button, the *PS5 DualSense* controller’s microphone button and the *Nintendo Switch* pro controller’s capture button can now be bound to an action by using `misc1` with the `bind` CCMD.
+* Minor improvements have been made to the support of [*MBF21*](https://doomwiki.org/wiki/MBF21)-compatible WADs.
+* Minor changes have been made to text that is output to the console.
+* Fade transitions are no longer applied if the console is open and the `fade` CVAR is `on`.
+* The player’s teleport fog is now positioned correctly when using the `teleport` CCMD.
+* The `armortype` CVAR is now set to `none` if the `armor` CVAR is set to `0` in the console.
+* The player’s health, armor or ammo will now always flash in the widescreen HUD if changed using the `health`, `armor` or `ammo` CVARs in the console.
+* Removing a behavior originally implemented in [*MBF*](https://doomwiki.org/wiki/MBF), monsters no longer back away from the player if they get too close with their fists or chainsaw equipped.
+
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
+
+###### Friday, January 14, 2022
+
+#### DOOM Retro v4.4.2
+
+* *DOOM Retro* is now compiled using v17.0.5 of [*Microsoft Visual Studio Community 2022*](https://www.visualstudio.com/vs/).
+* *DOOM Retro* now uses [*SDL v2.0.20*](https://www.libsdl.org).
+* Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
+* A crash no longer occurs if the player makes a typo while entering a filename in the WAD launcher.
+* Improvements have been made to the support of [*MBF21*](https://doomwiki.org/wiki/MBF21)-compatible maps and mods.
+* Improvements have been made to the playback of MIDI music.
+* Lowering the music’s volume in the menu and console may now be disabled using the new `s_lowermenumusic` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
+* Extensive improvements have been made to the support for controllers:
+  * Rumble now works again for those controllers that support it.
+  * The LEDs on *PS4 DualShock 4* and *PS5 DualSense* controllers now turn red when connected.
+  * The `gp_vibrate_barrels`, `gp_vibrate_damage` and `gp_vibrate_weapons` CVARs have been renamed `joy_rumble_barrels`, `joy_rumble_damage` and `joy_rumble_weapons`.
+  * All other CVARs that start with `gp_` now start with `joy_`.
+  * The `gamepad1` to `gamepad4` parameters used by the `bind` CCMD have been renamed `button1` to `button4`.
+* Several minor changes have been made to text that is output to the console.
+* Minor improvements have been made to the console’s autocomplete feature.
+* A crash no longer occurs when ending a game from the options menu.
+* The screen size is now always correct if changed from the options menu while no game is being played.
+* The following improvements have been made to the support of [*REKKR*](http://manbitesshark.com/) and [*REKKR: Sunken Land*](https://store.steampowered.com/app/1715690/REKKR_Sunken_Land/):
+  * Blood splats now appear around corpses spawned at the start of a map when the `r_corpses_moreblood` CVAR is `on`.
+  * The souls of former humans are now translucent when the `r_translucency` CVAR is `on`.
+* The corpses of monsters now always fall when close to an edge.
+* The shadows of *MBF*-compatible helper dogs are now positioned correctly.
+* When the player is injured, their health now flashes in the widescreen HUD.
+
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
+
+###### Wednesday, December 8, 2021
+
+#### DOOM Retro v4.4.1
+
+* Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
+* Minor improvements have been made to the support of [*MBF21*](https://doomwiki.org/wiki/MBF21)-compatible maps and mods.
+* Minor improvements have been made to the support of `DEHACKED` lumps.
+* The screen now flashes green as the player’s radiation shielding suit power-up runs out while they also have a berserk power-up and their fists equipped.
+* Minor changes have been made to text that is output to the console.
+* If the player takes an hour or more to finish a map, “SUCKS” is now positioned correctly on the intermission screen.
+* Some elements in the options menu are now positioned correctly for certain PWADs.
+* A bug is fixed whereby music wouldn’t play correctly in some instances if the `s_musicvolume` CVAR was set high enough.
+
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
+
+###### Friday, December 3, 2021
+
+#### DOOM Retro v4.4
+
+* *DOOM Retro* is now compiled using v17.0.2 of [*Microsoft Visual Studio Community 2022*](https://www.visualstudio.com/vs/).
+* *DOOM Retro* now uses [*SDL v2.0.18*](https://www.libsdl.org).
+* Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
+* *DOOM Retro* now supports [*MBF21*](https://doomwiki.org/wiki/MBF21)-compatible maps and mods.
+* *DOOM Retro* no longer crashes at startup when trying to load a PWAD containing a PNG lump.
+* A bug is fixed whereby `.deh`, `.bex` and `.cfg` files wouldn’t load if selected in the WAD launcher.
+* If the player makes a typo when entering a filename in the WAD launcher, and *DOOM Retro* is unable to find what they intended, that text now remains when the launcher reopens so the player may easily correct it.
+* The file `midiproc.exe` that allows the volume of MIDI music to be adjusted independently of the sound effects volume is no longer necessary and therefore no longer distributed with *DOOM Retro*.
+* The volume of non-MIDI music has been lowered to be consistent with the volume of MIDI music.
+* Several changes have been made to text that is output to the console.
+* Minor changes have been made to the positioning of the input and branding in the console.
+* Further improvements have been made to the support of [*Chex Quest*](https://doomwiki.org/wiki/Chex_Quest), [*Freedoom*](https://freedoom.github.io/), [*REKKR*](http://manbitesshark.com/) and [*REKKR: Sunken Land*](https://store.steampowered.com/app/1715690/REKKR_Sunken_Land/).
+* The `r_berserkintensity` CVAR is renamed `r_berserkeffect` and is now `3` rather than `2` by default.
+* The red effect when the player is injured can now be toggled using the new `r_damageeffect` CVAR, which is both `on` by default and when vanilla mode is enabled.
+* The red effect when the player is injured is now also smoother when the new `r_damageeffect` CVAR is `on`.
+* The red effect when the player is killed is now more prominent when the new `r_damageeffect` CVAR is `on`.
+* If the player is injured when the `r_blood` CVAR is `green` and the new `r_damageeffect` CVAR is `on`, the screen now flashes green.
+* The gold effect when the player picks up an item can now be toggled using the new `r_pickupeffect` CVAR, which is both `on` by default and when vanilla mode is enabled.
+* The green effect when the player has a radiation shielding suit power-up can now be toggled using the new `r_radsuiteffect` CVAR, which is both `on` by default and when vanilla mode is enabled. If this CVAR is `off`, the screen flashes green to indicate when the power-up is about to run out.
+* Fixing a possible oversight in *Vanilla DOOM*, if the player picks up a megasphere when they have 200% green armor, that armor is now upgraded to blue armor.
+* The player no longer grunts when trying to open a door that is currently open.
+* The player now smoothly slides against two-sided textures.
 * Minor improvements have been made to the alternate widescreen HUD.
+* Things altered in `DEHACKED` lumps will now always behave correctly.
+* Scrolling skies specified in `MAPINFO` lumps are now smoother.
+* The number of times the automap is opened by the player is now displayed by the `playerstats` CCMD.
+* Player messages are now always grouped in the console, regardless of the time between them, when the `groupmessages` CVAR is `on`.
+* The behavior of friendly monsters has improved. They no longer always crowd the player when there are no other monsters nearby.
+* Thing triangles in the automap that represent *MBF*-compatible helper dogs are now the correct size again when using the `IDDT` cheat.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
@@ -2446,7 +2731,7 @@
 * The `r_corpses_color` CVAR is now validated at startup.
 * If `am_external` is on but there’s only one display found, there will no longer be a crash if the graphics system is restarted.
 * The number of logical cores and amount of system RAM is now displayed in the console at startup.
-* [*ZDoom’s*](http://zdoom.org/) obituary strings are now ignored in `DEHACKED` patches so warnings aren’t displayed in the console at startup.
+* [*ZDOOM’s*](http://zdoom.org/) obituary strings are now ignored in `DEHACKED` patches so warnings aren’t displayed in the console at startup.
 * A bug has been fixed whereby a frame would be skipped when rotating monsters in the *DOOM II* cast sequence.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
@@ -2906,7 +3191,7 @@
 * The pillarboxes and letterboxes on the screen are now cleared each frame.
 * Configuration files (with the extension `.cfg`) may now be loaded through the WAD launcher.
 * If a CFG file exists in the same folder as a PWAD file with the same name, it will automatically be loaded.
-* Support has been added for maps with *DeepBSP* extended nodes v4 and [*ZDoom*](http://zdoom.org/) uncompressed normal nodes.
+* Support has been added for maps with *DeepBSP* extended nodes v4 and [*ZDOOM*](http://zdoom.org/) uncompressed normal nodes.
 * Several rendering anomalies in maps have been resolved.
 * Any flats that are missing in a map will now be rendered as sky, and a warning displayed in the console, rather than *DOOM Retro* exiting with an error.
 * Further improvements have been made to the support for *DeHackEd* lumps.

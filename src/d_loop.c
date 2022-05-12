@@ -6,8 +6,8 @@
 
 ========================================================================
 
-  Copyright © 1993-2021 by id Software LLC, a ZeniMax Media company.
-  Copyright © 2013-2021 by Brad Harding <mailto:brad@doomretro.com>.
+  Copyright © 1993-2022 by id Software LLC, a ZeniMax Media company.
+  Copyright © 2013-2022 by Brad Harding <mailto:brad@doomretro.com>.
 
   DOOM Retro is a fork of Chocolate DOOM. For a list of credits, see
   <https://github.com/bradharding/doomretro/wiki/CREDITS>.
@@ -16,7 +16,7 @@
 
   DOOM Retro is free software: you can redistribute it and/or modify it
   under the terms of the GNU General Public License as published by the
-  Free Software Foundation, either version 3 of the License, or (at your
+  Free Software Foundation, either version 3 of the license, or (at your
   option) any later version.
 
   DOOM Retro is distributed in the hope that it will be useful, but
@@ -44,6 +44,10 @@
 #include "m_config.h"
 #include "m_menu.h"
 
+// [AM] Fractional part of the current tic, in the half-open
+//      range of [0.0, 1.0). Used for interpolation.
+fixed_t     fractionaltic;
+
 ticcmd_t    localcmds[BACKUPTICS];
 
 void TryRunTics(void)
@@ -55,6 +59,9 @@ void TryRunTics(void)
 
     lastmadetic += newtics;
 
+    if (vid_capfps != TICRATE)
+        fractionaltic = (((int64_t)I_GetTimeMS() * TICRATE) % 1000) * FRACUNIT / 1000;
+
     while (newtics--)
     {
         I_StartTic();
@@ -62,9 +69,7 @@ void TryRunTics(void)
         if (maketic - gametime > BACKUPTICS / 2)
             break;
 
-        G_BuildTiccmd(&localcmds[maketic % BACKUPTICS]);
-
-        maketic++;
+        G_BuildTiccmd(&localcmds[maketic++ % BACKUPTICS]);
     }
 
     if (!(runtics = maketic - gametime) && vid_capfps != TICRATE)

@@ -6,8 +6,8 @@
 
 ========================================================================
 
-  Copyright © 1993-2021 by id Software LLC, a ZeniMax Media company.
-  Copyright © 2013-2021 by Brad Harding <mailto:brad@doomretro.com>.
+  Copyright © 1993-2022 by id Software LLC, a ZeniMax Media company.
+  Copyright © 2013-2022 by Brad Harding <mailto:brad@doomretro.com>.
 
   DOOM Retro is a fork of Chocolate DOOM. For a list of credits, see
   <https://github.com/bradharding/doomretro/wiki/CREDITS>.
@@ -16,7 +16,7 @@
 
   DOOM Retro is free software: you can redistribute it and/or modify it
   under the terms of the GNU General Public License as published by the
-  Free Software Foundation, either version 3 of the License, or (at your
+  Free Software Foundation, either version 3 of the license, or (at your
   option) any later version.
 
   DOOM Retro is distributed in the hope that it will be useful, but
@@ -46,7 +46,7 @@
 #include "g_game.h"
 #include "hu_stuff.h"
 #include "i_colors.h"
-#include "i_gamepad.h"
+#include "i_gamecontroller.h"
 #include "i_swap.h"
 #include "m_config.h"
 #include "m_menu.h"
@@ -80,14 +80,14 @@ static char             *finaleflat;
 
 static void F_StartCast(void);
 static void F_CastTicker(void);
-static dboolean F_CastResponder(event_t *ev);
+static bool F_CastResponder(event_t *ev);
 
 void WI_CheckForAccelerate(void);
 void A_RandomJump(mobj_t *actor, player_t *player, pspdef_t *psp);
 
-static dboolean         midstage;               // whether we're in "mid-stage"
+static bool             midstage;               // whether we're in "mid-stage"
 
-extern dboolean         acceleratestage;        // accelerate intermission screens
+extern bool             acceleratestage;        // accelerate intermission screens
 
 //
 // F_ConsoleFinaleText
@@ -289,7 +289,7 @@ void F_StartFinale(void)
     F_ConsoleFinaleText();
 }
 
-dboolean F_Responder(event_t *ev)
+bool F_Responder(event_t *ev)
 {
     if (finalestage == F_STAGE_CAST)
         return F_CastResponder(ev);
@@ -364,8 +364,6 @@ void F_Ticker(void)
 static void F_TextWrite(void)
 {
     // draw some of the text onto the screen
-    int         w;
-    int         count = MAX(0, FixedDiv((finalecount - 10) * FRACUNIT, TextSpeed()) >> FRACBITS);
     const char  *ch = finaletext;
     int         cx = 12;
     int         cy = 10;
@@ -391,10 +389,11 @@ static void F_TextWrite(void)
     else
         V_DrawPatch(0, 0, 0, W_CacheLumpNum(lumpnum));
 
-    for (; count; count--)
+    for (int count = MAX(0, FixedDiv((finalecount - 10) * FRACUNIT, TextSpeed()) >> FRACBITS); count; count--)
     {
         char    letter = *ch++;
-        char    c;
+        int     c;
+        int     w;
 
         if (!letter)
             break;
@@ -498,25 +497,25 @@ static int      castnum;
 static int      casttics;
 static state_t  *caststate;
 static int      castrot;
-static dboolean castdeath;
-static dboolean castdeathflip;
+static bool     castdeath;
+static bool     castdeathflip;
 static int      castframes;
-static dboolean castonmelee;
-static dboolean castattacking;
+static bool     castonmelee;
+static bool     castattacking;
 
-dboolean        firstevent;
+bool            firstevent;
 
 // [crispy] randomize seestate and deathstate sounds in the cast
 static int F_RandomizeSound(int sound)
 {
     if (sound >= sfx_posit1 && sound <= sfx_posit3)
-        return (sfx_posit1 + M_Random() % 3);
+        return (sfx_posit1 + M_BigRandom() % 3);
     else if (sound == sfx_bgsit1 || sound == sfx_bgsit2)
-        return (sfx_bgsit1 + M_Random() % 2);
+        return (sfx_bgsit1 + M_BigRandom() % 2);
     else if (sound >= sfx_podth1 && sound <= sfx_podth3)
-        return (sfx_podth1 + M_Random() % 3);
+        return (sfx_podth1 + M_BigRandom() % 3);
     else if (sound == sfx_bgdth1 || sound == sfx_bgdth2)
-        return (sfx_bgdth1 + M_Random() % 2);
+        return (sfx_bgdth1 + M_BigRandom() % 2);
     else
         return sound;
 }
@@ -580,7 +579,7 @@ static void F_CastTicker(void)
         if (!castdeath && caststate == &states[S_PLAY_ATK1])
             goto stopattack;    // Oh, gross hack!
 
-        st = (caststate->action == &A_RandomJump && M_Random() < caststate->misc2 ? caststate->misc1 : caststate->nextstate);
+        st = (caststate->action == &A_RandomJump && (M_BigRandom() & 255) < caststate->misc2 ? caststate->misc1 : caststate->nextstate);
         caststate = &states[st];
         castframes++;
 
@@ -675,7 +674,7 @@ static void F_CastTicker(void)
         }
 
         if (caststate == &states[S_PLAY_ATK1])
-            S_StartSound(viewplayer->mo, sfx_dshtgn);
+            S_StartSound(NULL, sfx_dshtgn);
     }
 
     if (castattacking && (castframes == 24 || caststate == &states[mobjinfo[castorder[castnum].type].seestate]))
@@ -692,7 +691,7 @@ stopattack:
     {
         if (caststate->action == &A_RandomJump)
         {
-            caststate = &states[M_Random() < caststate->misc2 ? caststate->misc1 : caststate->nextstate];
+            caststate = &states[((M_BigRandom() & 255) < caststate->misc2 ? caststate->misc1 : caststate->nextstate)];
             casttics = caststate->tics;
         }
 
@@ -704,7 +703,7 @@ stopattack:
 //
 // F_CastResponder
 //
-static dboolean F_CastResponder(event_t *ev)
+static bool F_CastResponder(event_t *ev)
 {
     mobjtype_t  type;
 
@@ -733,7 +732,7 @@ static dboolean F_CastResponder(event_t *ev)
     if (ev->type == ev_mouse && !(ev->data1 & mousefire) && !(ev->data1 & mouseuse))
         return false;
 
-    if (ev->type == ev_gamepad && !(gamepadbuttons & gamepadfire) && !(gamepadbuttons & gamepaduse))
+    if (ev->type == ev_controller && !(gamecontrollerbuttons & gamecontrollerfire) && !(gamecontrollerbuttons & gamecontrolleruse))
         return false;
 
     if (castdeath)
@@ -761,14 +760,14 @@ static dboolean F_CastResponder(event_t *ev)
     castdeath = true;
 
     if (r_corpses_mirrored && type != MT_CHAINGUY && type != MT_CYBORG)
-        castdeathflip = M_Random() & 1;
+        castdeathflip = (M_Random() & 1);
 
     caststate = &states[mobjinfo[type].deathstate];
     casttics = caststate->tics;
 
     if (casttics == -1 && caststate->action == &A_RandomJump)
     {
-        caststate = &states[(M_Random() < caststate->misc2 ? caststate->misc1 : caststate->nextstate)];
+        caststate = &states[((M_BigRandom() & 255) < caststate->misc2 ? caststate->misc1 : caststate->nextstate)];
         casttics = caststate->tics;
     }
 
@@ -835,13 +834,13 @@ static void F_CastPrint(const char *text)
 //
 static void F_CastDrawer(void)
 {
-    spritedef_t     *sprdef;
-    spriteframe_t   *sprframe;
-    int             lump;
-    int             rot = 0;
-    patch_t         *patch;
-    int             y = VANILLAHEIGHT - 30;
-    mobjtype_t      type = castorder[castnum].type;
+    spritedef_t         *sprdef;
+    spriteframe_t       *sprframe;
+    int                 lump;
+    int                 rot = 0;
+    patch_t             *patch;
+    int                 y = VANILLAHEIGHT - 30;
+    const mobjtype_t    type = castorder[castnum].type;
 
     if (gamemission == pack_plut)
         patch = W_CacheLumpName("BOSSBAC2");
@@ -855,8 +854,8 @@ static void F_CastDrawer(void)
 
     V_DrawWidePatch((SCREENWIDTH / SCREENSCALE - SHORT(patch->width)) / 2, 0, 0, patch);
 
-    if (M_StringCompare(castorder[castnum].name, *castorder[castnum].dehackedname))
-        F_CastPrint(type == MT_PLAYER ? playername : mobjinfo[type].name1);
+    if (type == MT_PLAYER && M_StringCompare(castorder[castnum].name, *castorder[castnum].dehackedname))
+        F_CastPrint(playername);
     else
         F_CastPrint(*castorder[castnum].dehackedname);
 
@@ -941,7 +940,7 @@ static void F_CastDrawer(void)
 //
 static void F_DrawPatchCol(int x, patch_t *patch, int col)
 {
-    column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnofs[col]));
+    column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnoffset[col]));
     byte        *desttop = &screens[0][x];
 
     // step through the posts in a column
@@ -1031,10 +1030,7 @@ static void F_ArtScreenDrawer(void)
         if (!finalestage)
             F_TextWrite();
         else
-        {
             V_DrawPatch(0, 0, 0, W_CacheLumpNum(lumpnum));
-            return;
-        }
     }
     else if (P_GetMapEndBunny(gamemap) || gameepisode == 3)
         F_BunnyScroll();

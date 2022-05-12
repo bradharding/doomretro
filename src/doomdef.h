@@ -6,8 +6,8 @@
 
 ========================================================================
 
-  Copyright © 1993-2021 by id Software LLC, a ZeniMax Media company.
-  Copyright © 2013-2021 by Brad Harding <mailto:brad@doomretro.com>.
+  Copyright © 1993-2022 by id Software LLC, a ZeniMax Media company.
+  Copyright © 2013-2022 by Brad Harding <mailto:brad@doomretro.com>.
 
   DOOM Retro is a fork of Chocolate DOOM. For a list of credits, see
   <https://github.com/bradharding/doomretro/wiki/CREDITS>.
@@ -16,7 +16,7 @@
 
   DOOM Retro is free software: you can redistribute it and/or modify it
   under the terms of the GNU General Public License as published by the
-  Free Software Foundation, either version 3 of the License, or (at your
+  Free Software Foundation, either version 3 of the license, or (at your
   option) any later version.
 
   DOOM Retro is distributed in the hope that it will be useful, but
@@ -36,10 +36,12 @@
 ========================================================================
 */
 
-#if !defined(__DOOMDEF_H__)
-#define __DOOMDEF_H__
+#pragma once
 
 #include <stdio.h>
+#if !defined(_WIN32)
+#include <strings.h>
+#endif
 
 #include "doomtype.h"
 #include "m_controls.h"
@@ -47,8 +49,6 @@
 #if defined(_WIN32)
 #define strcasecmp  _stricmp
 #define strncasecmp _strnicmp
-#else
-#include <strings.h>
 #endif
 
 //
@@ -62,13 +62,12 @@
 #if defined(__GNUC__)
 
 #if defined(_WIN32) && !defined(__clang__)
-#define PACKEDATTR  __attribute__((packed,gcc_struct))
+#define PACKEDATTR          __attribute__((packed, gcc_struct))
 #else
-#define PACKEDATTR  __attribute__((packed))
+#define PACKEDATTR          __attribute__((packed))
 #endif
 
-#define FORMATATTR(x, y) __attribute__((format(printf, x, y)))
-
+#define FORMATATTR(x, y)    __attribute__((format(printf, x, y)))
 #else
 #define PACKEDATTR
 #define FORMATATTR(x, y)
@@ -89,21 +88,21 @@ enum
 //  to handle IWAD dependent animations etc.
 typedef enum
 {
-    shareware,          // DOOM 1 shareware, E1, M9
-    registered,         // DOOM 1 registered, E3, M27
-    commercial,         // DOOM 2 retail, E1 M34
-    retail,             // DOOM 1 retail, E4, M36
-    indetermined        // Well, no IWAD found.
+    shareware,      // DOOM 1 shareware, E1, M9
+    registered,     // DOOM 1 registered, E3, M27
+    commercial,     // DOOM 2 retail, E1 M34
+    retail,         // DOOM 1 retail, E4, M36
+    indetermined    // Well, no IWAD found.
 } GameMode_t;
 
 // Mission packs - might be useful for TC stuff?
 typedef enum
 {
-    doom,               // DOOM 1
-    doom2,              // DOOM 2
-    pack_tnt,           // TNT mission pack
-    pack_plut,          // Plutonia pack
-    pack_nerve,         // No Rest for the Living
+    doom,           // DOOM 1
+    doom2,          // DOOM 2
+    pack_tnt,       // TNT mission pack
+    pack_plut,      // Plutonia pack
+    pack_nerve,     // No Rest for the Living
 
     none
 } GameMission_t;
@@ -132,7 +131,7 @@ extern int          SCREENAREA;
 extern int          WIDESCREENDELTA;
 extern int          WIDEFOVDELTA;
 
-extern dboolean     nowidescreen;
+extern bool         nowidescreen;
 
 extern int          MAPWIDTH;
 extern unsigned int MAPHEIGHT;
@@ -163,17 +162,17 @@ typedef enum
 // Skill flags.
 enum
 {
-    MTF_EASY =       1,
-    MTF_NORMAL =     2,
-    MTF_HARD =       4,
-    MTF_AMBUSH =     8,
+    MTF_EASY      =   1,
+    MTF_NORMAL    =   2,
+    MTF_HARD      =   4,
+    MTF_AMBUSH    =   8,
 
     // killough 11/98
-    MTF_NOTSINGLE = 16,
-    MTF_NOTDM =     32,
-    MTF_NOTCOOP =   64,
-    MTF_FRIEND =   128,
-    MTF_RESERVED = 256
+    MTF_NOTSINGLE =  16,
+    MTF_NOTDM     =  32,
+    MTF_NOTCOOP   =  64,
+    MTF_FRIEND    = 128,
+    MTF_RESERVED  = 256
 };
 
 typedef enum
@@ -272,4 +271,3 @@ enum
 #define MORE_FRICTION_MOMENTUM  15000   // mud factor based on momentum
 #define ORIG_FRICTION           0xE800  // original value
 #define ORIG_FRICTION_FACTOR    2048    // original value
-#endif

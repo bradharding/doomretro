@@ -6,8 +6,8 @@
 
 ========================================================================
 
-  Copyright © 1993-2021 by id Software LLC, a ZeniMax Media company.
-  Copyright © 2013-2021 by Brad Harding <mailto:brad@doomretro.com>.
+  Copyright © 1993-2022 by id Software LLC, a ZeniMax Media company.
+  Copyright © 2013-2022 by Brad Harding <mailto:brad@doomretro.com>.
 
   DOOM Retro is a fork of Chocolate DOOM. For a list of credits, see
   <https://github.com/bradharding/doomretro/wiki/CREDITS>.
@@ -16,7 +16,7 @@
 
   DOOM Retro is free software: you can redistribute it and/or modify it
   under the terms of the GNU General Public License as published by the
-  Free Software Foundation, either version 3 of the License, or (at your
+  Free Software Foundation, either version 3 of the license, or (at your
   option) any later version.
 
   DOOM Retro is distributed in the hope that it will be useful, but
@@ -37,26 +37,39 @@
 */
 
 #include "d_deh.h"
+#include "dstrings.h"
 
 char **endmsg[] =
 {
     // DOOM1
     &s_QUITMSG,
-    &s_DOOM_ENDMSG1,
-    &s_DOOM_ENDMSG2,
-    &s_DOOM_ENDMSG3,
-    &s_DOOM_ENDMSG4,
-    &s_DOOM_ENDMSG5,
-    &s_DOOM_ENDMSG6,
-    &s_DOOM_ENDMSG7,
+    &s_QUITMSG1,
+    &s_QUITMSG2,
+    &s_QUITMSG3,
+    &s_QUITMSG4,
+    &s_QUITMSG5,
+    &s_QUITMSG6,
+    &s_QUITMSG7,
 
     // QuitDOOM II messages
     &s_QUITMSG,
-    &s_DOOM2_ENDMSG1,
-    &s_DOOM2_ENDMSG2,
-    &s_DOOM2_ENDMSG3,
-    &s_DOOM2_ENDMSG4,
-    &s_DOOM2_ENDMSG5,
-    &s_DOOM2_ENDMSG6,
-    &s_DOOM2_ENDMSG7
+    &s_QUITMSG8,
+    &s_QUITMSG9,
+    &s_QUITMSG10,
+    &s_QUITMSG11,
+    &s_QUITMSG12,
+    &s_QUITMSG13,
+    &s_QUITMSG14
+};
+
+char *devendmsg[] =
+{
+    DEVQUITMSG1,
+    DEVQUITMSG2,
+    DEVQUITMSG3,
+    DEVQUITMSG4,
+    DEVQUITMSG5,
+    DEVQUITMSG6,
+    DEVQUITMSG7,
+    DEVQUITMSG8
 };

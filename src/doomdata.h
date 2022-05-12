@@ -6,8 +6,8 @@
 
 ========================================================================
 
-  Copyright © 1993-2021 by id Software LLC, a ZeniMax Media company.
-  Copyright © 2013-2021 by Brad Harding <mailto:brad@doomretro.com>.
+  Copyright © 1993-2022 by id Software LLC, a ZeniMax Media company.
+  Copyright © 2013-2022 by Brad Harding <mailto:brad@doomretro.com>.
 
   DOOM Retro is a fork of Chocolate DOOM. For a list of credits, see
   <https://github.com/bradharding/doomretro/wiki/CREDITS>.
@@ -16,7 +16,7 @@
 
   DOOM Retro is free software: you can redistribute it and/or modify it
   under the terms of the GNU General Public License as published by the
-  Free Software Foundation, either version 3 of the License, or (at your
+  Free Software Foundation, either version 3 of the license, or (at your
   option) any later version.
 
   DOOM Retro is distributed in the hope that it will be useful, but
@@ -36,8 +36,7 @@
 ========================================================================
 */
 
-#if !defined(__DOOMDATA_H__)
-#define __DOOMDATA_H__
+#pragma once
 
 // Some global defines, that configure the game.
 #include "doomdef.h"
@@ -149,11 +148,23 @@ typedef struct
 #define ML_MAPPED               256
 
 // jff 3/21/98 Set if line absorbs use by player
-//allow multiple push/switch triggers to be used on one push
+// allow multiple push/switch triggers to be used on one push
 #define ML_PASSUSE              512
 
 // [BH] Line will be shown as a wall in automap.
 #define ML_DRAWASWALL           1024
+
+// haleyjd 05/02/06: Although it was believed until now that a reserved line
+// flag was unnecessary, a problem with Ultimate DOOM E2M7 has disproven this
+// theory. It has roughly 1000 linedefs with 0xFE00 masked into the flags, so
+// making the next line flag reserved and using it to toggle off ALL extended
+// flags will preserve compatibility for such maps. I have been told this map
+// is one of the first ever created, so it may have something to do with that.
+#define ML_RESERVED             2048
+
+// MBF21
+#define ML_BLOCKLANDMONSTERS    4096
+#define ML_BLOCKPLAYERS         8192
 
 // [BH] Line will trigger sector 666 if no monsters.
 #define ML_TRIGGER666           16384
@@ -271,6 +282,4 @@ typedef struct
 
 #if defined(_MSC_VER) || defined(__GNUC__)
 #pragma pack(pop)
-#endif
-
 #endif

@@ -6,8 +6,8 @@
 
 ========================================================================
 
-  Copyright © 1993-2021 by id Software LLC, a ZeniMax Media company.
-  Copyright © 2013-2021 by Brad Harding <mailto:brad@doomretro.com>.
+  Copyright © 1993-2022 by id Software LLC, a ZeniMax Media company.
+  Copyright © 2013-2022 by Brad Harding <mailto:brad@doomretro.com>.
 
   DOOM Retro is a fork of Chocolate DOOM. For a list of credits, see
   <https://github.com/bradharding/doomretro/wiki/CREDITS>.
@@ -16,7 +16,7 @@
 
   DOOM Retro is free software: you can redistribute it and/or modify it
   under the terms of the GNU General Public License as published by the
-  Free Software Foundation, either version 3 of the License, or (at your
+  Free Software Foundation, either version 3 of the license, or (at your
   option) any later version.
 
   DOOM Retro is distributed in the hope that it will be useful, but
@@ -89,7 +89,7 @@ char *sprnames[] =
 // [BH] Override offsets in WAD file to provide better animation and positioning.
 //  Many of these offsets are taken from the DOOM 2 Minor Sprite Fixing Project
 //  by Revenant100, and then further refined by me.
-sproffset_t sproffsets[] =
+const sproffset_t sproffsets[] =
 {
     { "AMMOA0",     14,   14,  28,  16, true  }, //   12,   16
     { "APBXA0",     12,   12,  23,  23, true  }, //   12,   15
@@ -417,8 +417,8 @@ sproffset_t sproffsets[] =
     { "HEADF3F7",   30,   67,  62,  68, true  }, //   31,   67
     { "HEADF4F6",   30,   69,  63,  67, true  }, //   31,   69
     { "HEADF5",     31,   69,  63,  66, true  }, //   30,   68
-    { "HEADK0",     37,   61,  69,  66, true  }, //   35,   63
-    { "HEADL0",     39,   41,  75,  49, true  }, //   37,   47
+    { "HEADK0",     37,   63,  69,  66, true  }, //   35,   63
+    { "HEADL0",     40,   47,  75,  49, true  }, //   37,   47
     { "IFOGA0",     19,   33,  40,  37, true  }, //   18,   33
     { "IFOGB0",     16,   27,  34,  30, true  }, //   16,   26
     { "IFOGC0",      8,   20,  17,  16, true  }, //    6,   15
