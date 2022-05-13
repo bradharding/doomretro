@@ -123,7 +123,7 @@ static byte notgrayorbrown[256] =
     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
 };
 
-static byte redonly[256] =
+static byte redonly1[256] =
 {
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -131,6 +131,18 @@ static byte redonly[256] =
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+};
+
+static byte redonly2[256] =
+{
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 };
@@ -204,40 +216,41 @@ static struct
     { "COMP2",    DOOM1AND2, blueandgreen   }, { "COMPSTA1", DOOM1AND2, notgray        },
     { "COMPSTA2", DOOM1AND2, notgray        }, { "COMPUTE1", DOOM1AND2, notgrayorbrown },
     { "COMPUTE2", DOOM1AND2, notgrayorbrown }, { "COMPUTE3", DOOM1AND2, notgrayorbrown },
-    { "EXITSIGN", DOOM1AND2, notgray        }, { "EXITSTON", DOOM1AND2, redonly        },
+    { "EXITSIGN", DOOM1AND2, notgray        }, { "EXITSTON", DOOM1AND2, redonly1       },
     { "M_TEC",    DOOM2ONLY, greenonly2     }, { "PLANET1",  DOOM1AND2, notgray        },
-    { "PNK4EXIT", DOOM2ONLY, redonly        }, { "SILVER2",  DOOM1AND2, notgray        },
+    { "PNK4EXIT", DOOM2ONLY, redonly1       }, { "SILVER2",  DOOM1AND2, notgray        },
     { "SILVER3",  DOOM1AND2, notgrayorbrown }, { "SLAD2",    DOOM2ONLY, notgrayorbrown },
     { "SLAD3",    DOOM2ONLY, notgrayorbrown }, { "SLAD4",    DOOM2ONLY, notgrayorbrown },
     { "SLAD5",    DOOM2ONLY, notgrayorbrown }, { "SLAD6",    DOOM2ONLY, notgrayorbrown },
     { "SLAD7",    DOOM2ONLY, notgrayorbrown }, { "SLAD8",    DOOM2ONLY, notgrayorbrown },
     { "SLAD9",    DOOM2ONLY, notgrayorbrown }, { "SLAD10",   DOOM2ONLY, notgrayorbrown },
-    { "SLAD11",   DOOM2ONLY, notgrayorbrown }, { "SLADSKUL", DOOM1AND2, redonly        },
-    { "SW1BRCOM", DOOM1AND2, redonly        }, { "SW1BRIK",  DOOM1AND2, redonly        },
-    { "SW1BRN1",  DOOM2ONLY, redonly        }, { "SW1COMM",  DOOM1AND2, redonly        },
-    { "SW1DIRT",  DOOM1AND2, redonly        }, { "SW1MET2",  DOOM1AND2, redonly        },
-    { "SW1STARG", DOOM2ONLY, redonly        }, { "SW1STON1", DOOM1AND2, redonly        },
-    { "SW1STON2", DOOM2ONLY, redonly        }, { "SW1STONE", DOOM1AND2, redonly        },
-    { "SW1STRTN", DOOM1AND2, redonly        }, { "SW2BLUE",  DOOM1AND2, redonly        },
+    { "SLAD11",   DOOM2ONLY, notgrayorbrown }, { "SLADSKUL", DOOM1AND2, redonly1       },
+    { "SW1BRCOM", DOOM1AND2, redonly1       }, { "SW1BRIK",  DOOM1AND2, redonly1       },
+    { "SW1BRN1",  DOOM2ONLY, redonly1       }, { "SW1COMM",  DOOM1AND2, redonly1       },
+    { "SW1DIRT",  DOOM1AND2, redonly1       }, { "SW1MET2",  DOOM1AND2, redonly1       },
+    { "SW1STARG", DOOM2ONLY, redonly1       }, { "SW1STON1", DOOM1AND2, redonly1       },
+    { "SW1STON2", DOOM2ONLY, redonly1       }, { "SW1STONE", DOOM1AND2, redonly1       },
+    { "SW1STRTN", DOOM1AND2, redonly1       }, { "SW2BLUE",  DOOM1AND2, redonly1       },
     { "SW2BRCOM", DOOM1AND2, greenonly2     }, { "SW2BRIK",  DOOM1AND2, greenonly1     },
     { "SW2BRN1",  DOOM1AND2, greenonly2     }, { "SW2BRN2",  DOOM1AND2, greenonly1     },
     { "SW2BRNGN", DOOM1AND2, greenonly3     }, { "SW2COMM",  DOOM1AND2, greenonly1     },
-    { "SW2COMP",  DOOM1AND2, redonly        }, { "SW2DIRT",  DOOM1AND2, greenonly2     },
+    { "SW2COMP",  DOOM1AND2, redonly1       }, { "SW2DIRT",  DOOM1AND2, greenonly2     },
     { "SW2EXIT",  DOOM1AND2, notgray        }, { "SW2GARG",  DOOM1AND2, brighttan      },
     { "SW2GRAY",  DOOM1AND2, notgray        }, { "SW2GRAY1", DOOM1AND2, notgray        },
-    { "SW2GSTON", DOOM1AND2, redonly        }, { "SW2LION",  DOOM1AND2, brighttan      },
-    { "SW2MARB",  DOOM2ONLY, redonly        }, { "SW2MET2",  DOOM1AND2, greenonly1     },
-    { "SW2METAL", DOOM1AND2, greenonly3     }, { "SW2MOD1",  DOOM1AND2, greenonly1     },
-    { "SW2PANEL", DOOM1AND2, redonly        }, { "SW2ROCK",  DOOM1AND2, redonly        },
-    { "SW2SATYR", DOOM1AND2, brighttan      }, { "SW2SLAD",  DOOM1AND2, redonly        },
-    { "SW2STARG", DOOM2ONLY, greenonly2     }, { "SW2STON1", DOOM1AND2, greenonly3     },
-    { "SW2STON2", DOOM1ONLY, redonly        }, { "SW2STON2", DOOM2ONLY, greenonly2     },
-    { "SW2STON6", DOOM1AND2, redonly        }, { "SW2STONE", DOOM1AND2, greenonly2     },
-    { "SW2STRTN", DOOM1AND2, greenonly1     }, { "SW2TEK",   DOOM1AND2, greenonly1     },
-    { "SW2VINE",  DOOM1AND2, greenonly1     }, { "SW2WOOD",  DOOM1AND2, redonly        },
-    { "SW2ZIM",   DOOM1AND2, redonly        }, { "WOOD4",    DOOM1AND2, redonly        },
-    { "WOODGARG", DOOM1AND2, redonly        }, { "WOODSKUL", DOOM1AND2, redonly        },
-    { "ZELDOOR",  DOOM1AND2, redonly        }, { "",         0,         0              }
+    { "SW2GSTON", DOOM1AND2, redonly1       }, { "SW2HOT",   DOOM1AND2, redonly2       },
+    { "SW2LION",  DOOM1AND2, brighttan      }, { "SW2MARB",  DOOM2ONLY, redonly1       },
+    { "SW2MET2",  DOOM1AND2, greenonly1     }, { "SW2METAL", DOOM1AND2, greenonly3     },
+    { "SW2MOD1",  DOOM1AND2, greenonly1     }, { "SW2PANEL", DOOM1AND2, redonly1       },
+    { "SW2ROCK",  DOOM1AND2, redonly1       }, { "SW2SATYR", DOOM1AND2, brighttan      },
+    { "SW2SLAD",  DOOM1AND2, redonly1       }, { "SW2STARG", DOOM2ONLY, greenonly2     },
+    { "SW2STON1", DOOM1AND2, greenonly3     }, { "SW2STON2", DOOM1ONLY, redonly1       },
+    { "SW2STON2", DOOM2ONLY, greenonly2     }, { "SW2STON6", DOOM1AND2, redonly1       },
+    { "SW2STONE", DOOM1AND2, greenonly2     }, { "SW2STRTN", DOOM1AND2, greenonly1     },
+    { "SW2TEK",   DOOM1AND2, greenonly1     }, { "SW2VINE",  DOOM1AND2, greenonly1     },
+    { "SW2WOOD",  DOOM1AND2, redonly1       }, { "SW2ZIM",   DOOM1AND2, redonly1       },
+    { "WOOD4",    DOOM1AND2, redonly1       }, { "WOODGARG", DOOM1AND2, redonly1       },
+    { "WOODSKUL", DOOM1AND2, redonly1       }, { "ZELDOOR",  DOOM1AND2, redonly1       },
+    { "",         0,         0              }
 };
 
 //
