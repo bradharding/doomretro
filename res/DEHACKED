@@ -91,6 +91,7 @@ PD_ALL3 = %s need%s all 3 keys to open this door.
 PD_ALL6 = %s need%s all 6 keys to open this door.
 KEYCARD = keycard
 SKULLKEY = skull key
+KEYCARDORSKULLKEY = keycard or skull key
 SECRET = %s found a secret!
 GGSAVED = "%s" was saved.
 GGAUTOSAVED = "%s" was autosaved.
