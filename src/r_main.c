@@ -842,6 +842,16 @@ void R_InitColumnFunctions(void)
             info->colfunc = tlblue25colfunc;
             info->altcolfunc = tlblue25colfunc;
         }
+        else if (flags2 & MF2_REDTOGREEN)
+        {
+            info->colfunc = redtogreencolfunc;
+            info->altcolfunc = redtogreencolfunc;
+        }
+        else if (flags2 & MF2_REDTOBLUE)
+        {
+            info->colfunc = redtobluecolfunc;
+            info->altcolfunc = redtobluecolfunc;
+        }
         else
         {
             info->colfunc = basecolfunc;

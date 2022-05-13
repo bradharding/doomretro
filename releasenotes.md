@@ -57,7 +57,9 @@
   * `compat_light` can now be used so when a light level changes to the highest light level found in neighboring sectors, the search is made only for the first tagged sector, like in *Vanilla DOOM*.
   * `nograduallighting` can now be used to disable the effects of the `r_graduallighting` CVAR.
   * `compat_vileghosts` can now be used instead of `compat_coprsegibs`.
-* A bug is fixed whereby the bounding box of monsters changed in a `DEHACKED` lump would be incorrect in some instances.
+* The following changes have been made to the support of `DEHACKED` lumps:
+  * A bug is fixed whereby the bounding box of monsters wouldn’t change when specifying a `Width`.
+  * `REDTOBLUE` and `REDTOGREEN` now work.
 * Flying monsters now spawn at the correct height when using the `spawn` CCMD.
 * Sliding corpses can now cause other corpses to slide when the `r_corpses_nudge` CVAR is `on`.
 * Minor improvements have been made to the sliding of decorative corpses and barrels that are too close to an edge.
