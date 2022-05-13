@@ -1191,20 +1191,16 @@ int C_GetIndex(const char *cmd)
 static void C_ShowDescription(int index)
 {
     char    description[255];
-    char    description1[512];
 
     M_StringCopy(description, consolecmds[index].description, sizeof(description));
     description[0] = tolower(description[0]);
     M_StringReplaceAll(description, "%", "%%");
 
     if (consolecmds[index].type == CT_CCMD)
-        M_snprintf(description1, sizeof(description1), "This CCMD %s", description);
+        C_Output("This CCMD %s", description);
     else
-        M_snprintf(description1, sizeof(description1), "This CVAR %s%s",
-            (M_StringStartsWith(description, "toggles") ? "" : ((consolecmds[index].flags & CF_READONLY) ? "is " : "changes ")),
-            description);
-
-    C_Output(description1);
+        C_Output("This CVAR %s%s", (M_StringStartsWith(description, "toggles") ? "" :
+            ((consolecmds[index].flags & CF_READONLY) ? "is " : "changes ")), description);
 }
 
 static void C_ShowWarning(int index)

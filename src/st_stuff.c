@@ -1393,7 +1393,7 @@ static void ST_DrawWidgets(bool refresh)
 
             if (neededcard == it_allkeys)
             {
-                if (viewplayer->cards[it_bluecard] == CARDNOTINMAP)
+                if (viewplayer->cards[it_redcard] == CARDNOTINMAP)
                     for (int i = 0; i < NUMCARDS / 2; i++)
                     {
                         st_multicon_t   *keybox = &w_keyboxes[i];
