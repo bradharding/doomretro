@@ -282,9 +282,6 @@ enum
     // Convert all red to green
     MF2_REDTOGREEN                  = 0x00000400,
 
-    // Convert all green to red
-    MF2_GREENTORED                  = 0x00000800,
-
     // Convert all red to blue
     MF2_REDTOBLUE                   = 0x00001000,
 
