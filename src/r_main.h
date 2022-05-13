@@ -156,3 +156,4 @@ void R_ExecuteSetViewSize(void);
 
 void R_InitLightTables(void);
 void R_InitColumnFunctions(void);
+void R_UpdateMobjColfunc(mobj_t *mobj);

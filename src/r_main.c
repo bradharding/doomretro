@@ -493,6 +493,93 @@ void (*spanfunc)(void);
 void (*altspanfunc)(void);
 void (*bloodsplatcolfunc)(void);
 
+void R_UpdateMobjColfunc(mobj_t *mobj)
+{
+    const int   flags = mobj->flags;
+    const int   flags2 = mobj->flags2;
+
+    if (flags2 & MF2_TRANSLUCENT)
+    {
+        mobj->colfunc = tlcolfunc;
+        mobj->altcolfunc = tl50colfunc;
+    }
+    else if (flags & MF_FUZZ)
+    {
+        if (r_textures)
+        {
+            if ((flags2 & MF2_BLOOD) && r_blood != r_blood_all)
+                mobj->colfunc = mobj->altcolfunc = (r_translucency ? &R_DrawTranslucent33Column : &R_DrawColumn);
+            else
+            {
+                mobj->colfunc = &R_DrawFuzzColumn;
+                mobj->altcolfunc = &R_DrawFuzzColumn;
+            }
+        }
+        else
+            mobj->colfunc = mobj->altcolfunc = (r_translucency ? &R_DrawTranslucent50ColorColumn : &R_DrawColorColumn);
+    }
+    else if (flags2 & MF2_TRANSLUCENT_REDONLY)
+    {
+        mobj->colfunc = tlredcolfunc;
+        mobj->altcolfunc = tlred33colfunc;
+    }
+    else if (flags2 & MF2_TRANSLUCENT_GREENONLY)
+    {
+        mobj->colfunc = tlgreencolfunc;
+        mobj->altcolfunc = tlgreen33colfunc;
+    }
+    else if (flags2 & MF2_TRANSLUCENT_BLUEONLY)
+    {
+        mobj->colfunc = tlbluecolfunc;
+        mobj->altcolfunc = tlblue25colfunc;
+    }
+    else if (flags2 & MF2_TRANSLUCENT_33)
+    {
+        mobj->colfunc = tl33colfunc;
+        mobj->altcolfunc = tl33colfunc;
+    }
+    else if ((flags & MF_TRANSLUCENT) || (flags2 & MF2_TRANSLUCENT_50))
+    {
+        mobj->colfunc = tl50colfunc;
+        mobj->altcolfunc = tl50colfunc;
+    }
+    else if (flags2 & MF2_TRANSLUCENT_REDWHITEONLY)
+    {
+        mobj->colfunc = tlredwhitecolfunc1;
+        mobj->altcolfunc = tlred33colfunc;
+    }
+    else if (flags2 & MF2_TRANSLUCENT_REDTOGREEN_33)
+    {
+        mobj->colfunc = tlredtogreen33colfunc;
+        mobj->altcolfunc = tlredtogreen33colfunc;
+    }
+    else if (flags2 & MF2_TRANSLUCENT_REDTOBLUE_33)
+    {
+        mobj->colfunc = tlredtoblue33colfunc;
+        mobj->altcolfunc = tlredtoblue33colfunc;
+    }
+    else if (flags2 & MF2_TRANSLUCENT_BLUE_25)
+    {
+        mobj->colfunc = tlblue25colfunc;
+        mobj->altcolfunc = tlblue25colfunc;
+    }
+    else if (flags2 & MF2_REDTOGREEN)
+    {
+        mobj->colfunc = redtogreencolfunc;
+        mobj->altcolfunc = redtogreencolfunc;
+    }
+    else if (flags2 & MF2_REDTOBLUE)
+    {
+        mobj->colfunc = redtobluecolfunc;
+        mobj->altcolfunc = redtobluecolfunc;
+    }
+    else
+    {
+        mobj->colfunc = basecolfunc;
+        mobj->altcolfunc = basecolfunc;
+    }
+}
+
 void R_InitColumnFunctions(void)
 {
     if (r_textures)
@@ -761,7 +848,7 @@ void R_InitColumnFunctions(void)
         psprcolfunc = &R_DrawColorColumn;
     }
 
-    for (int i = 0; i < NUMMOBJTYPES; i++)
+    for (mobjtype_t i = 0; i < NUMMOBJTYPES; i++)
     {
         mobjinfo_t  *info = &mobjinfo[i];
         const int   flags = info->flags;

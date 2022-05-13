@@ -2804,6 +2804,8 @@ void A_AddFlags(mobj_t *actor, player_t *player, pspdef_t *psp)
 
     actor->flags |= actor->state->args[0];
     actor->mbf21flags |= actor->state->args[1];
+
+    R_UpdateMobjColfunc(actor);
 }
 
 //
@@ -2819,4 +2821,6 @@ void A_RemoveFlags(mobj_t *actor, player_t *player, pspdef_t *psp)
 
     actor->flags &= ~actor->state->args[0];
     actor->mbf21flags &= ~actor->state->args[1];
+
+    R_UpdateMobjColfunc(actor);
 }
