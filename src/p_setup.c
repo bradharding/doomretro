@@ -1887,9 +1887,7 @@ static void P_LoadThings(int map, int lump)
 
             if ((thing = P_SpawnMapThing(&mt, !nomonsters)))
             {
-                int flags = thing->flags;
-
-                if ((flags & MF_TOUCHY) || (flags & MF_BOUNCES) || (flags & MF_FRIEND))
+                if (thing->flags & (MF_TOUCHY | MF_BOUNCES | MF_FRIEND))
                     mbfcompatible = true;
 
                 thing->id = thingid;

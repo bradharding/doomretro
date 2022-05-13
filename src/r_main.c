@@ -217,25 +217,15 @@ angle_t R_PointToAngle2(fixed_t x1, fixed_t y1, fixed_t x, fixed_t y)
         if (y >= 0)
             return (x > y ? SlopeDiv(y, x) : ANG90 - 1 - SlopeDiv(x, y));
         else
-        {
-            y = -y;
-
-            return (x > y ? -SlopeDiv(y, x) : ANG270 + SlopeDiv(x, y));
-        }
+            return (x > (y = -y) ? -SlopeDiv(y, x) : ANG270 + SlopeDiv(x, y));
     }
+
+    x = -x;
+
+    if (y >= 0)
+        return (x > y ? ANG180 - 1 - SlopeDiv(y, x) : ANG90 + SlopeDiv(x, y));
     else
-    {
-        x = -x;
-
-        if (y >= 0)
-            return (x > y ? ANG180 - 1 - SlopeDiv(y, x) : ANG90 + SlopeDiv(x, y));
-        else
-        {
-            y = -y;
-
-            return (x > y ? ANG180 + SlopeDiv(y, x) : ANG270 - 1 - SlopeDiv(x, y));
-        }
-    }
+        return (x > (y = -y) ? ANG180 + SlopeDiv(y, x) : ANG270 - 1 - SlopeDiv(x, y));
 }
 
 // Point of view (viewx, viewy) to point (x1, y1) angle.

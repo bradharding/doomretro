@@ -46,7 +46,7 @@
 * The following improvements have been made to the support of [*MBF21*](https://doomwiki.org/wiki/MBF21)-compatible WADs:
   * The `DMGIGNORED` and `FULLVOLSOUNDS` flags now work correctly.
   * The `JumpIfFlagsSet`, `AddFlags` and `RemoveFlags` code pointers now work correctly.
-  * The player can now walk over certain linedefs in E2M7 again.
+  * The player can now walk over certain linedefs in *E2M7: Spawning Vats* again.
 * The “automap opened” stat shown by the `playerstats` CCMD is now reset at the start of each map as intended.
 * The `playerstats` CCMD now displays how many monsters have been telefragged and also how many have respawned.
 * Obituaries are now displayed in the console whenever the player or a monster is telefragged and the `con_obituaries` CVAR is `on`.
@@ -58,7 +58,7 @@
   * `nograduallighting` can now be used to disable the effects of the `r_graduallighting` CVAR.
   * `compat_vileghosts` can now be used instead of `compat_coprsegibs`.
 * The following changes have been made to the support of `DEHACKED` lumps:
-  * A bug is fixed whereby the bounding box of monsters wouldn’t change when specifying a `Width`.
+  * A bug is fixed whereby the bounding box of monsters wouldn’t change when using `Width`.
   * `REDTOBLUE` and `REDTOGREEN` now work.
 * Flying monsters now spawn at the correct height when using the `spawn` CCMD.
 * Sliding corpses can now cause other corpses to slide when the `r_corpses_nudge` CVAR is `on`.

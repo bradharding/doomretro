@@ -1192,10 +1192,10 @@ void C_UpdateFPSOverlay(void)
 
         M_snprintf(buffer, sizeof(buffer), s_STSTR_FPS, temp);
 
-        C_DrawOverlayText(screens[0], SCREENWIDTH, SCREENWIDTH - C_OverlayWidth(buffer, true) - OVERLAYTEXTX + 1, OVERLAYTEXTY, tinttab,
-            buffer, (framespersecond < (refreshrate && vid_capfps != TICRATE && !menuactive && !consoleactive && !paused ? refreshrate :
-            TICRATE) ? consoleoverlaywarningcolor : (((viewplayer->fixedcolormap == INVERSECOLORMAP) ^ (!r_textures)) && !automapactive ?
-            nearestblack : consoleoverlaycolor)), true);
+        C_DrawOverlayText(screens[0], SCREENWIDTH, SCREENWIDTH - C_OverlayWidth(buffer, true) - OVERLAYTEXTX + 1,
+            OVERLAYTEXTY, tinttab, buffer, (framespersecond < (refreshrate && vid_capfps != TICRATE ? refreshrate :
+            TICRATE) ? consoleoverlaywarningcolor : (((viewplayer->fixedcolormap == INVERSECOLORMAP) ^ (!r_textures))
+            && !automapactive ? nearestblack : consoleoverlaycolor)), true);
         free(temp);
     }
 }
@@ -1551,7 +1551,7 @@ void C_Drawer(void)
 
                 consoletextfunc = &V_DrawConsoleInputTextPatch;
                 x += C_DrawConsoleText(x, CONSOLEINPUTY, partialinput, consoleselectedinputcolor,
-                            consoleselectedinputbackgroundcolor, NOBOLDCOLOR, NULL, notabs, false, true, 0);
+                         consoleselectedinputbackgroundcolor, NOBOLDCOLOR, NULL, notabs, false, true, 0);
 
                 for (i = 1; i < CONSOLELINEHEIGHT - 1; i++)
                 {

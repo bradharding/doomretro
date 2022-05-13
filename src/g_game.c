@@ -275,7 +275,7 @@ void G_BuildTiccmd(ticcmd_t *cmd)
 
     // use two stage accelerative turning on the keyboard
     if (gamekeydown[keyboardright] || gamekeydown[keyboardleft]
-        || (gamecontrollerbuttons & gamecontrollerleft) || (gamecontrollerbuttons & gamecontrollerright))
+        || (gamecontrollerbuttons & (gamecontrollerleft | gamecontrollerright)))
         turnheld++;
     else
         turnheld = 0;
