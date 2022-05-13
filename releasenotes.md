@@ -62,6 +62,7 @@
   * `REDTOBLUE` and `REDTOGREEN` now work.
 * Flying monsters now spawn at the correct height when using the `spawn` CCMD.
 * Sliding corpses can now cause other corpses to slide when the `r_corpses_nudge` CVAR is `on`.
+* Corpses in liquid sectors can now be nudged when the `r_corpses_nudge` CVAR is `on`.
 * Minor improvements have been made to the sliding of decorative corpses and barrels that are too close to an edge.
 * Now only the alert and death sounds of cyberdemons and spider masterminds are at full volume.
 * Savegame descriptions in the console and player messages are no longer truncated when loading or saving a game.
