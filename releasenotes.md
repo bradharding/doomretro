@@ -69,7 +69,7 @@
 * Further improvements have been made to the support of [*Freedoom: Phase 1*](https://freedoom.github.io/) and [*Freedoom: Phase 2*](https://freedoom.github.io/).
 * The window will now be positioned correctly when changing the `vid_windowpos` CVAR to `centered` in the console and the `vid_fullscreen` CVAR is `off`.
 * Blood splats are no longer removed when using the `remove` CCMD to remove all corpses.
-* A brightmap is now applied to the `SW2HOT` texture when the `r_brightmaps` CVAR is `on`.
+* Brightmaps are now applied to more textures when the `r_brightmaps` CVAR is `on`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

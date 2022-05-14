@@ -183,6 +183,17 @@ static byte greenonly3[256] =
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 };
 
+static byte redandgreen[256] =
+{
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+};
 static byte blueandgreen[256] =
 {
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -207,24 +218,42 @@ static byte brighttan[256] =
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 };
 
+static byte yellowonly[256] =
+{
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0
+};
+
 static struct
 {
     char    texture[9];
     int     game;
     byte    *mask;
 } brightmaps[] = {
+    { "BTNTMETL", DOOM2ONLY, notgrayorbrown }, { "BTNTSLVR", DOOM2ONLY, notgrayorbrown },
     { "COMP2",    DOOM1AND2, blueandgreen   }, { "COMPSTA1", DOOM1AND2, notgray        },
     { "COMPSTA2", DOOM1AND2, notgray        }, { "COMPUTE1", DOOM1AND2, notgrayorbrown },
     { "COMPUTE2", DOOM1AND2, notgrayorbrown }, { "COMPUTE3", DOOM1AND2, notgrayorbrown },
     { "EXITSIGN", DOOM1AND2, notgray        }, { "EXITSTON", DOOM1AND2, redonly1       },
-    { "M_TEC",    DOOM2ONLY, greenonly2     }, { "PLANET1",  DOOM1AND2, notgray        },
-    { "PNK4EXIT", DOOM2ONLY, redonly1       }, { "SILVER2",  DOOM1AND2, notgray        },
-    { "SILVER3",  DOOM1AND2, notgrayorbrown }, { "SLAD2",    DOOM2ONLY, notgrayorbrown },
-    { "SLAD3",    DOOM2ONLY, notgrayorbrown }, { "SLAD4",    DOOM2ONLY, notgrayorbrown },
-    { "SLAD5",    DOOM2ONLY, notgrayorbrown }, { "SLAD6",    DOOM2ONLY, notgrayorbrown },
-    { "SLAD7",    DOOM2ONLY, notgrayorbrown }, { "SLAD8",    DOOM2ONLY, notgrayorbrown },
-    { "SLAD9",    DOOM2ONLY, notgrayorbrown }, { "SLAD10",   DOOM2ONLY, notgrayorbrown },
-    { "SLAD11",   DOOM2ONLY, notgrayorbrown }, { "SLADSKUL", DOOM1AND2, redonly1       },
+    { "LITEBLU1", DOOM1AND2, notgray        }, { "LITEBLU2", DOOM1AND2, notgray        },
+    { "LITERED2", DOOM2ONLY, redonly1       }, { "LITEYEL2", DOOM2ONLY, yellowonly     },
+    { "LITEYEL3", DOOM2ONLY, yellowonly     }, { "M_TEC",    DOOM2ONLY, greenonly2     },
+    { "METAL3",   DOOM2ONLY, redonly1       }, { "PIPEWAL1", DOOM2ONLY, greenonly1     },
+    { "PLANET1",  DOOM1AND2, notgray        }, { "PNK4EXIT", DOOM2ONLY, redonly1       },
+    { "SILVER2",  DOOM1AND2, notgray        }, { "SILVER3",  DOOM1AND2, notgrayorbrown },
+    { "SLAD2",    DOOM2ONLY, notgrayorbrown }, { "SLAD3",    DOOM2ONLY, notgrayorbrown },
+    { "SLAD4",    DOOM2ONLY, notgrayorbrown }, { "SLAD5",    DOOM2ONLY, notgrayorbrown },
+    { "SLAD6",    DOOM2ONLY, notgrayorbrown }, { "SLAD7",    DOOM2ONLY, notgrayorbrown },
+    { "SLAD8",    DOOM2ONLY, notgrayorbrown }, { "SLAD9",    DOOM2ONLY, notgrayorbrown },
+    { "SLAD10",   DOOM2ONLY, notgrayorbrown }, { "SLAD11",   DOOM2ONLY, notgrayorbrown },
+    { "SLADRIP1", DOOM2ONLY, notgrayorbrown }, { "SLADRIP3", DOOM2ONLY, notgrayorbrown },
+    { "SLADSKUL", DOOM1AND2, redonly1       }, { "SPCDOOR3", DOOM2ONLY, greenonly1     },
     { "SW1BRCOM", DOOM1AND2, redonly1       }, { "SW1BRIK",  DOOM1AND2, redonly1       },
     { "SW1BRN1",  DOOM2ONLY, redonly1       }, { "SW1COMM",  DOOM1AND2, redonly1       },
     { "SW1DIRT",  DOOM1AND2, redonly1       }, { "SW1MET2",  DOOM1AND2, redonly1       },
@@ -242,14 +271,17 @@ static struct
     { "SW2MET2",  DOOM1AND2, greenonly1     }, { "SW2METAL", DOOM1AND2, greenonly3     },
     { "SW2MOD1",  DOOM1AND2, greenonly1     }, { "SW2PANEL", DOOM1AND2, redonly1       },
     { "SW2ROCK",  DOOM1AND2, redonly1       }, { "SW2SATYR", DOOM1AND2, brighttan      },
-    { "SW2SLAD",  DOOM1AND2, redonly1       }, { "SW2STARG", DOOM2ONLY, greenonly2     },
-    { "SW2STON1", DOOM1AND2, greenonly3     }, { "SW2STON2", DOOM1ONLY, redonly1       },
-    { "SW2STON2", DOOM2ONLY, greenonly2     }, { "SW2STON6", DOOM1AND2, redonly1       },
-    { "SW2STONE", DOOM1AND2, greenonly2     }, { "SW2STRTN", DOOM1AND2, greenonly1     },
-    { "SW2TEK",   DOOM1AND2, greenonly1     }, { "SW2VINE",  DOOM1AND2, greenonly1     },
-    { "SW2WOOD",  DOOM1AND2, redonly1       }, { "SW2ZIM",   DOOM1AND2, redonly1       },
-    { "WOOD4",    DOOM1AND2, redonly1       }, { "WOODGARG", DOOM1AND2, redonly1       },
-    { "WOODSKUL", DOOM1AND2, redonly1       }, { "ZELDOOR",  DOOM1AND2, redonly1       },
+    { "SW2SKULL", DOOM2ONLY, redandgreen    }, { "SW2SLAD",  DOOM1AND2, redonly1       },
+    { "SW2STARG", DOOM2ONLY, greenonly2     }, { "SW2STON1", DOOM1AND2, greenonly3     },
+    { "SW2STON2", DOOM1ONLY, redonly1       }, { "SW2STON2", DOOM2ONLY, greenonly2     },
+    { "SW2STON6", DOOM1AND2, redonly1       }, { "SW2STONE", DOOM1AND2, greenonly2     },
+    { "SW2STRTN", DOOM1AND2, greenonly1     }, { "SW2TEK",   DOOM1AND2, greenonly1     },
+    { "SW2VINE",  DOOM1AND2, greenonly1     }, { "SW2WOOD",  DOOM1AND2, redonly1       },
+    { "SW2ZIM",   DOOM1AND2, redonly1       }, { "WOOD4",    DOOM1AND2, redonly1       },
+    { "WOODGARG", DOOM1AND2, redonly1       }, { "WOODSKUL", DOOM1AND2, redonly1       },
+    { "ZELDOOR",  DOOM1AND2, redonly1       }, { "TEKLITE2", DOOM2ONLY, greenonly1     },
+    { "TEKBRON2", DOOM2ONLY, yellowonly     }, { "TEKWALL2", DOOM1ONLY, redonly1       },
+    { "TEKWALL5", DOOM1ONLY, redonly1       }, { "YELMETAL", DOOM2ONLY, yellowonly     },
     { "",         0,         0              }
 };
 
