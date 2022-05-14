@@ -8618,7 +8618,7 @@ static void player_cvars_func2(char *cmd, char *parms)
                         P_AddBonus();
                         M_snprintf(buffer, sizeof(buffer), "%s resurrected %s.",
                             playername,
-                            (M_StringCompare(playername, playername_default) ? "your" : pronoun(reflexive)));
+                            (M_StringCompare(playername, playername_default) ? "yourself" : pronoun(reflexive)));
                         buffer[0] = toupper(buffer[0]);
                         C_PlayerMessage(buffer);
                     }
