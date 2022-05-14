@@ -508,15 +508,34 @@ void R_UpdateMobjColfunc(mobj_t *mobj)
         if (r_textures)
         {
             if ((flags2 & MF2_BLOOD) && r_blood != r_blood_all)
-                mobj->colfunc = mobj->altcolfunc = (r_translucency ? &R_DrawTranslucent33Column : &R_DrawColumn);
+            {
+                if (r_translucency)
+                {
+                    mobj->colfunc = &R_DrawTranslucent33Column;
+                    mobj->altcolfunc = &R_DrawTranslucent33Column;
+                }
+                else
+                {
+                    mobj->colfunc = &R_DrawColumn;
+                    mobj->altcolfunc = &R_DrawColumn;
+                }
+            }
             else
             {
                 mobj->colfunc = &R_DrawFuzzColumn;
                 mobj->altcolfunc = &R_DrawFuzzColumn;
             }
         }
+        else if (r_translucency)
+        {
+            mobj->colfunc = &R_DrawTranslucent50ColorColumn;
+            mobj->altcolfunc = &R_DrawTranslucent50ColorColumn;
+        }
         else
-            mobj->colfunc = mobj->altcolfunc = (r_translucency ? &R_DrawTranslucent50ColorColumn : &R_DrawColorColumn);
+        {
+            mobj->colfunc = &R_DrawColorColumn;
+            mobj->altcolfunc = &R_DrawColorColumn;
+        }
     }
     else if (flags2 & MF2_TRANSLUCENT_REDONLY)
     {
@@ -864,15 +883,34 @@ void R_InitColumnFunctions(void)
             if (r_textures)
             {
                 if ((flags2 & MF2_BLOOD) && r_blood != r_blood_all)
-                    info->colfunc = info->altcolfunc = (r_translucency ? &R_DrawTranslucent33Column : &R_DrawColumn);
+                {
+                    if (r_translucency)
+                    {
+                        info->colfunc = &R_DrawTranslucent33Column;
+                        info->altcolfunc = &R_DrawTranslucent33Column;
+                    }
+                    else
+                    {
+                        info->colfunc = &R_DrawColumn;
+                        info->altcolfunc = &R_DrawColumn;
+                    }
+                }
                 else
                 {
                     info->colfunc = &R_DrawFuzzColumn;
                     info->altcolfunc = &R_DrawFuzzColumn;
                 }
             }
+            else if (r_translucency)
+            {
+                info->colfunc = &R_DrawTranslucent50ColorColumn;
+                info->altcolfunc = &R_DrawTranslucent50ColorColumn;
+            }
             else
-                info->colfunc = info->altcolfunc = (r_translucency ? &R_DrawTranslucent50ColorColumn : &R_DrawColorColumn);
+            {
+                info->colfunc = &R_DrawColorColumn;
+                info->altcolfunc = &R_DrawColorColumn;
+            }
         }
         else if (flags2 & MF2_TRANSLUCENT_REDONLY)
         {

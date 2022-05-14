@@ -3911,13 +3911,10 @@ static void deh_procStrings(DEHFILE *fpin, char *line)
 //
 static bool deh_procStringSub(char *key, char *lookfor, char *newstring)
 {
-    bool    found = false;  // loop exit flag
+    bool    found;  // loop exit flag
 
     for (int i = 0; i < deh_numstrlookup; i++)
-    {
-        found = (lookfor ? M_StringCompare(*deh_strlookup[i].ppstr, lookfor) : M_StringCompare(deh_strlookup[i].lookup, key));
-
-        if (found)
+        if ((found = (lookfor ? M_StringCompare(*deh_strlookup[i].ppstr, lookfor) : M_StringCompare(deh_strlookup[i].lookup, key))))
         {
             char    *t;
 
@@ -3967,7 +3964,6 @@ static bool deh_procStringSub(char *key, char *lookfor, char *newstring)
 
             break;
         }
-    }
 
     if (!found && !hacx)
         C_Warning(1, "The " BOLD("\"%s\"") " string can't be found.", (key ? key : lookfor));

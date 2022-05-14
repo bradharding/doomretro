@@ -2,7 +2,7 @@
 
 #### DOOM Retro v4.5
 
-* *DOOM Retro* is now compiled using v17.2.0 of [*Microsoft Visual Studio Community 2022*](https://www.visualstudio.com/vs/).
+* *DOOM Retro* is now compiled using v17.2 of [*Microsoft Visual Studio Community 2022*](https://www.visualstudio.com/vs/).
 * *DOOM Retro* now uses [*SDL v2.0.22*](https://www.libsdl.org).
 * Extensive optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Moving the mouse to turn the player is now even smoother.
@@ -22,7 +22,7 @@
   * The display of the cheat in the console is now redacted.
   * The cheat is now skipped in the console’s input history when pressing the <kbd><b>&uarr;</b></kbd> or <kbd><b>&darr;</b></kbd> keys.
   * A warning is now displayed in the console indicating that the player has cheated.
-  * Fade effects are no longer applied when entering most cheats and the `fade` CVAR is `on`.
+  * Fade effects are no longer applied when entering most cheats if the `fade` CVAR is `on`.
   * More time has been given to the player to enter the `IDBEHOLDx` cheat.
 * The pausing and then resuming of any liquid sectors in view when opening and then closing the console is now smoother.
 * Improvements have been made in determining whether something is in liquid or not.
@@ -62,7 +62,7 @@
   * `REDTOBLUE` and `REDTOGREEN` now work.
 * Flying monsters now spawn at the correct height when using the `spawn` CCMD.
 * Sliding corpses can now cause other corpses to slide when the `r_corpses_nudge` CVAR is `on`.
-* Corpses in liquid sectors can now be nudged when the `r_corpses_nudge` CVAR is `on`.
+* Corpses in liquid sectors can now be nudged again when the `r_corpses_nudge` CVAR is `on`.
 * Minor improvements have been made to the sliding of decorative corpses and barrels that are too close to an edge.
 * Now only the alert and death sounds of cyberdemons and spider masterminds are at full volume.
 * Savegame descriptions in the console and player messages are no longer truncated when loading or saving a game.
