@@ -271,7 +271,7 @@ static void P_XYMovement(mobj_t *mo)
 
     // [BH] spawn random blood splats on floor as corpses slide
     if (corpse && !(mo->flags & MF_NOBLOOD) && r_corpses_slide && r_corpses_smearblood
-        && (mo->momx || mo->momy) && mo->bloodsplats && r_bloodsplats_max && !mo->nudge)
+        && (mo->momx || mo->momy) && mo->bloodsplats && r_bloodsplats_max)
     {
         const int   max = MIN((ABS(mo->momx) + ABS(mo->momy)) >> (FRACBITS - 2), 8);
 
