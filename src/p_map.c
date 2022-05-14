@@ -454,6 +454,10 @@ static bool PIT_CheckThing(mobj_t *thing)
     const mobjtype_t    type = thing->type;
     const mobjtype_t    tmtype = tmthing->type;
 
+    // don't clip against self
+    if (thing == tmthing)
+        return true;
+
     // [BH] apply small amount of momentum to a corpse when a monster walks over it
     if (((corpse && type != MT_BARREL) || (flags & MF_DROPPED)) && !thing->nudge && thing->floorz == tmthing->floorz
         && ((tmflags & MF_SHOOTABLE) || ((tmflags & MF_CORPSE) && (tmthing->momx || tmthing->momy))) && r_corpses_nudge)
@@ -482,15 +486,6 @@ static bool PIT_CheckThing(mobj_t *thing)
 
     if (ABS(thing->x - tmx) >= blockdist || ABS(thing->y - tmy) >= blockdist)
         return true;                    // didn't hit it
-
-    // killough 11/98:
-    //
-    // This test has less information content (it's almost always false), so it
-    // should not be moved up to first, as it adds more overhead than it removes.
-
-    // don't clip against self
-    if (thing == tmthing)
-        return true;
 
     // killough 11/98:
     // TOUCHY flag, for mines or other objects which die on contact with solids.
