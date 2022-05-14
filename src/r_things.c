@@ -437,11 +437,10 @@ static void R_DrawVisSprite(const vissprite_t *vis)
 
     spryscale = vis->scale;
 
-    if (r_ditheredlighting)
-        dc_z = ((spryscale >> 5) & 255);
-
     dc_colormap[0] = vis->colormap;
     dc_nextcolormap[0] = vis->nextcolormap;
+    dc_z = ((spryscale >> 5) & 255);
+
     dc_iscale = FixedDiv(FRACUNIT, spryscale);
     dc_texturemid = vis->texturemid;
 
@@ -484,11 +483,10 @@ static void R_DrawVisSpriteWithShadow(const vissprite_t *vis)
 
     spryscale = vis->scale;
 
-    if (r_ditheredlighting)
-        dc_z = ((spryscale >> 5) & 255);
-
     dc_colormap[0] = vis->colormap;
     dc_nextcolormap[0] = vis->nextcolormap;
+    dc_z = ((spryscale >> 5) & 255);
+
     dc_black = dc_colormap[0][nearestblack];
 
     if ((mobj->flags2 & MF2_TRANSLUCENT_33) && r_translucency)
@@ -920,7 +918,7 @@ void R_AddSprites(sector_t *sec, int lightlevel)
             if (lightlevel != prevlightlevel)
             {
                 spritelights = scalelight[BETWEEN(0, (lightlevel >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)];
-                nextspritelights = (r_ditheredlighting && thing ?
+                nextspritelights = (thing ?
                     scalelight[BETWEEN(0, ((lightlevel + 4) >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)] : spritelights);
                 prevlightlevel = lightlevel;
             }
@@ -939,8 +937,7 @@ void R_AddSprites(sector_t *sec, int lightlevel)
             if (lightlevel != prevlightlevel)
             {
                 spritelights = scalelight[BETWEEN(0, (lightlevel >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)];
-                nextspritelights = (r_ditheredlighting ?
-                    scalelight[BETWEEN(0, ((lightlevel + 4) >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)] : spritelights);
+                nextspritelights = scalelight[BETWEEN(0, ((lightlevel + 4) >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)];
                 prevlightlevel = lightlevel;
             }
         }
@@ -954,8 +951,7 @@ void R_AddSprites(sector_t *sec, int lightlevel)
         if (lightlevel != prevlightlevel)
         {
             spritelights = scalelight[BETWEEN(0, (lightlevel >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)];
-            nextspritelights = (r_ditheredlighting ?
-                scalelight[BETWEEN(0, ((lightlevel + 4) >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)] : spritelights);
+            nextspritelights = scalelight[BETWEEN(0, ((lightlevel + 4) >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)];
             prevlightlevel = lightlevel;
         }
 
