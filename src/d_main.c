@@ -2398,8 +2398,8 @@ static void D_DoomMainSetup(void)
 
     fineprintlump = W_CacheLastLumpName("DRFNPRNT");
 
-    logox = (SCREENWIDTH - NONWIDEWIDTH) / 2 + 143;
-    fineprintx = (SCREENWIDTH - NONWIDEWIDTH) / 2 + 12;
+    logox = (SCREENWIDTH - SHORT(logolump[0]->width)) / 2;
+    fineprintx = (SCREENWIDTH - SHORT(fineprintlump->width)) / 2;
 
     if (autosigil)
     {
