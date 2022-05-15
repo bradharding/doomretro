@@ -454,11 +454,11 @@ static bool PIT_CheckThing(mobj_t *thing)
     const mobjtype_t    type = thing->type;
     const mobjtype_t    tmtype = tmthing->type;
 
-    // don't clip against self
+    // don't clip against self (can happen with corpses)
     if (thing == tmthing)
         return true;
 
-    // [BH] apply small amount of momentum to a corpse when a monster walks over it
+    // [BH] apply small amount of momentum to a corpse or dropped item when something walks over it
     if (((corpse && type != MT_BARREL) || (flags & MF_DROPPED)) && !thing->nudge && thing->floorz == tmthing->floorz
         && ((tmflags & MF_SHOOTABLE) || ((tmflags & MF_CORPSE) && (tmthing->momx || tmthing->momy))) && r_corpses_nudge)
         if (P_ApproxDistance(thing->x - tmthing->x, thing->y - tmthing->y) < 16 * FRACUNIT)
@@ -521,9 +521,9 @@ static bool PIT_CheckThing(mobj_t *thing)
     if (((tmthing->flags2 & MF2_PASSMOBJ) || (thing->flags2 & MF2_PASSMOBJ)) && !infiniteheight && !(flags & MF_SPECIAL))
     {
         if (tmthing->z >= thing->z + thing->height)
-            return true;                // over thing
+            return true;    // over thing
         else if (tmthing->z + tmthing->height <= thing->z)
-            return true;                // under thing
+            return true;    // under thing
     }
 
     // check for skulls slamming into things
@@ -538,7 +538,7 @@ static bool PIT_CheckThing(mobj_t *thing)
 
         P_SetMobjState(tmthing, tmthing->info->spawnstate);
 
-        return false;                   // stop moving
+        return false;       // stop moving
     }
 
     // missiles can hit other things
@@ -552,10 +552,10 @@ static bool PIT_CheckThing(mobj_t *thing)
 
         // see if it went over/under
         if (tmthing->z > thing->z + height)
-            return true;                // overhead
+            return true;    // overhead
 
         if (tmthing->z + tmthing->height < thing->z)
-            return true;                // underneath
+            return true;    // underneath
 
         if (tmthing->target && P_ProjectileImmune(thing, tmthing->target))
         {
@@ -563,8 +563,7 @@ static bool PIT_CheckThing(mobj_t *thing)
             if (thing == tmthing->target)
                 return true;
             else if (!infight && !species_infighting)
-                // Explode, but do no damage.
-                return false;
+                return false;   // Explode, but do no damage.
         }
 
         // killough 08/10/98: if moving thing is not a missile, no damage
@@ -837,6 +836,7 @@ bool P_CheckPosition(mobj_t *thing, fixed_t x, fixed_t y)
     if ((thing->flags & MF_SPECIAL) && !(thing->flags & MF_DROPPED))
     {
         radius = thing->info->pickupradius;
+
         tmbbox[BOXTOP] = y + radius;
         tmbbox[BOXBOTTOM] = y - radius;
         tmbbox[BOXRIGHT] = x + radius;
@@ -868,7 +868,7 @@ static void P_FakeZMovement(mobj_t *mo)
         // float down towards target if too close
         if (!(mo->flags & MF_SKULLFLY) && !(mo->flags & MF_INFLOAT))
         {
-            fixed_t delta = (mo->target->z + (mo->height >> 1) - mo->z) * 3;
+            const fixed_t   delta = (mo->target->z + (mo->height >> 1) - mo->z) * 3;
 
             if (P_ApproxDistance(mo->x - mo->target->x, mo->y - mo->target->y) < ABS(delta))
                 mo->z += (delta < 0 ? -FLOATSPEED : FLOATSPEED);
@@ -1154,7 +1154,7 @@ static bool PIT_ApplyTorque(line_t *ld)
             // increased, the momentum gradually decreases to 0 for
             // the same amount of pseudotorque, so that oscillations
             // are prevented, yet it has a chance to reach equilibrium.
-            dist = FixedDiv(FixedMul(dist, (mo->gear < OVERDRIVE ? y << -(mo->gear - OVERDRIVE) : y >> (mo->gear - OVERDRIVE))), x);
+            dist = FixedDiv(FixedMul(dist, (mo->gear < OVERDRIVE ? y << (OVERDRIVE - mo->gear) : y >> (mo->gear - OVERDRIVE))), x);
 
             // Apply momentum away from the pivot linedef.
             x = FixedMul(ld->dy, dist);
@@ -1390,7 +1390,7 @@ static bool PTR_SlideTraverse(intercept_t *in)
     const unsigned short    flags = li->flags;
 
     // [JN] Treat two sided linedefs as single sided for smooth sliding.
-    if ((flags & ML_BLOCKING) && (flags & ML_TWOSIDED))
+    if (flags & (ML_BLOCKING | ML_TWOSIDED))
         goto isblocking;
 
     if (!(flags & ML_TWOSIDED))

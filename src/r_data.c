@@ -933,9 +933,8 @@ static void R_InitSpriteLumps(void)
 static void R_InitColormaps(void)
 {
     bool        COLORMAP = (W_CheckMultipleLumps("COLORMAP") > 1);
-    byte        *palsrc;
-    byte        *palette;
-    wadfile_t   *colormapwad;
+    byte        *palsrc = PLAYPAL;
+    wadfile_t   *colormapwad = lumpinfo[W_CheckNumForName("COLORMAP")]->wadfile;
 
     if (W_CheckNumForName("C_START") >= 0 && W_CheckNumForName("C_END") >= 0)
     {
@@ -951,8 +950,6 @@ static void R_InitColormaps(void)
         colormaps = Z_Malloc(sizeof(*colormaps), PU_STATIC, NULL);
 
     dc_colormap[1] = dc_nextcolormap[1] = colormaps[0] = W_CacheLumpName("COLORMAP");
-
-    colormapwad = lumpinfo[W_CheckNumForName("COLORMAP")]->wadfile;
 
     if (numcolormaps == 1)
         C_Output("Using the " BOLD("COLORMAP") " lump in the %s " BOLD("%s") ".",
@@ -970,8 +967,6 @@ static void R_InitColormaps(void)
                 (othercolormapwad->type == IWAD ? "IWAD" : "PWAD"), othercolormapwad->path);
     }
 
-    palsrc = palette = PLAYPAL;
-
     for (int i = 0; i < 255; i++)
     {
         double  red = *palsrc++;
@@ -979,12 +974,12 @@ static void R_InitColormaps(void)
         double  blue = *palsrc++;
         int     gray = (int)(red * 0.2126 + green * 0.7152 + blue * 0.0722);
 
-        grays[i] = FindNearestColor(palette, gray, gray, gray);
+        grays[i] = FindNearestColor(PLAYPAL, gray, gray, gray);
 
         if (!COLORMAP)
         {
             gray = 255 - gray;
-            colormaps[0][32 * 256 + i] = FindNearestColor(palette, gray, gray, gray);
+            colormaps[0][32 * 256 + i] = FindNearestColor(PLAYPAL, gray, gray, gray);
         }
     }
 }
