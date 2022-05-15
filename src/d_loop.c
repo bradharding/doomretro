@@ -46,7 +46,7 @@
 
 // [AM] Fractional part of the current tic, in the half-open
 //      range of [0.0, 1.0). Used for interpolation.
-fixed_t     fractionaltic;
+fixed_t     fractionaltic = 0;
 
 ticcmd_t    localcmds[BACKUPTICS];
 
