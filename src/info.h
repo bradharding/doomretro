@@ -301,6 +301,7 @@ typedef struct
     char        plural3[64];
     void        (*colfunc)(void);
     void        (*altcolfunc)(void);
+    byte        automapcolor;
 } mobjinfo_t;
 
 extern mobjinfo_t   mobjinfo[];

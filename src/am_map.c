@@ -327,6 +327,16 @@ void AM_SetColors(void)
     backcolor = nearestcolors[am_backcolor];
     pathcolor = nearestcolors[am_pathcolor];
 
+    for (mobjtype_t i = 0; i < NUMMOBJTYPES; i++)
+        mobjinfo[i].automapcolor = thingcolor;
+
+    mobjinfo[MT_MISC4].automapcolor = bluekeycolor;
+    mobjinfo[MT_MISC5].automapcolor = redkeycolor;
+    mobjinfo[MT_MISC6].automapcolor = yellowkeycolor;
+    mobjinfo[MT_MISC7].automapcolor = yellowkeycolor;
+    mobjinfo[MT_MISC8].automapcolor = redkeycolor;
+    mobjinfo[MT_MISC9].automapcolor = bluekeycolor;
+
     am_crosshaircolor2 = &tinttab60[nearestcolors[am_crosshaircolor] << 8];
 
     for (int x = 0; x < 256; x++)
@@ -1814,7 +1824,7 @@ static void AM_DrawThings(void)
         { { -32768,  45875 }, { -32768, -45875 } }
     };
 
-    angle_t angleoffset = (am_rotatemode ? viewangle - ANG90 : 0);
+    const angle_t   angleoffset = (am_rotatemode ? viewangle - ANG90 : 0);
 
     for (int i = 0; i < numsectors; i++)
     {
@@ -1865,20 +1875,8 @@ static void AM_DrawThings(void)
                     fy = CYMTOF(point.y);
 
                     if (fx >= -width && fx <= MAPWIDTH + width && fy >= -width && fy <= (int)MAPHEIGHT + width)
-                    {
-                        mobjtype_t  type = thing->type;
-                        byte        color = thingcolor;
-
-                        if (type == MT_MISC4 || type == MT_MISC9)
-                            color = bluekeycolor;
-                        else if (type == MT_MISC5 || type == MT_MISC8)
-                            color = redkeycolor;
-                        else if (type == MT_MISC6 || type == MT_MISC7)
-                            color = yellowkeycolor;
-
                         AM_DrawThingTriangle(thingtriangle, THINGTRIANGLELINES, width,
-                            thing->angle - angleoffset, point.x, point.y, color);
-                    }
+                            thing->angle - angleoffset, point.x, point.y, mobjinfo[thing->type].automapcolor);
                 }
 
                 thing = thing->snext;
