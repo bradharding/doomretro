@@ -1871,10 +1871,8 @@ static void AM_DrawThings(void)
                     if (am_rotatemode)
                         AM_RotatePoint(&point);
 
-                    fx = CXMTOF(point.x);
-                    fy = CYMTOF(point.y);
-
-                    if (fx >= -width && fx <= MAPWIDTH + width && fy >= -width && fy <= (int)MAPHEIGHT + width)
+                    if ((fx = CXMTOF(point.x)) >= -width && fx <= MAPWIDTH + width
+                        && (fy = CYMTOF(point.y)) >= -width && fy <= (int)MAPHEIGHT + width)
                         AM_DrawThingTriangle(thingtriangle, THINGTRIANGLELINES, width,
                             thing->angle - angleoffset, point.x, point.y, mobjinfo[thing->type].automapcolor);
                 }
