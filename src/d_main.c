@@ -255,13 +255,13 @@ void D_FadeScreenToBlack(void)
     if (!fade)
         return;
 
-    for (double i = 0.9; i >= 0.0; i -= 0.1)
+    for (double i = 0.9; i >= 0.0; i -= 0.05)
     {
         I_SetPaletteWithBrightness(PLAYPAL, i);
         blitfunc();
         I_SetExternalAutomapPalette();
         I_SetMusicVolume((int)(current_music_volume * i));
-        I_Sleep(30);
+        I_Sleep(20);
     }
 }
 
