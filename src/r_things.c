@@ -301,7 +301,7 @@ static void R_InitSpriteDefs(void)
     firstbloodsplatlump = sprites[SPR_BLD2].spriteframes[0].lump[0];
 
     // check if Wolfenstein SS sprites have been changed to zombiemen sprites
-    if (gamemode != commercial || bfgedition)
+    if (gamemode != commercial || (bfgedition && !states[S_SSWV_STND].dehacked))
         allowwolfensteinss = false;
     else
     {

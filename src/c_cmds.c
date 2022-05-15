@@ -2865,7 +2865,7 @@ static bool kill_cmd_func1(char *cmd, char *parms)
                         || (*mobjinfo[i].plural3 && M_StringCompare(parm, temp6))
                         || (sscanf(parm, "%10i", &num) == 1 && num == killcmdtype && num != -1)))
                 {
-                    if (killcmdtype == WolfensteinSS && !allowwolfensteinss && !states[S_SSWV_STND].dehacked)
+                    if (killcmdtype == WolfensteinSS && !allowwolfensteinss)
                         result = false;
                     else
                         result = ((mobjinfo[i].flags & MF_SHOOTABLE)
@@ -6676,7 +6676,7 @@ static bool resurrect_cmd_func1(char *cmd, char *parms)
                         || (*mobjinfo[i].plural3 && M_StringCompare(parm, temp6))
                         || (sscanf(parm, "%10i", &num) == 1 && num == resurrectcmdtype && num != -1)))
                 {
-                    if (resurrectcmdtype == WolfensteinSS && !allowwolfensteinss && !states[S_SSWV_STND].dehacked)
+                    if (resurrectcmdtype == WolfensteinSS && !allowwolfensteinss)
                         result = false;
                     else
                         result = (mobjinfo[i].flags & MF_SHOOTABLE);
@@ -7009,7 +7009,7 @@ static void spawn_cmd_func2(char *cmd, char *parms)
                 spawn = false;
             }
         }
-        else if (spawncmdtype == WolfensteinSS && (!allowwolfensteinss || spawncmdfriendly) && !states[S_SSWV_STND].dehacked)
+        else if (spawncmdtype == WolfensteinSS && !allowwolfensteinss)
         {
             C_Warning(0, "%s%s can't be spawned in %s" ITALICS("%s."),
                 (spawncmdfriendly ? "Friendly " : ""), mobjinfo[type].name1,
