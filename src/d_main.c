@@ -497,6 +497,8 @@ static patch_t  *fineprintlump;
 static patch_t  *logolump[18];
 static patch_t  *titlelump;
 static byte     *splashpal;
+static short    fineprintx;
+static short    logox;
 
 //
 // D_PageTicker
@@ -537,11 +539,9 @@ void D_PageDrawer(void)
 {
     if (splashscreen)
     {
-        const int   x = (SCREENWIDTH - NONWIDEWIDTH) / 2;
-
         memset(screens[0], nearestblack, SCREENAREA);
-        V_DrawBigPatch(x + 143, 167, logolump[BETWEEN(0, 94 - logotic, 17)]);
-        V_DrawBigPatch(x + 12, 365, fineprintlump);
+        V_DrawBigPatch(logox, 167, logolump[BETWEEN(0, 94 - logotic, 17)]);
+        V_DrawBigPatch(fineprintx, 365, fineprintlump);
         I_SetSimplePalette(&splashpal[pagetic < 9 ? (9 - pagetic) * 768 : (pagetic <= 94 ? 0 : (pagetic - 94) * 768)]);
 
         return;
@@ -2386,7 +2386,6 @@ static void D_DoomMainSetup(void)
         G_LoadGame(P_SaveGameFile(startloadgame));
     }
 
-    fineprintlump = W_CacheLastLumpName("DRFNPRNT");
     splashpal = W_CacheLastLumpName("SPLSHPAL");
 
     for (int i = 0; i < 18; i++)
@@ -2396,6 +2395,11 @@ static void D_DoomMainSetup(void)
         M_snprintf(buffer, sizeof(buffer), "DRLOGO%02i", i + 1);
         logolump[i] = W_CacheLastLumpName(buffer);
     }
+
+    fineprintlump = W_CacheLastLumpName("DRFNPRNT");
+
+    logox = (SCREENWIDTH - NONWIDEWIDTH) / 2 + 143;
+    fineprintx = (SCREENWIDTH - NONWIDEWIDTH) / 2 + 12;
 
     if (autosigil)
     {
