@@ -2386,7 +2386,7 @@ static void D_DoomMainSetup(void)
         G_LoadGame(P_SaveGameFile(startloadgame));
     }
 
-    fineprintlump = W_CacheLastLumpName("FINEPRNT");
+    fineprintlump = W_CacheLastLumpName("DRFNPRNT");
     splashpal = W_CacheLastLumpName("SPLSHPAL");
 
     for (int i = 0; i < 18; i++)
