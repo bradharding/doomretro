@@ -311,7 +311,7 @@ void D_Display(void)
 
     if (gamestate != GS_LEVEL)
     {
-        if (gamestate != oldgamestate && !splashscreen)
+        if (gamestate != oldgamestate)
             I_SetPalette(PLAYPAL);
 
         switch (gamestate)
@@ -475,9 +475,16 @@ static void D_DoomLoop(void)
     {
         TryRunTics();       // will run at least one tic
 
-        S_UpdateSounds();   // move positional sounds
-
-        D_Display();        // update display, next frame, with current state
+        if (splashscreen)
+        {
+            D_SplashDrawer();
+            blitfunc();
+        }
+        else
+        {
+            S_UpdateSounds();   // move positional sounds
+            D_Display();        // update display, next frame, with current state
+        }
     }
 }
 
@@ -522,7 +529,7 @@ void D_PageTicker(void)
 
     if (pagetic < 0)
     {
-        D_AdvanceTitle();
+        advancetitle = true;
 
         if (splashscreen)
         {
@@ -533,33 +540,25 @@ void D_PageTicker(void)
 }
 
 //
+// D_SplashDrawer
+//
+void D_SplashDrawer(void)
+{
+    memset(screens[0], nearestblack, SCREENAREA);
+    V_DrawBigPatch(logox, 167, logolump[BETWEEN(0, 94 - logotic, 17)]);
+    V_DrawBigPatch(fineprintx, 365, fineprintlump);
+    I_SetSimplePalette(&splashpal[pagetic < 9 ? (9 - pagetic) * 768 : (pagetic <= 94 ? 0 : (pagetic - 94) * 768)]);
+}
+
+//
 // D_PageDrawer
 //
 void D_PageDrawer(void)
 {
-    if (splashscreen)
-    {
-        memset(screens[0], nearestblack, SCREENAREA);
-        V_DrawBigPatch(logox, 167, logolump[BETWEEN(0, 94 - logotic, 17)]);
-        V_DrawBigPatch(fineprintx, 365, fineprintlump);
-        I_SetSimplePalette(&splashpal[pagetic < 9 ? (9 - pagetic) * 768 : (pagetic <= 94 ? 0 : (pagetic - 94) * 768)]);
-
-        return;
-    }
-
     if (SCREENWIDTH != NONWIDEWIDTH)
         memset(screens[0], pillarboxcolor, SCREENAREA);
 
     V_DrawWidePatch((SCREENWIDTH / SCREENSCALE - SHORT(pagelump->width)) / 2, 0, 0, pagelump);
-}
-
-//
-// D_AdvanceTitle
-// Called after each title sequence finishes
-//
-void D_AdvanceTitle(void)
-{
-    advancetitle = true;
 }
 
 //
@@ -642,7 +641,7 @@ void D_StartTitle(int page)
     if (mapwindow)
         AM_ClearFB();
 
-    D_AdvanceTitle();
+    advancetitle = true;
 }
 
 #define MAXDEHFILES 16
