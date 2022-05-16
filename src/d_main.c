@@ -264,7 +264,7 @@ void D_FadeScreenToBlack(void)
         blitfunc();
     }
 
-    I_Sleep(250);
+    I_Sleep(200);
 }
 
 //
@@ -478,10 +478,7 @@ static void D_DoomLoop(void)
         TryRunTics();       // will run at least one tic
 
         if (splashscreen)
-        {
             D_SplashDrawer();
-            blitfunc();
-        }
         else
         {
             S_UpdateSounds();   // move positional sounds
@@ -550,6 +547,7 @@ void D_SplashDrawer(void)
     V_DrawBigPatch(logox, 167, logolump[BETWEEN(0, 94 - logotic, 17)]);
     V_DrawBigPatch(fineprintx, 365, fineprintlump);
     I_SetSimplePalette(&splashpal[pagetic < 9 ? (9 - pagetic) * 768 : (pagetic <= 94 ? 0 : (pagetic - 94) * 768)]);
+    blitfunc();
 }
 
 //

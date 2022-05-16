@@ -1654,13 +1654,24 @@ void bind_cmd_func2(char *cmd, char *parms)
                 if (bound)
                 {
                     if (!nobindoutput)
-                        C_Output("The " BOLD("%s") " action has been bound to the " BOLD("%s") " control.",
-                            parm2, controls[i].control);
+                    {
+                        if (strlen(controls[i].control) == 1)
+                            C_Output("The " BOLD("%s") " action has been bound to the " BOLD("'%s'") " control.",
+                                parm2, controls[i].control);
+                        else
+                            C_Output("The " BOLD("%s") " action has been bound to the " BOLD("%s") " control.",
+                                parm2, controls[i].control);
+                    }
                 }
                 else
                 {
-                    C_Warning(0, "The " BOLD("%s") " action can't be bound to the " BOLD("%s") " control.",
-                        parm2, controls[i].control);
+                    if (strlen(controls[i].control) == 1)
+                        C_Warning(0, "The " BOLD("%s") " action can't be bound to the " BOLD("'%s'") " control.",
+                            parm2, controls[i].control);
+                    else
+                        C_Warning(0, "The " BOLD("%s") " action can't be bound to the " BOLD("%s") " control.",
+                            parm2, controls[i].control);
+
                     return;
                 }
             }
