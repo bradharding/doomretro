@@ -212,7 +212,7 @@ void D_PostEvent(event_t *ev)
 //
 void D_FadeScreen(bool screenshot)
 {
-    if (togglingvanilla || (!screenshot && !fade))
+    if (togglingvanilla || (!fade && !screenshot))
         return;
 
     memcpy(fadescreen, screens[0], SCREENAREA);
@@ -230,21 +230,22 @@ static void D_UpdateFade(void)
 
     if (fadewait < tics)
     {
-        byte *tinttabs[FADECOUNT + 1] = {
-            NULL, tinttab90, tinttab80, tinttab70, tinttab60, tinttab50, tinttab40, tinttab30, tinttab20, tinttab10
+        byte *tinttabs[FADECOUNT + 1] =
+        {
+            PLAYPAL,   tinttab90, tinttab80, tinttab70, tinttab60,
+            tinttab50, tinttab40, tinttab30, tinttab20, tinttab10
         };
 
         fadewait = tics + FADETICS;
         tinttab = tinttabs[fadecount--];
     }
 
-    if (tinttab)
-        for (int i = 0; i < SCREENAREA; i++)
-        {
-            byte    *dot = *screens + i;
+    for (int i = 0; i < SCREENAREA; i++)
+    {
+        byte    *dot = *screens + i;
 
-            *dot = tinttab[(*dot << 8) + fadescreen[i]];
-        }
+        *dot = tinttab[(*dot << 8) + fadescreen[i]];
+    }
 }
 
 //
