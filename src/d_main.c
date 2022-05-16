@@ -263,6 +263,8 @@ void D_FadeScreenToBlack(void)
         I_Sleep(20);
         blitfunc();
     }
+
+    I_Sleep(250);
 }
 
 //
