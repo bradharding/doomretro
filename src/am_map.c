@@ -868,12 +868,12 @@ bool AM_Responder(const event_t *ev)
 
                     if (key2)
                     {
-                        event_t ev;
+                        event_t temp;
 
-                        ev.type = ev_keydown;
-                        ev.data1 = key2;
-                        ev.data2 = 0;
-                        D_PostEvent(&ev);
+                        temp.type = ev_keydown;
+                        temp.data1 = key2;
+                        temp.data2 = 0;
+                        D_PostEvent(&temp);
                     }
                 }
                 else if (!am_followmode)
