@@ -661,7 +661,7 @@ static void I_GetEvent(void)
 
                             if (!s_musicinbackground)
                                 S_PauseMusic();
-                            else if (gamestate == GS_LEVEL && !paused)
+                            else if (gamestate == GS_LEVEL && !paused && !menuactive && !consoleactive)
                                 sendpause = true;
 
                             I_ShutdownKeyboard();
