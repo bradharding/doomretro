@@ -408,10 +408,10 @@ static void I_GetEvent(void)
 
     while (SDL_PollEvent(Event))
     {
-        event_t         event;
+        event_t     ev;
 
 #if !defined(_WIN32)
-        static bool     enterdown;
+        static bool enterdown;
 #endif
 
         switch (Event->type)
@@ -435,33 +435,35 @@ static void I_GetEvent(void)
             {
                 SDL_Scancode    scancode = Event->key.keysym.scancode;
 
+                ev.type = ev_keydown;
+
                 if (scancode >= SDL_SCANCODE_KP_1 && scancode <= SDL_SCANCODE_KP_0 && !SDL_IsTextInputActive())
-                    scancode = keypad[scancode - SDL_SCANCODE_KP_1];
+                    ev.data1 = translatekey[keypad[scancode - SDL_SCANCODE_KP_1]];
+                else
+                    ev.data1 = translatekey[scancode];
 
-                event.type = ev_keydown;
-                event.data1 = translatekey[scancode];
-                event.data2 = Event->key.keysym.sym;
+                ev.data2 = Event->key.keysym.sym;
 
-                if (event.data2 < SDLK_SPACE || event.data2 > SDLK_z)
-                    event.data2 = 0;
+                if (ev.data2 < SDLK_SPACE || ev.data2 > SDLK_z)
+                    ev.data2 = 0;
 
                 altdown = (Event->key.keysym.mod & KMOD_ALT);
 
-                if (event.data1)
+                if (ev.data1)
                 {
-                    if (altdown && event.data1 == KEY_F4)
+                    if (altdown && ev.data1 == KEY_F4)
                     {
                         I_Sleep(300);
                         I_Quit(true);
                     }
 
-                    if (!isdigit(event.data2))
+                    if (!isdigit(ev.data2))
                     {
                         idclev = false;
                         idmus = false;
                     }
 
-                    if (idbehold && keys[event.data2])
+                    if (idbehold && keys[ev.data2])
                     {
                         idbehold = false;
                         HU_ClearMessages();
@@ -471,7 +473,7 @@ static void I_GetEvent(void)
 
 #if !defined(_WIN32)
                     // Handle ALT+ENTER on non-Windows systems
-                    if (altdown && event.data1 == KEY_ENTER && !enterdown)
+                    if (altdown && ev.data1 == KEY_ENTER && !enterdown)
                     {
                         enterdown = true;
                         I_ToggleFullscreen();
@@ -480,7 +482,7 @@ static void I_GetEvent(void)
                     }
 #endif
 
-                    D_PostEvent(&event);
+                    D_PostEvent(&ev);
                 }
 
                 break;
@@ -490,22 +492,24 @@ static void I_GetEvent(void)
             {
                 SDL_Scancode    scancode = Event->key.keysym.scancode;
 
-                if (scancode >= SDL_SCANCODE_KP_1 && scancode <= SDL_SCANCODE_KP_0 && !SDL_IsTextInputActive())
-                    scancode = keypad[scancode - SDL_SCANCODE_KP_1];
+                ev.type = ev_keyup;
 
-                event.type = ev_keyup;
-                event.data1 = translatekey[scancode];
+                if (scancode >= SDL_SCANCODE_KP_1 && scancode <= SDL_SCANCODE_KP_0 && !SDL_IsTextInputActive())
+                    ev.data1 = translatekey[keypad[scancode - SDL_SCANCODE_KP_1]];
+                else
+                    ev.data1 = translatekey[scancode];
+
                 altdown = (Event->key.keysym.mod & KMOD_ALT);
                 keydown = 0;
 
 #if !defined(_WIN32)
                 // Handle ALT+ENTER on non-Windows systems
-                if (event.data1 == KEY_ENTER)
+                if (ev.data1 == KEY_ENTER)
                     enterdown = false;
 #endif
 
-                if (event.data1)
-                    D_PostEvent(&event);
+                if (ev.data1)
+                    D_PostEvent(&ev);
 
                 break;
             }
@@ -533,9 +537,9 @@ static void I_GetEvent(void)
 
             case SDL_MOUSEWHEEL:
                 keydown = 0;
-                event.type = ev_mousewheel;
-                event.data1 = Event->wheel.y;
-                D_PostEvent(&event);
+                ev.type = ev_mousewheel;
+                ev.data1 = Event->wheel.y;
+                D_PostEvent(&ev);
 
                 break;
 
@@ -548,8 +552,8 @@ static void I_GetEvent(void)
                         else
                             gamecontrollerthumbLX = clamp(Event->caxis.value, gamecontrollerleftdeadzone);
 
-                        event.type = ev_controller;
-                        D_PostEvent(&event);
+                        ev.type = ev_controller;
+                        D_PostEvent(&ev);
 
                         break;
 
@@ -559,8 +563,8 @@ static void I_GetEvent(void)
                         else
                             gamecontrollerthumbLY = clamp(Event->caxis.value, gamecontrollerleftdeadzone);
 
-                        event.type = ev_controller;
-                        D_PostEvent(&event);
+                        ev.type = ev_controller;
+                        D_PostEvent(&ev);
 
                         break;
 
@@ -570,8 +574,8 @@ static void I_GetEvent(void)
                         else
                             gamecontrollerthumbRX = clamp(Event->caxis.value, gamecontrollerrightdeadzone);
 
-                        event.type = ev_controller;
-                        D_PostEvent(&event);
+                        ev.type = ev_controller;
+                        D_PostEvent(&ev);
 
                         break;
 
@@ -581,8 +585,8 @@ static void I_GetEvent(void)
                         else
                             gamecontrollerthumbRY = clamp(Event->caxis.value, gamecontrollerrightdeadzone);
 
-                        event.type = ev_controller;
-                        D_PostEvent(&event);
+                        ev.type = ev_controller;
+                        D_PostEvent(&ev);
 
                         break;
 
@@ -592,8 +596,8 @@ static void I_GetEvent(void)
                         else
                             gamecontrollerbuttons &= ~GAMECONTROLLER_LEFT_TRIGGER;
 
-                        event.type = ev_controller;
-                        D_PostEvent(&event);
+                        ev.type = ev_controller;
+                        D_PostEvent(&ev);
 
                         break;
 
@@ -603,8 +607,8 @@ static void I_GetEvent(void)
                         else
                             gamecontrollerbuttons &= ~GAMECONTROLLER_RIGHT_TRIGGER;
 
-                        event.type = ev_controller;
-                        D_PostEvent(&event);
+                        ev.type = ev_controller;
+                        D_PostEvent(&ev);
 
                         break;
                 }
@@ -613,16 +617,16 @@ static void I_GetEvent(void)
 
             case SDL_CONTROLLERBUTTONDOWN:
                 gamecontrollerbuttons |= (1 << Event->cbutton.button);
-                event.type = ev_controller;
-                D_PostEvent(&event);
+                ev.type = ev_controller;
+                D_PostEvent(&ev);
 
                 break;
 
             case SDL_CONTROLLERBUTTONUP:
                 gamecontrollerbuttons &= ~(1 << Event->cbutton.button);
                 keydown = 0;
-                event.type = ev_controller;
-                D_PostEvent(&event);
+                ev.type = ev_controller;
+                D_PostEvent(&ev);
 
                 break;
 
