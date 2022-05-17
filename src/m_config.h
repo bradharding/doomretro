@@ -173,6 +173,36 @@ extern int      s_sfxvolume;
 extern bool     s_stereo;
 extern int      savegame;
 extern int      skilllevel;
+extern int      stillbob;
+extern bool     tossdrop;
+extern int      turbo;
+extern int      units;
+extern char     *version;
+extern bool     vid_borderlesswindow;
+extern int      vid_capfps;
+extern int      vid_display;
+#if !defined(_WIN32)
+extern char     *vid_driver;
+#endif
+extern bool     vid_fullscreen;
+extern int      vid_motionblur;
+extern bool     vid_pillarboxes;
+extern char     *vid_scaleapi;
+extern char     *vid_scalefilter;
+extern char     *vid_screenresolution;
+extern bool     vid_showfps;
+extern int      vid_vsync;
+extern bool     vid_widescreen;
+extern char     *vid_windowpos;
+extern char     *vid_windowsize;
+#if defined(_WIN32)
+extern char     *wad;
+#endif
+extern int      warninglevel;
+extern int      weaponbob;
+extern bool     weaponbounce;
+extern bool     weaponrecoil;
+
 extern uint64_t stat_automapopened;
 extern uint64_t stat_barrelsexploded;
 extern uint64_t stat_cheated;
@@ -239,35 +269,6 @@ extern uint64_t stat_skilllevel_ultraviolence;
 extern uint64_t stat_skilllevel_nightmare;
 extern uint64_t stat_suicides;
 extern uint64_t stat_timeplayed;
-extern int      stillbob;
-extern bool     tossdrop;
-extern int      turbo;
-extern int      units;
-extern char     *version;
-extern bool     vid_borderlesswindow;
-extern int      vid_capfps;
-extern int      vid_display;
-#if !defined(_WIN32)
-extern char     *vid_driver;
-#endif
-extern bool     vid_fullscreen;
-extern int      vid_motionblur;
-extern bool     vid_pillarboxes;
-extern char     *vid_scaleapi;
-extern char     *vid_scalefilter;
-extern char     *vid_screenresolution;
-extern bool     vid_showfps;
-extern int      vid_vsync;
-extern bool     vid_widescreen;
-extern char     *vid_windowpos;
-extern char     *vid_windowsize;
-#if defined(_WIN32)
-extern char     *wad;
-#endif
-extern int      warninglevel;
-extern int      weaponbob;
-extern bool     weaponbounce;
-extern bool     weaponrecoil;
 
 enum
 {

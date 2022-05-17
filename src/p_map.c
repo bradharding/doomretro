@@ -91,8 +91,6 @@ bool            infight;
 
 static mobj_t   *onmobj;
 
-uint64_t        stat_distancetraveled = 0;
-
 extern bool     successfulshot;
 
 //

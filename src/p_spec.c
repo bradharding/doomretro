@@ -100,8 +100,6 @@ typedef struct
 
 #define MAXANIMS    32
 
-uint64_t        stat_secretsfound = 0;
-
 int             animatedliquidtic;
 fixed_t         animatedliquiddiff;
 fixed_t         animatedliquidxdir;

@@ -155,8 +155,6 @@ bool            regenhealth;
 bool            respawnitems;
 bool            respawnmonsters;        // checkparm of -respawn
 
-uint64_t        stat_runs = 0;
-
 skill_t         startskill;
 int             startepisode;
 static int      startmap;

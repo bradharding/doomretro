@@ -81,41 +81,6 @@ bool            species_infighting = false;
 int             maxammo[] =  { 200, 50, 300, 50 };
 int             clipammo[] = {  10,  4,  20,  1 };
 
-uint64_t        stat_barrelsexploded = 0;
-uint64_t        stat_damageinflicted = 0;
-uint64_t        stat_damagereceived = 0;
-uint64_t        stat_deaths = 0;
-uint64_t        stat_itemspickedup = 0;
-uint64_t        stat_itemspickedup_ammo_bullets = 0;
-uint64_t        stat_itemspickedup_ammo_cells = 0;
-uint64_t        stat_itemspickedup_ammo_rockets = 0;
-uint64_t        stat_itemspickedup_ammo_shells = 0;
-uint64_t        stat_itemspickedup_armor = 0;
-uint64_t        stat_itemspickedup_health = 0;
-uint64_t        stat_monsterskilled = 0;
-uint64_t        stat_monsterskilled_infighting = 0;
-uint64_t        stat_monsterskilled_arachnotrons = 0;
-uint64_t        stat_monsterskilled_archviles = 0;
-uint64_t        stat_monsterskilled_baronsofhell = 0;
-uint64_t        stat_monsterskilled_cacodemons = 0;
-uint64_t        stat_monsterskilled_chaingunners = 0;
-uint64_t        stat_monsterskilled_cyberdemons = 0;
-uint64_t        stat_monsterskilled_hellknights = 0;
-uint64_t        stat_monsterskilled_imps = 0;
-uint64_t        stat_monsterskilled_lostsouls = 0;
-uint64_t        stat_monsterskilled_mancubi = 0;
-uint64_t        stat_monsterskilled_painelementals = 0;
-uint64_t        stat_monsterskilled_pinkydemons = 0;
-uint64_t        stat_monsterskilled_revenants = 0;
-uint64_t        stat_monsterskilled_shotgunguys = 0;
-uint64_t        stat_monsterskilled_spectres = 0;
-uint64_t        stat_monsterskilled_spidermasterminds = 0;
-uint64_t        stat_monsterskilled_zombiemen = 0;
-uint64_t        stat_monstersrespawned = 0;
-uint64_t        stat_monstersresurrected = 0;
-uint64_t        stat_monsterstelefragged = 0;
-uint64_t        stat_suicides = 0;
-
 extern bool     healthcvar;
 
 void P_UpdateAmmoStat(ammotype_t ammotype, int num)

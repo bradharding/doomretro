@@ -169,15 +169,6 @@ char            savename[MAX_PATH];
 
 gameaction_t    loadaction = ga_nothing;
 
-uint64_t        stat_gamessaved = 0;
-uint64_t        stat_mapsstarted = 0;
-uint64_t        stat_mapscompleted = 0;
-uint64_t        stat_skilllevel_imtooyoungtodie = 0;
-uint64_t        stat_skilllevel_heynottoorough = 0;
-uint64_t        stat_skilllevel_hurtmeplenty = 0;
-uint64_t        stat_skilllevel_ultraviolence = 0;
-uint64_t        stat_skilllevel_nightmare = 0;
-
 void G_RemoveChoppers(void)
 {
     viewplayer->cheats &= ~CF_CHOPPERS;

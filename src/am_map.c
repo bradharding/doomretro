@@ -56,8 +56,6 @@
 #include "p_local.h"
 #include "st_stuff.h"
 
-uint64_t    stat_automapopened = 0;
-
 // Automap color priorities
 #define PATHPRIORITY        9
 #define WALLPRIORITY        8

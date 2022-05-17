@@ -38,6 +38,7 @@
 
 #include "c_console.h"
 #include "doomstat.h"
+#include "m_config.h"
 #include "m_menu.h"
 #include "p_local.h"
 #include "p_tick.h"
@@ -45,7 +46,6 @@
 #include "z_zone.h"
 
 int         leveltime;
-uint64_t    stat_timeplayed = 0;
 
 //
 // THINKERS

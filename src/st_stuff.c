@@ -254,8 +254,6 @@ int                         idclevtics;
 
 bool                        idmus;
 
-uint64_t                    stat_cheated = 0;
-
 cheatseq_t cheat_mus = CHEAT("idmus", 0, false);
 cheatseq_t cheat_mus_xy = CHEAT("idmus", 2, false);
 cheatseq_t cheat_god = CHEAT("iddqd", 0, false);
