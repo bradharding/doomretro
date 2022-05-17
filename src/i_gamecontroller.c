@@ -41,18 +41,6 @@
 #include "i_gamecontroller.h"
 #include "m_config.h"
 
-bool                        joy_analog = joy_analog_default;
-float                       joy_deadzone_left = joy_deadzone_left_default;
-float                       joy_deadzone_right = joy_deadzone_right_default;
-bool                        joy_invertyaxis = joy_invertyaxis_default;
-int                         joy_rumble_barrels = joy_rumble_barrels_default;
-int                         joy_rumble_damage = joy_rumble_damage_default;
-int                         joy_rumble_weapons = joy_rumble_weapons_default;
-int                         joy_sensitivity_horizontal = joy_sensitivity_horizontal_default;
-int                         joy_sensitivity_vertical = joy_sensitivity_vertical_default;
-bool                        joy_swapthumbsticks = joy_swapthumbsticks_default;
-int                         joy_thumbsticks = joy_thumbsticks_default;
-
 static SDL_GameController   *gamecontroller;
 static bool                 gamecontrollerconnected;
 static bool                 gamecontrollerhasrumble;

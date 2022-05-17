@@ -65,9 +65,6 @@ int     lowpixelwidth;
 int     lowpixelheight;
 char    screenshotfolder[MAX_PATH];
 
-char    *r_lowpixelsize = r_lowpixelsize_default;
-bool    r_supersampling = r_supersampling_default;
-
 void (*postprocessfunc)(int, int, int, int, int, int);
 
 //

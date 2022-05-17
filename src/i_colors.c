@@ -180,8 +180,8 @@ void FindNearestColors(byte *palette)
 
     black25 = &tinttab25[nearestblack << 8];
     black40 = &tinttab40[nearestblack << 8];
-    yellow15 = &tinttab15[nearestcolors[YELLOW] << 8];
     white25 = &tinttab25[nearestwhite << 8];
+    yellow15 = &tinttab15[nearestcolors[YELLOW] << 8];
 }
 
 int FindBrightDominantColor(patch_t *patch)

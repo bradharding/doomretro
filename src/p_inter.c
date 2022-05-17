@@ -81,10 +81,6 @@ bool            species_infighting = false;
 int             maxammo[] =  { 200, 50, 300, 50 };
 int             clipammo[] = {  10,  4,  20,  1 };
 
-bool            con_obituaries = con_obituaries_default;
-bool            r_mirroredweapons = r_mirroredweapons_default;
-bool            tossdrop = tossdrop_default;
-
 uint64_t        stat_barrelsexploded = 0;
 uint64_t        stat_damageinflicted = 0;
 uint64_t        stat_damagereceived = 0;

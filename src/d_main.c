@@ -133,12 +133,6 @@ char            *savegamefolder;
 
 char            *pwadfile = "";
 
-bool            fade = fade_default;
-char            *iwadfolder = iwadfolder_default;
-bool            melt = melt_default;
-int             turbo = turbo_default;
-int             units = units_default;
-
 #if defined(_WIN32)
 char            *wad = wad_default;
 #endif

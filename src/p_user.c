@@ -54,14 +54,6 @@
 #define STEP1DISTANCE   24
 #define STEP2DISTANCE   32
 
-bool    autotilt = autotilt_default;
-bool    autouse = autouse_default;
-bool    infighting = infighting_default;
-int     movebob = movebob_default;
-bool    r_liquid_lowerview = r_liquid_lowerview_default;
-int     r_shake_damage = r_shake_damage_default;
-int     stillbob = stillbob_default;
-
 bool    autousing = false;
 int     deadlookdir = -1;
 

@@ -102,8 +102,6 @@ typedef struct
 
 uint64_t        stat_secretsfound = 0;
 
-bool            r_liquid_bob = r_liquid_bob_default;
-
 int             animatedliquidtic;
 fixed_t         animatedliquiddiff;
 fixed_t         animatedliquidxdir;

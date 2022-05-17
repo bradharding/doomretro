@@ -68,15 +68,6 @@
 #define LINEHEIGHT  17
 #define OFFSET      17
 
-int             episode = episode_default;
-int             expansion = expansion_default;
-int             m_sensitivity = m_sensitivity_default;
-bool            messages = messages_default;
-int             r_detail = r_detail_default;
-int             r_screensize = r_screensize_default;
-int             savegame = savegame_default;
-int             skilllevel = skilllevel_default;
-
 // -1 = no quicksave slot picked!
 int             quickSaveSlot;
 

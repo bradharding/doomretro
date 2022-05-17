@@ -95,8 +95,6 @@ fixed_t     *spritetopoffset;
 fixed_t     *newspriteoffset;
 fixed_t     *newspritetopoffset;
 
-bool        r_fixspriteoffsets = r_fixspriteoffsets_default;
-
 byte        grays[256];
 
 static byte notgray[256] =

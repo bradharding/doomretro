@@ -254,13 +254,6 @@ int                         idclevtics;
 
 bool                        idmus;
 
-int                         facebackcolor = facebackcolor_default;
-bool                        flashkeys = flashkeys_default;
-int                         r_berserkeffect = r_berserkeffect_default;
-bool                        r_damageeffect = r_damageeffect_default;
-bool                        r_pickupeffect = r_pickupeffect_default;
-bool                        r_radsuiteffect = r_radsuiteffect_default;
-
 uint64_t                    stat_cheated = 0;
 
 cheatseq_t cheat_mus = CHEAT("idmus", 0, false);

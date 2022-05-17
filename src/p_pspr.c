@@ -50,12 +50,6 @@
 #define LOWERSPEED  (6 * FRACUNIT)
 #define RAISESPEED  (6 * FRACUNIT)
 
-bool        autoaim = autoaim_default;
-bool        centerweapon = centerweapon_default;
-int         weaponbob = weaponbob_default;
-bool        weaponbounce = weaponbounce_default;
-bool        weaponrecoil = weaponrecoil_default;
-
 uint64_t    stat_shotsfired_fists = 0;
 uint64_t    stat_shotsfired_chainsaw = 0;
 uint64_t    stat_shotsfired_pistol = 0;

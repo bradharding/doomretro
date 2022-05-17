@@ -320,8 +320,6 @@ bool            canmodify;
 bool            transferredsky;
 static int      MAPINFO;
 
-bool            r_fixmaperrors = r_fixmaperrors_default;
-
 bool            samelevel;
 
 mapformat_t     mapformat;

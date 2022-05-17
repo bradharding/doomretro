@@ -76,19 +76,19 @@
 patch_t                 *hu_font[HU_FONTSIZE];
 static hu_textline_t    w_title;
 
-bool                 message_on;
-bool                 message_fadeon;
-bool                 message_dontfuckwithme;
-static bool          message_external;
-static bool          message_nottobefuckedwith;
+bool                    message_on;
+bool                    message_fadeon;
+bool                    message_dontfuckwithme;
+static bool             message_external;
+static bool             message_nottobefuckedwith;
 
-bool                 idbehold;
-bool                 s_STSTR_BEHOLD2;
+bool                    idbehold;
+bool                    s_STSTR_BEHOLD2;
 
 static hu_stext_t       w_message;
 int                     message_counter;
 
-static bool          headsupactive;
+static bool             headsupactive;
 
 patch_t                 *minuspatch = NULL;
 short                   minuspatchwidth;
@@ -96,19 +96,9 @@ static int              minuspatchy;
 static patch_t          *greenarmorpatch;
 static patch_t          *bluearmorpatch;
 
-int                     crosshair = crosshair_default;
-int                     crosshaircolor = crosshaircolor_default;
-bool                 groupmessages = groupmessages_default;
-int                     playergender = playergender_default;
-char                    *playername = playername_default;
-bool                 r_althud = r_althud_default;
-bool                 r_diskicon = r_diskicon_default;
-bool                 r_hud = r_hud_default;
-bool                 r_hud_translucency = r_hud_translucency_default;
-
 static patch_t          *stdisk;
 static short            stdiskwidth;
-bool                 drawdisk;
+bool                    drawdisk;
 
 static int              coloroffset;
 
@@ -532,16 +522,16 @@ int armorhighlight = 0;
 
 static void HU_DrawHUD(void)
 {
-    const int       health = MAX(health_min, viewplayer->health);
-    const int       armor = viewplayer->armorpoints;
-    static bool  healthanim;
-    const bool   gamepaused = (consoleactive || freeze);
-    byte            *translucency = (health <= 0 || (health < HUD_HEALTH_MIN && healthanim)
-                        || health >= HUD_HEALTH_MIN || gamepaused ? tinttab75 : tinttab25);
-    patch_t         *patch = faces[st_faceindex];
-    const int       currenttime = I_GetTimeMS();
-    int             keypic_x = HUD_KEYS_X;
-    static int      keywait;
+    const int   health = MAX(health_min, viewplayer->health);
+    const int   armor = viewplayer->armorpoints;
+    static bool healthanim;
+    const bool  gamepaused = (consoleactive || freeze);
+    byte        *translucency = (health <= 0 || (health < HUD_HEALTH_MIN && healthanim)
+                    || health >= HUD_HEALTH_MIN || gamepaused ? tinttab75 : tinttab25);
+    patch_t     *patch = faces[st_faceindex];
+    const int   currenttime = I_GetTimeMS();
+    int         keypic_x = HUD_KEYS_X;
+    static int  keywait;
     static bool  showkey;
 
     if (patch)
@@ -671,8 +661,8 @@ static void HU_DrawHUD(void)
 
         if (ammotype != am_noammo && (ammo = viewplayer->ammo[ammotype]))
         {
-            int             ammo_x = HUDNumberWidth(ammo);
-            static bool  ammoanim;
+            int         ammo_x = HUDNumberWidth(ammo);
+            static bool ammoanim;
 
             ammo_x = HUD_AMMO_X - (ammo_x + (ammo_x & 1)) / 2;
             translucency = (ammoanim || ammo >= HUD_AMMO_MIN || gamepaused ? tinttab75 : tinttab25);
@@ -743,10 +733,10 @@ static int      yellow;
 
 static void HU_AltInit(void)
 {
-    char        buffer[9];
-    patch_t     *altkeypatch;
-    patch_t     *altskullpatch;
-    bool     weaponschanged = false;
+    char    buffer[9];
+    patch_t *altkeypatch;
+    patch_t *altskullpatch;
+    bool    weaponschanged = false;
 
     for (int i = 0; i < 10; i++)
     {
@@ -903,15 +893,15 @@ static int AltHUDNumber2Width(int val)
 
 static void HU_DrawAltHUD(void)
 {
-    const int       color = (((viewplayer->fixedcolormap == INVERSECOLORMAP) ^ (!r_textures)) ?
-                        colormaps[0][32 * 256 + nearestwhite] : nearestwhite);
-    int             health = MAX(health_min, viewplayer->health);
-    int             armor = viewplayer->armorpoints;
-    int             barcolor2 = (health < HUD_HEALTH_MIN ? red : (health >= 100 ? green : color));
-    int             barcolor1 = barcolor2;
-    int             keypic_x = ALTHUD_RIGHT_X;
-    static int      keywait;
-    static bool  showkey;
+    const int   color = (((viewplayer->fixedcolormap == INVERSECOLORMAP) ^ (!r_textures)) ?
+                    colormaps[0][32 * 256 + nearestwhite] : nearestwhite);
+    int         health = MAX(health_min, viewplayer->health);
+    int         armor = viewplayer->armorpoints;
+    int         barcolor2 = (health < HUD_HEALTH_MIN ? red : (health >= 100 ? green : color));
+    int         barcolor1 = barcolor2;
+    int         keypic_x = ALTHUD_RIGHT_X;
+    static int  keywait;
+    static bool showkey;
     int             powerup = 0;
     int             powerupbar = 0;
     int             max = 1;
@@ -992,8 +982,8 @@ static void HU_DrawAltHUD(void)
 
     if (viewplayer->neededcardflash)
     {
-        const bool   gamepaused = (consoleactive || freeze);
-        const int       neededcard = viewplayer->neededcard;
+        const bool  gamepaused = (consoleactive || freeze);
+        const int   neededcard = viewplayer->neededcard;
 
         if (neededcard == it_allkeys)
         {
@@ -1193,7 +1183,7 @@ void HU_Erase(void)
 
 void HU_Ticker(void)
 {
-    const bool   idmypos = (viewplayer->cheats & CF_MYPOS);
+    const bool  idmypos = (viewplayer->cheats & CF_MYPOS);
 
     // tic down message counter if message is up
     if (message_counter && !menuactive && !idmypos && !--message_counter)

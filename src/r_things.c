@@ -91,9 +91,6 @@ static bool             interpolatesprites;
 static bool             invulnerable;
 static fixed_t          floorheight;
 
-bool                    r_liquid_clipsprites = r_liquid_clipsprites_default;
-bool                    r_playersprites = r_playersprites_default;
-
 static const fixed_t floatbobdiffs[64] =
 {
      205560,  205560,  203576,  199640,  193776,  186048,  176528,  165304,

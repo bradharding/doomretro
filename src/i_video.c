@@ -106,29 +106,6 @@ int             MAPBOTTOM;
 
 #define SHAKEANGLE          ((double)M_BigRandomInt(-1000, 1000) * r_shake_damage / 100000.0)
 
-// CVARs
-bool                alwaysrun = alwaysrun_default;
-bool                m_acceleration = m_acceleration_default;
-int                 r_color = r_color_default;
-float               r_gamma = r_gamma_default;
-bool                vid_borderlesswindow = vid_borderlesswindow_default;
-int                 vid_capfps = vid_capfps_default;
-int                 vid_display = vid_display_default;
-#if !defined(_WIN32)
-char                *vid_driver = vid_driver_default;
-#endif
-bool                vid_fullscreen = vid_fullscreen_default;
-int                 vid_motionblur = vid_motionblur_default;
-bool                vid_pillarboxes = vid_pillarboxes_default;
-char                *vid_scaleapi = vid_scaleapi_default;
-char                *vid_scalefilter = vid_scalefilter_default;
-char                *vid_screenresolution = vid_screenresolution_default;
-bool                vid_showfps = vid_showfps_default;
-int                 vid_vsync = vid_vsync_default;
-bool                vid_widescreen = vid_widescreen_default;
-char                *vid_windowpos = vid_windowpos_default;
-char                *vid_windowsize = vid_windowsize_default;
-
 static bool         manuallypositioning;
 
 SDL_Window          *window = NULL;

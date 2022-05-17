@@ -113,16 +113,6 @@ int                 extralight;
 
 bool                drawbloodsplats;
 
-bool                r_bloodsplats_translucency = r_bloodsplats_translucency_default;
-bool                r_ditheredlighting = r_ditheredlighting_default;
-int                 r_fov = r_fov_default;
-bool                r_homindicator = r_homindicator_default;
-bool                r_shadows_translucency = r_shadows_translucency_default;
-bool                r_shake_barrels = r_shake_barrels_default;
-int                 r_skycolor = r_skycolor_default;
-bool                r_textures = r_textures_default;
-bool                r_translucency = r_translucency_default;
-
 extern bool         transferredsky;
 extern lighttable_t **walllights;
 

@@ -97,9 +97,6 @@ int             barrelcount;
 
 wbstartstruct_t wminfo;                             // parms for world map/intermission
 
-bool            autoload = autoload_default;
-bool            autosave = autosave_default;
-
 #define MAXPLMOVE       forwardmove[1]
 
 fixed_t         forwardmove[] = { FORWARDMOVE0, FORWARDMOVE1 };
@@ -156,11 +153,6 @@ bool            skipaction = false;
 
 static int      mousex;
 static int      mousey;
-
-bool            m_doubleclick_use = m_doubleclick_use_default;
-bool            m_invertyaxis = m_invertyaxis_default;
-bool            m_novertical = m_novertical_default;
-bool            mouselook = mouselook_default;
 
 bool            usemouselook = false;
 

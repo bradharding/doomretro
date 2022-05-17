@@ -97,8 +97,6 @@ lighttable_t    **walllightsnext;
 
 static int      *maskedtexturecol;  // dropoff overflow
 
-bool            r_brightmaps = r_brightmaps_default;
-
 extern bool     usebrightmaps;
 
 //

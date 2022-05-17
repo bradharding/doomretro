@@ -142,8 +142,6 @@ bool        resettingcvar = false;
 bool        togglingvanilla = false;
 bool        vanilla = false;
 
-char        *version = version_default;
-
 const control_t controls[] =
 {
     { "1",             keyboardcontrol,       '1'                           },

@@ -47,8 +47,6 @@
 #include "s_sound.h"
 #include "z_zone.h"
 
-bool    r_graduallighting = r_graduallighting_default;
-
 static void T_GradualLightingToDoor(vldoor_t *door)
 {
     sector_t        *sec = door->sector;

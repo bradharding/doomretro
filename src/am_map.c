@@ -56,36 +56,6 @@
 #include "p_local.h"
 #include "st_stuff.h"
 
-int         am_allmapcdwallcolor = am_allmapcdwallcolor_default;
-int         am_allmapfdwallcolor = am_allmapfdwallcolor_default;
-int         am_allmapwallcolor = am_allmapwallcolor_default;
-int         am_backcolor = am_backcolor_default;
-int         am_bluedoorcolor = am_bluedoorcolor_default;
-int         am_bluekeycolor = am_bluekeycolor_default;
-int         am_cdwallcolor = am_cdwallcolor_default;
-int         am_crosshaircolor = am_crosshaircolor_default;
-int         am_display = am_display_default;
-bool        am_external = am_external_default;
-int         am_fdwallcolor = am_fdwallcolor_default;
-bool        am_followmode = am_followmode_default;
-bool        am_grid = am_grid_default;
-int         am_gridcolor = am_gridcolor_default;
-char        *am_gridsize = am_gridsize_default;
-int         am_markcolor = am_markcolor_default;
-bool        am_path = am_path_default;
-int         am_pathcolor = am_pathcolor_default;
-int         am_playercolor = am_playercolor_default;
-bool        am_playerstats = am_playerstats_default;
-int         am_reddoorcolor = am_reddoorcolor_default;
-int         am_redkeycolor = am_redkeycolor_default;
-bool        am_rotatemode = am_rotatemode_default;
-int         am_teleportercolor = am_teleportercolor_default;
-int         am_thingcolor = am_thingcolor_default;
-int         am_tswallcolor = am_tswallcolor_default;
-int         am_wallcolor = am_wallcolor_default;
-int         am_yellowdoorcolor = am_yellowdoorcolor_default;
-int         am_yellowkeycolor = am_yellowkeycolor_default;
-
 uint64_t    stat_automapopened = 0;
 
 // Automap color priorities
