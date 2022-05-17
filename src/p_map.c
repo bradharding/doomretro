@@ -182,8 +182,8 @@ int P_GetFriction(const mobj_t *mo, int *frictionfactor)
 // killough 08/28/98: rewritten
 int P_GetMoveFactor(const mobj_t *mo, int *frictionp)
 {
-    int movefactor;
-    int friction = P_GetFriction(mo, &movefactor);
+    int         movefactor;
+    const int   friction = P_GetFriction(mo, &movefactor);
 
     // If the floor is icy or muddy, it's harder to get moving. This is where
     // the different friction factors are applied to 'trying to move'. In
@@ -192,7 +192,7 @@ int P_GetMoveFactor(const mobj_t *mo, int *frictionp)
     {
         // phares 03/11/98: you start off slowly, then increase as
         // you get better footing
-        int momentum = P_ApproxDistance(mo->momx, mo->momy);
+        const int   momentum = P_ApproxDistance(mo->momx, mo->momy);
 
         if (momentum > (MORE_FRICTION_MOMENTUM << 2))
             movefactor <<= 3;

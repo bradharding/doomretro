@@ -152,7 +152,7 @@ void S_Init(void)
 {
     if (M_CheckParm("-nosound"))
     {
-        C_Warning(1, "A " BOLD("-nosound") " parameter was found on the command-line. Both sound effects and music are now muted.");
+        C_Warning(1, "A " BOLD("-nosound") " parameter was found on the command-line. All sound is now muted.");
         nomusic = true;
         nosfx = true;
     }
@@ -160,13 +160,13 @@ void S_Init(void)
     {
         if (M_CheckParm("-nomusic"))
         {
-            C_Warning(1, "A " BOLD("-nomusic") " parameter was found on the command-line. Music is now muted.");
+            C_Warning(1, "A " BOLD("-nomusic") " parameter was found on the command-line. All music is now muted.");
             nomusic = true;
         }
 
         if (M_CheckParm("-nosfx"))
         {
-            C_Warning(1, "A " BOLD("-nosfx") " parameter was found on the command-line. Sound effects are now muted.");
+            C_Warning(1, "A " BOLD("-nosfx") " parameter was found on the command-line. All sound effects are now muted.");
             nosfx = true;
         }
     }
@@ -347,7 +347,7 @@ void S_Start(void)
 // so stereo positioning and distance calculations continue to work even after
 // the corresponding map object has already disappeared.
 // Thanks to jeff-d and kb1 for discussing this feature and the former for the
-// original implementation idea: <https://www.doomworld.com/forum/topic/1585325>
+// original implementation idea: <https://www.doomworld.com/forum/post/1585325>
 void S_UnlinkSound(mobj_t *origin)
 {
     if (!origin->madesound || nosfx)
