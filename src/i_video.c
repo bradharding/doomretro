@@ -91,9 +91,9 @@ unsigned int    MAPAREA;
 int             MAPBOTTOM;
 
 #if defined(SDL_VIDEO_RENDER_D3D11)
-#define DIRECT3DVERSION "v11.0"
+#define DIRECT3DVERSION     "v11.0"
 #else
-#define DIRECT3DVERSION "v9.0"
+#define DIRECT3DVERSION     "v9.0"
 #endif
 
 #define I_SDLError(func)    I_Error(stringize(func) "() failed in %s() on line %i of %s with this error:\"%s\".", \
@@ -252,7 +252,7 @@ static void SetShowCursor(bool show)
     SDL_GetRelativeMouseState(NULL, NULL);
 }
 
-static int translatekey[] =
+const static int translatekey[] =
 {
     0, 0, 0, 0, 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r',
     's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', KEY_ENTER,
@@ -395,8 +395,8 @@ bool    waspaused = false;
 
 static const SDL_Scancode keypad[] =
 {
-    SDL_SCANCODE_KP_1, SDL_SCANCODE_DOWN, SDL_SCANCODE_KP_3, SDL_SCANCODE_LEFT, SDL_SCANCODE_KP_5,
-    SDL_SCANCODE_RIGHT, SDL_SCANCODE_KP_7, SDL_SCANCODE_UP, SDL_SCANCODE_KP_9, SDL_SCANCODE_KP_0
+    SDL_SCANCODE_KP_1,  SDL_SCANCODE_DOWN, SDL_SCANCODE_KP_3, SDL_SCANCODE_LEFT, SDL_SCANCODE_KP_5,
+    SDL_SCANCODE_RIGHT, SDL_SCANCODE_KP_7, SDL_SCANCODE_UP,   SDL_SCANCODE_KP_9, SDL_SCANCODE_KP_0
 };
 
 static void I_GetEvent(void)
