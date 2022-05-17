@@ -70,6 +70,7 @@
 * The window is now positioned correctly when changing the `vid_windowpos` CVAR to `centered` in the console and the `vid_fullscreen` CVAR is `off`.
 * Blood splats are no longer removed when using the `remove` CCMD to remove all corpses.
 * Brightmaps are now applied to more textures when the `r_brightmaps` CVAR is `on`.
+* A bug is fixed whereby when the window regains focus, input could be disabled in some instances.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
