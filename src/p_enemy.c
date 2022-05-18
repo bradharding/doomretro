@@ -1432,7 +1432,7 @@ static bool P_HealCorpse(mobj_t *actor, int radius, statenum_t healstate, sfxenu
                     stat_monsterskilled_total--;
                     viewplayer->resurrectioncount++;
                     stat_monstersresurrected = SafeAdd(stat_monstersresurrected, 1);
-                    stat_monsterskilled[corpsehit->type] = SafeAdd(stat_monsterskilled[corpsehit->type], 1);
+                    stat_monsterskilled[corpsehit->type] = SafeAdd(stat_monsterskilled[corpsehit->type], -1);
 
                     // [BH] display an obituary message in the console
                     if (con_obituaries)
