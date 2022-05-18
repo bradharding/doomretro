@@ -70,15 +70,13 @@ int     D_mkdir(const char *dirname);
 #define mkdir(dirname)              D_mkdir(dirname)
 #endif
 
-typedef struct wadfile_s wadfile_t;
-
-struct wadfile_s
+typedef struct
 {
     FILE    *fstream;
     bool    freedoom;
     char    path[MAX_PATH];
     int     type;
-};
+} wadfile_t;
 
 // Open the specified file. Returns a pointer to a new wadfile_t
 // handle for the WAD file, or NULL if it could not be opened.

@@ -68,9 +68,9 @@
 * Savegame descriptions in the console and player messages are no longer truncated when loading or saving a game.
 * Further improvements have been made to the support of [*Freedoom: Phase 1*](https://freedoom.github.io/) and [*Freedoom: Phase 2*](https://freedoom.github.io/).
 * The window is now positioned correctly when changing the `vid_windowpos` CVAR to `centered` in the console and the `vid_fullscreen` CVAR is `off`.
+* A bug is fixed whereby when the window regains focus, input could be disabled in some instances.
 * Blood splats are no longer removed when using the `remove` CCMD to remove all corpses.
 * Brightmaps are now applied to more textures when the `r_brightmaps` CVAR is `on`.
-* A bug is fixed whereby when the window regains focus, input could be disabled in some instances.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
