@@ -230,25 +230,9 @@ uint64_t    stat_itemspickedup_armor = 0;
 uint64_t    stat_itemspickedup_health = 0;
 uint64_t    stat_mapscompleted = 0;
 uint64_t    stat_mapsstarted = 0;
-uint64_t    stat_monsterskilled = 0;
+uint64_t    stat_monsterskilled_total = 0;
 uint64_t    stat_monsterskilled_infighting = 0;
-uint64_t    stat_monsterskilled_arachnotrons = 0;
-uint64_t    stat_monsterskilled_archviles = 0;
-uint64_t    stat_monsterskilled_baronsofhell = 0;
-uint64_t    stat_monsterskilled_cacodemons = 0;
-uint64_t    stat_monsterskilled_chaingunners = 0;
-uint64_t    stat_monsterskilled_cyberdemons = 0;
-uint64_t    stat_monsterskilled_hellknights = 0;
-uint64_t    stat_monsterskilled_imps = 0;
-uint64_t    stat_monsterskilled_lostsouls = 0;
-uint64_t    stat_monsterskilled_mancubi = 0;
-uint64_t    stat_monsterskilled_painelementals = 0;
-uint64_t    stat_monsterskilled_pinkydemons = 0;
-uint64_t    stat_monsterskilled_revenants = 0;
-uint64_t    stat_monsterskilled_shotgunguys = 0;
-uint64_t    stat_monsterskilled_spectres = 0;
-uint64_t    stat_monsterskilled_spidermasterminds = 0;
-uint64_t    stat_monsterskilled_zombiemen = 0;
+uint64_t    stat_monsterskilled[NUMMOBJTYPES] = { 0 };
 uint64_t    stat_monstersrespawned = 0;
 uint64_t    stat_monstersresurrected = 0;
 uint64_t    stat_monsterstelefragged = 0;
@@ -472,25 +456,25 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT_UNSIGNED (itemspickedup_health,             stat_itemspickedup_health,             stat_itemspickedup_health,             NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT_UNSIGNED (mapscompleted,                    stat_mapscompleted,                    stat_mapscompleted,                    NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT_UNSIGNED (mapsstarted,                      stat_mapsstarted,                      stat_mapsstarted,                      NOVALUEALIAS          ),
-    CONFIG_VARIABLE_INT_UNSIGNED (monsterskilled,                   stat_monsterskilled,                   stat_monsterskilled,                   NOVALUEALIAS          ),
+    CONFIG_VARIABLE_INT_UNSIGNED (monsterskilled,                   stat_monsterskilled_total,             stat_monsterskilled_total,             NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT_UNSIGNED (monsterskilled_infighting,        stat_monsterskilled_infighting,        stat_monsterskilled_infighting,        NOVALUEALIAS          ),
-    CONFIG_VARIABLE_INT_UNSIGNED (monsterskilled_arachnotrons,      stat_monsterskilled_arachnotrons,      stat_monsterskilled_arachnotrons,      NOVALUEALIAS          ),
-    CONFIG_VARIABLE_INT_UNSIGNED (monsterskilled_archviles,         stat_monsterskilled_archviles,         stat_monsterskilled_archviles,         NOVALUEALIAS          ),
-    CONFIG_VARIABLE_INT_UNSIGNED (monsterskilled_baronsofhell,      stat_monsterskilled_baronsofhell,      stat_monsterskilled_baronsofhell,      NOVALUEALIAS          ),
-    CONFIG_VARIABLE_INT_UNSIGNED (monsterskilled_cacodemons,        stat_monsterskilled_cacodemons,        stat_monsterskilled_cacodemons,        NOVALUEALIAS          ),
-    CONFIG_VARIABLE_INT_UNSIGNED (monsterskilled_chaingunners,      stat_monsterskilled_heavyweapondudes,  stat_monsterskilled_chaingunners,      NOVALUEALIAS          ),
-    CONFIG_VARIABLE_INT_UNSIGNED (monsterskilled_cyberdemons,       stat_monsterskilled_cyberdemons,       stat_monsterskilled_cyberdemons,       NOVALUEALIAS          ),
-    CONFIG_VARIABLE_INT_UNSIGNED (monsterskilled_hellknights,       stat_monsterskilled_hellknights,       stat_monsterskilled_hellknights,       NOVALUEALIAS          ),
-    CONFIG_VARIABLE_INT_UNSIGNED (monsterskilled_imps,              stat_monsterskilled_imps,              stat_monsterskilled_imps,              NOVALUEALIAS          ),
-    CONFIG_VARIABLE_INT_UNSIGNED (monsterskilled_lostsouls,         stat_monsterskilled_lostsouls,         stat_monsterskilled_lostsouls,         NOVALUEALIAS          ),
-    CONFIG_VARIABLE_INT_UNSIGNED (monsterskilled_mancubi,           stat_monsterskilled_mancubi,           stat_monsterskilled_mancubi,           NOVALUEALIAS          ),
-    CONFIG_VARIABLE_INT_UNSIGNED (monsterskilled_painelementals,    stat_monsterskilled_painelementals,    stat_monsterskilled_painelementals,    NOVALUEALIAS          ),
-    CONFIG_VARIABLE_INT_UNSIGNED (monsterskilled_pinkydemons,       stat_monsterskilled_demons,            stat_monsterskilled_pinkydemons,       NOVALUEALIAS          ),
-    CONFIG_VARIABLE_INT_UNSIGNED (monsterskilled_revenants,         stat_monsterskilled_revenants,         stat_monsterskilled_revenants,         NOVALUEALIAS          ),
-    CONFIG_VARIABLE_INT_UNSIGNED (monsterskilled_shotgunguys,       stat_monsterskilled_shotgunguys,       stat_monsterskilled_shotgunguys,       NOVALUEALIAS          ),
-    CONFIG_VARIABLE_INT_UNSIGNED (monsterskilled_spectres,          stat_monsterskilled_spectres,          stat_monsterskilled_spectres,          NOVALUEALIAS          ),
-    CONFIG_VARIABLE_INT_UNSIGNED (monsterskilled_spidermasterminds, stat_monsterskilled_spidermasterminds, stat_monsterskilled_spidermasterminds, NOVALUEALIAS          ),
-    CONFIG_VARIABLE_INT_UNSIGNED (monsterskilled_zombiemen,         stat_monsterskilled_zombiemen,         stat_monsterskilled_zombiemen,         NOVALUEALIAS          ),
+    CONFIG_VARIABLE_INT_UNSIGNED (monsterskilled_arachnotrons,      stat_monsterskilled_arachnotrons,      stat_monsterskilled[MT_BABY],          NOVALUEALIAS          ),
+    CONFIG_VARIABLE_INT_UNSIGNED (monsterskilled_archviles,         stat_monsterskilled_archviles,         stat_monsterskilled[MT_VILE],          NOVALUEALIAS          ),
+    CONFIG_VARIABLE_INT_UNSIGNED (monsterskilled_baronsofhell,      stat_monsterskilled_baronsofhell,      stat_monsterskilled[MT_BRUISER],       NOVALUEALIAS          ),
+    CONFIG_VARIABLE_INT_UNSIGNED (monsterskilled_cacodemons,        stat_monsterskilled_cacodemons,        stat_monsterskilled[MT_HEAD],          NOVALUEALIAS          ),
+    CONFIG_VARIABLE_INT_UNSIGNED (monsterskilled_chaingunners,      stat_monsterskilled_heavyweapondudes,  stat_monsterskilled[MT_CHAINGUY],      NOVALUEALIAS          ),
+    CONFIG_VARIABLE_INT_UNSIGNED (monsterskilled_cyberdemons,       stat_monsterskilled_cyberdemons,       stat_monsterskilled[MT_CYBORG],        NOVALUEALIAS          ),
+    CONFIG_VARIABLE_INT_UNSIGNED (monsterskilled_hellknights,       stat_monsterskilled_hellknights,       stat_monsterskilled[MT_KNIGHT],        NOVALUEALIAS          ),
+    CONFIG_VARIABLE_INT_UNSIGNED (monsterskilled_imps,              stat_monsterskilled_imps,              stat_monsterskilled[MT_TROOP],         NOVALUEALIAS          ),
+    CONFIG_VARIABLE_INT_UNSIGNED (monsterskilled_lostsouls,         stat_monsterskilled_lostsouls,         stat_monsterskilled[MT_SKULL],         NOVALUEALIAS          ),
+    CONFIG_VARIABLE_INT_UNSIGNED (monsterskilled_mancubi,           stat_monsterskilled_mancubi,           stat_monsterskilled[MT_FATSO],         NOVALUEALIAS          ),
+    CONFIG_VARIABLE_INT_UNSIGNED (monsterskilled_painelementals,    stat_monsterskilled_painelementals,    stat_monsterskilled[MT_PAIN],          NOVALUEALIAS          ),
+    CONFIG_VARIABLE_INT_UNSIGNED (monsterskilled_pinkydemons,       stat_monsterskilled_demons,            stat_monsterskilled[MT_SERGEANT],      NOVALUEALIAS          ),
+    CONFIG_VARIABLE_INT_UNSIGNED (monsterskilled_revenants,         stat_monsterskilled_revenants,         stat_monsterskilled[MT_UNDEAD],        NOVALUEALIAS          ),
+    CONFIG_VARIABLE_INT_UNSIGNED (monsterskilled_shotgunguys,       stat_monsterskilled_shotgunguys,       stat_monsterskilled[MT_SHOTGUY],       NOVALUEALIAS          ),
+    CONFIG_VARIABLE_INT_UNSIGNED (monsterskilled_spectres,          stat_monsterskilled_spectres,          stat_monsterskilled[MT_SHADOWS],       NOVALUEALIAS          ),
+    CONFIG_VARIABLE_INT_UNSIGNED (monsterskilled_spidermasterminds, stat_monsterskilled_spidermasterminds, stat_monsterskilled[MT_SPIDER],        NOVALUEALIAS          ),
+    CONFIG_VARIABLE_INT_UNSIGNED (monsterskilled_zombiemen,         stat_monsterskilled_zombiemen,         stat_monsterskilled[MT_POSSESSED],     NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT_UNSIGNED (monstersrespawned,                stat_monstersrespawned,                stat_monstersrespawned,                NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT_UNSIGNED (monstersresurrected,              stat_monstersresurrected,              stat_monstersresurrected,              NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT_UNSIGNED (monsterstelefragged,              stat_monsterstelefragged,              stat_monsterstelefragged,              NOVALUEALIAS          ),

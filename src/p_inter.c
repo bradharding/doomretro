@@ -1573,86 +1573,6 @@ bool P_TakeSpecialThing(mobjtype_t type)
     }
 }
 
-//
-// P_UpdateKillStat
-//
-void P_UpdateKillStat(mobjtype_t type, int value)
-{
-    switch (type)
-    {
-        case MT_BABY:
-            stat_monsterskilled_arachnotrons = SafeAdd(stat_monsterskilled_arachnotrons, value);
-            break;
-
-        case MT_VILE:
-            stat_monsterskilled_archviles = SafeAdd(stat_monsterskilled_archviles, value);
-            break;
-
-        case MT_BRUISER:
-            stat_monsterskilled_baronsofhell = SafeAdd(stat_monsterskilled_baronsofhell, value);
-            break;
-
-        case MT_HEAD:
-            stat_monsterskilled_cacodemons = SafeAdd(stat_monsterskilled_cacodemons, value);
-            break;
-
-        case MT_CYBORG:
-            stat_monsterskilled_cyberdemons = SafeAdd(stat_monsterskilled_cyberdemons, value);
-            break;
-
-        case MT_CHAINGUY:
-            stat_monsterskilled_chaingunners = SafeAdd(stat_monsterskilled_chaingunners, value);
-            break;
-
-        case MT_KNIGHT:
-            stat_monsterskilled_hellknights = SafeAdd(stat_monsterskilled_hellknights, value);
-            break;
-
-        case MT_TROOP:
-            stat_monsterskilled_imps = SafeAdd(stat_monsterskilled_imps, value);
-            break;
-
-        case MT_SKULL:
-            stat_monsterskilled_lostsouls = SafeAdd(stat_monsterskilled_lostsouls, value);
-            break;
-
-        case MT_FATSO:
-            stat_monsterskilled_mancubi = SafeAdd(stat_monsterskilled_mancubi, value);
-            break;
-
-        case MT_PAIN:
-            stat_monsterskilled_painelementals = SafeAdd(stat_monsterskilled_painelementals, value);
-            break;
-
-        case MT_SERGEANT:
-            stat_monsterskilled_pinkydemons = SafeAdd(stat_monsterskilled_pinkydemons, value);
-            break;
-
-        case MT_UNDEAD:
-            stat_monsterskilled_revenants = SafeAdd(stat_monsterskilled_revenants, value);
-            break;
-
-        case MT_SHOTGUY:
-            stat_monsterskilled_shotgunguys = SafeAdd(stat_monsterskilled_shotgunguys, value);
-            break;
-
-        case MT_SHADOWS:
-            stat_monsterskilled_spectres = SafeAdd(stat_monsterskilled_spectres, value);
-            break;
-
-        case MT_SPIDER:
-            stat_monsterskilled_spidermasterminds = SafeAdd(stat_monsterskilled_spidermasterminds, value);
-            break;
-
-        case MT_POSSESSED:
-            stat_monsterskilled_zombiemen = SafeAdd(stat_monsterskilled_zombiemen, value);
-            break;
-
-        default:
-            break;
-    }
-}
-
 static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, bool gibbed, bool telefragged)
 {
     if (telefragged)
@@ -2065,12 +1985,12 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, bool telefrag
 
         if ((source && source->player) || massacre)
         {
-            stat_monsterskilled = SafeAdd(stat_monsterskilled, 1);
+            stat_monsterskilled_total = SafeAdd(stat_monsterskilled_total, 1);
 
             if (!chex && !hacx)
             {
                 viewplayer->mobjcount[type]++;
-                P_UpdateKillStat(type, 1);
+                stat_monsterskilled[type] = SafeAdd(stat_monsterskilled[type], 1);
             }
         }
         else
@@ -2443,9 +2363,9 @@ void P_ResurrectMobj(mobj_t *target)
     target->flags &= ~MF_JUSTHIT;
 
     viewplayer->killcount--;
-    stat_monsterskilled--;
+    stat_monsterskilled_total--;
     viewplayer->resurrectioncount++;
     stat_monstersresurrected = SafeAdd(stat_monstersresurrected, 1);
-    P_UpdateKillStat(target->type, -1);
+    stat_monsterskilled[target->type] = SafeAdd(stat_monsterskilled[target->type], -1);
     P_UpdateThinker(&target->thinker);
 }
