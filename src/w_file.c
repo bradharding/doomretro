@@ -51,7 +51,14 @@ static wchar_t *ConvertToUTF8(const char *str)
     int     wlen = MultiByteToWideChar(CP_UTF8, 0, str, -1, NULL, 0);
     wchar_t *wstr = (wchar_t *)malloc(wlen * sizeof(wchar_t));
 
-    MultiByteToWideChar(CP_UTF8, 0, str, -1, wstr, wlen);
+    if (!wstr)
+        return NULL;
+
+    if (!MultiByteToWideChar(CP_UTF8, 0, str, -1, wstr, wlen))
+    {
+        free(wstr);
+        return NULL;
+    }
 
     return wstr;
 }
@@ -59,14 +66,21 @@ static wchar_t *ConvertToUTF8(const char *str)
 FILE *D_fopen(const char *filename, const char *mode)
 {
     wchar_t *wname = ConvertToUTF8(filename);
-    wchar_t *wmode = ConvertToUTF8(mode);
-    FILE    *file = _wfopen(wname, wmode);
+    wchar_t *wmode;
+    FILE    *file;
 
-    if (wname)
+    if (!wname)
+        return NULL;
+
+    if (!(wmode = ConvertToUTF8(mode)))
+    {
         free(wname);
+        return NULL;
+    }
 
-    if (wmode)
-        free(wmode);
+    file = _wfopen(wname, wmode);
+    free(wname);
+    free(wmode);
 
     return file;
 }
@@ -74,10 +88,13 @@ FILE *D_fopen(const char *filename, const char *mode)
 int D_remove(const char *path)
 {
     wchar_t *wpath = ConvertToUTF8(path);
-    int     result = _wremove(wpath);
+    int     result;
 
-    if (wpath)
-        free(wpath);
+    if (!wpath)
+        return 0;
+
+    result = _wremove(wpath);
+    free(wpath);
 
     return result;
 }
@@ -86,7 +103,7 @@ int D_rename(const char *oldname, const char *newname)
 {
     wchar_t *wold = ConvertToUTF8(oldname);
     wchar_t *wnew;
-    int     ret;
+    int     result;
 
     if (!wold)
         return 0;
@@ -97,25 +114,27 @@ int D_rename(const char *oldname, const char *newname)
         return 0;
     }
 
-    ret = _wrename(wold, wnew);
+    result = _wrename(wold, wnew);
     free(wold);
     free(wnew);
 
-    return ret;
+    return result;
 }
 
 int D_stat(const char *path, struct stat *buffer)
 {
     wchar_t         *wpath = ConvertToUTF8(path);
     struct _stat    wbuffer;
-    int             result = _wstat(wpath, &wbuffer);
+    int             result;
 
+    if (!wpath)
+        return 0;
+
+    result = _wstat(wpath, &wbuffer);
     buffer->st_mode = wbuffer.st_mode;
     buffer->st_mtime = wbuffer.st_mtime;
     buffer->st_size = wbuffer.st_size;
-
-    if (wpath)
-        free(wpath);
+    free(wpath);
 
     return result;
 }
@@ -123,10 +142,13 @@ int D_stat(const char *path, struct stat *buffer)
 int D_mkdir(const char *dirname)
 {
     wchar_t *wpath = ConvertToUTF8(dirname);
-    int     result = _wmkdir(wpath);
+    int     result;
 
-    if (wpath)
-        free(wpath);
+    if (!wpath)
+        return 0;
+
+    result = _wmkdir(wpath);
+    free(wpath);
 
     return result;
 }
