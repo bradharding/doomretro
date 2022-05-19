@@ -1986,12 +1986,8 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, bool telefrag
         if ((source && source->player) || massacre)
         {
             stat_monsterskilled_total = SafeAdd(stat_monsterskilled_total, 1);
-
-            if (!chex && !hacx)
-            {
-                viewplayer->mobjcount[type]++;
-                stat_monsterskilled[type] = SafeAdd(stat_monsterskilled[type], 1);
-            }
+            viewplayer->mobjcount[type]++;
+            stat_monsterskilled[type] = SafeAdd(stat_monsterskilled[type], 1);
         }
         else
         {
@@ -1999,14 +1995,11 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, bool telefrag
             stat_monsterskilled_infighting = SafeAdd(stat_monsterskilled_infighting, 1);
         }
     }
-    else if (type == MT_BARREL && !chex && !hacx)
+    else if (type == MT_BARREL)
     {
         viewplayer->mobjcount[type]++;
         stat_barrelsexploded = SafeAdd(stat_barrelsexploded, 1);
-    }
 
-    if (type == MT_BARREL)
-    {
         if (inflicter)
             P_SetTarget(&target->target, inflicter);
         else if (source)
@@ -2346,7 +2339,8 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
 //
 void P_ResurrectMobj(mobj_t *target)
 {
-    mobjinfo_t  *info = target->info;
+    mobjinfo_t          *info = target->info;
+    const mobjtype_t    type = target->type;
 
     S_StartSound(target, sfx_slop);
     P_SetMobjState(target, info->raisestate);
@@ -2366,6 +2360,6 @@ void P_ResurrectMobj(mobj_t *target)
     stat_monsterskilled_total--;
     viewplayer->resurrectioncount++;
     stat_monstersresurrected = SafeAdd(stat_monstersresurrected, 1);
-    stat_monsterskilled[target->type] = SafeAdd(stat_monsterskilled[target->type], -1);
+    stat_monsterskilled[type] = SafeAdd(stat_monsterskilled[type], -1);
     P_UpdateThinker(&target->thinker);
 }

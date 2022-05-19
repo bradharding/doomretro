@@ -1395,8 +1395,9 @@ static bool P_HealCorpse(mobj_t *actor, int radius, statenum_t healstate, sfxenu
                 if (!P_BlockThingsIterator(bx, by, &PIT_VileCheck))
                 {
                     // got one!
-                    mobj_t      *prevtarget = actor->target;
-                    mobjinfo_t  *info = corpsehit->info;
+                    mobj_t              *prevtarget = actor->target;
+                    mobjinfo_t          *info = corpsehit->info;
+                    const mobjtype_t    type = corpsehit->type;
 
                     actor->target = corpsehit;
                     A_FaceTarget(actor, NULL, NULL);
@@ -1432,7 +1433,7 @@ static bool P_HealCorpse(mobj_t *actor, int radius, statenum_t healstate, sfxenu
                     stat_monsterskilled_total--;
                     viewplayer->resurrectioncount++;
                     stat_monstersresurrected = SafeAdd(stat_monstersresurrected, 1);
-                    stat_monsterskilled[corpsehit->type] = SafeAdd(stat_monsterskilled[corpsehit->type], -1);
+                    stat_monsterskilled[type] = SafeAdd(stat_monsterskilled[type], -1);
 
                     // [BH] display an obituary message in the console
                     if (con_obituaries)
