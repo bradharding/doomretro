@@ -2464,7 +2464,8 @@ static void deh_procThing(DEHFILE *fpin, char *line)
     int     value;
     int     indexnum;
     int     ix;
-    char    *strval;
+    char *strval;
+    bool    namechange = false;
 
     M_StringCopy(inbuffer, line, DEH_BUFFERMAX - 1);
 
@@ -2517,6 +2518,7 @@ static void deh_procThing(DEHFILE *fpin, char *line)
         {
             M_StringCopy(mobjinfo[indexnum].name1, lowercase(trimwhitespace(strval)), sizeof(mobjinfo[indexnum].name1));
             M_snprintf(mobjinfo[indexnum].plural1, sizeof(mobjinfo[indexnum].plural1), "%ss", mobjinfo[indexnum].name1);
+            namechange = true;
         }
         else if ((string = M_StringCompare(key, "Plural")) || (string = M_StringCompare(key, "Plural1")))
             M_StringCopy(mobjinfo[indexnum].plural1, lowercase(trimwhitespace(strval)), sizeof(mobjinfo[indexnum].plural1));
@@ -2718,6 +2720,12 @@ static void deh_procThing(DEHFILE *fpin, char *line)
     {
         states[S_BAR1].nextstate = S_BAR2;
         mobjinfo[MT_BARREL].frames = 2;
+    }
+
+    if ((indexnum == MT_WOLFSS || indexnum == MT_KEEN) && !namechange)
+    {
+        M_StringCopy(mobjinfo[indexnum].name1, "monster", sizeof(mobjinfo[indexnum].name1));
+        M_snprintf(mobjinfo[indexnum].plural1, sizeof(mobjinfo[indexnum].plural1), "monsters");
     }
 }
 
