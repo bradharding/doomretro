@@ -50,6 +50,9 @@
 * The “automap opened” stat shown by the `playerstats` CCMD is now reset at the start of each map as intended.
 * The `playerstats` CCMD now displays how many monsters have been telefragged and also how many have respawned.
 * Obituaries are now displayed in the console whenever the player or a monster is telefragged and the `con_obituaries` CVAR is `on`.
+* A crash no longer occurs when:
+  * An arch-vile is attacked while resurrecting a monster.
+  * The player telefrags a monster.
 * The `map` CCMD can now be used to warp the player to maps up to <code>E9M99</code> and <code>MAP99</code>.
 * The `mapstats` CCMD now displays how many linedefs have line specials in the current map.
 * Commander Keens are no longer spawned at the start of a map when the `nomonsters` CCMD has been entered in the console, or the `-nomonsters` parameter has been specified on the command-line.
