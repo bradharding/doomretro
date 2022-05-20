@@ -286,34 +286,20 @@ bool CacheSFX(sfxinfo_t *sfxinfo)
         uint8_t         *buffer = NULL;
         uint32_t        length;
 
-        if (!SDL_LoadWAV_RW(rwops, 1, &spec, &buffer, &length))
-            return false;
-        else
+        if (SDL_LoadWAV_RW(rwops, 1, &spec, &buffer, &length))
         {
-            int bits;
-
-            if (spec.channels != 1)
+            if (spec.channels == 1 && SDL_AUDIO_ISINT(spec.format))
             {
-                SDL_FreeWAV(buffer);
-                return false;
-            }
+                int bits = SDL_AUDIO_BITSIZE(spec.format);
 
-            if (SDL_AUDIO_ISINT(spec.format))
-            {
-                if ((bits = SDL_AUDIO_BITSIZE(spec.format)) != 8 && bits != 16)
+                if (bits == 8 || bits == 16)
                 {
-                    SDL_FreeWAV(buffer);
-                    return false;
+                    ExpandSoundData(sfxinfo, buffer, spec.freq, bits, length);
+                    return true;
                 }
             }
-            else
-            {
-                SDL_FreeWAV(buffer);
-                return false;
-            }
 
-            ExpandSoundData(sfxinfo, buffer, spec.freq, bits, length);
-            return true;
+            SDL_FreeWAV(buffer);
         }
     }
     else if (lumplen >= 8 && data[0] == 0x03 && data[1] == 0x00)
@@ -326,14 +312,14 @@ bool CacheSFX(sfxinfo_t *sfxinfo)
         // We also discard sound lumps that are less than 49 samples long, as this is how DMX behaves -
         // although the actual cut-off length seems to vary slightly depending on the sample rate. This
         // needs further investigation to better understand the correct behavior.
-        if (length > lumplen - 8 || length <= 48)
-            return false;
-
-        ExpandSoundData(sfxinfo, data + 16, (data[2] | (data[3] << 8)), 8, length - 32);
-        return true;
+        if (length > 48 && length <= lumplen - 8)
+        {
+            ExpandSoundData(sfxinfo, data + 16, (data[2] | (data[3] << 8)), 8, length - 32);
+            return true;
+        }
     }
-    else
-        return false;
+
+    return false;
 }
 
 void I_UpdateSoundParms(int channel, int vol, int sep)
