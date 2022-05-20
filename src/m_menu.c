@@ -91,7 +91,7 @@ static int      saveCharIndex;          // which char we're editing
 // old save description before edit
 static char     saveOldString[SAVESTRINGSIZE];
 
-bool            inhelpscreens;
+bool            inhelpscreens = false;
 bool            menuactive;
 bool            savegames;
 bool            quitting;

@@ -207,6 +207,9 @@ int         vid_vsync = vid_vsync_default;
 bool        vid_widescreen = vid_widescreen_default;
 char        *vid_windowpos = vid_windowpos_default;
 char        *vid_windowsize = vid_windowsize_default;
+#if defined(_WIN32)
+char        *wad = wad_default;
+#endif
 int         warninglevel = warninglevel_default;
 int         weapon = weapon_default;
 int         weaponbob = weaponbob_default;

@@ -133,10 +133,6 @@ char            *savegamefolder;
 
 char            *pwadfile = "";
 
-#if defined(_WIN32)
-char            *wad = wad_default;
-#endif
-
 char            *packageconfig;
 char            *packagewad;
 
@@ -161,7 +157,7 @@ static int      startmap;
 bool            autostart;
 
 bool            advancetitle;
-bool            dowipe;
+bool            dowipe = false;
 static bool     forcewipe;
 
 static byte     fadescreen[MAXSCREENAREA];
