@@ -2464,7 +2464,7 @@ static void deh_procThing(DEHFILE *fpin, char *line)
     int     value;
     int     indexnum;
     int     ix;
-    char *strval;
+    char    *strval;
     bool    namechange = false;
 
     M_StringCopy(inbuffer, line, DEH_BUFFERMAX - 1);
@@ -2709,11 +2709,7 @@ static void deh_procThing(DEHFILE *fpin, char *line)
 
     // [BH] Disable bobbing and translucency if thing no longer a pickup
     if ((mobjinfo[indexnum].flags2 & MF2_FLOATBOB) && !(mobjinfo[indexnum].flags & MF_SPECIAL))
-    {
-        mobjinfo[indexnum].flags2 &= ~MF2_FLOATBOB;
-        mobjinfo[indexnum].flags2 &= ~MF2_TRANSLUCENT_33;
-        mobjinfo[indexnum].flags2 &= ~MF2_TRANSLUCENT_BLUE_25;
-    }
+        mobjinfo[indexnum].flags2 &= ~(MF2_FLOATBOB | MF2_TRANSLUCENT_33 | MF2_TRANSLUCENT_BLUE_25);
 
     // [BH] No extra barrel frame
     if (indexnum == MT_BARREL)
@@ -2722,6 +2718,7 @@ static void deh_procThing(DEHFILE *fpin, char *line)
         mobjinfo[MT_BARREL].frames = 2;
     }
 
+    // [BH] Call Wolf SS and Keen "monsters" if no name given
     if ((indexnum == MT_WOLFSS || indexnum == MT_KEEN) && !namechange)
     {
         M_StringCopy(mobjinfo[indexnum].name1, "monster", sizeof(mobjinfo[indexnum].name1));
