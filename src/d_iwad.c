@@ -833,7 +833,8 @@ void D_SetScreenshotsFolder(void)
     {
         char    *appdatafolder = M_GetAppDataFolder();
 
-        M_snprintf(screenshotfolder, sizeof(screenshotfolder), "%s" DIR_SEPARATOR_S "screenshots" DIR_SEPARATOR_S, appdatafolder);
+        M_snprintf(screenshotfolder, sizeof(screenshotfolder),
+            "%s" DIR_SEPARATOR_S "screenshots" DIR_SEPARATOR_S, appdatafolder);
 
         free(appdatafolder);
     }
@@ -859,8 +860,7 @@ void D_IdentifyVersion(void)
             gamemission = doom2;
         else if (W_CheckNumForName("E1M1") >= 0)
             gamemission = doom;
-
-        if (gamemission == none)
+        else
             // Still no idea. I don't think this is going to work.
             I_Error("Unknown or invalid IWAD file.");
     }

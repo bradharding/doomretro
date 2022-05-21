@@ -1425,7 +1425,7 @@ void V_DrawFuzzPatch(int x, int y, patch_t *patch)
 
             while (count--)
             {
-                if (!menuactive && !paused && !consoleactive)
+                if (!menuactive && !consoleactive && !paused)
                     fuzztable[fuzzpos] = FUZZ(-1, 1);
 
                 *dest = fullcolormap[6 * 256 + dest[fuzztable[fuzzpos++]]];
@@ -1461,7 +1461,7 @@ void V_DrawFlippedFuzzPatch(int x, int y, patch_t *patch)
 
             while (count--)
             {
-                if (!menuactive && !paused && !consoleactive)
+                if (!menuactive && !consoleactive && !paused)
                     fuzztable[fuzzpos] = FUZZ(-1, 1);
 
                 *dest = fullcolormap[6 * 256 + dest[fuzztable[fuzzpos++]]];

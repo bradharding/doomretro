@@ -1033,7 +1033,7 @@ static void R_SetupFrame(void)
         // Don't interpolate if the player did something that would necessitate turning it off for a tic.
         && mo->interpolate
         // Don't interpolate during a paused state
-        && !paused && !menuactive && !consoleactive)
+        && !menuactive && !consoleactive && !paused)
     {
         // Interpolate player camera from their old position to their current one.
         viewx = mo->oldx + FixedMul(mo->x - mo->oldx, fractionaltic);
@@ -1063,7 +1063,7 @@ static void R_SetupFrame(void)
             pitch = BETWEEN(-LOOKDIRMAX, pitch + viewplayer->recoil, LOOKDIRMAX);
     }
 
-    if (barrelms && !consoleactive && !menuactive && !paused)
+    if (barrelms && !menuactive && !consoleactive && !paused)
     {
         int time = I_GetTimeMS();
 

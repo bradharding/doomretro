@@ -1172,7 +1172,7 @@ void AM_Ticker(void)
         AM_ChangeWindowScale();
 
     // Change x,y location
-    if ((m_paninc.x || m_paninc.y) && !menuactive && !paused && !consoleactive)
+    if ((m_paninc.x || m_paninc.y) && !menuactive && !consoleactive && !paused)
         AM_ChangeWindowLoc();
 
     if (movement)
