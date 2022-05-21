@@ -54,6 +54,7 @@
 * A crash no longer occurs when:
   * An arch-vile is attacked while resurrecting a monster.
   * The player telefrags a monster.
+* The player’s plasma rifle is now lit correctly when fired.
 * The `map` CCMD can now be used to warp the player to maps up to <code>E9M99</code> and <code>MAP99</code>.
 * The `mapstats` CCMD now displays how many linedefs have line specials in the current map.
 * Commander Keens are no longer spawned at the start of a map when the `nomonsters` CCMD has been entered in the console, or the `-nomonsters` parameter has been specified on the command-line.

@@ -1076,7 +1076,7 @@ static void R_DrawPlayerSprite(pspdef_t *psp, bool invisibility, bool texture, b
                     /* SPR_MISF */ tlredwhitecolfunc2, tlredwhite50colfunc,
                     /* SPR_SAWG */ basecolfunc,        basecolfunc,
                     /* SPR_PLSG */ basecolfunc,        basecolfunc,
-                    /* SPR_PLSF */ tlcolfunc,          tl50colfunc,
+                    /* SPR_PLSF */ tlbluecolfunc,      tlbluecolfunc,
                     /* SPR_BFGG */ basecolfunc,        basecolfunc,
                     /* SPR_BFGF */ tlcolfunc,          tl50colfunc
                 };
