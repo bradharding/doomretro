@@ -38,6 +38,7 @@
 
 #include "c_cmds.h"
 #include "c_console.h"
+#include "d_iwad.h"
 #include "d_main.h"
 #include "doomstat.h"
 #include "hu_lib.h"
@@ -63,7 +64,6 @@
 byte    *screens[NUMSCREENS];
 int     lowpixelwidth;
 int     lowpixelheight;
-char    screenshotfolder[MAX_PATH];
 
 void (*postprocessfunc)(int, int, int, int, int, int);
 
@@ -1774,7 +1774,6 @@ void V_Init(void)
 {
     byte                *base = Z_Malloc(MAXSCREENAREA * NUMSCREENS, PU_STATIC, NULL);
     const SDL_version   *linked = IMG_Linked_Version();
-    int                 p;
 
     if (linked->major != SDL_IMAGE_MAJOR_VERSION || linked->minor != SDL_IMAGE_MINOR_VERSION)
         I_Error("The wrong version of %s was found. %s requires v%i.%i.%i.",
@@ -1786,21 +1785,6 @@ void V_Init(void)
 
     for (int i = 0; i < NUMSCREENS; i++)
         screens[i] = &base[i * MAXSCREENAREA];
-
-    if ((p = M_CheckParmsWithArgs("-shot", "-shotdir", "", 1, 1)))
-        M_StringCopy(screenshotfolder, myargv[p + 1], sizeof(screenshotfolder));
-    else
-    {
-        char    *appdatafolder = M_GetAppDataFolder();
-
-        M_snprintf(screenshotfolder, sizeof(screenshotfolder), "%s" DIR_SEPARATOR_S "screenshots" DIR_SEPARATOR_S, appdatafolder);
-
-#if !defined(__APPLE__)
-        free(appdatafolder);
-#endif
-    }
-
-    M_MakeDirectory(screenshotfolder);
 }
 
 char    lbmname1[MAX_PATH];

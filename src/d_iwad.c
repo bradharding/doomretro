@@ -57,6 +57,8 @@
 // "128 IWAD search directories should be enough for anybody".
 #define MAX_IWAD_DIRS   128
 
+char        screenshotfolder[MAX_PATH];
+
 static char *iwad_dirs[MAX_IWAD_DIRS];
 static int  num_iwad_dirs;
 
@@ -819,6 +821,26 @@ void D_SetSaveGameFolder(bool output)
         else
             C_Output("There are %i savegames in " BOLD("%s") ".", numsavegames, savegamefolder);
     }
+}
+
+void D_SetScreenshotsFolder(void)
+{
+    int p = M_CheckParmsWithArgs("-shot", "-shotdir", "", 1, 1);
+
+    if (p)
+        M_StringCopy(screenshotfolder, myargv[p + 1], sizeof(screenshotfolder));
+    else
+    {
+        char    *appdatafolder = M_GetAppDataFolder();
+
+        M_snprintf(screenshotfolder, sizeof(screenshotfolder), "%s" DIR_SEPARATOR_S "screenshots" DIR_SEPARATOR_S, appdatafolder);
+
+        free(appdatafolder);
+    }
+
+    M_MakeDirectory(screenshotfolder);
+
+    C_Output("All screenshots taken will be saved in " BOLD("%s") ".", screenshotfolder);
 }
 
 //

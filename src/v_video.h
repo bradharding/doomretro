@@ -59,8 +59,6 @@ extern byte *screens[NUMSCREENS];
 extern int  lowpixelwidth;
 extern int  lowpixelheight;
 
-extern char screenshotfolder[MAX_PATH];
-
 extern void (*postprocessfunc)(int, int, int, int, int, int);
 
 // Allocates buffer screens, call before R_Init.

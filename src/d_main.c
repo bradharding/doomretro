@@ -2212,7 +2212,7 @@ static void D_DoomMainSetup(void)
 
     D_SetSaveGameFolder(true);
 
-    C_Output("All screenshots taken will be saved in " BOLD("%s") ".", screenshotfolder);
+    D_SetScreenshotsFolder();
 
     C_Output("All files created using the " BOLD("condump") " CCMD will be saved in "
         BOLD("%s" DIR_SEPARATOR_S "console" DIR_SEPARATOR_S) ".", appdatafolder);
