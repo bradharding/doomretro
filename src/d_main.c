@@ -1840,36 +1840,22 @@ static void D_ProcessDehInWad(void)
             if (M_StringCompare(lumpinfo[i]->name, "DEHACKED")
                 && M_StringEndsWith(lumpinfo[i]->wadfile->path, "D4V.WAD"))
                 ProcessDehFile(NULL, i, false);
+    }
 
+    if (chex1)
+        ProcessDehFile(NULL, W_GetNumForName("CHEXBEX"), true);
+
+    if (process)
         for (int i = 0; i < numlumps; i++)
             if (M_StringCompare(lumpinfo[i]->name, "DEHACKED")
-                && M_StringEndsWith(lumpinfo[i]->wadfile->path, DOOMRETRO_WAD))
-                ProcessDehFile(NULL, i, false);
-    }
-    else if (hacx || FREEDOOM || REKKRSA)
-    {
-        for (int i = 0; i < numlumps; i++)
-            if (M_StringCompare(lumpinfo[i]->name, "DEHACKED")
-                && (process || M_StringEndsWith(lumpinfo[i]->wadfile->path, DOOMRETRO_WAD)))
-                ProcessDehFile(NULL, i, false);
-    }
-    else
-    {
-        if (chex1)
-            ProcessDehFile(NULL, W_GetNumForName("CHEXBEX"), true);
-
-        for (int i = numlumps - 1; i >= 0; i--)
-            if (M_StringCompare(lumpinfo[i]->name, "DEHACKED")
-                && M_StringEndsWith(lumpinfo[i]->wadfile->path, DOOMRETRO_WAD))
+                && !M_StringEndsWith(lumpinfo[i]->wadfile->path, "SIGIL_v1_2.wad")
+                && !M_StringEndsWith(lumpinfo[i]->wadfile->path, DOOMRETRO_WAD))
                 ProcessDehFile(NULL, i, false);
 
-        if (process)
-            for (int i = 0; i < numlumps; i++)
-                if (M_StringCompare(lumpinfo[i]->name, "DEHACKED")
-                    && !M_StringEndsWith(lumpinfo[i]->wadfile->path, "SIGIL_v1_2.wad")
-                    && !M_StringEndsWith(lumpinfo[i]->wadfile->path, DOOMRETRO_WAD))
-                    ProcessDehFile(NULL, i, false);
-    }
+    for (int i = numlumps - 1; i >= 0; i--)
+        if (M_StringCompare(lumpinfo[i]->name, "DEHACKED")
+            && M_StringEndsWith(lumpinfo[i]->wadfile->path, DOOMRETRO_WAD))
+            ProcessDehFile(NULL, i, false);
 
     while (*loaddehlast[j].filename)
     {

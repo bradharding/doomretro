@@ -52,7 +52,7 @@
 * The `playerstats` CCMD now displays how many monsters have been telefragged and also how many have respawned.
 * The following improvements have been made to obituaries displayed in the console then the `con_obituaries` CVAR is `on`:
   * Obituaries are now displayed whenever the player or a monster is telefragged.
-  * Obituaries displayed in the console when a corpse is gibbed now indicate the monster is dead.
+  * Obituaries displayed when a corpse is gibbed now indicate the monster is dead.
 * A crash no longer occurs when:
   * An arch-vile is attacked while resurrecting a monster.
   * The player telefrags a monster.
