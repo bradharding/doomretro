@@ -11,6 +11,7 @@ Open the <b><i>[DOOM Retro Wiki](https://github.com/bradharding/doomretro/wiki)<
 [![](https://img.shields.io/github/languages/top/bradharding/doomretro.svg)](https://github.com/bradharding/doomretro/search?l=c)
 [![](https://img.shields.io/github/languages/code-size/bradharding/doomretro.svg)](https://github.com/bradharding/doomretro)
 [![](https://img.shields.io/tokei/lines/github/bradharding/doomretro)](https://github.com/bradharding/doomretro)
+[![](https://img.shields.io/github/workflow/status/bradharding/doomretro/build?logo=github&label=CI)](https://github.com/bradharding/doomretro/actions/workflows/build.yml)
 [![](https://img.shields.io/lgtm/grade/cpp/g/bradharding/doomretro.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/bradharding/doomretro/context:cpp)
 [![](https://img.shields.io/lgtm/alerts/g/bradharding/doomretro.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/bradharding/doomretro/alerts/)
 [![](https://img.shields.io/github/license/bradharding/doomretro.svg?logo=gnu)](https://github.com/bradharding/doomretro/wiki/LICENSE)
