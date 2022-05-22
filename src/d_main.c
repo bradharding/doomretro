@@ -1829,12 +1829,12 @@ static void D_ProcessDehInWad(void)
 
     if (doom4vanilla)
     {
-        for (int i = 0; i < numlumps; i++)
-            if (M_StringCompare(lumpinfo[i]->name, "DEHACKED")
-                && process
-                && !M_StringEndsWith(lumpinfo[i]->wadfile->path, DOOMRETRO_WAD)
-                && !M_StringEndsWith(lumpinfo[i]->wadfile->path, "D4V.WAD"))
-                ProcessDehFile(NULL, i, false);
+        if (process)
+            for (int i = 0; i < numlumps; i++)
+                if (M_StringCompare(lumpinfo[i]->name, "DEHACKED")
+                    && !M_StringEndsWith(lumpinfo[i]->wadfile->path, DOOMRETRO_WAD)
+                    && !M_StringEndsWith(lumpinfo[i]->wadfile->path, "D4V.WAD"))
+                    ProcessDehFile(NULL, i, false);
 
         for (int i = 0; i < numlumps; i++)
             if (M_StringCompare(lumpinfo[i]->name, "DEHACKED")
@@ -1851,7 +1851,6 @@ static void D_ProcessDehInWad(void)
     if (process)
         for (int i = 0; i < numlumps; i++)
             if (M_StringCompare(lumpinfo[i]->name, "DEHACKED")
-                && !M_StringEndsWith(lumpinfo[i]->wadfile->path, "SIGIL_v1_2.wad")
                 && !M_StringEndsWith(lumpinfo[i]->wadfile->path, DOOMRETRO_WAD))
                 ProcessDehFile(NULL, i, false);
 
