@@ -1714,8 +1714,8 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, b
 
                     M_snprintf(targetname, sizeof(targetname), "%s %s%s",
                         (friendly && monstercount[target->type] == 1 ? "the" :
-                            (*target->info->name1 && isvowel(target->info->name1[0]) && !friendly ? "an" : "a")),
-                        (friendly ? "friendly " : ""),
+                            (*target->info->name1 && isvowel(target->info->name1[0]) && target->health > 0 && !friendly ? "an" : "a")),
+                        (target->health <= 0 ? "dead " : (friendly ? "friendly " : "")),
                         (*target->info->name1 ? target->info->name1 : "monster"));
                 }
 
@@ -1821,8 +1821,8 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, b
 
                             M_snprintf(targetname, sizeof(targetname), "%s %s%s",
                                 (friendly && monstercount[target->type] == 1 ? "the" :
-                                    (*target->info->name1 && isvowel(target->info->name1[0]) && !friendly ? "an" : "a")),
-                                (friendly ? "friendly " : ""),
+                                    (*target->info->name1 && isvowel(target->info->name1[0]) && target->health > 0 && !friendly ? "an" : "a")),
+                                (target->health <= 0 ? "dead " : (friendly ? "friendly " : "")),
                                 (*target->info->name1 ? target->info->name1 : "monster"));
                         }
 

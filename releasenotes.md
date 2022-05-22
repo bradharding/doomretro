@@ -50,7 +50,9 @@
   * The player can now walk over certain linedefs in *E2M7: Spawning Vats* again.
 * The “automap opened” stat shown by the `playerstats` CCMD is now reset at the start of each map as intended.
 * The `playerstats` CCMD now displays how many monsters have been telefragged and also how many have respawned.
-* Obituaries are now displayed in the console whenever the player or a monster is telefragged and the `con_obituaries` CVAR is `on`.
+* The following improvements have been made to obituaries displayed in the console then the `con_obituaries` CVAR is `on`:
+  * Obituaries are now displayed whenever the player or a monster is telefragged.
+  * Obituaries displayed in the console when a corpse is gibbed now indicate the monster is dead.
 * A crash no longer occurs when:
   * An arch-vile is attacked while resurrecting a monster.
   * The player telefrags a monster.
@@ -66,7 +68,7 @@
   * A bug is fixed whereby the bounding box of monsters wouldn’t change when using `Width`.
   * `REDTOBLUE` and `REDTOGREEN` now work.
   * If Wolfenstein SS’ or Commander Keens are changed, and a new `Name` isn’t specified, “monster” will be used in their obituaries in the console.
-  * Multiple `DEHACKED` lumps are now loaded in the correct order.
+  * Multiple `DEHACKED` lumps are now parsed in the correct order.
 * Flying monsters now spawn at the correct height when using the `spawn` CCMD.
 * Sliding corpses can now cause other corpses to slide when the `r_corpses_nudge` CVAR is `on`.
 * Corpses in liquid sectors can now be nudged again when the `r_corpses_nudge` CVAR is `on`.
