@@ -1821,8 +1821,8 @@ static void D_ProcessDehOnCmdLine(void)
 
 static void D_ProcessDehInWad(void)
 {
-    bool    process = (!M_CheckParm("-nodeh") && !M_CheckParm("-nobex"));
-    int     j = 0;
+    const bool  process = (!M_CheckParm("-nodeh") && !M_CheckParm("-nobex"));
+    int         j = 0;
 
     if (*dehwarning)
         C_Warning(1, dehwarning);
@@ -1839,7 +1839,10 @@ static void D_ProcessDehInWad(void)
         for (int i = 0; i < numlumps; i++)
             if (M_StringCompare(lumpinfo[i]->name, "DEHACKED")
                 && M_StringEndsWith(lumpinfo[i]->wadfile->path, "D4V.WAD"))
+            {
                 ProcessDehFile(NULL, i, false);
+                break;
+            }
     }
 
     if (chex1)
@@ -1855,7 +1858,10 @@ static void D_ProcessDehInWad(void)
     for (int i = numlumps - 1; i >= 0; i--)
         if (M_StringCompare(lumpinfo[i]->name, "DEHACKED")
             && M_StringEndsWith(lumpinfo[i]->wadfile->path, DOOMRETRO_WAD))
+        {
             ProcessDehFile(NULL, i, false);
+            break;
+        }
 
     while (*loaddehlast[j].filename)
     {
