@@ -66,6 +66,7 @@
   * A bug is fixed whereby the bounding box of monsters wouldn’t change when using `Width`.
   * `REDTOBLUE` and `REDTOGREEN` now work.
   * If Wolfenstein SS’ or Commander Keens are changed, and a new `Name` isn’t specified, “monster” will be used in their obituaries in the console.
+  * Multiple `DEHACKED` lumps are now loaded in the correct order.
 * Flying monsters now spawn at the correct height when using the `spawn` CCMD.
 * Sliding corpses can now cause other corpses to slide when the `r_corpses_nudge` CVAR is `on`.
 * Corpses in liquid sectors can now be nudged again when the `r_corpses_nudge` CVAR is `on`.

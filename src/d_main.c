@@ -1860,9 +1860,15 @@ static void D_ProcessDehInWad(void)
 
         for (int i = numlumps - 1; i >= 0; i--)
             if (M_StringCompare(lumpinfo[i]->name, "DEHACKED")
-                && !M_StringEndsWith(lumpinfo[i]->wadfile->path, "SIGIL_v1_2.wad")
-                && (process || M_StringEndsWith(lumpinfo[i]->wadfile->path, DOOMRETRO_WAD)))
+                && M_StringEndsWith(lumpinfo[i]->wadfile->path, DOOMRETRO_WAD))
                 ProcessDehFile(NULL, i, false);
+
+        if (process)
+            for (int i = 0; i < numlumps; i++)
+                if (M_StringCompare(lumpinfo[i]->name, "DEHACKED")
+                    && !M_StringEndsWith(lumpinfo[i]->wadfile->path, "SIGIL_v1_2.wad")
+                    && !M_StringEndsWith(lumpinfo[i]->wadfile->path, DOOMRETRO_WAD))
+                    ProcessDehFile(NULL, i, false);
     }
 
     while (*loaddehlast[j].filename)
