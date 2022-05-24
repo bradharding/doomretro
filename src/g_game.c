@@ -293,7 +293,12 @@ void G_BuildTiccmd(ticcmd_t *cmd)
         }
 
         if (gamekeydown[keyboardleft] || mousebuttons[mouseright] || (gamecontrollerbuttons & gamecontrollerleft))
+        {
             cmd->angleturn += angleturn[(turnheld < SLOWTURNTICS ? 2 : run)];
+
+            if (!menuactive)
+                spindirection = SIGN(cmd->angleturn);
+        }
         else if (gamecontrollerthumbRX < 0)
         {
             fixed_t x = gamecontrollerthumbRX * 2;
