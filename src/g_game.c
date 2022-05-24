@@ -292,7 +292,7 @@ void G_BuildTiccmd(ticcmd_t *cmd)
                 spindirection = SIGN(cmd->angleturn);
         }
 
-        if (gamekeydown[keyboardleft] || mousebuttons[mouseright] || (gamecontrollerbuttons & gamecontrollerleft))
+        if (gamekeydown[keyboardleft] || mousebuttons[mouseleft] || (gamecontrollerbuttons & gamecontrollerleft))
         {
             cmd->angleturn += angleturn[(turnheld < SLOWTURNTICS ? 2 : run)];
 
