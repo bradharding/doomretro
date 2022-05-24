@@ -80,6 +80,7 @@
 * A bug is fixed whereby when the window regains focus, input could be disabled in some instances.
 * Blood splats are no longer removed when using the `remove` CCMD to remove all corpses.
 * Brightmaps are now applied to more textures when the `r_brightmaps` CVAR is `on`.
+* Pressing a mouse button bound to the `+left` action will now cause the player to turn left rather than right.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
