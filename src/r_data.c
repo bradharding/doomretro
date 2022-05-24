@@ -478,9 +478,11 @@ static void R_InitBrightmaps(void)
     if (BTSX || chex || FREEDOOM || hacx || REKKR)
         return;
 
-    for (int i = 0, game = brightmaps[i].game; brightmaps[i].mask; i++)
+    for (int i = 0, game; brightmaps[i].mask; i++)
         if (*brightmaps[i].texture
-            && (game == DOOM1AND2 || (gamemission == doom && game == DOOM1ONLY) || (gamemission != doom && game == DOOM2ONLY)))
+            && ((game = brightmaps[i].game) == DOOM1AND2
+                || (gamemission == doom && game == DOOM1ONLY)
+                || (gamemission != doom && game == DOOM2ONLY)))
         {
             int num = R_CheckTextureNumForName(brightmaps[i].texture);
 
