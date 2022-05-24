@@ -269,7 +269,7 @@ void G_BuildTiccmd(ticcmd_t *cmd)
         if (gamekeydown[keyboardright] || mousebuttons[mouseright] || (gamecontrollerbuttons & gamecontrollerright))
             side += sidemove[run];
 
-        if (gamekeydown[keyboardleft] || mousebuttons[mouseright] || (gamecontrollerbuttons & gamecontrollerleft))
+        if (gamekeydown[keyboardleft] || mousebuttons[mouseleft] || (gamecontrollerbuttons & gamecontrollerleft))
             side -= sidemove[run];
     }
     else
