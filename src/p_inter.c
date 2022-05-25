@@ -1711,7 +1711,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, b
                 else
                 {
                     const bool  friendly = (target->flags & MF_FRIEND);
-                    const bool  corpse = (target->flags & MF_CORPSE);
+                    const bool  corpse = ((target->flags & MF_CORPSE) && source != target);
 
                     M_snprintf(targetname, sizeof(targetname), "%s %s%s",
                         (friendly && monstercount[target->type] == 1 ? "the" :
