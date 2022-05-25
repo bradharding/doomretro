@@ -817,10 +817,6 @@ void R_InitColumnFunctions(void)
                 tlredtoblue33colfunc = &R_DrawColorDitherColumn;
                 tlredtogreen33colfunc = &R_DrawColorDitherColumn;
             }
-
-            altwallcolfunc = &R_DrawColorColumn;
-            altbmapwallcolfunc = &R_DrawColorColumn;
-            altspanfunc = &R_DrawColorSpan;
         }
         else
         {
@@ -828,13 +824,10 @@ void R_InitColumnFunctions(void)
             translatedcolfunc = &R_DrawColorColumn;
             wallcolfunc = &R_DrawColorColumn;
             missingcolfunc = &R_DrawColorColumn;
-            altwallcolfunc = &R_DrawColorColumn;
             bmapwallcolfunc = &R_DrawColorColumn;
-            altbmapwallcolfunc = &R_DrawColorColumn;
             segcolfunc = &R_DrawColorColumn;
             tl50segcolfunc = (r_translucency ? &R_DrawTranslucent50ColorColumn : &R_DrawColorColumn);
             spanfunc = &R_DrawColorSpan;
-            altspanfunc = &R_DrawColorSpan;
             redtobluecolfunc = &R_DrawColorColumn;
             redtogreencolfunc = &R_DrawColorColumn;
             tlcolfunc = (r_translucency ? &R_DrawTranslucent50ColorColumn : &R_DrawColorColumn);
@@ -855,6 +848,9 @@ void R_InitColumnFunctions(void)
 
         bloodsplatcolfunc = (r_bloodsplats_translucency ? &R_DrawTranslucent50ColorColumn : &R_DrawColorColumn);
         psprcolfunc = &R_DrawColorColumn;
+        altwallcolfunc = &R_DrawColorColumn;
+        altbmapwallcolfunc = &R_DrawColorColumn;
+        altspanfunc = &R_DrawColorSpan;
     }
 
     for (mobjtype_t i = 0; i < NUMMOBJTYPES; i++)

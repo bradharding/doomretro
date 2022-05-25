@@ -3845,11 +3845,11 @@ static void map_cmd_func2(char *cmd, char *parms)
         return;
     }
 
-    M_snprintf(buffer, sizeof(buffer), (M_StringCompare(mapcmdlump, mapnum) ? s_STSTR_CLEVSAME : s_STSTR_CLEV), mapcmdlump);
+    samelevel = (gameepisode == mapcmdepisode && gamemap == mapcmdmap);
+    M_snprintf(buffer, sizeof(buffer), (samelevel ? s_STSTR_CLEVSAME : s_STSTR_CLEV), mapcmdlump);
     C_Output(buffer);
     HU_SetPlayerMessage(buffer, false, false);
     message_dontfuckwithme = true;
-    samelevel = (gameepisode == mapcmdepisode && gamemap == mapcmdmap);
 
     gameepisode = mapcmdepisode;
 

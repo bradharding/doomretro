@@ -293,7 +293,7 @@ static struct
     { "ZELDOOR",  DOOM1AND2, redonly1        }, { "TEKLITE2", DOOM2ONLY, greenonly1      },
     { "TEKBRON2", DOOM2ONLY, yellowonly      }, { "TEKWALL2", DOOM1ONLY, redonly1        },
     { "TEKWALL5", DOOM1ONLY, redonly1        }, { "YELMETAL", DOOM2ONLY, yellowonly      },
-    { "",         0,         0              }
+    { "",         0,         0               }
 };
 
 //
