@@ -2,7 +2,7 @@
 
 #### DOOM Retro v4.5
 
-* *DOOM Retro* is now compiled using v17.2.1 of [*Microsoft Visual Studio Community 2022*](https://www.visualstudio.com/vs/).
+* *DOOM Retro* is now compiled using v17.2.2 of [*Microsoft Visual Studio Community 2022*](https://www.visualstudio.com/vs/).
 * *DOOM Retro* now uses [*SDL v2.0.22*](https://www.libsdl.org).
 * Extensive optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Moving the mouse to turn the player is now even smoother.
