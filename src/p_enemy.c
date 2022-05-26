@@ -1767,6 +1767,7 @@ static void A_PainShootSkull(mobj_t *actor, angle_t angle)
     {
         // kill it immediately
         massacre = true;    // [BH] set this to avoid obituary
+        newmobj->flags &= ~MF_COUNTKILL;
         P_DamageMobj(newmobj, actor, actor, 10000, true, false);
         massacre = false;
 
