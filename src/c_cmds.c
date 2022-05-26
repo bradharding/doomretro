@@ -1186,7 +1186,6 @@ static void C_ShowDescription(int index)
 
     M_StringCopy(description, consolecmds[index].description, sizeof(description));
     description[0] = tolower(description[0]);
-    M_StringReplaceAll(description, "%", "%%");
 
     if (consolecmds[index].type == CT_CCMD)
         C_Output("This CCMD %s", description);
