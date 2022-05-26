@@ -108,7 +108,7 @@ static const fixed_t floatbobdiffs[64] =
 // Local function for R_InitSprites.
 //
 static void R_InstallSpriteLump(const lumpinfo_t *lump, const int lumpnum,
-    const unsigned int frame, const char rot, const bool flipped)
+    const int frame, const char rot, const bool flipped)
 {
     unsigned int    rotation = (rot >= '0' && rot <= '9' ? rot - '0' : (rot >= 'A' ? rot - 'A' + 10 : 17));
 
@@ -118,7 +118,7 @@ static void R_InstallSpriteLump(const lumpinfo_t *lump, const int lumpnum,
         return;
     }
 
-    if ((int)frame > maxframe)
+    if (frame > maxframe)
         maxframe = frame;
 
     if (!rotation)
@@ -173,7 +173,7 @@ static void R_InstallSpriteLump(const lumpinfo_t *lump, const int lumpnum,
 
 static void R_InitSpriteDefs(void)
 {
-    size_t  numentries = (size_t)lastspritelump - firstspritelump + 1;
+    const size_t    numentries = (size_t)lastspritelump - firstspritelump + 1;
 
     struct
     {
@@ -978,9 +978,9 @@ static void R_DrawPlayerSprite(pspdef_t *psp, bool invisibility, bool texture, b
     vissprite_t     *vis = &tempvis;
     state_t         *state = psp->state;
     spritenum_t     spr = state->sprite;
-    int             frame = state->frame;
+    const int       frame = state->frame;
     spriteframe_t   *sprframe = &sprites[spr].spriteframes[frame & FF_FRAMEMASK];
-    int             lump = sprframe->lump[0];
+    const int       lump = sprframe->lump[0];
 
     // calculate edges of the shape
     tx = psp->sx - VANILLAWIDTH / 2 * FRACUNIT - (!r_fixspriteoffsets || (altered && !vanilla) ?

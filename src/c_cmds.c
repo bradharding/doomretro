@@ -124,6 +124,12 @@
 
 alias_t     aliases[MAXALIASES];
 
+static int  ammo;
+static int  armor;
+static int  armortype;
+static int  health;
+static int  weapon;
+
 static int  mapcmdepisode;
 static int  mapcmdmap;
 static char mapcmdlump[7];

@@ -1061,7 +1061,7 @@ static void R_SetupFrame(void)
 
     if (barrelms && !menuactive && !consoleactive && !paused)
     {
-        int time = I_GetTimeMS();
+        const int   time = I_GetTimeMS();
 
         if (barrelms > time)
         {
