@@ -496,7 +496,7 @@ void M_DarkBackground(void)
                 {
                     byte    *dot = *screens + x + y;
 
-                    *dot = white30[*dot];
+                    *dot = white25[*dot];
                 }
         }
         else
@@ -514,7 +514,7 @@ void M_DarkBackground(void)
                 {
                     byte    *dot = *screens + x + y;
 
-                    *dot = white30[*dot];
+                    *dot = white25[*dot];
                 }
         }
 

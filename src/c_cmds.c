@@ -2964,11 +2964,11 @@ static void kill_cmd_func2(char *cmd, char *parms)
         }
         else
         {
-            bool    friends = (M_StringCompare(parm, "friend") || M_StringCompare(parm, "friends")
-                        || M_StringCompare(parm, "friendlymonster") || M_StringCompare(parm, "friendlymonsters"));
-            bool    enemies = (M_StringCompare(parm, "monster") || M_StringCompare(parm, "monsters"));
-            bool    all = M_StringCompare(parm, "all");
-            int     kills = 0;
+            const bool  friends = (M_StringCompare(parm, "friend") || M_StringCompare(parm, "friends")
+                            || M_StringCompare(parm, "friendlymonster") || M_StringCompare(parm, "friendlymonsters"));
+            const bool  enemies = (M_StringCompare(parm, "monster") || M_StringCompare(parm, "monsters"));
+            const bool  all = M_StringCompare(parm, "all");
+            int         kills = 0;
 
             if (friends || enemies || all)
             {
