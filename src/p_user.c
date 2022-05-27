@@ -120,9 +120,9 @@ void P_CalcHeight(void)
     {
         // Regular movement bobbing
         // (needs to be calculated for gun swing even if not on ground)
-        fixed_t momx = viewplayer->momx;
-        fixed_t momy = viewplayer->momy;
-        fixed_t bob = (MAXBOB * stillbob / 400) / 2;
+        const fixed_t   momx = viewplayer->momx;
+        const fixed_t   momy = viewplayer->momy;
+        fixed_t         bob = (MAXBOB * stillbob / 400) / 2;
 
         if (momx | momy)
             bob = MAX(MIN((FixedMul(momx, momx) + FixedMul(momy, momy)) >> 2, MAXBOB) * movebob / 200, bob);
@@ -196,8 +196,8 @@ static bool P_CheckForSteps(fixed_t width)
 
     if (sector1->terraintype == sector2->terraintype)
     {
-        fixed_t step = sector1->floorheight;
-        int     delta = step - viewplayer->mo->floorz;
+        const fixed_t   step = sector1->floorheight;
+        const int       delta = step - viewplayer->mo->floorz;
 
         if (delta == sector2->floorheight - step)
         {
@@ -237,9 +237,9 @@ void P_MovePlayer(void)
     // thrust applied to the movement varies with 'movefactor'.
     if ((forward | side) && (mo->z <= mo->floorz || (mo->flags & MF_BOUNCES) || (mo->flags2 & MF2_ONMOBJ)))
     {
-        int     friction;
-        int     movefactor = P_GetMoveFactor(mo, &friction);
-        angle_t angle = mo->angle;
+        int         friction;
+        const int   movefactor = P_GetMoveFactor(mo, &friction);
+        angle_t     angle = mo->angle;
 
         // killough 11/98:
         // On sludge, make bobbing depend on efficiency.
@@ -332,7 +332,7 @@ static void P_DeathThink(void)
 
             if (deadlookdir == -1)
             {
-                double  viewheightrange = (double)(viewplayer->viewheight - DEADVIEWHEIGHT) / FRACUNIT;
+                const double    viewheightrange = (double)(viewplayer->viewheight - DEADVIEWHEIGHT) / FRACUNIT;
 
                 inc = MAX(1, ABS(DEADLOOKDIR - viewplayer->lookdir));
 
@@ -364,8 +364,8 @@ static void P_DeathThink(void)
 
     if (attacker && attacker != mo && !facingkiller)
     {
-        angle_t angle = R_PointToAngle2(mo->x, mo->y, attacker->x, attacker->y);
-        angle_t delta = angle - mo->angle;
+        const angle_t   angle = R_PointToAngle2(mo->x, mo->y, attacker->x, attacker->y);
+        const angle_t   delta = angle - mo->angle;
 
         if (delta < ANG5 || delta > (unsigned int)(-ANG5))
         {

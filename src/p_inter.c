@@ -2292,7 +2292,7 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
     }
     else if ((target->health -= damage) <= 0)   // do the damage
     {
-        if (!(flags & MF_FUZZ) && (type == MT_BARREL || (type == MT_PAIN && !doom4vanilla) || type == MT_SKULL))
+        if (!(flags & MF_FUZZ) && (type == MT_BARREL || type == MT_SKULL || (type == MT_PAIN && !doom4vanilla)))
             target->colfunc = tlredcolfunc;
 
         // [crispy] the lethal pellet of a point-blank SSG blast

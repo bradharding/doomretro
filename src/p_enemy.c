@@ -1354,10 +1354,10 @@ static bool PIT_VileCheck(mobj_t *thing)
         corpsehit->flags |= MF_SOLID;
         corpsehit->flags2 |= MF2_RESURRECTING;
         check = P_CheckPosition(corpsehit, corpsehit->x, corpsehit->y);
-        corpsehit->height = height;
-        corpsehit->radius = radius;
-        corpsehit->flags &= ~MF_SOLID;
         corpsehit->flags2 &= ~MF2_RESURRECTING;
+        corpsehit->flags &= ~MF_SOLID;
+        corpsehit->radius = radius;
+        corpsehit->height = height;
     }
 
     return !check;      // got one, so stop checking
