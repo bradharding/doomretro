@@ -496,7 +496,7 @@ bool ST_Responder(event_t *ev)
             }
 
             // 'fa' cheat for killer fucking arsenal
-            else if (cht_CheckCheat(&cheat_ammonokey, ev->data2) && gameskill != sk_nightmare)
+            else if (cht_CheckCheat(&cheat_ammonokey, ev->data2) && gameskill != sk_nightmare && viewplayer->health > 0)
             {
                 bool    ammogiven = false;
                 bool    armorgiven = false;
@@ -550,7 +550,9 @@ bool ST_Responder(event_t *ev)
             }
 
             // 'kfa' cheat for key full ammo
-            else if (cht_CheckCheat(&cheat_ammo, ev->data2) && gameskill != sk_nightmare)
+            else if (cht_CheckCheat(&cheat_ammo, ev->data2) && gameskill != sk_nightmare
+                // [BH] can only enter cheat while player is alive
+                && viewplayer->health > 0)
             {
                 bool    ammogiven = false;
                 bool    armorgiven = false;
@@ -656,7 +658,9 @@ bool ST_Responder(event_t *ev)
             // no clipping mode cheat
             else if (((cht_CheckCheat(&cheat_noclip, ev->data2) && gamemode != commercial)
                 || (cht_CheckCheat(&cheat_commercial_noclip, ev->data2) && gamemode == commercial))
-                && gameskill != sk_nightmare)
+                && gameskill != sk_nightmare
+                // [BH] can only enter cheat while player is alive
+                && viewplayer->health > 0)
             {
                 S_StartSound(NULL, sfx_getpow);
 
@@ -679,7 +683,9 @@ bool ST_Responder(event_t *ev)
             // 'behold?' power-up cheats
             for (int i = 1; i < 7; i++)
             {
-                if (cht_CheckCheat(&cheat_powerup[i - 1], ev->data2) && gameskill != sk_nightmare)
+                if (cht_CheckCheat(&cheat_powerup[i - 1], ev->data2) && gameskill != sk_nightmare
+                    // [BH] can only enter cheat while player is alive
+                    && viewplayer->health > 0)
                 {
                     static char buffer[128];
 
@@ -826,7 +832,9 @@ bool ST_Responder(event_t *ev)
             }
 
             // 'behold' power-up menu
-            if (cht_CheckCheat(&cheat_powerup[6], ev->data2) && gameskill != sk_nightmare)
+            if (cht_CheckCheat(&cheat_powerup[6], ev->data2) && gameskill != sk_nightmare
+                // [BH] can only enter cheat while player is alive
+                && viewplayer->health > 0)
             {
                 idbehold = true;
 
@@ -835,7 +843,9 @@ bool ST_Responder(event_t *ev)
             }
 
             // 'choppers' invulnerability and chainsaw
-            else if (cht_CheckCheat(&cheat_choppers, ev->data2) && gameskill != sk_nightmare)
+            else if (cht_CheckCheat(&cheat_choppers, ev->data2) && gameskill != sk_nightmare
+                // [BH] can only enter cheat while player is alive
+                && viewplayer->health > 0)
             {
                 S_StartSound(NULL, sfx_getpow);
 
@@ -906,7 +916,7 @@ bool ST_Responder(event_t *ev)
                 }
             }
 
-            else if (cht_CheckCheat(&cheat_buddha, ev->data2) && gameskill != sk_nightmare)
+            else if (cht_CheckCheat(&cheat_buddha, ev->data2) && gameskill != sk_nightmare && viewplayer->health > 0)
             {
                 S_StartSound(NULL, sfx_getpow);
 
