@@ -1259,31 +1259,31 @@ static bool cheat_func1(char *cmd, char *parms)
     else if (M_StringCompare(cmd, cheat_god.sequence))
         return (gameskill != sk_nightmare);
     else if (M_StringCompare(cmd, cheat_ammonokey.sequence))
-        return (gameskill != sk_nightmare && viewplayer->health > 0);
+        return (gameskill != sk_nightmare);
     else if (M_StringCompare(cmd, cheat_ammo.sequence))
-        return (gameskill != sk_nightmare && viewplayer->health > 0);
+        return (gameskill != sk_nightmare);
     else if (M_StringCompare(cmd, cheat_mus.sequence))
         return (!nomusic && musicVolume);
     else if (M_StringCompare(cmd, cheat_noclip.sequence))
-        return (gamemode != commercial && gameskill != sk_nightmare && viewplayer->health > 0);
+        return (gamemode != commercial && gameskill != sk_nightmare);
     else if (M_StringCompare(cmd, cheat_commercial_noclip.sequence))
-        return (gamemode == commercial && gameskill != sk_nightmare && viewplayer->health > 0);
+        return (gamemode == commercial && gameskill != sk_nightmare);
     else if (M_StringCompare(cmd, cheat_powerup[0].sequence))
-        return (gameskill != sk_nightmare && viewplayer->health > 0);
+        return (gameskill != sk_nightmare);
     else if (M_StringCompare(cmd, cheat_powerup[1].sequence))
-        return (gameskill != sk_nightmare && viewplayer->health > 0);
+        return (gameskill != sk_nightmare);
     else if (M_StringCompare(cmd, cheat_powerup[2].sequence))
-        return (gameskill != sk_nightmare && viewplayer->health > 0);
+        return (gameskill != sk_nightmare);
     else if (M_StringCompare(cmd, cheat_powerup[3].sequence))
-        return (gameskill != sk_nightmare && viewplayer->health > 0);
+        return (gameskill != sk_nightmare);
     else if (M_StringCompare(cmd, cheat_powerup[4].sequence))
-        return (gameskill != sk_nightmare && viewplayer->health > 0);
+        return (gameskill != sk_nightmare);
     else if (M_StringCompare(cmd, cheat_powerup[5].sequence))
-        return (gameskill != sk_nightmare && viewplayer->health > 0);
+        return (gameskill != sk_nightmare);
     else if (M_StringCompare(cmd, cheat_choppers.sequence))
-        return (gameskill != sk_nightmare && viewplayer->health > 0);
+        return (gameskill != sk_nightmare);
     else if (M_StringCompare(cmd, cheat_buddha.sequence))
-        return (gameskill != sk_nightmare && viewplayer->health > 0);
+        return (gameskill != sk_nightmare);
     else if (M_StringCompare(cmd, cheat_mypos.sequence))
         return true;
     else if (M_StringCompare(cmd, cheat_amap.sequence))
