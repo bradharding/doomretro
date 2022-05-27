@@ -16,7 +16,7 @@
 * Text displayed in the top right of the screen while the automap is open is now slightly more translucent.
 * The colors of keycards and skull keys in the automap when the `IDDT` cheat is used can now be changed using the new `am_redkeycolor`, `am_yellowkeycolor` and `am_bluekeycolor` CVARs. These CVARs are all `112` by default (the same as the `am_thingcolor` CVAR) and when vanilla mode is enabled.
 * When a pain elemental spawns a lost soul, the number of monsters the player has left to kill now increases as intended.
-* Blood splats are no longer spawned when using the `kill` CCMD to kill a lost soul.
+* Blood splats are no longer spawned when a lost soul is killed using the `kill` CCMD.
 * Bullet puffs are now positioned correctly when shooting at a lost soul and the `r_blood` CVAR is `none`.
 * The `am_followmode` CVAR no longer changes when enabling vanilla mode using the `vanilla` CCMD.
 * Changing the `r_fov` CVAR from its default of `90`° is now effective again when the `vid_widescreen` CVAR is `off`.
