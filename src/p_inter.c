@@ -1963,7 +1963,6 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, bool telefrag
     else
         target->flags &= ~MF_NOGRAVITY;
 
-    target->flags |= (MF_CORPSE | MF_DROPOFF);
     target->flags2 &= ~MF2_PASSMOBJ;
     target->height >>= 2;
     target->geartime = MAXGEARTIME; // [JN] Limit torque to 15 seconds
@@ -2058,6 +2057,8 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, bool telefrag
 
     if (con_obituaries && !hacx && (!massacre || type == MT_BARREL))
         P_WriteObituary(target, inflicter, source, gibbed, telefragged);
+
+    target->flags |= (MF_CORPSE | MF_DROPOFF);
 
     if (chex)
         return;
