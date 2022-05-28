@@ -2,6 +2,9 @@
 
 #### DOOM Retro v4.5.1
 
+* Obituaries displayed when a monster is killed by an explosion are now correct.
+* Minor improvements have been made to the color chosen for the surrounding pillarboxes when certain lumps from a PWAD that are only 320 pixels wide are displayed and the `vid_widescreen` CVAR is `on`.
+
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Saturday, May 28, 2022
