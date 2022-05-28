@@ -3008,7 +3008,7 @@ static void kill_cmd_func2(char *cmd, char *parms)
                                     thing->flags2 |= MF2_MASSACRE;
                                     P_DamageMobj(thing, NULL, NULL, thing->health, false, false);
 
-                                    if (!(flags & MF_NOBLOOD) && type != MT_SKULL)
+                                    if (r_corpses_moreblood && !(flags & MF_NOBLOOD) && type != MT_SKULL && type != MT_SHADOWS)
                                         P_SpawnMoreBlood(thing);
 
                                     kills++;
