@@ -493,7 +493,7 @@ void M_DarkBackground(void)
         {
             for (int y = 2 * SCREENWIDTH; y < SCREENAREA; y += 4 * SCREENWIDTH)
             {
-                byte    *tinttab = (M_BigRandomInt(1, 100) < 4 ? tinttab30 : tinttab20);
+                byte    *tinttab = (M_BigRandomInt(1, 100) < 4 ? tinttab33 : tinttab25);
 
                 for (int x = 0; x < SCREENWIDTH; x++)
                 {
@@ -515,7 +515,7 @@ void M_DarkBackground(void)
 
             for (int y = 2 * SCREENWIDTH; y < SCREENAREA; y += 4 * SCREENWIDTH)
             {
-                byte    *tinttab = (M_BigRandomInt(1, 100) < 4 ? tinttab30 : tinttab20);
+                byte    *tinttab = (M_BigRandomInt(1, 100) < 4 ? tinttab33 : tinttab25);
 
                 for (int x = 2; x < SCREENWIDTH - 2; x++)
                 {
