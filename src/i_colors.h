@@ -80,7 +80,6 @@ extern byte nearestwhite;
 
 extern byte *black25;
 extern byte *black40;
-extern byte *white25;
 extern byte *yellow15;
 
 void I_InitTintTables(byte *palette);

@@ -492,12 +492,16 @@ void M_DarkBackground(void)
         if (vid_widescreen)
         {
             for (int y = 2 * SCREENWIDTH; y < SCREENAREA; y += 4 * SCREENWIDTH)
+            {
+                byte    *tinttab = (M_BigRandomInt(1, 100) < 4 ? tinttab30 : tinttab20);
+
                 for (int x = 0; x < SCREENWIDTH; x++)
                 {
                     byte    *dot = *screens + x + y;
 
-                    *dot = white25[*dot];
+                    *dot = tinttab[(nearestwhite << 8) + *dot];
                 }
+            }
         }
         else
         {
@@ -510,12 +514,16 @@ void M_DarkBackground(void)
             }
 
             for (int y = 2 * SCREENWIDTH; y < SCREENAREA; y += 4 * SCREENWIDTH)
+            {
+                byte    *tinttab = (M_BigRandomInt(1, 100) < 4 ? tinttab30 : tinttab20);
+
                 for (int x = 2; x < SCREENWIDTH - 2; x++)
                 {
                     byte    *dot = *screens + x + y;
 
-                    *dot = white25[*dot];
+                    *dot = tinttab[(nearestwhite << 8) + *dot];
                 }
+            }
         }
 
         BlurScreen(screens[0], blurscreen1, SCREENWIDTH, SCREENAREA);
