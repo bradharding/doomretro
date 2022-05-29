@@ -181,8 +181,7 @@ const float gammalevels[GAMMALEVELS] =
     1.0f,
 
     // Lighter
-    1.05f, 1.10f, 1.15f, 1.20f, 1.25f, 1.30f, 1.35f, 1.40f, 1.45f, 1.50f,
-    1.55f, 1.60f, 1.65f, 1.70f, 1.75f, 1.80f, 1.85f, 1.90f, 1.95f, 2.0f
+    1.10f, 1.20f, 1.30f, 1.40f, 1.50f, 1.60f, 1.70f, 1.80f, 1.90f, 2.0f
 };
 
 int                 gammaindex;

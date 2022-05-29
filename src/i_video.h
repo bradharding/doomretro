@@ -43,7 +43,7 @@
 
 #define MAX_MOUSE_BUTTONS   8
 
-#define GAMMALEVELS         31
+#define GAMMALEVELS         21
 
 bool MouseShouldBeGrabbed(void);
 void I_InitKeyboard(void);
