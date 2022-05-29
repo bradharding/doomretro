@@ -43,61 +43,61 @@
 #include "m_config.h"
 #include "p_local.h"
 
-static bool     segtextured;        // True if any of the segs textures might be visible.
+static bool         segtextured;        // True if any of the segs textures might be visible.
 
-static bool     markfloor;          // False if the back side is the same plane.
-static bool     markceiling;
+static bool         markfloor;          // False if the back side is the same plane.
+static bool         markceiling;
 
-static bool     maskedtexture;
-static int      toptexture;
-static int      midtexture;
-static int      bottomtexture;
+static bool         maskedtexture;
+static int          toptexture;
+static int          midtexture;
+static int          bottomtexture;
 
-static bool     missingtoptexture;
-static bool     missingmidtexture;
-static bool     missingbottomtexture;
+static bool         missingtoptexture;
+static bool         missingmidtexture;
+static bool         missingbottomtexture;
 
-static fixed_t  toptexheight;
-static fixed_t  midtexheight;
-static fixed_t  bottomtexheight;
+static fixed_t      toptexheight;
+static fixed_t      midtexheight;
+static fixed_t      bottomtexheight;
 
-static byte     *topbrightmap;
-static byte     *midbrightmap;
-static byte     *bottombrightmap;
+static byte         *topbrightmap;
+static byte         *midbrightmap;
+static byte         *bottombrightmap;
 
-static angle_t  rw_normalangle;
-static fixed_t  rw_distance;
+static angle_t      rw_normalangle;
+static fixed_t      rw_distance;
 
 //
 // regular wall
 //
-static int      rw_x;
-static int      rw_stopx;
-static angle_t  rw_centerangle;
-static fixed_t  rw_offset;
-static fixed_t  rw_scale;
-static fixed_t  rw_scalestep;
-static fixed_t  rw_midtexturemid;
-static fixed_t  rw_toptexturemid;
-static fixed_t  rw_bottomtexturemid;
+static int          rw_x;
+static int          rw_stopx;
+static angle_t      rw_centerangle;
+static fixed_t      rw_offset;
+static fixed_t      rw_scale;
+static fixed_t      rw_scalestep;
+static fixed_t      rw_midtexturemid;
+static fixed_t      rw_toptexturemid;
+static fixed_t      rw_bottomtexturemid;
 
-static int64_t  pixhigh;
-static int64_t  pixlow;
-static fixed_t  pixhighstep;
-static fixed_t  pixlowstep;
+static int64_t      pixhigh;
+static int64_t      pixlow;
+static fixed_t      pixhighstep;
+static fixed_t      pixlowstep;
 
-static int64_t  topfrac;
-static fixed_t  topstep;
+static int64_t      topfrac;
+static fixed_t      topstep;
 
-static int64_t  bottomfrac;
-static fixed_t  bottomstep;
+static int64_t      bottomfrac;
+static fixed_t      bottomstep;
 
-lighttable_t    **walllights;
-lighttable_t    **walllightsnext;
+static lighttable_t **walllights;
+static lighttable_t **walllightsnext;
 
-static int      *maskedtexturecol;  // dropoff overflow
+static int          *maskedtexturecol;  // dropoff overflow
 
-extern bool     usebrightmaps;
+extern bool         usebrightmaps;
 
 //
 // R_FixWiggle()

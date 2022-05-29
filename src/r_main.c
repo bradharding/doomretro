@@ -114,7 +114,6 @@ int                 extralight;
 bool                drawbloodsplats;
 
 extern bool         transferredsky;
-extern lighttable_t **walllights;
 
 //
 // R_PointOnSide
@@ -1116,7 +1115,6 @@ static void R_SetupFrame(void)
             fixedcolormap += 32 * 256 * sizeof(lighttable_t);
 
         usebrightmaps = false;
-        walllights = scalelightfixed;
 
         for (int i = 0; i < MAXLIGHTSCALE; i++)
             scalelightfixed[i] = fixedcolormap;
