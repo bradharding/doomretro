@@ -483,7 +483,7 @@ int             titlesequence = 0;
 int             pagetic = 3 * TICRATE;
 int             logotic = 3 * TICRATE;
 
-patch_t         *pagelump;
+static patch_t  *pagelump;
 patch_t         *creditlump;
 
 static int      pillarboxcolor;

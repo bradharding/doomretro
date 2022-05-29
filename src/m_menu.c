@@ -506,7 +506,7 @@ void M_DarkBackground(void)
 
         for (int y = 2 * SCREENWIDTH; y < SCREENAREA; y += 4 * SCREENWIDTH)
         {
-            byte    *white = (M_BigRandomInt(1, 100) < 4 ? white33 : white25);
+            byte    *white = ((M_BigRandom() % 25) ? white25 : white33);
 
             for (int x = indent; x < SCREENWIDTH - indent; x++)
             {
@@ -721,8 +721,8 @@ static int M_BigStringWidth(char *string)
 
     for (int i = 0; i < len; i++)
     {
-        int j = chartoi[(int)string[i]];
-        int k = 0;
+        const int   j = chartoi[(int)string[i]];
+        int         k = 0;
 
         while (bigkern[k].char1)
         {

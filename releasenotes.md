@@ -2,7 +2,7 @@
 
 #### DOOM Retro v4.5.2
 
-* `HELP`, `HELP1` and `HELP2` lumps in PWADs that are greater than 320 pixels in width now display correctly when the <kbd><b>F1</b></kbd> is pressed.
+* `HELP`, `HELP1` and `HELP2` lumps in PWADs that are greater than 320 pixels in width are now displayed correctly when the <kbd><b>F1</b></kbd> key is pressed.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

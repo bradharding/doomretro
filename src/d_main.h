@@ -44,7 +44,6 @@
 
 #define PAGETICS    (20 * TICRATE)
 
-extern patch_t  *pagelump;
 extern patch_t  *creditlump;
 extern char     **episodes[];
 extern char     **expansions[];
