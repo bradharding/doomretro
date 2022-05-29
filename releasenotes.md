@@ -3,6 +3,7 @@
 #### DOOM Retro v4.5.1
 
 * Minor changes have been made to the menu’s background.
+* A crash no longer occurs when the `r_ditheredlighting` CVAR is `off`.
 * Obituaries displayed when a monster is killed by an explosion are now correct.
 * Minor improvements have been made to the color chosen for the surrounding pillarboxes when certain lumps from a PWAD that are only 320 pixels wide are displayed and the `vid_widescreen` CVAR is `on`.
 * Blood splats are no longer spawned when using the `kill` CCMD to kill a spectre, or if the `r_corpses_moreblood` CVAR is `off`.
