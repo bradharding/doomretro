@@ -1431,7 +1431,7 @@ static void M_DrawReadThis(void)
             if (SCREENWIDTH != NONWIDEWIDTH)
                 memset(screens[0], FindDominantEdgeColor(lump), SCREENAREA);
 
-            V_DrawPatch(0, 0, 0, lump);
+            V_DrawWidePatch((SCREENWIDTH / SCREENSCALE - SHORT(lump->width)) / 2, 0, 0, lump);
 
             if (mapwindow)
                 memset(mapscreen, nearestblack, MAPAREA);
@@ -1449,7 +1449,7 @@ static void M_DrawReadThis(void)
             if (SCREENWIDTH != NONWIDEWIDTH)
                 memset(screens[0], FindDominantEdgeColor(lump), SCREENAREA);
 
-            V_DrawPatch(0, 0, 0, lump);
+            V_DrawWidePatch((SCREENWIDTH / SCREENSCALE - SHORT(lump->width)) / 2, 0, 0, lump);
 
             if (mapwindow)
                 memset(mapscreen, nearestblack, MAPAREA);
