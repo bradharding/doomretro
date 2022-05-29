@@ -489,22 +489,12 @@ void M_DarkBackground(void)
 
     if (gametime != blurtic)
     {
-        if (vid_widescreen)
-        {
-            for (int y = 2 * SCREENWIDTH; y < SCREENAREA; y += 4 * SCREENWIDTH)
-            {
-                byte    *tinttab = (M_BigRandomInt(1, 100) < 4 ? tinttab33 : tinttab25);
+        int indent = 0;
 
-                for (int x = 0; x < SCREENWIDTH; x++)
-                {
-                    byte    *dot = *screens + x + y;
-
-                    *dot = tinttab[(nearestwhite << 8) + *dot];
-                }
-            }
-        }
-        else
+        if (!vid_widescreen)
         {
+            indent = 2;
+
             for (int i = 0; i < SCREENAREA; i += SCREENWIDTH)
             {
                 screens[0][i] = nearestblack;
@@ -512,17 +502,17 @@ void M_DarkBackground(void)
                 screens[0][i + SCREENWIDTH - 2] = nearestblack;
                 screens[0][i + SCREENWIDTH - 1] = nearestblack;
             }
+        }
 
-            for (int y = 2 * SCREENWIDTH; y < SCREENAREA; y += 4 * SCREENWIDTH)
+        for (int y = 2 * SCREENWIDTH; y < SCREENAREA; y += 4 * SCREENWIDTH)
+        {
+            byte    *tinttab = (M_BigRandomInt(1, 100) < 4 ? tinttab33 : tinttab25);
+
+            for (int x = indent; x < SCREENWIDTH - indent; x++)
             {
-                byte    *tinttab = (M_BigRandomInt(1, 100) < 4 ? tinttab33 : tinttab25);
+                byte    *dot = *screens + x + y;
 
-                for (int x = 2; x < SCREENWIDTH - 2; x++)
-                {
-                    byte    *dot = *screens + x + y;
-
-                    *dot = tinttab[(nearestwhite << 8) + *dot];
-                }
+                *dot = tinttab[(nearestwhite << 8) + *dot];
             }
         }
 
