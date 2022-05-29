@@ -41,6 +41,7 @@
 extern bool         canmodify;
 extern bool         samelevel;
 extern bool         skipblstart;
+extern bool         transferredsky;
 extern const char   *linespecials[];
 
 extern bool         allowmonstertelefrags;

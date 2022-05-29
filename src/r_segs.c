@@ -97,8 +97,6 @@ static lighttable_t **walllightsnext;
 
 static int          *maskedtexturecol;  // dropoff overflow
 
-extern bool         usebrightmaps;
-
 //
 // R_FixWiggle()
 // Dynamic wall/texture rescaler, AKA "WiggleHack II"

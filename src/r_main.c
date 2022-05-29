@@ -113,8 +113,6 @@ int                 extralight;
 
 bool                drawbloodsplats;
 
-extern bool         transferredsky;
-
 //
 // R_PointOnSide
 // Traverse BSP (sub) tree,

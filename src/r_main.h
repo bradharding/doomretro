@@ -56,6 +56,7 @@ extern fixed_t  centerxfrac;
 extern fixed_t  centeryfrac;
 extern fixed_t  projection;
 
+extern bool     usebrightmaps;
 extern int      validcount;
 
 //

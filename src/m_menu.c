@@ -506,13 +506,13 @@ void M_DarkBackground(void)
 
         for (int y = 2 * SCREENWIDTH; y < SCREENAREA; y += 4 * SCREENWIDTH)
         {
-            byte    *tinttab = (M_BigRandomInt(1, 100) < 4 ? tinttab33 : tinttab25);
+            byte    *white = (M_BigRandomInt(1, 100) < 4 ? white33 : white25);
 
             for (int x = indent; x < SCREENWIDTH - indent; x++)
             {
                 byte    *dot = *screens + x + y;
 
-                *dot = tinttab[(nearestwhite << 8) + *dot];
+                *dot = white[*dot];
             }
         }
 
