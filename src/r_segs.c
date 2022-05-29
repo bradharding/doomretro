@@ -875,9 +875,7 @@ void R_StoreWallRange(const int start, const int stop)
             short   lightlevel = frontsector->lightlevel;
 
             walllights = GetLightTable(lightlevel);
-
-            if (r_ditheredlighting)
-                walllightsnext = GetLightTable(lightlevel + 4);
+            walllightsnext = GetLightTable(lightlevel + 4);
         }
     }
 
