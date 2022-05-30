@@ -829,6 +829,8 @@ static void R_ProjectSprite(mobj_t *thing)
     }
 }
 
+static int  skip[3];
+
 static void R_ProjectBloodSplat(const bloodsplat_t *splat)
 {
     fixed_t                 tx;
@@ -838,6 +840,7 @@ static void R_ProjectBloodSplat(const bloodsplat_t *splat)
     bloodsplatvissprite_t   *vis;
     fixed_t                 fx = splat->x;
     fixed_t                 fy = splat->y;
+    fixed_t                 dist;
     fixed_t                 width;
     fixed_t                 tr_x = fx - viewx;
     fixed_t                 tr_y = fy - viewy;
@@ -845,6 +848,12 @@ static void R_ProjectBloodSplat(const bloodsplat_t *splat)
 
     // splat is behind view plane?
     if (tz < MINZ)
+        return;
+
+    if ((dist = P_ApproxDistance(tr_x, tr_y) >> FRACBITS) > 5000
+        || (dist > 2500 && skip[0]++ % 2)
+        || (dist > 1250 && skip[1]++ % 3)
+        || (dist > 625 && skip[2]++ % 4))
         return;
 
     // too far off the side?
@@ -919,6 +928,10 @@ void R_AddSprites(sector_t *sec, int lightlevel)
                     scalelight[BETWEEN(0, ((lightlevel + 4) >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)] : spritelights);
                 prevlightlevel = lightlevel;
             }
+
+            skip[0] = 1;
+            skip[1] = 1;
+            skip[2] = 1;
 
             do
             {
