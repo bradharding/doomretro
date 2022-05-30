@@ -7012,9 +7012,13 @@ static void spawn_cmd_func2(char *cmd, char *parms)
         }
         else if (spawncmdtype == WolfensteinSS && !allowwolfensteinss)
         {
-            C_Warning(0, "%s%s can't be spawned in %s" ITALICS("%s."),
-                (spawncmdfriendly ? "Friendly " : ""), mobjinfo[type].name1,
-                (bfgedition || spawncmdfriendly ? "" : "this version of "), gamedescription);
+            if (bfgedition)
+                C_Warning(0, "%s%s can't be spawned in " ITALICS("%s (%s)."),
+                    (spawncmdfriendly ? "Friendly " : ""), mobjinfo[type].name1, gamedescription, s_CAPTION_BFGEDITION);
+            else
+                C_Warning(0, "%s%s can't be spawned in " ITALICS("%s."),
+                    (spawncmdfriendly ? "Friendly " : ""), mobjinfo[type].name1, gamedescription);
+
             spawn = false;
         }
 

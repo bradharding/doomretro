@@ -47,15 +47,15 @@
 //
 
 static int      y[MAXWIDTH];
-static short    dest[MAXSCREENAREA];
+static short    src[MAXSCREENAREA];
 
-static void wipe_shittyColMajorXform(short *array)
+static void wipe_shittyColMajorXform(short *dest)
 {
     for (int yy = 0; yy < SCREENHEIGHT; yy++)
         for (int xx = 0; xx < SCREENWIDTH / 2; xx++)
-            dest[yy + xx * SCREENHEIGHT] = array[yy * SCREENWIDTH / 2 + xx];
+            src[yy + xx * SCREENHEIGHT] = dest[yy * SCREENWIDTH / 2 + xx];
 
-    memcpy(array, dest, SCREENAREA);
+    memcpy(dest, src, SCREENAREA);
 }
 
 static void wipe_initMelt(void)

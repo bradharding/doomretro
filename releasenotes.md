@@ -3,7 +3,7 @@
 #### DOOM Retro v4.5.2
 
 * `HELP`, `HELP1` and `HELP2` lumps in PWADs that are wider than 320 pixels are now displayed correctly when the <kbd><b>F1</b></kbd> key is pressed.
-* The number of gamma correction levels set by the `r_gamma` CVAR brighter than `1.0` have been reduced.
+* The number of gamma correction levels set by the `r_gamma` CVAR that are brighter than `1.0` have been reduced.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
