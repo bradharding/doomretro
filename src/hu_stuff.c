@@ -903,9 +903,9 @@ static void HU_DrawAltHUD(void)
     int         keypic_x = ALTHUD_RIGHT_X;
     static int  keywait;
     static bool showkey;
-    int             powerup = 0;
-    int             powerupbar = 0;
-    int             max = 1;
+    int         powerup = 0;
+    int         powerupbar = 0;
+    int         max = 1;
 
     if (barcolor1 == green)
         barcolor1 += coloroffset;
@@ -1063,7 +1063,7 @@ static void HU_DrawAltHUD(void)
         powerupbar = (powerup == -1 ? INT_MAX : powerup);
     }
 
-    if ((powerupbar = powerupbar * 101 / max))
+    if ((powerupbar = (powerupbar == INT_MAX ? 101 : powerupbar * 101 / max)))
     {
         fillrectfunc2(0, ALTHUD_RIGHT_X, ALTHUD_Y + 27, 101, 2, darkgray, false);
         fillrectfunc2(0, ALTHUD_RIGHT_X, ALTHUD_Y + 27, powerupbar, 2, gray, false);
