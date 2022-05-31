@@ -920,6 +920,8 @@ void R_AddSprites(sector_t *sec, int lightlevel)
 
         if (splat && drawbloodsplats)
         {
+            mobj_t  *mo = viewplayer->mo;
+
             if (lightlevel != prevlightlevel)
             {
                 spritelights = scalelight[BETWEEN(0, (lightlevel >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)];
@@ -928,7 +930,7 @@ void R_AddSprites(sector_t *sec, int lightlevel)
                 prevlightlevel = lightlevel;
             }
 
-            if ((splatdist = P_ApproxDistance(splat->x - viewx, splat->y - viewy)) <= (5000 << FRACBITS))
+            if ((splatdist = P_ApproxDistance(splat->x - mo->x, splat->y - mo->y)) <= (5000 << FRACBITS))
             {
                 skipsplat[0] = 1;
                 skipsplat[1] = 1;
