@@ -3466,6 +3466,7 @@ static bool map_cmd_func1(char *cmd, char *parms)
 
         mapcmdepisode = 0;
         mapcmdmap = 0;
+        speciallumpname[0] = '\0';
 
         if (M_StringCompare(parm, "first"))
         {
