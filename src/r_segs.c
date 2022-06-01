@@ -861,7 +861,7 @@ void R_StoreWallRange(const int start, const int stop)
     }
 
     // calculate rw_offset (only needed for textured lines)
-    if ((segtextured = (midtexture | toptexture | bottomtexture | maskedtexture)))
+    if ((segtextured = (midtexture || toptexture || bottomtexture || maskedtexture)))
     {
         rw_offset = (fixed_t)(((dx * dx1 + dy * dy1) / len) << 1) + sidedef->textureoffset + curline->offset;
         rw_centerangle = ANG90 + viewangle - rw_normalangle;
