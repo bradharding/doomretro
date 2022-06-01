@@ -3627,16 +3627,23 @@ static bool map_cmd_func1(char *cmd, char *parms)
             if (gamemode == commercial)
             {
                 mapcmdepisode = gameepisode;
-                mapcmdmap = M_RandomIntNoRepeat(1, (gamemission == pack_nerve ? 8 : 30), gamemap);
+                mapcmdmap = M_BigRandomIntNoRepeat(1, (gamemission == pack_nerve ? 8 : 30), gamemap);
                 M_snprintf(mapcmdlump, sizeof(mapcmdlump), "MAP%02i", mapcmdmap);
                 result = true;
             }
             else
             {
                 mapcmdepisode = (gamemode == shareware || chex ? 1 :
-                    M_RandomIntNoRepeat(1, (gamemode == retail ? (sigil ? 5 : 4) : 3), gameepisode));
-                mapcmdmap = M_RandomIntNoRepeat(1, (chex ? 5 : 8), gamemap);
-                M_snprintf(mapcmdlump, sizeof(mapcmdlump), "E%iM%i", mapcmdepisode, mapcmdmap);
+                    M_BigRandomIntNoRepeat(1, (gamemode == retail ? (sigil ? 5 : 4) : 3), gameepisode));
+                mapcmdmap = M_BigRandomIntNoRepeat(1, (chex ? 5 : 8), gamemap);
+
+                if (mapcmdepisode == 1 && mapcmdmap == 4 && (M_BigRandom() & 1))
+                    M_StringCopy(mapcmdlump, "E1M4B", sizeof(mapcmdlump));
+                else if (mapcmdepisode == 1 && mapcmdmap == 8 && (M_BigRandom() & 1))
+                    M_StringCopy(mapcmdlump, "E1M8B", sizeof(mapcmdlump));
+                else
+                    M_snprintf(mapcmdlump, sizeof(mapcmdlump), "E%iM%i", mapcmdepisode, mapcmdmap);
+
                 result = true;
             }
         }
