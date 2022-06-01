@@ -2,11 +2,12 @@
 
 #### DOOM Retro v4.5.2
 
+* *DOOM Retro* is now compiled using v17.2.3 of [*Microsoft Visual Studio Community 2022*](https://www.visualstudio.com/vs/).
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * The amount of blood splats rendered depends on their distance from the player again.
 * `HELP`, `HELP1` and `HELP2` lumps in PWADs that are wider than 320 pixels are now displayed correctly when the <kbd><b>F1</b></kbd> key is pressed.
 * The number of gamma correction levels set by the `r_gamma` CVAR that are brighter than `1.0` have been reduced.
-* Crash no longer occur in the following instances:
+* Crashes no longer occur in the following instances:
   * When using the `IDBEHOLD` cheat while the alternate widescreen HUD is displayed.
   * When using the `map` CCMD with an invalid parameter.
 
