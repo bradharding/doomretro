@@ -3723,7 +3723,7 @@ static bool map_cmd_func1(char *cmd, char *parms)
                 {
                     mapcmdepisode = 1;
 
-                    if (sscanf(mapcmdlump, "MAP0%1i", &mapcmdmap) != 1 || sscanf(mapcmdlump, "MAP%2i", &mapcmdmap) != 1)
+                    if (sscanf(mapcmdlump, "MAP0%1i", &mapcmdmap) != 1 && sscanf(mapcmdlump, "MAP%2i", &mapcmdmap) != 1)
                         continue;
                 }
                 else
