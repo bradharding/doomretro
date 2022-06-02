@@ -829,8 +829,7 @@ static void R_ProjectSprite(mobj_t *thing)
     }
 }
 
-static fixed_t  splatdist;
-static int      skipsplat[3];
+static int  skipsplat[3];
 
 static void R_ProjectBloodSplat(const bloodsplat_t *splat)
 {
@@ -845,12 +844,15 @@ static void R_ProjectBloodSplat(const bloodsplat_t *splat)
     const fixed_t           tr_x = fx - viewx;
     const fixed_t           tr_y = fy - viewy;
     const fixed_t           tz = FixedMul(tr_x, viewcos) + FixedMul(tr_y, viewsin);
+    fixed_t                 splatdist;
+    mobj_t                  *mo = viewplayer->mo;
 
     // splat is behind view plane?
     if (tz < MINZ)
         return;
 
-    if ((splatdist > (2500 << FRACBITS) && skipsplat[0]++ % 2)
+    if ((splatdist = P_ApproxDistance(splat->x - mo->x, splat->y - mo->y)) > (5000 << FRACBITS)
+        || (splatdist > (2500 << FRACBITS) && skipsplat[0]++ % 2)
         || (splatdist > (1250 << FRACBITS) && skipsplat[1]++ % 3)
         || (splatdist > (625 << FRACBITS) && skipsplat[2]++ % 4))
         return;
@@ -920,8 +922,6 @@ void R_AddSprites(sector_t *sec, int lightlevel)
 
         if (splat && drawbloodsplats)
         {
-            mobj_t  *mo = viewplayer->mo;
-
             if (lightlevel != prevlightlevel)
             {
                 spritelights = scalelight[BETWEEN(0, (lightlevel >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)];
@@ -930,18 +930,15 @@ void R_AddSprites(sector_t *sec, int lightlevel)
                 prevlightlevel = lightlevel;
             }
 
-            if ((splatdist = P_ApproxDistance(splat->x - mo->x, splat->y - mo->y)) <= (5000 << FRACBITS))
-            {
-                skipsplat[0] = 1;
-                skipsplat[1] = 1;
-                skipsplat[2] = 1;
+            skipsplat[0] = 1;
+            skipsplat[1] = 1;
+            skipsplat[2] = 1;
 
-                do
-                {
-                    R_ProjectBloodSplat(splat);
-                    splat = splat->next;
-                } while (splat);
-            }
+            do
+            {
+                R_ProjectBloodSplat(splat);
+                splat = splat->next;
+            } while (splat);
 
             if (!thing)
                 return;
