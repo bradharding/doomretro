@@ -344,7 +344,7 @@ static void HUlib_DrawTextLine(hu_textline_t *l, bool external)
             }
             else
             {
-                if (prev2 == '.' && prev == ' ' && c == '(' && !idmypos)
+                if ((prev == '-' || (prev2 == '.' && prev == ' ' && c == '(')) && !idmypos)
                     x -= 2;
                 else
                 {
@@ -355,7 +355,7 @@ static void HUlib_DrawTextLine(hu_textline_t *l, bool external)
                     {
                         if (prev == kern[k].char1 && c == kern[k].char2)
                         {
-                            x += kern[k].adjust;
+                            x += kern[k].adjust * 2;
                             break;
                         }
 
@@ -479,7 +479,7 @@ void HUlib_DrawAutomapTextLine(hu_textline_t *l, bool external)
             }
             else
             {
-                if (prev2 == '.' && prev == ' ' && c == '(')
+                if (prev == '-' || (prev2 == '.' && prev == ' ' && c == '('))
                     x -= 2;
                 else
                 {
@@ -490,7 +490,7 @@ void HUlib_DrawAutomapTextLine(hu_textline_t *l, bool external)
                     {
                         if (prev == kern[k].char1 && c == kern[k].char2)
                         {
-                            x += kern[k].adjust;
+                            x += kern[k].adjust * 2;
                             break;
                         }
 

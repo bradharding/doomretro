@@ -10,7 +10,7 @@
 * A crash no longer occurs when:
   * Entering the `IDBEHOLD` cheat while the alternate widescreen HUD is displayed.
   * Entering the `map` CCMD in the console with an invalid parameter.
-* The super shotgun is now positioned correctly if the offsets of any of its frames are changed in a `DEHACKED` lump.
+* The player’s super shotgun is now positioned correctly if the offsets of any of its frames are changed in a `DEHACKED` lump.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
