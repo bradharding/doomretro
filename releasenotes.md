@@ -7,9 +7,9 @@
 * The amount of blood splats rendered depends on their distance from the player again.
 * `HELP`, `HELP1` and `HELP2` lumps in PWADs that are wider than 320 pixels are now displayed correctly when the <kbd><b>F1</b></kbd> key is pressed.
 * The number of gamma correction levels set by the `r_gamma` CVAR that are brighter than `1.0` have been reduced.
-* Crashes no longer occur in the following instances:
-  * When entering the `IDBEHOLD` cheat while the alternate widescreen HUD is displayed.
-  * When entering the `map` CCMD with an invalid parameter.
+* A crash no longer occurs when:
+  * Entering the `IDBEHOLD` cheat while the alternate widescreen HUD is displayed.
+  * Entering the `map` CCMD in the console with an invalid parameter.
 * The super shotgun is now positioned correctly if the offsets of any of its frames are changed in a `DEHACKED` lump.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)

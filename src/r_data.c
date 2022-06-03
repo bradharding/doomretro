@@ -451,7 +451,7 @@ static void R_InitTextures(void)
         textureheight[i] = texture->height << FRACBITS;
     }
 
-    free(patchlookup);                                          // killough
+    free(patchlookup);                          // killough
 
     if (maptex_lump[0] != -1)
         W_ReleaseLumpNum(maptex_lump[0]);
@@ -467,14 +467,14 @@ static void R_InitTextures(void)
     for (int i = 0; i < numtextures; i++)
     {
         texturetranslation[i] = i;
-        textures[i]->index = -1;                                // killough 01/31/98: Initialize texture hash table
+        textures[i]->index = -1;                // killough 01/31/98: Initialize texture hash table
     }
 
     for (int i = numtextures - 1; i >= 0; i--)
     {
-        int j = W_LumpNameHash(textures[i]->name) % numtextures;
+        const int   j = W_LumpNameHash(textures[i]->name) % numtextures;
 
-        textures[i]->next = textures[j]->index;                 // Prepend to chain
+        textures[i]->next = textures[j]->index; // Prepend to chain
         textures[j]->index = i;
     }
 }
@@ -945,7 +945,7 @@ static void R_InitSpriteLumps(void)
 //
 static void R_InitColormaps(void)
 {
-    bool        COLORMAP = (W_CheckMultipleLumps("COLORMAP") > 1);
+    const bool  COLORMAP = (W_CheckMultipleLumps("COLORMAP") > 1);
     byte        *palsrc = PLAYPAL;
     wadfile_t   *colormapwad = lumpinfo[W_CheckNumForName("COLORMAP")]->wadfile;
 
@@ -982,10 +982,10 @@ static void R_InitColormaps(void)
 
     for (int i = 0; i < 255; i++)
     {
-        double  red = *palsrc++;
-        double  green = *palsrc++;
-        double  blue = *palsrc++;
-        int     gray = (int)(red * 0.2126 + green * 0.7152 + blue * 0.0722);
+        const double    red = *palsrc++;
+        const double    green = *palsrc++;
+        const double    blue = *palsrc++;
+        int             gray = (int)(red * 0.2126 + green * 0.7152 + blue * 0.0722);
 
         grays[i] = FindNearestColor(PLAYPAL, gray, gray, gray);
 
@@ -1034,7 +1034,7 @@ void R_InitData(void)
 //
 int R_FlatNumForName(char *name)
 {
-    int i = W_RangeCheckNumForName(firstflat, lastflat, name);
+    const int   i = W_RangeCheckNumForName(firstflat, lastflat, name);
 
     if (i == -1)
     {
@@ -1092,7 +1092,7 @@ int R_CheckTextureNumForName(char *name)
 //
 int R_TextureNumForName(char *name)
 {
-    int i = R_CheckTextureNumForName(name);
+    const int   i = R_CheckTextureNumForName(name);
 
     if (i == -1)
     {

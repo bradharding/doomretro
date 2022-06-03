@@ -59,29 +59,29 @@
 // Maximums and such were hardcoded values. Need to externalize those for
 // dehacked support (and future flexibility). Most var names came from the key
 // strings used in dehacked.
-int             initial_health = 100;
-int             initial_bullets = 50;
-int             maxhealth = MAXHEALTH * 2;
-int             max_armor = 200;
-int             green_armor_class = armortype_green;
-int             blue_armor_class = armortype_blue;
-int             max_soul = 200;
-int             soul_health = 100;
-int             mega_health = 200;
-int             god_health = 100;
-int             idfa_armor = 200;
-int             idfa_armor_class = armortype_blue;
-int             idkfa_armor = 200;
-int             idkfa_armor_class = armortype_blue;
-int             bfgcells = BFGCELLS;
-bool            species_infighting = false;
+int         initial_health = 100;
+int         initial_bullets = 50;
+int         maxhealth = MAXHEALTH * 2;
+int         max_armor = 200;
+int         green_armor_class = armortype_green;
+int         blue_armor_class = armortype_blue;
+int         max_soul = 200;
+int         soul_health = 100;
+int         mega_health = 200;
+int         god_health = 100;
+int         idfa_armor = 200;
+int         idfa_armor_class = armortype_blue;
+int         idkfa_armor = 200;
+int         idkfa_armor_class = armortype_blue;
+int         bfgcells = BFGCELLS;
+bool        species_infighting = false;
 
 // a weapon is found with two clip loads,
 // a big item has five clip loads
-int             maxammo[] =  { 200, 50, 300, 50 };
-int             clipammo[] = {  10,  4,  20,  1 };
+int         maxammo[] =  { 200, 50, 300, 50 };
+int         clipammo[] = {  10,  4,  20,  1 };
 
-extern bool     healthcvar;
+extern bool healthcvar;
 
 void P_UpdateAmmoStat(ammotype_t ammotype, int num)
 {

@@ -2308,7 +2308,7 @@ void P_UpdateSpecials(void)
         if (!(gametime & (anim->speed - 1)))
             for (int i = anim->basepic; i < anim->basepic + anim->numpics; i++)
             {
-                int pic = anim->basepic + (gametime / anim->speed + i) % anim->numpics;
+                const int   pic = anim->basepic + (gametime / anim->speed + i) % anim->numpics;
 
                 if (anim->istexture)
                     texturetranslation[i] = pic;
@@ -2341,11 +2341,11 @@ void P_UpdateSpecials(void)
         {
             line_t      *line = buttonlist[i].line;
             sector_t    *sector = line->backsector;
-            int         sidenum = line->sidenum[0];
-            short       toptexture = sides[sidenum].toptexture;
-            short       midtexture = sides[sidenum].midtexture;
-            short       bottomtexture = sides[sidenum].bottomtexture;
-            int         btexture = buttonlist[i].btexture;
+            const int   sidenum = line->sidenum[0];
+            const short toptexture = sides[sidenum].toptexture;
+            const short midtexture = sides[sidenum].midtexture;
+            const short bottomtexture = sides[sidenum].bottomtexture;
+            const int   btexture = buttonlist[i].btexture;
 
             switch (buttonlist[i].where)
             {
@@ -2478,7 +2478,7 @@ void P_SpawnSpecials(void)
 {
     line_t      *line = lines;
     sector_t    *sector = sectors;
-    int         p = M_CheckParmWithArgs("-timer", 1, 1);
+    const int   p = M_CheckParmWithArgs("-timer", 1, 1);
 
     if (p)
     {
