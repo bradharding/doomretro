@@ -4,6 +4,7 @@
 
 * *DOOM Retro* is now compiled using v17.2.3 of [*Microsoft Visual Studio Community 2022*](https://www.visualstudio.com/vs/).
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
+* Minor changes have been made to text that is output to the console.
 * The amount of blood splats rendered depends on their distance from the player again.
 * `HELP`, `HELP1` and `HELP2` lumps in PWADs that are wider than 320 pixels are now displayed correctly when the <kbd><b>F1</b></kbd> key is pressed.
 * The number of gamma correction levels set by the `r_gamma` CVAR that are brighter than `1.0` have been reduced.
@@ -11,6 +12,7 @@
   * Entering the `IDBEHOLD` cheat while the alternate widescreen HUD is displayed.
   * Entering the `map` CCMD in the console with an invalid parameter.
 * The player’s super shotgun is now positioned correctly if the offsets of any of its frames are changed in a `DEHACKED` lump.
+* Minor improvements have been made to the display of player messages and the title in the automap.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
