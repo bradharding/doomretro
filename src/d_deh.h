@@ -477,6 +477,13 @@ extern char         *s_CAPTION_BTSXE2;
 extern char         *s_CAPTION_BTSXE3;
 extern char         *s_CAPTION_REKKR;
 extern char         *s_CAPTION_REKKRSL;
+extern char         *s_CAPTION_ARRIVAL;
+extern char         *s_CAPTION_DBIMPACT;
+extern char         *s_CAPTION_DEATHLESS;
+extern char         *s_CAPTION_DOOMZERO;
+extern char         *s_CAPTION_EARTHLESS;
+extern char         *s_CAPTION_NEIS;
+extern char         *s_CAPTION_SYRINGE;
 
 extern char         *s_AUTHOR_ROMERO;
 

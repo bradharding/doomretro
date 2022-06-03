@@ -901,6 +901,20 @@ void D_SetGameDescription(void)
         M_StringCopy(gamedescription, s_CAPTION_REKKRSL, sizeof(gamedescription));
     else if (REKKR)
         M_StringCopy(gamedescription, s_CAPTION_REKKR, sizeof(gamedescription));
+    else if (arrival)
+        M_StringCopy(gamedescription, s_CAPTION_ARRIVAL, sizeof(gamedescription));
+    else if (dbimpact)
+        M_StringCopy(gamedescription, s_CAPTION_DBIMPACT, sizeof(gamedescription));
+    else if (deathless)
+        M_StringCopy(gamedescription, s_CAPTION_DEATHLESS, sizeof(gamedescription));
+    else if (doomzero)
+        M_StringCopy(gamedescription, s_CAPTION_DOOMZERO, sizeof(gamedescription));
+    else if (earthless)
+        M_StringCopy(gamedescription, s_CAPTION_EARTHLESS, sizeof(gamedescription));
+    else if (neis)
+        M_StringCopy(gamedescription, s_CAPTION_NEIS, sizeof(gamedescription));
+    else if (syringe)
+        M_StringCopy(gamedescription, s_CAPTION_SYRINGE, sizeof(gamedescription));
     else if (gamemission == doom)
     {
         // DOOM 1. But which version?

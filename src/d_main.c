@@ -932,6 +932,20 @@ static void D_CheckSupportedPWAD(char *filename)
     else if (M_StringCompare(leaf, "REKKRSL.wad")
         || M_StringCompare(leaf, "REKKRSL.iwad"))
         REKKR = REKKRSL = true;
+    else if (M_StringCompare(leaf, "arrival.wad"))
+        arrival = true;
+    else if (M_StringCompare(leaf, "dbimpact.wad"))
+        dbimpact = true;
+    else if (M_StringCompare(leaf, "deathless.wad"))
+        deathless = true;
+    else if (M_StringCompare(leaf, "DoomZero.wad"))
+        doomzero = true;
+    else if (M_StringCompare(leaf, "earthless_pr.wad"))
+        earthless = true;
+    else if (M_StringCompare(leaf, "neis.wad"))
+        neis = true;
+    else if (M_StringCompare(leaf, "syringe.wad"))
+        syringe = true;
 
     if (BTSX || REKKR)
         moreblood = true;

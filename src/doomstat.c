@@ -73,6 +73,13 @@ bool            doom4vanilla;
 bool            REKKR;
 bool            REKKRSA;
 bool            REKKRSL;
+bool            arrival;
+bool            dbimpact;
+bool            deathless;
+bool            doomzero;
+bool            earthless;
+bool            neis;
+bool            syringe;
 
 bool            moreblood;
 

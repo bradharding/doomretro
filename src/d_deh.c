@@ -593,6 +593,13 @@ char    *s_CAPTION_BTSXE2 = "";
 char    *s_CAPTION_BTSXE3 = "";
 char    *s_CAPTION_REKKR = "";
 char    *s_CAPTION_REKKRSL = "";
+char    *s_CAPTION_ARRIVAL = "";
+char    *s_CAPTION_DBIMPACT = "";
+char    *s_CAPTION_DEATHLESS = "";
+char    *s_CAPTION_DOOMZERO = "";
+char    *s_CAPTION_EARTHLESS = "";
+char    *s_CAPTION_NEIS = "";
+char    *s_CAPTION_SYRINGE = "";
 
 char    *s_AUTHOR_ROMERO = "";
 
@@ -1172,6 +1179,14 @@ deh_strs deh_strlookup[] =
     { &s_CAPTION_BTSXE3,              "CAPTION_BTSXE3"              },
     { &s_CAPTION_REKKR,               "CAPTION_REKKR"               },
     { &s_CAPTION_REKKRSL,             "CAPTION_REKKRSL"             },
+    { &s_CAPTION_ARRIVAL,             "CAPTION_ARRIVAL"             },
+    { &s_CAPTION_DBIMPACT,            "CAPTION_DBIMPACT"            },
+    { &s_CAPTION_DEATHLESS,           "CAPTION_DEATHLESS"           },
+    { &s_CAPTION_DOOMZERO,            "CAPTION_DOOMZERO"            },
+    { &s_CAPTION_EARTHLESS,           "CAPTION_EARTHLESS"           },
+    { &s_CAPTION_NEIS,                "CAPTION_NEIS"                },
+    { &s_CAPTION_SYRINGE,             "CAPTION_SYRINGE"             },
+
     { &s_AUTHOR_ROMERO,               "AUTHOR_ROMERO"               },
 
     { &bgflatE1,                      "BGFLATE1"                    },
