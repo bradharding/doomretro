@@ -131,6 +131,9 @@ static char *iwadsrequired[] =
 // Location where savegames are stored
 char            *savegamefolder;
 
+char            *generalautoloadfolder;
+char            *autoloadfolder;
+
 char            *pwadfile = "";
 
 char            *packageconfig;
@@ -2222,6 +2225,8 @@ static void D_DoomMainSetup(void)
         gamemission = pack_nerve;
 
     D_SetSaveGameFolder(true);
+
+    D_SetAutoLoadFolder();
 
     D_SetScreenshotsFolder();
 

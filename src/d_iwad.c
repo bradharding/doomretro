@@ -823,6 +823,32 @@ void D_SetSaveGameFolder(bool output)
     }
 }
 
+void D_SetAutoLoadFolder(void)
+{
+    char    *appdatafolder = M_GetAppDataFolder();
+
+    M_MakeDirectory(appdatafolder);
+    generalautoloadfolder = M_StringJoin(appdatafolder, DIR_SEPARATOR_S, "autoload", DIR_SEPARATOR_S, NULL);
+    M_MakeDirectory(generalautoloadfolder);
+
+    if (*pwadfile)
+    {
+        char    *temp = removeext(GetCorrectCase(pwadfile));
+
+        autoloadfolder = M_StringJoin(generalautoloadfolder, temp, DIR_SEPARATOR_S, NULL);
+        free(temp);
+    }
+    else
+        autoloadfolder = M_StringJoin(generalautoloadfolder, SaveGameIWADName(), DIR_SEPARATOR_S, NULL);
+
+    free(appdatafolder);
+
+    M_MakeDirectory(autoloadfolder);
+
+    C_Output("All PWADs placed in " BOLD("%s") " and " BOLD("%s") " will be autoloaded.",
+        generalautoloadfolder, autoloadfolder);
+}
+
 void D_SetScreenshotsFolder(void)
 {
     int p = M_CheckParmsWithArgs("-shot", "-shotdir", "", 1, 1);

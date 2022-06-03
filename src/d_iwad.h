@@ -47,6 +47,7 @@ char *D_FindWADByName(char *filename);
 char *D_TryFindWADByName(char *filename);
 char *D_FindIWAD(void);
 void D_SetSaveGameFolder(bool output);
+void D_SetAutoLoadFolder(void);
 void D_SetScreenshotsFolder(void);
 void D_IdentifyVersion(void);
 void D_SetGameDescription(void);
