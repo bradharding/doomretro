@@ -38,6 +38,8 @@
 
 #if defined(_WIN32)
 #include <Windows.h>
+#else
+#include <dirent.h>
 #endif
 
 #include "c_console.h"
@@ -404,28 +406,42 @@ void W_AutoLoadFiles(const char *folder)
 {
 #if defined(_WIN32)
     WIN32_FIND_DATA FindFileData;
-    char            *temp1 = M_StringJoin(folder, DIR_SEPARATOR_S "*.wad", NULL);
-    HANDLE          hFile = FindFirstFile(temp1, &FindFileData);
+    char            *temp = M_StringJoin(folder, DIR_SEPARATOR_S "*.wad", NULL);
+    HANDLE          handle = FindFirstFile(temp, &FindFileData);
 
-    if (hFile == INVALID_HANDLE_VALUE)
-    {
-        free(temp1);
+    free(temp);
+
+    if (handle == INVALID_HANDLE_VALUE)
         return;
-    }
 
     do
     {
         if (!(FindFileData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY))
         {
-            char    *temp2 = M_StringJoin(folder, DIR_SEPARATOR_S, FindFileData.cFileName, NULL);
-
-            W_MergeFile(temp2, true);
-            free(temp2);
+            temp = M_StringJoin(folder, DIR_SEPARATOR_S, FindFileData.cFileName, NULL);
+            W_MergeFile(temp, true);
+            free(temp);
         }
-    } while (FindNextFile(hFile, &FindFileData));
+    } while (FindNextFile(handle, &FindFileData));
 
-    FindClose(hFile);
-    free(temp1);
+    FindClose(handle);
+#else
+    struct dirent   *dir;
+    DIR             *d = opendir(folder);
+    char            *temp;
+
+    if (!d)
+        return;
+
+    while ((dir = readdir(d)))
+        if (dir->d_type == DT_REG)
+        {
+            temp = M_StringJoin(folder, DIR_SEPARATOR_S, dir->d_name, NULL);
+            W_MergeFile(temp, true);
+            free(temp);
+        }
+
+    closedir(d);
 #endif
 }
 
