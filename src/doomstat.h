@@ -224,8 +224,8 @@ extern wbstartstruct_t  wminfo;
 
 // File handling stuff.
 extern char             *savegamefolder;
-extern char             *generalautoloadfolder;
 extern char             *autoloadfolder;
+extern char             *autoloadsubfolder;
 
 // wipegamestate can be set to -1
 //  to force a wipe on the next draw

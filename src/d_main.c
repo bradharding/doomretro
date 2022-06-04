@@ -131,8 +131,8 @@ static char *iwadsrequired[] =
 // Location where savegames are stored
 char            *savegamefolder;
 
-char            *generalautoloadfolder;
 char            *autoloadfolder;
+char            *autoloadsubfolder;
 
 char            *pwadfile = "";
 
@@ -2174,6 +2174,10 @@ static void D_DoomMainSetup(void)
     if (!iwadfile && !modifiedgame && !choseniwad)
         I_Error(DOOMRETRO_NAME " couldn't find any IWADs.");
 
+    D_SetAutoLoadFolder();
+    W_AutoLoadFiles(autoloadfolder);
+    W_AutoLoadFiles(autoloadsubfolder);
+
     W_Init();
 
     FREEDM = (W_CheckNumForName("FREEDM") >= 0);
@@ -2225,8 +2229,6 @@ static void D_DoomMainSetup(void)
         gamemission = pack_nerve;
 
     D_SetSaveGameFolder(true);
-
-    D_SetAutoLoadFolder();
 
     D_SetScreenshotsFolder();
 

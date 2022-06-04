@@ -45,6 +45,7 @@
 *.sln.docstates
 *.vcxproj.FileListAbsolute.txt
 *.bak
+autoload/
 console/
 savegames/
 screenshots/

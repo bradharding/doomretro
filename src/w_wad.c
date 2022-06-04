@@ -397,6 +397,33 @@ bool W_AddFile(char *filename, bool automatic)
     return true;
 }
 
+void W_AutoLoadFiles(const char *folder)
+{
+#if defined(_WIN32)
+    WIN32_FIND_DATA fdFile;
+    HANDLE          hFind = NULL;
+    char            sPath[MAX_PATH];
+
+    sprintf(sPath, "%s\\*.wad", folder);
+
+    if ((hFind = FindFirstFile(sPath, &fdFile)) == INVALID_HANDLE_VALUE)
+        return;
+
+    do
+    {
+        if (strcmp(fdFile.cFileName, ".") && strcmp(fdFile.cFileName, ".."))
+            if (!(fdFile.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY))
+            {
+                sprintf(sPath, "%s\\%s", folder, fdFile.cFileName);
+
+                W_MergeFile(sPath, true);
+            }
+    } while (FindNextFile(hFind, &fdFile));
+
+    FindClose(hFind);
+#endif
+}
+
 // Hash function used for lump names.
 // Must be modded with table size.
 // Can be used for any 8-character names.
