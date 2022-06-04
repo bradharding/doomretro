@@ -825,31 +825,28 @@ void D_SetSaveGameFolder(bool output)
 
 void D_SetAutoLoadFolder(void)
 {
-    if (!M_CheckParm("-noautoload") && gamemode != shareware)
+    char    *appdatafolder = M_GetAppDataFolder();
+
+    M_MakeDirectory(appdatafolder);
+    autoloadfolder = M_StringJoin(appdatafolder, DIR_SEPARATOR_S, "autoload", DIR_SEPARATOR_S, NULL);
+    M_MakeDirectory(autoloadfolder);
+
+    if (*pwadfile)
     {
-        char    *appdatafolder = M_GetAppDataFolder();
+        char    *temp = removeext(GetCorrectCase(pwadfile));
 
-        M_MakeDirectory(appdatafolder);
-        autoloadfolder = M_StringJoin(appdatafolder, DIR_SEPARATOR_S, "autoload", DIR_SEPARATOR_S, NULL);
-        M_MakeDirectory(autoloadfolder);
-
-        if (*pwadfile)
-        {
-            char    *temp = removeext(GetCorrectCase(pwadfile));
-
-            autoloadsubfolder = M_StringJoin(autoloadfolder, temp, DIR_SEPARATOR_S, NULL);
-            free(temp);
-        }
-        else
-            autoloadsubfolder = M_StringJoin(autoloadfolder, SaveGameIWADName(), DIR_SEPARATOR_S, NULL);
-
-        free(appdatafolder);
-
-        M_MakeDirectory(autoloadsubfolder);
-
-        C_Output("All PWADs placed in " BOLD("%s") " and " BOLD("%s") " will be autoloaded.",
-            autoloadfolder, autoloadsubfolder);
+        autoloadsubfolder = M_StringJoin(autoloadfolder, temp, DIR_SEPARATOR_S, NULL);
+        free(temp);
     }
+    else
+        autoloadsubfolder = M_StringJoin(autoloadfolder, SaveGameIWADName(), DIR_SEPARATOR_S, NULL);
+
+    free(appdatafolder);
+
+    M_MakeDirectory(autoloadsubfolder);
+
+    C_Output("All PWADs placed in " BOLD("%s") " and " BOLD("%s") " will be autoloaded.",
+        autoloadfolder, autoloadsubfolder);
 }
 
 void D_SetScreenshotsFolder(void)

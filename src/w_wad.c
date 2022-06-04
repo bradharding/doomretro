@@ -242,7 +242,10 @@ char *W_GuessFilename(char *path, char *string)
     char            *string1;
 
     if (hFile == INVALID_HANDLE_VALUE)
+    {
+        free(file);
         return path;
+    }
 
     M_StringCopy(filename, string, sizeof(filename));
     string1 = removeext(string);
@@ -400,27 +403,28 @@ bool W_AddFile(char *filename, bool automatic)
 void W_AutoLoadFiles(const char *folder)
 {
 #if defined(_WIN32)
-    WIN32_FIND_DATA fdFile;
-    HANDLE          hFind = NULL;
-    char            sPath[MAX_PATH];
+    WIN32_FIND_DATA FindFileData;
+    char            *file = M_StringJoin(folder, DIR_SEPARATOR_S "*.wad", NULL);
+    HANDLE          hFile = FindFirstFile(file, &FindFileData);
 
-    sprintf(sPath, "%s\\*.wad", folder);
-
-    if ((hFind = FindFirstFile(sPath, &fdFile)) == INVALID_HANDLE_VALUE)
+    if (hFile == INVALID_HANDLE_VALUE)
+    {
+        free(file);
         return;
+    }
 
     do
     {
-        if (strcmp(fdFile.cFileName, ".") && strcmp(fdFile.cFileName, ".."))
-            if (!(fdFile.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY))
+        if (!M_StringCompare(FindFileData.cFileName, ".") && !M_StringCompare(FindFileData.cFileName, ".."))
+            if (!(FindFileData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY))
             {
-                sprintf(sPath, "%s\\%s", folder, fdFile.cFileName);
-
-                W_MergeFile(sPath, true);
+                M_snprintf(file, sizeof(file), "%s" DIR_SEPARATOR_S "%s", folder, FindFileData.cFileName);
+                W_MergeFile(file, true);
             }
-    } while (FindNextFile(hFind, &fdFile));
+    } while (FindNextFile(hFile, &FindFileData));
 
-    FindClose(hFind);
+    FindClose(hFile);
+    free(file);
 #endif
 }
 
