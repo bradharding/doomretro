@@ -1153,7 +1153,10 @@ void G_ScreenShot(void)
             C_Output(BOLD("%s") " was also saved.", lbmpath2);
     }
     else
+    {
+        C_ShowConsole();
         C_Warning(0, "A screenshot couldn't be taken.");
+    }
 }
 
 bool    newpars = false;

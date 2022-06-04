@@ -845,8 +845,9 @@ void D_SetAutoLoadFolder(void)
 
     M_MakeDirectory(autoloadsubfolder);
 
-    C_Output("All PWADs placed in " BOLD("%s") " and " BOLD("%s") " will be automatically loaded.",
-        autoloadfolder, autoloadsubfolder);
+    if (!M_CheckParm("-noautoload") && gamemode != shareware)
+        C_Output("All PWADs in " BOLD("%s") " and " BOLD("%s") " will be automatically loaded.",
+            autoloadfolder, autoloadsubfolder);
 }
 
 void D_SetScreenshotsFolder(void)

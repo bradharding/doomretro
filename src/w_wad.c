@@ -286,7 +286,7 @@ char *W_GuessFilename(char *path, char *string)
 // Files with a .wad extension are wadlink files
 //  with multiple lumps.
 //
-bool W_AddFile(char *filename, bool automatic)
+bool W_AddFile(char *filename, bool autoload)
 {
     static bool     packagewadadded;
     wadinfo_t       header;
@@ -365,7 +365,7 @@ bool W_AddFile(char *filename, bool automatic)
     if (!M_StringCompare(leafname(filename), DOOMRETRO_WAD) && !devparm)
     {
         temp = commify((int64_t)numlumps - startlump);
-        C_Output("%s %s lump%s from the %s " BOLD("%s") ".", (automatic ? "Automatically added" : "Added"), temp,
+        C_Output("%s %s lump%s from the %s " BOLD("%s") ".", (autoload ? "Automatically added" : "Added"), temp,
             (numlumps - startlump == 1 ? "" : "s"), (wadfile->type == IWAD ? "IWAD" : "PWAD"), wadfile->path);
         free(temp);
     }
@@ -375,7 +375,7 @@ bool W_AddFile(char *filename, bool automatic)
         || M_StringCompare(file, "SIGIL_v1_1.wad")
         || M_StringCompare(file, "SIGIL.wad"))
     {
-        autosigil = automatic;
+        autosigil = autoload;
         C_Output("John Romero's " ITALICS("SIGIL") " is now available to play from the episode menu.");
     }
     else if (M_StringCompare(file, "SIGIL_SHREDS.WAD") || M_StringCompare(file, "SIGIL_SHREDS_COMPAT.wad"))
