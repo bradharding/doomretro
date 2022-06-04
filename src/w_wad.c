@@ -186,11 +186,11 @@ char *GetCorrectCase(char *path)
 {
 #if defined(_WIN32)
     WIN32_FIND_DATA FindFileData;
-    HANDLE          hFile = FindFirstFile(path, &FindFileData);
+    HANDLE          handle = FindFirstFile(path, &FindFileData);
 
-    if (hFile != INVALID_HANDLE_VALUE)
+    if (handle != INVALID_HANDLE_VALUE)
     {
-        FindClose(hFile);
+        FindClose(handle);
         M_StringReplaceAll(path, FindFileData.cFileName, FindFileData.cFileName);
     }
 #endif
@@ -201,9 +201,9 @@ char *GetCorrectCase(char *path)
 #if defined(_WIN32)
 static int LevenshteinDistance(char *string1, char *string2)
 {
-    size_t  length1 = strlen(string1);
-    size_t  length2 = strlen(string2);
-    int     result = INT_MAX;
+    const size_t    length1 = strlen(string1);
+    const size_t    length2 = strlen(string2);
+    int             result = INT_MAX;
 
     if (length1 > 0 && length2 > 0)
     {
@@ -238,16 +238,15 @@ char *W_GuessFilename(char *path, char *string)
 {
     WIN32_FIND_DATA FindFileData;
     char            *file = M_StringJoin(path, DIR_SEPARATOR_S "*.wad", NULL);
-    HANDLE          hFile = FindFirstFile(file, &FindFileData);
+    HANDLE          handle = FindFirstFile(file, &FindFileData);
     int             bestdistance = INT_MAX;
     char            filename[MAX_PATH];
     char            *string1;
 
-    if (hFile == INVALID_HANDLE_VALUE)
-    {
-        free(file);
+    free(file);
+
+    if (handle == INVALID_HANDLE_VALUE)
         return path;
-    }
 
     M_StringCopy(filename, string, sizeof(filename));
     string1 = removeext(string);
@@ -267,10 +266,9 @@ char *W_GuessFilename(char *path, char *string)
 
             free(string2);
         }
-    } while (FindNextFile(hFile, &FindFileData));
+    } while (FindNextFile(handle, &FindFileData));
 
-    FindClose(hFile);
-    free(file);
+    FindClose(handle);
     free(string1);
 
     return (bestdistance == INT_MAX ? NULL : M_StringJoin(path, DIR_SEPARATOR_S, filename, NULL));

@@ -639,8 +639,8 @@ static const char *sectorspecials[] =
 
 static fixed_t GetOffset(vertex_t *v1, vertex_t *v2)
 {
-    fixed_t dx = (v1->x - v2->x) >> FRACBITS;
-    fixed_t dy = (v1->y - v2->y) >> FRACBITS;
+    const fixed_t   dx = (v1->x - v2->x) >> FRACBITS;
+    const fixed_t   dy = (v1->y - v2->y) >> FRACBITS;
 
     return ((fixed_t)(sqrt((double)dx * dx + (double)dy * dy)) << FRACBITS);
 }
@@ -793,17 +793,13 @@ static void P_LoadSegs(int lump)
 
     for (int i = 0; i < numsegs; i++)
     {
-        seg_t           *li = segs + i;
-        const mapseg_t  *ml = data + i;
-        unsigned short  v1;
-        unsigned short  v2;
-        int             side;
-        int             linedefnum;
-        line_t          *ldef;
-
-        v1 = (unsigned short)SHORT(ml->v1);
-        v2 = (unsigned short)SHORT(ml->v2);
-        linedefnum = (unsigned short)SHORT(ml->linedef);
+        seg_t                   *li = segs + i;
+        const mapseg_t          *ml = data + i;
+        const unsigned short    v1 = (unsigned short)SHORT(ml->v1);
+        const unsigned short    v2 = (unsigned short)SHORT(ml->v2);
+        const int               linedefnum = (unsigned short)SHORT(ml->linedef);
+        int                     side;
+        line_t                  *ldef;
 
         if (linedefnum >= numlines)
         {
@@ -869,8 +865,8 @@ static void P_LoadSegs(int lump)
 
         // e6y
         // check and fix wrong references to non-existent vertexes
-        // see e1m9 @ NIVELES.WAD
-        // <https://www.doomworld.com/idgames/index.php?id=12647>
+        // see E1M9 @ NIVELES.WAD
+        // <https://www.doomworld.com/idgames/levels/doom/megawads/niveles>
         if (v1 >= numvertexes || v2 >= numvertexes)
         {
             if (v1 >= numvertexes)
@@ -1128,15 +1124,11 @@ static void P_LoadSegs_V4(int lump)
     {
         seg_t               *li = segs + i;
         const mapseg_v4_t   *ml = data + i;
-        int                 v1;
-        int                 v2;
+        const int           v1 = ml->v1;
+        const int           v2 = ml->v2;
+        const int           linedefnum = (unsigned short)SHORT(ml->linedef);
         int                 side;
-        int                 linedefnum;
         line_t              *ldef;
-
-        v1 = ml->v1;
-        v2 = ml->v2;
-        linedefnum = (unsigned short)SHORT(ml->linedef);
 
         // e6y: check for wrong indexes
         if (linedefnum >= numlines)
