@@ -513,12 +513,12 @@ static void DoMerge(void)
 }
 
 // Merge in a file by name
-bool W_MergeFile(char *filename, bool automatic)
+bool W_MergeFile(char *filename, bool autoload)
 {
     const int   old_numlumps = numlumps;
 
     // Load PWAD
-    if (!W_AddFile(filename, automatic))
+    if (!W_AddFile(filename, autoload))
         return false;
 
     // IWAD is at the start, PWAD was appended to the end

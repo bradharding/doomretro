@@ -404,27 +404,28 @@ void W_AutoLoadFiles(const char *folder)
 {
 #if defined(_WIN32)
     WIN32_FIND_DATA FindFileData;
-    char            *file = M_StringJoin(folder, DIR_SEPARATOR_S "*.wad", NULL);
-    HANDLE          hFile = FindFirstFile(file, &FindFileData);
+    char            *temp1 = M_StringJoin(folder, DIR_SEPARATOR_S "*.wad", NULL);
+    HANDLE          hFile = FindFirstFile(temp1, &FindFileData);
 
     if (hFile == INVALID_HANDLE_VALUE)
     {
-        free(file);
+        free(temp1);
         return;
     }
 
     do
     {
-        if (!M_StringCompare(FindFileData.cFileName, ".") && !M_StringCompare(FindFileData.cFileName, ".."))
-            if (!(FindFileData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY))
-            {
-                M_snprintf(file, sizeof(file), "%s" DIR_SEPARATOR_S "%s", folder, FindFileData.cFileName);
-                W_MergeFile(file, true);
-            }
+        if (!(FindFileData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY))
+        {
+            char    *temp2 = M_StringJoin(folder, DIR_SEPARATOR_S, FindFileData.cFileName, NULL);
+
+            W_MergeFile(temp2, true);
+            free(temp2);
+        }
     } while (FindNextFile(hFile, &FindFileData));
 
     FindClose(hFile);
-    free(file);
+    free(temp1);
 #endif
 }
 

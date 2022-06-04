@@ -845,7 +845,7 @@ void D_SetAutoLoadFolder(void)
 
     M_MakeDirectory(autoloadsubfolder);
 
-    C_Output("All PWADs placed in " BOLD("%s") " and " BOLD("%s") " will be autoloaded.",
+    C_Output("All PWADs placed in " BOLD("%s") " and " BOLD("%s") " will be automatically loaded.",
         autoloadfolder, autoloadsubfolder);
 }
 
