@@ -523,7 +523,7 @@ int armorhighlight = 0;
 
 static void HU_DrawHUD(void)
 {
-    const int   health = MAX(health_min, viewplayer->health);
+    const int   health = BETWEEN(health_min, viewplayer->health, maxhealth);
     const int   armor = viewplayer->armorpoints;
     static bool healthanim;
     const bool  gamepaused = (consoleactive || freeze);
@@ -896,7 +896,7 @@ static void HU_DrawAltHUD(void)
 {
     const int   color = (((viewplayer->fixedcolormap == INVERSECOLORMAP) ^ (!r_textures)) ?
                     colormaps[0][32 * 256 + nearestwhite] : nearestwhite);
-    int         health = MAX(health_min, viewplayer->health);
+    int         health = BETWEEN(health_min, viewplayer->health, maxhealth);
     int         armor = viewplayer->armorpoints;
     int         barcolor2 = (health < HUD_HEALTH_MIN ? red : (health >= 100 ? green : color));
     int         barcolor1 = barcolor2;
