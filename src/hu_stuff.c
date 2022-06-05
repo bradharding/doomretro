@@ -191,12 +191,12 @@ void HU_Init(void)
 {
     int lump;
 
+    STCFNxxx = false;
+
     // load the heads-up font
     for (int i = 0, j = HU_FONTSTART; i < HU_FONTSIZE; i++)
     {
         char    buffer[9];
-
-        STCFNxxx = false;
 
         M_snprintf(buffer, sizeof(buffer), "STCFN%03i", j++);
         hu_font[i] = W_CacheLumpName(buffer);
