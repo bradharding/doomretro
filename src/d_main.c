@@ -2223,6 +2223,9 @@ static void D_DoomMainSetup(void)
 
     PostProcessDeh();
 
+    if (dehcount > 1)
+        C_Warning(0, "Loading multiple " BOLD("DEHACKED") " lumps may cause unexpected results.");
+
     if (!M_StringCompare(s_VERSION, DOOMRETRO_NAMEANDVERSIONSTRING))
         I_Error("The wrong version of %s was found.", packagewad);
 
