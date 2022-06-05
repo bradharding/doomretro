@@ -62,11 +62,10 @@ typedef struct
     FILE    *f;
 } DEHFILE;
 
-static bool addtodehmaptitlecount;
 static int  linecount;
 
 int         dehcount = 0;
-int         dehmaptitlecount = 0;
+bool        dehackedmaptitles = false;
 bool        dehacked = false;
 
 byte        defined_codeptr_args[NUMSTATES] = { 0 };
@@ -2243,7 +2242,6 @@ void ProcessDehFile(char *filename, int lumpnum, bool autoload)
     char    inbuffer[DEH_BUFFERMAX];        // Place to put the primary infostring
 
     linecount = 0;
-    addtodehmaptitlecount = false;
 
     // killough 10/98: allow DEH files to come from WAD lumps
     if (filename)
@@ -2357,9 +2355,6 @@ void ProcessDehFile(char *filename, int lumpnum, bool autoload)
         fclose(infile.f);                                       // close real file
 
     dehcount++;
-
-    if (addtodehmaptitlecount)
-        dehmaptitlecount++;
 
     if (infile.lump)
     {
@@ -3975,7 +3970,7 @@ static bool deh_procStringSub(char *key, char *lookfor, char *newstring)
             deh_strlookup[i].assigned++;
 
             if (M_StrCaseStr(deh_strlookup[i].lookup, "HUSTR"))
-                addtodehmaptitlecount = true;
+                dehackedmaptitles = true;
 
             // [BH] allow either GOTREDSKUL or GOTREDSKULL
             if (M_StringCompare(deh_strlookup[i].lookup, "GOTREDSKUL") && !deh_strlookup[p_GOTREDSKULL].assigned)

@@ -521,7 +521,7 @@ extern const int    nummapnamest;
 extern const int    nummapnamesn;
 
 extern int          dehcount;
-extern int          dehmaptitlecount;
+extern bool         dehackedmaptitles;
 
 void ProcessDehFile(char *filename, int lumpnum, bool autoload);
 void D_BuildBEXTables(void);
