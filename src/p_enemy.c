@@ -1738,8 +1738,8 @@ static void A_PainShootSkull(mobj_t *actor, angle_t angle)
     mobj_t          *newmobj;
     const angle_t   an = angle >> ANGLETOFINESHIFT;
     const int       prestep = 4 * FRACUNIT + 3 * (actor->info->radius + mobjinfo[MT_SKULL].radius) / 2;
-    fixed_t         x = actor->x + FixedMul(prestep, finecosine[an]);
-    fixed_t         y = actor->y + FixedMul(prestep, finesine[an]);
+    const fixed_t   x = actor->x + FixedMul(prestep, finecosine[an]);
+    const fixed_t   y = actor->y + FixedMul(prestep, finesine[an]);
 
     if (compat_limitpain)
     {

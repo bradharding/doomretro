@@ -1195,8 +1195,8 @@ static void P_LoadSegs_V4(int lump)
 
         // e6y
         // check and fix wrong references to non-existent vertexes
-        // see e1m9 @ NIVELES.WAD
-        // <https://www.doomworld.com/idgames/index.php?id=12647>
+        // see E1M9 @ NIVELES.WAD
+        // <https://www.doomworld.com/idgames/levels/doom/megawads/niveles>
         if (v1 >= numvertexes || v2 >= numvertexes)
         {
             if (v1 >= numvertexes)

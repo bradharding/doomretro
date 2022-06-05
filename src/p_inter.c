@@ -2279,9 +2279,6 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
             tplayer->damagecount = MIN(damagecount, ((cheats & CF_GODMODE) ? 30 : 100));
         }
 
-        if (r_shake_damage)
-            I_UpdateBlitFunc(tplayer->damagecount);
-
         if (joy_rumble_damage)
         {
             I_GameControllerRumble((30000 + (100 - MIN(tplayer->health, 100)) / 100 * 30000) * joy_rumble_damage / 100);

@@ -65,10 +65,10 @@ typedef struct
 static bool addtocount;
 static int  linecount;
 
-int         dehcount;
-bool        dehacked;
+int         dehcount = 0;
+bool        dehacked = false;
 
-byte        defined_codeptr_args[NUMSTATES];
+byte        defined_codeptr_args[NUMSTATES] = { 0 };
 
 // killough 10/98: emulate IO whether input really comes from a file or not
 
@@ -3931,7 +3931,7 @@ static void deh_procStrings(DEHFILE *fpin, char *line)
 //
 static bool deh_procStringSub(char *key, char *lookfor, char *newstring)
 {
-    bool    found;  // loop exit flag
+    bool    found = false;  // loop exit flag
 
     for (int i = 0; i < deh_numstrlookup; i++)
         if ((found = (lookfor ? M_StringCompare(*deh_strlookup[i].ppstr, lookfor) : M_StringCompare(deh_strlookup[i].lookup, key))))
