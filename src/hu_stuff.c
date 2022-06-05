@@ -1319,7 +1319,7 @@ void HU_PlayerMessage(char *message, bool group, bool external)
     char        buffer[133] = "";
     const int   len = (int)strlen(message);
 
-    if (!len)
+    if (!len || (len == 1 && !isalnum(message[0])))
         return;
 
     if (len >= 2 && message[0] == '%' && message[1] == 's')
