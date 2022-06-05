@@ -2730,7 +2730,7 @@ void P_MapName(int ep, int map)
 
             if (*mapinfoname)
                 M_StringCopy(maptitle, mapinfoname, sizeof(maptitle));
-            else if (W_CheckMultipleLumps(mapnum) > 1 && dehackedmaptitles)
+            else if (W_CheckMultipleLumps(mapnum) > 1 && dehmaptitlecount == 1)
             {
                 mapnumonly = true;
                 M_StringCopy(maptitle, mapnum, sizeof(maptitle));
@@ -2747,7 +2747,7 @@ void P_MapName(int ep, int map)
 
             if (*mapinfoname && !BTSX)
                 M_StringCopy(maptitle, mapinfoname, sizeof(maptitle));
-            else if (W_CheckMultipleLumps(mapnum) > 1 && (!nerve || map > 9) && dehackedmaptitles)
+            else if (W_CheckMultipleLumps(mapnum) > 1 && (!nerve || map > 9) && dehmaptitlecount == 1)
             {
                 mapnumonly = true;
                 M_StringCopy(maptitle, mapnum, sizeof(maptitle));
@@ -2776,7 +2776,7 @@ void P_MapName(int ep, int map)
 
             if (*mapinfoname)
                 M_StringCopy(maptitle, mapinfoname, sizeof(maptitle));
-            else if (W_CheckMultipleLumps(mapnum) > 1 && dehackedmaptitles)
+            else if (W_CheckMultipleLumps(mapnum) > 1 && dehmaptitlecount == 1)
             {
                 mapnumonly = true;
                 M_StringCopy(maptitle, mapnum, sizeof(maptitle));
@@ -2793,7 +2793,7 @@ void P_MapName(int ep, int map)
 
             if (*mapinfoname)
                 M_StringCopy(maptitle, mapinfoname, sizeof(maptitle));
-            else if (W_CheckMultipleLumps(mapnum) > 1 && dehackedmaptitles)
+            else if (W_CheckMultipleLumps(mapnum) > 1 && dehmaptitlecount == 1)
             {
                 mapnumonly = true;
                 M_StringCopy(maptitle, mapnum, sizeof(maptitle));
