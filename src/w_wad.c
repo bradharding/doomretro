@@ -426,15 +426,15 @@ void W_AutoLoadFiles(const char *folder)
 #else
     struct dirent   *dir;
     DIR             *d = opendir(folder);
-    char            *temp;
 
     if (!d)
         return;
 
     while ((dir = readdir(d)))
-        if (dir->d_type == DT_REG)
+        if (dir->d_type == DT_REG && M_StringEndsWith(dir->d_name, ".wad"))
         {
-            temp = M_StringJoin(folder, DIR_SEPARATOR_S, dir->d_name, NULL);
+            char    *temp = M_StringJoin(folder, DIR_SEPARATOR_S, dir->d_name, NULL);
+
             W_MergeFile(temp, true);
             free(temp);
         }
