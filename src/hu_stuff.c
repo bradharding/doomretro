@@ -196,8 +196,13 @@ void HU_Init(void)
     {
         char    buffer[9];
 
+        STCFNxxx = false;
+
         M_snprintf(buffer, sizeof(buffer), "STCFN%03i", j++);
         hu_font[i] = W_CacheLumpName(buffer);
+
+        if (W_CheckMultipleLumps(buffer) > 1)
+            STCFNxxx = true;
     }
 
     caretcolor = FindBrightDominantColor(hu_font['A' - HU_FONTSTART]);

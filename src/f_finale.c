@@ -420,7 +420,7 @@ static void F_TextWrite(void)
         if (cx > VANILLAWIDTH - 12)
             continue;
 
-        if (STCFN034)
+        if (STCFNxxx)
         {
             w = SHORT(hu_font[c]->width);
             V_DrawPatchWithShadow(cx + 1, cy + 1, hu_font[c], false);

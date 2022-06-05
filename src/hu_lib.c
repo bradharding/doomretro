@@ -326,13 +326,13 @@ static void HUlib_DrawTextLine(hu_textline_t *l, bool external)
 
             if (c == 176)
             {
-                if (STCFN034)
+                if (STCFNxxx)
                     continue;
                 else
                     j = 66;
             }
 
-            if (STCFN034)
+            if (STCFNxxx)
             {
                 // [BH] display lump from PWAD with shadow
                 charwidth = SHORT(l->f[c - l->sc]->width);
@@ -377,7 +377,7 @@ static void HUlib_DrawTextLine(hu_textline_t *l, bool external)
     }
 
     // [BH] draw underscores for IDBEHOLD cheat message
-    if (idbehold && !STCFN034 && s_STSTR_BEHOLD2 && !vanilla)
+    if (idbehold && !STCFNxxx && s_STSTR_BEHOLD2 && !vanilla)
     {
         for (int y1 = 0; y1 < 4; y1++)
             for (int x1 = 0; x1 < VANILLAWIDTH; x1++)
@@ -461,13 +461,13 @@ void HUlib_DrawAutomapTextLine(hu_textline_t *l, bool external)
 
             if (c == 176)
             {
-                if (STCFN034)
+                if (STCFNxxx)
                     continue;
                 else
                     j = 66;
             }
 
-            if (STCFN034)
+            if (STCFNxxx)
             {
                 if (prev2 == '.' && prev == ' ' && c == '(')
                     x -= 2;

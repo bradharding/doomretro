@@ -156,7 +156,7 @@ extern short            RROCK05;
 extern short            RROCK08;
 extern short            SLIME09;
 extern short            SLIME12;
-extern bool             STCFN034;
+extern bool             STCFNxxx;
 extern bool             STYSNUM0;
 extern bool             WISCRT2;
 

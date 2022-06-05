@@ -2348,7 +2348,7 @@ static int M_CharacterWidth(char ch, char prev)
     if (c < 0 || c >= HU_FONTSIZE)
         return (prev == '.' || prev == '!' || prev == '?' ? 5 : 3);
     else
-        return (STCFN034 ? SHORT(hu_font[c]->width) : (int)strlen(smallcharset[c]) / 10 - 1);
+        return (STCFNxxx ? SHORT(hu_font[c]->width) : (int)strlen(smallcharset[c]) / 10 - 1);
 }
 
 //
@@ -2370,12 +2370,12 @@ int M_StringWidth(char *string)
 //
 static int M_StringHeight(char *string)
 {
-    int         h = (STCFN034 ? SHORT(hu_font[0]->height) : 8) + 1;
+    int         h = (STCFNxxx ? SHORT(hu_font[0]->height) : 8) + 1;
     const int   len = (int)strlen(string);
 
     for (int i = 1; i < len; i++)
         if (string[i] == '\n')
-            h += (string[i - 1] == '\n' ? 3 : (STCFN034 ? SHORT(hu_font[0]->height) : 8) + 1);
+            h += (string[i - 1] == '\n' ? 3 : (STCFNxxx ? SHORT(hu_font[0]->height) : 8) + 1);
 
     return (h - 1);
 }
@@ -2431,7 +2431,7 @@ static void M_WriteText(int x, int y, char *string, bool shadow)
             continue;
         }
 
-        if (STCFN034)
+        if (STCFNxxx)
         {
             w = SHORT(hu_font[c]->width);
 
@@ -3734,7 +3734,7 @@ void M_Drawer(void)
             if (*string)
             {
                 M_WriteText((VANILLAWIDTH - M_StringWidth(string)) / 2, y, string, true);
-                y += (STCFN034 ? SHORT(hu_font[0]->height) + 1 : 8) + 1;
+                y += (STCFNxxx ? SHORT(hu_font[0]->height) + 1 : 8) + 1;
             }
             else
                 y += 3;
