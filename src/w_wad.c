@@ -39,6 +39,7 @@
 #if defined(_WIN32)
 #include <Windows.h>
 #else
+#include <sys/stat.h>
 #include <dirent.h>
 #endif
 
@@ -436,18 +437,20 @@ void W_AutoLoadFiles(const char *folder)
     if (!d)
         return;
 
-    while ((dir = readdir(d)))
-        if (dir->d_type == DT_REG)
+    while ((dir = readdir(d))) {
+        struct stat s;
+        char    *temp = M_StringJoin(folder, DIR_SEPARATOR_S, dir->d_name, NULL);
+        if (stat(temp, &s) == 0 && S_ISREG(s.st_mode))
         {
-            char    *temp = M_StringJoin(folder, DIR_SEPARATOR_S, dir->d_name, NULL);
 
             if (M_StringEndsWith(dir->d_name, ".wad") || M_StringEndsWith(dir->d_name, ".pwad"))
                 W_MergeFile(temp, true);
             else if (M_StringEndsWith(dir->d_name, ".deh") || M_StringEndsWith(dir->d_name, ".bex"))
                 ProcessDehFile(temp, 0, true);
 
-            free(temp);
         }
+	free(temp);
+    }
 
     closedir(d);
 #endif
