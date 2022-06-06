@@ -1213,7 +1213,7 @@ static int D_OpenWADLauncher(void)
         bool    guess = false;
 
 #if defined(__APPLE__)
-        NSArray     *urls = [panel URLs];
+        NSArray *urls = [panel URLs];
 #endif
 
         iwadfound = 0;

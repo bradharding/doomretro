@@ -419,7 +419,7 @@ void W_AutoLoadFiles(const char *folder)
         {
             temp = M_StringJoin(folder, DIR_SEPARATOR_S, FindFileData.cFileName, NULL);
 
-            if (M_StringEndsWith(FindFileData.cFileName, ".wad"))
+            if (M_StringEndsWith(FindFileData.cFileName, ".wad") || M_StringEndsWith(FindFileData.cFileName, ".pwad"))
                 W_MergeFile(temp, true);
             else if (M_StringEndsWith(FindFileData.cFileName, ".deh") || M_StringEndsWith(FindFileData.cFileName, ".bex"))
                 ProcessDehFile(temp, 0, true);
@@ -441,7 +441,7 @@ void W_AutoLoadFiles(const char *folder)
         {
             char    *temp = M_StringJoin(folder, DIR_SEPARATOR_S, dir->d_name, NULL);
 
-            if (M_StringEndsWith(dir->d_name, ".wad"))
+            if (M_StringEndsWith(dir->d_name, ".wad") || M_StringEndsWith(dir->d_name, ".pwad"))
                 W_MergeFile(temp, true);
             else if (M_StringEndsWith(dir->d_name, ".deh") || M_StringEndsWith(dir->d_name, ".bex"))
                 ProcessDehFile(temp, 0, true);

@@ -846,7 +846,7 @@ void D_SetAutoLoadFolder(void)
     M_MakeDirectory(autoloadsubfolder);
 
     if (!M_CheckParm("-noautoload") && gamemode != shareware)
-        C_Output("All PWADs in " BOLD("%s") " and " BOLD("%s") " will be automatically loaded.",
+        C_Output("All files in " BOLD("%s") " and " BOLD("%s") " will be loaded automatically.",
             autoloadfolder, autoloadsubfolder);
 }
 
