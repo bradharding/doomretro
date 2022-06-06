@@ -2370,14 +2370,14 @@ int M_StringWidth(char *string)
 //
 static int M_StringHeight(char *string)
 {
-    int         h = (STCFNxxx ? SHORT(hu_font[0]->height) : 8) + 1;
+    int         h = (STCFNxxx ? SHORT(hu_font[0]->height) : 8);
     const int   len = (int)strlen(string);
 
     for (int i = 1; i < len; i++)
         if (string[i] == '\n')
             h += (string[i - 1] == '\n' ? 3 : (STCFNxxx ? SHORT(hu_font[0]->height) : 8) + 1);
 
-    return (h - 1);
+    return h;
 }
 
 //
