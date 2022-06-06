@@ -43,6 +43,7 @@
 #endif
 
 #include "c_console.h"
+#include "d_deh.h"
 #include "d_main.h"
 #include "doomstat.h"
 #include "i_swap.h"
@@ -404,7 +405,7 @@ void W_AutoLoadFiles(const char *folder)
 {
 #if defined(_WIN32)
     WIN32_FIND_DATA FindFileData;
-    char            *temp = M_StringJoin(folder, DIR_SEPARATOR_S "*.wad", NULL);
+    char            *temp = M_StringJoin(folder, DIR_SEPARATOR_S "*.*", NULL);
     HANDLE          handle = FindFirstFile(temp, &FindFileData);
 
     free(temp);
@@ -416,9 +417,19 @@ void W_AutoLoadFiles(const char *folder)
     {
         if (!(FindFileData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY))
         {
-            temp = M_StringJoin(folder, DIR_SEPARATOR_S, FindFileData.cFileName, NULL);
-            W_MergeFile(temp, true);
-            free(temp);
+            if (M_StringEndsWith(FindFileData.cFileName, ".wad"))
+            {
+                temp = M_StringJoin(folder, DIR_SEPARATOR_S, FindFileData.cFileName, NULL);
+                W_MergeFile(temp, true);
+                free(temp);
+            }
+            else if (M_StringEndsWith(FindFileData.cFileName, ".deh")
+                || M_StringEndsWith(FindFileData.cFileName, ".bex"))
+            {
+                temp = M_StringJoin(folder, DIR_SEPARATOR_S, FindFileData.cFileName, NULL);
+                ProcessDehFile(temp, 0, true);
+                free(temp);
+            }
         }
     } while (FindNextFile(handle, &FindFileData));
 
@@ -431,12 +442,23 @@ void W_AutoLoadFiles(const char *folder)
         return;
 
     while ((dir = readdir(d)))
-        if (dir->d_type == DT_REG && M_StringEndsWith(dir->d_name, ".wad"))
+        if (dir->d_type == DT_REG)
         {
-            char    *temp = M_StringJoin(folder, DIR_SEPARATOR_S, dir->d_name, NULL);
+            if (M_StringEndsWith(dir->d_name, ".wad"))
+            {
+                char    *temp = M_StringJoin(folder, DIR_SEPARATOR_S, dir->d_name, NULL);
 
-            W_MergeFile(temp, true);
-            free(temp);
+                W_MergeFile(temp, true);
+                free(temp);
+            }
+            else if (M_StringEndsWith(dir->d_name, ".deh") || M_StringEndsWith(dir->d_name, ".bex"))
+            {
+                char    *temp = M_StringJoin(folder, DIR_SEPARATOR_S, dir->d_name, NULL);
+
+                ProcessDehFile(temp, 0, true);
+                free(temp);
+            }
+
         }
 
     closedir(d);
