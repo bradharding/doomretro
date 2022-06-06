@@ -168,8 +168,6 @@ int             fadecount = 0;
 
 bool            splashscreen = true;
 
-static int      startuptimer;
-
 bool            realframe;
 static bool     error;
 
@@ -1219,7 +1217,6 @@ static int D_OpenWADLauncher(void)
 #endif
 
         iwadfound = 0;
-        startuptimer = I_GetTimeMS();
 
         // only one file was selected
 #if defined(_WIN32)
@@ -1917,7 +1914,6 @@ static void D_DoomMainSetup(void)
     char    *iwadfile;
     int     startloadgame;
     char    *resourcefolder = M_GetResourceFolder();
-    char    *seconds;
 
     packagewad = M_StringJoin(resourcefolder, DIR_SEPARATOR_S, DOOMRETRO_WAD, NULL);
     free(resourcefolder);
@@ -2033,8 +2029,6 @@ static void D_DoomMainSetup(void)
     {
         if (iwadfile)
         {
-            startuptimer = I_GetTimeMS();
-
             if (W_AddFile(iwadfile, false))
                 stat_runs = SafeAdd(stat_runs, 1);
         }
@@ -2224,7 +2218,7 @@ static void D_DoomMainSetup(void)
     PostProcessDeh();
 
     if (dehcount > 2)
-        C_Warning(0, "Loading multiple " BOLD("DEHACKED") " lumps and/or files may cause unexpected results.");
+        C_Warning(0, "Loading multiple " BOLD("DEHACKED") " lumps or files may cause unexpected results.");
 
     if (!M_StringCompare(s_VERSION, DOOMRETRO_NAMEANDVERSIONSTRING))
         I_Error("The wrong version of %s was found.", packagewad);
@@ -2525,10 +2519,6 @@ static void D_DoomMainSetup(void)
             }
         }
     }
-
-    seconds = striptrailingzero((I_GetTimeMS() - startuptimer) / 1000.0f, 1);
-    C_Output("Startup took %s second%s to complete.", seconds, (M_StringCompare(seconds, "1") ? "" : "s"));
-    free(seconds);
 
     I_Sleep(500);
 }
