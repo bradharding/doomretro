@@ -229,6 +229,7 @@ void I_Quit(bool shutdown)
 
         S_Shutdown();
 
+        crashed = false;
         M_SaveCVARs();
 
         FreeSurfaces(true);

@@ -211,6 +211,8 @@ int         weaponbob = weaponbob_default;
 bool        weaponbounce = weaponbounce_default;
 bool        weaponrecoil = weaponrecoil_default;
 
+bool        crashed = false;
+
 uint64_t    stat_automapopened = 0;
 uint64_t    stat_barrelsexploded = 0;
 uint64_t    stat_cheated = 0;
@@ -436,6 +438,8 @@ static default_t cvars[] =
     CONFIG_VARIABLE_BOOL         (weaponbounce,                     weaponbounce,                          weaponbounce,                          BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_BOOL         (weaponrecoil,                     weaponrecoil,                          weaponrecoil,                          BOOLVALUEALIAS        ),
     BLANKLINE,
+    CONFIG_VARIABLE_BOOL         (crashed,                          crashed,                               crashed,                               CRASHVALUEALIAS       ),
+    BLANKLINE,
     COMMENT("; player stats\n"),
     CONFIG_VARIABLE_INT_UNSIGNED (automapopened,                    stat_automapopened,                    stat_automapopened,                    NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT_UNSIGNED (barrelsexploded,                  stat_barrelsexploded,                  stat_barrelsexploded,                  NOVALUEALIAS          ),
@@ -529,6 +533,7 @@ valuealias_t valuealiases[] =
     { "chaingun",       3, WEAPONVALUEALIAS       }, { "rocketlauncher", 4, WEAPONVALUEALIAS       },
     { "plasmarifle",    5, WEAPONVALUEALIAS       }, { "bfg9000",        6, WEAPONVALUEALIAS       },
     { "chainsaw",       7, WEAPONVALUEALIAS       }, { "supershotgun",   8, WEAPONVALUEALIAS       },
+    { "no",             0, CRASHVALUEALIAS        }, { "yes",            1, CRASHVALUEALIAS        },
     { "",               0, NOVALUEALIAS           }
 };
 
