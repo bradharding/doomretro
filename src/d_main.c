@@ -2523,7 +2523,10 @@ static void D_DoomMainSetup(void)
     I_Sleep(500);
 
     if (crashed)
-        C_Warning(0, "DOOM Retro didn't shutdown properly last time.");
+    {
+        C_Warning(0, ITALICS(DOOMRETRO_NAME) " didn't shutdown correctly the last time it was run.");
+        C_ShowConsole();
+    }
     else
         crashed = true;
 }
