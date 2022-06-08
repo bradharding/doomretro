@@ -128,7 +128,7 @@ int D_stat(const char *path, struct stat *buffer)
     int             result;
 
     if (!wpath)
-        return 0;
+        return -1;
 
     result = _wstat(wpath, &wbuffer);
     buffer->st_mode = wbuffer.st_mode;
