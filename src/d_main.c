@@ -566,6 +566,13 @@ void D_DoAdvanceTitle(void)
     {
         static bool flag = true;
 
+        if (splashscreen)
+        {
+            I_SetPalette(PLAYPAL);
+            splashscreen = false;
+            I_Sleep(1000);
+        }
+
         if (flag)
         {
             flag = false;
@@ -574,8 +581,18 @@ void D_DoAdvanceTitle(void)
             if (alwaysrun)
                 C_StrCVAROutput(stringize(alwaysrun), "on");
 
-            if (DMENUPIC && !devparm)
-                M_StartControlPanel();
+            if (crashed)
+            {
+                C_Warning(0, ITALICS(DOOMRETRO_NAME) " didn't shutdown correctly the last time it was run.");
+                C_ShowConsole();
+            }
+            else
+            {
+                crashed = true;
+
+                if (DMENUPIC && !devparm)
+                    M_StartControlPanel();
+            }
         }
 
         if (pagelump == creditlump)
@@ -584,13 +601,6 @@ void D_DoAdvanceTitle(void)
         pagelump = titlelump;
         pillarboxcolor = FindDominantEdgeColor(pagelump);
         pagetic = PAGETICS;
-
-        if (splashscreen)
-        {
-            I_SetPalette(PLAYPAL);
-            splashscreen = false;
-            I_Sleep(1000);
-        }
 
         M_SetWindowCaption();
         S_StartMusic(gamemode == commercial ? mus_dm2ttl : mus_intro);
@@ -2521,14 +2531,6 @@ static void D_DoomMainSetup(void)
     }
 
     I_Sleep(500);
-
-    if (crashed)
-    {
-        C_Warning(0, ITALICS(DOOMRETRO_NAME) " didn't shutdown correctly the last time it was run.");
-        C_ShowConsole();
-    }
-    else
-        crashed = true;
 }
 
 //
