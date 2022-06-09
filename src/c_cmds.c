@@ -1851,7 +1851,7 @@ static void condump_cmd_func2(char *cmd, char *parms)
     const char  *appdatafolder = M_GetAppDataFolder();
     FILE        *file;
 
-    M_snprintf(consolefolder, sizeof(consolefolder), "%s" DIR_SEPARATOR_S "console", appdatafolder);
+    M_snprintf(consolefolder, sizeof(consolefolder), "%s" DIR_SEPARATOR_S DOOMRETRO_CONSOLEFOLDER, appdatafolder);
     M_MakeDirectory(consolefolder);
 
     if (!*parms)

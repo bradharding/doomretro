@@ -44,18 +44,21 @@
 #define DOOMRETRO_SAVEGAMEVERSIONSTRING "DOOM Retro v3.6"
 
 #define DOOMRETRO                       "doomretro"
+#define DOOMRETRO_AUTOLOADFOLDER        "autoload"
 #define DOOMRETRO_CONFIG                "doomretro.cfg"
+#define DOOMRETRO_CONSOLEFOLDER         "console"
 #define DOOMRETRO_COPYRIGHT             "Copyright \xA9 2013\x962022 by Brad Harding. All rights reserved."
 #define DOOMRETRO_CREATOR               "Brad Harding"
-#define DOOMRETRO_CREATOR_EMAIL         "Brad Harding (brad@doomretro.com)"
-#define DOOMRETRO_EMAIL                 "brad@doomretro.com"
+#define DOOMRETRO_CREATORANDEMAIL       "Brad Harding (brad@doomretro.com)"
 #define DOOMRETRO_FILENAME              "doomretro.exe"
 #define DOOMRETRO_ICONPATH              "..\\res\\doomretro.ico"
 #define DOOMRETRO_LICENSE               "GNU General Public License v3.0"
 #define DOOMRETRO_MUTEX                 "DOOMRETRO-CC4F1071-8B24-4E91-A207-D792F39636CD"
 #define DOOMRETRO_NAME                  "DOOM Retro"
 #define DOOMRETRO_PLACEOFORIGIN         "Western Sydney, Australia"
-#define DOOMRETRO_SAVE                  "doomretro%i.save"
+#define DOOMRETRO_SAVEGAME              "doomretro%i.save"
+#define DOOMRETRO_SAVEGAMESFOLDER       "savegames"
+#define DOOMRETRO_SCREENSHOTSFOLDER     "screenshots"
 #define DOOMRETRO_TRADEMARKS            "DOOM is a registered trademark of id Software LLC, a ZeniMax " \
                                         "Media company, in the US and/or other countries, and is used " \
                                         "without permission. All other trademarks are the property of " \

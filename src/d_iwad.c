@@ -792,7 +792,7 @@ void D_SetSaveGameFolder(bool output)
         char    *appdatafolder = M_GetAppDataFolder();
 
         M_MakeDirectory(appdatafolder);
-        savegamefolder = M_StringJoin(appdatafolder, DIR_SEPARATOR_S, "savegames", DIR_SEPARATOR_S, NULL);
+        savegamefolder = M_StringJoin(appdatafolder, DIR_SEPARATOR_S DOOMRETRO_SAVEGAMESFOLDER DIR_SEPARATOR_S, NULL);
         M_MakeDirectory(savegamefolder);
 
         if (*pwadfile)
@@ -828,7 +828,7 @@ void D_SetAutoLoadFolder(void)
     char    *appdatafolder = M_GetAppDataFolder();
 
     M_MakeDirectory(appdatafolder);
-    autoloadfolder = M_StringJoin(appdatafolder, DIR_SEPARATOR_S, "autoload", DIR_SEPARATOR_S, NULL);
+    autoloadfolder = M_StringJoin(appdatafolder, DIR_SEPARATOR_S DOOMRETRO_AUTOLOADFOLDER DIR_SEPARATOR_S, NULL);
     M_MakeDirectory(autoloadfolder);
 
     if (*pwadfile)
@@ -861,7 +861,7 @@ void D_SetScreenshotsFolder(void)
         char    *appdatafolder = M_GetAppDataFolder();
 
         M_snprintf(screenshotfolder, sizeof(screenshotfolder),
-            "%s" DIR_SEPARATOR_S "screenshots" DIR_SEPARATOR_S, appdatafolder);
+            "%s" DIR_SEPARATOR_S DOOMRETRO_SCREENSHOTSFOLDER DIR_SEPARATOR_S, appdatafolder);
 
         free(appdatafolder);
     }

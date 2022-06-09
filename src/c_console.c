@@ -687,7 +687,7 @@ void C_Init(void)
     const char  *appdatafolder = M_GetAppDataFolder();
     char        consolefolder[MAX_PATH];
 
-    M_snprintf(consolefolder, sizeof(consolefolder), "%s" DIR_SEPARATOR_S "console", appdatafolder);
+    M_snprintf(consolefolder, sizeof(consolefolder), "%s" DIR_SEPARATOR_S DOOMRETRO_CONSOLEFOLDER, appdatafolder);
     M_MakeDirectory(consolefolder);
 
     for (int i = 0, j = CONSOLEFONTSTART; i < CONSOLEFONTSIZE; i++)
