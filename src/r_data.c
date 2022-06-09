@@ -109,7 +109,7 @@ static byte notgray[256] =
     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
 };
 
-static byte notgrayorbrown[256] =
+static byte notgrayorbrown1[256] =
 {
     0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
@@ -131,6 +131,30 @@ static byte notgrayorbrown2[256] =
     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
+};
+
+static byte notgrayorbrown3[256] =
+{
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 1, 1, 1, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+};
+
+static byte blueandorange[256] =
+{
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 };
 
 static byte redonly1[256] =
@@ -247,10 +271,10 @@ static struct
     int     game;
     byte    *mask;
 } brightmaps[] = {
-    { "BTNTMETL", DOOM2ONLY, notgrayorbrown  }, { "BTNTSLVR", DOOM2ONLY, notgrayorbrown  },
+    { "BTNTMETL", DOOM2ONLY, notgrayorbrown1 }, { "BTNTSLVR", DOOM2ONLY, notgrayorbrown1 },
     { "COMP2",    DOOM1AND2, blueandgreen    }, { "COMPSTA1", DOOM1AND2, notgray         },
-    { "COMPSTA2", DOOM1AND2, notgray         }, { "COMPUTE1", DOOM1AND2, notgrayorbrown  },
-    { "COMPUTE2", DOOM1AND2, notgrayorbrown  }, { "COMPUTE3", DOOM1AND2, notgrayorbrown  },
+    { "COMPSTA2", DOOM1AND2, notgray         }, { "COMPUTE1", DOOM1AND2, notgrayorbrown1 },
+    { "COMPUTE2", DOOM1ONLY, notgrayorbrown3 }, { "COMPUTE3", DOOM1ONLY, blueandorange   },
     { "EXITSIGN", DOOM1AND2, notgray         }, { "EXITSTON", DOOM1AND2, redonly1        },
     { "LITEBLU1", DOOM1AND2, notgray         }, { "LITEBLU2", DOOM1AND2, notgray         },
     { "LITERED2", DOOM2ONLY, redonly1        }, { "LITEYEL2", DOOM2ONLY, yellowonly      },
@@ -258,12 +282,12 @@ static struct
     { "METAL3",   DOOM2ONLY, redonly1        }, { "PIPEWAL1", DOOM2ONLY, greenonly1      },
     { "PLANET1",  DOOM1AND2, notgray         }, { "PNK4EXIT", DOOM2ONLY, redonly1        },
     { "SILVER2",  DOOM1AND2, notgray         }, { "SILVER3",  DOOM1AND2, notgrayorbrown2 },
-    { "SLAD2",    DOOM2ONLY, notgrayorbrown  }, { "SLAD3",    DOOM2ONLY, notgrayorbrown  },
-    { "SLAD4",    DOOM2ONLY, notgrayorbrown  }, { "SLAD5",    DOOM2ONLY, notgrayorbrown  },
-    { "SLAD6",    DOOM2ONLY, notgrayorbrown  }, { "SLAD7",    DOOM2ONLY, notgrayorbrown  },
-    { "SLAD8",    DOOM2ONLY, notgrayorbrown  }, { "SLAD9",    DOOM2ONLY, notgrayorbrown  },
-    { "SLAD10",   DOOM2ONLY, notgrayorbrown  }, { "SLAD11",   DOOM2ONLY, notgrayorbrown  },
-    { "SLADRIP1", DOOM2ONLY, notgrayorbrown  }, { "SLADRIP3", DOOM2ONLY, notgrayorbrown  },
+    { "SLAD2",    DOOM2ONLY, notgrayorbrown1 }, { "SLAD3",    DOOM2ONLY, notgrayorbrown1 },
+    { "SLAD4",    DOOM2ONLY, notgrayorbrown1 }, { "SLAD5",    DOOM2ONLY, notgrayorbrown1 },
+    { "SLAD6",    DOOM2ONLY, notgrayorbrown1 }, { "SLAD7",    DOOM2ONLY, notgrayorbrown1 },
+    { "SLAD8",    DOOM2ONLY, notgrayorbrown1 }, { "SLAD9",    DOOM2ONLY, notgrayorbrown1 },
+    { "SLAD10",   DOOM2ONLY, notgrayorbrown1 }, { "SLAD11",   DOOM2ONLY, notgrayorbrown1 },
+    { "SLADRIP1", DOOM2ONLY, notgrayorbrown1 }, { "SLADRIP3", DOOM2ONLY, notgrayorbrown1 },
     { "SLADSKUL", DOOM1AND2, redonly1        }, { "SPCDOOR3", DOOM2ONLY, greenonly1      },
     { "SW1BRCOM", DOOM1AND2, redonly1        }, { "SW1BRIK",  DOOM1AND2, redonly1        },
     { "SW1BRN1",  DOOM2ONLY, redonly1        }, { "SW1COMM",  DOOM1AND2, redonly1        },
