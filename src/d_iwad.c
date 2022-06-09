@@ -825,10 +825,19 @@ void D_SetSaveGameFolder(bool output)
 
 void D_SetAutoLoadFolder(void)
 {
-    char    *appdatafolder = M_GetAppDataFolder();
+    int p = M_CheckParmsWithArgs("-autoload", "-autoloaddir", "", 1, 1);
 
-    M_MakeDirectory(appdatafolder);
-    autoloadfolder = M_StringJoin(appdatafolder, DIR_SEPARATOR_S DOOMRETRO_AUTOLOADFOLDER DIR_SEPARATOR_S, NULL);
+    if (p)
+        M_StringCopy(autoloadfolder, myargv[p + 1], sizeof(autoloadfolder));
+    else
+    {
+        char    *appdatafolder = M_GetAppDataFolder();
+
+        M_MakeDirectory(appdatafolder);
+        autoloadfolder = M_StringJoin(appdatafolder, DIR_SEPARATOR_S DOOMRETRO_AUTOLOADFOLDER DIR_SEPARATOR_S, NULL);
+        free(appdatafolder);
+    }
+
     M_MakeDirectory(autoloadfolder);
 
     if (*pwadfile)
@@ -840,8 +849,6 @@ void D_SetAutoLoadFolder(void)
     }
     else
         autoloadsubfolder = M_StringJoin(autoloadfolder, SaveGameIWADName(), DIR_SEPARATOR_S, NULL);
-
-    free(appdatafolder);
 
     M_MakeDirectory(autoloadsubfolder);
 
