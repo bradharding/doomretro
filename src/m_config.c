@@ -561,8 +561,9 @@ static void SaveBindByValue(FILE *file, char *action, int value, controltype_t t
 //
 void M_SaveCVARs(void)
 {
-    int     numaliases = 0;
-    FILE    *file;
+    int         numaliases = 0;
+    const int   numcvars = arrlen(cvars);
+    FILE        *file;
 
     if (!cvarsloaded || vanilla || togglingvanilla)
         return;
@@ -580,7 +581,7 @@ void M_SaveCVARs(void)
         return;
     }
 
-    for (int i = 0; i < arrlen(cvars); i++)
+    for (int i = 0; i < numcvars; i++)
     {
         if (!*cvars[i].name)
         {
@@ -1286,6 +1287,7 @@ void M_LoadCVARs(char *filename)
     int         bindcount = 0;
     int         cvarcount = 0;
     int         statcount = 0;
+    const int   numcvars = arrlen(cvars);
 
     // read the file in, overriding any set defaults
     FILE        *file = fopen(filename, "rt");
@@ -1376,7 +1378,7 @@ void M_LoadCVARs(char *filename)
         }
 
         // Find the setting in the list
-        for (int i = 0; i < arrlen(cvars); i++)
+        for (int i = 0; i < numcvars; i++)
         {
             if (!M_StringCompare(cvar, cvars[i].name) && !M_StringCompare(cvar, cvars[i].oldname))
                 continue;       // not this one
@@ -1491,8 +1493,8 @@ void M_LoadCVARs(char *filename)
             char    *temp2 = commify(statcount);
             char    *temp3 = commify(bindcount);
 
-            C_Output("%s CVARs and %s player stats have been loaded from " BOLD("%s") ".", temp1, temp2, filename);
-            C_Output("%s actions have been bound to controls for the keyboard, mouse and controller.", temp3);
+            C_Output("Loaded %s CVARs and %s player stats from " BOLD("%s") ".", temp1, temp2, filename);
+            C_Output("Bound %s actions to controls for the keyboard, mouse and controller.", temp3);
 
             free(temp1);
             free(temp2);

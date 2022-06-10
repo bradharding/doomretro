@@ -13,7 +13,9 @@
 * A crash no longer occurs when:
   * Entering the `IDBEHOLD` cheat while the alternate widescreen HUD is displayed.
   * Entering the `map` CCMD in the console with an invalid parameter.
-* The player’s super shotgun is now positioned correctly if the offsets of any of its frames are changed in a `DEHACKED` lump.
+* The following changes have been made to the support of `DEHACKED` lumps:
+  * The player’s super shotgun is now positioned correctly if the offsets of any of its frames are changed.
+  * Using the `SHADOW` flag in `Bits` now takes precedence over using the `TRANSPARENT` flag in `Bits2`.
 * Minor improvements have been made to the display of player messages and the title in the automap.
 * Minor improvements have been made to some brightmaps when the `r_brightmaps` CVAR is `on`.
 * The existing feature of randomizing the start frame of certain sprites can now be toggled using the new `r_randomstartframes` CVAR, which is `on` by default and `off` when vanilla mode is enabled.

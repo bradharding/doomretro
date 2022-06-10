@@ -519,6 +519,11 @@ void R_UpdateMobjColfunc(mobj_t *mobj)
             mobj->altcolfunc = &R_DrawColorColumn;
         }
     }
+    else if (flags & MF_TRANSLUCENT)
+    {
+        mobj->colfunc = tl50colfunc;
+        mobj->altcolfunc = tl50colfunc;
+    }
     else if (flags2 & MF2_TRANSLUCENT)
     {
         mobj->colfunc = tlcolfunc;
@@ -544,7 +549,7 @@ void R_UpdateMobjColfunc(mobj_t *mobj)
         mobj->colfunc = tl33colfunc;
         mobj->altcolfunc = tl33colfunc;
     }
-    else if ((flags & MF_TRANSLUCENT) || (flags2 & MF2_TRANSLUCENT_50))
+    else if (flags2 & MF2_TRANSLUCENT_50)
     {
         mobj->colfunc = tl50colfunc;
         mobj->altcolfunc = tl50colfunc;
@@ -890,6 +895,11 @@ void R_InitColumnFunctions(void)
                 info->altcolfunc = &R_DrawColorColumn;
             }
         }
+        else if (flags & MF_TRANSLUCENT)
+        {
+            info->colfunc = tl50colfunc;
+            info->altcolfunc = tl50colfunc;
+        }
         else if (flags2 & MF2_TRANSLUCENT)
         {
             info->colfunc = tlcolfunc;
@@ -915,7 +925,7 @@ void R_InitColumnFunctions(void)
             info->colfunc = tl33colfunc;
             info->altcolfunc = tl33colfunc;
         }
-        else if ((flags & MF_TRANSLUCENT) || (flags2 & MF2_TRANSLUCENT_50))
+        else if (flags2 & MF2_TRANSLUCENT_50)
         {
             info->colfunc = tl50colfunc;
             info->altcolfunc = tl50colfunc;
