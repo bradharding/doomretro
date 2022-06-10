@@ -161,6 +161,7 @@ bool        r_mirroredweapons = r_mirroredweapons_default;
 bool        r_pickupeffect = r_pickupeffect_default;
 bool        r_playersprites = r_playersprites_default;
 bool        r_radsuiteffect = r_radsuiteffect_default;
+bool        r_randomstartframes = r_randomstartframes_default;
 bool        r_rockettrails = r_rockettrails_default;
 int         r_screensize = r_screensize_default;
 bool        r_shadows = r_shadows_default;
@@ -389,6 +390,7 @@ static default_t cvars[] =
     CONFIG_VARIABLE_BOOL         (r_pickupeffect,                   r_pickupeffect,                        r_pickupeffect,                        BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_BOOL         (r_playersprites,                  r_playersprites,                       r_playersprites,                       BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_BOOL         (r_radsuiteffect,                  r_radsuiteffect,                       r_radsuiteffect,                       BOOLVALUEALIAS        ),
+    CONFIG_VARIABLE_BOOL         (r_randomstartframes,              r_randomstartframes,                   r_randomstartframes,                   BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_BOOL         (r_rockettrails,                   r_rockettrails,                        r_rockettrails,                        BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT          (r_screensize,                     r_screensize,                          r_screensize,                          NOVALUEALIAS          ),
     CONFIG_VARIABLE_BOOL         (r_shadows,                        r_shadows,                             r_shadows,                             BOOLVALUEALIAS        ),
@@ -1145,6 +1147,9 @@ static void M_CheckCVARs(bool ispackageconfig)
 
     if (r_radsuiteffect != false && r_radsuiteffect != true)
         r_radsuiteffect = r_radsuiteffect_default;
+
+    if (r_randomstartframes != false && r_randomstartframes != true)
+        r_randomstartframes = r_randomstartframes_default;
 
     if (r_rockettrails != false && r_rockettrails != true)
         r_rockettrails = r_rockettrails_default;

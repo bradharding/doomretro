@@ -16,6 +16,7 @@
 * The player’s super shotgun is now positioned correctly if the offsets of any of its frames are changed in a `DEHACKED` lump.
 * Minor improvements have been made to the display of player messages and the title in the automap.
 * Minor improvements have been made to some brightmaps when the `r_brightmaps` CVAR is `on`.
+* The existing feature of randomizing the start frame of certain things may now be toggled using the new `r_randomstartframes` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

@@ -153,6 +153,7 @@ extern bool     r_mirroredweapons;
 extern bool     r_pickupeffect;
 extern bool     r_playersprites;
 extern bool     r_radsuiteffect;
+extern bool     r_randomstartframes;
 extern bool     r_rockettrails;
 extern int      r_screensize;
 extern bool     r_shadows;
@@ -635,6 +636,8 @@ enum
 #define r_playersprites_default            true
 
 #define r_radsuiteffect_default            true
+
+#define r_randomstartframes_default        true
 
 #define r_rockettrails_default             true
 
