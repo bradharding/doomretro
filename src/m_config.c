@@ -1491,8 +1491,8 @@ void M_LoadCVARs(char *filename)
             char    *temp2 = commify(statcount);
             char    *temp3 = commify(bindcount);
 
-            C_Output("Loaded %s CVARs and %s player stats from " BOLD("%s") ".", temp1, temp2, filename);
-            C_Output("Bound %s actions to the keyboard, mouse and controller.", temp3);
+            C_Output("%s CVARs and %s player stats have been loaded from " BOLD("%s") ".", temp1, temp2, filename);
+            C_Output("%s actions have been bound to controls for the keyboard, mouse and controller.", temp3);
 
             free(temp1);
             free(temp2);
