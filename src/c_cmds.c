@@ -3422,11 +3422,11 @@ static void kill_cmd_func2(char *cmd, char *parms)
 static void license_cmd_func2(char *cmd, char *parms)
 {
 #if defined(_WIN32)
-    if (!ShellExecute(NULL, "open", DOOMRETRO_WIKILICENSEURL, NULL, NULL, SW_SHOWNORMAL))
+    if (!ShellExecute(NULL, "open", DOOMRETRO_LICENSEURL, NULL, NULL, SW_SHOWNORMAL))
 #elif defined(__linux__) || defined(__FreeBSD__) || defined(__HAIKU__)
-    if (!system("xdg-open " DOOMRETRO_WIKILICENSEURL))
+    if (!system("xdg-open " DOOMRETRO_LICENSEURL))
 #elif defined(__APPLE__)
-    if (!system("open " DOOMRETRO_WIKILICENSEURL))
+    if (!system("open " DOOMRETRO_LICENSEURL))
 #endif
         C_Warning(0, "The " ITALICS(DOOMRETRO_LICENSE) " couldn't be displayed.");
 }

@@ -347,10 +347,10 @@ static void R_MakeSpans(visplane_t *pl)
 
 // swirl factors determine the number of waves per flat width
 // 1 cycle per 64 units
-#define SWIRLFACTOR     (8192 / 64)
+#define SWIRLFACTOR     (FINEANGLES / 64)
 
 // 1 cycle per 32 units (2 in 64)
-#define SWIRLFACTOR2    (8192 / 32)
+#define SWIRLFACTOR2    (FINEANGLES / 32)
 
 static int  offsets[1024 * 4096];
 
@@ -367,11 +367,11 @@ void R_InitDistortedFlats(void)
                 int x1, y1;
                 int sinvalue, sinvalue2;
 
-                sinvalue = finesine[((y * SWIRLFACTOR + i * 5 + 900) & 8191)] * 2;
-                sinvalue2 = finesine[((x * SWIRLFACTOR2 + i * 4 + 300) & 8191)] * 2;
+                sinvalue = finesine[((y * SWIRLFACTOR + i * 5 + 900) & FINEMASK)] * 2;
+                sinvalue2 = finesine[((x * SWIRLFACTOR2 + i * 4 + 300) & FINEMASK)] * 2;
                 x1 = x + 128 + (sinvalue >> FRACBITS) + (sinvalue2 >> FRACBITS);
-                sinvalue = finesine[((x * SWIRLFACTOR + i * 3 + 700) & 8191)] * 2;
-                sinvalue2 = finesine[((y * SWIRLFACTOR2 + i * 4 + 1200) & 8191)] * 2;
+                sinvalue = finesine[((x * SWIRLFACTOR + i * 3 + 700) & FINEMASK)] * 2;
+                sinvalue2 = finesine[((y * SWIRLFACTOR2 + i * 4 + 1200) & FINEMASK)] * 2;
                 y1 = y + 128 + (sinvalue >> FRACBITS) + (sinvalue2 >> FRACBITS);
 
                 offset[(y << 6) + x] = ((y1 & 63) << 6) + (x1 & 63);
