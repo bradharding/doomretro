@@ -133,14 +133,14 @@ static byte notgrayorbrown2[256] =
     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
 };
 
-static byte notgrayorbrown3[256] =
+static byte bluegreenbrown[256] =
 {
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 1, 1, 1, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0,
+    0, 1, 1, 1, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 };
@@ -274,7 +274,7 @@ static struct
     { "BTNTMETL", DOOM2ONLY, notgrayorbrown1 }, { "BTNTSLVR", DOOM2ONLY, notgrayorbrown1 },
     { "COMP2",    DOOM1AND2, blueandgreen    }, { "COMPSTA1", DOOM1AND2, notgray         },
     { "COMPSTA2", DOOM1AND2, notgray         }, { "COMPUTE1", DOOM1AND2, notgrayorbrown1 },
-    { "COMPUTE2", DOOM1ONLY, notgrayorbrown3 }, { "COMPUTE3", DOOM1ONLY, blueandorange   },
+    { "COMPUTE2", DOOM1ONLY, bluegreenbrown  }, { "COMPUTE3", DOOM1ONLY, blueandorange   },
     { "EXITSIGN", DOOM1AND2, notgray         }, { "EXITSTON", DOOM1AND2, redonly1        },
     { "LITEBLU1", DOOM1AND2, notgray         }, { "LITEBLU2", DOOM1AND2, notgray         },
     { "LITERED2", DOOM2ONLY, redonly1        }, { "LITEYEL2", DOOM2ONLY, yellowonly      },
