@@ -485,12 +485,7 @@ void R_UpdateMobjColfunc(mobj_t *mobj)
     const int   flags = mobj->flags;
     const int   flags2 = mobj->flags2;
 
-    if (flags2 & MF2_TRANSLUCENT)
-    {
-        mobj->colfunc = tlcolfunc;
-        mobj->altcolfunc = tl50colfunc;
-    }
-    else if (flags & MF_FUZZ)
+    if (flags & MF_FUZZ)
     {
         if (r_textures)
         {
@@ -523,6 +518,11 @@ void R_UpdateMobjColfunc(mobj_t *mobj)
             mobj->colfunc = &R_DrawColorColumn;
             mobj->altcolfunc = &R_DrawColorColumn;
         }
+    }
+    else if (flags2 & MF2_TRANSLUCENT)
+    {
+        mobj->colfunc = tlcolfunc;
+        mobj->altcolfunc = tl50colfunc;
     }
     else if (flags2 & MF2_TRANSLUCENT_REDONLY)
     {
@@ -856,12 +856,7 @@ void R_InitColumnFunctions(void)
         const int   flags = info->flags;
         const int   flags2 = info->flags2;
 
-        if (flags2 & MF2_TRANSLUCENT)
-        {
-            info->colfunc = tlcolfunc;
-            info->altcolfunc = tl50colfunc;
-        }
-        else if (flags & MF_FUZZ)
+        if (flags & MF_FUZZ)
         {
             if (r_textures)
             {
@@ -894,6 +889,11 @@ void R_InitColumnFunctions(void)
                 info->colfunc = &R_DrawColorColumn;
                 info->altcolfunc = &R_DrawColorColumn;
             }
+        }
+        else if (flags2 & MF2_TRANSLUCENT)
+        {
+            info->colfunc = tlcolfunc;
+            info->altcolfunc = tl50colfunc;
         }
         else if (flags2 & MF2_TRANSLUCENT_REDONLY)
         {
