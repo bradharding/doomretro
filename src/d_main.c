@@ -1947,13 +1947,14 @@ static void D_DoomMainSetup(void)
 
     if (crashed)
     {
-        char    *message = DOOMRETRO_NAME " didn't shut down correctly.";
+        char    *message = "It appears that " DOOMRETRO_NAME " crashed the last time it was run. Please contribute\n"
+                           "to " DOOMRETRO_NAME "'s development by reporting what happened.";
 
         const SDL_MessageBoxButtonData buttons[] =
         {
             { SDL_MESSAGEBOX_BUTTON_ESCAPEKEY_DEFAULT, 0, "Quit"     },
-            { SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT, 1, "Continue" },
-            {                                       0, 2, "Report"   }
+            {                                       0, 1, "Report"   },
+            { SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT, 2, "Continue" }
         };
 
         const SDL_MessageBoxData messageboxdata =
@@ -1969,9 +1970,12 @@ static void D_DoomMainSetup(void)
 
         int buttonid;
 
+        crashed = false;
+        M_SaveCVARs();
+
         if (SDL_ShowMessageBox(&messageboxdata, &buttonid) >= 0)
         {
-            if (buttons[buttonid].buttonid == 2)
+            if (buttons[buttonid].buttonid == 1)
             {
 #if defined(_WIN32)
                 ShellExecute(NULL, "open", DOOMRETRO_ISSUESURL, NULL, NULL, SW_SHOWNORMAL);
@@ -1981,16 +1985,10 @@ static void D_DoomMainSetup(void)
                 system("open " DOOMRETRO_ISSUESURL);
 #endif
 
-                crashed = false;
-                M_SaveCVARs();
                 I_Quit(false);
             }
             else if (buttons[buttonid].buttonid == 0)
-            {
-                crashed = false;
-                M_SaveCVARs();
                 I_Quit(false);
-            }
         }
     }
     else
