@@ -46,6 +46,7 @@
 #include <Windows.h>
 #include <commdlg.h>
 #include <mmsystem.h>
+#include <ShellAPI.h>
 #endif
 
 #include "am_map.h"
@@ -581,18 +582,8 @@ void D_DoAdvanceTitle(void)
             if (alwaysrun)
                 C_StrCVAROutput(stringize(alwaysrun), "on");
 
-            if (crashed)
-            {
-                C_Warning(0, ITALICS(DOOMRETRO_NAME) " didn't shutdown correctly the last time it was run.");
-                C_ShowConsole();
-            }
-            else
-            {
-                crashed = true;
-
-                if (DMENUPIC && !devparm)
-                    M_StartControlPanel();
-            }
+            if (DMENUPIC && !devparm)
+                M_StartControlPanel();
         }
 
         if (pagelump == creditlump)
@@ -1953,6 +1944,57 @@ static void D_DoomMainSetup(void)
 
     // Load configuration files before initializing other subsystems.
     M_LoadCVARs(packageconfig);
+
+    if (crashed)
+    {
+        char    *message = DOOMRETRO_NAME " didn't shut down correctly.";
+
+        const SDL_MessageBoxButtonData buttons[] =
+        {
+            { SDL_MESSAGEBOX_BUTTON_ESCAPEKEY_DEFAULT, 0, "Quit"     },
+            { SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT, 1, "Continue" },
+            {                                       0, 2, "Report"   }
+        };
+
+        const SDL_MessageBoxData messageboxdata =
+        {
+            SDL_MESSAGEBOX_ERROR,
+            NULL,
+            DOOMRETRO_NAME,
+            message,
+            SDL_arraysize(buttons),
+            buttons,
+            NULL
+        };
+
+        int buttonid;
+
+        if (SDL_ShowMessageBox(&messageboxdata, &buttonid) >= 0)
+        {
+            if (buttons[buttonid].buttonid == 2)
+            {
+#if defined(_WIN32)
+                ShellExecute(NULL, "open", DOOMRETRO_ISSUESURL, NULL, NULL, SW_SHOWNORMAL);
+#elif defined(__linux__) || defined(__FreeBSD__) || defined(__HAIKU__)
+                system("xdg-open " DOOMRETRO_ISSUESURL);
+#elif defined(__APPLE__)
+                system("open " DOOMRETRO_ISSUESURL);
+#endif
+
+                crashed = false;
+                M_SaveCVARs();
+                I_Quit(false);
+            }
+            else if (buttons[buttonid].buttonid == 0)
+            {
+                crashed = false;
+                M_SaveCVARs();
+                I_Quit(false);
+            }
+        }
+    }
+    else
+        crashed = true;
 
     if (M_StringCompare(iwadfolder, iwadfolder_default) || !M_FolderExists(iwadfolder))
         D_InitIWADFolder();
