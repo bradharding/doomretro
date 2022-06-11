@@ -454,14 +454,16 @@ static bool PIT_CheckThing(mobj_t *thing)
     if (thing == tmthing)
         return true;
 
-    // [BH] apply small amount of momentum to a corpse or dropped item when something walks over it
+    // [BH] apply small amount of momentum to a corpse or dropped item when walked over
     if (((corpse && type != MT_BARREL) || (flags & MF_DROPPED)) && !thing->nudge && thing->floorz == tmthing->floorz
         && ((tmflags & MF_SHOOTABLE) || ((tmflags & MF_CORPSE) && (tmthing->momx || tmthing->momy))) && r_corpses_nudge)
         if (P_ApproxDistance(thing->x - tmthing->x, thing->y - tmthing->y) < 16 * FRACUNIT)
         {
             thing->momx += SIGN(tmthing->momx) * FRACUNIT;
             thing->momy += SIGN(tmthing->momy) * FRACUNIT;
-            thing->momz += FRACUNIT;
+
+            if (corpse)
+                thing->momz += FRACUNIT;
 
             thing->nudge = TICRATE;
 
