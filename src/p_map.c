@@ -459,8 +459,8 @@ static bool PIT_CheckThing(mobj_t *thing)
         && ((tmflags & MF_SHOOTABLE) || ((tmflags & MF_CORPSE) && (tmthing->momx || tmthing->momy))) && r_corpses_nudge)
         if (P_ApproxDistance(thing->x - tmthing->x, thing->y - tmthing->y) < 16 * FRACUNIT)
         {
-            thing->momx += SIGN(tmthing->momx) * FRACUNIT;
-            thing->momy += SIGN(tmthing->momy) * FRACUNIT;
+            thing->momx += SIGN(tmthing->momx) * M_RandomInt(1, 2) * FRACUNIT;
+            thing->momy += SIGN(tmthing->momy) * M_RandomInt(1, 2) * FRACUNIT;
 
             if (corpse)
                 thing->momz += FRACUNIT;
