@@ -221,7 +221,6 @@ void R_RenderMaskedSegRange(drawseg_t *ds, const int x1, const int x2)
     const rpatch_t  *patch;
 
     curline = ds->curline;
-    colfunc = (curline->linedef->tranlump >= 0 ? tl50segcolfunc : segcolfunc);
     frontsector = curline->frontsector;
     backsector = curline->backsector;
     texnum = texturetranslation[curline->sidedef->midtexture];
@@ -242,6 +241,17 @@ void R_RenderMaskedSegRange(drawseg_t *ds, const int x1, const int x2)
 
         walllights = GetLightTable(lightlevel);
         walllightsnext = GetLightTable(lightlevel + 4);
+
+        if (usebrightmaps && !nobrightmap[texnum] && brightmap[texnum])
+        {
+            dc_brightmap = brightmap[texnum];
+            colfunc = bmapwallcolfunc;
+        }
+        else
+        {
+            dc_brightmap = NULL;
+            colfunc = (curline->linedef->tranlump >= 0 ? tl50segcolfunc : segcolfunc);
+        }
     }
 
     maskedtexturecol = ds->maskedtexturecol;
