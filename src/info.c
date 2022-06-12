@@ -81,7 +81,7 @@
     /* splashgroup          */ SG_DEFAULT,  \
     /* ripsound             */ sfx_none,    \
     /* altspeed             */ NO_ALTSPEED, \
-    /* meleerange           */ MELEERANGE,  \
+    /* meleerange           */ 0,           \
     /* name1                */ "",          \
     /* plural1              */ "",          \
     /* name2                */ "",          \

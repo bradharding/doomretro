@@ -237,7 +237,7 @@ void R_RenderMaskedSegRange(drawseg_t *ds, const int x1, const int x2)
     else
     {
         sector_t    tempsec;
-        short       lightlevel = R_FakeFlat(frontsector, &tempsec, NULL, NULL, false)->lightlevel;
+        const short lightlevel = R_FakeFlat(frontsector, &tempsec, NULL, NULL, false)->lightlevel;
 
         walllights = GetLightTable(lightlevel);
         walllightsnext = GetLightTable(lightlevel + 4);
@@ -248,10 +248,7 @@ void R_RenderMaskedSegRange(drawseg_t *ds, const int x1, const int x2)
             colfunc = bmapwallcolfunc;
         }
         else
-        {
-            dc_brightmap = NULL;
             colfunc = (curline->linedef->tranlump >= 0 ? tl50segcolfunc : segcolfunc);
-        }
     }
 
     maskedtexturecol = ds->maskedtexturecol;
@@ -299,7 +296,7 @@ void R_RenderMaskedSegRange(drawseg_t *ds, const int x1, const int x2)
             // calculate lighting
             if (!fixedcolormap)
             {
-                int index = MIN(spryscale >> LIGHTSCALESHIFT, MAXLIGHTSCALE - 1);
+                const int   index = MIN(spryscale >> LIGHTSCALESHIFT, MAXLIGHTSCALE - 1);
 
                 dc_colormap[0] = walllights[index];
                 dc_nextcolormap[0] = walllightsnext[index];
@@ -379,7 +376,7 @@ static void R_RenderSegLoop(void)
 
             if (!fixedcolormap)
             {
-                int index = MIN(rw_scale >> LIGHTSCALESHIFT, MAXLIGHTSCALE - 1);
+                const int   index = MIN(rw_scale >> LIGHTSCALESHIFT, MAXLIGHTSCALE - 1);
 
                 dc_colormap[0] = walllights[index];
                 dc_nextcolormap[0] = walllightsnext[index];
@@ -686,7 +683,7 @@ void R_StoreWallRange(const int start, const int stop)
 
     if (stop > start)
     {
-        fixed_t scale = R_ScaleFromGlobalAngle(xtoviewangle[stop]);
+        const fixed_t   scale = R_ScaleFromGlobalAngle(xtoviewangle[stop]);
 
         rw_scalestep = (scale - rw_scale) / (stop - start);
         ds_p->scalestep = rw_scalestep;
@@ -880,7 +877,7 @@ void R_StoreWallRange(const int start, const int stop)
         //  use different light tables for horizontal/vertical
         if (!fixedcolormap)
         {
-            short   lightlevel = frontsector->lightlevel;
+            const short lightlevel = frontsector->lightlevel;
 
             walllights = GetLightTable(lightlevel);
             walllightsnext = GetLightTable(lightlevel + 4);
