@@ -1945,6 +1945,7 @@ static void D_DoomMainSetup(void)
     // Load configuration files before initializing other subsystems.
     M_LoadCVARs(packageconfig);
 
+#if !defined(_DEBUG)
     if (crashed)
     {
         char    *message = "It appears that " DOOMRETRO_NAME " crashed the last time it was run. Please contribute\n"
@@ -1993,6 +1994,7 @@ static void D_DoomMainSetup(void)
     }
     else
         crashed = true;
+#endif
 
     if (M_StringCompare(iwadfolder, iwadfolder_default) || !M_FolderExists(iwadfolder))
         D_InitIWADFolder();
