@@ -312,11 +312,11 @@ static struct
     { "SW2STON6", DOOM1AND2, redonly1        }, { "SW2STONE", DOOM1AND2, greenonly2      },
     { "SW2STRTN", DOOM1AND2, greenonly1      }, { "SW2TEK",   DOOM1AND2, greenonly1      },
     { "SW2VINE",  DOOM1AND2, greenonly1      }, { "SW2WOOD",  DOOM1AND2, redonly1        },
-    { "SW2ZIM",   DOOM1AND2, redonly1        }, { "WOOD4",    DOOM1AND2, redonly1        },
+    { "SW2ZIM",   DOOM1AND2, redonly1        }, { "TEKBRON2", DOOM2ONLY, yellowonly      },
+    { "TEKLITE2", DOOM2ONLY, greenonly1      }, { "TEKWALL2", DOOM1ONLY, redonly1        },
+    { "TEKWALL5", DOOM1ONLY, redonly1        }, { "WOOD4",    DOOM1AND2, redonly1        },
     { "WOODGARG", DOOM1AND2, redonly1        }, { "WOODSKUL", DOOM1AND2, redonly1        },
-    { "ZELDOOR",  DOOM1AND2, redonly1        }, { "TEKLITE2", DOOM2ONLY, greenonly1      },
-    { "TEKBRON2", DOOM2ONLY, yellowonly      }, { "TEKWALL2", DOOM1ONLY, redonly1        },
-    { "TEKWALL5", DOOM1ONLY, redonly1        }, { "YELMETAL", DOOM2ONLY, yellowonly      },
+    { "YELMETAL", DOOM2ONLY, yellowonly      }, { "ZELDOOR",  DOOM1AND2, redonly1        },
     { "",         0,         0               }
 };
 
