@@ -2235,7 +2235,6 @@ static void D_DoomMainSetup(void)
     PLAYPALs = (FREEDOOM || chex || hacx || REKKRSA ? 2 : W_CheckMultipleLumps("PLAYPAL"));
     STBARs = W_CheckMultipleLumps("STBAR");
 
-    DSSECRET = (W_CheckNumForName("DSSECRET") >= 0);
     M_DOOM = (W_CheckMultipleLumps("M_DOOM") > 1);
     M_EPISOD = (W_CheckMultipleLumps("M_EPISOD") > 1);
     M_GDHIGH = (W_CheckMultipleLumps("M_GDHIGH") > 1);

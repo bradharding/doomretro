@@ -79,6 +79,7 @@ static hu_textline_t    w_title;
 bool                    message_on;
 bool                    message_fadeon;
 bool                    message_dontfuckwithme;
+bool                    message_secret;
 static bool             message_external;
 static bool             message_nottobefuckedwith;
 
@@ -265,6 +266,7 @@ void HU_Start(void)
 
     message_on = false;
     message_dontfuckwithme = false;
+    message_secret = false;
     message_nottobefuckedwith = false;
     message_external = false;
 
@@ -1202,6 +1204,7 @@ void HU_Ticker(void)
     {
         message_on = false;
         message_nottobefuckedwith = false;
+        message_secret = false;
     }
     else if (idmypos)
     {
@@ -1238,8 +1241,18 @@ void HU_Ticker(void)
         message_on = true;
     }
 
+    // display secret message if necessary
+    if (viewplayer->message && message_secret)
+    {
+        HUlib_AddMessageToSText(&w_message, viewplayer->message);
+        message_fadeon = (!message_on || message_counter <= 5);
+        message_on = true;
+        message_counter = HU_MSGTIMEOUT;
+        viewplayer->message = NULL;
+    }
+
     // display message if necessary
-    if (viewplayer->message && (!message_nottobefuckedwith || message_dontfuckwithme))
+    else if (viewplayer->message && (!message_nottobefuckedwith || message_dontfuckwithme))
     {
         if ((messages || message_dontfuckwithme) && !idmypos)
         {
@@ -1340,6 +1353,17 @@ void HU_PlayerMessage(char *message, bool group, bool external)
         HU_SetPlayerMessage(buffer, group, external);
 
     viewplayer->prevmessagetics = gametime;
+}
+
+void HU_SecretPlayerMessage(char *message)
+{
+    char    buffer[133] = "";
+
+    M_snprintf(buffer, sizeof(buffer), message, playername);
+    buffer[0] = toupper(buffer[0]);
+    C_PlayerMessage(buffer);
+    viewplayer->message = M_StringDuplicate(buffer);
+    message_secret = true;
 }
 
 void HU_ClearMessages(void)
