@@ -428,13 +428,14 @@ static bool PIT_CheckLine(line_t *ld)
 // MBF21: dehacked projectile groups
 static bool P_ProjectileImmune(mobj_t *target, mobj_t *source)
 {
+    const int   projectilegroup = mobjinfo[target->type].projectilegroup;
+
     // PG_GROUPLESS means no immunity, even to own species
-    return ((mobjinfo[target->type].projectilegroup != PG_GROUPLESS || target == source)
+    return ((projectilegroup != PG_GROUPLESS || target == source)
         // target type has default behavior, and things are the same type
-        && ((mobjinfo[target->type].projectilegroup == PG_DEFAULT && source->type == target->type)
+        && ((projectilegroup == PG_DEFAULT && source->type == target->type)
             // target type has special behavior, and things have the same group
-            || (mobjinfo[target->type].projectilegroup != PG_DEFAULT
-                && mobjinfo[target->type].projectilegroup == mobjinfo[source->type].projectilegroup)));
+            || (projectilegroup != PG_DEFAULT && projectilegroup == mobjinfo[source->type].projectilegroup)));
 }
 
 //
@@ -570,19 +571,17 @@ static bool PIT_CheckThing(mobj_t *thing)
         {
             if (!(flags & MF_SOLID))
                 return true;
-            else
+
+            tmthing->momx = -tmthing->momx;
+            tmthing->momy = -tmthing->momy;
+
+            if (!(tmflags & MF_NOGRAVITY))
             {
-                tmthing->momx = -tmthing->momx;
-                tmthing->momy = -tmthing->momy;
-
-                if (!(tmflags & MF_NOGRAVITY))
-                {
-                    tmthing->momx >>= 2;
-                    tmthing->momy >>= 2;
-                }
-
-                return false;
+                tmthing->momx >>= 2;
+                tmthing->momy >>= 2;
             }
+
+            return false;
         }
 
         if (!(flags & MF_SHOOTABLE))
