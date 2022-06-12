@@ -1106,6 +1106,9 @@ linefix_t linefix[] =
 
    // mission,    episode, map, linedef, side, toptexture, middletexture, bottomtexture,  offset, rowoffset, flags,                     special,                                             tag
 
+    { pack_nerve,       1,   1,    3434,    0, "",         "",            "",            DEFAULT,   DEFAULT, DEFAULT,                   D1_Door_OpenStay,                                DEFAULT },
+    { pack_nerve,       1,   1,    3436,    0, "",         "",            "",            DEFAULT,   DEFAULT, DEFAULT,                   D1_Door_OpenStay,                                DEFAULT },
+
     { pack_nerve,       1,   2,     431,    1, "",         "BRNSMALR",    "",                 11,         4, DEFAULT,                   DEFAULT,                                         DEFAULT },
     { pack_nerve,       1,   2,     433,    1, "",         "BRNSMALC",    "",                 -5,         4, DEFAULT,                   DEFAULT,                                         DEFAULT },
     { pack_nerve,       1,   2,     427,    1, "",         "BRNSMALL",    "",                 11,         4, DEFAULT,                   DEFAULT,                                         DEFAULT },
