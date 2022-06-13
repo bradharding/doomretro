@@ -209,7 +209,7 @@ static void MIDItoStream(midi_file_t *file)
 
     while (true)
     {
-        midi_event_t    *event;
+        midi_event_t    *midievent;
         DWORD           data = 0;
         int             min_time = INT_MAX;
         int             idx = -1;
@@ -237,7 +237,7 @@ static void MIDItoStream(midi_file_t *file)
 
         tracks[idx].absolute_time = min_time;
 
-        if (!MIDI_GetNextEvent(tracks[idx].iter, &event))
+        if (!MIDI_GetNextEvent(tracks[idx].iter, &midievent))
         {
             free(tracks[idx].iter);
             tracks[idx].iter = NULL;
@@ -245,13 +245,13 @@ static void MIDItoStream(midi_file_t *file)
             continue;
         }
 
-        switch (event->event_type)
+        switch (midievent->event_type)
         {
             case MIDI_EVENT_META:
-                if (event->data.meta.type == MIDI_META_SET_TEMPO)
-                    data = (event->data.meta.data[2]
-                        | (event->data.meta.data[1] << 8)
-                        | (event->data.meta.data[0] << 16)
+                if (midievent->data.meta.type == MIDI_META_SET_TEMPO)
+                    data = (midievent->data.meta.data[2]
+                        | (midievent->data.meta.data[1] << 8)
+                        | (midievent->data.meta.data[0] << 16)
                         | (MEVT_TEMPO << 24));
 
                 break;
@@ -261,19 +261,19 @@ static void MIDItoStream(midi_file_t *file)
             case MIDI_EVENT_AFTERTOUCH:
             case MIDI_EVENT_CONTROLLER:
             case MIDI_EVENT_PITCH_BEND:
-                data = (event->event_type
-                    | event->data.channel.channel
-                    | (event->data.channel.param1 << 8)
-                    | (event->data.channel.param2 << 16)
+                data = (midievent->event_type
+                    | midievent->data.channel.channel
+                    | (midievent->data.channel.param1 << 8)
+                    | (midievent->data.channel.param2 << 16)
                     | (MEVT_SHORTMSG << 24));
 
                 break;
 
             case MIDI_EVENT_PROGRAM_CHANGE:
             case MIDI_EVENT_CHAN_AFTERTOUCH:
-                data = (event->event_type
-                    | event->data.channel.channel
-                    | (event->data.channel.param1 << 8)
+                data = (midievent->event_type
+                    | midievent->data.channel.channel
+                    | (midievent->data.channel.param1 << 8)
                     | (MEVT_SHORTMSG << 24));
 
                 break;
