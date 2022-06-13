@@ -2170,7 +2170,7 @@ static void P_SecretFound(void)
     viewplayer->secretcount++;
     stat_secretsfound = SafeAdd(stat_secretsfound, 1);
 
-    if (secretmessages)
+    if (messages && secretmessages)
     {
         S_StartSound(NULL, sfx_secret);
         HU_SecretPlayerMessage(s_SECRET);
