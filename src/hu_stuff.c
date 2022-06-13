@@ -1349,6 +1349,8 @@ void HU_PlayerMessage(char *message, bool group, bool external)
     buffer[0] = toupper(buffer[0]);
     C_PlayerMessage(buffer);
 
+    message_secret = false;
+
     if (gamestate == GS_LEVEL && !message_dontfuckwithme)
         HU_SetPlayerMessage(buffer, group, external);
 
