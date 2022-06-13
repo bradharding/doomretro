@@ -7,6 +7,7 @@
 * If *DOOM Retro* happens to crash, the next time it is opened, a dialog box is now displayed that encourages the player to report what happened.
 * Minor changes have been made to text that is output to the console.
 * The amount of blood splats rendered depends on their distance from the player again.
+* A message is now displayed, and a sound effect is now heard, each time the player finds a secret. This can be toggled using the new `secretmessages` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
 * `HELP`, `HELP1` and `HELP2` lumps in PWADs that are wider than 320 pixels are now displayed correctly when the <kbd><b>F1</b></kbd> key is pressed.
 * *DOOM Retro* now creates an `autoload` folder in the same folder as `doomretro.exe`. Any `.wad`, `.deh` or `.bex` file placed in this folder, or an appropriate subfolder, will then be automatically loaded at startup.
 * The number of gamma correction levels set by the `r_gamma` CVAR that are brighter than `1.0` have been reduced.
@@ -22,7 +23,7 @@
   * Minor improvements have been made to some brightmaps.
   * Brightmaps can now be applied to masked midtextures.
 * The existing feature of randomizing the start frame of certain sprites can now be toggled using the new `r_randomstartframes` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
-* The player’s speed when strafing using the mouse with the <kbd>ALT</kbd> key has been reduced, and is more consistent with using the <kbd>A</kbd> and <kbd>D</kbd> keys.
+* The player’s speed when strafing using the mouse with the <kbd>ALT</kbd> key held down has been reduced, and is more consistent with using the <kbd>A</kbd> and <kbd>D</kbd> keys.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
