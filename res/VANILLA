@@ -112,6 +112,7 @@ s_lowermenumusic off
 s_randommusic off
 s_randompitch off
 s_stereo on
+secretmessages off
 stillbob 0%
 timer 0
 tossdrop off

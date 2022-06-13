@@ -895,6 +895,8 @@ consolecmd_t consolecmds[] =
         "Saves the game to a file."),
     CVAR_INT(savegame, "", int_cvars_func1, savegame_cvar_func2, CF_NONE, NOVALUEALIAS,
         "The currently selected savegame in the menu (" BOLD("1") " to " BOLD("6") ")."),
+    CVAR_BOOL(secretmessages, "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
+        "Toggles displaying a message when the player finds a secret."),
     CVAR_INT(skilllevel, "", int_cvars_func1, skilllevel_cvar_func2, CF_NONE, NOVALUEALIAS,
         "The currently selected skill level in the menu (" BOLD("1") " to " BOLD("5") ")."),
     CCMD("spawn", "summon", spawn_cmd_func1, spawn_cmd_func2, true, SPAWNCMDFORMAT,

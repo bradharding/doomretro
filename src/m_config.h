@@ -173,6 +173,7 @@ extern bool     s_randompitch;
 extern int      s_sfxvolume;
 extern bool     s_stereo;
 extern int      savegame;
+extern bool     secretmessages;
 extern int      skilllevel;
 extern int      stillbob;
 extern bool     tossdrop;
@@ -691,6 +692,8 @@ enum
 #define savegame_min                       1
 #define savegame_default                   1
 #define savegame_max                       6
+
+#define secretmessages_default             true
 
 #define skilllevel_min                     1
 #define skilllevel_default                 3

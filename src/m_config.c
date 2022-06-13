@@ -181,6 +181,7 @@ bool        s_randompitch = s_randompitch_default;
 int         s_sfxvolume = s_sfxvolume_default;
 bool        s_stereo = s_stereo_default;
 int         savegame = savegame_default;
+bool        secretmessages = secretmessages_default;
 int         skilllevel = skilllevel_default;
 int         stillbob = stillbob_default;
 bool        tossdrop = tossdrop_default;
@@ -411,6 +412,7 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT_PERCENT  (s_sfxvolume,                      s_sfxvolume,                           s_sfxvolume,                           NOVALUEALIAS          ),
     CONFIG_VARIABLE_BOOL         (s_stereo,                         s_stereo,                              s_stereo,                              BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT          (savegame,                         savegame,                              savegame,                              NOVALUEALIAS          ),
+    CONFIG_VARIABLE_BOOL         (secretmessages,                   secretmessages,                        secretmessages,                        BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT          (skilllevel,                       skilllevel,                            skilllevel,                            NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT_PERCENT  (stillbob,                         stillbob,                              stillbob,                              NOVALUEALIAS          ),
     CONFIG_VARIABLE_BOOL         (tossdrop,                         tossdrop,                              tossdrop,                              BOOLVALUEALIAS        ),
@@ -1216,6 +1218,9 @@ static void M_CheckCVARs(bool ispackageconfig)
         s_stereo = s_stereo_default;
 
     savegame = BETWEEN(savegame_min, savegame, savegame_max);
+
+    if (secretmessages != false && secretmessages != true)
+        secretmessages = secretmessages_default;
 
     skilllevel = BETWEEN(skilllevel_min, skilllevel, skilllevel_max);
 
