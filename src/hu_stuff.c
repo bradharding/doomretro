@@ -1242,12 +1242,14 @@ void HU_Ticker(void)
     }
 
     // display secret message if necessary
-    if (viewplayer->message && message_secret)
+    if (viewplayer->message && message_secret && (!message_nottobefuckedwith || message_dontfuckwithme))
     {
         HUlib_AddMessageToSText(&w_message, viewplayer->message);
         message_fadeon = (!message_on || message_counter <= 5);
         message_on = true;
         message_counter = HU_MSGTIMEOUT;
+        message_nottobefuckedwith = message_dontfuckwithme;
+        message_dontfuckwithme = false;
         viewplayer->message = NULL;
     }
 
@@ -1349,8 +1351,6 @@ void HU_PlayerMessage(char *message, bool group, bool external)
     buffer[0] = toupper(buffer[0]);
     C_PlayerMessage(buffer);
 
-    message_secret = false;
-
     if (gamestate == GS_LEVEL && !message_dontfuckwithme)
         HU_SetPlayerMessage(buffer, group, external);
 
@@ -1365,6 +1365,7 @@ void HU_SecretPlayerMessage(char *message)
     buffer[0] = toupper(buffer[0]);
     C_PlayerMessage(buffer);
     viewplayer->message = M_StringDuplicate(buffer);
+    message_dontfuckwithme = true;
     message_secret = true;
 }
 
