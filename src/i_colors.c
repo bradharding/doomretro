@@ -81,9 +81,9 @@ const static byte filter[256] =
 #define EXTRAS      X
 
 #define BLACK       0
+#define GOLD      231
 #define RED       176
 #define WHITE       4
-#define YELLOW    231
 
 static byte *tinttab15;
 
@@ -121,15 +121,15 @@ byte        *tinttabblue25;
 
 byte        nearestcolors[256];
 byte        nearestblack;
+byte        nearestgold;
 byte        nearestred;
 byte        nearestwhite;
-byte        nearestyellow;
 
 byte        *black25;
 byte        *black40;
+byte        *gold15;
 byte        *white25;
 byte        *white33;
-byte        *yellow15;
 
 int FindNearestColor(byte *palette, const int red, const int green, const int blue)
 {
@@ -179,13 +179,13 @@ void FindNearestColors(byte *palette)
     nearestblack = nearestcolors[BLACK];
     nearestred = nearestcolors[RED];
     nearestwhite = nearestcolors[WHITE];
-    nearestyellow = nearestcolors[YELLOW];
+    nearestgold = nearestcolors[GOLD];
 
     black25 = &tinttab25[nearestblack << 8];
     black40 = &tinttab40[nearestblack << 8];
     white25 = &tinttab25[nearestwhite << 8];
     white33 = &tinttab33[nearestwhite << 8];
-    yellow15 = &tinttab15[nearestcolors[YELLOW] << 8];
+    gold15 = &tinttab15[nearestgold << 8];
 }
 
 int FindBrightDominantColor(patch_t *patch)
