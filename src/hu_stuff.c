@@ -1361,7 +1361,7 @@ void HU_SecretPlayerMessage(char *message)
     M_snprintf(buffer, sizeof(buffer), message, playername);
     buffer[0] = toupper(buffer[0]);
     C_PlayerMessage(buffer);
-    viewplayer->message = uppercase(buffer);
+    viewplayer->message = M_StringDuplicate(buffer);
     message_dontfuckwithme = true;
     message_secret = !(viewplayer->cheats & CF_MYPOS);
 }
