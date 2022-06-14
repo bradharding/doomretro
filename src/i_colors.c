@@ -177,15 +177,15 @@ void FindNearestColors(byte *palette)
             nearestcolors[i] = i;
 
     nearestblack = nearestcolors[BLACK];
+    nearestgold = nearestcolors[GOLD];
     nearestred = nearestcolors[RED];
     nearestwhite = nearestcolors[WHITE];
-    nearestgold = nearestcolors[GOLD];
 
     black25 = &tinttab25[nearestblack << 8];
     black40 = &tinttab40[nearestblack << 8];
+    gold15 = &tinttab15[nearestgold << 8];
     white25 = &tinttab25[nearestwhite << 8];
     white33 = &tinttab33[nearestwhite << 8];
-    gold15 = &tinttab15[nearestgold << 8];
 }
 
 int FindBrightDominantColor(patch_t *patch)

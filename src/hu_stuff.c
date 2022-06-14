@@ -1241,50 +1241,44 @@ void HU_Ticker(void)
         message_on = true;
     }
 
-    // display secret message if necessary
-    if (viewplayer->message && message_secret && (!message_nottobefuckedwith || message_dontfuckwithme))
-    {
-        HUlib_AddMessageToSText(&w_message, viewplayer->message);
-        message_fadeon = (!message_on || message_counter <= 5);
-        message_on = true;
-        message_counter = HU_MSGTIMEOUT;
-        message_nottobefuckedwith = message_dontfuckwithme;
-        message_dontfuckwithme = false;
-        viewplayer->message = NULL;
-    }
-
     // display message if necessary
     else if (viewplayer->message && (!message_nottobefuckedwith || message_dontfuckwithme))
     {
-        if ((messages || message_dontfuckwithme) && !idmypos)
+        if (!idmypos)
         {
-            int     len = (int)strlen(viewplayer->message);
-            char    message[133];
+            if (message_secret)
+                HUlib_AddMessageToSText(&w_message, viewplayer->message);
+            else if (messages || message_dontfuckwithme)
+            {
+                int     len = (int)strlen(viewplayer->message);
+                char    message[133];
 
-            M_StringCopy(message, viewplayer->message, sizeof(message));
+                M_StringCopy(message, viewplayer->message, sizeof(message));
 
-            if (!vid_widescreen)
-                while (M_StringWidth(message) > SCREENWIDTH / SCREENSCALE - w_message.l.x * 2 - 6)
-                {
-                    if (len >= 2 && message[len - 2] == ' ')
+                if (!vid_widescreen)
+                    while (M_StringWidth(message) > SCREENWIDTH / SCREENSCALE - w_message.l.x * 2 - 6)
                     {
-                        message[len - 2] = '.';
-                        message[len - 1] = '.';
-                        message[len] = '.';
-                        message[len + 1] = '\0';
-                    }
-                    else if (len >= 1)
-                    {
-                        message[len - 1] = '.';
-                        message[len] = '.';
-                        message[len + 1] = '.';
-                        message[len + 2] = '\0';
+                        if (len >= 2 && message[len - 2] == ' ')
+                        {
+                            message[len - 2] = '.';
+                            message[len - 1] = '.';
+                            message[len] = '.';
+                            message[len + 1] = '\0';
+                        }
+                        else if (len >= 1)
+                        {
+                            message[len - 1] = '.';
+                            message[len] = '.';
+                            message[len + 1] = '.';
+                            message[len + 2] = '\0';
+                        }
+
+                        len--;
                     }
 
-                    len--;
-                }
+                HUlib_AddMessageToSText(&w_message, message);
+            }
 
-            HUlib_AddMessageToSText(&w_message, message);
             message_fadeon = (!message_on || message_counter <= 5);
             message_on = true;
             message_counter = HU_MSGTIMEOUT;
@@ -1369,7 +1363,7 @@ void HU_SecretPlayerMessage(char *message)
     C_PlayerMessage(buffer);
     viewplayer->message = M_StringDuplicate(buffer);
     message_dontfuckwithme = true;
-    message_secret = true;
+    message_secret = !(viewplayer->cheats & CF_MYPOS);
 }
 
 void HU_ClearMessages(void)
