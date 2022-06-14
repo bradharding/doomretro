@@ -137,7 +137,7 @@
       <EnableDpiAwareness>true</EnableDpiAwareness>
     </Manifest>
     <PostBuildEvent>
-      <Command>copy /Y $(ProjectDir)..\res\$(ProjectName).wad $(OutDir)$(ProjectName).wad</Command>
+      <Command>copy /Y "$(ProjectDir)..\res\$(ProjectName).wad" "$(OutDir)$(ProjectName).wad"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -177,7 +177,7 @@
       <EnableDpiAwareness>true</EnableDpiAwareness>
     </Manifest>
     <PostBuildEvent>
-      <Command>copy /Y $(ProjectDir)..\res\$(ProjectName).wad $(OutDir)$(ProjectName).wad</Command>
+      <Command>copy /Y "$(ProjectDir)..\res\$(ProjectName).wad" "$(OutDir)$(ProjectName).wad"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -244,7 +244,7 @@
       <SuppressStartupBanner>false</SuppressStartupBanner>
     </ResourceCompile>
     <PostBuildEvent>
-      <Command>copy /Y $(ProjectDir)..\res\$(ProjectName).wad $(OutDir)$(ProjectName).wad</Command>
+      <Command>copy /Y "$(ProjectDir)..\res\$(ProjectName).wad" "$(OutDir)$(ProjectName).wad"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -310,7 +310,7 @@
       <SuppressStartupBanner>false</SuppressStartupBanner>
     </ResourceCompile>
     <PostBuildEvent>
-      <Command>copy /Y $(ProjectDir)..\res\$(ProjectName).wad $(OutDir)$(ProjectName).wad</Command>
+      <Command>copy /Y "$(ProjectDir)..\res\$(ProjectName).wad" "$(OutDir)$(ProjectName).wad"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
