@@ -81,7 +81,7 @@ bool HUlib_AddCharToTextLine(hu_textline_t *t, char ch)
     return true;
 }
 
-static const byte redtogold[] =
+static const byte redtoyellow[] =
 {
       0,   1,   2,   3,   4,   5,   6,   7,   8,   9,  10,  11,  12,  13,  14,  15,
      16,  17,  18,  19,  20,  21,  22,  23,  24,  25,  26,  27,  28,  29,  30,  31,
@@ -122,7 +122,7 @@ static void HU_DrawChar(int x, int y, int ch, byte *screen, int screenwidth)
                     if (src == PINK)
                         *dest = 0;
                     else if (src != ' ')
-                        *dest = (message_secret ? redtogold[src] : src);
+                        *dest = (message_secret ? redtoyellow[src] : src);
                 }
         }
 }
@@ -146,7 +146,7 @@ static void HU_DrawTranslucentChar(int x, int y, int ch, byte *screen, int scree
                     if (src == PINK)
                         *dest = tinttab60[(nearestblack << 8) + *dest];
                     else if (src != ' ')
-                        *dest = tinttab80[((message_secret ? redtogold[src] : src) << 8) + *dest];
+                        *dest = tinttab80[((message_secret ? redtoyellow[src] : src) << 8) + *dest];
                 }
         }
 }
@@ -156,15 +156,16 @@ static void HUlib_DrawAltHUDTextLine(hu_textline_t *l)
     bool            italics = false;
     unsigned char   prevletter = '\0';
     int             x = 10;
-    int             color = nearestwhite;
+    int             color = (message_secret ? nearestyellow : nearestwhite);
     const int       len = l->len;
     byte            *tinttab = tinttab50;
 
     if (!automapactive)
     {
         x = HU_ALTHUDMSGX;
-        color = (r_textures ? (viewplayer->fixedcolormap == INVERSECOLORMAP ? colormaps[0][32 * 256 + nearestwhite] : nearestwhite) :
-            (viewplayer->fixedcolormap == INVERSECOLORMAP ? colormaps[0][32 * 256 + nearestwhite] : nearestblack));
+        color = (r_textures ? (viewplayer->fixedcolormap == INVERSECOLORMAP ? colormaps[0][32 * 256 + color] : color) :
+            (viewplayer->fixedcolormap == INVERSECOLORMAP ? colormaps[0][32 * 256 + color] :
+            (message_secret ? nearestyellow : nearestblack)));
     }
 
     if (fade)

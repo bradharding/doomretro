@@ -77,6 +77,7 @@ extern byte nearestcolors[256];
 extern byte nearestblack;
 extern byte nearestred;
 extern byte nearestwhite;
+extern byte nearestyellow;
 
 extern byte *black25;
 extern byte *black40;
