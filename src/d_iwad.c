@@ -815,7 +815,7 @@ void D_SetSaveGameFolder(bool output)
         int numsavegames = M_CountSaveGames();
 
         if (!numsavegames)
-            C_Output("All savegames will be saved in " BOLD("%s") ".", savegamefolder);
+            C_Output("All savegames will be put in " BOLD("%s") ".", savegamefolder);
         else if (numsavegames == 1)
             C_Output("There is 1 savegame in " BOLD("%s") ".", savegamefolder);
         else
@@ -853,7 +853,7 @@ void D_SetAutoLoadFolder(void)
     M_MakeDirectory(autoloadsubfolder);
 
     if (!M_CheckParm("-noautoload") && gamemode != shareware)
-        C_Output("All files in " BOLD("%s") " and " BOLD("%s") " will be loaded automatically.",
+        C_Output("All files put in " BOLD("%s") " and " BOLD("%s") " will be loaded automatically.",
             autoloadfolder, autoloadsubfolder);
 }
 
@@ -875,7 +875,7 @@ void D_SetScreenshotsFolder(void)
 
     M_MakeDirectory(screenshotfolder);
 
-    C_Output("All screenshots taken will be saved in " BOLD("%s") ".", screenshotfolder);
+    C_Output("All screenshots taken will be put in " BOLD("%s") ".", screenshotfolder);
 }
 
 //
