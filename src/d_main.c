@@ -2016,9 +2016,9 @@ static void D_DoomMainSetup(void)
             "no armor, and only a pistol with 50 bullets.");
 
     if ((fastparm = M_CheckParm("-fast")))
-        C_Output("A " BOLD("-fast") " parameter was found on the command-line. Monsters will be faster.");
+        C_Output("A " BOLD("-fast") " parameter was found on the command-line. Monsters will be fast.");
     else if ((fastparm = M_CheckParm("-fastmonsters")))
-        C_Output("A " BOLD("-fastmonsters") " parameter was found on the command-line. Monsters will be faster.");
+        C_Output("A " BOLD("-fastmonsters") " parameter was found on the command-line. Monsters will be fast.");
 
     if ((devparm = M_CheckParm("-devparm")))
         C_Output("A " BOLD("-devparm") " parameter was found on the command-line. %s", s_D_DEVSTR);
