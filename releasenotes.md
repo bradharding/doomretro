@@ -2,7 +2,7 @@
 
 #### DOOM Retro v4.6
 
-* *DOOM Retro* is now compiled using v17.2.3 of [*Microsoft Visual Studio Community 2022*](https://www.visualstudio.com/vs/).
+* *DOOM Retro* is now compiled using v17.2.4 of [*Microsoft Visual Studio Community 2022*](https://www.visualstudio.com/vs/).
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * If *DOOM Retro* happens to crash, the next time it is opened, a dialog box is now displayed that encourages the player to report what happened.
 * Minor changes have been made to text that is output to the console.
