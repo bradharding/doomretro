@@ -589,7 +589,7 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL(autoaim, "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles vertical autoaiming as the player fires their weapon while using mouselook."),
     CVAR_BOOL(autoload, "", bool_cvars_func1, bool_cvars_func2, CF_PISTOLSTART, BOOLVALUEALIAS,
-        "Toggles automatically loading the last savegame after the player dies."),
+        "Toggles automatically loading the last savegame if the player dies."),
     CVAR_BOOL(autosave, "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles automatically saving the game at the start of each map."),
     CVAR_BOOL(autotilt, "", bool_cvars_func1, autotilt_cvar_func2, CF_NONE, BOOLVALUEALIAS,
