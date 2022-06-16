@@ -242,7 +242,7 @@ char    *s_PD_BLUECO = "";
 char    *s_PD_REDCO = "";
 char    *s_PD_YELLOWCO = "";
 
-char    *s_SECRET = "";
+char    *s_SECRETFOUND = "";
 
 char    *s_GGSAVED = GGSAVED;
 char    *s_GGAUTOSAVED = "";
@@ -834,7 +834,7 @@ deh_strs deh_strlookup[] =
     { &s_PD_REDCO,                    "PD_REDCO"                    },
     { &s_PD_YELLOWCO,                 "PD_YELLOWCO"                 },
 
-    { &s_SECRET,                      "SECRET"                      },
+    { &s_SECRETFOUND,                 "SECRETFOUND"                 },
 
     { &s_GGSAVED,                     "GGSAVED"                     },
     { &s_GGAUTOSAVED,                 "GGAUTOSAVED"                 },

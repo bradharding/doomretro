@@ -161,7 +161,7 @@ extern char         *s_KEYCARD;
 extern char         *s_SKULLKEY;
 extern char         *s_KEYCARDORSKULLKEY;
 
-extern char         *s_SECRET;
+extern char         *s_SECRETFOUND;
 
 extern char         *s_GGSAVED;
 extern char         *s_GGAUTOSAVED;

@@ -5,7 +5,7 @@
 * *DOOM Retro* is now compiled using v17.2.4 of [*Microsoft Visual Studio Community 2022*](https://www.visualstudio.com/vs/).
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * *DOOM Retro* will now run again if installed into a folder that contains non-Latin characters in its name.
-* If *DOOM Retro* happens to crash, the next time it is opened, a dialog box is now displayed that encourages the player to report what happened.
+* If *DOOM Retro* crashes, the next time it is opened, a dialog box now appears encouraging the player to report what happened.
 * Minor changes have been made to text that is output to the console.
 * The amount of blood splats rendered depends on their distance from the player again.
 * A message is now displayed with an accompanying sound effect whenever the player finds a secret. This feature can be toggled using the new `secretmessages` CVAR, which is `on` by default and `off` when vanilla mode is enabled.

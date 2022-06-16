@@ -859,7 +859,7 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL(r_translucency, "", bool_cvars_func1, r_translucency_cvar_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles the translucency of sprites and " ITALICS("BOOM-") "compatible wall textures."),
     CCMD("regenhealth", "", null_func1, regenhealth_cmd_func2, true, "[" BOLD("on") "|" BOLD("off") "]",
-        "Toggles the regeneration of the player's health by 1% per second when it's below 100%."),
+        "Toggles regenerating the player's health by 1% per second when it's below 100%."),
     CCMD("remove", "", kill_cmd_func1, kill_cmd_func2, true, REMOVECMDFORMAT,
         "Removes all " BOLD("decorations") ", " BOLD("corpses") ", " BOLD("bloodsplats") ", " BOLD("items") ", a type of " \
         BOLDITALICS("item") ", or " BOLD("everything") "."),
@@ -886,7 +886,7 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL(s_randommusic, "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles randomizing the music in each map."),
     CVAR_BOOL(s_randompitch, "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
-        "Toggles randomizing the pitch of sounds made by monsters."),
+        "Toggles randomizing the pitch of sound effects made by monsters."),
     CVAR_INT(s_sfxvolume, "", s_volume_cvars_func1, s_volume_cvars_func2, CF_PERCENT, NOVALUEALIAS,
         "The volume level of sound effects (" BOLD("0%") " to " BOLD("100%") ")."),
     CVAR_BOOL(s_stereo, "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
