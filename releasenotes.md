@@ -4,7 +4,7 @@
 
 * *DOOM Retro* is now compiled using v17.2.4 of [*Microsoft Visual Studio Community 2022*](https://www.visualstudio.com/vs/).
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
-* *DOOM Retro* will now run if installed in a folder that contains non-Latin characters in its name.
+* *DOOM Retro* will now run again if installed into a folder that contains non-Latin characters in its name.
 * If *DOOM Retro* happens to crash, the next time it is opened, a dialog box is now displayed that encourages the player to report what happened.
 * Minor changes have been made to text that is output to the console.
 * The amount of blood splats rendered depends on their distance from the player again.
@@ -21,10 +21,10 @@
   * Using the `SHADOW` flag in `Bits` now always works as intended.
 * Minor improvements have been made to the display of player messages and the title in the automap.
 * The following changes have been made to brightmaps when the `r_brightmaps` CVAR is `on`:
-  * Minor improvements have been made to some brightmaps.
+  * Minor improvements have been made to the brightmaps of the `COMPUTE2` and `COMPUTE3` textures.
   * Brightmaps can now be applied to masked midtextures.
 * The existing feature of randomizing the start frame of certain sprites can now be toggled using the new `r_randomstartframes` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
-* The player’s speed when strafing using the mouse with the <kbd>ALT</kbd> key held down has been reduced, and is more consistent with using the <kbd>A</kbd> and <kbd>D</kbd> keys.
+* The player’s speed when strafing using the mouse and the <kbd>ALT</kbd> key held down has been reduced, and is more consistent with using the <kbd>A</kbd> and <kbd>D</kbd> keys.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

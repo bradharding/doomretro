@@ -886,7 +886,7 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL(s_randommusic, "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles randomizing the music in each map."),
     CVAR_BOOL(s_randompitch, "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
-        "Toggles randomizing the pitch of monster sound effects."),
+        "Toggles randomizing the pitch of sounds made by monsters."),
     CVAR_INT(s_sfxvolume, "", s_volume_cvars_func1, s_volume_cvars_func2, CF_PERCENT, NOVALUEALIAS,
         "The volume level of sound effects (" BOLD("0%") " to " BOLD("100%") ")."),
     CVAR_BOOL(s_stereo, "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
