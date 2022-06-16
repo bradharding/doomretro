@@ -50,26 +50,6 @@
 #define MAX_PATH    260
 #endif
 
-#if defined(_WIN32)
-FILE    *D_fopen(const char *filename, const char *mode);
-int     D_remove(const char *path);
-int     D_rename(const char *oldname, const char *newname);
-int     D_stat(const char *path, struct stat *buffer);
-int     D_mkdir(const char *dirname);
-
-#undef fopen
-#undef remove
-#undef rename
-#undef stat
-#undef mkdir
-
-#define fopen(filename, mode)       D_fopen(filename, mode)
-#define remove(path)                D_remove(path)
-#define rename(oldname, newname)    D_rename(oldname, newname)
-#define stat(path, buffer)          D_stat(path, buffer)
-#define mkdir(dirname)              D_mkdir(dirname)
-#endif
-
 typedef struct
 {
     FILE    *fstream;
