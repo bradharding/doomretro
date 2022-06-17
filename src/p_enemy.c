@@ -1557,8 +1557,11 @@ void A_VileTarget(mobj_t *actor, player_t *player, pspdef_t *psp)
     P_SetTarget(&fog->target, actor);
     P_SetTarget(&fog->tracer, target);
 
-    S_StartSound(fog, sfx_flamst);
-    S_UnlinkSound(fog);
+    if (!DSFLAMST)
+    {
+        S_StartSound(fog, sfx_flamst);
+        S_UnlinkSound(fog);
+    }
 
     A_Fire(fog, NULL, NULL);
 }

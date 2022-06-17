@@ -87,6 +87,7 @@ bool            moreblood;
 bool            modifiedgame = false;
 
 bool            DMENUPIC = false;
+bool            DSFLAMST;
 bool            FREEDOOM;
 bool            FREEDM;
 bool            M_DOOM;
