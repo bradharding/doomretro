@@ -2173,7 +2173,7 @@ static void P_SecretFound(void)
     if (messages && secretmessages)
     {
         S_StartSound(NULL, sfx_secret);
-        HU_SecretPlayerMessage(s_SECRETFOUND);
+        HU_SecretPlayerMessage(s_SECRETMESSAGE);
     }
 }
 
