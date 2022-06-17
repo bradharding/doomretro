@@ -1209,20 +1209,20 @@ void HU_Ticker(void)
 
         if (automapactive && !am_followmode)
         {
-            char        *temp = striptrailingzero((float)direction, 1);
-            mpoint_t    center = am_frame.center;
-            int         x = center.x >> MAPBITS;
-            int         y = center.y >> MAPBITS;
+            char            *temp = striptrailingzero((float)direction, 1);
+            const mpoint_t  center = am_frame.center;
+            const int       x = center.x >> MAPBITS;
+            const int       y = center.y >> MAPBITS;
 
             M_snprintf(buffer, sizeof(buffer), s_STSTR_MYPOS, temp, x, y, R_PointInSubsector(x, y)->sector->floorheight >> FRACBITS);
             free(temp);
         }
         else
         {
-            float   angle = viewangle * 90.0f / ANG90;
-            char    *temp = striptrailingzero((angle == 360.0f ? 0.0f : angle), 2);
-            mobj_t  *mo = viewplayer->mo;
-            int     z = mo->z;
+            const float angle = viewangle * 90.0f / ANG90;
+            char        *temp = striptrailingzero((angle == 360.0f ? 0.0f : angle), 2);
+            mobj_t      *mo = viewplayer->mo;
+            int         z = mo->z;
 
             if ((mo->flags2 & MF2_FEETARECLIPPED) && r_liquid_lowerview)
                 z -= FOOTCLIPSIZE;
@@ -1370,4 +1370,5 @@ void HU_ClearMessages(void)
     message_on = false;
     message_nottobefuckedwith = false;
     message_dontfuckwithme = false;
+    message_secret = false;
 }
