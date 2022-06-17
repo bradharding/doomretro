@@ -10,7 +10,7 @@
 * The amount of blood splats rendered depends on their distance from the player again.
 * A message is now displayed with an accompanying sound effect whenever the player finds a secret. This feature can be toggled using the new `secretmessages` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
 * `HELP`, `HELP1` and `HELP2` lumps in PWADs that are wider than 320 pixels are now displayed correctly when the <kbd><b>F1</b></kbd> key is pressed.
-* *DOOM Retro* now creates an `autoload` folder. Any `.wad`, `.deh` or `.bex` file placed in this folder, (or in the subfolder created based on the name of the IWAD or PWAD that is loaded), will then always be automatically loaded at startup.
+* *DOOM Retro* now creates an `autoload` folder. Any `.wad`, `.deh` or `.bex` file placed in this folder, (or in the subfolder based on the name of the current IWAD or PWAD), will then always be automatically loaded at startup.
 * The number of gamma correction levels set by the `r_gamma` CVAR that are brighter than `1.0` have been reduced.
 * Minor improvements have been made to how corpses move when the player or a monster walks over them and the `r_corpses_nudge` CVAR is `on`.
 * A crash no longer occurs when:
@@ -19,6 +19,7 @@
 * The following changes have been made to the support of `DEHACKED` lumps:
   * The player’s super shotgun is now positioned correctly if the offsets of any of its frames are changed.
   * Using the `SHADOW` flag in `Bits` now always works as intended.
+  * The widescreen HUD now isn’t displayed if `Initial Health` or `Max Health` are greater than 999.
 * Minor improvements have been made to the display of player messages and the title in the automap.
 * The following changes have been made to brightmaps when the `r_brightmaps` CVAR is `on`:
   * Minor improvements have been made to the brightmaps of the `COMPUTE2` and `COMPUTE3` textures.
