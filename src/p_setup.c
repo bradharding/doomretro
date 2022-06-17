@@ -105,6 +105,7 @@
 #define MCMD_COMPAT_LIMITPAIN       36
 #define MCMD_NOGRADUALLIGHTING      37
 #define MCMD_COMPAT_LIGHT           38
+#define MCMD_COMPAT_NOPASSOVER      39
 
 typedef struct mapinfo_s mapinfo_t;
 
@@ -140,6 +141,7 @@ struct mapinfo_s
     bool    compat_corpsegibs;
     bool    compat_light;
     bool    compat_limitpain;
+    bool    compat_nopassover;
     bool    nograduallighting;
 };
 
@@ -266,6 +268,7 @@ static char *mapcmdnames[] =
     "COMPAT_LIMITPAIN",
     "NOGRADUALLIGHTING",
     "COMPAT_LIGHT",
+    "COMPAT_NOPASSOVER",
     NULL
 };
 
@@ -307,13 +310,15 @@ static int mapcmdids[] =
     MCMD_COMPAT_VILEGHOSTS,
     MCMD_COMPAT_LIMITPAIN,
     MCMD_NOGRADUALLIGHTING,
-    MCMD_COMPAT_LIGHT
+    MCMD_COMPAT_LIGHT,
+    MCMD_COMPAT_NOPASSOVER
 };
 
 bool            allowmonstertelefrags;
 bool            compat_corpsegibs;
 bool            compat_light;
 bool            compat_limitpain;
+bool            compat_nopassover;
 bool            nograduallighting;
 
 bool            canmodify;
@@ -3097,6 +3102,7 @@ void P_SetupLevel(int ep, int map)
     compat_corpsegibs = mapinfo[map].compat_corpsegibs;
     compat_limitpain = mapinfo[map].compat_limitpain;
     compat_light = mapinfo[map].compat_light;
+    compat_nopassover = mapinfo[map].compat_nopassover;
     nograduallighting = mapinfo[map].nograduallighting;
 }
 
@@ -3548,6 +3554,10 @@ static void P_ParseMapInfo(char *scriptname)
 
                         case MCMD_COMPAT_LIGHT:
                             info->compat_light = true;
+                            break;
+
+                        case MCMD_COMPAT_NOPASSOVER:
+                            info->compat_nopassover = true;
                             break;
                     }
             }

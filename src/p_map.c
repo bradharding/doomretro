@@ -123,7 +123,8 @@ static bool PIT_StompThing(mobj_t *thing)
     if (!telefrag)          // killough 08/09/98: make consistent across all levels
         return false;
 
-    if (((tmthing->flags2 & MF2_PASSMOBJ) || (thing->flags2 & MF2_PASSMOBJ)) && !infiniteheight)
+    if (((tmthing->flags2 & MF2_PASSMOBJ) || (thing->flags2 & MF2_PASSMOBJ))
+        && !infiniteheight && !compat_nopassover)
     {
         if (tmz > thing->z + thing->height)
             return true;    // overhead
@@ -517,7 +518,8 @@ static bool PIT_CheckThing(mobj_t *thing)
     }
 
     // check if a mobj passed over/under another object
-    if (((tmthing->flags2 & MF2_PASSMOBJ) || (thing->flags2 & MF2_PASSMOBJ)) && !infiniteheight && !(flags & MF_SPECIAL))
+    if (((tmthing->flags2 & MF2_PASSMOBJ) || (thing->flags2 & MF2_PASSMOBJ))
+        && !infiniteheight && !compat_nopassover && !(flags & MF_SPECIAL))
     {
         if (tmthing->z >= thing->z + thing->height)
             return true;    // over thing
@@ -526,7 +528,7 @@ static bool PIT_CheckThing(mobj_t *thing)
     }
 
     // check for skulls slamming into things
-    if ((tmflags & MF_SKULLFLY) && ((flags & MF_SOLID) || infiniteheight))
+    if ((tmflags & MF_SKULLFLY) && ((flags & MF_SOLID) || infiniteheight || compat_nopassover))
     {
         P_DamageMobj(thing, tmthing, tmthing, ((M_Random() & 7) + 1) * tmthing->info->damage, true, false);
 
@@ -546,7 +548,7 @@ static bool PIT_CheckThing(mobj_t *thing)
     {
         int height = thing->info->projectilepassheight;
 
-        if (!height || infiniteheight)
+        if (!height || infiniteheight || compat_nopassover)
             height = thing->height;
 
         // see if it went over/under
@@ -1997,7 +1999,7 @@ bool PIT_RadiusAttack(mobj_t *thing)
 
     dist = MAX(ABS(thing->x - bombspot->x), ABS(thing->y - bombspot->y)) - thing->radius;
 
-    if (!bombverticality || infiniteheight || type == MT_BOSSBRAIN)
+    if (!bombverticality || infiniteheight || compat_nopassover || type == MT_BOSSBRAIN)
     {
         // [BH] if killing boss in DOOM II MAP30, use old code that
         //  doesn't use z height in blast radius

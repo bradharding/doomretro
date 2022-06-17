@@ -669,7 +669,7 @@ void P_MobjThinker(mobj_t *mobj)
         mobj->z += animatedliquiddiffs[((mobj->floatbob + animatedliquidtic) & 63)];
     else if (mobj->z != mobj->floorz || mobj->momz)
     {
-        if ((flags2 & MF2_PASSMOBJ) && !infiniteheight)
+        if ((flags2 & MF2_PASSMOBJ) && !infiniteheight && !compat_nopassover)
         {
             mobj_t  *onmo = P_CheckOnMobj(mobj);
 
