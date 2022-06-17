@@ -273,7 +273,7 @@ bool EV_DoLockedDoor(line_t *line, vldoor_e type, mobj_t *thing, fixed_t speed)
                     }
 
                     M_snprintf(buffer, sizeof(buffer), s_PD_BLUEO, playername,
-                        (M_StringCompare(playername, playername_default) ? "" : "s"), s_SKULLKEY);
+                        (M_StringCompare(playername, playername_default) ? "" : "s"), s_PD_SKULLKEY);
                 }
                 else
                 {
@@ -284,7 +284,7 @@ bool EV_DoLockedDoor(line_t *line, vldoor_e type, mobj_t *thing, fixed_t speed)
                     }
 
                     M_snprintf(buffer, sizeof(buffer), s_PD_BLUEO, playername,
-                        (M_StringCompare(playername, playername_default) ? "" : "s"), s_KEYCARD);
+                        (M_StringCompare(playername, playername_default) ? "" : "s"), s_PD_KEYCARD);
                 }
 
                 HU_PlayerMessage(buffer, false, false);
@@ -312,7 +312,7 @@ bool EV_DoLockedDoor(line_t *line, vldoor_e type, mobj_t *thing, fixed_t speed)
                     }
 
                     M_snprintf(buffer, sizeof(buffer), s_PD_REDO, playername,
-                        (M_StringCompare(playername, playername_default) ? "" : "s"), s_SKULLKEY);
+                        (M_StringCompare(playername, playername_default) ? "" : "s"), s_PD_SKULLKEY);
                 }
                 else
                 {
@@ -323,7 +323,7 @@ bool EV_DoLockedDoor(line_t *line, vldoor_e type, mobj_t *thing, fixed_t speed)
                     }
 
                     M_snprintf(buffer, sizeof(buffer), s_PD_REDO, playername,
-                        (M_StringCompare(playername, playername_default) ? "" : "s"), s_KEYCARD);
+                        (M_StringCompare(playername, playername_default) ? "" : "s"), s_PD_KEYCARD);
                 }
 
                 HU_PlayerMessage(buffer, false, false);
@@ -351,7 +351,7 @@ bool EV_DoLockedDoor(line_t *line, vldoor_e type, mobj_t *thing, fixed_t speed)
                     }
 
                     M_snprintf(buffer, sizeof(buffer), s_PD_YELLOWO, playername,
-                        (M_StringCompare(playername, playername_default) ? "" : "s"), s_SKULLKEY);
+                        (M_StringCompare(playername, playername_default) ? "" : "s"), s_PD_SKULLKEY);
                 }
                 else
                 {
@@ -362,7 +362,7 @@ bool EV_DoLockedDoor(line_t *line, vldoor_e type, mobj_t *thing, fixed_t speed)
                     }
 
                     M_snprintf(buffer, sizeof(buffer), s_PD_YELLOWO, playername,
-                        (M_StringCompare(playername, playername_default) ? "" : "s"), s_KEYCARD);
+                        (M_StringCompare(playername, playername_default) ? "" : "s"), s_PD_KEYCARD);
                 }
 
                 HU_PlayerMessage(buffer, false, false);
@@ -530,7 +530,7 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
                     }
 
                     M_snprintf(buffer, sizeof(buffer), s_PD_BLUEK, playername,
-                        (M_StringCompare(playername, playername_default) ? "" : "s"), s_SKULLKEY);
+                        (M_StringCompare(playername, playername_default) ? "" : "s"), s_PD_SKULLKEY);
                 }
                 else
                 {
@@ -541,7 +541,7 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
                     }
 
                     M_snprintf(buffer, sizeof(buffer), s_PD_BLUEK, playername,
-                        (M_StringCompare(playername, playername_default) ? "" : "s"), s_KEYCARD);
+                        (M_StringCompare(playername, playername_default) ? "" : "s"), s_PD_KEYCARD);
                 }
 
                 HU_PlayerMessage(buffer, false, false);
@@ -572,7 +572,7 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
                     }
 
                     M_snprintf(buffer, sizeof(buffer), s_PD_YELLOWK, playername,
-                        (M_StringCompare(playername, playername_default) ? "" : "s"), s_SKULLKEY);
+                        (M_StringCompare(playername, playername_default) ? "" : "s"), s_PD_SKULLKEY);
                 }
                 else
                 {
@@ -583,7 +583,7 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
                     }
 
                     M_snprintf(buffer, sizeof(buffer), s_PD_YELLOWK, playername,
-                        (M_StringCompare(playername, playername_default) ? "" : "s"), s_KEYCARD);
+                        (M_StringCompare(playername, playername_default) ? "" : "s"), s_PD_KEYCARD);
                 }
 
                 HU_PlayerMessage(buffer, false, false);
@@ -614,7 +614,7 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
                     }
 
                     M_snprintf(buffer, sizeof(buffer), s_PD_REDK, playername,
-                        (M_StringCompare(playername, playername_default) ? "" : "s"), s_SKULLKEY);
+                        (M_StringCompare(playername, playername_default) ? "" : "s"), s_PD_SKULLKEY);
                 }
                 else
                 {
@@ -625,7 +625,7 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
                     }
 
                     M_snprintf(buffer, sizeof(buffer), s_PD_REDK, playername,
-                        (M_StringCompare(playername, playername_default) ? "" : "s"), s_KEYCARD);
+                        (M_StringCompare(playername, playername_default) ? "" : "s"), s_PD_KEYCARD);
                 }
 
                 HU_PlayerMessage(buffer, false, false);

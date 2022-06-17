@@ -235,9 +235,9 @@ char    *s_PD_YELLOWS = "";
 char    *s_PD_ANY = "";
 char    *s_PD_ALL3 = "";
 char    *s_PD_ALL6 = "";
-char    *s_KEYCARD = "";
-char    *s_SKULLKEY = "";
-char    *s_KEYCARDORSKULLKEY = "";
+char    *s_PD_KEYCARD = "";
+char    *s_PD_SKULLKEY = "";
+char    *s_PD_KEYCARDORSKULLKEY = "";
 char    *s_PD_BLUECO = "";
 char    *s_PD_REDCO = "";
 char    *s_PD_YELLOWCO = "";
@@ -827,9 +827,9 @@ deh_strs deh_strlookup[] =
     { &s_PD_ANY,                      "PD_ANY"                      },
     { &s_PD_ALL3,                     "PD_ALL3"                     },
     { &s_PD_ALL6,                     "PD_ALL6"                     },
-    { &s_KEYCARD,                     "KEYCARD"                     },
-    { &s_SKULLKEY,                    "SKULLKEY"                    },
-    { &s_KEYCARDORSKULLKEY,           "KEYCARDORSKULLKEY"           },
+    { &s_PD_KEYCARD,                  "PD_KEYCARD"                  },
+    { &s_PD_SKULLKEY,                 "PD_SKULLKEY"                 },
+    { &s_PD_KEYCARDORSKULLKEY,        "PD_KEYCARDORSKULLKEY"        },
     { &s_PD_BLUECO,                   "PD_BLUECO"                   },
     { &s_PD_REDCO,                    "PD_REDCO"                    },
     { &s_PD_YELLOWCO,                 "PD_YELLOWCO"                 },
