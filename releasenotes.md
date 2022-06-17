@@ -19,7 +19,7 @@
 * The following changes have been made to the support of `DEHACKED` lumps:
   * The player’s super shotgun is now positioned correctly if the offsets of any of its frames are changed.
   * Using the `SHADOW` flag in `Bits` now always works as intended.
-  * The widescreen HUD now isn’t displayed if `Initial Health` or `Max Health` are greater than 999.
+  * The widescreen HUD will no longer crash if `Initial Health` or `Max Health` are changed to a value of 1,000 or greater.
 * Minor improvements have been made to the display of player messages and the title in the automap.
 * The following changes have been made to brightmaps when the `r_brightmaps` CVAR is `on`:
   * Minor improvements have been made to the brightmaps of the `COMPUTE2` and `COMPUTE3` textures.

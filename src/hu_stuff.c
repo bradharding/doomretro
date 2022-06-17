@@ -530,8 +530,8 @@ int armorhighlight = 0;
 
 static void HU_DrawHUD(void)
 {
-    const int   health = MAX(health_min, viewplayer->health);
-    const int   armor = viewplayer->armorpoints;
+    const int   health = BETWEEN(health_min, viewplayer->health, HUD_NUMBER_MAX);
+    const int   armor = MIN(viewplayer->armorpoints, HUD_NUMBER_MAX);
     static bool healthanim;
     const bool  gamepaused = (consoleactive || freeze);
     byte        *translucency = (health <= 0 || (health < HUD_HEALTH_MIN && healthanim)
@@ -541,9 +541,6 @@ static void HU_DrawHUD(void)
     int         keypic_x = HUD_KEYS_X;
     static int  keywait;
     static bool  showkey;
-
-    if (health > HUD_NUMBER_MAX || armor > HUD_NUMBER_MAX)
-        return;
 
     if (patch)
         hudfunc(HUD_HEALTH_X - SHORT(patch->width) / 2 - 1, HUD_HEALTH_Y - SHORT(patch->height) - 2, patch, tinttab75);
@@ -906,8 +903,8 @@ static void HU_DrawAltHUD(void)
 {
     const int   color = (((viewplayer->fixedcolormap == INVERSECOLORMAP) ^ (!r_textures)) ?
                     colormaps[0][32 * 256 + nearestwhite] : nearestwhite);
-    int         health = MAX(health_min, viewplayer->health);
-    int         armor = viewplayer->armorpoints;
+    int         health = BETWEEN(health_min, viewplayer->health, HUD_NUMBER_MAX);
+    int         armor = MIN(viewplayer->armorpoints, HUD_NUMBER_MAX);
     int         barcolor2 = (health < HUD_HEALTH_MIN ? red : (health >= 100 ? green : color));
     int         barcolor1 = barcolor2;
     int         keypic_x = ALTHUD_RIGHT_X;
@@ -916,9 +913,6 @@ static void HU_DrawAltHUD(void)
     int         powerup = 0;
     int         powerupbar = 0;
     int         max = 1;
-
-    if (health > HUD_NUMBER_MAX || armor > HUD_NUMBER_MAX)
-        return;
 
     if (barcolor1 == green)
         barcolor1 += coloroffset;
