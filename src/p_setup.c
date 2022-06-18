@@ -3147,7 +3147,7 @@ static void P_InitMapInfo(void)
     }
 }
 
-static void P_ParseMapInfo(char *scriptname)
+static bool P_ParseMapInfo(char *scriptname)
 {
     int         mapmax = 1;
     int         mcmdvalue;
@@ -3157,7 +3157,7 @@ static void P_ParseMapInfo(char *scriptname)
     char        *temp2;
 
     if ((mapinfolump = W_CheckNumForName(scriptname)) < 0)
-        return;
+        return false;
 
     MAPINFO = mapinfolump;
 
@@ -3584,6 +3584,8 @@ static void P_ParseMapInfo(char *scriptname)
         temp2, (lumpinfo[MAPINFO]->wadfile->type == IWAD ? "IWAD" : "PWAD"), lumpinfo[MAPINFO]->wadfile->path);
     free(temp1);
     free(temp2);
+
+    return true;
 }
 
 char *P_GetMapAuthor(int map)
@@ -3716,10 +3718,11 @@ void P_Init(void)
     if (!M_CheckParm("-nomapinfo") && !sigil)
     {
         P_InitMapInfo();
-        P_ParseMapInfo("ZMAPINFO");
-        P_ParseMapInfo("MAPINFO");
-        P_ParseMapInfo("UMAPINFO");
-        P_ParseMapInfo("RMAPINFO");
+
+        if (!P_ParseMapInfo("RMAPINFO"))
+            if (!P_ParseMapInfo("UMAPINFO"))
+                if (!P_ParseMapInfo("MAPINFO"))
+                    P_ParseMapInfo("ZMAPINFO");
 
         if (nojump && (keyboardjump || mousejump != -1 || gamecontrollerjump))
             C_Warning(1, "This %s has disabled use of the " BOLD("+jump") " action.",
