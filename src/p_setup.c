@@ -3669,20 +3669,10 @@ int P_GetMapNext(int map)
     return mapinfo[map].next;
 }
 
-bool P_GetMapNoJump(int map)
-{
-    return (MAPINFO >= 0 ? mapinfo[map].nojump : nojump);
-}
-
 void P_GetMapNoLiquids(int map)
 {
     for (int i = 0; i < noliquidlumps; i++)
         terraintypes[mapinfo[map].noliquid[i]] = SOLID;
-}
-
-bool P_GetMapNoMouselook(int map)
-{
-    return (MAPINFO >= 0 ? mapinfo[map].nomouselook : nomouselook);
 }
 
 int P_GetMapPar(int map)
