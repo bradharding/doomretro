@@ -10,7 +10,6 @@ am_cdwallcolor 231
 am_crosshaircolor 96
 am_external off
 am_fdwallcolor 64
-am_grid off
 am_gridcolor 104
 am_gridsize 128x128
 am_markcolor 103
