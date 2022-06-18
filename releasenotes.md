@@ -10,7 +10,7 @@
 * The amount of blood splats rendered depends on their distance from the player again.
 * A message is now displayed with an accompanying sound effect whenever the player finds a secret. This feature can be toggled using the new `secretmessages` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
 * `HELP`, `HELP1` and `HELP2` lumps in PWADs that are wider than 320 pixels are now displayed correctly when the <kbd><b>F1</b></kbd> key is pressed.
-* *DOOM Retro* now creates an `autoload` folder. Any `.wad`, `.deh` or `.bex` file placed in this folder, (or in the subfolder based on the name of the current IWAD or PWAD), will then always be automatically loaded at startup.
+* If it doesn’t already exist, *DOOM Retro* now creates an `autoload` folder at startup. Any `.wad`, `.deh` or `.bex` file that has been placed in this folder, (or in a subfolder based on the name of the current WAD), will then always be automatically loaded at startup.
 * The number of gamma correction levels set by the `r_gamma` CVAR that are brighter than `1.0` have been reduced.
 * Minor improvements have been made to how corpses move when the player or a monster walks over them and the `r_corpses_nudge` CVAR is `on`.
 * A crash no longer occurs when:
@@ -21,8 +21,8 @@
   * Using the `SHADOW` flag in `Bits` now always works as intended.
   * The widescreen HUD will no longer crash if `Initial Health` or `Max Health` are changed to a value of 1,000 or greater.
 * The following changes have been made to the support of `MAPINFO` lumps:
-  * `nojump` and `nomouselook` now work as intended.
-  * `compat_nopassover` can now be used in `MAPINFO` lumps to override the effects of when the `infiniteheight` CVAR is `on`.
+  * `nofreelook` and `nojump` now work as intended.
+  * `compat_nopassover` can now be used to override the effects of when the `infiniteheight` CVAR is `on`.
 * Minor improvements have been made to the display of player messages and the title in the automap.
 * The following changes have been made to brightmaps when the `r_brightmaps` CVAR is `on`:
   * Minor improvements have been made to the brightmaps of the `COMPUTE2` and `COMPUTE3` textures.
