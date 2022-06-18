@@ -29,7 +29,7 @@
   * Brightmaps can now be applied to masked midtextures.
 * The existing feature of randomizing the start frame of certain sprites can now be toggled using the new `r_randomstartframes` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
 * The player’s speed when strafing using the mouse and the <kbd>ALT</kbd> key held down has been reduced, and is more consistent with using the <kbd>A</kbd> and <kbd>D</kbd> keys.
-* The `am_grid` CVAR no longer changes when enabling vanilla mode using the `vanilla` CCMD.
+* The `am_grid` CVAR no longer turned `off` when enabling vanilla mode using the `vanilla` CCMD.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
