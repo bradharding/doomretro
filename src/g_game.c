@@ -1159,7 +1159,7 @@ void G_ScreenShot(void)
 bool    newpars = false;
 
 // DOOM Par Times
-int pars[6][10] =
+int pars[10][10] =
 {
     { 0 },
     { 0,  30,  75, 120,  90, 165, 180, 180, 165, 165 },
@@ -1172,7 +1172,7 @@ int pars[6][10] =
 };
 
 // DOOM II Par Times
-int cpars[33] =
+int cpars[100] =
 {
      30,  90, 120, 120,  90, 150, 120, 120, 270,  90,   // 01-10
     210, 150, 150, 150, 210, 150, 420, 150, 210, 150,   // 11-20
