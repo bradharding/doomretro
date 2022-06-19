@@ -100,7 +100,7 @@ void V_InitColorTranslation(void)
     for (const crdef_t *p = crdefs; *p->name; p++)
         *p->map = W_CacheLumpName(p->name);
 
-    redtoblue = colrngs[CR_BLUE];
+    redtoblue = colrngs[CR_BLUE2];
     redtogreen = colrngs[CR_GREEN];
     redtogold = colrngs[CR_GOLD];
 }
