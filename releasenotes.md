@@ -5,13 +5,13 @@
 * *DOOM Retro* is now compiled using v17.2.4 of [*Microsoft Visual Studio Community 2022*](https://www.visualstudio.com/vs/).
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * *DOOM Retro* will now run again if installed into a folder that contains non-Latin characters in its name.
-* If *DOOM Retro* crashes, the next time it is opened, a dialog box now appears encouraging the player to report what happened.
+* If *DOOM Retro* crashes, the next time it is opened, a dialog box now appears encouraging the player to contribute to *DOOM Retro’s* development by reporting what happened.
 * Minor changes have been made to text that is output to the console.
 * The amount of blood splats rendered depends on their distance from the player again.
 * A message is now displayed with an accompanying sound effect whenever the player finds a secret. This feature can be toggled using the new `secretmessages` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
 * `HELP`, `HELP1` and `HELP2` lumps in PWADs that are wider than 320 pixels are now displayed correctly when the <kbd><b>F1</b></kbd> key is pressed.
-* If it doesn’t already exist, *DOOM Retro* now creates an `autoload` folder at startup. Any `.wad`, `.deh` or `.bex` file that has been placed in this folder, (or in a subfolder based on the name of the current WAD), will then always be automatically loaded at startup.
-* The number of gamma correction levels set by the `r_gamma` CVAR that are brighter than `1.0` have been reduced.
+* If it doesn’t already exist, *DOOM Retro* now creates an `autoload` folder at startup. Any `.wad`, `.deh` or `.bex` file that has been placed in this folder, (or in a subfolder based on the name of the currently loaded WAD), will then always be automatically loaded at startup.
+* The number of gamma correction levels set by the `r_gamma` CVAR that are brighter than `1.0` has been reduced.
 * Minor improvements have been made to how corpses move when the player or a monster walks over them and the `r_corpses_nudge` CVAR is `on`.
 * A crash no longer occurs when:
   * Entering the `IDBEHOLD` cheat while the alternate widescreen HUD is displayed.
@@ -19,7 +19,7 @@
 * The following changes have been made to the support of `DEHACKED` lumps:
   * The player’s super shotgun is now positioned correctly if the offsets of any of its frames are changed.
   * Using the `SHADOW` flag in `Bits` now always works as intended.
-  * A crash no longer occurs when attempting to display the player’s health in the widescreen HUD if `Initial Health` or `Max Health` are changed to a value of 1,000 or greater.
+  * A crash no longer occurs when attempting to display the player’s health in the widescreen HUD if `Initial Health` or `Max Health` are changed to a value greater than `999`.
   * Gibbing corpses are no longer affected if `Exploding frame` is changed.
 * The following changes have been made to the support of `MAPINFO` lumps:
   * `nofreelook` and `nojump` now work as intended.

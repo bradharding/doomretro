@@ -128,16 +128,16 @@ void STlib_UpdateBigAmmoNum(st_number_t *n)
     {
         int         num = *n->num;
         int         x = n->x;
-        const int   w = SHORT(n->p[0]->width);
+        const int   width = SHORT(n->p[0]->width);
 
         // in the special case of 0, you draw 0
         if (!num)
-            V_DrawPatch(x - w, n->y, 0, n->p[0]);
+            V_DrawPatch(x - width, n->y, 0, n->p[0]);
         else
             // draw the new number
             while (num)
             {
-                V_DrawPatch((x -= w), n->y, 0, n->p[num % 10]);
+                V_DrawPatch((x -= width), n->y, 0, n->p[num % 10]);
                 num /= 10;
             }
     }
@@ -147,16 +147,16 @@ void STlib_UpdateBigArmorNum(st_number_t *n)
 {
     int         num = *n->num;
     int         x = n->x;
-    const int   w = SHORT(n->p[0]->width);
+    const int   width = SHORT(n->p[0]->width);
 
     // in the special case of 0, you draw 0
     if (!num)
-        V_DrawPatch(x - w, n->y, 0, n->p[0]);
+        V_DrawPatch(x - width, n->y, 0, n->p[0]);
     else
         // draw the new number
         while (num)
         {
-            V_DrawPatch((x -= w), n->y, 0, n->p[num % 10]);
+            V_DrawPatch((x -= width), n->y, 0, n->p[num % 10]);
             num /= 10;
         }
 }
@@ -165,16 +165,16 @@ void STlib_UpdateBigHealthNum(st_number_t *n)
 {
     int         num = (negativehealth ? ABS(*n->num) : MAX(0, *n->num));
     int         x = n->x;
-    const int   w = SHORT(n->p[0]->width);
+    const int   width = SHORT(n->p[0]->width);
 
     // in the special case of 0, you draw 0
     if (!num)
-        V_DrawPatch(x - w, n->y, 0, n->p[0]);
+        V_DrawPatch(x - width, n->y, 0, n->p[0]);
     else
         // draw the new number
         while (num)
         {
-            V_DrawPatch((x -= w), n->y, 0, n->p[num % 10]);
+            V_DrawPatch((x -= width), n->y, 0, n->p[num % 10]);
             num /= 10;
         }
 

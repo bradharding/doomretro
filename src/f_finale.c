@@ -393,7 +393,7 @@ static void F_TextWrite(void)
     {
         char    letter = *ch++;
         int     c;
-        int     w;
+        int     width;
 
         if (!letter)
             break;
@@ -422,7 +422,7 @@ static void F_TextWrite(void)
 
         if (STCFNxxx)
         {
-            w = SHORT(hu_font[c]->width);
+            width = SHORT(hu_font[c]->width);
             V_DrawPatchWithShadow(cx + 1, cy + 1, hu_font[c], false);
         }
         else
@@ -448,12 +448,12 @@ static void F_TextWrite(void)
                 k++;
             }
 
-            w = (int)strlen(smallcharset[c]) / 10 - 1;
+            width = (int)strlen(smallcharset[c]) / 10 - 1;
             M_DrawSmallChar(cx + 1, cy + 1, c, true);
         }
 
         prev = letter;
-        cx += w;
+        cx += width;
     }
 }
 

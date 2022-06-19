@@ -1217,11 +1217,11 @@ void R_DrawPausedFuzzColumn(void)
 
 void R_DrawFuzzColumns(void)
 {
-    const int   w = viewwindowx + viewwidth;
-    const int   h = (viewwindowy + viewheight) * SCREENWIDTH;
+    const int   width = viewwindowx + viewwidth;
+    const int   height = (viewwindowy + viewheight) * SCREENWIDTH;
 
-    for (int x = viewwindowx; x < w; x++)
-        for (int y = viewwindowy * SCREENWIDTH; y < h; y += SCREENWIDTH)
+    for (int x = viewwindowx; x < width; x++)
+        for (int y = viewwindowy * SCREENWIDTH; y < height; y += SCREENWIDTH)
         {
             const int   i = x + y;
             byte        *src = screens[1] + i;
@@ -1236,7 +1236,7 @@ void R_DrawFuzzColumns(void)
                     if (!(M_BigRandom() & 3))
                         *dest = fullcolormap[12 * 256 + dest[(fuzztable[i] = FUZZ(-1, 1))]];
                 }
-                else if (y == h - SCREENWIDTH)
+                else if (y == height - SCREENWIDTH)
                 {
                     // bottom of view
                     *dest = fullcolormap[5 * 256 + dest[(fuzztable[i] = FUZZ(-1, 0))]];
@@ -1264,11 +1264,11 @@ void R_DrawFuzzColumns(void)
 
 void R_DrawPausedFuzzColumns(void)
 {
-    const int   w = viewwindowx + viewwidth;
-    const int   h = (viewwindowy + viewheight) * SCREENWIDTH;
+    const int   width = viewwindowx + viewwidth;
+    const int   height = (viewwindowy + viewheight) * SCREENWIDTH;
 
-    for (int x = viewwindowx; x < w; x++)
-        for (int y = viewwindowy * SCREENWIDTH; y < h; y += SCREENWIDTH)
+    for (int x = viewwindowx; x < width; x++)
+        for (int y = viewwindowy * SCREENWIDTH; y < height; y += SCREENWIDTH)
         {
             const int   i = x + y;
             byte        *src = screens[1] + i;
@@ -1283,7 +1283,7 @@ void R_DrawPausedFuzzColumns(void)
                     if (!fuzztable[i])
                         *dest = fullcolormap[12 * 256 + dest[fuzztable[i]]];
                 }
-                else if (y == h - SCREENWIDTH)
+                else if (y == height - SCREENWIDTH)
                 {
                     // bottom of view
                     *dest = fullcolormap[5 * 256 + dest[fuzztable[i]]];

@@ -305,11 +305,11 @@ static void WI_SlamBackground(void)
 // [BH] Draws character of "<Levelname>"
 static void WI_DrawWILVchar(int x, int y, int i)
 {
-    const int   w = (int)strlen(wilv[i]) / 13;
+    const int   width = (int)strlen(wilv[i]) / 13;
 
     for (int y1 = 0; y1 < 13; y1++)
-        for (int x1 = 0; x1 < w; x1++)
-            V_DrawPixel(x + x1, y + y1, (int)wilv[i][y1 * w + x1], true);
+        for (int x1 = 0; x1 < width; x1++)
+            V_DrawPixel(x + x1, y + y1, (int)wilv[i][y1 * width + x1], true);
 }
 
 static char mapname[128];
@@ -335,17 +335,17 @@ static const int chartoi[130] =
 static void WI_DrawWILV(int y, char *str)
 {
     const int   len = (int)strlen(str);
-    int         w = 0;
+    int         width = 0;
     int         x;
 
     for (int i = 0; i < len; i++)
     {
         int j = chartoi[(int)str[i]];
 
-        w += (j == -1 ? 6 : ((int)strlen(wilv[j]) / 13 - 2));
+        width += (j == -1 ? 6 : ((int)strlen(wilv[j]) / 13 - 2));
     }
 
-    x = (VANILLAWIDTH - w - 1) / 2;
+    x = (VANILLAWIDTH - width - 1) / 2;
 
     for (int i = 0; i < len; i++)
     {

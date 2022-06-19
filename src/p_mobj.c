@@ -940,7 +940,7 @@ mobjtype_t P_FindDoomedNum(int type)
         for (int j = 0; j < NUMMOBJTYPES; j++)
             if (mobjinfo[j].doomednum != -1)
             {
-                int    h = mobjinfo[j].doomednum % NUMMOBJTYPES;
+                const int   h = mobjinfo[j].doomednum % NUMMOBJTYPES;
 
                 hash[j].next = hash[h].first;
                 hash[h].first = j;

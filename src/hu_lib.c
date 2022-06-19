@@ -84,12 +84,12 @@ bool HUlib_AddCharToTextLine(hu_textline_t *t, char ch)
 // [BH] draw an individual character to temporary buffer
 static void HU_DrawChar(int x, int y, int ch, byte *screen, int screenwidth)
 {
-    const int   w = (int)strlen(smallcharset[ch]) / 10;
+    const int   width = (int)strlen(smallcharset[ch]) / 10;
 
     for (int y1 = 0; y1 < 10; y1++)
-        for (int x1 = 0; x1 < w; x1++)
+        for (int x1 = 0; x1 < width; x1++)
         {
-            const unsigned char src = smallcharset[ch][y1 * w + x1];
+            const unsigned char src = smallcharset[ch][y1 * width + x1];
             const int           i = (x + x1) * SCREENSCALE;
             const int           j = (y + y1) * SCREENSCALE;
 
@@ -108,12 +108,12 @@ static void HU_DrawChar(int x, int y, int ch, byte *screen, int screenwidth)
 
 static void HU_DrawTranslucentChar(int x, int y, int ch, byte *screen, int screenwidth)
 {
-    const int   w = (int)strlen(smallcharset[ch]) / 10;
+    const int   width = (int)strlen(smallcharset[ch]) / 10;
 
     for (int y1 = 0; y1 < 10; y1++)
-        for (int x1 = 0; x1 < w; x1++)
+        for (int x1 = 0; x1 < width; x1++)
         {
-            const unsigned char src = smallcharset[ch][y1 * w + x1];
+            const unsigned char src = smallcharset[ch][y1 * width + x1];
             const int           i = (x + x1) * SCREENSCALE;
             const int           j = (y + y1) * SCREENSCALE;
 
@@ -433,7 +433,7 @@ static void HUlib_DrawTextLine(hu_textline_t *l, bool external)
 
 void HUlib_DrawAutomapTextLine(hu_textline_t *l, bool external)
 {
-    const int       w = (external ? MAPWIDTH : SCREENWIDTH);
+    const int       width = (external ? MAPWIDTH : SCREENWIDTH);
     int             x = l->x;
     int             y = l->y;
     unsigned char   prev = '\0';
@@ -474,9 +474,9 @@ void HUlib_DrawAutomapTextLine(hu_textline_t *l, bool external)
                     x -= 2;
 
                 if (r_hud_translucency)
-                    V_DrawTranslucentHUDText(x, y - 1, fb, l->f[c - l->sc], w);
+                    V_DrawTranslucentHUDText(x, y - 1, fb, l->f[c - l->sc], width);
                 else
-                    V_DrawHUDText(x, y - 1, fb, l->f[c - l->sc], w);
+                    V_DrawHUDText(x, y - 1, fb, l->f[c - l->sc], width);
             }
             else
             {
@@ -500,9 +500,9 @@ void HUlib_DrawAutomapTextLine(hu_textline_t *l, bool external)
                 }
 
                 if (r_hud_translucency)
-                    HU_DrawTranslucentChar(x / 2, y / 2 - 1, j, fb, w);
+                    HU_DrawTranslucentChar(x / 2, y / 2 - 1, j, fb, width);
                 else
-                    HU_DrawChar(x / 2, y / 2 - 1, j, fb, w);
+                    HU_DrawChar(x / 2, y / 2 - 1, j, fb, width);
             }
 
             x += SHORT(l->f[c - l->sc]->width) * 2;

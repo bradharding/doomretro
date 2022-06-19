@@ -1148,9 +1148,9 @@ static void M_DrawSave(void)
 
                 if (showcaret)
                 {
-                    int h = y + SHORT(hu_font[0]->height);
+                    const int   height = y + SHORT(hu_font[0]->height);
 
-                    while (y < h)
+                    while (y < height)
                         V_DrawPixel(x, y++, caretcolor, false);
                 }
             }
@@ -2370,14 +2370,14 @@ int M_StringWidth(char *string)
 //
 static int M_StringHeight(char *string)
 {
-    int         h = (STCFNxxx ? SHORT(hu_font[0]->height) : 8);
+    int         height = (STCFNxxx ? SHORT(hu_font[0]->height) : 8);
     const int   len = (int)strlen(string);
 
     for (int i = 1; i < len; i++)
         if (string[i] == '\n')
-            h += (string[i - 1] == '\n' ? 3 : (STCFNxxx ? SHORT(hu_font[0]->height) : 8) + 1);
+            height += (string[i - 1] == '\n' ? 3 : (STCFNxxx ? SHORT(hu_font[0]->height) : 8) + 1);
 
-    return h;
+    return height;
 }
 
 //

@@ -76,7 +76,7 @@ const byte  *redtogold;
 typedef struct
 {
     const char  *name;
-    const byte  **map;
+    const byte  **lump;
 } colortranslation_t;
 
 static const colortranslation_t colortranslations[] =
@@ -98,7 +98,7 @@ static const colortranslation_t colortranslations[] =
 void V_InitColorTranslation(void)
 {
     for (const colortranslation_t *p = colortranslations; *p->name; p++)
-        *p->map = W_CacheLumpName(p->name);
+        *p->lump = W_CacheLumpName(p->name);
 
     redtoblue = colortranslation[CR_BLUE2];
     redtogreen = colortranslation[CR_GREEN];
