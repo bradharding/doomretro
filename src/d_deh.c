@@ -42,6 +42,7 @@
 #include "d_deh.h"
 #include "doomstat.h"
 #include "dstrings.h"
+#include "g_game.h"
 #include "i_system.h"
 #include "m_cheat.h"
 #include "m_misc.h"
@@ -3274,10 +3275,6 @@ static void deh_procSprite(DEHFILE *fpin, char *line)   // Not supported
             C_Output("- %s", inbuffer);
     }
 }
-
-extern bool newpars;
-extern int  pars[6][10];
-extern int  cpars[33];
 
 // ====================================================================
 // deh_procPars

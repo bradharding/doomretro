@@ -20,9 +20,10 @@
   * The player’s super shotgun is now positioned correctly if the offsets of any of its frames are changed.
   * Using the `SHADOW` flag in `Bits` now always works as intended.
   * The widescreen HUD will no longer crash if `Initial Health` or `Max Health` are changed to a value of 1,000 or greater.
+  * Gibbing corpses are no longer be affected if `Exploding frame` is changed.
 * The following changes have been made to the support of `MAPINFO` lumps:
   * `nofreelook` and `nojump` now work as intended.
-  * `compat_nopassover` can now be used to override the effects of when the `infiniteheight` CVAR is `on`.
+  * `compat_nopassover` can now be used to override the effects of when the `infiniteheight` CVAR is `off`.
 * Minor improvements have been made to the display of player messages and the title in the automap.
 * The following changes have been made to brightmaps when the `r_brightmaps` CVAR is `on`:
   * Minor improvements have been made to the brightmaps of the `COMPUTE2` and `COMPUTE3` textures.

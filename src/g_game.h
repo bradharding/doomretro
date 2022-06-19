@@ -118,3 +118,6 @@ extern char         savename[MAX_PATH];
 extern bool         usemouselook;
 extern bool         secretexit;
 extern gameaction_t loadaction;
+extern bool         newpars;
+extern int          pars[10][10];
+extern int          cpars[100];
