@@ -2176,7 +2176,7 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
 
             if (state != S_NULL && target->state < &states[state])
             {
-                while (states[state].nextstate != S_NULL)
+                while (states[state].nextstate == state + 1)
                     state++;
 
                 P_SetMobjState(target, state);
