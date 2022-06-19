@@ -42,6 +42,7 @@
 #include <unistd.h>
 #endif
 
+#include "c_cmds.h"
 #include "c_console.h"
 #include "d_main.h"
 #include "i_gamecontroller.h"
@@ -207,8 +208,8 @@ void I_PrintWindowsVersion(void)
 
 void I_PrintSystemInfo(void)
 {
-    int     cores = SDL_GetCPUCount();
-    char    *RAM = commify(SDL_GetSystemRAM() / 1000);
+    const int   cores = SDL_GetCPUCount();
+    char        *RAM = commify(SDL_GetSystemRAM() / 1000);
 
     C_Output("There %s %i core%s and %sGB of RAM on this " PCHW ".", (cores == 1 ? "is" : "are"), cores, (cores == 1 ? "" : "s"), RAM);
     free(RAM);
@@ -225,6 +226,9 @@ void I_Quit(bool shutdown)
 {
     if (shutdown)
     {
+        if (vanilla)
+            vanilla_cmd_func2("vanilla", "off");
+
         D_FadeScreenToBlack();
 
         S_Shutdown();
@@ -261,6 +265,9 @@ void I_Error(const char *error, ...)
         exit(-1);
 
     already_quitting = true;
+
+    if (vanilla)
+        vanilla_cmd_func2("vanilla", "off");
 
     // Shutdown. Here might be other errors.
     S_Shutdown();

@@ -137,6 +137,7 @@ extern bool             nobindoutput;
 
 void alias_cmd_func2(char *cmd, char *parms);
 void bind_cmd_func2(char *cmd, char *parms);
+void vanilla_cmd_func2(char *cmd, char *parms);
 
 int C_GetIndex(const char *cmd);
 bool C_ExecuteAlias(const char *alias);

@@ -390,7 +390,6 @@ static void thinglist_cmd_func2(char *cmd, char *parms);
 static void timer_cmd_func2(char *cmd, char *parms);
 static void toggle_cmd_func2(char *cmd, char *parms);
 static void unbind_cmd_func2(char *cmd, char *parms);
-static void vanilla_cmd_func2(char *cmd, char *parms);
 
 static bool bool_cvars_func1(char *cmd, char *parms);
 static void bool_cvars_func2(char *cmd, char *parms);
@@ -7694,7 +7693,7 @@ static void unbind_cmd_func2(char *cmd, char *parms)
 //
 // vanilla CCMD
 //
-static void vanilla_cmd_func2(char *cmd, char *parms)
+void vanilla_cmd_func2(char *cmd, char *parms)
 {
     static bool buddha;
     static bool hud;
