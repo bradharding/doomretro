@@ -61,6 +61,30 @@ extern int  lowpixelheight;
 
 extern void (*postprocessfunc)(int, int, int, int, int, int);
 
+enum
+{
+    CR_BRICK,
+    CR_TAN,
+    CR_GRAY,
+    CR_GREEN,
+    CR_BROWN,
+    CR_GOLD,
+    CR_RED,
+    CR_BLUE,
+    CR_ORANGE,
+    CR_YELLOW,
+    CR_BLUE2,
+    CR_LIMIT
+};
+
+extern const byte *colrngs[CR_LIMIT];
+
+extern const byte *redtoblue;
+extern const byte *redtogreen;
+extern const byte *redtogold;
+
+void V_InitColorTranslation(void);
+
 // Allocates buffer screens, call before R_Init.
 void V_Init(void);
 

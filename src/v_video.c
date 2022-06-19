@@ -67,6 +67,44 @@ int     lowpixelheight;
 
 void (*postprocessfunc)(int, int, int, int, int, int);
 
+const byte *colrngs[CR_LIMIT];
+
+const byte *redtoblue;
+const byte *redtogreen;
+const byte *redtogold;
+
+typedef struct
+{
+    const char  *name;
+    const byte  **map;
+} crdef_t;
+
+static const crdef_t crdefs[] =
+{
+    { "CRBRICK",  &colrngs[CR_BRICK]  },
+    { "CRTAN",    &colrngs[CR_TAN]    },
+    { "CRGRAY",   &colrngs[CR_GRAY]   },
+    { "CRGREEN",  &colrngs[CR_GREEN]  },
+    { "CRBROWN",  &colrngs[CR_BROWN]  },
+    { "CRGOLD",   &colrngs[CR_GOLD]   },
+    { "CRRED",    &colrngs[CR_RED]    },
+    { "CRBLUE",   &colrngs[CR_BLUE]   },
+    { "CRORANGE", &colrngs[CR_ORANGE] },
+    { "CRYELLOW", &colrngs[CR_YELLOW] },
+    { "CRBLUE2",  &colrngs[CR_BLUE2]  },
+    { "",         NULL                }
+};
+
+void V_InitColorTranslation(void)
+{
+    for (const crdef_t *p = crdefs; *p->name; p++)
+        *p->map = W_CacheLumpName(p->name);
+
+    redtoblue = colrngs[CR_BLUE];
+    redtogreen = colrngs[CR_GREEN];
+    redtogold = colrngs[CR_GOLD];
+}
+
 //
 // V_FillRect
 //
