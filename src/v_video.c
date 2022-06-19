@@ -67,50 +67,50 @@ int     lowpixelheight;
 
 void (*postprocessfunc)(int, int, int, int, int, int);
 
-const byte *colrngs[CR_LIMIT];
+const byte  *colortranslation[CR_LIMIT];
 
-const byte *redtoblue;
-const byte *redtogreen;
-const byte *redtogold;
+const byte  *redtoblue;
+const byte  *redtogreen;
+const byte  *redtogold;
 
 typedef struct
 {
     const char  *name;
     const byte  **map;
-} crdef_t;
+} colortranslation_t;
 
-static const crdef_t crdefs[] =
+static const colortranslation_t colortranslations[] =
 {
-    { "CRBRICK",  &colrngs[CR_BRICK]  },
-    { "CRTAN",    &colrngs[CR_TAN]    },
-    { "CRGRAY",   &colrngs[CR_GRAY]   },
-    { "CRGREEN",  &colrngs[CR_GREEN]  },
-    { "CRBROWN",  &colrngs[CR_BROWN]  },
-    { "CRGOLD",   &colrngs[CR_GOLD]   },
-    { "CRRED",    &colrngs[CR_RED]    },
-    { "CRBLUE",   &colrngs[CR_BLUE]   },
-    { "CRORANGE", &colrngs[CR_ORANGE] },
-    { "CRYELLOW", &colrngs[CR_YELLOW] },
-    { "CRBLUE2",  &colrngs[CR_BLUE2]  },
-    { "",         NULL                }
+    { "CRBRICK",  &colortranslation[CR_BRICK]  },
+    { "CRTAN",    &colortranslation[CR_TAN]    },
+    { "CRGRAY",   &colortranslation[CR_GRAY]   },
+    { "CRGREEN",  &colortranslation[CR_GREEN]  },
+    { "CRBROWN",  &colortranslation[CR_BROWN]  },
+    { "CRGOLD",   &colortranslation[CR_GOLD]   },
+    { "CRRED",    &colortranslation[CR_RED]    },
+    { "CRBLUE",   &colortranslation[CR_BLUE]   },
+    { "CRORANGE", &colortranslation[CR_ORANGE] },
+    { "CRYELLOW", &colortranslation[CR_YELLOW] },
+    { "CRBLUE2",  &colortranslation[CR_BLUE2]  },
+    { "",         NULL                         }
 };
 
 void V_InitColorTranslation(void)
 {
-    for (const crdef_t *p = crdefs; *p->name; p++)
+    for (const colortranslation_t *p = colortranslations; *p->name; p++)
         *p->map = W_CacheLumpName(p->name);
 
-    redtoblue = colrngs[CR_BLUE2];
-    redtogreen = colrngs[CR_GREEN];
-    redtogold = colrngs[CR_GOLD];
+    redtoblue = colortranslation[CR_BLUE2];
+    redtogreen = colortranslation[CR_GREEN];
+    redtogold = colortranslation[CR_GOLD];
 }
 
 //
 // V_FillRect
 //
-void V_FillRect(int scrn, int x, int y, int width, int height, int color, bool right)
+void V_FillRect(int screen, int x, int y, int width, int height, int color, bool right)
 {
-    byte    *dest = &screens[scrn][y * SCREENWIDTH + x];
+    byte    *dest = &screens[screen][y * SCREENWIDTH + x];
 
     while (height--)
     {
@@ -119,9 +119,9 @@ void V_FillRect(int scrn, int x, int y, int width, int height, int color, bool r
     }
 }
 
-void V_FillTransRect(int scrn, int x, int y, int width, int height, int color, bool right)
+void V_FillTransRect(int screen, int x, int y, int width, int height, int color, bool right)
 {
-    byte        *dest = &screens[scrn][y * SCREENWIDTH + x];
+    byte        *dest = &screens[screen][y * SCREENWIDTH + x];
     const byte  *tint60 = &alttinttab60[color << 8];
 
     for (int xx = 0; xx < width; xx++)
@@ -133,9 +133,9 @@ void V_FillTransRect(int scrn, int x, int y, int width, int height, int color, b
     }
 }
 
-void V_FillSoftTransRect(int scrn, int x, int y, int width, int height, int color, bool right)
+void V_FillSoftTransRect(int screen, int x, int y, int width, int height, int color, bool right)
 {
-    byte        *dest = &screens[scrn][y * SCREENWIDTH + x];
+    byte        *dest = &screens[screen][y * SCREENWIDTH + x];
     byte        *dot;
     const byte  *tint60 = &alttinttab60[(color <<= 8)];
 
@@ -199,18 +199,18 @@ void V_FillSoftTransRect(int scrn, int x, int y, int width, int height, int colo
 // V_DrawPatch
 // Masks a column based masked pic to the screen.
 //
-void V_DrawPatch(int x, int y, int scrn, patch_t *patch)
+void V_DrawPatch(int x, int y, int screen, patch_t *patch)
 {
     byte        *desttop;
-    const int   w = SHORT(patch->width) << FRACBITS;
+    const int   width = SHORT(patch->width) << FRACBITS;
 
     y -= SHORT(patch->topoffset);
     x -= SHORT(patch->leftoffset);
     x += WIDESCREENDELTA;   // [crispy] horizontal widescreen offset
 
-    desttop = &screens[scrn][((y * DY) >> FRACBITS) * SCREENWIDTH + ((x * DX) >> FRACBITS)];
+    desttop = &screens[screen][((y * DY) >> FRACBITS) * SCREENWIDTH + ((x * DX) >> FRACBITS)];
 
-    for (int col = 0; col < w; col += DXI, desttop++)
+    for (int col = 0; col < width; col += DXI, desttop++)
     {
         column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnoffset[col >> FRACBITS]));
 
@@ -234,24 +234,24 @@ void V_DrawPatch(int x, int y, int scrn, patch_t *patch)
     }
 }
 
-void V_DrawWidePatch(int x, int y, int scrn, patch_t *patch)
+void V_DrawWidePatch(int x, int y, int screen, patch_t *patch)
 {
     byte    *desttop;
-    int     w = SHORT(patch->width);
+    int     width = SHORT(patch->width);
     int     col = 0;
 
-    if (w > SCREENWIDTH / SCREENSCALE)
+    if (width > SCREENWIDTH / SCREENSCALE)
     {
         x = 0;
-        col = (w - SCREENWIDTH / SCREENSCALE) / 2;
-        w = SCREENWIDTH / SCREENSCALE + col;
+        col = (width - SCREENWIDTH / SCREENSCALE) / 2;
+        width = SCREENWIDTH / SCREENSCALE + col;
     }
 
-    w <<= FRACBITS;
+    width <<= FRACBITS;
     col <<= FRACBITS;
-    desttop = &screens[scrn][((y * DY) >> FRACBITS) * SCREENWIDTH + ((x * DX) >> FRACBITS)];
+    desttop = &screens[screen][((y * DY) >> FRACBITS) * SCREENWIDTH + ((x * DX) >> FRACBITS)];
 
-    for (; col < w; col += DXI, desttop++)
+    for (; col < width; col += DXI, desttop++)
     {
         column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnoffset[col >> FRACBITS]));
 
@@ -278,16 +278,16 @@ void V_DrawWidePatch(int x, int y, int scrn, patch_t *patch)
 void V_DrawBigWidePatch(int x, int y, patch_t *patch)
 {
     byte    *desttop = &screens[0][y * SCREENWIDTH + x];
-    int     w = SHORT(patch->width);
+    int     width = SHORT(patch->width);
     int     col = 0;
 
-    if (w > SCREENWIDTH)
+    if (width > SCREENWIDTH)
     {
-        col = (w - SCREENWIDTH) / 2;
-        w = SCREENWIDTH + col;
+        col = (width - SCREENWIDTH) / 2;
+        width = SCREENWIDTH + col;
     }
 
-    for (; col < w; col++, desttop++)
+    for (; col < width; col++, desttop++)
     {
         column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnoffset[col]));
         int         td;
@@ -330,14 +330,14 @@ void V_DrawPagePatch(patch_t *patch)
 void V_DrawShadowPatch(int x, int y, patch_t *patch)
 {
     byte        *desttop;
-    const int   w = SHORT(patch->width) << FRACBITS;
+    const int   width = SHORT(patch->width) << FRACBITS;
 
     x -= SHORT(patch->leftoffset);
     x += WIDESCREENDELTA;   // [crispy] horizontal widescreen offset
 
     desttop = &screens[0][((y * DY) >> FRACBITS) * SCREENWIDTH + ((x * DX) >> FRACBITS)];
 
-    for (int col = 0; col < w; col += DXI, desttop++)
+    for (int col = 0; col < width; col += DXI, desttop++)
     {
         column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnoffset[col >> FRACBITS]));
 
@@ -378,14 +378,14 @@ void V_DrawShadowPatch(int x, int y, patch_t *patch)
 void V_DrawSolidShadowPatch(int x, int y, patch_t *patch)
 {
     byte        *desttop;
-    const int   w = SHORT(patch->width) << FRACBITS;
+    const int   width = SHORT(patch->width) << FRACBITS;
 
     x -= SHORT(patch->leftoffset);
     x += WIDESCREENDELTA;   // [crispy] horizontal widescreen offset
 
     desttop = &screens[0][((y * DY) >> FRACBITS) * SCREENWIDTH + ((x * DX) >> FRACBITS)];
 
-    for (int col = 0; col < w; col += DXI, desttop++)
+    for (int col = 0; col < width; col += DXI, desttop++)
     {
         column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnoffset[col >> FRACBITS]));
 
@@ -410,7 +410,7 @@ void V_DrawSolidShadowPatch(int x, int y, patch_t *patch)
 void V_DrawSpectreShadowPatch(int x, int y, patch_t *patch)
 {
     byte        *desttop;
-    const int   w = SHORT(patch->width) << FRACBITS;
+    const int   width = SHORT(patch->width) << FRACBITS;
     const byte  *shadow = &tinttab40[nearestblack << 8];
 
     x -= SHORT(patch->leftoffset);
@@ -420,7 +420,7 @@ void V_DrawSpectreShadowPatch(int x, int y, patch_t *patch)
 
     desttop = &screens[0][((y * DY) >> FRACBITS) * SCREENWIDTH + ((x * DX) >> FRACBITS)];
 
-    for (int col = 0; col < w; col += DXI, desttop++)
+    for (int col = 0; col < width; col += DXI, desttop++)
     {
         column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnoffset[col >> FRACBITS]));
 
@@ -452,7 +452,7 @@ void V_DrawSpectreShadowPatch(int x, int y, patch_t *patch)
 void V_DrawSolidSpectreShadowPatch(int x, int y, patch_t *patch)
 {
     byte        *desttop;
-    const int   w = SHORT(patch->width) << FRACBITS;
+    const int   width = SHORT(patch->width) << FRACBITS;
 
     x -= SHORT(patch->leftoffset);
     x += WIDESCREENDELTA;   // [crispy] horizontal widescreen offset
@@ -461,7 +461,7 @@ void V_DrawSolidSpectreShadowPatch(int x, int y, patch_t *patch)
 
     desttop = &screens[0][((y * DY) >> FRACBITS) * SCREENWIDTH + ((x * DX) >> FRACBITS)];
 
-    for (int col = 0; col < w; col += DXI, desttop++)
+    for (int col = 0; col < width; col += DXI, desttop++)
     {
         column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnoffset[col >> FRACBITS]));
 
@@ -493,19 +493,19 @@ void V_DrawSolidSpectreShadowPatch(int x, int y, patch_t *patch)
 void V_DrawBigPatch(int x, int y, patch_t *patch)
 {
     byte    *desttop;
-    int     w = SHORT(patch->width);
+    int     width = SHORT(patch->width);
     int     col = 0;
 
-    if (w > SCREENWIDTH)
+    if (width > SCREENWIDTH)
     {
         x = 0;
-        col = (w - SCREENWIDTH) / 2;
-        w = SCREENWIDTH + col;
+        col = (width - SCREENWIDTH) / 2;
+        width = SCREENWIDTH + col;
     }
 
     desttop = &screens[0][y * SCREENWIDTH + x];
 
-    for (; col < w; col++, desttop++)
+    for (; col < width; col++, desttop++)
     {
         column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnoffset[col]));
         int         td;
@@ -644,9 +644,9 @@ void V_DrawOverlayTextPatch(byte *screen, int screenwidth, int x, int y, patch_t
 void V_DrawConsolePatch(int x, int y, patch_t *patch, int maxwidth)
 {
     byte        *desttop = &screens[0][y * SCREENWIDTH + x];
-    const int   w = MIN(SHORT(patch->width), maxwidth);
+    const int   width = MIN(SHORT(patch->width), maxwidth);
 
-    for (int col = 0; col < w; col++, desttop++)
+    for (int col = 0; col < width; col++, desttop++)
     {
         column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnoffset[col]));
         byte        topdelta;
@@ -685,9 +685,9 @@ void V_DrawConsolePatch(int x, int y, patch_t *patch, int maxwidth)
 void V_DrawConsoleBrandingPatch(int x, int y, patch_t *patch, int color)
 {
     byte        *desttop = &screens[0][y * SCREENWIDTH + x];
-    const int   w = SHORT(patch->width);
+    const int   width = SHORT(patch->width);
 
-    for (int col = 0; col < w; col++, desttop++, x++)
+    for (int col = 0; col < width; col++, desttop++, x++)
     {
         column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnoffset[col]));
         byte        topdelta;
@@ -721,9 +721,9 @@ void V_DrawConsoleBrandingPatch(int x, int y, patch_t *patch, int color)
 
 bool V_IsEmptyPatch(patch_t *patch)
 {
-    const int   w = SHORT(patch->width);
+    const int   width = SHORT(patch->width);
 
-    for (int col = 0; col < w; col++)
+    for (int col = 0; col < width; col++)
     {
         column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnoffset[col]));
 
@@ -743,14 +743,14 @@ bool V_IsEmptyPatch(patch_t *patch)
 void V_DrawPatchToTempScreen(int x, int y, patch_t *patch)
 {
     byte        *desttop;
-    const int   w = SHORT(patch->width) << FRACBITS;
+    const int   width = SHORT(patch->width) << FRACBITS;
 
     y -= SHORT(patch->topoffset);
     x -= SHORT(patch->leftoffset);
 
     desttop = &tempscreen[((y * DY) >> FRACBITS) * SCREENWIDTH + ((x * DX) >> FRACBITS)];
 
-    for (int col = 0; col < w; col += DXI, desttop++)
+    for (int col = 0; col < width; col += DXI, desttop++)
     {
         column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnoffset[col >> FRACBITS]));
 
@@ -781,14 +781,14 @@ void V_DrawPatchToTempScreen(int x, int y, patch_t *patch)
 void V_DrawHUDText(int x, int y, byte *screen, patch_t *patch, int screenwidth)
 {
     byte        *desttop;
-    const int   w = SHORT(patch->width) << FRACBITS;
+    const int   width = SHORT(patch->width) << FRACBITS;
 
     y -= SHORT(patch->topoffset) * SCREENSCALE;
     x -= SHORT(patch->leftoffset) * SCREENSCALE;
 
     desttop = &screen[y * screenwidth + x];
 
-    for (int col = 0; col < w; col += DXI, desttop++)
+    for (int col = 0; col < width; col += DXI, desttop++)
     {
         column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnoffset[col >> FRACBITS]));
 
@@ -815,14 +815,14 @@ void V_DrawHUDText(int x, int y, byte *screen, patch_t *patch, int screenwidth)
 void V_DrawTranslucentHUDText(int x, int y, byte *screen, patch_t *patch, int screenwidth)
 {
     byte        *desttop;
-    const int   w = SHORT(patch->width) << FRACBITS;
+    const int   width = SHORT(patch->width) << FRACBITS;
 
     y -= SHORT(patch->topoffset) * SCREENSCALE;
     x -= SHORT(patch->leftoffset) * SCREENSCALE;
 
     desttop = &screen[y * screenwidth + x];
 
-    for (int col = 0; col < w; col += DXI, desttop++)
+    for (int col = 0; col < width; col += DXI, desttop++)
     {
         column_t *column = (column_t *)((byte *)patch + LONG(patch->columnoffset[col >> FRACBITS]));
 
@@ -849,10 +849,10 @@ void V_DrawTranslucentHUDText(int x, int y, byte *screen, patch_t *patch, int sc
 void V_DrawAltHUDText(int x, int y, byte *screen, patch_t *patch, bool italics, int color, int screenwidth, byte *tinttab)
 {
     byte        *desttop = &screen[y * screenwidth + x];
-    const int   w = SHORT(patch->width);
+    const int   width = SHORT(patch->width);
     const int   italicize[] = { 2, 2, 2, 1, 1, 1, 1, 0, 0, 0, 0, -1, -1, -1 };
 
-    for (int col = 0; col < w; col++, desttop++)
+    for (int col = 0; col < width; col++, desttop++)
     {
         column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnoffset[col]));
         int         topdelta;
@@ -887,10 +887,10 @@ void V_DrawAltHUDText(int x, int y, byte *screen, patch_t *patch, bool italics, 
 void V_DrawTranslucentAltHUDText(int x, int y, byte *screen, patch_t *patch, bool italics, int color, int screenwidth, byte *tinttab)
 {
     byte        *desttop = &screen[y * screenwidth + x];
-    const int   w = SHORT(patch->width);
+    const int   width = SHORT(patch->width);
     const int   italicize[] = { 2, 2, 2, 1, 1, 1, 1, 0, 0, 0, 0, -1, -1, -1 };
 
-    for (int col = 0; col < w; col++, desttop++)
+    for (int col = 0; col < width; col++, desttop++)
     {
         column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnoffset[col]));
         int         topdelta;
@@ -925,7 +925,7 @@ void V_DrawTranslucentAltHUDText(int x, int y, byte *screen, patch_t *patch, boo
 void V_DrawPatchWithShadow(int x, int y, patch_t *patch, bool flag)
 {
     byte        *desttop;
-    const int   w = SHORT(patch->width) << FRACBITS;
+    const int   width = SHORT(patch->width) << FRACBITS;
 
     y -= SHORT(patch->topoffset);
     x -= SHORT(patch->leftoffset);
@@ -933,7 +933,7 @@ void V_DrawPatchWithShadow(int x, int y, patch_t *patch, bool flag)
 
     desttop = &screens[0][((y * DY) >> FRACBITS) * SCREENWIDTH + ((x * DX) >> FRACBITS)];
 
-    for (int col = 0; col < w; col += DXI, desttop++)
+    for (int col = 0; col < width; col += DXI, desttop++)
     {
         column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnoffset[col >> FRACBITS]));
 
@@ -973,9 +973,9 @@ void V_DrawPatchWithShadow(int x, int y, patch_t *patch, bool flag)
 void V_DrawHUDPatch(int x, int y, patch_t *patch, byte *translucency)
 {
     byte        *desttop = &screens[0][y * SCREENWIDTH + x];
-    const int   w = SHORT(patch->width);
+    const int   width = SHORT(patch->width);
 
-    for (int col = 0; col < w; col++, desttop++)
+    for (int col = 0; col < width; col++, desttop++)
     {
         column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnoffset[col]));
 
@@ -1000,9 +1000,9 @@ void V_DrawHUDPatch(int x, int y, patch_t *patch, byte *translucency)
 void V_DrawHighlightedHUDNumberPatch(int x, int y, patch_t *patch, byte *translucency)
 {
     byte        *desttop = &screens[0][y * SCREENWIDTH + x];
-    const int   w = SHORT(patch->width);
+    const int   width = SHORT(patch->width);
 
-    for (int col = 0; col < w; col++, desttop++)
+    for (int col = 0; col < width; col++, desttop++)
     {
         column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnoffset[col]));
 
@@ -1029,9 +1029,9 @@ void V_DrawHighlightedHUDNumberPatch(int x, int y, patch_t *patch, byte *translu
 void V_DrawTranslucentHUDPatch(int x, int y, patch_t *patch, byte *translucency)
 {
     byte        *desttop = &screens[0][y * SCREENWIDTH + x];
-    const int   w = SHORT(patch->width);
+    const int   width = SHORT(patch->width);
 
-    for (int col = 0; col < w; col++, desttop++)
+    for (int col = 0; col < width; col++, desttop++)
     {
         column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnoffset[col]));
 
@@ -1056,9 +1056,9 @@ void V_DrawTranslucentHUDPatch(int x, int y, patch_t *patch, byte *translucency)
 void V_DrawTranslucentHUDNumberPatch(int x, int y, patch_t *patch, byte *translucency)
 {
     byte        *desttop = &screens[0][y * SCREENWIDTH + x];
-    const int   w = SHORT(patch->width);
+    const int   width = SHORT(patch->width);
 
-    for (int col = 0; col < w; col++, desttop++)
+    for (int col = 0; col < width; col++, desttop++)
     {
         column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnoffset[col]));
 
@@ -1085,9 +1085,9 @@ void V_DrawTranslucentHUDNumberPatch(int x, int y, patch_t *patch, byte *translu
 void V_DrawAltHUDPatch(int x, int y, patch_t *patch, int from, int to)
 {
     byte        *desttop = &screens[0][y * SCREENWIDTH + x];
-    const int   w = SHORT(patch->width);
+    const int   width = SHORT(patch->width);
 
-    for (int col = 0; col < w; col++, desttop++)
+    for (int col = 0; col < width; col++, desttop++)
     {
         column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnoffset[col]));
 
@@ -1119,11 +1119,11 @@ void V_DrawAltHUDPatch(int x, int y, patch_t *patch, int from, int to)
 void V_DrawTranslucentAltHUDPatch(int x, int y, patch_t *patch, int from, int to)
 {
     byte        *desttop = &screens[0][y * SCREENWIDTH + x];
-    const int   w = SHORT(patch->width);
+    const int   width = SHORT(patch->width);
 
     to <<= 8;
 
-    for (int col = 0; col < w; col++, desttop++)
+    for (int col = 0; col < width; col++, desttop++)
     {
         column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnoffset[col]));
 
@@ -1155,7 +1155,7 @@ void V_DrawTranslucentAltHUDPatch(int x, int y, patch_t *patch, int from, int to
 void V_DrawTranslucentRedPatch(int x, int y, patch_t *patch)
 {
     byte        *desttop;
-    const int   w = SHORT(patch->width) << FRACBITS;
+    const int   width = SHORT(patch->width) << FRACBITS;
 
     y -= SHORT(patch->topoffset);
     x -= SHORT(patch->leftoffset);
@@ -1163,7 +1163,7 @@ void V_DrawTranslucentRedPatch(int x, int y, patch_t *patch)
 
     desttop = &screens[0][((y * DY) >> FRACBITS) * SCREENWIDTH + ((x * DX) >> FRACBITS)];
 
-    for (int col = 0; col < w; col += DXI, desttop++)
+    for (int col = 0; col < width; col += DXI, desttop++)
     {
         column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnoffset[col >> FRACBITS]));
 
@@ -1202,7 +1202,7 @@ void V_DrawTranslucentRedPatch(int x, int y, patch_t *patch)
 void V_DrawFlippedPatch(int x, int y, patch_t *patch)
 {
     byte        *desttop;
-    const int   w = SHORT(patch->width) << FRACBITS;
+    const int   width = SHORT(patch->width) << FRACBITS;
 
     y -= SHORT(patch->topoffset);
     x -= SHORT(patch->leftoffset);
@@ -1210,7 +1210,7 @@ void V_DrawFlippedPatch(int x, int y, patch_t *patch)
 
     desttop = &screens[0][((y * DY) >> FRACBITS) * SCREENWIDTH + ((x * DX) >> FRACBITS)];
 
-    for (int col = 0; col < w; col += DXI, desttop++)
+    for (int col = 0; col < width; col += DXI, desttop++)
     {
         column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnoffset[SHORT(patch->width) - 1 - (col >> FRACBITS)]));
 
@@ -1237,7 +1237,7 @@ void V_DrawFlippedPatch(int x, int y, patch_t *patch)
 void V_DrawFlippedShadowPatch(int x, int y, patch_t *patch)
 {
     byte        *desttop;
-    const int   w = SHORT(patch->width) << FRACBITS;
+    const int   width = SHORT(patch->width) << FRACBITS;
     const int   black = nearestblack << 8;
     const byte  *body = &tinttab40[black];
     const byte  *edge = &tinttab25[black];
@@ -1248,7 +1248,7 @@ void V_DrawFlippedShadowPatch(int x, int y, patch_t *patch)
 
     desttop = &screens[0][(((y + 3) * DY) >> FRACBITS) * SCREENWIDTH + ((x * DX) >> FRACBITS)];
 
-    for (int col = 0; col < w; col += DXI, desttop++)
+    for (int col = 0; col < width; col += DXI, desttop++)
     {
         column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnoffset[SHORT(patch->width) - 1 - (col >> FRACBITS)]));
 
@@ -1289,7 +1289,7 @@ void V_DrawFlippedShadowPatch(int x, int y, patch_t *patch)
 void V_DrawFlippedSolidShadowPatch(int x, int y, patch_t *patch)
 {
     byte        *desttop;
-    const int   w = SHORT(patch->width) << FRACBITS;
+    const int   width = SHORT(patch->width) << FRACBITS;
 
     y -= SHORT(patch->topoffset) / 10;
     x -= SHORT(patch->leftoffset);
@@ -1297,7 +1297,7 @@ void V_DrawFlippedSolidShadowPatch(int x, int y, patch_t *patch)
 
     desttop = &screens[0][(((y + 3) * DY) >> FRACBITS) * SCREENWIDTH + ((x * DX) >> FRACBITS)];
 
-    for (int col = 0; col < w; col += DXI, desttop++)
+    for (int col = 0; col < width; col += DXI, desttop++)
     {
         column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnoffset[SHORT(patch->width) - 1 - (col >> FRACBITS)]));
 
@@ -1322,7 +1322,7 @@ void V_DrawFlippedSolidShadowPatch(int x, int y, patch_t *patch)
 void V_DrawFlippedSpectreShadowPatch(int x, int y, patch_t *patch)
 {
     byte        *desttop;
-    const int   w = SHORT(patch->width) << FRACBITS;
+    const int   width = SHORT(patch->width) << FRACBITS;
     const byte  *shadow = &tinttab40[nearestblack << 8];
 
     y -= SHORT(patch->topoffset) / 10;
@@ -1333,7 +1333,7 @@ void V_DrawFlippedSpectreShadowPatch(int x, int y, patch_t *patch)
 
     desttop = &screens[0][(((y + 3) * DY) >> FRACBITS) * SCREENWIDTH + ((x * DX) >> FRACBITS)];
 
-    for (int col = 0; col < w; col += DXI, desttop++)
+    for (int col = 0; col < width; col += DXI, desttop++)
     {
         column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnoffset[SHORT(patch->width) - 1 - (col >> FRACBITS)]));
 
@@ -1365,7 +1365,7 @@ void V_DrawFlippedSpectreShadowPatch(int x, int y, patch_t *patch)
 void V_DrawFlippedSolidSpectreShadowPatch(int x, int y, patch_t *patch)
 {
     byte        *desttop;
-    const int   w = SHORT(patch->width) << FRACBITS;
+    const int   width = SHORT(patch->width) << FRACBITS;
 
     y -= SHORT(patch->topoffset) / 10;
     x -= SHORT(patch->leftoffset);
@@ -1375,7 +1375,7 @@ void V_DrawFlippedSolidSpectreShadowPatch(int x, int y, patch_t *patch)
 
     desttop = &screens[0][(((y + 3) * DY) >> FRACBITS) * SCREENWIDTH + ((x * DX) >> FRACBITS)];
 
-    for (int col = 0; col < w; col += DXI, desttop++)
+    for (int col = 0; col < width; col += DXI, desttop++)
     {
         column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnoffset[SHORT(patch->width) - 1 - (col >> FRACBITS)]));
 
@@ -1407,7 +1407,7 @@ void V_DrawFlippedSolidSpectreShadowPatch(int x, int y, patch_t *patch)
 void V_DrawFlippedTranslucentRedPatch(int x, int y, patch_t *patch)
 {
     byte        *desttop;
-    const int   w = SHORT(patch->width) << FRACBITS;
+    const int   width = SHORT(patch->width) << FRACBITS;
 
     y -= SHORT(patch->topoffset);
     x -= SHORT(patch->leftoffset);
@@ -1415,7 +1415,7 @@ void V_DrawFlippedTranslucentRedPatch(int x, int y, patch_t *patch)
 
     desttop = &screens[0][((y * DY) >> FRACBITS) * SCREENWIDTH + ((x * DX) >> FRACBITS)];
 
-    for (int col = 0; col < w; col += DXI, desttop++)
+    for (int col = 0; col < width; col += DXI, desttop++)
     {
         column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnoffset[SHORT(patch->width) - 1 - (col >> FRACBITS)]));
 
@@ -1442,7 +1442,7 @@ void V_DrawFlippedTranslucentRedPatch(int x, int y, patch_t *patch)
 void V_DrawFuzzPatch(int x, int y, patch_t *patch)
 {
     byte        *desttop;
-    const int   w = SHORT(patch->width) << FRACBITS;
+    const int   width = SHORT(patch->width) << FRACBITS;
 
     y -= SHORT(patch->topoffset);
     x -= SHORT(patch->leftoffset);
@@ -1452,7 +1452,7 @@ void V_DrawFuzzPatch(int x, int y, patch_t *patch)
 
     desttop = &screens[0][((y * DY) >> FRACBITS) * SCREENWIDTH + ((x * DX) >> FRACBITS)];
 
-    for (int col = 0; col < w; col += DXI, desttop++)
+    for (int col = 0; col < width; col += DXI, desttop++)
     {
         column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnoffset[col >> FRACBITS]));
 
@@ -1478,7 +1478,7 @@ void V_DrawFuzzPatch(int x, int y, patch_t *patch)
 void V_DrawFlippedFuzzPatch(int x, int y, patch_t *patch)
 {
     byte        *desttop;
-    const int   w = SHORT(patch->width) << FRACBITS;
+    const int   width = SHORT(patch->width) << FRACBITS;
 
     y -= SHORT(patch->topoffset);
     x -= SHORT(patch->leftoffset);
@@ -1488,7 +1488,7 @@ void V_DrawFlippedFuzzPatch(int x, int y, patch_t *patch)
 
     desttop = &screens[0][((y * DY) >> FRACBITS) * SCREENWIDTH + ((x * DX) >> FRACBITS)];
 
-    for (int col = 0; col < w; col += DXI, desttop++)
+    for (int col = 0; col < width; col += DXI, desttop++)
     {
         column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnoffset[SHORT(patch->width) - 1 - (col >> FRACBITS)]));
 
@@ -1526,7 +1526,7 @@ static const byte nogreen[256] =
 void V_DrawNoGreenPatchWithShadow(int x, int y, patch_t *patch)
 {
     byte        *desttop;
-    const int   w = SHORT(patch->width) << FRACBITS;
+    const int   width = SHORT(patch->width) << FRACBITS;
 
     y -= SHORT(patch->topoffset);
     x -= SHORT(patch->leftoffset);
@@ -1534,7 +1534,7 @@ void V_DrawNoGreenPatchWithShadow(int x, int y, patch_t *patch)
 
     desttop = &screens[0][((y * DY) >> FRACBITS) * SCREENWIDTH + ((x * DX) >> FRACBITS)];
 
-    for (int col = 0; col < w; col += DXI, desttop++)
+    for (int col = 0; col < width; col += DXI, desttop++)
     {
         column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnoffset[col >> FRACBITS]));
 
@@ -1573,7 +1573,7 @@ void V_DrawNoGreenPatchWithShadow(int x, int y, patch_t *patch)
 void V_DrawTranslucentNoGreenPatch(int x, int y, patch_t *patch)
 {
     byte        *desttop;
-    const int   w = SHORT(patch->width) << FRACBITS;
+    const int   width = SHORT(patch->width) << FRACBITS;
 
     y -= SHORT(patch->topoffset);
     x -= SHORT(patch->leftoffset);
@@ -1581,7 +1581,7 @@ void V_DrawTranslucentNoGreenPatch(int x, int y, patch_t *patch)
 
     desttop = &screens[0][((y * DY) >> FRACBITS) * SCREENWIDTH + ((x * DX) >> FRACBITS)];
 
-    for (int col = 0; col < w; col += DXI, desttop++)
+    for (int col = 0; col < width; col += DXI, desttop++)
     {
         column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnoffset[col >> FRACBITS]));
 

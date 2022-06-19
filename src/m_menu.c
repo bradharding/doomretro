@@ -590,12 +590,12 @@ static void M_DarkBlueBackground(void)
 //
 static void M_DrawChar(int x, int y, int i, bool overlapping)
 {
-    int w = (int)strlen(redcharset[i]) / 18;
+    const int   width = (int)strlen(redcharset[i]) / 18;
 
     for (int y1 = 0; y1 < 18; y1++)
-        for (int x1 = 0; x1 < w; x1++)
+        for (int x1 = 0; x1 < width; x1++)
         {
-            char    dot = redcharset[i][y1 * w + x1];
+            char    dot = redcharset[i][y1 * width + x1];
 
             if (dot == '\xC8')
             {
@@ -715,7 +715,7 @@ void M_DrawString(int x, int y, char *string)
 //
 static int M_BigStringWidth(char *string)
 {
-    int         w = 0;
+    int         width = 0;
     static char prev;
     const int   len = (int)strlen(string);
 
@@ -727,16 +727,16 @@ static int M_BigStringWidth(char *string)
         while (bigkern[k].char1)
         {
             if (prev == bigkern[k].char1 && string[i] == bigkern[k].char2)
-                w += bigkern[k].adjust;
+                width += bigkern[k].adjust;
 
             k++;
         }
 
-        w += (j == -1 ? 7 : (int)strlen(redcharset[j]) / 18 - 2);
+        width += (j == -1 ? 7 : (int)strlen(redcharset[j]) / 18 - 2);
         prev = string[i];
     }
 
-    return w;
+    return width;
 }
 
 //
@@ -2356,13 +2356,13 @@ static int M_CharacterWidth(char ch, char prev)
 //
 int M_StringWidth(char *string)
 {
-    int         w = M_CharacterWidth(string[0], '\0');
+    int         width = M_CharacterWidth(string[0], '\0');
     const int   len = (int)strlen(string);
 
     for (int i = 1; i < len; i++)
-        w += M_CharacterWidth(string[i], string[i - 1]);
+        width += M_CharacterWidth(string[i], string[i - 1]);
 
-    return w;
+    return width;
 }
 
 //
@@ -2385,12 +2385,12 @@ static int M_StringHeight(char *string)
 //
 void M_DrawSmallChar(int x, int y, int i, bool shadow)
 {
-    int w = (int)strlen(smallcharset[i]) / 10;
+    const int   width = (int)strlen(smallcharset[i]) / 10;
 
     for (int y1 = 0; y1 < 10; y1++)
-        for (int x1 = 0; x1 < w; x1++)
+        for (int x1 = 0; x1 < width; x1++)
             if (x + x1 < VANILLAWIDTH && y + y1 < VANILLAHEIGHT)
-                V_DrawPixel(x + x1, y + y1, (int)smallcharset[i][y1 * w + x1], shadow);
+                V_DrawPixel(x + x1, y + y1, (int)smallcharset[i][y1 * width + x1], shadow);
 }
 
 //
@@ -2398,7 +2398,7 @@ void M_DrawSmallChar(int x, int y, int i, bool shadow)
 //
 static void M_WriteText(int x, int y, char *string, bool shadow)
 {
-    int     w;
+    int     width;
     char    *ch = string;
     char    letter;
     char    prev = ' ';
@@ -2433,9 +2433,9 @@ static void M_WriteText(int x, int y, char *string, bool shadow)
 
         if (STCFNxxx)
         {
-            w = SHORT(hu_font[c]->width);
+            width = SHORT(hu_font[c]->width);
 
-            if (cx + w > VANILLAWIDTH)
+            if (cx + width > VANILLAWIDTH)
                 break;
 
             if (shadow)
@@ -2453,16 +2453,16 @@ static void M_WriteText(int x, int y, char *string, bool shadow)
                     c = 65;
             }
 
-            w = (int)strlen(smallcharset[c]) / 10 - 1;
+            width = (int)strlen(smallcharset[c]) / 10 - 1;
 
-            if (cx + w > VANILLAWIDTH)
+            if (cx + width > VANILLAWIDTH)
                 break;
 
             M_DrawSmallChar(cx, cy, c, shadow);
         }
 
         prev = letter;
-        cx += w;
+        cx += width;
     }
 }
 
