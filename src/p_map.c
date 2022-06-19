@@ -39,6 +39,7 @@
 #include <math.h>
 #include <ctype.h>
 
+#include "c_cmds.h"
 #include "c_console.h"
 #include "doomstat.h"
 #include "i_system.h"
@@ -1770,7 +1771,12 @@ static bool PTR_ShootTraverse(intercept_t *in)
         const mobjtype_t    type = th->type;
 
         if (type == MT_SKULL && !(th->flags & MF_FUZZ))
-            P_SpawnPuff(x, y, z - 8 * FRACUNIT, shootangle);
+        {
+            if (vanilla && r_blood == r_blood_red)
+                P_SpawnBlood(x, y, z, shootangle, la_damage, th);
+            else
+                P_SpawnPuff(x, y, z - 8 * FRACUNIT, shootangle);
+        }
         else if (th->blood)
         {
             if (type != MT_PLAYER)
