@@ -9,7 +9,9 @@
 * Minor changes have been made to text that is output to the console.
 * The amount of blood splats rendered depends on their distance from the player again.
 * A message is now displayed with an accompanying sound effect whenever the player finds a secret. This feature can be toggled using the new `secretmessages` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
-* `HELP`, `HELP1` and `HELP2` lumps in PWADs that are wider than 320 pixels are now displayed correctly when the <kbd><b>F1</b></kbd> key is pressed.
+* The following changes have been made to the help screen displayed when the <kbd><b>F1</b></kbd> key is pressed:
+  * Minor improvements have been made to the background.
+  * `HELP`, `HELP1` and `HELP2` lumps in PWADs that are wider than 320 pixels are now displayed correctly.
 * If it doesn’t already exist, *DOOM Retro* now creates an `autoload` folder at startup. Any `.wad`, `.deh` or `.bex` file that has been placed in this folder, (or in a subfolder based on the name of the currently loaded WAD), will then always be automatically loaded at startup.
 * The number of gamma correction levels set by the `r_gamma` CVAR that are brighter than `1.0` has been reduced.
 * Minor improvements have been made to how corpses move when the player or a monster walks over them and the `r_corpses_nudge` CVAR is `on`.

@@ -563,6 +563,8 @@ static byte blues[] =
 //
 static void M_DarkBlueBackground(void)
 {
+    M_BigSeed(411);
+
     for (int y = 0; y < SCREENAREA; y += 2 * SCREENWIDTH)
         for (int x = 0; x < SCREENWIDTH; x += 2)
         {
@@ -570,7 +572,8 @@ static void M_DarkBlueBackground(void)
             byte        *dot2 = dot1 + 1;
             byte        *dot3 = dot2 + SCREENWIDTH;
             byte        *dot4 = dot3 - 1;
-            const byte  color = blues[tinttab50[(tinttab50[(*dot1 << 8) + *dot2] << 8) + tinttab50[(*dot3 << 8) + *dot4]]];
+            const byte  color = colormaps[0][M_BigRandomInt(0, 3) * 256
+                                + blues[tinttab50[(tinttab50[(*dot1 << 8) + *dot2] << 8) + tinttab50[(*dot3 << 8) + *dot4]]]];
 
             *dot1 = color;
             *dot2 = color;
