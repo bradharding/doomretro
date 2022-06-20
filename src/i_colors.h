@@ -75,6 +75,7 @@ extern byte *tinttabblue25;
 
 extern byte nearestcolors[256];
 extern byte nearestblack;
+extern byte nearestdarkblue;
 extern byte nearestgold;
 extern byte nearestred;
 extern byte nearestwhite;
