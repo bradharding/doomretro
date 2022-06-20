@@ -81,20 +81,15 @@ typedef struct
 
 static const colortranslation_t colortranslations[] =
 {
-    { "CRBRICK",  &colortranslation[CR_BRICK]  },
-    { "CRTAN",    &colortranslation[CR_TAN]    },
+    { "CRRED",    &colortranslation[CR_RED]    },
     { "CRGRAY",   &colortranslation[CR_GRAY]   },
     { "CRGREEN",  &colortranslation[CR_GREEN]  },
-    { "CRBROWN",  &colortranslation[CR_BROWN]  },
-    { "CRGOLD",   &colortranslation[CR_GOLD]   },
-    { "CRRED",    &colortranslation[CR_RED]    },
     { "CRBLUE",   &colortranslation[CR_BLUE]   },
-    { "CRBLUE2",  &colortranslation[CR_BLUE2]  },
-    { "CRORANGE", &colortranslation[CR_ORANGE] },
     { "CRYELLOW", &colortranslation[CR_YELLOW] },
     { "CRBLACK",  &colortranslation[CR_BLACK]  },
     { "CRPURPLE", &colortranslation[CR_PURPLE] },
     { "CRWHITE",  &colortranslation[CR_WHITE]  },
+    { "CRORANGE", &colortranslation[CR_ORANGE] },
     { "",         NULL                         }
 };
 
@@ -103,9 +98,9 @@ void V_InitColorTranslation(void)
     for (const colortranslation_t *p = colortranslations; *p->name; p++)
         *p->lump = W_CacheLumpName(p->name);
 
-    redtoblue = colortranslation[CR_BLUE2];
+    redtoblue = colortranslation[CR_BLUE];
     redtogreen = colortranslation[CR_GREEN];
-    redtogold = colortranslation[CR_GOLD];
+    redtogold = W_CacheLumpName("CRGOLD");
 }
 
 //

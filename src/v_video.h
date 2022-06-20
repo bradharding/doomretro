@@ -63,20 +63,15 @@ extern void (*postprocessfunc)(int, int, int, int, int, int);
 
 enum
 {
-    CR_BRICK,
-    CR_TAN,
+    CR_RED,
     CR_GRAY,
     CR_GREEN,
-    CR_BROWN,
-    CR_GOLD,
-    CR_RED,
     CR_BLUE,
-    CR_BLUE2,
-    CR_ORANGE,
     CR_YELLOW,
     CR_BLACK,
     CR_PURPLE,
     CR_WHITE,
+    CR_ORANGE,
     CR_LIMIT
 };
 

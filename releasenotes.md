@@ -30,7 +30,7 @@
   * Brightmaps can now be applied to masked midtextures.
 * The existing feature of randomizing the start frame of certain sprites can now be toggled using the new `r_randomstartframes` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
 * The player’s speed when strafing using the mouse and the <kbd>ALT</kbd> key held down has been reduced, and is more consistent with the speed when using the <kbd>A</kbd> and <kbd>D</kbd> keys to strafe.
-* The following changes have been made to vanilla mode:
+* The following changes have been made when vanilla mode is enabled using the `vanilla` CCMD:
   * The `am_grid` CVAR is no longer turned `off`.
   * Red blood is now spawned when shooting a lost soul.
 
