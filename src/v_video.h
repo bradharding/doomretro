@@ -71,9 +71,12 @@ enum
     CR_GOLD,
     CR_RED,
     CR_BLUE,
+    CR_BLUE2,
     CR_ORANGE,
     CR_YELLOW,
-    CR_BLUE2,
+    CR_BLACK,
+    CR_PURPLE,
+    CR_WHITE,
     CR_LIMIT
 };
 

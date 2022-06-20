@@ -89,9 +89,12 @@ static const colortranslation_t colortranslations[] =
     { "CRGOLD",   &colortranslation[CR_GOLD]   },
     { "CRRED",    &colortranslation[CR_RED]    },
     { "CRBLUE",   &colortranslation[CR_BLUE]   },
+    { "CRBLUE2",  &colortranslation[CR_BLUE2]  },
     { "CRORANGE", &colortranslation[CR_ORANGE] },
     { "CRYELLOW", &colortranslation[CR_YELLOW] },
-    { "CRBLUE2",  &colortranslation[CR_BLUE2]  },
+    { "CRBLACK",  &colortranslation[CR_BLACK]  },
+    { "CRPURPLE", &colortranslation[CR_PURPLE] },
+    { "CRWHITE",  &colortranslation[CR_WHITE]  },
     { "",         NULL                         }
 };
 
