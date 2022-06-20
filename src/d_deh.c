@@ -1628,7 +1628,7 @@ static const char *deh_mobjinfo[DEH_MOBJINFOMAX] =
     "Respawn frame",            // .raisestate
     "Frames",                   // .frames
     "Fullbright",               // .fullbright
-    "Blood",                    // .blood
+    "Blood color",              // .bloodcolor
     "Shadow offset",            // .shadowoffset
 
     // MBF21
@@ -2616,15 +2616,15 @@ static void deh_procThing(DEHFILE *fpin, char *line)
                 // [BH] correct blood color as necessary
                 if (value & MF_SHOOTABLE)
                 {
-                    if (!(value & MF_FUZZ) && mobjinfo[indexnum].blood == MT_FUZZYBLOOD)
-                        mobjinfo[indexnum].blood = MT_BLOOD;
-                    else if ((value & MF_FUZZ) && mobjinfo[indexnum].blood != MT_FUZZYBLOOD)
-                        mobjinfo[indexnum].blood = MT_FUZZYBLOOD;
-                    else if (mobjinfo[indexnum].blood != MT_GREENBLOOD && mobjinfo[indexnum].blood != MT_BLUEBLOOD)
-                        mobjinfo[indexnum].blood = MT_BLOOD;
+                    if (!(value & MF_FUZZ) && mobjinfo[indexnum].bloodcolor == MT_FUZZYBLOOD)
+                        mobjinfo[indexnum].bloodcolor = MT_BLOOD;
+                    else if ((value & MF_FUZZ) && mobjinfo[indexnum].bloodcolor != MT_FUZZYBLOOD)
+                        mobjinfo[indexnum].bloodcolor = MT_FUZZYBLOOD;
+                    else if (mobjinfo[indexnum].bloodcolor != MT_GREENBLOOD && mobjinfo[indexnum].bloodcolor != MT_BLUEBLOOD)
+                        mobjinfo[indexnum].bloodcolor = MT_BLOOD;
                 }
                 else if (indexnum != MT_BLOOD)
-                    mobjinfo[indexnum].blood = 0;
+                    mobjinfo[indexnum].bloodcolor = 0;
             }
             else if (M_StringCompare(key, "Retro bits"))
             {

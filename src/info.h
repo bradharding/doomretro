@@ -281,7 +281,7 @@ typedef struct
     statenum_t  raisestate;
     int         frames;
     bool        fullbright;
-    int         blood;
+    int         bloodcolor;
     int         shadowoffset;
 
     // MBF21

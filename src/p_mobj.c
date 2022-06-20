@@ -263,7 +263,7 @@ static void P_XYMovement(mobj_t *mo)
 
         if (max)
         {
-            const int   blood = mobjinfo[mo->blood].blood;
+            const int   blood = mobjinfo[mo->blood].bloodcolor;
 
             if (blood)
             {
@@ -791,7 +791,7 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
     mobj->altcolfunc = info->altcolfunc;
     mobj->id = -1;
     mobj->shadowoffset = info->shadowoffset;
-    mobj->blood = info->blood;
+    mobj->blood = info->bloodcolor;
 
     P_SetShadowColumnFunction(mobj);
 
@@ -1081,7 +1081,7 @@ static void P_SpawnPlayer(const mapthing_t *mthing)
 //
 void P_SpawnMoreBlood(mobj_t *mobj)
 {
-    const int   blood = mobjinfo[mobj->blood].blood;
+    const int   blood = mobjinfo[mobj->blood].bloodcolor;
 
     if (blood)
     {
@@ -1403,7 +1403,7 @@ void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mo
     const mobjtype_t    type = (r_blood == r_blood_red ? MT_BLOOD : (r_blood == r_blood_green ? MT_GREENBLOOD :
                             (target->blood ? target->blood : MT_BLOOD)));
     mobjinfo_t          *info = &mobjinfo[type];
-    const int           blood = info->blood;
+    const int           blood = info->bloodcolor;
     state_t             *st = &states[info->spawnstate];
 
     angle += ANG180;

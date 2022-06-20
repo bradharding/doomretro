@@ -2112,7 +2112,7 @@ static void PIT_ChangeSector(mobj_t *thing)
             const int           max = M_RandomInt(50, 100) + radius;
             const int           x = thing->x;
             const int           y = thing->y;
-            const int           blood = mobjinfo[thing->blood].blood;
+            const int           blood = mobjinfo[thing->blood].bloodcolor;
             const int           floorz = thing->floorz;
             const mobjtype_t    type = thing->type;
 
