@@ -7613,10 +7613,12 @@ static void timer_cmd_func2(char *cmd, char *parms)
                 char    *temp = commify(value);
 
                 if (timer)
-                    C_Output("The timer has been %s to %s minute%s.",
-                        temp, (value == timer ? "reset" : "changed"), (value == 1 ? "" : "s"));
+                    C_Output("The timer has been %s to %s minute%s. %s will exit each map once the timer expires.",
+                        temp, (value == timer ? "reset" : "changed"), (value == 1 ? "" : "s"),
+                        (M_StringCompare(playername, playername_default) ? "You" : playername));
                 else
-                    C_Output("A timer has been set for %s minute%s.", temp, (value == 1 ? "" : "s"));
+                    C_Output("A timer has been set for %s minute%s. %s will exit eacg map once the timer expires.",
+                        temp, (value == 1 ? "" : "s"), (M_StringCompare(playername, playername_default) ? "You" : playername));
 
                 free(temp);
             }

@@ -2489,8 +2489,9 @@ void P_SpawnSpecials(void)
             char    *temp = commify(minutes);
 
             timer = BETWEEN(0, minutes, TIMERMAXMINUTES);
-            C_Output("A " BOLD("-timer") " parameter was found on the command-line. The time limit for each map is %s minute%s.",
-                temp, (minutes == 1 ? "" : "s"));
+            C_Output("A " BOLD("-timer") " parameter was found on the command-line. A timer "
+                "has been set to %s minute%s. %s will exit each map once the timer expires.",
+                temp, (minutes == 1 ? "" : "s"), (M_StringCompare(playername, playername_default) ? "You" : playername));
             P_SetTimer(minutes);
             free(temp);
         }
@@ -2499,7 +2500,9 @@ void P_SpawnSpecials(void)
     if (M_CheckParm("-avg"))
     {
         P_SetTimer(20);
-        C_Output("An " BOLD("-avg") " parameter was found on the command-line. The time limit for each map is %i minutes.", timer);
+        C_Output("An " BOLD("-avg") " parameter was found on the command-line. A timer "
+            "has been set to %i minutes. %s will exit each map once the timer expires.",
+            timer, (M_StringCompare(playername, playername_default) ? "You" : playername));
     }
 
     // Init special SECTORs.
