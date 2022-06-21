@@ -5149,7 +5149,7 @@ char *distancetraveled(uint64_t value, bool allowzero)
 //
 static void C_PlayerStats_Game(void)
 {
-    const int       tabs[3] = { 190, 325, 0 };
+    const int       tabs[3] = { 200, 335, 0 };
     skill_t         favoriteskilllevel1 = favoriteskilllevel();
     weapontype_t    favoriteweapon1 = favoriteweapon(false);
     weapontype_t    favoriteweapon2 = favoriteweapon(true);
@@ -5247,7 +5247,7 @@ static void C_PlayerStats_Game(void)
 
     temp1 = commify(viewplayer->infightcount);
     temp2 = commifystat(stat_monsterskilled_infighting);
-    C_TabbedOutput(tabs, "Monsters killed by infighting\t%s\t%s", temp1, temp2);
+    C_TabbedOutput(tabs, "Monsters killed from infighting\t%s\t%s", temp1, temp2);
     free(temp1);
     free(temp2);
 
@@ -5812,7 +5812,7 @@ static void C_PlayerStats_Game(void)
 
 static void C_PlayerStats_NoGame(void)
 {
-    const int       tabs[3] = { 190, 325, 0 };
+    const int       tabs[3] = { 200, 335, 0 };
     skill_t         favoriteskilllevel1 = favoriteskilllevel();
     weapontype_t    favoriteweapon1 = favoriteweapon(true);
     const int       time2 = (int)(stat_timeplayed / TICRATE);
@@ -5854,7 +5854,7 @@ static void C_PlayerStats_NoGame(void)
     free(temp1);
 
     temp1 = commifystat(stat_monsterskilled_infighting);
-    C_TabbedOutput(tabs, "Monsters killed by infighting\t\x96\t%s", temp1);
+    C_TabbedOutput(tabs, "Monsters killed from infighting\t\x96\t%s", temp1);
     free(temp1);
 
     if (gamemode == commercial)
