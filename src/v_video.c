@@ -656,17 +656,17 @@ void V_DrawConsolePatch(int x, int y, patch_t *patch, int maxwidth)
             byte        *dest = &desttop[topdelta * SCREENWIDTH];
             const byte  length = column->length;
             int         count = length;
-            int         height = topdelta + 1;
+            int         height = topdelta + y + 1;
 
             while (count--)
             {
-                if (y + height > CONSOLETOP)
+                if (height > CONSOLETOP)
                 {
                     *dest = tinttab60[(nearestcolors[*source] << 8) + *dest];
 
-                    if (y + height == 1)
+                    if (height == 1)
                         *dest = tinttab60[*dest];
-                    else if (y + height == 2)
+                    else if (height == 2)
                         *dest = tinttab30[*dest];
                 }
 
@@ -700,11 +700,11 @@ void V_DrawConsoleBrandingPatch(int x, int y, patch_t *patch, int color)
             byte        *dest = &desttop[topdelta * SCREENWIDTH];
             const byte  length = column->length;
             int         count = length;
-            int         height = topdelta + 1;
+            int         height = topdelta + y + 1;
 
             while (count--)
             {
-                if (y + height > CONSOLETOP && *source)
+                if (*source && height > CONSOLETOP)
                     *dest = (*source == WHITE || *source == LIGHTGRAY ? nearestcolors[*source] : tinttab50[color + *dest]);
 
                 source++;
