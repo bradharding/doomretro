@@ -5247,7 +5247,7 @@ static void C_PlayerStats_Game(void)
 
     temp1 = commify(viewplayer->infightcount);
     temp2 = commifystat(stat_monsterskilled_infighting);
-    C_TabbedOutput(tabs, "Monsters killed from infighting\t%s\t%s", temp1, temp2);
+    C_TabbedOutput(tabs, "Monsters killed while infighting\t%s\t%s", temp1, temp2);
     free(temp1);
     free(temp2);
 
@@ -5854,7 +5854,7 @@ static void C_PlayerStats_NoGame(void)
     free(temp1);
 
     temp1 = commifystat(stat_monsterskilled_infighting);
-    C_TabbedOutput(tabs, "Monsters killed from infighting\t\x96\t%s", temp1);
+    C_TabbedOutput(tabs, "Monsters killed while infighting\t\x96\t%s", temp1);
     free(temp1);
 
     if (gamemode == commercial)
