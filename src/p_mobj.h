@@ -477,7 +477,7 @@ typedef struct mobj_s
 
     int                 bloodsplats;
 
-    int                 blood;
+    int                 bloodcolor;
 
     // [AM] If 1, interpolate this tic. If -1, interpolate next tic.
     int                 interpolate;

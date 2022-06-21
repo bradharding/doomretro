@@ -263,16 +263,16 @@ static void P_XYMovement(mobj_t *mo)
 
         if (max)
         {
-            const int   blood = mobjinfo[mo->blood].bloodcolor;
+            const int   bloodcolor = mobjinfo[mo->bloodcolor].bloodcolor;
 
-            if (blood)
+            if (bloodcolor)
             {
                 const int       radius = (spritewidth[sprites[mo->sprite].spriteframes[mo->frame & FF_FRAMEMASK].lump[0]] >> FRACBITS) >> 1;
                 const fixed_t   floorz = mo->floorz;
 
                 for (int i = 0; i < max; i++)
                     P_SpawnBloodSplat(mo->x + (M_BigRandomInt(-radius, radius) << FRACBITS),
-                        mo->y + (M_BigRandomInt(-radius, radius) << FRACBITS), blood, true, floorz, mo);
+                        mo->y + (M_BigRandomInt(-radius, radius) << FRACBITS), bloodcolor, true, floorz, mo);
             }
         }
     }
@@ -454,10 +454,10 @@ floater:
     // clip movement
     if (mo->z <= floorz)
     {
-        int blood = mo->blood;
+        int bloodcolor = mo->bloodcolor;
 
         // [BH] remove blood the moment it hits the ground and spawn blood splats in its place
-        if (blood && (mo->flags2 & MF2_BLOOD))
+        if (bloodcolor && (mo->flags2 & MF2_BLOOD))
         {
             P_RemoveBloodMobj(mo);
 
@@ -466,17 +466,17 @@ floater:
                 const fixed_t   x = mo->x;
                 const fixed_t   y = mo->y;
 
-                P_SpawnBloodSplat(x, y, blood, false, 0, NULL);
+                P_SpawnBloodSplat(x, y, bloodcolor, false, 0, NULL);
 
-                if (blood != FUZZYBLOOD)
+                if (bloodcolor != FUZZYBLOOD)
                 {
                     const fixed_t   x1 = M_BigRandomInt(-5, 5) << FRACBITS;
                     const fixed_t   y1 = M_BigRandomInt(-5, 5) << FRACBITS;
                     const fixed_t   x2 = M_BigRandomIntNoRepeat(-5, 5, x1) << FRACBITS;
                     const fixed_t   y2 = M_BigRandomIntNoRepeat(-5, 5, y1) << FRACBITS;
 
-                    P_SpawnBloodSplat(x + x1, y + y1, blood, false, 0, NULL);
-                    P_SpawnBloodSplat(x - x2, y - y2, blood, false, 0, NULL);
+                    P_SpawnBloodSplat(x + x1, y + y1, bloodcolor, false, 0, NULL);
+                    P_SpawnBloodSplat(x - x2, y - y2, bloodcolor, false, 0, NULL);
                 }
             }
 
@@ -791,7 +791,7 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
     mobj->altcolfunc = info->altcolfunc;
     mobj->id = -1;
     mobj->shadowoffset = info->shadowoffset;
-    mobj->blood = info->bloodcolor;
+    mobj->bloodcolor = info->bloodcolor;
 
     P_SetShadowColumnFunction(mobj);
 
@@ -1081,7 +1081,7 @@ static void P_SpawnPlayer(const mapthing_t *mthing)
 //
 void P_SpawnMoreBlood(mobj_t *mobj)
 {
-    const int   blood = mobjinfo[mobj->blood].bloodcolor;
+    const int   blood = mobjinfo[mobj->bloodcolor].bloodcolor;
 
     if (blood)
     {
@@ -1267,7 +1267,7 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, bool spawnmonsters)
     if (r_corpses_moreblood
         && r_bloodsplats_max
         && !(flags & (MF_SHOOTABLE | MF_NOBLOOD | MF_SPECIAL))
-        && mobj->blood
+        && mobj->bloodcolor
         && (!hacx || !(flags2 & MF2_DECORATION))
         && (moreblood || lumpinfo[firstspritelump + sprites[mobj->sprite].spriteframes[0].lump[0]]->wadfile->type != PWAD)
         && mobj->subsector->sector->terraintype == SOLID)
@@ -1401,7 +1401,7 @@ void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mo
     const int           minz = target->z;
     const int           maxz = minz + spriteheight[sprites[target->sprite].spriteframes[0].lump[0]];
     const mobjtype_t    type = (r_blood == r_blood_red ? MT_BLOOD : (r_blood == r_blood_green ? MT_GREENBLOOD :
-                            (target->blood ? target->blood : MT_BLOOD)));
+                            (target->bloodcolor ? target->bloodcolor : MT_BLOOD)));
     mobjinfo_t          *info = &mobjinfo[type];
     const int           blood = info->bloodcolor;
     state_t             *st = &states[info->spawnstate];
@@ -1427,7 +1427,7 @@ void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mo
 
         th->colfunc = info->colfunc;
         th->altcolfunc = info->altcolfunc;
-        th->blood = blood;
+        th->bloodcolor = blood;
         th->id = -1;
 
         P_SetThingPosition(th);

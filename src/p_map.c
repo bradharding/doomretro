@@ -1777,7 +1777,7 @@ static bool PTR_ShootTraverse(intercept_t *in)
             else
                 P_SpawnPuff(x, y, z - 8 * FRACUNIT, shootangle);
         }
-        else if (th->blood)
+        else if (th->bloodcolor)
         {
             if (type != MT_PLAYER)
                 P_SpawnBlood(x, y, z, shootangle, la_damage, th);
@@ -2112,7 +2112,7 @@ static void PIT_ChangeSector(mobj_t *thing)
             const int           max = M_RandomInt(50, 100) + radius;
             const int           x = thing->x;
             const int           y = thing->y;
-            const int           blood = mobjinfo[thing->blood].bloodcolor;
+            const int           bloodcolor = mobjinfo[thing->bloodcolor].bloodcolor;
             const int           floorz = thing->floorz;
             const mobjtype_t    type = thing->type;
 
@@ -2121,30 +2121,30 @@ static void PIT_ChangeSector(mobj_t *thing)
                 const int   angle = M_BigRandomInt(0, FINEANGLES - 1);
 
                 P_SpawnBloodSplat(x + FixedMul(M_RandomInt(0, radius) << FRACBITS, finecosine[angle]),
-                    y + FixedMul(M_RandomInt(0, radius) << FRACBITS, finesine[angle]), blood, true, floorz, NULL);
+                    y + FixedMul(M_RandomInt(0, radius) << FRACBITS, finesine[angle]), bloodcolor, true, floorz, NULL);
             }
 
             P_SetMobjState(thing, S_GIBS);
 
             if (r_blood == r_blood_nofuzz)
             {
-                if (thing->blood == MT_BLUEBLOOD)
+                if (thing->bloodcolor == MT_BLUEBLOOD)
                     thing->colfunc = redtobluecolfunc;
-                else if (thing->blood == MT_GREENBLOOD)
+                else if (thing->bloodcolor == MT_GREENBLOOD)
                     thing->colfunc = redtogreencolfunc;
-                else if (thing->blood == MT_FUZZYBLOOD)
+                else if (thing->bloodcolor == MT_FUZZYBLOOD)
                     thing->colfunc = basecolfunc;
             }
             else if (r_blood == r_blood_all)
             {
-                if (thing->blood == MT_BLUEBLOOD)
+                if (thing->bloodcolor == MT_BLUEBLOOD)
                     thing->colfunc = redtobluecolfunc;
-                else if (thing->blood == MT_GREENBLOOD)
+                else if (thing->bloodcolor == MT_GREENBLOOD)
                     thing->colfunc = redtogreencolfunc;
             }
             else if (r_blood == r_blood_red || r_blood == r_blood_none)
             {
-                if (thing->blood == MT_FUZZYBLOOD)
+                if (thing->bloodcolor == MT_FUZZYBLOOD)
                     thing->colfunc = basecolfunc;
             }
             else if (r_blood == r_blood_green)
@@ -2192,10 +2192,10 @@ static void PIT_ChangeSector(mobj_t *thing)
 
     if (crushchange && !(leveltime & 3))
     {
-        if (!(flags & MF_NOBLOOD) && thing->blood && r_blood != r_blood_none
+        if (!(flags & MF_NOBLOOD) && thing->bloodcolor && r_blood != r_blood_none
             && (thing->type != MT_PLAYER || (!viewplayer->powers[pw_invulnerability] && !(viewplayer->cheats & CF_GODMODE))))
         {
-            const mobjtype_t    type = ((thing->flags & MF_FUZZ) ? MT_FUZZYBLOOD : thing->blood);
+            const mobjtype_t    type = ((thing->flags & MF_FUZZ) ? MT_FUZZYBLOOD : thing->bloodcolor);
             const int           z = thing->z + thing->height * 2 / 3;
 
             for (int i = 0; i < 4; i++)
