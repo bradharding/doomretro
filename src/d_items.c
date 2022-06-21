@@ -222,14 +222,3 @@ weaponinfo_t weaponinfo[NUMWEAPONS] =
         /* flags       */ WPF_NOFLAG
     }
 };
-
-char *powerupnames[NUMPOWERS] =
-{
-    "",
-    (char *)mobjinfo[MT_INV].name1,
-    (char *)mobjinfo[MT_MISC13].name1,
-    (char *)mobjinfo[MT_INS].name1,
-    (char *)mobjinfo[MT_MISC14].name1,
-    (char *)mobjinfo[MT_MISC15].name1,
-    (char *)mobjinfo[MT_MISC16].name1
-};
