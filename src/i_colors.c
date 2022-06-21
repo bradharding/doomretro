@@ -81,7 +81,7 @@ const static byte filter[256] =
 #define EXTRAS      X
 
 #define BLACK       0
-#define DARKBLUE  245
+#define DARKBLUE  244
 #define GOLD      231
 #define RED       176
 #define WHITE       4
@@ -167,9 +167,9 @@ void FindNearestColors(byte *palette)
 
         for (int i = 0; i < 256; i++)
         {
-            byte    red = *splashpal++;
-            byte    green = *splashpal++;
-            byte    blue = *splashpal++;
+            const byte  red = *splashpal++;
+            const byte  green = *splashpal++;
+            const byte  blue = *splashpal++;
 
             nearestcolors[i] = FindNearestColor(palette, red, green, blue);
         }
