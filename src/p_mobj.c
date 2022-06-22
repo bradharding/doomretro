@@ -257,24 +257,21 @@ static void P_XYMovement(mobj_t *mo)
         return;         // no friction when airborne
 
     // [BH] spawn random blood splats on floor as corpses slide
-    if (corpse && !(mo->flags & MF_NOBLOOD) && r_corpses_slide && r_corpses_smearblood
+    if (corpse && !(mo->flags & MF_NOBLOOD) && mo->bloodcolor && r_corpses_slide && r_corpses_smearblood
         && (mo->momx || mo->momy) && mo->bloodsplats && r_bloodsplats_max && !mo->nudge)
     {
         const int   max = MIN((ABS(mo->momx) + ABS(mo->momy)) >> (FRACBITS - 2), 8);
 
         if (max)
         {
-            const int   bloodcolor = mobjinfo[mo->bloodcolor].bloodcolor;
+            const int       bloodcolor = colortranslation[mo->bloodcolor - 1][REDBLOODSPLATCOLOR];
 
-            if (bloodcolor)
-            {
-                const int       radius = (spritewidth[sprites[mo->sprite].spriteframes[mo->frame & FF_FRAMEMASK].lump[0]] >> FRACBITS) >> 1;
-                const fixed_t   floorz = mo->floorz;
+            const int       radius = (spritewidth[sprites[mo->sprite].spriteframes[mo->frame & FF_FRAMEMASK].lump[0]] >> FRACBITS) >> 1;
+            const fixed_t   floorz = mo->floorz;
 
-                for (int i = 0; i < max; i++)
-                    P_SpawnBloodSplat(mo->x + (M_BigRandomInt(-radius, radius) << FRACBITS),
-                        mo->y + (M_BigRandomInt(-radius, radius) << FRACBITS), bloodcolor, true, floorz, mo);
-            }
+            for (int i = 0; i < max; i++)
+                P_SpawnBloodSplat(mo->x + (M_BigRandomInt(-radius, radius) << FRACBITS),
+                    mo->y + (M_BigRandomInt(-radius, radius) << FRACBITS), bloodcolor, true, floorz, mo);
         }
     }
 
@@ -456,16 +453,15 @@ floater:
     if (mo->z <= floorz)
     {
         // [BH] remove blood the moment it hits the ground and spawn blood splats in its place
-        if (mo->type == MT_BLOOD && mo->bloodcolor)
+        if (mo->type == MT_BLOOD)
         {
-            int bloodcolor = colortranslation[mo->bloodcolor - 1][REDBLOODSPLATCOLOR];
-
             P_RemoveBloodMobj(mo);
 
-            if (r_bloodsplats_max)
+            if (r_bloodsplats_max && mo->bloodcolor)
             {
                 const fixed_t   x = mo->x;
                 const fixed_t   y = mo->y;
+                const int       bloodcolor = colortranslation[mo->bloodcolor - 1][REDBLOODSPLATCOLOR];
 
                 P_SpawnBloodSplat(x, y, bloodcolor, false, 0, NULL);
 
@@ -1082,10 +1078,9 @@ static void P_SpawnPlayer(const mapthing_t *mthing)
 //
 void P_SpawnMoreBlood(mobj_t *mobj)
 {
-    const int   blood = mobjinfo[mobj->bloodcolor].bloodcolor;
-
-    if (blood)
+    if (mobj->bloodcolor)
     {
+        const int       bloodcolor = colortranslation[mobj->bloodcolor - 1][REDBLOODSPLATCOLOR];
         const int       radius = ((spritewidth[sprites[mobj->sprite].spriteframes[0].lump[0]] >> FRACBITS) >> 1) + 12;
         const int       max = M_BigRandomInt(150, 200) + radius;
         const fixed_t   floorz = mobj->floorz;
@@ -1110,7 +1105,7 @@ void P_SpawnMoreBlood(mobj_t *mobj)
             fx = x + FixedMul(M_BigRandomInt(0, radius) << FRACBITS, finecosine[angle]);
             fy = y + FixedMul(M_BigRandomInt(0, radius) << FRACBITS, finesine[angle]);
 
-            P_SpawnBloodSplat(fx, fy, blood, true, floorz, mobj);
+            P_SpawnBloodSplat(fx, fy, bloodcolor, true, floorz, mobj);
         }
     }
 }
