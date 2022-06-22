@@ -43,13 +43,23 @@
 #include "states.h"
 #include "tables.h"
 
-#define FUZZYBLOOD         -1
-#define REDBLOOD            184
-#define GREENBLOOD          122
-#define BLUEBLOOD           204
+#define FUZZYBLOOD             -1
 
-#define BLOODSPLATLUMPS     12
-#define CORPSEBLOODSPLATS   512
+#define REDBLOODSPLATCOLOR    184
+#define GREENBLOODSPLATCOLOR  122
+
+#define REDBLOOD                1
+#define GRAYBLOOD               2
+#define GREENBLOOD              3
+#define BLUEBLOOD               4
+#define YELLOWBLOOD             5
+#define BLACKBLOOD              6
+#define PURPLEBLOOD             7
+#define WHITEBLOOD              8
+#define ORANGEBLOOD             9
+
+#define BLOODSPLATLUMPS        12
+#define CORPSEBLOODSPLATS     512
 
 // killough 11/98:
 // For torque simulation:
@@ -313,9 +323,6 @@ enum
 
     // Object casts a shadow
     MF2_CASTSHADOW                  = 0x00400000,
-
-    // Object is blood
-    MF2_BLOOD                       = 0x00800000,
 
     // Object's thing triangle is not displayed in automap
     MF2_DONTMAP                     = 0x01000000,

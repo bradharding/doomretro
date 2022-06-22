@@ -490,7 +490,7 @@ void R_UpdateMobjColfunc(mobj_t *mobj)
     {
         if (r_textures)
         {
-            if ((flags2 & MF2_BLOOD) && r_blood != r_blood_all)
+            if (mobj->type == MT_BLOOD && r_blood != r_blood_all)
             {
                 if (r_translucency)
                 {
@@ -868,24 +868,8 @@ void R_InitColumnFunctions(void)
         {
             if (r_textures)
             {
-                if ((flags2 & MF2_BLOOD) && r_blood != r_blood_all)
-                {
-                    if (r_translucency)
-                    {
-                        info->colfunc = &R_DrawTranslucent33Column;
-                        info->altcolfunc = &R_DrawTranslucent33Column;
-                    }
-                    else
-                    {
-                        info->colfunc = &R_DrawColumn;
-                        info->altcolfunc = &R_DrawColumn;
-                    }
-                }
-                else
-                {
-                    info->colfunc = &R_DrawFuzzColumn;
-                    info->altcolfunc = &R_DrawFuzzColumn;
-                }
+                info->colfunc = &R_DrawFuzzColumn;
+                info->altcolfunc = &R_DrawFuzzColumn;
             }
             else if (r_translucency)
             {

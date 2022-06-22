@@ -51,6 +51,7 @@
 #include "p_tick.h"
 #include "s_sound.h"
 #include "st_stuff.h"
+#include "v_video.h"
 #include "w_wad.h"
 #include "z_zone.h"
 
@@ -454,11 +455,11 @@ floater:
     // clip movement
     if (mo->z <= floorz)
     {
-        int bloodcolor = mo->bloodcolor;
-
         // [BH] remove blood the moment it hits the ground and spawn blood splats in its place
-        if (bloodcolor && (mo->flags2 & MF2_BLOOD))
+        if (mo->type == MT_BLOOD && mo->bloodcolor)
         {
+            int bloodcolor = colortranslation[mo->bloodcolor - 1][REDBLOODSPLATCOLOR];
+
             P_RemoveBloodMobj(mo);
 
             if (r_bloodsplats_max)
@@ -1401,7 +1402,7 @@ void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mo
     const int   minz = target->z;
     const int   maxz = minz + spriteheight[sprites[target->sprite].spriteframes[0].lump[0]];
     mobjinfo_t  *info = &mobjinfo[MT_BLOOD];
-    const int   bloodcolor = target->bloodcolor;
+    const int   color = (r_blood == r_blood_red ? REDBLOOD : (r_blood == r_blood_green ? GREENBLOOD : target->bloodcolor));
     state_t     *st = &states[info->spawnstate];
 
     angle += ANG180;
@@ -1425,7 +1426,7 @@ void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mo
 
         th->colfunc = bloodcolfunc;
         th->altcolfunc = bloodcolfunc;
-        th->bloodcolor = bloodcolor;
+        th->bloodcolor = color;
         th->id = -1;
 
         P_SetThingPosition(th);
@@ -1461,7 +1462,7 @@ void P_SetBloodSplatColor(bloodsplat_t *splat)
 {
     if (r_blood == r_blood_nofuzz)
     {
-        splat->viscolor = (splat->color == FUZZYBLOOD ? REDBLOOD : splat->color) + M_BigRandomInt(-2, 1);
+        splat->viscolor = (splat->color == FUZZYBLOOD ? REDBLOODSPLATCOLOR : splat->color) + M_BigRandomInt(-2, 1);
         splat->viscolfunc = bloodsplatcolfunc;
     }
     else if (r_blood == r_blood_all)
@@ -1479,12 +1480,12 @@ void P_SetBloodSplatColor(bloodsplat_t *splat)
     }
     else if (r_blood == r_blood_red)
     {
-        splat->viscolor = REDBLOOD + M_BigRandomInt(-2, 1);
+        splat->viscolor = REDBLOODSPLATCOLOR + M_BigRandomInt(-2, 1);
         splat->viscolfunc = bloodsplatcolfunc;
     }
     else
     {
-        splat->viscolor = GREENBLOOD + M_BigRandomInt(-2, 1);
+        splat->viscolor = GREENBLOODSPLATCOLOR + M_BigRandomInt(-2, 1);
         splat->viscolfunc = bloodsplatcolfunc;
     }
 }
