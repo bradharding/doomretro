@@ -478,6 +478,7 @@ void (*tlredtogreen33colfunc)(void);
 void (*psprcolfunc)(void);
 void (*spanfunc)(void);
 void (*altspanfunc)(void);
+void (*bloodcolfunc)(void);
 void (*bloodsplatcolfunc)(void);
 
 void R_UpdateMobjColfunc(mobj_t *mobj)
@@ -756,6 +757,7 @@ void R_InitColumnFunctions(void)
             }
         }
 
+        bloodcolfunc = (r_translucency ? &R_DrawTranslucentBloodColumn : &R_DrawTranslatedColumn);
         bloodsplatcolfunc = (r_bloodsplats_translucency ? &R_DrawBloodSplatColumn : &R_DrawSolidBloodSplatColumn);
         psprcolfunc = &R_DrawPlayerSpriteColumn;
     }
@@ -848,6 +850,7 @@ void R_InitColumnFunctions(void)
             tlredtogreen33colfunc = &R_DrawColorColumn;
         }
 
+        bloodcolfunc = (r_translucency ? &R_DrawTranslucent50ColorColumn : &R_DrawColorColumn);
         bloodsplatcolfunc = (r_bloodsplats_translucency ? &R_DrawTranslucent50ColorColumn : &R_DrawColorColumn);
         psprcolfunc = &R_DrawColorColumn;
         altwallcolfunc = &R_DrawColorColumn;

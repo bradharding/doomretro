@@ -75,11 +75,11 @@ enum
     CR_LIMIT
 };
 
-extern const byte   *colortranslation[CR_LIMIT];
+extern byte *colortranslation[CR_LIMIT];
 
-extern const byte   *redtoblue;
-extern const byte   *redtogreen;
-extern const byte   *redtogold;
+extern byte *redtoblue;
+extern byte *redtogreen;
+extern byte *redtogold;
 
 void V_InitColorTranslation(void);
 

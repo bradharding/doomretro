@@ -1398,13 +1398,11 @@ void P_SpawnSmokeTrail(fixed_t x, fixed_t y, fixed_t z, angle_t angle)
 //
 void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mobj_t *target)
 {
-    const int           minz = target->z;
-    const int           maxz = minz + spriteheight[sprites[target->sprite].spriteframes[0].lump[0]];
-    const mobjtype_t    type = (r_blood == r_blood_red ? MT_BLOOD : (r_blood == r_blood_green ? MT_GREENBLOOD :
-                            (target->bloodcolor ? target->bloodcolor : MT_BLOOD)));
-    mobjinfo_t          *info = &mobjinfo[type];
-    const int           blood = info->bloodcolor;
-    state_t             *st = &states[info->spawnstate];
+    const int   minz = target->z;
+    const int   maxz = minz + spriteheight[sprites[target->sprite].spriteframes[0].lump[0]];
+    mobjinfo_t  *info = &mobjinfo[MT_BLOOD];
+    const int   bloodcolor = target->bloodcolor;
+    state_t     *st = &states[info->spawnstate];
 
     angle += ANG180;
 
@@ -1413,7 +1411,7 @@ void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mo
         mobj_t      *th = Z_Calloc(1, sizeof(*th), PU_LEVEL, NULL);
         sector_t    *sector;
 
-        th->type = type;
+        th->type = MT_BLOOD;
         th->info = info;
         th->x = x + M_BigRandomInt(-2, 2) * FRACUNIT;
         th->y = y + M_BigRandomInt(-2, 2) * FRACUNIT;
@@ -1425,9 +1423,9 @@ void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mo
         th->sprite = st->sprite;
         th->frame = st->frame;
 
-        th->colfunc = info->colfunc;
-        th->altcolfunc = info->altcolfunc;
-        th->bloodcolor = blood;
+        th->colfunc = bloodcolfunc;
+        th->altcolfunc = bloodcolfunc;
+        th->bloodcolor = bloodcolor;
         th->id = -1;
 
         P_SetThingPosition(th);

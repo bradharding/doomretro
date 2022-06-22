@@ -447,7 +447,12 @@ static void R_DrawVisSprite(const vissprite_t *vis)
         dc_translation = &translationtables[((flags & MF_TRANSLATION) >> (MF_TRANSLATIONSHIFT - 8)) - 256];
     }
     else
+    {
+        if (vis->mobj->type == MT_BLOOD)
+            dc_translation = colortranslation[vis->mobj->bloodcolor - 1];
+
         colfunc = vis->colfunc;
+    }
 
     sprtopscreen = (int64_t)centeryfrac - FixedMul(dc_texturemid, spryscale);
     baseclip = (vis->footclip ? (int)(sprtopscreen + vis->footclip) >> FRACBITS : viewheight);

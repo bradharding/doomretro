@@ -126,6 +126,7 @@ void R_DrawShadowColumn(void);
 void R_DrawFuzzyShadowColumn(void);
 void R_DrawSolidShadowColumn(void);
 void R_DrawSolidFuzzyShadowColumn(void);
+void R_DrawTranslucentBloodColumn(void);
 void R_DrawBloodSplatColumn(void);
 void R_DrawSolidBloodSplatColumn(void);
 

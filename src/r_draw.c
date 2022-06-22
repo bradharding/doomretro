@@ -765,6 +765,23 @@ void R_DrawTranslucentRedToBlue33Column(void)
     *dest = tinttab33[(*dest << 8) + colormap[redtoblue[dc_source[frac >> FRACBITS]]]];
 }
 
+void R_DrawTranslucentBloodColumn(void)
+{
+    int                 count = dc_yh - dc_yl + 1;
+    byte                *dest = ylookup0[dc_yl] + dc_x;
+    fixed_t             frac = dc_texturefrac;
+    const lighttable_t  *colormap = dc_colormap[0];
+
+    while (--count)
+    {
+        *dest = tinttab33[(*dest << 8) + colormap[dc_translation[dc_source[frac >> FRACBITS]]]];
+        dest += SCREENWIDTH;
+        frac += dc_iscale;
+    }
+
+    *dest = tinttab33[(*dest << 8) + colormap[dc_translation[dc_source[frac >> FRACBITS]]]];
+}
+
 void R_DrawRedToGreenColumn(void)
 {
     int                 count = dc_yh - dc_yl + 1;

@@ -67,11 +67,11 @@ int     lowpixelheight;
 
 void (*postprocessfunc)(int, int, int, int, int, int);
 
-const byte  *colortranslation[CR_LIMIT];
+byte    *colortranslation[CR_LIMIT];
 
-const byte  *redtoblue;
-const byte  *redtogreen;
-const byte  *redtogold;
+byte    *redtoblue;
+byte    *redtogreen;
+byte    *redtogold;
 
 typedef struct
 {
@@ -79,7 +79,7 @@ typedef struct
     const byte  **lump;
 } colortranslation_t;
 
-static const colortranslation_t colortranslations[] =
+static colortranslation_t colortranslations[] =
 {
     { "CRRED",    &colortranslation[CR_RED]    },
     { "CRGRAY",   &colortranslation[CR_GRAY]   },
@@ -95,7 +95,7 @@ static const colortranslation_t colortranslations[] =
 
 void V_InitColorTranslation(void)
 {
-    for (const colortranslation_t *p = colortranslations; *p->name; p++)
+    for (colortranslation_t *p = colortranslations; *p->name; p++)
         *p->lump = W_CacheLumpName(p->name);
 
     redtoblue = colortranslation[CR_BLUE];
