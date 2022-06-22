@@ -23,6 +23,7 @@
   * Using the `SHADOW` flag in `Bits` now always works as intended.
   * A crash no longer occurs when attempting to display the player’s health in the widescreen HUD if `Initial Health` or `Max Health` are changed to a value greater than `999`.
   * Gibbing corpses are no longer affected if `Exploding frame` is changed.
+  * `Blood color` may now be used to specify the color of blood spilled by monsters (red, gray, green, blue, yellow, black, purple, white or orange).
 * The following changes have been made to the support of `MAPINFO` lumps:
   * `nofreelook` and `nojump` now work as intended.
   * `compat_nopassover` can now be used to override the effects of when the `infiniteheight` CVAR is `off`.
