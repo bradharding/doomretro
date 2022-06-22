@@ -50,6 +50,7 @@
 #include "p_local.h"
 #include "p_setup.h"
 #include "s_sound.h"
+#include "v_video.h"
 #include "z_zone.h"
 
 static mobj_t   *tmthing;
@@ -2112,7 +2113,7 @@ static void PIT_ChangeSector(mobj_t *thing)
             const int           max = M_RandomInt(50, 100) + radius;
             const int           x = thing->x;
             const int           y = thing->y;
-            const int           bloodcolor = mobjinfo[thing->bloodcolor].bloodcolor;
+            const int           bloodcolor = colortranslation[thing->bloodcolor - 1][REDBLOODSPLATCOLOR];
             const int           floorz = thing->floorz;
             const mobjtype_t    type = thing->type;
 
