@@ -77,8 +77,6 @@ enum
 
 extern byte *colortranslation[CR_LIMIT];
 
-extern byte *redtoblue;
-extern byte *redtogreen;
 extern byte *redtogold;
 
 void V_InitColorTranslation(void);

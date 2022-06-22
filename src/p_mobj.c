@@ -257,7 +257,7 @@ static void P_XYMovement(mobj_t *mo)
         return;         // no friction when airborne
 
     // [BH] spawn random blood splats on floor as corpses slide
-    if (corpse && !(mo->flags & MF_NOBLOOD) && mo->bloodcolor && r_corpses_slide && r_corpses_smearblood
+    if (corpse && !(mo->flags & MF_NOBLOOD) && mo->bloodcolor && r_corpses_smearblood
         && (mo->momx || mo->momy) && mo->bloodsplats && r_bloodsplats_max && !mo->nudge)
     {
         const int   max = MIN((ABS(mo->momx) + ABS(mo->momy)) >> (FRACBITS - 2), 8);
@@ -265,7 +265,6 @@ static void P_XYMovement(mobj_t *mo)
         if (max)
         {
             const int       bloodcolor = colortranslation[mo->bloodcolor - 1][REDBLOODSPLATCOLOR];
-
             const int       radius = (spritewidth[sprites[mo->sprite].spriteframes[mo->frame & FF_FRAMEMASK].lump[0]] >> FRACBITS) >> 1;
             const fixed_t   floorz = mo->floorz;
 

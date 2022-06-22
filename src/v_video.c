@@ -69,8 +69,6 @@ void (*postprocessfunc)(int, int, int, int, int, int);
 
 byte    *colortranslation[CR_LIMIT];
 
-byte    *redtoblue;
-byte    *redtogreen;
 byte    *redtogold;
 
 typedef struct
@@ -98,8 +96,6 @@ void V_InitColorTranslation(void)
     for (colortranslation_t *p = colortranslations; *p->name; p++)
         *p->lump = W_CacheLumpName(p->name);
 
-    redtoblue = colortranslation[CR_BLUE];
-    redtogreen = colortranslation[CR_GREEN];
     redtogold = W_CacheLumpName("CRGOLD");
 }
 
