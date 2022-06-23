@@ -5245,12 +5245,6 @@ static void C_PlayerStats_Game(void)
     free(temp2);
     free(temp3);
 
-    temp1 = commify(viewplayer->infightcount);
-    temp2 = commifystat(stat_monsterskilled_infighting);
-    C_TabbedOutput(tabs, "Monsters killed while infighting\t%s\t%s", temp1, temp2);
-    free(temp1);
-    free(temp2);
-
     if (gamemode == commercial)
     {
         temp1 = sentencecase(mobjinfo[MT_BABY].plural1);
@@ -5472,6 +5466,12 @@ static void C_PlayerStats_Game(void)
     free(temp2);
     free(temp3);
     free(temp4);
+
+    temp1 = commify(viewplayer->infightcount);
+    temp2 = commifystat(stat_monsterskilled_infighting);
+    C_TabbedOutput(tabs, "Monsters killed while infighting\t%s\t%s", temp1, temp2);
+    free(temp1);
+    free(temp2);
 
     temp1 = commify(viewplayer->respawncount);
     temp2 = commifystat(stat_monstersrespawned);
@@ -5853,10 +5853,6 @@ static void C_PlayerStats_NoGame(void)
     C_TabbedOutput(tabs, "Monsters killed by %s\t\x96\t%s", playername, temp1);
     free(temp1);
 
-    temp1 = commifystat(stat_monsterskilled_infighting);
-    C_TabbedOutput(tabs, "Monsters killed while infighting\t\x96\t%s", temp1);
-    free(temp1);
-
     if (gamemode == commercial)
     {
         temp1 = sentencecase(mobjinfo[MT_BABY].plural1);
@@ -5976,6 +5972,10 @@ static void C_PlayerStats_NoGame(void)
     C_TabbedOutput(tabs, "%s killed\t\x96\t%s", temp1, temp2);
     free(temp1);
     free(temp2);
+
+    temp1 = commifystat(stat_monsterskilled_infighting);
+    C_TabbedOutput(tabs, "Monsters killed while infighting\t\x96\t%s", temp1);
+    free(temp1);
 
     temp1 = commifystat(stat_monstersrespawned);
     C_TabbedOutput(tabs, "Monsters respawned\t\x96\t%s", temp1);
