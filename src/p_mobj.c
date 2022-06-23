@@ -422,7 +422,7 @@ static void P_ZMovement(mobj_t *mo)
                 P_ExplodeMissile(mo);
         }
 
-        if ((mo->flags & MF_FLOAT) && sentient(mo))
+        if ((flags & MF_FLOAT) && sentient(mo))
             goto floater;
 
         return;
@@ -464,7 +464,7 @@ floater:
 
                 P_SpawnBloodSplat(x, y, bloodcolor, false, 0, NULL);
 
-                if (bloodcolor != FUZZYBLOOD)
+                if (!(flags & MF_FUZZ))
                 {
                     const fixed_t   x1 = M_BigRandomInt(-5, 5) << FRACBITS;
                     const fixed_t   y1 = M_BigRandomInt(-5, 5) << FRACBITS;
