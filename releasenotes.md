@@ -18,6 +18,7 @@
 * A crash no longer occurs when:
   * Entering the `IDBEHOLD` cheat while the alternate widescreen HUD is displayed.
   * Entering the `map` CCMD in the console with an invalid parameter.
+* The `IDCHOPPERS` cheat will now be canceled (by removing the invulnerability power-up and the chainsaw) when the player exits a map.
 * The following changes have been made to the support of `DEHACKED` lumps:
   * The player’s super shotgun is now positioned correctly if the offsets of any of its frames are changed.
   * Using the `SHADOW` flag in `Bits` now always works as intended.

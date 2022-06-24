@@ -603,12 +603,23 @@ void G_DoLoadLevel(void)
     if (pistolstart || P_GetMapPistolStart(map))
         G_ResetPlayer();
 
+    if (viewplayer->cheats & CF_CHOPPERS)
+    {
+        viewplayer->cheats &= ~CF_CHOPPERS;
+        viewplayer->powers[pw_invulnerability] = 0;
+
+        if (!(viewplayer->weaponowned[wp_chainsaw] = viewplayer->chainsawbeforechoppers))
+            viewplayer->readyweapon = wp_fist;
+
+        oldweaponsowned[wp_chainsaw] = viewplayer->chainsawbeforechoppers;
+    }
+
     if (pendinggameskill)
     {
         gameskill = pendinggameskill - 1;
 
         if (gameskill == sk_nightmare)
-            viewplayer->cheats &= ~(CF_NOCLIP | CF_GODMODE | CF_CHOPPERS | CF_BUDDHA);
+            viewplayer->cheats &= ~(CF_NOCLIP | CF_GODMODE | CF_BUDDHA);
 
         pendinggameskill = 0;
     }
