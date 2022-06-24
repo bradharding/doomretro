@@ -74,7 +74,7 @@ byte    *redtogold;
 typedef struct
 {
     const char  *name;
-    const byte  **lump;
+    byte        **lump;
 } colortranslation_t;
 
 static colortranslation_t colortranslations[] =
