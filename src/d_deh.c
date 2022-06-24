@@ -2678,6 +2678,8 @@ static void deh_procThing(DEHFILE *fpin, char *line)
 
                 mbf21compatible = true;
             }
+            else if (M_StringCompare(key, "Blood color"))
+                mobjinfo[indexnum].bloodcolor = value + 1;
             else if (M_StringCompare(key, "Dropped item"))
                 mobjinfo[indexnum].droppeditem = value - 1;
             else if (M_StringCompare(key, "Infighting group"))
@@ -2686,8 +2688,6 @@ static void deh_procThing(DEHFILE *fpin, char *line)
                 mobjinfo[indexnum].projectilegroup = (value < 0 ? PG_GROUPLESS : value + PG_END);
             else if (M_StringCompare(key, "Splash group"))
                 mobjinfo[indexnum].splashgroup = value + SG_END;
-            else if (M_StringCompare(key, "Blood color"))
-                mobjinfo[indexnum].bloodcolor = value + 1;
             else
             {
                 int *pix = (int *)&mobjinfo[indexnum];
