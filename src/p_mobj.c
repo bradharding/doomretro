@@ -456,21 +456,21 @@ floater:
         {
             P_RemoveBloodMobj(mo);
 
-            if (r_bloodsplats_max && mo->bloodcolor)
+            if (r_bloodsplats_max)
             {
-                const fixed_t   x = mo->x;
-                const fixed_t   y = mo->y;
-                const int       bloodcolor = colortranslation[mo->bloodcolor - 1][REDBLOODSPLATCOLOR];
-
-                P_SpawnBloodSplat(x, y, bloodcolor, false, 0, NULL);
-
-                if (!(flags & MF_FUZZ))
+                if (flags & MF_FUZZ)
+                    P_SpawnBloodSplat(mo->x, mo->y, FUZZYBLOOD, false, 0, NULL);
+                else if (mo->bloodcolor)
                 {
+                    const fixed_t   x = mo->x;
+                    const fixed_t   y = mo->y;
                     const fixed_t   x1 = M_BigRandomInt(-5, 5) << FRACBITS;
                     const fixed_t   y1 = M_BigRandomInt(-5, 5) << FRACBITS;
                     const fixed_t   x2 = M_BigRandomIntNoRepeat(-5, 5, x1) << FRACBITS;
                     const fixed_t   y2 = M_BigRandomIntNoRepeat(-5, 5, y1) << FRACBITS;
+                    const int       bloodcolor = colortranslation[mo->bloodcolor - 1][REDBLOODSPLATCOLOR];
 
+                    P_SpawnBloodSplat(x, y, bloodcolor, false, 0, NULL);
                     P_SpawnBloodSplat(x + x1, y + y1, bloodcolor, false, 0, NULL);
                     P_SpawnBloodSplat(x - x2, y - y2, bloodcolor, false, 0, NULL);
                 }
@@ -1396,8 +1396,12 @@ void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mo
     const int   minz = target->z;
     const int   maxz = minz + spriteheight[sprites[target->sprite].spriteframes[0].lump[0]];
     mobjinfo_t  *info = &mobjinfo[MT_BLOOD];
-    const int   color = (r_blood == r_blood_red ? REDBLOOD : (r_blood == r_blood_green ? GREENBLOOD : target->bloodcolor));
+    const bool  fuzz = ((target->flags & MF_FUZZ) && r_blood == r_blood_all);
+    int         color;
     state_t     *st = &states[info->spawnstate];
+
+    if (!fuzz)
+        color = (r_blood == r_blood_red ? REDBLOOD : (r_blood == r_blood_green ? GREENBLOOD : target->bloodcolor));
 
     angle += ANG180;
 
@@ -1418,9 +1422,19 @@ void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mo
         th->sprite = st->sprite;
         th->frame = st->frame;
 
-        th->colfunc = bloodcolfunc;
-        th->altcolfunc = bloodcolfunc;
-        th->bloodcolor = color;
+        if (fuzz)
+        {
+            th->flags |= MF_FUZZ;
+            th->colfunc = &R_DrawFuzzColumn;
+            th->altcolfunc = &R_DrawFuzzColumn;
+        }
+        else
+        {
+            th->colfunc = bloodcolfunc;
+            th->altcolfunc = bloodcolfunc;
+            th->bloodcolor = color;
+        }
+
         th->id = -1;
 
         P_SetThingPosition(th);
