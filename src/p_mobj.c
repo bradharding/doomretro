@@ -267,13 +267,13 @@ static void P_XYMovement(mobj_t *mo)
 
         if (max)
         {
-            const int       bloodcolor = colortranslation[mo->bloodcolor - 1][REDBLOODSPLATCOLOR];
+            const int       color = colortranslation[mo->bloodcolor - 1][REDBLOODSPLATCOLOR];
             const int       radius = (spritewidth[sprites[mo->sprite].spriteframes[mo->frame & FF_FRAMEMASK].lump[0]] >> FRACBITS) >> 1;
             const fixed_t   floorz = mo->floorz;
 
             for (int i = 0; i < max; i++)
                 P_SpawnBloodSplat(mo->x + (M_BigRandomInt(-radius, radius) << FRACBITS),
-                    mo->y + (M_BigRandomInt(-radius, radius) << FRACBITS), bloodcolor, true, floorz, mo);
+                    mo->y + (M_BigRandomInt(-radius, radius) << FRACBITS), color, true, floorz, mo);
         }
     }
 

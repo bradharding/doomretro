@@ -37,7 +37,7 @@
 * The following changes have been made when vanilla mode is enabled using the `vanilla` CCMD:
   * The `am_grid` CVAR is no longer turned `off`.
   * Red blood is now spawned when shooting a lost soul.
-* When the corpse of a monster is gibbed, it’s color will now match the color of the monster’s blood.
+* When the corpse of a monster is crushed, it’s color will now match the monster’s blood.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

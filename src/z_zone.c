@@ -119,7 +119,12 @@ void *Z_Calloc(size_t n1, size_t n2, int tag, void **user)
 
 void Z_Free(void *ptr)
 {
-    memblock_t  *block = (memblock_t *)((char *)ptr - headersize);
+    memblock_t  *block;
+
+    if (!ptr)
+        return;
+
+    block = (memblock_t *)((char *)ptr - headersize);
 
     if (block->user)                                    // Nullify user if one exists
         *block->user = NULL;
