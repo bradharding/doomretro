@@ -23,7 +23,7 @@
   * Using the `SHADOW` flag in `Bits` now always works as intended.
   * A crash no longer occurs when attempting to display the player’s health in the widescreen HUD if `Initial Health` or `Max Health` are changed to a value greater than `999`.
   * Gibbing corpses are no longer affected if `Exploding frame` is changed.
-  * `Blood color` may now be used to change the color of blood spilled by monsters. This is set to a value between `0` to `8` (the colors red, gray, green, blue, yellow, black, purple, white and orange). To have a monster spill fuzzy blood, `Bits` must specify the `SHADOW` flag and the `r_blood` CVAR must be `all`.
+  * `Blood color` may now be used to change the color of blood spilled by monsters. This is set to a value between `0` to `8` (representing the colors red, gray, green, blue, yellow, black, purple, white and orange). For a monster to spill fuzzy blood, the `SHADOW` flag must be used in `Bits` and the `r_blood` CVAR must be `all`.
   * `Blood` in `Thing` blocks, as well as the use of `TRANSLUCENT_REDTOGREEN_33`, `TRANSLUCENT_REDTOBLUE_33`, `REDTOGREEN` and `REDTOBLUE` flags in `Retro bits`, have all been deprecated.
 * The following changes have been made to the support of `MAPINFO` lumps:
   * `nofreelook` and `nojump` now work as intended.

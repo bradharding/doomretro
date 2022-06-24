@@ -592,9 +592,9 @@ static void R_InitSpriteLumps(void)
 
             if (M_StringCompare(pwadfile, sc_String))
             {
-                mobjinfo[MT_HEAD].bloodcolor = MT_BLOOD;
-                mobjinfo[MT_BRUISER].bloodcolor = MT_BLOOD;
-                mobjinfo[MT_KNIGHT].bloodcolor = MT_BLOOD;
+                mobjinfo[MT_HEAD].bloodcolor = REDBLOOD;
+                mobjinfo[MT_BRUISER].bloodcolor = REDBLOOD;
+                mobjinfo[MT_KNIGHT].bloodcolor = REDBLOOD;
             }
         }
     }
@@ -668,9 +668,9 @@ static void R_InitSpriteLumps(void)
         states[S_BAR1].nextstate = S_BAR2;
         mobjinfo[MT_BARREL].frames = 2;
 
-        mobjinfo[MT_HEAD].bloodcolor = MT_BLOOD;
-        mobjinfo[MT_BRUISER].bloodcolor = MT_BLOOD;
-        mobjinfo[MT_KNIGHT].bloodcolor = MT_BLOOD;
+        mobjinfo[MT_HEAD].bloodcolor = REDBLOOD;
+        mobjinfo[MT_BRUISER].bloodcolor = REDBLOOD;
+        mobjinfo[MT_KNIGHT].bloodcolor = REDBLOOD;
 
         M_StringCopy(weaponinfo[wp_pistol].name, "handgun", sizeof(weaponinfo[wp_pistol].name));
         M_StringCopy(weaponinfo[wp_shotgun].name, "pump-action shotgun", sizeof(weaponinfo[wp_shotgun].name));
@@ -802,19 +802,19 @@ static void R_InitSpriteLumps(void)
         mobjinfo[MT_MISC14].flags2 &= ~MF2_FLOATBOB;
         mobjinfo[MT_BFG].flags2 &= ~MF2_TRANSLUCENT;
 
-        mobjinfo[MT_HEAD].bloodcolor = MT_BLOOD;
-        mobjinfo[MT_BRUISER].bloodcolor = MT_BLOOD;
-        mobjinfo[MT_KNIGHT].bloodcolor = MT_BLOOD;
+        mobjinfo[MT_HEAD].bloodcolor = REDBLOOD;
+        mobjinfo[MT_BRUISER].bloodcolor = REDBLOOD;
+        mobjinfo[MT_KNIGHT].bloodcolor = REDBLOOD;
     }
     else if (eviternity)
     {
-        mobjinfo[MT_BRUISER].bloodcolor = MT_BLOOD;
-        mobjinfo[MT_DOGS].bloodcolor = MT_GREENBLOOD;
+        mobjinfo[MT_BRUISER].bloodcolor = REDBLOOD;
+        mobjinfo[MT_DOGS].bloodcolor = GREENBLOOD;
     }
     else if (doom4vanilla)
     {
-        mobjinfo[MT_HEAD].bloodcolor = MT_BLOOD;
-        mobjinfo[MT_KNIGHT].bloodcolor = MT_BLOOD;
+        mobjinfo[MT_HEAD].bloodcolor = REDBLOOD;
+        mobjinfo[MT_KNIGHT].bloodcolor = REDBLOOD;
 
         mobjinfo[MT_INV].flags2 &= ~(MF2_TRANSLUCENT_33 | MF2_FLOATBOB);
         mobjinfo[MT_MEGA].flags2 &= ~MF2_FLOATBOB;
@@ -867,26 +867,26 @@ static void R_InitSpriteLumps(void)
 
         M_StringCopy(berserk, "wode", sizeof(berserk));
 
-        mobjinfo[MT_HEAD].bloodcolor = MT_BLOOD;
-        mobjinfo[MT_KNIGHT].bloodcolor = MT_BLOOD;
-        mobjinfo[MT_MISC57].bloodcolor = MT_BLOOD;
-        mobjinfo[MT_MISC58].bloodcolor = MT_BLOOD;
-        mobjinfo[MT_MISC61].bloodcolor = MT_BLOOD;
-        mobjinfo[MT_MISC62].bloodcolor = MT_BLOOD;
-        mobjinfo[MT_MISC63].bloodcolor = MT_BLOOD;
-        mobjinfo[MT_MISC64].bloodcolor = MT_BLOOD;
-        mobjinfo[MT_MISC67].bloodcolor = MT_BLOOD;
-        mobjinfo[MT_MISC68].bloodcolor = MT_BLOOD;
-        mobjinfo[MT_MISC69].bloodcolor = MT_BLOOD;
-        mobjinfo[MT_MISC71].bloodcolor = MT_BLOOD;
-        mobjinfo[MT_MISC74].bloodcolor = MT_BLOOD;
-        mobjinfo[MT_MISC79].bloodcolor = MT_BLOOD;
-        mobjinfo[MT_MISC80].bloodcolor = MT_BLOOD;
-        mobjinfo[MT_MISC81].bloodcolor = MT_BLOOD;
-        mobjinfo[MT_MISC82].bloodcolor = MT_BLOOD;
-        mobjinfo[MT_MISC83].bloodcolor = MT_BLOOD;
-        mobjinfo[MT_MISC84].bloodcolor = MT_BLOOD;
-        mobjinfo[MT_MISC85].bloodcolor = MT_BLOOD;
+        mobjinfo[MT_HEAD].bloodcolor = REDBLOOD;
+        mobjinfo[MT_KNIGHT].bloodcolor = REDBLOOD;
+        mobjinfo[MT_MISC57].bloodcolor = REDBLOOD;
+        mobjinfo[MT_MISC58].bloodcolor = REDBLOOD;
+        mobjinfo[MT_MISC61].bloodcolor = REDBLOOD;
+        mobjinfo[MT_MISC62].bloodcolor = REDBLOOD;
+        mobjinfo[MT_MISC63].bloodcolor = REDBLOOD;
+        mobjinfo[MT_MISC64].bloodcolor = REDBLOOD;
+        mobjinfo[MT_MISC67].bloodcolor = REDBLOOD;
+        mobjinfo[MT_MISC68].bloodcolor = REDBLOOD;
+        mobjinfo[MT_MISC69].bloodcolor = REDBLOOD;
+        mobjinfo[MT_MISC71].bloodcolor = REDBLOOD;
+        mobjinfo[MT_MISC74].bloodcolor = REDBLOOD;
+        mobjinfo[MT_MISC79].bloodcolor = REDBLOOD;
+        mobjinfo[MT_MISC80].bloodcolor = REDBLOOD;
+        mobjinfo[MT_MISC81].bloodcolor = REDBLOOD;
+        mobjinfo[MT_MISC82].bloodcolor = REDBLOOD;
+        mobjinfo[MT_MISC83].bloodcolor = REDBLOOD;
+        mobjinfo[MT_MISC84].bloodcolor = REDBLOOD;
+        mobjinfo[MT_MISC85].bloodcolor = REDBLOOD;
 
         mobjinfo[MT_SKULL].flags2 &= ~MF2_TRANSLUCENT_REDONLY;
         mobjinfo[MT_CLIP].flags2 |= MF2_TRANSLUCENT_50;

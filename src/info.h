@@ -198,11 +198,10 @@ typedef enum
     MT_MUSICSOURCE,
     MT_GIBDTH,
 
-    // [BH] DOOM Retro mobjs
-    MT_BLUEBLOOD,   // UNUSED
-    MT_GREENBLOOD,  // UNUSED
-    MT_FUZZYBLOOD,  // UNUSED
-    MT_TRAIL,
+    //MT_BLUEBLOOD,
+    //MT_GREENBLOOD,
+    //MT_FUZZYBLOOD,
+    MT_TRAIL = 149,
 
     // [BH] Mobjs 150 to 249 (100 extra mobjs to use in DeHackEd patches)
     MT_EXTRA00, MT_EXTRA01, MT_EXTRA02, MT_EXTRA03, MT_EXTRA04,

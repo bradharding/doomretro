@@ -2172,16 +2172,33 @@ static void PIT_ChangeSector(mobj_t *thing)
         if (!(flags & MF_NOBLOOD) && thing->bloodcolor && r_blood != r_blood_none
             && (thing->type != MT_PLAYER || (!viewplayer->powers[pw_invulnerability] && !(viewplayer->cheats & CF_GODMODE))))
         {
-            const mobjtype_t    type = ((thing->flags & MF_FUZZ) ? MT_FUZZYBLOOD : thing->bloodcolor);
-            const int           z = thing->z + thing->height * 2 / 3;
+            const int   z = thing->z + thing->height * 2 / 3;
+            const bool  fuzz = ((thing->flags & MF_FUZZ) && r_blood == r_blood_all);
+            int         color;
+
+            if (!fuzz)
+                color = (r_blood == r_blood_red ? REDBLOOD : (r_blood == r_blood_green ? GREENBLOOD : thing->bloodcolor));
 
             for (int i = 0; i < 4; i++)
             {
                 // spray blood in a random direction
-                mobj_t  *mo = P_SpawnMobj(thing->x, thing->y, z, type);
+                mobj_t  *mo = P_SpawnMobj(thing->x, thing->y, z, MT_BLOOD);
 
                 mo->momx = M_SubRandom() << 11;
                 mo->momy = M_SubRandom() << 11;
+
+                if (fuzz)
+                {
+                    mo->flags |= MF_FUZZ;
+                    mo->colfunc = &R_DrawFuzzColumn;
+                    mo->altcolfunc = &R_DrawFuzzColumn;
+                }
+                else
+                {
+                    mo->colfunc = bloodcolfunc;
+                    mo->altcolfunc = bloodcolfunc;
+                    mo->bloodcolor = color;
+                }
             }
         }
 
