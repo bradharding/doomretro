@@ -1424,6 +1424,9 @@ static bool P_HealCorpse(mobj_t *actor, int radius, statenum_t healstate, sfxenu
                     corpsehit->flags2 &= ~MF2_MIRRORED;
                     corpsehit->health = info->spawnhealth;
                     corpsehit->shadowoffset = info->shadowoffset;
+                    corpsehit->colfunc = info->colfunc;
+                    corpsehit->altcolfunc = info->altcolfunc;
+
                     P_SetTarget(&corpsehit->target, NULL);
 
                     // killough 09/09/98
