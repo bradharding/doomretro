@@ -129,6 +129,7 @@ static void P_XYMovement(mobj_t *mo)
     player_t    *player;
     fixed_t     xmove, ymove;
     mobjtype_t  type;
+    int         flags;
     int         flags2;
     bool        corpse;
     int         stepdir = 0;
@@ -148,8 +149,9 @@ static void P_XYMovement(mobj_t *mo)
 
     player = mo->player;
     type = mo->type;
+    flags = mo->flags;
     flags2 = mo->flags2;
-    corpse = ((mo->flags & MF_CORPSE) && type != MT_BARREL);
+    corpse = ((flags & MF_CORPSE) && type != MT_BARREL);
 
     // [BH] give smoke trails to rockets
     if ((flags2 & MF2_SMOKETRAIL) && mo->pursuecount++)
@@ -187,8 +189,8 @@ static void P_XYMovement(mobj_t *mo)
             // killough 08/11/98: bouncing off walls
             // killough 10/98:
             // Add ability for objects other than players to bounce on ice
-            if (!(mo->flags & MF_MISSILE)
-                && ((mo->flags & MF_BOUNCES)
+            if (!(flags & MF_MISSILE)
+                && ((flags & MF_BOUNCES)
                     || (!player && blockline && mo->z <= mo->floorz && P_GetFriction(mo, NULL) > ORIG_FRICTION)))
             {
                 if (blockline)
@@ -204,7 +206,7 @@ static void P_XYMovement(mobj_t *mo)
                     mo->momy = y * 2 - mo->momy;
 
                     // if under gravity, slow down in direction perpendicular to wall.
-                    if (!(mo->flags & MF_NOGRAVITY))
+                    if (!(flags & MF_NOGRAVITY))
                     {
                         mo->momx = (mo->momx + x) / 2;
                         mo->momy = (mo->momy + y) / 2;
@@ -222,7 +224,7 @@ static void P_XYMovement(mobj_t *mo)
                 P_SlideMove(mo);
                 break;
             }
-            else if (mo->flags & MF_MISSILE)
+            else if (flags & MF_MISSILE)
             {
                 // explode a missile
                 if (ceilingline && ceilingline->backsector
@@ -250,15 +252,16 @@ static void P_XYMovement(mobj_t *mo)
         }
     } while (xmove || ymove);
 
-    if (mo->flags & (MF_MISSILE | MF_SKULLFLY))
+    if (flags & (MF_MISSILE | MF_SKULLFLY))
         return;         // no friction for missiles or lost souls ever
 
     if (mo->z > mo->floorz && !(flags2 & MF2_ONMOBJ))
         return;         // no friction when airborne
 
     // [BH] spawn random blood splats on floor as corpses slide
-    if (corpse && !(mo->flags & MF_NOBLOOD) && mo->bloodcolor && r_corpses_smearblood
-        && (mo->momx || mo->momy) && mo->bloodsplats && r_bloodsplats_max && !mo->nudge)
+    if (corpse && !(flags & MF_NOBLOOD) && mo->bloodcolor && r_corpses_smearblood
+        && (mo->momx || mo->momy) && mo->bloodsplats && r_bloodsplats_max && !mo->nudge
+        && (r_blood != r_blood_all || !(flags & MF_FUZZ)))
     {
         const int   max = MIN((ABS(mo->momx) + ABS(mo->momy)) >> (FRACBITS - 2), 8);
 
@@ -277,7 +280,7 @@ static void P_XYMovement(mobj_t *mo)
     // killough 08/11/98: add bouncers
     // killough 09/15/98: add objects falling off ledges
     // killough 11/98: only include bouncers hanging off ledges
-    if ((((mo->flags & MF_BOUNCES) && mo->z > mo->dropoffz) || corpse || (flags2 & MF2_FALLING))
+    if ((((flags & MF_BOUNCES) && mo->z > mo->dropoffz) || corpse || (flags2 & MF2_FALLING))
         && (mo->momx > FRACUNIT / 4 || mo->momx < -FRACUNIT / 4 || mo->momy > FRACUNIT / 4 || mo->momy < -FRACUNIT / 4)
         && mo->floorz != mo->subsector->sector->floorheight)
         return;         // do not stop sliding if halfway off a step with some momentum
