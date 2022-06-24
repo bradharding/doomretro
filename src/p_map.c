@@ -2093,10 +2093,14 @@ static bool nofit;
 //
 static void PIT_ChangeSector(mobj_t *thing)
 {
-    const int   flags = thing->flags;
+    int   flags;
+    bool  fuzz;
 
     if (P_ThingHeightClip(thing))
         return;         // keep checking
+
+    flags = thing->flags;
+    fuzz = ((flags & MF_FUZZ) && r_blood == r_blood_all);
 
     // crunch bodies to giblets
     if (thing->health <= 0 && (thing->flags2 & MF2_CRUSHABLE))
@@ -2113,7 +2117,7 @@ static void PIT_ChangeSector(mobj_t *thing)
             const int           max = M_RandomInt(50, 100) + radius;
             const int           x = thing->x;
             const int           y = thing->y;
-            const int           bloodcolor = colortranslation[thing->bloodcolor - 1][REDBLOODSPLATCOLOR];
+            const int           color = colortranslation[thing->bloodcolor - 1][REDBLOODSPLATCOLOR];
             const int           floorz = thing->floorz;
             const mobjtype_t    type = thing->type;
 
@@ -2122,10 +2126,16 @@ static void PIT_ChangeSector(mobj_t *thing)
                 const int   angle = M_BigRandomInt(0, FINEANGLES - 1);
 
                 P_SpawnBloodSplat(x + FixedMul(M_RandomInt(0, radius) << FRACBITS, finecosine[angle]),
-                    y + FixedMul(M_RandomInt(0, radius) << FRACBITS, finesine[angle]), bloodcolor, true, floorz, NULL);
+                    y + FixedMul(M_RandomInt(0, radius) << FRACBITS, finesine[angle]), color, true, floorz, NULL);
             }
 
             P_SetMobjState(thing, S_GIBS);
+
+            if (!fuzz)
+            {
+                thing->colfunc = translatedcolfunc;
+                thing->altcolfunc = translatedcolfunc;
+            }
 
             thing->flags &= ~MF_SOLID;
 
@@ -2173,19 +2183,19 @@ static void PIT_ChangeSector(mobj_t *thing)
             && (thing->type != MT_PLAYER || (!viewplayer->powers[pw_invulnerability] && !(viewplayer->cheats & CF_GODMODE))))
         {
             const int   z = thing->z + thing->height * 2 / 3;
-            const bool  fuzz = ((thing->flags & MF_FUZZ) && r_blood == r_blood_all);
             int         color;
 
             if (!fuzz)
                 color = (r_blood == r_blood_red ? REDBLOOD : (r_blood == r_blood_green ? GREENBLOOD : thing->bloodcolor));
 
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < 6; i++)
             {
                 // spray blood in a random direction
                 mobj_t  *mo = P_SpawnMobj(thing->x, thing->y, z, MT_BLOOD);
 
                 mo->momx = M_SubRandom() << 11;
                 mo->momy = M_SubRandom() << 11;
+                mo->flags2 |= (M_Random() & 1) * MF2_MIRRORED;
 
                 if (fuzz)
                 {
