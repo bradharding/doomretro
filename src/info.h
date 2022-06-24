@@ -185,23 +185,23 @@ typedef enum
     MT_MISC85,
     MT_MISC86,
 
-    MT_PUSH,    // controls push source                     // phares
-    MT_PULL,    // controls pull source                     // phares 03/20/98
+    MT_PUSH,        // controls push source                     // phares
+    MT_PULL,        // controls pull source                     // phares 03/20/98
 
-    MT_DOGS,    // killough 07/19/98: Marine's best friend
+    MT_DOGS,        // killough 07/19/98: Marine's best friend
 
-    MT_PLASMA1, // killough 07/11/98: first of alternating beta plasma fireballs
-    MT_PLASMA2, // killough 07/11/98: second of alternating beta plasma fireballs
-    MT_SCEPTRE, // killough 07/11/98: evil sceptre in beta version
-    MT_BIBLE,   // killough 07/11/98: unholy bible in beta version
+    MT_PLASMA1,     // killough 07/11/98: first of alternating beta plasma fireballs
+    MT_PLASMA2,     // killough 07/11/98: second of alternating beta plasma fireballs
+    MT_SCEPTRE,     // killough 07/11/98: evil sceptre in beta version
+    MT_BIBLE,       // killough 07/11/98: unholy bible in beta version
 
     MT_MUSICSOURCE,
     MT_GIBDTH,
 
     // [BH] DOOM Retro mobjs
-    MT_BLUEBLOOD,
-    MT_GREENBLOOD,
-    MT_FUZZYBLOOD,
+    MT_BLUEBLOOD,   // UNUSED
+    MT_GREENBLOOD,  // UNUSED
+    MT_FUZZYBLOOD,  // UNUSED
     MT_TRAIL,
 
     // [BH] Mobjs 150 to 249 (100 extra mobjs to use in DeHackEd patches)

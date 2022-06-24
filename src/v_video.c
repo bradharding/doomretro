@@ -68,7 +68,6 @@ int     lowpixelheight;
 void (*postprocessfunc)(int, int, int, int, int, int);
 
 byte    *colortranslation[CR_LIMIT];
-
 byte    *redtogold;
 
 typedef struct
