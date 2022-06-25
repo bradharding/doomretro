@@ -99,7 +99,7 @@ void M_SetWindowCaption(void);
 void M_UpdateSaveGameName(int i);
 int M_CountSaveGames(void);
 
-void M_StartMessage(char *string, void *routine, bool input);
+void M_StartMessage(char *string, void (*routine)(int), bool input);
 
 void M_QuitDOOM(int choice);
 

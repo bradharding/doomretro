@@ -2329,12 +2329,12 @@ static void M_DrawThermo(int x, int y, int thermWidth, float thermDot, float fac
     V_DrawPatch(x + offset + (int)(thermDot * factor), y, 0, W_CacheLumpName("M_THERMO"));
 }
 
-void M_StartMessage(char *string, void *routine, bool input)
+void M_StartMessage(char *string, void (*routine)(int), bool input)
 {
     messageLastMenuActive = menuactive;
     messagetoprint = true;
     messageString = string;
-    messageRoutine = (void (*)(int))routine;
+    messageRoutine = routine;
     messageNeedsInput = input;
     menuactive = true;
 
