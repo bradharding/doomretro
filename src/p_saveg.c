@@ -98,7 +98,7 @@ char *P_SaveGameFile(int slot)
 // Endian-safe integer read/write functions
 static byte saveg_read8(void)
 {
-    byte    result = -1;
+    byte    result;
 
     if (fread(&result, 1, 1, save_stream) < 1)
         return 0;
@@ -113,7 +113,7 @@ static void saveg_write8(byte value)
 
 static short saveg_read16(void)
 {
-    int result = saveg_read8();
+    short   result = saveg_read8();
 
     return (result | (saveg_read8() << 8));
 }

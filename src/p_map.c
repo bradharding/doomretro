@@ -2115,10 +2115,10 @@ static void PIT_ChangeSector(mobj_t *thing)
         {
             const int           radius = ((spritewidth[sprites[thing->sprite].spriteframes[0].lump[0]] >> FRACBITS) >> 1) + 12;
             const int           max = M_RandomInt(50, 100) + radius;
-            const int           x = thing->x;
-            const int           y = thing->y;
             const int           color = colortranslation[thing->bloodcolor - 1][REDBLOODSPLATCOLOR];
-            const int           floorz = thing->floorz;
+            const fixed_t       x = thing->x;
+            const fixed_t       y = thing->y;
+            const fixed_t       floorz = thing->floorz;
             const mobjtype_t    type = thing->type;
 
             for (int i = 0; i < max; i++)

@@ -58,17 +58,17 @@
 //  and the total size == width * height * depth / 8.
 //
 
-int         viewwidth;
-int         viewheight;
-int         viewwindowx;
-int         viewwindowy;
+int             viewwidth;
+int             viewheight;
+int             viewwindowx;
+int             viewwindowy;
 
-int         fuzzrange[3];
-int         fuzzpos;
-int         fuzztable[MAXSCREENAREA];
+int             fuzzrange[3];
+int             fuzzpos;
+int             fuzztable[MAXSCREENAREA];
 
-static byte *ylookup0[MAXHEIGHT];
-static byte *ylookup1[MAXHEIGHT];
+static byte     *ylookup0[MAXHEIGHT];
+static byte     *ylookup1[MAXHEIGHT];
 
 lighttable_t    *dc_colormap[2];
 lighttable_t    *dc_nextcolormap[2];
@@ -90,6 +90,7 @@ byte            dc_black;
 byte            *dc_black33;
 byte            *dc_black40;
 byte            *dc_source;
+byte            *dc_translation;
 
 #define DITHERSIZE  4
 
@@ -1199,7 +1200,6 @@ void R_DrawPausedFuzzColumns(void)
 //  of the BaronOfHell, the HellKnight, uses
 //  identical sprites, kinda brightened up.
 //
-byte    *dc_translation;
 byte    translationtables[256 * 3];
 
 void R_DrawTranslatedColumn(void)
