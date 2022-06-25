@@ -28,6 +28,7 @@
   * For a monster to spill fuzzy blood, the `SHADOW` flag must now be used in `Bits` and the `r_blood` CVAR must be `all`.
   * The use of `Blood` in `Thing` blocks has been deprecated.
   * The use of the `TRANSLUCENT_REDTOGREEN_33`, `TRANSLUCENT_REDTOBLUE_33`, `REDTOGREEN` and `REDTOBLUE` flags in `Retro bits` have all been deprecated.
+  * Exploding pain elementals, lost souls and barrels are no longer translucent if any of their states are changed.
 * The following changes have been made to the support of `MAPINFO` lumps:
   * `nofreelook` and `nojump` now work as intended.
   * `compat_nopassover` can now be used to override the effects of when the `infiniteheight` CVAR is `off`.
@@ -36,7 +37,7 @@
   * Minor improvements have been made to the brightmaps of the `COMPUTE2` and `COMPUTE3` textures.
   * Brightmaps can now be applied to masked midtextures.
 * The existing feature of randomizing the start frame of certain sprites can now be toggled using the new `r_randomstartframes` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
-* The player’s speed when strafing using the mouse and the <kbd>ALT</kbd> key held down has been reduced, and is more consistent with the speed when using the <kbd>A</kbd> and <kbd>D</kbd> keys to strafe.
+* The player’s speed when strafing has been reduced when moving the mouse while the <kbd>ALT</kbd> key is held down, and is more consistent with the speed when using the <kbd>A</kbd> and <kbd>D</kbd> keys to strafe.
 * The following changes have been made when vanilla mode is enabled using the `vanilla` CCMD:
   * The `am_grid` CVAR is no longer turned `off`.
   * Red blood is now spawned when shooting a lost soul.
