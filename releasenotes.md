@@ -24,7 +24,7 @@
   * Using the `SHADOW` flag in `Bits` now always works as intended.
   * A crash no longer occurs when attempting to display the player’s health in the widescreen HUD if `Initial Health` or `Max Health` are changed to a value greater than `999`.
   * Gibbing corpses are no longer affected if `Exploding frame` is changed.
-  * `Blood color` may now be used to change the color of blood spilled by monsters. This is set to a value between `0` to `8` (representing the colors red, gray, green, blue, yellow, black, purple, white and orange).
+  * `Blood color` may now be used to change the color of blood spilled by monsters. This is set to a value between `0` and `8` (representing the colors red, gray, green, blue, yellow, black, purple, white and orange).
   * For a monster to spill fuzzy blood, the `SHADOW` flag must now be used in `Bits` and the `r_blood` CVAR must be `all`.
   * The use of `Blood` in `Thing` blocks has been deprecated.
   * The use of the `TRANSLUCENT_REDTOGREEN_33`, `TRANSLUCENT_REDTOBLUE_33`, `REDTOGREEN` and `REDTOBLUE` flags in `Retro bits` have all been deprecated.
