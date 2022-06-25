@@ -6903,7 +6903,7 @@ mobjinfo_t mobjinfo[] =
 
     // MT_DOGS
     {
-        /* doomednum            */ 888,
+        /* doomednum            */ HelperDog,
         /* spawnstate           */ S_DOGS_STND,
         /* spawnhealth          */ 500,
         /* gibhealth            */ -500,

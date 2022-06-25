@@ -41,6 +41,7 @@
   * The `am_grid` CVAR is no longer turned `off`.
   * Red blood is now spawned when shooting a lost soul.
 * When the corpse of a monster is crushed, it’s color will now match the monster’s blood.
+* *MBF*-compatible helper dogs may no longer be spawned using the `spawn` CCMD in *DOOM (Shareware)*.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

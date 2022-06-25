@@ -707,6 +707,7 @@ enum
     MonstersTarget                                     =    87,
     BossBrain                                          =    88,
     MonstersSpawner                                    =    89,
+    HelperDog                                          =   888,
     Shotgun                                            =  2001,
     Chaingun                                           =  2002,
     RocketLauncher                                     =  2003,
