@@ -1714,21 +1714,13 @@ static const struct deh_flag_s deh_mobjflags2[] =
     { "TRANSLUCENT_REDWHITEONLY",  MF2_TRANSLUCENT_REDWHITEONLY  },
     { "TRANSLUCENT_BLUE_25",       MF2_TRANSLUCENT_BLUE_25       },
     { "FLOATBOB",                  MF2_FLOATBOB                  },
-    { "MIRRORED",                  MF2_MIRRORED                  },
-    { "FALLING",                   MF2_FALLING                   },
-    { "ONMOBJ",                    MF2_ONMOBJ                    },
     { "PASSMOBJ",                  MF2_PASSMOBJ                  },
-    { "RESURRECTING",              MF2_RESURRECTING              },
     { "FOOTCLIP",                  MF2_FOOTCLIP                  },
     { "NOLIQUIDBOB",               MF2_NOLIQUIDBOB               },
-    { "FEETARECLIPPED",            MF2_FEETARECLIPPED            },
     { "CASTSHADOW",                MF2_CASTSHADOW                },
     { "DONTMAP",                   MF2_DONTMAP                   },
-    { "SMOKETRAIL",                MF2_SMOKETRAIL                },
     { "CRUSHABLE",                 MF2_CRUSHABLE                 },
-    { "MASSACRE",                  MF2_MASSACRE                  },
-    { "DECORATION",                MF2_DECORATION                },
-    { "MONSTERMISSILE",            MF2_MONSTERMISSILE            }
+    { "DECORATION",                MF2_DECORATION                }
 };
 
 #define DEH_MOBJFLAGMAX_MBF21   arrlen(deh_mobjflags_mbf21)
