@@ -72,6 +72,7 @@ bool P_GetMapEndCast(int map);
 bool P_GetMapEndGame(int map);
 int P_GetMapEndPic(int map);
 int P_GetMapEnterPic(int map);
+int P_GetMapExitPic(int map);
 void P_GetMapLiquids(int map);
 int P_GetMapMusic(int map);
 char *P_GetMapMusicComposer(int map);

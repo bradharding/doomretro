@@ -75,37 +75,38 @@
 #define MCMD_ENDPIC                  6
 #define MCMD_ENTERPIC                7
 #define MCMD_EPISODE                 8
-#define MCMD_INTERBACKDROP           9
-#define MCMD_INTERMUSIC             10
-#define MCMD_INTERTEXT              11
-#define MCMD_INTERTEXTSECRET        12
-#define MCMD_LEVELNAME              13
-#define MCMD_LEVELPIC               14
-#define MCMD_LIQUID                 15
-#define MCMD_MUSIC                  16
-#define MCMD_MUSICCOMPOSER          17
-#define MCMD_MUSICTITLE             18
-#define MCMD_NEXT                   19
-#define MCMD_NEXTSECRET             20
-#define MCMD_NOBRIGHTMAP            21
-#define MCMD_NOFREELOOK             22
-#define MCMD_NOJUMP                 23
-#define MCMD_NOLIQUID               24
-#define MCMD_NOMOUSELOOK            25
-#define MCMD_PAR                    26
-#define MCMD_PARTIME                27
-#define MCMD_PISTOLSTART            28
-#define MCMD_SECRETNEXT             29
-#define MCMD_SKY1                   30
-#define MCMD_SKYTEXTURE             31
-#define MCMD_TITLEPATCH             32
-#define MCMD_ALLOWMONSTERTELEFRAGS  33
-#define MCMD_COMPAT_CORPSEGIBS      34
-#define MCMD_COMPAT_VILEGHOSTS      35
-#define MCMD_COMPAT_LIMITPAIN       36
-#define MCMD_NOGRADUALLIGHTING      37
-#define MCMD_COMPAT_LIGHT           38
-#define MCMD_COMPAT_NOPASSOVER      39
+#define MCMD_EXITPIC                 9
+#define MCMD_INTERBACKDROP          10
+#define MCMD_INTERMUSIC             11
+#define MCMD_INTERTEXT              12
+#define MCMD_INTERTEXTSECRET        13
+#define MCMD_LEVELNAME              14
+#define MCMD_LEVELPIC               15
+#define MCMD_LIQUID                 16
+#define MCMD_MUSIC                  17
+#define MCMD_MUSICCOMPOSER          18
+#define MCMD_MUSICTITLE             19
+#define MCMD_NEXT                   20
+#define MCMD_NEXTSECRET             21
+#define MCMD_NOBRIGHTMAP            22
+#define MCMD_NOFREELOOK             23
+#define MCMD_NOJUMP                 24
+#define MCMD_NOLIQUID               25
+#define MCMD_NOMOUSELOOK            26
+#define MCMD_PAR                    27
+#define MCMD_PARTIME                28
+#define MCMD_PISTOLSTART            29
+#define MCMD_SECRETNEXT             30
+#define MCMD_SKY1                   31
+#define MCMD_SKYTEXTURE             32
+#define MCMD_TITLEPATCH             33
+#define MCMD_ALLOWMONSTERTELEFRAGS  34
+#define MCMD_COMPAT_CORPSEGIBS      35
+#define MCMD_COMPAT_VILEGHOSTS      36
+#define MCMD_COMPAT_LIMITPAIN       37
+#define MCMD_NOGRADUALLIGHTING      38
+#define MCMD_COMPAT_LIGHT           39
+#define MCMD_COMPAT_NOPASSOVER      40
 
 typedef struct mapinfo_s mapinfo_t;
 
@@ -118,6 +119,7 @@ struct mapinfo_s
     bool    endgame;
     int     endpic;
     int     enterpic;
+    int     exitpic;
     char    interbackdrop[9];
     int     intermusic;
     char    intertext[1024];
@@ -238,6 +240,7 @@ static char *mapcmdnames[] =
     "ENDPIC",
     "ENTERPIC",
     "EPISODE",
+    "EXITPIC",
     "INTERBACKDROP",
     "INTERMUSIC",
     "INTERTEXT",
@@ -281,6 +284,7 @@ static int mapcmdids[] =
     MCMD_ENDPIC,
     MCMD_ENTERPIC,
     MCMD_EPISODE,
+    MCMD_EXITPIC,
     MCMD_INTERBACKDROP,
     MCMD_INTERMUSIC,
     MCMD_INTERTEXT,
@@ -3119,6 +3123,7 @@ static void P_InitMapInfo(void)
         mapinfo[i].endgame = false;
         mapinfo[i].endpic = 0;
         mapinfo[i].enterpic = 0;
+        mapinfo[i].exitpic = 0;
         mapinfo[i].cluster = 0;
         mapinfo[i].interbackdrop[0] = '\0';
         mapinfo[i].intermusic = 0;
@@ -3296,6 +3301,12 @@ static bool P_ParseMapInfo(char *scriptname)
 
                             break;
                         }
+
+                        case MCMD_EXITPIC:
+                            SC_MustGetString();
+                            info->exitpic = W_CheckNumForName(sc_String);
+
+                            break;
 
                         case MCMD_INTERBACKDROP:
                             SC_MustGetString();
@@ -3637,6 +3648,11 @@ int P_GetMapEndPic(int map)
 int P_GetMapEnterPic(int map)
 {
     return mapinfo[map].enterpic;
+}
+
+int P_GetMapExitPic(int map)
+{
+    return mapinfo[map].exitpic;
 }
 
 void P_GetMapLiquids(int map)

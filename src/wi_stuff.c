@@ -1147,7 +1147,9 @@ static void WI_LoadCallback(char *name, patch_t **variable)
 
 static void WI_LoadData(void)
 {
-    patch_t *lump;
+    patch_t     *lump;
+    const int   enterpic = P_GetMapEnterPic(gamemap);
+    const int   exitpic = P_GetMapExitPic(gamemap);
 
     if (gamemode == commercial)
     {
@@ -1160,15 +1162,16 @@ static void WI_LoadData(void)
     WI_LoadUnloadData(&WI_LoadCallback);
 
     // Background image
-    if (FREEDOOM || hacx)
+    if (state != StatCount && enterpic > 0)
+        lump = W_CacheLumpNum(enterpic);
+    else if (exitpic > 0)
+        lump = W_CacheLumpNum(exitpic);
+    else if (FREEDOOM || hacx)
         lump = W_CacheLastLumpName("INTERPIC");
     else if (gamemode == commercial)
     {
-        const int   lumpnum = P_GetMapEnterPic(gamemap);
 
-        if (lumpnum > 0)
-            lump = W_CacheLumpNum(lumpnum);
-        else if (gamemission == pack_plut)
+        if (gamemission == pack_plut)
             lump = W_CacheLumpName("INTERPI2");
         else if (gamemission == pack_tnt)
             lump = W_CacheLumpName("INTERPI3");

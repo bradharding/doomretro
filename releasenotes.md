@@ -31,6 +31,7 @@
   * Exploding pain elementals, lost souls and barrels are no longer translucent if any of their states are changed.
 * The following changes have been made to the support of `MAPINFO` lumps:
   * `nofreelook` and `nojump` now work as intended.
+  * `exitpic` can now be used.
   * `compat_nopassover` can now be used to override the effects of when the `infiniteheight` CVAR is `off`.
 * Minor improvements have been made to the display of player messages and the title in the automap.
 * The following changes have been made to brightmaps when the `r_brightmaps` CVAR is `on`:
