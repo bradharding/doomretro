@@ -647,44 +647,42 @@ void M_DrawString(int x, int y, char *string)
     static char prev;
     const int   len = (int)strlen(string);
 
-    for (int i = 0; i < len; i++)
+    for (int i = 0, j = -1; i < len; i++)
     {
-        int     j = -1;
-        int     k = 0;
-        bool    overlapping = false;
-
         if (string[i] < 123)
             j = chartoi[(int)string[i]];
-
-        while (bigkern[k].char1)
-        {
-            if (prev == bigkern[k].char1 && string[i] == bigkern[k].char2)
-            {
-                x += bigkern[k].adjust;
-                break;
-            }
-
-            k++;
-        }
-
-        k = 0;
-
-        while (overlap[k].char1)
-        {
-            if (prev == overlap[k].char1 && string[i] == overlap[k].char2)
-            {
-                overlapping = true;
-                break;
-            }
-
-            k++;
-        }
 
         if (j == -1)
             x += 7;
         else
         {
+            int         k = 0;
+            bool        overlapping = false;
             const int   width = (int)strlen(redcharset[j]) / 18;
+
+            while (bigkern[k].char1)
+            {
+                if (prev == bigkern[k].char1 && string[i] == bigkern[k].char2)
+                {
+                    x += bigkern[k].adjust;
+                    break;
+                }
+
+                k++;
+            }
+
+            k = 0;
+
+            while (overlap[k].char1)
+            {
+                if (prev == overlap[k].char1 && string[i] == overlap[k].char2)
+                {
+                    overlapping = true;
+                    break;
+                }
+
+                k++;
+            }
 
             for (int y1 = 0; y1 < 18; y1++)
                 for (int x1 = 0; x1 < width; x1++)
