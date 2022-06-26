@@ -303,6 +303,8 @@ void I_Error(const char *error, ...)
     M_vsnprintf(msgbuf, sizeof(msgbuf) - 1, error, argptr);
     va_end(argptr);
 
+    M_snprintf(msgbuf, sizeof(msgbuf), "%s\n", msgbuf);
+
     SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, DOOMRETRO_NAME, msgbuf, NULL);
 
     exit(-1);

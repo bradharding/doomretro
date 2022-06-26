@@ -852,8 +852,8 @@ static bool D_IsUnsupportedIWAD(char *filename)
         {
             char    buffer[1024];
 
-            M_snprintf(buffer, sizeof(buffer), DOOMRETRO_NAME " doesn't support %s.", unsupported[i].title);
-            SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_WARNING, DOOMRETRO_NAME, buffer, NULL);
+            M_snprintf(buffer, sizeof(buffer), DOOMRETRO_NAME " doesn't support %s yet.\n", unsupported[i].title);
+            SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_INFORMATION, DOOMRETRO_NAME, buffer, NULL);
 
 #if defined(_WIN32)
             if (previouswad)
@@ -1948,14 +1948,14 @@ static void D_DoomMainSetup(void)
 #if !defined(_DEBUG)
     if (crashed)
     {
-        char    *message = "It appears that " DOOMRETRO_NAME " crashed the last time it was run. Please contribute\n"
-                           "to " DOOMRETRO_NAME "'s development by reporting what happened.";
+        char    *message = "It appears that " DOOMRETRO_NAME " crashed the last time it was run. Will you please\n"
+                           "contribute to " DOOMRETRO_NAME "'s development by reporting what happened?\n";
 
         const SDL_MessageBoxButtonData buttons[] =
         {
-            { SDL_MESSAGEBOX_BUTTON_ESCAPEKEY_DEFAULT, 0, "Quit"     },
-            {                                       0, 1, "Continue" },
-            { SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT, 2, "Report"   }
+            { SDL_MESSAGEBOX_BUTTON_ESCAPEKEY_DEFAULT, 0, "Quit" },
+            {                                       0, 1, "No"   },
+            { SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT, 2, "Yes"  }
         };
 
         const SDL_MessageBoxData messageboxdata =
@@ -2101,12 +2101,12 @@ static void D_DoomMainSetup(void)
                     char    buffer[256];
 
 #if defined(_WIN32)
-                    M_snprintf(buffer, sizeof(buffer), DOOMRETRO_NAME " couldn't find %s.", (*wad ? wad : "any IWADs"));
+                    M_snprintf(buffer, sizeof(buffer), DOOMRETRO_NAME " couldn't find %s.\n", (*wad ? wad : "any IWADs"));
 
                     if (previouswad)
                         wad = M_StringDuplicate(previouswad);
 #else
-                    M_snprintf(buffer, sizeof(buffer), DOOMRETRO_NAME " couldn't find any IWADs.");
+                    M_snprintf(buffer, sizeof(buffer), DOOMRETRO_NAME " couldn't find any IWADs.\n");
 #endif
 
                     SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_WARNING, DOOMRETRO_NAME, buffer, NULL);
