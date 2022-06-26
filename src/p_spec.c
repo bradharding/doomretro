@@ -2210,11 +2210,14 @@ void P_PlayerInSpecialSector(sector_t *sector)
                 break;
 
             case Secret:
-                P_SecretFound();
-                sector->special = 0;
+                if (!(viewplayer->cheats & CF_NOCLIP))
+                {
+                    P_SecretFound();
+                    sector->special = 0;
 
-                for (int i = 0; i < sector->linecount; i++)
-                    sector->lines[i]->flags &= ~ML_SECRET;
+                    for (int i = 0; i < sector->linecount; i++)
+                        sector->lines[i]->flags &= ~ML_SECRET;
+                }
 
                 break;
 
@@ -2286,10 +2289,13 @@ void P_PlayerInSpecialSector(sector_t *sector)
                 break;
         }
 
-        if (sector->special & SECRET_MASK)
+        if ((sector->special & SECRET_MASK) && !(viewplayer->cheats & CF_NOCLIP))
         {
             P_SecretFound();
             sector->special &= ~SECRET_MASK;
+
+            for (int i = 0; i < sector->linecount; i++)
+                sector->lines[i]->flags &= ~ML_SECRET;
 
             if (sector->special < 32)   // if all extended bits clear,
                 sector->special = 0;    // sector is not special anymore

@@ -9,6 +9,7 @@
 * Minor changes have been made to text that is output to the console.
 * The amount of blood splats rendered depends on their distance from the player again.
 * A message is now displayed with an accompanying sound effect whenever the player finds a secret. This feature can be toggled using the new `secretmessages` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
+* Secrets are no longer consider found if the player is using the `IDCLIP` or `IDSPISPOPD` cheats.
 * The following changes have been made to the help screen displayed when the <kbd><b>F1</b></kbd> key is pressed:
   * Minor improvements have been made to the background.
   * `HELP`, `HELP1` and `HELP2` lumps in PWADs that are wider than 320 pixels are now displayed correctly.
@@ -31,7 +32,7 @@
   * Exploding pain elementals, lost souls and barrels are no longer translucent if any of their states are changed.
 * The following changes have been made to the support of `MAPINFO` lumps:
   * `nofreelook` and `nojump` now work as intended.
-  * `exitpic` can now be used.
+  * `exitpic` can now be used to specify the lump displayed when the player exits a map.
   * `compat_nopassover` can now be used to override the effects of when the `infiniteheight` CVAR is `off`.
 * Minor improvements have been made to the display of player messages and the title in the automap.
 * The following changes have been made to brightmaps when the `r_brightmaps` CVAR is `on`:
