@@ -1954,13 +1954,13 @@ static void D_DoomMainSetup(void)
         const SDL_MessageBoxButtonData buttons[] =
         {
             { SDL_MESSAGEBOX_BUTTON_ESCAPEKEY_DEFAULT, 0, "Quit"     },
-            {                                       0, 1, "Report"   },
-            { SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT, 2, "Continue" }
+            {                                       0, 1, "Continue" },
+            { SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT, 2, "Report"   }
         };
 
         const SDL_MessageBoxData messageboxdata =
         {
-            SDL_MESSAGEBOX_ERROR,
+            SDL_MESSAGEBOX_WARNING,
             NULL,
             DOOMRETRO_NAME,
             message,
@@ -1976,7 +1976,7 @@ static void D_DoomMainSetup(void)
 
         if (SDL_ShowMessageBox(&messageboxdata, &buttonid) >= 0)
         {
-            if (buttons[buttonid].buttonid == 1)
+            if (buttons[buttonid].buttonid == 2)
             {
 #if defined(_WIN32)
                 ShellExecute(NULL, "open", DOOMRETRO_ISSUESURL, NULL, NULL, SW_SHOWNORMAL);
