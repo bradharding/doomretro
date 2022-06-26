@@ -565,7 +565,7 @@ static void M_DarkBlueBackground(void)
 {
     if (automapactive)
         memset(screens[0], nearestdarkblue, SCREENAREA);
-    else 
+    else
     {
         M_BigSeed(411);
 
@@ -588,29 +588,6 @@ static void M_DarkBlueBackground(void)
         if (mapwindow)
             memset(mapscreen, nearestdarkblue, MAPAREA);
     }
-}
-
-//
-// M_DrawChar
-//  draw a character on screen
-//
-static void M_DrawChar(int x, int y, int i, bool overlapping)
-{
-    const int   width = (int)strlen(redcharset[i]) / 18;
-
-    for (int y1 = 0; y1 < 18; y1++)
-        for (int x1 = 0; x1 < width; x1++)
-        {
-            char    dot = redcharset[i][y1 * width + x1];
-
-            if (dot == '\xC8')
-            {
-                if (!overlapping)
-                    V_DrawPixel(x + x1, y + y1, PINK, true);
-            }
-            else
-                V_DrawPixel(x + x1, y + y1, (int)dot, true);
-        }
 }
 
 static const int chartoi[123] =
@@ -707,8 +684,23 @@ void M_DrawString(int x, int y, char *string)
             x += 7;
         else
         {
-            M_DrawChar(x, y, j, overlapping);
-            x += (int)strlen(redcharset[j]) / 18 - 2;
+            const int   width = (int)strlen(redcharset[j]) / 18;
+
+            for (int y1 = 0; y1 < 18; y1++)
+                for (int x1 = 0; x1 < width; x1++)
+                {
+                    char    dot = redcharset[j][y1 * width + x1];
+
+                    if (dot == '\xC8')
+                    {
+                        if (!overlapping)
+                            V_DrawPixel(x + x1, y + y1, PINK, true);
+                    }
+                    else
+                        V_DrawPixel(x + x1, y + y1, (int)dot, true);
+                }
+
+            x += width - 2;
         }
 
         prev = string[i];
