@@ -233,7 +233,6 @@ void I_Quit(bool shutdown)
 
         S_Shutdown();
 
-        crashed = false;
         M_SaveCVARs();
 
         FreeSurfaces(true);
@@ -277,7 +276,6 @@ void I_Error(const char *error, ...)
         wad = M_StringDuplicate(previouswad);
 #endif
 
-    crashed = false;
     M_SaveCVARs();
 
     FreeSurfaces(true);

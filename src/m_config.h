@@ -205,8 +205,6 @@ extern int      weaponbob;
 extern bool     weaponbounce;
 extern bool     weaponrecoil;
 
-extern bool     crashed;
-
 extern uint64_t stat_automapopened;
 extern uint64_t stat_barrelsexploded;
 extern uint64_t stat_cheated;

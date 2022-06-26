@@ -213,8 +213,6 @@ int         weaponbob = weaponbob_default;
 bool        weaponbounce = weaponbounce_default;
 bool        weaponrecoil = weaponrecoil_default;
 
-bool        crashed = false;
-
 uint64_t    stat_automapopened = 0;
 uint64_t    stat_barrelsexploded = 0;
 uint64_t    stat_cheated = 0;
@@ -320,7 +318,6 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT          (con_backcolor,                    con_backcolour,                        con_backcolor,                         NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT          (con_edgecolor,                    con_edgecolour,                        con_edgecolor,                         NOVALUEALIAS          ),
     CONFIG_VARIABLE_BOOL         (con_obituaries,                   con_obituaries,                        con_obituaries,                        BOOLVALUEALIAS        ),
-    CONFIG_VARIABLE_BOOL         (crashed,                          crashed,                               crashed,                               CRASHVALUEALIAS       ),
     CONFIG_VARIABLE_INT          (crosshair,                        crosshair,                             crosshair,                             CROSSHAIRVALUEALIAS   ),
     CONFIG_VARIABLE_INT          (crosshaircolor,                   crosshaircolour,                       crosshaircolor,                        NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT          (episode,                          episode,                               episode,                               NOVALUEALIAS          ),

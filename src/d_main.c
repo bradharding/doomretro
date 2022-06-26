@@ -1945,57 +1945,6 @@ static void D_DoomMainSetup(void)
     // Load configuration files before initializing other subsystems.
     M_LoadCVARs(packageconfig);
 
-#if !defined(_DEBUG)
-    if (crashed)
-    {
-        char    *message = "It appears that " DOOMRETRO_NAME " crashed the last time it was run. Will you please\n"
-                           "contribute to " DOOMRETRO_NAME "'s development by reporting what happened?\n";
-
-        const SDL_MessageBoxButtonData buttons[] =
-        {
-            { SDL_MESSAGEBOX_BUTTON_ESCAPEKEY_DEFAULT, 0, "Quit" },
-            {                                       0, 1, "No"   },
-            { SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT, 2, "Yes"  }
-        };
-
-        const SDL_MessageBoxData messageboxdata =
-        {
-            SDL_MESSAGEBOX_WARNING,
-            NULL,
-            DOOMRETRO_NAME,
-            message,
-            SDL_arraysize(buttons),
-            buttons,
-            NULL
-        };
-
-        int buttonid;
-
-        crashed = false;
-        M_SaveCVARs();
-
-        if (SDL_ShowMessageBox(&messageboxdata, &buttonid) >= 0)
-        {
-            if (buttons[buttonid].buttonid == 2)
-            {
-#if defined(_WIN32)
-                ShellExecute(NULL, "open", DOOMRETRO_ISSUESURL, NULL, NULL, SW_SHOWNORMAL);
-#elif defined(__linux__) || defined(__FreeBSD__) || defined(__HAIKU__)
-                system("xdg-open " DOOMRETRO_ISSUESURL);
-#elif defined(__APPLE__)
-                system("open " DOOMRETRO_ISSUESURL);
-#endif
-
-                I_Quit(false);
-            }
-            else if (buttons[buttonid].buttonid == 0)
-                I_Quit(false);
-        }
-    }
-    else
-        crashed = true;
-#endif
-
     if (M_StringCompare(iwadfolder, iwadfolder_default) || !M_FolderExists(iwadfolder))
         D_InitIWADFolder();
 
