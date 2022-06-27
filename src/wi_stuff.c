@@ -296,6 +296,9 @@ static patch_t          *sucks;
 // Name graphics of each level (centered)
 static patch_t          **lnames;
 
+static int              enterpic;
+static int              exitpic;
+
 // slam background
 static void WI_SlamBackground(void)
 {
@@ -497,6 +500,9 @@ static void WI_DrawOnLnode(int n, patch_t *c[])
 
 static void WI_InitAnimatedBack(void)
 {
+    if (exitpic > 0 || (enterpic > 0 && entering))
+        return;
+
     if (gamemode == commercial)
         return;
 
@@ -520,6 +526,9 @@ static void WI_InitAnimatedBack(void)
 
 static void WI_UpdateAnimatedBack(void)
 {
+    if (exitpic > 0 || (enterpic > 0 && state != StatCount))
+        return;
+
     if (gamemode == commercial)
         return;
 
@@ -560,6 +569,9 @@ static void WI_UpdateAnimatedBack(void)
 static void WI_DrawAnimatedBack(void)
 {
     anim_t  *a;
+
+    if (exitpic > 0 || (enterpic > 0 && state != StatCount))
+        return;
 
     if (gamemode == commercial)
         return;
@@ -730,6 +742,12 @@ static void WI_DrawShowNextLoc(void)
 
     // draw animated background
     WI_DrawAnimatedBack();
+
+    if (exitpic > 0 || (enterpic > 0 && state != StatCount))
+    {
+        WI_DrawEL();
+        return;
+    }
 
     if (gamemode != commercial)
     {
@@ -1147,9 +1165,7 @@ static void WI_LoadCallback(char *name, patch_t **variable)
 
 static void WI_LoadData(void)
 {
-    patch_t     *lump;
-    const int   enterpic = P_GetMapEnterPic(gamemap);
-    const int   exitpic = P_GetMapExitPic(gamemap);
+    patch_t *lump;
 
     if (gamemode == commercial)
     {
@@ -1162,7 +1178,7 @@ static void WI_LoadData(void)
     WI_LoadUnloadData(&WI_LoadCallback);
 
     // Background image
-    if (state != StatCount && enterpic > 0)
+    if (enterpic > 0 && state != StatCount)
         lump = W_CacheLumpNum(enterpic);
     else if (exitpic > 0)
         lump = W_CacheLumpNum(exitpic);
@@ -1170,7 +1186,6 @@ static void WI_LoadData(void)
         lump = W_CacheLastLumpName("INTERPIC");
     else if (gamemode == commercial)
     {
-
         if (gamemission == pack_plut)
             lump = W_CacheLumpName("INTERPI2");
         else if (gamemission == pack_tnt)
@@ -1230,6 +1245,9 @@ static void WI_InitVariables(wbstartstruct_t *wbstartstruct)
     char    *temp = titlecase(maptitle);
 
     wbs = wbstartstruct;
+
+    enterpic = P_GetMapEnterPic(wbs->next + 1);
+    exitpic = P_GetMapExitPic(gamemap);
 
     acceleratestage = false;
     cnt = 0;
