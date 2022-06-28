@@ -172,6 +172,7 @@ int         r_skycolor = r_skycolor_default;
 bool        r_sprites_translucency = r_sprites_translucency_default;
 bool        r_supersampling = r_supersampling_default;
 bool        r_textures = r_textures_default;
+bool        r_textures_translucency = r_textures_translucency_default;
 int         s_channels = s_channels_default;
 bool        s_lowermenumusic = s_lowermenumusic_default;
 bool        s_musicinbackground = s_musicinbackground_default;
@@ -400,6 +401,7 @@ static default_t cvars[] =
     CONFIG_VARIABLE_BOOL         (r_sprites_translucency,           r_translucency,                        r_sprites_translucency,              BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_BOOL         (r_supersampling,                  r_supersampling,                       r_supersampling,                     BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_BOOL         (r_textures,                       r_textures,                            r_textures,                          BOOLVALUEALIAS        ),
+    CONFIG_VARIABLE_BOOL         (r_textures_translucency,          r_textures_translucency,               r_textures_translucency,             BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT          (s_channels,                       s_channels,                            s_channels,                          NOVALUEALIAS          ),
     CONFIG_VARIABLE_BOOL         (s_lowermenumusic,                 s_lowermenumusic,                      s_lowermenumusic,                    BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_BOOL         (s_musicinbackground,              s_musicinbackground,                   s_musicinbackground,                 BOOLVALUEALIAS        ),
@@ -1190,6 +1192,9 @@ static void M_CheckCVARs(bool ispackageconfig)
 
     if (r_textures != false && r_textures != true)
         r_textures = r_textures_default;
+
+    if (r_textures_translucency != false && r_textures_translucency != true)
+        r_textures_translucency = r_textures_translucency_default;
 
     s_channels = BETWEEN(s_channels_min, s_channels, s_channels_max);
 

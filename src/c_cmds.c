@@ -448,6 +448,7 @@ static void r_skycolor_cvar_func2(char *cmd, char *parms);
 static void r_sprites_translucency_cvar_func2(char *cmd, char *parms);
 static void r_supersampling_cvar_func2(char *cmd, char *parms);
 static void r_textures_cvar_func2(char *cmd, char *parms);
+static void r_textures_translucency_cvar_func2(char *cmd, char *parms);
 static bool s_volume_cvars_func1(char *cmd, char *parms);
 static void s_volume_cvars_func2(char *cmd, char *parms);
 static void savegame_cvar_func2(char *cmd, char *parms);
@@ -852,11 +853,13 @@ consolecmd_t consolecmds[] =
     CVAR_INT(r_skycolor, r_skycolour, r_skycolor_cvar_func1, r_skycolor_cvar_func2, CF_NONE, SKYCOLORVALUEALIAS,
         "The color of the sky (" BOLD("none") ", or " BOLD("0") " to " BOLD("255") ")."),
     CVAR_BOOL(r_sprites_translucency, "", bool_cvars_func1, r_sprites_translucency_cvar_func2, CF_NONE, BOOLVALUEALIAS,
-        "Toggles the translucency of sprites and " ITALICS("BOOM-") "compatible wall textures."),
+        "Toggles the translucency of sprites."),
     CVAR_BOOL(r_supersampling, "", bool_cvars_func1, r_supersampling_cvar_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles SSAA (supersampling anti-aliasing) when the graphic detail is low."),
     CVAR_BOOL(r_textures, "", bool_cvars_func1, r_textures_cvar_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles showing all textures."),
+    CVAR_BOOL(r_textures_translucency, "", bool_cvars_func1, r_textures_translucency_cvar_func2, CF_NONE, BOOLVALUEALIAS,
+        "Toggles the translucency of " ITALICS("BOOM-") "compatible wall textures."),
     CCMD("regenhealth", "", null_func1, regenhealth_cmd_func2, true, "[" BOLD("on") "|" BOLD("off") "]",
         "Toggles regenerating the player's health by 1% every second when it's below 100%."),
     CCMD("remove", "", kill_cmd_func1, kill_cmd_func2, true, REMOVECMDFORMAT,
@@ -9582,6 +9585,56 @@ static void r_textures_cvar_func2(char *cmd, char *parms)
         else
         {
             char    *temp2 = C_LookupAliasFromValue(r_textures_default, BOOLVALUEALIAS);
+
+            C_Output(INTEGERCVARWITHDEFAULT, temp1, temp2);
+            free(temp2);
+        }
+
+        free(temp1);
+
+        C_ShowWarning(i);
+    }
+}
+
+//
+// r_textures_translucency CVAR
+//
+static void r_textures_translucency_cvar_func2(char *cmd, char *parms)
+{
+    if (*parms)
+    {
+        const int   value = C_LookupValueFromAlias(parms, BOOLVALUEALIAS);
+
+        if ((value == 0 || value == 1) && value != r_textures_translucency)
+        {
+            r_textures_translucency = value;
+            M_SaveCVARs();
+            R_InitColumnFunctions();
+
+            for (int i = 0; i < numsectors; i++)
+            {
+                mobj_t  *mo = sectors[i].thinglist;
+
+                while (mo)
+                {
+                    mo->colfunc = mo->info->colfunc;
+                    mo = mo->snext;
+                }
+            }
+        }
+    }
+    else
+    {
+        char        *temp1 = C_LookupAliasFromValue(r_textures_translucency, BOOLVALUEALIAS);
+        const int   i = C_GetIndex(cmd);
+
+        C_ShowDescription(i);
+
+        if (r_textures_translucency == r_textures_translucency_default)
+            C_Output(INTEGERCVARISDEFAULT, temp1);
+        else
+        {
+            char    *temp2 = C_LookupAliasFromValue(r_textures_translucency_default, BOOLVALUEALIAS);
 
             C_Output(INTEGERCVARWITHDEFAULT, temp1, temp2);
             free(temp2);

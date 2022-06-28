@@ -104,6 +104,7 @@ r_skycolor none
 r_sprites_translucency off
 r_supersampling off
 r_textures on
+r_textures_translucency off
 regenhealth off
 respawnitems off
 s_channels 8

@@ -164,6 +164,7 @@ extern int      r_skycolor;
 extern bool     r_sprites_translucency;
 extern bool     r_supersampling;
 extern bool     r_textures;
+extern bool     r_textures_translucency;
 extern int      s_channels;
 extern bool     s_lowermenumusic;
 extern bool     s_musicinbackground;
@@ -664,6 +665,8 @@ enum
 #define r_supersampling_default            true
 
 #define r_textures_default                 true
+
+#define r_textures_translucency_default    true
 
 #define s_channels_min                     8
 #define s_channels_default                 32
