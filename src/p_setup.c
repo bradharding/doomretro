@@ -701,7 +701,7 @@ static void P_LoadVertexes(int lump)
             if (canmodify && r_fixmaperrors)
                 for (int j = 0; vertexfix[j].mission != -1; j++)
                     if (gamemission == vertexfix[j].mission && gameepisode == vertexfix[j].episode && gamemap == vertexfix[j].map
-                        && i == vertexfix[j].vertex && vertexes[i].x == vertexfix[j].oldx << FRACBITS
+                        && gamemode != shareware && i == vertexfix[j].vertex && vertexes[i].x == vertexfix[j].oldx << FRACBITS
                         && vertexes[i].y == vertexfix[j].oldy << FRACBITS)
                     {
                         char    *temp = commify(vertexfix[j].vertex);
@@ -921,7 +921,7 @@ static void P_LoadSegs(int lump)
         if (canmodify && r_fixmaperrors)
             for (int j = 0; linefix[j].mission != -1; j++)
                 if (gamemission == linefix[j].mission && gameepisode == linefix[j].episode && gamemap == linefix[j].map
-                    && linedefnum == linefix[j].linedef && side == linefix[j].side)
+                    && gamemode != shareware && linedefnum == linefix[j].linedef && side == linefix[j].side)
                 {
                     if (*linefix[j].toptexture)
                     {
@@ -1342,7 +1342,7 @@ static void P_LoadSectors(int lump)
         if (canmodify && r_fixmaperrors)
             for (int j = 0; sectorfix[j].mission != -1; j++)
                 if (gamemission == sectorfix[j].mission && gameepisode == sectorfix[j].episode && gamemap == sectorfix[j].map
-                    && i == sectorfix[j].sector)
+                    && gamemode != shareware && i == sectorfix[j].sector)
                 {
                     if (*sectorfix[j].floorpic)
                     {
@@ -1836,7 +1836,7 @@ static void P_LoadThings(int map, int lump)
         if (canmodify && r_fixmaperrors)
             for (int j = 0; thingfix[j].mission != -1; j++)
                 if (gamemission == thingfix[j].mission && gameepisode == thingfix[j].episode && gamemap == thingfix[j].map
-                    && thingid == thingfix[j].thing && mt.type == thingfix[j].type
+                    && gamemode != shareware && thingid == thingfix[j].thing && mt.type == thingfix[j].type
                     && mt.x == thingfix[j].oldx && mt.y == thingfix[j].oldy)
                 {
                     char    *temp = commify(thingid);

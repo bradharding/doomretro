@@ -1752,7 +1752,7 @@ static int D_OpenWADLauncher(void)
                 }
             }
             else
-                I_Error("No PWADs may be loaded with the shareware version of DOOM.");
+                I_Error("PWADs can’t be loaded with the shareware version of DOOM.");
 
             if (iwadfound)
             {
@@ -2248,7 +2248,7 @@ static void D_DoomMainSetup(void)
     if (modifiedgame)
     {
         if (gamemode == shareware)
-            I_Error("You can't load PWADs with DOOM1.WAD.");
+            I_Error("PWADs can’t be loaded with the shareware version of DOOM.");
 
         // Check for fake IWAD with right name,
         // but w/o all the lumps of the registered version.
