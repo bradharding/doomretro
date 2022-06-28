@@ -2226,6 +2226,10 @@ static void D_DoomMainSetup(void)
 
     D_SetGameDescription();
 
+    if (gamemode == shareware)
+        C_Warning(0, "This is the shareware version of " BOLD("DOOM") "."
+            " Get the full version on " ITALICS("Steam") " or " ITALICS("GOG.com") ".");
+
     if (nerve && expansion == 2)
         gamemission = pack_nerve;
 
