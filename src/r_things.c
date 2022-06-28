@@ -492,7 +492,7 @@ static void R_DrawVisSpriteWithShadow(const vissprite_t *vis)
 
     dc_black = dc_colormap[0][nearestblack];
 
-    if ((mobj->flags2 & MF2_TRANSLUCENT_33) && r_translucency)
+    if ((mobj->flags2 & MF2_TRANSLUCENT_33) && r_sprites_translucency)
     {
         dc_black33 = &tinttab10[dc_black << 8];
         dc_black40 = &tinttab25[dc_black << 8];
@@ -1069,7 +1069,7 @@ static void R_DrawPlayerSprite(pspdef_t *psp, bool invisibility, bool texture, b
     }
     else
     {
-        if (r_translucency)
+        if (r_sprites_translucency)
         {
             if (!texture)
             {
@@ -1400,7 +1400,7 @@ void R_DrawMasked(void)
 {
     pausesprites = (menuactive || paused || consoleactive || freeze);
     interpolatesprites = (vid_capfps != TICRATE && !pausesprites);
-    invulnerable = (viewplayer->fixedcolormap == INVERSECOLORMAP && r_translucency);
+    invulnerable = (viewplayer->fixedcolormap == INVERSECOLORMAP && r_sprites_translucency);
 
     // draw all blood splats
     for (int i = num_bloodsplatvissprite - 1; i >= 0; i--)

@@ -897,7 +897,7 @@ static void F_CastDrawer(void)
             }
         }
 
-        if (r_translucency && (type == MT_SKULL || (type == MT_PAIN && castdeath)))
+        if (r_sprites_translucency && (type == MT_SKULL || (type == MT_PAIN && castdeath)))
             V_DrawFlippedTranslucentRedPatch(VANILLAWIDTH / 2, y, patch);
         else if (type == MT_SHADOWS)
             V_DrawFlippedFuzzPatch(VANILLAWIDTH / 2, y, patch);
@@ -926,7 +926,7 @@ static void F_CastDrawer(void)
             }
         }
 
-        if (r_translucency && (type == MT_SKULL || (type == MT_PAIN && castdeath)))
+        if (r_sprites_translucency && (type == MT_SKULL || (type == MT_PAIN && castdeath)))
             V_DrawTranslucentRedPatch(VANILLAWIDTH / 2, y, patch);
         else if (type == MT_SHADOWS)
             V_DrawFuzzPatch(VANILLAWIDTH / 2, y, patch);

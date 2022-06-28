@@ -169,9 +169,9 @@ bool        r_shadows_translucency = r_shadows_translucency_default;
 bool        r_shake_barrels = r_shake_barrels_default;
 int         r_shake_damage = r_shake_damage_default;
 int         r_skycolor = r_skycolor_default;
+bool        r_sprites_translucency = r_sprites_translucency_default;
 bool        r_supersampling = r_supersampling_default;
 bool        r_textures = r_textures_default;
-bool        r_translucency = r_translucency_default;
 int         s_channels = s_channels_default;
 bool        s_lowermenumusic = s_lowermenumusic_default;
 bool        s_musicinbackground = s_musicinbackground_default;
@@ -397,9 +397,9 @@ static default_t cvars[] =
     CONFIG_VARIABLE_BOOL         (r_shake_barrels,                  r_shake_barrels,                       r_shake_barrels,                     BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT_PERCENT  (r_shake_damage,                   r_shake_damage,                        r_shake_damage,                      NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT          (r_skycolor,                       r_skycolour,                           r_skycolor,                          SKYCOLORVALUEALIAS    ),
+    CONFIG_VARIABLE_BOOL         (r_sprites_translucency,           r_translucency,                        r_sprites_translucency,              BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_BOOL         (r_supersampling,                  r_supersampling,                       r_supersampling,                     BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_BOOL         (r_textures,                       r_textures,                            r_textures,                          BOOLVALUEALIAS        ),
-    CONFIG_VARIABLE_BOOL         (r_translucency,                   r_translucency,                        r_translucency,                      BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT          (s_channels,                       s_channels,                            s_channels,                          NOVALUEALIAS          ),
     CONFIG_VARIABLE_BOOL         (s_lowermenumusic,                 s_lowermenumusic,                      s_lowermenumusic,                    BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_BOOL         (s_musicinbackground,              s_musicinbackground,                   s_musicinbackground,                 BOOLVALUEALIAS        ),
@@ -1182,14 +1182,14 @@ static void M_CheckCVARs(bool ispackageconfig)
     if (r_skycolor != r_skycolor_none && (r_skycolor < r_skycolor_min || r_skycolor > r_skycolor_max))
         r_skycolor = r_skycolor_default;
 
+    if (r_sprites_translucency != false && r_sprites_translucency != true)
+        r_sprites_translucency = r_sprites_translucency_default;
+
     if (r_supersampling != false && r_supersampling != true)
         r_supersampling = r_supersampling_default;
 
     if (r_textures != false && r_textures != true)
         r_textures = r_textures_default;
-
-    if (r_translucency != false && r_translucency != true)
-        r_translucency = r_translucency_default;
 
     s_channels = BETWEEN(s_channels_min, s_channels, s_channels_max);
 

@@ -12,7 +12,7 @@
 * The following changes have been made to the help screen displayed when the <kbd><b>F1</b></kbd> key is pressed:
   * Minor improvements have been made to the background.
   * `HELP`, `HELP1` and `HELP2` lumps in PWADs that are wider than 320 pixels are now displayed correctly.
-* If it doesn’t already exist, *DOOM Retro* now creates an `autoload` folder at startup. Any `.wad`, `.deh` or `.bex` file that is placed in this folder, (or in a subfolder based on the name of the currently loaded WAD), will then always be automatically loaded at startup.
+* If it doesn’t already exist, *DOOM Retro* now creates an `autoload` folder at startup. Any `.wad`, `.deh` or `.bex` file that is placed in this folder, (or in a subfolder based on the name of the WAD chosen by the player), will then always be automatically loaded at startup.
 * The number of gamma correction levels set by the `r_gamma` CVAR that are brighter than `1.0` has been reduced.
 * Minor improvements have been made to how corpses move when the player or a monster walks over them and the `r_corpses_nudge` CVAR is `on`.
 * A crash no longer occurs when:
