@@ -14,6 +14,9 @@
   * `HELP`, `HELP1` and `HELP2` lumps in PWADs that are wider than 320 pixels are now displayed correctly.
 * If it doesn’t already exist, *DOOM Retro* now creates an `autoload` folder at startup. Any `.wad`, `.deh` or `.bex` file that is placed in this folder, (or in a subfolder based on the name of the WAD chosen by the player), will then always be automatically loaded at startup.
 * The number of gamma correction levels set by the `r_gamma` CVAR that are brighter than `1.0` has been reduced.
+* The `r_translucency` CVAR has been replaced by the following two CVARs:
+  * The new `r_sprites_translucency` CVAR toggles the translucency of sprites. This CVAR is `on` by default and `off` when vanilla mode is enabled.
+  * The new `r_textures_translucency` CVAR toggles the translucency of *BOOM*-compatible wall textures. This CVAR is also `on` by default and `off` when vanilla mode is enabled.
 * Minor improvements have been made to how corpses move when the player or a monster walks over them and the `r_corpses_nudge` CVAR is `on`.
 * A crash no longer occurs when:
   * Entering the `IDBEHOLD` cheat while the alternate widescreen HUD is displayed.
