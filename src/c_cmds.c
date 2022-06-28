@@ -3654,21 +3654,21 @@ static bool map_cmd_func1(char *cmd, char *parms)
                 result = true;
             }
         }
-        else if (M_StringCompare(parm, "E1M4B") && gamemission == doom && gamemode != shareware && !chex)
+        else if (M_StringCompare(parm, "E1M4B"))
         {
             mapcmdepisode = 1;
             mapcmdmap = 4;
             M_StringCopy(speciallumpname, "E1M4B", sizeof(speciallumpname));
             M_StringCopy(mapcmdlump, "E1M4B", sizeof(mapcmdlump));
-            result = true;
+            result = (gamemission == doom && gamemode != shareware && !chex);
         }
-        else if (M_StringCompare(parm, "E1M8B") && gamemission == doom && gamemode != shareware && !chex)
+        else if (M_StringCompare(parm, "E1M8B"))
         {
             mapcmdepisode = 1;
             mapcmdmap = 8;
             M_StringCopy(speciallumpname, "E1M8B", sizeof(speciallumpname));
             M_StringCopy(mapcmdlump, "E1M8B", sizeof(mapcmdlump));
-            result = true;
+            result = (gamemission == doom && gamemode != shareware && !chex);
         }
         else
         {
