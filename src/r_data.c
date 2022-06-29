@@ -481,22 +481,22 @@ static void R_InitBrightmaps(void)
     if (BTSX || chex || FREEDOOM || hacx || REKKR)
         return;
 
-    SC_Open("BRGHTMPS");
+    SC_Open("BRIGHTM");
 
     while (SC_GetString())
     {
         const int   texture = R_CheckTextureNumForName(sc_String);
 
-        SC_MustGetString();
-
-        if (M_StringCompare(sc_String, "0")
-            || (gamemission == doom && M_StringCompare(sc_String, "1"))
-            || (gamemission != doom && M_StringCompare(sc_String, "2")))
+        if (texture >= 0)
         {
             SC_MustGetString();
 
-            if (texture >= 0)
+            if (M_StringCompare(sc_String, "0")
+                || (gamemission == doom && M_StringCompare(sc_String, "1"))
+                || (gamemission != doom && M_StringCompare(sc_String, "2")))
             {
+                SC_MustGetString();
+
                 int i = 0;
 
                 while (masks[i].mask)

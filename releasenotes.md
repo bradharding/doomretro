@@ -36,7 +36,7 @@
   * `nofreelook` and `nojump` now work as intended.
   * `exitpic` can now be used to specify the lump displayed when the player exits a map.
   * `compat_nopassover` can now be used to override the effects of when the `infiniteheight` CVAR is `off`.
-* Support for a new [`BRGHTMPS`](https://github.com/bradharding/doomretro/blob/master/res/BRGHTMPS) lump has been introduced that allows the brightmaps of textures shown when the `r_brightmaps` CVAR is `on` to be specified in a PWAD.
+* Support for a new [`BRIGHTM`](https://github.com/bradharding/doomretro/blob/master/res/BRGHTMPS) lump has been introduced that allows the brightmaps of textures shown when the `r_brightmaps` CVAR is `on` to be specified in a PWAD.
 * Minor improvements have been made to the display of player messages and the title in the automap.
 * The following changes have been made to brightmaps when the `r_brightmaps` CVAR is `on`:
   * Minor improvements have been made to the brightmaps of the `COMPUTE2` and `COMPUTE3` textures.
