@@ -267,57 +267,24 @@ static byte yellowonly[256] =
 
 static struct
 {
-    char    texture[9];
-    int     game;
+    char    *name;
     byte    *mask;
-} brightmaps[] = {
-    { "BTNTMETL", DOOM2ONLY, notgrayorbrown1 }, { "BTNTSLVR", DOOM2ONLY, notgrayorbrown1 },
-    { "COMP2",    DOOM1AND2, blueandgreen    }, { "COMPSTA1", DOOM1AND2, notgray         },
-    { "COMPSTA2", DOOM1AND2, notgray         }, { "COMPUTE1", DOOM1AND2, notgrayorbrown1 },
-    { "COMPUTE2", DOOM1ONLY, bluegreenbrown  }, { "COMPUTE3", DOOM1ONLY, blueandorange   },
-    { "EXITSIGN", DOOM1AND2, notgray         }, { "EXITSTON", DOOM1AND2, redonly1        },
-    { "LITEBLU1", DOOM1AND2, notgray         }, { "LITEBLU2", DOOM1AND2, notgray         },
-    { "LITERED2", DOOM2ONLY, redonly1        }, { "LITEYEL2", DOOM2ONLY, yellowonly      },
-    { "LITEYEL3", DOOM2ONLY, yellowonly      }, { "M_TEC",    DOOM2ONLY, greenonly2      },
-    { "METAL3",   DOOM2ONLY, redonly1        }, { "PIPEWAL1", DOOM2ONLY, greenonly1      },
-    { "PLANET1",  DOOM1AND2, notgray         }, { "PNK4EXIT", DOOM2ONLY, redonly1        },
-    { "SILVER2",  DOOM1AND2, notgray         }, { "SILVER3",  DOOM1AND2, notgrayorbrown2 },
-    { "SLAD2",    DOOM2ONLY, notgrayorbrown1 }, { "SLAD3",    DOOM2ONLY, notgrayorbrown1 },
-    { "SLAD4",    DOOM2ONLY, notgrayorbrown1 }, { "SLAD5",    DOOM2ONLY, notgrayorbrown1 },
-    { "SLAD6",    DOOM2ONLY, notgrayorbrown1 }, { "SLAD7",    DOOM2ONLY, notgrayorbrown1 },
-    { "SLAD8",    DOOM2ONLY, notgrayorbrown1 }, { "SLAD9",    DOOM2ONLY, notgrayorbrown1 },
-    { "SLAD10",   DOOM2ONLY, notgrayorbrown1 }, { "SLAD11",   DOOM2ONLY, notgrayorbrown1 },
-    { "SLADRIP1", DOOM2ONLY, notgrayorbrown1 }, { "SLADRIP3", DOOM2ONLY, notgrayorbrown1 },
-    { "SLADSKUL", DOOM1AND2, redonly1        }, { "SPCDOOR3", DOOM2ONLY, greenonly1      },
-    { "SW1BRCOM", DOOM1AND2, redonly1        }, { "SW1BRIK",  DOOM1AND2, redonly1        },
-    { "SW1BRN1",  DOOM2ONLY, redonly1        }, { "SW1COMM",  DOOM1AND2, redonly1        },
-    { "SW1DIRT",  DOOM1AND2, redonly1        }, { "SW1MET2",  DOOM1AND2, redonly1        },
-    { "SW1STARG", DOOM2ONLY, redonly1        }, { "SW1STON1", DOOM1AND2, redonly1        },
-    { "SW1STON2", DOOM2ONLY, redonly1        }, { "SW1STONE", DOOM1AND2, redonly1        },
-    { "SW1STRTN", DOOM1AND2, redonly1        }, { "SW2BLUE",  DOOM1AND2, redonly1        },
-    { "SW2BRCOM", DOOM1AND2, greenonly2      }, { "SW2BRIK",  DOOM1AND2, greenonly1      },
-    { "SW2BRN1",  DOOM1AND2, greenonly2      }, { "SW2BRN2",  DOOM1AND2, greenonly1      },
-    { "SW2BRNGN", DOOM1AND2, greenonly3      }, { "SW2COMM",  DOOM1AND2, greenonly1      },
-    { "SW2COMP",  DOOM1AND2, redonly1        }, { "SW2DIRT",  DOOM1AND2, greenonly2      },
-    { "SW2EXIT",  DOOM1AND2, notgray         }, { "SW2GARG",  DOOM1AND2, brighttan       },
-    { "SW2GRAY",  DOOM1AND2, notgray         }, { "SW2GRAY1", DOOM1AND2, notgray         },
-    { "SW2GSTON", DOOM1AND2, redonly1        }, { "SW2HOT",   DOOM1AND2, redonly2        },
-    { "SW2LION",  DOOM1AND2, brighttan       }, { "SW2MARB",  DOOM2ONLY, redonly1        },
-    { "SW2MET2",  DOOM1AND2, greenonly1      }, { "SW2METAL", DOOM1AND2, greenonly3      },
-    { "SW2MOD1",  DOOM1AND2, greenonly1      }, { "SW2PANEL", DOOM1AND2, redonly1        },
-    { "SW2ROCK",  DOOM1AND2, redonly1        }, { "SW2SATYR", DOOM1AND2, brighttan       },
-    { "SW2SKULL", DOOM2ONLY, redandgreen     }, { "SW2SLAD",  DOOM1AND2, redonly1        },
-    { "SW2STARG", DOOM2ONLY, greenonly2      }, { "SW2STON1", DOOM1AND2, greenonly3      },
-    { "SW2STON2", DOOM1ONLY, redonly1        }, { "SW2STON2", DOOM2ONLY, greenonly2      },
-    { "SW2STON6", DOOM1AND2, redonly1        }, { "SW2STONE", DOOM1AND2, greenonly2      },
-    { "SW2STRTN", DOOM1AND2, greenonly1      }, { "SW2TEK",   DOOM1AND2, greenonly1      },
-    { "SW2VINE",  DOOM1AND2, greenonly1      }, { "SW2WOOD",  DOOM1AND2, redonly1        },
-    { "SW2ZIM",   DOOM1AND2, redonly1        }, { "TEKBRON2", DOOM2ONLY, yellowonly      },
-    { "TEKLITE2", DOOM2ONLY, greenonly1      }, { "TEKWALL2", DOOM1ONLY, redonly1        },
-    { "TEKWALL5", DOOM1ONLY, redonly1        }, { "WOOD4",    DOOM1AND2, redonly1        },
-    { "WOODGARG", DOOM1AND2, redonly1        }, { "WOODSKUL", DOOM1AND2, redonly1        },
-    { "YELMETAL", DOOM2ONLY, yellowonly      }, { "ZELDOOR",  DOOM1AND2, redonly1        },
-    { "",         0,         0               }
+} masks[] = {
+    { "NOTGRAY",         notgray         },
+    { "NOTGRAYORBROWN1", notgrayorbrown1 },
+    { "NOTGRAYORBROWN2", notgrayorbrown2 },
+    { "BLUEGREENBROWN",  bluegreenbrown  },
+    { "BLUEANDORANGE",   blueandorange   },
+    { "REDONLY1",        redonly1        },
+    { "REDONLY2",        redonly2        },
+    { "GREENONLY1",      greenonly1      },
+    { "GREENONLY2",      greenonly2      },
+    { "GREENONLY3",      greenonly3      },
+    { "REDANDGREEN",     redandgreen     },
+    { "BLUEANDGREEN",    blueandgreen    },
+    { "BRIGHTTAN",       brighttan       },
+    { "YELLOWONLY",      yellowonly      },
+    { "",                NULL            }
 };
 
 //
@@ -514,17 +481,39 @@ static void R_InitBrightmaps(void)
     if (BTSX || chex || FREEDOOM || hacx || REKKR)
         return;
 
-    for (int i = 0; brightmaps[i].mask; i++)
-        if (*brightmaps[i].texture
-            && (brightmaps[i].game == DOOM1AND2
-                || (gamemission == doom && brightmaps[i].game == DOOM1ONLY)
-                || (gamemission != doom && brightmaps[i].game == DOOM2ONLY)))
-        {
-            const int   num = R_CheckTextureNumForName(brightmaps[i].texture);
+    SC_Open("BRGHTMPS");
 
-            if (num != -1)
-                brightmap[num] = brightmaps[i].mask;
+    while (SC_GetString())
+    {
+        const int   texture = R_CheckTextureNumForName(sc_String);
+
+        SC_MustGetString();
+
+        if (M_StringCompare(sc_String, "DOOM1AND2")
+            || (gamemission == doom && M_StringCompare(sc_String, "DOOM1ONLY"))
+            || (gamemission != doom && M_StringCompare(sc_String, "DOOM2ONLY")))
+        {
+            SC_MustGetString();
+
+            if (texture >= 0)
+            {
+                int i = 0;
+
+                while (masks[i].mask)
+                {
+                    if (M_StringCompare(sc_String, masks[i].name))
+                    {
+                        brightmap[texture] = masks[i].mask;
+                        break;
+                    }
+
+                    i++;
+                }
+            }
         }
+    }
+
+    SC_Close();
 
     SC_Open("DRCOMPAT");
 

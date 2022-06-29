@@ -493,6 +493,7 @@
     <None Include="..\LICENSE" />
     <None Include="..\README.md" />
     <None Include="..\releasenotes.md" />
+    <None Include="..\res\BRGHTMPS" />
     <None Include="..\res\CHEXBEX" />
     <None Include="..\res\DEHACKED" />
     <None Include="..\res\doomretro.ico" />
