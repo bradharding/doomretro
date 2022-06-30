@@ -270,18 +270,18 @@ static struct
     char    *name;
     byte    *mask;
 } masks[] = {
-    { "NOGRAY",   NOGRAY   },
-    { "NOGRBR1",  NOGRBR1  },
-    { "NOGRBR2",  NOGRBR2  },
     { "BLGRBR",   BLGRBR   },
     { "BLUEORAN", BLUEORAN },
-    { "RED1",     RED1     },
-    { "RED2",     RED2     },
+    { "BLUGRN",   BLUGRN   },
     { "GREEN1",   GREEN1   },
     { "GREEN2",   GREEN2   },
     { "GREEN3",   GREEN3   },
+    { "NOGRAY",   NOGRAY   },
+    { "NOGRBR1",  NOGRBR1  },
+    { "NOGRBR2",  NOGRBR2  },
+    { "RED1",     RED1     },
+    { "RED2",     RED2     },
     { "REDGRN",   REDGRN   },
-    { "BLUGRN",   BLUGRN   },
     { "TAN",      TAN      },
     { "YELLOW",   YELLOW   },
     { "",         NULL     }
@@ -481,36 +481,37 @@ static void R_InitBrightmaps(void)
     if (BTSX || chex || FREEDOOM || hacx || REKKR)
         return;
 
-    SC_Open("BRIGHTM");
+    SC_Open("BRGHTMPS");
 
     while (SC_GetString())
     {
         const int   texture = R_CheckTextureNumForName(sc_String);
+        char        *mask;
 
-        if (texture >= 0)
+        SC_MustGetString();
+        mask = M_StringDuplicate(sc_String);
+
+        SC_MustGetNumber();
+
+        if (texture >= 0 && (!sc_Number
+            || (gamemission == doom && sc_Number == 1)
+            || (gamemission != doom && sc_Number == 2)))
         {
-            SC_MustGetString();
+            int i = 0;
 
-            if (M_StringCompare(sc_String, "0")
-                || (gamemission == doom && M_StringCompare(sc_String, "1"))
-                || (gamemission != doom && M_StringCompare(sc_String, "2")))
+            while (masks[i].mask)
             {
-                SC_MustGetString();
-
-                int i = 0;
-
-                while (masks[i].mask)
+                if (M_StringCompare(mask, masks[i].name))
                 {
-                    if (M_StringCompare(sc_String, masks[i].name))
-                    {
-                        brightmap[texture] = masks[i].mask;
-                        break;
-                    }
-
-                    i++;
+                    brightmap[texture] = masks[i].mask;
+                    break;
                 }
+
+                i++;
             }
         }
+
+        free(mask);
     }
 
     SC_Close();
