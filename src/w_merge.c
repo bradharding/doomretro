@@ -488,7 +488,7 @@ static void DoMerge(void)
             case SECTION_HIDEF:
                 if (!strncasecmp(lump->name, "HI_END", 8) && histart != -1)
                 {
-                    int patches = i - histart - 1;
+                    const int   patches = i - histart - 1;
 
                     if (patches)
                     {

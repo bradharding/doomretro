@@ -109,7 +109,7 @@ static byte NOGRAY[256] =
     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
 };
 
-static byte NOGRBR1[256] =
+static byte NOGRAYBROWN1[256] =
 {
     0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
@@ -121,7 +121,7 @@ static byte NOGRBR1[256] =
     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
 };
 
-static byte NOGRBR2[256] =
+static byte NOGRAYBROWN2[256] =
 {
     0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
@@ -133,7 +133,7 @@ static byte NOGRBR2[256] =
     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
 };
 
-static byte BLGRBR[256] =
+static byte BLUEGREENBROWN[256] =
 {
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -145,7 +145,7 @@ static byte BLGRBR[256] =
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 };
 
-static byte BLUEORAN[256] =
+static byte BLUEORANGE[256] =
 {
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -217,7 +217,7 @@ static byte GREEN3[256] =
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 };
 
-static byte REDGRN[256] =
+static byte REDGREEN[256] =
 {
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -229,7 +229,7 @@ static byte REDGRN[256] =
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 };
 
-static byte BLUGRN[256] =
+static byte BLUEGREEN[256] =
 {
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -270,21 +270,21 @@ static struct
     char    *name;
     byte    *mask;
 } masks[] = {
-    { "BLGRBR",   BLGRBR   },
-    { "BLUEORAN", BLUEORAN },
-    { "BLUGRN",   BLUGRN   },
-    { "GREEN1",   GREEN1   },
-    { "GREEN2",   GREEN2   },
-    { "GREEN3",   GREEN3   },
-    { "NOGRAY",   NOGRAY   },
-    { "NOGRBR1",  NOGRBR1  },
-    { "NOGRBR2",  NOGRBR2  },
-    { "RED1",     RED1     },
-    { "RED2",     RED2     },
-    { "REDGRN",   REDGRN   },
-    { "TAN",      TAN      },
-    { "YELLOW",   YELLOW   },
-    { "",         NULL     }
+    { "BLUEGREENBROWN", BLUEGREENBROWN },
+    { "BLUEORANGE",     BLUEORANGE     },
+    { "BLUEGREEN",      BLUEGREEN      },
+    { "GREEN1",         GREEN1         },
+    { "GREEN2",         GREEN2         },
+    { "GREEN3",         GREEN3         },
+    { "NOGRAY",         NOGRAY         },
+    { "NOGRAYBROWN1",  NOGRAYBROWN1  },
+    { "NOGRAYBROWN2",  NOGRAYBROWN2  },
+    { "RED1",           RED1           },
+    { "RED2",           RED2           },
+    { "REDGREEN",       REDGREEN       },
+    { "TAN",            TAN            },
+    { "YELLOW",         YELLOW         },
+    { "",               NULL           }
 };
 
 //
@@ -484,35 +484,39 @@ static void R_InitBrightmaps(void)
     SC_Open("BRGHTMPS");
 
     while (SC_GetString())
-    {
-        const int   texture = R_CheckTextureNumForName(sc_String);
-        char        *mask;
-
-        SC_MustGetString();
-        mask = M_StringDuplicate(sc_String);
-
-        SC_MustGetNumber();
-
-        if (texture >= 0 && (!sc_Number
-            || (gamemission == doom && sc_Number == 1)
-            || (gamemission != doom && sc_Number == 2)))
+        if (M_StringCompare(sc_String, "TEXTURE"))
         {
-            int i = 0;
+            int     texture;
+            char    *mask;
 
-            while (masks[i].mask)
+            SC_MustGetString();
+            texture = R_CheckTextureNumForName(sc_String);
+
+            SC_MustGetString();
+            mask = M_StringDuplicate(sc_String);
+
+            SC_MustGetNumber();
+
+            if (texture >= 0 && (!sc_Number
+                || (gamemission == doom && sc_Number == 1)
+                || (gamemission != doom && sc_Number == 2)))
             {
-                if (M_StringCompare(mask, masks[i].name))
+                int i = 0;
+
+                while (masks[i].mask)
                 {
-                    brightmap[texture] = masks[i].mask;
-                    break;
+                    if (M_StringCompare(mask, masks[i].name))
+                    {
+                        brightmap[texture] = masks[i].mask;
+                        break;
+                    }
+
+                    i++;
                 }
-
-                i++;
             }
-        }
 
-        free(mask);
-    }
+            free(mask);
+        }
 
     SC_Close();
 
