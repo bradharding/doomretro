@@ -55,6 +55,7 @@ int             sc_Line;
 static char     *ScriptBuffer;
 static char     *ScriptPtr;
 static char     *ScriptEndPtr;
+static char     *ScriptLumpName;
 static int      ScriptLumpNum;
 static bool     sc_End;
 static bool     ScriptOpen;
@@ -64,7 +65,7 @@ static void SC_ScriptError(void)
 {
     char    *temp = commify(sc_Line);
 
-    C_Warning(1, "Line %s in the " BOLD("MAPINFO") " lump is invalid.", temp);
+    C_Warning(1, "Line %s in the " BOLD("%s") " lump is invalid.", temp, ScriptLumpName);
     free(temp);
 }
 
@@ -74,6 +75,7 @@ void SC_Open(char *name)
 
     SC_Close();
     ScriptLumpNum = W_GetNumForName(name);
+    ScriptLumpName = M_StringDuplicate(name);
     ScriptBuffer = W_CacheLumpNum(ScriptLumpNum);
     ScriptPtr = ScriptBuffer;
     ScriptEndPtr = ScriptPtr + W_LumpLength(ScriptLumpNum);
@@ -89,7 +91,10 @@ void SC_Close(void)
     if (ScriptOpen)
     {
         if (ScriptLumpNum >= 0)
+        {
             W_ReleaseLumpNum(ScriptLumpNum);
+            free(ScriptLumpName);
+        }
         else
             Z_Free(ScriptBuffer);
 
