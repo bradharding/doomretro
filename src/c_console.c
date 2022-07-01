@@ -2036,7 +2036,7 @@ bool C_Responder(event_t *ev)
                     endspace1 = (input[strlen(input) - 1] == ' ');
 
                     while ((direction == -1 && autocomplete > 0)
-                        || (direction == 1 && (autocomplete == -1 || autocompletelist[autocomplete].game)))
+                        || (direction == 1 && (autocomplete == -1 || *autocompletelist[autocomplete].text)))
                     {
                         static char output[255];
                         int         spaces2;

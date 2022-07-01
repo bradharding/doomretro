@@ -321,19 +321,19 @@ static void R_InitBrightmaps(void)
         else if (M_StringCompare(sc_String, "TEXTURE"))
         {
             int     texture;
-            char    *maskname;
+            char    maskname[32];
 
             SC_MustGetString();
             texture = R_CheckTextureNumForName(sc_String);
 
             SC_MustGetString();
-            maskname = M_StringDuplicate(sc_String);
+            M_StringCopy(maskname, sc_String, sizeof(maskname));
 
             SC_MustGetNumber();
 
-            if (texture >= 0 && (!sc_Number
-                || (gamemission == doom && sc_Number == 1)
-                || (gamemission != doom && sc_Number == 2)))
+            if (texture >= 0 && (sc_Number == DOOM1AND2
+                || (gamemission == doom && sc_Number == DOOM1ONLY)
+                || (gamemission != doom && sc_Number == DOOM2ONLY)))
                 for (int i = 0; i < nummasks; i++)
                     if (M_StringCompare(maskname, masknames[i]))
                     {
@@ -341,8 +341,6 @@ static void R_InitBrightmaps(void)
                         numbrightmappedtextures++;
                         break;
                     }
-
-            free(maskname);
         }
     }
 

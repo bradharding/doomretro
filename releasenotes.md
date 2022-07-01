@@ -8,9 +8,9 @@
 * Minor changes have been made to text that is output to the console.
 * The amount of blood splats rendered depends on their distance from the player again.
 * A message is now displayed with an accompanying sound effect whenever the player finds a secret. This feature can be toggled using the new `secretmessages` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
-* Secrets are no longer considered found if the player is using the `IDCLIP` or `IDSPISPOPD` cheats.
+* Secrets are no longer considered to be found if the player is using the `IDCLIP` or `IDSPISPOPD` cheats.
 * The following changes have been made to the help screen displayed when the <kbd><b>F1</b></kbd> key is pressed:
-  * Minor improvements have been made to the background.
+  * Subtle noise has been applied to the background.
   * `HELP`, `HELP1` and `HELP2` lumps in PWADs that are wider than 320 pixels are now displayed correctly.
 * If it doesn’t already exist, *DOOM Retro* now creates an `autoload` folder at startup. Any `.wad`, `.deh` or `.bex` file that is placed in this folder, (or in a subfolder based on the name of the WAD chosen by the player), will then always be automatically loaded at startup.
 * The number of gamma correction levels set by the `r_gamma` CVAR that are brighter than `1.0` has been reduced.
@@ -28,16 +28,16 @@
   * A crash no longer occurs when attempting to display the player’s health in the widescreen HUD if `Initial Health` or `Max Health` are changed to a value greater than `999`.
   * Gibbing corpses are no longer affected if `Exploding frame` is changed.
   * `Blood color` may now be used to change the color of blood spilled by monsters. This is set to a value between `0` and `8` (representing the colors red, gray, green, blue, yellow, black, purple, white and orange).
-  * For a monster to spill fuzzy blood, the `SHADOW` flag must now be used in `Bits` and the `r_blood` CVAR must be `all`.
+  * If the `SHADOW` flag is used in `Bits`, the monster will now spill fuzzy blood if the `r_blood` CVAR is `all`.
   * The use of `Blood` in `Thing` blocks has been deprecated.
   * The use of the `TRANSLUCENT_REDTOGREEN_33`, `TRANSLUCENT_REDTOBLUE_33`, `REDTOGREEN` and `REDTOBLUE` flags in `Retro bits` have all been deprecated.
-  * Exploding pain elementals, lost souls and barrels are no longer translucent if any of their states are changed.
+  * Pain elementals, lost souls and barrels are no longer translucent when exploding if any of their states have been changed.
 * The following changes have been made to the support of `MAPINFO` lumps:
   * `nofreelook` and `nojump` now work as intended.
   * `exitpic` can now be used to specify the lump displayed when the player exits a map.
   * `compat_nopassover` can now be used to override the effects of when the `infiniteheight` CVAR is `off`.
-* Minor improvements have been made to the display of player messages and the title in the automap.
 * The following changes have been made to brightmaps when the `r_brightmaps` CVAR is `on`:
+  * A new [`BRGHTMPS`](https://github.com/bradharding/doomretro/blob/master/res/BRGHTMPS) lump has been introduced that allows brightmaps to be changed in a PWAD.
   * Minor improvements have been made to the brightmaps of the `COMPUTE2` and `COMPUTE3` textures.
   * Brightmaps can now be applied to masked midtextures.
 * The existing feature of randomizing the start frame of certain sprites can now be toggled using the new `r_randomstartframes` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
