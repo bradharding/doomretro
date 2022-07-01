@@ -82,9 +82,8 @@ fixed_t     *textureheight;
 
 byte        **brightmap;
 bool        *nobrightmap;
-byte        masks[256][256];
-char        masknames[256][256];
-
+byte        (*masks)[256];
+char        (*masknames)[32];
 
 // for global animation
 int         *flattranslation;
@@ -294,6 +293,8 @@ static void R_InitBrightmaps(void)
 
     brightmap = Z_Calloc(numtextures, 256, PU_STATIC, NULL);
     nobrightmap = Z_Calloc(numtextures, sizeof(*nobrightmap), PU_STATIC, NULL);
+    masks = Z_Calloc(numtextures, sizeof(*masks), PU_STATIC, NULL);
+    masknames = Z_Calloc(numtextures, sizeof(*masknames), PU_STATIC, NULL);
 
     if (BTSX || chex || FREEDOOM || hacx || REKKR)
         return;
@@ -305,7 +306,7 @@ static void R_InitBrightmaps(void)
         if (M_StringCompare(sc_String, "BRIGHTMAP"))
         {
             SC_MustGetString();
-            M_StringCopy(masknames[nummasks], sc_String, 256);
+            M_StringCopy(masknames[nummasks], sc_String, sizeof(masknames[nummasks]));
 
             SC_MustGetString();
 
@@ -347,9 +348,6 @@ static void R_InitBrightmaps(void)
 
     SC_Close();
 
-    if (r_brightmaps && numbrightmappedtextures)
-        C_Output("Brightmaps have been applied to %i textures.", numbrightmappedtextures);
-
     SC_Open("DRCOMPAT");
 
     while (SC_GetString())
@@ -362,10 +360,16 @@ static void R_InitBrightmaps(void)
             SC_MustGetString();
 
             if (texture >= 0 && M_StringCompare(pwadfile, sc_String))
+            {
                 nobrightmap[texture] = true;
+                numbrightmappedtextures--;
+            }
         }
 
     SC_Close();
+
+    if (r_brightmaps && numbrightmappedtextures > 0)
+        C_Output("Brightmaps have been applied to %i textures.", numbrightmappedtextures);
 }
 
 //
