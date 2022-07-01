@@ -82,8 +82,6 @@ fixed_t     *textureheight;
 
 byte        **brightmap;
 bool        *nobrightmap;
-byte        (*masks)[256];
-char        (*masknames)[32];
 
 // for global animation
 int         *flattranslation;
@@ -288,16 +286,19 @@ static void R_InitTextures(void)
 //
 static void R_InitBrightmaps(void)
 {
-    int nummasks = 0;
-    int numbrightmappedtextures = 0;
+    byte    (*masks)[256];
+    char    (*masknames)[32];
+    int     nummasks = 0;
+    int     numbrightmappedtextures = 0;
 
     brightmap = Z_Calloc(numtextures, 256, PU_STATIC, NULL);
     nobrightmap = Z_Calloc(numtextures, sizeof(*nobrightmap), PU_STATIC, NULL);
-    masks = Z_Calloc(numtextures, sizeof(*masks), PU_STATIC, NULL);
-    masknames = Z_Calloc(numtextures, sizeof(*masknames), PU_STATIC, NULL);
 
     if (BTSX || chex || FREEDOOM || hacx || REKKR)
         return;
+
+    masks = Z_Calloc(numtextures, sizeof(*masks), PU_STATIC, NULL);
+    masknames = Z_Calloc(numtextures, sizeof(*masknames), PU_STATIC, NULL);
 
     SC_Open("BRGHTMPS");
 
@@ -306,7 +307,7 @@ static void R_InitBrightmaps(void)
         if (M_StringCompare(sc_String, "BRIGHTMAP"))
         {
             SC_MustGetString();
-            M_StringCopy(masknames[nummasks], sc_String, sizeof(masknames[nummasks]));
+            M_StringCopy(masknames[nummasks], sc_String, sizeof(masknames[0]));
 
             SC_MustGetString();
 
@@ -339,6 +340,7 @@ static void R_InitBrightmaps(void)
                     {
                         brightmap[texture] = masks[i];
                         numbrightmappedtextures++;
+
                         break;
                     }
         }
@@ -355,6 +357,7 @@ static void R_InitBrightmaps(void)
 
             SC_MustGetString();
             texture = R_TextureNumForName(sc_String);
+
             SC_MustGetString();
 
             if (texture >= 0 && M_StringCompare(pwadfile, sc_String))
@@ -498,121 +501,121 @@ static void R_InitSpriteLumps(void)
         mobjinfo[MT_BRUISER].bloodcolor = REDBLOOD;
         mobjinfo[MT_KNIGHT].bloodcolor = REDBLOOD;
 
-        M_StringCopy(weaponinfo[wp_pistol].name, "handgun", sizeof(weaponinfo[wp_pistol].name));
-        M_StringCopy(weaponinfo[wp_shotgun].name, "pump-action shotgun", sizeof(weaponinfo[wp_shotgun].name));
-        M_StringCopy(weaponinfo[wp_chaingun].name, "minigun", sizeof(weaponinfo[wp_chaingun].name));
-        M_StringCopy(weaponinfo[wp_missile].name, "missile launcher", sizeof(weaponinfo[wp_missile].name));
-        M_StringCopy(weaponinfo[wp_plasma].name, "polaric energy cannon", sizeof(weaponinfo[wp_plasma].name));
-        M_StringCopy(weaponinfo[wp_bfg].name, "SKAG 1337", sizeof(weaponinfo[wp_bfg].name));
-        M_StringCopy(weaponinfo[wp_chainsaw].name, "angle grinder", sizeof(weaponinfo[wp_chainsaw].name));
-        M_StringCopy(weaponinfo[wp_supershotgun].name, "double-barreled shotgun", sizeof(weaponinfo[wp_supershotgun].name));
+        M_StringCopy(weaponinfo[wp_pistol].name, "handgun", sizeof(weaponinfo[0].name));
+        M_StringCopy(weaponinfo[wp_shotgun].name, "pump-action shotgun", sizeof(weaponinfo[0].name));
+        M_StringCopy(weaponinfo[wp_chaingun].name, "minigun", sizeof(weaponinfo[0].name));
+        M_StringCopy(weaponinfo[wp_missile].name, "missile launcher", sizeof(weaponinfo[0].name));
+        M_StringCopy(weaponinfo[wp_plasma].name, "polaric energy cannon", sizeof(weaponinfo[0].name));
+        M_StringCopy(weaponinfo[wp_bfg].name, "SKAG 1337", sizeof(weaponinfo[0].name));
+        M_StringCopy(weaponinfo[wp_chainsaw].name, "angle grinder", sizeof(weaponinfo[0].name));
+        M_StringCopy(weaponinfo[wp_supershotgun].name, "double-barreled shotgun", sizeof(weaponinfo[0].name));
 
-        M_StringCopy(weaponinfo[wp_missile].ammoname, "missile", sizeof(weaponinfo[wp_missile].ammoname));
-        M_StringCopy(weaponinfo[wp_missile].ammoplural, "missiles", sizeof(weaponinfo[wp_missile].ammoplural));
-        M_StringCopy(weaponinfo[wp_plasma].ammoname, "polaric recharge", sizeof(weaponinfo[wp_plasma].ammoname));
-        M_StringCopy(weaponinfo[wp_plasma].ammoplural, "polaric recharges", sizeof(weaponinfo[wp_plasma].ammoplural));
-        M_StringCopy(weaponinfo[wp_bfg].ammoname, "polaric recharge", sizeof(weaponinfo[wp_bfg].ammoname));
-        M_StringCopy(weaponinfo[wp_bfg].ammoplural, "polaric recharges", sizeof(weaponinfo[wp_bfg].ammoplural));
+        M_StringCopy(weaponinfo[wp_missile].ammoname, "missile", sizeof(weaponinfo[0].ammoname));
+        M_StringCopy(weaponinfo[wp_missile].ammoplural, "missiles", sizeof(weaponinfo[0].ammoplural));
+        M_StringCopy(weaponinfo[wp_plasma].ammoname, "polaric recharge", sizeof(weaponinfo[0].ammoname));
+        M_StringCopy(weaponinfo[wp_plasma].ammoplural, "polaric recharges", sizeof(weaponinfo[0].ammoplural));
+        M_StringCopy(weaponinfo[wp_bfg].ammoname, "polaric recharge", sizeof(weaponinfo[0].ammoname));
+        M_StringCopy(weaponinfo[wp_bfg].ammoplural, "polaric recharges", sizeof(weaponinfo[0].ammoplural));
 
-        M_StringCopy(mobjinfo[MT_MISC0].name1, "light armor vest", sizeof(mobjinfo[MT_MISC0].name1));
-        M_StringCopy(mobjinfo[MT_MISC0].plural1, "light armor vests", sizeof(mobjinfo[MT_MISC0].plural1));
-        M_StringCopy(mobjinfo[MT_MISC1].name1, "heavy armor vest", sizeof(mobjinfo[MT_MISC1].name1));
-        M_StringCopy(mobjinfo[MT_MISC1].plural1, "heavy armor vests", sizeof(mobjinfo[MT_MISC1].plural1));
-        M_StringCopy(mobjinfo[MT_MISC2].name1, "1% health bonus", sizeof(mobjinfo[MT_MISC2].name1));
-        M_StringCopy(mobjinfo[MT_MISC2].plural1, "1% health bonuses", sizeof(mobjinfo[MT_MISC2].plural1));
-        M_StringCopy(mobjinfo[MT_MISC3].name1, "1% armor bonus", sizeof(mobjinfo[MT_MISC3].name1));
-        M_StringCopy(mobjinfo[MT_MISC3].plural1, "1% armor bonuses", sizeof(mobjinfo[MT_MISC3].plural1));
-        M_StringCopy(mobjinfo[MT_MISC4].name1, "blue passcard", sizeof(mobjinfo[MT_MISC4].name1));
-        M_StringCopy(mobjinfo[MT_MISC4].plural1, "blue passcards", sizeof(mobjinfo[MT_MISC4].plural1));
-        M_StringCopy(mobjinfo[MT_MISC5].name1, "red passcard", sizeof(mobjinfo[MT_MISC5].name1));
-        M_StringCopy(mobjinfo[MT_MISC5].plural1, "red passcards", sizeof(mobjinfo[MT_MISC5].plural1));
-        M_StringCopy(mobjinfo[MT_MISC6].name1, "yellow passcard", sizeof(mobjinfo[MT_MISC6].name1));
-        M_StringCopy(mobjinfo[MT_MISC6].plural1, "yellow passcards", sizeof(mobjinfo[MT_MISC6].plural1));
-        M_StringCopy(mobjinfo[MT_MISC7].name1, "yellow skeleton key", sizeof(mobjinfo[MT_MISC7].name1));
-        M_StringCopy(mobjinfo[MT_MISC7].plural1, "yellow skeleton keys", sizeof(mobjinfo[MT_MISC7].plural1));
-        M_StringCopy(mobjinfo[MT_MISC8].name1, "red skeleton key", sizeof(mobjinfo[MT_MISC8].name1));
-        M_StringCopy(mobjinfo[MT_MISC8].plural1, "red skeleton keys", sizeof(mobjinfo[MT_MISC8].plural1));
-        M_StringCopy(mobjinfo[MT_MISC9].name1, "blue skeleton key", sizeof(mobjinfo[MT_MISC9].name1));
-        M_StringCopy(mobjinfo[MT_MISC9].plural1, "blue skeleton keys", sizeof(mobjinfo[MT_MISC9].plural1));
-        M_StringCopy(mobjinfo[MT_MISC10].name1, "small health pack", sizeof(mobjinfo[MT_MISC10].name1));
-        M_StringCopy(mobjinfo[MT_MISC10].plural1, "small health packs", sizeof(mobjinfo[MT_MISC10].plural1));
-        M_StringCopy(mobjinfo[MT_MISC11].name1, "large health pack", sizeof(mobjinfo[MT_MISC11].name1));
-        M_StringCopy(mobjinfo[MT_MISC11].plural1, "large health packs", sizeof(mobjinfo[MT_MISC11].plural1));
-        M_StringCopy(mobjinfo[MT_MISC12].name1, "overdrive sphere", sizeof(mobjinfo[MT_MISC12].name1));
-        M_StringCopy(mobjinfo[MT_MISC12].plural1, "overdrive spheres", sizeof(mobjinfo[MT_MISC12].plural1));
-        M_StringCopy(mobjinfo[MT_MISC13].name1, "steroids", sizeof(mobjinfo[MT_MISC13].name1));
-        M_StringCopy(mobjinfo[MT_MISC13].plural1, "steroids", sizeof(mobjinfo[MT_MISC13].plural1));
-        M_StringCopy(mobjinfo[MT_INS].name1, "stealth sphere", sizeof(mobjinfo[MT_INS].name1));
-        M_StringCopy(mobjinfo[MT_INS].plural1, "stealth spheres", sizeof(mobjinfo[MT_INS].plural1));
-        M_StringCopy(mobjinfo[MT_MISC14].name1, "hazard suit", sizeof(mobjinfo[MT_MISC14].name1));
-        M_StringCopy(mobjinfo[MT_MISC14].plural1, "hazard suits", sizeof(mobjinfo[MT_MISC14].plural1));
-        M_StringCopy(mobjinfo[MT_MISC15].name1, "tactical survey map", sizeof(mobjinfo[MT_MISC15].name1));
-        M_StringCopy(mobjinfo[MT_MISC15].plural1, "tactical survey maps", sizeof(mobjinfo[MT_MISC15].plural1));
-        M_StringCopy(mobjinfo[MT_MISC16].name1, "night vision goggles", sizeof(mobjinfo[MT_MISC16].name1));
-        M_StringCopy(mobjinfo[MT_MISC16].plural1, "night vision goggles", sizeof(mobjinfo[MT_MISC16].plural1));
-        M_StringCopy(mobjinfo[MT_MEGA].name1, "ultra-overdrive sphere", sizeof(mobjinfo[MT_MEGA].name1));
-        M_StringCopy(mobjinfo[MT_MEGA].plural1, "ultra-overdrive spheres", sizeof(mobjinfo[MT_MEGA].plural1));
-        M_StringCopy(mobjinfo[MT_CLIP].name1, "ammo clip", sizeof(mobjinfo[MT_CLIP].name1));
-        M_StringCopy(mobjinfo[MT_CLIP].plural1, "ammo clips", sizeof(mobjinfo[MT_CLIP].plural1));
-        M_StringCopy(mobjinfo[MT_MISC17].name1, "box of ammo", sizeof(mobjinfo[MT_MISC17].name1));
-        M_StringCopy(mobjinfo[MT_MISC17].plural1, "boxes of ammo", sizeof(mobjinfo[MT_MISC17].plural1));
-        M_StringCopy(mobjinfo[MT_MISC18].name1, "missile", sizeof(mobjinfo[MT_MISC18].name1));
-        M_StringCopy(mobjinfo[MT_MISC18].plural1, "missiles", sizeof(mobjinfo[MT_MISC18].plural1));
-        M_StringCopy(mobjinfo[MT_MISC19].name1, "crate of missiles", sizeof(mobjinfo[MT_MISC19].name1));
-        M_StringCopy(mobjinfo[MT_MISC19].plural1, "crates of missiles", sizeof(mobjinfo[MT_MISC19].plural1));
-        M_StringCopy(mobjinfo[MT_MISC20].name1, "small polaric recharge", sizeof(mobjinfo[MT_MISC20].name1));
-        M_StringCopy(mobjinfo[MT_MISC20].plural1, "small polaric recharges", sizeof(mobjinfo[MT_MISC20].plural1));
-        M_StringCopy(mobjinfo[MT_MISC21].name1, "large polaric recharge", sizeof(mobjinfo[MT_MISC21].name1));
-        M_StringCopy(mobjinfo[MT_MISC21].plural1, "large polaric recharges", sizeof(mobjinfo[MT_MISC21].plural1));
-        M_StringCopy(mobjinfo[MT_MISC25].name1, "SKAG 1337", sizeof(mobjinfo[MT_MISC25].name1));
-        M_StringCopy(mobjinfo[MT_MISC25].plural1, "SKAG 1337s", sizeof(mobjinfo[MT_MISC25].plural1));
-        M_StringCopy(mobjinfo[MT_CHAINGUN].name1, "minigun", sizeof(mobjinfo[MT_CHAINGUN].name1));
-        M_StringCopy(mobjinfo[MT_CHAINGUN].plural1, "miniguns", sizeof(mobjinfo[MT_CHAINGUN].plural1));
-        M_StringCopy(mobjinfo[MT_MISC26].name1, "angle grinder", sizeof(mobjinfo[MT_MISC26].name1));
-        M_StringCopy(mobjinfo[MT_MISC26].plural1, "angle grinders", sizeof(mobjinfo[MT_MISC26].plural1));
-        M_StringCopy(mobjinfo[MT_MISC27].name1, "missile launcher", sizeof(mobjinfo[MT_MISC27].name1));
-        M_StringCopy(mobjinfo[MT_MISC27].plural1, "missile launchers", sizeof(mobjinfo[MT_MISC27].plural1));
-        M_StringCopy(mobjinfo[MT_MISC28].name1, "polaric energy cannon", sizeof(mobjinfo[MT_MISC28].name1));
-        M_StringCopy(mobjinfo[MT_MISC28].plural1, "polaric energy cannons", sizeof(mobjinfo[MT_MISC28].plural1));
-        M_StringCopy(mobjinfo[MT_SHOTGUN].name1, "pump-action shotgun", sizeof(mobjinfo[MT_SHOTGUN].name1));
-        M_StringCopy(mobjinfo[MT_SHOTGUN].plural1, "pump-action shotguns", sizeof(mobjinfo[MT_SHOTGUN].plural1));
-        M_StringCopy(mobjinfo[MT_SUPERSHOTGUN].name1, "double-barreled shotgun", sizeof(mobjinfo[MT_SUPERSHOTGUN].name1));
-        M_StringCopy(mobjinfo[MT_SUPERSHOTGUN].plural1, "double-barreled shotguns", sizeof(mobjinfo[MT_SUPERSHOTGUN].plural1));
+        M_StringCopy(mobjinfo[MT_MISC0].name1, "light armor vest", sizeof(mobjinfo[0].name1));
+        M_StringCopy(mobjinfo[MT_MISC0].plural1, "light armor vests", sizeof(mobjinfo[0].plural1));
+        M_StringCopy(mobjinfo[MT_MISC1].name1, "heavy armor vest", sizeof(mobjinfo[0].name1));
+        M_StringCopy(mobjinfo[MT_MISC1].plural1, "heavy armor vests", sizeof(mobjinfo[0].plural1));
+        M_StringCopy(mobjinfo[MT_MISC2].name1, "1% health bonus", sizeof(mobjinfo[0].name1));
+        M_StringCopy(mobjinfo[MT_MISC2].plural1, "1% health bonuses", sizeof(mobjinfo[0].plural1));
+        M_StringCopy(mobjinfo[MT_MISC3].name1, "1% armor bonus", sizeof(mobjinfo[0].name1));
+        M_StringCopy(mobjinfo[MT_MISC3].plural1, "1% armor bonuses", sizeof(mobjinfo[0].plural1));
+        M_StringCopy(mobjinfo[MT_MISC4].name1, "blue passcard", sizeof(mobjinfo[0].name1));
+        M_StringCopy(mobjinfo[MT_MISC4].plural1, "blue passcards", sizeof(mobjinfo[0].plural1));
+        M_StringCopy(mobjinfo[MT_MISC5].name1, "red passcard", sizeof(mobjinfo[0].name1));
+        M_StringCopy(mobjinfo[MT_MISC5].plural1, "red passcards", sizeof(mobjinfo[0].plural1));
+        M_StringCopy(mobjinfo[MT_MISC6].name1, "yellow passcard", sizeof(mobjinfo[0].name1));
+        M_StringCopy(mobjinfo[MT_MISC6].plural1, "yellow passcards", sizeof(mobjinfo[0].plural1));
+        M_StringCopy(mobjinfo[MT_MISC7].name1, "yellow skeleton key", sizeof(mobjinfo[0].name1));
+        M_StringCopy(mobjinfo[MT_MISC7].plural1, "yellow skeleton keys", sizeof(mobjinfo[0].plural1));
+        M_StringCopy(mobjinfo[MT_MISC8].name1, "red skeleton key", sizeof(mobjinfo[0].name1));
+        M_StringCopy(mobjinfo[MT_MISC8].plural1, "red skeleton keys", sizeof(mobjinfo[0].plural1));
+        M_StringCopy(mobjinfo[MT_MISC9].name1, "blue skeleton key", sizeof(mobjinfo[0].name1));
+        M_StringCopy(mobjinfo[MT_MISC9].plural1, "blue skeleton keys", sizeof(mobjinfo[0].plural1));
+        M_StringCopy(mobjinfo[MT_MISC10].name1, "small health pack", sizeof(mobjinfo[0].name1));
+        M_StringCopy(mobjinfo[MT_MISC10].plural1, "small health packs", sizeof(mobjinfo[0].plural1));
+        M_StringCopy(mobjinfo[MT_MISC11].name1, "large health pack", sizeof(mobjinfo[0].name1));
+        M_StringCopy(mobjinfo[MT_MISC11].plural1, "large health packs", sizeof(mobjinfo[0].plural1));
+        M_StringCopy(mobjinfo[MT_MISC12].name1, "overdrive sphere", sizeof(mobjinfo[0].name1));
+        M_StringCopy(mobjinfo[MT_MISC12].plural1, "overdrive spheres", sizeof(mobjinfo[0].plural1));
+        M_StringCopy(mobjinfo[MT_MISC13].name1, "steroids", sizeof(mobjinfo[0].name1));
+        M_StringCopy(mobjinfo[MT_MISC13].plural1, "steroids", sizeof(mobjinfo[0].plural1));
+        M_StringCopy(mobjinfo[MT_INS].name1, "stealth sphere", sizeof(mobjinfo[0].name1));
+        M_StringCopy(mobjinfo[MT_INS].plural1, "stealth spheres", sizeof(mobjinfo[0].plural1));
+        M_StringCopy(mobjinfo[MT_MISC14].name1, "hazard suit", sizeof(mobjinfo[0].name1));
+        M_StringCopy(mobjinfo[MT_MISC14].plural1, "hazard suits", sizeof(mobjinfo[0].plural1));
+        M_StringCopy(mobjinfo[MT_MISC15].name1, "tactical survey map", sizeof(mobjinfo[0].name1));
+        M_StringCopy(mobjinfo[MT_MISC15].plural1, "tactical survey maps", sizeof(mobjinfo[0].plural1));
+        M_StringCopy(mobjinfo[MT_MISC16].name1, "night vision goggles", sizeof(mobjinfo[0].name1));
+        M_StringCopy(mobjinfo[MT_MISC16].plural1, "night vision goggles", sizeof(mobjinfo[0].plural1));
+        M_StringCopy(mobjinfo[MT_MEGA].name1, "ultra-overdrive sphere", sizeof(mobjinfo[0].name1));
+        M_StringCopy(mobjinfo[MT_MEGA].plural1, "ultra-overdrive spheres", sizeof(mobjinfo[0].plural1));
+        M_StringCopy(mobjinfo[MT_CLIP].name1, "ammo clip", sizeof(mobjinfo[0].name1));
+        M_StringCopy(mobjinfo[MT_CLIP].plural1, "ammo clips", sizeof(mobjinfo[0].plural1));
+        M_StringCopy(mobjinfo[MT_MISC17].name1, "box of ammo", sizeof(mobjinfo[0].name1));
+        M_StringCopy(mobjinfo[MT_MISC17].plural1, "boxes of ammo", sizeof(mobjinfo[0].plural1));
+        M_StringCopy(mobjinfo[MT_MISC18].name1, "missile", sizeof(mobjinfo[0].name1));
+        M_StringCopy(mobjinfo[MT_MISC18].plural1, "missiles", sizeof(mobjinfo[0].plural1));
+        M_StringCopy(mobjinfo[MT_MISC19].name1, "crate of missiles", sizeof(mobjinfo[0].name1));
+        M_StringCopy(mobjinfo[MT_MISC19].plural1, "crates of missiles", sizeof(mobjinfo[0].plural1));
+        M_StringCopy(mobjinfo[MT_MISC20].name1, "small polaric recharge", sizeof(mobjinfo[0].name1));
+        M_StringCopy(mobjinfo[MT_MISC20].plural1, "small polaric recharges", sizeof(mobjinfo[0].plural1));
+        M_StringCopy(mobjinfo[MT_MISC21].name1, "large polaric recharge", sizeof(mobjinfo[0].name1));
+        M_StringCopy(mobjinfo[MT_MISC21].plural1, "large polaric recharges", sizeof(mobjinfo[0].plural1));
+        M_StringCopy(mobjinfo[MT_MISC25].name1, "SKAG 1337", sizeof(mobjinfo[0].name1));
+        M_StringCopy(mobjinfo[MT_MISC25].plural1, "SKAG 1337s", sizeof(mobjinfo[0].plural1));
+        M_StringCopy(mobjinfo[MT_CHAINGUN].name1, "minigun", sizeof(mobjinfo[0].name1));
+        M_StringCopy(mobjinfo[MT_CHAINGUN].plural1, "miniguns", sizeof(mobjinfo[0].plural1));
+        M_StringCopy(mobjinfo[MT_MISC26].name1, "angle grinder", sizeof(mobjinfo[0].name1));
+        M_StringCopy(mobjinfo[MT_MISC26].plural1, "angle grinders", sizeof(mobjinfo[0].plural1));
+        M_StringCopy(mobjinfo[MT_MISC27].name1, "missile launcher", sizeof(mobjinfo[0].name1));
+        M_StringCopy(mobjinfo[MT_MISC27].plural1, "missile launchers", sizeof(mobjinfo[0].plural1));
+        M_StringCopy(mobjinfo[MT_MISC28].name1, "polaric energy cannon", sizeof(mobjinfo[0].name1));
+        M_StringCopy(mobjinfo[MT_MISC28].plural1, "polaric energy cannons", sizeof(mobjinfo[0].plural1));
+        M_StringCopy(mobjinfo[MT_SHOTGUN].name1, "pump-action shotgun", sizeof(mobjinfo[0].name1));
+        M_StringCopy(mobjinfo[MT_SHOTGUN].plural1, "pump-action shotguns", sizeof(mobjinfo[0].plural1));
+        M_StringCopy(mobjinfo[MT_SUPERSHOTGUN].name1, "double-barreled shotgun", sizeof(mobjinfo[0].name1));
+        M_StringCopy(mobjinfo[MT_SUPERSHOTGUN].plural1, "double-barreled shotguns", sizeof(mobjinfo[0].plural1));
 
-        M_StringCopy(mobjinfo[MT_POSSESSED].name1, "zombie", sizeof(mobjinfo[MT_POSSESSED].name1));
-        M_StringCopy(mobjinfo[MT_POSSESSED].plural1, "zombies", sizeof(mobjinfo[MT_POSSESSED].plural1));
-        M_StringCopy(mobjinfo[MT_SHOTGUY].name1, "shotgun zombie", sizeof(mobjinfo[MT_SHOTGUY].name1));
-        M_StringCopy(mobjinfo[MT_SHOTGUY].plural1, "shotgun zombies", sizeof(mobjinfo[MT_SHOTGUY].plural1));
-        M_StringCopy(mobjinfo[MT_VILE].name1, "necromancer", sizeof(mobjinfo[MT_VILE].name1));
-        M_StringCopy(mobjinfo[MT_VILE].plural1, "necromancers", sizeof(mobjinfo[MT_VILE].plural1));
-        M_StringCopy(mobjinfo[MT_UNDEAD].name1, "dark soldier", sizeof(mobjinfo[MT_UNDEAD].name1));
-        M_StringCopy(mobjinfo[MT_UNDEAD].plural1, "dark soldiers", sizeof(mobjinfo[MT_UNDEAD].plural1));
-        M_StringCopy(mobjinfo[MT_FATSO].name1, "combat slug", sizeof(mobjinfo[MT_FATSO].name1));
-        M_StringCopy(mobjinfo[MT_FATSO].plural1, "combat slugs", sizeof(mobjinfo[MT_FATSO].plural1));
-        M_StringCopy(mobjinfo[MT_CHAINGUY].name1, "minigun zombie", sizeof(mobjinfo[MT_CHAINGUY].name1));
-        M_StringCopy(mobjinfo[MT_CHAINGUY].plural1, "minigun zombies", sizeof(mobjinfo[MT_CHAINGUY].plural1));
-        M_StringCopy(mobjinfo[MT_TROOP].name1, "serpentipede", sizeof(mobjinfo[MT_TROOP].name1));
-        M_StringCopy(mobjinfo[MT_TROOP].plural1, "serpentipedes", sizeof(mobjinfo[MT_TROOP].plural1));
-        M_StringCopy(mobjinfo[MT_SERGEANT].name1, "flesh worm", sizeof(mobjinfo[MT_SERGEANT].name1));
-        M_StringCopy(mobjinfo[MT_SERGEANT].plural1, "flesh worms", sizeof(mobjinfo[MT_SERGEANT].plural1));
-        M_StringCopy(mobjinfo[MT_SHADOWS].name1, "stealth worm", sizeof(mobjinfo[MT_SHADOWS].name1));
-        M_StringCopy(mobjinfo[MT_SHADOWS].plural1, "stealth worms", sizeof(mobjinfo[MT_SHADOWS].plural1));
-        M_StringCopy(mobjinfo[MT_HEAD].name1, "trilobite", sizeof(mobjinfo[MT_HEAD].name1));
-        M_StringCopy(mobjinfo[MT_HEAD].plural1, "trilobites", sizeof(mobjinfo[MT_HEAD].plural1));
-        M_StringCopy(mobjinfo[MT_BRUISER].name1, "pain bringer", sizeof(mobjinfo[MT_BRUISER].name1));
-        M_StringCopy(mobjinfo[MT_BRUISER].plural1, "pain bringers", sizeof(mobjinfo[MT_BRUISER].plural1));
-        M_StringCopy(mobjinfo[MT_KNIGHT].name1, "pain lord", sizeof(mobjinfo[MT_KNIGHT].name1));
-        M_StringCopy(mobjinfo[MT_KNIGHT].plural1, "pain lords", sizeof(mobjinfo[MT_KNIGHT].plural1));
-        M_StringCopy(mobjinfo[MT_SKULL].name1, "deadflare", sizeof(mobjinfo[MT_SKULL].name1));
-        M_StringCopy(mobjinfo[MT_SKULL].plural1, "deadflares", sizeof(mobjinfo[MT_SKULL].plural1));
-        M_StringCopy(mobjinfo[MT_SPIDER].name1, "large technospider", sizeof(mobjinfo[MT_SPIDER].name1));
-        M_StringCopy(mobjinfo[MT_SPIDER].plural1, "large technospiders", sizeof(mobjinfo[MT_SPIDER].plural1));
-        M_StringCopy(mobjinfo[MT_BABY].name1, "technospider", sizeof(mobjinfo[MT_BABY].name1));
-        M_StringCopy(mobjinfo[MT_BABY].plural1, "technospiders", sizeof(mobjinfo[MT_BABY].plural1));
-        M_StringCopy(mobjinfo[MT_CYBORG].name1, "assault tripod", sizeof(mobjinfo[MT_CYBORG].name1));
-        M_StringCopy(mobjinfo[MT_CYBORG].plural1, "assault tripods", sizeof(mobjinfo[MT_CYBORG].plural1));
-        M_StringCopy(mobjinfo[MT_PAIN].name1, "summoner", sizeof(mobjinfo[MT_PAIN].name1));
-        M_StringCopy(mobjinfo[MT_PAIN].plural1, "summoners", sizeof(mobjinfo[MT_PAIN].plural1));
+        M_StringCopy(mobjinfo[MT_POSSESSED].name1, "zombie", sizeof(mobjinfo[0].name1));
+        M_StringCopy(mobjinfo[MT_POSSESSED].plural1, "zombies", sizeof(mobjinfo[0].plural1));
+        M_StringCopy(mobjinfo[MT_SHOTGUY].name1, "shotgun zombie", sizeof(mobjinfo[0].name1));
+        M_StringCopy(mobjinfo[MT_SHOTGUY].plural1, "shotgun zombies", sizeof(mobjinfo[0].plural1));
+        M_StringCopy(mobjinfo[MT_VILE].name1, "necromancer", sizeof(mobjinfo[0].name1));
+        M_StringCopy(mobjinfo[MT_VILE].plural1, "necromancers", sizeof(mobjinfo[0].plural1));
+        M_StringCopy(mobjinfo[MT_UNDEAD].name1, "dark soldier", sizeof(mobjinfo[0].name1));
+        M_StringCopy(mobjinfo[MT_UNDEAD].plural1, "dark soldiers", sizeof(mobjinfo[0].plural1));
+        M_StringCopy(mobjinfo[MT_FATSO].name1, "combat slug", sizeof(mobjinfo[0].name1));
+        M_StringCopy(mobjinfo[MT_FATSO].plural1, "combat slugs", sizeof(mobjinfo[0].plural1));
+        M_StringCopy(mobjinfo[MT_CHAINGUY].name1, "minigun zombie", sizeof(mobjinfo[0].name1));
+        M_StringCopy(mobjinfo[MT_CHAINGUY].plural1, "minigun zombies", sizeof(mobjinfo[0].plural1));
+        M_StringCopy(mobjinfo[MT_TROOP].name1, "serpentipede", sizeof(mobjinfo[0].name1));
+        M_StringCopy(mobjinfo[MT_TROOP].plural1, "serpentipedes", sizeof(mobjinfo[0].plural1));
+        M_StringCopy(mobjinfo[MT_SERGEANT].name1, "flesh worm", sizeof(mobjinfo[0].name1));
+        M_StringCopy(mobjinfo[MT_SERGEANT].plural1, "flesh worms", sizeof(mobjinfo[0].plural1));
+        M_StringCopy(mobjinfo[MT_SHADOWS].name1, "stealth worm", sizeof(mobjinfo[0].name1));
+        M_StringCopy(mobjinfo[MT_SHADOWS].plural1, "stealth worms", sizeof(mobjinfo[0].plural1));
+        M_StringCopy(mobjinfo[MT_HEAD].name1, "trilobite", sizeof(mobjinfo[0].name1));
+        M_StringCopy(mobjinfo[MT_HEAD].plural1, "trilobites", sizeof(mobjinfo[0].plural1));
+        M_StringCopy(mobjinfo[MT_BRUISER].name1, "pain bringer", sizeof(mobjinfo[0].name1));
+        M_StringCopy(mobjinfo[MT_BRUISER].plural1, "pain bringers", sizeof(mobjinfo[0].plural1));
+        M_StringCopy(mobjinfo[MT_KNIGHT].name1, "pain lord", sizeof(mobjinfo[0].name1));
+        M_StringCopy(mobjinfo[MT_KNIGHT].plural1, "pain lords", sizeof(mobjinfo[0].plural1));
+        M_StringCopy(mobjinfo[MT_SKULL].name1, "deadflare", sizeof(mobjinfo[0].name1));
+        M_StringCopy(mobjinfo[MT_SKULL].plural1, "deadflares", sizeof(mobjinfo[0].plural1));
+        M_StringCopy(mobjinfo[MT_SPIDER].name1, "large technospider", sizeof(mobjinfo[0].name1));
+        M_StringCopy(mobjinfo[MT_SPIDER].plural1, "large technospiders", sizeof(mobjinfo[0].plural1));
+        M_StringCopy(mobjinfo[MT_BABY].name1, "technospider", sizeof(mobjinfo[0].name1));
+        M_StringCopy(mobjinfo[MT_BABY].plural1, "technospiders", sizeof(mobjinfo[0].plural1));
+        M_StringCopy(mobjinfo[MT_CYBORG].name1, "assault tripod", sizeof(mobjinfo[0].name1));
+        M_StringCopy(mobjinfo[MT_CYBORG].plural1, "assault tripods", sizeof(mobjinfo[0].plural1));
+        M_StringCopy(mobjinfo[MT_PAIN].name1, "summoner", sizeof(mobjinfo[0].name1));
+        M_StringCopy(mobjinfo[MT_PAIN].plural1, "summoners", sizeof(mobjinfo[0].plural1));
     }
     else if (hacx)
     {
@@ -717,71 +720,71 @@ static void R_InitSpriteLumps(void)
         mobjinfo[MT_SKULL].flags2 &= ~MF2_TRANSLUCENT_REDONLY;
         mobjinfo[MT_CLIP].flags2 |= MF2_TRANSLUCENT_50;
 
-        M_StringCopy(weaponinfo[wp_pistol].name, "soul bow", sizeof(weaponinfo[wp_pistol].name));
-        M_StringCopy(weaponinfo[wp_shotgun].name, "steel-shot launcher", sizeof(weaponinfo[wp_shotgun].name));
-        M_StringCopy(weaponinfo[wp_chaingun].name, "soul gun", sizeof(weaponinfo[wp_chaingun].name));
-        M_StringCopy(weaponinfo[wp_missile].name, "runic staff", sizeof(weaponinfo[wp_missile].name));
-        M_StringCopy(weaponinfo[wp_plasma].name, "holy relic", sizeof(weaponinfo[wp_plasma].name));
-        M_StringCopy(weaponinfo[wp_bfg].name, "blessing of the gods", sizeof(weaponinfo[wp_bfg].name));
-        M_StringCopy(weaponinfo[wp_chainsaw].name, "axe", sizeof(weaponinfo[wp_chainsaw].name));
+        M_StringCopy(weaponinfo[wp_pistol].name, "soul bow", sizeof(weaponinfo[0].name));
+        M_StringCopy(weaponinfo[wp_shotgun].name, "steel-shot launcher", sizeof(weaponinfo[0].name));
+        M_StringCopy(weaponinfo[wp_chaingun].name, "soul gun", sizeof(weaponinfo[0].name));
+        M_StringCopy(weaponinfo[wp_missile].name, "runic staff", sizeof(weaponinfo[0].name));
+        M_StringCopy(weaponinfo[wp_plasma].name, "holy relic", sizeof(weaponinfo[0].name));
+        M_StringCopy(weaponinfo[wp_bfg].name, "blessing of the gods", sizeof(weaponinfo[0].name));
+        M_StringCopy(weaponinfo[wp_chainsaw].name, "axe", sizeof(weaponinfo[0].name));
 
-        M_StringCopy(weaponinfo[wp_pistol].ammoname, "soul", sizeof(weaponinfo[wp_pistol].ammoname));
-        M_StringCopy(weaponinfo[wp_pistol].ammoplural, "souls", sizeof(weaponinfo[wp_pistol].ammoplural));
-        M_StringCopy(weaponinfo[wp_shotgun].ammoname, "steelshot", sizeof(weaponinfo[wp_shotgun].ammoname));
-        M_StringCopy(weaponinfo[wp_shotgun].ammoplural, "steelshots", sizeof(weaponinfo[wp_shotgun].ammoplural));
-        M_StringCopy(weaponinfo[wp_missile].ammoname, "rune", sizeof(weaponinfo[wp_missile].ammoname));
-        M_StringCopy(weaponinfo[wp_missile].ammoplural, "runes", sizeof(weaponinfo[wp_missile].ammoplural));
-        M_StringCopy(weaponinfo[wp_plasma].ammoname, "mana", sizeof(weaponinfo[wp_plasma].ammoname));
-        M_StringCopy(weaponinfo[wp_plasma].ammoplural, "mana", sizeof(weaponinfo[wp_plasma].ammoplural));
+        M_StringCopy(weaponinfo[wp_pistol].ammoname, "soul", sizeof(weaponinfo[0].ammoname));
+        M_StringCopy(weaponinfo[wp_pistol].ammoplural, "souls", sizeof(weaponinfo[0].ammoplural));
+        M_StringCopy(weaponinfo[wp_shotgun].ammoname, "steelshot", sizeof(weaponinfo[0].ammoname));
+        M_StringCopy(weaponinfo[wp_shotgun].ammoplural, "steelshots", sizeof(weaponinfo[0].ammoplural));
+        M_StringCopy(weaponinfo[wp_missile].ammoname, "rune", sizeof(weaponinfo[0].ammoname));
+        M_StringCopy(weaponinfo[wp_missile].ammoplural, "runes", sizeof(weaponinfo[0].ammoplural));
+        M_StringCopy(weaponinfo[wp_plasma].ammoname, "mana", sizeof(weaponinfo[0].ammoname));
+        M_StringCopy(weaponinfo[wp_plasma].ammoplural, "mana", sizeof(weaponinfo[0].ammoplural));
 
-        M_StringCopy(mobjinfo[MT_POSSESSED].name1, "former human", sizeof(mobjinfo[MT_POSSESSED].name1));
-        M_StringCopy(mobjinfo[MT_POSSESSED].plural1, "former humans", sizeof(mobjinfo[MT_POSSESSED].plural1));
-        M_StringCopy(mobjinfo[MT_SHOTGUY].name1, "jackalope", sizeof(mobjinfo[MT_SHOTGUY].name1));
-        M_StringCopy(mobjinfo[MT_SHOTGUY].plural1, "jackalopes", sizeof(mobjinfo[MT_SHOTGUY].plural1));
-        M_StringCopy(mobjinfo[MT_VILE].name1, "skeleturret", sizeof(mobjinfo[MT_VILE].name1));
-        M_StringCopy(mobjinfo[MT_VILE].plural1, "skeleturrets", sizeof(mobjinfo[MT_VILE].plural1));
-        M_StringCopy(mobjinfo[MT_UNDEAD].name1, "mean imp", sizeof(mobjinfo[MT_UNDEAD].name1));
-        M_StringCopy(mobjinfo[MT_UNDEAD].plural1, "mean imps", sizeof(mobjinfo[MT_UNDEAD].plural1));
-        M_StringCopy(mobjinfo[MT_FATSO].name1, "former duke", sizeof(mobjinfo[MT_FATSO].name1));
-        M_StringCopy(mobjinfo[MT_FATSO].plural1, "former dukes", sizeof(mobjinfo[MT_FATSO].plural1));
-        M_StringCopy(mobjinfo[MT_CHAINGUY].name1, "former king", sizeof(mobjinfo[MT_CHAINGUY].name1));
-        M_StringCopy(mobjinfo[MT_CHAINGUY].plural1, "former kings", sizeof(mobjinfo[MT_CHAINGUY].plural1));
-        M_StringCopy(mobjinfo[MT_SERGEANT].name1, "husk", sizeof(mobjinfo[MT_SERGEANT].name1));
-        M_StringCopy(mobjinfo[MT_SERGEANT].plural1, "husks", sizeof(mobjinfo[MT_SERGEANT].plural1));
-        M_StringCopy(mobjinfo[MT_SHADOWS].name1, "mean husk", sizeof(mobjinfo[MT_SHADOWS].name1));
-        M_StringCopy(mobjinfo[MT_SHADOWS].plural1, "mean husks", sizeof(mobjinfo[MT_SHADOWS].plural1));
-        M_StringCopy(mobjinfo[MT_HEAD].name1, "sorrow", sizeof(mobjinfo[MT_HEAD].name1));
-        M_StringCopy(mobjinfo[MT_HEAD].plural1, "sorrows", sizeof(mobjinfo[MT_HEAD].plural1));
-        M_StringCopy(mobjinfo[MT_BRUISER].name1, "tree beast", sizeof(mobjinfo[MT_BRUISER].name1));
-        M_StringCopy(mobjinfo[MT_BRUISER].plural1, "tree beasts", sizeof(mobjinfo[MT_BRUISER].plural1));
-        M_StringCopy(mobjinfo[MT_KNIGHT].name1, "skelly belly", sizeof(mobjinfo[MT_KNIGHT].name1));
-        M_StringCopy(mobjinfo[MT_KNIGHT].plural1, "skelly bellies", sizeof(mobjinfo[MT_KNIGHT].plural1));
-        M_StringCopy(mobjinfo[MT_SKULL].name1, "eyeball", sizeof(mobjinfo[MT_SKULL].name1));
-        M_StringCopy(mobjinfo[MT_SKULL].plural1, "eyeballs", sizeof(mobjinfo[MT_SKULL].plural1));
-        M_StringCopy(mobjinfo[MT_SPIDER].name1, "large technospider", sizeof(mobjinfo[MT_SPIDER].name1));
-        M_StringCopy(mobjinfo[MT_SPIDER].plural1, "large technospiders", sizeof(mobjinfo[MT_SPIDER].plural1));
-        M_StringCopy(mobjinfo[MT_BABY].name1, "mean jackalope", sizeof(mobjinfo[MT_BABY].name1));
-        M_StringCopy(mobjinfo[MT_BABY].plural1, "mean jackalopes", sizeof(mobjinfo[MT_BABY].plural1));
-        M_StringCopy(mobjinfo[MT_CYBORG].name1, "death raven", sizeof(mobjinfo[MT_CYBORG].name1));
-        M_StringCopy(mobjinfo[MT_CYBORG].plural1, "death ravens", sizeof(mobjinfo[MT_CYBORG].plural1));
-        M_StringCopy(mobjinfo[MT_WOLFSS].name1, "former human grotesque", sizeof(mobjinfo[MT_WOLFSS].name1));
-        M_StringCopy(mobjinfo[MT_WOLFSS].plural1, "former human grotesques", sizeof(mobjinfo[MT_WOLFSS].plural1));
-        M_StringCopy(mobjinfo[MT_KEEN].name1, "health mimic", sizeof(mobjinfo[MT_KEEN].name1));
-        M_StringCopy(mobjinfo[MT_KEEN].plural1, "health mimics", sizeof(mobjinfo[MT_KEEN].plural1));
-        M_StringCopy(mobjinfo[MT_BOSSBRAIN].name1, "flammenwerfer", sizeof(mobjinfo[MT_BOSSBRAIN].name1));
-        M_StringCopy(mobjinfo[MT_BOSSBRAIN].plural1, "flammenwerfers", sizeof(mobjinfo[MT_BOSSBRAIN].plural1));
-        M_StringCopy(mobjinfo[MT_PLASMA].name1, "barrel", sizeof(mobjinfo[MT_PLASMA].name1));
-        M_StringCopy(mobjinfo[MT_PLASMA].plural1, "barrels", sizeof(mobjinfo[MT_PLASMA].plural1));
-        M_StringCopy(mobjinfo[MT_CHAINGUN].name1, "skeletower", sizeof(mobjinfo[MT_CHAINGUN].name1));
-        M_StringCopy(mobjinfo[MT_CHAINGUN].plural1, "skeletowers", sizeof(mobjinfo[MT_CHAINGUN].plural1));
-        M_StringCopy(mobjinfo[MT_MISC38].name1, "puppy", sizeof(mobjinfo[MT_MISC38].name1));
-        M_StringCopy(mobjinfo[MT_MISC38].plural1, "puppies", sizeof(mobjinfo[MT_MISC38].plural1));
-        M_StringCopy(mobjinfo[MT_MISC65].name1, "eye spawner", sizeof(mobjinfo[MT_MISC65].name1));
-        M_StringCopy(mobjinfo[MT_MISC65].plural1, "eye spawners", sizeof(mobjinfo[MT_MISC65].plural1));
-        M_StringCopy(mobjinfo[MT_MISC77].name1, "landmine", sizeof(mobjinfo[MT_MISC77].name1));
-        M_StringCopy(mobjinfo[MT_MISC77].plural1, "landmines", sizeof(mobjinfo[MT_MISC77].plural1));
-        M_StringCopy(mobjinfo[MT_MISC78].name1, "skelespider", sizeof(mobjinfo[MT_MISC78].name1));
-        M_StringCopy(mobjinfo[MT_MISC78].plural1, "skelespiders", sizeof(mobjinfo[MT_MISC78].plural1));
+        M_StringCopy(mobjinfo[MT_POSSESSED].name1, "former human", sizeof(mobjinfo[0].name1));
+        M_StringCopy(mobjinfo[MT_POSSESSED].plural1, "former humans", sizeof(mobjinfo[0].plural1));
+        M_StringCopy(mobjinfo[MT_SHOTGUY].name1, "jackalope", sizeof(mobjinfo[0].name1));
+        M_StringCopy(mobjinfo[MT_SHOTGUY].plural1, "jackalopes", sizeof(mobjinfo[0].plural1));
+        M_StringCopy(mobjinfo[MT_VILE].name1, "skeleturret", sizeof(mobjinfo[0].name1));
+        M_StringCopy(mobjinfo[MT_VILE].plural1, "skeleturrets", sizeof(mobjinfo[0].plural1));
+        M_StringCopy(mobjinfo[MT_UNDEAD].name1, "mean imp", sizeof(mobjinfo[0].name1));
+        M_StringCopy(mobjinfo[MT_UNDEAD].plural1, "mean imps", sizeof(mobjinfo[0].plural1));
+        M_StringCopy(mobjinfo[MT_FATSO].name1, "former duke", sizeof(mobjinfo[0].name1));
+        M_StringCopy(mobjinfo[MT_FATSO].plural1, "former dukes", sizeof(mobjinfo[0].plural1));
+        M_StringCopy(mobjinfo[MT_CHAINGUY].name1, "former king", sizeof(mobjinfo[0].name1));
+        M_StringCopy(mobjinfo[MT_CHAINGUY].plural1, "former kings", sizeof(mobjinfo[0].plural1));
+        M_StringCopy(mobjinfo[MT_SERGEANT].name1, "husk", sizeof(mobjinfo[0].name1));
+        M_StringCopy(mobjinfo[MT_SERGEANT].plural1, "husks", sizeof(mobjinfo[0].plural1));
+        M_StringCopy(mobjinfo[MT_SHADOWS].name1, "mean husk", sizeof(mobjinfo[0].name1));
+        M_StringCopy(mobjinfo[MT_SHADOWS].plural1, "mean husks", sizeof(mobjinfo[0].plural1));
+        M_StringCopy(mobjinfo[MT_HEAD].name1, "sorrow", sizeof(mobjinfo[0].name1));
+        M_StringCopy(mobjinfo[MT_HEAD].plural1, "sorrows", sizeof(mobjinfo[0].plural1));
+        M_StringCopy(mobjinfo[MT_BRUISER].name1, "tree beast", sizeof(mobjinfo[0].name1));
+        M_StringCopy(mobjinfo[MT_BRUISER].plural1, "tree beasts", sizeof(mobjinfo[0].plural1));
+        M_StringCopy(mobjinfo[MT_KNIGHT].name1, "skelly belly", sizeof(mobjinfo[0].name1));
+        M_StringCopy(mobjinfo[MT_KNIGHT].plural1, "skelly bellies", sizeof(mobjinfo[0].plural1));
+        M_StringCopy(mobjinfo[MT_SKULL].name1, "eyeball", sizeof(mobjinfo[0].name1));
+        M_StringCopy(mobjinfo[MT_SKULL].plural1, "eyeballs", sizeof(mobjinfo[0].plural1));
+        M_StringCopy(mobjinfo[MT_SPIDER].name1, "large technospider", sizeof(mobjinfo[0].name1));
+        M_StringCopy(mobjinfo[MT_SPIDER].plural1, "large technospiders", sizeof(mobjinfo[0].plural1));
+        M_StringCopy(mobjinfo[MT_BABY].name1, "mean jackalope", sizeof(mobjinfo[0].name1));
+        M_StringCopy(mobjinfo[MT_BABY].plural1, "mean jackalopes", sizeof(mobjinfo[0].plural1));
+        M_StringCopy(mobjinfo[MT_CYBORG].name1, "death raven", sizeof(mobjinfo[0].name1));
+        M_StringCopy(mobjinfo[MT_CYBORG].plural1, "death ravens", sizeof(mobjinfo[0].plural1));
+        M_StringCopy(mobjinfo[MT_WOLFSS].name1, "former human grotesque", sizeof(mobjinfo[0].name1));
+        M_StringCopy(mobjinfo[MT_WOLFSS].plural1, "former human grotesques", sizeof(mobjinfo[0].plural1));
+        M_StringCopy(mobjinfo[MT_KEEN].name1, "health mimic", sizeof(mobjinfo[0].name1));
+        M_StringCopy(mobjinfo[MT_KEEN].plural1, "health mimics", sizeof(mobjinfo[0].plural1));
+        M_StringCopy(mobjinfo[MT_BOSSBRAIN].name1, "flammenwerfer", sizeof(mobjinfo[0].name1));
+        M_StringCopy(mobjinfo[MT_BOSSBRAIN].plural1, "flammenwerfers", sizeof(mobjinfo[0].plural1));
+        M_StringCopy(mobjinfo[MT_PLASMA].name1, "barrel", sizeof(mobjinfo[0].name1));
+        M_StringCopy(mobjinfo[MT_PLASMA].plural1, "barrels", sizeof(mobjinfo[0].plural1));
+        M_StringCopy(mobjinfo[MT_CHAINGUN].name1, "skeletower", sizeof(mobjinfo[0].name1));
+        M_StringCopy(mobjinfo[MT_CHAINGUN].plural1, "skeletowers", sizeof(mobjinfo[0].plural1));
+        M_StringCopy(mobjinfo[MT_MISC38].name1, "puppy", sizeof(mobjinfo[0].name1));
+        M_StringCopy(mobjinfo[MT_MISC38].plural1, "puppies", sizeof(mobjinfo[0].plural1));
+        M_StringCopy(mobjinfo[MT_MISC65].name1, "eye spawner", sizeof(mobjinfo[0].name1));
+        M_StringCopy(mobjinfo[MT_MISC65].plural1, "eye spawners", sizeof(mobjinfo[0].plural1));
+        M_StringCopy(mobjinfo[MT_MISC77].name1, "landmine", sizeof(mobjinfo[0].name1));
+        M_StringCopy(mobjinfo[MT_MISC77].plural1, "landmines", sizeof(mobjinfo[0].plural1));
+        M_StringCopy(mobjinfo[MT_MISC78].name1, "skelespider", sizeof(mobjinfo[0].name1));
+        M_StringCopy(mobjinfo[MT_MISC78].plural1, "skelespiders", sizeof(mobjinfo[0].plural1));
     }
 }
 

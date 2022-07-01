@@ -808,7 +808,7 @@ static void M_ReadSaveStrings(void)
 
         if (!(handle = fopen(name, "rb")))
         {
-            M_StringCopy(&savegamestrings[i][0], s_EMPTYSTRING, sizeof(savegamestrings[i]));
+            M_StringCopy(&savegamestrings[i][0], s_EMPTYSTRING, sizeof(savegamestrings[0]));
             LoadGameMenu[i].status = 0;
 
             continue;
@@ -823,7 +823,7 @@ static void M_ReadSaveStrings(void)
             }
             else
             {
-                M_StringCopy(&savegamestrings[i][0], s_EMPTYSTRING, sizeof(savegamestrings[i]));
+                M_StringCopy(&savegamestrings[i][0], s_EMPTYSTRING, sizeof(savegamestrings[0]));
                 LoadGameMenu[i].status = 0;
             }
         }
@@ -1260,7 +1260,7 @@ void M_UpdateSaveGameName(int i)
     }
 
     if (match)
-        M_StringCopy(savegamestrings[i], maptitle, sizeof(savegamestrings[i]));
+        M_StringCopy(savegamestrings[i], maptitle, sizeof(savegamestrings[0]));
 }
 
 static void M_SaveSelect(int choice)
@@ -1620,7 +1620,7 @@ void M_AddEpisode(int map, int ep, const char *lumpname, const char *string)
 
         EpiMenuEpi[EpiDef.numitems] = ep;
         EpiMenuMap[EpiDef.numitems] = map - (ep - 1) * 10;
-        M_StringCopy(EpisodeMenu[EpiDef.numitems].name, lumpname, sizeof(EpisodeMenu[EpiDef.numitems].name));
+        M_StringCopy(EpisodeMenu[EpiDef.numitems].name, lumpname, sizeof(EpisodeMenu[0].name));
         *EpisodeMenu[EpiDef.numitems].text = M_StringDuplicate(string);
         EpiDef.numitems++;
     }
@@ -2801,7 +2801,7 @@ bool M_Responder(event_t *ev)
                     saveStringEnter = false;
                     caretwait = 0;
                     showcaret = false;
-                    M_StringCopy(&savegamestrings[saveSlot][0], saveOldString, sizeof(savegamestrings[saveSlot]));
+                    M_StringCopy(&savegamestrings[saveSlot][0], saveOldString, sizeof(savegamestrings[0]));
                     S_StartSound(NULL, sfx_swtchx);
                 }
 

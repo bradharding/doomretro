@@ -753,7 +753,7 @@ static void LoadDehFile(char *path)
 
             if (dehfilecount < MAXDEHFILES)
             {
-                M_StringCopy(dehfiles[dehfilecount], dehpath, sizeof(dehfiles[dehfilecount]));
+                M_StringCopy(dehfiles[dehfilecount], dehpath, sizeof(dehfiles[0]));
                 dehfilecount++;
             }
         }
@@ -774,7 +774,7 @@ static void LoadDehFile(char *path)
 
             if (dehfilecount < MAXDEHFILES)
             {
-                M_StringCopy(dehfiles[dehfilecount], dehpath, sizeof(dehfiles[dehfilecount]));
+                M_StringCopy(dehfiles[dehfilecount], dehpath, sizeof(dehfiles[0]));
                 dehfilecount++;
             }
         }

@@ -2522,26 +2522,26 @@ static void deh_procThing(DEHFILE *fpin, char *line)
 
         if ((string = M_StringCompare(key, "Name")) || (string = M_StringCompare(key, "Name1")))
         {
-            M_StringCopy(mobjinfo[indexnum].name1, lowercase(trimwhitespace(strval)), sizeof(mobjinfo[indexnum].name1));
-            M_snprintf(mobjinfo[indexnum].plural1, sizeof(mobjinfo[indexnum].plural1), "%ss", mobjinfo[indexnum].name1);
+            M_StringCopy(mobjinfo[indexnum].name1, lowercase(trimwhitespace(strval)), sizeof(mobjinfo[0].name1));
+            M_snprintf(mobjinfo[indexnum].plural1, sizeof(mobjinfo[0].plural1), "%ss", mobjinfo[indexnum].name1);
             namechange = true;
         }
         else if ((string = M_StringCompare(key, "Plural")) || (string = M_StringCompare(key, "Plural1")))
-            M_StringCopy(mobjinfo[indexnum].plural1, lowercase(trimwhitespace(strval)), sizeof(mobjinfo[indexnum].plural1));
+            M_StringCopy(mobjinfo[indexnum].plural1, lowercase(trimwhitespace(strval)), sizeof(mobjinfo[0].plural1));
         else if ((string = M_StringCompare(key, "Name2")))
         {
-            M_StringCopy(mobjinfo[indexnum].name2, lowercase(trimwhitespace(strval)), sizeof(mobjinfo[indexnum].name2));
-            M_snprintf(mobjinfo[indexnum].plural2, sizeof(mobjinfo[indexnum].plural2), "%ss", mobjinfo[indexnum].name2);
+            M_StringCopy(mobjinfo[indexnum].name2, lowercase(trimwhitespace(strval)), sizeof(mobjinfo[0].name2));
+            M_snprintf(mobjinfo[indexnum].plural2, sizeof(mobjinfo[0].plural2), "%ss", mobjinfo[indexnum].name2);
         }
         else if ((string = M_StringCompare(key, "Plural2")))
-            M_StringCopy(mobjinfo[indexnum].plural2, lowercase(trimwhitespace(strval)), sizeof(mobjinfo[indexnum].plural2));
+            M_StringCopy(mobjinfo[indexnum].plural2, lowercase(trimwhitespace(strval)), sizeof(mobjinfo[0].plural2));
         else if ((string = M_StringCompare(key, "Name3")))
         {
-            M_StringCopy(mobjinfo[indexnum].name3, lowercase(trimwhitespace(strval)), sizeof(mobjinfo[indexnum].name3));
-            M_snprintf(mobjinfo[indexnum].plural3, sizeof(mobjinfo[indexnum].plural3), "%ss", mobjinfo[indexnum].name3);
+            M_StringCopy(mobjinfo[indexnum].name3, lowercase(trimwhitespace(strval)), sizeof(mobjinfo[0].name3));
+            M_snprintf(mobjinfo[indexnum].plural3, sizeof(mobjinfo[0].plural3), "%ss", mobjinfo[indexnum].name3);
         }
         else if ((string = M_StringCompare(key, "Plural3")))
-            M_StringCopy(mobjinfo[indexnum].plural3, lowercase(trimwhitespace(strval)), sizeof(mobjinfo[indexnum].plural3));
+            M_StringCopy(mobjinfo[indexnum].plural3, lowercase(trimwhitespace(strval)), sizeof(mobjinfo[0].plural3));
 
         if (string)
         {
@@ -2716,8 +2716,8 @@ static void deh_procThing(DEHFILE *fpin, char *line)
     // [BH] Call Wolf SS and Keen "monsters" if no name given
     if ((indexnum == MT_WOLFSS || indexnum == MT_KEEN) && !namechange)
     {
-        M_StringCopy(mobjinfo[indexnum].name1, "monster", sizeof(mobjinfo[indexnum].name1));
-        M_snprintf(mobjinfo[indexnum].plural1, sizeof(mobjinfo[indexnum].plural1), "monsters");
+        M_StringCopy(mobjinfo[indexnum].name1, "monster", sizeof(mobjinfo[0].name1));
+        M_snprintf(mobjinfo[indexnum].plural1, sizeof(mobjinfo[0].plural1), "monsters");
     }
 }
 
@@ -3099,9 +3099,9 @@ static void deh_procAmmo(DEHFILE *fpin, char *line)
                 if (indexnum == weaponinfo[i].ammotype)
                 {
                     if (M_StringCompare(key, "Name"))
-                        M_StringCopy(weaponinfo[i].ammoname, lowercase(trimwhitespace(strval)), sizeof(weaponinfo[i].ammoname));
+                        M_StringCopy(weaponinfo[i].ammoname, lowercase(trimwhitespace(strval)), sizeof(weaponinfo[0].ammoname));
                     else if (M_StringCompare(key, "Plural"))
-                        M_StringCopy(weaponinfo[i].ammoplural, lowercase(trimwhitespace(strval)), sizeof(weaponinfo[i].ammoplural));
+                        M_StringCopy(weaponinfo[i].ammoplural, lowercase(trimwhitespace(strval)), sizeof(weaponinfo[0].ammoplural));
                 }
         }
         else
@@ -3205,7 +3205,7 @@ static void deh_procWeapon(DEHFILE *fpin, char *line)
             mbf21compatible = true;
         }
         else if (M_StringCompare(key, "Name"))
-            M_StringCopy(weaponinfo[indexnum].name, lowercase(trimwhitespace(strval)), sizeof(weaponinfo[indexnum].name));
+            M_StringCopy(weaponinfo[indexnum].name, lowercase(trimwhitespace(strval)), sizeof(weaponinfo[0].name));
         else
             C_Warning(1, "Invalid weapon string index for \"%s\".", key);
     }
@@ -4098,7 +4098,7 @@ static void deh_procBexSounds(DEHFILE *fpin, char *line)
                 if (devparm)
                     C_Output("Substituting \"%s\" for sound \"%s\"\n", candidate, deh_soundnames[rover]);
 
-                M_StringCopy(S_sfx[rover].name1, candidate, sizeof(S_sfx[rover].name1));
+                M_StringCopy(S_sfx[rover].name1, candidate, sizeof(S_sfx[0].name1));
                 break;
             }
 
@@ -4162,7 +4162,7 @@ static void deh_procBexMusic(DEHFILE *fpin, char *line)
                 if (devparm)
                     C_Output("Substituting \"%s\" for music \"%s\"", candidate, deh_musicnames[rover]);
 
-                M_StringCopy(S_music[rover].name1, candidate, sizeof(S_music[rover].name1));
+                M_StringCopy(S_music[rover].name1, candidate, sizeof(S_music[0].name1));
                 break;
             }
 
