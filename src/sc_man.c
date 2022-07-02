@@ -60,6 +60,7 @@ static int      ScriptLumpNum;
 static bool     sc_End;
 static bool     ScriptOpen;
 static bool     AlreadyGot;
+static bool     SkipComma;
 
 static void SC_ScriptError(void)
 {
@@ -75,7 +76,10 @@ void SC_Open(char *name)
 
     SC_Close();
     ScriptLumpNum = W_GetNumForName(name);
-    ScriptLumpName = M_StringDuplicate(name);
+
+    if (M_StringCompare((ScriptLumpName = M_StringDuplicate(name)), "BRGHTMPS"))
+        SkipComma = true;
+
     ScriptBuffer = W_CacheLumpNum(ScriptLumpNum);
     ScriptPtr = ScriptBuffer;
     ScriptEndPtr = ScriptPtr + W_LumpLength(ScriptLumpNum);
@@ -98,6 +102,7 @@ void SC_Close(void)
         else
             Z_Free(ScriptBuffer);
 
+        SkipComma = false;
         ScriptOpen = false;
     }
 }
@@ -121,7 +126,8 @@ bool SC_GetString(void)
 
     while (!foundToken)
     {
-        while (ScriptPtr < ScriptEndPtr && (*ScriptPtr <= 32 || *ScriptPtr == '=' || (*ScriptPtr == ',' && *(ScriptPtr - 1) != '\'')))
+        while (ScriptPtr < ScriptEndPtr && (*ScriptPtr <= 32 || *ScriptPtr == '='
+            || (*ScriptPtr == ',' && !SkipComma && *(ScriptPtr - 1) != '\'')))
             if (*ScriptPtr++ == '\n')
                 sc_Line++;
 
@@ -173,7 +179,7 @@ bool SC_GetString(void)
 
             *text++ = *ScriptPtr++;
 
-            if (*ScriptPtr == '=' || (*ScriptPtr == ',' && *(ScriptPtr - 1) != '\''))
+            if (*ScriptPtr == '=' || (*ScriptPtr == ',' && !SkipComma && *(ScriptPtr - 1) != '\''))
             {
                 ScriptPtr++;
                 break;

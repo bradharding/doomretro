@@ -286,10 +286,7 @@ static void R_InitTextures(void)
 //
 static void R_InitBrightmaps(void)
 {
-    byte    (*masks)[256];
-    char    (*masknames)[32];
-    int     nummasks = 0;
-    int     numbrightmappedtextures = 0;
+    int numbrightmappedtextures = 0;
 
     brightmap = Z_Calloc(numtextures, 256, PU_STATIC, NULL);
     nobrightmap = Z_Calloc(numtextures, sizeof(*nobrightmap), PU_STATIC, NULL);
@@ -297,54 +294,53 @@ static void R_InitBrightmaps(void)
     if (BTSX || chex || FREEDOOM || hacx || REKKR)
         return;
 
-    masks = Z_Calloc(numtextures, sizeof(*masks), PU_STATIC, NULL);
-    masknames = Z_Calloc(numtextures, sizeof(*masknames), PU_STATIC, NULL);
-
     SC_Open("BRGHTMPS");
 
     while (SC_GetString())
-    {
-        if (M_StringCompare(sc_String, "BRIGHTMAP"))
-        {
-            SC_MustGetString();
-            M_StringCopy(masknames[nummasks], sc_String, sizeof(masknames[0]));
-
-            SC_MustGetString();
-
-            if (strlen(sc_String) == 256)
-            {
-                for (int i = 0; i < 256; i++)
-                    masks[nummasks][i] = (sc_String[i] != '0');
-
-                nummasks++;
-            }
-        }
-        else if (M_StringCompare(sc_String, "TEXTURE"))
+        if (M_StringCompare(sc_String, "TEXTURE"))
         {
             int     texture;
-            char    maskname[32];
+            char    colors[1024];
+            byte    *mask = Z_Calloc(256, sizeof(*mask), PU_STATIC, NULL);
 
             SC_MustGetString();
             texture = R_CheckTextureNumForName(sc_String);
 
             SC_MustGetString();
-            M_StringCopy(maskname, sc_String, sizeof(maskname));
+            M_StringCopy(colors, sc_String, sizeof(colors));
 
             SC_MustGetNumber();
 
             if (texture >= 0 && (sc_Number == DOOM1AND2
                 || (gamemission == doom && sc_Number == DOOM1ONLY)
                 || (gamemission != doom && sc_Number == DOOM2ONLY)))
-                for (int i = 0; i < nummasks; i++)
-                    if (M_StringCompare(maskname, masknames[i]))
-                    {
-                        brightmap[texture] = masks[i];
-                        numbrightmappedtextures++;
+            {
+                char    *p = strtok(colors, ",");
 
-                        break;
+                while (p)
+                {
+                    int color1;
+                    int color2;
+
+                    if (sscanf(p, "%i-%i", &color1, &color2) == 2)
+                    {
+                        if (color1 >= 0 && color1 <= 255 && color2 >= 0 && color2 <= 255 && color1 <= color2)
+                            while (color1 <= color2)
+                                mask[color1++] = 1;
                     }
+                    else if (sscanf(p, "%i", &color1) == 1)
+                    {
+                        if (color1 >= 0 && color1 <= 255)
+                            mask[color1] = 1;
+                    }
+
+                    p = strtok(NULL, ",");
+                }
+
+                brightmap[texture] = mask;
+                numbrightmappedtextures++;
+            }
         }
-    }
 
     SC_Close();
 
