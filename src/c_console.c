@@ -306,7 +306,7 @@ void C_TabbedOutput(const int tabs[3], const char *string, ...)
 
     M_StringCopy(console[consolestrings].string, buffer, sizeof(console[0].string));
     console[consolestrings].stringtype = outputstring;
-    memcpy(console[consolestrings].tabs, tabs, sizeof(console[consolestrings].tabs));
+    memcpy(console[consolestrings].tabs, tabs, sizeof(console[0].tabs));
     console[consolestrings].indent = (tabs[2] ? tabs[2] : (tabs[1] ? tabs[1] : tabs[0])) - 10;
     console[consolestrings++].wrap = 0;
     outputhistory = -1;
@@ -318,7 +318,7 @@ void C_Header(const int tabs[3], patch_t *header, const char *string)
         console = I_Realloc(console, (consolestringsmax += CONSOLESTRINGSMAX) * sizeof(*console));
 
     console[consolestrings].stringtype = headerstring;
-    memcpy(console[consolestrings].tabs, tabs, sizeof(console[consolestrings].tabs));
+    memcpy(console[consolestrings].tabs, tabs, sizeof(console[0].tabs));
     console[consolestrings].header = header;
     M_StringCopy(console[consolestrings].string, string, sizeof(console[0].string));
     console[consolestrings].indent = 0;

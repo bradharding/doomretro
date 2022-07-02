@@ -1385,7 +1385,7 @@ void alias_cmd_func2(char *cmd, char *parms)
     for (int i = 0; i < MAXALIASES; i++)
         if (*aliases[i].name && M_StringCompare(parm1, aliases[i].name))
         {
-            M_StringCopy(aliases[i].string, parm2, sizeof(aliases[i].string));
+            M_StringCopy(aliases[i].string, parm2, sizeof(aliases[0].string));
             M_SaveCVARs();
             C_Output("The " BOLD("%s") " alias has been updated.", parm1);
 
@@ -1395,8 +1395,8 @@ void alias_cmd_func2(char *cmd, char *parms)
     for (int i = 0; i < MAXALIASES; i++)
         if (!*aliases[i].name)
         {
-            M_StringCopy(aliases[i].name, parm1, sizeof(aliases[i].name));
-            M_StringCopy(aliases[i].string, parm2, sizeof(aliases[i].string));
+            M_StringCopy(aliases[i].name, parm1, sizeof(aliases[0].name));
+            M_StringCopy(aliases[i].string, parm2, sizeof(aliases[0].string));
             C_Output("The " BOLD("%s") " alias has been created.", parm1);
             M_SaveCVARs();
 
