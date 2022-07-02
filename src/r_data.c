@@ -82,6 +82,8 @@ fixed_t     *textureheight;
 
 byte        **brightmap;
 bool        *nobrightmap;
+byte        (*masks)[256];
+char        (*masknames)[32];
 
 // for global animation
 int         *flattranslation;
@@ -286,8 +288,6 @@ static void R_InitTextures(void)
 //
 static void R_InitBrightmaps(void)
 {
-    byte    (*masks)[256];
-    char    (*masknames)[32];
     int     nummasks = 0;
     int     numbrightmappedtextures = 0;
 
@@ -323,8 +323,8 @@ static void R_InitBrightmaps(void)
 
                 if (sscanf(p, "%i-%i", &color1, &color2) == 2)
                 {
-                    if (color1 >= 0 && color1 <= 255 && color2 >= 0 && color2 <= 255 && color1 <= color2)
-                        while (color1 <= color2)
+                    if (color1 >= 0)
+                        while (color1 <= color2 && color1 <= 255)
                             masks[nummasks][color1++] = 1;
                 }
                 else if (sscanf(p, "%i", &color1) == 1)
