@@ -288,8 +288,8 @@ static void R_InitTextures(void)
 //
 static void R_InitBrightmaps(void)
 {
-    int     nummasks = 0;
-    int     numbrightmappedtextures = 0;
+    int nummasks = 0;
+    int numbrightmappedtextures = 0;
 
     brightmap = Z_Calloc(numtextures, 256, PU_STATIC, NULL);
     nobrightmap = Z_Calloc(numtextures, sizeof(*nobrightmap), PU_STATIC, NULL);
@@ -388,7 +388,12 @@ static void R_InitBrightmaps(void)
     SC_Close();
 
     if (r_brightmaps && numbrightmappedtextures > 0)
-        C_Output("Brightmaps have been applied to %i textures.", numbrightmappedtextures);
+    {
+        char    *temp = commify(numbrightmappedtextures);
+
+        C_Output("Brightmaps have been applied to %s texture%s.", temp, (numbrightmappedtextures == 1 ? "" : "s"));
+        free(temp);
+    }
 }
 
 //

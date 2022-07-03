@@ -5,7 +5,7 @@
 * *DOOM Retro* is now compiled using v17.2.5 of [*Microsoft Visual Studio Community 2022*](https://www.visualstudio.com/vs/).
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * *DOOM Retro* will now run again if installed into a folder that contains non-Latin characters in its name.
-* Minor changes have been made to text that is output to the console.
+* Several changes have been made to text that is output to the console.
 * The amount of blood splats rendered depends on their distance from the player again.
 * A message is now displayed with an accompanying sound effect whenever the player finds a secret. This feature can be toggled using the new `secretmessages` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
 * Secrets are no longer considered to be found if the player is using the `IDCLIP` or `IDSPISPOPD` cheats.
@@ -37,7 +37,7 @@
   * `exitpic` can now be used to specify the lump displayed when the player exits a map.
   * `compat_nopassover` can now be used to override the effects of when the `infiniteheight` CVAR is `off`.
 * The following changes have been made to brightmaps when the `r_brightmaps` CVAR is `on`:
-  * A new [`BRGHTMPS`](https://github.com/bradharding/doomretro/blob/master/res/BRGHTMPS) lump has been introduced that allows brightmaps to be changed in a PWAD.
+  * A new [`BRGHTMPS`](https://raw.githubusercontent.com/bradharding/doomretro/master/res/BRGHTMPS) lump has been introduced that allows brightmaps to be changed in a PWAD.
   * Minor improvements have been made to the brightmaps of the `COMPUTE2` and `COMPUTE3` textures.
   * Brightmaps can now be applied to masked midtextures.
 * The existing feature of randomizing the start frame of certain sprites can now be toggled using the new `r_randomstartframes` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
