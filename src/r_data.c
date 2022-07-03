@@ -246,7 +246,8 @@ static void R_InitTextures(void)
             patch->patch = patchlookup[SHORT(mpatch->patch)];
 
             if (patch->patch == -1)
-                I_Error("R_InitTextures: Patch %i is missing in the %.8s texture", SHORT(mpatch->patch), uppercase(texture->name));
+                I_Error("R_InitTextures: Patch %i is missing in the %.8s texture",
+                    SHORT(mpatch->patch), uppercase(texture->name));
         }
 
         for (mask = 1; mask * 2 <= texture->width; mask *= 2);
@@ -255,7 +256,7 @@ static void R_InitTextures(void)
         textureheight[i] = texture->height << FRACBITS;
     }
 
-    free(patchlookup);                          // killough
+    free(patchlookup);
 
     if (maptex_lump[0] != -1)
         W_ReleaseLumpNum(maptex_lump[0]);
@@ -271,7 +272,7 @@ static void R_InitTextures(void)
     for (int i = 0; i < numtextures; i++)
     {
         texturetranslation[i] = i;
-        textures[i]->index = -1;                // killough 01/31/98: Initialize texture hash table
+        textures[i]->index = -1;    // killough 01/31/98: Initialize texture hash table
     }
 
     for (int i = numtextures - 1; i >= 0; i--)
@@ -391,7 +392,8 @@ static void R_InitBrightmaps(void)
     {
         char    *temp = commify(numbrightmappedtextures);
 
-        C_Output("Brightmaps have been applied to %s texture%s.", temp, (numbrightmappedtextures == 1 ? "" : "s"));
+        C_Output("Brightmaps have been applied to %s texture%s.",
+            temp, (numbrightmappedtextures == 1 ? "" : "s"));
         free(temp);
     }
 }

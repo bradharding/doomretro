@@ -80,8 +80,8 @@ typedef struct drawsegs_xrange_s
 static drawsegs_xrange_t        drawsegs_xranges[DS_RANGES_COUNT];
 
 static drawseg_xrange_item_t    *drawsegs_xrange;
-static unsigned int             drawsegs_xrange_size = 0;
-static int                      drawsegs_xrange_count = 0;
+static unsigned int             drawsegs_xrange_size;
+static int                      drawsegs_xrange_count;
 
 // constant arrays used for psprite clipping and initializing clipping
 int                             negonearray[MAXWIDTH];
@@ -1230,8 +1230,8 @@ static void R_DrawBloodSplatSprite(const bloodsplatvissprite_t *splat)
         else
         {
             // clip this piece of the blood splat
-            int r1 = MAX(x1, ds->x1);
-            int r2 = MIN(ds->x2, x2);
+            const int   r1 = MAX(x1, ds->x1);
+            const int   r2 = MIN(ds->x2, x2);
 
             if (silhouette & SIL_TOP)
                 for (int i = r1; i <= r2; i++)
@@ -1355,8 +1355,8 @@ static void R_DrawSprite(const vissprite_t *spr)
             else
             {
                 // clip this piece of the sprite
-                int r1 = MAX(x1, ds->x1);
-                int r2 = MIN(ds->x2, x2);
+                const int   r1 = MAX(x1, ds->x1);
+                const int   r2 = MIN(ds->x2, x2);
 
                 if (silhouette & SIL_TOP)
                     for (int i = r1; i <= r2; i++)

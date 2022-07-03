@@ -4,7 +4,7 @@
 
 * *DOOM Retro* is now compiled using v17.2.5 of [*Microsoft Visual Studio Community 2022*](https://www.visualstudio.com/vs/).
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
-* *DOOM Retro* will now run again if installed into a folder that contains non-Latin characters in its name.
+* *DOOM Retro* now runs again if installed into a folder that contains non-Latin characters in its name.
 * Several changes have been made to text that is output to the console.
 * The amount of blood splats rendered depends on their distance from the player again.
 * A message is now displayed with an accompanying sound effect whenever the player finds a secret. This feature can be toggled using the new `secretmessages` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
@@ -21,14 +21,14 @@
 * A crash no longer occurs when:
   * Entering the `IDBEHOLD` cheat while the alternate widescreen HUD is displayed.
   * Entering the `map` CCMD in the console with an invalid parameter.
-* The `IDCHOPPERS` cheat will now be canceled properly when the player exits a map while it is enabled.
+* The `IDCHOPPERS` cheat now cancels properly when the player exits a map while it is enabled.
 * The following changes have been made to the support of `DEHACKED` lumps:
   * The player’s super shotgun is now positioned correctly if the offsets of any of its frames are changed.
   * Using the `SHADOW` flag in `Bits` now always works as intended.
   * A crash no longer occurs when attempting to display the player’s health in the widescreen HUD if `Initial Health` or `Max Health` are changed to a value greater than `999`.
   * Gibbing corpses are no longer affected if `Exploding frame` is changed.
   * `Blood color` may now be used to change the color of blood spilled by monsters. This is set to a value between `0` and `8` (representing the colors red, gray, green, blue, yellow, black, purple, white and orange).
-  * If the `SHADOW` flag is used in `Bits`, the monster will now spill fuzzy blood if the `r_blood` CVAR is `all`.
+  * If the `SHADOW` flag is used in `Bits`, the monster now spills fuzzy blood if the `r_blood` CVAR is `all`.
   * The use of `Blood` in `Thing` blocks has been deprecated.
   * The use of the `TRANSLUCENT_REDTOGREEN_33`, `TRANSLUCENT_REDTOBLUE_33`, `REDTOGREEN` and `REDTOBLUE` flags in `Retro bits` have all been deprecated.
   * Pain elementals, lost souls and barrels are no longer translucent when exploding if any of their states have been changed.
@@ -45,7 +45,7 @@
 * The following changes have been made when vanilla mode is enabled using the `vanilla` CCMD:
   * The `am_grid` CVAR is no longer turned `off`.
   * Red blood is now spawned when shooting a lost soul.
-* When the corpse of a monster is crushed, it’s color will now match the monster’s blood.
+* When the corpse of a monster is crushed, it’s color now matches the monster’s blood.
 * *MBF*-compatible helper dogs may no longer be spawned using the `spawn` CCMD in *DOOM (Shareware)*.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
