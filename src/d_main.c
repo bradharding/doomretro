@@ -1749,61 +1749,58 @@ static int D_OpenWADLauncher(void)
                         if (W_MergeFile(fullpath, true))
                             nerve = true;
                     }
+
+#if defined(_WIN32)
+                    // process any config files
+                    cfgpass = &cfgpass[lstrlen(cfgpass) + 1];
+
+                    while (*cfgpass)
+                    {
+                        char    fullpath[MAX_PATH];
+
+                        M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", szFile, cfgpass);
+
+#elif defined(__APPLE__)
+                    for (NSURL *url in urls)
+                    {
+                        char *fullpath = (char *)[url fileSystemRepresentation];
+#endif
+
+                        if (D_IsCfgFile(fullpath))
+                            M_LoadCVARs(fullpath);
+
+#if defined(_WIN32)
+                        cfgpass = &cfgpass[lstrlen(cfgpass) + 1];
+#endif
+                    }
+
+#if defined(_WIN32)
+                    // process any DeHackEd files last of all
+                    dehpass = &dehpass[lstrlen(dehpass) + 1];
+
+                    while (*dehpass)
+                    {
+                        char    fullpath[MAX_PATH];
+
+                        M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", szFile, dehpass);
+
+#elif defined(__APPLE__)
+                    for (NSURL *url in urls)
+                    {
+                        char *fullpath = (char *)[url fileSystemRepresentation];
+#endif
+
+                        if (D_IsDehFile(fullpath))
+                            LoadDehFile(fullpath);
+
+#if defined(_WIN32)
+                        dehpass = &dehpass[lstrlen(dehpass) + 1];
+#endif
+                    }
                 }
             }
             else
-                I_Error("PWADs can’t be loaded with the shareware version of DOOM.");
-
-            if (iwadfound)
-            {
-#if defined(_WIN32)
-                // process any config files
-                cfgpass = &cfgpass[lstrlen(cfgpass) + 1];
-
-                while (*cfgpass)
-                {
-                    char    fullpath[MAX_PATH];
-
-                    M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", szFile, cfgpass);
-
-#elif defined(__APPLE__)
-                for (NSURL *url in urls)
-                {
-                    char    *fullpath = (char *)[url fileSystemRepresentation];
-#endif
-
-                    if (D_IsCfgFile(fullpath))
-                        M_LoadCVARs(fullpath);
-
-#if defined(_WIN32)
-                    cfgpass = &cfgpass[lstrlen(cfgpass) + 1];
-#endif
-                }
-
-#if defined(_WIN32)
-                // process any DeHackEd files last of all
-                dehpass = &dehpass[lstrlen(dehpass) + 1];
-
-                while (*dehpass)
-                {
-                    char    fullpath[MAX_PATH];
-
-                    M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", szFile, dehpass);
-
-#elif defined(__APPLE__)
-                for (NSURL *url in urls)
-                {
-                    char    *fullpath = (char *)[url fileSystemRepresentation];
-#endif
-
-                    if (D_IsDehFile(fullpath))
-                        LoadDehFile(fullpath);
-
-#if defined(_WIN32)
-                    dehpass = &dehpass[lstrlen(dehpass) + 1];
-#endif
-                }
-            }
+                I_Error("Other files can’t be loaded with the shareware version of DOOM.");
         }
     }
 
@@ -2221,7 +2218,12 @@ static void D_DoomMainSetup(void)
     PostProcessDeh();
 
     if (dehcount > 2)
+    {
+        if (gamemode == shareware)
+            I_Error("Other files can’t be loaded with the shareware version of DOOM.");
+
         C_Warning(0, "Loading multiple " BOLD("DEHACKED") " lumps or files may cause unexpected results.");
+    }
 
     if (!M_StringCompare(s_VERSION, DOOMRETRO_NAMEANDVERSIONSTRING))
         I_Error("The wrong version of %s was found.", packagewad);
@@ -2248,7 +2250,7 @@ static void D_DoomMainSetup(void)
     if (modifiedgame)
     {
         if (gamemode == shareware)
-            I_Error("PWADs can’t be loaded with the shareware version of DOOM.");
+            I_Error("Other files can’t be loaded with the shareware version of DOOM.");
 
         // Check for fake IWAD with right name,
         // but w/o all the lumps of the registered version.
