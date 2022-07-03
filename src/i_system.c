@@ -42,7 +42,6 @@
 #include <unistd.h>
 #endif
 
-#include "c_cmds.h"
 #include "c_console.h"
 #include "d_main.h"
 #include "i_gamecontroller.h"
@@ -226,9 +225,6 @@ void I_Quit(bool shutdown)
 {
     if (shutdown)
     {
-        if (vanilla)
-            vanilla_cmd_func2("vanilla", "off");
-
         D_FadeScreenToBlack();
 
         S_Shutdown();
@@ -264,9 +260,6 @@ void I_Error(const char *error, ...)
         exit(-1);
 
     already_quitting = true;
-
-    if (vanilla)
-        vanilla_cmd_func2("vanilla", "off");
 
     // Shutdown. Here might be other errors.
     S_Shutdown();
