@@ -52,44 +52,63 @@
 #define BASEYCENTER     (VANILLAHEIGHT / 2)
 
 #define MAXVISSPRITES   128
+#define DS_RANGES_COUNT 3
 
 //
 // Sprite rotation 0 is facing the viewer, rotation 1 is one angle turn CLOCKWISE around the axis.
 // This is not the same as the angle, which increases counter clockwise (protractor).
 // There was a lot of stuff grabbed wrong, so I changed it...
 //
-fixed_t                 pspritescale;
-fixed_t                 pspriteiscale;
+fixed_t                         pspritescale;
+fixed_t                         pspriteiscale;
 
-static lighttable_t     **spritelights;         // killough 01/25/98 made static
-static lighttable_t     **nextspritelights;
+static lighttable_t             **spritelights;         // killough 01/25/98 made static
+static lighttable_t             **nextspritelights;
+
+typedef struct drawseg_xrange_item_s
+{
+    short                       x1, x2;
+    drawseg_t                   *user;
+} drawseg_xrange_item_t;
+
+typedef struct drawsegs_xrange_s
+{
+    drawseg_xrange_item_t       *items;
+    int                         count;
+} drawsegs_xrange_t;
+
+static drawsegs_xrange_t        drawsegs_xranges[DS_RANGES_COUNT];
+
+static drawseg_xrange_item_t    *drawsegs_xrange;
+static unsigned int             drawsegs_xrange_size = 0;
+static int                      drawsegs_xrange_count = 0;
 
 // constant arrays used for psprite clipping and initializing clipping
-int                     negonearray[MAXWIDTH];
-int                     viewheightarray[MAXWIDTH];
+int                             negonearray[MAXWIDTH];
+int                             viewheightarray[MAXWIDTH];
 
-static int              cliptop[MAXWIDTH];
-static int              clipbot[MAXWIDTH];
+static int                      cliptop[MAXWIDTH];
+static int                      clipbot[MAXWIDTH];
 
 //
 // INITIALIZATION FUNCTIONS
 //
 
 // variables used to look up and range check thing_t sprites patches
-spritedef_t             *sprites;
+spritedef_t                     *sprites;
 
-short                   firstbloodsplatlump;
+short                           firstbloodsplatlump;
 
-bool                    allowwolfensteinss = true;
-bool                    pausesprites = false;
+bool                            allowwolfensteinss = true;
+bool                            pausesprites = false;
 
-static spriteframe_t    sprtemp[MAXSPRITEFRAMES];
-static int              maxframe;
+static spriteframe_t            sprtemp[MAXSPRITEFRAMES];
+static int                      maxframe;
 
-static bool             drawshadows;
-static bool             interpolatesprites;
-static bool             invulnerable;
-static fixed_t          floorheight;
+static bool                     drawshadows;
+static bool                     interpolatesprites;
+static bool                     invulnerable;
+static fixed_t                  floorheight;
 
 static const fixed_t floatbobdiffs[64] =
 {
@@ -1300,40 +1319,55 @@ static void R_DrawSprite(const vissprite_t *spr)
         cliptop[i] = -1;
         clipbot[i] = viewheight;
     }
+
     // Scan drawsegs from end to start for obscuring segs.
     // The first drawseg that has a greater scale is the clip seg.
-    for (drawseg_t *ds = ds_p; ds-- > drawsegs; )
+    if (drawsegs_xrange_size)
     {
-        const int   silhouette = ds->silhouette;
+        const drawseg_xrange_item_t *last = &drawsegs_xrange[drawsegs_xrange_count - 1];
+        drawseg_xrange_item_t       *curr = &drawsegs_xrange[-1];
 
-        // determine if the drawseg obscures the sprite
-        if (ds->x1 > x2 || ds->x2 < x1 || (!silhouette && !ds->maskedtexturecol))
-            continue;
-
-        if (ds->maxscale < scale || (ds->minscale < scale && !R_PointOnSegSide(gx, gy, ds->curline)))
+        while (++curr <= last)
         {
-            // masked midtexture?
-            if (ds->maskedtexturecol)
-                R_RenderMaskedSegRange(ds, MAX(ds->x1, x1), MIN(ds->x2, x2));
+            drawseg_t   *ds;
+            int         silhouette;
 
-            // seg is behind sprite
-            continue;
-        }
-        else
-        {
-            // clip this piece of the sprite
-            int r1 = MAX(x1, ds->x1);
-            int r2 = MIN(ds->x2, x2);
+            // determine if the drawseg obscures the sprite
+            if (curr->x1 > spr->x2 || curr->x2 < spr->x1)
+                continue;      // does not cover sprite
 
-            if (silhouette & SIL_TOP)
-                for (int i = r1; i <= r2; i++)
-                    if (cliptop[i] < ds->sprtopclip[i])
-                        cliptop[i] = ds->sprtopclip[i];
+            ds = curr->user;
+            silhouette = ds->silhouette;
 
-            if (silhouette & SIL_BOTTOM)
-                for (int i = r1; i <= r2; i++)
-                    if (clipbot[i] > ds->sprbottomclip[i])
-                        clipbot[i] = ds->sprbottomclip[i];
+            // determine if the drawseg obscures the sprite
+            if (ds->x1 > x2 || ds->x2 < x1 || (!silhouette && !ds->maskedtexturecol))
+                continue;
+
+            if (ds->maxscale < scale || (ds->minscale < scale && !R_PointOnSegSide(gx, gy, ds->curline)))
+            {
+                // masked midtexture?
+                if (ds->maskedtexturecol)
+                    R_RenderMaskedSegRange(ds, MAX(ds->x1, x1), MIN(ds->x2, x2));
+
+                // seg is behind sprite
+                continue;
+            }
+            else
+            {
+                // clip this piece of the sprite
+                int r1 = MAX(x1, ds->x1);
+                int r2 = MIN(ds->x2, x2);
+
+                if (silhouette & SIL_TOP)
+                    for (int i = r1; i <= r2; i++)
+                        if (cliptop[i] < ds->sprtopclip[i])
+                            cliptop[i] = ds->sprtopclip[i];
+
+                if (silhouette & SIL_BOTTOM)
+                    for (int i = r1; i <= r2; i++)
+                        if (clipbot[i] > ds->sprbottomclip[i])
+                            clipbot[i] = ds->sprbottomclip[i];
+            }
         }
     }
 
@@ -1408,9 +1442,67 @@ void R_DrawMasked(void)
 
     R_SortVisSprites();
 
+    for (int i = 0; i < DS_RANGES_COUNT; i++)
+        drawsegs_xranges[i].count = 0;
+
+    if (num_vissprite > 0)
+    {
+        if (drawsegs_xrange_size < maxdrawsegs)
+        {
+            drawsegs_xrange_size = 2 * maxdrawsegs;
+
+            for (int i = 0; i < DS_RANGES_COUNT; i++)
+                drawsegs_xranges[i].items = I_Realloc(drawsegs_xranges[i].items,
+                    drawsegs_xrange_size * sizeof(drawsegs_xranges[i].items[0]));
+        }
+
+        for (drawseg_t *ds = ds_p; ds-- > drawsegs;)
+            if (ds->silhouette || ds->maskedtexturecol)
+            {
+                drawsegs_xranges[0].items[drawsegs_xranges[0].count].x1 = ds->x1;
+                drawsegs_xranges[0].items[drawsegs_xranges[0].count].x2 = ds->x2;
+                drawsegs_xranges[0].items[drawsegs_xranges[0].count].user = ds;
+
+                // e6y: ~13% of speed improvement on sunder.wad map10
+                if (ds->x1 < centerx)
+                {
+                    drawsegs_xranges[1].items[drawsegs_xranges[1].count] = drawsegs_xranges[0].items[drawsegs_xranges[0].count];
+                    drawsegs_xranges[1].count++;
+                }
+
+                if (ds->x2 >= centerx)
+                {
+                    drawsegs_xranges[2].items[drawsegs_xranges[2].count] = drawsegs_xranges[0].items[drawsegs_xranges[0].count];
+                    drawsegs_xranges[2].count++;
+                }
+
+                drawsegs_xranges[0].count++;
+            }
+    }
+
     // draw all other vissprites back to front
     for (int i = num_vissprite - 1; i >= 0; i--)
-        R_DrawSprite(vissprite_ptrs[i]);
+    {
+        vissprite_t *spr = vissprite_ptrs[i];
+
+        if (spr->x2 < centerx)
+        {
+            drawsegs_xrange = drawsegs_xranges[1].items;
+            drawsegs_xrange_count = drawsegs_xranges[1].count;
+        }
+        else if (spr->x1 >= centerx)
+        {
+            drawsegs_xrange = drawsegs_xranges[2].items;
+            drawsegs_xrange_count = drawsegs_xranges[2].count;
+        }
+        else
+        {
+            drawsegs_xrange = drawsegs_xranges[0].items;
+            drawsegs_xrange_count = drawsegs_xranges[0].count;
+        }
+
+        R_DrawSprite(spr);
+    }
 
     // render any remaining masked midtextures
     for (drawseg_t *ds = ds_p; ds-- > drawsegs; )

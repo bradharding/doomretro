@@ -577,6 +577,8 @@ static fixed_t R_ScaleFromGlobalAngle(angle_t visangle)
     return (den > (num >> FRACBITS) ? BETWEEN(256, FixedDiv(num, den), max_rwscale) : max_rwscale);
 }
 
+unsigned int maxdrawsegs;
+
 //
 // R_StoreWallRange
 // A wall segment will be drawn between start and stop pixels (inclusive).
@@ -591,7 +593,6 @@ void R_StoreWallRange(const int start, const int stop)
     int                 worldhigh = 0;
     int                 worldlow = 0;
     side_t              *sidedef;
-    static unsigned int maxdrawsegs;
 
     linedef = curline->linedef;
 
