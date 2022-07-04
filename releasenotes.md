@@ -29,8 +29,8 @@
   * Gibbing corpses are no longer affected if `Exploding frame` is changed.
   * `Blood color` may now be used to change the color of blood spilled by monsters. This is set to a value between `0` and `8` (representing the colors red, gray, green, blue, yellow, black, purple, white and orange).
   * If the `SHADOW` flag is used in `Bits`, the monster now spills fuzzy blood if the `r_blood` CVAR is `all`.
-  * The use of `Blood` in `Thing` blocks has been deprecated.
-  * The use of the `TRANSLUCENT_REDTOGREEN_33`, `TRANSLUCENT_REDTOBLUE_33`, `REDTOGREEN` and `REDTOBLUE` flags in `Retro bits` have all been deprecated.
+  * `Blood` in `Thing` blocks is no longer used.
+  * The `TRANSLUCENT_REDTOGREEN_33`, `TRANSLUCENT_REDTOBLUE_33`, `REDTOGREEN` and `REDTOBLUE` flags in `Retro bits` are no longer used.
   * Pain elementals, lost souls and barrels are no longer translucent when exploding if any of their states have been changed.
 * The following changes have been made to the support of `MAPINFO` lumps:
   * `nofreelook` and `nojump` now work as intended.
