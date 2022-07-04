@@ -76,6 +76,8 @@ angle_t             viewangle;
 fixed_t             viewcos;
 fixed_t             viewsin;
 
+fixed_t             viewheightfrac;
+
 player_t            *viewplayer = NULL;
 
 angle_t             clipangle;
@@ -389,6 +391,7 @@ void R_ExecuteSetViewSize(void)
     centerxfrac = centerx << FRACBITS;
     fovscale = finetangent[FINEANGLES / 4 + (r_fov + WIDEFOVDELTA) * FINEANGLES / 360 / 2];
     projection = FixedDiv(centerxfrac, fovscale);
+    viewheightfrac = viewheight << FRACBITS;
 
     R_InitBuffer();
     R_InitTextureMapping();

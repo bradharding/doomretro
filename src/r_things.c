@@ -719,8 +719,8 @@ static void R_ProjectSprite(mobj_t *thing)
     xscale = FixedDiv(projection, tz);
 
     // killough 04/09/98: clip things which are out of view due to height
-    if (FixedMul(fz - viewz, xscale) > (viewheight << FRACBITS)
-        || (viewheight << FRACBITS) - viewheight < FixedMul(viewz - gzt, xscale))
+    if (fz > viewz + FixedDiv(viewheightfrac, xscale)
+        || gzt < (int64_t)viewz - FixedDiv(viewheightfrac - viewheight, xscale))
         return;
 
     // calculate edges of the shape
@@ -781,8 +781,8 @@ static void R_ProjectSprite(mobj_t *thing)
     // foot clipping
     if ((flags2 & MF2_FEETARECLIPPED) && !heightsec && r_liquid_clipsprites)
     {
-        fixed_t height = spriteheight[lump];
-        fixed_t clipfeet = MIN((height >> FRACBITS) / 4, 10) << FRACBITS;
+        const fixed_t   height = spriteheight[lump];
+        fixed_t         clipfeet = MIN((height >> FRACBITS) / 4, 10) << FRACBITS;
 
         vis->texturemid = gzt - viewz - clipfeet;
 
@@ -847,7 +847,7 @@ static void R_ProjectSprite(mobj_t *thing)
     else
     {
         // diminished light
-        int i = MIN(xscale >> LIGHTSCALESHIFT, MAXLIGHTSCALE - 1);
+        const int   i = MIN(xscale >> LIGHTSCALESHIFT, MAXLIGHTSCALE - 1);
 
         vis->colormap = spritelights[i];
         vis->nextcolormap = nextspritelights[i];

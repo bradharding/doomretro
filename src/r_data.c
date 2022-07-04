@@ -319,8 +319,7 @@ static void R_InitBrightmaps(void)
 
             while (p)
             {
-                int color1;
-                int color2;
+                int color1, color2;
 
                 if (sscanf(p, "%i-%i", &color1, &color2) == 2)
                 {
@@ -352,9 +351,9 @@ static void R_InitBrightmaps(void)
 
             SC_MustGetNumber();
 
-            if (texture >= 0 && (sc_Number == DOOM1AND2
-                || (gamemission == doom && sc_Number == DOOM1ONLY)
-                || (gamemission != doom && sc_Number == DOOM2ONLY)))
+            if (texture >= 0
+                && ((gamemission == doom && sc_Number != DOOM2ONLY)
+                    || (gamemission != doom && sc_Number != DOOM1ONLY)))
                 for (int i = 0; i < nummasks; i++)
                     if (M_StringCompare(maskname, masknames[i]))
                     {

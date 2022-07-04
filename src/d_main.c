@@ -910,10 +910,6 @@ static void D_CheckSupportedPWAD(char *filename)
         BTSX = BTSXE2 = BTSXE2A = true;
     else if (M_StringCompare(leaf, "btsx_e2b.wad"))
         BTSX = BTSXE2 = BTSXE2B = true;
-    else if (M_StringCompare(leaf, "btsx_e3a.wad"))
-        BTSX = BTSXE3 = BTSXE3A = true;
-    else if (M_StringCompare(leaf, "btsx_e3b.wad"))
-        BTSX = BTSXE3 = BTSXE3B = true;
     else if (M_StringCompare(leaf, "e1m4b.wad"))
         E1M4B = true;
     else if (M_StringCompare(leaf, "e1m8b.wad"))
@@ -1148,16 +1144,6 @@ static bool D_CheckParms(void)
             else if (!BTSXE2A && BTSXE2B)
             {
                 M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", folder, "btsx_e2a.wad");
-                result = W_MergeFile(fullpath, true);
-            }
-            else if (BTSXE3A && !BTSXE3B)
-            {
-                M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", folder, "btsx_e3b.wad");
-                result = W_MergeFile(fullpath, true);
-            }
-            else if (!BTSXE3A && BTSXE3B)
-            {
-                M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", folder, "btsx_e3a.wad");
                 result = W_MergeFile(fullpath, true);
             }
         }
@@ -1466,16 +1452,6 @@ static int D_OpenWADLauncher(void)
                 else if (!BTSXE2A && BTSXE2B)
                 {
                     M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", folder, "btsx_e2a.wad");
-                    W_MergeFile(fullpath, true);
-                }
-                else if (BTSXE3A && !BTSXE3B)
-                {
-                    M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", folder, "btsx_e3b.wad");
-                    W_MergeFile(fullpath, true);
-                }
-                else if (!BTSXE3A && BTSXE3B)
-                {
-                    M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", folder, "btsx_e3a.wad");
                     W_MergeFile(fullpath, true);
                 }
             }
@@ -2241,7 +2217,7 @@ static void D_DoomMainSetup(void)
 
     D_SetScreenshotsFolder();
 
-    C_Output("All files created using the " BOLD("condump") " CCMD will be put in "
+    C_Output("All files created using the " BOLD("condump") " CCMD will be placed in "
         BOLD("%s" DIR_SEPARATOR_S DOOMRETRO_CONSOLEFOLDER DIR_SEPARATOR_S) ".", appdatafolder);
 
     free(appdatafolder);

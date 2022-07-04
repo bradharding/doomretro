@@ -815,7 +815,7 @@ void D_SetSaveGameFolder(bool output)
         int numsavegames = M_CountSaveGames();
 
         if (!numsavegames)
-            C_Output("All savegames will be put in " BOLD("%s") ".", savegamefolder);
+            C_Output("All savegames will be placed in " BOLD("%s") ".", savegamefolder);
         else if (numsavegames == 1)
             C_Output("There is 1 savegame in " BOLD("%s") ".", savegamefolder);
         else
@@ -875,7 +875,7 @@ void D_SetScreenshotsFolder(void)
 
     M_MakeDirectory(screenshotfolder);
 
-    C_Output("All screenshots taken will be put in " BOLD("%s") ".", screenshotfolder);
+    C_Output("All screenshots taken will be placed in " BOLD("%s") ".", screenshotfolder);
 }
 
 //
@@ -929,8 +929,6 @@ void D_SetGameDescription(void)
         M_StringCopy(gamedescription, s_CAPTION_BTSXE1, sizeof(gamedescription));
     else if (BTSXE2)
         M_StringCopy(gamedescription, s_CAPTION_BTSXE2, sizeof(gamedescription));
-    else if (BTSXE3)
-        M_StringCopy(gamedescription, s_CAPTION_BTSXE3, sizeof(gamedescription));
     else if (REKKRSL)
         M_StringCopy(gamedescription, s_CAPTION_REKKRSL, sizeof(gamedescription));
     else if (REKKR)
@@ -1000,8 +998,8 @@ void D_SetGameDescription(void)
             C_Output("Playing " ITALICS("%s: %s") " and " ITALICS("%s: %s."), s_CAPTION_DOOM2, s_CAPTION_HELLONEARTH,
                 s_CAPTION_DOOM2, s_CAPTION_NERVE);
     }
-    else if (modifiedgame && !sigil && !chex && !BTSX && !REKKR)
-        C_Output("Playing " ITALICS("%s") ".", gamedescription);
+    else if (modifiedgame && !sigil)
+        C_Output("Playing " ITALICS("%s."), gamedescription);
     else
     {
         if (bfgedition && !chex && !BTSX && !REKKR)
