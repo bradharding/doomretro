@@ -1116,7 +1116,8 @@ static void C_DrawOverlayText(byte *screen, int screenwidth, int x, int y,
 
             if (isdigit(letter) && monospaced)
             {
-                V_DrawOverlayTextPatch(screen, screenwidth, x + (letter == '1') - (letter == '4'), y, patch, width, color, tinttab);
+                V_DrawOverlayTextPatch(screen, screenwidth,
+                    x + (letter == '1' ? 1 : (letter == '4' ? -1 : 0)), y, patch, width, color, tinttab);
                 x += zerowidth;
             }
             else
@@ -1172,8 +1173,8 @@ static void C_DrawTimeStamp(int x, int y, int index)
         patch_t *patch = consolefont[ch - CONSOLEFONTSTART];
         int     width = SHORT(patch->width);
 
-        x -= (ch != ':' ? zerowidth : width);
-        V_DrawConsoleOutputTextPatch(screens[0], SCREENWIDTH, x + (ch == '1') - (ch == '4'), y, patch,
+        x -= (ch == ':' ? width : zerowidth);
+        V_DrawConsoleOutputTextPatch(screens[0], SCREENWIDTH, x + (ch == '1' ? 1 : (ch == '4' ? -1 : 0)), y, patch,
             width, consoletimestampcolor, NOBACKGROUNDCOLOR, false, tinttab33);
     }
 }

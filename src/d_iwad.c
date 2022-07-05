@@ -780,7 +780,7 @@ static char *SaveGameIWADName(void)
 //
 void D_SetSaveGameFolder(bool output)
 {
-    int p = M_CheckParmsWithArgs("-save", "-savedir", "", 1, 1);
+    const int   p = M_CheckParmsWithArgs("-save", "-savedir", "", 1, 1);
 
     if (p)
     {
@@ -825,7 +825,7 @@ void D_SetSaveGameFolder(bool output)
 
 void D_SetAutoLoadFolder(void)
 {
-    int p = M_CheckParmsWithArgs("-autoload", "-autoloaddir", "", 1, 1);
+    const int   p = M_CheckParmsWithArgs("-autoload", "-autoloaddir", "", 1, 1);
 
     if (p)
         M_StringCopy(autoloadfolder, myargv[p + 1], sizeof(autoloadfolder));
@@ -859,7 +859,7 @@ void D_SetAutoLoadFolder(void)
 
 void D_SetScreenshotsFolder(void)
 {
-    int p = M_CheckParmsWithArgs("-shot", "-shotdir", "", 1, 1);
+    const int   p = M_CheckParmsWithArgs("-shot", "-shotdir", "", 1, 1);
 
     if (p)
         M_StringCopy(screenshotfolder, myargv[p + 1], sizeof(screenshotfolder));
