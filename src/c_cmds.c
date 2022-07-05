@@ -7538,17 +7538,17 @@ static void teleport_cmd_func2(char *cmd, char *parms)
                 if (z == ONFLOORZ)
                 {
                     if (M_StringCompare(playername, playername_default))
-                        C_PlayerMessage("You were teleported to (%i,%i).", x >> FRACBITS, y >> FRACBITS);
+                        C_PlayerMessage("You teleported to (%i,%i).", x >> FRACBITS, y >> FRACBITS);
                     else
-                        C_PlayerMessage("%s was teleported to (%i,%i).", playername, x >> FRACBITS, y >> FRACBITS);
+                        C_PlayerMessage("%s teleported to (%i,%i).", playername, x >> FRACBITS, y >> FRACBITS);
                 }
                 else
                 {
                     if (M_StringCompare(playername, playername_default))
-                        C_PlayerMessage("You were teleported to (%i,%i,%i).",
+                        C_PlayerMessage("You teleported to (%i,%i,%i).",
                             x >> FRACBITS, y >> FRACBITS, z >> FRACBITS);
                     else
-                        C_PlayerMessage("%s was teleported to (%i,%i,%i).",
+                        C_PlayerMessage("%s teleported to (%i,%i,%i).",
                             playername, x >> FRACBITS, y >> FRACBITS, z >> FRACBITS);
                 }
 
