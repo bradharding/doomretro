@@ -189,13 +189,13 @@ static void R_InterpolateSector(sector_t *sector)
     if (sector->oldgametime == gametime - 1 && vid_capfps != TICRATE)
     {
         // Interpolate between current and last floor/ceiling position
-        if (sector->floorheight != sector->oldfloorheight)
+        if (sector->floordata && sector->floorheight != sector->oldfloorheight)
             sector->interpfloorheight = sector->oldfloorheight
                 + FixedMul(sector->floorheight - sector->oldfloorheight, fractionaltic);
         else
             sector->interpfloorheight = sector->floorheight;
 
-        if (sector->ceilingheight != sector->oldceilingheight)
+        if (sector->ceilingdata && sector->ceilingheight != sector->oldceilingheight)
             sector->interpceilingheight = sector->oldceilingheight
                 + FixedMul(sector->ceilingheight - sector->oldceilingheight, fractionaltic);
         else
