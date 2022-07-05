@@ -73,6 +73,7 @@ int             quickSaveSlot;
 
 // true = message to be printed
 bool            messagetoprint;
+
 // ...and here is the message string!
 static char     *messageString;
 

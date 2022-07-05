@@ -2,7 +2,7 @@
 
 #### DOOM Retro v4.6
 
-* *DOOM Retro* is now compiled using v17.2.5 of [*Microsoft Visual Studio Community 2022*](https://www.visualstudio.com/vs/).
+* *DOOM Retro* is now built using v17.2.5 of [*Microsoft Visual Studio Community 2022*](https://www.visualstudio.com/vs/).
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * *DOOM Retro* now runs again if unzipped into a folder that contains non-Latin characters in its path.
 * Several changes have been made to text that is output to the console.
@@ -21,7 +21,7 @@
 * A crash no longer occurs when:
   * Entering the `IDBEHOLD` cheat while the alternate widescreen HUD is displayed.
   * Entering the `map` CCMD in the console with an invalid parameter.
-* The `IDCHOPPERS` cheat now cancels properly when the player exits a map while it is enabled.
+* The `IDCHOPPERS` cheat is now canceled properly when the player exits a map.
 * The following changes have been made to the support of `DEHACKED` lumps:
   * The player’s super shotgun is now positioned correctly if the offsets of any of its frames are changed.
   * Using the `SHADOW` flag in `Bits` now always works as intended.
