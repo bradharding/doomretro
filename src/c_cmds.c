@@ -7535,12 +7535,22 @@ static void teleport_cmd_func2(char *cmd, char *parms)
                 stat_cheated = SafeAdd(stat_cheated, 1);
                 M_SaveCVARs();
 
-                if (M_StringCompare(playername, playername_default))
-                    C_PlayerMessage("You were teleported to (%i,%i,%i).",
-                        x >> FRACBITS, y >> FRACBITS, (z == ONFLOORZ ? 0 : z >> FRACBITS));
+                if (z == ONFLOORZ)
+                {
+                    if (M_StringCompare(playername, playername_default))
+                        C_PlayerMessage("You were teleported to (%i,%i).", x >> FRACBITS, y >> FRACBITS);
+                    else
+                        C_PlayerMessage("%s was teleported to (%i,%i).", playername, x >> FRACBITS, y >> FRACBITS);
+                }
                 else
-                    C_PlayerMessage("%s was teleported to (%i,%i,%i).",
-                        playername, x >> FRACBITS, y >> FRACBITS, (z == ONFLOORZ ? 0 : z >> FRACBITS));
+                {
+                    if (M_StringCompare(playername, playername_default))
+                        C_PlayerMessage("You were teleported to (%i,%i,%i).",
+                            x >> FRACBITS, y >> FRACBITS, (z == ONFLOORZ ? 0 : z >> FRACBITS));
+                    else
+                        C_PlayerMessage("%s was teleported to (%i,%i,%i).",
+                            playername, x >> FRACBITS, y >> FRACBITS, (z == ONFLOORZ ? 0 : z >> FRACBITS));
+                }
 
                 C_HideConsole();
             }
