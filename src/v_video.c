@@ -1857,6 +1857,8 @@ bool V_ScreenShot(void)
         M_StringCopy(mapname, (inhelpscreens ? "Help" : "Menu"), sizeof(mapname));
     else if (automapactive)
         M_StringCopy(mapname, "Automap", sizeof(mapname));
+    else if (paused)
+        M_StringCopy(mapname, "Paused", sizeof(mapname));
     else
         switch (gamestate)
         {
@@ -1869,7 +1871,7 @@ bool V_ScreenShot(void)
                 break;
 
             case GS_TITLESCREEN:
-                M_StringCopy(mapname, (splashscreen ? "Splash" : (titlesequence == 1 ? "Credits" : "Title")), sizeof(mapname));
+                M_StringCopy(mapname, (titlesequence == 1 ? "Credits" : "Title"), sizeof(mapname));
                 break;
 
             default:
