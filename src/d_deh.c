@@ -594,6 +594,7 @@ char    *s_CAPTION_BTSXE1 = "";
 char    *s_CAPTION_BTSXE2 = "";
 char    *s_CAPTION_REKKR = "";
 char    *s_CAPTION_REKKRSL = "";
+char    *s_CAPTION_AR = "";
 char    *s_CAPTION_ARRIVAL = "";
 char    *s_CAPTION_DBIMPACT = "";
 char    *s_CAPTION_DEATHLESS = "";
@@ -1179,6 +1180,7 @@ deh_strs deh_strlookup[] =
     { &s_CAPTION_BTSXE2,              "CAPTION_BTSXE2"              },
     { &s_CAPTION_REKKR,               "CAPTION_REKKR"               },
     { &s_CAPTION_REKKRSL,             "CAPTION_REKKRSL"             },
+    { &s_CAPTION_AR,                  "CAPTION_AR"                  },
     { &s_CAPTION_ARRIVAL,             "CAPTION_ARRIVAL"             },
     { &s_CAPTION_DBIMPACT,            "CAPTION_DBIMPACT"            },
     { &s_CAPTION_DEATHLESS,           "CAPTION_DEATHLESS"           },
@@ -2761,7 +2763,7 @@ static void deh_procFrame(DEHFILE *fpin, char *line)
         if (!*inbuffer)
             break;                                              // killough 11/98
 
-        if (!deh_GetData(inbuffer, key, &value, &strval))       // returns TRUE if ok
+        if (!deh_GetData(inbuffer, key, &value, &strval))       // returns true if ok
         {
             C_Warning(1, "Bad data pair in \"%s\".", inbuffer);
             continue;
@@ -2941,7 +2943,7 @@ static void deh_procPointer(DEHFILE *fpin, char *line)
         if (!*inbuffer)
             break;      // killough 11/98
 
-        if (!deh_GetData(inbuffer, key, &value, NULL))   // returns TRUE if ok
+        if (!deh_GetData(inbuffer, key, &value, NULL))   // returns true if ok
         {
             C_Warning(1, "Bad data pair in \"%s\".", inbuffer);
             continue;
@@ -3013,7 +3015,7 @@ static void deh_procSounds(DEHFILE *fpin, char *line)
         if (!*inbuffer)
             break;      // killough 11/98
 
-        if (!deh_GetData(inbuffer, key, &value, NULL))   // returns TRUE if ok
+        if (!deh_GetData(inbuffer, key, &value, NULL))   // returns true if ok
         {
             C_Warning(1, "Bad data pair in \"%s\"\n", inbuffer);
             continue;
@@ -3081,7 +3083,7 @@ static void deh_procAmmo(DEHFILE *fpin, char *line)
         if (!*inbuffer)
             break;                                          // killough 11/98
 
-        if (!deh_GetData(inbuffer, key, &value, &strval))   // returns TRUE if ok
+        if (!deh_GetData(inbuffer, key, &value, &strval))   // returns true if ok
         {
             C_Warning(1, "Bad data pair in \"%s\".", inbuffer);
             continue;
@@ -3359,7 +3361,7 @@ static void deh_procCheat(DEHFILE *fpin, char *line)
         if (!*inbuffer)
             break;              // killough 11/98
 
-        if (!deh_GetData(inbuffer, key, &value, &strval))       // returns TRUE if ok
+        if (!deh_GetData(inbuffer, key, &value, &strval))       // returns true if ok
             continue;
 
         // Otherwise we got a (perhaps valid) cheat name
@@ -3588,7 +3590,7 @@ static void deh_procMisc(DEHFILE *fpin, char *line)
         if (!*inbuffer)
             break;                                              // killough 11/98
 
-        if (!deh_GetData(inbuffer, key, &value, NULL))          // returns TRUE if ok
+        if (!deh_GetData(inbuffer, key, &value, NULL))          // returns true if ok
         {
             C_Warning(1, "Bad data pair in \"%s\".", inbuffer);
             continue;
@@ -3852,7 +3854,7 @@ static void deh_procStrings(DEHFILE *fpin, char *line)
             break;                      // killough 11/98
 
         if (!*holdstring)               // first one--get the key
-            if (!deh_GetData(inbuffer, key, &value, &strval))   // returns TRUE if ok
+            if (!deh_GetData(inbuffer, key, &value, &strval))   // returns true if ok
             {
                 C_Warning(1, "Bad data pair in \"%s\".", inbuffer);
                 continue;
@@ -3933,7 +3935,7 @@ static bool deh_procStringSub(char *key, char *lookfor, char *newstring)
             {
                 if (key)
                     C_Output("Assigned key %s to \"%s\"", key, newstring);
-                else
+                else if (lookfor)
                 {
                     C_Output("Assigned \"%.12s%s\" to \"%.12s%s\" at key %s", lookfor, (strlen(lookfor) > 12 ? "..." : ""),
                         newstring, (strlen(newstring) > 12 ? "..." : ""), deh_strlookup[i].lookup);
@@ -4001,7 +4003,7 @@ static void deh_procBexSprites(DEHFILE *fpin, char *line)
         if (!*inbuffer)
             break;      // killough 11/98
 
-        if (!deh_GetData(inbuffer, key, &value, &strval))    // returns TRUE if ok
+        if (!deh_GetData(inbuffer, key, &value, &strval))    // returns true if ok
         {
             C_Warning(1, "Bad data pair in \"%s\"", inbuffer);
             continue;
@@ -4070,7 +4072,7 @@ static void deh_procBexSounds(DEHFILE *fpin, char *line)
         if (!*inbuffer)
             break;      // killough 11/98
 
-        if (!deh_GetData(inbuffer, key, &value, &strval))   // returns TRUE if ok
+        if (!deh_GetData(inbuffer, key, &value, &strval))   // returns true if ok
         {
             C_Warning(1, "Bad data pair in \"%s\"\n", inbuffer);
             continue;
@@ -4134,7 +4136,7 @@ static void deh_procBexMusic(DEHFILE *fpin, char *line)
         if (!*inbuffer)
             break;      // killough 11/98
 
-        if (!deh_GetData(inbuffer, key, &value, &strval))   // returns TRUE if ok
+        if (!deh_GetData(inbuffer, key, &value, &strval))   // returns true if ok
         {
             C_Warning(1, "Bad data pair in \"%s\"", inbuffer);
             continue;

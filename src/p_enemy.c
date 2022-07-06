@@ -407,7 +407,7 @@ static bool P_SmartMove(mobj_t *actor)
 // If blocked by either a wall or an actor
 // returns FALSE
 // If move is either clear or blocked only by a door,
-// returns TRUE and sets...
+// returns true and sets...
 // If a door is in the way,
 // an OpenDoor call is made to start it opening.
 //

@@ -70,6 +70,7 @@ bool            doom4vanilla;
 bool            REKKR;
 bool            REKKRSA;
 bool            REKKRSL;
+bool            ar;
 bool            arrival;
 bool            dbimpact;
 bool            deathless;
