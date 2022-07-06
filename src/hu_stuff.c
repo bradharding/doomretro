@@ -1085,7 +1085,7 @@ void HU_DrawDisk(void)
 
 void HU_Drawer(void)
 {
-    if (menuactive || paused)
+    if (menuactive)
         return;
 
     if (*w_message.l.l)

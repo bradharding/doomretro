@@ -23,6 +23,7 @@
   * Entering the `map` CCMD in the console with an invalid parameter.
 * The `IDCHOPPERS` cheat is now canceled properly when the player exits a map.
 * The angles of thing triangles representing monsters in the automap when the `IDDT` cheat is used are now interpolated when the `vid_capfps` CVAR is a value other than `35`.
+* The status bar and widescreen HUD are now still displayed when *DOOM Retro* is paused by pressing the <kbd><b>PAUSE</b></kbd> key.
 * The following changes have been made to the support of `DEHACKED` lumps:
   * The player’s super shotgun is now positioned correctly if the offsets of any of its frames are changed.
   * Using the `SHADOW` flag in `Bits` now always works as intended.
