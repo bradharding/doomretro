@@ -1826,7 +1826,7 @@ static void AM_DrawThings(void)
                     const int   width = (BETWEEN(12 << FRACBITS, (spritewidth[sprite] + spriteheight[sprite]) / 2,
                                     96 << FRACBITS) >> FRACTOMAPBITS) / 2;
 
-                    if (consoleactive)
+                    if (consoleactive || paused)
                     {
                         angle = thing->angle;
                         point.x = thing->x >> FRACTOMAPBITS;
