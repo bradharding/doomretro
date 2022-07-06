@@ -1078,6 +1078,9 @@ static void ST_UpdateFaceWidget(void)
     int         painoffset;
     static int  faceindex;
 
+    if (paused)
+        return;
+
     // invulnerability
     if (((viewplayer->cheats & CF_GODMODE) || viewplayer->powers[pw_invulnerability]))
     {
