@@ -241,7 +241,7 @@ angle_t R_PointToAngleEx2(fixed_t x1, fixed_t y1, fixed_t x, fixed_t y)
 }
 
 // [AM] Interpolate between two angles.
-static angle_t R_InterpolateAngle(angle_t oangle, angle_t nangle, fixed_t scale)
+angle_t R_InterpolateAngle(angle_t oangle, angle_t nangle, fixed_t scale)
 {
     if (nangle == oangle)
         return nangle;
