@@ -245,7 +245,8 @@ angle_t R_InterpolateAngle(angle_t oangle, angle_t nangle, fixed_t scale)
 {
     if (nangle == oangle)
         return nangle;
-    else if (nangle > oangle)
+
+    if (nangle > oangle)
     {
         if (nangle - oangle < ANG270)
             return (oangle + (angle_t)((nangle - oangle) * FIXED2DOUBLE(scale)));
