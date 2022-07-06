@@ -5,10 +5,10 @@
 * *DOOM Retro* is now built using v17.2.5 of [*Microsoft Visual Studio Community 2022*](https://www.visualstudio.com/vs/).
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * *DOOM Retro* now runs again if unzipped into a folder that contains non-Latin characters in its path.
-* Several changes have been made to text that is output to the console.
+* Several changes have been made to the text that is output to the console.
 * The amount of blood splats rendered depends on their distance from the player again.
-* A message is now displayed with an accompanying sound effect whenever the player finds a secret. This feature can be toggled using the new `secretmessages` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
-* Secrets are no longer considered to be found if the player is using the `IDCLIP` or `IDSPISPOPD` cheats.
+* A message is now displayed, and with an accompanying sound effect, whenever the player finds a secret. This feature can be toggled using the new `secretmessages` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
+* Secrets are no longer considered as found if the player is using the `IDCLIP` or `IDSPISPOPD` cheats.
 * The following changes have been made to the help screen displayed when the <kbd><b>F1</b></kbd> key is pressed:
   * Subtle noise has been applied to the background.
   * `HELP`, `HELP1` and `HELP2` lumps in PWADs that are wider than 320 pixels are now displayed correctly.
