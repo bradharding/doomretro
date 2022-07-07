@@ -476,7 +476,7 @@ extern char         *s_CAPTION_BTSXE1;
 extern char         *s_CAPTION_BTSXE2;
 extern char         *s_CAPTION_REKKR;
 extern char         *s_CAPTION_REKKRSL;
-extern char         *s_CAPTION_AR;
+extern char         *s_CAPTION_ANOMALYREPORT;
 extern char         *s_CAPTION_ARRIVAL;
 extern char         *s_CAPTION_DBIMPACT;
 extern char         *s_CAPTION_DEATHLESS;

@@ -931,7 +931,7 @@ static void D_CheckSupportedPWAD(char *filename)
         || M_StringCompare(leaf, "REKKRSL.iwad"))
         REKKR = REKKRSL = true;
     else if (M_StringCompare(leaf, "ar.wad"))
-        ar = true;
+        anomalyreport = true;
     else if (M_StringCompare(leaf, "arrival.wad"))
         arrival = true;
     else if (M_StringCompare(leaf, "dbimpact.wad"))

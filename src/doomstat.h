@@ -115,7 +115,7 @@ extern bool             doom4vanilla;
 extern bool             REKKR;
 extern bool             REKKRSA;
 extern bool             REKKRSL;
-extern bool             ar;
+extern bool             anomalyreport;
 extern bool             arrival;
 extern bool             dbimpact;
 extern bool             deathless;

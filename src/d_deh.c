@@ -594,7 +594,7 @@ char    *s_CAPTION_BTSXE1 = "";
 char    *s_CAPTION_BTSXE2 = "";
 char    *s_CAPTION_REKKR = "";
 char    *s_CAPTION_REKKRSL = "";
-char    *s_CAPTION_AR = "";
+char    *s_CAPTION_ANOMALYREPORT = "";
 char    *s_CAPTION_ARRIVAL = "";
 char    *s_CAPTION_DBIMPACT = "";
 char    *s_CAPTION_DEATHLESS = "";
@@ -1180,7 +1180,7 @@ deh_strs deh_strlookup[] =
     { &s_CAPTION_BTSXE2,              "CAPTION_BTSXE2"              },
     { &s_CAPTION_REKKR,               "CAPTION_REKKR"               },
     { &s_CAPTION_REKKRSL,             "CAPTION_REKKRSL"             },
-    { &s_CAPTION_AR,                  "CAPTION_AR"                  },
+    { &s_CAPTION_ANOMALYREPORT,       "CAPTION_ANOMALYREPORT"       },
     { &s_CAPTION_ARRIVAL,             "CAPTION_ARRIVAL"             },
     { &s_CAPTION_DBIMPACT,            "CAPTION_DBIMPACT"            },
     { &s_CAPTION_DEATHLESS,           "CAPTION_DEATHLESS"           },

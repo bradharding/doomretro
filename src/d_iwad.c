@@ -933,8 +933,8 @@ void D_SetGameDescription(void)
         M_StringCopy(gamedescription, s_CAPTION_REKKRSL, sizeof(gamedescription));
     else if (REKKR)
         M_StringCopy(gamedescription, s_CAPTION_REKKR, sizeof(gamedescription));
-    else if (ar)
-        M_StringCopy(gamedescription, s_CAPTION_AR, sizeof(gamedescription));
+    else if (anomalyreport)
+        M_StringCopy(gamedescription, s_CAPTION_ANOMALYREPORT, sizeof(gamedescription));
     else if (arrival)
         M_StringCopy(gamedescription, s_CAPTION_ARRIVAL, sizeof(gamedescription));
     else if (dbimpact)
