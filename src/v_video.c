@@ -227,6 +227,41 @@ void V_DrawPatch(int x, int y, int screen, patch_t *patch)
     }
 }
 
+void V_DrawFacePatch(int x, int y, int screen, lighttable_t *colormap, patch_t *patch)
+{
+    byte        *desttop;
+    const int   width = SHORT(patch->width) << FRACBITS;
+
+    y -= SHORT(patch->topoffset);
+    x -= SHORT(patch->leftoffset);
+    x += WIDESCREENDELTA;   // [crispy] horizontal widescreen offset
+
+    desttop = &screens[screen][((y * DY) >> FRACBITS) * SCREENWIDTH + ((x * DX) >> FRACBITS)];
+
+    for (int col = 0; col < width; col += DXI, desttop++)
+    {
+        column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnoffset[col >> FRACBITS]));
+
+        // step through the posts in a column
+        while (column->topdelta != 0xFF)
+        {
+            byte    *source = (byte *)column + 3;
+            byte    *dest = &desttop[((column->topdelta * DY) >> FRACBITS) * SCREENWIDTH];
+            int     count = (column->length * DY) >> FRACBITS;
+            int     srccol = 0;
+
+            while (count--)
+            {
+                *dest = colormap[source[srccol >> FRACBITS]];
+                dest += SCREENWIDTH;
+                srccol += DYI;
+            }
+
+            column = (column_t *)((byte *)column + column->length + 4);
+        }
+    }
+}
+
 void V_DrawWidePatch(int x, int y, int screen, patch_t *patch)
 {
     byte    *desttop;

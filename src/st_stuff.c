@@ -1349,10 +1349,16 @@ static void ST_DrawWidgets(bool refresh)
         STlib_UpdateArmsIcon(&w_arms[5], refresh, 5);
     }
 
-    if (facebackcolor != facebackcolor_default)
-        V_FillRect(0, ST_FACEBACKX, ST_FACEBACKY, ST_FACEBACKWIDTH, ST_FACEBACKHEIGHT, nearestcolors[facebackcolor], false);
+    {
+        sector_t        *sec = viewplayer->mo->subsector->sector;
+        int             lightnum = ((sec->floorlightsec ? sec->floorlightsec : sec)->lightlevel >> OLDLIGHTSEGSHIFT) + extralight;
+        lighttable_t    *colormap = psprscalelight[MIN(lightnum, OLDLIGHTLEVELS - 1)][MIN(lightnum + 16, OLDMAXLIGHTSCALE - 1)];
 
-    STlib_UpdateMultIcon(&w_faces, refresh);
+        V_FillRect(0, ST_FACEBACKX, ST_FACEBACKY, ST_FACEBACKWIDTH, ST_FACEBACKHEIGHT, colormap[nearestcolors[facebackcolor]], false);
+        V_DrawFacePatch(w_faces.x, w_faces.y, 0, colormap, w_faces.patch[*w_faces.inum]);
+    }
+
+    //STlib_UpdateMultIcon(&w_faces, refresh);
 
     STlib_UpdateMultIcon(&w_keyboxes[0], refresh);
     STlib_UpdateMultIcon(&w_keyboxes[1], refresh);
