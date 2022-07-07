@@ -88,7 +88,6 @@ void V_FillTransRect(int screen, int x, int y, int width, int height, int color,
 void V_FillSoftTransRect(int screen, int x, int y, int width, int height, int color, bool right);
 
 void V_DrawPatch(int x, int y, int screen, patch_t *patch);
-void V_DrawFacePatch(int x, int y, int screen, lighttable_t *colormap, patch_t *patch);
 void V_DrawWidePatch(int x, int y, int screen, patch_t *patch);
 void V_DrawBigPatch(int x, int y, patch_t *patch);
 void V_DrawBigWidePatch(int x, int y, patch_t *patch);
