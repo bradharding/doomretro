@@ -84,7 +84,7 @@ static bool         updateswirl;
 //
 // R_MapPlane
 //
-static void R_MapPlane(int y, int x1)
+static void R_MapPlane(const int y, const int x1)
 {
     static fixed_t  cacheddistance[MAXHEIGHT];
     static fixed_t  cachedviewcosdistance[MAXHEIGHT];
@@ -97,7 +97,7 @@ static void R_MapPlane(int y, int x1)
 
     if (planeheight != cachedheight[y])
     {
-        int dy = ABS(centery - y);
+        const int   dy = ABS(centery - y);
 
         if (!dy)
             return;
@@ -174,7 +174,7 @@ void R_ClearPlanes(void)
 }
 
 // New function, by Lee Killough
-static visplane_t *new_visplane(unsigned int hash)
+static visplane_t *new_visplane(const unsigned int hash)
 {
     visplane_t  *check = freetail;
 
@@ -192,12 +192,13 @@ static visplane_t *new_visplane(unsigned int hash)
 //
 // R_FindPlane
 //
-visplane_t *R_FindPlane(fixed_t height, int picnum, int lightlevel, fixed_t x, fixed_t y)
+visplane_t *R_FindPlane(const fixed_t height, const int picnum,
+    const int lightlevel, const fixed_t x, const fixed_t y)
 {
-    visplane_t      *check;
+    visplane_t          *check;
 
     // New visplane algorithm uses hash table -- killough
-    unsigned int    hash = visplane_hash(picnum, lightlevel, height);
+    const unsigned int  hash = visplane_hash(picnum, lightlevel, height);
 
     for (check = visplanes[hash]; check; check = check->next)
         if (height == check->height && picnum == check->picnum && lightlevel == check->lightlevel
@@ -223,7 +224,7 @@ visplane_t *R_FindPlane(fixed_t height, int picnum, int lightlevel, fixed_t x, f
 //
 // R_DupPlane
 //
-visplane_t *R_DupPlane(const visplane_t *pl, int start, int stop)
+visplane_t *R_DupPlane(const visplane_t *pl, const int start, const int stop)
 {
     visplane_t  *new_pl = new_visplane(visplane_hash(pl->picnum, pl->lightlevel, pl->height));
 
@@ -244,7 +245,7 @@ visplane_t *R_DupPlane(const visplane_t *pl, int start, int stop)
 //
 // R_CheckPlane
 //
-visplane_t *R_CheckPlane(visplane_t *pl, int start, int stop)
+visplane_t *R_CheckPlane(visplane_t *pl, const int start, const int stop)
 {
     int intrl;
     int intrh;
@@ -296,7 +297,7 @@ static void R_MakeSpans(visplane_t *pl)
     // spanstart holds the start of a plane span
     // initialized to 0 at start
     static int  spanstart[MAXHEIGHT];
-    int         stop = pl->right + 1;
+    const int   stop = pl->right + 1;
 
     if (terraintypes[pl->picnum] >= LIQUID && r_liquid_current)
     {
@@ -376,7 +377,7 @@ void R_InitDistortedFlats(void)
 // Generates a distorted flat from a normal one using a two-dimensional sine wave pattern.
 // [crispy] Optimized to precalculate offsets
 //
-static byte *R_DistortedFlat(int flatnum)
+static byte *R_DistortedFlat(const int flatnum)
 {
     static byte distortedflat[64 * 64];
     static int  prevflatnum = -1;

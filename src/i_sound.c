@@ -194,8 +194,8 @@ static allocated_sound_t *PitchShift(allocated_sound_t *insnd, int pitch)
     int16_t             *dstbuf;
     const uint32_t      srclen = insnd->chunk.alen;
 
-    // determine ratio pitch:NORM_PITCH and apply to srclen, then invert.
-    // This is an approximation of vanilla behavior based on measurements
+    // Determine ratio pitch:NORM_PITCH and apply to srclen, then invert.
+    // This is an approximation of vanilla behavior based on measurements.
     uint32_t            dstlen = (uint32_t)((1 + (1 - (float)pitch / NORM_PITCH)) * srclen);
 
     // ensure that the new buffer is an even length
@@ -209,7 +209,7 @@ static allocated_sound_t *PitchShift(allocated_sound_t *insnd, int pitch)
     srcbuf = (int16_t *)insnd->chunk.abuf;
     dstbuf = (int16_t *)outsnd->chunk.abuf;
 
-    // loop over output buffer. find corresponding input cell, copy over
+    // Loop over output buffer. Find corresponding input cell, copy over.
     for (int16_t *inp, *outp = dstbuf; outp < dstbuf + dstlen / 2; outp++)
     {
         inp = &srcbuf[(int)((float)(outp - dstbuf) / dstlen * srclen)];
@@ -233,7 +233,7 @@ static void ReleaseSoundOnChannel(int channel)
     channels_playing[channel] = NULL;
     UnlockAllocatedSound(snd);
 
-    // if the sound is a pitch-shift and it's not in use, immediately free it
+    // If the sound is a pitch-shift and it's not in use, immediately free it.
     if (snd->pitch != NORM_PITCH && snd->use_count <= 0)
         FreeAllocatedSound(snd);
 }
@@ -273,7 +273,7 @@ static void ExpandSoundData(sfxinfo_t *sfxinfo, byte *data, int samplerate, int 
 // Returns true if successful
 bool CacheSFX(sfxinfo_t *sfxinfo)
 {
-    // need to load the sound
+    // Need to load the sound
     int     lumpnum = sfxinfo->lumpnum;
     byte    *data = W_CacheLumpNum(lumpnum);
     int     lumplen = W_LumpLength(lumpnum);
@@ -337,12 +337,12 @@ int I_StartSound(sfxinfo_t *sfxinfo, int channel, int vol, int sep, int pitch)
 {
     allocated_sound_t   *snd;
 
-    // Release a sound effect if there is already one playing on this channel
+    // Release a sound effect if there is already one playing on this channel.
     ReleaseSoundOnChannel(channel);
 
     if (!(snd = GetAllocatedSoundBySfxInfoAndPitch(sfxinfo, pitch)))
     {
-        // fetch the base sound effect, un-pitch-shifted
+        // Fetch the base sound effect, un-pitch-shifted.
         if (!(snd = GetAllocatedSoundBySfxInfoAndPitch(sfxinfo, NORM_PITCH)))
             return -1;
 
@@ -361,12 +361,12 @@ int I_StartSound(sfxinfo_t *sfxinfo, int channel, int vol, int sep, int pitch)
     else
         LockAllocatedSound(snd);
 
-    // play sound
+    // Play sound
     Mix_PlayChannelTimed(channel, &snd->chunk, 0, -1);
 
     channels_playing[channel] = snd;
 
-    // set separation, etc.
+    // Set separation, etc.
     I_UpdateSoundParms(channel, vol, sep);
 
     return channel;
@@ -374,13 +374,13 @@ int I_StartSound(sfxinfo_t *sfxinfo, int channel, int vol, int sep, int pitch)
 
 void I_StopSound(int channel)
 {
-    // Sound data is no longer needed; release the sound data being used for this channel
+    // Sound data is no longer needed; release the sound data being used for this channel.
     ReleaseSoundOnChannel(channel);
 }
 
 void I_FadeOutSound(int channel)
 {
-    allocated_sound_t *snd = channels_playing[channel];
+    allocated_sound_t   *snd = channels_playing[channel];
 
     if (!snd)
         return;
@@ -390,7 +390,7 @@ void I_FadeOutSound(int channel)
     channels_playing[channel] = NULL;
     UnlockAllocatedSound(snd);
 
-    // if the sound is a pitch-shift and it's not in use, immediately free it
+    // If the sound is a pitch-shift and it's not in use, immediately free it.
     if (snd->pitch != NORM_PITCH && snd->use_count <= 0)
         FreeAllocatedSound(snd);
 }
