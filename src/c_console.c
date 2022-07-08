@@ -66,7 +66,7 @@
 
 console_t               *console = NULL;
 
-bool                    consoleactive;
+bool                    consoleactive = false;
 int                     consoleheight = 0;
 int                     consoledirection = -1;
 static int              consoleanim;
