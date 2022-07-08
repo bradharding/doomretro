@@ -540,7 +540,7 @@ static void HU_DrawHUD(void)
     const int   currenttime = I_GetTimeMS();
     int         keypic_x = HUD_KEYS_X;
     static int  keywait;
-    static bool  showkey;
+    static bool showkey;
 
     if (patch)
         hudfunc(HUD_HEALTH_X - SHORT(patch->width) / 2 - 1, HUD_HEALTH_Y - SHORT(patch->height) - 2, patch, tinttab75);
