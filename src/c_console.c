@@ -154,10 +154,6 @@ bool                    scrollbardrawn;
 
 static void (*consoletextfunc)(byte *, int, int, int, patch_t *, int, int, int, bool, byte *);
 
-extern int              framespersecond;
-extern int              refreshrate;
-extern bool             quitcmd;
-
 void C_Input(const char *string, ...)
 {
     va_list argptr;

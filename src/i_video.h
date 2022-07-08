@@ -117,3 +117,6 @@ extern byte         *mapscreen;
 extern byte         *PLAYPAL;
 
 extern bool         altdown;
+
+extern int          framespersecond;
+extern int          refreshrate;

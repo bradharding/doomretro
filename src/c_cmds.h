@@ -134,6 +134,7 @@ extern bool             vanilla;
 extern bool             togglingvanilla;
 extern bool             massacre;
 extern bool             nobindoutput;
+extern bool             quitcmd;
 
 void alias_cmd_func2(char *cmd, char *parms);
 void bind_cmd_func2(char *cmd, char *parms);

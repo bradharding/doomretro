@@ -1,4 +1,4 @@
-﻿; CCMDs and CVARs
+﻿; CVARs
 alwaysrun off
 am_allmapcdwallcolor 99
 am_allmapfdwallcolor 99
@@ -35,7 +35,6 @@ crosshair none
 facebackcolor 5
 fade off
 flashkeys off
-freeze off
 groupmessages off
 infighting off
 infiniteheight on
@@ -56,8 +55,6 @@ messages on
 mouselook off
 movebob 100%
 negativehealth off
-notarget off
-pistolstart off
 playername "you"
 r_althud off
 r_blood red
@@ -105,8 +102,6 @@ r_sprites_translucency off
 r_supersampling off
 r_textures on
 r_textures_translucency off
-regenhealth off
-respawnitems off
 s_channels 8
 s_lowermenumusic off
 s_randommusic off
@@ -114,7 +109,6 @@ s_randompitch off
 s_stereo on
 secretmessages off
 stillbob 0%
-timer 0
 tossdrop off
 turbo 100%
 vid_capfps 35
@@ -125,6 +119,14 @@ vid_widescreen off
 weaponbob 100%
 weaponbounce off
 weaponrecoil off
+
+; CCMDs
+freeze off
+notarget off
+pistolstart off
+regenhealth off
+respawnitems off
+timer 0
 
 ; bound controls
 bind tab +automap
