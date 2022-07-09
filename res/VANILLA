@@ -40,8 +40,8 @@ infighting off
 infiniteheight on
 joy_analog off
 joy_invertyaxis off
-joy_rumble_barrels 0%
 joy_rumble_damage 0%
+joy_rumble_explosion 0%
 joy_rumble_weapons 0%
 joy_sensitivity_horizontal 16
 joy_swapthumbsticks off

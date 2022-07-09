@@ -160,9 +160,9 @@ bool P_SeekerMissile(mobj_t *actor, mobj_t **seekTarget, angle_t thresh, angle_t
 //
 // P_ENEMY.C
 //
-#define BARRELMS    1500
+#define EXPLODEMS    1500
 
-extern int  barrelms;
+extern int  explodems;
 
 void P_NoiseAlert(mobj_t *target);
 bool P_CheckMeleeRange(mobj_t *actor);

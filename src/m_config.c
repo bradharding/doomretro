@@ -104,8 +104,8 @@ bool        joy_analog = joy_analog_default;
 float       joy_deadzone_left = joy_deadzone_left_default;
 float       joy_deadzone_right = joy_deadzone_right_default;
 bool        joy_invertyaxis = joy_invertyaxis_default;
-int         joy_rumble_barrels = joy_rumble_barrels_default;
 int         joy_rumble_damage = joy_rumble_damage_default;
+int         joy_rumble_explosion = joy_rumble_explosion_default;
 int         joy_rumble_weapons = joy_rumble_weapons_default;
 int         joy_sensitivity_horizontal = joy_sensitivity_horizontal_default;
 int         joy_sensitivity_vertical = joy_sensitivity_vertical_default;
@@ -334,8 +334,8 @@ static default_t cvars[] =
     CONFIG_VARIABLE_FLOAT_PERCENT(joy_deadzone_left,                gp_deadzone_left,                      joy_deadzone_left,                   NOVALUEALIAS          ),
     CONFIG_VARIABLE_FLOAT_PERCENT(joy_deadzone_right,               gp_deadzone_right,                     joy_deadzone_right,                  NOVALUEALIAS          ),
     CONFIG_VARIABLE_BOOL         (joy_invertyaxis,                  gp_invertyaxis,                        joy_invertyaxis,                     BOOLVALUEALIAS        ),
-    CONFIG_VARIABLE_INT_PERCENT  (joy_rumble_barrels,               gp_vibrate_barrels,                    joy_rumble_barrels,                  NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT_PERCENT  (joy_rumble_damage,                gp_vibrate_damage,                     joy_rumble_damage,                   NOVALUEALIAS          ),
+    CONFIG_VARIABLE_INT_PERCENT  (joy_rumble_explosion,             joy_rumble_barrels,                    joy_rumble_explosion,                NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT_PERCENT  (joy_rumble_weapons,               gp_vibrate_weapons,                    joy_rumble_weapons,                  NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT          (joy_sensitivity_horizontal,       gp_sensitivity_horizontal,             joy_sensitivity_horizontal,          NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT          (joy_sensitivity_vertical,         gp_sensitivity_vertical,               joy_sensitivity_vertical,            NOVALUEALIAS          ),
@@ -982,9 +982,9 @@ static void M_CheckCVARs(bool ispackageconfig)
     if (joy_invertyaxis != false && joy_invertyaxis != true)
         joy_invertyaxis = joy_invertyaxis_default;
 
-    joy_rumble_barrels = BETWEEN(joy_rumble_barrels_min, joy_rumble_barrels, joy_rumble_barrels_max);
-
     joy_rumble_damage = BETWEEN(joy_rumble_damage_min, joy_rumble_damage, joy_rumble_damage_max);
+
+    joy_rumble_explosion = BETWEEN(joy_rumble_explosion_min, joy_rumble_explosion, joy_rumble_explosion_max);
 
     joy_rumble_weapons = BETWEEN(joy_rumble_weapons_min, joy_rumble_damage, joy_rumble_weapons_max);
 

@@ -52,10 +52,10 @@
 #include "p_tick.h"
 #include "s_sound.h"
 
-#define DISTFRIEND  (128 * FRACUNIT)    // distance friends tend to move towards players
-#define BARRELRANGE (512 * FRACUNIT)
+#define DISTFRIEND      (128 * FRACUNIT)    // distance friends tend to move towards players
+#define EXPLODERANGE    (512 * FRACUNIT)
 
-int barrelms = 0;
+int explodems = 0;
 
 void A_Fall(mobj_t *actor, player_t *player, pspdef_t *psp);
 
@@ -812,16 +812,16 @@ static void P_ShakeOnExplode(mobj_t *actor)
 {
     if (r_shake_explosion)
     {
-        mobj_t *mo = viewplayer->mo;
+        mobj_t  *mo = viewplayer->mo;
 
-        if (mo->z <= mo->floorz && P_ApproxDistance(actor->x - mo->x, actor->y - mo->y) < BARRELRANGE)
+        if (mo->z <= mo->floorz && P_ApproxDistance(actor->x - mo->x, actor->y - mo->y) < EXPLODERANGE)
         {
-            barrelms = I_GetTimeMS() + BARRELMS;
+            explodems = I_GetTimeMS() + EXPLODEMS;
 
-            if (joy_rumble_barrels)
+            if (joy_rumble_explosion)
             {
-                I_GameControllerRumble(20000 * joy_rumble_barrels / 100);
-                barrelrumbletics = TICRATE;
+                I_GameControllerRumble(20000 * joy_rumble_explosion / 100);
+                exploderumbletics = TICRATE;
             }
         }
     }

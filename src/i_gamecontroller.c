@@ -55,8 +55,8 @@ float                       gamecontrollerverticalsensitivity;
 short                       gamecontrollerleftdeadzone;
 short                       gamecontrollerrightdeadzone;
 
-int                         barrelrumbletics = 0;
 int                         damagerumbletics = 0;
+int                         exploderumbletics = 0;
 int                         weaponrumbletics = 0;
 int                         idlechainsawrumblestrength;
 int                         restoredrumblestrength;
@@ -100,7 +100,7 @@ void I_InitGameController(void)
 
             if (SDL_GameControllerHasRumble(gamecontroller))
                 gamecontrollerhasrumble = true;
-            else if (!repeated && (joy_rumble_barrels || joy_rumble_damage || joy_rumble_weapons))
+            else if (!repeated && (joy_rumble_damage || joy_rumble_explosion || joy_rumble_weapons))
                 C_Warning(1, "This controller doesn't support rumble.");
 
             I_SetGameControllerLeftDeadZone();
@@ -146,9 +146,9 @@ void I_GameControllerRumble(int strength)
 void I_UpdateGameControllerRumble(void)
 {
     if (gamecontrollerhasrumble
-        && ((weaponrumbletics && !--weaponrumbletics && !damagerumbletics && !barrelrumbletics)
-            || (damagerumbletics && !--damagerumbletics && !barrelrumbletics)
-            || (barrelrumbletics && !--barrelrumbletics))
+        && ((weaponrumbletics && !--weaponrumbletics && !damagerumbletics && !exploderumbletics)
+            || (damagerumbletics && !--damagerumbletics && !exploderumbletics)
+            || (exploderumbletics && !--exploderumbletics))
         && lasteventtype == ev_controller)
     {
         currentstrength = idlechainsawrumblestrength;

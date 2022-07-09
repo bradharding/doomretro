@@ -1125,7 +1125,7 @@ void G_PlayerReborn(void)
     G_SetInitialWeapon();
 
     infight = false;
-    barrelms = 0;
+    explodems = 0;
 }
 
 //
