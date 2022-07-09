@@ -1907,7 +1907,9 @@ void A_Fall(mobj_t *actor, player_t *player, pspdef_t *psp)
 void A_Explode(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
     P_RadiusAttack(actor, actor->target, 128, 128, true);
-    P_ShakeOnExplode(actor);
+
+    if (actor->type != MT_ROCKET)
+        P_ShakeOnExplode(actor);
 }
 
 //
