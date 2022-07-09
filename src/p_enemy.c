@@ -810,7 +810,7 @@ static bool P_LookForTargets(mobj_t *actor, int allaround)
 
 static void P_ShakeOnExplode(mobj_t *actor)
 {
-    if (r_shake_explosion)
+    if (r_shake_barrels)
     {
         mobj_t  *mo = viewplayer->mo;
 
@@ -818,9 +818,9 @@ static void P_ShakeOnExplode(mobj_t *actor)
         {
             explodems = I_GetTimeMS() + EXPLODEMS;
 
-            if (joy_rumble_explosion)
+            if (joy_rumble_barrels)
             {
-                I_GameControllerRumble(20000 * joy_rumble_explosion / 100);
+                I_GameControllerRumble(20000 * joy_rumble_barrels / 100);
                 exploderumbletics = TICRATE;
             }
         }

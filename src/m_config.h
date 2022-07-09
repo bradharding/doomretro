@@ -96,9 +96,9 @@ extern bool     joy_analog;
 extern float    joy_deadzone_left;
 extern float    joy_deadzone_right;
 extern bool     joy_invertyaxis;
-extern int      joy_rumble_explosion;
+extern int      joy_rumble_barrels;
 extern int      joy_rumble_damage;
-extern int      joy_rumble_weapon;
+extern int      joy_rumble_weapons;
 extern int      joy_sensitivity_horizontal;
 extern int      joy_sensitivity_vertical;
 extern bool     joy_swapthumbsticks;
@@ -158,8 +158,8 @@ extern bool     r_rockettrails;
 extern int      r_screensize;
 extern bool     r_shadows;
 extern bool     r_shadows_translucency;
+extern bool     r_shake_barrels;
 extern int      r_shake_damage;
-extern bool     r_shake_explosion;
 extern int      r_skycolor;
 extern bool     r_sprites_translucency;
 extern bool     r_supersampling;
@@ -495,13 +495,13 @@ enum
 #define joy_rumble_damage_default          100
 #define joy_rumble_damage_max              200
 
-#define joy_rumble_explosion_min           0
-#define joy_rumble_explosion_default       100
-#define joy_rumble_explosion_max           200
+#define joy_rumble_barrels_min             0
+#define joy_rumble_barrels_default         100
+#define joy_rumble_barrels_max             200
 
-#define joy_rumble_weapon_min              0
-#define joy_rumble_weapon_default          100
-#define joy_rumble_weapon_max              200
+#define joy_rumble_weapons_min              0
+#define joy_rumble_weapons_default          100
+#define joy_rumble_weapons_max              200
 
 #define joy_sensitivity_horizontal_min     0
 #define joy_sensitivity_horizontal_default 64
@@ -649,11 +649,11 @@ enum
 
 #define r_shadows_translucency_default     true
 
+#define r_shake_barrels_default            true
+
 #define r_shake_damage_min                 0
 #define r_shake_damage_default             50
 #define r_shake_damage_max                 100
-
-#define r_shake_explosion_default          true
 
 #define r_skycolor_none                    1
 #define r_skycolor_min                     0

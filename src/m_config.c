@@ -104,9 +104,9 @@ bool        joy_analog = joy_analog_default;
 float       joy_deadzone_left = joy_deadzone_left_default;
 float       joy_deadzone_right = joy_deadzone_right_default;
 bool        joy_invertyaxis = joy_invertyaxis_default;
+int         joy_rumble_barrels = joy_rumble_barrels_default;
 int         joy_rumble_damage = joy_rumble_damage_default;
-int         joy_rumble_explosion = joy_rumble_explosion_default;
-int         joy_rumble_weapon = joy_rumble_weapon_default;
+int         joy_rumble_weapons = joy_rumble_weapons_default;
 int         joy_sensitivity_horizontal = joy_sensitivity_horizontal_default;
 int         joy_sensitivity_vertical = joy_sensitivity_vertical_default;
 bool        joy_swapthumbsticks = joy_swapthumbsticks_default;
@@ -166,8 +166,8 @@ bool        r_rockettrails = r_rockettrails_default;
 int         r_screensize = r_screensize_default;
 bool        r_shadows = r_shadows_default;
 bool        r_shadows_translucency = r_shadows_translucency_default;
+bool        r_shake_barrels = r_shake_barrels_default;
 int         r_shake_damage = r_shake_damage_default;
-bool        r_shake_explosion = r_shake_explosion_default;
 int         r_skycolor = r_skycolor_default;
 bool        r_sprites_translucency = r_sprites_translucency_default;
 bool        r_supersampling = r_supersampling_default;
@@ -334,9 +334,9 @@ static default_t cvars[] =
     CONFIG_VARIABLE_FLOAT_PERCENT(joy_deadzone_left,                gp_deadzone_left,                      joy_deadzone_left,                   NOVALUEALIAS          ),
     CONFIG_VARIABLE_FLOAT_PERCENT(joy_deadzone_right,               gp_deadzone_right,                     joy_deadzone_right,                  NOVALUEALIAS          ),
     CONFIG_VARIABLE_BOOL         (joy_invertyaxis,                  gp_invertyaxis,                        joy_invertyaxis,                     BOOLVALUEALIAS        ),
+    CONFIG_VARIABLE_INT_PERCENT  (joy_rumble_barrels,               gp_vibrate_barrels,                    joy_rumble_barrels,                  NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT_PERCENT  (joy_rumble_damage,                gp_vibrate_damage,                     joy_rumble_damage,                   NOVALUEALIAS          ),
-    CONFIG_VARIABLE_INT_PERCENT  (joy_rumble_explosion,             joy_rumble_barrels,                    joy_rumble_explosion,                NOVALUEALIAS          ),
-    CONFIG_VARIABLE_INT_PERCENT  (joy_rumble_weapon,                joy_rumble_weapons,                    joy_rumble_weapon,                   NOVALUEALIAS          ),
+    CONFIG_VARIABLE_INT_PERCENT  (joy_rumble_weapons,               gp_vibrate_weaponss,                   joy_rumble_weapons,                  NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT          (joy_sensitivity_horizontal,       gp_sensitivity_horizontal,             joy_sensitivity_horizontal,          NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT          (joy_sensitivity_vertical,         gp_sensitivity_vertical,               joy_sensitivity_vertical,            NOVALUEALIAS          ),
     CONFIG_VARIABLE_BOOL         (joy_swapthumbsticks,              gp_swapthumbsticks,                    joy_swapthumbsticks,                 BOOLVALUEALIAS        ),
@@ -395,8 +395,8 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT          (r_screensize,                     r_screensize,                          r_screensize,                        NOVALUEALIAS          ),
     CONFIG_VARIABLE_BOOL         (r_shadows,                        r_shadows,                             r_shadows,                           BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_BOOL         (r_shadows_translucency,           r_shadows_translucency,                r_shadows_translucency,              BOOLVALUEALIAS        ),
+    CONFIG_VARIABLE_BOOL         (r_shake_barrels,                  r_shake_barrels,                       r_shake_barrels,                     BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT_PERCENT  (r_shake_damage,                   r_shake_damage,                        r_shake_damage,                      NOVALUEALIAS          ),
-    CONFIG_VARIABLE_BOOL         (r_shake_explosion,                r_shake_barrels,                       r_shake_explosion,                   BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT          (r_skycolor,                       r_skycolour,                           r_skycolor,                          SKYCOLORVALUEALIAS    ),
     CONFIG_VARIABLE_BOOL         (r_sprites_translucency,           r_translucency,                        r_sprites_translucency,              BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_BOOL         (r_supersampling,                  r_supersampling,                       r_supersampling,                     BOOLVALUEALIAS        ),
@@ -982,11 +982,11 @@ static void M_CheckCVARs(bool ispackageconfig)
     if (joy_invertyaxis != false && joy_invertyaxis != true)
         joy_invertyaxis = joy_invertyaxis_default;
 
+    joy_rumble_barrels = BETWEEN(joy_rumble_barrels_min, joy_rumble_barrels, joy_rumble_barrels_max);
+
     joy_rumble_damage = BETWEEN(joy_rumble_damage_min, joy_rumble_damage, joy_rumble_damage_max);
 
-    joy_rumble_explosion = BETWEEN(joy_rumble_explosion_min, joy_rumble_explosion, joy_rumble_explosion_max);
-
-    joy_rumble_weapon = BETWEEN(joy_rumble_weapon_min, joy_rumble_damage, joy_rumble_weapon_max);
+    joy_rumble_weapons = BETWEEN(joy_rumble_weapons_min, joy_rumble_damage, joy_rumble_weapons_max);
 
     joy_sensitivity_horizontal = BETWEEN(joy_sensitivity_horizontal_min, joy_sensitivity_horizontal, joy_sensitivity_horizontal_max);
     I_SetGameControllerHorizontalSensitivity();
@@ -1176,10 +1176,10 @@ static void M_CheckCVARs(bool ispackageconfig)
     if (r_shadows_translucency != false && r_shadows_translucency != true)
         r_shadows_translucency = r_shadows_translucency_default;
 
-    r_shake_damage = BETWEEN(r_shake_damage_min, r_shake_damage, r_shake_damage_max);
+    if (r_shake_barrels != false && r_shake_barrels != true)
+        r_shake_barrels = r_shake_barrels_default;
 
-    if (r_shake_explosion != false && r_shake_explosion != true)
-        r_shake_explosion = r_shake_explosion_default;
+    r_shake_damage = BETWEEN(r_shake_damage_min, r_shake_damage, r_shake_damage_max);
 
     if (r_skycolor != r_skycolor_none && (r_skycolor < r_skycolor_min || r_skycolor > r_skycolor_max))
         r_skycolor = r_skycolor_default;

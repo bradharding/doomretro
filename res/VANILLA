@@ -40,9 +40,9 @@ infighting off
 infiniteheight on
 joy_analog off
 joy_invertyaxis off
+joy_rumble_barrels 0%
 joy_rumble_damage 0%
-joy_rumble_explosion 0%
-joy_rumble_weapon 0%
+joy_rumble_weapons 0%
 joy_sensitivity_horizontal 16
 joy_swapthumbsticks off
 joy_thumbsticks 1
@@ -95,8 +95,8 @@ r_randomstartframes off
 r_rockettrails off
 r_screensize 6
 r_shadows off
+r_shake_barrels off
 r_shake_damage 0%
-r_shake_explosion off
 r_skycolor none
 r_sprites_translucency off
 r_supersampling off

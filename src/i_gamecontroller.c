@@ -100,7 +100,7 @@ void I_InitGameController(void)
 
             if (SDL_GameControllerHasRumble(gamecontroller))
                 gamecontrollerhasrumble = true;
-            else if (!repeated && (joy_rumble_damage || joy_rumble_explosion || joy_rumble_weapon))
+            else if (!repeated && (joy_rumble_damage || joy_rumble_barrels || joy_rumble_weapons))
                 C_Warning(1, "This controller doesn't support rumble.");
 
             I_SetGameControllerLeftDeadZone();
