@@ -782,7 +782,7 @@ static void GetUpscaledTextureSize(int width, int height)
 void (*blitfunc)(void);
 void (*mapblitfunc)(void);
 
-static void (*clearfunc)(void);
+static void (*clearframefunc)(void);
 
 static void nullfunc(void) {}
 
@@ -812,7 +812,7 @@ void I_WindowResizeBlit(void)
 
     SDL_LowerBlit(surface, &src_rect, buffer, &src_rect);
     SDL_UpdateTexture(texture, &src_rect, pixels, pitch);
-    clearfunc();
+    clearframefunc();
 
     if (nearestlinear)
     {
@@ -834,7 +834,7 @@ static void I_Blit(void)
 
     SDL_LowerBlit(surface, &src_rect, buffer, &src_rect);
     SDL_UpdateTexture(texture, &src_rect, pixels, pitch);
-    clearfunc();
+    clearframefunc();
     SDL_RenderCopy(renderer, texture, &src_rect, NULL);
     SDL_RenderPresent(renderer);
 }
@@ -845,7 +845,7 @@ static void I_Blit_NearestLinear(void)
 
     SDL_LowerBlit(surface, &src_rect, buffer, &src_rect);
     SDL_UpdateTexture(texture, &src_rect, pixels, pitch);
-    clearfunc();
+    clearframefunc();
     SDL_SetRenderTarget(renderer, texture_upscaled);
     SDL_RenderCopy(renderer, texture, &src_rect, NULL);
     SDL_SetRenderTarget(renderer, NULL);
@@ -860,7 +860,7 @@ static void I_Blit_ShowFPS(void)
 
     SDL_LowerBlit(surface, &src_rect, buffer, &src_rect);
     SDL_UpdateTexture(texture, &src_rect, pixels, pitch);
-    clearfunc();
+    clearframefunc();
     SDL_RenderCopy(renderer, texture, &src_rect, NULL);
     SDL_RenderPresent(renderer);
 }
@@ -872,7 +872,7 @@ static void I_Blit_NearestLinear_ShowFPS(void)
 
     SDL_LowerBlit(surface, &src_rect, buffer, &src_rect);
     SDL_UpdateTexture(texture, &src_rect, pixels, pitch);
-    clearfunc();
+    clearframefunc();
     SDL_SetRenderTarget(renderer, texture_upscaled);
     SDL_RenderCopy(renderer, texture, &src_rect, NULL);
     SDL_SetRenderTarget(renderer, NULL);
@@ -886,7 +886,7 @@ static void I_Blit_Shake(void)
 
     SDL_LowerBlit(surface, &src_rect, buffer, &src_rect);
     SDL_UpdateTexture(texture, &src_rect, pixels, pitch);
-    clearfunc();
+    clearframefunc();
     SDL_RenderCopyEx(renderer, texture, &src_rect, NULL, SHAKEANGLE, NULL, SDL_FLIP_NONE);
     SDL_RenderPresent(renderer);
 }
@@ -897,7 +897,7 @@ static void I_Blit_NearestLinear_Shake(void)
 
     SDL_LowerBlit(surface, &src_rect, buffer, &src_rect);
     SDL_UpdateTexture(texture, &src_rect, pixels, pitch);
-    clearfunc();
+    clearframefunc();
     SDL_SetRenderTarget(renderer, texture_upscaled);
     SDL_RenderCopyEx(renderer, texture, &src_rect, NULL, SHAKEANGLE, NULL, SDL_FLIP_NONE);
     SDL_SetRenderTarget(renderer, NULL);
@@ -912,7 +912,7 @@ static void I_Blit_ShowFPS_Shake(void)
 
     SDL_LowerBlit(surface, &src_rect, buffer, &src_rect);
     SDL_UpdateTexture(texture, &src_rect, pixels, pitch);
-    clearfunc();
+    clearframefunc();
     SDL_RenderCopyEx(renderer, texture, &src_rect, NULL, SHAKEANGLE, NULL, SDL_FLIP_NONE);
     SDL_RenderPresent(renderer);
 }
@@ -924,7 +924,7 @@ static void I_Blit_NearestLinear_ShowFPS_Shake(void)
 
     SDL_LowerBlit(surface, &src_rect, buffer, &src_rect);
     SDL_UpdateTexture(texture, &src_rect, pixels, pitch);
-    clearfunc();
+    clearframefunc();
     SDL_SetRenderTarget(renderer, texture_upscaled);
     SDL_RenderCopyEx(renderer, texture, &src_rect, NULL, SHAKEANGLE, NULL, SDL_FLIP_NONE);
     SDL_SetRenderTarget(renderer, NULL);
@@ -1806,7 +1806,7 @@ static void SetVideoMode(bool createwindow, bool output)
     src_rect.h = SCREENHEIGHT;
 }
 
-static void I_ClearRenderer(void)
+static void I_ClearFrame(void)
 {
     SDL_RenderClear(renderer);
 }
@@ -1822,6 +1822,12 @@ static void I_GetScreenDimensions(void)
         {
             width = displays[displayindex].w;
             height = displays[displayindex].h;
+
+#if defined(_WIN32)
+            clearframefunc = &nullfunc;
+#else
+            clearframefunc = &I_ClearFrame;
+#endif
         }
         else
         {
@@ -1829,6 +1835,8 @@ static void I_GetScreenDimensions(void)
 
             width = windowwidth;
             height = windowheight;
+
+            clearframefunc = &I_ClearFrame;
         }
 
         SCREENWIDTH = MIN(((width * ACTUALHEIGHT / height + 1) & ~3), MAXWIDTH);
@@ -1836,12 +1844,6 @@ static void I_GetScreenDimensions(void)
         // r_fov * 0.82 is vertical FOV for 4:3 aspect ratio
         WIDEFOVDELTA = (int)(atan(width / (height / tan(r_fov * 0.82 * M_PI / 360.0))) * 360.0 / M_PI) - r_fov;
         WIDESCREENDELTA = ((SCREENWIDTH - NONWIDEWIDTH) / SCREENSCALE) / 2;
-
-#if defined(_WIN32)
-        clearfunc = &nullfunc;
-#else
-        clearfunc = &I_ClearRenderer;
-#endif
     }
     else
     {
@@ -1849,7 +1851,7 @@ static void I_GetScreenDimensions(void)
         WIDEFOVDELTA = 0;
         WIDESCREENDELTA = 0;
 
-        clearfunc = &I_ClearRenderer;
+        clearframefunc = &I_ClearFrame;
     }
 
     SCREENAREA = SCREENWIDTH * SCREENHEIGHT;
