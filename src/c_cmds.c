@@ -850,7 +850,7 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL(r_shake_barrels, "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles shaking the screen when the player is near an exploding barrel."),
     CVAR_INT(r_shake_damage, "", int_cvars_func1, int_cvars_func2, CF_PERCENT, NOVALUEALIAS,
-        "The amount the screen shakes when the player is attacked (" BOLD("0%") " to " BOLD("100%") ")."),
+        "The amount the screen shakes when the player receives damage (" BOLD("0%") " to " BOLD("100%") ")."),
     CVAR_INT(r_skycolor, r_skycolour, r_skycolor_cvar_func1, r_skycolor_cvar_func2, CF_NONE, SKYCOLORVALUEALIAS,
         "The color of the sky (" BOLD("none") ", or " BOLD("0") " to " BOLD("255") ")."),
     CVAR_BOOL(r_sprites_translucency, "", bool_cvars_func1, r_sprites_translucency_cvar_func2, CF_NONE, BOOLVALUEALIAS,
