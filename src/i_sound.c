@@ -126,7 +126,7 @@ static bool FindAndFreeSound(void)
 }
 
 // Allocate a block for a new sound effect.
-static allocated_sound_t *AllocateSound(sfxinfo_t *sfxinfo, int len)
+static allocated_sound_t *AllocateSound(sfxinfo_t *sfxinfo, const int length)
 {
     allocated_sound_t   *snd;
 
@@ -135,13 +135,13 @@ static allocated_sound_t *AllocateSound(sfxinfo_t *sfxinfo, int len)
     do
     {
         // Out of memory? Try to free an old sound, then loop round and try again.
-        if (!(snd = calloc(1, sizeof(allocated_sound_t) + len)) && !FindAndFreeSound())
+        if (!(snd = calloc(1, sizeof(allocated_sound_t) + length)) && !FindAndFreeSound())
             return NULL;
     } while (!snd);
 
     // Skip past the chunk structure for the audio buffer
     snd->chunk.abuf = (uint8_t *)(snd + 1);
-    snd->chunk.alen = len;
+    snd->chunk.alen = length;
     snd->chunk.allocated = 1;
     snd->chunk.volume = MIX_MAX_VOLUME;
     snd->pitch = NORM_PITCH;
@@ -171,7 +171,7 @@ static void UnlockAllocatedSound(allocated_sound_t *snd)
     snd->use_count--;
 }
 
-static allocated_sound_t *GetAllocatedSoundBySfxInfoAndPitch(sfxinfo_t *sfxinfo, int pitch)
+static allocated_sound_t *GetAllocatedSoundBySfxInfoAndPitch(sfxinfo_t *sfxinfo, const int pitch)
 {
     allocated_sound_t   *p = allocated_sounds_head;
 
@@ -187,7 +187,7 @@ static allocated_sound_t *GetAllocatedSoundBySfxInfoAndPitch(sfxinfo_t *sfxinfo,
 }
 
 // Allocate a new sound chunk and pitch-shift an existing sound up-or-down into it.
-static allocated_sound_t *PitchShift(allocated_sound_t *insnd, int pitch)
+static allocated_sound_t *PitchShift(allocated_sound_t *insnd, const int pitch)
 {
     allocated_sound_t   *outsnd;
     int16_t             *srcbuf;
@@ -221,7 +221,7 @@ static allocated_sound_t *PitchShift(allocated_sound_t *insnd, int pitch)
 
 // When a sound stops, check if it is still playing. If it is not, we can mark the sound data as
 // CACHE to be freed back for other means.
-static void ReleaseSoundOnChannel(int channel)
+static void ReleaseSoundOnChannel(const int channel)
 {
     allocated_sound_t   *snd = channels_playing[channel];
 
@@ -239,15 +239,15 @@ static void ReleaseSoundOnChannel(int channel)
 }
 
 // Generic sound expansion function for any sample rate.
-static void ExpandSoundData(sfxinfo_t *sfxinfo, byte *data, int samplerate, int bits, int length)
+static void ExpandSoundData(sfxinfo_t *sfxinfo, byte *data, const int samplerate, const int bits, const int length)
 {
-    unsigned int        samplecount = length / (bits / 8);
-    unsigned int        expanded_length = (unsigned int)(((uint64_t)samplecount * mixer_freq) / samplerate);
+    const unsigned int  samplecount = length / (bits / 8);
+    const unsigned int  expanded_length = (unsigned int)(((uint64_t)samplecount * mixer_freq) / samplerate);
     allocated_sound_t   *snd = AllocateSound(sfxinfo, expanded_length * 4);
     int16_t             *expanded = (int16_t *)(&snd->chunk)->abuf;
-    int                 expand_ratio = (samplecount << 8) / expanded_length;
-    double              dt = 1.0 / mixer_freq;
-    double              alpha = dt / (1.0 / (M_PI * samplerate) + dt);
+    const int           expand_ratio = (samplecount << 8) / expanded_length;
+    const double        dt = 1.0 / mixer_freq;
+    const double        alpha = dt / (1.0 / (M_PI * samplerate) + dt);
 
     if (bits == 8)
         for (unsigned int i = 0; i < expanded_length; i++)
@@ -259,7 +259,7 @@ static void ExpandSoundData(sfxinfo_t *sfxinfo, byte *data, int samplerate, int 
     else
         for (unsigned int i = 0; i < expanded_length; i++)
         {
-            int src = ((i * expand_ratio) >> 8) * 2;
+            const int src = ((i * expand_ratio) >> 8) * 2;
 
             expanded[i * 2] = expanded[i * 2 + 1] = (data[src] | (data[src + 1] << 8));
         }
@@ -274,9 +274,9 @@ static void ExpandSoundData(sfxinfo_t *sfxinfo, byte *data, int samplerate, int 
 bool CacheSFX(sfxinfo_t *sfxinfo)
 {
     // Need to load the sound
-    int     lumpnum = sfxinfo->lumpnum;
-    byte    *data = W_CacheLumpNum(lumpnum);
-    int     lumplen = W_LumpLength(lumpnum);
+    const int   lumpnum = sfxinfo->lumpnum;
+    byte        *data = W_CacheLumpNum(lumpnum);
+    const int   lumplen = W_LumpLength(lumpnum);
 
     // Check the header, and ensure this is a valid sound
     if (lumplen > 44 && !memcmp(data, "RIFF", 4) && !memcmp(data + 8, "WAVEfmt ", 8))
@@ -290,7 +290,7 @@ bool CacheSFX(sfxinfo_t *sfxinfo)
         {
             if (spec.channels == 1 && SDL_AUDIO_ISINT(spec.format))
             {
-                int bits = SDL_AUDIO_BITSIZE(spec.format);
+                const int   bits = SDL_AUDIO_BITSIZE(spec.format);
 
                 if (bits == 8 || bits == 16)
                 {
@@ -304,7 +304,7 @@ bool CacheSFX(sfxinfo_t *sfxinfo)
     }
     else if (lumplen >= 8 && data[0] == 0x03 && data[1] == 0x00)
     {
-        int length = (data[4] | (data[5] << 8) | (data[6] << 16) | (data[7] << 24));
+        const int   length = (data[4] | (data[5] << 8) | (data[6] << 16) | (data[7] << 24));
 
         // If the header specifies that the length of the sound is greater than the length of the lump
         // itself, this is an invalid sound lump.
@@ -322,7 +322,7 @@ bool CacheSFX(sfxinfo_t *sfxinfo)
     return false;
 }
 
-void I_UpdateSoundParms(int channel, int vol, int sep)
+void I_UpdateSoundParms(const int channel, const int vol, const int sep)
 {
     Mix_SetPanning(channel, (254 - sep) * vol / MIX_MAX_VOLUME, sep * vol / MIX_MAX_VOLUME);
 }
@@ -333,7 +333,7 @@ void I_UpdateSoundParms(int channel, int vol, int sep)
 // As our sound handling does not handle priority, it is ignored.
 // Pitching (that is, increased speed of playback) is set, but currently not used by mixing.
 //
-int I_StartSound(sfxinfo_t *sfxinfo, int channel, int vol, int sep, int pitch)
+int I_StartSound(sfxinfo_t *sfxinfo, const int channel, const int vol, const int sep, const int pitch)
 {
     allocated_sound_t   *snd;
 
@@ -372,13 +372,13 @@ int I_StartSound(sfxinfo_t *sfxinfo, int channel, int vol, int sep, int pitch)
     return channel;
 }
 
-void I_StopSound(int channel)
+void I_StopSound(const int channel)
 {
     // Sound data is no longer needed; release the sound data being used for this channel.
     ReleaseSoundOnChannel(channel);
 }
 
-void I_FadeOutSound(int channel)
+void I_FadeOutSound(const int channel)
 {
     allocated_sound_t   *snd = channels_playing[channel];
 
@@ -395,7 +395,7 @@ void I_FadeOutSound(int channel)
         FreeAllocatedSound(snd);
 }
 
-bool I_SoundIsPlaying(int channel)
+bool I_SoundIsPlaying(const int channel)
 {
     return Mix_Playing(channel);
 }

@@ -191,9 +191,9 @@ typedef struct
 
 typedef struct
 {
-    char            char1;
-    char            char2;
-    int             adjust;
+    const char      char1;
+    const char      char2;
+    const int       adjust;
 } kern_t;
 
 extern const kern_t kern[];
@@ -201,11 +201,11 @@ extern const kern_t altkern[];
 
 typedef struct
 {
-    char            text[255];
-    int             game;
+    const char      text[255];
+    const int       game;
 } autocomplete_t;
 
-extern autocomplete_t   autocompletelist[];
+extern const autocomplete_t autocompletelist[];
 
 void C_Input(const char *string, ...);
 void C_Cheat(const char *string);

@@ -44,7 +44,7 @@
   * A new [`BRGHTMPS`](https://raw.githubusercontent.com/bradharding/doomretro/master/res/BRGHTMPS) lump has been introduced that allows brightmaps to be changed in a PWAD.
   * Minor improvements have been made to the brightmaps of the `COMPUTE2` and `COMPUTE3` textures.
   * Brightmaps can now be applied to masked midtextures.
-* The existing feature of randomizing the start frame of certain sprites can now be toggled using the new `r_randomstartframes` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
+* The existing feature of randomizing the starting frame of certain sprites can now be toggled using the new `r_randomstartframes` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
 * The player’s speed when strafing has been reduced when moving the mouse while the <kbd>ALT</kbd> key is held down, and is more consistent with the speed when using the <kbd>A</kbd> and <kbd>D</kbd> keys to strafe.
 * The following changes have been made when vanilla mode is enabled using the `vanilla` CCMD:
   * The `am_grid` CVAR is no longer turned `off`.
