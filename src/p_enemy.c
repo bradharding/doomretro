@@ -808,6 +808,25 @@ static bool P_LookForTargets(mobj_t *actor, int allaround)
     return P_LookForPlayer(actor, allaround);
 }
 
+static void P_ShakeOnExplode(mobj_t *actor)
+{
+    if (r_shake_explosion)
+    {
+        mobj_t *mo = viewplayer->mo;
+
+        if (mo->z <= mo->floorz && P_ApproxDistance(actor->x - mo->x, actor->y - mo->y) < BARRELRANGE)
+        {
+            barrelms = I_GetTimeMS() + BARRELMS;
+
+            if (joy_rumble_barrels)
+            {
+                I_GameControllerRumble(20000 * joy_rumble_barrels / 100);
+                barrelrumbletics = TICRATE;
+            }
+        }
+    }
+}
+
 //
 // ACTION ROUTINES
 //
@@ -1887,23 +1906,8 @@ void A_Fall(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_Explode(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    if (r_shake_explosion)
-    {
-        mobj_t  *mo = viewplayer->mo;
-
-        if (mo->z <= mo->floorz && P_ApproxDistance(actor->x - mo->x, actor->y - mo->y) < BARRELRANGE)
-        {
-            barrelms = I_GetTimeMS() + BARRELMS;
-
-            if (joy_rumble_barrels)
-            {
-                I_GameControllerRumble(20000 * joy_rumble_barrels / 100);
-                barrelrumbletics = TICRATE;
-            }
-        }
-    }
-
     P_RadiusAttack(actor, actor->target, 128, 128, true);
+    P_ShakeOnExplode(actor);
 }
 
 //
@@ -2297,6 +2301,7 @@ void A_Die(mobj_t *actor, player_t *player, pspdef_t *psp)
 void A_Detonate(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
     P_RadiusAttack(actor, actor->target, actor->info->damage, actor->info->damage, false);
+    P_ShakeOnExplode(actor);
 }
 
 //
@@ -2329,6 +2334,8 @@ void A_Mushroom(mobj_t *actor, player_t *player, pspdef_t *psp)
             mo->momz = FixedMul(mo->momz, misc2);
             mo->flags &= ~MF_NOGRAVITY;                         // Make debris fall under gravity
         }
+
+    P_ShakeOnExplode(actor);
 }
 
 //
@@ -2619,6 +2626,7 @@ void A_RadiusDamage(mobj_t *actor, player_t *player, pspdef_t *psp)
         return;
 
     P_RadiusAttack(actor, actor->target, actor->state->args[0], actor->state->args[1], true);
+    P_ShakeOnExplode(actor);
 }
 
 //
