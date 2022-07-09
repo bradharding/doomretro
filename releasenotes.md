@@ -4,13 +4,13 @@
 
 * *DOOM Retro* is now built using v17.2.5 of [*Microsoft Visual Studio Community 2022*](https://www.visualstudio.com/vs/).
 * *DOOM Retro* now uses [*SDL_mixer v2.6.0*](https://www.libsdl.org/SDL_mixer) and [*SDL_image v2.6.0*](https://www.libsdl.org/SDL_image).
-* Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
+* Extensive optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * *DOOM Retro* now runs again if unzipped into a folder that contains non-Latin characters in its path.
 * Several changes have been made to the text that is output to the console.
 * The amount of blood splats rendered depends on their distance from the player again.
-* A message is now displayed, and with an accompanying sound effect, whenever the player finds a secret. This feature can be toggled using the new `secretmessages` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
+* A message is now displayed, and with an accompanying sound effect, whenever the player finds a secret. This feature may be toggled using the new `secretmessages` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
 * Secrets are no longer considered as found if the player happens to walk through one while using the `IDCLIP` or `IDSPISPOPD` cheats.
-* The following changes have been made to the help screen displayed when the <kbd><b>F1</b></kbd> key is pressed:
+* The following changes have been made to the help screen displayed by pressing the <kbd><b>F1</b></kbd> key:
   * Subtle noise has been applied to the background.
   * `HELP`, `HELP1` and `HELP2` lumps in PWADs that are wider than 320 pixels are now displayed correctly.
 * If it doesn’t already exist, *DOOM Retro* now creates an `autoload` folder at startup. Any `.wad`, `.deh` or `.bex` file that is placed in this folder, (or in a subfolder based on the name of the WAD chosen by the player), will then always be automatically loaded at startup.
@@ -44,7 +44,7 @@
   * A new [`BRGHTMPS`](https://raw.githubusercontent.com/bradharding/doomretro/master/res/BRGHTMPS) lump has been introduced that allows brightmaps to be changed in a PWAD.
   * Minor improvements have been made to the brightmaps of the `COMPUTE2` and `COMPUTE3` textures.
   * Brightmaps can now be applied to masked midtextures.
-* The existing feature of randomizing the starting frame of certain sprites can now be toggled using the new `r_randomstartframes` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
+* The existing feature of randomizing the starting frame of certain sprites may now be toggled using the new `r_randomstartframes` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
 * The player’s speed when strafing has been reduced when moving the mouse while the <kbd>ALT</kbd> key is held down, and is more consistent with the speed when using the <kbd>A</kbd> and <kbd>D</kbd> keys to strafe.
 * The following changes have been made when vanilla mode is enabled using the `vanilla` CCMD:
   * The `am_grid` CVAR is no longer turned `off`.

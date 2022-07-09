@@ -792,7 +792,7 @@ int             frames = -1;
 
 static void CalculateFPS(void)
 {
-    uint64_t    currenttime = SDL_GetPerformanceCounter();
+    const uint64_t  currenttime = SDL_GetPerformanceCounter();
 
     frames++;
 
@@ -812,7 +812,7 @@ void I_WindowResizeBlit(void)
 
     SDL_LowerBlit(surface, &src_rect, buffer, &src_rect);
     SDL_UpdateTexture(texture, &src_rect, pixels, pitch);
-    clearframefunc();
+    SDL_RenderClear(renderer);
 
     if (nearestlinear)
     {
