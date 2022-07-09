@@ -98,7 +98,7 @@ extern float    joy_deadzone_right;
 extern bool     joy_invertyaxis;
 extern int      joy_rumble_explosion;
 extern int      joy_rumble_damage;
-extern int      joy_rumble_weapons;
+extern int      joy_rumble_weapon;
 extern int      joy_sensitivity_horizontal;
 extern int      joy_sensitivity_vertical;
 extern bool     joy_swapthumbsticks;
@@ -499,9 +499,9 @@ enum
 #define joy_rumble_explosion_default       100
 #define joy_rumble_explosion_max           200
 
-#define joy_rumble_weapons_min             0
-#define joy_rumble_weapons_default         100
-#define joy_rumble_weapons_max             200
+#define joy_rumble_weapon_min              0
+#define joy_rumble_weapon_default          100
+#define joy_rumble_weapon_max              200
 
 #define joy_sensitivity_horizontal_min     0
 #define joy_sensitivity_horizontal_default 64

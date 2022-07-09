@@ -106,7 +106,7 @@ float       joy_deadzone_right = joy_deadzone_right_default;
 bool        joy_invertyaxis = joy_invertyaxis_default;
 int         joy_rumble_damage = joy_rumble_damage_default;
 int         joy_rumble_explosion = joy_rumble_explosion_default;
-int         joy_rumble_weapons = joy_rumble_weapons_default;
+int         joy_rumble_weapon = joy_rumble_weapon_default;
 int         joy_sensitivity_horizontal = joy_sensitivity_horizontal_default;
 int         joy_sensitivity_vertical = joy_sensitivity_vertical_default;
 bool        joy_swapthumbsticks = joy_swapthumbsticks_default;
@@ -336,7 +336,7 @@ static default_t cvars[] =
     CONFIG_VARIABLE_BOOL         (joy_invertyaxis,                  gp_invertyaxis,                        joy_invertyaxis,                     BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT_PERCENT  (joy_rumble_damage,                gp_vibrate_damage,                     joy_rumble_damage,                   NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT_PERCENT  (joy_rumble_explosion,             joy_rumble_barrels,                    joy_rumble_explosion,                NOVALUEALIAS          ),
-    CONFIG_VARIABLE_INT_PERCENT  (joy_rumble_weapons,               gp_vibrate_weapons,                    joy_rumble_weapons,                  NOVALUEALIAS          ),
+    CONFIG_VARIABLE_INT_PERCENT  (joy_rumble_weapon,                joy_rumble_weapons,                    joy_rumble_weapon,                   NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT          (joy_sensitivity_horizontal,       gp_sensitivity_horizontal,             joy_sensitivity_horizontal,          NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT          (joy_sensitivity_vertical,         gp_sensitivity_vertical,               joy_sensitivity_vertical,            NOVALUEALIAS          ),
     CONFIG_VARIABLE_BOOL         (joy_swapthumbsticks,              gp_swapthumbsticks,                    joy_swapthumbsticks,                 BOOLVALUEALIAS        ),
@@ -986,7 +986,7 @@ static void M_CheckCVARs(bool ispackageconfig)
 
     joy_rumble_explosion = BETWEEN(joy_rumble_explosion_min, joy_rumble_explosion, joy_rumble_explosion_max);
 
-    joy_rumble_weapons = BETWEEN(joy_rumble_weapons_min, joy_rumble_damage, joy_rumble_weapons_max);
+    joy_rumble_weapon = BETWEEN(joy_rumble_weapon_min, joy_rumble_damage, joy_rumble_weapon_max);
 
     joy_sensitivity_horizontal = BETWEEN(joy_sensitivity_horizontal_min, joy_sensitivity_horizontal, joy_sensitivity_horizontal_max);
     I_SetGameControllerHorizontalSensitivity();

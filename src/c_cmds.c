@@ -693,7 +693,7 @@ consolecmd_t consolecmds[] =
         "The amount a controller rumbles when the player receives damage (" BOLD("0%") " to " BOLD("200%") ")."),
     CVAR_INT(joy_rumble_explosion, "", int_cvars_func1, int_cvars_func2, CF_PERCENT, NOVALUEALIAS,
         "The amount a controller rumbles when the player is near an explosion (" BOLD("0%") " to " BOLD("200%") ")."),
-    CVAR_INT(joy_rumble_weapons, "", int_cvars_func1, int_cvars_func2, CF_PERCENT, NOVALUEALIAS,
+    CVAR_INT(joy_rumble_weapon, "", int_cvars_func1, int_cvars_func2, CF_PERCENT, NOVALUEALIAS,
         "The amount a controller rumbles when the player fires their weapon (" BOLD("0%") " to " BOLD("200%") ")."),
     CVAR_INT(joy_sensitivity_horizontal, "", int_cvars_func1, joy_sensitivity_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The horizontal sensitivity of a controller's thumbsticks (" BOLD("0") " to " BOLD("128") ")."),

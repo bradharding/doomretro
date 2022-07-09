@@ -3633,7 +3633,7 @@ void M_StartControlPanel(void)
     currentMenu = &MainDef;
     itemOn = currentMenu->lastOn;
 
-    if (joy_rumble_damage || joy_rumble_explosion || joy_rumble_weapons)
+    if (joy_rumble_damage || joy_rumble_explosion || joy_rumble_weapon)
     {
         restoredrumblestrength = idlechainsawrumblestrength;
         idlechainsawrumblestrength = 0;
@@ -3844,7 +3844,7 @@ void M_ClearMenus(void)
     menuactive = false;
     blurtic = -1;
 
-    if (joy_rumble_damage || joy_rumble_explosion || joy_rumble_weapons)
+    if (joy_rumble_damage || joy_rumble_explosion || joy_rumble_weapon)
     {
         idlechainsawrumblestrength = restoredrumblestrength;
         I_GameControllerRumble(idlechainsawrumblestrength);
