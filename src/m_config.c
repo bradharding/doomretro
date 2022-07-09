@@ -166,8 +166,8 @@ bool        r_rockettrails = r_rockettrails_default;
 int         r_screensize = r_screensize_default;
 bool        r_shadows = r_shadows_default;
 bool        r_shadows_translucency = r_shadows_translucency_default;
-bool        r_shake_barrels = r_shake_barrels_default;
 int         r_shake_damage = r_shake_damage_default;
+bool        r_shake_explosion = r_shake_explosion_default;
 int         r_skycolor = r_skycolor_default;
 bool        r_sprites_translucency = r_sprites_translucency_default;
 bool        r_supersampling = r_supersampling_default;
@@ -395,8 +395,8 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT          (r_screensize,                     r_screensize,                          r_screensize,                        NOVALUEALIAS          ),
     CONFIG_VARIABLE_BOOL         (r_shadows,                        r_shadows,                             r_shadows,                           BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_BOOL         (r_shadows_translucency,           r_shadows_translucency,                r_shadows_translucency,              BOOLVALUEALIAS        ),
-    CONFIG_VARIABLE_BOOL         (r_shake_barrels,                  r_shake_barrels,                       r_shake_barrels,                     BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT_PERCENT  (r_shake_damage,                   r_shake_damage,                        r_shake_damage,                      NOVALUEALIAS          ),
+    CONFIG_VARIABLE_BOOL         (r_shake_explosion,                r_shake_barrels,                       r_shake_explosion,                   BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT          (r_skycolor,                       r_skycolour,                           r_skycolor,                          SKYCOLORVALUEALIAS    ),
     CONFIG_VARIABLE_BOOL         (r_sprites_translucency,           r_translucency,                        r_sprites_translucency,              BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_BOOL         (r_supersampling,                  r_supersampling,                       r_supersampling,                     BOOLVALUEALIAS        ),
@@ -1176,10 +1176,10 @@ static void M_CheckCVARs(bool ispackageconfig)
     if (r_shadows_translucency != false && r_shadows_translucency != true)
         r_shadows_translucency = r_shadows_translucency_default;
 
-    if (r_shake_barrels != false && r_shake_barrels != true)
-        r_shake_barrels = r_shake_barrels_default;
-
     r_shake_damage = BETWEEN(r_shake_damage_min, r_shake_damage, r_shake_damage_max);
+
+    if (r_shake_explosion != false && r_shake_explosion != true)
+        r_shake_explosion = r_shake_explosion_default;
 
     if (r_skycolor != r_skycolor_none && (r_skycolor < r_skycolor_min || r_skycolor > r_skycolor_max))
         r_skycolor = r_skycolor_default;

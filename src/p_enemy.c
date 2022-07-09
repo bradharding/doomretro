@@ -1887,7 +1887,7 @@ void A_Fall(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_Explode(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    if (actor->type == MT_BARREL && r_shake_barrels)
+    if (r_shake_explosion)
     {
         mobj_t  *mo = viewplayer->mo;
 

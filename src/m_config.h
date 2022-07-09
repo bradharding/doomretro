@@ -158,8 +158,8 @@ extern bool     r_rockettrails;
 extern int      r_screensize;
 extern bool     r_shadows;
 extern bool     r_shadows_translucency;
-extern bool     r_shake_barrels;
 extern int      r_shake_damage;
+extern bool     r_shake_explosion;
 extern int      r_skycolor;
 extern bool     r_sprites_translucency;
 extern bool     r_supersampling;
@@ -649,11 +649,11 @@ enum
 
 #define r_shadows_translucency_default     true
 
-#define r_shake_barrels_default            true
-
 #define r_shake_damage_min                 0
 #define r_shake_damage_default             50
 #define r_shake_damage_max                 100
+
+#define r_shake_explosion_default          true
 
 #define r_skycolor_none                    1
 #define r_skycolor_min                     0
