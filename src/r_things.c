@@ -705,7 +705,7 @@ static void R_ProjectSprite(mobj_t *thing)
         flip = ((sprframe->flip & 1) || (flags2 & MF2_MIRRORED));
     }
 
-    if (thing->state->dehacked || !r_fixspriteoffsets)
+    if (thing->info->dehacked || !r_fixspriteoffsets)
     {
         offset = spriteoffset[lump];
         gzt = fz + spritetopoffset[lump];

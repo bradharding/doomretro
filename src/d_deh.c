@@ -2695,6 +2695,7 @@ static void deh_procThing(DEHFILE *fpin, char *line)
             if (devparm)
                 C_Output("Assigned %i to %s (%i) at index %i.", value, key, indexnum, ix);
 
+            mobjinfo[indexnum].dehacked = true;
             break;
         }
 

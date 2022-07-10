@@ -298,9 +298,11 @@ typedef struct
     char        plural2[64];
     char        name3[64];
     char        plural3[64];
+
     void        (*colfunc)(void);
     void        (*altcolfunc)(void);
     byte        automapcolor;
+    bool        dehacked;
 } mobjinfo_t;
 
 extern mobjinfo_t   mobjinfo[];
