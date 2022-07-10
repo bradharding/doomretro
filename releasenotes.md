@@ -36,6 +36,7 @@
   * The `TRANSLUCENT_REDTOGREEN_33`, `TRANSLUCENT_REDTOBLUE_33`, `REDTOGREEN` and `REDTOBLUE` flags in `Retro bits` are no longer used.
   * Pain elementals, lost souls and barrels are no longer translucent when exploding if any of their states have been changed.
   * The player’s view now shakes if a thing other than a barrel uses the `A_Explode` codepointer and the `r_shake_barrels` CVAR is `on`.
+  * If a thing is changed in any way, all of its sprites’ offsets are no longer corrected even if the `r_fixspriteoffsets` CVAR is `on`.
 * The following changes have been made to the support of `MAPINFO` lumps:
   * `nofreelook` and `nojump` now work as intended.
   * `enterpic` now works as intended.
