@@ -126,6 +126,7 @@ char        *playername = playername_default;
 bool        r_althud = r_althud_default;
 int         r_berserkeffect = r_berserkeffect_default;
 int         r_blood = r_blood_default;
+bool        r_blood_melee = r_blood_melee_default;
 int         r_bloodsplats_max = r_bloodsplats_max_default;
 int         r_bloodsplats_total;
 bool        r_bloodsplats_translucency = r_bloodsplats_translucency_default;
@@ -356,6 +357,7 @@ static default_t cvars[] =
     CONFIG_VARIABLE_BOOL         (r_althud,                         r_althud,                              r_althud,                            BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT          (r_berserkeffect,                  r_berserkeffect,                       r_berserkeffect,                     NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT          (r_blood,                          r_blood,                               r_blood,                             BLOODVALUEALIAS       ),
+    CONFIG_VARIABLE_BOOL         (r_blood_melee,                    r_blood_melee,                         r_blood_melee,                       BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT          (r_bloodsplats_max,                r_bloodsplats_max,                     r_bloodsplats_max,                   NOVALUEALIAS          ),
     CONFIG_VARIABLE_BOOL         (r_bloodsplats_translucency,       r_bloodsplats_translucency,            r_bloodsplats_translucency,          BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_BOOL         (r_brightmaps,                     r_brightmaps,                          r_brightmaps,                        BOOLVALUEALIAS        ),
@@ -1052,6 +1054,9 @@ static void M_CheckCVARs(bool ispackageconfig)
 
     if (r_blood < r_blood_min || r_blood > r_blood_max)
         r_blood = r_blood_default;
+
+    if (r_blood_melee != false && r_blood_melee != true)
+        r_blood_melee = r_blood_melee_default;
 
     r_bloodsplats_max = BETWEEN(r_bloodsplats_max_min, r_bloodsplats_max, r_bloodsplats_max_max);
 

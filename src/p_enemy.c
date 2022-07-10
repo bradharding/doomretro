@@ -827,6 +827,22 @@ static void P_ShakeOnExplode(mobj_t *actor)
     }
 }
 
+static void P_SpawnMeleeBlood(mobj_t *target)
+{
+    if (!r_blood_melee)
+        return;
+
+    if (target->player)
+    {
+        const unsigned int  an = target->angle >> ANGLETOFINESHIFT;
+
+        P_SpawnBlood(target->x + 20 * finecosine[an], target->y + 20 * finecosine[an],
+            target->z + M_RandomInt(8, 20) * FRACUNIT, 0, 100, target);
+    }
+    else
+        P_SpawnBlood(target->x, target->y, target->z + M_RandomInt(8, 20) * FRACUNIT, 0, 100, target);
+}
+
 //
 // ACTION ROUTINES
 //
@@ -1130,13 +1146,9 @@ void A_TroopAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
 
     if (P_CheckMeleeRange(actor))
     {
-        const int           damage = ((M_Random() & 7) + 1) * 3;
-        const unsigned int  an = target->angle >> ANGLETOFINESHIFT;
-
         S_StartSound(actor, sfx_claw);
-        P_DamageMobj(target, actor, actor, damage, true, false);
-        P_SpawnBlood(target->x + 20 * finecosine[an], target->y + 20 * finecosine[an],
-            target->z + M_RandomInt(8, 20) * FRACUNIT, 0, 100, target);
+        P_DamageMobj(target, actor, actor, ((M_Random() & 7) + 1) * 3, true, false);
+        P_SpawnMeleeBlood(target);
 
         return;
     }
@@ -1158,7 +1170,10 @@ void A_SargAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
     A_FaceTarget(actor, NULL, NULL);
 
     if (P_CheckMeleeRange(actor))
+    {
         P_DamageMobj(target, actor, actor, (M_Random() % 10 + 1) * 4, true, false);
+        P_SpawnMeleeBlood(target);
+    }
 }
 
 void A_HeadAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
@@ -1173,6 +1188,8 @@ void A_HeadAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
     if (P_CheckMeleeRange(actor))
     {
         P_DamageMobj(target, actor, actor, (M_Random() % 6 + 1) * 10, true, false);
+        P_SpawnMeleeBlood(target);
+
         return;
     }
 
@@ -1214,6 +1231,7 @@ void A_BruisAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
     {
         S_StartSound(actor, sfx_claw);
         P_DamageMobj(target, actor, actor, ((M_Random() & 7) + 1) * 10, true, false);
+        P_SpawnMeleeBlood(target);
 
         return;
     }
@@ -1325,6 +1343,7 @@ void A_SkelFist(mobj_t *actor, player_t *player, pspdef_t *psp)
     {
         S_StartSound(actor, sfx_skepch);
         P_DamageMobj(target, actor, actor, (M_Random() % 10 + 1) * 6, true, false);
+        P_SpawnMeleeBlood(target);
     }
 }
 
@@ -2397,6 +2416,7 @@ void A_Scratch(mobj_t *actor, player_t *player, pspdef_t *psp)
             S_StartSound(actor, state->misc2);
 
         P_DamageMobj(target, actor, actor, state->misc1, true, false);
+        P_SpawnMeleeBlood(target);
     }
 }
 

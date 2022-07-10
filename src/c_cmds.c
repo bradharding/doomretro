@@ -767,6 +767,8 @@ consolecmd_t consolecmds[] =
     CVAR_INT(r_blood, "", r_blood_cvar_func1, r_blood_cvar_func2, CF_NONE, BLOODVALUEALIAS,
         "The colors of the blood spilled by the player and monsters (" BOLD("all") ", " BOLD("none") ", " BOLD("red") ", " BOLD("green")
         " or " BOLD("nofuzz") ")."),
+    CVAR_BOOL(r_blood_melee, "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
+        "Toggles spawning blood when the player or a monster receives a melee attack."),
     CVAR_INT(r_bloodsplats_max, "", int_cvars_func1, int_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The maximum number of blood splats allowed in the current map (" BOLD("0") " to " BOLD("1,048,576") ")."),
     CVAR_INT(r_bloodsplats_total, "", int_cvars_func1, int_cvars_func2, CF_READONLY, NOVALUEALIAS,
