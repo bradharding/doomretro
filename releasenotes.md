@@ -9,7 +9,7 @@
 * Several changes have been made to the text that is output to the console.
 * The amount of blood splats rendered depends on their distance from the player again.
 * A message is now displayed, and with an accompanying sound effect, whenever the player finds a secret. This feature may be toggled using the new `secretmessages` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
-* Secrets are no longer considered as found if the player happens to walk through one while using the `IDCLIP` or `IDSPISPOPD` cheats.
+* Secrets are no longer considered as found if the player happens to walk through one while no clipping mode is enabled.
 * The following changes have been made to the help screen displayed by pressing the <kbd><b>F1</b></kbd> key:
   * Subtle noise has been applied to the background.
   * `HELP`, `HELP1` and `HELP2` lumps in PWADs that are wider than 320 pixels are now displayed correctly.
@@ -18,13 +18,14 @@
 * The `r_translucency` CVAR has been replaced by the following two CVARs:
   * The `r_sprites_translucency` CVAR toggles the translucency of certain sprites. This CVAR is `on` by default and `off` when vanilla mode is enabled.
   * The `r_textures_translucency` CVAR toggles the translucency of certain [*BOOM*](https://doomwiki.org/wiki/Boom)-compatible wall textures. This CVAR is also `on` by default and `off` when vanilla mode is enabled.
+* Blood is now spawned when the player or a monster receives a melee attack. This feature may be toggled using the new `r_blood_melee` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
 * Minor improvements have been made to how corpses move when the player or a monster walks over them and the `r_corpses_nudge` CVAR is `on`.
 * A crash no longer occurs when:
   * Entering the `IDBEHOLD` cheat while the alternate widescreen HUD is displayed.
   * Entering the `map` CCMD in the console with an invalid parameter.
 * The `IDCHOPPERS` cheat is now canceled properly when the player exits a map.
-* The angles of thing triangles representing monsters in the automap when the `IDDT` cheat is used are now interpolated when the `vid_capfps` CVAR is a value other than `35`.
-* The status bar and widescreen HUD are now still displayed when *DOOM Retro* is paused by pressing the <kbd><b>PAUSE</b></kbd> key.
+* The angles of thing triangles in the automap when the `IDDT` cheat is used are now interpolated when the `vid_capfps` CVAR is a value other than `35`.
+* The status bar and widescreen HUD are now displayed correctly when *DOOM Retro* is paused by pressing the <kbd><b>PAUSE</b></kbd> key.
 * The following changes have been made to the support of `DEHACKED` lumps:
   * The player’s super shotgun is now positioned correctly if the offsets of any of its frames are changed.
   * Using the `SHADOW` flag in `Bits` now always works as intended.

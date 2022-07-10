@@ -146,7 +146,8 @@ static patch_t *HU_LoadHUDAmmoPatch(int ammopicnum)
 {
     int lump;
 
-    if ((mobjinfo[ammopic[ammopicnum].mobjnum].flags & MF_SPECIAL) && (lump = W_CheckNumForName(ammopic[ammopicnum].patchname)) >= 0)
+    if ((mobjinfo[ammopic[ammopicnum].mobjnum].flags & MF_SPECIAL)
+        && (lump = W_CheckNumForName(ammopic[ammopicnum].patchname)) >= 0)
         return W_CacheLumpNum(lump);
 
     return NULL;

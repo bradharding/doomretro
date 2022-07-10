@@ -2838,10 +2838,8 @@ static bool kill_cmd_func1(char *cmd, char *parms)
     killcmdmobj = NULL;
 
     if (M_StringCompare(cmd, "explode"))
-    {
-        return (M_StringCompare(parm, "barrel") || M_StringCompare(parm, "barrels")
+        result = (M_StringCompare(parm, "barrel") || M_StringCompare(parm, "barrels")
             || M_StringCompare(parm, "missile") || M_StringCompare(parm, "missiles"));
-    }
     else if (M_StringCompare(parm, "player") || M_StringCompare(parm, "me") || (*playername && M_StringCompare(parm, playername)))
         result = (viewplayer->health > 0);
     else if (M_StringCompare(parm, "monster") || M_StringCompare(parm, "monsters") || M_StringCompare(parm, "all")
