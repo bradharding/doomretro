@@ -810,7 +810,7 @@ static bool P_LookForTargets(mobj_t *actor, int allaround)
 
 static void P_ShakeOnExplode(mobj_t *actor)
 {
-    if (r_shake_barrels)
+    if (r_shake_barrels && actor->type != MT_ROCKET)
     {
         mobj_t  *mo = viewplayer->mo;
 
@@ -1907,9 +1907,7 @@ void A_Fall(mobj_t *actor, player_t *player, pspdef_t *psp)
 void A_Explode(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
     P_RadiusAttack(actor, actor->target, 128, 128, true);
-
-    if (actor->type != MT_ROCKET)
-        P_ShakeOnExplode(actor);
+    P_ShakeOnExplode(actor);
 }
 
 //
