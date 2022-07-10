@@ -101,7 +101,31 @@ static void HU_DrawChar(int x, int y, int ch, byte *screen, int screenwidth)
                     if (src == PINK)
                         *dest = 0;
                     else if (src != ' ')
-                        *dest = (message_secret ? redtogold[src] : src);
+                        *dest = src;
+                }
+        }
+}
+
+static void HU_DrawGoldChar(int x, int y, int ch, byte *screen, int screenwidth)
+{
+    const int   width = (int)strlen(smallcharset[ch]) / 10;
+
+    for (int y1 = 0; y1 < 10; y1++)
+        for (int x1 = 0; x1 < width; x1++)
+        {
+            const unsigned char src = smallcharset[ch][y1 * width + x1];
+            const int           i = (x + x1) * SCREENSCALE;
+            const int           j = (y + y1) * SCREENSCALE;
+
+            for (int yy = 0; yy < SCREENSCALE; yy++)
+                for (int xx = 0; xx < SCREENSCALE; xx++)
+                {
+                    byte    *dest = &screen[(j + yy) * screenwidth + (i + xx)];
+
+                    if (src == PINK)
+                        *dest = 0;
+                    else if (src != ' ')
+                        *dest = redtogold[src];
                 }
         }
 }
@@ -125,7 +149,7 @@ static void HU_DrawTranslucentChar(int x, int y, int ch, byte *screen, int scree
                     if (src == PINK)
                         *dest = tinttab60[(nearestblack << 8) + *dest];
                     else if (src != ' ')
-                        *dest = tinttab80[((message_secret ? redtogold[src] : src) << 8) + *dest];
+                        *dest = tinttab80[(src << 8) + *dest];
                 }
         }
 }
@@ -366,7 +390,11 @@ static void HUlib_DrawTextLine(hu_textline_t *l, bool external)
 
                 // [BH] draw individual character
                 charwidth = (int)strlen(smallcharset[j]) / 10 - 1;
-                HU_DrawChar(x, y - 1, j, tempscreen, screenwidth);
+
+                if (message_secret)
+                    HU_DrawGoldChar(x, y - 1, j, tempscreen, screenwidth);
+                else
+                    HU_DrawChar(x, y - 1, j, tempscreen, screenwidth);
             }
 
             x += charwidth;
