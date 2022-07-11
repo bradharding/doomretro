@@ -374,7 +374,7 @@ void P_RemoveActiveCeiling(ceiling_t *ceiling)
     ceilinglist_t   *list = ceiling->list;
 
     ceiling->sector->ceilingdata = NULL;
-    P_RemoveThinkerNow(&ceiling->thinker);
+    P_RemoveThinker(&ceiling->thinker);
 
     if ((*list->prev = list->next))
         list->next->prev = list->prev;
