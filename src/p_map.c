@@ -596,7 +596,7 @@ static bool PIT_CheckThing(mobj_t *thing)
         {
             const int   damage = ((M_Random() & 3) + 2) * tmthing->info->damage;
 
-            if (!(thing->flags & MF_NOBLOOD))
+            if (!(thing->flags & MF_NOBLOOD) && r_blood != r_blood_none)
                 P_SpawnBlood(tmthing->x, tmthing->y, tmthing->z, shootangle, damage, tmthing);
 
             if (tmthing->info->ripsound)

@@ -829,7 +829,7 @@ static void P_ShakeOnExplode(mobj_t *actor)
 
 static void P_SpawnMeleeBlood(mobj_t *target)
 {
-    if (!r_blood_melee)
+    if (!r_blood_melee || (target->flags & MF_NOBLOOD) || r_blood == r_blood_none)
         return;
 
     if (target->player)
@@ -855,7 +855,7 @@ void A_Look(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
     mobj_t      *target;
     const int   flags = actor->flags;
-    const bool  friend = (flags & MF_FRIEND);
+    const bool  friendly = (flags & MF_FRIEND);
 
     actor->threshold = 0;       // any shot will wake up
 
@@ -865,12 +865,12 @@ void A_Look(mobj_t *actor, player_t *player, pspdef_t *psp)
     // cannot find any targets. A marine's best friend :)
     actor->pursuecount = 0;
 
-    if (!(friend
+    if (!(friendly
         && P_LookForTargets(actor, false))
         && !((target = actor->subsector->sector->soundtarget)
             && (target->flags & MF_SHOOTABLE)
             && (P_SetTarget(&actor->target, target), (!(flags & MF_AMBUSH) || P_CheckSight(actor, target))))
-        && (friend || !P_LookForTargets(actor, false)))
+        && (friendly || !P_LookForTargets(actor, false)))
         return;
 
     // go into chase state
