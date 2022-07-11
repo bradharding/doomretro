@@ -144,6 +144,16 @@ void P_RemoveThinkerDelayed(thinker_t *thinker)
     }
 }
 
+void P_RemoveThinkerDelayed2(thinker_t *thinker)
+{
+    thinker_t   *next = thinker->next;
+    thinker_t   *th = thinker->cnext;
+
+    (next->prev = thinker->prev)->next = next;
+    (th->cprev = currentthinker = thinker->cprev)->cnext = th;
+    Z_Free(thinker);
+}
+
 //
 // P_RemoveThinker
 // Deallocation is lazy -- it will not actually be freed
@@ -161,6 +171,14 @@ void P_RemoveThinker(thinker_t *thinker)
 }
 
 //
+// P_RemoveThinker2
+//
+void P_RemoveThinker2(thinker_t *thinker)
+{
+    thinker->function = &P_RemoveThinkerDelayed2;
+}
+
+//
 // P_SetTarget
 //
 // This function is used to keep track of pointer references to mobj thinkers.
@@ -173,7 +191,7 @@ void P_RemoveThinker(thinker_t *thinker)
 //
 void P_SetTarget(mobj_t **mop, mobj_t *targ)
 {
-    if (*mop)           // If there was a target already, decrease its counter
+    if (*mop)           // If there was a target already, decrease its refcount
         (*mop)->thinker.references--;
 
     if ((*mop = targ))  // Set new target and if non-NULL, increase its counter

@@ -827,7 +827,7 @@ static void P_ShakeOnExplode(mobj_t *actor)
     }
 }
 
-static void P_SpawnMeleeBlood(mobj_t *target, const int damage)
+static void P_SpawnBloodOnMelee(mobj_t *target, const int damage)
 {
     if (!r_blood_melee || (target->flags & MF_NOBLOOD) || r_blood == r_blood_none)
         return;
@@ -1149,7 +1149,7 @@ void A_TroopAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
 
         S_StartSound(actor, sfx_claw);
         P_DamageMobj(target, actor, actor, damage, true, false);
-        P_SpawnMeleeBlood(target, damage);
+        P_SpawnBloodOnMelee(target, damage);
 
         return;
     }
@@ -1175,7 +1175,7 @@ void A_SargAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
         const int   damage = (M_Random() % 10 + 1) * 4;
 
         P_DamageMobj(target, actor, actor, damage, true, false);
-        P_SpawnMeleeBlood(target, damage);
+        P_SpawnBloodOnMelee(target, damage);
     }
 }
 
@@ -1193,7 +1193,7 @@ void A_HeadAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
         const int   damage = (M_Random() % 6 + 1) * 10;
 
         P_DamageMobj(target, actor, actor, damage, true, false);
-        P_SpawnMeleeBlood(target, damage);
+        P_SpawnBloodOnMelee(target, damage);
 
         return;
     }
@@ -1238,7 +1238,7 @@ void A_BruisAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
 
         S_StartSound(actor, sfx_claw);
         P_DamageMobj(target, actor, actor, damage, true, false);
-        P_SpawnMeleeBlood(target, damage);
+        P_SpawnBloodOnMelee(target, damage);
 
         return;
     }
@@ -1352,7 +1352,7 @@ void A_SkelFist(mobj_t *actor, player_t *player, pspdef_t *psp)
 
         S_StartSound(actor, sfx_skepch);
         P_DamageMobj(target, actor, actor, damage, true, false);
-        P_SpawnMeleeBlood(target, damage);
+        P_SpawnBloodOnMelee(target, damage);
     }
 }
 
@@ -2425,7 +2425,7 @@ void A_Scratch(mobj_t *actor, player_t *player, pspdef_t *psp)
             S_StartSound(actor, state->misc2);
 
         P_DamageMobj(target, actor, actor, state->misc1, true, false);
-        P_SpawnMeleeBlood(target, state->misc1);
+        P_SpawnBloodOnMelee(target, state->misc1);
     }
 }
 
