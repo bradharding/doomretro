@@ -1298,7 +1298,7 @@ void P_UnArchiveThinkers(void)
     P_InitThinkers();
 
     // remove all bloodsplats
-    P_RemoveBloodsplats();
+    P_RemoveBloodSplats();
 
     thingindex = 0;
 

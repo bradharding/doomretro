@@ -3216,7 +3216,7 @@ static void kill_cmd_func2(char *cmd, char *parms)
                     }
                 }
 
-                P_RemoveBloodsplats();
+                P_RemoveBloodSplats();
 
                 if (kills)
                 {
@@ -3269,7 +3269,7 @@ static void kill_cmd_func2(char *cmd, char *parms)
             {
                 if (r_bloodsplats_total)
                 {
-                    P_RemoveBloodsplats();
+                    P_RemoveBloodSplats();
 
                     if (M_StringCompare(playername, playername_default))
                         C_PlayerMessage("You %s all blood splats.", killed);

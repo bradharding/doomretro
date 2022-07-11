@@ -894,9 +894,9 @@ void P_RemoveBloodMobj(mobj_t *mobj)
 }
 
 //
-// P_RemoveBloodsplats
+// P_RemoveBloodSplats
 //
-void P_RemoveBloodsplats(void)
+void P_RemoveBloodSplats(void)
 {
     for (int i = 0; i < numsectors; i++)
     {
