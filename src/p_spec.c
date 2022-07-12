@@ -2176,6 +2176,8 @@ static void P_SecretFound(void)
         S_StartSound(NULL, sfx_secret);
         HU_SecretPlayerMessage(s_SECRETMESSAGE);
     }
+    else
+        C_PlayerMessage(s_SECRETMESSAGE);
 }
 
 //
