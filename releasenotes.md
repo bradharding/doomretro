@@ -19,6 +19,7 @@
   * The `r_sprites_translucency` CVAR toggles the translucency of certain sprites. This CVAR is `on` by default and `off` when vanilla mode is enabled.
   * The `r_textures_translucency` CVAR toggles the translucency of certain [*BOOM*](https://doomwiki.org/wiki/Boom)-compatible wall textures. This CVAR is also `on` by default and `off` when vanilla mode is enabled.
 * Blood is now spawned during melee attacks from monsters. This feature may be toggled using the new `r_blood_melee` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
+* Bullet puffs are no longer spawned instead of blood when the `r_blood` CVAR is `none`.
 * Minor improvements have been made to how corpses move when the player or a monster walks over them and the `r_corpses_nudge` CVAR is `on`.
 * A crash no longer occurs when:
   * Entering the `IDBEHOLD` cheat while the alternate widescreen HUD is displayed.

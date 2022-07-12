@@ -1765,9 +1765,7 @@ static bool PTR_ShootTraverse(intercept_t *in)
         z -= FOOTCLIPSIZE;
 
     // Spawn bullet puff or blood, depending on target type.
-    if ((th->flags & MF_NOBLOOD) || r_blood == r_blood_none)
-        P_SpawnPuff(x, y, (th->type == MT_SKULL ? z - 8 * FRACUNIT : z), shootangle);
-    else
+    if (!(th->flags & MF_NOBLOOD) && r_blood != r_blood_none)
     {
         const mobjtype_t    type = th->type;
 
