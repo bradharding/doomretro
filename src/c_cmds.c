@@ -950,14 +950,14 @@ consolecmd_t consolecmds[] =
         "Toggles the use of the pillarboxes either side of the screen for certain effects when not in widescreen mode."),
 #if defined(_WIN32)
     CVAR_STR(vid_scaleapi, "", vid_scaleapi_cvar_func1, vid_scaleapi_cvar_func2, CF_NONE,
-        "The API used when scaling each frame (" BOLD("\"direct3d\"") ", " BOLD("\"opengl\"") " or " BOLD("\"software\"") ")."),
+        "The API used to scale each frame (" BOLD("\"direct3d\"") ", " BOLD("\"opengl\"") " or " BOLD("\"software\"") ")."),
 #else
     CVAR_STR(vid_scaleapi, "", vid_scaleapi_cvar_func1, vid_scaleapi_cvar_func2, CF_NONE,
-        "The API used when scaling each frame (" BOLD("\"opengl\"") ", " BOLD("\"opengles\"") ", " BOLD("\"opengles2\"") " or "
+        "The API used to scale each frame (" BOLD("\"opengl\"") ", " BOLD("\"opengles\"") ", " BOLD("\"opengles2\"") " or "
         BOLD("\"software\"") ")."),
 #endif
     CVAR_STR(vid_scalefilter, "", vid_scalefilter_cvar_func1, vid_scalefilter_cvar_func2, CF_NONE,
-        "The filter used when scaling each frame (" BOLD("\"nearest\"") ", " BOLD("\"linear\"") " or " BOLD("\"nearest_linear\"") ")."),
+        "The filter used to scale each frame (" BOLD("\"nearest\"") ", " BOLD("\"linear\"") " or " BOLD("\"nearest_linear\"") ")."),
     CVAR_OTHER(vid_screenresolution, "", null_func1, vid_screenresolution_cvar_func2,
         "The screen's resolution when fullscreen (" BOLD("desktop") " or " BOLDITALICS("width") BOLD("\xD7") BOLDITALICS("height")
         ")."),
