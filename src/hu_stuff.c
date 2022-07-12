@@ -55,6 +55,7 @@
 #include "m_misc.h"
 #include "p_local.h"
 #include "p_setup.h"
+#include "sounds.h"
 #include "st_stuff.h"
 #include "v_video.h"
 #include "w_wad.h"
@@ -1347,18 +1348,6 @@ void HU_PlayerMessage(char *message, bool group, bool external)
         HU_SetPlayerMessage(buffer, group, external);
 
     viewplayer->prevmessagetics = gametime;
-}
-
-void HU_SecretPlayerMessage(char *message)
-{
-    char    buffer[133] = "";
-
-    M_snprintf(buffer, sizeof(buffer), message, playername);
-    buffer[0] = toupper(buffer[0]);
-    C_PlayerMessage(buffer);
-    viewplayer->message = M_StringDuplicate(buffer);
-    message_dontfuckwithme = true;
-    message_secret = !(viewplayer->cheats & CF_MYPOS);
 }
 
 void HU_ClearMessages(void)

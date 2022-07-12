@@ -2168,16 +2168,22 @@ void P_ShootSpecialLine(mobj_t *thing, line_t *line)
 
 static void P_SecretFound(void)
 {
-    viewplayer->secretcount++;
-    stat_secretsfound = SafeAdd(stat_secretsfound, 1);
+    char    buffer[133] = "";
+
+    M_snprintf(buffer, sizeof(buffer), s_SECRETMESSAGE, playername);
+    buffer[0] = toupper(buffer[0]);
+    C_PlayerMessage(buffer);
 
     if (messages && secretmessages)
     {
+        viewplayer->message = M_StringDuplicate(buffer);
+        message_dontfuckwithme = true;
+        message_secret = !(viewplayer->cheats & CF_MYPOS);
         S_StartSound(NULL, sfx_secret);
-        HU_SecretPlayerMessage(s_SECRETMESSAGE);
     }
-    else
-        C_PlayerMessage(s_SECRETMESSAGE);
+
+    viewplayer->secretcount++;
+    stat_secretsfound = SafeAdd(stat_secretsfound, 1);
 }
 
 //
