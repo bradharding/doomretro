@@ -5,8 +5,8 @@
 * *DOOM Retro* is now built using v17.2.6 of [*Microsoft Visual Studio Community 2022*](https://www.visualstudio.com/vs/).
 * *DOOM Retro* now uses [*SDL_mixer v2.6.1*](https://www.libsdl.org/SDL_mixer) and [*SDL_image v2.6.0*](https://www.libsdl.org/SDL_image).
 * Extensive optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
-* *DOOM Retro* now runs again if unzipped into a folder that contains non-Latin characters in its path.
-* Several changes have been made to the text that is output to the console.
+* *DOOM Retro* no longer crashes if run from a folder that contains non-Latin characters in its path.
+* Several changes have been made to text that is output to the console.
 * The amount of blood splats rendered depends on their distance from the player again.
 * **A message is now displayed, and with an accompanying sound effect, whenever the player finds a secret. This feature may be toggled using the new `secretmessages` CVAR, which is `on` by default and `off` when vanilla mode is enabled.**
 * Secrets are no longer considered as found if the player happens to walk through one while no clipping mode is enabled.
@@ -37,7 +37,7 @@
   * `Blood` in `Thing` blocks is no longer used.
   * The `TRANSLUCENT_REDTOGREEN_33`, `TRANSLUCENT_REDTOBLUE_33`, `REDTOGREEN` and `REDTOBLUE` flags in `Retro bits` are no longer used.
   * Pain elementals, lost souls and barrels are no longer translucent when exploding if any of their states have been changed.
-  * The player’s view now shakes if a thing other than a barrel uses the `A_Explode` codepointer and the `r_shake_barrels` CVAR is `on`.
+  * The player’s view now shakes if a thing other than a barrel (but not a missile) uses the `A_Explode` codepointer and the `r_shake_barrels` CVAR is `on`.
   * If a thing is changed in any way, all of its sprites’ offsets are no longer corrected even if the `r_fixspriteoffsets` CVAR is `on`.
 * The following changes have been made to the support of `MAPINFO` lumps:
   * `nofreelook` and `nojump` now work as intended.
@@ -53,7 +53,7 @@
 * The following changes have been made when vanilla mode is enabled using the `vanilla` CCMD:
   * The `am_grid` CVAR is no longer turned `off`.
   * Red blood is now spawned when shooting a lost soul.
-* When the corpse of a monster is crushed, it’s color now matches the monster’s blood.
+* When a monster or its corpse is crushed, the color of the gibs now matches its blood.
 * The following changes have been made when playing *DOOM (Shareware)*:
   * `.deh` and `.bex` files may no longer be loaded.
   * *MBF*-compatible helper dogs may no longer be spawned using the `spawn` CCMD.
