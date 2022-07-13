@@ -46,7 +46,7 @@ extern "C" {
  */
 #define SDL_MIXER_MAJOR_VERSION 2
 #define SDL_MIXER_MINOR_VERSION 6
-#define SDL_MIXER_PATCHLEVEL    0
+#define SDL_MIXER_PATCHLEVEL    1
 
 /**
  * This macro can be used to fill a version structure with the compile-time
