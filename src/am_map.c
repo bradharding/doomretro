@@ -1202,9 +1202,9 @@ static bool AM_ClipMline(int *x0, int *y0, int *x1, int *y1)
 {
     enum
     {
-        LEFT = 1,
-        RIGHT = 2,
-        TOP = 4,
+        LEFT   = 1,
+        RIGHT  = 2,
+        TOP    = 4,
         BOTTOM = 8
     };
 

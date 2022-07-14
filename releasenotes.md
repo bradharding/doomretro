@@ -5,7 +5,7 @@
 * *DOOM Retro* is now built using v17.2.6 of [*Microsoft Visual Studio Community 2022*](https://www.visualstudio.com/vs/).
 * *DOOM Retro* now uses [*SDL_mixer v2.6.1*](https://www.libsdl.org/SDL_mixer) and [*SDL_image v2.6.0*](https://www.libsdl.org/SDL_image).
 * Extensive optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
-* *DOOM Retro* no longer crashes if run from a folder that contains non-Latin characters in its path.
+* *DOOM Retro* no longer crashes if it’s run from a folder that contains non-Latin characters in its path.
 * Several changes have been made to text that is output to the console.
 * The amount of blood splats rendered depends on their distance from the player again.
 * **A message is now displayed, and with an accompanying sound effect, whenever the player finds a secret. This feature may be toggled using the new `secretmessages` CVAR, which is `on` by default and `off` when vanilla mode is enabled.**

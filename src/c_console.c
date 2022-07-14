@@ -822,7 +822,7 @@ void C_HideConsoleFast(void)
 static void C_DrawBackground(void)
 {
     static byte blurscreen[MAXSCREENAREA];
-    byte        *color = &tinttab50[nearestcolors[consolebackcolor] << 8];
+    byte        *color = &tinttab50[consolebackcolor];
     const int   height = (consoleheight + 5) * SCREENWIDTH;
 
     // blur background
