@@ -125,11 +125,12 @@ static int              outputhistory = -1;
 static int              timerwidth;
 static int              zerowidth;
 
+static int              consolebackcolor = 12;
 static int              consoleboldcolor = 4;
 static int              consolebolditalicscolor = 96;
 static int              consolecaretcolor = 4;
 static int              consoledividercolor = 100;
-static int              consoleedgecolor;
+static int              consoleedgecolor = 180;
 static int              consoleinputcolor = 4;
 static int              consoleinputtooutputcolor = 4;
 static int              consoleoutputcolor = 88;
@@ -694,10 +695,12 @@ void C_Init(void)
         consolefont[i] = W_CacheLastLumpName(buffer);
     }
 
+    consolebackcolor = nearestcolors[consolebackcolor] << 8;
     consoleboldcolor = nearestcolors[consoleboldcolor];
     consolebolditalicscolor = nearestcolors[consolebolditalicscolor];
     consolecaretcolor = nearestcolors[consolecaretcolor];
     consoledividercolor = nearestcolors[consoledividercolor] << 8;
+    consoleedgecolor = nearestcolors[consoleedgecolor] << 8;
     consoleinputcolor = nearestcolors[consoleinputcolor];
     consoleinputtooutputcolor = nearestcolors[consoleinputtooutputcolor];
     consoleoutputcolor = nearestcolors[consoleoutputcolor];
@@ -819,7 +822,7 @@ void C_HideConsoleFast(void)
 static void C_DrawBackground(void)
 {
     static byte blurscreen[MAXSCREENAREA];
-    byte        *consolebackcolor = &tinttab50[nearestcolors[con_backcolor] << 8];
+    byte        *color = &tinttab50[nearestcolors[consolebackcolor] << 8];
     const int   height = (consoleheight + 5) * SCREENWIDTH;
 
     // blur background
@@ -853,9 +856,9 @@ static void C_DrawBackground(void)
         for (int x = y; x <= y + SCREENWIDTH - 2; x++)
             blurscreen[x] = tinttab50[(blurscreen[x - SCREENWIDTH + 1] << 8) + blurscreen[x]];
 
-    // tint background using con_backcolor CVAR
+    // tint background
     for (int i = 0; i < height; i++)
-        screens[0][i] = consolebackcolor[blurscreen[i]];
+        screens[0][i] = color[blurscreen[i]];
 
     // apply corrugated glass effect to background
     for (int y = consoleheight % 3; y <= height - 3 * SCREENWIDTH; y += SCREENWIDTH)
@@ -1373,8 +1376,6 @@ void C_Drawer(void)
 
     // cancel any screen shake
     I_UpdateBlitFunc(false);
-
-    consoleedgecolor = nearestcolors[con_edgecolor] << 8;
 
     // draw background and bottom edge
     C_DrawBackground();

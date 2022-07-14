@@ -86,8 +86,6 @@ bool        autosave = autosave_default;
 bool        autotilt = autotilt_default;
 bool        autouse = autouse_default;
 bool        centerweapon = centerweapon_default;
-int         con_backcolor = con_backcolor_default;
-int         con_edgecolor = con_edgecolor_default;
 bool        con_obituaries = con_obituaries_default;
 int         crosshair = crosshair_default;
 int         crosshaircolor = crosshaircolor_default;
@@ -317,8 +315,6 @@ static default_t cvars[] =
     CONFIG_VARIABLE_BOOL         (autotilt,                         autotilt,                              autotilt,                            BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_BOOL         (autouse,                          autouse,                               autouse,                             BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_BOOL         (centerweapon,                     centreweapon,                          centerweapon,                        BOOLVALUEALIAS        ),
-    CONFIG_VARIABLE_INT          (con_backcolor,                    con_backcolour,                        con_backcolor,                       NOVALUEALIAS          ),
-    CONFIG_VARIABLE_INT          (con_edgecolor,                    con_edgecolour,                        con_edgecolor,                       NOVALUEALIAS          ),
     CONFIG_VARIABLE_BOOL         (con_obituaries,                   con_obituaries,                        con_obituaries,                      BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT          (crosshair,                        crosshair,                             crosshair,                           CROSSHAIRVALUEALIAS   ),
     CONFIG_VARIABLE_INT          (crosshaircolor,                   crosshaircolour,                       crosshaircolor,                      NOVALUEALIAS          ),
@@ -929,12 +925,6 @@ static void M_CheckCVARs(bool ispackageconfig)
 
     if (centerweapon != false && centerweapon != true)
         centerweapon = centerweapon_default;
-
-    if (con_backcolor < con_backcolor_min || con_backcolor > con_backcolor_max)
-        con_backcolor = con_backcolor_default;
-
-    if (con_edgecolor < con_edgecolor_min || con_edgecolor > con_edgecolor_max)
-        con_edgecolor = con_edgecolor_default;
 
     if (con_obituaries != false && con_obituaries != true)
         con_obituaries = con_obituaries_default;

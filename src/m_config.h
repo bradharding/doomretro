@@ -78,8 +78,6 @@ extern bool     autosave;
 extern bool     autotilt;
 extern bool     autouse;
 extern bool     centerweapon;
-extern int      con_backcolor;
-extern int      con_edgecolor;
 extern bool     con_obituaries;
 extern int      crosshair;
 extern int      crosshaircolor;
@@ -429,14 +427,6 @@ enum
 #define autouse_default                    false
 
 #define centerweapon_default               true
-
-#define con_backcolor_min                  0
-#define con_backcolor_default              12
-#define con_backcolor_max                  255
-
-#define con_edgecolor_min                  0
-#define con_edgecolor_default              180
-#define con_edgecolor_max                  255
 
 #define con_obituaries_default             true
 

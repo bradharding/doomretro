@@ -57,6 +57,7 @@
 * The following changes have been made when playing *DOOM (Shareware)*:
   * `.deh` and `.bex` files may no longer be loaded.
   * *MBF*-compatible helper dogs may no longer be spawned using the `spawn` CCMD.
+* The `con_backcolor` and `con_edgecolor` CVARs have been removed.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
