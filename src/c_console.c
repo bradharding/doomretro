@@ -152,7 +152,7 @@ static int              consoleboldcolors[STRINGTYPES];
 
 bool                    scrollbardrawn;
 
-static void (*consoletextfunc)(byte *, int, int, int, patch_t *, int, int, int, bool, byte *);
+static void (*consoletextfunc)(int, int, patch_t *, int, int, int, bool, byte *);
 
 void C_Input(const char *string, ...)
 {
@@ -948,7 +948,7 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
                 x -= spacewidth;
         }
         else
-            V_DrawConsoleOutputTextPatch(screens[0], SCREENWIDTH, x - 1, y, warning, WARNINGWIDTH, color1, color2, false, translucency);
+            V_DrawConsoleOutputTextPatch(x - 1, y, warning, WARNINGWIDTH, color1, color2, false, translucency);
 
         x += WARNINGWIDTH + 1;
     }
@@ -1072,7 +1072,7 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
             {
                 int patchwidth = SHORT(patch->width);
 
-                consoletextfunc(screens[0], SCREENWIDTH, x, y, patch, patchwidth,
+                consoletextfunc(x, y, patch, patchwidth,
                     (bold && italics ? (color1 == consolewarningcolor ? color1 : consolebolditalicscolor) : (bold ? boldcolor : color1)),
                     color2, (italics && letter != '_' && letter != '-' && letter != '+' && letter != ',' && letter != '/'),
                     translucency);
@@ -1170,7 +1170,7 @@ static void C_DrawTimeStamp(int x, int y, int index)
         int     width = SHORT(patch->width);
 
         x -= (ch == ':' ? width : zerowidth);
-        V_DrawConsoleOutputTextPatch(screens[0], SCREENWIDTH, x + (ch == '1' ? 1 : (ch == '4' ? -1 : 0)), y, patch,
+        V_DrawConsoleOutputTextPatch(x + (ch == '1' ? 1 : (ch == '4' ? -1 : 0)), y, patch,
             width, consoletimestampcolor, NOBACKGROUNDCOLOR, false, tinttab33);
     }
 }

@@ -529,13 +529,10 @@ void V_DrawBigPatch(int x, int y, patch_t *patch)
 
 void V_DrawMenuBorderPatch(int x, int y, patch_t *patch, byte color)
 {
-    byte    *desttop;
-    int     width = SHORT(patch->width);
-    int     col = 0;
+    byte        *desttop = &screens[0][y * SCREENWIDTH + x];
+    const int   width = SHORT(patch->width);
 
-    desttop = &screens[0][y * SCREENWIDTH + x];
-
-    for (; col < width; col++, desttop++)
+    for (int col = 0; col < width; col++, desttop++)
     {
         column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnoffset[col]));
         int         td;
@@ -566,52 +563,44 @@ void V_DrawMenuBorderPatch(int x, int y, patch_t *patch, byte color)
     }
 }
 
-void V_DrawConsoleInputTextPatch(byte *screen, int screenwidth, int x, int y, patch_t *patch, int width, int color,
-    int backgroundcolor, bool italics, byte *translucency)
+void V_DrawConsoleInputTextPatch(int x, int y, patch_t *patch, int width,
+    int color, int backgroundcolor, bool italics, byte *translucency)
 {
-    byte    *desttop = &screens[0][y * screenwidth + x];
+    byte    *desttop = &screens[0][y * SCREENWIDTH + x];
 
     for (int col = 0; col < width; col++, desttop++)
     {
         column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnoffset[col]));
-        byte        topdelta;
+        byte        *source = (byte *)column + 3;
+        byte        *dest = &desttop[SCREENWIDTH];
 
-        // step through the posts in a column
-        while ((topdelta = column->topdelta) != 0xFF)
+        for (int i = 0; i < CONSOLELINEHEIGHT; i++)
         {
-            byte    *source = (byte *)column + 3;
-            byte    *dest = &desttop[topdelta * screenwidth];
-
-            for (int i = 0; i < CONSOLELINEHEIGHT; i++)
+            if (y + i >= CONSOLETOP)
             {
-                if (y + i >= CONSOLETOP)
-                {
-                    if (*source == WHITE)
-                        *dest = color;
-                    else if (*dest != color)
-                        *dest = backgroundcolor;
-                }
-
-                source++;
-                dest += screenwidth;
+                if (*source == WHITE)
+                    *dest = color;
+                else if (*dest != color)
+                    *dest = backgroundcolor;
             }
 
-            column = (column_t *)((byte *)column + CONSOLELINEHEIGHT + 4);
+            source++;
+            dest += SCREENWIDTH;
         }
     }
 }
 
-void V_DrawConsoleOutputTextPatch(byte *screen, int screenwidth, int x, int y, patch_t *patch,
-    int width, int color, int backgroundcolor, bool italics, byte *translucency)
+void V_DrawConsoleOutputTextPatch(int x, int y, patch_t *patch, int width,
+    int color, int backgroundcolor, bool italics, byte *translucency)
 {
-    byte        *desttop = &screen[y * screenwidth + x];
+    byte        *desttop = &screens[0][y * SCREENWIDTH + x];
     const int   italicize[] = { 2, 2, 2, 1, 1, 1, 1, 0, 0, 0, 0, -1, -1, -1 };
 
     for (int col = 0; col < width; col++, desttop++)
     {
         column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnoffset[col]));
         byte        *source = (byte *)column + 3;
-        byte        *dest = &desttop[screenwidth];
+        byte        *dest = &desttop[SCREENWIDTH];
 
         for (int i = 0; i < CONSOLELINEHEIGHT; i++)
         {
@@ -631,36 +620,29 @@ void V_DrawConsoleOutputTextPatch(byte *screen, int screenwidth, int x, int y, p
             }
 
             source++;
-            dest += screenwidth;
+            dest += SCREENWIDTH;
         }
     }
 }
 
-void V_DrawOverlayTextPatch(byte *screen, int screenwidth, int x, int y, patch_t *patch, int width, int color, byte *translucency)
+void V_DrawOverlayTextPatch(byte *screen, int screenwidth, int x,
+    int y, patch_t *patch, int width, int color, byte *translucency)
 {
     byte    *desttop = &screen[y * screenwidth + x];
 
     for (int col = 0; col < width; col++, desttop++)
     {
         column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnoffset[col]));
-        byte        topdelta;
+        byte        *source = (byte *)column + 3;
+        byte        *dest = &desttop[screenwidth];
 
-        // step through the posts in a column
-        while ((topdelta = column->topdelta) != 0xFF)
+        for (int i = 0; i < CONSOLELINEHEIGHT; i++)
         {
-            byte    *source = (byte *)column + 3;
-            byte    *dest = &desttop[topdelta * screenwidth];
+            if (*source)
+                *dest = (!translucency ? color : translucency[(color << 8) + *dest]);
 
-            for (int i = 0; i < CONSOLELINEHEIGHT; i++)
-            {
-                if (*source)
-                    *dest = (!translucency ? color : translucency[(color << 8) + *dest]);
-
-                source++;
-                dest += screenwidth;
-            }
-
-            column = (column_t *)((byte *)column + CONSOLELINEHEIGHT + 4);
+            source++;
+            dest += screenwidth;
         }
     }
 }
