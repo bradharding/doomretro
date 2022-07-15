@@ -655,35 +655,26 @@ void V_DrawConsolePatch(int x, int y, patch_t *patch, int maxwidth)
     for (int col = 0; col < width; col++, desttop++)
     {
         column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnoffset[col]));
-        byte        topdelta;
+        byte        *source = (byte *)column + 3;
+        byte        *dest = &desttop[SCREENWIDTH];
+        int         count = column->length;
+        int         height = y + 1;
 
-        // step through the posts in a column
-        while ((topdelta = column->topdelta) != 0xFF)
+        while (count--)
         {
-            byte        *source = (byte *)column + 3;
-            byte        *dest = &desttop[topdelta * SCREENWIDTH];
-            const byte  length = column->length;
-            int         count = length;
-            int         height = topdelta + y + 1;
-
-            while (count--)
+            if (height > CONSOLETOP)
             {
-                if (height > CONSOLETOP)
-                {
-                    *dest = tinttab60[(nearestcolors[*source] << 8) + *dest];
+                *dest = tinttab60[(nearestcolors[*source] << 8) + *dest];
 
-                    if (height == 1)
-                        *dest = tinttab60[*dest];
-                    else if (height == 2)
-                        *dest = tinttab30[*dest];
-                }
-
-                source++;
-                dest += SCREENWIDTH;
-                height++;
+                if (height == 1)
+                    *dest = tinttab60[*dest];
+                else if (height == 2)
+                    *dest = tinttab30[*dest];
             }
 
-            column = (column_t *)((byte *)column + length + 4);
+            source++;
+            dest += SCREENWIDTH;
+            height++;
         }
     }
 }
@@ -696,31 +687,22 @@ void V_DrawConsoleBrandingPatch(int x, int y, patch_t *patch, int color)
     for (int col = 0; col < width; col++, desttop++, x++)
     {
         column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnoffset[col]));
-        byte        topdelta;
+        byte        *source = (byte *)column + 3;
+        byte        *dest = &desttop[SCREENWIDTH];
+        int         count = column->length;
+        int         height = y + 1;
 
         if (x > SCREENWIDTH)
             return;
 
-        // step through the posts in a column
-        while ((topdelta = column->topdelta) != 0xFF)
+        while (count--)
         {
-            byte        *source = (byte *)column + 3;
-            byte        *dest = &desttop[topdelta * SCREENWIDTH];
-            const byte  length = column->length;
-            int         count = length;
-            int         height = topdelta + y + 1;
+            if (*source && height > CONSOLETOP)
+                *dest = (*source == WHITE || *source == LIGHTGRAY ? nearestcolors[*source] : tinttab50[color + *dest]);
 
-            while (count--)
-            {
-                if (*source && height > CONSOLETOP)
-                    *dest = (*source == WHITE || *source == LIGHTGRAY ? nearestcolors[*source] : tinttab50[color + *dest]);
-
-                source++;
-                dest += SCREENWIDTH;
-                height++;
-            }
-
-            column = (column_t *)((byte *)column + length + 4);
+            source++;
+            dest += SCREENWIDTH;
+            height++;
         }
     }
 }

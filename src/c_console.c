@@ -884,7 +884,7 @@ static void C_DrawBackground(void)
 
     // draw branding
     V_DrawConsoleBrandingPatch(SCREENWIDTH - brandwidth + (vid_widescreen ? 0 : 18),
-        consoleheight - brandheight + 2, brand, consoleedgecolor);
+        consoleheight - brandheight + 1, brand, consoleedgecolor);
 
     // draw bottom edge
     for (int i = height - 3 * SCREENWIDTH; i < height; i++)
