@@ -938,8 +938,7 @@ static void R_ProjectBloodSplat(const bloodsplat_t *splat)
 // killough 09/18/98: add lightlevel as parameter, fixing underwater lighting
 void R_AddSprites(sector_t *sec, int lightlevel)
 {
-    mobj_t      *thing = sec->thinglist;
-    static int  prevlightlevel = -1;
+    mobj_t  *thing = sec->thinglist;
 
     if ((floorheight = sec->interpfloorheight) - FRACUNIT <= viewz)
     {
@@ -947,13 +946,9 @@ void R_AddSprites(sector_t *sec, int lightlevel)
 
         if (splat && drawbloodsplats)
         {
-            if (lightlevel != prevlightlevel)
-            {
-                spritelights = scalelight[BETWEEN(0, (lightlevel >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)];
-                nextspritelights = (thing ?
-                    scalelight[BETWEEN(0, ((lightlevel + 4) >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)] : spritelights);
-                prevlightlevel = lightlevel;
-            }
+            spritelights = scalelight[BETWEEN(0, (lightlevel >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)];
+            nextspritelights = (thing ?
+                scalelight[BETWEEN(0, ((lightlevel + 4) >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)] : spritelights);
 
             skipsplat[0] = 1;
             skipsplat[1] = 1;
@@ -970,12 +965,8 @@ void R_AddSprites(sector_t *sec, int lightlevel)
         }
         else if (thing)
         {
-            if (lightlevel != prevlightlevel)
-            {
-                spritelights = scalelight[BETWEEN(0, (lightlevel >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)];
-                nextspritelights = scalelight[BETWEEN(0, ((lightlevel + 4) >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)];
-                prevlightlevel = lightlevel;
-            }
+            spritelights = scalelight[BETWEEN(0, (lightlevel >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)];
+            nextspritelights = scalelight[BETWEEN(0, ((lightlevel + 4) >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)];
         }
         else
             return;
@@ -984,12 +975,8 @@ void R_AddSprites(sector_t *sec, int lightlevel)
     }
     else if (thing)
     {
-        if (lightlevel != prevlightlevel)
-        {
-            spritelights = scalelight[BETWEEN(0, (lightlevel >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)];
-            nextspritelights = scalelight[BETWEEN(0, ((lightlevel + 4) >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)];
-            prevlightlevel = lightlevel;
-        }
+        spritelights = scalelight[BETWEEN(0, (lightlevel >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)];
+        nextspritelights = scalelight[BETWEEN(0, ((lightlevel + 4) >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)];
 
         drawshadows = false;
     }
