@@ -366,6 +366,15 @@ static void R_RenderSegLoop(void)
             floorclip[rw_x] = top;
         }
 
+        if (!fixedcolormap)
+        {
+            const int   index = MIN(rw_scale >> LIGHTSCALESHIFT, MAXLIGHTSCALE - 1);
+
+            dc_colormap[0] = walllights[index];
+            dc_nextcolormap[0] = walllightsnext[index];
+            dc_z = ((rw_scale >> 5) & 255);
+        }
+
         // texturecolumn and lighting are independent of wall tiers
         if (segtextured)
         {
@@ -373,15 +382,6 @@ static void R_RenderSegLoop(void)
             const angle_t   angle = MIN((rw_centerangle + xtoviewangle[rw_x]) >> ANGLETOFINESHIFT, FINEANGLES / 2 - 1);
 
             texturecolumn = (rw_offset - FixedMul(finetangent[angle], rw_distance)) >> FRACBITS;
-
-            if (!fixedcolormap)
-            {
-                const int   index = MIN(rw_scale >> LIGHTSCALESHIFT, MAXLIGHTSCALE - 1);
-
-                dc_colormap[0] = walllights[index];
-                dc_nextcolormap[0] = walllightsnext[index];
-                dc_z = ((rw_scale >> 5) & 255);
-            }
 
             dc_x = rw_x;
             dc_iscale = UINT_MAX / rw_scale;

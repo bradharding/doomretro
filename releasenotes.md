@@ -59,6 +59,7 @@
   * `.deh` and `.bex` files may no longer be loaded.
   * *MBF*-compatible helper dogs may no longer be spawned using the `spawn` CCMD.
 * The `con_backcolor` and `con_edgecolor` CVARs have been removed.
+* A bug is fixed whereby monsters wouldn’t be rendered correctly in some rare instances due to [*BOOM*](https://doomwiki.org/wiki/Boom)-compatible colormaps.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
