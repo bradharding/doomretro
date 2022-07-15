@@ -849,10 +849,10 @@ static void R_InitColormaps(void)
         wadfile_t   *othercolormapwad = lumpinfo[firstcolormaplump]->wadfile;
 
         if (M_StringCompare(colormapwad->path, othercolormapwad->path))
-            C_Output("Using the " BOLD("COLORMAP") " lump and %i others in the %s " BOLD("%s") ".",
+            C_Output("Using the " BOLD("COLORMAP") " lump and %i more in the %s " BOLD("%s") ".",
                 numcolormaps - 1, (colormapwad->type == IWAD ? "IWAD" : "PWAD"), colormapwad->path);
         else
-            C_Output("Using the " BOLD("COLORMAP") " lump in the %s " BOLD("%s") ", and %i others in the %s " BOLD("%s") ".",
+            C_Output("Using the " BOLD("COLORMAP") " lump in the %s " BOLD("%s") " and %i more in the %s " BOLD("%s") ".",
                 (colormapwad->type == IWAD ? "IWAD" : "PWAD"), colormapwad->path, numcolormaps - 1,
                 (othercolormapwad->type == IWAD ? "IWAD" : "PWAD"), othercolormapwad->path);
     }

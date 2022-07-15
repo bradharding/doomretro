@@ -998,15 +998,15 @@ static bool muzzleflash;
 
 static void R_DrawPlayerSprite(pspdef_t *psp, bool invisibility, bool texture, bool altered)
 {
-    fixed_t         tx;
-    int             x1, x2;
-    vissprite_t     tempvis;
-    vissprite_t     *vis = &tempvis;
-    state_t         *state = psp->state;
-    spritenum_t     spr = state->sprite;
-    const int       frame = state->frame;
-    spriteframe_t   *sprframe = &sprites[spr].spriteframes[frame & FF_FRAMEMASK];
-    const int       lump = sprframe->lump[0];
+    fixed_t             tx;
+    int                 x1, x2;
+    vissprite_t         tempvis;
+    vissprite_t         *vis = &tempvis;
+    const state_t       *state = psp->state;
+    const spritenum_t   spr = state->sprite;
+    const int           frame = state->frame;
+    const spriteframe_t *sprframe = &sprites[spr].spriteframes[frame & FF_FRAMEMASK];
+    const int           lump = sprframe->lump[0];
 
     // calculate edges of the shape
     tx = psp->sx - VANILLAWIDTH / 2 * FRACUNIT - (!r_fixspriteoffsets || (altered && !vanilla) ?
