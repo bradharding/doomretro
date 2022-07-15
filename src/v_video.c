@@ -601,8 +601,8 @@ void V_DrawConsoleInputTextPatch(byte *screen, int screenwidth, int x, int y, pa
     }
 }
 
-void V_DrawConsoleOutputTextPatch(byte *screen, int screenwidth, int x, int y, patch_t *patch, int width, int color,
-    int backgroundcolor, bool italics, byte *translucency)
+void V_DrawConsoleOutputTextPatch(byte *screen, int screenwidth, int x, int y, patch_t *patch,
+    int width, int color, int backgroundcolor, bool italics, byte *translucency)
 {
     byte        *desttop = &screen[y * screenwidth + x];
     const int   italicize[] = { 2, 2, 2, 1, 1, 1, 1, 0, 0, 0, 0, -1, -1, -1 };
@@ -610,36 +610,28 @@ void V_DrawConsoleOutputTextPatch(byte *screen, int screenwidth, int x, int y, p
     for (int col = 0; col < width; col++, desttop++)
     {
         column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnoffset[col]));
-        byte        topdelta;
+        byte        *source = (byte *)column + 3;
+        byte        *dest = &desttop[screenwidth];
 
-        // step through the posts in a column
-        while ((topdelta = column->topdelta) != 0xFF)
+        for (int i = 0; i < CONSOLELINEHEIGHT; i++)
         {
-            byte    *source = (byte *)column + 3;
-            byte    *dest = &desttop[topdelta * screenwidth];
-
-            for (int i = 0; i < CONSOLELINEHEIGHT; i++)
+            if (y + i >= CONSOLETOP && *source)
             {
-                if (y + i >= CONSOLETOP && *source)
-                {
-                    byte    *dot = dest;
+                byte    *dot = dest;
 
-                    if (italics)
-                        dot += italicize[i];
+                if (italics)
+                    dot += italicize[i];
 
-                    *dot = (!translucency ? color : translucency[(color << 8) + *dot]);
+                *dot = (!translucency ? color : translucency[(color << 8) + *dot]);
 
-                    if (!(y + i))
-                        *dot = tinttab50[*dot];
-                    else if (y + i == 1)
-                        *dot = tinttab25[*dot];
-                }
-
-                source++;
-                dest += screenwidth;
+                if (!(y + i))
+                    *dot = tinttab50[*dot];
+                else if (y + i == 1)
+                    *dot = tinttab25[*dot];
             }
 
-            column = (column_t *)((byte *)column + CONSOLELINEHEIGHT + 4);
+            source++;
+            dest += screenwidth;
         }
     }
 }
