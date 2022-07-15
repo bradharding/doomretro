@@ -94,9 +94,9 @@ void V_DrawMenuBorderPatch(int x, int y, patch_t *patch, byte color);
 void V_DrawBigWidePatch(int x, int y, patch_t *patch);
 void V_DrawConsolePatch(int x, int y, patch_t *patch, int maxwidth);
 void V_DrawConsoleBrandingPatch(int x, int y, patch_t *patch, int color);
-void V_DrawConsoleInputTextPatch(int x, int y, patch_t *patch, int width,
+void V_DrawConsoleSelectedTextPatch(int x, int y, patch_t *patch, int width,
     int color, int backgroundcolor, bool italics, byte *translucency);
-void V_DrawConsoleOutputTextPatch(int x, int y, patch_t *patch, int width,
+void V_DrawConsoleTextPatch(int x, int y, patch_t *patch, int width,
     int color, int backgroundcolor, bool italics, byte *translucency);
 void V_DrawOverlayTextPatch(byte *screen, int screenwidth, int x, int y, patch_t *patch,
     int width, int color, byte *translucency);

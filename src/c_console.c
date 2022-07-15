@@ -948,7 +948,7 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
                 x -= spacewidth;
         }
         else
-            V_DrawConsoleOutputTextPatch(x - 1, y, warning, WARNINGWIDTH, color1, color2, false, translucency);
+            V_DrawConsoleTextPatch(x - 1, y, warning, WARNINGWIDTH, color1, color2, false, translucency);
 
         x += WARNINGWIDTH + 1;
     }
@@ -1170,7 +1170,7 @@ static void C_DrawTimeStamp(int x, int y, int index)
         int     width = SHORT(patch->width);
 
         x -= (ch == ':' ? width : zerowidth);
-        V_DrawConsoleOutputTextPatch(x + (ch == '1' ? 1 : (ch == '4' ? -1 : 0)), y, patch,
+        V_DrawConsoleTextPatch(x + (ch == '1' ? 1 : (ch == '4' ? -1 : 0)), y, patch,
             width, consoletimestampcolor, NOBACKGROUNDCOLOR, false, tinttab33);
     }
 }
@@ -1380,7 +1380,7 @@ void C_Drawer(void)
     // draw the scrollbar
     C_DrawScrollbar();
 
-    consoletextfunc = &V_DrawConsoleOutputTextPatch;
+    consoletextfunc = &V_DrawConsoleTextPatch;
 
     // draw console text
     for (i = bottomline; i >= 0; i--)
@@ -1517,7 +1517,7 @@ void C_Drawer(void)
 
         if (partialinput[0] != '\0')
         {
-            consoletextfunc = &V_DrawConsoleOutputTextPatch;
+            consoletextfunc = &V_DrawConsoleTextPatch;
             x += C_DrawConsoleText(x, CONSOLEINPUTY, partialinput, consoleinputcolor,
                 NOBACKGROUNDCOLOR, NOBOLDCOLOR, NULL, notabs, false, true, 0);
         }
@@ -1540,7 +1540,7 @@ void C_Drawer(void)
                         screens[0][yy * SCREENWIDTH + x - 1] = consoleselectedinputbackgroundcolor;
                 }
 
-                consoletextfunc = &V_DrawConsoleInputTextPatch;
+                consoletextfunc = &V_DrawConsoleSelectedTextPatch;
                 x += C_DrawConsoleText(x, CONSOLEINPUTY, partialinput, consoleselectedinputcolor,
                          consoleselectedinputbackgroundcolor, NOBOLDCOLOR, NULL, notabs, false, true, 0);
 
@@ -1601,7 +1601,7 @@ void C_Drawer(void)
                     screens[0][yy * SCREENWIDTH + x - 1] = consoleselectedinputbackgroundcolor;
             }
 
-            consoletextfunc = &V_DrawConsoleInputTextPatch;
+            consoletextfunc = &V_DrawConsoleSelectedTextPatch;
             x += C_DrawConsoleText(x, CONSOLEINPUTY, partialinput, consoleselectedinputcolor,
                 consoleselectedinputbackgroundcolor, NOBOLDCOLOR, NULL, notabs, false, true, 0);
 
@@ -1625,7 +1625,7 @@ void C_Drawer(void)
 
         if (partialinput[0] != '\0')
         {
-            consoletextfunc = &V_DrawConsoleOutputTextPatch;
+            consoletextfunc = &V_DrawConsoleTextPatch;
             C_DrawConsoleText(x, CONSOLEINPUTY, partialinput, consoleinputcolor,
                 NOBACKGROUNDCOLOR, NOBOLDCOLOR, NULL, notabs, false, true, 0);
         }

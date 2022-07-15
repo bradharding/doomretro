@@ -563,7 +563,7 @@ void V_DrawMenuBorderPatch(int x, int y, patch_t *patch, byte color)
     }
 }
 
-void V_DrawConsoleInputTextPatch(int x, int y, patch_t *patch, int width,
+void V_DrawConsoleSelectedTextPatch(int x, int y, patch_t *patch, int width,
     int color, int backgroundcolor, bool italics, byte *translucency)
 {
     byte    *desttop = &screens[0][y * SCREENWIDTH + x];
@@ -590,7 +590,7 @@ void V_DrawConsoleInputTextPatch(int x, int y, patch_t *patch, int width,
     }
 }
 
-void V_DrawConsoleOutputTextPatch(int x, int y, patch_t *patch, int width,
+void V_DrawConsoleTextPatch(int x, int y, patch_t *patch, int width,
     int color, int backgroundcolor, bool italics, byte *translucency)
 {
     byte        *desttop = &screens[0][y * SCREENWIDTH + x];
