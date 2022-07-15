@@ -1150,10 +1150,8 @@ static void AM_ChangeWindowScale(void)
 
 static void AM_DoFollowPlayer(void)
 {
-    mobj_t  *mo = viewplayer->mo;
-
-    m_x = (mo->x >> FRACTOMAPBITS) - m_w / 2;
-    m_y = (mo->y >> FRACTOMAPBITS) - m_h / 2;
+    m_x = (viewx >> FRACTOMAPBITS) - m_w / 2;
+    m_y = (viewy >> FRACTOMAPBITS) - m_h / 2;
 }
 
 //
@@ -1322,7 +1320,7 @@ static inline void PUTTRANSLUCENTDOT(unsigned int x, unsigned int y, const byte 
 //
 // Classic Bresenham w/ whatever optimizations needed for speed
 //
-static void AM_DrawFline(int x0, int y0, int x1, int y1, byte *color,
+static void AM_DrawFline(int x0, int y0, int x1, int y1, const byte *color,
     void (*putdot)(unsigned int, unsigned int, const byte *))
 {
     if (AM_ClipMline(&x0, &y0, &x1, &y1))
@@ -1671,11 +1669,11 @@ static void AM_DrawTranslucentPlayerArrow(const mline_t *lineguy, const int line
 {
     for (int i = 0; i < lineguylines; i++)
     {
-        mline_t line = lineguy[i];
-        int     x1 = line.a.x;
-        int     y1 = line.a.y;
-        int     x2 = line.b.x;
-        int     y2 = line.b.y;
+        const mline_t   line = lineguy[i];
+        int             x1 = line.a.x;
+        int             y1 = line.a.y;
+        int             x2 = line.b.x;
+        int             y2 = line.b.y;
 
         AM_Rotate(&x1, &y1, angle);
         AM_Rotate(&x2, &y2, angle);
@@ -1684,14 +1682,14 @@ static void AM_DrawTranslucentPlayerArrow(const mline_t *lineguy, const int line
     }
 }
 
-static void AM_DrawThingTriangle(const mline_t *lineguy, const int lineguylines,
-    const fixed_t scale, angle_t angle, fixed_t x, fixed_t y, byte color)
+static void AM_DrawThingTriangle(const mline_t *lineguy, const int lineguylines, const fixed_t scale,
+    const angle_t angle, const fixed_t x, const fixed_t y, const byte color)
 {
     for (int i = 0; i < lineguylines; i++)
     {
-        int     x1, y1;
-        int     x2, y2;
-        mline_t line = lineguy[i];
+        int             x1, y1;
+        int             x2, y2;
+        const mline_t   line = lineguy[i];
 
         if (scale)
         {
@@ -1757,11 +1755,8 @@ static void AM_DrawPlayer(void)
 
     const mobj_t    *mo = viewplayer->mo;
     const int       invisibility = viewplayer->powers[pw_invisibility];
-    mpoint_t        point;
+    mpoint_t        point = { mo->x >> FRACTOMAPBITS, mo->y >> FRACTOMAPBITS };
     angle_t         angle = ANG90;
-
-    point.x = mo->x >> FRACTOMAPBITS;
-    point.y = mo->y >> FRACTOMAPBITS;
 
     if (am_rotatemode)
         AM_RotatePoint(&point);
@@ -1972,7 +1967,7 @@ static void AM_DrawPath(void)
         {
             for (int i = 1; i < pathpointnum; i++)
             {
-                mpoint_t    start = { pathpoints[i - 1].x, pathpoints[i - 1].y };
+                const mpoint_t  start = { pathpoints[i - 1].x, pathpoints[i - 1].y };
 
                 end.x = pathpoints[i].x;
                 end.y = pathpoints[i].y;

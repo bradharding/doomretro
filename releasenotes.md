@@ -8,17 +8,17 @@
 * *DOOM Retro* no longer crashes if it’s run from a folder that contains non-Latin characters in its path.
 * Several changes have been made to text that is output to the console.
 * The amount of blood splats rendered depends on their distance from the player again.
-* **A message is now displayed, and with an accompanying sound effect, whenever the player finds a secret. This feature may be toggled using the new `secretmessages` CVAR, which is `on` by default and `off` when vanilla mode is enabled.**
+* A message is now displayed, and with an accompanying sound effect, whenever the player finds a secret. This feature may be toggled using the new `secretmessages` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
 * Secrets are no longer considered as found if the player happens to walk through one while no clipping mode is enabled.
 * The following changes have been made to the help screen displayed by pressing the <kbd><b>F1</b></kbd> key:
   * Subtle noise has been applied to the background.
   * `HELP`, `HELP1` and `HELP2` lumps in PWADs that are wider than 320 pixels are now displayed correctly.
-* **If it doesn’t already exist, an `autoload` folder is now created at startup. Any `.wad`, `.deh` or `.bex` file that is placed in this folder, (or in the subfolder based on the name of the current WAD), will then always be automatically loaded at startup.**
+* If it doesn’t already exist, an `autoload` folder is now created at startup. Any `.wad`, `.deh` or `.bex` file that is placed in this folder, (or in the subfolder based on the name of the current WAD), will then always be automatically loaded at startup.
 * The number of gamma correction levels set by the `r_gamma` CVAR that are brighter than `1.0` has been reduced.
 * The `r_translucency` CVAR has been replaced by the following two CVARs:
   * The `r_sprites_translucency` CVAR toggles the translucency of certain sprites. This CVAR is `on` by default and `off` when vanilla mode is enabled.
   * The `r_textures_translucency` CVAR toggles the translucency of certain [*BOOM*](https://doomwiki.org/wiki/Boom)-compatible wall textures. This CVAR is also `on` by default and `off` when vanilla mode is enabled.
-* **Blood is now spawned during melee attacks from monsters. This feature may be toggled using the new `r_blood_melee` CVAR, which is `on` by default and `off` when vanilla mode is enabled.**
+* Blood is now spawned during melee attacks from monsters. This feature may be toggled using the new `r_blood_melee` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
 * Bullet puffs are no longer spawned instead of blood when the `r_blood` CVAR is `none`.
 * Minor improvements have been made to how corpses move when the player or a monster walks over them and the `r_corpses_nudge` CVAR is `on`.
 * A crash no longer occurs when:
