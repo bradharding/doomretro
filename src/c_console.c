@@ -125,31 +125,30 @@ static int              outputhistory = -1;
 static int              timerwidth;
 static int              zerowidth;
 
-static int              consolebackcolor = 12;
-static int              consoleboldcolor = 4;
-static int              consolebolditalicscolor = 96;
-static int              consolecaretcolor = 4;
-static int              consoledividercolor = 100;
-static int              consoleedgecolor = 180;
-static int              consoleinputcolor = 4;
-static int              consoleinputtooutputcolor = 4;
-static int              consoleoutputcolor = 88;
-static int              consoleoverlaycolor = 4;
-static int              consoleoverlaywarningcolor = 4;
-static int              consoleplayermessagecolor = 161;
-static int              consolescrollbarfacecolor = 96;
-static int              consolescrollbartrackcolor = 100;
-static int              consoleselectedinputbackgroundcolor = 100;
-static int              consoleselectedinputcolor = 4;
-static int              consoletimestampcolor = 161;
-static int              consolewarningboldcolor = 176;
-static int              consolewarningcolor = 180;
+static byte             *consoleautomapbevelcolor;
+static byte             *consolebackcolor;
+static byte             *consolebevelcolor;
+static int              consoleboldcolor;
+static int              consolebolditalicscolor;
+static int              consolecaretcolor;
+static int              consoledividercolor;
+static int              consoleedgecolor;
+static int              consoleinputcolor;
+static int              consoleinputtooutputcolor;
+static int              consoleoutputcolor;
+static int              consoleoverlaycolor;
+static int              consoleoverlaywarningcolor;
+static int              consoleplayermessagecolor;
+static int              consolescrollbarfacecolor;
+static int              consolescrollbartrackcolor;
+static int              consoleselectedinputbackgroundcolor;
+static int              consoleselectedinputcolor;
+static int              consoletimestampcolor;
+static int              consolewarningboldcolor;
+static int              consolewarningcolor;
 
 static int              consolecolors[STRINGTYPES];
 static int              consoleboldcolors[STRINGTYPES];
-
-static byte             *consolebevel;
-static byte             *consoleautomapbevel;
 
 bool                    scrollbardrawn;
 
@@ -695,25 +694,27 @@ void C_Init(void)
         consolefont[i] = W_CacheLastLumpName(buffer);
     }
 
-    consolebackcolor = nearestcolors[consolebackcolor] << 8;
-    consoleboldcolor = nearestcolors[consoleboldcolor];
-    consolebolditalicscolor = nearestcolors[consolebolditalicscolor];
-    consolecaretcolor = nearestcolors[consolecaretcolor];
-    consoledividercolor = nearestcolors[consoledividercolor] << 8;
-    consoleedgecolor = nearestcolors[consoleedgecolor] << 8;
-    consoleinputcolor = nearestcolors[consoleinputcolor];
-    consoleinputtooutputcolor = nearestcolors[consoleinputtooutputcolor];
-    consoleoutputcolor = nearestcolors[consoleoutputcolor];
-    consoleoverlaycolor = nearestcolors[consoleoverlaycolor];
-    consoleoverlaywarningcolor = nearestcolors[consoleoverlaywarningcolor];
-    consoleplayermessagecolor = nearestcolors[consoleplayermessagecolor];
-    consolescrollbarfacecolor = nearestcolors[consolescrollbarfacecolor];
-    consolescrollbartrackcolor = nearestcolors[consolescrollbartrackcolor] << 8;
-    consoleselectedinputbackgroundcolor = nearestcolors[consoleselectedinputbackgroundcolor];
-    consoleselectedinputcolor = nearestcolors[consoleselectedinputcolor];
-    consoletimestampcolor = nearestcolors[consoletimestampcolor];
-    consolewarningboldcolor = nearestcolors[consolewarningboldcolor];
-    consolewarningcolor = nearestcolors[consolewarningcolor];
+    consoleautomapbevelcolor = &tinttab50[nearestcolors[CONSOLEAUTOMAPBEVELCOLOR] << 8];
+    consolebackcolor = &tinttab50[nearestcolors[CONSOLEBACKCOLOR] << 8];
+    consolebevelcolor = &tinttab50[nearestcolors[CONSOLEBEVELCOLOR] << 8];
+    consoleboldcolor = nearestcolors[CONSOLEBOLDCOLOR];
+    consolebolditalicscolor = nearestcolors[CONSOLEBOLDITALICSCOLOR];
+    consolecaretcolor = nearestcolors[CONSOLECARETCOLOR];
+    consoledividercolor = nearestcolors[CONSOLEDIVIDERCOLOR] << 8;
+    consoleedgecolor = nearestcolors[CONSOLEEDGECOLOR] << 8;
+    consoleinputcolor = nearestcolors[CONSOLEINPUTCOLOR];
+    consoleinputtooutputcolor = nearestcolors[CONSOLEINPUTTOOUTPUTCOLOR];
+    consoleoutputcolor = nearestcolors[CONSOLEOUTPUTCOLOR];
+    consoleoverlaycolor = nearestcolors[CONSOLEOVERLAYCOLOR];
+    consoleoverlaywarningcolor = nearestcolors[CONSOLEOVERLAYWARNINGCOLOR];
+    consoleplayermessagecolor = nearestcolors[CONSOLEPLAYERMESSAGECOLOR];
+    consolescrollbarfacecolor = nearestcolors[CONSOLESCROLLBARFACECOLOR];
+    consolescrollbartrackcolor = nearestcolors[CONSOLESCROLLBARTRACKCOLOR] << 8;
+    consoleselectedinputbackgroundcolor = nearestcolors[CONSOLESELECTEDINPUTBACKGROUNDCOLOR];
+    consoleselectedinputcolor = nearestcolors[CONSOLESELECTEDINPUTCOLOR];
+    consoletimestampcolor = nearestcolors[CONSOLETIMESTAMPCOLOR];
+    consolewarningboldcolor = nearestcolors[CONSOLEWARNINGBOLDCOLOR];
+    consolewarningcolor = nearestcolors[CONSOLEWARNINGCOLOR];
 
     consolecolors[inputstring] = consoleinputtooutputcolor;
     consolecolors[cheatstring] = consoleinputtooutputcolor;
@@ -726,9 +727,6 @@ void C_Init(void)
     consoleboldcolors[outputstring] = consoleboldcolor;
     consoleboldcolors[warningstring] = consolewarningboldcolor;
     consoleboldcolors[playermessagestring] = consoleplayermessagecolor;
-
-    consolebevel = &tinttab50[nearestblack << 8];
-    consoleautomapbevel = &tinttab50[nearestcolors[5] << 8];
 
     brand = W_CacheLastLumpName("DRBRAND");
     lsquote = W_CacheLastLumpName("DRFON145");
@@ -822,7 +820,6 @@ void C_HideConsoleFast(void)
 static void C_DrawBackground(void)
 {
     static byte blurscreen[MAXSCREENAREA];
-    byte        *color = &tinttab50[consolebackcolor];
     const int   height = (consoleheight + 5) * SCREENWIDTH;
 
     // blur background
@@ -858,7 +855,7 @@ static void C_DrawBackground(void)
 
     // tint background
     for (int i = 0; i < height; i++)
-        screens[0][i] = color[blurscreen[i]];
+        screens[0][i] = consolebackcolor[blurscreen[i]];
 
     // apply corrugated glass effect to background
     for (int y = consoleheight % 3; y <= height - 3 * SCREENWIDTH; y += SCREENWIDTH)
@@ -901,27 +898,27 @@ static void C_DrawBackground(void)
     if (automapactive && am_backcolor == am_backcolor_default)
     {
         for (int i = 0; i < height - 3 * SCREENWIDTH; i += SCREENWIDTH)
-            screens[0][i] = consoleautomapbevel[screens[0][i + 1]];
+            screens[0][i] = consoleautomapbevelcolor[screens[0][i + 1]];
 
         for (int i = MAX(0, height - 3 * SCREENWIDTH); i < height; i += SCREENWIDTH)
-            screens[0][i] = consolebevel[screens[0][i + 1]];
+            screens[0][i] = consolebevelcolor[screens[0][i + 1]];
 
         for (int i = 0; i < height - (brandheight + 3) * SCREENWIDTH; i += SCREENWIDTH)
-            screens[0][i + SCREENWIDTH - 1] = consoleautomapbevel[screens[0][i + SCREENWIDTH - 2]];
+            screens[0][i + SCREENWIDTH - 1] = consoleautomapbevelcolor[screens[0][i + SCREENWIDTH - 2]];
 
         for (int i = MAX(0, height - (brandheight + 3) * SCREENWIDTH); i < height; i += SCREENWIDTH)
-            screens[0][i + SCREENWIDTH - 1] = consolebevel[screens[0][i + SCREENWIDTH - 2]];
+            screens[0][i + SCREENWIDTH - 1] = consolebevelcolor[screens[0][i + SCREENWIDTH - 2]];
     }
     else
         for (int i = 0; i < height; i += SCREENWIDTH)
         {
-            screens[0][i] = consolebevel[screens[0][i + 1]];
-            screens[0][i + SCREENWIDTH - 1] = consolebevel[screens[0][i + SCREENWIDTH - 2]];
+            screens[0][i] = consolebevelcolor[screens[0][i + 1]];
+            screens[0][i + SCREENWIDTH - 1] = consolebevelcolor[screens[0][i + SCREENWIDTH - 2]];
         }
 
     // bevel bottom edge
     for (int i = height - SCREENWIDTH + 1; i < height - 1; i++)
-        screens[0][i] = consolebevel[screens[0][i]];
+        screens[0][i] = consolebevelcolor[screens[0][i]];
 
     // draw shadow
     if (gamestate != GS_TITLESCREEN)

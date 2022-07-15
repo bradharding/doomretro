@@ -43,80 +43,102 @@
 #include "doomtype.h"
 #include "r_defs.h"
 
-#define CONSOLESTRINGSMAX       256
+#define CONSOLESTRINGSMAX                   256
 
-#define CONSOLEFONTSTART        ' '
-#define CONSOLEFONTEND          '~'
-#define CONSOLEFONTSIZE         (CONSOLEFONTEND - CONSOLEFONTSTART + 1)
+#define CONSOLEFONTSTART                    ' '
+#define CONSOLEFONTEND                      '~'
+#define CONSOLEFONTSIZE                     (CONSOLEFONTEND - CONSOLEFONTSTART + 1)
 
-#define NOBOLDCOLOR             -1
-#define NOBACKGROUNDCOLOR       -1
+#define CONSOLEAUTOMAPBEVELCOLOR            5
+#define CONSOLEBACKCOLOR                    12
+#define CONSOLEBEVELCOLOR                   0
+#define CONSOLEBOLDCOLOR                    4
+#define CONSOLEBOLDITALICSCOLOR             96
+#define CONSOLECARETCOLOR                   4
+#define CONSOLEDIVIDERCOLOR                 100
+#define CONSOLEEDGECOLOR                    180
+#define CONSOLEINPUTCOLOR                   4
+#define CONSOLEINPUTTOOUTPUTCOLOR           4
+#define CONSOLEOUTPUTCOLOR                  88
+#define CONSOLEOVERLAYCOLOR                 4
+#define CONSOLEOVERLAYWARNINGCOLOR          4
+#define CONSOLEPLAYERMESSAGECOLOR           161
+#define CONSOLESCROLLBARFACECOLOR           96
+#define CONSOLESCROLLBARTRACKCOLOR          100
+#define CONSOLESELECTEDINPUTBACKGROUNDCOLOR 100
+#define CONSOLESELECTEDINPUTCOLOR           4
+#define CONSOLETIMESTAMPCOLOR               161
+#define CONSOLEWARNINGBOLDCOLOR             176
+#define CONSOLEWARNINGCOLOR                 180
 
-#define CONSOLEDOWNSIZE         28
-#define CONSOLEUPSIZE           12
+#define NOBOLDCOLOR                         -1
+#define NOBACKGROUNDCOLOR                   -1
 
-#define CONSOLEHEIGHT           ((gamestate != GS_TITLESCREEN ? SCREENHEIGHT / 2 : SCREENHEIGHT) - 5)
+#define CONSOLEDOWNSIZE                     28
+#define CONSOLEUPSIZE                       12
 
-#define CONSOLELINES            (gamestate != GS_TITLESCREEN ? 13 : 27)
-#define CONSOLETEXTX            (vid_widescreen ? 28 : 10)
-#define CONSOLETEXTY            8
-#define CONSOLETEXTMAXLENGTH    1024
-#define CONSOLELINEHEIGHT       14
+#define CONSOLEHEIGHT                       ((gamestate != GS_TITLESCREEN ? SCREENHEIGHT / 2 : SCREENHEIGHT) - 5)
 
-#define CONSOLESCROLLBARWIDTH   5
-#define CONSOLESCROLLBARHEIGHT  (gamestate != GS_TITLESCREEN ? 173 : 369)
-#define CONSOLESCROLLBARX       (SCREENWIDTH - CONSOLETEXTX - CONSOLESCROLLBARWIDTH)
+#define CONSOLELINES                        (gamestate != GS_TITLESCREEN ? 13 : 27)
+#define CONSOLETEXTX                        (vid_widescreen ? 28 : 10)
+#define CONSOLETEXTY                        8
+#define CONSOLETEXTMAXLENGTH                1024
+#define CONSOLELINEHEIGHT                   14
 
-#define CONSOLETEXTPIXELWIDTH   (SCREENWIDTH - CONSOLETEXTX * 2 - (scrollbardrawn ? CONSOLESCROLLBARWIDTH + 10 : 0))
+#define CONSOLESCROLLBARWIDTH               5
+#define CONSOLESCROLLBARHEIGHT              (gamestate != GS_TITLESCREEN ? 173 : 369)
+#define CONSOLESCROLLBARX                   (SCREENWIDTH - CONSOLETEXTX - CONSOLESCROLLBARWIDTH)
 
-#define CONSOLEINPUTX           CONSOLETEXTX
-#define CONSOLEINPUTY           (CONSOLEHEIGHT - 16)
+#define CONSOLETEXTPIXELWIDTH               (SCREENWIDTH - CONSOLETEXTX * 2 - (scrollbardrawn ? CONSOLESCROLLBARWIDTH + 10 : 0))
 
-#define CONSOLEINPUTPIXELWIDTH  (SCREENWIDTH - CONSOLETEXTX - brandwidth - 2)
+#define CONSOLEINPUTX                       CONSOLETEXTX
+#define CONSOLEINPUTY                       (CONSOLEHEIGHT - 16)
 
-#define CONSOLETOP              0
+#define CONSOLEINPUTPIXELWIDTH              (SCREENWIDTH - CONSOLETEXTX - brandwidth - 2)
 
-#define OVERLAYTEXTX            (vid_widescreen ? 25 : 8)
-#define OVERLAYTEXTY            (vid_widescreen ? 12 : 10)
-#define OVERLAYLINEHEIGHT       14
-#define OVERLAYSPACING          5
+#define CONSOLETOP                          0
 
-#define WARNINGWIDTH            13
+#define OVERLAYTEXTX                        (vid_widescreen ? 25 : 8)
+#define OVERLAYTEXTY                        (vid_widescreen ? 12 : 10)
+#define OVERLAYLINEHEIGHT                   14
+#define OVERLAYSPACING                      5
 
-#define EMPTYVALUE              "\"\""
+#define WARNINGWIDTH                        13
 
-#define stringize(text)         #text
+#define EMPTYVALUE                          "\"\""
 
-#define BOLDTOGGLE              "\036"
-#define BOLDTOGGLECHAR          '\036'
-#define ITALICSTOGGLE           "\037"
-#define ITALICSTOGGLECHAR       '\037'
+#define stringize(text)                     #text
 
-#define BOLD(text)              BOLDTOGGLE text BOLDTOGGLE
-#define ITALICS(text)           ITALICSTOGGLE text ITALICSTOGGLE
-#define BOLDITALICS(text)       ITALICS(BOLD(text))
+#define BOLDTOGGLE                          "\036"
+#define BOLDTOGGLECHAR                      '\036'
+#define ITALICSTOGGLE                       "\037"
+#define ITALICSTOGGLECHAR                   '\037'
+
+#define BOLD(text)                          BOLDTOGGLE text BOLDTOGGLE
+#define ITALICS(text)                       ITALICSTOGGLE text ITALICSTOGGLE
+#define BOLDITALICS(text)                   ITALICS(BOLD(text))
 
 #if defined(_WIN32)
-#define SDL_FILENAME            "SDL2.dll"
-#define SDL_MIXER_FILENAME      "SDL2_mixer.dll"
-#define SDL_IMAGE_FILENAME      "SDL2_image.dll"
+#define SDL_FILENAME                        "SDL2.dll"
+#define SDL_MIXER_FILENAME                  "SDL2_mixer.dll"
+#define SDL_IMAGE_FILENAME                  "SDL2_image.dll"
 #elif defined(__linux__) || defined(__FreeBSD__) || defined(__HAIKU__)
-#define SDL_FILENAME            "SDL2.so"
-#define SDL_MIXER_FILENAME      "SDL2_mixer.so"
-#define SDL_IMAGE_FILENAME      "SDL2_image.so"
+#define SDL_FILENAME                        "SDL2.so"
+#define SDL_MIXER_FILENAME                  "SDL2_mixer.so"
+#define SDL_IMAGE_FILENAME                  "SDL2_image.so"
 #else
-#define SDL_FILENAME            "SDL2"
-#define SDL_MIXER_FILENAME      "SDL2_mixer"
-#define SDL_IMAGE_FILENAME      "SDL2_image"
+#define SDL_FILENAME                        "SDL2"
+#define SDL_MIXER_FILENAME                  "SDL2_mixer"
+#define SDL_IMAGE_FILENAME                  "SDL2_image"
 #endif
 
-#define BINDLISTHEADER          "\tCONTROL\t+ACTION/COMMAND(S)"
-#define CMDLISTHEADER           "\tCCMD\tDESCRIPTION"
-#define CVARLISTHEADER          "\tCVAR\tVALUE\tDESCRIPTION"
-#define MAPLISTHEADER           "\tMAP\tTITLE\tWAD"
-#define MAPSTATSHEADER          "STAT\tVALUE"
-#define PLAYERSTATSHEADER       "STAT\tCURRENT MAP\tTOTAL"
-#define THINGLISTHEADER         "\tTHING\tPOSITION"
+#define BINDLISTHEADER                      "\tCONTROL\t+ACTION/COMMAND(S)"
+#define CMDLISTHEADER                       "\tCCMD\tDESCRIPTION"
+#define CVARLISTHEADER                      "\tCVAR\tVALUE\tDESCRIPTION"
+#define MAPLISTHEADER                       "\tMAP\tTITLE\tWAD"
+#define MAPSTATSHEADER                      "STAT\tVALUE"
+#define PLAYERSTATSHEADER                   "STAT\tCURRENT MAP\tTOTAL"
+#define THINGLISTHEADER                     "\tTHING\tPOSITION"
 
 typedef enum
 {
