@@ -527,6 +527,45 @@ void V_DrawBigPatch(int x, int y, patch_t *patch)
     }
 }
 
+void V_DrawMenuBorderPatch(int x, int y, patch_t *patch, byte color)
+{
+    byte    *desttop;
+    int     width = SHORT(patch->width);
+    int     col = 0;
+
+    desttop = &screens[0][y * SCREENWIDTH + x];
+
+    for (; col < width; col++, desttop++)
+    {
+        column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnoffset[col]));
+        int         td;
+        int         topdelta = -1;
+        int         lastlength = 0;
+
+        // step through the posts in a column
+        while ((td = column->topdelta) != 0xFF)
+        {
+            byte    *source = (byte *)column + 3;
+            byte    *dest;
+            int     count;
+
+            topdelta = (td < topdelta + lastlength - 1 ? topdelta + td : td);
+            dest = &desttop[topdelta * SCREENWIDTH];
+            count = lastlength = column->length;
+
+            while (count--)
+            {
+                if (*source++)
+                    *dest = color;
+
+                dest += SCREENWIDTH;
+            }
+
+            column = (column_t *)((byte *)column + column->length + 4);
+        }
+    }
+}
+
 void V_DrawConsoleInputTextPatch(byte *screen, int screenwidth, int x, int y, patch_t *patch, int width, int color,
     int backgroundcolor, bool italics, byte *translucency)
 {

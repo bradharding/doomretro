@@ -65,8 +65,9 @@
 #include "w_wad.h"
 #include "z_zone.h"
 
-#define LINEHEIGHT  17
-#define OFFSET      17
+#define LINEHEIGHT      17
+#define OFFSET          17
+#define MENUBORDERCOLOR nearestblack
 
 // -1 = no quicksave slot picked!
 int             quickSaveSlot;
@@ -113,6 +114,9 @@ static menu_t   *currentMenu;
 int             spindirection;
 int             spinspeed;
 static angle_t  playerangle;
+
+static patch_t  *menuborderleft;
+static patch_t  *menuborderright;
 
 //
 // PROTOTYPES
@@ -536,6 +540,12 @@ void M_DarkBackground(void)
 
     if (r_detail == r_detail_low)
         V_LowGraphicDetail_Menu();
+
+    for (int x = 0; x < SCREENWIDTH * 2; x++)
+        screens[0][x] = screens[0][SCREENAREA - SCREENWIDTH * 2 + x] = MENUBORDERCOLOR;
+
+    V_DrawMenuBorderPatch(0, 0, menuborderleft, MENUBORDERCOLOR);
+    V_DrawMenuBorderPatch(SCREENWIDTH - SHORT(menuborderright->width), 0, menuborderright, MENUBORDERCOLOR);
 }
 
 static byte blues[] =
@@ -3903,6 +3913,9 @@ void M_Init(void)
     messageLastMenuActive = false;
     quickSaveSlot = -1;
     spindirection = ((M_Random() & 1) ? 1 : -1);
+
+    menuborderleft = W_CacheLastLumpName("DRMBRDRL");
+    menuborderright = W_CacheLastLumpName("DRMBRDRR");
 
     for (int i = 0; i < 256; i++)
         blues[i] = nearestcolors[blues[i]];
