@@ -192,9 +192,23 @@ static DWORD WINAPI PlayerProc(void)
     return 0;
 }
 
+static void FreeSong(void)
+{
+    if (song.native_events)
+    {
+        free(song.native_events);
+        song.native_events = NULL;
+    }
+
+    song.num_events = 0;
+    song.position = 0;
+    song.looping = false;
+}
+
 // Convert a multi-track MIDI file to an array of Windows MIDIEVENT structures.
 static void MIDItoStream(midi_file_t *file)
 {
+    int                 non_meta_events = 0;
     int                 num_tracks = MIDI_NumTracks(file);
     int                 current_time = 0;
     win_midi_track_t    *tracks = malloc(num_tracks * sizeof(win_midi_track_t));
@@ -287,6 +301,9 @@ static void MIDItoStream(midi_file_t *file)
         {
             native_event_t  *native_event = &song.native_events[song.num_events];
 
+            if (midievent->event_type != MIDI_EVENT_META)
+                non_meta_events++;
+
             native_event->dwDeltaTime = min_time - current_time;
             native_event->dwStreamID = 0;
             native_event->dwEvent = data;
@@ -295,6 +312,9 @@ static void MIDItoStream(midi_file_t *file)
             current_time = min_time;
         }
     }
+
+    if (!non_meta_events)
+        FreeSong();
 
     if (tracks)
         free(tracks);
@@ -455,14 +475,7 @@ void I_Windows_RegisterSong(void *data, int size)
 
 void I_Windows_UnregisterSong(void)
 {
-    if (song.native_events)
-    {
-        free(song.native_events);
-        song.native_events = NULL;
-    }
-
-    song.num_events = 0;
-    song.position = 0;
+    FreeSong();
 }
 
 void I_Windows_ShutdownMusic(void)
