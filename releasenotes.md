@@ -22,9 +22,10 @@
 * Blood is now spawned during melee attacks from monsters. This feature may be toggled using the new `r_blood_melee` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
 * Bullet puffs are no longer spawned instead of blood when the `r_blood` CVAR is `none`.
 * Minor improvements have been made to how corpses move when the player or a monster walks over them and the `r_corpses_nudge` CVAR is `on`.
-* A crash no longer occurs when:
-  * Entering the `IDBEHOLD` cheat while the alternate widescreen HUD is displayed.
-  * Entering the `map` CCMD in the console with an invalid parameter.
+* A crash no longer occurs:
+  * When entering the `IDBEHOLD` cheat while the alternate widescreen HUD is displayed.
+  * When entering the `map` CCMD in the console with an invalid parameter.
+  * During intermission if the `WIENTER` lump is larger than the screen.
 * The `IDCHOPPERS` cheat is now canceled properly when the player exits a map.
 * The angles of thing triangles in the automap when the `IDDT` cheat is used are now interpolated when the `vid_capfps` CVAR is a value other than `35`.
 * The status bar and widescreen HUD are now displayed correctly when *DOOM Retro* is paused by pressing the <kbd><b>PAUSE</b></kbd> key.

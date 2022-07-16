@@ -430,17 +430,19 @@ static void WI_DrawEL(void)
     const int   titlepatch = P_GetMapTitlePatch(wbs->epsd * 10 + wbs->next + 1);
 
     // draw "Entering"
-    V_DrawPatchWithShadow(x + 1, y + 1, entering, false);
+    if (SHORT(entering->height) < VANILLAHEIGHT)
+        V_DrawPatchWithShadow(x + 1, y + 1, entering, false);
+    else
+        V_DrawPagePatch(entering);
 
     // draw level
     y += SHORT(entering->height) + 2;
 
     if (titlepatch > 0)
     {
-        patch_t     *patch = W_CacheLumpNum(titlepatch);
-        const short height = SHORT(patch->height);
+        patch_t *patch = W_CacheLumpNum(titlepatch);
 
-        if (height < VANILLAHEIGHT)
+        if (SHORT(patch->height) < VANILLAHEIGHT)
             V_DrawPatchWithShadow((VANILLAWIDTH - SHORT(patch->width)) / 2 + 1, y + 1, patch, false);
         else
             V_DrawPagePatch(patch);
