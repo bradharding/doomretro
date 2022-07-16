@@ -419,7 +419,10 @@ static void WI_DrawLF(void)
         y = WI_TITLEY + 24;
 
     // draw "Finished!"
-    V_DrawPatchWithShadow(x + 1, y + 1, finished, false);
+    if (SHORT(finished->height) < VANILLAHEIGHT)
+        V_DrawPatchWithShadow(x + 1, y + 1, finished, false);
+    else
+        V_DrawPagePatch(finished);
 }
 
 // Draws "Entering <LevelName>"

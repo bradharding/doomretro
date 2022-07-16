@@ -569,10 +569,9 @@ static byte blues[] =
 };
 
 //
-// M_DarkBlueBackground
-//  darken background, make it blue and pixelate while help screen is displayed
+// M_DrawHelpBackground
 //
-static void M_DarkBlueBackground(void)
+static void M_DrawHelpBackground(void)
 {
     if (automapactive)
         memset(screens[0], nearestdarkblue, SCREENAREA);
@@ -1440,7 +1439,7 @@ static void M_DrawReadThis(void)
         else if (autosigil)
         {
             viewplayer->fixedcolormap = 0;
-            M_DarkBlueBackground();
+            M_DrawHelpBackground();
             V_DrawPatchWithShadow(0, 0, W_CacheSecondLumpName(lumpname), false);
         }
         else if (W_CheckMultipleLumps(lumpname) > 2)
@@ -1458,7 +1457,7 @@ static void M_DrawReadThis(void)
         else
         {
             viewplayer->fixedcolormap = 0;
-            M_DarkBlueBackground();
+            M_DrawHelpBackground();
             V_DrawPatchWithShadow(0, 0, W_CacheLumpName(lumpname), false);
         }
     }
