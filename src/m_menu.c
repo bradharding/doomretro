@@ -488,7 +488,7 @@ static void M_DrawMenuBorder(void)
     for (int x = 0; x < SCREENWIDTH * 2; x++)
         screens[0][x] = screens[0][SCREENAREA - SCREENWIDTH * 2 + x] = MENUBORDERCOLOR;
 
-    if (vid_widescreen)
+    if (vid_widescreen || nowidescreen)
     {
         for (int y = 0; y < SCREENAREA; y += SCREENWIDTH)
             for (int x = 0; x < 3; x++)
