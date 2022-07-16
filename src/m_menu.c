@@ -523,9 +523,6 @@ void M_DarkBackground(void)
     if (mapwindow)
         memset(mapscreen, nearestblack, MAPAREA);
 
-    if (r_detail == r_detail_low)
-        V_LowGraphicDetail_Menu();
-
     for (int x = 0; x < SCREENWIDTH * 2; x++)
         screens[0][x] = screens[0][SCREENAREA - SCREENWIDTH * 2 + x] = MENUBORDERCOLOR;
 
@@ -545,6 +542,9 @@ void M_DarkBackground(void)
         V_DrawMenuBorderPatch(0, 0, menuborderleft, MENUBORDERCOLOR);
         V_DrawMenuBorderPatch(SCREENWIDTH - SHORT(menuborderright->width), 0, menuborderright, MENUBORDERCOLOR);
     }
+
+    if (r_detail == r_detail_low)
+        V_LowGraphicDetail_Menu();
 }
 
 static byte blues[] =
