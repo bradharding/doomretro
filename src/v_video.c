@@ -552,9 +552,12 @@ void V_DrawMenuBorderPatch(int x, int y, patch_t *patch, byte color)
 
             while (count--)
             {
-                if (*source++)
+                if (*source == 96)
+                    *dest = tinttab20[*dest];
+                else if (*source)
                     *dest = color;
 
+                source++;
                 dest += SCREENWIDTH;
             }
 
