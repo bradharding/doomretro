@@ -104,6 +104,7 @@ static short    itemOn;                 // menu item skull is on
 static short    skullAnimCounter;       // skull animation counter
 static short    whichSkull;             // which skull to draw
 
+static int      blurtic = -1;
 static int      functionkey;
 
 static bool     usinggamecontroller;
@@ -444,7 +445,7 @@ menu_t SaveDef =
     load1
 };
 
-static void BlurScreen(byte *src, byte *dest, int width, int area)
+static void M_BlurMenuBackground(byte *src, byte *dest, int width, int area)
 {
     for (int i = 0; i < area; i++)
         dest[i] = grays[src[i]];
@@ -482,13 +483,31 @@ static void BlurScreen(byte *src, byte *dest, int width, int area)
             dest[x] = tinttab50[(dest[x - width + 1] << 8) + dest[x]];
 }
 
-static int  blurtic = -1;
+static void M_DrawMenuBorder(void)
+{
+    for (int x = 0; x < SCREENWIDTH * 2; x++)
+        screens[0][x] = screens[0][SCREENAREA - SCREENWIDTH * 2 + x] = MENUBORDERCOLOR;
+
+    if (vid_widescreen)
+    {
+        for (int y = 0; y < SCREENAREA; y += SCREENWIDTH)
+            for (int x = 0; x < 3; x++)
+                screens[0][y + x] = screens[0][y + SCREENWIDTH - x - 1] = MENUBORDERCOLOR;
+
+        V_DrawMenuBorderPatch(3, 0, menuborderleft, MENUBORDERCOLOR);
+        V_DrawMenuBorderPatch(SCREENWIDTH - SHORT(menuborderright->width) - 3, 0, menuborderright, MENUBORDERCOLOR);
+    }
+    else
+    {
+        V_DrawMenuBorderPatch(0, 0, menuborderleft, MENUBORDERCOLOR);
+        V_DrawMenuBorderPatch(SCREENWIDTH - SHORT(menuborderright->width), 0, menuborderright, MENUBORDERCOLOR);
+    }
+}
 
 //
-// M_DarkBackground
-//  darken and blur background while menu is displayed
+// M_DrawMenuBackground
 //
-void M_DarkBackground(void)
+void M_DrawMenuBackground(void)
 {
     static byte blurscreen1[MAXSCREENAREA];
 
@@ -506,7 +525,7 @@ void M_DarkBackground(void)
             }
         }
 
-        BlurScreen(screens[0], blurscreen1, SCREENWIDTH, SCREENAREA);
+        M_BlurMenuBackground(screens[0], blurscreen1, SCREENWIDTH, SCREENAREA);
 
         for (int i = 0; i < SCREENAREA; i++)
         {
@@ -523,25 +542,7 @@ void M_DarkBackground(void)
     if (mapwindow)
         memset(mapscreen, nearestblack, MAPAREA);
 
-    for (int x = 0; x < SCREENWIDTH * 2; x++)
-        screens[0][x] = screens[0][SCREENAREA - SCREENWIDTH * 2 + x] = MENUBORDERCOLOR;
-
-    if (vid_widescreen)
-    {
-        for (int y = 0; y < SCREENAREA; y += SCREENWIDTH)
-        {
-            screens[0][y] = screens[0][y + 1] = screens[0][y + 2] = MENUBORDERCOLOR;
-            screens[0][y + SCREENWIDTH - 3] = screens[0][y + SCREENWIDTH - 2] = screens[0][y + SCREENWIDTH - 1] = MENUBORDERCOLOR;
-        }
-
-        V_DrawMenuBorderPatch(3, 0, menuborderleft, MENUBORDERCOLOR);
-        V_DrawMenuBorderPatch(SCREENWIDTH - SHORT(menuborderright->width) - 3, 0, menuborderright, MENUBORDERCOLOR);
-    }
-    else
-    {
-        V_DrawMenuBorderPatch(0, 0, menuborderleft, MENUBORDERCOLOR);
-        V_DrawMenuBorderPatch(SCREENWIDTH - SHORT(menuborderright->width), 0, menuborderright, MENUBORDERCOLOR);
-    }
+    M_DrawMenuBorder();
 
     if (r_detail == r_detail_low)
         V_LowGraphicDetail_Menu();
@@ -972,7 +973,7 @@ static void M_DrawSaveLoadBorder(int x, int y)
 //
 static void M_DrawLoad(void)
 {
-    M_DarkBackground();
+    M_DrawMenuBackground();
 
     if (M_LGTTL)
         M_DrawCenteredPatchWithShadow(23 + OFFSET, W_CacheLumpName("M_LGTTL"));
@@ -1067,7 +1068,7 @@ int         caretcolor;
 //
 static void M_DrawSave(void)
 {
-    M_DarkBackground();
+    M_DrawMenuBackground();
 
     // draw menu subtitle
     if (M_SGTTL)
@@ -1468,7 +1469,7 @@ static void M_DrawReadThis(void)
 //
 static void M_DrawSound(void)
 {
-    M_DarkBackground();
+    M_DrawMenuBackground();
 
     if (M_SVOL)
     {
@@ -1568,7 +1569,7 @@ static void M_DrawMainMenu(void)
 {
     patch_t *patch = W_CacheLumpName("M_DOOM");
 
-    M_DarkBackground();
+    M_DrawMenuBackground();
 
     if (M_DOOM)
     {
@@ -1632,7 +1633,7 @@ void M_AddEpisode(int map, int ep, const char *lumpname, const char *string)
 
 static void M_DrawEpisode(void)
 {
-    M_DarkBackground();
+    M_DrawMenuBackground();
 
     if (M_NEWG)
     {
@@ -1687,7 +1688,7 @@ void M_SetWindowCaption(void)
 
 static void M_DrawExpansion(void)
 {
-    M_DarkBackground();
+    M_DrawMenuBackground();
 
     if (M_NEWG)
     {
@@ -1802,7 +1803,7 @@ static void M_Expansion(int choice)
 //
 static void M_DrawNewGame(void)
 {
-    M_DarkBackground();
+    M_DrawMenuBackground();
 
     if (M_NEWG)
     {
@@ -1844,7 +1845,7 @@ static void M_NewGame(int choice)
 //
 static void M_DrawOptions(void)
 {
-    M_DarkBackground();
+    M_DrawMenuBackground();
 
     if (M_OPTTTL)
     {
@@ -3702,7 +3703,7 @@ void M_Drawer(void)
         char    string[255];
         int     start = 0;
 
-        M_DarkBackground();
+        M_DrawMenuBackground();
 
         y = (VANILLAHEIGHT - M_StringHeight(messageString)) / 2;
 

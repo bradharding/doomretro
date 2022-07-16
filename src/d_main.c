@@ -362,7 +362,7 @@ void D_Display(void)
     // draw pause pic
     if ((pausedstate = paused))
     {
-        M_DarkBackground();
+        M_DrawMenuBackground();
 
         if (M_PAUSE)
         {

@@ -88,7 +88,7 @@ void M_StartControlPanel(void);
 void M_ClearMenus(void);
 void M_EndingGame(void);
 
-void M_DarkBackground(void);
+void M_DrawMenuBackground(void);
 void M_DrawSmallChar(int x, int y, int i, bool shadow);
 void M_DrawString(int x, int y, char *string);
 void M_DrawCenteredString(int y, char *string);
