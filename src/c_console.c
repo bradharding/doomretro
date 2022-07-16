@@ -2380,7 +2380,7 @@ void C_PrintCompileDate(void)
     char    mth[4] = "";
     int     minute, hour, day, year;
 
-    if (sscanf(__DATE__, "%3s %2d %4d", mth, &day, &year) == 3 && sscanf(__TIME__, "%2d:%2d:%*d", &hour, &minute) == 2)
+    if (sscanf(__DATE__, "%3s %2i %4i", mth, &day, &year) == 3 && sscanf(__TIME__, "%2i:%2i:%*i", &hour, &minute) == 2)
     {
         const char  mths[] = "JanFebMarAprMayJunJulAugSepOctNovDec";
         int         month = (int)(strstr(mths, mth) - mths) / 3;

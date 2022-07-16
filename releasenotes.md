@@ -26,6 +26,7 @@
   * When entering the `IDBEHOLD` cheat while the alternate widescreen HUD is displayed.
   * When entering the `map` CCMD in the console with an invalid parameter.
   * During intermission if the `WIENTER` lump is larger than the screen.
+* Minor improvements have been made to the playback of MIDI music.
 * The `IDCHOPPERS` cheat is now canceled properly when the player exits a map.
 * The angles of thing triangles in the automap when the `IDDT` cheat is used are now interpolated when the `vid_capfps` CVAR is a value other than `35`.
 * The status bar and widescreen HUD are now displayed correctly when *DOOM Retro* is paused by pressing the <kbd><b>PAUSE</b></kbd> key.
@@ -60,7 +61,7 @@
   * `.deh` and `.bex` files may no longer be loaded.
   * *MBF*-compatible helper dogs may no longer be spawned using the `spawn` CCMD.
 * The `con_backcolor` and `con_edgecolor` CVARs have been removed.
-* A bug is fixed whereby the colormap applied to monsters could be wrong if [*BOOM*](https://doomwiki.org/wiki/Boom)-compatible colormaps are present in the map.
+* A bug is fixed whereby the colormap applied to monsters could be wrong in some instances if [*BOOM*](https://doomwiki.org/wiki/Boom)-compatible colormaps are present in the map.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
