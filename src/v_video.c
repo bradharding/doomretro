@@ -570,9 +570,8 @@ void V_DrawConsoleSelectedTextPatch(int x, int y, patch_t *patch, int width,
 
     for (int col = 0; col < width; col++, desttop++)
     {
-        column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnoffset[col]));
-        byte        *source = (byte *)column + 3;
-        byte        *dest = &desttop[SCREENWIDTH];
+        byte    *source = (byte *)patch + LONG(patch->columnoffset[col]) + 3;
+        byte    *dest = desttop;
 
         for (int i = 0; i < CONSOLELINEHEIGHT; i++)
         {
@@ -598,9 +597,8 @@ void V_DrawConsoleTextPatch(int x, int y, patch_t *patch, int width,
 
     for (int col = 0; col < width; col++, desttop++)
     {
-        column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnoffset[col]));
-        byte        *source = (byte *)column + 3;
-        byte        *dest = &desttop[SCREENWIDTH];
+        byte    *source = (byte *)patch + LONG(patch->columnoffset[col]) + 3;
+        byte    *dest = desttop;
 
         for (int i = 0; i < CONSOLELINEHEIGHT; i++)
         {
@@ -632,9 +630,8 @@ void V_DrawOverlayTextPatch(byte *screen, int screenwidth, int x,
 
     for (int col = 0; col < width; col++, desttop++)
     {
-        column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnoffset[col]));
-        byte        *source = (byte *)column + 3;
-        byte        *dest = &desttop[screenwidth];
+        byte    *source = (byte *)patch + LONG(patch->columnoffset[col]) + 3;
+        byte    *dest = desttop;
 
         for (int i = 0; i < CONSOLELINEHEIGHT; i++)
         {
@@ -656,7 +653,7 @@ void V_DrawConsolePatch(int x, int y, patch_t *patch, int maxwidth)
     {
         column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnoffset[col]));
         byte        *source = (byte *)column + 3;
-        byte        *dest = &desttop[SCREENWIDTH];
+        byte        *dest = desttop;
         int         count = column->length;
         int         height = y + 1;
 
@@ -688,7 +685,7 @@ void V_DrawConsoleBrandingPatch(int x, int y, patch_t *patch, int color)
     {
         column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnoffset[col]));
         byte        *source = (byte *)column + 3;
-        byte        *dest = &desttop[SCREENWIDTH];
+        byte        *dest = desttop;
         int         count = column->length;
         int         height = y + 1;
 
