@@ -635,10 +635,9 @@ void V_DrawOverlayTextPatch(byte *screen, int screenwidth, int x,
 
         for (int i = 0; i < CONSOLELINEHEIGHT; i++)
         {
-            if (*source)
+            if (*source++)
                 *dest = (!translucency ? color : translucency[(color << 8) + *dest]);
 
-            source++;
             dest += screenwidth;
         }
     }
