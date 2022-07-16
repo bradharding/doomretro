@@ -494,26 +494,11 @@ void M_DarkBackground(void)
 
     if (gametime != blurtic)
     {
-        int indent = 0;
-
-        if (!vid_widescreen)
-        {
-            indent = 2;
-
-            for (int i = 0; i < SCREENAREA; i += SCREENWIDTH)
-            {
-                screens[0][i] = nearestblack;
-                screens[0][i + 1] = nearestblack;
-                screens[0][i + SCREENWIDTH - 2] = nearestblack;
-                screens[0][i + SCREENWIDTH - 1] = nearestblack;
-            }
-        }
-
         for (int y = 2 * SCREENWIDTH; y < SCREENAREA; y += 4 * SCREENWIDTH)
         {
             byte    *white = ((M_BigRandom() % 25) ? white25 : white33);
 
-            for (int x = indent; x < SCREENWIDTH - indent; x++)
+            for (int x = 0; x < SCREENWIDTH; x++)
             {
                 byte    *dot = *screens + x + y;
 
@@ -544,8 +529,22 @@ void M_DarkBackground(void)
     for (int x = 0; x < SCREENWIDTH * 2; x++)
         screens[0][x] = screens[0][SCREENAREA - SCREENWIDTH * 2 + x] = MENUBORDERCOLOR;
 
-    V_DrawMenuBorderPatch(0, 0, menuborderleft, MENUBORDERCOLOR);
-    V_DrawMenuBorderPatch(SCREENWIDTH - SHORT(menuborderright->width), 0, menuborderright, MENUBORDERCOLOR);
+    if (vid_widescreen)
+    {
+        for (int y = 0; y < SCREENAREA; y += SCREENWIDTH)
+        {
+            screens[0][y] = screens[0][y + 1] = screens[0][y + 2] = MENUBORDERCOLOR;
+            screens[0][y + SCREENWIDTH - 3] = screens[0][y + SCREENWIDTH - 2] = screens[0][y + SCREENWIDTH - 1] = MENUBORDERCOLOR;
+        }
+
+        V_DrawMenuBorderPatch(3, 0, menuborderleft, MENUBORDERCOLOR);
+        V_DrawMenuBorderPatch(SCREENWIDTH - SHORT(menuborderright->width) - 3, 0, menuborderright, MENUBORDERCOLOR);
+    }
+    else
+    {
+        V_DrawMenuBorderPatch(0, 0, menuborderleft, MENUBORDERCOLOR);
+        V_DrawMenuBorderPatch(SCREENWIDTH - SHORT(menuborderright->width), 0, menuborderright, MENUBORDERCOLOR);
+    }
 }
 
 static byte blues[] =
