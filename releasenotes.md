@@ -10,7 +10,9 @@
 * The amount of blood splats rendered depends on their distance from the player again.
 * A message is now displayed, and with an accompanying sound effect, whenever the player finds a secret. This feature may be toggled using the new `secretmessages` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
 * Secrets are no longer considered as found if the player happens to walk through one while no clipping mode is enabled.
-* The menu’s background now has curved corners.
+* The following changes have been to the menu’s background:
+  * Its corners are now curved.
+  * The player’s view is now centered vertically if the `mouselook` CVAR is `on`.
 * The following changes have been made to the help screen displayed by pressing the <kbd><b>F1</b></kbd> key:
   * Subtle noise has been applied to the background.
   * `HELP`, `HELP1` and `HELP2` lumps in PWADs that are wider than 320 pixels are now displayed correctly.

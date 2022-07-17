@@ -115,6 +115,7 @@ static menu_t   *currentMenu;
 int             spindirection;
 int             spinspeed;
 static angle_t  playerangle;
+static int      playerlookdir;
 
 static patch_t  *menuborderleft;
 static patch_t  *menuborderright;
@@ -3662,6 +3663,9 @@ void M_StartControlPanel(void)
         playerangle = viewplayer->mo->angle;
         spinspeed = 0;
 
+        playerlookdir = viewplayer->lookdir;
+        viewplayer->lookdir = 0;
+
         if (automapactive)
         {
             AM_SetAutomapSize(r_screensize_max);
@@ -3864,6 +3868,7 @@ void M_ClearMenus(void)
         I_SetPalette(&PLAYPAL[st_palette * 768]);
 
         viewplayer->mo->angle = playerangle;
+        viewplayer->lookdir = playerlookdir;
 
         if (!inhelpscreens)
             R_SetViewSize(r_screensize);
