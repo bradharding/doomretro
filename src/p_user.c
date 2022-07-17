@@ -530,9 +530,9 @@ void P_PlayerThink(void)
             mo->angle += ANG1 / (spinspeed = MIN(spinspeed + 1, 512)) * 8 * spindirection;
 
         if (viewplayer->lookdir < 0)
-            viewplayer->lookdir = MIN(viewplayer->lookdir + 2 * MLOOKUNIT, 0);
+            viewplayer->lookdir = MIN(viewplayer->lookdir + 4 * MLOOKUNIT, 0);
         else if (viewplayer->lookdir > 0)
-            viewplayer->lookdir = MAX(0, viewplayer->lookdir - 2 * MLOOKUNIT);
+            viewplayer->lookdir = MAX(0, viewplayer->lookdir - 4 * MLOOKUNIT);
 
         return;
     }

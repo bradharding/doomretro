@@ -999,7 +999,7 @@ bool P_IsInLiquid(mobj_t *thing)
             }
             else
             {
-                sector_t *sector = thing->subsector->sector;
+                sector_t    *sector = thing->subsector->sector;
 
                 if (sector->terraintype < LIQUID)
                     return false;
