@@ -434,7 +434,6 @@ static void r_corpses_mirrored_cvar_func2(char *cmd, char *parms);
 static bool r_detail_cvar_func1(char *cmd, char *parms);
 static void r_detail_cvar_func2(char *cmd, char *parms);
 static void r_ditheredlighting_cvar_func2(char *cmd, char *parms);
-static void r_fixmaperrors_cvar_func2(char *cmd, char *parms);
 static void r_fov_cvar_func2(char *cmd, char *parms);
 static bool r_gamma_cvar_func1(char *cmd, char *parms);
 static void r_gamma_cvar_func2(char *cmd, char *parms);
@@ -797,7 +796,7 @@ consolecmd_t consolecmds[] =
         "Toggles showing a disk icon when loading and saving."),
     CVAR_BOOL(r_ditheredlighting, "", bool_cvars_func1, r_ditheredlighting_cvar_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles dithered lighting cast on textures and sprites."),
-    CVAR_BOOL(r_fixmaperrors, "", bool_cvars_func1, r_fixmaperrors_cvar_func2, CF_NEXTMAP, BOOLVALUEALIAS,
+    CVAR_BOOL(r_fixmaperrors, "", bool_cvars_func1, bool_cvars_func2, CF_NEXTMAP, BOOLVALUEALIAS,
         "Toggles fixing mapping errors in the " ITALICS("DOOM") " and " ITALICS("DOOM II") " IWADs."),
     CVAR_BOOL(r_fixspriteoffsets, "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles fixing sprite offsets."),
@@ -835,7 +834,7 @@ consolecmd_t consolecmds[] =
         "Toggles showing the player's weapon."),
     CVAR_BOOL(r_radsuiteffect, "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles the green effect when the player is wearing a radiation shielding suit power-up."),
-    CVAR_BOOL(r_randomstartframes, "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
+    CVAR_BOOL(r_randomstartframes, "", bool_cvars_func1, bool_cvars_func2, CF_NEXTMAP, BOOLVALUEALIAS,
         "Toggles randomizing the start frames of certain sprites."),
     CVAR_BOOL(r_rockettrails, "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles the trail of smoke behind rockets fired by the player and cyberdemons."),
@@ -8806,47 +8805,6 @@ static void r_ditheredlighting_cvar_func2(char *cmd, char *parms)
         else
         {
             char    *temp2 = C_LookupAliasFromValue(r_ditheredlighting_default, BOOLVALUEALIAS);
-
-            C_Output(INTEGERCVARWITHDEFAULT, temp1, temp2);
-            free(temp2);
-        }
-
-        free(temp1);
-
-        C_ShowWarning(i);
-    }
-}
-
-//
-// r_fixmaperrors CVAR
-//
-static void r_fixmaperrors_cvar_func2(char *cmd, char *parms)
-{
-    if (*parms)
-    {
-        const int   value = C_LookupValueFromAlias(parms, BOOLVALUEALIAS);
-
-        if ((value == 0 || value == 1) && value != r_fixmaperrors)
-        {
-            r_fixmaperrors = value;
-            M_SaveCVARs();
-
-            if (gamestate == GS_LEVEL && !togglingvanilla && !resettingcvar)
-                C_Warning(0, PENDINGCHANGE);
-        }
-    }
-    else
-    {
-        char        *temp1 = C_LookupAliasFromValue(r_fixmaperrors, BOOLVALUEALIAS);
-        const int   i = C_GetIndex(cmd);
-
-        C_ShowDescription(i);
-
-        if (r_fixmaperrors == r_fixmaperrors_default)
-            C_Output(INTEGERCVARISDEFAULT, temp1);
-        else
-        {
-            char    *temp2 = C_LookupAliasFromValue(r_fixmaperrors_default, BOOLVALUEALIAS);
 
             C_Output(INTEGERCVARWITHDEFAULT, temp1, temp2);
             free(temp2);
