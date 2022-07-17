@@ -24,6 +24,7 @@
 * Blood is now spawned during melee attacks from monsters. This feature may be toggled using the new `r_blood_melee` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
 * Bullet puffs are no longer spawned instead of blood when the `r_blood` CVAR is `none`.
 * Minor improvements have been made to how corpses move when the player or a monster walks over them and the `r_corpses_nudge` CVAR is `on`.
+* The movement of monsters in and out of liquid is now smoother when the `r_liquid_clipsprites` CVAR is `on`.
 * A crash no longer occurs:
   * When entering the `IDBEHOLD` cheat while the alternate widescreen HUD is displayed.
   * When entering the `map` CCMD in the console with an invalid parameter.
