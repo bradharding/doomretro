@@ -3664,7 +3664,6 @@ void M_StartControlPanel(void)
         spinspeed = 0;
 
         playerlookdir = viewplayer->lookdir;
-        viewplayer->lookdir = 0;
 
         if (automapactive)
         {
