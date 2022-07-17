@@ -16,7 +16,7 @@
 * The following changes have been made to the help screen displayed by pressing the <kbd><b>F1</b></kbd> key:
   * Subtle noise has been applied to the background.
   * `HELP`, `HELP1` and `HELP2` lumps in PWADs that are wider than 320 pixels are now displayed correctly.
-* If it doesn’t already exist, an `autoload` folder is now created at startup. Any `.wad`, `.deh` or `.bex` file that is placed in this folder, (or in the subfolder based on the name of the current WAD), will then always be automatically loaded at startup.
+* If it doesn’t already exist, an `autoload` folder is now created during startup. Any `.wad`, `.deh` or `.bex` file that is placed in this folder, (or in the subfolder based on the name of the current WAD), will then always be automatically loaded during startup.
 * The number of gamma correction levels set by the `r_gamma` CVAR that are brighter than `1.0` has been reduced.
 * The `r_translucency` CVAR has been replaced by the following two CVARs:
   * The `r_sprites_translucency` CVAR toggles the translucency of certain sprites. This CVAR is `on` by default and `off` when vanilla mode is enabled.
@@ -24,11 +24,11 @@
 * Blood is now spawned during melee attacks from monsters. This feature may be toggled using the new `r_blood_melee` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
 * Bullet puffs are no longer spawned instead of blood when the `r_blood` CVAR is `none`.
 * Minor improvements have been made to how corpses move when the player or a monster walks over them and the `r_corpses_nudge` CVAR is `on`.
-* The movement of monsters in and out of liquid is now smoother when the `r_liquid_clipsprites` CVAR is `on`.
+* The bottoms of monster sprites are no longer momentarily still clipped as they move out of liquid and the `r_liquid_clipsprites` CVAR is `on`.
 * A crash no longer occurs:
   * When entering the `IDBEHOLD` cheat while the alternate widescreen HUD is displayed.
   * When entering the `map` CCMD in the console with an invalid parameter.
-  * During intermission if the `WIENTER` lump is larger than the screen.
+  * During intermission if the `WIENTER` or `WIF` lumps are taller than the screen.
 * Minor improvements have been made to the playback of MIDI music.
 * The `IDCHOPPERS` cheat is now canceled properly when the player exits a map.
 * The angles of thing triangles in the automap when the `IDDT` cheat is used are now interpolated when the `vid_capfps` CVAR is a value other than `35`.
