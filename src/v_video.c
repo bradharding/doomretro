@@ -304,7 +304,7 @@ void V_DrawBigWidePatch(int x, int y, patch_t *patch)
                 dest += SCREENWIDTH;
             }
 
-            column = (column_t *)((byte *)column + column->length + 4);
+            column = (column_t *)((byte *)column + lastlength + 4);
         }
     }
 }
@@ -522,7 +522,7 @@ void V_DrawBigPatch(int x, int y, patch_t *patch)
                 dest += SCREENWIDTH;
             }
 
-            column = (column_t *)((byte *)column + column->length + 4);
+            column = (column_t *)((byte *)column + lastlength + 4);
         }
     }
 }
@@ -576,7 +576,7 @@ void V_DrawMenuBorderPatch(int x, int y, patch_t *patch, byte color)
                 destright += SCREENWIDTH;
             }
 
-            column = (column_t *)((byte *)column + column->length + 4);
+            column = (column_t *)((byte *)column + lastlength + 4);
         }
     }
 }
