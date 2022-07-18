@@ -529,10 +529,11 @@ void V_DrawBigPatch(int x, int y, patch_t *patch)
 
 void V_DrawMenuBorderPatch(int x, int y, patch_t *patch, byte color)
 {
-    byte        *desttop = &screens[0][y * SCREENWIDTH + x];
+    byte        *desttopleft = &screens[0][y * SCREENWIDTH + x];
+    byte        *desttopright = &screens[0][y * SCREENWIDTH + SCREENWIDTH - x];
     const int   width = SHORT(patch->width);
 
-    for (int col = 0; col < width; col++, desttop++)
+    for (int col = 0; col < width; col++, desttopleft++, desttopright--)
     {
         column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnoffset[col]));
         int         td;
@@ -543,24 +544,36 @@ void V_DrawMenuBorderPatch(int x, int y, patch_t *patch, byte color)
         while ((td = column->topdelta) != 0xFF)
         {
             byte    *source = (byte *)column + 3;
-            byte    *dest;
+            byte    *destleft;
+            byte    *destright;
             int     count;
 
             topdelta = (td < topdelta + lastlength - 1 ? topdelta + td : td);
-            dest = &desttop[topdelta * SCREENWIDTH];
+            destleft = &desttopleft[topdelta * SCREENWIDTH];
+            destright = &desttopright[topdelta * SCREENWIDTH];
             count = lastlength = column->length;
 
             while (count--)
             {
                 if (*source == 96)
-                    *dest = tinttab50[*dest];
+                {
+                    *destleft = tinttab50[*destleft];
+                    *destright = tinttab50[*destright];
+                }
                 else if (*source == 106)
-                    *dest = tinttab20[*dest];
+                {
+                    *destleft = tinttab20[*destleft];
+                    *destright = tinttab20[*destright];
+                }
                 else if (*source)
-                    *dest = color;
+                {
+                    *destleft = color;
+                    *destright = color;
+                }
 
                 source++;
-                dest += SCREENWIDTH;
+                destleft += SCREENWIDTH;
+                destright += SCREENWIDTH;
             }
 
             column = (column_t *)((byte *)column + column->length + 4);

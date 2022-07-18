@@ -117,8 +117,7 @@ int             spinspeed;
 static angle_t  playerangle;
 static int      playerlookdir;
 
-static patch_t  *menuborderleft;
-static patch_t  *menuborderright;
+static patch_t  *menuborder;
 
 //
 // PROTOTYPES
@@ -495,14 +494,10 @@ static void M_DrawMenuBorder(void)
             for (int x = 0; x < 3; x++)
                 screens[0][y + x] = screens[0][y + SCREENWIDTH - x - 1] = MENUBORDERCOLOR;
 
-        V_DrawMenuBorderPatch(3, 0, menuborderleft, MENUBORDERCOLOR);
-        V_DrawMenuBorderPatch(SCREENWIDTH - SHORT(menuborderright->width) - 3, 0, menuborderright, MENUBORDERCOLOR);
+        V_DrawMenuBorderPatch(3, 0, menuborder, MENUBORDERCOLOR);
     }
     else
-    {
-        V_DrawMenuBorderPatch(0, 0, menuborderleft, MENUBORDERCOLOR);
-        V_DrawMenuBorderPatch(SCREENWIDTH - SHORT(menuborderright->width), 0, menuborderright, MENUBORDERCOLOR);
-    }
+        V_DrawMenuBorderPatch(0, 0, menuborder, MENUBORDERCOLOR);
 }
 
 //
@@ -3917,8 +3912,7 @@ void M_Init(void)
     quickSaveSlot = -1;
     spindirection = ((M_Random() & 1) ? 1 : -1);
 
-    menuborderleft = W_CacheLastLumpName("DRMBRDRL");
-    menuborderright = W_CacheLastLumpName("DRMBRDRR");
+    menuborder = W_CacheLastLumpName("DRBORDER");
 
     for (int i = 0; i < 256; i++)
         blues[i] = nearestcolors[blues[i]];
