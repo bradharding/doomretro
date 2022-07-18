@@ -789,7 +789,7 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL(r_corpses_slide, "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles corpses sliding in reaction to nearby barrel and rocket explosions."),
     CVAR_BOOL(r_corpses_smearblood, "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
-        "Toggles corpses leaving blood splats as they slide."),
+        "Toggles corpses leaving blood splats behind as they slide."),
     CVAR_BOOL(r_damageeffect, "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles the red effect when the player is injured."),
     CVAR_BOOL(r_detail, "", r_detail_cvar_func1, r_detail_cvar_func2, CF_NONE, DETAILVALUEALIAS,
