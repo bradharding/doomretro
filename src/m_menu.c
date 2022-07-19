@@ -112,8 +112,9 @@ static bool     usinggamecontroller;
 // current menudef
 static menu_t   *currentMenu;
 
-int             spindirection;
-int             spinspeed;
+int             menufov;
+int             menuspindirection;
+int             menuspinspeed;
 static angle_t  playerangle;
 static int      playerlookdir;
 
@@ -3656,7 +3657,8 @@ void M_StartControlPanel(void)
     if (gamestate == GS_LEVEL)
     {
         playerangle = viewplayer->mo->angle;
-        spinspeed = 0;
+        menufov = r_fov;
+        menuspinspeed = 0;
 
         playerlookdir = viewplayer->lookdir;
 
@@ -3850,7 +3852,7 @@ void M_ClearMenus(void)
 
     menuactive = false;
     blurtic = -1;
-    spindirection = ((M_Random() & 1) ? 1 : -1);
+    menuspindirection = ((M_Random() & 1) ? 1 : -1);
 
     if (joy_rumble_damage || joy_rumble_barrels || joy_rumble_weapons)
     {
@@ -3911,7 +3913,7 @@ void M_Init(void)
     messageString = NULL;
     messageLastMenuActive = false;
     quickSaveSlot = -1;
-    spindirection = ((M_Random() & 1) ? 1 : -1);
+    menuspindirection = ((M_Random() & 1) ? 1 : -1);
 
     menuborder = W_CacheLastLumpName("DRBORDER");
 

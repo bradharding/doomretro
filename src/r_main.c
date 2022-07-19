@@ -44,6 +44,7 @@
 #include "i_colors.h"
 #include "i_timer.h"
 #include "m_config.h"
+#include "m_menu.h"
 #include "m_random.h"
 #include "p_local.h"
 #include "p_setup.h"
@@ -392,7 +393,7 @@ void R_ExecuteSetViewSize(void)
 
     centerx = viewwidth / 2;
     centerxfrac = centerx << FRACBITS;
-    fov = (menuactive ? r_fov_max : r_fov) + WIDEFOVDELTA;
+    fov = (menuactive ? menufov : r_fov) + WIDEFOVDELTA;
     fovscale = finetangent[FINEANGLES / 4 + fov * FINEANGLES / 360 / 2];
     projection = FixedDiv(centerxfrac, fovscale);
     viewheightfrac = viewheight << FRACBITS;

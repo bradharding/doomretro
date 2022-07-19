@@ -527,12 +527,15 @@ void P_PlayerThink(void)
             viewplayer->damagecount = MAX(0, viewplayer->damagecount - 5);
 
         if (!inhelpscreens && ((messagetoprint && !consoleactive) || !messagetoprint))
-            mo->angle += ANG1 / (spinspeed = MIN(spinspeed + 1, 512)) * 8 * spindirection;
+            mo->angle += ANG1 / (menuspinspeed = MIN(menuspinspeed + 1, 512)) * 8 * menuspindirection;
 
         if (viewplayer->lookdir < 0)
             viewplayer->lookdir = MIN(viewplayer->lookdir + 4 * MLOOKUNIT, 0);
         else if (viewplayer->lookdir > 0)
             viewplayer->lookdir = MAX(0, viewplayer->lookdir - 4 * MLOOKUNIT);
+
+        menufov = MIN(menufov + 3, r_fov_max);
+        R_ExecuteSetViewSize();
 
         return;
     }

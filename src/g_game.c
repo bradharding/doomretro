@@ -279,7 +279,7 @@ void G_BuildTiccmd(ticcmd_t *cmd)
             cmd->angleturn -= angleturn[(turnheld < SLOWTURNTICS ? 2 : run)];
 
             if (!menuactive)
-                spindirection = SIGN(cmd->angleturn);
+                menuspindirection = SIGN(cmd->angleturn);
         }
         else if (gamecontrollerthumbRX > 0)
         {
@@ -289,7 +289,7 @@ void G_BuildTiccmd(ticcmd_t *cmd)
                 (fixed_t)(gamecontrollerhorizontalsensitivity * FixedMul(FixedMul(x, x), x)));
 
             if (!menuactive)
-                spindirection = SIGN(cmd->angleturn);
+                menuspindirection = SIGN(cmd->angleturn);
         }
 
         if (gamekeydown[keyboardleft] || mousebuttons[mouseleft] || (gamecontrollerbuttons & gamecontrollerleft))
@@ -297,7 +297,7 @@ void G_BuildTiccmd(ticcmd_t *cmd)
             cmd->angleturn += angleturn[(turnheld < SLOWTURNTICS ? 2 : run)];
 
             if (!menuactive)
-                spindirection = SIGN(cmd->angleturn);
+                menuspindirection = SIGN(cmd->angleturn);
         }
         else if (gamecontrollerthumbRX < 0)
         {
@@ -307,7 +307,7 @@ void G_BuildTiccmd(ticcmd_t *cmd)
                 (fixed_t)(gamecontrollerhorizontalsensitivity * FixedMul(FixedMul(x, x), x)));
 
             if (!menuactive)
-                spindirection = SIGN(cmd->angleturn);
+                menuspindirection = SIGN(cmd->angleturn);
         }
     }
 
@@ -357,7 +357,7 @@ void G_BuildTiccmd(ticcmd_t *cmd)
                 (fixed_t)(gamecontrollerhorizontalsensitivity * FixedMul(FixedMul(x, x), x)));
 
             if (!menuactive)
-                spindirection = SIGN(cmd->angleturn);
+                menuspindirection = SIGN(cmd->angleturn);
         }
     }
 
@@ -376,7 +376,7 @@ void G_BuildTiccmd(ticcmd_t *cmd)
                 (fixed_t)(gamecontrollerhorizontalsensitivity * FixedMul(FixedMul(x, x), x)));
 
             if (!menuactive)
-                spindirection = SIGN(cmd->angleturn);
+                menuspindirection = SIGN(cmd->angleturn);
         }
     }
 
@@ -489,7 +489,7 @@ void G_BuildTiccmd(ticcmd_t *cmd)
             cmd->angleturn -= mousex * 0x08;
 
             if (!menuactive)
-                spindirection = SIGN(cmd->angleturn);
+                menuspindirection = SIGN(cmd->angleturn);
         }
 
         mousex = 0;
