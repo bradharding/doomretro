@@ -115,6 +115,8 @@ int                 extralight;
 
 bool                drawbloodsplats;
 
+static int          fov;
+
 //
 // R_PointOnSide
 // Traverse BSP (sub) tree,
@@ -290,7 +292,7 @@ static void R_InitTextureMapping(void)
 {
     // Use tangent table to generate viewangletox:
     //  viewangletox will give the next greatest x after the view angle.
-    const fixed_t   limit = finetangent[FINEANGLES / 4 + ((r_fov + WIDEFOVDELTA) * FINEANGLES / 360) / 2];
+    const fixed_t   limit = finetangent[FINEANGLES / 4 + (fov * FINEANGLES / 360) / 2];
 
     // Calc focallength so field of view angles covers SCREENWIDTH.
     const fixed_t   focallength = FixedDiv(centerxfrac, limit);
@@ -332,7 +334,7 @@ static void R_InitTextureMapping(void)
 void R_InitLightTables(void)
 {
     const int width = (FixedMul(SCREENWIDTH, FixedDiv(FRACUNIT, finetangent[FINEANGLES / 4
-                      + (r_fov + WIDEFOVDELTA) * FINEANGLES / 360 / 2])) + 1) / 2 * FRACUNIT;
+                      + fov * FINEANGLES / 360 / 2])) + 1) / 2 * FRACUNIT;
 
     // Calculate the light levels to use for each level/distance combination.
     for (int i = 0; i < LIGHTLEVELS; i++)
@@ -390,12 +392,14 @@ void R_ExecuteSetViewSize(void)
 
     centerx = viewwidth / 2;
     centerxfrac = centerx << FRACBITS;
-    fovscale = finetangent[FINEANGLES / 4 + (r_fov + WIDEFOVDELTA) * FINEANGLES / 360 / 2];
+    fov = (menuactive ? r_fov_max : r_fov) + WIDEFOVDELTA;
+    fovscale = finetangent[FINEANGLES / 4 + fov * FINEANGLES / 360 / 2];
     projection = FixedDiv(centerxfrac, fovscale);
     viewheightfrac = viewheight << FRACBITS;
 
     R_InitBuffer();
     R_InitTextureMapping();
+    R_InitLightTables();
 
     pspriteiscale = FixedDiv(FRACUNIT, pspritescale);
 

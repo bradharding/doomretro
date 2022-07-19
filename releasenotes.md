@@ -12,6 +12,7 @@
 * Secrets are no longer considered as found if the player happens to walk into one while no clipping mode is enabled.
 * The following changes have been to the menu’s background:
   * Its corners are now curved.
+  * The field of view has increased from 90° to 135°.
   * The player’s view now vertically centers itself if the `mouselook` CVAR is `on`.
 * The following changes have been made to the help screen displayed by pressing the <kbd><b>F1</b></kbd> key:
   * Subtle noise has been applied to the background.
