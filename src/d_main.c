@@ -745,7 +745,7 @@ static void LoadDehFile(char *path)
         {
             if (HasDehackedLump(path))
             {
-                M_snprintf(dehwarning, sizeof(dehwarning), BOLD("%s") " was ignored.", GetCorrectCase(dehpath));
+                M_snprintf(dehwarning, sizeof(dehwarning), BOLD("%s") " wasn't loaded.", GetCorrectCase(dehpath));
                 dehfileignored = true;
             }
             else
@@ -766,7 +766,7 @@ static void LoadDehFile(char *path)
         {
             if (HasDehackedLump(path))
             {
-                M_snprintf(dehwarning, sizeof(dehwarning), BOLD("%s") " was ignored.", GetCorrectCase(dehpath));
+                M_snprintf(dehwarning, sizeof(dehwarning), BOLD("%s") " wasn't loaded.", GetCorrectCase(dehpath));
                 dehfileignored = true;
             }
             else
