@@ -13,7 +13,8 @@
 * The following changes have been to the menu’s background:
   * Its corners are now curved.
   * The field of view has increased from 90° to 135°.
-  * The player’s view now vertically centers itself if the `mouselook` CVAR is `on`.
+  * The view now vertically centers itself if the `mouselook` CVAR is `on`.
+  * Its spin may now sometimes change direction if the menu is closed, the player doesn’t move, and the menu is reopened.
 * The following changes have been made to the help screen displayed by pressing the <kbd><b>F1</b></kbd> key:
   * Subtle noise has been applied to the background.
   * `HELP`, `HELP1` and `HELP2` lumps in PWADs that are wider than 320 pixels are now displayed correctly.
