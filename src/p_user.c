@@ -534,7 +534,7 @@ void P_PlayerThink(void)
         else if (viewplayer->lookdir > 0)
             viewplayer->lookdir = MAX(0, viewplayer->lookdir - 4 * MLOOKUNIT);
 
-        menufov = MIN(menufov + 3, r_fov_max);
+        menufov = MIN(menufov + 4, r_fov_max);
         R_ExecuteSetViewSize();
 
         return;
