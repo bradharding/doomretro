@@ -3850,6 +3850,7 @@ void M_ClearMenus(void)
 
     menuactive = false;
     blurtic = -1;
+    spindirection = ((M_Random() & 1) ? 1 : -1);
 
     if (joy_rumble_damage || joy_rumble_barrels || joy_rumble_weapons)
     {
