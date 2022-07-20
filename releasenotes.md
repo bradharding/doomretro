@@ -14,7 +14,7 @@
   * Its corners are now curved.
   * The field of view is now always `135°`.
   * The view is now vertically centered if the `mouselook` CVAR is `on`.
-  * The spin is now slightly faster and its decelleration slightly slower.
+  * The spin is now slightly faster and its deceleration slightly slower.
   * The spin may now sometimes reverse direction if the menu is closed, the player doesn’t move, and the menu is then reopened.
 * The following changes have been made to the help screen displayed by pressing the <kbd><b>F1</b></kbd> key:
   * Subtle noise has been applied to the background.

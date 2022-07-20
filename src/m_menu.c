@@ -3662,7 +3662,7 @@ void M_StartControlPanel(void)
         playerlookdir = viewplayer->lookdir;
         viewplayer->lookdir = 0;
 
-        menufov = r_fov;
+        menufov = r_fov_max;
         R_ExecuteSetViewSize();
 
         if (automapactive)
