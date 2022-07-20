@@ -598,8 +598,11 @@ static bool PIT_CheckThing(mobj_t *thing)
 
             if (r_blood != r_blood_none)
             {
-                if (thing->player && !viewplayer->powers[pw_invulnerability] && !(viewplayer->cheats & CF_GODMODE))
-                    P_SpawnBlood(tmthing->x, tmthing->y, tmthing->z, shootangle, damage, tmthing);
+                if (thing->player)
+                {
+                    if (!viewplayer->powers[pw_invulnerability] && !(viewplayer->cheats & CF_GODMODE))
+                        P_SpawnBlood(tmthing->x, tmthing->y, tmthing->z, shootangle, damage, tmthing);
+                }
                 else if (!(thing->flags & MF_NOBLOOD))
                     P_SpawnBlood(tmthing->x, tmthing->y, tmthing->z, shootangle, damage, tmthing);
             }

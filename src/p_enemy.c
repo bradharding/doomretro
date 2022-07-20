@@ -832,11 +832,14 @@ static void P_SpawnBloodOnMelee(mobj_t *target, const int damage)
     if (!r_blood_melee || r_blood == r_blood_none)
         return;
 
-    if (target->player && !viewplayer->powers[pw_invulnerability] && !(viewplayer->cheats & CF_GODMODE))
+    if (target->player)
     {
-        const unsigned int  an = viewangle >> ANGLETOFINESHIFT;
+        if (!viewplayer->powers[pw_invulnerability] && !(viewplayer->cheats & CF_GODMODE))
+        {
+            const unsigned int  an = viewangle >> ANGLETOFINESHIFT;
 
-        P_SpawnBlood(viewx + 20 * finecosine[an], viewy + 20 * finecosine[an], viewz, 0, damage, target);
+            P_SpawnBlood(viewx + 20 * finecosine[an], viewy + 20 * finecosine[an], viewz, 0, damage, target);
+        }
     }
     else if (!(target->flags & MF_NOBLOOD))
         P_SpawnBlood(target->x, target->y, target->z + M_RandomInt(4, 16) * FRACUNIT, 0, damage, target);
