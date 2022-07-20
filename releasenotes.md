@@ -10,11 +10,11 @@
 * The amount of blood splats displayed now depends on their distance from the player again.
 * A message is now displayed, and with an accompanying sound effect, whenever the player finds a secret. This feature may be toggled using the new `secretmessages` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
 * Secrets are no longer considered as found if the player happens to walk into one while no clipping mode is enabled.
-* The following changes have been to the menu’s background:
+* The following changes have been made to the menu’s background:
   * Its corners are now curved.
-  * The field of view is now `135°`.
+  * The field of view is now always `135°`.
   * The view is now vertically centered if the `mouselook` CVAR is `on`.
-  * The spin is now slightly faster.
+  * The spin is now slightly faster and its decelleration slightly slower.
   * The spin may now sometimes reverse direction if the menu is closed, the player doesn’t move, and the menu is then reopened.
 * The following changes have been made to the help screen displayed by pressing the <kbd><b>F1</b></kbd> key:
   * Subtle noise has been applied to the background.
