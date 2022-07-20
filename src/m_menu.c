@@ -492,10 +492,10 @@ static void M_DrawMenuBorder(void)
     if (vid_widescreen || nowidescreen)
     {
         for (int y = 0; y < SCREENAREA; y += SCREENWIDTH)
-            for (int x = 0; x < 3; x++)
+            for (int x = 0; x < 6; x++)
                 screens[0][y + x] = screens[0][y + SCREENWIDTH - x - 1] = MENUBORDERCOLOR;
 
-        V_DrawMenuBorderPatch(3, 0, menuborder, MENUBORDERCOLOR);
+        V_DrawMenuBorderPatch(6, 0, menuborder, MENUBORDERCOLOR);
     }
     else
         V_DrawMenuBorderPatch(0, 0, menuborder, MENUBORDERCOLOR);
