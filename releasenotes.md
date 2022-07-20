@@ -12,9 +12,10 @@
 * Secrets are no longer considered as found if the player happens to walk into one while no clipping mode is enabled.
 * The following changes have been to the menu’s background:
   * Its corners are now curved.
-  * The field of view quickly increases to `135°`.
-  * The view now vertically centers itself if the `mouselook` CVAR is `on`.
-  * Its spin may now sometimes change direction if the menu is closed, the player doesn’t move, and the menu is then reopened.
+  * The field of view is now `135°`.
+  * The view is now vertically centered if the `mouselook` CVAR is `on`.
+  * The spin is now slightly faster.
+  * The spin may now sometimes reverse direction if the menu is closed, the player doesn’t move, and the menu is then reopened.
 * The following changes have been made to the help screen displayed by pressing the <kbd><b>F1</b></kbd> key:
   * Subtle noise has been applied to the background.
   * `HELP`, `HELP1` and `HELP2` lumps in PWADs that are wider than 320 pixels are now displayed correctly.

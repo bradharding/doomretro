@@ -3657,10 +3657,13 @@ void M_StartControlPanel(void)
     if (gamestate == GS_LEVEL)
     {
         playerangle = viewplayer->mo->angle;
-        menufov = r_fov;
         menuspinspeed = 0;
 
         playerlookdir = viewplayer->lookdir;
+        viewplayer->lookdir = 0;
+
+        menufov = r_fov;
+        R_ExecuteSetViewSize();
 
         if (automapactive)
         {
