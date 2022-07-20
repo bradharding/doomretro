@@ -832,7 +832,7 @@ static void P_SpawnBloodOnMelee(mobj_t *target, const int damage)
     if (!r_blood_melee || (target->flags & MF_NOBLOOD) || r_blood == r_blood_none)
         return;
 
-    if (target->player)
+    if (target->player && !viewplayer->powers[pw_invulnerability] && !(viewplayer->cheats & CF_GODMODE))
     {
         const unsigned int  an = viewangle >> ANGLETOFINESHIFT;
 
