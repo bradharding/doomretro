@@ -54,6 +54,7 @@
   * `enterpic` now works as intended.
   * `exitpic` can now be used to specify the lump displayed when the player exits a map.
   * `compat_nopassover` can now be used to override the effects of the `infiniteheight` CVAR when `off`.
+* Minor improvements have been made to the support of [*MBF21*](https://doomwiki.org/wiki/MBF21)-compatible WADs.
 * The following changes have been made to brightmaps when the `r_brightmaps` CVAR is `on`:
   * A new [`BRGHTMPS`](https://raw.githubusercontent.com/bradharding/doomretro/master/res/BRGHTMPS) lump has been introduced that allows brightmaps to be changed in a PWAD.
   * Minor improvements have been made to the brightmaps of the `COMPUTE2` and `COMPUTE3` textures.

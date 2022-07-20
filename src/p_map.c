@@ -596,8 +596,13 @@ static bool PIT_CheckThing(mobj_t *thing)
         {
             const int   damage = ((M_Random() & 3) + 2) * tmthing->info->damage;
 
-            if (!(thing->flags & MF_NOBLOOD) && r_blood != r_blood_none)
-                P_SpawnBlood(tmthing->x, tmthing->y, tmthing->z, shootangle, damage, tmthing);
+            if (r_blood != r_blood_none)
+            {
+                if (thing->player && !viewplayer->powers[pw_invulnerability] && !(viewplayer->cheats & CF_GODMODE))
+                    P_SpawnBlood(tmthing->x, tmthing->y, tmthing->z, shootangle, damage, tmthing);
+                else if (!(thing->flags & MF_NOBLOOD))
+                    P_SpawnBlood(tmthing->x, tmthing->y, tmthing->z, shootangle, damage, tmthing);
+            }
 
             if (tmthing->info->ripsound)
                 S_StartSound(tmthing, tmthing->info->ripsound);
