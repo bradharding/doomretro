@@ -3659,8 +3659,6 @@ void M_StartControlPanel(void)
         playerangle = viewplayer->mo->angle;
         menuspinspeed = 0;
 
-        I_SetMotionBlur(100);
-
         if (automapactive)
         {
             AM_SetAutomapSize(r_screensize_max);
@@ -3859,8 +3857,6 @@ void M_ClearMenus(void)
     menuactive = false;
     blurtic = -1;
     menuspindirection = ((M_Random() & 1) ? 1 : -1);
-
-    I_SetMotionBlur(0);
 
     if (joy_rumble_damage || joy_rumble_barrels || joy_rumble_weapons)
     {
