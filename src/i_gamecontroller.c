@@ -56,7 +56,7 @@ short                       gamecontrollerleftdeadzone;
 short                       gamecontrollerrightdeadzone;
 
 int                         damagerumbletics = 0;
-int                         exploderumbletics = 0;
+int                         barrelrumbletics = 0;
 int                         weaponrumbletics = 0;
 int                         idlechainsawrumblestrength;
 int                         restoredrumblestrength;
@@ -146,9 +146,9 @@ void I_GameControllerRumble(int strength)
 void I_UpdateGameControllerRumble(void)
 {
     if (gamecontrollerhasrumble
-        && ((weaponrumbletics && !--weaponrumbletics && !damagerumbletics && !exploderumbletics)
-            || (damagerumbletics && !--damagerumbletics && !exploderumbletics)
-            || (exploderumbletics && !--exploderumbletics))
+        && ((weaponrumbletics && !--weaponrumbletics && !damagerumbletics && !barrelrumbletics)
+            || (damagerumbletics && !--damagerumbletics && !barrelrumbletics)
+            || (barrelrumbletics && !--barrelrumbletics))
         && lasteventtype == ev_controller)
     {
         currentstrength = idlechainsawrumblestrength;

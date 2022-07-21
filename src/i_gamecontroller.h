@@ -78,7 +78,7 @@
 #endif
 
 extern int      damagerumbletics;
-extern int      exploderumbletics;
+extern int      barrelrumbletics;
 extern int      weaponrumbletics;
 
 extern int      gamecontrollerbuttons;

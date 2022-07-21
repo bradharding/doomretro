@@ -1070,7 +1070,7 @@ void G_Ticker(void)
 
 //
 // G_PlayerFinishLevel
-// Called when a player completes a level.
+// Called when the player completes a level.
 //
 static void G_PlayerFinishLevel(void)
 {
@@ -1092,7 +1092,7 @@ static void G_PlayerFinishLevel(void)
 
 //
 // G_PlayerReborn
-// Called after a player dies
+// Called after the player dies
 // almost everything is cleared and initialized
 //
 void G_PlayerReborn(void)
@@ -1125,7 +1125,7 @@ void G_PlayerReborn(void)
     G_SetInitialWeapon();
 
     infight = false;
-    explodems = 0;
+    barrelms = 0;
 }
 
 //

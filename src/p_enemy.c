@@ -52,10 +52,10 @@
 #include "p_tick.h"
 #include "s_sound.h"
 
-#define DISTFRIEND      (128 * FRACUNIT)    // distance friends tend to move towards players
-#define EXPLODERANGE    (512 * FRACUNIT)
+#define DISTFRIEND  (128 * FRACUNIT)    // distance friends tend to move towards players
+#define BARRELRANGE (512 * FRACUNIT)
 
-int explodems = 0;
+int barrelms = 0;
 
 void A_Fall(mobj_t *actor, player_t *player, pspdef_t *psp);
 
@@ -107,7 +107,7 @@ static void P_RecursiveSound(sector_t *sec, int soundblocks, mobj_t *soundtarget
 
 //
 // P_NoiseAlert
-// If a monster yells at a player,
+// If a monster yells at the player,
 // it will alert other monsters to the player.
 //
 void P_NoiseAlert(mobj_t *target)
@@ -814,14 +814,14 @@ static void P_ShakeOnExplode(mobj_t *actor)
     {
         mobj_t  *mo = viewplayer->mo;
 
-        if (mo->z <= mo->floorz && P_ApproxDistance(actor->x - mo->x, actor->y - mo->y) < EXPLODERANGE)
+        if (mo->z <= mo->floorz && P_ApproxDistance(actor->x - mo->x, actor->y - mo->y) < BARRELRANGE)
         {
-            explodems = I_GetTimeMS() + EXPLODEMS;
+            barrelms = I_GetTimeMS() + BARRELMS;
 
             if (joy_rumble_barrels)
             {
                 I_GameControllerRumble(20000 * joy_rumble_barrels / 100);
-                exploderumbletics = TICRATE;
+                barrelrumbletics = TICRATE;
             }
         }
     }
@@ -851,7 +851,7 @@ static void P_SpawnBloodOnMelee(mobj_t *target, const int damage)
 
 //
 // A_Look
-// Stay in state until a player is sighted.
+// Stay in state until the player is sighted.
 //
 void A_Look(mobj_t *actor, player_t *player, pspdef_t *psp)
 {

@@ -1023,9 +1023,8 @@ void P_SetPlayerViewHeight(void)
 
 //
 // P_SpawnPlayer
-// Called when a player is spawned on the level.
-// Most of the player structure stays unchanged
-//  between levels.
+// Called when the player is spawned in the level.
+// Most of the player structure stays unchanged between levels.
 //
 static void P_SpawnPlayer(const mapthing_t *mthing)
 {

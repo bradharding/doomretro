@@ -171,7 +171,7 @@ bool EV_SilentTeleport(line_t *line, int side, mobj_t *thing)
                 fixed_t     momx = thing->momx;
                 fixed_t     momy = thing->momy;
 
-                // Whether this is a player, and if so, a pointer to its player_t
+                // Whether this is the player, and if so, a pointer to their player_t
                 player_t    *player = thing->player;
 
                 // Attempt to teleport, aborting if blocked
@@ -255,7 +255,7 @@ bool EV_SilentLineTeleport(line_t *line, int side, mobj_t *thing, bool reverse)
             // exit, to ensure that it is on the correct side of exit linedef
             int         fudge = FUDGEFACTOR;
 
-            // Whether this is a player, and if so, a pointer to its player_t.
+            // Whether this is the player, and if so, a pointer to their player_t.
             // Voodoo dolls are excluded by making sure thing->player->mo == thing.
             player_t    *player = (thing->player && thing->player->mo == thing ? thing->player : NULL);
 
@@ -315,7 +315,7 @@ bool EV_SilentLineTeleport(line_t *line, int side, mobj_t *thing, bool reverse)
             thing->momx = FixedMul(x, c) - FixedMul(y, s);
             thing->momy = FixedMul(y, c) + FixedMul(x, s);
 
-            // Adjust a player's view, in case there has been a height change
+            // Adjust the player's view, in case there has been a height change
             if (player)
             {
                 // Save the current deltaviewheight, used in stepping

@@ -73,7 +73,7 @@
 #define MISSILERANGE        (32 * 64 * FRACUNIT)
 #define WAKEUPRANGE         (64 * FRACUNIT)
 
-// follow a player exclusively for 3 seconds
+// follow the player exclusively for 3 seconds
 #define BASETHRESHOLD       100
 
 #define BONUSADD            6
@@ -160,9 +160,9 @@ bool P_SeekerMissile(mobj_t *actor, mobj_t **seekTarget, angle_t thresh, angle_t
 //
 // P_ENEMY.C
 //
-#define EXPLODEMS    1500
+#define BARRELMS    1500
 
-extern int  explodems;
+extern int  barrelms;
 
 void P_NoiseAlert(mobj_t *target);
 bool P_CheckMeleeRange(mobj_t *actor);

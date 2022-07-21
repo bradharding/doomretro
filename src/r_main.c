@@ -990,15 +990,15 @@ static void R_SetupFrame(void)
             pitch = BETWEEN(-LOOKDIRMAX, pitch + viewplayer->recoil, LOOKDIRMAX);
     }
 
-    if (explodems && !menuactive && !consoleactive && !paused)
+    if (barrelms && !menuactive && !consoleactive && !paused)
     {
         const int   time = I_GetTimeMS();
 
-        if (explodems > time)
+        if (barrelms > time)
         {
-            viewx += M_RandomInt(-3, 3) * FRACUNIT * (explodems - time) / EXPLODEMS;
-            viewy += M_RandomInt(-3, 3) * FRACUNIT * (explodems - time) / EXPLODEMS;
-            viewz += M_RandomInt(-2, 2) * FRACUNIT * (explodems - time) / EXPLODEMS;
+            viewx += M_RandomInt(-3, 3) * FRACUNIT * (barrelms - time) / BARRELMS;
+            viewy += M_RandomInt(-3, 3) * FRACUNIT * (barrelms - time) / BARRELMS;
+            viewz += M_RandomInt(-2, 2) * FRACUNIT * (barrelms - time) / BARRELMS;
         }
     }
 

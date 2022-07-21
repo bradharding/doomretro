@@ -934,7 +934,7 @@ int P_FindMinSurroundingLight(sector_t *sec, int min)
 //
 // P_CanUnlockGenDoor
 //
-// Passed a generalized locked door linedef and a player, returns whether
+// Passed a generalized locked door linedef, returns whether
 // the player has the keys necessary to unlock that door.
 //
 // Note: The linedef passed MUST be a generalized locked door type
