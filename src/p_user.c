@@ -527,7 +527,7 @@ void P_PlayerThink(void)
             viewplayer->damagecount = MAX(0, viewplayer->damagecount - 5);
 
         if (!inhelpscreens && ((messagetoprint && !consoleactive) || !messagetoprint))
-            mo->angle += ANG5 / (menuspinspeed = MIN(menuspinspeed + 1, 1024)) * 8 * menuspindirection;
+            mo->angle += ANG1 / (menuspinspeed = MIN(menuspinspeed + 1, 512)) * 8 * menuspindirection;
 
         return;
     }
