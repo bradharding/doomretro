@@ -3659,12 +3659,6 @@ void M_StartControlPanel(void)
         playerangle = viewplayer->mo->angle;
         menuspinspeed = 0;
 
-        playerlookdir = viewplayer->lookdir;
-        viewplayer->lookdir = 0;
-
-        menufov = r_fov_max;
-        R_ExecuteSetViewSize();
-
         if (automapactive)
         {
             AM_SetAutomapSize(r_screensize_max);
@@ -3673,7 +3667,14 @@ void M_StartControlPanel(void)
                 viewplayer->mo->angle = ANG90;
         }
         else
+        {
+            playerlookdir = viewplayer->lookdir;
+            viewplayer->lookdir = 0;
+
+            menufov = r_fov_max;
+
             R_SetViewSize(r_screensize_max);
+        }
     }
 
     S_LowerMusicVolume();

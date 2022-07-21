@@ -222,10 +222,10 @@ static bool P_CheckForSteps(fixed_t width)
 //
 void P_MovePlayer(void)
 {
-    mobj_t      *mo = viewplayer->mo;
-    ticcmd_t    *cmd = &viewplayer->cmd;
-    signed char forward = cmd->forwardmove;
-    signed char side = cmd->sidemove;
+    mobj_t              *mo = viewplayer->mo;
+    ticcmd_t            *cmd = &viewplayer->cmd;
+    const signed char   forward = cmd->forwardmove;
+    const signed char   side = cmd->sidemove;
 
     mo->angle += ((cmd->angleturn * turbo / 100) << FRACBITS);
 
@@ -244,7 +244,7 @@ void P_MovePlayer(void)
         // killough 11/98:
         // On sludge, make bobbing depend on efficiency.
         // On ice, make it depend on effort.
-        int     bobfactor = (friction < ORIG_FRICTION ? movefactor : ORIG_FRICTION_FACTOR);
+        const int   bobfactor = (friction < ORIG_FRICTION ? movefactor : ORIG_FRICTION_FACTOR);
 
         if (forward)
         {
