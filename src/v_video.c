@@ -562,8 +562,8 @@ void V_DrawMenuBorderPatch(int x, int y, patch_t *patch, byte color)
                 }
                 else if (*source == 106)
                 {
-                    *destleft = tinttab20[*destleft];
-                    *destright = tinttab20[*destright];
+                    *destleft = tinttab25[*destleft];
+                    *destright = tinttab25[*destright];
                 }
                 else
                 {
