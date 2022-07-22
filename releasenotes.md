@@ -11,15 +11,15 @@
 * A message is now displayed, and with an accompanying sound effect, whenever the player finds a secret. This feature may be toggled using the new `secretmessages` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
 * Secrets are no longer considered as found if the player happens to walk into one while no clipping mode is enabled.
 * The following changes have been made to the menu’s background:
-  * Its corners are now curved.
-  * The field of view is now always `135°` regardless of the value of the `r_fov` CVAR.
+  * It now has a black border with curved corners.
+  * The field of view now increases to `135°` regardless of the value of the `r_fov` CVAR.
   * The view is now vertically centered if the `mouselook` CVAR is `on`.
   * The spin may now sometimes reverse direction if the menu is closed, the player doesn’t move, and the menu is then reopened.
-  * Unmapped lines in the automap are no longer mapped as the view spins.
+  * Unmapped lines in the automap are no longer mapped while the view spins.
 * The following changes have been made to the help screen displayed by pressing the <kbd><b>F1</b></kbd> key:
   * Subtle noise has been applied to the background.
   * `HELP`, `HELP1` and `HELP2` lumps in PWADs that are wider than 320 pixels are now displayed correctly.
-* If it doesn’t already exist, an `autoload` folder is now created during startup. Any `.wad`, `.deh` or `.bex` file that is placed in this folder, (or in the subfolder based on the name of the current WAD), will then always be automatically loaded during startup.
+* If it doesn’t already exist, an `autoload` folder is now created during startup. Any `.wad`, `.deh` or `.bex` files that are placed in this folder, (or in the subfolder based on the name of the current WAD), will then always be automatically loaded during startup.
 * The number of gamma correction levels set by the `r_gamma` CVAR that are brighter than `1.0` has been reduced.
 * The `r_translucency` CVAR has been split into the following two CVARs:
   * The new `r_sprites_translucency` CVAR toggles the translucency of certain sprites. This CVAR is `on` by default and `off` when vanilla mode is enabled.

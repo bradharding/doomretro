@@ -428,7 +428,6 @@ static void R_InitSpriteLumps(void)
     SC_Open("DRCOMPAT");
 
     while (SC_GetString())
-    {
         if (M_StringCompare(sc_String, "FIXSPRITEOFFSETS"))
         {
             SC_MustGetString();
@@ -450,7 +449,6 @@ static void R_InitSpriteLumps(void)
                 mobjinfo[MT_KNIGHT].bloodcolor = REDBLOOD;
             }
         }
-    }
 
     SC_Close();
 
@@ -479,11 +477,7 @@ static void R_InitSpriteLumps(void)
 
             // [BH] override sprite offsets in WAD with those in sproffsets[] in info.c
             if (!FREEDOOM && !chex && !hacx)
-            {
-                int j = 0;
-
-                while (*sproffsets[j].name)
-                {
+                for (int j = 0; *sproffsets[j].name; j++)
                     if (i == W_CheckNumForName(sproffsets[j].name) - firstspritelump
                         && spritewidth[i] == (SHORT(sproffsets[j].width) << FRACBITS)
                         && spriteheight[i] == (SHORT(sproffsets[j].height) << FRACBITS)
@@ -495,10 +489,6 @@ static void R_InitSpriteLumps(void)
 
                         break;
                     }
-
-                    j++;
-                }
-            }
         }
     }
 
