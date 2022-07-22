@@ -50,6 +50,7 @@
 #include "sounds.h"
 #include "version.h"
 #include "w_wad.h"
+#include "v_video.h"
 #include "z_zone.h"
 
 // killough 10/98: new functions, to allow processing DEH files in-memory
@@ -2671,7 +2672,10 @@ static void deh_procThing(DEHFILE *fpin, char *line)
                 mbf21compatible = true;
             }
             else if (M_StringCompare(key, "Blood color"))
-                mobjinfo[indexnum].bloodcolor = value + 1;
+            {
+                if (value >= 0 && value < CR_LIMIT)
+                    mobjinfo[indexnum].bloodcolor = value + 1;
+            }
             else if (M_StringCompare(key, "Dropped item"))
                 mobjinfo[indexnum].droppeditem = value - 1;
             else if (M_StringCompare(key, "Infighting group"))

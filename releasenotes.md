@@ -12,7 +12,7 @@
 * Secrets are no longer considered as found if the player happens to walk into one while no clipping mode is enabled.
 * The following changes have been made to the menu’s background:
   * Its corners are now curved.
-  * The field of view is now `135°` rather than whatever value the `r_fov` CVAR is.
+  * The field of view is now always `135°` regardless of the value of the `r_fov` CVAR.
   * The view is now vertically centered if the `mouselook` CVAR is `on`.
   * The spin may now sometimes reverse direction if the menu is closed, the player doesn’t move, and the menu is then reopened.
   * Unmapped lines in the automap are no longer mapped as the view spins.

@@ -112,7 +112,6 @@ static bool     usinggamecontroller;
 // current menudef
 static menu_t   *currentMenu;
 
-int             menufov;
 int             menuspindirection;
 int             menuspinspeed;
 static angle_t  playerangle;
@@ -3670,9 +3669,6 @@ void M_StartControlPanel(void)
         {
             playerlookdir = viewplayer->lookdir;
             viewplayer->lookdir = 0;
-
-            menufov = r_fov_max;
-
             R_SetViewSize(r_screensize_max);
         }
     }
