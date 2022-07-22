@@ -332,7 +332,7 @@ static void R_InitTextureMapping(void)
 //
 // R_InitLightTables
 //
-void R_InitLightTables(void)
+static void R_InitLightTables(void)
 {
     const int width = (FixedMul(SCREENWIDTH, FixedDiv(FRACUNIT, finetangent[FINEANGLES / 4
                       + fov * FINEANGLES / 360 / 2])) + 1) / 2 * FRACUNIT;
