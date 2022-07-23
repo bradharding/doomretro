@@ -2684,6 +2684,8 @@ static void deh_procThing(DEHFILE *fpin, char *line)
                     mobjinfo[indexnum].bloodcolor = BLUEBLOOD;
                 else if (value == MT_GREENBLOOD)
                     mobjinfo[indexnum].bloodcolor = GREENBLOOD;
+                else if (value == MT_FUZZYBLOOD)
+                    mobjinfo[indexnum].bloodcolor = FUZZYBLOOD;
             }
             else if (M_StringCompare(key, "Dropped item"))
                 mobjinfo[indexnum].droppeditem = value - 1;
