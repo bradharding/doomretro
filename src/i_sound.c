@@ -259,7 +259,7 @@ static void ExpandSoundData(sfxinfo_t *sfxinfo, byte *data, const int samplerate
     else
         for (unsigned int i = 0; i < expanded_length; i++)
         {
-            const int src = ((i * expand_ratio) >> 8) * 2;
+            const int   src = ((i * expand_ratio) >> 8) * 2;
 
             expanded[i * 2] = expanded[i * 2 + 1] = (data[src] | (data[src + 1] << 8));
         }

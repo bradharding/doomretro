@@ -8965,7 +8965,7 @@ static void r_hud_translucency_cvar_func2(char *cmd, char *parms)
 {
     if (*parms)
     {
-        const int value = C_LookupValueFromAlias(parms, BOOLVALUEALIAS);
+        const int   value = C_LookupValueFromAlias(parms, BOOLVALUEALIAS);
 
         if ((value == 0 || value == 1) && value != r_hud_translucency)
         {
