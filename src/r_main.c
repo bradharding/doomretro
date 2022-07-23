@@ -116,7 +116,7 @@ int                 extralight;
 
 bool                drawbloodsplats;
 
-static int          fov;
+static fixed_t      fovscale;
 
 //
 // R_PointOnSide
@@ -291,20 +291,16 @@ static void R_InitPointToAngle(void)
 //
 static void R_InitTextureMapping(void)
 {
-    // Use tangent table to generate viewangletox:
-    //  viewangletox will give the next greatest x after the view angle.
-    const fixed_t   limit = finetangent[FINEANGLES / 4 + (fov * FINEANGLES / 360) / 2];
-
     // Calc focallength so field of view angles covers SCREENWIDTH.
-    const fixed_t   focallength = FixedDiv(centerxfrac, limit);
+    const fixed_t   focallength = FixedDiv(centerxfrac, fovscale);
 
     for (int i = 0; i < FINEANGLES / 2; i++)
     {
         const fixed_t   tangent = finetangent[i];
 
-        if (tangent > limit)
+        if (tangent > fovscale)
             viewangletox[i] = -1;
-        else if (tangent < -limit)
+        else if (tangent < -fovscale)
             viewangletox[i] = viewwidth + 1;
         else
             viewangletox[i] = BETWEEN(-1, (centerxfrac - FixedMul(tangent, focallength) + FRACUNIT - 1) >> FRACBITS, viewwidth + 1);
@@ -334,8 +330,7 @@ static void R_InitTextureMapping(void)
 //
 static void R_InitLightTables(void)
 {
-    const int   width = (FixedMul(SCREENWIDTH, FixedDiv(FRACUNIT, finetangent[FINEANGLES / 4
-                        + fov * FINEANGLES / 360 / 2])) + 1) / 2 * FRACUNIT;
+    const int   width = (FixedMul(SCREENWIDTH, FixedDiv(FRACUNIT, fovscale)) + 1) / 2 * FRACUNIT;
 
     // Calculate the light levels to use for each level/distance combination.
     for (int i = 0; i < LIGHTLEVELS; i++)
@@ -373,7 +368,6 @@ void R_SetViewSize(int blocks)
 //
 void R_ExecuteSetViewSize(void)
 {
-    fixed_t fovscale;
     fixed_t num;
 
     setsizeneeded = false;
@@ -393,8 +387,7 @@ void R_ExecuteSetViewSize(void)
 
     centerx = viewwidth / 2;
     centerxfrac = centerx << FRACBITS;
-    fov = (menuactive && !inhelpscreens ? r_fov_max : r_fov) + WIDEFOVDELTA;
-    fovscale = finetangent[FINEANGLES / 4 + fov * FINEANGLES / 360 / 2];
+    fovscale = finetangent[FINEANGLES / 4 + ((menuactive && !inhelpscreens ? r_fov_max : r_fov) + WIDEFOVDELTA) * FINEANGLES / 360 / 2];
     projection = FixedDiv(centerxfrac, fovscale);
     viewheightfrac = viewheight << FRACBITS;
 
