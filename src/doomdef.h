@@ -68,9 +68,13 @@
 #endif
 
 #define FORMATATTR(x, y)    __attribute__((format(printf, x, y)))
+#define ALLOCATTR(x)        __attribute__((malloc, alloc_size(x)))
+#define ALLOCSATTR(x, y)    __attribute__((malloc, alloc_size(x, y)))
 #else
 #define PACKEDATTR
 #define FORMATATTR(x, y)
+#define ALLOCATTR(d)
+#define ALLOCSATTR(d, x, y)
 #endif
 
 //

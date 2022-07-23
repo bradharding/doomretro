@@ -43,6 +43,8 @@
 #include <string.h>
 #include <assert.h>
 
+#include "doomdef.h"
+
 //
 // ZONE MEMORY
 // PU - purge tags.
@@ -59,8 +61,8 @@ enum
 
 #define PU_PURGELEVEL    PU_CACHE    // First purgeable tag's level
 
-void *Z_Malloc(size_t size, int tag, void **user);
-void *Z_Calloc(size_t n1, size_t n2, int tag, void **user);
+void *Z_Malloc(size_t size, int tag, void **user) ALLOCATTR(1);
+void *Z_Calloc(size_t n1, size_t n2, int tag, void **user) ALLOCSATTR(1, 2);
 void Z_Free(void *ptr);
 void Z_FreeTags(int lowtag, int hightag);
 void Z_ChangeTag(void *ptr, int tag);
