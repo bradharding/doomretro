@@ -919,7 +919,7 @@ void P_RemoveBloodSplats(void)
 // Finds a mobj type with a matching doomednum
 // killough 08/24/98: rewrote to use hashing
 //
-mobjtype_t P_FindDoomedNum(int type)
+mobjtype_t P_FindDoomedNum(const unsigned int type)
 {
     static struct
     {

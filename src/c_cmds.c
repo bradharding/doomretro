@@ -7836,17 +7836,17 @@ static void time_cvars_func2(char *cmd, char *parms)
     for (int i = 0; *consolecmds[i].name; i++)
         if (M_StringCompare(cmd, consolecmds[i].name) && consolecmds[i].type == CT_CVAR && (consolecmds[i].flags & CF_TIME))
         {
-            int tics = *(int *)consolecmds[i].variable / TICRATE;
-            int hours = tics / 3600;
-            int minutes = ((tics %= 3600)) / 60;
-            int seconds = tics % 60;
+            int         tics = *(int *)consolecmds[i].variable / TICRATE;
+            const int   hours = tics / 3600;
+            const int   minutes = ((tics %= 3600)) / 60;
+            const int   seconds = tics % 60;
 
             C_ShowDescription(i);
 
-            if (!hours)
-                C_Output(TIMECVARWITHNODEFAULT1, minutes, seconds);
-            else
+            if (hours)
                 C_Output(TIMECVARWITHNODEFAULT2, hours, minutes, seconds);
+            else
+                C_Output(TIMECVARWITHNODEFAULT1, minutes, seconds);
 
             C_ShowWarning(i);
 
