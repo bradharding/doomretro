@@ -299,7 +299,10 @@ void D_Display(void)
         if (forcewipe)
             forcewipe = false;
         else
+        {
             menuactive = false;
+            R_ExecuteSetViewSize();
+        }
     }
 
     if (gamestate != GS_LEVEL)
