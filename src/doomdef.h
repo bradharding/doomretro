@@ -73,8 +73,8 @@
 #else
 #define PACKEDATTR
 #define FORMATATTR(x, y)
-#define ALLOCATTR(d)
-#define ALLOCSATTR(d, x, y)
+#define ALLOCATTR(x)
+#define ALLOCSATTR(x, y)
 #endif
 
 //
