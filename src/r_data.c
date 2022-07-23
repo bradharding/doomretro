@@ -893,6 +893,9 @@ void R_InitData(void)
     R_InitBrightmaps();
     R_InitSpriteLumps();
     R_InitColormaps();
+
+    // [JN] Generate doomednum hash at startup.
+    P_FindDoomedNum(0);
 }
 
 //
