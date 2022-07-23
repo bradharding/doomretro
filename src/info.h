@@ -198,8 +198,8 @@ typedef enum
     MT_MUSICSOURCE,
     MT_GIBDTH,
 
-    //MT_BLUEBLOOD,
-    //MT_GREENBLOOD,
+    MT_BLUEBLOOD,
+    MT_GREENBLOOD,
     //MT_FUZZYBLOOD,
     MT_TRAIL = 149,
 

@@ -2676,6 +2676,15 @@ static void deh_procThing(DEHFILE *fpin, char *line)
                 if (value >= 0 && value < CR_LIMIT)
                     mobjinfo[indexnum].bloodcolor = value + 1;
             }
+            else if (M_StringCompare(key, "Blood"))
+            {
+                if (value == MT_BLOOD)
+                    mobjinfo[indexnum].bloodcolor = REDBLOOD;
+                else if (value == MT_BLUEBLOOD)
+                    mobjinfo[indexnum].bloodcolor = BLUEBLOOD;
+                else if (value == MT_GREENBLOOD)
+                    mobjinfo[indexnum].bloodcolor = GREENBLOOD;
+            }
             else if (M_StringCompare(key, "Dropped item"))
                 mobjinfo[indexnum].droppeditem = value - 1;
             else if (M_StringCompare(key, "Infighting group"))
