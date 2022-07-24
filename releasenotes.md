@@ -26,7 +26,9 @@
   * The new `r_textures_translucency` CVAR toggles the translucency of certain [*BOOM*](https://doomwiki.org/wiki/Boom)-compatible wall textures. This CVAR is also `on` by default and `off` when vanilla mode is enabled.
 * Blood is now spawned during melee attacks from monsters. This feature may be toggled using the new `r_blood_melee` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
 * Bullet puffs are no longer spawned instead of blood when the `r_blood` CVAR is `none`.
-* The bottoms of monster sprites are no longer momentarily still clipped as they move out of liquid and the `r_liquid_clipsprites` CVAR is `on`.
+* The following changes have been made when the `r_liquid_clipsprites` CVAR is `on`:
+  * The bottoms of monster sprites are no longer momentarily still clipped as they move out of liquid.
+  * The bottoms of monster sprites are no longer clipped when in liquid if their top offset makes them too high.
 * A crash no longer occurs:
   * When entering the `IDBEHOLD` cheat while the alternate widescreen HUD is displayed.
   * When entering the `map` CCMD in the console with an invalid parameter.
@@ -34,6 +36,7 @@
 * Minor improvements have been made to the playback of MIDI music.
 * The `IDCHOPPERS` cheat is now canceled properly when the player exits a map.
 * The angles of thing triangles in the automap when the `IDDT` cheat is used are now interpolated when the `vid_capfps` CVAR is a value other than `35`.
+* There is no longer a fade transition when a mark is added or cleared in the automap if the `fade` CVAR is `on`.
 * The status bar and widescreen HUD are now displayed correctly when *DOOM Retro* is paused by pressing the <kbd><b>PAUSE</b></kbd> key.
 * The following changes have been made to the support of `DEHACKED` lumps:
   * The player’s super shotgun is now positioned correctly if the offsets of any of its frames are changed.
