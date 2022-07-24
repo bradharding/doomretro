@@ -648,6 +648,8 @@ static void R_ProjectSprite(mobj_t *thing)
     angle_t         rot = 0;
     fixed_t         fx, fy, fz;
     fixed_t         offset;
+    fixed_t         topoffset;
+    fixed_t         height;
 
     if (thing->player && thing->player->mo == thing)
         return;
@@ -705,17 +707,20 @@ static void R_ProjectSprite(mobj_t *thing)
         flip = ((sprframe->flip & 1) || (flags2 & MF2_MIRRORED));
     }
 
+    height = spriteheight[lump];
+
     if (thing->info->dehacked || !r_fixspriteoffsets)
     {
         offset = spriteoffset[lump];
-        gzt = fz + spritetopoffset[lump];
+        topoffset = spritetopoffset[lump];
     }
     else
     {
         offset = newspriteoffset[lump];
-        gzt = fz + newspritetopoffset[lump];
+        topoffset = newspritetopoffset[lump];
     }
 
+    gzt = fz + topoffset;
     xscale = FixedDiv(projection, tz);
 
     // killough 04/09/98: clip things which are out of view due to height
@@ -779,10 +784,9 @@ static void R_ProjectSprite(mobj_t *thing)
     vis->colfunc = (invulnerable && r_textures ? thing->altcolfunc : thing->colfunc);
 
     // foot clipping
-    if ((flags2 & MF2_FEETARECLIPPED) && !heightsec && r_liquid_clipsprites)
+    if ((flags2 & MF2_FEETARECLIPPED) && !heightsec && r_liquid_clipsprites && topoffset - height <= 4 * FRACUNIT)
     {
-        const fixed_t   height = spriteheight[lump];
-        fixed_t         clipfeet = MIN((height >> FRACBITS) / 4, 10) << FRACBITS;
+        fixed_t clipfeet = MIN((height >> FRACBITS) / 4, 10) << FRACBITS;
 
         vis->texturemid = gzt - viewz - clipfeet;
 
