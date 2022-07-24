@@ -467,10 +467,6 @@ static bool PIT_CheckThing(mobj_t *thing)
 
             thing->momx += r * FRACUNIT;
             thing->momy += (!r ? M_RandomIntNoRepeat(-1, 1, 0) : M_RandomInt(-1, 1)) * FRACUNIT;
-
-            if (corpse)
-                thing->momz += FRACUNIT;
-
             thing->nudge = TICRATE;
 
             if (!(thing->flags2 & MF2_FEETARECLIPPED))

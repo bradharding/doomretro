@@ -107,7 +107,6 @@ typedef enum
     pack_tnt,       // TNT mission pack
     pack_plut,      // Plutonia pack
     pack_nerve,     // No Rest for the Living
-
     none
 } GameMission_t;
 
@@ -262,6 +261,7 @@ enum
     IRONTICS   =  60 * TICRATE
 };
 
+#define FLASHONTIC              8
 #define STARTFLASHING           127
 
 // Index of the special effects (INVUL inverse) map.

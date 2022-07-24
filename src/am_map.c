@@ -1767,12 +1767,12 @@ static void AM_DrawPlayer(void)
 
     if (viewplayer->cheats & (CF_ALLMAP | CF_ALLMAP_THINGS))
     {
-        if (invisibility > STARTFLASHING || (invisibility & 8))
+        if (invisibility > STARTFLASHING || (invisibility & FLASHONTIC))
             AM_DrawTranslucentPlayerArrow(cheatplayerarrow, CHEATPLAYERARROWLINES, angle, point.x, point.y);
         else
             AM_DrawPlayerArrow(cheatplayerarrow, CHEATPLAYERARROWLINES, angle, point.x, point.y);
     }
-    else if (invisibility > STARTFLASHING || (invisibility & 8))
+    else if (invisibility > STARTFLASHING || (invisibility & FLASHONTIC))
         AM_DrawTranslucentPlayerArrow(playerarrow, PLAYERARROWLINES, angle, point.x, point.y);
     else
         AM_DrawPlayerArrow(playerarrow, PLAYERARROWLINES, angle, point.x, point.y);

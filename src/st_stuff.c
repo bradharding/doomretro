@@ -1276,7 +1276,7 @@ static void ST_DoPaletteStuff(void)
         {
             const int   ironfeet = viewplayer->powers[pw_ironfeet];
 
-            if (ironfeet <= STARTFLASHING && (ironfeet & 8))
+            if (ironfeet <= STARTFLASHING && (ironfeet & FLASHONTIC))
                 palette = RADIATIONPAL;
             else if (viewplayer->cheats & CF_GODMODE)
                 palette = r_berserkeffect * (PLAYPALs > 2 ? 1 : 2);
@@ -1303,9 +1303,9 @@ static void ST_DoPaletteStuff(void)
 
                 if (ironfeet)
                 {
-                    if ((ironfeet > STARTFLASHING || (ironfeet & 8)) && r_radsuiteffect)
+                    if ((ironfeet > STARTFLASHING || (ironfeet & FLASHONTIC)) && r_radsuiteffect)
                         palette = RADIATIONPAL;
-                    else if (ironfeet <= STARTFLASHING && (ironfeet & 8))
+                    else if (ironfeet <= STARTFLASHING && (ironfeet & FLASHONTIC))
                         palette = RADIATIONPAL;
                 }
             }

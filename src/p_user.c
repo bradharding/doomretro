@@ -681,8 +681,8 @@ void P_PlayerThink(void)
         viewplayer->powers[pw_ironfeet]--;
 
     // Handling colormaps.
-    if (viewplayer->powers[pw_invulnerability] > STARTFLASHING || (viewplayer->powers[pw_invulnerability] & 8))
+    if (viewplayer->powers[pw_invulnerability] > STARTFLASHING || (viewplayer->powers[pw_invulnerability] & FLASHONTIC))
         viewplayer->fixedcolormap = INVERSECOLORMAP;
     else
-        viewplayer->fixedcolormap = (viewplayer->powers[pw_infrared] > STARTFLASHING || (viewplayer->powers[pw_infrared] & 8));
+        viewplayer->fixedcolormap = (viewplayer->powers[pw_infrared] > STARTFLASHING || (viewplayer->powers[pw_infrared] & FLASHONTIC));
 }
