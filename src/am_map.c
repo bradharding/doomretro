@@ -564,9 +564,6 @@ void AM_AddMark(void)
     C_Output(message);
     HU_SetPlayerMessage(message, false, true);
 
-    if (!mapwindow)
-        D_FadeScreen(false);
-
     message_dontfuckwithme = true;
 }
 
@@ -594,9 +591,6 @@ void AM_ClearMarks(void)
             C_Output(message);
             HU_SetPlayerMessage(message, false, true);
         }
-
-        if (!mapwindow)
-            D_FadeScreen(false);
 
         message_dontfuckwithme = true;
     }
