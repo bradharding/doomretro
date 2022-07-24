@@ -1350,7 +1350,7 @@ void C_Drawer(void)
                 consoleactive = (consoleanim++ < CONSOLEUPSIZE / 2);
             }
             else
-                consoleactive = true;
+                consoleactive = false;
         }
     }
 

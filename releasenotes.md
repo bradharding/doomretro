@@ -15,7 +15,7 @@
   * The field of view now increases to `135°` regardless of the value of the `r_fov` CVAR.
   * The view is now vertically centered if the `mouselook` CVAR is `on`.
   * The spin may now sometimes reverse direction if the menu is closed, the player doesn’t move, and the menu is then reopened.
-  * Unmapped lines in the automap are no longer mapped while the view spins.
+  * Unmapped lines in the automap no longer become mapped while the view spins.
 * The following changes have been made to the help screen displayed by pressing the <kbd><b>F1</b></kbd> key:
   * Subtle noise has been applied to the background.
   * `HELP`, `HELP1` and `HELP2` lumps in PWADs that are wider than 320 pixels are now displayed correctly.
@@ -65,7 +65,7 @@
 * The following changes have been made when vanilla mode is enabled using the `vanilla` CCMD:
   * The `am_grid` CVAR is no longer turned `off`.
   * Red blood is now spawned when shooting a lost soul.
-* When a monster or its corpse is crushed, the color of the gibs now matches its blood.
+* When a monster or its corpse is crushed, the color of the resulting gibs now matches the monster’s blood.
 * The following changes have been made when playing *DOOM (Shareware)*:
   * `.deh` and `.bex` files may no longer be loaded.
   * *MBF*-compatible helper dogs may no longer be spawned using the `spawn` CCMD.
