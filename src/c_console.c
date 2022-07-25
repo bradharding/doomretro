@@ -778,7 +778,6 @@ void C_ShowConsole(void)
         S_StartSound(NULL, sfx_swtchn);
         D_FadeScreen(false);
     }
-
 }
 
 void C_HideConsole(void)

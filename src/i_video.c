@@ -168,6 +168,8 @@ static int          displaycentery;
 
 bool                windowfocused = true;
 
+int                 keydown = 0;
+
 static bool         keys[NUMKEYS];
 
 static byte         gammatable[GAMMALEVELS][256];

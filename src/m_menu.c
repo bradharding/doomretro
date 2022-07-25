@@ -73,7 +73,7 @@
 int             quickSaveSlot;
 
 // true = message to be printed
-bool            messagetoprint;
+bool            messagetoprint = false;
 
 // ...and here is the message string!
 static char     *messageString;
@@ -2708,8 +2708,6 @@ bool M_Responder(event_t *ev)
     }
     else if (ev->type == ev_keyup)
     {
-        keydown = 0;
-
         if (ev->data1 == keyboardscreenshot && (keyboardscreenshot == KEY_PRINTSCREEN || (gamestate == GS_LEVEL && !consoleactive))
             && !splashscreen)
         {

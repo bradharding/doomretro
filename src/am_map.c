@@ -169,7 +169,6 @@ static bool         bigstate;
 static bool         movement;
 static bool         speedtoggle;
 static SDL_Keymod   modstate;
-int                 keydown;
 int                 direction;
 
 am_frame_t          am_frame;
@@ -827,8 +826,6 @@ bool AM_Responder(const event_t *ev)
 
                 if (key == keyboardclearmark)
                     markpress = 0;
-
-                keydown = 0;
 
                 if ((key == keyboardzoomout || key == keyboardzoomin) && !movement)
                 {

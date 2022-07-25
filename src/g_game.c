@@ -827,8 +827,6 @@ bool G_Responder(event_t *ev)
             return true;    // eat events
 
         case ev_keyup:
-            keydown = 0;
-
             if (ev->data1 < NUMKEYS)
                 gamekeydown[ev->data1] = false;
 
