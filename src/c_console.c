@@ -1070,13 +1070,13 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
 
             if (patch)
             {
-                int patchwidth = SHORT(patch->width);
+                const int   width = SHORT(patch->width);
 
-                consoletextfunc(x, y, patch, patchwidth,
+                consoletextfunc(x, y, patch, width,
                     (bold && italics ? (color1 == consolewarningcolor ? color1 : consolebolditalicscolor) : (bold ? boldcolor : color1)),
                     color2, (italics && letter != '_' && letter != '-' && letter != '+' && letter != ',' && letter != '/'),
                     translucency);
-                x += patchwidth;
+                x += width;
             }
 
             if (x >= CONSOLETEXTPIXELWIDTH + CONSOLETEXTX)
@@ -1132,10 +1132,10 @@ static void C_DrawOverlayText(byte *screen, int screenwidth, int x, int y,
 
 char *C_CreateTimeStamp(int index)
 {
-    int hours = gamestarttime.tm_hour;
-    int minutes = gamestarttime.tm_min;
-    int seconds = gamestarttime.tm_sec;
-    int tics = console[index].tics / TICRATE;
+    int         hours = gamestarttime.tm_hour;
+    int         minutes = gamestarttime.tm_min;
+    int         seconds = gamestarttime.tm_sec;
+    const int   tics = console[index].tics / TICRATE;
 
     if ((seconds += (tics % 3600) % 60) >= 60)
     {
@@ -1201,10 +1201,10 @@ void C_UpdateTimerOverlay(void)
 
     if (timeremaining != prevtics)
     {
-        int tics = (prevtics = timeremaining) / TICRATE;
-        int hours = tics / 3600;
-        int minutes = ((tics %= 3600)) / 60;
-        int seconds = tics % 60;
+        int         tics = (prevtics = timeremaining) / TICRATE;
+        const int   hours = tics / 3600;
+        const int   minutes = ((tics %= 3600)) / 60;
+        const int   seconds = tics % 60;
 
         if (!hours)
             M_snprintf(buffer, sizeof(buffer), "%i:%02i", minutes, seconds);
@@ -2297,8 +2297,8 @@ bool C_Responder(event_t *ev)
     }
     else if (ev->type == ev_textinput)
     {
-        char    ch = (char)ev->data1;
-        char    *temp = NULL;
+        const char  ch = (char)ev->data1;
+        char        *temp = NULL;
 
         if (ch >= ' ' && ch <= '}' && ch != '`' && C_TextWidth(consoleinput, false, true)
             + (ch == ' ' ? spacewidth : SHORT(consolefont[ch - CONSOLEFONTSTART]->width))
@@ -2383,7 +2383,7 @@ void C_PrintCompileDate(void)
     if (sscanf(__DATE__, "%3s %2i %4i", mth, &day, &year) == 3 && sscanf(__TIME__, "%2i:%2i:%*i", &hour, &minute) == 2)
     {
         const char  mths[] = "JanFebMarAprMayJunJulAugSepOctNovDec";
-        int         month = (int)(strstr(mths, mth) - mths) / 3;
+        const int   month = (int)(strstr(mths, mth) - mths) / 3;
 
         const char *months[] =
         {

@@ -55,8 +55,6 @@
 #include "w_wad.h"
 #include "z_zone.h"
 
-void A_Recoil(weapontype_t weapon);
-
 //
 // P_SetMobjState
 // Returns true if the mobj is still present.
