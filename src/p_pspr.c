@@ -109,7 +109,7 @@ void P_SetPspritePtr(pspdef_t *psp, statenum_t stnum)
 //
 // P_SetPsprite
 //
-void P_SetPsprite(size_t position, statenum_t stnum)
+void P_SetPsprite(const size_t position, const statenum_t stnum)
 {
     P_SetPspritePtr(&viewplayer->psprites[position], stnum);
 }

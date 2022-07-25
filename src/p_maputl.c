@@ -57,7 +57,7 @@ fixed_t P_ApproxDistance(fixed_t dx, fixed_t dy)
 // P_PointOnLineSide
 // Returns 0 or 1
 //
-int P_PointOnLineSide(fixed_t x, fixed_t y, line_t *line)
+int P_PointOnLineSide(const fixed_t x, const fixed_t y, line_t *line)
 {
     return (!line->dx ? (x <= line->v1->x ? line->dy > 0 : line->dy < 0) :
         (!line->dy ? (y <= line->v1->y ? line->dx < 0 : line->dx > 0) :
@@ -336,7 +336,7 @@ void P_SetBloodSplatPosition(bloodsplat_t *splat)
 // The validcount flags are used to avoid checking lines that are marked in multiple mapblocks, so
 // increment validcount before the first call to P_BlockLinesIterator, then make one or more calls to it.
 //
-bool P_BlockLinesIterator(int x, int y, bool func(line_t *))
+bool P_BlockLinesIterator(const int x, const int y, bool func(line_t *))
 {
     if (x < 0 || y < 0 || x >= bmapwidth || y >= bmapheight)
         return true;
@@ -367,7 +367,7 @@ bool P_BlockLinesIterator(int x, int y, bool func(line_t *))
 //
 // P_BlockThingsIterator
 //
-bool P_BlockThingsIterator(int x, int y, bool func(mobj_t *))
+bool P_BlockThingsIterator(const int x, const int y, bool func(mobj_t *))
 {
     if (x < 0 || y < 0 || x >= bmapwidth || y >= bmapheight)
         return true;
@@ -609,7 +609,7 @@ static bool PIT_AddThingIntercepts(mobj_t *thing)
 // P_TraverseIntercepts
 // Returns true if the traverser function returns true for all lines.
 //
-static bool P_TraverseIntercepts(traverser_t func, fixed_t maxfrac)
+static bool P_TraverseIntercepts(traverser_t func, const fixed_t maxfrac)
 {
     size_t      count = intercept_p - intercepts;
     intercept_t *in = NULL;
@@ -644,7 +644,7 @@ static bool P_TraverseIntercepts(traverser_t func, fixed_t maxfrac)
 //
 #define MAX_SIGHT_COUNT 64
 
-bool P_PathTraverse(fixed_t x1, fixed_t y1, fixed_t x2, fixed_t y2, int flags, traverser_t trav)
+bool P_PathTraverse(fixed_t x1, fixed_t y1, fixed_t x2, fixed_t y2, const int flags, traverser_t trav)
 {
     fixed_t xt1, yt1;
     fixed_t xt2, yt2;
@@ -816,7 +816,7 @@ int P_GetSafeBlockY(int coord)
 // MBF21: RoughBlockCheck
 // [XA] adapted from Hexen -- used by P_RoughTargetSearch
 //
-static mobj_t *RoughBlockCheck(mobj_t *mo, int index, angle_t fov)
+static mobj_t *RoughBlockCheck(mobj_t *mo, const int index, const angle_t fov)
 {
     mobj_t  *link = blocklinks[index];
 
@@ -872,7 +872,7 @@ static mobj_t *RoughBlockCheck(mobj_t *mo, int index, angle_t fov)
 // based on Hexen's P_RoughMonsterSearch
 //
 // distance is in MAPBLOCKUNITS
-mobj_t *P_RoughTargetSearch(mobj_t *mo, angle_t fov, int distance)
+mobj_t *P_RoughTargetSearch(mobj_t *mo, const angle_t fov, const int distance)
 {
     const int   startx = (mo->x - bmaporgx) >> MAPBLOCKSHIFT;
     const int   starty = (mo->y - bmaporgy) >> MAPBLOCKSHIFT;

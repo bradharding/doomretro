@@ -129,6 +129,7 @@ extern const control_t  controls[];
 extern consolecmd_t     consolecmds[];
 extern alias_t          aliases[MAXALIASES];
 extern bool             executingalias;
+extern bool             healthcvar;
 extern bool             resettingcvar;
 extern bool             vanilla;
 extern bool             togglingvanilla;

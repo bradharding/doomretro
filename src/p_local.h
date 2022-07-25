@@ -96,7 +96,7 @@ void P_SetupPsprites(void);
 void P_MovePsprites(void);
 void P_FireWeapon(void);
 void P_DropWeapon(void);
-void P_SetPsprite(size_t position, statenum_t stnum);
+void P_SetPsprite(const size_t position, const statenum_t stnum);
 
 //
 // P_USER.C
@@ -113,7 +113,7 @@ extern fixed_t  animatedliquiddiffs[64];
 void P_CalcHeight(void);
 void P_MovePlayer(void);
 void P_PlayerThink(void);
-void P_ResurrectPlayer(int health);
+void P_ResurrectPlayer(const int health);
 void P_ChangeWeapon(weapontype_t newweapon);
 
 //
@@ -134,7 +134,7 @@ void P_SetPlayerViewHeight(void);
 
 void P_InitCards(void);
 
-mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type);
+mobj_t *P_SpawnMobj(const fixed_t x, const fixed_t y, const fixed_t z, const mobjtype_t type);
 void P_SetShadowColumnFunction(mobj_t *mobj);
 mobjtype_t P_FindDoomedNum(const unsigned int type);
 
@@ -145,17 +145,18 @@ bool P_SetMobjState(mobj_t *mobj, statenum_t state);
 void P_MobjThinker(mobj_t *mobj);
 
 void P_SpawnMoreBlood(mobj_t *mobj);
-mobj_t *P_SpawnMapThing(mapthing_t *mthing, bool spawnmonsters);
-void P_SpawnPuff(fixed_t x, fixed_t y, fixed_t z, angle_t angle);
-void P_SpawnSmokeTrail(fixed_t x, fixed_t y, fixed_t z, angle_t angle);
-void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mobj_t *target);
+mobj_t *P_SpawnMapThing(mapthing_t *mthing, const bool spawnmonsters);
+void P_SpawnPuff(const fixed_t x, fixed_t y, const fixed_t z, const angle_t angle);
+void P_SpawnSmokeTrail(const fixed_t x, const fixed_t y, const fixed_t z, const angle_t angle);
+void P_SpawnBlood(const fixed_t x, fixed_t y, const fixed_t z, angle_t angle, const int damage, mobj_t *target);
 void P_SetBloodSplatColor(bloodsplat_t *splat);
-void P_SpawnBloodSplat(fixed_t x, fixed_t y, int color, bool usemaxheight, fixed_t maxheight, mobj_t *target);
+void P_SpawnBloodSplat(const fixed_t x, const fixed_t y, const int color,
+    const bool usemaxheight, const fixed_t maxheight, mobj_t *target);
 bool P_CheckMissileSpawn(mobj_t *th);
 mobj_t *P_SpawnMissile(mobj_t *source, mobj_t *dest, mobjtype_t type);
 mobj_t *P_SpawnPlayerMissile(mobj_t *source, mobjtype_t type);
 void P_ExplodeMissile(mobj_t *mo);
-bool P_SeekerMissile(mobj_t *actor, mobj_t **seekTarget, angle_t thresh, angle_t turnMax, bool seekcenter);
+bool P_SeekerMissile(mobj_t *actor, mobj_t **seekTarget, angle_t thresh, angle_t turnMax, const bool seekcenter);
 
 //
 // P_ENEMY.C
@@ -191,7 +192,7 @@ typedef struct
 typedef bool (*traverser_t)(intercept_t *in);
 
 fixed_t P_ApproxDistance(fixed_t dx, fixed_t dy);
-int P_PointOnLineSide(fixed_t x, fixed_t y, line_t *line);
+int P_PointOnLineSide(const fixed_t x, const fixed_t y, line_t *line);
 int P_BoxOnLineSide(fixed_t *tmbox, line_t *ld);
 fixed_t P_InterceptVector(divline_t *v2, divline_t *v1);
 
@@ -199,7 +200,7 @@ fixed_t P_InterceptVector(divline_t *v2, divline_t *v1);
 int P_GetSafeBlockX(int coord);
 int P_GetSafeBlockY(int coord);
 
-mobj_t *P_RoughTargetSearch(mobj_t *mo, angle_t fov, int distance);
+mobj_t *P_RoughTargetSearch(mobj_t *mo, const angle_t fov, const int distance);
 
 extern fixed_t  opentop;
 extern fixed_t  openbottom;
@@ -208,15 +209,15 @@ extern fixed_t  lowfloor;
 
 void P_LineOpening(line_t *line);
 
-bool P_BlockLinesIterator(int x, int y, bool func(line_t *));
-bool P_BlockThingsIterator(int x, int y, bool func(mobj_t *));
+bool P_BlockLinesIterator(const int x, const int y, bool func(line_t *));
+bool P_BlockThingsIterator(const int x, const int y, bool func(mobj_t *));
 
 #define PT_ADDLINES     1
 #define PT_ADDTHINGS    2
 
 extern divline_t    dltrace;
 
-bool P_PathTraverse(fixed_t x1, fixed_t y1, fixed_t x2, fixed_t y2, int flags, traverser_t trav);
+bool P_PathTraverse(fixed_t x1, fixed_t y1, fixed_t x2, fixed_t y2, const int flags, traverser_t trav);
 
 void P_UnsetThingPosition(mobj_t *thing);
 void P_UnsetBloodSplatPosition(bloodsplat_t *splat);
@@ -243,31 +244,31 @@ extern line_t       *blockline;
 extern bool         infight;
 
 void P_CheckSpechits(void);
-bool P_CheckPosition(mobj_t *thing, fixed_t x, fixed_t y);
+bool P_CheckPosition(mobj_t *thing, const fixed_t x, const fixed_t y);
 mobj_t *P_CheckOnMobj(mobj_t *thing);
 bool P_IsInLiquid(mobj_t *thing);
-bool P_TryMove(mobj_t *thing, fixed_t x, fixed_t y, int dropoff);
-bool P_CheckLineSide(mobj_t *actor, fixed_t x, fixed_t y);
-bool P_TeleportMove(mobj_t *thing, fixed_t x, fixed_t y, fixed_t z, bool boss);
+bool P_TryMove(mobj_t *thing, const fixed_t x, const fixed_t y, const int dropoff);
+bool P_CheckLineSide(mobj_t *actor, const fixed_t x, const fixed_t y);
+bool P_TeleportMove(mobj_t *thing, const fixed_t x, const fixed_t y, const fixed_t z, const bool boss);
 void P_SlideMove(mobj_t *mo);
 bool P_CheckSight(mobj_t *t1, mobj_t *t2);
 bool P_CheckFOV(mobj_t *t1, mobj_t *t2, angle_t fov);
 bool P_DoorClosed(line_t *line);
 void P_UseLines(void);
 
-bool P_ChangeSector(sector_t *sector, bool crunch);
-void P_CreateSecNodeList(mobj_t *thing, fixed_t x, fixed_t y);
+bool P_ChangeSector(sector_t *sector, const bool crunch);
+void P_CreateSecNodeList(mobj_t *thing, const fixed_t x, const fixed_t y);
 void P_FreeSecNodeList(void);
 void P_DelSeclist(msecnode_t *node);
 
 extern mobj_t   *linetarget;    // who got hit (or NULL)
 
-fixed_t P_AimLineAttack(mobj_t *t1, angle_t angle, fixed_t distance, int mask);
+fixed_t P_AimLineAttack(mobj_t *t1, angle_t angle, const fixed_t distance, const int mask);
 
-void P_LineAttack(mobj_t *t1, angle_t angle, fixed_t distance, fixed_t slope, int damage);
+void P_LineAttack(mobj_t *t1, angle_t angle, const fixed_t distance, const fixed_t slope, const int damage);
 
 bool PIT_RadiusAttack(mobj_t *thing);
-void P_RadiusAttack(mobj_t *spot, mobj_t *source, int damage, int distance, bool verticality);
+void P_RadiusAttack(mobj_t *spot, mobj_t *source, const int damage, const int distance, const bool verticality);
 
 int P_GetMoveFactor(const mobj_t *mo, int *frictionp);      // killough 08/28/98
 int P_GetFriction(const mobj_t *mo, int *frictionfactor);   // killough 08/28/98
@@ -296,10 +297,10 @@ extern int          blockmapyneg;
 //
 #define MAXHEALTH   100
 
-bool P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, bool message, bool stat);
-bool P_TakeSpecialThing(mobjtype_t type);
+bool P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, const bool message, const bool stat);
+bool P_TakeSpecialThing(const mobjtype_t type);
 
-void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage, bool adjust, bool telefragged);
+void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage, const bool adjust, const bool telefragged);
 
 void P_ResurrectMobj(mobj_t *target);
 

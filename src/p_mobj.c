@@ -757,7 +757,7 @@ void P_SetShadowColumnFunction(mobj_t *mobj)
 //
 // P_SpawnMobj
 //
-mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
+mobj_t *P_SpawnMobj(const fixed_t x, const fixed_t y, const fixed_t z, const mobjtype_t type)
 {
     mobj_t      *mobj = Z_Calloc(1, sizeof(*mobj), PU_LEVEL, NULL);
     mobjinfo_t  *info = &mobjinfo[type];
@@ -1116,7 +1116,7 @@ void P_SpawnMoreBlood(mobj_t *mobj)
 int prevthingx, prevthingy;
 int prevthingbob;
 
-mobj_t *P_SpawnMapThing(mapthing_t *mthing, bool spawnmonsters)
+mobj_t *P_SpawnMapThing(mapthing_t *mthing, const bool spawnmonsters)
 {
     mobjtype_t  i;
     mobj_t      *mobj;
@@ -1321,7 +1321,7 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, bool spawnmonsters)
 //
 // P_SpawnPuff
 //
-void P_SpawnPuff(fixed_t x, fixed_t y, fixed_t z, angle_t angle)
+void P_SpawnPuff(const fixed_t x, const fixed_t y, const fixed_t z, const angle_t angle)
 {
     mobj_t      *th = Z_Calloc(1, sizeof(*th), PU_LEVEL, NULL);
     mobjinfo_t  *info = &mobjinfo[MT_PUFF];
@@ -1378,7 +1378,7 @@ void P_SpawnPuff(fixed_t x, fixed_t y, fixed_t z, angle_t angle)
 //
 // P_SpawnSmokeTrail
 //
-void P_SpawnSmokeTrail(fixed_t x, fixed_t y, fixed_t z, angle_t angle)
+void P_SpawnSmokeTrail(const fixed_t x, const fixed_t y, const fixed_t z, const angle_t angle)
 {
     mobj_t  *th = P_SpawnMobj(x, y, z + (M_BigSubRandom() << 10), MT_TRAIL);
 
@@ -1391,7 +1391,7 @@ void P_SpawnSmokeTrail(fixed_t x, fixed_t y, fixed_t z, angle_t angle)
 // P_SpawnBlood
 // [BH] spawn much more blood than Vanilla DOOM
 //
-void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mobj_t *target)
+void P_SpawnBlood(const fixed_t x, const fixed_t y, const fixed_t z, angle_t angle, const int damage, mobj_t *target)
 {
     const int   minz = target->z;
     const int   maxz = minz + spriteheight[sprites[target->sprite].spriteframes[0].lump[0]];
@@ -1501,7 +1501,8 @@ void P_SetBloodSplatColor(bloodsplat_t *splat)
 //
 // P_SpawnBloodSplat
 //
-void P_SpawnBloodSplat(fixed_t x, fixed_t y, int color, bool usemaxheight, fixed_t maxheight, mobj_t *target)
+void P_SpawnBloodSplat(const fixed_t x, const fixed_t y, const int color,
+    const bool usemaxheight, const fixed_t maxheight, mobj_t *target)
 {
     if (r_bloodsplats_total >= r_bloodsplats_max)
         return;
@@ -1713,7 +1714,7 @@ static bool P_FaceMobj(mobj_t *source, mobj_t *target, angle_t *delta)
 //
 // MBF21: P_SeekerMissile
 //
-bool P_SeekerMissile(mobj_t *actor, mobj_t **seekTarget, angle_t thresh, angle_t turnmax, bool seekcenter)
+bool P_SeekerMissile(mobj_t *actor, mobj_t **seekTarget, angle_t thresh, angle_t turnmax, const bool seekcenter)
 {
     int     dir;
     angle_t delta;

@@ -81,9 +81,7 @@ bool        species_infighting = false;
 int         maxammo[] =  { 200, 50, 300, 50 };
 int         clipammo[] = {  10,  4,  20,  1 };
 
-extern bool healthcvar;
-
-void P_UpdateAmmoStat(ammotype_t ammotype, int num)
+void P_UpdateAmmoStat(const ammotype_t ammotype, const int num)
 {
     switch (ammotype)
     {
@@ -119,7 +117,7 @@ void P_UpdateAmmoStat(ammotype_t ammotype, int num)
 //
 // P_TakeAmmo
 //
-static bool P_TakeAmmo(ammotype_t ammotype, int num)
+static bool P_TakeAmmo(const ammotype_t ammotype, int num)
 {
     weapontype_t    readyweapon;
 
@@ -151,7 +149,7 @@ static bool P_TakeAmmo(ammotype_t ammotype, int num)
     return true;
 }
 
-static bool P_TakeWeapon(weapontype_t weapon)
+static bool P_TakeWeapon(const weapontype_t weapon)
 {
     weapontype_t    readyweapon;
 
@@ -179,7 +177,7 @@ static bool P_TakeWeapon(weapontype_t weapon)
 // not the individual count (0 = 1/2 clip).
 // Returns the amount of ammo given to the player
 //
-static int P_GiveAmmo(ammotype_t ammotype, int num, bool stat)
+static int P_GiveAmmo(const ammotype_t ammotype, int num, const bool stat)
 {
     int                 oldammo;
     const weapontype_t  readyweapon = viewplayer->readyweapon;
@@ -231,7 +229,7 @@ static int P_GiveAmmo(ammotype_t ammotype, int num, bool stat)
 //
 // P_GiveBackpack
 //
-bool P_GiveBackpack(bool giveammo, bool stat)
+bool P_GiveBackpack(const bool giveammo, const bool stat)
 {
     bool    result = false;
 
@@ -289,7 +287,7 @@ void P_AddBonus(void)
 //
 // P_GiveWeapon
 //
-static bool P_GiveWeapon(weapontype_t weapon, bool dropped, bool stat)
+static bool P_GiveWeapon(const weapontype_t weapon, const bool dropped, const bool stat)
 {
     bool                gaveammo = false;
     bool                gaveweapon = false;
@@ -374,7 +372,7 @@ bool P_GiveAllWeapons(void)
     return result;
 }
 
-void P_UpdateHealthStat(int num)
+void P_UpdateHealthStat(const int num)
 {
     viewplayer->itemspickedup_health += num;
     stat_itemspickedup_health = SafeAdd(stat_itemspickedup_health, num);
@@ -384,9 +382,9 @@ void P_UpdateHealthStat(int num)
 // P_GiveBody
 // Returns false if the body isn't needed at all
 //
-bool P_GiveBody(int num, int max, bool stat)
+bool P_GiveBody(const int num, const int max, const bool stat)
 {
-    int health = viewplayer->health;
+    const int   health = viewplayer->health;
 
     if (health >= max)
         return false;
@@ -404,7 +402,7 @@ bool P_GiveBody(int num, int max, bool stat)
 //
 // P_GiveMegaHealth
 //
-bool P_GiveMegaHealth(bool stat)
+bool P_GiveMegaHealth(const bool stat)
 {
     bool    result = false;
 
@@ -427,7 +425,7 @@ bool P_GiveMegaHealth(bool stat)
     return result;
 }
 
-void P_UpdateArmorStat(int num)
+void P_UpdateArmorStat(const int num)
 {
     viewplayer->itemspickedup_armor += num;
     stat_itemspickedup_armor = SafeAdd(stat_itemspickedup_armor, num);
@@ -437,9 +435,9 @@ void P_UpdateArmorStat(int num)
 // P_GiveArmor
 // Returns false if the armor is worse than the current armor.
 //
-bool P_GiveArmor(armortype_t armortype, bool stat)
+bool P_GiveArmor(const armortype_t armortype, const bool stat)
 {
-    int hits = armortype * 100;
+    const int   hits = armortype * 100;
 
     if (viewplayer->armorpoints >= hits)
         return false;   // don't pick up
@@ -538,7 +536,7 @@ void P_InitCards(void)
 //
 // P_GiveCard
 //
-static void P_GiveCard(card_t card)
+static void P_GiveCard(const card_t card)
 {
     viewplayer->cards[card] = ++cardsfound;
 
@@ -655,7 +653,7 @@ bool P_GiveAllCardsInMap(void)
 //
 // P_GivePower
 //
-bool P_GivePower(int power)
+bool P_GivePower(const int power)
 {
     const int tics[] =
     {
@@ -709,7 +707,7 @@ bool P_GivePower(int power)
 //
 // P_TouchSpecialThing
 //
-bool P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, bool message, bool stat)
+bool P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, const bool message, const bool stat)
 {
     fixed_t     delta;
     int         sound = sfx_itemup;
@@ -1238,7 +1236,7 @@ bool P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, bool message, bool st
 //
 // P_TakeSpecialThing
 //
-bool P_TakeSpecialThing(mobjtype_t type)
+bool P_TakeSpecialThing(const mobjtype_t type)
 {
     switch (type)
     {
@@ -1573,7 +1571,7 @@ bool P_TakeSpecialThing(mobjtype_t type)
     }
 }
 
-static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, bool gibbed, bool telefragged)
+static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, const bool gibbed, const bool telefragged)
 {
     if (telefragged)
     {
@@ -1945,7 +1943,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, b
 //
 // P_KillMobj
 //
-void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, bool telefragged)
+void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, const bool telefragged)
 {
     bool                gibbed;
     const mobjtype_t    type = target->type;
@@ -2112,7 +2110,7 @@ static bool P_InfightingImmune(mobj_t *target, mobj_t *source)
 // Source can be NULL for slime, barrel explosions
 // and other environmental stuff.
 //
-void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage, bool adjust, bool telefragged)
+void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage, const bool adjust, const bool telefragged)
 {
     player_t            *splayer = NULL;
     player_t            *tplayer;

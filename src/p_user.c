@@ -411,7 +411,7 @@ static void P_DeathThink(void)
 //
 // P_ResurrectPlayer
 //
-void P_ResurrectPlayer(int health)
+void P_ResurrectPlayer(const int health)
 {
     mobj_t  *mo = viewplayer->mo;
     mobj_t  *thing;

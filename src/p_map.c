@@ -214,7 +214,7 @@ int P_GetMoveFactor(const mobj_t *mo, int *frictionp)
 //
 // P_TeleportMove
 //
-bool P_TeleportMove(mobj_t *thing, fixed_t x, fixed_t y, fixed_t z, bool boss)
+bool P_TeleportMove(mobj_t *thing, const fixed_t x, const fixed_t y, const fixed_t z, const bool boss)
 {
     int             xl;
     int             xh;
@@ -688,7 +688,7 @@ static bool PIT_CheckThing(mobj_t *thing)
 // Then check the PE and LS to see if they're on different
 // sides of the blocking line. If so, return true, otherwise
 // false.
-bool P_CheckLineSide(mobj_t *actor, fixed_t x, fixed_t y)
+bool P_CheckLineSide(mobj_t *actor, const fixed_t x, const fixed_t y)
 {
     int xl;
     int xh;
@@ -784,7 +784,7 @@ static bool PIT_CheckOnMobjZ(mobj_t *thing)
 //  speciallines[]
 //  numspeciallines
 //
-bool P_CheckPosition(mobj_t *thing, fixed_t x, fixed_t y)
+bool P_CheckPosition(mobj_t *thing, const fixed_t x, const fixed_t y)
 {
     int             xl;
     int             xh;
@@ -1024,7 +1024,7 @@ bool P_IsInLiquid(mobj_t *thing)
 // Attempt to move to a new position,
 // crossing special lines unless MF_TELEPORT is set.
 //
-bool P_TryMove(mobj_t *thing, fixed_t x, fixed_t y, int dropoff)
+bool P_TryMove(mobj_t *thing, const fixed_t x, const fixed_t y, const int dropoff)
 {
     fixed_t oldx, oldy;
     int     flags;
@@ -1813,7 +1813,7 @@ static bool PTR_ShootTraverse(intercept_t *in)
 //
 // P_AimLineAttack
 //
-fixed_t P_AimLineAttack(mobj_t *t1, angle_t angle, fixed_t distance, int mask)
+fixed_t P_AimLineAttack(mobj_t *t1, angle_t angle, const fixed_t distance, const int mask)
 {
     fixed_t x2, y2;
 
@@ -1850,7 +1850,7 @@ fixed_t P_AimLineAttack(mobj_t *t1, angle_t angle, fixed_t distance, int mask)
 // If damage == 0, it is just a test trace
 // that will leave linetarget set.
 //
-void P_LineAttack(mobj_t *t1, angle_t angle, fixed_t distance, fixed_t slope, int damage)
+void P_LineAttack(mobj_t *t1, angle_t angle, const fixed_t distance, const fixed_t slope, const int damage)
 {
     fixed_t x2, y2;
 
@@ -2069,7 +2069,7 @@ bool PIT_RadiusAttack(mobj_t *thing)
 // P_RadiusAttack
 // Source is the creature that caused the explosion at spot.
 //
-void P_RadiusAttack(mobj_t *spot, mobj_t *source, int damage, int distance, bool verticality)
+void P_RadiusAttack(mobj_t *spot, mobj_t *source, const int damage, const int distance, const bool verticality)
 {
     const fixed_t   dist = (damage << FRACBITS) + MAXRADIUS;
     const int       xh = P_GetSafeBlockX(spot->x + dist - bmaporgx);
@@ -2253,7 +2253,7 @@ static void PIT_ChangeSector(mobj_t *thing)
 // sector. Both more accurate and faster.
 // [BH] renamed from P_CheckSector to P_ChangeSector to replace old one entirely
 //
-bool P_ChangeSector(sector_t *sector, bool crunch)
+bool P_ChangeSector(sector_t *sector, const bool crunch)
 {
     msecnode_t  *n;
 
@@ -2451,7 +2451,7 @@ static bool PIT_GetSectors(line_t *ld)
 // the object resides in.
 //
 // killough 11/98: reformatted
-void P_CreateSecNodeList(mobj_t *thing, fixed_t x, fixed_t y)
+void P_CreateSecNodeList(mobj_t *thing, const fixed_t x, const fixed_t y)
 {
     int             xl;
     int             xh;
