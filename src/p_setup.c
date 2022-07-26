@@ -2932,6 +2932,7 @@ void P_SetupLevel(int ep, int map)
     viewplayer->viewz = 1;
 
     idclev = false;
+    idclevtics = 0;
 
     Z_FreeTags(PU_LEVEL, PU_PURGELEVEL - 1);
 

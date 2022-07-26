@@ -250,7 +250,7 @@ static int                  keyboxes[3];
 int                         oldhealth = 100;
 
 bool                        idclev;
-int                         idclevtics;
+int                         idclevtics = 0;
 
 bool                        idmus;
 
