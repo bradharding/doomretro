@@ -2645,8 +2645,7 @@ bool M_Responder(event_t *ev)
             }
         }
     }
-
-    if (ev->type == ev_mouse)
+    else if (ev->type == ev_mouse)
     {
         if (menuactive)
         {
@@ -2708,7 +2707,8 @@ bool M_Responder(event_t *ev)
     }
     else if (ev->type == ev_keyup)
     {
-        if (ev->data1 == keyboardscreenshot && (keyboardscreenshot == KEY_PRINTSCREEN || (gamestate == GS_LEVEL && !consoleactive))
+        if (ev->data1 == keyboardscreenshot
+            && (keyboardscreenshot == KEY_PRINTSCREEN || (gamestate == GS_LEVEL && !consoleactive))
             && !splashscreen)
         {
             S_StartSound(NULL, sfx_scrsht);
@@ -2719,12 +2719,26 @@ bool M_Responder(event_t *ev)
         return false;
     }
 
+    // Console
+    if (key == keyboardconsole && !menuactive && !paused && !splashscreen && !keydown)
+    {
+        keydown = key;
+
+        if (consoleheight < CONSOLEHEIGHT && consoledirection == -1 && !inhelpscreens && !dowipe)
+        {
+            C_ShowConsole();
+            return true;
+        }
+
+        return false;
+    }
+
     // Save Game string input
     if (saveStringEnter)
     {
         if (ev->type == ev_textinput)
         {
-            int ch = toupper(ev->data1);
+            const int   ch = toupper(ev->data1);
 
             if (ch >= ' ' && ch <= '_' && M_StringWidth(savegamestrings[saveSlot]) + M_CharacterWidth(ch, 0) <= SAVESTRINGPIXELWIDTH)
             {
@@ -2886,7 +2900,7 @@ bool M_Responder(event_t *ev)
     // Take care of any messages that need input
     if (messagetoprint && !keydown)
     {
-        int ch = (key == KEY_ENTER ? 'y' : tolower(key));
+        const int   ch = (key == KEY_ENTER ? 'y' : tolower(key));
 
         if (messageNeedsInput && key != keyboardmenu && ch != 'y' && ch != 'n' && key != KEY_BACKSPACE
             && !(SDL_GetModState() & (KMOD_ALT | KMOD_CTRL)) && key != functionkey)
@@ -2960,20 +2974,6 @@ bool M_Responder(event_t *ev)
                 R_SetViewSize(r_screensize);
                 I_RestartGraphics(false);
                 S_StartSound(NULL, sfx_stnmov);
-            }
-
-            return false;
-        }
-
-        // Console
-        else if (key == keyboardconsole && !keydown)
-        {
-            keydown = key;
-
-            if (consoleheight < CONSOLEHEIGHT && consoledirection == -1 && !inhelpscreens && !dowipe)
-            {
-                C_ShowConsole();
-                return true;
             }
 
             return false;
@@ -3757,8 +3757,8 @@ void M_Drawer(void)
     if (currentMenu != &ReadDef)
     {
         // DRAW SKULL
-        char    *skullname[] = { "M_SKULL1", "M_SKULL2" };
-        patch_t *skullpatch = W_CacheLumpName(skullname[whichSkull]);
+        const char  *skullname[] = { "M_SKULL1", "M_SKULL2" };
+        patch_t     *skullpatch = W_CacheLumpName(skullname[whichSkull]);
 
         if (currentMenu == &LoadDef || currentMenu == &SaveDef)
         {
@@ -3785,8 +3785,8 @@ void M_Drawer(void)
         }
         else
         {
-            int yy = y + itemOn * (LINEHEIGHT - 1) - 5 + OFFSET + (chex ? 1 : 0);
-            int max = currentMenu->numitems;
+            const int   yy = y + itemOn * (LINEHEIGHT - 1) - 5 + OFFSET + (chex ? 1 : 0);
+            const int   max = currentMenu->numitems;
 
             if (currentMenu == &OptionsDef && !itemOn && gamestate != GS_LEVEL)
                 itemOn++;

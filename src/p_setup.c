@@ -2915,6 +2915,7 @@ void P_SetupLevel(int ep, int map)
 
     boomcompatible = false;
     mbfcompatible = false;
+    mbf21compatible = false;
 
     totalkills = 0;
     totalitems = 0;

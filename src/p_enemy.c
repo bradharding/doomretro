@@ -2403,12 +2403,12 @@ void A_Spawn(mobj_t *actor, player_t *player, pspdef_t *psp)
 
 void A_Turn(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    actor->angle += (unsigned int)(((uint64_t)actor->state->misc1 << 32) / 360);
+    actor->angle += (angle_t)(((uint64_t)actor->state->misc1 << 32) / 360);
 }
 
 void A_Face(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    actor->angle = (unsigned int)(((uint64_t)actor->state->misc1 << 32) / 360);
+    actor->angle = (angle_t)(((uint64_t)actor->state->misc1 << 32) / 360);
 }
 
 void A_Scratch(mobj_t *actor, player_t *player, pspdef_t *psp)

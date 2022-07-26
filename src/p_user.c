@@ -367,7 +367,7 @@ static void P_DeathThink(void)
         const angle_t   angle = R_PointToAngle2(mo->x, mo->y, attacker->x, attacker->y);
         const angle_t   delta = angle - mo->angle;
 
-        if (delta < ANG5 || delta > (unsigned int)(-ANG5))
+        if (delta < ANG5 || delta > (angle_t)(-ANG5))
         {
             // Looking at killer, so fade damage flash down.
             mo->angle = angle;
