@@ -369,7 +369,7 @@ typedef struct
     int         lighttag;
 } vldoor_t;
 
-#define VDOORSPEED  (FRACUNIT * 2)
+#define VDOORSPEED  (2 * FRACUNIT)
 #define VDOORWAIT   150
 
 void EV_VerticalDoor(line_t *line, mobj_t *thing);
@@ -551,7 +551,7 @@ typedef struct
     bool        stopsound;
 } elevator_t;
 
-#define ELEVATORSPEED   (FRACUNIT * 4)
+#define ELEVATORSPEED   (4 * FRACUNIT)
 #define FLOORSPEED      FRACUNIT
 
 typedef enum

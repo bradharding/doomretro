@@ -11,9 +11,9 @@
 * A message is now displayed, and with an accompanying sound effect, whenever the player finds a secret. This feature may be toggled using the new `secretmessages` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
 * Secrets are no longer considered as found if the player happens to walk into one while no clipping mode is enabled.
 * The following changes have been made to the menu’s background:
-  * It now has a black border with curved corners.
+  * It now has a border with curved corners.
   * The field of view now increases to `135°` regardless of the value of the `r_fov` CVAR.
-  * The view is now lowered slightly.
+  * The view is now lowered to the ground slightly.
   * The view is now vertically centered if the `mouselook` CVAR is `on`.
   * The spin may now sometimes reverse direction if the menu is closed, the player doesn’t move, and the menu is then reopened.
   * Unmapped lines in the automap no longer become mapped while the view spins.

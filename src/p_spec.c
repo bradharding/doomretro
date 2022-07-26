@@ -2817,7 +2817,7 @@ static void Add_WallScroller(int64_t dx, int64_t dy, const line_t *l, int contro
 
 // Factor to scale scrolling effect into mobj-carrying properties = 3/32.
 // (This is so scrolling floors and objects on them can move at same speed.)
-#define CARRYFACTOR     ((fixed_t)(FRACUNIT * 0.09375))
+#define CARRYFACTOR     ((fixed_t)(0.09375 * FRACUNIT))
 
 // Initialize the scrollers
 static void P_SpawnScrollers(void)

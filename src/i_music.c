@@ -195,10 +195,12 @@ void I_UnregisterSong(void *handle)
 #if defined(_WIN32)
     if (windowsmidi)
         I_Windows_UnregisterSong();
-    else
+    else if (handle)
+        Mix_FreeMusic(handle);
+#else
+    if (handle)
+        Mix_FreeMusic(handle);
 #endif
-        if (handle)
-            Mix_FreeMusic(handle);
 }
 
 void *I_RegisterSong(void *data, int size)

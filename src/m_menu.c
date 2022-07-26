@@ -2721,7 +2721,7 @@ bool M_Responder(event_t *ev)
     }
 
     // Console
-    if (key == keyboardconsole && !menuactive && !paused && !splashscreen && !keydown)
+    if (key == keyboardconsole && !menuactive && !paused && !splashscreen)
     {
         keydown = key;
 
@@ -3669,7 +3669,7 @@ void M_StartControlPanel(void)
         {
             playerlookdir = viewplayer->lookdir;
             viewplayer->lookdir = 0;
-            viewplayer->viewz = viewplayer->mo->floorz + 6 * FRACUNIT;
+            viewplayer->viewz = viewplayer->mo->floorz + MENUVIEWHEIGHT;
             R_SetViewSize(r_screensize_max);
         }
     }
