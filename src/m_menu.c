@@ -116,6 +116,7 @@ int             menuspindirection;
 int             menuspinspeed;
 static angle_t  playerangle;
 static int      playerlookdir;
+static fixed_t  playerviewz;
 
 static patch_t  *menuborder;
 
@@ -3654,6 +3655,7 @@ void M_StartControlPanel(void)
     if (gamestate == GS_LEVEL)
     {
         playerangle = viewplayer->mo->angle;
+        playerviewz = viewplayer->viewz;
         menuspinspeed = 0;
 
         if (automapactive)
@@ -3667,6 +3669,7 @@ void M_StartControlPanel(void)
         {
             playerlookdir = viewplayer->lookdir;
             viewplayer->lookdir = 0;
+            viewplayer->viewz = viewplayer->mo->floorz + 6 * FRACUNIT;
             R_SetViewSize(r_screensize_max);
         }
     }
@@ -3864,6 +3867,7 @@ void M_ClearMenus(void)
 
         viewplayer->mo->angle = playerangle;
         viewplayer->lookdir = playerlookdir;
+        viewplayer->viewz = playerviewz;
 
         if (!inhelpscreens)
             R_SetViewSize(r_screensize);

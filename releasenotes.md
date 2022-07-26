@@ -13,6 +13,7 @@
 * The following changes have been made to the menu’s background:
   * It now has a black border with curved corners.
   * The field of view now increases to `135°` regardless of the value of the `r_fov` CVAR.
+  * The view is now lowered slightly.
   * The view is now vertically centered if the `mouselook` CVAR is `on`.
   * The spin may now sometimes reverse direction if the menu is closed, the player doesn’t move, and the menu is then reopened.
   * Unmapped lines in the automap no longer become mapped while the view spins.
