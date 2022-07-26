@@ -182,7 +182,7 @@ typedef struct
 void P_SpawnFireFlicker(sector_t *sector);
 void T_LightFlash(lightflash_t *flash);
 void P_SpawnLightFlash(sector_t *sector);
-void T_StrobeFlash(strobe_t *flash);
+void T_StrobeFlash(strobe_t *strobe);
 
 void P_SpawnStrobeFlash(sector_t *sector, int fastorslow, bool insync);
 
@@ -590,7 +590,7 @@ typedef struct
     } type;                     // Type of scroll effect
 } scroll_t;
 
-void T_Scroll(scroll_t *s);
+void T_Scroll(scroll_t *scroller);
 
 // phares 03/20/98: added new model of Pushers for push/pull effects
 
@@ -616,7 +616,7 @@ typedef struct
     int         affectee;       // Number of affected sector
 } pusher_t;
 
-void T_Pusher(pusher_t *p);     // phares 03/20/98: Push thinker
+void T_Pusher(pusher_t *pusher);    // phares 03/20/98: Push thinker
 mobj_t *P_GetPushThing(int s);
 
 //

@@ -1714,12 +1714,12 @@ static bool P_FaceMobj(mobj_t *source, mobj_t *target, angle_t *delta)
 //
 // MBF21: P_SeekerMissile
 //
-bool P_SeekerMissile(mobj_t *actor, mobj_t **seekTarget, angle_t thresh, angle_t turnmax, const bool seekcenter)
+bool P_SeekerMissile(mobj_t *actor, mobj_t **seektarget, angle_t thresh, angle_t turnmax, const bool seekcenter)
 {
     int     dir;
     angle_t delta;
     angle_t angle;
-    mobj_t  *target = *seekTarget;
+    mobj_t  *target = *seektarget;
 
     if (!target)
         return false;
@@ -1727,7 +1727,7 @@ bool P_SeekerMissile(mobj_t *actor, mobj_t **seekTarget, angle_t thresh, angle_t
     if (!(target->flags & MF_SHOOTABLE))
     {
         // Target died
-        *seekTarget = NULL;
+        *seektarget = NULL;
         return false;
     }
 
