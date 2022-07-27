@@ -3669,8 +3669,10 @@ void M_StartControlPanel(void)
         {
             playerlookdir = viewplayer->lookdir;
             viewplayer->lookdir = 0;
-            viewplayer->viewz = viewplayer->mo->floorz + MENUVIEWHEIGHT;
             R_SetViewSize(r_screensize_max);
+
+            if (!inhelpscreens)
+                viewplayer->viewz = viewplayer->mo->floorz + MENUVIEWHEIGHT;
         }
     }
 
