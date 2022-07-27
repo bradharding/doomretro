@@ -54,9 +54,6 @@ void T_FireFlicker(fireflicker_t *flick)
 {
     int amount;
 
-    if (freeze)
-        return;
-
     if (--flick->count)
         return;
 

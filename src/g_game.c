@@ -106,7 +106,7 @@ static fixed_t  gamecontrollerangleturn[] = { 640, 960 };
 
 #define NUMWEAPONKEYS   7
 
-static int *keyboardweapons[NUMWEAPONKEYS] =
+static const int *keyboardweapons[NUMWEAPONKEYS] =
 {
     &keyboardweapon1,
     &keyboardweapon2,
@@ -117,7 +117,7 @@ static int *keyboardweapons[NUMWEAPONKEYS] =
     &keyboardweapon7
 };
 
-static int *mouseweapons[NUMWEAPONKEYS] =
+static const int *mouseweapons[NUMWEAPONKEYS] =
 {
     &mouseweapon1,
     &mouseweapon2,
@@ -128,7 +128,7 @@ static int *mouseweapons[NUMWEAPONKEYS] =
     &mouseweapon7
 };
 
-static int *gamecontrollerweapons[NUMWEAPONKEYS] =
+static const int *gamecontrollerweapons[NUMWEAPONKEYS] =
 {
     &gamecontrollerweapon1,
     &gamecontrollerweapon2,

@@ -52,7 +52,7 @@
 #define B   8
 #define X  16
 
-const static byte filter[256] =
+static const byte filter[256] =
 {
     0,   X,   0,   0,   R|B, 0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0, //   0 to  15
     R,   R,   R,   R,   R,   R,   R,   R,   R,   R,   R,   R,   R,   R,   R,   R, //  16 to  31

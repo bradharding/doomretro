@@ -2331,14 +2331,11 @@ void P_UpdateSpecials(void)
             }
 
     animatedliquiddiff += animatedliquiddiffs[animatedliquidtic & (ANIMATEDLIQUIDDIFFS - 1)];
-    animatedliquidxoffs += animatedliquidxdir;
 
-    if (animatedliquidxoffs > 64 * FRACUNIT)
+    if ((animatedliquidxoffs += animatedliquidxdir) > 64 * FRACUNIT)
         animatedliquidxoffs = 0;
 
-    animatedliquidyoffs += animatedliquidydir;
-
-    if (animatedliquidyoffs > 64 * FRACUNIT)
+    if ((animatedliquidyoffs += animatedliquidydir) > 64 * FRACUNIT)
         animatedliquidyoffs = 0;
 
     skycolumnoffset += skyscrolldelta;
@@ -2504,7 +2501,7 @@ void P_SpawnSpecials(void)
 
             timer = BETWEEN(0, minutes, TIMERMAXMINUTES);
             C_Output("A " BOLD("-timer") " parameter was found on the command-line. A timer "
-                "has been set to %s minute%s. %s will automatically exit each map once the timer expires.",
+                "has been set for %s minute%s. %s will automatically exit each map once the timer expires.",
                 temp, (minutes == 1 ? "" : "s"), (M_StringCompare(playername, playername_default) ? "You" : playername));
             P_SetTimer(minutes);
             free(temp);
@@ -2515,7 +2512,7 @@ void P_SpawnSpecials(void)
     {
         P_SetTimer(20);
         C_Output("An " BOLD("-avg") " parameter was found on the command-line. A timer "
-            "has been set to %i minutes. %s will automatically exit each map once the timer expires.",
+            "has been set for %i minutes. %s will automatically exit each map once the timer expires.",
             timer, (M_StringCompare(playername, playername_default) ? "You" : playername));
     }
 
