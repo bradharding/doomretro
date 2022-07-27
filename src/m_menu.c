@@ -3647,7 +3647,7 @@ void M_StartControlPanel(void)
     viewplayer->fixedcolormap = 0;
     I_SetPalette(PLAYPAL);
     I_UpdateBlitFunc(false);
-    S_StopSounds();
+    S_FadeOutSounds();
 
     if (vid_motionblur)
         I_SetMotionBlur(0);

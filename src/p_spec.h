@@ -45,7 +45,8 @@ typedef enum
     ceiling_special
 } special_e;
 
-#define TIMERMAXMINUTES (24 * 60)
+#define ANIMATEDLIQUIDDIFFS 64
+#define TIMERMAXMINUTES     (24 * 60)
 
 extern int              timer;
 extern int              timeremaining;

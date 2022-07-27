@@ -266,7 +266,7 @@ static void S_StopChannel(int cnum)
     }
 }
 
-void S_StopSounds(void)
+void S_FadeOutSounds(void)
 {
     if (nosfx)
         return;

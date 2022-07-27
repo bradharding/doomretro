@@ -107,7 +107,7 @@ fixed_t         animatedliquidydir;
 fixed_t         animatedliquidxoffs;
 fixed_t         animatedliquidyoffs;
 
-fixed_t animatedliquiddiffs[64] =
+const fixed_t animatedliquiddiffs[ANIMATEDLIQUIDDIFFS] =
 {
      6422,  6422,  6360,  6238,  6054,  5814,  5516,  5164,
      4764,  4318,  3830,  3306,  2748,  2166,  1562,   942,
@@ -2330,7 +2330,7 @@ void P_UpdateSpecials(void)
                     flattranslation[i] = firstflat + pic;
             }
 
-    animatedliquiddiff += animatedliquiddiffs[animatedliquidtic & 63];
+    animatedliquiddiff += animatedliquiddiffs[animatedliquidtic & (ANIMATEDLIQUIDDIFFS - 1)];
     animatedliquidxoffs += animatedliquidxdir;
 
     if (animatedliquidxoffs > 64 * FRACUNIT)

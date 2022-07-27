@@ -193,11 +193,12 @@ bool P_CheckAmmo(weapontype_t weapon)
 //
 static void P_SubtractAmmo(void)
 {
-    const ammotype_t    ammotype = weaponinfo[viewplayer->readyweapon].ammotype;
+    const weapontype_t  readyweapon = viewplayer->readyweapon;
+    const ammotype_t    ammotype = weaponinfo[readyweapon].ammotype;
 
     if (ammotype != am_noammo)
     {
-        viewplayer->ammo[ammotype] = MAX(0, viewplayer->ammo[ammotype] - weaponinfo[viewplayer->readyweapon].ammopershot);
+        viewplayer->ammo[ammotype] = MAX(0, viewplayer->ammo[ammotype] - weaponinfo[readyweapon].ammopershot);
         ammohighlight = I_GetTimeMS() + HUD_AMMO_HIGHLIGHT_WAIT;
     }
 }
@@ -389,10 +390,10 @@ void A_GunFlash(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_Punch(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    angle_t angle = actor->angle + (M_SubRandom() << 18);
-    int     range = player->mo->info->meleerange;
-    int     slope = P_AimLineAttack(actor, angle, range, MF_FRIEND);
-    int     damage = (M_Random() % 10 + 1) << 1;
+    const angle_t   angle = actor->angle + (M_SubRandom() << 18);
+    const int       range = player->mo->info->meleerange;
+    int             slope = P_AimLineAttack(actor, angle, range, MF_FRIEND);
+    int             damage = (M_Random() % 10 + 1) << 1;
 
     if (player->powers[pw_strength])
         damage *= 10;
@@ -429,9 +430,9 @@ void A_Punch(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_Saw(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    angle_t angle = actor->angle + (M_SubRandom() << 18);
-    int     range = viewplayer->mo->info->meleerange + 1;
-    int     slope = P_AimLineAttack(actor, angle, range, MF_FRIEND);
+    angle_t     angle = actor->angle + (M_SubRandom() << 18);
+    const int   range = viewplayer->mo->info->meleerange + 1;
+    int         slope = P_AimLineAttack(actor, angle, range, MF_FRIEND);
 
     if (!linetarget)
         slope = P_AimLineAttack(actor, angle, range, 0);
@@ -812,8 +813,8 @@ void A_Light2(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_BFGSpray(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    mobj_t          *mo = actor->target;
-    angle_t         an = mo->angle - ANG90 / 2;
+    mobj_t  *mo = actor->target;
+    angle_t an = mo->angle - ANG90 / 2;
 
     if (!(weaponinfo[viewplayer->readyweapon].flags & WPF_SILENT))
         P_NoiseAlert(actor);
@@ -901,9 +902,9 @@ void P_MovePsprites(void)
     if (weapon->state->action == &A_WeaponReady)
     {
         // bob the weapon based on movement speed
-        fixed_t momx = viewplayer->momx;
-        fixed_t momy = viewplayer->momy;
-        fixed_t bob = MAXBOB * stillbob / 400;
+        const fixed_t   momx = viewplayer->momx;
+        const fixed_t   momy = viewplayer->momy;
+        fixed_t         bob = MAXBOB * stillbob / 400;
 
         if (momx | momy)
             bob = MAX(MIN((FixedMul(momx, momx) + FixedMul(momy, momy)) >> 2, MAXBOB) * weaponbob / 100, bob);

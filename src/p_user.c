@@ -402,7 +402,7 @@ static void P_DeathThink(void)
         gamekeydown[' '] = false;
         gamekeydown[KEY_ENTER] = false;
 
-        S_StopSounds();
+        S_FadeOutSounds();
     }
     else
         deathcount++;
