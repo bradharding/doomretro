@@ -381,24 +381,9 @@ static void I_GetEvent(void)
 
         switch (Event->type)
         {
-            case SDL_TEXTINPUT:
-                for (int i = 0, len = (int)strlen(Event->text.text); i < len; i++)
-                {
-                    const unsigned char ch = Event->text.text[i];
-
-                    if (isprint(ch))
-                    {
-                        event_t textevent = { ev_textinput, ch, 0, 0 };
-
-                        D_PostEvent(&textevent);
-                    }
-                }
-
-                break;
-
             case SDL_KEYDOWN:
             {
-                SDL_Scancode    scancode = Event->key.keysym.scancode;
+                const SDL_Scancode  scancode = Event->key.keysym.scancode;
 
                 ev.type = ev_keydown;
 
@@ -455,7 +440,7 @@ static void I_GetEvent(void)
 
             case SDL_KEYUP:
             {
-                SDL_Scancode    scancode = Event->key.keysym.scancode;
+                const SDL_Scancode  scancode = Event->key.keysym.scancode;
 
                 ev.type = ev_keyup;
 
@@ -594,6 +579,20 @@ static void I_GetEvent(void)
                 D_PostEvent(&ev);
 
                 break;
+
+            case SDL_TEXTINPUT:
+            {
+                const unsigned char ch = Event->text.text[0];
+
+                if (isprint(ch) && ch != keyboardconsole)
+                {
+                    event_t textevent = { ev_textinput, ch, 0, 0 };
+
+                    D_PostEvent(&textevent);
+                }
+
+                break;
+            }
 
             case SDL_QUIT:
                 if (!quitting && !splashscreen)
@@ -1960,7 +1959,6 @@ void I_InitKeyboard(void)
 
 void I_InitGraphics(void)
 {
-    SDL_Event   dummy;
     SDL_version linked;
     SDL_version compiled;
 
@@ -2031,6 +2029,4 @@ void I_InitGraphics(void)
 
     if (mapwindow)
         mapblitfunc();
-
-    while (SDL_PollEvent(&dummy));
 }

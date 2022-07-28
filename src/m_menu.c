@@ -1259,7 +1259,6 @@ void M_UpdateSaveGameName(int i)
 static void M_SaveSelect(int choice)
 {
     // we are going to be intercepting all chars
-    SDL_StartTextInput();
     saveStringEnter = true;
     saveSlot = choice;
     M_StringCopy(saveOldString, savegamestrings[saveSlot], sizeof(saveOldString));
@@ -2807,7 +2806,6 @@ bool M_Responder(event_t *ev)
                 if (!keydown)
                 {
                     keydown = key;
-                    SDL_StopTextInput();
                     saveStringEnter = false;
                     caretwait = 0;
                     showcaret = false;
@@ -2832,7 +2830,6 @@ bool M_Responder(event_t *ev)
 
                     if (savegamestrings[saveSlot][0] && !allspaces)
                     {
-                        SDL_StopTextInput();
                         saveStringEnter = false;
                         caretwait = I_GetTimeMS() + CARETBLINKTIME;
                         showcaret = true;
