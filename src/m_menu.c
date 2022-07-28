@@ -1117,15 +1117,15 @@ static void M_DrawSave(void)
             char        left[256] = "";
             char        right[256] = "";
             int         j;
-            int         x;
+            int         x = LoadDef.x - 2;
 
             // draw text to left of text caret
             for (j = 0; j < saveCharIndex; j++)
                 left[j] = buffer[j];
 
             left[j] = '\0';
-            M_WriteText(LoadDef.x - 2, y - !M_LSCNTR, left, false);
-            x = LoadDef.x - 2 + M_StringWidth(left);
+            M_WriteText(x, y - !M_LSCNTR, left, false);
+            x += M_StringWidth(left);
 
             // draw text to right of text caret
             for (j = 0; j < len - saveCharIndex; j++)
@@ -1135,26 +1135,18 @@ static void M_DrawSave(void)
             M_WriteText(x + 1, y - !M_LSCNTR, right, false);
 
             // draw text caret
-            if (windowfocused)
+            if (caretwait < I_GetTimeMS())
             {
-                if (caretwait < I_GetTimeMS())
-                {
-                    showcaret = !showcaret;
-                    caretwait = I_GetTimeMS() + CARETBLINKTIME;
-                }
-
-                if (showcaret)
-                {
-                    const int   height = y + SHORT(hu_font[0]->height);
-
-                    while (y < height)
-                        V_DrawPixel(x, y++, caretcolor, false);
-                }
+                showcaret = !showcaret;
+                caretwait = I_GetTimeMS() + CARETBLINKTIME;
             }
-            else
+
+            if (showcaret || !windowfocused)
             {
-                showcaret = false;
-                caretwait = 0;
+                const int   height = y + SHORT(hu_font[0]->height);
+
+                while (y < height)
+                    V_DrawPixel(x, y++, caretcolor, false);
             }
         }
         else

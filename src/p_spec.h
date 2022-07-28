@@ -56,6 +56,7 @@ extern fixed_t          animatedliquidxdir;
 extern fixed_t          animatedliquidydir;
 extern fixed_t          animatedliquidxoffs;
 extern fixed_t          animatedliquidyoffs;
+extern const fixed_t    animatedliquiddiffs[ANIMATEDLIQUIDDIFFS];
 
 extern terraintype_t    *terraintypes;
 extern bool             *isteleport;

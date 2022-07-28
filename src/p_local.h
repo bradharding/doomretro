@@ -107,9 +107,8 @@ void P_SetPsprite(const size_t position, const statenum_t stnum);
 #define MLOOKUNIT           8
 #define PLAYERSLOPE(a)      ((((a)->lookdir / MLOOKUNIT) << FRACBITS) / 153)
 
-extern bool             autousing;
-extern int              deadlookdir;
-extern const fixed_t    animatedliquiddiffs[64];
+extern bool autousing;
+extern int  deadlookdir;
 
 void P_CalcHeight(void);
 void P_MovePlayer(void);
