@@ -2356,6 +2356,9 @@ int M_StringWidth(char *string)
     int         width = M_CharacterWidth(string[0], '\0');
     const int   len = (int)strlen(string);
 
+    if (string[0] == '\0')
+        return 0;
+
     for (int i = 1; i < len; i++)
         width += M_CharacterWidth(string[i], string[i - 1]);
 

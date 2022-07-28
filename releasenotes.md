@@ -17,6 +17,7 @@
   * The view is now vertically centered if the `mouselook` CVAR is `on`.
   * The spin may now sometimes reverse direction if the menu is closed, the player doesn’t move, and the menu is then reopened.
   * Unmapped lines in the automap no longer become mapped while the view spins.
+* The text caret is now always positioned correctly when entering a savegame description in the savegame menu.
 * The following changes have been made to the help screen displayed by pressing the <kbd><b>F1</b></kbd> key:
   * Subtle noise is now applied to the background.
   * `HELP`, `HELP1` and `HELP2` lumps in PWADs that are wider than 320 pixels are now displayed correctly.
