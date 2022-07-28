@@ -63,14 +63,3 @@ void I_Sleep(int ms)
 {
     SDL_Delay(ms);
 }
-
-void I_InitTimer(void)
-{
-    // initialize timer
-    SDL_InitSubSystem(SDL_INIT_TIMER);
-}
-
-void I_ShutdownTimer(void)
-{
-    SDL_QuitSubSystem(SDL_INIT_TIMER);
-}

@@ -74,12 +74,6 @@ void I_InitGameController(void)
 
     SDL_SetHintWithPriority(SDL_HINT_JOYSTICK_ALLOW_BACKGROUND_EVENTS, "1", SDL_HINT_OVERRIDE);
 
-    if (SDL_InitSubSystem(SDL_INIT_GAMECONTROLLER) < 0)
-    {
-        C_Warning(1, "Support for controllers couldn't be initialized.");
-        return;
-    }
-
     if (devparm)
         SDL_GameControllerAddMappingsFromFile("gamecontrollerdb.txt");
 
@@ -112,8 +106,6 @@ void I_InitGameController(void)
 
             return;
         }
-
-    SDL_QuitSubSystem(SDL_INIT_GAMECONTROLLER);
 }
 
 void I_ShutdownGameController(void)
@@ -127,8 +119,6 @@ void I_ShutdownGameController(void)
     gamecontrollerhasrumble = false;
 
     SDL_GameControllerClose(gamecontroller);
-
-    SDL_QuitSubSystem(SDL_INIT_GAMECONTROLLER);
 }
 
 void I_GameControllerRumble(int strength)

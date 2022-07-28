@@ -47,8 +47,3 @@ int I_GetTimeMS(void);
 
 // Pause for a specified number of ms
 void I_Sleep(int ms);
-
-// Initialize timer
-void I_InitTimer(void);
-
-void I_ShutdownTimer(void);

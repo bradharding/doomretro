@@ -1909,6 +1909,8 @@ static void D_DoomMainSetup(void)
     I_PrintWindowsVersion();
 #endif
 
+    SDL_Init(SDL_INIT_EVERYTHING);
+
     I_PrintSystemInfo();
     C_PrintSDLVersions();
 
@@ -1984,7 +1986,6 @@ static void D_DoomMainSetup(void)
 
     // init subsystems
     V_Init();
-    I_InitTimer();
 
     if (!stat_runs)
         C_Output("This is the first time " ITALICS(DOOMRETRO_NAME) " has been run on this " PCHW ".");

@@ -232,10 +232,9 @@ void I_Quit(bool shutdown)
         M_SaveCVARs();
 
         FreeSurfaces(true);
-        I_ShutdownGraphics();
         I_ShutdownKeyboard();
         I_ShutdownGameController();
-        I_ShutdownTimer();
+        SDL_Quit();
     }
 
     W_CloseFiles();
@@ -272,10 +271,9 @@ void I_Error(const char *error, ...)
     M_SaveCVARs();
 
     FreeSurfaces(true);
-    I_ShutdownGraphics();
     I_ShutdownKeyboard();
     I_ShutdownGameController();
-    I_ShutdownTimer();
+    SDL_Quit();
 
     W_CloseFiles();
 

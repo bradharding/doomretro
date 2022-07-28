@@ -308,11 +308,6 @@ void FreeSurfaces(bool freewindow)
     }
 }
 
-void I_ShutdownGraphics(void)
-{
-    SDL_QuitSubSystem(SDL_INIT_VIDEO);
-}
-
 #if defined(_WIN32)
 static void ToggleCapsLockState(void)
 {
@@ -2003,9 +1998,6 @@ void I_InitGraphics(void)
     if (*vid_driver)
         SDL_setenv("SDL_VIDEODRIVER", vid_driver, true);
 #endif
-
-    if (SDL_InitSubSystem(SDL_INIT_VIDEO) < 0)
-        I_SDLError(SDL_InitSubSystem);
 
     GetDisplays();
 

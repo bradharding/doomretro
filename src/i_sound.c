@@ -411,7 +411,6 @@ void I_ShutdownSound(void)
         return;
 
     Mix_CloseAudio();
-    SDL_QuitSubSystem(SDL_INIT_AUDIO);
     sound_initialized = false;
 }
 
@@ -424,9 +423,6 @@ bool I_InitSound(void)
     // No sounds yet
     for (int i = 0; i < s_channels_max; i++)
         channels_playing[i] = NULL;
-
-    if (SDL_InitSubSystem(SDL_INIT_AUDIO) < 0)
-        return false;
 
     if (linked->major != SDL_MIXER_MAJOR_VERSION || linked->minor != SDL_MIXER_MINOR_VERSION)
         I_Error("The wrong version of %s was found. %s requires v%i.%i.%i.",
