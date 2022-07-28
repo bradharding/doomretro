@@ -59,27 +59,27 @@
 // Maximums and such were hardcoded values. Need to externalize those for
 // dehacked support (and future flexibility). Most var names came from the key
 // strings used in dehacked.
-int         initial_health = 100;
-int         initial_bullets = 50;
-int         maxhealth = MAXHEALTH * 2;
-int         max_armor = 200;
-int         green_armor_class = armortype_green;
-int         blue_armor_class = armortype_blue;
-int         max_soul = 200;
-int         soul_health = 100;
-int         mega_health = 200;
-int         god_health = 100;
-int         idfa_armor = 200;
-int         idfa_armor_class = armortype_blue;
-int         idkfa_armor = 200;
-int         idkfa_armor_class = armortype_blue;
-int         bfgcells = BFGCELLS;
-bool        species_infighting = false;
+int     initial_health = 100;
+int     initial_bullets = 50;
+int     maxhealth = MAXHEALTH * 2;
+int     max_armor = 200;
+int     green_armor_class = armortype_green;
+int     blue_armor_class = armortype_blue;
+int     max_soul = 200;
+int     soul_health = 100;
+int     mega_health = 200;
+int     god_health = 100;
+int     idfa_armor = 200;
+int     idfa_armor_class = armortype_blue;
+int     idkfa_armor = 200;
+int     idkfa_armor_class = armortype_blue;
+int     bfgcells = BFGCELLS;
+bool    species_infighting = false;
 
 // a weapon is found with two clip loads,
 // a big item has five clip loads
-int         maxammo[] =  { 200, 50, 300, 50 };
-int         clipammo[] = {  10,  4,  20,  1 };
+int     maxammo[] =  { 200, 50, 300, 50 };
+int     clipammo[] = {  10,  4,  20,  1 };
 
 void P_UpdateAmmoStat(const ammotype_t ammotype, const int num)
 {
@@ -778,7 +778,7 @@ bool P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, const bool message, c
                 armorhighlight = I_GetTimeMS() + HUD_ARMOR_HIGHLIGHT_WAIT;
 
                 if (!viewplayer->armortype)
-                    viewplayer->armortype = armortype_green;
+                    viewplayer->armortype = green_armor_class;
             }
 
             if (message && !duplicate)
@@ -1242,7 +1242,7 @@ bool P_TakeSpecialThing(const mobjtype_t type)
     {
         // green armor
         case MT_MISC0:
-            if (viewplayer->armortype != armortype_green)
+            if (viewplayer->armortype != green_armor_class)
                 return false;
 
             if (viewplayer->armorpoints < green_armor_class * 100)
@@ -1255,7 +1255,7 @@ bool P_TakeSpecialThing(const mobjtype_t type)
 
         // blue armor
         case MT_MISC1:
-            if (viewplayer->armortype != armortype_blue)
+            if (viewplayer->armortype != blue_armor_class)
                 return false;
 
             if (viewplayer->armorpoints < blue_armor_class * 100)
@@ -1529,10 +1529,10 @@ bool P_TakeSpecialThing(const mobjtype_t type)
             {
                 viewplayer->maxammo[i] /= 2;
 
-                P_TakeAmmo(i, 1);
-
                 if (viewplayer->ammo[i] > viewplayer->maxammo[i])
                     viewplayer->ammo[i] = viewplayer->maxammo[i];
+
+                P_TakeAmmo(i, 1);
             }
 
             viewplayer->backpack = false;
@@ -2217,7 +2217,7 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
         {
             if (adjust && tplayer->armorpoints)
             {
-                int saved = damage / (tplayer->armortype == armortype_green ? 3 : 2);
+                int saved = damage / (tplayer->armortype == green_armor_class ? 3 : 2);
 
                 if (tplayer->armorpoints <= saved)
                 {

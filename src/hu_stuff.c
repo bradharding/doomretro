@@ -594,7 +594,7 @@ static void HU_DrawHUD(void)
 
         armor_x = HUD_ARMOR_X - (armor_x + (armor_x & 1) + tallpercentwidth) / 2;
 
-        if ((patch = (viewplayer->armortype == armortype_green ? greenarmorpatch : bluearmorpatch)))
+        if ((patch = (viewplayer->armortype == green_armor_class ? greenarmorpatch : bluearmorpatch)))
             hudfunc(HUD_ARMOR_X - SHORT(patch->width) / 2, HUD_ARMOR_Y - SHORT(patch->height) - 3, patch, tinttab75);
 
         if (armorhighlight > currenttime)
@@ -940,7 +940,7 @@ static void HU_DrawAltHUD(void)
 
     if (armor)
     {
-        barcolor2 = (viewplayer->armortype == armortype_green ? green : blue);
+        barcolor2 = (viewplayer->armortype == green_armor_class ? green : blue);
         barcolor1 = barcolor2 + coloroffset;
         DrawAltHUDNumber2(ALTHUD_LEFT_X - AltHUDNumber2Width(armor), ALTHUD_Y, armor, color);
         althudfunc(ALTHUD_LEFT_X + 5, ALTHUD_Y, altarmpatch, WHITE, color);

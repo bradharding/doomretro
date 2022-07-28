@@ -8366,7 +8366,7 @@ static void player_cvars_func2(char *cmd, char *parms)
                 if (!(viewplayer->armorpoints = MIN(value, max_armor)))
                     viewplayer->armortype = armortype_none;
                 else if (!viewplayer->armortype)
-                    viewplayer->armortype = armortype_green;
+                    viewplayer->armortype = green_armor_class;
 
                 C_HideConsole();
             }
