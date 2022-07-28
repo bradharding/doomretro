@@ -2332,7 +2332,7 @@ void M_StartMessage(char *string, void (*routine)(int), bool input)
 //
 static int M_CharacterWidth(char ch, char prev)
 {
-    int c = toupper(ch) - HU_FONTSTART;
+    const int   c = toupper(ch) - HU_FONTSTART;
 
     if (c < 0 || c >= HU_FONTSIZE)
         return (prev == '.' || prev == '!' || prev == '?' ? 5 : 3);
@@ -2345,11 +2345,13 @@ static int M_CharacterWidth(char ch, char prev)
 //
 int M_StringWidth(char *string)
 {
-    int         width = M_CharacterWidth(string[0], '\0');
     const int   len = (int)strlen(string);
+    int         width;
 
-    if (string[0] == '\0')
+    if (!len)
         return 0;
+
+    width = M_CharacterWidth(string[0], '\0');
 
     for (int i = 1; i < len; i++)
         width += M_CharacterWidth(string[i], string[i - 1]);
@@ -2362,8 +2364,8 @@ int M_StringWidth(char *string)
 //
 static int M_StringHeight(char *string)
 {
-    int         height = (STCFNxxx ? SHORT(hu_font[0]->height) : 8);
     const int   len = (int)strlen(string);
+    int         height = (STCFNxxx ? SHORT(hu_font[0]->height) : 8);
 
     for (int i = 1; i < len; i++)
         if (string[i] == '\n')
@@ -3193,10 +3195,8 @@ bool M_Responder(event_t *ev)
 
                 do
                 {
-                    if (itemOn + 1 > currentMenu->numitems - 1)
+                    if (++itemOn > currentMenu->numitems - 1)
                         itemOn = 0;
-                    else
-                        itemOn++;
                 } while (M_StringCompare(savegamestrings[itemOn], s_EMPTYSTRING));
 
                 if (itemOn != old)
@@ -3211,10 +3211,8 @@ bool M_Responder(event_t *ev)
             {
                 do
                 {
-                    if (itemOn + 1 > currentMenu->numitems - 1)
+                    if (++itemOn > currentMenu->numitems - 1)
                         itemOn = 0;
-                    else
-                        itemOn++;
 
                     if (currentMenu == &MainDef)
                     {
@@ -3277,10 +3275,8 @@ bool M_Responder(event_t *ev)
 
                 do
                 {
-                    if (!itemOn)
+                    if (!itemOn--)
                         itemOn = currentMenu->numitems - 1;
-                    else
-                        itemOn--;
                 } while (M_StringCompare(savegamestrings[itemOn], s_EMPTYSTRING));
 
                 if (itemOn != old)
@@ -3295,10 +3291,8 @@ bool M_Responder(event_t *ev)
             {
                 do
                 {
-                    if (!itemOn)
+                    if (!itemOn--)
                         itemOn = currentMenu->numitems - 1;
-                    else
-                        itemOn--;
 
                     if (currentMenu == &MainDef)
                     {
@@ -3639,16 +3633,17 @@ void M_StartControlPanel(void)
         I_StopGameControllerRumble();
     }
 
-    viewplayer->fixedcolormap = 0;
-    I_SetPalette(PLAYPAL);
-    I_UpdateBlitFunc(false);
-    S_FadeOutSounds();
-
-    if (vid_motionblur)
-        I_SetMotionBlur(0);
-
     if (gamestate == GS_LEVEL)
     {
+        viewplayer->fixedcolormap = 0;
+        I_SetPalette(PLAYPAL);
+        I_UpdateBlitFunc(false);
+
+        if (vid_motionblur)
+            I_SetMotionBlur(0);
+
+        S_FadeOutSounds();
+
         playerangle = viewplayer->mo->angle;
         playerviewz = viewplayer->viewz;
         menuspinspeed = 0;

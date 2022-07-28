@@ -1912,7 +1912,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, c
         {
             if (sector->terraintype >= LIQUID)
             {
-                char *liquids[] =
+                const char *liquids[] =
                 {
                     "liquid", "nukage", "water", "lava", "blood", "slime", "gray slime", "goop", "icy water", "tar", "sludge"
                 };
@@ -1923,7 +1923,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, c
             }
             else
             {
-                short   floorpic = sector->floorpic;
+                const short floorpic = sector->floorpic;
 
                 if ((floorpic >= RROCK05 && floorpic <= RROCK08) || (floorpic >= SLIME09 && floorpic <= SLIME12))
                     C_PlayerObituary("%s died on molten rock.",
