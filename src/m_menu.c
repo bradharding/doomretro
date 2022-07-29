@@ -2716,7 +2716,7 @@ bool M_Responder(event_t *ev)
     }
 
     // Console
-    if (key == keyboardconsole && !menuactive && !paused && !splashscreen)
+    if (key == keyboardconsole && !menuactive && !paused && !splashscreen && !keydown)
     {
         keydown = key;
 

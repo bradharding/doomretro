@@ -1764,12 +1764,14 @@ bool C_Responder(event_t *ev)
         const int           key = ev->data1;
         const SDL_Keymod    modstate = SDL_GetModState();
 
-        if (key == keyboardconsole)
+        if (key == keyboardconsole && !keydown)
         {
             SDL_Event   dummy;
 
+            keydown = keyboardconsole;
             while (SDL_PollEvent(&dummy));
             C_HideConsole();
+
             return true;
         }
         else if (key == keyboardscreenshot && keyboardscreenshot == KEY_PRINTSCREEN)
@@ -2288,6 +2290,7 @@ bool C_Responder(event_t *ev)
     }
     else if (ev->type == ev_keyup)
     {
+        keydown = 0;
         scrollspeed = TICRATE;
         return false;
     }
