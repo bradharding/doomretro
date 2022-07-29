@@ -2274,8 +2274,7 @@ bool C_Responder(event_t *ev)
                 // undo
                 if ((modstate & KMOD_CTRL) && undolevels)
                 {
-                    undolevels--;
-                    M_StringCopy(consoleinput, undohistory[undolevels].input, sizeof(consoleinput));
+                    M_StringCopy(consoleinput, undohistory[--undolevels].input, sizeof(consoleinput));
                     caretpos = undohistory[undolevels].caretpos;
                     selectstart = undohistory[undolevels].selectstart;
                     selectend = undohistory[undolevels].selectend;

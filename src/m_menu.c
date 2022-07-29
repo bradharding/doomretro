@@ -1114,24 +1114,23 @@ static void M_DrawSave(void)
         // draw save game description
         if (saveStringEnter && i == saveSlot)
         {
-            char        left[256] = "";
-            char        right[256] = "";
-            int         j;
-            int         x = LoadDef.x - 2;
+            char    left[256] = "";
+            char    right[256] = "";
+            int     x = LoadDef.x - 2;
 
             // draw text to left of text caret
-            for (j = 0; j < saveCharIndex; j++)
+            for (int j = 0; j < saveCharIndex; j++)
                 left[j] = buffer[j];
 
-            left[j] = '\0';
+            left[saveCharIndex] = '\0';
             M_WriteText(x, y - !M_LSCNTR, left, false);
             x += M_StringWidth(left);
 
             // draw text to right of text caret
-            for (j = 0; j < len - saveCharIndex; j++)
+            for (int j = 0; j < len - saveCharIndex; j++)
                 right[j] = buffer[j + saveCharIndex];
 
-            right[j] = '\0';
+            right[len - saveCharIndex] = '\0';
             M_WriteText(x + 1, y - !M_LSCNTR, right, false);
 
             // draw text caret

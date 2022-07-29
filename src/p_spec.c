@@ -318,9 +318,9 @@ void P_InitPicAnims(void)
 
     while (SC_GetString())
     {
-        const bool  noliquid = M_StringCompare(sc_String, "NOLIQUID");
+        const bool  noliquid = SC_Compare("NOLIQUID");
 
-        if (noliquid || M_StringCompare(sc_String, "LIQUID"))
+        if (noliquid || SC_Compare("LIQUID"))
         {
             int first;
             int last;

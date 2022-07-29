@@ -304,7 +304,7 @@ static void R_InitBrightmaps(void)
     SC_Open("BRGHTMPS");
 
     while (SC_GetString())
-        if (M_StringCompare(sc_String, "BRIGHTMAP"))
+        if (SC_Compare("BRIGHTMAP"))
         {
             char    colors[1024];
             char    *p;
@@ -338,7 +338,7 @@ static void R_InitBrightmaps(void)
 
             nummasks++;
         }
-        else if (M_StringCompare(sc_String, "TEXTURE"))
+        else if (SC_Compare("TEXTURE"))
         {
             int     texture;
             char    maskname[32];
@@ -369,7 +369,7 @@ static void R_InitBrightmaps(void)
     SC_Open("DRCOMPAT");
 
     while (SC_GetString())
-        if (M_StringCompare(sc_String, "NOBRIGHTMAP"))
+        if (SC_Compare("NOBRIGHTMAP"))
         {
             int texture;
 
@@ -378,7 +378,7 @@ static void R_InitBrightmaps(void)
 
             SC_MustGetString();
 
-            if (texture >= 0 && M_StringCompare(pwadfile, sc_String))
+            if (texture >= 0 && SC_Compare(pwadfile))
             {
                 nobrightmap[texture] = true;
                 numbrightmappedtextures--;
@@ -428,21 +428,21 @@ static void R_InitSpriteLumps(void)
     SC_Open("DRCOMPAT");
 
     while (SC_GetString())
-        if (M_StringCompare(sc_String, "FIXSPRITEOFFSETS"))
+        if (SC_Compare("FIXSPRITEOFFSETS"))
         {
             SC_MustGetString();
 
-            if (M_StringCompare(pwadfile, sc_String))
+            if (SC_Compare(pwadfile))
             {
                 fixspriteoffsets = true;
                 M_SKULL1 = false;
             }
         }
-        else if (M_StringCompare(sc_String, "NOBLUEGREENBLOOD"))
+        else if (SC_Compare("NOBLUEGREENBLOOD"))
         {
             SC_MustGetString();
 
-            if (M_StringCompare(pwadfile, sc_String))
+            if (SC_Compare(pwadfile))
             {
                 mobjinfo[MT_HEAD].bloodcolor = REDBLOOD;
                 mobjinfo[MT_BRUISER].bloodcolor = REDBLOOD;
