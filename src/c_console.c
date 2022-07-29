@@ -1766,6 +1766,9 @@ bool C_Responder(event_t *ev)
 
         if (key == keyboardconsole)
         {
+            SDL_Event   dummy;
+
+            while (SDL_PollEvent(&dummy));
             C_HideConsole();
             return true;
         }
