@@ -584,11 +584,11 @@ static void I_GetEvent(void)
             {
                 const unsigned char ch = Event->text.text[0];
 
-                if (isprint(ch) && ch != keyboardconsole)
+                if (isprint(ch))
                 {
-                    event_t textevent = { ev_textinput, ch, 0, 0 };
-
-                    D_PostEvent(&textevent);
+                    ev.type = (ch == keyboardconsole ? ev_keydown : ev_textinput);
+                    ev.data1 = ch;
+                    D_PostEvent(&ev);
                 }
 
                 break;
