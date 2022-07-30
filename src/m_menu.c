@@ -2994,14 +2994,6 @@ bool M_Responder(event_t *ev)
 
                 if (inhelpscreens)
                     R_SetViewSize(r_screensize);
-
-                if (reopenautomap)
-                {
-                    reopenautomap = false;
-                    AM_Start(true);
-                    viewactive = false;
-                    D_FadeScreen(false);
-                }
             }
             else
                 M_ShowHelp(0);
@@ -3873,6 +3865,13 @@ void M_ClearMenus(void)
             R_SetViewSize(r_screensize);
 
         AM_SetAutomapSize(r_screensize);
+
+        if (reopenautomap)
+        {
+            reopenautomap = false;
+            AM_Start(true);
+            viewactive = false;
+        }
     }
 
     S_SetMusicVolume(musicVolume * MIX_MAX_VOLUME / 31);
