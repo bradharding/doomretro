@@ -22,6 +22,7 @@
 * The following changes have been made to the help screen displayed by pressing the <kbd><b>F1</b></kbd> key:
   * Subtle noise is now applied to the background.
   * `HELP`, `HELP1` and `HELP2` lumps in PWADs that are wider than 320 pixels are now displayed correctly.
+  * The correct background is now displayed if the help screen is displayed while the automap is open.
 * If it doesn’t already exist, an `autoload` folder is now created during startup. Any `.wad`, `.deh` or `.bex` files that are placed in this folder, (or in the subfolder based on the name of the current WAD), will then always be automatically loaded during startup.
 * The number of gamma correction levels set by the `r_gamma` CVAR that are brighter than `1.0` has been reduced.
 * The `r_translucency` CVAR has been split into the following two CVARs:

@@ -98,6 +98,8 @@ bool            menuactive;
 bool            savegames;
 bool            quitting;
 
+static bool     reopenautomap;
+
 char            savegamestrings[6][SAVESTRINGSIZE];
 
 static short    itemOn;                 // menu item skull is on
@@ -571,30 +573,32 @@ static byte blues[] =
 static void M_DrawHelpBackground(void)
 {
     if (automapactive)
-        memset(screens[0], nearestdarkblue, SCREENAREA);
-    else
     {
-        M_BigSeed(411);
-
-        for (int y = 0; y < SCREENAREA; y += 2 * SCREENWIDTH)
-            for (int x = 0; x < SCREENWIDTH; x += 2)
-            {
-                byte        *dot1 = *screens + y + x;
-                byte        *dot2 = dot1 + 1;
-                byte        *dot3 = dot2 + SCREENWIDTH;
-                byte        *dot4 = dot3 - 1;
-                const byte  color = colormaps[0][M_BigRandomInt(0, 3) * 256
-                                    + blues[tinttab50[(tinttab50[(*dot1 << 8) + *dot2] << 8) + tinttab50[(*dot3 << 8) + *dot4]]]];
-
-                *dot1 = color;
-                *dot2 = color;
-                *dot3 = color;
-                *dot4 = color;
-            }
-
-        if (mapwindow)
-            memset(mapscreen, nearestdarkblue, MAPAREA);
+        automapactive = false;
+        reopenautomap = true;
+        return;
     }
+
+    M_BigSeed(411);
+
+    for (int y = 0; y < SCREENAREA; y += 2 * SCREENWIDTH)
+        for (int x = 0; x < SCREENWIDTH; x += 2)
+        {
+            byte        *dot1 = *screens + y + x;
+            byte        *dot2 = dot1 + 1;
+            byte        *dot3 = dot2 + SCREENWIDTH;
+            byte        *dot4 = dot3 - 1;
+            const byte  color = colormaps[0][M_BigRandomInt(0, 3) * 256
+                                + blues[tinttab50[(tinttab50[(*dot1 << 8) + *dot2] << 8) + tinttab50[(*dot3 << 8) + *dot4]]]];
+
+            *dot1 = color;
+            *dot2 = color;
+            *dot3 = color;
+            *dot4 = color;
+        }
+
+    if (mapwindow)
+        memset(mapscreen, nearestdarkblue, MAPAREA);
 }
 
 static const int chartoi[] =
@@ -2467,7 +2471,7 @@ static void M_ShowHelp(int choice)
     itemOn = 0;
     S_StartSound(NULL, sfx_swtchn);
 
-    if (!automapactive && gamestate == GS_LEVEL)
+    if (gamestate == GS_LEVEL)
         R_SetViewSize(r_screensize_max);
 }
 
@@ -2990,6 +2994,14 @@ bool M_Responder(event_t *ev)
 
                 if (inhelpscreens)
                     R_SetViewSize(r_screensize);
+
+                if (reopenautomap)
+                {
+                    reopenautomap = false;
+                    AM_Start(true);
+                    viewactive = false;
+                    D_FadeScreen(false);
+                }
             }
             else
                 M_ShowHelp(0);
