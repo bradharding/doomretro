@@ -62,7 +62,6 @@ void I_StartTic(void);
 void I_InitGraphics(void);
 void I_RestartGraphics(bool recreatewindow);
 void FreeSurfaces(bool freewindow);
-void I_ShutdownGraphics(void);
 void I_CapFPS(int cap);
 
 void GetWindowPosition(void);

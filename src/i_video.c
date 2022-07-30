@@ -586,7 +586,7 @@ static void I_GetEvent(void)
 
                 if (isprint(ch))
                 {
-                    ev.type = (ch == keyboardconsole ? ev_keydown : ev_textinput);
+                    ev.type = ev_textinput;
                     ev.data1 = ch;
                     D_PostEvent(&ev);
                 }

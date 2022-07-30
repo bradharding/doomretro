@@ -1766,10 +1766,7 @@ bool C_Responder(event_t *ev)
 
         if (key == keyboardconsole && !keydown)
         {
-            SDL_Event   dummy;
-
             keydown = key;
-            while (SDL_PollEvent(&dummy));
             C_HideConsole();
 
             return true;
