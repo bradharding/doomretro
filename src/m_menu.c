@@ -448,42 +448,42 @@ menu_t SaveDef =
     load1
 };
 
-static void M_BlurMenuBackground(byte *src, byte *dest, int width, int area)
+static void M_BlurMenuBackground(const byte *src, byte *dest)
 {
-    for (int i = 0; i < area; i++)
+    for (int i = 0; i < SCREENAREA; i++)
         dest[i] = grays[src[i]];
 
-    for (int y = 0; y <= area - width; y += width)
-        for (int x = y; x <= y + width - 2; x++)
+    for (int y = 0; y <= SCREENAREA - SCREENWIDTH; y += SCREENWIDTH)
+        for (int x = y; x <= y + SCREENWIDTH - 2; x++)
             dest[x] = tinttab50[(dest[x + 1] << 8) + dest[x]];
 
-    for (int y = 0; y <= area - width; y += width)
-        for (int x = y + width - 2; x > y; x--)
+    for (int y = 0; y <= SCREENAREA - SCREENWIDTH; y += SCREENWIDTH)
+        for (int x = y + SCREENWIDTH - 2; x > y; x--)
             dest[x] = tinttab50[(dest[x - 1] << 8) + dest[x]];
 
-    for (int y = width; y <= area - width * 2; y += width)
-        for (int x = y + 6; x <= y + width - 6; x++)
-            dest[x] = tinttab50[(dest[width * M_BigRandomInt(-1, 1) + x + M_BigRandomInt(-6, 6)] << 8) + dest[x]];
+    for (int y = SCREENWIDTH; y <= SCREENAREA - SCREENWIDTH * 2; y += SCREENWIDTH)
+        for (int x = y + 6; x <= y + SCREENWIDTH - 6; x++)
+            dest[x] = tinttab50[(dest[SCREENWIDTH * M_BigRandomInt(-1, 1) + x + M_BigRandomInt(-6, 6)] << 8) + dest[x]];
 
-    for (int y = area - width; y >= width; y -= width)
-        for (int x = y + width - 1; x >= y + 1; x--)
-            dest[x] = tinttab50[(dest[x - width - 1] << 8) + dest[x]];
+    for (int y = SCREENAREA - SCREENWIDTH; y >= SCREENWIDTH; y -= SCREENWIDTH)
+        for (int x = y + SCREENWIDTH - 1; x >= y + 1; x--)
+            dest[x] = tinttab50[(dest[x - SCREENWIDTH - 1] << 8) + dest[x]];
 
-    for (int y = 0; y <= area - width * 2; y += width)
-        for (int x = y; x <= y + width - 1; x++)
-            dest[x] = tinttab50[(dest[x + width] << 8) + dest[x]];
+    for (int y = 0; y <= SCREENAREA - SCREENWIDTH * 2; y += SCREENWIDTH)
+        for (int x = y; x <= y + SCREENWIDTH - 1; x++)
+            dest[x] = tinttab50[(dest[x + SCREENWIDTH] << 8) + dest[x]];
 
-    for (int y = area - width; y >= width; y -= width)
-        for (int x = y; x <= y + width - 1; x++)
-            dest[x] = tinttab50[(dest[x - width] << 8) + dest[x]];
+    for (int y = SCREENAREA - SCREENWIDTH; y >= SCREENWIDTH; y -= SCREENWIDTH)
+        for (int x = y; x <= y + SCREENWIDTH - 1; x++)
+            dest[x] = tinttab50[(dest[x - SCREENWIDTH] << 8) + dest[x]];
 
-    for (int y = 0; y <= area - width * 2; y += width)
-        for (int x = y + width - 1; x >= y + 1; x--)
-            dest[x] = tinttab50[(dest[x + width - 1] << 8) + dest[x]];
+    for (int y = 0; y <= SCREENAREA - SCREENWIDTH * 2; y += SCREENWIDTH)
+        for (int x = y + SCREENWIDTH - 1; x >= y + 1; x--)
+            dest[x] = tinttab50[(dest[x + SCREENWIDTH - 1] << 8) + dest[x]];
 
-    for (int y = area - width; y >= width; y -= width)
-        for (int x = y; x <= y + width - 2; x++)
-            dest[x] = tinttab50[(dest[x - width + 1] << 8) + dest[x]];
+    for (int y = SCREENAREA - SCREENWIDTH; y >= SCREENWIDTH; y -= SCREENWIDTH)
+        for (int x = y; x <= y + SCREENWIDTH - 2; x++)
+            dest[x] = tinttab50[(dest[x - SCREENWIDTH + 1] << 8) + dest[x]];
 }
 
 static void M_DrawMenuBorder(void)
@@ -508,13 +508,13 @@ static void M_DrawMenuBorder(void)
 //
 void M_DrawMenuBackground(void)
 {
-    static byte blurscreen1[MAXSCREENAREA];
+    static byte blurscreen[MAXSCREENAREA];
 
     if (gametime != blurtic)
     {
         for (int y = 2 * SCREENWIDTH; y < SCREENAREA; y += 4 * SCREENWIDTH)
         {
-            byte    *white = ((M_BigRandom() % 25) ? white25 : white33);
+            const byte  *white = ((M_BigRandom() % 25) ? white25 : white33);
 
             for (int x = 0; x < SCREENWIDTH; x++)
             {
@@ -524,11 +524,11 @@ void M_DrawMenuBackground(void)
             }
         }
 
-        M_BlurMenuBackground(screens[0], blurscreen1, SCREENWIDTH, SCREENAREA);
+        M_BlurMenuBackground(screens[0], blurscreen);
 
         for (int i = 0; i < SCREENAREA; i++)
         {
-            byte    *dot = blurscreen1 + i;
+            byte    *dot = blurscreen + i;
 
             *dot = black40[*dot];
         }
@@ -536,7 +536,7 @@ void M_DrawMenuBackground(void)
         blurtic = gametime;
     }
 
-    memcpy(screens[0], blurscreen1, SCREENAREA);
+    memcpy(screens[0], blurscreen, SCREENAREA);
 
     if (mapwindow)
         memset(mapscreen, nearestblack, MAPAREA);

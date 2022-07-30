@@ -116,7 +116,7 @@ static void FillBuffer(void)
 
     for (i = 0; i < STREAM_MAX_EVENTS; i++)
     {
-        native_event_t  *event = &buffer.events[i];
+        native_event_t  *ev = &buffer.events[i];
 
         if (song.position >= song.num_events)
         {
@@ -126,16 +126,15 @@ static void FillBuffer(void)
                 break;
         }
 
-        *event = song.native_events[song.position];
+        *ev = song.native_events[song.position];
 
-        if (MIDIEVENT_TYPE(event->dwEvent) == MIDI_EVENT_CONTROLLER
-            && MIDIEVENT_DATA1(event->dwEvent) == MIDI_CONTROLLER_MAIN_VOLUME)
+        if (MIDIEVENT_TYPE(ev->dwEvent) == MIDI_EVENT_CONTROLLER
+            && MIDIEVENT_DATA1(ev->dwEvent) == MIDI_CONTROLLER_MAIN_VOLUME)
         {
-            int volume = MIDIEVENT_VOLUME(event->dwEvent);
+            const int   volume = MIDIEVENT_VOLUME(ev->dwEvent);
 
-            channel_volume[MIDIEVENT_CHANNEL(event->dwEvent)] = volume;
-            event->dwEvent = ((event->dwEvent & 0xFF00FFFF)
-                | (((int)((float)volume * volume_factor) & 0x7F) << 16));
+            channel_volume[MIDIEVENT_CHANNEL(ev->dwEvent)] = volume;
+            ev->dwEvent = ((ev->dwEvent & 0xFF00FFFF) | (((int)((float)volume * volume_factor) & 0x7F) << 16));
         }
 
         song.position++;
@@ -149,7 +148,7 @@ static void StreamOut(void)
 {
     MIDIHDR     *hdr = &buffer.MidiStreamHdr;
     MMRESULT    mmr;
-    int         num_events = buffer.num_events;
+    const int   num_events = buffer.num_events;
 
     if (!num_events)
         return;
@@ -174,7 +173,7 @@ static void CALLBACK MidiStreamProc(HMIDIIN hMidi, UINT uMsg,
 // cause a deadlock." We use a thread to avoid possible deadlocks.
 static DWORD WINAPI PlayerProc(void)
 {
-    HANDLE  events[2] = { hBufferReturnEvent, hExitEvent };
+    const HANDLE    events[2] = { hBufferReturnEvent, hExitEvent };
 
     while (true)
         switch (WaitForMultipleObjects(2, events, FALSE, INFINITE))
@@ -208,8 +207,8 @@ static void FreeSong(void)
 // Convert a multi-track MIDI file to an array of Windows MIDIEVENT structures.
 static void MIDItoStream(midi_file_t *file)
 {
+    const int           num_tracks = MIDI_NumTracks(file);
     int                 non_meta_events = 0;
-    int                 num_tracks = MIDI_NumTracks(file);
     int                 current_time = 0;
     win_midi_track_t    *tracks = malloc(num_tracks * sizeof(win_midi_track_t));
 
