@@ -514,6 +514,7 @@ void M_DrawMenuBackground(void)
     {
         automapactive = false;
         reopenautomap = true;
+        viewactive = true;
         return;
     }
 
@@ -583,6 +584,7 @@ static void M_DrawHelpBackground(void)
     {
         automapactive = false;
         reopenautomap = true;
+        viewactive = true;
         return;
     }
 
