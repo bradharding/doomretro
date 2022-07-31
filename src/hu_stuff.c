@@ -1216,7 +1216,8 @@ void HU_Ticker(void)
             const int       x = center.x >> MAPBITS;
             const int       y = center.y >> MAPBITS;
 
-            M_snprintf(buffer, sizeof(buffer), s_STSTR_MYPOS, temp, x, y, R_PointInSubsector(x, y)->sector->floorheight >> FRACBITS);
+            M_snprintf(buffer, sizeof(buffer), s_STSTR_MYPOS,
+                temp, x, y, R_PointInSubsector(x, y)->sector->floorheight >> FRACBITS);
             free(temp);
         }
         else
@@ -1229,7 +1230,8 @@ void HU_Ticker(void)
             if ((mo->flags2 & MF2_FEETARECLIPPED) && r_liquid_lowerview)
                 z -= FOOTCLIPSIZE;
 
-            M_snprintf(buffer, sizeof(buffer), s_STSTR_MYPOS, temp, viewx >> FRACBITS, viewy >> FRACBITS, z >> FRACBITS);
+            M_snprintf(buffer, sizeof(buffer), s_STSTR_MYPOS,
+                temp, viewx >> FRACBITS, viewy >> FRACBITS, z >> FRACBITS);
             free(temp);
         }
 

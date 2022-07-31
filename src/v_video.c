@@ -593,7 +593,7 @@ void V_DrawConsoleSelectedTextPatch(int x, int y, patch_t *patch, int width,
 
         for (int i = 0; i < CONSOLELINEHEIGHT; i++)
         {
-            if (y + i >= CONSOLETOP)
+            if (y + i >= 0)
             {
                 if (*source == WHITE)
                     *dest = color;
@@ -620,7 +620,7 @@ void V_DrawConsoleTextPatch(int x, int y, patch_t *patch, int width,
 
         for (int i = 0; i < CONSOLELINEHEIGHT; i++)
         {
-            if (y + i >= CONSOLETOP && *source)
+            if (y + i >= 0 && *source)
             {
                 byte    *dot = dest;
 
@@ -676,7 +676,7 @@ void V_DrawConsolePatch(int x, int y, patch_t *patch, int maxwidth)
 
         while (count--)
         {
-            if (height > CONSOLETOP)
+            if (height > 0)
             {
                 *dest = tinttab60[(nearestcolors[*source] << 8) + *dest];
 
@@ -711,7 +711,7 @@ void V_DrawConsoleBrandingPatch(int x, int y, patch_t *patch, int color)
 
         while (count--)
         {
-            if (*source && height > CONSOLETOP)
+            if (*source && height > 0)
                 *dest = (*source == WHITE || *source == LIGHTGRAY ? nearestcolors[*source] : tinttab50[color + *dest]);
 
             source++;

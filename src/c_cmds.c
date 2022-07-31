@@ -1820,6 +1820,7 @@ static void clear_cmd_func2(char *cmd, char *parms)
 static void cmdlist_cmd_func2(char *cmd, char *parms)
 {
     const int   tabs[3] = { 40, 346, 0 };
+    const int   columnwidth = tabs[1] - tabs[0] - 5;
     int         count = 0;
 
     for (int i = 0; *consolecmds[i].name; i++)
@@ -1841,7 +1842,7 @@ static void cmdlist_cmd_func2(char *cmd, char *parms)
 
             len = (int)strlen(format);
 
-            while (C_TextWidth(format, true, true) > tabs[1] - tabs[0] - 5)
+            while (C_TextWidth(format, true, true) > columnwidth)
             {
                 if (len >= 2 && format[len - 2] == ' ')
                 {

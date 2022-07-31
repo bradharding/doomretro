@@ -96,8 +96,6 @@
 
 #define CONSOLEINPUTPIXELWIDTH              (SCREENWIDTH - CONSOLETEXTX - brandwidth - 2)
 
-#define CONSOLETOP                          0
-
 #define OVERLAYTEXTX                        (vid_widescreen ? 25 : 8)
 #define OVERLAYTEXTY                        (vid_widescreen ? 12 : 10)
 #define OVERLAYLINEHEIGHT                   14

@@ -645,32 +645,32 @@ static void C_DrawScrollbar(void)
 
         // draw scrollbar track
         for (int y = 0; y < trackend; y += SCREENWIDTH)
-            if (y - offset >= CONSOLETOP)
+            if (y - offset >= 0)
                 for (int x = CONSOLESCROLLBARX; x < CONSOLESCROLLBARX + CONSOLESCROLLBARWIDTH; x++)
                     screens[0][y - offset + x] = tinttab50[screens[0][y - offset + x] + consolescrollbartrackcolor];
 
         // init scrollbar grip
         if (faceend - facestart > 8)
             for (int y = gripstart; y < gripstart + 6 * SCREENWIDTH; y += 2 * SCREENWIDTH)
-                if (y - offset >= CONSOLETOP)
+                if (y - offset >= 0)
                     for (int x = CONSOLESCROLLBARX + 1; x < CONSOLESCROLLBARX + CONSOLESCROLLBARWIDTH - 1; x++)
                         screens[1][y - offset + x] = screens[0][y - offset + x];
 
         // draw scrollbar face
         for (int y = facestart * SCREENWIDTH; y < faceend * SCREENWIDTH; y += SCREENWIDTH)
-            if (y - offset >= CONSOLETOP)
+            if (y - offset >= 0)
                 for (int x = CONSOLESCROLLBARX; x < CONSOLESCROLLBARX + CONSOLESCROLLBARWIDTH; x++)
                     screens[0][y - offset + x] = consolescrollbarfacecolor;
 
         // draw scrollbar grip
         if (faceend - facestart > 8)
             for (int y = gripstart; y < gripstart + 6 * SCREENWIDTH; y += 2 * SCREENWIDTH)
-                if (y - offset >= CONSOLETOP)
+                if (y - offset >= 0)
                     for (int x = CONSOLESCROLLBARX + 1; x < CONSOLESCROLLBARX + CONSOLESCROLLBARWIDTH - 1; x++)
                         screens[0][y - offset + x] = screens[1][y - offset + x];
 
         // draw scrollbar face shadow
-        if (faceend * SCREENWIDTH - offset >= CONSOLETOP)
+        if (faceend * SCREENWIDTH - offset >= 0)
             for (int x = CONSOLESCROLLBARX; x < CONSOLESCROLLBARX + CONSOLESCROLLBARWIDTH; x++)
                 screens[0][faceend * SCREENWIDTH - offset + x] = tinttab20[screens[0][faceend * SCREENWIDTH - offset + x]];
 
@@ -1388,7 +1388,7 @@ void C_Drawer(void)
         {
             int yy = (y + 5 - (CONSOLEHEIGHT - consoleheight)) * SCREENWIDTH;
 
-            if (yy >= CONSOLETOP)
+            if (yy >= 0)
                 for (int xx = yy + CONSOLETEXTX; xx < yy + CONSOLETEXTPIXELWIDTH + CONSOLETEXTX; xx++)
                 {
                     byte    *dest = &screens[0][xx];
@@ -1396,7 +1396,7 @@ void C_Drawer(void)
                     *dest = tinttab50[consoledividercolor + *dest];
                 }
 
-            if ((yy += SCREENWIDTH) >= CONSOLETOP)
+            if ((yy += SCREENWIDTH) >= 0)
             {
                 byte    *tinttab = (!yy ? tinttab25 : tinttab50);
 
@@ -1533,7 +1533,7 @@ void C_Drawer(void)
                 {
                     int yy = CONSOLEINPUTY + i - (CONSOLEHEIGHT - consoleheight);
 
-                    if (yy >= CONSOLETOP)
+                    if (yy >= 0)
                         screens[0][yy * SCREENWIDTH + x - 1] = consoleselectedinputbackgroundcolor;
                 }
 
@@ -1545,7 +1545,7 @@ void C_Drawer(void)
                 {
                     int yy = CONSOLEINPUTY + i - (CONSOLEHEIGHT - consoleheight);
 
-                    if (yy >= CONSOLETOP)
+                    if (yy >= 0)
                         screens[0][yy * SCREENWIDTH + x] = consoleselectedinputbackgroundcolor;
                 }
             }
@@ -1594,7 +1594,7 @@ void C_Drawer(void)
             {
                 int yy = CONSOLEINPUTY + i - (CONSOLEHEIGHT - consoleheight);
 
-                if (yy >= CONSOLETOP)
+                if (yy >= 0)
                     screens[0][yy * SCREENWIDTH + x - 1] = consoleselectedinputbackgroundcolor;
             }
 
@@ -1606,7 +1606,7 @@ void C_Drawer(void)
             {
                 int yy = CONSOLEINPUTY + i - (CONSOLEHEIGHT - consoleheight);
 
-                if (yy >= CONSOLETOP)
+                if (yy >= 0)
                     screens[0][yy * SCREENWIDTH + x] = consoleselectedinputbackgroundcolor;
             }
         }
