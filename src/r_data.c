@@ -849,10 +849,10 @@ static void R_InitColormaps(void)
 
     for (int i = 0; i < 255; i++)
     {
-        const double    red = *palsrc++;
-        const double    green = *palsrc++;
-        const double    blue = *palsrc++;
-        int             gray = (int)(red * 0.2126 + green * 0.7152 + blue * 0.0722);
+        const byte  red = *palsrc++;
+        const byte  green = *palsrc++;
+        const byte  blue = *palsrc++;
+        byte        gray = (byte)(red * 0.2126 + green * 0.7152 + blue * 0.0722);
 
         grays[i] = FindNearestColor(PLAYPAL, gray, gray, gray);
 
@@ -882,8 +882,7 @@ int R_ColormapNumForName(char *name)
 
 //
 // R_InitData
-// Locates all the lumps
-//  that will be used by all views
+// Locates all the lumps that will be used by all views
 // Must be called after W_Init.
 //
 void R_InitData(void)

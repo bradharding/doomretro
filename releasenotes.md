@@ -12,7 +12,7 @@
 * Secrets are no longer considered as found if the player happens to walk into one while no clipping mode is enabled.
 * The following changes have been made to the menu’s background:
   * It now has a border with curved corners.
-  * The field of view now increases to `135°` regardless of the value of the `r_fov` CVAR.
+  * The field of view now increases to `135°`.
   * The view is now lowered to the ground.
   * The view is now vertically centered if the `mouselook` CVAR is `on`.
   * The spin may now sometimes reverse direction if the menu is closed, the player doesn’t move, and the menu is then reopened.
@@ -22,7 +22,7 @@
 * The following changes have been made to the help screen displayed by pressing the <kbd><b>F1</b></kbd> key:
   * Subtle noise is now applied to the background.
   * `HELP`, `HELP1` and `HELP2` lumps in PWADs that are wider than 320 pixels are now displayed correctly.
-  * The correct background is now displayed if the help screen is displayed while the automap is open.
+  * The correct background is now displayed if the help screen is opened while the automap is displayed.
 * If it doesn’t already exist, an `autoload` folder is now created during startup. Any `.wad`, `.deh` or `.bex` files that are placed in this folder, (or in the subfolder based on the name of the current WAD), will then always be automatically loaded during startup.
 * The number of gamma correction levels set by the `r_gamma` CVAR that are brighter than `1.0` has been reduced.
 * The `r_translucency` CVAR has been split into the following two CVARs:

@@ -1155,7 +1155,7 @@ void AM_Ticker(void)
     if (!automapactive && !mapwindow)
         return;
 
-    if (am_followmode || menuactive)
+    if (am_followmode)
         AM_DoFollowPlayer();
 
     // Change the zoom if necessary
@@ -1163,7 +1163,7 @@ void AM_Ticker(void)
         AM_ChangeWindowScale();
 
     // Change x,y location
-    if ((m_paninc.x || m_paninc.y) && !menuactive && !consoleactive && !paused)
+    if ((m_paninc.x || m_paninc.y) && !consoleactive && !paused)
         AM_ChangeWindowLoc();
 
     if (movement)
@@ -2043,7 +2043,7 @@ static void AM_SetFrameVariables(void)
     am_frame.center.x = x;
     am_frame.center.y = y;
 
-    if (am_rotatemode || (menuactive && !inhelpscreens))
+    if (am_rotatemode)
     {
         const int       angle = (ANG90 - viewangle) >> ANGLETOFINESHIFT;
         const fixed_t   r = (fixed_t)sqrt((double)dx * dx + (double)dy * dy);
@@ -2083,9 +2083,6 @@ void AM_Drawer(void)
 
     if (am_grid)
         AM_DrawGrid();
-
-    if (menuactive)
-        return;
 
     if (am_path)
         AM_DrawPath();
