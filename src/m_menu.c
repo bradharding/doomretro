@@ -510,6 +510,13 @@ void M_DrawMenuBackground(void)
 {
     static byte blurscreen[MAXSCREENAREA];
 
+    if (automapactive)
+    {
+        automapactive = false;
+        reopenautomap = true;
+        return;
+    }
+
     if (gametime != blurtic)
     {
         for (int y = 2 * SCREENWIDTH; y < SCREENAREA; y += 4 * SCREENWIDTH)
@@ -3648,22 +3655,12 @@ void M_StartControlPanel(void)
         playerviewz = viewplayer->viewz;
         menuspinspeed = 0;
 
-        if (automapactive)
-        {
-            AM_SetAutomapSize(r_screensize_max);
+        playerlookdir = viewplayer->lookdir;
+        viewplayer->lookdir = 0;
+        R_SetViewSize(r_screensize_max);
 
-            if (!am_rotatemode)
-                viewplayer->mo->angle = ANG90;
-        }
-        else
-        {
-            playerlookdir = viewplayer->lookdir;
-            viewplayer->lookdir = 0;
-            R_SetViewSize(r_screensize_max);
-
-            if (!inhelpscreens)
-                viewplayer->viewz = viewplayer->mo->floorz + MENUVIEWHEIGHT;
-        }
+        if (!inhelpscreens)
+            viewplayer->viewz = viewplayer->mo->floorz + MENUVIEWHEIGHT;
     }
 
     S_LowerMusicVolume();
