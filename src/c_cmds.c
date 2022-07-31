@@ -1826,6 +1826,7 @@ static void cmdlist_cmd_func2(char *cmd, char *parms)
         if (consolecmds[i].type == CT_CCMD)
         {
             char    format[255];
+            int     len;
 
             if (*parms && !wildcard(consolecmds[i].name, parms))
                 continue;
@@ -1834,11 +1835,33 @@ static void cmdlist_cmd_func2(char *cmd, char *parms)
                 C_Header(tabs, cmdlist, CMDLISTHEADER);
 
             if (M_StringCompare(consolecmds[i].name, "map"))
-                M_StringCopy(format, (gamemission == doom ? MAPCMDFORMAT1 : MAPCMDFORMAT2), sizeof(format));
+                M_snprintf(format, sizeof(format), BOLD("map") " %s", (gamemission == doom ? MAPCMDFORMAT1 : MAPCMDFORMAT2));
             else
-                M_StringCopy(format, consolecmds[i].format, sizeof(format));
+                M_snprintf(format, sizeof(format), BOLD("%s") " %s", consolecmds[i].name, consolecmds[i].format);
 
-            C_TabbedOutput(tabs, "%i.\t" BOLD("%s") " %s\t%s", count, consolecmds[i].name, format, consolecmds[i].description);
+            len = (int)strlen(format);
+
+            while (C_TextWidth(format, true, true) > tabs[1] - tabs[0] - 5)
+            {
+                if (len >= 2 && format[len - 2] == ' ')
+                {
+                    format[len - 2] = '.';
+                    format[len - 1] = '.';
+                    format[len] = '.';
+                    format[len + 1] = '\0';
+                }
+                else if (len >= 1)
+                {
+                    format[len - 1] = '.';
+                    format[len] = '.';
+                    format[len + 1] = '.';
+                    format[len + 2] = '\0';
+                }
+
+                len--;
+            }
+
+            C_TabbedOutput(tabs, "%i.\t%s\t%s", count, format, consolecmds[i].description);
         }
 }
 

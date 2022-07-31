@@ -488,7 +488,7 @@ const kern_t altkern[] =
     { 'v',  'j',  -2 }, { 'w',  'j',  -2 }, { 'x',  'j',  -2 }, { 'z',  'j',  -2 }, { '\0', '\0',  0 }
 };
 
-static int C_TextWidth(const char *text, const bool formatting, const bool kerning)
+int C_TextWidth(const char *text, const bool formatting, const bool kerning)
 {
     bool            italics = false;
     const int       len = (int)strlen(text);
@@ -968,6 +968,9 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
                     x = (x > tabs[++tab] + 18 ? x + spacewidth : tabs[tab] + 18);
                 else
                     x = (x > tabs[++tab] ? x + spacewidth : tabs[tab]);
+
+                bold = false;
+                italics = false;
             }
             else if (letter == 149)
                 patch = bullet;
