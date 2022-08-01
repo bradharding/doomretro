@@ -15,7 +15,7 @@
   * The field of view now increases to `135°`.
   * The view is now lowered to the ground.
   * The view is now vertically centered if the `mouselook` CVAR is `on`.
-  * The spin may now sometimes reverse direction if the menu is closed, the player doesn’t move, and the menu is then reopened.
+  * The spin now sometimes reverses direction if the menu is closed, the player doesn’t move, and the menu is then reopened.
   * The automap is no longer used as the background if the menu is opened while it is displayed.
   * Unmapped lines in the automap no longer become mapped while the view spins.
 * The text caret is now always positioned correctly when entering a savegame description in the savegame menu.

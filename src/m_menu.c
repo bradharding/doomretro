@@ -701,7 +701,7 @@ void M_DrawString(int x, int y, char *string)
             for (int y1 = 0; y1 < 18; y1++)
                 for (int x1 = 0; x1 < width; x1++)
                 {
-                    char    dot = redcharset[j][y1 * width + x1];
+                    const char  dot = redcharset[j][y1 * width + x1];
 
                     if (dot == '\xC8')
                     {
@@ -998,9 +998,9 @@ static void M_DrawLoad(void)
 
     for (int i = 0; i < load_end; i++)
     {
-        int     y = LoadDef.y + LINEHEIGHT * i + OFFSET;
-        int     len;
-        char    buffer[SAVESTRINGSIZE];
+        const int   y = LoadDef.y + LINEHEIGHT * i + OFFSET;
+        int         len;
+        char        buffer[SAVESTRINGSIZE];
 
         M_DrawSaveLoadBorder(LoadDef.x - 11, y - 4);
 
@@ -1584,13 +1584,9 @@ static void M_DrawMainMenu(void)
         M_DrawCenteredPatchWithShadow(11 + OFFSET, patch);
     else
     {
-        int y = 11 + OFFSET;
-        int dot1 = screens[0][(y * SCREENWIDTH + 98 + WIDESCREENDELTA) * SCREENSCALE];
-        int dot2 = screens[0][((y + 1) * SCREENWIDTH + 99 + WIDESCREENDELTA) * SCREENSCALE];
-
-        M_DrawCenteredPatchWithShadow(y, patch);
-        V_DrawPixel(98, y, dot1, false);
-        V_DrawPixel(99, y + 1, dot2, false);
+        M_DrawCenteredPatchWithShadow(11 + OFFSET, patch);
+        V_DrawPixel(98, 11 + OFFSET, screens[0][((11 + OFFSET) * SCREENWIDTH + 98 + WIDESCREENDELTA) * SCREENSCALE], false);
+        V_DrawPixel(99, 12 + OFFSET, screens[0][((12 + OFFSET) * SCREENWIDTH + 99 + WIDESCREENDELTA) * SCREENSCALE], false);
     }
 }
 
@@ -1602,7 +1598,7 @@ bool            EpiCustom = false;
 static short    EpiMenuMap[] = { 1, 1, 1, 1, -1, -1, -1, -1 };
 static short    EpiMenuEpi[] = { 1, 2, 3, 4, -1, -1, -1, -1 };
 
-void M_AddEpisode(int map, int ep, const char *lumpname, const char *string)
+void M_AddEpisode(const int map, const int ep, const char *lumpname, const char *string)
 {
     if (!EpiCustom)
     {

@@ -2956,11 +2956,10 @@ void A_Fall(mobj_t *actor, player_t *player, pspdef_t *psp);
 static void kill_cmd_func2(char *cmd, char *parms)
 {
     char    *parm = removenonalpha(parms);
-    char    *killed = (M_StringCompare(cmd, "explode") ? "exploded" : (M_StringCompare(cmd, "remove") ? "removed" : "killed"));
 
     if (!*parm || gamestate != GS_LEVEL)
     {
-        int i = C_GetIndex(cmd);
+        const int   i = C_GetIndex(cmd);
 
         C_ShowDescription(i);
         C_Output(BOLD("%s") " %s", cmd, consolecmds[i].format);
@@ -2970,6 +2969,8 @@ static void kill_cmd_func2(char *cmd, char *parms)
     }
     else
     {
+        char    *killed = (M_StringCompare(cmd, "explode") ? "exploded" : (M_StringCompare(cmd, "remove") ? "removed" : "killed"));
+
         if (M_StringCompare(parm, "player") || M_StringCompare(parm, "me") || (*playername && M_StringCompare(parm, playername)))
         {
             massacre = true;
@@ -7997,7 +7998,7 @@ static void am_gridsize_cvar_func2(char *cmd, char *parms)
     }
     else
     {
-        int i = C_GetIndex(cmd);
+        const int   i = C_GetIndex(cmd);
 
         C_ShowDescription(i);
 
@@ -9030,7 +9031,7 @@ static void r_lowpixelsize_cvar_func2(char *cmd, char *parms)
     }
     else
     {
-        int i = C_GetIndex(cmd);
+        const int   i = C_GetIndex(cmd);
 
         C_ShowDescription(i);
 
@@ -9820,7 +9821,7 @@ static void vid_scaleapi_cvar_func2(char *cmd, char *parms)
     }
     else
     {
-        int i = C_GetIndex(cmd);
+        const int   i = C_GetIndex(cmd);
 
         C_ShowDescription(i);
 
@@ -9856,7 +9857,7 @@ static void vid_scalefilter_cvar_func2(char *cmd, char *parms)
     }
     else
     {
-        int i = C_GetIndex(cmd);
+        const int   i = C_GetIndex(cmd);
 
         C_ShowDescription(i);
 
@@ -9888,7 +9889,7 @@ static void vid_screenresolution_cvar_func2(char *cmd, char *parms)
     }
     else
     {
-        int i = C_GetIndex(cmd);
+        const int   i = C_GetIndex(cmd);
 
         C_ShowDescription(i);
 
@@ -10016,7 +10017,7 @@ static void vid_windowpos_cvar_func2(char *cmd, char *parms)
     }
     else
     {
-        int i = C_GetIndex(cmd);
+        const int   i = C_GetIndex(cmd);
 
         C_ShowDescription(i);
 
@@ -10048,7 +10049,7 @@ static void vid_windowsize_cvar_func2(char *cmd, char *parms)
     }
     else
     {
-        int i = C_GetIndex(cmd);
+        const int   i = C_GetIndex(cmd);
 
         C_ShowDescription(i);
 
