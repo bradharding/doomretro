@@ -838,7 +838,7 @@ static void P_SpawnBloodOnMelee(mobj_t *target, const int damage)
         {
             const unsigned int  an = viewangle >> ANGLETOFINESHIFT;
 
-            P_SpawnBlood(viewx + 20 * finecosine[an], viewy + 20 * finecosine[an], viewz, 0, damage, target);
+            P_SpawnBlood(viewx + 20 * finecosine[an], viewy + 20 * finesine[an], viewz, 0, damage, target);
         }
     }
     else if (!(target->flags & MF_NOBLOOD))
