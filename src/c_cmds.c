@@ -2846,7 +2846,12 @@ bool            massacre;
 static bool kill_cmd_func1(char *cmd, char *parms)
 {
     bool    result = false;
-    char    *parm = removenonalpha(parms);
+    char    *parm;
+
+    if (gamestate != GS_LEVEL)
+        return false;
+
+    parm = removenonalpha(parms);
 
     if (!*parm)
         return true;
@@ -2957,15 +2962,12 @@ static void kill_cmd_func2(char *cmd, char *parms)
 {
     char    *parm = removenonalpha(parms);
 
-    if (!*parm || gamestate != GS_LEVEL)
+    if (!*parm)
     {
         const int   i = C_GetIndex(cmd);
 
         C_ShowDescription(i);
         C_Output(BOLD("%s") " %s", cmd, consolecmds[i].format);
-
-        if (gamestate != GS_LEVEL)
-            C_Warning(0, "It can only be used during a game.");
     }
     else
     {
