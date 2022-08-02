@@ -80,7 +80,7 @@ void I_InitWindows32(void);
 int             SCREENWIDTH;
 int             SCREENHEIGHT = VANILLAHEIGHT * SCREENSCALE;
 int             SCREENAREA;
-int             WIDESCREENDELTA;    // [crispy] horizontal widescreen offset
+int             WIDESCREENDELTA; 
 int             WIDEFOVDELTA;
 
 bool            nowidescreen = false;
