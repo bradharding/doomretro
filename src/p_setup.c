@@ -3601,126 +3601,126 @@ static bool P_ParseMapInfo(char *scriptname)
     return true;
 }
 
-char *P_GetMapAuthor(int map)
+char *P_GetMapAuthor(const int map)
 {
     return (MAPINFO >= 0 && mapinfo[map].author[0] ? mapinfo[map].author : (((E1M4B || *speciallumpname) && map == 4)
         || ((E1M8B || *speciallumpname) && map == 8) || (onehumanity && map == 1) ? s_AUTHOR_ROMERO : ""));
 }
 
-char *P_GetInterBackrop(int map)
+char *P_GetInterBackrop(const int map)
 {
     return mapinfo[map].interbackdrop;
 }
 
-int P_GetInterMusic(int map)
+int P_GetInterMusic(const int map)
 {
     return mapinfo[map].intermusic;
 }
 
-char *P_GetInterText(int map)
+char *P_GetInterText(const int map)
 {
     return mapinfo[map].intertext;
 }
 
-char *P_GetInterSecretText(int map)
+char *P_GetInterSecretText(const int map)
 {
     return mapinfo[map].intertextsecret;
 }
 
-bool P_GetMapEndBunny(int map)
+bool P_GetMapEndBunny(const int map)
 {
     return mapinfo[map].endbunny;
 }
 
-bool P_GetMapEndCast(int map)
+bool P_GetMapEndCast(const int map)
 {
     return mapinfo[map].endcast;
 }
 
-bool P_GetMapEndGame(int map)
+bool P_GetMapEndGame(const int map)
 {
     return mapinfo[map].endgame;
 }
 
-int P_GetMapEndPic(int map)
+int P_GetMapEndPic(const int map)
 {
     return mapinfo[map].endpic;
 }
 
-int P_GetMapEnterPic(int map)
+int P_GetMapEnterPic(const int map)
 {
     return mapinfo[map].enterpic;
 }
 
-int P_GetMapExitPic(int map)
+int P_GetMapExitPic(const int map)
 {
     return mapinfo[map].exitpic;
 }
 
-void P_GetMapLiquids(int map)
+void P_GetMapLiquids(const int map)
 {
     for (int i = 0; i < liquidlumps; i++)
         terraintypes[mapinfo[map].liquid[i]] = LIQUID;
 }
 
-int P_GetMapMusic(int map)
+int P_GetMapMusic(const int map)
 {
     return mapinfo[map].music;
 }
 
-char *P_GetMapMusicComposer(int map)
+char *P_GetMapMusicComposer(const int map)
 {
     return mapinfo[map].musiccomposer;
 }
 
-char *P_GetMapMusicTitle(int map)
+char *P_GetMapMusicTitle(const int map)
 {
     return mapinfo[map].musictitle;
 }
 
-char *P_GetMapName(int map)
+char *P_GetMapName(const int map)
 {
     return (MAPINFO >= 0 && !sigil ? mapinfo[map].name : ((E1M4B || *speciallumpname) && map == 4 ? s_HUSTR_E1M4B :
         ((E1M8B || *speciallumpname) && map == 8 ? s_HUSTR_E1M8B : "")));
 }
 
-int P_GetMapNext(int map)
+int P_GetMapNext(const int map)
 {
     return mapinfo[map].next;
 }
 
-void P_GetMapNoLiquids(int map)
+void P_GetMapNoLiquids(const int map)
 {
     for (int i = 0; i < noliquidlumps; i++)
         terraintypes[mapinfo[map].noliquid[i]] = SOLID;
 }
 
-int P_GetMapPar(int map)
+int P_GetMapPar(const int map)
 {
     return mapinfo[map].par;
 }
 
-bool P_GetMapPistolStart(int map)
+bool P_GetMapPistolStart(const int map)
 {
     return mapinfo[map].pistolstart;
 }
 
-int P_GetMapSecretNext(int map)
+int P_GetMapSecretNext(const int map)
 {
     return mapinfo[map].secretnext;
 }
 
-int P_GetMapSky1Texture(int map)
+int P_GetMapSky1Texture(const int map)
 {
     return mapinfo[map].sky1texture;
 }
 
-int P_GetMapSky1ScrollDelta(int map)
+int P_GetMapSky1ScrollDelta(const int map)
 {
     return mapinfo[map].sky1scrolldelta;
 }
 
-int P_GetMapTitlePatch(int map)
+int P_GetMapTitlePatch(const int map)
 {
     return mapinfo[map].titlepatch;
 }

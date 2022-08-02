@@ -43,7 +43,7 @@
 
 static SDL_GameController   *gamecontroller;
 static bool                 gamecontrollerconnected;
-static bool                 gamecontrollerhasrumble;
+static bool                 gamecontrollerrumbles;
 
 int                         gamecontrollerbuttons = 0;
 short                       gamecontrollerthumbLX = 0;
@@ -93,9 +93,9 @@ void I_InitGameController(void)
                 repeated = C_OutputNoRepeat("A controller is connected.");
 
             if (SDL_GameControllerHasRumble(gamecontroller))
-                gamecontrollerhasrumble = true;
+                gamecontrollerrumbles = true;
             else if (!repeated && (joy_rumble_damage || joy_rumble_barrels || joy_rumble_weapons))
-                C_Warning(1, "This controller doesn't support rumble.");
+                C_Warning(1, "This controller doesn't rumble.");
 
             I_SetGameControllerLeftDeadZone();
             I_SetGameControllerRightDeadZone();
@@ -116,17 +116,19 @@ void I_ShutdownGameController(void)
     SDL_GameControllerSetLED(gamecontroller, 0, 0, 255);
 
     gamecontrollerconnected = false;
-    gamecontrollerhasrumble = false;
+    gamecontrollerrumbles = false;
 
     SDL_GameControllerClose(gamecontroller);
 }
 
 void I_GameControllerRumble(int strength)
 {
-    if (!gamecontrollerhasrumble)
+    if (!gamecontrollerrumbles)
         return;
 
-    if (!strength || (lasteventtype == ev_controller && (strength == idlechainsawrumblestrength || strength >= currentstrength)))
+    if (!strength
+        || (lasteventtype == ev_controller
+            && (strength == idlechainsawrumblestrength || strength >= currentstrength)))
     {
         currentstrength = strength;
         SDL_GameControllerRumble(gamecontroller, currentstrength, currentstrength, UINT32_MAX);
@@ -135,7 +137,7 @@ void I_GameControllerRumble(int strength)
 
 void I_UpdateGameControllerRumble(void)
 {
-    if (gamecontrollerhasrumble
+    if (gamecontrollerrumbles
         && ((weaponrumbletics && !--weaponrumbletics && !damagerumbletics && !barrelrumbletics)
             || (damagerumbletics && !--damagerumbletics && !barrelrumbletics)
             || (barrelrumbletics && !--barrelrumbletics))
@@ -148,7 +150,7 @@ void I_UpdateGameControllerRumble(void)
 
 void I_StopGameControllerRumble(void)
 {
-    if (!gamecontrollerhasrumble)
+    if (!gamecontrollerrumbles)
         return;
 
     SDL_GameControllerRumble(gamecontroller, 0, 0, 0);
