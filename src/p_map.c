@@ -458,7 +458,11 @@ static bool PIT_CheckThing(mobj_t *thing)
     if (thing == tmthing)
         return true;
 
-    // [BH] apply small amount of momentum to a corpse or dropped item when walked over
+    // killough 11/98: add touchy things
+    if (!(flags & (MF_SOLID | MF_SPECIAL | MF_SHOOTABLE | MF_TOUCHY)))
+        return true;
+
+    // [BH] nudge corpse or dropped item when walked over
     if (((corpse && type != MT_BARREL) || (flags & MF_DROPPED)) && !thing->nudge && thing->floorz == tmthing->floorz
         && ((tmflags & MF_SHOOTABLE) || ((tmflags & MF_CORPSE) && (tmthing->momx || tmthing->momy))) && r_corpses_nudge)
         if (P_ApproxDistance(thing->x - tmthing->x, thing->y - tmthing->y) < 16 * FRACUNIT)
@@ -475,10 +479,6 @@ static bool PIT_CheckThing(mobj_t *thing)
                 thing->momy /= 2;
             }
         }
-
-    // killough 11/98: add touchy things
-    if (!(flags & (MF_SOLID | MF_SPECIAL | MF_SHOOTABLE | MF_TOUCHY)))
-        return true;
 
     // [BH] specify standard radius of 20 for pickups here as thing->radius
     // has been changed to allow better clipping
@@ -497,8 +497,8 @@ static bool PIT_CheckThing(mobj_t *thing)
         && thing->health > 0                                            // touchy object is alive
         && ((thing->flags2 & MF2_ARMED)                                 // Thing is an armed mine
             || sentient(thing))                                         // ...or a sentient thing
-        && (thing->type != tmtype                                       // only different species
-            || thing->type == MT_PLAYER)                                // ...or different players
+        && (type != tmtype                                              // only different species
+            || type == MT_PLAYER)                                       // ...or different players
         && thing->z + thing->height >= tmthing->z                       // touches vertically
         && tmthing->z + tmthing->height >= thing->z
         && ((type ^ MT_PAIN) | (tmtype ^ MT_SKULL))                     // PEs and lost souls are considered same
@@ -617,7 +617,7 @@ static bool PIT_CheckThing(mobj_t *thing)
         // damage/explode
         P_DamageMobj(thing, tmthing, tmthing->target, ((M_Random() & 7) + 1) * tmthing->info->damage, true, false);
 
-        if (thing->type != MT_BARREL)
+        if (type != MT_BARREL)
         {
             if (tmtype == MT_PLASMA)
             {

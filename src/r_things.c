@@ -724,7 +724,7 @@ static void R_ProjectSprite(mobj_t *thing)
     xscale = FixedDiv(projection, tz);
 
     // killough 04/09/98: clip things which are out of view due to height
-    if (fz > viewz + FixedDiv(viewheightfrac, xscale)
+    if (fz > (int64_t)viewz + FixedDiv(viewheightfrac, xscale)
         || gzt < (int64_t)viewz - FixedDiv(viewheightfrac - viewheight, xscale))
         return;
 
@@ -1000,7 +1000,7 @@ void R_AddSprites(sector_t *sec, int lightlevel)
 //
 static bool muzzleflash;
 
-static void R_DrawPlayerSprite(pspdef_t *psp, bool invisibility, bool texture, bool altered)
+static void R_DrawPlayerSprite(pspdef_t *psp, bool invisibility, bool altered)
 {
     fixed_t             tx;
     int                 x1, x2;
@@ -1072,7 +1072,7 @@ static void R_DrawPlayerSprite(pspdef_t *psp, bool invisibility, bool texture, b
     if (mouselook && r_screensize < r_screensize_max)
         vis->texturemid -= viewplayer->lookdir * 0x05C0;
 
-    if (invisibility && texture)
+    if (invisibility && r_textures)
     {
         vis->colfunc = psprcolfunc;
         vis->colormap = NULL;
@@ -1081,7 +1081,7 @@ static void R_DrawPlayerSprite(pspdef_t *psp, bool invisibility, bool texture, b
     {
         if (r_sprites_translucency)
         {
-            if (!texture)
+            if (!r_textures)
             {
                 vis->colfunc = (psp == &viewplayer->psprites[1] || invisibility ? &R_DrawTranslucent50ColorColumn : &R_DrawColorColumn);
                 vis->colormap = NULL;
@@ -1118,7 +1118,7 @@ static void R_DrawPlayerSprite(pspdef_t *psp, bool invisibility, bool texture, b
         }
         else
         {
-            if (!texture)
+            if (!r_textures)
             {
                 vis->colfunc = &R_DrawColorColumn;
                 vis->colormap = NULL;
@@ -1152,7 +1152,7 @@ static void R_DrawPlayerSprite(pspdef_t *psp, bool invisibility, bool texture, b
 static void R_DrawPlayerSprites(void)
 {
     int         invisibility = viewplayer->powers[pw_invisibility];
-    bool        altered = (weaponinfo[viewplayer->readyweapon].altered || !r_fixspriteoffsets);
+    const bool  altered = (weaponinfo[viewplayer->readyweapon].altered || !r_fixspriteoffsets);
     pspdef_t    *weapon = viewplayer->psprites;
     pspdef_t    *flash = weapon + 1;
     state_t     *weaponstate = weapon->state;
@@ -1162,10 +1162,10 @@ static void R_DrawPlayerSprites(void)
     if ((invisibility = (invisibility > STARTFLASHING || (invisibility & FLASHONTIC))) && r_textures)
     {
         V_FillRect(1, viewwindowx, viewwindowy, viewwidth, viewheight, PINK, false);
-        R_DrawPlayerSprite(weapon, true, true, (weaponstate->dehacked || altered));
+        R_DrawPlayerSprite(weapon, true, (weaponstate->dehacked || altered));
 
         if (flashstate)
-            R_DrawPlayerSprite(flash, true, true, (flashstate->dehacked || altered));
+            R_DrawPlayerSprite(flash, true, (flashstate->dehacked || altered));
 
         if (pausesprites)
             R_DrawPausedFuzzColumns();
@@ -1180,11 +1180,11 @@ static void R_DrawPlayerSprites(void)
         {
             muzzleflash |= (flashstate->frame & FF_FULLBRIGHT);
 
-            R_DrawPlayerSprite(weapon, invisibility, r_textures, (weaponstate->dehacked || altered));
-            R_DrawPlayerSprite(flash, invisibility, r_textures, (flashstate->dehacked || altered));
+            R_DrawPlayerSprite(weapon, false, (weaponstate->dehacked || altered));
+            R_DrawPlayerSprite(flash, false, (flashstate->dehacked || altered));
         }
         else
-            R_DrawPlayerSprite(weapon, invisibility, r_textures, (weaponstate->dehacked || altered));
+            R_DrawPlayerSprite(weapon, false, (weaponstate->dehacked || altered));
     }
 }
 

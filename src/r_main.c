@@ -389,7 +389,7 @@ void R_ExecuteSetViewSize(void)
     centerxfrac = centerx << FRACBITS;
     fovscale = finetangent[FINEANGLES / 4 + ((menuactive && !inhelpscreens ? r_fov_max : r_fov) + WIDEFOVDELTA) * FINEANGLES / 360 / 2];
     projection = FixedDiv(centerxfrac, fovscale);
-    viewheightfrac = viewheight << FRACBITS;
+    viewheightfrac = viewheight << (FRACBITS + 2);
 
     R_InitBuffer();
     R_InitTextureMapping();
