@@ -114,8 +114,10 @@ void I_SetMusicVolume(int volume)
     if (midimusictype && windowsmidi)
         I_Windows_SetMusicVolume(current_music_volume);
     else
-#endif
         Mix_VolumeMusic(current_music_volume / 2);
+#else
+    Mix_VolumeMusic(current_music_volume / 2);
+#endif
 }
 
 // Start playing a mid
@@ -128,8 +130,10 @@ void I_PlaySong(void *handle, bool looping)
     if (midimusictype && windowsmidi)
         I_Windows_PlaySong(looping);
     else if (handle)
-#endif
         Mix_PlayMusic(handle, (looping ? -1 : 1));
+#else
+    Mix_PlayMusic(handle, (looping ? -1 : 1));
+#endif
 }
 
 void I_PauseSong(void)
@@ -155,14 +159,17 @@ void I_ResumeSong(void)
     if (!music_initialized)
         return;
 
-    if (midimusictype)
 #if defined(_WIN32)
+    if (midimusictype)
         I_Windows_ResumeSong();
-#else
-        Mix_VolumeMusic(paused_midi_volume);
-#endif
     else
         Mix_ResumeMusic();
+#else
+    if (midimusictype)
+        Mix_VolumeMusic(paused_midi_volume);
+    else
+        Mix_ResumeMusic();
+#endif
 }
 
 void I_StopSong(void)
@@ -250,7 +257,7 @@ void *I_RegisterSong(void *data, int size)
 #endif
 
         if ((rwops = SDL_RWFromMem(data, size)))
-            music = Mix_LoadMUS_RW(rwops, SDL_FALSE);
+            music = Mix_LoadMUS_RW(rwops, 0);
 
         return music;
     }
