@@ -430,8 +430,8 @@ void R_ExecuteSetViewSize(void)
             const int   level = BETWEEN(0, start - j * SCREENWIDTH / (viewwidth * 2), NUMCOLORMAPS - 1) * 256;
 
             // killough 03/20/98: initialize multiple colormaps
-            for (int t = 0; t < numcolormaps; t++)
-                c_scalelight[t][i][j] = &colormaps[t][level];
+            for (int k = 0; k < numcolormaps; k++)
+                c_scalelight[k][i][j] = &colormaps[k][level];
         }
     }
 
@@ -444,8 +444,8 @@ void R_ExecuteSetViewSize(void)
         {
             const int   level = BETWEEN(0, start - j / 2, NUMCOLORMAPS - 1) * 256;
 
-            for (int t = 0; t < numcolormaps; t++)
-                c_psprscalelight[t][i][j] = &colormaps[t][level];
+            for (int k = 0; k < numcolormaps; k++)
+                c_psprscalelight[k][i][j] = &colormaps[k][level];
         }
     }
 }

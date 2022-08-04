@@ -881,9 +881,9 @@ static void R_ProjectBloodSplat(const bloodsplat_t *splat)
         return;
 
     if ((splatdist = P_ApproxDistance(splat->x - mo->x, splat->y - mo->y)) > (5000 << FRACBITS)
-        || (splatdist > (2500 << FRACBITS) && skipsplat[0]++ % 2)
-        || (splatdist > (1250 << FRACBITS) && skipsplat[1]++ % 3)
-        || (splatdist > (625 << FRACBITS) && skipsplat[2]++ % 4))
+        || (splatdist > (2500 << FRACBITS) && (skipsplat[0]++ % 2))
+        || (splatdist > (1250 << FRACBITS) && (skipsplat[1]++ % 3))
+        || (splatdist > (625 << FRACBITS) && (skipsplat[2]++ % 4)))
         return;
 
     // too far off the side?
@@ -1159,7 +1159,7 @@ static void R_DrawPlayerSprites(void)
     state_t     *flashstate = flash->state;
 
     // add all active psprites
-    if ((invisibility = (invisibility > STARTFLASHING || (invisibility & FLASHONTIC))) && r_textures)
+    if (invisibility && (invisibility = (invisibility > STARTFLASHING || (invisibility & FLASHONTIC))) && r_textures)
     {
         V_FillRect(1, viewwindowx, viewwindowy, viewwidth, viewheight, PINK, false);
         R_DrawPlayerSprite(weapon, true, (weaponstate->dehacked || altered));
