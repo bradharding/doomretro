@@ -304,24 +304,25 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
 
 void P_ResurrectMobj(mobj_t *target);
 
-extern int  god_health;
-extern int  idfa_armor;
-extern int  idfa_armor_class;
-extern int  idkfa_armor;
-extern int  idkfa_armor_class;
-extern int  initial_health;
-extern int  initial_bullets;
-extern int  maxhealth;
-extern int  max_armor;
-extern int  green_armor_class;
-extern int  blue_armor_class;
-extern int  max_soul;
-extern int  soul_health;
-extern int  mega_health;
-extern int  bfgcells;
-extern bool species_infighting;
-extern int  maxammo[];
-extern int  clipammo[];
+extern int          god_health;
+extern int          idfa_armor;
+extern int          idfa_armor_class;
+extern int          idkfa_armor;
+extern int          idkfa_armor_class;
+extern int          initial_health;
+extern int          initial_bullets;
+extern int          maxhealth;
+extern int          max_armor;
+extern int          green_armor_class;
+extern int          blue_armor_class;
+extern int          max_soul;
+extern int          soul_health;
+extern int          mega_health;
+extern int          bfgcells;
+extern bool         species_infighting;
+extern int          maxammo[];
+extern int          clipammo[];
+extern mobjtype_t   prevtouchtype;
 
 //
 // P_SPEC.C

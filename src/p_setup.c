@@ -3090,6 +3090,8 @@ void P_SetupLevel(int ep, int map)
 
     P_InitCards();
 
+    prevtouchtype = MT_NULL;
+
     // set up world state
     P_SpawnSpecials();
     P_SetLifts();

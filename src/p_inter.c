@@ -59,27 +59,29 @@
 // Maximums and such were hardcoded values. Need to externalize those for
 // dehacked support (and future flexibility). Most var names came from the key
 // strings used in dehacked.
-int     initial_health = 100;
-int     initial_bullets = 50;
-int     maxhealth = MAXHEALTH * 2;
-int     max_armor = 200;
-int     green_armor_class = armortype_green;
-int     blue_armor_class = armortype_blue;
-int     max_soul = 200;
-int     soul_health = 100;
-int     mega_health = 200;
-int     god_health = 100;
-int     idfa_armor = 200;
-int     idfa_armor_class = armortype_blue;
-int     idkfa_armor = 200;
-int     idkfa_armor_class = armortype_blue;
-int     bfgcells = BFGCELLS;
-bool    species_infighting = false;
+int         initial_health = 100;
+int         initial_bullets = 50;
+int         maxhealth = MAXHEALTH * 2;
+int         max_armor = 200;
+int         green_armor_class = armortype_green;
+int         blue_armor_class = armortype_blue;
+int         max_soul = 200;
+int         soul_health = 100;
+int         mega_health = 200;
+int         god_health = 100;
+int         idfa_armor = 200;
+int         idfa_armor_class = armortype_blue;
+int         idkfa_armor = 200;
+int         idkfa_armor_class = armortype_blue;
+int         bfgcells = BFGCELLS;
+bool        species_infighting = false;
 
 // a weapon is found with two clip loads,
 // a big item has five clip loads
-int     maxammo[] =  { 200, 50, 300, 50 };
-int     clipammo[] = {  10,  4,  20,  1 };
+int         maxammo[] =  { 200, 50, 300, 50 };
+int         clipammo[] = {  10,  4,  20,  1 };
+
+mobjtype_t  prevtouchtype;
 
 void P_UpdateAmmoStat(const ammotype_t ammotype, const int num)
 {
@@ -713,7 +715,6 @@ bool P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, const bool message, c
     int         sound = sfx_itemup;
     static int  prevsound;
     static int  prevtic;
-    static int  prevtype;
     static int  prevx, prevy;
     int         temp;
     bool        duplicate;
@@ -729,7 +730,7 @@ bool P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, const bool message, c
     if ((delta = special->z - toucher->z) > toucher->height || delta < -8 * FRACUNIT)
         return false;   // out of reach
 
-    duplicate = (special->type == prevtype && special->x == prevx && special->y == prevy);
+    duplicate = (special->type == prevtouchtype && special->x == prevx && special->y == prevy);
 
     // Identify by sprite.
     switch (special->sprite)
@@ -1217,7 +1218,6 @@ bool P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, const bool message, c
     if (sound != prevsound || gametime != prevtic)
     {
         prevsound = sound;
-        prevtic = gametime;
         S_StartSound(viewplayer->mo, sound);
     }
 
@@ -1226,9 +1226,10 @@ bool P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, const bool message, c
     if (!duplicate)
         P_AddBonus();
 
-    prevtype = special->type;
+    prevtouchtype = special->type;
     prevx = special->x;
     prevy = special->y;
+    prevtic = gametime;
 
     return true;
 }
