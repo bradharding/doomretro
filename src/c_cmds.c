@@ -4431,13 +4431,7 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
         }
 
         outside = outside * 100 / numsectors;
-
-        if (!outside)
-            C_TabbedOutput(tabs, INDENT "Inside\t100%%");
-        else if (outside == 100)
-            C_TabbedOutput(tabs, INDENT "Outside\t100%%");
-        else
-            C_TabbedOutput(tabs, INDENT "Inside/outside\t%i%%/%i%%", 100 - outside, outside);
+        C_TabbedOutput(tabs, INDENT "Inside/outside\t%i%%/%i%%", 100 - outside, outside);
     }
 
     temp = commify(totalsecrets);
