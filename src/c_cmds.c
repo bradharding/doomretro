@@ -3040,7 +3040,7 @@ static void kill_cmd_func2(char *cmd, char *parms)
                                 else if ((flags & MF_SHOOTABLE) && type != MT_PLAYER && type != MT_BARREL && (type != MT_HEAD || !hacx))
                                 {
                                     thing->flags2 |= MF2_MASSACRE;
-                                    P_DamageMobj(thing, NULL, NULL, thing->health, false, false);
+                                    P_DamageMobj(thing, NULL, viewplayer->mo, thing->health, false, false);
 
                                     if (r_corpses_moreblood && !(flags & MF_NOBLOOD) && type != MT_SKULL && type != MT_SHADOWS)
                                         P_SpawnMoreBlood(thing);
@@ -3308,7 +3308,7 @@ static void kill_cmd_func2(char *cmd, char *parms)
                 char    *temp = sentencecase(parm);
 
                 killcmdmobj->flags2 |= MF2_MASSACRE;
-                P_DamageMobj(killcmdmobj, NULL, NULL, killcmdmobj->health, false, false);
+                P_DamageMobj(killcmdmobj, NULL, viewplayer->mo, killcmdmobj->health, false, false);
 
                 if (!(killcmdmobj->flags & MF_NOBLOOD))
                 {
@@ -3357,7 +3357,7 @@ static void kill_cmd_func2(char *cmd, char *parms)
                             else if ((thing->flags & MF_SHOOTABLE) && thing->health > 0)
                             {
                                 thing->flags2 |= MF2_MASSACRE;
-                                P_DamageMobj(thing, NULL, NULL, thing->health, false, false);
+                                P_DamageMobj(thing, NULL, viewplayer->mo, thing->health, false, false);
 
                                 if (!(thing->flags & MF_NOBLOOD))
                                 {
