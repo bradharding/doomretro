@@ -85,6 +85,8 @@ void ST_Start(void);
 // Called by startup code.
 void ST_Init(void);
 
+static int ST_CalcPainOffset(void);
+
 extern bool     idclev;
 extern int      idclevtics;
 extern bool     idmus;

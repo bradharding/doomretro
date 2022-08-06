@@ -66,9 +66,8 @@ static int  lastenemies[TARGETLIMIT];
 static int  soundtargets[TARGETLIMIT];
 static int  attacker;
 
-// Get the filename of a temporary file to write the savegame to. After
-// the file has been successfully saved, it will be renamed to the
-// real file.
+// Get the filename of a temporary file to write the savegame to. After the
+// file has been successfully saved, it will be renamed to the real file.
 char *P_TempSaveGameFile(void)
 {
     static char *filename;

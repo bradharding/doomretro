@@ -223,7 +223,7 @@ weaponinfo_t weaponinfo[NUMWEAPONS] =
     }
 };
 
-const char *powerupnames[NUMPOWERS] =
+char *powerupnames[NUMPOWERS] =
 {
     "",
     (char *)mobjinfo[MT_INV].name1,

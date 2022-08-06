@@ -46,7 +46,7 @@
 //
 // MBF21: haleyjd 09/11/07: weapon flags
 //
-enum wepflags_e
+enum
 {
     WPF_NOFLAG         = 0x00000000,    // no flag
     WPF_NOTHRUST       = 0x00000001,    // doesn't thrust Mobj's
@@ -84,4 +84,4 @@ typedef struct
 } weaponinfo_t;
 
 extern weaponinfo_t weaponinfo[NUMWEAPONS];
-extern const char   *powerupnames[NUMPOWERS];
+extern char         *powerupnames[NUMPOWERS];

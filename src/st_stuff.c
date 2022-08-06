@@ -438,8 +438,6 @@ static void ST_PlayerCheated(char *cheat, char *output, bool warning)
     }
 }
 
-static int ST_CalcPainOffset(void);
-
 // Respond to keyboard input events, intercept cheats.
 bool ST_Responder(event_t *ev)
 {
@@ -681,7 +679,7 @@ bool ST_Responder(event_t *ev)
             }
 
             // 'behold?' power-up cheats
-            for (int i = 1; i < 7; i++)
+            for (int i = 1; i < NUMPOWERS; i++)
             {
                 if (cht_CheckCheat(&cheat_powerup[i - 1], ev->data2) && gameskill != sk_nightmare
                     // [BH] can only enter cheat while player is alive
@@ -1444,9 +1442,7 @@ void ST_Drawer(bool fullscreen, bool refresh)
         ST_DiffDraw();
 }
 
-typedef void (*load_callback_t)(char *, patch_t **);
-
-static void ST_LoadUnloadGraphics(load_callback_t callback)
+static void ST_LoadUnloadGraphics(void callback(char *, patch_t **))
 {
     int     facenum = 0;
     char    namebuf[9];
