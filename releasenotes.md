@@ -16,7 +16,7 @@
   * The player’s view is now lowered to the ground.
   * The player’s view is now vertically centered if the `mouselook` CVAR is `on`.
   * The spin of the player’s view now sometimes reverses direction if the menu is closed, the player doesn’t move, and the menu is then reopened.
-  * Animated textures and lighting effects are now slower.
+  * Any animated textures or lighting effects are now slowed down.
   * The automap is no longer used as the background if the menu is opened while it is displayed.
   * Unmapped lines in the automap are no longer mapped while the player’s view spins.
 * The text caret is now always positioned correctly when entering a savegame description in the savegame menu.

@@ -1151,7 +1151,7 @@ static void R_DrawPlayerSprite(pspdef_t *psp, bool invisibility, bool altered)
 //
 static void R_DrawPlayerSprites(void)
 {
-    int         invisibility = viewplayer->powers[pw_invisibility];
+    const int   invisibility = viewplayer->powers[pw_invisibility];
     const bool  altered = (weaponinfo[viewplayer->readyweapon].altered || !r_fixspriteoffsets);
     pspdef_t    *weapon = viewplayer->psprites;
     pspdef_t    *flash = weapon + 1;
@@ -1159,7 +1159,7 @@ static void R_DrawPlayerSprites(void)
     state_t     *flashstate = flash->state;
 
     // add all active psprites
-    if (invisibility && (invisibility = (invisibility > STARTFLASHING || (invisibility & FLASHONTIC))) && r_textures)
+    if (invisibility && (invisibility > STARTFLASHING || (invisibility & FLASHONTIC)) && r_textures)
     {
         V_FillRect(1, viewwindowx, viewwindowy, viewwidth, viewheight, PINK, false);
         R_DrawPlayerSprite(weapon, true, (weaponstate->dehacked || altered));

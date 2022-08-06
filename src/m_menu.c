@@ -2730,12 +2730,9 @@ bool M_Responder(event_t *ev)
         keydown = key;
 
         if (consoleheight < CONSOLEHEIGHT && consoledirection == -1 && !inhelpscreens && !dowipe)
-        {
             C_ShowConsole();
-            return true;
-        }
 
-        return false;
+        return true;
     }
 
     // Save Game string input
