@@ -492,7 +492,7 @@ static void R_InitSpriteLumps(void)
         }
     }
 
-    M_StringCopy(berserk, M_StringReplace(mobjinfo[MT_MISC13].name1, " power-up", ""), sizeof(berserk));
+    M_StringCopy(berserk, M_StringReplace(powerupnames[pw_strength], " power-up", ""), sizeof(berserk));
 
     // [BH] compatibility fixes
     if (FREEDOOM)
