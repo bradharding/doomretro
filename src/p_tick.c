@@ -211,22 +211,22 @@ void P_Ticker(void)
     if (consoleactive || inhelpscreens)
         return;
 
-    animatedliquidtic++;
-
     if (menuactive && !freeze)
     {
-        if (gametime & 1)
+        if (!(gametime & 2))
         {
+            animatedtic++;
+
             for (currentthinker = thinkers[th_misc].cnext; currentthinker != &thinkers[th_misc]; currentthinker = currentthinker->cnext)
                 if (currentthinker->menu)
                     currentthinker->function((mobj_t *)currentthinker);
-
-            P_UpdateSpecials();
         }
 
+        P_UpdateSpecials();
         return;
     }
 
+    animatedtic++;
     P_MapEnd();
 
     if (freeze)

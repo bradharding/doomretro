@@ -100,7 +100,7 @@ typedef struct
 
 #define MAXANIMS    32
 
-int             animatedliquidtic;
+int             animatedtic;
 fixed_t         animatedliquiddiff;
 fixed_t         animatedliquidxdir;
 fixed_t         animatedliquidydir;
@@ -2319,10 +2319,10 @@ void P_UpdateSpecials(void)
 {
     // ANIMATE FLATS AND TEXTURES GLOBALLY
     for (anim_t *anim = anims; anim < lastanim; anim++)
-        if (!(gametime & (anim->speed - 1)))
+        if (!(animatedtic & (anim->speed - 1)))
             for (int i = anim->basepic; i < anim->basepic + anim->numpics; i++)
             {
-                const int   pic = anim->basepic + (gametime / anim->speed + i) % anim->numpics;
+                const int   pic = anim->basepic + (animatedtic / anim->speed + i) % anim->numpics;
 
                 if (anim->istexture)
                     texturetranslation[i] = pic;
@@ -2330,7 +2330,10 @@ void P_UpdateSpecials(void)
                     flattranslation[i] = firstflat + pic;
             }
 
-    animatedliquiddiff += animatedliquiddiffs[animatedliquidtic & (ANIMATEDLIQUIDDIFFS - 1)];
+    if (menuactive && (gametime & 2))
+        return;
+
+    animatedliquiddiff += animatedliquiddiffs[animatedtic & (ANIMATEDLIQUIDDIFFS - 1)];
 
     if ((animatedliquidxoffs += animatedliquidxdir) > 64 * FRACUNIT)
         animatedliquidxoffs = 0;

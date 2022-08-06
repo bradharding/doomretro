@@ -389,10 +389,10 @@ static byte *R_DistortedFlat(const int flatnum)
     static byte *normalflat;
     static int  *offset = offsets;
 
-    if (prevtic != animatedliquidtic && updateswirl)
+    if (prevtic != animatedtic && updateswirl)
     {
-        offset = &offsets[(animatedliquidtic & 1023) << 12];
-        prevtic = animatedliquidtic;
+        offset = &offsets[(animatedtic & 1023) << 12];
+        prevtic = animatedtic;
 
         if (prevflatnum != flatnum)
         {
