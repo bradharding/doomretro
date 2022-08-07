@@ -535,7 +535,6 @@ static bool PIT_AddThingIntercepts(mobj_t *thing)
                 dl.y = y + radius;
                 dl.dx = -radius * 2;
                 dl.dy = 0;
-
                 break;
 
             case 1:     // Right edge
@@ -543,7 +542,6 @@ static bool PIT_AddThingIntercepts(mobj_t *thing)
                 dl.y = y - radius;
                 dl.dx = 0;
                 dl.dy = radius * 2;
-
                 break;
 
             case 2:     // Bottom edge
@@ -551,7 +549,6 @@ static bool PIT_AddThingIntercepts(mobj_t *thing)
                 dl.y = y - radius;
                 dl.dx = radius * 2;
                 dl.dy = 0;
-
                 break;
 
             case 3:     // Left edge
@@ -559,7 +556,6 @@ static bool PIT_AddThingIntercepts(mobj_t *thing)
                 dl.y = y + radius;
                 dl.dx = 0;
                 dl.dy = radius * -2;
-
                 break;
         }
 
@@ -749,14 +745,12 @@ bool P_PathTraverse(fixed_t x1, fixed_t y1, fixed_t x2, fixed_t y2, const int fl
                 // xintercept matches
                 xintercept += xstep;
                 mapy += mapystep;
-
                 break;
 
             case 2:
                 // yintercept matches
                 yintercept += ystep;
                 mapx += mapxstep;
-
                 break;
 
             case 3:
@@ -781,7 +775,6 @@ bool P_PathTraverse(fixed_t x1, fixed_t y1, fixed_t x2, fixed_t y2, const int fl
                 yintercept += ystep;
                 mapx += mapxstep;
                 mapy += mapystep;
-
                 break;
         }
     }

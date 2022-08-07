@@ -482,7 +482,6 @@ static void I_GetEvent(void)
             case SDL_MOUSEBUTTONUP:
                 keydown = 0;
                 mousebuttonstate &= ~buttons[Event->button.button];
-
                 break;
 
             case SDL_MOUSEWHEEL:
@@ -490,7 +489,6 @@ static void I_GetEvent(void)
                 ev.type = ev_mousewheel;
                 ev.data1 = Event->wheel.y;
                 D_PostEvent(&ev);
-
                 break;
 
             case SDL_CONTROLLERAXISMOTION:
@@ -504,7 +502,6 @@ static void I_GetEvent(void)
 
                         ev.type = ev_controller;
                         D_PostEvent(&ev);
-
                         break;
 
                     case SDL_CONTROLLER_AXIS_LEFTY:
@@ -515,7 +512,6 @@ static void I_GetEvent(void)
 
                         ev.type = ev_controller;
                         D_PostEvent(&ev);
-
                         break;
 
                     case SDL_CONTROLLER_AXIS_RIGHTX:
@@ -526,7 +522,6 @@ static void I_GetEvent(void)
 
                         ev.type = ev_controller;
                         D_PostEvent(&ev);
-
                         break;
 
                     case SDL_CONTROLLER_AXIS_RIGHTY:
@@ -537,7 +532,6 @@ static void I_GetEvent(void)
 
                         ev.type = ev_controller;
                         D_PostEvent(&ev);
-
                         break;
 
                     case SDL_CONTROLLER_AXIS_TRIGGERLEFT:
@@ -548,7 +542,6 @@ static void I_GetEvent(void)
 
                         ev.type = ev_controller;
                         D_PostEvent(&ev);
-
                         break;
 
                     case SDL_CONTROLLER_AXIS_TRIGGERRIGHT:
@@ -559,7 +552,6 @@ static void I_GetEvent(void)
 
                         ev.type = ev_controller;
                         D_PostEvent(&ev);
-
                         break;
                 }
 
@@ -569,7 +561,6 @@ static void I_GetEvent(void)
                 gamecontrollerbuttons |= (1 << Event->cbutton.button);
                 ev.type = ev_controller;
                 D_PostEvent(&ev);
-
                 break;
 
             case SDL_CONTROLLERBUTTONUP:
@@ -577,7 +568,6 @@ static void I_GetEvent(void)
                 keydown = 0;
                 ev.type = ev_controller;
                 D_PostEvent(&ev);
-
                 break;
 
             case SDL_TEXTINPUT:
@@ -621,7 +611,6 @@ static void I_GetEvent(void)
                             windowfocused = true;
                             S_ResumeMusic();
                             I_InitKeyboard();
-
                             break;
 
                         case SDL_WINDOWEVENT_FOCUS_LOST:

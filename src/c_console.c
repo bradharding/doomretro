@@ -2141,7 +2141,6 @@ bool C_Responder(event_t *ev)
                             {
                                 inputhistory = i;
                                 M_StringCopy(consoleinput, console[i].string, sizeof(consoleinput));
-
                                 break;
                             }
 

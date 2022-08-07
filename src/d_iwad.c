@@ -550,7 +550,6 @@ void D_IdentifyIWADByName(char *name)
         {
             gamemission = iwads[i].mission;
             free(iwad);
-
             break;
         }
 

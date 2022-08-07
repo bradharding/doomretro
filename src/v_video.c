@@ -1889,7 +1889,6 @@ bool V_ScreenShot(void)
 
                 M_StringCopy(mapname, temp2, sizeof(mapname));
                 free(temp2);
-
                 break;
             }
         }

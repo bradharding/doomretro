@@ -90,25 +90,21 @@ void P_UpdateAmmoStat(const ammotype_t ammotype, const int num)
         case am_clip:
             viewplayer->itemspickedup_ammo_bullets += num;
             stat_itemspickedup_ammo_bullets = SafeAdd(stat_itemspickedup_ammo_bullets, num);
-
             break;
 
         case am_shell:
             viewplayer->itemspickedup_ammo_shells += num;
             stat_itemspickedup_ammo_shells = SafeAdd(stat_itemspickedup_ammo_shells, num);
-
             break;
 
         case am_cell:
             viewplayer->itemspickedup_ammo_cells += num;
             stat_itemspickedup_ammo_cells = SafeAdd(stat_itemspickedup_ammo_cells, num);
-
             break;
 
         case am_misl:
             viewplayer->itemspickedup_ammo_rockets += num;
             stat_itemspickedup_ammo_rockets = SafeAdd(stat_itemspickedup_ammo_rockets, num);
-
             break;
 
         default:
@@ -678,7 +674,6 @@ bool P_GivePower(const int power)
         case pw_invulnerability:
             viewplayer->fixedcolormap = INVERSECOLORMAP;
             D_FadeScreen(false);
-
             break;
 
         case pw_strength:

@@ -181,7 +181,6 @@ static DWORD WINAPI PlayerProc(void)
             case WAIT_OBJECT_0:
                 FillBuffer();
                 StreamOut();
-
                 break;
 
             case WAIT_OBJECT_0 + 1:
@@ -279,7 +278,6 @@ static void MIDItoStream(midi_file_t *file)
                     | (midievent->data.channel.param1 << 8)
                     | (midievent->data.channel.param2 << 16)
                     | (MEVT_SHORTMSG << 24));
-
                 break;
 
             case MIDI_EVENT_PROGRAM_CHANGE:
@@ -288,7 +286,6 @@ static void MIDItoStream(midi_file_t *file)
                     | midievent->data.channel.channel
                     | (midievent->data.channel.param1 << 8)
                     | (MEVT_SHORTMSG << 24));
-
                 break;
 
             case MIDI_EVENT_SYSEX:

@@ -712,7 +712,6 @@ static void P_LoadVertexes(int lump)
                         vertexes[i].x = vertexfix[j].newx << FRACBITS;
                         vertexes[i].y = vertexfix[j].newy << FRACBITS;
                         free(temp);
-
                         break;
                     }
         }
@@ -2093,7 +2092,6 @@ static void P_LoadSideDefs2(int lump)
                     sec->midmap = 0, R_TextureNumForName(msd->midtexture) : 0);
                 sd->toptexture = ((sec->topmap = R_ColormapNumForName(msd->toptexture)) < 0 ?
                     sec->topmap = 0, R_TextureNumForName(msd->toptexture) : 0);
-
                 break;
 
             case Translucent_MiddleTexture:
@@ -2104,7 +2102,6 @@ static void P_LoadSideDefs2(int lump)
                     R_TextureNumForName(msd->midtexture) : (sd->special++, 0) : (sd->special = 0));
                 sd->toptexture = R_TextureNumForName(msd->toptexture);
                 sd->bottomtexture = R_TextureNumForName(msd->bottomtexture);
-
                 break;
 
             default:
@@ -2115,7 +2112,6 @@ static void P_LoadSideDefs2(int lump)
                 sd->missingtoptexture = (R_CheckTextureNumForName(msd->toptexture) == -1);
                 sd->bottomtexture = R_TextureNumForName(msd->bottomtexture);
                 sd->missingbottomtexture = (R_CheckTextureNumForName(msd->bottomtexture) == -1);
-
                 break;
         }
     }
@@ -3209,7 +3205,6 @@ static bool P_ParseMapInfo(char *scriptname)
                     nerve = false;
                     NewDef.prevMenu = &MainDef;
                     MAPINFO = -1;
-
                     break;
                 }
                 else
@@ -3239,13 +3234,11 @@ static bool P_ParseMapInfo(char *scriptname)
                         case MCMD_AUTHOR:
                             SC_MustGetString();
                             M_StringCopy(info->author, sc_String, sizeof(info->author));
-
                             break;
 
                         case MCMD_CLUSTER:
                             SC_MustGetNumber();
                             info->cluster = sc_Number;
-
                             break;
 
                         case MCMD_ENDBUNNY:
@@ -3275,13 +3268,11 @@ static bool P_ParseMapInfo(char *scriptname)
                         case MCMD_ENDPIC:
                             SC_MustGetString();
                             info->endpic = W_CheckNumForName(sc_String);
-
                             break;
 
                         case MCMD_ENTERPIC:
                             SC_MustGetString();
                             info->enterpic = W_CheckNumForName(sc_String);
-
                             break;
 
                         case MCMD_EPISODE:
@@ -3302,26 +3293,22 @@ static bool P_ParseMapInfo(char *scriptname)
                             M_StringCopy(string, sc_String, sizeof(string));
                             SC_MustGetString();
                             M_AddEpisode(map, ep, lumpname, string);
-
                             break;
                         }
 
                         case MCMD_EXITPIC:
                             SC_MustGetString();
                             info->exitpic = W_CheckNumForName(sc_String);
-
                             break;
 
                         case MCMD_INTERBACKDROP:
                             SC_MustGetString();
                             M_StringCopy(info->interbackdrop, sc_String, sizeof(info->interbackdrop));
-
                             break;
 
                         case MCMD_INTERMUSIC:
                             SC_MustGetString();
                             info->intermusic = W_CheckNumForName(sc_String);
-
                             break;
 
                         case MCMD_INTERTEXTSECRET:
@@ -3389,25 +3376,21 @@ static bool P_ParseMapInfo(char *scriptname)
                         case MCMD_LEVELNAME:
                             SC_MustGetString();
                             M_StringCopy(info->name, sc_String, sizeof(info->name));
-
                             break;
 
                         case MCMD_MUSIC:
                             SC_MustGetString();
                             info->music = W_CheckNumForName(sc_String);
-
                             break;
 
                         case MCMD_MUSICCOMPOSER:
                             SC_MustGetString();
                             M_StringCopy(info->musiccomposer, sc_String, sizeof(info->musiccomposer));
-
                             break;
 
                         case MCMD_MUSICTITLE:
                             SC_MustGetString();
                             M_StringCopy(info->musictitle, sc_String, sizeof(info->musictitle));
-
                             break;
 
                         case MCMD_NEXT:
@@ -3540,14 +3523,12 @@ static bool P_ParseMapInfo(char *scriptname)
                         case MCMD_SKYTEXTURE:
                             SC_MustGetString();
                             info->sky1texture = R_TextureNumForName(sc_String);
-
                             break;
 
                         case MCMD_LEVELPIC:
                         case MCMD_TITLEPATCH:
                             SC_MustGetString();
                             info->titlepatch = W_CheckNumForName(sc_String);
-
                             break;
 
                         case MCMD_ALLOWMONSTERTELEFRAGS:

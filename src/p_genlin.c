@@ -172,7 +172,6 @@ manual_floor:
                 floor->floordestheight = (floor->sector->floorheight >> FRACBITS)
                     + floor->direction * (P_FindShortestTextureAround(secnum) >> FRACBITS);
                 floor->floordestheight = BETWEEN(-32000, floor->floordestheight, 32000) * FRACUNIT;
-
                 break;
 
             case Fby24:
@@ -202,13 +201,11 @@ manual_floor:
                         case FChgZero:  // zero type
                             floor->newspecial = 0;
                             floor->type = genFloorChg0;
-
                             break;
 
                         case FChgTyp:   // copy type
                             floor->newspecial = sec->special;
                             floor->type = genFloorChgT;
-
                             break;
 
                         case FChgTxt:   // leave type be
@@ -226,13 +223,11 @@ manual_floor:
                     case FChgZero:      // zero type
                         floor->newspecial = 0;
                         floor->type = genFloorChg0;
-
                         break;
 
                     case FChgTyp:       // copy type
                         floor->newspecial = line->frontsector->special;
                         floor->type = genFloorChgT;
-
                         break;
 
                     case FChgTxt:       // leave type be
@@ -383,7 +378,6 @@ manual_ceiling:
                 targheight = (ceiling->sector->ceilingheight >> FRACBITS)
                     + ceiling->direction * (P_FindShortestUpperAround(secnum) >> FRACBITS);
                 targheight = BETWEEN(-32000, targheight, 32000) * FRACUNIT;
-
                 break;
 
             case Cby24:
@@ -418,13 +412,11 @@ manual_ceiling:
                         case CChgZero:  // type is zeroed
                             ceiling->newspecial = 0;
                             ceiling->type = genCeilingChg0;
-
                             break;
 
                         case CChgTyp:   // type is copied
                             ceiling->newspecial = sec->special;
                             ceiling->type = genCeilingChgT;
-
                             break;
 
                         case CChgTxt:   // type is left alone
@@ -442,13 +434,11 @@ manual_ceiling:
                     case CChgZero:      // type is zeroed
                         ceiling->newspecial = 0;
                         ceiling->type = genCeilingChg0;
-
                         break;
 
                     case CChgTyp:       // type is copied
                         ceiling->newspecial = line->frontsector->special;
                         ceiling->type = genCeilingChgT;
-
                         break;
 
                     case CChgTxt:       // type is left alone
@@ -566,7 +556,6 @@ manual_lift:
                 plat->low = MIN(P_FindLowestFloorSurrounding(sec), sec->floorheight);
                 plat->high = MAX(P_FindHighestFloorSurrounding(sec), sec->floorheight);
                 plat->status = (plat_e)(M_Random() & 1);
-
                 break;
         }
 
@@ -1030,25 +1019,21 @@ manual_locked:
             case SpeedSlow:
                 door->type = (Kind ? genOpen : genRaise);
                 door->speed = VDOORSPEED;
-
                 break;
 
             case SpeedNormal:
                 door->type = (Kind ? genOpen : genRaise);
                 door->speed = VDOORSPEED * 2;
-
                 break;
 
             case SpeedFast:
                 door->type = (Kind ? genBlazeOpen : genBlazeRaise);
                 door->speed = VDOORSPEED * 4;
-
                 break;
 
             case SpeedTurbo:
                 door->type = (Kind ? genBlazeOpen : genBlazeRaise);
                 door->speed = VDOORSPEED * 8;
-
                 break;
         }
 
@@ -1214,7 +1199,6 @@ manual_door:
                 door->direction = -1;
                 S_StartSectorSound(&door->sector->soundorg, (door->speed >= VDOORSPEED * 4 ? sfx_bdcls : sfx_dorcls));
                 door->type = (Sped >= SpeedFast ? genBlazeCdO : genCdO);
-
                 break;
 
             case CDoor:
@@ -1223,7 +1207,6 @@ manual_door:
                 door->direction = -1;
                 S_StartSectorSound(&door->sector->soundorg, (door->speed >= VDOORSPEED * 4 ? sfx_bdcls : sfx_dorcls));
                 door->type = (Sped >= SpeedFast ? genBlazeClose : genClose);
-
                 break;
         }
 

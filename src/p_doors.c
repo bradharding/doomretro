@@ -83,27 +83,23 @@ void T_VerticalDoor(vldoor_t *door)
                     case genBlazeRaise:
                         door->direction = -1;   // time to go back down
                         S_StartSectorSound(&door->sector->soundorg, sfx_bdcls);
-
                         break;
 
                     case doorNormal:
                     case genRaise:
                         door->direction = -1;   // time to go back down
                         S_StartSectorSound(&door->sector->soundorg, sfx_dorcls);
-
                         break;
 
                     case doorClose30ThenOpen:
                     case genCdO:
                         door->direction = 1;    // time to go back up
                         S_StartSectorSound(&door->sector->soundorg, sfx_doropn);
-
                         break;
 
                     case genBlazeCdO:
                         door->direction = 1;    // time to go back up
                         S_StartSectorSound(&door->sector->soundorg, sfx_bdopn);
-
                         break;
 
                     default:
@@ -121,7 +117,6 @@ void T_VerticalDoor(vldoor_t *door)
                         door->direction = 1;
                         door->type = doorNormal;
                         S_StartSectorSound(&door->sector->soundorg, sfx_doropn);
-
                         break;
 
                     default:
@@ -153,20 +148,17 @@ void T_VerticalDoor(vldoor_t *door)
                     case genClose:
                         door->sector->ceilingdata = NULL;
                         P_RemoveThinker2(&door->thinker);     // unlink and free
-
                         break;
 
                     case doorClose30ThenOpen:
                         door->direction = 0;
                         door->topcountdown = TICRATE * 30;
-
                         break;
 
                     case genCdO:
                     case genBlazeCdO:
                         door->direction = 0;
                         door->topcountdown = door->topwait;     // jff 5/8/98 insert delay
-
                         break;
 
                     default:
@@ -188,13 +180,11 @@ void T_VerticalDoor(vldoor_t *door)
                     case genBlazeRaise:
                         door->direction = 1;
                         S_StartSectorSound(&door->sector->soundorg, sfx_bdopn);
-
                         break;
 
                     default:
                         door->direction = 1;
                         S_StartSectorSound(&door->sector->soundorg, sfx_doropn);
-
                         break;
                 }
             }
@@ -220,7 +210,6 @@ void T_VerticalDoor(vldoor_t *door)
                     case genBlazeRaise:
                         door->direction = 0;                    // wait at top
                         door->topcountdown = door->topwait;
-
                         break;
 
                     case doorClose30ThenOpen:
@@ -232,7 +221,6 @@ void T_VerticalDoor(vldoor_t *door)
                     case genBlazeCdO:
                         door->sector->ceilingdata = NULL;
                         P_RemoveThinker2(&door->thinker);     // unlink and free
-
                         break;
 
                     default:
@@ -731,20 +719,17 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
         case D1_Door_Yellow_OpenStay:
             door->type = doorOpen;
             line->special = 0;
-
             break;
 
         case DR_Door_OpenWaitClose_Fast:
             door->type = doorBlazeRaise;
             door->speed = VDOORSPEED * 4;
-
             break;
 
         case D1_Door_OpenStay_Fast:
             door->type = doorBlazeOpen;
             line->special = 0;
             door->speed = VDOORSPEED * 4;
-
             break;
 
         default:

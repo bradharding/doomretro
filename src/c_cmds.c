@@ -7455,7 +7455,6 @@ static void toggle_cmd_func2(char *cmd, char *parms)
                 C_ValidateInput(temp);
                 free(temp);
                 M_SaveCVARs();
-
                 break;
             }
             else if (flags & CF_INTEGER)
@@ -7470,7 +7469,6 @@ static void toggle_cmd_func2(char *cmd, char *parms)
                 C_ValidateInput(temp);
                 free(temp);
                 M_SaveCVARs();
-
                 break;
             }
         }
@@ -7873,7 +7871,6 @@ static void time_cvars_func2(char *cmd, char *parms)
                 C_Output(TIMECVARWITHNODEFAULT1, minutes, seconds);
 
             C_ShowWarning(i);
-
             break;
         }
 }
