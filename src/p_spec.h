@@ -126,7 +126,7 @@ bool P_CanUnlockGenDoor(line_t *line);
 
 sector_t *getNextSector(line_t *line, sector_t *sec);
 
-bool P_ProcessNoTagLines(line_t *line, sector_t **sec, int *secnum);
+bool P_ProcessNoTagLines(const line_t *line, sector_t **sec, int *secnum);
 
 //
 // SPECIAL
@@ -563,14 +563,23 @@ typedef enum
     pastdest
 } result_e;
 
-result_e T_MovePlane(sector_t *sector, fixed_t speed, fixed_t dest, bool crush, int floororceiling, int direction);
-bool EV_BuildStairs(line_t *line, fixed_t speed, fixed_t stairsize, bool crushing);
-bool EV_DoFloor(line_t *line, floor_e floortype);
-bool EV_DoChange(line_t *line, change_e changetype);
-bool EV_DoElevator(line_t *line, elevator_e elevtype);
+result_e T_MovePlane(sector_t *sector, const fixed_t speed, fixed_t dest,
+    const bool crush, const int floororceiling, const int direction);
+bool EV_BuildStairs(const line_t *line, const fixed_t speed, const fixed_t stairsize, const bool crushing);
+bool EV_DoFloor(const line_t *line, const floor_e floortype);
+bool EV_DoChange(const line_t *line, const change_e changetype);
+bool EV_DoElevator(const line_t *line, const elevator_e elevtype);
 void T_MoveFloor(floormove_t *floor);
 void T_MoveElevator(elevator_t *elevator);
 void P_CheckTerrainType(sector_t *sector);
+
+typedef enum
+{
+    sc_side,
+    sc_floor,
+    sc_ceiling,
+    sc_carry
+} scroll_e;
 
 // killough 03/07/98: Add generalized scroll effects
 typedef struct
@@ -582,32 +591,24 @@ typedef struct
     fixed_t     last_height;    // Last known height of control sector
     fixed_t     vdx, vdy;       // Accumulated velocity if accelerative
     int         accel;          // Whether it's accelerative
-
-    enum
-    {
-        sc_side,
-        sc_floor,
-        sc_ceiling,
-        sc_carry
-    } type;                     // Type of scroll effect
+    scroll_e    type;           // Type of scroll effect
 } scroll_t;
 
 void T_Scroll(scroll_t *scroller);
 
-// phares 03/20/98: added new model of Pushers for push/pull effects
+typedef enum
+{
+    p_push,
+    p_pull,
+    p_wind,
+    p_current
+} pusher_e;
 
+// phares 03/20/98: Added new model of pushers for push/pull effects
 typedef struct
 {
-    thinker_t   thinker;        // Thinker structure for Pusher
-
-    enum
-    {
-        p_push,
-        p_pull,
-        p_wind,
-        p_current
-    } type;
-
+    thinker_t   thinker;        // Thinker structure for pusher
+    pusher_e    type;           // Type of pusher
     mobj_t      *source;        // Point source if point pusher
     int         x_mag;          // X Strength
     int         y_mag;          // Y Strength

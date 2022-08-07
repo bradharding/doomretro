@@ -3337,7 +3337,7 @@ static void P_SpawnPushers(void)
 
 bool    zerotag_manual;
 
-bool P_ProcessNoTagLines(line_t *line, sector_t **sec, int *secnum)
+bool P_ProcessNoTagLines(const line_t *line, sector_t **sec, int *secnum)
 {
     zerotag_manual = false;
 

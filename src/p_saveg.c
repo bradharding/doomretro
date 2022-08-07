@@ -913,7 +913,7 @@ static void saveg_read_scroll_t(scroll_t *str)
     str->vdx = saveg_read32();
     str->vdy = saveg_read32();
     str->accel = saveg_read32();
-    str->type = saveg_read_enum();
+    str->type = (scroll_e)saveg_read_enum();
 }
 
 static void saveg_write_scroll_t(scroll_t *str)
@@ -931,7 +931,7 @@ static void saveg_write_scroll_t(scroll_t *str)
 
 static void saveg_read_pusher_t(pusher_t *str)
 {
-    str->type = saveg_read_enum();
+    str->type = (pusher_e)saveg_read_enum();
     str->x_mag = saveg_read32();
     str->y_mag = saveg_read32();
     str->magnitude = saveg_read32();

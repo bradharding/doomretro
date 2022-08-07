@@ -52,7 +52,8 @@
 //
 // Move a plane (floor or ceiling) and check for crushing
 //
-result_e T_MovePlane(sector_t *sector, fixed_t speed, fixed_t dest, bool crush, int floororceiling, int direction)
+result_e T_MovePlane(sector_t *sector, const fixed_t speed, fixed_t dest,
+    const bool crush, const int floororceiling, const int direction)
 {
     sector->oldgametime = gametime;
 
@@ -334,7 +335,7 @@ void T_MoveElevator(elevator_t *elevator)
 //
 // HANDLE FLOOR TYPES
 //
-bool EV_DoFloor(line_t *line, floor_e floortype)
+bool EV_DoFloor(const line_t *line, const floor_e floortype)
 {
     int         secnum = -1;
     bool        rtn = false;
@@ -636,7 +637,7 @@ void P_CheckTerrainType(sector_t *sector)
 //
 // jff 3/15/98 added to better support generalized sector types
 //
-bool EV_DoChange(line_t *line, change_e changetype)
+bool EV_DoChange(const line_t *line, const change_e changetype)
 {
     int     secnum = -1;
     bool    rtn = false;
@@ -691,7 +692,7 @@ bool EV_DoChange(line_t *line, change_e changetype)
 // stairs
 // - BOOM fixed the bug, and MBF/PrBoom without comp_stairs work right
 //
-static int P_FindSectorFromLineTagWithLowerBound(line_t *l, int start, int min)
+static int P_FindSectorFromLineTagWithLowerBound(const line_t *l, int start, const int min)
 {
     do
     {
@@ -701,7 +702,7 @@ static int P_FindSectorFromLineTagWithLowerBound(line_t *l, int start, int min)
     return start;
 }
 
-bool EV_BuildStairs(line_t *line, fixed_t speed, fixed_t stairsize, bool crushing)
+bool EV_BuildStairs(const line_t *line, const fixed_t speed, const fixed_t stairsize, const bool crushing)
 {
     int         ssec = -1;
     int         minssec = -1;
@@ -813,7 +814,7 @@ manual_stair:
 //
 // jff 02/22/98 new type to move floor and ceiling in parallel
 //
-bool EV_DoElevator(line_t *line, elevator_e elevtype)
+bool EV_DoElevator(const line_t *line, const elevator_e elevtype)
 {
     int     secnum = -1;
     bool    rtn = false;
