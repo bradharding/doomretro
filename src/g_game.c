@@ -74,7 +74,7 @@ static void G_DoWorldDone(void);
 static void G_DoSaveGame(void);
 
 gameaction_t    gameaction;
-gamestate_t     gamestate = GS_TITLESCREEN;
+gamestate_t     gamestate = GS_NONE;
 skill_t         gameskill;
 int             pendinggameskill;
 int             gameepisode;

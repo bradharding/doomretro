@@ -537,6 +537,7 @@ void D_PageTicker(void)
 //
 void D_SplashDrawer(void)
 {
+    gamestate = GS_TITLESCREEN;
     memset(screens[0], nearestblack, SCREENAREA);
     V_DrawBigPatch(logox, 167, logolump[BETWEEN(0, 94 - logotic, 17)]);
     V_DrawBigPatch(fineprintx, 365, fineprintlump);
