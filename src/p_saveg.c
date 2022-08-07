@@ -958,7 +958,7 @@ static void saveg_read_button_t(button_t *str)
     int line = saveg_read32();
 
     str->line = (line >= 0 ? lines + line : NULL);
-    str->where = (bwhere_e)saveg_read_enum();
+    str->bwhere = (bwhere_e)saveg_read_enum();
     str->btexture = saveg_read32();
     str->btimer = saveg_read32();
 }
@@ -966,7 +966,7 @@ static void saveg_read_button_t(button_t *str)
 static void saveg_write_button_t(button_t *str)
 {
     saveg_write32(str->line ? str->line->id : -1);
-    saveg_write_enum(str->where);
+    saveg_write_enum(str->bwhere);
     saveg_write32(str->btexture);
     saveg_write32(str->btimer);
 }
@@ -1642,7 +1642,7 @@ void P_UnArchiveSpecials(void)
                 button_t    *button = Z_Calloc(1, sizeof(*button), PU_LEVSPEC, NULL);
 
                 saveg_read_button_t(button);
-                P_StartButton(button->line, button->where, button->btexture, button->btimer);
+                P_StartButton(button->line, button->bwhere, button->btexture, button->btimer);
 
                 break;
             }

@@ -192,8 +192,8 @@ typedef struct
 typedef bool (*traverser_t)(intercept_t *in);
 
 fixed_t P_ApproxDistance(fixed_t dx, fixed_t dy);
-int P_PointOnLineSide(const fixed_t x, const fixed_t y, line_t *line);
-int P_BoxOnLineSide(fixed_t *tmbox, line_t *ld);
+int P_PointOnLineSide(const fixed_t x, const fixed_t y, const line_t *line);
+int P_BoxOnLineSide(const fixed_t *tmbox, const line_t *ld);
 fixed_t P_InterceptVector(divline_t *v2, divline_t *v1);
 
 // MAES: support 512x512 blockmaps.

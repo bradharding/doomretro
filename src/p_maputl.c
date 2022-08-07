@@ -57,7 +57,7 @@ fixed_t P_ApproxDistance(fixed_t dx, fixed_t dy)
 // P_PointOnLineSide
 // Returns 0 or 1
 //
-int P_PointOnLineSide(const fixed_t x, const fixed_t y, line_t *line)
+int P_PointOnLineSide(const fixed_t x, const fixed_t y, const line_t *line)
 {
     return (!line->dx ? (x <= line->v1->x ? line->dy > 0 : line->dy < 0) :
         (!line->dy ? (y <= line->v1->y ? line->dx < 0 : line->dx > 0) :
@@ -70,7 +70,7 @@ int P_PointOnLineSide(const fixed_t x, const fixed_t y, line_t *line)
 // Returns side 0 or 1, -1 if box crosses the line.
 // killough 05/03/98: reformatted, cleaned up
 //
-int P_BoxOnLineSide(fixed_t *tmbox, line_t *ld)
+int P_BoxOnLineSide(const fixed_t *tmbox, const line_t *ld)
 {
     switch (ld->slopetype)
     {

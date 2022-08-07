@@ -43,7 +43,7 @@
 //
 // TELEPORTATION
 //
-bool EV_Teleport(line_t *line, int side, mobj_t *thing)
+bool EV_Teleport(const line_t *line, const int side, mobj_t *thing)
 {
     // Don't teleport missiles.
     // Don't teleport if hit back of line, so you can get out of teleporter.
@@ -59,7 +59,7 @@ bool EV_Teleport(line_t *line, int side, mobj_t *thing)
     for (int i = -1; (i = P_FindSectorFromLineTag(line, i)) >= 0; )
         for (thinker_t *th = thinkers[th_mobj].cnext; th != &thinkers[th_mobj]; th = th->cnext)
         {
-            mobj_t  *m = (mobj_t *)th;
+            const mobj_t    *m = (mobj_t *)th;
 
             if (m->type == MT_TELEPORTMAN && m->subsector->sector->id == i)
             {
@@ -139,7 +139,7 @@ bool EV_Teleport(line_t *line, int side, mobj_t *thing)
 // Silent TELEPORTATION, by Lee Killough
 // Primarily for rooms-over-rooms etc.
 //
-bool EV_SilentTeleport(line_t *line, int side, mobj_t *thing)
+bool EV_SilentTeleport(const line_t *line, const int side, mobj_t *thing)
 {
     // don't teleport missiles
     // Don't teleport if hit back of line,
@@ -150,7 +150,7 @@ bool EV_SilentTeleport(line_t *line, int side, mobj_t *thing)
     for (int i = -1; (i = P_FindSectorFromLineTag(line, i)) >= 0; )
         for (thinker_t *th = thinkers[th_mobj].cnext; th != &thinkers[th_mobj]; th = th->cnext)
         {
-            mobj_t  *m = (mobj_t *)th;
+            const mobj_t    *m = (mobj_t *)th;
 
             if (m->type == MT_TELEPORTMAN && m->subsector->sector->id == i)
             {
@@ -222,14 +222,14 @@ bool EV_SilentTeleport(line_t *line, int side, mobj_t *thing)
 // maximum fixed_t units to move object to avoid hiccups
 #define FUDGEFACTOR 10
 
-bool EV_SilentLineTeleport(line_t *line, int side, mobj_t *thing, bool reverse)
+bool EV_SilentLineTeleport(const line_t *line, int side, mobj_t *thing, const bool reverse)
 {
     if (side || (thing->flags & MF_MISSILE))
         return false;
 
     for (int i = -1; (i = P_FindLineFromLineTag(line, i)) >= 0; )
     {
-        line_t  *l = lines + i;
+        const line_t    *l = lines + i;
 
         if (l != line && l->backsector)
         {

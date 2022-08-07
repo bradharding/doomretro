@@ -231,7 +231,7 @@ typedef enum
 typedef struct
 {
     line_t      *line;
-    bwhere_e    where;
+    bwhere_e    bwhere;
     int         btexture;
     int         btimer;
     degenmobj_t *soundorg;
@@ -246,7 +246,7 @@ extern button_t *buttonlist;
 extern int      maxbuttons;
 
 void P_InitSwitchList(void);
-void P_StartButton(line_t *line, bwhere_e where, int texture, int time);
+void P_StartButton(line_t *line, bwhere_e bwhere, int texture, int time);
 void P_ChangeSwitchTexture(line_t *line, bool useagain);
 
 //
@@ -624,9 +624,9 @@ mobj_t *P_GetPushThing(int s);
 //
 // P_TELEPT.C
 //
-bool EV_Teleport(line_t *line, int side, mobj_t *thing);
-bool EV_SilentTeleport(line_t *line, int side, mobj_t *thing);
-bool EV_SilentLineTeleport(line_t *line, int side, mobj_t *thing, bool reverse);
+bool EV_Teleport(const line_t *line, const int side, mobj_t *thing);
+bool EV_SilentTeleport(const line_t *line, const int side, mobj_t *thing);
+bool EV_SilentLineTeleport(const line_t *line, int side, mobj_t *thing, const bool reverse);
 
 // jff 3/14/98 add bits and shifts for generalized sector types
 #define DAMAGE_MASK             0x0060

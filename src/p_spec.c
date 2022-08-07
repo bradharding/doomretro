@@ -2361,7 +2361,7 @@ void P_UpdateSpecials(void)
             const short bottomtexture = sides[sidenum].bottomtexture;
             const int   btexture = buttonlist[i].btexture;
 
-            switch (buttonlist[i].where)
+            switch (buttonlist[i].bwhere)
             {
                 case top:
                     sides[sidenum].toptexture = btexture;

@@ -189,7 +189,7 @@ void P_CalcHeight(void)
 //
 // P_CheckForSteps
 //
-static bool P_CheckForSteps(fixed_t width)
+static bool P_CheckForSteps(const fixed_t width)
 {
     sector_t    *sector1 = R_PointInSubsector(viewx + width * viewcos, viewy + width * viewsin)->sector;
     sector_t    *sector2 = R_PointInSubsector(viewx + width * 2 * viewcos, viewy + width * 2 * viewsin)->sector;

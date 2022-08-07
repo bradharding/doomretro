@@ -78,7 +78,7 @@ int         maxbuttons = MAXBUTTONS;
 void P_InitSwitchList(void)
 {
     int             index = 0;
-    int             episode = (gamemode == registered || gamemode == retail ? 2 : (gamemode == commercial ? 3 : 1));
+    const int       episode = (gamemode == registered || gamemode == retail ? 2 : (gamemode == commercial ? 3 : 1));
     switchlist_t    *alphSwitchList;                        // jff 3/23/98 pointer to switch table
     const int       lump = W_GetNumForName("SWITCHES");     // cph - new WAD lump handling
 
@@ -138,7 +138,7 @@ void P_InitSwitchList(void)
 //
 // Start a button counting down until it turns off.
 //
-void P_StartButton(line_t *line, bwhere_e where, int texture, int time)
+void P_StartButton(line_t *line, bwhere_e bwhere, int texture, int time)
 {
     // See if button is already pressed
     for (int i = 0; i < maxbuttons; i++)
@@ -149,7 +149,7 @@ void P_StartButton(line_t *line, bwhere_e where, int texture, int time)
         if (!buttonlist[i].btimer)
         {
             buttonlist[i].line = line;
-            buttonlist[i].where = where;
+            buttonlist[i].bwhere = bwhere;
             buttonlist[i].btexture = texture;
             buttonlist[i].btimer = time;
             buttonlist[i].soundorg = &line->soundorg;
@@ -161,7 +161,7 @@ void P_StartButton(line_t *line, bwhere_e where, int texture, int time)
     maxbuttons *= 2;
     buttonlist = I_Realloc(buttonlist, maxbuttons * sizeof(*buttonlist));
     memset(buttonlist + maxbuttons / 2, 0, ((size_t)maxbuttons - maxbuttons / 2) * sizeof(*buttonlist));
-    P_StartButton(line, where, texture, time);
+    P_StartButton(line, bwhere, texture, time);
 }
 
 //
@@ -180,30 +180,30 @@ void P_ChangeSwitchTexture(line_t *line, bool useagain)
 
     for (int i = 0; i < numswitches * 2; i++)
     {
-        bwhere_e    where = nowhere;
+        bwhere_e    bwhere = nowhere;
 
         if (switchlist[i] == *bottomtexture)
         {
-            where = bottom;
+            bwhere = bottom;
             *bottomtexture = switchlist[i ^ 1];
         }
 
         if (switchlist[i] == *midtexture)
         {
-            where = middle;
+            bwhere = middle;
             *midtexture = switchlist[i ^ 1];
         }
 
         if (switchlist[i] == *toptexture)
         {
-            where = top;
+            bwhere = top;
             *toptexture = switchlist[i ^ 1];
         }
 
-        if (where != nowhere)
+        if (bwhere != nowhere)
         {
             if (useagain)
-                P_StartButton(line, where, switchlist[i], BUTTONTIME);
+                P_StartButton(line, bwhere, switchlist[i], BUTTONTIME);
 
             S_StartSectorSound(&line->soundorg, sfx_swtchn);
             break;
