@@ -1101,7 +1101,7 @@ bool AM_Responder(const event_t *ev)
 //
 static void AM_Rotate(fixed_t *x, fixed_t *y, angle_t angle)
 {
-    const fixed_t   cosine = finecosine[(angle >>= ANGLETOFINESHIFT)];
+    const fixed_t   cosine = finecosine[angle];
     const fixed_t   sine = finesine[angle];
     const fixed_t   temp = FixedMul(*x, cosine) - FixedMul(*y, sine);
 
@@ -1749,12 +1749,12 @@ static void AM_DrawPlayer(void)
     const mobj_t    *mo = viewplayer->mo;
     const int       invisibility = viewplayer->powers[pw_invisibility];
     mpoint_t        point = { mo->x >> FRACTOMAPBITS, mo->y >> FRACTOMAPBITS };
-    angle_t         angle = ANG90;
+    angle_t         angle = ANG90 >> ANGLETOFINESHIFT;
 
     if (am_rotatemode)
         AM_RotatePoint(&point);
     else
-        angle = viewangle;
+        angle = viewangle >> ANGLETOFINESHIFT;
 
     if (viewplayer->cheats & (CF_ALLMAP | CF_ALLMAP_THINGS))
     {
@@ -1832,8 +1832,8 @@ static void AM_DrawThings(void)
 
                     if ((fx = CXMTOF(point.x)) >= -width && fx <= MAPWIDTH + width
                         && (fy = CYMTOF(point.y)) >= -width && fy <= (int)MAPHEIGHT + width)
-                        AM_DrawThingTriangle(thingtriangle, THINGTRIANGLELINES, width,
-                            angle - angleoffset, point.x, point.y, mobjinfo[thing->type].automapcolor);
+                        AM_DrawThingTriangle(thingtriangle, THINGTRIANGLELINES, width, (angle - angleoffset) >> ANGLETOFINESHIFT,
+                            point.x, point.y, mobjinfo[thing->type].automapcolor);
                 }
 
                 thing = thing->snext;
