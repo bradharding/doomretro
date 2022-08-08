@@ -76,7 +76,9 @@ patch_t                 *degree;
 patch_t                 *unknownchar;
 patch_t                 *altunderscores;
 patch_t                 *lsquote;
+patch_t                 *rsquote;
 patch_t                 *ldquote;
+patch_t                 *rdquote;
 
 static patch_t          *brand;
 static patch_t          *endash;
@@ -730,7 +732,9 @@ void C_Init(void)
 
     brand = W_CacheLastLumpName("DRBRAND");
     lsquote = W_CacheLastLumpName("DRFON145");
+    rsquote = W_CacheLastLumpName("DRFON039");
     ldquote = W_CacheLastLumpName("DRFON147");
+    rdquote = W_CacheLastLumpName("DRFON034");
     bullet = W_CacheLastLumpName("DRFON149");
     endash = W_CacheLastLumpName("DRFON150");
     trademark = W_CacheLastLumpName("DRFON153");
@@ -972,6 +976,14 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
                 bold = false;
                 italics = false;
             }
+            else if (letter == 145)
+                patch = lsquote;
+            else if (letter == 146)
+                patch = rsquote;
+            else if (letter == 147)
+                patch = ldquote;
+            else if (letter == 148)
+                patch = rdquote;
             else if (letter == 149)
                 patch = bullet;
             else if (letter == 150)

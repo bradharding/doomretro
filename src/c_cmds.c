@@ -90,7 +90,7 @@
                                     BOLD("next") "|" BOLD("last") "|" BOLD("random")
 #define PLAYCMDFORMAT               BOLDITALICS("soundeffect") "|" BOLDITALICS("music")
 #define NAMECMDFORMAT               "[" BOLD("friendly") " ]" BOLDITALICS("monster") " " BOLDITALICS("name")
-#define PRINTCMDFORMAT              "[" BOLD("\"") "]" BOLDITALICS("message") "[" BOLD("\"") "]"
+#define PRINTCMDFORMAT              "[" BOLD("\x93") "]" BOLDITALICS("message") "[" BOLD("\x94") "]"
 #define REMOVECMDFORMAT             BOLD("decorations") "|" BOLD("corpses") "|" BOLD("bloodsplats") "|" BOLD("items") "|" \
                                     BOLDITALICS("item") "|" BOLD("everything")
 #define RESETCMDFORMAT              BOLDITALICS("CVAR")

@@ -1441,7 +1441,7 @@ static void AM_DrawGrid(void)
     }
 }
 
-static byte *AM_DoorColor(int special)
+static byte *AM_DoorColor(unsigned short special)
 {
     if (GenLockedBase <= special && special < GenDoorBase)
     {
@@ -1496,9 +1496,9 @@ static void AM_DrawWalls(void)
 
             if ((flags & ML_MAPPED) && !(flags & ML_DONTDRAW))
             {
-                mline_t         mline;
-                unsigned short  special = line.special;
-                byte            *doorcolor;
+                mline_t                 mline;
+                const unsigned short    special = line.special;
+                byte                    *doorcolor;
 
                 mline.a.x = line.v1->x >> FRACTOMAPBITS;
                 mline.a.y = line.v1->y >> FRACTOMAPBITS;
@@ -1549,9 +1549,9 @@ static void AM_DrawWalls_AllMap(void)
 
             if (!(flags & ML_DONTDRAW))
             {
-                mline_t         mline;
-                unsigned short  special = line.special;
-                byte            *doorcolor;
+                mline_t                 mline;
+                const unsigned short    special = line.special;
+                byte                    *doorcolor;
 
                 mline.a.x = line.v1->x >> FRACTOMAPBITS;
                 mline.a.y = line.v1->y >> FRACTOMAPBITS;
@@ -1603,9 +1603,9 @@ static void AM_DrawWalls_Cheating(void)
             && (lbbox[BOXBOTTOM] >> FRACTOMAPBITS) <= am_frame.bbox[BOXTOP]
             && (lbbox[BOXTOP] >> FRACTOMAPBITS) >= am_frame.bbox[BOXBOTTOM])
         {
-            mline_t         mline;
-            unsigned short  special = line.special;
-            byte            *doorcolor;
+            mline_t                 mline;
+            const unsigned short    special = line.special;
+            byte                    *doorcolor;
 
             mline.a.x = line.v1->x >> FRACTOMAPBITS;
             mline.a.y = line.v1->y >> FRACTOMAPBITS;
@@ -1640,15 +1640,16 @@ static void AM_DrawWalls_Cheating(void)
     }
 }
 
-static void AM_DrawPlayerArrow(const mline_t *lineguy, const int lineguylines, angle_t angle, fixed_t x, fixed_t y)
+static void AM_DrawPlayerArrow(const mline_t *lineguy, const int lineguylines,
+    const angle_t angle, const fixed_t x, const fixed_t y)
 {
     for (int i = 0; i < lineguylines; i++)
     {
-        mline_t line = lineguy[i];
-        int     x1 = line.a.x;
-        int     y1 = line.a.y;
-        int     x2 = line.b.x;
-        int     y2 = line.b.y;
+        const mline_t   line = lineguy[i];
+        int             x1 = line.a.x;
+        int             y1 = line.a.y;
+        int             x2 = line.b.x;
+        int             y2 = line.b.y;
 
         AM_Rotate(&x1, &y1, angle);
         AM_Rotate(&x2, &y2, angle);
