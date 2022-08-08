@@ -52,7 +52,6 @@
 #define DOOMRETRO_CREATORANDEMAIL       "Brad Harding (brad@doomretro.com)"
 #define DOOMRETRO_FILENAME              "doomretro.exe"
 #define DOOMRETRO_ICONPATH              "..\\res\\doomretro.ico"
-#define DOOMRETRO_ISSUESURL             "https://github.com/bradharding/doomretro/issues/new"
 #define DOOMRETRO_LICENSE               "GNU General Public License v3.0"
 #define DOOMRETRO_LICENSEURL            "https://github.com/bradharding/doomretro/wiki/LICENSE"
 #define DOOMRETRO_MUTEX                 "DOOMRETRO-CC4F1071-8B24-4E91-A207-D792F39636CD"
