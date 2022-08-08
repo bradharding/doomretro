@@ -2074,6 +2074,8 @@ void AM_Drawer(void)
     AM_SetFrameVariables();
     AM_ClearFB();
 
+    skippsprinterp = true;
+
     if (viewplayer->cheats & (CF_ALLMAP | CF_ALLMAP_THINGS))
         AM_DrawWalls_Cheating();
     else if (viewplayer->powers[pw_allmap])
