@@ -186,25 +186,12 @@ static void HUlib_DrawAltHUDTextLine(hu_textline_t *l)
 
     for (int i = 0; i < len; i++)
     {
-        unsigned char   letter = l->l[i];
-        unsigned char   nextletter = l->l[i + 1];
-        patch_t         *patch = unknownchar;
+        const unsigned char letter = l->l[i];
+        const unsigned char nextletter = l->l[i + 1];
+        patch_t             *patch = unknownchar;
 
-        if (letter == '<' && i < len - 2 && tolower(l->l[i + 1]) == 'b' && l->l[i + 2] == '>')
-            i += 2;
-        else if (letter == '<' && i < len - 3 && l->l[i + 1] == '/' && tolower(l->l[i + 2]) == 'b' && l->l[i + 3] == '>')
-            i += 3;
-        else if (letter == '<' && i < len - 2 && tolower(l->l[i + 1]) == 'i' && l->l[i + 2] == '>')
-        {
-            italics = true;
-            i += 2;
-        }
-        else if (letter == '<' && i < len - 3 && l->l[i + 1] == '/' && tolower(l->l[i + 2]) == 'i' && l->l[i + 3] == '>')
-        {
-            italics = false;
-            i += 3;
-            x++;
-        }
+        if (letter == ITALICSTOGGLECHAR)
+            italics = !italics;
         else
         {
             if (letter == 194 && nextletter == 176)
