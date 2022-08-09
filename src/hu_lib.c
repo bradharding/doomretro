@@ -202,7 +202,6 @@ static void HUlib_DrawAltHUDTextLine(hu_textline_t *l)
             else
             {
                 const int   c = letter - CONSOLEFONTSTART;
-                int         j = 0;
 
                 if (c >= 0 && c < CONSOLEFONTSIZE)
                     patch = consolefont[c];
@@ -216,16 +215,12 @@ static void HUlib_DrawAltHUDTextLine(hu_textline_t *l)
                 }
 
                 // [BH] apply kerning to certain character pairs
-                while (altkern[j].char1)
-                {
+                for (int j = 0; altkern[j].char1; j++)
                     if (prevletter == altkern[j].char1 && letter == altkern[j].char2)
                     {
                         x += altkern[j].adjust;
                         break;
                     }
-
-                    j++;
-                }
             }
 
             althudtextfunc(x, HU_ALTHUDMSGY, screens[0], patch, italics, color, SCREENWIDTH, tinttab);
@@ -244,10 +239,9 @@ void HUlib_DrawAltAutomapTextLine(hu_textline_t *l, bool external)
 
     for (int i = 0; i < len; i++)
     {
-        unsigned char   letter = l->l[i];
-        patch_t         *patch = unknownchar;
-        int             j = 0;
-        const int       c = letter - CONSOLEFONTSTART;
+        const unsigned char letter = l->l[i];
+        patch_t             *patch = unknownchar;
+        const int           c = letter - CONSOLEFONTSTART;
 
         if (c >= 0 && c < CONSOLEFONTSIZE)
             patch = consolefont[c];
@@ -261,16 +255,12 @@ void HUlib_DrawAltAutomapTextLine(hu_textline_t *l, bool external)
         }
 
         // [BH] apply kerning to certain character pairs
-        while (altkern[j].char1)
-        {
+        for (int j = 0; altkern[j].char1; j++)
             if (prevletter == altkern[j].char1 && letter == altkern[j].char2)
             {
                 x += altkern[j].adjust;
                 break;
             }
-
-            j++;
-        }
 
         althudtextfunc(x, SCREENHEIGHT - 16, fb1, patch, false, nearestwhite, (external ? MAPWIDTH : SCREENWIDTH), tinttab75);
         x += SHORT(patch->width);
@@ -359,21 +349,13 @@ static void HUlib_DrawTextLine(hu_textline_t *l, bool external)
                 if ((prev == '-' || (prev2 == '.' && prev == ' ' && c == '(')) && !idmypos)
                     x -= 2;
                 else
-                {
-                    int k = 0;
-
                     // [BH] apply kerning to certain character pairs
-                    while (kern[k].char1)
-                    {
+                    for (int k = 0; kern[k].char1; k++)
                         if (prev == kern[k].char1 && c == kern[k].char2)
                         {
                             x += kern[k].adjust * 2;
                             break;
                         }
-
-                        k++;
-                    }
-                }
 
                 // [BH] draw individual character
                 charwidth = (int)strlen(smallcharset[j]) / 10 - 1;
@@ -435,9 +417,9 @@ static void HUlib_DrawTextLine(hu_textline_t *l, bool external)
     for (int yy = MAX(0, l->y - 1); yy < maxy; yy++)
         for (int xx = l->x; xx < maxx; xx++)
         {
-            int     dot = yy * screenwidth + xx;
-            byte    *source = &tempscreen[dot];
-            byte    *dest1 = &fb1[dot];
+            const int   dot = yy * screenwidth + xx;
+            byte        *source = &tempscreen[dot];
+            byte        *dest1 = &fb1[dot];
 
             if (!*source)
                 *dest1 = tinttab1[(nearestblack << 8) + fb2[dot]];
@@ -498,21 +480,13 @@ void HUlib_DrawAutomapTextLine(hu_textline_t *l, bool external)
                 if (prev == '-' || (prev2 == '.' && prev == ' ' && c == '('))
                     x -= 2;
                 else
-                {
-                    int k = 0;
-
                     // [BH] apply kerning to certain character pairs
-                    while (kern[k].char1)
-                    {
+                    for (int k = 0; kern[k].char1; k++)
                         if (prev == kern[k].char1 && c == kern[k].char2)
                         {
                             x += kern[k].adjust * 2;
                             break;
                         }
-
-                        k++;
-                    }
-                }
 
                 if (r_hud_translucency)
                     HU_DrawTranslucentChar(x / 2, y / 2 - 1, j, fb, width);

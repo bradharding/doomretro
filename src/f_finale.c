@@ -415,8 +415,6 @@ static void F_TextWrite(void)
         }
         else
         {
-            int k = 0;
-
             if (prev == ' ')
             {
                 if (letter == '"')
@@ -425,16 +423,12 @@ static void F_TextWrite(void)
                     c = 65;
             }
 
-            while (kern[k].char1)
-            {
+            for (int k = 0; kern[k].char1; k++)
                 if (prev == kern[k].char1 && c == kern[k].char2)
                 {
                     cx += kern[k].adjust;
                     break;
                 }
-
-                k++;
-            }
 
             width = (int)strlen(smallcharset[c]) / 10 - 1;
             M_DrawSmallChar(cx + 1, cy + 1, c, true);

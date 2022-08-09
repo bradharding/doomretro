@@ -670,33 +670,22 @@ void M_DrawString(int x, int y, char *string)
             x += 7;
         else
         {
-            int         k = 0;
             bool        overlapping = false;
             const int   width = (int)strlen(redcharset[j]) / 18;
 
-            while (bigkern[k].char1)
-            {
+            for (int k = 0; bigkern[k].char1; k++)
                 if (prev == bigkern[k].char1 && string[i] == bigkern[k].char2)
                 {
                     x += bigkern[k].adjust;
                     break;
                 }
 
-                k++;
-            }
-
-            k = 0;
-
-            while (overlap[k].char1)
-            {
+            for (int k = 0; overlap[k].char1; k++)
                 if (prev == overlap[k].char1 && string[i] == overlap[k].char2)
                 {
                     overlapping = true;
                     break;
                 }
-
-                k++;
-            }
 
             for (int y1 = 0; y1 < 18; y1++)
                 for (int x1 = 0; x1 < width; x1++)
@@ -732,15 +721,10 @@ static int M_BigStringWidth(char *string)
     for (int i = 0; i < len; i++)
     {
         const int   j = chartoi[(int)string[i]];
-        int         k = 0;
 
-        while (bigkern[k].char1)
-        {
+        for (int k = 0; bigkern[k].char1; k++)
             if (prev == bigkern[k].char1 && string[i] == bigkern[k].char2)
                 width += bigkern[k].adjust;
-
-            k++;
-        }
 
         width += (j == -1 ? 7 : (int)strlen(redcharset[j]) / 18 - 2);
         prev = string[i];
