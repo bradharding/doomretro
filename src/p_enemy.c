@@ -75,7 +75,7 @@ void A_Fall(mobj_t *actor, player_t *player, pspdef_t *psp);
 //
 // killough 05/05/98: reformatted, cleaned up
 //
-static void P_RecursiveSound(sector_t *sec, int soundblocks, mobj_t *soundtarget)
+static void P_RecursiveSound(sector_t *sec, const int soundblocks, mobj_t *soundtarget)
 {
     // wake up all monsters in this sector
     if (sec->validcount == validcount && sec->soundtraversed <= soundblocks + 1)
@@ -123,7 +123,7 @@ void P_NoiseAlert(mobj_t *target)
 //
 // P_CheckRange
 //
-static bool P_CheckRange(mobj_t *actor, fixed_t range)
+static bool P_CheckRange(mobj_t *actor, const fixed_t range)
 {
     mobj_t  *target = actor->target;
 
@@ -276,7 +276,7 @@ static const fixed_t    yspeed[] = { 0, 47000, FRACUNIT, 47000, 0, -47000, -FRAC
 extern line_t   **spechit;
 extern int      numspechit;
 
-static bool P_Move(mobj_t *actor, int dropoff)  // killough 09/12/98
+static bool P_Move(mobj_t *actor, const int dropoff)    // killough 09/12/98
 {
     fixed_t tryx, tryy;
     fixed_t deltax, deltay;
@@ -428,7 +428,7 @@ static bool P_TryWalk(mobj_t *actor)
 // Most of P_NewChaseDir(), except for what
 // determines the new direction to take
 //
-static void P_DoNewChaseDir(mobj_t *actor, fixed_t deltax, fixed_t deltay)
+static void P_DoNewChaseDir(mobj_t *actor, const fixed_t deltax, const fixed_t deltay)
 {
     const dirtype_t opposite[] =
     {
@@ -561,7 +561,7 @@ static fixed_t  dropoff_deltax;
 static fixed_t  dropoff_deltay;
 static fixed_t  floorz;
 
-static bool PIT_AvoidDropoff(line_t *line)
+static bool PIT_AvoidDropoff(const line_t *line)
 {
     if (line->backsector                                                            // ignore one-sided linedefs
         && tmbbox[BOXRIGHT] > line->bbox[BOXLEFT]
@@ -595,7 +595,7 @@ static bool PIT_AvoidDropoff(line_t *line)
 //
 // Driver for above
 //
-static bool P_AvoidDropoff(mobj_t *actor)
+static bool P_AvoidDropoff(const mobj_t *actor)
 {
     const int   xh = P_GetSafeBlockX((tmbbox[BOXRIGHT] = actor->x + actor->radius) - bmaporgx);
     const int   xl = P_GetSafeBlockX((tmbbox[BOXLEFT] = actor->x - actor->radius) - bmaporgx);
@@ -712,7 +712,7 @@ static bool P_LookForMonsters(mobj_t *actor)
 // If allaround is false, only look 180 degrees in front.
 // Returns true if the player is targeted.
 //
-static bool P_LookForPlayer(mobj_t *actor, bool allaround)
+static bool P_LookForPlayer(mobj_t *actor, const bool allaround)
 {
     mobj_t  *mo = viewplayer->mo;
 
@@ -808,7 +808,7 @@ static bool P_LookForTargets(mobj_t *actor, int allaround)
     return P_LookForPlayer(actor, allaround);
 }
 
-static void P_ShakeOnExplode(mobj_t *actor)
+static void P_ShakeOnExplode(const mobj_t *actor)
 {
     if (r_shake_barrels && actor->type != MT_ROCKET)
     {

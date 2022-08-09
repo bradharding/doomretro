@@ -441,7 +441,7 @@ typedef struct ceilinglist_s
     struct ceilinglist_s    **prev;
 } ceilinglist_t;
 
-#define CEILSPEED       FRACUNIT
+#define CEILSPEED   FRACUNIT
 
 extern ceilinglist_t    *activeceilings;
 
@@ -520,12 +520,6 @@ typedef enum
     elevateDown,
     elevateCurrent
 } elevator_e;
-
-enum
-{
-    build8,     // slowly build by 8
-    turbo16     // quickly build by 16
-};
 
 typedef struct
 {

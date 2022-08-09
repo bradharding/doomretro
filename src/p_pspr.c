@@ -50,15 +50,13 @@
 #define LOWERSPEED  (6 * FRACUNIT)
 #define RAISESPEED  (6 * FRACUNIT)
 
-bool        successfulshot;
-bool        skippsprinterp;
-
-extern bool hitwall;
+bool    successfulshot;
+bool    skippsprinterp;
 
 //
 // A_Recoil
 //
-void A_Recoil(weapontype_t weapon)
+void A_Recoil(const weapontype_t weapon)
 {
     if (weaponrecoil)
         viewplayer->recoil = weaponinfo[weapon].recoil;
@@ -117,7 +115,7 @@ void P_SetPsprite(const size_t position, const statenum_t stnum)
 //
 // P_EquipWeapon
 //
-void P_EquipWeapon(weapontype_t weapon)
+void P_EquipWeapon(const weapontype_t weapon)
 {
     viewplayer->pendingweapon = weapon;
 
@@ -151,7 +149,7 @@ static void P_BringUpWeapon(void)
 // Returns true if there is enough ammo to shoot.
 // If not, selects the next weapon to use.
 //
-bool P_CheckAmmo(weapontype_t weapon)
+bool P_CheckAmmo(const weapontype_t weapon)
 {
     const ammotype_t    ammotype = weaponinfo[weapon].ammotype;
 

@@ -77,8 +77,8 @@ typedef struct
     fixed_t sx, sy;
 } pspdef_t;
 
-bool P_CheckAmmo(weapontype_t weapon);
-void P_EquipWeapon(weapontype_t weapon);
-void A_Recoil(weapontype_t weapon);
+bool P_CheckAmmo(const weapontype_t weapon);
+void P_EquipWeapon(const weapontype_t weapon);
+void A_Recoil(const weapontype_t weapon);
 
 extern bool skippsprinterp;

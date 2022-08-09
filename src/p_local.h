@@ -242,6 +242,7 @@ extern line_t       *ceilingline;
 extern line_t       *blockline;
 
 extern bool         infight;
+extern bool         hitwall;
 
 void P_CheckSpechits(void);
 bool P_CheckPosition(mobj_t *thing, const fixed_t x, const fixed_t y);
