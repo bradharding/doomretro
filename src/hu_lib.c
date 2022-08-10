@@ -262,7 +262,7 @@ void HUlib_DrawAltAutomapTextLine(hu_textline_t *l, bool external)
                 break;
             }
 
-        althudtextfunc(x, SCREENHEIGHT - 16, fb1, patch, false, nearestwhite, (external ? MAPWIDTH : SCREENWIDTH), tinttab75);
+        althudtextfunc(x, SCREENHEIGHT - 16, fb1, patch, true, nearestwhite, (external ? MAPWIDTH : SCREENWIDTH), tinttab75);
         x += SHORT(patch->width);
         prevletter = letter;
     }
