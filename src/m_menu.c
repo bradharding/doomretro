@@ -808,7 +808,6 @@ static void M_ReadSaveStrings(void)
         {
             M_StringCopy(&savegamestrings[i][0], s_EMPTYSTRING, sizeof(savegamestrings[0]));
             LoadGameMenu[i].status = 0;
-
             continue;
         }
 
@@ -2401,7 +2400,6 @@ static void M_WriteText(int x, int y, char *string, bool shadow)
         {
             cx = x;
             cy += 12;
-
             continue;
         }
 
@@ -2412,7 +2410,6 @@ static void M_WriteText(int x, int y, char *string, bool shadow)
         {
             cx += (prev == '.' || prev == '!' || prev == '?' ? 5 : 3);
             prev = letter;
-
             continue;
         }
 

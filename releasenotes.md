@@ -2,7 +2,7 @@
 
 #### DOOM Retro v4.6
 
-* *DOOM Retro* is now built using v17.3.0 of [*Microsoft Visual Studio Community 2022*](https://www.visualstudio.com/vs/).
+* *DOOM Retro* is now built using v17.3 of [*Microsoft Visual Studio Community 2022*](https://www.visualstudio.com/vs/).
 * *DOOM Retro* now uses [*SDL_mixer v2.6.1*](https://www.libsdl.org/SDL_mixer) and [*SDL_image v2.6.1*](https://www.libsdl.org/SDL_image).
 * Extensive optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * *DOOM Retro* no longer crashes if run from a folder that contains non-Latin characters in its path.
@@ -40,9 +40,10 @@
   * During intermission if the `WIENTER` or `WIF` lumps are taller than the screen.
 * Minor improvements have been made to the playback of MIDI music.
 * The `IDCHOPPERS` cheat is now canceled properly when the player exits a map.
-* The angles of thing triangles in the automap when the `IDDT` cheat is used are now interpolated when the `vid_capfps` CVAR is a value other than `35`.
-* The current map’s title in the automap is now in italics when the `r_althud` and `vid_widescreen` CVARs are `on`.
-* There is no longer a fade transition when a mark is added or cleared in the automap if the `fade` CVAR is `on`.
+* The following changes have been made in the automap:
+  * The angles of thing triangles when the `IDDT` cheat is used are now interpolated when the `vid_capfps` CVAR is a value other than `35`.
+  * The current map’s title is now in italics when the `r_althud` and `vid_widescreen` CVARs are `on`.
+  * There is no longer a fade transition when a mark is added or cleared if the `fade` CVAR is `on`.
 * The status bar and widescreen HUD are now displayed correctly when *DOOM Retro* is paused by pressing the <kbd><b>PAUSE</b></kbd> key.
 * The following changes have been made to the support of `DEHACKED` lumps:
   * The player’s super shotgun is now positioned correctly if the offsets of any of its frames are changed.
