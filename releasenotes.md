@@ -43,6 +43,7 @@
 * The following changes have been made in the automap:
   * The angles of thing triangles when the `IDDT` cheat is used are now interpolated when the `vid_capfps` CVAR is a value other than `35`.
   * The current map’s title is now in italics when the `r_althud` and `vid_widescreen` CVARs are `on`.
+  * The horizontal position of the current map’s title has changed in some instances.
   * There is no longer a fade transition when a mark is added or cleared if the `fade` CVAR is `on`.
 * The status bar and widescreen HUD are now displayed correctly when *DOOM Retro* is paused by pressing the <kbd><b>PAUSE</b></kbd> key.
 * The following changes have been made to the support of `DEHACKED` lumps:

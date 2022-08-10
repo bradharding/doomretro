@@ -235,7 +235,7 @@ void HUlib_DrawAltAutomapTextLine(hu_textline_t *l, bool external)
 {
     bool            italics = false;
     unsigned char   prevletter = '\0';
-    int             x = 10;
+    int             x = OVERLAYTEXTX;
     byte            *fb1 = (external ? mapscreen : screens[0]);
     const int       len = l->len;
 

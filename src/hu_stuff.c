@@ -1131,7 +1131,7 @@ void HU_Drawer(void)
         else
         {
             if (vid_widescreen)
-                w_title.x = (r_screensize == r_screensize_max - 1 ? WIDESCREENDELTA * 2 : 8);
+                w_title.x = (r_screensize == r_screensize_max - 1 ? WIDESCREENDELTA * 2 : OVERLAYTEXTX);
 
 #if SCREENSCALE == 1
             w_title.y = MAPHEIGHT * 2 - hu_font[0]->height * 2 - 4;
