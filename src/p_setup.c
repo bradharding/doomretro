@@ -2846,7 +2846,7 @@ void P_MapName(int ep, int map)
                     memmove(maptitle, maptitle + 1, strlen(maptitle));
 
                 temp = titlecase(maptitle);
-                M_snprintf(mapnumandtitle, sizeof(mapnumandtitle), "%s: %s", mapnum, temp);
+                M_snprintf(mapnumandtitle, sizeof(mapnumandtitle), "%s: " ITALICSTOGGLE "%s" ITALICSTOGGLE, mapnum, temp);
             }
             else
             {
@@ -2864,7 +2864,8 @@ void P_MapName(int ep, int map)
         {
             char    *temp = titlecase(maptitle);
 
-            M_snprintf(mapnumandtitle, sizeof(mapnumandtitle), "%s%s%s", mapnum, (maptitle[0] ? ": " : ""), temp);
+            M_snprintf(mapnumandtitle, sizeof(mapnumandtitle),
+                "%s%s" ITALICSTOGGLE "%s" ITALICSTOGGLE, mapnum, (maptitle[0] ? ": " : ""), temp);
             free(temp);
         }
         else

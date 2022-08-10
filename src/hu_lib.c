@@ -187,13 +187,14 @@ static void HUlib_DrawAltHUDTextLine(hu_textline_t *l)
     for (int i = 0; i < len; i++)
     {
         const unsigned char letter = l->l[i];
-        const unsigned char nextletter = l->l[i + 1];
-        patch_t             *patch = unknownchar;
 
         if (letter == ITALICSTOGGLECHAR)
             italics = !italics;
         else
         {
+            patch_t             *patch = unknownchar;
+            const unsigned char nextletter = l->l[i + 1];
+
             if (letter == 194 && nextletter == 176)
             {
                 patch = degree;
@@ -232,6 +233,7 @@ static void HUlib_DrawAltHUDTextLine(hu_textline_t *l)
 
 void HUlib_DrawAltAutomapTextLine(hu_textline_t *l, bool external)
 {
+    bool            italics = false;
     unsigned char   prevletter = '\0';
     int             x = 10;
     byte            *fb1 = (external ? mapscreen : screens[0]);
@@ -240,31 +242,37 @@ void HUlib_DrawAltAutomapTextLine(hu_textline_t *l, bool external)
     for (int i = 0; i < len; i++)
     {
         const unsigned char letter = l->l[i];
-        patch_t             *patch = unknownchar;
-        const int           c = letter - CONSOLEFONTSTART;
 
-        if (c >= 0 && c < CONSOLEFONTSIZE)
-            patch = consolefont[c];
-
-        if (!i || prevletter == ' ')
+        if (letter == ITALICSTOGGLECHAR)
+            italics = !italics;
+        else
         {
-            if (letter == '\'')
-                patch = lsquote;
-            else if (letter == '"')
-                patch = ldquote;
-        }
+            patch_t     *patch = unknownchar;
+            const int   c = letter - CONSOLEFONTSTART;
 
-        // [BH] apply kerning to certain character pairs
-        for (int j = 0; altkern[j].char1; j++)
-            if (prevletter == altkern[j].char1 && letter == altkern[j].char2)
+            if (c >= 0 && c < CONSOLEFONTSIZE)
+                patch = consolefont[c];
+
+            if (!i || prevletter == ' ')
             {
-                x += altkern[j].adjust;
-                break;
+                if (letter == '\'')
+                    patch = lsquote;
+                else if (letter == '"')
+                    patch = ldquote;
             }
 
-        althudtextfunc(x, SCREENHEIGHT - 16, fb1, patch, true, nearestwhite, (external ? MAPWIDTH : SCREENWIDTH), tinttab75);
-        x += SHORT(patch->width);
-        prevletter = letter;
+            // [BH] apply kerning to certain character pairs
+            for (int j = 0; altkern[j].char1; j++)
+                if (prevletter == altkern[j].char1 && letter == altkern[j].char2)
+                {
+                    x += altkern[j].adjust;
+                    break;
+                }
+
+            althudtextfunc(x, SCREENHEIGHT - 16, fb1, patch, italics, nearestwhite, (external ? MAPWIDTH : SCREENWIDTH), tinttab75);
+            x += SHORT(patch->width);
+            prevletter = letter;
+        }
     }
 }
 
