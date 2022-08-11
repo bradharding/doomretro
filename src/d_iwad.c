@@ -92,9 +92,9 @@ typedef struct
 // [AlexMax] From the perspective of a 64-bit executable, 32-bit registry
 // keys are located in a different spot.
 #if defined(_WIN64)
-#define SOFTWARE_KEY    "SOFTWARE\\WOW6432Node"
+#define SOFTWARE_KEY    "SOFTWARE\\WOW6432Node\\"
 #else
-#define SOFTWARE_KEY    "SOFTWARE"
+#define SOFTWARE_KEY    "SOFTWARE\\"
 #endif
 
 static registryvalue_t uninstall_values[] =
@@ -102,28 +102,28 @@ static registryvalue_t uninstall_values[] =
     // Ultimate DOOM, CD version (Depths of DOOM trilogy)
     {
         HKEY_LOCAL_MACHINE,
-        SOFTWARE_KEY "\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Ultimate Doom for Windows 95",
+        SOFTWARE_KEY "Microsoft\\Windows\\CurrentVersion\\Uninstall\\Ultimate Doom for Windows 95",
         "UninstallString"
     },
 
     // DOOM II, CD version (Depths of DOOM trilogy)
     {
         HKEY_LOCAL_MACHINE,
-        SOFTWARE_KEY "\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Doom II for Windows 95",
+        SOFTWARE_KEY "Microsoft\\Windows\\CurrentVersion\\Uninstall\\Doom II for Windows 95",
         "UninstallString"
     },
 
     // Final DOOM
     {
         HKEY_LOCAL_MACHINE,
-        SOFTWARE_KEY "\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Final Doom for Windows 95",
+        SOFTWARE_KEY "Microsoft\\Windows\\CurrentVersion\\Uninstall\\Final Doom for Windows 95",
         "UninstallString"
     },
 
     // Shareware version
     {
         HKEY_LOCAL_MACHINE,
-        SOFTWARE_KEY "\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Doom Shareware for Windows 95",
+        SOFTWARE_KEY "Microsoft\\Windows\\CurrentVersion\\Uninstall\\Doom Shareware for Windows 95",
         "UninstallString"
     }
 };
@@ -134,35 +134,35 @@ static registryvalue_t root_path_keys[] =
     // DOOM Collector's Edition
     {
         HKEY_LOCAL_MACHINE,
-        SOFTWARE_KEY "\\Activision\\DOOM Collector's Edition\\v1.0",
+        SOFTWARE_KEY "Activision\\DOOM Collector's Edition\\v1.0",
         "INSTALLPATH"
     },
 
     // DOOM II
     {
         HKEY_LOCAL_MACHINE,
-        SOFTWARE_KEY "\\GOG.com\\Games\\1435848814",
+        SOFTWARE_KEY "GOG.com\\Games\\1435848814",
         "PATH"
     },
 
     // DOOM 3: BFG Edition
     {
         HKEY_LOCAL_MACHINE,
-        SOFTWARE_KEY "\\GOG.com\\Games\\1135892318",
+        SOFTWARE_KEY "GOG.com\\Games\\1135892318",
         "PATH"
     },
 
     // Final DOOM
     {
         HKEY_LOCAL_MACHINE,
-        SOFTWARE_KEY "\\GOG.com\\Games\\1435848742",
+        SOFTWARE_KEY "GOG.com\\Games\\1435848742",
         "PATH"
     },
 
     // Ultimate DOOM
     {
         HKEY_LOCAL_MACHINE,
-        SOFTWARE_KEY "\\GOG.com\\Games\\1435827232",
+        SOFTWARE_KEY "GOG.com\\Games\\1435827232",
         "PATH"
     }
 };
@@ -182,7 +182,7 @@ static const char *root_path_subdirs[] =
 // Location where the Bethesda.net Launcher is installed
 static registryvalue_t bethesda_install_location =
 {
-    HKEY_LOCAL_MACHINE, SOFTWARE_KEY "\\Bethesda Softworks\\Bethesda.net", "installLocation"
+    HKEY_LOCAL_MACHINE, SOFTWARE_KEY "Bethesda Softworks\\Bethesda.net", "installLocation"
 };
 
 // Subdirs of the Bethesda.net Launcher install directory where IWADs are found
@@ -198,8 +198,8 @@ static const char *bethesda_install_subdirs[] =
 // Locations where Steam is installed
 static registryvalue_t steam_install_locations[] =
 {
-    { HKEY_CURRENT_USER,  "SOFTWARE\\Valve\\Steam",      "SteamPath"   },
-    { HKEY_LOCAL_MACHINE, SOFTWARE_KEY "\\Valve\\Steam", "InstallPath" }
+    { HKEY_CURRENT_USER,  "SOFTWARE\\Valve\\Steam",    "SteamPath"   },
+    { HKEY_LOCAL_MACHINE, SOFTWARE_KEY "Valve\\Steam", "InstallPath" }
 };
 
 // Subdirs of the Steam install directory where IWADs are found

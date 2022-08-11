@@ -909,7 +909,7 @@ int R_FlatNumForName(char *name)
         {
             char    *temp = uppercase(name);
 
-            C_Warning(1, "The " BOLD("%.8s") " flat texture can't be found.", temp);
+            C_Warning(1, "The " BOLD("%.8s") " texture can't be found.", temp);
             free(temp);
         }
 
@@ -967,7 +967,7 @@ int R_TextureNumForName(char *name)
         {
             char    *temp = uppercase(name);
 
-            C_Warning(1, "The " BOLD("%.8s") " wall texture can't be found.", temp);
+            C_Warning(1, "The " BOLD("%.8s") " texture can't be found.", temp);
             free(temp);
         }
 
