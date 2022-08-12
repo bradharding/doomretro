@@ -1186,7 +1186,7 @@ static void C_DrawTimeStamp(int x, int y, int index)
 
 void C_UpdateFPSOverlay(void)
 {
-    if (!dowipe && !splashscreen)
+    if (!dowipe && !splashscreen && framespersecond)
     {
         char    buffer[32];
         char    *temp = commify(framespersecond);
