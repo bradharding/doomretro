@@ -10,6 +10,7 @@
 * The amount of blood splats displayed now depends on their distance from the player again.
 * A message is now displayed with an accompanying sound effect whenever the player finds a secret. This feature may be toggled using the new `secretmessages` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
 * Secrets are no longer considered to be found if the player happens to walk into one while no clipping mode or freeze mode is enabled.
+* Player messages have shifted to the right slightly when the `r_althud` and `vid_widescreen` CVARs are `on`.
 * The following changes have been made to the menu’s background:
   * It now has a border with curved corners.
   * The player’s field of view is now increased to `135°`.
@@ -43,10 +44,11 @@
 * The following changes have been made in the automap:
   * The angles of thing triangles when the `IDDT` cheat is used are now interpolated when the `vid_capfps` CVAR is a value other than `35`.
   * The current map’s title is now in italics when the `r_althud` and `vid_widescreen` CVARs are `on`.
-  * Player messages are now less translucent when the `r_althud` and `vid_widescreen` CVARs are `on`.
+  * All text displayed now has the same amount of translucency when the `r_althud` and `vid_widescreen` CVARs are `on`.
   * The position of the current map’s title has changed in some instances.
   * There is no longer a fade transition when a mark is added or cleared if the `fade` CVAR is `on`.
 * The status bar and widescreen HUD are now displayed correctly when *DOOM Retro* is paused by pressing the <kbd><b>PAUSE</b></kbd> key.
+* The chainsaw has been shifted to the left slightly when the `r_althud` and `vid_widescreen` CVARs are `on`.
 * The following changes have been made to the support of `DEHACKED` lumps:
   * The player’s super shotgun is now positioned correctly if the offsets of any of its frames are changed.
   * Using the `SHADOW` flag in `Bits` now always works as intended.
