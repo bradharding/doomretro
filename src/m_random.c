@@ -50,9 +50,9 @@ unsigned int    bigseed;
 // Outputs a random angle between (-spread, spread), as an int ('cause it can be negative).
 //   spread: Maximum angle (degrees, in fixed point -- not BAM!)
 //
-angle_t P_RandomHitscanAngle(fixed_t spread)
+int P_RandomHitscanAngle(fixed_t spread)
 {
-    return (angle_t)(((int64_t)(spread < 0 ? FixedToAngle(-spread) : FixedToAngle(spread)) * M_SubRandom()) / 255);
+    return (int)(((int64_t)(spread < 0 ? FixedToAngle(-spread) : FixedToAngle(spread)) * M_SubRandom()) / 255);
 }
 
 //
@@ -62,7 +62,7 @@ angle_t P_RandomHitscanAngle(fixed_t spread)
 //
 int P_RandomHitscanSlope(fixed_t spread)
 {
-    angle_t angle = P_RandomHitscanAngle(spread);
+    int angle = P_RandomHitscanAngle(spread);
 
     return finetangent[(angle > ANG90 ? 0 : (-angle > ANG90 ? FINEANGLES / 2 - 1 : (ANG90 - angle) >> ANGLETOFINESHIFT))];
 }
