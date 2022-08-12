@@ -68,7 +68,7 @@ static const unsigned char rndtable[] =
 extern unsigned int seed;
 extern unsigned int bigseed;
 
-int P_RandomHitscanAngle(fixed_t spread);
+angle_t P_RandomHitscanAngle(fixed_t spread);
 int P_RandomHitscanSlope(fixed_t spread);
 
 static inline int M_Random(void)
