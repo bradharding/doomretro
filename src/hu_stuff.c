@@ -1180,13 +1180,13 @@ void HU_Drawer(void)
 
         if (mapwindow)
         {
-            w_title.x = 8;
+            w_title.x = 25;
 
             if (r_althud && r_screensize == r_screensize_max)
                 HUlib_DrawAltAutomapTextLine(&w_title, true);
             else
             {
-                w_title.y = MAPHEIGHT - hu_font[0]->height * SCREENSCALE - 4;
+                w_title.y = MAPHEIGHT - hu_font[0]->height * SCREENSCALE - 8;
                 HUlib_DrawAutomapTextLine(&w_title, true);
             }
         }
