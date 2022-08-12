@@ -100,6 +100,8 @@
 #define OVERLAYTEXTY                        (vid_widescreen ? 12 : 10)
 #define OVERLAYLINEHEIGHT                   14
 #define OVERLAYSPACING                      5
+#define MAPOVERLAYTEXTX                     (vid_widescreen || mapwindow ? 25 : 8)
+#define MAPOVERLAYTEXTY                     (vid_widescreen || mapwindow ? 12 : 10)
 
 #define WARNINGWIDTH                        13
 

@@ -1237,8 +1237,8 @@ void C_UpdatePathOverlay(void)
     {
         byte    *tinttab = (r_hud_translucency ? (automapactive ? tinttab70 : tinttab50) : NULL);
 
-        C_DrawOverlayText(mapscreen, MAPWIDTH, MAPWIDTH - C_OverlayWidth(temp, true) - OVERLAYTEXTX + 1,
-            OVERLAYTEXTY + (OVERLAYLINEHEIGHT + OVERLAYSPACING) * ((int)(vid_showfps && automapactive)
+        C_DrawOverlayText(mapscreen, MAPWIDTH, MAPWIDTH - C_OverlayWidth(temp, true) - MAPOVERLAYTEXTX + 1,
+            MAPOVERLAYTEXTY + (OVERLAYLINEHEIGHT + OVERLAYSPACING) * ((int)(vid_showfps && automapactive)
             + (int)(!!timeremaining && automapactive)), tinttab, temp, consoleoverlaycolor, true);
         free(temp);
 
@@ -1250,8 +1250,8 @@ void C_UpdatePathOverlay(void)
 
 void C_UpdatePlayerStatsOverlay(void)
 {
-    const int   x = MAPWIDTH - OVERLAYTEXTX + 1;
-    int         y = OVERLAYTEXTY + (OVERLAYLINEHEIGHT + OVERLAYSPACING) * ((int)(vid_showfps
+    const int   x = MAPWIDTH - MAPOVERLAYTEXTX + 1;
+    int         y = MAPOVERLAYTEXTY + (OVERLAYLINEHEIGHT + OVERLAYSPACING) * ((int)(vid_showfps
                     && automapactive) + (int)(!!timeremaining && automapactive) + (int)pathoverlay);
     byte        *tinttab = (r_hud_translucency ? (automapactive ? tinttab70 : tinttab50) : NULL);
 
