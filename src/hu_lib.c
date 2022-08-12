@@ -158,18 +158,15 @@ static void HUlib_DrawAltHUDTextLine(hu_textline_t *l)
 {
     bool            italics = false;
     unsigned char   prevletter = '\0';
-    int             x = 10;
+    int             x = OVERLAYTEXTX;
     int             color = (message_secret ? nearestgold : nearestwhite);
     const int       len = l->len;
     byte            *tinttab = tinttab50;
 
     if (!automapactive)
-    {
-        x = HU_ALTHUDMSGX;
         color = (r_textures ? (viewplayer->fixedcolormap == INVERSECOLORMAP ? colormaps[0][32 * 256 + color] : color) :
             (viewplayer->fixedcolormap == INVERSECOLORMAP ? colormaps[0][32 * 256 + color] :
             (message_secret ? nearestgold : nearestblack)));
-    }
 
     if (fade)
     {
