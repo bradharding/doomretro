@@ -915,7 +915,7 @@ void P_MovePsprites(void)
         }
         else
         {
-            const int   angle = ((128 * leveltime) & FINEMASK);
+            const angle_t   angle = ((128 * leveltime) & FINEMASK);
 
             weapon->sx = FixedMul(bob, finecosine[angle]);
             weapon->sy = WEAPONTOP + FixedMul(bob, finesine[angle & (FINEANGLES / 2 - 1)]);

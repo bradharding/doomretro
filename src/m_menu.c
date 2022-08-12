@@ -690,9 +690,9 @@ void M_DrawString(int x, int y, char *string)
             for (int y1 = 0; y1 < 18; y1++)
                 for (int x1 = 0; x1 < width; x1++)
                 {
-                    const char  dot = redcharset[j][y1 * width + x1];
+                    const unsigned char dot = redcharset[j][y1 * width + x1];
 
-                    if (dot == '\xC8')
+                    if (dot == (unsigned char)'\xC8')
                     {
                         if (!overlapping)
                             V_DrawPixel(x + x1, y + y1, PINK, true);

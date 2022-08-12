@@ -39,6 +39,7 @@
 #pragma once
 
 #include "m_fixed.h"
+#include "tables.h"
 
 #define DEFAULT 0x7FFF
 #define REMOVE  0
@@ -105,7 +106,7 @@ typedef struct
     int     type;
     int     oldx, oldy;
     int     newx, newy;
-    int     angle;
+    angle_t angle;
     int     options;
 } thingfix_t;
 

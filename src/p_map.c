@@ -1950,7 +1950,7 @@ bool P_DoorClosed(line_t *line)
 //
 void P_UseLines(void)
 {
-    int     angle;
+    angle_t angle;
     fixed_t x1, y1;
     fixed_t x2, y2;
 
@@ -2136,7 +2136,7 @@ static void PIT_ChangeSector(mobj_t *thing)
 
             for (int i = 0; i < max; i++)
             {
-                const int   angle = M_BigRandomInt(0, FINEANGLES - 1);
+                const angle_t   angle = M_BigRandomInt(0, FINEANGLES - 1);
 
                 P_SpawnBloodSplat(x + FixedMul(M_RandomInt(0, radius) << FRACBITS, finecosine[angle]),
                     y + FixedMul(M_RandomInt(0, radius) << FRACBITS, finesine[angle]), color, true, floorz, NULL);
