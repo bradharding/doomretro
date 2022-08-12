@@ -976,7 +976,7 @@ static void HU_DrawAltHUD(void)
         }
 
         if (altweapon[weapon])
-            althudfunc(ALTHUD_RIGHT_X + 107, ALTHUD_Y - 15, altweapon[weapon], WHITE, color);
+            althudfunc(ALTHUD_RIGHT_X + (weapon == wp_chainsaw ? 87 : 107), ALTHUD_Y - 15, altweapon[weapon], WHITE, color);
     }
 
     for (int i = 1; i <= NUMCARDS; i++)
