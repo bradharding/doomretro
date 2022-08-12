@@ -161,7 +161,7 @@ static void HUlib_DrawAltHUDTextLine(hu_textline_t *l)
     int             x = OVERLAYTEXTX;
     int             color = (message_secret ? nearestgold : nearestwhite);
     const int       len = l->len;
-    byte            *tinttab = tinttab50;
+    byte            *tinttab = (automapactive ? tinttab70 : tinttab50);
 
     if (!automapactive)
         color = (r_textures ? (viewplayer->fixedcolormap == INVERSECOLORMAP ? colormaps[0][32 * 256 + color] : color) :
@@ -171,6 +171,14 @@ static void HUlib_DrawAltHUDTextLine(hu_textline_t *l)
     if (fade)
     {
         byte    *tinttabs[] = { NULL, tinttab10, tinttab20, tinttab30, tinttab40 };
+
+        if (automapactive)
+        {
+            tinttabs[1] = tinttab10;
+            tinttabs[2] = tinttab25;
+            tinttabs[3] = tinttab40;
+            tinttabs[4] = tinttab60;
+        }
 
         if (message_counter <= 4)
             tinttab = tinttabs[message_counter];
