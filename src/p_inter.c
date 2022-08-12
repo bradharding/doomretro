@@ -923,7 +923,6 @@ bool P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, const bool message, c
                     if (buffer[0])
                         buffer[0] = toupper(buffer[0]);
 
-                    M_StringCopy(buffer, M_StringReplace(buffer, "really", ITALICS("really")), sizeof(buffer));
                     HU_PlayerMessage(buffer, true, false);
                 }
                 else
