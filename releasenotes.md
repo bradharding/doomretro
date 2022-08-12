@@ -59,6 +59,7 @@
   * The player’s view now shakes if a thing other than a barrel (but not a missile) uses the `A_Explode` codepointer and the `r_shake_barrels` CVAR is `on`.
   * If a thing is changed in any way, the offsets of all of its sprite’s frames are no longer corrected even if the `r_fixspriteoffsets` CVAR is `on`.
   * The values of `Green Armor Class` and `Blue Armor Class` in `Misc` blocks are now always used.
+  * By adding an underscore before and after text in a player message, that text will appear italicized in the console and when the `r_althud` and `vid_widescreen` CVARs are `on`.
 * The following changes have been made to the support of `MAPINFO` lumps:
   * `nofreelook` and `nojump` now work as intended.
   * `enterpic` now works as intended.
