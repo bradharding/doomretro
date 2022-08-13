@@ -36,11 +36,11 @@
 ========================================================================
 */
 
-extern const unsigned char  *wilv[];
-extern const unsigned char  *redcharset[];
-extern const unsigned char  *smallcharset[];
-extern const unsigned char  *lsleft;
-extern const unsigned char  *lscntr;
-extern const unsigned char  *lsrght;
-extern const unsigned char  *nmare;
-extern const unsigned char  *underscores;
+extern const char   *wilv[];
+extern const char   *redcharset[];
+extern const char   *smallcharset[];
+extern const char   *lsleft;
+extern const char   *lscntr;
+extern const char   *lsrght;
+extern const char   *nmare;
+extern const char   *underscores;
