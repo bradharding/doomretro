@@ -3,6 +3,7 @@
 #### DOOM Retro v4.6
 
 * *DOOM Retro* is now built using v17.3 of [*Microsoft Visual Studio Community 2022*](https://www.visualstudio.com/vs/).
+* *DOOM Retro* now uses [*SDL v2.24.0*](https://www.libsdl.org).
 * *DOOM Retro* now uses [*SDL_mixer v2.6.1*](https://www.libsdl.org/SDL_mixer) and [*SDL_image v2.6.1*](https://www.libsdl.org/SDL_image).
 * Extensive optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * *DOOM Retro* no longer crashes if run from a folder that contains non-Latin characters in its path.
