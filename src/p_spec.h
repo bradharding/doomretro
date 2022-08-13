@@ -776,13 +776,6 @@ enum
     FChgTyp
 };
 
-// define names for the Change Model field of the general floor
-enum
-{
-    FTriggerModel,
-    FNumericModel
-};
-
 // define names for the Target field of the general ceiling
 enum
 {
@@ -803,13 +796,6 @@ enum
     CChgZero,
     CChgTxt,
     CChgTyp
-};
-
-// define names for the Change Model field of the general ceiling
-enum
-{
-    CTriggerModel,
-    CNumericModel
 };
 
 // define names for the Target field of the general lift
