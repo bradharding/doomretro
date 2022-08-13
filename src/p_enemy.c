@@ -561,7 +561,7 @@ static fixed_t  dropoff_deltax;
 static fixed_t  dropoff_deltay;
 static fixed_t  floorz;
 
-static bool PIT_AvoidDropoff(const line_t *line)
+static bool PIT_AvoidDropoff(line_t *line)
 {
     if (line->backsector                                                            // ignore one-sided linedefs
         && tmbbox[BOXRIGHT] > line->bbox[BOXLEFT]
