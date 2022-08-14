@@ -231,7 +231,6 @@ void I_Quit(bool shutdown)
 
         M_SaveCVARs();
 
-        FreeSurfaces(true);
         I_ShutdownKeyboard();
         I_ShutdownGameController();
         SDL_Quit();
@@ -270,7 +269,6 @@ void I_Error(const char *error, ...)
 
     M_SaveCVARs();
 
-    FreeSurfaces(true);
     I_ShutdownKeyboard();
     I_ShutdownGameController();
     SDL_Quit();
