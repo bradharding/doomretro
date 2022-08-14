@@ -294,22 +294,6 @@ void I_CapFPS(int cap)
 #endif
 }
 
-void FreeSurfaces(bool freewindow)
-{
-    SDL_FreePalette(palette);
-    SDL_FreeSurface(surface);
-    SDL_FreeSurface(buffer);
-    SDL_DestroyTexture(texture);
-    SDL_DestroyTexture(texture_upscaled);
-
-    if (freewindow)
-    {
-        SDL_DestroyRenderer(renderer);
-        SDL_DestroyWindow(window);
-        window = NULL;
-    }
-}
-
 #if defined(_WIN32)
 static void ToggleCapsLockState(void)
 {
@@ -1848,7 +1832,8 @@ static void I_GetScreenDimensions(void)
 
 void I_RestartGraphics(bool recreatewindow)
 {
-    FreeSurfaces(recreatewindow);
+    if (recreatewindow)
+        SDL_DestroyWindow(window);
 
     I_GetScreenDimensions();
 
