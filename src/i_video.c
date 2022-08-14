@@ -90,7 +90,9 @@ unsigned int    MAPHEIGHT = VANILLAHEIGHT * SCREENSCALE;
 unsigned int    MAPAREA;
 int             MAPBOTTOM;
 
-#if defined(SDL_VIDEO_RENDER_D3D11)
+#if defined(SDL_VIDEO_RENDER_D3D12)
+#define DIRECT3DVERSION     "v12.0"
+#elif defined(SDL_VIDEO_RENDER_D3D11)
 #define DIRECT3DVERSION     "v11.0"
 #else
 #define DIRECT3DVERSION     "v9.0"
