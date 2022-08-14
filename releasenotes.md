@@ -86,6 +86,7 @@
 * A bug is fixed whereby the colormap applied to monsters could be wrong in some rare instances.
 * Sectors without thinkers are no longer interpolated if the `vid_capfps` CVAR is a value other than `35`.
 * The screen will now smoothly fade to black if the player has a berserk or radiation shielding suit power-up, the console is opened, the player uses the `quit` CCMD, and the `fade` CVAR is `on`.
+* The `vid_borderlesswindow` CVAR is now `off` by default.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

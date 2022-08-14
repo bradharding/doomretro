@@ -707,7 +707,7 @@ enum
 
 #define version_default                    DOOMRETRO_VERSIONSTRING
 
-#define vid_borderlesswindow_default       true
+#define vid_borderlesswindow_default       false
 
 #define vid_capfps_min                     0
 #define vid_capfps_default                 200
