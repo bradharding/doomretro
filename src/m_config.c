@@ -1225,9 +1225,7 @@ static void M_CheckCVARs(bool ispackageconfig)
     if (units != units_imperial && units != units_metric)
         units = units_default;
 
-    version = version_default;
-
-    if (vid_borderlesswindow != false && vid_borderlesswindow != true)
+    if ((vid_borderlesswindow != false && vid_borderlesswindow != true) || !M_StringCompare(version, DOOMRETRO_VERSIONSTRING))
         vid_borderlesswindow = vid_borderlesswindow_default;
 
     vid_capfps = BETWEEN(vid_capfps_min, vid_capfps, vid_capfps_max);
@@ -1272,6 +1270,9 @@ static void M_CheckCVARs(bool ispackageconfig)
 
     if (weaponrecoil != false && weaponrecoil != true)
         weaponrecoil = weaponrecoil_default;
+
+    // Set version CVAR last
+    version = version_default;
 }
 
 //
