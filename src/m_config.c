@@ -817,6 +817,35 @@ static float ParseFloatParameter(char *strparm, int valuealiastype)
     return (float)strtod(strparm, NULL);
 }
 
+
+static bool M_OlderVersion(void)
+{
+    unsigned int    major1 = 0;
+    unsigned int    minor1 = 0;
+    unsigned int    bugfix1 = 0;
+    unsigned int    major2 = 0;
+    unsigned int    minor2 = 0;
+    unsigned int    bugfix2 = 0;
+
+    sscanf(version, "%u.%u.%u", &major1, &minor1, &bugfix1);
+    sscanf(DOOMRETRO_VERSIONSTRING, "%u.%u.%u", &major2, &minor2, &bugfix2);
+
+    if (major1 < major2)
+        return true;
+    else if (major1 > major2)
+        return false;
+
+    if (minor1 < minor2)
+        return true;
+    else if (minor1 > minor2)
+        return false;
+
+    if (bugfix1 < bugfix2)
+        return true;
+
+    return false;
+}
+
 static void M_CheckCVARs(bool ispackageconfig)
 {
     if (alwaysrun != false && alwaysrun != true)
@@ -1225,7 +1254,7 @@ static void M_CheckCVARs(bool ispackageconfig)
     if (units != units_imperial && units != units_metric)
         units = units_default;
 
-    if ((vid_borderlesswindow != false && vid_borderlesswindow != true) || !M_StringCompare(version, DOOMRETRO_VERSIONSTRING))
+    if ((vid_borderlesswindow != false && vid_borderlesswindow != true) || M_OlderVersion())
         vid_borderlesswindow = vid_borderlesswindow_default;
 
     vid_capfps = BETWEEN(vid_capfps_min, vid_capfps, vid_capfps_max);
