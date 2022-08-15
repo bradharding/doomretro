@@ -2757,7 +2757,7 @@ void P_MapName(int ep, int map)
                 mapnumonly = true;
                 M_StringCopy(maptitle, mapnum, sizeof(maptitle));
                 M_StringCopy(mapnumandtitle, mapnum, sizeof(mapnumandtitle));
-                M_StringCopy(automaptitle, mapnum, sizeof(mapnumandtitle));
+                M_StringCopy(automaptitle, mapnum, sizeof(automaptitle));
             }
             else if (bfgedition && (!modifiedgame || nerve) && map <= nummapnames2_bfg)
                 M_StringCopy(maptitle, trimwhitespace(*mapnames2_bfg[map - 1]), sizeof(maptitle));
@@ -2786,7 +2786,7 @@ void P_MapName(int ep, int map)
                 mapnumonly = true;
                 M_StringCopy(maptitle, mapnum, sizeof(maptitle));
                 M_StringCopy(mapnumandtitle, mapnum, sizeof(mapnumandtitle));
-                M_StringCopy(automaptitle, mapnum, sizeof(mapnumandtitle));
+                M_StringCopy(automaptitle, mapnum, sizeof(automaptitle));
             }
             else if (map <= nummapnamesp)
                 M_StringCopy(maptitle, trimwhitespace(*mapnamesp[map - 1]), sizeof(maptitle));
@@ -2803,7 +2803,7 @@ void P_MapName(int ep, int map)
                 mapnumonly = true;
                 M_StringCopy(maptitle, mapnum, sizeof(maptitle));
                 M_StringCopy(mapnumandtitle, mapnum, sizeof(mapnumandtitle));
-                M_StringCopy(automaptitle, mapnum, sizeof(mapnumandtitle));
+                M_StringCopy(automaptitle, mapnum, sizeof(automaptitle));
             }
             else if (map <= nummapnamest)
                 M_StringCopy(maptitle, trimwhitespace(*mapnamest[map - 1]), sizeof(maptitle));
@@ -2838,7 +2838,20 @@ void P_MapName(int ep, int map)
             const int   index = (int)(pos - maptitle) + 1;
             char        *temp;
 
-            if (M_StringStartsWith(maptitle, "LEVEL"))
+            if (BTSX)
+            {
+                memmove(maptitle, maptitle + index, strlen(maptitle) - index + 1);
+
+                if (maptitle[0] == ' ')
+                    memmove(maptitle, maptitle + 1, strlen(maptitle));
+
+                temp = titlecase(maptitle);
+                M_snprintf(mapnum, sizeof(mapnum), "E%iM%02i", ep, map);
+                M_snprintf(mapnumandtitle, sizeof(mapnumandtitle), "%s: " ITALICSTOGGLE "%s" ITALICSTOGGLE, mapnum, temp);
+            }
+            else if (M_StringStartsWith(maptitle, "LEVEL")
+                || M_StringStartsWith(maptitle, "MAP")
+                || (toupper(maptitle[0]) == 'E' && isdigit(maptitle[1]) && toupper(maptitle[2]) == 'M' && isdigit(maptitle[3])))
             {
                 memmove(maptitle, maptitle + index, strlen(maptitle) - index + 1);
 
