@@ -2923,7 +2923,7 @@ bool M_Responder(event_t *ev)
 
             if (viewactive)
                 M_SizeDisplay(0);
-            else if (vid_widescreen && !fadecount)
+            else if (vid_widescreen)
             {
                 vid_widescreen = false;
                 r_screensize = r_screensize_max - 1;
@@ -2947,7 +2947,7 @@ bool M_Responder(event_t *ev)
 
             if (viewactive)
                 M_SizeDisplay(1);
-            else if (!vid_widescreen && !nowidescreen && !fadecount)
+            else if (!vid_widescreen && !nowidescreen)
             {
                 vid_widescreen = true;
                 r_screensize = r_screensize_max - 1;
