@@ -158,6 +158,7 @@ static void HUlib_DrawAltHUDTextLine(hu_textline_t *l)
 {
     bool            italics = false;
     unsigned char   prevletter = '\0';
+    unsigned char   prevletter2 = '\0';
     int             x = OVERLAYTEXTX;
     int             color = (message_secret ? nearestgold : nearestwhite);
     const int       len = l->len;
@@ -227,10 +228,20 @@ static void HUlib_DrawAltHUDTextLine(hu_textline_t *l)
                         x += altkern[j].adjust;
                         break;
                     }
+
+                if (letter == '(' && prevletter == ' ')
+                {
+                    if (prevletter2 == '.')
+                        x--;
+                    else if (prevletter2 == '!')
+                        x -= 2;
+                }
             }
 
             althudtextfunc(x, HU_ALTHUDMSGY, screens[0], patch, italics, color, SCREENWIDTH, tinttab);
             x += SHORT(patch->width);
+
+            prevletter2 = prevletter;
             prevletter = letter;
         }
     }
