@@ -6021,7 +6021,6 @@ const autocomplete_t autocompletelist[] =
     { "if vid_vsync adaptive ",                      DOOM1AND2 },
     { "if vid_vsync adaptive then ",                 DOOM1AND2 },
 #endif
-    { "if vid_vsync ",                               DOOM1AND2 },
     { "if vid_vsync off ",                           DOOM1AND2 },
     { "if vid_vsync off then ",                      DOOM1AND2 },
     { "if vid_vsync on ",                            DOOM1AND2 },
