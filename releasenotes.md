@@ -7,6 +7,7 @@
 * Extensive optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * *DOOM Retro* no longer crashes if run from a folder that contains non-Latin characters in its path.
 * Several changes have been made to text that is output to the console.
+* Minor improvements have been made to the console’s autocomplete feature.
 * The amount of blood splats displayed now depends on their distance from the player again.
 * A message is now displayed with an accompanying sound effect whenever the player finds a secret. This feature may be toggled using the new `secretmessages` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
 * Secrets are no longer considered to be found if the player happens to walk into one while no clipping mode or freeze mode is enabled.
