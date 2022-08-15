@@ -255,6 +255,8 @@ void D_FadeScreenToBlack(void)
         blitfunc();
     }
 
+    memset(screens[0], nearestblack, SCREENAREA);
+    blitfunc();
     I_Sleep(200);
 }
 
