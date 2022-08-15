@@ -79,6 +79,7 @@
 * The following changes have been made when vanilla mode is enabled using the `vanilla` CCMD:
   * The `am_grid` CVAR is no longer turned `off`.
   * Red blood is now spawned when shooting a lost soul.
+  * The value of the `vid_showfps` CVAR is now remembered when disabling vanilla mode.
 * When a monster or its corpse is crushed, the color of the resulting gibs now matches the monster’s blood.
 * The following changes have been made when playing *DOOM (Shareware)*:
   * `.deh` and `.bex` files may no longer be loaded.

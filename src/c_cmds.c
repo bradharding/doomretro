@@ -7498,6 +7498,7 @@ static void vanilla_cmd_func2(char *cmd, char *parms)
 {
     static bool buddha;
     static bool hud;
+    static bool showfps;
 
     if (*parms)
     {
@@ -7579,6 +7580,7 @@ static void vanilla_cmd_func2(char *cmd, char *parms)
             viewplayer->cheats &= ~CF_BUDDHA;
 
         hud = r_hud;
+        showfps = vid_showfps;
 
         if (s_sfxvolume < s_musicvolume)
         {
@@ -7605,6 +7607,7 @@ static void vanilla_cmd_func2(char *cmd, char *parms)
             viewplayer->cheats |= CF_BUDDHA;
 
         r_hud = hud;
+        vid_showfps = showfps;
 
         M_LoadCVARs(packageconfig);
         C_Output(s_STSTR_VOFF);
