@@ -56,7 +56,6 @@ mouselook off
 movebob 100%
 negativehealth off
 playername "you"
-r_altfont off
 r_althud off
 r_blood red
 r_blood_melee off

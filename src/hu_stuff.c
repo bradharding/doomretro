@@ -1126,7 +1126,7 @@ void HU_Drawer(void)
     {
         w_title.x = 0;
 
-        if ((r_althud && r_screensize == r_screensize_max) || r_altfont)
+        if (r_althud && r_screensize == r_screensize_max)
             HUlib_DrawAltAutomapTextLine(&w_title, false);
         else
         {
@@ -1182,7 +1182,7 @@ void HU_Drawer(void)
         {
             w_title.x = 25;
 
-            if ((r_althud && r_screensize == r_screensize_max) || r_altfont)
+            if (r_althud && r_screensize == r_screensize_max)
                 HUlib_DrawAltAutomapTextLine(&w_title, true);
             else
             {
