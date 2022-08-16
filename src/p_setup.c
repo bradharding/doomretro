@@ -108,9 +108,7 @@
 #define MCMD_COMPAT_LIGHT           39
 #define MCMD_COMPAT_NOPASSOVER      40
 
-typedef struct mapinfo_s mapinfo_t;
-
-struct mapinfo_s
+typedef struct
 {
     char    author[128];
     int     cluster;
@@ -145,7 +143,7 @@ struct mapinfo_s
     bool    compat_limitpain;
     bool    compat_nopassover;
     bool    nograduallighting;
-};
+} mapinfo_t;
 
 //
 // MAP related Lookup tables.
@@ -2892,9 +2890,9 @@ static mapformat_t P_CheckMapFormat(int lumpnum)
 {
     mapformat_t format = DOOMBSP;
     byte        *n = NULL;
-    int         b;
+    int         b = lumpnum + ML_BLOCKMAP + 1;
 
-    if ((b = lumpnum + ML_BLOCKMAP + 1) < numlumps && !strncasecmp(lumpinfo[b]->name, "BEHAVIOR", 8))
+    if (b < numlumps && !strncasecmp(lumpinfo[b]->name, "BEHAVIOR", 8))
         I_Error("Hexen format maps are not supported.");
 
     if ((b = lumpnum + ML_NODES) < numlumps && (n = W_CacheLumpNum(b)) && W_LumpLength(b))

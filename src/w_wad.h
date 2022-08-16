@@ -48,12 +48,10 @@
 // WADFILE I/O related stuff.
 //
 
-#define IWAD 1
-#define PWAD 2
+#define IWAD    1
+#define PWAD    2
 
-typedef struct lumpinfo_s lumpinfo_t;
-
-struct lumpinfo_s
+ typedef struct
 {
     char        name[9];
     int         size;
@@ -66,7 +64,7 @@ struct lumpinfo_s
     int         position;
 
     wadfile_t   *wadfile;
-};
+} lumpinfo_t;
 
 extern lumpinfo_t   **lumpinfo;
 extern int          numlumps;

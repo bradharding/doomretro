@@ -46,28 +46,26 @@
 #include "version.h"
 #include "w_wad.h"
 
-typedef struct allocated_sound_s allocated_sound_t;
-
-struct allocated_sound_s
+typedef struct allocated_sound_s
 {
-    sfxinfo_t               *sfxinfo;
-    Mix_Chunk               chunk;
-    int                     use_count;
-    int                     pitch;
-    allocated_sound_t       *prev;
-    allocated_sound_t       *next;
-};
+    sfxinfo_t                   *sfxinfo;
+    Mix_Chunk                   chunk;
+    int                         use_count;
+    int                         pitch;
+    struct allocated_sound_s    *prev;
+    struct allocated_sound_s    *next;
+} allocated_sound_t;
 
-static bool                 sound_initialized;
+static bool                     sound_initialized;
 
-static allocated_sound_t    *channels_playing[s_channels_max];
+static allocated_sound_t        *channels_playing[s_channels_max];
 
-static int                  mixer_freq = MIX_DEFAULT_FREQUENCY;
+static int                      mixer_freq = MIX_DEFAULT_FREQUENCY;
 
 // Doubly-linked list of allocated sounds.
 // When a sound is played, it is moved to the head, so that the oldest sounds not used recently are at the tail.
-static allocated_sound_t    *allocated_sounds_head;
-static allocated_sound_t    *allocated_sounds_tail;
+static allocated_sound_t        *allocated_sounds_head;
+static allocated_sound_t        *allocated_sounds_tail;
 
 // Hook a sound into the linked list at the head.
 static void AllocatedSoundLink(allocated_sound_t *snd)

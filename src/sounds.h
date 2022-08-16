@@ -46,8 +46,6 @@
 //
 // SFX struct.
 //
-typedef struct sfxinfo_s sfxinfo_t;
-
 enum
 {
     sg_none,
@@ -59,7 +57,7 @@ enum
     sg_saw
 };
 
-struct sfxinfo_s
+typedef struct
 {
     // up to 6-character name
     char            name1[9];
@@ -73,7 +71,7 @@ struct sfxinfo_s
 
     // SFX lumpnum
     int             lumpnum;
-};
+} sfxinfo_t;
 
 //
 // music struct

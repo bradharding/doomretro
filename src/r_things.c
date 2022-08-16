@@ -65,13 +65,13 @@ fixed_t                         pspriteiscale;
 static lighttable_t             **spritelights;         // killough 01/25/98 made static
 static lighttable_t             **nextspritelights;
 
-typedef struct drawseg_xrange_item_s
+typedef struct
 {
     short                       x1, x2;
     drawseg_t                   *user;
 } drawseg_xrange_item_t;
 
-typedef struct drawsegs_xrange_s
+typedef struct
 {
     drawseg_xrange_item_t       *items;
     int                         count;
