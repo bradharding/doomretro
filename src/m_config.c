@@ -121,6 +121,7 @@ int         movebob = movebob_default;
 bool        negativehealth = negativehealth_default;
 int         playergender = playergender_default;
 char        *playername = playername_default;
+bool        r_altfont = r_altfont_default;
 bool        r_althud = r_althud_default;
 int         r_berserkeffect = r_berserkeffect_default;
 int         r_blood = r_blood_default;
@@ -350,6 +351,7 @@ static default_t cvars[] =
     CONFIG_VARIABLE_BOOL         (negativehealth,                   negativehealth,                        negativehealth,                      BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT          (playergender,                     playergender,                          playergender,                        PLAYERGENDERVALUEALIAS),
     CONFIG_VARIABLE_STRING       (playername,                       playername,                            playername,                          NOVALUEALIAS          ),
+    CONFIG_VARIABLE_BOOL         (r_altfont,                        r_altfont,                             r_altfont,                           BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_BOOL         (r_althud,                         r_althud,                              r_althud,                            BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT          (r_berserkeffect,                  r_berserkeffect,                       r_berserkeffect,                     NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT          (r_blood,                          r_blood,                               r_blood,                             BLOODVALUEALIAS       ),
@@ -1030,6 +1032,9 @@ static void M_CheckCVARs(bool ispackageconfig)
 
         playername = temp;
     }
+
+    if (r_altfont != false && r_altfont != true)
+        r_altfont = r_altfont_default;
 
     if (r_althud != false && r_althud != true)
         r_althud = r_althud_default;

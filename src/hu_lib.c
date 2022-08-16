@@ -255,6 +255,14 @@ void HUlib_DrawAltAutomapTextLine(hu_textline_t *l, bool external)
     byte            *fb1 = (external ? mapscreen : screens[0]);
     const int       len = l->len;
 
+    if (r_altfont)
+    {
+        if (vid_widescreen)
+            x = (r_screensize == r_screensize_max - 1 ? WIDESCREENDELTA * 2 : OVERLAYTEXTX);
+        else
+            x = WIDESCREENDELTA + OVERLAYTEXTX;
+    }
+
     for (int i = 0; i < len; i++)
     {
         const unsigned char letter = l->l[i];
@@ -285,7 +293,7 @@ void HUlib_DrawAltAutomapTextLine(hu_textline_t *l, bool external)
                     break;
                 }
 
-            althudtextfunc(x, SCREENHEIGHT - 22, fb1, patch, italics, nearestwhite, (external ? MAPWIDTH : SCREENWIDTH), tinttab70);
+            althudtextfunc(x, MAPHEIGHT - 22, fb1, patch, italics, nearestwhite, (external ? MAPWIDTH : SCREENWIDTH), tinttab70);
             x += SHORT(patch->width);
             prevletter = letter;
         }
@@ -580,7 +588,7 @@ void HUlib_DrawSText(hu_stext_t *s, bool external)
         return; // if not on, don't draw
 
     // draw everything
-    if (r_althud && r_screensize == r_screensize_max)
+    if ((r_althud && r_screensize == r_screensize_max) || r_altfont)
         HUlib_DrawAltHUDTextLine(&s->l);
     else
         HUlib_DrawTextLine(&s->l, external);

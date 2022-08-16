@@ -12,6 +12,7 @@
 * A message is now displayed with an accompanying sound effect whenever the player finds a secret. This feature may be toggled using the new `secretmessages` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
 * Secrets are no longer considered to be found if the player happens to walk into one while no clipping mode or freeze mode is enabled.
 * Player messages have shifted to the right slightly when the `r_althud` and `vid_widescreen` CVARs are `on`.
+* A new `r_altfont` CVAR has been implemented that toggles an alternate font for player messages and the current map's title in the automap. This CVAR is both `off` by default and when vanilla mode is enabled.
 * The following changes have been made to the menu’s background:
   * It now has a border with curved corners.
   * The player’s field of view is now increased to `135°`.

@@ -113,6 +113,7 @@ extern int      movebob;
 extern bool     negativehealth;
 extern int      playergender;
 extern char     *playername;
+extern bool     r_altfont;
 extern bool     r_althud;
 extern int      r_berserkeffect;
 extern int      r_blood;
@@ -537,6 +538,8 @@ enum
 #define playergender_max                   playergender_female
 
 #define playername_default                 "you"
+
+#define r_altfont_default                  false
 
 #define r_althud_default                   false
 

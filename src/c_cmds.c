@@ -756,6 +756,8 @@ consolecmd_t consolecmds[] =
         "Prints a player \"" BOLDITALICS("message") "\"."),
     CCMD(quit, exit, null_func1, quit_cmd_func2, false, "",
         "Quits to the " DESKTOP "."),
+    CVAR_BOOL(r_altfont, "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
+        "Toggles an alternate font for player messages and the current map's title in the automap."),
     CVAR_BOOL(r_althud, "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles an alternate heads-up display when in widescreen mode."),
     CVAR_INT(r_berserkeffect, "", int_cvars_func1, int_cvars_func2, CF_NONE, NOVALUEALIAS,
