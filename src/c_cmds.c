@@ -3980,8 +3980,13 @@ static void maplist_cmd_func2(char *cmd, char *parms)
         }
         else
         {
-            if (sscanf(lump, "E%1iM%1iB", &ep, &map) == 2 && gamemode != shareware)
+            if (M_StringCompare(lump, "E1M4B") || M_StringCompare(lump, "E1M8B"))
+            {
+                if (gamemode == shareware || FREEDOOM1)
+                    continue;
+
                 M_StringCopy(speciallumpname, lump, sizeof(speciallumpname));
+            }
             else if (sscanf(lump, "E%1iM%i", &ep, &map) != 2)
                 continue;
         }
