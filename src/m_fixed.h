@@ -39,6 +39,7 @@
 #pragma once
 
 #include "doomtype.h"
+#include "doomdef.h"
 
 #undef ABS
 #undef MIN
@@ -60,52 +61,52 @@
 
 typedef int32_t fixed_t;
 
-static inline int ABS(int a)
+CONSTATTR static inline int ABS(int a)
 {
     return (a < 0 ? -a : a);
 }
 
-static inline int MAX(int a, int b)
+CONSTATTR static inline int MAX(int a, int b)
 {
     return (a > b ? a : b);
 }
 
-static inline int MIN(int a, int b)
+CONSTATTR static inline int MIN(int a, int b)
 {
     return (a < b ? a : b);
 }
 
-static inline int BETWEEN(int a, int b, int c)
+CONSTATTR static inline int BETWEEN(int a, int b, int c)
 {
     return (b < a ? a : (b > c ? c : b));
 }
 
-static inline float BETWEENF(float a, float b, float c)
+CONSTATTR static inline float BETWEENF(float a, float b, float c)
 {
     return (b < a ? a : (b > c ? c : b));
 }
 
-static inline int SIGN(int a)
+CONSTATTR static inline int SIGN(int a)
 {
     return (a < 0 ? -1 : 1);
 }
 
-static inline fixed_t FixedMul(fixed_t a, fixed_t b)
+CONSTATTR static inline fixed_t FixedMul(fixed_t a, fixed_t b)
 {
     return (((int64_t)a * b) >> FRACBITS);
 }
 
-static inline fixed_t FixedDiv(fixed_t a, fixed_t b)
+CONSTATTR static inline fixed_t FixedDiv(fixed_t a, fixed_t b)
 {
     return (((int64_t)ABS(a) >> 15) >= ABS(b) ? (((int64_t)(a ^ b) >> 31) ^ FIXED_MAX) : (((int64_t)a << FRACBITS) / b));
 }
 
-static inline fixed_t FixedMod(fixed_t a, fixed_t b)
+CONSTATTR static inline fixed_t FixedMod(fixed_t a, fixed_t b)
 {
     return ((b & (b - 1)) ? ((a %= b) < 0 ? a + b : a) : (a & (b - 1)));
 }
 
-static inline uint64_t SafeAdd(uint64_t a, int b)
+CONSTATTR static inline uint64_t SafeAdd(uint64_t a, int b)
 {
     return (b > UINT64_MAX - a ? UINT64_MAX : a + b);
 }
