@@ -84,6 +84,7 @@
 * The following changes have been made when playing *DOOM (Shareware)*:
   * `.deh` and `.bex` files may no longer be loaded.
   * *MBF*-compatible helper dogs may no longer be spawned using the `spawn` CCMD.
+  * The `map` CCMD can no longer be used to warp to *E1M4B: Phobos Mission Control* or *E1M8B: Tech Gone Bad*.
 * The `con_backcolor` and `con_edgecolor` CVARs have been removed.
 * A bug is fixed whereby the colormap applied to monsters could be wrong in some rare instances.
 * Sectors without thinkers are no longer interpolated if the `vid_capfps` CVAR is a value other than `35`.

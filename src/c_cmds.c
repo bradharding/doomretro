@@ -3672,9 +3672,9 @@ static bool map_cmd_func1(char *cmd, char *parms)
                     M_BigRandomIntNoRepeat(1, (gamemode == retail ? (sigil ? 5 : 4) : 3), gameepisode));
                 mapcmdmap = M_BigRandomIntNoRepeat(1, (chex ? 5 : 8), gamemap);
 
-                if (mapcmdepisode == 1 && mapcmdmap == 4 && (M_BigRandom() & 1))
+                if (mapcmdepisode == 1 && mapcmdmap == 4 && (M_BigRandom() & 1) && gamemode != shareware && !chex && !FREEDOOM1)
                     M_StringCopy(mapcmdlump, "E1M4B", sizeof(mapcmdlump));
-                else if (mapcmdepisode == 1 && mapcmdmap == 8 && (M_BigRandom() & 1))
+                else if (mapcmdepisode == 1 && mapcmdmap == 8 && (M_BigRandom() & 1) && gamemode != shareware && !chex && !FREEDOOM1)
                     M_StringCopy(mapcmdlump, "E1M8B", sizeof(mapcmdlump));
                 else
                     M_snprintf(mapcmdlump, sizeof(mapcmdlump), "E%iM%i", mapcmdepisode, mapcmdmap);
@@ -3688,7 +3688,7 @@ static bool map_cmd_func1(char *cmd, char *parms)
             mapcmdmap = 4;
             M_StringCopy(speciallumpname, "E1M4B", sizeof(speciallumpname));
             M_StringCopy(mapcmdlump, "E1M4B", sizeof(mapcmdlump));
-            result = (gamemission == doom && gamemode != shareware && !chex);
+            result = (gamemission == doom && gamemode != shareware && !chex && !FREEDOOM1);
         }
         else if (M_StringCompare(parm, "E1M8B"))
         {
@@ -3696,7 +3696,7 @@ static bool map_cmd_func1(char *cmd, char *parms)
             mapcmdmap = 8;
             M_StringCopy(speciallumpname, "E1M8B", sizeof(speciallumpname));
             M_StringCopy(mapcmdlump, "E1M8B", sizeof(mapcmdlump));
-            result = (gamemission == doom && gamemode != shareware && !chex);
+            result = (gamemission == doom && gamemode != shareware && !chex && !FREEDOOM1);
         }
         else
         {
