@@ -129,6 +129,7 @@ extern bool             moreblood;
 extern bool             DMENUPIC;
 extern bool             DSFLAMST;
 extern bool             FREEDOOM;
+extern bool             FREEDOOM1;
 extern bool             FREEDM;
 extern bool             M_DOOM;
 extern bool             M_EPISOD;

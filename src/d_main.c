@@ -2221,6 +2221,8 @@ static void D_DoomMainSetup(void)
     if (nerve && expansion == 2)
         gamemission = pack_nerve;
 
+    FREEDOOM1 = (FREEDOOM && gamemission == doom);
+
     D_SetSaveGameFolder(true);
 
     D_SetScreenshotsFolder();

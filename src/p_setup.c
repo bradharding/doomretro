@@ -2836,7 +2836,18 @@ void P_MapName(int ep, int map)
             const int   index = (int)(pos - maptitle) + 1;
             char        *temp;
 
-            if (BTSX)
+            if (FREEDOOM1)
+            {
+                memmove(maptitle, maptitle + index, strlen(maptitle) - index + 1);
+
+                if (maptitle[0] == ' ')
+                    memmove(maptitle, maptitle + 1, strlen(maptitle));
+
+                temp = titlecase(maptitle);
+                M_snprintf(mapnum, sizeof(mapnum), "C%iM%i", ep, map);
+                M_snprintf(mapnumandtitle, sizeof(mapnumandtitle), "%s: " ITALICSTOGGLE "%s" ITALICSTOGGLE, mapnum, temp);
+            }
+            else if (BTSX)
             {
                 memmove(maptitle, maptitle + index, strlen(maptitle) - index + 1);
 

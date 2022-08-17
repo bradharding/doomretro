@@ -87,6 +87,7 @@ bool            modifiedgame = false;
 bool            DMENUPIC = false;
 bool            DSFLAMST;
 bool            FREEDOOM;
+bool            FREEDOOM1;
 bool            FREEDM;
 bool            M_DOOM;
 bool            M_EPISOD;
