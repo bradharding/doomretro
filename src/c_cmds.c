@@ -4005,6 +4005,10 @@ static void maplist_cmd_func2(char *cmd, char *parms)
                 {
                     temp = titlecase(*mapinfoname ? mapinfoname : *mapnames[ep * 9 + map]);
                     removemapnum(temp);
+
+                    if (FREEDOOM1 && strlen(lump) == 4)
+                        lump[0] = 'C';
+
                     M_snprintf(maps[count++], sizeof(maps[0]), "%s\t" ITALICS("%s") "\t%s", lump,
                         (replaced && dehcount == 1 && !*mapinfoname ? "-" : temp), wadname);
                     free(temp);
