@@ -3957,8 +3957,8 @@ static void maplist_cmd_func2(char *cmd, char *parms)
     // search through lumps for maps
     for (int i = numlumps - 1; i >= 0; i--)
     {
-        int     ep;
-        int     map;
+        int     ep = 1;
+        int     map = 1;
         char    lump[9];
         char    wadname[MAX_PATH];
         bool    replaced;
@@ -3973,8 +3973,6 @@ static void maplist_cmd_func2(char *cmd, char *parms)
 
         if (gamemode == commercial)
         {
-            ep = 1;
-
             if (sscanf(lump, "MAP0%1i", &map) != 1 && sscanf(lump, "MAP%2i", &map) != 1)
                 continue;
         }
@@ -3982,7 +3980,7 @@ static void maplist_cmd_func2(char *cmd, char *parms)
         {
             if (M_StringCompare(lump, "E1M4B") || M_StringCompare(lump, "E1M8B"))
             {
-                if (gamemode == shareware || FREEDOOM1)
+                if (gamemode == shareware || FREEDOOM1 || chex)
                     continue;
 
                 M_StringCopy(speciallumpname, lump, sizeof(speciallumpname));
