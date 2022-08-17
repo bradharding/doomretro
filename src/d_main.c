@@ -2265,7 +2265,7 @@ static void D_DoomMainSetup(void)
 
     if ((p = M_CheckParmsWithArgs("-skill", "-skilllevel", "", 1, 1)))
     {
-        int temp = myargv[p + 1][0] - '1';
+        const int   temp = myargv[p + 1][0] - '1';
 
         if (temp >= sk_baby && temp <= sk_nightmare)
         {
@@ -2286,7 +2286,7 @@ static void D_DoomMainSetup(void)
 
     if ((p = M_CheckParmWithArgs("-episode", 1, 1)) && gamemode != commercial)
     {
-        int temp = myargv[p + 1][0] - '0';
+        const int   temp = myargv[p + 1][0] - '0';
 
         if ((gamemode == shareware && temp == 1) || (temp >= 1 && ((gamemode == registered && temp <= 3)
             || (gamemode == retail && temp <= 4) || (sigil && temp <= 5))))
@@ -2303,7 +2303,7 @@ static void D_DoomMainSetup(void)
 
     if ((p = M_CheckParmWithArgs("-expansion", 1, 1)) && gamemode == commercial)
     {
-        int temp = myargv[p + 1][0] - '0';
+        const int   temp = myargv[p + 1][0] - '0';
 
         if (temp <= (nerve ? 2 : 1))
         {
@@ -2415,8 +2415,8 @@ static void D_DoomMainSetup(void)
     }
     else
     {
-        int titlepics = W_CheckMultipleLumps("TITLEPIC");
-        int credits = W_CheckMultipleLumps("CREDIT");
+        const int   titlepics = W_CheckMultipleLumps("TITLEPIC");
+        const int   credits = W_CheckMultipleLumps("CREDIT");
 
         if ((titlepics == 1 && lumpinfo[W_GetNumForName("TITLEPIC")]->wadfile->type == PWAD) || titlepics > 1)
             titlelump = W_CacheLumpName("TITLEPIC");

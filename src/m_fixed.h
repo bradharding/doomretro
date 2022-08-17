@@ -38,8 +38,8 @@
 
 #pragma once
 
-#include "doomtype.h"
 #include "doomdef.h"
+#include "doomtype.h"
 
 #undef ABS
 #undef MIN
@@ -49,10 +49,10 @@
 #undef SWAP
 
 //
-// Fixed point, 32bit as 16.16.
+// Fixed point, 32-bit as 16.16.
 //
 #define FRACBITS        16
-#define FRACUNIT        65536
+#define FRACUNIT        (1 << FRACBITS)
 #define FIXED2DOUBLE(a) ((a) / (double)FRACUNIT)
 #define FIXED_MIN       INT32_MIN
 #define FIXED_MAX       INT32_MAX
