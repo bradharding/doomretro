@@ -4158,13 +4158,28 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
 {
     const int   tabs[3] = { 120, 240, 0 };
     char        *temp;
-    const int   lump = (nerve && gamemission == doom2 ? W_GetLastNumForName(mapnum) : W_CheckNumForName(mapnum));
-    int         wadtype = lumpinfo[lump]->wadfile->type;
+    int         lump;
+    int         wadtype;
 
-    if (M_StringEndsWith(lumpinfo[lump]->wadfile->path, "DOOM2.WAD")
-        || M_StringEndsWith(lumpinfo[lump]->wadfile->path, "chex.wad")
-        || M_StringEndsWith(lumpinfo[lump]->wadfile->path, "rekkrsa.wad"))
-        wadtype = IWAD;
+    if (FREEDOOM1)
+    {
+        char    lumpname[6];
+
+        M_snprintf(lumpname, sizeof(lumpname), "E%iM%i", gameepisode, gamemap);
+        lump = W_CheckNumForName(lumpname);
+        wadtype = lumpinfo[lump]->wadfile->type;
+    }
+    else
+    {
+        lump = (nerve && gamemission == doom2 ? W_GetLastNumForName(mapnum) : W_CheckNumForName(mapnum));
+
+        if (M_StringEndsWith(lumpinfo[lump]->wadfile->path, "DOOM2.WAD")
+            || M_StringEndsWith(lumpinfo[lump]->wadfile->path, "chex.wad")
+            || M_StringEndsWith(lumpinfo[lump]->wadfile->path, "rekkrsa.wad"))
+            wadtype = IWAD;
+        else
+            wadtype = lumpinfo[lump]->wadfile->type;
+    }
 
     C_Header(tabs, mapstats, MAPSTATSHEADER);
 
