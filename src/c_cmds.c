@@ -3950,7 +3950,6 @@ static void maplist_cmd_func2(char *cmd, char *parms)
     const int   tabs[3] = { 40, 93, 370 };
     int         count = 0;
     char        (*maps)[256] = malloc(numlumps * sizeof(char *));
-    bool        mapfound[50] = { false };
 
     C_Header(tabs, maplist, MAPLISTHEADER);
 
@@ -3969,8 +3968,6 @@ static void maplist_cmd_func2(char *cmd, char *parms)
         M_StringCopy(lump, temp, sizeof(lump));
         free(temp);
 
-        speciallumpname[0] = '\0';
-
         if (gamemode == commercial)
         {
             if (sscanf(lump, "MAP0%1i", &map) != 1 && sscanf(lump, "MAP%2i", &map) != 1)
@@ -3982,31 +3979,28 @@ static void maplist_cmd_func2(char *cmd, char *parms)
             {
                 if (gamemode == shareware || FREEDOOM1 || chex)
                     continue;
-
-                M_StringCopy(speciallumpname, lump, sizeof(speciallumpname));
             }
             else if (sscanf(lump, "E%1iM%i", &ep, &map) != 2)
                 continue;
         }
 
-        if (mapfound[--ep * 10 + (--map) + 1])
-            continue;
-
-        if (!*speciallumpname)
-            mapfound[ep * 10 + map + 1] = true;
-
         M_StringCopy(wadname, leafname(lumpinfo[i]->wadfile->path), sizeof(wadname));
         replaced = (W_CheckMultipleLumps(lump) > 1 && !chex && !FREEDOOM);
         pwad = (lumpinfo[i]->wadfile->type == PWAD);
-        M_StringCopy(mapinfoname, P_GetMapName(ep * 10 + map + 1), sizeof(mapinfoname));
-        speciallumpname[0] = '\0';
+        M_StringCopy(mapinfoname, P_GetMapName(--ep * 10 + (--map) + 1), sizeof(mapinfoname));
 
         switch (gamemission)
         {
             case doom:
                 if (!replaced || pwad)
                 {
-                    temp = titlecase(*mapinfoname ? mapinfoname : *mapnames[ep * 9 + map]);
+                    if (M_StringCompare(lump, "E1M4B"))
+                        temp = titlecase(s_HUSTR_E1M4B);
+                    else if (M_StringCompare(lump, "E1M8B"))
+                        temp = titlecase(s_HUSTR_E1M8B);
+                    else
+                        temp = titlecase(*mapinfoname ? mapinfoname : *mapnames[ep * 9 + map]);
+
                     removemapnum(temp);
 
                     if (FREEDOOM1 && strlen(lump) == 4)
