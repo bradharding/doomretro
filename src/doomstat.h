@@ -122,6 +122,7 @@ extern bool             deathless;
 extern bool             doomzero;
 extern bool             earthless;
 extern bool             neis;
+extern bool             revolution;
 extern bool             syringe;
 
 extern bool             moreblood;

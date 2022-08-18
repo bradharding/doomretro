@@ -483,6 +483,7 @@ extern char         *s_CAPTION_DEATHLESS;
 extern char         *s_CAPTION_DOOMZERO;
 extern char         *s_CAPTION_EARTHLESS;
 extern char         *s_CAPTION_NEIS;
+extern char         *s_CAPTION_REVOLUTION;
 extern char         *s_CAPTION_SYRINGE;
 
 extern char         *s_AUTHOR_ROMERO;

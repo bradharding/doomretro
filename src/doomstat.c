@@ -77,6 +77,7 @@ bool            deathless;
 bool            doomzero;
 bool            earthless;
 bool            neis;
+bool            revolution;
 bool            syringe;
 
 bool            moreblood;

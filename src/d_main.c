@@ -949,6 +949,8 @@ static void D_CheckSupportedPWAD(char *filename)
         earthless = true;
     else if (M_StringCompare(leaf, "neis.wad"))
         neis = true;
+    else if (M_StringCompare(leaf, "TVR!.wad"))
+        revolution = true;
     else if (M_StringCompare(leaf, "syringe.wad"))
         syringe = true;
 
