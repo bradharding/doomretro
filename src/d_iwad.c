@@ -1017,12 +1017,14 @@ void D_SetGameDescription(void)
                 s_CAPTION_DOOM2, s_CAPTION_NERVE);
     }
     else if (modifiedgame && !sigil)
-        C_Output("Playing " ITALICS("%s."), gamedescription);
+        C_Output("Playing " ITALICS("%s%s"), gamedescription,
+            (ispunctuation(gamedescription[strlen(gamedescription) - 1]) ? "" : "."));
     else
     {
         if (bfgedition && !chex && !BTSX && !REKKR)
             C_Output("Playing " ITALICS("%s (%s)."), gamedescription, s_CAPTION_BFGEDITION);
         else
-            C_Output("Playing " ITALICS("%s."), gamedescription);
+            C_Output("Playing " ITALICS("%s%s"), gamedescription,
+                (ispunctuation(gamedescription[strlen(gamedescription) - 1]) ? "" : "."));
     }
 }
