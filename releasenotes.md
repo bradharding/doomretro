@@ -11,7 +11,7 @@
 * The amount of blood splats displayed now depends on their distance from the player again.
 * A message is now displayed with an accompanying sound effect whenever the player finds a secret. This feature may be toggled using the new `secretmessages` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
 * Secrets are no longer considered to be found if the player happens to walk into one while no clipping mode or freeze mode is enabled.
-* Player messages have shifted to the right slightly when the `r_althud` and `vid_widescreen` CVARs are `on`.
+* The position of player messages have shifted in some instances.
 * Minor changes have been made to alternate widescreen HUD.
 * The `r_althud` CVAR is now `on` by default.
 * The following changes have been made to the menu’s background:
