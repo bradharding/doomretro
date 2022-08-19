@@ -8363,7 +8363,7 @@ static void player_cvars_func2(char *cmd, char *parms)
             {
                 ammohighlight = I_GetTimeMS() + HUD_AMMO_HIGHLIGHT_WAIT;
 
-                if (value > viewplayer->ammo[ammotype] && ammo < viewplayer->maxammo[ammotype])
+                if (value > viewplayer->ammo[ammotype] && value < viewplayer->maxammo[ammotype])
                 {
                     P_UpdateAmmoStat(ammotype, value - viewplayer->ammo[ammotype]);
                     P_AddBonus();
