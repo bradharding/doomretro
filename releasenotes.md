@@ -13,6 +13,7 @@
 * Secrets are no longer considered to be found if the player happens to walk into one while no clipping mode or freeze mode is enabled.
 * Player messages have shifted to the right slightly when the `r_althud` and `vid_widescreen` CVARs are `on`.
 * Minor changes have been made to alternate widescreen HUD.
+* The `r_althud` CVAR is now `on` by default.
 * The following changes have been made to the menu’s background:
   * It now has a border with curved corners.
   * The player’s field of view is now increased to `135°`.

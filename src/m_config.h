@@ -538,7 +538,7 @@ enum
 
 #define playername_default                 "you"
 
-#define r_althud_default                   false
+#define r_althud_default                   true
 
 #define r_berserkeffect_min                0
 #define r_berserkeffect_default            3
