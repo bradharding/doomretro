@@ -1104,12 +1104,12 @@ void HU_Drawer(void)
         }
         else if (vid_widescreen && r_screensize == r_screensize_max - 1)
         {
-            int width = M_StringWidth(w_message.l.l);
+            const int   width = M_StringWidth(w_message.l.l);
 
             if (width > SCREENWIDTH / SCREENSCALE - w_message.l.x * 2 - 6)
                 w_message.l.x = (SCREENWIDTH / SCREENSCALE - width) / 2;
             else
-                w_message.l.x = HU_MSGX + WIDESCREENDELTA;
+                w_message.l.x = WIDESCREENDELTA;
 
             w_message.l.y = HU_MSGY;
         }
