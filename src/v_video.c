@@ -142,48 +142,47 @@ void V_FillSoftTransRect(int screen, int x, int y, int width, int height, int co
 
     if (height > 2)
     {
-        const byte  *tinttab1 = alttinttab20 + color;
-        const byte  *tinttab2 = alttinttab40 + color;
+        const byte  *tinttab = alttinttab20 + color;
 
         dot = dest - 1 - 2 * (size_t)SCREENWIDTH;
-        *dot = *(tinttab1 + *dot);
+        *dot = *(tinttab + *dot);
         dot += SCREENWIDTH;
 
         for (int yy = 0; yy < height + 2; yy++, dot += SCREENWIDTH)
-            *dot = *(tinttab2 + *dot);
+            *dot = *(tinttab + *dot);
 
-        *dot = *(tinttab1 + *dot);
+        *dot = *(tinttab + *dot);
         dot = dest - 2 - SCREENWIDTH;
 
         for (int yy = 0; yy < height + 2; yy++, dot += SCREENWIDTH)
-            *dot = *(tinttab1 + *dot);
+            *dot = *(tinttab + *dot);
 
         for (int xx = 0; xx < width; xx++)
         {
             dot = dest + xx - 2 * (size_t)SCREENWIDTH;
-            *dot = *(tinttab1 + *dot);
+            *dot = *(tinttab + *dot);
             dot += SCREENWIDTH;
-            *dot = *(tinttab2 + *dot);
+            *dot = *(tinttab + *dot);
             dot += ((size_t)height + 1) * SCREENWIDTH;
-            *dot = *(tinttab2 + *dot);
+            *dot = *(tinttab + *dot);
             dot += SCREENWIDTH;
-            *dot = *(tinttab1 + *dot);
+            *dot = *(tinttab + *dot);
         }
 
         if (right)
         {
             dot = dest + width - 2 * (size_t)SCREENWIDTH;
-            *dot = *(tinttab1 + *dot);
+            *dot = *(tinttab + *dot);
             dot += SCREENWIDTH;
 
             for (int yy = 0; yy < height + 2; yy++, dot += SCREENWIDTH)
-                *dot = *(tinttab2 + *dot);
+                *dot = *(tinttab + *dot);
 
-            *dot = *(tinttab1 + *dot);
+            *dot = *(tinttab + *dot);
             dot = dest + width + 1 - SCREENWIDTH;
 
             for (int yy = 0; yy < height + 2; yy++, dot += SCREENWIDTH)
-                *dot = *(tinttab1 + *dot);
+                *dot = *(tinttab + *dot);
         }
     }
 }
