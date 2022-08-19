@@ -49,7 +49,7 @@
   * The current map’s title is now in italics when the `r_althud` and `vid_widescreen` CVARs are `on`.
   * All text displayed now has the same amount of translucency when the `r_althud` and `vid_widescreen` CVARs are `on`.
   * The position of the current map’s title has changed in some instances.
-  * There is no longer a fade transition when a mark is added or cleared if the `fade` CVAR is `on`.
+  * There are no longer fade transitions when using certain controls and the `fade` CVAR is `on`.
 * The status bar and widescreen HUD are now displayed correctly when *DOOM Retro* is paused by pressing the <kbd><b>PAUSE</b></kbd> key.
 * The chainsaw has been shifted to the left slightly when the `r_althud` and `vid_widescreen` CVARs are `on`.
 * The following changes have been made to the support of `DEHACKED` lumps:

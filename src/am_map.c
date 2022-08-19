@@ -487,9 +487,6 @@ void AM_ToggleMaxZoom(void)
         AM_SaveScaleAndLoc();
         AM_MinOutWindowScale();
     }
-
-    if (!mapwindow)
-        D_FadeScreen(false);
 }
 
 void AM_ToggleFollowMode(bool value)
@@ -509,9 +506,6 @@ void AM_ToggleFollowMode(bool value)
         HU_SetPlayerMessage(s_AMSTR_FOLLOWOFF, false, true);
     }
 
-    if (!mapwindow)
-        D_FadeScreen(false);
-
     message_dontfuckwithme = true;
 }
 
@@ -529,9 +523,6 @@ void AM_ToggleGrid(void)
         C_Output(s_AMSTR_GRIDOFF);
         HU_SetPlayerMessage(s_AMSTR_GRIDOFF, false, true);
     }
-
-    if (!mapwindow)
-        D_FadeScreen(false);
 
     message_dontfuckwithme = true;
     M_SaveCVARs();
@@ -626,9 +617,6 @@ void AM_ToggleRotateMode(bool value)
         C_Output(s_AMSTR_ROTATEOFF);
         HU_SetPlayerMessage(s_AMSTR_ROTATEOFF, false, true);
     }
-
-    if (!mapwindow)
-        D_FadeScreen(false);
 
     message_dontfuckwithme = true;
     M_SaveCVARs();
