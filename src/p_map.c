@@ -1937,11 +1937,9 @@ static bool PTR_NoWayTraverse(intercept_t *in)
 
 bool P_DoorClosed(line_t *line)
 {
-    const mobj_t    *mo = viewplayer->mo;
-
     P_LineOpening(line);
 
-    return (openrange <= 0 || openbottom > mo->z + 24 * FRACUNIT || opentop < mo->z + mo->height);
+    return (openrange <= 0 || openbottom > usething->z + 24 * FRACUNIT || opentop < usething->z + usething->height);
 }
 
 //
