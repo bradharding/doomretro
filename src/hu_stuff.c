@@ -954,7 +954,7 @@ static void HU_DrawAltHUD(void)
             fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 2, armor + (armor == 100), 4, barcolor1, true);
     }
     else
-        althudfunc(ALTHUD_LEFT_X + 5, ALTHUD_Y, altarmpatch, WHITE, darkgray);
+        althudfunc(ALTHUD_LEFT_X + 5, ALTHUD_Y, altarmpatch, -1, 0);
 
     if (health)
     {

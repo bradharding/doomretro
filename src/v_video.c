@@ -1142,8 +1142,15 @@ void V_DrawTranslucentAltHUDPatch(int x, int y, patch_t *patch, int from, int to
 
                 if (dot == from)
                     *dest = alttinttab60[to + *dest];
+                else if (dot == 102)
+                    *dest = alttinttab10[(nearestwhite << 8) + *dest];
                 else if (dot)
-                    *dest = alttinttab60[(nearestcolors[dot] << 8) + *dest];
+                {
+                    if (from == -1)
+                        *dest = alttinttab10[(nearestwhite << 8) + *dest];
+                    else
+                        *dest = alttinttab60[(nearestcolors[dot] << 8) + *dest];
+                }
 
                 dest += SCREENWIDTH;
             }
