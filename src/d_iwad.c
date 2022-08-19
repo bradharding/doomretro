@@ -138,10 +138,24 @@ static registryvalue_t root_path_keys[] =
         "INSTALLPATH"
     },
 
+    // DOOM
+    {
+        HKEY_LOCAL_MACHINE,
+        SOFTWARE_KEY "GOG.com\\Games\\2015545325",
+        "INSTALLPATH"
+    },
+
     // DOOM II
     {
         HKEY_LOCAL_MACHINE,
         SOFTWARE_KEY "GOG.com\\Games\\1435848814",
+        "PATH"
+    },
+
+    // DOOM II
+    {
+        HKEY_LOCAL_MACHINE,
+        SOFTWARE_KEY "GOG.com\\Games\\1426071866",
         "PATH"
     },
 
