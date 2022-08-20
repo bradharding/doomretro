@@ -866,6 +866,9 @@ static int AltHUDNumberWidth(int val)
 
 static void DrawAltHUDNumber2(int x, int y, int val, int color)
 {
+    if (val == 1 || val % 10 == 1)
+        x++;
+
     if (val >= 100)
     {
         patch_t *patch = altnum2[val / 100];
