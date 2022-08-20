@@ -480,7 +480,7 @@ static void R_InitSpriteLumps(void)
                         && spritewidth[i] == (SHORT(sproffsets[j].width) << FRACBITS)
                         && spriteheight[i] == (SHORT(sproffsets[j].height) << FRACBITS)
                         && ((!BTSX && !sprfix18) || sproffsets[j].sprfix18)
-                        && (BTSX || fixspriteoffsets || lumpinfo[firstspritelump + i]->wadfile->type != PWAD))
+                        && (fixspriteoffsets || lumpinfo[firstspritelump + i]->wadfile->type != PWAD))
                     {
                         newspriteoffset[i] = SHORT(sproffsets[j].x) << FRACBITS;
                         newspritetopoffset[i] = SHORT(sproffsets[j].y) << FRACBITS;

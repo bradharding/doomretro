@@ -115,15 +115,16 @@ void V_FillRect(int screen, int x, int y, int width, int height, int color, bool
 
 void V_FillTransRect(int screen, int x, int y, int width, int height, int color, bool right, byte *tinttab)
 {
-    byte        *dest = &screens[screen][y * SCREENWIDTH + x];
-    const byte  *tint = &tinttab[color << 8];
+    byte    *dest = &screens[screen][y * SCREENWIDTH + x];
+
+    tinttab = &tinttab[color << 8];
 
     for (int xx = 0; xx < width; xx++)
     {
         byte    *dot = dest + xx;
 
         for (int yy = 0; yy < height; yy++, dot += SCREENWIDTH)
-            *dot = *(tint + *dot);
+            *dot = *(tinttab + *dot);
     }
 }
 
