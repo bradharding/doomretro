@@ -1,3 +1,6 @@
+2.6.2:
+ * Updated autotools to use ax_compute_relative_paths, fixing homebrew on macOS
+
 2.6.1:
  * Fixed issue with incorrect version reported by pkg-config
 
