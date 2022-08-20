@@ -60,6 +60,7 @@
 
 #define WHITE       4
 #define LIGHTGRAY  82
+#define DARKGRAY  102
 
 byte    *screens[NUMSCREENS];
 int     lowpixelwidth;
@@ -1142,7 +1143,7 @@ void V_DrawTranslucentAltHUDPatch(int x, int y, patch_t *patch, int from, int to
 
                 if (dot == from)
                     *dest = alttinttab60[to + *dest];
-                else if (dot == 102)
+                else if (dot == DARKGRAY)
                     *dest = alttinttab10[(nearestwhite << 8) + *dest];
                 else if (dot)
                 {

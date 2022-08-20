@@ -68,8 +68,8 @@ static const unsigned char rndtable[] =
 extern unsigned int seed;
 extern unsigned int bigseed;
 
-int P_RandomHitscanAngle(fixed_t spread);
-int P_RandomHitscanSlope(fixed_t spread);
+int P_RandomHitscanAngle(const fixed_t spread);
+int P_RandomHitscanSlope(const fixed_t spread);
 
 static inline int M_Random(void)
 {
@@ -78,17 +78,17 @@ static inline int M_Random(void)
 
 static inline int M_SubRandom(void)
 {
-    int r = RAND;
+    const int   r = RAND;
 
     return (r - RAND);
 }
 
-static inline int M_RandomInt(int lower, int upper)
+static inline int M_RandomInt(const int lower, const int upper)
 {
     return (RAND % (upper - lower + 1) + lower);
 }
 
-static inline int M_RandomIntNoRepeat(int lower, int upper, int previous)
+static inline int M_RandomIntNoRepeat(const int lower, const int upper, const int previous)
 {
     int result;
 
@@ -97,7 +97,7 @@ static inline int M_RandomIntNoRepeat(int lower, int upper, int previous)
     return result;
 }
 
-static inline void M_Seed(unsigned int value)
+static inline void M_Seed(const unsigned int value)
 {
     seed = value;
 }
@@ -112,12 +112,12 @@ static inline int M_BigSubRandom(void)
     return ((BIGRAND & 510) - 255);
 }
 
-static inline int M_BigRandomInt(int lower, int upper)
+static inline int M_BigRandomInt(const int lower, const int upper)
 {
     return (BIGRAND % (upper - lower + 1) + lower);
 }
 
-static inline int M_BigRandomIntNoRepeat(int lower, int upper, int previous)
+static inline int M_BigRandomIntNoRepeat(const int lower, const int upper, int previous)
 {
     int result;
 
@@ -126,7 +126,7 @@ static inline int M_BigRandomIntNoRepeat(int lower, int upper, int previous)
     return result;
 }
 
-static inline void M_BigSeed(unsigned int value)
+static inline void M_BigSeed(const unsigned int value)
 {
     bigseed = value;
 }
