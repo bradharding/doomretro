@@ -260,7 +260,7 @@ static void AM_ChangeWindowLoc(void)
     const fixed_t   height = m_h / 2;
 
     if (am_rotatemode)
-        AM_Rotate(&incx, &incy, viewangle - ANG90);
+        AM_Rotate(&incx, &incy, (viewangle - ANG90) >> ANGLETOFINESHIFT);
 
     m_x = BETWEEN(min_x, m_x + width + incx, max_x) - width;
     m_y = BETWEEN(min_y, m_y + height + incy, max_y) - height;
