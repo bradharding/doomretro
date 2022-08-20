@@ -78,7 +78,7 @@
 #define HUD_KEY_WAIT                250
 
 #define ALTHUD_LEFT_X               56
-#define ALTHUD_RIGHT_X              (SCREENWIDTH - (weaponschanged ? 129 : 179))
+#define ALTHUD_RIGHT_X              (SCREENWIDTH - (weaponschanged && !fixspriteoffsets ? 129 : 179))
 #define ALTHUD_Y                    (SCREENHEIGHT - 41)
 
 //

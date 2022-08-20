@@ -70,6 +70,7 @@ int         firstspritelump;
 int         lastspritelump;
 int         numspritelumps;
 
+bool        fixspriteoffsets = false;
 bool        suppresswarnings = false;
 
 int         numtextures;
@@ -422,8 +423,6 @@ static void R_InitFlats(void)
 //
 static void R_InitSpriteLumps(void)
 {
-    bool    fixspriteoffsets = false;
-
     SC_Open("DRCOMPAT");
 
     while (SC_GetString())

@@ -790,7 +790,7 @@ static void HU_AltInit(void)
     {
         const int   lump = W_CheckNumForName(weaponinfo[i].spritename);
 
-        if (lump >= 0 && lumpinfo[lump]->wadfile->type == PWAD)
+        if (lump >= 0 && lumpinfo[lump]->wadfile->type == PWAD && !fixspriteoffsets)
         {
             weaponschanged = true;
             break;
