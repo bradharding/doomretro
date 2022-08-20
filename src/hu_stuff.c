@@ -725,7 +725,6 @@ static altkeypic_t altkeypics[NUMCARDS] =
 static patch_t  *altnum[10];
 static patch_t  *altnum2[10];
 static patch_t  *altminuspatch;
-static short    altminuspatchwidth;
 static patch_t  *altweapon[NUMWEAPONS];
 static patch_t  *altendpatch;
 static patch_t  *altleftpatch;
@@ -733,6 +732,8 @@ static patch_t  *altarmpatch;
 static patch_t  *altrightpatch;
 static patch_t  *altmarkpatch;
 static patch_t  *altmark2patch;
+
+static short    altminuspatchwidth;
 
 static int      gray;
 static int      darkgray;
@@ -826,7 +827,8 @@ static void DrawAltHUDNumber(int x, int y, int val, int color)
         else
             val = 0;
     }
-    else if (val == 1 || val % 10 == 1)
+
+    if (val == 1 || val % 10 == 1)
         x++;
 
     if (val >= 100)
