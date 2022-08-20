@@ -1083,7 +1083,7 @@ static void HU_DrawAltHUD(void)
     if ((powerupbar = (powerupbar == INT_MAX ? 101 : powerupbar * 101 / max)))
     {
         fillrectfunc2(0, ALTHUD_RIGHT_X, ALTHUD_Y + 27, powerupbar, 2, nearestwhite, false, alttinttab60);
-        fillrectfunc2(0, ALTHUD_RIGHT_X + powerupbar, ALTHUD_Y + 27, 101 - powerupbar, 2, nearestwhite, false, alttinttab20);
+        fillrectfunc2(0, ALTHUD_RIGHT_X + powerupbar, ALTHUD_Y + 27, 101 - powerupbar, 2, nearestwhite, false, alttinttab10);
     }
 }
 
