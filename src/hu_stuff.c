@@ -112,8 +112,8 @@ static void (*hudnumfunc)(int, int, patch_t *, byte *);
 
 static void (*althudfunc)(int, int, patch_t *, int, int);
 void (*althudtextfunc)(int, int, byte *, patch_t *, bool, int, int, byte *);
-static void (*fillrectfunc)(int, int, int, int, int, int, bool);
-static void (*fillrectfunc2)(int, int, int, int, int, int, bool);
+static void (*fillrectfunc)(int, int, int, int, int, int, bool, byte *);
+static void (*fillrectfunc2)(int, int, int, int, int, int, bool, byte *);
 
 static struct
 {
@@ -930,8 +930,9 @@ static void HU_DrawAltHUD(void)
 
     if ((health = MAX(0, health) * 200 / maxhealth) > 100)
     {
-        fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 13, 101, 8, barcolor1, true);
-        fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 13, MAX(1, health - 100) + (health == 200), 8, barcolor2, (health == 200));
+        fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 13, 101, 8, barcolor1, true, alttinttab20);
+        fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 13, MAX(1, health - 100) + (health == 200),
+            8, barcolor2, (health == 200), alttinttab20);
         althudfunc(ALTHUD_LEFT_X + 5, ALTHUD_Y + 11, altleftpatch, WHITE, color);
         althudfunc(ALTHUD_LEFT_X + 25, ALTHUD_Y + 13, altendpatch, WHITE, barcolor2);
         althudfunc(ALTHUD_LEFT_X + 123, ALTHUD_Y + 13, altmarkpatch, WHITE, barcolor1);
@@ -939,7 +940,7 @@ static void HU_DrawAltHUD(void)
     }
     else
     {
-        fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 13, MAX(1, health) + (health == 100), 8, barcolor1, true);
+        fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 13, MAX(1, health) + (health == 100), 8, barcolor1, true, alttinttab20);
         althudfunc(ALTHUD_LEFT_X + 5, ALTHUD_Y + 11, altleftpatch, WHITE, color);
         althudfunc(ALTHUD_LEFT_X + 25, ALTHUD_Y + 13, altendpatch, WHITE, barcolor1);
         althudfunc(ALTHUD_LEFT_X + 25 + MAX(1, health) - (health < 100) - 2, ALTHUD_Y + 13, altmarkpatch, WHITE, barcolor1);
@@ -954,11 +955,11 @@ static void HU_DrawAltHUD(void)
 
         if ((armor *= 200 / max_armor) > 100)
         {
-            fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 2, 101, 4, barcolor1, true);
-            fillrectfunc2(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 2, armor - 100 + (armor == 200), 4, barcolor2, false);
+            fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 2, 101, 4, barcolor1, true, alttinttab20);
+            fillrectfunc2(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 2, armor - 100 + (armor == 200), 4, barcolor2, false, alttinttab20);
         }
         else
-            fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 2, armor + (armor == 100), 4, barcolor1, true);
+            fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 2, armor + (armor == 100), 4, barcolor1, true, alttinttab20);
     }
     else
         althudfunc(ALTHUD_LEFT_X + 5, ALTHUD_Y, altarmpatch, -1, 0);
@@ -976,7 +977,7 @@ static void HU_DrawAltHUD(void)
             DrawAltHUDNumber(ALTHUD_RIGHT_X + 101 - AltHUDNumberWidth(ammo), ALTHUD_Y - 2, ammo, color);
             ammo = 100 * ammo / viewplayer->maxammo[ammotype];
             barcolor1 = (ammo < HUD_AMMO_MIN ? yellow : color);
-            fillrectfunc(0, ALTHUD_RIGHT_X + 100 - ammo, ALTHUD_Y + 13, ammo + 1, 8, barcolor1, true);
+            fillrectfunc(0, ALTHUD_RIGHT_X + 100 - ammo, ALTHUD_Y + 13, ammo + 1, 8, barcolor1, true, alttinttab20);
             althudfunc(ALTHUD_RIGHT_X, ALTHUD_Y + 13, altrightpatch, WHITE, color);
             althudfunc(ALTHUD_RIGHT_X + 100, ALTHUD_Y + 13, altendpatch, WHITE, barcolor1);
             althudfunc(ALTHUD_RIGHT_X + 100 - ammo - 2, ALTHUD_Y + 13, altmarkpatch, WHITE, barcolor1);
@@ -1081,8 +1082,8 @@ static void HU_DrawAltHUD(void)
 
     if ((powerupbar = (powerupbar == INT_MAX ? 101 : powerupbar * 101 / max)))
     {
-        fillrectfunc2(0, ALTHUD_RIGHT_X, ALTHUD_Y + 27, 101, 2, darkgray, false);
-        fillrectfunc2(0, ALTHUD_RIGHT_X, ALTHUD_Y + 27, powerupbar, 2, gray, false);
+        fillrectfunc2(0, ALTHUD_RIGHT_X, ALTHUD_Y + 27, powerupbar, 2, nearestwhite, false, alttinttab60);
+        fillrectfunc2(0, ALTHUD_RIGHT_X + powerupbar, ALTHUD_Y + 27, 101 - powerupbar, 2, nearestwhite, false, alttinttab20);
     }
 }
 

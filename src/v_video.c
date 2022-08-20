@@ -102,7 +102,7 @@ void V_InitColorTranslation(void)
 //
 // V_FillRect
 //
-void V_FillRect(int screen, int x, int y, int width, int height, int color, bool right)
+void V_FillRect(int screen, int x, int y, int width, int height, int color, bool right, byte *tinttab)
 {
     byte    *dest = &screens[screen][y * SCREENWIDTH + x];
 
@@ -113,21 +113,21 @@ void V_FillRect(int screen, int x, int y, int width, int height, int color, bool
     }
 }
 
-void V_FillTransRect(int screen, int x, int y, int width, int height, int color, bool right)
+void V_FillTransRect(int screen, int x, int y, int width, int height, int color, bool right, byte *tinttab)
 {
     byte        *dest = &screens[screen][y * SCREENWIDTH + x];
-    const byte  *tint60 = &alttinttab60[color << 8];
+    const byte  *tint = &tinttab[color << 8];
 
     for (int xx = 0; xx < width; xx++)
     {
         byte    *dot = dest + xx;
 
         for (int yy = 0; yy < height; yy++, dot += SCREENWIDTH)
-            *dot = *(tint60 + *dot);
+            *dot = *(tint + *dot);
     }
 }
 
-void V_FillSoftTransRect(int screen, int x, int y, int width, int height, int color, bool right)
+void V_FillSoftTransRect(int screen, int x, int y, int width, int height, int color, bool right, byte *tinttab)
 {
     byte        *dest = &screens[screen][y * SCREENWIDTH + x];
     byte        *dot;
@@ -143,8 +143,7 @@ void V_FillSoftTransRect(int screen, int x, int y, int width, int height, int co
 
     if (height > 2)
     {
-        const byte  *tinttab = alttinttab20 + color;
-
+        tinttab += color;
         dot = dest - 1 - 2 * (size_t)SCREENWIDTH;
         *dot = *(tinttab + *dot);
         dot += SCREENWIDTH;
