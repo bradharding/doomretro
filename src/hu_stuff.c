@@ -742,12 +742,13 @@ static int      blue;
 static int      red;
 static int      yellow;
 
+static bool     weaponschanged;
+
 static void HU_AltInit(void)
 {
     char    buffer[9];
     patch_t *altkeypatch;
     patch_t *altskullpatch;
-    bool    weaponschanged = false;
 
     for (int i = 0; i < 10; i++)
     {
