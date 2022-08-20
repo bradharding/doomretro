@@ -360,7 +360,7 @@ int I_StartSound(sfxinfo_t *sfxinfo, const int channel, const int vol, const int
         LockAllocatedSound(snd);
 
     // Play sound
-    Mix_PlayChannelTimed(channel, &snd->chunk, 0, -1);
+    Mix_PlayChannel(channel, &snd->chunk, 0);
 
     channels_playing[channel] = snd;
 
