@@ -146,9 +146,9 @@ void P_MobjThinker(mobj_t *mobj);
 
 void P_SpawnMoreBlood(mobj_t *mobj);
 mobj_t *P_SpawnMapThing(mapthing_t *mthing, const bool spawnmonsters);
-void P_SpawnPuff(const fixed_t x, fixed_t y, const fixed_t z, const angle_t angle);
+void P_SpawnPuff(const fixed_t x, const fixed_t y, const fixed_t z, const angle_t angle);
 void P_SpawnSmokeTrail(const fixed_t x, const fixed_t y, const fixed_t z, const angle_t angle);
-void P_SpawnBlood(const fixed_t x, fixed_t y, const fixed_t z, angle_t angle, const int damage, mobj_t *target);
+void P_SpawnBlood(const fixed_t x, const fixed_t y, const fixed_t z, angle_t angle, const int damage, mobj_t *target);
 void P_SetBloodSplatColor(bloodsplat_t *splat);
 void P_SpawnBloodSplat(const fixed_t x, const fixed_t y, const int color,
     const bool usemaxheight, const fixed_t maxheight, mobj_t *target);

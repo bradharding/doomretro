@@ -382,7 +382,7 @@ static void HUlib_DrawTextLine(hu_textline_t *l, bool external)
                         }
 
                 // [BH] draw individual character
-                charwidth = (int)strlen(smallcharset[j]) / 10 - 1;
+                charwidth = (short)strlen(smallcharset[j]) / 10 - 1;
 
                 if (message_secret)
                     HU_DrawGoldChar(x, y - 1, j, tempscreen, screenwidth);

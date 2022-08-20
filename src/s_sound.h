@@ -61,9 +61,9 @@ void I_ShutdownSound(void);
 bool CacheSFX(sfxinfo_t *sfxinfo);
 void I_UpdateSoundParms(const int channel, const int vol, const int sep);
 int I_StartSound(sfxinfo_t *sfxinfo, const int channel, const int vol, const int sep, const int pitch);
-void I_StopSound(int channel);
-void I_FadeOutSound(int channel);
-bool I_SoundIsPlaying(int channel);
+void I_StopSound(const int channel);
+void I_FadeOutSound(const int channel);
+bool I_SoundIsPlaying(const int channel);
 
 bool I_InitMusic(void);
 void I_ShutdownMusic(void);
