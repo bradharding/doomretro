@@ -826,6 +826,8 @@ static void DrawAltHUDNumber(int x, int y, int val, int color)
         else
             val = 0;
     }
+    else if (val == 1 || val % 10 == 1)
+        x++;
 
     if (val >= 100)
     {
