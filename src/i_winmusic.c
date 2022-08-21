@@ -383,6 +383,19 @@ void I_Windows_StopSong(void)
         // end of RPN sequence
         midiOutShortMsg((HMIDIOUT)hMidiStream, (MIDI_EVENT_CONTROLLER | i | (0x64 << 8) | (0x7F << 16)));
         midiOutShortMsg((HMIDIOUT)hMidiStream, (MIDI_EVENT_CONTROLLER | i | (0x65 << 8) | (0x7F << 16)));
+
+        // reset all controllers
+        midiOutShortMsg((HMIDIOUT)hMidiStream, (MIDI_EVENT_CONTROLLER | i | (0x79 << 8)));
+
+        // reset pan to 64 (center)
+        midiOutShortMsg((HMIDIOUT)hMidiStream, (MIDI_EVENT_CONTROLLER | i | (0x0A << 8) | (0x40 << 16)));
+
+        // reset reverb to 40 and other effect controllers to 0
+        midiOutShortMsg((HMIDIOUT)hMidiStream, (MIDI_EVENT_CONTROLLER | i | (0x5B << 8) | (0x28 << 16)));   // reverb
+        midiOutShortMsg((HMIDIOUT)hMidiStream, (MIDI_EVENT_CONTROLLER | i | (0x5C << 8)));                  // tremolo
+        midiOutShortMsg((HMIDIOUT)hMidiStream, (MIDI_EVENT_CONTROLLER | i | (0x5D << 8)));                  // chorus
+        midiOutShortMsg((HMIDIOUT)hMidiStream, (MIDI_EVENT_CONTROLLER | i | (0x5E << 8)));                  // detune
+        midiOutShortMsg((HMIDIOUT)hMidiStream, (MIDI_EVENT_CONTROLLER | i | (0x5F << 8)));                  // phaser
     }
 
     if ((mmr = midiStreamStop(hMidiStream)) != MMSYSERR_NOERROR)
