@@ -1313,6 +1313,8 @@ static void M_QuickLoadResponse(int key)
         M_LoadSelect(quickSaveSlot);
         S_StartSound(NULL, sfx_swtchx);
     }
+    else
+        D_FadeScreen(false);
 }
 
 static void M_QuickLoad(void)
@@ -1703,7 +1705,10 @@ static void M_VerifyNightmare(int key)
     messagetoprint = false;
 
     if (key != 'y')
+    {
         M_SetupNextMenu(&NewDef);
+        D_FadeScreen(false);
+    }
     else
     {
         quickSaveSlot = -1;
@@ -1952,6 +1957,7 @@ static void M_EndGameResponse(int key)
         else
             M_SetupNextMenu(&OptionsDef);
 
+        D_FadeScreen(false);
         return;
     }
 
@@ -2036,6 +2042,7 @@ static void M_QuitResponse(int key)
         else
             M_SetupNextMenu(&MainDef);
 
+        D_FadeScreen(false);
         return;
     }
 
