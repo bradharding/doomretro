@@ -2309,7 +2309,9 @@ void M_StartMessage(char *string, void (*routine)(int), bool input)
     messageString = string;
     messageRoutine = routine;
     messageNeedsInput = input;
-    M_StartControlPanel();
+
+    if (!consoleactive)
+        M_StartControlPanel();
 
     I_SetPalette(PLAYPAL);
     I_UpdateBlitFunc(false);
@@ -2883,7 +2885,7 @@ bool M_Responder(event_t *ev)
     {
         const int   ch = (key == KEY_ENTER ? 'y' : tolower(key));
 
-        if (currentMenu != &NewDef)
+        if (currentMenu != &NewDef && !consoleactive)
             M_ClearMenus();
 
         if (messageNeedsInput && key != keyboardmenu && ch != 'y' && ch != 'n' && key != KEY_BACKSPACE
