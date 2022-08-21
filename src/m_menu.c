@@ -2309,7 +2309,7 @@ void M_StartMessage(char *string, void (*routine)(int), bool input)
     messageString = string;
     messageRoutine = routine;
     messageNeedsInput = input;
-    menuactive = true;
+    M_StartControlPanel();
 
     I_SetPalette(PLAYPAL);
     I_UpdateBlitFunc(false);
@@ -2883,6 +2883,8 @@ bool M_Responder(event_t *ev)
     {
         const int   ch = (key == KEY_ENTER ? 'y' : tolower(key));
 
+        M_ClearMenus();
+
         if (messageNeedsInput && key != keyboardmenu && ch != 'y' && ch != 'n' && key != KEY_BACKSPACE
             && !(SDL_GetModState() & (KMOD_ALT | KMOD_CTRL)) && key != functionkey)
         {
@@ -2902,10 +2904,7 @@ bool M_Responder(event_t *ev)
         if (endinggame)
             endinggame = false;
         else
-        {
             S_StartSound(NULL, (currentMenu == &ReadDef ? sfx_pistol : sfx_swtchx));
-            D_FadeScreen(false);
-        }
 
         return true;
     }
@@ -3606,8 +3605,12 @@ void M_StartControlPanel(void)
         return;
 
     menuactive = true;
-    currentMenu = &MainDef;
-    itemOn = currentMenu->lastOn;
+
+    if (!messagetoprint)
+    {
+        currentMenu = &MainDef;
+        itemOn = currentMenu->lastOn;
+    }
 
     if (joy_rumble_damage || joy_rumble_barrels || joy_rumble_weapons)
     {
