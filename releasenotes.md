@@ -4,6 +4,7 @@
 
 * The menu’s background is now displayed correctly when using the <kbd>F9</kbd> key to quickload a savegame.
 * Minor improvements have been made to the playback of MIDI music.
+* The power-up bar in the alternate widescreen HUD now depletes from left to right.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
