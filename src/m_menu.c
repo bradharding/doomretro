@@ -2883,7 +2883,8 @@ bool M_Responder(event_t *ev)
     {
         const int   ch = (key == KEY_ENTER ? 'y' : tolower(key));
 
-        M_ClearMenus();
+        if (currentMenu != &NewDef)
+            M_ClearMenus();
 
         if (messageNeedsInput && key != keyboardmenu && ch != 'y' && ch != 'n' && key != KEY_BACKSPACE
             && !(SDL_GetModState() & (KMOD_ALT | KMOD_CTRL)) && key != functionkey)
