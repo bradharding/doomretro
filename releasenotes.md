@@ -2,6 +2,9 @@
 
 #### DOOM Retro v4.6.1
 
+* The menu’s background now displays correctly and there is no unnecessary fade transition when using the <kbd>F9</kbd> key to quickload a savegame.
+* Minor improvements have been made to the playback of MIDI music.
+
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Sunday, August 21, 2022
