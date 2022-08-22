@@ -6152,6 +6152,7 @@ static void reset_cmd_func2(char *cmd, char *parms)
 static void C_VerifyResetAll(const int key)
 {
     messagetoprint = false;
+    SDL_StartTextInput();
 
     if (key == 'y')
     {
@@ -6346,6 +6347,7 @@ static void resetall_cmd_func2(char *cmd, char *parms)
     M_snprintf(buffer, sizeof(buffer), "Are you sure you want to reset all CVARs\nand bound controls to their defaults?\n\n%s",
         s_PRESSYN);
     M_StartMessage(buffer, &C_VerifyResetAll, true);
+    SDL_StopTextInput();
     S_StartSound(NULL, sfx_swtchn);
 }
 

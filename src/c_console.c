@@ -775,6 +775,7 @@ void C_ShowConsole(void)
 
     S_FadeOutSounds();
     S_LowerMusicVolume();
+    SDL_StartTextInput();
 
     if (gamestate == GS_TITLESCREEN)
     {
@@ -787,6 +788,8 @@ void C_HideConsole(void)
 {
     if (!consoleactive)
         return;
+
+    SDL_StopTextInput();
 
     consoledirection = -1;
     consoleanim = 0;
@@ -806,6 +809,8 @@ void C_HideConsoleFast(void)
 {
     if (!consoleactive)
         return;
+
+    SDL_StopTextInput();
 
     consoledirection = -1;
     consoleanim = 0;
