@@ -2,9 +2,12 @@
 
 #### DOOM Retro v4.6.1
 
-* The menu’s background is now displayed correctly when using the <kbd>F9</kbd> key to quickload a savegame.
+* The menu’s background is now displayed correctly when pressing the <kbd>F9</kbd> key to quickload a savegame.
 * Minor improvements have been made to the playback of MIDI music.
 * The power-up bar in the alternate widescreen HUD now depletes from left to right.
+* The player’s super shotgun will now always be positioned correctly.
+* A crash no longer occurs in the automap when the player turns and the `am_followmode` CVAR is `off` and the `am_rotatemode` CVAR is `on`.
+* A bug is fixed whereby entering cheats would not work correctly in some instances.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
