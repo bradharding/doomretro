@@ -854,21 +854,24 @@ void D_SetAutoLoadFolder(void)
 
     M_MakeDirectory(autoloadfolder);
 
+    autoloadiwadsubfolder = M_StringJoin(autoloadfolder, SaveGameIWADName(), DIR_SEPARATOR_S, NULL);
+    M_MakeDirectory(autoloadiwadsubfolder);
+
     if (*pwadfile)
     {
         char    *temp = removeext(GetCorrectCase(pwadfile));
 
-        autoloadsubfolder = M_StringJoin(autoloadfolder, temp, DIR_SEPARATOR_S, NULL);
+        autoloadpwadsubfolder = M_StringJoin(autoloadfolder, temp, DIR_SEPARATOR_S, NULL);
+        M_MakeDirectory(autoloadpwadsubfolder);
         free(temp);
+
+        if (!M_CheckParm("-noautoload") && gamemode != shareware)
+            C_Output("All files put in " BOLD("%s") ", " BOLD("%s") " and " BOLD("%s") " will be loaded automatically.",
+                autoloadfolder, autoloadiwadsubfolder, autoloadpwadsubfolder);
     }
-    else
-        autoloadsubfolder = M_StringJoin(autoloadfolder, SaveGameIWADName(), DIR_SEPARATOR_S, NULL);
-
-    M_MakeDirectory(autoloadsubfolder);
-
-    if (!M_CheckParm("-noautoload") && gamemode != shareware)
+    else if (!M_CheckParm("-noautoload") && gamemode != shareware)
         C_Output("All files put in " BOLD("%s") " and " BOLD("%s") " will be loaded automatically.",
-            autoloadfolder, autoloadsubfolder);
+            autoloadfolder, autoloadiwadsubfolder);
 }
 
 void D_SetScreenshotsFolder(void)

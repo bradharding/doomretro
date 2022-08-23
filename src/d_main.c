@@ -133,7 +133,8 @@ static char *iwadsrequired[] =
 char            *savegamefolder;
 
 char            *autoloadfolder;
-char            *autoloadsubfolder;
+char            *autoloadiwadsubfolder;
+char            *autoloadpwadsubfolder;
 
 char            *pwadfile = "";
 
@@ -2159,7 +2160,8 @@ static void D_DoomMainSetup(void)
     if (!M_CheckParm("-noautoload") && gamemode != shareware)
     {
         W_AutoLoadFiles(autoloadfolder);
-        W_AutoLoadFiles(autoloadsubfolder);
+        W_AutoLoadFiles(autoloadiwadsubfolder);
+        W_AutoLoadFiles(autoloadpwadsubfolder);
     }
 
     W_Init();
