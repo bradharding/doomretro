@@ -2161,7 +2161,9 @@ static void D_DoomMainSetup(void)
     {
         W_AutoLoadFiles(autoloadfolder);
         W_AutoLoadFiles(autoloadiwadsubfolder);
-        W_AutoLoadFiles(autoloadpwadsubfolder);
+
+        if (autoloadpwadsubfolder)
+            W_AutoLoadFiles(autoloadpwadsubfolder);
     }
 
     W_Init();
