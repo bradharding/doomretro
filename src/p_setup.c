@@ -2870,6 +2870,17 @@ void P_MapName(int ep, int map)
                 temp = titlecase(maptitle);
                 M_snprintf(mapnumandtitle, sizeof(mapnumandtitle), "%s: " ITALICSTOGGLE "%s" ITALICSTOGGLE, mapnum, temp);
             }
+            else if (toupper(maptitle[0]) == 'L' && isdigit(maptitle[1]) && isdigit(maptitle[2]))
+            {
+                memmove(maptitle, maptitle + index, strlen(maptitle) - index + 1);
+
+                if (maptitle[0] == ' ')
+                    memmove(maptitle, maptitle + 1, strlen(maptitle));
+
+                temp = titlecase(maptitle);
+                M_snprintf(mapnum, sizeof(mapnum), "L%02i", map);
+                M_snprintf(mapnumandtitle, sizeof(mapnumandtitle), "%s: " ITALICSTOGGLE "%s" ITALICSTOGGLE, mapnum, temp);
+            }
             else
             {
                 temp = titlecase(maptitle);
