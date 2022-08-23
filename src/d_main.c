@@ -2198,8 +2198,8 @@ static void D_DoomMainSetup(void)
     I_InitGameController();
 
     D_IdentifyVersion();
-    D_ProcessDehInWad();
     D_ProcessDehOnCmdLine();
+    D_ProcessDehInWad();
 
     PostProcessDeh();
 
