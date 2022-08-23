@@ -69,7 +69,7 @@
 #define DARKGRAY        102
 #define GREEN           114
 #define RED             180
-#define BLUE            200
+#define BLUE            199
 #define YELLOW          231
 
 #define STSTR_BEHOLD2   "inVuln, bSrk, Inviso, Rad, Allmap or Lite-amp?"
