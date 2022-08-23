@@ -2836,7 +2836,7 @@ void P_MapName(int ep, int map)
             const int   index = (int)(pos - maptitle) + 1;
             char        *temp;
 
-            if (FREEDOOM1)
+            if (toupper(maptitle[0]) == 'C' && isdigit(maptitle[1]) && toupper(maptitle[2]) == 'M' && isdigit(maptitle[3]))
             {
                 memmove(maptitle, maptitle + index, strlen(maptitle) - index + 1);
 
@@ -2847,7 +2847,8 @@ void P_MapName(int ep, int map)
                 M_snprintf(mapnum, sizeof(mapnum), "C%iM%i", ep, map);
                 M_snprintf(mapnumandtitle, sizeof(mapnumandtitle), "%s: " ITALICSTOGGLE "%s" ITALICSTOGGLE, mapnum, temp);
             }
-            else if (BTSX)
+            else if (toupper(maptitle[0]) == 'E' && isdigit(maptitle[1])
+                && toupper(maptitle[2]) == 'M' && isdigit(maptitle[3]) && isdigit(maptitle[4]))
             {
                 memmove(maptitle, maptitle + index, strlen(maptitle) - index + 1);
 

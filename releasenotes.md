@@ -9,7 +9,7 @@
 * A crash no longer occurs in the automap when the player turns and the `am_followmode` CVAR is `off` and the `am_rotatemode` CVAR is `on`.
 * A bug is fixed whereby entering a cheat would not work correctly in some instances.
 * Minor improvements have been made when specifying `.deh` and `.bex` files on the command-line.
-* Any `.wad`, `.deh` or `.bex` files will now be autoloaded if placed in a subfolder of the `autoload` folder based on the current IWAD’s name.
+* Any `.wad`, `.deh` or `.bex` files are now autoloaded if placed in a subfolder of the `autoload` folder based on the current IWAD, even if a PWAD is also loaded.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
