@@ -6,9 +6,10 @@
 * The menu’s background is now displayed correctly when pressing the <kbd>F9</kbd> key to quickload a savegame.
 * Minor improvements have been made to the playback of MIDI music.
 * The following changes have been made to the alternate widescreen HUD:
-  * The power-up bar now depletes from left to right and is more accurate.
+  * The power-up bar now depletes from left to right.
+  * The amount of time the power-up bar is visible is now more accurate.
   * The blue color used in the armor bar and for keycards and skull keys is now slightly lighter.
-  * The number of notches in the ammo bar is doubled if the player picks up a backpack.
+  * The number of notches in the ammo bar has increased, and now doubles if the player picks up a backpack.
 * The player’s super shotgun will now always be positioned correctly.
 * A crash no longer occurs in the automap when the player turns and the `am_followmode` CVAR is `off` and the `am_rotatemode` CVAR is `on`.
 * A bug is fixed whereby entering a cheat would not work correctly in some instances.
