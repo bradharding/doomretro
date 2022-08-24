@@ -806,8 +806,8 @@ static void HU_AltInit(void)
         }
 
     altleftpatch = W_CacheLumpName("DRHUDL");
-    altrightpatch1 = W_CacheLumpName("DRHUDR1");
-    altrightpatch2 = W_CacheLumpName("DRHUDR2");
+    altrightpatch1 = W_CacheLumpName("DRHUDRA");
+    altrightpatch2 = W_CacheLumpName("DRHUDRB");
 
     gray = nearestcolors[GRAY];
     darkgray = nearestcolors[DARKGRAY];
