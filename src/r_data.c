@@ -431,10 +431,7 @@ static void R_InitSpriteLumps(void)
             SC_MustGetString();
 
             if (SC_Compare(pwadfile))
-            {
                 fixspriteoffsets = true;
-                M_SKULL1 = false;
-            }
         }
         else if (SC_Compare("NOBLUEGREENBLOOD"))
         {
