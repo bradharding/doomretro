@@ -8,6 +8,7 @@
 * The following changes have been made to the alternate widescreen HUD:
   * The power-up bar now depletes from left to right and is more accurate.
   * The blue color used in the armor bar and for keycards and skull keys is now slightly lighter.
+  * The number of notches in the ammo bar is doubled if the player picks up a backpack.
 * The player’s super shotgun will now always be positioned correctly.
 * A crash no longer occurs in the automap when the player turns and the `am_followmode` CVAR is `off` and the `am_rotatemode` CVAR is `on`.
 * A bug is fixed whereby entering a cheat would not work correctly in some instances.
