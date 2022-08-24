@@ -2,6 +2,7 @@
 
 #### DOOM Retro v4.6.1
 
+* *DOOM Retro* is now built using v17.3.2 of [*Microsoft Visual Studio Community 2022*](https://www.visualstudio.com/vs/).
 * The menu’s background is now displayed correctly when pressing the <kbd>F9</kbd> key to quickload a savegame.
 * Minor improvements have been made to the playback of MIDI music.
 * The power-up bar in the alternate widescreen HUD now depletes from left to right and is more accurate.
