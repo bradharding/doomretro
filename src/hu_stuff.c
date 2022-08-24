@@ -988,105 +988,105 @@ static void HU_DrawAltHUD(void)
 
         if (altweapon[weapon])
             althudfunc(ALTHUD_RIGHT_X + (weapon == wp_chainsaw ? 87 : 107), ALTHUD_Y - 15, altweapon[weapon], WHITE, color);
-    }
 
-    for (int i = 1; i <= NUMCARDS; i++)
-        for (int j = 0; j < NUMCARDS; j++)
-            if (viewplayer->cards[j] == i)
-            {
-                altkeypic_t altkeypic = altkeypics[j];
-                patch_t     *patch = altkeypic.patch;
-
-                althudfunc(keypic_x, ALTHUD_Y, patch, WHITE, altkeypic.color);
-                keypic_x += SHORT(patch->width) + 4;
-            }
-
-    if (viewplayer->neededcardflash)
-    {
-        const bool  gamepaused = (consoleactive || freeze);
-        const int   neededcard = viewplayer->neededcard;
-
-        if (neededcard == it_allkeys)
-        {
-            if (!gamepaused)
-            {
-                const int   currenttime = I_GetTimeMS();
-
-                if (keywait < currenttime)
+        for (int i = 1; i <= NUMCARDS; i++)
+            for (int j = 0; j < NUMCARDS; j++)
+                if (viewplayer->cards[j] == i)
                 {
-                    showkey = !showkey;
-                    keywait = currenttime + HUD_KEY_WAIT;
-                    viewplayer->neededcardflash--;
+                    altkeypic_t altkeypic = altkeypics[j];
+                    patch_t     *patch = altkeypic.patch;
+
+                    althudfunc(keypic_x, ALTHUD_Y, patch, WHITE, altkeypic.color);
+                    keypic_x += SHORT(patch->width) + 4;
+                }
+
+        if (viewplayer->neededcardflash)
+        {
+            const bool  gamepaused = (consoleactive || freeze);
+            const int   neededcard = viewplayer->neededcard;
+
+            if (neededcard == it_allkeys)
+            {
+                if (!gamepaused)
+                {
+                    const int   currenttime = I_GetTimeMS();
+
+                    if (keywait < currenttime)
+                    {
+                        showkey = !showkey;
+                        keywait = currenttime + HUD_KEY_WAIT;
+                        viewplayer->neededcardflash--;
+                    }
+                }
+
+                if (flashkeys && (showkey || gamepaused))
+                    for (int i = 0; i < NUMCARDS; i++)
+                        if (viewplayer->cards[i] != i)
+                        {
+                            altkeypic_t altkeypic = altkeypics[i];
+                            patch_t     *patch = altkeypic.patch;
+
+                            althudfunc(keypic_x, ALTHUD_Y, patch, WHITE, altkeypic.color);
+                            keypic_x += SHORT(patch->width) + 4;
+                        }
+            }
+            else
+            {
+                if (!gamepaused)
+                {
+                    const int   currenttime = I_GetTimeMS();
+
+                    if (keywait < currenttime)
+                    {
+                        showkey = !showkey;
+                        keywait = currenttime + HUD_KEY_WAIT;
+                        viewplayer->neededcardflash--;
+                    }
+                }
+
+                if (flashkeys && (showkey || gamepaused))
+                {
+                    altkeypic_t altkeypic = altkeypics[neededcard];
+
+                    althudfunc(keypic_x, ALTHUD_Y, altkeypic.patch, WHITE, altkeypic.color);
                 }
             }
-
-            if (flashkeys && (showkey || gamepaused))
-                for (int i = 0; i < NUMCARDS; i++)
-                    if (viewplayer->cards[i] != i)
-                    {
-                        altkeypic_t altkeypic = altkeypics[i];
-                        patch_t     *patch = altkeypic.patch;
-
-                        althudfunc(keypic_x, ALTHUD_Y, patch, WHITE, altkeypic.color);
-                        keypic_x += SHORT(patch->width) + 4;
-                    }
         }
         else
         {
-            if (!gamepaused)
-            {
-                const int   currenttime = I_GetTimeMS();
-
-                if (keywait < currenttime)
-                {
-                    showkey = !showkey;
-                    keywait = currenttime + HUD_KEY_WAIT;
-                    viewplayer->neededcardflash--;
-                }
-            }
-
-            if (flashkeys && (showkey || gamepaused))
-            {
-                altkeypic_t altkeypic = altkeypics[neededcard];
-
-                althudfunc(keypic_x, ALTHUD_Y, altkeypic.patch, WHITE, altkeypic.color);
-            }
+            showkey = false;
+            keywait = 0;
         }
-    }
-    else
-    {
-        showkey = false;
-        keywait = 0;
-    }
 
-    if ((powerup = viewplayer->powers[pw_invulnerability]))
-    {
-        max = INVULNTICS;
-        powerupbar = (powerup == -1 ? INT_MAX : powerup);
-    }
+        if ((powerup = viewplayer->powers[pw_invulnerability]))
+        {
+            max = INVULNTICS;
+            powerupbar = (powerup == -1 ? INT_MAX : powerup);
+        }
 
-    if ((powerup = viewplayer->powers[pw_invisibility]) && (!powerupbar || (powerup >= 0 && powerup < powerupbar)))
-    {
-        max = INVISTICS;
-        powerupbar = (powerup == -1 ? INT_MAX : powerup);
-    }
+        if ((powerup = viewplayer->powers[pw_invisibility]) && (!powerupbar || (powerup >= 0 && powerup < powerupbar)))
+        {
+            max = INVISTICS;
+            powerupbar = (powerup == -1 ? INT_MAX : powerup);
+        }
 
-    if ((powerup = viewplayer->powers[pw_ironfeet]) && (!powerupbar || (powerup >= 0 && powerup < powerupbar)))
-    {
-        max = IRONTICS;
-        powerupbar = (powerup == -1 ? INT_MAX : powerup);
-    }
+        if ((powerup = viewplayer->powers[pw_ironfeet]) && (!powerupbar || (powerup >= 0 && powerup < powerupbar)))
+        {
+            max = IRONTICS;
+            powerupbar = (powerup == -1 ? INT_MAX : powerup);
+        }
 
-    if ((powerup = viewplayer->powers[pw_infrared]) && (!powerupbar || (powerup >= 0 && powerup < powerupbar)))
-    {
-        max = INFRATICS;
-        powerupbar = (powerup == -1 ? INT_MAX : powerup);
-    }
+        if ((powerup = viewplayer->powers[pw_infrared]) && (!powerupbar || (powerup >= 0 && powerup < powerupbar)))
+        {
+            max = INFRATICS;
+            powerupbar = (powerup == -1 ? INT_MAX : powerup);
+        }
 
-    if ((powerupbar = (powerupbar == INT_MAX ? 101 : (int)(powerupbar * 101.0 / max + 0.5))))
-    {
-        fillrectfunc2(0, ALTHUD_RIGHT_X, ALTHUD_Y + 27, 101 - powerupbar, 2, nearestwhite, false, alttinttab10);
-        fillrectfunc2(0, ALTHUD_RIGHT_X + 101 - powerupbar, ALTHUD_Y + 27, powerupbar, 2, nearestwhite, false, alttinttab60);
+        if ((powerupbar = (powerupbar == INT_MAX ? 101 : (int)(powerupbar * 101.0 / max + 0.5))))
+        {
+            fillrectfunc2(0, ALTHUD_RIGHT_X, ALTHUD_Y + 27, 101 - powerupbar, 2, nearestwhite, false, alttinttab10);
+            fillrectfunc2(0, ALTHUD_RIGHT_X + 101 - powerupbar, ALTHUD_Y + 27, powerupbar, 2, nearestwhite, false, alttinttab60);
+        }
     }
 }
 
