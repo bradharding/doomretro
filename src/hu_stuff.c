@@ -1110,8 +1110,8 @@ void HU_Drawer(void)
         }
         else if ((r_screensize == r_screensize_max && !r_althud) || message_external)
         {
-            w_message.l.x = HU_MSGX * SCREENSCALE + 8;
-            w_message.l.y = HU_MSGY * SCREENSCALE + 4;
+            w_message.l.x = HU_MSGX + 8;
+            w_message.l.y = HU_MSGY + 4;
         }
         else if (vid_widescreen && r_screensize == r_screensize_max - 1)
         {

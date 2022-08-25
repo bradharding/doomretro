@@ -15,6 +15,7 @@
   * The power-up bar, as well as any keycards or skull keys the player has picked up, are no longer displayed while the player is dead.
 * The player’s super shotgun will now always be positioned correctly.
 * A crash no longer occurs in the automap when the player turns and the `am_followmode` CVAR is `off` and the `am_rotatemode` CVAR is `on`.
+* The position of player messages has shifted in some instances.
 * A bug is fixed whereby entering a cheat would not work correctly in some instances.
 * Minor improvements have been made when specifying `.deh` and `.bex` files on the command-line.
 * Any `.wad`, `.deh` or `.bex` files are now autoloaded if placed in a subfolder of the `autoload` folder based on the current IWAD, even if a PWAD is also loaded.
