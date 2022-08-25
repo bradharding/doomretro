@@ -4344,6 +4344,7 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
         else if (M_StringCompare(wadname, "SIGIL_v1_21.wad")
             || M_StringCompare(wadname, "SIGIL_v1_2.wad")
             || M_StringCompare(wadname, "SIGIL_v1_1.wad")
+            || M_StringCompare(wadname, "SIGIL_v1_0.wad")
             || M_StringCompare(wadname, "SIGIL.wad"))
             C_TabbedOutput(tabs, INDENT "Release date\tWednesday, May 22, 2019");
         else if (M_StringCompare(wadname, "DOOM2.WAD"))

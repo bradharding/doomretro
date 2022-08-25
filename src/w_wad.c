@@ -375,6 +375,7 @@ bool W_AddFile(char *filename, bool autoload)
     if (M_StringCompare(file, "SIGIL_v1_21.wad")
         || M_StringCompare(file, "SIGIL_v1_2.wad")
         || M_StringCompare(file, "SIGIL_v1_1.wad")
+        || M_StringCompare(file, "SIGIL_v1_0.wad")
         || M_StringCompare(file, "SIGIL.wad"))
     {
         autosigil = autoload;

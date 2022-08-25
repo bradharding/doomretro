@@ -890,6 +890,7 @@ static void D_CheckSupportedPWAD(char *filename)
     if (M_StringCompare(leaf, "SIGIL_v1_21.wad")
         || M_StringCompare(leaf, "SIGIL_v1_2.wad")
         || M_StringCompare(leaf, "SIGIL_v1_1.wad")
+        || M_StringCompare(leaf, "SIGIL_v1_0.wad")
         || M_StringCompare(leaf, "SIGIL.wad"))
     {
         sigil = true;
@@ -1006,10 +1007,17 @@ static bool D_CheckParms(void)
                                 sigil = true;
                             else
                             {
-                                M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", folder, "SIGIL.wad");
+                                M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", folder, "SIGIL_v1_0.wad");
 
                                 if (W_MergeFile(fullpath, true))
                                     sigil = true;
+                                else
+                                {
+                                    M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", folder, "SIGIL.wad");
+
+                                    if (W_MergeFile(fullpath, true))
+                                        sigil = true;
+                                }
                             }
                         }
                     }
@@ -1322,10 +1330,17 @@ static int D_OpenWADLauncher(void)
                                     sigil = true;
                                 else
                                 {
-                                    M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", folder, "SIGIL.wad");
+                                    M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", folder, "SIGIL_v1_0.wad");
 
                                     if (W_MergeFile(fullpath, true))
                                         sigil = true;
+                                    else
+                                    {
+                                        M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", folder, "SIGIL.wad");
+
+                                        if (W_MergeFile(fullpath, true))
+                                            sigil = true;
+                                    }
                                 }
                             }
                         }
