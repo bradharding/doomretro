@@ -3943,7 +3943,7 @@ void M_Init(void)
     else
         EpiDef.numitems = 4;
 
-    if (EpiDef.lastOn > EpiDef.numitems)
+    if (EpiDef.lastOn >= EpiDef.numitems)
     {
         EpiDef.lastOn = 0;
         episode = 1;
