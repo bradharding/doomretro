@@ -142,10 +142,35 @@ void V_FillSoftTransRect(int screen, int x, int y, int width, int height, int co
             *dot = *(tint60 + *dot);
     }
 
-    if (height > 2)
+    tinttab += color;
+    dot = dest - 1 - 2 * (size_t)SCREENWIDTH;
+    *dot = *(tinttab + *dot);
+    dot += SCREENWIDTH;
+
+    for (int yy = 0; yy < height + 2; yy++, dot += SCREENWIDTH)
+        *dot = *(tinttab + *dot);
+
+    *dot = *(tinttab + *dot);
+    dot = dest - 2 - SCREENWIDTH;
+
+    for (int yy = 0; yy < height + 2; yy++, dot += SCREENWIDTH)
+        *dot = *(tinttab + *dot);
+
+    for (int xx = 0; xx < width; xx++)
     {
-        tinttab += color;
-        dot = dest - 1 - 2 * (size_t)SCREENWIDTH;
+        dot = dest + xx - 2 * (size_t)SCREENWIDTH;
+        *dot = *(tinttab + *dot);
+        dot += SCREENWIDTH;
+        *dot = *(tinttab + *dot);
+        dot += ((size_t)height + 1) * SCREENWIDTH;
+        *dot = *(tinttab + *dot);
+        dot += SCREENWIDTH;
+        *dot = *(tinttab + *dot);
+    }
+
+    if (right)
+    {
+        dot = dest + width - 2 * (size_t)SCREENWIDTH;
         *dot = *(tinttab + *dot);
         dot += SCREENWIDTH;
 
@@ -153,38 +178,10 @@ void V_FillSoftTransRect(int screen, int x, int y, int width, int height, int co
             *dot = *(tinttab + *dot);
 
         *dot = *(tinttab + *dot);
-        dot = dest - 2 - SCREENWIDTH;
+        dot = dest + width + 1 - SCREENWIDTH;
 
         for (int yy = 0; yy < height + 2; yy++, dot += SCREENWIDTH)
             *dot = *(tinttab + *dot);
-
-        for (int xx = 0; xx < width; xx++)
-        {
-            dot = dest + xx - 2 * (size_t)SCREENWIDTH;
-            *dot = *(tinttab + *dot);
-            dot += SCREENWIDTH;
-            *dot = *(tinttab + *dot);
-            dot += ((size_t)height + 1) * SCREENWIDTH;
-            *dot = *(tinttab + *dot);
-            dot += SCREENWIDTH;
-            *dot = *(tinttab + *dot);
-        }
-
-        if (right)
-        {
-            dot = dest + width - 2 * (size_t)SCREENWIDTH;
-            *dot = *(tinttab + *dot);
-            dot += SCREENWIDTH;
-
-            for (int yy = 0; yy < height + 2; yy++, dot += SCREENWIDTH)
-                *dot = *(tinttab + *dot);
-
-            *dot = *(tinttab + *dot);
-            dot = dest + width + 1 - SCREENWIDTH;
-
-            for (int yy = 0; yy < height + 2; yy++, dot += SCREENWIDTH)
-                *dot = *(tinttab + *dot);
-        }
     }
 }
 

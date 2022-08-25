@@ -77,7 +77,7 @@ extern bool             modifiedgame;
 extern skill_t          startskill;
 extern int              startepisode;
 
-extern bool          autostart;
+extern bool             autostart;
 
 // Selected by user.
 extern skill_t          gameskill;
