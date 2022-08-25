@@ -1321,7 +1321,7 @@ void I_SetMotionBlur(int percent)
 static void SetVideoMode(bool createwindow, bool output)
 {
     int                 rendererflags = SDL_RENDERER_TARGETTEXTURE;
-    int                 windowflags = SDL_WINDOW_RESIZABLE;
+    int                 windowflags = (SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL);
     int                 width, height;
     uint32_t            pixelformat;
     uint32_t            rmask;
@@ -1387,9 +1387,6 @@ static void SetVideoMode(bool createwindow, bool output)
     GetWindowPosition();
     GetWindowSize();
     GetScreenResolution();
-
-    if (M_StringStartsWith(vid_scaleapi, "opengl"))
-        windowflags |= SDL_WINDOW_OPENGL;
 
     if (vid_fullscreen)
     {

@@ -3,13 +3,15 @@
 #### DOOM Retro v4.6.1
 
 * *DOOM Retro* is now built using v17.3.2 of [*Microsoft Visual Studio Community 2022*](https://www.visualstudio.com/vs/).
+* Minor optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * The menu’s background is now displayed correctly when pressing the <kbd>F9</kbd> key to quickload a savegame.
 * Minor improvements have been made to the playback of MIDI music.
 * The following changes have been made to the alternate widescreen HUD:
   * The power-up bar now depletes from left to right.
   * The amount of time the power-up bar is visible is now more accurate.
   * The blue color used in the armor bar and for keycards and skull keys is now slightly lighter.
-  * The number of notches in the ammo bar has increased by one, and now doubles if the player picks up a backpack.
+  * The number of notches in the ammo bar has increased by one.
+  * The number of notches in the ammo bar now doubles if the player picks up a backpack.
   * The power-up bar, as well as any keycards or skull keys the player has picked up, are no longer displayed while the player is dead.
 * The player’s super shotgun will now always be positioned correctly.
 * A crash no longer occurs in the automap when the player turns and the `am_followmode` CVAR is `off` and the `am_rotatemode` CVAR is `on`.
