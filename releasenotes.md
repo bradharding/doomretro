@@ -20,8 +20,8 @@
 * A bug is fixed whereby entering a cheat would not work correctly in some instances.
 * Minor improvements have been made when specifying `.deh` and `.bex` files on the command-line.
 * Any `.wad`, `.deh` or `.bex` files are now autoloaded if placed in a subfolder of the `autoload` folder based on the current IWAD, even if a PWAD is also loaded.
-* The default of the `am_allmapcdwallcolor` CVAR is now `108`.
-* Improvements have been made to the automap when the player has a computer area map power-up.
+* The default of the `am_allmapcdwallcolor` CVAR is now `109`.
+* Improvements have been made to unmapped areas of the automap when the player has a computer area map power-up.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
