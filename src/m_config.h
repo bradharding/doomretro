@@ -303,7 +303,7 @@ enum
 #define alwaysrun_default                  false
 
 #define am_allmapcdwallcolor_min           0
-#define am_allmapcdwallcolor_default       106
+#define am_allmapcdwallcolor_default       108
 #define am_allmapcdwallcolor_max           255
 
 #define am_allmapfdwallcolor_min           0
@@ -311,7 +311,7 @@ enum
 #define am_allmapfdwallcolor_max           255
 
 #define am_allmapwallcolor_min             0
-#define am_allmapwallcolor_default         108
+#define am_allmapwallcolor_default         106
 #define am_allmapwallcolor_max             255
 
 #define am_backcolor_min                   0
