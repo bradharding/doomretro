@@ -1570,8 +1570,6 @@ static void AM_DrawWalls_AllMap(void)
                         else if (back->ceilingheight != front->ceilingheight)
                             AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y,
                                 ((flags & ML_MAPPED) ? cdwallcolor : allmapcdwallcolor), &PUTDOT);
-                        else
-                            AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, tswallcolor, &PUTDOT);
                     }
                 }
             }
