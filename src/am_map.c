@@ -57,15 +57,17 @@
 #include "st_stuff.h"
 
 // Automap color priorities
-#define PATHPRIORITY        9
-#define WALLPRIORITY        8
-#define DOORPRIORITY        7
-#define CDWALLPRIORITY      6
-#define FDWALLPRIORITY      5
-#define TELEPORTERPRIORITY  4
-#define TSWALLPRIORITY      3
-#define ALLMAPWALLPRIORITY  2
-#define GRIDPRIORITY        1
+#define PATHPRIORITY           11
+#define WALLPRIORITY           10
+#define DOORPRIORITY            9
+#define CDWALLPRIORITY          8
+#define FDWALLPRIORITY          7
+#define TELEPORTERPRIORITY      6
+#define TSWALLPRIORITY          5
+#define ALLMAPWALLPRIORITY      4
+#define ALLMAPCDWALLPRIORITY    3
+#define ALLMAPFDWALLPRIORITY    2
+#define GRIDPRIORITY            1
 
 static byte playercolor;
 static byte thingcolor;
@@ -281,8 +283,8 @@ void AM_SetColors(void)
     priority[nearestcolors[am_teleportercolor]] = TELEPORTERPRIORITY;
     priority[nearestcolors[am_tswallcolor]] = TSWALLPRIORITY;
     priority[nearestcolors[am_allmapwallcolor]] = ALLMAPWALLPRIORITY;
-    priority[nearestcolors[am_allmapcdwallcolor]] = ALLMAPWALLPRIORITY;
-    priority[nearestcolors[am_allmapfdwallcolor]] = ALLMAPWALLPRIORITY;
+    priority[nearestcolors[am_allmapcdwallcolor]] = ALLMAPCDWALLPRIORITY;
+    priority[nearestcolors[am_allmapfdwallcolor]] = ALLMAPFDWALLPRIORITY;
     priority[nearestcolors[am_gridcolor]] = GRIDPRIORITY;
 
     playercolor = nearestcolors[am_playercolor];

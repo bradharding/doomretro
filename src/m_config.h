@@ -311,7 +311,7 @@ enum
 #define am_allmapfdwallcolor_max           255
 
 #define am_allmapwallcolor_min             0
-#define am_allmapwallcolor_default         106
+#define am_allmapwallcolor_default         108
 #define am_allmapwallcolor_max             255
 
 #define am_backcolor_min                   0
