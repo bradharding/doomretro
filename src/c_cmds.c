@@ -5445,8 +5445,12 @@ static void C_PlayerStats_Game(void)
     free(temp2);
     free(temp3);
 
-    C_TabbedOutput(tabs, "Time played\t%i:%02i:%02i\t%i:%02i:%02i",
-        time1 / 3600, (time1 % 3600) / 60, (time1 % 3600) % 60, time2 / 3600, (time2 % 3600) / 60, (time2 % 3600) % 60);
+    temp1 = commify(time1 / 3600);
+    temp2 = commify(time2 / 3600);
+    C_TabbedOutput(tabs, "Time played\t%s:%02i:%02i\t%s:%02i:%02i",
+        temp1, (time1 % 3600) / 60, (time1 % 3600) % 60, temp2, (time2 % 3600) / 60, (time2 % 3600) % 60);
+    free(temp1);
+    free(temp2);
 
     temp1 = commify(viewplayer->damageinflicted);
     temp2 = commifystat(stat_damageinflicted);
@@ -5838,7 +5842,9 @@ static void C_PlayerStats_NoGame(void)
     C_TabbedOutput(tabs, "Secrets found\t\x96\t%s", temp1);
     free(temp1);
 
-    C_TabbedOutput(tabs, "Time played\t\x96\t%i:%02i:%02i", time2 / 3600, (time2 % 3600) / 60, (time2 % 3600) % 60);
+    temp1 = commify(time2 / 3600);
+    C_TabbedOutput(tabs, "Time played\t\x96\t%s:%02i:%02i", temp1, (time2 % 3600) / 60, (time2 % 3600) % 60);
+    free(temp1);
 
     temp1 = commifystat(stat_damageinflicted);
     C_TabbedOutput(tabs, "Damage inflicted\t\x96\t%s", temp1);
