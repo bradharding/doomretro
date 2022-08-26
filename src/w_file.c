@@ -45,6 +45,113 @@
 #include "w_file.h"
 #include "z_zone.h"
 
+#if defined(_WIN32)
+static wchar_t *ConvertUTF8ToWide(const char *str)
+{
+    const int   wlen = MultiByteToWideChar(CP_UTF8, 0, str, -1, NULL, 0);
+    wchar_t     *wstr = (wchar_t *)malloc(wlen * sizeof(wchar_t));
+
+    if (!wstr)
+        return NULL;
+
+    if (!MultiByteToWideChar(CP_UTF8, 0, str, -1, wstr, wlen))
+    {
+        free(wstr);
+        return NULL;
+    }
+
+    return wstr;
+}
+
+FILE *D_fopen(const char *filename, const char *mode)
+{
+    wchar_t *wname = ConvertUTF8ToWide(filename);
+    wchar_t *wmode;
+    FILE    *file;
+
+    if (!wname)
+        return NULL;
+
+    if (!(wmode = ConvertUTF8ToWide(mode)))
+    {
+        free(wname);
+        return NULL;
+    }
+
+    file = _wfopen(wname, wmode);
+    free(wname);
+    free(wmode);
+
+    return file;
+}
+
+int D_remove(const char *path)
+{
+    wchar_t *wpath = ConvertUTF8ToWide(path);
+    int     result;
+
+    if (!wpath)
+        return 0;
+
+    result = _wremove(wpath);
+    free(wpath);
+
+    return result;
+}
+
+int D_rename(const char *oldname, const char *newname)
+{
+    wchar_t *wold = ConvertUTF8ToWide(oldname);
+    wchar_t *wnew;
+    int     result;
+
+    if (!wold)
+        return 0;
+
+    if (!(wnew = ConvertUTF8ToWide(newname)))
+    {
+        free(wold);
+        return 0;
+    }
+
+    result = _wrename(wold, wnew);
+    free(wold);
+    free(wnew);
+
+    return result;
+}
+
+int D_stat(const char *path, struct stat *buffer)
+{
+    wchar_t         *wpath = ConvertUTF8ToWide(path);
+    struct _stat    wbuffer;
+    int             result;
+
+    if (!wpath)
+        return -1;
+
+    result = _wstat(wpath, &wbuffer);
+    buffer->st_mode = wbuffer.st_mode;
+    free(wpath);
+
+    return result;
+}
+
+int D_mkdir(const char *dirname)
+{
+    wchar_t *wpath = ConvertUTF8ToWide(dirname);
+    int     result;
+
+    if (!wpath)
+        return 0;
+
+    result = _wmkdir(wpath);
+    free(wpath);
+
+    return result;
+}
+#endif
+
 wadfile_t *W_OpenFile(char *path)
 {
     wadfile_t   *result;
