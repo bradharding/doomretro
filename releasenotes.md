@@ -5,6 +5,7 @@
 * *DOOM Retro* is now built using v17.3.2 of [*Microsoft Visual Studio Community 2022*](https://www.visualstudio.com/vs/).
 * Minor optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * The menu’s background is now displayed correctly when pressing the <kbd>F9</kbd> key to quickload a savegame.
+* A bug is fixed whereby savegames saved using versions of *DOOM Retro* earlier than v4.6 would crash in some instances.
 * *SIGIL* is now recognized if it is named `SIGIL_v1_0.wad`.
 * Minor improvements have been made to the playback of MIDI music.
 * The following changes have been made to the alternate widescreen HUD:

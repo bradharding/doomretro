@@ -253,6 +253,16 @@ static void saveg_read_mobj_t(mobj_t *str)
     str->gear = saveg_read16();
     str->bloodsplats = saveg_read32();
     str->bloodcolor = saveg_read32();
+
+    if (str->bloodcolor == MT_BLOOD)
+        str->bloodcolor = REDBLOOD;
+    else if (str->bloodcolor == MT_BLUEBLOOD)
+        str->bloodcolor = BLUEBLOOD;
+    else if (str->bloodcolor == MT_GREENBLOOD)
+        str->bloodcolor = GREENBLOOD;
+    else if (str->bloodcolor == MT_FUZZYBLOOD)
+        str->bloodcolor = FUZZYBLOOD;
+
     str->interpolate = saveg_read32();
     str->oldx = saveg_read32();
     str->oldy = saveg_read32();
