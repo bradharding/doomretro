@@ -251,6 +251,7 @@ void HUlib_DrawAltAutomapTextLine(hu_textline_t *l, bool external)
 {
     bool            italics = false;
     unsigned char   prevletter = '\0';
+    unsigned char   prevletter2 = '\0';
     int             x = OVERLAYTEXTX;
     byte            *fb1 = (external ? mapscreen : screens[0]);
     const int       len = l->len;
@@ -285,8 +286,31 @@ void HUlib_DrawAltAutomapTextLine(hu_textline_t *l, bool external)
                     break;
                 }
 
+            if (italics)
+            {
+                if (letter == '-')
+                    x++;
+                else if (letter == '\'')
+                    x--;
+
+                if (prevletter == '/')
+                    x -= 2;
+                else if (prevletter == '\'')
+                    x++;
+            }
+            else if (letter == '-' && prevletter == ITALICSTOGGLECHAR)
+                x++;
+            else if (letter == '(' && prevletter == ' ')
+            {
+                if (prevletter2 == '.')
+                    x--;
+                else if (prevletter2 == '!')
+                    x -= 2;
+            }
+
             althudtextfunc(x, SCREENHEIGHT - 24, fb1, patch, italics, nearestwhite, (external ? MAPWIDTH : SCREENWIDTH), tinttab70);
             x += SHORT(patch->width);
+            prevletter2 = prevletter;
             prevletter = letter;
         }
     }

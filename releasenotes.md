@@ -3,7 +3,7 @@
 #### DOOM Retro v4.6.2
 
 * Minor changes have been made to text that is output to the console.
-* The amount of time the player has been playing the current map is now displayed in the automap if the `am_playerstats` CVAR is `on`.
+* The amount of time the player has been in the current map is now displayed in the automap if the `am_playerstats` CVAR is `on`.
 * The position of the current map’s title in the automap has changed in some instances.
 * The colors of the power-up bar are now inverted while the player has an invulnerability power-up.
 
