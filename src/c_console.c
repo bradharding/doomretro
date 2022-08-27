@@ -1261,11 +1261,11 @@ void C_UpdatePlayerStatsOverlay(void)
                     && automapactive) + (int)(!!timeremaining && automapactive) + (int)pathoverlay);
     byte        *tinttab = (r_hud_translucency ? (automapactive ? tinttab70 : tinttab50) : NULL);
     static char time[10];
-    static int  prevtics;
+    static int  prevleveltime;
 
-    if (leveltime != prevtics)
+    if (leveltime != prevleveltime)
     {
-        int         tics = (prevtics = leveltime) / TICRATE;
+        int         tics = (prevleveltime = leveltime) / TICRATE;
         const int   hours = tics / 3600;
         const int   minutes = ((tics %= 3600)) / 60;
         const int   seconds = tics % 60;
@@ -1283,13 +1283,13 @@ void C_UpdatePlayerStatsOverlay(void)
 
     if (totalkills)
     {
-        char    buffer[32];
+        char    kills[32];
         char    *temp1 = commify(viewplayer->killcount);
         char    *temp2 = commify(totalkills);
 
-        M_snprintf(buffer, sizeof(buffer), s_STSTR_KILLS, temp1, temp2);
-        C_DrawOverlayText(mapscreen, MAPWIDTH, x - C_OverlayWidth(buffer, false), y,
-            tinttab, buffer, consoleoverlaycolor, false);
+        M_snprintf(kills, sizeof(kills), s_STSTR_KILLS, temp1, temp2);
+        C_DrawOverlayText(mapscreen, MAPWIDTH, x - C_OverlayWidth(kills, false), y,
+            tinttab, kills, consoleoverlaycolor, false);
         free(temp1);
         free(temp2);
 
@@ -1298,13 +1298,13 @@ void C_UpdatePlayerStatsOverlay(void)
 
     if (totalitems)
     {
-        char    buffer[32];
+        char    items[32];
         char    *temp1 = commify(viewplayer->itemcount);
         char    *temp2 = commify(totalitems);
 
-        M_snprintf(buffer, sizeof(buffer), s_STSTR_ITEMS, temp1, temp2);
-        C_DrawOverlayText(mapscreen, MAPWIDTH, x - C_OverlayWidth(buffer, false), y,
-            tinttab, buffer, consoleoverlaycolor, false);
+        M_snprintf(items, sizeof(items), s_STSTR_ITEMS, temp1, temp2);
+        C_DrawOverlayText(mapscreen, MAPWIDTH, x - C_OverlayWidth(items, false), y,
+            tinttab, items, consoleoverlaycolor, false);
         free(temp1);
         free(temp2);
 
@@ -1313,13 +1313,13 @@ void C_UpdatePlayerStatsOverlay(void)
 
     if (totalsecrets)
     {
-        char    buffer[32];
+        char    secrets[32];
         char    *temp1 = commify(viewplayer->secretcount);
         char    *temp2 = commify(totalsecrets);
 
-        M_snprintf(buffer, sizeof(buffer), s_STSTR_SECRETS, temp1, temp2);
-        C_DrawOverlayText(mapscreen, MAPWIDTH, x - C_OverlayWidth(buffer, false), y,
-            tinttab, buffer, consoleoverlaycolor, false);
+        M_snprintf(secrets, sizeof(secrets), s_STSTR_SECRETS, temp1, temp2);
+        C_DrawOverlayText(mapscreen, MAPWIDTH, x - C_OverlayWidth(secrets, false), y,
+            tinttab, secrets, consoleoverlaycolor, false);
         free(temp1);
         free(temp2);
     }

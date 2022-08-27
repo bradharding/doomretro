@@ -2,6 +2,8 @@
 
 #### DOOM Retro v4.6.2
 
+* The amount of time the player has been playing the current map is now displayed in the automap if the `am_playerstats` CVAR is `on`.
+
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Saturday, August 27, 2022
