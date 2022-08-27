@@ -798,6 +798,8 @@ static int  sp_state;
 static void WI_InitStats(void)
 {
     const int   tabs[3] = { 85, 0, 0 };
+    char        *temp1;
+    char        *temp2;
 
     state = StatCount;
     acceleratestage = false;
@@ -828,11 +830,26 @@ static void WI_InitStats(void)
                 playername, mapname, (ispunctuation(mapname[strlen(mapname) - 1]) ? "" : "!"));
     }
 
-    C_TabbedOutput(tabs, "Kills\t" BOLD("%i%%"), (wbs->skills * 100) / wbs->maxkills);
-    C_TabbedOutput(tabs, "Items\t" BOLD("%i%%"), (wbs->sitems * 100) / wbs->maxitems);
+    temp1 = commify(wbs->skills);
+    temp2 = commify(wbs->maxkills);
+    C_TabbedOutput(tabs, "Kills\t" BOLD("%s of %s (%i%%)"), temp1, temp2, (wbs->skills * 100) / wbs->maxkills);
+    free(temp1);
+    free(temp2);
+
+    temp1 = commify(wbs->sitems);
+    temp2 = commify(wbs->maxitems);
+    C_TabbedOutput(tabs, "Items\t" BOLD("%s of %s (%i%%)"), temp1, temp2, (wbs->sitems * 100) / wbs->maxitems);
+    free(temp1);
+    free(temp2);
 
     if (totalsecrets)
-        C_TabbedOutput(tabs, "Secrets\t" BOLD("%i%%"), (wbs->ssecret * 100) / wbs->maxsecret);
+    {
+        temp1 = commify(wbs->ssecret);
+        temp2 = commify(wbs->maxsecret);
+        C_TabbedOutput(tabs, "Secrets\t" BOLD("%s of %s (%i%%)"), temp1, temp2, (wbs->ssecret * 100) / wbs->maxsecret);
+        free(temp1);
+        free(temp2);
+    }
 
     if (wbs->stime / TICRATE < 61 * 59)
         C_TabbedOutput(tabs, "Time\t" BOLD("%02i:%02i"), wbs->stime / TICRATE / 60, wbs->stime / TICRATE % 60);
