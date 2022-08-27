@@ -5,6 +5,7 @@
 * Minor changes have been made to text that is output to the console.
 * The amount of time the player has been playing the current map is now displayed in the automap if the `am_playerstats` CVAR is `on`.
 * The position of the current map’s title in the automap has changed in some instances.
+* The colors of the power-up bar are now inverted while the player has an invulnerability power-up.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
