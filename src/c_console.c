@@ -124,6 +124,7 @@ char                    consolecheatparm[3];
 static int              inputhistory = -1;
 static int              outputhistory = -1;
 
+static int              timewidth;
 static int              timerwidth;
 static int              zerowidth;
 
@@ -1221,7 +1222,7 @@ void C_UpdateTimerOverlay(void)
         const int   seconds = tics % 60;
 
         if (!hours)
-            M_snprintf(buffer, sizeof(buffer), "%i:%02i", minutes, seconds);
+            M_snprintf(buffer, sizeof(buffer), "%02i:%02i", minutes, seconds);
         else
             M_snprintf(buffer, sizeof(buffer), "%i:%02i:%02i", hours, minutes, seconds);
 
@@ -1259,6 +1260,26 @@ void C_UpdatePlayerStatsOverlay(void)
     int         y = MAPOVERLAYTEXTY + (OVERLAYLINEHEIGHT + OVERLAYSPACING) * ((int)(vid_showfps
                     && automapactive) + (int)(!!timeremaining && automapactive) + (int)pathoverlay);
     byte        *tinttab = (r_hud_translucency ? (automapactive ? tinttab70 : tinttab50) : NULL);
+    static char time[10];
+    static int  prevtics;
+
+    if (leveltime != prevtics)
+    {
+        int         tics = (prevtics = leveltime) / TICRATE;
+        const int   hours = tics / 3600;
+        const int   minutes = ((tics %= 3600)) / 60;
+        const int   seconds = tics % 60;
+
+        if (!hours)
+            M_snprintf(time, sizeof(time), "%02i:%02i", minutes, seconds);
+        else
+            M_snprintf(time, sizeof(time), "%i:%02i:%02i", hours, minutes, seconds);
+
+        timewidth = C_OverlayWidth(time, true);
+    }
+
+    C_DrawOverlayText(mapscreen, MAPWIDTH, x - timewidth, y, tinttab, time, consoleoverlaycolor, true);
+    y += OVERLAYLINEHEIGHT + OVERLAYSPACING;
 
     if (totalkills)
     {
