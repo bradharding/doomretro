@@ -37,6 +37,7 @@
 */
 
 #include "c_console.h"
+#include "d_deh.h"
 #include "d_main.h"
 #include "doomstat.h"
 #include "g_game.h"
@@ -854,7 +855,7 @@ static void WI_InitStats(void)
     if (wbs->stime / TICRATE < 61 * 59)
         C_TabbedOutput(tabs, "Time\t" BOLD("%02i:%02i"), wbs->stime / TICRATE / 60, wbs->stime / TICRATE % 60);
     else
-        C_TabbedOutput(tabs, "Time\t" BOLD("SUCKS"));
+        C_TabbedOutput(tabs, "Time\t" BOLD("%s"), s_STSTR_SUCKS);
 
     if (wbs->partime)
         C_TabbedOutput(tabs, "Par time\t" BOLD("%02i:%02i"), wbs->partime / TICRATE / 60, wbs->partime / TICRATE % 60);

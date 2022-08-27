@@ -282,7 +282,7 @@ STSTR_BUDDHAOFF = Buddha mode OFF.
 STSTR_CHOPPERS = "...doesn't suck." - GM
 STSTR_CLEV = Warping to %s...
 STSTR_CLEVSAME = Restarting %s...
-STSTR_MYPOS = Angle = %s°  x,y,z = (%i,%i,%i)
+STSTR_MYPOS = Angle = %s°  x,y,z = (%i, %i, %i)
 STSTR_NTON = No target mode ON.
 STSTR_NTOFF = No target mode OFF.
 STSTR_GODON = God mode ON.
@@ -303,6 +303,7 @@ STSTR_RHON = Regenerating health ON.
 STSTR_RHOFF = Regenerating health OFF.
 STSTR_VON = Vanilla mode ON.
 STSTR_VOFF = Vanilla mode OFF.
+STSTR_SUCKS = SUCKS!
 STSTR_FPS = %s FPS
 STSTR_KILLS = %s of %s kills
 STSTR_ITEMS = %s of %s items

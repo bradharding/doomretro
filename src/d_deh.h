@@ -370,6 +370,7 @@ extern char         *s_STSTR_RHOFF;
 extern char         *s_STSTR_VON;
 extern char         *s_STSTR_VOFF;
 extern char         *s_STSTR_FPS;
+extern char         *s_STSTR_SUCKS;
 extern char         *s_STSTR_KILLS;
 extern char         *s_STSTR_ITEMS;
 extern char         *s_STSTR_SECRETS;

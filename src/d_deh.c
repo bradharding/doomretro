@@ -489,6 +489,7 @@ char    *s_STSTR_RHOFF = "";
 char    *s_STSTR_VON = "";
 char    *s_STSTR_VOFF = "";
 char    *s_STSTR_FPS = "";
+char    *s_STSTR_SUCKS = "";
 char    *s_STSTR_KILLS = "";
 char    *s_STSTR_ITEMS = "";
 char    *s_STSTR_SECRETS = "";
@@ -1079,6 +1080,7 @@ deh_strs deh_strlookup[] =
     { &s_STSTR_VON,                   "STSTR_VON"                   },
     { &s_STSTR_VOFF,                  "STSTR_VOFF"                  },
     { &s_STSTR_FPS,                   "STSTR_FPS"                   },
+    { &s_STSTR_SUCKS,                 "STSTR_SUCKS"                 },
     { &s_STSTR_KILLS,                 "STSTR_KILLS"                 },
     { &s_STSTR_ITEMS,                 "STSTR_ITEMS"                 },
     { &s_STSTR_SECRETS,               "STSTR_SECRETS"               },

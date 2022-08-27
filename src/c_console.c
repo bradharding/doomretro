@@ -1280,7 +1280,7 @@ void C_UpdatePlayerStatsOverlay(void)
         }
         else
         {
-            M_StringCopy(time, "SUCKS", sizeof(time));
+            M_StringCopy(time, s_STSTR_SUCKS, sizeof(time));
             color = consoleoverlaywarningcolor;
         }
 
