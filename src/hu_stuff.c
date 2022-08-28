@@ -1222,6 +1222,7 @@ void HU_Ticker(void)
     {
         message_on = false;
         message_nottobefuckedwith = false;
+        message_dontfuckwithme = false;
         message_secret = false;
     }
     else if (idmypos)
