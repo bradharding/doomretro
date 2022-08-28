@@ -8438,7 +8438,7 @@ static void player_cvars_func2(char *cmd, char *parms)
         {
             if (sscanf(parms, "%10i", &value) == 1 && value != viewplayer->health)
             {
-                value = BETWEEN(health_min, value, maxhealth);
+                value = BETWEEN(HUD_NUMBER_MIN, value, maxhealth);
 
                 healthhighlight = I_GetTimeMS() + HUD_HEALTH_HIGHLIGHT_WAIT;
 

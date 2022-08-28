@@ -532,7 +532,7 @@ int armorhighlight = 0;
 
 static void HU_DrawHUD(void)
 {
-    const int   health = BETWEEN(health_min, viewplayer->health, HUD_NUMBER_MAX);
+    const int   health = BETWEEN(HUD_NUMBER_MIN, viewplayer->health, HUD_NUMBER_MAX);
     const int   armor = MIN(viewplayer->armorpoints, HUD_NUMBER_MAX);
     static bool healthanim;
     const bool  gamepaused = (consoleactive || freeze);
@@ -915,16 +915,11 @@ static void HU_DrawAltHUD(void)
 {
     const int   color = (((viewplayer->fixedcolormap == INVERSECOLORMAP) ^ (!r_textures)) ?
                     colormaps[0][32 * 256 + nearestwhite] : nearestwhite);
-    int         health = BETWEEN(health_min, viewplayer->health, HUD_NUMBER_MAX);
+    int         health = BETWEEN(HUD_NUMBER_MIN, viewplayer->health, HUD_NUMBER_MAX);
     int         armor = MIN(viewplayer->armorpoints, HUD_NUMBER_MAX);
     int         barcolor2 = (health < HUD_HEALTH_MIN ? red : (health >= 100 ? green : color));
     int         barcolor1 = barcolor2;
     int         keypic_x = ALTHUD_RIGHT_X;
-    static int  keywait;
-    static bool showkey;
-    int         powerup = 0;
-    int         powerupbar = 0;
-    int         max = 1;
 
     if (barcolor1 == green)
         barcolor1 += coloroffset;
@@ -972,6 +967,11 @@ static void HU_DrawAltHUD(void)
         const weapontype_t  pendingweapon = viewplayer->pendingweapon;
         const weapontype_t  weapon = (pendingweapon != wp_nochange ? pendingweapon : viewplayer->readyweapon);
         const ammotype_t    ammotype = weaponinfo[weapon].ammotype;
+        static int          keywait;
+        static bool         showkey;
+        int                 powerup = 0;
+        int                 powerupbar = 0;
+        int                 max = 1;
 
         if (ammotype != am_noammo)
         {

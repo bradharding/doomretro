@@ -54,6 +54,7 @@
 
 #define HU_MSGTIMEOUT               (4 * TICRATE)
 
+#define HUD_NUMBER_MIN              -99
 #define HUD_NUMBER_MAX              999
 
 #define HUD_HEALTH_X                55
