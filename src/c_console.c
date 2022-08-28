@@ -1212,20 +1212,19 @@ void C_UpdateFPSOverlay(void)
 void C_UpdateTimerOverlay(void)
 {
     static char buffer[10];
-    static int  prevtics;
+    static int  prevtime = -1;
     byte        *tinttab = (r_hud_translucency ? (automapactive ? tinttab70 : tinttab50) : NULL);
 
-    if (timeremaining != prevtics)
+    if (timeremaining != prevtime)
     {
-        int         tics = (prevtics = timeremaining) / TICRATE;
-        const int   hours = tics / 3600;
-        const int   minutes = ((tics %= 3600)) / 60;
-        const int   seconds = tics % 60;
+        int         seconds = (prevtime = timeremaining) / TICRATE;
+        const int   hours = seconds / 3600;
+        const int   minutes = ((seconds %= 3600)) / 60;
 
         if (!hours)
-            M_snprintf(buffer, sizeof(buffer), "%02i:%02i", minutes, seconds);
+            M_snprintf(buffer, sizeof(buffer), "%02i:%02i", minutes, seconds % 60);
         else
-            M_snprintf(buffer, sizeof(buffer), "%i:%02i:%02i", hours, minutes, seconds);
+            M_snprintf(buffer, sizeof(buffer), "%i:%02i:%02i", hours, minutes, seconds % 60);
 
         timerwidth = C_OverlayWidth(buffer, true);
     }
@@ -1268,14 +1267,13 @@ void C_UpdatePlayerStatsOverlay(void)
 
     if (leveltime != prevleveltime)
     {
-        int         tics = (prevleveltime = leveltime) / TICRATE;
-        const int   hours = tics / 3600;
-        const int   minutes = ((tics %= 3600)) / 60;
-        const int   seconds = tics % 60;
+        int         seconds = (prevleveltime = leveltime) / TICRATE;
+        const int   hours = seconds / 3600;
+        const int   minutes = ((seconds %= 3600)) / 60;
 
         if (!hours)
         {
-            M_snprintf(time, sizeof(time), "%02i:%02i", minutes, seconds);
+            M_snprintf(time, sizeof(time), "%02i:%02i", minutes, seconds % 60);
             color = consoleoverlaycolor;
         }
         else

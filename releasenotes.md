@@ -6,6 +6,7 @@
 * The amount of time the player has been in the current map is now displayed in the automap if the `am_playerstats` CVAR is `on`.
 * The position of the current map’s title in the automap has changed in some instances.
 * The colors of the power-up bar in the alternate widescreen HUD are now inverted while the player has an invulnerability power-up.
+* A brightmap is now applied to the `SIGIL` texture in *SIGIL* if the `r_brightmaps` CVAR is `on`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
