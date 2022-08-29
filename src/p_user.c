@@ -163,7 +163,7 @@ void P_CalcHeight(void)
                 viewplayer->deltaviewheight = 1;
         }
 
-        viewplayer->viewz += FixedMul(bob, finesine[((FINEANGLES / 20 * leveltime) & FINEMASK)]);
+        viewplayer->viewz += FixedMul(bob, finesine[((FINEANGLES / 20 * maptime) & FINEMASK)]);
     }
 
     if (mo->flags2 & MF2_FEETARECLIPPED)
@@ -618,7 +618,7 @@ void P_PlayerThink(void)
     P_MovePsprites();
 
     // [BH] regenerate health by 1% every second up to 100%
-    if (regenhealth && mo->health < initial_health && !(leveltime % TICRATE) && !viewplayer->damagecount)
+    if (regenhealth && mo->health < initial_health && !(maptime % TICRATE) && !viewplayer->damagecount)
         P_GiveBody(1, MAXHEALTH, false);
 
     // [BH] Check all sectors player is touching are special
@@ -648,7 +648,7 @@ void P_PlayerThink(void)
     // check for use
     if (autouse)
     {
-        if (!(leveltime % TICRATE))
+        if (!(maptime % TICRATE))
         {
             autousing = true;
             P_UseLines();

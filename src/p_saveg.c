@@ -1012,9 +1012,9 @@ void P_WriteSaveGameHeader(char *description)
         saveg_write8(gamemap);
 
     saveg_write8(gamemission);
-    saveg_write8((leveltime >> 16) & 0xFF);
-    saveg_write8((leveltime >> 8) & 0xFF);
-    saveg_write8(leveltime & 0xFF);
+    saveg_write8((maptime >> 16) & 0xFF);
+    saveg_write8((maptime >> 8) & 0xFF);
+    saveg_write8(maptime & 0xFF);
 }
 
 //
@@ -1069,7 +1069,7 @@ bool P_ReadSaveGameHeader(char *description)
     a = saveg_read8();
     b = saveg_read8();
     c = saveg_read8();
-    leveltime = (a << 16) + (b << 8) + c;
+    maptime = (a << 16) + (b << 8) + c;
 
     return true;
 }

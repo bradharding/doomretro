@@ -2188,7 +2188,7 @@ static void PIT_ChangeSector(mobj_t *thing)
 
     nofit = true;
 
-    if (crushchange && !(leveltime & 3))
+    if (crushchange && !(maptime & 3))
     {
         if (!(flags & MF_NOBLOOD) && thing->bloodcolor && r_blood != r_blood_none
             && (thing->type != MT_PLAYER || (!viewplayer->powers[pw_invulnerability] && !(viewplayer->cheats & CF_GODMODE))))

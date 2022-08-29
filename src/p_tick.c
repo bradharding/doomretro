@@ -45,7 +45,7 @@
 #include "s_sound.h"
 #include "z_zone.h"
 
-int         leveltime;
+int         maptime;
 
 //
 // THINKERS
@@ -248,6 +248,6 @@ void P_Ticker(void)
     P_RespawnSpecials();
 
     // for par times
-    leveltime++;
+    maptime++;
     stat_timeplayed = SafeAdd(stat_timeplayed, 1);
 }

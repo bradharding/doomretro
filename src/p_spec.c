@@ -2194,20 +2194,20 @@ void P_PlayerInSpecialSector(sector_t *sector)
         switch (sector->special)
         {
             case DamageNegative5Or10PercentHealth:
-                if (!(leveltime & 31) && !(viewplayer->cheats & CF_GODMODE) && !viewplayer->powers[pw_ironfeet])
+                if (!(maptime & 31) && !(viewplayer->cheats & CF_GODMODE) && !viewplayer->powers[pw_ironfeet])
                     P_DamageMobj(viewplayer->mo, NULL, NULL, 10, true, false);
 
                 break;
 
             case DamageNegative2Or5PercentHealth:
-                if (!(leveltime & 31) && !(viewplayer->cheats & CF_GODMODE) && !viewplayer->powers[pw_ironfeet])
+                if (!(maptime & 31) && !(viewplayer->cheats & CF_GODMODE) && !viewplayer->powers[pw_ironfeet])
                     P_DamageMobj(viewplayer->mo, NULL, NULL, 5, true, false);
 
                 break;
 
             case DamageNegative10Or20PercentHealth:
             case DamageNegative10Or20PercentHealthAndLightBlinks_2Hz:
-                if (!(leveltime & 31) && !(viewplayer->cheats & CF_GODMODE) && (!viewplayer->powers[pw_ironfeet] || M_Random() < 5))
+                if (!(maptime & 31) && !(viewplayer->cheats & CF_GODMODE) && (!viewplayer->powers[pw_ironfeet] || M_Random() < 5))
                     P_DamageMobj(viewplayer->mo, NULL, NULL, 20, true, false);
 
                 break;
@@ -2225,7 +2225,7 @@ void P_PlayerInSpecialSector(sector_t *sector)
                 break;
 
             case DamageNegative10Or20PercentHealthAndEndLevel:
-                if (!(leveltime & 0x1F))
+                if (!(maptime & 0x1F))
                     P_DamageMobj(viewplayer->mo, NULL, NULL, 20, true, false);
 
                 if (viewplayer->health <= 10)
@@ -2269,21 +2269,21 @@ void P_PlayerInSpecialSector(sector_t *sector)
 
             case 1:
                 // 2/5 damage per 31 tics
-                if (!(leveltime & 31) && !(viewplayer->cheats & CF_GODMODE) && !viewplayer->powers[pw_ironfeet])
+                if (!(maptime & 31) && !(viewplayer->cheats & CF_GODMODE) && !viewplayer->powers[pw_ironfeet])
                     P_DamageMobj(viewplayer->mo, NULL, NULL, 5, true, false);
 
                 break;
 
             case 2:
                 // 5/10 damage per 31 tics
-                if (!(leveltime & 31) && !(viewplayer->cheats & CF_GODMODE) && !viewplayer->powers[pw_ironfeet])
+                if (!(maptime & 31) && !(viewplayer->cheats & CF_GODMODE) && !viewplayer->powers[pw_ironfeet])
                     P_DamageMobj(viewplayer->mo, NULL, NULL, 10, true, false);
 
                 break;
 
             case 3:
                 // 10/20 damage per 31 tics
-                if (!(leveltime & 31) && !(viewplayer->cheats & CF_GODMODE) && (!viewplayer->powers[pw_ironfeet] || M_Random() < 5))
+                if (!(maptime & 31) && !(viewplayer->cheats & CF_GODMODE) && (!viewplayer->powers[pw_ironfeet] || M_Random() < 5))
                     P_DamageMobj(viewplayer->mo, NULL, NULL, 20, true, false);
 
                 break;

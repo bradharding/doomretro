@@ -59,7 +59,7 @@ void T_PlatRaise(plat_t *plat)
         case up:
             res = T_MovePlane(plat->sector, plat->speed, plat->high, plat->crush, 0, 1);
 
-            if ((plat->type == raiseAndChange || plat->type == raiseToNearestAndChange) && !(leveltime & 7))
+            if ((plat->type == raiseAndChange || plat->type == raiseToNearestAndChange) && !(maptime & 7))
                 S_StartSectorSound(&plat->sector->soundorg, sfx_stnmov);
 
             if (res == crushed && !plat->crush)

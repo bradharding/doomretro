@@ -1073,7 +1073,7 @@ void R_RenderPlayerView(void)
     }
 
     if (r_homindicator)
-        V_FillRect(0, viewwindowx, viewwindowy, viewwidth, viewheight, ((leveltime % 20) < 9 ? nearestred :
+        V_FillRect(0, viewwindowx, viewwindowy, viewwidth, viewheight, ((maptime % 20) < 9 ? nearestred :
             (viewplayer->fixedcolormap == INVERSECOLORMAP ? colormaps[0][32 * 256 + WHITE] : nearestblack)), false, NULL);
     else if ((viewplayer->cheats & CF_NOCLIP) || freeze)
         V_FillRect(0, viewwindowx, viewwindowy, viewwidth, viewheight,

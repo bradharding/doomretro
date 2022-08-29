@@ -117,7 +117,7 @@
 #define STRINGCVARWITHDEFAULT       "It is currently " BOLD("\"%s\"") " and is " BOLD("\"%s\"") " by default."
 #define STRINGCVARWITHNODEFAULT     "It is currently " BOLD("%s%s%s") "."
 #define STRINGCVARISDEFAULT         "It is currently its default of " BOLD("\"%s\"") "."
-#define TIMECVARWITHNODEFAULT1      "It is currently " BOLD("%i:%02i") "."
+#define TIMECVARWITHNODEFAULT1      "It is currently " BOLD("%02i:%02i") "."
 #define TIMECVARWITHNODEFAULT2      "It is currently " BOLD("%i:%02i:%02i") "."
 
 #define INDENT                      "      "
@@ -722,6 +722,8 @@ consolecmd_t consolecmds[] =
         "Lists all the maps in the currently loaded WADs."),
     CCMD(mapstats, "", mapstats_cmd_func1, mapstats_cmd_func2, false, "",
         "Shows stats about the current map."),
+    CVAR_TIME(maptime, "", game_func1, time_cvars_func2,
+        "The amount of time the player has been in the current map."),
     CVAR_BOOL(melt, "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles a melting effect when transitioning between some screens."),
     CVAR_BOOL(messages, "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
@@ -2130,7 +2132,7 @@ static void cvarlist_cmd_func2(char *cmd, char *parms)
                 int seconds = tics % 60;
 
                 if (!hours)
-                    C_TabbedOutput(tabs, "%i.\t" BOLD("%s\t%i:%02i") "\t%s", count, consolecmds[i].name,
+                    C_TabbedOutput(tabs, "%i.\t" BOLD("%s\t%02i:%02i") "\t%s", count, consolecmds[i].name,
                         minutes, seconds, consolecmds[i].description);
                 else
                     C_TabbedOutput(tabs, "%i.\t" BOLD("%s\t%i:%02i:%02i") "\t%s", count, consolecmds[i].name,
@@ -5218,7 +5220,7 @@ static void C_PlayerStats_Game(void)
     skill_t         favoriteskilllevel1 = favoriteskilllevel();
     weapontype_t    favoriteweapon1 = favoriteweapon(false);
     weapontype_t    favoriteweapon2 = favoriteweapon(true);
-    const int       time1 = leveltime / TICRATE;
+    const int       time1 = maptime / TICRATE;
     const int       time2 = (int)(stat_timeplayed / TICRATE);
     char            *temp1;
     char            *temp2;

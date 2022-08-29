@@ -73,13 +73,13 @@ bool cht_CheckCheat(cheatseq_t *cht, unsigned char key)
     }
 
     // [BH] you have 2 or 4 seconds to enter all characters of a cheat sequence correctly
-    if (cht->timeout && leveltime - cht->timeout > (cht->longtimeout ? HU_MSGTIMEOUT : HU_MSGTIMEOUT / 2))
+    if (cht->timeout && maptime - cht->timeout > (cht->longtimeout ? HU_MSGTIMEOUT : HU_MSGTIMEOUT / 2))
     {
         cht->chars_read = 0;
         cht->param_chars_read = 0;
     }
 
-    cht->timeout = leveltime;
+    cht->timeout = maptime;
 
     if (cht->chars_read < strlen(cht->sequence))
     {

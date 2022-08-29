@@ -1261,13 +1261,13 @@ void C_UpdatePlayerStatsOverlay(void)
                     + (int)(!!timeremaining && automapactive) + (int)pathoverlay);
     byte        *tinttab = (r_hud_translucency ? (automapactive ? tinttab70 : tinttab50) : NULL);
     static char time[10];
-    static int  prevleveltime = -1;
+    static int  prevmaptime = -1;
     static int  timewidth;
     static int  color;
 
-    if (leveltime != prevleveltime)
+    if (maptime != prevmaptime)
     {
-        int         seconds = (prevleveltime = leveltime) / TICRATE;
+        int         seconds = (prevmaptime = maptime) / TICRATE;
         const int   hours = seconds / 3600;
         const int   minutes = ((seconds %= 3600)) / 60;
 

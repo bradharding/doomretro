@@ -1385,7 +1385,7 @@ static void G_DoCompleted(void)
     wminfo.skills = (totalkills ? viewplayer->killcount : 1);
     wminfo.sitems = (totalitems ? viewplayer->itemcount : 1);
     wminfo.ssecret = viewplayer->secretcount;
-    wminfo.stime = leveltime;
+    wminfo.stime = maptime;
 
     gamestate = GS_INTERMISSION;
     viewactive = false;
@@ -1473,7 +1473,7 @@ void G_LoadGame(char *name)
 
 void G_DoLoadGame(void)
 {
-    int savedleveltime;
+    int savedmaptime;
 
     I_SetPalette(PLAYPAL);
 
@@ -1501,12 +1501,12 @@ void G_DoLoadGame(void)
         return;
     }
 
-    savedleveltime = leveltime;
+    savedmaptime = maptime;
 
     // load a base level
     G_InitNew(gameskill, gameepisode, gamemap);
 
-    leveltime = savedleveltime;
+    maptime = savedmaptime;
 
     // unarchive all the modifications
     P_UnArchivePlayer();

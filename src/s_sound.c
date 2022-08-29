@@ -801,7 +801,7 @@ void MusInfoThinker(mobj_t *thing)
     {
         musinfo.lastmapthing = musinfo.mapthing;
         musinfo.mapthing = thing;
-        musinfo.tics = (leveltime ? 30 : 0);
+        musinfo.tics = (maptime ? 30 : 0);
     }
 }
 

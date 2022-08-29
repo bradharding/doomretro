@@ -738,7 +738,7 @@ void P_MobjThinker(mobj_t *mobj)
     {
         // check for nightmare respawn
         if ((flags & MF_COUNTKILL) && (gameskill == sk_nightmare || respawnmonsters)
-            && ++mobj->movecount >= 12 * TICRATE && !(leveltime & 31) && M_Random() <= 4)
+            && ++mobj->movecount >= 12 * TICRATE && !(maptime & 31) && M_Random() <= 4)
             P_NightmareRespawn(mobj);
     }
 }
@@ -840,7 +840,7 @@ void P_RemoveMobj(mobj_t *mobj)
     if ((flags & MF_SPECIAL) && !(flags & MF_DROPPED))
     {
         itemrespawnqueue[iqueuehead] = mobj->spawnpoint;
-        itemrespawntime[iqueuehead] = leveltime;
+        itemrespawntime[iqueuehead] = maptime;
         iqueuehead = ((iqueuehead + 1) & (ITEMQUEUESIZE - 1));
 
         // lose one off the end?
@@ -970,7 +970,7 @@ void P_RespawnSpecials(void)
         return;
 
     // wait at least 30 seconds
-    if (leveltime - itemrespawntime[iqueuetail] < 30 * TICRATE)
+    if (maptime - itemrespawntime[iqueuetail] < 30 * TICRATE)
         return;
 
     mthing = &itemrespawnqueue[iqueuetail];

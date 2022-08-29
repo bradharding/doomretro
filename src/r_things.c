@@ -685,7 +685,7 @@ static void R_ProjectSprite(mobj_t *thing)
     sprframe = &sprites[thing->sprite].spriteframes[(frame & FF_FRAMEMASK)];
 
     if (((flags2 = thing->flags2) & MF2_FLOATBOB) && r_floatbob)
-        fz += floatbobdiffs[((thing->floatbob + leveltime) & 63)];
+        fz += floatbobdiffs[((thing->floatbob + maptime) & 63)];
 
     if (sprframe->rotate)
     {

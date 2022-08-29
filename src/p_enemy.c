@@ -1284,7 +1284,7 @@ void A_Tracer(mobj_t *actor, player_t *player, pspdef_t *psp)
     mobj_t  *dest;
     int     speed;
 
-    if (leveltime & 3)
+    if (maptime & 3)
         return;
 
     // spawn a puff of smoke behind the homing rocket

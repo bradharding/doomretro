@@ -198,7 +198,7 @@ extern int              monstercount[NUMMOBJTYPES];
 extern int              barrelcount;
 
 // Timer, for scores.
-extern int              leveltime;      // tics in game play for par
+extern int              maptime;        // tics in game play for par
 
 // ?
 extern gamestate_t      gamestate;
