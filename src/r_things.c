@@ -468,10 +468,8 @@ static void R_DrawVisSprite(const vissprite_t *vis)
     }
     else
     {
-        if (mobj->type == MT_BLOOD || mobj->state == (state_t *)S_GIBS)
-            dc_translation = colortranslation[mobj->bloodcolor - 1];
-
         colfunc = vis->colfunc;
+        dc_translation = colortranslation[mobj->bloodcolor - 1];
     }
 
     sprtopscreen = (int64_t)centeryfrac - FixedMul(dc_texturemid, spryscale);
