@@ -470,7 +470,7 @@ static void R_DrawVisSprite(const vissprite_t *vis)
     {
         colfunc = vis->colfunc;
 
-        if (mobj->bloodcolor)
+        if (colfunc == bloodcolfunc || colfunc == translatedcolfunc)
             dc_translation = colortranslation[mobj->bloodcolor - 1];
     }
 
