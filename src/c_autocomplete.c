@@ -46,7 +46,7 @@ const autocomplete_t autocompletelist[] =
     { "alwaysrun on",                                DOOM1AND2 },
     { "+alwaysrun",                                  DOOM1AND2 },
     { "am_allmapcdwallcolor ",                       DOOM1AND2 },
-    { "am_allmapcdwallcolor 106",                    DOOM1AND2 },
+    { "am_allmapcdwallcolor 109",                    DOOM1AND2 },
     { "am_allmapfdwallcolor ",                       DOOM1AND2 },
     { "am_allmapfdwallcolor 110",                    DOOM1AND2 },
     { "am_allmapwallcolor ",                         DOOM1AND2 },

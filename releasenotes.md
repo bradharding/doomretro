@@ -2,9 +2,10 @@
 
 #### DOOM Retro v4.6.2
 
+* Minor optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Minor changes have been made to text that is output to the console.
 * The amount of time the player has been in the current map is now displayed in the automap if the `am_playerstats` CVAR is `on`.
-* A `maptime` CVAR has been implemented that shows the amount of time the player has been in the current map.
+* A `maptime` CVAR has been implemented that shows the amount of time the player has been in the current map. This CVAR is read-only.
 * The position of the current map’s title in the automap has changed in some instances.
 * The colors of the power-up bar in the alternate widescreen HUD are now inverted while the player has an invulnerability power-up.
 * A brightmap is now applied to the `SIGIL` texture in *SIGIL* if the `r_brightmaps` CVAR is `on`.
