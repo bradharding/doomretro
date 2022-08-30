@@ -1400,6 +1400,9 @@ void P_SpawnBlood(const fixed_t x, const fixed_t y, const fixed_t z, angle_t ang
     int         color;
     state_t     *st = &states[info->spawnstate];
 
+    if (!target->bloodcolor)
+        return;
+
     if (!fuzz)
         color = (r_blood == r_blood_red ? REDBLOOD : (r_blood == r_blood_green ? GREENBLOOD : target->bloodcolor));
 
