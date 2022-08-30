@@ -2,7 +2,7 @@
 
 #### DOOM Retro v4.6.2
 
-* Minor optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
+* Several optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Minor changes have been made to text that is output to the console.
 * The amount of time the player has been in the current map is now displayed in the automap if the `am_playerstats` CVAR is `on`.
 * A `maptime` CVAR has been implemented that shows the amount of time the player has been in the current map. This CVAR is read-only.

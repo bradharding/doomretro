@@ -1393,76 +1393,76 @@ void P_SpawnSmokeTrail(const fixed_t x, const fixed_t y, const fixed_t z, const 
 //
 void P_SpawnBlood(const fixed_t x, const fixed_t y, const fixed_t z, angle_t angle, const int damage, mobj_t *target)
 {
-    const int   minz = target->z;
-    const int   maxz = minz + spriteheight[sprites[target->sprite].spriteframes[0].lump[0]];
-    mobjinfo_t  *info = &mobjinfo[MT_BLOOD];
-    const bool  fuzz = ((target->flags & MF_FUZZ) && r_blood == r_blood_all);
-    int         color;
-    state_t     *st = &states[info->spawnstate];
-
-    if (!target->bloodcolor)
-        return;
-
-    if (!fuzz)
-        color = (r_blood == r_blood_red ? REDBLOOD : (r_blood == r_blood_green ? GREENBLOOD : target->bloodcolor));
-
-    angle += ANG180;
-
-    for (int i = (damage >> 2) + 1; i > 0; i--)
+    if (target->bloodcolor)
     {
-        mobj_t      *th = Z_Calloc(1, sizeof(*th), PU_LEVEL, NULL);
-        sector_t    *sector;
+        const int   minz = target->z;
+        const int   maxz = minz + spriteheight[sprites[target->sprite].spriteframes[0].lump[0]];
+        mobjinfo_t  *info = &mobjinfo[MT_BLOOD];
+        const bool  fuzz = ((target->flags & MF_FUZZ) && r_blood == r_blood_all);
+        int         color;
+        state_t     *st = &states[info->spawnstate];
 
-        th->type = MT_BLOOD;
-        th->info = info;
-        th->x = x + M_BigRandomInt(-2, 2) * FRACUNIT;
-        th->y = y + M_BigRandomInt(-2, 2) * FRACUNIT;
-        th->flags = info->flags;
-        th->flags2 = (info->flags2 | ((M_Random() & 1) * MF2_MIRRORED));
+        if (!fuzz)
+            color = (r_blood == r_blood_red ? REDBLOOD : (r_blood == r_blood_green ? GREENBLOOD : target->bloodcolor));
 
-        th->state = st;
-        th->tics = MAX(1, st->tics - (M_BigRandom() & 2));
-        th->sprite = st->sprite;
-        th->frame = st->frame;
+        angle += ANG180;
 
-        if (fuzz)
+        for (int i = (damage >> 2) + 1; i > 0; i--)
         {
-            th->flags |= MF_FUZZ;
-            th->colfunc = &R_DrawFuzzColumn;
-            th->altcolfunc = &R_DrawFuzzColumn;
+            mobj_t      *th = Z_Calloc(1, sizeof(*th), PU_LEVEL, NULL);
+            sector_t    *sector;
+
+            th->type = MT_BLOOD;
+            th->info = info;
+            th->x = x + M_BigRandomInt(-2, 2) * FRACUNIT;
+            th->y = y + M_BigRandomInt(-2, 2) * FRACUNIT;
+            th->flags = info->flags;
+            th->flags2 = (info->flags2 | ((M_Random() & 1) * MF2_MIRRORED));
+
+            th->state = st;
+            th->tics = MAX(1, st->tics - (M_BigRandom() & 2));
+            th->sprite = st->sprite;
+            th->frame = st->frame;
+
+            if (fuzz)
+            {
+                th->flags |= MF_FUZZ;
+                th->colfunc = &R_DrawFuzzColumn;
+                th->altcolfunc = &R_DrawFuzzColumn;
+            }
+            else
+            {
+                th->colfunc = bloodcolfunc;
+                th->altcolfunc = bloodcolfunc;
+                th->bloodcolor = color;
+            }
+
+            th->id = -1;
+
+            P_SetThingPosition(th);
+
+            sector = th->subsector->sector;
+            th->floorz = sector->interpfloorheight;
+            th->ceilingz = sector->interpceilingheight;
+
+            th->z = BETWEEN(minz, z + (M_BigSubRandom() << 10), maxz);
+
+            th->thinker.function = &P_MobjThinker;
+            P_AddThinker(&th->thinker);
+
+            th->momx = FixedMul(i * FRACUNIT / 4, finecosine[angle >> ANGLETOFINESHIFT]);
+            th->momy = FixedMul(i * FRACUNIT / 4, finesine[angle >> ANGLETOFINESHIFT]);
+            th->momz = (2 + i / 6) * FRACUNIT;
+
+            th->angle = angle;
+            angle += M_BigSubRandom() * 0xB60B60;
+
+            if (damage <= 12 && th->state->nextstate != S_NULL)
+                P_SetMobjState(th, th->state->nextstate);
+
+            if (damage < 9 && th->state->nextstate != S_NULL)
+                P_SetMobjState(th, th->state->nextstate);
         }
-        else
-        {
-            th->colfunc = bloodcolfunc;
-            th->altcolfunc = bloodcolfunc;
-            th->bloodcolor = color;
-        }
-
-        th->id = -1;
-
-        P_SetThingPosition(th);
-
-        sector = th->subsector->sector;
-        th->floorz = sector->interpfloorheight;
-        th->ceilingz = sector->interpceilingheight;
-
-        th->z = BETWEEN(minz, z + (M_BigSubRandom() << 10), maxz);
-
-        th->thinker.function = &P_MobjThinker;
-        P_AddThinker(&th->thinker);
-
-        th->momx = FixedMul(i * FRACUNIT / 4, finecosine[angle >> ANGLETOFINESHIFT]);
-        th->momy = FixedMul(i * FRACUNIT / 4, finesine[angle >> ANGLETOFINESHIFT]);
-        th->momz = (2 + i / 6) * FRACUNIT;
-
-        th->angle = angle;
-        angle += M_BigSubRandom() * 0xB60B60;
-
-        if (damage <= 12 && th->state->nextstate != S_NULL)
-            P_SetMobjState(th, th->state->nextstate);
-
-        if (damage < 9 && th->state->nextstate != S_NULL)
-            P_SetMobjState(th, th->state->nextstate);
     }
 }
 
