@@ -2122,7 +2122,7 @@ static void PIT_ChangeSector(mobj_t *thing)
             return;
         }
 
-        if (!(flags & MF_NOBLOOD))
+        if (!(flags & MF_NOBLOOD) && thing->bloodcolor)
         {
             const int           radius = ((spritewidth[sprites[thing->sprite].spriteframes[0].lump[0]] >> FRACBITS) >> 1) + 12;
             const int           max = M_RandomInt(50, 100) + radius;
