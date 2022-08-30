@@ -72,7 +72,6 @@ static const byte filter[256] =
     B,   B,   B,   B,   B,   B,   B,   B,   R,   R,   0,   0,   0,   0,   0,   0  // 240 to 255
 };
 
-#define ALTHUD     -1
 #define ALL         0
 #define REDS        R
 #define WHITES      W
@@ -101,10 +100,6 @@ byte        *tinttab70;
 byte        *tinttab75;
 byte        *tinttab80;
 byte        *tinttab90;
-
-byte        *alttinttab10;
-byte        *alttinttab20;
-byte        *alttinttab60;
 
 byte        *tranmap;
 
@@ -278,19 +273,13 @@ static byte *GenerateTintTable(byte *palette, int percent, int colors)
     byte    *result = malloc(256 * 256);
 
     for (int foreground = 0; foreground < 256; foreground++)
-        if ((filter[foreground] & colors) || colors == ALL || colors == ALTHUD)
+        if ((filter[foreground] & colors) || colors == ALL)
             for (int background = 0; background < 256; background++)
             {
-                byte    *color1 = &palette[background * 3];
-                byte    *color2 = &palette[foreground * 3];
-
-                // [crispy] blended color - emphasize blues
-                // Color matching in RGB space doesn't work very well with the blues
-                // in DOOM's palette. Rather than do any color conversions, just
-                // emphasize the blues when building the translucency table.
-                const int   btmp = (colors == ALTHUD && color1[2] * 1.666 >= (double)color1[0] + color1[1] ? 150 : 100);
-                const int   r = ((int)color1[0] * percent + (int)color2[0] * (100 - percent)) / btmp;
-                const int   g = ((int)color1[1] * percent + (int)color2[1] * (100 - percent)) / btmp;
+                byte        *color1 = &palette[background * 3];
+                byte        *color2 = &palette[foreground * 3];
+                const int   r = ((int)color1[0] * percent + (int)color2[0] * (100 - percent)) / 100;
+                const int   g = ((int)color1[1] * percent + (int)color2[1] * (100 - percent)) / 100;
                 const int   b = ((int)color1[2] * percent + (int)color2[2] * (100 - percent)) / 100;
 
                 result[(background << 8) + foreground] = FindNearestColor(palette, r, g, b);
@@ -343,10 +332,6 @@ void I_InitTintTables(byte *palette)
     tinttab75 = GenerateTintTable(palette, 75, ALL);
     tinttab80 = GenerateTintTable(palette, 80, ALL);
     tinttab90 = GenerateTintTable(palette, 90, ALL);
-
-    alttinttab10 = GenerateTintTable(palette, 10, ALTHUD);
-    alttinttab20 = GenerateTintTable(palette, 20, ALTHUD);
-    alttinttab60 = GenerateTintTable(palette, 60, ALTHUD);
 
     tranmap = (lump != -1 ? W_CacheLumpNum(lump) : tinttab50);
 

@@ -167,7 +167,7 @@ extern int              STBARs;
 // Internal parameters for sound rendering.
 // These have been taken from the DOS version,
 //  but are not (yet) supported with Linux
-//  (e.g. no sound volume adjustment with menu.
+//  (e.g. no sound volume adjustment with menu.)
 
 // From m_menu.c:
 //  Sound FX volume has default, 0 - 31
