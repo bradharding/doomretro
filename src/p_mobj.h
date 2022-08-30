@@ -43,23 +43,25 @@
 #include "states.h"
 #include "tables.h"
 
-#define FUZZYBLOOD             -1
-
 #define REDBLOODSPLATCOLOR    184
 #define GREENBLOODSPLATCOLOR  122
 
-#define REDBLOOD                1
-#define GRAYBLOOD               2
-#define GREENBLOOD              3
-#define BLUEBLOOD               4
-#define YELLOWBLOOD             5
-#define BLACKBLOOD              6
-#define PURPLEBLOOD             7
-#define WHITEBLOOD              8
-#define ORANGEBLOOD             9
-
 #define BLOODSPLATLUMPS        12
 #define CORPSEBLOODSPLATS     512
+
+enum
+{
+    FUZZYBLOOD = -1,
+    REDBLOOD = 1,
+    GRAYBLOOD,
+    GREENBLOOD,
+    BLUEBLOOD,
+    YELLOWBLOOD,
+    BLACKBLOOD,
+    PURPLEBLOOD,
+    WHITEBLOOD,
+    ORANGEBLOOD
+};
 
 // killough 11/98:
 // For torque simulation:

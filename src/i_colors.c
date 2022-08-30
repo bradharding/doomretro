@@ -79,12 +79,6 @@ static const byte filter[256] =
 #define BLUES       B
 #define EXTRAS      X
 
-#define BLACK       0
-#define DARKBLUE  244
-#define GOLD      231
-#define RED       176
-#define WHITE       4
-
 static byte *tinttab15;
 
 byte        *tinttab10;
@@ -175,8 +169,8 @@ void FindNearestColors(byte *palette)
 
     nearestblack = nearestcolors[BLACK];
     nearestdarkblue = nearestcolors[DARKBLUE];
-    nearestgold = nearestcolors[GOLD];
-    nearestred = nearestcolors[RED];
+    nearestgold = nearestcolors[YELLOW];
+    nearestred = nearestcolors[RED1];
     nearestwhite = nearestcolors[WHITE];
 
     black25 = &tinttab25[nearestblack << 8];

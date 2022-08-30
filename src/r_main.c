@@ -52,8 +52,6 @@
 #include "r_sky.h"
 #include "v_video.h"
 
-#define WHITE   4
-
 // increment every time a check is made
 int                 validcount = 1;
 

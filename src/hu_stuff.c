@@ -64,14 +64,6 @@
 //
 // Locally used constants, shortcuts.
 //
-#define WHITE             4
-#define GRAY             92
-#define DARKGRAY        102
-#define GREEN           114
-#define RED             180
-#define BLUE            199
-#define YELLOW          231
-
 #define STSTR_BEHOLD2   "inVuln, bSrk, Inviso, Rad, Allmap or Lite-amp?"
 
 patch_t                 *hu_font[HU_FONTSIZE];
@@ -716,10 +708,10 @@ static altkeypic_t altkeypics[NUMCARDS] =
 {
     { BLUE,   NULL },
     { YELLOW, NULL },
-    { RED,    NULL },
+    { RED2,   NULL },
     { BLUE,   NULL },
     { YELLOW, NULL },
-    { RED,    NULL }
+    { RED2,   NULL }
 };
 
 static patch_t  *altnum[10];
@@ -813,7 +805,7 @@ static void HU_AltInit(void)
     darkgray = nearestcolors[DARKGRAY];
     green = nearestcolors[GREEN];
     blue = (BTSX ? BLUE : nearestcolors[BLUE]);
-    red = nearestcolors[RED];
+    red = nearestcolors[RED2];
     yellow = nearestcolors[YELLOW];
 }
 

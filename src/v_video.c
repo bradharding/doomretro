@@ -58,10 +58,6 @@
 #include "w_wad.h"
 #include "z_zone.h"
 
-#define WHITE       4
-#define LIGHTGRAY  82
-#define DARKGRAY  102
-
 byte    *screens[NUMSCREENS];
 int     lowpixelwidth;
 int     lowpixelheight;
