@@ -2,6 +2,7 @@
 
 #### DOOM Retro v4.6.2
 
+* *DOOM Retro* is now built using v17.3.3 of [*Microsoft Visual Studio Community 2022*](https://www.visualstudio.com/vs/).
 * Several optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Minor changes have been made to text that is output to the console.
 * The amount of time the player has been in the current map is now displayed in the automap if the `am_playerstats` CVAR is `on`.
