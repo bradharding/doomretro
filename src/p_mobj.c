@@ -257,7 +257,7 @@ static void P_XYMovement(mobj_t *mo)
         return;         // no friction when airborne
 
     // [BH] spawn random blood splats on floor as corpses slide
-    if (corpse && !(flags & MF_NOBLOOD) && mo->bloodcolor && r_corpses_smearblood
+    if (corpse && !(flags & MF_NOBLOOD) && mo->bloodcolor > 0 && r_corpses_smearblood
         && (mo->momx || mo->momy) && mo->bloodsplats && r_bloodsplats_max && !mo->nudge
         && (r_blood != r_blood_all || !(flags & MF_FUZZ)))
     {
@@ -461,7 +461,7 @@ floater:
             {
                 if (flags & MF_FUZZ)
                     P_SpawnBloodSplat(mo->x, mo->y, FUZZYBLOOD, false, 0, NULL);
-                else if (mo->bloodcolor)
+                else if (mo->bloodcolor > 0)
                 {
                     const fixed_t   x = mo->x;
                     const fixed_t   y = mo->y;
@@ -1077,7 +1077,7 @@ static void P_SpawnPlayer(const mapthing_t *mthing)
 //
 void P_SpawnMoreBlood(mobj_t *mobj)
 {
-    if (mobj->bloodcolor)
+    if (mobj->bloodcolor > 0)
     {
         const int       bloodcolor = colortranslation[mobj->bloodcolor - 1][REDBLOODSPLATCOLOR];
         const int       radius = ((spritewidth[sprites[mobj->sprite].spriteframes[0].lump[0]] >> FRACBITS) >> 1) + 12;
@@ -1262,7 +1262,7 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, const bool spawnmonsters)
     if (r_corpses_moreblood
         && r_bloodsplats_max
         && !(flags & (MF_SHOOTABLE | MF_NOBLOOD | MF_SPECIAL))
-        && mobj->bloodcolor
+        && mobj->bloodcolor > 0
         && (!hacx || !(flags2 & MF2_DECORATION))
         && (moreblood || lumpinfo[firstspritelump + sprites[mobj->sprite].spriteframes[0].lump[0]]->wadfile->type != PWAD)
         && mobj->subsector->sector->terraintype == SOLID)
