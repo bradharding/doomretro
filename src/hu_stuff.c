@@ -76,7 +76,7 @@ bool                    message_secret;
 static bool             message_external;
 static bool             message_nottobefuckedwith;
 
-bool                    idbehold;
+bool                    idbehold = false;
 bool                    s_STSTR_BEHOLD2;
 
 static hu_stext_t       w_message;

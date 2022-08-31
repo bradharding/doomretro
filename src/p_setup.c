@@ -1965,7 +1965,7 @@ static void P_LoadLineDefs(int lump)
 
         // killough 04/04/98: support special sidedef interpretation below
         if (ld->sidenum[0] != NO_INDEX && ld->special)
-            sides[*ld->sidenum].special = ld->special;
+            sides[ld->sidenum[0]].special = ld->special;
     }
 
     W_ReleaseLumpNum(lump);
@@ -1999,7 +1999,7 @@ static void P_LoadLineDefs2(void)
             char    *temp = commify(ld->id);
 
             C_Warning(2, "Linedef %s is missing its first sidedef.", temp);
-            ld->sidenum[0] = 0;                                 // Substitute dummy sidedef for missing right side
+            ld->sidenum[0] = 0;                                     // Substitute dummy sidedef for missing right side
             free(temp);
         }
 
@@ -2008,7 +2008,11 @@ static void P_LoadLineDefs2(void)
             char    *temp = commify(ld->id);
 
             C_Warning(2, "Linedef %s has the two-sided flag set but no second sidedef.", temp);
-            ld->sidenum[1] = 0;                                 // Substitute dummy sidedef for missing left side
+
+            if (sides[ld->sidenum[0]].midtexture)
+                ld->sidenum[1] = 0;                                 // Substitute dummy sidedef for missing left side
+            else
+                ld->flags &= ~ML_TWOSIDED;                          // Clear 2s flag for missing left side
             free(temp);
         }
 
@@ -2018,15 +2022,15 @@ static void P_LoadLineDefs2(void)
         // killough 04/11/98: handle special types
         switch (ld->special)
         {
-            case Translucent_MiddleTexture:                     // killough 04/11/98: translucent 2s textures
+            case Translucent_MiddleTexture:                         // killough 04/11/98: translucent 2s textures
             {
-                const int   lump = sides[*ld->sidenum].special; // translucency from sidedef
+                const int   lump = sides[ld->sidenum[0]].special;   // translucency from sidedef
 
-                if (!ld->tag)                                   // if tag == 0,
-                    ld->tranlump = lump;                        // affect this linedef only
+                if (!ld->tag)                                       // if tag == 0,
+                    ld->tranlump = lump;                            // affect this linedef only
                 else
-                    for (int j = 0; j < numlines; j++)          // if tag != 0,
-                        if (lines[j].tag == ld->tag)            // affect all matching linedefs
+                    for (int j = 0; j < numlines; j++)              // if tag != 0,
+                        if (lines[j].tag == ld->tag)                // affect all matching linedefs
                             lines[j].tranlump = lump;
 
                 break;
