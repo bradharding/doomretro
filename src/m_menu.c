@@ -1314,8 +1314,6 @@ static void M_QuickLoadResponse(int key)
         M_LoadSelect(quickSaveSlot);
         S_StartSound(NULL, sfx_swtchx);
     }
-    else
-        D_FadeScreen(false);
 }
 
 static void M_QuickLoad(void)
@@ -1709,10 +1707,7 @@ static void M_VerifyNightmare(int key)
     messagetoprint = false;
 
     if (key != 'y')
-    {
         M_SetupNextMenu(&NewDef);
-        D_FadeScreen(false);
-    }
     else
     {
         quickSaveSlot = -1;
@@ -1736,7 +1731,6 @@ static void M_ChooseSkill(int choice)
             M_StartMessage(buffer, &M_VerifyNightmare, true);
         }
 
-        D_FadeScreen(false);
         return;
     }
 
@@ -1961,7 +1955,6 @@ static void M_EndGameResponse(int key)
         else
             M_SetupNextMenu(&OptionsDef);
 
-        D_FadeScreen(false);
         return;
     }
 
@@ -2046,7 +2039,6 @@ static void M_QuitResponse(int key)
         else
             M_SetupNextMenu(&MainDef);
 
-        D_FadeScreen(false);
         return;
     }
 
@@ -2320,9 +2312,6 @@ void M_StartMessage(char *string, void (*routine)(int), bool input)
     messageString = string;
     messageRoutine = routine;
     messageNeedsInput = input;
-
-    if (!consoleactive)
-        M_StartControlPanel();
 
     I_SetPalette(PLAYPAL);
     I_UpdateBlitFunc(false);
@@ -2905,9 +2894,6 @@ bool M_Responder(event_t *ev)
             return false;
         }
 
-        if (currentMenu != &NewDef && !consoleactive)
-            M_ClearMenus();
-
         keydown = key;
         menuactive = messageLastMenuActive;
         messagetoprint = false;
@@ -2920,7 +2906,10 @@ bool M_Responder(event_t *ev)
         if (endinggame)
             endinggame = false;
         else
+        {
             S_StartSound(NULL, (currentMenu == &ReadDef ? sfx_pistol : sfx_swtchx));
+            D_FadeScreen(false);
+        }
 
         return true;
     }
@@ -3621,12 +3610,8 @@ void M_StartControlPanel(void)
         return;
 
     menuactive = true;
-
-    if (!messagetoprint)
-    {
-        currentMenu = &MainDef;
-        itemOn = currentMenu->lastOn;
-    }
+    currentMenu = &MainDef;
+    itemOn = currentMenu->lastOn;
 
     if (joy_rumble_damage || joy_rumble_barrels || joy_rumble_weapons)
     {
