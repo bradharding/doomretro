@@ -607,7 +607,7 @@ static void M_DrawHelpBackground(void)
         }
 
     if (mapwindow)
-        memset(mapscreen, nearestdarkblue, MAPAREA);
+        memset(mapscreen, nearestblack, MAPAREA);
 }
 
 static const int chartoi[] =
