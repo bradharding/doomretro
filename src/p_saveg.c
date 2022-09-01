@@ -1038,7 +1038,7 @@ bool P_ReadSaveGameHeader(char *description)
     if (!M_StringCompare(read_vcheck, vcheck))
     {
         menuactive = false;
-        quickSaveSlot = -1;
+        quicksaveslot = -1;
         C_ShowConsole();
         C_Warning(0, "This savegame is incompatible with " ITALICS(DOOMRETRO_NAMEANDVERSIONSTRING "."));
 

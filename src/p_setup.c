@@ -3242,7 +3242,7 @@ static bool P_ParseMapInfo(char *scriptname)
                 {
                     C_Warning(1, "The map markers in PWAD " BOLD("%s") " are invalid.", lumpinfo[MAPINFO]->wadfile->path);
                     nerve = false;
-                    NewDef.prevMenu = &MainDef;
+                    NewDef.prevmenu = &MainDef;
                     MAPINFO = -1;
                     break;
                 }

@@ -70,28 +70,28 @@
 #define MENUBORDERCOLOR nearestblack
 
 // -1 = no quicksave slot picked!
-int             quickSaveSlot;
+int             quicksaveslot;
 
 // true = message to be printed
 bool            messagetoprint = false;
 
 // ...and here is the message string!
-static char     *messageString;
+static char     *messagestring;
 
-static int      messageLastMenuActive;
+static int      messagelastmenuactive;
 
 // timed message = no input from user
-static bool     messageNeedsInput;
+static bool     messageneedsinput;
 
-static void (*messageRoutine)(int);
+static void (*messageroutine)(int);
 
 // we are going to be entering a savegame string
-static bool     saveStringEnter;
-static int      saveSlot;               // which slot to save in
-static int      saveCharIndex;          // which char we're editing
+static bool     savestringenter;
+static int      saveslot;               // which slot to save in
+static int      savecharindex;          // which char we're editing
 
 // old save description before edit
-static char     saveOldString[SAVESTRINGSIZE];
+static char     saveoldstring[SAVESTRINGSIZE];
 
 bool            inhelpscreens = false;
 bool            menuactive;
@@ -102,9 +102,9 @@ static bool     reopenautomap;
 
 char            savegamestrings[6][SAVESTRINGSIZE];
 
-static short    itemOn;                 // menu item skull is on
-static short    skullAnimCounter;       // skull animation counter
-static short    whichSkull;             // which skull to draw
+static short    itemon;                 // menu item skull is on
+static short    skullanimcounter;       // skull animation counter
+static short    whichskull;             // which skull to draw
 
 static int      blurtic = -1;
 static int      functionkey;
@@ -112,7 +112,7 @@ static int      functionkey;
 static bool     usinggamecontroller;
 
 // current menudef
-static menu_t   *currentMenu;
+static menu_t   *currentmenu;
 
 int             menuspindirection;
 int             menuspinspeed;
@@ -866,7 +866,7 @@ static bool M_CheckSaveGame(int *ep, int *map, int slot)
 
         if (gamemission == pack_nerve)
         {
-            ExpDef.lastOn = ex1;
+            ExpDef.laston = ex1;
             expansion = 1;
             gamemission = doom2;
             M_SaveCVARs();
@@ -884,7 +884,7 @@ static bool M_CheckSaveGame(int *ep, int *map, int slot)
 
         if (gamemission == doom2 && nerve)
         {
-            ExpDef.lastOn = ex2;
+            ExpDef.laston = ex2;
             expansion = 2;
             gamemission = pack_nerve;
             M_SaveCVARs();
@@ -1030,7 +1030,7 @@ static void M_LoadSelect(int choice)
         M_StringCopy(name, P_SaveGameFile(choice), sizeof(name));
         S_StartSound(NULL, sfx_pistol);
         functionkey = 0;
-        quickSaveSlot = choice;
+        quicksaveslot = choice;
         G_LoadGame(name);
     }
     else
@@ -1108,25 +1108,25 @@ static void M_DrawSave(void)
         }
 
         // draw save game description
-        if (saveStringEnter && i == saveSlot)
+        if (savestringenter && i == saveslot)
         {
             char    left[256] = "";
             char    right[256] = "";
             int     x = LoadDef.x - 2;
 
             // draw text to left of text caret
-            for (int j = 0; j < saveCharIndex; j++)
+            for (int j = 0; j < savecharindex; j++)
                 left[j] = buffer[j];
 
-            left[saveCharIndex] = '\0';
+            left[savecharindex] = '\0';
             M_WriteText(x, y - !M_LSCNTR, left, false);
             x += M_StringWidth(left);
 
             // draw text to right of text caret
-            for (int j = 0; j < len - saveCharIndex; j++)
-                right[j] = buffer[j + saveCharIndex];
+            for (int j = 0; j < len - savecharindex; j++)
+                right[j] = buffer[j + savecharindex];
 
-            right[len - saveCharIndex] = '\0';
+            right[len - savecharindex] = '\0';
             M_WriteText(x + 1, y - !M_LSCNTR, right, false);
 
             // draw text caret
@@ -1158,7 +1158,7 @@ static void M_DoSave(int slot)
     M_ClearMenus();
     G_SaveGame(slot, savegamestrings[slot], "");
     functionkey = 0;
-    quickSaveSlot = slot;
+    quicksaveslot = slot;
 }
 
 //
@@ -1255,11 +1255,11 @@ static void M_SaveSelect(int choice)
 {
     // we are going to be intercepting all chars
     SDL_StartTextInput();
-    saveStringEnter = true;
-    saveSlot = choice;
-    M_StringCopy(saveOldString, savegamestrings[saveSlot], sizeof(saveOldString));
-    M_UpdateSaveGameName(saveSlot);
-    saveCharIndex = (int)strlen(savegamestrings[saveSlot]);
+    savestringenter = true;
+    saveslot = choice;
+    M_StringCopy(saveoldstring, savegamestrings[saveslot], sizeof(saveoldstring));
+    M_UpdateSaveGameName(saveslot);
+    savecharindex = (int)strlen(savegamestrings[saveslot]);
     showcaret = !showcaret;
     caretwait = I_GetTimeMS() + CARETBLINKTIME;
 }
@@ -1278,7 +1278,7 @@ static void M_SaveGame(int choice)
 //
 static void M_QuickSave(void)
 {
-    if (quickSaveSlot < 0)
+    if (quicksaveslot < 0)
     {
         if (functionkey == KEY_F6)
         {
@@ -1298,8 +1298,8 @@ static void M_QuickSave(void)
         return;
     }
 
-    M_UpdateSaveGameName(quickSaveSlot);
-    M_DoSave(quickSaveSlot);
+    M_UpdateSaveGameName(quicksaveslot);
+    M_DoSave(quicksaveslot);
 }
 
 //
@@ -1311,14 +1311,14 @@ static void M_QuickLoadResponse(int key)
 
     if (key == 'y')
     {
-        M_LoadSelect(quickSaveSlot);
+        M_LoadSelect(quicksaveslot);
         S_StartSound(NULL, sfx_swtchx);
     }
 }
 
 static void M_QuickLoad(void)
 {
-    if (quickSaveSlot < 0)
+    if (quicksaveslot < 0)
     {
         functionkey = 0;
         return;
@@ -1332,7 +1332,7 @@ static void M_QuickLoad(void)
     {
         static char buffer[160];
 
-        M_snprintf(buffer, sizeof(buffer), s_QLPROMPT, savegamestrings[quickSaveSlot]);
+        M_snprintf(buffer, sizeof(buffer), s_QLPROMPT, savegamestrings[quicksaveslot]);
         M_SplitString(buffer);
         M_snprintf(buffer, sizeof(buffer), "%s\n\n%s", buffer, (usinggamecontroller ? s_PRESSA : s_PRESSYN));
         M_StartMessage(buffer, &M_QuickLoadResponse, true);
@@ -1346,7 +1346,7 @@ static void M_DeleteSavegameResponse(int key)
         static char buffer[1024];
         char        *temp;
 
-        M_StringCopy(buffer, P_SaveGameFile(itemOn), sizeof(buffer));
+        M_StringCopy(buffer, P_SaveGameFile(itemon), sizeof(buffer));
 
         if (remove(buffer) == -1)
         {
@@ -1354,7 +1354,7 @@ static void M_DeleteSavegameResponse(int key)
             return;
         }
 
-        temp = titlecase(savegamestrings[itemOn]);
+        temp = titlecase(savegamestrings[itemon]);
         M_snprintf(buffer, sizeof(buffer), s_GGDELETED, temp);
         C_Output("%s", buffer);
         HU_SetPlayerMessage(buffer, false, false);
@@ -1362,20 +1362,20 @@ static void M_DeleteSavegameResponse(int key)
         M_ReadSaveStrings();
         free(temp);
 
-        if (itemOn == quickSaveSlot)
-            quickSaveSlot = -1;
+        if (itemon == quicksaveslot)
+            quicksaveslot = -1;
 
-        if (currentMenu == &LoadDef)
+        if (currentmenu == &LoadDef)
         {
             if (savegames)
             {
-                while (M_StringCompare(savegamestrings[itemOn], s_EMPTYSTRING))
-                    itemOn = (!itemOn ? currentMenu->numitems - 1 : itemOn - 1);
+                while (M_StringCompare(savegamestrings[itemon], s_EMPTYSTRING))
+                    itemon = (!itemon ? currentmenu->numitems - 1 : itemon - 1);
             }
             else
             {
                 M_SetupNextMenu(&MainDef);
-                MainDef.lastOn = itemOn = save_game;
+                MainDef.laston = itemon = save_game;
             }
         }
     }
@@ -1386,7 +1386,7 @@ static void M_DeleteSavegame(void)
     static char buffer[160];
 
     S_StartSound(NULL, sfx_swtchn);
-    M_snprintf(buffer, sizeof(buffer), s_DELPROMPT, savegamestrings[saveSlot]);
+    M_snprintf(buffer, sizeof(buffer), s_DELPROMPT, savegamestrings[saveslot]);
     M_SplitString(buffer);
     M_snprintf(buffer, sizeof(buffer), "%s\n\n%s", buffer, (usinggamecontroller ? s_PRESSA : s_PRESSYN));
     M_StartMessage(buffer, &M_DeleteSavegameResponse, true);
@@ -1590,7 +1590,7 @@ void M_AddEpisode(const int map, const int ep, const char *lumpname, const char 
     if (!EpiCustom)
     {
         EpiCustom = true;
-        NewDef.prevMenu = &EpiDef;
+        NewDef.prevmenu = &EpiDef;
 
         if (gamemode == commercial)
             EpiDef.numitems = 0;
@@ -1655,7 +1655,7 @@ void M_SetWindowCaption(void)
         M_StringCopy(caption, mapnumandtitle, sizeof(caption));
     else
     {
-        if (nerve && (currentMenu == &ExpDef || currentMenu == &NewDef))
+        if (nerve && (currentmenu == &ExpDef || currentmenu == &NewDef))
             M_snprintf(caption, sizeof(caption), "%s: %s", gamedescription,
                 (expansion == 1 ? s_CAPTION_HELLONEARTH : s_CAPTION_NERVE));
         else
@@ -1710,7 +1710,7 @@ static void M_VerifyNightmare(int key)
         M_SetupNextMenu(&NewDef);
     else
     {
-        quickSaveSlot = -1;
+        quicksaveslot = -1;
         M_ClearMenus();
         viewplayer->cheats = 0;
         G_DeferredInitNew((skill_t)nightmare, epi + 1, 1);
@@ -1736,7 +1736,7 @@ static void M_ChooseSkill(int choice)
 
     HU_DrawDisk();
     S_StartSound(NULL, sfx_pistol);
-    quickSaveSlot = -1;
+    quicksaveslot = -1;
     M_ClearMenus();
     viewplayer->cheats = 0;
 
@@ -1890,7 +1890,7 @@ static void M_DrawOptions(void)
 static void M_Options(int choice)
 {
     if (!OptionsDef.change)
-        OptionsDef.lastOn = (gamestate == GS_LEVEL ? endgame : msgs);
+        OptionsDef.laston = (gamestate == GS_LEVEL ? endgame : msgs);
 
     M_SetupNextMenu(&OptionsDef);
 }
@@ -1958,13 +1958,13 @@ static void M_EndGameResponse(int key)
         return;
     }
 
-    currentMenu->lastOn = itemOn;
+    currentmenu->laston = itemon;
     S_StopMusic();
     M_ClearMenus();
     viewactive = false;
     automapactive = false;
     S_StartSound(NULL, sfx_swtchx);
-    MainDef.lastOn = 0;
+    MainDef.laston = 0;
     st_palette = 0;
     M_EndingGame();
 }
@@ -2307,11 +2307,11 @@ static void M_DrawThermo(int x, int y, int thermWidth, float thermDot, float fac
 
 void M_StartMessage(char *string, void (*routine)(int), bool input)
 {
-    messageLastMenuActive = menuactive;
+    messagelastmenuactive = menuactive;
     messagetoprint = true;
-    messageString = string;
-    messageRoutine = routine;
-    messageNeedsInput = input;
+    messagestring = string;
+    messageroutine = routine;
+    messageneedsinput = input;
 
     I_SetPalette(PLAYPAL);
     I_UpdateBlitFunc(false);
@@ -2455,8 +2455,8 @@ static void M_ShowHelp(int choice)
     functionkey = KEY_F1;
     inhelpscreens = true;
     M_StartControlPanel();
-    currentMenu = &ReadDef;
-    itemOn = 0;
+    currentmenu = &ReadDef;
+    itemon = 0;
     S_StartSound(NULL, sfx_swtchn);
 
     if (gamestate == GS_LEVEL)
@@ -2549,15 +2549,15 @@ bool M_Responder(event_t *ev)
             // activate menu item
             if (gamecontrollerbuttons & GAMECONTROLLER_A)
             {
-                key = (messagetoprint && messageNeedsInput ? 'y' : KEY_ENTER);
-                gamecontrollerwait = I_GetTime() + 8 * !(currentMenu == &OptionsDef && itemOn == 5);
+                key = (messagetoprint && messageneedsinput ? 'y' : KEY_ENTER);
+                gamecontrollerwait = I_GetTime() + 8 * !(currentmenu == &OptionsDef && itemon == 5);
                 usinggamecontroller = true;
             }
 
             // previous/exit menu
             else if (gamecontrollerbuttons & GAMECONTROLLER_B)
             {
-                key = (messagetoprint && messageNeedsInput ? 'n' : KEY_BACKSPACE);
+                key = (messagetoprint && messageneedsinput ? 'n' : KEY_BACKSPACE);
                 gamecontrollerwait = I_GetTime() + 8;
                 gamecontrollerpress = true;
                 usinggamecontroller = true;
@@ -2567,8 +2567,8 @@ bool M_Responder(event_t *ev)
             else if (gamecontrollerbuttons & gamecontrollermenu)
             {
                 key = keyboardmenu;
-                currentMenu = &MainDef;
-                itemOn = MainDef.lastOn;
+                currentmenu = &MainDef;
+                itemon = MainDef.laston;
                 gamecontrollerwait = I_GetTime() + 8;
                 usinggamecontroller = true;
             }
@@ -2594,20 +2594,20 @@ bool M_Responder(event_t *ev)
                 }
 
                 // decrease slider
-                else if ((gamecontrollerthumbLX < 0 || gamecontrollerthumbRX < 0 || (gamecontrollerbuttons & GAMECONTROLLER_DPAD_LEFT)) && !saveStringEnter
-                    && !(currentMenu == &OptionsDef && itemOn == 1))
+                else if ((gamecontrollerthumbLX < 0 || gamecontrollerthumbRX < 0 || (gamecontrollerbuttons & GAMECONTROLLER_DPAD_LEFT)) && !savestringenter
+                    && !(currentmenu == &OptionsDef && itemon == 1))
                 {
                     key = KEY_LEFTARROW;
-                    gamecontrollerwait = I_GetTime() + 6 * !(currentMenu == &OptionsDef && itemOn == 5);
+                    gamecontrollerwait = I_GetTime() + 6 * !(currentmenu == &OptionsDef && itemon == 5);
                     usinggamecontroller = true;
                 }
 
                 // increase slider
-                else if ((gamecontrollerthumbLX > 0 || gamecontrollerthumbRX > 0 || (gamecontrollerbuttons & GAMECONTROLLER_DPAD_RIGHT)) && !saveStringEnter
-                    && !(currentMenu == &OptionsDef && itemOn == 1))
+                else if ((gamecontrollerthumbLX > 0 || gamecontrollerthumbRX > 0 || (gamecontrollerbuttons & GAMECONTROLLER_DPAD_RIGHT)) && !savestringenter
+                    && !(currentmenu == &OptionsDef && itemon == 1))
                 {
                     key = KEY_RIGHTARROW;
-                    gamecontrollerwait = I_GetTime() + 6 * !(currentMenu == &OptionsDef && itemOn == 5);
+                    gamecontrollerwait = I_GetTime() + 6 * !(currentmenu == &OptionsDef && itemon == 5);
                     usinggamecontroller = true;
                 }
             }
@@ -2719,22 +2719,22 @@ bool M_Responder(event_t *ev)
     }
 
     // Save Game string input
-    if (saveStringEnter)
+    if (savestringenter)
     {
         if (ev->type == ev_textinput)
         {
             const int   ch = toupper(ev->data1);
 
-            if (ch >= ' ' && ch <= '_' && M_StringWidth(savegamestrings[saveSlot]) + M_CharacterWidth(ch, 0) <= SAVESTRINGPIXELWIDTH)
+            if (ch >= ' ' && ch <= '_' && M_StringWidth(savegamestrings[saveslot]) + M_CharacterWidth(ch, 0) <= SAVESTRINGPIXELWIDTH)
             {
-                const int   len = (int)strlen(savegamestrings[saveSlot]);
+                const int   len = (int)strlen(savegamestrings[saveslot]);
 
-                savegamestrings[saveSlot][len + 1] = '\0';
+                savegamestrings[saveslot][len + 1] = '\0';
 
-                for (int i = len; i > saveCharIndex; i--)
-                    savegamestrings[saveSlot][i] = savegamestrings[saveSlot][i - 1];
+                for (int i = len; i > savecharindex; i--)
+                    savegamestrings[saveslot][i] = savegamestrings[saveslot][i - 1];
 
-                savegamestrings[saveSlot][saveCharIndex++] = ch;
+                savegamestrings[saveslot][savecharindex++] = ch;
                 caretwait = I_GetTimeMS() + CARETBLINKTIME;
                 showcaret = true;
 
@@ -2756,14 +2756,14 @@ bool M_Responder(event_t *ev)
             case KEY_BACKSPACE:
                 keydown = key;
 
-                if (saveCharIndex > 0)
+                if (savecharindex > 0)
                 {
-                    const int   len = (int)strlen(savegamestrings[saveSlot]);
+                    const int   len = (int)strlen(savegamestrings[saveslot]);
 
-                    for (int j = saveCharIndex - 1; j < len; j++)
-                        savegamestrings[saveSlot][j] = savegamestrings[saveSlot][j + 1];
+                    for (int j = savecharindex - 1; j < len; j++)
+                        savegamestrings[saveslot][j] = savegamestrings[saveslot][j + 1];
 
-                    saveCharIndex--;
+                    savecharindex--;
                     caretwait = I_GetTimeMS() + CARETBLINKTIME;
                     showcaret = true;
                 }
@@ -2773,14 +2773,14 @@ bool M_Responder(event_t *ev)
             // delete character right of caret
             case KEY_DELETE:
             {
-                const int   len = (int)strlen(savegamestrings[saveSlot]);
+                const int   len = (int)strlen(savegamestrings[saveslot]);
 
                 keydown = key;
 
-                if (saveCharIndex < len)
+                if (savecharindex < len)
                 {
-                    for (int j = saveCharIndex; j < len; j++)
-                        savegamestrings[saveSlot][j] = savegamestrings[saveSlot][j + 1];
+                    for (int j = savecharindex; j < len; j++)
+                        savegamestrings[saveslot][j] = savegamestrings[saveslot][j + 1];
 
                     caretwait = I_GetTimeMS() + CARETBLINKTIME;
                     showcaret = true;
@@ -2795,10 +2795,10 @@ bool M_Responder(event_t *ev)
                 {
                     keydown = key;
                     SDL_StopTextInput();
-                    saveStringEnter = false;
+                    savestringenter = false;
                     caretwait = 0;
                     showcaret = false;
-                    M_StringCopy(&savegamestrings[saveSlot][0], saveOldString, sizeof(savegamestrings[0]));
+                    M_StringCopy(&savegamestrings[saveslot][0], saveoldstring, sizeof(savegamestrings[0]));
                     S_StartSound(NULL, sfx_swtchx);
                 }
 
@@ -2808,22 +2808,22 @@ bool M_Responder(event_t *ev)
             case KEY_ENTER:
                 if (!keydown)
                 {
-                    const int   len = (int)strlen(savegamestrings[saveSlot]);
+                    const int   len = (int)strlen(savegamestrings[saveslot]);
                     bool        allspaces = true;
 
                     keydown = key;
 
                     for (int i = 0; i < len; i++)
-                        if (savegamestrings[saveSlot][i] != ' ')
+                        if (savegamestrings[saveslot][i] != ' ')
                             allspaces = false;
 
-                    if (savegamestrings[saveSlot][0] && !allspaces)
+                    if (savegamestrings[saveslot][0] && !allspaces)
                     {
                         SDL_StopTextInput();
-                        saveStringEnter = false;
+                        savestringenter = false;
                         caretwait = I_GetTimeMS() + CARETBLINKTIME;
                         showcaret = true;
-                        M_DoSave(saveSlot);
+                        M_DoSave(saveslot);
                         D_FadeScreen(false);
                     }
                 }
@@ -2832,9 +2832,9 @@ bool M_Responder(event_t *ev)
 
             // move caret left
             case KEY_LEFTARROW:
-                if (saveCharIndex > 0)
+                if (savecharindex > 0)
                 {
-                    saveCharIndex--;
+                    savecharindex--;
                     caretwait = I_GetTimeMS() + CARETBLINKTIME;
                     showcaret = true;
                 }
@@ -2843,9 +2843,9 @@ bool M_Responder(event_t *ev)
 
             // move caret right
             case KEY_RIGHTARROW:
-                if (saveCharIndex < (int)strlen(savegamestrings[saveSlot]))
+                if (savecharindex < (int)strlen(savegamestrings[saveslot]))
                 {
-                    saveCharIndex++;
+                    savecharindex++;
                     caretwait = I_GetTimeMS() + CARETBLINKTIME;
                     showcaret = true;
                 }
@@ -2854,9 +2854,9 @@ bool M_Responder(event_t *ev)
 
             // move caret to start
             case KEY_HOME:
-                if (saveCharIndex > 0)
+                if (savecharindex > 0)
                 {
-                    saveCharIndex = 0;
+                    savecharindex = 0;
                     caretwait = I_GetTimeMS() + CARETBLINKTIME;
                     showcaret = true;
                 }
@@ -2866,11 +2866,11 @@ bool M_Responder(event_t *ev)
             // move caret to end
             case KEY_END:
             {
-                const int   len = (int)strlen(savegamestrings[saveSlot]);
+                const int   len = (int)strlen(savegamestrings[saveslot]);
 
-                if (saveCharIndex < len)
+                if (savecharindex < len)
                 {
-                    saveCharIndex = len;
+                    savecharindex = len;
                     caretwait = I_GetTimeMS() + CARETBLINKTIME;
                     showcaret = true;
                 }
@@ -2887,7 +2887,7 @@ bool M_Responder(event_t *ev)
     {
         const int   ch = (key == KEY_ENTER ? 'y' : tolower(key));
 
-        if (messageNeedsInput && key != keyboardmenu && ch != 'y' && ch != 'n' && key != KEY_BACKSPACE
+        if (messageneedsinput && key != keyboardmenu && ch != 'y' && ch != 'n' && key != KEY_BACKSPACE
             && !(SDL_GetModState() & (KMOD_ALT | KMOD_CTRL)) && key != functionkey)
         {
             functionkey = 0;
@@ -2895,11 +2895,11 @@ bool M_Responder(event_t *ev)
         }
 
         keydown = key;
-        menuactive = messageLastMenuActive;
+        menuactive = messagelastmenuactive;
         messagetoprint = false;
 
-        if (messageRoutine)
-            messageRoutine(ch);
+        if (messageroutine)
+            messageroutine(ch);
 
         functionkey = 0;
 
@@ -2907,7 +2907,7 @@ bool M_Responder(event_t *ev)
             endinggame = false;
         else
         {
-            S_StartSound(NULL, (currentMenu == &ReadDef ? sfx_pistol : sfx_swtchx));
+            S_StartSound(NULL, (currentmenu == &ReadDef ? sfx_pistol : sfx_swtchx));
             D_FadeScreen(false);
         }
 
@@ -2997,7 +2997,7 @@ bool M_Responder(event_t *ev)
             if (functionkey == KEY_F2)
             {
                 functionkey = 0;
-                currentMenu->lastOn = itemOn;
+                currentmenu->laston = itemon;
                 M_ClearMenus();
                 S_StartSound(NULL, sfx_swtchx);
             }
@@ -3005,7 +3005,7 @@ bool M_Responder(event_t *ev)
             {
                 functionkey = KEY_F2;
                 M_StartControlPanel();
-                itemOn = currentMenu->lastOn;
+                itemon = currentmenu->laston;
                 S_StartSound(NULL, sfx_swtchn);
                 M_SaveGame(0);
             }
@@ -3021,7 +3021,7 @@ bool M_Responder(event_t *ev)
             if (functionkey == KEY_F3)
             {
                 functionkey = 0;
-                currentMenu->lastOn = itemOn;
+                currentmenu->laston = itemon;
                 M_ClearMenus();
                 S_StartSound(NULL, sfx_swtchx);
             }
@@ -3029,7 +3029,7 @@ bool M_Responder(event_t *ev)
             {
                 functionkey = KEY_F3;
                 M_StartControlPanel();
-                itemOn = currentMenu->lastOn;
+                itemon = currentmenu->laston;
                 S_StartSound(NULL, sfx_swtchn);
                 M_LoadGame(0);
             }
@@ -3045,7 +3045,7 @@ bool M_Responder(event_t *ev)
             if (functionkey == KEY_F4)
             {
                 functionkey = 0;
-                currentMenu->lastOn = itemOn;
+                currentmenu->laston = itemon;
                 M_ClearMenus();
                 S_StartSound(NULL, sfx_swtchx);
             }
@@ -3053,8 +3053,8 @@ bool M_Responder(event_t *ev)
             {
                 functionkey = KEY_F4;
                 M_StartControlPanel();
-                currentMenu = &SoundDef;
-                itemOn = currentMenu->lastOn;
+                currentmenu = &SoundDef;
+                itemon = currentmenu->laston;
                 S_StartSound(NULL, sfx_swtchn);
             }
 
@@ -3067,7 +3067,7 @@ bool M_Responder(event_t *ev)
         {
             keydown = key;
 
-            if (quickSaveSlot >= 0)
+            if (quicksaveslot >= 0)
                 functionkey = KEY_F6;
 
             M_QuickSave();
@@ -3176,21 +3176,21 @@ bool M_Responder(event_t *ev)
         if (key == KEY_DOWNARROW && keywait < I_GetTime() && !inhelpscreens)
         {
             // Move down to next item
-            if (currentMenu == &LoadDef)
+            if (currentmenu == &LoadDef)
             {
-                int old = itemOn;
+                int old = itemon;
 
                 do
                 {
-                    if (++itemOn > currentMenu->numitems - 1)
-                        itemOn = 0;
-                } while (M_StringCompare(savegamestrings[itemOn], s_EMPTYSTRING));
+                    if (++itemon > currentmenu->numitems - 1)
+                        itemon = 0;
+                } while (M_StringCompare(savegamestrings[itemon], s_EMPTYSTRING));
 
-                if (itemOn != old)
+                if (itemon != old)
                     S_StartSound(NULL,  sfx_pstop);
 
-                SaveDef.lastOn = itemOn;
-                savegame = itemOn + 1;
+                SaveDef.laston = itemon;
+                savegame = itemon + 1;
                 M_SaveCVARs();
                 C_IntCVAROutput(stringize(savegame), savegame);
             }
@@ -3198,52 +3198,52 @@ bool M_Responder(event_t *ev)
             {
                 do
                 {
-                    if (++itemOn > currentMenu->numitems - 1)
-                        itemOn = 0;
+                    if (++itemon > currentmenu->numitems - 1)
+                        itemon = 0;
 
-                    if (currentMenu == &MainDef)
+                    if (currentmenu == &MainDef)
                     {
-                        if (itemOn == 2 && !savegames)
-                            itemOn++;
+                        if (itemon == 2 && !savegames)
+                            itemon++;
 
-                        if (itemOn == 3 && (gamestate != GS_LEVEL || viewplayer->health <= 0))
-                            itemOn++;
+                        if (itemon == 3 && (gamestate != GS_LEVEL || viewplayer->health <= 0))
+                            itemon++;
                     }
-                    else if (currentMenu == &OptionsDef && !itemOn && gamestate != GS_LEVEL)
-                        itemOn++;
+                    else if (currentmenu == &OptionsDef && !itemon && gamestate != GS_LEVEL)
+                        itemon++;
 
-                    if (currentMenu->menuitems[itemOn].status != -1)
+                    if (currentmenu->menuitems[itemon].status != -1)
                         S_StartSound(NULL, sfx_pstop);
-                } while (currentMenu->menuitems[itemOn].status == -1);
+                } while (currentmenu->menuitems[itemon].status == -1);
             }
 
-            currentMenu->change = true;
+            currentmenu->change = true;
 
-            if (currentMenu == &EpiDef && gamemode != shareware && !EpiCustom)
+            if (currentmenu == &EpiDef && gamemode != shareware && !EpiCustom)
             {
-                episode = itemOn + 1;
+                episode = itemon + 1;
                 M_SaveCVARs();
                 C_IntCVAROutput(stringize(episode), episode);
             }
-            else if (currentMenu == &ExpDef)
+            else if (currentmenu == &ExpDef)
             {
-                expansion = itemOn + 1;
+                expansion = itemon + 1;
                 M_SaveCVARs();
                 C_IntCVAROutput(stringize(expansion), expansion);
 
                 if (gamestate != GS_LEVEL)
                     gamemission = (expansion == 2 && nerve ? pack_nerve : doom2);
             }
-            else if (currentMenu == &NewDef)
+            else if (currentmenu == &NewDef)
             {
-                skilllevel = itemOn + 1;
+                skilllevel = itemon + 1;
                 M_SaveCVARs();
                 C_IntCVAROutput(stringize(skilllevel), skilllevel);
             }
-            else if (currentMenu == &SaveDef)
+            else if (currentmenu == &SaveDef)
             {
-                LoadDef.lastOn = itemOn;
-                savegame = itemOn + 1;
+                LoadDef.laston = itemon;
+                savegame = itemon + 1;
                 M_SaveCVARs();
                 C_IntCVAROutput(stringize(savegame), savegame);
             }
@@ -3256,21 +3256,21 @@ bool M_Responder(event_t *ev)
         else if (key == KEY_UPARROW && keywait < I_GetTime() && !inhelpscreens)
         {
             // Move back up to previous item
-            if (currentMenu == &LoadDef)
+            if (currentmenu == &LoadDef)
             {
-                int old = itemOn;
+                int old = itemon;
 
                 do
                 {
-                    if (!itemOn--)
-                        itemOn = currentMenu->numitems - 1;
-                } while (M_StringCompare(savegamestrings[itemOn], s_EMPTYSTRING));
+                    if (!itemon--)
+                        itemon = currentmenu->numitems - 1;
+                } while (M_StringCompare(savegamestrings[itemon], s_EMPTYSTRING));
 
-                if (itemOn != old)
+                if (itemon != old)
                     S_StartSound(NULL, sfx_pstop);
 
-                SaveDef.lastOn = itemOn;
-                savegame = itemOn + 1;
+                SaveDef.laston = itemon;
+                savegame = itemon + 1;
                 M_SaveCVARs();
                 C_IntCVAROutput(stringize(savegame), savegame);
             }
@@ -3278,52 +3278,52 @@ bool M_Responder(event_t *ev)
             {
                 do
                 {
-                    if (!itemOn--)
-                        itemOn = currentMenu->numitems - 1;
+                    if (!itemon--)
+                        itemon = currentmenu->numitems - 1;
 
-                    if (currentMenu == &MainDef)
+                    if (currentmenu == &MainDef)
                     {
-                        if (itemOn == 3 && (gamestate != GS_LEVEL || viewplayer->health <= 0))
-                            itemOn--;
+                        if (itemon == 3 && (gamestate != GS_LEVEL || viewplayer->health <= 0))
+                            itemon--;
 
-                        if (itemOn == 2 && !savegames)
-                            itemOn--;
+                        if (itemon == 2 && !savegames)
+                            itemon--;
                     }
-                    else if (currentMenu == &OptionsDef && !itemOn && gamestate != GS_LEVEL)
-                        itemOn = currentMenu->numitems - 1;
+                    else if (currentmenu == &OptionsDef && !itemon && gamestate != GS_LEVEL)
+                        itemon = currentmenu->numitems - 1;
 
-                    if (currentMenu->menuitems[itemOn].status != -1)
+                    if (currentmenu->menuitems[itemon].status != -1)
                         S_StartSound(NULL, sfx_pstop);
-                } while (currentMenu->menuitems[itemOn].status == -1);
+                } while (currentmenu->menuitems[itemon].status == -1);
             }
 
-            currentMenu->change = true;
+            currentmenu->change = true;
 
-            if (currentMenu == &EpiDef && gamemode != shareware && !EpiCustom)
+            if (currentmenu == &EpiDef && gamemode != shareware && !EpiCustom)
             {
-                episode = itemOn + 1;
+                episode = itemon + 1;
                 M_SaveCVARs();
                 C_IntCVAROutput(stringize(episode), episode);
             }
-            else if (currentMenu == &ExpDef)
+            else if (currentmenu == &ExpDef)
             {
-                expansion = itemOn + 1;
+                expansion = itemon + 1;
                 M_SaveCVARs();
                 C_IntCVAROutput(stringize(expansion), expansion);
 
                 if (gamestate != GS_LEVEL)
                     gamemission = (expansion == 2 && nerve ? pack_nerve : doom2);
             }
-            else if (currentMenu == &NewDef)
+            else if (currentmenu == &NewDef)
             {
-                skilllevel = itemOn + 1;
+                skilllevel = itemon + 1;
                 M_SaveCVARs();
                 C_IntCVAROutput(stringize(skilllevel), skilllevel);
             }
-            else if (currentMenu == &SaveDef)
+            else if (currentmenu == &SaveDef)
             {
-                LoadDef.lastOn = itemOn;
-                savegame = itemOn + 1;
+                LoadDef.laston = itemon;
+                savegame = itemon + 1;
                 M_SaveCVARs();
                 C_IntCVAROutput(stringize(savegame), savegame);
             }
@@ -3334,30 +3334,30 @@ bool M_Responder(event_t *ev)
             return false;
         }
 
-        else if ((key == KEY_LEFTARROW || (key == KEY_MINUS && !(currentMenu == &OptionsDef && itemOn == 1))) && !inhelpscreens)
+        else if ((key == KEY_LEFTARROW || (key == KEY_MINUS && !(currentmenu == &OptionsDef && itemon == 1))) && !inhelpscreens)
         {
             // Slide slider left
-            if (currentMenu->menuitems[itemOn].routine && currentMenu->menuitems[itemOn].status == 2)
-                currentMenu->menuitems[itemOn].routine(0);
-            else if (currentMenu == &OptionsDef && (itemOn == 1 || itemOn == 2) && !keydown)
+            if (currentmenu->menuitems[itemon].routine && currentmenu->menuitems[itemon].status == 2)
+                currentmenu->menuitems[itemon].routine(0);
+            else if (currentmenu == &OptionsDef && (itemon == 1 || itemon == 2) && !keydown)
             {
                 keydown = key;
-                currentMenu->menuitems[itemOn].routine(itemOn);
+                currentmenu->menuitems[itemon].routine(itemon);
                 S_StartSound(NULL, sfx_pistol);
             }
 
             return false;
         }
 
-        else if ((key == KEY_RIGHTARROW || (key == KEY_EQUALS && !(currentMenu == &OptionsDef && itemOn == 1))) && !inhelpscreens)
+        else if ((key == KEY_RIGHTARROW || (key == KEY_EQUALS && !(currentmenu == &OptionsDef && itemon == 1))) && !inhelpscreens)
         {
             // Slide slider right
-            if (currentMenu->menuitems[itemOn].routine && currentMenu->menuitems[itemOn].status == 2)
-                currentMenu->menuitems[itemOn].routine(1);
-            else if (currentMenu == &OptionsDef && (itemOn == 1 || itemOn == 2) && !keydown)
+            if (currentmenu->menuitems[itemon].routine && currentmenu->menuitems[itemon].status == 2)
+                currentmenu->menuitems[itemon].routine(1);
+            else if (currentmenu == &OptionsDef && (itemon == 1 || itemon == 2) && !keydown)
             {
                 keydown = key;
-                currentMenu->menuitems[itemOn].routine(itemOn);
+                currentmenu->menuitems[itemon].routine(itemon);
                 S_StartSound(NULL, sfx_pistol);
             }
 
@@ -3380,40 +3380,40 @@ bool M_Responder(event_t *ev)
                 return true;
             }
 
-            if (currentMenu->menuitems[itemOn].routine && currentMenu->menuitems[itemOn].status)
+            if (currentmenu->menuitems[itemon].routine && currentmenu->menuitems[itemon].status)
             {
-                if (gamemode != shareware || currentMenu != &EpiDef)
-                    currentMenu->lastOn = itemOn;
+                if (gamemode != shareware || currentmenu != &EpiDef)
+                    currentmenu->laston = itemon;
 
-                if (currentMenu->menuitems[itemOn].status == 2)
-                    currentMenu->menuitems[itemOn].routine(1);
+                if (currentmenu->menuitems[itemon].status == 2)
+                    currentmenu->menuitems[itemon].routine(1);
                 else
                 {
-                    if (gamestate != GS_LEVEL && ((currentMenu == &MainDef && itemOn == 3) || (currentMenu == &OptionsDef && !itemOn)))
+                    if (gamestate != GS_LEVEL && ((currentmenu == &MainDef && itemon == 3) || (currentmenu == &OptionsDef && !itemon)))
                         return true;
 
-                    if (currentMenu != &LoadDef)
+                    if (currentmenu != &LoadDef)
                     {
-                        if (currentMenu != &NewDef || itemOn == 4)
+                        if (currentmenu != &NewDef || itemon == 4)
                             S_StartSound(NULL, sfx_pistol);
 
-                        if (currentMenu != &NewDef && currentMenu != &SaveDef && (currentMenu != &OptionsDef || itemOn == 2))
+                        if (currentmenu != &NewDef && currentmenu != &SaveDef && (currentmenu != &OptionsDef || itemon == 2))
                             D_FadeScreen(false);
                     }
 
-                    currentMenu->menuitems[itemOn].routine(itemOn);
+                    currentmenu->menuitems[itemon].routine(itemon);
                 }
             }
 
-            if (currentMenu == &EpiDef && !EpiCustom)
+            if (currentmenu == &EpiDef && !EpiCustom)
                 C_IntCVAROutput(stringize(episode), episode);
-            else if (currentMenu == &ExpDef)
+            else if (currentmenu == &ExpDef)
                 C_IntCVAROutput(stringize(expansion), expansion);
-            else if (currentMenu == &NewDef)
+            else if (currentmenu == &NewDef)
                 C_IntCVAROutput(stringize(skilllevel), skilllevel);
 
             M_SetWindowCaption();
-            skipaction = (currentMenu == &LoadDef || currentMenu == &SaveDef || currentMenu == &NewDef);
+            skipaction = (currentmenu == &LoadDef || currentmenu == &SaveDef || currentmenu == &NewDef);
             keywait = I_GetTime() + 5;
 
             return skipaction;
@@ -3424,13 +3424,13 @@ bool M_Responder(event_t *ev)
             // Deactivate menu or go back to previous menu
             keydown = key;
 
-            if (gamemode != shareware || currentMenu != &EpiDef)
-                currentMenu->lastOn = itemOn;
+            if (gamemode != shareware || currentmenu != &EpiDef)
+                currentmenu->laston = itemon;
 
-            if (currentMenu->prevMenu && !functionkey)
+            if (currentmenu->prevmenu && !functionkey)
             {
-                currentMenu = currentMenu->prevMenu;
-                itemOn = currentMenu->lastOn;
+                currentmenu = currentmenu->prevmenu;
+                itemon = currentmenu->laston;
                 S_StartSound(NULL, sfx_swtchn);
             }
             else
@@ -3452,12 +3452,12 @@ bool M_Responder(event_t *ev)
             return true;
         }
 
-        else if (key == KEY_DELETE && !keydown && (currentMenu == &LoadDef || currentMenu == &SaveDef))
+        else if (key == KEY_DELETE && !keydown && (currentmenu == &LoadDef || currentmenu == &SaveDef))
         {
             // Delete a savegame
             keydown = key;
 
-            if (LoadGameMenu[itemOn].status)
+            if (LoadGameMenu[itemon].status)
             {
                 M_DeleteSavegame();
                 return true;
@@ -3471,59 +3471,59 @@ bool M_Responder(event_t *ev)
         // Keyboard shortcut?
         else if (key && !(SDL_GetModState() & (KMOD_ALT | KMOD_CTRL)))
         {
-            for (int i = itemOn + 1; i < currentMenu->numitems; i++)
+            for (int i = itemon + 1; i < currentmenu->numitems; i++)
             {
-                if (((currentMenu == &LoadDef || currentMenu == &SaveDef) && key == i + '1')
-                    || (currentMenu->menuitems[i].text && toupper(*currentMenu->menuitems[i].text[0]) == toupper(key)))
+                if (((currentmenu == &LoadDef || currentmenu == &SaveDef) && key == i + '1')
+                    || (currentmenu->menuitems[i].text && toupper(*currentmenu->menuitems[i].text[0]) == toupper(key)))
                 {
-                    if (currentMenu == &MainDef)
+                    if (currentmenu == &MainDef)
                     {
                         if ((i == 2 && !savegames) || (i == 3 && (gamestate != GS_LEVEL || viewplayer->health <= 0)))
                             return true;
                     }
-                    else if (currentMenu == &OptionsDef && !i && gamestate != GS_LEVEL)
+                    else if (currentmenu == &OptionsDef && !i && gamestate != GS_LEVEL)
                         return true;
-                    else if (currentMenu == &LoadDef && M_StringCompare(savegamestrings[i], s_EMPTYSTRING))
+                    else if (currentmenu == &LoadDef && M_StringCompare(savegamestrings[i], s_EMPTYSTRING))
                         return true;
 
-                    if (itemOn != i)
+                    if (itemon != i)
                         S_StartSound(NULL, sfx_pstop);
 
-                    itemOn = i;
-                    currentMenu->change = true;
+                    itemon = i;
+                    currentmenu->change = true;
 
-                    if (currentMenu == &EpiDef && gamemode != shareware && !EpiCustom)
+                    if (currentmenu == &EpiDef && gamemode != shareware && !EpiCustom)
                     {
-                        episode = itemOn + 1;
+                        episode = itemon + 1;
                         M_SaveCVARs();
                         C_IntCVAROutput(stringize(episode), episode);
                     }
-                    else if (currentMenu == &ExpDef)
+                    else if (currentmenu == &ExpDef)
                     {
-                        expansion = itemOn + 1;
+                        expansion = itemon + 1;
                         M_SaveCVARs();
                         C_IntCVAROutput(stringize(expansion), expansion);
 
                         if (gamestate != GS_LEVEL)
                             gamemission = (expansion == 2 && nerve ? pack_nerve : doom2);
                     }
-                    else if (currentMenu == &NewDef)
+                    else if (currentmenu == &NewDef)
                     {
-                        skilllevel = itemOn + 1;
+                        skilllevel = itemon + 1;
                         M_SaveCVARs();
                         C_IntCVAROutput(stringize(skilllevel), skilllevel);
                     }
-                    else if (currentMenu == &SaveDef)
+                    else if (currentmenu == &SaveDef)
                     {
-                        LoadDef.lastOn = itemOn;
-                        savegame = itemOn + 1;
+                        LoadDef.laston = itemon;
+                        savegame = itemon + 1;
                         M_SaveCVARs();
                         C_IntCVAROutput(stringize(savegame), savegame);
                     }
-                    else if (currentMenu == &LoadDef)
+                    else if (currentmenu == &LoadDef)
                     {
-                        SaveDef.lastOn = itemOn;
-                        savegame = itemOn + 1;
+                        SaveDef.laston = itemon;
+                        savegame = itemon + 1;
                         M_SaveCVARs();
                         C_IntCVAROutput(stringize(savegame), savegame);
                     }
@@ -3533,59 +3533,59 @@ bool M_Responder(event_t *ev)
                 }
             }
 
-            for (int i = 0; i <= itemOn; i++)
+            for (int i = 0; i <= itemon; i++)
             {
-                if (((currentMenu == &LoadDef || currentMenu == &SaveDef) && key == i + '1')
-                    || (currentMenu->menuitems[i].text && toupper(*currentMenu->menuitems[i].text[0]) == toupper(key)))
+                if (((currentmenu == &LoadDef || currentmenu == &SaveDef) && key == i + '1')
+                    || (currentmenu->menuitems[i].text && toupper(*currentmenu->menuitems[i].text[0]) == toupper(key)))
                 {
-                    if (currentMenu == &MainDef)
+                    if (currentmenu == &MainDef)
                     {
                         if ((i == 2 && !savegames) || (i == 3 && (gamestate != GS_LEVEL || viewplayer->health <= 0)))
                             return true;
                     }
-                    else if (currentMenu == &OptionsDef && !i && gamestate != GS_LEVEL)
+                    else if (currentmenu == &OptionsDef && !i && gamestate != GS_LEVEL)
                         return true;
-                    else if (currentMenu == &LoadDef && M_StringCompare(savegamestrings[i], s_EMPTYSTRING))
+                    else if (currentmenu == &LoadDef && M_StringCompare(savegamestrings[i], s_EMPTYSTRING))
                         return true;
 
-                    if (itemOn != i)
+                    if (itemon != i)
                         S_StartSound(NULL, sfx_pstop);
 
-                    itemOn = i;
-                    currentMenu->change = true;
+                    itemon = i;
+                    currentmenu->change = true;
 
-                    if (currentMenu == &EpiDef && gamemode != shareware && !EpiCustom)
+                    if (currentmenu == &EpiDef && gamemode != shareware && !EpiCustom)
                     {
-                        episode = itemOn + 1;
+                        episode = itemon + 1;
                         M_SaveCVARs();
                         C_IntCVAROutput(stringize(episode), episode);
                     }
-                    else if (currentMenu == &ExpDef)
+                    else if (currentmenu == &ExpDef)
                     {
-                        expansion = itemOn + 1;
+                        expansion = itemon + 1;
                         M_SaveCVARs();
                         C_IntCVAROutput(stringize(expansion), expansion);
 
                         if (gamestate != GS_LEVEL)
                             gamemission = (expansion == 2 && nerve ? pack_nerve : doom2);
                     }
-                    else if (currentMenu == &NewDef)
+                    else if (currentmenu == &NewDef)
                     {
-                        skilllevel = itemOn + 1;
+                        skilllevel = itemon + 1;
                         M_SaveCVARs();
                         C_IntCVAROutput(stringize(skilllevel), skilllevel);
                     }
-                    else if (currentMenu == &SaveDef)
+                    else if (currentmenu == &SaveDef)
                     {
-                        LoadDef.lastOn = itemOn;
-                        savegame = itemOn + 1;
+                        LoadDef.laston = itemon;
+                        savegame = itemon + 1;
                         M_SaveCVARs();
                         C_IntCVAROutput(stringize(savegame), savegame);
                     }
-                    else if (currentMenu == &LoadDef)
+                    else if (currentmenu == &LoadDef)
                     {
-                        SaveDef.lastOn = itemOn;
-                        savegame = itemOn + 1;
+                        SaveDef.laston = itemon;
+                        savegame = itemon + 1;
                         M_SaveCVARs();
                         C_IntCVAROutput(stringize(savegame), savegame);
                     }
@@ -3610,8 +3610,8 @@ void M_StartControlPanel(void)
         return;
 
     menuactive = true;
-    currentMenu = &MainDef;
-    itemOn = currentMenu->lastOn;
+    currentmenu = &MainDef;
+    itemon = currentmenu->laston;
 
     if (joy_rumble_damage || joy_rumble_barrels || joy_rumble_weapons)
     {
@@ -3674,17 +3674,17 @@ void M_Drawer(void)
 
         M_DrawMenuBackground();
 
-        y = (VANILLAHEIGHT - M_StringHeight(messageString)) / 2;
+        y = (VANILLAHEIGHT - M_StringHeight(messagestring)) / 2;
 
-        while (messageString[start] != '\0')
+        while (messagestring[start] != '\0')
         {
-            const int   len = (int)strlen(messageString + start);
+            const int   len = (int)strlen(messagestring + start);
             bool        foundnewline = false;
 
             for (int i = 0; i < len; i++)
-                if (messageString[start + i] == '\n')
+                if (messagestring[start + i] == '\n')
                 {
-                    M_StringCopy(string, messageString + start, sizeof(string));
+                    M_StringCopy(string, messagestring + start, sizeof(string));
 
                     if (i < sizeof(string))
                         string[i] = '\0';
@@ -3696,7 +3696,7 @@ void M_Drawer(void)
 
             if (!foundnewline)
             {
-                M_StringCopy(string, messageString + start, sizeof(string));
+                M_StringCopy(string, messagestring + start, sizeof(string));
                 start += (int)strlen(string);
             }
 
@@ -3718,49 +3718,49 @@ void M_Drawer(void)
         return;
     }
 
-    if (currentMenu->routine)
-        currentMenu->routine();         // call draw routine
+    if (currentmenu->routine)
+        currentmenu->routine();         // call draw routine
 
     // DRAW MENU
-    x = currentMenu->x;
-    y = currentMenu->y;
+    x = currentmenu->x;
+    y = currentmenu->y;
 
-    if (currentMenu != &ReadDef)
+    if (currentmenu != &ReadDef)
     {
         // DRAW SKULL
         const char  *skullname[] = { "M_SKULL1", "M_SKULL2" };
-        patch_t     *skullpatch = W_CacheLumpName(skullname[whichSkull]);
+        patch_t     *skullpatch = W_CacheLumpName(skullname[whichskull]);
 
-        if (currentMenu == &LoadDef || currentMenu == &SaveDef)
+        if (currentmenu == &LoadDef || currentmenu == &SaveDef)
         {
-            if (currentMenu == &LoadDef)
+            if (currentmenu == &LoadDef)
             {
-                int old = itemOn;
+                int old = itemon;
 
-                while (M_StringCompare(savegamestrings[itemOn], s_EMPTYSTRING))
-                    itemOn = (!itemOn ? currentMenu->numitems - 1 : itemOn - 1);
+                while (M_StringCompare(savegamestrings[itemon], s_EMPTYSTRING))
+                    itemon = (!itemon ? currentmenu->numitems - 1 : itemon - 1);
 
-                if (itemOn != old)
+                if (itemon != old)
                 {
-                    SaveDef.lastOn = itemOn;
-                    savegame = itemOn + 1;
+                    SaveDef.laston = itemon;
+                    savegame = itemon + 1;
                     M_SaveCVARs();
                     C_IntCVAROutput(stringize(savegame), savegame);
                 }
             }
 
             if (M_SKULL1)
-                M_DrawPatchWithShadow(x - 43, y + itemOn * LINEHEIGHT - 8 + OFFSET + (chex ? 1 : 0), skullpatch);
+                M_DrawPatchWithShadow(x - 43, y + itemon * LINEHEIGHT - 8 + OFFSET + (chex ? 1 : 0), skullpatch);
             else
-                M_DrawPatchWithShadow(x - 37, y + itemOn * LINEHEIGHT - 7 + OFFSET, skullpatch);
+                M_DrawPatchWithShadow(x - 37, y + itemon * LINEHEIGHT - 7 + OFFSET, skullpatch);
         }
         else
         {
-            const int   yy = y + itemOn * (LINEHEIGHT - 1) - 5 + OFFSET + (chex ? 1 : 0);
-            const int   max = currentMenu->numitems;
+            const int   yy = y + itemon * (LINEHEIGHT - 1) - 5 + OFFSET + (chex ? 1 : 0);
+            const int   max = currentmenu->numitems;
 
-            if (currentMenu == &OptionsDef && !itemOn && gamestate != GS_LEVEL)
-                itemOn++;
+            if (currentmenu == &OptionsDef && !itemon && gamestate != GS_LEVEL)
+                itemon++;
 
             if (M_SKULL1)
                 M_DrawPatchWithShadow(x - 30, yy, skullpatch);
@@ -3769,10 +3769,10 @@ void M_Drawer(void)
 
             for (int i = 0; i < max; i++)
             {
-                if (currentMenu->menuitems[i].routine)
+                if (currentmenu->menuitems[i].routine)
                 {
-                    char    *name = currentMenu->menuitems[i].name;
-                    char    **text = currentMenu->menuitems[i].text;
+                    char    *name = currentmenu->menuitems[i].name;
+                    char    **text = currentmenu->menuitems[i].text;
 
                     if (M_StringCompare(name, "M_EPI5") && sigil)
                     {
@@ -3858,9 +3858,9 @@ void M_ClearMenus(void)
 //
 static void M_SetupNextMenu(menu_t *menudef)
 {
-    currentMenu = menudef;
-    itemOn = currentMenu->lastOn;
-    whichSkull = 0;
+    currentmenu = menudef;
+    itemon = currentmenu->laston;
+    whichskull = 0;
 }
 
 //
@@ -3868,10 +3868,10 @@ static void M_SetupNextMenu(menu_t *menudef)
 //
 void M_Ticker(void)
 {
-    if ((!saveStringEnter || !whichSkull) && windowfocused && --skullAnimCounter <= 0)
+    if ((!savestringenter || !whichskull) && windowfocused && --skullanimcounter <= 0)
     {
-        whichSkull ^= 1;
-        skullAnimCounter = 8;
+        whichskull ^= 1;
+        skullanimcounter = 8;
     }
 }
 
@@ -3882,14 +3882,14 @@ void M_Init(void)
 {
     M_BigSeed((unsigned int)time(NULL));
 
-    currentMenu = &MainDef;
+    currentmenu = &MainDef;
     menuactive = false;
-    itemOn = currentMenu->lastOn;
-    skullAnimCounter = 10;
+    itemon = currentmenu->laston;
+    skullanimcounter = 10;
     messagetoprint = false;
-    messageString = NULL;
-    messageLastMenuActive = false;
-    quickSaveSlot = -1;
+    messagestring = NULL;
+    messagelastmenuactive = false;
+    quicksaveslot = -1;
     menuspindirection = ((M_Random() & 1) ? 1 : -1);
 
     menuborder = W_CacheLastLumpName("DRBORDER");
@@ -3904,26 +3904,26 @@ void M_Init(void)
     }
 
     if (gamemode != shareware)
-        EpiDef.lastOn = episode - 1;
+        EpiDef.laston = episode - 1;
 
-    ExpDef.lastOn = expansion - 1;
-    NewDef.lastOn = skilllevel - 1;
-    SaveDef.lastOn = LoadDef.lastOn = savegame - 1;
+    ExpDef.laston = expansion - 1;
+    NewDef.laston = skilllevel - 1;
+    SaveDef.laston = LoadDef.laston = savegame - 1;
 
-    if (!*savegamestrings[SaveDef.lastOn])
-        while (SaveDef.lastOn && !*savegamestrings[SaveDef.lastOn])
-            SaveDef.lastOn--;
+    if (!*savegamestrings[SaveDef.laston])
+        while (SaveDef.laston && !*savegamestrings[SaveDef.laston])
+            SaveDef.laston--;
 
-    OptionsDef.lastOn = msgs;
+    OptionsDef.laston = msgs;
     M_ReadSaveStrings();
 
     if (chex)
     {
         MainDef.x += 20;
-        NewDef.prevMenu = &MainDef;
+        NewDef.prevmenu = &MainDef;
     }
     else if (gamemode == commercial)
-        NewDef.prevMenu = (nerve ? &ExpDef : &MainDef);
+        NewDef.prevmenu = (nerve ? &ExpDef : &MainDef);
     else if (gamemode == registered || W_CheckNumForName("E4M1") < 0)
         EpiDef.numitems = 3;
     else if (gamemode == retail && sigil)
@@ -3931,9 +3931,9 @@ void M_Init(void)
     else
         EpiDef.numitems = 4;
 
-    if (EpiDef.lastOn >= EpiDef.numitems)
+    if (EpiDef.laston >= EpiDef.numitems)
     {
-        EpiDef.lastOn = 0;
+        EpiDef.laston = 0;
         episode = 1;
         M_SaveCVARs();
     }

@@ -51,12 +51,12 @@ typedef struct
 typedef struct menu_s
 {
     short           numitems;
-    struct menu_s   *prevMenu;
+    struct menu_s   *prevmenu;
     menuitem_t      *menuitems;
     void            (*routine)(void);
     short           x;
     short           y;
-    int             lastOn;
+    int             laston;
     bool            change;
 } menu_t;
 

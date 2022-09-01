@@ -1026,13 +1026,13 @@ bool ST_Responder(event_t *ev)
                     if (gamemission == doom)
                     {
                         episode = gameepisode;
-                        EpiDef.lastOn = episode - 1;
+                        EpiDef.laston = episode - 1;
                         M_SaveCVARs();
                     }
 
                     gamemap = map;
                     idclevtics = MAPCHANGETICS;
-                    quickSaveSlot = -1;
+                    quicksaveslot = -1;
                     drawdisk = true;
                 }
             }

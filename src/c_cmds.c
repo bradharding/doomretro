@@ -3905,12 +3905,12 @@ static void map_cmd_func2(char *cmd, char *parms)
     if (gamemission == doom)
     {
         episode = gameepisode;
-        EpiDef.lastOn = episode - 1;
+        EpiDef.laston = episode - 1;
     }
 
     gamemap = mapcmdmap;
 
-    quickSaveSlot = -1;
+    quicksaveslot = -1;
 
     if (gamestate == GS_LEVEL)
     {
@@ -6444,7 +6444,7 @@ static void restartmap_cmd_func2(char *cmd, char *parms)
     if (M_StringCompare(mapnum, "E1M4B") || M_StringCompare(mapnum, "E1M8B"))
         M_StringCopy(speciallumpname, mapnum, sizeof(speciallumpname));
 
-    quickSaveSlot = -1;
+    quicksaveslot = -1;
 
     G_DoLoadLevel();
     C_HideConsoleFast();
@@ -8201,7 +8201,7 @@ static void episode_cvar_func2(char *cmd, char *parms)
     int_cvars_func2(cmd, parms);
 
     if (episode != episode_old && gamemode != commercial)
-        EpiDef.lastOn = (gamemode == registered ? MIN(episode, episode_max - 1) : (gamemode == retail ? episode : 1)) - 1;
+        EpiDef.laston = (gamemode == registered ? MIN(episode, episode_max - 1) : (gamemode == retail ? episode : 1)) - 1;
 }
 
 //
@@ -8215,7 +8215,7 @@ static void expansion_cvar_func2(char *cmd, char *parms)
 
     if (expansion != expansion_old && gamemode == commercial)
     {
-        ExpDef.lastOn = (nerve ? expansion - 1 : 0);
+        ExpDef.laston = (nerve ? expansion - 1 : 0);
 
         if (gamestate != GS_LEVEL)
             gamemission = (expansion == 2 && nerve ? pack_nerve : doom2);
@@ -9606,8 +9606,8 @@ static void savegame_cvar_func2(char *cmd, char *parms)
 
     if (savegame != savegame_old)
     {
-        SaveDef.lastOn = savegame - 1;
-        LoadDef.lastOn = savegame - 1;
+        SaveDef.laston = savegame - 1;
+        LoadDef.laston = savegame - 1;
     }
 }
 
@@ -9623,7 +9623,7 @@ static void skilllevel_cvar_func2(char *cmd, char *parms)
     if (skilllevel != skilllevel_old)
     {
         pendinggameskill = skilllevel;
-        NewDef.lastOn = skilllevel - 1;
+        NewDef.laston = skilllevel - 1;
     }
 }
 

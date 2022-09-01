@@ -952,7 +952,7 @@ void G_Ticker(void)
                 break;
 
             case ga_autoloadgame:
-                M_StringCopy(savename, P_SaveGameFile(quickSaveSlot), sizeof(savename));
+                M_StringCopy(savename, P_SaveGameFile(quicksaveslot), sizeof(savename));
                 G_DoLoadGame();
                 break;
 
@@ -1127,7 +1127,7 @@ void G_PlayerReborn(void)
 //
 static void G_DoReborn(void)
 {
-    if (quickSaveSlot >= 0 && autoload && !pistolstart)
+    if (quicksaveslot >= 0 && autoload && !pistolstart)
         gameaction = ga_autoloadgame;
     else
     {
@@ -1268,7 +1268,7 @@ static void G_DoCompleted(void)
                 if ((gamemode == registered && gameepisode < 3) || (gamemode == retail && gameepisode < (sigil ? 5 : 4)))
                 {
                     episode++;
-                    EpiDef.lastOn++;
+                    EpiDef.laston++;
                     M_SaveCVARs();
                 }
 
@@ -1461,7 +1461,7 @@ static void G_DoWorldDone(void)
     G_DoLoadLevel();
     viewactive = true;
 
-    if (quickSaveSlot >= 0 && autosave && !pistolstart)
+    if (quicksaveslot >= 0 && autosave && !pistolstart)
         gameaction = ga_autosavegame;
 }
 
@@ -1595,8 +1595,8 @@ static void G_DoSaveGame(void)
 
         if (gameaction == ga_autosavegame)
         {
-            M_UpdateSaveGameName(quickSaveSlot);
-            M_StringCopy(savedescription, savegamestrings[quickSaveSlot], sizeof(savedescription));
+            M_UpdateSaveGameName(quicksaveslot);
+            M_StringCopy(savedescription, savegamestrings[quicksaveslot], sizeof(savedescription));
         }
 
         P_WriteSaveGameHeader(savedescription);
