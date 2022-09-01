@@ -3,6 +3,7 @@
 #### DOOM Retro v4.6.3
 
 * The external automap is now black rather than dark blue when the <kbd>F1</kbd> key is pressed to display the help screen.
+* When toggling widescreen using the <kbd>+</kbd> key, the player’s vertical field of view now zooms in slightly.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
