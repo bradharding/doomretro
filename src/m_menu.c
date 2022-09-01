@@ -546,13 +546,13 @@ void M_DrawMenuBackground(void)
 
     memcpy(screens[0], blurscreen, SCREENAREA);
 
-    if (mapwindow)
-        memset(mapscreen, nearestblack, MAPAREA);
-
     M_DrawMenuBorder();
 
     if (r_detail == r_detail_low)
         V_LowGraphicDetail_Menu();
+
+    if (mapwindow)
+        memset(mapscreen, nearestblack, MAPAREA);
 }
 
 static byte blues[] =
@@ -794,17 +794,13 @@ static void M_DrawCenteredPatchWithShadow(int y, patch_t *patch)
 //
 static void M_ReadSaveStrings(void)
 {
-    char    name[256];
-
     savegames = false;
 
     for (int i = 0; i < load_end; i++)
     {
-        FILE    *handle;
+        FILE    *handle = fopen(P_SaveGameFile(i), "rb");
 
-        M_StringCopy(name, P_SaveGameFile(i), sizeof(name));
-
-        if (!(handle = fopen(name, "rb")))
+        if (!handle)
         {
             M_StringCopy(&savegamestrings[i][0], s_EMPTYSTRING, sizeof(savegamestrings[0]));
             LoadGameMenu[i].status = 0;

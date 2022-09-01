@@ -2,6 +2,8 @@
 
 #### DOOM Retro v4.6.3
 
+* The external automap is now black rather than dark blue when the <kbd>F1</kbd> key is pressed to display the help screen.
+
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Thursday, September 1, 2022
