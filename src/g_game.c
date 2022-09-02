@@ -1577,7 +1577,7 @@ void G_SaveGame(int slot, char *description, char *name)
 static void G_DoSaveGame(void)
 {
     char    *temp_savegame_file = P_TempSaveGameFile();
-    char    *savegame_file = (consoleactive ? savename : P_SaveGameFile(savegameslot));
+    char    *savegame_file = (consoleactive || !*savedescription ? savename : P_SaveGameFile(savegameslot));
 
     // Open the savegame file for writing. We write to a temporary file
     // and then rename it at the end if it was successfully written.
@@ -1624,6 +1624,9 @@ static void G_DoSaveGame(void)
 
         if (!consolestrings || !M_StringStartsWith(console[consolestrings - 1].string, "save "))
             C_Input("save %s", savegame_file);
+
+        if (!*savedescription)
+            M_StringCopy(savedescription, maptitle, sizeof(savedescription));
 
         if (consoleactive)
             C_Output(BOLD("%s") " was saved.", savename);
