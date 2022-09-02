@@ -1066,7 +1066,15 @@ bool I_CreateExternalAutomap(void)
 
     GetDisplays();
 
-    if (am_display > numdisplays || am_display == vid_display)
+    if (am_display == vid_display)
+    {
+        if (!togglingvanilla)
+            C_Warning(1, "An external automap couldn't be created. "
+                "The " BOLD("am_display") " and " BOLD("vid_display") " CVARs are both %i.", am_display);
+
+        return false;
+    }
+    else if (am_display > numdisplays)
     {
         if (!togglingvanilla)
             C_Warning(1, "An external automap couldn't be created. Display %i wasn't found.", am_display);
