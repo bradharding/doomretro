@@ -2,7 +2,7 @@
 
 #### DOOM Retro v4.6.3
 
-* The external automap now clears to black rather than dark blue when the <kbd>F1</kbd> key is pressed to display the help screen.
+* The external automap now goes black rather than dark blue when the <kbd>F1</kbd> key is pressed to display the help screen.
 * When toggling widescreen using the <kbd>+</kbd> key, the player’s vertical field of view now zooms in slightly.
 * A crash no longer occurs if the `save` CCMD is bound to a control using the `bind` CCMD.
 

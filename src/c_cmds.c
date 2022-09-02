@@ -1528,10 +1528,18 @@ void bind_cmd_func2(char *cmd, char *parms)
                 action++;
             }
 
-            if (controls[i].type == keyboardcontrol)
+            if (controls[i].type == keyboardcontrol && keyactionlist[controls[i].value])
+            {
+                C_Output(BOLD("\"%s\"") " has been unbound from the " BOLD("%s") " control.",
+                    keyactionlist[controls[i].value], controls[i].control);
                 keyactionlist[controls[i].value][0] = '\0';
-            else if (controls[i].type == mousecontrol)
+            }
+            else if (controls[i].type == mousecontrol && mouseactionlist[controls[i].value])
+            {
+                C_Output(BOLD("\"%s\"") " has been unbound from the " BOLD("%s") " control.",
+                    mouseactionlist[controls[i].value], controls[i].control);
                 mouseactionlist[controls[i].value][0] = '\0';
+            }
         }
         else if (!*parm2)
         {
@@ -1685,11 +1693,13 @@ void bind_cmd_func2(char *cmd, char *parms)
                 if (controls[i].type == keyboardcontrol)
                 {
                     M_StringCopy(keyactionlist[controls[i].value], parm2, sizeof(keyactionlist[0]));
+                    C_Output(BOLD("\"%s\"") " has been bound to the " BOLD("%s") " control.", parm2, controls[i].control);
                     M_SaveCVARs();
                 }
                 else if (controls[i].type == mousecontrol)
                 {
                     M_StringCopy(mouseactionlist[controls[i].value], parm2, sizeof(mouseactionlist[0]));
+                    C_Output(BOLD("\"%s\"") " has been bound to the " BOLD("%s") " control.", parm2, controls[i].control);
                     M_SaveCVARs();
                 }
             }
