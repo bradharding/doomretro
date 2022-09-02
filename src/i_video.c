@@ -1069,15 +1069,14 @@ bool I_CreateExternalAutomap(void)
     if (am_display == vid_display)
     {
         if (!togglingvanilla)
-            C_Warning(1, "An external automap couldn't be created. "
-                "The " BOLD("am_display") " and " BOLD("vid_display") " CVARs are both %i.", am_display);
+            C_Warning(1, "The external automap can't be shown on this display.");
 
         return false;
     }
     else if (am_display > numdisplays)
     {
         if (!togglingvanilla)
-            C_Warning(1, "An external automap couldn't be created. Display %i wasn't found.", am_display);
+            C_Warning(1, "The external automap can't be shown. Display %i wasn't found.", am_display);
 
         return false;
     }
@@ -1151,9 +1150,9 @@ bool I_CreateExternalAutomap(void)
     map_rect.h = MAPHEIGHT;
 
     if ((displayname = SDL_GetDisplayName(am_display - 1)))
-        C_Output("Using \"%s\" (display %i of %i) to show an external automap.", displayname, am_display, numdisplays);
+        C_Output("Using \"%s\" (display %i of %i) to show the external automap.", displayname, am_display, numdisplays);
     else
-        C_Output("Using display %i of %i to show an external automap.", am_display, numdisplays);
+        C_Output("Using display %i of %i to show the external automap.", am_display, numdisplays);
 
     return true;
 }
