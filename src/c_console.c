@@ -1341,8 +1341,8 @@ void C_Drawer(void)
     int         i;
     int         x = CONSOLEINPUTX;
     int         y = CONSOLELINEHEIGHT * (CONSOLELINES - 1) - CONSOLELINEHEIGHT / 2 + 1;
-    const int   bottomline = (outputhistory == -1 ? consolestrings : outputhistory + CONSOLELINES)
-                    - (gamestate != GS_TITLESCREEN ? 2 : 4);
+    const int   bottomline = (outputhistory == -1 ? consolestrings - 1 : outputhistory + CONSOLELINES
+                    - (gamestate != GS_TITLESCREEN ? 2 : 4));
     int         len;
     char        partialinput[255];
     const bool  prevconsoleactive = consoleactive;
