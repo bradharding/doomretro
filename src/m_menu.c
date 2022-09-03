@@ -1319,6 +1319,8 @@ static void M_QuickLoadResponse(int key)
 
 static void M_QuickLoad(void)
 {
+    S_StartSound(NULL, sfx_swtchn);
+
     if (quicksaveslot < 0)
     {
         functionkey = 0;
@@ -1328,8 +1330,6 @@ static void M_QuickLoad(void)
 
         return;
     }
-
-    S_StartSound(NULL, sfx_swtchn);
 
     if (M_StringEndsWith(s_QLPROMPT, s_PRESSYN))
         M_StartMessage(s_QLPROMPT, &M_QuickLoadResponse, true);
