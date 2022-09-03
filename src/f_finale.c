@@ -57,6 +57,7 @@
 #include "v_data.h"
 #include "v_video.h"
 #include "w_wad.h"
+#include "wi_stuff.h"
 #include "z_zone.h"
 
 typedef enum
@@ -86,8 +87,6 @@ void WI_CheckForAccelerate(void);
 void A_RandomJump(mobj_t *actor, player_t *player, pspdef_t *psp);
 
 static bool             midstage;               // whether we're in "mid-stage"
-
-extern bool             acceleratestage;        // accelerate intermission screens
 
 //
 // F_ConsoleFinaleText

@@ -45,13 +45,11 @@
 
 #include "d_main.h"
 #include "i_gamecontroller.h"
+#include "i_video.h"
 #include "m_argv.h"
 #include "m_config.h"
 #include "m_misc.h"
 #include "version.h"
-
-int windowborderwidth = 0;
-int windowborderheight = 0;
 
 #if defined(_WIN32)
 #if !defined(SM_CXPADDEDBORDER)

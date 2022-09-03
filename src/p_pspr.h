@@ -82,3 +82,4 @@ void P_EquipWeapon(const weapontype_t weapon);
 void A_Recoil(const weapontype_t weapon);
 
 extern bool skippsprinterp;
+extern bool successfulshot;

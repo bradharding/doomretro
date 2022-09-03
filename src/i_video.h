@@ -102,6 +102,8 @@ extern int          windowx;
 extern int          windowy;
 extern int          windowheight;
 extern int          windowwidth;
+extern int          windowborderwidth;
+extern int          windowborderheight;
 
 extern bool         windowfocused;
 
@@ -118,3 +120,5 @@ extern bool         altdown;
 
 extern int          framespersecond;
 extern int          refreshrate;
+extern uint64_t     starttime;
+extern int          frames;

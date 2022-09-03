@@ -93,8 +93,6 @@ bool            infight;
 
 static mobj_t   *onmobj;
 
-extern bool     successfulshot;
-
 //
 // TELEPORT MOVE
 //

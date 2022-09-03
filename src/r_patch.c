@@ -407,8 +407,8 @@ static void createTextureCompositePatch(int id)
 
         for (int x = 0; x < SHORT(oldPatch->width); x++)
         {
-            int top = -1;
-            int tx = texpatch->originx + x;
+            int         top = -1;
+            const int   tx = texpatch->originx + x;
 
             if (tx < 0)
                 continue;
@@ -461,7 +461,7 @@ static void createTextureCompositePatch(int id)
                 // fill in the post's pixels
                 for (int y = 0; y < count; y++)
                 {
-                    int ty = oy + top + y;
+                    const int   ty = oy + top + y;
 
                     if (ty < 0)
                         continue;
@@ -502,7 +502,7 @@ static void createTextureCompositePatch(int id)
 
             if (post1->topdelta + post1->length >= post2->topdelta)
             {
-                int length = post1->length + post2->length - (post1->topdelta + post1->length - post2->topdelta);
+                const int   length = post1->length + post2->length - (post1->topdelta + post1->length - post2->topdelta);
 
                 if (post1->length < length)
                     post1->length = length;

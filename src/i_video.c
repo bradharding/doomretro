@@ -204,8 +204,8 @@ static bool         capslock;
 
 evtype_t            lasteventtype = ev_none;
 
-extern int          windowborderwidth;
-extern int          windowborderheight;
+int                 windowborderwidth = 0;
+int                 windowborderheight = 0;
 
 bool MouseShouldBeGrabbed(void)
 {

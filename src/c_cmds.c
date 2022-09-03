@@ -9944,9 +9944,6 @@ static void vid_screenresolution_cvar_func2(char *cmd, char *parms)
 //
 // vid_showfps CVAR
 //
-extern uint64_t starttime;
-extern int      frames;
-
 static void vid_showfps_cvar_func2(char *cmd, char *parms)
 {
     const bool  vid_showfps_old = vid_showfps;

@@ -133,8 +133,6 @@ static void P_SpawnScrollers(void);
 static void P_SpawnFriction(void);  // phares 03/16/98
 static void P_SpawnPushers(void);   // phares 03/20/98
 
-extern int  numflats;
-
 static struct
 {
     char            *startname;

@@ -58,3 +58,5 @@ void WI_Start(wbstartstruct_t *wbstartstruct);
 
 // Shut down the intermission screen
 void WI_End(void);
+
+extern bool acceleratestage;    // accelerate intermission screens

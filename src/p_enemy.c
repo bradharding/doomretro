@@ -272,10 +272,6 @@ static int P_IsUnderDamage(mobj_t *actor)
 static const fixed_t    xspeed[] = { FRACUNIT, 47000, 0, -47000, -FRACUNIT, -47000, 0, 47000 };
 static const fixed_t    yspeed[] = { 0, 47000, FRACUNIT, 47000, 0, -47000, -FRACUNIT, -47000 };
 
-// killough 01/11/98: Limit removed on special lines crossed
-extern line_t   **spechit;
-extern int      numspechit;
-
 static bool P_Move(mobj_t *actor, const int dropoff)    // killough 09/12/98
 {
     fixed_t tryx, tryy;

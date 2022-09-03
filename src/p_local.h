@@ -241,6 +241,10 @@ extern msecnode_t   *sector_list;
 extern line_t       *ceilingline;
 extern line_t       *blockline;
 
+// killough 01/11/98: Limit removed on special lines crossed
+extern line_t       **spechit;
+extern int          numspechit;
+
 extern bool         infight;
 extern bool         hitwall;
 
