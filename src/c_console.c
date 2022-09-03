@@ -1341,12 +1341,13 @@ void C_Drawer(void)
     int         i;
     int         x = CONSOLEINPUTX;
     int         y = CONSOLELINEHEIGHT * (CONSOLELINES - 1) - CONSOLELINEHEIGHT / 2 + 1;
-    int         bottomline = (outputhistory == -1 ? consolestrings : outputhistory + CONSOLELINES) - 1;
+    const int   bottomline = (outputhistory == -1 ? consolestrings : outputhistory + CONSOLELINES)
+                    - (gamestate != GS_TITLESCREEN ? 2 : 4);
     int         len;
     char        partialinput[255];
     const bool  prevconsoleactive = consoleactive;
     static int  consolewait;
-    int         tics = I_GetTimeMS();
+    const int   tics = I_GetTimeMS();
     const int   notabs[3] = { 0 };
 
     // adjust console height
