@@ -1923,7 +1923,6 @@ static void D_DoomMainSetup(void)
     M_MakeDirectory(appdatafolder);
     packageconfig = (p ? M_StringDuplicate(myargv[p + 1]) : M_StringJoin(appdatafolder, DIR_SEPARATOR_S, DOOMRETRO_CONFIG, NULL));
 
-    C_Output("");
     C_PrintCompileDate();
 
 #if defined(_WIN32)

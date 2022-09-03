@@ -5,7 +5,7 @@
 * Minor changes have been made to text that is output to the console.
 * The external automap now goes black rather than a dark blue when pressing the <kbd>F1</kbd> key to display the help screen.
 * The following changes have been made when pressing the <kbd>F9</kbd> key to quickload a savegame:
-  * The load game menu now opens if a savegame hasn’t been chosen yet.
+  * The load game menu now opens if the game hasn’t been saved yet.
   * The background of the confirmation message now displays correctly.
   * There is no longer an erroneous fade transition upon pressing the <kbd>Y</kbd> key if the `fade` CVAR is `on`.
 * When toggling widescreen mode pressing the <kbd>+</kbd> key, the player’s vertical field of view now zooms in slightly.
