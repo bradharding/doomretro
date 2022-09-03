@@ -1310,6 +1310,11 @@ static void M_QuickLoadResponse(int key)
         M_LoadSelect(quicksaveslot);
         S_StartSound(NULL, sfx_swtchx);
     }
+    else
+    {
+        functionkey = 0;
+        M_ClearMenus();
+    }
 }
 
 static void M_QuickLoad(void)
@@ -1317,6 +1322,10 @@ static void M_QuickLoad(void)
     if (quicksaveslot < 0)
     {
         functionkey = 0;
+
+        if (savegames)
+            M_LoadGame(0);
+
         return;
     }
 
@@ -3099,6 +3108,7 @@ bool M_Responder(event_t *ev)
         {
             keydown = key;
             functionkey = KEY_F9;
+            M_StartControlPanel();
             M_QuickLoad();
 
             return true;
