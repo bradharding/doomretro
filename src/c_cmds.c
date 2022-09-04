@@ -1917,7 +1917,7 @@ static void condump_cmd_func2(char *cmd, char *parms)
     {
         char    *temp = commify((int64_t)consolestrings - 2);
 
-        for (int i = 1; i < consolestrings - 1; i++)
+        for (int i = 0; i < consolestrings - 1; i++)
             if (console[i].stringtype == dividerstring)
                 fprintf(file, "%s\n", DIVIDERSTRING);
             else
