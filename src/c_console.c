@@ -354,13 +354,13 @@ void C_PlayerMessage(const char *string, ...)
 {
     va_list     argptr;
     char        buffer[CONSOLETEXTMAXLENGTH];
-    const int   i = consolestrings - 1;
+    const int   i = MAX(0, consolestrings - 1);
 
     va_start(argptr, string);
     M_vsnprintf(buffer, CONSOLETEXTMAXLENGTH - 1, string, argptr);
     va_end(argptr);
 
-    if (i >= 0 && console[i].stringtype == playermessagestring && M_StringCompare(console[i].string, buffer) && groupmessages)
+    if (console[i].stringtype == playermessagestring && M_StringCompare(console[i].string, buffer) && groupmessages)
     {
         console[i].tics = gametime;
         console[i].timestamp[0] = '\0';
@@ -1459,16 +1459,14 @@ void C_Drawer(void)
         }
         else if ((len = (int)strlen(console[i].string)))
         {
-            int     wrap;
+            int     wrap = len;
             char    *text;
 
             if (console[i].wrap)
                 wrap = console[i].wrap;
-            else
+            else if (len > 80)
             {
                 int indent = console[i].indent;
-
-                wrap = len;
 
                 do
                 {
