@@ -257,5 +257,4 @@ void C_UpdateTimerOverlay(void);
 void C_UpdatePathOverlay(void);
 void C_UpdatePlayerStatsOverlay(void);
 char *C_CreateTimeStamp(int index);
-void C_ResetWrappedLines(void);
 int C_TextWidth(const char *text, const bool formatting, const bool kerning);

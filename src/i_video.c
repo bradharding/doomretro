@@ -1850,8 +1850,6 @@ void I_RestartGraphics(bool recreatewindow)
 
     M_SetWindowCaption();
 
-    C_ResetWrappedLines();
-
     setsizeneeded = true;
 
     if (r_playersprites)

@@ -354,7 +354,7 @@ void C_PlayerMessage(const char *string, ...)
 {
     va_list     argptr;
     char        buffer[CONSOLETEXTMAXLENGTH];
-    const int   i = MAX(0, consolestrings - 1);
+    const int   i = consolestrings - 1;
 
     va_start(argptr, string);
     M_vsnprintf(buffer, CONSOLETEXTMAXLENGTH - 1, string, argptr);
@@ -418,12 +418,6 @@ void C_PlayerObituary(const char *string, ...)
     }
 
     outputhistory = -1;
-}
-
-void C_ResetWrappedLines(void)
-{
-    for (int i = 0; i < consolestrings; i++)
-        console[i].wrap = 0;
 }
 
 static void C_AddToUndoHistory(void)
@@ -1341,7 +1335,7 @@ void C_Drawer(void)
     int         i;
     int         x = CONSOLEINPUTX;
     int         y = CONSOLELINEHEIGHT * (CONSOLELINES - 1) - CONSOLELINEHEIGHT / 2 + 1;
-    const int   bottomline = (outputhistory == -1 ? consolestrings : outputhistory + CONSOLELINES) - 2;
+    const int   bottomline = (outputhistory == -1 ? consolestrings : outputhistory + CONSOLELINES) - 1;
     int         len;
     char        partialinput[255];
     const bool  prevconsoleactive = consoleactive;
