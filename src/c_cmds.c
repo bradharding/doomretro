@@ -1821,9 +1821,7 @@ static void bindlist_cmd_func2(char *cmd, char *parms)
 //
 static void clear_cmd_func2(char *cmd, char *parms)
 {
-    consolestrings = 0;
-    consolestringsmax = 0;
-    C_Output("");
+    C_ClearConsole();
 }
 
 //

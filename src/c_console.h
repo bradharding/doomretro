@@ -158,7 +158,7 @@ typedef struct
     int             count;
     int             line;
     stringtype_t    stringtype;
-    int             wrap;
+    bool            wrap;
     int             indent;
     bool            bold;
     bool            italics;
@@ -242,6 +242,7 @@ void C_Warning(const int minwarninglevel, const char *string, ...);
 void C_PlayerMessage(const char *string, ...);
 void C_PlayerObituary(const char *string, ...);
 void C_AddConsoleDivider(void);
+void C_ClearConsole(void);
 void C_Init(void);
 void C_ShowConsole(void);
 void C_HideConsole(void);

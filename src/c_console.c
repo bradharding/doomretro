@@ -173,7 +173,7 @@ void C_Input(const char *string, ...)
 
     M_StringCopy(console[consolestrings].string, buffer, sizeof(console[0].string));
     console[consolestrings].indent = 0;
-    console[consolestrings].wrap = 0;
+    console[consolestrings].wrap = false;
     console[consolestrings++].stringtype = inputstring;
     inputhistory = -1;
     outputhistory = -1;
@@ -198,7 +198,7 @@ void C_Cheat(const char *string)
 
     M_StringCopy(console[consolestrings].string, buffer, sizeof(console[0].string));
     console[consolestrings].indent = 0;
-    console[consolestrings].wrap = 0;
+    console[consolestrings].wrap = false;
     console[consolestrings++].stringtype = cheatstring;
     outputhistory = -1;
 }
@@ -258,7 +258,7 @@ void C_Output(const char *string, ...)
 
     M_StringCopy(console[consolestrings].string, buffer, sizeof(console[0].string));
     console[consolestrings].indent = 0;
-    console[consolestrings].wrap = 0;
+    console[consolestrings].wrap = false;
     console[consolestrings++].stringtype = outputstring;
     outputhistory = -1;
 }
@@ -284,7 +284,7 @@ bool C_OutputNoRepeat(const char *string, ...)
 
     M_StringCopy(console[consolestrings].string, buffer, sizeof(console[0].string));
     console[consolestrings].indent = 0;
-    console[consolestrings].wrap = 0;
+    console[consolestrings].wrap = false;
     console[consolestrings++].stringtype = outputstring;
     outputhistory = -1;
     return false;
@@ -306,7 +306,7 @@ void C_TabbedOutput(const int tabs[3], const char *string, ...)
     console[consolestrings].stringtype = outputstring;
     memcpy(console[consolestrings].tabs, tabs, sizeof(console[0].tabs));
     console[consolestrings].indent = (tabs[2] ? tabs[2] : (tabs[1] ? tabs[1] : tabs[0])) - 10;
-    console[consolestrings++].wrap = 0;
+    console[consolestrings++].wrap = false;
     outputhistory = -1;
 }
 
@@ -344,7 +344,7 @@ void C_Warning(const int minwarninglevel, const char *string, ...)
         M_StringCopy(console[consolestrings].string, buffer, sizeof(console[0].string));
         console[consolestrings].line = 1;
         console[consolestrings].indent = WARNINGWIDTH + 2;
-        console[consolestrings].wrap = 0;
+        console[consolestrings].wrap = false;
         console[consolestrings++].stringtype = warningstring;
         outputhistory = -1;
     }
@@ -376,7 +376,7 @@ void C_PlayerMessage(const char *string, ...)
         console[consolestrings].tics = gametime;
         console[consolestrings].timestamp[0] = '\0';
         console[consolestrings].indent = 0;
-        console[consolestrings].wrap = 0;
+        console[consolestrings].wrap = false;
         console[consolestrings++].count = 1;
         viewplayer->prevmessage[0] = '\0';
         viewplayer->prevmessagetics = 0;
@@ -411,7 +411,7 @@ void C_PlayerObituary(const char *string, ...)
         console[consolestrings].tics = gametime;
         console[consolestrings].timestamp[0] = '\0';
         console[consolestrings].indent = 0;
-        console[consolestrings].wrap = 0;
+        console[consolestrings].wrap = false;
         console[consolestrings++].count = 1;
         viewplayer->prevmessage[0] = '\0';
         viewplayer->prevmessagetics = 0;
@@ -672,6 +672,13 @@ static void C_DrawScrollbar(void)
 
         scrollbardrawn = true;
     }
+}
+
+void C_ClearConsole(void)
+{
+    consolestrings = 0;
+    consolestringsmax = 0;
+    C_Output("");
 }
 
 void C_Init(void)
