@@ -1341,7 +1341,7 @@ void C_Drawer(void)
     int         i;
     int         x = CONSOLEINPUTX;
     int         y = CONSOLELINEHEIGHT * (CONSOLELINES - 1) - CONSOLELINEHEIGHT / 2 + 1;
-    const int   bottomline = (outputhistory == -1 ? consolestrings - 1 : outputhistory + (gamestate == GS_TITLESCREEN ? 22 : 10));
+    const int   bottomline = (outputhistory == -1 ? consolestrings : outputhistory + CONSOLELINES) - 2;
     int         len;
     char        partialinput[255];
     const bool  prevconsoleactive = consoleactive;
@@ -1459,44 +1459,6 @@ void C_Drawer(void)
         }
         else if ((len = (int)strlen(console[i].string)))
         {
-            int     wrap = len;
-            char    *text;
-
-            if (console[i].wrap)
-                wrap = console[i].wrap;
-            else if (len > 80)
-            {
-                int indent = console[i].indent;
-
-                do
-                {
-                    char    *temp = M_SubString(console[i].string, 0, wrap);
-                    int     width;
-
-                    if (stringtype == warningstring)
-                        width = indent + C_TextWidth(temp, true, true);
-                    else
-                        width = (indent ? indent + C_TextWidth(strrchr(temp, '\t') + 1, true, true) : C_TextWidth(temp, true, true));
-
-                    free(temp);
-
-                    if (width <= CONSOLETEXTPIXELWIDTH && isbreak(console[i].string[wrap]))
-                        break;
-                } while (wrap-- > 0);
-
-                console[i].wrap = wrap;
-            }
-
-            if (wrap < len)
-            {
-                text = M_SubString(console[i].string, 0, wrap);
-
-                if (i < bottomline)
-                    y -= CONSOLELINEHEIGHT;
-            }
-            else
-                text = M_StringDuplicate(console[i].string);
-
             if (stringtype == playermessagestring)
             {
                 if (console[i].count > 1)
@@ -1504,44 +1466,29 @@ void C_Drawer(void)
                     char    buffer[CONSOLETEXTMAXLENGTH];
                     char    *temp = commify(console[i].count);
 
-                    M_snprintf(buffer, sizeof(buffer), "%s (%s)", text, temp);
+                    M_snprintf(buffer, sizeof(buffer), "%s (%s)", console[i].string, temp);
                     C_DrawConsoleText(CONSOLETEXTX, y, buffer, consoleplayermessagecolor,
                         NOBACKGROUNDCOLOR, consoleplayermessagecolor, tinttab66, notabs, true, true, i);
                     free(temp);
                 }
                 else
-                    C_DrawConsoleText(CONSOLETEXTX, y, text, consoleplayermessagecolor,
+                    C_DrawConsoleText(CONSOLETEXTX, y, console[i].string, consoleplayermessagecolor,
                         NOBACKGROUNDCOLOR, consoleplayermessagecolor, tinttab66, notabs, true, true, i);
 
                 C_DrawTimeStamp(SCREENWIDTH - CONSOLETEXTX - 10 - CONSOLESCROLLBARWIDTH + 1, y, i);
             }
             else if (stringtype == outputstring)
-                C_DrawConsoleText(CONSOLETEXTX, y, text, consoleoutputcolor,
+                C_DrawConsoleText(CONSOLETEXTX, y, console[i].string, consoleoutputcolor,
                     NOBACKGROUNDCOLOR, consoleboldcolor, tinttab66, console[i].tabs, true, true, i);
             else if (stringtype == inputstring || stringtype == cheatstring)
-                C_DrawConsoleText(CONSOLETEXTX, y, text, consoleinputcolor,
+                C_DrawConsoleText(CONSOLETEXTX, y, console[i].string, consoleinputcolor,
                     NOBACKGROUNDCOLOR, consoleboldcolor, tinttab66, notabs, true, true, i);
             else if (stringtype == warningstring)
-                C_DrawConsoleText(CONSOLETEXTX, y, text, consolewarningcolor,
+                C_DrawConsoleText(CONSOLETEXTX, y, console[i].string, consolewarningcolor,
                     NOBACKGROUNDCOLOR, consolewarningboldcolor, tinttab66, notabs, true, true, i);
             else
                 V_DrawConsolePatch(CONSOLETEXTX - 1, y + 4 - (CONSOLEHEIGHT - consoleheight),
                     console[i].header, CONSOLETEXTPIXELWIDTH + 2);
-
-            if (wrap < len && i < bottomline)
-            {
-                char    *temp = M_SubString(console[i].string, wrap, (size_t)len - wrap);
-
-                wrapbold = console[i].bold;
-                wrapitalics = console[i].italics;
-                C_DrawConsoleText(CONSOLETEXTX + console[i].indent, y + CONSOLELINEHEIGHT, trimwhitespace(temp),
-                    consolecolors[stringtype], NOBACKGROUNDCOLOR, consoleboldcolors[stringtype], tinttab66, notabs, true, true, 0);
-                wrapbold = false;
-                wrapitalics = false;
-                free(temp);
-            }
-
-            free(text);
         }
 
         if ((y -= CONSOLELINEHEIGHT) < -CONSOLELINEHEIGHT)
