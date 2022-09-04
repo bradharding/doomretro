@@ -1284,10 +1284,10 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, const bool spawnmonsters)
     // so groups of same mobjs are deliberately out of sync with each other
     if (info->frames > 1 && r_randomstartframes)
     {
-        const int   frames = M_BigRandomInt(0, info->frames);
+        const int   numframes = M_BigRandomInt(0, info->frames);
         state_t     *st = mobj->state;
 
-        for (int j = 0; j < frames && st->nextstate != S_NULL; j++)
+        for (int j = 0; j < numframes && st->nextstate != S_NULL; j++)
             st = &states[st->nextstate];
 
         mobj->state = st;
