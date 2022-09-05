@@ -158,7 +158,7 @@ typedef struct
     int             count;
     int             line;
     stringtype_t    stringtype;
-    bool            wrap;
+    int             wraps;
     int             indent;
     bool            bold;
     bool            italics;
