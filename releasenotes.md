@@ -1,6 +1,6 @@
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/releasenotes.png)
 
-#### DOOM Retro v4.6.3
+#### DOOM Retro v4.7
 
 * Minor changes have been made to the splash screen.
 * Minor changes have been made to some text that is output to the console.
