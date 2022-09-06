@@ -3403,7 +3403,8 @@ bool M_Responder(event_t *ev)
                         if (currentmenu != &NewDef || itemon == 4)
                             S_StartSound(NULL, sfx_pistol);
 
-                        if (currentmenu != &NewDef && currentmenu != &SaveDef && (currentmenu != &OptionsDef || itemon == 2))
+                        if (currentmenu != &NewDef && currentmenu != &SaveDef
+                            && (currentmenu != &OptionsDef || itemon == detail || itemon == soundvol))
                             D_FadeScreen(false);
                     }
 
