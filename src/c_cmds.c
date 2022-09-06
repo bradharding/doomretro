@@ -6261,7 +6261,7 @@ static void C_VerifyResetAll(const int key)
         keyboardleft = KEYLEFT_DEFAULT;
         keyboardmark = KEYMARK_DEFAULT;
         keyboardmaxzoom = KEYMAXZOOM_DEFAULT;
-        keyboardmenu = KEY_ESCAPE;
+        keyboardmenu = KEYMENU_DEFAULT;
         keyboardmouselook = KEYMOUSELOOK_DEFAULT;
         keyboardnextweapon = KEYNEXTWEAPON_DEFAULT;
         keyboardprevweapon = KEYPREVWEAPON_DEFAULT;

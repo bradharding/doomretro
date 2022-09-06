@@ -832,6 +832,7 @@ enum
 #define KEYLEFT_DEFAULT                    KEY_LEFTARROW
 #define KEYMARK_DEFAULT                    'm'
 #define KEYMAXZOOM_DEFAULT                 '0'
+#define KEYMENU_DEFAULT                    KEY_ESCAPE
 #define KEYMOUSELOOK_DEFAULT               0
 #define KEYNEXTWEAPON_DEFAULT              0
 #define KEYPREVWEAPON_DEFAULT              0

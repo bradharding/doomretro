@@ -1773,60 +1773,42 @@ static void AM_DrawThings(void)
 
     for (int i = 0; i < numsectors; i++)
     {
-        // e6y
-        // Two-pass method for better usability of automap:
-        // The first one will draw all things except enemies
-        // The second one is for enemies only
-        // Stop after first pass if the current sector has no enemies
-        for (int pass = 0, enemies = 0; pass < 2; pass += (enemies ? 1 : 2))
+        mobj_t  *thing = sectors[i].thinglist;
+
+        while (thing)
         {
-            mobj_t  *thing = sectors[i].thinglist;
-
-            while (thing)
+            if ((!thing->player || thing->player->mo != thing) && !(thing->flags2 & MF2_DONTMAP))
             {
-                // e6y: stop if all enemies from current sector already have been drawn
-                if (pass && !enemies)
-                    break;
+                angle_t     angle;
+                mpoint_t    point;
+                int         fx, fy;
+                const short sprite = sprites[thing->sprite].spriteframes[0].lump[0];
+                const int   width = (BETWEEN(12 << FRACBITS, (spritewidth[sprite] + spriteheight[sprite]) / 2,
+                                96 << FRACBITS) >> FRACTOMAPBITS) / 2;
 
-                if (pass == ((thing->flags & (MF_SHOOTABLE | MF_CORPSE)) == MF_SHOOTABLE ? (!pass ? enemies++ : enemies--), 0 : 1))
+                if (consoleactive || paused)
                 {
-                    thing = thing->snext;
-                    continue;
+                    angle = thing->angle;
+                    point.x = thing->x >> FRACTOMAPBITS;
+                    point.y = thing->y >> FRACTOMAPBITS;
+                }
+                else
+                {
+                    angle = R_InterpolateAngle(thing->oldangle, thing->angle, fractionaltic);
+                    point.x = (thing->oldx + FixedMul(thing->x - thing->oldx, fractionaltic)) >> FRACTOMAPBITS;
+                    point.y = (thing->oldy + FixedMul(thing->y - thing->oldy, fractionaltic)) >> FRACTOMAPBITS;
                 }
 
-                if ((!thing->player || thing->player->mo != thing) && !(thing->flags2 & MF2_DONTMAP))
-                {
-                    angle_t     angle;
-                    mpoint_t    point;
-                    int         fx, fy;
-                    const short sprite = sprites[thing->sprite].spriteframes[0].lump[0];
-                    const int   width = (BETWEEN(12 << FRACBITS, (spritewidth[sprite] + spriteheight[sprite]) / 2,
-                                    96 << FRACBITS) >> FRACTOMAPBITS) / 2;
+                if (am_rotatemode)
+                    AM_RotatePoint(&point);
 
-                    if (consoleactive || paused)
-                    {
-                        angle = thing->angle;
-                        point.x = thing->x >> FRACTOMAPBITS;
-                        point.y = thing->y >> FRACTOMAPBITS;
-                    }
-                    else
-                    {
-                        angle = R_InterpolateAngle(thing->oldangle, thing->angle, fractionaltic);
-                        point.x = (thing->oldx + FixedMul(thing->x - thing->oldx, fractionaltic)) >> FRACTOMAPBITS;
-                        point.y = (thing->oldy + FixedMul(thing->y - thing->oldy, fractionaltic)) >> FRACTOMAPBITS;
-                    }
-
-                    if (am_rotatemode)
-                        AM_RotatePoint(&point);
-
-                    if ((fx = CXMTOF(point.x)) >= -width && fx <= MAPWIDTH + width
-                        && (fy = CYMTOF(point.y)) >= -width && fy <= (int)MAPHEIGHT + width)
-                        AM_DrawThingTriangle(thingtriangle, THINGTRIANGLELINES, width, (angle - angleoffset) >> ANGLETOFINESHIFT,
-                            point.x, point.y, mobjinfo[thing->type].automapcolor);
-                }
-
-                thing = thing->snext;
+                if ((fx = CXMTOF(point.x)) >= -width && fx <= MAPWIDTH + width
+                    && (fy = CYMTOF(point.y)) >= -width && fy <= (int)MAPHEIGHT + width)
+                    AM_DrawThingTriangle(thingtriangle, THINGTRIANGLELINES, width, (angle - angleoffset) >> ANGLETOFINESHIFT,
+                        point.x, point.y, mobjinfo[thing->type].automapcolor);
             }
+
+            thing = thing->snext;
         }
     }
 }

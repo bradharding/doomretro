@@ -2,7 +2,7 @@
 
 #### DOOM Retro v4.6.3
 
-* Changes have been made to the splash screen’s animation.
+* Minor changes have been made to the splash screen.
 * Minor changes have been made to some text that is output to the console.
 * The external automap now goes black rather than a dark blue when pressing the <kbd>F1</kbd> key to display the help screen.
 * The following changes have been made when pressing the <kbd>F9</kbd> key to quickload a savegame:
