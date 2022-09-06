@@ -169,6 +169,7 @@ static byte     fadescreen[MAXSCREENAREA];
 int             fadecount = 0;
 
 bool            splashscreen = true;
+char            *old_vid_scalefilter;
 
 bool            realframe;
 static bool     error;
@@ -578,6 +579,8 @@ void D_DoAdvanceTitle(void)
         {
             I_SetPalette(PLAYPAL);
             splashscreen = false;
+            vid_scalefilter = M_StringDuplicate(old_vid_scalefilter);
+            I_RestartGraphics(false);
             I_Sleep(1000);
         }
 
@@ -2502,11 +2505,17 @@ static void D_DoomMainSetup(void)
             D_StartTitle(1);
         }
         else
+        {
+            old_vid_scalefilter = M_StringDuplicate(vid_scalefilter);
+            vid_scalefilter = vid_scalefilter_linear;
+            I_RestartGraphics(false);
+
 #if SCREENSCALE == 1
             D_StartTitle(1);
 #else
             D_StartTitle(0);
 #endif
+        }
     }
 
     // Ty 04/08/98 - Add 5 lines of misc. data, only if non-blank
