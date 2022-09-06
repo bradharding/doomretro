@@ -36,9 +36,7 @@
 ========================================================================
 */
 
-#include "i_gamecontroller.h"
 #include "m_config.h"
-#include "p_local.h"
 
 int keyboardalwaysrun = KEYALWAYSRUN_DEFAULT;
 int keyboardautomap = KEYAUTOMAP_DEFAULT;

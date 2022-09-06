@@ -5,6 +5,7 @@
 * Minor changes have been made to the splash screen.
 * Minor changes have been made to some text that is output to the console.
 * The external automap now goes black rather than a dark blue when pressing the <kbd>F1</kbd> key to display the help screen.
+* The position of the current map’s title in the automap has changed in some instances.
 * The following changes have been made when pressing the <kbd>F9</kbd> key to quickload a savegame:
   * The load game menu now opens if the game hasn’t been saved yet.
   * The background of the confirmation message now displays correctly.
