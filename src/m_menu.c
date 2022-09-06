@@ -2555,7 +2555,7 @@ bool M_Responder(event_t *ev)
             if (gamecontrollerbuttons & GAMECONTROLLER_A)
             {
                 key = (messagetoprint && messageneedsinput ? 'y' : KEY_ENTER);
-                gamecontrollerwait = I_GetTime() + 8 * !(currentmenu == &OptionsDef && itemon == 5);
+                gamecontrollerwait = I_GetTime() + 8 * !(currentmenu == &OptionsDef && itemon == mousesens);
                 usinggamecontroller = true;
             }
 
@@ -2600,19 +2600,19 @@ bool M_Responder(event_t *ev)
 
                 // decrease slider
                 else if ((gamecontrollerthumbLX < 0 || gamecontrollerthumbRX < 0 || (gamecontrollerbuttons & GAMECONTROLLER_DPAD_LEFT)) && !savestringenter
-                    && !(currentmenu == &OptionsDef && itemon == 1))
+                    && !(currentmenu == &OptionsDef && itemon == msgs))
                 {
                     key = KEY_LEFTARROW;
-                    gamecontrollerwait = I_GetTime() + 6 * !(currentmenu == &OptionsDef && itemon == 5);
+                    gamecontrollerwait = I_GetTime() + 6 * !(currentmenu == &OptionsDef && itemon == mousesens);
                     usinggamecontroller = true;
                 }
 
                 // increase slider
                 else if ((gamecontrollerthumbLX > 0 || gamecontrollerthumbRX > 0 || (gamecontrollerbuttons & GAMECONTROLLER_DPAD_RIGHT)) && !savestringenter
-                    && !(currentmenu == &OptionsDef && itemon == 1))
+                    && !(currentmenu == &OptionsDef && itemon == msgs))
                 {
                     key = KEY_RIGHTARROW;
-                    gamecontrollerwait = I_GetTime() + 6 * !(currentmenu == &OptionsDef && itemon == 5);
+                    gamecontrollerwait = I_GetTime() + 6 * !(currentmenu == &OptionsDef && itemon == mousesens);
                     usinggamecontroller = true;
                 }
             }
@@ -3209,10 +3209,10 @@ bool M_Responder(event_t *ev)
 
                     if (currentmenu == &MainDef)
                     {
-                        if (itemon == 2 && !savegames)
+                        if (itemon == load_game && !savegames)
                             itemon++;
 
-                        if (itemon == 3 && (gamestate != GS_LEVEL || viewplayer->health <= 0))
+                        if (itemon == save_game && (gamestate != GS_LEVEL || viewplayer->health <= 0))
                             itemon++;
                     }
                     else if (currentmenu == &OptionsDef && !itemon && gamestate != GS_LEVEL)
@@ -3289,10 +3289,10 @@ bool M_Responder(event_t *ev)
 
                     if (currentmenu == &MainDef)
                     {
-                        if (itemon == 3 && (gamestate != GS_LEVEL || viewplayer->health <= 0))
+                        if (itemon == save_game && (gamestate != GS_LEVEL || viewplayer->health <= 0))
                             itemon--;
 
-                        if (itemon == 2 && !savegames)
+                        if (itemon == load_game && !savegames)
                             itemon--;
                     }
                     else if (currentmenu == &OptionsDef && !itemon && gamestate != GS_LEVEL)
@@ -3340,12 +3340,12 @@ bool M_Responder(event_t *ev)
             return false;
         }
 
-        else if ((key == KEY_LEFTARROW || (key == KEY_MINUS && !(currentmenu == &OptionsDef && itemon == 1))) && !inhelpscreens)
+        else if ((key == KEY_LEFTARROW || (key == KEY_MINUS && !(currentmenu == &OptionsDef && itemon == msgs))) && !inhelpscreens)
         {
             // Slide slider left
             if (currentmenu->menuitems[itemon].routine && currentmenu->menuitems[itemon].status == 2)
                 currentmenu->menuitems[itemon].routine(0);
-            else if (currentmenu == &OptionsDef && (itemon == 1 || itemon == 2) && !keydown)
+            else if (currentmenu == &OptionsDef && (itemon == msgs || itemon == detail) && !keydown)
             {
                 keydown = key;
                 currentmenu->menuitems[itemon].routine(itemon);
@@ -3355,12 +3355,12 @@ bool M_Responder(event_t *ev)
             return false;
         }
 
-        else if ((key == KEY_RIGHTARROW || (key == KEY_EQUALS && !(currentmenu == &OptionsDef && itemon == 1))) && !inhelpscreens)
+        else if ((key == KEY_RIGHTARROW || (key == KEY_EQUALS && !(currentmenu == &OptionsDef && itemon == msgs))) && !inhelpscreens)
         {
             // Slide slider right
             if (currentmenu->menuitems[itemon].routine && currentmenu->menuitems[itemon].status == 2)
                 currentmenu->menuitems[itemon].routine(1);
-            else if (currentmenu == &OptionsDef && (itemon == 1 || itemon == 2) && !keydown)
+            else if (currentmenu == &OptionsDef && (itemon == msgs || itemon == detail) && !keydown)
             {
                 keydown = key;
                 currentmenu->menuitems[itemon].routine(itemon);
@@ -3395,16 +3395,18 @@ bool M_Responder(event_t *ev)
                     currentmenu->menuitems[itemon].routine(1);
                 else
                 {
-                    if (gamestate != GS_LEVEL && ((currentmenu == &MainDef && itemon == 3) || (currentmenu == &OptionsDef && !itemon)))
+                    if (gamestate != GS_LEVEL
+                        && ((currentmenu == &MainDef && itemon == save_game)
+                            || (currentmenu == &OptionsDef && !itemon)))
                         return true;
 
                     if (currentmenu != &LoadDef)
                     {
-                        if (currentmenu != &NewDef || itemon == 4)
+                        if (currentmenu != &NewDef || itemon == nightmare)
                             S_StartSound(NULL, sfx_pistol);
 
                         if (currentmenu != &NewDef && currentmenu != &SaveDef
-                            && (currentmenu != &OptionsDef || itemon == detail || itemon == soundvol))
+                            && (currentmenu != &OptionsDef || itemon == soundvol))
                             D_FadeScreen(false);
                     }
 
