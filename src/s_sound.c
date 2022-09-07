@@ -231,7 +231,7 @@ void S_Init(void)
     {
         InitMusicModule();
         musicVolume = (s_musicvolume * 31 + 50) / 100;
-        S_SetMusicVolume(musicVolume * MIX_MAX_VOLUME / 31);
+        S_RestoreMusicVolume();
 
         // no sounds are playing, and they are not mus_paused
         mus_paused = false;
@@ -583,6 +583,11 @@ void S_LowerMusicVolume(void)
     I_SetMusicVolume((int)(musicVolume * MIX_MAX_VOLUME / 31 / (s_lowermenumusic ? LOWER_MUSIC_VOLUME_FACTOR : 1.0f)));
 }
 
+void S_RestoreMusicVolume(void)
+{
+    S_SetMusicVolume(musicVolume * MIX_MAX_VOLUME / 31);
+}
+
 void S_SetSfxVolume(int volume)
 {
     snd_SfxVolume = volume;
@@ -663,7 +668,7 @@ void S_ChangeMusic(int music_id, bool looping, bool allowrestart, bool mapstart)
 
     music->handle = handle;
 
-    S_SetMusicVolume(musicVolume * MIX_MAX_VOLUME / 31);
+    S_RestoreMusicVolume();
 
     // Play it
     I_PlaySong(handle, looping);
@@ -736,7 +741,7 @@ void S_ChangeMusInfoMusic(int lumpnum, int looping)
 
     music->handle = handle;
 
-    S_SetMusicVolume(musicVolume * MIX_MAX_VOLUME / 31);
+    S_RestoreMusicVolume();
 
     // play it
     I_PlaySong(handle, looping);

@@ -3859,7 +3859,7 @@ void M_ClearMenus(void)
         }
     }
 
-    S_SetMusicVolume(musicVolume * MIX_MAX_VOLUME / 31);
+    S_RestoreMusicVolume();
 }
 
 //

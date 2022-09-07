@@ -124,6 +124,7 @@ void S_UpdateSounds(void);
 
 void S_SetMusicVolume(int volume);
 void S_LowerMusicVolume(void);
+void S_RestoreMusicVolume(void);
 void S_SetSfxVolume(int volume);
 
 #define MAX_MUS_ENTRIES 64

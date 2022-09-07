@@ -799,7 +799,7 @@ void C_HideConsole(void)
         D_FadeScreen(false);
     }
 
-    S_SetMusicVolume(musicVolume * MIX_MAX_VOLUME / 31);
+    S_RestoreMusicVolume();
 }
 
 void C_HideConsoleFast(void)
@@ -814,7 +814,7 @@ void C_HideConsoleFast(void)
     consoleheight = 0;
     consoleactive = false;
 
-    S_SetMusicVolume(musicVolume * MIX_MAX_VOLUME / 31);
+    S_RestoreMusicVolume();
 }
 
 static void C_DrawBackground(void)
