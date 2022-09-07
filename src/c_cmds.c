@@ -445,8 +445,6 @@ static void r_mirroredweapons_cvar_func2(char *cmd, char *parms);
 static void r_randomstartframes_cvar_func2(char *cmd, char *parms);
 static void r_screensize_cvar_func2(char *cmd, char *parms);
 static void r_shadows_translucency_cvar_func2(char *cmd, char *parms);
-static bool r_skycolor_cvar_func1(char *cmd, char *parms);
-static void r_skycolor_cvar_func2(char *cmd, char *parms);
 static void r_sprites_translucency_cvar_func2(char *cmd, char *parms);
 static void r_supersampling_cvar_func2(char *cmd, char *parms);
 static void r_textures_cvar_func2(char *cmd, char *parms);
@@ -852,8 +850,6 @@ consolecmd_t consolecmds[] =
         "Toggles shaking the player's view when they are near an exploding barrel."),
     CVAR_INT(r_shake_damage, "", int_cvars_func1, int_cvars_func2, CF_PERCENT, NOVALUEALIAS,
         "The amount the player's view shakes when they receive damage (" BOLD("0%") " to " BOLD("100%") ")."),
-    CVAR_INT(r_skycolor, r_skycolour, r_skycolor_cvar_func1, r_skycolor_cvar_func2, CF_NONE, SKYCOLORVALUEALIAS,
-        "The color of the sky (" BOLD("none") ", or " BOLD("0") " to " BOLD("255") ")."),
     CVAR_BOOL(r_sprites_translucency, "", bool_cvars_func1, r_sprites_translucency_cvar_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles the translucency of certain sprites."),
     CVAR_BOOL(r_supersampling, "", bool_cvars_func1, r_supersampling_cvar_func2, CF_NONE, BOOLVALUEALIAS,
@@ -9286,38 +9282,6 @@ static void r_shadows_translucency_cvar_func2(char *cmd, char *parms)
         free(temp1);
 
         C_ShowWarning(i);
-    }
-}
-
-//
-// r_skycolor CVAR
-//
-static bool r_skycolor_cvar_func1(char *cmd, char *parms)
-{
-    return (C_LookupValueFromAlias(parms, SKYCOLORVALUEALIAS) == r_skycolor_none || color_cvars_func1(cmd, parms));
-}
-
-static void r_skycolor_cvar_func2(char *cmd, char *parms)
-{
-    const int   value = C_LookupValueFromAlias(parms, SKYCOLORVALUEALIAS);
-
-    if (value != INT_MIN)
-    {
-        if (value != r_skycolor)
-        {
-            r_skycolor = r_skycolor_none;
-            M_SaveCVARs();
-            R_InitColumnFunctions();
-        }
-    }
-    else
-    {
-        const int   r_skycolor_old = r_skycolor;
-
-        color_cvars_func2(cmd, parms);
-
-        if (r_skycolor != r_skycolor_old)
-            R_InitColumnFunctions();
     }
 }
 

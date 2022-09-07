@@ -167,7 +167,6 @@ bool        r_shadows = r_shadows_default;
 bool        r_shadows_translucency = r_shadows_translucency_default;
 bool        r_shake_barrels = r_shake_barrels_default;
 int         r_shake_damage = r_shake_damage_default;
-int         r_skycolor = r_skycolor_default;
 bool        r_sprites_translucency = r_sprites_translucency_default;
 bool        r_supersampling = r_supersampling_default;
 bool        r_textures = r_textures_default;
@@ -395,7 +394,6 @@ static default_t cvars[] =
     CONFIG_VARIABLE_BOOL         (r_shadows_translucency,           r_shadows_translucency,                r_shadows_translucency,              BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_BOOL         (r_shake_barrels,                  r_shake_barrels,                       r_shake_barrels,                     BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT_PERCENT  (r_shake_damage,                   r_shake_damage,                        r_shake_damage,                      NOVALUEALIAS          ),
-    CONFIG_VARIABLE_INT          (r_skycolor,                       r_skycolour,                           r_skycolor,                          SKYCOLORVALUEALIAS    ),
     CONFIG_VARIABLE_BOOL         (r_sprites_translucency,           r_translucency,                        r_sprites_translucency,              BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_BOOL         (r_supersampling,                  r_supersampling,                       r_supersampling,                     BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_BOOL         (r_textures,                       r_textures,                            r_textures,                          BOOLVALUEALIAS        ),
@@ -521,8 +519,7 @@ valuealias_t valuealiases[] =
     { "all",            2, BLOODVALUEALIAS        }, { "green",          3, BLOODVALUEALIAS        },
     { "nofuzz",         4, BLOODVALUEALIAS        }, { "on",             4, BLOODVALUEALIAS        },
     { "imperial",       0, UNITSVALUEALIAS        }, { "metric",         1, UNITSVALUEALIAS        },
-    { "off",            0, CAPVALUEALIAS          }, { "none",          -1, SKYCOLORVALUEALIAS     },
-    { "off",           -1, SKYCOLORVALUEALIAS     }, { "none",           0, ARMORTYPEVALUEALIAS    },
+    { "off",            0, CAPVALUEALIAS          }, { "none",           0, ARMORTYPEVALUEALIAS    },
     { "green",          1, ARMORTYPEVALUEALIAS    }, { "blue",           2, ARMORTYPEVALUEALIAS    },
     { "none",           0, CROSSHAIRVALUEALIAS    }, { "off",            0, CROSSHAIRVALUEALIAS    },
     { "cross",          1, CROSSHAIRVALUEALIAS    }, { "on",             1, CROSSHAIRVALUEALIAS    },
@@ -1169,9 +1166,6 @@ static void M_CheckCVARs(bool ispackageconfig)
         r_shake_barrels = r_shake_barrels_default;
 
     r_shake_damage = BETWEEN(r_shake_damage_min, r_shake_damage, r_shake_damage_max);
-
-    if (r_skycolor != r_skycolor_none && (r_skycolor < r_skycolor_min || r_skycolor > r_skycolor_max))
-        r_skycolor = r_skycolor_default;
 
     if (r_sprites_translucency != false && r_sprites_translucency != true)
         r_sprites_translucency = r_sprites_translucency_default;

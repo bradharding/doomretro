@@ -572,11 +572,8 @@ void R_InitColumnFunctions(void)
 {
     if (r_textures)
     {
-        if (r_skycolor == r_skycolor_default)
-            skycolfunc = (canmodify && !transferredsky && (gamemode != commercial || gamemap < 21) && !canmouselook ?
-                &R_DrawFlippedSkyColumn : &R_DrawWallColumn);
-        else
-            skycolfunc = &R_DrawSkyColorColumn;
+        skycolfunc = (canmodify && !transferredsky && (gamemode != commercial || gamemap < 21) && !canmouselook ?
+            &R_DrawFlippedSkyColumn : &R_DrawWallColumn);
 
         if (r_ditheredlighting)
         {
@@ -723,7 +720,7 @@ void R_InitColumnFunctions(void)
     }
     else
     {
-        skycolfunc = (r_skycolor == r_skycolor_default ? &R_DrawColorColumn : &R_DrawSkyColorColumn);
+        skycolfunc = &R_DrawColorColumn;
 
         if (r_ditheredlighting)
         {

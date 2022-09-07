@@ -159,7 +159,6 @@ extern bool     r_shadows;
 extern bool     r_shadows_translucency;
 extern bool     r_shake_barrels;
 extern int      r_shake_damage;
-extern int      r_skycolor;
 extern bool     r_sprites_translucency;
 extern bool     r_supersampling;
 extern bool     r_textures;
@@ -648,11 +647,6 @@ enum
 #define r_shake_damage_default             50
 #define r_shake_damage_max                 100
 
-#define r_skycolor_none                    1
-#define r_skycolor_min                     0
-#define r_skycolor_default                 r_skycolor_none
-#define r_skycolor_max                     255
-
 #define r_sprites_translucency_default     true
 
 #define r_supersampling_default            true
@@ -907,7 +901,6 @@ typedef enum
     BLOODVALUEALIAS,
     UNITSVALUEALIAS,
     CAPVALUEALIAS,
-    SKYCOLORVALUEALIAS,
     SCALEVALUEALIAS,
     ARMORTYPEVALUEALIAS,
     CROSSHAIRVALUEALIAS,

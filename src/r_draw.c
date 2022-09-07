@@ -683,21 +683,6 @@ void R_DrawFlippedSkyColumn(void)
     *dest = colormap[dc_source[((i = frac >> FRACBITS) < 128 ? i : 126 - (i & 127))]];
 }
 
-void R_DrawSkyColorColumn(void)
-{
-    int         count = dc_yh - dc_yl + 1;
-    byte        *dest = ylookup0[dc_yl] + dc_x;
-    const byte  color = dc_colormap[0][r_skycolor];
-
-    while (--count)
-    {
-        *dest = color;
-        dest += SCREENWIDTH;
-    }
-
-    *dest = color;
-}
-
 void R_DrawTranslucentBloodColumn(void)
 {
     int                 count = dc_yh - dc_yl + 1;

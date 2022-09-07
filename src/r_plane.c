@@ -457,7 +457,7 @@ void R_DrawPlanes(void)
                         {
                             for (dc_x = pl->left; dc_x <= pl->right; dc_x++)
                                 if ((dc_yl = pl->top[dc_x]) != UINT_MAX && dc_yl <= (dc_yh = pl->bottom[dc_x]))
-                                    R_DrawSkyColorColumn();
+                                    R_DrawColorColumn();
 
                             continue;
                         }

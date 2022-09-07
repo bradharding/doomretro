@@ -98,7 +98,6 @@ r_screensize 6
 r_shadows off
 r_shake_barrels off
 r_shake_damage 0%
-r_skycolor none
 r_sprites_translucency off
 r_supersampling off
 r_textures on
