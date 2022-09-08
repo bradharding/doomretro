@@ -158,15 +158,15 @@ static void (*consoletextfunc)(int, int, patch_t *, int, int, int, bool, byte *)
 
 void C_Input(const char *string, ...)
 {
-    va_list argptr;
+    va_list args;
     char    buffer[CONSOLETEXTMAXLENGTH];
 
     if (togglingvanilla)
         return;
 
-    va_start(argptr, string);
-    M_vsnprintf(buffer, CONSOLETEXTMAXLENGTH - 1, string, argptr);
-    va_end(argptr);
+    va_start(args, string);
+    M_vsnprintf(buffer, CONSOLETEXTMAXLENGTH - 1, string, args);
+    va_end(args);
 
     if (consolestrings >= (int)consolestringsmax)
         console = I_Realloc(console, (consolestringsmax += CONSOLESTRINGSMAX) * sizeof(*console));
@@ -246,11 +246,11 @@ void C_Output(const char *string, ...)
 
     if (string)
     {
-        va_list argptr;
+        va_list args;
 
-        va_start(argptr, string);
-        M_vsnprintf(buffer, CONSOLETEXTMAXLENGTH - 1, string, argptr);
-        va_end(argptr);
+        va_start(args, string);
+        M_vsnprintf(buffer, CONSOLETEXTMAXLENGTH - 1, string, args);
+        va_end(args);
     }
 
     if (consolestrings >= (int)consolestringsmax)
@@ -269,11 +269,11 @@ bool C_OutputNoRepeat(const char *string, ...)
 
     if (string)
     {
-        va_list argptr;
+        va_list args;
 
-        va_start(argptr, string);
-        M_vsnprintf(buffer, CONSOLETEXTMAXLENGTH - 1, string, argptr);
-        va_end(argptr);
+        va_start(args, string);
+        M_vsnprintf(buffer, CONSOLETEXTMAXLENGTH - 1, string, args);
+        va_end(args);
     }
 
     if (consolestrings && M_StringCompare(console[consolestrings - 1].string, buffer))
@@ -292,12 +292,12 @@ bool C_OutputNoRepeat(const char *string, ...)
 
 void C_TabbedOutput(const int tabs[3], const char *string, ...)
 {
-    va_list argptr;
+    va_list args;
     char    buffer[CONSOLETEXTMAXLENGTH];
 
-    va_start(argptr, string);
-    M_vsnprintf(buffer, CONSOLETEXTMAXLENGTH - 1, string, argptr);
-    va_end(argptr);
+    va_start(args, string);
+    M_vsnprintf(buffer, CONSOLETEXTMAXLENGTH - 1, string, args);
+    va_end(args);
 
     if (consolestrings >= (int)consolestringsmax)
         console = I_Realloc(console, (consolestringsmax += CONSOLESTRINGSMAX) * sizeof(*console));
@@ -324,15 +324,15 @@ void C_Header(const int tabs[3], patch_t *header, const char *string)
 
 void C_Warning(const int minwarninglevel, const char *string, ...)
 {
-    va_list argptr;
+    va_list args;
     char    buffer[CONSOLETEXTMAXLENGTH];
 
     if (warninglevel < minwarninglevel && !devparm)
         return;
 
-    va_start(argptr, string);
-    M_vsnprintf(buffer, CONSOLETEXTMAXLENGTH - 1, string, argptr);
-    va_end(argptr);
+    va_start(args, string);
+    M_vsnprintf(buffer, CONSOLETEXTMAXLENGTH - 1, string, args);
+    va_end(args);
 
     if (!consolestrings || !M_StringCompare(console[consolestrings - 1].string, buffer))
     {
@@ -340,7 +340,6 @@ void C_Warning(const int minwarninglevel, const char *string, ...)
             console = I_Realloc(console, (consolestringsmax += CONSOLESTRINGSMAX) * sizeof(*console));
 
         M_StringCopy(console[consolestrings].string, buffer, sizeof(console[0].string));
-        console[consolestrings].line = 1;
         console[consolestrings].indent = WARNINGWIDTH + 2;
         console[consolestrings].wraps = 0;
         console[consolestrings++].stringtype = warningstring;
@@ -350,13 +349,13 @@ void C_Warning(const int minwarninglevel, const char *string, ...)
 
 void C_PlayerMessage(const char *string, ...)
 {
-    va_list     argptr;
+    va_list     args;
     char        buffer[CONSOLETEXTMAXLENGTH];
     const int   i = consolestrings - 1;
 
-    va_start(argptr, string);
-    M_vsnprintf(buffer, CONSOLETEXTMAXLENGTH - 1, string, argptr);
-    va_end(argptr);
+    va_start(args, string);
+    M_vsnprintf(buffer, CONSOLETEXTMAXLENGTH - 1, string, args);
+    va_end(args);
 
     if (console[i].stringtype == playermessagestring && M_StringCompare(console[i].string, buffer) && groupmessages)
     {
@@ -383,13 +382,13 @@ void C_PlayerMessage(const char *string, ...)
 
 void C_PlayerObituary(const char *string, ...)
 {
-    va_list     argptr;
+    va_list     args;
     char        buffer[CONSOLETEXTMAXLENGTH];
     const int   i = consolestrings - 1;
 
-    va_start(argptr, string);
-    M_vsnprintf(buffer, CONSOLETEXTMAXLENGTH - 1, string, argptr);
-    va_end(argptr);
+    va_start(args, string);
+    M_vsnprintf(buffer, CONSOLETEXTMAXLENGTH - 1, string, args);
+    va_end(args);
 
     if (i >= 0 && console[i].stringtype == playermessagestring && M_StringCompare(console[i].string, buffer) && groupmessages)
     {
@@ -942,14 +941,7 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
 
     if (console[index].stringtype == warningstring)
     {
-        if (console[index].line == 2)
-        {
-            if (text[0] == ' ')
-                x -= spacewidth;
-        }
-        else
-            V_DrawConsoleTextPatch(x - 1, y, warning, WARNINGWIDTH, color1, color2, false, translucency);
-
+        V_DrawConsoleTextPatch(x - 1, y, warning, WARNINGWIDTH, color1, color2, false, translucency);
         x += WARNINGWIDTH + 1;
     }
 

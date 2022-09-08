@@ -156,7 +156,6 @@ typedef struct
 {
     char            string[1024];
     int             count;
-    int             line;
     stringtype_t    stringtype;
     int             wraps;
     int             indent;

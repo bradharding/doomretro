@@ -250,7 +250,7 @@ void I_Quit(bool shutdown)
 //
 void I_Error(const char *error, ...)
 {
-    va_list     argptr;
+    va_list     args;
     char        msgbuf[512];
     static bool already_quitting;
 
@@ -279,16 +279,16 @@ void I_Error(const char *error, ...)
     I_ShutdownWindows32();
 #endif
 
-    va_start(argptr, error);
-    vfprintf(stderr, error, argptr);
+    va_start(args, error);
+    vfprintf(stderr, error, args);
     fprintf(stderr, "\n\n");
-    va_end(argptr);
+    va_end(args);
     fflush(stderr);
 
-    va_start(argptr, error);
+    va_start(args, error);
     memset(msgbuf, 0, sizeof(msgbuf));
-    M_vsnprintf(msgbuf, sizeof(msgbuf) - 1, error, argptr);
-    va_end(argptr);
+    M_vsnprintf(msgbuf, sizeof(msgbuf) - 1, error, args);
+    va_end(args);
 
     M_snprintf(msgbuf, sizeof(msgbuf), "%s\n", msgbuf);
 
