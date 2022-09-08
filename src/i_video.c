@@ -1159,15 +1159,8 @@ bool I_CreateExternalAutomap(void)
 
 void I_DestroyExternalAutomap(void)
 {
-    SDL_FreePalette(mappalette);
-    SDL_FreeSurface(mapsurface);
-    SDL_FreeSurface(mapbuffer);
-    SDL_DestroyTexture(maptexture);
-    SDL_DestroyTexture(maptexture_upscaled);
-    SDL_DestroyRenderer(maprenderer);
     SDL_DestroyWindow(mapwindow);
     mapwindow = NULL;
-    mapscreen = NULL;
     mapblitfunc = &nullfunc;
 }
 

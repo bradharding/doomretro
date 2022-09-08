@@ -2,6 +2,7 @@
 
 #### DOOM Retro v4.7
 
+* Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Minor changes have been made to the splash screen.
 * Minor changes have been made to some text that is output to the console.
 * The external automap now goes black rather than a dark blue while the help screen is displayed.
