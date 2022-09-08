@@ -1836,7 +1836,7 @@ void I_RestartGraphics(bool recreatewindow)
 
     SetVideoMode(recreatewindow, false);
 
-    AM_SetAutomapSize(menuactive ? r_screensize_max : r_screensize);
+    AM_SetAutomapSize(r_screensize);
 
     if (!mapwindow)
         mapscreen = *screens;
