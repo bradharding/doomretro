@@ -487,7 +487,6 @@
     <None Include="..\.github\FUNDING.yml" />
     <None Include="..\.github\workflows\build.yml" />
     <None Include="..\.gitignore" />
-    <None Include="..\.tokeignore" />
     <None Include="..\CODEOWNERS" />
     <None Include="..\CODE_OF_CONDUCT.md" />
     <None Include="..\LICENSE" />

@@ -11,7 +11,7 @@
 * The following changes have been made when pressing the <kbd>F9</kbd> key to quickload a savegame:
   * The load game menu now opens if the game hasn’t been saved yet.
   * The background of the confirmation message now displays correctly.
-  * There is no longer an erroneous fade transition when pressing the <kbd>Y</kbd> key if the `fade` CVAR is `on`.
+  * There is no longer an erroneous fade transition when pressing the <kbd>Y</kbd> key and if the `fade` CVAR is `on`.
 * There is now a fade transition when opening the sound volume menu in the options menu if the `fade` CVAR is `on`.
 * When toggling widescreen mode pressing the <kbd>+</kbd> key, the player’s vertical field of view now zooms in slightly.
 * A crash no longer occurs if the `save` CCMD is bound to a control using the `bind` CCMD.
