@@ -76,14 +76,14 @@
                                     BOLDITALICS("command") " ..." BOLD("\"") "]]"
 #define BINDCMDFORMAT               BOLDITALICS("control") " [" BOLDITALICS("+action") "|[" BOLD("\"") "]" BOLDITALICS("command") "[" \
                                     BOLD(";") " " BOLDITALICS("command") " ..." BOLD("\"") "]]"
-#define EXECCMDFORMAT               BOLDITALICS("filename") BOLD(".cfg")
+#define EXECCMDFORMAT               BOLDITALICS("filename") "[" BOLD(".cfg") "]"
 #define EXPLODECMDFORMAT            BOLD("barrels") "|" BOLD("missiles")
 #define GIVECMDFORMAT               BOLD("ammo") "|" BOLD("armor") "|" BOLD("health") "|" BOLD("keys") "|" BOLD("weapons") "|" \
                                     BOLD("all") "|" BOLDITALICS("item")
 #define IFCMDFORMAT                 BOLDITALICS("CVAR") " " BOLDITALICS("value") " " BOLD("then") " [" BOLD("\"") "]" \
                                     BOLDITALICS("command") "[" BOLD(";") " " BOLDITALICS("command") " ..." BOLD("\"") "]"
 #define KILLCMDFORMAT               BOLD("player") "|" BOLD("all") "|[" BOLD("friendly") " ]" BOLDITALICS("monster")
-#define LOADCMDFORMAT               BOLDITALICS("filename") BOLD(".save")
+#define LOADCMDFORMAT               BOLDITALICS("filename") "[" BOLD(".save") "]"
 #define MAPCMDFORMAT1               BOLD("E") BOLDITALICS("x") BOLD("M") BOLDITALICS("y") "[" BOLD("B") "]|" BOLDITALICS("title") "|" \
                                     BOLD("first") "|" BOLD("previous") "|" BOLD("next") "|" BOLD("last") "|" BOLD("random")
 #define MAPCMDFORMAT2               BOLD("MAP") BOLDITALICS("xy") "|" BOLDITALICS("title") "|" BOLD("first") "|" BOLD("previous") "|" \
@@ -95,7 +95,7 @@
                                     BOLDITALICS("item") "|" BOLD("everything")
 #define RESETCMDFORMAT              BOLDITALICS("CVAR")
 #define RESURRECTCMDFORMAT          BOLD("player") "|" BOLD("all") "|[" BOLD("friendly") " ]" BOLDITALICS("monster")
-#define SAVECMDFORMAT               BOLDITALICS("filename") BOLD(".save")
+#define SAVECMDFORMAT               BOLDITALICS("filename") "[" BOLD(".save") "]"
 #define SPAWNCMDFORMAT              BOLDITALICS("item") "|[" BOLD("friendly") " ]" BOLDITALICS("monster")
 #define TAKECMDFORMAT               BOLD("ammo") "|" BOLD("armor") "|" BOLD("health") "|" BOLD("keys") "|" BOLD("weapons") "|" \
                                     BOLD("all") "|" BOLDITALICS("item")
