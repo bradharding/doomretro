@@ -866,7 +866,7 @@ consolecmd_t consolecmds[] =
     CCMD(reset, "", null_func1, reset_cmd_func2, true, RESETCMDFORMAT,
         "Resets a " BOLDITALICS("CVAR") " to its default."),
     CCMD(resetall, "", null_func1, resetall_cmd_func2, false, "",
-        "Resets all CVARs to their defaults."),
+        "Resets all CVARs and bound controls to their defaults."),
     CCMD(respawnitems, "", null_func1, respawnitems_cmd_func2, true, "[" BOLD("on") "|" BOLD("off") "]",
         "Toggles respawning items."),
     CCMD(respawnmonsters, "", respawnmonsters_cmd_func1, respawnmonsters_cmd_func2, true, "[" BOLD("on") "|" BOLD("off") "]",
