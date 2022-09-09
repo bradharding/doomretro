@@ -948,6 +948,7 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
     for (int i = 0; i < len; i++)
     {
         const unsigned char letter = text[i];
+        unsigned char       nextletter = text[i + 1];
 
         if (letter == BOLDTOGGLECHAR)
             bold = !bold;
@@ -955,8 +956,7 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
             italics = !italics;
         else
         {
-            patch_t         *patch = NULL;
-            unsigned char   nextletter;
+            patch_t *patch = NULL;
 
             if (letter == ' ' && formatting)
                 x += spacewidth;
@@ -1006,8 +1006,7 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
             }
             else if (letter == 176)
                 patch = degree;
-            else if (letter == 215 || (letter == 'x' && isdigit(prevletter)
-                && ((nextletter = (i < len - 1 ? text[i + 1] : '\0')) == '\0' || isdigit(nextletter))))
+            else if (letter == 215 || (letter == 'x' && isdigit(prevletter) && (i == len - 1 || isdigit(nextletter))))
                 patch = multiply;
             else if (letter == '\n')
                 break;
@@ -1021,8 +1020,8 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
                 {
                     if (prevletter == '\0' || prevletter == ' ' || prevletter == '\t' || prevletter == '('
                         || prevletter == '[' || prevletter == '{' || prevletter == '<' || prevletter == '"'
-                        || ((prevletter == BOLDTOGGLECHAR || prevletter == ITALICSTOGGLECHAR) && prevletter2 != '.' &&
-                            (nextletter = (i < len - 1 ? text[i + 1] : '\0') != '.')))
+                        || ((prevletter == BOLDTOGGLECHAR || prevletter == ITALICSTOGGLECHAR)
+                            && prevletter2 != '.' && nextletter != '.'))
                     {
                         patch = lsquote;
 
@@ -1034,8 +1033,8 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
                 {
                     if (prevletter == '\0' || prevletter == ' ' || prevletter == '\t' || prevletter == '('
                         || prevletter == '[' || prevletter == '{' || prevletter == '<' || prevletter == '\''
-                        || ((prevletter == BOLDTOGGLECHAR || prevletter == ITALICSTOGGLECHAR) && prevletter2 != '.' &&
-                            (nextletter = (i < len - 1 ? text[i + 1] : '\0') != '.')))
+                        || ((prevletter == BOLDTOGGLECHAR || prevletter == ITALICSTOGGLECHAR)
+                            && prevletter2 != '.' && nextletter != '.'))
                     {
                         patch = ldquote;
 
