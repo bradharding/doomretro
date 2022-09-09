@@ -7617,21 +7617,6 @@ static void vanilla_cmd_func2(char *cmd, char *parms)
         hud = r_hud;
         showfps = vid_showfps;
 
-        if (s_sfxvolume < s_musicvolume)
-        {
-            char    parm[4];
-
-            M_snprintf(parm, sizeof(parm), "%i%%", s_sfxvolume);
-            s_volume_cvars_func2(stringize(s_musicvolume), parm);
-        }
-        else if (s_sfxvolume > s_musicvolume)
-        {
-            char    parm[4];
-
-            M_snprintf(parm, sizeof(parm), "%i%%", s_musicvolume);
-            s_volume_cvars_func2(stringize(s_sfxvolume), parm);
-        }
-
         C_Output(s_STSTR_VON);
         HU_SetPlayerMessage(s_STSTR_VON, false, false);
         C_Warning(0, "Changes to any CVARs won't be saved while vanilla mode is on.");
