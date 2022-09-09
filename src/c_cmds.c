@@ -1922,6 +1922,7 @@ static void condump_cmd_func2(char *cmd, char *parms)
                 unsigned int    outpos = 0;
                 int             tabcount = 0;
                 unsigned char   prevletter = '\0';
+                unsigned char   prevletter2 = '\0';
 
                 if (console[i].stringtype == warningstring)
                     fputs("/!\\ ", file);
@@ -1951,7 +1952,8 @@ static void condump_cmd_func2(char *cmd, char *parms)
                     else if (letter == '\'')
                     {
                         if (prevletter == '\0' || prevletter == ' ' || prevletter == '\t' || prevletter == '('
-                            || prevletter == '[' || prevletter == '{' || prevletter == '<' || prevletter == '"')
+                            || prevletter == '[' || prevletter == '{' || prevletter == '<' || prevletter == '"'
+                            || ((prevletter == BOLDTOGGLECHAR || prevletter == ITALICSTOGGLECHAR) && prevletter2 != '.'))
                             fputc(145, file);
                         else
                             fputc(146, file);
@@ -1961,7 +1963,8 @@ static void condump_cmd_func2(char *cmd, char *parms)
                     else if (letter == '"')
                     {
                         if (prevletter == '\0' || prevletter == ' ' || prevletter == '\t' || prevletter == '('
-                            || prevletter == '[' || prevletter == '{' || prevletter == '<' || prevletter == '\'')
+                            || prevletter == '[' || prevletter == '{' || prevletter == '<' || prevletter == '\''
+                            || ((prevletter == BOLDTOGGLECHAR || prevletter == ITALICSTOGGLECHAR) && prevletter2 != '.'))
                             fputc(147, file);
                         else
                             fputc(148, file);
@@ -1974,6 +1977,7 @@ static void condump_cmd_func2(char *cmd, char *parms)
                         outpos++;
                     }
 
+                    prevletter2 = prevletter;
                     prevletter = letter;
                 }
 
