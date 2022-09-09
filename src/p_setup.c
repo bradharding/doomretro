@@ -67,46 +67,46 @@
 
 #define NUMLIQUIDS                 256
 
-#define MCMD_AUTHOR                  1
-#define MCMD_CLUSTER                 2
-#define MCMD_ENDBUNNY                3
-#define MCMD_ENDCAST                 4
-#define MCMD_ENDGAME                 5
-#define MCMD_ENDPIC                  6
-#define MCMD_ENTERPIC                7
-#define MCMD_EPISODE                 8
-#define MCMD_EXITPIC                 9
-#define MCMD_INTERBACKDROP          10
-#define MCMD_INTERMUSIC             11
-#define MCMD_INTERTEXT              12
-#define MCMD_INTERTEXTSECRET        13
-#define MCMD_LEVELNAME              14
-#define MCMD_LEVELPIC               15
-#define MCMD_LIQUID                 16
-#define MCMD_MUSIC                  17
-#define MCMD_MUSICCOMPOSER          18
-#define MCMD_MUSICTITLE             19
-#define MCMD_NEXT                   20
-#define MCMD_NEXTSECRET             21
-#define MCMD_NOBRIGHTMAP            22
-#define MCMD_NOFREELOOK             23
-#define MCMD_NOJUMP                 24
-#define MCMD_NOLIQUID               25
-#define MCMD_NOMOUSELOOK            26
-#define MCMD_PAR                    27
-#define MCMD_PARTIME                28
-#define MCMD_PISTOLSTART            29
-#define MCMD_SECRETNEXT             30
-#define MCMD_SKY1                   31
-#define MCMD_SKYTEXTURE             32
-#define MCMD_TITLEPATCH             33
-#define MCMD_ALLOWMONSTERTELEFRAGS  34
-#define MCMD_COMPAT_CORPSEGIBS      35
-#define MCMD_COMPAT_VILEGHOSTS      36
-#define MCMD_COMPAT_LIMITPAIN       37
-#define MCMD_NOGRADUALLIGHTING      38
-#define MCMD_COMPAT_LIGHT           39
-#define MCMD_COMPAT_NOPASSOVER      40
+#define MCMD_ALLOWMONSTERTELEFRAGS   1
+#define MCMD_AUTHOR                  2
+#define MCMD_CLUSTER                 3
+#define MCMD_COMPAT_CORPSEGIBS       4
+#define MCMD_COMPAT_LIGHT            5
+#define MCMD_COMPAT_LIMITPAIN        6
+#define MCMD_COMPAT_NOPASSOVER       7
+#define MCMD_COMPAT_VILEGHOSTS       8
+#define MCMD_ENDBUNNY                9
+#define MCMD_ENDCAST                10
+#define MCMD_ENDGAME                11
+#define MCMD_ENDPIC                 12
+#define MCMD_ENTERPIC               13
+#define MCMD_EPISODE                14
+#define MCMD_EXITPIC                15
+#define MCMD_INTERBACKDROP          16
+#define MCMD_INTERMUSIC             17
+#define MCMD_INTERTEXT              18
+#define MCMD_INTERTEXTSECRET        19
+#define MCMD_LEVELNAME              20
+#define MCMD_LEVELPIC               21
+#define MCMD_LIQUID                 22
+#define MCMD_MUSIC                  23
+#define MCMD_MUSICCOMPOSER          24
+#define MCMD_MUSICTITLE             25
+#define MCMD_NEXT                   26
+#define MCMD_NEXTSECRET             27
+#define MCMD_NOBRIGHTMAP            28
+#define MCMD_NOFREELOOK             29
+#define MCMD_NOGRADUALLIGHTING      30
+#define MCMD_NOJUMP                 31
+#define MCMD_NOLIQUID               32
+#define MCMD_NOMOUSELOOK            33
+#define MCMD_PAR                    34
+#define MCMD_PARTIME                35
+#define MCMD_PISTOLSTART            36
+#define MCMD_SECRETNEXT             37
+#define MCMD_SKY1                   38
+#define MCMD_SKYTEXTURE             39
+#define MCMD_TITLEPATCH             40
 
 typedef struct
 {
@@ -231,7 +231,13 @@ static mapinfo_t    mapinfo[MAXMAPINFO];
 
 static char *mapcmdnames[] =
 {
+    "ALLOWMONSTERTELEFRAGS",
     "AUTHOR",
+    "COMPAT_CORPSEGIBS",
+    "COMPAT_LIGHT",
+    "COMPAT_LIMITPAIN",
+    "COMPAT_NOPASSOVER",
+    "COMPAT_VILEGHOSTS",
     "ENDBUNNY",
     "ENDCAST",
     "ENDGAME",
@@ -243,9 +249,9 @@ static char *mapcmdnames[] =
     "INTERMUSIC",
     "INTERTEXT",
     "INTERTEXTSECRET",
-    "LIQUID",
     "LEVELNAME",
     "LEVELPIC",
+    "LIQUID",
     "MUSIC",
     "MUSICCOMPOSER",
     "MUSICTITLE",
@@ -253,6 +259,7 @@ static char *mapcmdnames[] =
     "NEXTSECRET",
     "NOBRIGHTMAP",
     "NOFREELOOK",
+    "NOGRADUALLIGHTING",
     "NOJUMP",
     "NOLIQUID",
     "NOMOUSELOOK",
@@ -263,19 +270,18 @@ static char *mapcmdnames[] =
     "SKY1",
     "SKYTEXTURE",
     "TITLEPATCH",
-    "ALLOWMONSTERTELEFRAGS",
-    "COMPAT_CORPSEGIBS",
-    "COMPAT_VILEGHOSTS",
-    "COMPAT_LIMITPAIN",
-    "NOGRADUALLIGHTING",
-    "COMPAT_LIGHT",
-    "COMPAT_NOPASSOVER",
     NULL
 };
 
 static int mapcmdids[] =
 {
+    MCMD_ALLOWMONSTERTELEFRAGS,
     MCMD_AUTHOR,
+    MCMD_COMPAT_CORPSEGIBS,
+    MCMD_COMPAT_LIGHT,
+    MCMD_COMPAT_LIMITPAIN,
+    MCMD_COMPAT_NOPASSOVER,
+    MCMD_COMPAT_VILEGHOSTS,
     MCMD_ENDBUNNY,
     MCMD_ENDCAST,
     MCMD_ENDGAME,
@@ -287,9 +293,9 @@ static int mapcmdids[] =
     MCMD_INTERMUSIC,
     MCMD_INTERTEXT,
     MCMD_INTERTEXTSECRET,
-    MCMD_LIQUID,
     MCMD_LEVELNAME,
     MCMD_LEVELPIC,
+    MCMD_LIQUID,
     MCMD_MUSIC,
     MCMD_MUSICCOMPOSER,
     MCMD_MUSICTITLE,
@@ -297,6 +303,7 @@ static int mapcmdids[] =
     MCMD_NEXTSECRET,
     MCMD_NOBRIGHTMAP,
     MCMD_NOFREELOOK,
+    MCMD_NOGRADUALLIGHTING,
     MCMD_NOJUMP,
     MCMD_NOLIQUID,
     MCMD_NOMOUSELOOK,
@@ -306,14 +313,7 @@ static int mapcmdids[] =
     MCMD_SECRETNEXT,
     MCMD_SKY1,
     MCMD_SKYTEXTURE,
-    MCMD_TITLEPATCH,
-    MCMD_ALLOWMONSTERTELEFRAGS,
-    MCMD_COMPAT_CORPSEGIBS,
-    MCMD_COMPAT_VILEGHOSTS,
-    MCMD_COMPAT_LIMITPAIN,
-    MCMD_NOGRADUALLIGHTING,
-    MCMD_COMPAT_LIGHT,
-    MCMD_COMPAT_NOPASSOVER
+    MCMD_TITLEPATCH
 };
 
 bool            allowmonstertelefrags;
@@ -3615,8 +3615,9 @@ static bool P_ParseMapInfo(char *scriptname)
 
     temp1 = commify(sc_Line);
     temp2 = uppercase(scriptname);
-    C_Output("Parsed %s line%s from the " BOLD("%s") " lump in the %s " BOLD("%s") ".", temp1, (sc_Line == 1 ? "" : "s"),
-        temp2, (lumpinfo[MAPINFO]->wadfile->type == IWAD ? "IWAD" : "PWAD"), lumpinfo[MAPINFO]->wadfile->path);
+    C_Output("Parsed %s line%s from the " BOLD("%s") " lump in the %s " BOLD("%s") ".",
+        temp1, (sc_Line == 1 ? "" : "s"), temp2, (lumpinfo[MAPINFO]->wadfile->type == IWAD ? "IWAD" : "PWAD"),
+        lumpinfo[MAPINFO]->wadfile->path);
     free(temp1);
     free(temp2);
 

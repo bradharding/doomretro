@@ -3,7 +3,7 @@
 #### DOOM Retro v4.7
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
-* Minor changes have been made to the splash screen.
+* Changes have been made to the splash screen.
 * Minor changes have been made to some text that is output to the console.
 * The external automap now goes black rather than a dark blue while the help screen is displayed.
 * The vertical position of the current map’s title in the automap has changed in some instances.
@@ -11,7 +11,7 @@
 * The following changes have been made when pressing the <kbd>F9</kbd> key to quickload a savegame:
   * The load game menu now opens if the game hasn’t been saved yet.
   * The background of the confirmation message now displays correctly.
-  * There is no longer an erroneous fade transition when pressing the <kbd>Y</kbd> key and if the `fade` CVAR is `on`.
+  * There is no longer a misplaced fade transition when pressing the <kbd>Y</kbd> key and if the `fade` CVAR is `on`.
 * There is now a fade transition when opening the sound volume menu in the options menu if the `fade` CVAR is `on`.
 * When toggling widescreen mode pressing the <kbd>+</kbd> key, the player’s vertical field of view now zooms in slightly.
 * A crash no longer occurs if the `save` CCMD is bound to a control using the `bind` CCMD.
