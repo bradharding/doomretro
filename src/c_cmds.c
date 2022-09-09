@@ -1930,6 +1930,7 @@ static void condump_cmd_func2(char *cmd, char *parms)
                 for (int inpos = 0; inpos < len; inpos++)
                 {
                     const unsigned char letter = string[inpos];
+                    unsigned char       nextletter;
 
                     if (letter == '\t')
                     {
@@ -1953,7 +1954,8 @@ static void condump_cmd_func2(char *cmd, char *parms)
                     {
                         if (prevletter == '\0' || prevletter == ' ' || prevletter == '\t' || prevletter == '('
                             || prevletter == '[' || prevletter == '{' || prevletter == '<' || prevletter == '"'
-                            || ((prevletter == BOLDTOGGLECHAR || prevletter == ITALICSTOGGLECHAR) && prevletter2 != '.'))
+                            || ((prevletter == BOLDTOGGLECHAR || prevletter == ITALICSTOGGLECHAR) && prevletter2 != '.' &&
+                                (nextletter = (i < len - 1 ? string[i + 1] : '\0') != '.')))
                             fputc(145, file);
                         else
                             fputc(146, file);
@@ -1964,7 +1966,8 @@ static void condump_cmd_func2(char *cmd, char *parms)
                     {
                         if (prevletter == '\0' || prevletter == ' ' || prevletter == '\t' || prevletter == '('
                             || prevletter == '[' || prevletter == '{' || prevletter == '<' || prevletter == '\''
-                            || ((prevletter == BOLDTOGGLECHAR || prevletter == ITALICSTOGGLECHAR) && prevletter2 != '.'))
+                            || ((prevletter == BOLDTOGGLECHAR || prevletter == ITALICSTOGGLECHAR) && prevletter2 != '.' &&
+                                (nextletter = (i < len - 1 ? string[i + 1] : '\0') != '.')))
                             fputc(147, file);
                         else
                             fputc(148, file);
