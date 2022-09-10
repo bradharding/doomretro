@@ -157,7 +157,7 @@ typedef struct
     char            string[1024];
     int             count;
     stringtype_t    stringtype;
-    int             wraps;
+    int             wrap;
     int             indent;
     bool            bold;
     bool            italics;
