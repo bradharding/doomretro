@@ -929,7 +929,7 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL(vid_borderlesswindow, "", bool_cvars_func1, vid_borderlesswindow_cvar_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles using a borderless window when fullscreen."),
     CVAR_INT(vid_capfps, "", vid_capfps_cvar_func1, vid_capfps_cvar_func2, CF_NONE, CAPVALUEALIAS,
-        "The number of frames per second at which to cap the framerate (" BOLD("off") ", or " BOLD("10") " to " BOLD("1,000") "). "
+        "The number of frames per second at which to cap the framerate (" BOLD("off") ", or " BOLD("35") " to " BOLD("1,000") "). "
         "There is no interpolation between frames when this CVAR is " BOLD("35") "."),
     CVAR_INT(vid_display, "", int_cvars_func1, vid_display_cvar_func2, CF_NONE, NOVALUEALIAS,
         "The display used to play " ITALICS(DOOMRETRO_NAME) " on."),
@@ -9735,7 +9735,7 @@ static void vid_capfps_cvar_func2(char *cmd, char *parms)
 
         if (vid_capfps != vid_capfps_old)
         {
-            if (vid_capfps < 10)
+            if (vid_capfps && (vid_capfps < TICRATE || vid_capfps > vid_capfps_max))
             {
                 vid_capfps = vid_capfps_old;
                 M_SaveCVARs();

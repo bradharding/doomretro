@@ -16,6 +16,9 @@
 * When toggling widescreen mode by pressing the <kbd>+</kbd> key, the player’s vertical field of view now zooms in slightly.
 * A crash no longer occurs if the `save` CCMD is bound to a control using the `bind` CCMD.
 * The `r_skycolor` CVAR has been removed.
+* The following changes have been made to the `vid_capfps` CVAR:
+  * Its minimum value is now `35` rather than `10`.
+  * A bug is fixed whereby it couldn’t be set to `off` in the console.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
