@@ -43,7 +43,7 @@
 #include "doomtype.h"
 #include "r_defs.h"
 
-#define CONSOLESTRINGSMAX                   256
+#define CONSOLESTRINGSMAX                   1024
 
 #define CONSOLEFONTSTART                    ' '
 #define CONSOLEFONTEND                      '~'
@@ -156,6 +156,7 @@ typedef struct
 {
     char            string[1024];
     int             count;
+    int             line;
     stringtype_t    stringtype;
     int             wrap;
     int             indent;
@@ -166,41 +167,6 @@ typedef struct
     int             tics;
     char            timestamp[9];
 } console_t;
-
-extern patch_t      *consolefont[CONSOLEFONTSIZE];
-extern patch_t      *degree;
-extern patch_t      *lsquote;
-extern patch_t      *ldquote;
-extern patch_t      *unknownchar;
-extern patch_t      *altunderscores;
-
-extern patch_t      *bindlist;
-extern patch_t      *cmdlist;
-extern patch_t      *cvarlist;
-extern patch_t      *maplist;
-extern patch_t      *mapstats;
-extern patch_t      *playerstats;
-extern patch_t      *thinglist;
-
-extern console_t    *console;
-
-extern bool         consoleactive;
-extern int          consoleheight;
-extern int          consoledirection;
-
-extern char         consoleinput[255];
-extern int          consolestrings;
-extern size_t       consolestringsmax;
-
-extern int          caretpos;
-extern int          selectstart;
-extern int          selectend;
-
-extern char         consolecheat[255];
-extern char         consolecheatparm[3];
-extern char         consolecmdparm[255];
-
-extern bool         scrollbardrawn;
 
 typedef struct
 {
@@ -217,14 +183,49 @@ typedef struct
     const int       adjust;
 } kern_t;
 
-extern const kern_t kern[];
-extern const kern_t altkern[];
-
 typedef struct
 {
     const char      text[255];
     const int       game;
 } autocomplete_t;
+
+extern patch_t              *consolefont[CONSOLEFONTSIZE];
+extern patch_t              *degree;
+extern patch_t              *lsquote;
+extern patch_t              *ldquote;
+extern patch_t              *unknownchar;
+extern patch_t              *altunderscores;
+
+extern patch_t              *bindlist;
+extern patch_t              *cmdlist;
+extern patch_t              *cvarlist;
+extern patch_t              *maplist;
+extern patch_t              *mapstats;
+extern patch_t              *playerstats;
+extern patch_t              *thinglist;
+
+extern console_t            *console;
+
+extern bool                 consoleactive;
+extern int                  consoleheight;
+extern int                  consoledirection;
+
+extern char                 consoleinput[255];
+extern int                  consolestrings;
+extern size_t               consolestringsmax;
+
+extern int                  caretpos;
+extern int                  selectstart;
+extern int                  selectend;
+
+extern char                 consolecheat[255];
+extern char                 consolecheatparm[3];
+extern char                 consolecmdparm[255];
+
+extern bool                 scrollbardrawn;
+
+extern const kern_t         kern[];
+extern const kern_t         altkern[];
 
 extern const autocomplete_t autocompletelist[];
 
@@ -240,6 +241,7 @@ void C_Header(const int tabs[3], patch_t *header, const char *string);
 void C_Warning(const int minwarninglevel, const char *string, ...);
 void C_PlayerMessage(const char *string, ...);
 void C_PlayerObituary(const char *string, ...);
+void C_ResetWrappedLines(void);
 void C_AddConsoleDivider(void);
 void C_ClearConsole(void);
 void C_Init(void);

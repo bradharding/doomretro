@@ -340,6 +340,7 @@ void C_Warning(const int minwarninglevel, const char *string, ...)
             console = I_Realloc(console, (consolestringsmax += CONSOLESTRINGSMAX) * sizeof(*console));
 
         M_StringCopy(console[consolestrings].string, buffer, sizeof(console[0].string));
+        console[consolestrings].line = 1;
         console[consolestrings].indent = WARNINGWIDTH + 2;
         console[consolestrings].wrap = 0;
         console[consolestrings++].stringtype = warningstring;
@@ -413,6 +414,12 @@ void C_PlayerObituary(const char *string, ...)
     }
 
     outputhistory = -1;
+}
+
+void C_ResetWrappedLines(void)
+{
+    for (int i = 0; i < consolestrings; i++)
+        console[i].wrap = 0;
 }
 
 static void C_AddToUndoHistory(void)
@@ -941,7 +948,14 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
 
     if (console[index].stringtype == warningstring)
     {
-        V_DrawConsoleTextPatch(x - 1, y, warning, WARNINGWIDTH, color1, color2, false, translucency);
+        if (console[index].line == 2)
+        {
+            if (text[0] == ' ')
+                x -= spacewidth;
+        }
+        else
+            V_DrawConsoleTextPatch(x - 1, y, warning, WARNINGWIDTH, color1, color2, false, translucency);
+
         x += WARNINGWIDTH + 1;
     }
 
@@ -1331,7 +1345,7 @@ void C_Drawer(void)
     int         i;
     int         x = CONSOLEINPUTX;
     int         y = CONSOLELINEHEIGHT * (CONSOLELINES - 1) - CONSOLELINEHEIGHT / 2 + 1;
-    const int   bottomline = (outputhistory == -1 ? consolestrings : outputhistory + CONSOLELINES) - 1;
+    const int   bottomline = (outputhistory == -1 ? consolestrings : outputhistory + CONSOLELINES - 1) - 1;
     int         len;
     char        partialinput[255];
     const bool  prevconsoleactive = consoleactive;
@@ -1520,7 +1534,7 @@ void C_Drawer(void)
 
             if (wrap < len && i < bottomline)
             {
-                char *temp = M_SubString(console[i].string, wrap, (size_t)len - wrap);
+                char    *temp = M_SubString(console[i].string, wrap, (size_t)len - wrap);
 
                 wrapbold = console[i].bold;
                 wrapitalics = console[i].italics;
@@ -1529,6 +1543,7 @@ void C_Drawer(void)
                 wrapbold = false;
                 wrapitalics = false;
                 free(temp);
+                i--;
             }
 
             free(text);
@@ -1808,7 +1823,6 @@ bool C_Responder(event_t *ev)
         {
             keydown = key;
             C_HideConsole();
-
             return true;
         }
         else if (key == keyboardscreenshot && keyboardscreenshot == KEY_PRINTSCREEN)
