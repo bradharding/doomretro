@@ -1543,7 +1543,9 @@ void C_Drawer(void)
                 wrapbold = false;
                 wrapitalics = false;
                 free(temp);
-                i--;
+
+                if (i < bottomline - 1)
+                    i--;
             }
 
             free(text);
