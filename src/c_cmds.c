@@ -2032,19 +2032,20 @@ static void cvarlist_cmd_func2(char *cmd, char *parms)
             if (M_StringCompare(consolecmds[i].name, stringize(ammo)))
             {
                 if (gamestate == GS_LEVEL)
-                    C_TabbedOutput(tabs, "%i.\t" BOLD("%s\t%i") "\t%s", count, consolecmds[i].name,
-                        viewplayer->ammo[weaponinfo[viewplayer->readyweapon].ammotype], consolecmds[i].description);
+                    C_TabbedOutput(tabs, "%i.\t" BOLD("%s") "\t" BOLD("%i") "\t%s",
+                        count, consolecmds[i].name, viewplayer->ammo[weaponinfo[viewplayer->readyweapon].ammotype],
+                        consolecmds[i].description);
                 else
-                    C_TabbedOutput(tabs, "%i.\t" BOLD("%s\t%i") "\t%s",
+                    C_TabbedOutput(tabs, "%i.\t" BOLD("%s") "\t" BOLD("%i") "\t%s",
                         count, consolecmds[i].name, ammo_default, consolecmds[i].description);
             }
             else if (M_StringCompare(consolecmds[i].name, stringize(armor)))
             {
                 if (gamestate == GS_LEVEL)
-                    C_TabbedOutput(tabs, "%i.\t" BOLD("%s\t%i%%") "\t%s",
+                    C_TabbedOutput(tabs, "%i.\t" BOLD("%s") "\t" BOLD("%i%%") "\t%s",
                         count, consolecmds[i].name, viewplayer->armorpoints, consolecmds[i].description);
                 else
-                    C_TabbedOutput(tabs, "%i.\t" BOLD("%s\t%i%%") "\t%s",
+                    C_TabbedOutput(tabs, "%i.\t" BOLD("%s") "\t" BOLD("%i%%") "\t%s",
                         count, consolecmds[i].name, armor_default, consolecmds[i].description);
             }
             else if (M_StringCompare(consolecmds[i].name, stringize(armortype)))
@@ -2053,19 +2054,21 @@ static void cvarlist_cmd_func2(char *cmd, char *parms)
                 {
                     char    *temp = C_LookupAliasFromValue(viewplayer->armortype, ARMORTYPEVALUEALIAS);
 
-                    C_TabbedOutput(tabs, "%i.\t" BOLD("%s\t%s") "\t%s", count, consolecmds[i].name, temp, consolecmds[i].description);
+                    C_TabbedOutput(tabs, "%i.\t" BOLD("%s") "\t" BOLD("%s") "\t%s",
+                        count, consolecmds[i].name, temp, consolecmds[i].description);
                     free(temp);
                 }
                 else
-                    C_TabbedOutput(tabs, "%i.\t" BOLD("%s\tnone") "\t%s", count, consolecmds[i].name, consolecmds[i].description);
+                    C_TabbedOutput(tabs, "%i.\t" BOLD("%s") "\t" BOLD("none") "\t%s",
+                        count, consolecmds[i].name, consolecmds[i].description);
             }
             else if (M_StringCompare(consolecmds[i].name, stringize(health)))
             {
                 if (gamestate == GS_LEVEL)
-                    C_TabbedOutput(tabs, "%i.\t" BOLD("%s\t%i%%") "\t%s",
+                    C_TabbedOutput(tabs, "%i.\t" BOLD("%s") "\t" BOLD("%i%%") "\t%s",
                         count, consolecmds[i].name, viewplayer->health, consolecmds[i].description);
                 else
-                    C_TabbedOutput(tabs, "%i.\t" BOLD("%s\t%i%%") "\t%s",
+                    C_TabbedOutput(tabs, "%i.\t" BOLD("%s") "\t" BOLD("%i%%") "\t%s",
                         count, consolecmds[i].name, health_default, consolecmds[i].description);
             }
             else if (M_StringCompare(consolecmds[i].name, stringize(weapon)))
@@ -2074,37 +2077,41 @@ static void cvarlist_cmd_func2(char *cmd, char *parms)
                 {
                     char    *temp = C_LookupAliasFromValue(viewplayer->readyweapon, WEAPONVALUEALIAS);
 
-                    C_TabbedOutput(tabs, "%i.\t" BOLD("%s\t%s") "\t%s", count, consolecmds[i].name, temp, consolecmds[i].description);
+                    C_TabbedOutput(tabs, "%i.\t" BOLD("%s") "\t" BOLD("%s") "\t%s",
+                        count, consolecmds[i].name, temp, consolecmds[i].description);
                     free(temp);
                 }
                 else
                 {
                     char    *temp = C_LookupAliasFromValue(weapon_default, WEAPONVALUEALIAS);
 
-                    C_TabbedOutput(tabs, "%i.\t" BOLD("%s\t%s") "\t%s", count, consolecmds[i].name, temp, consolecmds[i].description);
+                    C_TabbedOutput(tabs, "%i.\t" BOLD("%s") "\t" BOLD("%s") "\t%s",
+                        count, consolecmds[i].name, temp, consolecmds[i].description);
                     free(temp);
                 }
             }
             else if (M_StringCompare(consolecmds[i].name, stringize(r_fov)))
             {
-                C_TabbedOutput(tabs, "%i.\t" BOLD("%s\t%i") "\xB0\t%s", count, consolecmds[i].name,
-                    *(int *)consolecmds[i].variable, consolecmds[i].description);
+                C_TabbedOutput(tabs, "%i.\t" BOLD("%s") "\t" BOLD("%i") "\xB0\t%s",
+                    count, consolecmds[i].name, *(int *)consolecmds[i].variable, consolecmds[i].description);
             }
             else if (consolecmds[i].flags & CF_BOOLEAN)
             {
                 char    *temp = C_LookupAliasFromValue(*(bool *)consolecmds[i].variable, consolecmds[i].aliases);
 
-                C_TabbedOutput(tabs, "%i.\t" BOLD("%s\t%s") "\t%s", count, consolecmds[i].name, temp, consolecmds[i].description);
+                C_TabbedOutput(tabs, "%i.\t" BOLD("%s") "\t" BOLD("%s") "\t%s",
+                    count, consolecmds[i].name, temp, consolecmds[i].description);
                 free(temp);
             }
             else if ((consolecmds[i].flags & CF_INTEGER) && (consolecmds[i].flags & CF_PERCENT))
-                C_TabbedOutput(tabs, "%i.\t" BOLD("%s\t%i%%") "\t%s", count, consolecmds[i].name,
-                    *(int *)consolecmds[i].variable, consolecmds[i].description);
+                C_TabbedOutput(tabs, "%i.\t" BOLD("%s") "\t" BOLD("%i%%") "\t%s",
+                    count, consolecmds[i].name, *(int *)consolecmds[i].variable, consolecmds[i].description);
             else if (consolecmds[i].flags & CF_INTEGER)
             {
                 char    *temp = C_LookupAliasFromValue(*(int *)consolecmds[i].variable, consolecmds[i].aliases);
 
-                C_TabbedOutput(tabs, "%i.\t" BOLD("%s\t%s") "\t%s", count, consolecmds[i].name, temp, consolecmds[i].description);
+                C_TabbedOutput(tabs, "%i.\t" BOLD("%s") "\t" BOLD("%s") "\t%s",
+                    count, consolecmds[i].name, temp, consolecmds[i].description);
                 free(temp);
             }
             else if (consolecmds[i].flags & CF_FLOAT)
@@ -2113,7 +2120,8 @@ static void cvarlist_cmd_func2(char *cmd, char *parms)
                 {
                     char    *temp = striptrailingzero(*(float *)consolecmds[i].variable, 1);
 
-                    C_TabbedOutput(tabs, "%i.\t" BOLD("%s\t%s%%") "\t%s", count, consolecmds[i].name, temp, consolecmds[i].description);
+                    C_TabbedOutput(tabs, "%i.\t" BOLD("%s") "\t" BOLD("%s%%") "\t%s",
+                        count, consolecmds[i].name, temp, consolecmds[i].description);
                     free(temp);
                 }
                 else
@@ -2127,14 +2135,19 @@ static void cvarlist_cmd_func2(char *cmd, char *parms)
                     if (len >= 2 && buffer[len - 1] == '0' && buffer[len - 2] == '0')
                         buffer[len - 1] = '\0';
 
-                    C_TabbedOutput(tabs, "%i.\t" BOLD("%s\t%s") "\t%s", count, consolecmds[i].name, buffer, consolecmds[i].description);
+                    C_TabbedOutput(tabs, "%i.\t" BOLD("%s") "\t" BOLD("%s") "\t%s",
+                        count, consolecmds[i].name, buffer, consolecmds[i].description);
                 }
             }
             else if (consolecmds[i].flags & CF_STRING)
-                C_TabbedOutput(tabs, "%i.\t" BOLD("%s\t%s%.14s%s%s") "\t%s", count, consolecmds[i].name,
-                    (M_StringCompare(consolecmds[i].name, stringize(version)) ? "" : "\""), *(char **)consolecmds[i].variable,
+                C_TabbedOutput(tabs, "%i.\t" BOLD("%s") "\t" BOLD("%s%.14s%s%s") "\t%s",
+                    count,
+                    consolecmds[i].name,
+                    (M_StringCompare(consolecmds[i].name, stringize(version)) ? "" : "\""),
+                    *(char **)consolecmds[i].variable,
                     (strlen(*(char **)consolecmds[i].variable) > 14 ? "..." : ""),
-                    (M_StringCompare(consolecmds[i].name, stringize(version)) ? "" : "\""), consolecmds[i].description);
+                    (M_StringCompare(consolecmds[i].name, stringize(version)) ? "" : "\""),
+                    consolecmds[i].description);
             else if (consolecmds[i].flags & CF_TIME)
             {
                 int tics = *(int *)consolecmds[i].variable / TICRATE;
@@ -2143,15 +2156,15 @@ static void cvarlist_cmd_func2(char *cmd, char *parms)
                 int seconds = tics % 60;
 
                 if (!hours)
-                    C_TabbedOutput(tabs, "%i.\t" BOLD("%s\t%02i:%02i") "\t%s", count, consolecmds[i].name,
-                        minutes, seconds, consolecmds[i].description);
+                    C_TabbedOutput(tabs, "%i.\t" BOLD("%s") "\t" BOLD("%02i:%02i") "\t%s",
+                        count, consolecmds[i].name, minutes, seconds, consolecmds[i].description);
                 else
-                    C_TabbedOutput(tabs, "%i.\t" BOLD("%s\t%i:%02i:%02i") "\t%s", count, consolecmds[i].name,
-                        hours, minutes, seconds, consolecmds[i].description);
+                    C_TabbedOutput(tabs, "%i.\t" BOLD("%s") "\t" BOLD("%i:%02i:%02i") "\t%s",
+                        count, consolecmds[i].name, hours, minutes, seconds, consolecmds[i].description);
             }
             else if (consolecmds[i].flags & CF_OTHER)
-                C_TabbedOutput(tabs, "%i.\t" BOLD("%s\t%s") "\t%s", count, consolecmds[i].name,
-                    *(char **)consolecmds[i].variable, consolecmds[i].description);
+                C_TabbedOutput(tabs, "%i.\t" BOLD("%s") "\t" BOLD("%s") "\t%s",
+                    count, consolecmds[i].name, *(char **)consolecmds[i].variable, consolecmds[i].description);
         }
 }
 
