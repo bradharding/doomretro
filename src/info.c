@@ -135,7 +135,7 @@ mobjinfo_t mobjinfo[] =
         /* meleerange           */ MELEERANGE,
         /* name1                */ "player",
         /* plural1              */ "players",
-        /* name2                */ "",
+        /* name2                */ "doomplayer",
         /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
@@ -429,7 +429,7 @@ mobjinfo_t mobjinfo[] =
         /* meleerange           */ MELEERANGE,
         /* name1                */ "revenant",
         /* plural1              */ "revenants",
-        /* name2                */ "",
+        /* name2                */ "revenanttracer",
         /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
@@ -478,7 +478,7 @@ mobjinfo_t mobjinfo[] =
         /* meleerange           */ MELEERANGE,
         /* name1                */ "smoke",
         /* plural1              */ "smoke",
-        /* name2                */ "",
+        /* name2                */ "revenanttracersmoke",
         /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
@@ -527,7 +527,7 @@ mobjinfo_t mobjinfo[] =
         /* meleerange           */ MELEERANGE,
         /* name1                */ "mancubus",
         /* plural1              */ "mancubi",
-        /* name2                */ "",
+        /* name2                */ "fatso",
         /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
@@ -576,7 +576,7 @@ mobjinfo_t mobjinfo[] =
         /* meleerange           */ MELEERANGE,
         /* name1                */ "mancubus",
         /* plural1              */ "mancubi",
-        /* name2                */ "",
+        /* name2                */ "fatshot",
         /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
@@ -627,7 +627,7 @@ mobjinfo_t mobjinfo[] =
         /* plural1              */ "chaingunners",
         /* name2                */ "heavy weapon dude",
         /* plural2              */ "heavy weapon dudes",
-        /* name3                */ "",
+        /* name3                */ "chaingunguy",
         /* plural3              */ ""
     },
 
@@ -674,7 +674,7 @@ mobjinfo_t mobjinfo[] =
         /* meleerange           */ MELEERANGE,
         /* name1                */ "imp",
         /* plural1              */ "imps",
-        /* name2                */ "",
+        /* name2                */ "doomimp",
         /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
@@ -919,7 +919,7 @@ mobjinfo_t mobjinfo[] =
         /* meleerange           */ MELEERANGE,
         /* name1                */ "Hell noble",
         /* plural1              */ "Hell nobles",
-        /* name2                */ "",
+        /* name2                */ "baronball",
         /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
@@ -1360,7 +1360,7 @@ mobjinfo_t mobjinfo[] =
         /* meleerange           */ MELEERANGE,
         /* name1                */ "icon of sin",
         /* plural1              */ "icons of sin",
-        /* name2                */ "",
+        /* name2                */ "bossbrain",
         /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
@@ -1409,7 +1409,7 @@ mobjinfo_t mobjinfo[] =
         /* meleerange           */ MELEERANGE,
         /* name1                */ "monsters spawner",
         /* plural1              */ "monsters spawners",
-        /* name2                */ "",
+        /* name2                */ "bosseye",
         /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
@@ -1458,7 +1458,7 @@ mobjinfo_t mobjinfo[] =
         /* meleerange           */ MELEERANGE,
         /* name1                */ "monsters target",
         /* plural1              */ "monsters targets",
-        /* name2                */ "",
+        /* name2                */ "bosstarget",
         /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
@@ -1507,7 +1507,7 @@ mobjinfo_t mobjinfo[] =
         /* meleerange           */ MELEERANGE,
         /* name1                */ "icon of sin",
         /* plural1              */ "icons of sin",
-        /* name2                */ "",
+        /* name2                */ "spawnshot",
         /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
@@ -1556,7 +1556,7 @@ mobjinfo_t mobjinfo[] =
         /* meleerange           */ MELEERANGE,
         /* name1                */ "icon of sin fire",
         /* plural1              */ "icon of sin fire",
-        /* name2                */ "",
+        /* name2                */ "spawnfire",
         /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
@@ -1605,7 +1605,7 @@ mobjinfo_t mobjinfo[] =
         /* meleerange           */ MELEERANGE,
         /* name1                */ "barrel",
         /* plural1              */ "barrels",
-        /* name2                */ "",
+        /* name2                */ "explosivebarrel",
         /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
@@ -1654,7 +1654,7 @@ mobjinfo_t mobjinfo[] =
         /* meleerange           */ MELEERANGE,
         /* name1                */ "imp",
         /* plural1              */ "imps",
-        /* name2                */ "",
+        /* name2                */ "doomimpball",
         /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
@@ -1703,7 +1703,7 @@ mobjinfo_t mobjinfo[] =
         /* meleerange           */ MELEERANGE,
         /* name1                */ "cacodemon",
         /* plural1              */ "cacodemons",
-        /* name2                */ "",
+        /* name2                */ "cacodemonball",
         /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
@@ -1752,7 +1752,7 @@ mobjinfo_t mobjinfo[] =
         /* meleerange           */ MELEERANGE,
         /* name1                */ "rocket launcher",
         /* plural1              */ "rocket launchers",
-        /* name2                */ "",
+        /* name2                */ "rocket",
         /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
@@ -1801,7 +1801,7 @@ mobjinfo_t mobjinfo[] =
         /* meleerange           */ MELEERANGE,
         /* name1                */ "plasma rifle",
         /* plural1              */ "plasma rifles",
-        /* name2                */ "",
+        /* name2                */ "plasmaball",
         /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
@@ -1850,7 +1850,7 @@ mobjinfo_t mobjinfo[] =
         /* meleerange           */ MELEERANGE,
         /* name1                */ "BFG-9000 projectile",
         /* plural1              */ "BFG-9000 projectiles",
-        /* name2                */ "",
+        /* name2                */ "bfgball",
         /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
@@ -1899,7 +1899,7 @@ mobjinfo_t mobjinfo[] =
         /* meleerange           */ MELEERANGE,
         /* name1                */ "arachnotron's projectile",
         /* plural1              */ "arachnotron projectiles",
-        /* name2                */ "",
+        /* name2                */ "arachnotronplasma",
         /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
@@ -1997,7 +1997,7 @@ mobjinfo_t mobjinfo[] =
         /* meleerange           */ MELEERANGE,
         /* name1                */ "red blood",
         /* plural1              */ "red blood",
-        /* name2                */ "",
+        /* name2                */ "blood",
         /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
@@ -2144,7 +2144,7 @@ mobjinfo_t mobjinfo[] =
         /* meleerange           */ MELEERANGE,
         /* name1                */ "teleport destination",
         /* plural1              */ "teleport destinations",
-        /* name2                */ "",
+        /* name2                */ "teleportdest",
         /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
@@ -2193,7 +2193,7 @@ mobjinfo_t mobjinfo[] =
         /* meleerange           */ MELEERANGE,
         /* name1                */ "BFG-9000 secondary projectile",
         /* plural1              */ "BFG-9000 secondary projectiles",
-        /* name2                */ "",
+        /* name2                */ "bfgextra",
         /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
@@ -2438,7 +2438,7 @@ mobjinfo_t mobjinfo[] =
         /* meleerange           */ MELEERANGE,
         /* name1                */ "blue keycard",
         /* plural1              */ "blue keycards",
-        /* name2                */ "",
+        /* name2                */ "bluecard",
         /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
@@ -2487,7 +2487,7 @@ mobjinfo_t mobjinfo[] =
         /* meleerange           */ MELEERANGE,
         /* name1                */ "red keycard",
         /* plural1              */ "red keycards",
-        /* name2                */ "",
+        /* name2                */ "redcard",
         /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
@@ -2536,7 +2536,7 @@ mobjinfo_t mobjinfo[] =
         /* meleerange           */ MELEERANGE,
         /* name1                */ "yellow keycard",
         /* plural1              */ "yellow keycards",
-        /* name2                */ "",
+        /* name2                */ "yellowcard",
         /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
@@ -2585,7 +2585,7 @@ mobjinfo_t mobjinfo[] =
         /* meleerange           */ MELEERANGE,
         /* name1                */ "yellow skull key",
         /* plural1              */ "yellow skull keys",
-        /* name2                */ "",
+        /* name2                */ "yellowskull",
         /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
@@ -2634,7 +2634,7 @@ mobjinfo_t mobjinfo[] =
         /* meleerange           */ MELEERANGE,
         /* name1                */ "red skull key",
         /* plural1              */ "red skull keys",
-        /* name2                */ "",
+        /* name2                */ "redskull",
         /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
@@ -2683,7 +2683,7 @@ mobjinfo_t mobjinfo[] =
         /* meleerange           */ MELEERANGE,
         /* name1                */ "blue skull key",
         /* plural1              */ "blue skull keys",
-        /* name2                */ "",
+        /* name2                */ "blueskull",
         /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
@@ -2881,7 +2881,7 @@ mobjinfo_t mobjinfo[] =
         /* plural1              */ "invulnerability power-ups",
         /* name2                */ "invulnerability",
         /* plural2              */ "invulnerabilities",
-        /* name3                */ "",
+        /* name3                */ "invulnerabilitysphere",
         /* plural3              */ ""
     },
 
@@ -2979,8 +2979,8 @@ mobjinfo_t mobjinfo[] =
         /* plural1              */ "partial invisibility power-ups",
         /* name2                */ "partial invisibility",
         /* plural2              */ "partial invisibilities",
-        /* name3                */ "invisibility",
-        /* plural3              */ "invisibilities"
+        /* name3                */ "blursphere",
+        /* plural3              */ ""
     },
 
     // Radiation Shielding Suit (MT_MISC14)
@@ -3077,7 +3077,7 @@ mobjinfo_t mobjinfo[] =
         /* plural1              */ "computer area map power-ups",
         /* name2                */ "computer area map",
         /* plural2              */ "computer area maps",
-        /* name3                */ "",
+        /* name3                */ "allmap",
         /* plural3              */ ""
     },
 
@@ -3126,7 +3126,7 @@ mobjinfo_t mobjinfo[] =
         /* plural1              */ "light amplification visor power-ups",
         /* name2                */ "light amplification visor",
         /* plural2              */ "light amplification visors",
-        /* name3                */ "",
+        /* name3                */ "infrared",
         /* plural3              */ ""
     },
 
@@ -3320,7 +3320,7 @@ mobjinfo_t mobjinfo[] =
         /* meleerange           */ MELEERANGE,
         /* name1                */ "rockets",
         /* plural1              */ "rockets",
-        /* name2                */ "",
+        /* name2                */ "rocketammo",
         /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
@@ -3516,7 +3516,7 @@ mobjinfo_t mobjinfo[] =
         /* meleerange           */ MELEERANGE,
         /* name1                */ "shells",
         /* plural1              */ "shells",
-        /* name2                */ "",
+        /* name2                */ "shell",
         /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
@@ -4006,7 +4006,7 @@ mobjinfo_t mobjinfo[] =
         /* meleerange           */ MELEERANGE,
         /* name1                */ "tall techno floor lamp",
         /* plural1              */ "tall techno floor lamps",
-        /* name2                */ "",
+        /* name2                */ "techlamp",
         /* plural2              */ "",
     },
 
@@ -4053,7 +4053,7 @@ mobjinfo_t mobjinfo[] =
         /* meleerange           */ MELEERANGE,
         /* name1                */ "short techno floor lamp",
         /* plural1              */ "short techno floor lamps",
-        /* name2                */ "",
+        /* name2                */ "techlamp2",
         /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
@@ -4102,7 +4102,7 @@ mobjinfo_t mobjinfo[] =
         /* meleerange           */ MELEERANGE,
         /* name1                */ "floor lamp",
         /* plural1              */ "floor lamps",
-        /* name2                */ "",
+        /* name2                */ "column",
         /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
@@ -4347,7 +4347,7 @@ mobjinfo_t mobjinfo[] =
         /* meleerange           */ MELEERANGE,
         /* name1                */ "short red column with skull",
         /* plural1              */ "short red columns with skulls",
-        /* name2                */ "",
+        /* name2                */ "skullcolumn",
         /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
@@ -4396,7 +4396,7 @@ mobjinfo_t mobjinfo[] =
         /* meleerange           */ MELEERANGE,
         /* name1                */ "short green column with beating heart",
         /* plural1              */ "short green columns with beating hearts",
-        /* name2                */ "",
+        /* name2                */ "heartcolumn",
         /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
@@ -4543,7 +4543,7 @@ mobjinfo_t mobjinfo[] =
         /* meleerange           */ MELEERANGE,
         /* name1                */ "torched tree",
         /* plural1              */ "torched trees",
-        /* name2                */ "",
+        /* name2                */ "torchtree",
         /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
@@ -4592,7 +4592,7 @@ mobjinfo_t mobjinfo[] =
         /* meleerange           */ MELEERANGE,
         /* name1                */ "tall blue firestick",
         /* plural1              */ "tall blue firesticks",
-        /* name2                */ "",
+        /* name2                */ "bluetorch",
         /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
@@ -4641,7 +4641,7 @@ mobjinfo_t mobjinfo[] =
         /* meleerange           */ MELEERANGE,
         /* name1                */ "tall green firestick",
         /* plural1              */ "tall green firesticks",
-        /* name2                */ "",
+        /* name2                */ "greentorch",
         /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
@@ -4690,7 +4690,7 @@ mobjinfo_t mobjinfo[] =
         /* meleerange           */ MELEERANGE,
         /* name1                */ "tall red firestick",
         /* plural1              */ "tall red firesticks",
-        /* name2                */ "",
+        /* name2                */ "redtorch",
         /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
@@ -4739,7 +4739,7 @@ mobjinfo_t mobjinfo[] =
         /* meleerange           */ MELEERANGE,
         /* name1                */ "short blue firestick",
         /* plural1              */ "short blue firesticks",
-        /* name2                */ "",
+        /* name2                */ "shortbluetorch",
         /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
@@ -4788,7 +4788,7 @@ mobjinfo_t mobjinfo[] =
         /* meleerange           */ MELEERANGE,
         /* name1                */ "short green firestick",
         /* plural1              */ "short green firesticks",
-        /* name2                */ "",
+        /* name2                */ "shortgreentorch",
         /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
@@ -4837,7 +4837,7 @@ mobjinfo_t mobjinfo[] =
         /* meleerange           */ MELEERANGE,
         /* name1                */ "short red firestick",
         /* plural1              */ "short red firesticks",
-        /* name2                */ "",
+        /* name2                */ "shortredtorch",
         /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
@@ -4886,7 +4886,7 @@ mobjinfo_t mobjinfo[] =
         /* meleerange           */ MELEERANGE,
         /* name1                */ "stalagmite",
         /* plural1              */ "stalagmites",
-        /* name2                */ "",
+        /* name2                */ "stalagtite",
         /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
@@ -4935,7 +4935,7 @@ mobjinfo_t mobjinfo[] =
         /* meleerange           */ MELEERANGE,
         /* name1                */ "tall techno pillar",
         /* plural1              */ "tall techno pillars",
-        /* name2                */ "",
+        /* name2                */ "techpillar",
         /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
@@ -5082,7 +5082,7 @@ mobjinfo_t mobjinfo[] =
         /* meleerange           */ MELEERANGE,
         /* name1                */ "hanging victim (twitching, blocking)",
         /* plural1              */ "hanging victims (twitching, blocking)",
-        /* name2                */ "",
+        /* name2                */ "bloodytwitch",
         /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
@@ -5131,7 +5131,7 @@ mobjinfo_t mobjinfo[] =
         /* meleerange           */ MELEERANGE,
         /* name1                */ "hanging victim (arms out, blocking)",
         /* plural1              */ "hanging victims (arms out, blocking)",
-        /* name2                */ "",
+        /* name2                */ "meat2",
         /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
@@ -5180,7 +5180,7 @@ mobjinfo_t mobjinfo[] =
         /* meleerange           */ MELEERANGE,
         /* name1                */ "hanging victim (one-legged, blocking)",
         /* plural1              */ "hanging victims (one-legged, blocking)",
-        /* name2                */ "",
+        /* name2                */ "meat3",
         /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
@@ -5229,7 +5229,7 @@ mobjinfo_t mobjinfo[] =
         /* meleerange           */ MELEERANGE,
         /* name1                */ "hanging pair of legs (blocking)",
         /* plural1              */ "hanging pairs of legs (blocking)",
-        /* name2                */ "",
+        /* name2                */ "meat4",
         /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
@@ -5278,7 +5278,7 @@ mobjinfo_t mobjinfo[] =
         /* meleerange           */ MELEERANGE,
         /* name1                */ "hanging leg (blocking)",
         /* plural1              */ "hanging legs (blocking)",
-        /* name2                */ "",
+        /* name2                */ "meat5",
         /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
@@ -5327,7 +5327,7 @@ mobjinfo_t mobjinfo[] =
         /* meleerange           */ MELEERANGE,
         /* name1                */ "hanging victim (arms out)",
         /* plural1              */ "hanging victims (arms out)",
-        /* name2                */ "",
+        /* name2                */ "nonsolidmeat2",
         /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
@@ -5376,7 +5376,7 @@ mobjinfo_t mobjinfo[] =
         /* meleerange           */ MELEERANGE,
         /* name1                */ "hanging pair of legs",
         /* plural1              */ "hanging pairs of legs",
-        /* name2                */ "",
+        /* name2                */ "nonsolidmeat4",
         /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
@@ -5425,7 +5425,7 @@ mobjinfo_t mobjinfo[] =
         /* meleerange           */ MELEERANGE,
         /* name1                */ "hanging victim (one-legged)",
         /* plural1              */ "hanging victims (one-legged)",
-        /* name2                */ "",
+        /* name2                */ "nonsolidmeat3",
         /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
@@ -5474,7 +5474,7 @@ mobjinfo_t mobjinfo[] =
         /* meleerange           */ MELEERANGE,
         /* name1                */ "hanging leg",
         /* plural1              */ "hanging legs",
-        /* name2                */ "",
+        /* name2                */ "nonsolidmeat5",
         /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
@@ -5523,7 +5523,7 @@ mobjinfo_t mobjinfo[] =
         /* meleerange           */ MELEERANGE,
         /* name1                */ "hanging victim (twitching)",
         /* plural1              */ "hanging victims (twitching)",
-        /* name2                */ "",
+        /* name2                */ "nonsolidtwitch",
         /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
@@ -5817,7 +5817,7 @@ mobjinfo_t mobjinfo[] =
         /* meleerange           */ MELEERANGE,
         /* name1                */ "dead imp",
         /* plural1              */ "dead imps",
-        /* name2                */ "",
+        /* name2                */ "deaddoomimp",
         /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
@@ -5915,7 +5915,7 @@ mobjinfo_t mobjinfo[] =
         /* meleerange           */ MELEERANGE,
         /* name1                */ "bloody mess 1",
         /* plural1              */ "bloody messes 1",
-        /* name2                */ "",
+        /* name2                */ "gibbedmarine",
         /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
@@ -5964,7 +5964,7 @@ mobjinfo_t mobjinfo[] =
         /* meleerange           */ MELEERANGE,
         /* name1                */ "bloody mess 2",
         /* plural1              */ "bloody messes 2",
-        /* name2                */ "",
+        /* name2                */ "gibbedmarineextra",
         /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
@@ -6013,7 +6013,7 @@ mobjinfo_t mobjinfo[] =
         /* meleerange           */ MELEERANGE,
         /* name1                */ "five skulls shishkebab",
         /* plural1              */ "five skulls shishkebabs",
-        /* name2                */ "",
+        /* name2                */ "headsonastick",
         /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
@@ -6062,7 +6062,7 @@ mobjinfo_t mobjinfo[] =
         /* meleerange           */ MELEERANGE,
         /* name1                */ "pool of blood and bones",
         /* plural1              */ "pools of blood and bones",
-        /* name2                */ "",
+        /* name2                */ "gibs",
         /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
@@ -6111,7 +6111,7 @@ mobjinfo_t mobjinfo[] =
         /* meleerange           */ MELEERANGE,
         /* name1                */ "skull on a pole",
         /* plural1              */ "skulls on poles",
-        /* name2                */ "",
+        /* name2                */ "headonastick",
         /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
@@ -6160,7 +6160,7 @@ mobjinfo_t mobjinfo[] =
         /* meleerange           */ MELEERANGE,
         /* name1                */ "pile of skulls and candles",
         /* plural1              */ "piles of skulls and candles",
-        /* name2                */ "",
+        /* name2                */ "headcandles",
         /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
@@ -6209,7 +6209,7 @@ mobjinfo_t mobjinfo[] =
         /* meleerange           */ MELEERANGE,
         /* name1                */ "impaled human",
         /* plural1              */ "impaled humans",
-        /* name2                */ "",
+        /* name2                */ "deadstick",
         /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
@@ -6258,7 +6258,7 @@ mobjinfo_t mobjinfo[] =
         /* meleerange           */ MELEERANGE,
         /* name1                */ "twitching impaled human",
         /* plural1              */ "twitching impaled humans",
-        /* name2                */ "",
+        /* name2                */ "livestick",
         /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
@@ -6307,7 +6307,7 @@ mobjinfo_t mobjinfo[] =
         /* meleerange           */ MELEERANGE,
         /* name1                */ "large brown tree",
         /* plural1              */ "large brown trees",
-        /* name2                */ "",
+        /* name2                */ "bigtree",
         /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
@@ -6405,7 +6405,7 @@ mobjinfo_t mobjinfo[] =
         /* meleerange           */ MELEERANGE,
         /* name1                */ "hanging victim (guts removed)",
         /* plural1              */ "hanging victims (guts removed)",
-        /* name2                */ "",
+        /* name2                */ "hangnoguts",
         /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
@@ -6454,7 +6454,7 @@ mobjinfo_t mobjinfo[] =
         /* meleerange           */ MELEERANGE,
         /* name1                */ "hanging victim (guts and brain removed)",
         /* plural1              */ "hanging victims (guts and brain removed)",
-        /* name2                */ "",
+        /* name2                */ "hangbnobrain",
         /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
@@ -6503,7 +6503,7 @@ mobjinfo_t mobjinfo[] =
         /* meleerange           */ MELEERANGE,
         /* name1                */ "hanging torso (looking down)",
         /* plural1              */ "hanging torsos (looking down)",
-        /* name2                */ "",
+        /* name2                */ "hangtlookingdown",
         /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
@@ -6552,7 +6552,7 @@ mobjinfo_t mobjinfo[] =
         /* meleerange           */ MELEERANGE,
         /* name1                */ "hanging torso (open skull)",
         /* plural1              */ "hanging torsos (open skull)",
-        /* name2                */ "",
+        /* name2                */ "hangtskull",
         /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
@@ -6601,7 +6601,7 @@ mobjinfo_t mobjinfo[] =
         /* meleerange           */ MELEERANGE,
         /* name1                */ "hanging torso (looking up)",
         /* plural1              */ "hanging torsos (looking up)",
-        /* name2                */ "",
+        /* name2                */ "hangtlookingup",
         /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
@@ -6650,7 +6650,7 @@ mobjinfo_t mobjinfo[] =
         /* meleerange           */ MELEERANGE,
         /* name1                */ "hanging torso (brain removed)",
         /* plural1              */ "hanging torsos (brain removed)",
-        /* name2                */ "",
+        /* name2                */ "hangtnobrain",
         /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
@@ -6699,7 +6699,7 @@ mobjinfo_t mobjinfo[] =
         /* meleerange           */ MELEERANGE,
         /* name1                */ "pool of blood and guts",
         /* plural1              */ "pools of blood and guts",
-        /* name2                */ "",
+        /* name2                */ "colongibs",
         /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
@@ -6748,7 +6748,7 @@ mobjinfo_t mobjinfo[] =
         /* meleerange           */ MELEERANGE,
         /* name1                */ "pool of blood",
         /* plural1              */ "pools of blood",
-        /* name2                */ "",
+        /* name2                */ "smallbloodpool",
         /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
@@ -6797,7 +6797,7 @@ mobjinfo_t mobjinfo[] =
         /* meleerange           */ MELEERANGE,
         /* name1                */ "pool of brains",
         /* plural1              */ "pools of brains",
-        /* name2                */ "",
+        /* name2                */ "brainstem",
         /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
@@ -7187,8 +7187,8 @@ mobjinfo_t mobjinfo[] =
         /* ripsound             */ sfx_none,
         /* altspeed             */ NO_ALTSPEED,
         /* meleerange           */ MELEERANGE,
-        /* name1                */ "music source",
-        /* plural1              */ "music sources",
+        /* name1                */ "music changer",
+        /* plural1              */ "music changers",
         /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
