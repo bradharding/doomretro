@@ -565,7 +565,7 @@ static void HU_DrawHUD(void)
     {
         static int  healthwait;
 
-        if (health > 0 && health < HUD_HEALTH_MIN)
+        if (health > 0 && health < HUD_HEALTH_MIN && !(viewplayer->cheats & CF_BUDDHA))
         {
             if (healthwait < currenttime)
             {
