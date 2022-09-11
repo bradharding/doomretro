@@ -19,7 +19,7 @@
 * The following changes have been made to the `vid_capfps` CVAR:
   * Its minimum value is now `35` rather than `10`.
   * A bug is fixed whereby it couldn’t be set to `off` in the console.
-* The player’s health in the widescreen HUDs no longer flashes or turns red when less than `10%` while using the `BUDDHA` cheat.
+* The player’s health in the widescreen HUDs no longer flashes or turns red when less than `10%` while buddha mode is enabled.
 * The notches in the alternate widescreen HUD are now slightly less translucent.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)

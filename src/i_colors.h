@@ -55,6 +55,7 @@
 #define YELLOW    231
 
 extern byte *tinttab10;
+extern byte *tinttab15;
 extern byte *tinttab20;
 extern byte *tinttab25;
 extern byte *tinttab30;

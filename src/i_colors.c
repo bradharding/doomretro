@@ -81,48 +81,47 @@ static const byte filter[256] =
 
 #define EDGEWIDTH  16
 
-static byte *tinttab15;
+byte    *tinttab10;
+byte    *tinttab15;
+byte    *tinttab20;
+byte    *tinttab25;
+byte    *tinttab30;
+byte    *tinttab33;
+byte    *tinttab40;
+byte    *tinttab50;
+byte    *tinttab60;
+byte    *tinttab66;
+byte    *tinttab70;
+byte    *tinttab75;
+byte    *tinttab80;
+byte    *tinttab90;
 
-byte        *tinttab10;
-byte        *tinttab20;
-byte        *tinttab25;
-byte        *tinttab30;
-byte        *tinttab33;
-byte        *tinttab40;
-byte        *tinttab50;
-byte        *tinttab60;
-byte        *tinttab66;
-byte        *tinttab70;
-byte        *tinttab75;
-byte        *tinttab80;
-byte        *tinttab90;
+byte    *tranmap;
 
-byte        *tranmap;
+byte    *tinttabadditive;
+byte    *tinttabred;
+byte    *tinttabredwhite1;
+byte    *tinttabredwhite2;
+byte    *tinttabgreen;
+byte    *tinttabblue;
 
-byte        *tinttabadditive;
-byte        *tinttabred;
-byte        *tinttabredwhite1;
-byte        *tinttabredwhite2;
-byte        *tinttabgreen;
-byte        *tinttabblue;
+byte    *tinttabred33;
+byte    *tinttabredwhite50;
+byte    *tinttabgreen33;
+byte    *tinttabblue25;
 
-byte        *tinttabred33;
-byte        *tinttabredwhite50;
-byte        *tinttabgreen33;
-byte        *tinttabblue25;
+byte    nearestcolors[256];
+byte    nearestblack;
+byte    nearestdarkblue;
+byte    nearestgold;
+byte    nearestred;
+byte    nearestwhite;
 
-byte        nearestcolors[256];
-byte        nearestblack;
-byte        nearestdarkblue;
-byte        nearestgold;
-byte        nearestred;
-byte        nearestwhite;
-
-byte        *black25;
-byte        *black40;
-byte        *gold15;
-byte        *white25;
-byte        *white33;
+byte    *black25;
+byte    *black40;
+byte    *gold15;
+byte    *white25;
+byte    *white33;
 
 int FindNearestColor(byte *palette, const byte red, const byte green, const byte blue)
 {
