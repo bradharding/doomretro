@@ -360,7 +360,7 @@ enum
 #define am_path_default                    false
 
 #define am_pathcolor_min                   0
-#define am_pathcolor_default               95
+#define am_pathcolor_default               89
 #define am_pathcolor_max                   255
 
 #define am_playercolor_min                 0
