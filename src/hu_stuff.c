@@ -905,29 +905,33 @@ static int AltHUDNumber2Width(int val)
 
 static void HU_DrawAltHUD(void)
 {
-    int color = (((viewplayer->fixedcolormap == INVERSECOLORMAP) ^ (!r_textures)) ?
-                colormaps[0][32 * 256 + nearestwhite] : nearestwhite);
-    int health = BETWEEN(HUD_NUMBER_MIN, viewplayer->health, HUD_NUMBER_MAX);
-    int healthcolor = color;
-    int armor = MIN(viewplayer->armorpoints, HUD_NUMBER_MAX);
-    int barcolor2 = (health < HUD_HEALTH_MIN ? red : (health >= 100 ? green : color));
-    int barcolor1 = barcolor2;
-    int keypic_x = ALTHUD_RIGHT_X;
+    const int   color = (((viewplayer->fixedcolormap == INVERSECOLORMAP) ^ (!r_textures)) ?
+                        colormaps[0][32 * 256 + nearestwhite] : nearestwhite);
+    int         health = BETWEEN(HUD_NUMBER_MIN, viewplayer->health, HUD_NUMBER_MAX);
+    int         armor = MIN(viewplayer->armorpoints, HUD_NUMBER_MAX);
+    int         barcolor2;
+    int         barcolor1;
+    int         cheats = viewplayer->cheats;
+    int         keypic_x = ALTHUD_RIGHT_X;
 
-    if ((viewplayer->cheats & CF_GODMODE) || ((viewplayer->cheats & CF_BUDDHA) && health == 1))
-        barcolor1 = barcolor2 = healthcolor = yellow;
+    if ((cheats & CF_GODMODE) || ((cheats & CF_BUDDHA) && health == 1))
+        barcolor2 = yellow;
+    else
+        barcolor2 = (health < HUD_HEALTH_MIN ? red : (health >= 100 ? green : color));
+
+    barcolor1 = barcolor2;
 
     if (barcolor1 == green)
         barcolor1 += coloroffset;
 
-    DrawAltHUDNumber(ALTHUD_LEFT_X - AltHUDNumberWidth(ABS(health)), ALTHUD_Y + 12, health, healthcolor);
+    DrawAltHUDNumber(ALTHUD_LEFT_X - AltHUDNumberWidth(ABS(health)), ALTHUD_Y + 12, health, color);
 
     if ((health = MAX(0, health) * 200 / maxhealth) > 100)
     {
         fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 13, 101, 8, barcolor1, true, tinttab20);
         fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 13, MAX(1, health - 100) + (health == 200),
             8, barcolor2, (health == 200), tinttab20);
-        althudfunc(ALTHUD_LEFT_X + 5, ALTHUD_Y + 11, altleftpatch, WHITE, healthcolor);
+        althudfunc(ALTHUD_LEFT_X + 5, ALTHUD_Y + 11, altleftpatch, WHITE, color);
         althudfunc(ALTHUD_LEFT_X + 25, ALTHUD_Y + 13, altendpatch, WHITE, barcolor2);
         althudfunc(ALTHUD_LEFT_X + 123, ALTHUD_Y + 13, altmarkpatch, WHITE, barcolor1);
         althudfunc(ALTHUD_LEFT_X + 25 + health - 100 - (health < 200) - 2, ALTHUD_Y + 10, altmark2patch, WHITE, barcolor2);
@@ -935,7 +939,7 @@ static void HU_DrawAltHUD(void)
     else
     {
         fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 13, MAX(1, health) + (health == 100), 8, barcolor1, true, tinttab20);
-        althudfunc(ALTHUD_LEFT_X + 5, ALTHUD_Y + 11, altleftpatch, WHITE, healthcolor);
+        althudfunc(ALTHUD_LEFT_X + 5, ALTHUD_Y + 11, altleftpatch, WHITE, color);
         althudfunc(ALTHUD_LEFT_X + 25, ALTHUD_Y + 13, altendpatch, WHITE, barcolor1);
         althudfunc(ALTHUD_LEFT_X + 25 + MAX(1, health) - (health < 100) - 2, ALTHUD_Y + 13, altmarkpatch, WHITE, barcolor1);
     }
