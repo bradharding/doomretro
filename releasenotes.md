@@ -19,6 +19,7 @@
 * The following changes have been made to the `vid_capfps` CVAR:
   * Its minimum value is now `35` rather than `10`.
   * A bug is fixed whereby it couldn’t be set to `off` in the console.
+* The player’s health in the alternate widescreen HUD will now be shown in gold when using `IDDQD` cheat, and if their health is `1%` when using the `BUDDHA` cheat.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
