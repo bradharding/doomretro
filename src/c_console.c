@@ -1352,7 +1352,7 @@ void C_Drawer(void)
     int         i;
     int         x = CONSOLEINPUTX;
     int         y = CONSOLELINEHEIGHT * (CONSOLELINES - 1) - CONSOLELINEHEIGHT / 2 + 1;
-    const int   bottomline = (outputhistory == -1 ? consolestrings : outputhistory + CONSOLELINES - 1) - 1;
+    const int   bottomline = (outputhistory == -1 ? consolestrings : outputhistory + CONSOLELINES) - 1;
     int         len;
     char        partialinput[255];
     const bool  prevconsoleactive = consoleactive;
@@ -1550,9 +1550,6 @@ void C_Drawer(void)
                 wrapbold = false;
                 wrapitalics = false;
                 free(temp);
-
-                if (i < bottomline - 1)
-                    i--;
             }
 
             free(text);
