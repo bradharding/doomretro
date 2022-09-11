@@ -914,8 +914,10 @@ static void HU_DrawAltHUD(void)
     int         cheats = viewplayer->cheats;
     int         keypic_x = ALTHUD_RIGHT_X;
 
-    if ((cheats & CF_GODMODE) || ((cheats & CF_BUDDHA) && health == 1))
+    if (cheats & CF_GODMODE)
         barcolor2 = yellow;
+    else if (cheats & CF_BUDDHA)
+        barcolor2 = (health == 1 ? yellow : green);
     else
         barcolor2 = (health < HUD_HEALTH_MIN ? red : (health >= 100 ? green : color));
 
