@@ -934,7 +934,7 @@ static void C_DrawBackground(void)
 }
 
 static int C_DrawConsoleText(int x, int y, char *text, const int color1, const int color2, const int boldcolor,
-    byte *translucency, const int tabs[3], const bool formatting, const bool kerning, const int index)
+    byte *tinttab, const int tabs[3], const bool formatting, const bool kerning, const int index)
 {
     bool            bold = wrapbold;
     bool            italics = wrapitalics;
@@ -954,7 +954,7 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
                 x -= spacewidth;
         }
         else
-            V_DrawConsoleTextPatch(x - 1, y, warning, WARNINGWIDTH, color1, color2, false, translucency);
+            V_DrawConsoleTextPatch(x - 1, y, warning, WARNINGWIDTH, color1, color2, false, tinttab);
 
         x += WARNINGWIDTH + 1;
     }
@@ -1105,8 +1105,7 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
 
                 consoletextfunc(x, y, patch, width,
                     (bold && italics ? (color1 == consolewarningcolor ? color1 : consolebolditalicscolor) : (bold ? boldcolor : color1)),
-                    color2, (italics && letter != '_' && letter != '-' && letter != '+' && letter != ',' && letter != '/'),
-                    translucency);
+                    color2, (italics && letter != '_' && letter != '-' && letter != '+' && letter != ',' && letter != '/'), tinttab);
                 x += width;
             }
 

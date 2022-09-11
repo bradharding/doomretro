@@ -296,7 +296,7 @@ void HU_Start(void)
     headsupactive = true;
 }
 
-static void DrawHUDNumber(int *x, int y, int val, byte *translucency, void (*drawhudnumfunc)(int, int, patch_t *, byte *))
+static void DrawHUDNumber(int *x, int y, int val, byte *tinttab, void (*drawhudnumfunc)(int, int, patch_t *, byte *))
 {
     patch_t *patch;
 
@@ -305,7 +305,7 @@ static void DrawHUDNumber(int *x, int y, int val, byte *translucency, void (*dra
         if (negativehealth && minuspatch)
         {
             val = -val;
-            drawhudnumfunc(*x, y + minuspatchy, minuspatch, translucency);
+            drawhudnumfunc(*x, y + minuspatchy, minuspatch, tinttab);
             *x += minuspatchwidth;
 
             if (val == 1 || val == 7 || (val >= 10 && val <= 19) || (val >= 70 && val <= 79) || (val >= 100 && val <= 199))
@@ -317,23 +317,23 @@ static void DrawHUDNumber(int *x, int y, int val, byte *translucency, void (*dra
 
     if (val >= 100)
     {
-        drawhudnumfunc(*x, y, (patch = tallnum[val / 100]), translucency);
+        drawhudnumfunc(*x, y, (patch = tallnum[val / 100]), tinttab);
         *x += SHORT(patch->width);
-        drawhudnumfunc(*x, y, (patch = tallnum[(val %= 100) / 10]), translucency);
+        drawhudnumfunc(*x, y, (patch = tallnum[(val %= 100) / 10]), tinttab);
         *x += SHORT(patch->width);
-        drawhudnumfunc(*x, y, (patch = tallnum[val % 10]), translucency);
+        drawhudnumfunc(*x, y, (patch = tallnum[val % 10]), tinttab);
         *x += SHORT(patch->width);
     }
     else if (val >= 10)
     {
-        drawhudnumfunc(*x, y, (patch = tallnum[val / 10]), translucency);
+        drawhudnumfunc(*x, y, (patch = tallnum[val / 10]), tinttab);
         *x += SHORT(patch->width);
-        drawhudnumfunc(*x, y, (patch = tallnum[val % 10]), translucency);
+        drawhudnumfunc(*x, y, (patch = tallnum[val % 10]), tinttab);
         *x += SHORT(patch->width);
     }
     else
     {
-        drawhudnumfunc(*x, y, (patch = tallnum[val % 10]), translucency);
+        drawhudnumfunc(*x, y, (patch = tallnum[val % 10]), tinttab);
         *x += SHORT(patch->width);
     }
 }

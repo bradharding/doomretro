@@ -575,7 +575,7 @@ void V_DrawMenuBorderPatch(int x, int y, patch_t *patch, byte color)
 }
 
 void V_DrawConsoleSelectedTextPatch(int x, int y, patch_t *patch, int width,
-    int color, int backgroundcolor, bool italics, byte *translucency)
+    int color, int backgroundcolor, bool italics, byte *tinttab)
 {
     byte    *desttop = &screens[0][y * SCREENWIDTH + x];
 
@@ -601,7 +601,7 @@ void V_DrawConsoleSelectedTextPatch(int x, int y, patch_t *patch, int width,
 }
 
 void V_DrawConsoleTextPatch(int x, int y, patch_t *patch, int width,
-    int color, int backgroundcolor, bool italics, byte *translucency)
+    int color, int backgroundcolor, bool italics, byte *tinttab)
 {
     byte        *desttop = &screens[0][y * SCREENWIDTH + x];
     const int   italicize[] = { 2, 2, 2, 1, 1, 1, 1, 0, 0, 0, 0, -1, -1, -1 };
@@ -620,7 +620,7 @@ void V_DrawConsoleTextPatch(int x, int y, patch_t *patch, int width,
                 if (italics)
                     dot += italicize[i];
 
-                *dot = (!translucency ? color : translucency[(color << 8) + *dot]);
+                *dot = (!tinttab ? color : tinttab[(color << 8) + *dot]);
 
                 if (!(y + i))
                     *dot = tinttab50[*dot];
@@ -635,7 +635,7 @@ void V_DrawConsoleTextPatch(int x, int y, patch_t *patch, int width,
 }
 
 void V_DrawOverlayTextPatch(byte *screen, int screenwidth, int x,
-    int y, patch_t *patch, int width, int color, byte *translucency)
+    int y, patch_t *patch, int width, int color, byte *tinttab)
 {
     byte    *desttop = &screen[y * screenwidth + x];
 
@@ -647,7 +647,7 @@ void V_DrawOverlayTextPatch(byte *screen, int screenwidth, int x,
         for (int i = 0; i < CONSOLELINEHEIGHT; i++)
         {
             if (*source++)
-                *dest = (!translucency ? color : translucency[(color << 8) + *dest]);
+                *dest = (!tinttab ? color : tinttab[(color << 8) + *dest]);
 
             dest += screenwidth;
         }
@@ -965,7 +965,7 @@ void V_DrawPatchWithShadow(int x, int y, patch_t *patch, bool flag)
     }
 }
 
-void V_DrawHUDPatch(int x, int y, patch_t *patch, byte *translucency)
+void V_DrawHUDPatch(int x, int y, patch_t *patch, byte *tinttab)
 {
     byte        *desttop = &screens[0][y * SCREENWIDTH + x];
     const int   width = SHORT(patch->width);
@@ -992,7 +992,7 @@ void V_DrawHUDPatch(int x, int y, patch_t *patch, byte *translucency)
     }
 }
 
-void V_DrawHighlightedHUDNumberPatch(int x, int y, patch_t *patch, byte *translucency)
+void V_DrawHighlightedHUDNumberPatch(int x, int y, patch_t *patch, byte *tinttab)
 {
     byte        *desttop = &screens[0][y * SCREENWIDTH + x];
     const int   width = SHORT(patch->width);
@@ -1021,7 +1021,7 @@ void V_DrawHighlightedHUDNumberPatch(int x, int y, patch_t *patch, byte *translu
     }
 }
 
-void V_DrawTranslucentHUDPatch(int x, int y, patch_t *patch, byte *translucency)
+void V_DrawTranslucentHUDPatch(int x, int y, patch_t *patch, byte *tinttab)
 {
     byte        *desttop = &screens[0][y * SCREENWIDTH + x];
     const int   width = SHORT(patch->width);
@@ -1039,7 +1039,7 @@ void V_DrawTranslucentHUDPatch(int x, int y, patch_t *patch, byte *translucency)
 
             while (count--)
             {
-                *dest = translucency[(*source++ << 8) + *dest];
+                *dest = tinttab[(*source++ << 8) + *dest];
                 dest += SCREENWIDTH;
             }
 
@@ -1048,7 +1048,7 @@ void V_DrawTranslucentHUDPatch(int x, int y, patch_t *patch, byte *translucency)
     }
 }
 
-void V_DrawTranslucentHUDNumberPatch(int x, int y, patch_t *patch, byte *translucency)
+void V_DrawTranslucentHUDNumberPatch(int x, int y, patch_t *patch, byte *tinttab)
 {
     byte        *desttop = &screens[0][y * SCREENWIDTH + x];
     const int   width = SHORT(patch->width);
@@ -1068,7 +1068,7 @@ void V_DrawTranslucentHUDNumberPatch(int x, int y, patch_t *patch, byte *translu
             {
                 byte    dot = *source++;
 
-                *dest = (dot == 109 ? tinttab33[*dest] : translucency[(dot << 8) + *dest]);
+                *dest = (dot == 109 ? tinttab33[*dest] : tinttab[(dot << 8) + *dest]);
                 dest += SCREENWIDTH;
             }
 
