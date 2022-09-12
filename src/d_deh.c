@@ -2199,6 +2199,9 @@ void D_BuildBEXTables(void)
         deh_codeptr[i] = states[i].action;
     }
 
+    for (i = MT_EXTRA00; i <= MT_EXTRA99; i++)
+        M_snprintf(mobjinfo[i].name1, sizeof(mobjinfo[0].name1), "Deh_Actor_%i", i);
+
     for (i = 0; i < NUMSPRITES; i++)
         deh_spritenames[i] = M_StringDuplicate(sprnames[i]);
 
