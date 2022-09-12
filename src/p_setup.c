@@ -69,44 +69,47 @@
 
 #define MCMD_ALLOWMONSTERTELEFRAGS   1
 #define MCMD_AUTHOR                  2
-#define MCMD_CLUSTER                 3
-#define MCMD_COMPAT_CORPSEGIBS       4
-#define MCMD_COMPAT_LIGHT            5
-#define MCMD_COMPAT_LIMITPAIN        6
-#define MCMD_COMPAT_NOPASSOVER       7
-#define MCMD_COMPAT_VILEGHOSTS       8
-#define MCMD_ENDBUNNY                9
-#define MCMD_ENDCAST                10
-#define MCMD_ENDGAME                11
-#define MCMD_ENDPIC                 12
-#define MCMD_ENTERPIC               13
-#define MCMD_EPISODE                14
-#define MCMD_EXITPIC                15
-#define MCMD_INTERBACKDROP          16
-#define MCMD_INTERMUSIC             17
-#define MCMD_INTERTEXT              18
-#define MCMD_INTERTEXTSECRET        19
-#define MCMD_LEVELNAME              20
-#define MCMD_LEVELPIC               21
-#define MCMD_LIQUID                 22
-#define MCMD_MUSIC                  23
-#define MCMD_MUSICCOMPOSER          24
-#define MCMD_MUSICTITLE             25
-#define MCMD_NEXT                   26
-#define MCMD_NEXTSECRET             27
-#define MCMD_NOBRIGHTMAP            28
-#define MCMD_NOFREELOOK             29
-#define MCMD_NOGRADUALLIGHTING      30
-#define MCMD_NOJUMP                 31
-#define MCMD_NOLIQUID               32
-#define MCMD_NOMOUSELOOK            33
-#define MCMD_PAR                    34
-#define MCMD_PARTIME                35
-#define MCMD_PISTOLSTART            36
-#define MCMD_SECRETNEXT             37
-#define MCMD_SKY1                   38
-#define MCMD_SKYTEXTURE             39
-#define MCMD_TITLEPATCH             40
+#define MCMD_BOSSACTION              3
+#define MCMD_CLUSTER                 4
+#define MCMD_COMPAT_CORPSEGIBS       5
+#define MCMD_COMPAT_LIGHT            6
+#define MCMD_COMPAT_LIMITPAIN        7
+#define MCMD_COMPAT_NOPASSOVER       8
+#define MCMD_COMPAT_VILEGHOSTS       9
+#define MCMD_ENDBUNNY               10
+#define MCMD_ENDCAST                11
+#define MCMD_ENDGAME                12
+#define MCMD_ENDPIC                 13
+#define MCMD_ENTERPIC               14
+#define MCMD_EPISODE                15
+#define MCMD_EXITPIC                16
+#define MCMD_INTERBACKDROP          17
+#define MCMD_INTERMUSIC             18
+#define MCMD_INTERTEXT              19
+#define MCMD_INTERTEXTSECRET        20
+#define MCMD_LABEL                  21
+#define MCMD_LEVELNAME              22
+#define MCMD_LEVELPIC               23
+#define MCMD_LIQUID                 24
+#define MCMD_MUSIC                  25
+#define MCMD_MUSICCOMPOSER          26
+#define MCMD_MUSICTITLE             27
+#define MCMD_NEXT                   28
+#define MCMD_NEXTSECRET             29
+#define MCMD_NOBRIGHTMAP            30
+#define MCMD_NOFREELOOK             31
+#define MCMD_NOGRADUALLIGHTING      32
+#define MCMD_NOINTERMISSION         33
+#define MCMD_NOJUMP                 34
+#define MCMD_NOLIQUID               35
+#define MCMD_NOMOUSELOOK            36
+#define MCMD_PAR                    37
+#define MCMD_PARTIME                38
+#define MCMD_PISTOLSTART            39
+#define MCMD_SECRETNEXT             40
+#define MCMD_SKY1                   41
+#define MCMD_SKYTEXTURE             42
+#define MCMD_TITLEPATCH             43
 
 typedef struct
 {
@@ -233,6 +236,8 @@ static char *mapcmdnames[] =
 {
     "ALLOWMONSTERTELEFRAGS",
     "AUTHOR",
+    "BOSSACTION",
+    "CLUSTER",
     "COMPAT_CORPSEGIBS",
     "COMPAT_LIGHT",
     "COMPAT_LIMITPAIN",
@@ -249,6 +254,7 @@ static char *mapcmdnames[] =
     "INTERMUSIC",
     "INTERTEXT",
     "INTERTEXTSECRET",
+    "LABEL",
     "LEVELNAME",
     "LEVELPIC",
     "LIQUID",
@@ -260,6 +266,7 @@ static char *mapcmdnames[] =
     "NOBRIGHTMAP",
     "NOFREELOOK",
     "NOGRADUALLIGHTING",
+    "NOINTERMISSION",
     "NOJUMP",
     "NOLIQUID",
     "NOMOUSELOOK",
@@ -277,6 +284,8 @@ static int mapcmdids[] =
 {
     MCMD_ALLOWMONSTERTELEFRAGS,
     MCMD_AUTHOR,
+    MCMD_BOSSACTION,
+    MCMD_CLUSTER,
     MCMD_COMPAT_CORPSEGIBS,
     MCMD_COMPAT_LIGHT,
     MCMD_COMPAT_LIMITPAIN,
@@ -293,6 +302,7 @@ static int mapcmdids[] =
     MCMD_INTERMUSIC,
     MCMD_INTERTEXT,
     MCMD_INTERTEXTSECRET,
+    MCMD_LABEL,
     MCMD_LEVELNAME,
     MCMD_LEVELPIC,
     MCMD_LIQUID,
@@ -304,6 +314,7 @@ static int mapcmdids[] =
     MCMD_NOBRIGHTMAP,
     MCMD_NOFREELOOK,
     MCMD_NOGRADUALLIGHTING,
+    MCMD_NOINTERMISSION,
     MCMD_NOJUMP,
     MCMD_NOLIQUID,
     MCMD_NOMOUSELOOK,
