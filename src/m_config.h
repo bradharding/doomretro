@@ -326,7 +326,7 @@ enum
 #define am_bluekeycolor_max                255
 
 #define am_cdwallcolor_min                 0
-#define am_cdwallcolor_default             160
+#define am_cdwallcolor_default             162
 #define am_cdwallcolor_max                 255
 
 #define am_crosshaircolor_min              0
@@ -392,7 +392,7 @@ enum
 #define am_tswallcolor_max                 255
 
 #define am_wallcolor_min                   0
-#define am_wallcolor_default               176
+#define am_wallcolor_default               180
 #define am_wallcolor_max                   255
 
 #define am_yellowdoorcolor_min             0
