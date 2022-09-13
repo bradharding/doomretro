@@ -1102,6 +1102,8 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
                     else if (letter == '4')
                         x--;
                 }
+                else if (letter == '.' && prevletter == BOLDTOGGLECHAR && prevletter2 == '\"')
+                    x--;
             }
 
             if (patch)
