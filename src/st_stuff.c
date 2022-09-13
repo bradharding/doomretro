@@ -438,6 +438,21 @@ static void ST_PlayerCheated(char *cheat, char *output, bool warning)
     }
 }
 
+static int ST_CalcPainOffset(void)
+{
+    const int   newhealth = MIN(viewplayer->health, 100);
+    static int  lastcalc;
+    static int  health = -1;
+
+    if (newhealth != health)
+    {
+        lastcalc = ST_FACESTRIDE * (((100 - newhealth) * ST_NUMPAINFACES) / 101);
+        health = newhealth;
+    }
+
+    return lastcalc;
+}
+
 // Respond to keyboard input events, intercept cheats.
 bool ST_Responder(event_t *ev)
 {
@@ -1049,21 +1064,6 @@ bool ST_Responder(event_t *ev)
     }
 
     return false;
-}
-
-static int ST_CalcPainOffset(void)
-{
-    const int   newhealth = MIN(viewplayer->health, 100);
-    static int  lastcalc;
-    static int  health = -1;
-
-    if (newhealth != health)
-    {
-        lastcalc = ST_FACESTRIDE * (((100 - newhealth) * ST_NUMPAINFACES) / 101);
-        health = newhealth;
-    }
-
-    return lastcalc;
 }
 
 //
