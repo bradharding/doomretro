@@ -1569,17 +1569,8 @@ static void M_DrawMainMenu(void)
         MainDef.x = 97;
         MainDef.y = 72;
     }
-    else if (gamemode == commercial)
-        M_DrawCenteredPatchWithShadow(11 + OFFSET, patch);
     else
-    {
-        byte    dot1 = screens[0][((11 + OFFSET) * SCREENWIDTH + 98 + WIDESCREENDELTA) * SCREENSCALE];
-        byte    dot2 = screens[0][((12 + OFFSET) * SCREENWIDTH + 99 + WIDESCREENDELTA) * SCREENSCALE];
-
         M_DrawCenteredPatchWithShadow(11 + OFFSET, patch);
-        V_DrawPixel(98, 11 + OFFSET, dot1, false);
-        V_DrawPixel(99, 12 + OFFSET, dot2, false);
-    }
 }
 
 //
