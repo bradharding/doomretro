@@ -3,8 +3,9 @@
 #### DOOM Retro v4.7
 
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
-* Changes have been made to the splash screen.
+* Changes have been made to the animation on the splash screen.
 * Minor changes have been made to text that is output to the console.
+* The bottom edge of the console is now a slightly brighter red.
 * The external automap now goes to black rather than a dark blue while the help screen is displayed.
 * The vertical position of the current map’s title in the automap has changed in some instances.
 * A bug is fixed whereby the current map’s title in the automap would be positioned incorrectly in some instances after adjusting the screen size in the options menu.

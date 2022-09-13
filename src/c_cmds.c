@@ -3938,7 +3938,7 @@ static void map_cmd_func2(char *cmd, char *parms)
 
     if (gamestate == GS_LEVEL)
     {
-        idclevtics = MAPCHANGETICS;
+        idclevtics = TICRATE;
         drawdisk = true;
         C_HideConsole();
     }

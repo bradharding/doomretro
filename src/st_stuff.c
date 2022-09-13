@@ -933,9 +933,7 @@ bool ST_Responder(event_t *ev)
             {
                 S_StartSound(NULL, sfx_getpow);
 
-                viewplayer->cheats ^= CF_BUDDHA;
-
-                if (viewplayer->cheats & CF_BUDDHA)
+                if ((viewplayer->cheats ^= CF_BUDDHA) & CF_BUDDHA)
                 {
                     viewplayer->cheats &= ~CF_GODMODE;
 
@@ -1046,7 +1044,7 @@ bool ST_Responder(event_t *ev)
                     }
 
                     gamemap = map;
-                    idclevtics = MAPCHANGETICS;
+                    idclevtics = TICRATE;
                     quicksaveslot = -1;
                     drawdisk = true;
                 }
