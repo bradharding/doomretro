@@ -529,12 +529,6 @@ void P_PlayerThink(void)
         if (!inhelpscreens && ((messagetoprint && !consoleactive) || !messagetoprint))
             mo->angle += ANG1 / (menuspinspeed = MIN(menuspinspeed + 1, 512)) * 8 * menuspindirection;
 
-        if (!inhelpscreens && viewplayer->viewheight > MENUVIEWHEIGHT)
-        {
-            viewplayer->viewheight -= FRACUNIT / 8;
-            viewplayer->viewz = mo->z + viewplayer->viewheight;
-        }
-
         return;
     }
 

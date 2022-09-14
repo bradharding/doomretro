@@ -47,7 +47,7 @@
 
 #define VIEWHEIGHT          (41 * FRACUNIT)
 #define DEADVIEWHEIGHT      (6 * FRACUNIT)
-#define MENUVIEWHEIGHT      (8 * FRACUNIT)
+#define MENUVIEWHEIGHT      (6 * FRACUNIT)
 #define JUMPHEIGHT          (9 * FRACUNIT)
 
 #define DEADLOOKDIR         128

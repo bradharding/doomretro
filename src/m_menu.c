@@ -118,7 +118,7 @@ int             menuspindirection;
 int             menuspinspeed;
 static angle_t  playerangle;
 static int      playerlookdir;
-static fixed_t  playerviewheight;
+static fixed_t  playerviewz;
 
 static patch_t  *menuborder;
 
@@ -3632,12 +3632,15 @@ void M_StartControlPanel(void)
         S_FadeOutSounds();
 
         playerangle = viewplayer->mo->angle;
-        playerviewheight = viewplayer->viewheight;
+        playerviewz = viewplayer->viewz;
         menuspinspeed = 0;
 
         playerlookdir = viewplayer->lookdir;
         viewplayer->lookdir = 0;
         R_SetViewSize(r_screensize_max);
+
+        if (!inhelpscreens)
+            viewplayer->viewz = viewplayer->mo->floorz + MENUVIEWHEIGHT;
     }
 
     S_LowerMusicVolume();
@@ -3832,7 +3835,7 @@ void M_ClearMenus(void)
 
         viewplayer->mo->angle = playerangle;
         viewplayer->lookdir = playerlookdir;
-        viewplayer->viewheight = playerviewheight;
+        viewplayer->viewz = playerviewz;
 
         if (!inhelpscreens)
             R_SetViewSize(r_screensize);
