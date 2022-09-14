@@ -1077,7 +1077,7 @@ void V_DrawTranslucentHUDNumberPatch(int x, int y, patch_t *patch, byte *tinttab
     }
 }
 
-void V_DrawAltHUDPatch(int x, int y, patch_t *patch, int from, int to)
+void V_DrawAltHUDPatch(int x, int y, patch_t *patch, int from, int to, byte *tinttab)
 {
     byte        *desttop = &screens[0][y * SCREENWIDTH + x];
     const int   width = SHORT(patch->width);
@@ -1111,7 +1111,7 @@ void V_DrawAltHUDPatch(int x, int y, patch_t *patch, int from, int to)
     }
 }
 
-void V_DrawTranslucentAltHUDPatch(int x, int y, patch_t *patch, int from, int to)
+void V_DrawTranslucentAltHUDPatch(int x, int y, patch_t *patch, int from, int to, byte *tinttab)
 {
     byte        *desttop = &screens[0][y * SCREENWIDTH + x];
     const int   width = SHORT(patch->width);
@@ -1135,7 +1135,7 @@ void V_DrawTranslucentAltHUDPatch(int x, int y, patch_t *patch, int from, int to
                 byte    dot = *source++;
 
                 if (dot == from)
-                    *dest = tinttab60[to + *dest];
+                    *dest = tinttab[to + *dest];
                 else if (dot == DARKGRAY)
                     *dest = tinttab15[(nearestwhite << 8) + *dest];
                 else if (dot)
@@ -1143,7 +1143,7 @@ void V_DrawTranslucentAltHUDPatch(int x, int y, patch_t *patch, int from, int to
                     if (from == -1)
                         *dest = tinttab15[(nearestwhite << 8) + *dest];
                     else
-                        *dest = tinttab60[(nearestcolors[dot] << 8) + *dest];
+                        *dest = tinttab[(nearestcolors[dot] << 8) + *dest];
                 }
 
                 dest += SCREENWIDTH;

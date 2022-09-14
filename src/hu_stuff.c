@@ -102,7 +102,7 @@ void A_Lower(mobj_t *actor, player_t *player, pspdef_t *psp);
 static void (*hudfunc)(int, int, patch_t *, byte *);
 static void (*hudnumfunc)(int, int, patch_t *, byte *);
 
-static void (*althudfunc)(int, int, patch_t *, int, int);
+static void (*althudfunc)(int, int, patch_t *, int, int, byte *);
 void (*althudtextfunc)(int, int, byte *, patch_t *, bool, int, int, byte *);
 static void (*fillrectfunc)(int, int, int, int, int, int, bool, byte *);
 static void (*fillrectfunc2)(int, int, int, int, int, int, bool, byte *);
@@ -809,7 +809,7 @@ static void HU_AltInit(void)
     yellow = nearestcolors[YELLOW];
 }
 
-static void DrawAltHUDNumber(int x, int y, int val, int color)
+static void DrawAltHUDNumber(int x, int y, int val, int color, byte *tinttab)
 {
     if (val < 0)
     {
@@ -817,7 +817,7 @@ static void DrawAltHUDNumber(int x, int y, int val, int color)
         {
             val = -val;
             althudfunc(x - altminuspatchwidth - (val == 1 || val == 7 || (val >= 10 && val <= 19) || (val >= 70 && val <= 79)
-                || (val >= 100 && val <= 199) ? 1 : 2), y, altminuspatch, WHITE, color);
+                || (val >= 100 && val <= 199) ? 1 : 2), y, altminuspatch, WHITE, color, tinttab);
         }
         else
             val = 0;
@@ -830,20 +830,20 @@ static void DrawAltHUDNumber(int x, int y, int val, int color)
     {
         patch_t *patch = altnum[val / 100];
 
-        althudfunc(x, y, patch, WHITE, color);
+        althudfunc(x, y, patch, WHITE, color, tinttab);
         x += SHORT(patch->width) + 2;
-        althudfunc(x, y, (patch = altnum[(val %= 100) / 10]), WHITE, color);
-        althudfunc(x + SHORT(patch->width) + 2, y, altnum[val % 10], WHITE, color);
+        althudfunc(x, y, (patch = altnum[(val %= 100) / 10]), WHITE, color, tinttab);
+        althudfunc(x + SHORT(patch->width) + 2, y, altnum[val % 10], WHITE, color, tinttab);
     }
     else if (val >= 10)
     {
         patch_t *patch = altnum[val / 10];
 
-        althudfunc(x, y, patch, WHITE, color);
-        althudfunc(x + SHORT(patch->width) + 2, y, altnum[val % 10], WHITE, color);
+        althudfunc(x, y, patch, WHITE, color, tinttab);
+        althudfunc(x + SHORT(patch->width) + 2, y, altnum[val % 10], WHITE, color, tinttab);
     }
     else
-        althudfunc(x, y, altnum[val % 10], WHITE, color);
+        althudfunc(x, y, altnum[val % 10], WHITE, color, tinttab);
 }
 
 static int AltHUDNumberWidth(int val)
@@ -861,7 +861,7 @@ static int AltHUDNumberWidth(int val)
     return (width + SHORT(altnum[val % 10]->width));
 }
 
-static void DrawAltHUDNumber2(int x, int y, int val, int color)
+static void DrawAltHUDNumber2(int x, int y, int val, int color, byte *tinttab)
 {
     if (val == 1 || val % 10 == 1)
         x++;
@@ -870,22 +870,22 @@ static void DrawAltHUDNumber2(int x, int y, int val, int color)
     {
         patch_t *patch = altnum2[val / 100];
 
-        althudfunc(x, y, patch, WHITE, color);
+        althudfunc(x, y, patch, WHITE, color, tinttab);
         x += SHORT(patch->width) + 2;
 
         patch = altnum2[(val %= 100) / 10];
-        althudfunc(x, y, patch, WHITE, color);
+        althudfunc(x, y, patch, WHITE, color, tinttab);
         x += SHORT(patch->width) + 2;
     }
     else if (val >= 10)
     {
         patch_t *patch = altnum2[val / 10];
 
-        althudfunc(x, y, patch, WHITE, color);
+        althudfunc(x, y, patch, WHITE, color, tinttab);
         x += SHORT(patch->width) + 2;
     }
 
-    althudfunc(x, y, altnum2[val % 10], WHITE, color);
+    althudfunc(x, y, altnum2[val % 10], WHITE, color, tinttab);
 }
 
 static int AltHUDNumber2Width(int val)
@@ -912,33 +912,36 @@ static void HU_DrawAltHUD(void)
     int         barcolor2 = ((viewplayer->cheats & CF_BUDDHA) ? green : (health < HUD_HEALTH_MIN ? red : (health >= 100 ? green : color)));
     int         barcolor1 = (barcolor2 == green ? barcolor2 + coloroffset : barcolor2);
     int         keypic_x = ALTHUD_RIGHT_X;
+    const int   currenttime = I_GetTimeMS();
 
-    DrawAltHUDNumber(ALTHUD_LEFT_X - AltHUDNumberWidth(ABS(health)), ALTHUD_Y + 12, health, color);
+    DrawAltHUDNumber(ALTHUD_LEFT_X - AltHUDNumberWidth(ABS(health)), ALTHUD_Y + 12,
+        health, color, (healthhighlight > currenttime ? tinttab75 : tinttab60));
 
     if ((health = MAX(0, health) * 200 / maxhealth) > 100)
     {
         fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 13, 101, 8, barcolor1, true, tinttab25);
         fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 13, MAX(1, health - 100) + (health == 200),
             8, barcolor2, (health == 200), tinttab25);
-        althudfunc(ALTHUD_LEFT_X + 5, ALTHUD_Y + 11, altleftpatch, WHITE, color);
-        althudfunc(ALTHUD_LEFT_X + 25, ALTHUD_Y + 13, altendpatch, WHITE, barcolor2);
-        althudfunc(ALTHUD_LEFT_X + 123, ALTHUD_Y + 13, altmarkpatch, WHITE, barcolor1);
-        althudfunc(ALTHUD_LEFT_X + 25 + health - 100 - (health < 200) - 2, ALTHUD_Y + 10, altmark2patch, WHITE, barcolor2);
+        althudfunc(ALTHUD_LEFT_X + 5, ALTHUD_Y + 11, altleftpatch, WHITE, color, tinttab60);
+        althudfunc(ALTHUD_LEFT_X + 25, ALTHUD_Y + 13, altendpatch, WHITE, barcolor2, tinttab60);
+        althudfunc(ALTHUD_LEFT_X + 123, ALTHUD_Y + 13, altmarkpatch, WHITE, barcolor1, tinttab60);
+        althudfunc(ALTHUD_LEFT_X + 25 + health - 100 - (health < 200) - 2, ALTHUD_Y + 10, altmark2patch, WHITE, barcolor2, tinttab60);
     }
     else
     {
         fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 13, MAX(1, health) + (health == 100), 8, barcolor1, true, tinttab25);
-        althudfunc(ALTHUD_LEFT_X + 5, ALTHUD_Y + 11, altleftpatch, WHITE, color);
-        althudfunc(ALTHUD_LEFT_X + 25, ALTHUD_Y + 13, altendpatch, WHITE, barcolor1);
-        althudfunc(ALTHUD_LEFT_X + 25 + MAX(1, health) - (health < 100) - 2, ALTHUD_Y + 13, altmarkpatch, WHITE, barcolor1);
+        althudfunc(ALTHUD_LEFT_X + 5, ALTHUD_Y + 11, altleftpatch, WHITE, color, tinttab60);
+        althudfunc(ALTHUD_LEFT_X + 25, ALTHUD_Y + 13, altendpatch, WHITE, barcolor1, tinttab60);
+        althudfunc(ALTHUD_LEFT_X + 25 + MAX(1, health) - (health < 100) - 2, ALTHUD_Y + 13, altmarkpatch, WHITE, barcolor1, tinttab60);
     }
 
     if (armor)
     {
         barcolor2 = (viewplayer->armortype == green_armor_class ? green : blue);
         barcolor1 = barcolor2 + coloroffset;
-        DrawAltHUDNumber2(ALTHUD_LEFT_X - AltHUDNumber2Width(armor), ALTHUD_Y, armor, color);
-        althudfunc(ALTHUD_LEFT_X + 5, ALTHUD_Y, altarmpatch, WHITE, color);
+        DrawAltHUDNumber2(ALTHUD_LEFT_X - AltHUDNumber2Width(armor), ALTHUD_Y, armor,
+            color, (armorhighlight > currenttime ? tinttab75 : tinttab60));
+        althudfunc(ALTHUD_LEFT_X + 5, ALTHUD_Y, altarmpatch, WHITE, color, tinttab60);
 
         if ((armor *= 200 / max_armor) > 100)
         {
@@ -949,7 +952,7 @@ static void HU_DrawAltHUD(void)
             fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 2, armor + (armor == 100), 4, barcolor1, true, tinttab25);
     }
     else
-        althudfunc(ALTHUD_LEFT_X + 5, ALTHUD_Y, altarmpatch, -1, 0);
+        althudfunc(ALTHUD_LEFT_X + 5, ALTHUD_Y, altarmpatch, -1, 0, tinttab60);
 
     if (health)
     {
@@ -966,17 +969,18 @@ static void HU_DrawAltHUD(void)
         {
             int ammo = viewplayer->ammo[ammotype];
 
-            DrawAltHUDNumber(ALTHUD_RIGHT_X + 101 - AltHUDNumberWidth(ammo), ALTHUD_Y - 2, ammo, color);
+            DrawAltHUDNumber(ALTHUD_RIGHT_X + 101 - AltHUDNumberWidth(ammo), ALTHUD_Y - 2,
+                ammo, color, (ammohighlight > currenttime ? tinttab75 : tinttab60));
             ammo = 100 * ammo / viewplayer->maxammo[ammotype];
             barcolor1 = (ammo < HUD_AMMO_MIN ? yellow : color);
             fillrectfunc(0, ALTHUD_RIGHT_X + 100 - ammo, ALTHUD_Y + 13, ammo + 1, 8, barcolor1, true, tinttab25);
-            althudfunc(ALTHUD_RIGHT_X, ALTHUD_Y + 13, (viewplayer->backpack ? altrightpatch2 : altrightpatch1), WHITE, color);
-            althudfunc(ALTHUD_RIGHT_X + 100, ALTHUD_Y + 13, altendpatch, WHITE, barcolor1);
-            althudfunc(ALTHUD_RIGHT_X + 100 - ammo - 2, ALTHUD_Y + 13, altmarkpatch, WHITE, barcolor1);
+            althudfunc(ALTHUD_RIGHT_X, ALTHUD_Y + 13, (viewplayer->backpack ? altrightpatch2 : altrightpatch1), WHITE, color, tinttab60);
+            althudfunc(ALTHUD_RIGHT_X + 100, ALTHUD_Y + 13, altendpatch, WHITE, barcolor1, tinttab60);
+            althudfunc(ALTHUD_RIGHT_X + 100 - ammo - 2, ALTHUD_Y + 13, altmarkpatch, WHITE, barcolor1, tinttab60);
         }
 
         if (altweapon[weapon])
-            althudfunc(ALTHUD_RIGHT_X + (weapon == wp_chainsaw ? 87 : 107), ALTHUD_Y - 15, altweapon[weapon], WHITE, color);
+            althudfunc(ALTHUD_RIGHT_X + (weapon == wp_chainsaw ? 87 : 107), ALTHUD_Y - 15, altweapon[weapon], WHITE, color, tinttab60);
 
         for (int i = 1; i <= NUMCARDS; i++)
             for (int j = 0; j < NUMCARDS; j++)
@@ -985,7 +989,7 @@ static void HU_DrawAltHUD(void)
                     altkeypic_t altkeypic = altkeypics[j];
                     patch_t     *patch = altkeypic.patch;
 
-                    althudfunc(keypic_x, ALTHUD_Y, patch, WHITE, altkeypic.color);
+                    althudfunc(keypic_x, ALTHUD_Y, patch, WHITE, altkeypic.color, tinttab60);
                     keypic_x += SHORT(patch->width) + 4;
                 }
 
@@ -996,16 +1000,11 @@ static void HU_DrawAltHUD(void)
 
             if (neededcard == it_allkeys)
             {
-                if (!gamepaused)
+                if (!gamepaused && keywait < currenttime)
                 {
-                    const int   currenttime = I_GetTimeMS();
-
-                    if (keywait < currenttime)
-                    {
-                        showkey = !showkey;
-                        keywait = currenttime + HUD_KEY_WAIT;
-                        viewplayer->neededcardflash--;
-                    }
+                    showkey = !showkey;
+                    keywait = currenttime + HUD_KEY_WAIT;
+                    viewplayer->neededcardflash--;
                 }
 
                 if (flashkeys && (showkey || gamepaused))
@@ -1015,29 +1014,24 @@ static void HU_DrawAltHUD(void)
                             altkeypic_t altkeypic = altkeypics[i];
                             patch_t     *patch = altkeypic.patch;
 
-                            althudfunc(keypic_x, ALTHUD_Y, patch, WHITE, altkeypic.color);
+                            althudfunc(keypic_x, ALTHUD_Y, patch, WHITE, altkeypic.color, tinttab60);
                             keypic_x += SHORT(patch->width) + 4;
                         }
             }
             else
             {
-                if (!gamepaused)
+                if (!gamepaused && keywait < currenttime)
                 {
-                    const int   currenttime = I_GetTimeMS();
-
-                    if (keywait < currenttime)
-                    {
-                        showkey = !showkey;
-                        keywait = currenttime + HUD_KEY_WAIT;
-                        viewplayer->neededcardflash--;
-                    }
+                    showkey = !showkey;
+                    keywait = currenttime + HUD_KEY_WAIT;
+                    viewplayer->neededcardflash--;
                 }
 
                 if (flashkeys && (showkey || gamepaused))
                 {
                     altkeypic_t altkeypic = altkeypics[neededcard];
 
-                    althudfunc(keypic_x, ALTHUD_Y, altkeypic.patch, WHITE, altkeypic.color);
+                    althudfunc(keypic_x, ALTHUD_Y, altkeypic.patch, WHITE, altkeypic.color, tinttab60);
                 }
             }
         }
