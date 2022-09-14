@@ -22,8 +22,10 @@
 * The following changes have been made to the `vid_capfps` CVAR:
   * Its minimum value is now `35` rather than `10`.
   * A bug is fixed whereby it couldn’t be set to `off` in the console.
-* The player’s health in the widescreen HUDs no longer flashes or turns red when less than `10%` while buddha mode is enabled.
-* The notches in the alternate widescreen HUD are now slightly less translucent.
+* The following changes have been made to the alternate widescreen HUD:
+  * The notches are now slightly less translucent.
+  * The player’s health, armor and ammo now flash white when they change.
+  * The player’s health no longer turns red when less than `10%` while buddha mode is enabled.
 * A bug is fixed whereby certain textures in *E1M4B: Phobos Mission Control* were wrong when the `r_fixmaperrors` CVAR was `on`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
