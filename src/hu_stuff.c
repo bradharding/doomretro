@@ -528,7 +528,7 @@ static void HU_DrawHUD(void)
     const int   armor = MIN(viewplayer->armorpoints, HUD_NUMBER_MAX);
     static bool healthanim;
     const bool  gamepaused = (consoleactive || freeze);
-    byte        *translucency = (health <= 0 || (health < HUD_HEALTH_MIN && healthanim)
+    byte        *tinttab = (health <= 0 || (health < HUD_HEALTH_MIN && healthanim)
                     || health >= HUD_HEALTH_MIN || gamepaused ? tinttab75 : tinttab25);
     patch_t     *patch = faces[st_faceindex];
     const int   currenttime = I_GetTimeMS();
@@ -547,17 +547,17 @@ static void HU_DrawHUD(void)
 
         if (healthhighlight > currenttime)
         {
-            DrawHUDNumber(&health_x, HUD_HEALTH_Y, health, translucency, &V_DrawHighlightedHUDNumberPatch);
+            DrawHUDNumber(&health_x, HUD_HEALTH_Y, health, tinttab, &V_DrawHighlightedHUDNumberPatch);
 
             if (!emptytallpercent)
-                V_DrawHighlightedHUDNumberPatch(health_x, HUD_HEALTH_Y, tallpercent, translucency);
+                V_DrawHighlightedHUDNumberPatch(health_x, HUD_HEALTH_Y, tallpercent, tinttab);
         }
         else
         {
-            DrawHUDNumber(&health_x, HUD_HEALTH_Y, health, translucency, hudnumfunc);
+            DrawHUDNumber(&health_x, HUD_HEALTH_Y, health, tinttab, hudnumfunc);
 
             if (!emptytallpercent)
-                hudnumfunc(health_x, HUD_HEALTH_Y, tallpercent, translucency);
+                hudnumfunc(health_x, HUD_HEALTH_Y, tallpercent, tinttab);
         }
     }
 
@@ -667,13 +667,13 @@ static void HU_DrawHUD(void)
             static bool ammoanim;
 
             ammo_x = HUD_AMMO_X - (ammo_x + (ammo_x & 1)) / 2;
-            translucency = (ammoanim || ammo >= HUD_AMMO_MIN || gamepaused ? tinttab75 : tinttab25);
+            tinttab = (ammoanim || ammo >= HUD_AMMO_MIN || gamepaused ? tinttab75 : tinttab25);
 
             if ((patch = ammopic[ammotype].patch))
                 hudfunc(HUD_AMMO_X - SHORT(patch->width) / 2 - 1, HUD_AMMO_Y - SHORT(patch->height) - 3, patch, tinttab75);
 
             if (r_hud_translucency || !ammoanim)
-                DrawHUDNumber(&ammo_x, HUD_AMMO_Y, ammo, translucency,
+                DrawHUDNumber(&ammo_x, HUD_AMMO_Y, ammo, tinttab,
                     (ammohighlight > currenttime ? &V_DrawHighlightedHUDNumberPatch : hudnumfunc));
 
             if (!gamepaused)
@@ -915,7 +915,7 @@ static void HU_DrawAltHUD(void)
     const int   currenttime = I_GetTimeMS();
 
     DrawAltHUDNumber(ALTHUD_LEFT_X - AltHUDNumberWidth(ABS(health)), ALTHUD_Y + 12,
-        health, color, (healthhighlight > currenttime ? tinttab75 : tinttab60));
+        health, color, (healthhighlight > currenttime ? tinttab80 : tinttab60));
 
     if ((health = MAX(0, health) * 200 / maxhealth) > 100)
     {
@@ -940,7 +940,7 @@ static void HU_DrawAltHUD(void)
         barcolor2 = (viewplayer->armortype == green_armor_class ? green : blue);
         barcolor1 = barcolor2 + coloroffset;
         DrawAltHUDNumber2(ALTHUD_LEFT_X - AltHUDNumber2Width(armor), ALTHUD_Y, armor,
-            color, (armorhighlight > currenttime ? tinttab75 : tinttab60));
+            color, (armorhighlight > currenttime ? tinttab80 : tinttab60));
         althudfunc(ALTHUD_LEFT_X + 5, ALTHUD_Y, altarmpatch, WHITE, color, tinttab60);
 
         if ((armor *= 200 / max_armor) > 100)
@@ -970,7 +970,7 @@ static void HU_DrawAltHUD(void)
             int ammo = viewplayer->ammo[ammotype];
 
             DrawAltHUDNumber(ALTHUD_RIGHT_X + 101 - AltHUDNumberWidth(ammo), ALTHUD_Y - 2,
-                ammo, color, (ammohighlight > currenttime ? tinttab75 : tinttab60));
+                ammo, color, (ammohighlight > currenttime ? tinttab80 : tinttab60));
             ammo = 100 * ammo / viewplayer->maxammo[ammotype];
             barcolor1 = (ammo < HUD_AMMO_MIN ? yellow : color);
             fillrectfunc(0, ALTHUD_RIGHT_X + 100 - ammo, ALTHUD_Y + 13, ammo + 1, 8, barcolor1, true, tinttab25);
