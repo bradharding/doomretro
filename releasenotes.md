@@ -24,6 +24,7 @@
   * A bug is fixed whereby it couldn’t be set to `off` in the console.
 * The player’s health in the widescreen HUDs no longer flashes or turns red when less than `10%` while buddha mode is enabled.
 * The notches in the alternate widescreen HUD are now slightly less translucent.
+* A bug is fixed whereby certain textures in *E1M4B: Phobos Mission Control* were wrong when the `r_fixmaperrors` CVAR was `on`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
