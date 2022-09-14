@@ -2997,7 +2997,6 @@ void P_SetupLevel(int ep, int map)
     {
         lumpnum = W_GetNumForName(speciallumpname);
         M_StringCopy(lumpname, speciallumpname, sizeof(lumpname));
-        speciallumpname[0] = '\0';
     }
     else
     {
@@ -3032,8 +3031,14 @@ void P_SetupLevel(int ep, int map)
 
     mapformat = P_CheckMapFormat(lumpnum);
 
-    canmodify = ((W_CheckMultipleLumps(lumpname) == 1 || (sigil && gamemission == doom) || gamemission == pack_nerve
-        || (nerve && gamemission == doom2)) && !FREEDOOM);
+    canmodify = ((W_CheckMultipleLumps(lumpname) == 1
+        || (sigil && gamemission == doom)
+        || gamemission == pack_nerve
+        || (nerve && gamemission == doom2))
+        && !FREEDOOM
+        && !(gamemission == doom && *speciallumpname && (map == 4 || map == 8)));
+
+    speciallumpname[0] = '\0';
 
     C_AddConsoleDivider();
 
