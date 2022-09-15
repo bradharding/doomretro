@@ -1116,7 +1116,8 @@ void V_DrawTranslucentAltHUDPatch(int x, int y, patch_t *patch, int from, int to
     byte        *desttop = &screens[0][y * SCREENWIDTH + x];
     const int   width = SHORT(patch->width);
 
-    to <<= 8;
+    if (tinttab)
+        to <<= 8;
 
     for (int col = 0; col < width; col++, desttop++)
     {
@@ -1135,7 +1136,7 @@ void V_DrawTranslucentAltHUDPatch(int x, int y, patch_t *patch, int from, int to
                 byte    dot = *source++;
 
                 if (dot == from)
-                    *dest = tinttab[to + *dest];
+                    *dest = (tinttab ? tinttab[to + *dest] : to);
                 else if (dot == DARKGRAY)
                     *dest = tinttab15[(nearestwhite << 8) + *dest];
                 else if (dot)

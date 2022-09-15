@@ -26,7 +26,7 @@
   * The notches are now slightly less translucent.
   * The player’s health, armor and ammo now flash white when they change.
   * The player’s health no longer turns red when less than `10%` while buddha mode is enabled.
-* A bug is fixed whereby certain textures in *E1M4B: Phobos Mission Control* were wrong when the `r_fixmaperrors` CVAR was `on`.
+* There are no longer any issues in *E1M4B: Phobos Mission Control* when the `r_fixmaperrors` CVAR is `on`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

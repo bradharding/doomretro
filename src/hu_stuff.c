@@ -909,8 +909,7 @@ static void HU_DrawAltHUD(void)
                         colormaps[0][32 * 256 + nearestwhite] : nearestwhite);
     int         health = BETWEEN(HUD_NUMBER_MIN, viewplayer->health, HUD_NUMBER_MAX);
     int         armor = MIN(viewplayer->armorpoints, HUD_NUMBER_MAX);
-    int         barcolor2 = ((viewplayer->cheats & CF_BUDDHA) ? green : (health < HUD_HEALTH_MIN ? red : (health >= 100 ? green : color)));
-    int         barcolor1 = (barcolor2 == green ? barcolor2 + coloroffset : barcolor2);
+    int         barcolor = ((viewplayer->cheats & CF_BUDDHA) ? green : (health < HUD_HEALTH_MIN ? red : (health >= 100 ? green : color)));
     int         keypic_x = ALTHUD_RIGHT_X;
     const int   currenttime = I_GetTimeMS();
 
@@ -919,37 +918,36 @@ static void HU_DrawAltHUD(void)
 
     if ((health = MAX(0, health) * 200 / maxhealth) > 100)
     {
-        fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 13, 101, 8, barcolor1, true, tinttab25);
+        fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 13, 101, 8, barcolor, true, tinttab25);
         fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 13, MAX(1, health - 100) + (health == 200),
-            8, barcolor2, (health == 200), tinttab25);
+            8, barcolor, (health == 200), tinttab25);
         althudfunc(ALTHUD_LEFT_X + 5, ALTHUD_Y + 11, altleftpatch, WHITE, color, tinttab60);
-        althudfunc(ALTHUD_LEFT_X + 25, ALTHUD_Y + 13, altendpatch, WHITE, barcolor2, tinttab60);
-        althudfunc(ALTHUD_LEFT_X + 123, ALTHUD_Y + 13, altmarkpatch, WHITE, barcolor1, tinttab60);
-        althudfunc(ALTHUD_LEFT_X + 25 + health - 100 - (health < 200) - 2, ALTHUD_Y + 10, altmark2patch, WHITE, barcolor2, tinttab60);
+        althudfunc(ALTHUD_LEFT_X + 25, ALTHUD_Y + 13, altendpatch, WHITE, barcolor, NULL);
+        althudfunc(ALTHUD_LEFT_X + 123, ALTHUD_Y + 13, altmarkpatch, WHITE, barcolor, NULL);
+        althudfunc(ALTHUD_LEFT_X + 25 + health - 100 - (health < 200) - 2, ALTHUD_Y + 10, altmark2patch, WHITE, barcolor, NULL);
     }
     else
     {
-        fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 13, MAX(1, health) + (health == 100), 8, barcolor1, true, tinttab25);
+        fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 13, MAX(1, health) + (health == 100), 8, barcolor, true, tinttab25);
         althudfunc(ALTHUD_LEFT_X + 5, ALTHUD_Y + 11, altleftpatch, WHITE, color, tinttab60);
-        althudfunc(ALTHUD_LEFT_X + 25, ALTHUD_Y + 13, altendpatch, WHITE, barcolor1, tinttab60);
-        althudfunc(ALTHUD_LEFT_X + 25 + MAX(1, health) - (health < 100) - 2, ALTHUD_Y + 13, altmarkpatch, WHITE, barcolor1, tinttab60);
+        althudfunc(ALTHUD_LEFT_X + 25, ALTHUD_Y + 13, altendpatch, WHITE, barcolor, NULL);
+        althudfunc(ALTHUD_LEFT_X + 25 + MAX(1, health) - (health < 100) - 2, ALTHUD_Y + 13, altmarkpatch, WHITE, barcolor, NULL);
     }
 
     if (armor)
     {
-        barcolor2 = (viewplayer->armortype == green_armor_class ? green : blue);
-        barcolor1 = barcolor2 + coloroffset;
+        barcolor = (viewplayer->armortype == green_armor_class ? green : blue);
         DrawAltHUDNumber2(ALTHUD_LEFT_X - AltHUDNumber2Width(armor), ALTHUD_Y, armor,
             color, (armorhighlight > currenttime ? tinttab80 : tinttab60));
         althudfunc(ALTHUD_LEFT_X + 5, ALTHUD_Y, altarmpatch, WHITE, color, tinttab60);
 
         if ((armor *= 200 / max_armor) > 100)
         {
-            fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 2, 101, 4, barcolor1, true, tinttab25);
-            fillrectfunc2(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 2, armor - 100 + (armor == 200), 4, barcolor2, false, tinttab25);
+            fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 2, 101, 4, barcolor, true, tinttab25);
+            fillrectfunc2(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 2, armor - 100 + (armor == 200), 4, barcolor, false, tinttab25);
         }
         else
-            fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 2, armor + (armor == 100), 4, barcolor1, true, tinttab25);
+            fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 2, armor + (armor == 100), 4, barcolor, true, tinttab25);
     }
     else
         althudfunc(ALTHUD_LEFT_X + 5, ALTHUD_Y, altarmpatch, -1, 0, tinttab60);
@@ -972,17 +970,15 @@ static void HU_DrawAltHUD(void)
             DrawAltHUDNumber(ALTHUD_RIGHT_X + 101 - AltHUDNumberWidth(ammo), ALTHUD_Y - 2,
                 ammo, color, (ammohighlight > currenttime ? tinttab80 : tinttab60));
             ammo = 100 * ammo / viewplayer->maxammo[ammotype];
-            barcolor1 = (ammo < HUD_AMMO_MIN ? yellow : color);
-            fillrectfunc(0, ALTHUD_RIGHT_X + 100 - ammo, ALTHUD_Y + 13, ammo + 1, 8, barcolor1, true, tinttab25);
+            barcolor = (ammo < HUD_AMMO_MIN ? yellow : color);
+            fillrectfunc(0, ALTHUD_RIGHT_X + 100 - ammo, ALTHUD_Y + 13, ammo + 1, 8, barcolor, true, tinttab25);
             althudfunc(ALTHUD_RIGHT_X, ALTHUD_Y + 13, (viewplayer->backpack ? altrightpatch2 : altrightpatch1), WHITE, color, tinttab60);
-            althudfunc(ALTHUD_RIGHT_X + 100, ALTHUD_Y + 13, altendpatch, WHITE, barcolor1, tinttab60);
-            althudfunc(ALTHUD_RIGHT_X + 100 - ammo - 2, ALTHUD_Y + 13, altmarkpatch, WHITE, barcolor1, tinttab60);
+            althudfunc(ALTHUD_RIGHT_X + 100, ALTHUD_Y + 13, altendpatch, WHITE, barcolor, NULL);
+            althudfunc(ALTHUD_RIGHT_X + 100 - ammo - 2, ALTHUD_Y + 13, altmarkpatch, WHITE, barcolor, NULL);
         }
-        else
-            althudfunc(ALTHUD_RIGHT_X, ALTHUD_Y + 13, (viewplayer->backpack ? altrightpatch2 : altrightpatch1), WHITE, color, tinttab60);
 
         if (altweapon[weapon])
-            althudfunc(ALTHUD_RIGHT_X + 107, ALTHUD_Y - 15, altweapon[weapon], WHITE, color, tinttab60);
+            althudfunc(ALTHUD_RIGHT_X + (weapon == wp_chainsaw ? 87 : 107), ALTHUD_Y - 15, altweapon[weapon], WHITE, color, tinttab60);
 
         for (int i = 1; i <= NUMCARDS; i++)
             for (int j = 0; j < NUMCARDS; j++)
@@ -1065,15 +1061,6 @@ static void HU_DrawAltHUD(void)
         {
             max = INFRATICS;
             powerupbar = (powerup == -1 ? INT_MAX : powerup);
-        }
-
-        if (powerupbar == INT_MAX
-            || (!powerupbar && viewplayer->powers[pw_strength]
-                && ((viewplayer->readyweapon == wp_fist && viewplayer->pendingweapon == wp_nochange)
-                    || viewplayer->pendingweapon == wp_fist)))
-        {
-            max = STARTFLASHING + 1;
-            powerupbar = STARTFLASHING + 1;
         }
 
         if ((powerupbar = (powerupbar == INT_MAX ? 101 : (int)(powerupbar * 101.0 / max + 0.5))))
