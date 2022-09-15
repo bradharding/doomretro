@@ -969,12 +969,17 @@ static void HU_DrawAltHUD(void)
 
             DrawAltHUDNumber(ALTHUD_RIGHT_X + 101 - AltHUDNumberWidth(ammo), ALTHUD_Y - 2,
                 ammo, color, (ammohighlight > currenttime ? tinttab80 : tinttab60));
-            ammo = 100 * ammo / viewplayer->maxammo[ammotype];
-            barcolor = (ammo < HUD_AMMO_MIN ? yellow : color);
-            fillrectfunc(0, ALTHUD_RIGHT_X + 100 - ammo, ALTHUD_Y + 13, ammo + 1, 8, barcolor, true, tinttab25);
-            althudfunc(ALTHUD_RIGHT_X, ALTHUD_Y + 13, (viewplayer->backpack ? altrightpatch2 : altrightpatch1), WHITE, color, tinttab60);
-            althudfunc(ALTHUD_RIGHT_X + 100, ALTHUD_Y + 13, altendpatch, WHITE, barcolor, NULL);
-            althudfunc(ALTHUD_RIGHT_X + 100 - ammo - 2, ALTHUD_Y + 13, altmarkpatch, WHITE, barcolor, NULL);
+
+            if (ammo)
+            {
+                barcolor = ((ammo = 100 * ammo / viewplayer->maxammo[ammotype]) < HUD_AMMO_MIN ? yellow : color);
+                fillrectfunc(0, ALTHUD_RIGHT_X + 100 - ammo, ALTHUD_Y + 13, ammo + 1, 8, barcolor, true, tinttab25);
+                althudfunc(ALTHUD_RIGHT_X, ALTHUD_Y + 13, (viewplayer->backpack ? altrightpatch2 : altrightpatch1), WHITE, color, tinttab60);
+                althudfunc(ALTHUD_RIGHT_X + 100, ALTHUD_Y + 13, altendpatch, WHITE, barcolor, NULL);
+                althudfunc(ALTHUD_RIGHT_X + 100 - ammo - 2, ALTHUD_Y + 13, altmarkpatch, WHITE, barcolor, NULL);
+            }
+            else
+                althudfunc(ALTHUD_RIGHT_X, ALTHUD_Y + 13, (viewplayer->backpack ? altrightpatch2 : altrightpatch1), WHITE, color, tinttab60);
         }
 
         if (altweapon[weapon])
