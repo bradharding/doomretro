@@ -299,7 +299,7 @@ static bool P_GiveWeapon(const weapontype_t weapon, const bool dropped, const bo
     {
         gaveweapon = true;
         viewplayer->weaponowned[weapon] = true;
-        P_EquipWeapon(weapon);
+        viewplayer->pendingweapon = weapon;
     }
 
     return (gaveweapon || gaveammo);
@@ -318,7 +318,7 @@ bool P_GiveAllWeapons(void)
         viewplayer->fistorchainsaw = wp_chainsaw;
 
         if (viewplayer->readyweapon == wp_fist)
-            P_EquipWeapon(wp_chainsaw);
+            viewplayer->pendingweapon = wp_chainsaw;
 
         result = true;
     }
@@ -335,7 +335,7 @@ bool P_GiveAllWeapons(void)
         viewplayer->preferredshotgun = wp_supershotgun;
 
         if (viewplayer->readyweapon == wp_shotgun)
-            P_EquipWeapon(wp_supershotgun);
+            viewplayer->pendingweapon = wp_supershotgun;
 
         result = true;
     }
@@ -955,7 +955,7 @@ bool P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, const bool message, c
             {
                 if (viewplayer->readyweapon != wp_fist)
                 {
-                    P_EquipWeapon(wp_fist);
+                    viewplayer->pendingweapon = wp_fist;
                     viewplayer->fistorchainsaw = wp_fist;
                 }
 
@@ -1447,7 +1447,7 @@ bool P_TakeSpecialThing(const mobjtype_t type)
             viewplayer->fistorchainsaw = wp_chainsaw;
 
             if (viewplayer->readyweapon == wp_fist && viewplayer->weaponowned[wp_chainsaw])
-                P_EquipWeapon(wp_chainsaw);
+                viewplayer->pendingweapon = wp_chainsaw;
 
             return true;
 

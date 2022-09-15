@@ -113,17 +113,6 @@ void P_SetPsprite(const size_t position, const statenum_t stnum)
 }
 
 //
-// P_EquipWeapon
-//
-void P_EquipWeapon(const weapontype_t weapon)
-{
-    viewplayer->pendingweapon = weapon;
-
-    if (weaponinfo[weapon].ammotype != weaponinfo[viewplayer->readyweapon].ammotype && !r_althud)
-        ammohighlight = I_GetTimeMS() + HUD_AMMO_HIGHLIGHT_WAIT;
-}
-
-//
 // P_BringUpWeapon
 // Starts bringing the pending weapon up from the bottom of the screen.
 //
@@ -164,24 +153,24 @@ bool P_CheckAmmo(const weapontype_t weapon)
     // Out of ammo, pick a weapon to change to.
     if (viewplayer->weaponowned[wp_plasma]
         && viewplayer->ammo[am_cell] >= weaponinfo[wp_plasma].ammopershot)
-        P_EquipWeapon(wp_plasma);
+        viewplayer->pendingweapon = wp_plasma;
     else if (viewplayer->weaponowned[wp_supershotgun]
         && viewplayer->ammo[am_shell] >= weaponinfo[wp_supershotgun].ammopershot
         && viewplayer->preferredshotgun == wp_supershotgun)
-        P_EquipWeapon(wp_supershotgun);
+        viewplayer->pendingweapon = wp_supershotgun;
     else if (viewplayer->weaponowned[wp_chaingun]
         && viewplayer->ammo[am_clip] >= weaponinfo[wp_chaingun].ammopershot)
-        P_EquipWeapon(wp_chaingun);
+        viewplayer->pendingweapon = wp_chaingun;
     else if (viewplayer->weaponowned[wp_shotgun]
         && viewplayer->ammo[am_shell] >= weaponinfo[wp_shotgun].ammopershot)
-        P_EquipWeapon(wp_shotgun);
+        viewplayer->pendingweapon = wp_shotgun;
     else if (viewplayer->weaponowned[wp_pistol]
         && viewplayer->ammo[am_clip] >= weaponinfo[wp_pistol].ammopershot)
-        P_EquipWeapon(wp_pistol);
+        viewplayer->pendingweapon = wp_pistol;
     else if (viewplayer->weaponowned[wp_chainsaw])
-        P_EquipWeapon(wp_chainsaw);
+        viewplayer->pendingweapon = wp_chainsaw;
     else
-        P_EquipWeapon(wp_fist);
+        viewplayer->pendingweapon = wp_fist;
 
     return false;
 }

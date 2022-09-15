@@ -727,7 +727,7 @@ bool ST_Responder(event_t *ev)
                         {
                             // [BH] switch to fists if 'idbeholds' cheat is entered
                             if (viewplayer->readyweapon != wp_fist)
-                                P_EquipWeapon(wp_fist);
+                                viewplayer->pendingweapon = wp_fist;
 
                             viewplayer->fistorchainsaw = wp_fist;
 
@@ -770,7 +770,7 @@ bool ST_Responder(event_t *ev)
 
                             if (viewplayer->readyweapon == wp_fist && viewplayer->weaponowned[wp_chainsaw])
                             {
-                                P_EquipWeapon(wp_chainsaw);
+                                viewplayer->pendingweapon = wp_chainsaw;
                                 viewplayer->fistorchainsaw = wp_chainsaw;
                             }
                         }
@@ -782,7 +782,7 @@ bool ST_Responder(event_t *ev)
                                 viewplayer->cheats &= ~CF_CHOPPERS;
 
                                 if (viewplayer->weaponbeforechoppers != wp_chainsaw)
-                                    P_EquipWeapon(viewplayer->weaponbeforechoppers);
+                                    viewplayer->pendingweapon = viewplayer->weaponbeforechoppers;
 
                                 viewplayer->weaponowned[wp_chainsaw] = viewplayer->chainsawbeforechoppers;
                                 oldweaponsowned[wp_chainsaw] = viewplayer->chainsawbeforechoppers;
@@ -876,7 +876,7 @@ bool ST_Responder(event_t *ev)
                     {
                         viewplayer->weaponowned[wp_chainsaw] = true;
                         oldweaponsowned[wp_chainsaw] = true;
-                        P_EquipWeapon(wp_chainsaw);
+                        viewplayer->pendingweapon = wp_chainsaw;
                     }
 
                     viewplayer->cheats &= ~CF_BUDDHA;
@@ -902,7 +902,7 @@ bool ST_Responder(event_t *ev)
                     viewplayer->powers[pw_invulnerability] = (viewplayer->invulnbeforechoppers ? 1 : STARTFLASHING);
 
                     if (viewplayer->weaponbeforechoppers != wp_chainsaw)
-                        P_EquipWeapon(viewplayer->weaponbeforechoppers);
+                        viewplayer->pendingweapon = viewplayer->weaponbeforechoppers;
 
                     viewplayer->weaponowned[wp_chainsaw] = viewplayer->chainsawbeforechoppers;
                     oldweaponsowned[wp_chainsaw] = viewplayer->chainsawbeforechoppers;
