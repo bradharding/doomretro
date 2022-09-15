@@ -978,9 +978,11 @@ static void HU_DrawAltHUD(void)
             althudfunc(ALTHUD_RIGHT_X + 100, ALTHUD_Y + 13, altendpatch, WHITE, barcolor1, tinttab60);
             althudfunc(ALTHUD_RIGHT_X + 100 - ammo - 2, ALTHUD_Y + 13, altmarkpatch, WHITE, barcolor1, tinttab60);
         }
+        else
+            althudfunc(ALTHUD_RIGHT_X, ALTHUD_Y + 13, (viewplayer->backpack ? altrightpatch2 : altrightpatch1), WHITE, color, tinttab60);
 
         if (altweapon[weapon])
-            althudfunc(ALTHUD_RIGHT_X + (weapon == wp_chainsaw ? 87 : 107), ALTHUD_Y - 15, altweapon[weapon], WHITE, color, tinttab60);
+            althudfunc(ALTHUD_RIGHT_X + 107, ALTHUD_Y - 15, altweapon[weapon], WHITE, color, tinttab60);
 
         for (int i = 1; i <= NUMCARDS; i++)
             for (int j = 0; j < NUMCARDS; j++)
@@ -1063,6 +1065,15 @@ static void HU_DrawAltHUD(void)
         {
             max = INFRATICS;
             powerupbar = (powerup == -1 ? INT_MAX : powerup);
+        }
+
+        if (powerupbar == INT_MAX
+            || (!powerupbar && viewplayer->powers[pw_strength]
+                && ((viewplayer->readyweapon == wp_fist && viewplayer->pendingweapon == wp_nochange)
+                    || viewplayer->pendingweapon == wp_fist)))
+        {
+            max = STARTFLASHING + 1;
+            powerupbar = STARTFLASHING + 1;
         }
 
         if ((powerupbar = (powerupbar == INT_MAX ? 101 : (int)(powerupbar * 101.0 / max + 0.5))))
