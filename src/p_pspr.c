@@ -119,7 +119,7 @@ void P_EquipWeapon(const weapontype_t weapon)
 {
     viewplayer->pendingweapon = weapon;
 
-    if (weaponinfo[weapon].ammotype != weaponinfo[viewplayer->readyweapon].ammotype)
+    if (weaponinfo[weapon].ammotype != weaponinfo[viewplayer->readyweapon].ammotype && !r_althud)
         ammohighlight = I_GetTimeMS() + HUD_AMMO_HIGHLIGHT_WAIT;
 }
 
