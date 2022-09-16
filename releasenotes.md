@@ -24,6 +24,8 @@
   * A bug is fixed whereby it couldn’t be set to `off` in the console.
 * The following changes have been made to the alternate widescreen HUD:
   * The notches are now slightly less translucent.
+  * The left and right edges of the health and ammo bars are now brighter.
+  * The portion of the player’s health and armor greater than `100%` are now slightly brighter in the health and armor bars.
   * The player’s health, armor and ammo now flash white when they change.
   * The player’s health no longer turns red when less than `10%` while buddha mode is enabled.
 * There are no longer any issues in *E1M4B: Phobos Mission Control* when the `r_fixmaperrors` CVAR is `on`.
