@@ -974,7 +974,8 @@ static void HU_DrawAltHUD(void)
             }
         }
         else
-            fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 2, armor + (armor == 100), 4, barcolor, true, tinttab25);
+            fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 2, armor + (armor == 100), 4,
+                (viewplayer->armortype == green_armor_class ? green1 : blue1), true, tinttab25);
     }
     else
         althudfunc(ALTHUD_LEFT_X + 5, ALTHUD_Y, altarmpatch, -1, 0, tinttab60);
