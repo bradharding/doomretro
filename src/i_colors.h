@@ -42,11 +42,13 @@
 #include "r_defs.h"
 
 #define BLACK       0
-#define BLUE      199
+#define BLUE1     199
+#define BLUE2     203
 #define DARKBLUE  244
 #define DARKGRAY  102
 #define GRAY       92
-#define GREEN     114
+#define GREEN1    114
+#define GREEN2    118
 #define LIGHTGRAY  82
 #define PINK      251
 #define RED1      176
