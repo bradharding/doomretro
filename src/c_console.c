@@ -681,10 +681,7 @@ void C_ClearConsole(void)
     consolestrings = 0;
     consolestringsmax = 0;
 
-    for (int i = 1; i <= 4; i++)
-        C_Output("");
-
-    if (!vid_widescreen)
+    for (int i = 1; i <= 8; i++)
         C_Output("");
 }
 
