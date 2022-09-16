@@ -962,7 +962,7 @@ static void HU_DrawAltHUD(void)
             {
                 barcolor = (viewplayer->armortype == green_armor_class ? green1 : blue1);
                 fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 2, 101, 4, barcolor, true, tinttab25);
-                fillrectfunc2(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 2, armor - 100 + (armor == 200), 4, barcolor, false, tinttab33);
+                fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 2, armor - 100 + (armor == 200), 4, barcolor, false, tinttab40);
             }
             else
             {
