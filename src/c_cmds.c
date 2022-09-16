@@ -1924,6 +1924,9 @@ static void condump_cmd_func2(char *cmd, char *parms)
                 unsigned char   prevletter = '\0';
                 unsigned char   prevletter2 = '\0';
 
+                if (!len)
+                    continue;
+
                 if (console[i].stringtype == warningstring)
                     fputs((console[i].line == 1 ? "/!\\ " : (string[0] == ' ' ? " " : " ")), file);
 
