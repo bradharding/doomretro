@@ -13,7 +13,7 @@
 * The following changes have been made when pressing the <kbd>F9</kbd> key to quickload a savegame:
   * The load game menu now opens if the game hasn’t been saved yet.
   * The background of the confirmation message now displays correctly.
-  * There is no longer a misplaced fade transition when pressing the <kbd>Y</kbd> key and if the `fade` CVAR is `on`.
+  * There is no longer a misplaced fade transition when pressing the <kbd>Y</kbd> key and the `fade` CVAR is `on`.
 * There is now a fade transition when opening the sound volume menu in the options menu if the `fade` CVAR is `on`.
 * When toggling widescreen mode by pressing the <kbd>+</kbd> key, the player’s vertical field of view now zooms in slightly.
 * A crash no longer occurs if the `save` CCMD is bound to a control using the `bind` CCMD.
@@ -22,13 +22,14 @@
 * The following changes have been made to the `vid_capfps` CVAR:
   * Its minimum value is now `35` rather than `10`.
   * A bug is fixed whereby it couldn’t be set to `off` in the console.
+* The amount of ammo the player has no longer flashes when switching weapons in the widescreen HUD.
 * The following changes have been made to the alternate widescreen HUD:
   * The notches are now slightly less translucent.
   * The left and right edges of the health and ammo bars are now brighter.
-  * The portion of the player’s health and armor greater than `100%` are now slightly brighter in the health and armor bars.
-  * The player’s health, armor and ammo now flash white when they change.
-  * The player’s health no longer turns red when less than `10%` while buddha mode is enabled.
-* There are no longer any issues in *E1M4B: Phobos Mission Control* when the `r_fixmaperrors` CVAR is `on`.
+  * The portions of the player’s health and armor greater than `100%` are now slightly brighter in the health and armor bars.
+  * The player’s health, armor and ammo now flash when they change.
+  * The player’s health is no longer red when less than `10%` while buddha mode is enabled.
+* There are no longer any anomalies in *E1M4B: Phobos Mission Control* when the `r_fixmaperrors` CVAR is `on`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

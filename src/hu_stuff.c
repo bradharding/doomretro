@@ -927,7 +927,7 @@ static void HU_DrawAltHUD(void)
         {
             fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 13, 101, 8, green1, true, tinttab25);
             fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 13, MAX(1, health - 100) + (health == 200),
-                8, green1, (health == 200), tinttab33);
+                8, green1, (health == 200), tinttab40);
         }
         else
         {
@@ -961,6 +961,7 @@ static void HU_DrawAltHUD(void)
             if (r_hud_translucency)
             {
                 barcolor = (viewplayer->armortype == green_armor_class ? green1 : blue1);
+
                 fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 2, 101, 4, barcolor, true, tinttab25);
                 fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 2, armor - 100 + (armor == 200), 4, barcolor, false, tinttab40);
             }
@@ -968,7 +969,7 @@ static void HU_DrawAltHUD(void)
             {
                 fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 2, 101, 4,
                     (viewplayer->armortype == green_armor_class ? green2 : blue2), true, NULL);
-                fillrectfunc2(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 2, armor - 100 + (armor == 200), 4,
+                fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 2, armor - 100 + (armor == 200), 4,
                     (viewplayer->armortype == green_armor_class ? green1 : blue1), false, NULL);
             }
         }
@@ -999,6 +1000,7 @@ static void HU_DrawAltHUD(void)
             if (ammo)
             {
                 barcolor = ((ammo = 100 * ammo / viewplayer->maxammo[ammotype]) < HUD_AMMO_MIN ? yellow : color);
+
                 fillrectfunc(0, ALTHUD_RIGHT_X + 100 - ammo, ALTHUD_Y + 13, ammo + 1, 8, barcolor, true, tinttab25);
                 althudfunc(ALTHUD_RIGHT_X, ALTHUD_Y + 13, (viewplayer->backpack ? altrightpatch2 : altrightpatch1), WHITE, color, tinttab60);
                 althudfunc(ALTHUD_RIGHT_X + 100, ALTHUD_Y + 13, altendpatch, WHITE, barcolor, NULL);
