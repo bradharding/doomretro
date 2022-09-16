@@ -16,6 +16,7 @@
   * There is no longer a misplaced fade transition when pressing the <kbd>Y</kbd> key and the `fade` CVAR is `on`.
 * There is now a fade transition when opening the sound volume menu in the options menu if the `fade` CVAR is `on`.
 * When toggling widescreen mode by pressing the <kbd>+</kbd> key, the player’s vertical field of view now zooms in slightly.
+* Stimpacks and medikits now always show a red cross rather than a pill or green cross.
 * A crash no longer occurs if the `save` CCMD is bound to a control using the `bind` CCMD.
 * The `r_skycolor` CVAR has been removed.
 * The default of the `am_pathcolor` CVAR is now `89`.
