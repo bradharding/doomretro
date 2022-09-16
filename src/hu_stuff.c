@@ -906,10 +906,11 @@ static int AltHUDNumber2Width(int val)
 static void HU_DrawAltHUD(void)
 {
     const int   color = (((viewplayer->fixedcolormap == INVERSECOLORMAP) ^ (!r_textures)) ?
-                        colormaps[0][32 * 256 + nearestwhite] : nearestwhite);
+                    colormaps[0][32 * 256 + nearestwhite] : nearestwhite);
     int         health = BETWEEN(HUD_NUMBER_MIN, viewplayer->health, HUD_NUMBER_MAX);
     int         armor = MIN(viewplayer->armorpoints, HUD_NUMBER_MAX);
-    int         barcolor = ((viewplayer->cheats & CF_BUDDHA) ? green : (health < HUD_HEALTH_MIN ? red : (health >= 100 ? green : color)));
+    int         barcolor = ((viewplayer->cheats & CF_BUDDHA) ? green :
+                    (health < HUD_HEALTH_MIN ? red : (health >= 100 ? green : color)));
     int         keypic_x = ALTHUD_RIGHT_X;
     const int   currenttime = I_GetTimeMS();
 

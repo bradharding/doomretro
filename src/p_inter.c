@@ -1924,23 +1924,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, c
                     C_PlayerObituary("%s died on molten rock.",
                         (M_StringCompare(playername, playername_default) ? "You" : playername));
                 else
-                {
-                    const short special = sector->special;
-
-                    if (special == DamageNegative10Or20PercentHealthAndLightBlinks_2Hz
-                        || special == DamageNegative5Or10PercentHealth
-                        || special == DamageNegative2Or5PercentHealth
-                        || special == DamageNegative10Or20PercentHealthAndEndLevel
-                        || special == DamageNegative10Or20PercentHealth)
-                        C_PlayerObituary("%s died.", (M_StringCompare(playername, playername_default) ? "You" : playername));
-                    else
-                    {
-                        if (M_StringCompare(playername, playername_default))
-                            C_PlayerObituary("You blew yourself up.");
-                        else
-                            C_PlayerObituary("%s blew %s up.", playername, pronoun(reflexive));
-                    }
-                }
+                    C_PlayerObituary("%s died.", (M_StringCompare(playername, playername_default) ? "You" : playername));
             }
         }
     }
