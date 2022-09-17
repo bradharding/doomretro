@@ -968,12 +968,12 @@ static void HU_DrawAltHUD(void)
                 if (viewplayer->armortype == green_armor_class)
                 {
                     fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 2, 101, 4, green2, true, NULL);
-                    fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 2, armor - 100 + (armor == 200), 4, green1, false, NULL);
+                    fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 2, armor - 100 + (armor == 200), 4, green1, (armor == 200), NULL);
                 }
                 else
                 {
                     fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 2, 101, 4, blue2, true, NULL);
-                    fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 2, armor - 100 + (armor == 200), 4, blue1, false, NULL);
+                    fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 2, armor - 100 + (armor == 200), 4, blue1, (armor == 200), NULL);
                 }
 
             }
