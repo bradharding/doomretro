@@ -926,20 +926,18 @@ static void HU_DrawAltHUD(void)
         if (r_hud_translucency)
         {
             fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 13, 101, 8, green1, true, tinttab25);
-            fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 13, MAX(1, health - 100) + (health == 200),
-                8, green1, (health == 200), tinttab40);
+            fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 13, MAX(1, health - 99), 8, green1, (health == 200), tinttab40);
         }
         else
         {
             fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 13, 101, 8, green2, true, NULL);
-            fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 13, MAX(1, health - 100) + (health == 200),
-                8, green1, (health == 200), NULL);
+            fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 13, MAX(1, health - 99), 8, green1, (health == 200), NULL);
         }
 
         althudfunc(ALTHUD_LEFT_X + 5, ALTHUD_Y + 11, altleftpatch, WHITE, color, tinttab60);
         althudfunc(ALTHUD_LEFT_X + 25, ALTHUD_Y + 13, altendpatch, WHITE, barcolor, NULL);
         althudfunc(ALTHUD_LEFT_X + 123, ALTHUD_Y + 13, altmarkpatch, WHITE, barcolor, NULL);
-        althudfunc(ALTHUD_LEFT_X + 25 + health - 100 - (health < 200) - 2, ALTHUD_Y + 10, altmark2patch, WHITE, barcolor, NULL);
+        althudfunc(ALTHUD_LEFT_X + 25 + health - 100 - 2, ALTHUD_Y + 10, altmark2patch, WHITE, barcolor, NULL);
     }
     else
     {
