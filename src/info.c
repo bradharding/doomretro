@@ -5182,7 +5182,7 @@ mobjinfo_t mobjinfo[] =
         /* plural1              */ "hanging victims (one-legged, blocking)",
         /* name2                */ "meat3",
         /* plural2              */ "",
-        /* name3                */ "",
+        /* name3                */ "hangingcorpse",
         /* plural3              */ ""
     },
 

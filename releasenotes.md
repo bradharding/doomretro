@@ -4,7 +4,7 @@
 
 * *DOOM Retro* is now built using v17.3.4 of [*Microsoft Visual Studio Community 2022*](https://visualstudio.microsoft.com/vs/community/).
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
-* Changes have been made to the animation on the splash screen.
+* Changes have been made to the splash screen.
 * Minor changes have been made to text that is output to the console.
 * The bottom edge of the console is now a slightly brighter red.
 * The external automap now goes to black rather than a dark blue while the help screen is displayed.
@@ -16,6 +16,7 @@
   * There is no longer a misplaced fade transition when pressing the <kbd>Y</kbd> key and the `fade` CVAR is `on`.
 * There is now a fade transition when opening the sound volume menu in the options menu if the `fade` CVAR is `on`.
 * When toggling widescreen mode by pressing the <kbd>+</kbd> key, the player’s vertical field of view now zooms in slightly.
+* Improvements have been made to the support of *REKKR* and *REKKR: Sunken Land*.
 * Stimpacks and medikits now always show a red cross rather than a pill or green cross.
 * A crash no longer occurs if the `save` CCMD is bound to a control using the `bind` CCMD.
 * The `r_skycolor` CVAR has been removed.

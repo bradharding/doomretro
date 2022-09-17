@@ -52,7 +52,8 @@
 enum
 {
     FUZZYBLOOD = -1,
-    REDBLOOD = 1,
+    NOBLOOD,
+    REDBLOOD,
     GRAYBLOOD,
     GREENBLOOD,
     BLUEBLOOD,
