@@ -28,7 +28,6 @@
   * The notches are now slightly less translucent.
   * The left and right edges of the health and ammo bars are now brighter.
   * The portions of the player’s health and armor greater than `100%` are now slightly brighter in the health and armor bars.
-  * The armor bar is now displayed correctly when the player has `200%` armor.
   * The player’s health, armor and ammo now flash when they change.
   * The player’s health is no longer red when less than `10%` while buddha mode is enabled.
 * There are no longer any anomalies in *E1M4B: Phobos Mission Control* when the `r_fixmaperrors` CVAR is `on`.
