@@ -8389,14 +8389,14 @@ static void player_cvars_func2(char *cmd, char *parms)
             {
                 ammohighlight = I_GetTimeMS() + HUD_AMMO_HIGHLIGHT_WAIT;
 
-                if (value > viewplayer->ammo[ammotype] && value < viewplayer->maxammo[ammotype])
+                if ((value = MIN(value, viewplayer->maxammo[ammotype])) > viewplayer->ammo[ammotype])
                 {
                     P_UpdateAmmoStat(ammotype, value - viewplayer->ammo[ammotype]);
                     P_AddBonus();
                     S_StartSound(NULL, sfx_itemup);
                 }
 
-                viewplayer->ammo[ammotype] = MIN(value, viewplayer->maxammo[ammotype]);
+                viewplayer->ammo[ammotype] = value;
                 P_CheckAmmo(readyweapon);
                 C_HideConsole();
             }
@@ -8404,8 +8404,7 @@ static void player_cvars_func2(char *cmd, char *parms)
         else
         {
             const int   i = C_GetIndex(cmd);
-            char        *temp = commify(gamestate == GS_LEVEL ?
-                            (ammotype == am_noammo ? 0 : viewplayer->ammo[ammotype]) : ammo_default);
+            char        *temp = commify(ammotype == am_noammo ? 0 : viewplayer->ammo[ammotype]);
 
             C_ShowDescription(i);
             C_Output(INTEGERCVARWITHNODEFAULT, temp);
@@ -8440,7 +8439,7 @@ static void player_cvars_func2(char *cmd, char *parms)
         else
         {
             const int   i = C_GetIndex(cmd);
-            char        *temp = commify(gamestate == GS_LEVEL ? viewplayer->armorpoints : armor_default);
+            char        *temp = commify(viewplayer->armorpoints);
 
             C_ShowDescription(i);
             C_Output(PERCENTCVARWITHNODEFAULT, temp);
@@ -8507,8 +8506,7 @@ static void player_cvars_func2(char *cmd, char *parms)
         }
         else
         {
-            char        *temp = commify(gamestate == GS_LEVEL ?
-                            (negativehealth ? viewplayer->health : MAX(0, viewplayer->health)) : health_default);
+            char        *temp = commify(negativehealth ? viewplayer->health : MAX(0, viewplayer->health));
             const int   i = C_GetIndex(cmd);
 
             C_ShowDescription(i);
