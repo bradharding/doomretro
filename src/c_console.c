@@ -1478,9 +1478,9 @@ void C_Drawer(void)
 
             if (console[i].wrap)
                 wrap = console[i].wrap;
-            else if (len > 80)
+            else
             {
-                int indent = console[i].indent;
+                const int   indent = console[i].indent;
 
                 do
                 {

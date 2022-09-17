@@ -937,7 +937,7 @@ static void HU_DrawAltHUD(void)
         althudfunc(ALTHUD_LEFT_X + 5, ALTHUD_Y + 11, altleftpatch, WHITE, color, tinttab60);
         althudfunc(ALTHUD_LEFT_X + 25, ALTHUD_Y + 13, altendpatch, WHITE, barcolor, NULL);
         althudfunc(ALTHUD_LEFT_X + 123, ALTHUD_Y + 13, altmarkpatch, WHITE, barcolor, NULL);
-        althudfunc(ALTHUD_LEFT_X + 25 + health - 100 - 2, ALTHUD_Y + 10, altmark2patch, WHITE, barcolor, NULL);
+        althudfunc(ALTHUD_LEFT_X + 25 + health - 102, ALTHUD_Y + 10, altmark2patch, WHITE, barcolor, NULL);
     }
     else
     {
@@ -965,10 +965,17 @@ static void HU_DrawAltHUD(void)
             }
             else
             {
-                fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 2, 101, 4,
-                    (viewplayer->armortype == green_armor_class ? green2 : blue2), true, NULL);
-                fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 2, armor - 100 + (armor == 200), 4,
-                    (viewplayer->armortype == green_armor_class ? green1 : blue1), false, NULL);
+                if (viewplayer->armortype == green_armor_class)
+                {
+                    fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 2, 101, 4, green2, true, NULL);
+                    fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 2, armor - 100 + (armor == 200), 4, green1, false, NULL);
+                }
+                else
+                {
+                    fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 2, 101, 4, blue2, true, NULL);
+                    fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 2, armor - 100 + (armor == 200), 4, blue1, false, NULL);
+                }
+
             }
         }
         else
