@@ -878,6 +878,7 @@ static void DrawAltHUDNumber2(int x, int y, int val, int color, byte *tinttab)
         x += SHORT(patch->width) + 2;
 
         patch = altnum2[(val %= 100) / 10];
+
         althudfunc(x, y, patch, WHITE, color, tinttab);
         x += SHORT(patch->width) + 2;
     }
@@ -961,7 +962,7 @@ static void HU_DrawAltHUD(void)
                 barcolor = (viewplayer->armortype == green_armor_class ? green1 : blue1);
 
                 fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 2, 101, 4, barcolor, true, tinttab25);
-                fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 2, armor - 100 + (armor == 200), 4, barcolor, false, tinttab40);
+                fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 2, armor - 100 + (armor == 200), 4, barcolor, (armor == 200), tinttab40);
             }
             else
             {
@@ -975,7 +976,6 @@ static void HU_DrawAltHUD(void)
                     fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 2, 101, 4, blue2, true, NULL);
                     fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 2, armor - 100 + (armor == 200), 4, blue1, (armor == 200), NULL);
                 }
-
             }
         }
         else
