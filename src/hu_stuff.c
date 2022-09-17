@@ -967,7 +967,7 @@ static void HU_DrawAltHUD(void)
         if (armor != prevarmor)
         {
             prevarmor = armor;
-            armorx = ALTHUD_LEFT_X - AltHUDNumberWidth(armor);
+            armorx = ALTHUD_LEFT_X - AltHUDNumber2Width(armor);
         }
 
         DrawAltHUDNumber2(armorx, ALTHUD_Y, armor, color, (armorhighlight > currenttime ? tinttab80 : tinttab60));
