@@ -898,7 +898,7 @@ static void C_DrawBackground(void)
     {
         byte    *dot = *screens + i;
 
-        *dot = tinttab50[*dot + consolebrandingcolor];
+        *dot = tinttab50[consolebrandingcolor + *dot];
     }
 
     // bevel left and right edges

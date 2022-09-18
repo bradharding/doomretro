@@ -3925,7 +3925,7 @@ static void map_cmd_func2(char *cmd, char *parms)
     }
 
     samelevel = (gameepisode == mapcmdepisode && gamemap == mapcmdmap);
-    M_snprintf(buffer, sizeof(buffer), (samelevel ? s_STSTR_CLEVSAME : s_STSTR_CLEV), mapcmdlump);
+    M_snprintf(buffer, sizeof(buffer), (samelevel ? "Restarting %s..." : "Warping to %s..."), mapcmdlump);
     C_Output(buffer);
     HU_SetPlayerMessage(buffer, false, false);
     message_dontfuckwithme = true;
