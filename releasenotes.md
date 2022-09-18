@@ -19,6 +19,8 @@
 * Improvements have been made to the support of [*REKKR*](https://www.doomworld.com/idgames/levels/doom/megawads/rekkr) and [*REKKR: Sunken Land*](https://store.steampowered.com/app/1715690/REKKR_Sunken_Land/).
 * Stimpacks and medikits now always show a red cross rather than a green cross or a pill.
 * A crash no longer occurs if the `save` CCMD is bound to a control using the `bind` CCMD.
+* The obituary displayed in the console when the player is killed by a damaging sector that isn’t liquid is now fixed.
+* Improvements have been made to the synchronization of animated wall textures and flats.
 * The `r_skycolor` CVAR has been removed.
 * The default of the `am_pathcolor` CVAR is now `89`.
 * The following changes have been made to the `vid_capfps` CVAR:
