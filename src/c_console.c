@@ -132,9 +132,9 @@ static byte             *consolebackcolor;
 static byte             *consolebevelcolor;
 static int              consoleboldcolor;
 static int              consolebolditalicscolor;
+int                     consolebrandingcolor;
 static int              consolecaretcolor;
 static int              consoledividercolor;
-static int              consoleedgecolor;
 static int              consoleinputcolor;
 static int              consoleinputtooutputcolor;
 static int              consoleoutputcolor;
@@ -708,7 +708,6 @@ void C_Init(void)
     consolebolditalicscolor = nearestcolors[CONSOLEBOLDITALICSCOLOR];
     consolecaretcolor = nearestcolors[CONSOLECARETCOLOR];
     consoledividercolor = nearestcolors[CONSOLEDIVIDERCOLOR] << 8;
-    consoleedgecolor = nearestcolors[CONSOLEEDGECOLOR] << 8;
     consoleinputcolor = nearestcolors[CONSOLEINPUTCOLOR];
     consoleinputtooutputcolor = nearestcolors[CONSOLEINPUTTOOUTPUTCOLOR];
     consoleoutputcolor = nearestcolors[CONSOLEOUTPUTCOLOR];
@@ -892,14 +891,14 @@ static void C_DrawBackground(void)
 
     // draw branding
     V_DrawConsoleBrandingPatch(SCREENWIDTH - brandwidth + (vid_widescreen ? 0 : 18),
-        consoleheight - brandheight + 2, brand, consoleedgecolor);
+        consoleheight - brandheight + 2, brand);
 
     // draw bottom edge
     for (int i = height - 3 * SCREENWIDTH; i < height; i++)
     {
         byte    *dot = *screens + i;
 
-        *dot = tinttab50[*dot + consoleedgecolor];
+        *dot = tinttab50[*dot + consolebrandingcolor];
     }
 
     // bevel left and right edges
