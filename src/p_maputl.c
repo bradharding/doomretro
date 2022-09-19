@@ -515,11 +515,17 @@ static bool PIT_AddLineIntercepts(line_t *ld)
 //
 static bool PIT_AddThingIntercepts(mobj_t *thing)
 {
-    int             numfronts = 0;
-    divline_t       dl;
-    const fixed_t   radius = thing->radius;
-    const fixed_t   x = thing->x;
-    const fixed_t   y = thing->y;
+    int         numfronts = 0;
+    divline_t   dl;
+    fixed_t     radius;
+    fixed_t     x, y;
+
+    if (!(thing->flags & MF_SHOOTABLE))
+        return true;
+
+    radius = thing->radius;
+    x = thing->x;
+    y = thing->y;
 
     // [RH] Don't check a corner to corner crosssection for hit.
     // Instead, check against the actual bounding box.
