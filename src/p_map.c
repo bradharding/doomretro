@@ -1778,11 +1778,11 @@ static bool PTR_ShootTraverse(intercept_t *in)
         z -= FOOTCLIPSIZE;
 
     // Spawn bullet puff or blood, depending on target type.
-    if (!(th->flags & MF_NOBLOOD) && r_blood != r_blood_none)
+    if (th->type == MT_BARREL)
+        P_SpawnPuff(x, y, z - 8 * FRACUNIT, shootangle);
+    else if (!(th->flags & MF_NOBLOOD) && r_blood != r_blood_none)
     {
-        const mobjtype_t    type = th->type;
-
-        if (type == MT_SKULL && !(th->flags & MF_FUZZ))
+        if (th->type == MT_SKULL && !(th->flags & MF_FUZZ))
         {
             if (vanilla && r_blood == r_blood_red)
                 P_SpawnBlood(x, y, z, shootangle, la_damage, th);
@@ -1791,7 +1791,7 @@ static bool PTR_ShootTraverse(intercept_t *in)
         }
         else if (th->bloodcolor)
         {
-            if (type != MT_PLAYER)
+            if (th->type != MT_PLAYER)
                 P_SpawnBlood(x, y, z, shootangle, la_damage, th);
             else if (!viewplayer->powers[pw_invulnerability] && !(viewplayer->cheats & CF_GODMODE))
                 P_SpawnBlood(x, y, z + M_RandomInt(4, 16) * FRACUNIT, shootangle, la_damage * 2, th);
