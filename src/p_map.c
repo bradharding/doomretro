@@ -1777,10 +1777,10 @@ static bool PTR_ShootTraverse(intercept_t *in)
     if ((shootthing->flags2 & MF2_FEETARECLIPPED) && (shootthing->player && r_liquid_lowerview))
         z -= FOOTCLIPSIZE;
 
-    // Spawn bullet puff or blood, depending on target type.
-    if (th->type == MT_BARREL)
+    // Spawn bullet puff or blood, depending on target type
+    if (th->flags & MF_NOBLOOD)
         P_SpawnPuff(x, y, z - 8 * FRACUNIT, shootangle);
-    else if (!(th->flags & MF_NOBLOOD) && r_blood != r_blood_none)
+    else if (r_blood != r_blood_none)
     {
         if (th->type == MT_SKULL && !(th->flags & MF_FUZZ))
         {

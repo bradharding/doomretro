@@ -3,7 +3,7 @@
 #### DOOM Retro v4.7
 
 * *DOOM Retro* is now built using v17.3.4 of [*Microsoft Visual Studio Community 2022*](https://visualstudio.microsoft.com/vs/community/).
-* Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
+* Several optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Changes have been made to the splash screen.
 * Minor changes have been made to text that is output to the console.
 * The bottom edge of the console is now a slightly brighter red.
@@ -18,10 +18,10 @@
 * When toggling widescreen mode by pressing the <kbd>+</kbd> key, the player’s vertical field of view now zooms in slightly.
 * Improvements have been made to the support of [*REKKR*](https://www.doomworld.com/idgames/levels/doom/megawads/rekkr) and [*REKKR: Sunken Land*](https://store.steampowered.com/app/1715690/REKKR_Sunken_Land/).
 * Stimpacks and medikits now always show a red cross rather than a green cross or a pill.
-* A bug is fixed whereby a puff wouldn’t be spawned when shooting a barrel.
+* Puffs are now spawned again when shooting a barrel.
 * A crash no longer occurs if the `save` CCMD is bound to a control using the `bind` CCMD.
 * The obituary displayed in the console when the player is killed by a damaging sector that isn’t liquid is now fixed.
-* `You found another secret!` is now displayed when the player finds more than one secret.
+* `You found another secret!` is now displayed when the player finds another secret in a map.
 * Improvements have been made to the synchronization of animated wall textures and flats.
 * The `r_skycolor` CVAR has been removed.
 * The default of the `am_pathcolor` CVAR is now `89`.

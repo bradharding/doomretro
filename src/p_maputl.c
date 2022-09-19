@@ -586,7 +586,6 @@ static bool PIT_AddThingIntercepts(mobj_t *thing)
                 intercept_p->isaline = false;
                 intercept_p->d.thing = thing;
                 intercept_p++;
-
                 continue;
             }
         }
