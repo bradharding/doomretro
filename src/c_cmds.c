@@ -1662,15 +1662,12 @@ void bind_cmd_func2(char *cmd, char *parms)
 
                 if (bound)
                 {
-                    if (!nobindoutput)
-                    {
-                        if (strlen(controls[i].control) == 1)
-                            C_Output("The " BOLD("%s") " action has been bound to the " BOLD("'%s'") " control.",
-                                parm2, controls[i].control);
-                        else
-                            C_Output("The " BOLD("%s") " action has been bound to the " BOLD("%s") " control.",
-                                parm2, controls[i].control);
-                    }
+                    if (strlen(controls[i].control) == 1)
+                        C_Output("The " BOLD("%s") " action has been bound to the " BOLD("'%s'") " control.",
+                            parm2, controls[i].control);
+                    else
+                        C_Output("The " BOLD("%s") " action has been bound to the " BOLD("%s") " control.",
+                            parm2, controls[i].control);
                 }
                 else
                 {
@@ -7595,41 +7592,17 @@ static void vanilla_cmd_func2(char *cmd, char *parms)
     {
         SC_Open("VANILLA");
 
-        nobindoutput = true;
-
         while (SC_GetString())
         {
-            char    *cvar = M_StringDuplicate(sc_String);
+            char    *temp1 = M_StringDuplicate(sc_String);
+            char    *temp2;
 
-            if (M_StringCompare(cvar, "bind"))
-            {
-                if (SC_GetString())
-                {
-                    char    *control = M_StringDuplicate(sc_String);
-
-                    if (SC_GetString())
-                    {
-                        char    *temp = M_StringJoin(control, " ", sc_String, NULL);
-
-                        bind_cmd_func2("bind", temp);
-                        free(temp);
-                    }
-
-                    free(control);
-                }
-            }
-            else if (SC_GetString())
-            {
-                char    *temp = M_StringJoin(cvar, " ", sc_String, NULL);
-
-                C_ValidateInput(temp);
-                free(temp);
-            }
-
-            free(cvar);
+            SC_GetString();
+            temp2 = M_StringJoin(temp1, " ", sc_String, NULL);
+            C_ValidateInput(temp2);
+            free(temp1);
+            free(temp2);
         }
-
-        nobindoutput = false;
 
         SC_Close();
 

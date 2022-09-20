@@ -18,13 +18,14 @@
 * When toggling widescreen mode by pressing the <kbd>+</kbd> key, the player’s vertical field of view now zooms in slightly.
 * Improvements have been made to the support of [*REKKR*](https://www.doomworld.com/idgames/levels/doom/megawads/rekkr) and [*REKKR: Sunken Land*](https://store.steampowered.com/app/1715690/REKKR_Sunken_Land/).
 * Stimpacks and medikits now always show a red cross rather than a green cross or a pill.
-* Puffs are now spawned again when shooting a barrel, but now slightly lower than before.
+* Puffs are now spawned again when shooting a barrel, but slightly lower than before.
 * A crash no longer occurs if the `save` CCMD is bound to a control using the `bind` CCMD.
 * The obituary displayed in the console when the player is killed by a damaging sector that isn’t liquid is now fixed.
-* `You found another secret!` is now displayed when the player finds another secret in a map.
+* `You found another secret!` is now displayed when the player finds more than one secret in a map.
 * Improvements have been made to the synchronization of animated wall textures and flats.
 * The `r_skycolor` CVAR has been removed.
 * The default of the `am_pathcolor` CVAR is now `89`.
+* The controls are no longer changed when vanilla mode is enabled using the `vanilla ` CCMD.
 * The following changes have been made to the `vid_capfps` CVAR:
   * Its minimum value is now `35` rather than `10`.
   * A bug is fixed whereby it couldn’t be set to `off` in the console.
