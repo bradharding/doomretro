@@ -1772,7 +1772,7 @@ static bool PTR_ShootTraverse(intercept_t *in)
 
     x = dltrace.x + FixedMul(dltrace.dx, frac);
     y = dltrace.y + FixedMul(dltrace.dy, frac);
-    z = shootz + FixedMul(aimslope, FixedMul(frac, attackrange));
+    z = shootz + FixedMul(aimslope, FixedMul(frac, attackrange)) + M_RandomInt(-12, 12) * FRACUNIT;
 
     if ((shootthing->flags2 & MF2_FEETARECLIPPED) && (shootthing->player && r_liquid_lowerview))
         z -= FOOTCLIPSIZE;
