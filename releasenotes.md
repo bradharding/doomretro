@@ -18,8 +18,8 @@
 * When toggling widescreen mode by pressing the <kbd>+</kbd> key, the player’s vertical field of view now zooms in slightly.
 * Improvements have been made to the support of [*REKKR*](https://www.doomworld.com/idgames/levels/doom/megawads/rekkr) and [*REKKR: Sunken Land*](https://store.steampowered.com/app/1715690/REKKR_Sunken_Land/).
 * Stimpacks and medikits now always show a red cross rather than a green cross or a pill.
-* Puffs are now spawned again when shooting a barrel, but slightly lower than before.
-* The vertical position of blood spawned when shooting a monster is now randomized.
+* Bullet puffs are now spawned again when shooting a barrel.
+* The vertical position of blood and bullet puffs spawned when the player fires a hitscan weapon is now randomized.
 * A crash no longer occurs if the `save` CCMD is bound to a control using the `bind` CCMD.
 * The obituary displayed in the console when the player is killed by a damaging sector that isn’t liquid is now fixed.
 * `You found another secret!` is now displayed when the player finds more than one secret in a map.
