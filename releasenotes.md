@@ -24,7 +24,7 @@
 * The obituary displayed in the console when the player is killed by a damaging sector that isn’t liquid is now fixed.
 * `You found another secret!` is now displayed when the player finds more than one secret in a map.
 * Improvements have been made to the synchronization of animated wall textures and flats.
-* Changes have been made to the brightmap of the `COMPUTE1` texture if the `r_brightmaps` CVAR is `on`.
+* The brightmap of the `COMPUTE1` texture has been improved.
 * The `r_skycolor` CVAR has been removed.
 * The default of the `am_pathcolor` CVAR is now `89`.
 * The controls are no longer changed when vanilla mode is enabled using the `vanilla ` CCMD.

@@ -1772,27 +1772,27 @@ static bool PTR_ShootTraverse(intercept_t *in)
 
     x = dltrace.x + FixedMul(dltrace.dx, frac);
     y = dltrace.y + FixedMul(dltrace.dy, frac);
-    z = shootz + FixedMul(aimslope, FixedMul(frac, attackrange)) + M_RandomInt(-12, 12) * FRACUNIT;
+    z = shootz + FixedMul(aimslope, FixedMul(frac, attackrange));
 
     if ((shootthing->flags2 & MF2_FEETARECLIPPED) && (shootthing->player && r_liquid_lowerview))
         z -= FOOTCLIPSIZE;
 
     // Spawn bullet puff or blood, depending on target type
     if (th->flags & MF_NOBLOOD)
-        P_SpawnPuff(x, y, z - 8 * FRACUNIT, shootangle);
+        P_SpawnPuff(x, y, z - M_RandomInt(0, 16) * FRACUNIT, shootangle);
     else if (r_blood != r_blood_none)
     {
         if (th->type == MT_SKULL && !(th->flags & MF_FUZZ))
         {
             if (vanilla && r_blood == r_blood_red)
-                P_SpawnBlood(x, y, z, shootangle, la_damage, th);
+                P_SpawnBlood(x, y, z + M_RandomInt(-8, 8) * FRACUNIT, shootangle, la_damage, th);
             else
-                P_SpawnPuff(x, y, z - 8 * FRACUNIT, shootangle);
+                P_SpawnPuff(x, y, z - M_RandomInt(0, 16) * FRACUNIT, shootangle);
         }
         else if (th->bloodcolor)
         {
             if (th->type != MT_PLAYER)
-                P_SpawnBlood(x, y, z, shootangle, la_damage, th);
+                P_SpawnBlood(x, y, z + M_RandomInt(-8, 8) * FRACUNIT, shootangle, la_damage, th);
             else if (!viewplayer->powers[pw_invulnerability] && !(viewplayer->cheats & CF_GODMODE))
                 P_SpawnBlood(x, y, z + M_RandomInt(4, 16) * FRACUNIT, shootangle, la_damage * 2, th);
         }
