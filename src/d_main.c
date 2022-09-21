@@ -92,7 +92,7 @@
 #import <Cocoa/Cocoa.h>
 #endif
 
-#define FADECOUNT    9
+#define FADECOUNT    8
 #define FADETICS    25
 
 char **episodes[] =
@@ -223,8 +223,9 @@ static void D_UpdateFade(void)
     {
         byte *tinttabs[FADECOUNT + 1] =
         {
-            PLAYPAL,   tinttab90, tinttab80, tinttab70, tinttab60,
-            tinttab50, tinttab40, tinttab30, tinttab20, tinttab10
+            tinttab90, tinttab80, tinttab70,
+            tinttab60, tinttab50, tinttab40,
+            tinttab30, tinttab20, tinttab10
         };
 
         fadewait = tics + FADETICS;
