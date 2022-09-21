@@ -3361,7 +3361,7 @@ bool M_Responder(event_t *ev)
             return false;
         }
 
-        else if (key == KEY_ENTER && keywait < I_GetTime() && !keydown)
+        else if (key == KEY_ENTER && keywait < I_GetTime() && !keydown && !fadecount)
         {
             // Activate menu item
             keydown = key;
