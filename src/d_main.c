@@ -203,7 +203,7 @@ void D_PostEvent(event_t *ev)
 //
 void D_FadeScreen(bool screenshot)
 {
-    if ((!fade && !screenshot) || togglingvanilla)
+    if ((!fade && !screenshot) || togglingvanilla || fadecount)
         return;
 
     memcpy(fadescreen, screens[0], SCREENAREA);
@@ -292,6 +292,7 @@ void D_Display(void)
     if ((dowipe = (gamestate != wipegamestate || forcewipe)))
     {
         drawdisk = false;
+        fadecount = 0;
 
         if (melt)
             wipe_StartScreen();
