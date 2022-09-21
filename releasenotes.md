@@ -15,6 +15,7 @@
   * The background of the confirmation message now displays correctly.
   * There is no longer a misplaced fade transition when pressing the <kbd>Y</kbd> key and the `fade` CVAR is `on`.
 * There is now a fade transition when opening the sound volume menu in the options menu if the `fade` CVAR is `on`.
+* If the `fade` CVAR is `on`, the fade transitions when quickly pressing the <kbd>ENTER</kbd> key to navigate through the main menu no longer glitch.
 * When toggling widescreen mode by pressing the <kbd>+</kbd> key, the player’s vertical field of view now zooms in slightly.
 * Improvements have been made to the support of [*REKKR*](https://www.doomworld.com/idgames/levels/doom/megawads/rekkr) and [*REKKR: Sunken Land*](https://store.steampowered.com/app/1715690/REKKR_Sunken_Land/).
 * Stimpacks and medikits now always show a red cross rather than a green cross or a pill.
@@ -24,7 +25,7 @@
 * The obituary displayed in the console when the player is killed by a damaging sector that isn’t liquid is now fixed.
 * `You found another secret!` is now displayed when the player finds more than one secret in a map.
 * Improvements have been made to the synchronization of animated wall textures and flats.
-* The brightmap of the `COMPUTE1` texture has been improved.
+* The brightmap of the `COMPUTE1` texture has improved.
 * The `r_skycolor` CVAR has been removed.
 * The default of the `am_pathcolor` CVAR is now `89`.
 * The controls are no longer changed when vanilla mode is enabled using the `vanilla ` CCMD.
