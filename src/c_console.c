@@ -40,6 +40,7 @@
 #include <Windows.h>
 #endif
 
+#include "am_map.h"
 #include "c_cmds.h"
 #include "c_console.h"
 #include "d_deh.h"
@@ -614,6 +615,8 @@ static int C_OverlayWidth(const char *text, const bool monospaced)
             width += spacewidth;
         else if (isdigit(letter))
             width += (monospaced ? zerowidth : SHORT(consolefont[letter - CONSOLEFONTSTART]->width));
+        else if (letter == 176)
+            width += degree->width;
         else if (letter >= CONSOLEFONTSTART)
         {
             if (letter == ',' && prevletter == '1')
@@ -1140,6 +1143,11 @@ static void C_DrawOverlayText(byte *screen, int screenwidth, int x, int y,
 
         if (letter == ' ')
             x += spacewidth;
+        else if (letter == 176)
+        {
+            V_DrawOverlayTextPatch(screen, screenwidth, x, y, degree, degree->width, color, tinttab);
+            x += degree->width;
+        }
         else
         {
             patch_t     *patch = consolefont[letter - CONSOLEFONTSTART];
@@ -1252,6 +1260,51 @@ void C_UpdateTimerOverlay(void)
         OVERLAYTEXTY + (OVERLAYLINEHEIGHT + OVERLAYSPACING) * (int)vid_showfps, tinttab, buffer,
         (((viewplayer->fixedcolormap == INVERSECOLORMAP) ^ (!r_textures)) && !automapactive ?
         nearestblack : consoleoverlaycolor), true);
+}
+
+void C_UpdatePlayerPositionOverlay(void)
+{
+    byte        *tinttab = (r_hud_translucency ? (automapactive ? tinttab70 : tinttab50) : NULL);
+    static char angle[32];
+    static char coordinates[32];
+
+    if (automapactive && !am_followmode)
+    {
+        char            *temp = striptrailingzero((float)direction, 1);
+        const mpoint_t  center = am_frame.center;
+        const int       x = center.x >> MAPBITS;
+        const int       y = center.y >> MAPBITS;
+
+        M_snprintf(angle, sizeof(angle), "%s\xB0", temp);
+        M_snprintf(coordinates, sizeof(coordinates), "(%i,%i,%i)",
+            x, y, R_PointInSubsector(x, y)->sector->floorheight >> FRACBITS);
+        free(temp);
+    }
+    else
+    {
+        const float an = viewangle * 90.0f / ANG90;
+        char        *temp = striptrailingzero((an == 360.0f ? 0.0f : an), 2);
+        mobj_t      *mo = viewplayer->mo;
+        int         z = mo->z;
+
+        if ((mo->flags2 & MF2_FEETARECLIPPED) && r_liquid_lowerview)
+            z -= FOOTCLIPSIZE;
+
+        M_snprintf(angle, sizeof(angle), "%s\xB0", temp);
+        M_snprintf(coordinates, sizeof(coordinates), "(%i,%i,%i)",
+            viewx >> FRACBITS, viewy >> FRACBITS, z >> FRACBITS);
+        free(temp);
+    }
+
+    C_DrawOverlayText(screens[0], SCREENWIDTH, SCREENWIDTH - C_OverlayWidth(angle, true) - OVERLAYTEXTX + 1,
+        OVERLAYTEXTY + (OVERLAYLINEHEIGHT + OVERLAYSPACING) * (int)vid_showfps, tinttab, angle,
+        (((viewplayer->fixedcolormap == INVERSECOLORMAP) ^ (!r_textures)) && !automapactive ?
+        nearestblack : consoleoverlaycolor), true);
+
+    C_DrawOverlayText(screens[0], SCREENWIDTH, SCREENWIDTH - C_OverlayWidth(coordinates, true) - OVERLAYTEXTX + 1,
+        OVERLAYTEXTY + OVERLAYLINEHEIGHT + (OVERLAYLINEHEIGHT + OVERLAYSPACING) * (int)vid_showfps, tinttab, coordinates,
+        (((viewplayer->fixedcolormap == INVERSECOLORMAP) ^ (!r_textures)) && !automapactive ?
+            nearestblack : consoleoverlaycolor), true);
 }
 
 void C_UpdatePathOverlay(void)

@@ -339,7 +339,6 @@ static void HUlib_DrawTextLine(hu_textline_t *l, bool external)
     byte            *tinttab1 = tinttab50;
     byte            *tinttab2 = tinttab80;
     const int       len = l->len;
-    const bool      idmypos = (viewplayer->cheats & CF_MYPOS);
     const int       screenwidth = (external ? MAPWIDTH : SCREENWIDTH);
 
     if (external)
@@ -387,14 +386,14 @@ static void HUlib_DrawTextLine(hu_textline_t *l, bool external)
                 // [BH] display lump from PWAD with shadow
                 charwidth = SHORT(l->f[c - l->sc]->width);
 
-                if (prev2 == '.' && prev == ' ' && c == '(' && !idmypos)
+                if (prev2 == '.' && prev == ' ' && c == '(')
                     x -= 2;
 
                 V_DrawPatchToTempScreen(x, l->y, l->f[c - l->sc]);
             }
             else
             {
-                if ((prev == '-' || (prev2 == '.' && prev == ' ' && c == '(')) && !idmypos)
+                if ((prev == '-' || (prev2 == '.' && prev == ' ' && c == '(')))
                     x -= 2;
                 else
                     // [BH] apply kerning to certain character pairs

@@ -395,6 +395,9 @@ void D_Display(void)
             if (timeremaining && gamestate == GS_LEVEL)
                 C_UpdateTimerOverlay();
 
+            if (viewplayer->cheats & CF_MYPOS)
+                C_UpdatePlayerPositionOverlay();
+
             if (am_path && (automapactive || mapwindow))
                 C_UpdatePathOverlay();
 

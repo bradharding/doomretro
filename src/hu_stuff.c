@@ -1266,96 +1266,55 @@ void HU_Erase(void)
 
 void HU_Ticker(void)
 {
-    const bool  idmypos = (viewplayer->cheats & CF_MYPOS);
-
     // tic down message counter if message is up
-    if (message_counter && !menuactive && !idmypos && !--message_counter)
+    if (message_counter && !menuactive && !--message_counter)
     {
         message_on = false;
         message_nottobefuckedwith = false;
         message_secret = false;
     }
-    else if (idmypos)
-    {
-        // [BH] display and constantly update message for IDMYPOS cheat
-        char    buffer[80];
-
-        message_counter = HU_MSGTIMEOUT - 6;
-
-        if (automapactive && !am_followmode)
-        {
-            char            *temp = striptrailingzero((float)direction, 1);
-            const mpoint_t  center = am_frame.center;
-            const int       x = center.x >> MAPBITS;
-            const int       y = center.y >> MAPBITS;
-
-            M_snprintf(buffer, sizeof(buffer), s_STSTR_MYPOS,
-                temp, x, y, R_PointInSubsector(x, y)->sector->floorheight >> FRACBITS);
-            free(temp);
-        }
-        else
-        {
-            const float angle = viewangle * 90.0f / ANG90;
-            char        *temp = striptrailingzero((angle == 360.0f ? 0.0f : angle), 2);
-            mobj_t      *mo = viewplayer->mo;
-            int         z = mo->z;
-
-            if ((mo->flags2 & MF2_FEETARECLIPPED) && r_liquid_lowerview)
-                z -= FOOTCLIPSIZE;
-
-            M_snprintf(buffer, sizeof(buffer), s_STSTR_MYPOS,
-                temp, viewx >> FRACBITS, viewy >> FRACBITS, z >> FRACBITS);
-            free(temp);
-        }
-
-        HUlib_AddMessageToSText(&w_message, buffer);
-        message_on = true;
-    }
 
     // display message if necessary
     else if (viewplayer->message && (!message_nottobefuckedwith || message_dontfuckwithme))
     {
-        if (!idmypos)
+        if (message_secret)
+            HUlib_AddMessageToSText(&w_message, viewplayer->message);
+        else if (messages || message_dontfuckwithme)
         {
-            if (message_secret)
-                HUlib_AddMessageToSText(&w_message, viewplayer->message);
-            else if (messages || message_dontfuckwithme)
-            {
-                int     len = (int)strlen(viewplayer->message);
-                char    message[133];
+            int     len = (int)strlen(viewplayer->message);
+            char    message[133];
 
-                M_StringCopy(message, viewplayer->message, sizeof(message));
+            M_StringCopy(message, viewplayer->message, sizeof(message));
 
-                if (!vid_widescreen)
-                    while (M_StringWidth(message) > SCREENWIDTH / SCREENSCALE - w_message.l.x * 2 - 6)
+            if (!vid_widescreen)
+                while (M_StringWidth(message) > SCREENWIDTH / SCREENSCALE - w_message.l.x * 2 - 6)
+                {
+                    if (len >= 2 && message[len - 2] == ' ')
                     {
-                        if (len >= 2 && message[len - 2] == ' ')
-                        {
-                            message[len - 2] = '.';
-                            message[len - 1] = '.';
-                            message[len] = '.';
-                            message[len + 1] = '\0';
-                        }
-                        else if (len >= 1)
-                        {
-                            message[len - 1] = '.';
-                            message[len] = '.';
-                            message[len + 1] = '.';
-                            message[len + 2] = '\0';
-                        }
-
-                        len--;
+                        message[len - 2] = '.';
+                        message[len - 1] = '.';
+                        message[len] = '.';
+                        message[len + 1] = '\0';
+                    }
+                    else if (len >= 1)
+                    {
+                        message[len - 1] = '.';
+                        message[len] = '.';
+                        message[len + 1] = '.';
+                        message[len + 2] = '\0';
                     }
 
-                HUlib_AddMessageToSText(&w_message, message);
-            }
+                    len--;
+                }
 
-            message_fadeon = (!message_on || message_counter <= 5);
-            message_on = true;
-            message_counter = HU_MSGTIMEOUT;
-            message_nottobefuckedwith = message_dontfuckwithme;
-            message_dontfuckwithme = false;
+            HUlib_AddMessageToSText(&w_message, message);
         }
+
+        message_fadeon = (!message_on || message_counter <= 5);
+        message_on = true;
+        message_counter = HU_MSGTIMEOUT;
+        message_nottobefuckedwith = message_dontfuckwithme;
+        message_dontfuckwithme = false;
 
         viewplayer->message = NULL;
     }

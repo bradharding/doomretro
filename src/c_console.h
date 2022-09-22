@@ -257,6 +257,7 @@ void C_PrintCompileDate(void);
 void C_PrintSDLVersions(void);
 void C_UpdateFPSOverlay(void);
 void C_UpdateTimerOverlay(void);
+void C_UpdatePlayerPositionOverlay(void);
 void C_UpdatePathOverlay(void);
 void C_UpdatePlayerStatsOverlay(void);
 char *C_CreateTimeStamp(int index);

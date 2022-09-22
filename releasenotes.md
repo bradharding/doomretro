@@ -19,10 +19,10 @@
 * Improvements have been made to the support of [*REKKR*](https://www.doomworld.com/idgames/levels/doom/megawads/rekkr) and [*REKKR: Sunken Land*](https://store.steampowered.com/app/1715690/REKKR_Sunken_Land/).
 * Stimpacks and medikits now always show a red cross rather than a green cross or a pill.
 * Bullet puffs are now spawned again when shooting a barrel.
-* The vertical position of blood and bullet puffs spawned when the player fires a hitscan weapon is now randomized.
+* The vertical position of blood and bullet puffs spawned is now randomized when the player fires one of their hitscan weapons.
 * A crash no longer occurs if the `save` CCMD is bound to a control using the `bind` CCMD.
 * The obituary displayed in the console when the player is killed by a damaging sector that isn’t liquid is now fixed.
-* `You found another secret!` is now displayed when the player finds more than one secret in a map.
+* `You found another secret!` is now displayed each time the player finds more than one secret in a map.
 * Improvements have been made to the synchronization of animated wall textures and flats.
 * The brightmap of the `COMPUTE1` texture has improved.
 * The `r_skycolor` CVAR has been removed.
