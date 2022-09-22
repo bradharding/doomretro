@@ -125,6 +125,7 @@ char                    consolecheatparm[3];
 static int              inputhistory = -1;
 static int              outputhistory = -1;
 
+static int              degreewidth;
 static int              timerwidth;
 static int              zerowidth;
 
@@ -616,7 +617,7 @@ static int C_OverlayWidth(const char *text, const bool monospaced)
         else if (isdigit(letter))
             width += (monospaced ? zerowidth : SHORT(consolefont[letter - CONSOLEFONTSTART]->width));
         else if (letter == 176)
-            width += degree->width;
+            width += degreewidth;
         else if (letter >= CONSOLEFONTSTART)
         {
             if (letter == ',' && prevletter == '1')
@@ -766,6 +767,7 @@ void C_Init(void)
 
     brandwidth = SHORT(brand->width);
     brandheight = SHORT(brand->height);
+    degreewidth = SHORT(degree->width);
     spacewidth = SHORT(consolefont[' ' - CONSOLEFONTSTART]->width);
     zerowidth = SHORT(consolefont['0' - CONSOLEFONTSTART]->width);
 }
@@ -1145,8 +1147,8 @@ static void C_DrawOverlayText(byte *screen, int screenwidth, int x, int y,
             x += spacewidth;
         else if (letter == 176)
         {
-            V_DrawOverlayTextPatch(screen, screenwidth, x, y, degree, degree->width, color, tinttab);
-            x += degree->width;
+            V_DrawOverlayTextPatch(screen, screenwidth, x, y, degree, degreewidth, color, tinttab);
+            x += degreewidth;
         }
         else
         {

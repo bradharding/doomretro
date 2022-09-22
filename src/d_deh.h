@@ -348,7 +348,6 @@ extern char         *s_STSTR_BUDDHAOFF;
 extern char         *s_STSTR_CHOPPERS;
 extern char         *s_STSTR_CLEV;
 extern char         *s_STSTR_CLEVSAME;
-extern char         *s_STSTR_MYPOS;
 extern char         *s_STSTR_NTON;
 extern char         *s_STSTR_NTOFF;
 extern char         *s_STSTR_GODON;

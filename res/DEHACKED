@@ -282,7 +282,6 @@ STSTR_BUDDHAOFF = Buddha mode OFF.
 STSTR_CHOPPERS = "...doesn't suck." - GM
 STSTR_CLEV = Warping to %s...
 STSTR_CLEVSAME = Restarting %s...
-STSTR_MYPOS = Angle = %s°  x,y,z = (%i, %i, %i)
 STSTR_NTON = No target mode ON.
 STSTR_NTOFF = No target mode OFF.
 STSTR_GODON = God mode ON.
