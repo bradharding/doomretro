@@ -1243,6 +1243,10 @@ void C_UpdateTimerOverlay(void)
     static char buffer[10];
     static int  prevtime = -1;
     byte        *tinttab = (r_hud_translucency ? (automapactive ? tinttab70 : tinttab50) : NULL);
+    int         y = OVERLAYTEXTY;
+
+    if (vid_showfps)
+        y += OVERLAYLINEHEIGHT + OVERLAYSPACING;
 
     if (timeremaining != prevtime)
     {
@@ -1258,9 +1262,8 @@ void C_UpdateTimerOverlay(void)
         timerwidth = C_OverlayWidth(buffer, true);
     }
 
-    C_DrawOverlayText(screens[0], SCREENWIDTH, SCREENWIDTH - timerwidth - OVERLAYTEXTX + 1,
-        OVERLAYTEXTY + (OVERLAYLINEHEIGHT + OVERLAYSPACING) * (int)vid_showfps, tinttab, buffer,
-        (((viewplayer->fixedcolormap == INVERSECOLORMAP) ^ (!r_textures)) && !automapactive ?
+    C_DrawOverlayText(screens[0], SCREENWIDTH, SCREENWIDTH - timerwidth - OVERLAYTEXTX + 1, y, tinttab,
+        buffer, (((viewplayer->fixedcolormap == INVERSECOLORMAP) ^ (!r_textures)) && !automapactive ?
         nearestblack : consoleoverlaycolor), true);
 }
 
@@ -1270,11 +1273,17 @@ void C_UpdatePathOverlay(void)
 
     if (*temp)
     {
-        byte    *tinttab = (r_hud_translucency ? (automapactive ? tinttab70 : tinttab50) : NULL);
+        byte    *tinttab = (r_hud_translucency ? tinttab70 : NULL);
+        int     y = MAPOVERLAYTEXTY;
+
+        if (vid_showfps)
+            y += OVERLAYLINEHEIGHT + OVERLAYSPACING;
+
+        if (timeremaining)
+            y += OVERLAYLINEHEIGHT + OVERLAYSPACING;
 
         C_DrawOverlayText(mapscreen, MAPWIDTH, MAPWIDTH - C_OverlayWidth(temp, true) - MAPOVERLAYTEXTX + 1,
-            MAPOVERLAYTEXTY + (OVERLAYLINEHEIGHT + OVERLAYSPACING) * ((int)(vid_showfps && automapactive)
-            + (int)(!!timeremaining && automapactive)), tinttab, temp, consoleoverlaycolor, true);
+            y, tinttab, temp, consoleoverlaycolor, true);
         free(temp);
 
         pathoverlay = true;
@@ -1286,13 +1295,21 @@ void C_UpdatePathOverlay(void)
 void C_UpdatePlayerStatsOverlay(void)
 {
     const int   x = MAPWIDTH - MAPOVERLAYTEXTX + 1;
-    int         y = MAPOVERLAYTEXTY + (OVERLAYLINEHEIGHT + OVERLAYSPACING) * ((int)(vid_showfps && automapactive)
-                    + (int)(!!timeremaining && automapactive) + (int)pathoverlay);
-    byte        *tinttab = (r_hud_translucency ? (automapactive ? tinttab70 : tinttab50) : NULL);
+    int         y = MAPOVERLAYTEXTY;
+    byte        *tinttab = (r_hud_translucency ? tinttab70 : NULL);
     static char time[10];
     static int  prevmaptime = -1;
     static int  timewidth;
     static int  color;
+
+    if (vid_showfps)
+        y += OVERLAYLINEHEIGHT + OVERLAYSPACING;
+
+    if (timeremaining)
+        y += OVERLAYLINEHEIGHT + OVERLAYSPACING;
+
+    if (pathoverlay)
+        y += OVERLAYLINEHEIGHT + OVERLAYSPACING;
 
     if (maptime != prevmaptime)
     {

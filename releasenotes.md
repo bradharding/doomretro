@@ -40,6 +40,7 @@
   * The player’s health is no longer red when less than `10%` while buddha mode is enabled.
 * There are no longer any anomalies in *E1M4B: Phobos Mission Control* when the `r_fixmaperrors` CVAR is `on`.
 * *DOOM Retro* now recognizes the presence of `compat_floormove` in `MAPINFO` lumps.
+* The output of the `IDMYPOS` cheat is now displayed in the top right of the screen.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
