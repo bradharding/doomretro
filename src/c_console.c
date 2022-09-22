@@ -373,6 +373,8 @@ void C_PlayerMessage(const char *string, ...)
         console[consolestrings].stringtype = playermessagestring;
         console[consolestrings].tics = gametime;
         console[consolestrings].timestamp[0] = '\0';
+        console[consolestrings].indent = 0;
+        console[consolestrings].wrap = 0;
         console[consolestrings++].count = 1;
         viewplayer->prevmessage[0] = '\0';
         viewplayer->prevmessagetics = 0;
