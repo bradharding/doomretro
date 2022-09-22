@@ -619,12 +619,7 @@ static int C_OverlayWidth(const char *text, const bool monospaced)
         else if (letter == 176)
             width += degreewidth;
         else if (letter >= CONSOLEFONTSTART)
-        {
-            if (letter == ',' && prevletter == '1')
-                width--;
-
             width += SHORT(consolefont[letter - CONSOLEFONTSTART]->width);
-        }
 
         prevletter = letter;
     }
@@ -1163,9 +1158,6 @@ static void C_DrawOverlayText(byte *screen, int screenwidth, int x, int y,
             }
             else
             {
-                if (letter == ',' && prevletter == '1')
-                    x--;
-
                 V_DrawOverlayTextPatch(screen, screenwidth, x, y, patch, width, color, tinttab);
                 x += width;
             }
@@ -1399,30 +1391,26 @@ void C_UpdatePlayerPositionOverlay(void)
 
     if (automapactive && !am_followmode)
     {
-        char            *temp = striptrailingzero((float)direction, 1);
         const mpoint_t  center = am_frame.center;
         const int       xx = center.x >> MAPBITS;
         const int       yy = center.y >> MAPBITS;
 
-        M_snprintf(angle, sizeof(angle), "%s\xB0", temp);
+        M_snprintf(angle, sizeof(angle), "%i\xB0", direction);
         M_snprintf(coordinates, sizeof(coordinates), "(%i,%i,%i)",
             xx, yy, R_PointInSubsector(xx, yy)->sector->floorheight >> FRACBITS);
-        free(temp);
     }
     else
     {
-        const float an = viewangle * 90.0f / ANG90;
-        char        *temp = striptrailingzero((an == 360.0f ? 0.0f : an), 2);
+        const int   an = (int)(viewangle * 90.0 / ANG90);
         mobj_t      *mo = viewplayer->mo;
         int         z = mo->z;
 
         if ((mo->flags2 & MF2_FEETARECLIPPED) && r_liquid_lowerview)
             z -= FOOTCLIPSIZE;
 
-        M_snprintf(angle, sizeof(angle), "%s\xB0", temp);
+        M_snprintf(angle, sizeof(angle), "%i\xB0", (an == 360 ? 0 : an));
         M_snprintf(coordinates, sizeof(coordinates), "(%i,%i,%i)",
             viewx >> FRACBITS, viewy >> FRACBITS, z >> FRACBITS);
-        free(temp);
     }
 
     C_DrawOverlayText(screens[0], SCREENWIDTH, SCREENWIDTH - C_OverlayWidth(angle, true) - OVERLAYTEXTX + 1,
