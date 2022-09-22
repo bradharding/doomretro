@@ -1264,51 +1264,6 @@ void C_UpdateTimerOverlay(void)
         nearestblack : consoleoverlaycolor), true);
 }
 
-void C_UpdatePlayerPositionOverlay(void)
-{
-    byte        *tinttab = (r_hud_translucency ? (automapactive ? tinttab70 : tinttab50) : NULL);
-    static char angle[32];
-    static char coordinates[32];
-
-    if (automapactive && !am_followmode)
-    {
-        char            *temp = striptrailingzero((float)direction, 1);
-        const mpoint_t  center = am_frame.center;
-        const int       x = center.x >> MAPBITS;
-        const int       y = center.y >> MAPBITS;
-
-        M_snprintf(angle, sizeof(angle), "%s\xB0", temp);
-        M_snprintf(coordinates, sizeof(coordinates), "(%i,%i,%i)",
-            x, y, R_PointInSubsector(x, y)->sector->floorheight >> FRACBITS);
-        free(temp);
-    }
-    else
-    {
-        const float an = viewangle * 90.0f / ANG90;
-        char        *temp = striptrailingzero((an == 360.0f ? 0.0f : an), 2);
-        mobj_t      *mo = viewplayer->mo;
-        int         z = mo->z;
-
-        if ((mo->flags2 & MF2_FEETARECLIPPED) && r_liquid_lowerview)
-            z -= FOOTCLIPSIZE;
-
-        M_snprintf(angle, sizeof(angle), "%s\xB0", temp);
-        M_snprintf(coordinates, sizeof(coordinates), "(%i,%i,%i)",
-            viewx >> FRACBITS, viewy >> FRACBITS, z >> FRACBITS);
-        free(temp);
-    }
-
-    C_DrawOverlayText(screens[0], SCREENWIDTH, SCREENWIDTH - C_OverlayWidth(angle, true) - OVERLAYTEXTX + 1,
-        OVERLAYTEXTY + (OVERLAYLINEHEIGHT + OVERLAYSPACING) * (int)vid_showfps, tinttab, angle,
-        (((viewplayer->fixedcolormap == INVERSECOLORMAP) ^ (!r_textures)) && !automapactive ?
-        nearestblack : consoleoverlaycolor), true);
-
-    C_DrawOverlayText(screens[0], SCREENWIDTH, SCREENWIDTH - C_OverlayWidth(coordinates, true) - OVERLAYTEXTX + 1,
-        OVERLAYTEXTY + OVERLAYLINEHEIGHT + (OVERLAYLINEHEIGHT + OVERLAYSPACING) * (int)vid_showfps, tinttab, coordinates,
-        (((viewplayer->fixedcolormap == INVERSECOLORMAP) ^ (!r_textures)) && !automapactive ?
-            nearestblack : consoleoverlaycolor), true);
-}
-
 void C_UpdatePathOverlay(void)
 {
     char    *temp = distancetraveled(viewplayer->distancetraveled, false);
@@ -1404,6 +1359,62 @@ void C_UpdatePlayerStatsOverlay(void)
         free(temp1);
         free(temp2);
     }
+}
+
+void C_UpdatePlayerPositionOverlay(void)
+{
+    int         y = OVERLAYTEXTY;
+    byte        *tinttab = (r_hud_translucency ? (automapactive ? tinttab70 : tinttab50) : NULL);
+    static char angle[32];
+    static char coordinates[32];
+
+    if (vid_showfps)
+        y += OVERLAYLINEHEIGHT + OVERLAYSPACING;
+
+    if (timeremaining)
+        y += OVERLAYLINEHEIGHT + OVERLAYSPACING;
+
+    if (pathoverlay && automapactive)
+        y += OVERLAYLINEHEIGHT + OVERLAYSPACING;
+
+    if (am_playerstats && automapactive)
+        y += OVERLAYLINEHEIGHT * (!!totalkills + !!totalitems + !!totalsecrets + 1) + OVERLAYSPACING * 2;
+
+    if (automapactive && !am_followmode)
+    {
+        char            *temp = striptrailingzero((float)direction, 1);
+        const mpoint_t  center = am_frame.center;
+        const int       xx = center.x >> MAPBITS;
+        const int       yy = center.y >> MAPBITS;
+
+        M_snprintf(angle, sizeof(angle), "%s\xB0", temp);
+        M_snprintf(coordinates, sizeof(coordinates), "(%i,%i,%i)",
+            xx, yy, R_PointInSubsector(xx, yy)->sector->floorheight >> FRACBITS);
+        free(temp);
+    }
+    else
+    {
+        const float an = viewangle * 90.0f / ANG90;
+        char        *temp = striptrailingzero((an == 360.0f ? 0.0f : an), 2);
+        mobj_t      *mo = viewplayer->mo;
+        int         z = mo->z;
+
+        if ((mo->flags2 & MF2_FEETARECLIPPED) && r_liquid_lowerview)
+            z -= FOOTCLIPSIZE;
+
+        M_snprintf(angle, sizeof(angle), "%s\xB0", temp);
+        M_snprintf(coordinates, sizeof(coordinates), "(%i,%i,%i)",
+            viewx >> FRACBITS, viewy >> FRACBITS, z >> FRACBITS);
+        free(temp);
+    }
+
+    C_DrawOverlayText(screens[0], SCREENWIDTH, SCREENWIDTH - C_OverlayWidth(angle, true) - OVERLAYTEXTX + 1,
+        y, tinttab, angle, (((viewplayer->fixedcolormap == INVERSECOLORMAP) ^ (!r_textures)) && !automapactive ?
+        nearestblack : consoleoverlaycolor), true);
+
+    C_DrawOverlayText(screens[0], SCREENWIDTH, SCREENWIDTH - C_OverlayWidth(coordinates, true) - OVERLAYTEXTX + 1,
+        y + OVERLAYLINEHEIGHT, tinttab, coordinates, (((viewplayer->fixedcolormap == INVERSECOLORMAP) ^ (!r_textures))
+        && !automapactive ? nearestblack : consoleoverlaycolor), true);
 }
 
 void C_Drawer(void)
