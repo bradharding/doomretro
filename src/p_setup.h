@@ -46,6 +46,7 @@ extern const char   *linespecials[];
 
 extern bool         allowmonstertelefrags;
 extern bool         compat_corpsegibs;
+extern bool         compat_floormove;
 extern bool         compat_light;
 extern bool         compat_limitpain;
 extern bool         compat_nopassover;

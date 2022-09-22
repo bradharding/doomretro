@@ -86,7 +86,7 @@ result_e T_MovePlane(sector_t *sector, const fixed_t speed, fixed_t dest,
                     break;
 
                 case 1:
-                    dest = MIN(dest, sector->ceilingheight);
+                    dest = (compat_floormove || dest < sector->ceilingheight ? dest : sector->ceilingheight);
 
                     if (sector->floorheight + speed > dest)
                     {
@@ -124,7 +124,7 @@ result_e T_MovePlane(sector_t *sector, const fixed_t speed, fixed_t dest,
             switch (direction)
             {
                 case -1:
-                    dest = MAX(dest, sector->floorheight);
+                    dest = (compat_floormove || dest > sector->floorheight ? dest : sector->floorheight);
 
                     if (sector->ceilingheight - speed < dest)
                     {
