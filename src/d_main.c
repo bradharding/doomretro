@@ -2429,7 +2429,7 @@ static void D_DoomMainSetup(void)
 
     logox = (SCREENWIDTH - SHORT(logolump[0]->width)) / 2;
     fineprintx = (SCREENWIDTH - SHORT(fineprintlump->width)) / 2;
-    fineprinty = SCREENHEIGHT - SHORT(fineprintlump->height);
+    fineprinty = SCREENHEIGHT - SHORT(fineprintlump->height) - 2;
 
     if (autosigil)
     {
