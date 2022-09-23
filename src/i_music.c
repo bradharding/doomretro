@@ -114,9 +114,9 @@ void I_SetMusicVolume(int volume)
     if (midimusictype && windowsmidi)
         I_Windows_SetMusicVolume(current_music_volume);
     else
-        Mix_VolumeMusic(current_music_volume / 2);
+        Mix_VolumeMusic(current_music_volume / 3);
 #else
-    Mix_VolumeMusic(current_music_volume / 2);
+    Mix_VolumeMusic(current_music_volume / 3);
 #endif
 }
 
