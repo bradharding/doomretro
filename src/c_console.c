@@ -1231,7 +1231,7 @@ void C_UpdateTimerOverlay(void)
     byte        *tinttab = (r_hud_translucency ? (automapactive ? tinttab70 : tinttab50) : NULL);
     int         y = OVERLAYTEXTY;
 
-    if (vid_showfps)
+    if (vid_showfps && framespersecond)
         y += OVERLAYLINEHEIGHT + OVERLAYSPACING;
 
     if (timeremaining != prevtime)
@@ -1262,7 +1262,7 @@ void C_UpdatePathOverlay(void)
         byte    *tinttab = (r_hud_translucency ? tinttab70 : NULL);
         int     y = MAPOVERLAYTEXTY;
 
-        if (vid_showfps)
+        if (vid_showfps && framespersecond)
             y += OVERLAYLINEHEIGHT + OVERLAYSPACING;
 
         if (timeremaining)
@@ -1288,7 +1288,7 @@ void C_UpdatePlayerStatsOverlay(void)
     static int  timewidth;
     static int  color;
 
-    if (vid_showfps)
+    if (vid_showfps && framespersecond)
         y += OVERLAYLINEHEIGHT + OVERLAYSPACING;
 
     if (timeremaining)
@@ -1371,7 +1371,7 @@ void C_UpdatePlayerPositionOverlay(void)
     static char angle[32];
     static char coordinates[32];
 
-    if (vid_showfps)
+    if (vid_showfps && framespersecond)
         y += OVERLAYLINEHEIGHT + OVERLAYSPACING;
 
     if (timeremaining)

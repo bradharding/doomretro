@@ -9902,7 +9902,10 @@ static void vid_showfps_cvar_func2(char *cmd, char *parms)
         if (vid_showfps)
             starttime = SDL_GetPerformanceCounter();
         else
+        {
+            framespersecond = 0;
             frames = -1;
+        }
     }
 }
 
