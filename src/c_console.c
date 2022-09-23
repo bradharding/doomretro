@@ -604,9 +604,8 @@ int C_TextWidth(const char *text, const bool formatting, const bool kerning)
 
 static int C_OverlayWidth(const char *text, const bool monospaced)
 {
-    const int       len = (int)strlen(text);
-    int             width = 0;
-    unsigned char   prevletter = '\0';
+    const int   len = (int)strlen(text);
+    int         width = 0;
 
     for (int i = 0; i < len; i++)
     {
@@ -620,8 +619,6 @@ static int C_OverlayWidth(const char *text, const bool monospaced)
             width += degreewidth;
         else if (letter >= CONSOLEFONTSTART)
             width += SHORT(consolefont[letter - CONSOLEFONTSTART]->width);
-
-        prevletter = letter;
     }
 
     return width;
@@ -1131,8 +1128,7 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
 static void C_DrawOverlayText(byte *screen, int screenwidth, int x, int y,
     byte *tinttab, const char *text, const int color, const bool monospaced)
 {
-    const int       len = (int)strlen(text);
-    unsigned char   prevletter = '\0';
+    const int   len = (int)strlen(text);
 
     for (int i = 0; i < len; i++)
     {
@@ -1162,8 +1158,6 @@ static void C_DrawOverlayText(byte *screen, int screenwidth, int x, int y,
                 x += width;
             }
         }
-
-        prevletter = letter;
     }
 }
 
@@ -2121,7 +2115,7 @@ bool C_Responder(event_t *ev)
                 // autocomplete
                 if (consoleinput[0] != '\0' && caretpos == len)
                 {
-                    const int   direction = ((modstate & KMOD_SHIFT) ? -1 : 1);
+                    const int   scrolldirection = ((modstate & KMOD_SHIFT) ? -1 : 1);
                     const int   start = autocomplete;
                     static char input[255];
                     char        prefix[255] = "";
@@ -2161,8 +2155,8 @@ bool C_Responder(event_t *ev)
                     spaces1 = numspaces(input);
                     endspace1 = (input[strlen(input) - 1] == ' ');
 
-                    while ((direction == -1 && autocomplete > 0)
-                        || (direction == 1 && (autocomplete == -1 || *autocompletelist[autocomplete].text)))
+                    while ((scrolldirection == -1 && autocomplete > 0)
+                        || (scrolldirection == 1 && (autocomplete == -1 || *autocompletelist[autocomplete].text)))
                     {
                         static char output[255];
                         int         spaces2;
@@ -2170,7 +2164,7 @@ bool C_Responder(event_t *ev)
                         int         len2;
                         int         game;
 
-                        autocomplete += direction;
+                        autocomplete += scrolldirection;
 
                         if (GetCapsLockState())
                         {
