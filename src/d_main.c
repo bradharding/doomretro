@@ -389,20 +389,20 @@ void D_Display(void)
     {
         if (!paused && !menuactive)
         {
-            if (vid_showfps)
+            if (vid_showfps && !dowipe && !splashscreen && framespersecond)
                 C_UpdateFPSOverlay();
 
             if (timeremaining && gamestate == GS_LEVEL)
                 C_UpdateTimerOverlay();
+
+            if (viewplayer->cheats & CF_MYPOS)
+                C_UpdatePlayerPositionOverlay();
 
             if (am_path && (automapactive || mapwindow))
                 C_UpdatePathOverlay();
 
             if (am_playerstats && (automapactive || mapwindow))
                 C_UpdatePlayerStatsOverlay();
-
-            if (viewplayer->cheats & CF_MYPOS)
-                C_UpdatePlayerPositionOverlay();
         }
 
         if (consoleheight)
