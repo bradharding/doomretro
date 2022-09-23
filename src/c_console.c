@@ -1252,7 +1252,10 @@ void C_UpdateTimerOverlay(void)
 
 void C_UpdatePlayerPositionOverlay(void)
 {
+    const int   x = SCREENWIDTH - OVERLAYTEXTX + 1;
     int         y = OVERLAYTEXTY;
+    const int   color = (((viewplayer->fixedcolormap == INVERSECOLORMAP) ^ (!r_textures)) && !automapactive ?
+                    nearestblack : consoleoverlaycolor);
     byte        *tinttab = (r_hud_translucency ? (automapactive ? tinttab70 : tinttab50) : NULL);
     static char angle[32];
     static char coordinates[32];
@@ -1287,13 +1290,9 @@ void C_UpdatePlayerPositionOverlay(void)
             viewx >> FRACBITS, viewy >> FRACBITS, z >> FRACBITS);
     }
 
-    C_DrawOverlayText(screens[0], SCREENWIDTH, SCREENWIDTH - C_OverlayWidth(angle, true) - OVERLAYTEXTX + 1,
-        y, tinttab, angle, (((viewplayer->fixedcolormap == INVERSECOLORMAP) ^ (!r_textures)) && !automapactive ?
-        nearestblack : consoleoverlaycolor), true);
-
-    C_DrawOverlayText(screens[0], SCREENWIDTH, SCREENWIDTH - C_OverlayWidth(coordinates, true) - OVERLAYTEXTX + 1,
-        y + OVERLAYLINEHEIGHT, tinttab, coordinates, (((viewplayer->fixedcolormap == INVERSECOLORMAP) ^ (!r_textures))
-        && !automapactive ? nearestblack : consoleoverlaycolor), true);
+    C_DrawOverlayText(screens[0], SCREENWIDTH, x - C_OverlayWidth(angle, true), y, tinttab, angle, color, true);
+    C_DrawOverlayText(screens[0], SCREENWIDTH, x - C_OverlayWidth(coordinates, true),
+        y + OVERLAYLINEHEIGHT, tinttab, coordinates, color, true);
 }
 
 void C_UpdatePathOverlay(void)

@@ -106,7 +106,7 @@ static void MidiErrorMessage(DWORD dwError)
     char    szErrorBuf[MAXERRORLENGTH];
 
     midiOutGetErrorText(dwError, (LPSTR)szErrorBuf, MAXERRORLENGTH);
-    C_Warning(2, "midiStream Error: %s", szErrorBuf);
+    C_Warning(2, "\"%s\"", szErrorBuf);
 }
 
 // Fill the buffer with MIDI events, adjusting the volume as needed.
