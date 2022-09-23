@@ -1270,7 +1270,7 @@ void C_UpdatePlayerPositionOverlay(void)
         const int       yy = center.y >> MAPBITS;
 
         M_snprintf(angle, sizeof(angle), "%i\xB0", direction);
-        M_snprintf(coordinates, sizeof(coordinates), "(%i,%i,%i)",
+        M_snprintf(coordinates, sizeof(coordinates), "(%i, %i, %i)",
             xx, yy, R_PointInSubsector(xx, yy)->sector->floorheight >> FRACBITS);
     }
     else
@@ -1283,7 +1283,7 @@ void C_UpdatePlayerPositionOverlay(void)
             z -= FOOTCLIPSIZE;
 
         M_snprintf(angle, sizeof(angle), "%i\xB0", (an == 360 ? 0 : an));
-        M_snprintf(coordinates, sizeof(coordinates), "(%i,%i,%i)",
+        M_snprintf(coordinates, sizeof(coordinates), "(%i, %i, %i)",
             viewx >> FRACBITS, viewy >> FRACBITS, z >> FRACBITS);
     }
 
