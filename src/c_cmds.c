@@ -9501,7 +9501,7 @@ static void s_volume_cvars_func2(char *cmd, char *parms)
         {
             s_sfxvolume = value;
             sfxVolume = (s_sfxvolume * 31 + 50) / 100;
-            S_SetSfxVolume(sfxVolume * MIX_MAX_VOLUME / 31);
+            S_SetSfxVolume(sfxVolume * (MIX_MAX_VOLUME - 1) / 31);
             M_SaveCVARs();
         }
     }

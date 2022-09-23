@@ -141,7 +141,7 @@ static allocated_sound_t *AllocateSound(sfxinfo_t *sfxinfo, const int length)
     snd->chunk.abuf = (uint8_t *)(snd + 1);
     snd->chunk.alen = length;
     snd->chunk.allocated = 1;
-    snd->chunk.volume = MIX_MAX_VOLUME;
+    snd->chunk.volume = MIX_MAX_VOLUME - 1;
     snd->pitch = NORM_PITCH;
     snd->sfxinfo = sfxinfo;
     snd->use_count = 0;
@@ -322,7 +322,7 @@ bool CacheSFX(sfxinfo_t *sfxinfo)
 
 void I_UpdateSoundParms(const int channel, const int vol, const int sep)
 {
-    Mix_SetPanning(channel, (254 - sep) * vol / MIX_MAX_VOLUME, sep * vol / MIX_MAX_VOLUME);
+    Mix_SetPanning(channel, (254 - sep) * vol / (MIX_MAX_VOLUME - 1), sep * vol / (MIX_MAX_VOLUME - 1));
 }
 
 //

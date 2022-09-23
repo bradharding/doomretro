@@ -104,7 +104,7 @@ bool I_InitMusic(void)
     return music_initialized;
 }
 
-// Set music volume (0 - MIX_MAX_VOLUME)
+// Set music volume (0 - 127)
 void I_SetMusicVolume(int volume)
 {
     // Internal state variable.
