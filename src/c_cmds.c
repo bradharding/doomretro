@@ -4195,6 +4195,14 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
         lump = W_CheckNumForName(lumpname);
         wadtype = lumpinfo[lump]->wadfile->type;
     }
+    else if (BTSX)
+    {
+        char    lumpname[6];
+
+        M_snprintf(lumpname, sizeof(lumpname), "MAP%02i", gamemap);
+        lump = W_CheckNumForName(lumpname);
+        wadtype = lumpinfo[lump]->wadfile->type;
+    }
     else
     {
         lump = (nerve && gamemission == doom2 ? W_GetLastNumForName(mapnum) : W_CheckNumForName(mapnum));
