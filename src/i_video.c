@@ -1621,22 +1621,6 @@ static void SetVideoMode(bool createwindow, bool output)
                 C_Warning(1, "Linear filtering can't be used in software.");
         }
 
-        if (output)
-        {
-            typedef const GLubyte   *(APIENTRY *glStringFn_t)(GLenum);
-            glStringFn_t            pglGetString = (glStringFn_t)SDL_GL_GetProcAddress("glGetString");
-
-            if (pglGetString)
-            {
-                const char  *graphicscard = (const char *)pglGetString(GL_RENDERER);
-                const char  *vendor = (const char *)pglGetString(GL_VENDOR);
-
-                if (graphicscard && vendor)
-                    C_Output("Using %s " ITALICS("%s") " graphics card from " ITALICS("%s."),
-                        (isvowel(graphicscard[0]) || M_StringStartsWith(graphicscard, "NVIDIA") ? "an" : "a"), graphicscard, vendor);
-            }
-        }
-
         refreshrate = 0;
 
         if (rendererinfo.flags & SDL_RENDERER_PRESENTVSYNC)
