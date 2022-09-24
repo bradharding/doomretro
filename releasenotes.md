@@ -43,7 +43,7 @@
 * There are no longer any anomalies in *E1M4B: Phobos Mission Control* when the `r_fixmaperrors` CVAR is `on`.
 * The presence of `compat_floormove` is now recognized in `MAPINFO` lumps.
 * The player’s position is now displayed in the top right of the screen, rather than as a persistent player message, when the `IDMYPOS` cheat is entered.
-* The `-solo-net` command-line parameter is now supported. If specified, all things intended for multiplayer only will be spawned at the start of each map.
+* A `solonet` CCMD has been implemented that toggles all things usually intended for multiplayer to be spawned at the start of each map. An accompanying `-solonet` command-line parameter has also been implemented.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
