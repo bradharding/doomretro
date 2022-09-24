@@ -401,7 +401,7 @@ void D_Display(void)
             if (am_path && (automapactive || mapwindow))
                 C_UpdatePathOverlay();
 
-            if (am_playerstats && (automapactive || mapwindow))
+            if (am_playerstats && (automapactive || (mapwindow && gamestate == GS_LEVEL)))
                 C_UpdatePlayerStatsOverlay();
         }
 
