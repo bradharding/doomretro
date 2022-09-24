@@ -392,17 +392,20 @@ void D_Display(void)
             if (vid_showfps && !dowipe && !splashscreen && framespersecond)
                 C_UpdateFPSOverlay();
 
-            if (timeremaining && gamestate == GS_LEVEL)
-                C_UpdateTimerOverlay();
+            if (gamestate == GS_LEVEL)
+            {
+                if (timeremaining)
+                    C_UpdateTimerOverlay();
 
-            if (viewplayer->cheats & CF_MYPOS)
-                C_UpdatePlayerPositionOverlay();
+                if (viewplayer->cheats & CF_MYPOS)
+                    C_UpdatePlayerPositionOverlay();
 
-            if (am_path && (automapactive || mapwindow))
-                C_UpdatePathOverlay();
+                if (am_path && (automapactive || mapwindow))
+                    C_UpdatePathOverlay();
 
-            if (am_playerstats && (automapactive || (mapwindow && gamestate == GS_LEVEL)))
-                C_UpdatePlayerStatsOverlay();
+                if (am_playerstats && (automapactive || mapwindow))
+                    C_UpdatePlayerStatsOverlay();
+            }
         }
 
         if (consoleheight)
