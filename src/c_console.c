@@ -668,7 +668,7 @@ static void C_DrawScrollbar(void)
         // draw scrollbar face shadow
         if (faceend * SCREENWIDTH - offset >= 0)
             for (int x = CONSOLESCROLLBARX; x < CONSOLESCROLLBARX + CONSOLESCROLLBARWIDTH; x++)
-                screens[0][faceend * SCREENWIDTH - offset + x] = tinttab20[screens[0][faceend * SCREENWIDTH - offset + x]];
+                screens[0][faceend * SCREENWIDTH - offset + x] = tinttab10[screens[0][faceend * SCREENWIDTH - offset + x]];
 
         scrollbardrawn = true;
     }
