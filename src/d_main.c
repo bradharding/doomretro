@@ -1981,7 +1981,10 @@ static void D_DoomMainSetup(void)
     else if ((fastparm = M_CheckParm("-fastmonsters")))
         C_Output("A " BOLD("-fastmonsters") " parameter was found on the command-line. Monsters will now be fast.");
 
-    if ((solonet = M_CheckParm("-solo-net")))
+    if ((solonet = M_CheckParm("-solonet")))
+        C_Output("A " BOLD("-solonet") " parameter was found on the command-line. "
+            "All things usually intended for multiplayer will now be spawned at the start of each map.");
+    else if ((solonet = M_CheckParm("-solo-net")))
         C_Output("A " BOLD("-solo-net") " parameter was found on the command-line. "
             "All things usually intended for multiplayer will now be spawned at the start of each map.");
 
