@@ -1304,14 +1304,17 @@ void C_UpdatePathOverlay(void)
         byte    *tinttab = (r_hud_translucency ? tinttab70 : NULL);
         int     y = MAPOVERLAYTEXTY;
 
-        if (vid_showfps && framespersecond)
-            y += OVERLAYLINEHEIGHT + OVERLAYSPACING;
+        if (!mapwindow)
+        {
+            if (vid_showfps && framespersecond)
+                y += OVERLAYLINEHEIGHT + OVERLAYSPACING;
 
-        if (timeremaining)
-            y += OVERLAYLINEHEIGHT + OVERLAYSPACING;
+            if (timeremaining)
+                y += OVERLAYLINEHEIGHT + OVERLAYSPACING;
 
-        if (viewplayer->cheats & CF_MYPOS)
-            y += OVERLAYLINEHEIGHT * 2 + OVERLAYSPACING;
+            if (viewplayer->cheats & CF_MYPOS)
+                y += OVERLAYLINEHEIGHT * 2 + OVERLAYSPACING;
+        }
 
         C_DrawOverlayText(mapscreen, MAPWIDTH, MAPWIDTH - C_OverlayWidth(temp, true) - MAPOVERLAYTEXTX + 1,
             y, tinttab, temp, consoleoverlaycolor, true);
@@ -1333,14 +1336,17 @@ void C_UpdatePlayerStatsOverlay(void)
     static int  timewidth;
     static int  color;
 
-    if (vid_showfps && framespersecond)
-        y += OVERLAYLINEHEIGHT + OVERLAYSPACING;
+    if (!mapwindow)
+    {
+        if (vid_showfps && framespersecond)
+            y += OVERLAYLINEHEIGHT + OVERLAYSPACING;
 
-    if (timeremaining)
-        y += OVERLAYLINEHEIGHT + OVERLAYSPACING;
+        if (timeremaining)
+            y += OVERLAYLINEHEIGHT + OVERLAYSPACING;
 
-    if (viewplayer->cheats & CF_MYPOS)
-        y += OVERLAYLINEHEIGHT * 2 + OVERLAYSPACING;
+        if (viewplayer->cheats & CF_MYPOS)
+            y += OVERLAYLINEHEIGHT * 2 + OVERLAYSPACING;
+    }
 
     if (pathoverlay)
         y += OVERLAYLINEHEIGHT + OVERLAYSPACING;
