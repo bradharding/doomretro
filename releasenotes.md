@@ -41,8 +41,8 @@
   * The player’s health, armor and ammo now flash when they change.
   * The player’s health is no longer red when less than `10%` while buddha mode is enabled.
 * There are no longer any anomalies in *E1M4B: Phobos Mission Control* when the `r_fixmaperrors` CVAR is `on`.
-* *DOOM Retro* now recognizes the presence of `compat_floormove` in `MAPINFO` lumps.
-* The player’s position is now displayed in the top right of the screen when using the `IDMYPOS` cheat.
+* The presence of `compat_floormove` is now recognized in `MAPINFO` lumps.
+* The player’s position is now displayed in the top right of the screen, rather than a persistent player message, when the `IDMYPOS` cheat is entered.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

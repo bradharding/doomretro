@@ -7388,17 +7388,17 @@ static void teleport_cmd_func2(char *cmd, char *parms)
                 if (z == ONFLOORZ)
                 {
                     if (M_StringCompare(playername, playername_default))
-                        C_PlayerMessage("You teleported to (%i,%i).", x >> FRACBITS, y >> FRACBITS);
+                        C_PlayerMessage("You teleported to (%i, %i).", x >> FRACBITS, y >> FRACBITS);
                     else
-                        C_PlayerMessage("%s teleported to (%i,%i).", playername, x >> FRACBITS, y >> FRACBITS);
+                        C_PlayerMessage("%s teleported to (%i, %i).", playername, x >> FRACBITS, y >> FRACBITS);
                 }
                 else
                 {
                     if (M_StringCompare(playername, playername_default))
-                        C_PlayerMessage("You teleported to (%i,%i,%i).",
+                        C_PlayerMessage("You teleported to (%i, %i, %i).",
                             x >> FRACBITS, y >> FRACBITS, z >> FRACBITS);
                     else
-                        C_PlayerMessage("%s teleported to (%i,%i,%i).",
+                        C_PlayerMessage("%s teleported to (%i, %i, %i).",
                             playername, x >> FRACBITS, y >> FRACBITS, z >> FRACBITS);
                 }
 
@@ -7435,7 +7435,7 @@ static void thinglist_cmd_func2(char *cmd, char *parms)
                 ((mobj->flags & MF_MISSILE) ? " projectile" : ""));
 
         temp2 = sentencecase(name);
-        C_TabbedOutput(tabs, "%s%s\t%s\t(%i,%i,%i)", (mobj->id >= 0 ? temp1 : "-"), (mobj->id >= 0 ? "." : ""),
+        C_TabbedOutput(tabs, "%s%s\t%s\t(%i, %i, %i)", (mobj->id >= 0 ? temp1 : "-"), (mobj->id >= 0 ? "." : ""),
             temp2, mobj->x >> FRACBITS, mobj->y >> FRACBITS, mobj->z >> FRACBITS);
         free(temp1);
         free(temp2);
