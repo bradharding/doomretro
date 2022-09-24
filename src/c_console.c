@@ -956,7 +956,7 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
         else
             V_DrawConsoleTextPatch(x - 1, y, warning, WARNINGWIDTH, color1, color2, false, tinttab);
 
-        x += WARNINGWIDTH + 1;
+        x += (text[0] == 'T' ? WARNINGWIDTH : WARNINGWIDTH + 1);
     }
 
     for (int i = 0; i < len; i++)
