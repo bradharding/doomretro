@@ -155,6 +155,7 @@ bool            pistolstart;            // [BH] checkparm of -pistolstart
 bool            regenhealth;
 bool            respawnitems;
 bool            respawnmonsters;        // checkparm of -respawn
+bool            solonet;                // checkparm of -solo-net
 
 skill_t         startskill;
 int             startepisode;
@@ -1972,13 +1973,17 @@ static void D_DoomMainSetup(void)
     }
 
     if ((pistolstart = M_CheckParm("-pistolstart")))
-        C_Output("A " BOLD("-pistolstart") " parameter was found on the command-line. The player will start each map with 100%% health, "
-            "no armor, and only a pistol with 50 bullets.");
+        C_Output("A " BOLD("-pistolstart") " parameter was found on the command-line. "
+            "The player will start each map with 100%% health, no armor, and only a pistol with 50 bullets.");
 
     if ((fastparm = M_CheckParm("-fast")))
         C_Output("A " BOLD("-fast") " parameter was found on the command-line. Monsters will be fast.");
     else if ((fastparm = M_CheckParm("-fastmonsters")))
         C_Output("A " BOLD("-fastmonsters") " parameter was found on the command-line. Monsters will be fast.");
+
+    if ((solonet = M_CheckParm("-solo-net")))
+        C_Output("A " BOLD("-solo-net") " parameter was found on the command-line. "
+            "All things intended for multiplayer only will be spawned at the start of each map.");
 
     if ((devparm = M_CheckParm("-devparm")))
         C_Output("A " BOLD("-devparm") " parameter was found on the command-line. %s", s_D_DEVSTR);

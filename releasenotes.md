@@ -29,7 +29,7 @@
 * The brightmap of the `COMPUTE1` texture has improved.
 * The `r_skycolor` CVAR has been removed.
 * The default of the `am_pathcolor` CVAR is now `89`.
-* The controls are no longer changed when vanilla mode is enabled using the `vanilla ` CCMD.
+* The controls are no longer changed when vanilla mode is enabled using the `vanilla` CCMD.
 * The following changes have been made to the `vid_capfps` CVAR:
   * Its minimum value is now `35` rather than `10`.
   * A bug is fixed whereby it couldn’t be set to `off` in the console.
@@ -42,7 +42,8 @@
   * The player’s health is no longer red when less than `10%` while buddha mode is enabled.
 * There are no longer any anomalies in *E1M4B: Phobos Mission Control* when the `r_fixmaperrors` CVAR is `on`.
 * The presence of `compat_floormove` is now recognized in `MAPINFO` lumps.
-* The player’s position is now displayed in the top right of the screen, rather than a persistent player message, when the `IDMYPOS` cheat is entered.
+* The player’s position is now displayed in the top right of the screen, rather than as a persistent player message, when the `IDMYPOS` cheat is entered.
+* The `-solo-net` command-line parameter is now supported. If specified, all things intended for multiplayer only will be spawned at the start of each map.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
