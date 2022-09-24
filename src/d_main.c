@@ -1961,29 +1961,29 @@ static void D_DoomMainSetup(void)
         D_InitIWADFolder();
 
     if ((respawnmonsters = M_CheckParm("-respawn")))
-        C_Output("A " BOLD("-respawn") " parameter was found on the command-line. Monsters will respawn.");
+        C_Output("A " BOLD("-respawn") " parameter was found on the command-line. Monsters will now respawn.");
     else if ((respawnmonsters = M_CheckParm("-respawnmonsters")))
-        C_Output("A " BOLD("-respawnmonsters") " parameter was found on the command-line. Monsters will respawn.");
+        C_Output("A " BOLD("-respawnmonsters") " parameter was found on the command-line. Monsters will now respawn.");
 
     if ((nomonsters = M_CheckParm("-nomonsters")))
     {
-        C_Output("A " BOLD("-nomonsters") " parameter was found on the command-line. No monsters will be spawned.");
+        C_Output("A " BOLD("-nomonsters") " parameter was found on the command-line. No monsters will now be spawned.");
         stat_cheated = SafeAdd(stat_cheated, 1);
         M_SaveCVARs();
     }
 
     if ((pistolstart = M_CheckParm("-pistolstart")))
         C_Output("A " BOLD("-pistolstart") " parameter was found on the command-line. "
-            "The player will start each map with 100%% health, no armor, and only a pistol with 50 bullets.");
+            "The player will now start each map with 100%% health, no armor, and only a pistol with 50 bullets.");
 
     if ((fastparm = M_CheckParm("-fast")))
-        C_Output("A " BOLD("-fast") " parameter was found on the command-line. Monsters will be fast.");
+        C_Output("A " BOLD("-fast") " parameter was found on the command-line. Monsters will now be fast.");
     else if ((fastparm = M_CheckParm("-fastmonsters")))
-        C_Output("A " BOLD("-fastmonsters") " parameter was found on the command-line. Monsters will be fast.");
+        C_Output("A " BOLD("-fastmonsters") " parameter was found on the command-line. Monsters will now be fast.");
 
     if ((solonet = M_CheckParm("-solo-net")))
         C_Output("A " BOLD("-solo-net") " parameter was found on the command-line. "
-            "All things intended for multiplayer only will be spawned at the start of each map.");
+            "All things usually intended for multiplayer will now be spawned at the start of each map.");
 
     if ((devparm = M_CheckParm("-devparm")))
         C_Output("A " BOLD("-devparm") " parameter was found on the command-line. %s", s_D_DEVSTR);
@@ -1998,13 +1998,13 @@ static void D_DoomMainSetup(void)
             scale = strtol(myargv[p + 1], NULL, 10);
 
             if (scale >= 10 && scale <= 400 && scale != 100)
-                C_Output("A " BOLD("-turbo") " parameter was found on the command-line. The player will be %i%% their normal speed.",
-                    scale);
+                C_Output("A " BOLD("-turbo") " parameter was found on the command-line. "
+                    "The player will now be %i%% their normal speed.", scale);
             else
                 scale = 100;
         }
         else
-            C_Output("A " BOLD("-turbo") " parameter was found on the command-line. The player will be twice as fast.");
+            C_Output("A " BOLD("-turbo") " parameter was found on the command-line. The player will now be twice as fast.");
 
         if (scale != 100)
             G_SetMovementSpeed(scale);
@@ -2035,9 +2035,11 @@ static void D_DoomMainSetup(void)
         I_Error("%s can't be found.", packagewad);
 
     if (M_CheckParm("-nodeh"))
-        C_Output("A " BOLD("-nodeh") " parameter was found on the command-line. All " BOLD("DEHACKED") " lumps will be ignored.");
+        C_Output("A " BOLD("-nodeh") " parameter was found on the command-line. "
+            "All " BOLD("DEHACKED") " lumps will now be ignored.");
     else if (M_CheckParm("-nobex"))
-        C_Output("A " BOLD("-nobex") " parameter was found on the command-line. All " BOLD("DEHACKED") " lumps will be ignored.");
+        C_Output("A " BOLD("-nobex") " parameter was found on the command-line. "
+            "All " BOLD("DEHACKED") " lumps will now be ignored.");
 
     p = M_CheckParmsWithArgs("-file", "-pwad", "-merge", 1, 1);
 
