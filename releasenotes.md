@@ -7,7 +7,9 @@
 * Changes have been made to the splash screen’s animation.
 * Minor changes have been made to text that is output to the console.
 * The bottom edge of the console is now a slightly brighter red.
-* The external automap now goes to black rather than a dark blue while the help screen is displayed.
+* The following changes have been made to the external automap:
+  * It now goes to black rather than a dark blue while the help screen is displayed.
+  * `00:00` is no longer displayed before a game is started if the `am_playerstats` CVAR is `on`.
 * The vertical position of the current map’s title in the automap has changed in some instances.
 * A bug is fixed whereby the current map’s title in the automap would be positioned incorrectly after adjusting the screen size in the options menu in some instances.
 * The following changes have been made when pressing the <kbd>F9</kbd> key to quickload a savegame:
