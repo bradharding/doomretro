@@ -104,7 +104,9 @@
 #define TOGGLECMDFORMAT             BOLDITALICS("CVAR")
 #define UNBINDCMDFORMAT             BOLDITALICS("control") "|" BOLDITALICS("+action")
 
-#define PENDINGCHANGE               "This change won't be effective until the next map."
+#define DEADPLAYERWARNING           "This is only effective while the player is alive."
+#define NEXTMAPWARNING              "This won't be effective until the next map."
+#define NOGAMEWARNING               "This is only effective while playing a game."
 
 #define INTEGERCVARWITHDEFAULT      "It is currently " BOLD("%s") " and is " BOLD("%s") " by default."
 #define INTEGERCVARWITHNODEFAULT    "It is currently " BOLD("%s") "."
@@ -1225,7 +1227,29 @@ static void C_ShowWarning(int index)
 
 static bool alive_func1(char *cmd, char *parms)
 {
-    return (gamestate == GS_LEVEL && viewplayer->health > 0);
+    if (gamestate != GS_LEVEL)
+        return game_func1(cmd, parms);
+    else if (viewplayer->health > 0)
+        return true;
+    else
+    {
+        C_Input("%s%s%s", cmd, (*parms ? " " : ""), parms);
+
+        if (!*parms)
+        {
+            const int   i = C_GetIndex(cmd);
+
+            C_ShowDescription(i);
+
+            if (*consolecmds[i].format)
+                C_Output(BOLD("%s") " %s", cmd, consolecmds[i].format);
+        }
+
+        C_Warning(0, DEADPLAYERWARNING);
+        consoleinput[0] = '\0';
+
+        return false;
+    }
 }
 
 static bool cheat_func1(char *cmd, char *parms)
@@ -1301,7 +1325,27 @@ static bool cheat_func1(char *cmd, char *parms)
 
 static bool game_func1(char *cmd, char *parms)
 {
-    return (gamestate == GS_LEVEL);
+    if (gamestate == GS_LEVEL)
+        return true;
+    else
+    {
+        C_Input("%s%s%s", cmd, (*parms ? " " : ""), parms);
+
+        if (!*parms)
+        {
+            const int   i = C_GetIndex(cmd);
+
+            C_ShowDescription(i);
+
+            if (*consolecmds[i].format)
+                C_Output(BOLD("%s") " %s", cmd, consolecmds[i].format);
+        }
+
+        C_Warning(0, NOGAMEWARNING);
+        consoleinput[0] = '\0';
+
+        return false;
+    }
 }
 
 static bool null_func1(char *cmd, char *parms)
@@ -4919,7 +4963,7 @@ static void nomonsters_cmd_func2(char *cmd, char *parms)
         message_dontfuckwithme = true;
 
         if (gamestate == GS_LEVEL)
-            C_Warning(0, PENDINGCHANGE);
+            C_Warning(0, NEXTMAPWARNING);
     }
 }
 
@@ -5013,7 +5057,7 @@ static void pistolstart_cmd_func2(char *cmd, char *parms)
     message_dontfuckwithme = true;
 
     if (gamestate == GS_LEVEL)
-        C_Warning(0, PENDINGCHANGE);
+        C_Warning(0, NEXTMAPWARNING);
 }
 
 //
@@ -6802,7 +6846,7 @@ static void solonet_cmd_func2(char *cmd, char *parms)
         solonet = !solonet;
 
     if (gamestate == GS_LEVEL)
-        C_Warning(0, PENDINGCHANGE);
+        C_Warning(0, NEXTMAPWARNING);
 }
 
 //
@@ -8909,7 +8953,7 @@ static void r_fixmaperrors_cvar_func2(char *cmd, char *parms)
             M_SaveCVARs();
 
             if (gamestate == GS_LEVEL && !togglingvanilla && !resettingcvar)
-                C_Warning(0, PENDINGCHANGE);
+                C_Warning(0, NEXTMAPWARNING);
         }
     }
     else
@@ -9175,7 +9219,7 @@ static void r_randomstartframes_cvar_func2(char *cmd, char *parms)
             M_SaveCVARs();
 
             if (gamestate == GS_LEVEL && !togglingvanilla && !resettingcvar)
-                C_Warning(0, PENDINGCHANGE);
+                C_Warning(0, NEXTMAPWARNING);
         }
     }
     else
