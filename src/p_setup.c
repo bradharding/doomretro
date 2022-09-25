@@ -1448,20 +1448,43 @@ static void P_LoadSectors(int lump)
         ss->oldceilingheight = ss->ceilingheight;
         ss->interpceilingheight = ss->ceilingheight;
 
-        switch (ss->special)
+        if (ss->special < 32)
         {
-            case DamageNegative10Or20PercentHealthAndLightBlinks_2Hz:
-            case DamageNegative5Or10PercentHealth:
-            case DamageNegative2Or5PercentHealth:
-            case DamageNegative10Or20PercentHealthAndEndLevel:
-            case DamageNegative10Or20PercentHealth:
-                numdamaging++;
-
-            default:
-                if ((ss->special & DAMAGE_MASK) >> DAMAGE_SHIFT)
+            switch (ss->special)
+            {
+                case DamageNegative10Or20PercentHealthAndLightBlinks_2Hz:
+                case DamageNegative5Or10PercentHealth:
+                case DamageNegative2Or5PercentHealth:
+                case DamageNegative10Or20PercentHealthAndEndLevel:
+                case DamageNegative10Or20PercentHealth:
                     numdamaging++;
-
-                break;
+                    break;
+            }
+        }
+        else if (ss->special & DEATH_MASK)
+        {
+            switch ((ss->special & DAMAGE_MASK) >> DAMAGE_SHIFT)
+            {
+                case 0:
+                case 1:
+                case 2:
+                case 3:
+                    numdamaging++;
+                    mbf21compatible = true;
+                    break;
+            }
+        }
+        else
+        {
+            switch ((ss->special & DAMAGE_MASK) >> DAMAGE_SHIFT)
+            {
+                case 1:
+                case 2:
+                case 3:
+                    numdamaging++;
+                    boomcompatible = true;
+                    break;
+            }
         }
     }
 
