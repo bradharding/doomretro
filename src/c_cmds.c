@@ -1233,18 +1233,7 @@ static bool alive_func1(char *cmd, char *parms)
         return true;
     else
     {
-        C_Input("%s%s%s", cmd, (*parms ? " " : ""), parms);
-
-        if (!*parms)
-        {
-            const int   i = C_GetIndex(cmd);
-
-            C_ShowDescription(i);
-
-            if (*consolecmds[i].format)
-                C_Output(BOLD("%s") " %s", cmd, consolecmds[i].format);
-        }
-
+        C_ShowDescription(C_GetIndex(cmd));
         C_Warning(0, DEADPLAYERWARNING);
         consoleinput[0] = '\0';
 
@@ -1329,18 +1318,7 @@ static bool game_func1(char *cmd, char *parms)
         return true;
     else
     {
-        C_Input("%s%s%s", cmd, (*parms ? " " : ""), parms);
-
-        if (!*parms)
-        {
-            const int   i = C_GetIndex(cmd);
-
-            C_ShowDescription(i);
-
-            if (*consolecmds[i].format)
-                C_Output(BOLD("%s") " %s", cmd, consolecmds[i].format);
-        }
-
+        C_ShowDescription(C_GetIndex(cmd));
         C_Warning(0, NOGAMEWARNING);
         consoleinput[0] = '\0';
 
