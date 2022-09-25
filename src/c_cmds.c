@@ -900,7 +900,7 @@ consolecmd_t consolecmds[] =
         "Toggles displaying a message when the player finds a secret."),
     CVAR_INT(skilllevel, "", int_cvars_func1, skilllevel_cvar_func2, CF_NONE, NOVALUEALIAS,
         "The currently selected skill level in the menu (" BOLD("1") " to " BOLD("5") ")."),
-    CCMD(solonet, "", game_func1, solonet_cmd_func2, true, "[" BOLD("on") "|" BOLD("off") "]",
+    CCMD(solonet, "", null_func1, solonet_cmd_func2, true, "[" BOLD("on") "|" BOLD("off") "]",
         "Toggles all things usually intended for multiplayer games to be spawned at the start of each map."),
     CCMD(spawn, summon, spawn_cmd_func1, spawn_cmd_func2, true, SPAWNCMDFORMAT,
         "Spawns an " BOLDITALICS("item") " or " BOLDITALICS("monster") " in front of the player."),
