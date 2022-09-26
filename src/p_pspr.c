@@ -381,7 +381,7 @@ void A_Punch(mobj_t *actor, player_t *player, pspdef_t *psp)
     const int       range = player->mo->info->meleerange;
     int             slope = P_AimLineAttack(actor, angle, range, MF_FRIEND);
     int             damage = (M_Random() % 10 + 1) << 1;
-    bool            berserk = player->powers[pw_strength];
+    bool            berserk = (player->powers[pw_strength] && r_shake_berserk);
 
     if (berserk)
         damage *= 10;

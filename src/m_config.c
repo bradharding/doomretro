@@ -166,6 +166,7 @@ int         r_screensize = r_screensize_default;
 bool        r_shadows = r_shadows_default;
 bool        r_shadows_translucency = r_shadows_translucency_default;
 bool        r_shake_barrels = r_shake_barrels_default;
+bool        r_shake_berserk = r_shake_berserk_default;
 int         r_shake_damage = r_shake_damage_default;
 bool        r_sprites_translucency = r_sprites_translucency_default;
 bool        r_supersampling = r_supersampling_default;
@@ -393,6 +394,7 @@ static default_t cvars[] =
     CONFIG_VARIABLE_BOOL         (r_shadows,                        r_shadows,                             r_shadows,                           BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_BOOL         (r_shadows_translucency,           r_shadows_translucency,                r_shadows_translucency,              BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_BOOL         (r_shake_barrels,                  r_shake_barrels,                       r_shake_barrels,                     BOOLVALUEALIAS        ),
+    CONFIG_VARIABLE_BOOL         (r_shake_berserk,                  r_shake_berserk,                       r_shake_berserk,                     BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT_PERCENT  (r_shake_damage,                   r_shake_damage,                        r_shake_damage,                      NOVALUEALIAS          ),
     CONFIG_VARIABLE_BOOL         (r_sprites_translucency,           r_translucency,                        r_sprites_translucency,              BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_BOOL         (r_supersampling,                  r_supersampling,                       r_supersampling,                     BOOLVALUEALIAS        ),
@@ -1164,6 +1166,9 @@ static void M_CheckCVARs(bool ispackageconfig)
 
     if (r_shake_barrels != false && r_shake_barrels != true)
         r_shake_barrels = r_shake_barrels_default;
+
+    if (r_shake_berserk != false && r_shake_berserk != true)
+        r_shake_berserk = r_shake_berserk_default;
 
     r_shake_damage = BETWEEN(r_shake_damage_min, r_shake_damage, r_shake_damage_max);
 
