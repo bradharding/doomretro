@@ -55,7 +55,8 @@
 #define DISTFRIEND  (128 * FRACUNIT)    // distance friends tend to move towards players
 #define BARRELRANGE (512 * FRACUNIT)
 
-int barrelms = 0;
+int shake = 0;
+int shakeduration = 0;
 
 void A_Fall(mobj_t *actor, player_t *player, pspdef_t *psp);
 
@@ -812,7 +813,8 @@ static void P_ShakeOnExplode(const mobj_t *actor)
 
         if (mo->z <= mo->floorz && P_ApproxDistance(actor->x - mo->x, actor->y - mo->y) < BARRELRANGE)
         {
-            barrelms = I_GetTimeMS() + BARRELMS;
+            shakeduration = EXPLODEBARRELMS;
+            shake = I_GetTimeMS() + shakeduration;
 
             if (joy_rumble_barrels)
             {

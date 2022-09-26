@@ -383,7 +383,11 @@ void A_Punch(mobj_t *actor, player_t *player, pspdef_t *psp)
     int             damage = (M_Random() % 10 + 1) << 1;
 
     if (player->powers[pw_strength])
+    {
         damage *= 10;
+        shakeduration = BERSERKPUNCHMS;
+        shake = I_GetTimeMS() + shakeduration;
+    }
 
     if (!linetarget)
         slope = P_AimLineAttack(actor, angle, range, 0);
