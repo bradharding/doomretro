@@ -67,8 +67,11 @@ void I_InitGameController(void)
     if (gamecontrollerconnected)
         return;
 
-#if (SDL_MAJOR_VERSION == 2 && SDL_PATCHLEVEL >= 18) || (SDL_MAJOR_VERSION == 2 && SDL_MINOR_VERSION >= 24) || SDL_MAJOR_VERSION > 2
+#if defined(SDL_HINT_JOYSTICK_HIDAPI_PS4_RUMBLE)
     SDL_SetHintWithPriority(SDL_HINT_JOYSTICK_HIDAPI_PS4_RUMBLE, "1", SDL_HINT_OVERRIDE);
+#endif
+
+#if defined(SDL_HINT_JOYSTICK_HIDAPI_PS5_RUMBLE)
     SDL_SetHintWithPriority(SDL_HINT_JOYSTICK_HIDAPI_PS5_RUMBLE, "1", SDL_HINT_OVERRIDE);
 #endif
 
