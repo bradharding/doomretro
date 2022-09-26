@@ -6,7 +6,7 @@
 * Several optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Changes have been made to the splash screen’s animation.
 * Minor changes have been made to text that is output to the console.
-* When entering a CCMD in the console that is only effective while playing a game, or while the player is alive, a description of the CCMD along a warning is now displayed.
+* When entering a CCMD in the console that is only effective while playing a game, or while the player is alive, a description of that CCMD along a warning is now displayed.
 * The bottom edge of the console is now a slightly brighter red.
 * The following changes have been made to the external automap:
   * It now goes to black rather than a dark blue while the help screen is displayed.

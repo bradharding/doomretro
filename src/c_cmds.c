@@ -1233,6 +1233,7 @@ static bool alive_func1(char *cmd, char *parms)
         return true;
     else
     {
+        C_Input(consoleinput);
         C_ShowDescription(C_GetIndex(cmd));
         C_Warning(0, DEADPLAYERWARNING);
         consoleinput[0] = '\0';
@@ -1318,6 +1319,7 @@ static bool game_func1(char *cmd, char *parms)
         return true;
     else
     {
+        C_Input(consoleinput);
         C_ShowDescription(C_GetIndex(cmd));
         C_Warning(0, NOGAMEWARNING);
         consoleinput[0] = '\0';
