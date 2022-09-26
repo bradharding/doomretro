@@ -381,9 +381,8 @@ void A_Punch(mobj_t *actor, player_t *player, pspdef_t *psp)
     const int       range = player->mo->info->meleerange;
     int             slope = P_AimLineAttack(actor, angle, range, MF_FRIEND);
     int             damage = (M_Random() % 10 + 1) << 1;
-    bool            berserk = (player->powers[pw_strength] && r_shake_berserk);
 
-    if (berserk)
+    if (player->powers[pw_strength])
         damage *= 10;
 
     if (!linetarget)
@@ -405,7 +404,7 @@ void A_Punch(mobj_t *actor, player_t *player, pspdef_t *psp)
         // turn to face target
         if (linetarget)
         {
-            if (berserk)
+            if (player->powers[pw_strength] && r_shake_berserk)
             {
                 shakeduration = BERSERKPUNCHMONSTER;
                 shake = I_GetTimeMS() + shakeduration;
@@ -416,7 +415,7 @@ void A_Punch(mobj_t *actor, player_t *player, pspdef_t *psp)
             player->shotssuccessful[wp_fist]++;
             stat_shotssuccessful_fists = SafeAdd(stat_shotssuccessful_fists, 1);
         }
-        else if (berserk)
+        else if (player->powers[pw_strength] && r_shake_berserk)
         {
             shakeduration = BERSERKPUNCHWALL;
             shake = I_GetTimeMS() + shakeduration;
