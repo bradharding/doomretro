@@ -811,7 +811,7 @@ static void P_ShakeOnExplode(const mobj_t *actor)
     {
         mobj_t  *mo = viewplayer->mo;
 
-        if (mo->z - mo->floorz < BARRELRANGE && P_ApproxDistance(actor->x - mo->x, actor->y - mo->y) < BARRELRANGE)
+        if (mo->z <= mo->floorz && P_ApproxDistance(actor->x - mo->x, actor->y - mo->y) < BARRELRANGE)
         {
             shakeduration = EXPLODEBARRELMS;
             shake = I_GetTimeMS() + shakeduration;
