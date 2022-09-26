@@ -838,7 +838,7 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL(r_playersprites, "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles showing the player's weapon."),
     CVAR_BOOL(r_radsuiteffect, "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
-        "Toggles the green effect when the player is wearing a radiation shielding suit power-up."),
+        "Toggles the green effect while the player wears a radiation shielding suit power-up."),
     CVAR_BOOL(r_randomstartframes, "", bool_cvars_func1, r_randomstartframes_cvar_func2, CF_NEXTMAP, BOOLVALUEALIAS,
         "Toggles randomizing the start frames of certain sprites."),
     CVAR_BOOL(r_rockettrails, "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
