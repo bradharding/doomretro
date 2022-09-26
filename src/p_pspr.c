@@ -402,19 +402,24 @@ void A_Punch(mobj_t *actor, player_t *player, pspdef_t *psp)
 
         S_StartSound(actor, sfx_punch);
 
-        if (berserk)
-        {
-            shakeduration = BERSERKPUNCHMS;
-            shake = I_GetTimeMS() + shakeduration;
-        }
-
         // turn to face target
         if (linetarget)
         {
+            if (berserk)
+            {
+                shakeduration = BERSERKPUNCHMONSTER;
+                shake = I_GetTimeMS() + shakeduration;
+            }
+
             actor->angle = R_PointToAngle2(actor->x, actor->y, linetarget->x, linetarget->y);
 
             player->shotssuccessful[wp_fist]++;
             stat_shotssuccessful_fists = SafeAdd(stat_shotssuccessful_fists, 1);
+        }
+        else if (berserk)
+        {
+            shakeduration = BERSERKPUNCHWALL;
+            shake = I_GetTimeMS() + shakeduration;
         }
     }
 }

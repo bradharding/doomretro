@@ -161,8 +161,9 @@ bool P_SeekerMissile(mobj_t *actor, mobj_t **seektarget, angle_t thresh, angle_t
 //
 // P_ENEMY.C
 //
-#define EXPLODEBARRELMS 1500
-#define BERSERKPUNCHMS   750
+#define BERSERKPUNCHMONSTER 500
+#define BERSERKPUNCHWALL    200
+#define EXPLODINGBARREL    1500
 
 extern int  shake;
 extern int  shakeduration;

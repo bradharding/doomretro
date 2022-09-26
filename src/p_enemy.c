@@ -813,7 +813,7 @@ static void P_ShakeOnExplode(const mobj_t *actor)
 
         if (mo->z <= mo->floorz && P_ApproxDistance(actor->x - mo->x, actor->y - mo->y) < BARRELRANGE)
         {
-            shakeduration = EXPLODEBARRELMS;
+            shakeduration = EXPLODINGBARREL;
             shake = I_GetTimeMS() + shakeduration;
 
             if (joy_rumble_barrels)
