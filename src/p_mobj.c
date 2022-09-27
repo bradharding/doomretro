@@ -1359,20 +1359,7 @@ void P_SpawnPuff(const fixed_t x, const fixed_t y, const fixed_t z, const angle_
 
     // don't make punches spark on the wall
     if (attackrange == MELEERANGE)
-    {
         P_SetMobjState(th, S_PUFF3);
-
-        if (joy_rumble_damage)
-        {
-            int strength = weaponinfo[wp_fist].strength * joy_rumble_damage / 100;
-
-            if (viewplayer->powers[pw_strength])
-                strength *= 2;
-
-            I_GameControllerRumble(strength);
-            weaponrumbletics = weaponinfo[wp_fist].tics;
-        }
-    }
 }
 
 //
