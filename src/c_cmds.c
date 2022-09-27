@@ -852,7 +852,7 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL(r_shake_barrels, "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles shaking the player's view when they are near an exploding barrel."),
     CVAR_BOOL(r_shake_berserk, "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
-        "Toggles shaking the player's view when they punch something while having a berserk power-up."),
+        "Toggles shaking the player's view when they punch something and have a berserk power-up."),
     CVAR_INT(r_shake_damage, "", int_cvars_func1, int_cvars_func2, CF_PERCENT, NOVALUEALIAS,
         "The amount the player's view shakes when they receive damage (" BOLD("0%") " to " BOLD("100%") ")."),
     CVAR_BOOL(r_sprites_translucency, "", bool_cvars_func1, r_sprites_translucency_cvar_func2, CF_NONE, BOOLVALUEALIAS,

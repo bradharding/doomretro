@@ -23,8 +23,8 @@
 * Stimpacks and medikits now always show a red cross rather than a green cross or a pill.
 * Bullet puffs are now spawned again when shooting a barrel.
 * The vertical position of blood and bullet puffs spawned is now randomized when the player fires one of their hitscan weapons.
-* The player’s view now shakes when punching something while they have a berserk power-up. This feature may be toggled using the new `r_shake_berserk` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
-* A bug is fixed whereby a game controller wouldn’t rumble when the player punches a monster and the `joy_rumble_damage` CVAR was `on`.
+* The player’s view now shakes when they punch something and have a berserk power-up. This feature may be toggled using the new `r_shake_berserk` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
+* A bug is fixed whereby a game controller wouldn’t rumble when the player punched a monster and the `joy_rumble_damage` CVAR was `on`.
 * A crash no longer occurs if the `save` CCMD is bound to a control using the `bind` CCMD.
 * The obituary displayed in the console when the player is killed by a damaging sector that isn’t liquid is now fixed.
 * `You found another secret!` is now displayed each time the player finds more than one secret in a map.
