@@ -818,9 +818,6 @@ static float ParseFloatParameter(char *strparm, int valuealiastype)
 
 static void M_CheckCVARs(bool ispackageconfig)
 {
-    if (alwaysrun != false && alwaysrun != true)
-        alwaysrun = alwaysrun_default;
-
     if (am_allmapcdwallcolor < am_allmapcdwallcolor_min || am_allmapcdwallcolor > am_allmapcdwallcolor_max)
         am_allmapcdwallcolor = am_allmapcdwallcolor_default;
 
@@ -847,14 +844,8 @@ static void M_CheckCVARs(bool ispackageconfig)
 
     am_display = MAX(am_display_min, am_display);
 
-    if (am_external != false && am_external != true)
-        am_external = am_external_default;
-
     if (am_fdwallcolor < am_fdwallcolor_min || am_fdwallcolor > am_fdwallcolor_max)
         am_fdwallcolor = am_fdwallcolor_default;
-
-    if (am_grid != false && am_grid != true)
-        am_grid = am_grid_default;
 
     if (am_gridcolor < am_gridcolor_min || am_gridcolor > am_gridcolor_max)
         am_gridcolor = am_gridcolor_default;
@@ -862,26 +853,17 @@ static void M_CheckCVARs(bool ispackageconfig)
     if (am_markcolor < am_markcolor_min || am_markcolor > am_markcolor_max)
         am_markcolor = am_markcolor_default;
 
-    if (am_path != false && am_path != true)
-        am_path = am_path_default;
-
     if (am_pathcolor < am_pathcolor_min || am_pathcolor > am_pathcolor_max)
         am_pathcolor = am_pathcolor_default;
 
     if (am_playercolor < am_playercolor_min || am_playercolor > am_playercolor_max)
         am_playercolor = am_playercolor_default;
 
-    if (am_playerstats != false && am_playerstats != true)
-        am_playerstats = am_playerstats_default;
-
     if (am_reddoorcolor < am_reddoorcolor_min || am_reddoorcolor > am_reddoorcolor_max)
         am_reddoorcolor = am_reddoorcolor_default;
 
     if (am_redkeycolor < am_redkeycolor_min || am_redkeycolor > am_redkeycolor_max)
         am_redkeycolor = am_redkeycolor_default;
-
-    if (am_rotatemode != false && am_rotatemode != true)
-        am_rotatemode = am_rotatemode_default;
 
     if (am_teleportercolor < am_teleportercolor_min || am_teleportercolor > am_teleportercolor_max)
         am_teleportercolor = am_teleportercolor_default;
@@ -901,27 +883,6 @@ static void M_CheckCVARs(bool ispackageconfig)
     if (am_yellowkeycolor < am_yellowkeycolor_min || am_yellowkeycolor > am_yellowkeycolor_max)
         am_yellowkeycolor = am_yellowkeycolor_default;
 
-    if (autoaim != false && autoaim != true)
-        autoaim = autoaim_default;
-
-    if (autoload != false && autoload != true)
-        autoload = autoload_default;
-
-    if (autosave != false && autosave != true)
-        autosave = autosave_default;
-
-    if (autotilt != false && autotilt != true)
-        autotilt = autotilt_default;
-
-    if (autouse != false && autouse != true)
-        autouse = autouse_default;
-
-    if (centerweapon != false && centerweapon != true)
-        centerweapon = centerweapon_default;
-
-    if (con_obituaries != false && con_obituaries != true)
-        con_obituaries = con_obituaries_default;
-
     if (crosshair < crosshair_min || crosshair > crosshair_max)
         crosshair = crosshair_default;
 
@@ -937,35 +898,14 @@ static void M_CheckCVARs(bool ispackageconfig)
     if (facebackcolor < facebackcolor_min || facebackcolor > facebackcolor_max)
         facebackcolor = facebackcolor_default;
 
-    if (fade != false && fade != true)
-        fade = fade_default;
-
-    if (flashkeys != false && flashkeys != true)
-        flashkeys = flashkeys_default;
-
-    if (groupmessages != false && groupmessages != true)
-        groupmessages = groupmessages_default;
-
-    if (infighting != false && infighting != true)
-        infighting = infighting_default;
-
-    if (infiniteheight != false && infiniteheight != true)
-        infiniteheight = infiniteheight_default;
-
     if (!*iwadfolder || M_StringCompare(iwadfolder, iwadfolder_default) || !M_FolderExists(iwadfolder))
         D_InitIWADFolder();
-
-    if (joy_analog != false && joy_analog != true)
-        joy_analog = joy_analog_default;
 
     joy_deadzone_left = BETWEENF(joy_deadzone_left_min, joy_deadzone_left, joy_deadzone_left_max);
     I_SetGameControllerLeftDeadZone();
 
     joy_deadzone_right = BETWEENF(joy_deadzone_right_min, joy_deadzone_right, joy_deadzone_right_max);
     I_SetGameControllerRightDeadZone();
-
-    if (joy_invertyaxis != false && joy_invertyaxis != true)
-        joy_invertyaxis = joy_invertyaxis_default;
 
     joy_rumble_barrels = BETWEEN(joy_rumble_barrels_min, joy_rumble_barrels, joy_rumble_barrels_max);
 
@@ -979,39 +919,12 @@ static void M_CheckCVARs(bool ispackageconfig)
     joy_sensitivity_vertical = BETWEEN(joy_sensitivity_vertical_min, joy_sensitivity_vertical, joy_sensitivity_vertical_max);
     I_SetGameControllerVerticalSensitivity();
 
-    if (joy_swapthumbsticks != false && joy_swapthumbsticks != true)
-        joy_swapthumbsticks = joy_swapthumbsticks_default;
-
     if (joy_thumbsticks < joy_thumbsticks_min || joy_thumbsticks > joy_thumbsticks_max)
         joy_thumbsticks = joy_thumbsticks_default;
 
-    if (m_acceleration != false && m_acceleration != true)
-        m_acceleration = m_acceleration_default;
-
-    if (m_doubleclick_use != false && m_doubleclick_use != true)
-        m_doubleclick_use = m_doubleclick_use_default;
-
-    if (m_invertyaxis != false && m_invertyaxis != true)
-        m_invertyaxis = m_invertyaxis_default;
-
-    if (m_novertical != false && m_novertical != true)
-        m_novertical = m_novertical_default;
-
     m_sensitivity = BETWEEN(m_sensitivity_min, m_sensitivity, m_sensitivity_max);
 
-    if (melt != false && melt != true)
-        melt = melt_default;
-
-    if (messages != false && messages != true)
-        messages = messages_default;
-
-    if (mouselook != false && mouselook != true)
-        mouselook = mouselook_default;
-
     movebob = BETWEEN(movebob_min, movebob, movebob_max);
-
-    if (negativehealth != false && negativehealth != true)
-        negativehealth = negativehealth_default;
 
     if (playergender < playergender_min || playergender > playergender_max)
         playergender = playergender_default;
@@ -1030,118 +943,22 @@ static void M_CheckCVARs(bool ispackageconfig)
         playername = temp;
     }
 
-    if (r_althud != false && r_althud != true)
-        r_althud = r_althud_default;
-
     r_berserkeffect = BETWEEN(r_berserkeffect_min, r_berserkeffect, r_berserkeffect_max);
 
     if (r_blood < r_blood_min || r_blood > r_blood_max)
         r_blood = r_blood_default;
 
-    if (r_blood_melee != false && r_blood_melee != true)
-        r_blood_melee = r_blood_melee_default;
-
     r_bloodsplats_max = BETWEEN(r_bloodsplats_max_min, r_bloodsplats_max, r_bloodsplats_max_max);
-
-    if (r_bloodsplats_translucency != false && r_bloodsplats_translucency != true)
-        r_bloodsplats_translucency = r_bloodsplats_translucency_default;
-
-    if (r_brightmaps != false && r_brightmaps != true)
-        r_brightmaps = r_brightmaps_default;
 
     r_color = BETWEEN(r_color_min, r_color, r_color_max);
 
-    if (r_corpses_color != false && r_corpses_color != true)
-        r_corpses_color = r_corpses_color_default;
-
-    if (r_corpses_gib != false && r_corpses_gib != true)
-        r_corpses_gib = r_corpses_gib_default;
-
-    if (r_corpses_mirrored != false && r_corpses_mirrored != true)
-        r_corpses_mirrored = r_corpses_mirrored_default;
-
-    if (r_corpses_moreblood != false && r_corpses_moreblood != true)
-        r_corpses_moreblood = r_corpses_moreblood_default;
-
-    if (r_corpses_nudge != false && r_corpses_nudge != true)
-        r_corpses_nudge = r_corpses_nudge_default;
-
-    if (r_corpses_slide != false && r_corpses_slide != true)
-        r_corpses_slide = r_corpses_slide_default;
-
-    if (r_corpses_smearblood != false && r_corpses_smearblood != true)
-        r_corpses_smearblood = r_corpses_smearblood_default;
-
-    if (r_damageeffect != false && r_damageeffect != true)
-        r_damageeffect = r_damageeffect_default;
-
     if (r_detail != r_detail_low && r_detail != r_detail_high)
         r_detail = r_detail_default;
-
-    if (r_diskicon != false && r_diskicon != true)
-        r_diskicon = r_diskicon_default;
-
-    if (r_ditheredlighting != false && r_ditheredlighting != true)
-        r_ditheredlighting = r_ditheredlighting_default;
-
-    if (r_fixmaperrors != false && r_fixmaperrors != true)
-        r_fixmaperrors = r_fixmaperrors_default;
-
-    if (r_fixspriteoffsets != false && r_fixspriteoffsets != true)
-        r_fixspriteoffsets = r_fixspriteoffsets_default;
-
-    if (r_floatbob != false && r_floatbob != true)
-        r_floatbob = r_floatbob_default;
 
     r_fov = BETWEEN(r_fov_min, r_fov, r_fov_max);
 
     r_gamma = BETWEENF(r_gamma_min, r_gamma, r_gamma_max);
     I_SetGamma(r_gamma);
-
-    if (r_graduallighting != false && r_graduallighting != true)
-        r_graduallighting = r_graduallighting_default;
-
-    if (r_homindicator != false && r_homindicator != true)
-        r_homindicator = r_homindicator_default;
-
-    if (r_hud != false && r_hud != true)
-        r_hud = r_hud_default;
-
-    if (r_hud_translucency != false && r_hud_translucency != true)
-        r_hud_translucency = r_hud_translucency_default;
-
-    if (r_liquid_bob != false && r_liquid_bob != true)
-        r_liquid_bob = r_liquid_bob_default;
-
-    if (r_liquid_clipsprites != false && r_liquid_clipsprites != true)
-        r_liquid_clipsprites = r_liquid_clipsprites_default;
-
-    if (r_liquid_current != false && r_liquid_current != true)
-        r_liquid_current = r_liquid_current_default;
-
-    if (r_liquid_lowerview != false && r_liquid_lowerview != true)
-        r_liquid_lowerview = r_liquid_lowerview_default;
-
-    if (r_liquid_swirl != false && r_liquid_swirl != true)
-        r_liquid_swirl = r_liquid_swirl_default;
-
-    if (r_mirroredweapons != false && r_mirroredweapons != true)
-        r_mirroredweapons = r_mirroredweapons_default;
-
-    if (r_pickupeffect != false && r_pickupeffect != true)
-        r_pickupeffect = r_pickupeffect_default;
-
-    if (r_playersprites != false && r_playersprites != true)
-        r_playersprites = r_playersprites_default;
-
-    if (r_radsuiteffect != false && r_radsuiteffect != true)
-        r_radsuiteffect = r_radsuiteffect_default;
-
-    if (r_randomstartframes != false && r_randomstartframes != true)
-        r_randomstartframes = r_randomstartframes_default;
-
-    if (r_rockettrails != false && r_rockettrails != true)
-        r_rockettrails = r_rockettrails_default;
 
     r_screensize = BETWEEN(r_screensize_min, r_screensize, r_screensize_max);
 
@@ -1158,66 +975,21 @@ static void M_CheckCVARs(bool ispackageconfig)
         r_screensize = r_screensize_max - 1;
     }
 
-    if (r_shadows != false && r_shadows != true)
-        r_shadows = r_shadows_default;
-
-    if (r_shadows_translucency != false && r_shadows_translucency != true)
-        r_shadows_translucency = r_shadows_translucency_default;
-
-    if (r_shake_barrels != false && r_shake_barrels != true)
-        r_shake_barrels = r_shake_barrels_default;
-
-    if (r_shake_berserk != false && r_shake_berserk != true)
-        r_shake_berserk = r_shake_berserk_default;
-
     r_shake_damage = BETWEEN(r_shake_damage_min, r_shake_damage, r_shake_damage_max);
 
-    if (r_sprites_translucency != false && r_sprites_translucency != true)
-        r_sprites_translucency = r_sprites_translucency_default;
-
-    if (r_supersampling != false && r_supersampling != true)
-        r_supersampling = r_supersampling_default;
-
-    if (r_textures != false && r_textures != true)
-        r_textures = r_textures_default;
-
-    if (r_textures_translucency != false && r_textures_translucency != true)
-        r_textures_translucency = r_textures_translucency_default;
-
     s_channels = BETWEEN(s_channels_min, s_channels, s_channels_max);
-
-    if (s_lowermenumusic != false && s_lowermenumusic != true)
-        s_lowermenumusic = s_lowermenumusic_default;
-
-    if (s_musicinbackground != false && s_musicinbackground != true)
-        s_musicinbackground = s_musicinbackground_default;
 
     s_musicvolume = BETWEEN(s_musicvolume_min, s_musicvolume, s_musicvolume_max);
     musicVolume = (s_musicvolume * 31 + 50) / 100;
 
-    if (s_randommusic != false && s_randommusic != true)
-        s_randommusic = s_randommusic_default;
-
-    if (s_randompitch != false && s_randompitch != true)
-        s_randompitch = s_randompitch_default;
-
     s_sfxvolume = BETWEEN(s_sfxvolume_min, s_sfxvolume, s_sfxvolume_max);
     sfxVolume = (s_sfxvolume * 31 + 50) / 100;
 
-    if (s_stereo != false && s_stereo != true)
-        s_stereo = s_stereo_default;
-
     savegame = BETWEEN(savegame_min, savegame, savegame_max);
-
-    if (secretmessages != false && secretmessages != true)
-        secretmessages = secretmessages_default;
 
     skilllevel = BETWEEN(skilllevel_min, skilllevel, skilllevel_max);
 
     stillbob = BETWEEN(stillbob_min, stillbob, stillbob_max);
-
-    if (tossdrop != false && tossdrop != true)
-        tossdrop = tossdrop_default;
 
     turbo = BETWEEN(turbo_min, turbo, turbo_max);
 
@@ -1226,20 +998,11 @@ static void M_CheckCVARs(bool ispackageconfig)
 
     version = version_default;
 
-    if (vid_borderlesswindow != false && vid_borderlesswindow != true)
-        vid_borderlesswindow = vid_borderlesswindow_default;
-
     vid_capfps = BETWEEN(vid_capfps_min, vid_capfps, vid_capfps_max);
 
     vid_display = MAX(vid_display_min, vid_display);
 
-    if (vid_fullscreen != false && vid_fullscreen != true)
-        vid_fullscreen = vid_fullscreen_default;
-
     vid_motionblur = BETWEEN(vid_motionblur_min, vid_motionblur, vid_motionblur_max);
-
-    if (vid_pillarboxes != false && vid_pillarboxes != true)
-        vid_pillarboxes = vid_pillarboxes_default;
 
     if (!M_StringCompare(vid_scaleapi, vid_scaleapi_software)
 #if defined(_WIN32)
@@ -1259,18 +1022,9 @@ static void M_CheckCVARs(bool ispackageconfig)
     if (vid_vsync < vid_vsync_min || vid_vsync > vid_vsync_max)
         vid_vsync = vid_vsync_default;
 
-    if (vid_widescreen != false && vid_widescreen != true)
-        vid_widescreen = vid_widescreen_default;
-
     warninglevel = BETWEEN(warninglevel_min, warninglevel, warninglevel_max);
 
     weaponbob = BETWEEN(weaponbob_min, weaponbob, weaponbob_max);
-
-    if (weaponbounce != false && weaponbounce != true)
-        weaponbounce = weaponbounce_default;
-
-    if (weaponrecoil != false && weaponrecoil != true)
-        weaponrecoil = weaponrecoil_default;
 }
 
 //
