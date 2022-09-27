@@ -816,7 +816,7 @@ static float ParseFloatParameter(char *strparm, int valuealiastype)
     return (float)strtod(strparm, NULL);
 }
 
-static void M_CheckCVARs(bool ispackageconfig)
+static void M_CheckCVARs(void)
 {
     if (am_allmapcdwallcolor < am_allmapcdwallcolor_min || am_allmapcdwallcolor > am_allmapcdwallcolor_max)
         am_allmapcdwallcolor = am_allmapcdwallcolor_default;
@@ -908,11 +908,8 @@ static void M_CheckCVARs(bool ispackageconfig)
     I_SetGameControllerRightDeadZone();
 
     joy_rumble_barrels = BETWEEN(joy_rumble_barrels_min, joy_rumble_barrels, joy_rumble_barrels_max);
-
     joy_rumble_damage = BETWEEN(joy_rumble_damage_min, joy_rumble_damage, joy_rumble_damage_max);
-
     joy_rumble_weapons = BETWEEN(joy_rumble_weapons_min, joy_rumble_damage, joy_rumble_weapons_max);
-
     joy_sensitivity_horizontal = BETWEEN(joy_sensitivity_horizontal_min, joy_sensitivity_horizontal, joy_sensitivity_horizontal_max);
     I_SetGameControllerHorizontalSensitivity();
 
@@ -923,7 +920,6 @@ static void M_CheckCVARs(bool ispackageconfig)
         joy_thumbsticks = joy_thumbsticks_default;
 
     m_sensitivity = BETWEEN(m_sensitivity_min, m_sensitivity, m_sensitivity_max);
-
     movebob = BETWEEN(movebob_min, movebob, movebob_max);
 
     if (playergender < playergender_min || playergender > playergender_max)
@@ -949,7 +945,6 @@ static void M_CheckCVARs(bool ispackageconfig)
         r_blood = r_blood_default;
 
     r_bloodsplats_max = BETWEEN(r_bloodsplats_max_min, r_bloodsplats_max, r_bloodsplats_max_max);
-
     r_color = BETWEEN(r_color_min, r_color, r_color_max);
 
     if (r_detail != r_detail_low && r_detail != r_detail_high)
@@ -976,7 +971,6 @@ static void M_CheckCVARs(bool ispackageconfig)
     }
 
     r_shake_damage = BETWEEN(r_shake_damage_min, r_shake_damage, r_shake_damage_max);
-
     s_channels = BETWEEN(s_channels_min, s_channels, s_channels_max);
 
     s_musicvolume = BETWEEN(s_musicvolume_min, s_musicvolume, s_musicvolume_max);
@@ -986,22 +980,16 @@ static void M_CheckCVARs(bool ispackageconfig)
     sfxVolume = (s_sfxvolume * 31 + 50) / 100;
 
     savegame = BETWEEN(savegame_min, savegame, savegame_max);
-
     skilllevel = BETWEEN(skilllevel_min, skilllevel, skilllevel_max);
-
     stillbob = BETWEEN(stillbob_min, stillbob, stillbob_max);
-
     turbo = BETWEEN(turbo_min, turbo, turbo_max);
 
     if (units != units_imperial && units != units_metric)
         units = units_default;
 
     version = version_default;
-
     vid_capfps = BETWEEN(vid_capfps_min, vid_capfps, vid_capfps_max);
-
     vid_display = MAX(vid_display_min, vid_display);
-
     vid_motionblur = BETWEEN(vid_motionblur_min, vid_motionblur, vid_motionblur_max);
 
     if (!M_StringCompare(vid_scaleapi, vid_scaleapi_software)
@@ -1023,7 +1011,6 @@ static void M_CheckCVARs(bool ispackageconfig)
         vid_vsync = vid_vsync_default;
 
     warninglevel = BETWEEN(warninglevel_min, warninglevel, warninglevel_max);
-
     weaponbob = BETWEEN(weaponbob_min, weaponbob, weaponbob_max);
 }
 
@@ -1243,7 +1230,7 @@ void M_LoadCVARs(char *filename)
             free(temp3);
         }
 
-        M_CheckCVARs(ispackageconfig);
+        M_CheckCVARs();
         cvarsloaded = true;
     }
 }
