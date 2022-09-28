@@ -795,7 +795,7 @@ void M_SaveCVARs(void)
 }
 
 // Parses bool values in the configuration file
-static int ParseBoolParameter(char *CVAR, char *value, int valuealiastype)
+static int ParseBoolParameter(char *cvar, char *value, int valuealiastype)
 {
     int index;
     int defaultnumber;
@@ -804,7 +804,7 @@ static int ParseBoolParameter(char *CVAR, char *value, int valuealiastype)
         if (M_StringCompare(value, valuealiases[i].text) && valuealiastype == valuealiases[i].type)
             return valuealiases[i].value;
 
-    index = C_GetIndex(CVAR);
+    index = C_GetIndex(cvar);
     defaultnumber = (int)consolecmds[index].defaultnumber;
 
     C_Warning(0, "The " BOLD("%s") " CVAR in " BOLD(DOOMRETRO_CONFIG) " is invalid and has been reset "
@@ -814,15 +814,32 @@ static int ParseBoolParameter(char *CVAR, char *value, int valuealiastype)
 }
 
 // Parses integer values in the configuration file
-static int ParseIntParameter(char *strparm, int valuealiastype)
+static int ParseIntParameter(char *cvar, char *strparm, int valuealiastype)
 {
     int parm;
+    int index;
 
     for (int i = 0; *valuealiases[i].text; i++)
         if (M_StringCompare(strparm, valuealiases[i].text) && valuealiastype == valuealiases[i].type)
             return valuealiases[i].value;
 
-    return (sscanf(strparm, "%10i", &parm) == 1 ? parm : 0);
+    index = C_GetIndex(cvar);
+
+    if (sscanf(strparm, "%10i", &parm) == 1
+        && parm >= consolecmds[index].minimumvalue && parm <= consolecmds[index].maximumvalue)
+        return parm;
+    else
+    {
+        int     defaultnumber = (int)consolecmds[index].defaultnumber;
+        char    *temp = C_LookupAliasFromValue(defaultnumber, consolecmds[index].aliases);
+
+        C_Warning(0, "The " BOLD("%s") " CVAR in " BOLD(DOOMRETRO_CONFIG) " is "
+            "invalid and has been reset to its default of " BOLD("%s%s") ".",
+            consolecmds[index].name, temp, (consolecmds[index].flags == CF_PERCENT ? "%%" : ""));
+        free(temp);
+
+        return defaultnumber;
+    }
 }
 
 // Parses float values in the configuration file
@@ -837,85 +854,7 @@ static float ParseFloatParameter(char *strparm, int valuealiastype)
 
 static void M_CheckCVARs(void)
 {
-    if (am_allmapcdwallcolor < am_allmapcdwallcolor_min || am_allmapcdwallcolor > am_allmapcdwallcolor_max)
-        am_allmapcdwallcolor = am_allmapcdwallcolor_default;
-
-    if (am_allmapfdwallcolor < am_allmapfdwallcolor_min || am_allmapfdwallcolor > am_allmapfdwallcolor_max)
-        am_allmapfdwallcolor = am_allmapfdwallcolor_default;
-
-    if (am_allmapwallcolor < am_allmapwallcolor_min || am_allmapwallcolor > am_allmapwallcolor_max)
-        am_allmapwallcolor = am_allmapwallcolor_default;
-
-    if (am_backcolor < am_backcolor_min || am_backcolor > am_backcolor_max)
-        am_backcolor = am_backcolor_default;
-
-    if (am_bluedoorcolor < am_bluedoorcolor_min || am_bluedoorcolor > am_bluedoorcolor_max)
-        am_bluedoorcolor = am_bluedoorcolor_default;
-
-    if (am_bluekeycolor < am_bluekeycolor_min || am_bluekeycolor > am_bluekeycolor_max)
-        am_bluekeycolor = am_bluekeycolor_default;
-
-    if (am_cdwallcolor < am_cdwallcolor_min || am_cdwallcolor > am_cdwallcolor_max)
-        am_cdwallcolor = am_cdwallcolor_default;
-
-    if (am_crosshaircolor < am_crosshaircolor_min || am_crosshaircolor > am_crosshaircolor_max)
-        am_crosshaircolor = am_crosshaircolor_default;
-
     am_display = MAX(am_display_min, am_display);
-
-    if (am_fdwallcolor < am_fdwallcolor_min || am_fdwallcolor > am_fdwallcolor_max)
-        am_fdwallcolor = am_fdwallcolor_default;
-
-    if (am_gridcolor < am_gridcolor_min || am_gridcolor > am_gridcolor_max)
-        am_gridcolor = am_gridcolor_default;
-
-    if (am_markcolor < am_markcolor_min || am_markcolor > am_markcolor_max)
-        am_markcolor = am_markcolor_default;
-
-    if (am_pathcolor < am_pathcolor_min || am_pathcolor > am_pathcolor_max)
-        am_pathcolor = am_pathcolor_default;
-
-    if (am_playercolor < am_playercolor_min || am_playercolor > am_playercolor_max)
-        am_playercolor = am_playercolor_default;
-
-    if (am_reddoorcolor < am_reddoorcolor_min || am_reddoorcolor > am_reddoorcolor_max)
-        am_reddoorcolor = am_reddoorcolor_default;
-
-    if (am_redkeycolor < am_redkeycolor_min || am_redkeycolor > am_redkeycolor_max)
-        am_redkeycolor = am_redkeycolor_default;
-
-    if (am_teleportercolor < am_teleportercolor_min || am_teleportercolor > am_teleportercolor_max)
-        am_teleportercolor = am_teleportercolor_default;
-
-    if (am_thingcolor < am_thingcolor_min || am_thingcolor > am_thingcolor_max)
-        am_thingcolor = am_thingcolor_default;
-
-    if (am_tswallcolor < am_tswallcolor_min || am_tswallcolor > am_tswallcolor_max)
-        am_tswallcolor = am_tswallcolor_default;
-
-    if (am_wallcolor < am_wallcolor_min || am_wallcolor > am_wallcolor_max)
-        am_wallcolor = am_wallcolor_default;
-
-    if (am_yellowdoorcolor < am_yellowdoorcolor_min || am_yellowdoorcolor > am_yellowdoorcolor_max)
-        am_yellowdoorcolor = am_yellowdoorcolor_default;
-
-    if (am_yellowkeycolor < am_yellowkeycolor_min || am_yellowkeycolor > am_yellowkeycolor_max)
-        am_yellowkeycolor = am_yellowkeycolor_default;
-
-    if (crosshair < crosshair_min || crosshair > crosshair_max)
-        crosshair = crosshair_default;
-
-    if (crosshaircolor < crosshaircolor_min || crosshaircolor > crosshaircolor_max)
-        crosshaircolor = crosshaircolor_default;
-
-    if (episode < episode_min || episode > episode_max)
-        episode = episode_default;
-
-    if (expansion < expansion_min || expansion > expansion_max)
-        expansion = expansion_default;
-
-    if (facebackcolor < facebackcolor_min || facebackcolor > facebackcolor_max)
-        facebackcolor = facebackcolor_default;
 
     if (!*iwadfolder || M_StringCompare(iwadfolder, iwadfolder_default) || !M_FolderExists(iwadfolder))
         D_InitIWADFolder();
@@ -935,14 +874,8 @@ static void M_CheckCVARs(void)
     joy_sensitivity_vertical = BETWEEN(joy_sensitivity_vertical_min, joy_sensitivity_vertical, joy_sensitivity_vertical_max);
     I_SetGameControllerVerticalSensitivity();
 
-    if (joy_thumbsticks < joy_thumbsticks_min || joy_thumbsticks > joy_thumbsticks_max)
-        joy_thumbsticks = joy_thumbsticks_default;
-
     m_sensitivity = BETWEEN(m_sensitivity_min, m_sensitivity, m_sensitivity_max);
     movebob = BETWEEN(movebob_min, movebob, movebob_max);
-
-    if (playergender < playergender_min || playergender > playergender_max)
-        playergender = playergender_default;
 
     if (!*playername)
         playername = M_StringDuplicate(playername_default);
@@ -959,9 +892,6 @@ static void M_CheckCVARs(void)
     }
 
     r_berserkeffect = BETWEEN(r_berserkeffect_min, r_berserkeffect, r_berserkeffect_max);
-
-    if (r_blood < r_blood_min || r_blood > r_blood_max)
-        r_blood = r_blood_default;
 
     r_bloodsplats_max = BETWEEN(r_bloodsplats_max_min, r_bloodsplats_max, r_bloodsplats_max_max);
     r_color = BETWEEN(r_color_min, r_color, r_color_max);
@@ -1025,9 +955,6 @@ static void M_CheckCVARs(void)
         && !M_StringCompare(vid_scalefilter, vid_scalefilter_nearest)
         && !M_StringCompare(vid_scalefilter, vid_scalefilter_nearest_linear))
         vid_scalefilter = vid_scalefilter_default;
-
-    if (vid_vsync < vid_vsync_min || vid_vsync > vid_vsync_max)
-        vid_vsync = vid_vsync_default;
 
     warninglevel = BETWEEN(warninglevel_min, warninglevel, warninglevel_max);
     weaponbob = BETWEEN(weaponbob_min, weaponbob, weaponbob_max);
@@ -1162,7 +1089,7 @@ void M_LoadCVARs(char *filename)
                 {
                     char    *temp = uncommify(value);
 
-                    *(int *)cvars[i].location = ParseIntParameter(temp, cvars[i].valuealiastype);
+                    *(int *)cvars[i].location = ParseIntParameter(cvars[i].name, temp, cvars[i].valuealiastype);
                     free(temp);
                     cvarcount++;
                     break;
@@ -1191,7 +1118,7 @@ void M_LoadCVARs(char *filename)
                     if (temp[strlen(temp) - 1] == '%')
                         temp[strlen(temp) - 1] = '\0';
 
-                    *(int *)cvars[i].location = ParseIntParameter(temp, cvars[i].valuealiastype);
+                    *(int *)cvars[i].location = ParseIntParameter(cvars[i].name, temp, cvars[i].valuealiastype);
                     free(temp);
                     cvarcount++;
                     break;

@@ -490,7 +490,7 @@ static int C_LookupValueFromAlias(const char *text, const valuealias_type_t valu
     return INT_MIN;
 }
 
-static char *C_LookupAliasFromValue(const int value, const valuealias_type_t valuealiastype)
+char *C_LookupAliasFromValue(const int value, const valuealias_type_t valuealiastype)
 {
     for (int i = 0; *valuealiases[i].text; i++)
         if (valuealiastype == valuealiases[i].type && value == valuealiases[i].value)
