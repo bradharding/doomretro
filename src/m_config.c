@@ -794,6 +794,16 @@ void M_SaveCVARs(void)
     fclose(file);
 }
 
+// Parses bool values in the configuration file
+static int ParseBoolParameter(char *strparm, int valuealiastype)
+{
+    for (int i = 0; *valuealiases[i].text; i++)
+        if (M_StringCompare(strparm, valuealiases[i].text) && valuealiastype == valuealiases[i].type)
+            return valuealiases[i].value;
+
+    return (int)consolecmds[C_GetIndex(strparm)].defaultnumber;
+}
+
 // Parses integer values in the configuration file
 static int ParseIntParameter(char *strparm, int valuealiastype)
 {
@@ -1134,10 +1144,7 @@ void M_LoadCVARs(char *filename)
 
                 case DEFAULT_BOOL:
                 {
-                    char    *temp = uncommify(value);
-
-                    *(bool *)cvars[i].location = ParseIntParameter(temp, cvars[i].valuealiastype);
-                    free(temp);
+                    *(bool *)cvars[i].location = ParseBoolParameter(value, cvars[i].valuealiastype);
                     cvarcount++;
                     break;
                 }
