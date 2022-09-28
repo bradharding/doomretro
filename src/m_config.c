@@ -795,13 +795,22 @@ void M_SaveCVARs(void)
 }
 
 // Parses bool values in the configuration file
-static int ParseBoolParameter(char *strparm, int valuealiastype)
+static int ParseBoolParameter(char *CVAR, char *value, int valuealiastype)
 {
+    int index;
+    int defaultnumber;
+
     for (int i = 0; *valuealiases[i].text; i++)
-        if (M_StringCompare(strparm, valuealiases[i].text) && valuealiastype == valuealiases[i].type)
+        if (M_StringCompare(value, valuealiases[i].text) && valuealiastype == valuealiases[i].type)
             return valuealiases[i].value;
 
-    return (int)consolecmds[C_GetIndex(strparm)].defaultnumber;
+    index = C_GetIndex(CVAR);
+    defaultnumber = (int)consolecmds[index].defaultnumber;
+
+    C_Warning(0, "The " BOLD("%s") " CVAR in " BOLD(DOOMRETRO_CONFIG) " is invalid and has been reset "
+        "to its default of " BOLD("%s") ".", consolecmds[index].name, (defaultnumber ? "on" : "off"));
+
+    return defaultnumber;
 }
 
 // Parses integer values in the configuration file
@@ -1144,7 +1153,7 @@ void M_LoadCVARs(char *filename)
 
                 case DEFAULT_BOOL:
                 {
-                    *(bool *)cvars[i].location = ParseBoolParameter(value, cvars[i].valuealiastype);
+                    *(bool *)cvars[i].location = ParseBoolParameter(cvars[i].name, value, cvars[i].valuealiastype);
                     cvarcount++;
                     break;
                 }
