@@ -854,8 +854,6 @@ static float ParseFloatParameter(char *strparm, int valuealiastype)
 
 static void M_CheckCVARs(void)
 {
-    am_display = MAX(am_display_min, am_display);
-
     if (!*iwadfolder || M_StringCompare(iwadfolder, iwadfolder_default) || !M_FolderExists(iwadfolder))
         D_InitIWADFolder();
 
@@ -865,17 +863,8 @@ static void M_CheckCVARs(void)
     joy_deadzone_right = BETWEENF(joy_deadzone_right_min, joy_deadzone_right, joy_deadzone_right_max);
     I_SetGameControllerRightDeadZone();
 
-    joy_rumble_barrels = BETWEEN(joy_rumble_barrels_min, joy_rumble_barrels, joy_rumble_barrels_max);
-    joy_rumble_damage = BETWEEN(joy_rumble_damage_min, joy_rumble_damage, joy_rumble_damage_max);
-    joy_rumble_weapons = BETWEEN(joy_rumble_weapons_min, joy_rumble_damage, joy_rumble_weapons_max);
-    joy_sensitivity_horizontal = BETWEEN(joy_sensitivity_horizontal_min, joy_sensitivity_horizontal, joy_sensitivity_horizontal_max);
     I_SetGameControllerHorizontalSensitivity();
-
-    joy_sensitivity_vertical = BETWEEN(joy_sensitivity_vertical_min, joy_sensitivity_vertical, joy_sensitivity_vertical_max);
     I_SetGameControllerVerticalSensitivity();
-
-    m_sensitivity = BETWEEN(m_sensitivity_min, m_sensitivity, m_sensitivity_max);
-    movebob = BETWEEN(movebob_min, movebob, movebob_max);
 
     if (!*playername)
         playername = M_StringDuplicate(playername_default);
@@ -891,20 +880,7 @@ static void M_CheckCVARs(void)
         playername = temp;
     }
 
-    r_berserkeffect = BETWEEN(r_berserkeffect_min, r_berserkeffect, r_berserkeffect_max);
-
-    r_bloodsplats_max = BETWEEN(r_bloodsplats_max_min, r_bloodsplats_max, r_bloodsplats_max_max);
-    r_color = BETWEEN(r_color_min, r_color, r_color_max);
-
-    if (r_detail != r_detail_low && r_detail != r_detail_high)
-        r_detail = r_detail_default;
-
-    r_fov = BETWEEN(r_fov_min, r_fov, r_fov_max);
-
-    r_gamma = BETWEENF(r_gamma_min, r_gamma, r_gamma_max);
     I_SetGamma(r_gamma);
-
-    r_screensize = BETWEEN(r_screensize_min, r_screensize, r_screensize_max);
 
     if (r_screensize < r_screensize_max)
     {
@@ -919,27 +895,11 @@ static void M_CheckCVARs(void)
         r_screensize = r_screensize_max - 1;
     }
 
-    r_shake_damage = BETWEEN(r_shake_damage_min, r_shake_damage, r_shake_damage_max);
-    s_channels = BETWEEN(s_channels_min, s_channels, s_channels_max);
-
-    s_musicvolume = BETWEEN(s_musicvolume_min, s_musicvolume, s_musicvolume_max);
     musicVolume = (s_musicvolume * 31 + 50) / 100;
 
-    s_sfxvolume = BETWEEN(s_sfxvolume_min, s_sfxvolume, s_sfxvolume_max);
     sfxVolume = (s_sfxvolume * 31 + 50) / 100;
 
-    savegame = BETWEEN(savegame_min, savegame, savegame_max);
-    skilllevel = BETWEEN(skilllevel_min, skilllevel, skilllevel_max);
-    stillbob = BETWEEN(stillbob_min, stillbob, stillbob_max);
-    turbo = BETWEEN(turbo_min, turbo, turbo_max);
-
-    if (units != units_imperial && units != units_metric)
-        units = units_default;
-
     version = version_default;
-    vid_capfps = BETWEEN(vid_capfps_min, vid_capfps, vid_capfps_max);
-    vid_display = MAX(vid_display_min, vid_display);
-    vid_motionblur = BETWEEN(vid_motionblur_min, vid_motionblur, vid_motionblur_max);
 
     if (!M_StringCompare(vid_scaleapi, vid_scaleapi_software)
 #if defined(_WIN32)
@@ -955,9 +915,6 @@ static void M_CheckCVARs(void)
         && !M_StringCompare(vid_scalefilter, vid_scalefilter_nearest)
         && !M_StringCompare(vid_scalefilter, vid_scalefilter_nearest_linear))
         vid_scalefilter = vid_scalefilter_default;
-
-    warninglevel = BETWEEN(warninglevel_min, warninglevel, warninglevel_max);
-    weaponbob = BETWEEN(weaponbob_min, weaponbob, weaponbob_max);
 }
 
 //

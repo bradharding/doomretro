@@ -911,7 +911,7 @@ typedef enum
     PLAYERGENDERVALUEALIAS,
     WEAPONVALUEALIAS,
     CRASHVALUEALIAS
-} valuealias_type_t;
+} valuealiastype_t;
 
 typedef struct
 {
@@ -925,14 +925,14 @@ typedef struct
     // Type of the variable
     default_type_t      type;
 
-    valuealias_type_t   valuealiastype;
+    valuealiastype_t    valuealiastype;
 } default_t;
 
 typedef struct
 {
     char                *text;
     int                 value;
-    valuealias_type_t   type;
+    valuealiastype_t    type;
 } valuealias_t;
 
 extern valuealias_t     valuealiases[];

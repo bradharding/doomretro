@@ -141,7 +141,7 @@ extern bool             quitcmd;
 void alias_cmd_func2(char *cmd, char *parms);
 void bind_cmd_func2(char *cmd, char *parms);
 
-char *C_LookupAliasFromValue(const int value, const valuealias_type_t valuealiastype);
+char *C_LookupAliasFromValue(const int value, const valuealiastype_t valuealiastype);
 int C_GetIndex(const char *cmd);
 bool C_ExecuteAlias(const char *alias);
 char *distancetraveled(uint64_t value, bool allowzero);
