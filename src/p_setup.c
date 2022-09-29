@@ -93,7 +93,7 @@
 #define MCMD_LEVELPIC               24
 #define MCMD_LIQUID                 25
 #define MCMD_MUSIC                  26
-#define MCMD_MUSICCOMPOSER          27
+#define MCMD_MUSICARTIST            27
 #define MCMD_MUSICTITLE             28
 #define MCMD_NEXT                   29
 #define MCMD_NEXTSECRET             30
@@ -128,7 +128,7 @@ typedef struct
     char    intertextsecret[1024];
     int     liquid[NUMLIQUIDS];
     int     music;
-    char    musiccomposer[128];
+    char    musicartist[128];
     char    musictitle[128];
     char    name[128];
     int     next;
@@ -262,7 +262,7 @@ static char *mapcmdnames[] =
     "LEVELPIC",
     "LIQUID",
     "MUSIC",
-    "MUSICCOMPOSER",
+    "MUSICARTIST",
     "MUSICTITLE",
     "NEXT",
     "NEXTSECRET",
@@ -311,7 +311,7 @@ static int mapcmdids[] =
     MCMD_LEVELPIC,
     MCMD_LIQUID,
     MCMD_MUSIC,
-    MCMD_MUSICCOMPOSER,
+    MCMD_MUSICARTIST,
     MCMD_MUSICTITLE,
     MCMD_NEXT,
     MCMD_NEXTSECRET,
@@ -3221,7 +3221,7 @@ static void P_InitMapInfo(void)
         }
 
         mapinfo[i].music = 0;
-        mapinfo[i].musiccomposer[0] = '\0';
+        mapinfo[i].musicartist[0] = '\0';
         mapinfo[i].musictitle[0] = '\0';
         mapinfo[i].name[0] = '\0';
         mapinfo[i].next = 0;
@@ -3467,9 +3467,9 @@ static bool P_ParseMapInfo(char *scriptname)
                             info->music = W_CheckNumForName(sc_String);
                             break;
 
-                        case MCMD_MUSICCOMPOSER:
+                        case MCMD_MUSICARTIST:
                             SC_MustGetString();
-                            M_StringCopy(info->musiccomposer, sc_String, sizeof(info->musiccomposer));
+                            M_StringCopy(info->musicartist, sc_String, sizeof(info->musicartist));
                             break;
 
                         case MCMD_MUSICTITLE:
@@ -3742,7 +3742,7 @@ int P_GetMapMusic(const int map)
 
 char *P_GetMapMusicComposer(const int map)
 {
-    return mapinfo[map].musiccomposer;
+    return mapinfo[map].musicartist;
 }
 
 char *P_GetMapMusicTitle(const int map)

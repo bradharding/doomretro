@@ -4638,7 +4638,7 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
     {
         int                 lumps;
         char                namebuf[9];
-        const char          *musiccomposer = P_GetMapMusicComposer((gameepisode - 1) * 10 + gamemap);
+        const char          *musicartist = P_GetMapMusicComposer((gameepisode - 1) * 10 + gamemap);
         const char          *musictitle = P_GetMapMusicTitle((gameepisode - 1) * 10 + gamemap);
         const Mix_MusicType musictype = Mix_GetMusicType(NULL);
 
@@ -4660,13 +4660,13 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
             || (gamemode != commercial && gameepisode == 1 && lumps == 2))
             C_TabbedOutput(tabs, INDENT "Title\t" ITALICS("%s"), mus_playing->title1);
 
-        if (*musiccomposer)
-            C_TabbedOutput(tabs, INDENT "Composer\t%s", musiccomposer);
+        if (*musicartist)
+            C_TabbedOutput(tabs, INDENT "Artist\t%s", musicartist);
         else if (sigil && gameepisode == 5)
-            C_TabbedOutput(tabs, INDENT "Composer\t%s", (buckethead ? "Buckethead" : "James Paddock"));
+            C_TabbedOutput(tabs, INDENT "Artist\t%s", (buckethead ? "Buckethead" : "James Paddock"));
         else if (((gamemode == commercial || gameepisode > 1) && lumps == 1 && wadtype == IWAD)
             || (gamemode != commercial && gameepisode == 1 && lumps == 2))
-            C_TabbedOutput(tabs, INDENT "Composer\t%s", "Bobby Prince");
+            C_TabbedOutput(tabs, INDENT "Artist\t%s", "Bobby Prince");
 
         if (musmusictype)
             C_TabbedOutput(tabs, INDENT "Format\tMUS");

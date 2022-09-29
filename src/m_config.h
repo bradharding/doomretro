@@ -893,7 +893,7 @@ typedef enum
     DEFAULT_FLOAT,
     DEFAULT_FLOAT_PERCENT,
     DEFAULT_OTHER
-} default_type_t;
+} defaulttype_t;
 
 typedef enum
 {
@@ -923,7 +923,7 @@ typedef struct
     void                *location;
 
     // Type of the variable
-    default_type_t      type;
+    defaulttype_t       type;
 
     valuealiastype_t    valuealiastype;
 } default_t;

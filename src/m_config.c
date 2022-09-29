@@ -880,6 +880,7 @@ static void M_CheckCVARs(void)
         playername = temp;
     }
 
+    r_gamma = BETWEENF(r_gamma_min, r_gamma, r_gamma_max);
     I_SetGamma(r_gamma);
 
     if (r_screensize < r_screensize_max)
