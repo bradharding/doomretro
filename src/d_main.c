@@ -1289,7 +1289,7 @@ static int D_OpenWADLauncher(void)
                             leafname((char *)ofn.lpstrFile), temp);
 
                     file = M_StringDuplicate(temp);
-                    wad = M_StringDuplicate(temp);
+                    wad = M_StringDuplicate(leafname(temp));
                     free(temp);
                 }
                 else
@@ -1299,7 +1299,7 @@ static int D_OpenWADLauncher(void)
                 }
             }
             else
-                wad = M_StringDuplicate(file);
+                wad = M_StringDuplicate(leafname(file));
 #endif
 
             // check if it's a valid and supported IWAD
