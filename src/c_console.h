@@ -85,7 +85,7 @@
 #define CONSOLELINEHEIGHT                   14
 
 #define CONSOLESCROLLBARWIDTH               5
-#define CONSOLESCROLLBARHEIGHT              (gamestate == GS_TITLESCREEN ? 369 : 173)
+#define CONSOLESCROLLBARHEIGHT              (CONSOLEHEIGHT - (gamestate == GS_TITLESCREEN ? 26 : 22))
 #define CONSOLESCROLLBARX                   (SCREENWIDTH - CONSOLETEXTX - CONSOLESCROLLBARWIDTH)
 
 #define CONSOLETEXTPIXELWIDTH               (SCREENWIDTH - CONSOLETEXTX * 2 - (scrollbardrawn ? CONSOLESCROLLBARWIDTH + 10 : 0))
@@ -121,14 +121,14 @@
 #define SDL_FILENAME                        "SDL2.dll"
 #define SDL_MIXER_FILENAME                  "SDL2_mixer.dll"
 #define SDL_IMAGE_FILENAME                  "SDL2_image.dll"
-#elif defined(__linux__) || defined(__FreeBSD__) || defined(__HAIKU__)
-#define SDL_FILENAME                        "SDL2.so"
-#define SDL_MIXER_FILENAME                  "SDL2_mixer.so"
-#define SDL_IMAGE_FILENAME                  "SDL2_image.so"
-#else
+#elif defined(__APPLE__)
 #define SDL_FILENAME                        "SDL2"
 #define SDL_MIXER_FILENAME                  "SDL2_mixer"
 #define SDL_IMAGE_FILENAME                  "SDL2_image"
+#else
+#define SDL_FILENAME                        "SDL2.so"
+#define SDL_MIXER_FILENAME                  "SDL2_mixer.so"
+#define SDL_IMAGE_FILENAME                  "SDL2_image.so"
 #endif
 
 #define BINDLISTHEADER                      "\tCONTROL\t+ACTION/COMMAND(S)"

@@ -114,8 +114,14 @@
 
 typedef struct
 {
+    bool    allowmonstertelefrags;
     char    author[128];
     int     cluster;
+    bool    compat_corpsegibs;
+    bool    compat_floormove;
+    bool    compat_light;
+    bool    compat_limitpain;
+    bool    compat_nopassover;
     bool    endbunny;
     bool    endcast;
     bool    endgame;
@@ -132,6 +138,7 @@ typedef struct
     char    musictitle[128];
     char    name[128];
     int     next;
+    bool    nograduallighting;
     bool    nojump;
     int     noliquid[NUMLIQUIDS];
     bool    nomouselook;
@@ -141,13 +148,6 @@ typedef struct
     int     sky1texture;
     int     sky1scrolldelta;
     int     titlepatch;
-    bool    allowmonstertelefrags;
-    bool    compat_corpsegibs;
-    bool    compat_floormove;
-    bool    compat_light;
-    bool    compat_limitpain;
-    bool    compat_nopassover;
-    bool    nograduallighting;
 } mapinfo_t;
 
 //
