@@ -4657,7 +4657,8 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
         else if (sigil && gameepisode == 5)
             C_TabbedOutput(tabs, INDENT "Title\t" ITALICS("%s"), (buckethead ? mus_playing->title2 : mus_playing->title1));
         else if (((gamemode == commercial || gameepisode > 1) && lumps == 1 && wadtype == IWAD)
-            || (gamemode != commercial && gameepisode == 1 && lumps == 2))
+            || (gamemode != commercial && gameepisode == 1 && lumps == 2)
+            || gamemission == pack_nerve)
             C_TabbedOutput(tabs, INDENT "Title\t" ITALICS("%s"), mus_playing->title1);
 
         if (*musicartist)
@@ -4665,7 +4666,8 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
         else if (sigil && gameepisode == 5)
             C_TabbedOutput(tabs, INDENT "Artist\t%s", (buckethead ? "Buckethead" : "James Paddock"));
         else if (((gamemode == commercial || gameepisode > 1) && lumps == 1 && wadtype == IWAD)
-            || (gamemode != commercial && gameepisode == 1 && lumps == 2))
+            || (gamemode != commercial && gameepisode == 1 && lumps == 2)
+            || gamemission == pack_nerve)
             C_TabbedOutput(tabs, INDENT "Artist\t%s", "Bobby Prince");
 
         if (musmusictype)
