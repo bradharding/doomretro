@@ -1570,7 +1570,12 @@ static void M_DrawMainMenu(void)
         MainDef.y = 72;
     }
     else
+    {
+        if (gamemission != doom)
+            patch = W_CacheLastLumpName("M_DOOM");
+
         V_DrawPatchWithShadow((VANILLAWIDTH - SHORT(patch->width)) / 2 - 1, 11 + OFFSET, patch, false);
+    }
 }
 
 //
