@@ -721,8 +721,7 @@ static patch_t  *altweapon[NUMWEAPONS];
 static patch_t  *altendpatch;
 static patch_t  *altleftpatch;
 static patch_t  *altarmpatch;
-static patch_t  *altrightpatch1;
-static patch_t  *altrightpatch2;
+static patch_t  *altrightpatch[2];
 static patch_t  *altmarkpatch;
 static patch_t  *altmark2patch;
 
@@ -800,8 +799,8 @@ static void HU_AltInit(void)
         }
 
     altleftpatch = W_CacheLumpName("DRHUDL");
-    altrightpatch1 = W_CacheLumpName("DRHUDRA");
-    altrightpatch2 = W_CacheLumpName("DRHUDRB");
+    altrightpatch[0] = W_CacheLumpName("DRHUDRA");
+    altrightpatch[1] = W_CacheLumpName("DRHUDRB");
 
     gray = nearestcolors[GRAY];
     darkgray = nearestcolors[DARKGRAY];
@@ -1036,14 +1035,12 @@ static void HU_DrawAltHUD(void)
                 barcolor = ((ammo = 100 * ammo / viewplayer->maxammo[ammotype]) < HUD_AMMO_MIN ? yellow : color);
 
                 fillrectfunc(0, ALTHUD_RIGHT_X + 100 - ammo, ALTHUD_Y + 13, ammo + 1, 8, barcolor, true, tinttab25);
-                althudfunc(ALTHUD_RIGHT_X, ALTHUD_Y + 13, (viewplayer->backpack ? altrightpatch2 : altrightpatch1),
-                    WHITE, color, tinttab60);
+                althudfunc(ALTHUD_RIGHT_X, ALTHUD_Y + 13, altrightpatch[viewplayer->backpack], WHITE, color, tinttab60);
                 althudfunc(ALTHUD_RIGHT_X + 100, ALTHUD_Y + 13, altendpatch, WHITE, barcolor, NULL);
                 althudfunc(ALTHUD_RIGHT_X + 100 - ammo - 2, ALTHUD_Y + 13, altmarkpatch, WHITE, barcolor, NULL);
             }
             else
-                althudfunc(ALTHUD_RIGHT_X, ALTHUD_Y + 13, (viewplayer->backpack ? altrightpatch2 : altrightpatch1),
-                    WHITE, color, tinttab60);
+                althudfunc(ALTHUD_RIGHT_X, ALTHUD_Y + 13, altrightpatch[viewplayer->backpack], WHITE, color, tinttab60);
         }
 
         if (altweapon[weapon])
