@@ -7402,7 +7402,7 @@ static void teleport_cmd_func2(char *cmd, char *parms)
             mobj_t          *mo = viewplayer->mo;
             const fixed_t   oldx = viewx;
             const fixed_t   oldy = viewy;
-            const fixed_t   oldz = mo->floorz;
+            const fixed_t   oldz = mo->z;
 
             x <<= FRACBITS;
             y <<= FRACBITS;

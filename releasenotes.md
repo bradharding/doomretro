@@ -21,7 +21,7 @@
 * When toggling widescreen mode by pressing the <kbd>+</kbd> key, the player’s vertical field of view now zooms in slightly.
 * Improvements have been made to the support of [*REKKR*](https://www.doomworld.com/idgames/levels/doom/megawads/rekkr) and [*REKKR: Sunken Land*](https://store.steampowered.com/app/1715690/REKKR_Sunken_Land/).
 * Unless replaced by a PWAD, stimpacks and medikits now always show a red cross rather than a green cross or a pill.
-* Improvements have been made to adjusting the volume of music.
+* Minor improvements have been made to adjusting the music volume.
 * Bullet puffs are now spawned again when barrels are shot at.
 * The vertical position of blood and bullet puffs spawned is now more random.
 * The player’s view now shakes when they punch something and have a berserk power-up. This feature may be toggled using the new `r_shake_berserk` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
@@ -51,7 +51,7 @@
 * The player’s angle and position are now displayed in the top right of the screen, rather than as a persistent player message, when the `IDMYPOS` cheat is entered.
 * A `solonet` CCMD has been implemented that toggles all things usually intended for multiplayer games to be spawned at the start of each map. An accompanying `-solonet` command-line parameter has also been implemented.
 * The artist and title of the currently playing music are now displayed by the `mapstats` CCMD when playing *DOOM II: No Rest For The Living*.
-* Timestamps are now only displayed in the console if different to the previous one.
+* Timestamps are now only displayed in the console if more than a second after the last one.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
