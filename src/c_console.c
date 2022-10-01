@@ -1073,6 +1073,8 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
                         x++;
                     else if (letter == '\'')
                         x--;
+                    else if (letter == 'v' && prevletter == '-')
+                        x--;
 
                     if (prevletter == '/')
                         x -= 2;
