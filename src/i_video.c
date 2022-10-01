@@ -90,14 +90,6 @@ unsigned int    MAPHEIGHT = VANILLAHEIGHT * SCREENSCALE;
 unsigned int    MAPAREA;
 int             MAPBOTTOM;
 
-#if defined(SDL_VIDEO_RENDER_D3D12)
-#define DIRECT3DVERSION     "v12.0"
-#elif defined(SDL_VIDEO_RENDER_D3D11)
-#define DIRECT3DVERSION     "v11.0"
-#else
-#define DIRECT3DVERSION     "v9.0"
-#endif
-
 #define I_SDLError(func)    I_Error(stringize(func) "() failed in %s() on line %i of %s with this error:\"%s\".", \
                                 __FUNCTION__, __LINE__ - 1, leafname(__FILE__), SDL_GetError())
 
@@ -1560,7 +1552,7 @@ static void SetVideoMode(bool createwindow, bool output)
                     I_SDLError(SDL_SetHintWithPriority);
 
                 if (output)
-                    C_Output("This scaling is now done using hardware acceleration with " ITALICS("Direct3D " DIRECT3DVERSION "."));
+                    C_Output("This scaling is now done using hardware acceleration with " ITALICS("Direct3D."));
 #endif
             }
             else
@@ -1579,7 +1571,7 @@ static void SetVideoMode(bool createwindow, bool output)
         else if (M_StringCompare(rendererinfo.name, vid_scaleapi_direct3d))
         {
             if (output)
-                C_Output("This scaling is done using hardware acceleration with " ITALICS("Direct3D " DIRECT3DVERSION "."));
+                C_Output("This scaling is done using hardware acceleration with " ITALICS("Direct3D."));
 
             if (!M_StringCompare(vid_scaleapi, vid_scaleapi_direct3d))
             {
