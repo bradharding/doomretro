@@ -1587,10 +1587,12 @@ void C_Drawer(void)
 
             if (stringtype == playermessagestring)
             {
-                if (console[i].count > 1)
+                const int   count = console[i].count;
+
+                if (count > 1)
                 {
                     char    buffer[CONSOLETEXTMAXLENGTH];
-                    char    *temp = commify(console[i].count);
+                    char    *temp = commify(count);
 
                     M_snprintf(buffer, sizeof(buffer), "%s (%s)", text, temp);
                     C_DrawConsoleText(CONSOLETEXTX, y, buffer, consoleplayermessagecolor,
@@ -1601,7 +1603,8 @@ void C_Drawer(void)
                     C_DrawConsoleText(CONSOLETEXTX, y, text, consoleplayermessagecolor,
                         NOBACKGROUNDCOLOR, consoleplayermessagecolor, tinttab66, notabs, true, true, i);
 
-                C_DrawTimeStamp(SCREENWIDTH - CONSOLETEXTX - 10 - CONSOLESCROLLBARWIDTH + 1, y, i);
+                if (!*console[i].timestamp || !M_StringCompare(console[i].timestamp, console[i - count].timestamp))
+                    C_DrawTimeStamp(SCREENWIDTH - CONSOLETEXTX - 10 - CONSOLESCROLLBARWIDTH + 1, y, i);
             }
             else if (stringtype == outputstring)
                 C_DrawConsoleText(CONSOLETEXTX, y, text, consoleoutputcolor,
