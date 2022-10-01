@@ -528,8 +528,8 @@ static void HU_DrawHUD(void)
     const int   armor = MIN(viewplayer->armorpoints, HUD_NUMBER_MAX);
     static bool healthanim;
     const bool  gamepaused = (consoleactive || freeze);
-    byte        *tinttab = (health <= 0 || (health < HUD_HEALTH_MIN && healthanim)
-                    || health >= HUD_HEALTH_MIN || gamepaused ? tinttab75 : tinttab25);
+    byte        *tinttab = (health <= 0 || health >= HUD_HEALTH_MIN || (viewplayer->cheats & CF_BUDDHA)
+                           || (health < HUD_HEALTH_MIN && healthanim) || gamepaused ? tinttab75 : tinttab25);
     patch_t     *patch = faces[st_faceindex];
     const int   currenttime = I_GetTimeMS();
     int         keypic_x = HUD_KEYS_X;
@@ -565,7 +565,7 @@ static void HU_DrawHUD(void)
     {
         static int  healthwait;
 
-        if (health > 0 && health < HUD_HEALTH_MIN && !(viewplayer->cheats & CF_BUDDHA))
+        if (health > 0 && health < HUD_HEALTH_MIN)
         {
             if (healthwait < currenttime)
             {

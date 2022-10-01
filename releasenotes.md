@@ -20,7 +20,7 @@
 * There is now a fade transition when opening the sound volume menu in the options menu if the `fade` CVAR is `on`.
 * When toggling widescreen mode by pressing the <kbd>+</kbd> key, the player’s vertical field of view now zooms in slightly.
 * Improvements have been made to the support of [*REKKR*](https://www.doomworld.com/idgames/levels/doom/megawads/rekkr) and [*REKKR: Sunken Land*](https://store.steampowered.com/app/1715690/REKKR_Sunken_Land/).
-* Stimpacks and medikits now always show a red cross rather than a green cross or a pill.
+* Unless replaced by a PWAD, stimpacks and medikits now always show a red cross rather than a green cross or a pill.
 * Bullet puffs are now spawned again when barrels are shot at.
 * The vertical position of blood and bullet puffs spawned is now more random.
 * The player’s view now shakes when they punch something and have a berserk power-up. This feature may be toggled using the new `r_shake_berserk` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
@@ -36,7 +36,9 @@
 * The following changes have been made to the `vid_capfps` CVAR:
   * Its minimum value is now `35` rather than `10`.
   * A bug is fixed whereby it couldn’t be set to `off` in the console.
-* The amount of ammo the player has no longer flashes when switching weapons in the widescreen HUD.
+* The following changes have been made to the widescreen HUD:
+  * The amount of ammo the player has no longer flashes when switching weapons.
+  * The player’s health no longer flashes when less than `10%` while buddha mode is enabled.
 * The following changes have been made to the alternate widescreen HUD:
   * The notches are now slightly less translucent.
   * The left and right edges of the health and ammo bars are now brighter.
@@ -45,7 +47,7 @@
   * The player’s health is no longer red when less than `10%` while buddha mode is enabled.
 * There are no longer any anomalies in *E1M4B: Phobos Mission Control* when the `r_fixmaperrors` CVAR is `on`.
 * The presence of `compat_floormove` is now recognized in `MAPINFO` lumps.
-* The player’s position is now displayed in the top right of the screen, rather than as a persistent player message, when the `IDMYPOS` cheat is entered.
+* The player’s angle and position are now displayed in the top right of the screen, rather than as a persistent player message, when the `IDMYPOS` cheat is entered.
 * A `solonet` CCMD has been implemented that toggles all things usually intended for multiplayer games to be spawned at the start of each map. An accompanying `-solonet` command-line parameter has also been implemented.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
