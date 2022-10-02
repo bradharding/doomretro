@@ -1461,7 +1461,7 @@ static void M_DrawSound(void)
 
     if (M_SVOL)
     {
-        M_DrawPatchWithShadow((chex ? 100 : 60), 38 + OFFSET, W_CacheLumpName("M_SVOL"));
+        M_DrawCenteredPatchWithShadow(38 + OFFSET, W_CacheLumpName("M_SVOL"));
         SoundDef.x = (chex ? 68 : 80);
         SoundDef.y = 64;
     }
@@ -1831,7 +1831,7 @@ static void M_DrawOptions(void)
 
     if (M_OPTTTL)
     {
-        M_DrawPatchWithShadow((chex ? 126 : 108), 15 + OFFSET, W_CacheLumpName("M_OPTTTL"));
+        M_DrawCenteredPatchWithShadow(15 + OFFSET, W_CacheLumpName("M_OPTTTL"));
         OptionsDef.x = (chex ? 69 : 60);
         OptionsDef.y = 37;
     }
