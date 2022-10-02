@@ -17,6 +17,7 @@
   * The load game menu now opens if the game hasn’t been saved yet.
   * The background of the confirmation message now displays correctly.
   * There is no longer a misplaced fade transition when pressing the <kbd>Y</kbd> key and the `fade` CVAR is `on`.
+* The horizontal position of the title in the options and sound volume menus have improved in some instances.
 * There is now a fade transition when opening the sound volume menu in the options menu if the `fade` CVAR is `on`.
 * A fade transition is no longer applied when toggling the graphic detail, either in the options menu or by pressing the <kbd>F5</kbd> key, if the `fade` CVAR is `on`.
 * When toggling widescreen mode by pressing the <kbd>+</kbd> key, the player’s vertical field of view now zooms in slightly.
@@ -30,6 +31,7 @@
 * A bug is fixed whereby game controllers wouldn’t rumble when the player punched a monster and the `joy_rumble_damage` CVAR was `on`.
 * A crash no longer occurs if the `save` CCMD is bound to a control using the `bind` CCMD.
 * The obituary displayed in the console when the player is killed by a damaging sector that isn’t liquid is now fixed.
+* Any input in the console is now cleared when a cheat is entered.
 * `You found another secret!` is now displayed each time the player finds more than one secret in a map.
 * Improvements have been made to the synchronization of animated wall textures and flats.
 * The brightmap of the `COMPUTE1` texture has improved.
