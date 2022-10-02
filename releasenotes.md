@@ -5,7 +5,7 @@
 * *DOOM Retro* is now built using v17.3.5 of [*Microsoft Visual Studio Community 2022*](https://visualstudio.microsoft.com/vs/community/).
 * Several optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Changes have been made to the splash screen’s animation.
-* Minor changes have been made to text that is output to the console.
+* Several changes have been made to text that is output to the console.
 * When entering a CCMD in the console that is only effective while playing a game, or while the player is alive, a description of that CCMD along with a warning is now displayed.
 * The bottom edge of the console is now a slightly brighter red.
 * The following changes have been made to the external automap:
@@ -44,7 +44,7 @@
   * The player’s health no longer flashes when less than `10%` while buddha mode is enabled.
 * The following changes have been made to the alternate widescreen HUD:
   * The notches are now slightly less translucent.
-  * The left and right edges of the health and ammo bars are now brighter.
+  * The left and right edges of the health and ammo bars are now slightly brighter.
   * The portions of the player’s health and armor greater than `100%` are now slightly brighter in the health and armor bars.
   * The player’s health, armor and ammo now flash when they change.
   * The player’s health is no longer red when less than `10%` while buddha mode is enabled.
