@@ -202,7 +202,12 @@ void C_Cheat(const char *string)
     console[consolestrings].indent = 0;
     console[consolestrings].wrap = 0;
     console[consolestrings++].stringtype = cheatstring;
+    inputhistory = -1;
     outputhistory = -1;
+    consoleinput[0] = '\0';
+    caretpos = 0;
+    selectstart = 0;
+    selectend = 0;
 }
 
 void C_IntCVAROutput(const char *cvar, int value)
