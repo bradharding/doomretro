@@ -783,7 +783,7 @@ static void M_DrawCenteredPatchWithShadow(int y, patch_t *patch)
         return;
 
     if (SHORT(patch->height) < VANILLAHEIGHT)
-        V_DrawPatchWithShadow((VANILLAWIDTH - SHORT(patch->width)) / 2, y, patch, false);
+        V_DrawPatchWithShadow((VANILLAWIDTH - SHORT(patch->width)) / 2 + SHORT(patch->leftoffset), y, patch, false);
     else
         V_DrawPagePatch(patch);
 }
