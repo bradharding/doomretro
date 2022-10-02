@@ -385,41 +385,6 @@ void C_PlayerMessage(const char *string, ...)
     outputhistory = -1;
 }
 
-void C_PlayerObituary(const char *string, ...)
-{
-    va_list     args;
-    char        buffer[CONSOLETEXTMAXLENGTH];
-    const int   i = consolestrings - 1;
-
-    va_start(args, string);
-    M_vsnprintf(buffer, CONSOLETEXTMAXLENGTH - 1, string, args);
-    va_end(args);
-
-    if (i >= 0 && console[i].stringtype == playermessagestring && M_StringCompare(console[i].string, buffer) && groupmessages)
-    {
-        console[i].tics = gametime;
-        console[i].timestamp[0] = '\0';
-        console[i].count++;
-    }
-    else
-    {
-        if (consolestrings >= (int)consolestringsmax)
-            console = I_Realloc(console, (consolestringsmax += CONSOLESTRINGSMAX) * sizeof(*console));
-
-        M_StringCopy(console[consolestrings].string, buffer, sizeof(console[0].string));
-        console[consolestrings].stringtype = playermessagestring;
-        console[consolestrings].tics = gametime;
-        console[consolestrings].timestamp[0] = '\0';
-        console[consolestrings].indent = 0;
-        console[consolestrings].wrap = 0;
-        console[consolestrings++].count = 1;
-        viewplayer->prevmessage[0] = '\0';
-        viewplayer->prevmessagetics = 0;
-    }
-
-    outputhistory = -1;
-}
-
 void C_ResetWrappedLines(void)
 {
     for (int i = 0; i < consolestrings; i++)

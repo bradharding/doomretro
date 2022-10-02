@@ -1518,7 +1518,7 @@ static bool P_HealCorpse(mobj_t *actor, int radius, statenum_t healstate, sfxenu
                                 ((corpsehit->flags & MF_FRIEND) ? ", friendly " : " "),
                                 (*corpsehit->info->name1 ? corpsehit->info->name1 : "monster"));
 
-                        C_PlayerObituary("%s resurrected %s.", temp, corpsehitname);
+                        C_PlayerMessage("%s resurrected %s.", temp, corpsehitname);
                         free(temp);
                     }
 
