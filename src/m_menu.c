@@ -2198,9 +2198,6 @@ static void M_ChangeDetail(int choice)
     M_SaveCVARs();
     STLib_Init();
     R_InitColumnFunctions();
-
-    if (gamestate == GS_LEVEL)
-        D_FadeScreen(false);
 }
 
 static void M_SizeDisplay(int choice)
