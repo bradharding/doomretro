@@ -2265,7 +2265,6 @@ void A_SpawnFly(mobj_t *actor, player_t *player, pspdef_t *psp)
 
         // killough 07/18/98: brain friendliness is transferred
         newmobj->flags = ((newmobj->flags & ~MF_FRIEND) | (actor->flags & MF_FRIEND));
-        newmobj->flags &= ~MF_COUNTKILL;
 
         // killough 08/29/98: add to appropriate thread
         P_UpdateThinker(&newmobj->thinker);
