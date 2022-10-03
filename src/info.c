@@ -1368,7 +1368,7 @@ mobjinfo_t mobjinfo[] =
 
     // Monsters Spawner (MT_BOSSSPIT)
     {
-        /* doomednum            */ MonstersSpawner,
+        /* doomednum            */ MonsterSpawner,
         /* spawnstate           */ S_BRAINEYE,
         /* spawnhealth          */ 1000,
         /* gibhealth            */ 0,
@@ -1407,8 +1407,8 @@ mobjinfo_t mobjinfo[] =
         /* ripsound             */ sfx_none,
         /* altspeed             */ NO_ALTSPEED,
         /* meleerange           */ MELEERANGE,
-        /* name1                */ "monsters spawner",
-        /* plural1              */ "monsters spawners",
+        /* name1                */ "monster spawner",
+        /* plural1              */ "monster spawners",
         /* name2                */ "bosseye",
         /* plural2              */ "",
         /* name3                */ "",

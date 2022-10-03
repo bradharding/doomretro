@@ -706,7 +706,7 @@ enum
     ShortTechnoFloorLamp                               =    86,
     MonstersTarget                                     =    87,
     BossBrain                                          =    88,
-    MonstersSpawner                                    =    89,
+    MonsterSpawner                                     =    89,
     HelperDog                                          =   888,
     Shotgun                                            =  2001,
     Chaingun                                           =  2002,

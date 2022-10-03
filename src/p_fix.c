@@ -1702,7 +1702,7 @@ thingfix_t thingfix[] =
     { doom2,            1,  24,   238, Demon,                    -1200,    -352,   -1184,    -352, DEFAULT, DEFAULT                            },
     { doom2,            1,  24,   239, Demon,                    -1136,    -352,   -1120,    -352, DEFAULT, DEFAULT                            },
 
-    { doom2,            1,  30,     1, MonstersSpawner,           2880,    1424,    2880,    1424,     270, DEFAULT                            },
+    { doom2,            1,  30,     1, MonsterSpawner,            2880,    1424,    2880,    1424,     270, DEFAULT                            },
 
     { doom2,            1,  31,    60, Demon,                     1376,     800,  REMOVE,  REMOVE, DEFAULT, DEFAULT                            },
     { doom2,            1,  31,    80, BurningBarrel,             1664,     448,  REMOVE,  REMOVE, DEFAULT, DEFAULT                            },

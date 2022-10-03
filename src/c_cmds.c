@@ -3497,7 +3497,7 @@ static void kill_cmd_func2(char *cmd, char *parms)
                 {
                     if (gamemode != commercial)
                     {
-                        if (killcmdtype >= ArchVile && killcmdtype <= MonstersSpawner)
+                        if (killcmdtype >= ArchVile && killcmdtype <= MonsterSpawner)
                             C_Warning(0, "There are no %s in " ITALICS("%s."), mobjinfo[type].plural1, gamedescription);
                         else if (gamemode == shareware && (killcmdtype == Cyberdemon || killcmdtype == SpiderMastermind))
                             C_Warning(0, "There are no %s in " ITALICS("%s."), mobjinfo[type].plural1, gamedescription);
@@ -6762,7 +6762,7 @@ static void resurrect_cmd_func2(char *cmd, char *parms)
                 {
                     if (gamemode != commercial)
                     {
-                        if (resurrectcmdtype >= ArchVile && resurrectcmdtype <= MonstersSpawner)
+                        if (resurrectcmdtype >= ArchVile && resurrectcmdtype <= MonsterSpawner)
                         {
                             C_Warning(0, "There are no %s in " ITALICS("%s."), mobjinfo[type].plural1, gamedescription);
                             return;
@@ -6906,7 +6906,7 @@ static void spawn_cmd_func2(char *cmd, char *parms)
         {
             char    buffer[128];
 
-            if (spawncmdtype >= ArchVile && spawncmdtype <= MonstersSpawner && !REKKR)
+            if (spawncmdtype >= ArchVile && spawncmdtype <= MonsterSpawner && !REKKR)
             {
                 M_StringCopy(buffer, mobjinfo[type].plural1, sizeof(buffer));
 

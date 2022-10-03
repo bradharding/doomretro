@@ -1845,7 +1845,7 @@ static void P_LoadThings(int map, int lump)
         bool        spawn = true;
         const short type = SHORT(mt.type);
 
-        if (gamemode != commercial && type >= ArchVile && type <= MonstersSpawner && W_CheckMultipleLumps("DEHACKED") == 1)
+        if (gamemode != commercial && type >= ArchVile && type <= MonsterSpawner && W_CheckMultipleLumps("DEHACKED") == 1)
         {
             const int   doomednum = P_FindDoomedNum(type);
             static char buffer[128];
