@@ -417,6 +417,7 @@ void AM_Stop(void)
 {
     automapactive = false;
     HU_ClearMessages();
+    D_FadeScreen(false);
 }
 
 void AM_Start(const bool mainwindow)
@@ -434,6 +435,7 @@ void AM_Start(const bool mainwindow)
         viewplayer->automapopened++;
 
     AM_InitVariables(mainwindow);
+    D_FadeScreen(false);
 }
 
 //
@@ -651,7 +653,6 @@ bool AM_Responder(const event_t *ev)
                 AM_Start(true);
                 viewactive = false;
                 rc = true;
-                D_FadeScreen(false);
             }
         }
         else
@@ -751,7 +752,6 @@ bool AM_Responder(const event_t *ev)
                     keydown = key;
                     viewactive = true;
                     AM_Stop();
-                    D_FadeScreen(false);
                 }
 
                 // toggle maximum zoom
@@ -926,7 +926,6 @@ bool AM_Responder(const event_t *ev)
                     viewactive = true;
                     backbuttondown = true;
                     AM_Stop();
-                    D_FadeScreen(false);
                 }
 
                 // zoom out

@@ -8,12 +8,12 @@
 * Several changes have been made to text that is output to the console.
 * When entering a CCMD in the console that is only effective while playing a game, or while the player is alive, a description of that CCMD along with a warning is now displayed.
 * The bottom edge of the console is now a slightly brighter red.
-* The following changes have been made to the external automap:
-  * It now goes to black rather than a dark blue while the help screen is displayed.
+* These changes have been made to the external automap:
+  * It now goes to black rather than dark blue while the help screen is displayed.
   * `00:00` is no longer displayed before a game is started if the `am_playerstats` CVAR is `on`.
 * The vertical position of the current map’s title in the automap has changed in some instances.
 * A bug is fixed whereby the current map’s title in the automap would be positioned incorrectly after adjusting the screen size in the options menu in some instances.
-* The following changes have been made when pressing the <kbd>F9</kbd> key to quickload a savegame:
+* These changes have been made when pressing the <kbd>F9</kbd> key to quickload a savegame:
   * The load game menu now opens if the game hasn’t been saved yet.
   * The background of the confirmation message now displays correctly.
   * There is no longer a misplaced fade transition when pressing the <kbd>Y</kbd> key and the `fade` CVAR is `on`.
@@ -38,13 +38,13 @@
 * The `r_skycolor` CVAR has been removed.
 * The default of the `am_pathcolor` CVAR is now `89`.
 * Controls are no longer removed or reset when vanilla mode is enabled using the `vanilla` CCMD.
-* The following changes have been made to the `vid_capfps` CVAR:
+* These changes have been made to the `vid_capfps` CVAR:
   * Its minimum value is now `35` rather than `10`.
   * A bug is fixed whereby it couldn’t be set to `off` in the console.
-* The following changes have been made to the widescreen HUD:
+* These changes have been made to the widescreen HUD:
   * The amount of ammo the player has no longer flashes when switching weapons.
   * The player’s health no longer flashes when less than `10%` while buddha mode is enabled.
-* The following changes have been made to the alternate widescreen HUD:
+* These changes have been made to the alternate widescreen HUD:
   * The notches are now slightly less translucent.
   * The left and right edges of the health and ammo bars are now slightly brighter.
   * The portions of the player’s health and armor greater than `100%` are now slightly brighter in the health and armor bars.
