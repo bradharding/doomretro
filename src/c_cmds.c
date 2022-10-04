@@ -3955,7 +3955,7 @@ static void map_cmd_func2(char *cmd, char *parms)
         return;
     }
 
-    samelevel = (gameepisode == mapcmdepisode && gamemap == mapcmdmap);
+    samelevel = (gameepisode == mapcmdepisode && gamemap == mapcmdmap && !*speciallumpname);
     M_snprintf(buffer, sizeof(buffer), (samelevel ? "Restarting %s..." : "Warping to %s..."), mapcmdlump);
     C_Output(buffer);
     HU_SetPlayerMessage(buffer, false, false);
