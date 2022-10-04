@@ -297,6 +297,9 @@ void HUlib_DrawAltAutomapTextLine(hu_textline_t *l, bool external)
                     x -= 2;
                 else if (prevletter == '\'')
                     x++;
+
+                if (letter == 'T' && prevletter == ITALICSTOGGLECHAR && prevletter2 == ' ')
+                    x -= 2;
             }
             else if (letter == '-' && prevletter == ITALICSTOGGLECHAR)
                 x++;
@@ -310,9 +313,10 @@ void HUlib_DrawAltAutomapTextLine(hu_textline_t *l, bool external)
 
             althudtextfunc(x, SCREENHEIGHT - 24, fb1, patch, italics, nearestwhite, (external ? MAPWIDTH : SCREENWIDTH), tinttab70);
             x += SHORT(patch->width);
-            prevletter2 = prevletter;
-            prevletter = letter;
         }
+
+        prevletter2 = prevletter;
+        prevletter = letter;
     }
 }
 
