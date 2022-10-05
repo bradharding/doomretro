@@ -1264,7 +1264,8 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, const bool spawnmonsters)
         && !(flags & (MF_SHOOTABLE | MF_NOBLOOD | MF_SPECIAL))
         && mobj->bloodcolor > 0
         && (!hacx || !(flags2 & MF2_DECORATION))
-        && (moreblood || lumpinfo[firstspritelump + sprites[mobj->sprite].spriteframes[0].lump[0]]->wadfile->type != PWAD)
+        && (moreblood
+            || lumpinfo[firstspritelump + sprites[mobj->sprite].spriteframes[mobj->frame & FF_FRAMEMASK].lump[0]]->wadfile->type == IWAD)
         && mobj->subsector->sector->terraintype == SOLID)
         P_SpawnMoreBlood(mobj);
 
