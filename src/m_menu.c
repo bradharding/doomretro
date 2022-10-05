@@ -2626,7 +2626,6 @@ bool M_Responder(event_t *ev)
                 gamecontrollerwait = I_GetTime() + 8;
                 usinggamecontroller = true;
                 C_ShowConsole();
-
                 return false;
             }
         }
@@ -2661,7 +2660,6 @@ bool M_Responder(event_t *ev)
             S_StartSound(NULL, sfx_scrsht);
             memset(screens[0], nearestwhite, SCREENAREA);
             D_FadeScreen(true);
-
             return false;
         }
     }
@@ -3080,7 +3078,6 @@ bool M_Responder(event_t *ev)
             M_StartControlPanel();
             S_StartSound(NULL, sfx_swtchn);
             M_EndGame(0);
-
             return true;
         }
 
@@ -3092,7 +3089,6 @@ bool M_Responder(event_t *ev)
             M_ChangeMessages(0);
             functionkey = 0;
             S_StartSound(NULL, sfx_swtchn);
-
             return false;
         }
 
@@ -3103,7 +3099,6 @@ bool M_Responder(event_t *ev)
             functionkey = KEY_F9;
             M_StartControlPanel();
             M_QuickLoad();
-
             return true;
         }
 
@@ -3115,7 +3110,6 @@ bool M_Responder(event_t *ev)
             M_StartControlPanel();
             S_StartSound(NULL, sfx_swtchn);
             M_QuitDOOM(0);
-
             return true;
         }
     }
@@ -3128,7 +3122,6 @@ bool M_Responder(event_t *ev)
         M_ChangeDetail(0);
         functionkey = 0;
         S_StartSound(NULL, sfx_swtchn);
-
         return false;
     }
 
@@ -3249,7 +3242,6 @@ bool M_Responder(event_t *ev)
 
             keywait = I_GetTime() + 2;
             M_SetWindowCaption();
-
             return false;
         }
         else if (key == KEY_UPARROW && keywait < I_GetTime() && !inhelpscreens)
@@ -3329,7 +3321,6 @@ bool M_Responder(event_t *ev)
 
             keywait = I_GetTime() + 2;
             M_SetWindowCaption();
-
             return false;
         }
 
@@ -3375,7 +3366,6 @@ bool M_Responder(event_t *ev)
                 S_StartSound(NULL, sfx_swtchx);
                 D_FadeScreen(false);
                 R_SetViewSize(r_screensize);
-
                 return true;
             }
 
@@ -3417,7 +3407,6 @@ bool M_Responder(event_t *ev)
             M_SetWindowCaption();
             skipaction = (currentmenu == &LoadDef || currentmenu == &SaveDef || currentmenu == &NewDef);
             keywait = I_GetTime() + 5;
-
             return skipaction;
         }
 
@@ -3474,7 +3463,6 @@ bool M_Responder(event_t *ev)
         else if (key && !(SDL_GetModState() & (KMOD_ALT | KMOD_CTRL)))
         {
             for (int i = itemon + 1; i < currentmenu->numitems; i++)
-            {
                 if (((currentmenu == &LoadDef || currentmenu == &SaveDef) && key == i + '1')
                     || (currentmenu->menuitems[i].text && toupper(*currentmenu->menuitems[i].text[0]) == toupper(key)))
                 {
@@ -3533,10 +3521,8 @@ bool M_Responder(event_t *ev)
                     M_SetWindowCaption();
                     return false;
                 }
-            }
 
             for (int i = 0; i <= itemon; i++)
-            {
                 if (((currentmenu == &LoadDef || currentmenu == &SaveDef) && key == i + '1')
                     || (currentmenu->menuitems[i].text && toupper(*currentmenu->menuitems[i].text[0]) == toupper(key)))
                 {
@@ -3595,7 +3581,6 @@ bool M_Responder(event_t *ev)
                     M_SetWindowCaption();
                     return false;
                 }
-            }
         }
     }
 
@@ -3737,7 +3722,7 @@ void M_Drawer(void)
         {
             if (currentmenu == &LoadDef)
             {
-                int old = itemon;
+                const int   old = itemon;
 
                 while (M_StringCompare(savegamestrings[itemon], s_EMPTYSTRING))
                     itemon = (!itemon ? currentmenu->numitems - 1 : itemon - 1);
@@ -3752,7 +3737,7 @@ void M_Drawer(void)
             }
 
             if (M_SKULL1)
-                M_DrawPatchWithShadow(x - 43, y + itemon * LINEHEIGHT - 8 + OFFSET + (chex ? 1 : 0), skullpatch);
+                M_DrawPatchWithShadow(x - 43, y + itemon * LINEHEIGHT - (chex ? 7 : 8) + OFFSET, skullpatch);
             else
                 M_DrawPatchWithShadow(x - 37, y + itemon * LINEHEIGHT - 7 + OFFSET, skullpatch);
         }
@@ -3777,19 +3762,11 @@ void M_Drawer(void)
                     char    **text = currentmenu->menuitems[i].text;
 
                     if (M_StringCompare(name, "M_EPI5") && sigil)
-                    {
-                        patch_t *patch = W_CacheLumpName(name);
-
-                        M_DrawPatchWithShadow(x, y + OFFSET, patch);
-                    }
+                        M_DrawPatchWithShadow(x, y + OFFSET, W_CacheLumpName(name));
                     else if (M_StringCompare(name, "M_NMARE"))
                     {
                         if (M_NMARE)
-                        {
-                            patch_t *patch = W_CacheLumpName(name);
-
-                            M_DrawPatchWithShadow(x, y + OFFSET, patch);
-                        }
+                            M_DrawPatchWithShadow(x, y + OFFSET, W_CacheLumpName(name));
                         else
                             M_DrawNightmare();
                     }
@@ -3798,11 +3775,7 @@ void M_Drawer(void)
                     else if (W_CheckNumForName(name) < 0 && **text)   // Custom Episode
                         M_DrawString(x, y + OFFSET, *text);
                     else if (W_CheckMultipleLumps(name) > 1 || lumpinfo[W_GetNumForName(name)]->wadfile->type == PWAD)
-                    {
-                        patch_t *patch = W_CacheLumpName(name);
-
-                        M_DrawPatchWithShadow(x, y + OFFSET, patch);
-                    }
+                        M_DrawPatchWithShadow(x, y + OFFSET, W_CacheLumpName(name));
                     else if (**text)
                         M_DrawString(x, y + OFFSET, *text);
                 }

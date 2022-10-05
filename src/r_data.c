@@ -477,7 +477,7 @@ static void R_InitSpriteLumps(void)
                         && spritewidth[i] == (SHORT(sproffsets[j].width) << FRACBITS)
                         && spriteheight[i] == (SHORT(sproffsets[j].height) << FRACBITS)
                         && ((!BTSX && !sprfix18) || sproffsets[j].sprfix18)
-                        && (fixspriteoffsets || lumpinfo[firstspritelump + i]->wadfile->type != PWAD
+                        && (fixspriteoffsets || lumpinfo[firstspritelump + i]->wadfile->type == IWAD
                             || M_StringEndsWith(lumpinfo[firstspritelump + i]->wadfile->path, DOOMRETRO_WAD)))
                     {
                         newspriteoffset[i] = SHORT(sproffsets[j].x) << FRACBITS;

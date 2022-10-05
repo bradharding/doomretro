@@ -80,7 +80,7 @@ bool            neis;
 bool            revolution;
 bool            syringe;
 
-bool            moreblood;
+bool            moreblood = false;
 
 // Set if homebrew PWAD stuff has been added.
 bool            modifiedgame = false;
