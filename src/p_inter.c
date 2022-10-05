@@ -1609,10 +1609,8 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, c
                     (*target->info->name1 ? target->info->name1 : "monster"));
             }
 
-            if (M_StringCompare(playername, playername_default))
-                C_PlayerMessage("You telefragged %s.", targetname);
-            else
-                C_PlayerMessage("%s telefragged %s.", playername, targetname);
+            C_PlayerMessage("%s telefragged %s.",
+                (M_StringCompare(playername, playername_default) ? "You" : playername), targetname);
         }
         else
         {
