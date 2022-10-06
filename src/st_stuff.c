@@ -1083,7 +1083,6 @@ static void ST_UpdateFaceWidget(void)
         priority = 5;
         st_faceindex = ST_GODFACE;
         st_facecount = 0;
-
         return;
     }
 
@@ -1138,8 +1137,8 @@ static void ST_UpdateFaceWidget(void)
             }
             else
             {
-                angle_t     badguyangle = R_PointToAngle(viewplayer->attacker->x, viewplayer->attacker->y);
-                angle_t     diffang;
+                const angle_t   badguyangle = R_PointToAngle(viewplayer->attacker->x, viewplayer->attacker->y);
+                angle_t         diffang;
 
                 if (badguyangle > viewangle)
                 {
