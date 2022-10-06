@@ -2443,9 +2443,11 @@ static void D_DoomMainSetup(void)
     fineprintx = (SCREENWIDTH - SHORT(fineprintlump->width)) / 2;
     fineprinty = SCREENHEIGHT - SHORT(fineprintlump->height) - 2;
 
+    unity = (W_CheckNumForName("TITLEPIC") >= 0 && SHORT(((patch_t *)W_CacheLastLumpName("TITLEPIC"))->width) > VANILLAWIDTH);
+
     if (autosigil)
     {
-        titlelump = W_CacheLastLumpName("TITLEPI3");
+        titlelump = W_CacheLastLumpName(unity ? "TITLEPI2" : "TITLEPI3");
         creditlump = W_CacheLastLumpName("CREDIT2");
     }
     else if (REKKRSL)
@@ -2465,7 +2467,7 @@ static void D_DoomMainSetup(void)
             {
                 case doom:
                     titlelump = W_CacheLumpName(gamemode == shareware ? "TITLEPI1" :
-                        (gamemode == registered ? "TITLEPI2" : "TITLEPI3"));
+                        (gamemode == registered || unity ? "TITLEPI2" : "TITLEPI3"));
                     break;
 
                 case doom2:
@@ -2490,8 +2492,6 @@ static void D_DoomMainSetup(void)
         else
             creditlump = W_CacheLumpName(gamemission == doom ? (gamemode == shareware ? "CREDIT1" : "CREDIT2") : "CREDIT3");
     }
-
-    unity = (W_CheckNumForName("TITLEPIC") >= 0 && SHORT(((patch_t *)W_CacheLastLumpName("TITLEPIC"))->width) > VANILLAWIDTH);
 
     if (gameaction != ga_loadgame)
     {
