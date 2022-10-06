@@ -1423,8 +1423,8 @@ char **mapnames2_bfg[] =
     &s_HUSTR_28,
     &s_HUSTR_29,
     &s_HUSTR_30,
-    &s_HUSTR_31_BFG,
-    &s_HUSTR_32_BFG,
+    &s_HUSTR_31,
+    &s_HUSTR_32,
     &s_HUSTR_33
 };
 

@@ -4299,15 +4299,11 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
             {
                 if (M_StringCompare(maptitle, s_HUSTR_31))
                     C_TabbedOutput(tabs, "Alternative Title\t" ITALICS("%s"), s_HUSTR_31_BFG);
-                else if (M_StringCompare(maptitle, s_HUSTR_31_BFG))
-                    C_TabbedOutput(tabs, "Alternative Title\t" ITALICS("%s"), s_HUSTR_31);
             }
             else if (gamemap == 32)
             {
                 if (M_StringCompare(maptitle, s_HUSTR_32))
                     C_TabbedOutput(tabs, "Alternative Title\t" ITALICS("%s"), s_HUSTR_32_BFG);
-                else if (M_StringCompare(maptitle, s_HUSTR_32_BFG))
-                    C_TabbedOutput(tabs, "Alternative Title\t" ITALICS("%s"), s_HUSTR_32);
             }
         }
         else if (gameepisode == 3 && gamemap == 7)
