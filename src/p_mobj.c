@@ -1251,11 +1251,10 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, const bool spawnmonsters)
     }
 
     // [BH] randomly mirror weapons
-    if ((type == SuperShotgun || (type >= Shotgun && type <= BFG9000)) && (M_BigRandom() & 1) && r_mirroredweapons)
+    if (r_mirroredweapons && (M_BigRandom() & 1) && (type == SuperShotgun || (type >= Shotgun && type <= BFG9000)))
         mobj->flags2 |= MF2_MIRRORED;
 
     info = mobj->info;
-
     mobj->bloodsplats = CORPSEBLOODSPLATS;
 
     // [BH] spawn blood splats around corpses
@@ -1264,10 +1263,13 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, const bool spawnmonsters)
         && !(flags & (MF_SHOOTABLE | MF_NOBLOOD | MF_SPECIAL))
         && mobj->bloodcolor > 0
         && (!hacx || !(flags2 & MF2_DECORATION))
-        && (moreblood
-            || lumpinfo[firstspritelump + sprites[mobj->sprite].spriteframes[mobj->frame & FF_FRAMEMASK].lump[0]]->wadfile->type == IWAD)
         && mobj->subsector->sector->terraintype == SOLID)
-        P_SpawnMoreBlood(mobj);
+    {
+        const short lump = sprites[mobj->sprite].spriteframes[mobj->frame & FF_FRAMEMASK].lump[0];
+
+        if (moreblood || lumpinfo[firstspritelump + lump]->wadfile->type == IWAD)
+            P_SpawnMoreBlood(mobj);
+    }
 
     // [crispy] randomly colorize player corpses
     if (info->spawnstate == S_PLAY_DIE7 || info->spawnstate == S_PLAY_XDIE9)
