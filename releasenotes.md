@@ -24,7 +24,7 @@
 * Improvements have been made to the support of [*REKKR*](https://www.doomworld.com/idgames/levels/doom/megawads/rekkr) and [*REKKR: Sunken Land*](https://store.steampowered.com/app/1715690/REKKR_Sunken_Land/).
 * Unless replaced in a PWAD, stimpacks, medikits and berserk power-ups now always show a red cross rather than a green cross or a pill.
 * The `DMENUPIC` lump is now no longer used as the title screen of *DOOM II: Hell On Earth (BFG Edition)*.
-* The `TITLEPIC` lump from *The Ultimate DOOM* is no longer used as the title screen of the latest rerelease of *DOOM*.
+* The `TITLEPIC` lump from *The Ultimate DOOM* is now no longer used as the title screen of the latest rerelease of *DOOM*.
 * When to spawn blood splats around a decoration spawned at the start of a map when the `r_corpses_moreblood` CVAR is `on` has now improved if the decoration’s sprite is replaced in a PWAD.
 * A bug is fixed whereby the wrong `M_DOOM` lump was displayed in the main menu in some instances.
 * Minor improvements have been made to adjusting the music volume.
@@ -60,7 +60,7 @@
 * A `solonet` CCMD has been implemented that toggles all things usually intended for multiplayer games to be spawned at the start of each map. An accompanying `-solonet` command-line parameter has also been implemented.
 * The artist and title of the currently playing music are now displayed by the `mapstats` CCMD when playing *DOOM II: No Rest For The Living*.
 * Timestamps are now only displayed in the console if more than a second after the last one.
-* Every monster that is spawned by a monster spawner (such as during *MAP30: Icon Of Sin* in *DOOM II: Hell On Earth*) will now count towards the player’s stats.
+* Everything spawned by a monster spawner (such as during *MAP30: Icon Of Sin* in *DOOM II: Hell On Earth*) will now count towards the player’s stats.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

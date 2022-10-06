@@ -2250,6 +2250,8 @@ static void D_DoomMainSetup(void)
     if (!M_StringCompare(s_VERSION, DOOMRETRO_NAMEANDVERSIONSTRING))
         I_Error("The wrong version of %s was found.", packagewad);
 
+    unity = (W_CheckNumForName("TITLEPIC") >= 0 && SHORT(((patch_t *)W_CacheLastLumpName("TITLEPIC"))->width) > VANILLAWIDTH);
+
     D_SetGameDescription();
 
     if (gamemode == shareware)
@@ -2442,8 +2444,6 @@ static void D_DoomMainSetup(void)
     logoy = (SCREENHEIGHT - SHORT(logolump[0]->height)) / 2;
     fineprintx = (SCREENWIDTH - SHORT(fineprintlump->width)) / 2;
     fineprinty = SCREENHEIGHT - SHORT(fineprintlump->height) - 2;
-
-    unity = (W_CheckNumForName("TITLEPIC") >= 0 && SHORT(((patch_t *)W_CacheLastLumpName("TITLEPIC"))->width) > VANILLAWIDTH);
 
     if (autosigil)
     {

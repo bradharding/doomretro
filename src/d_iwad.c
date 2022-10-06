@@ -978,10 +978,10 @@ void D_SetGameDescription(void)
         }
         else if (FREEDOOM)
             M_StringCopy(gamedescription, s_CAPTION_FREEDOOM1, sizeof(gamedescription));
+        else if (gamemode == registered || unity)
+            M_StringCopy(gamedescription, s_CAPTION_REGISTERED, sizeof(gamedescription));
         else if (gamemode == retail)
             M_StringCopy(gamedescription, s_CAPTION_ULTIMATE, sizeof(gamedescription));
-        else if (gamemode == registered)
-            M_StringCopy(gamedescription, s_CAPTION_REGISTERED, sizeof(gamedescription));
         else if (gamemode == shareware)
             M_StringCopy(gamedescription, s_CAPTION_SHAREWARE, sizeof(gamedescription));
     }
