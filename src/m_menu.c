@@ -3899,7 +3899,7 @@ void M_Init(void)
     }
     else if (gamemode == commercial)
         NewDef.prevmenu = (nerve ? &ExpDef : &MainDef);
-    else if (gamemode == registered || W_CheckNumForName("E4M1") < 0)
+    else if (gamemode == registered)
         EpiDef.numitems = 3;
     else if (gamemode == retail && sigil)
         EpiDef.numitems = 5;
