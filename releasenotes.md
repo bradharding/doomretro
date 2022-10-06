@@ -23,6 +23,7 @@
 * When toggling widescreen mode by pressing the <kbd>+</kbd> key, the player’s vertical field of view now zooms in slightly.
 * Improvements have been made to the support of [*REKKR*](https://www.doomworld.com/idgames/levels/doom/megawads/rekkr) and [*REKKR: Sunken Land*](https://store.steampowered.com/app/1715690/REKKR_Sunken_Land/).
 * Unless replaced in a PWAD, stimpacks, medikits and berserk power-ups now always show a red cross rather than a green cross or a pill.
+* The `DMENUPIC` lump is now no longer used as the title screen of the *BFG Edition* of *DOOM II: Hell On Earth*.
 * When to spawn blood splats around a decoration spawned at the start of a map when the `r_corpses_moreblood` CVAR is `on` has now improved if the decoration’s sprite is replaced in a PWAD.
 * A bug is fixed whereby the wrong `M_DOOM` lump was displayed in the main menu in some instances.
 * Minor improvements have been made to adjusting the music volume.
