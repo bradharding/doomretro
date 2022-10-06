@@ -128,7 +128,6 @@ extern bool             syringe;
 
 extern bool             moreblood;
 
-extern bool             DMENUPIC;
 extern bool             DSFLAMST;
 extern bool             FREEDOOM;
 extern bool             FREEDOOM1;

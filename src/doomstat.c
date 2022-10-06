@@ -85,7 +85,6 @@ bool            moreblood = false;
 // Set if homebrew PWAD stuff has been added.
 bool            modifiedgame = false;
 
-bool            DMENUPIC = false;
 bool            DSFLAMST;
 bool            FREEDOOM;
 bool            FREEDOOM1;

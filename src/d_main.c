@@ -598,9 +598,6 @@ void D_DoAdvanceTitle(void)
 
             if (alwaysrun)
                 C_StrCVAROutput(stringize(alwaysrun), "on");
-
-            if (DMENUPIC && !devparm)
-                M_StartControlPanel();
         }
 
         if (pagelump == creditlump)
@@ -2473,11 +2470,7 @@ static void D_DoomMainSetup(void)
 
                 case doom2:
                 case pack_nerve:
-                    if ((DMENUPIC = (bfgedition && gamemode == commercial)))
-                        titlelump = W_CacheLumpName("DMENUPIC");
-                    else
-                        titlelump = W_CacheLumpName("TITLEPI4");
-
+                    titlelump = W_CacheLumpName("TITLEPI4");
                     break;
 
                 case pack_plut:
