@@ -23,7 +23,7 @@
 * A fade transition is no longer applied when toggling the graphic detail, either in the options menu or by pressing the <kbd>F5</kbd> key, if the `fade` CVAR is `on`.
 * When toggling widescreen mode by pressing the <kbd>+</kbd> key, the player’s vertical field of view now zooms in slightly.
 * Improvements have been made to the support of [*REKKR*](https://www.doomworld.com/idgames/levels/doom/megawads/rekkr) and [*REKKR: Sunken Land*](https://store.steampowered.com/app/1715690/REKKR_Sunken_Land/).
-* These changes have been made to the BFG Editions and latest rereleases of *DOOM* and *DOOM II*:
+* These changes have been made to the BFG Edition and latest rerelease of *DOOM* and *DOOM II*:
   * The `TITLEPIC` lump from *The Ultimate DOOM* is no longer used as the title screen of *DOOM*.
   * *DOOM* is no longer referred to as *The Ultimate DOOM* in the window’s caption or in the console.
   * The `DMENUPIC` lump is no longer used as the title screen of *DOOM II*.
@@ -62,7 +62,7 @@
 * The presence of `compat_floormove` is now recognized in `MAPINFO` lumps.
 * The player’s angle and position are now displayed in the top right of the screen, rather than as a persistent player message, when the `IDMYPOS` cheat is entered.
 * A `solonet` CCMD has been implemented that toggles all things usually intended for multiplayer games to be spawned at the start of each map. An accompanying `-solonet` command-line parameter has also been implemented.
-* The artist and title of the currently playing music are now displayed by the `mapstats` CCMD when playing *DOOM II: No Rest For The Living*.
+* The artist and title of the currently playing music are now displayed by the `mapstats` CCMD when playing *DOOM (Shareware)* or *DOOM II: No Rest For The Living*.
 * Timestamps are now only displayed in the console if they are a second or more after the last one.
 * Everything spawned by a monster spawner (such as during *MAP30: Icon Of Sin*) will now count towards the player’s stats.
 

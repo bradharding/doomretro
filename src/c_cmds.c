@@ -4397,7 +4397,9 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
 
         C_TabbedOutput(tabs, "%s\t%s", (wadtype == IWAD ? "IWAD" : "PWAD"), wadname);
 
-        if (M_StringCompare(wadname, "DOOM.WAD"))
+        if (M_StringCompare(wadname, "DOOM1.WAD"))
+            C_TabbedOutput(tabs, INDENT "Release date\tFriday, December 10, 1993");
+        else if (M_StringCompare(wadname, "DOOM.WAD"))
         {
             if (unity)
                 C_TabbedOutput(tabs, INDENT "Release date\tFriday, July 26, 2019");
@@ -4654,6 +4656,7 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
             C_TabbedOutput(tabs, INDENT "Title\t" ITALICS("%s"), (buckethead ? mus_playing->title2 : mus_playing->title1));
         else if (((gamemode == commercial || gameepisode > 1) && lumps == 1 && wadtype == IWAD)
             || (gamemode != commercial && gameepisode == 1 && lumps == 2)
+            ||  gamemode == shareware
             || gamemission == pack_nerve)
             C_TabbedOutput(tabs, INDENT "Title\t" ITALICS("%s"), mus_playing->title1);
 
@@ -4663,6 +4666,7 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
             C_TabbedOutput(tabs, INDENT "Artist\t%s", (buckethead ? "Buckethead" : "James Paddock"));
         else if (((gamemode == commercial || gameepisode > 1) && lumps == 1 && wadtype == IWAD)
             || (gamemode != commercial && gameepisode == 1 && lumps == 2)
+            || gamemode == shareware
             || gamemission == pack_nerve)
             C_TabbedOutput(tabs, INDENT "Artist\t%s", "Bobby Prince");
 
