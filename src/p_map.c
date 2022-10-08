@@ -802,13 +802,13 @@ bool P_CheckPosition(mobj_t *thing, const fixed_t x, const fixed_t y)
     tmbbox[BOXLEFT] = x - radius;
 
     newsec = R_PointInSubsector(x, y)->sector;
-    floorline = NULL;                           // killough 08/01/98
+    floorline = NULL;                               // killough 08/01/98
     blockline = NULL;
     ceilingline = NULL;
 
     // Whether object can get out of a sticky situation:
-    tmunstuck = (thing->player &&               // only players
-                thing->player->mo == thing);    // not voodoo dolls
+    tmunstuck = (thing->player                      // only players
+                 && thing->player->mo == thing);    // not voodoo dolls
 
     // the base floor/ceiling is from the subsector that contains the
     // point. Any contacted lines the step closer together will adjust them

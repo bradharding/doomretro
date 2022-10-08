@@ -56,7 +56,7 @@
   * The left and right edges of the health and ammo bars are now slightly brighter.
   * The portions of the player’s health and armor greater than `100%` are now slightly brighter in the health and armor bars.
   * The player’s health, armor and ammo now flash when they change.
-  * The player’s health is no longer red when less than `10%` while buddha mode is enabled.
+  * The player’s health no longer turns red when less than `10%` while buddha mode is enabled.
 * There are no longer any anomalies in *E1M4B: Phobos Mission Control* when the `r_fixmaperrors` CVAR is `on`.
 * Fixes have been made to some textures in *MAP31: Wolfenstein* when the `r_fixmaperrors` CVAR is `on`.
 * The presence of `compat_floormove` is now recognized in `MAPINFO` lumps.
