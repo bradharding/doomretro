@@ -1168,7 +1168,7 @@ void HU_Drawer(void)
             if (width > SCREENWIDTH / SCREENSCALE - w_message.l.x * 2 - 6)
                 w_message.l.x = (SCREENWIDTH / SCREENSCALE - width) / 2;
             else
-                w_message.l.x = WIDESCREENDELTA;
+                w_message.l.x = WIDESCREENDELTA + HU_MSGX;
 
             w_message.l.y = HU_MSGY;
         }
