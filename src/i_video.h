@@ -41,6 +41,24 @@
 #include "doomtype.h"
 #include "SDL.h"
 
+// Screen width and height.
+#define VANILLAWIDTH        320
+#define VANILLAHEIGHT       200
+
+#define ACTUALHEIGHT        (SCREENHEIGHT * 6 / 5)
+
+#define SCREENSCALE         2
+
+#define VANILLASBARHEIGHT   32
+#define SBARHEIGHT          (VANILLASBARHEIGHT * SCREENSCALE)
+
+#define MAXWIDTH            (VANILLAWIDTH * 8)
+#define MAXHEIGHT           (VANILLAHEIGHT * 2)
+#define MAXSCREENAREA       (MAXWIDTH * MAXHEIGHT)
+
+#define NONWIDEWIDTH        (VANILLAWIDTH * SCREENSCALE)
+#define NONWIDEASPECTRATIO  (4.0 / 3.0)
+
 #define MAX_MOUSE_BUTTONS   8
 
 #define GAMMALEVELS         21
@@ -89,6 +107,19 @@ void I_WindowResizeBlit(void);
 
 extern void (*blitfunc)(void);
 extern void (*mapblitfunc)(void);
+
+extern int          SCREENWIDTH;
+extern int          SCREENHEIGHT;
+extern int          SCREENAREA;
+extern int          WIDESCREENDELTA;
+extern int          WIDEFOVDELTA;
+
+extern bool         nowidescreen;
+
+extern int          MAPWIDTH;
+extern unsigned int MAPHEIGHT;
+extern unsigned int MAPAREA;
+extern int          MAPBOTTOM;
 
 extern bool         sendpause;
 extern bool         waspaused;

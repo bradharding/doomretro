@@ -44,6 +44,7 @@
 #endif
 
 #include "doomtype.h"
+#include "i_video.h"
 #include "m_controls.h"
 
 #if defined(_WIN32)
@@ -111,37 +112,6 @@ typedef enum
     pack_nerve,     // No Rest for the Living
     none
 } GameMission_t;
-
-// Screen width and height.
-#define VANILLAWIDTH        320
-#define VANILLAHEIGHT       200
-
-#define ACTUALHEIGHT        (SCREENHEIGHT * 6 / 5)
-
-#define SCREENSCALE         2
-
-#define VANILLASBARHEIGHT   32
-#define SBARHEIGHT          (VANILLASBARHEIGHT * SCREENSCALE)
-
-#define MAXWIDTH            (VANILLAWIDTH * 8)
-#define MAXHEIGHT           (VANILLAHEIGHT * 2)
-#define MAXSCREENAREA       (MAXWIDTH * MAXHEIGHT)
-
-#define NONWIDEWIDTH        (VANILLAWIDTH * SCREENSCALE)
-#define NONWIDEASPECTRATIO  (4.0 / 3.0)
-
-extern int          SCREENWIDTH;
-extern int          SCREENHEIGHT;
-extern int          SCREENAREA;
-extern int          WIDESCREENDELTA;
-extern int          WIDEFOVDELTA;
-
-extern bool         nowidescreen;
-
-extern int          MAPWIDTH;
-extern unsigned int MAPHEIGHT;
-extern unsigned int MAPAREA;
-extern int          MAPBOTTOM;
 
 // State updates, number of tics/second.
 #define TICRATE             35
