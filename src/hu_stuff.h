@@ -43,18 +43,18 @@
 //
 // Globally visible constants.
 //
-#define HU_FONTSTART                '!'     // the first font character
-#define HU_FONTEND                  '_'     // the last font character
+#define HU_FONTSTART                '!' // the first font character
+#define HU_FONTEND                  '_' // the last font character
 
 // Calculate # of characters in font.
 #define HU_FONTSIZE                 (HU_FONTEND - HU_FONTSTART + 1)
 
-#define HU_MSGX                     4
-#define HU_MSGY                     4
+#define HU_MSGX                     (3 * SCREENSCALE)
+#define HU_MSGY                     (2 * SCREENSCALE)
 
 #define HU_MSGTIMEOUT               (4 * TICRATE)
 
-#define HUD_NUMBER_MIN              -99
+#define HUD_NUMBER_MIN             -99
 #define HUD_NUMBER_MAX              999
 
 #define HUD_HEALTH_X                55

@@ -28,6 +28,7 @@
   * The `DMENUPIC` lump is no longer used as the title screen of *DOOM II*.
   * Unless replaced in a PWAD, stimpacks, medikits and berserk power-ups now always show a red cross, rather than a green cross or a pill.
 * Even though it can’t be played, the fourth episode of *DOOM* is now displayed in the episode menu of *DOOM (Shareware)*.
+* The horizontal position of player messages has now improved, and is consistent when toggling widescreen.
 * When to spawn blood splats around a decoration spawned at the start of a map when the `r_corpses_moreblood` CVAR is `on` has now improved if the decoration’s sprite is replaced in a PWAD.
 * A bug is fixed whereby the wrong `M_DOOM` lump was displayed in the main menu in some instances.
 * Minor improvements have been made to adjusting the music volume.
