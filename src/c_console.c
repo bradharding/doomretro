@@ -126,7 +126,9 @@ static int              inputhistory = -1;
 static int              outputhistory = -1;
 
 static int              degreewidth;
+static int              suckswidth;
 static int              timerwidth;
+static int              timewidth;
 static int              zerowidth;
 
 static byte             *consoleautomapbevelcolor;
@@ -732,6 +734,9 @@ void C_Init(void)
     degreewidth = SHORT(degree->width);
     spacewidth = SHORT(consolefont[' ' - CONSOLEFONTSTART]->width);
     zerowidth = SHORT(consolefont['0' - CONSOLEFONTSTART]->width);
+
+    suckswidth = C_OverlayWidth(s_STSTR_SUCKS, false);
+    timewidth = C_OverlayWidth("00:00", true);
 }
 
 void C_ShowConsole(void)
@@ -1309,7 +1314,7 @@ void C_UpdatePlayerStatsOverlay(void)
     byte        *tinttab = (r_hud_translucency ? tinttab70 : NULL);
     static char time[10];
     static int  prevmaptime = -1;
-    static int  timewidth;
+    static int  width;
     static int  color;
 
     if (!mapwindow)
@@ -1337,17 +1342,17 @@ void C_UpdatePlayerStatsOverlay(void)
         {
             M_snprintf(time, sizeof(time), "%02i:%02i", minutes, seconds % 60);
             color = consoleoverlaycolor;
+            width = timewidth;
         }
         else
         {
             M_StringCopy(time, s_STSTR_SUCKS, sizeof(time));
             color = consoleoverlaywarningcolor;
+            width = suckswidth;
         }
-
-        timewidth = C_OverlayWidth(time, true);
     }
 
-    C_DrawOverlayText(mapscreen, MAPWIDTH, x - timewidth, y, tinttab, time, color, true);
+    C_DrawOverlayText(mapscreen, MAPWIDTH, x - width, y, tinttab, time, color, true);
     y += OVERLAYLINEHEIGHT + OVERLAYSPACING;
 
     if (totalkills)
