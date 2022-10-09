@@ -7575,7 +7575,8 @@ static void toggle_cmd_func2(char *cmd, char *parms)
         {
             if (flags & CF_BOOLEAN)
             {
-                char    *temp = M_StringJoin(parms, " ", (*(bool *)consolecmds[i].variable ? "off" : "on"), NULL);
+                bool    value = *(bool *)consolecmds[i].variable;
+                char    *temp = M_StringJoin(parms, " ", C_LookupAliasFromValue(!value, consolecmds[i].aliases), NULL);
 
                 C_ValidateInput(temp);
                 free(temp);
