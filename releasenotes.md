@@ -50,6 +50,7 @@
   * Its minimum value is now `35` rather than `10`.
   * A bug is fixed whereby it couldn’t be set to `off` in the console.
 * These changes have been made to the widescreen HUD:
+  * All `1` digits are now positioned the same way as they are in the status bar.
   * The amount of ammo the player has no longer flashes when switching weapons.
   * The player’s health no longer flashes when less than `10%` while buddha mode is enabled.
 * These changes have been made to the alternate widescreen HUD:

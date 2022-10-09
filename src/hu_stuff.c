@@ -298,6 +298,7 @@ void HU_Start(void)
 
 static void DrawHUDNumber(int *x, int y, int val, byte *tinttab, void (*drawhudnumfunc)(int, int, patch_t *, byte *))
 {
+    int     i;
     patch_t *patch;
 
     if (val < 0)
@@ -317,23 +318,74 @@ static void DrawHUDNumber(int *x, int y, int val, byte *tinttab, void (*drawhudn
 
     if (val >= 100)
     {
-        drawhudnumfunc(*x, y, (patch = tallnum[val / 100]), tinttab);
+        if ((i = val / 100) == 1)
+        {
+            (*x)++;
+            drawhudnumfunc(*x, y, (patch = tallnum[i]), tinttab);
+            (*x) += 2;
+        }
+        else
+            drawhudnumfunc(*x, y, (patch = tallnum[i]), tinttab);
+
         *x += SHORT(patch->width);
-        drawhudnumfunc(*x, y, (patch = tallnum[(val %= 100) / 10]), tinttab);
+
+        if ((i = (val %= 100) / 10) == 1)
+        {
+            (*x)++;
+            drawhudnumfunc(*x, y, (patch = tallnum[i]), tinttab);
+            (*x) += 2;
+        }
+        else
+            drawhudnumfunc(*x, y, (patch = tallnum[i]), tinttab);
+
         *x += SHORT(patch->width);
-        drawhudnumfunc(*x, y, (patch = tallnum[val % 10]), tinttab);
+
+        if ((i = val % 10) == 1)
+        {
+            (*x)++;
+            drawhudnumfunc(*x, y, (patch = tallnum[i]), tinttab);
+            (*x) += 2;
+        }
+        else
+            drawhudnumfunc(*x, y, (patch = tallnum[i]), tinttab);
+
         *x += SHORT(patch->width);
     }
     else if (val >= 10)
     {
-        drawhudnumfunc(*x, y, (patch = tallnum[val / 10]), tinttab);
+        if ((i = val / 10) == 1)
+        {
+            (*x)++;
+            drawhudnumfunc(*x, y, (patch = tallnum[i]), tinttab);
+            (*x) += 2;
+        }
+        else
+            drawhudnumfunc(*x, y, (patch = tallnum[i]), tinttab);
+
         *x += SHORT(patch->width);
-        drawhudnumfunc(*x, y, (patch = tallnum[val % 10]), tinttab);
+
+        if ((i = val % 10) == 1)
+        {
+            (*x)++;
+            drawhudnumfunc(*x, y, (patch = tallnum[i]), tinttab);
+            (*x) += 2;
+        }
+        else
+            drawhudnumfunc(*x, y, (patch = tallnum[i]), tinttab);
+
         *x += SHORT(patch->width);
     }
     else
     {
-        drawhudnumfunc(*x, y, (patch = tallnum[val % 10]), tinttab);
+        if ((i = val % 10) == 1)
+        {
+            (*x)++;
+            drawhudnumfunc(*x, y, (patch = tallnum[i]), tinttab);
+            (*x) += 2;
+        }
+        else
+            drawhudnumfunc(*x, y, (patch = tallnum[i]), tinttab);
+
         *x += SHORT(patch->width);
     }
 }
@@ -357,14 +409,11 @@ static int HUDNumberWidth(int val)
     }
 
     if (val >= 100)
-    {
-        width += SHORT(tallnum[val / 100]->width);
-        width += SHORT(tallnum[(val %= 100) / 10]->width);
-    }
+        return (width + SHORT(tallnum[0]->width) * 3);
     else if (val >= 10)
-        width += SHORT(tallnum[val / 10]->width);
+        return (width + SHORT(tallnum[0]->width) * 2);
 
-    return (width + SHORT(tallnum[val % 10]->width));
+    return (width + SHORT(tallnum[0]->width));
 }
 
 static inline void HU_DrawScaledPixel(const int x, const int y, byte *color)
