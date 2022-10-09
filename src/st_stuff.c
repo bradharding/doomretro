@@ -1439,6 +1439,29 @@ void ST_Drawer(bool fullscreen, bool refresh)
         ST_DiffDraw();
 }
 
+void ST_InitStatBar(void)
+{
+    // status bar background bits
+    if (english == english_american)
+    {
+        sbar = ((FREEDOOM && !modifiedgame) || chex || hacx || REKKRSA ? W_CacheLastLumpName("STBAR") : W_CacheLumpName("STBAR"));
+        sbar2 = W_CacheLumpName("STBAR2");
+    }
+    else
+    {
+        sbar = W_CacheLumpName(W_CheckMultipleLumps("STBAR") > 2 ? "STBAR" : "STBAR3");
+        sbar2 = W_CacheLumpName("STBAR4");
+    }
+
+    sbarwidth = SHORT(sbar->width);
+    sbar2width = SHORT(sbar2->width);
+
+    sbar->leftoffset = 0;
+    sbar->topoffset = 0;
+    sbar2->leftoffset = 0;
+    sbar2->topoffset = 0;
+}
+
 static void ST_LoadUnloadGraphics(void callback(char *, patch_t **))
 {
     int     facenum = 0;
@@ -1485,17 +1508,7 @@ static void ST_LoadUnloadGraphics(void callback(char *, patch_t **))
         arms[i][1] = shortnum[i + 2];
     }
 
-    // status bar background bits
-    callback("STBAR", &sbar);
-    callback("STBAR2", &sbar2); // [BH] double resolution
-
-    sbarwidth = SHORT(sbar->width);
-    sbar2width = SHORT(sbar2->width);
-
-    sbar->leftoffset = 0;
-    sbar->topoffset = 0;
-    sbar2->leftoffset = 0;
-    sbar2->topoffset = 0;
+    ST_InitStatBar();
 
     // face states
     for (int i = 0; i < ST_NUMPAINFACES; i++)

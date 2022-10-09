@@ -81,6 +81,7 @@ extern bool     centerweapon;
 extern bool     con_obituaries;
 extern int      crosshair;
 extern int      crosshaircolor;
+extern int      english;
 extern int      episode;
 extern int      expansion;
 extern int      facebackcolor;
@@ -265,6 +266,12 @@ enum
 
 enum
 {
+    english_american,
+    english_international
+};
+
+enum
+{
     playergender_other,
     playergender_male,
     playergender_female
@@ -437,6 +444,8 @@ enum
 #define crosshaircolor_min                 0
 #define crosshaircolor_default             4
 #define crosshaircolor_max                 255
+
+#define english_default                    english_american
 
 #define episode_min                        1
 #define episode_default                    1
@@ -910,7 +919,7 @@ typedef enum
     VSYNCVALUEALIAS,
     PLAYERGENDERVALUEALIAS,
     WEAPONVALUEALIAS,
-    CRASHVALUEALIAS
+    ENGLISHVALUEALIAS
 } valuealiastype_t;
 
 typedef struct

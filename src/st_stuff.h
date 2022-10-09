@@ -83,6 +83,8 @@ void ST_Start(void);
 // Called by startup code.
 void ST_Init(void);
 
+void ST_InitStatBar(void);
+
 extern bool     idclev;
 extern int      idclevtics;
 extern bool     idmus;

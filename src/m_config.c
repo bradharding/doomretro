@@ -89,6 +89,7 @@ bool        centerweapon = centerweapon_default;
 bool        con_obituaries = con_obituaries_default;
 int         crosshair = crosshair_default;
 int         crosshaircolor = crosshaircolor_default;
+int         english = english_default;
 int         episode = episode_default;
 int         expansion = expansion_default;
 int         facebackcolor = facebackcolor_default;
@@ -318,6 +319,7 @@ static default_t cvars[] =
     CONFIG_VARIABLE_BOOL         (con_obituaries,                   con_obituaries,                        con_obituaries,                      BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT          (crosshair,                        crosshair,                             crosshair,                           CROSSHAIRVALUEALIAS   ),
     CONFIG_VARIABLE_INT          (crosshaircolor,                   crosshaircolour,                       crosshaircolor,                      NOVALUEALIAS          ),
+    CONFIG_VARIABLE_BOOL         (english,                          english,                               english,                             ENGLISHVALUEALIAS     ),
     CONFIG_VARIABLE_INT          (episode,                          episode,                               episode,                             NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT          (expansion,                        expansion,                             expansion,                           NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT          (facebackcolor,                    facebackcolour,                        facebackcolor,                       NOVALUEALIAS          ),
@@ -532,7 +534,7 @@ valuealias_t valuealiases[] =
     { "chaingun",       3, WEAPONVALUEALIAS       }, { "rocketlauncher", 4, WEAPONVALUEALIAS       },
     { "plasmarifle",    5, WEAPONVALUEALIAS       }, { "bfg9000",        6, WEAPONVALUEALIAS       },
     { "chainsaw",       7, WEAPONVALUEALIAS       }, { "supershotgun",   8, WEAPONVALUEALIAS       },
-    { "no",             0, CRASHVALUEALIAS        }, { "yes",            1, CRASHVALUEALIAS        },
+    { "american",       0, ENGLISHVALUEALIAS      }, { "international",  1, ENGLISHVALUEALIAS      },
     { "",               0, NOVALUEALIAS           }
 };
 

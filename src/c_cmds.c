@@ -417,6 +417,8 @@ static void armortype_cvar_func2(char *cmd, char *parms);
 static void autotilt_cvar_func2(char *cmd, char *parms);
 static bool crosshair_cvar_func1(char *cmd, char *parms);
 static void crosshair_cvar_func2(char *cmd, char *parms);
+static bool english_cvar_func1(char *cmd, char *parms);
+static void english_cvar_func2(char *cmd, char *parms);
 static void episode_cvar_func2(char *cmd, char *parms);
 static void expansion_cvar_func2(char *cmd, char *parms);
 static bool joy_deadzone_cvars_func1(char *cmd, char *parms);
@@ -622,6 +624,8 @@ consolecmd_t consolecmds[] =
         "Lists all console variables."),
     CCMD(endgame, "", game_func1, endgame_cmd_func2, false, "",
         "Ends a game."),
+    CVAR_BOOL(english, "", english_cvar_func1, english_cvar_func2, CF_NONE, ENGLISHVALUEALIAS,
+        "Toggles using American or international English."),
     CVAR_INT(episode, "", int_cvars_func1, episode_cvar_func2, CF_NONE, NOVALUEALIAS,
         "The currently selected " ITALICS("DOOM") " episode in the menu (" BOLD("1") " to " BOLD("5") ")."),
     CCMD(exec, "", null_func1, exec_cmd_func2, true, EXECCMDFORMAT,
@@ -8235,6 +8239,50 @@ static void crosshair_cvar_func2(char *cmd, char *parms)
         else
         {
             char    *temp2 = C_LookupAliasFromValue(crosshair_default, CROSSHAIRVALUEALIAS);
+
+            C_Output(INTEGERCVARWITHDEFAULT, temp1, temp2);
+            free(temp2);
+        }
+
+        free(temp1);
+
+        C_ShowWarning(i);
+    }
+}
+
+//
+// english CVAR
+//
+static bool english_cvar_func1(char *cmd, char *parms)
+{
+    return (!*parms || C_LookupValueFromAlias(parms, ENGLISHVALUEALIAS) != INT_MIN);
+}
+
+static void english_cvar_func2(char *cmd, char *parms)
+{
+    if (*parms)
+    {
+        const int   value = C_LookupValueFromAlias(parms, ENGLISHVALUEALIAS);
+
+        if ((value == english_american || value == english_international) && value != english)
+        {
+            english = value;
+            ST_InitStatBar();
+            M_SaveCVARs();
+        }
+    }
+    else
+    {
+        char        *temp1 = C_LookupAliasFromValue(english, ENGLISHVALUEALIAS);
+        const int   i = C_GetIndex(cmd);
+
+        C_ShowDescription(i);
+
+        if (english == english_default)
+            C_Output(INTEGERCVARISDEFAULT, temp1);
+        else
+        {
+            char    *temp2 = C_LookupAliasFromValue(english_default, ENGLISHVALUEALIAS);
 
             C_Output(INTEGERCVARWITHDEFAULT, temp1, temp2);
             free(temp2);
