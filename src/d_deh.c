@@ -2175,7 +2175,7 @@ void D_BuildBEXTables(void)
 {
     int i;
 
-    // moved from ProcessDehFile, then we don't need the static int i
+    // moved from D_ProcessDehFile, then we don't need the static int i
     for (i = 0; i < EXTRASTATES; i++)  // remember what they start as for deh xref
         deh_codeptr[i] = states[i].action;
 
@@ -2226,14 +2226,14 @@ void D_BuildBEXTables(void)
 }
 
 // ====================================================================
-// ProcessDehFile
+// D_ProcessDehFile
 // Purpose: Read and process a DEH or BEX file
 // Args:    filename    -- name of the DEH/BEX file
 // Returns: void
 //
 // killough 10/98:
 // substantially modified to allow input from WAD lumps instead of .deh files.
-void ProcessDehFile(char *filename, int lumpnum, bool autoload)
+void D_ProcessDehFile(char *filename, int lumpnum, bool autoload)
 {
     DEHFILE infile;
     DEHFILE *filein = &infile;              // killough 10/98
@@ -2308,7 +2308,7 @@ void ProcessDehFile(char *filename, int lumpnum, bool autoload)
             if (devparm)
                 C_Output("Branching to include file " BOLD("%s") "...", nextfile);
 
-            ProcessDehFile(nextfile, 0, false);                 // do the included file
+            D_ProcessDehFile(nextfile, 0, false);                 // do the included file
 
             includenotext = oldnotext;
 
@@ -4343,9 +4343,9 @@ static int deh_GetData(char *s, char *k, int *l, char **strval)
     return okrc;
 }
 
-static deh_bexptr null_bexptr = { NULL, "(NULL)" };
+static deh_bexptr   null_bexptr = { NULL, "(NULL)" };
 
-void PostProcessDeh(void)
+void D_PostProcessDeh(void)
 {
     const deh_bexptr    *bexptr_match;
 

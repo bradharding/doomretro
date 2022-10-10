@@ -524,8 +524,8 @@ extern const int    nummapnamesn;
 extern int          dehcount;
 extern int          dehmaptitlecount;
 
-void ProcessDehFile(char *filename, int lumpnum, bool autoload);
+void D_ProcessDehFile(char *filename, int lumpnum, bool autoload);
 void D_BuildBEXTables(void);
 
 // MBF21
-void PostProcessDeh(void);
+void D_PostProcessDeh(void);

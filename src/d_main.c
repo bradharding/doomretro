@@ -763,7 +763,7 @@ static void LoadDehFile(char *path)
                 dehfileignored = true;
             }
             else
-                ProcessDehFile(dehpath, 0, true);
+                D_ProcessDehFile(dehpath, 0, true);
 
             if (dehfilecount < MAXDEHFILES)
             {
@@ -784,7 +784,7 @@ static void LoadDehFile(char *path)
                 dehfileignored = true;
             }
             else
-                ProcessDehFile(dehpath, 0, true);
+                D_ProcessDehFile(dehpath, 0, true);
 
             if (dehfilecount < MAXDEHFILES)
             {
@@ -1830,13 +1830,13 @@ static void D_ProcessDehOnCmdLine(void)
             if (*myargv[p] == '-')
                 deh = (M_StringCompare(myargv[p], "-deh") || M_StringCompare(myargv[p], "-bex"));
             else if (deh)
-                ProcessDehFile(myargv[p], 0, false);
+                D_ProcessDehFile(myargv[p], 0, false);
     }
 
     while (*loaddehlast[j].filename)
     {
         if (loaddehlast[j].present)
-            ProcessDehFile(loaddehlast[j].filename, 0, false);
+            D_ProcessDehFile(loaddehlast[j].filename, 0, false);
 
         j++;
     }
@@ -1857,38 +1857,38 @@ static void D_ProcessDehInWad(void)
                 if (M_StringCompare(lumpinfo[i]->name, "DEHACKED")
                     && !M_StringEndsWith(lumpinfo[i]->wadfile->path, DOOMRETRO_WAD)
                     && !M_StringEndsWith(lumpinfo[i]->wadfile->path, "D4V.WAD"))
-                    ProcessDehFile(NULL, i, false);
+                    D_ProcessDehFile(NULL, i, false);
 
         for (int i = 0; i < numlumps; i++)
             if (M_StringCompare(lumpinfo[i]->name, "DEHACKED")
                 && M_StringEndsWith(lumpinfo[i]->wadfile->path, "D4V.WAD"))
             {
-                ProcessDehFile(NULL, i, false);
+                D_ProcessDehFile(NULL, i, false);
                 break;
             }
     }
 
     if (chex1)
-        ProcessDehFile(NULL, W_GetNumForName("CHEXBEX"), true);
+        D_ProcessDehFile(NULL, W_GetNumForName("CHEXBEX"), true);
 
     if (process)
         for (int i = 0; i < numlumps; i++)
             if (M_StringCompare(lumpinfo[i]->name, "DEHACKED")
                 && !M_StringEndsWith(lumpinfo[i]->wadfile->path, DOOMRETRO_WAD))
-                ProcessDehFile(NULL, i, false);
+                D_ProcessDehFile(NULL, i, false);
 
     for (int i = numlumps - 1; i >= 0; i--)
         if (M_StringCompare(lumpinfo[i]->name, "DEHACKED")
             && M_StringEndsWith(lumpinfo[i]->wadfile->path, DOOMRETRO_WAD))
         {
-            ProcessDehFile(NULL, i, false);
+            D_ProcessDehFile(NULL, i, false);
             break;
         }
 
     while (*loaddehlast[j].filename)
     {
         if (loaddehlast[j].present)
-            ProcessDehFile(loaddehlast[j].filename, 0, false);
+            D_ProcessDehFile(loaddehlast[j].filename, 0, false);
 
         j++;
     }
@@ -2237,7 +2237,7 @@ static void D_DoomMainSetup(void)
     D_ProcessDehOnCmdLine();
     D_ProcessDehInWad();
 
-    PostProcessDeh();
+    D_PostProcessDeh();
 
     if (dehcount > 2)
     {
