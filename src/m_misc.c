@@ -1000,3 +1000,15 @@ char *pronoun(pronountype_t type)
     else
         return (playergender == playergender_male ? "himself" : (playergender == playergender_female ? "herself" : "themselves"));
 }
+
+void M_AmericanToInternationalEnglish(char *string)
+{
+    M_StringReplaceAll(string, "armor", "armour");
+    M_StringReplaceAll(string, "center", "centre");
+    M_StringReplaceAll(string, "centering", "centring");
+    M_StringReplaceAll(string, "color", "colour");
+    M_StringReplaceAll(string, "favor", "favour");
+    M_StringReplaceAll(string, "labor", "labour");
+    M_StringReplaceAll(string, "meter", "metre");
+    M_StringReplaceAll(string, "neighbor", "neighbour");
+}

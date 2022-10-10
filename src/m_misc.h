@@ -114,3 +114,4 @@ int hextodec(char *hex);
 void M_StripQuotes(char *str);
 void M_NormalizeSlashes(char *str);
 char *pronoun(pronountype_t type);
+void M_AmericanToInternationalEnglish(char *string);

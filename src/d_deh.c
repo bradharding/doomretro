@@ -45,6 +45,7 @@
 #include "g_game.h"
 #include "i_system.h"
 #include "m_cheat.h"
+#include "m_config.h"
 #include "m_misc.h"
 #include "p_local.h"
 #include "sounds.h"
@@ -3979,6 +3980,9 @@ static bool deh_procStringSub(char *key, char *lookfor, char *newstring)
                 deh_strlookup[p_GOTREDSKULL].assigned++;
                 return true;
             }
+
+            if (english == english_international)
+                M_AmericanToInternationalEnglish(*deh_strlookup[i].ppstr);
 
             break;
         }
