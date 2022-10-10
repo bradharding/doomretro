@@ -2233,7 +2233,7 @@ void D_BuildBEXTables(void)
 //
 // killough 10/98:
 // substantially modified to allow input from WAD lumps instead of .deh files.
-void D_ProcessDehFile(char *filename, int lumpnum, bool autoload)
+void D_ProcessDehFile(char *filename, int lumpnum, bool autoloaded)
 {
     DEHFILE infile;
     DEHFILE *filein = &infile;              // killough 10/98
@@ -2377,7 +2377,7 @@ void D_ProcessDehFile(char *filename, int lumpnum, bool autoload)
         char    *temp = commify(linecount);
 
         C_Output("%s %s line%s from the " ITALICS("DeHackEd") "%s file " BOLD("%s") ".",
-            (autoload ? "Automatically parsed" : "Parsed"), temp, (linecount == 1 ? "" : "s"),
+            (autoloaded ? "Automatically parsed" : "Parsed"), temp, (linecount == 1 ? "" : "s"),
             (M_StringEndsWith(filename, "BEX") ? " with " ITALICS("BOOM") " extensions" : ""), GetCorrectCase(filename));
 
         free(temp);
