@@ -1279,12 +1279,16 @@ void C_UpdatePlayerPositionOverlay(void)
 void C_UpdatePathOverlay(void)
 {
     static int  prevdistancetraveled = -1;
-    static char distance[32];
+    static char distance[20];
     static int  width;
 
     if (viewplayer->distancetraveled != prevdistancetraveled)
     {
-        M_StringCopy(distance, distancetraveled(viewplayer->distancetraveled, false), sizeof(distance));
+        char    *temp = distancetraveled(viewplayer->distancetraveled, false);
+
+        M_StringCopy(distance, temp, sizeof(distance));
+        free(temp);
+
         width = C_OverlayWidth(distance, true);
     }
 
