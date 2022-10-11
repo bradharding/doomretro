@@ -187,6 +187,7 @@ int         skilllevel = skilllevel_default;
 int         stillbob = stillbob_default;
 bool        tossdrop = tossdrop_default;
 int         turbo = turbo_default;
+int         units = units_default;
 char        *version = version_default;
 bool        vid_borderlesswindow = vid_borderlesswindow_default;
 int         vid_capfps = vid_capfps_default;
@@ -415,6 +416,7 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT_PERCENT  (stillbob,                         stillbob,                              stillbob,                            NOVALUEALIAS          ),
     CONFIG_VARIABLE_BOOL         (tossdrop,                         tossdrop,                              tossdrop,                            BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT_PERCENT  (turbo,                            turbo,                                 turbo,                               NOVALUEALIAS          ),
+    CONFIG_VARIABLE_INT          (units,                            units,                                 units,                               UNITSVALUEALIAS       ),
     CONFIG_VARIABLE_STRING       (version,                          version,                               version,                             NOVALUEALIAS          ),
     CONFIG_VARIABLE_BOOL         (vid_borderlesswindow,             vid_borderlesswindow,                  vid_borderlesswindow,                BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT          (vid_capfps,                       vid_capfps,                            vid_capfps,                          CAPVALUEALIAS         ),
@@ -520,6 +522,7 @@ valuealias_t valuealiases[] =
     { "off",            0, BLOODVALUEALIAS        }, { "red",            1, BLOODVALUEALIAS        },
     { "all",            2, BLOODVALUEALIAS        }, { "green",          3, BLOODVALUEALIAS        },
     { "nofuzz",         4, BLOODVALUEALIAS        }, { "on",             4, BLOODVALUEALIAS        },
+    { "imperial",       0, UNITSVALUEALIAS        }, { "metric",         1, UNITSVALUEALIAS        },
     { "off",            0, CAPVALUEALIAS          }, { "none",           0, ARMORTYPEVALUEALIAS    },
     { "green",          1, ARMORTYPEVALUEALIAS    }, { "blue",           2, ARMORTYPEVALUEALIAS    },
     { "none",           0, CROSSHAIRVALUEALIAS    }, { "off",            0, CROSSHAIRVALUEALIAS    },

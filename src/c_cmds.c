@@ -460,6 +460,8 @@ static void savegame_cvar_func2(char *cmd, char *parms);
 static void skilllevel_cvar_func2(char *cmd, char *parms);
 static bool turbo_cvar_func1(char *cmd, char *parms);
 static void turbo_cvar_func2(char *cmd, char *parms);
+static bool units_cvar_func1(char *cmd, char *parms);
+static void units_cvar_func2(char *cmd, char *parms);
 static void vid_borderlesswindow_cvar_func2(char *cmd, char *parms);
 static bool vid_capfps_cvar_func1(char *cmd, char *parms);
 static void vid_capfps_cvar_func2(char *cmd, char *parms);
@@ -929,6 +931,8 @@ consolecmd_t consolecmds[] =
         "The speed the player moves (" BOLD("10%") " to " BOLD("400%") ")."),
     CCMD(unbind, "", null_func1, unbind_cmd_func2, true, UNBINDCMDFORMAT,
         "Unbinds the " BOLDITALICS("+action") " from a " BOLDITALICS("control") "."),
+    CVAR_BOOL(units, "", units_cvar_func1, units_cvar_func2, CF_NONE, UNITSVALUEALIAS,
+        "The units used by certain stats (" BOLD("imperial") " or " BOLD("metric") ")."),
     CCMD(vanilla, "", null_func1, vanilla_cmd_func2, true, "[" BOLD("on") "|" BOLD("off") "]",
         "Toggles vanilla mode."),
     CVAR_STR(version, "", null_func1, str_cvars_func2, CF_READONLY,
@@ -4576,32 +4580,7 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
 
         depth = ((max_ceilingheight >> FRACBITS) - (min_floorheight >> FRACBITS)) / UNITSPERFOOT;
 
-        if (english == english_american)
-        {
-            if (width < FEETPERMILE && height < FEETPERMILE)
-            {
-                char *temp1 = commify(width);
-                char *temp2 = commify(height);
-                char *temp3 = commify(depth);
-
-                C_TabbedOutput(tabs, "Dimensions\t%sx%sx%s feet", temp1, temp2, temp3);
-                free(temp1);
-                free(temp2);
-                free(temp3);
-            }
-            else
-            {
-                char *temp1 = striptrailingzero((float)width / FEETPERMILE, 2);
-                char *temp2 = striptrailingzero((float)height / FEETPERMILE, 2);
-                char *temp3 = striptrailingzero((float)depth / FEETPERMILE, 2);
-
-                C_TabbedOutput(tabs, "Dimensions\t%sx%sx%s miles", temp1, temp2, temp3);
-                free(temp1);
-                free(temp2);
-                free(temp3);
-            }
-        }
-        else
+        if (units == units_metric)
         {
             const float metricwidth = width / FEETPERMETER;
             const float metricheight = height / FEETPERMETER;
@@ -4613,7 +4592,8 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
                 char    *temp2 = striptrailingzero(metricheight, 1);
                 char    *temp3 = striptrailingzero(metricdepth, 1);
 
-                C_TabbedOutput(tabs, "Dimensions\t%sx%sx%s metres", temp1, temp2, temp3);
+                C_TabbedOutput(tabs, "Dimensions\t%sx%sx%s %s",
+                    temp1, temp2, temp3, (english == english_american ? "meters" : "metres"));
                 free(temp1);
                 free(temp2);
                 free(temp3);
@@ -4624,7 +4604,33 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
                 char    *temp2 = striptrailingzero(metricheight / METERSPERKILOMETER, 2);
                 char    *temp3 = striptrailingzero(metricdepth / METERSPERKILOMETER, 2);
 
-                C_TabbedOutput(tabs, "Dimensions\t%sx%sx%s kilometres", temp1, temp2, temp3);
+                C_TabbedOutput(tabs, "Dimensions\t%sx%sx%s %s",
+                    temp1, temp2, temp3, (english == english_american ? "kilometers" : "kilometres"));
+                free(temp1);
+                free(temp2);
+                free(temp3);
+            }
+        }
+        else
+        {
+            if (width < FEETPERMILE && height < FEETPERMILE)
+            {
+                char    *temp1 = commify(width);
+                char    *temp2 = commify(height);
+                char    *temp3 = commify(depth);
+
+                C_TabbedOutput(tabs, "Dimensions\t%sx%sx%s feet", temp1, temp2, temp3);
+                free(temp1);
+                free(temp2);
+                free(temp3);
+            }
+            else
+            {
+                char    *temp1 = striptrailingzero((float)width / FEETPERMILE, 2);
+                char    *temp2 = striptrailingzero((float)height / FEETPERMILE, 2);
+                char    *temp3 = striptrailingzero((float)depth / FEETPERMILE, 2);
+
+                C_TabbedOutput(tabs, "Dimensions\t%sx%sx%s miles", temp1, temp2, temp3);
                 free(temp1);
                 free(temp2);
                 free(temp3);
@@ -5212,7 +5218,7 @@ char *distancetraveled(uint64_t value, bool allowzero)
     {
         const float feet = (float)value / UNITSPERFOOT;
 
-        if (english == english_american)
+        if (units == units_imperial)
         {
             if (feet >= 1.0f)
             {
@@ -5246,7 +5252,8 @@ char *distancetraveled(uint64_t value, bool allowzero)
                     char    *temp = striptrailingzero(meters, 1);
 
                     if (!M_StringCompare(temp, "0.0"))
-                        M_snprintf(result, sizeof(result), "%s metres", temp);
+                        M_snprintf(result, sizeof(result), "%s %s",
+                            temp, (english == english_american ? "meters" : "metres"));
 
                     free(temp);
                 }
@@ -5254,12 +5261,13 @@ char *distancetraveled(uint64_t value, bool allowzero)
                 {
                     char    *temp = striptrailingzero(meters / METERSPERKILOMETER, 2);
 
-                    M_snprintf(result, sizeof(result), "%s kilometres", temp);
+                    M_snprintf(result, sizeof(result), "%s %s",
+                        temp, (english == english_american ? "kilometers" : "kilometres"));
                     free(temp);
                 }
             }
             else if (allowzero)
-                M_StringCopy(result, "0 metres", sizeof(result));
+                M_StringCopy(result, (english == english_american ? "0 meters" : "0 metres"), sizeof(result));
         }
     }
 
@@ -9748,6 +9756,49 @@ static void turbo_cvar_func2(char *cmd, char *parms)
             char    *temp2 = commify(turbo_default);
 
             C_Output(PERCENTCVARWITHDEFAULT, temp1, temp2);
+            free(temp2);
+        }
+
+        free(temp1);
+
+        C_ShowWarning(i);
+    }
+}
+
+//
+// units CVAR
+//
+static bool units_cvar_func1(char *cmd, char *parms)
+{
+    return (!*parms || C_LookupValueFromAlias(parms, UNITSVALUEALIAS) != INT_MIN);
+}
+
+static void units_cvar_func2(char *cmd, char *parms)
+{
+    if (*parms)
+    {
+        const int   value = C_LookupValueFromAlias(parms, UNITSVALUEALIAS);
+
+        if ((value == units_imperial || value == units_metric) && value != units)
+        {
+            units = value;
+            M_SaveCVARs();
+        }
+    }
+    else
+    {
+        char        *temp1 = C_LookupAliasFromValue(units, UNITSVALUEALIAS);
+        const int   i = C_GetIndex(cmd);
+
+        C_ShowDescription(i);
+
+        if (units == units_default)
+            C_Output(INTEGERCVARISDEFAULT, temp1);
+        else
+        {
+            char    *temp2 = C_LookupAliasFromValue(units_default, UNITSVALUEALIAS);
+
+            C_Output(INTEGERCVARWITHDEFAULT, temp1, temp2);
             free(temp2);
         }
 

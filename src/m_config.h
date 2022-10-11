@@ -179,6 +179,7 @@ extern int      skilllevel;
 extern int      stillbob;
 extern bool     tossdrop;
 extern int      turbo;
+extern int      units;
 extern char     *version;
 extern bool     vid_borderlesswindow;
 extern int      vid_capfps;
@@ -289,6 +290,12 @@ enum
 {
     r_detail_low,
     r_detail_high
+};
+
+enum
+{
+    units_imperial,
+    units_metric
 };
 
 enum
@@ -702,6 +709,8 @@ enum
 #define turbo_default                      100
 #define turbo_max                          400
 
+#define units_default                      units_imperial
+
 #define version_default                    DOOMRETRO_VERSIONSTRING
 
 #define vid_borderlesswindow_default       false
@@ -902,6 +911,7 @@ typedef enum
     DETAILVALUEALIAS,
     GAMMAVALUEALIAS,
     BLOODVALUEALIAS,
+    UNITSVALUEALIAS,
     CAPVALUEALIAS,
     SCALEVALUEALIAS,
     ARMORTYPEVALUEALIAS,
