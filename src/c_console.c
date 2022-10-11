@@ -1278,12 +1278,19 @@ void C_UpdatePlayerPositionOverlay(void)
 
 void C_UpdatePathOverlay(void)
 {
-    char    *temp = distancetraveled(viewplayer->distancetraveled, false);
+    static int  prevdistancetraveled = -1;
+    static char distance[32];
+    static int  width;
 
-    if (*temp)
+    if (viewplayer->distancetraveled != prevdistancetraveled)
     {
-        byte    *tinttab = (r_hud_translucency ? tinttab70 : NULL);
-        int     y = MAPOVERLAYTEXTY;
+        M_StringCopy(distance, distancetraveled(viewplayer->distancetraveled, false), sizeof(distance));
+        width = C_OverlayWidth(distance, true);
+    }
+
+    if (*distance)
+    {
+        int y = MAPOVERLAYTEXTY;
 
         if (!mapwindow)
         {
@@ -1297,9 +1304,8 @@ void C_UpdatePathOverlay(void)
                 y += OVERLAYLINEHEIGHT * 2 + OVERLAYSPACING;
         }
 
-        C_DrawOverlayText(mapscreen, MAPWIDTH, MAPWIDTH - C_OverlayWidth(temp, true) - MAPOVERLAYTEXTX + 1,
-            y, tinttab, temp, consoleoverlaycolor, true);
-        free(temp);
+        C_DrawOverlayText(mapscreen, MAPWIDTH, MAPWIDTH - width - MAPOVERLAYTEXTX + 1, y,
+            (r_hud_translucency ? tinttab70 : NULL), distance, consoleoverlaycolor, true);
 
         pathoverlay = true;
     }
