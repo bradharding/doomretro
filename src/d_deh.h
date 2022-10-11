@@ -526,6 +526,7 @@ extern int          dehmaptitlecount;
 
 void D_ProcessDehFile(char *filename, int lumpnum, bool autoloaded);
 void D_BuildBEXTables(void);
+void D_TranslateDehStrings(void);
 
 // MBF21
 void D_PostProcessDeh(void);
