@@ -22,7 +22,7 @@
 * There is now a fade transition when opening the sound volume menu in the options menu if the `fade` CVAR is `on`.
 * A fade transition is no longer applied when toggling the graphic detail, either in the options menu or by pressing the <kbd>F5</kbd> key, if the `fade` CVAR is `on`.
 * When toggling widescreen mode by pressing the <kbd>+</kbd> key, the player’s vertical field of view now zooms in slightly.
-* An `english` CVAR has been implemented that allows the player to toggle between the use of American or International English. It can be set to either `american` or `international`, and is `american` by default and when vanilla mode is enabled. The most noticeable difference is the spelling of “ARMOR” in the status bar, but this CVAR also affects text in the console, player messages and map titles.
+* An `english` CVAR has been implemented that toggles the use of American or International English. It can be either `american` or `international`, and is `american` by default and when vanilla mode is enabled. The most noticeable difference is the spelling of “ARMOR” in the status bar, but this CVAR also affects text in the console, player messages and map titles.
 * Improvements have been made to the support of [*REKKR*](https://www.doomworld.com/idgames/levels/doom/megawads/rekkr) and [*REKKR: Sunken Land*](https://store.steampowered.com/app/1715690/REKKR_Sunken_Land/).
 * These changes have been made to the BFG Edition and latest rerelease of *DOOM* and *DOOM II*:
   * The `TITLEPIC` lump from *The Ultimate DOOM* is no longer used as the title screen of *DOOM*.
