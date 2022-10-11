@@ -1004,11 +1004,23 @@ char *pronoun(pronountype_t type)
 void M_AmericanToInternationalEnglish(char *string)
 {
     M_StringReplaceAll(string, "armor", "armour");
-    M_StringReplaceAll(string, "center", "centre");
     M_StringReplaceAll(string, "centering", "centring");
+    M_StringReplaceAll(string, "center", "centre");
     M_StringReplaceAll(string, "color", "colour");
     M_StringReplaceAll(string, "favor", "favour");
     M_StringReplaceAll(string, "labor", "labour");
     M_StringReplaceAll(string, "meter", "metre");
     M_StringReplaceAll(string, "neighbor", "neighbour");
+}
+
+void M_InternationalToAmericanEnglish(char *string)
+{
+    M_StringReplaceAll(string, "armour", "armor");
+    M_StringReplaceAll(string, "centring", "centering");
+    M_StringReplaceAll(string, "centre", "center");
+    M_StringReplaceAll(string, "colour", "color");
+    M_StringReplaceAll(string, "favour", "favor");
+    M_StringReplaceAll(string, "labour", "labor");
+    M_StringReplaceAll(string, "metre", "meter");
+    M_StringReplaceAll(string, "neighbour", "neighbor");
 }

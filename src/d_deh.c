@@ -3981,9 +3981,6 @@ static bool deh_procStringSub(char *key, char *lookfor, char *newstring)
                 return true;
             }
 
-            if (english == english_international)
-                M_AmericanToInternationalEnglish(*deh_strlookup[i].ppstr);
-
             break;
         }
 
@@ -4343,6 +4340,20 @@ static int deh_GetData(char *s, char *k, int *l, char **strval)
     return okrc;
 }
 
+void D_TranslateDehStrings(void)
+{
+    if (english == english_international)
+    {
+        for (int i = 0; i < deh_numstrlookup; i++)
+            if (deh_strlookup[i].assigned)
+                M_AmericanToInternationalEnglish(*deh_strlookup[i].ppstr);
+    }
+    else
+        for (int i = 0; i < deh_numstrlookup; i++)
+            if (deh_strlookup[i].assigned)
+                M_InternationalToAmericanEnglish(*deh_strlookup[i].ppstr);
+}
+
 static deh_bexptr   null_bexptr = { NULL, "(NULL)" };
 
 void D_PostProcessDeh(void)
@@ -4372,4 +4383,7 @@ void D_PostProcessDeh(void)
             if (!(defined_codeptr_args[i] & (1 << j)))
                 states[i].args[j] = bexptr_match->default_args[j];
     }
+
+    if (english == english_international)
+        D_TranslateDehStrings();
 }
