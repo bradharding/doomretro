@@ -625,7 +625,7 @@ consolecmd_t consolecmds[] =
     CCMD(endgame, "", game_func1, endgame_cmd_func2, false, "",
         "Ends a game."),
     CVAR_BOOL(english, "", english_cvar_func1, english_cvar_func2, CF_NONE, ENGLISHVALUEALIAS,
-        "Toggles the use of American or International English."),
+        "Toggles the use of American or International English (" BOLD("american") " or " BOLD("international") ")."),
     CVAR_INT(episode, "", int_cvars_func1, episode_cvar_func2, CF_NONE, NOVALUEALIAS,
         "The currently selected " ITALICS("DOOM") " episode in the menu (" BOLD("1") " to " BOLD("5") ")."),
     CCMD(exec, "", null_func1, exec_cmd_func2, true, EXECCMDFORMAT,
