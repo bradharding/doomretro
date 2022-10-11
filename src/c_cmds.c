@@ -4592,7 +4592,8 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
                 char    *temp2 = striptrailingzero(metricheight, 1);
                 char    *temp3 = striptrailingzero(metricdepth, 1);
 
-                C_TabbedOutput(tabs, "Dimensions\t%sx%sx%s meters", temp1, temp2, temp3);
+                C_TabbedOutput(tabs, "Dimensions\t%sx%sx%s %s",
+                    temp1, temp2, temp3, (english == english_american ? "meters" : "metres"));
                 free(temp1);
                 free(temp2);
                 free(temp3);
@@ -4603,7 +4604,8 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
                 char    *temp2 = striptrailingzero(metricheight / METERSPERKILOMETER, 2);
                 char    *temp3 = striptrailingzero(metricdepth / METERSPERKILOMETER, 2);
 
-                C_TabbedOutput(tabs, "Dimensions\t%sx%sx%s kilometers", temp1, temp2, temp3);
+                C_TabbedOutput(tabs, "Dimensions\t%sx%sx%s %s",
+                    temp1, temp2, temp3, (english == english_american ? "kilometers" : "kilometres"));
                 free(temp1);
                 free(temp2);
                 free(temp3);
@@ -5249,7 +5251,8 @@ char *distancetraveled(uint64_t value, bool allowzero)
                     char    *temp = striptrailingzero(meters, 1);
 
                     if (!M_StringCompare(temp, "0.0"))
-                        M_snprintf(result, sizeof(result), "%s meters", temp);
+                        M_snprintf(result, sizeof(result), "%s %s",
+                            temp, (english == english_american ? "meters" : "metres"));
 
                     free(temp);
                 }
@@ -5257,12 +5260,13 @@ char *distancetraveled(uint64_t value, bool allowzero)
                 {
                     char    *temp = striptrailingzero(meters / METERSPERKILOMETER, 2);
 
-                    M_snprintf(result, sizeof(result), "%s kilometers", temp);
+                    M_snprintf(result, sizeof(result), "%s %s",
+                        temp, (english == english_american ? "kilometers" : "kilometres"));
                     free(temp);
                 }
             }
             else if (allowzero)
-                M_StringCopy(result, "0 meters", sizeof(result));
+                M_StringCopy(result, (english == english_american ? "0 meters" : "0 metres"), sizeof(result));
         }
     }
 
