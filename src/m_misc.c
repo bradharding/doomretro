@@ -498,31 +498,31 @@ char *M_StringReplace(char *haystack, const char *needle, const char *replacemen
     return buffer;
 }
 
-void M_StringReplaceAll(char *haystack, const char *needle, const char *replacement)
+void M_StringReplaceAll(char *haystack, const char *needle, const char *replacement, bool usecase)
 {
-    char    buffer[1024] = "";
-    char    *insert_point = &buffer[0];
-    char    *tmp = haystack;
-    int     needle_len = (int)strlen(needle);
-    int     repl_len = (int)strlen(replacement);
+    char        buffer[1024] = "";
+    char        *insert_point = &buffer[0];
+    char        *temp = haystack;
+    const int   needle_len = (int)strlen(needle);
+    const int   repl_len = (int)strlen(replacement);
 
     while (true)
     {
-        char    *p = stristr(tmp, (char *)needle);
+        char    *p = (usecase ? strstr(temp, (char *)needle) : stristr(temp, (char *)needle));
 
         if (!p)
         {
-            strcpy(insert_point, tmp);
+            strcpy(insert_point, temp);
             break;
         }
 
-        memcpy(insert_point, tmp, p - tmp);
-        insert_point += p - tmp;
+        memcpy(insert_point, temp, p - temp);
+        insert_point += p - temp;
 
         memcpy(insert_point, replacement, repl_len);
         insert_point += repl_len;
 
-        tmp = p + needle_len;
+        temp = p + needle_len;
     }
 
     strcpy(haystack, buffer);
@@ -1003,24 +1003,56 @@ char *pronoun(pronountype_t type)
 
 void M_AmericanToInternationalEnglish(char *string)
 {
-    M_StringReplaceAll(string, "armor", "armour");
-    M_StringReplaceAll(string, "centering", "centring");
-    M_StringReplaceAll(string, "center", "centre");
-    M_StringReplaceAll(string, "color", "colour");
-    M_StringReplaceAll(string, "favor", "favour");
-    M_StringReplaceAll(string, "labor", "labour");
-    M_StringReplaceAll(string, "meter", "metre");
-    M_StringReplaceAll(string, "neighbor", "neighbour");
+    M_StringReplaceAll(string, "armor", "armour", true);
+    M_StringReplaceAll(string, "ARMOR", "ARMOUR", true);
+    M_StringReplaceAll(string, "Armor", "Armour", true);
+    M_StringReplaceAll(string, "centering", "centring", true);
+    M_StringReplaceAll(string, "CENTERING", "CENTRING", true);
+    M_StringReplaceAll(string, "Centering", "Centring", true);
+    M_StringReplaceAll(string, "center", "centre", true);
+    M_StringReplaceAll(string, "CENTER", "CENTRE", true);
+    M_StringReplaceAll(string, "Center", "Centre", true);
+    M_StringReplaceAll(string, "color", "colour", true);
+    M_StringReplaceAll(string, "COLOR", "COLOUR", true);
+    M_StringReplaceAll(string, "Color", "Colour", true);
+    M_StringReplaceAll(string, "favor", "favour", true);
+    M_StringReplaceAll(string, "FAVOR", "FAVOUR", true);
+    M_StringReplaceAll(string, "Favor", "Favour", true);
+    M_StringReplaceAll(string, "labor", "labour", true);
+    M_StringReplaceAll(string, "LABOR", "LABOUR", true);
+    M_StringReplaceAll(string, "Labor", "Labour", true);
+    M_StringReplaceAll(string, "meter", "metre", true);
+    M_StringReplaceAll(string, "METER", "METRE", true);
+    M_StringReplaceAll(string, "Meter", "Metre", true);
+    M_StringReplaceAll(string, "neighbor", "neighbour", true);
+    M_StringReplaceAll(string, "NEIGHBOR", "NEIGHBOUR", true);
+    M_StringReplaceAll(string, "Neighbor", "Neighbour", true);
 }
 
 void M_InternationalToAmericanEnglish(char *string)
 {
-    M_StringReplaceAll(string, "armour", "armor");
-    M_StringReplaceAll(string, "centring", "centering");
-    M_StringReplaceAll(string, "centre", "center");
-    M_StringReplaceAll(string, "colour", "color");
-    M_StringReplaceAll(string, "favour", "favor");
-    M_StringReplaceAll(string, "labour", "labor");
-    M_StringReplaceAll(string, "metre", "meter");
-    M_StringReplaceAll(string, "neighbour", "neighbor");
+    M_StringReplaceAll(string, "armour", "armor", true);
+    M_StringReplaceAll(string, "ARMOUR", "ARMOR", true);
+    M_StringReplaceAll(string, "Armour", "Armor", true);
+    M_StringReplaceAll(string, "centring", "centering", true);
+    M_StringReplaceAll(string, "CENTRING", "CENTERING", true);
+    M_StringReplaceAll(string, "Centring", "Centering", true);
+    M_StringReplaceAll(string, "centre", "center", true);
+    M_StringReplaceAll(string, "CENTRE", "CENTER", true);
+    M_StringReplaceAll(string, "Centre", "Center", true);
+    M_StringReplaceAll(string, "colour", "color", true);
+    M_StringReplaceAll(string, "COLOUR", "COLOR", true);
+    M_StringReplaceAll(string, "Colour", "Color", true);
+    M_StringReplaceAll(string, "favour", "favor", true);
+    M_StringReplaceAll(string, "FAVOUR", "FAVOR", true);
+    M_StringReplaceAll(string, "Favour", "Favor", true);
+    M_StringReplaceAll(string, "labour", "labor", true);
+    M_StringReplaceAll(string, "LABOUR", "LABOR", true);
+    M_StringReplaceAll(string, "Labour", "Labor", true);
+    M_StringReplaceAll(string, "metre", "meter", true);
+    M_StringReplaceAll(string, "METRE", "METER", true);
+    M_StringReplaceAll(string, "Metre", "Meter", true);
+    M_StringReplaceAll(string, "neighbour", "neighbor", true);
+    M_StringReplaceAll(string, "NEIGHBOUR", "NEIGHBOR", true);
+    M_StringReplaceAll(string, "Neighbour", "Neighbor", true);
 }

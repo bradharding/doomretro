@@ -3986,8 +3986,8 @@ static bool deh_procStringSub(char *key, char *lookfor, char *newstring)
 
     if (!found && !hacx && lookfor)
     {
-        M_StringReplaceAll(lookfor, "\n", "");
-        M_StringReplaceAll(lookfor, "\t", "");
+        M_StringReplaceAll(lookfor, "\n", "", false);
+        M_StringReplaceAll(lookfor, "\t", "", false);
         C_Warning(1, "The " BOLD("\"%s\"") " string can't be found.", lookfor);
     }
 

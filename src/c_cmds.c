@@ -2950,7 +2950,7 @@ static bool kill_cmd_func1(char *cmd, char *parms)
                 char    *temp6 = (*mobjinfo[i].plural3 ? removenonalpha(mobjinfo[i].plural3) : NULL);
 
                 if (M_StringStartsWith(parm, "all"))
-                    M_StringReplaceAll(parm, "all", "");
+                    M_StringReplaceAll(parm, "all", "", false);
 
                 killcmdtype = mobjinfo[i].doomednum;
 
@@ -4712,7 +4712,7 @@ static bool name_cmd_func1(char *cmd, char *parms)
     if (M_StringStartsWith(parm, "player"))
     {
         M_StringCopy(namecmdold, "player", sizeof(namecmdold));
-        M_StringReplaceAll(parm, "player", "");
+        M_StringReplaceAll(parm, "player", "", false);
         M_StringCopy(namecmdnew, trimwhitespace(parm), sizeof(namecmdnew));
 
         return (namecmdnew[0] != '\0' && strlen(namecmdnew) < 33);
@@ -4721,14 +4721,14 @@ static bool name_cmd_func1(char *cmd, char *parms)
     if (gamestate == GS_LEVEL)
     {
         if ((namecmdfriendly = M_StringStartsWith(parm, "friendly ")))
-            M_StringReplaceAll(parm, "friendly ", "");
+            M_StringReplaceAll(parm, "friendly ", "", false);
         else if ((namecmdfriendly = M_StringStartsWith(parm, "friendly")))
-            M_StringReplaceAll(parm, "friendly", "");
+            M_StringReplaceAll(parm, "friendly", "", false);
 
         if (M_StringStartsWith(parm, "monster"))
         {
             M_StringCopy(namecmdold, "monster", sizeof(namecmdold));
-            M_StringReplaceAll(parm, "monster", "");
+            M_StringReplaceAll(parm, "monster", "", false);
             M_StringCopy(namecmdnew, trimwhitespace(parm), sizeof(namecmdnew));
             namecmdanymonster = true;
 
@@ -4748,7 +4748,7 @@ static bool name_cmd_func1(char *cmd, char *parms)
                 if (*mobjinfo[i].name1 && M_StringStartsWith(parm, temp1))
                 {
                     M_StringCopy(namecmdold, mobjinfo[i].name1, sizeof(namecmdold));
-                    M_StringReplaceAll(parm, temp1, "");
+                    M_StringReplaceAll(parm, temp1, "", false);
                     M_StringCopy(namecmdnew, trimwhitespace(parm), sizeof(namecmdnew));
                     namecmdtype = i;
                     result = true;
@@ -4756,7 +4756,7 @@ static bool name_cmd_func1(char *cmd, char *parms)
                 else if (*mobjinfo[i].name2 && M_StringStartsWith(parm, temp2))
                 {
                     M_StringCopy(namecmdold, mobjinfo[i].name2, sizeof(namecmdold));
-                    M_StringReplaceAll(parm, temp2, "");
+                    M_StringReplaceAll(parm, temp2, "", false);
                     M_StringCopy(namecmdnew, trimwhitespace(parm), sizeof(namecmdnew));
                     namecmdtype = i;
                     result = true;
@@ -4764,7 +4764,7 @@ static bool name_cmd_func1(char *cmd, char *parms)
                 else if (*mobjinfo[i].name3 && M_StringStartsWith(parm, temp3))
                 {
                     M_StringCopy(namecmdold, mobjinfo[i].name3, sizeof(namecmdold));
-                    M_StringReplaceAll(parm, temp3, "");
+                    M_StringReplaceAll(parm, temp3, "", false);
                     M_StringCopy(namecmdnew, trimwhitespace(parm), sizeof(namecmdnew));
                     namecmdtype = i;
                     result = true;
@@ -6573,7 +6573,7 @@ static bool resurrect_cmd_func1(char *cmd, char *parms)
                 char    *temp6 = (*mobjinfo[i].plural3 ? removenonalpha(mobjinfo[i].plural3) : NULL);
 
                 if (M_StringStartsWith(parm, "all"))
-                    M_StringReplaceAll(parm, "all", "");
+                    M_StringReplaceAll(parm, "all", "", false);
 
                 resurrectcmdtype = mobjinfo[i].doomednum;
 
@@ -6864,7 +6864,7 @@ static bool spawn_cmd_func1(char *cmd, char *parms)
         int num = -1;
 
         if ((spawncmdfriendly = M_StringStartsWith(parm, "friendly")))
-            M_StringReplaceAll(parm, "friendly", "");
+            M_StringReplaceAll(parm, "friendly", "", false);
 
         for (int i = 0; i < NUMMOBJTYPES; i++)
         {

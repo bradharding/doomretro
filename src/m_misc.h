@@ -79,7 +79,7 @@ bool M_StrToInt(const char *str, int *result);
 const char *M_StrCaseStr(const char *haystack, const char *needle);
 void M_StringCopy(char *dest, const char *src, const size_t dest_size);
 char *M_StringReplace(char *haystack, const char *needle, const char *replacement);
-void M_StringReplaceAll(char *haystack, const char *needle, const char *replacement);
+void M_StringReplaceAll(char *haystack, const char *needle, const char *replacement, bool usecase);
 char *M_TempFile(char *s);
 char *M_StringJoin(const char *s, ...);
 bool M_StringStartsWith(const char *s, const char *prefix);

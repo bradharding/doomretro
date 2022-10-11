@@ -2315,8 +2315,8 @@ static void D_DoomMainSetup(void)
             skilllevel = startskill + 1;
             M_SaveCVARs();
 
-            M_StringReplaceAll(string, ".", "");
-            M_StringReplaceAll(string, "!", "");
+            M_StringReplaceAll(string, ".", "", false);
+            M_StringReplaceAll(string, "!", "", false);
 
             C_Output("A " BOLD("-%s") " parameter was found on the command-line. The skill level is now " ITALICS("%s."),
                 myargv[p], string);

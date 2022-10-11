@@ -1371,7 +1371,7 @@ void HU_SetPlayerMessage(char *message, bool group, bool external)
     if (message_secret)
         return;
 
-    M_StringReplaceAll(message, "%%", "%");
+    M_StringReplaceAll(message, "%%", "%", false);
 
     if (!group)
         viewplayer->message = M_StringDuplicate(message);
