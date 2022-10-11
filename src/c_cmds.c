@@ -5226,7 +5226,8 @@ char *distancetraveled(uint64_t value, bool allowzero)
                 {
                     char    *temp = commify((int64_t)feet);
 
-                    M_snprintf(result, sizeof(result), "%s %s", temp, (M_StringCompare(temp, "1") ? "foot" : "feet"));
+                    M_snprintf(result, sizeof(result), "%s %s",
+                        temp, (M_StringCompare(temp, "1") ? "foot" : "feet"));
                     free(temp);
                 }
                 else
@@ -5361,7 +5362,8 @@ static void C_PlayerStats_Game(void)
     free(temp2);
 
     if (favoriteskilllevel1 == sk_none)
-        C_TabbedOutput(tabs, "Favorite skill level\t\x96\t\x96");
+        C_TabbedOutput(tabs, "%s skill level\t\x96\t\x96",
+            (english == english_american ? "Favorite" : "Favourite"));
     else
     {
         temp1 = titlecase(*skilllevels[skilllevel - 1]);
@@ -5374,7 +5376,8 @@ static void C_PlayerStats_Game(void)
         if (temp2[strlen(temp2) - 1] == '.')
             temp2[strlen(temp2) - 1] = '\0';
 
-        C_TabbedOutput(tabs, "Favorite skill level\t" ITALICS("%s") "\t" ITALICS("%s"), temp1, temp2);
+        C_TabbedOutput(tabs, "%s skill level\t" ITALICS("%s") "\t" ITALICS("%s"),
+            (english == english_american ? "Favorite" : "Favourite"), temp1, temp2);
         free(temp1);
         free(temp2);
     }
@@ -5507,7 +5510,7 @@ static void C_PlayerStats_Game(void)
 
     temp1 = commify(viewplayer->itemspickedup_armor);
     temp2 = commifystat(stat_itemspickedup_armor);
-    C_TabbedOutput(tabs, "Armor picked up\t%s\t%s", temp1, temp2);
+    C_TabbedOutput(tabs, "%s picked up\t%s\t%s", (english == english_american ? "Armor" : "Armour"), temp1, temp2);
     free(temp1);
     free(temp2);
 
@@ -5739,16 +5742,16 @@ static void C_PlayerStats_Game(void)
     if (favoriteweapon1 == wp_nochange && favoriteweapon2 == wp_nochange)
     {
         temp1 = titlecase(weaponinfo[wp_pistol].name);
-        C_TabbedOutput(tabs, "Favorite weapon\t%s\t%s",
-            temp1, temp1);
+        C_TabbedOutput(tabs, "%s weapon\t%s\t%s",
+            (english == english_american ? "Favorite" : "Favourite"), temp1, temp1);
         free(temp1);
     }
     else if (favoriteweapon1 == wp_nochange)
     {
         temp1 = titlecase(weaponinfo[wp_pistol].name);
         temp2 = titlecase(weaponinfo[favoriteweapon2].name);
-        C_TabbedOutput(tabs, "Favorite weapon\t%s\t%s",
-            temp1, temp2);
+        C_TabbedOutput(tabs, "%s weapon\t%s\t%s",
+            (english == english_american ? "Favorite" : "Favourite"), temp1, temp2);
         free(temp1);
         free(temp2);
     }
@@ -5756,8 +5759,8 @@ static void C_PlayerStats_Game(void)
     {
         temp1 = titlecase(weaponinfo[favoriteweapon1].name);
         temp2 = titlecase(weaponinfo[favoriteweapon2].name);
-        C_TabbedOutput(tabs, "Favorite weapon\t%s\t%s",
-            temp1, temp2);
+        C_TabbedOutput(tabs, "%s weapon\t%s\t%s",
+            (english == english_american ? "Favorite" : "Favourite"), temp1, temp2);
         free(temp1);
         free(temp2);
     }
@@ -5812,7 +5815,7 @@ static void C_PlayerStats_NoGame(void)
     free(temp1);
 
     if (favoriteskilllevel1 == sk_none)
-        C_TabbedOutput(tabs, "Favorite skill level\t\x96\t\x96");
+        C_TabbedOutput(tabs, "%s skill level\t\x96\t\x96");
     else
     {
         temp1 = titlecase(*skilllevels[favoriteskilllevel1]);
@@ -5820,7 +5823,8 @@ static void C_PlayerStats_NoGame(void)
         if (temp1[strlen(temp1) - 1] == '.')
             temp1[strlen(temp1) - 1] = '\0';
 
-        C_TabbedOutput(tabs, "Favorite skill level\t\x96\t" ITALICS("%s"), temp1);
+        C_TabbedOutput(tabs, "Favorite skill level\t\x96\t" ITALICS("%s"),
+            (english == english_american ? "Favorite" : "Favourite"), temp1);
         free(temp1);
     }
 
@@ -5912,7 +5916,7 @@ static void C_PlayerStats_NoGame(void)
     free(temp1);
 
     temp1 = commifystat(stat_itemspickedup_armor);
-    C_TabbedOutput(tabs, "Armor picked up\t\x96\t%s", temp1);
+    C_TabbedOutput(tabs, "%s picked up\t\x96\t%s", (english == english_american ? "Armor" : "Armour"), temp1);
     free(temp1);
 
     temp1 = commifystat(stat_itemspickedup_health);
@@ -6049,7 +6053,7 @@ static void C_PlayerStats_NoGame(void)
     }
 
     temp1 = titlecase(weaponinfo[(favoriteweapon1 == wp_nochange ? wp_pistol : favoriteweapon1)].name);
-    C_TabbedOutput(tabs, "Favorite weapon\t\x96\t%s", temp1);
+    C_TabbedOutput(tabs, "%s weapon\t\x96\t%s", (english == english_american ? "Favorite" : "Favourite"), temp1);
     free(temp1);
 
     temp1 = distancetraveled(stat_distancetraveled, true);
