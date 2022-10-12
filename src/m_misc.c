@@ -576,10 +576,10 @@ void M_vsnprintf(char *buf, int buf_len, const char *s, va_list args)
 {
     if (buf_len >= 1)
     {
-        // Windows (and other OSes?) has a vsnprintf() that doesn't always
+        // Windows (and other OSes?) have a vsnprintf() that doesn't always
         // append a trailing \0. So we must do it, and write into a buffer
         // that is one byte shorter; otherwise this function is unsafe.
-        int result = vsnprintf(buf, buf_len, s, args);
+        const int   result = vsnprintf(buf, buf_len, s, args);
 
         // If truncated, change the final char in the buffer to a \0.
         // A negative result indicates a truncated buffer on Windows.
@@ -601,8 +601,8 @@ void M_snprintf(char *buf, int buf_len, const char *s, ...)
 #if !defined(strndup)
 char *strndup(const char *s, size_t n)
 {
-    size_t  len = strnlen(s, n);
-    char    *new = malloc(len + 1);
+    const size_t    len = strnlen(s, n);
+    char            *new = malloc(len + 1);
 
     if (!new)
         return NULL;
@@ -614,7 +614,7 @@ char *strndup(const char *s, size_t n)
 
 char *M_SubString(const char *str, size_t begin, size_t len)
 {
-    size_t  length = strlen(str);
+    const size_t    length = strlen(str);
 
     if (!length || length < begin || length < begin + len)
         return 0;
@@ -763,8 +763,8 @@ bool wildcard(char *input, char *pattern)
             continue;
         else if (pattern[i] == '*')
         {
-            for (int z = i; input[z] != '\0'; z++)
-                if (wildcard(input + z, pattern + i + 1))
+            for (int j = i; input[j] != '\0'; j++)
+                if (wildcard(input + j, pattern + i + 1))
                     return true;
 
             return false;
@@ -929,36 +929,6 @@ char *striptrailingzero(float value, int precision)
     return result;
 }
 
-static const int hextable[] =
-{
-    -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
-    -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
-    -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
-     0,  1,  2,  3,  4,  5,  6,  7,  8,  9, -1, -1, -1, -1, -1, -1,
-    -1, 10, 11, 12, 13, 14, 15, -1, -1, -1, -1, -1, -1, -1, -1, -1,
-    -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
-    -1, 10, 11, 12, 13, 14, 15, -1, -1, -1, -1, -1, -1, -1, -1, -1,
-    -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
-    -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
-    -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
-    -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
-    -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
-    -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
-    -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
-    -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
-    -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1
-};
-
-int hextodec(char *hex)
-{
-    int ret = 0;
-
-    while (*hex && ret >= 0)
-        ret = ((ret << 4) | hextable[(int)(*hex++)]);
-
-    return ret;
-}
-
 void M_StripQuotes(char *str)
 {
     int len = (int)strlen(str);
@@ -1003,6 +973,7 @@ char *pronoun(pronountype_t type)
 
 void M_AmericanToInternationalEnglish(char *string)
 {
+    M_StringReplaceAll(string, "agonizing", "agonising", true);
     M_StringReplaceAll(string, "armor", "armour", true);
     M_StringReplaceAll(string, "ARMOR", "ARMOUR", true);
     M_StringReplaceAll(string, "Armor", "Armour", true);
@@ -1031,6 +1002,7 @@ void M_AmericanToInternationalEnglish(char *string)
 
 void M_InternationalToAmericanEnglish(char *string)
 {
+    M_StringReplaceAll(string, "agonising", "agonizing", true);
     M_StringReplaceAll(string, "armour", "armor", true);
     M_StringReplaceAll(string, "ARMOUR", "ARMOR", true);
     M_StringReplaceAll(string, "Armour", "Armor", true);

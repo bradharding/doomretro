@@ -397,7 +397,6 @@ static void vanilla_cmd_func2(char *cmd, char *parms);
 
 static bool bool_cvars_func1(char *cmd, char *parms);
 static void bool_cvars_func2(char *cmd, char *parms);
-static bool color_cvars_func1(char *cmd, char *parms);
 static void color_cvars_func2(char *cmd, char *parms);
 static bool float_cvars_func1(char *cmd, char *parms);
 static bool int_cvars_func1(char *cmd, char *parms);
@@ -524,66 +523,66 @@ consolecmd_t consolecmds[] =
         "Creates an " BOLDITALICS("alias") " that executes a string of " BOLDITALICS("commands") "."),
     CVAR_BOOL(alwaysrun, "", bool_cvars_func1, alwaysrun_cvar_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles the player to always run instead of walk."),
-    CVAR_INT(am_allmapcdwallcolor, am_allmapcdwallcolour, color_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
+    CVAR_INT(am_allmapcdwallcolor, am_allmapcdwallcolour, int_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The color of unmapped lines in the automap indicating a change in a ceiling's height once the player has a computer area map "
         "power-up (" BOLD("0") " to " BOLD("255") ")."),
-    CVAR_INT(am_allmapfdwallcolor, am_allmapfdwallcolour, color_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
+    CVAR_INT(am_allmapfdwallcolor, am_allmapfdwallcolour, int_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The color of unmapped lines in the automap indicating a change in a floor's height once the player has a computer area map "
         "power-up (" BOLD("0") " to " BOLD("255") ")."),
-    CVAR_INT(am_allmapwallcolor, am_allmapwallcolour, color_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
+    CVAR_INT(am_allmapwallcolor, am_allmapwallcolour, int_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The color of unmapped solid walls in the automap once the player has a computer area map power-up (" BOLD("0") " to "
         BOLD("255") ")."),
-    CVAR_INT(am_backcolor, am_backcolour, color_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
+    CVAR_INT(am_backcolor, am_backcolour, int_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The color of the automap's background (" BOLD("0") " to " BOLD("255") ")."),
-    CVAR_INT(am_bluedoorcolor, am_bluedoorcolour, color_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
+    CVAR_INT(am_bluedoorcolor, am_bluedoorcolour, int_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The color of doors in the automap unlocked using a blue keycard or skull key (" BOLD("0") " to " BOLD("255") ")."),
-    CVAR_INT(am_bluekeycolor, am_bluekeycolour, color_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
+    CVAR_INT(am_bluekeycolor, am_bluekeycolour, int_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The color of blue keycards and skull keys in the automap (" BOLD("0") " to " BOLD("255") ")."),
-    CVAR_INT(am_cdwallcolor, am_cdwallcolour, color_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
+    CVAR_INT(am_cdwallcolor, am_cdwallcolour, int_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The color of lines in the automap indicating a change in a ceiling's height (" BOLD("0") " to " BOLD("255") ")."),
-    CVAR_INT(am_crosshaircolor, am_crosshaircolour, color_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
+    CVAR_INT(am_crosshaircolor, am_crosshaircolour, int_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The color of the crosshair in the automap when follow mode is off (" BOLD("0") " to " BOLD("255") ")."),
     CVAR_INT(am_display, "", int_cvars_func1, am_display_cvar_func2, CF_NONE, NOVALUEALIAS,
         "The display used to show the external automap."),
     CVAR_BOOL(am_external, "", bool_cvars_func1, am_external_cvar_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles showing the automap on an external display."),
-    CVAR_INT(am_fdwallcolor, am_fdwallcolour, color_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
+    CVAR_INT(am_fdwallcolor, am_fdwallcolour, int_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The color of lines in the automap indicating a change in a floor's height (" BOLD("0") " to " BOLD("255") ")."),
     CVAR_BOOL(am_followmode, "", game_func1, am_followmode_cvar_func2, CF_MAPRESET, BOOLVALUEALIAS,
         "Toggles follow mode in the automap."),
     CVAR_BOOL(am_grid, "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles the grid in the automap."),
-    CVAR_INT(am_gridcolor, am_gridcolour, color_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
+    CVAR_INT(am_gridcolor, am_gridcolour, int_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The color of the grid in the automap (" BOLD("0") " to " BOLD("255") ")."),
     CVAR_OTHER(am_gridsize, "", null_func1, am_gridsize_cvar_func2,
         "The size of the grid in the automap (" BOLDITALICS("width") BOLD("\xD7") BOLDITALICS("height") ")."),
-    CVAR_INT(am_markcolor, am_markcolour, color_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
+    CVAR_INT(am_markcolor, am_markcolour, int_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The color of marks in the automap (" BOLD("0") " to " BOLD("255") ")."),
     CVAR_BOOL(am_path, "", bool_cvars_func1, am_path_cvar_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles the player's path in the automap."),
-    CVAR_INT(am_pathcolor, am_pathcolour, color_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
+    CVAR_INT(am_pathcolor, am_pathcolour, int_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The color of the player's path in the automap (" BOLD("0") " to " BOLD("255") ")."),
-    CVAR_INT(am_playercolor, am_playercolour, color_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
+    CVAR_INT(am_playercolor, am_playercolour, int_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The color of the player's arrow in the automap (" BOLD("0") " to " BOLD("255") ")."),
     CVAR_BOOL(am_playerstats, "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles player stats in the automap."),
-    CVAR_INT(am_reddoorcolor, am_reddoorcolour, color_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
+    CVAR_INT(am_reddoorcolor, am_reddoorcolour, int_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The color of doors in the automap unlocked using a red keycard or skull key (" BOLD("0") " to " BOLD("255") ")."),
-    CVAR_INT(am_redkeycolor, am_redkeycolour, color_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
+    CVAR_INT(am_redkeycolor, am_redkeycolour, int_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The color of red keycards and skull keys in the automap (" BOLD("0") " to " BOLD("255") ")."),
     CVAR_BOOL(am_rotatemode, "", bool_cvars_func1, am_rotatemode_cvar_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles rotate mode in the automap."),
-    CVAR_INT(am_teleportercolor, am_teleportercolour, color_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
+    CVAR_INT(am_teleportercolor, am_teleportercolour, int_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The color of teleporter lines in the automap (" BOLD("0") " to " BOLD("255") ")."),
-    CVAR_INT(am_thingcolor, am_thingcolour, color_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
+    CVAR_INT(am_thingcolor, am_thingcolour, int_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The color of things in the automap (" BOLD("0") " to " BOLD("255") ")."),
-    CVAR_INT(am_tswallcolor, am_tswallcolour, color_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
+    CVAR_INT(am_tswallcolor, am_tswallcolour, int_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The color of lines in the automap indicating no change in height (" BOLD("0") " to " BOLD("255") ")."),
-    CVAR_INT(am_wallcolor, am_wallcolour, color_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
+    CVAR_INT(am_wallcolor, am_wallcolour, int_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The color of solid walls in the automap (" BOLD("0") " to " BOLD("255") ")."),
-    CVAR_INT(am_yellowdoorcolor, am_yellowdoorcolour, color_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
+    CVAR_INT(am_yellowdoorcolor, am_yellowdoorcolour, int_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The color of doors in the automap unlocked using a yellow keycard or skull key (" BOLD("0") " to " BOLD("255") ")."),
-    CVAR_INT(am_yellowkeycolor, am_yellowkeycolour, color_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
+    CVAR_INT(am_yellowkeycolor, am_yellowkeycolour, int_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The color of yellow keycards and skull keys in the automap (" BOLD("0") " to " BOLD("255") ")."),
     CVAR_INT(ammo, "", player_cvars_func1, player_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The amount of ammo the player has for their currently equipped weapon."),
@@ -618,7 +617,7 @@ consolecmd_t consolecmds[] =
         "Dumps the contents of the console to a file."),
     CVAR_INT(crosshair, "", crosshair_cvar_func1, crosshair_cvar_func2, CF_NONE, CROSSHAIRVALUEALIAS,
         "Toggles the player's crosshair (" BOLD("none") ", " BOLD("cross") " or " BOLD("dot") ")."),
-    CVAR_INT(crosshaircolor, crosshaircolour, color_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
+    CVAR_INT(crosshaircolor, crosshaircolour, int_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The color of the player's crosshair (" BOLD("0") " to " BOLD("255") ")."),
     CCMD(cvarlist, "", null_func1, cvarlist_cmd_func2, true, "[" BOLDITALICS("searchstring") "]",
         "Lists all console variables."),
@@ -636,7 +635,7 @@ consolecmd_t consolecmds[] =
         "The currently selected " ITALICS("DOOM II") " expansion in the menu (" BOLD("1") " or " BOLD("2") ")."),
     CCMD(explode, "", kill_cmd_func1, kill_cmd_func2, true, EXPLODECMDFORMAT,
         "Explodes all " BOLD("barrels") " or " BOLD("missiles") "."),
-    CVAR_INT(facebackcolor, facebackcolour, color_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
+    CVAR_INT(facebackcolor, facebackcolour, int_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The background color of the player's face in the status bar (" BOLD("0") " to " BOLD("255") ")."),
     CVAR_BOOL(fade, "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles a fading effect when transitioning between some screens."),
@@ -7791,41 +7790,9 @@ static void bool_cvars_func2(char *cmd, char *parms)
 //
 // color CVARs
 //
-
-static bool color_cvars_func1(char *cmd, char *parms)
-{
-    if (!*parms)
-        return true;
-    else
-    {
-        char    *temp;
-        bool    result = false;
-
-        temp = M_SubString(parms, 1, 6);
-        result = ((strlen(parms) == 7 && parms[0] == '#' && hextodec(temp) >= 0) || int_cvars_func1(cmd, parms));
-        free(temp);
-
-        return result;
-    }
-}
-
 static void color_cvars_func2(char *cmd, char *parms)
 {
-    if (strlen(parms) == 7 && parms[0] == '#')
-    {
-        char    buffer[8];
-        char    *temp1 = M_SubString(parms, 1, 2);
-        char    *temp2 = M_SubString(parms, 3, 2);
-        char    *temp3 = M_SubString(parms, 5, 2);
-
-        M_snprintf(buffer, sizeof(buffer), "%i", FindNearestColor(PLAYPAL, hextodec(temp1), hextodec(temp2), hextodec(temp3)));
-        int_cvars_func2(cmd, buffer);
-        free(temp1);
-        free(temp2);
-        free(temp3);
-    }
-    else
-        int_cvars_func2(cmd, parms);
+    int_cvars_func2(cmd, parms);
 
     if (*parms)
         AM_SetColors();

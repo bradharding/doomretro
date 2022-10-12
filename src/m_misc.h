@@ -110,7 +110,6 @@ bool isvowel(const char ch);
 bool ispunctuation(const char ch);
 bool isbreak(const char ch);
 char *striptrailingzero(float value, int precision);
-int hextodec(char *hex);
 void M_StripQuotes(char *str);
 void M_NormalizeSlashes(char *str);
 char *pronoun(pronountype_t type);
