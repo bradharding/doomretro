@@ -2569,18 +2569,22 @@ static void give_cmd_func2(char *cmd, char *parms)
                 S_StartSound(viewplayer->mo, sfx_itemup);
 
                 if (M_StringCompare(playername, playername_default))
-                    C_PlayerMessage("You were given full armor.");
+                    C_PlayerMessage("You were given full %s.",
+                        (english == english_american ? "armor" : "armour"));
                 else
-                    C_PlayerMessage("%s was given full armor.", playername);
+                    C_PlayerMessage("%s was given full %s.",
+                        playername, (english == english_american ? "armor" : "armour"));
 
                 C_HideConsole();
             }
             else
             {
                 if (M_StringCompare(playername, playername_default))
-                    C_Warning(0, "You already have full armor.");
+                    C_Warning(0, "You already have full %s.",
+                        (english == english_american ? "armor" : "armour"));
                 else
-                    C_Warning(0, "%s already has full armor.", playername);
+                    C_Warning(0, "%s already has full %s.",
+                        playername, (english == english_american ? "armor" : "armour"));
 
                 free(parm);
                 return;
@@ -7275,13 +7279,16 @@ static void take_cmd_func2(char *cmd, char *parms)
             {
                 viewplayer->armorpoints = 0;
                 viewplayer->armortype = armortype_none;
-                C_PlayerMessage("All armor was taken from %s.", playername);
+                C_PlayerMessage("All %s was taken from %s.",
+                    (english == english_american ? "armor" : "armour"), playername);
                 C_HideConsole();
             }
             else if (M_StringCompare(playername, playername_default))
-                C_Warning(0, "You don't have any armor.");
+                C_Warning(0, "You don't have any %s.",
+                    (english == english_american ? "armor" : "armour"));
             else
-                C_Warning(0, "%s doesn't have any armor.", playername);
+                C_Warning(0, "%s doesn't have any %s.",
+                    playername, (english == english_american ? "armor" : "armour"));
         }
         else if (M_StringCompare(parm, "keys") || M_StringCompare(parm, "allkeys"))
         {
