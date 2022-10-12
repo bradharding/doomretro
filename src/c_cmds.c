@@ -7672,24 +7672,6 @@ static void vanilla_cmd_func2(char *cmd, char *parms)
 
     togglingvanilla = true;
 
-    for (int i = 0; *actions[i].action; i++)
-    {
-        if (actions[i].keyboard1)
-            *(int *)actions[i].keyboard1 = 0;
-
-        if (actions[i].keyboard2)
-            *(int *)actions[i].keyboard2 = 0;
-
-        if (actions[i].mouse1)
-            *(int *)actions[i].mouse1 = -1;
-
-        if (actions[i].gamecontroller1)
-            *(int *)actions[i].gamecontroller1 = 0;
-
-        if (actions[i].gamecontroller2)
-            *(int *)actions[i].gamecontroller2 = 0;
-    }
-
     if (vanilla)
     {
         SC_Open("VANILLA");
