@@ -1452,7 +1452,8 @@ static void SetVideoMode(bool createwindow, bool output)
                 char    *temp1 = commify(width);
                 char    *temp2 = commify(height);
 
-                C_Output("Created a %sx%s resizable window centered on the screen.", temp1, temp2);
+                C_Output("Created a %sx%s resizable window %s on the screen.",
+                    temp1, temp2, (english == english_american ? "centered" : "centred"));
 
                 free(temp1);
                 free(temp2);
@@ -1513,16 +1514,19 @@ static void SetVideoMode(bool createwindow, bool output)
             char    *temp5 = commify((int64_t)upscaledwidth * SCREENWIDTH);
             char    *temp6 = commify((int64_t)upscaledheight * SCREENHEIGHT);
 
-            C_Output("Every frame is scaled up from %sx%s to %sx%s using nearest-neighbor interpolation and then down to %sx%s using "
-                "linear filtering.", temp1, temp2, temp5, temp6, temp3, temp4);
+            C_Output("Every frame is scaled up from %sx%s to %sx%s using nearest-%s interpolation "
+                "and then down to %sx%s using linear filtering.",
+                temp1, temp2, temp5, temp6, (english == english_american ? "neighbor" : "neighbour"), temp3, temp4);
 
             free(temp5);
             free(temp6);
         }
         else if (M_StringCompare(vid_scalefilter, vid_scalefilter_linear) && !software)
-            C_Output("Every frame is scaled up from %sx%s to %sx%s using linear filtering.", temp1, temp2, temp3, temp4);
+            C_Output("Every frame is scaled up from %sx%s to %sx%s using linear filtering.",
+                temp1, temp2, temp3, temp4);
         else
-            C_Output("Every frame is scaled up from %sx%s to %sx%s using nearest-neighbor interpolation.", temp1, temp2, temp3, temp4);
+            C_Output("Every frame is scaled up from %sx%s to %sx%s using nearest-%s interpolation.",
+                temp1, temp2, temp3, temp4, (english == english_american ? "neighbor" : "neighbour"));
 
         free(temp1);
         free(temp2);
@@ -1681,8 +1685,10 @@ static void SetVideoMode(bool createwindow, bool output)
         wadfile_t   *playpalwad = lumpinfo[W_CheckNumForName("PLAYPAL")]->wadfile;
 
         if (!M_StringCompare(leafname(playpalwad->path), DOOMRETRO_WAD) && !devparm)
-            C_Output("Using the 256-color palette from the " BOLD("PLAYPAL") " lump in the %s " BOLD("%s") ".",
-                (playpalwad->type == IWAD ? "IWAD" : "PWAD"), playpalwad->path);
+            C_Output("Using the 256-%s palette from the " BOLD("PLAYPAL") " lump in the %s " BOLD("%s") ".",
+                (english == english_american ? "color" : "colour"),
+                (playpalwad->type == IWAD ? "IWAD" : "PWAD"),
+                playpalwad->path);
 
         if (gammaindex == 10)
             C_Output("There is no gamma correction.");

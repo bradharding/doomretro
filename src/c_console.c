@@ -2521,11 +2521,13 @@ void C_PrintCompileDate(void)
     C_Output("It was compiled using " ITALICS("Clang v%i.%i.%i."), __clang_major__, __clang_minor__, __clang_patchlevel__);
 #elif defined(_MSC_FULL_VER)
     if (_MSC_BUILD)
-        C_Output("It was compiled using v%i.%02i.%i.%i of the " ITALICS("Microsoft C/C++ Optimizing Compiler."),
-            _MSC_FULL_VER / 10000000, (_MSC_FULL_VER % 10000000) / 100000, _MSC_FULL_VER % 100000, _MSC_BUILD);
+        C_Output("It was compiled using v%i.%02i.%i.%i of the " ITALICS("Microsoft C/C++ %s Compiler."),
+            _MSC_FULL_VER / 10000000, (_MSC_FULL_VER % 10000000) / 100000, _MSC_FULL_VER % 100000, _MSC_BUILD,
+            (english == english_american ? "Optimizing" : "Optimising"));
     else
-        C_Output("It was compiled using v%i.%02i.%i of the " ITALICS("Microsoft C/C++ Optimizing Compiler."),
-            _MSC_FULL_VER / 10000000, (_MSC_FULL_VER % 10000000) / 100000, _MSC_FULL_VER % 100000);
+        C_Output("It was compiled using v%i.%02i.%i of the " ITALICS("Microsoft C/C++ %s Compiler."),
+            _MSC_FULL_VER / 10000000, (_MSC_FULL_VER % 10000000) / 100000, _MSC_FULL_VER % 100000,
+            (english == english_american ? "Optimizing" : "Optimising"));
 #endif
 }
 
