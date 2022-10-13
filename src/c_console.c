@@ -2159,6 +2159,7 @@ bool C_Responder(event_t *ev)
                         bool        endspace2;
                         int         len2;
                         int         game;
+                        int         language;
 
                         autocomplete += scrolldirection;
 
@@ -2179,10 +2180,14 @@ bool C_Responder(event_t *ev)
                         spaces2 = numspaces(output);
                         endspace2 = (len2 > 0 && output[len2 - 1] == ' ');
                         game = autocompletelist[autocomplete].game;
+                        language = autocompletelist[autocomplete].language;
 
                         if ((game == DOOM1AND2
                             || (gamemission == doom && game == DOOM1ONLY)
                             || (gamemission != doom && game == DOOM2ONLY))
+                            && (language == ENGLISH
+                                || (english == english_american && language == AMERICANENGLISHONLY)
+                                || (english == english_international && language == INTERNATIONALENGLISHONLY))
                             && M_StringStartsWith(output, input)
                             && input[strlen(input) - 1] != '+'
                             && ((!spaces1 && (!spaces2 || (spaces2 == 1 && endspace2)))
