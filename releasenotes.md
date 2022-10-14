@@ -7,6 +7,7 @@
 * Several optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Changes have been made to the splash screen’s animation.
 * Several changes have been made to text that is output to the console.
+* Minor improvements have been made to the console’s autocomplete feature.
 * CCMDs in the console that can only be used while playing a game, or while the player is alive, may now be entered at any time, displaying a description of the CCMD along with a warning about its usage.
 * The bottom edge of the console is now a slightly brighter red.
 * These changes have been made to the external automap:
@@ -31,9 +32,9 @@
   * Unless replaced in a PWAD, stimpacks, medikits and berserk power-ups now always show a red cross, rather than a green cross or a pill.
 * Even though it can’t be played, the fourth episode of *DOOM* is now displayed in the episode menu of *DOOM (Shareware)*.
 * The horizontal position of player messages has now improved, and is consistent when toggling widescreen.
-* When to spawn blood splats around a decoration spawned at the start of a map when the `r_corpses_moreblood` CVAR is `on` has now improved if the decoration’s sprite is replaced in a PWAD.
+* When to spawn blood splats around a decoration when the `r_corpses_moreblood` CVAR is `on` has now improved if the decoration’s sprite is replaced in a PWAD.
 * A bug is fixed whereby the wrong `M_DOOM` lump was displayed in the main menu in some instances.
-* Minor improvements have been made to adjusting the music volume.
+* Minor improvements have been made when adjusting the music volume.
 * Bullet puffs are now spawned again when barrels are shot at.
 * The vertical position of blood and bullet puffs spawned is now more random.
 * The player’s view now shakes when they punch something and have a berserk power-up. This feature may be toggled using the new `r_shake_berserk` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
