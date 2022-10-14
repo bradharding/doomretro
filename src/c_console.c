@@ -1795,7 +1795,7 @@ bool C_ValidateInput(char *input)
                     M_StringCopy(cmd, input, sizeof(cmd));
                     cmd[length - 2] = '\0';
 
-                    if ((M_StringCompare(cmd, consolecmds[i].name) || M_StringCompare(cmd, consolecmds[i].alternate))
+                    if (M_StringCompare(cmd, consolecmds[i].name)
                         && length == strlen(cmd) + 2
                         && consolecmds[i].func1(consolecmds[i].name, consolecheatparm))
                     {
@@ -1806,7 +1806,7 @@ bool C_ValidateInput(char *input)
                     }
                 }
             }
-            else if ((M_StringCompare(input, consolecmds[i].name) || M_StringCompare(input, consolecmds[i].alternate))
+            else if (M_StringCompare(input, consolecmds[i].name)
                 && consolecmds[i].func1(consolecmds[i].name, ""))
             {
                 M_StringCopy(consolecheat, input, sizeof(consolecheat));
@@ -1894,6 +1894,7 @@ bool C_Responder(event_t *ev)
         {
             keydown = key;
             C_HideConsole();
+
             return true;
         }
         else if (key == keyboardscreenshot && keyboardscreenshot == KEY_PRINTSCREEN)

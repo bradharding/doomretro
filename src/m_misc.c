@@ -974,6 +974,11 @@ char *pronoun(pronountype_t type)
 void M_AmericanToInternationalEnglish(char *string)
 {
     M_StringReplaceAll(string, "agonizing", "agonising", true);
+    M_StringReplaceAll(string, "AGONIZING", "AGONISING", true);
+    M_StringReplaceAll(string, "Agonizing", "Agonising", true);
+    M_StringReplaceAll(string, "analog", "analogue", true);
+    M_StringReplaceAll(string, "ANALOG", "ANALOGUE", true);
+    M_StringReplaceAll(string, "Analog", "Analogue", true);
     M_StringReplaceAll(string, "armor", "armour", true);
     M_StringReplaceAll(string, "ARMOR", "ARMOUR", true);
     M_StringReplaceAll(string, "Armor", "Armour", true);
@@ -998,11 +1003,19 @@ void M_AmericanToInternationalEnglish(char *string)
     M_StringReplaceAll(string, "neighbor", "neighbour", true);
     M_StringReplaceAll(string, "NEIGHBOR", "NEIGHBOUR", true);
     M_StringReplaceAll(string, "Neighbor", "Neighbour", true);
+    M_StringReplaceAll(string, "traveled", "travelled", true);
+    M_StringReplaceAll(string, "TRAVELED", "TRAVELLED", true);
+    M_StringReplaceAll(string, "Traveled", "Travelled", true);
 }
 
 void M_InternationalToAmericanEnglish(char *string)
 {
     M_StringReplaceAll(string, "agonising", "agonizing", true);
+    M_StringReplaceAll(string, "AGONISING", "AGONIZING", true);
+    M_StringReplaceAll(string, "Agonising", "Agonizing", true);
+    M_StringReplaceAll(string, "analogue", "analog", true);
+    M_StringReplaceAll(string, "ANALOGUE", "ANALOG", true);
+    M_StringReplaceAll(string, "Analogue", "Analog", true);
     M_StringReplaceAll(string, "armour", "armor", true);
     M_StringReplaceAll(string, "ARMOUR", "ARMOR", true);
     M_StringReplaceAll(string, "Armour", "Armor", true);
@@ -1027,4 +1040,7 @@ void M_InternationalToAmericanEnglish(char *string)
     M_StringReplaceAll(string, "neighbour", "neighbor", true);
     M_StringReplaceAll(string, "NEIGHBOUR", "NEIGHBOR", true);
     M_StringReplaceAll(string, "Neighbour", "Neighbor", true);
+    M_StringReplaceAll(string, "travelled", "traveled", true);
+    M_StringReplaceAll(string, "TRAVELLED", "TRAVELED", true);
+    M_StringReplaceAll(string, "Travelled", "Traveled", true);
 }

@@ -103,6 +103,7 @@ enum
 typedef struct
 {
     char        *name;
+    char        *altspelling;
     char        *alternate;
     bool        (*func1)(char *cmd, char *parms);
     void        (*func2)(char *cmd, char *parms);
