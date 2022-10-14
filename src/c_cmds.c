@@ -1217,6 +1217,21 @@ static void C_ShowDescription(int index)
             ((consolecmds[index].flags & CF_READONLY) ? "is " : "changes ")), description);
 }
 
+static void C_ShowFormat(int index)
+{
+    char    name[255];
+    char    format[255];
+
+    M_StringCopy(name, (english == english_american || M_StringCompare(consolecmds[index].altspelling, EMPTYVALUE) ?
+        consolecmds[index].name : consolecmds[index].altspelling), sizeof(name));
+    M_StringCopy(format, consolecmds[index].format, sizeof(format));
+
+    if (english == english_international)
+        M_AmericanToInternationalEnglish(format);
+
+    C_Output(BOLD("%s") " %s", name, format);
+}
+
 static void C_ShowWarning(int index)
 {
     const int   flags = consolecmds[index].flags;
@@ -1382,9 +1397,10 @@ void alias_cmd_func2(char *cmd, char *parms)
 
     if (sscanf(parms, "%127s %127[^\n]", parm1, parm2) <= 0)
     {
-        C_ShowDescription(C_GetIndex(cmd));
-        C_Output(BOLD("%s") " %s", cmd, ALIASCMDFORMAT);
+        const int   i = C_GetIndex(cmd);
 
+        C_ShowDescription(i);
+        C_ShowFormat(i);
         return;
     }
 
@@ -1479,9 +1495,10 @@ void bind_cmd_func2(char *cmd, char *parms)
 
     if (sscanf(parms, "%127s %127[^\n]", parm1, parm2) <= 0)
     {
-        C_ShowDescription(C_GetIndex(cmd));
-        C_Output(BOLD("%s") " %s", cmd, BINDCMDFORMAT);
+        const int   i = C_GetIndex(cmd);
 
+        C_ShowDescription(i);
+        C_ShowFormat(i);
         return;
     }
 
@@ -1910,7 +1927,10 @@ static void cmdlist_cmd_func2(char *cmd, char *parms)
             M_StringCopy(description, consolecmds[i].description, sizeof(description));
 
             if (english == english_international)
+            {
+                M_AmericanToInternationalEnglish(format);
                 M_AmericanToInternationalEnglish(description);
+            }
 
             C_TabbedOutput(tabs, "%i.\t%s\t%s", count, format, description);
         }
@@ -2240,8 +2260,10 @@ static void exec_cmd_func2(char *cmd, char *parms)
 {
     if (!*parms)
     {
-        C_ShowDescription(C_GetIndex(cmd));
-        C_Output(BOLD("%s") " %s", cmd, EXECCMDFORMAT);
+        const int   i = C_GetIndex(cmd);
+
+        C_ShowDescription(i);
+        C_ShowFormat(i);
     }
     else
     {
@@ -2434,8 +2456,10 @@ static void give_cmd_func2(char *cmd, char *parms)
 
     if (!*parm)
     {
-        C_ShowDescription(C_GetIndex(cmd));
-        C_Output(BOLD("%s") " %s", cmd, GIVECMDFORMAT);
+        const int   i = C_GetIndex(cmd);
+
+        C_ShowDescription(i);
+        C_ShowFormat(i);
     }
     else
     {
@@ -2844,9 +2868,10 @@ static void if_cmd_func2(char *cmd, char *parms)
 
     if (sscanf(parms, "%63s %63s then %127[^\n]", parm1, parm2, parm3) != 3)
     {
-        C_ShowDescription(C_GetIndex(cmd));
-        C_Output(BOLD("%s") " %s", cmd, IFCMDFORMAT);
+        const int   i = C_GetIndex(cmd);
 
+        C_ShowDescription(i);
+        C_ShowFormat(i);
         return;
     }
 
@@ -3565,9 +3590,10 @@ static void load_cmd_func2(char *cmd, char *parms)
 
     if (!*parms)
     {
-        C_ShowDescription(C_GetIndex(cmd));
-        C_Output(BOLD("%s") " %s", cmd, LOADCMDFORMAT);
+        const int   i = C_GetIndex(cmd);
 
+        C_ShowDescription(i);
+        C_ShowFormat(i);
         return;
     }
 
@@ -3979,7 +4005,6 @@ static void map_cmd_func2(char *cmd, char *parms)
     {
         C_ShowDescription(C_GetIndex(cmd));
         C_Output(BOLD("%s") " %s", cmd, (gamemission == doom ? MAPCMDFORMAT1 : MAPCMDFORMAT2));
-
         return;
     }
 
@@ -4815,8 +4840,10 @@ static void name_cmd_func2(char *cmd, char *parms)
 {
     if (!*parms)
     {
-        C_ShowDescription(C_GetIndex(cmd));
-        C_Output(BOLD("%s") " %s", cmd, NAMECMDFORMAT);
+        const int   i = C_GetIndex(cmd);
+
+        C_ShowDescription(i);
+        C_ShowFormat(i);
     }
     else if (M_StringCompare(namecmdold, "player")
         || M_StringCompare(namecmdold, playername)
@@ -5120,8 +5147,10 @@ static void play_cmd_func2(char *cmd, char *parms)
 {
     if (!*parms)
     {
-        C_ShowDescription(C_GetIndex(cmd));
-        C_Output(BOLD("%s") " %s", cmd, PLAYCMDFORMAT);
+        const int   i = C_GetIndex(cmd);
+
+        C_ShowDescription(i);
+        C_ShowFormat(i);
     }
     else if (playcmdtype == 1)
         S_StartSound(NULL, playcmdid);
@@ -6107,8 +6136,10 @@ static void print_cmd_func2(char *cmd, char *parms)
 {
     if (!*parms)
     {
-        C_ShowDescription(C_GetIndex(cmd));
-        C_Output(BOLD("%s") " %s", cmd, PRINTCMDFORMAT);
+        const int   i = C_GetIndex(cmd);
+
+        C_ShowDescription(i);
+        C_ShowFormat(i);
     }
     else
     {
@@ -6176,9 +6207,10 @@ static void reset_cmd_func2(char *cmd, char *parms)
 {
     if (!*parms)
     {
-        C_ShowDescription(C_GetIndex(cmd));
-        C_Output(BOLD("%s") " %s", cmd, RESETCMDFORMAT);
+        const int   i = C_GetIndex(cmd);
 
+        C_ShowDescription(i);
+        C_ShowFormat(i);
         return;
     }
 
@@ -6674,8 +6706,10 @@ static void resurrect_cmd_func2(char *cmd, char *parms)
 
     if (!*parm)
     {
-        C_ShowDescription(C_GetIndex(cmd));
-        C_Output(BOLD("%s") " %s", cmd, RESURRECTCMDFORMAT);
+        const int   i = C_GetIndex(cmd);
+
+        C_ShowDescription(i);
+        C_ShowFormat(i);
     }
     else
     {
@@ -6838,9 +6872,10 @@ static void save_cmd_func2(char *cmd, char *parms)
 
     if (!*parms)
     {
-        C_ShowDescription(C_GetIndex(cmd));
-        C_Output(BOLD("%s") " %s", cmd, SAVECMDFORMAT);
+        const int   i = C_GetIndex(cmd);
 
+        C_ShowDescription(i);
+        C_ShowFormat(i);
         return;
     }
 
@@ -6933,8 +6968,10 @@ static void spawn_cmd_func2(char *cmd, char *parms)
 
     if (!*parm)
     {
-        C_ShowDescription(C_GetIndex(cmd));
-        C_Output(BOLD("%s") " %s", cmd, SPAWNCMDFORMAT);
+        const int   i = C_GetIndex(cmd);
+
+        C_ShowDescription(i);
+        C_ShowFormat(i);
     }
     else
     {
@@ -7137,8 +7174,10 @@ static void take_cmd_func2(char *cmd, char *parms)
 
     if (!*parm)
     {
-        C_ShowDescription(C_GetIndex(cmd));
-        C_Output(BOLD("%s") " %s", cmd, TAKECMDFORMAT);
+        const int   i = C_GetIndex(cmd);
+
+        C_ShowDescription(i);
+        C_ShowFormat(i);
     }
     else
     {
@@ -7429,10 +7468,10 @@ static void teleport_cmd_func2(char *cmd, char *parms)
 {
     if (!*parms)
     {
-        C_ShowDescription(C_GetIndex(cmd));
-        C_Output(BOLD("%s") " %s", cmd, TELEPORTCMDFORMAT);
+        const int   i = C_GetIndex(cmd);
 
-        return;
+        C_ShowDescription(i);
+        C_ShowFormat(i);
     }
     else
     {
@@ -7547,10 +7586,10 @@ static void timer_cmd_func2(char *cmd, char *parms)
 {
     if (!*parms)
     {
-        C_ShowDescription(C_GetIndex(cmd));
-        C_Output(BOLD("%s") " %s", cmd, TIMERCMDFORMAT);
+        const int   i = C_GetIndex(cmd);
 
-        return;
+        C_ShowDescription(i);
+        C_ShowFormat(i);
     }
     else
     {
@@ -7599,9 +7638,10 @@ static void toggle_cmd_func2(char *cmd, char *parms)
 {
     if (!*parms)
     {
-        C_ShowDescription(C_GetIndex(cmd));
-        C_Output(BOLD("%s") " %s", cmd, TOGGLECMDFORMAT);
+        const int   i = C_GetIndex(cmd);
 
+        C_ShowDescription(i);
+        C_ShowFormat(i);
         return;
     }
 
@@ -7646,9 +7686,10 @@ static void unbind_cmd_func2(char *cmd, char *parms)
 {
     if (!*parms)
     {
-        C_ShowDescription(C_GetIndex(cmd));
-        C_Output(BOLD("%s") " %s", cmd, UNBINDCMDFORMAT);
+        const int   i = C_GetIndex(cmd);
 
+        C_ShowDescription(i);
+        C_ShowFormat(i);
         return;
     }
 
