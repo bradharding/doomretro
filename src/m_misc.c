@@ -971,76 +971,52 @@ char *pronoun(pronountype_t type)
         return (playergender == playergender_male ? "himself" : (playergender == playergender_female ? "herself" : "themselves"));
 }
 
+const char *words[][2] =
+{
+    { "agonize",   "agonise"   },
+    { "agonizing", "agonising" },
+    { "analog",    "analogue"  },
+    { "armor",     "armour"    },
+    { "centering", "centring"  },
+    { "center",    "centre"    },
+    { "color",     "colour"    },
+    { "favor",     "favour"    },
+    { "gray",      "grey"      },
+    { "labor",     "labour"    },
+    { "license",   "licence"   },
+    { "meter",     "metre"     },
+    { "neighbor",  "neighbour" },
+    { "traveled",  "travelled" },
+    { "",          ""          }
+};
+
+static void M_Translate(char *string, const char *word1, const char *word2)
+{
+    char    *temp1 = M_StringDuplicate(word1);
+    char    *temp2 = M_StringDuplicate(word2);
+
+    M_StringReplaceAll(string, temp1, temp2, true);
+
+    temp1[0] = toupper(temp1[0]);
+    temp2[0] = toupper(temp2[0]);
+    M_StringReplaceAll(string, temp1, temp2, true);
+
+    temp1 = uppercase(word1);
+    temp2 = uppercase(word2);
+    M_StringReplaceAll(string, temp1, temp2, true);
+
+    free(temp1);
+    free(temp2);
+}
+
 void M_AmericanToInternationalEnglish(char *string)
 {
-    M_StringReplaceAll(string, "agonizing", "agonising", true);
-    M_StringReplaceAll(string, "AGONIZING", "AGONISING", true);
-    M_StringReplaceAll(string, "Agonizing", "Agonising", true);
-    M_StringReplaceAll(string, "analog", "analogue", true);
-    M_StringReplaceAll(string, "ANALOG", "ANALOGUE", true);
-    M_StringReplaceAll(string, "Analog", "Analogue", true);
-    M_StringReplaceAll(string, "armor", "armour", true);
-    M_StringReplaceAll(string, "ARMOR", "ARMOUR", true);
-    M_StringReplaceAll(string, "Armor", "Armour", true);
-    M_StringReplaceAll(string, "centering", "centring", true);
-    M_StringReplaceAll(string, "CENTERING", "CENTRING", true);
-    M_StringReplaceAll(string, "Centering", "Centring", true);
-    M_StringReplaceAll(string, "center", "centre", true);
-    M_StringReplaceAll(string, "CENTER", "CENTRE", true);
-    M_StringReplaceAll(string, "Center", "Centre", true);
-    M_StringReplaceAll(string, "color", "colour", true);
-    M_StringReplaceAll(string, "COLOR", "COLOUR", true);
-    M_StringReplaceAll(string, "Color", "Colour", true);
-    M_StringReplaceAll(string, "favor", "favour", true);
-    M_StringReplaceAll(string, "FAVOR", "FAVOUR", true);
-    M_StringReplaceAll(string, "Favor", "Favour", true);
-    M_StringReplaceAll(string, "labor", "labour", true);
-    M_StringReplaceAll(string, "LABOR", "LABOUR", true);
-    M_StringReplaceAll(string, "Labor", "Labour", true);
-    M_StringReplaceAll(string, "meter", "metre", true);
-    M_StringReplaceAll(string, "METER", "METRE", true);
-    M_StringReplaceAll(string, "Meter", "Metre", true);
-    M_StringReplaceAll(string, "neighbor", "neighbour", true);
-    M_StringReplaceAll(string, "NEIGHBOR", "NEIGHBOUR", true);
-    M_StringReplaceAll(string, "Neighbor", "Neighbour", true);
-    M_StringReplaceAll(string, "traveled", "travelled", true);
-    M_StringReplaceAll(string, "TRAVELED", "TRAVELLED", true);
-    M_StringReplaceAll(string, "Traveled", "Travelled", true);
+    for (int i = 0; *words[i][0]; i++)
+        M_Translate(string, words[i][0], words[i][1]);
 }
 
 void M_InternationalToAmericanEnglish(char *string)
 {
-    M_StringReplaceAll(string, "agonising", "agonizing", true);
-    M_StringReplaceAll(string, "AGONISING", "AGONIZING", true);
-    M_StringReplaceAll(string, "Agonising", "Agonizing", true);
-    M_StringReplaceAll(string, "analogue", "analog", true);
-    M_StringReplaceAll(string, "ANALOGUE", "ANALOG", true);
-    M_StringReplaceAll(string, "Analogue", "Analog", true);
-    M_StringReplaceAll(string, "armour", "armor", true);
-    M_StringReplaceAll(string, "ARMOUR", "ARMOR", true);
-    M_StringReplaceAll(string, "Armour", "Armor", true);
-    M_StringReplaceAll(string, "centring", "centering", true);
-    M_StringReplaceAll(string, "CENTRING", "CENTERING", true);
-    M_StringReplaceAll(string, "Centring", "Centering", true);
-    M_StringReplaceAll(string, "centre", "center", true);
-    M_StringReplaceAll(string, "CENTRE", "CENTER", true);
-    M_StringReplaceAll(string, "Centre", "Center", true);
-    M_StringReplaceAll(string, "colour", "color", true);
-    M_StringReplaceAll(string, "COLOUR", "COLOR", true);
-    M_StringReplaceAll(string, "Colour", "Color", true);
-    M_StringReplaceAll(string, "favour", "favor", true);
-    M_StringReplaceAll(string, "FAVOUR", "FAVOR", true);
-    M_StringReplaceAll(string, "Favour", "Favor", true);
-    M_StringReplaceAll(string, "labour", "labor", true);
-    M_StringReplaceAll(string, "LABOUR", "LABOR", true);
-    M_StringReplaceAll(string, "Labour", "Labor", true);
-    M_StringReplaceAll(string, "metre", "meter", true);
-    M_StringReplaceAll(string, "METRE", "METER", true);
-    M_StringReplaceAll(string, "Metre", "Meter", true);
-    M_StringReplaceAll(string, "neighbour", "neighbor", true);
-    M_StringReplaceAll(string, "NEIGHBOUR", "NEIGHBOR", true);
-    M_StringReplaceAll(string, "Neighbour", "Neighbor", true);
-    M_StringReplaceAll(string, "travelled", "traveled", true);
-    M_StringReplaceAll(string, "TRAVELLED", "TRAVELED", true);
-    M_StringReplaceAll(string, "Travelled", "Traveled", true);
+    for (int i = 0; *words[i][0]; i++)
+        M_Translate(string, words[i][1], words[i][0]);
 }

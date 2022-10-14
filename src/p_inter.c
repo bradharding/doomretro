@@ -1905,14 +1905,24 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, c
         {
             if (sector->terraintype >= LIQUID)
             {
-                const char *liquids[] =
+                const char *liquids[][2] =
                 {
-                    "liquid", "nukage", "water", "lava", "blood", "slime", "gray slime", "goop", "icy water", "tar", "sludge"
+                    { "liquid",     "liquid"     },
+                    { "nukage",     "nukage"     },
+                    { "water",      "water"      },
+                    { "lava",       "lava"       },
+                    { "blood",      "blood"      },
+                    { "slime",      "slime"      },
+                    { "gray slime", "grey slime" },
+                    { "goop",       "goop"       },
+                    { "icy water",  "icy water"  },
+                    { "tar",        "tar"        },
+                    { "sludge",     "sludge"     }
                 };
 
                 C_PlayerMessage("%s died in %s.",
                     (M_StringCompare(playername, playername_default) ? "You" : playername),
-                    liquids[sector->terraintype - LIQUID]);
+                    liquids[sector->terraintype - LIQUID][english]);
             }
             else
             {

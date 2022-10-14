@@ -706,7 +706,7 @@ consolecmd_t consolecmds[] =
         "The number of thumbsticks to use on the controller (" BOLD("1") " or " BOLD("2") ")."),
     CCMD(kill, "", "", kill_cmd_func1, kill_cmd_func2, true, KILLCMDFORMAT,
         "Kills the " BOLD("player") ", " BOLD("all") " monsters or a type of " BOLDITALICS("monster") "."),
-    CCMD(license, "", "", null_func1, license_cmd_func2, false, "",
+    CCMD(license, licence, "", null_func1, license_cmd_func2, false, "",
         "Displays the " ITALICS(DOOMRETRO_LICENSE ".")),
     CCMD(load, "", "", null_func1, load_cmd_func2, true, LOADCMDFORMAT,
         "Loads a game from a file."),
@@ -1862,9 +1862,8 @@ static void cmdlist_cmd_func2(char *cmd, char *parms)
 {
     const int   tabs[3] = { 40, 346, 0 };
     const int   columnwidth = tabs[1] - tabs[0] - 5;
-    int         count = 0;
 
-    for (int i = 0; *consolecmds[i].name; i++)
+    for (int i = 0, count = 0; *consolecmds[i].name; i++)
         if (consolecmds[i].type == CT_CCMD)
         {
             char    name[255];
@@ -1872,7 +1871,7 @@ static void cmdlist_cmd_func2(char *cmd, char *parms)
             char    description[255];
             int     len;
 
-            M_StringCopy(name, (english == english_american || M_StringCompare(consolecmds[i].altspelling, "\"\"") ?
+            M_StringCopy(name, (english == english_american || M_StringCompare(consolecmds[i].altspelling, EMPTYVALUE) ?
                 consolecmds[i].name : consolecmds[i].altspelling), sizeof(name));
 
             if (*parms && !wildcard(name, parms))
@@ -2066,15 +2065,14 @@ static void condump_cmd_func2(char *cmd, char *parms)
 static void cvarlist_cmd_func2(char *cmd, char *parms)
 {
     const int   tabs[3] = { 40, 209, 328 };
-    int         count = 0;
 
-    for (int i = 0; *consolecmds[i].name; i++)
+    for (int i = 0, count = 0; *consolecmds[i].name; i++)
         if (consolecmds[i].type == CT_CVAR)
         {
             char    name[255];
             char    description[255];
 
-            M_StringCopy(name, (english == english_american || M_StringCompare(consolecmds[i].altspelling, "\"\"") ?
+            M_StringCopy(name, (english == english_american || M_StringCompare(consolecmds[i].altspelling, EMPTYVALUE) ?
                 consolecmds[i].name : consolecmds[i].altspelling), sizeof(name));
 
             if (*parms && !wildcard(name, parms))
