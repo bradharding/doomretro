@@ -1823,7 +1823,9 @@ bool C_ValidateInput(char *input)
 
                 M_StripQuotes(temp);
 
-                if ((M_StringCompare(cmd, consolecmds[i].name) || M_StringCompare(cmd, consolecmds[i].alternate))
+                if ((M_StringCompare(cmd, consolecmds[i].name)
+                    || M_StringCompare(cmd, consolecmds[i].altspelling)
+                    || M_StringCompare(cmd, consolecmds[i].alternate))
                     && consolecmds[i].func1(consolecmds[i].name, temp)
                     && (consolecmds[i].parameters || !*temp))
                 {
