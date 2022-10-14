@@ -1495,7 +1495,7 @@ void bind_cmd_func2(char *cmd, char *parms)
 
     if (sscanf(parms, "%127s %127[^\n]", parm1, parm2) <= 0)
     {
-        const int   i = C_GetIndex(cmd);
+        i = C_GetIndex(cmd);
 
         C_ShowDescription(i);
         C_ShowFormat(i);
@@ -2395,14 +2395,9 @@ static void freeze_cmd_func2(char *cmd, char *parms)
 static bool give_cmd_func1(char *cmd, char *parms)
 {
     bool    result = false;
-    char    *parm;
+    char    *parm = removenonalpha(parms);
 
-    if (gamestate != GS_LEVEL)
-        return false;
-
-    parm = removenonalpha(parms);
-
-    if (!*parm)
+    if (!*parm || gamestate != GS_LEVEL)
         return true;
 
     if (M_StringCompare(parm, "all") || M_StringCompare(parm, "everything")
@@ -2454,12 +2449,15 @@ static void give_cmd_func2(char *cmd, char *parms)
 {
     char    *parm = removenonalpha(parms);
 
-    if (!*parm)
+    if (!*parm || gamestate != GS_LEVEL)
     {
         const int   i = C_GetIndex(cmd);
 
         C_ShowDescription(i);
         C_ShowFormat(i);
+
+        if (gamestate != GS_LEVEL)
+            C_Warning(0, NOGAMEWARNING);
     }
     else
     {
@@ -2959,14 +2957,9 @@ bool            massacre;
 static bool kill_cmd_func1(char *cmd, char *parms)
 {
     bool    result = false;
-    char    *parm;
+    char    *parm = removenonalpha(parms);
 
-    if (gamestate != GS_LEVEL)
-        return false;
-
-    parm = removenonalpha(parms);
-
-    if (!*parm)
+    if (!*parm || gamestate != GS_LEVEL)
         return true;
 
     killcmdmobj = NULL;
@@ -3075,7 +3068,7 @@ static void kill_cmd_func2(char *cmd, char *parms)
 {
     char    *parm = removenonalpha(parms);
 
-    if (!*parm)
+    if (!*parm || gamestate != GS_LEVEL)
     {
         const int   i = C_GetIndex(cmd);
 
@@ -4755,7 +4748,7 @@ static bool name_cmd_func1(char *cmd, char *parms)
 {
     char    *parm = M_StringDuplicate(parms);
 
-    if (!*parm)
+    if (!*parm || gamestate != GS_LEVEL)
         return true;
 
     if (M_StringStartsWith(parm, "player"))
@@ -4844,6 +4837,9 @@ static void name_cmd_func2(char *cmd, char *parms)
 
         C_ShowDescription(i);
         C_ShowFormat(i);
+
+        if (gamestate != GS_LEVEL)
+            C_Warning(0, NOGAMEWARNING);
     }
     else if (M_StringCompare(namecmdold, "player")
         || M_StringCompare(namecmdold, playername)
@@ -6140,6 +6136,9 @@ static void print_cmd_func2(char *cmd, char *parms)
 
         C_ShowDescription(i);
         C_ShowFormat(i);
+
+        if (gamestate != GS_LEVEL)
+            C_Warning(0, NOGAMEWARNING);
     }
     else
     {
@@ -6601,14 +6600,9 @@ static mobj_t   *resurrectcmdmobj;
 static bool resurrect_cmd_func1(char *cmd, char *parms)
 {
     bool    result = false;
-    char    *parm;
+    char    *parm = removenonalpha(parms);
 
-    if (gamestate != GS_LEVEL)
-        return false;
-
-    parm = removenonalpha(parms);
-
-    if (!*parm)
+    if (!*parm || gamestate != GS_LEVEL)
         return true;
 
     resurrectcmdmobj = NULL;
@@ -6704,12 +6698,15 @@ static void resurrect_cmd_func2(char *cmd, char *parms)
 {
     char    *parm = removenonalpha(parms);
 
-    if (!*parm)
+    if (!*parm || gamestate != GS_LEVEL)
     {
         const int   i = C_GetIndex(cmd);
 
         C_ShowDescription(i);
         C_ShowFormat(i);
+
+        if (gamestate != GS_LEVEL)
+            C_Warning(0, NOGAMEWARNING);
     }
     else
     {
@@ -6972,6 +6969,9 @@ static void spawn_cmd_func2(char *cmd, char *parms)
 
         C_ShowDescription(i);
         C_ShowFormat(i);
+
+        if (gamestate != GS_LEVEL)
+            C_Warning(0, NOGAMEWARNING);
     }
     else
     {
@@ -7115,14 +7115,9 @@ static void spawn_cmd_func2(char *cmd, char *parms)
 static bool take_cmd_func1(char *cmd, char *parms)
 {
     bool    result = false;
-    char    *parm;
+    char    *parm = removenonalpha(parms);
 
-    if (gamestate != GS_LEVEL)
-        return false;
-
-    parm = removenonalpha(parms);
-
-    if (!*parm)
+    if (!*parm || gamestate != GS_LEVEL)
         return true;
 
     if (M_StringCompare(parm, "all") || M_StringCompare(parm, "everything")
@@ -7172,12 +7167,15 @@ static void take_cmd_func2(char *cmd, char *parms)
 {
     char    *parm = removenonalpha(parms);
 
-    if (!*parm)
+    if (!*parm || gamestate != GS_LEVEL)
     {
         const int   i = C_GetIndex(cmd);
 
         C_ShowDescription(i);
         C_ShowFormat(i);
+
+        if (gamestate != GS_LEVEL)
+            C_Warning(0, NOGAMEWARNING);
     }
     else
     {
@@ -7452,9 +7450,7 @@ static void take_cmd_func2(char *cmd, char *parms)
 //
 static bool teleport_cmd_func1(char *cmd, char *parms)
 {
-    if (gamestate != GS_LEVEL)
-        return false;
-    else if (!*parms)
+    if (!*parms || gamestate != GS_LEVEL)
         return true;
     else
     {
@@ -7466,12 +7462,15 @@ static bool teleport_cmd_func1(char *cmd, char *parms)
 
 static void teleport_cmd_func2(char *cmd, char *parms)
 {
-    if (!*parms)
+    if (!*parms || gamestate != GS_LEVEL)
     {
         const int   i = C_GetIndex(cmd);
 
         C_ShowDescription(i);
         C_ShowFormat(i);
+
+        if (gamestate != GS_LEVEL)
+            C_Warning(0, NOGAMEWARNING);
     }
     else
     {
