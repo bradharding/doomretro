@@ -1930,6 +1930,9 @@ static void D_DoomMainSetup(void)
     M_MakeDirectory(appdatafolder);
     packageconfig = (p ? M_StringDuplicate(myargv[p + 1]) : M_StringJoin(appdatafolder, DIR_SEPARATOR_S, DOOMRETRO_CONFIG, NULL));
 
+    // Load configuration files before initializing other subsystems.
+    M_LoadCVARs(packageconfig);
+
     C_ClearConsole();
     C_PrintCompileDate();
 
@@ -1951,9 +1954,6 @@ static void D_DoomMainSetup(void)
         aliases[i].name[0] = '\0';
         aliases[i].string[0] = '\0';
     }
-
-    // Load configuration files before initializing other subsystems.
-    M_LoadCVARs(packageconfig);
 
     if (M_StringCompare(iwadfolder, iwadfolder_default) || !M_FolderExists(iwadfolder))
         D_InitIWADFolder();
