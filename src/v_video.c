@@ -1818,12 +1818,12 @@ void V_Init(void)
     const SDL_version   *linked = IMG_Linked_Version();
 
     if (linked->major != SDL_IMAGE_MAJOR_VERSION || linked->minor != SDL_IMAGE_MINOR_VERSION)
-        I_Error("The wrong version of %s was found. %s requires v%i.%i.%i.",
-            SDL_IMAGE_FILENAME, DOOMRETRO_NAME, SDL_IMAGE_MAJOR_VERSION, SDL_IMAGE_MINOR_VERSION, SDL_IMAGE_PATCHLEVEL);
+        I_Error("The wrong version of " SDL_IMAGE_FILENAME " was found. " DOOMRETRO_NAME " requires v%i.%i.%i.",
+            SDL_IMAGE_MAJOR_VERSION, SDL_IMAGE_MINOR_VERSION, SDL_IMAGE_PATCHLEVEL);
 
     if (linked->patch != SDL_IMAGE_PATCHLEVEL)
-        C_Warning(1, "The wrong version of " BOLD("%s") " was found. " ITALICS("%s") " requires v%i.%i.%i.",
-            SDL_IMAGE_FILENAME, DOOMRETRO_NAME, SDL_IMAGE_MAJOR_VERSION, SDL_IMAGE_MINOR_VERSION, SDL_IMAGE_PATCHLEVEL);
+        C_Warning(1, "The wrong version of " BOLD(SDL_IMAGE_FILENAME) " was found. " ITALICS(DOOMRETRO_NAME) " requires v%i.%i.%i.",
+            SDL_IMAGE_MAJOR_VERSION, SDL_IMAGE_MINOR_VERSION, SDL_IMAGE_PATCHLEVEL);
 
     for (int i = 0; i < NUMSCREENS; i++)
         screens[i] = &base[i * MAXSCREENAREA];

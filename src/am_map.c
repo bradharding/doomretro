@@ -1772,7 +1772,7 @@ static void AM_DrawThings(void)
 
     const angle_t   angleoffset = (am_rotatemode ? viewangle - ANG90 : 0);
 
-    if (am_bloodsplatcolor != am_backcolor)
+    if (r_blood != r_blood_none && r_bloodsplats_max)
         for (int i = 0; i < numsectors; i++)
         {
             bloodsplat_t    *splat = sectors[i].splatlist;

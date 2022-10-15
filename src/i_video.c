@@ -1922,12 +1922,12 @@ void I_InitGraphics(void)
     SDL_VERSION(&compiled);
 
     if (linked.major != compiled.major || linked.minor != compiled.minor)
-        I_Error("The wrong version of %s was found. %s requires v%i.%i.%i.",
-            SDL_FILENAME, DOOMRETRO_NAME, compiled.major, compiled.minor, compiled.patch);
+        I_Error("The wrong version of " SDL_FILENAME " was found. " DOOMRETRO_NAME " requires v%i.%i.%i.",
+            compiled.major, compiled.minor, compiled.patch);
 
     if (linked.patch != compiled.patch)
-        C_Warning(1, "The wrong version of " BOLD("%s") " was found. " ITALICS("%s") " requires v%i.%i.%i.",
-            SDL_FILENAME, DOOMRETRO_NAME, compiled.major, compiled.minor, compiled.patch);
+        C_Warning(1, "The wrong version of " BOLD(SDL_FILENAME) " was found. " ITALICS(DOOMRETRO_NAME) " requires v%i.%i.%i.",
+            compiled.major, compiled.minor, compiled.patch);
 
     performancefrequency = SDL_GetPerformanceFrequency();
 

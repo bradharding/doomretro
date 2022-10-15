@@ -423,12 +423,12 @@ bool I_InitSound(void)
         channels_playing[i] = NULL;
 
     if (linked->major != SDL_MIXER_MAJOR_VERSION || linked->minor != SDL_MIXER_MINOR_VERSION)
-        I_Error("The wrong version of %s was found. %s requires v%i.%i.%i.",
-            SDL_MIXER_FILENAME, DOOMRETRO_NAME, SDL_MIXER_MAJOR_VERSION, SDL_MIXER_MINOR_VERSION, SDL_MIXER_PATCHLEVEL);
+        I_Error("The wrong version of " SDL_MIXER_FILENAME " was found. " DOOMRETRO_NAME " requires v%i.%i.%i.",
+            SDL_MIXER_MAJOR_VERSION, SDL_MIXER_MINOR_VERSION, SDL_MIXER_PATCHLEVEL);
 
     if (linked->patch != SDL_MIXER_PATCHLEVEL)
-        C_Warning(1, "The wrong version of " BOLD("%s") " was found. " ITALICS("%s") " requires v%i.%i.%i.",
-            SDL_MIXER_FILENAME, DOOMRETRO_NAME, SDL_MIXER_MAJOR_VERSION, SDL_MIXER_MINOR_VERSION, SDL_MIXER_PATCHLEVEL);
+        C_Warning(1, "The wrong version of " BOLD(SDL_MIXER_FILENAME) " was found. " ITALICS(DOOMRETRO_NAME) " requires v%i.%i.%i.",
+            SDL_MIXER_MAJOR_VERSION, SDL_MIXER_MINOR_VERSION, SDL_MIXER_PATCHLEVEL);
 
     if (Mix_OpenAudioDevice(SAMPLERATE, MIX_DEFAULT_FORMAT, MIX_DEFAULT_CHANNELS,
         CHUNKSIZE, DEFAULT_DEVICE, SDL_AUDIO_ALLOW_FREQUENCY_CHANGE) < 0)
