@@ -1003,14 +1003,18 @@ void G_Ticker(void)
                     I_SetPalette(PLAYPAL);
                     I_UpdateBlitFunc(false);
                     I_StopGameControllerRumble();
-                    S_LowerMusicVolume();
+
+                    if (windowfocused)
+                        S_LowerMusicVolume();
                 }
                 else
                 {
                     S_ResumeMusic();
                     S_StartSound(NULL, sfx_swtchx);
                     I_SetPalette(&PLAYPAL[st_palette * 768]);
-                    S_RestoreMusicVolume();
+
+                    if (windowfocused)
+                        S_RestoreMusicVolume();
                 }
 
                 break;

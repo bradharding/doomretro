@@ -10,6 +10,7 @@
 * Minor improvements have been made to the console’s autocomplete feature.
 * CCMDs in the console that can only be used while playing a game, or while the player is alive, may now be entered at any time, displaying a description of the CCMD along with a warning about its usage.
 * The bottom edge of the console is now a slightly brighter red.
+* The game will now be paused as intended when the window loses focus.
 * These changes have been made to the external automap:
   * It now goes to black rather than dark blue while the help screen is displayed.
   * `00:00` is no longer displayed before a game is started if the `am_playerstats` CVAR is `on`.
