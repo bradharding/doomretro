@@ -48,7 +48,7 @@
 * The brightmap of the `COMPUTE1` texture has improved.
 * The `r_skycolor` CVAR has been removed.
 * The default of the `am_pathcolor` CVAR is now `89`.
-* Blood splats are now displayed in the automap when using the `IDDT` cheat. Their color can be changed using the new `am_bloodsplatcolor` CVAR, which is `120` by default.
+* Blood splats are now displayed in the automap when using the `IDDT` cheat. Their color can be changed using the new `am_bloodsplatcolor` CVAR, which is `124` by default.
 * Controls are no longer removed or reset when vanilla mode is enabled using the `vanilla` CCMD.
 * These changes have been made to the `vid_capfps` CVAR:
   * Its minimum value is now `35` rather than `10`.

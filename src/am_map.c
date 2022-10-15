@@ -1778,7 +1778,6 @@ static void AM_DrawThings(void)
         for (int i = 0; i < numsectors; i++)
         {
             bloodsplat_t    *splat = sectors[i].splatlist;
-            const int       width = BLOODSPLATWIDTH;
 
             while (splat)
             {
@@ -1789,9 +1788,9 @@ static void AM_DrawThings(void)
                     if (am_rotatemode)
                         AM_RotatePoint(&point);
 
-                    if ((fx = CXMTOF(point.x)) >= -width && fx <= MAPWIDTH + width
-                        && (fy = CYMTOF(point.y)) >= -width && fy <= (int)MAPHEIGHT + width)
-                        AM_DrawThingTriangle(thingtriangle, THINGTRIANGLELINES, width,
+                    if ((fx = CXMTOF(point.x)) >= -BLOODSPLATWIDTH && fx <= MAPWIDTH + BLOODSPLATWIDTH
+                        && (fy = CYMTOF(point.y)) >= -BLOODSPLATWIDTH && fy <= (int)MAPHEIGHT + BLOODSPLATWIDTH)
+                        AM_DrawThingTriangle(thingtriangle, THINGTRIANGLELINES, BLOODSPLATWIDTH,
                             (splat->angle - angleoffset) >> ANGLETOFINESHIFT, point.x, point.y, bloodsplatcolor);
                 }
 

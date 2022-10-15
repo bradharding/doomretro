@@ -327,7 +327,7 @@ enum
 #define am_backcolor_max                   255
 
 #define am_bloodsplatcolor_min             0
-#define am_bloodsplatcolor_default         120
+#define am_bloodsplatcolor_default         124
 #define am_bloodsplatcolor_max             255
 
 #define am_bluedoorcolor_min               0
