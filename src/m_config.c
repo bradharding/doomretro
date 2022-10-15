@@ -55,6 +55,7 @@ int         am_allmapcdwallcolor = am_allmapcdwallcolor_default;
 int         am_allmapfdwallcolor = am_allmapfdwallcolor_default;
 int         am_allmapwallcolor = am_allmapwallcolor_default;
 int         am_backcolor = am_backcolor_default;
+int         am_bloodsplatcolor = am_bloodsplatcolor_default;
 int         am_bluedoorcolor = am_bluedoorcolor_default;
 int         am_bluekeycolor = am_bluekeycolor_default;
 int         am_cdwallcolor = am_cdwallcolor_default;
@@ -286,6 +287,7 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT          (am_allmapfdwallcolor,             am_allmapfdwallcolour,                 am_allmapfdwallcolor,                NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT          (am_allmapwallcolor,               am_allmapwallcolour,                   am_allmapwallcolor,                  NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT          (am_backcolor,                     am_backcolour,                         am_backcolor,                        NOVALUEALIAS          ),
+    CONFIG_VARIABLE_INT          (am_bloodsplatcolor,               am_bloodsplatcolour,                   am_bloodsplatcolor,                  NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT          (am_bluedoorcolor,                 am_bluedoorcolour,                     am_bluedoorcolor,                    NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT          (am_bluekeycolor,                  am_bluekeycolour,                      am_bluekeycolor,                     NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT          (am_cdwallcolor,                   am_cdwallcolour,                       am_cdwallcolor,                      NOVALUEALIAS          ),

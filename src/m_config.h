@@ -47,6 +47,7 @@ extern int      am_allmapcdwallcolor;
 extern int      am_allmapfdwallcolor;
 extern int      am_allmapwallcolor;
 extern int      am_backcolor;
+extern int      am_bloodsplatcolor;
 extern int      am_bluedoorcolor;
 extern int      am_bluekeycolor;
 extern int      am_cdwallcolor;
@@ -324,6 +325,10 @@ enum
 #define am_backcolor_min                   0
 #define am_backcolor_default               0
 #define am_backcolor_max                   255
+
+#define am_bloodsplatcolor_min             0
+#define am_bloodsplatcolor_default         120
+#define am_bloodsplatcolor_max             255
 
 #define am_bluedoorcolor_min               0
 #define am_bluedoorcolor_default           am_cdwallcolor_default

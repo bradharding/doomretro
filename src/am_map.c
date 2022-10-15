@@ -71,6 +71,7 @@
 
 static byte playercolor;
 static byte thingcolor;
+static byte bloodsplatcolor;
 static byte bluekeycolor;
 static byte redkeycolor;
 static byte yellowkeycolor;
@@ -289,6 +290,7 @@ void AM_SetColors(void)
 
     playercolor = nearestcolors[am_playercolor];
     thingcolor = nearestcolors[am_thingcolor];
+    bloodsplatcolor = nearestcolors[am_bloodsplatcolor];
     bluekeycolor = nearestcolors[am_bluekeycolor];
     redkeycolor = nearestcolors[am_redkeycolor];
     yellowkeycolor = nearestcolors[am_yellowkeycolor];
@@ -1769,6 +1771,30 @@ static void AM_DrawThings(void)
     };
 
     const angle_t   angleoffset = (am_rotatemode ? viewangle - ANG90 : 0);
+
+    for (int i = 0; i < numsectors; i++)
+    {
+        bloodsplat_t    *splat = sectors[i].splatlist;
+        const int       width = ((12 << FRACBITS) >> FRACTOMAPBITS) / 8;
+
+        while (splat)
+        {
+            {
+                mpoint_t    point = { splat->x >> FRACTOMAPBITS, splat->y >> FRACTOMAPBITS };
+                int         fx, fy;
+
+                if (am_rotatemode)
+                    AM_RotatePoint(&point);
+
+                if ((fx = CXMTOF(point.x)) >= -width && fx <= MAPWIDTH + width
+                    && (fy = CYMTOF(point.y)) >= -width && fy <= (int)MAPHEIGHT + width)
+                    AM_DrawThingTriangle(thingtriangle, THINGTRIANGLELINES, width, 0,
+                        point.x, point.y, bloodsplatcolor);
+            }
+
+            splat = splat->next;
+        }
+    }
 
     for (int i = 0; i < numsectors; i++)
     {
