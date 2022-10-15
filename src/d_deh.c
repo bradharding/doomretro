@@ -3286,7 +3286,7 @@ static void deh_procSprite(DEHFILE *fpin, char *line)   // Not supported
 static void deh_procPars(DEHFILE *fpin, char *line)
 {
     char    inbuffer[DEH_BUFFERMAX];
-    int     episode;
+    int     ep;
     int     level;
     int     partime;
 
@@ -3318,7 +3318,7 @@ static void deh_procPars(DEHFILE *fpin, char *line)
         if (!*inbuffer)
             break;                              // killough 11/98
 
-        if (sscanf(inbuffer, "par %10i %10i %10i", &episode, &level, &partime) != 3)
+        if (sscanf(inbuffer, "par %10i %10i %10i", &ep, &level, &partime) != 3)
         {
             if (sscanf(inbuffer, "par %10i %10i", &level, &partime) != 2)
                 C_Warning(1, "Invalid par time setting string \"%s\".", inbuffer);
@@ -3342,14 +3342,14 @@ static void deh_procPars(DEHFILE *fpin, char *line)
             // note that though it's a [6][10] array, the "left" and "top" aren't used,
             // effectively making it a base 1 array.
             // Ty 07/11/98 - level was being checked against max 3 - dumb error
-            if (episode < 1 || episode > 5 || level < 1 || level > 9)
-                C_Warning(1, "Invalid ExMy values E%iM%i.", episode, level);
+            if (ep < 1 || ep > 5 || level < 1 || level > 9)
+                C_Warning(1, "Invalid ExMy values E%iM%i.", ep, level);
             else
             {
                 if (devparm)
-                    C_Output("Changed par time for E%iM%i from %i to %i seconds", episode, level, pars[episode][level], partime);
+                    C_Output("Changed par time for E%iM%i from %i to %i seconds", ep, level, pars[ep][level], partime);
 
-                pars[episode][level] = partime;
+                pars[ep][level] = partime;
                 newpars = true;
             }
         }

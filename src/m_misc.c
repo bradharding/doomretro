@@ -977,6 +977,7 @@ const char *words[][2] =
     { "agonizing", "agonising"  },
     { "analog",    "analogue"   },
     { "armor",     "armour"     },
+    { "centered",  "centred"    },
     { "centering", "centring"   },
     { "center",    "centre"     },
     { "color",     "colour"     },
