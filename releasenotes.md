@@ -8,7 +8,7 @@
 * Changes have been made to the splash screen’s animation.
 * Several changes have been made to text that is output to the console.
 * Minor improvements have been made to the console’s autocomplete feature.
-* CCMDs in the console that can only be used while playing a game, or while the player is alive, may now be entered at any time, displaying a description of the CCMD along with a warning about its usage.
+* CCMDs in the console that can only be used while playing a game, or while the player is alive, may now be entered at any time, displaying a description of the CCMD along with a warning about their usage.
 * The bottom edge of the console is now a slightly brighter red.
 * The game will now be paused as intended when the window loses focus.
 * These changes have been made to the external automap:
@@ -48,6 +48,7 @@
 * The brightmap of the `COMPUTE1` texture has improved.
 * The `r_skycolor` CVAR has been removed.
 * The default of the `am_pathcolor` CVAR is now `89`.
+* Blood splats are now displayed in the automap when using the `IDDT` cheat. Their color can be changed using the new `am_bloodsplatcolor` CVAR, which is `120` by default.
 * Controls are no longer removed or reset when vanilla mode is enabled using the `vanilla` CCMD.
 * These changes have been made to the `vid_capfps` CVAR:
   * Its minimum value is now `35` rather than `10`.

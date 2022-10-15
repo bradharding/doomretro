@@ -111,6 +111,8 @@ static byte *am_crosshaircolor2;
 
 #define PLAYERRADIUS    (16 * (1 << MAPBITS))
 
+#define BLOODSPLATWIDTH (((12 << FRACBITS) >> FRACTOMAPBITS) / 8)
+
 // translates between frame-buffer and map distances
 #define FTOM(x)         (fixed_t)((((uint64_t)(x) << FRACBITS) * scale_ftom) >> FRACBITS)
 #define MTOF(x)         (fixed_t)((((uint64_t)(x) * scale_mtof) >> FRACBITS) >> FRACBITS)
@@ -1772,11 +1774,11 @@ static void AM_DrawThings(void)
 
     const angle_t   angleoffset = (am_rotatemode ? viewangle - ANG90 : 0);
 
-    if (r_blood != r_blood_none && r_bloodsplats_max)
+    if (am_bloodsplatcolor != am_backcolor && r_blood != r_blood_none && r_bloodsplats_max)
         for (int i = 0; i < numsectors; i++)
         {
             bloodsplat_t    *splat = sectors[i].splatlist;
-            const int       width = ((12 << FRACBITS) >> FRACTOMAPBITS) / 8;
+            const int       width = BLOODSPLATWIDTH;
 
             while (splat)
             {
