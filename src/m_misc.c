@@ -973,21 +973,25 @@ char *pronoun(pronountype_t type)
 
 const char *words[][2] =
 {
-    { "agonize",   "agonise"   },
-    { "agonizing", "agonising" },
-    { "analog",    "analogue"  },
-    { "armor",     "armour"    },
-    { "centering", "centring"  },
-    { "center",    "centre"    },
-    { "color",     "colour"    },
-    { "favor",     "favour"    },
-    { "gray",      "grey"      },
-    { "labor",     "labour"    },
-    { "license",   "licence"   },
-    { "meter",     "metre"     },
-    { "neighbor",  "neighbour" },
-    { "traveled",  "travelled" },
-    { "",          ""          }
+    { "agonize",   "agonise"    },
+    { "agonizing", "agonising"  },
+    { "analog",    "analogue"   },
+    { "armor",     "armour"     },
+    { "centering", "centring"   },
+    { "center",    "centre"     },
+    { "color",     "colour"     },
+    { "defense",   "defence"    },
+    { "favor",     "favour"     },
+    { "gray",      "grey"       },
+    { "labor",     "labour"     },
+    { "license",   "licence"    },
+    { "meter",     "metre"      },
+    { "neighbor",  "neighbour"  },
+    { "offense",   "offence"    },
+    { "refueling", "refuelling" },
+    { "traveled",  "travelled"  },
+    { "traveling", "travelling" },
+    { "",          ""           }
 };
 
 static void M_Translate(char *string, const char *word1, const char *word2)
