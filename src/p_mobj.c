@@ -1516,6 +1516,7 @@ void P_SpawnBloodSplat(const fixed_t x, const fixed_t y, const int color,
                 P_SetBloodSplatColor(splat);
                 splat->x = x;
                 splat->y = y;
+                splat->angle = M_BigSubRandom() * 0xB60B60;
                 splat->width = spritewidth[patch];
                 splat->sector = sec;
                 P_SetBloodSplatPosition(splat);

@@ -1791,8 +1791,8 @@ static void AM_DrawThings(void)
 
                     if ((fx = CXMTOF(point.x)) >= -width && fx <= MAPWIDTH + width
                         && (fy = CYMTOF(point.y)) >= -width && fy <= (int)MAPHEIGHT + width)
-                        AM_DrawThingTriangle(thingtriangle, THINGTRIANGLELINES, width, 0,
-                            point.x, point.y, bloodsplatcolor);
+                        AM_DrawThingTriangle(thingtriangle, THINGTRIANGLELINES, width,
+                            (splat->angle - angleoffset) >> ANGLETOFINESHIFT, point.x, point.y, bloodsplatcolor);
                 }
 
                 splat = splat->next;

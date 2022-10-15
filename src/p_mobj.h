@@ -501,6 +501,7 @@ typedef struct mobj_s
 typedef struct bloodsplat_s
 {
     fixed_t             x, y;
+    angle_t             angle;
     struct bloodsplat_s *next;
     struct bloodsplat_s **prev;
     int                 patch;
