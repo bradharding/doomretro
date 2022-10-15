@@ -1772,29 +1772,30 @@ static void AM_DrawThings(void)
 
     const angle_t   angleoffset = (am_rotatemode ? viewangle - ANG90 : 0);
 
-    for (int i = 0; i < numsectors; i++)
-    {
-        bloodsplat_t    *splat = sectors[i].splatlist;
-        const int       width = ((12 << FRACBITS) >> FRACTOMAPBITS) / 8;
-
-        while (splat)
+    if (am_bloodsplatcolor != am_backcolor)
+        for (int i = 0; i < numsectors; i++)
         {
+            bloodsplat_t    *splat = sectors[i].splatlist;
+            const int       width = ((12 << FRACBITS) >> FRACTOMAPBITS) / 8;
+
+            while (splat)
             {
-                mpoint_t    point = { splat->x >> FRACTOMAPBITS, splat->y >> FRACTOMAPBITS };
-                int         fx, fy;
+                {
+                    mpoint_t    point = { splat->x >> FRACTOMAPBITS, splat->y >> FRACTOMAPBITS };
+                    int         fx, fy;
 
-                if (am_rotatemode)
-                    AM_RotatePoint(&point);
+                    if (am_rotatemode)
+                        AM_RotatePoint(&point);
 
-                if ((fx = CXMTOF(point.x)) >= -width && fx <= MAPWIDTH + width
-                    && (fy = CYMTOF(point.y)) >= -width && fy <= (int)MAPHEIGHT + width)
-                    AM_DrawThingTriangle(thingtriangle, THINGTRIANGLELINES, width, 0,
-                        point.x, point.y, bloodsplatcolor);
+                    if ((fx = CXMTOF(point.x)) >= -width && fx <= MAPWIDTH + width
+                        && (fy = CYMTOF(point.y)) >= -width && fy <= (int)MAPHEIGHT + width)
+                        AM_DrawThingTriangle(thingtriangle, THINGTRIANGLELINES, width, 0,
+                            point.x, point.y, bloodsplatcolor);
+                }
+
+                splat = splat->next;
             }
-
-            splat = splat->next;
         }
-    }
 
     for (int i = 0; i < numsectors; i++)
     {
