@@ -2146,8 +2146,16 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
     if (inflicter && !healthcvar && !(flags & MF_NOCLIP)
         && (!source || !splayer || !(weaponinfo[source->player->readyweapon].flags & WPF_NOTHRUST)))
     {
-        unsigned int    ang = R_PointToAngle2(inflicter->x, inflicter->y, target->x, target->y);
+        unsigned int    ang;
         fixed_t         thrust = damage * (FRACUNIT >> 3) * 100 / (corpse ? MAX(200, info->mass) : info->mass);
+
+        if (massacre)
+        {
+            ang = R_PointToAngle2(target->x + (M_BigRandomInt(-10000, 10000) << FRACBITS),
+                target->y + (M_BigRandomInt(-10000, 10000) << FRACBITS), target->x, target->y);
+        }
+        else
+            ang = R_PointToAngle2(inflicter->x, inflicter->y, target->x, target->y);
 
         // make fall forwards sometimes
         if (damage < 40 && damage > target->health && target->z - inflicter->z > 64 * FRACUNIT && (M_Random() & 1))
