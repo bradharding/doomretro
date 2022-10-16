@@ -41,6 +41,7 @@
 * The player’s view now shakes when they punch something and have a berserk power-up. This feature may be toggled using the new `r_shake_berserk` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
 * A bug is fixed whereby game controllers wouldn’t rumble when the player punched a monster and the `joy_rumble_damage` CVAR was `on`.
 * A crash no longer occurs if the `save` CCMD is bound to a control using the `bind` CCMD.
+* The corpses of monsters no longer all slide in the same direction when using the `kill` CCMD to kill them.
 * The obituary displayed in the console when the player is killed by a damaging sector that isn’t liquid is now fixed.
 * Any input in the console is now cleared when a cheat is entered.
 * `You found another secret!` is now displayed each time the player finds more than one secret in a map.
