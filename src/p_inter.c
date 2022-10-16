@@ -2030,6 +2030,7 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, const bool te
     else
     {
         target->flags2 &= ~MF2_NOLIQUIDBOB;
+        target->angle += (M_SubRandom() << 20);
 
         if (telefragged)
         {
