@@ -1351,6 +1351,7 @@ void P_UnArchiveThinkers(void)
                     if (r_bloodsplats_total < r_bloodsplats_max)
                     {
                         splat->width = spritewidth[splat->patch];
+                        splat->angle = M_BigSubRandom() * 0xB60B60;
                         splat->patch += firstspritelump;
                         P_SetBloodSplatColor(splat);
                         splat->sector = R_PointInSubsector(splat->x, splat->y)->sector;
