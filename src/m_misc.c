@@ -1012,10 +1012,15 @@ static void M_Translate(char *string, const char *word1, const char *word2)
 
     temp1[0] = toupper(temp1[0]);
     temp2[0] = toupper(temp2[0]);
+
     M_StringReplaceAll(string, temp1, temp2, true);
+
+    free(temp1);
+    free(temp2);
 
     temp1 = uppercase(word1);
     temp2 = uppercase(word2);
+
     M_StringReplaceAll(string, temp1, temp2, true);
 
     free(temp1);
