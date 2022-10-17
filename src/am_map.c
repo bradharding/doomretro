@@ -1809,9 +1809,7 @@ static void AM_DrawThings(void)
                 angle_t     angle;
                 mpoint_t    point;
                 int         fx, fy;
-                const short sprite = sprites[thing->sprite].spriteframes[0].lump[0];
-                const int   width = (BETWEEN(12 << FRACBITS, (spritewidth[sprite] + spriteheight[sprite]) / 2,
-                                96 << FRACBITS) >> FRACTOMAPBITS) / 2;
+                int         width;
 
                 if (consoleactive || paused)
                 {
@@ -1828,6 +1826,16 @@ static void AM_DrawThings(void)
 
                 if (am_rotatemode)
                     AM_RotatePoint(&point);
+
+                if (thing->flags & MF_SPECIAL)
+                    width = (12 << FRACBITS) >> FRACTOMAPBITS;
+                else
+                {
+                    const short sprite = sprites[thing->sprite].spriteframes[0].lump[0];
+
+                    width = (BETWEEN(12 << FRACBITS, (spritewidth[sprite] + spriteheight[sprite]) / 2,
+                        96 << FRACBITS) >> FRACTOMAPBITS) / 2;
+                }
 
                 if ((fx = CXMTOF(point.x)) >= -width && fx <= MAPWIDTH + width
                     && (fy = CYMTOF(point.y)) >= -width && fy <= (int)MAPHEIGHT + width)
