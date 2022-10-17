@@ -389,7 +389,7 @@ static void ST_RefreshBackground(void)
     if (STBARs >= 3)
     {
         V_DrawWidePatch((SCREENWIDTH / SCREENSCALE - sbarwidth) / 2, VANILLAHEIGHT - VANILLASBARHEIGHT, 0, sbar);
-        V_DrawPatch(ST_ARMSBGX + hacx * 4, VANILLAHEIGHT - VANILLASBARHEIGHT, 0, armsbg);
+        V_DrawPatch((hacx ? ST_ARMSBGX + 4 : ST_ARMSBGX), VANILLAHEIGHT - VANILLASBARHEIGHT, 0, armsbg);
     }
     else
         V_DrawWidePatch((SCREENWIDTH / SCREENSCALE - sbarwidth) / 2, VANILLAHEIGHT - VANILLASBARHEIGHT, 0, sbar);
@@ -511,10 +511,10 @@ bool ST_Responder(event_t *ev)
             // 'fa' cheat for killer fucking arsenal
             else if (cht_CheckCheat(&cheat_ammonokey, ev->data2) && gameskill != sk_nightmare && viewplayer->health > 0)
             {
-                bool    ammogiven = false;
+                bool    ammogiven = P_GiveFullAmmo();
                 bool    armorgiven = false;
-                bool    berserkgiven = false;
-                bool    weaponsgiven = false;
+                bool    berserkgiven = P_GivePower(pw_strength);
+                bool    weaponsgiven = P_GiveAllWeapons();
 
                 // [BH] note if player doesn't have full armor before giving it
                 if (viewplayer->armorpoints < idfa_armor || viewplayer->armortype < idfa_armor_class)
@@ -524,16 +524,8 @@ bool ST_Responder(event_t *ev)
                     viewplayer->armortype = idfa_armor_class;
                 }
 
-                // [BH] note if player given any weapons that they don't have already
-                weaponsgiven = P_GiveAllWeapons();
-
-                // [BH] give player a berserk power-up so they can still use fists
-                berserkgiven = P_GivePower(pw_strength);
-
                 // [BH] give player a backpack if they don't have one
                 P_GiveBackpack(false, false);
-
-                ammogiven = P_GiveFullAmmo();
 
                 // [BH] show evil grin if player was given any new weapons
                 if (weaponsgiven && !(viewplayer->cheats & CF_GODMODE) && !viewplayer->powers[pw_invulnerability]
@@ -567,11 +559,11 @@ bool ST_Responder(event_t *ev)
                 // [BH] can only enter cheat while player is alive
                 && viewplayer->health > 0)
             {
-                bool    ammogiven = false;
+                bool    ammogiven = P_GiveFullAmmo();
                 bool    armorgiven = false;
-                bool    berserkgiven = false;
-                bool    keysgiven = false;
-                bool    weaponsgiven = false;
+                bool    berserkgiven = P_GivePower(pw_strength);
+                bool    weaponsgiven = P_GiveAllWeapons();
+                bool    keysgiven = P_GiveAllCardsInMap();
 
                 // [BH] note if player doesn't have full armor before giving it
                 if (viewplayer->armorpoints < idkfa_armor || viewplayer->armortype < idkfa_armor_class)
@@ -581,19 +573,8 @@ bool ST_Responder(event_t *ev)
                     viewplayer->armortype = idkfa_armor_class;
                 }
 
-                // [BH] note if player given any weapons that they don't have already
-                weaponsgiven = P_GiveAllWeapons();
-
-                // [BH] give player a berserk power-up so they can still use fists
-                berserkgiven = P_GivePower(pw_strength);
-
                 // [BH] give player a backpack if they don't have one
                 P_GiveBackpack(false, false);
-
-                ammogiven = P_GiveFullAmmo();
-
-                // [BH] only give player the keycards or skull keys from the current level, and note if any keys given
-                keysgiven = P_GiveAllCardsInMap();
 
                 // [BH] show evil grin if player was given any new weapons
                 if (weaponsgiven && !(viewplayer->cheats & CF_GODMODE) && !viewplayer->powers[pw_invulnerability]
