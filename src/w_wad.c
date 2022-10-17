@@ -566,25 +566,26 @@ GameMission_t IWADRequiredByPWAD(char *pwadname)
 //
 int W_WadType(char *filename)
 {
-    wadinfo_t   header;
-    wadfile_t   *wadfile = W_OpenFile(filename);
-
-    if (!wadfile)
-        return 0;
-
-    W_Read(wadfile, 0, &header, sizeof(header));
-    W_CloseFile(wadfile);
-
-    if (!strncmp(header.id, "IWAD", 4)
-        || M_StringEndsWith(filename, "DOOM.WAD")
-        || M_StringEndsWith(filename, "DOOM2.WAD")
-        || M_StringEndsWith(filename, "chex.wad")
-        || M_StringEndsWith(filename, "rekkrsa.wad"))
+    if (D_IsDOOMIWAD(filename))
         return IWAD;
-    else if (!strncmp(header.id, "PWAD", 4))
-        return PWAD;
     else
-        return 0;
+    {
+        wadinfo_t   header;
+        wadfile_t   *wadfile = W_OpenFile(filename);
+
+        if (!wadfile)
+            return 0;
+
+        W_Read(wadfile, 0, &header, sizeof(header));
+        W_CloseFile(wadfile);
+
+        if (!strncmp(header.id, "IWAD", 4))
+            return IWAD;
+        else if (!strncmp(header.id, "PWAD", 4))
+            return PWAD;
+        else
+            return 0;
+    }
 }
 
 //
