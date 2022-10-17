@@ -2460,7 +2460,7 @@ static void D_DoomMainSetup(void)
         const int   titlepics = W_CheckMultipleLumps("TITLEPIC");
         const int   credits = W_CheckMultipleLumps("CREDIT");
 
-        if ((titlepics == (bfgedition ? 1 : 2) && lumpinfo[W_GetNumForName("TITLEPIC")]->wadfile->type == PWAD))
+        if ((titlepics == 1 && lumpinfo[W_GetNumForName("TITLEPIC")]->wadfile->type == PWAD) || titlepics > 1)
             titlelump = W_CacheLumpName("TITLEPIC");
         else
             switch (gamemission)
