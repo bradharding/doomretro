@@ -3167,28 +3167,34 @@ static void kill_cmd_func2(char *cmd, char *parms)
 
                 if (kills)
                 {
+                    char    buffer[1024];
                     char    *temp = commify(kills);
 
                     if (M_StringCompare(playername, playername_default))
                     {
                         if (kills == 1)
-                            C_PlayerMessage("You %s the only monster %s this map.",
+                            M_snprintf(buffer, sizeof(buffer), "You %s the only monster %s this map.",
                                 killed, (viewplayer->killcount == 1 ? "in" : "left in"));
                         else
-                            C_PlayerMessage("You %s the %s monsters %s this map.",
+                            M_snprintf(buffer, sizeof(buffer), "You %s the %s monsters %s this map.",
                                 killed, temp, (viewplayer->killcount == kills ? "in" : "left in"));
                     }
                     else
                     {
                         if (kills == 1)
-                            C_PlayerMessage("%s %s the only monster %s this map.",
+                            M_snprintf(buffer, sizeof(buffer), "%s %s the only monster %s this map.",
                                 playername, killed, (viewplayer->killcount == 1 ? "in" : "left in"));
                         else
-                            C_PlayerMessage("%s %s the %s monsters %s this map.",
+                            M_snprintf(buffer, sizeof(buffer), "%s %s the %s monsters %s this map.",
                                 playername, killed, temp, (viewplayer->killcount == kills ? "in" : "left in"));
+
+                        buffer[0] = toupper(buffer[0]);
                     }
 
+                    C_Output(buffer);
                     C_HideConsole();
+                    HU_SetPlayerMessage(buffer, false, false);
+                    message_dontfuckwithme = true;
                     viewplayer->cheated++;
                     stat_cheated = SafeAdd(stat_cheated, 1);
                     M_SaveCVARs();
