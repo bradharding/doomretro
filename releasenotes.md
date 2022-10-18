@@ -13,7 +13,7 @@
 * The game will now be paused as intended when the window loses focus.
 * These changes have been made to the external automap:
   * It now goes to black rather than dark blue while the help screen is displayed.
-  * `00:00` is no longer displayed before a game is started if the `am_playerstats` CVAR is `on`.
+  * `00:00` is no longer displayed in the top right corner of the screen before a game is started if the `am_playerstats` CVAR is `on`.
 * The vertical position of the current map’s title in the automap has changed in some instances.
 * A bug is fixed whereby the current map’s title in the automap would be positioned incorrectly after adjusting the screen size in the options menu in some instances.
 * These changes have been made when pressing the <kbd>F9</kbd> key to quickload a savegame:
@@ -50,7 +50,7 @@
 * A bug has been fixed whereby masked midtextures could in some instances be rendered incorrectly while the player had a light amplification visor power-up.
 * The `r_skycolor` CVAR has been removed.
 * The default of the `am_pathcolor` CVAR is now `89`.
-* Blood splats are now displayed in the automap when using the `IDDT` cheat. Their color can be changed using the new `am_bloodsplatcolor` CVAR, which is `124` by default.
+* Blood splats are now displayed in the automap as very small thing triangles when using the `IDDT` cheat. Their color can be changed using the new `am_bloodsplatcolor` CVAR, which is `124` by default and `0` when vanilla mode is enabled.
 * The `playergender` CVAR can now be changed and its values displayed correctly again.
 * Controls are no longer removed or reset when vanilla mode is enabled using the `vanilla` CCMD.
 * These changes have been made to the `vid_capfps` CVAR:
