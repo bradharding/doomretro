@@ -1763,40 +1763,16 @@ static void AM_DrawPlayer(void)
 
 #define THINGTRIANGLELINES  3
 
+const mline_t thingtriangle[THINGTRIANGLELINES] =
+{
+    { { -32768, -45875 }, {  65536,      0 } },
+    { {  65536,      0 }, { -32768,  45875 } },
+    { { -32768,  45875 }, { -32768, -45875 } }
+};
+
 static void AM_DrawThings(void)
 {
-    const mline_t thingtriangle[THINGTRIANGLELINES] =
-    {
-        { { -32768, -45875 }, {  65536,      0 } },
-        { {  65536,      0 }, { -32768,  45875 } },
-        { { -32768,  45875 }, { -32768, -45875 } }
-    };
-
     const angle_t   angleoffset = (am_rotatemode ? viewangle - ANG90 : 0);
-
-    if (am_bloodsplatcolor != am_backcolor && r_blood != r_blood_none && r_bloodsplats_max)
-        for (int i = 0; i < numsectors; i++)
-        {
-            bloodsplat_t    *splat = sectors[i].splatlist;
-
-            while (splat)
-            {
-                {
-                    mpoint_t    point = { splat->x >> FRACTOMAPBITS, splat->y >> FRACTOMAPBITS };
-                    int         fx, fy;
-
-                    if (am_rotatemode)
-                        AM_RotatePoint(&point);
-
-                    if ((fx = CXMTOF(point.x)) >= -BLOODSPLATWIDTH && fx <= MAPWIDTH + BLOODSPLATWIDTH
-                        && (fy = CYMTOF(point.y)) >= -BLOODSPLATWIDTH && fy <= (int)MAPHEIGHT + BLOODSPLATWIDTH)
-                        AM_DrawThingTriangle(thingtriangle, THINGTRIANGLELINES, BLOODSPLATWIDTH,
-                            (splat->angle - angleoffset) >> ANGLETOFINESHIFT, point.x, point.y, bloodsplatcolor);
-                }
-
-                splat = splat->next;
-            }
-        }
 
     for (int i = 0; i < numsectors; i++)
     {
@@ -1844,6 +1820,34 @@ static void AM_DrawThings(void)
             }
 
             thing = thing->snext;
+        }
+    }
+}
+
+static void AM_DrawBloodSplats(void)
+{
+    const angle_t   angleoffset = (am_rotatemode ? viewangle - ANG90 : 0);
+
+    for (int i = 0; i < numsectors; i++)
+    {
+        bloodsplat_t    *splat = sectors[i].splatlist;
+
+        while (splat)
+        {
+            {
+                mpoint_t    point = { splat->x >> FRACTOMAPBITS, splat->y >> FRACTOMAPBITS };
+                int         fx, fy;
+
+                if (am_rotatemode)
+                    AM_RotatePoint(&point);
+
+                if ((fx = CXMTOF(point.x)) >= -BLOODSPLATWIDTH && fx <= MAPWIDTH + BLOODSPLATWIDTH
+                    && (fy = CYMTOF(point.y)) >= -BLOODSPLATWIDTH && fy <= (int)MAPHEIGHT + BLOODSPLATWIDTH)
+                    AM_DrawThingTriangle(thingtriangle, THINGTRIANGLELINES, BLOODSPLATWIDTH,
+                        (splat->angle - angleoffset) >> ANGLETOFINESHIFT, point.x, point.y, bloodsplatcolor);
+            }
+
+            splat = splat->next;
         }
     }
 }
@@ -2082,7 +2086,14 @@ void AM_Drawer(void)
 
     skippsprinterp = true;
 
-    if (viewplayer->cheats & (CF_ALLMAP | CF_ALLMAP_THINGS))
+    if (viewplayer->cheats & CF_ALLMAP_THINGS)
+    {
+        if (am_bloodsplatcolor != am_backcolor && r_blood != r_blood_none && r_bloodsplats_max)
+            AM_DrawBloodSplats();
+
+        AM_DrawWalls_Cheating();
+    }
+    else if (viewplayer->cheats & CF_ALLMAP)
         AM_DrawWalls_Cheating();
     else if (viewplayer->powers[pw_allmap])
         AM_DrawWalls_AllMap();
