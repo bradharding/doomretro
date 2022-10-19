@@ -2145,12 +2145,15 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
     // thus kick away unless using the chainsaw.
     if (massacre)
     {
-        angle_t         ang = R_PointToAngle2(target->x + (M_BigRandomInt(-100, 100) << FRACBITS),
-                                  target->y + (M_BigRandomInt(-100, 100) << FRACBITS), target->x, target->y);
-        const fixed_t   thrust = damage * (FRACUNIT >> 3) * 100 / info->mass;
+        if (!(flags & MF_NOBLOOD))
+        {
+            angle_t         ang = R_PointToAngle2(target->x + (M_BigRandomInt(-100, 100) << FRACBITS),
+                                target->y + (M_BigRandomInt(-100, 100) << FRACBITS), target->x, target->y);
+            const fixed_t   thrust = damage * (FRACUNIT >> 5) * 100 / info->mass;
 
-        target->momx += FixedMul(thrust, finecosine[(ang >>= ANGLETOFINESHIFT)]);
-        target->momy += FixedMul(thrust, finesine[ang]);
+            target->momx += FixedMul(thrust, finecosine[(ang >>= ANGLETOFINESHIFT)]);
+            target->momy += FixedMul(thrust, finesine[ang]);
+        }
     }
     else if (inflicter && !healthcvar && !(flags & MF_NOCLIP)
         && (!source || !splayer || !(weaponinfo[source->player->readyweapon].flags & WPF_NOTHRUST)))
