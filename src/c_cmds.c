@@ -3448,14 +3448,6 @@ static void kill_cmd_func2(char *cmd, char *parms)
                 killcmdmobj->flags2 |= MF2_MASSACRE;
                 P_DamageMobj(killcmdmobj, viewplayer->mo, viewplayer->mo, killcmdmobj->health, false, false);
 
-                if (!(killcmdmobj->flags & MF_NOBLOOD))
-                {
-                    const int   r = M_RandomInt(-1, 1);
-
-                    killcmdmobj->momx += r;
-                    killcmdmobj->momy += (!r ? M_RandomIntNoRepeat(-1, 1, 0) : M_RandomInt(-1, 1)) * FRACUNIT;
-                }
-
                 if (M_StringCompare(playername, playername_default))
                     M_snprintf(buffer, sizeof(buffer), "You %s %s.", killed, temp);
                 else
@@ -3499,15 +3491,6 @@ static void kill_cmd_func2(char *cmd, char *parms)
                             {
                                 thing->flags2 |= MF2_MASSACRE;
                                 P_DamageMobj(thing, viewplayer->mo, viewplayer->mo, thing->health, false, false);
-
-                                if (!(thing->flags & MF_NOBLOOD))
-                                {
-                                    const int   r = M_RandomInt(-1, 1);
-
-                                    thing->momx += r * FRACUNIT;
-                                    thing->momy += (!r ? M_RandomIntNoRepeat(-1, 1, 0) : M_RandomInt(-1, 1)) * FRACUNIT;
-                                }
-
                                 kills++;
                             }
                             else if (thing->flags & MF_SPECIAL)
