@@ -1833,7 +1833,7 @@ static void AM_DrawThings(void)
                 {
                     const short sprite = sprites[thing->sprite].spriteframes[0].lump[0];
 
-                    width = (BETWEEN(12 << FRACBITS, (spritewidth[sprite] + spriteheight[sprite]) / 2,
+                    width = (BETWEEN(12 << FRACBITS, MIN(spritewidth[sprite], spriteheight[sprite]),
                         96 << FRACBITS) >> FRACTOMAPBITS) / 2;
                 }
 
