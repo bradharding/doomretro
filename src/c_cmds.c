@@ -3068,6 +3068,7 @@ void A_Fall(mobj_t *actor, player_t *player, pspdef_t *psp);
 
 static void kill_cmd_func2(char *cmd, char *parms)
 {
+    char    buffer[1024];
     char    *parm = removenonalpha(parms);
 
     if (!*parm || gamestate != GS_LEVEL)
@@ -3098,11 +3099,14 @@ static void kill_cmd_func2(char *cmd, char *parms)
             P_KillMobj(viewplayer->mo, NULL, viewplayer->mo, false);
 
             if (M_StringCompare(playername, playername_default))
-                C_PlayerMessage("You killed yourself.");
+                M_snprintf(buffer, sizeof(buffer), "You killed yourself.");
             else
-                C_PlayerMessage("%s killed %s.", playername, pronoun(reflexive));
+                M_snprintf(buffer, sizeof(buffer), "%s killed %s.", playername, pronoun(reflexive));
 
+            C_Output(buffer);
             C_HideConsole();
+            HU_SetPlayerMessage(buffer, false, false);
+            message_dontfuckwithme = true;
         }
         else
         {
@@ -3167,7 +3171,6 @@ static void kill_cmd_func2(char *cmd, char *parms)
 
                 if (kills)
                 {
-                    char    buffer[1024];
                     char    *temp = commify(kills);
 
                     if (M_StringCompare(playername, playername_default))
@@ -3226,13 +3229,16 @@ static void kill_cmd_func2(char *cmd, char *parms)
                     char    *temp = commify(kills);
 
                     if (M_StringCompare(playername, playername_default))
-                        C_PlayerMessage("You %s %s missile%s.",
+                        M_snprintf(buffer, sizeof(buffer), "You %s %s missile%s.",
                             killed, (kills == 1 ? "one" : temp), (kills == 1 ? "" : "s"));
                     else
-                        C_PlayerMessage("%s %s %s missile%s.",
+                        M_snprintf(buffer, sizeof(buffer), "%s %s %s missile%s.",
                             playername, killed, (kills == 1 ? "one" : temp), (kills == 1 ? "" : "s"));
 
+                    C_Output(buffer);
                     C_HideConsole();
+                    HU_SetPlayerMessage(buffer, false, false);
+                    message_dontfuckwithme = true;
                     viewplayer->cheated++;
                     stat_cheated = SafeAdd(stat_cheated, 1);
                     M_SaveCVARs();
@@ -3266,13 +3272,16 @@ static void kill_cmd_func2(char *cmd, char *parms)
                     char    *temp = commify(kills);
 
                     if (M_StringCompare(playername, playername_default))
-                        C_PlayerMessage("You %s %s item%s.",
+                        M_snprintf(buffer, sizeof(buffer), "You %s %s item%s.",
                             killed, (kills == 1 ? "one" : temp), (kills == 1 ? "" : "s"));
                     else
-                        C_PlayerMessage("%s %s %s item%s.",
+                        M_snprintf(buffer, sizeof(buffer), "%s %s %s item%s.",
                             playername, killed, (kills == 1 ? "one" : temp), (kills == 1 ? "" : "s"));
 
+                    C_Output(buffer);
                     C_HideConsole();
+                    HU_SetPlayerMessage(buffer, false, false);
+                    message_dontfuckwithme = true;
                     free(temp);
                 }
                 else
@@ -3303,13 +3312,16 @@ static void kill_cmd_func2(char *cmd, char *parms)
                     char    *temp = commify(kills);
 
                     if (M_StringCompare(playername, playername_default))
-                        C_PlayerMessage("You %s %s decoration%s.",
+                        M_snprintf(buffer, sizeof(buffer), "You %s %s decoration%s.",
                             killed, (kills == 1 ? "one" : temp), (kills == 1 ? "" : "s"));
                     else
-                        C_PlayerMessage("%s %s %s decoration%s.",
+                        M_snprintf(buffer, sizeof(buffer), "%s %s %s decoration%s.",
                             playername, killed, (kills == 1 ? "one" : temp), (kills == 1 ? "" : "s"));
 
+                    C_Output(buffer);
                     C_HideConsole();
+                    HU_SetPlayerMessage(buffer, false, false);
+                    message_dontfuckwithme = true;
                     viewplayer->cheated++;
                     stat_cheated = SafeAdd(stat_cheated, 1);
                     M_SaveCVARs();
@@ -3360,11 +3372,14 @@ static void kill_cmd_func2(char *cmd, char *parms)
                 if (kills)
                 {
                     if (M_StringCompare(playername, playername_default))
-                        C_PlayerMessage("You %s everything.", killed);
+                        M_snprintf(buffer, sizeof(buffer), "You %s everything.", killed);
                     else
-                        C_PlayerMessage("%s %s everything.", playername, killed);
+                        M_snprintf(buffer, sizeof(buffer), "%s %s everything.", playername, killed);
 
+                    C_Output(buffer);
                     C_HideConsole();
+                    HU_SetPlayerMessage(buffer, false, false);
+                    message_dontfuckwithme = true;
                     viewplayer->cheated++;
                     stat_cheated = SafeAdd(stat_cheated, 1);
                     M_SaveCVARs();
@@ -3395,11 +3410,14 @@ static void kill_cmd_func2(char *cmd, char *parms)
                 if (kills)
                 {
                     if (M_StringCompare(playername, playername_default))
-                        C_PlayerMessage("You %s all corpses.", killed);
+                        M_snprintf(buffer, sizeof(buffer), "You %s all corpses.", killed);
                     else
-                        C_PlayerMessage("%s %s all corpses.", playername, killed);
+                        M_snprintf(buffer, sizeof(buffer), "%s %s all corpses.", playername, killed);
 
+                    C_Output(buffer);
                     C_HideConsole();
+                    HU_SetPlayerMessage(buffer, false, false);
+                    message_dontfuckwithme = true;
                 }
                 else
                     C_Warning(0, "There are no corpses to %s.", cmd);
@@ -3411,11 +3429,14 @@ static void kill_cmd_func2(char *cmd, char *parms)
                     P_RemoveBloodSplats();
 
                     if (M_StringCompare(playername, playername_default))
-                        C_PlayerMessage("You %s all blood splats.", killed);
+                        M_snprintf(buffer, sizeof(buffer), "You %s all blood splats.", killed);
                     else
-                        C_PlayerMessage("%s %s all blood splats.", playername, killed);
+                        M_snprintf(buffer, sizeof(buffer), "%s %s all blood splats.", playername, killed);
 
+                    C_Output(buffer);
                     C_HideConsole();
+                    HU_SetPlayerMessage(buffer, false, false);
+                    message_dontfuckwithme = true;
                 }
                 else
                     C_Warning(0, "There are no blood splats to %s.", cmd);
@@ -3436,11 +3457,14 @@ static void kill_cmd_func2(char *cmd, char *parms)
                 }
 
                 if (M_StringCompare(playername, playername_default))
-                    C_PlayerMessage("You %s %s.", killed, temp);
+                    M_snprintf(buffer, sizeof(buffer), "You %s %s.", killed, temp);
                 else
-                    C_PlayerMessage("%s %s %s.", playername, killed, temp);
+                    M_snprintf(buffer, sizeof(buffer), "%s %s %s.", playername, killed, temp);
 
+                C_Output(buffer);
                 C_HideConsole();
+                HU_SetPlayerMessage(buffer, false, false);
+                message_dontfuckwithme = true;
                 viewplayer->cheated++;
                 stat_cheated = SafeAdd(stat_cheated, 1);
                 M_SaveCVARs();
@@ -3513,12 +3537,12 @@ static void kill_cmd_func2(char *cmd, char *parms)
                     if (M_StringCompare(playername, playername_default))
                     {
                         if (kills == 1)
-                            C_PlayerMessage("You %s the only %s %s this map.",
+                            M_snprintf(buffer, sizeof(buffer), "You %s the only %s %s this map.",
                                 killed,
                                 mobjinfo[type].name1,
                                 (viewplayer->mobjcount[type] == 1 ? "in" : "left in"));
                         else
-                            C_PlayerMessage("You %s all %s %s %s this map.",
+                            M_snprintf(buffer, sizeof(buffer), "You %s all %s %s %s this map.",
                                 killed,
                                 temp,
                                 mobjinfo[type].plural1,
@@ -3527,13 +3551,13 @@ static void kill_cmd_func2(char *cmd, char *parms)
                     else
                     {
                         if (kills == 1)
-                            C_PlayerMessage("%s %s the only %s %s this map.",
+                            M_snprintf(buffer, sizeof(buffer), "%s %s the only %s %s this map.",
                                 playername,
                                 killed,
                                 mobjinfo[type].name1,
                                 (viewplayer->mobjcount[type] == 1 ? "in" : "left in"));
                         else
-                            C_PlayerMessage("%s %s all %s %s %s this map.",
+                            M_snprintf(buffer, sizeof(buffer), "%s %s all %s %s %s this map.",
                                 playername,
                                 killed,
                                 temp,
@@ -3541,7 +3565,10 @@ static void kill_cmd_func2(char *cmd, char *parms)
                                 (viewplayer->mobjcount[type] == kills ? "in" : "left in"));
                     }
 
+                    C_Output(buffer);
                     C_HideConsole();
+                    HU_SetPlayerMessage(buffer, false, false);
+                    message_dontfuckwithme = true;
                     viewplayer->cheated++;
                     stat_cheated = SafeAdd(stat_cheated, 1);
                     M_SaveCVARs();
