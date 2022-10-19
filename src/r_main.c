@@ -939,7 +939,7 @@ subsector_t *R_PointInSubsector(fixed_t x, fixed_t y)
 //
 static void R_SetupFrame(void)
 {
-    int     cm = 0;
+    int     colormap = 0;
     mobj_t  *mo = viewplayer->mo;
     int     pitch = 0;
 
@@ -1011,16 +1011,16 @@ static void R_SetupFrame(void)
     {
         const sector_t  *s = mo->subsector->sector->heightsec;
 
-        cm = (viewz < s->interpfloorheight ? s->bottommap : (viewz > s->interpceilingheight ? s->topmap : s->midmap));
+        colormap = (viewz < s->interpfloorheight ? s->bottommap : (viewz > s->interpceilingheight ? s->topmap : s->midmap));
 
-        if (cm < 0 || cm > numcolormaps)
-            cm = 0;
+        if (colormap < 0 || colormap > numcolormaps)
+            colormap = 0;
     }
 
-    fullcolormap = colormaps[cm];
-    zlight = c_zlight[cm];
-    scalelight = c_scalelight[cm];
-    psprscalelight = c_psprscalelight[cm];
+    fullcolormap = colormaps[colormap];
+    zlight = c_zlight[colormap];
+    scalelight = c_scalelight[colormap];
+    psprscalelight = c_psprscalelight[colormap];
     drawbloodsplats = (r_blood != r_blood_none && r_bloodsplats_max);
 
     if (viewplayer->fixedcolormap && r_textures)
@@ -1042,7 +1042,7 @@ static void R_SetupFrame(void)
     else
     {
         fixedcolormap = 0;
-        usebrightmaps = (r_brightmaps && !cm);
+        usebrightmaps = (r_brightmaps && !colormap);
     }
 
     validcount++;

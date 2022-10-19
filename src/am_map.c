@@ -57,7 +57,6 @@
 #include "st_stuff.h"
 
 // Automap color priorities
-#define PATHPRIORITY           10
 #define WALLPRIORITY            9
 #define DOORPRIORITY            8
 #define CDWALLPRIORITY          7
@@ -275,7 +274,6 @@ void AM_SetColors(void)
     byte        priority[256] = { 0 };
     static byte priorities[256 * 256];
 
-    priority[nearestcolors[am_pathcolor]] = PATHPRIORITY;
     priority[nearestcolors[am_wallcolor]] = WALLPRIORITY;
     priority[nearestcolors[am_bluedoorcolor]] = DOORPRIORITY;
     priority[nearestcolors[am_reddoorcolor]] = DOORPRIORITY;
