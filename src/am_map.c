@@ -57,17 +57,16 @@
 #include "st_stuff.h"
 
 // Automap color priorities
-#define PATHPRIORITY           11
-#define WALLPRIORITY           10
-#define DOORPRIORITY            9
-#define CDWALLPRIORITY          8
-#define FDWALLPRIORITY          7
-#define TELEPORTERPRIORITY      6
-#define TSWALLPRIORITY          5
-#define ALLMAPWALLPRIORITY      4
-#define ALLMAPCDWALLPRIORITY    3
-#define ALLMAPFDWALLPRIORITY    2
-#define GRIDPRIORITY            1
+#define PATHPRIORITY           10
+#define WALLPRIORITY            9
+#define DOORPRIORITY            8
+#define CDWALLPRIORITY          7
+#define FDWALLPRIORITY          6
+#define TELEPORTERPRIORITY      5
+#define TSWALLPRIORITY          4
+#define ALLMAPWALLPRIORITY      3
+#define ALLMAPCDWALLPRIORITY    2
+#define ALLMAPFDWALLPRIORITY    1
 
 static byte playercolor;
 static byte thingcolor;
@@ -78,6 +77,7 @@ static byte yellowkeycolor;
 static byte markcolor;
 static byte backcolor;
 static byte pathcolor;
+static byte gridcolor;
 
 static byte *wallcolor;
 static byte *bluedoorcolor;
@@ -90,7 +90,6 @@ static byte *allmapfdwallcolor;
 static byte *cdwallcolor;
 static byte *allmapcdwallcolor;
 static byte *tswallcolor;
-static byte *gridcolor;
 static byte *am_crosshaircolor2;
 
 // scale on entry
@@ -288,8 +287,6 @@ void AM_SetColors(void)
     priority[nearestcolors[am_allmapwallcolor]] = ALLMAPWALLPRIORITY;
     priority[nearestcolors[am_allmapcdwallcolor]] = ALLMAPCDWALLPRIORITY;
     priority[nearestcolors[am_allmapfdwallcolor]] = ALLMAPFDWALLPRIORITY;
-    priority[nearestcolors[am_gridcolor]] = GRIDPRIORITY;
-
     playercolor = nearestcolors[am_playercolor];
     thingcolor = nearestcolors[am_thingcolor];
     bloodsplatcolor = nearestcolors[am_bloodsplatcolor];
@@ -299,6 +296,7 @@ void AM_SetColors(void)
     markcolor = nearestcolors[am_markcolor];
     backcolor = nearestcolors[am_backcolor];
     pathcolor = nearestcolors[am_pathcolor];
+    gridcolor = nearestcolors[am_gridcolor];
 
     for (mobjtype_t i = 0; i < NUMMOBJTYPES; i++)
         mobjinfo[i].automapcolor = thingcolor;
@@ -327,7 +325,6 @@ void AM_SetColors(void)
     allmapfdwallcolor = &priorities[nearestcolors[am_allmapfdwallcolor] << 8];
     teleportercolor = &priorities[nearestcolors[am_teleportercolor] << 8];
     tswallcolor = &priorities[nearestcolors[am_tswallcolor] << 8];
-    gridcolor = &priorities[nearestcolors[am_gridcolor ]<< 8];
 }
 
 void AM_GetGridSize(void)
@@ -1419,7 +1416,7 @@ static void AM_DrawGrid(void)
         mline_t mline = { { x, starty }, { x, starty + minlen } };
 
         mline = rotatelinefunc(mline);
-        AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, gridcolor, &PUTDOT);
+        AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, &gridcolor, &PUTDOT2);
     }
 
     end = starty + minlen;
@@ -1430,7 +1427,7 @@ static void AM_DrawGrid(void)
         mline_t mline = { { startx, y }, { startx + minlen, y } };
 
         mline = rotatelinefunc(mline);
-        AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, gridcolor, &PUTDOT);
+        AM_DrawFline(mline.a.x, mline.a.y, mline.b.x, mline.b.y, &gridcolor, &PUTDOT2);
     }
 }
 
@@ -2086,6 +2083,9 @@ void AM_Drawer(void)
 
     skippsprinterp = true;
 
+    if (am_grid)
+        AM_DrawGrid();
+
     if (viewplayer->cheats & CF_ALLMAP_THINGS)
     {
         if (am_bloodsplatcolor != am_backcolor && r_blood != r_blood_none && r_bloodsplats_max)
@@ -2099,9 +2099,6 @@ void AM_Drawer(void)
         AM_DrawWalls_AllMap();
     else
         AM_DrawWalls();
-
-    if (am_grid)
-        AM_DrawGrid();
 
     if (am_path)
         AM_DrawPath();
