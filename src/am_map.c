@@ -1829,18 +1829,16 @@ static void AM_DrawBloodSplats(void)
 
         while (splat)
         {
-            {
-                mpoint_t    point = { splat->x >> FRACTOMAPBITS, splat->y >> FRACTOMAPBITS };
-                int         fx, fy;
+            mpoint_t    point = { splat->x >> FRACTOMAPBITS, splat->y >> FRACTOMAPBITS };
+            int         fx, fy;
 
-                if (am_rotatemode)
-                    AM_RotatePoint(&point);
+            if (am_rotatemode)
+                AM_RotatePoint(&point);
 
-                if ((fx = CXMTOF(point.x)) >= -BLOODSPLATWIDTH && fx <= MAPWIDTH + BLOODSPLATWIDTH
-                    && (fy = CYMTOF(point.y)) >= -BLOODSPLATWIDTH && fy <= (int)MAPHEIGHT + BLOODSPLATWIDTH)
-                    AM_DrawThingTriangle(thingtriangle, THINGTRIANGLELINES, BLOODSPLATWIDTH,
-                        (splat->angle - angleoffset) >> ANGLETOFINESHIFT, point.x, point.y, bloodsplatcolor);
-            }
+            if ((fx = CXMTOF(point.x)) >= -BLOODSPLATWIDTH && fx <= MAPWIDTH + BLOODSPLATWIDTH
+                && (fy = CYMTOF(point.y)) >= -BLOODSPLATWIDTH && fy <= (int)MAPHEIGHT + BLOODSPLATWIDTH)
+                AM_DrawThingTriangle(thingtriangle, THINGTRIANGLELINES, BLOODSPLATWIDTH,
+                    (splat->angle - angleoffset) >> ANGLETOFINESHIFT, point.x, point.y, bloodsplatcolor);
 
             splat = splat->next;
         }
