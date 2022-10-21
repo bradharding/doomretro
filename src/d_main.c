@@ -539,7 +539,7 @@ void D_PageTicker(void)
 
         if (splashscreen)
         {
-            memset(screens[0], BLACK, SCREENAREA);
+            memset(screens[0], nearestblack, SCREENAREA);
             D_FadeScreen(false);
         }
     }
