@@ -402,7 +402,7 @@ static void ST_RefreshBackground(void)
         V_DrawWidePatch((SCREENWIDTH / SCREENSCALE - sbarwidth) / 2, VANILLAHEIGHT - VANILLASBARHEIGHT, 0, sbar);
         V_DrawPatch((hacx ? ST_ARMSBGX + 4 : ST_ARMSBGX), VANILLAHEIGHT - VANILLASBARHEIGHT, 0, armsbg);
     }
-    else if (r_detail == r_detail_low)
+    else if (r_detail == r_detail_low || harmony)
     {
         if (sbarwidth < SCREENWIDTH)
             R_FillBezel();

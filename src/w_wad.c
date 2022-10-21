@@ -624,7 +624,7 @@ int W_CheckMultipleLumps(const char *name)
 {
     int count = 0;
 
-    if (FREEDOOM || chex || hacx || REKKRSA)
+    if (FREEDOOM || chex || hacx || harmony || REKKRSA)
         return 3;
 
     for (int i = numlumps - 1; i >= 0; i--)

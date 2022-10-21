@@ -2203,7 +2203,7 @@ static void D_DoomMainSetup(void)
 
     FREEDM = (W_CheckNumForName("FREEDM") >= 0);
 
-    PLAYPALs = (FREEDOOM || chex || hacx || harmony || REKKRSA ? 2 : W_CheckMultipleLumps("PLAYPAL"));
+    PLAYPALs = (FREEDOOM || chex || hacx || REKKRSA ? 2 : W_CheckMultipleLumps("PLAYPAL"));
     STBARs = W_CheckMultipleLumps("STBAR");
 
     DSFLAMST = (W_CheckMultipleLumps("DSFLAMST") > 1);
