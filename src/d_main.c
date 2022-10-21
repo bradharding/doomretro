@@ -842,7 +842,6 @@ bool D_IsDOOMIWAD(char *filename)
     return (D_IsDOOM1IWAD(filename)
         || D_IsDOOM2IWAD(filename)
         || M_StringCompare(file, "chex.wad")
-        || (harmony = M_StringCompare(file, "harmony.wad"))
         || M_StringCompare(file, "rekkrsa.wad"));
 }
 
@@ -867,7 +866,7 @@ static bool D_IsUnsupportedIWAD(char *filename)
         {
             char    buffer[1024];
 
-            M_snprintf(buffer, sizeof(buffer), DOOMRETRO_NAME " doesn't support %s yet.\n", unsupported[i].title);
+            M_snprintf(buffer, sizeof(buffer), DOOMRETRO_NAME " doesn't support %s.\n", unsupported[i].title);
             SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_INFORMATION, DOOMRETRO_NAME, buffer, NULL);
 
 #if defined(_WIN32)
@@ -2207,7 +2206,7 @@ static void D_DoomMainSetup(void)
     STBARs = W_CheckMultipleLumps("STBAR");
 
     DSFLAMST = (W_CheckMultipleLumps("DSFLAMST") > 1);
-    M_DOOM = (W_CheckMultipleLumps("M_DOOM") > 2);
+    M_DOOM = (W_CheckMultipleLumps("M_DOOM") > 2 && !harmony);
     M_EPISOD = (W_CheckMultipleLumps("M_EPISOD") > 1);
     M_GDHIGH = (W_CheckMultipleLumps("M_GDHIGH") > 1);
     M_GDLOW = (W_CheckMultipleLumps("M_GDLOW") > 1);

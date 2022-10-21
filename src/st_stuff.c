@@ -1425,7 +1425,8 @@ void ST_InitStatBar(void)
     // status bar background bits
     if (english == english_american)
     {
-        sbar = ((FREEDOOM && !modifiedgame) || chex || hacx || REKKRSA ? W_CacheLastLumpName("STBAR") : W_CacheLumpName("STBAR"));
+        sbar = ((FREEDOOM && !modifiedgame) || chex || hacx || harmony || REKKRSA ?
+            W_CacheLastLumpName("STBAR") : W_CacheLumpName("STBAR"));
         sbar2 = W_CacheLumpName("STBAR2");
     }
     else
@@ -1647,7 +1648,7 @@ void ST_Init(void)
 #if SCREENSCALE == 1
     usesmallnums = false;
 #else
-    usesmallnums = ((!STYSNUM0 && STBARs == 2) || gamemode == shareware);
+    usesmallnums = ((!STYSNUM0 && STBARs == 2 && !harmony) || gamemode == shareware);
 #endif
 
     STLib_Init();
