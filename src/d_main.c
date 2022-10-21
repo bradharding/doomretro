@@ -539,7 +539,7 @@ void D_PageTicker(void)
 
         if (splashscreen)
         {
-            memset(screens[0], nearestblack, SCREENAREA);
+            memset(screens[0], BLACK, SCREENAREA);
             D_FadeScreen(false);
         }
     }
@@ -551,7 +551,7 @@ void D_PageTicker(void)
 void D_SplashDrawer(void)
 {
     gamestate = GS_TITLESCREEN;
-    memset(screens[0], nearestblack, SCREENAREA);
+    memset(screens[0], BLACK, SCREENAREA);
     V_DrawBigPatch(logox, logoy, logolump[BETWEEN(0, 94 - logotic, 17)]);
     V_DrawBigPatch(fineprintx, fineprinty, fineprintlump);
     I_SetSimplePalette(&splashpal[pagetic < 9 ? (9 - pagetic) * 768 : (pagetic <= 94 ? 0 : (pagetic - 94) * 768)]);
@@ -842,6 +842,7 @@ bool D_IsDOOMIWAD(char *filename)
     return (D_IsDOOM1IWAD(filename)
         || D_IsDOOM2IWAD(filename)
         || M_StringCompare(file, "chex.wad")
+        || (harmony = M_StringCompare(file, "harmony.wad"))
         || M_StringCompare(file, "rekkrsa.wad"));
 }
 
@@ -2202,7 +2203,7 @@ static void D_DoomMainSetup(void)
 
     FREEDM = (W_CheckNumForName("FREEDM") >= 0);
 
-    PLAYPALs = (FREEDOOM || chex || hacx || REKKRSA ? 2 : W_CheckMultipleLumps("PLAYPAL"));
+    PLAYPALs = (FREEDOOM || chex || hacx || harmony || REKKRSA ? 2 : W_CheckMultipleLumps("PLAYPAL"));
     STBARs = W_CheckMultipleLumps("STBAR");
 
     DSFLAMST = (W_CheckMultipleLumps("DSFLAMST") > 1);
