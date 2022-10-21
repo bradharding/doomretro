@@ -2206,7 +2206,7 @@ static void D_DoomMainSetup(void)
     STBARs = W_CheckMultipleLumps("STBAR");
 
     DSFLAMST = (W_CheckMultipleLumps("DSFLAMST") > 1);
-    M_DOOM = (W_CheckMultipleLumps("M_DOOM") > 2 && !harmony);
+    M_DOOM = (W_CheckMultipleLumps("M_DOOM") > 2 && !FREEDOOM && !hacx && !harmony && !chex);
     M_EPISOD = (W_CheckMultipleLumps("M_EPISOD") > 1);
     M_GDHIGH = (W_CheckMultipleLumps("M_GDHIGH") > 1);
     M_GDLOW = (W_CheckMultipleLumps("M_GDLOW") > 1);

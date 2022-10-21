@@ -1571,8 +1571,11 @@ static void M_DrawMainMenu(void)
     }
     else
     {
-        if (gamemission != doom)
+        if (gamemission != doom || FREEDOOM || chex || hacx)
             patch = W_CacheLastLumpName("M_DOOM");
+
+        if (hacx)
+            patch->leftoffset = 0;
 
         V_DrawPatchWithShadow((VANILLAWIDTH - SHORT(patch->width)) / 2 - 1, 11 + OFFSET, patch, false);
     }
