@@ -573,7 +573,7 @@ void D_IdentifyIWADByName(char *name)
 
     if (M_StringCompare(name, "HACX.WAD"))
         hacx = true;
-    else if (M_StringCompare(name, "harmony.wad"))
+    else if (M_StringCompare(name, "harmony.wad") || M_StringCompare(name, "harm1.wad"))
         harmony = true;
 }
 
