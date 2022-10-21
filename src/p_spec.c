@@ -2410,7 +2410,7 @@ bool EV_DoDonut(line_t *line)
         sector_t    *s2;
 
         // ALREADY MOVING? IF SO, KEEP GOING...
-        if (P_SectorActive(floor_special, s1))
+        if (!compat_floormove && P_SectorActive(floor_special, s1))
             continue;
 
         if (!(s2 = getNextSector(s1->lines[0], s1)))
