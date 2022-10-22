@@ -41,6 +41,7 @@
 #include "doomstat.h"
 #include "g_game.h"
 #include "hu_stuff.h"
+#include "i_colors.h"
 #include "i_gamecontroller.h"
 #include "m_config.h"
 #include "m_misc.h"
@@ -1466,7 +1467,7 @@ void P_SetBloodSplatColor(bloodsplat_t *splat)
 {
     if (r_blood == r_blood_nofuzz)
     {
-        splat->viscolor = (splat->color == FUZZYBLOOD ? REDBLOODSPLATCOLOR : splat->color) + M_BigRandomInt(-2, 1);
+        splat->viscolor = nearestcolors[(splat->color == FUZZYBLOOD ? REDBLOODSPLATCOLOR : splat->color) + M_BigRandomInt(-2, 1)];
         splat->viscolfunc = bloodsplatcolfunc;
     }
     else if (r_blood == r_blood_all)
@@ -1478,18 +1479,18 @@ void P_SetBloodSplatColor(bloodsplat_t *splat)
         }
         else
         {
-            splat->viscolor = splat->color + M_BigRandomInt(-2, 1);
+            splat->viscolor = nearestcolors[splat->color + M_BigRandomInt(-2, 1)];
             splat->viscolfunc = bloodsplatcolfunc;
         }
     }
     else if (r_blood == r_blood_red)
     {
-        splat->viscolor = REDBLOODSPLATCOLOR + M_BigRandomInt(-2, 1);
+        splat->viscolor = nearestcolors[REDBLOODSPLATCOLOR + M_BigRandomInt(-2, 1)];
         splat->viscolfunc = bloodsplatcolfunc;
     }
     else
     {
-        splat->viscolor = GREENBLOODSPLATCOLOR + M_BigRandomInt(-2, 1);
+        splat->viscolor = nearestcolors[GREENBLOODSPLATCOLOR + M_BigRandomInt(-2, 1)];
         splat->viscolfunc = bloodsplatcolfunc;
     }
 }
