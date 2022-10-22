@@ -1775,13 +1775,13 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, c
                         }
 
                         if (readyweapon == wp_fist && viewplayer->powers[pw_strength])
-                            C_PlayerMessage("You %s %s using your %s while %s.",
+                            C_PlayerMessage("You %s %s with your %s while %s.",
                                 (target->type == MT_BARREL ? "exploded" : (gibbed ? "gibbed" : "killed")),
                                 targetname,
                                 weaponinfo[readyweapon].name,
                                 berserk);
                         else
-                            C_PlayerMessage("You %s %s using your %s.",
+                            C_PlayerMessage("You %s %s with your %s.",
                                 (target->type == MT_BARREL ? "exploded" : (gibbed ? "gibbed" : "killed")),
                                 targetname,
                                 weaponinfo[readyweapon].name);
@@ -1794,7 +1794,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, c
                         if (healthcvar)
                             C_PlayerMessage("%s killed %s.", playername, pronoun(reflexive));
                         else
-                            C_PlayerMessage("%s %s %s using %s own %s.",
+                            C_PlayerMessage("%s %s %s with %s own %s.",
                                 playername,
                                 (gibbed ? "gibbed" : "killed"),
                                 pronoun(reflexive),
@@ -1820,7 +1820,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, c
                         }
 
                         if (readyweapon == wp_fist && viewplayer->powers[pw_strength])
-                            C_PlayerMessage("%s %s %s using %s %s while %s.",
+                            C_PlayerMessage("%s %s %s with %s %s while %s.",
                                 playername,
                                 (target->type == MT_BARREL ? "exploded" : (gibbed ? "gibbed" : "killed")),
                                 targetname,
@@ -1828,7 +1828,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, c
                                 weaponinfo[readyweapon].name,
                                 berserk);
                         else
-                            C_PlayerMessage("%s %s %s using %s %s.",
+                            C_PlayerMessage("%s %s %s with %s %s.",
                                 playername,
                                 (target->type == MT_BARREL ? "exploded" : (gibbed ? "gibbed" : "killed")),
                                 targetname,
