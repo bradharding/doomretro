@@ -1590,7 +1590,7 @@ void C_Drawer(void)
                     C_DrawConsoleText(CONSOLETEXTX, y, text, consoleplayermessagecolor,
                         NOBACKGROUNDCOLOR, consoleplayermessagecolor, tinttab66, notabs, true, true, i);
 
-                if (!*console[i].timestamp || !M_StringCompare(console[i].timestamp, console[i - count].timestamp))
+                if (!*console[i].timestamp || (i >= count && !M_StringCompare(console[i].timestamp, console[i - count].timestamp)))
                     C_DrawTimeStamp(SCREENWIDTH - CONSOLETEXTX - 10 - CONSOLESCROLLBARWIDTH + 1, y, i);
             }
             else if (stringtype == outputstring)
