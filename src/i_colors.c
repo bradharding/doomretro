@@ -151,13 +151,13 @@ int FindNearestColor(byte *palette, const byte red, const byte green, const byte
 
 void FindNearestColors(byte *palette)
 {
-    byte    *splashpal = W_CacheLumpName("SPLSHPAL");
+    byte    *SPLSHPAL = W_CacheLumpName("SPLSHPAL");
 
     for (int i = 0; i < 256; i++)
     {
-        const byte  red = *splashpal++;
-        const byte  green = *splashpal++;
-        const byte  blue = *splashpal++;
+        const byte  red = *SPLSHPAL++;
+        const byte  green = *SPLSHPAL++;
+        const byte  blue = *SPLSHPAL++;
 
         nearestcolors[i] = FindNearestColor(palette, red, green, blue);
     }

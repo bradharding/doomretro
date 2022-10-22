@@ -367,7 +367,7 @@ static void AddIWADPath(const char *path, const char *suffix)
     char    *p;
     char    *dup_path = M_StringDuplicate(path);
 
-    // Split into individual dirs within the list.
+    // Split into individual directories within the list.
     char    *left = dup_path;
 
     while (true)
@@ -591,7 +591,7 @@ static void AddDoomWADPath(void)
     // Add the initial directory
     AddIWADDir(doomwadpath);
 
-    // Split into individual dirs within the list.
+    // Split into individual directories within the list.
     p = doomwadpath;
 
     while (true)
@@ -624,7 +624,7 @@ static void BuildIWADDirList(void)
     if ((doomwaddir = getenv("DOOMWADDIR")))
         AddIWADDir(doomwaddir);
 
-    // Add dirs from DOOMWADPATH
+    // Add directories from DOOMWADPATH
     AddDoomWADPath();
 
 #if defined(_WIN32)
@@ -742,7 +742,7 @@ char *D_FindIWAD(void)
 
     if (iwadparm)
     {
-        // Search through IWAD dirs for an IWAD with the given name.
+        // Search through IWAD directories for an IWAD with the given name.
         char    *iwadfile = myargv[iwadparm + 1];
 
         if (!(result = D_FindWADByName(iwadfile)))
