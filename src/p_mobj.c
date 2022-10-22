@@ -1233,16 +1233,13 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, const bool spawnmonsters)
     if (flags & MF_COUNTITEM)
         totalitems++;
 
+    if (flags & MF_SPECIAL)
+        totalpickups++;
+
     if (mobj->tics > 0)
         mobj->tics = (M_BigRandom() % mobj->tics) + 1;
 
-    mobj->angle = ((mthing->angle % 45) ? mthing->angle * (ANG45 / 45) : ANG45 * (mthing->angle / 45));
-
-    if (flags & MF_SPECIAL)
-    {
-        mobj->angle += (M_SubRandom() << 20);
-        totalpickups++;
-    }
+    mobj->angle = ((mthing->angle % 45) ? mthing->angle * (ANG45 / 45) : ANG45 * (mthing->angle / 45)) + (M_SubRandom() << 20);
 
     // [BH] randomly mirror corpses
     if (flags & MF_CORPSE)
