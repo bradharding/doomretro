@@ -1431,7 +1431,8 @@ void ST_InitStatBar(void)
     }
     else
     {
-        sbar = W_CacheLumpName(W_CheckMultipleLumps("STBAR") > 2 ? "STBAR" : "STBAR3");
+        sbar = ((FREEDOOM && !modifiedgame) || chex || hacx || harmony || REKKRSA ?
+            W_CacheLastLumpName("STBAR") : (W_CacheLumpName(W_CheckMultipleLumps("STBAR") > 2 ? "STBAR" : "STBAR3")));
         sbar2 = W_CacheLumpName("STBAR4");
     }
 
