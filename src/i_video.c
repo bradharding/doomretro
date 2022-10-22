@@ -1941,7 +1941,7 @@ void I_InitGraphics(void)
     keys['a'] = keys['A'] = false;
     keys['l'] = keys['L'] = false;
 
-    PLAYPAL = W_CacheLumpName("PLAYPAL");
+    PLAYPAL = (harmony ? W_CacheLastLumpName("PLAYPAL") : W_CacheLumpName("PLAYPAL"));
     I_InitTintTables(PLAYPAL);
     FindNearestColors(PLAYPAL);
 
