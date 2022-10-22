@@ -1777,20 +1777,19 @@ static void AM_DrawThings(void)
         {
             if ((!thing->player || thing->player->mo != thing) && !(thing->flags2 & MF2_DONTMAP))
             {
-                angle_t     angle;
+                angle_t     angle = thing->angle;
                 mpoint_t    point;
                 int         fx, fy;
                 int         width;
 
                 if (consoleactive || paused)
                 {
-                    angle = thing->angle;
                     point.x = thing->x >> FRACTOMAPBITS;
                     point.y = thing->y >> FRACTOMAPBITS;
                 }
                 else
                 {
-                    angle = R_InterpolateAngle(thing->oldangle, thing->angle, fractionaltic);
+                    angle = R_InterpolateAngle(thing->oldangle, angle, fractionaltic);
                     point.x = (thing->oldx + FixedMul(thing->x - thing->oldx, fractionaltic)) >> FRACTOMAPBITS;
                     point.y = (thing->oldy + FixedMul(thing->y - thing->oldy, fractionaltic)) >> FRACTOMAPBITS;
                 }
@@ -1805,7 +1804,7 @@ static void AM_DrawThings(void)
                     const short sprite = sprites[thing->sprite].spriteframes[0].lump[0];
 
                     width = (BETWEEN(12 << FRACBITS, MIN(spritewidth[sprite], spriteheight[sprite]),
-                        96 << FRACBITS) >> FRACTOMAPBITS) / 2;
+                        80 << FRACBITS) >> FRACTOMAPBITS) / 2;
                 }
 
                 if ((fx = CXMTOF(point.x)) >= -width && fx <= MAPWIDTH + width
