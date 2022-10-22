@@ -1239,7 +1239,10 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, const bool spawnmonsters)
     if (mobj->tics > 0)
         mobj->tics = (M_BigRandom() % mobj->tics) + 1;
 
-    mobj->angle = ((mthing->angle % 45) ? mthing->angle * (ANG45 / 45) : ANG45 * (mthing->angle / 45)) + (M_SubRandom() << 20);
+    mobj->angle = ((mthing->angle % 45) ? mthing->angle * (ANG45 / 45) : ANG45 * (mthing->angle / 45));
+
+    if (!(flags & MF_SHOOTABLE) || type == MT_BARREL)
+        mobj->angle += (M_SubRandom() << 20);
 
     // [BH] randomly mirror corpses
     if (flags & MF_CORPSE)
