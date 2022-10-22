@@ -3812,7 +3812,8 @@ void P_Init(void)
         if (!P_ParseMapInfo("RMAPINFO"))
             if (!P_ParseMapInfo("UMAPINFO"))
                 if (!P_ParseMapInfo("MAPINFO"))
-                    P_ParseMapInfo("ZMAPINFO");
+                    if (!P_ParseMapInfo("ZMAPINFO"))
+                        P_ParseMapInfo("DMAPINFO");
 
         if (nojump && (keyboardjump || mousejump != -1 || gamecontrollerjump))
             C_Warning(1, "This %s has disabled use of the " BOLD("+jump") " action.",
