@@ -31,10 +31,10 @@
   * The `TITLEPIC` lump from *The Ultimate DOOM* is no longer used as the title screen of *DOOM*.
   * *DOOM* is no longer referred to as *The Ultimate DOOM* in the window’s caption or in the console.
   * The `DMENUPIC` lump is no longer used as the title screen of *DOOM II*.
-  * Unless replaced in a PWAD, stimpacks, medikits and berserk power-ups now always show a red cross, rather than a green cross or a pill.
+  * Unless replaced in a PWAD, all stimpacks, medikits and berserk power-ups now show a red cross, rather than a green cross or a pill.
 * Even though it can’t be played, the fourth episode of *DOOM* is now displayed in the episode menu of *DOOM (Shareware)*.
 * The horizontal position of player messages has now improved, and is consistent when toggling widescreen.
-* When to spawn blood splats around a decoration when the `r_corpses_moreblood` CVAR is `on` has now improved if the decoration’s sprite is replaced in a PWAD.
+* When to spawn blood splats around a decoration while the `r_corpses_moreblood` CVAR is `on` has now improved if the decoration’s sprite is replaced in a PWAD.
 * A bug is fixed whereby the wrong `M_DOOM` lump was displayed in the main menu in some instances.
 * Minor improvements have been made when adjusting the music volume.
 * Bullet puffs are now spawned again when barrels are shot at.
@@ -51,7 +51,7 @@
 * A bug has been fixed whereby masked midtextures could in some instances be rendered incorrectly while the player had a light amplification visor power-up.
 * The `r_skycolor` CVAR has been removed.
 * The default of the `am_pathcolor` CVAR is now `89`.
-* Blood splats are now displayed in the automap as very small thing triangles when using the `IDDT` cheat. Their color can be changed using the new `am_bloodsplatcolor` CVAR, which is `124` by default and `0` when vanilla mode is enabled.
+* Blood splats are now displayed in the automap as very small triangles when using the `IDDT` cheat. Their color can be changed using the new `am_bloodsplatcolor` CVAR, which is `124` by default and `0` when vanilla mode is enabled.
 * Several improvements have been made to the size and angle of thing triangles in the automap when using the `IDDT` cheat.
 * The `playergender` CVAR can now be changed and its values displayed correctly again.
 * Controls are no longer removed or reset when vanilla mode is enabled using the `vanilla` CCMD.
