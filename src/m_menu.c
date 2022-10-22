@@ -1555,12 +1555,20 @@ static void M_MusicVol(int choice)
 //
 static void M_DrawMainMenu(void)
 {
-    patch_t *patch = W_CacheLumpName("M_DOOM");
+    patch_t *patch;
 
     M_DrawMenuBackground();
 
-    if (M_DOOM)
+    if (FREEDOOM || chex || hacx || harmony || REKKRSA)
     {
+        M_DrawPatchWithShadow(94, 2 + OFFSET, W_CacheLastLumpName("M_DOOM"));
+        MainDef.x = 97;
+        MainDef.y = 72;
+    }
+    else if (M_DOOM)
+    {
+        patch = W_CacheLumpName("M_DOOM");
+
         if (SHORT(patch->height) == VANILLAHEIGHT)
             V_DrawPatch(94, 2, 0, patch);
         else
@@ -1571,12 +1579,7 @@ static void M_DrawMainMenu(void)
     }
     else
     {
-        if (gamemission != doom || FREEDOOM || chex || hacx)
-            patch = W_CacheLastLumpName("M_DOOM");
-
-        if (hacx)
-            patch->leftoffset = 0;
-
+        patch = (gamemission == doom ? W_CacheLumpName("M_DOOM") : W_CacheLastLumpName("M_DOOM"));
         V_DrawPatchWithShadow((VANILLAWIDTH - SHORT(patch->width)) / 2 - 1, 11 + OFFSET, patch, false);
     }
 }
