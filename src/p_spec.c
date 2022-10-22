@@ -2171,7 +2171,7 @@ static void P_SecretFound(void)
     {
         viewplayer->message = M_StringDuplicate(buffer);
         message_dontfuckwithme = true;
-        message_secret = !(viewplayer->cheats & CF_MYPOS);
+        message_secret = true;
         S_StartSound(NULL, sfx_secret);
     }
 
