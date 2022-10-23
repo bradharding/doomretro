@@ -1465,7 +1465,12 @@ void P_SpawnBlood(const fixed_t x, const fixed_t y, const fixed_t z, angle_t ang
 //
 void P_SetBloodSplatColor(bloodsplat_t *splat)
 {
-    if (r_blood == r_blood_nofuzz)
+    if (chex || r_blood == r_blood_green)
+    {
+        splat->viscolor = nearestcolors[GREENBLOODSPLATCOLOR + M_BigRandomInt(-2, 1)];
+        splat->viscolfunc = bloodsplatcolfunc;
+    }
+    else if (r_blood == r_blood_nofuzz)
     {
         splat->viscolor = nearestcolors[(splat->color == FUZZYBLOOD ? REDBLOODSPLATCOLOR : splat->color) + M_BigRandomInt(-2, 1)];
         splat->viscolfunc = bloodsplatcolfunc;
@@ -1483,14 +1488,9 @@ void P_SetBloodSplatColor(bloodsplat_t *splat)
             splat->viscolfunc = bloodsplatcolfunc;
         }
     }
-    else if (r_blood == r_blood_red)
-    {
-        splat->viscolor = nearestcolors[REDBLOODSPLATCOLOR + M_BigRandomInt(-2, 1)];
-        splat->viscolfunc = bloodsplatcolfunc;
-    }
     else
     {
-        splat->viscolor = nearestcolors[GREENBLOODSPLATCOLOR + M_BigRandomInt(-2, 1)];
+        splat->viscolor = nearestcolors[REDBLOODSPLATCOLOR + M_BigRandomInt(-2, 1)];
         splat->viscolfunc = bloodsplatcolfunc;
     }
 }
