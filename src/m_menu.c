@@ -3457,6 +3457,14 @@ bool M_Responder(event_t *ev)
             if (LoadGameMenu[itemon].status)
             {
                 M_DeleteSavegame();
+                M_ReadSaveStrings();
+
+                if (!savegames)
+                {
+                    currentmenu = &MainDef;
+                    itemon = new_game;
+                }
+
                 return true;
             }
             else
