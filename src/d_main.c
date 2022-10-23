@@ -2250,13 +2250,14 @@ static void D_DoomMainSetup(void)
     if (!M_StringCompare(s_VERSION, DOOMRETRO_NAMEANDVERSIONSTRING))
         I_Error("The wrong version of %s was found.", packagewad);
 
-    unity = (W_CheckNumForName("TITLEPIC") >= 0 && SHORT(((patch_t *)W_CacheLastLumpName("TITLEPIC"))->width) > VANILLAWIDTH);
+    unity = (W_CheckNumForName("TITLEPIC") >= 0
+        && SHORT(((patch_t *)W_CacheLastLumpName("TITLEPIC"))->width) > VANILLAWIDTH);
 
     D_SetGameDescription();
 
     if (gamemode == shareware)
         C_Warning(0, "This is the shareware version of " BOLD("DOOM") ". "
-            "Get the full version on " ITALICS("Steam") " or " ITALICS("GOG.com") ".");
+            "You can buy the full version on " ITALICS("Steam") ", etc.");
 
     if (nerve && expansion == 2)
         gamemission = pack_nerve;

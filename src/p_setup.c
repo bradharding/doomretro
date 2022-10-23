@@ -2903,6 +2903,7 @@ void P_MapName(int ep, int map)
                 M_snprintf(mapnumandtitle, sizeof(mapnumandtitle), "%s: " ITALICSTOGGLE "%s" ITALICSTOGGLE, mapnum, temp);
             }
             else if (M_StringStartsWith(maptitle, "LEVEL")
+                || M_StringStartsWith(maptitle, "LV.")
                 || M_StringStartsWith(maptitle, "MAP")
                 || (toupper(maptitle[0]) == 'E' && isdigit(maptitle[1]) && toupper(maptitle[2]) == 'M' && isdigit(maptitle[3])))
             {
