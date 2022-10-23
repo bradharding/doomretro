@@ -3068,7 +3068,6 @@ void A_Fall(mobj_t *actor, player_t *player, pspdef_t *psp);
 
 static void kill_cmd_func2(char *cmd, char *parms)
 {
-    char    buffer[1024];
     char    *parm = removenonalpha(parms);
 
     if (!*parm || gamestate != GS_LEVEL)
@@ -3080,6 +3079,7 @@ static void kill_cmd_func2(char *cmd, char *parms)
     }
     else
     {
+        char    buffer[1024];
         char    *killed = (M_StringCompare(cmd, "explode") ? "exploded" : (M_StringCompare(cmd, "remove") ? "removed" : "killed"));
 
         if (M_StringCompare(parm, "player") || M_StringCompare(parm, "me") || (*playername && M_StringCompare(parm, playername)))

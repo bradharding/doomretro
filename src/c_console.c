@@ -705,10 +705,12 @@ void C_Init(void)
     consoleboldcolors[playermessagestring] = consoleplayermessagecolor;
 
     brand = W_CacheLastLumpName("DRBRAND");
-    lsquote = W_CacheLastLumpName("DRFON145");
-    rsquote = W_CacheLastLumpName("DRFON039");
-    ldquote = W_CacheLastLumpName("DRFON147");
+
+    unknownchar = W_CacheLastLumpName("DRFON000");
     rdquote = W_CacheLastLumpName("DRFON034");
+    rsquote = W_CacheLastLumpName("DRFON039");
+    lsquote = W_CacheLastLumpName("DRFON145");
+    ldquote = W_CacheLastLumpName("DRFON147");
     bullet = W_CacheLastLumpName("DRFON149");
     endash = W_CacheLastLumpName("DRFON150");
     trademark = W_CacheLastLumpName("DRFON153");
@@ -716,7 +718,6 @@ void C_Init(void)
     regomark = W_CacheLastLumpName("DRFON174");
     degree = W_CacheLastLumpName("DRFON176");
     multiply = W_CacheLastLumpName("DRFON215");
-    unknownchar = W_CacheLastLumpName("DRFON000");
 
     warning = W_CacheLastLumpName("DRFONWRN");
     altunderscores = W_CacheLastLumpName("DRFONUND");

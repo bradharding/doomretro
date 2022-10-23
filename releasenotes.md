@@ -26,7 +26,7 @@
 * When toggling widescreen mode by pressing the <kbd>+</kbd> key, the player’s vertical field of view now zooms in slightly.
 * An `english` CVAR has been implemented that toggles the use of American or International English. It can be either `american` or `international`, and is `american` by default and when vanilla mode is enabled.
 * Support has been added for the official add-on [*Harmony*](https://slayersclub.bethesda.net/en/article/E5gTsCSptkfJC43vh9Pey/new-add-on-available-harmony).
-* Improvements have been made to the support of [*REKKR*](https://www.doomworld.com/idgames/levels/doom/megawads/rekkr) and [*REKKR: Sunken Land*](https://store.steampowered.com/app/1715690/REKKR_Sunken_Land/).
+* Further improvements have been made to the support of [*Chex Quest*](https://doomwiki.org/wiki/Chex_Quest), [*REKKR*](https://www.doomworld.com/idgames/levels/doom/megawads/rekkr) and [*REKKR: Sunken Land*](https://store.steampowered.com/app/1715690/REKKR_Sunken_Land/).
 * These changes have been made to the BFG Edition and latest rerelease of *DOOM* and *DOOM II*:
   * The `TITLEPIC` lump from *The Ultimate DOOM* is no longer used as the title screen of *DOOM*.
   * *DOOM* is no longer referred to as *The Ultimate DOOM* in the window’s caption or in the console.

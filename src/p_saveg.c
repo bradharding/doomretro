@@ -272,10 +272,10 @@ static void saveg_read_mobj_t(mobj_t *str)
     str->pitch = saveg_read32();
     str->id = saveg_read32();
     str->pursuecount = saveg_read16();
-    saveg_read16(); // strafecount
+    saveg_read16(); // deprecated
 
     if (str->flags & MF_SHOOTABLE)
-        for (int i = 0, len = 33; i < len; i++)
+        for (int i = 0, len = sizeof(str->name); i < len; i++)
             str->name[i] = saveg_read8();
 
     str->madesound = saveg_read32();
@@ -346,7 +346,7 @@ static void saveg_write_mobj_t(mobj_t *str)
     saveg_write32(str->pitch);
     saveg_write32(str->id);
     saveg_write16(str->pursuecount);
-    saveg_write16(0);   // strafecount
+    saveg_write16(0);   // deprecated
 
     if (str->flags & MF_SHOOTABLE)
     {
