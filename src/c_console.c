@@ -683,12 +683,12 @@ void C_Init(void)
     consoleoutputcolor = nearestcolors[CONSOLEOUTPUTCOLOR];
     consoleoverlaycolor = nearestcolors[CONSOLEOVERLAYCOLOR];
     consoleoverlaywarningcolor = nearestcolors[CONSOLEOVERLAYWARNINGCOLOR];
-    consoleplayermessagecolor = nearestcolors[CONSOLEPLAYERMESSAGECOLOR];
+    consoleplayermessagecolor = (harmony ? 226 : nearestcolors[CONSOLEPLAYERMESSAGECOLOR]);
     consolescrollbarfacecolor = nearestcolors[CONSOLESCROLLBARFACECOLOR];
     consolescrollbartrackcolor = nearestcolors[CONSOLESCROLLBARTRACKCOLOR] << 8;
     consoleselectedinputbackgroundcolor = nearestcolors[CONSOLESELECTEDINPUTBACKGROUNDCOLOR];
     consoleselectedinputcolor = nearestcolors[CONSOLESELECTEDINPUTCOLOR];
-    consoletimestampcolor = nearestcolors[CONSOLETIMESTAMPCOLOR];
+    consoletimestampcolor = (harmony ? 226 : nearestcolors[CONSOLETIMESTAMPCOLOR]);
     consolewarningboldcolor = nearestcolors[CONSOLEWARNINGBOLDCOLOR];
     consolewarningcolor = nearestcolors[CONSOLEWARNINGCOLOR];
 
