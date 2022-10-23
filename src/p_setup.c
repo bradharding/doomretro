@@ -3806,7 +3806,7 @@ void P_Init(void)
     P_InitSwitchList();
     P_InitPicAnims();
 
-    if (!M_CheckParm("-nomapinfo") && !sigil)
+    if (!M_CheckParm("-nomapinfo") && !nerve && !sigil)
     {
         P_InitMapInfo();
 
