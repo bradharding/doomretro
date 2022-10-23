@@ -938,6 +938,8 @@ void D_IdentifyVersion(void)
 // Set the gamedescription string
 void D_SetGameDescription(void)
 {
+    bool    defaultname = M_StringCompare(playername, playername_default);
+
     if (chex1)
         M_StringCopy(gamedescription, s_CAPTION_CHEX, sizeof(gamedescription));
     else if (chex2)
@@ -1017,21 +1019,28 @@ void D_SetGameDescription(void)
     if (nerve)
     {
         if (bfgedition)
-            C_Output("Playing " ITALICS("%s: %s (%s)") " and " ITALICS("%s: %s (%s)."), s_CAPTION_DOOM2, s_CAPTION_HELLONEARTH,
-                s_CAPTION_BFGEDITION, s_CAPTION_DOOM2, s_CAPTION_NERVE, s_CAPTION_BFGEDITION);
+            C_Output("%s %s playing " ITALICS("%s: %s (%s)") " and " ITALICS("%s: %s (%s)."),
+                (defaultname ? "You" : playername), (defaultname ? "are" : "is"),
+                s_CAPTION_DOOM2, s_CAPTION_HELLONEARTH, s_CAPTION_BFGEDITION,
+                s_CAPTION_DOOM2, s_CAPTION_NERVE, s_CAPTION_BFGEDITION);
         else
-            C_Output("Playing " ITALICS("%s: %s") " and " ITALICS("%s: %s."), s_CAPTION_DOOM2, s_CAPTION_HELLONEARTH,
-                s_CAPTION_DOOM2, s_CAPTION_NERVE);
+            C_Output("%s %s playing " ITALICS("%s: %s") " and " ITALICS("%s: %s."),
+                (defaultname ? "You" : playername), (defaultname ? "are" : "is"),
+                s_CAPTION_DOOM2, s_CAPTION_HELLONEARTH, s_CAPTION_DOOM2, s_CAPTION_NERVE);
     }
     else if (modifiedgame && !sigil)
-        C_Output("Playing " ITALICS("%s%s"), gamedescription,
-            (ispunctuation(gamedescription[strlen(gamedescription) - 1]) ? "" : "."));
+        C_Output("%s %s playing " ITALICS("%s%s"),
+            (defaultname ? "You" : playername), (defaultname ? "are" : "is"),
+            gamedescription, (ispunctuation(gamedescription[strlen(gamedescription) - 1]) ? "" : "."));
     else
     {
         if (bfgedition && !chex && !BTSX && !REKKR)
-            C_Output("Playing " ITALICS("%s (%s)."), gamedescription, s_CAPTION_BFGEDITION);
+            C_Output("%s %s playing " ITALICS("%s (%s)."),
+                (defaultname ? "You" : playername), (defaultname ? "are" : "is"),
+                gamedescription, s_CAPTION_BFGEDITION);
         else
-            C_Output("Playing " ITALICS("%s%s"), gamedescription,
-                (ispunctuation(gamedescription[strlen(gamedescription) - 1]) ? "" : "."));
+            C_Output("%s %s playing " ITALICS("%s%s"),
+                (defaultname ? "You" : playername), (defaultname ? "are" : "is"),
+                gamedescription, (ispunctuation(gamedescription[strlen(gamedescription) - 1]) ? "" : "."));
     }
 }
