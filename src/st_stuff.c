@@ -133,23 +133,29 @@
 #define ST_AMMO0X           288
 #define ST_AMMO0Y           173
 #define ST_AMMO1WIDTH       ST_AMMO0WIDTH
-#define ST_AMMO1X           288
+#define ST_AMMO1X           ST_AMMO0X
 #define ST_AMMO1Y           179
 #define ST_AMMO2WIDTH       ST_AMMO0WIDTH
-#define ST_AMMO2X           288
-#define ST_AMMO2Y           191
+#define ST_AMMO2X           ST_AMMO0X
+#define ST_AMMO2Y           185
 #define ST_AMMO3WIDTH       ST_AMMO0WIDTH
-#define ST_AMMO3X           288
-#define ST_AMMO3Y           185
+#define ST_AMMO3X           ST_AMMO0X
+#define ST_AMMO3Y           191
 
 // Indicate maximum ammunition.
 // Only needed because backpack exists.
-#define ST_MAXAMMOWIDTH    3
-#define ST_MAXAMMOX         (BTSX ? 313 : 314)
+#define ST_MAXAMMO0WIDTH    3
+#define ST_MAXAMMO0X        (BTSX ? 313 : 314)
 #define ST_MAXAMMO0Y        173
+#define ST_MAXAMMO1WIDTH    ST_MAXAMMO0WIDTH
+#define ST_MAXAMMO1X        ST_MAXAMMO0X
 #define ST_MAXAMMO1Y        179
-#define ST_MAXAMMO2Y        191
-#define ST_MAXAMMO3Y        185
+#define ST_MAXAMMO2WIDTH    ST_MAXAMMO0WIDTH
+#define ST_MAXAMMO2X        ST_MAXAMMO0X
+#define ST_MAXAMMO2Y        185
+#define ST_MAXAMMO3WIDTH    ST_MAXAMMO0WIDTH
+#define ST_MAXAMMO3X        ST_MAXAMMO0X
+#define ST_MAXAMMO3Y        191
 
 // ST_Start() has just been called
 static bool                 st_firsttime;
@@ -1613,14 +1619,14 @@ static void ST_CreateWidgets(void)
     // ammo count (all four kinds)
     STlib_InitNum(&w_ammo[am_clip], ST_AMMO0X, ST_AMMO0Y, shortnum, &viewplayer->ammo[am_clip], ST_AMMO0WIDTH);
     STlib_InitNum(&w_ammo[am_shell], ST_AMMO1X, ST_AMMO1Y, shortnum, &viewplayer->ammo[am_shell], ST_AMMO1WIDTH);
-    STlib_InitNum(&w_ammo[am_cell], ST_AMMO2X, ST_AMMO2Y, shortnum, &viewplayer->ammo[am_cell], ST_AMMO2WIDTH);
-    STlib_InitNum(&w_ammo[am_misl], ST_AMMO3X, ST_AMMO3Y, shortnum, &viewplayer->ammo[am_misl], ST_AMMO3WIDTH);
+    STlib_InitNum(&w_ammo[am_misl], ST_AMMO2X, ST_AMMO2Y, shortnum, &viewplayer->ammo[am_misl], ST_AMMO2WIDTH);
+    STlib_InitNum(&w_ammo[am_cell], ST_AMMO3X, ST_AMMO3Y, shortnum, &viewplayer->ammo[am_cell], ST_AMMO3WIDTH);
 
     // max ammo count (all four kinds)
-    STlib_InitNum(&w_maxammo[am_clip], ST_MAXAMMOX, ST_MAXAMMO0Y, shortnum, &viewplayer->maxammo[am_clip], ST_MAXAMMOWIDTH);
-    STlib_InitNum(&w_maxammo[am_shell], ST_MAXAMMOX, ST_MAXAMMO1Y, shortnum, &viewplayer->maxammo[am_shell], ST_MAXAMMOWIDTH);
-    STlib_InitNum(&w_maxammo[am_cell], ST_MAXAMMOX, ST_MAXAMMO2Y, shortnum, &viewplayer->maxammo[am_cell], ST_MAXAMMOWIDTH);
-    STlib_InitNum(&w_maxammo[am_misl], ST_MAXAMMOX, ST_MAXAMMO3Y, shortnum, &viewplayer->maxammo[am_misl], ST_MAXAMMOWIDTH);
+    STlib_InitNum(&w_maxammo[am_clip], ST_MAXAMMO0X, ST_MAXAMMO0Y, shortnum, &viewplayer->maxammo[am_clip], ST_MAXAMMO0WIDTH);
+    STlib_InitNum(&w_maxammo[am_shell], ST_MAXAMMO1X, ST_MAXAMMO1Y, shortnum, &viewplayer->maxammo[am_shell], ST_MAXAMMO1WIDTH);
+    STlib_InitNum(&w_maxammo[am_misl], ST_MAXAMMO2X, ST_MAXAMMO2Y, shortnum, &viewplayer->maxammo[am_misl], ST_MAXAMMO2WIDTH);
+    STlib_InitNum(&w_maxammo[am_cell], ST_MAXAMMO3X, ST_MAXAMMO3Y, shortnum, &viewplayer->maxammo[am_cell], ST_MAXAMMO3WIDTH);
 }
 
 void ST_Start(void)
