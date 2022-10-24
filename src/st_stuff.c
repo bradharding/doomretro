@@ -513,7 +513,7 @@ bool ST_Responder(event_t *ev)
             // 'fa' cheat for killer fucking arsenal
             else if (cht_CheckCheat(&cheat_ammonokey, ev->data2) && gameskill != sk_nightmare && viewplayer->health > 0)
             {
-                bool    ammogiven = P_GiveFullAmmo();
+                bool    ammogiven;
                 bool    armorgiven = false;
                 bool    berserkgiven = P_GivePower(pw_strength);
                 bool    weaponsgiven = P_GiveAllWeapons();
@@ -528,6 +528,9 @@ bool ST_Responder(event_t *ev)
 
                 // [BH] give player a backpack if they don't have one
                 P_GiveBackpack(false, false);
+
+                // [BH] give player full ammo (which is double now player has backpack)
+                ammogiven = P_GiveFullAmmo();
 
                 // [BH] show evil grin if player was given any new weapons
                 if (weaponsgiven && !(viewplayer->cheats & CF_GODMODE) && !viewplayer->powers[pw_invulnerability]
