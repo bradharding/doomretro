@@ -144,17 +144,11 @@
 
 // Indicate maximum ammunition.
 // Only needed because backpack exists.
-#define ST_MAXAMMO0WIDTH    3
-#define ST_MAXAMMO0X        314
+#define ST_MAXAMMOWIDTH    3
+#define ST_MAXAMMOX         (BTSX ? 313 : 314)
 #define ST_MAXAMMO0Y        173
-#define ST_MAXAMMO1WIDTH    ST_MAXAMMO0WIDTH
-#define ST_MAXAMMO1X        314
 #define ST_MAXAMMO1Y        179
-#define ST_MAXAMMO2WIDTH    ST_MAXAMMO0WIDTH
-#define ST_MAXAMMO2X        314
 #define ST_MAXAMMO2Y        191
-#define ST_MAXAMMO3WIDTH    ST_MAXAMMO0WIDTH
-#define ST_MAXAMMO3X        314
 #define ST_MAXAMMO3Y        185
 
 // ST_Start() has just been called
@@ -386,38 +380,40 @@ static void ST_RefreshBackground(void)
     if (sbarwidth < SCREENWIDTH)
         R_FillBezel();
 
+    V_DrawWidePatch((SCREENWIDTH / SCREENSCALE - sbarwidth) / 2, VANILLAHEIGHT - VANILLASBARHEIGHT, 0, sbar);
+
     if (STBARs >= 3)
-    {
-        V_DrawWidePatch((SCREENWIDTH / SCREENSCALE - sbarwidth) / 2, VANILLAHEIGHT - VANILLASBARHEIGHT, 0, sbar);
         V_DrawPatch((hacx ? ST_ARMSBGX + 4 : ST_ARMSBGX), VANILLAHEIGHT - VANILLASBARHEIGHT, 0, armsbg);
-    }
-    else
-        V_DrawWidePatch((SCREENWIDTH / SCREENSCALE - sbarwidth) / 2, VANILLAHEIGHT - VANILLASBARHEIGHT, 0, sbar);
 #else
-    if (STBARs >= 3)
+    if (STBARs < 3)
+    {
+        if (r_detail == r_detail_high)
+        {
+            if (vid_widescreen)
+            {
+                if (sbar2width < SCREENWIDTH)
+                    R_FillBezel();
+
+                V_DrawBigPatch((SCREENWIDTH - sbar2width) / 2, ST_Y, sbar2);
+            }
+            else
+                V_DrawBigWidePatch(ST_X, ST_Y, sbar2);
+        }
+        else
+        {
+            if (sbarwidth < SCREENWIDTH)
+                R_FillBezel();
+
+            V_DrawWidePatch((SCREENWIDTH / SCREENSCALE - sbarwidth) / 2, VANILLAHEIGHT - VANILLASBARHEIGHT, 0, sbar);
+        }
+    }
+    else
     {
         if (sbarwidth < SCREENWIDTH)
             R_FillBezel();
 
         V_DrawWidePatch((SCREENWIDTH / SCREENSCALE - sbarwidth) / 2, VANILLAHEIGHT - VANILLASBARHEIGHT, 0, sbar);
         V_DrawPatch((hacx ? ST_ARMSBGX + 4 : ST_ARMSBGX), VANILLAHEIGHT - VANILLASBARHEIGHT, 0, armsbg);
-    }
-    else if (r_detail == r_detail_low || harmony)
-    {
-        if (sbarwidth < SCREENWIDTH)
-            R_FillBezel();
-
-        V_DrawWidePatch((SCREENWIDTH / SCREENSCALE - sbarwidth) / 2, VANILLAHEIGHT - VANILLASBARHEIGHT, 0, sbar);
-    }
-    else
-    {
-        if (sbar2width < SCREENWIDTH)
-            R_FillBezel();
-
-        if (vid_widescreen)
-            V_DrawBigPatch((SCREENWIDTH - sbar2width) / 2, ST_Y, sbar2);
-        else
-            V_DrawBigWidePatch(ST_X, ST_Y, sbar2);
     }
 #endif
 }
@@ -1621,10 +1617,10 @@ static void ST_CreateWidgets(void)
     STlib_InitNum(&w_ammo[am_misl], ST_AMMO3X, ST_AMMO3Y, shortnum, &viewplayer->ammo[am_misl], ST_AMMO3WIDTH);
 
     // max ammo count (all four kinds)
-    STlib_InitNum(&w_maxammo[am_clip], ST_MAXAMMO0X, ST_MAXAMMO0Y, shortnum, &viewplayer->maxammo[am_clip], ST_MAXAMMO0WIDTH);
-    STlib_InitNum(&w_maxammo[am_shell], ST_MAXAMMO1X, ST_MAXAMMO1Y, shortnum, &viewplayer->maxammo[am_shell], ST_MAXAMMO1WIDTH);
-    STlib_InitNum(&w_maxammo[am_cell], ST_MAXAMMO2X, ST_MAXAMMO2Y, shortnum, &viewplayer->maxammo[am_cell], ST_MAXAMMO2WIDTH);
-    STlib_InitNum(&w_maxammo[am_misl], ST_MAXAMMO3X, ST_MAXAMMO3Y, shortnum, &viewplayer->maxammo[am_misl], ST_MAXAMMO3WIDTH);
+    STlib_InitNum(&w_maxammo[am_clip], ST_MAXAMMOX, ST_MAXAMMO0Y, shortnum, &viewplayer->maxammo[am_clip], ST_MAXAMMOWIDTH);
+    STlib_InitNum(&w_maxammo[am_shell], ST_MAXAMMOX, ST_MAXAMMO1Y, shortnum, &viewplayer->maxammo[am_shell], ST_MAXAMMOWIDTH);
+    STlib_InitNum(&w_maxammo[am_cell], ST_MAXAMMOX, ST_MAXAMMO2Y, shortnum, &viewplayer->maxammo[am_cell], ST_MAXAMMOWIDTH);
+    STlib_InitNum(&w_maxammo[am_misl], ST_MAXAMMOX, ST_MAXAMMO3Y, shortnum, &viewplayer->maxammo[am_misl], ST_MAXAMMOWIDTH);
 }
 
 void ST_Start(void)
