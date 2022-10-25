@@ -2024,7 +2024,7 @@ void A_BossDeath(mobj_t *actor, player_t *player, pspdef_t *psp)
     {
         mobj_t  *mo = (mobj_t *)th;
 
-        if (mo != actor && mo->type == actor->type && mo->health)
+        if (mo != actor && mo->type == actor->type && mo->health > 0)
             return;     // other boss not dead
     }
 
