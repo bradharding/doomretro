@@ -2055,7 +2055,6 @@ void A_BossDeath(mobj_t *actor, player_t *player, pspdef_t *psp)
             case 1:
                 junk.tag = 666;
                 EV_DoFloor(&junk, lowerFloorToLowest);
-
                 return;
 
             case 4:
@@ -2064,13 +2063,11 @@ void A_BossDeath(mobj_t *actor, player_t *player, pspdef_t *psp)
                     case 6:
                         junk.tag = 666;
                         EV_DoDoor(&junk, doorBlazeOpen, VDOORSPEED * 4);
-
                         return;
 
                     case 8:
                         junk.tag = 666;
                         EV_DoFloor(&junk, lowerFloorToLowest);
-
                         return;
                 }
         }

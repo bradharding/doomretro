@@ -59,7 +59,6 @@
 * These changes have been made to the `vid_capfps` CVAR:
   * Its minimum value is now `35` rather than `10`.
   * A bug is fixed whereby it couldn’t be set to `off` in the console.
-* The status bar is now wider on ultra-wide displays.
 * These changes have been made to the widescreen HUD:
   * All numbers are now monospaced, appearing the same way as they appear in the status bar.
   * The amount of ammo the player has no longer flashes when switching weapons.

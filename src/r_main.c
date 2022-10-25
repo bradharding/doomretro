@@ -480,7 +480,6 @@ void (*bloodsplatcolfunc)(void);
 void R_UpdateMobjColfunc(mobj_t *mobj)
 {
     const int   flags = mobj->flags;
-    const int   flags2 = mobj->flags2;
 
     if (flags & MF_FUZZ)
     {
@@ -521,50 +520,55 @@ void R_UpdateMobjColfunc(mobj_t *mobj)
         mobj->colfunc = tl50colfunc;
         mobj->altcolfunc = tl50colfunc;
     }
-    else if (flags2 & MF2_TRANSLUCENT)
-    {
-        mobj->colfunc = tlcolfunc;
-        mobj->altcolfunc = tl50colfunc;
-    }
-    else if (flags2 & MF2_TRANSLUCENT_REDONLY)
-    {
-        mobj->colfunc = tlredcolfunc;
-        mobj->altcolfunc = tlred33colfunc;
-    }
-    else if (flags2 & MF2_TRANSLUCENT_GREENONLY)
-    {
-        mobj->colfunc = tlgreencolfunc;
-        mobj->altcolfunc = tlgreen33colfunc;
-    }
-    else if (flags2 & MF2_TRANSLUCENT_BLUEONLY)
-    {
-        mobj->colfunc = tlbluecolfunc;
-        mobj->altcolfunc = tlblue25colfunc;
-    }
-    else if (flags2 & MF2_TRANSLUCENT_33)
-    {
-        mobj->colfunc = tl33colfunc;
-        mobj->altcolfunc = tl33colfunc;
-    }
-    else if (flags2 & MF2_TRANSLUCENT_50)
-    {
-        mobj->colfunc = tl50colfunc;
-        mobj->altcolfunc = tl50colfunc;
-    }
-    else if (flags2 & MF2_TRANSLUCENT_REDWHITEONLY)
-    {
-        mobj->colfunc = tlredwhitecolfunc1;
-        mobj->altcolfunc = tlred33colfunc;
-    }
-    else if (flags2 & MF2_TRANSLUCENT_BLUE_25)
-    {
-        mobj->colfunc = tlblue25colfunc;
-        mobj->altcolfunc = tlblue25colfunc;
-    }
     else
     {
-        mobj->colfunc = basecolfunc;
-        mobj->altcolfunc = basecolfunc;
+        const int   flags2 = mobj->flags2;
+
+        if (flags2 & MF2_TRANSLUCENT)
+        {
+            mobj->colfunc = tlcolfunc;
+            mobj->altcolfunc = tl50colfunc;
+        }
+        else if (flags2 & MF2_TRANSLUCENT_REDONLY)
+        {
+            mobj->colfunc = tlredcolfunc;
+            mobj->altcolfunc = tlred33colfunc;
+        }
+        else if (flags2 & MF2_TRANSLUCENT_GREENONLY)
+        {
+            mobj->colfunc = tlgreencolfunc;
+            mobj->altcolfunc = tlgreen33colfunc;
+        }
+        else if (flags2 & MF2_TRANSLUCENT_BLUEONLY)
+        {
+            mobj->colfunc = tlbluecolfunc;
+            mobj->altcolfunc = tlblue25colfunc;
+        }
+        else if (flags2 & MF2_TRANSLUCENT_33)
+        {
+            mobj->colfunc = tl33colfunc;
+            mobj->altcolfunc = tl33colfunc;
+        }
+        else if (flags2 & MF2_TRANSLUCENT_50)
+        {
+            mobj->colfunc = tl50colfunc;
+            mobj->altcolfunc = tl50colfunc;
+        }
+        else if (flags2 & MF2_TRANSLUCENT_REDWHITEONLY)
+        {
+            mobj->colfunc = tlredwhitecolfunc1;
+            mobj->altcolfunc = tlred33colfunc;
+        }
+        else if (flags2 & MF2_TRANSLUCENT_BLUE_25)
+        {
+            mobj->colfunc = tlblue25colfunc;
+            mobj->altcolfunc = tlblue25colfunc;
+        }
+        else
+        {
+            mobj->colfunc = basecolfunc;
+            mobj->altcolfunc = basecolfunc;
+        }
     }
 }
 

@@ -304,9 +304,6 @@ void V_DrawBigWidePatch(int x, int y, patch_t *patch)
 
 void V_DrawPagePatch(patch_t *patch)
 {
-    patch->leftoffset = 0;
-    patch->topoffset = 0;
-
     if (SCREENWIDTH != NONWIDEWIDTH)
         memset(screens[0], FindDominantEdgeColor(patch), SCREENAREA);
 
