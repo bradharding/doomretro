@@ -8894,13 +8894,13 @@ static void r_corpses_mirrored_cvar_func2(char *cmd, char *parms)
 
                 while (mo)
                 {
-                    if (mo->flags & MF_CORPSE)
+                    const mobjtype_t    type = mo->type;
+
+                    if ((mo->flags & MF_CORPSE) && type != MT_CHAINGUY && type != MT_CYBORG && (type != MT_PAIN || !doom4vanilla))
                     {
                         if (r_corpses_mirrored)
                         {
-                            mobjtype_t  type = mo->type;
-
-                            if (type != MT_CHAINGUY && type != MT_CYBORG && (M_BigRandom() & 1))
+                            if (M_BigRandom() & 1)
                                 mo->flags |= MF2_MIRRORED;
                         }
                         else
