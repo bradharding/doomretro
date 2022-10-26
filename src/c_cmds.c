@@ -8898,7 +8898,9 @@ static void r_corpses_mirrored_cvar_func2(char *cmd, char *parms)
                     {
                         if (r_corpses_mirrored)
                         {
-                            if (M_BigRandom() & 1)
+                            mobjtype_t  type = mo->type;
+
+                            if (type != MT_CHAINGUY && type != MT_CYBORG && (M_BigRandom() & 1))
                                 mo->flags |= MF2_MIRRORED;
                         }
                         else
