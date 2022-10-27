@@ -833,7 +833,7 @@ bool G_Responder(event_t *ev)
 
         case ev_mouse:
         {
-            int mousebutton = ev->data1;
+            const int   mousebutton = ev->data1;
 
             for (int i = 0, j = 1; i < MAX_MOUSE_BUTTONS; i++, j <<= 1)
                 mousebuttons[i] = !!(mousebutton & j);

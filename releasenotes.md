@@ -25,7 +25,8 @@
 * A fade transition is no longer applied when toggling the graphic detail, either in the options menu or by pressing the <kbd>F5</kbd> key, if the `fade` CVAR is `on`.
 * When toggling widescreen mode by pressing the <kbd>+</kbd> key, the player’s vertical field of view now zooms in slightly.
 * An `english` CVAR has been implemented that toggles the use of American or International English. It can be either `american` or `international`, and is `american` by default and when vanilla mode is enabled.
-* Turning the `r_corpses_mirrored` CVAR `on` in the console no longer randomly mirrors the corpses of chaingunners and cyberdemons.
+* Turning the `r_corpses_mirrored` or `r_mirroredweapons` CVARs `on` in the console now works correctly.
+* A `NOMIRROREDCORPSE` flag can now be used in `Retro bits` of `DEHACKED` lumps to force a monster’s corpse not to be randomly mirrored even if the `r_corpses_mirrored` is `on`.
 * Support has been added for the now official add-on [*Harmony*](https://slayersclub.bethesda.net/en/article/E5gTsCSptkfJC43vh9Pey/new-add-on-available-harmony).
 * Further improvements have been made to the support of [*Chex Quest*](https://doomwiki.org/wiki/Chex_Quest), [*REKKR*](https://www.doomworld.com/idgames/levels/doom/megawads/rekkr) and [*REKKR: Sunken Land*](https://store.steampowered.com/app/1715690/REKKR_Sunken_Land/).
 * These changes have been made to the BFG Edition and latest rerelease of *DOOM* and *DOOM II*:
@@ -53,6 +54,7 @@
 * The `r_skycolor` CVAR has been removed.
 * The default of the `am_pathcolor` CVAR is now `89`.
 * Blood splats are now displayed in the automap as very small triangles when using the `IDDT` cheat. Their color can be changed using the new `am_bloodsplatcolor` CVAR, which is `124` by default and `0` when vanilla mode is enabled.
+* The color of corpses in the automap when using the `IDDT` cheat can be changed using the new `am_corpsecolor` CVAR, which is `118` by default and `112` when vanilla mode is enabled.
 * Several improvements have been made to the size and angle of thing triangles in the automap when using the `IDDT` cheat.
 * The player is now given double the ammo again when entering the `IDFA` and `IDKFA` cheats.
 * The `playergender` CVAR can now be changed and its values displayed correctly again.

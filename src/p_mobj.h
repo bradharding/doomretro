@@ -292,7 +292,7 @@ enum
     // Object bobs up and down
     MF2_FLOATBOB                    = 0x00002000,
 
-    // Mirrored horizontally
+    // Object is being mirrored horizontally
     MF2_MIRRORED                    = 0x00004000,
 
     MF2_FALLING                     = 0x00008000,
