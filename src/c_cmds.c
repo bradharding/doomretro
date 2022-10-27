@@ -8901,7 +8901,7 @@ static void r_corpses_mirrored_cvar_func2(char *cmd, char *parms)
                         if (r_corpses_mirrored)
                         {
                             if (M_BigRandom() & 1)
-                                mo->flags |= MF2_MIRRORED;
+                                mo->flags2 |= MF2_MIRRORED;
                         }
                         else
                             mo->flags2 &= ~MF2_MIRRORED;
@@ -9252,7 +9252,7 @@ static void r_mirroredweapons_cvar_func2(char *cmd, char *parms)
                         if (r_mirroredweapons)
                         {
                             if (M_BigRandom() & 1)
-                                mo->flags |= MF2_MIRRORED;
+                                mo->flags2 |= MF2_MIRRORED;
                         }
                         else
                             mo->flags2 &= ~MF2_MIRRORED;
