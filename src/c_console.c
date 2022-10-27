@@ -1571,7 +1571,6 @@ void C_Drawer(void)
             if (stringtype == playermessagestring)
             {
                 const int   count = console[i].count;
-                static int  prev = 0;
 
                 if (count > 1)
                 {
@@ -1590,12 +1589,8 @@ void C_Drawer(void)
                 if (!*console[i].timestamp)
                     C_CreateTimeStamp(i);
 
-                if (!M_StringCompare(console[i].timestamp, console[prev].timestamp))
-                {
-                    C_DrawTimeStamp(SCREENWIDTH - CONSOLETEXTX - 10 - CONSOLESCROLLBARWIDTH + 1,
-                        y - (CONSOLEHEIGHT - consoleheight), console[i].timestamp);
-                    prev = i;
-                }
+                C_DrawTimeStamp(SCREENWIDTH - CONSOLETEXTX - 10 - CONSOLESCROLLBARWIDTH + 1,
+                    y - (CONSOLEHEIGHT - consoleheight), console[i].timestamp);
             }
             else if (stringtype == outputstring)
                 C_DrawConsoleText(CONSOLETEXTX, y, text, consoleoutputcolor,
