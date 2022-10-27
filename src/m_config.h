@@ -51,6 +51,7 @@ extern int      am_bloodsplatcolor;
 extern int      am_bluedoorcolor;
 extern int      am_bluekeycolor;
 extern int      am_cdwallcolor;
+extern int      am_corpsecolor;
 extern int      am_crosshaircolor;
 extern int      am_display;
 extern bool     am_external;
@@ -341,6 +342,10 @@ enum
 #define am_cdwallcolor_min                 0
 #define am_cdwallcolor_default             160
 #define am_cdwallcolor_max                 255
+
+#define am_corpsecolor_min                 0
+#define am_corpsecolor_default             118
+#define am_corpsecolor_max                 255
 
 #define am_crosshaircolor_min              0
 #define am_crosshaircolor_default          4

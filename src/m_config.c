@@ -59,6 +59,7 @@ int         am_bloodsplatcolor = am_bloodsplatcolor_default;
 int         am_bluedoorcolor = am_bluedoorcolor_default;
 int         am_bluekeycolor = am_bluekeycolor_default;
 int         am_cdwallcolor = am_cdwallcolor_default;
+int         am_corpsecolor = am_corpsecolor_default;
 int         am_crosshaircolor = am_crosshaircolor_default;
 int         am_display = am_display_default;
 bool        am_external = am_external_default;
@@ -291,6 +292,7 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT          (am_bluedoorcolor,                 am_bluedoorcolour,                     am_bluedoorcolor,                    NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT          (am_bluekeycolor,                  am_bluekeycolour,                      am_bluekeycolor,                     NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT          (am_cdwallcolor,                   am_cdwallcolour,                       am_cdwallcolor,                      NOVALUEALIAS          ),
+    CONFIG_VARIABLE_INT          (am_corpsecolor,                   am_corpsecolour,                       am_corpsecolor,                      NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT          (am_crosshaircolor,                am_crosshaircolour,                    am_crosshaircolor,                   NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT          (am_display,                       am_display,                            am_display,                          NOVALUEALIAS          ),
     CONFIG_VARIABLE_BOOL         (am_external,                      am_external,                           am_external,                         BOOLVALUEALIAS        ),

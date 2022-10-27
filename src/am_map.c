@@ -70,6 +70,7 @@
 static byte playercolor;
 static byte thingcolor;
 static byte bloodsplatcolor;
+static byte corpsecolor;
 static byte bluekeycolor;
 static byte redkeycolor;
 static byte yellowkeycolor;
@@ -288,6 +289,7 @@ void AM_SetColors(void)
     playercolor = nearestcolors[am_playercolor];
     thingcolor = nearestcolors[am_thingcolor];
     bloodsplatcolor = nearestcolors[am_bloodsplatcolor];
+    corpsecolor = nearestcolors[am_corpsecolor];
     bluekeycolor = nearestcolors[am_bluekeycolor];
     redkeycolor = nearestcolors[am_redkeycolor];
     yellowkeycolor = nearestcolors[am_yellowkeycolor];
@@ -1779,6 +1781,7 @@ static void AM_DrawThings(void)
             {
                 angle_t     angle = thing->angle;
                 mpoint_t    point;
+                int         flags = thing->flags;
                 int         fx, fy;
                 int         width;
 
@@ -1797,7 +1800,7 @@ static void AM_DrawThings(void)
                 if (am_rotatemode)
                     AM_RotatePoint(&point);
 
-                if (thing->flags & MF_SPECIAL)
+                if (flags & MF_SPECIAL)
                     width = (12 << FRACBITS) >> FRACTOMAPBITS;
                 else
                 {
@@ -1810,7 +1813,7 @@ static void AM_DrawThings(void)
                 if ((fx = CXMTOF(point.x)) >= -width && fx <= MAPWIDTH + width
                     && (fy = CYMTOF(point.y)) >= -width && fy <= (int)MAPHEIGHT + width)
                     AM_DrawThingTriangle(thingtriangle, THINGTRIANGLELINES, width, (angle - angleoffset) >> ANGLETOFINESHIFT,
-                        point.x, point.y, mobjinfo[thing->type].automapcolor);
+                        point.x, point.y, ((thing->flags & MF_CORPSE) ? corpsecolor : mobjinfo[thing->type].automapcolor));
             }
 
             thing = thing->snext;
