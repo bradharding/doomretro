@@ -1171,16 +1171,11 @@ char *C_CreateTimeStamp(int index)
     return console[index].timestamp;
 }
 
-static void C_DrawTimeStamp(int x, int y, int index)
+static void C_DrawTimeStamp(int x, int y, char timestamp[9])
 {
-    char    buffer[9];
-
-    M_StringCopy(buffer, (*console[index].timestamp ? console[index].timestamp : C_CreateTimeStamp(index)), sizeof(buffer));
-    y -= CONSOLEHEIGHT - consoleheight;
-
-    for (int i = (int)strlen(buffer) - 1; i >= 0; i--)
+    for (int i = (int)strlen(timestamp) - 1; i >= 0; i--)
     {
-        char    ch = buffer[i];
+        char    ch = timestamp[i];
         patch_t *patch = consolefont[ch - CONSOLEFONTSTART];
         int     width = SHORT(patch->width);
 
@@ -1576,6 +1571,7 @@ void C_Drawer(void)
             if (stringtype == playermessagestring)
             {
                 const int   count = console[i].count;
+                static int  prev = 0;
 
                 if (count > 1)
                 {
@@ -1591,8 +1587,15 @@ void C_Drawer(void)
                     C_DrawConsoleText(CONSOLETEXTX, y, text, consoleplayermessagecolor,
                         NOBACKGROUNDCOLOR, consoleplayermessagecolor, tinttab66, notabs, true, true, i);
 
-                if (i >= count && (!*console[i - count].timestamp || !M_StringCompare(console[i].timestamp, console[i - count].timestamp)))
-                    C_DrawTimeStamp(SCREENWIDTH - CONSOLETEXTX - 10 - CONSOLESCROLLBARWIDTH + 1, y, i);
+                if (!*console[i].timestamp)
+                    C_CreateTimeStamp(i);
+
+                if (!M_StringCompare(console[i].timestamp, console[prev].timestamp))
+                {
+                    C_DrawTimeStamp(SCREENWIDTH - CONSOLETEXTX - 10 - CONSOLESCROLLBARWIDTH + 1,
+                        y - (CONSOLEHEIGHT - consoleheight), console[i].timestamp);
+                    prev = i;
+                }
             }
             else if (stringtype == outputstring)
                 C_DrawConsoleText(CONSOLETEXTX, y, text, consoleoutputcolor,
