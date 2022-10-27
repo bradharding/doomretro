@@ -2128,7 +2128,6 @@ static void PIT_ChangeSector(mobj_t *thing)
             const fixed_t       x = thing->x;
             const fixed_t       y = thing->y;
             const fixed_t       floorz = thing->floorz;
-            const mobjtype_t    type = thing->type;
 
             for (int i = 0; i < max; i++)
             {
@@ -2148,8 +2147,8 @@ static void PIT_ChangeSector(mobj_t *thing)
 
             thing->flags &= ~MF_SOLID;
 
-            if (r_corpses_mirrored && type != MT_CHAINGUY && type != MT_CYBORG
-                && (type != MT_PAIN || !doom4vanilla) && (M_Random() & 1))
+            if (r_corpses_mirrored && (M_Random() & 1) && !(thing->flags2 & MF2_NOMIRROREDCORPSE)
+                && (thing->type != MT_PAIN || !doom4vanilla))
                 thing->flags2 |= MF2_MIRRORED;
 
             thing->height = 0;

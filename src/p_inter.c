@@ -1972,7 +1972,7 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, const bool te
         if (!(target->flags & MF_FUZZ))
             target->bloodsplats = CORPSEBLOODSPLATS;
 
-        if (r_corpses_mirrored && (M_Random() & 1) && type != MT_CHAINGUY && type != MT_CYBORG && (type != MT_PAIN || !doom4vanilla))
+        if (r_corpses_mirrored && (M_Random() & 1) && !(target->flags2 & MF2_NOMIRROREDCORPSE) && (type != MT_PAIN || !doom4vanilla))
             target->flags2 |= MF2_MIRRORED;
     }
 
