@@ -688,29 +688,40 @@ void M_SaveCVARs(void)
 
             case DEFAULT_FLOAT:
             {
-                bool    alias = false;
                 float   value = *(float *)cvars[i].location;
 
-                for (int j = 0; *valuealiases[j].text; j++)
-                    if (value == valuealiases[j].value && cvars[i].valuealiastype == valuealiases[j].type)
-                    {
-                        fputs(valuealiases[j].text, file);
-                        alias = true;
-                        break;
-                    }
-
-                if (!alias)
+                if (M_StringCompare(cvars[i].name, stringize(r_gamma)))
                 {
-                    static char buffer[128];
-                    int         len;
+                    bool    alias = false;
 
-                    M_snprintf(buffer, sizeof(buffer), "%.2f", value);
-                    len = (int)strlen(buffer);
+                    for (int j = 0; *valuealiases[j].text; j++)
+                        if (value == valuealiases[j].value && cvars[i].valuealiastype == valuealiases[j].type)
+                        {
+                            fputs(valuealiases[j].text, file);
+                                alias = true;
+                                break;
+                        }
 
-                    if (len >= 2 && buffer[len - 1] == '0' && buffer[len - 2] == '0')
-                        buffer[len - 1] = '\0';
+                    if (!alias)
+                    {
+                        static char buffer[128];
+                        int         len;
 
-                    fputs(buffer, file);
+                        M_snprintf(buffer, sizeof(buffer), "%.2f", value);
+                        len = (int)strlen(buffer);
+
+                        if (len >= 2 && buffer[len - 1] == '0' && buffer[len - 2] == '0')
+                            buffer[len - 1] = '\0';
+
+                        fputs(buffer, file);
+                    }
+                }
+                else
+                {
+                    char    *temp = striptrailingzero(value, 1);
+
+                    fprintf(file, "%s%%", temp);
+                    free(temp);
                 }
 
                 break;
