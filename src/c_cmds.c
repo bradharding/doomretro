@@ -399,6 +399,7 @@ static bool bool_cvars_func1(char *cmd, char *parms);
 static void bool_cvars_func2(char *cmd, char *parms);
 static void color_cvars_func2(char *cmd, char *parms);
 static bool float_cvars_func1(char *cmd, char *parms);
+static void float_cvars_func2(char *cmd, char *parms);
 static bool int_cvars_func1(char *cmd, char *parms);
 static void int_cvars_func2(char *cmd, char *parms);
 static void str_cvars_func2(char *cmd, char *parms);
@@ -722,7 +723,7 @@ consolecmd_t consolecmds[] =
         "Toggles inverting the mouse's vertical axis when using mouselook."),
     CVAR_BOOL(m_novertical, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles no vertical movement of the mouse."),
-    CVAR_INT(m_sensitivity, "", "", int_cvars_func1, int_cvars_func2, CF_NONE, NOVALUEALIAS,
+    CVAR_FLOAT(m_sensitivity, "", "", float_cvars_func1, float_cvars_func2, CF_NONE,
         "The mouse's sensitivity (" BOLD("0") " to " BOLD("128") ")."),
     CCMD(map, "", warp, map_cmd_func1, map_cmd_func2, true, MAPCMDFORMAT1,
         "Warps the player to another map."),
@@ -7865,6 +7866,46 @@ static bool float_cvars_func1(char *cmd, char *parms)
         }
 
     return false;
+}
+
+static void float_cvars_func2(char *cmd, char *parms)
+{
+    for (int i = 0; *consolecmds[i].name; i++)
+        if (M_StringCompare(cmd, consolecmds[i].name) && consolecmds[i].type == CT_CVAR && (consolecmds[i].flags & CF_FLOAT))
+        {
+            if (*parms && !(consolecmds[i].flags & CF_READONLY))
+            {
+                float   value;
+
+                if (sscanf(parms, "%10f", &value) == 1 && value != *(float *)consolecmds[i].variable)
+                {
+                    *(float *)consolecmds[i].variable = value;
+                    M_SaveCVARs();
+                }
+            }
+            else
+            {
+                char    *temp1 = striptrailingzero(*(float *)consolecmds[i].variable, 1);
+
+                C_ShowDescription(i);
+
+                if (*(float *)consolecmds[i].variable == (float)consolecmds[i].defaultnumber)
+                    C_Output(((consolecmds[i].flags & CF_READONLY) ? INTEGERCVARWITHNODEFAULT : INTEGERCVARISDEFAULT), temp1);
+                else
+                {
+                    char    *temp2 = striptrailingzero(consolecmds[i].defaultnumber, 1);
+
+                    C_Output(((consolecmds[i].flags & CF_READONLY) ? INTEGERCVARWITHNODEFAULT : INTEGERCVARWITHDEFAULT), temp1, temp2);
+                    free(temp2);
+                }
+
+                free(temp1);
+
+                C_ShowWarning(i);
+            }
+
+            break;
+        }
 }
 
 //

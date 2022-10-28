@@ -108,7 +108,7 @@ extern bool     m_acceleration;
 extern bool     m_doubleclick_use;
 extern bool     m_invertyaxis;
 extern bool     m_novertical;
-extern int      m_sensitivity;
+extern float    m_sensitivity;
 extern bool     melt;
 extern bool     messages;
 extern bool     mouselook;
@@ -509,9 +509,9 @@ enum
 #define joy_rumble_barrels_default         100
 #define joy_rumble_barrels_max             200
 
-#define joy_rumble_weapons_min              0
-#define joy_rumble_weapons_default          100
-#define joy_rumble_weapons_max              200
+#define joy_rumble_weapons_min             0
+#define joy_rumble_weapons_default         100
+#define joy_rumble_weapons_max             200
 
 #define joy_sensitivity_horizontal_min     0
 #define joy_sensitivity_horizontal_default 64
@@ -535,9 +535,9 @@ enum
 
 #define m_novertical_default               true
 
-#define m_sensitivity_min                  0
-#define m_sensitivity_default              16
-#define m_sensitivity_max                  128
+#define m_sensitivity_min                  0.0f
+#define m_sensitivity_default              16.0f
+#define m_sensitivity_max                  128.0f
 
 #define melt_default                       true
 

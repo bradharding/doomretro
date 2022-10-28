@@ -116,7 +116,7 @@ bool        m_acceleration = m_acceleration_default;
 bool        m_doubleclick_use = m_doubleclick_use_default;
 bool        m_invertyaxis = m_invertyaxis_default;
 bool        m_novertical = m_novertical_default;
-int         m_sensitivity = m_sensitivity_default;
+float       m_sensitivity = m_sensitivity_default;
 bool        melt = melt_default;
 bool        messages = messages_default;
 bool        mouselook = mouselook_default;
@@ -348,7 +348,7 @@ static default_t cvars[] =
     CONFIG_VARIABLE_BOOL         (m_doubleclick_use,                m_doubleclick_use,                     m_doubleclick_use,                   BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_BOOL         (m_invertyaxis,                    m_invertyaxis,                         m_invertyaxis,                       BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_BOOL         (m_novertical,                     m_novertical,                          m_novertical,                        BOOLVALUEALIAS        ),
-    CONFIG_VARIABLE_INT          (m_sensitivity,                    m_sensitivity,                         m_sensitivity,                       NOVALUEALIAS          ),
+    CONFIG_VARIABLE_FLOAT        (m_sensitivity,                    m_sensitivity,                         m_sensitivity,                       NOVALUEALIAS          ),
     CONFIG_VARIABLE_BOOL         (melt,                             wipe,                                  melt,                                BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_BOOL         (messages,                         messages,                              messages,                            BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_BOOL         (mouselook,                        mouselook,                             mouselook,                           BOOLVALUEALIAS        ),

@@ -212,6 +212,20 @@ void C_Cheat(const char *string)
     selectend = 0;
 }
 
+void C_FloatCVAROutput(const char *cvar, float value)
+{
+    static char buffer[128];
+    int         len;
+
+    M_snprintf(buffer, sizeof(buffer), "%.2f", value);
+    len = (int)strlen(buffer);
+
+    if (len >= 2 && buffer[len - 1] == '0' && buffer[len - 2] == '0')
+        buffer[len - 1] = '\0';
+
+    C_StrCVAROutput(cvar, buffer);
+}
+
 void C_IntCVAROutput(const char *cvar, int value)
 {
     char    *temp1 = M_StringJoin(cvar, " ", NULL);

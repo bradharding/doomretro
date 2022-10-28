@@ -851,8 +851,8 @@ bool G_Responder(event_t *ev)
 
             if (!automapactive || am_followmode)
             {
-                mousex = ev->data2 * m_sensitivity / 10;
-                mousey = -ev->data3 * m_sensitivity / 10;
+                mousex = (int)(ev->data2 * m_sensitivity / 10.0f);
+                mousey = (int)(-ev->data3 * m_sensitivity / 10.0f);
             }
 
             return true;    // eat events

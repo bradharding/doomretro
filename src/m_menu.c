@@ -2150,11 +2150,11 @@ static void M_ChangeSensitivity(int choice)
             case 0:
                 if (m_sensitivity > m_sensitivity_min)
                 {
-                    if (m_sensitivity & 1)
+                    if ((int)(m_sensitivity = roundf(m_sensitivity)) & 1)
                         m_sensitivity++;
 
-                    m_sensitivity -= 2;
-                    C_IntCVAROutput(stringize(m_sensitivity), m_sensitivity);
+                    m_sensitivity -= 2.0f;
+                    C_FloatCVAROutput(stringize(m_sensitivity), m_sensitivity);
                     M_SliderSound();
                     M_SaveCVARs();
                 }
@@ -2164,11 +2164,11 @@ static void M_ChangeSensitivity(int choice)
             case 1:
                 if (m_sensitivity < m_sensitivity_max)
                 {
-                    if (m_sensitivity & 1)
+                    if ((int)(m_sensitivity = roundf(m_sensitivity)) & 1)
                         m_sensitivity--;
 
-                    m_sensitivity += 2;
-                    C_IntCVAROutput(stringize(m_sensitivity), m_sensitivity);
+                    m_sensitivity += 2.0f;
+                    C_FloatCVAROutput(stringize(m_sensitivity), m_sensitivity);
                     M_SliderSound();
                     M_SaveCVARs();
                 }
@@ -2489,18 +2489,7 @@ static void M_ChangeGamma(bool shift)
         if (r_gamma == 1.0f)
             C_StrCVAROutput(stringize(r_gamma), "off");
         else
-        {
-            static char buffer[128];
-            int         len;
-
-            M_snprintf(buffer, sizeof(buffer), "%.2f", r_gamma);
-            len = (int)strlen(buffer);
-
-            if (len >= 2 && buffer[len - 1] == '0' && buffer[len - 2] == '0')
-                buffer[len - 1] = '\0';
-
-            C_StrCVAROutput(stringize(r_gamma), buffer);
-        }
+            C_FloatCVAROutput(stringize(r_gamma), r_gamma);
 
         gammawait = I_GetTime() + 4;
         S_StartSound(NULL, sfx_stnmov);
