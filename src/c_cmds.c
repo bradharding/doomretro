@@ -8595,7 +8595,9 @@ static void player_cvars_func2(char *cmd, char *parms)
 
             C_ShowDescription(i);
             C_Output(INTEGERCVARWITHNODEFAULT, temp);
-            C_ShowWarning(i);
+
+            if (gamestate != GS_LEVEL)
+                C_Warning(0, NOGAMEWARNING);
 
             free(temp);
         }
@@ -8630,7 +8632,9 @@ static void player_cvars_func2(char *cmd, char *parms)
 
             C_ShowDescription(i);
             C_Output(PERCENTCVARWITHNODEFAULT, temp);
-            C_ShowWarning(i);
+
+            if (gamestate != GS_LEVEL)
+                C_Warning(0, NOGAMEWARNING);
 
             free(temp);
         }
@@ -8698,7 +8702,9 @@ static void player_cvars_func2(char *cmd, char *parms)
 
             C_ShowDescription(i);
             C_Output(PERCENTCVARWITHNODEFAULT, temp);
-            C_ShowWarning(i);
+
+            if (gamestate != GS_LEVEL)
+                C_Warning(0, NOGAMEWARNING);
 
             free(temp);
         }
