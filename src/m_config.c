@@ -108,8 +108,8 @@ bool        joy_invertyaxis = joy_invertyaxis_default;
 int         joy_rumble_barrels = joy_rumble_barrels_default;
 int         joy_rumble_damage = joy_rumble_damage_default;
 int         joy_rumble_weapons = joy_rumble_weapons_default;
-int         joy_sensitivity_horizontal = joy_sensitivity_horizontal_default;
-int         joy_sensitivity_vertical = joy_sensitivity_vertical_default;
+float       joy_sensitivity_horizontal = joy_sensitivity_horizontal_default;
+float       joy_sensitivity_vertical = joy_sensitivity_vertical_default;
 bool        joy_swapthumbsticks = joy_swapthumbsticks_default;
 int         joy_thumbsticks = joy_thumbsticks_default;
 bool        m_acceleration = m_acceleration_default;
@@ -340,8 +340,8 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT_PERCENT  (joy_rumble_barrels,               gp_vibrate_barrels,                    joy_rumble_barrels,                  NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT_PERCENT  (joy_rumble_damage,                gp_vibrate_damage,                     joy_rumble_damage,                   NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT_PERCENT  (joy_rumble_weapons,               gp_vibrate_weaponss,                   joy_rumble_weapons,                  NOVALUEALIAS          ),
-    CONFIG_VARIABLE_INT          (joy_sensitivity_horizontal,       gp_sensitivity_horizontal,             joy_sensitivity_horizontal,          NOVALUEALIAS          ),
-    CONFIG_VARIABLE_INT          (joy_sensitivity_vertical,         gp_sensitivity_vertical,               joy_sensitivity_vertical,            NOVALUEALIAS          ),
+    CONFIG_VARIABLE_FLOAT        (joy_sensitivity_horizontal,       gp_sensitivity_horizontal,             joy_sensitivity_horizontal,          NOVALUEALIAS          ),
+    CONFIG_VARIABLE_FLOAT        (joy_sensitivity_vertical,         gp_sensitivity_vertical,               joy_sensitivity_vertical,            NOVALUEALIAS          ),
     CONFIG_VARIABLE_BOOL         (joy_swapthumbsticks,              gp_swapthumbsticks,                    joy_swapthumbsticks,                 BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT          (joy_thumbsticks,                  gp_thumbsticks,                        joy_thumbsticks,                     NOVALUEALIAS          ),
     CONFIG_VARIABLE_BOOL         (m_acceleration,                   m_acceleration,                        m_acceleration,                      BOOLVALUEALIAS        ),
@@ -698,8 +698,8 @@ void M_SaveCVARs(void)
                         if (value == valuealiases[j].value && cvars[i].valuealiastype == valuealiases[j].type)
                         {
                             fputs(valuealiases[j].text, file);
-                                alias = true;
-                                break;
+                            alias = true;
+                            break;
                         }
 
                     if (!alias)
@@ -720,7 +720,7 @@ void M_SaveCVARs(void)
                 {
                     char    *temp = striptrailingzero(value, 1);
 
-                    fprintf(file, "%s", temp);
+                    fputs(temp, file);
                     free(temp);
                 }
 
@@ -752,10 +752,9 @@ void M_SaveCVARs(void)
             }
 
             case DEFAULT_STRING:
-                if (M_StringCompare(*(char **)cvars[i].location, EMPTYVALUE))
+                if (M_StringCompare(*(char **)cvars[i].location, EMPTYVALUE)
+                    || M_StringCompare(cvars[i].name, stringize(version)))
                     fputs(*(char **)cvars[i].location, file);
-                else if (M_StringCompare(cvars[i].name, stringize(version)))
-                    fprintf(file, "%s", *(char **)cvars[i].location);
                 else
                     fprintf(file, "\"%s\"", *(char **)cvars[i].location);
 

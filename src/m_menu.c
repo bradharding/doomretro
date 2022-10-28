@@ -1888,10 +1888,10 @@ static void M_DrawOptions(void)
 
     if (usinggamecontroller && !M_MSENS)
         M_DrawThermo(OptionsDef.x - 1, OptionsDef.y + 16 * (mousesens + 1) + OFFSET + !hacx, 9,
-            joy_sensitivity_horizontal / (float)joy_sensitivity_horizontal_max * 8.0f, 8.0f, 8);
+            joy_sensitivity_horizontal / joy_sensitivity_horizontal_max * 8.0f, 8.0f, 8);
     else
         M_DrawThermo(OptionsDef.x - 1, OptionsDef.y + 16 * (mousesens + 1) + OFFSET + !hacx, 9,
-            m_sensitivity / (float)m_sensitivity_max * 8.0f, 8.0f, 8);
+            m_sensitivity / m_sensitivity_max * 8.0f, 8.0f, 8);
 }
 
 static void M_Options(int choice)
@@ -2115,12 +2115,12 @@ static void M_ChangeSensitivity(int choice)
             case 0:
                 if (joy_sensitivity_horizontal > joy_sensitivity_horizontal_min)
                 {
-                    if (joy_sensitivity_horizontal & 1)
+                    if ((int)(joy_sensitivity_horizontal = roundf(joy_sensitivity_horizontal)) & 1)
                         joy_sensitivity_horizontal++;
 
                     joy_sensitivity_horizontal -= 2;
                     I_SetGameControllerHorizontalSensitivity();
-                    C_IntCVAROutput(stringize(joy_sensitivity_horizontal), joy_sensitivity_horizontal);
+                    C_FloatCVAROutput(stringize(joy_sensitivity_horizontal), joy_sensitivity_horizontal);
                     M_SliderSound();
                     M_SaveCVARs();
                 }
@@ -2130,12 +2130,12 @@ static void M_ChangeSensitivity(int choice)
             case 1:
                 if (joy_sensitivity_horizontal < joy_sensitivity_horizontal_max)
                 {
-                    if (joy_sensitivity_horizontal & 1)
+                    if ((int)(joy_sensitivity_horizontal = roundf(joy_sensitivity_horizontal)) & 1)
                         joy_sensitivity_horizontal--;
 
                     joy_sensitivity_horizontal += 2;
                     I_SetGameControllerHorizontalSensitivity();
-                    C_IntCVAROutput(stringize(joy_sensitivity_horizontal), joy_sensitivity_horizontal);
+                    C_FloatCVAROutput(stringize(joy_sensitivity_horizontal), joy_sensitivity_horizontal);
                     M_SliderSound();
                     M_SaveCVARs();
                 }

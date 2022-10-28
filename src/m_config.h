@@ -100,8 +100,8 @@ extern bool     joy_invertyaxis;
 extern int      joy_rumble_barrels;
 extern int      joy_rumble_damage;
 extern int      joy_rumble_weapons;
-extern int      joy_sensitivity_horizontal;
-extern int      joy_sensitivity_vertical;
+extern float    joy_sensitivity_horizontal;
+extern float    joy_sensitivity_vertical;
 extern bool     joy_swapthumbsticks;
 extern int      joy_thumbsticks;
 extern bool     m_acceleration;
@@ -513,13 +513,13 @@ enum
 #define joy_rumble_weapons_default         100
 #define joy_rumble_weapons_max             200
 
-#define joy_sensitivity_horizontal_min     0
-#define joy_sensitivity_horizontal_default 64
-#define joy_sensitivity_horizontal_max     128
+#define joy_sensitivity_horizontal_min     0.0f
+#define joy_sensitivity_horizontal_default 64.0f
+#define joy_sensitivity_horizontal_max     128.0f
 
-#define joy_sensitivity_vertical_min       0
-#define joy_sensitivity_vertical_default   64
-#define joy_sensitivity_vertical_max       128
+#define joy_sensitivity_vertical_min       0.0f
+#define joy_sensitivity_vertical_default   64.0f
+#define joy_sensitivity_vertical_max       128.0f
 
 #define joy_swapthumbsticks_default        false
 

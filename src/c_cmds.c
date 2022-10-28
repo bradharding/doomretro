@@ -701,9 +701,9 @@ consolecmd_t consolecmds[] =
         "The amount the controller rumbles when the player receives damage (" BOLD("0%") " to " BOLD("200%") ")."),
     CVAR_INT(joy_rumble_weapons, "", "", int_cvars_func1, int_cvars_func2, CF_PERCENT, NOVALUEALIAS,
         "The amount the controller rumbles when the player fires their weapon (" BOLD("0%") " to " BOLD("200%") ")."),
-    CVAR_INT(joy_sensitivity_horizontal, "", "", int_cvars_func1, joy_sensitivity_cvars_func2, CF_NONE, NOVALUEALIAS,
+    CVAR_FLOAT(joy_sensitivity_horizontal, "", "", float_cvars_func1, joy_sensitivity_cvars_func2, CF_NONE,
         "The horizontal sensitivity of the controller's thumbsticks (" BOLD("0") " to " BOLD("128") ")."),
-    CVAR_INT(joy_sensitivity_vertical, "", "", int_cvars_func1, joy_sensitivity_cvars_func2, CF_NONE, NOVALUEALIAS,
+    CVAR_FLOAT(joy_sensitivity_vertical, "", "", float_cvars_func1, joy_sensitivity_cvars_func2, CF_NONE,
         "The vertical sensitivity of the controller's thumbsticks (" BOLD("0") " to " BOLD("128") ")."),
     CVAR_BOOL(joy_swapthumbsticks, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles swapping the controller's left and right thumbsticks."),
@@ -2205,7 +2205,7 @@ static void cvarlist_cmd_func2(char *cmd, char *parms)
                         count, name, temp, description);
                     free(temp);
                 }
-                else
+                else if (M_StringCompare(consolecmds[i].name, stringize(r_gamma)))
                 {
                     char    buffer[128];
                     int     len;
@@ -2218,6 +2218,14 @@ static void cvarlist_cmd_func2(char *cmd, char *parms)
 
                     C_TabbedOutput(tabs, "%i.\t" BOLD("%s") "\t" BOLD("%s") "\t%s",
                         count, name, buffer, description);
+                }
+                else
+                {
+                    char    *temp = striptrailingzero(*(float *)consolecmds[i].variable, 1);
+
+                    C_TabbedOutput(tabs, "%i.\t" BOLD("%s") "\t" BOLD("%s") "\t%s",
+                        count, name, temp, description);
+                    free(temp);
                 }
             }
             else if (consolecmds[i].flags & CF_STRING)
@@ -8500,10 +8508,10 @@ static void joy_deadzone_cvars_func2(char *cmd, char *parms)
 //
 static void joy_sensitivity_cvars_func2(char *cmd, char *parms)
 {
-    const int   joy_sensitivity_horizontal_old = joy_sensitivity_horizontal;
-    const int   joy_sensitivity_vertical_old = joy_sensitivity_vertical;
+    const float joy_sensitivity_horizontal_old = joy_sensitivity_horizontal;
+    const float joy_sensitivity_vertical_old = joy_sensitivity_vertical;
 
-    int_cvars_func2(cmd, parms);
+    float_cvars_func2(cmd, parms);
 
     if (joy_sensitivity_horizontal != joy_sensitivity_horizontal_old)
         I_SetGameControllerHorizontalSensitivity();
