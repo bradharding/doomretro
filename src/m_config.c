@@ -720,7 +720,7 @@ void M_SaveCVARs(void)
                 {
                     char    *temp = striptrailingzero(value, 1);
 
-                    fprintf(file, "%s%%", temp);
+                    fprintf(file, "%s", temp);
                     free(temp);
                 }
 

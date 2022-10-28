@@ -93,8 +93,6 @@ int             MAPBOTTOM;
 #define I_SDLError(func)    I_Error(stringize(func) "() failed in %s() on line %i of %s with this error:\"%s\".", \
                                 __FUNCTION__, __LINE__ - 1, leafname(__FILE__), SDL_GetError())
 
-#define MAXDISPLAYS         8
-
 #define MAXUPSCALEWIDTH     (2160 / VANILLAWIDTH)
 #define MAXUPSCALEHEIGHT    (1200 / VANILLAHEIGHT)
 
@@ -134,7 +132,7 @@ static bool         software;
 
 static int          displayindex;
 static int          numdisplays;
-static SDL_Rect     displays[MAXDISPLAYS];
+static SDL_Rect     displays[vid_display_max];
 
 // Bit mask of mouse button state
 static unsigned int mousebuttonstate;
@@ -1028,7 +1026,7 @@ void I_SetPaletteWithBrightness(byte *playpal, double brightness)
 
 static void GetDisplays(void)
 {
-    numdisplays = MIN(SDL_GetNumVideoDisplays(), MAXDISPLAYS);
+    numdisplays = MIN(SDL_GetNumVideoDisplays(), vid_display_max);
 
     for (int i = 0; i < numdisplays; i++)
         if (SDL_GetDisplayBounds(i, &displays[i]) < 0)

@@ -731,7 +731,7 @@ enum
 
 #define vid_display_min                    1
 #define vid_display_default                1
-#define vid_display_max                    INT_MAX
+#define vid_display_max                    8
 
 #if !defined(_WIN32)
 #define vid_driver_default                 ""
