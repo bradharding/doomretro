@@ -344,7 +344,7 @@ enum
 #define am_cdwallcolor_max                 255
 
 #define am_corpsecolor_min                 0
-#define am_corpsecolor_default             118
+#define am_corpsecolor_default             116
 #define am_corpsecolor_max                 255
 
 #define am_crosshaircolor_min              0

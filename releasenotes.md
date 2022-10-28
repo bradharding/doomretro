@@ -54,7 +54,7 @@
 * The `r_skycolor` CVAR has been removed.
 * The default of the `am_pathcolor` CVAR is now `89`.
 * Blood splats are now displayed in the automap as very small triangles when using the `IDDT` cheat. Their color can be changed using the new `am_bloodsplatcolor` CVAR, which is `124` by default and `0` when vanilla mode is enabled.
-* The color of corpses in the automap when using the `IDDT` cheat can be changed using the new `am_corpsecolor` CVAR, which is `118` by default and `112` when vanilla mode is enabled.
+* The color of corpses in the automap when using the `IDDT` cheat can be changed using the new `am_corpsecolor` CVAR, which is `116` by default and `112` when vanilla mode is enabled.
 * Several improvements have been made to the size and angle of thing triangles in the automap when using the `IDDT` cheat.
 * The player is now given double the ammo again when entering the `IDFA` and `IDKFA` cheats.
 * The `playergender` CVAR can now be changed and its values displayed correctly again.
