@@ -2163,7 +2163,7 @@ static void P_SecretFound(void)
 {
     char    buffer[133] = "";
 
-    M_snprintf(buffer, sizeof(buffer), s_SECRETMESSAGE, playername, (viewplayer->secretcount ? "another" : "a"));
+    M_snprintf(buffer, sizeof(buffer), s_SECRETMESSAGE, playername);
     buffer[0] = toupper(buffer[0]);
     C_PlayerMessage(buffer);
 

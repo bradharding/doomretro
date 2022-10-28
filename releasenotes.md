@@ -26,7 +26,7 @@
 * When toggling widescreen mode by pressing the <kbd>+</kbd> key, the player’s vertical field of view now zooms in slightly.
 * An `english` CVAR has been implemented that toggles the use of American or International English. It can be either `american` or `international`, and is `american` by default and when vanilla mode is enabled.
 * Turning the `r_corpses_mirrored` or `r_mirroredweapons` CVARs `on` in the console now works correctly.
-* A `NOMIRROREDCORPSE` flag can now be used in `Retro bits` of `DEHACKED` lumps to force a monster’s corpse not to be randomly mirrored even if the `r_corpses_mirrored` is `on`.
+* A `NOMIRROREDCORPSE` flag can now be used in `Retro bits` of `DEHACKED` lumps to force a monster’s corpse not to be randomly mirrored even if the `r_corpses_mirrored` CVAR is `on`.
 * Support has been added for the now official add-on [*Harmony*](https://slayersclub.bethesda.net/en/article/E5gTsCSptkfJC43vh9Pey/new-add-on-available-harmony).
 * Further improvements have been made to the support of [*Chex Quest*](https://doomwiki.org/wiki/Chex_Quest), [*REKKR*](https://www.doomworld.com/idgames/levels/doom/megawads/rekkr) and [*REKKR: Sunken Land*](https://store.steampowered.com/app/1715690/REKKR_Sunken_Land/).
 * These changes have been made to the BFG Edition and latest rerelease of *DOOM* and *DOOM II*:
@@ -47,7 +47,6 @@
 * The corpses of monsters no longer slide in the same direction when using the `kill` CCMD to kill them.
 * The obituary displayed in the console when the player is killed by a damaging sector that isn’t liquid is now fixed.
 * Any input in the console is now cleared when a cheat is entered.
-* `You found another secret!` is now displayed each time the player finds more than one secret in a map.
 * Improvements have been made to the synchronization of animated wall textures and flats.
 * The brightmap of the `COMPUTE1` texture has improved.
 * A bug has been fixed whereby masked midtextures could in some instances be rendered incorrectly while the player had a light amplification visor power-up.
