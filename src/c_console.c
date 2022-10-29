@@ -1060,7 +1060,7 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
                     if (letter == 'T' && prevletter == ITALICSTOGGLECHAR && prevletter2 == ' ')
                         x--;
                 }
-                else if (letter == '-' && prevletter == ITALICSTOGGLECHAR)
+                else if ((letter == '-' || letter == '|' || letter == '[') && prevletter == ITALICSTOGGLECHAR)
                     x++;
                 else if (letter == ' ' && prevletter == BOLDTOGGLECHAR && prevletter2 == 'r')
                     x--;
