@@ -3158,9 +3158,7 @@ static void kill_cmd_func2(char *cmd, char *parms)
                                     stat_monsterskilled[MT_PAIN] = SafeAdd(stat_monsterskilled[MT_PAIN], 1);
                                     viewplayer->killcount++;
                                     stat_monsterskilled_total = SafeAdd(stat_monsterskilled_total, 1);
-
-                                    if (thing->flags & MF_COUNTKILL)
-                                        kills++;
+                                    kills++;
                                 }
                                 else if ((flags & MF_SHOOTABLE) && type != MT_PLAYER && type != MT_BARREL && (type != MT_HEAD || !hacx))
                                 {
@@ -3170,8 +3168,7 @@ static void kill_cmd_func2(char *cmd, char *parms)
                                     if (r_corpses_moreblood && !(flags & MF_NOBLOOD) && type != MT_SKULL && type != MT_SHADOWS)
                                         P_SpawnMoreBlood(thing);
 
-                                    if (thing->flags & MF_COUNTKILL)
-                                        kills++;
+                                    kills++;
                                 }
                             }
                         }
