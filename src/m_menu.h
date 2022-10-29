@@ -46,6 +46,10 @@ typedef struct
     char            name[10];
     void            (*routine)(int choice);
     char            **text;
+    int             x;
+    int             y;
+    int             width;
+    int             height;
 } menuitem_t;
 
 typedef struct menu_s

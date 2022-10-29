@@ -983,6 +983,11 @@ static void M_DrawLoad(void)
 
         M_DrawSaveLoadBorder(LoadDef.x - 11, y - 4);
 
+        currentmenu->menuitems[i].x = LoadDef.x - 11 + WIDESCREENDELTA;
+        currentmenu->menuitems[i].y = y - 4;
+        currentmenu->menuitems[i].width = 209;
+        currentmenu->menuitems[i].height = SHORT(((patch_t *)W_CacheLumpName("M_LSLEFT"))->height);
+
         M_StringCopy(buffer, savegamestrings[i], sizeof(buffer));
         len = (int)strlen(buffer);
 
@@ -1079,6 +1084,11 @@ static void M_DrawSave(void)
         char    buffer[SAVESTRINGSIZE];
 
         M_DrawSaveLoadBorder(LoadDef.x - 11, y - 4);
+
+        currentmenu->menuitems[i].x = LoadDef.x - 11 + WIDESCREENDELTA;
+        currentmenu->menuitems[i].y = y - 4;
+        currentmenu->menuitems[i].width = 209;
+        currentmenu->menuitems[i].height = SHORT(((patch_t *)W_CacheLumpName("M_LSLEFT"))->height);
 
         M_StringCopy(buffer, savegamestrings[i], sizeof(buffer));
         len = (int)strlen(buffer);
@@ -2640,20 +2650,68 @@ bool M_Responder(event_t *ev)
     {
         if (menuactive)
         {
-            // activate menu item
-            if ((ev->data1 & MOUSE_LEFTBUTTON) && mousewait < I_GetTime())
+            if (m_pointer)
             {
-                key = KEY_ENTER;
-                mousewait = I_GetTime() + 8;
-                usinggamecontroller = false;
-            }
+                // activate menu item
+                if ((ev->data1 & MOUSE_LEFTBUTTON) && mousewait < I_GetTime())
+                {
+                    menuitem_t  *menuitem = &currentmenu->menuitems[itemon];
 
-            // previous menu
-            else if ((ev->data1 & MOUSE_RIGHTBUTTON) && mousewait < I_GetTime())
+                    if (ev->data2 >= menuitem->x && ev->data2 < menuitem->x + menuitem->width
+                        && ev->data3 >= menuitem->y && ev->data3 < menuitem->y + menuitem->height)
+                    {
+                        key = KEY_ENTER;
+                        mousewait = I_GetTime() + 8;
+                    }
+
+                    usinggamecontroller = false;
+                }
+
+                // select menu item
+                if ((ev->data2 || ev->data3) && mousewait < I_GetTime() && !messagetoprint)
+                    for (int i = 0; i < currentmenu->numitems; i++)
+                    {
+                        menuitem_t  *menuitem = &currentmenu->menuitems[i];
+
+                        if (ev->data2 >= menuitem->x && ev->data2 < menuitem->x + menuitem->width
+                            && ev->data3 >= menuitem->y && ev->data3 < menuitem->y + menuitem->height)
+                        {
+                            if (currentmenu == &MainDef)
+                            {
+                                if (i == 2 && !savegames)
+                                    continue;
+
+                                if (i == 3 && (gamestate != GS_LEVEL || viewplayer->health <= 0))
+                                    continue;
+                            }
+                            else if (currentmenu == &OptionsDef && !i && gamestate != GS_LEVEL)
+                                continue;
+
+                            if (itemon != i)
+                                S_StartSound(NULL, sfx_pstop);
+
+                            itemon = i;
+                            break;
+                        }
+                    }
+            }
+            else
             {
-                key = KEY_BACKSPACE;
-                mousewait = I_GetTime() + 8;
-                usinggamecontroller = false;
+                // activate menu item
+                if ((ev->data1 & MOUSE_LEFTBUTTON) && mousewait < I_GetTime())
+                {
+                    key = KEY_ENTER;
+                    mousewait = I_GetTime() + 8;
+                    usinggamecontroller = false;
+                }
+
+                // previous menu
+                else if ((ev->data1 & MOUSE_RIGHTBUTTON) && mousewait < I_GetTime())
+                {
+                    key = KEY_BACKSPACE;
+                    mousewait = I_GetTime() + 8;
+                    usinggamecontroller = false;
+                }
             }
         }
 
@@ -3759,6 +3817,7 @@ void M_Drawer(void)
         {
             const int   yy = y + itemon * (LINEHEIGHT - 1) - 5 + OFFSET + (chex ? 1 : 0);
             const int   max = currentmenu->numitems;
+            int         widest = 0;
 
             if (currentmenu == &OptionsDef && !itemon && gamestate != GS_LEVEL)
                 itemon++;
@@ -3776,26 +3835,71 @@ void M_Drawer(void)
                     char    **text = currentmenu->menuitems[i].text;
 
                     if (M_StringCompare(name, "M_EPI5") && sigil)
-                        M_DrawPatchWithShadow(x, y + OFFSET, W_CacheLumpName(name));
+                    {
+                        patch_t *patch = W_CacheLumpName(name);
+
+                        M_DrawPatchWithShadow(x, y + OFFSET, patch);
+                        currentmenu->menuitems[i].x = x + WIDESCREENDELTA;
+                        currentmenu->menuitems[i].y = y + OFFSET;
+                        widest = MAX(widest, SHORT(patch->width));
+                        currentmenu->menuitems[i].height = SHORT(patch->height);
+                    }
                     else if (M_StringCompare(name, "M_NMARE"))
                     {
                         if (M_NMARE)
-                            M_DrawPatchWithShadow(x, y + OFFSET, W_CacheLumpName(name));
+                        {
+                            patch_t *patch = W_CacheLumpName(name);
+
+                            M_DrawPatchWithShadow(x, y + OFFSET, patch);
+                            currentmenu->menuitems[i].x = x + WIDESCREENDELTA;
+                            currentmenu->menuitems[i].y = y + OFFSET;
+                            widest = MAX(widest, SHORT(patch->width));
+                            currentmenu->menuitems[i].height = SHORT(patch->height);
+                        }
                         else
                             M_DrawNightmare();
                     }
                     else if (M_StringCompare(name, "M_MSENS") && !M_MSENS)
+                    {
                         M_DrawString(x, y + OFFSET, (usinggamecontroller ? s_M_GAMECONTROLLERSENSITIVITY : s_M_MOUSESENSITIVITY));
-                    else if (W_CheckNumForName(name) < 0 && **text)   // Custom Episode
+                        currentmenu->menuitems[i].x = x + WIDESCREENDELTA;
+                        currentmenu->menuitems[i].y = y + OFFSET;
+                        widest = MAX(widest, M_BigStringWidth(usinggamecontroller ? s_M_GAMECONTROLLERSENSITIVITY : s_M_MOUSESENSITIVITY));
+                        currentmenu->menuitems[i].height = LINEHEIGHT - 1;
+                    }
+                    else if (W_CheckNumForName(name) < 0 && **text)   // custom episode
+                    {
                         M_DrawString(x, y + OFFSET, *text);
+                        currentmenu->menuitems[i].x = x + WIDESCREENDELTA;
+                        currentmenu->menuitems[i].y = y + OFFSET;
+                        widest = MAX(widest, M_BigStringWidth(*text));
+                        currentmenu->menuitems[i].height = LINEHEIGHT - 1;
+                    }
                     else if (W_CheckMultipleLumps(name) > 1 || lumpinfo[W_GetNumForName(name)]->wadfile->type == PWAD)
-                        M_DrawPatchWithShadow(x, y + OFFSET, W_CacheLumpName(name));
+                    {
+                        patch_t *patch = W_CacheLumpName(name);
+
+                        M_DrawPatchWithShadow(x, y + OFFSET, patch);
+                        currentmenu->menuitems[i].x = x + WIDESCREENDELTA;
+                        currentmenu->menuitems[i].y = y + OFFSET;
+                        widest = MAX(widest, SHORT(patch->width));
+                        currentmenu->menuitems[i].height = SHORT(patch->height);
+                    }
                     else if (**text)
+                    {
                         M_DrawString(x, y + OFFSET, *text);
+                        currentmenu->menuitems[i].x = x + WIDESCREENDELTA;
+                        currentmenu->menuitems[i].y = y + OFFSET;
+                        widest = MAX(widest, M_BigStringWidth(*text));
+                        currentmenu->menuitems[i].height = LINEHEIGHT - 1;
+                    }
                 }
 
                 y += LINEHEIGHT - 1;
             }
+
+            for (int i = 0; i < max; i++)
+                currentmenu->menuitems[i].width = widest;
         }
     }
 }

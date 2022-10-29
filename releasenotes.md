@@ -6,6 +6,7 @@
 * *DOOM Retro* now uses [*SDL v2.24.1*](https://www.libsdl.org).
 * Several optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Changes have been made to the animation of *DOOM Retro’s* logo on the splash screen.
+* A mouse pointer is now displayed while the menu is open that may be used to select menu items. It may be disabled by the new `m_pointer` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
 * Several changes have been made to text that is output to the console.
 * Minor improvements have been made to the console’s autocomplete feature.
 * CCMDs in the console that can only be used while playing a game, or while the player is alive, may now be entered at any time, displaying a description of the CCMD along with a warning about their usage.

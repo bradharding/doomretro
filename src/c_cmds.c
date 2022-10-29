@@ -723,6 +723,8 @@ consolecmd_t consolecmds[] =
         "Toggles inverting the mouse's vertical axis when using mouselook."),
     CVAR_BOOL(m_novertical, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles no vertical movement of the mouse."),
+    CVAR_BOOL(m_pointer, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
+        "Toggles the mouse pointer in the menu."),
     CVAR_FLOAT(m_sensitivity, "", "", float_cvars_func1, float_cvars_func2, CF_NONE,
         "The mouse's sensitivity (" BOLD("0") " to " BOLD("128") ")."),
     CCMD(map, "", warp, map_cmd_func1, map_cmd_func2, true, MAPCMDFORMAT1,

@@ -203,15 +203,15 @@ bool MouseShouldBeGrabbed(void)
     if (!windowfocused)
         return false;
 
-    // always grab the mouse when fullscreen (don't want to see the mouse pointer)
-    if (vid_fullscreen)
+    // grab the mouse when on the splash screen
+    if (splashscreen || !m_pointer)
         return true;
 
-    // when menu is active or game is paused, release the mouse
-    if (menuactive || consoleactive || paused)
+    // when menu is active, release the mouse
+    if (menuactive)
         return false;
 
-    // only grab mouse when playing levels
+    // grab the mouse when playing a game
     return (gamestate == GS_LEVEL);
 }
 
@@ -674,8 +674,6 @@ static void I_ReadMouse(void)
 
     SDL_GetRelativeMouseState(&x, &y);
 
-    SmoothMouse(&x, &y);
-
     if (x || y || mousebuttonstate != prevmousebuttonstate)
     {
         event_t ev;
@@ -683,7 +681,15 @@ static void I_ReadMouse(void)
         ev.type = ev_mouse;
         ev.data1 = mousebuttonstate;
 
-        if (m_acceleration)
+        SmoothMouse(&x, &y);
+
+        if (menuactive && m_pointer)
+        {
+            SDL_GetMouseState(&x, &y);
+            ev.data2 = x * SCREENWIDTH / displaywidth / SCREENSCALE;
+            ev.data3 = y * SCREENHEIGHT / displayheight / SCREENSCALE;
+        }
+        else if (m_acceleration)
         {
             ev.data2 = AccelerateMouse(x);
             ev.data3 = AccelerateMouse(y);

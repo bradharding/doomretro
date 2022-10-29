@@ -116,6 +116,7 @@ bool        m_acceleration = m_acceleration_default;
 bool        m_doubleclick_use = m_doubleclick_use_default;
 bool        m_invertyaxis = m_invertyaxis_default;
 bool        m_novertical = m_novertical_default;
+bool        m_pointer = m_pointer_default;
 float       m_sensitivity = m_sensitivity_default;
 bool        melt = melt_default;
 bool        messages = messages_default;
