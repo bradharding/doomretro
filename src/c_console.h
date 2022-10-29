@@ -233,7 +233,6 @@ extern const autocomplete_t autocompletelist[];
 
 void C_Input(const char *string, ...);
 void C_Cheat(const char *string);
-void C_FloatCVAROutput(const char *cvar, float value);
 void C_IntCVAROutput(const char *cvar, int value);
 void C_PctCVAROutput(const char *cvar, int value);
 void C_StrCVAROutput(const char *cvar, const char *string);

@@ -1888,10 +1888,10 @@ static void M_DrawOptions(void)
 
     if (usinggamecontroller && !M_MSENS)
         M_DrawThermo(OptionsDef.x - 1, OptionsDef.y + 16 * (mousesens + 1) + OFFSET + !hacx, 9,
-            joy_sensitivity_horizontal / joy_sensitivity_horizontal_max * 8.0f, 8.0f, 8);
+            roundf(joy_sensitivity_horizontal) / joy_sensitivity_horizontal_max * 8.0f, 8.0f, 8);
     else
         M_DrawThermo(OptionsDef.x - 1, OptionsDef.y + 16 * (mousesens + 1) + OFFSET + !hacx, 9,
-            m_sensitivity / m_sensitivity_max * 8.0f, 8.0f, 8);
+            roundf(m_sensitivity) / m_sensitivity_max * 8.0f, 8.0f, 8);
 }
 
 static void M_Options(int choice)
@@ -2120,7 +2120,7 @@ static void M_ChangeSensitivity(int choice)
 
                     joy_sensitivity_horizontal -= 2;
                     I_SetGameControllerHorizontalSensitivity();
-                    C_FloatCVAROutput(stringize(joy_sensitivity_horizontal), joy_sensitivity_horizontal);
+                    C_IntCVAROutput(stringize(joy_sensitivity_horizontal), (int)joy_sensitivity_horizontal);
                     M_SliderSound();
                     M_SaveCVARs();
                 }
@@ -2135,7 +2135,7 @@ static void M_ChangeSensitivity(int choice)
 
                     joy_sensitivity_horizontal += 2;
                     I_SetGameControllerHorizontalSensitivity();
-                    C_FloatCVAROutput(stringize(joy_sensitivity_horizontal), joy_sensitivity_horizontal);
+                    C_IntCVAROutput(stringize(joy_sensitivity_horizontal), (int)joy_sensitivity_horizontal);
                     M_SliderSound();
                     M_SaveCVARs();
                 }
@@ -2154,7 +2154,7 @@ static void M_ChangeSensitivity(int choice)
                         m_sensitivity++;
 
                     m_sensitivity -= 2.0f;
-                    C_FloatCVAROutput(stringize(m_sensitivity), m_sensitivity);
+                    C_IntCVAROutput(stringize(m_sensitivity), (int)m_sensitivity);
                     M_SliderSound();
                     M_SaveCVARs();
                 }
@@ -2168,7 +2168,7 @@ static void M_ChangeSensitivity(int choice)
                         m_sensitivity--;
 
                     m_sensitivity += 2.0f;
-                    C_FloatCVAROutput(stringize(m_sensitivity), m_sensitivity);
+                    C_IntCVAROutput(stringize(m_sensitivity), (int)m_sensitivity);
                     M_SliderSound();
                     M_SaveCVARs();
                 }
@@ -2489,7 +2489,18 @@ static void M_ChangeGamma(bool shift)
         if (r_gamma == 1.0f)
             C_StrCVAROutput(stringize(r_gamma), "off");
         else
-            C_FloatCVAROutput(stringize(r_gamma), r_gamma);
+        {
+            static char buffer[128];
+            int         len;
+
+            M_snprintf(buffer, sizeof(buffer), "%.2f", r_gamma);
+            len = (int)strlen(buffer);
+
+            if (len >= 2 && buffer[len - 1] == '0' && buffer[len - 2] == '0')
+                buffer[len - 1] = '\0';
+
+            C_StrCVAROutput(stringize(r_gamma), buffer);
+        }
 
         gammawait = I_GetTime() + 4;
         S_StartSound(NULL, sfx_stnmov);
