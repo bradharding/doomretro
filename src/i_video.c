@@ -656,20 +656,15 @@ static void SmoothMouse(int *x, int *y)
 {
     const fixed_t   tic = (((int64_t)I_GetTimeMS() * TICRATE) % 1000) * FRACUNIT / 1000;
     const fixed_t   adjustment = FixedDiv(tic, FRACUNIT + tic);
-    static int      xx;
+    static int      xx, yy;
 
     *x += xx;
     xx = FixedMul(*x, adjustment);
     *x -= xx;
 
-    if (mouselook)
-    {
-        static int  yy;
-
-        *y += yy;
-        yy = FixedMul(*y, adjustment);
-        *y -= yy;
-    }
+    *y += yy;
+    yy = FixedMul(*y, adjustment);
+    *y -= yy;
 }
 
 static void I_ReadMouse(void)

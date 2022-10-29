@@ -2118,7 +2118,7 @@ static void M_ChangeSensitivity(int choice)
                     if ((int)(joy_sensitivity_horizontal = roundf(joy_sensitivity_horizontal)) & 1)
                         joy_sensitivity_horizontal++;
 
-                    joy_sensitivity_horizontal -= 2;
+                    joy_sensitivity_horizontal -= 2.0f;
                     I_SetGameControllerHorizontalSensitivity();
                     C_IntCVAROutput(stringize(joy_sensitivity_horizontal), (int)joy_sensitivity_horizontal);
                     M_SliderSound();
@@ -2133,7 +2133,7 @@ static void M_ChangeSensitivity(int choice)
                     if ((int)(joy_sensitivity_horizontal = roundf(joy_sensitivity_horizontal)) & 1)
                         joy_sensitivity_horizontal--;
 
-                    joy_sensitivity_horizontal += 2;
+                    joy_sensitivity_horizontal += 2.0f;
                     I_SetGameControllerHorizontalSensitivity();
                     C_IntCVAROutput(stringize(joy_sensitivity_horizontal), (int)joy_sensitivity_horizontal);
                     M_SliderSound();
