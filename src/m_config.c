@@ -860,13 +860,33 @@ static int ParseIntParameter(char *cvar, char *strparm, int valuealiastype)
 }
 
 // Parses float values in the configuration file
-static float ParseFloatParameter(char *strparm, int valuealiastype)
+static float ParseFloatParameter(char *cvar, char *strparm, int valuealiastype)
 {
+    float   parm;
+    int     index;
+
     for (int i = 0; *valuealiases[i].text; i++)
         if (M_StringCompare(strparm, valuealiases[i].text) && valuealiastype == valuealiases[i].type)
             return (float)valuealiases[i].value;
 
-    return (float)strtod(strparm, NULL);
+    index = C_GetIndex(cvar);
+
+    if (sscanf(strparm, "%10f", &parm) == 1
+        && parm >= (float)consolecmds[index].minimumvalue && parm <= (float)consolecmds[index].maximumvalue)
+        return parm;
+    else
+    {
+        float   defaultnumber = consolecmds[index].defaultnumber;
+        char    *temp = striptrailingzero(*(float *)consolecmds[index].variable, 1);
+
+        C_Warning(0, "The " BOLD("%s") " CVAR in " BOLD(DOOMRETRO_CONFIG) " is "
+            "invalid and has been reset to its default of " BOLD("%s%s") ".",
+            consolecmds[index].name, temp, (consolecmds[index].flags == CF_PERCENT ? "%%" : ""));
+        free(temp);
+
+        return defaultnumber;
+    }
+
 }
 
 static void M_CheckCVARs(void)
@@ -874,12 +894,8 @@ static void M_CheckCVARs(void)
     if (!*iwadfolder || M_StringCompare(iwadfolder, iwadfolder_default) || !M_FolderExists(iwadfolder))
         D_InitIWADFolder();
 
-    joy_deadzone_left = BETWEENF(joy_deadzone_left_min, joy_deadzone_left, joy_deadzone_left_max);
     I_SetGameControllerLeftDeadZone();
-
-    joy_deadzone_right = BETWEENF(joy_deadzone_right_min, joy_deadzone_right, joy_deadzone_right_max);
     I_SetGameControllerRightDeadZone();
-
     I_SetGameControllerHorizontalSensitivity();
     I_SetGameControllerVerticalSensitivity();
 
@@ -897,7 +913,6 @@ static void M_CheckCVARs(void)
         playername = temp;
     }
 
-    r_gamma = BETWEENF(r_gamma_min, r_gamma, r_gamma_max);
     I_SetGamma(r_gamma);
 
     if (r_screensize < r_screensize_max)
@@ -927,12 +942,22 @@ static void M_CheckCVARs(void)
         && !M_StringCompare(vid_scaleapi, vid_scaleapi_opengles2)
 #endif
         && !M_StringCompare(vid_scaleapi, vid_scaleapi_opengl))
+    {
         vid_scaleapi = vid_scaleapi_default;
+        C_Warning(0, "The " BOLD("%s") " CVAR in " BOLD(DOOMRETRO_CONFIG) " is "
+            "invalid and has been reset to its default of " BOLD("\"%s\"") ".",
+            stringize(vid_scaleapi), stringize(vid_scaleapi_default));
+    }
 
     if (!M_StringCompare(vid_scalefilter, vid_scalefilter_linear)
         && !M_StringCompare(vid_scalefilter, vid_scalefilter_nearest)
         && !M_StringCompare(vid_scalefilter, vid_scalefilter_nearest_linear))
+    {
         vid_scalefilter = vid_scalefilter_default;
+        C_Warning(0, "The " BOLD("%s") " CVAR in " BOLD(DOOMRETRO_CONFIG) " is "
+            "invalid and has been reset to its default of " BOLD("\"%s\"") ".",
+            stringize(vid_scalefilter), stringize(vid_scalefilter_default));
+    }
 }
 
 //
@@ -1103,7 +1128,7 @@ void M_LoadCVARs(char *filename)
                 {
                     char    *temp = uncommify(value);
 
-                    *(float *)cvars[i].location = ParseFloatParameter(temp, cvars[i].valuealiastype);
+                    *(float *)cvars[i].location = ParseFloatParameter(cvars[i].name, temp, cvars[i].valuealiastype);
                     free(temp);
                     cvarcount++;
                     break;
@@ -1116,7 +1141,7 @@ void M_LoadCVARs(char *filename)
                     if (temp[strlen(temp) - 1] == '%')
                         temp[strlen(temp) - 1] = '\0';
 
-                    *(float *)cvars[i].location = ParseFloatParameter(temp, cvars[i].valuealiastype);
+                    *(float *)cvars[i].location = ParseFloatParameter(cvars[i].name, temp, cvars[i].valuealiastype);
                     free(temp);
                     cvarcount++;
                     break;
