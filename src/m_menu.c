@@ -2684,6 +2684,8 @@ bool M_Responder(event_t *ev)
                                 if (i == 3 && (gamestate != GS_LEVEL || viewplayer->health <= 0))
                                     continue;
                             }
+                            else if (currentmenu == &LoadDef && M_StringCompare(savegamestrings[i], s_EMPTYSTRING))
+                                continue;
                             else if (currentmenu == &OptionsDef && !i && gamestate != GS_LEVEL)
                                 continue;
 
