@@ -2660,8 +2660,14 @@ bool M_Responder(event_t *ev)
                     if (ev->data2 >= menuitem->x && ev->data2 < menuitem->x + menuitem->width
                         && ev->data3 >= menuitem->y && ev->data3 < menuitem->y + menuitem->height)
                     {
-                        key = KEY_ENTER;
-                        mousewait = I_GetTime() + 8;
+                        if ((currentmenu == &OptionsDef && (itemon == scrnsize || itemon == mousesens))
+                            || currentmenu == &SoundDef)
+                            key = 0;
+                        else
+                        {
+                            key = KEY_ENTER;
+                            mousewait = I_GetTime() + 8;
+                        }
                     }
 
                     usinggamecontroller = false;
