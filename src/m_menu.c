@@ -3896,6 +3896,8 @@ void M_Drawer(void)
                         currentmenu->menuitems[i].height = LINEHEIGHT - 1;
                     }
                 }
+                else if (currentmenu->menuitems[i].status == -1)
+                    currentmenu->menuitems[i - 1].height *= 2;
 
                 y += LINEHEIGHT - 1;
             }
