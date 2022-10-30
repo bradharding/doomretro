@@ -672,24 +672,31 @@ static void I_ReadMouse(void)
 {
     int         x, y;
     static int  prevmousebuttonstate = -1;
+    event_t     ev;
 
-    SDL_GetRelativeMouseState(&x, &y);
-
-    if (x || y || mousebuttonstate != prevmousebuttonstate)
+    if (menuactive && m_pointer)
     {
-        event_t ev;
+        SDL_GetMouseState(&x, &y);
 
-        ev.type = ev_mouse;
-        ev.data1 = mousebuttonstate;
-
-        if (menuactive && m_pointer)
+        if (x || y || mousebuttonstate != prevmousebuttonstate)
         {
-            SDL_GetMouseState(&x, &y);
+            ev.type = ev_mouse;
+            ev.data1 = mousebuttonstate;
             ev.data2 = x * SCREENWIDTH / displaywidth / SCREENSCALE;
             ev.data3 = y * SCREENHEIGHT / displayheight / SCREENSCALE;
+            prevmousebuttonstate = mousebuttonstate;
+            D_PostEvent(&ev);
         }
-        else
+    }
+    else
+    {
+        SDL_GetRelativeMouseState(&x, &y);
+
+        if (x || y || mousebuttonstate != prevmousebuttonstate)
         {
+            ev.type = ev_mouse;
+            ev.data1 = mousebuttonstate;
+
             SmoothMouse(&x, &y);
 
             if (m_acceleration)
@@ -702,10 +709,10 @@ static void I_ReadMouse(void)
                 ev.data2 = x;
                 ev.data3 = y;
             }
-        }
 
-        prevmousebuttonstate = mousebuttonstate;
-        D_PostEvent(&ev);
+            prevmousebuttonstate = mousebuttonstate;
+            D_PostEvent(&ev);
+        }
     }
 }
 

@@ -1352,7 +1352,7 @@ void P_UnArchiveThinkers(void)
                     {
                         splat->angle = M_BigSubRandom() * 0xB60B60;
 
-                        if (splat->patch < firstbloodsplatlump || splat->patch > firstbloodsplatlump + BLOODSPLATLUMPS)
+                        if (splat->patch < firstbloodsplatlump || splat->patch >= firstbloodsplatlump + BLOODSPLATLUMPS)
                             splat->patch = firstbloodsplatlump + (M_BigRandom() & (BLOODSPLATLUMPS - 1));
 
                         splat->width = spritewidth[splat->patch];
