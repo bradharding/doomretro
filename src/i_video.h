@@ -136,6 +136,7 @@ extern int          windowwidth;
 extern int          windowborderwidth;
 extern int          windowborderheight;
 
+extern bool         mousemovement;
 extern bool         windowfocused;
 
 extern SDL_Window   *window;

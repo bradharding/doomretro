@@ -158,6 +158,7 @@ static int          displayheight;
 static int          displaycenterx;
 static int          displaycentery;
 
+bool                mousemovement = false;
 bool                windowfocused = true;
 
 int                 keydown = 0;
@@ -204,15 +205,14 @@ bool MouseShouldBeGrabbed(void)
         return false;
 
     // grab the mouse when on the splash screen
-    if (splashscreen || !m_pointer)
+    if (splashscreen)
         return true;
 
     // when menu is active, release the mouse
-    if (menuactive)
+    if (menuactive && m_pointer && mousemovement)
         return false;
 
-    // grab the mouse when playing a game
-    return (gamestate == GS_LEVEL);
+    return true;
 }
 
 static void SetShowCursor(bool show)
@@ -671,15 +671,19 @@ static void SmoothMouse(int *x, int *y)
 static void I_ReadMouse(void)
 {
     int         x, y;
-    static int  prevmousebuttonstate = -1;
+    static int  prevmousebuttonstate;
     event_t     ev;
+
+    SDL_GetRelativeMouseState(&x, &y);
 
     if (menuactive && m_pointer)
     {
-        SDL_GetMouseState(&x, &y);
-
         if (x || y || mousebuttonstate != prevmousebuttonstate)
         {
+            mousemovement = true;
+
+            SDL_GetMouseState(&x, &y);
+
             ev.type = ev_mouse;
             ev.data1 = mousebuttonstate;
             ev.data2 = x * SCREENWIDTH / displaywidth / SCREENSCALE;
@@ -688,31 +692,26 @@ static void I_ReadMouse(void)
             D_PostEvent(&ev);
         }
     }
-    else
+    else if (x || y || mousebuttonstate != prevmousebuttonstate)
     {
-        SDL_GetRelativeMouseState(&x, &y);
+        ev.type = ev_mouse;
+        ev.data1 = mousebuttonstate;
 
-        if (x || y || mousebuttonstate != prevmousebuttonstate)
+        SmoothMouse(&x, &y);
+
+        if (m_acceleration)
         {
-            ev.type = ev_mouse;
-            ev.data1 = mousebuttonstate;
-
-            SmoothMouse(&x, &y);
-
-            if (m_acceleration)
-            {
-                ev.data2 = AccelerateMouse(x);
-                ev.data3 = AccelerateMouse(y);
-            }
-            else
-            {
-                ev.data2 = x;
-                ev.data3 = y;
-            }
-
-            prevmousebuttonstate = mousebuttonstate;
-            D_PostEvent(&ev);
+            ev.data2 = AccelerateMouse(x);
+            ev.data3 = AccelerateMouse(y);
         }
+        else
+        {
+            ev.data2 = x;
+            ev.data3 = y;
+        }
+
+        prevmousebuttonstate = mousebuttonstate;
+        D_PostEvent(&ev);
     }
 }
 
