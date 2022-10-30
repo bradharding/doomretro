@@ -1075,6 +1075,7 @@ void M_LoadCVARs(char *filename)
                     temp[strlen(temp) - 1] = '\0';
                     *(char **)cvars[i].location = temp;
                     cvarcount++;
+
                     break;
                 }
 
@@ -1082,6 +1083,7 @@ void M_LoadCVARs(char *filename)
                 {
                     *(bool *)cvars[i].location = ParseBoolParameter(cvars[i].name, value, cvars[i].valuealiastype);
                     cvarcount++;
+
                     break;
                 }
 
@@ -1092,6 +1094,7 @@ void M_LoadCVARs(char *filename)
                     *(int *)cvars[i].location = ParseIntParameter(cvars[i].name, temp, cvars[i].valuealiastype);
                     free(temp);
                     cvarcount++;
+
                     break;
                 }
 
@@ -1121,6 +1124,7 @@ void M_LoadCVARs(char *filename)
                     *(int *)cvars[i].location = ParseIntParameter(cvars[i].name, temp, cvars[i].valuealiastype);
                     free(temp);
                     cvarcount++;
+
                     break;
                 }
 
@@ -1131,6 +1135,7 @@ void M_LoadCVARs(char *filename)
                     *(float *)cvars[i].location = ParseFloatParameter(cvars[i].name, temp, cvars[i].valuealiastype);
                     free(temp);
                     cvarcount++;
+
                     break;
                 }
 
@@ -1144,12 +1149,14 @@ void M_LoadCVARs(char *filename)
                     *(float *)cvars[i].location = ParseFloatParameter(cvars[i].name, temp, cvars[i].valuealiastype);
                     free(temp);
                     cvarcount++;
+
                     break;
                 }
 
                 case DEFAULT_OTHER:
                     *(char **)cvars[i].location = M_StringDuplicate(value);
                     cvarcount++;
+
                     break;
             }
         }

@@ -1385,7 +1385,7 @@ static void M_DeleteSavegameResponse(int key)
             if (savegames)
             {
                 while (M_StringCompare(savegamestrings[itemon], s_EMPTYSTRING))
-                    itemon = (!itemon ? currentmenu->numitems - 1 : itemon - 1);
+                    itemon = (itemon == load1 ? currentmenu->numitems - 1 : itemon - 1);
             }
             else
             {
@@ -2692,13 +2692,14 @@ bool M_Responder(event_t *ev)
                             }
                             else if (currentmenu == &LoadDef && M_StringCompare(savegamestrings[i], s_EMPTYSTRING))
                                 continue;
-                            else if (currentmenu == &OptionsDef && !i && gamestate != GS_LEVEL)
+                            else if (currentmenu == &OptionsDef && i == endgame && gamestate != GS_LEVEL)
                                 continue;
 
                             if (itemon != i)
                                 S_StartSound(NULL, sfx_pstop);
 
                             itemon = i;
+                            usinggamecontroller = false;
                             break;
                         }
                     }
@@ -3273,7 +3274,7 @@ bool M_Responder(event_t *ev)
                         if (itemon == save_game && (gamestate != GS_LEVEL || viewplayer->health <= 0))
                             itemon++;
                     }
-                    else if (currentmenu == &OptionsDef && !itemon && gamestate != GS_LEVEL)
+                    else if (currentmenu == &OptionsDef && itemon == endgame && gamestate != GS_LEVEL)
                         itemon++;
 
                     if (currentmenu->menuitems[itemon].status != -1)
@@ -3352,7 +3353,7 @@ bool M_Responder(event_t *ev)
                         if (itemon == load_game && !savegames)
                             itemon--;
                     }
-                    else if (currentmenu == &OptionsDef && !itemon && gamestate != GS_LEVEL)
+                    else if (currentmenu == &OptionsDef && itemon == endgame && gamestate != GS_LEVEL)
                         itemon = currentmenu->numitems - 1;
 
                     if (currentmenu->menuitems[itemon].status != -1)
@@ -3452,7 +3453,7 @@ bool M_Responder(event_t *ev)
                 {
                     if (gamestate != GS_LEVEL
                         && ((currentmenu == &MainDef && itemon == save_game)
-                            || (currentmenu == &OptionsDef && !itemon)))
+                            || (currentmenu == &OptionsDef && itemon == endgame)))
                         return true;
 
                     if (currentmenu != &LoadDef)
@@ -3548,10 +3549,10 @@ bool M_Responder(event_t *ev)
                 {
                     if (currentmenu == &MainDef)
                     {
-                        if ((i == 2 && !savegames) || (i == 3 && (gamestate != GS_LEVEL || viewplayer->health <= 0)))
+                        if ((i == load_game && !savegames) || (i == save_game && (gamestate != GS_LEVEL || viewplayer->health <= 0)))
                             return true;
                     }
-                    else if (currentmenu == &OptionsDef && !i && gamestate != GS_LEVEL)
+                    else if (currentmenu == &OptionsDef && i == endgame && gamestate != GS_LEVEL)
                         return true;
                     else if (currentmenu == &LoadDef && M_StringCompare(savegamestrings[i], s_EMPTYSTRING))
                         return true;
@@ -3608,10 +3609,10 @@ bool M_Responder(event_t *ev)
                 {
                     if (currentmenu == &MainDef)
                     {
-                        if ((i == 2 && !savegames) || (i == 3 && (gamestate != GS_LEVEL || viewplayer->health <= 0)))
+                        if ((i == load_game && !savegames) || (i == save_game && (gamestate != GS_LEVEL || viewplayer->health <= 0)))
                             return true;
                     }
-                    else if (currentmenu == &OptionsDef && !i && gamestate != GS_LEVEL)
+                    else if (currentmenu == &OptionsDef && i == endgame && gamestate != GS_LEVEL)
                         return true;
                     else if (currentmenu == &LoadDef && M_StringCompare(savegamestrings[i], s_EMPTYSTRING))
                         return true;
@@ -3805,7 +3806,7 @@ void M_Drawer(void)
                 const int   old = itemon;
 
                 while (M_StringCompare(savegamestrings[itemon], s_EMPTYSTRING))
-                    itemon = (!itemon ? currentmenu->numitems - 1 : itemon - 1);
+                    itemon = (itemon == load1 ? currentmenu->numitems - 1 : itemon - 1);
 
                 if (itemon != old)
                 {
@@ -3827,7 +3828,7 @@ void M_Drawer(void)
             const int   max = currentmenu->numitems;
             int         widest = 0;
 
-            if (currentmenu == &OptionsDef && !itemon && gamestate != GS_LEVEL)
+            if (currentmenu == &OptionsDef && itemon == endgame && gamestate != GS_LEVEL)
                 itemon++;
 
             if (M_SKULL1)
