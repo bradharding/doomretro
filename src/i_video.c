@@ -587,6 +587,7 @@ static void I_GetEvent(void)
                             windowfocused = true;
                             S_ResumeMusic();
                             I_InitKeyboard();
+
                             break;
 
                         case SDL_WINDOWEVENT_FOCUS_LOST:
@@ -681,23 +682,26 @@ static void I_ReadMouse(void)
         ev.type = ev_mouse;
         ev.data1 = mousebuttonstate;
 
-        SmoothMouse(&x, &y);
-
         if (menuactive && m_pointer)
         {
             SDL_GetMouseState(&x, &y);
             ev.data2 = x * SCREENWIDTH / displaywidth / SCREENSCALE;
             ev.data3 = y * SCREENHEIGHT / displayheight / SCREENSCALE;
         }
-        else if (m_acceleration)
-        {
-            ev.data2 = AccelerateMouse(x);
-            ev.data3 = AccelerateMouse(y);
-        }
         else
         {
-            ev.data2 = x;
-            ev.data3 = y;
+            SmoothMouse(&x, &y);
+
+            if (m_acceleration)
+            {
+                ev.data2 = AccelerateMouse(x);
+                ev.data3 = AccelerateMouse(y);
+            }
+            else
+            {
+                ev.data2 = x;
+                ev.data3 = y;
+            }
         }
 
         prevmousebuttonstate = mousebuttonstate;
