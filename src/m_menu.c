@@ -3924,7 +3924,7 @@ void M_ClearMenus(void)
         return;
 
     menuactive = false;
-    mousemovement = false;
+    usingmouse = false;
     blurtic = -1;
     menuspindirection = ((M_Random() & 1) ? 1 : -1);
 

@@ -91,7 +91,7 @@ void I_SetExternalAutomapPalette(void);
 void I_SetSimplePalette(byte *playpal);
 void I_SetPaletteWithBrightness(byte *playpal, double brightness);
 
-void I_UpdateBlitFunc(bool shake);
+void I_UpdateBlitFunc(bool shaking);
 bool I_CreateExternalAutomap(void);
 void I_DestroyExternalAutomap(void);
 
@@ -136,7 +136,7 @@ extern int          windowwidth;
 extern int          windowborderwidth;
 extern int          windowborderheight;
 
-extern bool         mousemovement;
+extern bool         usingmouse;
 extern bool         windowfocused;
 
 extern SDL_Window   *window;

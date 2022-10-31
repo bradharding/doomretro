@@ -158,7 +158,7 @@ static int          displayheight;
 static int          displaycenterx;
 static int          displaycentery;
 
-bool                mousemovement = false;
+bool                usingmouse = false;
 bool                windowfocused = true;
 
 int                 keydown = 0;
@@ -209,7 +209,7 @@ bool MouseShouldBeGrabbed(void)
         return true;
 
     // when menu is active, release the mouse
-    if (menuactive && m_pointer && mousemovement)
+    if (menuactive && m_pointer && usingmouse)
         return false;
 
     return true;
@@ -531,12 +531,14 @@ static void I_GetEvent(void)
                         break;
                 }
 
+                usingmouse = false;
                 break;
 
             case SDL_CONTROLLERBUTTONDOWN:
                 gamecontrollerbuttons |= (1 << Event->cbutton.button);
                 ev.type = ev_controller;
                 D_PostEvent(&ev);
+                usingmouse = false;
                 break;
 
             case SDL_CONTROLLERBUTTONUP:
@@ -544,6 +546,7 @@ static void I_GetEvent(void)
                 keydown = 0;
                 ev.type = ev_controller;
                 D_PostEvent(&ev);
+                usingmouse = false;
                 break;
 
             case SDL_TEXTINPUT:
@@ -680,7 +683,7 @@ static void I_ReadMouse(void)
     {
         if (x || y || mousebuttonstate != prevmousebuttonstate)
         {
-            mousemovement = true;
+            usingmouse = true;
 
             SDL_GetMouseState(&x, &y);
 
@@ -756,7 +759,6 @@ void (*blitfunc)(void);
 void (*mapblitfunc)(void);
 
 static void (*clearframefunc)(void);
-
 static void nullfunc(void) {}
 
 static uint64_t performancefrequency;
@@ -926,11 +928,11 @@ static void I_Blit_Automap_NearestLinear(void)
     SDL_RenderPresent(maprenderer);
 }
 
-void I_UpdateBlitFunc(bool shake)
+void I_UpdateBlitFunc(bool shaking)
 {
     const bool  nearest = (nearestlinear && (displayheight % VANILLAHEIGHT));
 
-    if (shake && !software)
+    if (shaking && !software)
         blitfunc = (nearest ? (vid_showfps ? &I_Blit_NearestLinear_ShowFPS_Shake : &I_Blit_NearestLinear_Shake) :
             (vid_showfps ? &I_Blit_ShowFPS_Shake : &I_Blit_Shake));
     else

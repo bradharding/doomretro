@@ -1318,10 +1318,6 @@ void P_UnArchiveThinkers(void)
 
         switch (tclass)
         {
-            case tc_end:
-                // end of list
-                return;
-
             case tc_mobj:
             {
                 mobj_t  *mobj = Z_Calloc(1, sizeof(*mobj), PU_LEVEL, NULL);
@@ -1350,14 +1346,13 @@ void P_UnArchiveThinkers(void)
 
                     if (r_bloodsplats_total < r_bloodsplats_max)
                     {
-                        splat->angle = M_BigSubRandom() * 0xB60B60;
-
                         if (splat->patch < firstbloodsplatlump || splat->patch >= firstbloodsplatlump + BLOODSPLATLUMPS)
                             splat->patch = firstbloodsplatlump + (M_BigRandom() & (BLOODSPLATLUMPS - 1));
 
                         splat->width = spritewidth[splat->patch];
                         splat->patch += firstspritelump;
                         P_SetBloodSplatColor(splat);
+                        splat->angle = M_BigSubRandom() * 0xB60B60;
                         splat->sector = R_PointInSubsector(splat->x, splat->y)->sector;
                         P_SetBloodSplatPosition(splat);
                         r_bloodsplats_total++;
@@ -1366,6 +1361,10 @@ void P_UnArchiveThinkers(void)
 
                 break;
             }
+
+            case tc_end:
+                // end of list
+                return;
 
             default:
                 I_Error("%s is invalid.", savename);
