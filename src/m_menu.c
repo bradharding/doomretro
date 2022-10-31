@@ -109,8 +109,6 @@ static short    whichskull;             // which skull to draw
 static int      blurtic = -1;
 static int      functionkey;
 
-static bool     usinggamecontroller;
-
 // current menudef
 static menu_t   *currentmenu;
 

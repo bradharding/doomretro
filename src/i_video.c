@@ -158,6 +158,7 @@ static int          displayheight;
 static int          displaycenterx;
 static int          displaycentery;
 
+bool                usinggamecontroller = false;
 bool                usingmouse = false;
 bool                windowfocused = true;
 
@@ -209,7 +210,7 @@ bool MouseShouldBeGrabbed(void)
         return true;
 
     // when menu is active, release the mouse
-    if (menuactive && m_pointer && usingmouse)
+    if (menuactive && m_pointer && usingmouse && !usinggamecontroller)
         return false;
 
     return true;
