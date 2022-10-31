@@ -9354,8 +9354,44 @@ static void r_randomstartframes_cvar_func2(char *cmd, char *parms)
             r_randomstartframes = value;
             M_SaveCVARs();
 
-            if (gamestate == GS_LEVEL && !togglingvanilla && !resettingcvar)
-                C_Warning(0, NEXTMAPWARNING);
+            if (r_randomstartframes)
+                for (int i = 0; i < numsectors; i++)
+                {
+                    mobj_t  *mo = sectors[i].thinglist;
+
+                    while (mo)
+                    {
+                        mobjinfo_t  *info = mo->info;
+
+                        if (info->frames > 1)
+                        {
+                            const int   numframes = M_BigRandomInt(0, info->frames);
+                            state_t     *st = mo->state;
+
+                            for (int j = 0; j < numframes && st->nextstate != S_NULL; j++)
+                                st = &states[st->nextstate];
+
+                            mo->state = st;
+                        }
+
+                        mo = mo->snext;
+                    }
+                }
+            else
+                for (int i = 0; i < numsectors; i++)
+                {
+                    mobj_t  *mo = sectors[i].thinglist;
+
+                    while (mo)
+                    {
+                        mobjinfo_t  *info = mo->info;
+
+                        if (info->frames > 1)
+                            mo->state = &states[info->spawnstate];
+
+                        mo = mo->snext;
+                    }
+                }
         }
     }
     else
@@ -9376,8 +9412,6 @@ static void r_randomstartframes_cvar_func2(char *cmd, char *parms)
         }
 
         free(temp1);
-
-        C_ShowWarning(i);
     }
 }
 
