@@ -210,7 +210,7 @@ bool MouseShouldBeGrabbed(void)
         return true;
 
     // when menu is active, release the mouse
-    if (menuactive && m_pointer && usingmouse && !usinggamecontroller)
+    if ((menuactive || gamestate != GS_LEVEL) && m_pointer && usingmouse && !usinggamecontroller)
         return false;
 
     return true;
@@ -681,7 +681,7 @@ static void I_ReadMouse(void)
 
     SDL_GetRelativeMouseState(&x, &y);
 
-    if (menuactive && m_pointer)
+    if ((menuactive || gamestate != GS_LEVEL) && !splashscreen && m_pointer)
     {
         if (x || y || mousebuttonstate != prevmousebuttonstate)
         {
