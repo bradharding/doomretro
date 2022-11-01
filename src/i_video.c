@@ -410,6 +410,7 @@ static void I_GetEvent(void)
 #endif
 
                     D_PostEvent(&ev);
+                    usingmouse = false;
                 }
 
                 break;
