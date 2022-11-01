@@ -14,7 +14,7 @@
 * The game will now be paused as intended when the window loses focus.
 * These changes have been made to the external automap:
   * It now goes to black rather than dark blue while the help screen is displayed.
-  * `00:00` is no longer displayed in the top right corner of the screen before a game is started if the `am_playerstats` CVAR is `on`.
+  * `00:00` is no longer displayed in the top right corner before a game is started if the `am_playerstats` CVAR is `on`.
 * The vertical position of the current map’s title in the automap has changed in some instances.
 * A bug is fixed whereby the current map’s title in the automap would be positioned incorrectly after adjusting the screen size in the options menu in some instances.
 * These changes have been made when pressing the <kbd>F9</kbd> key to quickload a savegame:
@@ -30,7 +30,7 @@
 * Turning the `r_corpses_mirrored` or `r_mirroredweapons` CVARs `on` in the console now works correctly.
 * The effects of changing the `r_randomstartframes` CVAR in the console are now immediate.
 * A `NOMIRROREDCORPSE` flag can now be used in `Retro bits` of `DEHACKED` lumps to force a monster’s corpse not to be randomly mirrored even if the `r_corpses_mirrored` CVAR is `on`.
-* Support has been added for the now official add-on [*Harmony*](https://slayersclub.bethesda.net/en/article/E5gTsCSptkfJC43vh9Pey/new-add-on-available-harmony).
+* Support has been added for [*Harmony*](https://slayersclub.bethesda.net/en/article/E5gTsCSptkfJC43vh9Pey/new-add-on-available-harmony).
 * Further improvements have been made to the support of [*Chex Quest*](https://doomwiki.org/wiki/Chex_Quest), [*REKKR*](https://www.doomworld.com/idgames/levels/doom/megawads/rekkr) and [*REKKR: Sunken Land*](https://store.steampowered.com/app/1715690/REKKR_Sunken_Land/).
 * These changes have been made to the BFG Edition and latest rerelease of *DOOM* and *DOOM II*:
   * The `TITLEPIC` lump from *The Ultimate DOOM* is no longer used as the title screen of *DOOM*.

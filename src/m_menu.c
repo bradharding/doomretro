@@ -67,7 +67,6 @@
 
 #define LINEHEIGHT      17
 #define OFFSET          17
-#define MENUBORDERCOLOR nearestblack
 
 // -1 = no quicksave slot picked!
 int             quicksaveslot;
@@ -487,18 +486,18 @@ static void M_BlurMenuBackground(const byte *src, byte *dest)
 static void M_DrawMenuBorder(void)
 {
     for (int x = 0; x < SCREENWIDTH * 2; x++)
-        screens[0][x] = screens[0][SCREENAREA - SCREENWIDTH * 2 + x] = MENUBORDERCOLOR;
+        screens[0][x] = screens[0][SCREENAREA - SCREENWIDTH * 2 + x] = nearestblack;
 
     if (vid_widescreen || nowidescreen)
     {
         for (int y = 0; y < SCREENAREA; y += SCREENWIDTH)
             for (int x = 0; x < 6; x++)
-                screens[0][y + x] = screens[0][y + SCREENWIDTH - x - 1] = MENUBORDERCOLOR;
+                screens[0][y + x] = screens[0][y + SCREENWIDTH - x - 1] = nearestblack;
 
-        V_DrawMenuBorderPatch(6, 0, menuborder, MENUBORDERCOLOR);
+        V_DrawMenuBorderPatch(6, 0, menuborder, nearestblack);
     }
     else
-        V_DrawMenuBorderPatch(0, 0, menuborder, MENUBORDERCOLOR);
+        V_DrawMenuBorderPatch(0, 0, menuborder, nearestblack);
 }
 
 //
