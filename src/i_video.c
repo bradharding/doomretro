@@ -678,42 +678,39 @@ static void I_ReadMouse(void)
 {
     int         x, y;
     static int  prevmousebuttonstate;
-    event_t     ev;
 
     SDL_GetRelativeMouseState(&x, &y);
 
-    if ((menuactive || gamestate != GS_LEVEL) && !splashscreen && m_pointer)
+    if (x || y || mousebuttonstate != prevmousebuttonstate)
     {
-        if (x || y || mousebuttonstate != prevmousebuttonstate)
-        {
-            usingmouse = true;
+        event_t ev;
 
-            SDL_GetMouseState(&x, &y);
-
-            ev.type = ev_mouse;
-            ev.data1 = mousebuttonstate;
-            ev.data2 = x * SCREENWIDTH / displaywidth / SCREENSCALE;
-            ev.data3 = y * SCREENHEIGHT / displayheight / SCREENSCALE;
-            prevmousebuttonstate = mousebuttonstate;
-            D_PostEvent(&ev);
-        }
-    }
-    else if (x || y || mousebuttonstate != prevmousebuttonstate)
-    {
         ev.type = ev_mouse;
         ev.data1 = mousebuttonstate;
 
-        SmoothMouse(&x, &y);
-
-        if (m_acceleration)
+        if ((menuactive || gamestate != GS_LEVEL) && !splashscreen && m_pointer)
         {
-            ev.data2 = AccelerateMouse(x);
-            ev.data3 = AccelerateMouse(y);
+            SDL_GetMouseState(&x, &y);
+
+            ev.data2 = x * SCREENWIDTH / displaywidth / SCREENSCALE;
+            ev.data3 = y * SCREENHEIGHT / displayheight / SCREENSCALE;
+
+            usingmouse = true;
         }
         else
         {
-            ev.data2 = x;
-            ev.data3 = y;
+            SmoothMouse(&x, &y);
+
+            if (m_acceleration)
+            {
+                ev.data2 = AccelerateMouse(x);
+                ev.data3 = AccelerateMouse(y);
+            }
+            else
+            {
+                ev.data2 = x;
+                ev.data3 = y;
+            }
         }
 
         prevmousebuttonstate = mousebuttonstate;
