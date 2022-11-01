@@ -595,6 +595,7 @@ static void I_GetEvent(void)
                             break;
 
                         case SDL_WINDOWEVENT_FOCUS_LOST:
+                        case SDL_WINDOWEVENT_MINIMIZED:
                             windowfocused = false;
 
                             if (!s_musicinbackground)
