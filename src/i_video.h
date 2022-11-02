@@ -81,6 +81,9 @@ void I_InitGraphics(void);
 void I_RestartGraphics(bool recreatewindow);
 void I_CapFPS(int cap);
 
+void I_SaveMousePointerPosition(void);
+void I_RestoreMousePointerPosition(void);
+
 void GetWindowPosition(void);
 void GetWindowSize(void);
 void GetScreenResolution(void);

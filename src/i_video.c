@@ -134,6 +134,8 @@ static int          displayindex;
 static int          numdisplays;
 static SDL_Rect     displays[vid_display_max];
 
+static int          mousepointerx, mousepointery;
+
 // Bit mask of mouse button state
 static unsigned int mousebuttonstate;
 
@@ -659,6 +661,16 @@ static void I_GetEvent(void)
     }
 }
 
+void I_SaveMousePointerPosition(void)
+{
+    SDL_GetMouseState(&mousepointerx, &mousepointery);
+}
+
+void I_RestoreMousePointerPosition(void)
+{
+    SDL_WarpMouseInWindow(window, mousepointerx, mousepointery);
+}
+
 static void SmoothMouse(int *x, int *y)
 {
     const fixed_t   tic = (((int64_t)I_GetTimeMS() * TICRATE) % 1000) * FRACUNIT / 1000;
@@ -690,12 +702,16 @@ static void I_ReadMouse(void)
 
         if ((menuactive || gamestate != GS_LEVEL) && !splashscreen && m_pointer)
         {
+            if (!usingmouse)
+            {
+                I_RestoreMousePointerPosition();
+                usingmouse = true;
+            }
+
             SDL_GetMouseState(&x, &y);
 
             ev.data2 = x * SCREENWIDTH / displaywidth / SCREENSCALE;
             ev.data3 = y * SCREENHEIGHT / displayheight / SCREENSCALE;
-
-            usingmouse = true;
         }
         else
         {
@@ -1983,6 +1999,8 @@ void I_InitGraphics(void)
 
     if (vid_fullscreen)
         SetShowCursor(false);
+
+    I_SaveMousePointerPosition();
 
 #if defined(_WIN32)
     I_InitWindows32();

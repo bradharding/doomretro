@@ -3953,6 +3953,7 @@ void M_ClearMenus(void)
     }
 
     S_RestoreMusicVolume();
+    I_SaveMousePointerPosition();
 }
 
 //
