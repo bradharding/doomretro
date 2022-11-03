@@ -412,6 +412,7 @@ static void I_GetEvent(void)
 #endif
 
                     D_PostEvent(&ev);
+                    I_SaveMousePointerPosition();
                     usingmouse = false;
                 }
 
@@ -535,6 +536,7 @@ static void I_GetEvent(void)
                         break;
                 }
 
+                I_SaveMousePointerPosition();
                 usingmouse = false;
                 break;
 
@@ -542,6 +544,7 @@ static void I_GetEvent(void)
                 gamecontrollerbuttons |= (1 << Event->cbutton.button);
                 ev.type = ev_controller;
                 D_PostEvent(&ev);
+                I_SaveMousePointerPosition();
                 usingmouse = false;
                 break;
 
@@ -550,6 +553,7 @@ static void I_GetEvent(void)
                 keydown = 0;
                 ev.type = ev_controller;
                 D_PostEvent(&ev);
+                I_SaveMousePointerPosition();
                 usingmouse = false;
                 break;
 
@@ -663,7 +667,8 @@ static void I_GetEvent(void)
 
 void I_SaveMousePointerPosition(void)
 {
-    SDL_GetMouseState(&mousepointerx, &mousepointery);
+    if (usingmouse)
+        SDL_GetMouseState(&mousepointerx, &mousepointery);
 }
 
 void I_RestoreMousePointerPosition(void)
@@ -2000,7 +2005,7 @@ void I_InitGraphics(void)
     if (vid_fullscreen)
         SetShowCursor(false);
 
-    I_SaveMousePointerPosition();
+    SDL_GetMouseState(&mousepointerx, &mousepointery);
 
 #if defined(_WIN32)
     I_InitWindows32();

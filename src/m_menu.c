@@ -3953,11 +3953,8 @@ void M_ClearMenus(void)
 
     S_RestoreMusicVolume();
 
-    if (gamestate == GS_LEVEL)
-    {
-        usingmouse = false;
-        I_SaveMousePointerPosition();
-    }
+    I_SaveMousePointerPosition();
+    usingmouse = false;
 }
 
 //
