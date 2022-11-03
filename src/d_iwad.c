@@ -833,7 +833,7 @@ void D_SetSaveGameFolder(bool output)
         if (!numsavegames)
             C_Output("All savegames will be placed in " BOLD("%s") ".", savegamefolder);
         else if (numsavegames == 1)
-            C_Output("There is 1 savegame in " BOLD("%s") ".", savegamefolder);
+            C_Output("There is one savegame in " BOLD("%s") ".", savegamefolder);
         else
             C_Output("There are %i savegames in " BOLD("%s") ".", numsavegames, savegamefolder);
     }

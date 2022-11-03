@@ -39,6 +39,7 @@
   * Unless replaced in a PWAD, all stimpacks, medikits and berserk power-ups now show a red cross, rather than a green cross or a pill.
 * Even though it can’t be played, the fourth episode of *DOOM* is now displayed in the episode menu of *DOOM (Shareware)*.
 * The horizontal position of player messages has now improved, and is consistent when toggling widescreen.
+* When loading a savegame that was saved using certain previous versions of *DOOM Retro*, all blood splats are now displayed correctly.
 * When to spawn blood splats around a decoration while the `r_corpses_moreblood` CVAR is `on` has now improved if the decoration’s sprite is replaced in a PWAD.
 * A bug is fixed whereby the wrong `M_DOOM` lump was displayed in the main menu in some instances.
 * Minor improvements have been made when adjusting the music volume.
@@ -52,7 +53,7 @@
 * Any input in the console is now cleared when a cheat is entered.
 * Improvements have been made to the synchronization of animated wall textures and flats.
 * The brightmap of the `COMPUTE1` texture has improved.
-* A bug has been fixed whereby masked midtextures could in some instances be rendered incorrectly while the player had a light amplification visor power-up.
+* A bug is fixed whereby masked midtextures could in some instances be rendered incorrectly while the player had a light amplification visor power-up.
 * The `r_skycolor` CVAR has been removed.
 * The default of the `am_pathcolor` CVAR is now `89`.
 * Blood splats are now displayed in the automap as very small triangles when using the `IDDT` cheat. Their color can be changed using the new `am_bloodsplatcolor` CVAR, which is `124` by default and `0` when vanilla mode is enabled.
