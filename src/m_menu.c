@@ -3921,7 +3921,6 @@ void M_ClearMenus(void)
         return;
 
     menuactive = false;
-    usingmouse = false;
     blurtic = -1;
     menuspindirection = ((M_Random() & 1) ? 1 : -1);
 
@@ -3953,7 +3952,12 @@ void M_ClearMenus(void)
     }
 
     S_RestoreMusicVolume();
-    I_SaveMousePointerPosition();
+
+    if (gamestate == GS_LEVEL)
+    {
+        usingmouse = false;
+        I_SaveMousePointerPosition();
+    }
 }
 
 //
