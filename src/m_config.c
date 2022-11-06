@@ -533,7 +533,7 @@ valuealias_t valuealiases[] =
     { "cross",          1, CROSSHAIRVALUEALIAS    }, { "on",             1, CROSSHAIRVALUEALIAS    },
     { "dot",            2, CROSSHAIRVALUEALIAS    }, { "adaptive",      -1, VSYNCVALUEALIAS        },
     { "off",            0, VSYNCVALUEALIAS        }, { "on",             1, VSYNCVALUEALIAS        },
-    { "other",          0, PLAYERGENDERVALUEALIAS }, { "male",           1, PLAYERGENDERVALUEALIAS },
+    { "nonbinary",      0, PLAYERGENDERVALUEALIAS }, { "male",           1, PLAYERGENDERVALUEALIAS },
     { "female",         2, PLAYERGENDERVALUEALIAS }, { "fists",          0, WEAPONVALUEALIAS       },
     { "pistol",         1, WEAPONVALUEALIAS       }, { "shotgun",        2, WEAPONVALUEALIAS       },
     { "chaingun",       3, WEAPONVALUEALIAS       }, { "rocketlauncher", 4, WEAPONVALUEALIAS       },

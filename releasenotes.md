@@ -28,6 +28,7 @@
 * An `english` CVAR has been implemented that toggles the use of American or International English. It can be either `american` or `international`, and is `american` by default and when vanilla mode is enabled.
 * To allow greater precision, the `joy_sensitivity_horizontal`, `joy_sensitivity_vertical` and `m_senstivity` CVARs can now be changed to non-integer values.
 * Turning the `r_corpses_mirrored` or `r_mirroredweapons` CVARs `on` in the console now works correctly.
+* The `playergender` CVAR now accepts a value of `nonbinary` rather than `other`.
 * The effects of changing the `r_randomstartframes` CVAR in the console are now immediate.
 * A `NOMIRROREDCORPSE` flag can now be used in `Retro bits` of `DEHACKED` lumps to force a monster’s corpse not to be randomly mirrored even if the `r_corpses_mirrored` CVAR is `on`.
 * Support has been added for [*Harmony*](https://slayersclub.bethesda.net/en/article/E5gTsCSptkfJC43vh9Pey/new-add-on-available-harmony).

@@ -275,7 +275,7 @@ enum
 
 enum
 {
-    playergender_other,
+    playergender_nonbinary,
     playergender_male,
     playergender_female
 };
@@ -554,7 +554,7 @@ enum
 
 #define negativehealth_default             true
 
-#define playergender_min                   playergender_other
+#define playergender_min                   playergender_nonbinary
 #define playergender_default               playergender_male
 #define playergender_max                   playergender_female
 
