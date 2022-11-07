@@ -3875,28 +3875,90 @@ void M_Drawer(void)
                     }
                     else if (W_CheckNumForName(name) < 0 && **text)   // custom episode
                     {
+                        int width = M_BigStringWidth(*text);
+
                         M_DrawString(x, y + OFFSET, *text);
                         currentmenu->menuitems[i].x = x + WIDESCREENDELTA;
                         currentmenu->menuitems[i].y = y + OFFSET;
-                        widest = MAX(widest, M_BigStringWidth(*text));
+
+                        if (currentmenu == &OptionsDef)
+                        {
+                            if (i == msgs)
+                            {
+                                if (M_MSGON)
+                                    width += 4 + SHORT(((patch_t *)W_CacheLumpName(messages ? "M_MSGON" : "M_MSGOFF"))->width);
+                                else
+                                    width += 4 + M_BigStringWidth(messages ? s_M_ON : s_M_OFF);
+                            }
+                            else if (i == detail)
+                            {
+                                if (M_GDLOW)
+                                    width += 4 + SHORT(((patch_t *)W_CacheLumpName(r_detail ? "M_GDHIGH" : "M_GDLOW"))->width);
+                                else
+                                    width += 4 + M_BigStringWidth(r_detail ? s_M_HIGH : s_M_LOW);
+                            }
+                        }
+
+                        widest = MAX(widest, width);
                         currentmenu->menuitems[i].height = LINEHEIGHT - 1;
                     }
                     else if (W_CheckMultipleLumps(name) > 1 || lumpinfo[W_GetNumForName(name)]->wadfile->type == PWAD)
                     {
+                        int     width = M_BigStringWidth(*text);
                         patch_t *patch = W_CacheLumpName(name);
 
                         M_DrawPatchWithShadow(x, y + OFFSET, patch);
                         currentmenu->menuitems[i].x = x + WIDESCREENDELTA;
                         currentmenu->menuitems[i].y = y + OFFSET;
-                        widest = MAX(widest, SHORT(patch->width));
-                        currentmenu->menuitems[i].height = SHORT(patch->height);
+
+                        if (currentmenu == &OptionsDef)
+                        {
+                            if (i == msgs)
+                            {
+                                if (M_MSGON)
+                                    width += 4 + SHORT(((patch_t *)W_CacheLumpName(messages ? "M_MSGON" : "M_MSGOFF"))->width);
+                                else
+                                    width += 4 + M_BigStringWidth(messages ? s_M_ON : s_M_OFF);
+                            }
+                            else if (i == detail)
+                            {
+                                if (M_GDLOW)
+                                    width += 4 + SHORT(((patch_t *)W_CacheLumpName(r_detail ? "M_GDHIGH" : "M_GDLOW"))->width);
+                                else
+                                    width += 4 + M_BigStringWidth(r_detail ? s_M_HIGH : s_M_LOW);
+                            }
+                        }
+
+                        widest = MAX(widest, width);
+                        currentmenu->menuitems[i].height = LINEHEIGHT - 1;
                     }
                     else if (**text)
                     {
+                        int width = M_BigStringWidth(*text);
+
                         M_DrawString(x, y + OFFSET, *text);
                         currentmenu->menuitems[i].x = x + WIDESCREENDELTA;
                         currentmenu->menuitems[i].y = y + OFFSET;
-                        widest = MAX(widest, M_BigStringWidth(*text));
+
+                        if (currentmenu == &OptionsDef)
+                        {
+                            if (i == msgs)
+                            {
+                                if (M_MSGON)
+                                    width += 4 + SHORT(((patch_t *)W_CacheLumpName(messages ? "M_MSGON" : "M_MSGOFF"))->width);
+                                else
+                                    width += 4 + M_BigStringWidth(messages ? s_M_ON : s_M_OFF);
+                            }
+                            else if (i == detail)
+                            {
+                                if (M_GDLOW)
+                                    width += 4 + SHORT(((patch_t *)W_CacheLumpName(r_detail ? "M_GDHIGH" : "M_GDLOW"))->width);
+                                else
+                                    width += 4 + M_BigStringWidth(r_detail ? s_M_HIGH : s_M_LOW);
+                            }
+                        }
+
+                        widest = MAX(widest, width);
                         currentmenu->menuitems[i].height = LINEHEIGHT - 1;
                     }
                 }
