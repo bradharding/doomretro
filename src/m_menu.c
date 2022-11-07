@@ -3930,7 +3930,7 @@ void M_Drawer(void)
                         }
 
                         widest = MAX(widest, width);
-                        currentmenu->menuitems[i].height = LINEHEIGHT - 1;
+                        currentmenu->menuitems[i].height = SHORT(patch->height);
                     }
                     else if (**text)
                     {

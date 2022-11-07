@@ -533,14 +533,14 @@ valuealias_t valuealiases[] =
     { "cross",          1, CROSSHAIRVALUEALIAS    }, { "on",             1, CROSSHAIRVALUEALIAS    },
     { "dot",            2, CROSSHAIRVALUEALIAS    }, { "adaptive",      -1, VSYNCVALUEALIAS        },
     { "off",            0, VSYNCVALUEALIAS        }, { "on",             1, VSYNCVALUEALIAS        },
-    { "nonbinary",      0, PLAYERGENDERVALUEALIAS }, { "male",           1, PLAYERGENDERVALUEALIAS },
-    { "female",         2, PLAYERGENDERVALUEALIAS }, { "fists",          0, WEAPONVALUEALIAS       },
-    { "pistol",         1, WEAPONVALUEALIAS       }, { "shotgun",        2, WEAPONVALUEALIAS       },
-    { "chaingun",       3, WEAPONVALUEALIAS       }, { "rocketlauncher", 4, WEAPONVALUEALIAS       },
-    { "plasmarifle",    5, WEAPONVALUEALIAS       }, { "bfg9000",        6, WEAPONVALUEALIAS       },
-    { "chainsaw",       7, WEAPONVALUEALIAS       }, { "supershotgun",   8, WEAPONVALUEALIAS       },
-    { "american",       0, ENGLISHVALUEALIAS      }, { "international",  1, ENGLISHVALUEALIAS      },
-    { "",               0, NOVALUEALIAS           }
+    { "nonbinary",      0, PLAYERGENDERVALUEALIAS }, { "other",          0, PLAYERGENDERVALUEALIAS },
+    { "male",           1, PLAYERGENDERVALUEALIAS }, { "female",         2, PLAYERGENDERVALUEALIAS },
+    { "fists",          0, WEAPONVALUEALIAS       }, { "pistol",         1, WEAPONVALUEALIAS       },
+    { "shotgun",        2, WEAPONVALUEALIAS       }, { "chaingun",       3, WEAPONVALUEALIAS       },
+    { "rocketlauncher", 4, WEAPONVALUEALIAS       }, { "plasmarifle",    5, WEAPONVALUEALIAS       },
+    { "bfg9000",        6, WEAPONVALUEALIAS       }, { "chainsaw",       7, WEAPONVALUEALIAS       },
+    { "supershotgun",   8, WEAPONVALUEALIAS       }, { "american",       0, ENGLISHVALUEALIAS      },
+    { "international",  1, ENGLISHVALUEALIAS      }, { "",               0, NOVALUEALIAS           }
 };
 
 static void SaveBind(FILE *file, char *control, char *action)

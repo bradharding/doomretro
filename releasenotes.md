@@ -4,10 +4,10 @@
 
 * *DOOM Retro* is now built using v17.3.6 of [*Microsoft Visual Studio Community 2022*](https://visualstudio.microsoft.com/vs/community/).
 * *DOOM Retro* now uses [*SDL v2.24.2*](https://www.libsdl.org).
-* Several optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
+* Extensive optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Changes have been made to the animation of *DOOM Retro’s* logo on the splash screen.
 * A mouse pointer is now displayed while the menu is open that may be used to select menu items. It may be disabled by the new `m_pointer` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
-* Several changes have been made to text that is output to the console.
+* Extensive changes have been made to text that is output to the console.
 * Minor improvements have been made to the console’s autocomplete feature.
 * CCMDs in the console that can only be used while playing a game, or while the player is alive, may now be entered at any time, displaying a description of the CCMD along with a warning about their usage.
 * The bottom edge of the console is now a slightly brighter red.
@@ -28,7 +28,6 @@
 * An `english` CVAR has been implemented that toggles the use of American or International English. It can be either `american` or `international`, and is `american` by default and when vanilla mode is enabled.
 * To allow greater precision, the `joy_sensitivity_horizontal`, `joy_sensitivity_vertical` and `m_senstivity` CVARs can now be changed to non-integer values.
 * Turning the `r_corpses_mirrored` or `r_mirroredweapons` CVARs `on` in the console now works correctly.
-* The `playergender` CVAR now accepts a value of `nonbinary` rather than `other`.
 * The effects of changing the `r_randomstartframes` CVAR in the console are now immediate.
 * A `NOMIRROREDCORPSE` flag can now be used in `Retro bits` of `DEHACKED` lumps to force a monster’s corpse not to be randomly mirrored even if the `r_corpses_mirrored` CVAR is `on`.
 * Support has been added for [*Harmony*](https://slayersclub.bethesda.net/en/article/E5gTsCSptkfJC43vh9Pey/new-add-on-available-harmony).
@@ -51,9 +50,9 @@
 * A crash no longer occurs if the `save` CCMD is bound to a control using the `bind` CCMD.
 * The corpses of monsters no longer slide in the same direction when using the `kill` CCMD to kill them.
 * The obituary displayed in the console when the player is killed by a damaging sector that isn’t liquid is now fixed.
-* Any input in the console is now cleared when a cheat is entered.
+* Any input in the console is now cleared when a cheat is entered while the console is closed.
 * Improvements have been made to the synchronization of animated wall textures and flats.
-* The brightmap of the `COMPUTE1` texture has improved.
+* The brightmap of the `COMPUTE1` texture has improved when the `r_brightmaps` CVAR is `on`.
 * A bug is fixed whereby masked midtextures could in some instances be rendered incorrectly while the player had a light amplification visor power-up.
 * The `r_skycolor` CVAR has been removed.
 * The default of the `am_pathcolor` CVAR is now `89`.
@@ -61,8 +60,10 @@
 * The color of corpses in the automap when using the `IDDT` cheat can be changed using the new `am_corpsecolor` CVAR, which is `116` by default and `112` when vanilla mode is enabled.
 * Several improvements have been made to the size and angle of thing triangles in the automap when using the `IDDT` cheat.
 * The player is now given double the ammo again when entering the `IDFA` and `IDKFA` cheats.
-* The `playergender` CVAR can now be changed and its values displayed correctly again.
-* Controls are no longer removed or reset when vanilla mode is enabled using the `vanilla` CCMD.
+* These changes have been made to the `playergender` CVAR:
+  * It can now be changed and its values displayed correctly again in the console.
+  * A value of `nonbinary` is now used rather than `other`.
+* Controls are no longer reset to their defaults when vanilla mode is enabled using the `vanilla` CCMD.
 * These changes have been made to the `vid_capfps` CVAR:
   * Its minimum value is now `35` rather than `10`.
   * A bug is fixed whereby it couldn’t be set to `off` in the console.
