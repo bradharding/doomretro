@@ -3867,10 +3867,19 @@ void M_Drawer(void)
                     }
                     else if (M_StringCompare(name, "M_MSENS") && !M_MSENS)
                     {
-                        M_DrawString(x, y + OFFSET, (usinggamecontroller ? s_M_GAMECONTROLLERSENSITIVITY : s_M_MOUSESENSITIVITY));
+                        if (usinggamecontroller)
+                        {
+                            M_DrawString(x, y + OFFSET, s_M_GAMECONTROLLERSENSITIVITY);
+                            widest = MAX(widest, M_BigStringWidth(s_M_GAMECONTROLLERSENSITIVITY));
+                        }
+                        else
+                        {
+                            M_DrawString(x, y + OFFSET, s_M_MOUSESENSITIVITY);
+                            widest = MAX(widest, M_BigStringWidth(s_M_MOUSESENSITIVITY));
+                        }
+
                         currentmenu->menuitems[i].x = x + WIDESCREENDELTA;
                         currentmenu->menuitems[i].y = y + OFFSET;
-                        widest = MAX(widest, M_BigStringWidth(usinggamecontroller ? s_M_GAMECONTROLLERSENSITIVITY : s_M_MOUSESENSITIVITY));
                         currentmenu->menuitems[i].height = LINEHEIGHT - 1;
                     }
                     else if (W_CheckNumForName(name) < 0 && **text)   // custom episode

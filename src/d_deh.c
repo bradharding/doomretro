@@ -3321,9 +3321,9 @@ static void deh_procPars(DEHFILE *fpin, char *line)
         if (!*inbuffer)
             break;                              // killough 11/98
 
-        if (sscanf(inbuffer, "par %10i %10i %10i", &ep, &level, &partime) != 3)
+        if (sscanf(inbuffer, "par %i %i %i", &ep, &level, &partime) != 3)
         {
-            if (sscanf(inbuffer, "par %10i %10i", &level, &partime) != 2)
+            if (sscanf(inbuffer, "par %i %i", &level, &partime) != 2)
                 C_Warning(1, "Invalid par time setting string \"%s\".", inbuffer);
             else
             {
@@ -3703,7 +3703,7 @@ static void deh_procText(DEHFILE *fpin, char *line)
         return;
     }
 
-    if (sscanf(line, "%s %i %10i", key, &fromlen, &tolen) != 3)
+    if (sscanf(line, "%s %i %i", key, &fromlen, &tolen) != 3)
         return;
 
     if (devparm)
@@ -4387,6 +4387,5 @@ void D_PostProcessDeh(void)
                 states[i].args[j] = bexptr_match->default_args[j];
     }
 
-    if (english == english_international)
-        D_TranslateDehStrings();
+    D_TranslateDehStrings();
 }
