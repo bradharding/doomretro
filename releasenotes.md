@@ -3,10 +3,10 @@
 #### DOOM Retro v4.7
 
 * *DOOM Retro* is now built using v17.3.6 of [*Microsoft Visual Studio Community 2022*](https://visualstudio.microsoft.com/vs/community/).
-* *DOOM Retro* now uses [*SDL v2.24.2*](https://www.libsdl.org).
+* *DOOM Retro* now uses [*SDL v2.24.2*](https://github.com/libsdl-org/SDL/releases/tag/release-2.24.2).
 * Extensive optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Changes have been made to the animation of *DOOM Retro’s* logo on the splash screen.
-* A mouse pointer is now displayed while the menu is open that may be used to select menu items. It may be disabled by the new `m_pointer` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
+* A mouse pointer is now displayed while the menu is open that can be used to select menu items. It may be disabled by the new `m_pointer` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
 * Extensive changes have been made to text that is output to the console.
 * Minor improvements have been made to the console’s autocomplete feature.
 * CCMDs in the console that can only be used while playing a game, or while the player is alive, may now be entered at any time, displaying a description of the CCMD along with a warning about their usage.
@@ -36,7 +36,7 @@
   * The `TITLEPIC` lump from *The Ultimate DOOM* is no longer used as the title screen of *DOOM*.
   * *DOOM* is no longer referred to as *The Ultimate DOOM* in the window’s caption or in the console.
   * The `DMENUPIC` lump is no longer used as the title screen of *DOOM II*.
-  * Unless replaced in a PWAD, all stimpacks, medikits and berserk power-ups now show a red cross, rather than a green cross or a pill.
+  * Unless replaced in a PWAD, all stimpacks, medikits and berserk power-ups now always show a red cross, rather than a green cross or a pill.
 * Even though it can’t be played, the fourth episode of *DOOM* is now displayed in the episode menu of *DOOM (Shareware)*.
 * The horizontal position of player messages has now improved, and is consistent when toggling widescreen.
 * When loading a savegame that was saved using certain previous versions of *DOOM Retro*, all blood splats are now displayed correctly.
@@ -59,7 +59,7 @@
 * Blood splats are now displayed in the automap as very small triangles when using the `IDDT` cheat. Their color can be changed using the new `am_bloodsplatcolor` CVAR, which is `124` by default and `0` when vanilla mode is enabled.
 * The color of corpses in the automap when using the `IDDT` cheat can be changed using the new `am_corpsecolor` CVAR, which is `116` by default and `112` when vanilla mode is enabled.
 * Several improvements have been made to the size and angle of thing triangles in the automap when using the `IDDT` cheat.
-* The player is now given double the ammo again when entering the `IDFA` and `IDKFA` cheats.
+* The player is now given double ammo again when entering the `IDFA` and `IDKFA` cheats.
 * These changes have been made to the `playergender` CVAR:
   * It can now be changed and its values displayed correctly again in the console.
   * A value of `nonbinary` is now used rather than `other`.
