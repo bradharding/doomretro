@@ -54,7 +54,7 @@ extern bool             nomonsters;             // checkparm of -nomonsters
 extern bool             regenhealth;
 extern bool             respawnitems;
 extern bool             respawnmonsters;        // checkparm of -respawn
-extern bool             solonet;                // [BH] checkparm of -solo-net
+extern bool             solonet;                // [BH] checkparm of -solonet
 extern bool             pistolstart;            // [BH] checkparm of -pistolstart
 extern bool             fastparm;               // checkparm of -fast
 

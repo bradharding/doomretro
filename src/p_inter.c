@@ -2030,7 +2030,7 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, const bool te
     else
     {
         target->flags2 &= ~MF2_NOLIQUIDBOB;
-        target->angle += (M_SubRandom() << 20);
+        target->angle += (M_BigSubRandom() << 20);
 
         if (telefragged)
         {
@@ -2070,14 +2070,14 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, const bool te
         {
             mo = P_SpawnMobj(target->x, target->y, target->floorz + target->height * 3 / 2 - 3 * FRACUNIT, info->droppeditem);
 
-            mo->momx = (target->momx >> 1) + (M_SubRandom() << 8);
-            mo->momy = (target->momy >> 1) + (M_SubRandom() << 8);
+            mo->momx = (target->momx >> 1) + (M_BigSubRandom() << 8);
+            mo->momy = (target->momy >> 1) + (M_BigSubRandom() << 8);
             mo->momz = 2 * FRACUNIT + ((M_BigRandom() & 255) << 10);
         }
         else
             mo = P_SpawnMobj(target->x, target->y, ONFLOORZ, info->droppeditem);
 
-        mo->angle = target->angle + (M_SubRandom() << 20);
+        mo->angle = target->angle + (M_BigSubRandom() << 20);
         mo->flags |= MF_DROPPED;    // special versions of items
         mo->geartime = MAXGEARTIME;
         mo->floatbob = (M_BigRandom() & 63);

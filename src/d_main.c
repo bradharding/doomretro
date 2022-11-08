@@ -155,7 +155,7 @@ bool            pistolstart;            // [BH] checkparm of -pistolstart
 bool            regenhealth;
 bool            respawnitems;
 bool            respawnmonsters;        // checkparm of -respawn
-bool            solonet;                // checkparm of -solo-net
+bool            solonet;                // checkparm of -solonet
 
 skill_t         startskill;
 int             startepisode;
@@ -1992,22 +1992,20 @@ static void D_DoomMainSetup(void)
     // turbo option
     if ((p = M_CheckParm("-turbo")))
     {
-        int scale = 200;
+        int scale = turbo_default * 2;
 
         if (p < myargc - 1)
         {
             scale = strtol(myargv[p + 1], NULL, 10);
 
-            if (scale >= 10 && scale <= 400 && scale != 100)
-                C_Output("A " BOLD("-turbo") " parameter was found on the command-line. "
-                    "The player will now be %i%% their normal speed.", scale);
-            else
-                scale = 100;
+            if (scale < turbo_min || scale > turbo_max)
+                scale = turbo_default * 2;
         }
-        else
-            C_Output("A " BOLD("-turbo") " parameter was found on the command-line. The player will now be twice as fast.");
 
-        if (scale != 100)
+        C_Output("A " BOLD("-turbo") " parameter was found on the command-line. "
+            "The player will now be %i%% their normal speed.", scale);
+
+        if (scale != turbo_default)
             G_SetMovementSpeed(scale);
 
         if (scale > turbo_default)

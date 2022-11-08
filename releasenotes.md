@@ -84,6 +84,7 @@
 * A `solonet` CCMD has been implemented that toggles all things usually intended for multiplayer games to be spawned at the start of each map. An accompanying `-solonet` command-line parameter has also been implemented.
 * The artist and title of the currently playing music are now displayed by the `mapstats` CCMD when playing *DOOM (Shareware)* or *DOOM II: No Rest For The Living*.
 * Everything spawned by a monster spawner (such as during *MAP30: Icon Of Sin*) will now count towards the player’s stats.
+* The upward momentum applied to items dropped by monsters once they are killed has increased when the `tossdrop` CVAR is `on`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
