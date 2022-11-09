@@ -114,6 +114,7 @@ byte    nearestcolors[256];
 byte    nearestblack;
 byte    nearestdarkblue;
 byte    nearestgold;
+byte    nearestgreen;
 byte    nearestred;
 byte    nearestwhite;
 
@@ -165,6 +166,7 @@ void FindNearestColors(byte *palette)
     nearestblack = nearestcolors[BLACK];
     nearestdarkblue = nearestcolors[DARKBLUE];
     nearestgold = nearestcolors[YELLOW];
+    nearestgreen = nearestcolors[GREEN3];
     nearestred = nearestcolors[RED1];
     nearestwhite = nearestcolors[WHITE];
 

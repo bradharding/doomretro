@@ -49,6 +49,7 @@
 #define GRAY       92
 #define GREEN1    114
 #define GREEN2    118
+#define GREEN3    125
 #define LIGHTGRAY  82
 #define PINK      251
 #define RED1      176
@@ -87,6 +88,7 @@ extern byte nearestcolors[256];
 extern byte nearestblack;
 extern byte nearestdarkblue;
 extern byte nearestgold;
+extern byte nearestgreen;
 extern byte nearestred;
 extern byte nearestwhite;
 
