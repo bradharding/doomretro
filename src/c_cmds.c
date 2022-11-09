@@ -915,7 +915,7 @@ consolecmd_t consolecmds[] =
     CVAR_INT(skilllevel, "", "", int_cvars_func1, skilllevel_cvar_func2, CF_NONE, NOVALUEALIAS,
         "The currently selected skill level in the menu (" BOLD("1") " to " BOLD("5") ")."),
     CCMD(solonet, "", "", null_func1, solonet_cmd_func2, true, "[" BOLD("on") "|" BOLD("off") "]",
-        "Toggles all things usually intended for multiplayer games to be spawned at the start of each map."),
+        "Toggles all things usually intended for multiplayer to spawn at the start of each map, and the player to respawn when they die."),
     CCMD(spawn, "", summon, spawn_cmd_func1, spawn_cmd_func2, true, SPAWNCMDFORMAT,
         "Spawns an " BOLDITALICS("item") " or " BOLDITALICS("monster") " in front of the player."),
     CVAR_INT(stillbob, "", "", int_cvars_func1, int_cvars_func2, CF_PERCENT, NOVALUEALIAS,

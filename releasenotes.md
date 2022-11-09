@@ -81,7 +81,7 @@
 * Fixes have been made to some textures in *MAP31: Wolfenstein* when the `r_fixmaperrors` CVAR is `on`.
 * The presence of `compat_floormove` is now recognized in `MAPINFO` lumps.
 * The player’s angle and position are now displayed in the top right of the screen, rather than as a persistent player message, when the `IDMYPOS` cheat is entered.
-* A `solonet` CCMD has been implemented that toggles all things usually intended for multiplayer games to be spawned at the start of each map. An accompanying `-solonet` command-line parameter has also been implemented.
+* A `solonet` CCMD has been implemented that toggles all things usually intended for multiplayer to spawn at the start of each map, and the player to respawn when they die. An accompanying `-solonet` command-line parameter has also been implemented.
 * The artist and title of the currently playing music are now displayed by the `mapstats` CCMD when playing *DOOM (Shareware)* or *DOOM II: No Rest For The Living*.
 * Everything spawned by a monster spawner (such as during *MAP30: Icon Of Sin*) will now count towards the player’s stats.
 * The upward momentum applied to items dropped by monsters once they are killed has increased when the `tossdrop` CVAR is `on`.
