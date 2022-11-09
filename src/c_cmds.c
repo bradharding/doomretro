@@ -382,7 +382,6 @@ static void restartmap_cmd_func2(char *cmd, char *parms);
 static bool resurrect_cmd_func1(char *cmd, char *parms);
 static void resurrect_cmd_func2(char *cmd, char *parms);
 static void save_cmd_func2(char *cmd, char *parms);
-static void solonet_cmd_func2(char *cmd, char *parms);
 static bool spawn_cmd_func1(char *cmd, char *parms);
 static void spawn_cmd_func2(char *cmd, char *parms);
 static bool take_cmd_func1(char *cmd, char *parms);
@@ -914,8 +913,6 @@ consolecmd_t consolecmds[] =
         "Toggles displaying a message when the player finds a secret."),
     CVAR_INT(skilllevel, "", "", int_cvars_func1, skilllevel_cvar_func2, CF_NONE, NOVALUEALIAS,
         "The currently selected skill level in the menu (" BOLD("1") " to " BOLD("5") ")."),
-    CCMD(solonet, "", "", null_func1, solonet_cmd_func2, true, "[" BOLD("on") "|" BOLD("off") "]",
-        "Toggles all things usually intended for multiplayer to spawn at the start of each map, and the player to respawn when they die."),
     CCMD(spawn, "", summon, spawn_cmd_func1, spawn_cmd_func2, true, SPAWNCMDFORMAT,
         "Spawns an " BOLDITALICS("item") " or " BOLDITALICS("monster") " in front of the player."),
     CVAR_INT(stillbob, "", "", int_cvars_func1, int_cvars_func2, CF_PERCENT, NOVALUEALIAS,
@@ -2936,8 +2933,6 @@ static void if_cmd_func2(char *cmd, char *parms)
                 condition = match(respawnitems, parm2);
             else if (M_StringCompare(parm1, "respawnmonsters"))
                 condition = match(respawnmonsters, parm2);
-            else if (M_StringCompare(parm1, "solonet"))
-                condition = match(solonet, parm2);
             else if (M_StringCompare(parm1, "vanilla"))
                 condition = match(vanilla, parm2);
 
@@ -6907,29 +6902,6 @@ static void save_cmd_func2(char *cmd, char *parms)
     M_snprintf(buffer, sizeof(buffer), "%s%s%s",
         (M_StringStartsWith(parms, savegamefolder) ? "" : savegamefolder), parms, (M_StringEndsWith(parms, ".save") ? "" : ".save"));
     G_SaveGame(-1, "", buffer);
-}
-
-//
-// solonet CCMD
-//
-static void solonet_cmd_func2(char *cmd, char *parms)
-{
-    if (*parms)
-    {
-        const int   value = C_LookupValueFromAlias(parms, BOOLVALUEALIAS);
-
-        if (value == 0 && solonet)
-            solonet = false;
-        else if (value == 1 && !solonet)
-            solonet = true;
-        else
-            return;
-    }
-    else
-        solonet = !solonet;
-
-    if (gamestate == GS_LEVEL)
-        C_Warning(0, NEXTMAPWARNING);
 }
 
 //
