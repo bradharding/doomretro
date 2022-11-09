@@ -319,7 +319,7 @@ static void P_DeathThink(void)
     weaponrumbletics = 1;
     idlechainsawrumblestrength = 0;
     freeze = false;
-    infight = (infighting && !(viewplayer->cheats & CF_NOTARGET));
+    infight = (infighting && !solonet && !(viewplayer->cheats & CF_NOTARGET));
 
     P_MovePsprites();
 
