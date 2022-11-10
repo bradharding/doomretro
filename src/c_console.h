@@ -186,7 +186,6 @@ typedef struct
 {
     const char      text[255];
     const int       game;
-    const int       language;
 } autocomplete_t;
 
 extern patch_t              *consolefont[CONSOLEFONTSIZE];

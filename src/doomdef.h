@@ -91,13 +91,6 @@ enum
     DOOM2ONLY = 2
 };
 
-enum
-{
-    ENGLISH                  = 0,
-    AMERICANENGLISHONLY      = 1,
-    INTERNATIONALENGLISHONLY = 2
-};
-
 // Game mode handling - identify IWAD version
 //  to handle IWAD dependent animations etc.
 typedef enum
