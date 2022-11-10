@@ -709,8 +709,15 @@ static void I_ReadMouse(void)
         {
             if (!usingmouse)
             {
-                I_RestoreMousePointerPosition();
                 usingmouse = true;
+
+                if (menuactive && !x && !y)
+                {
+                    prevmousebuttonstate = mousebuttonstate;
+                    return;
+                }
+
+                I_RestoreMousePointerPosition();
             }
 
             SDL_GetMouseState(&x, &y);
