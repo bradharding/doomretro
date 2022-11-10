@@ -2670,6 +2670,14 @@ bool M_Responder(event_t *ev)
                     usinggamecontroller = false;
                 }
 
+                // previous menu
+                else if ((ev->data1 & MOUSE_RIGHTBUTTON) && mousewait < I_GetTime())
+                {
+                    key = KEY_BACKSPACE;
+                    mousewait = I_GetTime() + 8;
+                    usinggamecontroller = false;
+                }
+
                 // select menu item
                 if ((ev->data2 || ev->data3) && mousewait < I_GetTime() && !messagetoprint)
                     for (int i = 0; i < currentmenu->numitems; i++)
