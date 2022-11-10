@@ -2180,8 +2180,6 @@ bool C_Responder(event_t *ev)
 
                         if (english == english_international)
                             M_AmericanToInternationalEnglish(output);
-                        else
-                            M_InternationalToAmericanEnglish(output);
 
                         if (M_StringCompare(output, input))
                             continue;
