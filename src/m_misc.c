@@ -964,11 +964,14 @@ void M_NormalizeSlashes(char *str)
 char *pronoun(pronountype_t type)
 {
     if (type == personal)
-        return (playergender == playergender_male ? "he" : (playergender == playergender_female ? "she" : "they"));
+        return (playergender == playergender_male ? "he" :
+            (playergender == playergender_female ? "she" : "they"));
     else if (type == possessive)
-        return (playergender == playergender_male ? "his" : (playergender == playergender_female ? "her" : "their"));
+        return (playergender == playergender_male ? "his" :
+            (playergender == playergender_female ? "her" : "their"));
     else
-        return (playergender == playergender_male ? "himself" : (playergender == playergender_female ? "herself" : "themselves"));
+        return (playergender == playergender_male ? "himself" :
+            (playergender == playergender_female ? "herself" : "themselves"));
 }
 
 const char *words[][2] =

@@ -2695,10 +2695,8 @@ bool M_Responder(event_t *ev)
                         {
                             if (currentmenu == &MainDef)
                             {
-                                if (i == 2 && !savegames)
-                                    continue;
-
-                                if (i == 3 && (gamestate != GS_LEVEL || viewplayer->health <= 0))
+                                if ((i == load_game && !savegames)
+                                    || (i == save_game && (gamestate != GS_LEVEL || viewplayer->health <= 0)))
                                     continue;
                             }
                             else if (currentmenu == &LoadDef && M_StringCompare(savegamestrings[i], s_EMPTYSTRING))
