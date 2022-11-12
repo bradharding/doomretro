@@ -2708,6 +2708,8 @@ bool M_Responder(event_t *ev)
                                 else if (i == option_empty1 || i == option_empty2)
                                     i--;
                             }
+                            else if (currentmenu == &SoundDef && (i == sfx_empty1 || i == sfx_empty2))
+                                i--;
 
                             if (itemon != i)
                                 S_StartSound(NULL, sfx_pstop);
