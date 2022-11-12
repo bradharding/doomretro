@@ -139,7 +139,7 @@ static void M_ChangeDetail(int choice);
 static void M_SizeDisplay(int choice);
 static void M_Sound(int choice);
 
-static void M_FinishReadThis(int choice);
+static void M_FinishHelp(int choice);
 static void M_LoadSelect(int choice);
 static void M_SaveSelect(int choice);
 static void M_ReadSaveStrings(void);
@@ -147,7 +147,7 @@ static void M_QuickSave(void);
 static void M_QuickLoad(void);
 
 static void M_DrawMainMenu(void);
-static void M_DrawReadThis(void);
+static void M_DrawHelp(void);
 static void M_DrawNewGame(void);
 static void M_DrawEpisode(void);
 static void M_DrawExpansion(void);
@@ -158,7 +158,7 @@ static void M_DrawSave(void);
 
 static void M_DrawSaveLoadBorder(int x, int y);
 static void M_SetupNextMenu(menu_t *menudef);
-static void M_DrawThermo(int x, int y, int thermWidth, float thermDot, float factor, int offset);
+static void M_DrawThermo(int x, int y, int thermwidth, float thermdot, float factor, int offset);
 static void M_WriteText(int x, int y, char *string, bool shadow);
 
 //
@@ -336,23 +336,23 @@ static menu_t OptionsDef =
 
 enum
 {
-    rdthsempty,
-    read_end
+    help_empty,
+    help_end
 };
 
-static menuitem_t ReadMenu[] =
+static menuitem_t HelpMenu[] =
 {
-    { 1, "", &M_FinishReadThis, NULL }
+    { 1, "", &M_FinishHelp, NULL }
 };
 
-static menu_t ReadDef =
+static menu_t HelpDef =
 {
-    read_end,
-    &ReadDef,
-    ReadMenu,
-    &M_DrawReadThis,
+    help_end,
+    &HelpDef,
+    HelpMenu,
+    &M_DrawHelp,
     330, 175,
-    rdthsempty
+    help_empty
 };
 
 //
@@ -362,9 +362,9 @@ static menu_t ReadDef =
 enum
 {
     sfx_vol,
-    sfx_empty1,
+    sound_empty1,
     music_vol,
-    sfx_empty2,
+    sound_empty2,
     sound_end
 };
 
@@ -1405,9 +1405,9 @@ static void M_DeleteSavegame(void)
 }
 
 //
-// M_DrawReadThis
+// M_DrawHelp
 //
-static void M_DrawReadThis(void)
+static void M_DrawHelp(void)
 {
     char    lumpname[6] = "HELP1";
 
@@ -2000,9 +2000,9 @@ static void M_EndGame(int choice)
 }
 
 //
-// M_FinishReadThis
+// M_FinishHelp
 //
-static void M_FinishReadThis(int choice)
+static void M_FinishHelp(int choice)
 {
     M_SetupNextMenu(&MainDef);
 }
@@ -2289,7 +2289,7 @@ static void M_SizeDisplay(int choice)
 //
 // Menu Functions
 //
-static void M_DrawThermo(int x, int y, int thermWidth, float thermDot, float factor, int offset)
+static void M_DrawThermo(int x, int y, int thermwidth, float thermdot, float factor, int offset)
 {
     int xx = x;
 
@@ -2302,7 +2302,7 @@ static void M_DrawThermo(int x, int y, int thermWidth, float thermDot, float fac
     M_DrawPatchWithShadow(xx, y, W_CacheLumpName("M_THERML"));
     xx += 8;
 
-    for (int i = 0; i < thermWidth; i++)
+    for (int i = 0; i < thermwidth; i++)
     {
         V_DrawPatch(xx, y, 0, W_CacheLumpName("M_THERMM"));
         xx += 8;
@@ -2310,10 +2310,10 @@ static void M_DrawThermo(int x, int y, int thermWidth, float thermDot, float fac
 
     M_DrawPatchWithShadow(xx, y, W_CacheLumpName("M_THERMR"));
 
-    for (int i = x + 9; i < x + (thermWidth + 1) * 8 + 1; i++)
+    for (int i = x + 9; i < x + (thermwidth + 1) * 8 + 1; i++)
         V_DrawPixel((hacx ? i - 1 : i), y + (hacx ? 9 : 13), PINK, true);
 
-    V_DrawPatch(x + offset + (int)(thermDot * factor), y, 0, W_CacheLumpName("M_THERMO"));
+    V_DrawPatch(x + offset + (int)(thermdot * factor), y, 0, W_CacheLumpName("M_THERMO"));
 }
 
 void M_StartMessage(char *string, void (*routine)(int), bool input)
@@ -2466,7 +2466,7 @@ static void M_ShowHelp(int choice)
     functionkey = KEY_F1;
     inhelpscreens = true;
     M_StartControlPanel();
-    currentmenu = &ReadDef;
+    currentmenu = &HelpDef;
     itemon = 0;
     S_StartSound(NULL, sfx_swtchn);
 
@@ -2708,7 +2708,7 @@ bool M_Responder(event_t *ev)
                                 else if (i == option_empty1 || i == option_empty2)
                                     i--;
                             }
-                            else if (currentmenu == &SoundDef && (i == sfx_empty1 || i == sfx_empty2))
+                            else if (currentmenu == &SoundDef && (i == sound_empty1 || i == sound_empty2))
                                 i--;
 
                             if (itemon != i)
@@ -2992,7 +2992,7 @@ bool M_Responder(event_t *ev)
             endinggame = false;
         else
         {
-            S_StartSound(NULL, (currentmenu == &ReadDef ? sfx_pistol : sfx_swtchx));
+            S_StartSound(NULL, (currentmenu == &HelpDef ? sfx_pistol : sfx_swtchx));
             D_FadeScreen(false);
         }
 
@@ -3413,32 +3413,20 @@ bool M_Responder(event_t *ev)
             return false;
         }
 
-        else if ((key == KEY_LEFTARROW || (key == KEY_MINUS && !(currentmenu == &OptionsDef && itemon == msgs))) && !inhelpscreens)
+        else if (key == KEY_LEFTARROW && !inhelpscreens)
         {
             // Slide slider left
             if (currentmenu->menuitems[itemon].routine && currentmenu->menuitems[itemon].status == 2)
                 currentmenu->menuitems[itemon].routine(0);
-            else if (currentmenu == &OptionsDef && (itemon == msgs || itemon == detail) && !keydown)
-            {
-                keydown = key;
-                currentmenu->menuitems[itemon].routine(itemon);
-                S_StartSound(NULL, sfx_pistol);
-            }
 
             return false;
         }
 
-        else if ((key == KEY_RIGHTARROW || (key == KEY_EQUALS && !(currentmenu == &OptionsDef && itemon == msgs))) && !inhelpscreens)
+        else if (key == KEY_RIGHTARROW && !inhelpscreens)
         {
             // Slide slider right
             if (currentmenu->menuitems[itemon].routine && currentmenu->menuitems[itemon].status == 2)
                 currentmenu->menuitems[itemon].routine(1);
-            else if (currentmenu == &OptionsDef && (itemon == msgs || itemon == detail) && !keydown)
-            {
-                keydown = key;
-                currentmenu->menuitems[itemon].routine(itemon);
-                S_StartSound(NULL, sfx_pistol);
-            }
 
             return false;
         }
@@ -3809,7 +3797,7 @@ void M_Drawer(void)
     x = currentmenu->x;
     y = currentmenu->y;
 
-    if (currentmenu != &ReadDef)
+    if (currentmenu != &HelpDef)
     {
         // DRAW SKULL
         const char  *skullname[] = { "M_SKULL1", "M_SKULL2" };
