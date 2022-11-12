@@ -2701,8 +2701,13 @@ bool M_Responder(event_t *ev)
                             }
                             else if (currentmenu == &LoadDef && M_StringCompare(savegamestrings[i], s_EMPTYSTRING))
                                 continue;
-                            else if (currentmenu == &OptionsDef && i == endgame && gamestate != GS_LEVEL)
-                                continue;
+                            else if (currentmenu == &OptionsDef)
+                            {
+                                if (i == endgame && gamestate != GS_LEVEL)
+                                    continue;
+                                else if (i == option_empty1 || i == option_empty2)
+                                    i--;
+                            }
 
                             if (itemon != i)
                                 S_StartSound(NULL, sfx_pstop);
@@ -3984,7 +3989,11 @@ void M_Drawer(void)
                     }
                 }
                 else if (currentmenu->menuitems[i].status == -1)
-                    currentmenu->menuitems[i - 1].height *= 2;
+                {
+                    currentmenu->menuitems[i].x = x + WIDESCREENDELTA;
+                    currentmenu->menuitems[i].y = y + OFFSET;
+                    currentmenu->menuitems[i].height = LINEHEIGHT - 1;
+                }
 
                 y += LINEHEIGHT - 1;
             }
