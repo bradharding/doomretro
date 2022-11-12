@@ -212,7 +212,7 @@ bool MouseShouldBeGrabbed(void)
         return true;
 
     // when menu is active, release the mouse
-    if ((menuactive || gamestate != GS_LEVEL) && m_pointer && usingmouse && !usinggamecontroller)
+    if ((menuactive || (gamestate != GS_LEVEL && !consoleactive)) && m_pointer && usingmouse && !usinggamecontroller)
         return false;
 
     return true;
