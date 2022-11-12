@@ -2012,8 +2012,8 @@ void I_InitGraphics(void)
     if (vid_fullscreen)
         SetShowCursor(false);
 
-    mousepointerx = displays[displayindex].w - 100;
-    mousepointery = displays[displayindex].h - 50;
+    mousepointerx = displays[displayindex].w - 80;
+    mousepointery = displays[displayindex].h - 60;
     SDL_WarpMouseInWindow(window, mousepointerx, mousepointery);
 
 #if defined(_WIN32)

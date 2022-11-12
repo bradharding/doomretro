@@ -61,7 +61,6 @@
 // to disk.
 //
 #if defined(__GNUC__)
-
 #if defined(_WIN32) && !defined(__clang__)
 #define PACKEDATTR          __attribute__((packed, gcc_struct))
 #else
@@ -97,7 +96,7 @@ typedef enum
 {
     shareware,      // DOOM 1 shareware, E1, M9
     registered,     // DOOM 1 registered, E3, M27
-    commercial,     // DOOM 2 retail, E1 M34
+    commercial,     // DOOM 2 retail, E1, M32
     retail,         // DOOM 1 retail, E4, M36
     indetermined    // Well, no IWAD found.
 } GameMode_t;
@@ -114,9 +113,9 @@ typedef enum
 } GameMission_t;
 
 // State updates, number of tics/second.
-#define TICRATE             35
+#define TICRATE         35
 
-#define CARETBLINKTIME      350
+#define CARETBLINKTIME 350
 
 // The current state of the game: whether we are
 // playing, gazing at the intermission screen,
