@@ -1619,6 +1619,10 @@ void M_AddEpisode(const int map, const int ep, const char *lumpname, const char 
         if (EpiDef.numitems >= 8)
             return;
 
+        for (int i = 0; i < EpiDef.numitems; i++)
+            if (EpiMenuEpi[EpiDef.numitems] == ep && EpiMenuMap[EpiDef.numitems] == map - (ep - 1) * 10)
+                return;
+
         EpiMenuEpi[EpiDef.numitems] = ep;
         EpiMenuMap[EpiDef.numitems] = map - (ep - 1) * 10;
         M_StringCopy(EpisodeMenu[EpiDef.numitems].name, lumpname, sizeof(EpisodeMenu[0].name));
