@@ -160,6 +160,7 @@ static int          displayheight;
 static int          displaycenterx;
 static int          displaycentery;
 
+bool                resetmouse = false;
 bool                usinggamecontroller = false;
 bool                usingmouse = false;
 bool                windowfocused = true;
@@ -676,6 +677,13 @@ void I_RestoreMousePointerPosition(void)
     SDL_WarpMouseInWindow(window, mousepointerx, mousepointery);
 }
 
+void I_ResetMousePointerPosition(void)
+{
+    mousepointerx = displays[displayindex].w - 80;
+    mousepointery = displays[displayindex].h - 60;
+    SDL_WarpMouseInWindow(window, mousepointerx, mousepointery);
+}
+
 static void SmoothMouse(int *x, int *y)
 {
     const fixed_t   tic = (((int64_t)I_GetTimeMS() * TICRATE) % 1000) * FRACUNIT / 1000;
@@ -767,7 +775,10 @@ static void UpdateGrab(void)
     if (grab && !currently_grabbed)
         SetShowCursor(false);
     else if (!grab && currently_grabbed)
+    {
+        resetmouse = true;
         SetShowCursor(true);
+    }
 
     currently_grabbed = grab;
 }
@@ -2012,9 +2023,7 @@ void I_InitGraphics(void)
     if (vid_fullscreen)
         SetShowCursor(false);
 
-    mousepointerx = displays[displayindex].w - 80;
-    mousepointery = displays[displayindex].h - 60;
-    SDL_WarpMouseInWindow(window, mousepointerx, mousepointery);
+    I_ResetMousePointerPosition();
 
 #if defined(_WIN32)
     I_InitWindows32();

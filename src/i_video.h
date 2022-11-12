@@ -83,6 +83,7 @@ void I_CapFPS(int cap);
 
 void I_SaveMousePointerPosition(void);
 void I_RestoreMousePointerPosition(void);
+void I_ResetMousePointerPosition(void);
 
 void GetWindowPosition(void);
 void GetWindowSize(void);
@@ -139,6 +140,7 @@ extern int          windowwidth;
 extern int          windowborderwidth;
 extern int          windowborderheight;
 
+extern bool         resetmouse;
 extern bool         usinggamecontroller;
 extern bool         usingmouse;
 extern bool         windowfocused;

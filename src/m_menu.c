@@ -3719,6 +3719,9 @@ void M_StartControlPanel(void)
             viewplayer->viewz = viewplayer->mo->floorz + MENUVIEWHEIGHT;
     }
 
+    if (resetmouse)
+        I_ResetMousePointerPosition();
+
     S_LowerMusicVolume();
     D_FadeScreen(false);
 }
