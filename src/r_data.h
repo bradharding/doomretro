@@ -145,6 +145,5 @@ extern byte         grays[256];
 extern texture_t    **textures;
 extern bool         fixspriteoffsets;
 extern bool         suppresswarnings;
-extern bool         unstuckthings;
 extern int          numflats;
 extern int          numspritelumps;

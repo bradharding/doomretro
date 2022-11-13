@@ -929,6 +929,10 @@ static void D_CheckSupportedPWAD(char *filename)
         E1M4B = true;
     else if (M_StringCompare(leaf, "e1m8b.wad"))
         E1M8B = true;
+    else if (M_StringCompare(leaf, "KDiKDi_A.wad"))
+        KDIKDIZD = KDIKDIZDA = true;
+    else if (M_StringCompare(leaf, "KDiKDi_B.wad"))
+        KDIKDIZD = KDIKDIZDB = true;
     else if (M_StringCompare(leaf, "one-humanity.wad"))
         onehumanity = true;
     else if (M_StringCompare(leaf, "d1spfx18.wad")
@@ -964,7 +968,7 @@ static void D_CheckSupportedPWAD(char *filename)
     else if (M_StringCompare(leaf, "syringe.wad"))
         syringe = true;
 
-    if (BTSX || REKKR)
+    if (BTSX || KDIKDIZD || REKKR)
         moreblood = true;
 }
 
@@ -1170,6 +1174,21 @@ static bool D_CheckParms(void)
             else if (!BTSXE2A && BTSXE2B)
             {
                 M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", folder, "btsx_e2a.wad");
+                result = W_MergeFile(fullpath, true);
+            }
+        }
+        else if (KDIKDIZD)
+        {
+            char    fullpath[MAX_PATH];
+
+            if (KDIKDIZDA && !KDIKDIZDB)
+            {
+                M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", folder, "KDiKDi_B.wad");
+                result = W_MergeFile(fullpath, true);
+            }
+            else if (!KDIKDIZDA && KDIKDIZDB)
+            {
+                M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", folder, "KDiKDi_A.wad");
                 result = W_MergeFile(fullpath, true);
             }
         }
@@ -1485,6 +1504,21 @@ static int D_OpenWADLauncher(void)
                 else if (!BTSXE2A && BTSXE2B)
                 {
                     M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", folder, "btsx_e2a.wad");
+                    W_MergeFile(fullpath, true);
+                }
+            }
+            else if (KDIKDIZD)
+            {
+                char    fullpath[MAX_PATH];
+
+                if (KDIKDIZDA && !KDIKDIZDB)
+                {
+                    M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", folder, "KDiKDi_B.wad");
+                    W_MergeFile(fullpath, true);
+                }
+                else if (!KDIKDIZDA && KDIKDIZDB)
+                {
+                    M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", folder, "KDiKDi_A.wad");
                     W_MergeFile(fullpath, true);
                 }
             }

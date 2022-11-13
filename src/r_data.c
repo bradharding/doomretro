@@ -72,7 +72,6 @@ int         numspritelumps;
 
 bool        fixspriteoffsets = false;
 bool        suppresswarnings = false;
-bool        unstuckthings = true;
 
 int         numtextures;
 texture_t   **textures;
@@ -445,13 +444,6 @@ static void R_InitSpriteLumps(void)
                 mobjinfo[MT_BRUISER].bloodcolor = REDBLOOD;
                 mobjinfo[MT_KNIGHT].bloodcolor = REDBLOOD;
             }
-        }
-        else if (SC_Compare("STUCKTHINGS"))
-        {
-            SC_MustGetString();
-
-            if (SC_Compare(pwadfile))
-                unstuckthings = false;
         }
 
     SC_Close();
