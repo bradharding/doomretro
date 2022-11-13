@@ -1604,7 +1604,6 @@ void M_AddEpisode(const int map, const int ep, const char *lumpname, const char 
     if (!EpiCustom)
     {
         EpiCustom = true;
-        NewDef.prevmenu = &EpiDef;
 
         if (gamemode == commercial)
             EpiDef.numitems = 0;
@@ -1629,6 +1628,8 @@ void M_AddEpisode(const int map, const int ep, const char *lumpname, const char 
         *EpisodeMenu[EpiDef.numitems].text = M_StringDuplicate(string);
         EpiDef.numitems++;
     }
+
+    NewDef.prevmenu = (EpiDef.numitems > 1 ? &EpiDef : &MainDef);
 }
 
 static void M_DrawEpisode(void)
@@ -1836,7 +1837,8 @@ static void M_DrawNewGame(void)
 
 static void M_NewGame(int choice)
 {
-    M_SetupNextMenu(chex ? &NewDef : (gamemode == commercial && !EpiCustom ? (nerve ? &ExpDef : &NewDef) : &EpiDef));
+    M_SetupNextMenu(chex ? &NewDef : ((gamemode == commercial && !EpiCustom) || EpiDef.numitems <= 1 ?
+        (nerve ? &ExpDef : &NewDef) : &EpiDef));
 }
 
 //
