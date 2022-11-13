@@ -604,6 +604,7 @@ char    *s_CAPTION_DEATHLESS = "";
 char    *s_CAPTION_DOOMZERO = "";
 char    *s_CAPTION_EARTHLESS = "";
 char    *s_CAPTION_HARMONY = "";
+char    *s_CAPTION_KDIKDIZD = "";
 char    *s_CAPTION_NEIS = "";
 char    *s_CAPTION_REVOLUTION = "";
 char    *s_CAPTION_SYRINGE = "";
@@ -1193,6 +1194,7 @@ deh_strs deh_strlookup[] =
     { &s_CAPTION_DOOMZERO,            "CAPTION_DOOMZERO"            },
     { &s_CAPTION_EARTHLESS,           "CAPTION_EARTHLESS"           },
     { &s_CAPTION_HARMONY,             "CAPTION_HARMONY"             },
+    { &s_CAPTION_KDIKDIZD,            "CAPTION_KDIKDIZD"            },
     { &s_CAPTION_NEIS,                "CAPTION_NEIS"                },
     { &s_CAPTION_REVOLUTION,          "CAPTION_REVOLUTION"          },
     { &s_CAPTION_SYRINGE,             "CAPTION_SYRINGE"             },

@@ -968,6 +968,8 @@ void D_SetGameDescription(void)
         M_StringCopy(gamedescription, s_CAPTION_EARTHLESS, sizeof(gamedescription));
     else if (harmony)
         M_StringCopy(gamedescription, s_CAPTION_HARMONY, sizeof(gamedescription));
+    else if (KDIKDIZD)
+        M_StringCopy(gamedescription, s_CAPTION_KDIKDIZD, sizeof(gamedescription));
     else if (neis)
         M_StringCopy(gamedescription, s_CAPTION_NEIS, sizeof(gamedescription));
     else if (revolution)
