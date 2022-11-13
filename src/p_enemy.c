@@ -622,10 +622,12 @@ static void P_NewChaseDir(mobj_t *actor)
 {
     mobj_t  *target;
     fixed_t deltax, deltay;
-    fixed_t dist;
 
-    if (actor->floorz - actor->dropoffz > 24 * FRACUNIT && actor->z <= actor->floorz
-        && !(actor->flags & (MF_DROPOFF | MF_FLOAT)) && P_AvoidDropoff(actor))   // move away from dropoff
+    // Move away from dropoff
+    if (actor->floorz - actor->dropoffz > 24 * FRACUNIT
+        && actor->z <= actor->floorz
+        && !(actor->flags & (MF_DROPOFF | MF_FLOAT))
+        && P_AvoidDropoff(actor))
     {
         P_DoNewChaseDir(actor, dropoff_deltax, dropoff_deltay);
 
@@ -638,11 +640,12 @@ static void P_NewChaseDir(mobj_t *actor)
     target = actor->target;
     deltax = target->x - actor->x;
     deltay = target->y - actor->y;
-    dist = P_ApproxDistance(deltax, deltay);
 
     // Move away from friends when too close, except in certain situations (e.g. a crowded lift)
-    if ((actor->flags & target->flags & MF_FRIEND) && dist < DISTFRIEND
-        && !actor->subsector->sector->islift && !P_IsUnderDamage(actor))
+    if ((actor->flags & target->flags & MF_FRIEND)
+        && !actor->subsector->sector->islift
+        && P_ApproxDistance(deltax, deltay) < DISTFRIEND
+        && !P_IsUnderDamage(actor))
     {
         deltax = -deltax;
         deltay = -deltay;

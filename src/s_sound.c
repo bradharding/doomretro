@@ -476,17 +476,6 @@ static void S_StartSoundAtVolume(mobj_t *origin, int sfx_id, int pitch)
     if (origin && origin != viewplayer->mo && !S_AdjustSoundParms(origin, &volume, &sep))
         return;
 
-    // kill old sound
-    if (origin)
-        for (cnum = 0; cnum < s_channels; cnum++)
-            if (channels[cnum].sfxinfo
-                && channels[cnum].sfxinfo->singularity == sfx->singularity
-                && channels[cnum].origin == origin)
-            {
-                S_StopChannel(cnum);
-                break;
-            }
-
     // try to find a channel
     if ((cnum = S_GetChannel(origin, sfx)) < 0)
         return;
