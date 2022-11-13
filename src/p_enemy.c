@@ -807,7 +807,7 @@ static bool P_LookForTargets(mobj_t *actor, int allaround)
 
 static void P_ShakeOnExplode(const mobj_t *actor)
 {
-    if (r_shake_barrels && actor->type != MT_ROCKET)
+    if (r_shake_barrels && actor->type == MT_BARREL)
     {
         mobj_t  *mo = viewplayer->mo;
 
