@@ -30,7 +30,7 @@
 * Turning the `r_corpses_mirrored` or `r_mirroredweapons` CVARs `on` in the console now works correctly.
 * The effects of changing the `r_randomstartframes` CVAR in the console are now immediate.
 * A `NOMIRROREDCORPSE` flag can now be used in `Retro bits` of `DEHACKED` lumps to force a monster’s corpse not to be randomly mirrored even if the `r_corpses_mirrored` CVAR is `on`.
-* Support has been added for [*Harmony*](https://slayersclub.bethesda.net/en/article/E5gTsCSptkfJC43vh9Pey/new-add-on-available-harmony).
+* Support has been added for [*Harmony*](https://slayersclub.bethesda.net/en/article/E5gTsCSptkfJC43vh9Pey/new-add-on-available-harmony) and [*Knee-Deep In Knee-Deep In ZDoom*](https://www.doomworld.com/forum/topic/132407/).
 * Further improvements have been made to the support of [*Chex Quest*](https://doomwiki.org/wiki/Chex_Quest), [*REKKR*](https://www.doomworld.com/idgames/levels/doom/megawads/rekkr) and [*REKKR: Sunken Land*](https://store.steampowered.com/app/1715690/REKKR_Sunken_Land/).
 * These changes have been made to the BFG Edition and latest rerelease of *DOOM* and *DOOM II*:
   * The `TITLEPIC` lump from *The Ultimate DOOM* is no longer used as the title screen of *DOOM*.

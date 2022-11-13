@@ -507,7 +507,7 @@ static bool PIT_CheckThing(mobj_t *thing)
     }
 
     // [BH] check if things are stuck and allow move if it makes them further apart
-    if (!thing->player && !corpse && !stickythings)
+    if (!thing->player && !corpse && unstuckthings)
     {
         if (tmx == tmthing->x && tmy == tmthing->y)
             unblocking = true;
