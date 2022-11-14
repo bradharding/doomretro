@@ -1093,7 +1093,7 @@ bool P_TryMove(mobj_t *thing, const fixed_t x, const fixed_t y, const int dropof
             stat_distancetraveled = SafeAdd(stat_distancetraveled, dist);
             viewplayer->distancetraveled += dist;
 
-            AM_AddToPath();
+            AM_DropBreadCrumb();
         }
     }
 

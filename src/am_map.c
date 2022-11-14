@@ -591,13 +591,13 @@ void AM_ClearMarks(void)
     }
 }
 
-void AM_AddToPath(void)
+void AM_DropBreadCrumb(void)
 {
     if (numbreadcrumbs >= maxbreadcrumbs)
         breadcrumb = I_Realloc(breadcrumb, (maxbreadcrumbs *= 2) * sizeof(*breadcrumb));
 
-    breadcrumb[numbreadcrumbs].x = viewx >> FRACTOMAPBITS;
-    breadcrumb[numbreadcrumbs++].y = viewy >> FRACTOMAPBITS;
+    breadcrumb[numbreadcrumbs].x = viewx;
+    breadcrumb[numbreadcrumbs++].y = viewy;
 }
 
 void AM_ToggleRotateMode(bool value)
@@ -1937,10 +1937,10 @@ static void AM_DrawPath(void)
 
             for (int i = 1; i < numbreadcrumbs; i++)
             {
-                mpoint_t    start = { breadcrumb[i - 1].x, breadcrumb[i - 1].y };
+                mpoint_t    start = { breadcrumb[i - 1].x >> FRACTOMAPBITS, breadcrumb[i - 1].y >> FRACTOMAPBITS };
 
-                end.x = breadcrumb[i].x;
-                end.y = breadcrumb[i].y;
+                end.x = breadcrumb[i].x >> FRACTOMAPBITS;
+                end.y = breadcrumb[i].y >> FRACTOMAPBITS;
 
                 if (ABS(start.x - end.x) > 4 * FRACUNIT || ABS(start.y - end.y) > 4 * FRACUNIT)
                     continue;
@@ -1957,10 +1957,10 @@ static void AM_DrawPath(void)
         {
             for (int i = 1; i < numbreadcrumbs; i++)
             {
-                const mpoint_t  start = { breadcrumb[i - 1].x, breadcrumb[i - 1].y };
+                const mpoint_t  start = { breadcrumb[i - 1].x >> FRACTOMAPBITS, breadcrumb[i - 1].y >> FRACTOMAPBITS };
 
-                end.x = breadcrumb[i].x;
-                end.y = breadcrumb[i].y;
+                end.x = breadcrumb[i].x >> FRACTOMAPBITS;
+                end.y = breadcrumb[i].y >> FRACTOMAPBITS;
 
                 if (ABS(start.x - end.x) > 4 * FRACUNIT || ABS(start.y - end.y) > 4 * FRACUNIT)
                     continue;

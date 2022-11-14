@@ -76,7 +76,7 @@ void AM_SetAutomapSize(int screensize);
 void AM_Init(void);
 void AM_SetColors(void);
 void AM_GetGridSize(void);
-void AM_AddToPath(void);
+void AM_DropBreadCrumb(void);
 
 typedef struct
 {
