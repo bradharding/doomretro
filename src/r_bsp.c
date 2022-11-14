@@ -203,13 +203,13 @@ static void R_InterpolateSector(sector_t *sector)
 
         if (heightsec)
         {
-            if (heightsec->floorheight != heightsec->oldfloorheight)
+            if (heightsec->floordata && heightsec->floorheight != heightsec->oldfloorheight)
                 heightsec->interpfloorheight = heightsec->oldfloorheight
                     + FixedMul(heightsec->floorheight - heightsec->oldfloorheight, fractionaltic);
             else
                 heightsec->interpfloorheight = heightsec->floorheight;
 
-            if (heightsec->ceilingheight != heightsec->oldceilingheight)
+            if (heightsec->ceilingdata && heightsec->ceilingheight != heightsec->oldceilingheight)
                 heightsec->interpceilingheight = heightsec->oldceilingheight
                     + FixedMul(heightsec->ceilingheight - heightsec->oldceilingheight, fractionaltic);
             else
