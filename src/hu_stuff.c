@@ -1432,9 +1432,6 @@ void HU_PlayerMessage(char *message, bool group, bool external)
 
 void HU_ClearMessages(void)
 {
-    if (viewplayer->cheats & CF_MYPOS)
-        return;
-
     viewplayer->message = NULL;
     message_counter = 7;
     message_on = false;

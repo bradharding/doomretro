@@ -1051,7 +1051,10 @@ bool P_TryMove(mobj_t *thing, const fixed_t x, const fixed_t y, const int dropof
         {
             if (!dropoff
                 // large jump down (e.g. dogs)
-                || (dropoff == 2 && (tmfloorz - tmdropoffz > 128 * FRACUNIT || !thing->target || thing->target->z > tmdropoffz)))
+                || (dropoff == 2
+                    && (tmfloorz - tmdropoffz > 128 * FRACUNIT
+                        || !thing->target
+                        || thing->target->z > tmdropoffz)))
             {
                 if (tmfloorz - tmdropoffz > 24 * FRACUNIT)
                     return false;
@@ -1061,7 +1064,10 @@ bool P_TryMove(mobj_t *thing, const fixed_t x, const fixed_t y, const int dropof
                 felldown = (!(flags & MF_NOGRAVITY) && thing->z - tmfloorz > 24 * FRACUNIT);
         }
 
-        if ((flags & MF_BOUNCES) && !(flags & (MF_MISSILE | MF_NOGRAVITY)) && !sentient(thing) && tmfloorz - thing->z > 16 * FRACUNIT)
+        if ((flags & MF_BOUNCES)
+            && !(flags & (MF_MISSILE | MF_NOGRAVITY))
+            && !sentient(thing)
+            && tmfloorz - thing->z > 16 * FRACUNIT)
             return false;   // too big a step up for bouncers under gravity
 
         // killough 11/98: prevent falling objects from going up too many steps
