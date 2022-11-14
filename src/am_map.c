@@ -162,9 +162,9 @@ mpoint_t            *markpoints;    // where the points are
 int                 markpointnum;   // next point to be assigned
 int                 markpointnum_max;
 
-mpoint_t            *pathpoints;
-int                 pathpointnum;
-int                 pathpointnum_max;
+mpoint_t            *breadcrumb;
+int                 numbreadcrumbs;
+int                 maxbreadcrumbs;
 
 static int          gridwidth;
 static int          gridheight;
@@ -593,11 +593,11 @@ void AM_ClearMarks(void)
 
 void AM_AddToPath(void)
 {
-    if (pathpointnum >= pathpointnum_max)
-        pathpoints = I_Realloc(pathpoints, (pathpointnum_max *= 2) * sizeof(*pathpoints));
+    if (numbreadcrumbs >= maxbreadcrumbs)
+        breadcrumb = I_Realloc(breadcrumb, (maxbreadcrumbs *= 2) * sizeof(*breadcrumb));
 
-    pathpoints[pathpointnum].x = viewx >> FRACTOMAPBITS;
-    pathpoints[pathpointnum++].y = viewy >> FRACTOMAPBITS;
+    breadcrumb[numbreadcrumbs].x = viewx >> FRACTOMAPBITS;
+    breadcrumb[numbreadcrumbs++].y = viewy >> FRACTOMAPBITS;
 }
 
 void AM_ToggleRotateMode(bool value)
@@ -1927,7 +1927,7 @@ static void AM_DrawMarks(void)
 
 static void AM_DrawPath(void)
 {
-    if (pathpointnum > 1)
+    if (numbreadcrumbs > 1)
     {
         mpoint_t    end;
 
@@ -1935,12 +1935,12 @@ static void AM_DrawPath(void)
         {
             mpoint_t    player = { viewx >> FRACTOMAPBITS, viewy >> FRACTOMAPBITS };
 
-            for (int i = 1; i < pathpointnum; i++)
+            for (int i = 1; i < numbreadcrumbs; i++)
             {
-                mpoint_t    start = { pathpoints[i - 1].x, pathpoints[i - 1].y };
+                mpoint_t    start = { breadcrumb[i - 1].x, breadcrumb[i - 1].y };
 
-                end.x = pathpoints[i].x;
-                end.y = pathpoints[i].y;
+                end.x = breadcrumb[i].x;
+                end.y = breadcrumb[i].y;
 
                 if (ABS(start.x - end.x) > 4 * FRACUNIT || ABS(start.y - end.y) > 4 * FRACUNIT)
                     continue;
@@ -1955,12 +1955,12 @@ static void AM_DrawPath(void)
         }
         else
         {
-            for (int i = 1; i < pathpointnum; i++)
+            for (int i = 1; i < numbreadcrumbs; i++)
             {
-                const mpoint_t  start = { pathpoints[i - 1].x, pathpoints[i - 1].y };
+                const mpoint_t  start = { breadcrumb[i - 1].x, breadcrumb[i - 1].y };
 
-                end.x = pathpoints[i].x;
-                end.y = pathpoints[i].y;
+                end.x = breadcrumb[i].x;
+                end.y = breadcrumb[i].y;
 
                 if (ABS(start.x - end.x) > 4 * FRACUNIT || ABS(start.y - end.y) > 4 * FRACUNIT)
                     continue;

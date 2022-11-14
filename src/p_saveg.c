@@ -1667,13 +1667,13 @@ void P_ArchiveMap(void)
             saveg_write32(markpoints[i].y);
         }
 
-    saveg_write32(pathpointnum);
+    saveg_write32(numbreadcrumbs);
 
-    if (pathpointnum)
-        for (int i = 0; i < pathpointnum; i++)
+    if (numbreadcrumbs)
+        for (int i = 0; i < numbreadcrumbs; i++)
         {
-            saveg_write32(pathpoints[i].x);
-            saveg_write32(pathpoints[i].y);
+            saveg_write32(breadcrumb[i].x);
+            saveg_write32(breadcrumb[i].y);
         }
 }
 
@@ -1696,14 +1696,14 @@ void P_UnArchiveMap(void)
         }
     }
 
-    if ((pathpointnum = saveg_read32()))
+    if ((numbreadcrumbs = saveg_read32()))
     {
-        pathpoints = I_Realloc(pathpoints, (pathpointnum_max = pathpointnum * 2) * sizeof(*pathpoints));
+        breadcrumb = I_Realloc(breadcrumb, (maxbreadcrumbs = numbreadcrumbs * 2) * sizeof(*breadcrumb));
 
-        for (int i = 0; i < pathpointnum; i++)
+        for (int i = 0; i < numbreadcrumbs; i++)
         {
-            pathpoints[i].x = saveg_read32();
-            pathpoints[i].y = saveg_read32();
+            breadcrumb[i].x = saveg_read32();
+            breadcrumb[i].y = saveg_read32();
         }
     }
 }

@@ -3154,9 +3154,9 @@ void P_SetupLevel(int ep, int map)
     markpointnum_max = 0;
     markpoints = NULL;
 
-    pathpointnum = 0;
-    pathpointnum_max = 1024;
-    pathpoints = I_Realloc(pathpoints, pathpointnum_max * sizeof(*pathpoints));
+    numbreadcrumbs = 0;
+    maxbreadcrumbs = NUMBREADCRUMBS;
+    breadcrumb = I_Realloc(breadcrumb, maxbreadcrumbs * sizeof(*breadcrumb));
 
     massacre = false;
 

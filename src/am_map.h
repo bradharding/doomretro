@@ -43,6 +43,7 @@
 
 #define MAPBITS         12
 #define FRACTOMAPBITS   (FRACBITS - MAPBITS)
+#define NUMBREADCRUMBS  1024
 
 typedef struct
 {
@@ -92,9 +93,9 @@ extern mpoint_t     *markpoints;
 extern int          markpointnum;
 extern int          markpointnum_max;
 
-extern mpoint_t     *pathpoints;
-extern int          pathpointnum;
-extern int          pathpointnum_max;
+extern mpoint_t     *breadcrumb;
+extern int          numbreadcrumbs;
+extern int          maxbreadcrumbs;
 
 extern am_frame_t   am_frame;
 extern int          direction;
