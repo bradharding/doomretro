@@ -1955,10 +1955,10 @@ static void AM_DrawPath(void)
         }
         else
         {
+            mpoint_t    start = { breadcrumb[0].x >> FRACTOMAPBITS, breadcrumb[0].y >> FRACTOMAPBITS };
+
             for (int i = 1; i < numbreadcrumbs; i++)
             {
-                const mpoint_t  start = { breadcrumb[i - 1].x >> FRACTOMAPBITS, breadcrumb[i - 1].y >> FRACTOMAPBITS };
-
                 end.x = breadcrumb[i].x >> FRACTOMAPBITS;
                 end.y = breadcrumb[i].y >> FRACTOMAPBITS;
 
@@ -1966,6 +1966,8 @@ static void AM_DrawPath(void)
                     continue;
 
                 AM_DrawFline(start.x, start.y, end.x, end.y, &pathcolor, &PUTDOT2);
+
+                start = end;
             }
 
             AM_DrawFline(end.x, end.y, viewx >> FRACTOMAPBITS, viewy >> FRACTOMAPBITS, &pathcolor, &PUTDOT2);
