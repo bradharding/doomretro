@@ -593,19 +593,19 @@ void AM_ClearMarks(void)
 
 void AM_AddToPath(void)
 {
-    const int   x = viewx >> FRACTOMAPBITS;
-    const int   y = viewy >> FRACTOMAPBITS;
     static int  prevx = INT_MAX;
     static int  prevy = INT_MAX;
 
-    if (x == prevx && y == prevy)
+    if (viewx == prevx && viewy == prevy)
         return;
 
     if (pathpointnum >= pathpointnum_max)
         pathpoints = I_Realloc(pathpoints, (pathpointnum_max *= 2) * sizeof(*pathpoints));
 
-    pathpoints[pathpointnum].x = prevx = x;
-    pathpoints[pathpointnum++].y = prevy = y;
+    prevx = viewx;
+    prevy = viewy;
+    pathpoints[pathpointnum].x = viewx >> FRACTOMAPBITS;
+    pathpoints[pathpointnum++].y = viewy >> FRACTOMAPBITS;
 }
 
 void AM_ToggleRotateMode(bool value)
