@@ -1084,7 +1084,7 @@ bool P_TryMove(mobj_t *thing, const fixed_t x, const fixed_t y, const int dropof
 
     P_SetThingPosition(thing);
 
-    if (thing->player && thing->player->mo == thing && (x != oldx || y != oldy))
+    if (thing->player && thing->player->mo == thing)
     {
         const int   dist = P_ApproxDistance(x - oldx, y - oldy) >> FRACBITS;
 
