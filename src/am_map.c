@@ -436,6 +436,7 @@ void AM_Start(const bool mainwindow)
         viewplayer->automapopened++;
 
     AM_InitVariables(mainwindow);
+    HU_ClearMessages();
     D_FadeScreen(false);
 }
 
