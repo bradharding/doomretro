@@ -593,17 +593,9 @@ void AM_ClearMarks(void)
 
 void AM_AddToPath(void)
 {
-    static int  prevx = INT_MAX;
-    static int  prevy = INT_MAX;
-
-    if (viewx == prevx && viewy == prevy)
-        return;
-
     if (pathpointnum >= pathpointnum_max)
         pathpoints = I_Realloc(pathpoints, (pathpointnum_max *= 2) * sizeof(*pathpoints));
 
-    prevx = viewx;
-    prevy = viewy;
     pathpoints[pathpointnum].x = viewx >> FRACTOMAPBITS;
     pathpoints[pathpointnum++].y = viewy >> FRACTOMAPBITS;
 }

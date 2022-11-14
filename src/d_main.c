@@ -340,8 +340,6 @@ void D_Display(void)
         // draw the view directly
         R_RenderPlayerView();
 
-        AM_AddToPath();
-
         if (mapwindow || automapactive)
             AM_Drawer();
 

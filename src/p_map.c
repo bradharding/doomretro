@@ -39,6 +39,7 @@
 #include <math.h>
 #include <ctype.h>
 
+#include "am_map.h"
 #include "c_cmds.h"
 #include "c_console.h"
 #include "doomstat.h"
@@ -1087,8 +1088,13 @@ bool P_TryMove(mobj_t *thing, const fixed_t x, const fixed_t y, const int dropof
     {
         const int   dist = (int)(hypot((double)x - oldx, (double)y - oldy)) >> FRACBITS;
 
-        stat_distancetraveled = SafeAdd(stat_distancetraveled, dist);
-        viewplayer->distancetraveled += dist;
+        if (dist)
+        {
+            stat_distancetraveled = SafeAdd(stat_distancetraveled, dist);
+            viewplayer->distancetraveled += dist;
+
+            AM_AddToPath();
+        }
     }
 
     // [BH] check if new sector is liquid and clip/unclip feet as necessary
