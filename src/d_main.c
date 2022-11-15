@@ -966,7 +966,7 @@ static void D_CheckSupportedPWAD(char *filename)
     else if (M_StringCompare(leaf, "syringe.wad"))
         syringe = true;
 
-    if (BTSX || KDIKDIZD || REKKR)
+    if (BTSX || REKKR)
         moreblood = true;
 }
 
