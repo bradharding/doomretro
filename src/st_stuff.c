@@ -955,8 +955,6 @@ bool ST_Responder(event_t *ev)
                     viewplayer->cheats |= CF_ALLMAP;
                     ST_PlayerCheated(cheat_amap.sequence, NULL, true);
                 }
-
-                D_FadeScreen(false);
             }
 
             // 'clev' change-level cheat
