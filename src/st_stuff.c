@@ -905,17 +905,9 @@ bool ST_Responder(event_t *ev)
             {
                 S_StartSound(NULL, sfx_getpow);
 
-                // [BH] message stays on screen until toggled off again using
-                //  cheat. Code is in hu_stuff.c.
+                // [BH] message stays on screen until toggled off again using cheat.
                 viewplayer->cheats ^= CF_MYPOS;
-
-                if (viewplayer->cheats & CF_MYPOS)
-                    ST_PlayerCheated(cheat_mypos.sequence, NULL, true);
-                else
-                {
-                    ST_PlayerCheated(cheat_mypos.sequence, NULL, false);
-                    HU_ClearMessages();
-                }
+                ST_PlayerCheated(cheat_mypos.sequence, NULL, (viewplayer->cheats & CF_MYPOS));
             }
 
             else if (cht_CheckCheat(&cheat_buddha, ev->data2) && gameskill != sk_nightmare && viewplayer->health > 0)
