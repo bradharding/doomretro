@@ -131,7 +131,6 @@ static void P_XYMovement(mobj_t *mo)
     int         flags;
     int         flags2;
     bool        corpse;
-    int         stepdir = 0;
 
     if (!(mo->momx | mo->momy))
     {
@@ -159,27 +158,28 @@ static void P_XYMovement(mobj_t *mo)
     mo->momx = BETWEEN(-MAXMOVE, mo->momx, MAXMOVE);
     mo->momy = BETWEEN(-MAXMOVE, mo->momy, MAXMOVE);
 
-    if ((xmove = mo->momx) < 0)
-    {
-        xmove = -xmove;
-        stepdir = 1;
-    }
-
-    if ((ymove = mo->momy) < 0)
-    {
-        ymove = -ymove;
-        stepdir |= 2;
-    }
+    xmove = mo->momx;
+    ymove = mo->momy;
 
     do
     {
-        const fixed_t   stepx = MIN(xmove, MAXMOVE_STEP);
-        const fixed_t   stepy = MIN(ymove, MAXMOVE_STEP);
-        const fixed_t   ptryx = mo->x + ((stepdir & 1) ? -stepx : stepx);
-        const fixed_t   ptryy = mo->y + ((stepdir & 2) ? -stepy : stepy);
+        fixed_t ptryx, ptryy;
 
-        xmove -= stepx;
-        ymove -= stepy;
+        if (!KDIKDIZD ?
+            ((xmove > MAXMOVE / 2 || ymove > MAXMOVE / 2) || (xmove < -MAXMOVE / 2 || ymove < -MAXMOVE / 2)) :
+            (xmove > MAXMOVE / 2 || ymove > MAXMOVE / 2))
+        {
+            ptryx = mo->x + xmove / 2;
+            ptryy = mo->y + ymove / 2;
+            xmove >>= 1;
+            ymove >>= 1;
+        }
+        else
+        {
+            ptryx = mo->x + xmove;
+            ptryy = mo->y + ymove;
+            xmove = ymove = 0;
+        }
 
         // killough 03/15/98: Allow objects to drop off
         if (!P_TryMove(mo, ptryx, ptryy, 1))
