@@ -66,6 +66,7 @@
 
 #define GRAVITY             FRACUNIT
 #define MAXMOVE             (30 * FRACUNIT)
+#define MAXMOVE_STEP        (8 * FRACUNIT)
 #define MINBOUNCEMAX        (-20 * FRACUNIT)
 
 #define USERANGE            (64 * FRACUNIT)
