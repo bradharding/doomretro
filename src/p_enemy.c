@@ -2444,7 +2444,7 @@ void A_RandomJump(mobj_t *actor, player_t *player, pspdef_t *psp)
         state_t *state = psp->state;
 
         if (M_Random() < state->misc2)
-            P_SetPsprite(psp - &player->psprites[ps_weapon], state->misc1);
+            P_SetPlayerSprite(psp - &player->psprites[ps_weapon], state->misc1);
     }
     else
     {

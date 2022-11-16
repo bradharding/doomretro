@@ -1063,7 +1063,7 @@ static void P_SpawnPlayer(const mapthing_t *mthing)
     deadlookdir = -1;
 
     // setup gun psprite
-    P_SetupPsprites();
+    P_SetupPlayerSprites();
 
     lastlevel = -1;
     lastepisode = -1;

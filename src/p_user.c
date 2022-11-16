@@ -321,7 +321,7 @@ static void P_DeathThink(void)
     freeze = false;
     infight = (infighting && !solonet && !(viewplayer->cheats & CF_NOTARGET));
 
-    P_MovePsprites();
+    P_MovePlayerSprites();
 
     // fall to the ground
     if (mo->z <= mo->floorz || (mo->flags2 & MF2_ONMOBJ))
@@ -443,7 +443,7 @@ void P_ResurrectPlayer(const int health)
     viewplayer->oldrecoil = 0;
     infight = false;
 
-    P_SetupPsprites();
+    P_SetupPlayerSprites();
     P_MapEnd();
 
     C_HideConsole();
@@ -615,7 +615,7 @@ void P_PlayerThink(void)
         return;
 
     // cycle psprites
-    P_MovePsprites();
+    P_MovePlayerSprites();
 
     // [BH] regenerate health by 1% every second up to 100%
     if (regenhealth && mo->health < initial_health && !(maptime % TICRATE) && !viewplayer->damagecount)

@@ -63,9 +63,9 @@ void A_Recoil(const weapontype_t weapon)
 }
 
 //
-// MBF21: P_SetPspritePtr
+// MBF21: P_SetPlayerSpritePtr
 //
-void P_SetPspritePtr(pspdef_t *psp, statenum_t stnum)
+void P_SetPlayerSpritePtr(pspdef_t *psp, statenum_t stnum)
 {
     do
     {
@@ -105,11 +105,11 @@ void P_SetPspritePtr(pspdef_t *psp, statenum_t stnum)
 }
 
 //
-// P_SetPsprite
+// P_SetPlayerSprite
 //
-void P_SetPsprite(const size_t position, const statenum_t stnum)
+void P_SetPlayerSprite(const size_t position, const statenum_t stnum)
 {
-    P_SetPspritePtr(&viewplayer->psprites[position], stnum);
+    P_SetPlayerSpritePtr(&viewplayer->psprites[position], stnum);
 }
 
 //
@@ -130,7 +130,7 @@ static void P_BringUpWeapon(void)
     viewplayer->pendingweapon = wp_nochange;
     viewplayer->psprites[ps_weapon].sy = WEAPONBOTTOM;
 
-    P_SetPsprite(ps_weapon, newstate);
+    P_SetPlayerSprite(ps_weapon, newstate);
 }
 
 //
@@ -200,7 +200,7 @@ void P_FireWeapon(void)
     if (!P_CheckAmmo(readyweapon) || (automapactive && !am_followmode))
         return;
 
-    P_SetPsprite(ps_weapon, weaponinfo[readyweapon].atkstate);
+    P_SetPlayerSprite(ps_weapon, weaponinfo[readyweapon].atkstate);
 
     if (joy_rumble_weapons)
     {
@@ -235,7 +235,7 @@ void P_FireWeapon(void)
 //
 void P_DropWeapon(void)
 {
-    P_SetPsprite(ps_weapon, weaponinfo[viewplayer->readyweapon].downstate);
+    P_SetPlayerSprite(ps_weapon, weaponinfo[viewplayer->readyweapon].downstate);
 }
 
 //
@@ -309,7 +309,7 @@ void A_ReFire(mobj_t *actor, player_t *player, pspdef_t *psp)
 void A_CheckReload(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
     if (!P_CheckAmmo(player->readyweapon))
-        P_SetPsprite(ps_weapon, weaponinfo[player->readyweapon].downstate);
+        P_SetPlayerSprite(ps_weapon, weaponinfo[player->readyweapon].downstate);
 }
 
 //
@@ -334,7 +334,7 @@ void A_Lower(mobj_t *actor, player_t *player, pspdef_t *psp)
     // Player is dead, so keep the weapon off screen.
     if (player->health <= 0)
     {
-        P_SetPsprite(ps_weapon, S_NULL);
+        P_SetPlayerSprite(ps_weapon, S_NULL);
         return;
     }
 
@@ -357,7 +357,7 @@ void A_Raise(mobj_t *actor, player_t *player, pspdef_t *psp)
         return;
 
     psp->sy = WEAPONTOP;
-    P_SetPsprite(ps_weapon, weaponinfo[player->readyweapon].readystate);
+    P_SetPlayerSprite(ps_weapon, weaponinfo[player->readyweapon].readystate);
 }
 
 //
@@ -365,7 +365,7 @@ void A_Raise(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_GunFlash(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    P_SetPsprite(ps_flash, weaponinfo[player->readyweapon].flashstate);
+    P_SetPlayerSprite(ps_flash, weaponinfo[player->readyweapon].flashstate);
 }
 
 //
@@ -590,7 +590,7 @@ void A_FireOldBFG(mobj_t *actor, player_t *player, pspdef_t *psp)
 void A_FirePlasma(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
     P_SubtractAmmo();
-    P_SetPsprite(ps_flash, weaponinfo[player->readyweapon].flashstate + (M_Random() & 1));
+    P_SetPlayerSprite(ps_flash, weaponinfo[player->readyweapon].flashstate + (M_Random() & 1));
     P_SpawnPlayerMissile(actor, MT_PLASMA);
 
     player->shotsfired[wp_plasma]++;
@@ -661,7 +661,7 @@ void A_FirePistol(mobj_t *actor, player_t *player, pspdef_t *psp)
 
     S_StartSound(actor, sfx_pistol);
     P_SubtractAmmo();
-    P_SetPsprite(ps_flash, readyweapon.flashstate);
+    P_SetPlayerSprite(ps_flash, readyweapon.flashstate);
     P_BulletSlope(actor);
 
     successfulshot = false;
@@ -691,7 +691,7 @@ void A_FireShotgun(mobj_t *actor, player_t *player, pspdef_t *psp)
 
     S_StartSound(actor, sfx_shotgn);
     P_SubtractAmmo();
-    P_SetPsprite(ps_flash, readyweapon.flashstate);
+    P_SetPlayerSprite(ps_flash, readyweapon.flashstate);
     P_BulletSlope(actor);
 
     successfulshot = false;
@@ -725,7 +725,7 @@ void A_FireShotgun2(mobj_t *actor, player_t *player, pspdef_t *psp)
 
     S_StartSound(actor, sfx_dshtgn);
     P_SubtractAmmo();
-    P_SetPsprite(ps_flash, readyweapon.flashstate);
+    P_SetPlayerSprite(ps_flash, readyweapon.flashstate);
     P_BulletSlope(actor);
 
     successfulshot = false;
@@ -781,7 +781,7 @@ void A_FireCGun(mobj_t *actor, player_t *player, pspdef_t *psp)
         P_NoiseAlert(actor);
 
     P_SubtractAmmo();
-    P_SetPsprite(ps_flash, readyweapon.flashstate + (unsigned int)((psp->state - &states[S_CHAIN1]) & 1));
+    P_SetPlayerSprite(ps_flash, readyweapon.flashstate + (unsigned int)((psp->state - &states[S_CHAIN1]) & 1));
     P_BulletSlope(actor);
 
     successfulshot = false;
@@ -874,10 +874,10 @@ void A_BFGSound(mobj_t *actor, player_t *player, pspdef_t *psp)
 }
 
 //
-// P_SetupPsprites
+// P_SetupPlayerSprites
 // Called at start of level for each player.
 //
-void P_SetupPsprites(void)
+void P_SetupPlayerSprites(void)
 {
     // remove all psprites
     viewplayer->psprites[ps_weapon].state = NULL;
@@ -894,20 +894,20 @@ void P_SetupPsprites(void)
 }
 
 //
-// P_MovePsprites
+// P_MovePlayerSprites
 // Called every tic by player thinking routine.
 //
-void P_MovePsprites(void)
+void P_MovePlayerSprites(void)
 {
     pspdef_t    *psp = viewplayer->psprites;
     pspdef_t    *weapon = &psp[ps_weapon];
     pspdef_t    *flash = &psp[ps_flash];
 
     if (weapon->tics != -1 && !--weapon->tics)
-        P_SetPsprite(ps_weapon, weapon->state->nextstate);
+        P_SetPlayerSprite(ps_weapon, weapon->state->nextstate);
 
     if (flash->tics != -1 && !--flash->tics)
-        P_SetPsprite(ps_flash, flash->state->nextstate);
+        P_SetPlayerSprite(ps_flash, flash->state->nextstate);
 
     if (weapon->state->action == &A_WeaponReady)
     {
@@ -1122,7 +1122,7 @@ void A_WeaponJump(mobj_t *actor, player_t *player, pspdef_t *psp)
         return;
 
     if (M_Random() < state->args[1])
-        P_SetPspritePtr(psp, state->args[0]);
+        P_SetPlayerSpritePtr(psp, state->args[0]);
 }
 
 //
@@ -1159,7 +1159,7 @@ void A_CheckAmmo(mobj_t *actor, player_t *player, pspdef_t *psp)
         return;
 
     if (player->ammo[type] < (state->args[1] ? state->args[1] : readyweapon.ammopershot))
-        P_SetPspritePtr(psp, state->args[0]);
+        P_SetPlayerSpritePtr(psp, state->args[0]);
 }
 
 //
@@ -1179,7 +1179,7 @@ void A_RefireTo(mobj_t *actor, player_t *player, pspdef_t *psp)
         && (player->cmd.buttons & BT_ATTACK)
         && player->pendingweapon == wp_nochange
         && player->health > 0)
-        P_SetPspritePtr(psp, state->args[0]);
+        P_SetPlayerSpritePtr(psp, state->args[0]);
 }
 
 //
@@ -1198,5 +1198,5 @@ void A_GunFlashTo(mobj_t *actor, player_t *player, pspdef_t *psp)
     if (!state->args[1])
         P_SetMobjState(player->mo, S_PLAY_ATK2);
 
-    P_SetPsprite(ps_flash, state->args[0]);
+    P_SetPlayerSprite(ps_flash, state->args[0]);
 }

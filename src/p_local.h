@@ -93,11 +93,11 @@
 //
 // P_PSPR.C
 //
-void P_SetupPsprites(void);
-void P_MovePsprites(void);
+void P_SetupPlayerSprites(void);
+void P_MovePlayerSprites(void);
 void P_FireWeapon(void);
 void P_DropWeapon(void);
-void P_SetPsprite(const size_t position, const statenum_t stnum);
+void P_SetPlayerSprite(const size_t position, const statenum_t stnum);
 
 //
 // P_USER.C
