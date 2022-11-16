@@ -2,7 +2,7 @@
 
 #### DOOM Retro v4.7
 
-* *DOOM Retro* is now built using v17.4 of [*Microsoft Visual Studio Community 2022*](https://visualstudio.microsoft.com/vs/community/).
+* *DOOM Retro* is now built using v17.4.1 of [*Microsoft Visual Studio Community 2022*](https://visualstudio.microsoft.com/vs/community/).
 * *DOOM Retro* now uses [*SDL v2.24.2*](https://github.com/libsdl-org/SDL/releases/tag/release-2.24.2).
 * Extensive optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Changes have been made to the animation of *DOOM Retro’s* logo on the splash screen.
