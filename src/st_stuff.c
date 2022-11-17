@@ -1607,7 +1607,8 @@ static void ST_CreateWidgets(void)
     STlib_InitMultIcon(&w_faces, ST_FACESX, ST_FACESY, faces, &st_faceindex);
 
     // armor percentage
-    STlib_InitPercent(&w_armor, ST_ARMORX, ST_ARMORY + (STBARs != 2 && !BTSX), tallnum, &viewplayer->armorpoints, tallpercent);
+    STlib_InitPercent(&w_armor, ST_ARMORX + (int)KDIKDIZD, ST_ARMORY + (STBARs != 2 && !BTSX),
+        tallnum, &viewplayer->armorpoints, tallpercent);
 
     // keyboxes 0-2
     STlib_InitMultIcon(&w_keyboxes[0], ST_KEY0X + (STBARs >= 3), ST_KEY0Y, keys, &keyboxes[0]);
