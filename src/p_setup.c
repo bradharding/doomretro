@@ -2879,15 +2879,16 @@ void P_MapName(int ep, int map)
             const int   index = (int)(pos - maptitle) + 1;
             char        *temp;
 
-            if (toupper(maptitle[0]) == 'C' && isdigit(maptitle[1]) && toupper(maptitle[2]) == 'M' && isdigit(maptitle[3]))
+            if ((toupper(maptitle[0]) == 'C' || toupper(maptitle[0]) == 'Z') && isdigit(maptitle[1])
+                && toupper(maptitle[2]) == 'M' && isdigit(maptitle[3]))
             {
+                M_StringCopy(mapnum, maptitle, 5);
                 memmove(maptitle, maptitle + index, strlen(maptitle) - index + 1);
 
                 if (maptitle[0] == ' ')
                     memmove(maptitle, maptitle + 1, strlen(maptitle));
 
                 temp = titlecase(maptitle);
-                M_snprintf(mapnum, sizeof(mapnum), "C%iM%i", ep, map);
                 M_snprintf(mapnumandtitle, sizeof(mapnumandtitle), "%s: " ITALICSTOGGLE "%s" ITALICSTOGGLE, mapnum, temp);
             }
             else if (toupper(maptitle[0]) == 'E' && isdigit(maptitle[1])
