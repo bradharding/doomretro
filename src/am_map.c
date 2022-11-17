@@ -1928,51 +1928,48 @@ static void AM_DrawMarks(void)
 
 static void AM_DrawPath(void)
 {
-    if (numbreadcrumbs > 1)
+    mpoint_t    end = { 0, 0 };
+
+    if (am_rotatemode)
     {
-        mpoint_t    end;
+        mpoint_t    player = { viewx >> FRACTOMAPBITS, viewy >> FRACTOMAPBITS };
 
-        if (am_rotatemode)
+        for (int i = 1; i < numbreadcrumbs; i++)
         {
-            mpoint_t    player = { viewx >> FRACTOMAPBITS, viewy >> FRACTOMAPBITS };
+            mpoint_t    start = { breadcrumb[i - 1].x >> FRACTOMAPBITS, breadcrumb[i - 1].y >> FRACTOMAPBITS };
 
-            for (int i = 1; i < numbreadcrumbs; i++)
-            {
-                mpoint_t    start = { breadcrumb[i - 1].x >> FRACTOMAPBITS, breadcrumb[i - 1].y >> FRACTOMAPBITS };
+            end.x = breadcrumb[i].x >> FRACTOMAPBITS;
+            end.y = breadcrumb[i].y >> FRACTOMAPBITS;
 
-                end.x = breadcrumb[i].x >> FRACTOMAPBITS;
-                end.y = breadcrumb[i].y >> FRACTOMAPBITS;
+            if (ABS(start.x - end.x) > 4 * FRACUNIT || ABS(start.y - end.y) > 4 * FRACUNIT)
+                continue;
 
-                if (ABS(start.x - end.x) > 4 * FRACUNIT || ABS(start.y - end.y) > 4 * FRACUNIT)
-                    continue;
-
-                AM_RotatePoint(&start);
-                AM_RotatePoint(&end);
-                AM_DrawFline(start.x, start.y, end.x, end.y, &pathcolor, &PUTDOT2);
-            }
-
-            AM_RotatePoint(&player);
-            AM_DrawFline(end.x, end.y, player.x, player.y, &pathcolor, &PUTDOT2);
+            AM_RotatePoint(&start);
+            AM_RotatePoint(&end);
+            AM_DrawFline(start.x, start.y, end.x, end.y, &pathcolor, &PUTDOT2);
         }
-        else
+
+        AM_RotatePoint(&player);
+        AM_DrawFline(end.x, end.y, player.x, player.y, &pathcolor, &PUTDOT2);
+    }
+    else
+    {
+        mpoint_t    start = { breadcrumb[0].x >> FRACTOMAPBITS, breadcrumb[0].y >> FRACTOMAPBITS };
+
+        for (int i = 1; i < numbreadcrumbs; i++)
         {
-            mpoint_t    start = { breadcrumb[0].x >> FRACTOMAPBITS, breadcrumb[0].y >> FRACTOMAPBITS };
+            end.x = breadcrumb[i].x >> FRACTOMAPBITS;
+            end.y = breadcrumb[i].y >> FRACTOMAPBITS;
 
-            for (int i = 1; i < numbreadcrumbs; i++)
-            {
-                end.x = breadcrumb[i].x >> FRACTOMAPBITS;
-                end.y = breadcrumb[i].y >> FRACTOMAPBITS;
+            if (ABS(start.x - end.x) > 4 * FRACUNIT || ABS(start.y - end.y) > 4 * FRACUNIT)
+                continue;
 
-                if (ABS(start.x - end.x) > 4 * FRACUNIT || ABS(start.y - end.y) > 4 * FRACUNIT)
-                    continue;
+            AM_DrawFline(start.x, start.y, end.x, end.y, &pathcolor, &PUTDOT2);
 
-                AM_DrawFline(start.x, start.y, end.x, end.y, &pathcolor, &PUTDOT2);
-
-                start = end;
-            }
-
-            AM_DrawFline(end.x, end.y, viewx >> FRACTOMAPBITS, viewy >> FRACTOMAPBITS, &pathcolor, &PUTDOT2);
+            start = end;
         }
+
+        AM_DrawFline(end.x, end.y, viewx >> FRACTOMAPBITS, viewy >> FRACTOMAPBITS, &pathcolor, &PUTDOT2);
     }
 }
 
@@ -2093,7 +2090,7 @@ void AM_Drawer(void)
     else
         AM_DrawWalls();
 
-    if (am_path)
+    if (am_path && numbreadcrumbs > 1)
         AM_DrawPath();
 
     if (viewplayer->cheats & CF_ALLMAP_THINGS)
