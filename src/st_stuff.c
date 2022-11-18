@@ -1597,10 +1597,10 @@ static void ST_CreateWidgets(void)
 
     if (gamemode != shareware)
     {
-        STlib_InitMultIcon(&w_arms[4], ST_ARMSX + ST_ARMSXSPACE, ST_ARMSY + ST_ARMSYSPACE, arms[4],
-            &viewplayer->weaponowned[wp_plasma]);
-        STlib_InitMultIcon(&w_arms[5], ST_ARMSX + 2 * ST_ARMSXSPACE, ST_ARMSY + ST_ARMSYSPACE, arms[5],
-            &viewplayer->weaponowned[wp_bfg]);
+        STlib_InitMultIcon(&w_arms[4], ST_ARMSX + ST_ARMSXSPACE, ST_ARMSY + ST_ARMSYSPACE,
+            arms[4], &viewplayer->weaponowned[wp_plasma]);
+        STlib_InitMultIcon(&w_arms[5], ST_ARMSX + 2 * ST_ARMSXSPACE, ST_ARMSY + ST_ARMSYSPACE,
+            arms[5], &viewplayer->weaponowned[wp_bfg]);
     }
 
     // faces
