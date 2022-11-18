@@ -357,24 +357,17 @@ static void F_TextWrite(void)
     char        prev = ' ';
 
     // erase the entire screen to a tiled background
-    int         lumpnum = W_GetNumForName(finaleflat);
+    byte        *src = (byte *)W_CacheLumpName(finaleflat);
+    byte        *dest = screens[0];
 
-    if (W_LumpLength(lumpnum) == 64 * 64)
-    {
-        byte    *src = (byte *)W_CacheLumpNum(lumpnum);
-        byte    *dest = screens[0];
+    for (int y = 0; y < SCREENHEIGHT; y++)
+        for (int x = 0; x < SCREENWIDTH; x += 2)
+        {
+            byte    dot = src[(((y >> 1) & 63) << 6) + ((x >> 1) & 63)];
 
-        for (int y = 0; y < SCREENHEIGHT; y++)
-            for (int x = 0; x < SCREENWIDTH; x += 2)
-            {
-                byte    dot = src[(((y >> 1) & 63) << 6) + ((x >> 1) & 63)];
-
-                *dest++ = dot;
-                *dest++ = dot;
-            }
-    }
-    else
-        V_DrawPatch(0, 0, 0, W_CacheLumpNum(lumpnum));
+            *dest++ = dot;
+            *dest++ = dot;
+        }
 
     for (int count = MAX(0, FixedDiv((finalecount - 10) * FRACUNIT, TextSpeed()) >> FRACBITS); count; count--)
     {
