@@ -508,7 +508,7 @@ static bool PIT_CheckThing(mobj_t *thing)
     }
 
     // [BH] check if things are stuck and allow move if it makes them further apart
-    if (!thing->player && !corpse && !KDIKDIZD)
+    if (!thing->player && !corpse && (flags & MF_SHOOTABLE) && (tmflags & MF_SHOOTABLE) && type != MT_BARREL && tmtype != MT_BARREL)
     {
         if (tmx == tmthing->x && tmy == tmthing->y)
             unblocking = true;
