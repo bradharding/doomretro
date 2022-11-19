@@ -9,6 +9,7 @@
 * A mouse pointer is now displayed while the menu is open that can be used to select menu items. It may be disabled by the new `m_pointer` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
 * Extensive changes have been made to text that is output to the console.
 * Minor improvements have been made to the console’s autocomplete feature.
+* Minor improvements have been made to the help screen displayed when pressing the <kbd>F1</kbd> key.
 * CCMDs in the console that can only be used while playing a game, or while the player is alive, may now be entered at any time, displaying a description of the CCMD along with a warning about their usage.
 * The bottom edge of the console is now a slightly brighter red.
 * The game will now be paused as intended when the window loses focus.
