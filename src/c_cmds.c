@@ -3129,10 +3129,7 @@ static void kill_cmd_func2(char *cmd, char *parms)
                 massacre = true;
 
                 for (int i = 0; i < numsectors; i++)
-                {
-                    mobj_t  *thing = sectors[i].thinglist;
-
-                    while (thing)
+                    for (mobj_t *thing = sectors[i].thinglist; thing; thing = thing->snext)
                     {
                         const int   flags = thing->flags;
 
@@ -3169,10 +3166,7 @@ static void kill_cmd_func2(char *cmd, char *parms)
                                 }
                             }
                         }
-
-                        thing = thing->snext;
                     }
-                }
 
                 if (kills)
                 {
@@ -3214,20 +3208,12 @@ static void kill_cmd_func2(char *cmd, char *parms)
             else if (M_StringCompare(parm, "missile") || M_StringCompare(parm, "missiles"))
             {
                 for (int i = 0; i < numsectors; i++)
-                {
-                    mobj_t  *thing = sectors[i].thinglist;
-
-                    while (thing)
-                    {
+                    for (mobj_t *thing = sectors[i].thinglist; thing; thing = thing->snext)
                         if (thing->flags2 & MF2_MONSTERMISSILE)
                         {
                             P_ExplodeMissile(thing);
                             kills++;
                         }
-
-                        thing = thing->snext;
-                    }
-                }
 
                 if (kills)
                 {
@@ -3255,11 +3241,7 @@ static void kill_cmd_func2(char *cmd, char *parms)
             else if (M_StringCompare(parm, "item") || M_StringCompare(parm, "items"))
             {
                 for (int i = 0; i < numsectors; i++)
-                {
-                    mobj_t  *thing = sectors[i].thinglist;
-
-                    while (thing)
-                    {
+                    for (mobj_t *thing = sectors[i].thinglist; thing; thing = thing->snext)
                         if (thing->flags & MF_SPECIAL)
                         {
                             P_SpawnMobj(thing->x, thing->y, thing->z, MT_IFOG);
@@ -3267,10 +3249,6 @@ static void kill_cmd_func2(char *cmd, char *parms)
                             P_RemoveMobj(thing);
                             kills++;
                         }
-
-                        thing = thing->snext;
-                    }
-                }
 
                 if (kills)
                 {
@@ -3295,11 +3273,7 @@ static void kill_cmd_func2(char *cmd, char *parms)
             else if (M_StringCompare(parm, "decoration") || M_StringCompare(parm, "decorations"))
             {
                 for (int i = 0; i < numsectors; i++)
-                {
-                    mobj_t  *thing = sectors[i].thinglist;
-
-                    while (thing)
-                    {
+                    for (mobj_t *thing = sectors[i].thinglist; thing; thing = thing->snext)
                         if (thing->flags2 & MF2_DECORATION)
                         {
                             P_SpawnMobj(thing->x, thing->y, thing->z, MT_TFOG);
@@ -3307,10 +3281,6 @@ static void kill_cmd_func2(char *cmd, char *parms)
                             P_RemoveMobj(thing);
                             kills++;
                         }
-
-                        thing = thing->snext;
-                    }
-                }
 
                 if (kills)
                 {
@@ -3338,10 +3308,7 @@ static void kill_cmd_func2(char *cmd, char *parms)
             else if (M_StringCompare(parm, "everything"))
             {
                 for (int i = 0; i < numsectors; i++)
-                {
-                    mobj_t  *thing = sectors[i].thinglist;
-
-                    while (thing)
+                    for (mobj_t *thing = sectors[i].thinglist; thing; thing = thing->snext)
                     {
                         const int   flags = thing->flags;
                         const int   flags2 = thing->flags2;
@@ -3367,10 +3334,7 @@ static void kill_cmd_func2(char *cmd, char *parms)
                             P_RemoveMobj(thing);
                             kills++;
                         }
-
-                        thing = thing->snext;
                     }
-                }
 
                 P_RemoveBloodSplats();
 
@@ -3395,11 +3359,7 @@ static void kill_cmd_func2(char *cmd, char *parms)
             else if (M_StringCompare(parm, "corpse") || M_StringCompare(parm, "corpses"))
             {
                 for (int i = 0; i < numsectors; i++)
-                {
-                    mobj_t  *thing = sectors[i].thinglist;
-
-                    while (thing)
-                    {
+                    for (mobj_t *thing = sectors[i].thinglist; thing; thing = thing->snext)
                         if (thing->flags & MF_CORPSE)
                         {
                             P_SpawnMobj(thing->x, thing->y, thing->z, MT_TFOG);
@@ -3407,10 +3367,6 @@ static void kill_cmd_func2(char *cmd, char *parms)
                             P_RemoveMobj(thing);
                             kills++;
                         }
-
-                        thing = thing->snext;
-                    }
-                }
 
                 if (kills)
                 {
@@ -3472,11 +3428,7 @@ static void kill_cmd_func2(char *cmd, char *parms)
                 const mobjtype_t    type = P_FindDoomedNum(killcmdtype);
 
                 for (int i = 0; i < numsectors; i++)
-                {
-                    mobj_t  *thing = sectors[i].thinglist;
-
-                    while (thing)
-                    {
+                    for (mobj_t *thing = sectors[i].thinglist; thing; thing = thing->snext)
                         if (type == thing->type)
                         {
                             if (type == MT_PAIN)
@@ -3513,10 +3465,6 @@ static void kill_cmd_func2(char *cmd, char *parms)
                                 kills++;
                             }
                         }
-
-                        thing = thing->snext;
-                    }
-                }
 
                 if (kills)
                 {
@@ -5050,20 +4998,16 @@ static void notarget_cmd_func2(char *cmd, char *parms)
     {
         for (int i = 0; i < numsectors; i++)
         {
-            mobj_t   *mo = sectors[i].thinglist;
-
-            while (mo)
+            for (mobj_t *thing = sectors[i].thinglist; thing; thing = thing->snext)
             {
-                if (mo->target && mo->target->player)
-                    P_SetTarget(&mo->target, NULL);
+                if (thing->target && thing->target->player)
+                    P_SetTarget(&thing->target, NULL);
 
-                if (mo->tracer && mo->tracer->player)
-                    P_SetTarget(&mo->tracer, NULL);
+                if (thing->tracer && thing->tracer->player)
+                    P_SetTarget(&thing->tracer, NULL);
 
-                if (mo->lastenemy && mo->lastenemy->player)
-                    P_SetTarget(&mo->lastenemy, NULL);
-
-                mo = mo->snext;
+                if (thing->lastenemy && thing->lastenemy->player)
+                    P_SetTarget(&thing->lastenemy, NULL);
             }
 
             P_SetTarget(&sectors[i].soundtarget, NULL);
@@ -6759,10 +6703,7 @@ static void resurrect_cmd_func2(char *cmd, char *parms)
             if (friends || enemies || all)
             {
                 for (int i = 0; i < numsectors; i++)
-                {
-                    mobj_t  *thing = sectors[i].thinglist;
-
-                    while (thing)
+                    for (mobj_t *thing = sectors[i].thinglist; thing; thing = thing->snext)
                     {
                         const int   flags = thing->flags;
 
@@ -6776,10 +6717,7 @@ static void resurrect_cmd_func2(char *cmd, char *parms)
                                 if (flags & MF_FRIEND)
                                     cheated = true;
                             }
-
-                        thing = thing->snext;
                     }
-                }
 
                 if (resurrected)
                 {
@@ -6819,10 +6757,7 @@ static void resurrect_cmd_func2(char *cmd, char *parms)
                 const mobjtype_t    type = P_FindDoomedNum(resurrectcmdtype);
 
                 for (int i = 0; i < numsectors; i++)
-                {
-                    mobj_t  *thing = sectors[i].thinglist;
-
-                    while (thing)
+                    for (mobj_t *thing = sectors[i].thinglist; thing; thing = thing->snext)
                     {
                         if (type == thing->type && (thing->flags & MF_CORPSE) && !(thing->flags2 & MF2_DECORATION)
                             && type != MT_PLAYER && thing->info->raisestate != S_NULL)
@@ -6833,10 +6768,7 @@ static void resurrect_cmd_func2(char *cmd, char *parms)
                             if (thing->flags & MF_FRIEND)
                                 cheated = true;
                         }
-
-                        thing = thing->snext;
                     }
-                }
 
                 if (resurrected)
                 {
@@ -8765,15 +8697,8 @@ static void r_blood_cvar_func2(char *cmd, char *parms)
             R_InitColumnFunctions();
 
             for (int i = 0; i < numsectors; i++)
-            {
-                bloodsplat_t    *splat = sectors[i].splatlist;
-
-                while (splat)
-                {
+                for (bloodsplat_t *splat = sectors[i].splatlist; splat; splat = splat->next)
                     P_SetBloodSplatColor(splat);
-                    splat = splat->next;
-                }
-            }
         }
     }
     else
@@ -8815,15 +8740,8 @@ static void r_bloodsplats_translucency_cvar_func2(char *cmd, char *parms)
             R_InitColumnFunctions();
 
             for (int i = 0; i < numsectors; i++)
-            {
-                bloodsplat_t    *splat = sectors[i].splatlist;
-
-                while (splat)
-                {
+                for (bloodsplat_t *splat = sectors[i].splatlist; splat; splat = splat->next)
                     P_SetBloodSplatColor(splat);
-                    splat = splat->next;
-                }
-            }
         }
     }
     else
@@ -8917,25 +8835,21 @@ static void r_corpses_mirrored_cvar_func2(char *cmd, char *parms)
             M_SaveCVARs();
 
             for (int i = 0; i < numsectors; i++)
-            {
-                mobj_t  *mo = sectors[i].thinglist;
-
-                while (mo)
+                for (mobj_t *thing = sectors[i].thinglist; thing; thing = thing->snext)
                 {
-                    if ((mo->flags & MF_CORPSE) && !(mo->flags2 & MF2_NOMIRROREDCORPSE) && (mo->type != MT_PAIN || !doom4vanilla))
+                    if ((thing->flags & MF_CORPSE)
+                        && !(thing->flags2 & MF2_NOMIRROREDCORPSE)
+                        && (thing->type != MT_PAIN || !doom4vanilla))
                     {
                         if (r_corpses_mirrored)
                         {
                             if (M_BigRandom() & 1)
-                                mo->flags2 |= MF2_MIRRORED;
+                                thing->flags2 |= MF2_MIRRORED;
                         }
                         else
-                            mo->flags2 &= ~MF2_MIRRORED;
+                            thing->flags2 &= ~MF2_MIRRORED;
                     }
-
-                    mo = mo->snext;
                 }
-            }
         }
     }
     else
@@ -9266,27 +9180,21 @@ static void r_mirroredweapons_cvar_func2(char *cmd, char *parms)
             M_SaveCVARs();
 
             for (int i = 0; i < numsectors; i++)
-            {
-                mobj_t  *mo = sectors[i].thinglist;
-
-                while (mo)
+                for (mobj_t *thing = sectors[i].thinglist; thing; thing = thing->snext)
                 {
-                    const mobjtype_t    type = mo->type;
+                    const mobjtype_t    type = thing->type;
 
-                    if ((type >= MT_MISC25 && type <= MT_SUPERSHOTGUN) || (mo->flags & MF_DROPPED))
+                    if ((type >= MT_MISC25 && type <= MT_SUPERSHOTGUN) || (thing->flags & MF_DROPPED))
                     {
                         if (r_mirroredweapons)
                         {
                             if (M_BigRandom() & 1)
-                                mo->flags2 |= MF2_MIRRORED;
+                                thing->flags2 |= MF2_MIRRORED;
                         }
                         else
-                            mo->flags2 &= ~MF2_MIRRORED;
+                            thing->flags2 &= ~MF2_MIRRORED;
                     }
-
-                    mo = mo->snext;
                 }
-            }
         }
     }
     else
@@ -9328,42 +9236,30 @@ static void r_randomstartframes_cvar_func2(char *cmd, char *parms)
 
             if (r_randomstartframes)
                 for (int i = 0; i < numsectors; i++)
-                {
-                    mobj_t  *mo = sectors[i].thinglist;
-
-                    while (mo)
+                    for (mobj_t *thing = sectors[i].thinglist; thing; thing = thing->snext)
                     {
-                        mobjinfo_t  *info = mo->info;
+                        mobjinfo_t  *info = thing->info;
 
                         if (info->frames > 1)
                         {
                             const int   numframes = M_BigRandomInt(0, info->frames);
-                            state_t     *st = mo->state;
+                            state_t     *st = thing->state;
 
                             for (int j = 0; j < numframes && st->nextstate != S_NULL; j++)
                                 st = &states[st->nextstate];
 
-                            mo->state = st;
+                            thing->state = st;
                         }
-
-                        mo = mo->snext;
                     }
-                }
             else
                 for (int i = 0; i < numsectors; i++)
-                {
-                    mobj_t  *mo = sectors[i].thinglist;
-
-                    while (mo)
+                    for (mobj_t *thing = sectors[i].thinglist; thing; thing = thing->snext)
                     {
-                        mobjinfo_t  *info = mo->info;
+                        mobjinfo_t  *info = thing->info;
 
                         if (info->frames > 1)
-                            mo->state = &states[info->spawnstate];
-
-                        mo = mo->snext;
+                            thing->state = &states[info->spawnstate];
                     }
-                }
         }
     }
     else
@@ -9458,15 +9354,8 @@ static void r_shadows_translucency_cvar_func2(char *cmd, char *parms)
             M_SaveCVARs();
 
             for (int i = 0; i < numsectors; i++)
-            {
-                mobj_t  *mo = sectors[i].thinglist;
-
-                while (mo)
-                {
-                    P_SetShadowColumnFunction(mo);
-                    mo = mo->snext;
-                }
-            }
+                for (mobj_t *thing = sectors[i].thinglist; thing; thing = thing->snext)
+                    P_SetShadowColumnFunction(thing);
         }
     }
     else
@@ -9508,15 +9397,8 @@ static void r_sprites_translucency_cvar_func2(char *cmd, char *parms)
             R_InitColumnFunctions();
 
             for (int i = 0; i < numsectors; i++)
-            {
-                mobj_t  *mo = sectors[i].thinglist;
-
-                while (mo)
-                {
-                    mo->colfunc = mo->info->colfunc;
-                    mo = mo->snext;
-                }
-            }
+                for (mobj_t *thing = sectors[i].thinglist; thing; thing = thing->snext)
+                    thing->colfunc = thing->info->colfunc;
         }
     }
     else
@@ -9598,21 +9480,14 @@ static void r_textures_cvar_func2(char *cmd, char *parms)
 
             for (int i = 0; i < numsectors; i++)
             {
-                mobj_t          *mo = sectors[i].thinglist;
-                bloodsplat_t    *splat = sectors[i].splatlist;
-
-                while (mo)
+                for (mobj_t *mo = sectors[i].thinglist; mo; mo = mo->snext)
                 {
                     mo->colfunc = mo->info->colfunc;
                     P_SetShadowColumnFunction(mo);
-                    mo = mo->snext;
                 }
 
-                while (splat)
-                {
+                for (bloodsplat_t *splat = sectors[i].splatlist; splat; splat = splat->next)
                     P_SetBloodSplatColor(splat);
-                    splat = splat->next;
-                }
             }
         }
     }
@@ -9655,15 +9530,8 @@ static void r_textures_translucency_cvar_func2(char *cmd, char *parms)
             R_InitColumnFunctions();
 
             for (int i = 0; i < numsectors; i++)
-            {
-                mobj_t  *mo = sectors[i].thinglist;
-
-                while (mo)
-                {
-                    mo->colfunc = mo->info->colfunc;
-                    mo = mo->snext;
-                }
-            }
+                for (mobj_t *thing = sectors[i].thinglist; thing; thing = thing->snext)
+                    thing->colfunc = thing->info->colfunc;
         }
     }
     else

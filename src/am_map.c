@@ -1765,11 +1765,7 @@ static void AM_DrawThings(void)
     const angle_t   angleoffset = (am_rotatemode ? viewangle - ANG90 : 0);
 
     for (int i = 0; i < numsectors; i++)
-    {
-        mobj_t  *thing = sectors[i].thinglist;
-
-        while (thing)
-        {
+        for (mobj_t *thing = sectors[i].thinglist; thing; thing = thing->snext)
             if ((!thing->player || thing->player->mo != thing) && !(thing->flags2 & MF2_DONTMAP))
             {
                 angle_t     angle = thing->angle;
@@ -1808,10 +1804,6 @@ static void AM_DrawThings(void)
                     AM_DrawThingTriangle(thingtriangle, THINGTRIANGLELINES, width, (angle - angleoffset) >> ANGLETOFINESHIFT,
                         point.x, point.y, ((thing->flags & MF_CORPSE) ? corpsecolor : mobjinfo[thing->type].automapcolor));
             }
-
-            thing = thing->snext;
-        }
-    }
 }
 
 static void AM_DrawBloodSplats(void)
@@ -1819,10 +1811,7 @@ static void AM_DrawBloodSplats(void)
     const angle_t   angleoffset = (am_rotatemode ? viewangle - ANG90 : 0);
 
     for (int i = 0; i < numsectors; i++)
-    {
-        bloodsplat_t    *splat = sectors[i].splatlist;
-
-        while (splat)
+        for (bloodsplat_t *splat = sectors[i].splatlist; splat; splat = splat->next)
         {
             mpoint_t    point = { splat->x >> FRACTOMAPBITS, splat->y >> FRACTOMAPBITS };
             int         fx, fy;
@@ -1834,10 +1823,7 @@ static void AM_DrawBloodSplats(void)
                 && (fy = CYMTOF(point.y)) >= -BLOODSPLATWIDTH && fy <= (int)MAPHEIGHT + BLOODSPLATWIDTH)
                 AM_DrawThingTriangle(thingtriangle, THINGTRIANGLELINES, BLOODSPLATWIDTH,
                     (splat->angle - angleoffset) >> ANGLETOFINESHIFT, point.x, point.y, bloodsplatcolor);
-
-            splat = splat->next;
         }
-    }
 }
 
 #define MARKWIDTH   9

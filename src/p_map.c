@@ -789,7 +789,7 @@ bool P_CheckPosition(mobj_t *thing, const fixed_t x, const fixed_t y)
     int             xh;
     int             yl;
     int             yh;
-    const sector_t  *newsec;
+    const sector_t  *newsec = R_PointInSubsector(x, y)->sector;
     fixed_t         radius = thing->radius;
 
     tmthing = thing;
@@ -802,7 +802,6 @@ bool P_CheckPosition(mobj_t *thing, const fixed_t x, const fixed_t y)
     tmbbox[BOXRIGHT] = x + radius;
     tmbbox[BOXLEFT] = x - radius;
 
-    newsec = R_PointInSubsector(x, y)->sector;
     floorline = NULL;                               // killough 08/01/98
     blockline = NULL;
     ceilingline = NULL;
@@ -923,11 +922,11 @@ mobj_t *P_CheckOnMobj(mobj_t *thing)
     int             xh;
     int             yl;
     int             yh;
-    const sector_t  *newsec;
     const fixed_t   x = thing->x;
     const fixed_t   y = thing->y;
+    const sector_t  *newsec = R_PointInSubsector(x, y)->sector;
     const mobj_t    oldmo = *thing; // save the old mobj before the fake zmovement
-    fixed_t         radius;
+    fixed_t         radius = tmthing->radius;
 
     tmthing = thing;
 
@@ -936,13 +935,11 @@ mobj_t *P_CheckOnMobj(mobj_t *thing)
     tmx = x;
     tmy = y;
 
-    radius = tmthing->radius;
     tmbbox[BOXTOP] = y + radius;
     tmbbox[BOXBOTTOM] = y - radius;
     tmbbox[BOXRIGHT] = x + radius;
     tmbbox[BOXLEFT] = x - radius;
 
-    newsec = R_PointInSubsector(x, y)->sector;
     ceilingline = NULL;
 
     // the base floor/ceiling is from the subsector that contains the

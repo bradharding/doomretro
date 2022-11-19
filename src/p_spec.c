@@ -3276,16 +3276,9 @@ void T_Pusher(pusher_t *pusher)
 // P_GetPushThing() returns a pointer to an MT_PUSH or MT_PULL thing, NULL otherwise.
 mobj_t *P_GetPushThing(int s)
 {
-    sector_t    *sec = sectors + s;
-    mobj_t      *thing = sec->thinglist;
-
-    while (thing)
-    {
+    for (mobj_t *thing = sectors[s].thinglist; thing; thing = thing->snext)
         if (thing->type == MT_PUSH || thing->type == MT_PULL)
             return thing;
-
-        thing = thing->snext;
-    }
 
     return NULL;
 }
