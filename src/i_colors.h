@@ -41,21 +41,22 @@
 #include "doomtype.h"
 #include "r_defs.h"
 
-#define BLACK       0
-#define BLUE1     199
-#define BLUE2     203
-#define DARKBLUE  244
-#define DARKGRAY  102
-#define GRAY       92
-#define GREEN1    114
-#define GREEN2    118
-#define GREEN3    125
-#define LIGHTGRAY  82
-#define PINK      251
-#define RED1      176
-#define RED2      180
-#define WHITE       4
-#define YELLOW    231
+#define BLACK           0
+#define BLUE1         199
+#define BLUE2         203
+#define DARKBLUE      244
+#define DARKGRAY      102
+#define GRAY           92
+#define GREEN1        114
+#define GREEN2        118
+#define GREEN3        125
+#define LIGHTGRAY1     80
+#define LIGHTGRAY2     82
+#define PINK          251
+#define RED1          176
+#define RED2          180
+#define WHITE           4
+#define YELLOW        231
 
 extern byte *tinttab10;
 extern byte *tinttab15;
@@ -85,6 +86,7 @@ extern byte *tinttabgreen33;
 extern byte *tinttabblue25;
 
 extern byte nearestcolors[256];
+
 extern byte nearestblack;
 extern byte nearestdarkblue;
 extern byte nearestgold;

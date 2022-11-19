@@ -702,7 +702,7 @@ void V_DrawConsoleBrandingPatch(int x, int y, patch_t *patch)
         while (count--)
         {
             if (*source && height > 0)
-                *dest = (*source == WHITE || *source == LIGHTGRAY ? nearestcolors[*source] :
+                *dest = (*source == WHITE || *source == LIGHTGRAY2 ? nearestcolors[*source] :
                     tinttab50[(consolebrandingcolor = (nearestcolors[*source] << 8)) + *dest]);
 
             source++;

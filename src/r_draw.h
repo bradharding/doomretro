@@ -47,7 +47,7 @@
 //  that appear at the bottom of some columns.
 #define SPARKLEFIX      64
 
-#define NOTEXTURECOLOR  nearestcolors[80]
+#define NOTEXTURECOLOR  nearestcolors[LIGHTGRAY1]
 
 extern lighttable_t     *dc_colormap[2];
 extern lighttable_t     *dc_nextcolormap[2];
