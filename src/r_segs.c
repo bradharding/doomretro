@@ -273,42 +273,41 @@ void R_RenderMaskedSegRange(const drawseg_t *ds, const int x1, const int x2)
         if (maskedtexturecol[dc_x] != INT_MAX)
         {
             const rcolumn_t *column = R_GetPatchColumnWrapped(patch, maskedtexturecol[dc_x]);
-            int64_t         t;
 
-            if (!(dc_numposts = column->numposts))
-                continue;
-
-            // killough 03/02/98:
-            //
-            // This calculation used to overflow and cause crashes in DOOM:
-            //
-            // sprtopscreen = centeryfrac - FixedMul(dc_texturemid, spryscale);
-            //
-            // This code fixes it, by using double-precision intermediate
-            // arithmetic and by skipping the drawing of 2s normals whose
-            // mapping to screen coordinates is totally out of range:
-            t = ((int64_t)centeryfrac << FRACBITS) - (int64_t)dc_texturemid * spryscale;
-
-            if (t + (int64_t)texheight * spryscale < 0 || t > (int64_t)SCREENHEIGHT << FRACBITS * 2)
-                continue;                       // skip if the texture is out of screen's range
-
-            sprtopscreen = (int64_t)(t >> FRACBITS);
-
-            // calculate lighting
-            if (!fixedcolormap)
+            if ((dc_numposts = column->numposts))
             {
-                const int   index = MIN(spryscale >> LIGHTSCALESHIFT, MAXLIGHTSCALE - 1);
+                // killough 03/02/98:
+                //
+                // This calculation used to overflow and cause crashes in DOOM:
+                //
+                // sprtopscreen = centeryfrac - FixedMul(dc_texturemid, spryscale);
+                //
+                // This code fixes it, by using double-precision intermediate
+                // arithmetic and by skipping the drawing of 2s normals whose
+                // mapping to screen coordinates is totally out of range:
+                int64_t t = ((int64_t)centeryfrac << FRACBITS) - (int64_t)dc_texturemid * spryscale;
 
-                dc_colormap[0] = walllights[index];
-                dc_nextcolormap[0] = walllightsnext[index];
-                dc_z = ((spryscale >> 5) & 255);
+                if (t + (int64_t)texheight * spryscale < 0 || t > (int64_t)SCREENHEIGHT << FRACBITS * 2)
+                    continue;                       // skip if the texture is out of screen's range
+
+                sprtopscreen = (int64_t)(t >> FRACBITS);
+
+                // calculate lighting
+                if (!fixedcolormap)
+                {
+                    const int   index = MIN(spryscale >> LIGHTSCALESHIFT, MAXLIGHTSCALE - 1);
+
+                    dc_colormap[0] = walllights[index];
+                    dc_nextcolormap[0] = walllightsnext[index];
+                    dc_z = ((spryscale >> 5) & 255);
+                }
+
+                dc_iscale = UINT_MAX / (unsigned int)spryscale;
+
+                // draw the texture
+                R_BlastMaskedSegColumn(column);
+                maskedtexturecol[dc_x] = INT_MAX;   // dropoff overflow
             }
-
-            dc_iscale = UINT_MAX / (unsigned int)spryscale;
-
-            // draw the texture
-            R_BlastMaskedSegColumn(column);
-            maskedtexturecol[dc_x] = INT_MAX;   // dropoff overflow
         }
 }
 

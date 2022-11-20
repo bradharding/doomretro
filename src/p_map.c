@@ -643,11 +643,7 @@ static bool PIT_CheckThing(mobj_t *thing)
     if (flags & MF_SPECIAL)
     {
         if (tmflags & MF_PICKUP)
-        {
-            const bool  player = (tmthing->player->mo == tmthing);
-
-            P_TouchSpecialThing(thing, tmthing, player, player);    // can remove thing
-        }
+            P_TouchSpecialThing(thing, tmthing, (tmthing->player->mo == tmthing), true);
 
         return !(flags & MF_SOLID);
     }

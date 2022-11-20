@@ -450,6 +450,7 @@ static void R_DrawVisSprite(const vissprite_t *vis)
     const rpatch_t  *patch = R_CachePatchNum(vis->patch + firstspritelump);
     const mobj_t    *mobj = vis->mobj;
     const int       flags = mobj->flags;
+    const int       translation = (flags & MF_TRANSLATION);
     int             baseclip;
 
     spryscale = vis->scale;
@@ -461,10 +462,10 @@ static void R_DrawVisSprite(const vissprite_t *vis)
     dc_iscale = FixedDiv(FRACUNIT, spryscale);
     dc_texturemid = vis->texturemid;
 
-    if ((flags & MF_TRANSLATION) && (r_corpses_color || !(flags & MF_CORPSE)))
+    if (translation && (r_corpses_color || !(flags & MF_CORPSE)))
     {
         colfunc = translatedcolfunc;
-        dc_translation = &translationtables[((flags & MF_TRANSLATION) >> (MF_TRANSLATIONSHIFT - 8)) - 256];
+        dc_translation = &translationtables[(translation >> (MF_TRANSLATIONSHIFT - 8)) - 256];
     }
     else
     {
@@ -502,6 +503,7 @@ static void R_DrawVisSpriteWithShadow(const vissprite_t *vis)
     const rpatch_t  *patch = R_CachePatchNum(vis->patch + firstspritelump);
     const mobj_t    *mobj = vis->mobj;
     const int       flags = mobj->flags;
+    const int       translation = (flags & MF_TRANSLATION);
 
     spryscale = vis->scale;
 
@@ -525,10 +527,10 @@ static void R_DrawVisSpriteWithShadow(const vissprite_t *vis)
     dc_iscale = FixedDiv(FRACUNIT, spryscale);
     dc_texturemid = vis->texturemid;
 
-    if ((flags & MF_TRANSLATION) && (r_corpses_color || !(flags & MF_CORPSE)))
+    if (translation && (r_corpses_color || !(flags & MF_CORPSE)))
     {
         colfunc = translatedcolfunc;
-        dc_translation = &translationtables[((flags & MF_TRANSLATION) >> (MF_TRANSLATIONSHIFT - 8)) - 256];
+        dc_translation = &translationtables[(translation >> (MF_TRANSLATIONSHIFT - 8)) - 256];
     }
     else
         colfunc = vis->colfunc;
@@ -842,7 +844,7 @@ static void R_ProjectSprite(mobj_t *thing)
         vis->colormap = fixedcolormap;
         vis->nextcolormap = fixedcolormap;
     }
-    else if ((frame & FF_FULLBRIGHT) && (rot <= 5 || rot >= 12 || thing->info->fullbright))
+    else if ((frame & FF_FULLBRIGHT) && (rot <= 5 || rot >= 12 || thing->info->fullbright) && !(thing->flags & MF_CORPSE))
     {
         // full bright
         vis->colormap = fullcolormap;
@@ -1013,8 +1015,8 @@ static void R_DrawPlayerSprite(pspdef_t *psp, bool invisibility, bool altered)
     const int           lump = sprframe->lump[0];
 
     // calculate edges of the shape
-    tx = psp->sx - VANILLAWIDTH / 2 * FRACUNIT - (!r_fixspriteoffsets || (altered && !vanilla) ?
-        spriteoffset[lump] : newspriteoffset[lump]);
+    tx = psp->sx - VANILLAWIDTH / 2 * FRACUNIT
+        - (!r_fixspriteoffsets || (altered && !vanilla) ? spriteoffset[lump] : newspriteoffset[lump]);
     x1 = (centerxfrac + FRACUNIT / 2 + FixedMul(tx, pspritescale)) >> FRACBITS;
     x2 = ((centerxfrac + FRACUNIT / 2 + FixedMul(tx + spritewidth[lump], pspritescale)) >> FRACBITS) - 1;
 
