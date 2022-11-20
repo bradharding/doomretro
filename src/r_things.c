@@ -458,7 +458,6 @@ static void R_DrawVisSprite(const vissprite_t *vis)
     dc_colormap[0] = vis->colormap;
     dc_nextcolormap[0] = vis->nextcolormap;
     dc_z = ((spryscale >> 5) & 255);
-
     dc_iscale = FixedDiv(FRACUNIT, spryscale);
     dc_texturemid = vis->texturemid;
 
@@ -510,7 +509,6 @@ static void R_DrawVisSpriteWithShadow(const vissprite_t *vis)
     dc_colormap[0] = vis->colormap;
     dc_nextcolormap[0] = vis->nextcolormap;
     dc_z = ((spryscale >> 5) & 255);
-
     dc_black = dc_colormap[0][nearestblack];
 
     if ((mobj->flags2 & MF2_TRANSLUCENT_33) && r_sprites_translucency)
@@ -844,7 +842,7 @@ static void R_ProjectSprite(mobj_t *thing)
         vis->colormap = fixedcolormap;
         vis->nextcolormap = fixedcolormap;
     }
-    else if ((frame & FF_FULLBRIGHT) && (rot <= 5 || rot >= 12 || thing->info->fullbright) && !(thing->flags & MF_CORPSE))
+    else if ((frame & FF_FULLBRIGHT) && !(thing->flags & MF_CORPSE) && (rot <= 5 || rot >= 12 || thing->info->fullbright))
     {
         // full bright
         vis->colormap = fullcolormap;
