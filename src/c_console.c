@@ -124,6 +124,7 @@ char                    consolecheatparm[3];
 
 static int              inputhistory = -1;
 static int              outputhistory = -1;
+static int              topofconsole;
 
 static int              degreewidth;
 static int              suckswidth;
@@ -1501,10 +1502,14 @@ void C_Drawer(void)
 
     consoletextfunc = &V_DrawConsoleTextPatch;
 
+    topofconsole = false;
+
     // draw console text
     for (i = bottomline; i >= 0; i--)
     {
         const stringtype_t  stringtype = console[i].stringtype;
+
+        topofconsole = !((len = (int)strlen(console[i].string)));
 
         if (stringtype == dividerstring)
         {
@@ -1530,7 +1535,7 @@ void C_Drawer(void)
                 }
             }
         }
-        else if ((len = (int)strlen(console[i].string)))
+        else if (len)
         {
             int     wrap = len;
             char    *text;
@@ -1877,7 +1882,6 @@ bool C_ValidateInput(char *input)
 bool C_Responder(event_t *ev)
 {
     static int  autocomplete = -1;
-    static int  scrollspeed = TICRATE;
     int         i;
     int         len;
 
@@ -2218,14 +2222,8 @@ bool C_Responder(event_t *ev)
 
             case KEY_UPARROW:
                 // scroll output up
-                if (modstate & KMOD_CTRL)
-                {
-                    scrollspeed = MIN(scrollspeed + 4, TICRATE * 8);
-
-                    if (consolestrings > CONSOLELINES)
-                        outputhistory = (outputhistory == -1 ? consolestrings - (CONSOLELINES + 1) :
-                            MAX(0, outputhistory - scrollspeed / TICRATE));
-                }
+                if ((modstate & KMOD_CTRL) && consolestrings > CONSOLELINES)
+                    outputhistory = (outputhistory == -1 ? consolestrings - (CONSOLELINES + 1) : MAX(0, outputhistory - 1));
 
                 // previous input
                 else
@@ -2252,13 +2250,8 @@ bool C_Responder(event_t *ev)
 
             case KEY_DOWNARROW:
                 // scroll output down
-                if (modstate & KMOD_CTRL)
-                {
-                    scrollspeed = MIN(scrollspeed + 4, TICRATE * 8);
-
-                    if (outputhistory != -1 && (outputhistory += scrollspeed / TICRATE) + CONSOLELINES >= consolestrings)
-                        outputhistory = -1;
-                }
+                if ((modstate & KMOD_CTRL) && outputhistory != -1 && ++outputhistory + CONSOLELINES >= consolestrings)
+                    outputhistory = -1;
 
                 // next input
                 else
@@ -2291,19 +2284,14 @@ bool C_Responder(event_t *ev)
 
             case KEY_PAGEUP:
                 // scroll output up
-                scrollspeed = MIN(scrollspeed + 4, TICRATE * 8);
-
-                if (consolestrings > CONSOLELINES)
-                    outputhistory = (outputhistory == -1 ? consolestrings - (CONSOLELINES + 1) :
-                        MAX(0, outputhistory - scrollspeed / TICRATE));
+                if (!topofconsole && consolestrings > CONSOLELINES)
+                    outputhistory = (outputhistory == -1 ? consolestrings - (CONSOLELINES + 1) : MAX(0, outputhistory - 1));
 
                 break;
 
             case KEY_PAGEDOWN:
                 // scroll output down
-                scrollspeed = MIN(scrollspeed + 4, TICRATE * 8);
-
-                if (outputhistory != -1 && (outputhistory += scrollspeed / TICRATE) + CONSOLELINES >= consolestrings)
+                if (outputhistory != -1 && ++outputhistory + CONSOLELINES >= consolestrings)
                     outputhistory = -1;
 
                 break;
@@ -2421,7 +2409,6 @@ bool C_Responder(event_t *ev)
     else if (ev->type == ev_keyup)
     {
         keydown = 0;
-        scrollspeed = TICRATE;
         return false;
     }
     else if (ev->type == ev_textinput)
