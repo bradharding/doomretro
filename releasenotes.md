@@ -12,7 +12,7 @@
 * Minor improvements have been made to the help screen displayed by pressing the <kbd>F1</kbd> key.
 * CCMDs in the console that can only be used while playing a game, or while the player is alive, may now be entered at any time, displaying a description of the CCMD along with a warning about their usage.
 * The bottom edge of the console is now a slightly brighter red.
-* The game will now be paused as intended when the window loses focus.
+* The game is now paused as intended when the window loses focus.
 * These changes have been made to the external automap:
   * It now goes to black rather than dark blue while the help screen is displayed.
   * `00:00` is no longer displayed in the top right corner before a game is started if the `am_playerstats` CVAR is `on`.
@@ -33,7 +33,7 @@
 * A `NOMIRROREDCORPSE` flag can now be used in `Retro bits` of `DEHACKED` lumps to force a monster’s corpse not to be randomly mirrored even if the `r_corpses_mirrored` CVAR is `on`.
 * Support has been added for [*Harmony*](https://slayersclub.bethesda.net/en/article/E5gTsCSptkfJC43vh9Pey/new-add-on-available-harmony) and [*Knee-Deep In Knee-Deep In ZDoom*](https://www.doomworld.com/forum/topic/132407/).
 * Further improvements have been made to the support of [*Chex Quest*](https://doomwiki.org/wiki/Chex_Quest), [*REKKR*](https://www.doomworld.com/idgames/levels/doom/megawads/rekkr) and [*REKKR: Sunken Land*](https://store.steampowered.com/app/1715690/REKKR_Sunken_Land/).
-* These changes have been made to the BFG Edition and latest rerelease of *DOOM* and *DOOM II*:
+* These changes have been made to the BFG Edition and latest rereleases of *DOOM* and *DOOM II*:
   * The `TITLEPIC` lump from *The Ultimate DOOM* is no longer used as the title screen of *DOOM*.
   * *DOOM* is no longer referred to as *The Ultimate DOOM* in the window’s caption or in the console.
   * The `DMENUPIC` lump is no longer used as the title screen of *DOOM II*.
@@ -41,7 +41,7 @@
 * Even though it can’t be played, the fourth episode of *DOOM* is now displayed in the episode menu of *DOOM (Shareware)*.
 * The horizontal position of player messages has now improved, and is consistent when toggling widescreen.
 * Any player message is now cleared when opening the automap.
-* Player messages are no longer displayed if a [voodoo doll](https://doomwiki.org/wiki/Voodoo_doll) picks something up.
+* Player messages are no longer displayed when a [voodoo doll](https://doomwiki.org/wiki/Voodoo_doll) picks something up.
 * When loading a savegame that was saved using certain previous versions of *DOOM Retro*, all blood splats are now displayed correctly.
 * When to spawn blood splats around a decoration while the `r_corpses_moreblood` CVAR is `on` has now improved if the decoration’s sprite is replaced in a PWAD.
 * A bug is fixed whereby the wrong `M_DOOM` lump was displayed in the main menu in some instances.
@@ -51,7 +51,7 @@
 * The player’s view now shakes when they punch something and have a berserk power-up. This feature may be toggled using the new `r_shake_berserk` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
 * A bug is fixed whereby game controllers wouldn’t rumble when the player punched a monster and the `joy_rumble_damage` CVAR was `on`.
 * A crash no longer occurs if the `save` CCMD is bound to a control using the `bind` CCMD.
-* The corpses of monsters no longer slide in the same direction when using the `kill` CCMD to kill them.
+* The corpses of monsters no longer all slide in the same direction when using the `kill` CCMD to kill them.
 * The obituary displayed in the console when the player is killed by a damaging sector that isn’t liquid is now fixed.
 * Any input in the console is now cleared when a cheat is entered while the console is closed.
 * Improvements have been made to the synchronization of animated wall textures and flats.
@@ -86,7 +86,7 @@
 * The player’s angle and position are now displayed in the top right of the screen, rather than as a persistent player message, when the `IDMYPOS` cheat is entered.
 * A `-solonet` command-line parameter has been implemented that toggles all things usually intended for multiplayer to spawn at the start of each map, and the player to respawn when they die.
 * The artist and title of the currently playing music are now displayed by the `mapstats` CCMD when playing *DOOM (Shareware)* or *DOOM II: No Rest For The Living*.
-* Everything spawned by a monster spawner (such as during *MAP30: Icon Of Sin*) will now count towards the player’s stats.
+* Everything spawned by a monster spawner (such as during *MAP30: Icon Of Sin*) now counts towards the player’s stats.
 * The upward momentum applied to items dropped by monsters once they are killed has increased when the `tossdrop` CVAR is `on`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
