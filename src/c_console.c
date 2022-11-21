@@ -601,9 +601,9 @@ static void C_DrawScrollbar(void)
 {
     const int   trackend = CONSOLESCROLLBARHEIGHT * SCREENWIDTH;
     const int   facestart = CONSOLESCROLLBARHEIGHT * (outputhistory == -1 ?
-                    MAX(0, consolestrings - CONSOLELINES) : outputhistory) / consolestrings;
+        MAX(0, consolestrings - 8 - CONSOLELINES) : MAX(0, outputhistory - 8)) / (consolestrings - 8);
     const int   faceend = facestart + CONSOLESCROLLBARHEIGHT - CONSOLESCROLLBARHEIGHT
-                    * MAX(0, consolestrings - CONSOLELINES) / consolestrings;
+                    * MAX(0, consolestrings - 8 - CONSOLELINES) / (consolestrings - 8);
 
     if (!facestart && trackend == faceend * SCREENWIDTH)
         scrollbardrawn = false;
@@ -2219,7 +2219,7 @@ bool C_Responder(event_t *ev)
 
             case KEY_UPARROW:
                 // scroll output up
-                if (!topofconsole && (modstate & KMOD_CTRL) && consolestrings > CONSOLELINES)
+                if ((modstate & KMOD_CTRL) && !topofconsole && consolestrings > CONSOLELINES)
                     outputhistory = (outputhistory == -1 ? consolestrings - (CONSOLELINES + 1) : MAX(0, outputhistory - 1));
 
                 // previous input
