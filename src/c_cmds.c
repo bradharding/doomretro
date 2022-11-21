@@ -1385,7 +1385,7 @@ bool C_ExecuteAlias(const char *alias)
                 }
 
                 executingalias = false;
-                C_Input("%s", alias);
+                C_Input(alias);
                 free(string);
 
                 return true;

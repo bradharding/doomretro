@@ -1368,7 +1368,7 @@ static void M_DeleteSavegameResponse(int key)
 
         temp = titlecase(savegamestrings[itemon]);
         M_snprintf(buffer, sizeof(buffer), s_GGDELETED, temp);
-        C_Output("%s", buffer);
+        C_Output(buffer);
         HU_SetPlayerMessage(buffer, false, false);
         message_dontfuckwithme = true;
         M_ReadSaveStrings();

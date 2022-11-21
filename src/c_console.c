@@ -1497,11 +1497,7 @@ void C_Drawer(void)
     // draw background and bottom edge
     C_DrawBackground();
 
-    // draw the scrollbar
-    C_DrawScrollbar();
-
     consoletextfunc = &V_DrawConsoleTextPatch;
-
     topofconsole = false;
 
     // draw console text
@@ -1632,6 +1628,9 @@ void C_Drawer(void)
             break;
     }
 
+    // draw the scrollbar
+    C_DrawScrollbar();
+
     if (quitcmd)
         return;
 
@@ -1758,8 +1757,6 @@ void C_Drawer(void)
                 NOBACKGROUNDCOLOR, NOBOLDCOLOR, NULL, notabs, false, true, 0);
         }
     }
-
-    I_Sleep(1);
 }
 
 bool C_ExecuteInputString(const char *input)
@@ -1863,7 +1860,7 @@ bool C_ValidateInput(char *input)
         for (int i = 0; *actions[i].action; i++)
             if (M_StringCompare(input, actions[i].action))
             {
-                C_Input("%s", input);
+                C_Input(input);
 
                 if (actions[i].func)
                 {
