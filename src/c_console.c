@@ -2219,7 +2219,7 @@ bool C_Responder(event_t *ev)
 
             case KEY_UPARROW:
                 // scroll output up
-                if ((modstate & KMOD_CTRL) && consolestrings > CONSOLELINES)
+                if (!topofconsole && (modstate & KMOD_CTRL) && consolestrings > CONSOLELINES)
                     outputhistory = (outputhistory == -1 ? consolestrings - (CONSOLELINES + 1) : MAX(0, outputhistory - 1));
 
                 // previous input
@@ -2457,7 +2457,7 @@ bool C_Responder(event_t *ev)
         // scroll output up
         if (ev->data1 > 0)
         {
-            if (consolestrings > CONSOLELINES)
+            if (!topofconsole && consolestrings > CONSOLELINES)
                 outputhistory = (outputhistory == -1 ? consolestrings - (CONSOLELINES + 1) : MAX(0, outputhistory - 1));
         }
 
