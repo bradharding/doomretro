@@ -3,14 +3,14 @@
 #### DOOM Retro v4.7
 
 * *DOOM Retro* is now built using v17.4.1 of [*Microsoft Visual Studio Community 2022*](https://visualstudio.microsoft.com/vs/community/).
-* *DOOM Retro* now uses [*SDL v2.26.0*](https://github.com/libsdl-org/SDL/releases/tag/release-2.26.0).
+* *DOOM Retro* now uses [*SDL v2.26.0*](https://www.libsdl.org/).
 * Extensive optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Changes have been made to the animation of *DOOM Retro’s* logo on the splash screen.
 * A mouse pointer is now displayed while the menu is open that can be used to select menu items. It may be disabled by the new `m_pointer` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
 * Extensive changes have been made to text that is output to the console.
 * Minor improvements have been made to the console’s autocomplete feature.
 * Minor improvements have been made to the help screen displayed by pressing the <kbd>F1</kbd> key.
-* CCMDs in the console that can only be used while playing a game, or while the player is alive, may now be entered at any time, displaying a description of the CCMD along with a warning about their usage.
+* CCMDs in the console that can only be used while playing a game, or while the player is alive, may now be entered at any time, and a description of the CCMD along with a warning about their usage is displayed.
 * The bottom edge of the console is now a slightly brighter red.
 * The game is now paused as intended when the window loses focus.
 * These changes have been made to the external automap:
@@ -23,7 +23,7 @@
   * The background of the confirmation message now displays correctly.
   * There is no longer a misplaced fade transition when pressing the <kbd>Y</kbd> key and the `fade` CVAR is `on`.
 * The horizontal position of the title in the options and sound volume menus has improved in some instances.
-* There is now a fade transition when opening the sound volume menu in the options menu if the `fade` CVAR is `on`.
+* A fade transition is now applied when opening the sound volume menu in the options menu if the `fade` CVAR is `on`.
 * A fade transition is no longer applied when toggling the graphic detail, either in the options menu or by pressing the <kbd>F5</kbd> key, if the `fade` CVAR is `on`.
 * When toggling widescreen mode by pressing the <kbd>+</kbd> key, the player’s vertical field of view now zooms in slightly.
 * An `english` CVAR has been implemented that toggles the use of American or International English. It can be either `american` or `international`, and is `american` by default and when vanilla mode is enabled.
@@ -33,7 +33,7 @@
 * A `NOMIRROREDCORPSE` flag can now be used in `Retro bits` of `DEHACKED` lumps to force a monster’s corpse not to be randomly mirrored even if the `r_corpses_mirrored` CVAR is `on`.
 * Support has been added for [*Harmony*](https://slayersclub.bethesda.net/en/article/E5gTsCSptkfJC43vh9Pey/new-add-on-available-harmony) and [*Knee-Deep In Knee-Deep In ZDoom*](https://www.doomworld.com/forum/topic/132407/).
 * Further improvements have been made to the support of [*Chex Quest*](https://doomwiki.org/wiki/Chex_Quest), [*REKKR*](https://www.doomworld.com/idgames/levels/doom/megawads/rekkr) and [*REKKR: Sunken Land*](https://store.steampowered.com/app/1715690/REKKR_Sunken_Land/).
-* These changes have been made to the BFG Edition and latest rereleases of *DOOM* and *DOOM II*:
+* These changes have been made to the *BFG Edition* and latest rerelease of *DOOM* and *DOOM II*:
   * The `TITLEPIC` lump from *The Ultimate DOOM* is no longer used as the title screen of *DOOM*.
   * *DOOM* is no longer referred to as *The Ultimate DOOM* in the window’s caption or in the console.
   * The `DMENUPIC` lump is no longer used as the title screen of *DOOM II*.
