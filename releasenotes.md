@@ -3,7 +3,7 @@
 #### DOOM Retro v4.7
 
 * *DOOM Retro* is now built using v17.4.1 of [*Microsoft Visual Studio Community 2022*](https://visualstudio.microsoft.com/vs/community/).
-* *DOOM Retro* now uses [*SDL v2.26.0*](https://github.com/libsdl-org/SDL/releases/tag/prerelease-2.26.0).
+* *DOOM Retro* now uses [*SDL v2.26.0*](https://github.com/libsdl-org/SDL/releases/tag/release-2.26.0).
 * Extensive optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Changes have been made to the animation of *DOOM Retro’s* logo on the splash screen.
 * A mouse pointer is now displayed while the menu is open that can be used to select menu items. It may be disabled by the new `m_pointer` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
