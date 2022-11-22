@@ -1950,6 +1950,7 @@ static void D_DoomMainSetup(void)
 {
     int     p = M_CheckParmWithArgs("-config", 1, 1);
     int     choseniwad = 0;
+    bool    autoload = false;
     char    lumpname[6];
     char    *appdatafolder = M_GetAppDataFolder();
     char    *iwadfile;
@@ -2221,11 +2222,11 @@ static void D_DoomMainSetup(void)
     {
         D_SetAutoLoadFolder();
 
-        W_AutoLoadFiles(autoloadfolder);
-        W_AutoLoadFiles(autoloadiwadsubfolder);
+        autoload = W_AutoLoadFiles(autoloadfolder);
+        autoload |= W_AutoLoadFiles(autoloadiwadsubfolder);
 
         if (autoloadpwadsubfolder)
-            W_AutoLoadFiles(autoloadpwadsubfolder);
+            autoload |= W_AutoLoadFiles(autoloadpwadsubfolder);
     }
 
     W_Init();
@@ -2265,7 +2266,7 @@ static void D_DoomMainSetup(void)
 
     D_IdentifyVersion();
 
-    if (!M_CheckParm("-noautoload") && gamemode != shareware)
+    if (!autoload)
     {
         if (autoloadpwadsubfolder)
             C_Output("All files put in " BOLD("%s") ", " BOLD("%s") " and " BOLD("%s") " will be loaded automatically.",

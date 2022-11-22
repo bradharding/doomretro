@@ -403,7 +403,7 @@ bool W_AddFile(char *filename, bool autoloaded)
     return true;
 }
 
-void W_AutoLoadFiles(const char *folder)
+bool W_AutoLoadFiles(const char *folder)
 {
 #if defined(_WIN32)
     WIN32_FIND_DATA FindFileData;
@@ -413,7 +413,7 @@ void W_AutoLoadFiles(const char *folder)
     free(temp);
 
     if (handle == INVALID_HANDLE_VALUE)
-        return;
+        return false;
 
     do
     {
@@ -456,6 +456,8 @@ void W_AutoLoadFiles(const char *folder)
 
     closedir(d);
 #endif
+
+    return true;
 }
 
 // Hash function used for lump names.
