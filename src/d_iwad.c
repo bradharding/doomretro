@@ -866,14 +866,7 @@ void D_SetAutoLoadFolder(void)
         autoloadpwadsubfolder = M_StringJoin(autoloadfolder, temp, DIR_SEPARATOR_S, NULL);
         M_MakeDirectory(autoloadpwadsubfolder);
         free(temp);
-
-        if (!M_CheckParm("-noautoload") && gamemode != shareware)
-            C_Output("All files put in " BOLD("%s") ", " BOLD("%s") " and " BOLD("%s") " will be loaded automatically.",
-                autoloadfolder, autoloadiwadsubfolder, autoloadpwadsubfolder);
     }
-    else if (!M_CheckParm("-noautoload") && gamemode != shareware)
-        C_Output("All files put in " BOLD("%s") " and " BOLD("%s") " will be loaded automatically.",
-            autoloadfolder, autoloadiwadsubfolder);
 }
 
 void D_SetScreenshotsFolder(void)

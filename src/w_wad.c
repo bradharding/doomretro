@@ -658,7 +658,7 @@ void W_Init(void)
     for (int i = 0; i < numlumps; i++)
     {
         // hash function:
-        int j = W_LumpNameHash(lumpinfo[i]->name) % numlumps;
+        const int   j = W_LumpNameHash(lumpinfo[i]->name) % numlumps;
 
         lumpinfo[i]->next = lumpinfo[j]->index;       // Prepend to list
         lumpinfo[j]->index = i;

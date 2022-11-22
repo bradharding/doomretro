@@ -2264,6 +2264,17 @@ static void D_DoomMainSetup(void)
     I_InitGameController();
 
     D_IdentifyVersion();
+
+    if (!M_CheckParm("-noautoload") && gamemode != shareware)
+    {
+        if (*autoloadpwadsubfolder)
+            C_Output("All files put in " BOLD("%s") ", " BOLD("%s") " and " BOLD("%s") " will be loaded automatically.",
+                autoloadfolder, autoloadiwadsubfolder, autoloadpwadsubfolder);
+        else if (!M_CheckParm("-noautoload") && gamemode != shareware)
+            C_Output("All files put in " BOLD("%s") " and " BOLD("%s") " will be loaded automatically.",
+                autoloadfolder, autoloadiwadsubfolder);
+    }
+
     D_ProcessDehOnCmdLine();
     D_ProcessDehInWad();
 
@@ -2286,7 +2297,7 @@ static void D_DoomMainSetup(void)
     D_SetGameDescription();
 
     if (gamemode == shareware)
-        C_Warning(0, "This is the shareware version of " BOLD("DOOM") ". "
+        C_Warning(0, "This is the shareware version of " ITALICS("DOOM") ". "
             "You can buy the full version on " ITALICS("Steam") ", etc.");
 
     if (nerve && expansion == 2)
