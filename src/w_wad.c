@@ -436,7 +436,7 @@ bool W_AutoLoadFiles(const char *folder)
     struct dirent   *dir;
 
     if (!d)
-        return;
+        return false;
 
     while ((dir = readdir(d)))
     {
