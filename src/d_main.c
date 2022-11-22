@@ -2267,7 +2267,7 @@ static void D_DoomMainSetup(void)
 
     if (!M_CheckParm("-noautoload") && gamemode != shareware)
     {
-        if (*autoloadpwadsubfolder)
+        if (autoloadpwadsubfolder)
             C_Output("All files put in " BOLD("%s") ", " BOLD("%s") " and " BOLD("%s") " will be loaded automatically.",
                 autoloadfolder, autoloadiwadsubfolder, autoloadpwadsubfolder);
         else if (!M_CheckParm("-noautoload") && gamemode != shareware)
