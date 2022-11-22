@@ -2217,10 +2217,10 @@ static void D_DoomMainSetup(void)
     if (!iwadfile && !modifiedgame && !choseniwad)
         I_Error(DOOMRETRO_NAME " couldn't find any IWADs.");
 
-    D_SetAutoLoadFolder();
-
     if (!M_CheckParm("-noautoload") && gamemode != shareware)
     {
+        D_SetAutoLoadFolder();
+
         W_AutoLoadFiles(autoloadfolder);
         W_AutoLoadFiles(autoloadiwadsubfolder);
 
