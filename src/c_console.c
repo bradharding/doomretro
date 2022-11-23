@@ -652,7 +652,7 @@ void C_ClearConsole(void)
     consolestrings = 0;
     consolestringsmax = 0;
 
-    for (int i = 1; i <= 8; i++)
+    for (int i = 1; i <= CONSOLEBLANKLINES; i++)
         C_Output("");
 }
 
@@ -2091,14 +2091,7 @@ bool C_Responder(event_t *ev)
             case KEY_HOME:
                 // move caret to start
                 if ((outputhistory != -1 || !caretpos) && outputhistory && consolestrings > CONSOLELINES)
-                {
-                    for (int j = 0; j < consolestrings; j++)
-                        if (*console[j].string)
-                        {
-                            outputhistory = j - 2;
-                            break;
-                        }
-                }
+                    outputhistory = CONSOLEBLANKLINES - (gamestate == GS_TITLESCREEN ? 3 : 2);
                 else if (caretpos > 0)
                 {
                     selectend = ((modstate & KMOD_SHIFT) ? caretpos : 0);

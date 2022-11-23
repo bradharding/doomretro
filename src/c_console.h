@@ -83,6 +83,7 @@
 #define CONSOLETEXTY                        8
 #define CONSOLETEXTMAXLENGTH                1024
 #define CONSOLELINEHEIGHT                   14
+#define CONSOLEBLANKLINES                   8
 
 #define CONSOLESCROLLBARWIDTH               5
 #define CONSOLESCROLLBARHEIGHT              (CONSOLEHEIGHT - (gamestate == GS_TITLESCREEN ? 26 : 22))

@@ -2261,7 +2261,6 @@ static void D_DoomMainSetup(void)
     WISCRT2 = (W_CheckMultipleLumps("WISCRT2") > 1);
 
     I_InitGraphics();
-
     I_InitGameController();
 
     D_IdentifyVersion();
@@ -2278,7 +2277,6 @@ static void D_DoomMainSetup(void)
 
     D_ProcessDehOnCmdLine();
     D_ProcessDehInWad();
-
     D_PostProcessDeh();
 
     if (dehcount > 2)
