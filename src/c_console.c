@@ -2091,7 +2091,14 @@ bool C_Responder(event_t *ev)
             case KEY_HOME:
                 // move caret to start
                 if ((outputhistory != -1 || !caretpos) && outputhistory && consolestrings > CONSOLELINES)
-                    outputhistory = 0;
+                {
+                    for (int j = 0; j < consolestrings; j++)
+                        if (*console[j].string)
+                        {
+                            outputhistory = j - 2;
+                            break;
+                        }
+                }
                 else if (caretpos > 0)
                 {
                     selectend = ((modstate & KMOD_SHIFT) ? caretpos : 0);
