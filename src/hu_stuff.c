@@ -654,7 +654,7 @@ static void HU_DrawHUD(void)
         }
     }
 
-    for (int i = 1; i <= NUMCARDS; i++)
+    for (int i = 0; i < NUMCARDS; i++)
         for (int j = 0; j < NUMCARDS; j++)
             if (viewplayer->cards[j] == i && (patch = keypics[j].patch))
             {

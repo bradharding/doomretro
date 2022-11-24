@@ -606,7 +606,7 @@ static void C_DrawScrollbar(void)
     const int   faceend = facestart + CONSOLESCROLLBARHEIGHT - CONSOLESCROLLBARHEIGHT
                     * MAX(0, consolestrings - CONSOLEBLANKLINES - CONSOLELINES) / (consolestrings - CONSOLEBLANKLINES);
 
-    if (!facestart && trackend == faceend * SCREENWIDTH)
+    if (!facestart && faceend == CONSOLESCROLLBARHEIGHT)
         scrollbardrawn = false;
     else
     {
@@ -653,7 +653,7 @@ void C_ClearConsole(void)
     consolestrings = 0;
     consolestringsmax = 0;
 
-    for (int i = 1; i <= CONSOLEBLANKLINES; i++)
+    for (int i = 0; i < CONSOLEBLANKLINES; i++)
         C_Output("");
 }
 
@@ -1549,7 +1549,8 @@ void C_Drawer(void)
                     if (stringtype == warningstring)
                         width = indent + C_TextWidth(temp, true, true);
                     else
-                        width = (indent ? indent + C_TextWidth(strrchr(temp, '\t') + 1, true, true) : C_TextWidth(temp, true, true));
+                        width = (indent ? indent + C_TextWidth(strrchr(temp, '\t') + 1, true, true) :
+                            C_TextWidth(temp, true, true));
 
                     free(temp);
 
@@ -1613,8 +1614,9 @@ void C_Drawer(void)
 
                 wrapbold = console[i].bold;
                 wrapitalics = console[i].italics;
-                C_DrawConsoleText(CONSOLETEXTX + console[i].indent, y + CONSOLELINEHEIGHT, trimwhitespace(temp),
-                    consolecolors[stringtype], NOBACKGROUNDCOLOR, consoleboldcolors[stringtype], tinttab66, notabs, true, true, 0);
+                C_DrawConsoleText(CONSOLETEXTX + console[i].indent, y + CONSOLELINEHEIGHT,
+                    trimwhitespace(temp), consolecolors[stringtype], NOBACKGROUNDCOLOR,
+                    consoleboldcolors[stringtype], tinttab66, notabs, true, true, 0);
                 wrapbold = false;
                 wrapitalics = false;
                 free(temp);
