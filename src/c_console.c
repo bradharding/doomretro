@@ -600,8 +600,8 @@ static int C_OverlayWidth(const char *text, const bool monospaced)
 static void C_DrawScrollbar(void)
 {
     const int   trackend = CONSOLESCROLLBARHEIGHT * SCREENWIDTH;
-    const int   facestart = CONSOLESCROLLBARHEIGHT * (outputhistory == -1 ?
-                    MAX(0, consolestrings - CONSOLELINES) : outputhistory) / consolestrings;
+    const int   facestart = (topofconsole ? 0 : CONSOLESCROLLBARHEIGHT * (outputhistory == -1 ?
+                    MAX(0, consolestrings - CONSOLELINES) : outputhistory) / consolestrings);
     const int   faceend = facestart + CONSOLESCROLLBARHEIGHT - CONSOLESCROLLBARHEIGHT
                     * MAX(0, consolestrings - CONSOLELINES) / consolestrings;
 
@@ -1497,9 +1497,6 @@ void C_Drawer(void)
     // draw background and bottom edge
     C_DrawBackground();
 
-    // draw the scrollbar
-    C_DrawScrollbar();
-
     consoletextfunc = &V_DrawConsoleTextPatch;
     topofconsole = false;
 
@@ -1630,6 +1627,9 @@ void C_Drawer(void)
         if ((y -= CONSOLELINEHEIGHT) < -CONSOLELINEHEIGHT)
             break;
     }
+
+    // draw the scrollbar
+    C_DrawScrollbar();
 
     if (quitcmd)
         return;
