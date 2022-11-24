@@ -2164,10 +2164,6 @@ bool C_Responder(event_t *ev)
                         || (scrolldirection == 1 && (autocomplete == -1 || *autocompletelist[autocomplete].text)))
                     {
                         static char output[255];
-                        int         spaces2;
-                        bool        endspace2;
-                        int         len2;
-                        int         game;
 
                         autocomplete += scrolldirection;
 
@@ -2184,33 +2180,33 @@ bool C_Responder(event_t *ev)
                         if (english == english_international)
                             M_AmericanToInternationalEnglish(output);
 
-                        if (M_StringCompare(output, input))
-                            continue;
-
-                        len2 = (int)strlen(output);
-                        spaces2 = numspaces(output);
-                        endspace2 = (len2 > 0 && output[len2 - 1] == ' ');
-                        game = autocompletelist[autocomplete].game;
-
-                        if ((game == DOOM1AND2
-                            || (gamemission == doom && game == DOOM1ONLY)
-                            || (gamemission != doom && game == DOOM2ONLY))
-                            && M_StringStartsWith(output, input)
-                            && input[strlen(input) - 1] != '+'
-                            && ((!spaces1 && (!spaces2 || (spaces2 == 1 && endspace2)))
-                                || (spaces1 == 1 && !endspace1 && (spaces2 == 1 || (spaces2 == 2 && endspace2)))
-                                || (spaces1 == 2 && !endspace1 && (spaces2 == 2 || (spaces2 == 3 && endspace2)))
-                                || (spaces1 == 3 && !endspace1)))
+                        if (!M_StringCompare(output, input))
                         {
-                            char    *temp = M_StringJoin(prefix, M_StringReplace(output, input, input), NULL);
+                            int     game = autocompletelist[autocomplete].game;
+                            int     len2 = (int)strlen(output);
+                            int     spaces2 = numspaces(output);
+                            bool    endspace2 = (len2 > 0 && output[len2 - 1] == ' ');
 
-                            M_StringCopy(consoleinput, temp, sizeof(consoleinput));
-                            caretpos = selectstart = selectend = len2 + (int)strlen(prefix);
-                            caretwait = I_GetTimeMS() + CARETBLINKTIME;
-                            showcaret = true;
-                            free(temp);
+                            if ((game == DOOM1AND2
+                                || (gamemission == doom && game == DOOM1ONLY)
+                                || (gamemission != doom && game == DOOM2ONLY))
+                                && M_StringStartsWith(output, input)
+                                && input[strlen(input) - 1] != '+'
+                                && ((!spaces1 && (!spaces2 || (spaces2 == 1 && endspace2)))
+                                    || (spaces1 == 1 && !endspace1 && (spaces2 == 1 || (spaces2 == 2 && endspace2)))
+                                    || (spaces1 == 2 && !endspace1 && (spaces2 == 2 || (spaces2 == 3 && endspace2)))
+                                    || (spaces1 == 3 && !endspace1)))
+                            {
+                                char    *temp = M_StringJoin(prefix, M_StringReplace(output, input, input), NULL);
 
-                            return true;
+                                M_StringCopy(consoleinput, temp, sizeof(consoleinput));
+                                caretpos = selectstart = selectend = len2 + (int)strlen(prefix);
+                                caretwait = I_GetTimeMS() + CARETBLINKTIME;
+                                showcaret = true;
+                                free(temp);
+
+                                return true;
+                            }
                         }
                     }
 

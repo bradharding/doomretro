@@ -1804,7 +1804,7 @@ static int D_OpenWADLauncher(void)
 #elif defined(__APPLE__)
                     for (NSURL *url in urls)
                     {
-                        char *fullpath = (char *)[url fileSystemRepresentation];
+                        char    *fullpath = (char *)[url fileSystemRepresentation];
 #endif
 
                         if (D_IsCfgFile(fullpath))
@@ -1828,7 +1828,7 @@ static int D_OpenWADLauncher(void)
 #elif defined(__APPLE__)
                     for (NSURL *url in urls)
                     {
-                        char *fullpath = (char *)[url fileSystemRepresentation];
+                        char    *fullpath = (char *)[url fileSystemRepresentation];
 #endif
 
                         if (D_IsDehFile(fullpath))
