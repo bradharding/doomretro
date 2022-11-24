@@ -600,10 +600,11 @@ static int C_OverlayWidth(const char *text, const bool monospaced)
 static void C_DrawScrollbar(void)
 {
     const int   trackend = CONSOLESCROLLBARHEIGHT * SCREENWIDTH;
-    const int   facestart = (topofconsole ? 0 : CONSOLESCROLLBARHEIGHT * (outputhistory == -1 ?
-                    MAX(0, consolestrings - CONSOLELINES) : outputhistory) / consolestrings);
+    const int   facestart = CONSOLESCROLLBARHEIGHT * (outputhistory == -1 ?
+                    MAX(0, consolestrings - CONSOLEBLANKLINES - CONSOLELINES) :
+                    MAX(0, outputhistory - CONSOLEBLANKLINES)) / (consolestrings - CONSOLEBLANKLINES);
     const int   faceend = facestart + CONSOLESCROLLBARHEIGHT - CONSOLESCROLLBARHEIGHT
-                    * MAX(0, consolestrings - CONSOLELINES) / consolestrings;
+                    * MAX(0, consolestrings - CONSOLEBLANKLINES - CONSOLELINES) / (consolestrings - CONSOLEBLANKLINES);
 
     if (!facestart && trackend == faceend * SCREENWIDTH)
         scrollbardrawn = false;
