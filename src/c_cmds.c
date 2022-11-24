@@ -764,7 +764,7 @@ consolecmd_t consolecmds[] =
         "The player's name."),
     CCMD(playerstats, "", "", null_func1, playerstats_cmd_func2, false, "",
         "Shows stats about the player."),
-    CCMD(print, "", "", null_func1, print_cmd_func2, true, PRINTCMDFORMAT,
+    CCMD(print, "", "", game_func1, print_cmd_func2, true, PRINTCMDFORMAT,
         "Prints a player \"" BOLDITALICS("message") "\"."),
     CCMD(quit, "", exit, null_func1, quit_cmd_func2, false, "",
         "Quits to the " DESKTOP "."),
