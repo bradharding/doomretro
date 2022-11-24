@@ -1505,8 +1505,6 @@ void C_Drawer(void)
     {
         const stringtype_t  stringtype = console[i].stringtype;
 
-        topofconsole = !((len = (int)strlen(console[i].string)));
-
         if (stringtype == dividerstring)
         {
             int yy = (y + 5 - (CONSOLEHEIGHT - consoleheight)) * SCREENWIDTH;
@@ -1531,7 +1529,7 @@ void C_Drawer(void)
                 }
             }
         }
-        else if (len)
+        else if (!(topofconsole = !((len = (int)strlen(console[i].string)))))
         {
             int     wrap = len;
             char    *text;
