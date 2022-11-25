@@ -264,7 +264,7 @@ bool P_TeleportMove(mobj_t *thing, const fixed_t x, const fixed_t y, const fixed
 
     thing->floorz = tmfloorz;
     thing->ceilingz = tmceilingz;
-    thing->dropoffz = tmdropoffz;        // killough 11/98
+    thing->dropoffz = tmdropoffz;   // killough 11/98
 
     thing->x = x;
     thing->y = y;
@@ -318,7 +318,7 @@ static bool PIT_CrossLine(line_t *ld)
             if (P_PointOnLineSide(pe_x, pe_y, ld) != P_PointOnLineSide(ls_x, ls_y, ld))
                 return false;   // line blocks trajectory
 
-    return true;                // line doesn't block trajectory
+    return true;    // line doesn't block trajectory
 }
 
 // killough 08/01/98: used to test intersection between thing and line
@@ -356,10 +356,10 @@ static bool PIT_CheckLine(line_t *ld)
 {
     if (tmbbox[BOXRIGHT] <= ld->bbox[BOXLEFT] || tmbbox[BOXLEFT] >= ld->bbox[BOXRIGHT]
         || tmbbox[BOXTOP] <= ld->bbox[BOXBOTTOM] || tmbbox[BOXBOTTOM] >= ld->bbox[BOXTOP])
-        return true;                                    // didn't hit it
+        return true;    // didn't hit it
 
     if (P_BoxOnLineSide(tmbbox, ld) != -1)
-        return true;                                    // didn't hit it
+        return true;    // didn't hit it
 
     // A line has been hit
 
@@ -372,7 +372,7 @@ static bool PIT_CheckLine(line_t *ld)
     // could be crossed in either order.
 
     // killough 07/24/98: allow player to move out of 1s wall, to prevent sticking
-    if (!ld->backsector)                                // one sided line
+    if (!ld->backsector)    // one sided line
     {
         blockline = ld;
         return (tmunstuck && !untouched(ld) && FixedMul(tmx - tmthing->x, ld->dy) > FixedMul(tmy - tmthing->y, ld->dx));
@@ -384,7 +384,7 @@ static bool PIT_CheckLine(line_t *ld)
         // explicitly blocking everything
         // or blocking player
         if ((ld->flags & ML_BLOCKING) || (tmthing->player && (ld->flags & ML_BLOCKPLAYERS)))
-            return (tmunstuck && !untouched(ld));       // killough 08/01/98: allow escape
+            return (tmunstuck && !untouched(ld));   // killough 08/01/98: allow escape
 
         // killough 08/09/98: monster-blockers don't affect friends
         // MBF21: Block land monsters
@@ -392,7 +392,7 @@ static bool PIT_CheckLine(line_t *ld)
         if (!((tmthing->flags & MF_FRIEND) || tmthing->player || (tmthing->flags2 & MF2_SPAWNEDBYPLAYER))
             && ((ld->flags & ML_BLOCKMONSTERS) || ((ld->flags & ML_BLOCKLANDMONSTERS) && !(tmthing->flags & MF_FLOAT)))
             && !(tmthing->flags & MF_CORPSE))
-            return false;                               // block monsters only
+            return false;   // block monsters only
     }
 
     // set openrange, opentop, openbottom
@@ -410,7 +410,7 @@ static bool PIT_CheckLine(line_t *ld)
     if (openbottom > tmfloorz)
     {
         tmfloorz = openbottom;
-        floorline = ld;                                 // killough 08/01/98: remember floor linedef
+        floorline = ld; // killough 08/01/98: remember floor linedef
         blockline = ld;
     }
 
@@ -538,7 +538,7 @@ static bool PIT_CheckThing(mobj_t *thing)
 
         P_SetMobjState(tmthing, tmthing->info->spawnstate);
 
-        return false;       // stop moving
+        return false;   // stop moving
     }
 
     // missiles can hit other things
@@ -656,9 +656,9 @@ static bool PIT_CheckThing(mobj_t *thing)
     // RjY
     // an attempt to handle blocking hanging bodies
     // A solid hanging body will allow sufficiently small things underneath it.
-    if (!((~flags) & (MF_SOLID | MF_SPAWNCEILING))              // solid and hanging
+    if (!((~flags) & (MF_SOLID | MF_SPAWNCEILING))      // solid and hanging
         // invert everything, then both bits should be clear
-        && tmthing->z + tmthing->height <= thing->z)            // head height <= base
+        && tmthing->z + tmthing->height <= thing->z)    // head height <= base
         // top of thing trying to move under the body <= bottom of body
     {
         tmceilingz = thing->z;   // pretend ceiling height is at body's base
@@ -749,7 +749,7 @@ static bool PIT_CheckOnMobjZ(mobj_t *thing)
     blockdist = thing->radius + tmthing->radius;
 
     if (ABS(thing->x - tmx) >= blockdist || ABS(thing->y - tmy) >= blockdist)
-        return true;        // Didn't hit thing
+        return true;    // Didn't hit thing
 
     onmobj = thing;
     return false;
@@ -885,7 +885,7 @@ static void P_FakeZMovement(mobj_t *mo)
     {
         // hit the floor
         if (mo->flags & MF_SKULLFLY)
-            mo->momz = -mo->momz;       // the skull slammed into something
+            mo->momz = -mo->momz;   // the skull slammed into something
 
         if (mo->momz < 0)
             mo->momz = 0;
@@ -907,7 +907,7 @@ static void P_FakeZMovement(mobj_t *mo)
             mo->momz = 0;
 
         if (mo->flags & MF_SKULLFLY)
-            mo->momz = -mo->momz;       // the skull slammed into something
+            mo->momz = -mo->momz;   // the skull slammed into something
 
         mo->z = mo->ceilingz - mo->height;
     }
@@ -1040,7 +1040,7 @@ bool P_TryMove(mobj_t *thing, const fixed_t x, const fixed_t y, const int dropof
     {
         // killough 07/26/98: reformatted slightly
         // killough 08/01/98: Possibly allow escape if otherwise stuck
-        if (tmceilingz - tmfloorz < thing->height       // doesn't fit
+        if (tmceilingz - tmfloorz < thing->height   // doesn't fit
             // mobj must lower to fit
             || (floatok = true, !(flags & MF_TELEPORT) && tmceilingz - thing->z < thing->height)
             // too big a step up
@@ -1219,10 +1219,10 @@ void P_ApplyTorque(mobj_t *mo)
     const int   xh = P_GetSafeBlockX((tmbbox[BOXRIGHT] = x + radius) - bmaporgx);
     const int   yl = P_GetSafeBlockY((tmbbox[BOXBOTTOM] = y - radius) - bmaporgy);
     const int   yh = P_GetSafeBlockY((tmbbox[BOXTOP] = y + radius) - bmaporgy);
-    const int   flags2 = mo->flags2;            // Remember the current state, for gear-change
+    const int   flags2 = mo->flags2;    // Remember the current state, for gear-change
 
     tmthing = mo;
-    validcount++;                               // prevents checking same line twice
+    validcount++;   // prevents checking same line twice
 
     for (int bx = xl; bx <= xh; bx++)
         for (int by = yl; by <= yh; by++)
@@ -1272,7 +1272,7 @@ static bool P_ThingHeightClip(mobj_t *thing)
     // what about stranding a monster partially off an edge?
     thing->floorz = tmfloorz;
     thing->ceilingz = tmceilingz;
-    thing->dropoffz = tmdropoffz;               // killough 11/98: remember dropoffs
+    thing->dropoffz = tmdropoffz;   // killough 11/98: remember dropoffs
 
     if ((flags2 & MF2_FEETARECLIPPED) && !player && r_liquid_bob)
         thing->z = tmfloorz;
@@ -1346,13 +1346,13 @@ static void P_HitSlideLine(line_t *ld)
         if (icyfloor && ABS(tmymove) > ABS(tmxmove))
         {
             if (slidemo->health > 0)
-                S_StartSound(slidemo, sfx_oof);             // oooff!
+                S_StartSound(slidemo, sfx_oof); // oooff!
 
-            tmxmove /= 2;                                   // absorb half the momentum
+            tmxmove /= 2;   // absorb half the momentum
             tmymove = -tmymove / 2;
         }
         else
-            tmymove = 0;                                    // no more movement in the Y direction
+            tmymove = 0;    // no more movement in the Y direction
 
         return;
     }
@@ -1362,13 +1362,13 @@ static void P_HitSlideLine(line_t *ld)
         if (icyfloor && ABS(tmxmove) > ABS(tmymove))
         {
             if (slidemo->health > 0)
-                S_StartSound(slidemo, sfx_oof);             // oooff!
+                S_StartSound(slidemo, sfx_oof); // oooff!
 
-            tmxmove = -tmxmove / 2;                         // absorb half the momentum
+            tmxmove = -tmxmove / 2; // absorb half the momentum
             tmymove /= 2;
         }
         else
-            tmxmove = 0;                                    // no more movement in the X direction
+            tmxmove = 0;    // no more movement in the X direction
 
         return;
     }
@@ -1379,19 +1379,19 @@ static void P_HitSlideLine(line_t *ld)
         lineangle += ANG180;
 
     moveangle = R_PointToAngle2(0, 0, tmxmove, tmymove);
-    moveangle += 10;                                        // prevents sudden path reversal due to rounding error
+    moveangle += 10;    // prevents sudden path reversal due to rounding error
     deltaangle = moveangle - lineangle;
     movelen = P_ApproxDistance(tmxmove, tmymove);
 
     if (icyfloor && deltaangle > ANG45 && deltaangle < ANG90 + ANG45)
     {
         moveangle = (lineangle - deltaangle) >> ANGLETOFINESHIFT;
-        movelen /= 2;                                       // absorb
+        movelen /= 2;   // absorb
         tmxmove = FixedMul(movelen, finecosine[moveangle]);
         tmymove = FixedMul(movelen, finesine[moveangle]);
 
         if (slidemo->health > 0)
-            S_StartSound(slidemo, sfx_oof);                 // oooff!
+            S_StartSound(slidemo, sfx_oof); // oooff!
     }
     else
     {
@@ -1422,7 +1422,7 @@ static bool PTR_SlideTraverse(intercept_t *in)
     if (!(flags & ML_TWOSIDED))
     {
         if (P_PointOnLineSide(slidemo->x, slidemo->y, li))
-            return true;        // don't hit the back side
+            return true;    // don't hit the back side
 
         goto isblocking;
     }
@@ -1431,13 +1431,13 @@ static bool PTR_SlideTraverse(intercept_t *in)
     P_LineOpening(li);
 
     if (openrange < slidemo->height)
-        goto isblocking;        // doesn't fit
+        goto isblocking;    // doesn't fit
 
     if (opentop - slidemo->z < slidemo->height)
-        goto isblocking;        // mobj is too high
+        goto isblocking;    // mobj is too high
 
     if (openbottom - slidemo->z > 24 * FRACUNIT)
-        goto isblocking;        // too big a step up
+        goto isblocking;    // too big a step up
 
     // this line doesn't block movement
     return true;
@@ -1450,7 +1450,7 @@ isblocking:
         bestslideline = li;
     }
 
-    return false;               // stop
+    return false;   // stop
 }
 
 //
@@ -1465,7 +1465,7 @@ void P_SlideMove(mobj_t *mo)
     const fixed_t   radius = mo->radius;
     player_t        *player = mo->player;
 
-    slidemo = mo;               // the object that's sliding
+    slidemo = mo;   // the object that's sliding
 
     do
     {
@@ -1473,7 +1473,7 @@ void P_SlideMove(mobj_t *mo)
         fixed_t trailx, traily;
 
         if (!--hitcount)
-            goto stairstep;     // don't loop forever
+            goto stairstep; // don't loop forever
 
         // trace along the three leading corners
         if (mo->momx > 0)
@@ -1591,14 +1591,14 @@ static bool PTR_AimTraverse(intercept_t *in)
         fixed_t slope;
 
         if (!(li->flags & ML_TWOSIDED))
-            return false;               // stop
+            return false;   // stop
 
         // Crosses a two sided line.
         // A two sided line will restrict the possible target ranges.
         P_LineOpening(li);
 
         if (openbottom >= opentop)
-            return false;               // stop
+            return false;   // stop
 
         dist = FixedMul(attackrange, in->frac);
 
@@ -1619,19 +1619,19 @@ static bool PTR_AimTraverse(intercept_t *in)
         }
 
         if (topslope <= bottomslope)
-            return false;               // stop
+            return false;   // stop
 
-        return true;                    // shot continues
+        return true;    // shot continues
     }
 
     // shoot a thing
     th = in->d.thing;
 
     if (th == shootthing)
-        return true;                    // can't shoot self
+        return true;    // can't shoot self
 
     if (!(th->flags & MF_SHOOTABLE))
-        return true;                    // corpse or something
+        return true;    // corpse or something
 
     // killough 07/19/98, 08/02/98:
     // friends don't aim at friends (except players), at least not first
@@ -1643,12 +1643,12 @@ static bool PTR_AimTraverse(intercept_t *in)
     thingtopslope = FixedDiv(th->z + th->height - shootz, dist);
 
     if (thingtopslope < bottomslope)
-        return true;                    // shot over the thing
+        return true;    // shot over the thing
 
     thingbottomslope = FixedDiv(th->z - shootz, dist);
 
     if (thingbottomslope > topslope)
-        return true;                    // shot under the thing
+        return true;    // shot under the thing
 
     // this thing can be hit!
     if (thingtopslope > topslope)
@@ -1660,7 +1660,7 @@ static bool PTR_AimTraverse(intercept_t *in)
     aimslope = (thingtopslope + thingbottomslope) / 2;
     linetarget = th;
 
-    return false;                       // don't go any farther
+    return false;   // don't go any farther
 }
 
 bool    hitwall;
@@ -1694,7 +1694,7 @@ static bool PTR_ShootTraverse(intercept_t *in)
             if (!li->backsector)
             {
                 if (FixedDiv(openbottom - shootz, dist) <= aimslope && FixedDiv(opentop - shootz, dist) >= aimslope)
-                    return true;      // shot continues
+                    return true;    // shot continues
             }
             else
             {
@@ -1702,7 +1702,7 @@ static bool PTR_ShootTraverse(intercept_t *in)
                     || FixedDiv(openbottom - shootz, dist) <= aimslope)
                     && (li->frontsector->interpceilingheight == li->backsector->interpceilingheight
                         || FixedDiv(opentop - shootz, dist) >= aimslope))
-                    return true;      // shot continues
+                    return true;    // shot continues
             }
         }
 
@@ -1764,19 +1764,19 @@ static bool PTR_ShootTraverse(intercept_t *in)
     th = in->d.thing;
 
     if (th == shootthing)
-        return true;                    // can't shoot self
+        return true;    // can't shoot self
 
     if (!(th->flags & MF_SHOOTABLE))
-        return true;                    // corpse or something
+        return true;    // corpse or something
 
     dist = FixedMul(attackrange, in->frac);
 
     // check angles to see if the thing can be aimed at
     if (FixedDiv(th->z + th->height - shootz, dist) < aimslope)
-        return true;                    // shot over the thing
+        return true;    // shot over the thing
 
     if (FixedDiv(th->z - shootz, dist) > aimslope)
-        return true;                    // shot under the thing
+        return true;    // shot under the thing
 
     // hit thing
     // position a bit closer
@@ -1857,8 +1857,7 @@ fixed_t P_AimLineAttack(mobj_t *t1, angle_t angle, const fixed_t distance, const
 
 //
 // P_LineAttack
-// If damage == 0, it is just a test trace
-// that will leave linetarget set.
+// If damage == 0, it is just a test trace that will leave linetarget set.
 //
 void P_LineAttack(mobj_t *t1, angle_t angle, const fixed_t distance, const fixed_t slope, const int damage)
 {
@@ -2034,14 +2033,14 @@ bool PIT_RadiusAttack(mobj_t *thing)
         dist = MAX(0, dist >> FRACBITS);
 
         if (dist >= bombdistance)
-            return true;        // out of range
+            return true;    // out of range
     }
     else
     {
         dist = MAX(0, MAX(dist, ABS(thing->z + (thing->height >> 1) - bombspot->z)) >> FRACBITS);
 
         if (dist >= bombdistance)
-            return true;        // out of range
+            return true;    // out of range
 
         // [BH] check z height for blast damage
         if ((thing->floorz > bombspot->z && bombspot->ceilingz < thing->z)
@@ -2118,7 +2117,7 @@ static void PIT_ChangeSector(mobj_t *thing)
     bool  fuzz;
 
     if (P_ThingHeightClip(thing))
-        return;         // keep checking
+        return; // keep checking
 
     flags = thing->flags;
     fuzz = ((flags & MF_FUZZ) && r_blood == r_blood_all);
@@ -2134,12 +2133,12 @@ static void PIT_ChangeSector(mobj_t *thing)
 
         if (!(flags & MF_NOBLOOD) && thing->bloodcolor > 0)
         {
-            const int           radius = ((spritewidth[sprites[thing->sprite].spriteframes[0].lump[0]] >> FRACBITS) >> 1) + 12;
-            const int           max = M_RandomInt(50, 100) + radius;
-            const int           color = colortranslation[thing->bloodcolor - 1][REDBLOODSPLATCOLOR];
-            const fixed_t       x = thing->x;
-            const fixed_t       y = thing->y;
-            const fixed_t       floorz = thing->floorz;
+            const int       radius = ((spritewidth[sprites[thing->sprite].spriteframes[0].lump[0]] >> FRACBITS) >> 1) + 12;
+            const int       max = M_RandomInt(50, 100) + radius;
+            const int       color = colortranslation[thing->bloodcolor - 1][REDBLOODSPLATCOLOR];
+            const fixed_t   x = thing->x;
+            const fixed_t   y = thing->y;
+            const fixed_t   floorz = thing->floorz;
 
             for (int i = 0; i < max; i++)
             {
@@ -2193,7 +2192,7 @@ static void PIT_ChangeSector(mobj_t *thing)
     }
 
     if (!(flags & MF_SHOOTABLE))
-        return;                                                         // assume it is bloody gibs or something
+        return; // assume it is bloody gibs or something
 
     nofit = true;
 
@@ -2273,17 +2272,17 @@ bool P_ChangeSector(sector_t *sector, const bool crunch)
 
     do
     {
-        for (n = sector->touching_thinglist; n; n = n->m_snext)     // go through list
-            if (!n->visited)                                        // unprocessed thing found
+        for (n = sector->touching_thinglist; n; n = n->m_snext) // go through list
+            if (!n->visited)                                    // unprocessed thing found
             {
                 mobj_t  *mobj = n->m_thing;
 
-                n->visited = true;                                  // mark thing as processed
+                n->visited = true;                              // mark thing as processed
 
                 if (mobj && !(mobj->flags & MF_NOBLOCKMAP))
-                    PIT_ChangeSector(mobj);                         // process it
+                    PIT_ChangeSector(mobj);                     // process it
 
-                break;                                              // exit and start over
+                break;                                          // exit and start over
             }
     } while (n);    // repeat from scratch until all things left are marked valid
 
@@ -2338,9 +2337,9 @@ static msecnode_t *P_AddSecnode(sector_t *s, mobj_t *thing, msecnode_t *nextnode
 
     while (node)
     {
-        if (node->m_sector == s)                // Already have a node for this sector?
+        if (node->m_sector == s)    // Already have a node for this sector?
         {
-            node->m_thing = thing;              // Yes. Setting m_thing says 'keep it'.
+            node->m_thing = thing;  // Yes. Setting m_thing says 'keep it'.
             return nextnode;
         }
 
@@ -2351,17 +2350,17 @@ static msecnode_t *P_AddSecnode(sector_t *s, mobj_t *thing, msecnode_t *nextnode
     // of the list.
     node = P_GetSecnode();
 
-    node->m_sector = s;                         // sector
-    node->m_thing = thing;                      // mobj
-    node->m_tprev = NULL;                       // prev node on Thing thread
-    node->m_tnext = nextnode;                   // next node on Thing thread
+    node->m_sector = s;                     // sector
+    node->m_thing = thing;                  // mobj
+    node->m_tprev = NULL;                   // prev node on Thing thread
+    node->m_tnext = nextnode;               // next node on Thing thread
 
     if (nextnode)
-        nextnode->m_tprev = node;               // set back link on Thing
+        nextnode->m_tprev = node;           // set back link on Thing
 
     // Add new node at head of sector thread starting at s->touching_thinglist
-    node->m_sprev = NULL;                       // prev node on sector thread
-    node->m_snext = s->touching_thinglist;      // next node on sector thread
+    node->m_sprev = NULL;                   // prev node on sector thread
+    node->m_snext = s->touching_thinglist;  // next node on sector thread
 
     if (s->touching_thinglist)
         node->m_snext->m_sprev = node;
@@ -2490,7 +2489,7 @@ void P_CreateSecNodeList(mobj_t *thing, const fixed_t x, const fixed_t y)
     tmbbox[BOXRIGHT] = x + radius;
     tmbbox[BOXLEFT] = x - radius;
 
-    validcount++;       // used to make sure we only process a line once
+    validcount++;   // used to make sure we only process a line once
 
     xl = P_GetSafeBlockX(tmbbox[BOXLEFT] - bmaporgx);
     xh = P_GetSafeBlockX(tmbbox[BOXRIGHT] - bmaporgx);

@@ -2325,7 +2325,7 @@ static void D_DoomMainSetup(void)
         {
             // These are the lumps that will be checked in IWAD,
             // if any one is not present, execution will be aborted.
-            char name[23][9] =
+            const char name[23][9] =
             {
                 "E2M1", "E2M2", "E2M3", "E2M4", "E2M5", "E2M6", "E2M7", "E2M8", "E2M9",
                 "E3M1", "E3M3", "E3M3", "E3M4", "E3M5", "E3M6", "E3M7", "E3M8", "E3M9",
