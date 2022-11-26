@@ -719,7 +719,7 @@ static void I_ReadMouse(void)
             {
                 usingmouse = true;
 
-                if (menuactive && !x && !y)
+                if ((mousebuttonstate & MOUSE_LEFTBUTTON) && !inhelpscreens && !x && !y)
                 {
                     prevmousebuttonstate = mousebuttonstate;
                     return;
