@@ -6103,17 +6103,9 @@ static void print_cmd_func2(char *cmd, char *parms)
 
         C_ShowDescription(i);
         C_ShowFormat(i);
-
-        if (gamestate != GS_LEVEL)
-            C_Warning(0, NOGAMEWARNING);
     }
     else
-    {
-        C_PlayerMessage(parms);
-
-        if (gamestate == GS_LEVEL && !message_dontfuckwithme)
-            HU_SetPlayerMessage(parms, false, false);
-    }
+        HU_PlayerMessage(parms, true, false);
 }
 
 //
