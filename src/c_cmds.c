@@ -104,9 +104,10 @@
 #define TOGGLECMDFORMAT             BOLDITALICS("CVAR")
 #define UNBINDCMDFORMAT             BOLDITALICS("control") "|" BOLDITALICS("+action")
 
-#define DEADPLAYERWARNING           "This is only effective while the player is alive."
-#define NEXTMAPWARNING              "This won't be effective until the next map."
-#define NOGAMEWARNING               "This is only effective while playing a game."
+#define DEADPLAYERWARNING           "It won't work if %s %s dead."
+#define NEXTMAPWARNING              "It won't work until the next map."
+#define NOGAMEWARNING               "It won't work if %s %s not playing a game."
+#define NIGHTMAREWARNING            "It won't work if %s %s playing a game in " ITALICS("Nightmare!")
 
 #define INTEGERCVARWITHDEFAULT      "It is currently " BOLD("%s") " and is " BOLD("%s") " by default."
 #define INTEGERCVARWITHNODEFAULT    "It is currently " BOLD("%s") "."
@@ -332,6 +333,7 @@ action_t actions[] =
 static bool alive_func1(char *cmd, char *parms);
 static bool cheat_func1(char *cmd, char *parms);
 static bool game_func1(char *cmd, char *parms);
+static bool nightmare_func1(char *cmd, char *parms);
 static bool null_func1(char *cmd, char *parms);
 
 static void bindlist_cmd_func2(char *cmd, char *parms);
@@ -643,7 +645,7 @@ consolecmd_t consolecmds[] =
         "The background color of the player's face in the status bar (" BOLD("0") " to " BOLD("255") ")."),
     CVAR_BOOL(fade, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles a fading effect when transitioning between some screens."),
-    CCMD(fastmonsters, "", "", fastmonsters_cmd_func1, fastmonsters_cmd_func2, true, "[" BOLD("on") "|" BOLD("off") "]",
+    CCMD(fastmonsters, "", "", nightmare_func1, fastmonsters_cmd_func2, true, "[" BOLD("on") "|" BOLD("off") "]",
         "Toggles fast monsters."),
     CVAR_BOOL(flashkeys, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles flashing the required keycard or skull key when the player tries to open a locked door."),
@@ -883,7 +885,7 @@ consolecmd_t consolecmds[] =
         "Resets all CVARs and bound controls to their defaults."),
     CCMD(respawnitems, "", "", null_func1, respawnitems_cmd_func2, true, "[" BOLD("on") "|" BOLD("off") "]",
         "Toggles respawning items."),
-    CCMD(respawnmonsters, "", "", respawnmonsters_cmd_func1, respawnmonsters_cmd_func2, true, "[" BOLD("on") "|" BOLD("off") "]",
+    CCMD(respawnmonsters, "", "", nightmare_func1, respawnmonsters_cmd_func2, true, "[" BOLD("on") "|" BOLD("off") "]",
         "Toggles respawning monsters."),
     CCMD(restartmap, "", "", game_func1, restartmap_cmd_func2, false, "",
         "Restarts the current map."),
@@ -1262,7 +1264,12 @@ static bool alive_func1(char *cmd, char *parms)
     {
         C_Input(consoleinput);
         C_ShowDescription(C_GetIndex(cmd));
-        C_Warning(0, DEADPLAYERWARNING);
+
+        if (M_StringCompare(playername, playername_default))
+            C_Warning(0, DEADPLAYERWARNING, "you", "are");
+        else
+            C_Warning(0, DEADPLAYERWARNING, playername, "is");
+
         consoleinput[0] = '\0';
 
         return false;
@@ -1348,7 +1355,35 @@ static bool game_func1(char *cmd, char *parms)
     {
         C_Input(consoleinput);
         C_ShowDescription(C_GetIndex(cmd));
-        C_Warning(0, NOGAMEWARNING);
+
+        if (M_StringCompare(playername, playername_default))
+            C_Warning(0, NOGAMEWARNING, "you", "are");
+        else
+            C_Warning(0, NOGAMEWARNING, playername, "is");
+
+
+        consoleinput[0] = '\0';
+
+        return false;
+    }
+}
+
+static bool nightmare_func1(char *cmd, char *parms)
+{
+    if (gamestate != GS_LEVEL)
+        return game_func1(cmd, parms);
+    else if (gameskill != sk_nightmare)
+        return true;
+    else
+    {
+        C_Input(consoleinput);
+        C_ShowDescription(C_GetIndex(cmd));
+
+        if (M_StringCompare(playername, playername_default))
+            C_Warning(0, NIGHTMAREWARNING, "you", "are");
+        else
+            C_Warning(0, NIGHTMAREWARNING, playername, "is");
+
         consoleinput[0] = '\0';
 
         return false;
@@ -2321,11 +2356,6 @@ static void exitmap_cmd_func2(char *cmd, char *parms)
 //
 // fastmonsters CCMD
 //
-static bool fastmonsters_cmd_func1(char *cmd, char *parms)
-{
-    return (gameskill != sk_nightmare);
-}
-
 static void fastmonsters_cmd_func2(char *cmd, char *parms)
 {
     if (*parms)
@@ -6499,11 +6529,6 @@ static void respawnitems_cmd_func2(char *cmd, char *parms)
 //
 // respawnmonsters CCMD
 //
-static bool respawnmonsters_cmd_func1(char *cmd, char *parms)
-{
-    return (gameskill != sk_nightmare);
-}
-
 static void respawnmonsters_cmd_func2(char *cmd, char *parms)
 {
     if (*parms)
