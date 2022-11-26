@@ -1632,6 +1632,8 @@ void C_Drawer(void)
     // draw the scrollbar
     if (consolestrings > CONSOLELINES + CONSOLEBLANKLINES)
         C_DrawScrollbar();
+    else
+        scrollbardrawn = false;
 
     if (quitcmd)
         return;
