@@ -561,10 +561,7 @@ void D_SplashDrawer(void)
 //
 void D_PageDrawer(void)
 {
-    if (SCREENWIDTH != NONWIDEWIDTH)
-        memset(screens[0], pillarboxcolor, SCREENAREA);
-
-    V_DrawWidePatch((SCREENWIDTH / SCREENSCALE - SHORT(pagelump->width)) / 2, 0, 0, pagelump);
+    V_DrawPagePatch(pagelump);
 }
 
 //

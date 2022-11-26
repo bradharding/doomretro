@@ -823,10 +823,7 @@ static void F_CastDrawer(void)
     else
         patch = (FREEDOOM || hacx ? W_CacheLastLumpName(bgcastcall) : W_CacheLumpName(bgcastcall));
 
-    if (SCREENWIDTH != NONWIDEWIDTH)
-        memset(screens[0], FindDominantEdgeColor(patch), SCREENAREA);
-
-    V_DrawWidePatch((SCREENWIDTH / SCREENSCALE - SHORT(patch->width)) / 2, 0, 0, patch);
+    V_DrawPagePatch(patch);
 
     if (type == MT_PLAYER && M_StringCompare(castorder[castnum].name, *castorder[castnum].dehackedname))
         F_CastPrint(playername);
@@ -1034,10 +1031,7 @@ static void F_ArtScreenDrawer(void)
                 return;
         }
 
-        if (SCREENWIDTH != NONWIDEWIDTH)
-            memset(screens[0], FindDominantEdgeColor(lump), SCREENAREA);
-
-        V_DrawWidePatch((SCREENWIDTH / SCREENSCALE - SHORT(lump->width)) / 2, 0, 0, lump);
+        V_DrawPagePatch(lump);
     }
 }
 

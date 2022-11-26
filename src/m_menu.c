@@ -1422,12 +1422,7 @@ static void M_DrawHelp(void)
     {
         if (chex || FREEDOOM || hacx || harmony || REKKRSA)
         {
-            patch_t *lump = W_CacheLastLumpName(gamemode == commercial ? "HELP" : "HELP1");
-
-            if (SCREENWIDTH != NONWIDEWIDTH)
-                memset(screens[0], FindDominantEdgeColor(lump), SCREENAREA);
-
-            V_DrawWidePatch((SCREENWIDTH / SCREENSCALE - SHORT(lump->width)) / 2, 0, 0, lump);
+            V_DrawPagePatch(W_CacheLastLumpName(gamemode == commercial ? "HELP" : "HELP1"));
 
             if (mapwindow)
                 memset(mapscreen, nearestblack, MAPAREA);
@@ -1440,12 +1435,7 @@ static void M_DrawHelp(void)
         }
         else if (W_CheckMultipleLumps(lumpname) > 2)
         {
-            patch_t *lump = W_CacheLumpName(lumpname);
-
-            if (SCREENWIDTH != NONWIDEWIDTH)
-                memset(screens[0], FindDominantEdgeColor(lump), SCREENAREA);
-
-            V_DrawWidePatch((SCREENWIDTH / SCREENSCALE - SHORT(lump->width)) / 2, 0, 0, lump);
+            V_DrawPagePatch(W_CacheLumpName(lumpname));
 
             if (mapwindow)
                 memset(mapscreen, nearestblack, MAPAREA);

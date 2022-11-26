@@ -1228,10 +1228,7 @@ static void WI_LoadData(void)
         lump = (chex || REKKRSA ? W_CacheLastLumpName(temp) : W_CacheLumpName(temp));
     }
 
-    if (SCREENWIDTH != NONWIDEWIDTH)
-        memset(screens[1], FindDominantEdgeColor(lump), SCREENAREA);
-
-    V_DrawWidePatch((SCREENWIDTH / SCREENSCALE - SHORT(lump->width)) / 2, 0, 1, lump);
+    V_DrawPagePatch(lump);
 }
 
 static void WI_UnloadCallback(char *name, patch_t **variable)
