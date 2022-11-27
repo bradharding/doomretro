@@ -1621,11 +1621,10 @@ void V_DrawPixel(int x, int y, byte color, bool drawshadow)
         {
             byte    *dot = *screens + ((size_t)y * SCREENWIDTH + x) * SCREENSCALE;
 
-            color = black40[*dot];
-            *(dot++) = color;
-            *dot = color;
-            *(dot += SCREENWIDTH) = color;
-            *(--dot) = color;
+            *dot = black40[*dot];
+            *(++dot) = black40[*dot];
+            *(dot += SCREENWIDTH) = black40[*dot];
+            *(--dot) = black40[*dot];
         }
     }
     else if (color && color != 32)
