@@ -1036,36 +1036,44 @@ bool P_TryMove(mobj_t *thing, const fixed_t x, const fixed_t y, const int dropof
 
     flags = thing->flags;
 
-    if (!(thing->flags & MF_NOCLIP))
+    if (!(flags & MF_NOCLIP) && !freeze)
     {
-        if (tmceilingz - tmfloorz < thing->height)
-        {
-            // doesn't fit
-            return false;
-        }
-
-        floatok = true;
-
-        if (!(thing->flags & MF_TELEPORT)
-            && tmceilingz - thing->z < thing->height)
-        {
-            // mobj must lower itself to fit
-            return false;
-        }
-
-        if (!(thing->flags & MF_TELEPORT)
-            && tmfloorz - thing->z > 24 * FRACUNIT)
-        {
+        // killough 07/26/98: reformatted slightly
+        // killough 08/01/98: Possibly allow escape if otherwise stuck
+        if (tmceilingz - tmfloorz < thing->height   // doesn't fit
+            // mobj must lower to fit
+            || (floatok = true, !(flags & MF_TELEPORT) && tmceilingz - thing->z < thing->height)
             // too big a step up
-            return false;
+            || (!(flags & MF_TELEPORT) && tmfloorz - thing->z > 24 * FRACUNIT))
+            return (tmunstuck && !(ceilingline && untouched(ceilingline)) && !(floorline && untouched(floorline)));
+
+        if (!(flags & (MF_DROPOFF | MF_FLOAT)))
+        {
+            if (!dropoff
+                // large jump down (e.g. dogs)
+                || (dropoff == 2
+                    && (tmfloorz - tmdropoffz > 128 * FRACUNIT
+                        || !thing->target
+                        || thing->target->z > tmdropoffz)))
+            {
+                if (tmfloorz - tmdropoffz > 24 * FRACUNIT)
+                    return false;
+            }
+            else
+                // dropoff allowed -- check for whether it fell more than 24
+                felldown = (!(flags & MF_NOGRAVITY) && thing->z - tmfloorz > 24 * FRACUNIT);
         }
 
-        if (!(thing->flags & (MF_DROPOFF | MF_FLOAT))
-            && tmfloorz - tmdropoffz > 24 * FRACUNIT)
-        {
-            // don't stand over a dropoff
+        if ((flags & MF_BOUNCES)
+            && !(flags & (MF_MISSILE | MF_NOGRAVITY))
+            && !sentient(thing)
+            && tmfloorz - thing->z > 16 * FRACUNIT)
+            return false;   // too big a step up for bouncers under gravity
+
+        // killough 11/98: prevent falling objects from going up too many steps
+        if ((thing->flags2 & MF2_FALLING)
+            && tmfloorz - thing->z > FixedMul(thing->momx, thing->momx) + FixedMul(thing->momy, thing->momy))
             return false;
-        }
     }
 
     // the move is ok,

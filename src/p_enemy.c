@@ -300,7 +300,7 @@ static bool P_Move(mobj_t *actor, const int dropoff)    // killough 09/12/98
     if (!P_TryMove(actor, tryx, tryy, dropoff))
     {
         // open any specials
-        int good = 0;
+        int good;
 
         if ((actor->flags & MF_FLOAT) && floatok)
         {
@@ -329,23 +329,11 @@ static bool P_Move(mobj_t *actor, const int dropoff)    // killough 09/12/98
         //
         // Do NOT simply return false 1/4th of the time (causes monsters to
         // back out when they shouldn't, and creates secondary stickiness).
-        if (!KDIKDIZD)
-        {
-            for (good = 0; numspechit--; )
-                if (P_UseSpecialLine(actor, spechit[numspechit], 0))
-                    good |= (spechit[numspechit] == blockline ? 1 : 2);
+        for (good = 0; numspechit--; )
+            if (P_UseSpecialLine(actor, spechit[numspechit], 0))
+                good |= (spechit[numspechit] == blockline ? 1 : 2);
 
-            return (good && ((M_Random() >= 230) ^ (good & 1)));
-        }
-        else
-        {
-            while (numspechit--)
-                // if the special is not a door that can be opened, return false
-                if (P_UseSpecialLine(actor, spechit[numspechit], 0))
-                    good = true;
-
-            return good;
-        }
+        return (good && ((M_Random() >= 230) ^ (good & 1)));
     }
     else
     {
