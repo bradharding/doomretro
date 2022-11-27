@@ -2384,8 +2384,7 @@ void M_DrawSmallChar(int x, int y, int i, bool shadow)
 
     for (int y1 = 0; y1 < 10; y1++)
         for (int x1 = 0; x1 < width; x1++)
-            if (x + x1 < VANILLAWIDTH && y + y1 < VANILLAHEIGHT)
-                V_DrawPixel(x + x1, y + y1, (int)smallcharset[i][y1 * width + x1], shadow);
+            V_DrawPixel(x + x1, y + y1, (int)smallcharset[i][y1 * width + x1], shadow);
 }
 
 //

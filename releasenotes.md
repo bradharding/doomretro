@@ -24,6 +24,7 @@
   * The background of the confirmation message now displays correctly.
   * There is no longer a misplaced fade transition when pressing the <kbd>Y</kbd> key and the `fade` CVAR is `on`.
 * The horizontal position of the title in the options and sound volume menus has improved in some instances.
+* The shadows of the large red text used in the menu, as well as the smaller red text used in player messages and during intermission and the finale, have improved slightly.
 * A fade transition is now applied when opening the sound volume menu in the options menu if the `fade` CVAR is `on`.
 * A fade transition is no longer applied when toggling the graphic detail, either in the options menu or by pressing the <kbd>F5</kbd> key, if the `fade` CVAR is `on`.
 * When toggling widescreen mode by pressing the <kbd>+</kbd> key, the player’s vertical field of view now zooms in slightly.
