@@ -2072,7 +2072,7 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, const bool te
 
             mo->momx = (target->momx >> 1) + (M_BigSubRandom() << 8);
             mo->momy = (target->momy >> 1) + (M_BigSubRandom() << 8);
-            mo->momz = 2 * FRACUNIT + ((M_BigRandom() & 255) << 10);
+            mo->momz = 3 * FRACUNIT + ((M_BigRandom() & 255) << 9);
         }
         else
             mo = P_SpawnMobj(target->x, target->y, ONFLOORZ, info->droppeditem);
