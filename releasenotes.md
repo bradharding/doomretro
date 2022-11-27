@@ -24,7 +24,7 @@
   * The background of the confirmation message now displays correctly.
   * There is no longer a misplaced fade transition when pressing the <kbd>Y</kbd> key and the `fade` CVAR is `on`.
 * The horizontal position of the title in the options and sound volume menus has improved in some instances.
-* The shadows of the large red text used in the menu, as well as the smaller red text used in player messages and during intermission and the finale, have improved slightly.
+* The shadows of the red text used in the menu, as well as the smaller text used in player messages, have improved slightly.
 * A fade transition is now applied when opening the sound volume menu in the options menu if the `fade` CVAR is `on`.
 * A fade transition is no longer applied when toggling the graphic detail, either in the options menu or by pressing the <kbd>F5</kbd> key, if the `fade` CVAR is `on`.
 * When toggling widescreen mode by pressing the <kbd>+</kbd> key, the player’s vertical field of view now zooms in slightly.
@@ -58,6 +58,7 @@
 * Any input in the console is now cleared when a cheat is entered while the console is closed.
 * Improvements have been made to the synchronization of animated wall textures and flats.
 * The brightmap of the `COMPUTE1` texture has improved when the `r_brightmaps` CVAR is `on`.
+* Brightmaps are no longer applied to the `SLADRIP1`, `SLADRIP2` and `SLADRIP3` textures when the `r_brightmaps` CVAR is `on`.
 * A bug is fixed whereby masked midtextures could in some instances be rendered incorrectly while the player had a light amplification visor power-up.
 * The `r_skycolor` CVAR has been removed.
 * The default of the `am_pathcolor` CVAR is now `89`.
