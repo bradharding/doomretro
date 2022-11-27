@@ -1614,19 +1614,7 @@ void V_DrawPixel(int x, int y, byte color, bool drawshadow)
 {
     x += WIDESCREENDELTA;
 
-#if SCREENSCALE == 1
-    if (color == PINK)
-    {
-        if (drawshadow)
-        {
-            byte    *dot = *screens + ((size_t)y * SCREENWIDTH + x);
-
-            *dot = black40[*dot];
-        }
-    }
-    else if (color && color != 32)
-        screens[0][y * SCREENWIDTH + x] = color;
-#else
+#if SCREENSCALE == 2
     if (color == PINK)
     {
         if (drawshadow)
@@ -1648,6 +1636,44 @@ void V_DrawPixel(int x, int y, byte color, bool drawshadow)
         *dot = color;
         *(dot += SCREENWIDTH) = color;
         *(--dot) = color;
+    }
+#elif SCREENSCALE == 1
+    if (color == PINK)
+    {
+        if (drawshadow)
+        {
+            byte    *dot = *screens + ((size_t)y * SCREENWIDTH + x);
+
+            *dot = black40[*dot];
+        }
+    }
+    else if (color && color != 32)
+        screens[0][y * SCREENWIDTH + x] = color;
+#else
+    if (color == PINK)
+    {
+        if (drawshadow)
+        {
+            x *= SCREENSCALE;
+            y *= SCREENSCALE;
+
+            for (int yy = 0; yy < SCREENSCALE; yy++)
+                for (int xx = 0; xx < SCREENSCALE; xx++)
+                {
+                    byte    *dot = *screens + ((size_t)(y + yy) * SCREENWIDTH + x + xx);
+
+                    *dot = black40[*dot];
+                }
+        }
+    }
+    else if (color && color != 32)
+    {
+        x *= SCREENSCALE;
+        y *= SCREENSCALE;
+
+        for (int yy = 0; yy < SCREENSCALE; yy++)
+            for (int xx = 0; xx < SCREENSCALE; xx++)
+                screens[0][(size_t)(y + yy) * SCREENWIDTH + x + xx] = color;
     }
 #endif
 }
