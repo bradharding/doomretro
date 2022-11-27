@@ -394,7 +394,6 @@ void V_DrawSpectreShadowPatch(int x, int y, patch_t *patch)
 {
     byte        *desttop;
     const int   width = SHORT(patch->width) << FRACBITS;
-    const byte  *shadow = &tinttab40[nearestblack << 8];
 
     x -= SHORT(patch->leftoffset);
     x += WIDESCREENDELTA;
@@ -414,18 +413,18 @@ void V_DrawSpectreShadowPatch(int x, int y, patch_t *patch)
             int     count = ((column->length * DY / 10) >> FRACBITS) + 1;
 
             if ((consoleactive && !fuzztable[fuzzpos++]) || (!consoleactive && !(M_Random() & 3)))
-                *dest = shadow[*dest];
+                *dest = black40[*dest];
 
             dest += SCREENWIDTH;
 
             while (--count)
             {
-                *dest = shadow[*dest];
+                *dest = black40[*dest];
                 dest += SCREENWIDTH;
             }
 
             if ((consoleactive && !fuzztable[fuzzpos++]) || (!consoleactive && !(M_Random() & 3)))
-                *dest = shadow[*dest];
+                *dest = black40[*dest];
 
             column = (column_t *)((byte *)column + column->length + 4);
         }
@@ -1239,7 +1238,7 @@ void V_DrawFlippedShadowPatch(int x, int y, patch_t *patch)
 {
     byte        *desttop;
     const int   width = SHORT(patch->width) << FRACBITS;
-    const int   black = nearestblack << 8;
+    const int   black = (nearestblack << 8);
     const byte  *body = &tinttab40[black];
     const byte  *edge = &tinttab25[black];
 
@@ -1324,7 +1323,6 @@ void V_DrawFlippedSpectreShadowPatch(int x, int y, patch_t *patch)
 {
     byte        *desttop;
     const int   width = SHORT(patch->width) << FRACBITS;
-    const byte  *shadow = &tinttab40[nearestblack << 8];
 
     y -= SHORT(patch->topoffset) / 10;
     x -= SHORT(patch->leftoffset);
@@ -1345,18 +1343,18 @@ void V_DrawFlippedSpectreShadowPatch(int x, int y, patch_t *patch)
             int     count = ((column->length * DY / 10) >> FRACBITS) + 1;
 
             if ((consoleactive && !fuzztable[fuzzpos++]) || (!consoleactive && !(M_Random() & 3)))
-                *dest = shadow[*dest];
+                *dest = black40[*dest];
 
             dest += SCREENWIDTH;
 
             while (--count)
             {
-                *dest = shadow[*dest];
+                *dest = black40[*dest];
                 dest += SCREENWIDTH;
             }
 
             if ((consoleactive && !fuzztable[fuzzpos++]) || (!consoleactive && !(M_Random() & 3)))
-                *dest = shadow[*dest];
+                *dest = black40[*dest];
 
             column = (column_t *)((byte *)column + column->length + 4);
         }
