@@ -160,7 +160,6 @@ static int          displayheight;
 static int          displaycenterx;
 static int          displaycentery;
 
-bool                resetmouse = false;
 bool                usinggamecontroller = false;
 bool                usingmouse = false;
 bool                windowfocused = true;
@@ -668,7 +667,7 @@ static void I_GetEvent(void)
 
 void I_SaveMousePointerPosition(void)
 {
-    if (usingmouse)
+    if (gamestate != GS_LEVEL)
         SDL_GetMouseState(&mousepointerx, &mousepointery);
 }
 
@@ -724,8 +723,6 @@ static void I_ReadMouse(void)
                     prevmousebuttonstate = mousebuttonstate;
                     return;
                 }
-
-                I_RestoreMousePointerPosition();
             }
 
             SDL_GetMouseState(&x, &y);
@@ -775,10 +772,7 @@ static void UpdateGrab(void)
     if (grab && !currently_grabbed)
         SetShowCursor(false);
     else if (!grab && currently_grabbed)
-    {
-        resetmouse = true;
         SetShowCursor(true);
-    }
 
     currently_grabbed = grab;
 }
