@@ -939,16 +939,16 @@ void V_DrawPatchWithShadow(int x, int y, patch_t *patch, bool flag)
 
             while (count--)
             {
-                int height = (((y + column->topdelta + column->length) * DY) >> FRACBITS) - count;
+                const int   height = (((y + column->topdelta + column->length) * DY) >> FRACBITS) - count;
 
                 if (height > 0)
                     *dest = source[srccol >> FRACBITS];
 
                 dest += SCREENWIDTH;
 
-                if (height + 2 > 0)
+                if (height + SCREENSCALE > 0)
                 {
-                    byte    *dot = dest + SCREENWIDTH + 2;
+                    byte    *dot = dest + SCREENWIDTH + SCREENSCALE;
 
                     if (!flag || (*dot != 47 && *dot != 191))
                         *dot = black40[*dot];
