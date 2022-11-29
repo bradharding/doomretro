@@ -41,6 +41,7 @@
 #include "d_event.h"
 #include "doomdef.h"
 #include "doomtype.h"
+#include "hu_lib.h"
 #include "r_defs.h"
 
 #define CONSOLESTRINGSMAX                   1024
@@ -96,12 +97,12 @@
 
 #define CONSOLEINPUTPIXELWIDTH              (SCREENWIDTH - CONSOLETEXTX - brandwidth - 2)
 
-#define OVERLAYTEXTX                        (vid_widescreen ? 25 : 8)
-#define OVERLAYTEXTY                        (vid_widescreen ? 12 : 10)
+#define OVERLAYTEXTX                        (vid_widescreen ? 25 : 12)
+#define OVERLAYTEXTY                        HU_ALTHUDMSGY
 #define OVERLAYLINEHEIGHT                   14
 #define OVERLAYSPACING                      5
-#define MAPOVERLAYTEXTX                     (vid_widescreen || mapwindow ? 25 : 8)
-#define MAPOVERLAYTEXTY                     (vid_widescreen || mapwindow ? 12 : 10)
+#define MAPOVERLAYTEXTX                     (vid_widescreen || mapwindow ? 25 : 12)
+#define MAPOVERLAYTEXTY                     HU_ALTHUDMSGY
 
 #define WARNINGWIDTH                        13
 
