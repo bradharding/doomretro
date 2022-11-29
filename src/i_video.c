@@ -1966,12 +1966,10 @@ void I_InitGraphics(void)
     SDL_VERSION(&compiled);
 
     if (linked.major != compiled.major || linked.minor != compiled.minor)
-        I_Error("The wrong version of " SDL_FILENAME " was found. " DOOMRETRO_NAME " requires v%i.%i.%i.",
-            compiled.major, compiled.minor, compiled.patch);
+        I_Error(DOOMRETRO_NAME " requires SDL v%i.%i.%i.", compiled.major, compiled.minor, compiled.patch);
 
     if (linked.patch != compiled.patch)
-        C_Warning(1, "The wrong version of " BOLD(SDL_FILENAME) " was found. " ITALICS(DOOMRETRO_NAME) " requires v%i.%i.%i.",
-            compiled.major, compiled.minor, compiled.patch);
+        C_Warning(1, ITALICS(DOOMRETRO_NAME) " requires SDL v%i.%i.%i.", compiled.major, compiled.minor, compiled.patch);
 
     performancefrequency = SDL_GetPerformanceFrequency();
 
@@ -2016,8 +2014,6 @@ void I_InitGraphics(void)
 
     if (vid_fullscreen)
         SetShowCursor(false);
-
-    I_ResetMousePointerPosition();
 
 #if defined(_WIN32)
     I_InitWindows32();
