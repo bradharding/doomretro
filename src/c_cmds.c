@@ -7439,7 +7439,14 @@ static void teleport_cmd_func2(char *cmd, char *parms)
             if (z != ONFLOORZ)
                 z <<= FRACBITS;
 
-            if (P_TeleportMove(mo, x, y, z, false))
+            if (x == oldx && y == oldy)
+            {
+                if (M_StringCompare(playername, playername_default))
+                    C_Warning(0, "You are already at (%i, %i).", x >> FRACBITS, y >> FRACBITS);
+                else
+                    C_Warning(0, "%s is already at (%i, %i).", playername, x >> FRACBITS, y >> FRACBITS);
+            }
+            else if (P_TeleportMove(mo, x, y, z, false))
             {
                 // spawn teleport fog at source
                 mobj_t  *fog = P_SpawnMobj(oldx, oldy, oldz, MT_TFOG);
@@ -7487,7 +7494,7 @@ static void teleport_cmd_func2(char *cmd, char *parms)
                             playername, x >> FRACBITS, y >> FRACBITS, z >> FRACBITS);
                 }
 
-                C_HideConsole();
+                C_HideConsoleFast();
             }
         }
     }
