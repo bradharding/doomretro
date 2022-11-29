@@ -331,7 +331,6 @@ static int mapcmdids[] =
     MCMD_TITLEPATCH
 };
 
-bool            allowmonstertelefrags;
 bool            compat_corpsegibs;
 bool            compat_floormove;
 bool            compat_light;
@@ -3187,7 +3186,6 @@ void P_SetupLevel(int ep, int map)
     if (gamemode != shareware)
         S_ParseMusInfo(lumpname);
 
-    allowmonstertelefrags = mapinfo[map].allowmonstertelefrags;
     compat_corpsegibs = mapinfo[map].compat_corpsegibs;
     compat_floormove = mapinfo[map].compat_floormove;
     compat_light = mapinfo[map].compat_light;
@@ -3799,6 +3797,10 @@ int P_GetMapTitlePatch(const int map)
     return mapinfo[map].titlepatch;
 }
 
+int P_GetAllowMonsterTelefrags(int map)
+{
+    return mapinfo[map].allowmonstertelefrags;
+}
 //
 // P_Init
 //

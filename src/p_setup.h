@@ -87,3 +87,4 @@ int P_GetMapSecretNext(const int map);
 int P_GetMapSky1Texture(const int map);
 int P_GetMapSky1ScrollDelta(const int map);
 int P_GetMapTitlePatch(const int map);
+int P_GetAllowMonsterTelefrags(int map);
