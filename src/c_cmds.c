@@ -4519,7 +4519,7 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
     free(temp);
 
     temp = commify(numlines);
-    C_TabbedOutput(tabs, "Linedefs\t%s", temp);
+    C_TabbedOutput(tabs, "Lines\t%s", temp);
     free(temp);
 
     temp = commify(numspeciallines);
@@ -4527,11 +4527,11 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
     free(temp);
 
     temp = commify(numsides);
-    C_TabbedOutput(tabs, "Sidedefs\t%s", temp);
+    C_TabbedOutput(tabs, "Sides\t%s", temp);
     free(temp);
 
     temp = commify(numvertexes);
-    C_TabbedOutput(tabs, "Vertexes\t%s", temp);
+    C_TabbedOutput(tabs, "Vertices\t%s", temp);
     free(temp);
 
     temp = commify(numsegs);
