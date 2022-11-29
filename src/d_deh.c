@@ -1715,23 +1715,23 @@ static const struct deh_flag_s deh_mobjflags[] =
 
 static const struct deh_flag_s deh_mobjflags2[] =
 {
-    { "TRANSLUCENT",               MF2_TRANSLUCENT               },
-    { "TRANSLUCENT_REDONLY",       MF2_TRANSLUCENT_REDONLY       },
-    { "TRANSLUCENT_GREENONLY",     MF2_TRANSLUCENT_GREENONLY     },
-    { "TRANSLUCENT_BLUEONLY",      MF2_TRANSLUCENT_BLUEONLY      },
-    { "TRANSLUCENT_33",            MF2_TRANSLUCENT_33            },
-    { "TRANSLUCENT_50",            MF2_TRANSLUCENT_50            },
-    { "TRANSLUCENT_REDWHITEONLY",  MF2_TRANSLUCENT_REDWHITEONLY  },
-    { "NOMIRROREDCORPSE",          MF2_NOMIRROREDCORPSE          },
-    { "TRANSLUCENT_BLUE_25",       MF2_TRANSLUCENT_BLUE_25       },
-    { "FLOATBOB",                  MF2_FLOATBOB                  },
-    { "PASSMOBJ",                  MF2_PASSMOBJ                  },
-    { "FOOTCLIP",                  MF2_FOOTCLIP                  },
-    { "NOLIQUIDBOB",               MF2_NOLIQUIDBOB               },
-    { "CASTSHADOW",                MF2_CASTSHADOW                },
-    { "DONTMAP",                   MF2_DONTMAP                   },
-    { "CRUSHABLE",                 MF2_CRUSHABLE                 },
-    { "DECORATION",                MF2_DECORATION                }
+    { "TRANSLUCENT",               MF2_TRANSLUCENT              },
+    { "TRANSLUCENT_REDONLY",       MF2_TRANSLUCENT_REDONLY      },
+    { "TRANSLUCENT_GREENONLY",     MF2_TRANSLUCENT_GREENONLY    },
+    { "TRANSLUCENT_BLUEONLY",      MF2_TRANSLUCENT_BLUEONLY     },
+    { "TRANSLUCENT_33",            MF2_TRANSLUCENT_33           },
+    { "TRANSLUCENT_50",            MF2_TRANSLUCENT_50           },
+    { "TRANSLUCENT_REDWHITEONLY",  MF2_TRANSLUCENT_REDWHITEONLY },
+    { "NOMIRROREDCORPSE",          MF2_NOMIRROREDCORPSE         },
+    { "TRANSLUCENT_BLUE_25",       MF2_TRANSLUCENT_BLUE_25      },
+    { "FLOATBOB",                  MF2_FLOATBOB                 },
+    { "PASSMOBJ",                  MF2_PASSMOBJ                 },
+    { "FOOTCLIP",                  MF2_FOOTCLIP                 },
+    { "NOLIQUIDBOB",               MF2_NOLIQUIDBOB              },
+    { "CASTSHADOW",                MF2_CASTSHADOW               },
+    { "DONTMAP",                   MF2_DONTMAP                  },
+    { "CRUSHABLE",                 MF2_CRUSHABLE                },
+    { "DECORATION",                MF2_DECORATION               }
 };
 
 #define DEH_MOBJFLAGMAX_MBF21   arrlen(deh_mobjflags_mbf21)
@@ -1763,12 +1763,12 @@ static const struct deh_flag_s deh_mobjflags_mbf21[] =
 
 static const struct deh_flag_s deh_weaponflags_mbf21[] =
 {
-    { "NOTHRUST",       WPF_NOTHRUST            },  // doesn't thrust Mobj's
-    { "SILENT",         WPF_SILENT              },  // weapon is silent
-    { "NOAUTOFIRE",     WPF_NOAUTOFIRE          },  // weapon won't autofire in A_WeaponReady
-    { "FLEEMELEE",      WPF_FLEEMELEE           },  // monsters consider it a melee weapon
-    { "AUTOSWITCHFROM", WPF_AUTOSWITCHFROM      },  // can be switched away from when ammo is picked up
-    { "NOAUTOSWITCHTO", WPF_NOAUTOSWITCHTO      }   // cannot be switched to when ammo is picked up
+    { "NOTHRUST",       WPF_NOTHRUST       },   // doesn't thrust Mobj's
+    { "SILENT",         WPF_SILENT         },   // weapon is silent
+    { "NOAUTOFIRE",     WPF_NOAUTOFIRE     },   // weapon won't autofire in A_WeaponReady
+    { "FLEEMELEE",      WPF_FLEEMELEE      },   // monsters consider it a melee weapon
+    { "AUTOSWITCHFROM", WPF_AUTOSWITCHFROM },   // can be switched away from when ammo is picked up
+    { "NOAUTOSWITCHTO", WPF_NOAUTOSWITCHTO }    // cannot be switched to when ammo is picked up
 };
 
 // STATE - Dehacked block name = "Frame" and "Pointer"

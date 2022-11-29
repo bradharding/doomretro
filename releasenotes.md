@@ -44,6 +44,7 @@
 * The horizontal position of player messages has now improved, and is consistent when toggling widescreen.
 * Any player message is now cleared when opening the automap.
 * Player messages are no longer displayed when a [voodoo doll](https://doomwiki.org/wiki/Voodoo_doll) picks something up.
+* The position of text displayed in the top right of the screen has improved when the `vid_widescreen` CVAR is `off`.
 * When loading a savegame that was saved using certain previous versions of *DOOM Retro*, all blood splats are now displayed correctly.
 * When to spawn blood splats around a decoration while the `r_corpses_moreblood` CVAR is `on` has now improved if the decoration’s sprite is replaced in a PWAD.
 * A bug is fixed whereby the wrong `M_DOOM` lump was displayed in the main menu in some instances.
