@@ -49,22 +49,10 @@ autoload/
 console/
 savegames/
 screenshots/
-msvc/Release/CodeAnalysisResultManifest.txt
-msvc/Release/doomretro.cfg
-msvc/Release/doomretro.lib
-msvc/Release/doomretro.wad
-msvc/Debug/CodeAnalysisResultManifest.txt
-msvc/Debug/doomretro.cfg
-msvc/Debug/doomretro.lib
-msvc/Debug/doomretro.wad
-msvc/x64/Release/CodeAnalysisResultManifest.txt
-msvc/x64/Release/doomretro.cfg
-msvc/x64/Release/doomretro.lib
-msvc/x64/Release/doomretro.wad
-msvc/x64/Debug/CodeAnalysisResultManifest.txt
-msvc/x64/Debug/doomretro.cfg
-msvc/x64/Debug/doomretro.lib
-msvc/x64/Debug/doomretro.wad
+CodeAnalysisResultManifest.txt
+doomretro.cfg
+doomretro.lib
+doomretro.wad
 
 # Build results
 [Dd]ebugPublic/
