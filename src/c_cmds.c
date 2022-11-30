@@ -5436,7 +5436,7 @@ static void C_PlayerStats_Game(void)
     temp1 = commify(killcount);
     temp2 = commify(totalkills);
     temp3 = commifystat(stat_monsterskilled_total);
-    C_TabbedOutput(tabs, "Monsters %s killed\t%s of %s (%i%%)\t%s",
+    C_TabbedOutput(tabs, "Monsters killed by %s\t%s of %s (%i%%)\t%s",
         playername, temp1, temp2, (totalkills ? killcount * 100 / totalkills : 0), temp3);
     free(temp1);
     free(temp2);
@@ -5897,7 +5897,7 @@ static void C_PlayerStats_NoGame(void)
     }
 
     temp1 = commifystat(stat_monsterskilled_total);
-    C_TabbedOutput(tabs, "Monsters %s killed\t\x96\t%s", playername, temp1);
+    C_TabbedOutput(tabs, "Monsters killed by %s\t\x96\t%s", playername, temp1);
     free(temp1);
 
     if (gamemode == commercial)

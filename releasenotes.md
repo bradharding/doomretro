@@ -8,7 +8,7 @@
 * Changes have been made to the animation of *DOOM Retro’s* logo on the splash screen.
 * A mouse pointer is now displayed while the menu is open that can be used to select menu items. It may be disabled by the new `m_pointer` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
 * Extensive changes have been made to text that is output to the console.
-* A bug is fixed whereby the very first line of text in the console wouldn’t be completely displayed.
+* A bug is fixed whereby one or more lines of text at the top the console wouldn’t be completely displayed.
 * Minor improvements have been made to the console’s autocomplete feature.
 * Minor improvements have been made to the help screen displayed by pressing the <kbd>F1</kbd> key.
 * CCMDs in the console that can only be used while playing a game, or while the player is alive, may now be entered at any time, and a description of the CCMD along with a warning about their usage is displayed.
