@@ -5348,6 +5348,8 @@ static void C_PlayerStats_Game(void)
     weapontype_t    favoriteweapon2 = favoriteweapon(true);
     const int       time1 = maptime / TICRATE;
     const int       time2 = (int)(stat_timeplayed / TICRATE);
+    int             hours1;
+    int             hours2;
     char            *temp1;
     char            *temp2;
     char            *temp3;
@@ -5575,11 +5577,29 @@ static void C_PlayerStats_Game(void)
     free(temp2);
     free(temp3);
 
-    temp1 = commify(time1 / 3600);
-    temp2 = commify(time2 / 3600);
-    C_TabbedOutput(tabs, "Time played\t%s:%02i:%02i\t%s:%02i:%02i",
-        temp1, (time1 % 3600) / 60, (time1 % 3600) % 60, temp2, (time2 % 3600) / 60, (time2 % 3600) % 60);
-    free(temp1);
+    hours1 = time1 / 3600;
+    hours2 = time2 / 3600;
+    temp2 = commify(hours2);
+
+    if (hours1)
+    {
+        if (hours2)
+            C_TabbedOutput(tabs, "Time played\t%s\t%s:%02i:%02i",
+                s_STSTR_SUCKS, temp2, (time2 % 3600) / 60, (time2 % 3600) % 60);
+        else
+            C_TabbedOutput(tabs, "Time played\t%s\t%02i:%02i",
+                s_STSTR_SUCKS, (time2 % 3600) / 60, (time2 % 3600) % 60);
+    }
+    else
+    {
+        if (hours2)
+            C_TabbedOutput(tabs, "Time played\t%02i:%02i\t%s:%02i:%02i",
+                (time1 % 3600) / 60, (time1 % 3600) % 60, temp2, (time2 % 3600) / 60, (time2 % 3600) % 60);
+        else
+            C_TabbedOutput(tabs, "Time played\t%02i:%02i\t%02i:%02i",
+                (time1 % 3600) / 60, (time1 % 3600) % 60, (time2 % 3600) / 60, (time2 % 3600) % 60);
+    }
+
     free(temp2);
 
     temp1 = commify(viewplayer->damageinflicted);
@@ -5840,7 +5860,8 @@ static void C_PlayerStats_NoGame(void)
     const int       tabs[3] = { 200, 335, 0 };
     skill_t         favoriteskilllevel1 = favoriteskilllevel();
     weapontype_t    favoriteweapon1 = favoriteweapon(true);
-    const int       time2 = (int)(stat_timeplayed / TICRATE);
+    const int       time1 = (int)(stat_timeplayed / TICRATE);
+    int             hours1;
     char            *temp1;
     char            *temp2;
     char            *temp3;
@@ -5974,8 +5995,14 @@ static void C_PlayerStats_NoGame(void)
     C_TabbedOutput(tabs, "Secrets found\t\x96\t%s", temp1);
     free(temp1);
 
-    temp1 = commify(time2 / 3600);
-    C_TabbedOutput(tabs, "Time played\t\x96\t%s:%02i:%02i", temp1, (time2 % 3600) / 60, (time2 % 3600) % 60);
+    hours1 = time1 / 3600;
+    temp1 = commify(hours1);
+
+    if (hours1)
+        C_TabbedOutput(tabs, "Time played\t\x96\t%s:%02i:%02i", temp1, (time1 % 3600) / 60, (time1 % 3600) % 60);
+    else
+        C_TabbedOutput(tabs, "Time played\t\x96\t%02i:%02i", (time1 % 3600) / 60, (time1 % 3600) % 60);
+
     free(temp1);
 
     temp1 = commifystat(stat_damageinflicted);
