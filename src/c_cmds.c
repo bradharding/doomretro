@@ -5436,7 +5436,7 @@ static void C_PlayerStats_Game(void)
     temp1 = commify(killcount);
     temp2 = commify(totalkills);
     temp3 = commifystat(stat_monsterskilled_total);
-    C_TabbedOutput(tabs, "Monsters killed by %s\t%s of %s (%i%%)\t%s",
+    C_TabbedOutput(tabs, "Monsters %s killed\t%s of %s (%i%%)\t%s",
         playername, temp1, temp2, (totalkills ? killcount * 100 / totalkills : 0), temp3);
     free(temp1);
     free(temp2);
@@ -5584,8 +5584,8 @@ static void C_PlayerStats_Game(void)
     if (hours1)
     {
         if (hours2)
-            C_TabbedOutput(tabs, "Time played\t%s\t%s:%02i:%02i",
-                s_STSTR_SUCKS, temp2, (time2 % 3600) / 60, (time2 % 3600) % 60);
+            C_TabbedOutput(tabs, "Time played\t%s\t%s %s",
+                s_STSTR_SUCKS, temp2, (hours2 == 1 ? "hour" : "hours"));
         else
             C_TabbedOutput(tabs, "Time played\t%s\t%02i:%02i",
                 s_STSTR_SUCKS, (time2 % 3600) / 60, (time2 % 3600) % 60);
@@ -5593,8 +5593,8 @@ static void C_PlayerStats_Game(void)
     else
     {
         if (hours2)
-            C_TabbedOutput(tabs, "Time played\t%02i:%02i\t%s:%02i:%02i",
-                (time1 % 3600) / 60, (time1 % 3600) % 60, temp2, (time2 % 3600) / 60, (time2 % 3600) % 60);
+            C_TabbedOutput(tabs, "Time played\t%02i:%02i\t%s %s",
+                (time1 % 3600) / 60, (time1 % 3600) % 60, temp2, (hours2 == 1 ? "hour" : "hours"));
         else
             C_TabbedOutput(tabs, "Time played\t%02i:%02i\t%02i:%02i",
                 (time1 % 3600) / 60, (time1 % 3600) % 60, (time2 % 3600) / 60, (time2 % 3600) % 60);
@@ -5897,7 +5897,7 @@ static void C_PlayerStats_NoGame(void)
     }
 
     temp1 = commifystat(stat_monsterskilled_total);
-    C_TabbedOutput(tabs, "Monsters killed by %s\t\x96\t%s", playername, temp1);
+    C_TabbedOutput(tabs, "Monsters %s killed\t\x96\t%s", playername, temp1);
     free(temp1);
 
     if (gamemode == commercial)
@@ -5999,7 +5999,7 @@ static void C_PlayerStats_NoGame(void)
     temp1 = commify(hours1);
 
     if (hours1)
-        C_TabbedOutput(tabs, "Time played\t\x96\t%s:%02i:%02i", temp1, (time1 % 3600) / 60, (time1 % 3600) % 60);
+        C_TabbedOutput(tabs, "Time played\t\x96\t%s %s", temp1, (hours1 == 1 ? "hour" : "hours"));
     else
         C_TabbedOutput(tabs, "Time played\t\x96\t%02i:%02i", (time1 % 3600) / 60, (time1 % 3600) % 60);
 
