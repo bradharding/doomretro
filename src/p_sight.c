@@ -187,8 +187,8 @@ static bool P_CrossBSPNode(int bspnum)
     while (!(bspnum & NF_SUBSECTOR))
     {
         const node_t    *bsp = nodes + bspnum;
-        int             side1 = R_PointOnSide(los.strace.x, los.strace.y, bsp);
-        int             side2 = R_PointOnSide(los.t2x, los.t2y, bsp);
+        const int       side1 = R_PointOnSide(los.strace.x, los.strace.y, bsp);
+        const int       side2 = R_PointOnSide(los.t2x, los.t2y, bsp);
 
         if (side1 == side2)
             bspnum = bsp->children[side1];              // doesn't touch the other side
@@ -209,7 +209,7 @@ bool P_CheckSight(mobj_t *t1, mobj_t *t2)
 {
     const sector_t  *s1 = t1->subsector->sector;
     const sector_t  *s2 = t2->subsector->sector;
-    int             pnum = s1->id * numsectors + s2->id;
+    const int       pnum = s1->id * numsectors + s2->id;
 
     // First check for trivial rejection.
     // Determine subsector entries in REJECT table.
@@ -286,9 +286,9 @@ bool P_CheckSight(mobj_t *t1, mobj_t *t2)
 //
 bool P_CheckFOV(mobj_t *t1, mobj_t *t2, angle_t fov)
 {
-    angle_t angle = R_PointToAngle2(t1->x, t1->y, t2->x, t2->y);
-    angle_t minang = t1->angle - fov / 2;
-    angle_t maxang = t1->angle + fov / 2;
+    const angle_t   angle = R_PointToAngle2(t1->x, t1->y, t2->x, t2->y);
+    const angle_t   minang = t1->angle - fov / 2;
+    const angle_t   maxang = t1->angle + fov / 2;
 
     return (minang > maxang ? (angle >= minang || angle <= maxang) : (angle >= minang && angle <= maxang));
 }
