@@ -1356,11 +1356,17 @@ void C_UpdatePlayerStatsOverlay(void)
             color = consoleoverlaycolor;
             width = timewidth;
         }
-        else
+        else if (sucktime && hours >= sucktime)
         {
             M_StringCopy(time, s_STSTR_SUCKS, sizeof(time));
             color = consoleoverlaywarningcolor;
             width = suckswidth;
+        }
+        else
+        {
+            M_snprintf(time, sizeof(time), "%i:%02i:%02i", hours, minutes, seconds % 60);
+            color = consoleoverlaycolor;
+            width = C_OverlayWidth(time, true);
         }
     }
 

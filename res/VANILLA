@@ -113,6 +113,7 @@ s_randompitch off
 s_stereo on
 secretmessages off
 stillbob 0%
+sucktime 1
 tossdrop off
 turbo 100%
 vid_capfps 35

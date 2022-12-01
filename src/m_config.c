@@ -188,6 +188,7 @@ int         savegame = savegame_default;
 bool        secretmessages = secretmessages_default;
 int         skilllevel = skilllevel_default;
 int         stillbob = stillbob_default;
+int         sucktime = sucktime_default;
 bool        tossdrop = tossdrop_default;
 int         turbo = turbo_default;
 int         units = units_default;
@@ -419,6 +420,7 @@ static default_t cvars[] =
     CONFIG_VARIABLE_BOOL         (secretmessages,                   secretmessages,                        secretmessages,                      BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT          (skilllevel,                       skilllevel,                            skilllevel,                          NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT_PERCENT  (stillbob,                         stillbob,                              stillbob,                            NOVALUEALIAS          ),
+    CONFIG_VARIABLE_INT          (sucktime,                         sucktime,                              sucktime,                            NOVALUEALIAS          ),
     CONFIG_VARIABLE_BOOL         (tossdrop,                         tossdrop,                              tossdrop,                            BOOLVALUEALIAS        ),
     CONFIG_VARIABLE_INT_PERCENT  (turbo,                            turbo,                                 turbo,                               NOVALUEALIAS          ),
     CONFIG_VARIABLE_INT          (units,                            units,                                 units,                               UNITSVALUEALIAS       ),

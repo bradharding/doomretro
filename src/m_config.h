@@ -180,6 +180,7 @@ extern int      savegame;
 extern bool     secretmessages;
 extern int      skilllevel;
 extern int      stillbob;
+extern int      sucktime;
 extern bool     tossdrop;
 extern int      turbo;
 extern int      units;
@@ -715,6 +716,10 @@ enum
 #define stillbob_min                       0
 #define stillbob_default                   0
 #define stillbob_max                       100
+
+#define sucktime_min                       0
+#define sucktime_default                   1
+#define sucktime_max                       INT_MAX
 
 #define tossdrop_default                   true
 

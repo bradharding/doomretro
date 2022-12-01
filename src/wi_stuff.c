@@ -664,7 +664,9 @@ static void WI_DrawTime(int x, int y, int t)
 
     x += (SHORT(num[0]->width) - 11) * 4;
 
-    if (t <= 61 * 59)
+    if (sucktime && t > sucktime * 61 * 59)
+        V_DrawPatchWithShadow(SP_TIMEX + SHORT(timepatch->width) + 6, y + 1, sucks, false);
+    else
     {
         int div = 1;
 
@@ -681,9 +683,6 @@ static void WI_DrawTime(int x, int y, int t)
         if (t < 60)
             WI_DrawNum(x, y, 0, 2);
     }
-    else
-        // "sucks"
-        V_DrawPatchWithShadow(SP_TIMEX + SHORT(timepatch->width) + 6, y + 1, sucks, false);
 }
 
 static void WI_UnloadData(void);
