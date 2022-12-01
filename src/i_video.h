@@ -83,7 +83,6 @@ void I_CapFPS(int cap);
 
 void I_SaveMousePointerPosition(void);
 void I_RestoreMousePointerPosition(void);
-void I_ResetMousePointerPosition(void);
 
 void GetWindowPosition(void);
 void GetWindowSize(void);

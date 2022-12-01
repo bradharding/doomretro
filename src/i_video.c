@@ -667,19 +667,11 @@ static void I_GetEvent(void)
 
 void I_SaveMousePointerPosition(void)
 {
-    if (gamestate != GS_LEVEL)
-        SDL_GetMouseState(&mousepointerx, &mousepointery);
+    SDL_GetMouseState(&mousepointerx, &mousepointery);
 }
 
 void I_RestoreMousePointerPosition(void)
 {
-    SDL_WarpMouseInWindow(window, mousepointerx, mousepointery);
-}
-
-void I_ResetMousePointerPosition(void)
-{
-    mousepointerx = displays[displayindex].w - 80;
-    mousepointery = displays[displayindex].h - 60;
     SDL_WarpMouseInWindow(window, mousepointerx, mousepointery);
 }
 

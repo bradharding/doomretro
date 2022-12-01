@@ -3721,7 +3721,7 @@ void M_StartControlPanel(void)
     }
 
     if (gamestate == GS_LEVEL)
-        I_ResetMousePointerPosition();
+        I_RestoreMousePointerPosition();
 
     S_LowerMusicVolume();
     D_FadeScreen(false);
