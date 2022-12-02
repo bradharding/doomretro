@@ -1074,22 +1074,24 @@ void WI_Ticker(void)
 
     WI_LoadData();
 
-    if (!menuactive && !consoleactive)
+    if (!menuactive && !consoleactive && !paused)
+    {
         WI_CheckForAccelerate();
 
-    switch (state)
-    {
-        case StatCount:
-            WI_UpdateStats();
-            break;
+        switch (state)
+        {
+            case StatCount:
+                WI_UpdateStats();
+                break;
 
-        case ShowNextLoc:
-            WI_UpdateShowNextLoc();
-            break;
+            case ShowNextLoc:
+                WI_UpdateShowNextLoc();
+                break;
 
-        case NoState:
-            WI_UpdateNoState();
-            break;
+            case NoState:
+                WI_UpdateNoState();
+                break;
+        }
     }
 }
 
