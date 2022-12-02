@@ -5588,7 +5588,7 @@ static void C_PlayerStats_Game(void)
         if (hours2 >= 100)
             C_TabbedOutput(tabs, "Time played\t%s\tOver %s hours!", s_STSTR_SUCKS, temp2);
         else if (hours2)
-            C_TabbedOutput(tabs, "Time played\t%s\t%02i:%02i:%02i",
+            C_TabbedOutput(tabs, "Time played\t%s\t%i:%02i:%02i",
                 s_STSTR_SUCKS, hours2, (time2 % 3600) / 60, (time2 % 3600) % 60);
         else
             C_TabbedOutput(tabs, "Time played\t%s\t%02i:%02i",
@@ -5597,13 +5597,13 @@ static void C_PlayerStats_Game(void)
     else if (hours1)
     {
         if (hours2 >= 100)
-            C_TabbedOutput(tabs, "Time played\t%02i:%02i:%02i\tOver %s hours!",
+            C_TabbedOutput(tabs, "Time played\t%i:%02i:%02i\tOver %s hours!",
                 hours1, (time1 % 3600) / 60, (time1 % 3600) % 60, temp2);
         else if (hours2)
-            C_TabbedOutput(tabs, "Time played\t%02i:%02i:%02i\t%02i:%02i:%02i",
+            C_TabbedOutput(tabs, "Time played\t%i:%02i:%02i\t%i:%02i:%02i",
                 hours1, (time1 % 3600) / 60, (time1 % 3600) % 60, hours2, (time2 % 3600) / 60, (time2 % 3600) % 60);
         else
-            C_TabbedOutput(tabs, "Time played\t%02i:%02i:%02i\t%02i:%02i",
+            C_TabbedOutput(tabs, "Time played\t%i:%02i:%02i\t%02i:%02i",
                 hours1, (time1 % 3600) / 60, (time1 % 3600) % 60, (time2 % 3600) / 60, (time2 % 3600) % 60);
     }
     else
@@ -5612,7 +5612,7 @@ static void C_PlayerStats_Game(void)
             C_TabbedOutput(tabs, "Time played\t%02i:%02i\tOver %s hours!",
                 (time1 % 3600) / 60, (time1 % 3600) % 60, temp2);
         else if (hours2)
-            C_TabbedOutput(tabs, "Time played\t%02i:%02i\t%02i:%02i:%02i",
+            C_TabbedOutput(tabs, "Time played\t%02i:%02i\t%i:%02i:%02i",
                 (time1 % 3600) / 60, (time1 % 3600) % 60, hours2, (time2 % 3600) / 60, (time2 % 3600) % 60);
         else
             C_TabbedOutput(tabs, "Time played\t%02i:%02i\t%02i:%02i",
@@ -6021,7 +6021,7 @@ static void C_PlayerStats_NoGame(void)
         free(temp1);
     }
     else if (hours1)
-        C_TabbedOutput(tabs, "Time played\t\x96\t%02i:%02i:%02i", hours1, (time1 % 3600) / 60, (time1 % 3600) % 60);
+        C_TabbedOutput(tabs, "Time played\t\x96\t%i:%02i:%02i", hours1, (time1 % 3600) / 60, (time1 % 3600) % 60);
     else
         C_TabbedOutput(tabs, "Time played\t\x96\t%02i:%02i", (time1 % 3600) / 60, (time1 % 3600) % 60);
 
