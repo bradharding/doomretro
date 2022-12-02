@@ -32,7 +32,7 @@
 * To allow greater precision, the `joy_sensitivity_horizontal`, `joy_sensitivity_vertical` and `m_senstivity` CVARs can now be changed to non-integer values.
 * Turning the `r_corpses_mirrored` or `r_mirroredweapons` CVARs `on` in the console now works correctly.
 * The effects of changing the `r_randomstartframes` CVAR in the console are now immediate.
-* A `NOMIRROREDCORPSE` flag can now be used in `Retro bits` of `DEHACKED` lumps to force a monster’s corpse not to be randomly mirrored even if the `r_corpses_mirrored` CVAR is `on`.
+* A `NOMIRROREDCORPSE` flag can now be used in a thing’s `Retro bits` in `DEHACKED` lumps to force a monster’s corpse not to be randomly mirrored even if the `r_corpses_mirrored` CVAR is `on`.
 * Support has been added for [*Harmony*](https://slayersclub.bethesda.net/en/article/E5gTsCSptkfJC43vh9Pey/new-add-on-available-harmony).
 * Further improvements have been made to the support of [*Chex Quest*](https://doomwiki.org/wiki/Chex_Quest), [*REKKR*](https://www.doomworld.com/idgames/levels/doom/megawads/rekkr) and [*REKKR: Sunken Land*](https://store.steampowered.com/app/1715690/REKKR_Sunken_Land/).
 * These changes have been made to the *BFG Edition* and latest rerelease of *DOOM* and *DOOM II*:
@@ -90,7 +90,7 @@
 * Recognizing the presence of `allowmonstertelefrags` in `MAPINFO` lumps has improved.
 * The player’s angle and position are now displayed in the top right of the screen, rather than as a persistent player message, when the `IDMYPOS` cheat is entered.
 * A `-solonet` command-line parameter has been implemented that toggles all things usually intended for multiplayer to spawn at the start of each map, and the player to respawn when they die.
-* A `sucktime` CVAR has been implemented that sets The amount of time in hours the player must complete the current map before “SUCKS!” is displayed on the intermission screen. This also affects the output the `am_playerstats` CVAR and the `playerstats` CCMD. If the CVAR is `0`, “SUCKS!” is never displayed. The CVAR is `1` by default and when vanilla mode is enabled.
+* A `sucktime` CVAR has been implemented that sets The amount of time in hours the player must complete the current map before “SUCKS!” is shown on the intermission screen. This also affects the output of the `am_playerstats` CVAR and the `playerstats` CCMD. If this CVAR is `0`, “SUCKS!” is never shown. This CVAR is `1` by default and when vanilla mode is enabled.
 * The artist and title of the currently playing music are now displayed by the `mapstats` CCMD when playing *DOOM (Shareware)* or *DOOM II: No Rest For The Living*.
 * Everything spawned by a monster spawner (such as during *MAP30: Icon Of Sin*) now counts towards the player’s stats.
 * The upward momentum applied to items dropped by monsters once they are killed has increased when the `tossdrop` CVAR is `on`.

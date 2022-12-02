@@ -920,7 +920,7 @@ consolecmd_t consolecmds[] =
     CVAR_INT(stillbob, "", "", int_cvars_func1, int_cvars_func2, CF_PERCENT, NOVALUEALIAS,
         "The amount the player's view and weapon bob up and down when they stand still (" BOLD("0%") " to " BOLD("100%") ")."),
     CVAR_INT(sucktime, "", "", int_cvars_func1, int_cvars_func2, CF_NONE, NOVALUEALIAS,
-        "The amount of time in hours the player must complete the current map before \"SUCKS!\" is displayed on the intermission screen."),
+        "The amount of time in hours the player must complete the current map before \"SUCKS!\" is shown on the intermission screen."),
     CCMD(take, "", "", take_cmd_func1, take_cmd_func2, true, TAKECMDFORMAT,
         "Takes " BOLD("ammo") ", " BOLD("armor") ", " BOLD("health") ", " BOLD("keys") ", " BOLD("weapons") ", or " BOLD("all")
         " or certain " BOLDITALICS("items") " away from the player."),
@@ -5585,18 +5585,35 @@ static void C_PlayerStats_Game(void)
 
     if (sucktime && hours1 >= sucktime)
     {
-        if (hours2)
-            C_TabbedOutput(tabs, "Time played\t%s\t%s %s",
-                s_STSTR_SUCKS, temp2, (hours2 == 1 ? "hour" : "hours"));
+        if (hours2 >= 100)
+            C_TabbedOutput(tabs, "Time played\t%s\tOver %s hours!", s_STSTR_SUCKS, temp2);
+        else if (hours2)
+            C_TabbedOutput(tabs, "Time played\t%s\t%02i:%02i:%02i",
+                s_STSTR_SUCKS, hours2, (time2 % 3600) / 60, (time2 % 3600) % 60);
         else
             C_TabbedOutput(tabs, "Time played\t%s\t%02i:%02i",
                 s_STSTR_SUCKS, (time2 % 3600) / 60, (time2 % 3600) % 60);
     }
+    else if (hours1)
+    {
+        if (hours2 >= 100)
+            C_TabbedOutput(tabs, "Time played\t%02i:%02i:%02i\tOver %s hours!",
+                hours1, (time1 % 3600) / 60, (time1 % 3600) % 60, temp2);
+        else if (hours2)
+            C_TabbedOutput(tabs, "Time played\t%02i:%02i:%02i\t%02i:%02i:%02i",
+                hours1, (time1 % 3600) / 60, (time1 % 3600) % 60, hours2, (time2 % 3600) / 60, (time2 % 3600) % 60);
+        else
+            C_TabbedOutput(tabs, "Time played\t%02i:%02i:%02i\t%02i:%02i",
+                hours1, (time1 % 3600) / 60, (time1 % 3600) % 60, (time2 % 3600) / 60, (time2 % 3600) % 60);
+    }
     else
     {
-        if (hours2)
-            C_TabbedOutput(tabs, "Time played\t%02i:%02i\t%s %s",
-                (time1 % 3600) / 60, (time1 % 3600) % 60, temp2, (hours2 == 1 ? "hour" : "hours"));
+        if (hours2 >= 100)
+            C_TabbedOutput(tabs, "Time played\t%02i:%02i\tOver %s hours!",
+                (time1 % 3600) / 60, (time1 % 3600) % 60, temp2);
+        else if (hours2)
+            C_TabbedOutput(tabs, "Time played\t%02i:%02i\t%02i:%02i:%02i",
+                (time1 % 3600) / 60, (time1 % 3600) % 60, hours2, (time2 % 3600) / 60, (time2 % 3600) % 60);
         else
             C_TabbedOutput(tabs, "Time played\t%02i:%02i\t%02i:%02i",
                 (time1 % 3600) / 60, (time1 % 3600) % 60, (time2 % 3600) / 60, (time2 % 3600) % 60);
@@ -5997,15 +6014,16 @@ static void C_PlayerStats_NoGame(void)
     C_TabbedOutput(tabs, "Secrets found\t\x96\t%s", temp1);
     free(temp1);
 
-    hours1 = time1 / 3600;
-    temp1 = commify(hours1);
-
-    if (hours1)
-        C_TabbedOutput(tabs, "Time played\t\x96\t%s %s", temp1, (hours1 == 1 ? "hour" : "hours"));
+    if ((hours1 = time1 / 3600) >= 100)
+    {
+        temp1 = commify(hours1);
+        C_TabbedOutput(tabs, "Time played\t\x96\tOver %s hours!", temp1);
+        free(temp1);
+    }
+    else if (hours1)
+        C_TabbedOutput(tabs, "Time played\t\x96\t%02i:%02i:%02i", hours1, (time1 % 3600) / 60, (time1 % 3600) % 60);
     else
         C_TabbedOutput(tabs, "Time played\t\x96\t%02i:%02i", (time1 % 3600) / 60, (time1 % 3600) % 60);
-
-    free(temp1);
 
     temp1 = commifystat(stat_damageinflicted);
     C_TabbedOutput(tabs, "Damage inflicted\t\x96\t%s", temp1);
