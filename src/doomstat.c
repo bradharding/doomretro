@@ -120,6 +120,7 @@ short           SLIME12;
 bool            STCFNxxx;
 bool            STYSNUM0;
 bool            WISCRT2;
+bool            WISUCKS;
 
 int             PLAYPALs;
 int             STBARs;

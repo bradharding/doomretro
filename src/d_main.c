@@ -2256,6 +2256,7 @@ static void D_DoomMainSetup(void)
     M_SVOL = (W_CheckMultipleLumps("M_SVOL") > 1);
     STYSNUM0 = (W_CheckMultipleLumps("STYSNUM0") > 1);
     WISCRT2 = (W_CheckMultipleLumps("WISCRT2") > 1);
+    WISUCKS = (W_CheckMultipleLumps("WISUCKS") > 1);
 
     I_InitGraphics();
     I_InitGameController();
