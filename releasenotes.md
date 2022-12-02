@@ -90,7 +90,7 @@
 * Recognizing the presence of `allowmonstertelefrags` in `MAPINFO` lumps has improved.
 * The player’s angle and position are now displayed in the top right of the screen, rather than as a persistent player message, when the `IDMYPOS` cheat is entered.
 * A `-solonet` command-line parameter has been implemented that toggles all things usually intended for multiplayer to spawn at the start of each map, and the player to respawn when they die.
-* A `sucktime` CVAR has been implemented that sets The amount of time in hours the player must complete the current map before “SUCKS!” is shown on the intermission screen. This also affects the output of the `am_playerstats` CVAR and the `playerstats` CCMD. If this CVAR is `0`, “SUCKS!” is never shown. This CVAR is `1` by default and when vanilla mode is enabled.
+* A `sucktime` CVAR has been implemented that sets the amount of time in hours the player must complete the current map before “SUCKS!” is shown on the intermission screen. This also affects the output from the `am_playerstats` CVAR and the `playerstats` CCMD. If this CVAR is `0`, “SUCKS!” is never shown. This CVAR is `1` by default and when vanilla mode is enabled.
 * The artist and title of the currently playing music are now displayed by the `mapstats` CCMD when playing *DOOM (Shareware)* or *DOOM II: No Rest For The Living*.
 * Everything spawned by a monster spawner (such as during *MAP30: Icon Of Sin*) now counts towards the player’s stats.
 * The upward momentum applied to items dropped by monsters once they are killed has increased when the `tossdrop` CVAR is `on`.
