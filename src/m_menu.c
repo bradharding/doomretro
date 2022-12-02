@@ -3718,10 +3718,9 @@ void M_StartControlPanel(void)
 
         if (!inhelpscreens)
             viewplayer->viewz = viewplayer->mo->floorz + MENUVIEWHEIGHT;
-    }
 
-    if (gamestate == GS_LEVEL)
         I_RestoreMousePointerPosition();
+    }
 
     S_LowerMusicVolume();
     D_FadeScreen(false);
