@@ -163,7 +163,6 @@ extern short            SLIME12;
 extern bool             STCFNxxx;
 extern bool             STYSNUM0;
 extern bool             WISCRT2;
-extern bool             WISUCKS;
 
 extern int              PLAYPALs;
 extern int              STBARs;
