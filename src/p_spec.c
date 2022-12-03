@@ -2227,16 +2227,7 @@ void P_PlayerInSpecialSector(sector_t *sector)
                     P_DamageMobj(viewplayer->mo, NULL, NULL, 20, true, false);
 
                 if (viewplayer->health <= 10)
-                {
-                    if (viewplayer->health > 0)
-                    {
-                        viewplayer->health = 0;
-                        viewplayer->mo->health = 0;
-                        S_StartSound(viewplayer->mo, viewplayer->mo->info->painsound);
-                    }
-
                     G_ExitLevel();
-                }
 
                 break;
         }
