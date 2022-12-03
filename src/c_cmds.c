@@ -1363,7 +1363,6 @@ static bool game_func1(char *cmd, char *parms)
         else
             C_Warning(0, NOGAMEWARNING, playername, "is");
 
-
         consoleinput[0] = '\0';
 
         return false;
