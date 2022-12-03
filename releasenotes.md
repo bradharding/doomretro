@@ -96,7 +96,7 @@
 * Everything spawned by a monster spawner (such as during *MAP30: Icon Of Sin*) now counts towards the player’s stats.
 * The upward momentum applied to items dropped by monsters once they are killed has increased when the `tossdrop` CVAR is `on`.
 * The player’s health now always updates correctly if they die while on a sector with special 11 (“Damage -10% or -20% health and end level”).
-* A warning is now displayed in the console at startup when an action is unbound from a control because it is already bound to another action.
+* A warning is now displayed in the console at startup when a control is unbound from an action because it is already bound to another action.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
