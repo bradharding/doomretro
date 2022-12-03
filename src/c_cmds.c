@@ -1496,31 +1496,51 @@ void alias_cmd_func2(char *cmd, char *parms)
 //
 // bind CCMD
 //
-static void C_UnbindDuplicates(const int keep, const controltype_t type, const int value)
+static void C_UnbindDuplicates(const int keep, const controltype_t type, const int control)
 {
     for (int i = 0; *actions[i].action; i++)
         if (i != keep)
         {
             if (type == keyboardcontrol)
             {
-                if (actions[i].keyboard1 && value == *(int *)actions[i].keyboard1)
+                if (actions[i].keyboard1 && controls[control].value == *(int *)actions[i].keyboard1)
+                {
+                    C_Warning(1, "The " BOLD("%s") " action has been unbound from the " BOLD("%s") " control.",
+                        actions[i].action, controls[control].control);
                     *(int *)actions[i].keyboard1 = 0;
+                }
 
-                if (actions[i].keyboard2 && value == *(int *)actions[i].keyboard2)
+                if (actions[i].keyboard2 && controls[control].value == *(int *)actions[i].keyboard2)
+                {
+                    C_Warning(1, "The " BOLD("%s") " action has been unbound from the " BOLD("%s") " control.",
+                        actions[i].action, controls[control].control);
                     *(int *)actions[i].keyboard2 = 0;
+                }
             }
             else if (type == mousecontrol)
             {
-                if (actions[i].mouse1 && value == *(int *)actions[i].mouse1)
+                if (actions[i].mouse1 && controls[control].value == *(int *)actions[i].mouse1)
+                {
+                    C_Warning(1, "The " BOLD("%s") " action has been unbound from the " BOLD("%s") " control.",
+                        actions[i].action, controls[control].control);
                     *(int *)actions[i].mouse1 = -1;
+                }
             }
             else if (type == gamecontrollercontrol)
             {
-                if (actions[i].gamecontroller1 && value == *(int *)actions[i].gamecontroller1)
+                if (actions[i].gamecontroller1 && controls[control].value == *(int *)actions[i].gamecontroller1)
+                {
+                    C_Warning(1, "The " BOLD("%s") " action has been unbound from the " BOLD("%s") " control.",
+                        actions[i].action, controls[control].control);
                     *(int *)actions[i].gamecontroller1 = 0;
+                }
 
-                if (actions[i].gamecontroller2 && value == *(int *)actions[i].gamecontroller2)
+                if (actions[i].gamecontroller2 && controls[control].value == *(int *)actions[i].gamecontroller2)
+                {
+                    C_Warning(1, "The " BOLD("%s") " action has been unbound from the " BOLD("%s") " control.",
+                        actions[i].action, controls[control].control);
                     *(int *)actions[i].gamecontroller2 = 0;
+                }
             }
         }
 }
@@ -1691,7 +1711,7 @@ void bind_cmd_func2(char *cmd, char *parms)
                                 *(int *)actions[action].keyboard1 = controls[i].value;
 
                             bound = true;
-                            C_UnbindDuplicates(action, keyboardcontrol, controls[i].value);
+                            C_UnbindDuplicates(action, keyboardcontrol, i);
 
 #if defined(_WIN32)
                             if (M_StringCompare(actions[action].action, "+screenshot"))
@@ -1717,7 +1737,7 @@ void bind_cmd_func2(char *cmd, char *parms)
                         {
                             *(int *)actions[action].mouse1 = controls[i].value;
                             bound = true;
-                            C_UnbindDuplicates(action, mousecontrol, controls[i].value);
+                            C_UnbindDuplicates(action, mousecontrol, i);
                         }
 
                         break;
@@ -1741,7 +1761,7 @@ void bind_cmd_func2(char *cmd, char *parms)
                                 *(int *)actions[action].gamecontroller1 = controls[i].value;
 
                             bound = true;
-                            C_UnbindDuplicates(action, gamecontrollercontrol, controls[i].value);
+                            C_UnbindDuplicates(action, gamecontrollercontrol, i);
                         }
 
                         break;
