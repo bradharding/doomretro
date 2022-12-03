@@ -345,7 +345,6 @@ static void cvarlist_cmd_func2(char *cmd, char *parms);
 static void endgame_cmd_func2(char *cmd, char *parms);
 static void exec_cmd_func2(char *cmd, char *parms);
 static void exitmap_cmd_func2(char *cmd, char *parms);
-static bool fastmonsters_cmd_func1(char *cmd, char *parms);
 static void fastmonsters_cmd_func2(char *cmd, char *parms);
 static void freeze_cmd_func2(char *cmd, char *parms);
 static bool give_cmd_func1(char *cmd, char *parms);
@@ -378,7 +377,6 @@ static void regenhealth_cmd_func2(char *cmd, char *parms);
 static void reset_cmd_func2(char *cmd, char *parms);
 static void resetall_cmd_func2(char *cmd, char *parms);
 static void respawnitems_cmd_func2(char *cmd, char *parms);
-static bool respawnmonsters_cmd_func1(char *cmd, char *parms);
 static void respawnmonsters_cmd_func2(char *cmd, char *parms);
 static void restartmap_cmd_func2(char *cmd, char *parms);
 static bool resurrect_cmd_func1(char *cmd, char *parms);
@@ -1505,15 +1503,15 @@ static void C_UnbindDuplicates(const int keep, const controltype_t type, const i
             {
                 if (actions[i].keyboard1 && controls[control].value == *(int *)actions[i].keyboard1)
                 {
-                    C_Warning(1, "The " BOLD("%s") " action has been unbound from the " BOLD("%s") " control.",
-                        actions[i].action, controls[control].control);
+                    C_Warning(1, "The " BOLD("%s") " control may only be bound to one action. The " BOLD("%s")
+                        " action has been unbound.", controls[control].control, actions[i].action);
                     *(int *)actions[i].keyboard1 = 0;
                 }
 
                 if (actions[i].keyboard2 && controls[control].value == *(int *)actions[i].keyboard2)
                 {
-                    C_Warning(1, "The " BOLD("%s") " action has been unbound from the " BOLD("%s") " control.",
-                        actions[i].action, controls[control].control);
+                    C_Warning(1, "The " BOLD("%s") " control may only be bound to one action. The " BOLD("%s")
+                        " action has been unbound.", controls[control].control, actions[i].action);
                     *(int *)actions[i].keyboard2 = 0;
                 }
             }
@@ -1521,8 +1519,8 @@ static void C_UnbindDuplicates(const int keep, const controltype_t type, const i
             {
                 if (actions[i].mouse1 && controls[control].value == *(int *)actions[i].mouse1)
                 {
-                    C_Warning(1, "The " BOLD("%s") " action has been unbound from the " BOLD("%s") " control.",
-                        actions[i].action, controls[control].control);
+                    C_Warning(1, "The " BOLD("%s") " control may only be bound to one action. The " BOLD("%s")
+                        " action has been unbound.", controls[control].control, actions[i].action);
                     *(int *)actions[i].mouse1 = -1;
                 }
             }
@@ -1530,15 +1528,15 @@ static void C_UnbindDuplicates(const int keep, const controltype_t type, const i
             {
                 if (actions[i].gamecontroller1 && controls[control].value == *(int *)actions[i].gamecontroller1)
                 {
-                    C_Warning(1, "The " BOLD("%s") " action has been unbound from the " BOLD("%s") " control.",
-                        actions[i].action, controls[control].control);
+                    C_Warning(1, "The " BOLD("%s") " control may only be bound to one action. The " BOLD("%s")
+                        " action has been unbound.", controls[control].control, actions[i].action);
                     *(int *)actions[i].gamecontroller1 = 0;
                 }
 
                 if (actions[i].gamecontroller2 && controls[control].value == *(int *)actions[i].gamecontroller2)
                 {
-                    C_Warning(1, "The " BOLD("%s") " action has been unbound from the " BOLD("%s") " control.",
-                        actions[i].action, controls[control].control);
+                    C_Warning(1, "The " BOLD("%s") " control may only be bound to one action. The " BOLD("%s")
+                        " action has been unbound.", controls[control].control, actions[i].action);
                     *(int *)actions[i].gamecontroller2 = 0;
                 }
             }

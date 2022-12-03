@@ -2211,7 +2211,7 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
 
     if (tplayer)
     {
-        int cheats = tplayer->cheats;
+        const int   cheats = tplayer->cheats;
 
         if (freeze && (!inflicter || !inflicter->player))
             return;
@@ -2251,7 +2251,7 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
 
             if ((cheats & CF_BUDDHA) && tplayer->health <= 0)
             {
-                int stat = tplayer->health + damage - 1;
+                const int   stat = tplayer->health + damage - 1;
 
                 tplayer->damagereceived += stat;
                 stat_damagereceived = SafeAdd(stat_damagereceived, stat);
