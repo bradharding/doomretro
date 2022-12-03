@@ -95,6 +95,7 @@
 * The artist and title of the currently playing music are now displayed by the `mapstats` CCMD when playing *DOOM (Shareware)* or *DOOM II: No Rest For The Living*.
 * Everything spawned by a monster spawner (such as during *MAP30: Icon Of Sin*) now counts towards the player’s stats.
 * The upward momentum applied to items dropped by monsters once they are killed has increased when the `tossdrop` CVAR is `on`.
+* The player’s health now updates correctly if they die while on a sector with special 11 (“Damage -10% or -20% health and end level”).
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
