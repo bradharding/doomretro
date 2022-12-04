@@ -100,7 +100,7 @@ bool I_InitMusic(void)
 
 #if defined(_WIN32)
     if (!(windowsmidi = I_Windows_InitMusic()))
-        C_Warning(1, "Music couldn't be completely %s.",
+        C_Warning(1, "Music couldn't be completely %s. Volume adjustment could be affected.",
             (english == english_american ? "initialized" : "initialised"));
 #endif
 
@@ -114,12 +114,17 @@ void I_SetMusicVolume(int volume)
     current_music_volume = volume;
 
 #if defined(_WIN32)
-    if (midimusictype && windowsmidi)
-        I_Windows_SetMusicVolume(current_music_volume);
+    if (midimusictype)
+    {
+        if (windowsmidi)
+            I_Windows_SetMusicVolume(current_music_volume);
+        else
+            Mix_VolumeMusic(current_music_volume);
+    }
     else
         Mix_VolumeMusic(current_music_volume / 3);
 #else
-    Mix_VolumeMusic(current_music_volume / 3);
+    Mix_VolumeMusic(current_music_volume);
 #endif
 }
 
