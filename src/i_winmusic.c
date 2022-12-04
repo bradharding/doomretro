@@ -331,7 +331,7 @@ bool I_Windows_InitMusic(void)
     }
 
     if (midiOutGetDevCaps(MidiDevice, &caps, sizeof(caps)) == MMSYSERR_NOERROR)
-        C_Output("Music is playing using the " ITALICS("%s."), caps.szPname);
+        C_Output("Music is playing using the " ITALICS("%s") " MIDI device.", caps.szPname);
 
     hdr->lpData = (LPSTR)buffer.events;
     hdr->dwBytesRecorded = 0;

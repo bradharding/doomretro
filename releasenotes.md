@@ -49,6 +49,7 @@
 * When to spawn blood splats around a decoration while the `r_corpses_moreblood` CVAR is `on` has now improved if the decoration’s sprite is replaced in a PWAD.
 * A bug is fixed whereby the wrong `M_DOOM` lump was displayed in the main menu in some instances.
 * Minor improvements have been made when adjusting the music volume.
+* The MIDI device used to play music is now displayed in the console at startup.
 * Bullet puffs are now spawned again when barrels are shot at.
 * The vertical position of blood and bullet puffs spawned is now more random.
 * The player’s view now shakes when they punch something and have a berserk power-up. This feature may be toggled using the new `r_shake_berserk` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
