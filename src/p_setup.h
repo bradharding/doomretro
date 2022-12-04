@@ -50,6 +50,7 @@ extern bool         compat_floormove;
 extern bool         compat_light;
 extern bool         compat_limitpain;
 extern bool         compat_nopassover;
+extern bool         compat_useblocking;
 extern bool         nograduallighting;
 
 extern char         mapnum[6];
