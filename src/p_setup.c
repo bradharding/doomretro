@@ -3079,7 +3079,7 @@ void P_SetupLevel(int ep, int map)
     {
         char    *temp2 = titlecase(maptitle);
 
-        C_PlayerMessage("%s %sentered " ITALICS("%s%s"),
+        C_PlayerMessage("%s %sentered " ITALICS("%s") "%s",
             temp1, (samelevel ? "re" : ""), temp2, (ispunctuation(temp2[strlen(temp2) - 1]) ? "" : "."));
 
         free(temp2);
