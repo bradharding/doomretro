@@ -40,6 +40,7 @@
 
 #include "c_console.h"
 #include "i_winmusic.h"
+#include "m_config.h"
 #include "m_misc.h"
 #include "memio.h"
 #include "mus2mid.h"
@@ -98,7 +99,9 @@ bool I_InitMusic(void)
     music_initialized = true;
 
 #if defined(_WIN32)
-    windowsmidi = I_Windows_InitMusic();
+    if (!(windowsmidi = I_Windows_InitMusic()))
+        C_Warning(1, "Music couldn't be completely %s.",
+            (english == english_american ? "initialized" : "initialised"));
 #endif
 
     return music_initialized;

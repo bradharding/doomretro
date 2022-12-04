@@ -129,7 +129,7 @@ static void InitSfxModule(void)
     }
     else
     {
-        C_Warning(1, "Sound effects couldn't be initialized.");
+        C_Warning(1, "Sound effects couldn't be %s.", (english == english_american ? "initialized" : "initialised"));
         nosfx = true;
     }
 }
@@ -139,7 +139,7 @@ static void InitMusicModule(void)
 {
     if (!I_InitMusic())
     {
-        C_Warning(1, "Music couldn't be initialized.");
+        C_Warning(1, "Music couldn't be %s.", (english == english_american ? "initialized" : "initialised"));
         nomusic = true;
     }
 }

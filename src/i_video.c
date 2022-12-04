@@ -1436,7 +1436,7 @@ static void SetVideoMode(bool createwindow, bool output)
             height = displays[displayindex].h;
 
             if (!width || !height)
-                I_Error("Graphics couldn't be initialized.");
+                I_Error("Graphics couldn't be %s.", (english == english_american ? "initialized" : "initialised"));
 
             if (createwindow && !(window = SDL_CreateWindow(DOOMRETRO_NAME, SDL_WINDOWPOS_UNDEFINED_DISPLAY(displayindex),
                 SDL_WINDOWPOS_UNDEFINED_DISPLAY(displayindex), width, height,

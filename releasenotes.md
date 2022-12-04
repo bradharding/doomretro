@@ -87,8 +87,10 @@
   * The player’s health no longer turns red when less than `10%` while buddha mode is enabled.
 * There are no longer any anomalies in *E1M4B: Phobos Mission Control* when the `r_fixmaperrors` CVAR is `on`.
 * Fixes have been made to some textures in *MAP31: Wolfenstein* when the `r_fixmaperrors` CVAR is `on`.
-* The presence of `compat_floormove` is now recognized in `MAPINFO` lumps.
-* Recognizing the presence of `allowmonstertelefrags` in `MAPINFO` lumps has improved.
+* These changes have been made to the support of `MAPINFO` lumps.
+  * `compat_floormove` can now be used.
+  * `compat_useblocking` can now be used.
+  * The use of `allowmonstertelefrags` has improved.
 * The player’s angle and position are now displayed in the top right of the screen, rather than as a persistent player message, when the `IDMYPOS` cheat is entered.
 * A `-solonet` command-line parameter has been implemented that toggles all things usually intended for multiplayer to spawn at the start of each map, and the player to respawn when they die.
 * A `sucktime` CVAR has been implemented that sets the amount of time in hours the player must complete the current map before “SUCKS!” is shown on the intermission screen. This also affects the output from the `am_playerstats` CVAR and the `playerstats` CCMD. If this CVAR is `0`, “SUCKS!” is never shown. This CVAR is `1` by default and when vanilla mode is enabled.

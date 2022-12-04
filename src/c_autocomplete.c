@@ -5943,6 +5943,7 @@ const autocomplete_t autocompletelist[] =
     { "if skilllevel ",                              DOOM1AND2 },
     { "if stillbob ",                                DOOM1AND2 },
     { "if sucktime ",                                DOOM1AND2 },
+    { "if sucktime 1 then ",                         DOOM1AND2 },
     { "if tossdrop ",                                DOOM1AND2 },
     { "if tossdrop off ",                            DOOM1AND2 },
     { "if tossdrop off then ",                       DOOM1AND2 },
