@@ -1604,7 +1604,7 @@ void C_Drawer(void)
                     NOBACKGROUNDCOLOR, consoleboldcolor, tinttab66, console[i].tabs, true, true, i);
             else if (stringtype == inputstring || stringtype == cheatstring)
                 C_DrawConsoleText(CONSOLETEXTX, y, text, consoleinputcolor,
-                    NOBACKGROUNDCOLOR, consoleboldcolor, tinttab66, notabs, true, true, i);
+                    NOBACKGROUNDCOLOR, consoleboldcolor, tinttab75, notabs, true, true, i);
             else if (stringtype == warningstring)
                 C_DrawConsoleText(CONSOLETEXTX, y, console[i].string, consolewarningcolor,
                     NOBACKGROUNDCOLOR, consolewarningboldcolor, tinttab66, notabs, true, true, i);

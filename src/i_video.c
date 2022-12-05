@@ -1448,7 +1448,7 @@ static void SetVideoMode(bool createwindow, bool output)
                 char    *temp1 = commify(width);
                 char    *temp2 = commify(height);
 
-                C_Output("Staying at the native desktop resolution of %sx%s with a %s aspect ratio.",
+                C_Output("Staying at the native desktop resolution of %sx%s with an aspect ratio of %s.",
                     temp1, temp2, getaspectratio(width, height));
 
                 free(temp1);
@@ -1470,7 +1470,7 @@ static void SetVideoMode(bool createwindow, bool output)
                 char    *temp1 = commify(width);
                 char    *temp2 = commify(height);
 
-                C_Output("Switched to a resolution of %sx%s with a %s aspect ratio.", temp1, temp2, getaspectratio(width, height));
+                C_Output("Switched to a resolution of %sx%s with an aspect ratio of %s.", temp1, temp2, getaspectratio(width, height));
 
                 free(temp1);
                 free(temp2);

@@ -125,7 +125,7 @@ static void InitSfxModule(void)
 
         C_Output("Sound effects are playing at %i%% volume and a sample rate of %.1fkHz over %i channels%s",
             s_sfxvolume, SAMPLERATE / 1000.0f, s_channels,
-            (M_StringCompare(audiodriver, "wasapi") ? " using the " ITALICS("WASAPI.") :
+            (M_StringCompare(audiodriver, "wasapi") ? " using " ITALICS("WASAPI.") :
             (M_StringCompare(audiodriver, "directsound") ? " using the " ITALICS("DirectSound") " API." : "")));
     }
     else
