@@ -123,7 +123,7 @@ static void InitSfxModule(void)
     {
         const char  *audiodriver = SDL_GetCurrentAudioDriver();
 
-        C_Output("Sound effects are playing at %i%% volume and a sample rate of %.1fkHz over %i channels%s",
+        C_Output("Sound effects play at %i%% volume and a sample rate of %.1fkHz over %i channels%s",
             s_sfxvolume, SAMPLERATE / 1000.0f, s_channels,
             (M_StringCompare(audiodriver, "wasapi") ? " using " ITALICS("WASAPI.") :
             (M_StringCompare(audiodriver, "directsound") ? " using the " ITALICS("DirectSound") " API." : "")));
@@ -153,7 +153,7 @@ void S_Init(void)
 {
     if (M_CheckParm("-nosound"))
     {
-        C_Warning(1, "A " BOLD("-nosound") " parameter was found on the command-line. All sound is now muted.");
+        C_Warning(1, "A " BOLD("-nosound") " parameter was found on the command-line. Sound is now muted.");
         nomusic = true;
         nosfx = true;
     }
@@ -161,13 +161,13 @@ void S_Init(void)
     {
         if (M_CheckParm("-nomusic"))
         {
-            C_Warning(1, "A " BOLD("-nomusic") " parameter was found on the command-line. All music is now muted.");
+            C_Warning(1, "A " BOLD("-nomusic") " parameter was found on the command-line. Music is now muted.");
             nomusic = true;
         }
 
         if (M_CheckParm("-nosfx"))
         {
-            C_Warning(1, "A " BOLD("-nosfx") " parameter was found on the command-line. All sound effects are now muted.");
+            C_Warning(1, "A " BOLD("-nosfx") " parameter was found on the command-line. Sound effects are now muted.");
             nosfx = true;
         }
     }

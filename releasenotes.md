@@ -12,8 +12,7 @@
 * Minor improvements have been made to the console’s autocomplete feature.
 * Minor improvements have been made to the help screen displayed by pressing the <kbd>F1</kbd> key.
 * CCMDs in the console that can only be used while playing a game, or while the player is alive, may now be entered at any time, and a description of the CCMD along with a warning about their usage is displayed.
-* The bottom edge of the console is now a slightly brighter red.
-* Bold text in the console is now slightly dimmer.
+* The colors of certain elements of the console have been improved.
 * The game is now paused as intended when the window loses focus.
 * These changes have been made to the external automap:
   * It now goes to black rather than dark blue while the help screen is displayed.
