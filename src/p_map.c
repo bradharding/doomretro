@@ -1921,7 +1921,8 @@ static bool PTR_UseTraverse(intercept_t *in)
     P_UseSpecialLine(usething, line, side);
 
     // can't use for more than one special line in a row
-    return ((line->flags & ML_PASSUSE) || compat_useblocking);
+    // [BH] unless its the wrong side
+    return (side || (line->flags & ML_PASSUSE) || compat_useblocking);
 }
 
 //

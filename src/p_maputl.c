@@ -187,7 +187,7 @@ void P_UnsetThingPosition(mobj_t *thing)
         mobj_t  **sprev = thing->sprev;
         mobj_t  *snext = thing->snext;
 
-        if ((*sprev = snext))                           // unlink from sector list
+        if ((*sprev = snext))               // unlink from sector list
             snext->sprev = sprev;
 
         // phares 03/14/98
@@ -203,7 +203,7 @@ void P_UnsetThingPosition(mobj_t *thing)
         // If this Thing is being removed entirely, then the calling
         // routine will clear out the nodes in sector_list.
         sector_list = thing->touching_sectorlist;
-        thing->touching_sectorlist = NULL;              // to be restored by P_SetThingPosition
+        thing->touching_sectorlist = NULL;  // to be restored by P_SetThingPosition
     }
 
     if (!(thing->flags & MF_NOBLOCKMAP))
@@ -277,8 +277,8 @@ void P_SetThingPosition(mobj_t *thing)
         // at sector_t->touching_thinglist) are broken. When a node is
         // added, new sector links are created.
         P_CreateSecNodeList(thing, thing->x, thing->y);
-        thing->touching_sectorlist = sector_list;       // Attach to Thing's mobj_t
-        sector_list = NULL;                             // clear for next time
+        thing->touching_sectorlist = sector_list;   // attach to thing's mobj_t
+        sector_list = NULL;                         // clear for next time
     }
 
     // link into blockmap
@@ -352,7 +352,7 @@ bool P_BlockLinesIterator(const int x, const int y, bool func(line_t *))
             line_t  *ld = lines + *list;
 
             if (ld->validcount == validcount)
-                continue;       // line has already been checked
+                continue;   // line has already been checked
 
             ld->validcount = validcount;
 
@@ -360,7 +360,7 @@ bool P_BlockLinesIterator(const int x, const int y, bool func(line_t *))
                 return false;
         }
 
-        return true;            // everything was checked
+        return true;        // everything was checked
     }
 }
 
@@ -520,6 +520,7 @@ static bool PIT_AddThingIntercepts(mobj_t *thing)
     fixed_t     radius;
     fixed_t     x, y;
 
+    // [BH] If the thing isn't shootable, exit early
     if (!(thing->flags & MF_SHOOTABLE))
         return true;
 
@@ -536,28 +537,28 @@ static bool PIT_AddThingIntercepts(mobj_t *thing)
     {
         switch (i)
         {
-            case 0:     // Top edge
+            case 0: // Top edge
                 dl.x = x + radius;
                 dl.y = y + radius;
                 dl.dx = -radius * 2;
                 dl.dy = 0;
                 break;
 
-            case 1:     // Right edge
+            case 1: // Right edge
                 dl.x = x + radius;
                 dl.y = y - radius;
                 dl.dx = 0;
                 dl.dy = radius * 2;
                 break;
 
-            case 2:     // Bottom edge
+            case 2: // Bottom edge
                 dl.x = x - radius;
                 dl.y = y - radius;
                 dl.dx = radius * 2;
                 dl.dy = 0;
                 break;
 
-            case 3:     // Left edge
+            case 3: // Left edge
                 dl.x = x - radius;
                 dl.y = y + radius;
                 dl.dx = 0;
@@ -574,7 +575,7 @@ static bool PIT_AddThingIntercepts(mobj_t *thing)
             if (P_PointOnDivlineSide(dl.x, dl.y, &dltrace) != P_PointOnDivlineSide(dl.x + dl.dx, dl.y + dl.dy, &dltrace))
             {
                 // It's a hit
-                fixed_t frac = P_InterceptVector(&dltrace, &dl);
+                const fixed_t   frac = P_InterceptVector(&dltrace, &dl);
 
                 // behind source
                 if (frac < 0)
@@ -591,7 +592,7 @@ static bool PIT_AddThingIntercepts(mobj_t *thing)
         }
     }
 
-    // If none of the sides was facing the trace, then the trace
+    // If none of the sides were facing the trace, then the trace
     // must have started inside the box, so add it as an intercept.
     if (!numfronts)
     {
@@ -627,15 +628,15 @@ static bool P_TraverseIntercepts(traverser_t func, const fixed_t maxfrac)
             }
 
         if (dist > maxfrac)
-            return true;        // checked everything in range
+            return true;    // checked everything in range
 
         if (!func(in))
-            return false;       // don't bother going farther
+            return false;   // don't bother going farther
 
         in->frac = FIXED_MAX;
     }
 
-    return true;                // everything was traversed
+    return true;            // everything was traversed
 }
 
 //
@@ -651,7 +652,8 @@ bool P_PathTraverse(fixed_t x1, fixed_t y1, fixed_t x2, fixed_t y2, const int fl
     fixed_t xt2, yt2;
     int64_t _x1, _y1;
     int64_t _x2, _y2;
-    fixed_t xstep = 256 * FRACUNIT, ystep = 256 * FRACUNIT;
+    fixed_t xstep = 256 * FRACUNIT;
+    fixed_t ystep = 256 * FRACUNIT;
     fixed_t partial = FRACUNIT;
     fixed_t xintercept, yintercept;
     int     mapx, mapy;
