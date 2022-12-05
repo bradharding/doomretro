@@ -53,12 +53,11 @@
 #define CONSOLEAUTOMAPBEVELCOLOR            5
 #define CONSOLEBACKCOLOR                    12
 #define CONSOLEBEVELCOLOR                   0
-#define CONSOLEBOLDCOLOR                    4
+#define CONSOLEBOLDCOLOR                    80
 #define CONSOLEBOLDITALICSCOLOR             96
 #define CONSOLECARETCOLOR                   4
 #define CONSOLEDIVIDERCOLOR                 100
 #define CONSOLEINPUTCOLOR                   4
-#define CONSOLEINPUTTOOUTPUTCOLOR           4
 #define CONSOLEOUTPUTCOLOR                  88
 #define CONSOLEOVERLAYCOLOR                 4
 #define CONSOLEOVERLAYWARNINGCOLOR          176

@@ -141,7 +141,6 @@ int                     consolebrandingcolor;
 static int              consolecaretcolor;
 static int              consoledividercolor;
 static int              consoleinputcolor;
-static int              consoleinputtooutputcolor;
 static int              consoleoutputcolor;
 static int              consoleoverlaycolor;
 static int              consoleoverlaywarningcolor;
@@ -681,7 +680,6 @@ void C_Init(void)
     consolecaretcolor = nearestcolors[CONSOLECARETCOLOR];
     consoledividercolor = nearestcolors[CONSOLEDIVIDERCOLOR] << 8;
     consoleinputcolor = nearestcolors[CONSOLEINPUTCOLOR];
-    consoleinputtooutputcolor = nearestcolors[CONSOLEINPUTTOOUTPUTCOLOR];
     consoleoutputcolor = nearestcolors[CONSOLEOUTPUTCOLOR];
     consoleoverlaycolor = nearestcolors[CONSOLEOVERLAYCOLOR];
     consoleoverlaywarningcolor = nearestcolors[CONSOLEOVERLAYWARNINGCOLOR];
@@ -694,8 +692,8 @@ void C_Init(void)
     consolewarningboldcolor = nearestcolors[CONSOLEWARNINGBOLDCOLOR];
     consolewarningcolor = nearestcolors[CONSOLEWARNINGCOLOR];
 
-    consolecolors[inputstring] = consoleinputtooutputcolor;
-    consolecolors[cheatstring] = consoleinputtooutputcolor;
+    consolecolors[inputstring] = consoleinputcolor;
+    consolecolors[cheatstring] = consoleinputcolor;
     consolecolors[outputstring] = consoleoutputcolor;
     consolecolors[warningstring] = consolewarningcolor;
     consolecolors[playermessagestring] = consoleplayermessagecolor;
