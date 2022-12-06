@@ -172,7 +172,7 @@ void P_LineOpening(line_t *line)
 
 //
 // P_UnsetThingPosition
-// Unlinks a thing from block map and sectors. On each position change, BLOCKMAP and other
+// Unlinks a thing from blockmap and sectors. On each position change, BLOCKMAP and other
 // lookups maintaining lists of things inside these structures need to be updated.
 //
 void P_UnsetThingPosition(mobj_t *thing)
@@ -220,7 +220,7 @@ void P_UnsetThingPosition(mobj_t *thing)
         mobj_t  *bnext;
         mobj_t  **bprev = thing->bprev;
 
-        if (bprev && (*bprev = bnext = thing->bnext))   // unlink from block map
+        if (bprev && (*bprev = bnext = thing->bnext))   // unlink from blockmap
             bnext->bprev = bprev;
     }
 }
@@ -326,7 +326,7 @@ void P_SetBloodSplatPosition(bloodsplat_t *splat)
 }
 
 //
-// BLOCK MAP ITERATORS
+// BLOCKMAP ITERATORS
 // For each line/thing in the given mapblock, call the passed PIT_* function.
 // If the function returns false, exit with false without checking anything else.
 //
@@ -477,7 +477,8 @@ static bool PIT_AddLineIntercepts(line_t *ld)
     divline_t   dl;
 
     // avoid precision problems with two routines
-    if (dltrace.dx < -16 * FRACUNIT || dltrace.dx > 16 * FRACUNIT || dltrace.dy < -16 * FRACUNIT || dltrace.dy > 16 * FRACUNIT)
+    if (dltrace.dx < -16 * FRACUNIT || dltrace.dx > 16 * FRACUNIT
+        || dltrace.dy < -16 * FRACUNIT || dltrace.dy > 16 * FRACUNIT)
     {
         s1 = P_PointOnDivlineSide(ld->v1->x, ld->v1->y, &dltrace);
         s2 = P_PointOnDivlineSide(ld->v2->x, ld->v2->y, &dltrace);

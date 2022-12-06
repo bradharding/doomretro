@@ -202,7 +202,7 @@ int                 *blockmap;
 // offsets in blockmap are from here
 int                 *blockmaplump;
 
-// origin of block map
+// origin of blockmap
 fixed_t             bmaporgx;
 fixed_t             bmaporgy;
 

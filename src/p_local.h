@@ -293,7 +293,7 @@ extern int          *blockmap;
 extern int          bmapwidth;
 extern int          bmapheight;     // in mapblocks
 extern fixed_t      bmaporgx;
-extern fixed_t      bmaporgy;       // origin of block map
+extern fixed_t      bmaporgy;       // origin of blockmap
 extern mobj_t       **blocklinks;   // for thing chains
 
 // MAES: extensions to support 512x512 blockmaps.
