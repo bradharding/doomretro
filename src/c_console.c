@@ -1064,6 +1064,8 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
                     x++;
                 else if (letter == ' ' && prevletter == BOLDTOGGLECHAR && prevletter2 == 'r')
                     x--;
+                else if (letter == 'f' && prevletter == BOLDTOGGLECHAR && prevletter2 == '[')
+                    x--;
                 else if (letter == ',' && prevletter == BOLDTOGGLECHAR
                     && (prevletter2 == '"' || prevletter2 == '\'' || prevletter2 == 'r'))
                     x -= 2;
