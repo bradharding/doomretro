@@ -1922,7 +1922,7 @@ static bool PTR_UseTraverse(intercept_t *in)
 
     // can't use for more than one special line in a row
     // [BH] unless its the wrong side
-    return (side || (line->flags & ML_PASSUSE) || !compat_useblocking);
+    return ((side && !compat_useblocking) || (line->flags & ML_PASSUSE));
 }
 
 //
