@@ -993,8 +993,8 @@ static void HU_DrawAltHUD(void)
         }
 
         althudfunc(ALTHUD_LEFT_X + 5, ALTHUD_Y + 11, altleftpatch, WHITE, color, tinttab60);
-        althudfunc(ALTHUD_LEFT_X + 25, ALTHUD_Y + 13, altendpatch, WHITE, barcolor, NULL);
-        althudfunc(ALTHUD_LEFT_X + 123, ALTHUD_Y + 13, altmarkpatch, WHITE, barcolor, NULL);
+        althudfunc(ALTHUD_LEFT_X + 25, ALTHUD_Y + 13, altendpatch, WHITE, tinttab15[barcolor], NULL);
+        althudfunc(ALTHUD_LEFT_X + 123, ALTHUD_Y + 13, altmarkpatch, WHITE, tinttab15[barcolor], NULL);
         althudfunc(ALTHUD_LEFT_X + 25 + health - 102, ALTHUD_Y + 10, altmark2patch, WHITE, barcolor, NULL);
     }
     else
@@ -1002,9 +1002,9 @@ static void HU_DrawAltHUD(void)
         fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 13, MAX(1, health) + (health == 100), 8,
             (!r_hud_translucency && barcolor == green1 ? green2 : barcolor), true, tinttab25);
         althudfunc(ALTHUD_LEFT_X + 5, ALTHUD_Y + 11, altleftpatch, WHITE, color, tinttab60);
-        althudfunc(ALTHUD_LEFT_X + 25, ALTHUD_Y + 13, altendpatch, WHITE, barcolor, NULL);
+        althudfunc(ALTHUD_LEFT_X + 25, ALTHUD_Y + 13, altendpatch, WHITE, tinttab15[barcolor], NULL);
         althudfunc(ALTHUD_LEFT_X + 25 + MAX(1, health) - (health < 100) - 2,
-            ALTHUD_Y + 13, altmarkpatch, WHITE, barcolor, NULL);
+            ALTHUD_Y + 13, altmarkpatch, WHITE, tinttab15[barcolor], NULL);
     }
 
     if (armor)
@@ -1085,8 +1085,8 @@ static void HU_DrawAltHUD(void)
 
                 fillrectfunc(0, ALTHUD_RIGHT_X + 100 - ammo, ALTHUD_Y + 13, ammo + 1, 8, barcolor, true, tinttab25);
                 althudfunc(ALTHUD_RIGHT_X, ALTHUD_Y + 13, altrightpatch[viewplayer->backpack], WHITE, color, tinttab60);
-                althudfunc(ALTHUD_RIGHT_X + 100, ALTHUD_Y + 13, altendpatch, WHITE, barcolor, NULL);
-                althudfunc(ALTHUD_RIGHT_X + 100 - ammo - 2, ALTHUD_Y + 13, altmarkpatch, WHITE, barcolor, NULL);
+                althudfunc(ALTHUD_RIGHT_X + 100, ALTHUD_Y + 13, altendpatch, WHITE, tinttab15[barcolor], NULL);
+                althudfunc(ALTHUD_RIGHT_X + 100 - ammo - 2, ALTHUD_Y + 13, altmarkpatch, WHITE, tinttab15[barcolor], NULL);
             }
             else
                 althudfunc(ALTHUD_RIGHT_X, ALTHUD_Y + 13, altrightpatch[viewplayer->backpack], WHITE, color, tinttab60);
