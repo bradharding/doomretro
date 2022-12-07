@@ -54,7 +54,7 @@
 #define CONSOLEBACKCOLOR                    12
 #define CONSOLEBEVELCOLOR                   0
 #define CONSOLEBOLDCOLOR                    80
-#define CONSOLEBOLDITALICSCOLOR             96
+#define CONSOLEBOLDITALICSCOLOR             93
 #define CONSOLECARETCOLOR                   4
 #define CONSOLEDIVIDERCOLOR                 100
 #define CONSOLEINPUTCOLOR                   4
