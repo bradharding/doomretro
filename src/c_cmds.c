@@ -2523,7 +2523,12 @@ static void give_cmd_func2(char *cmd, char *parms)
         C_ShowFormat(i);
 
         if (gamestate != GS_LEVEL)
-            C_Warning(0, NOGAMEWARNING);
+        {
+            if (M_StringCompare(playername, playername_default))
+                C_Warning(0, NOGAMEWARNING, "you", "are");
+            else
+                C_Warning(0, NOGAMEWARNING, playername, "is");
+        }
     }
     else
     {
@@ -4864,7 +4869,12 @@ static void name_cmd_func2(char *cmd, char *parms)
         C_ShowFormat(i);
 
         if (gamestate != GS_LEVEL)
-            C_Warning(0, NOGAMEWARNING);
+        {
+            if (M_StringCompare(playername, playername_default))
+                C_Warning(0, NOGAMEWARNING, "you", "are");
+            else
+                C_Warning(0, NOGAMEWARNING, playername, "is");
+        }
     }
     else if (M_StringCompare(namecmdold, "player")
         || M_StringCompare(namecmdold, playername)
@@ -6759,7 +6769,12 @@ static void resurrect_cmd_func2(char *cmd, char *parms)
         C_ShowFormat(i);
 
         if (gamestate != GS_LEVEL)
-            C_Warning(0, NOGAMEWARNING);
+        {
+            if (M_StringCompare(playername, playername_default))
+                C_Warning(0, NOGAMEWARNING, "you", "are");
+            else
+                C_Warning(0, NOGAMEWARNING, playername, "is");
+        }
     }
     else
     {
@@ -6989,7 +7004,12 @@ static void spawn_cmd_func2(char *cmd, char *parms)
         C_ShowFormat(i);
 
         if (gamestate != GS_LEVEL)
-            C_Warning(0, NOGAMEWARNING);
+        {
+            if (M_StringCompare(playername, playername_default))
+                C_Warning(0, NOGAMEWARNING, "you", "are");
+            else
+                C_Warning(0, NOGAMEWARNING, playername, "is");
+        }
     }
     else
     {
@@ -7193,7 +7213,12 @@ static void take_cmd_func2(char *cmd, char *parms)
         C_ShowFormat(i);
 
         if (gamestate != GS_LEVEL)
-            C_Warning(0, NOGAMEWARNING);
+        {
+            if (M_StringCompare(playername, playername_default))
+                C_Warning(0, NOGAMEWARNING, "you", "are");
+            else
+                C_Warning(0, NOGAMEWARNING, playername, "is");
+        }
     }
     else
     {
@@ -7488,7 +7513,12 @@ static void teleport_cmd_func2(char *cmd, char *parms)
         C_ShowFormat(i);
 
         if (gamestate != GS_LEVEL)
-            C_Warning(0, NOGAMEWARNING);
+        {
+            if (M_StringCompare(playername, playername_default))
+                C_Warning(0, NOGAMEWARNING, "you", "are");
+            else
+                C_Warning(0, NOGAMEWARNING, playername, "is");
+        }
     }
     else
     {
@@ -8593,7 +8623,12 @@ static void player_cvars_func2(char *cmd, char *parms)
             C_Output(INTEGERCVARWITHNODEFAULT, temp);
 
             if (gamestate != GS_LEVEL)
-                C_Warning(0, NOGAMEWARNING);
+            {
+                if (M_StringCompare(playername, playername_default))
+                    C_Warning(0, NOGAMEWARNING, "you", "are");
+                else
+                    C_Warning(0, NOGAMEWARNING, playername, "is");
+            }
 
             free(temp);
         }
@@ -8630,7 +8665,12 @@ static void player_cvars_func2(char *cmd, char *parms)
             C_Output(PERCENTCVARWITHNODEFAULT, temp);
 
             if (gamestate != GS_LEVEL)
-                C_Warning(0, NOGAMEWARNING);
+            {
+                if (M_StringCompare(playername, playername_default))
+                    C_Warning(0, NOGAMEWARNING, "you", "are");
+                else
+                    C_Warning(0, NOGAMEWARNING, playername, "is");
+            }
 
             free(temp);
         }
@@ -8700,7 +8740,12 @@ static void player_cvars_func2(char *cmd, char *parms)
             C_Output(PERCENTCVARWITHNODEFAULT, temp);
 
             if (gamestate != GS_LEVEL)
-                C_Warning(0, NOGAMEWARNING);
+            {
+                if (M_StringCompare(playername, playername_default))
+                    C_Warning(0, NOGAMEWARNING, "you", "are");
+                else
+                    C_Warning(0, NOGAMEWARNING, playername, "is");
+            }
 
             free(temp);
         }
