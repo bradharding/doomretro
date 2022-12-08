@@ -10309,7 +10309,14 @@ static void weapon_cvar_func2(char *cmd, char *parms)
 
         C_ShowDescription(i);
         C_Output(INTEGERCVARWITHNODEFAULT, temp);
-        C_ShowWarning(i);
+
+        if (gamestate != GS_LEVEL)
+        {
+            if (M_StringCompare(playername, playername_default))
+                C_Warning(0, NOGAMEWARNING, "you", "are");
+            else
+                C_Warning(0, NOGAMEWARNING, playername, "is");
+        }
 
         free(temp);
     }
