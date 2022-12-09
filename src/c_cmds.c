@@ -875,7 +875,7 @@ consolecmd_t consolecmds[] =
     CCMD(regenhealth, "", "", null_func1, regenhealth_cmd_func2, true, "[" BOLD("on") "|" BOLD("off") "]",
         "Toggles regenerating the player's health by 1% every second when it's below 100%."),
     CCMD(remove, "", "", kill_cmd_func1, kill_cmd_func2, true, REMOVECMDFORMAT,
-        "Removes all " BOLD("decorations") ", " BOLD("corpses") ", " BOLD("bloodsplats") ", " BOLD("items") ", a type of " \
+        "Removes all " BOLD("decorations") ", " BOLD("corpses") ", " BOLD("bloodsplats") ", " BOLD("items") ", a type of "
         BOLDITALICS("item") ", or " BOLD("everything") "."),
     CCMD(reset, "", "", null_func1, reset_cmd_func2, true, RESETCMDFORMAT,
         "Resets a " BOLDITALICS("CVAR") " to its default."),
@@ -995,7 +995,7 @@ consolecmd_t consolecmds[] =
     CVAR_INT(warninglevel, "", "", int_cvars_func1, int_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The console's warning level (" BOLD("0") ", " BOLD("1") " or " BOLD("2") ")."),
     CVAR_INT(weapon, "", "", weapon_cvar_func1, weapon_cvar_func2, CF_NONE, WEAPONVALUEALIAS,
-        "The player's currently equipped weapon (" BOLD("fists") ", " BOLD("chainsaw") ", " BOLD("pistol") ", " BOLD("shotgun") ", " \
+        "The player's currently equipped weapon (" BOLD("fists") ", " BOLD("chainsaw") ", " BOLD("pistol") ", " BOLD("shotgun") ", "
         BOLD("supershotgun") ", " BOLD("chaingun") ", " BOLD("rocketlauncher") ", " BOLD("plasmarifle") " or " BOLD("bfg9000") ")."),
     CVAR_INT(weaponbob, "", "", int_cvars_func1, int_cvars_func2, CF_PERCENT, NOVALUEALIAS,
         "The amount the player's weapon bobs as they move (" BOLD("0%") " to " BOLD("100%") ")."),
@@ -4804,7 +4804,7 @@ static bool name_cmd_func1(char *cmd, char *parms)
             M_StringCopy(namecmdnew, trimwhitespace(parm), sizeof(namecmdnew));
             namecmdanymonster = true;
 
-            return (namecmdnew[0] != '\0' && strlen(namecmdnew) < 33);
+            return (namecmdnew[0] != '\0' && strlen(namecmdnew) < 64);
         }
         else
             namecmdanymonster = false;
@@ -4852,7 +4852,7 @@ static bool name_cmd_func1(char *cmd, char *parms)
                     free(temp3);
 
                 if (result)
-                    return (namecmdnew[0] != '\0' && strlen(namecmdnew) < 33);
+                    return (namecmdnew[0] != '\0' && strlen(namecmdnew) < 64);
             }
     }
 
