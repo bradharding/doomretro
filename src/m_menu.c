@@ -3541,6 +3541,7 @@ bool M_Responder(event_t *ev)
                     itemon = new_game;
                 }
 
+                S_StartSound(NULL, sfx_swtchn);
                 return true;
             }
             else
