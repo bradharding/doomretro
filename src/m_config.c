@@ -350,6 +350,7 @@ static default_t cvars[] =
     CVAR_BOOL         (m_doubleclick_use,                m_doubleclick_use,                     m_doubleclick_use,                   BOOLVALUEALIAS        ),
     CVAR_BOOL         (m_invertyaxis,                    m_invertyaxis,                         m_invertyaxis,                       BOOLVALUEALIAS        ),
     CVAR_BOOL         (m_novertical,                     m_novertical,                          m_novertical,                        BOOLVALUEALIAS        ),
+    CVAR_BOOL         (m_pointer,                        m_pointer,                             m_pointer,                           BOOLVALUEALIAS        ),
     CVAR_FLOAT        (m_sensitivity,                    m_sensitivity,                         m_sensitivity,                       NOVALUEALIAS          ),
     CVAR_BOOL         (melt,                             wipe,                                  melt,                                BOOLVALUEALIAS        ),
     CVAR_BOOL         (messages,                         messages,                              messages,                            BOOLVALUEALIAS        ),
