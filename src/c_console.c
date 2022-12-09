@@ -2096,11 +2096,12 @@ bool C_Responder(event_t *ev)
                 break;
 
             case KEY_HOME:
-                // move caret to start
                 if ((outputhistory != -1 || !caretpos) && outputhistory && consolestrings > CONSOLELINES)
+                    // scroll to top of console
                     outputhistory = CONSOLEBLANKLINES - (gamestate == GS_TITLESCREEN ? 3 : 2);
                 else if (caretpos > 0)
                 {
+                    // move caret to start
                     selectend = ((modstate & KMOD_SHIFT) ? caretpos : 0);
                     caretpos = selectstart = 0;
                     caretwait = I_GetTimeMS() + CARETBLINKTIME;
@@ -2110,11 +2111,12 @@ bool C_Responder(event_t *ev)
                 break;
 
             case KEY_END:
-                // move caret to end
                 if (outputhistory != -1 && consolestrings > CONSOLELINES)
+                    // scroll to bottom of console
                     outputhistory = -1;
                 else if (caretpos < len)
                 {
+                    // move caret to end
                     selectstart = ((modstate & KMOD_SHIFT) ? caretpos : len);
                     caretpos = selectend = len;
                     caretwait = I_GetTimeMS() + CARETBLINKTIME;

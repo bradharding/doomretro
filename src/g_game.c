@@ -1217,7 +1217,7 @@ void G_SecretExitLevel(void)
 
 int G_GetParTime(void)
 {
-    int par = P_GetMapPar((gameepisode - 1) * 10 + gamemap);
+    const int   par = P_GetMapPar((gameepisode - 1) * 10 + gamemap);
 
     if (par)
         return par;

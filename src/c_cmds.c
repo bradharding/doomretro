@@ -4518,15 +4518,17 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
 
     C_TabbedOutput(tabs, "Compatibility\t%s",
         (mbf21compatible ? ITALICS("MBF21") : (mbfcompatible ? ITALICS("MBF") : (boomcompatible ? ITALICS("BOOM") :
-            (numsegs < 32768 ? "Vanilla" : "Limit removing")))));
+        (numsegs < 32768 ? "Vanilla" : "Limit removing")))));
 
     {
         const int   partime = G_GetParTime();
 
         if (partime)
         {
-            if (partime / 3600)
-                C_TabbedOutput(tabs, "Par time\t%i:%02i:%02i", partime / 3600, partime / 60, partime % 60);
+            const int   hours = partime / 3600;
+
+            if (hours)
+                C_TabbedOutput(tabs, "Par time\t%i:%02i:%02i", hours, partime / 60, partime % 60);
             else
                 C_TabbedOutput(tabs, "Par time\t%02i:%02i", partime / 60, partime % 60);
         }
