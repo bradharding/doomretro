@@ -56,7 +56,8 @@
 #define RED1          176
 #define RED2          180
 #define WHITE           4
-#define YELLOW        231
+#define YELLOW1       161
+#define YELLOW2       231
 
 extern byte *tinttab10;
 extern byte *tinttab15;

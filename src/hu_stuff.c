@@ -755,12 +755,12 @@ typedef struct
 
 static altkeypic_t altkeypics[NUMCARDS] =
 {
-    { BLUE1,  NULL },
-    { YELLOW, NULL },
-    { RED2,   NULL },
-    { BLUE1,  NULL },
-    { YELLOW, NULL },
-    { RED2,   NULL }
+    { BLUE1,   NULL },
+    { YELLOW2, NULL },
+    { RED2,    NULL },
+    { BLUE1,   NULL },
+    { YELLOW2, NULL },
+    { RED2,    NULL }
 };
 
 static patch_t  *altnum[10];
@@ -783,7 +783,8 @@ static int      green2;
 static int      blue1;
 static int      blue2;
 static int      red;
-static int      yellow;
+static int      yellow1;
+static int      yellow2;
 
 static bool     weaponschanged;
 
@@ -858,7 +859,8 @@ static void HU_AltInit(void)
     blue1 = (BTSX ? BLUE1 : nearestcolors[BLUE1]);
     blue2 = (BTSX ? BLUE2 : nearestcolors[BLUE2]);
     red = nearestcolors[RED2];
-    yellow = nearestcolors[YELLOW];
+    yellow1 = nearestcolors[YELLOW1];
+    yellow2 = nearestcolors[YELLOW2];
 }
 
 static void DrawAltHUDNumber(int x, int y, int val, int color, byte *tinttab)
@@ -1081,12 +1083,20 @@ static void HU_DrawAltHUD(void)
 
             if (ammo)
             {
-                barcolor = ((ammo = 100 * ammo / viewplayer->maxammo[ammotype]) < HUD_AMMO_MIN ? yellow : color);
-
-                fillrectfunc(0, ALTHUD_RIGHT_X + 100 - ammo, ALTHUD_Y + 13, ammo + 1, 8, barcolor, true, tinttab25);
-                althudfunc(ALTHUD_RIGHT_X, ALTHUD_Y + 13, altrightpatch[viewplayer->backpack], WHITE, color, tinttab60);
-                althudfunc(ALTHUD_RIGHT_X + 100, ALTHUD_Y + 13, altendpatch, WHITE, tinttab15[barcolor], NULL);
-                althudfunc(ALTHUD_RIGHT_X + 100 - ammo - 2, ALTHUD_Y + 13, altmarkpatch, WHITE, tinttab15[barcolor], NULL);
+                if ((ammo = 100 * ammo / viewplayer->maxammo[ammotype]) < HUD_AMMO_MIN)
+                {
+                    fillrectfunc(0, ALTHUD_RIGHT_X + 100 - ammo, ALTHUD_Y + 13, ammo + 1, 8, yellow2, true, tinttab25);
+                    althudfunc(ALTHUD_RIGHT_X, ALTHUD_Y + 13, altrightpatch[viewplayer->backpack], WHITE, color, tinttab60);
+                    althudfunc(ALTHUD_RIGHT_X + 100, ALTHUD_Y + 13, altendpatch, WHITE, yellow1, NULL);
+                    althudfunc(ALTHUD_RIGHT_X + 100 - ammo - 2, ALTHUD_Y + 13, altmarkpatch, WHITE, yellow1, NULL);
+                }
+                else
+                {
+                    fillrectfunc(0, ALTHUD_RIGHT_X + 100 - ammo, ALTHUD_Y + 13, ammo + 1, 8, color, true, tinttab25);
+                    althudfunc(ALTHUD_RIGHT_X, ALTHUD_Y + 13, altrightpatch[viewplayer->backpack], WHITE, color, tinttab60);
+                    althudfunc(ALTHUD_RIGHT_X + 100, ALTHUD_Y + 13, altendpatch, WHITE, tinttab15[color], NULL);
+                    althudfunc(ALTHUD_RIGHT_X + 100 - ammo - 2, ALTHUD_Y + 13, altmarkpatch, WHITE, tinttab15[color], NULL);
+                }
             }
             else
                 althudfunc(ALTHUD_RIGHT_X, ALTHUD_Y + 13, altrightpatch[viewplayer->backpack], WHITE, color, tinttab60);
