@@ -601,9 +601,9 @@ static void C_DrawScrollbar(void)
     const int   trackend = CONSOLESCROLLBARHEIGHT * SCREENWIDTH;
     const int   facestart = CONSOLESCROLLBARHEIGHT * (outputhistory == -1 ?
                     MAX(0, consolestrings - CONSOLEBLANKLINES - CONSOLELINES) :
-                    MAX(0, outputhistory - CONSOLEBLANKLINES)) / (consolestrings - CONSOLEBLANKLINES);
+                    MAX(0, outputhistory - CONSOLEBLANKLINES)) / consolestrings;
     const int   faceend = facestart + CONSOLESCROLLBARHEIGHT - CONSOLESCROLLBARHEIGHT
-                    * MAX(0, consolestrings - CONSOLEBLANKLINES - CONSOLELINES) / (consolestrings - CONSOLEBLANKLINES);
+                    * MAX(0, consolestrings - CONSOLEBLANKLINES - CONSOLELINES) / consolestrings;
 
     if (!facestart && faceend == CONSOLESCROLLBARHEIGHT)
         scrollbardrawn = false;
@@ -1636,10 +1636,7 @@ void C_Drawer(void)
     }
 
     // draw the scrollbar
-    if (consolestrings > CONSOLELINES + CONSOLEBLANKLINES)
-        C_DrawScrollbar();
-    else
-        scrollbardrawn = false;
+    C_DrawScrollbar();
 
     if (quitcmd)
         return;
