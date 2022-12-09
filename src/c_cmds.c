@@ -4524,7 +4524,14 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
         const int   partime = G_GetParTime();
 
         if (partime)
-            C_TabbedOutput(tabs, "Par time\t%02i:%02i", partime / 60, partime % 60);
+        {
+            if (partime / 3600)
+                C_TabbedOutput(tabs, "Par time\t%i:%02i:%02i", partime / 3600, partime / 60, partime % 60);
+            else
+                C_TabbedOutput(tabs, "Par time\t%02i:%02i", partime / 60, partime % 60);
+        }
+        else
+            C_TabbedOutput(tabs, "Par time\t\x96");
     }
 
     temp = commify(numspawnedthings);
