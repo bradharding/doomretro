@@ -2,6 +2,9 @@
 
 #### DOOM Retro v4.7.1
 
+* Minor changes have been made to text that is output to the console.
+* The health bar in the alternate widescreen HUD now still turns white when the player’s health is less than 100% and buddha mode is enabled.
+
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Saturday, December 10, 2022
