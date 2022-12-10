@@ -964,8 +964,8 @@ static void HU_DrawAltHUD(void)
                     colormaps[0][32 * 256 + nearestwhite] : nearestwhite);
     int         health = BETWEEN(HUD_NUMBER_MIN, viewplayer->health, HUD_NUMBER_MAX);
     int         armor = MIN(viewplayer->armorpoints, HUD_NUMBER_MAX);
-    int         barcolor = ((viewplayer->cheats & CF_BUDDHA) ? green1 :
-                    (health < HUD_HEALTH_MIN ? red : (health >= 100 ? green1 : color)));
+    int         barcolor = (health < HUD_HEALTH_MIN && !(viewplayer->cheats & CF_BUDDHA) ?
+                    red : (health >= 100 ? green1 : color));
     int         keypic_x = ALTHUD_RIGHT_X;
     const int   currenttime = I_GetTimeMS();
     static int  prevhealth = INT_MAX;
