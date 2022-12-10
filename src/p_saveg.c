@@ -1306,9 +1306,6 @@ void P_UnArchiveThinkers(void)
 
     P_InitThinkers();
 
-    // remove all bloodsplats
-    P_RemoveBloodSplats();
-
     thingindex = 0;
 
     // read in saved thinkers
