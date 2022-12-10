@@ -220,7 +220,7 @@ static void D_UpdateFade(void)
     static int  fadewait;
     const int   tics = I_GetTimeMS();
 
-    if (fadewait < tics && realframe)
+    if (fadewait < tics)
     {
         byte *tinttabs[FADECOUNT + 1] =
         {
