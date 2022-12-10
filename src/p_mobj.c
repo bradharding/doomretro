@@ -1458,12 +1458,12 @@ void P_SetBloodSplatColor(bloodsplat_t *splat)
 {
     if (chex || r_blood == r_blood_green)
     {
-        splat->viscolor = nearestcolors[GREENBLOODSPLATCOLOR + M_BigRandomInt(-2, 1)];
+        splat->viscolor = GREENBLOODSPLATCOLOR + M_BigRandomInt(-2, 1);
         splat->viscolfunc = bloodsplatcolfunc;
     }
     else if (r_blood == r_blood_nofuzz)
     {
-        splat->viscolor = nearestcolors[(splat->color == FUZZYBLOOD ? REDBLOODSPLATCOLOR : splat->color) + M_BigRandomInt(-2, 1)];
+        splat->viscolor = (splat->color == FUZZYBLOOD ? REDBLOODSPLATCOLOR : splat->color) + M_BigRandomInt(-2, 1);
         splat->viscolfunc = bloodsplatcolfunc;
     }
     else if (r_blood == r_blood_all)
@@ -1475,13 +1475,13 @@ void P_SetBloodSplatColor(bloodsplat_t *splat)
         }
         else
         {
-            splat->viscolor = nearestcolors[splat->color + M_BigRandomInt(-2, 1)];
+            splat->viscolor = splat->color + M_BigRandomInt(-2, 1);
             splat->viscolfunc = bloodsplatcolfunc;
         }
     }
     else
     {
-        splat->viscolor = nearestcolors[REDBLOODSPLATCOLOR + M_BigRandomInt(-2, 1)];
+        splat->viscolor = REDBLOODSPLATCOLOR + M_BigRandomInt(-2, 1);
         splat->viscolfunc = bloodsplatcolfunc;
     }
 }
