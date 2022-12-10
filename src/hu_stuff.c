@@ -635,7 +635,7 @@ static void HU_DrawHUD(void)
 
         armor_x = HUD_ARMOR_X - (armor_x + (armor_x & 1) + tallpercentwidth) / 2;
 
-        if ((patch = (viewplayer->armortype == green_armor_class ? greenarmorpatch : bluearmorpatch)))
+        if ((patch = (viewplayer->armortype == blue_armor_class ? bluearmorpatch : greenarmorpatch)))
             hudfunc(HUD_ARMOR_X - SHORT(patch->width) / 2, HUD_ARMOR_Y - SHORT(patch->height) - 3, patch, tinttab75);
 
         if (armorhighlight > currenttime)
@@ -1027,7 +1027,7 @@ static void HU_DrawAltHUD(void)
         {
             if (r_hud_translucency)
             {
-                barcolor = (viewplayer->armortype == green_armor_class ? green1 : blue1);
+                barcolor = (viewplayer->armortype == blue_armor_class ? blue1 : green1);
 
                 fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 2, 101, 4, barcolor, true, tinttab25);
                 fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 2, armor - 100 + (armor == 200),
@@ -1035,23 +1035,23 @@ static void HU_DrawAltHUD(void)
             }
             else
             {
-                if (viewplayer->armortype == green_armor_class)
-                {
-                    fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 2, 101, 4, green2, true, NULL);
-                    fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 2, armor - 100 + (armor == 200),
-                        4, green1, (armor == 200), NULL);
-                }
-                else
+                if (viewplayer->armortype == blue_armor_class)
                 {
                     fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 2, 101, 4, blue2, true, NULL);
                     fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 2, armor - 100 + (armor == 200),
                         4, blue1, (armor == 200), NULL);
                 }
+                else
+                {
+                    fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 2, 101, 4, green2, true, NULL);
+                    fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 2, armor - 100 + (armor == 200),
+                        4, green1, (armor == 200), NULL);
+                }
             }
         }
         else
             fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 2, armor + (armor == 100), 4,
-                (viewplayer->armortype == green_armor_class ? green1 : blue1), true, tinttab25);
+                (viewplayer->armortype == blue_armor_class ? blue1 : green1), true, tinttab25);
     }
     else
         althudfunc(ALTHUD_LEFT_X + 5, ALTHUD_Y, altarmpatch, -1, 0, tinttab60);
