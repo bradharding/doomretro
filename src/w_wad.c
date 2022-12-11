@@ -290,7 +290,7 @@ char *W_GuessFilename(char *path, char *string)
 //
 bool W_AddFile(char *filename, bool autoloaded)
 {
-    static bool     packagewadadded;
+    static bool     resourcewadadded;
     wadinfo_t       header;
     size_t          length;
     int             startlump;
@@ -364,7 +364,7 @@ bool W_AddFile(char *filename, bool autoloaded)
 
     free(fileinfo);
 
-    if (!M_StringCompare(leafname(filename), DOOMRETRO_WAD) && !devparm)
+    if (!M_StringCompare(leafname(filename), DOOMRETRO_RESOURCEWAD) && !devparm)
     {
         temp = commify((int64_t)numlumps - startlump);
         C_Output("%s %s lump%s from the %s " BOLD("%s") ".", (autoloaded ? "Automatically added" : "Added"), temp,
@@ -392,12 +392,12 @@ bool W_AddFile(char *filename, bool autoloaded)
     else if (M_StringCompare(file, "NERVE.WAD"))
         C_Output("Nerve Software's " ITALICS("No Rest For The Living") " is now available to play from the expansion menu.");
 
-    if (!packagewadadded)
+    if (!resourcewadadded)
     {
-        packagewadadded = true;
+        resourcewadadded = true;
 
-        if (!W_MergeFile(packagewad, true))
-            I_Error("%s is invalid.", packagewad);
+        if (!W_MergeFile(resourcewad, true))
+            I_Error("%s is invalid.", resourcewad);
     }
 
     return true;

@@ -2368,7 +2368,7 @@ void D_ProcessDehFile(char *filename, int lumpnum, bool autoloaded)
         char    *temp1 = commify(linecount);
         char    *temp2 = uppercase(lumpinfo[lumpnum]->name);
 
-        if (!M_StringCompare(leafname(filename), DOOMRETRO_WAD) && !devparm)
+        if (!M_StringCompare(leafname(filename), DOOMRETRO_RESOURCEWAD) && !devparm)
             C_Output("Parsed %s line%s from the " BOLD("%s") " lump in the %s " BOLD("%s") "%s.",
                 temp1, (linecount == 1 ? "" : "s"), temp2, (W_WadType(filename) == IWAD ? "IWAD" : "PWAD"),
                 filename, (dehfileignored ? " instead" : ""));

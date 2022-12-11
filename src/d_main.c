@@ -138,8 +138,8 @@ char            *autoloadpwadsubfolder;
 
 char            *pwadfile = "";
 
-char            *packageconfig;
-char            *packagewad;
+char            *configfile;
+char            *resourcewad;
 
 static char     dehwarning[256] = "";
 
@@ -969,7 +969,7 @@ static void D_CheckSupportedPWAD(char *filename)
 
 static bool D_IsUnsupportedPWAD(char *filename)
 {
-    return (error = (M_StringCompare(leafname(filename), DOOMRETRO_WAD)));
+    return (error = (M_StringCompare(leafname(filename), DOOMRETRO_RESOURCEWAD)));
 }
 
 static bool D_CheckParms(void)
@@ -1884,7 +1884,7 @@ static void D_ProcessDehInWad(void)
         if (process)
             for (int i = 0; i < numlumps; i++)
                 if (M_StringCompare(lumpinfo[i]->name, "DEHACKED")
-                    && !M_StringEndsWith(lumpinfo[i]->wadfile->path, DOOMRETRO_WAD)
+                    && !M_StringEndsWith(lumpinfo[i]->wadfile->path, DOOMRETRO_RESOURCEWAD)
                     && !M_StringEndsWith(lumpinfo[i]->wadfile->path, "D4V.WAD"))
                     D_ProcessDehFile(NULL, i, false);
 
@@ -1903,12 +1903,12 @@ static void D_ProcessDehInWad(void)
     if (process)
         for (int i = 0; i < numlumps; i++)
             if (M_StringCompare(lumpinfo[i]->name, "DEHACKED")
-                && !M_StringEndsWith(lumpinfo[i]->wadfile->path, DOOMRETRO_WAD))
+                && !M_StringEndsWith(lumpinfo[i]->wadfile->path, DOOMRETRO_RESOURCEWAD))
                 D_ProcessDehFile(NULL, i, false);
 
     for (int i = numlumps - 1; i >= 0; i--)
         if (M_StringCompare(lumpinfo[i]->name, "DEHACKED")
-            && M_StringEndsWith(lumpinfo[i]->wadfile->path, DOOMRETRO_WAD))
+            && M_StringEndsWith(lumpinfo[i]->wadfile->path, DOOMRETRO_RESOURCEWAD))
         {
             D_ProcessDehFile(NULL, i, false);
             break;
@@ -1954,16 +1954,16 @@ static void D_DoomMainSetup(void)
     int     startloadgame;
     char    *resourcefolder = M_GetResourceFolder();
 
-    packagewad = M_StringJoin(resourcefolder, DIR_SEPARATOR_S, DOOMRETRO_WAD, NULL);
+    resourcewad = M_StringJoin(resourcefolder, DIR_SEPARATOR_S, DOOMRETRO_RESOURCEWAD, NULL);
     free(resourcefolder);
 
     M_MakeDirectory(appdatafolder);
-    packageconfig = (p ? M_StringDuplicate(myargv[p + 1]) : M_StringJoin(appdatafolder, DIR_SEPARATOR_S, DOOMRETRO_CONFIG, NULL));
+    configfile = (p ? M_StringDuplicate(myargv[p + 1]) : M_StringJoin(appdatafolder, DIR_SEPARATOR_S, DOOMRETRO_CONFIG, NULL));
 
     C_ClearConsole();
 
     // Load configuration files before initializing other subsystems.
-    M_LoadCVARs(packageconfig);
+    M_LoadCVARs(configfile);
 
     C_PrintCompileDate();
 
@@ -2061,8 +2061,8 @@ static void D_DoomMainSetup(void)
         free(temp);
     }
 
-    if (!M_FileExists(packagewad))
-        I_Error("%s can't be found.", packagewad);
+    if (!M_FileExists(resourcewad))
+        I_Error("%s can't be found.", resourcewad);
 
     if (M_CheckParm("-nodeh"))
         C_Output("A " BOLD("-nodeh") " parameter was found on the command-line. "
@@ -2286,7 +2286,7 @@ static void D_DoomMainSetup(void)
     }
 
     if (!M_StringCompare(s_VERSION, DOOMRETRO_NAMEANDVERSIONSTRING))
-        I_Error("The wrong version of %s was found.", packagewad);
+        I_Error("The wrong version of %s was found.", resourcewad);
 
     unity = (W_CheckNumForName("TITLEPIC") >= 0
         && SHORT(((patch_t *)W_CacheLastLumpName("TITLEPIC"))->width) > VANILLAWIDTH);

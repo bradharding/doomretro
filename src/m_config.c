@@ -576,14 +576,14 @@ void M_SaveCVARs(void)
     if (!cvarsloaded || vanilla || togglingvanilla)
         return;
 
-    if (!(file = fopen(packageconfig, "wt")))
+    if (!(file = fopen(configfile, "wt")))
     {
         static bool warning;
 
         if (!warning)
         {
             warning = true;
-            C_Warning(0, BOLD("%s") " couldn't be saved.", packageconfig);
+            C_Warning(0, BOLD("%s") " couldn't be saved.", configfile);
         }
 
         return;
@@ -967,7 +967,7 @@ static void M_CheckCVARs(void)
 //
 void M_LoadCVARs(char *filename)
 {
-    const bool  ispackageconfig = M_StringEndsWith(filename, DOOMRETRO_CONFIG);
+    const bool  isconfigfile = M_StringEndsWith(filename, DOOMRETRO_CONFIG);
     int         bindcount = 0;
     int         cvarcount = 0;
     int         statcount = 0;
@@ -992,7 +992,7 @@ void M_LoadCVARs(char *filename)
     }
 
     // Clear all default controls before reading them from config file
-    if (!togglingvanilla && ispackageconfig)
+    if (!togglingvanilla && isconfigfile)
     {
         for (int i = 0; *actions[i].action; i++)
         {
@@ -1032,7 +1032,7 @@ void M_LoadCVARs(char *filename)
 
         if (M_StringCompare(cvar, "bind"))
         {
-            nobindoutput = ispackageconfig;
+            nobindoutput = isconfigfile;
             bind_cmd_func2("bind", value);
             nobindoutput = false;
             bindcount++;
@@ -1168,7 +1168,7 @@ void M_LoadCVARs(char *filename)
 
     if (!togglingvanilla)
     {
-        if (ispackageconfig)
+        if (isconfigfile)
         {
             char    *temp1 = commify(cvarcount);
             char    *temp2 = commify(statcount);

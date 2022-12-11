@@ -1696,7 +1696,7 @@ static void SetVideoMode(bool createwindow, bool output)
     {
         wadfile_t   *playpalwad = lumpinfo[W_CheckNumForName("PLAYPAL")]->wadfile;
 
-        if (!M_StringCompare(leafname(playpalwad->path), DOOMRETRO_WAD) && !devparm)
+        if (!M_StringCompare(leafname(playpalwad->path), DOOMRETRO_RESOURCEWAD) && !devparm)
             C_Output("Using the 256-%s palette from the " BOLD("PLAYPAL") " lump in the %s " BOLD("%s") ".",
                 (english == english_american ? "color" : "colour"),
                 (playpalwad->type == IWAD ? "IWAD" : "PWAD"),

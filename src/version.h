@@ -57,6 +57,7 @@
 #define DOOMRETRO_MUTEX                 "DOOMRETRO-CC4F1071-8B24-4E91-A207-D792F39636CD"
 #define DOOMRETRO_NAME                  "DOOM Retro"
 #define DOOMRETRO_PLACEOFORIGIN         "Western Sydney, Australia"
+#define DOOMRETRO_RESOURCEWAD           "doomretro.wad"
 #define DOOMRETRO_SAVEGAME              "doomretro%i.save"
 #define DOOMRETRO_SAVEGAMESFOLDER       "savegames"
 #define DOOMRETRO_SCREENSHOTSFOLDER     "screenshots"
@@ -65,6 +66,5 @@
                                         "without permission. All other trademarks are the property of " \
                                         "their respective holders. DOOM Retro is in no way affiliated " \
                                         "with nor endorsed by id Software."
-#define DOOMRETRO_WAD                   "doomretro.wad"
 #define DOOMRETRO_WIKINAME              "DOOM Retro Wiki"
 #define DOOMRETRO_WIKIURL               "https://github.com/bradharding/doomretro/wiki"

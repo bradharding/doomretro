@@ -7822,7 +7822,7 @@ static void vanilla_cmd_func2(char *cmd, char *parms)
         r_hud = hud;
         vid_showfps = showfps;
 
-        M_LoadCVARs(packageconfig);
+        M_LoadCVARs(configfile);
         C_Output(s_STSTR_VOFF);
         HU_SetPlayerMessage(s_STSTR_VOFF, false, false);
     }

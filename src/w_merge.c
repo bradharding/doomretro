@@ -267,14 +267,14 @@ static void AddSpriteLump(lumpinfo_t *lump)
     static int      MISFB0;
     static int      SHT2A0;
     static int      SHT2E0;
-    bool            ispackagewad = M_StringCompare(leafname(lump->wadfile->path), DOOMRETRO_WAD);
+    bool            isresourcewad = M_StringCompare(leafname(lump->wadfile->path), DOOMRETRO_RESOURCEWAD);
 
     if (!ValidSpriteLumpName(lump->name))
         return;
 
     if (lump->wadfile->type == PWAD)
     {
-        if (!ispackagewad)
+        if (!isresourcewad)
         {
             int i = 0;
 
@@ -300,7 +300,7 @@ static void AddSpriteLump(lumpinfo_t *lump)
         }
     }
 
-    if (ispackagewad)
+    if (isresourcewad)
     {
         if (M_StringStartsWith(lump->name, "MISF") && ((MISFA0 >= 2 || MISFB0 >= 2) || hacx || FREEDOOM))
             return;
