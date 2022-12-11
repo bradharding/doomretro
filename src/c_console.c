@@ -1526,7 +1526,7 @@ void C_Drawer(void)
 
             if ((yy += SCREENWIDTH) >= 0)
             {
-                byte    *tinttab = (!yy ? tinttab25 : tinttab50);
+                byte    *tinttab = (!yy ? tinttab40 : tinttab50);
 
                 for (int xx = yy + CONSOLETEXTX; xx < yy + CONSOLETEXTPIXELWIDTH + CONSOLETEXTX; xx++)
                 {
