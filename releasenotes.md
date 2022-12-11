@@ -2,6 +2,7 @@
 
 #### DOOM Retro v4.7.1
 
+* Minor optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Minor changes have been made to text that is output to the console.
 * The health bar in the alternate widescreen HUD now still turns white when the player’s health is less than 100% and buddha mode is enabled.
 * A bug is fixed whereby blood splats could be displayed in the wrong color in some instances.
