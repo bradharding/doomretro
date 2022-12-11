@@ -1388,7 +1388,8 @@ void P_SpawnBlood(const fixed_t x, const fixed_t y, const fixed_t z, angle_t ang
         state_t     *st = &states[info->spawnstate];
 
         if (!fuzz)
-            color = (r_blood == r_blood_red ? REDBLOOD : (r_blood == r_blood_green ? GREENBLOOD : target->bloodcolor));
+            color = (r_blood == r_blood_red ? REDBLOOD : (r_blood == r_blood_green ? GREENBLOOD :
+                (target->bloodcolor == FUZZYBLOOD && r_blood == r_blood_nofuzz ? REDBLOOD : target->bloodcolor)));
 
         angle += ANG180;
 

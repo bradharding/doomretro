@@ -262,8 +262,6 @@ static void saveg_read_mobj_t(mobj_t *str)
         str->bloodcolor = GREENBLOOD;
     else if (str->bloodcolor == MT_FUZZYBLOOD)
         str->bloodcolor = FUZZYBLOOD;
-    else if (str->bloodcolor < FUZZYBLOOD || str->bloodcolor > ORANGEBLOOD)
-        str->bloodcolor = REDBLOOD;
 
     str->interpolate = saveg_read32();
     str->oldx = saveg_read32();

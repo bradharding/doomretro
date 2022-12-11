@@ -6,7 +6,8 @@
 * Minor changes have been made to text that is output to the console.
 * The health bar in the alternate widescreen HUD now still turns white when the player’s health is less than 100% and buddha mode is enabled.
 * A bug is fixed whereby blood splats could be displayed in the wrong color in some instances.
-* The `joy_deadzone_left`, `joy_deadzone_right`, `joy_sensitivity_horizontal`, `joy_sensitivity_vertical` and `m_sensitivity` CVARs are no longer reset to their defaults at startup.
+* A bug is fixed whereby certain CVARs would always reset to their defaults at startup.
+* A crash no longer occurs when shooting a spectre after loading a savegame in some instances.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
