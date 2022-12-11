@@ -509,6 +509,8 @@ char *C_LookupAliasFromValue(const int value, const valuealiastype_t valuealiast
 #define CVAR_INT(name, alt1, alt2, cond, func, flags, aliases, desc) \
     { #name, #alt1, #alt2, cond, func, 1, CT_CVAR, (CF_INTEGER | flags), &name, aliases, name##_min, name##_max, "", desc, name##_default, 0 }
 #define CVAR_FLOAT(name, alt1, alt2, cond, func, flags, desc) \
+    { #name, #alt1, #alt2, cond, func, 1, CT_CVAR, (CF_FLOAT | flags), &name, 0, (int)name##_min, (int)name##_max, "", desc, name##_default, 0 }
+#define CVAR_FLOAT2(name, alt1, alt2, cond, func, flags, desc) \
     { #name, #alt1, #alt2, cond, func, 1, CT_CVAR, (CF_FLOAT | flags), &name, 0, 0, 0, "", desc, name##_default, 0 }
 #define CVAR_STR(name, alt1, alt2, cond, func, flags, desc) \
     { #name, #alt1, #alt2, cond, func, 1, CT_CVAR, (CF_STRING | flags), &name, 0, 0, 0, "", desc, 0, name##_default }
@@ -818,7 +820,7 @@ consolecmd_t consolecmds[] =
         "Toggles some power-ups bobbing up and down."),
     CVAR_INT(r_fov, "", "", int_cvars_func1, r_fov_cvar_func2, CF_NONE, NOVALUEALIAS,
         "The player's field of view (" BOLD("45") "\xB0 to " BOLD("135") "\xB0)."),
-    CVAR_FLOAT(r_gamma, "", "", r_gamma_cvar_func1, r_gamma_cvar_func2, CF_NONE,
+    CVAR_FLOAT2(r_gamma, "", "", r_gamma_cvar_func1, r_gamma_cvar_func2, CF_NONE,
         "The screen's gamma correction level (" BOLD("off") ", or " BOLD("0.50") " to " BOLD("2.0") ")."),
     CVAR_BOOL(r_graduallighting, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles gradual lighting under doors and crushing sectors."),
