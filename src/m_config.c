@@ -889,7 +889,6 @@ static float ParseFloatParameter(char *cvar, char *strparm, int valuealiastype)
 
         return defaultnumber;
     }
-
 }
 
 static void M_CheckCVARs(void)

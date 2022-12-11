@@ -1960,10 +1960,11 @@ static void D_DoomMainSetup(void)
     M_MakeDirectory(appdatafolder);
     packageconfig = (p ? M_StringDuplicate(myargv[p + 1]) : M_StringJoin(appdatafolder, DIR_SEPARATOR_S, DOOMRETRO_CONFIG, NULL));
 
+    C_ClearConsole();
+
     // Load configuration files before initializing other subsystems.
     M_LoadCVARs(packageconfig);
 
-    C_ClearConsole();
     C_PrintCompileDate();
 
 #if defined(_WIN32)
