@@ -968,16 +968,9 @@ static void HU_DrawAltHUD(void)
                     red : (health >= 100 ? green1 : color));
     int         keypic_x = ALTHUD_RIGHT_X;
     const int   currenttime = I_GetTimeMS();
-    static int  prevhealth = INT_MAX;
-    static int  healthx = INT_MAX;
 
-    if (health != prevhealth)
-    {
-        prevhealth = health;
-        healthx = ALTHUD_LEFT_X - AltHUDNumberWidth(ABS(health));
-    }
-
-    DrawAltHUDNumber(healthx, ALTHUD_Y + 12, health, color, (healthhighlight > currenttime ? tinttab80 : tinttab60));
+    DrawAltHUDNumber(ALTHUD_LEFT_X - AltHUDNumberWidth(ABS(health)), ALTHUD_Y + 12,
+        health, color, (healthhighlight > currenttime ? tinttab80 : tinttab60));
 
     if ((health = MAX(0, health) * 200 / maxhealth) > 100)
     {
@@ -1011,16 +1004,8 @@ static void HU_DrawAltHUD(void)
 
     if (armor)
     {
-        static int  prevarmor = INT_MAX;
-        static int  armorx = INT_MAX;
-
-        if (armor != prevarmor)
-        {
-            prevarmor = armor;
-            armorx = ALTHUD_LEFT_X - AltHUDNumber2Width(armor);
-        }
-
-        DrawAltHUDNumber2(armorx, ALTHUD_Y, armor, color, (armorhighlight > currenttime ? tinttab80 : tinttab60));
+        DrawAltHUDNumber2(ALTHUD_LEFT_X - AltHUDNumber2Width(armor), ALTHUD_Y,
+            armor, color, (armorhighlight > currenttime ? tinttab80 : tinttab60));
         althudfunc(ALTHUD_LEFT_X + 5, ALTHUD_Y, altarmpatch, WHITE, color, tinttab60);
 
         if ((armor *= 200 / max_armor) > 100)
