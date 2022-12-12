@@ -874,7 +874,11 @@ static float ParseFloatParameter(char *cvar, char *strparm, int valuealiastype)
 
     index = C_GetIndex(cvar);
 
-    if (sscanf(strparm, "%10f", &parm) == 1
+    if (M_StringCompare(cvar, stringize(r_gamma))
+        && sscanf(strparm, "%10f", &parm) == 1
+        && parm >= r_gamma_min && parm <= r_gamma_max)
+        return parm;
+    else if (sscanf(strparm, "%10f", &parm) == 1
         && parm >= (float)consolecmds[index].minimumvalue && parm <= (float)consolecmds[index].maximumvalue)
         return parm;
     else
