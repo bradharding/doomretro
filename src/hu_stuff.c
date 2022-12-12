@@ -902,17 +902,24 @@ static void DrawAltHUDNumber(int x, int y, int val, int color, byte *tinttab)
 
 static int AltHUDNumberWidth(int val)
 {
-    int width = 0;
+    static int  widths[HUD_NUMBER_MAX + 1];
 
-    if (val >= 100)
+    if (widths[val])
+        return widths[val];
+    else
     {
-        width = SHORT(altnum[val / 100]->width) + 2;
-        width += SHORT(altnum[(val %= 100) / 10]->width) + 2;
-    }
-    else if (val >= 10)
-        width = SHORT(altnum[val / 10]->width) + 2;
+        int width = 0;
 
-    return (width + SHORT(altnum[val % 10]->width));
+        if (val >= 100)
+        {
+            width = SHORT(altnum[val / 100]->width) + 2;
+            width += SHORT(altnum[(val %= 100) / 10]->width) + 2;
+        }
+        else if (val >= 10)
+            width = SHORT(altnum[val / 10]->width) + 2;
+
+        return ((widths[val] = width + SHORT(altnum[val % 10]->width)));
+    }
 }
 
 static void DrawAltHUDNumber2(int x, int y, int val, int color, byte *tinttab)
@@ -945,17 +952,24 @@ static void DrawAltHUDNumber2(int x, int y, int val, int color, byte *tinttab)
 
 static int AltHUDNumber2Width(int val)
 {
-    int width = 0;
+    static int  widths[HUD_NUMBER_MAX + 1];
 
-    if (val >= 100)
+    if (widths[val])
+        return widths[val];
+    else
     {
-        width = SHORT(altnum2[val / 100]->width) + 2;
-        width += SHORT(altnum2[(val %= 100) / 10]->width) + 2;
-    }
-    else if (val >= 10)
-        width = SHORT(altnum2[val / 10]->width) + 2;
+        int width = 0;
 
-    return (width + SHORT(altnum2[val % 10]->width));
+        if (val >= 100)
+        {
+            width = SHORT(altnum2[val / 100]->width) + 2;
+            width += SHORT(altnum2[(val %= 100) / 10]->width) + 2;
+        }
+        else if (val >= 10)
+            width = SHORT(altnum2[val / 10]->width) + 2;
+
+        return ((widths[val] = width + SHORT(altnum2[val % 10]->width)));
+    }
 }
 
 static void HU_DrawAltHUD(void)
