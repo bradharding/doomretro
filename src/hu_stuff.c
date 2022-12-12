@@ -1069,17 +1069,10 @@ static void HU_DrawAltHUD(void)
 
         if (ammotype != am_noammo)
         {
-            int         ammo = viewplayer->ammo[ammotype];
-            static int  prevammo = INT_MAX;
-            static int  ammox = INT_MAX;
+            int ammo = viewplayer->ammo[ammotype];
 
-            if (ammo != prevammo)
-            {
-                prevammo = ammo;
-                ammox = ALTHUD_RIGHT_X + 101 - AltHUDNumberWidth(ammo);
-            }
-
-            DrawAltHUDNumber(ammox, ALTHUD_Y - 2, ammo, color, (ammohighlight > currenttime ? tinttab80 : tinttab60));
+            DrawAltHUDNumber(ALTHUD_RIGHT_X + 101 - AltHUDNumberWidth(ammo), ALTHUD_Y - 2,
+                ammo, color, (ammohighlight > currenttime ? tinttab80 : tinttab60));
 
             if (ammo)
             {
