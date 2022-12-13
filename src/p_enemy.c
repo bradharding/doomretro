@@ -56,6 +56,7 @@
 #define BARRELRANGE (512 * FRACUNIT)
 
 int shake = 0;
+int shakedistance = 0;
 int shakeduration = 0;
 
 void A_Fall(mobj_t *actor, player_t *player, pspdef_t *psp);
@@ -813,9 +814,19 @@ static void P_ShakeOnExplode(const mobj_t *actor)
     if (r_shake_barrels && actor->type == MT_BARREL)
     {
         mobj_t  *mo = viewplayer->mo;
+        fixed_t dist;
 
-        if (mo->z <= mo->floorz && P_ApproxDistance(actor->x - mo->x, actor->y - mo->y) < BARRELRANGE)
+        if (mo->z <= mo->floorz && (dist = P_ApproxDistance(actor->x - mo->x, actor->y - mo->y)) < BARRELRANGE)
         {
+            if (dist >= 3 * BARRELRANGE / 4)
+                shakedistance = 4;
+            else if (dist >= 2 * BARRELRANGE / 4)
+                shakedistance = 3;
+            else if (dist >= BARRELRANGE / 4)
+                shakedistance = 2;
+            else
+                shakedistance = 1;
+
             shakeduration = EXPLODINGBARREL;
             shake = I_GetTimeMS() + shakeduration;
 

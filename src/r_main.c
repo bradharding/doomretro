@@ -1035,9 +1035,9 @@ static void R_SetupFrame(void)
 
         if (shake > time)
         {
-            viewx += M_RandomInt(-3, 3) * FRACUNIT * (shake - time) / shakeduration;
-            viewy += M_RandomInt(-3, 3) * FRACUNIT * (shake - time) / shakeduration;
-            viewz += M_RandomInt(-2, 2) * FRACUNIT * (shake - time) / shakeduration;
+            viewx += M_RandomInt(-shakedistance, shakedistance) * FRACUNIT * (shake - time) / shakeduration;
+            viewy += M_RandomInt(-shakedistance, shakedistance) * FRACUNIT * (shake - time) / shakeduration;
+            viewz += M_RandomInt(-shakedistance, shakedistance) * FRACUNIT * (shake - time) / shakeduration;
         }
     }
 
