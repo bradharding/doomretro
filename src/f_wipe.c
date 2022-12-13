@@ -74,7 +74,7 @@ static void wipe_initMelt(void)
         y[i] = y[i + 1] = BETWEEN(-15, y[i - 1] + M_BigRandom() % 3 - 1, 0);
 }
 
-static void wipe_Melt(int i, int dy)
+static void wipe_Melt(const int i, const int dy)
 {
     short   *s = &((short *)screens[3])[i * SCREENHEIGHT + y[i]];
     short   *d = &((short *)screens[0])[y[i] * SCREENWIDTH / 2 + i];

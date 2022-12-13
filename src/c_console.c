@@ -1286,7 +1286,7 @@ void C_UpdatePathOverlay(void)
 
     if (viewplayer->distancetraveled != prevdistancetraveled)
     {
-        char    *temp = distancetraveled(viewplayer->distancetraveled, false);
+        char    *temp = C_DistanceTraveled(viewplayer->distancetraveled, false);
 
         M_StringCopy(distance, temp, sizeof(distance));
         free(temp);

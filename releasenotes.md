@@ -3,6 +3,7 @@
 #### DOOM Retro v4.7.2
 
 * Exploding barrels are now lit correctly again.
+* A bug is fixed whereby digits in the alternate widescreen HUD could be positioned incorrectly in some rare instances.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

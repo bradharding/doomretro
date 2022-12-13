@@ -5301,7 +5301,7 @@ static weapontype_t favoriteweapon(bool total)
     return favorite;
 }
 
-char *distancetraveled(uint64_t value, bool allowzero)
+char *C_DistanceTraveled(uint64_t value, bool allowzero)
 {
     char    result[20] = "";
 
@@ -5893,8 +5893,8 @@ static void C_PlayerStats_Game(void)
         free(temp2);
     }
 
-    temp1 = distancetraveled(viewplayer->distancetraveled, true);
-    temp2 = distancetraveled(stat_distancetraveled, true);
+    temp1 = C_DistanceTraveled(viewplayer->distancetraveled, true);
+    temp2 = C_DistanceTraveled(stat_distancetraveled, true);
     C_TabbedOutput(tabs, "Distance %s\t%s\t%s",
         (english == english_american ? "traveled" : "travelled"), temp1, temp2);
     free(temp1);
@@ -6194,7 +6194,7 @@ static void C_PlayerStats_NoGame(void)
         (english == english_american ? "Favorite" : "Favourite"), temp1);
     free(temp1);
 
-    temp1 = distancetraveled(stat_distancetraveled, true);
+    temp1 = C_DistanceTraveled(stat_distancetraveled, true);
     C_TabbedOutput(tabs, "Distance %s\t\x96\t%s",
         (english == english_american ? "traveled" : "travelled"), temp1);
     free(temp1);
