@@ -842,7 +842,9 @@ static void R_ProjectSprite(mobj_t *thing)
         vis->colormap = fixedcolormap;
         vis->nextcolormap = fixedcolormap;
     }
-    else if ((frame & FF_FULLBRIGHT) && !(thing->flags & MF_CORPSE) && (rot <= 5 || rot >= 12 || thing->info->fullbright))
+    else if ((frame & FF_FULLBRIGHT)
+        && (!(thing->flags & MF_CORPSE) || thing->type == MT_BARREL)
+        && (rot <= 5 || rot >= 12 || thing->info->fullbright))
     {
         // full bright
         vis->colormap = fullcolormap;
