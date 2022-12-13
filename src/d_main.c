@@ -1962,14 +1962,14 @@ static void D_DoomMainSetup(void)
 
     C_ClearConsole();
 
-    // Load configuration files before initializing other subsystems.
-    M_LoadCVARs(configfile);
-
     C_PrintCompileDate();
 
 #if defined(_WIN32)
     I_PrintWindowsVersion();
 #endif
+
+    // Load configuration files before initializing other subsystems.
+    M_LoadCVARs(configfile);
 
     SDL_Init(SDL_INIT_EVERYTHING);
 

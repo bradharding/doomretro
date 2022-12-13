@@ -2,6 +2,7 @@
 
 #### DOOM Retro v4.7.2
 
+* Minor changes have been made to text that is output to the console.
 * Exploding barrels are now lit correctly again.
 * A bug is fixed whereby digits in the alternate widescreen HUD could be positioned incorrectly in some rare instances.
 
