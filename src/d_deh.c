@@ -3952,8 +3952,6 @@ static bool deh_procStringSub(char *key, char *lookfor, char *newstring)
                     s++;
                     *t = '\n';                                              // skip one extra for second character
                 }
-                else if (*s == '_')
-                    *t = ITALICSTOGGLECHAR;
                 else
                     *t = *s;
 

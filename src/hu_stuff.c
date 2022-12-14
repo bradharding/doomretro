@@ -1412,6 +1412,9 @@ void HU_PlayerMessage(char *message, bool group, bool external)
     if (!len || (len == 1 && !isalnum(message[0])))
         return;
 
+    M_StringReplaceAll(message, " _", " " ITALICSTOGGLE, false);
+    M_StringReplaceAll(message, "_ ", ITALICSTOGGLE " ", false);
+
     if (len >= 2 && message[0] == '%' && message[1] == 's')
         M_snprintf(buffer, sizeof(buffer), message, playername);
     else
