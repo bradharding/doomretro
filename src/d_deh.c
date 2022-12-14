@@ -3943,19 +3943,19 @@ static bool deh_procStringSub(char *key, char *lookfor, char *newstring)
             if (deh_strlookup[i].assigned)
                 break;
 
-            *deh_strlookup[i].ppstr = t = M_StringDuplicate(newstring);     // orphan originalstring
+            *deh_strlookup[i].ppstr = t = M_StringDuplicate(newstring); // orphan originalstring
 
             // Handle embedded \n's in the incoming string, convert to 0x0A's
             for (char *s = *deh_strlookup[i].ppstr; *s; s++, t++)
-                if (*s == '\\' && (s[1] == 'n' || s[1] == 'N'))             // found one
+                if (*s == '\\' && (s[1] == 'n' || s[1] == 'N'))         // found one
                 {
                     s++;
-                    *t = '\n';                                              // skip one extra for second character
+                    *t = '\n';                                          // skip one extra for second character
                 }
                 else
                     *t = *s;
 
-            *t = '\0';                                                      // cap off the target string
+            *t = '\0';                                                  // cap off the target string
 
             if (devparm)
             {
