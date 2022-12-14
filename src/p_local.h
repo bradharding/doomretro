@@ -166,7 +166,6 @@ bool P_SeekerMissile(mobj_t *actor, mobj_t **seektarget, angle_t thresh, angle_t
 #define EXPLODINGBARREL    1500
 
 extern int  shake;
-extern int  shakedistance;
 extern int  shakeduration;
 
 void P_NoiseAlert(mobj_t *target);
