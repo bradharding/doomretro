@@ -44,6 +44,7 @@
 
 #include "c_console.h"
 #include "d_main.h"
+#include "doomstat.h"
 #include "i_gamecontroller.h"
 #include "i_system.h"
 #include "i_timer.h"
@@ -263,7 +264,7 @@ void I_Error(const char *error, ...)
     S_Shutdown();
 
 #if defined(_WIN32)
-    if (previouswad)
+    if (previouswad && gamestate <= GS_TITLESCREEN)
         wad = M_StringDuplicate(previouswad);
 #endif
 

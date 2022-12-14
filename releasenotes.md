@@ -3,6 +3,7 @@
 #### DOOM Retro v4.7.2
 
 * *DOOM Retro* is now built using v17.4.3 of [*Microsoft Visual Studio Community 2022*](https://visualstudio.microsoft.com/vs/community/).
+* Minor optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Minor changes have been made to text that is output to the console.
 * Exploding barrels are now lit correctly again.
 * A bug is fixed whereby digits in the alternate widescreen HUD could be positioned incorrectly in some rare instances.
