@@ -7682,7 +7682,7 @@ static void timer_cmd_func2(char *cmd, char *parms)
 
                 if (timer)
                     C_Output("The timer has been %s to %s minute%s. %s will automatically exit each map once the timer expires.",
-                        temp, (value == timer ? "reset" : "changed"), (value == 1 ? "" : "s"),
+                        (value == timer ? "reset" : "changed"), temp, (value == 1 ? "" : "s"),
                         (M_StringCompare(playername, playername_default) ? "You" : playername));
                 else
                     C_Output("A timer has been set for %s minute%s. %s will automatically exit each map once the timer expires.",
