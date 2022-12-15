@@ -1221,13 +1221,15 @@ static void WI_LoadData(void)
         lump = W_CacheLumpName(REKKRSL ? "INTERPIW" : "INTERPI1");
     else if (sigil && wbs->epsd == 4)
         lump = W_CacheLumpName("SIGILINT");
-    else
+    else if (wbs->epsd <= 2)
     {
         char    temp[9];
 
         M_snprintf(temp, sizeof(temp), "WIMAP%i%s", wbs->epsd, (REKKRSL ? "W" : ""));
         lump = (chex || REKKRSA ? W_CacheLastLumpName(temp) : W_CacheLumpName(temp));
     }
+    else
+        lump = W_CacheLumpName("INTERPIC");
 
     if (SCREENWIDTH != NONWIDEWIDTH)
         memset(screens[1], FindDominantEdgeColor(lump), SCREENAREA);
