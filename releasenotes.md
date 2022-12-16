@@ -8,6 +8,8 @@
 * Exploding barrels are now lit correctly again.
 * A bug is fixed whereby digits in the alternate widescreen HUD could be positioned incorrectly in some rare instances.
 * The options menu now fits horizontally on the screen when using a controller and the `vid_widescreen` CVAR is `off`.
+* A crash no longer occurs when exiting a map in the 4th or 5th episode of a PWAD.
+* A bug is fixed whereby some `DEHACKED` were read incorrectly, causing a crash or unexpected results.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
