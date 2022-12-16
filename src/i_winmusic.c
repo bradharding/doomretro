@@ -107,7 +107,7 @@ static void MidiErrorMessage(DWORD dwError)
     char    szErrorBuf[MAXERRORLENGTH];
 
     midiOutGetErrorText(dwError, (LPSTR)szErrorBuf, MAXERRORLENGTH);
-    C_Warning(2, "%s", szErrorBuf);
+    C_Warning(1, "%s", szErrorBuf);
 }
 
 // Fill the buffer with MIDI events, adjusting the volume as needed.
@@ -449,10 +449,7 @@ void I_Windows_RegisterSong(void *data, int size)
     MMRESULT        mmr;
 
     if (!file)
-    {
-        C_Warning(2, "I_Windows_RegisterSong: Failed to load MID.");
         return;
-    }
 
     // Initialize channels volume.
     for (int i = 0; i < MIDI_CHANNELS_PER_TRACK; i++)
