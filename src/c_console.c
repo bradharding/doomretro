@@ -141,6 +141,7 @@ int                     consolebrandingcolor;
 static int              consolecaretcolor;
 static int              consoledividercolor;
 static int              consoleinputcolor;
+static int              consoleobituarycolor;
 static int              consoleoutputcolor;
 static int              consoleoverlaycolor;
 static int              consoleoverlaywarningcolor;
@@ -387,6 +388,39 @@ void C_PlayerMessage(const char *string, ...)
         console[consolestrings++].count = 1;
         viewplayer->prevmessage[0] = '\0';
         viewplayer->prevmessagetics = 0;
+    }
+
+    outputhistory = -1;
+}
+
+void C_Obituary(const char *string, ...)
+{
+    va_list     args;
+    char        buffer[CONSOLETEXTMAXLENGTH];
+    const int   i = consolestrings - 1;
+
+    va_start(args, string);
+    M_vsnprintf(buffer, CONSOLETEXTMAXLENGTH - 1, string, args);
+    va_end(args);
+
+    if (console[i].stringtype == obituarystring && M_StringCompare(console[i].string, buffer) && groupmessages)
+    {
+        console[i].tics = gametime;
+        console[i].timestamp[0] = '\0';
+        console[i].count++;
+    }
+    else
+    {
+        if (consolestrings >= (int)consolestringsmax)
+            console = I_Realloc(console, (consolestringsmax += CONSOLESTRINGSMAX) * sizeof(*console));
+
+        M_StringCopy(console[consolestrings].string, buffer, sizeof(console[0].string));
+        console[consolestrings].stringtype = obituarystring;
+        console[consolestrings].tics = gametime;
+        console[consolestrings].timestamp[0] = '\0';
+        console[consolestrings].indent = 0;
+        console[consolestrings].wrap = 0;
+        console[consolestrings++].count = 1;
     }
 
     outputhistory = -1;
@@ -680,6 +714,7 @@ void C_Init(void)
     consolecaretcolor = nearestcolors[CONSOLECARETCOLOR];
     consoledividercolor = nearestcolors[CONSOLEDIVIDERCOLOR] << 8;
     consoleinputcolor = nearestcolors[CONSOLEINPUTCOLOR];
+    consoleobituarycolor = (harmony ? 226 : nearestcolors[CONSOLEOBITUARYCOLOR]);
     consoleoutputcolor = nearestcolors[CONSOLEOUTPUTCOLOR];
     consoleoverlaycolor = nearestcolors[CONSOLEOVERLAYCOLOR];
     consoleoverlaywarningcolor = nearestcolors[CONSOLEOVERLAYWARNINGCOLOR];
@@ -697,12 +732,14 @@ void C_Init(void)
     consolecolors[outputstring] = consoleoutputcolor;
     consolecolors[warningstring] = consolewarningcolor;
     consolecolors[playermessagestring] = consoleplayermessagecolor;
+    consolecolors[obituarystring] = consoleplayermessagecolor;
 
     consoleboldcolors[inputstring] = consoleboldcolor;
     consoleboldcolors[cheatstring] = consoleboldcolor;
     consoleboldcolors[outputstring] = consoleboldcolor;
     consoleboldcolors[warningstring] = consolewarningboldcolor;
     consoleboldcolors[playermessagestring] = consoleplayermessagecolor;
+    consoleboldcolors[obituarystring] = consoleplayermessagecolor;
 
     brand = W_CacheLastLumpName("DRBRAND");
 
@@ -1594,6 +1631,30 @@ void C_Drawer(void)
                 else
                     C_DrawConsoleText(CONSOLETEXTX, y, text, consoleplayermessagecolor,
                         NOBACKGROUNDCOLOR, consoleplayermessagecolor, tinttab66, notabs, true, true, i);
+
+                if (!*console[i].timestamp)
+                    C_CreateTimeStamp(i);
+
+                C_DrawTimeStamp(SCREENWIDTH - CONSOLETEXTX - 10 - CONSOLESCROLLBARWIDTH + 1,
+                    y - (CONSOLEHEIGHT - consoleheight), console[i].timestamp);
+            }
+            else if (stringtype == obituarystring)
+            {
+                const int   count = console[i].count;
+
+                if (count > 1)
+                {
+                    char    buffer[CONSOLETEXTMAXLENGTH];
+                    char *temp = commify(count);
+
+                    M_snprintf(buffer, sizeof(buffer), "%s (%s)", text, temp);
+                    C_DrawConsoleText(CONSOLETEXTX, y, buffer, consoleobituarycolor,
+                        NOBACKGROUNDCOLOR, consoleobituarycolor, tinttab66, notabs, true, true, i);
+                    free(temp);
+                }
+                else
+                    C_DrawConsoleText(CONSOLETEXTX, y, text, consoleobituarycolor,
+                        NOBACKGROUNDCOLOR, consoleobituarycolor, tinttab66, notabs, true, true, i);
 
                 if (!*console[i].timestamp)
                     C_CreateTimeStamp(i);

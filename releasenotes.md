@@ -11,6 +11,7 @@
 * A crash no longer occurs when exiting a map in the 4th or 5th episode of a PWAD.
 * A bug is fixed whereby some `DEHACKED` strings were read incorrectly, causing a crash or unexpected results.
 * The position of text displayed in the top right of the screen has improved when the `vid_widescreen` CVAR is `off`.
+* The grouping of identical player messages when the `groupmessages` CVAR is `on` has improved.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
