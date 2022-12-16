@@ -9,7 +9,8 @@
 * A bug is fixed whereby digits in the alternate widescreen HUD could be positioned incorrectly in some rare instances.
 * The options menu now fits horizontally on the screen when using a controller and the `vid_widescreen` CVAR is `off`.
 * A crash no longer occurs when exiting a map in the 4th or 5th episode of a PWAD.
-* A bug is fixed whereby some `DEHACKED` were read incorrectly, causing a crash or unexpected results.
+* A bug is fixed whereby some `DEHACKED` strings were read incorrectly, causing a crash or unexpected results.
+* The position of text displayed in the top right of the screen has improved when the `vid_widescreen` CVAR is `off`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
