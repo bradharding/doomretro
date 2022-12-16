@@ -12,6 +12,7 @@
 * A bug is fixed whereby some `DEHACKED` strings were being read incorrectly in some instances.
 * The position of text displayed in the top right of the screen has improved when the `vid_widescreen` CVAR is `off`.
 * The grouping of identical player messages when the `groupmessages` CVAR is `on` has improved.
+* `TEXTURE` entries in `BRGHTMPS` lumps no longer require `DOOM`, `DOOM2` or `DOOM|DOOM2` to be specified.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

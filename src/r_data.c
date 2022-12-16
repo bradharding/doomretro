@@ -351,12 +351,12 @@ static void R_InitBrightmaps(void)
             SC_MustGetString();
             M_StringCopy(maskname, sc_String, sizeof(maskname));
 
-            SC_MustGetString();
+            SC_GetString();
 
             if (texture >= 0
-                && ((gamemission == doom && !SC_Compare("2") && !SC_Compare("DOOM2"))
-                    || (gamemission != doom && !SC_Compare("1") && !SC_Compare("DOOM") && !SC_Compare("DOOM1"))
-                    || SC_Compare("0") || SC_Compare("DOOM|DOOM2") || SC_Compare("DOOM1|DOOM2")))
+                && (!*sc_String || SC_Compare("0") || SC_Compare("DOOM|DOOM2") || SC_Compare("DOOM1|DOOM2")
+                    || (gamemission == doom && !SC_Compare("2") && !SC_Compare("DOOM2"))
+                    || (gamemission != doom && !SC_Compare("1") && !SC_Compare("DOOM") && !SC_Compare("DOOM1"))))
                 for (int i = 0; i < nummasks; i++)
                     if (M_StringCompare(maskname, masknames[i]))
                     {
