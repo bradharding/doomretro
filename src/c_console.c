@@ -149,7 +149,6 @@ static int              consolescrollbarfacecolor;
 static int              consolescrollbartrackcolor;
 static int              consoleselectedinputbackgroundcolor;
 static int              consoleselectedinputcolor;
-static int              consoletimestampcolor;
 static int              consolewarningboldcolor;
 static int              consolewarningcolor;
 
@@ -686,7 +685,6 @@ void C_Init(void)
     consolescrollbartrackcolor = nearestcolors[CONSOLESCROLLBARTRACKCOLOR] << 8;
     consoleselectedinputbackgroundcolor = nearestcolors[CONSOLESELECTEDINPUTBACKGROUNDCOLOR];
     consoleselectedinputcolor = nearestcolors[CONSOLESELECTEDINPUTCOLOR];
-    consoletimestampcolor = (harmony ? 226 : nearestcolors[CONSOLETIMESTAMPCOLOR]);
     consolewarningboldcolor = nearestcolors[CONSOLEWARNINGBOLDCOLOR];
     consolewarningcolor = nearestcolors[CONSOLEWARNINGCOLOR];
 
@@ -1183,7 +1181,7 @@ static void C_DrawTimeStamp(int x, int y, char timestamp[9])
 
         x -= (ch == ':' ? width : zerowidth);
         V_DrawConsoleTextPatch(x + (ch == '1' ? 1 : (ch == '4' ? -1 : 0)), y, patch,
-            width, consoletimestampcolor, NOBACKGROUNDCOLOR, false, tinttab33);
+            width, consoleplayermessagecolor, NOBACKGROUNDCOLOR, false, tinttab33);
     }
 }
 
