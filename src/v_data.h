@@ -6,8 +6,8 @@
 
 ========================================================================
 
-  Copyright © 1993-2022 by id Software LLC, a ZeniMax Media company.
-  Copyright © 2013-2022 by Brad Harding <mailto:brad@doomretro.com>.
+  Copyright © 1993-2023 by id Software LLC, a ZeniMax Media company.
+  Copyright © 2013-2023 by Brad Harding <mailto:brad@doomretro.com>.
 
   DOOM Retro is a fork of Chocolate DOOM. For a list of acknowledgments,
   see <https://github.com/bradharding/doomretro/wiki/ACKNOWLEDGMENTS>.
