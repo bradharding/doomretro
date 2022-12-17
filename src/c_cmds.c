@@ -104,6 +104,15 @@
 #define TOGGLECMDFORMAT             BOLDITALICS("CVAR")
 #define UNBINDCMDFORMAT             BOLDITALICS("control") "|" BOLDITALICS("+action")
 
+#define WEAPONDESCRIPTION1          "The player's currently equipped weapon (" BOLD("fists") ", " BOLD("chainsaw") ", " \
+                                    BOLD("pistol") ", " BOLD("shotgun") ", " BOLD("chaingun") " or " BOLD("rocketlauncher") ")."
+#define WEAPONDESCRIPTION2          "The player's currently equipped weapon (" BOLD("fists") ", " BOLD("chainsaw") ", " \
+                                    BOLD("pistol") ", " BOLD("shotgun") ", " BOLD("chaingun") ", " BOLD("rocketlauncher") ", " \
+                                    BOLD("plasmarifle") " or " BOLD("bfg9000") ")."
+#define WEAPONDESCRIPTION3          "The player's currently equipped weapon (" BOLD("fists") ", " BOLD("chainsaw") ", " \
+                                    BOLD("pistol") ", " BOLD("shotgun") ", " BOLD("supershotgun") ", " BOLD("chaingun") ", " \
+                                    BOLD("rocketlauncher") ", " BOLD("plasmarifle") " or " BOLD("bfg9000") ")."
+
 #define DEADPLAYERWARNING           "It won't work if %s %s dead."
 #define NEXTMAPWARNING              "It won't work until the next map."
 #define NOGAMEWARNING               "It won't work if %s %s not playing a game."
@@ -2023,13 +2032,13 @@ static void condump_cmd_func2(char *cmd, char *parms)
     {
         int count = 0;
 
-        M_snprintf(filename, sizeof(filename), "%s" DIR_SEPARATOR_S "condump.txt", consolefolder);
+        M_snprintf(filename, sizeof(filename), "%s" DIR_SEPARATOR_S "%s.txt", consolefolder, cmd);
 
         while (M_FileExists(filename))
         {
             char    *temp = commify(++count);
 
-            M_snprintf(filename, sizeof(filename), "%s" DIR_SEPARATOR_S "condump (%s).txt", consolefolder, temp);
+            M_snprintf(filename, sizeof(filename), "%s" DIR_SEPARATOR_S "%s (%s).txt", consolefolder, cmd, temp);
             free(temp);
         }
     }
@@ -2214,12 +2223,21 @@ static void cvarlist_cmd_func2(char *cmd, char *parms)
             }
             else if (M_StringCompare(name, stringize(weapon)))
             {
+                char    *weapondescription;
+
+                if (gamemode == shareware)
+                    weapondescription = WEAPONDESCRIPTION1;
+                else if (gamemission == doom)
+                    weapondescription = WEAPONDESCRIPTION2;
+                else
+                    weapondescription = WEAPONDESCRIPTION3;
+
                 if (gamestate == GS_LEVEL)
                 {
                     char    *temp = C_LookupAliasFromValue(viewplayer->readyweapon, WEAPONVALUEALIAS);
 
                     C_TabbedOutput(tabs, "%i.\t" BOLD("%s") "\t" BOLD("%s") "\t%s",
-                        count, name, temp, description);
+                        count, name, temp, weapondescription);
                     free(temp);
                 }
                 else
@@ -2227,7 +2245,7 @@ static void cvarlist_cmd_func2(char *cmd, char *parms)
                     char    *temp = C_LookupAliasFromValue(weapon_default, WEAPONVALUEALIAS);
 
                     C_TabbedOutput(tabs, "%i.\t" BOLD("%s") "\t" BOLD("%s") "\t%s",
-                        count, name, temp, description);
+                        count, name, temp, weapondescription);
                     free(temp);
                 }
             }
@@ -10315,10 +10333,21 @@ static void weapon_cvar_func2(char *cmd, char *parms)
     }
     else
     {
-        char        *temp = C_LookupAliasFromValue((gamestate == GS_LEVEL ? viewplayer->readyweapon : weapon_default), WEAPONVALUEALIAS);
-        const int   i = C_GetIndex(cmd);
+        char    *temp = C_LookupAliasFromValue((gamestate == GS_LEVEL ? viewplayer->readyweapon : weapon_default), WEAPONVALUEALIAS);
+        char    *weapondescription;
+        char    description[255];
 
-        C_ShowDescription(i);
+        if (gamemode == shareware)
+            weapondescription = WEAPONDESCRIPTION1;
+        else if (gamemission == doom)
+            weapondescription = WEAPONDESCRIPTION2;
+        else
+            weapondescription = WEAPONDESCRIPTION3;
+
+        M_StringCopy(description, weapondescription, sizeof(description));
+        description[0] = tolower(description[0]);
+
+        C_Output("This CVAR changes %s", description);
         C_Output(INTEGERCVARWITHNODEFAULT, temp);
 
         if (gamestate != GS_LEVEL)
