@@ -754,7 +754,7 @@ char *uncommify(const char *input)
 
 bool wildcard(char *input, char *pattern)
 {
-    if (!*pattern)
+    if (!*pattern || M_StringCompare(input, pattern))
         return true;
 
     for (int i = 0; pattern[i] != '\0'; i++)
