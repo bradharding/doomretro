@@ -104,12 +104,9 @@
 #define TOGGLECMDFORMAT             BOLDITALICS("CVAR")
 #define UNBINDCMDFORMAT             BOLDITALICS("control") "|" BOLDITALICS("+action")
 
-#define WEAPONDESCRIPTION1          "The player's currently equipped weapon (" BOLD("fists") ", " BOLD("chainsaw") ", " \
+#define WEAPONDESCRIPTION_SHAREWARE "The player's currently equipped weapon (" BOLD("fists") ", " BOLD("chainsaw") ", " \
                                     BOLD("pistol") ", " BOLD("shotgun") ", " BOLD("chaingun") " or " BOLD("rocketlauncher") ")."
-#define WEAPONDESCRIPTION2          "The player's currently equipped weapon (" BOLD("fists") ", " BOLD("chainsaw") ", " \
-                                    BOLD("pistol") ", " BOLD("shotgun") ", " BOLD("chaingun") ", " BOLD("rocketlauncher") ", " \
-                                    BOLD("plasmarifle") " or " BOLD("bfg9000") ")."
-#define WEAPONDESCRIPTION3          "The player's currently equipped weapon (" BOLD("fists") ", " BOLD("chainsaw") ", " \
+#define WEAPONDESCRIPTION_DOOM2     "The player's currently equipped weapon (" BOLD("fists") ", " BOLD("chainsaw") ", " \
                                     BOLD("pistol") ", " BOLD("shotgun") ", " BOLD("supershotgun") ", " BOLD("chaingun") ", " \
                                     BOLD("rocketlauncher") ", " BOLD("plasmarifle") " or " BOLD("bfg9000") ")."
 
@@ -1007,7 +1004,7 @@ consolecmd_t consolecmds[] =
         "The console's warning level (" BOLD("0") ", " BOLD("1") " or " BOLD("2") ")."),
     CVAR_INT(weapon, "", "", weapon_cvar_func1, weapon_cvar_func2, CF_NONE, WEAPONVALUEALIAS,
         "The player's currently equipped weapon (" BOLD("fists") ", " BOLD("chainsaw") ", " BOLD("pistol") ", " BOLD("shotgun") ", "
-        BOLD("supershotgun") ", " BOLD("chaingun") ", " BOLD("rocketlauncher") ", " BOLD("plasmarifle") " or " BOLD("bfg9000") ")."),
+        BOLD("chaingun") ", " BOLD("rocketlauncher") ", " BOLD("plasmarifle") " or " BOLD("bfg9000") ")."),
     CVAR_INT(weaponbob, "", "", int_cvars_func1, int_cvars_func2, CF_PERCENT, NOVALUEALIAS,
         "The amount the player's weapon bobs as they move (" BOLD("0%") " to " BOLD("100%") ")."),
     CVAR_BOOL(weaponbounce, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
@@ -2223,21 +2220,17 @@ static void cvarlist_cmd_func2(char *cmd, char *parms)
             }
             else if (M_StringCompare(name, stringize(weapon)))
             {
-                char    *weapondescription;
-
                 if (gamemode == shareware)
-                    weapondescription = WEAPONDESCRIPTION1;
-                else if (gamemission == doom)
-                    weapondescription = WEAPONDESCRIPTION2;
-                else
-                    weapondescription = WEAPONDESCRIPTION3;
+                    M_StringCopy(description, WEAPONDESCRIPTION_SHAREWARE, sizeof(description));
+                else if (gamemission != doom)
+                    M_StringCopy(description, WEAPONDESCRIPTION_DOOM2, sizeof(description));
 
                 if (gamestate == GS_LEVEL)
                 {
                     char    *temp = C_LookupAliasFromValue(viewplayer->readyweapon, WEAPONVALUEALIAS);
 
                     C_TabbedOutput(tabs, "%i.\t" BOLD("%s") "\t" BOLD("%s") "\t%s",
-                        count, name, temp, weapondescription);
+                        count, name, temp, description);
                     free(temp);
                 }
                 else
@@ -2245,7 +2238,7 @@ static void cvarlist_cmd_func2(char *cmd, char *parms)
                     char    *temp = C_LookupAliasFromValue(weapon_default, WEAPONVALUEALIAS);
 
                     C_TabbedOutput(tabs, "%i.\t" BOLD("%s") "\t" BOLD("%s") "\t%s",
-                        count, name, temp, weapondescription);
+                        count, name, temp, description);
                     free(temp);
                 }
             }
@@ -10334,17 +10327,15 @@ static void weapon_cvar_func2(char *cmd, char *parms)
     else
     {
         char    *temp = C_LookupAliasFromValue((gamestate == GS_LEVEL ? viewplayer->readyweapon : weapon_default), WEAPONVALUEALIAS);
-        char    *weapondescription;
         char    description[255];
 
         if (gamemode == shareware)
-            weapondescription = WEAPONDESCRIPTION1;
-        else if (gamemission == doom)
-            weapondescription = WEAPONDESCRIPTION2;
+            M_StringCopy(description, WEAPONDESCRIPTION_SHAREWARE, sizeof(description));
+        else if (gamemission != doom)
+            M_StringCopy(description, WEAPONDESCRIPTION_DOOM2, sizeof(description));
         else
-            weapondescription = WEAPONDESCRIPTION3;
+            M_StringCopy(description, consolecmds[C_GetIndex(cmd)].description, sizeof(description));
 
-        M_StringCopy(description, weapondescription, sizeof(description));
         description[0] = tolower(description[0]);
 
         C_Output("This CVAR changes %s", description);
