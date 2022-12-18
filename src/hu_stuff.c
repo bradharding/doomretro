@@ -1382,8 +1382,7 @@ void HU_SetPlayerMessage(char *message, bool group, bool external)
         static int  messagecount = 1;
         char        buffer[133];
 
-        if (gametime - viewplayer->prevmessagetics < HU_MSGTIMEOUT
-            && M_StringCompare(message, viewplayer->prevmessage) && groupmessages)
+        if (M_StringCompare(message, viewplayer->prevmessage) && groupmessages)
         {
             char    *temp = commify(++messagecount);
 
@@ -1398,7 +1397,6 @@ void HU_SetPlayerMessage(char *message, bool group, bool external)
         }
 
         viewplayer->message = M_StringDuplicate(buffer);
-        viewplayer->prevmessagetics = gametime;
     }
 
     message_external = (external && mapwindow);
@@ -1431,8 +1429,6 @@ void HU_PlayerMessage(char *message, bool group, bool external)
 
     if (gamestate == GS_LEVEL && !message_dontfuckwithme)
         HU_SetPlayerMessage(buffer, group, external);
-
-    viewplayer->prevmessagetics = gametime;
 }
 
 void HU_ClearMessages(void)
