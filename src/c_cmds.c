@@ -7926,6 +7926,8 @@ static bool float_cvars_func1(char *cmd, char *parms)
         {
             float   value;
 
+            M_StringReplaceAll(parms, ",", "", false);
+
             return (sscanf(parms, "%10f", &value) == 1);
         }
 
@@ -7940,6 +7942,8 @@ static void float_cvars_func2(char *cmd, char *parms)
             if (*parms && !(consolecmds[i].flags & CF_READONLY))
             {
                 float   value;
+
+                M_StringReplaceAll(parms, ",", "", false);
 
                 if (sscanf(parms, "%10f", &value) == 1 && value != *(float *)consolecmds[i].variable)
                 {
@@ -7985,6 +7989,8 @@ static bool int_cvars_func1(char *cmd, char *parms)
         {
             int value = C_LookupValueFromAlias(parms, consolecmds[i].aliases);
 
+            M_StringReplaceAll(parms, ",", "", false);
+
             return ((value != INT_MIN || sscanf(parms, "%10i", &value) == 1)
                 && value >= consolecmds[i].minimumvalue && value <= consolecmds[i].maximumvalue);
         }
@@ -8000,6 +8006,8 @@ static void int_cvars_func2(char *cmd, char *parms)
             if (*parms && !(consolecmds[i].flags & CF_READONLY))
             {
                 int value = C_LookupValueFromAlias(parms, consolecmds[i].aliases);
+
+                M_StringReplaceAll(parms, ",", "", false);
 
                 if ((value != INT_MIN || sscanf(parms, "%10i", &value) == 1) && value != *(int *)consolecmds[i].variable)
                 {
