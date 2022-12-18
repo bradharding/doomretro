@@ -7677,6 +7677,8 @@ static void timer_cmd_func2(char *cmd, char *parms)
     {
         int value;
 
+        M_StringReplaceAll(parms, ",", "", false);
+
         if (M_StringCompare(parms, "off"))
             value = 0;
         else if (sscanf(parms, "%10i", &value) != 1)
