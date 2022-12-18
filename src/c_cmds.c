@@ -5604,13 +5604,16 @@ static void C_PlayerStats_Game(void)
     free(temp1);
     free(temp2);
 
-    temp1 = commify(viewplayer->itemspickedup_ammo_cells);
-    temp2 = commifystat(stat_itemspickedup_ammo_cells);
-    C_TabbedOutput(tabs, "\t%s %s\t%s %s",
-        temp1, (viewplayer->itemspickedup_ammo_cells == 1 ? weaponinfo[wp_plasma].ammoname : weaponinfo[wp_plasma].ammoplural),
-        temp2, (stat_itemspickedup_ammo_cells == 1 ? weaponinfo[wp_plasma].ammoname : weaponinfo[wp_plasma].ammoplural));
-    free(temp1);
-    free(temp2);
+    if (gamemode != shareware)
+    {
+        temp1 = commify(viewplayer->itemspickedup_ammo_cells);
+        temp2 = commifystat(stat_itemspickedup_ammo_cells);
+        C_TabbedOutput(tabs, "\t%s %s\t%s %s",
+            temp1, (viewplayer->itemspickedup_ammo_cells == 1 ? weaponinfo[wp_plasma].ammoname : weaponinfo[wp_plasma].ammoplural),
+            temp2, (stat_itemspickedup_ammo_cells == 1 ? weaponinfo[wp_plasma].ammoname : weaponinfo[wp_plasma].ammoplural));
+        free(temp1);
+        free(temp2);
+    }
 
     temp1 = commify(viewplayer->itemspickedup_armor);
     temp2 = commifystat(stat_itemspickedup_armor);
@@ -6051,10 +6054,13 @@ static void C_PlayerStats_NoGame(void)
         (stat_itemspickedup_ammo_rockets == 1 ? weaponinfo[wp_missile].ammoname : weaponinfo[wp_missile].ammoplural));
     free(temp1);
 
-    temp1 = commifystat(stat_itemspickedup_ammo_cells);
-    C_TabbedOutput(tabs, "\t\x96\t%s %s", temp1 ,
-        (stat_itemspickedup_ammo_cells == 1 ? weaponinfo[wp_plasma].ammoname : weaponinfo[wp_plasma].ammoplural));
-    free(temp1);
+    if (gamemode != shareware)
+    {
+        temp1 = commifystat(stat_itemspickedup_ammo_cells);
+        C_TabbedOutput(tabs, "\t\x96\t%s %s", temp1,
+            (stat_itemspickedup_ammo_cells == 1 ? weaponinfo[wp_plasma].ammoname : weaponinfo[wp_plasma].ammoplural));
+        free(temp1);
+    }
 
     temp1 = commifystat(stat_itemspickedup_armor);
     C_TabbedOutput(tabs, "%s picked up\t\x96\t%s", (english == english_american ? "Armor" : "Armour"), temp1);
