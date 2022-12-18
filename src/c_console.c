@@ -2093,8 +2093,12 @@ bool C_Responder(event_t *ev)
 
             case KEY_HOME:
                 if ((outputhistory != -1 || !caretpos) && outputhistory && consolestrings > CONSOLELINES)
+                {
                     // scroll to top of console
-                    outputhistory = CONSOLEBLANKLINES - (gamestate == GS_TITLESCREEN ? 3 : 2);
+                    outputhistory = consolestrings - (CONSOLELINES + 1);
+                    while (strlen(console[outputhistory--].string));
+                    outputhistory++;
+                }
                 else if (caretpos > 0)
                 {
                     // move caret to start
