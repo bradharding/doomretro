@@ -5105,7 +5105,6 @@ const autocomplete_t autocompletelist[] =
     { "cvarlist am_red*",                            DOOM1AND2 },
     { "cvarlist am_yellow*",                         DOOM1AND2 },
     { "cvarlist auto*",                              DOOM1AND2 },
-    { "cvarlist crosshair*",                         DOOM1AND2 },
     { "cvarlist joy_*",                              DOOM1AND2 },
     { "cvarlist joy_deadzone_*",                     DOOM1AND2 },
     { "cvarlist joy_rumble_*",                       DOOM1AND2 },
