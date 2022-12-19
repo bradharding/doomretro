@@ -292,7 +292,7 @@ static void R_InitTextures(void)
 static void R_InitBrightmaps(void)
 {
     int nummasks = 0;
-    int numbrightmappedtextures = 0;
+    int numbrightmaps = 0;
 
     brightmap = Z_Calloc(numtextures, 256, PU_STATIC, NULL);
     nobrightmap = Z_Calloc(numtextures, sizeof(*nobrightmap), PU_STATIC, NULL);
@@ -367,7 +367,7 @@ static void R_InitBrightmaps(void)
                     if (M_StringCompare(maskname, masknames[i]))
                     {
                         brightmap[texture] = masks[i];
-                        numbrightmappedtextures++;
+                        numbrightmaps++;
                         break;
                     }
         }
@@ -398,18 +398,18 @@ static void R_InitBrightmaps(void)
             if (texture >= 0 && SC_Compare(pwadfile))
             {
                 nobrightmap[texture] = true;
-                numbrightmappedtextures--;
+                numbrightmaps--;
             }
         }
 
     SC_Close();
 
-    if (r_brightmaps && numbrightmappedtextures > 0)
+    if (r_brightmaps && numbrightmaps > 0)
     {
-        char    *temp = commify(numbrightmappedtextures);
+        char    *temp = commify(numbrightmaps);
 
         C_Output("Brightmaps have been applied to %s texture%s.",
-            temp, (numbrightmappedtextures == 1 ? "" : "s"));
+            temp, (numbrightmaps == 1 ? "" : "s"));
         free(temp);
     }
 }

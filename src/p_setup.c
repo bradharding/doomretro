@@ -1052,7 +1052,6 @@ static void P_LoadSegs(int lump)
 
                     if (linefix[j].special != DEFAULT)
                     {
-
                         if (linefix[j].special)
                         {
                             if (li->linedef->special)
@@ -1076,8 +1075,8 @@ static void P_LoadSegs(int lump)
                                 char    *temp2 = commify(linedefnum);
 
                                 C_Warning(2, "%s line special %s (\"%s\") has been added to linedef %s.",
-                                    (li->linedef->special < BOOMLINESPECIALS ? "The" : (li->linedef->special < MBFLINESPECIALS ?
-                                    "The " ITALICS("BOOM") "-compatible" : (li->linedef->special < MBF21LINESPECIALS ? "The " ITALICS("MBF")
+                                    (linefix[j].special < BOOMLINESPECIALS ? "The" : (linefix[j].special < MBFLINESPECIALS ?
+                                    "The " ITALICS("BOOM") "-compatible" : (linefix[j].special < MBF21LINESPECIALS ? "The " ITALICS("MBF")
                                     "-compatible" : "The " ITALICS("MBF21") "-compatible"))), temp1, linespecials[linefix[j].special],
                                     temp2);
                                 free(temp1);

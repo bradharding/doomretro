@@ -290,15 +290,17 @@ char *M_GetResourceFolder(void)
 char *M_GetExecutableFolder(void)
 {
 #if defined(_WIN32)
-    char    *pos;
     char    *folder = malloc(MAX_PATH);
-    TCHAR   buffer[MAX_PATH];
 
-    GetModuleFileName(NULL, buffer, MAX_PATH);
-    M_StringCopy(folder, buffer, MAX_PATH);
+    if (folder)
+    {
+        char    *pos;
 
-    if (folder && (pos = strrchr(folder, DIR_SEPARATOR)))
-        *pos = '\0';
+        GetModuleFileName(NULL, folder, MAX_PATH);
+
+        if ((pos = strrchr(folder, DIR_SEPARATOR)))
+            *pos = '\0';
+    }
 
     return folder;
 #elif defined(__linux__) || defined(__NetBSD__) || defined(__sun)
