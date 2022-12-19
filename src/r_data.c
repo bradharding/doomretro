@@ -354,8 +354,12 @@ static void R_InitBrightmaps(void)
             SC_GetString();
 
             if (SC_Compare("TEXTURE") || SC_Compare("SPRITE") || SC_Compare("FLAT"))
+            {
                 SC_UnGet();
-            else if (texture >= 0
+                *sc_String = '\0';
+            }
+
+            if (texture >= 0
                 && (!*sc_String || SC_Compare("0") || SC_Compare("DOOM|DOOM2") || SC_Compare("DOOM1|DOOM2")
                     || (gamemission == doom && !SC_Compare("2") && !SC_Compare("DOOM2"))
                     || (gamemission != doom && !SC_Compare("1") && !SC_Compare("DOOM") && !SC_Compare("DOOM1"))))
