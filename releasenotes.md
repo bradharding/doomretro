@@ -5,6 +5,7 @@
 * Minor changes have been made to text that is output to the console.
 * Minor improvements have been made to the console’s autocomplete feature.
 * Improvements have been made to parsing `BRGHTMPS` lumps.
+* The amount of cells the player has picked up is no longer displayed by the `playerstats` CCMD when playing *DOOM (Shareware)*.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
