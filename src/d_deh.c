@@ -468,7 +468,6 @@ char    *s_STSTR_BUDDHAOFF = "";
 char    *s_STSTR_CHOPPERS = STSTR_CHOPPERS;
 char    *s_STSTR_CLEV = STSTR_CLEV;
 char    *s_STSTR_CLEVSAME = "";
-char    *s_STSTR_MYPOS = "";
 char    *s_STSTR_NTON = "";
 char    *s_STSTR_NTOFF = "";
 char    *s_STSTR_GODON = "";
@@ -1061,7 +1060,6 @@ deh_strs deh_strlookup[] =
     { &s_STSTR_CHOPPERS,              "STSTR_CHOPPERS"              },
     { &s_STSTR_CLEV,                  "STSTR_CLEV"                  },
     { &s_STSTR_CLEVSAME,              "STSTR_CLEVSAME"              },
-    { &s_STSTR_MYPOS,                 "STSTR_MYPOS"                 },
     { &s_STSTR_NTON,                  "STSTR_NTON"                  },
     { &s_STSTR_NTOFF,                 "STSTR_NTOFF"                 },
     { &s_STSTR_GODON,                 "STSTR_GODON"                 },
