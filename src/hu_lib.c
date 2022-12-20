@@ -160,6 +160,7 @@ static void HUlib_DrawAltHUDTextLine(hu_textline_t *l)
     unsigned char   prevletter = '\0';
     unsigned char   prevletter2 = '\0';
     int             x = OVERLAYTEXTX;
+    int             y = HU_ALTHUDMSGY;
     int             color = (message_secret ? nearestgold : nearestwhite);
     const int       len = l->len;
     byte            *tinttab = (automapactive ? tinttab70 : tinttab50);
@@ -201,7 +202,13 @@ static void HUlib_DrawAltHUDTextLine(hu_textline_t *l)
             patch_t             *patch = unknownchar;
             const unsigned char nextletter = l->l[i + 1];
 
-            if (letter == 194 && nextletter == 176)
+            if (letter == '\n')
+            {
+                x = OVERLAYTEXTX;
+                y += OVERLAYLINEHEIGHT;
+                continue;
+            }
+            else if (letter == 194 && nextletter == 176)
             {
                 patch = degree;
                 i++;
@@ -238,7 +245,7 @@ static void HUlib_DrawAltHUDTextLine(hu_textline_t *l)
                 }
             }
 
-            althudtextfunc(x, HU_ALTHUDMSGY, screens[0], patch, italics, color, SCREENWIDTH, tinttab);
+            althudtextfunc(x, y, screens[0], patch, italics, color, SCREENWIDTH, tinttab);
             x += SHORT(patch->width);
 
             prevletter2 = prevletter;

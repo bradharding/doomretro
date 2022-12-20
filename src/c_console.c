@@ -377,6 +377,7 @@ void C_PlayerMessage(const char *string, ...)
         if (consolestrings >= (int)consolestringsmax)
             console = I_Realloc(console, (consolestringsmax += CONSOLESTRINGSMAX) * sizeof(*console));
 
+        M_StringReplaceAll(buffer, "\n", " ", false);
         M_StringCopy(console[consolestrings].string, buffer, sizeof(console[0].string));
         console[consolestrings].stringtype = playermessagestring;
         console[consolestrings].tics = gametime;
