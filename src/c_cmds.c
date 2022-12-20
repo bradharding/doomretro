@@ -148,6 +148,7 @@ bool        healthcvar = false;
 bool        nobindoutput;
 bool        quitcmd = false;
 bool        resettingcvar = false;
+bool        togglingcvar = false;
 bool        togglingvanilla = false;
 bool        vanilla = false;
 
@@ -7729,38 +7730,28 @@ static void toggle_cmd_func2(char *cmd, char *parms)
         return;
     }
 
+    togglingcvar = true;
+
     for (int i = 0; *consolecmds[i].name; i++)
     {
         const int   flags = consolecmds[i].flags;
 
-        if (consolecmds[i].type == CT_CVAR && M_StringCompare(parms, consolecmds[i].name) && !(flags & CF_READONLY))
+        if (consolecmds[i].type == CT_CVAR && M_StringCompare(parms, consolecmds[i].name)
+            && !(flags & CF_READONLY) && (flags & CF_BOOLEAN))
         {
-            if (flags & CF_BOOLEAN)
-            {
-                bool    value = *(bool *)consolecmds[i].variable;
-                char    *temp = M_StringJoin(parms, " ", C_LookupAliasFromValue(!value, consolecmds[i].aliases), NULL);
+            char    *temp1 = C_LookupAliasFromValue(!(*(bool *)consolecmds[i].variable), consolecmds[i].aliases);
+            char    *temp2 = M_StringJoin(parms, " ", temp1, NULL);
 
-                C_ValidateInput(temp);
-                free(temp);
-                M_SaveCVARs();
-                break;
-            }
-            else if (flags & CF_INTEGER)
-            {
-                int     value = *(int *)consolecmds[i].variable;
-                char    *temp;
-
-                if (++value > consolecmds[i].maximumvalue)
-                    value = consolecmds[i].minimumvalue;
-
-                temp = M_StringJoin(parms, " ", C_LookupAliasFromValue(value, consolecmds[i].aliases), NULL);
-                C_ValidateInput(temp);
-                free(temp);
-                M_SaveCVARs();
-                break;
-            }
+            C_ValidateInput(temp2);
+            C_Output("The " BOLD("%s") " CVAR has been toggled " BOLD("%s") ".", parms, temp1);
+            free(temp1);
+            free(temp2);
+            M_SaveCVARs();
+            break;
         }
     }
+
+    togglingcvar = false;
 }
 
 //

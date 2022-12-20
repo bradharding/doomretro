@@ -132,12 +132,13 @@ extern consolecmd_t     consolecmds[];
 extern alias_t          aliases[MAXALIASES];
 extern bool             executingalias;
 extern bool             healthcvar;
-extern bool             resettingcvar;
-extern bool             vanilla;
-extern bool             togglingvanilla;
 extern bool             massacre;
 extern bool             nobindoutput;
 extern bool             quitcmd;
+extern bool             resettingcvar;
+extern bool             togglingcvar;
+extern bool             togglingvanilla;
+extern bool             vanilla;
 
 void alias_cmd_func2(char *cmd, char *parms);
 void bind_cmd_func2(char *cmd, char *parms);
