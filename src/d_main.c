@@ -2276,6 +2276,7 @@ static void D_DoomMainSetup(void)
     D_ProcessDehOnCmdLine();
     D_ProcessDehInWad();
     D_PostProcessDeh();
+    D_TranslateDehStrings();
 
     if (dehcount > 2)
     {

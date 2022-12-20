@@ -1192,7 +1192,7 @@ void C_UpdateFPSOverlay(void)
     char    *temp = commify(framespersecond);
     byte    *tinttab = (r_hud_translucency ? (automapactive ? tinttab70 : tinttab50) : NULL);
 
-    M_snprintf(buffer, sizeof(buffer), s_STSTR_FPS, temp);
+    M_snprintf(buffer, sizeof(buffer), "%s FPS", temp);
 
     C_DrawOverlayText(screens[0], SCREENWIDTH, SCREENWIDTH - C_OverlayWidth(buffer, true) - OVERLAYTEXTX + 1,
         OVERLAYTEXTY, tinttab, buffer, (framespersecond < (refreshrate && vid_capfps != TICRATE ? refreshrate :

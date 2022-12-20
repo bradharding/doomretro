@@ -303,7 +303,6 @@ STSTR_RHOFF = Regenerating health OFF.
 STSTR_VON = Vanilla mode ON.
 STSTR_VOFF = Vanilla mode OFF.
 STSTR_SUCKS = SUCKS!
-STSTR_FPS = %s FPS
 STSTR_KILLS = %s of %s kills
 STSTR_ITEMS = %s of %s items
 STSTR_SECRETS = %s of %s secrets
