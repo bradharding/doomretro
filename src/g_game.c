@@ -683,7 +683,7 @@ void G_ToggleAlwaysRun(evtype_t type)
 
     M_StringCopy(temp, consoleinput, sizeof(temp));
 
-    if (!consolestrings || M_StringCompare(console[consolestrings - 1].string, "+alwaysrun"))
+    if (!numconsolestrings || M_StringCompare(console[numconsolestrings - 1].string, "+alwaysrun"))
         C_StrCVAROutput(stringize(alwaysrun), (alwaysrun ? "on" : "off"));
 
     M_StringCopy(consoleinput, temp, sizeof(consoleinput));
@@ -1399,7 +1399,7 @@ static void G_DoCompleted(void)
     stat_mapscompleted = SafeAdd(stat_mapscompleted, 1);
     M_SaveCVARs();
 
-    if (!consolestrings || (!M_StringCompare(console[consolestrings - 1].string, "exitmap")))
+    if (!numconsolestrings || (!M_StringCompare(console[numconsolestrings - 1].string, "exitmap")))
         C_Input("exitmap");
 
     WI_Start(&wminfo);
@@ -1485,7 +1485,7 @@ void G_DoLoadGame(void)
     loadaction = gameaction;
     gameaction = ga_nothing;
 
-    if (consolestrings < 2 || !M_StringStartsWith(console[consolestrings - 3].string, "load "))
+    if (numconsolestrings < 2 || !M_StringStartsWith(console[numconsolestrings - 3].string, "load "))
         C_Input("load %s", savename);
 
     if (!(save_stream = fopen(savename, "rb")))
@@ -1627,7 +1627,7 @@ static void G_DoSaveGame(void)
 
         savegames = true;
 
-        if (!consolestrings || !M_StringStartsWith(console[consolestrings - 1].string, "save "))
+        if (!numconsolestrings || !M_StringStartsWith(console[numconsolestrings - 1].string, "save "))
             C_Input("save %s", savegame_file);
 
         if (!*savedescription)
@@ -1802,11 +1802,11 @@ void G_InitNew(skill_t skill, int ep, int map)
     gamemap = map;
     gameskill = skill;
 
-    if (consolestrings == 1
-        || (!M_StringCompare(console[consolestrings - 2].string, "newgame")
-            && !M_StringStartsWith(console[consolestrings - 2].string, "map ")
-            && !M_StringStartsWith(console[consolestrings - 1].string, "load ")
-            && !M_StringStartsWith(console[consolestrings - 1].string, "Warping ")))
+    if (numconsolestrings == 1
+        || (!M_StringCompare(console[numconsolestrings - 2].string, "newgame")
+            && !M_StringStartsWith(console[numconsolestrings - 2].string, "map ")
+            && !M_StringStartsWith(console[numconsolestrings - 1].string, "load ")
+            && !M_StringStartsWith(console[numconsolestrings - 1].string, "Warping ")))
         C_Input("newgame");
 
     G_DoLoadLevel();

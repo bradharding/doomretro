@@ -211,7 +211,7 @@ extern int                  consoleheight;
 extern int                  consoledirection;
 
 extern char                 consoleinput[255];
-extern int                  consolestrings;
+extern int                  numconsolestrings;
 extern size_t               consolestringsmax;
 
 extern int                  caretpos;

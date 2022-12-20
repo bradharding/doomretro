@@ -2012,7 +2012,7 @@ static void cmdlist_cmd_func2(char *cmd, char *parms)
 //
 static bool condump_cmd_func1(char *cmd, char *parms)
 {
-    return (consolestrings > 1);
+    return (numconsolestrings > CONSOLEBLANKLINES);
 }
 
 static void condump_cmd_func2(char *cmd, char *parms)
@@ -2045,9 +2045,9 @@ static void condump_cmd_func2(char *cmd, char *parms)
 
     if ((file = fopen(filename, "wt")))
     {
-        char    *temp = commify((int64_t)consolestrings - 2);
+        char    *temp = commify((int64_t)numconsolestrings - 2);
 
-        for (int i = 1; i < consolestrings - 1; i++)
+        for (int i = 1; i < numconsolestrings - 1; i++)
             if (console[i].stringtype == dividerstring)
                 fprintf(file, "%s\n", DIVIDERSTRING);
             else

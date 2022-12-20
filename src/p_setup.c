@@ -3041,15 +3041,15 @@ void P_SetupLevel(int ep, int map)
         lumpnum = (nerve && gamemission == doom2 ? W_GetLastNumForName(lumpname) : W_GetNumForName(lumpname));
     }
 
-    if ((!consolestrings
-        || (!M_StringStartsWith(console[consolestrings - 1].string, "map ")
-            && !M_StringStartsWith(console[consolestrings - 1].string, "load ")
-            && !M_StringStartsWith(console[consolestrings - 1].string, "newgame")
-            && !M_StringStartsWith(console[consolestrings - 1].string, "Warping ")
-            && !M_StringCompare(console[consolestrings - 1].string, "restartmap")))
-        && ((consolestrings == 1
-            || (!M_StringStartsWith(console[consolestrings - 2].string, "map ")
-                && !M_StringStartsWith(console[consolestrings - 2].string, "Warping ")))))
+    if ((!numconsolestrings
+        || (!M_StringStartsWith(console[numconsolestrings - 1].string, "map ")
+            && !M_StringStartsWith(console[numconsolestrings - 1].string, "load ")
+            && !M_StringStartsWith(console[numconsolestrings - 1].string, "newgame")
+            && !M_StringStartsWith(console[numconsolestrings - 1].string, "Warping ")
+            && !M_StringCompare(console[numconsolestrings - 1].string, "restartmap")))
+        && ((numconsolestrings == 1
+            || (!M_StringStartsWith(console[numconsolestrings - 2].string, "map ")
+                && !M_StringStartsWith(console[numconsolestrings - 2].string, "Warping ")))))
         C_Input("map %s", lumpname);
 
     if (!(samelevel = (lumpnum == prevlumpnum)))

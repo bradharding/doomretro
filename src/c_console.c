@@ -103,7 +103,7 @@ static short            brandheight;
 static short            spacewidth;
 
 char                    consoleinput[255];
-int                     consolestrings = 0;
+int                     numconsolestrings = 0;
 size_t                  consolestringsmax = 0;
 
 static size_t           undolevels;
@@ -171,13 +171,13 @@ void C_Input(const char *string, ...)
     M_vsnprintf(buffer, CONSOLETEXTMAXLENGTH - 1, string, args);
     va_end(args);
 
-    if (consolestrings >= (int)consolestringsmax)
+    if (numconsolestrings >= (int)consolestringsmax)
         console = I_Realloc(console, (consolestringsmax += CONSOLESTRINGSMAX) * sizeof(*console));
 
-    M_StringCopy(console[consolestrings].string, buffer, sizeof(console[0].string));
-    console[consolestrings].indent = 0;
-    console[consolestrings].wrap = 0;
-    console[consolestrings++].stringtype = inputstring;
+    M_StringCopy(console[numconsolestrings].string, buffer, sizeof(console[0].string));
+    console[numconsolestrings].indent = 0;
+    console[numconsolestrings].wrap = 0;
+    console[numconsolestrings++].stringtype = inputstring;
     inputhistory = -1;
     outputhistory = -1;
     consoleinput[0] = '\0';
@@ -196,13 +196,13 @@ void C_Cheat(const char *string)
 
     buffer[len] = '\0';
 
-    if (consolestrings >= (int)consolestringsmax)
+    if (numconsolestrings >= (int)consolestringsmax)
         console = I_Realloc(console, (consolestringsmax += CONSOLESTRINGSMAX) * sizeof(*console));
 
-    M_StringCopy(console[consolestrings].string, buffer, sizeof(console[0].string));
-    console[consolestrings].indent = 0;
-    console[consolestrings].wrap = 0;
-    console[consolestrings++].stringtype = cheatstring;
+    M_StringCopy(console[numconsolestrings].string, buffer, sizeof(console[0].string));
+    console[numconsolestrings].indent = 0;
+    console[numconsolestrings].wrap = 0;
+    console[numconsolestrings++].stringtype = cheatstring;
     inputhistory = -1;
     outputhistory = -1;
     consoleinput[0] = '\0';
@@ -216,8 +216,8 @@ void C_IntCVAROutput(const char *cvar, int value)
     char    *temp1 = M_StringJoin(cvar, " ", NULL);
     char    *temp2 = commify(value);
 
-    if (consolestrings && M_StringStartsWithExact(console[consolestrings - 1].string, temp1))
-        consolestrings--;
+    if (numconsolestrings && M_StringStartsWithExact(console[numconsolestrings - 1].string, temp1))
+        numconsolestrings--;
 
     C_Input("%s %s", cvar, temp2);
     free(temp1);
@@ -229,8 +229,8 @@ void C_PctCVAROutput(const char *cvar, int value)
     char    *temp1 = M_StringJoin(cvar, " ", NULL);
     char    *temp2 = commify(value);
 
-    if (consolestrings && M_StringStartsWithExact(console[consolestrings - 1].string, temp1))
-        consolestrings--;
+    if (numconsolestrings && M_StringStartsWithExact(console[numconsolestrings - 1].string, temp1))
+        numconsolestrings--;
 
     C_Input("%s %s%%", cvar, temp2);
     free(temp1);
@@ -241,8 +241,8 @@ void C_StrCVAROutput(const char *cvar, const char *string)
 {
     char    *temp = M_StringJoin(cvar, " ", NULL);
 
-    if (consolestrings && M_StringStartsWithExact(console[consolestrings - 1].string, temp))
-        consolestrings--;
+    if (numconsolestrings && M_StringStartsWithExact(console[numconsolestrings - 1].string, temp))
+        numconsolestrings--;
 
     C_Input("%s %s", cvar, string);
     free(temp);
@@ -261,13 +261,13 @@ void C_Output(const char *string, ...)
         va_end(args);
     }
 
-    if (consolestrings >= (int)consolestringsmax)
+    if (numconsolestrings >= (int)consolestringsmax)
         console = I_Realloc(console, (consolestringsmax += CONSOLESTRINGSMAX) * sizeof(*console));
 
-    M_StringCopy(console[consolestrings].string, buffer, sizeof(console[0].string));
-    console[consolestrings].indent = 0;
-    console[consolestrings].wrap = 0;
-    console[consolestrings++].stringtype = outputstring;
+    M_StringCopy(console[numconsolestrings].string, buffer, sizeof(console[0].string));
+    console[numconsolestrings].indent = 0;
+    console[numconsolestrings].wrap = 0;
+    console[numconsolestrings++].stringtype = outputstring;
     outputhistory = -1;
 }
 
@@ -284,16 +284,16 @@ bool C_OutputNoRepeat(const char *string, ...)
         va_end(args);
     }
 
-    if (consolestrings && M_StringCompare(console[consolestrings - 1].string, buffer))
+    if (numconsolestrings && M_StringCompare(console[numconsolestrings - 1].string, buffer))
         return true;
 
-    if (consolestrings >= (int)consolestringsmax)
+    if (numconsolestrings >= (int)consolestringsmax)
         console = I_Realloc(console, (consolestringsmax += CONSOLESTRINGSMAX) * sizeof(*console));
 
-    M_StringCopy(console[consolestrings].string, buffer, sizeof(console[0].string));
-    console[consolestrings].indent = 0;
-    console[consolestrings].wrap = 0;
-    console[consolestrings++].stringtype = outputstring;
+    M_StringCopy(console[numconsolestrings].string, buffer, sizeof(console[0].string));
+    console[numconsolestrings].indent = 0;
+    console[numconsolestrings].wrap = 0;
+    console[numconsolestrings++].stringtype = outputstring;
     outputhistory = -1;
     return false;
 }
@@ -307,26 +307,26 @@ void C_TabbedOutput(const int tabs[3], const char *string, ...)
     M_vsnprintf(buffer, CONSOLETEXTMAXLENGTH - 1, string, args);
     va_end(args);
 
-    if (consolestrings >= (int)consolestringsmax)
+    if (numconsolestrings >= (int)consolestringsmax)
         console = I_Realloc(console, (consolestringsmax += CONSOLESTRINGSMAX) * sizeof(*console));
 
-    M_StringCopy(console[consolestrings].string, buffer, sizeof(console[0].string));
-    console[consolestrings].stringtype = outputstring;
-    memcpy(console[consolestrings].tabs, tabs, sizeof(console[0].tabs));
-    console[consolestrings].indent = (tabs[2] ? tabs[2] : (tabs[1] ? tabs[1] : tabs[0])) - 10;
-    console[consolestrings++].wrap = 0;
+    M_StringCopy(console[numconsolestrings].string, buffer, sizeof(console[0].string));
+    console[numconsolestrings].stringtype = outputstring;
+    memcpy(console[numconsolestrings].tabs, tabs, sizeof(console[0].tabs));
+    console[numconsolestrings].indent = (tabs[2] ? tabs[2] : (tabs[1] ? tabs[1] : tabs[0])) - 10;
+    console[numconsolestrings++].wrap = 0;
     outputhistory = -1;
 }
 
 void C_Header(const int tabs[3], patch_t *header, const char *string)
 {
-    if (consolestrings >= (int)consolestringsmax)
+    if (numconsolestrings >= (int)consolestringsmax)
         console = I_Realloc(console, (consolestringsmax += CONSOLESTRINGSMAX) * sizeof(*console));
 
-    console[consolestrings].stringtype = headerstring;
-    memcpy(console[consolestrings].tabs, tabs, sizeof(console[0].tabs));
-    console[consolestrings].header = header;
-    M_StringCopy(console[consolestrings++].string, string, sizeof(console[0].string));
+    console[numconsolestrings].stringtype = headerstring;
+    memcpy(console[numconsolestrings].tabs, tabs, sizeof(console[0].tabs));
+    console[numconsolestrings].header = header;
+    M_StringCopy(console[numconsolestrings++].string, string, sizeof(console[0].string));
     outputhistory = -1;
 }
 
@@ -342,16 +342,16 @@ void C_Warning(const int minwarninglevel, const char *string, ...)
     M_vsnprintf(buffer, CONSOLETEXTMAXLENGTH - 1, string, args);
     va_end(args);
 
-    if (!consolestrings || !M_StringCompare(console[consolestrings - 1].string, buffer))
+    if (!numconsolestrings || !M_StringCompare(console[numconsolestrings - 1].string, buffer))
     {
-        if (consolestrings >= (int)consolestringsmax)
+        if (numconsolestrings >= (int)consolestringsmax)
             console = I_Realloc(console, (consolestringsmax += CONSOLESTRINGSMAX) * sizeof(*console));
 
-        M_StringCopy(console[consolestrings].string, buffer, sizeof(console[0].string));
-        console[consolestrings].line = 1;
-        console[consolestrings].indent = WARNINGWIDTH + 2;
-        console[consolestrings].wrap = 0;
-        console[consolestrings++].stringtype = warningstring;
+        M_StringCopy(console[numconsolestrings].string, buffer, sizeof(console[0].string));
+        console[numconsolestrings].line = 1;
+        console[numconsolestrings].indent = WARNINGWIDTH + 2;
+        console[numconsolestrings].wrap = 0;
+        console[numconsolestrings++].stringtype = warningstring;
         outputhistory = -1;
     }
 }
@@ -360,7 +360,7 @@ void C_PlayerMessage(const char *string, ...)
 {
     va_list     args;
     char        buffer[CONSOLETEXTMAXLENGTH];
-    const int   i = consolestrings - 1;
+    const int   i = numconsolestrings - 1;
 
     va_start(args, string);
     M_vsnprintf(buffer, CONSOLETEXTMAXLENGTH - 1, string, args);
@@ -374,17 +374,17 @@ void C_PlayerMessage(const char *string, ...)
     }
     else
     {
-        if (consolestrings >= (int)consolestringsmax)
+        if (numconsolestrings >= (int)consolestringsmax)
             console = I_Realloc(console, (consolestringsmax += CONSOLESTRINGSMAX) * sizeof(*console));
 
         M_StringReplaceAll(buffer, "\n", " ", false);
-        M_StringCopy(console[consolestrings].string, buffer, sizeof(console[0].string));
-        console[consolestrings].stringtype = playermessagestring;
-        console[consolestrings].tics = gametime;
-        console[consolestrings].timestamp[0] = '\0';
-        console[consolestrings].indent = 0;
-        console[consolestrings].wrap = 0;
-        console[consolestrings++].count = 1;
+        M_StringCopy(console[numconsolestrings].string, buffer, sizeof(console[0].string));
+        console[numconsolestrings].stringtype = playermessagestring;
+        console[numconsolestrings].tics = gametime;
+        console[numconsolestrings].timestamp[0] = '\0';
+        console[numconsolestrings].indent = 0;
+        console[numconsolestrings].wrap = 0;
+        console[numconsolestrings++].count = 1;
     }
 
     outputhistory = -1;
@@ -392,7 +392,7 @@ void C_PlayerMessage(const char *string, ...)
 
 void C_ResetWrappedLines(void)
 {
-    for (int i = 0; i < consolestrings; i++)
+    for (int i = 0; i < numconsolestrings; i++)
         console[i].wrap = 0;
 }
 
@@ -408,12 +408,12 @@ static void C_AddToUndoHistory(void)
 
 void C_AddConsoleDivider(void)
 {
-    if (console[consolestrings - 1].stringtype != dividerstring || !consolestrings)
+    if (console[numconsolestrings - 1].stringtype != dividerstring || !numconsolestrings)
     {
-        if (consolestrings >= (int)consolestringsmax)
+        if (numconsolestrings >= (int)consolestringsmax)
             console = I_Realloc(console, (consolestringsmax += CONSOLESTRINGSMAX) * sizeof(*console));
 
-        console[consolestrings++].stringtype = dividerstring;
+        console[numconsolestrings++].stringtype = dividerstring;
     }
 }
 
@@ -598,10 +598,10 @@ static void C_DrawScrollbar(void)
 {
     const int   trackend = CONSOLESCROLLBARHEIGHT * SCREENWIDTH;
     const int   facestart = CONSOLESCROLLBARHEIGHT * (outputhistory == -1 ?
-                    MAX(0, consolestrings - CONSOLEBLANKLINES - CONSOLELINES) :
-                    MAX(0, outputhistory - CONSOLEBLANKLINES)) / consolestrings;
+                    MAX(0, numconsolestrings - CONSOLEBLANKLINES - CONSOLELINES) :
+                    MAX(0, outputhistory - CONSOLEBLANKLINES)) / numconsolestrings;
     const int   faceend = facestart + CONSOLESCROLLBARHEIGHT - CONSOLESCROLLBARHEIGHT
-                    * MAX(0, consolestrings - CONSOLEBLANKLINES - CONSOLELINES) / consolestrings;
+                    * MAX(0, numconsolestrings - CONSOLEBLANKLINES - CONSOLELINES) / numconsolestrings;
 
     if (!facestart && faceend == CONSOLESCROLLBARHEIGHT)
         scrollbardrawn = false;
@@ -647,7 +647,7 @@ static void C_DrawScrollbar(void)
 
 void C_ClearConsole(void)
 {
-    consolestrings = 0;
+    numconsolestrings = 0;
     consolestringsmax = 0;
 
     for (int i = 0; i < CONSOLEBLANKLINES; i++)
@@ -1419,7 +1419,7 @@ void C_Drawer(void)
     int         i;
     int         x = CONSOLEINPUTX;
     int         y = CONSOLELINEHEIGHT * (CONSOLELINES - 1) - CONSOLELINEHEIGHT / 2 + 1;
-    const int   bottomline = (outputhistory == -1 ? consolestrings : outputhistory + CONSOLELINES) - 1;
+    const int   bottomline = (outputhistory == -1 ? numconsolestrings : outputhistory + CONSOLELINES) - 1;
     int         len;
     char        partialinput[255];
     const bool  prevconsoleactive = consoleactive;
@@ -2093,10 +2093,10 @@ bool C_Responder(event_t *ev)
                 break;
 
             case KEY_HOME:
-                if ((outputhistory != -1 || !caretpos) && outputhistory && consolestrings > CONSOLELINES)
+                if ((outputhistory != -1 || !caretpos) && outputhistory && numconsolestrings > CONSOLELINES)
                 {
                     // scroll to top of console
-                    outputhistory = consolestrings - (CONSOLELINES + 1);
+                    outputhistory = numconsolestrings - (CONSOLELINES + 1);
                     while (strlen(console[outputhistory--].string));
                     outputhistory++;
                 }
@@ -2112,7 +2112,7 @@ bool C_Responder(event_t *ev)
                 break;
 
             case KEY_END:
-                if (outputhistory != -1 && consolestrings > CONSOLELINES)
+                if (outputhistory != -1 && numconsolestrings > CONSOLELINES)
                     // scroll to bottom of console
                     outputhistory = -1;
                 else if (caretpos < len)
@@ -2227,8 +2227,8 @@ bool C_Responder(event_t *ev)
 
             case KEY_UPARROW:
                 // scroll output up
-                if ((modstate & KMOD_CTRL) && !topofconsole && consolestrings > CONSOLELINES)
-                    outputhistory = (outputhistory == -1 ? consolestrings - (CONSOLELINES + 1) : MAX(0, outputhistory - 1));
+                if ((modstate & KMOD_CTRL) && !topofconsole && numconsolestrings > CONSOLELINES)
+                    outputhistory = (outputhistory == -1 ? numconsolestrings - (CONSOLELINES + 1) : MAX(0, outputhistory - 1));
 
                 // previous input
                 else
@@ -2236,7 +2236,7 @@ bool C_Responder(event_t *ev)
                     if (inputhistory == -1)
                         M_StringCopy(currentinput, consoleinput, sizeof(currentinput));
 
-                    for (i = (inputhistory == -1 ? consolestrings : inputhistory) - 1; i >= 0; i--)
+                    for (i = (inputhistory == -1 ? numconsolestrings : inputhistory) - 1; i >= 0; i--)
                         if (console[i].stringtype == inputstring
                             && !M_StringCompare(consoleinput, console[i].string)
                             && C_TextWidth(console[i].string, false, true) <= CONSOLEINPUTPIXELWIDTH)
@@ -2255,7 +2255,7 @@ bool C_Responder(event_t *ev)
 
             case KEY_DOWNARROW:
                 // scroll output down
-                if ((modstate & KMOD_CTRL) && outputhistory != -1 && ++outputhistory + CONSOLELINES >= consolestrings)
+                if ((modstate & KMOD_CTRL) && outputhistory != -1 && ++outputhistory + CONSOLELINES >= numconsolestrings)
                     outputhistory = -1;
 
                 // next input
@@ -2263,7 +2263,7 @@ bool C_Responder(event_t *ev)
                 {
                     if (inputhistory != -1)
                     {
-                        for (i = inputhistory + 1; i < consolestrings; i++)
+                        for (i = inputhistory + 1; i < numconsolestrings; i++)
                             if (console[i].stringtype == inputstring
                                 && !M_StringCompare(consoleinput, console[i].string)
                                 && C_TextWidth(console[i].string, false, true) <= CONSOLEINPUTPIXELWIDTH)
@@ -2273,7 +2273,7 @@ bool C_Responder(event_t *ev)
                                 break;
                             }
 
-                        if (i == consolestrings)
+                        if (i == numconsolestrings)
                         {
                             inputhistory = -1;
                             M_StringCopy(consoleinput, currentinput, sizeof(consoleinput));
@@ -2289,14 +2289,14 @@ bool C_Responder(event_t *ev)
 
             case KEY_PAGEUP:
                 // scroll output up
-                if (!topofconsole && consolestrings > CONSOLELINES)
-                    outputhistory = (outputhistory == -1 ? consolestrings - (CONSOLELINES + 1) : MAX(0, outputhistory - 1));
+                if (!topofconsole && numconsolestrings > CONSOLELINES)
+                    outputhistory = (outputhistory == -1 ? numconsolestrings - (CONSOLELINES + 1) : MAX(0, outputhistory - 1));
 
                 break;
 
             case KEY_PAGEDOWN:
                 // scroll output down
-                if (outputhistory != -1 && ++outputhistory + CONSOLELINES >= consolestrings)
+                if (outputhistory != -1 && ++outputhistory + CONSOLELINES >= numconsolestrings)
                     outputhistory = -1;
 
                 break;
@@ -2466,14 +2466,14 @@ bool C_Responder(event_t *ev)
         // scroll output up
         if (ev->data1 > 0)
         {
-            if (!topofconsole && consolestrings > CONSOLELINES)
-                outputhistory = (outputhistory == -1 ? consolestrings - (CONSOLELINES + 1) : MAX(0, outputhistory - 1));
+            if (!topofconsole && numconsolestrings > CONSOLELINES)
+                outputhistory = (outputhistory == -1 ? numconsolestrings - (CONSOLELINES + 1) : MAX(0, outputhistory - 1));
         }
 
         // scroll output down
         else if (ev->data1 < 0)
         {
-            if (outputhistory != -1 && ++outputhistory + CONSOLELINES == consolestrings)
+            if (outputhistory != -1 && ++outputhistory + CONSOLELINES == numconsolestrings)
                 outputhistory = -1;
         }
     }

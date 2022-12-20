@@ -166,9 +166,9 @@ static void HUlib_DrawAltHUDTextLine(hu_textline_t *l)
     byte            *tinttab = (automapactive ? tinttab70 : tinttab50);
 
     if (!automapactive)
-        color = (r_textures ? (viewplayer->fixedcolormap == INVERSECOLORMAP ? colormaps[0][32 * 256 + color] : color) :
-            (viewplayer->fixedcolormap == INVERSECOLORMAP ? colormaps[0][32 * 256 + color] :
-            (message_secret ? nearestgold : nearestblack)));
+        color = (r_textures ? (viewplayer->fixedcolormap == INVERSECOLORMAP ?
+            colormaps[0][32 * 256 + color] : color) : (viewplayer->fixedcolormap == INVERSECOLORMAP ?
+            colormaps[0][32 * 256 + color] : (message_secret ? nearestgold : nearestblack)));
 
     if (fade)
     {
@@ -189,7 +189,8 @@ static void HUlib_DrawAltHUDTextLine(hu_textline_t *l)
     }
 
     if (idbehold)
-        althudtextfunc(x, HU_ALTHUDMSGY + 12, screens[0], altunderscores, false, color, SCREENWIDTH, tinttab);
+        althudtextfunc(x, HU_ALTHUDMSGY + 12, screens[0],
+            altunderscores, false, color, SCREENWIDTH, tinttab);
 
     for (int i = 0; i < len; i++)
     {
@@ -318,7 +319,8 @@ void HUlib_DrawAltAutomapTextLine(hu_textline_t *l, bool external)
                     x -= 2;
             }
 
-            althudtextfunc(x, SCREENHEIGHT - 24, fb1, patch, italics, nearestwhite, (external ? MAPWIDTH : SCREENWIDTH), tinttab70);
+            althudtextfunc(x, SCREENHEIGHT - 24, fb1, patch, italics, nearestwhite,
+                (external ? MAPWIDTH : SCREENWIDTH), tinttab70);
             x += SHORT(patch->width);
         }
 
@@ -342,6 +344,7 @@ static void HUlib_DrawTextLine(hu_textline_t *l, bool external)
     int             x = l->x;
     int             y = l->y;
     int             maxx;
+    int             maxy;
     unsigned char   prev = '\0';
     unsigned char   prev2 = '\0';
     byte            *fb1 = screens[0];
@@ -478,8 +481,9 @@ static void HUlib_DrawTextLine(hu_textline_t *l, bool external)
     }
 
     maxx = (l->x + textwidth + 1) * SCREENSCALE;
+    maxy = (y + 10) * SCREENSCALE;
 
-    for (int yy = MAX(0, l->y - 1); yy < (y + 10) * SCREENSCALE; yy++)
+    for (int yy = MAX(0, l->y - 1); yy < maxy; yy++)
         for (int xx = l->x; xx < maxx; xx++)
         {
             const int   dot = yy * screenwidth + xx;
