@@ -342,7 +342,6 @@ static void HUlib_DrawTextLine(hu_textline_t *l, bool external)
     int             x = l->x;
     int             y = l->y;
     int             maxx;
-    const int       maxy = (y + 10) * SCREENSCALE;
     unsigned char   prev = '\0';
     unsigned char   prev2 = '\0';
     byte            *fb1 = screens[0];
@@ -366,7 +365,12 @@ static void HUlib_DrawTextLine(hu_textline_t *l, bool external)
         const unsigned char c = toupper(l->l[i]);
         short               charwidth = 0;
 
-        if (c == ' ')
+        if (c == '\n')
+        {
+            x = l->x;
+            y += hu_font[0]->height + 2;
+        }
+        else if (c == ' ')
         {
             charwidth = (vanilla ? 4 : (i > 0 && (prev == '.' || prev == '!' || prev == '?') ? 5 : 3));
             x += charwidth;
@@ -475,7 +479,7 @@ static void HUlib_DrawTextLine(hu_textline_t *l, bool external)
 
     maxx = (l->x + textwidth + 1) * SCREENSCALE;
 
-    for (int yy = MAX(0, l->y - 1); yy < maxy; yy++)
+    for (int yy = MAX(0, l->y - 1); yy < (y + 10) * SCREENSCALE; yy++)
         for (int xx = l->x; xx < maxx; xx++)
         {
             const int   dot = yy * screenwidth + xx;
