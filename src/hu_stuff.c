@@ -1329,13 +1329,16 @@ void HU_Ticker(void)
             HUlib_AddMessageToSText(&w_message, viewplayer->message);
         else if (messages || message_dontfuckwithme)
         {
-            int     len = (int)strlen(viewplayer->message);
-            char    message[133];
+            char        message[133];
 
             M_StringCopy(message, viewplayer->message, sizeof(message));
 
             if (!vid_widescreen)
-                while (M_StringWidth(message) > SCREENWIDTH / SCREENSCALE - HU_MSGX * 2)
+            {
+                int         len = (int)strlen(viewplayer->message);
+                const int   maxwidth = SCREENWIDTH / SCREENSCALE - (vanilla ? 0 : HU_MSGX * 2);
+
+                while (M_StringWidth(message) > maxwidth)
                 {
                     if (len >= 2 && message[len - 2] == ' ')
                     {
@@ -1354,6 +1357,7 @@ void HU_Ticker(void)
 
                     len--;
                 }
+            }
 
             HUlib_AddMessageToSText(&w_message, message);
         }
