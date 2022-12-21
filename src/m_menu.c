@@ -2335,7 +2335,7 @@ static int M_CharacterWidth(char ch, char prev)
 {
     const int   c = toupper(ch) - HU_FONTSTART;
 
-    if (c < 0 || c >= HU_FONTSIZE)
+    if (c < 0 || c >= HU_FONTSIZE || ch == ' ')
         return (prev == '.' || prev == '!' || prev == '?' ? 5 : 3);
     else
         return (STCFNxxx ? SHORT(hu_font[c]->width) : (int)strlen(smallcharset[c]) / 10 - 1);
