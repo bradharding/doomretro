@@ -1920,7 +1920,7 @@ static void AM_DrawPath(void)
     {
         mpoint_t    player = { viewx >> FRACTOMAPBITS, viewy >> FRACTOMAPBITS };
 
-        for (int i = MAX(0, numbreadcrumbs - am_pathlength); i < numbreadcrumbs; i++)
+        for (int i = MAX(2, numbreadcrumbs - am_pathlength); i < numbreadcrumbs; i++)
         {
             mpoint_t    start = { breadcrumb[i - 1].x >> FRACTOMAPBITS, breadcrumb[i - 1].y >> FRACTOMAPBITS };
 
@@ -1942,7 +1942,7 @@ static void AM_DrawPath(void)
     {
         mpoint_t    start = { breadcrumb[0].x >> FRACTOMAPBITS, breadcrumb[0].y >> FRACTOMAPBITS };
 
-        for (int i = MAX(0, numbreadcrumbs - am_pathlength); i < numbreadcrumbs; i++)
+        for (int i = MAX(2, numbreadcrumbs - am_pathlength); i < numbreadcrumbs; i++)
         {
             end.x = breadcrumb[i].x >> FRACTOMAPBITS;
             end.y = breadcrumb[i].y >> FRACTOMAPBITS;
@@ -2076,7 +2076,7 @@ void AM_Drawer(void)
     else
         AM_DrawWalls();
 
-    if (am_path && numbreadcrumbs > 1)
+    if (am_path && numbreadcrumbs >= 2)
         AM_DrawPath();
 
     if (viewplayer->cheats & CF_ALLMAP_THINGS)
@@ -2087,9 +2087,6 @@ void AM_Drawer(void)
 
     AM_DrawPlayer();
 
-    if (r_screensize < r_screensize_max && !vanilla)
-        AM_StatusBarShadow();
-
     if (!am_followmode)
     {
         if (r_hud_translucency)
@@ -2097,4 +2094,7 @@ void AM_Drawer(void)
         else
             AM_DrawSolidCrosshair();
     }
+
+    if (r_screensize < r_screensize_max && !vanilla)
+        AM_StatusBarShadow();
 }
