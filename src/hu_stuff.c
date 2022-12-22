@@ -253,7 +253,7 @@ void HU_Start(void)
 {
     char        *s = M_StringDuplicate(automaptitle);
     int         len = (int)strlen(s);
-    const int   maxwidth = MIN(VANILLAWIDTH, MAPWIDTH / SCREENSCALE) - 6;
+    const int   maxwidth = MIN(VANILLAWIDTH, MAPWIDTH / SCREENSCALE) - HU_MSGX * 2;
 
     if (headsupactive)
         HU_Stop();
@@ -1329,7 +1329,7 @@ void HU_Ticker(void)
             HUlib_AddMessageToSText(&w_message, viewplayer->message);
         else if (messages || message_dontfuckwithme)
         {
-            char        message[133];
+            char    message[133];
 
             M_StringCopy(message, viewplayer->message, sizeof(message));
 
@@ -1384,24 +1384,24 @@ void HU_SetPlayerMessage(char *message, bool group, bool external)
     else
     {
         static int  messagecount = 1;
-        char        buffer[133];
 
         if (gametime - viewplayer->prevmessagetics < HU_MSGTIMEOUT
             && M_StringCompare(message, viewplayer->prevmessage) && groupmessages)
         {
+            char    buffer[133];
             char    *temp = commify(++messagecount);
 
             M_snprintf(buffer, sizeof(buffer), "%s (%s)", message, temp);
+            viewplayer->message = M_StringDuplicate(buffer);
             free(temp);
         }
         else
         {
-            M_StringCopy(buffer, message, sizeof(buffer));
             messagecount = 1;
+            viewplayer->message = M_StringDuplicate(message);
             M_StringCopy(viewplayer->prevmessage, message, sizeof(viewplayer->prevmessage));
         }
 
-        viewplayer->message = M_StringDuplicate(buffer);
         viewplayer->prevmessagetics = gametime;
     }
 

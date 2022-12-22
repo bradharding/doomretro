@@ -478,8 +478,6 @@ static void I_GetEvent(void)
                         else
                             gamecontrollerthumbLX = clamp(Event->caxis.value, gamecontrollerleftdeadzone);
 
-                        ev.type = ev_controller;
-                        D_PostEvent(&ev);
                         break;
 
                     case SDL_CONTROLLER_AXIS_LEFTY:
@@ -488,8 +486,6 @@ static void I_GetEvent(void)
                         else
                             gamecontrollerthumbLY = clamp(Event->caxis.value, gamecontrollerleftdeadzone);
 
-                        ev.type = ev_controller;
-                        D_PostEvent(&ev);
                         break;
 
                     case SDL_CONTROLLER_AXIS_RIGHTX:
@@ -498,8 +494,6 @@ static void I_GetEvent(void)
                         else
                             gamecontrollerthumbRX = clamp(Event->caxis.value, gamecontrollerrightdeadzone);
 
-                        ev.type = ev_controller;
-                        D_PostEvent(&ev);
                         break;
 
                     case SDL_CONTROLLER_AXIS_RIGHTY:
@@ -508,8 +502,6 @@ static void I_GetEvent(void)
                         else
                             gamecontrollerthumbRY = clamp(Event->caxis.value, gamecontrollerrightdeadzone);
 
-                        ev.type = ev_controller;
-                        D_PostEvent(&ev);
                         break;
 
                     case SDL_CONTROLLER_AXIS_TRIGGERLEFT:
@@ -518,8 +510,6 @@ static void I_GetEvent(void)
                         else
                             gamecontrollerbuttons &= ~GAMECONTROLLER_LEFT_TRIGGER;
 
-                        ev.type = ev_controller;
-                        D_PostEvent(&ev);
                         break;
 
                     case SDL_CONTROLLER_AXIS_TRIGGERRIGHT:
@@ -528,8 +518,6 @@ static void I_GetEvent(void)
                         else
                             gamecontrollerbuttons &= ~GAMECONTROLLER_RIGHT_TRIGGER;
 
-                        ev.type = ev_controller;
-                        D_PostEvent(&ev);
                         break;
                 }
 
@@ -537,6 +525,8 @@ static void I_GetEvent(void)
                     I_SaveMousePointerPosition();
 
                 usingmouse = false;
+                ev.type = ev_controller;
+                D_PostEvent(&ev);
                 break;
 
             case SDL_CONTROLLERBUTTONDOWN:
