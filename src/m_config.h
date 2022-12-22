@@ -63,7 +63,6 @@ extern char     *am_gridsize;
 extern int      am_markcolor;
 extern bool     am_path;
 extern int      am_pathcolor;
-extern int      am_pathlength;
 extern int      am_playercolor;
 extern bool     am_playerstats;
 extern int      am_reddoorcolor;
@@ -383,10 +382,6 @@ enum
 #define am_pathcolor_min                   0
 #define am_pathcolor_default               89
 #define am_pathcolor_max                   255
-
-#define am_pathlength_min                  100
-#define am_pathlength_default              100000
-#define am_pathlength_max                  1000000000
 
 #define am_playercolor_min                 0
 #define am_playercolor_default             4

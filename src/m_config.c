@@ -71,7 +71,6 @@ char        *am_gridsize = am_gridsize_default;
 int         am_markcolor = am_markcolor_default;
 bool        am_path = am_path_default;
 int         am_pathcolor = am_pathcolor_default;
-int         am_pathlength = am_pathlength_default;
 int         am_playercolor = am_playercolor_default;
 bool        am_playerstats = am_playerstats_default;
 int         am_reddoorcolor = am_reddoorcolor_default;
@@ -306,7 +305,6 @@ static default_t cvars[] =
     CVAR_INT          (am_markcolor,                     am_markcolour,                         am_markcolor,                        NOVALUEALIAS          ),
     CVAR_BOOL         (am_path,                          am_path,                               am_path,                             BOOLVALUEALIAS        ),
     CVAR_INT          (am_pathcolor,                     am_pathcolour,                         am_pathcolor,                        NOVALUEALIAS          ),
-    CVAR_INT          (am_pathlength,                    am_pathlength,                         am_pathlength,                       NOVALUEALIAS          ),
     CVAR_INT          (am_playercolor,                   am_playercolour,                       am_playercolor,                      NOVALUEALIAS          ),
     CVAR_BOOL         (am_playerstats,                   am_playerstats,                        am_playerstats,                      BOOLVALUEALIAS        ),
     CVAR_INT          (am_reddoorcolor,                  am_reddoorcolour,                      am_reddoorcolor,                     NOVALUEALIAS          ),
