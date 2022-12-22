@@ -575,6 +575,8 @@ consolecmd_t consolecmds[] =
         "Toggles the player's path in the automap."),
     CVAR_INT(am_pathcolor, am_pathcolour, "", int_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The color of the player's path in the automap (" BOLD("0") " to " BOLD("255") ")."),
+    CVAR_INT(am_pathlength, "", "", int_cvars_func1, int_cvars_func2, CF_NONE, NOVALUEALIAS,
+        "The length of the player's path in the automap (" BOLD("100") " to " BOLD("1,000,000,000") ")."),
     CVAR_INT(am_playercolor, am_playercolour, "", int_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The color of the player's arrow in the automap (" BOLD("0") " to " BOLD("255") ")."),
     CVAR_BOOL(am_playerstats, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
