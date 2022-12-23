@@ -1289,7 +1289,7 @@ static void G_DoCompleted(void)
 
     if (gamemode == commercial)
     {
-        if (secretnextmap > 0)
+        if (secretexit && secretnextmap > 0)
             wminfo.next = secretnextmap - 1;
         else if (nextmap > 0)
             wminfo.next = nextmap - 1;
@@ -1349,7 +1349,7 @@ static void G_DoCompleted(void)
     }
     else
     {
-        if (secretnextmap > 0)
+        if (secretexit && secretnextmap > 0)
             wminfo.next = secretnextmap - (gameepisode - 1) * 10 - 1;
         else if (nextmap > 0)
             wminfo.next = nextmap - (gameepisode - 1) * 10 - 1;
