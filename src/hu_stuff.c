@@ -322,7 +322,7 @@ static void DrawHUDNumber(int *x, int y, int val, byte *tinttab, void (*drawhudn
         {
             (*x)++;
             drawhudnumfunc(*x, y, (patch = tallnum[i]), tinttab);
-            (*x) += 2;
+            (*x)++;
         }
         else
             drawhudnumfunc(*x, y, (patch = tallnum[i]), tinttab);
@@ -357,7 +357,7 @@ static void DrawHUDNumber(int *x, int y, int val, byte *tinttab, void (*drawhudn
         {
             (*x)++;
             drawhudnumfunc(*x, y, (patch = tallnum[i]), tinttab);
-            (*x) += 2;
+            (*x)++;
         }
         else
             drawhudnumfunc(*x, y, (patch = tallnum[i]), tinttab);
@@ -368,7 +368,7 @@ static void DrawHUDNumber(int *x, int y, int val, byte *tinttab, void (*drawhudn
         {
             (*x)++;
             drawhudnumfunc(*x, y, (patch = tallnum[i]), tinttab);
-            (*x) += 2;
+            (*x)++;
         }
         else
             drawhudnumfunc(*x, y, (patch = tallnum[i]), tinttab);
