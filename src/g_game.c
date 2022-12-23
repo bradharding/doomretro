@@ -1210,8 +1210,7 @@ void G_ExitLevel(void)
 // Here's for the German edition.
 void G_SecretExitLevel(void)
 {
-    // IF NO WOLF3D LEVELS, NO SECRET EXIT!
-    secretexit = !(gamemode == commercial && W_CheckNumForName("MAP31") < 0);
+    secretexit = true;
     gameaction = ga_completed;
 }
 
