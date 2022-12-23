@@ -139,6 +139,9 @@ void STlib_UpdateBigAmmoNum(st_number_t *n)
             {
                 V_DrawPatch((x -= width), n->y, 0, n->p[num % 10]);
                 num /= 10;
+
+                if (num % 10 == 1)
+                    x++;
             }
     }
 }
@@ -158,6 +161,9 @@ void STlib_UpdateBigArmorNum(st_number_t *n)
         {
             V_DrawPatch((x -= width), n->y, 0, n->p[num % 10]);
             num /= 10;
+
+            if (num % 10 == 1)
+                x++;
         }
 }
 
@@ -171,18 +177,22 @@ void STlib_UpdateBigHealthNum(st_number_t *n)
     if (!num)
         V_DrawPatch(x - width, n->y, 0, n->p[0]);
     else
+    {
         // draw the new number
         while (num)
         {
             V_DrawPatch((x -= width), n->y, 0, n->p[num % 10]);
             num /= 10;
+
+            if (num % 10 == 1)
+                x++;
         }
+    }
 
     // draw a minus sign if necessary
     if ((num = *n->num) < 0 && negativehealth && minuspatch)
     {
-        if ((num >= -199 && num <= -100) || (num >= -79 && num <= -70)
-            || (num >= -19 && num <= -10) || num == -7 || num == -1)
+        if ((num >= -79 && num <= -70) || (num >= -19 && num <= -10) || num == -7 || num == -1)
             x += 2;
 
         V_DrawPatch(x - minuspatchwidth, n->y, 0, minuspatch);
