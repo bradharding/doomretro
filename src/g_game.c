@@ -1207,7 +1207,6 @@ void G_ExitLevel(void)
     gameaction = ga_completed;
 }
 
-// Here's for the German edition.
 void G_SecretExitLevel(void)
 {
     secretexit = true;

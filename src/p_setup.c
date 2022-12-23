@@ -3810,6 +3810,7 @@ int P_GetAllowMonsterTelefrags(int map)
 {
     return mapinfo[map].allowmonstertelefrags;
 }
+
 //
 // P_Init
 //
