@@ -348,8 +348,6 @@ static void DrawHUDNumber(int *x, int y, int val, byte *tinttab, void (*drawhudn
         }
         else
             drawhudnumfunc(*x, y, (patch = tallnum[i]), tinttab);
-
-        *x += SHORT(patch->width);
     }
     else if (val >= 10)
     {
@@ -368,12 +366,10 @@ static void DrawHUDNumber(int *x, int y, int val, byte *tinttab, void (*drawhudn
         {
             (*x)++;
             drawhudnumfunc(*x, y, (patch = tallnum[i]), tinttab);
-            (*x)++;
+            (*x) += 2;
         }
         else
             drawhudnumfunc(*x, y, (patch = tallnum[i]), tinttab);
-
-        *x += SHORT(patch->width);
     }
     else
     {
@@ -381,13 +377,13 @@ static void DrawHUDNumber(int *x, int y, int val, byte *tinttab, void (*drawhudn
         {
             (*x)++;
             drawhudnumfunc(*x, y, (patch = tallnum[i]), tinttab);
-            (*x) += 2;
+            (*x)++;
         }
         else
             drawhudnumfunc(*x, y, (patch = tallnum[i]), tinttab);
-
-        *x += SHORT(patch->width);
     }
+
+    *x += SHORT(patch->width);
 }
 
 static int HUDNumberWidth(int val)
@@ -401,17 +397,21 @@ static int HUDNumberWidth(int val)
             val = -val;
             width = minuspatchwidth;
 
-            if (val == 1 || val == 7 || (val >= 10 && val <= 19) || (val >= 70 && val <= 79) || (val >= 100 && val <= 199))
+            if (val == 1 || val == 7 || (val >= 10 && val <= 19) || (val >= 70 && val <= 79))
                 width--;
         }
         else
             val = 0;
     }
 
-    if (val >= 100)
+    if (val >= 200)
         return (width + SHORT(tallnum[0]->width) * 3);
-    else if (val >= 10)
+    else if (val >= 100)
+        return (width + SHORT(tallnum[0]->width) * 3 - 1);
+    else if (val >= 20)
         return (width + SHORT(tallnum[0]->width) * 2);
+    else if (val >= 10)
+        return (width + SHORT(tallnum[0]->width) * 2 - 1);
 
     return (width + SHORT(tallnum[0]->width));
 }
