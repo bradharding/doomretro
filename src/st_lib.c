@@ -41,6 +41,7 @@
 #include "i_swap.h"
 #include "m_config.h"
 #include "st_lib.h"
+#include "st_stuff.h"
 #include "v_video.h"
 
 bool    usesmallnums;
@@ -140,7 +141,7 @@ void STlib_UpdateBigAmmoNum(st_number_t *n)
                 V_DrawPatch((x -= width), n->y, 0, n->p[num % 10]);
                 num /= 10;
 
-                if (num % 10 == 1)
+                if (num % 10 == 1 && tallnum1width < 14)
                     x++;
             }
     }
@@ -162,7 +163,7 @@ void STlib_UpdateBigArmorNum(st_number_t *n)
             V_DrawPatch((x -= width), n->y, 0, n->p[num % 10]);
             num /= 10;
 
-            if (num % 10 == 1)
+            if (num % 10 == 1 && tallnum1width < 14)
                 x++;
         }
 }
@@ -184,7 +185,7 @@ void STlib_UpdateBigHealthNum(st_number_t *n)
             V_DrawPatch((x -= width), n->y, 0, n->p[num % 10]);
             num /= 10;
 
-            if (num % 10 == 1)
+            if (num % 10 == 1 && tallnum1width < 14)
                 x++;
         }
     }

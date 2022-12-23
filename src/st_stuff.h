@@ -91,6 +91,7 @@ extern bool     idmus;
 extern int      st_palette;
 extern bool     oldweaponsowned[NUMWEAPONS];
 extern patch_t  *tallnum[10];
+extern short    tallnum1width;
 extern patch_t  *tallpercent;
 extern short    tallpercentwidth;
 extern bool     emptytallpercent;
