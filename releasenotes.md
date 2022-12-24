@@ -4,6 +4,7 @@
 
 * Minor optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * A sound effect is now played when opening and closing the console using the <kbd>~</kbd> key.
+* The console will now scroll from the top of the screen when it is opened on the title screen.
 * Minor changes have been made to text that is output to the console.
 * Minor improvements have been made to the console’s autocomplete feature.
 * Pressing the <kbd>HOME</kbd> key in the console will no longer scroll past the top of the console in some instances.

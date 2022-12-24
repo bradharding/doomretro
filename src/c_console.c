@@ -753,9 +753,6 @@ void C_ShowConsole(void)
     S_LowerMusicVolume();
     SDL_StartTextInput();
     S_StartSound(NULL, sfx_consol);
-
-    if (gamestate == GS_TITLESCREEN)
-        D_FadeScreen(false);
 }
 
 void C_HideConsole(void)
@@ -769,14 +766,6 @@ void C_HideConsole(void)
     consoleanim = 0;
 
     S_StartSound(NULL, sfx_consol);
-
-    if (gamestate == GS_TITLESCREEN)
-    {
-        consoleheight = 0;
-        consoleactive = false;
-        D_FadeScreen(false);
-    }
-
     S_RestoreMusicVolume();
 }
 
@@ -1427,12 +1416,7 @@ void C_Drawer(void)
     const int   notabs[3] = { 0 };
 
     // adjust console height
-    if (gamestate == GS_TITLESCREEN)
-    {
-        consoleheight = CONSOLEHEIGHT;
-        consoleactive = true;
-    }
-    else if (consolewait < tics)
+    if (consolewait < tics)
     {
         consolewait = tics + 12;
 
@@ -1446,10 +1430,12 @@ void C_Drawer(void)
                     169, 173, 176, 179, 182, 184, 186, 188, 190, 192, 194, 194, 195, 195
                 };
 
-                if (consoleheight > consoledown[consoleanim])
+                const int   height = MIN(consoledown[consoleanim] * (gamestate == GS_TITLESCREEN ? 2 : 1), CONSOLEHEIGHT);
+
+                if (consoleheight > height)
                     consolewait = 0;
                 else
-                    consoleheight = consoledown[consoleanim];
+                    consoleheight = height;
 
                 consoleactive = (consoleanim++ > CONSOLEDOWNSIZE / 2);
             }
@@ -1465,10 +1451,12 @@ void C_Drawer(void)
                     183, 167, 150, 133, 117, 100,  83,  67,  50,  33,  17,   0
                 };
 
-                if (consoleheight < consoleup[consoleanim])
+                const int   height = MIN(consoleup[consoleanim] * (gamestate == GS_TITLESCREEN ? 2 : 1), CONSOLEHEIGHT);
+
+                if (consoleheight < height)
                     consolewait = 0;
                 else
-                    consoleheight = consoleup[consoleanim];
+                    consoleheight = height;
 
                 consoleactive = (consoleanim++ < CONSOLEUPSIZE / 2);
             }
