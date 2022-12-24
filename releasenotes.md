@@ -2,12 +2,17 @@
 
 #### DOOM Retro v4.8
 
+* Minor optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Minor changes have been made to text that is output to the console.
 * Minor improvements have been made to the console’s autocomplete feature.
+* Pressing the <kbd>HOME</kbd> key in the console will no longer scroll past the top of the console in some instances.
+* Thousand-delimiting commas may now be used when changing the value of certain CVARs in the console.
+* The `toggle` CCMD now only works with boolean CVARs.
 * Improvements have been made to parsing `BRGHTMPS` lumps.
 * The amount of cells the player has picked up is no longer displayed by the `playerstats` CCMD when playing *DOOM (Shareware)*.
 * Minor improvements have been made to the support for `MAPINFO` lumps.
 * The player’s health, armor and ammo are now displayed better in the status bar and widescreen HUD if they start with `1`.
+* The truncation of player messages when the `vid_widescreen` CVAR is `off` has improved in some instances.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
