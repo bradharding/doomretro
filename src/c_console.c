@@ -1501,6 +1501,9 @@ void C_Drawer(void)
     // draw background and bottom edge
     C_DrawBackground();
 
+    // draw the scrollbar
+    C_DrawScrollbar();
+
     consoletextfunc = &V_DrawConsoleTextPatch;
     topofconsole = false;
 
@@ -1631,9 +1634,6 @@ void C_Drawer(void)
         if ((y -= CONSOLELINEHEIGHT) < -CONSOLELINEHEIGHT)
             break;
     }
-
-    // draw the scrollbar
-    C_DrawScrollbar();
 
     if (quitcmd)
         return;
