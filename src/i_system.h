@@ -42,17 +42,21 @@
 #include "doomdef.h"
 
 #if defined(_WIN32)
-#define PCHW    "PC"
-#define WINDOWS "Windows"
-#define DESKTOP "desktop"
+#define COMPUTER    "PC"
+#define WINDOWS     "Windows"
+#define DESKTOP     "desktop"
 #elif defined(__APPLE__)
-#define PCHW    "Mac"
-#define WINDOWS "macOS"
-#define DESKTOP "Finder"
+#define COMPUTER    "Mac"
+#define WINDOWS     "macOS"
+#define DESKTOP     "Finder"
 #else
-#define PCHW    "PC"
-#define WINDOWS "Linux"
-#define DESKTOP "desktop"
+#define COMPUTER    "PC"
+#define WINDOWS     "Linux"
+#define DESKTOP     "desktop"
+#endif
+
+#if defined(_WIN32)
+void I_ShutdownWindows32(void);
 #endif
 
 // Called by M_Responder when quit is selected.

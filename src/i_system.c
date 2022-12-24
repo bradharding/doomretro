@@ -211,17 +211,14 @@ void I_PrintSystemInfo(void)
     const int   cores = SDL_GetCPUCount();
     char        *RAM = commify(SDL_GetSystemRAM() / 1000);
 
-    C_Output("There %s %i core%s and %sGB of RAM on this " PCHW ".", (cores == 1 ? "is" : "are"), cores, (cores == 1 ? "" : "s"), RAM);
+    C_Output("There %s %i core%s and %sGB of RAM on this " COMPUTER ".",
+        (cores == 1 ? "is" : "are"), cores, (cores == 1 ? "" : "s"), RAM);
     free(RAM);
 }
 
 //
 // I_Quit
 //
-#if defined(_WIN32)
-void I_ShutdownWindows32(void);
-#endif
-
 void I_Quit(bool shutdown)
 {
     if (shutdown)
