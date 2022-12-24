@@ -752,12 +752,10 @@ void C_ShowConsole(void)
     S_FadeOutSounds();
     S_LowerMusicVolume();
     SDL_StartTextInput();
+    S_StartSound(NULL, sfx_consol);
 
     if (gamestate == GS_TITLESCREEN)
-    {
-        S_StartSound(NULL, sfx_swtchn);
         D_FadeScreen(false);
-    }
 }
 
 void C_HideConsole(void)
@@ -770,11 +768,12 @@ void C_HideConsole(void)
     consoledirection = -1;
     consoleanim = 0;
 
+    S_StartSound(NULL, sfx_consol);
+
     if (gamestate == GS_TITLESCREEN)
     {
         consoleheight = 0;
         consoleactive = false;
-        S_StartSound(NULL, sfx_swtchx);
         D_FadeScreen(false);
     }
 

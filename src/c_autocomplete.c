@@ -6697,6 +6697,7 @@ const autocomplete_t autocompletelist[] =
     { "play DSCACDTH",                               DOOM1AND2 },
     { "play DSCACSIT",                               DOOM1AND2 },
     { "play DSCLAW",                                 DOOM1AND2 },
+    { "play DSCONSOL",                               DOOM1AND2 },
     { "play DSCYBDTH",                               DOOM1AND2 },
     { "play DSCYBSIT",                               DOOM1AND2 },
     { "play DSDBCLS",                                DOOM2ONLY },

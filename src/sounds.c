@@ -254,6 +254,7 @@ sfxinfo_t S_sfx[] =
     { "gibdth", "gibdth", sg_none,    60, -1 },
 
     { "scrsht", "scrsht", sg_none,     0, -1 },
+    { "consol", "consol", sg_none,     0, -1 },
 
     [500] = { "fre000", "fre000", sg_none, 127, -1 },
     [501] = { "fre001", "fre001", sg_none, 127, -1 },
