@@ -1430,7 +1430,8 @@ void C_Drawer(void)
                     169, 173, 176, 179, 182, 184, 186, 188, 190, 192, 194, 194, 195, 195
                 };
 
-                const int   height = MIN(consoledown[consoleanim] * (gamestate == GS_TITLESCREEN ? 2 : 1), CONSOLEHEIGHT);
+                const int   height = (gamestate == GS_TITLESCREEN ?
+                                MIN(consoledown[consoleanim] * 2 + 5, CONSOLEHEIGHT) : consoledown[consoleanim]);
 
                 if (consoleheight > height)
                     consolewait = 0;
