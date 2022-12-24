@@ -1094,10 +1094,10 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
                     (bold && italics ? (color1 == consolewarningcolor ? color1 : consolebolditalicscolor) : (bold ? boldcolor : color1)),
                     color2, (italics && letter != '_' && letter != '-' && letter != '+' && letter != ',' && letter != '/'), tinttab);
                 x += width;
-            }
 
-            if (x >= CONSOLETEXTPIXELWIDTH + CONSOLETEXTX)
-                break;
+                if (x >= CONSOLETEXTPIXELWIDTH + CONSOLETEXTX)
+                    break;
+            }
         }
 
         prevletter2 = prevletter;
