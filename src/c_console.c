@@ -1418,7 +1418,7 @@ void C_Drawer(void)
     // adjust console height
     if (consolewait < tics)
     {
-        consolewait = tics + 12;
+        consolewait = tics + (gamestate == GS_TITLESCREEN ? 12 : 6);
 
         if (consoledirection == 1)
         {
