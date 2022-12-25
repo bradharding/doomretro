@@ -52,8 +52,7 @@ typedef struct memblock_s
 } memblock_t;
 
 // size of block header
-// cph - base on sizeof(memblock_t), which can be larger than CHUNK_SIZE on
-// 64bit architectures
+// cph - base on sizeof(memblock_t), which can be larger than CHUNK_SIZE on 64bit architectures
 static const size_t headersize = ((sizeof(memblock_t) + CHUNK_SIZE - 1) & ~(CHUNK_SIZE - 1));
 
 static memblock_t   *blockbytag[PU_MAX];
@@ -102,12 +101,12 @@ void *Z_Malloc(size_t size, int tag, void **user)
 
     block->size = size;
 
-    block->tag = tag;                                   // tag
-    block->user = user;                                 // user
+    block->tag = tag;
+    block->user = user;
     block = (memblock_t *)((char *)block + headersize);
 
-    if (user)                                           // if there is a user
-        *user = block;                                  // set user to point to new block
+    if (user)           // if there is a user
+        *user = block;  // set user to point to new block
 
     return block;
 }
@@ -126,7 +125,8 @@ void Z_Free(void *ptr)
 
     block = (memblock_t *)((char *)ptr - headersize);
 
-    if (block->user)                                    // Nullify user if one exists
+    // Nullify user if one exists
+    if (block->user)
         *block->user = NULL;
 
     if (block == block->next)
@@ -167,7 +167,7 @@ void Z_FreeTags(int lowtag, int hightag)
             if (block == end_block)
                 break;
 
-            block = next;                               // Advance to next block
+            block = next;   // Advance to next block
         }
     }
 }

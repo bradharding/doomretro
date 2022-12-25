@@ -67,6 +67,7 @@
 
 #define LINEHEIGHT      17
 #define OFFSET          17
+#define SKULLANIMCOUNT  8
 
 // -1 = no quicksave slot picked!
 int             quicksaveslot;
@@ -4065,7 +4066,7 @@ void M_Ticker(void)
     if ((!savestringenter || !whichskull) && windowfocused && --skullanimcounter <= 0)
     {
         whichskull ^= 1;
-        skullanimcounter = 8;
+        skullanimcounter = SKULLANIMCOUNT;
     }
 }
 
@@ -4079,7 +4080,7 @@ void M_Init(void)
     currentmenu = &MainDef;
     menuactive = false;
     itemon = currentmenu->laston;
-    skullanimcounter = 10;
+    skullanimcounter = SKULLANIMCOUNT;
     messagetoprint = false;
     messagestring = NULL;
     messagelastmenuactive = false;

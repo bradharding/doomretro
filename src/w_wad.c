@@ -105,7 +105,7 @@ static bool IsFreedoom(const char *iwadname)
         fseek(fp, LONG(header.infotableofs), SEEK_SET);
 
         for (int i = LONG(header.numlumps); i && fread(&lump, sizeof(lump), 1, fp); i--)
-            if (n[0] == 'F' && n[1] == 'R' && n[2] == 'E' && n[3] == 'E' && n[4] == 'D' && n[5] == 'O' && n[6] == 'O' && n[7] == 'M')
+            if (!strncmp(n, "FREEDOOM", 8))
             {
                 result = true;
                 break;
@@ -135,14 +135,14 @@ static bool IsBFGEdition(const char *iwadname)
         fseek(fp, LONG(header.infotableofs), SEEK_SET);
 
         for (int i = LONG(header.numlumps); i && fread(&lump, sizeof(lump), 1, fp); i--)
-            if (n[0] == 'D' && n[1] == 'M' && n[2] == 'E' && n[3] == 'N' && n[4] == 'U' && n[5] == 'P' && n[6] == 'I' && n[7] == 'C')
+            if (!strncmp(n, "DMENUPIC", 8))
             {
                 result1 = true;
 
                 if (result2)
                     break;
             }
-            else if (n[0] == 'M' && n[1] == '_' && n[2] == 'A' && n[3] == 'C' && n[4] == 'P' && n[5] == 'T')
+            else if (!strncmp(n, "M_ACPT", 6))
             {
                 result2 = true;
 
@@ -173,7 +173,7 @@ bool IsUltimateDOOM(const char *iwadname)
         fseek(fp, LONG(header.infotableofs), SEEK_SET);
 
         for (int i = LONG(header.numlumps); i && fread(&lump, sizeof(lump), 1, fp); i--)
-            if (n[0] == 'E' && n[1] == '4' && n[2] == 'M' && n[3] == '1')
+            if (!strncmp(n, "E4M1", 4))
             {
                 result = true;
                 break;
@@ -497,7 +497,7 @@ bool HasDehackedLump(const char *pwadname)
         fseek(fp, LONG(header.infotableofs), SEEK_SET);
 
         for (int i = LONG(header.numlumps); i && fread(&lump, sizeof(lump), 1, fp); i--)
-            if (n[0] == 'D' && n[1] == 'E' && n[2] == 'H' && n[3] == 'A' && n[4] == 'C' && n[5] == 'K' && n[6] == 'E' && n[7] == 'D')
+            if (!strncmp(n, "DEHACKED", 8))
             {
                 result = true;
                 break;
@@ -520,7 +520,7 @@ GameMission_t IWADRequiredByPWAD(char *pwadname)
         wadinfo_t   header;
 
         if (fread(&header, 1, sizeof(header), fp) != sizeof(header)
-            || (header.id[0] != 'I' && header.id[0] != 'P') || header.id[1] != 'W' || header.id[2] != 'A' || header.id[3] != 'D')
+            || (strncmp(header.id, "IWAD", 4) && strncmp(header.id, "PWAD", 4)))
         {
             fclose(fp);
             I_Error("%s doesn't have an IWAD or PWAD id.", pwadname);

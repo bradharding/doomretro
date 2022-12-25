@@ -170,43 +170,41 @@ static point_t lnodes[][NUMMAPS] =
 // Using patches saves a lot of space,
 //  as they replace 320x200 full screen frames.
 //
-#define ANIM(type, period, nanims, x, y, nexttic)   { (type), (period), (nanims), { (x), (y) }, (nexttic) }
-
 static anim_t epsd0animinfo[] =
 {
-    ANIM(ANIM_ALWAYS, TICRATE / 3, 3, 224, 104, 0),
-    ANIM(ANIM_ALWAYS, TICRATE / 3, 3, 184, 160, 0),
-    ANIM(ANIM_ALWAYS, TICRATE / 3, 3, 112, 136, 0),
-    ANIM(ANIM_ALWAYS, TICRATE / 3, 3,  72, 112, 0),
-    ANIM(ANIM_ALWAYS, TICRATE / 3, 3,  88,  96, 0),
-    ANIM(ANIM_ALWAYS, TICRATE / 3, 3,  64,  48, 0),
-    ANIM(ANIM_ALWAYS, TICRATE / 3, 3, 192,  40, 0),
-    ANIM(ANIM_ALWAYS, TICRATE / 3, 3, 136,  16, 0),
-    ANIM(ANIM_ALWAYS, TICRATE / 3, 3,  80,  16, 0),
-    ANIM(ANIM_ALWAYS, TICRATE / 3, 3,  64,  24, 0)
+    { ANIM_ALWAYS, TICRATE / 3, 3, { 224, 104 }, 0 },
+    { ANIM_ALWAYS, TICRATE / 3, 3, { 184, 160 }, 0 },
+    { ANIM_ALWAYS, TICRATE / 3, 3, { 112, 136 }, 0 },
+    { ANIM_ALWAYS, TICRATE / 3, 3, {  72, 112 }, 0 },
+    { ANIM_ALWAYS, TICRATE / 3, 3, {  88,  96 }, 0 },
+    { ANIM_ALWAYS, TICRATE / 3, 3, {  64,  48 }, 0 },
+    { ANIM_ALWAYS, TICRATE / 3, 3, { 192,  40 }, 0 },
+    { ANIM_ALWAYS, TICRATE / 3, 3, { 136,  16 }, 0 },
+    { ANIM_ALWAYS, TICRATE / 3, 3, {  80,  16 }, 0 },
+    { ANIM_ALWAYS, TICRATE / 3, 3, {  64,  24 }, 0 }
 };
 
 static anim_t epsd1animinfo[] =
 {
-    ANIM(ANIM_LEVEL, TICRATE / 3, 1, 128, 136, 1),
-    ANIM(ANIM_LEVEL, TICRATE / 3, 1, 128, 136, 2),
-    ANIM(ANIM_LEVEL, TICRATE / 3, 1, 128, 136, 3),
-    ANIM(ANIM_LEVEL, TICRATE / 3, 1, 128, 136, 4),
-    ANIM(ANIM_LEVEL, TICRATE / 3, 1, 128, 136, 5),
-    ANIM(ANIM_LEVEL, TICRATE / 3, 1, 128, 136, 6),
-    ANIM(ANIM_LEVEL, TICRATE / 3, 1, 128, 136, 7),
-    ANIM(ANIM_LEVEL, TICRATE / 3, 3, 192, 144, 8),
-    ANIM(ANIM_LEVEL, TICRATE / 3, 1, 128, 136, 8)
+    { ANIM_LEVEL, TICRATE / 3, 1, { 128, 136 }, 1 },
+    { ANIM_LEVEL, TICRATE / 3, 1, { 128, 136 }, 2 },
+    { ANIM_LEVEL, TICRATE / 3, 1, { 128, 136 }, 3 },
+    { ANIM_LEVEL, TICRATE / 3, 1, { 128, 136 }, 4 },
+    { ANIM_LEVEL, TICRATE / 3, 1, { 128, 136 }, 5 },
+    { ANIM_LEVEL, TICRATE / 3, 1, { 128, 136 }, 6 },
+    { ANIM_LEVEL, TICRATE / 3, 1, { 128, 136 }, 7 },
+    { ANIM_LEVEL, TICRATE / 3, 3, { 192, 144 }, 8 },
+    { ANIM_LEVEL, TICRATE / 3, 1, { 128, 136 }, 8 }
 };
 
 static anim_t epsd2animinfo[] =
 {
-    ANIM(ANIM_ALWAYS, TICRATE / 3, 3, 104, 168, 0),
-    ANIM(ANIM_ALWAYS, TICRATE / 3, 3,  40, 136, 0),
-    ANIM(ANIM_ALWAYS, TICRATE / 3, 3, 160,  96, 0),
-    ANIM(ANIM_ALWAYS, TICRATE / 3, 3, 104,  80, 0),
-    ANIM(ANIM_ALWAYS, TICRATE / 3, 3, 120,  32, 0),
-    ANIM(ANIM_ALWAYS, TICRATE / 4, 3,  40,   0, 0)
+    { ANIM_ALWAYS, TICRATE / 3, 3, { 104, 168 }, 0 },
+    { ANIM_ALWAYS, TICRATE / 3, 3, {  40, 136 }, 0 },
+    { ANIM_ALWAYS, TICRATE / 3, 3, { 160,  96 }, 0 },
+    { ANIM_ALWAYS, TICRATE / 3, 3, { 104,  80 }, 0 },
+    { ANIM_ALWAYS, TICRATE / 3, 3, { 120,  32 }, 0 },
+    { ANIM_ALWAYS, TICRATE / 4, 3, {  40,   0 }, 0 }
 };
 
 static int NUMANIMS[] =
@@ -832,13 +830,15 @@ static void WI_InitStats(void)
 
     temp1 = commify(wbs->skills);
     temp2 = commify(wbs->maxkills);
-    C_TabbedOutput(tabs, "Kills\t" BOLD("%s of %s (%i%%)"), temp1, temp2, (wbs->skills * 100) / wbs->maxkills);
+    C_TabbedOutput(tabs, "Kills\t" BOLD("%s of %s (%i%%)"),
+        temp1, temp2, (wbs->skills * 100) / wbs->maxkills);
     free(temp1);
     free(temp2);
 
     temp1 = commify(wbs->sitems);
     temp2 = commify(wbs->maxitems);
-    C_TabbedOutput(tabs, "Items\t" BOLD("%s of %s (%i%%)"), temp1, temp2, (wbs->sitems * 100) / wbs->maxitems);
+    C_TabbedOutput(tabs, "Items\t" BOLD("%s of %s (%i%%)"),
+        temp1, temp2, (wbs->sitems * 100) / wbs->maxitems);
     free(temp1);
     free(temp2);
 
@@ -846,7 +846,8 @@ static void WI_InitStats(void)
     {
         temp1 = commify(wbs->ssecret);
         temp2 = commify(wbs->maxsecret);
-        C_TabbedOutput(tabs, "Secrets\t" BOLD("%s of %s (%i%%)"), temp1, temp2, (wbs->ssecret * 100) / wbs->maxsecret);
+        C_TabbedOutput(tabs, "Secrets\t" BOLD("%s of %s (%i%%)"),
+            temp1, temp2, (wbs->ssecret * 100) / wbs->maxsecret);
         free(temp1);
         free(temp2);
     }
@@ -854,10 +855,12 @@ static void WI_InitStats(void)
     if (sucktime && wbs->stime / TICRATE > sucktime * 61 * 59)
         C_TabbedOutput(tabs, "Time\t" BOLD("%s"), s_STSTR_SUCKS);
     else
-        C_TabbedOutput(tabs, "Time\t" BOLD("%02i:%02i"), wbs->stime / TICRATE / 60, wbs->stime / TICRATE % 60);
+        C_TabbedOutput(tabs, "Time\t" BOLD("%02i:%02i"),
+            wbs->stime / TICRATE / 60, wbs->stime / TICRATE % 60);
 
     if (wbs->partime)
-        C_TabbedOutput(tabs, "Par time\t" BOLD("%02i:%02i"), wbs->partime / TICRATE / 60, wbs->partime / TICRATE % 60);
+        C_TabbedOutput(tabs, "Par time\t" BOLD("%02i:%02i"),
+            wbs->partime / TICRATE / 60, wbs->partime / TICRATE % 60);
 
     WI_InitAnimatedBack();
 }
@@ -1027,7 +1030,8 @@ static void WI_DrawStats(void)
 
     if (wbs->partime)
     {
-        V_DrawPatchWithShadow(VANILLAWIDTH / 2 + SP_TIMEX + (BTSX ? 0 : SP_TIMEX - (FREEDOOM ? 17 : 0) + 3), SP_TIMEY + 1, par, false);
+        V_DrawPatchWithShadow(VANILLAWIDTH / 2 + SP_TIMEX + (BTSX ? 0 : SP_TIMEX - (FREEDOOM ? 17 : 0) + 3),
+            SP_TIMEY + 1, par, false);
         WI_DrawTime(VANILLAWIDTH - SP_TIMEX - 2 - (BTSX || FREEDOOM ? 17 : 0), SP_TIMEY, cnt_par);
     }
 }
