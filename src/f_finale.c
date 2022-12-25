@@ -857,14 +857,14 @@ static void F_CastDrawer(void)
                 if (type == MT_SHADOWS)
                     V_DrawFlippedSpectreShadowPatch(VANILLAWIDTH / 2, VANILLAHEIGHT - 28, patch);
                 else
-                    V_DrawFlippedShadowPatch(VANILLAWIDTH / 2, VANILLAHEIGHT - 28, patch);
+                    V_DrawFlippedShadowPatch(VANILLAWIDTH / 2, VANILLAHEIGHT - 32, patch);
             }
             else
             {
                 if (type == MT_SHADOWS)
                     V_DrawFlippedSolidSpectreShadowPatch(VANILLAWIDTH / 2, VANILLAHEIGHT - 28, patch);
                 else
-                    V_DrawFlippedSolidShadowPatch(VANILLAWIDTH / 2, VANILLAHEIGHT - 28, patch);
+                    V_DrawFlippedSolidShadowPatch(VANILLAWIDTH / 2, VANILLAHEIGHT - 32, patch);
             }
         }
 
@@ -886,14 +886,14 @@ static void F_CastDrawer(void)
                 if (type == MT_SHADOWS)
                     V_DrawSpectreShadowPatch(VANILLAWIDTH / 2, VANILLAHEIGHT - 28, patch);
                 else
-                    V_DrawShadowPatch(VANILLAWIDTH / 2, VANILLAHEIGHT - 28, patch);
+                    V_DrawShadowPatch(VANILLAWIDTH / 2, VANILLAHEIGHT - 32, patch);
             }
             else
             {
                 if (type == MT_SHADOWS)
                     V_DrawSolidSpectreShadowPatch(VANILLAWIDTH / 2, VANILLAHEIGHT - 28, patch);
                 else
-                    V_DrawSolidShadowPatch(VANILLAWIDTH / 2, VANILLAHEIGHT - 28, patch);
+                    V_DrawSolidShadowPatch(VANILLAWIDTH / 2, VANILLAHEIGHT - 32, patch);
             }
         }
 
