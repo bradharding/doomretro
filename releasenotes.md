@@ -6,8 +6,8 @@
 * Minor changes have been made to text that is output to the console.
 * These changes have been made when opening and closing the console using the <kbd>~</kbd> key:
   * A subtle sound effect is now played.
-  * It now scrolls from the top of the screen, rather than fades in, when on the title screen.
-  * The scrolling animation is now slightly faster.
+  * The console now scrolls from the top of the screen, rather than fades in, when on the title screen.
+  * The console’s scrolling animation is now slightly faster.
 * Minor improvements have been made to the console’s autocomplete feature.
 * Pressing the <kbd>HOME</kbd> key in the console will no longer scroll past the top of the console in some instances.
 * Thousand-delimiting commas may now be used when changing the value of certain CVARs in the console.
@@ -17,7 +17,7 @@
 * Minor improvements have been made to the support for `MAPINFO` lumps.
 * The player’s health, armor and ammo are now displayed better in the status bar and widescreen HUD if they start with `1`.
 * The truncation of player messages when the `vid_widescreen` CVAR is `off` has improved in some instances.
-* The vertical position of the monsters’ shadows in *DOOM II’s* cast sequence have improved.
+* The vertical positions of the monsters’ shadows in *DOOM II’s* cast sequence have improved.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

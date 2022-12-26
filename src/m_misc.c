@@ -120,7 +120,8 @@ bool M_FileExists(const char *filename)
 char *M_FileCaseExists(const char *path)
 {
     char    *path_dup = M_StringDuplicate(path);
-    char    *filename, *ufilename;
+    char    *filename;
+    char    *ufilename;
     char    *ext;
 
     // actual path
@@ -140,12 +141,14 @@ char *M_FileCaseExists(const char *path)
 
     // uppercase filename, e.g. DOOM2.WAD
     ufilename = uppercase(filename);
+
     // uppercase basename with lowercase extension, e.g. DOOM2.wad
     if ((ext = strrchr(path_dup, '.')) && ext > ufilename)
     {
         lowercase(ext + 1);
 
-        if (M_FileExists(path_dup)) {
+        if (M_FileExists(path_dup))
+        {
             free(ufilename);
             return path_dup;
         }
@@ -156,7 +159,8 @@ char *M_FileCaseExists(const char *path)
     {
         lowercase(ufilename + 1);
 
-        if (M_FileExists(path_dup)) {
+        if (M_FileExists(path_dup))
+        {
             free(ufilename);
             return path_dup;
         }
