@@ -4348,16 +4348,17 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
 
             C_TabbedOutput(tabs, "Map\t%i of %i%s", gamemap, (gamemap == 9 ? 9 : 8), (gamemap == 9 ? " (secret)" : ""));
         }
-        else if (nerve)
+        else
         {
-            temp = titlecase(*expansions[0]);
-            C_TabbedOutput(tabs, "Expansion\t" ITALICS("%s") " (1 of 2)", temp);
-            free(temp);
+            if (nerve)
+            {
+                temp = titlecase(*expansions[0]);
+                C_TabbedOutput(tabs, "Expansion\t" ITALICS("%s") " (1 of 2)", temp);
+                free(temp);
+            }
 
             C_TabbedOutput(tabs, "Map\t%i of %i%s", gamemap, (gamemap >= 31 ? gamemap : 30), (gamemap >= 31 ? " (secret)" : ""));
         }
-        else
-            C_TabbedOutput(tabs, "Map\t%i of %i%s", gamemap, (gamemap >= 31 ? gamemap : 30), (gamemap >= 31 ? " (secret)" : ""));
     }
     else
     {

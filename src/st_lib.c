@@ -129,16 +129,17 @@ void STlib_UpdateBigAmmoNum(st_number_t *n)
     {
         int         num = *n->num;
         int         x = n->x;
+        int         y = n->y;
         const int   width = SHORT(n->p[0]->width);
 
         // in the special case of 0, you draw 0
         if (!num)
-            V_DrawPatch(x - width, n->y, 0, n->p[0]);
+            V_DrawPatch(x - width, y, 0, n->p[0]);
         else
             // draw the new number
             while (num)
             {
-                V_DrawPatch((x -= width), n->y, 0, n->p[num % 10]);
+                V_DrawPatch((x -= width), y, 0, n->p[num % 10]);
                 num /= 10;
 
                 if (num % 10 == 1 && tallnum1width < 14)
@@ -151,16 +152,17 @@ void STlib_UpdateBigArmorNum(st_number_t *n)
 {
     int         num = *n->num;
     int         x = n->x;
+    int         y = n->y;
     const int   width = SHORT(n->p[0]->width);
 
     // in the special case of 0, you draw 0
     if (!num)
-        V_DrawPatch(x - width, n->y, 0, n->p[0]);
+        V_DrawPatch(x - width, y, 0, n->p[0]);
     else
         // draw the new number
         while (num)
         {
-            V_DrawPatch((x -= width), n->y, 0, n->p[num % 10]);
+            V_DrawPatch((x -= width), y, 0, n->p[num % 10]);
             num /= 10;
 
             if (num % 10 == 1 && tallnum1width < 14)
@@ -172,17 +174,18 @@ void STlib_UpdateBigHealthNum(st_number_t *n)
 {
     int         num = (negativehealth ? ABS(*n->num) : MAX(0, *n->num));
     int         x = n->x;
+    int         y = n->y;
     const int   width = SHORT(n->p[0]->width);
 
     // in the special case of 0, you draw 0
     if (!num)
-        V_DrawPatch(x - width, n->y, 0, n->p[0]);
+        V_DrawPatch(x - width, y, 0, n->p[0]);
     else
     {
         // draw the new number
         while (num)
         {
-            V_DrawPatch((x -= width), n->y, 0, n->p[num % 10]);
+            V_DrawPatch((x -= width), y, 0, n->p[num % 10]);
             num /= 10;
 
             if (num % 10 == 1 && tallnum1width < 14)
@@ -196,7 +199,7 @@ void STlib_UpdateBigHealthNum(st_number_t *n)
         if ((num >= -79 && num <= -70) || (num >= -19 && num <= -10) || num == -7 || num == -1)
             x += 2;
 
-        V_DrawPatch(x - minuspatchwidth, n->y, 0, minuspatch);
+        V_DrawPatch(x - minuspatchwidth, y, 0, minuspatch);
     }
 }
 
@@ -204,16 +207,17 @@ void STlib_UpdateSmallNum(st_number_t *n)
 {
     int num = MAX(0, *n->num);
     int x = n->x;
+    int y = n->y;
 
     // in the special case of 0, you draw 0
     if (!num)
-        statbarnumfunc(0, 160, 47, x - 4, n->y, n->p[0]);
+        statbarnumfunc(0, 160, 47, x - 4, y, n->p[0]);
     else
         // draw the new number
         while (num)
         {
             x -= 4;
-            statbarnumfunc(num % 10, 160, 47, x, n->y, n->p[num % 10]);
+            statbarnumfunc(num % 10, 160, 47, x, y, n->p[num % 10]);
             num /= 10;
         }
 }

@@ -15,7 +15,7 @@
 * Improvements have been made to parsing `BRGHTMPS` lumps.
 * The amount of cells the player has picked up is no longer displayed by the `playerstats` CCMD when playing *DOOM (Shareware)*.
 * Minor improvements have been made to the support for `MAPINFO` lumps.
-* The player’s health, armor and ammo are now displayed better in the status bar and widescreen HUD if they start with `1`.
+* The player’s health, armor and ammo are now displayed better in the status bar and widescreen HUD if they start with a `1`.
 * The truncation of player messages when the `vid_widescreen` CVAR is `off` has improved in some instances.
 * The vertical positions of the monsters’ shadows in *DOOM II’s* cast sequence have improved.
 
