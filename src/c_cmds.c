@@ -3836,7 +3836,7 @@ static bool map_cmd_func1(char *cmd, char *parms)
                 result = true;
             }
         }
-        else if (M_StringCompare(parm, "E1M4B"))
+        else if (M_StringCompare(parm, "E1M4B") || M_StringCompare(parm, "phobosmissioncontrol"))
         {
             mapcmdepisode = 1;
             mapcmdmap = 4;
@@ -3844,7 +3844,7 @@ static bool map_cmd_func1(char *cmd, char *parms)
             M_StringCopy(mapcmdlump, "E1M4B", sizeof(mapcmdlump));
             result = (gamemission == doom && gamemode != shareware && !chex && !FREEDOOM1);
         }
-        else if (M_StringCompare(parm, "E1M8B"))
+        else if (M_StringCompare(parm, "E1M8B") || M_StringCompare(parm, "techgonebad"))
         {
             mapcmdepisode = 1;
             mapcmdmap = 8;
