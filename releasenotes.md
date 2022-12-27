@@ -8,6 +8,7 @@
   * A subtle sound effect is now played.
   * The console now scrolls from the top of the screen, rather than fades in, when on the title screen.
   * The console’s scrolling animation is now slightly faster.
+* Minor changes have been made to the console’s background.
 * Minor improvements have been made to the console’s autocomplete feature.
 * Pressing the <kbd>HOME</kbd> key in the console will no longer scroll past the top of the console in some instances.
 * Thousand-delimiting commas may now be used when changing the value of certain CVARs in the console.
