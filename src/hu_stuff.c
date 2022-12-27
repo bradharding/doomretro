@@ -1383,7 +1383,7 @@ void HU_SetPlayerMessage(char *message, bool group, bool external)
     M_StringReplaceAll(message, "%%", "%", false);
 
     if (!group)
-        viewplayer->message = M_StringDuplicate(message);
+        viewplayer->message = sentencecase(message);
     else
     {
         static int  messagecount = 1;
@@ -1395,13 +1395,13 @@ void HU_SetPlayerMessage(char *message, bool group, bool external)
             char    *temp = commify(++messagecount);
 
             M_snprintf(buffer, sizeof(buffer), "%s (%s)", message, temp);
-            viewplayer->message = M_StringDuplicate(buffer);
+            viewplayer->message = sentencecase(buffer);
             free(temp);
         }
         else
         {
             messagecount = 1;
-            viewplayer->message = M_StringDuplicate(message);
+            viewplayer->message = sentencecase(message);
             M_StringCopy(viewplayer->prevmessage, message, sizeof(viewplayer->prevmessage));
         }
 
