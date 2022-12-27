@@ -264,6 +264,9 @@ void C_Output(const char *string, ...)
     if (numconsolestrings >= (int)consolestringsmax)
         console = I_Realloc(console, (consolestringsmax += CONSOLESTRINGSMAX) * sizeof(*console));
 
+    if (*buffer)
+        buffer[0] = toupper(buffer[0]);
+
     M_StringCopy(console[numconsolestrings].string, buffer, sizeof(console[0].string));
     console[numconsolestrings].indent = 0;
     console[numconsolestrings].wrap = 0;
