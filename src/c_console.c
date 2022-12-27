@@ -888,10 +888,9 @@ static void C_DrawBackground(void)
         screens[0][i] = consolebevelcolor[screens[0][i]];
 
     // draw shadow
-    if (gamestate != GS_TITLESCREEN)
-        for (int i = SCREENWIDTH; i <= 4 * SCREENWIDTH; i += SCREENWIDTH)
-            for (int j = height; j < height + i; j++)
-                screens[0][j] = colormaps[0][4 * 256 + screens[0][j]];
+    for (int i = SCREENWIDTH; i <= 4 * SCREENWIDTH; i += SCREENWIDTH)
+        for (int j = height; j < height + i && j < SCREENAREA; j++)
+            screens[0][j] = colormaps[0][4 * 256 + screens[0][j]];
 }
 
 static int C_DrawConsoleText(int x, int y, char *text, const int color1, const int color2, const int boldcolor,
