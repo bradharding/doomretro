@@ -51,7 +51,7 @@
 #define MINZ            (4 * FRACUNIT)
 #define BASEYCENTER     (VANILLAHEIGHT / 2)
 
-#define MAXVISSPRITES   128
+#define MAXVISSPRITES   256
 #define DS_RANGES_COUNT 3
 
 //

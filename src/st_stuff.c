@@ -745,7 +745,6 @@ bool ST_Responder(event_t *ev)
                             static char message[128];
 
                             M_snprintf(message, sizeof(message), s_STSTR_BEHOLDON, powerupnames[i]);
-                            message[0] = toupper(message[0]);
                             C_Output(message);
                             HU_SetPlayerMessage(message, false, false);
                         }
@@ -795,7 +794,6 @@ bool ST_Responder(event_t *ev)
                             static char message[128];
 
                             M_snprintf(message, sizeof(message), s_STSTR_BEHOLDOFF, powerupnames[i]);
-                            message[0] = toupper(message[0]);
                             C_Output(message);
                             HU_SetPlayerMessage(message, false, false);
                         }
