@@ -724,7 +724,7 @@ static void P_LoadVertexes(int lump)
                     {
                         char    *temp = commify(vertexfix[j].vertex);
 
-                        C_Warning(2, "Vertex %s has been moved from (%i,%i) to (%i,%i).",
+                        C_Warning(2, "Vertex %s has been moved from (%i, %i) to (%i, %i).",
                             temp, vertexfix[j].oldx, vertexfix[j].oldy, vertexfix[j].newx, vertexfix[j].newy);
 
                         vertexes[i].x = vertexfix[j].newx << FRACBITS;
@@ -1888,7 +1888,7 @@ static void P_LoadThings(int map, int lump)
                     }
                     else
                     {
-                        C_Warning(2, "The position of thing %s has been changed from (%i,%i) to (%i,%i).",
+                        C_Warning(2, "The position of thing %s has been changed from (%i, %i) to (%i, %i).",
                             temp, mt.x, mt.y, thingfix[j].newx, thingfix[j].newy);
 
                         mt.x = thingfix[j].newx;

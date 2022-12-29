@@ -379,7 +379,7 @@ static void HUlib_DrawTextLine(hu_textline_t *l, bool external)
             x += charwidth;
             textwidth += charwidth;
         }
-        else if (c != '\n' && ((c >= l->sc && c <= '_') || c == 176))
+        else if ((c >= l->sc && c <= '_') || c == 176)
         {
             int j = c - '!';
 

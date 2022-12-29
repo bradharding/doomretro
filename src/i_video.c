@@ -1476,7 +1476,7 @@ static void SetVideoMode(bool createwindow, bool output)
                 char    *temp1 = commify(width);
                 char    *temp2 = commify(height);
 
-                C_Output("Created a %sx%s resizable window at (%i,%i).", temp1, temp2, windowx, windowy);
+                C_Output("Created a %sx%s resizable window at (%i, %i).", temp1, temp2, windowx, windowy);
 
                 free(temp1);
                 free(temp2);
