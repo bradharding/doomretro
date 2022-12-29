@@ -2031,6 +2031,7 @@ static void M_QuitResponse(int key)
         return;
     }
 
+    S_StartSound(NULL, sfx_swtchx);
     I_Quit(true);
 }
 

@@ -12,7 +12,7 @@
 * Pressing the <kbd>HOME</kbd> key in the console will no longer scroll past the top of the console in some instances.
 * Thousand-delimiting commas may now be used when changing the value of certain CVARs in the console.
 * The `toggle` CCMD now only works with boolean CVARs.
-* A random sound effect is no longer played when quitting the game using the menu.
+* The random sound effect is no longer played when quitting the game using the menu.
 * Improvements have been made to parsing `BRGHTMPS` lumps.
 * The amount of cells the player has picked up is no longer displayed by the `playerstats` CCMD when playing *DOOM (Shareware)*.
 * Minor improvements have been made to the support for `MAPINFO` lumps.
