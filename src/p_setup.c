@@ -1385,7 +1385,7 @@ static void P_LoadSectors(int lump)
                     if (sectorfix[j].floorheight != DEFAULT)
                     {
                         char    *temp1 = commify(sectorfix[j].sector);
-                        char    *temp2 = commify(ss->floorheight);
+                        char    *temp2 = commify(ss->floorheight >> FRACBITS);
                         char    *temp3 = commify(sectorfix[j].floorheight);
 
                         C_Warning(2, "The floor height of sector %s has been changed from %s to %s.", temp1, temp2, temp3);
@@ -1399,7 +1399,7 @@ static void P_LoadSectors(int lump)
                     if (sectorfix[j].ceilingheight != DEFAULT)
                     {
                         char    *temp1 = commify(sectorfix[j].sector);
-                        char    *temp2 = commify(ss->ceilingheight);
+                        char    *temp2 = commify(ss->ceilingheight >> FRACBITS);
                         char    *temp3 = commify(sectorfix[j].ceilingheight);
 
                         C_Warning(2, "The ceiling height of sector %s has been changed from %s to %s.", temp1, temp2, temp3);
