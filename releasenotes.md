@@ -18,6 +18,7 @@
 * Minor improvements have been made to the support for `MAPINFO` lumps.
 * The player’s health, armor and ammo are now displayed better in the status bar and widescreen HUD if they start with a `1`.
 * The truncation of player messages when the `vid_widescreen` CVAR is `off` has improved in some instances.
+* The vertical position of player messages has improved in some instances.
 * The vertical positions of the monsters’ shadows in *DOOM II’s* cast sequence have improved.
 * The correct map is now opened when entering `map phobosmissioncontrol` or `map techgonebad` in the console.
 * The smoke trailing behind rockets fired by the player and cyberdemons when the `r_rockettrails` CVAR is `on` is now a lighter gray.
