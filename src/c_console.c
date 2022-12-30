@@ -124,7 +124,7 @@ char                    consolecheatparm[3];
 
 static int              inputhistory = -1;
 static int              outputhistory = -1;
-static int              topofconsole;
+static bool             topofconsole;
 
 static int              degreewidth;
 static int              suckswidth;
@@ -2083,12 +2083,8 @@ bool C_Responder(event_t *ev)
 
             case KEY_HOME:
                 if ((outputhistory != -1 || !caretpos) && outputhistory && numconsolestrings > CONSOLELINES)
-                {
                     // scroll to top of console
                     outputhistory = numconsolestrings - (CONSOLELINES + 1);
-                    while (strlen(console[outputhistory--].string));
-                    outputhistory++;
-                }
                 else if (caretpos > 0)
                 {
                     // move caret to start
