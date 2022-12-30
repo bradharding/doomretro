@@ -1364,7 +1364,7 @@ static void P_LoadSectors(int lump)
                     {
                         char    *temp = commify(sectorfix[j].sector);
 
-                        C_Warning(2, "The floor texture of sector %s has been changed from " BOLD("%.8s") " to " BOLD("%.8s") ".",
+                        C_Warning(2, "The texture of sector %s's floor has been changed from " BOLD("%.8s") " to " BOLD("%.8s") ".",
                             temp, lumpinfo[ss->floorpic + firstflat]->name, sectorfix[j].floorpic);
 
                         ss->floorpic = R_FlatNumForName(sectorfix[j].floorpic);
@@ -1375,7 +1375,7 @@ static void P_LoadSectors(int lump)
                     {
                         char    *temp = commify(sectorfix[j].sector);
 
-                        C_Warning(2, "The ceiling texture of sector %s has been changed from " BOLD("%.8s") " to " BOLD("%.8s") ".",
+                        C_Warning(2, "The texture of sector %s's ceiling has been changed from " BOLD("%.8s") " to " BOLD("%.8s") ".",
                             temp, lumpinfo[ss->ceilingpic + firstflat]->name, sectorfix[j].ceilingpic);
 
                         ss->ceilingpic = R_FlatNumForName(sectorfix[j].ceilingpic);
@@ -1388,7 +1388,7 @@ static void P_LoadSectors(int lump)
                         char    *temp2 = commify(ss->floorheight >> FRACBITS);
                         char    *temp3 = commify(sectorfix[j].floorheight);
 
-                        C_Warning(2, "The floor height of sector %s has been changed from %s to %s.", temp1, temp2, temp3);
+                        C_Warning(2, "The height of sector %s's floor has been changed from %s to %s.", temp1, temp2, temp3);
 
                         ss->floorheight = sectorfix[j].floorheight << FRACBITS;
                         free(temp1);
@@ -1402,7 +1402,7 @@ static void P_LoadSectors(int lump)
                         char    *temp2 = commify(ss->ceilingheight >> FRACBITS);
                         char    *temp3 = commify(sectorfix[j].ceilingheight);
 
-                        C_Warning(2, "The ceiling height of sector %s has been changed from %s to %s.", temp1, temp2, temp3);
+                        C_Warning(2, "The height of sector %s's ceiling has been changed from %s to %s.", temp1, temp2, temp3);
 
                         ss->ceilingheight = sectorfix[j].ceilingheight << FRACBITS;
                         free(temp1);
@@ -1415,12 +1415,12 @@ static void P_LoadSectors(int lump)
                         char    *temp = commify(sectorfix[j].sector);
 
                         if (ss->special)
-                            C_Warning(2, "The special of sector %s has been changed from %i (\"%s\") to %i (\"%s\").",
+                            C_Warning(2, "Sector %s's special has been changed from %i (\"%s\") to %i (\"%s\").",
                                 temp, ss->special, sectorspecials[ss->special],
                                 sectorfix[j].special, sectorspecials[sectorfix[j].special]);
                         else
-                            C_Warning(2, "A special of %i (\"%s\") has been added to sector %s.",
-                                sectorfix[j].special, sectorspecials[sectorfix[j].special], temp);
+                            C_Warning(2, "Sector %s now has a special of %i (\"%s\").",
+                                temp, sectorfix[j].special, sectorspecials[sectorfix[j].special]);
 
                         ss->special = sectorfix[j].special;
                         free(temp);
@@ -1432,7 +1432,10 @@ static void P_LoadSectors(int lump)
                         char    *temp2 = commify(ss->tag);
                         char    *temp3 = commify(sectorfix[j].tag);
 
-                        C_Warning(2, "The tag of sector %s has been changed from %s to %s.", temp1, temp2, temp3);
+                        if (ss->tag)
+                            C_Warning(2, "Sector %s's tag has been changed from %s to %s.", temp1, temp2, temp3);
+                        else
+                            C_Warning(2, "Sector %s now has a tag of %s.", temp1, temp3);
 
                         ss->tag = sectorfix[j].tag;
                         free(temp1);
@@ -1443,9 +1446,7 @@ static void P_LoadSectors(int lump)
                     break;
                 }
 
-        // [AM] Sector interpolation. Even if we're
-        //      not running uncapped, the renderer still
-        //      uses this data.
+        // [AM] Sector interpolation. Even if we're not running uncapped, the renderer still uses this data.
         ss->oldfloorheight = ss->floorheight;
         ss->interpfloorheight = ss->floorheight;
         ss->oldceilingheight = ss->ceilingheight;

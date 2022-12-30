@@ -6259,8 +6259,6 @@ static void quit_cmd_func2(char *cmd, char *parms)
         vid_showfps = false;
         I_UpdateBlitFunc(false);
     }
-
-    S_StartSound(NULL, sfx_swtchx);
 }
 
 //
