@@ -1621,7 +1621,12 @@ void C_Drawer(void)
         }
 
         if ((y -= CONSOLELINEHEIGHT) < -CONSOLELINEHEIGHT)
+        {
+            while (!strlen(console[++i].string))
+                outputhistory++;
+
             break;
+        }
     }
 
     if (quitcmd)
@@ -2084,7 +2089,7 @@ bool C_Responder(event_t *ev)
             case KEY_HOME:
                 if ((outputhistory != -1 || !caretpos) && outputhistory && numconsolestrings > CONSOLELINES)
                     // scroll to top of console
-                    outputhistory = numconsolestrings - (CONSOLELINES + 1);
+                    outputhistory = 0;
                 else if (caretpos > 0)
                 {
                     // move caret to start
