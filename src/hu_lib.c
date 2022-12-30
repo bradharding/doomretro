@@ -408,7 +408,7 @@ static void HUlib_DrawTextLine(hu_textline_t *l, bool external)
                 if (prev2 == '.' && prev == ' ' && c == '(')
                     x -= 2;
 
-                V_DrawPatchToTempScreen(x, l->y, l->f[c - l->sc]);
+                V_DrawPatchToTempScreen(x, y - 1, l->f[c - l->sc]);
             }
             else
             {
