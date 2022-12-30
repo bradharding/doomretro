@@ -2031,7 +2031,17 @@ static void M_QuitResponse(int key)
         return;
     }
 
-    S_StartSound(NULL, sfx_swtchx);
+    if (!nosfx && sfxVolume > 0)
+    {
+        int i = 30;
+
+        S_StartSound(NULL, sfx_swtchx);
+
+        // wait until all sounds stopped or 3 seconds has passed
+        while (i-- > 0 && I_AnySoundStillPlaying())
+            I_Sleep(100);
+    }
+
     I_Quit(true);
 }
 
