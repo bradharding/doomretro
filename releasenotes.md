@@ -23,6 +23,7 @@
 * The vertical positions of the monsters’ shadows in *DOOM II’s* cast sequence have improved.
 * The correct map is now opened when entering `map phobosmissioncontrol` or `map techgonebad` in the console.
 * The smoke trailing behind rockets fired by the player and cyberdemons when the `r_rockettrails` CVAR is `on` is now a lighter gray.
+* The LEDs on *PS4 DualShock 4* and *PS5 DualSense* controllers now turn red again when connected.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
