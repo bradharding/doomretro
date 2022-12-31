@@ -1879,6 +1879,7 @@ bool C_ValidateInput(char *input)
 bool C_Responder(event_t *ev)
 {
     static int  autocomplete = -1;
+    static int  scrollspeed = TICRATE;
     int         i;
     int         len;
 
@@ -2218,8 +2219,11 @@ bool C_Responder(event_t *ev)
             case KEY_UPARROW:
                 // scroll output up
                 if ((modstate & KMOD_CTRL) && !topofconsole && numconsolestrings > CONSOLELINES)
-                    outputhistory = (outputhistory == -1 ? numconsolestrings - (CONSOLELINES + 1) : MAX(0, outputhistory - 1));
-
+                {
+                    scrollspeed = MIN(scrollspeed + 4, TICRATE * 8);
+                    outputhistory = (outputhistory == -1 ? numconsolestrings - (CONSOLELINES + 1) :
+                        MAX(0, outputhistory - scrollspeed / TICRATE));
+                }
                 // previous input
                 else
                 {
@@ -2245,8 +2249,13 @@ bool C_Responder(event_t *ev)
 
             case KEY_DOWNARROW:
                 // scroll output down
-                if ((modstate & KMOD_CTRL) && outputhistory != -1 && ++outputhistory + CONSOLELINES >= numconsolestrings)
-                    outputhistory = -1;
+                if ((modstate & KMOD_CTRL) && outputhistory != -1)
+                {
+                    scrollspeed = MIN(scrollspeed + 4, TICRATE * 8);
+
+                    if ((outputhistory += scrollspeed / TICRATE) + CONSOLELINES >= numconsolestrings)
+                        outputhistory = -1;
+                }
 
                 // next input
                 else
@@ -2280,14 +2289,23 @@ bool C_Responder(event_t *ev)
             case KEY_PAGEUP:
                 // scroll output up
                 if (!topofconsole && numconsolestrings > CONSOLELINES)
-                    outputhistory = (outputhistory == -1 ? numconsolestrings - (CONSOLELINES + 1) : MAX(0, outputhistory - 1));
+                {
+                    scrollspeed = MIN(scrollspeed + 4, TICRATE * 8);
+                    outputhistory = (outputhistory == -1 ? numconsolestrings - (CONSOLELINES + 1) :
+                        MAX(0, outputhistory - scrollspeed / TICRATE));
+                }
 
                 break;
 
             case KEY_PAGEDOWN:
                 // scroll output down
-                if (outputhistory != -1 && ++outputhistory + CONSOLELINES >= numconsolestrings)
-                    outputhistory = -1;
+                if (outputhistory != -1)
+                {
+                    scrollspeed = MIN(scrollspeed + 4, TICRATE * 8);
+
+                    if ((outputhistory += scrollspeed / TICRATE) + CONSOLELINES >= numconsolestrings)
+                        outputhistory = -1;
+                }
 
                 break;
 
@@ -2405,6 +2423,7 @@ bool C_Responder(event_t *ev)
     else if (ev->type == ev_keyup)
     {
         keydown = 0;
+        scrollspeed = TICRATE;
         return false;
     }
     else if (ev->type == ev_textinput)
