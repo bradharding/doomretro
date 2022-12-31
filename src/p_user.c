@@ -235,7 +235,7 @@ void P_MovePlayer(void)
     // anomalies. The thrust applied to bobbing is always the same strength on
     // ice, because the player still "works just as hard" to move, while the
     // thrust applied to the movement varies with 'movefactor'.
-    if ((forward | side) && (mo->z <= mo->floorz || (mo->flags & MF_BOUNCES) || (mo->flags2 & MF2_ONMOBJ)))
+    if ((forward | side) && (mo->z <= mo->floorz || (mo->flags2 & MF2_ONMOBJ)))
     {
         int         friction;
         const int   movefactor = P_GetMoveFactor(mo, &friction);

@@ -48,6 +48,7 @@
 //  we will need to handle the various
 //  action functions cleanly.
 //
+
 // killough 11/98: convert back to C instead of C++
 typedef void (*actionf_t)();
 

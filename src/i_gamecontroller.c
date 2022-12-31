@@ -77,9 +77,6 @@ void I_InitGameController(void)
 
     SDL_SetHintWithPriority(SDL_HINT_JOYSTICK_ALLOW_BACKGROUND_EVENTS, "1", SDL_HINT_OVERRIDE);
 
-    if (devparm)
-        SDL_GameControllerAddMappingsFromFile("gamecontrollerdb.txt");
-
     for (int i = 0, numjoysticks = SDL_NumJoysticks(); i < numjoysticks; i++)
         if (SDL_IsGameController(i))
         {
@@ -87,7 +84,6 @@ void I_InitGameController(void)
             bool        repeated;
 
             gamecontroller = SDL_GameControllerOpen(i);
-
             gamecontrollerconnected = true;
 
             if ((name = SDL_GameControllerName(gamecontroller)))
