@@ -206,7 +206,8 @@ static const char *bethesda_install_subdirs[] =
     "games\\DOOM_II_Classic_2019\\rerelease\\DOOM II_Data\\StreamingAssets",
     "games\\DOOM_Classic_2019\\base",
     "games\\DOOM_Classic_2019\\rerelease\\DOOM_Data\\StreamingAssets",
-    "games\\DOOM 3 BFG Edition\\base\\wads"
+    "games\\DOOM 3 BFG Edition\\base\\wads",
+    "games\\DOOM Eternal\\base\\classicwads"
 };
 
 // Locations where Steam is installed
@@ -225,7 +226,8 @@ static const char *steam_install_subdirs[] =
     "steamapps\\common\\Ultimate Doom\\rerelease\\DOOM_Data\\StreamingAssets",
     "steamapps\\common\\Ultimate Doom\\base"
     "steamapps\\common\\DOOM 3 BFG Edition\\base\\wads",
-    "steamapps\\common\\Final Doom\\base"
+    "steamapps\\common\\Final Doom\\base",
+    "steamapps\\common\\DOOMEternal\\base\\classicwads"
 };
 
 static char *GetRegistryString(registryvalue_t *reg_val)
