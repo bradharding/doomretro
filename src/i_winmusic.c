@@ -319,7 +319,7 @@ static void MIDItoStream(midi_file_t *file)
 
 bool I_Windows_InitMusic(void)
 {
-    UINT        MidiDevice = 0;
+    UINT        MidiDevice = MIDI_MAPPER;
     MIDIOUTCAPS caps;
     MIDIHDR     *hdr = &buffer.MidiStreamHdr;
     MMRESULT    mmr;
