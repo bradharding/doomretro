@@ -290,11 +290,18 @@ static void P_XYMovement(mobj_t *mo)
         mo->momx = 0;
         mo->momy = 0;
 
-        // killough 10/98: kill any bobbing momentum too (except in voodoo dolls)
-        if (player && player->mo == mo)
+        if (player)
         {
-            player->momx = 0;
-            player->momy = 0;
+            // if in a walking frame, stop moving
+            if ((player->mo->state - states) - S_PLAY_RUN1 < 4)
+                P_SetMobjState(player->mo, S_PLAY);
+
+            // killough 10/98: kill any bobbing momentum too (except in voodoo dolls)
+            if (player->mo == mo)
+            {
+                player->momx = 0;
+                player->momy = 0;
+            }
         }
     }
     else if ((flags2 & MF2_FEETARECLIPPED) && corpse)

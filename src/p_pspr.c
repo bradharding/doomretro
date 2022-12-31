@@ -200,6 +200,7 @@ void P_FireWeapon(void)
     if (!P_CheckAmmo(readyweapon) || (automapactive && !am_followmode))
         return;
 
+    P_SetMobjState(viewplayer->mo, S_PLAY_ATK1);
     P_SetPlayerSprite(ps_weapon, weaponinfo[readyweapon].atkstate);
 
     if (joy_rumble_weapons)
@@ -247,6 +248,10 @@ void A_WeaponReady(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
     const weapontype_t  readyweapon = player->readyweapon;
     const weapontype_t  pendingweapon = player->pendingweapon;
+
+    // get out of attack state
+    if (player->mo->state == &states[S_PLAY_ATK1] || player->mo->state == &states[S_PLAY_ATK2])
+        P_SetMobjState(player->mo, S_PLAY);
 
     if (readyweapon == wp_chainsaw && psp->state == &states[S_SAW])
         S_StartSound(actor, sfx_sawidl);
@@ -365,6 +370,7 @@ void A_Raise(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_GunFlash(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
+    P_SetMobjState(player->mo, S_PLAY_ATK2);
     P_SetPlayerSprite(ps_flash, weaponinfo[player->readyweapon].flashstate);
 }
 
@@ -660,6 +666,7 @@ void A_FirePistol(mobj_t *actor, player_t *player, pspdef_t *psp)
         P_NoiseAlert(actor);
 
     S_StartSound(actor, sfx_pistol);
+    P_SetMobjState(player->mo, S_PLAY_ATK2);
     P_SubtractAmmo();
     P_SetPlayerSprite(ps_flash, readyweapon.flashstate);
     P_BulletSlope(actor);
@@ -690,6 +697,7 @@ void A_FireShotgun(mobj_t *actor, player_t *player, pspdef_t *psp)
         P_NoiseAlert(actor);
 
     S_StartSound(actor, sfx_shotgn);
+    P_SetMobjState(player->mo, S_PLAY_ATK2);
     P_SubtractAmmo();
     P_SetPlayerSprite(ps_flash, readyweapon.flashstate);
     P_BulletSlope(actor);
@@ -724,6 +732,7 @@ void A_FireShotgun2(mobj_t *actor, player_t *player, pspdef_t *psp)
         P_NoiseAlert(actor);
 
     S_StartSound(actor, sfx_dshtgn);
+    P_SetMobjState(player->mo, S_PLAY_ATK2);
     P_SubtractAmmo();
     P_SetPlayerSprite(ps_flash, readyweapon.flashstate);
     P_BulletSlope(actor);
@@ -775,6 +784,7 @@ void A_FireCGun(mobj_t *actor, player_t *player, pspdef_t *psp)
     if (!player->ammo[readyweapon.ammotype])
         return;
 
+    P_SetMobjState(player->mo, S_PLAY_ATK2);
     S_StartSound(actor, sfx_pistol);
 
     if (!(readyweapon.flags & WPF_SILENT))

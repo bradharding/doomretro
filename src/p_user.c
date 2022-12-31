@@ -257,6 +257,9 @@ void P_MovePlayer(void)
             P_Bob((angle -= ANG90), side * bobfactor);
             P_Thrust(angle, side * movefactor);
         }
+
+        if (mo->state == &states[S_PLAY])
+            P_SetMobjState(mo, S_PLAY_RUN1);
     }
 
     if (autotilt && !(mouselook || freeze || (viewplayer->cheats & MF_NOCLIP)))
