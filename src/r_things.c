@@ -1447,7 +1447,7 @@ void R_DrawMasked(void)
                     drawsegs_xrange_size * sizeof(drawsegs_xranges[i].items[0]));
         }
 
-        for (drawseg_t *ds = ds_p; ds-- > drawsegs;)
+        for (drawseg_t *ds = ds_p; ds-- > drawsegs; )
             if (ds->silhouette || ds->maskedtexturecol)
             {
                 drawsegs_xranges[0].items[drawsegs_xranges[0].count].x1 = ds->x1;
