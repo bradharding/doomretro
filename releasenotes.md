@@ -25,7 +25,9 @@
 * The correct map is now opened when entering `map phobosmissioncontrol` or `map techgonebad` in the console.
 * The smoke trailing behind rockets fired by the player and cyberdemons when the `r_rockettrails` CVAR is `on` is now a lighter gray.
 * The LEDs on *PS4 DualShock 4* and *PS5 DualSense* controllers now turn red again when connected.
-* If the `vid_fullscreen` CVAR is `off`, *DOOM Retro’s* window is now displayed better when very small.
+* If the `vid_fullscreen` CVAR is `off`:
+  * The window is now displayed better when very small.
+  * The mouse pointer is displayed while the console is open.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
