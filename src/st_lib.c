@@ -140,9 +140,8 @@ void STlib_UpdateBigAmmoNum(st_number_t *n)
             while (num)
             {
                 V_DrawPatch((x -= width), y, 0, n->p[num % 10]);
-                num /= 10;
 
-                if (num % 10 == 1 && tallnum1width < 14)
+                if ((num /= 10) % 10 == 1 && tallnum1width < 14)
                     x++;
             }
     }
@@ -163,9 +162,8 @@ void STlib_UpdateBigArmorNum(st_number_t *n)
         while (num)
         {
             V_DrawPatch((x -= width), y, 0, n->p[num % 10]);
-            num /= 10;
 
-            if (num % 10 == 1 && tallnum1width < 14)
+            if ((num /= 10) % 10 == 1 && tallnum1width < 14)
                 x++;
         }
 }
@@ -186,9 +184,8 @@ void STlib_UpdateBigHealthNum(st_number_t *n)
         while (num)
         {
             V_DrawPatch((x -= width), y, 0, n->p[num % 10]);
-            num /= 10;
 
-            if (num % 10 == 1 && tallnum1width < 14)
+            if ((num /= 10) % 10 == 1 && tallnum1width < 14)
                 x++;
         }
     }
@@ -216,8 +213,7 @@ void STlib_UpdateSmallNum(st_number_t *n)
         // draw the new number
         while (num)
         {
-            x -= 4;
-            statbarnumfunc(num % 10, 160, 47, x, y, n->p[num % 10]);
+            statbarnumfunc(num % 10, 160, 47, (x -= 4), y, n->p[num % 10]);
             num /= 10;
         }
 }
