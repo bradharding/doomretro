@@ -27,7 +27,7 @@
 * The LEDs on *PS4 DualShock 4* and *PS5 DualSense* controllers now turn red again when connected.
 * If the `vid_fullscreen` CVAR is `off`:
   * The window is now displayed better when very small.
-  * The mouse pointer is displayed while the console is open.
+  * The mouse pointer is now displayed while the console is open.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

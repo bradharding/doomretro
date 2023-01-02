@@ -99,7 +99,8 @@ void P_AddThinker(thinker_t *thinker)
     thinker->prev = thinkers[th_all].prev;
     thinkers[th_all].prev = thinker;
 
-    thinker->references = 0;    // killough 11/98: init reference counter to 0
+    // killough 11/98: init reference counter to 0
+    thinker->references = 0;
 
     // killough 08/29/98: set sentinel pointers, and then add to appropriate list
     thinker->cnext = NULL;
@@ -191,10 +192,12 @@ void P_RemoveThinker2(thinker_t *thinker)
 //
 void P_SetTarget(mobj_t **mop, mobj_t *targ)
 {
-    if (*mop)           // If there was a target already, decrease its refcount
+    // If there was a target already, decrease its refcount
+    if (*mop)
         (*mop)->thinker.references--;
 
-    if ((*mop = targ))  // Set new target and if non-NULL, increase its counter
+    // Set new target and if non-NULL, increase its counter
+    if ((*mop = targ))
         targ->thinker.references++;
 }
 
@@ -227,6 +230,7 @@ void P_Ticker(void)
     }
 
     animatedtic++;
+
     P_MapEnd();
 
     if (freeze)
@@ -242,12 +246,9 @@ void P_Ticker(void)
         currentthinker->function((mobj_t *)currentthinker);
 
     P_UpdateSpecials();
-
     T_MAPMusic();
-
     P_RespawnSpecials();
 
-    // for par times
     maptime++;
     stat_timeplayed = SafeAdd(stat_timeplayed, 1);
 }

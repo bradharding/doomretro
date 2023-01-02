@@ -106,7 +106,6 @@ bool cht_CheckCheat(cheatseq_t *cht, unsigned char key)
             cht->chars_read = 0;
             cht->param_chars_read = 0;
             cht->timeout = 0;
-
             return false;
         }
         else
@@ -121,7 +120,6 @@ bool cht_CheckCheat(cheatseq_t *cht, unsigned char key)
         cht->chars_read = 0;
         cht->param_chars_read = 0;
         cht->timeout = 0;
-
         return true;
     }
 
