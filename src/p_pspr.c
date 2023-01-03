@@ -294,7 +294,7 @@ void A_WeaponReady(mobj_t *actor, player_t *player, pspdef_t *psp)
 
 //
 // A_ReFire
-// The player can re-fire the weapon without lowering it entirely.
+// The player can refire the weapon without lowering it entirely.
 //
 void A_ReFire(mobj_t *actor, player_t *player, pspdef_t *psp)
 {

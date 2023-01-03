@@ -2127,7 +2127,7 @@ static void D_DoomMainSetup(void)
     if (p > 0)
         do
         {
-            for (p = p + 1; p < myargc && myargv[p][0] != '-'; p++)
+            for (p++; p < myargc && myargv[p][0] != '-'; p++)
             {
                 char    *file = D_TryFindWADByName(myargv[p]);
 
