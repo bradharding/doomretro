@@ -47,7 +47,7 @@
 #define CONSOLESTRINGSMAX                   1024
 
 #define CONSOLEFONTSTART                    ' '
-#define CONSOLEFONTEND                      '~'
+#define CONSOLEFONTEND                      (unsigned char)'ÿ'
 #define CONSOLEFONTSIZE                     (CONSOLEFONTEND - CONSOLEFONTSTART + 1)
 
 #define CONSOLEAUTOMAPBEVELCOLOR            5

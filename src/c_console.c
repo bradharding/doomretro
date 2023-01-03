@@ -670,7 +670,7 @@ void C_Init(void)
         char    buffer[9];
 
         M_snprintf(buffer, sizeof(buffer), "DRFON%03i", j++);
-        consolefont[i] = W_CacheLastLumpName(buffer);
+        consolefont[i] = W_CacheLastLumpName(W_CheckNumForName(buffer) >= 0 ? buffer : "DRFON000");
     }
 
     consoleautomapbevelcolor = &tinttab50[nearestcolors[CONSOLEAUTOMAPBEVELCOLOR] << 8];
