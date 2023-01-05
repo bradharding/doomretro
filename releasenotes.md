@@ -2,6 +2,7 @@
 
 #### DOOM Retro v4.8
 
+* *DOOM Retro* now uses [*SDL v2.26.2*](https://www.libsdl.org/).
 * Minor optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * When *DOOM Retro* is run for the first time, the WAD launcher will now also look for `DOOM.WAD` and `DOOM2.WAD` that are included in installations of [*DOOM Eternal*](https://store.steampowered.com/app/782330/DOOM_Eternal/).
 * Minor changes have been made to text that is output to the console.
