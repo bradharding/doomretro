@@ -4,7 +4,7 @@
 
 * *DOOM Retro* now uses [*SDL v2.26.2*](https://www.libsdl.org/).
 * Minor optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
-* When *DOOM Retro* is run for the first time, the WAD launcher will now also look for `DOOM.WAD` and `DOOM2.WAD` that are included in installations of [*DOOM Eternal*](https://store.steampowered.com/app/782330/DOOM_Eternal/).
+* When *DOOM Retro* is run for the first time, the WAD launcher will now also look for `DOOM.WAD` and `DOOM2.WAD` included in installations of [*DOOM Eternal*](https://store.steampowered.com/app/782330/DOOM_Eternal/).
 * Minor changes have been made to text that is output to the console.
 * The console can now display accented characters.
 * These changes have been made when opening and closing the console using the <kbd>~</kbd> key:
@@ -24,7 +24,7 @@
 * The truncation of player messages when the `vid_widescreen` CVAR is `off` has improved in some instances.
 * The vertical position of player messages has improved in some instances.
 * The vertical positions of the monsters’ shadows in *DOOM II’s* cast sequence have improved.
-* The correct map is now opened when entering `map phobosmissioncontrol` or `map techgonebad` in the console.
+* The correct map now opens when entering `map phobosmissioncontrol` or `map techgonebad` in the console.
 * The smoke trailing behind rockets fired by the player and cyberdemons when the `r_rockettrails` CVAR is `on` is now a lighter gray.
 * The LEDs on *PS4 DualShock 4* and *PS5 DualSense* controllers now turn red again when connected.
 * If the `vid_fullscreen` CVAR is `off`:
