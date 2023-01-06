@@ -241,14 +241,16 @@ void V_DrawWidePatch(int x, int y, int screen, patch_t *patch)
     for (; col < width; x++, col += DXI, desttop++)
     {
         column_t    *column;
+        int         td;
         int         topdelta = -1;
+        int         lastlength = 0;
 
         if (x >= SCREENWIDTH)
             break;
 
         column = (column_t *)((byte *)patch + LONG(patch->columnoffset[col >> FRACBITS]));
 
-        while (column->topdelta != 0xFF)
+        while ((td = column->topdelta) != 0xFF)
         {
             byte    *dest;
             byte    *source = (byte *)column + 3;
@@ -256,11 +258,7 @@ void V_DrawWidePatch(int x, int y, int screen, patch_t *patch)
             int     srccol = 0;
             int     top;
 
-            if (column->topdelta <= topdelta)
-                topdelta += column->topdelta;
-            else
-                topdelta = column->topdelta;
-
+            topdelta = (td < topdelta + lastlength - 1 ? topdelta + td : td);
             top = ((y + topdelta) * DY) >> FRACBITS;
 
             if (top + count > SCREENHEIGHT)
