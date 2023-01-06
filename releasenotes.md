@@ -6,7 +6,7 @@
 * Minor optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * When *DOOM Retro* is run for the first time, the WAD launcher will now also look for `DOOM.WAD` and `DOOM2.WAD` included in installations of [*DOOM Eternal*](https://store.steampowered.com/app/782330/DOOM_Eternal/).
 * Minor changes have been made to text that is output to the console.
-* Over 100 additional characters, including those with diacritics, have been added to the font used in the console, to better display paths on some non-English systems.
+* Many additional characters, including those with diacritics, have been added to the font used in the console.
 * These changes have been made when opening and closing the console using the <kbd>~</kbd> key:
   * A subtle sound effect is now played.
   * The console now scrolls from the top of the screen, rather than fades in, when on the title screen.
@@ -30,7 +30,7 @@
 * If the `vid_fullscreen` CVAR is `off`:
   * The window is now displayed better when very small.
   * The mouse pointer is now displayed while the console is open.
-* A crash will no longer occur when trying to display a patch with a height greater than 200px.
+* A crash no longer occurs when displaying a patch greater than 200 pixels in height.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
