@@ -223,37 +223,60 @@ void V_DrawPatch(int x, int y, int screen, patch_t *patch)
 void V_DrawWidePatch(int x, int y, int screen, patch_t *patch)
 {
     byte    *desttop;
-    int     width = SHORT(patch->width);
     int     col = 0;
+    int     width = SHORT(patch->width) << FRACBITS;
 
-    if (width > SCREENWIDTH / SCREENSCALE)
+    if (x < 0)
     {
+        col += DXI * ((-x * DX) >> FRACBITS);
         x = 0;
-        col = (width - SCREENWIDTH / SCREENSCALE) / 2;
-        width = SCREENWIDTH / SCREENSCALE + col;
+        desttop = &screens[screen][((y * DY) >> FRACBITS) * SCREENWIDTH];
+    }
+    else
+    {
+        x = (x * DX) >> FRACBITS;
+        desttop = &screens[screen][((y * DY) >> FRACBITS) * SCREENWIDTH + x];
     }
 
-    width <<= FRACBITS;
-    col <<= FRACBITS;
-    desttop = &screens[screen][((y * DY) >> FRACBITS) * SCREENWIDTH + ((x * DX) >> FRACBITS)];
-
-    for (; col < width; col += DXI, desttop++)
+    for (; col < width; x++, col += DXI, desttop++)
     {
-        column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnoffset[col >> FRACBITS]));
+        column_t    *column;
+        int         topdelta = -1;
 
-        // step through the posts in a column
-        while (column->topdelta != 0xFF)
+        if (x >= SCREENWIDTH)
+            break;
+
+        column = (column_t *)((byte *)patch + LONG(patch->columnoffset[col >> FRACBITS]));
+
+        while (column->topdelta != 0xff)
         {
+            byte    *dest;
             byte    *source = (byte *)column + 3;
-            byte    *dest = &desttop[((column->topdelta * DY) >> FRACBITS) * SCREENWIDTH];
-            int     count = MIN((column->length * DY) >> FRACBITS, SCREENHEIGHT);
+            int     count = (column->length * DY) >> FRACBITS;
             int     srccol = 0;
+            int     top;
+
+            if (column->topdelta <= topdelta)
+                topdelta += column->topdelta;
+            else
+                topdelta = column->topdelta;
+
+            top = ((y + topdelta) * DY) >> FRACBITS;
+            dest = desttop + ((topdelta * DY) >> FRACBITS) * SCREENWIDTH;
+
+            if (top + count > SCREENHEIGHT)
+                count = SCREENHEIGHT - top;
+
+            if (count < 1)
+                break;
 
             while (count--)
             {
-                *dest = source[srccol >> FRACBITS];
-                dest += SCREENWIDTH;
+                if (top++ >= 0)
+                    *dest = source[srccol >> FRACBITS];
+
                 srccol += DYI;
+                dest += SCREENWIDTH;
             }
 
             column = (column_t *)((byte *)column + column->length + 4);
