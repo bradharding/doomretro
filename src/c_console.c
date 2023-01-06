@@ -416,6 +416,7 @@ void C_AddConsoleDivider(void)
         if (numconsolestrings >= (int)consolestringsmax)
             console = I_Realloc(console, (consolestringsmax += CONSOLESTRINGSMAX) * sizeof(*console));
 
+        M_StringCopy(console[numconsolestrings].string, DIVIDERSTRING, sizeof(console[0].string));
         console[numconsolestrings++].stringtype = dividerstring;
     }
 }
