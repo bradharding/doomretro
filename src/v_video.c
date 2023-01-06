@@ -602,7 +602,7 @@ void V_DrawConsoleTextPatch(int x, int y, patch_t *patch, int width,
     byte        *desttop = &screens[0][y * SCREENWIDTH + x];
     const int   italicize[] = { 2, 2, 2, 1, 1, 1, 1, 0, 0, 0, 0, -1, -1, -1 };
 
-    for (int col = 0; col < width; col++, desttop++)
+    for (int col = 0; col < width - 1; col++, desttop++)
     {
         byte    *source = (byte *)patch + LONG(patch->columnoffset[col]) + 3;
         byte    *dest = desttop;
