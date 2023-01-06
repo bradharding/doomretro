@@ -246,7 +246,7 @@ void V_DrawWidePatch(int x, int y, int screen, patch_t *patch)
         {
             byte    *source = (byte *)column + 3;
             byte    *dest = &desttop[((column->topdelta * DY) >> FRACBITS) * SCREENWIDTH];
-            int     count = MIN((column->length * DY) >> FRACBITS, SCREENHEIGHT);
+            int     count = MIN((column->length * DY) >> FRACBITS, VANILLAHEIGHT);
             int     srccol = 0;
 
             while (count--)
