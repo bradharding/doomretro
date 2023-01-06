@@ -437,6 +437,7 @@ static void ST_PlayerCheated(char *cheat, char *output, bool warning)
             (M_StringCompare(playername, playername_default) ? "You" : playername));
         stat_cheated = SafeAdd(stat_cheated, 1);
         viewplayer->cheated++;
+        M_SaveCVARs();
     }
 }
 
