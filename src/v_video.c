@@ -488,43 +488,26 @@ void V_DrawSolidSpectreShadowPatch(int x, int y, patch_t *patch)
 void V_DrawBigPatch(int x, int y, patch_t *patch)
 {
     byte    *desttop;
-    int     width = SHORT(patch->width);
-    int     col = 0;
+    short   width = SHORT(patch->width);
+    short   height = SHORT(patch->height);
+    short   col = 0;
 
     if (width > SCREENWIDTH)
     {
-        x = 0;
         col = (width - SCREENWIDTH) / 2;
         width = SCREENWIDTH + col;
+        x = 0;
     }
 
-    desttop = &screens[0][y * SCREENWIDTH + x];
-
-    for (; col < width; col++, desttop++)
+    for (desttop = &screens[0][y * SCREENWIDTH + x]; col < width; col++, desttop++)
     {
-        column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnoffset[col]));
-        int         td;
-        int         topdelta = -1;
-        int         lastlength = 0;
+        byte    *source = (byte *)patch + LONG(patch->columnoffset[col]) + 3;
+        byte    *dest = desttop;
 
-        // step through the posts in a column
-        while ((td = column->topdelta) != 0xFF)
+        for (short i = 0; i < height; i++)
         {
-            byte    *source = (byte *)column + 3;
-            byte    *dest;
-            int     count;
-
-            topdelta = (td < topdelta + lastlength - 1 ? topdelta + td : td);
-            dest = &desttop[topdelta * SCREENWIDTH];
-            count = lastlength = column->length;
-
-            while (count--)
-            {
-                *dest = *source++;
-                dest += SCREENWIDTH;
-            }
-
-            column = (column_t *)((byte *)column + lastlength + 4);
+            *dest = *source++;
+            dest += SCREENWIDTH;
         }
     }
 }
