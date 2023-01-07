@@ -508,6 +508,8 @@ static patch_t  *titlelump;
 static byte     *splashpal;
 static short    fineprintx;
 static short    fineprinty;
+static short    fineprintwidth;
+static short    fineprintheight;
 static short    logox;
 static short    logoy;
 
@@ -548,10 +550,12 @@ void D_PageTicker(void)
 //
 void D_SplashDrawer(void)
 {
+    patch_t *patch = logolump[BETWEEN(0, 94 - logotic, 17)];
+
     gamestate = GS_TITLESCREEN;
     memset(screens[0], BLACK, SCREENAREA);
-    V_DrawBigPatch(logox, logoy, logolump[BETWEEN(0, 94 - logotic, 17)]);
-    V_DrawBigPatch(fineprintx, fineprinty, fineprintlump);
+    V_DrawBigPatch(logox, logoy, SHORT(patch->width), SHORT(patch->height), patch);
+    V_DrawBigPatch(fineprintx, fineprinty, fineprintwidth, fineprintheight, fineprintlump);
     I_SetSimplePalette(&splashpal[pagetic < 9 ? (9 - pagetic) * 768 : (pagetic <= 94 ? 0 : (pagetic - 94) * 768)]);
     blitfunc();
 }
@@ -2478,12 +2482,14 @@ static void D_DoomMainSetup(void)
         logolump[i] = W_CacheLastLumpName(buffer);
     }
 
-    fineprintlump = W_CacheLastLumpName("DRFNPRNT");
-
     logox = (SCREENWIDTH - SHORT(logolump[0]->width)) / 2;
     logoy = (SCREENHEIGHT - SHORT(logolump[0]->height)) / 2;
-    fineprintx = (SCREENWIDTH - SHORT(fineprintlump->width)) / 2;
-    fineprinty = SCREENHEIGHT - SHORT(fineprintlump->height) - 2;
+
+    fineprintlump = W_CacheLastLumpName("DRFNPRNT");
+    fineprintwidth = SHORT(fineprintlump->width);
+    fineprintheight = SHORT(fineprintlump->height);
+    fineprintx = (SCREENWIDTH - fineprintwidth) / 2;
+    fineprinty = SCREENHEIGHT - fineprintheight - 2;
 
     if (autosigil)
     {

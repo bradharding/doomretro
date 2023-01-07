@@ -485,11 +485,9 @@ void V_DrawSolidSpectreShadowPatch(int x, int y, patch_t *patch)
     }
 }
 
-void V_DrawBigPatch(int x, int y, patch_t *patch)
+void V_DrawBigPatch(int x, int y, short width, short height, patch_t *patch)
 {
     byte    *desttop;
-    short   width = SHORT(patch->width);
-    short   height = SHORT(patch->height);
     short   col = 0;
 
     if (width > SCREENWIDTH)

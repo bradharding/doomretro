@@ -92,6 +92,7 @@ static patch_t          *bluearmorpatch;
 
 static patch_t          *stdisk;
 static short            stdiskwidth;
+static short            stdiskheight;
 bool                    drawdisk;
 
 static int              coloroffset;
@@ -236,6 +237,7 @@ void HU_Init(void)
     {
         stdisk = W_CacheLumpNum(lump);
         stdiskwidth = SHORT(stdisk->width);
+        stdiskheight = SHORT(stdisk->height);
     }
 
     s_STSTR_BEHOLD2 = M_StringCompare(s_STSTR_BEHOLD, STSTR_BEHOLD2);
@@ -1195,7 +1197,8 @@ static void HU_DrawAltHUD(void)
 void HU_DrawDisk(void)
 {
     if (r_diskicon && stdisk)
-        V_DrawBigPatch(SCREENWIDTH - HU_MSGX * SCREENSCALE - stdiskwidth, HU_MSGY * SCREENSCALE, stdisk);
+        V_DrawBigPatch(SCREENWIDTH - HU_MSGX * SCREENSCALE - stdiskwidth, HU_MSGY * SCREENSCALE,
+            stdiskwidth, stdiskheight, stdisk);
 }
 
 void HU_Drawer(void)
