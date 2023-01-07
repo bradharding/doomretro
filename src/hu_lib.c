@@ -361,7 +361,7 @@ static void HUlib_DrawTextLine(hu_textline_t *l, bool external)
     for (int i = 0; i < len; i++)
     {
         const unsigned char c = toupper(l->l[i]);
-        short               charwidth = 0;
+        short               charwidth;
 
         if (c == '\n')
         {
