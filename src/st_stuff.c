@@ -395,10 +395,15 @@ static void ST_RefreshBackground(void)
     {
         if (r_detail == r_detail_high)
         {
-            if (sbar2width < SCREENWIDTH)
-                R_FillBezel();
+            if (vid_widescreen)
+            {
+                if (sbar2width < SCREENWIDTH)
+                    R_FillBezel();
 
-            V_DrawBigPatch((SCREENWIDTH - sbar2width) / 2, ST_Y, sbar2width, SBARHEIGHT, sbar2);
+                V_DrawBigPatch((SCREENWIDTH - sbar2width) / 2, ST_Y, sbar2width, SBARHEIGHT, sbar2);
+            }
+            else
+                V_DrawBigPatch(ST_X, ST_Y, sbar2width, SBARHEIGHT, sbar2);
         }
         else
         {

@@ -487,7 +487,6 @@ void V_DrawSolidSpectreShadowPatch(int x, int y, patch_t *patch)
 
 void V_DrawBigPatch(int x, int y, short width, short height, patch_t *patch)
 {
-    byte    *desttop;
     short   col = 0;
 
     if (width > SCREENWIDTH)
@@ -497,7 +496,7 @@ void V_DrawBigPatch(int x, int y, short width, short height, patch_t *patch)
         x = 0;
     }
 
-    for (desttop = &screens[0][y * SCREENWIDTH + x]; col < width; col++, desttop++)
+    for (byte *desttop = &screens[0][y * SCREENWIDTH + x]; col < width; col++, desttop++)
     {
         byte    *source = (byte *)patch + LONG(patch->columnoffset[col]) + 3;
         byte    *dest = desttop;

@@ -5494,8 +5494,8 @@ static void C_PlayerStats_Game(void)
     temp1 = commify(killcount);
     temp2 = commify(totalkills);
     temp3 = commifystat(stat_monsterskilled_total);
-    C_TabbedOutput(tabs, "Monsters killed by %s\t%s of %s (%i%%)\t%s",
-        playername, temp1, temp2, (totalkills ? killcount * 100 / totalkills : 0), temp3);
+    C_TabbedOutput(tabs, "Monsters %s by %s\t%s of %s (%i%%)\t%s",
+        s_KILLED, playername, temp1, temp2, (totalkills ? killcount * 100 / totalkills : 0), temp3);
     free(temp1);
     free(temp2);
     free(temp3);
@@ -5539,7 +5539,7 @@ static void C_PlayerStats_Game(void)
 
     temp1 = commify(viewplayer->infightcount);
     temp2 = commifystat(stat_monsterskilled_infighting);
-    C_TabbedOutput(tabs, "Monsters killed while infighting\t%s\t%s", temp1, temp2);
+    C_TabbedOutput(tabs, "Monsters %s while infighting\t%s\t%s", s_KILLED, temp1, temp2);
     free(temp1);
     free(temp2);
 
@@ -5975,7 +5975,7 @@ static void C_PlayerStats_NoGame(void)
     }
 
     temp1 = commifystat(stat_monsterskilled_total);
-    C_TabbedOutput(tabs, "Monsters killed by %s\t\x96\t%s", playername, temp1);
+    C_TabbedOutput(tabs, "Monsters %s by %s\t\x96\t%s", s_KILLED, playername, temp1);
     free(temp1);
 
     if (gamemode == commercial)
@@ -6016,7 +6016,7 @@ static void C_PlayerStats_NoGame(void)
     ShowMonsterKillStat_NoGame(tabs, MT_POSSESSED);
 
     temp1 = commifystat(stat_monsterskilled_infighting);
-    C_TabbedOutput(tabs, "Monsters killed while infighting\t\x96\t%s", temp1);
+    C_TabbedOutput(tabs, "Monsters %s while infighting\t\x96\t%s", s_KILLED, temp1);
     free(temp1);
 
     temp1 = commifystat(stat_monstersrespawned);

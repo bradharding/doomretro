@@ -1751,7 +1751,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, c
                     if (target->player)
                     {
                         if (healthcvar)
-                            C_PlayerMessage("You killed yourself.");
+                            C_PlayerMessage("You %s yourself.", s_KILLED);
                         else
                             C_PlayerMessage("You %s yourself with your own %s.",
                                 (gibbed ? s_GIBBED : s_KILLED),
@@ -1792,7 +1792,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, c
                     if (target->player)
                     {
                         if (healthcvar)
-                            C_PlayerMessage("%s killed %s.", playername, pronoun(reflexive));
+                            C_PlayerMessage("%s %s %s.", playername, s_KILLED, pronoun(reflexive));
                         else
                             C_PlayerMessage("%s %s %s with %s own %s.",
                                 playername,
