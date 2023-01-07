@@ -161,6 +161,9 @@ extern char         *s_PD_KEYCARD;
 extern char         *s_PD_SKULLKEY;
 extern char         *s_PD_KEYCARDORSKULLKEY;
 
+extern char         *s_KILLED;
+extern char         *s_GIBBED;
+
 extern char         *s_SECRETMESSAGE;
 
 extern char         *s_GGSAVED;

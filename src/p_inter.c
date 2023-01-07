@@ -1658,13 +1658,13 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, c
                 {
                     if (M_StringCompare(playername, playername_default))
                         C_PlayerMessage("You were %s by %s %s you exploded.",
-                            (chex ? "teleported" : (gibbed ? "gibbed" : "killed")),
+                            (gibbed ? s_GIBBED : s_KILLED),
                             (inflictername && isvowel(inflictername[0]) ? "an" : "a"),
                             (inflictername ? inflictername : "barrel"));
                     else
                         C_PlayerMessage("%s was %s by %s %s %s exploded.",
                             playername,
-                            (chex ? "teleported" : (gibbed ? "gibbed" : "killed")),
+                            (gibbed ? s_GIBBED : s_KILLED),
                             (inflictername && isvowel(inflictername[0]) ? "an" : "a"),
                             (inflictername ? inflictername : "barrel"),
                             pronoun(personal));
@@ -1673,7 +1673,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, c
                 {
                     if (M_StringCompare(playername, playername_default))
                         C_PlayerMessage("You were %s by %s %s %s %s exploded.",
-                            (chex ? "teleported" : (gibbed ? "gibbed" : "killed")),
+                            (gibbed ? s_GIBBED : s_KILLED),
                             (inflictername && isvowel(inflictername[0]) ? "an" : "a"),
                             (inflictername ? inflictername : "barrel"),
                             (inflicter->type == inflicter->inflicter
@@ -1683,7 +1683,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, c
                     else
                         C_PlayerMessage("%s was %s by %s %s %s %s exploded.",
                             playername,
-                            (chex ? "teleported" : (gibbed ? "gibbed" : "killed")),
+                            (gibbed ? s_GIBBED : s_KILLED),
                             (inflictername && isvowel(inflictername[0]) ? "an" : "a"),
                             (inflictername ? inflictername : "barrel"),
                             (inflicter->type == inflicter->inflicter
@@ -1716,20 +1716,20 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, c
                 if (inflicter->inflicter == MT_PLAYER)
                     C_PlayerMessage("%s was %s by %s %s %s exploded.",
                         temp,
-                        (chex ? "teleported" : (gibbed ? "gibbed" : "killed")),
+                        (gibbed ? s_GIBBED : s_KILLED),
                         (inflictername && isvowel(inflictername[0]) ? "an" : "a"),
                         (inflictername ? inflictername : "barrel"),
                         playername);
                 else if (source == target)
                     C_PlayerMessage("%s was %s by %s %s they exploded.",
                         temp,
-                        (chex ? "teleported" : (gibbed ? "gibbed" : "killed")),
+                        (gibbed ? s_GIBBED : s_KILLED),
                         (inflictername && isvowel(inflictername[0]) ? "an" : "a"),
                         (inflictername ? inflictername : "barrel"));
                 else
                     C_PlayerMessage("%s was %s by %s %s %s %s exploded.",
                         temp,
-                        (chex ? "teleported" : (gibbed ? "gibbed" : "killed")),
+                        (gibbed ? s_GIBBED : s_KILLED),
                         (inflictername && isvowel(inflictername[0]) ? "an" : "a"),
                         (inflictername ? inflictername : "barrel"),
                         (inflicter->type == inflicter->inflicter
@@ -1754,7 +1754,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, c
                             C_PlayerMessage("You killed yourself.");
                         else
                             C_PlayerMessage("You %s yourself with your own %s.",
-                                (chex ? "teleported" : (gibbed ? "gibbed" : "killed")),
+                                (gibbed ? s_GIBBED : s_KILLED),
                                 weaponinfo[readyweapon].name);
                     }
                     else
@@ -1776,13 +1776,13 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, c
 
                         if (readyweapon == wp_fist && viewplayer->powers[pw_strength])
                             C_PlayerMessage("You %s %s with your %s while %s.",
-                                (target->type == MT_BARREL ? "exploded" : (chex ? "teleported" : (gibbed ? "gibbed" : "killed"))),
+                                (target->type == MT_BARREL ? "exploded" : (gibbed ? s_GIBBED : s_KILLED)),
                                 targetname,
                                 weaponinfo[readyweapon].name,
                                 berserk);
                         else
                             C_PlayerMessage("You %s %s with your %s.",
-                                (target->type == MT_BARREL ? "exploded" : (chex ? "teleported" : (gibbed ? "gibbed" : "killed"))),
+                                (target->type == MT_BARREL ? "exploded" : (gibbed ? s_GIBBED : s_KILLED)),
                                 targetname,
                                 weaponinfo[readyweapon].name);
                     }
@@ -1796,7 +1796,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, c
                         else
                             C_PlayerMessage("%s %s %s with %s own %s.",
                                 playername,
-                                (chex ? "teleported" : (gibbed ? "gibbed" : "killed")),
+                                (gibbed ? s_GIBBED : s_KILLED),
                                 pronoun(reflexive),
                                 pronoun(possessive),
                                 weaponinfo[readyweapon].name);
@@ -1822,7 +1822,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, c
                         if (readyweapon == wp_fist && viewplayer->powers[pw_strength])
                             C_PlayerMessage("%s %s %s with %s %s while %s.",
                                 playername,
-                                (target->type == MT_BARREL ? "exploded" : (chex ? "teleported" : (gibbed ? "gibbed" : "killed"))),
+                                (target->type == MT_BARREL ? "exploded" : (gibbed ? s_GIBBED : s_KILLED)),
                                 targetname,
                                 pronoun(possessive),
                                 weaponinfo[readyweapon].name,
@@ -1830,7 +1830,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, c
                         else
                             C_PlayerMessage("%s %s %s with %s %s.",
                                 playername,
-                                (target->type == MT_BARREL ? "exploded" : (chex ? "teleported" : (gibbed ? "gibbed" : "killed"))),
+                                (target->type == MT_BARREL ? "exploded" : (gibbed ? s_GIBBED : s_KILLED)),
                                 targetname,
                                 pronoun(possessive),
                                 weaponinfo[readyweapon].name);
@@ -1861,7 +1861,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, c
             if (target->player)
                 C_PlayerMessage("%s %s %s.",
                     temp,
-                    (chex ? "teleported" : (gibbed ? "gibbed" : "killed")),
+                    (gibbed ? s_GIBBED : s_KILLED),
                     playername);
             else
             {
@@ -1883,7 +1883,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, c
 
                 C_PlayerMessage("%s %s %s.",
                     temp,
-                    (target->type == MT_BARREL ? "exploded" : (chex ? "teleported" : (gibbed ? "gibbed" : "killed"))),
+                    (target->type == MT_BARREL ? "exploded" : (gibbed ? s_GIBBED : s_KILLED)),
                     targetname);
             }
 
@@ -1972,7 +1972,8 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, const bool te
         if (!(target->flags & MF_FUZZ))
             target->bloodsplats = CORPSEBLOODSPLATS;
 
-        if (r_corpses_mirrored && (M_Random() & 1) && !(target->flags2 & MF2_NOMIRROREDCORPSE) && (type != MT_PAIN || !doom4vanilla))
+        if (r_corpses_mirrored && (M_Random() & 1) && !(target->flags2 & MF2_NOMIRROREDCORPSE)
+            && (type != MT_PAIN || !doom4vanilla))
             target->flags2 |= MF2_MIRRORED;
     }
 
@@ -2016,7 +2017,8 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, const bool te
         if (automapactive)
             AM_Stop();          // don't die in automap, switch view prior to dying
 
-        if ((source && source->player) || (inflicter && inflicter->type == MT_BARREL && inflicter->inflicter == MT_PLAYER))
+        if ((source && source->player)
+            || (inflicter && inflicter->type == MT_BARREL && inflicter->inflicter == MT_PLAYER))
         {
             viewplayer->suicides++;
             stat_suicides = SafeAdd(stat_suicides, 1);
@@ -2039,7 +2041,8 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, const bool te
         }
     }
 
-    if ((gibbed = (gibhealth < 0 && target->health < gibhealth && info->xdeathstate != S_NULL && !(source && source->type == MT_DOGS))))
+    if ((gibbed = (gibhealth < 0 && target->health < gibhealth
+        && info->xdeathstate != S_NULL && !(source && source->type == MT_DOGS))))
         P_SetMobjState(target, info->xdeathstate);
     else
         P_SetMobjState(target, info->deathstate);
