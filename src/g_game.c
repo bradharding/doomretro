@@ -1719,7 +1719,7 @@ static void G_DoNewGame(void)
 // lockups when idclev was used in conjunction with -fast.
 void G_SetFastParms(bool fast_pending)
 {
-    static bool fast = false;               // remembers fast state
+    static bool fast;                       // remembers fast state
 
     if (fast != fast_pending)               // only change if necessary
     {

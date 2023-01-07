@@ -14,7 +14,7 @@
 * Minor improvements have been made to the console’s autocomplete feature.
 * Pressing the <kbd>HOME</kbd> key in the console will no longer scroll past the top of the console in some instances.
 * Scrolling up and down in the console using the <kbd>PGUP</kbd> and <kbd>PGDN</kbd> keys now gets faster the longer the keys are held down.
-* Thousand-delimiting commas may now be used when changing the value of certain CVARs in the console.
+* Thousands-delimiting commas may now be used when changing the value of certain CVARs in the console.
 * The `toggle` CCMD now only works with boolean CVARs.
 * A random sound effect is no longer played when quitting the game using the menu.
 * Improvements have been made to parsing `BRGHTMPS` lumps.
@@ -30,7 +30,7 @@
 * If the `vid_fullscreen` CVAR is `off`:
   * The window is now displayed better when very small.
   * The mouse pointer is now displayed while the console is open.
-* A crash no longer occurs when displaying a patch greater than 200 pixels in height.
+* Crashes no longer occur when displaying patches taller than 200 pixels.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

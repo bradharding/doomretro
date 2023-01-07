@@ -141,7 +141,7 @@ char            *pwadfile = "";
 char            *configfile;
 char            *resourcewad;
 
-static char     dehwarning[256] = "";
+static char     dehwarning[256];
 
 #if defined(_WIN32)
 char            *previouswad;
@@ -272,7 +272,7 @@ gamestate_t wipegamestate = GS_TITLESCREEN;
 
 void D_Display(void)
 {
-    static bool         pausedstate = false;
+    static bool         pausedstate;
     static gamestate_t  oldgamestate = GS_NONE;
     static int          saved_gametime = -1;
     int                 nowtime;

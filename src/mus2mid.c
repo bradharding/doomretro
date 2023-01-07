@@ -113,7 +113,7 @@ static byte channelvelocities[] =
 };
 
 // Timestamps between sequences of MUS events
-static unsigned int queuedtime = 0;
+static unsigned int queuedtime;
 
 // Counter for the length of the track
 static unsigned int tracksize;

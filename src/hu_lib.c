@@ -209,11 +209,6 @@ static void HUlib_DrawAltHUDTextLine(hu_textline_t *l)
                 y += OVERLAYLINEHEIGHT;
                 continue;
             }
-            else if (letter == 194 && nextletter == 176)
-            {
-                patch = degree;
-                i++;
-            }
             else
             {
                 const int   c = letter - CONSOLEFONTSTART;
@@ -379,7 +374,7 @@ static void HUlib_DrawTextLine(hu_textline_t *l, bool external)
             x += charwidth;
             textwidth += charwidth;
         }
-        else if ((c >= l->sc && c <= '_') || c == 176)
+        else if (c >= l->sc && c <= '_')
         {
             int j = c - '!';
 
@@ -390,14 +385,6 @@ static void HUlib_DrawTextLine(hu_textline_t *l, bool external)
                     j = 64;
                 else if (c == '\'')
                     j = 65;
-            }
-
-            if (c == 176)
-            {
-                if (STCFNxxx)
-                    continue;
-                else
-                    j = 66;
             }
 
             if (STCFNxxx)
@@ -513,7 +500,7 @@ void HUlib_DrawAutomapTextLine(hu_textline_t *l, bool external)
 
         if (c == ' ')
             x += (vanilla ? 8 : (i > 0 && (prev == '.' || prev == '!' || prev == '?') ? 10 : 6));
-        else if (c != '\n' && ((c >= l->sc && c <= '_') || c == 176))
+        else if (c != '\n' && c >= l->sc && c <= '_')
         {
             int j = c - '!';
 
@@ -524,14 +511,6 @@ void HUlib_DrawAutomapTextLine(hu_textline_t *l, bool external)
                     j = 64;
                 else if (c == '\'')
                     j = 65;
-            }
-
-            if (c == 176)
-            {
-                if (STCFNxxx)
-                    continue;
-                else
-                    j = 66;
             }
 
             if (STCFNxxx)

@@ -657,7 +657,7 @@ void V_DrawOverlayTextPatch(byte *screen, int screenwidth, int x,
 {
     byte    *desttop = &screen[y * screenwidth + x];
 
-    for (int col = 0; col < width - 1; col++, desttop++)
+    for (int col = 0; col < width; col++, desttop++)
     {
         byte    *source = (byte *)patch + LONG(patch->columnoffset[col]) + 3;
         byte    *dest = desttop;

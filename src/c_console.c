@@ -528,7 +528,7 @@ int C_TextWidth(const char *text, const bool formatting, const bool kerning)
         }
         else if (letter == 176)
         {
-            width += SHORT(degree->width);
+            width += degreewidth;
             i++;
         }
         else if (letter == 215 || (letter == 'x' && isdigit(prevletter)
@@ -1114,7 +1114,7 @@ static void C_DrawOverlayText(byte *screen, int screenwidth, int x, int y,
             x += spacewidth;
         else if (letter == 176)
         {
-            V_DrawOverlayTextPatch(screen, screenwidth, x, y, degree, degreewidth, color, tinttab);
+            V_DrawOverlayTextPatch(screen, screenwidth, x, y, degree, degreewidth - 1, color, tinttab);
             x += degreewidth;
         }
         else
@@ -1125,12 +1125,12 @@ static void C_DrawOverlayText(byte *screen, int screenwidth, int x, int y,
             if (isdigit(letter) && monospaced)
             {
                 V_DrawOverlayTextPatch(screen, screenwidth,
-                    x + (letter == '1' ? 1 : (letter == '4' ? -1 : 0)), y, patch, width, color, tinttab);
+                    x + (letter == '1' ? 1 : (letter == '4' ? -1 : 0)), y, patch, width - 1, color, tinttab);
                 x += zerowidth;
             }
             else
             {
-                V_DrawOverlayTextPatch(screen, screenwidth, x, y, patch, width, color, tinttab);
+                V_DrawOverlayTextPatch(screen, screenwidth, x, y, patch, width - 1, color, tinttab);
                 x += width;
             }
         }
