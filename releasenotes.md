@@ -31,6 +31,7 @@
   * The window is now displayed better when very small.
   * The mouse pointer is now displayed while the console is open.
 * Crashes no longer occur when displaying patches taller than 200 pixels.
+* The number of times a monster is gibbed by the player is now displayed by the `playerstats` CCMD.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
