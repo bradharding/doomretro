@@ -565,7 +565,7 @@ void D_SplashDrawer(void)
 //
 void D_PageDrawer(void)
 {
-    V_DrawPagePatch(pagelump);
+    V_DrawPagePatch(0, pagelump);
 }
 
 //

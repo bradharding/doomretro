@@ -768,7 +768,7 @@ static void M_DrawPatchWithShadow(int x, int y, patch_t *patch)
     if (SHORT(patch->height) < VANILLAHEIGHT)
         V_DrawPatchWithShadow(x, y, patch, false);
     else
-        V_DrawPagePatch(patch);
+        V_DrawPagePatch(0, patch);
 }
 
 //
@@ -783,7 +783,7 @@ static void M_DrawCenteredPatchWithShadow(int y, patch_t *patch)
     if (SHORT(patch->height) < VANILLAHEIGHT)
         V_DrawPatchWithShadow((VANILLAWIDTH - SHORT(patch->width)) / 2 + SHORT(patch->leftoffset), y, patch, false);
     else
-        V_DrawPagePatch(patch);
+        V_DrawPagePatch(0, patch);
 }
 
 //
@@ -1423,7 +1423,7 @@ static void M_DrawHelp(void)
     {
         if (chex || FREEDOOM || hacx || harmony || REKKRSA)
         {
-            V_DrawPagePatch(W_CacheLastLumpName(gamemode == commercial ? "HELP" : "HELP1"));
+            V_DrawPagePatch(0, W_CacheLastLumpName(gamemode == commercial ? "HELP" : "HELP1"));
 
             if (mapwindow)
                 memset(mapscreen, nearestblack, MAPAREA);
@@ -1436,7 +1436,7 @@ static void M_DrawHelp(void)
         }
         else if (W_CheckMultipleLumps(lumpname) > 2)
         {
-            V_DrawPagePatch(W_CacheLumpName(lumpname));
+            V_DrawPagePatch(0, W_CacheLumpName(lumpname));
 
             if (mapwindow)
                 memset(mapscreen, nearestblack, MAPAREA);

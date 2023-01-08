@@ -91,7 +91,6 @@ void V_DrawPatch(int x, int y, int screen, patch_t *patch);
 void V_DrawWidePatch(int x, int y, int screen, patch_t *patch);
 void V_DrawBigPatch(int x, int y, short width, short height, patch_t *patch);
 void V_DrawMenuBorderPatch(int x, int y, patch_t *patch, byte color);
-void V_DrawBigWidePatch(int x, int y, patch_t *patch);
 void V_DrawConsolePatch(int x, int y, patch_t *patch, int maxwidth);
 void V_DrawConsoleBrandingPatch(int x, int y, patch_t *patch);
 void V_DrawConsoleSelectedTextPatch(int x, int y, patch_t *patch, int width,
@@ -130,7 +129,7 @@ void V_DrawAltHUDText(int x, int y, byte *screen, patch_t *patch,
     bool italics, int color, int screenwidth, byte *tinttab);
 void V_DrawTranslucentAltHUDText(int x, int y, byte *screen, patch_t *patch,
     bool italics, int color, int screenwidth, byte *tinttab);
-void V_DrawPagePatch(patch_t *patch);
+void V_DrawPagePatch(int screen, patch_t *patch);
 
 void V_DrawPixel(int x, int y, byte color, bool drawshadow);
 

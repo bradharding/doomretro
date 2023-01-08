@@ -823,7 +823,7 @@ static void F_CastDrawer(void)
     else
         patch = (FREEDOOM || hacx ? W_CacheLastLumpName(bgcastcall) : W_CacheLumpName(bgcastcall));
 
-    V_DrawPagePatch(patch);
+    V_DrawPagePatch(0, patch);
 
     if (type == MT_PLAYER && M_StringCompare(castorder[castnum].name, *castorder[castnum].dehackedname))
         F_CastPrint(playername);
@@ -1031,7 +1031,7 @@ static void F_ArtScreenDrawer(void)
                 return;
         }
 
-        V_DrawPagePatch(lump);
+        V_DrawPagePatch(0, lump);
     }
 }
 

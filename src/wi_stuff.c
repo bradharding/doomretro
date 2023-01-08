@@ -382,7 +382,7 @@ static void WI_DrawLF(void)
         if (height < VANILLAHEIGHT)
             V_DrawPatchWithShadow((VANILLAWIDTH - SHORT(patch->width)) / 2 + 1, y + 1, patch, false);
         else
-            V_DrawPagePatch(patch);
+            V_DrawPagePatch(0, patch);
 
         y += height + 2;
     }
@@ -403,7 +403,7 @@ static void WI_DrawLF(void)
             if (height < VANILLAHEIGHT)
                 V_DrawPatchWithShadow((VANILLAWIDTH - SHORT(patch->width)) / 2 + 1, y + 1, patch, false);
             else
-                V_DrawPagePatch(patch);
+                V_DrawPagePatch(0, patch);
 
             y += height + 2;
         }
@@ -421,7 +421,7 @@ static void WI_DrawLF(void)
     if (SHORT(finished->height) < VANILLAHEIGHT)
         V_DrawPatchWithShadow(x + 1, y + 1, finished, false);
     else
-        V_DrawPagePatch(finished);
+        V_DrawPagePatch(0, finished);
 }
 
 // Draws "Entering <LevelName>"
@@ -435,7 +435,7 @@ static void WI_DrawEL(void)
     if (SHORT(entering->height) < VANILLAHEIGHT)
         V_DrawPatchWithShadow(x + 1, y + 1, entering, false);
     else
-        V_DrawPagePatch(entering);
+        V_DrawPagePatch(0, entering);
 
     // draw level
     y += SHORT(entering->height) + 2;
@@ -447,7 +447,7 @@ static void WI_DrawEL(void)
         if (SHORT(patch->height) < VANILLAHEIGHT)
             V_DrawPatchWithShadow((VANILLAWIDTH - SHORT(patch->width)) / 2 + 1, y + 1, patch, false);
         else
-            V_DrawPagePatch(patch);
+            V_DrawPagePatch(0, patch);
     }
     else
     {
@@ -466,7 +466,7 @@ static void WI_DrawEL(void)
             if (height < VANILLAHEIGHT)
                 V_DrawPatchWithShadow((VANILLAWIDTH - SHORT(patch->width)) / 2 + 1, y + 1, patch, false);
             else
-                V_DrawPagePatch(patch);
+                V_DrawPagePatch(0, patch);
         }
         else
             WI_DrawWILV(y, nextmapname);
@@ -1235,10 +1235,7 @@ static void WI_LoadData(void)
     else
         lump = W_CacheLumpName("INTERPIC");
 
-    if (SCREENWIDTH != NONWIDEWIDTH)
-        memset(screens[1], FindDominantEdgeColor(lump), SCREENAREA);
-
-    V_DrawWidePatch((SCREENWIDTH / SCREENSCALE - SHORT(lump->width)) / 2, 0, 1, lump);
+    V_DrawPagePatch(1, lump);
 }
 
 static void WI_UnloadCallback(char *name, patch_t **variable)
