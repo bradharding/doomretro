@@ -1197,8 +1197,13 @@ static void HU_DrawAltHUD(void)
 void HU_DrawDisk(void)
 {
     if (r_diskicon && stdisk)
-        V_DrawBigPatch(SCREENWIDTH - HU_MSGX * SCREENSCALE - stdiskwidth, HU_MSGY * SCREENSCALE,
-            stdiskwidth, stdiskheight, stdisk);
+    {
+        if (r_detail == r_detail_high)
+            V_DrawBigPatch(SCREENWIDTH - HU_MSGX * SCREENSCALE - stdiskwidth, HU_MSGY * SCREENSCALE,
+                stdiskwidth, stdiskheight, stdisk);
+        else
+            V_DrawPatch(SCREENWIDTH / SCREENSCALE - HU_MSGX - stdiskwidth - WIDESCREENDELTA, HU_MSGY, 0, stdisk);
+    }
 }
 
 void HU_Drawer(void)

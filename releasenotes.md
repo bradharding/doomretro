@@ -33,6 +33,7 @@
   * The window is now displayed better when very small.
   * The mouse pointer is now displayed while the console is open.
 * Crashes no longer occur when displaying patches taller than 200 pixels.
+* The disk icon displayed in the top right of the screen when the `r_diskicon` CVAR is `on` is now double its size when the `r_detail` CVAR is `low`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
