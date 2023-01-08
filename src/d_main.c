@@ -2061,7 +2061,7 @@ static void D_DoomMainSetup(void)
     {
         char    *temp = commify(SafeAdd(stat_runs, 1));
 
-        C_Output(ITALICS(DOOMRETRO_NAME) " has now been run %s times on this " COMPUTER ".", temp);
+        C_Output(ITALICS(DOOMRETRO_NAME) " has been run %s times on this " COMPUTER ".", temp);
         free(temp);
     }
 

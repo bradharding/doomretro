@@ -77,17 +77,13 @@ patch_t                 *degree;
 patch_t                 *unknownchar;
 patch_t                 *altunderscores;
 patch_t                 *lsquote;
-patch_t                 *rsquote;
 patch_t                 *ldquote;
-patch_t                 *rdquote;
 
 static patch_t          *brand;
-static patch_t          *endash;
 static patch_t          *trademark;
 static patch_t          *copyright;
 static patch_t          *regomark;
 static patch_t          *multiply;
-static patch_t          *bullet;
 static patch_t          *warning;
 
 patch_t                 *bindlist;
@@ -485,51 +481,21 @@ int C_TextWidth(const char *text, const bool formatting, const bool kerning)
             italics = !italics;
             continue;
         }
-        else if (letter == 149)
-        {
-            width += SHORT(bullet->width);
-            i++;
-        }
-        else if (letter == 150)
-        {
-            width += SHORT(endash->width);
-            i++;
-        }
-        else if (letter == 153)
-        {
-            width += SHORT(trademark->width);
-            i++;
-        }
         else if (letter == '(' && i < len - 3 && tolower(text[i + 1]) == 't'
             && tolower(text[i + 2]) == 'm' && text[i + 3] == ')' && formatting)
         {
             width += SHORT(trademark->width);
             i += 3;
         }
-        else if (letter == 169)
-        {
-            width += SHORT(copyright->width);
-            i++;
-        }
         else if (letter == '(' && i < len - 2 && tolower(text[i + 1]) == 'c' && text[i + 2] == ')' && formatting)
         {
             width += SHORT(copyright->width);
             i += 2;
         }
-        else if (letter == 174)
-        {
-            width += SHORT(regomark->width);
-            i++;
-        }
         else if (letter == '(' && i < len - 2 && tolower(text[i + 1]) == 'r' && text[i + 2] == ')' && formatting)
         {
             width += SHORT(regomark->width);
             i += 2;
-        }
-        else if (letter == 176)
-        {
-            width += degreewidth;
-            i++;
         }
         else if (letter == 215 || (letter == 'x' && isdigit(prevletter)
             && ((nextletter = (i < len - 1 ? text[i + 1] : '\0')) == '\0' || isdigit(nextletter))))
@@ -708,12 +674,8 @@ void C_Init(void)
     brand = W_CacheLastLumpName("DRBRAND");
 
     unknownchar = W_CacheLastLumpName("DRFON000");
-    rdquote = W_CacheLastLumpName("DRFON034");
-    rsquote = W_CacheLastLumpName("DRFON039");
     lsquote = W_CacheLastLumpName("DRFON145");
     ldquote = W_CacheLastLumpName("DRFON147");
-    bullet = W_CacheLastLumpName("DRFON149");
-    endash = W_CacheLastLumpName("DRFON150");
     trademark = W_CacheLastLumpName("DRFON153");
     copyright = W_CacheLastLumpName("DRFON169");
     regomark = W_CacheLastLumpName("DRFON174");
@@ -948,43 +910,23 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
                 bold = false;
                 italics = false;
             }
-            else if (letter == 145)
-                patch = lsquote;
-            else if (letter == 146)
-                patch = rsquote;
-            else if (letter == 147)
-                patch = ldquote;
-            else if (letter == 148)
-                patch = rdquote;
-            else if (letter == 149)
-                patch = bullet;
-            else if (letter == 150)
-                patch = endash;
-            else if (letter == 153)
-                patch = trademark;
             else if (letter == '(' && i < len - 3 && tolower(text[i + 1]) == 't' && tolower(text[i + 2]) == 'm' && text[i + 3] == ')'
                 && formatting)
             {
                 patch = trademark;
                 i += 3;
             }
-            else if (letter == 169)
-                patch = copyright;
             else if (letter == '(' && i < len - 2 && tolower(text[i + 1]) == 'c' && text[i + 2] == ')' && formatting)
             {
                 patch = copyright;
                 i += 2;
             }
-            else if (letter == 174)
-                patch = regomark;
             else if (letter == '(' && i < len - 2 && tolower(text[i + 1]) == 'r' && text[i + 2] == ')' && formatting)
             {
                 patch = regomark;
                 i += 2;
             }
-            else if (letter == 176)
-                patch = degree;
-            else if (letter == 215 || (letter == 'x' && isdigit(prevletter) && (i == len - 1 || isdigit(nextletter))))
+            else if (letter == 'x' && isdigit(prevletter) && (i == len - 1 || isdigit(nextletter)))
                 patch = multiply;
             else if (letter == '\n')
                 break;

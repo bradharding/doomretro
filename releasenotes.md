@@ -3,10 +3,10 @@
 #### DOOM Retro v4.8
 
 * *DOOM Retro* now uses [*SDL v2.26.2*](https://www.libsdl.org/).
-* Minor optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
+* Several optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * When *DOOM Retro* is run for the first time, the WAD launcher will now also look for `DOOM.WAD` and `DOOM2.WAD` included in installations of [*DOOM Eternal*](https://store.steampowered.com/app/782330/DOOM_Eternal/).
 * Minor changes have been made to text that is output to the console.
-* Many additional characters, including those with diacritics, have been added to the font used in the console.
+* Many additional characters, including those with diacritics, have been added to the character set used in the console.
 * These changes have been made when opening and closing the console using the <kbd>~</kbd> key:
   * A subtle sound effect is now played.
   * The console now scrolls from the top of the screen, rather than fades in, when on the title screen.
@@ -18,7 +18,9 @@
 * The `toggle` CCMD now only works with boolean CVARs.
 * A random sound effect is no longer played when quitting the game using the menu.
 * Improvements have been made to parsing `BRGHTMPS` lumps.
-* The amount of cells the player has picked up is no longer displayed by the `playerstats` CCMD when playing *DOOM (Shareware)*.
+* These changes have been made to the `playerstats` CCMD:
+  * The number of times a monster is gibbed by the player is now displayed.
+  * The amount of cells the player has picked up is no longer displayed when playing *DOOM (Shareware)*.
 * Minor improvements have been made to the support for `MAPINFO` lumps.
 * The player’s health, armor and ammo are now displayed better in the status bar and widescreen HUD if they start with a `1`.
 * The truncation of player messages when the `vid_widescreen` CVAR is `off` has improved in some instances.
@@ -31,7 +33,6 @@
   * The window is now displayed better when very small.
   * The mouse pointer is now displayed while the console is open.
 * Crashes no longer occur when displaying patches taller than 200 pixels.
-* The number of times a monster is gibbed by the player is now displayed by the `playerstats` CCMD.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
