@@ -587,7 +587,7 @@ void G_DoLoadLevel(void)
     viewplayer->itemspickedup_ammo_shells = 0;
     viewplayer->itemspickedup_armor = 0;
     viewplayer->itemspickedup_health = 0;
-    memset(viewplayer->mobjcount, 0, sizeof(viewplayer->mobjcount));
+    memset(viewplayer->monsterskilled, 0, sizeof(viewplayer->monsterskilled));
     viewplayer->prevmessage[0] = '\0';
     viewplayer->prevmessagetics = 0;
     viewplayer->infightcount = 0;
@@ -595,6 +595,7 @@ void G_DoLoadLevel(void)
     viewplayer->resurrectioncount = 0;
     viewplayer->telefragcount = 0;
     viewplayer->automapopened = 0;
+    viewplayer->monstersgibbed = 0;
 
     freeze = false;
 

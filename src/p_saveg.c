@@ -533,7 +533,7 @@ static void saveg_read_player_t(void)
     viewplayer->deaths = saveg_read32();
 
     for (int i = 0; i < NUMMOBJTYPES; i++)
-        viewplayer->mobjcount[i] = saveg_read32();
+        viewplayer->monsterskilled[i] = saveg_read32();
 
     viewplayer->distancetraveled = saveg_read32();
     viewplayer->gamessaved = saveg_read32();
@@ -556,9 +556,9 @@ static void saveg_read_player_t(void)
     viewplayer->automapopened = saveg_read32();
     viewplayer->telefragcount = saveg_read32();
     viewplayer->respawncount = saveg_read32();
+    viewplayer->monstersgibbed = saveg_read32();
 
     // [BH] For future features without breaking savegame compatibility
-    saveg_read32();
     saveg_read32();
     saveg_read32();
     saveg_read32();
@@ -644,7 +644,7 @@ static void saveg_write_player_t(void)
     saveg_write32(viewplayer->deaths);
 
     for (int i = 0; i < NUMMOBJTYPES; i++)
-        saveg_write32(viewplayer->mobjcount[i]);
+        saveg_write32(viewplayer->monsterskilled[i]);
 
     saveg_write32(viewplayer->distancetraveled);
     saveg_write32(viewplayer->gamessaved);
@@ -666,9 +666,9 @@ static void saveg_write_player_t(void)
     saveg_write32(viewplayer->automapopened);
     saveg_write32(viewplayer->telefragcount);
     saveg_write32(viewplayer->respawncount);
+    saveg_write32(viewplayer->monstersgibbed);
 
     // [BH] For future features without breaking savegame compatibility
-    saveg_write32(0);
     saveg_write32(0);
     saveg_write32(0);
     saveg_write32(0);

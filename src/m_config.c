@@ -235,6 +235,7 @@ uint64_t    stat_itemspickedup_armor = 0;
 uint64_t    stat_itemspickedup_health = 0;
 uint64_t    stat_mapscompleted = 0;
 uint64_t    stat_mapsstarted = 0;
+uint64_t    stat_monstersgibbed = 0;
 uint64_t    stat_monsterskilled_total = 0;
 uint64_t    stat_monsterskilled_infighting = 0;
 uint64_t    stat_monsterskilled[NUMMOBJTYPES] = { 0 };
@@ -468,6 +469,7 @@ static default_t cvars[] =
     CVAR_INT_UNSIGNED (itemspickedup_health,             stat_itemspickedup_health,             stat_itemspickedup_health,           NOVALUEALIAS          ),
     CVAR_INT_UNSIGNED (mapscompleted,                    stat_mapscompleted,                    stat_mapscompleted,                  NOVALUEALIAS          ),
     CVAR_INT_UNSIGNED (mapsstarted,                      stat_mapsstarted,                      stat_mapsstarted,                    NOVALUEALIAS          ),
+    CVAR_INT_UNSIGNED (monstersgibbed,                   stat_monstersgibbed,                   stat_monstersgibbed,                 NOVALUEALIAS          ),
     CVAR_INT_UNSIGNED (monsterskilled,                   stat_monsterskilled,                   stat_monsterskilled_total,           NOVALUEALIAS          ),
     CVAR_INT_UNSIGNED (monsterskilled_infighting,        stat_monsterskilled_infighting,        stat_monsterskilled_infighting,      NOVALUEALIAS          ),
     CVAR_INT_UNSIGNED (monsterskilled_arachnotrons,      stat_monsterskilled_arachnotrons,      stat_monsterskilled[MT_BABY],        NOVALUEALIAS          ),

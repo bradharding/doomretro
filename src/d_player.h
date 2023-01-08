@@ -222,7 +222,7 @@ typedef struct player_s
     int             shotsfired[NUMWEAPONS];
     int             deaths;
     int             suicides;
-    int             mobjcount[NUMMOBJTYPES];
+    int             monsterskilled[NUMMOBJTYPES];
     int             distancetraveled;
     int             gamessaved;
     int             itemspickedup_ammo_bullets;
@@ -236,6 +236,7 @@ typedef struct player_s
     int             resurrectioncount;
     int             telefragcount;
     int             automapopened;
+    int             monstersgibbed;
 } player_t;
 
 //

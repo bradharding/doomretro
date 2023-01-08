@@ -1985,7 +1985,7 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, const bool te
         if ((source && source->player) || massacre)
         {
             stat_monsterskilled_total = SafeAdd(stat_monsterskilled_total, 1);
-            viewplayer->mobjcount[type]++;
+            viewplayer->monsterskilled[type]++;
             stat_monsterskilled[type] = SafeAdd(stat_monsterskilled[type], 1);
         }
         else
@@ -1996,7 +1996,7 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, const bool te
     }
     else if (type == MT_BARREL)
     {
-        viewplayer->mobjcount[type]++;
+        viewplayer->monsterskilled[type]++;
         stat_barrelsexploded = SafeAdd(stat_barrelsexploded, 1);
 
         if (inflicter)
@@ -2043,7 +2043,11 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, const bool te
 
     if ((gibbed = (gibhealth < 0 && target->health < gibhealth
         && info->xdeathstate != S_NULL && !(source && source->type == MT_DOGS))))
+    {
         P_SetMobjState(target, info->xdeathstate);
+        viewplayer->monstersgibbed++;
+        stat_monstersgibbed = SafeAdd(stat_monstersgibbed, 1);
+    }
     else
         P_SetMobjState(target, info->deathstate);
 

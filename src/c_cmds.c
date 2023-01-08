@@ -3221,7 +3221,7 @@ static void kill_cmd_func2(char *cmd, char *parms)
                                 {
                                     A_Fall(thing, NULL, NULL);
                                     P_SetMobjState(thing, S_PAIN_DIE6);
-                                    viewplayer->mobjcount[MT_PAIN]++;
+                                    viewplayer->monsterskilled[MT_PAIN]++;
                                     stat_monsterskilled[MT_PAIN] = SafeAdd(stat_monsterskilled[MT_PAIN], 1);
                                     viewplayer->killcount++;
                                     stat_monsterskilled_total = SafeAdd(stat_monsterskilled_total, 1);
@@ -3510,7 +3510,7 @@ static void kill_cmd_func2(char *cmd, char *parms)
                                 {
                                     A_Fall(thing, NULL, NULL);
                                     P_SetMobjState(thing, S_PAIN_DIE6);
-                                    viewplayer->mobjcount[MT_PAIN]++;
+                                    viewplayer->monsterskilled[MT_PAIN]++;
                                     stat_monsterskilled[MT_PAIN] = SafeAdd(stat_monsterskilled[MT_PAIN], 1);
                                     viewplayer->killcount++;
                                     stat_monsterskilled_total = SafeAdd(stat_monsterskilled_total, 1);
@@ -3549,13 +3549,13 @@ static void kill_cmd_func2(char *cmd, char *parms)
                             M_snprintf(buffer, sizeof(buffer), "You %s the only %s %s this map.",
                                 killed,
                                 mobjinfo[type].name1,
-                                (viewplayer->mobjcount[type] == 1 ? "in" : "left in"));
+                                (viewplayer->monsterskilled[type] == 1 ? "in" : "left in"));
                         else
                             M_snprintf(buffer, sizeof(buffer), "You %s all %s %s %s this map.",
                                 killed,
                                 temp,
                                 mobjinfo[type].plural1,
-                                (viewplayer->mobjcount[type] == kills ? "in" : "left in"));
+                                (viewplayer->monsterskilled[type] == kills ? "in" : "left in"));
                     }
                     else
                     {
@@ -3564,14 +3564,14 @@ static void kill_cmd_func2(char *cmd, char *parms)
                                 playername,
                                 killed,
                                 mobjinfo[type].name1,
-                                (viewplayer->mobjcount[type] == 1 ? "in" : "left in"));
+                                (viewplayer->monsterskilled[type] == 1 ? "in" : "left in"));
                         else
                             M_snprintf(buffer, sizeof(buffer), "%s %s all %s %s %s this map.",
                                 playername,
                                 killed,
                                 temp,
                                 mobjinfo[type].plural1,
-                                (viewplayer->mobjcount[type] == kills ? "in" : "left in"));
+                                (viewplayer->monsterskilled[type] == kills ? "in" : "left in"));
                     }
 
                     C_Output(buffer);
@@ -3594,7 +3594,7 @@ static void kill_cmd_func2(char *cmd, char *parms)
                     }
                     else
                         C_Warning(0, "There are no %s %s %s.", mobjinfo[type].plural1,
-                            (viewplayer->mobjcount[type] ? "left to" : "to"), cmd);
+                            (viewplayer->monsterskilled[type] ? "left to" : "to"), cmd);
                 }
             }
         }
@@ -5384,13 +5384,13 @@ char *C_DistanceTraveled(uint64_t value, bool allowzero)
 static void ShowMonsterKillStat_Game(const int tabs[3], const mobjtype_t type)
 {
     char    *temp1 = sentencecase(mobjinfo[type].plural1);
-    char    *temp2 = commify(viewplayer->mobjcount[type]);
+    char    *temp2 = commify(viewplayer->monsterskilled[type]);
     char    *temp3 = commify(monstercount[type]);
     char    *temp4 = commifystat(stat_monsterskilled[type]);
 
     C_TabbedOutput(tabs, INDENT "%s\t%s of %s (%i%%)\t%s",
         temp1, temp2, temp3,
-        (monstercount[type] ? viewplayer->mobjcount[type] * 100 / monstercount[type] : 0), temp4);
+        (monstercount[type] ? viewplayer->monsterskilled[type] * 100 / monstercount[type] : 0), temp4);
 
     free(temp1);
     free(temp2);
@@ -5489,7 +5489,7 @@ static void C_PlayerStats_Game(void)
     }
 
     for (int i = 0; i < NUMMOBJTYPES; i++)
-        killcount += viewplayer->mobjcount[i];
+        killcount += viewplayer->monsterskilled[i];
 
     temp1 = commify(killcount);
     temp2 = commify(totalkills);
@@ -5543,6 +5543,15 @@ static void C_PlayerStats_Game(void)
     free(temp1);
     free(temp2);
 
+    if (!M_StringCompare(s_KILLED, s_GIBBED))
+    {
+        temp1 = commify(viewplayer->monstersgibbed);
+        temp2 = commifystat(stat_monstersgibbed);
+        C_TabbedOutput(tabs, "Monsters %s\t%s\t%s", s_GIBBED, temp1, temp2);
+        free(temp1);
+        free(temp2);
+    }
+
     temp1 = commify(viewplayer->respawncount);
     temp2 = commifystat(stat_monstersrespawned);
     C_TabbedOutput(tabs, "Monsters respawned\t%s\t%s", temp1, temp2);
@@ -5562,12 +5571,12 @@ static void C_PlayerStats_Game(void)
     free(temp2);
 
     temp1 = sentencecase(mobjinfo[MT_BARREL].plural1);
-    temp2 = commify(viewplayer->mobjcount[MT_BARREL]);
+    temp2 = commify(viewplayer->monsterskilled[MT_BARREL]);
     temp3 = commify(barrelcount);
     temp4 = commifystat(stat_barrelsexploded);
     C_TabbedOutput(tabs, "%s exploded\t%s of %s (%i%%)\t%s",
         temp1, temp2, temp3,
-        (barrelcount ? viewplayer->mobjcount[MT_BARREL] * 100 / barrelcount : 0), temp4);
+        (barrelcount ? viewplayer->monsterskilled[MT_BARREL] * 100 / barrelcount : 0), temp4);
     free(temp1);
     free(temp2);
     free(temp3);
@@ -6018,6 +6027,13 @@ static void C_PlayerStats_NoGame(void)
     temp1 = commifystat(stat_monsterskilled_infighting);
     C_TabbedOutput(tabs, "Monsters %s while infighting\t\x96\t%s", s_KILLED, temp1);
     free(temp1);
+
+    if (!M_StringCompare(s_KILLED, s_GIBBED))
+    {
+        temp1 = commify(viewplayer->monstersgibbed);
+        C_TabbedOutput(tabs, "Monsters %s\t\x96\t%s", s_GIBBED, temp1);
+        free(temp1);
+    }
 
     temp1 = commifystat(stat_monstersrespawned);
     C_TabbedOutput(tabs, "Monsters respawned\t\x96\t%s", temp1);
