@@ -482,7 +482,7 @@ void G_BuildTiccmd(ticcmd_t *cmd)
     if (mousex)
     {
         if (strafe)
-            side += mousex / 6;
+            side += mousex * 2;
         else
         {
             cmd->angleturn -= mousex * 0x08;
