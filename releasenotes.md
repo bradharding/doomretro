@@ -27,6 +27,7 @@
 * The vertical position of player messages has improved in some instances.
 * The vertical positions of the monsters’ shadows in *DOOM II’s* cast sequence have improved.
 * The correct map now opens when entering `map phobosmissioncontrol` or `map techgonebad` in the console.
+* Minor improvements have been made to translating certain words when the `english` CVAR is changed.
 * The smoke trailing behind rockets fired by the player and cyberdemons when the `r_rockettrails` CVAR is `on` is now a lighter gray.
 * The LEDs on *PS4 DualShock 4* and *PS5 DualSense* controllers now turn red again when connected.
 * If the `vid_fullscreen` CVAR is `off`:
