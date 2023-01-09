@@ -353,7 +353,7 @@ static void R_InitBrightmaps(void)
 
             SC_GetString();
 
-            if (SC_Compare("TEXTURE") || SC_Compare("SPRITE") || SC_Compare("FLAT"))
+            if (SC_Compare("TEXTURE") || SC_Compare("SPRITE") || SC_Compare("FLAT") || SC_Compare("STATE"))
             {
                 SC_UnGet();
                 *sc_String = '\0';
