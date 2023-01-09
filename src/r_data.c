@@ -371,13 +371,13 @@ static void R_InitBrightmaps(void)
                         break;
                     }
         }
-        else if (SC_Compare("SPRITE") || SC_Compare("FLAT"))
+        else if (SC_Compare("SPRITE") || SC_Compare("FLAT") || SC_Compare("STATE"))
         {
             SC_MustGetString();
             SC_MustGetString();
             SC_GetString();
 
-            if (SC_Compare("TEXTURE") || SC_Compare("SPRITE") || SC_Compare("FLAT"))
+            if (SC_Compare("TEXTURE") || SC_Compare("SPRITE") || SC_Compare("FLAT") || SC_Compare("STATE"))
                 SC_UnGet();
         }
 
