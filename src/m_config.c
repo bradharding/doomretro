@@ -225,6 +225,7 @@ uint64_t    stat_damageinflicted = 0;
 uint64_t    stat_damagereceived = 0;
 uint64_t    stat_deaths = 0;
 uint64_t    stat_distancetraveled = 0;
+uint64_t    stat_firstrun = 0;
 uint64_t    stat_gamessaved = 0;
 uint64_t    stat_itemspickedup = 0;
 uint64_t    stat_itemspickedup_ammo_bullets = 0;
@@ -459,6 +460,7 @@ static default_t cvars[] =
     CVAR_INT_UNSIGNED (damagereceived,                   stat_damagereceived,                   stat_damagereceived,                 NOVALUEALIAS          ),
     CVAR_INT_UNSIGNED (deaths,                           stat_deaths,                           stat_deaths,                         NOVALUEALIAS          ),
     CVAR_INT_UNSIGNED (distancetraveled,                 stat_distancetraveled,                 stat_distancetraveled,               NOVALUEALIAS          ),
+    CVAR_INT_UNSIGNED (firstrun,                         stat_firstrun,                         stat_firstrun,                       NOVALUEALIAS          ),
     CVAR_INT_UNSIGNED (gamessaved,                       stat_gamessaved,                       stat_gamessaved,                     NOVALUEALIAS          ),
     CVAR_INT_UNSIGNED (itemspickedup,                    stat_itemspickedup,                    stat_itemspickedup,                  NOVALUEALIAS          ),
     CVAR_INT_UNSIGNED (itemspickedup_ammo_bullets,       stat_itemspickedup_ammo_bullets,       stat_itemspickedup_ammo_bullets,     NOVALUEALIAS          ),

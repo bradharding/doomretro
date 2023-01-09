@@ -2438,17 +2438,6 @@ bool C_Responder(event_t *ev)
     return true;
 }
 
-static const char *dayofweek(int day, int month, int year)
-{
-    const int   adjustment = (14 - month) / 12;
-    const char  *days[] = { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" };
-
-    month += 12 * adjustment - 2;
-    year -= adjustment;
-
-    return days[(day + (13 * month - 1) / 5 + year + year / 4 - year / 100 + year / 400) % 7];
-}
-
 void C_PrintCompileDate(void)
 {
     char    mth[4] = "";

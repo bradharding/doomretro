@@ -217,6 +217,7 @@ extern uint64_t stat_damageinflicted;
 extern uint64_t stat_damagereceived;
 extern uint64_t stat_deaths;
 extern uint64_t stat_distancetraveled;
+extern uint64_t stat_firstrun;
 extern uint64_t stat_gamessaved;
 extern uint64_t stat_itemspickedup;
 extern uint64_t stat_itemspickedup_ammo_bullets;

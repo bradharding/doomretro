@@ -115,3 +115,4 @@ void M_NormalizeSlashes(char *str);
 char *pronoun(pronountype_t type);
 void M_AmericanToInternationalEnglish(char *string);
 void M_InternationalToAmericanEnglish(char *string);
+const char *dayofweek(int day, int month, int year);

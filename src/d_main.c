@@ -462,19 +462,13 @@ void D_Display(void)
 //
 static void D_DoomLoop(void)
 {
-    time_t      now = time(NULL);
     player_t    player;
 
-#if defined(_WIN32)
-    localtime_s(&gamestarttime, &now);
-#else
-    localtime_r(&now, &gamestarttime);
-#endif
-
-    R_ExecuteSetViewSize();
 
     viewplayer = &player;
     memset(viewplayer, 0, sizeof(*viewplayer));
+
+    R_ExecuteSetViewSize();
 
     while (true)
     {
@@ -1957,6 +1951,13 @@ static void D_DoomMainSetup(void)
     char    *iwadfile;
     int     startloadgame;
     char    *resourcefolder = M_GetResourceFolder();
+    time_t  now = time(NULL);
+
+#if defined(_WIN32)
+    localtime_s(&gamestarttime, &now);
+#else
+    localtime_r(&now, &gamestarttime);
+#endif
 
     resourcewad = M_StringJoin(resourcefolder, DIR_SEPARATOR_S, DOOMRETRO_RESOURCEWAD, NULL);
     free(resourcefolder);
@@ -2056,12 +2057,33 @@ static void D_DoomMainSetup(void)
     V_Init();
 
     if (!stat_runs)
+    {
         C_Output("This is the first time " ITALICS(DOOMRETRO_NAME) " has been run on this " COMPUTER ".");
+
+        stat_firstrun = gamestarttime.tm_mday + (gamestarttime.tm_mon + 1) * 100 + (1900 + gamestarttime.tm_year) * 10000;
+    }
     else
     {
         char    *temp = commify(SafeAdd(stat_runs, 1));
 
-        C_Output(ITALICS(DOOMRETRO_NAME) " has been run %s times on this " COMPUTER ".", temp);
+        if (stat_firstrun)
+        {
+            const int   day = stat_firstrun % 100;
+            const int   month = (stat_firstrun % 10000) / 100;
+            const int   year = (int)stat_firstrun / 10000;
+
+            const char *months[] =
+            {
+                "January", "February", "March", "April", "May", "June",
+                "July", "August", "September", "October", "November", "December"
+            };
+
+            C_Output(ITALICS(DOOMRETRO_NAME) " has been run %s times on this " COMPUTER " since %s, %s %i, %i.",
+                temp, dayofweek(day, month, year), months[month - 1], day, year);
+        }
+        else
+            C_Output(ITALICS(DOOMRETRO_NAME) " has been run %s times on this " COMPUTER ".", temp);
+
         free(temp);
     }
 
