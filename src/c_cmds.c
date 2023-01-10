@@ -5467,6 +5467,12 @@ static void C_PlayerStats_Game(void)
     free(temp1);
     free(temp2);
 
+    temp1 = commify(viewplayer->gamesloaded);
+    temp2 = commifystat(stat_gamesloaded);
+    C_TabbedOutput(tabs, "Games loaded\t%s\t%s", temp1, temp2);
+    free(temp1);
+    free(temp2);
+
     if (favoriteskilllevel1 == sk_none)
         C_TabbedOutput(tabs, "%s skill level\t\x96\t\x96",
             (english == english_american ? "Favorite" : "Favourite"));
@@ -5967,6 +5973,10 @@ static void C_PlayerStats_NoGame(void)
 
     temp1 = commifystat(stat_gamessaved);
     C_TabbedOutput(tabs, "Games saved\t\x96\t%s", temp1);
+    free(temp1);
+
+    temp1 = commifystat(stat_gamesloaded);
+    C_TabbedOutput(tabs, "Games loaded\t\x96\t%s", temp1);
     free(temp1);
 
     if (favoriteskilllevel1 == sk_none)

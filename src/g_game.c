@@ -581,6 +581,7 @@ void G_DoLoadLevel(void)
     memset(viewplayer->shotsfired, 0, sizeof(viewplayer->shotsfired));
     viewplayer->distancetraveled = 0;
     viewplayer->gamessaved = 0;
+    viewplayer->gamesloaded = 0;
     viewplayer->itemspickedup_ammo_bullets = 0;
     viewplayer->itemspickedup_ammo_cells = 0;
     viewplayer->itemspickedup_ammo_rockets = 0;
@@ -1539,6 +1540,10 @@ void G_DoLoadGame(void)
         R_FillBackScreen();
 
     st_facecount = 0;
+
+    viewplayer->gamesloaded++;
+    stat_gamessaved = SafeAdd(stat_gamesloaded, 1);
+    M_SaveCVARs();
 
     if (consoleactive)
     {

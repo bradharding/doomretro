@@ -225,6 +225,7 @@ typedef struct player_s
     int             monsterskilled[NUMMOBJTYPES];
     int             distancetraveled;
     int             gamessaved;
+    int             gamesloaded;
     int             itemspickedup_ammo_bullets;
     int             itemspickedup_ammo_cells;
     int             itemspickedup_ammo_rockets;
