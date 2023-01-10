@@ -19,6 +19,7 @@
 * A random sound effect is no longer played when quitting the game using the menu.
 * Improvements have been made to parsing `BRGHTMPS` lumps.
 * These changes have been made to the `playerstats` CCMD:
+  * The number of times the player loads a savegame is now displayed.
   * The number of times a monster is gibbed by the player is now displayed.
   * The amount of cells the player has picked up is no longer displayed when playing *DOOM (Shareware)*.
 * Minor improvements have been made to the support for `MAPINFO` lumps.
