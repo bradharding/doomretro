@@ -108,5 +108,5 @@ void W_ReleaseLumpNum(int lumpnum);
 
 void W_CloseFiles(void);
 
-GameMission_t IWADRequiredByPWAD(char *pwadname);
+gamemission_t IWADRequiredByPWAD(char *pwadname);
 bool HasDehackedLump(const char *pwadname);

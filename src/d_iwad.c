@@ -474,7 +474,7 @@ static void AddSteamDirs(void)
 typedef struct
 {
     char            *name;
-    GameMission_t   mission;
+    gamemission_t   mission;
 } iwads_t;
 
 static const iwads_t iwads[] =

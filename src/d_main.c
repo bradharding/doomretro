@@ -1054,7 +1054,7 @@ static bool D_CheckParms(void)
         // if it's a PWAD, determine the IWAD required and try loading that as well
         else if (W_WadType(myargv[1]) == PWAD && !D_IsUnsupportedPWAD(myargv[1]))
         {
-            GameMission_t   iwadrequired = IWADRequiredByPWAD(myargv[1]);
+            gamemission_t   iwadrequired = IWADRequiredByPWAD(myargv[1]);
             char            fullpath[MAX_PATH];
 
             if (iwadrequired == none)
@@ -1392,7 +1392,7 @@ static int D_OpenWADLauncher(void)
             // if it's a PWAD, determine the IWAD required and try loading that as well
             else if (W_WadType(file) == PWAD && !D_IsUnsupportedPWAD(file))
             {
-                GameMission_t   iwadrequired = IWADRequiredByPWAD(file);
+                gamemission_t   iwadrequired = IWADRequiredByPWAD(file);
                 char            fullpath[MAX_PATH];
 
                 if (iwadrequired == none)
@@ -1658,7 +1658,7 @@ static int D_OpenWADLauncher(void)
 
                     if (W_WadType(fullpath) == PWAD && !D_IsUnsupportedPWAD(fullpath) && !D_IsDehFile(fullpath))
                     {
-                        GameMission_t   iwadrequired = IWADRequiredByPWAD(fullpath);
+                        gamemission_t   iwadrequired = IWADRequiredByPWAD(fullpath);
 
                         if (iwadrequired != none)
                         {
@@ -2171,7 +2171,7 @@ static void D_DoomMainSetup(void)
                 }
                 else
                 {
-                    GameMission_t   iwadrequired = IWADRequiredByPWAD(file);
+                    gamemission_t   iwadrequired = IWADRequiredByPWAD(file);
                     char            fullpath[MAX_PATH];
                     char            *folder = M_ExtractFolder(file);
 

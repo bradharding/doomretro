@@ -99,7 +99,7 @@ typedef enum
     commercial,     // DOOM 2 retail, E1, M32
     retail,         // DOOM 1 retail, E4, M36
     indetermined    // Well, no IWAD found.
-} GameMode_t;
+} gamemode_t;
 
 // Mission packs - might be useful for TC stuff?
 typedef enum
@@ -110,7 +110,7 @@ typedef enum
     pack_plut,      // Plutonia pack
     pack_nerve,     // No Rest for the Living
     none
-} GameMission_t;
+} gamemission_t;
 
 // State updates, number of tics/second.
 #define TICRATE         35

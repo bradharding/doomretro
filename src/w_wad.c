@@ -63,8 +63,7 @@
 
 typedef struct
 {
-    // Should be "IWAD" or "PWAD".
-    char    id[4];
+    char    id[4];  // Should be "IWAD" or "PWAD"
     int     numlumps;
     int     infotableofs;
 } PACKEDATTR wadinfo_t;
@@ -82,6 +81,7 @@ typedef struct
 
 // Location of each lump on disk.
 lumpinfo_t  **lumpinfo;
+
 int         numlumps;
 
 static int          numwads;
@@ -508,10 +508,10 @@ bool HasDehackedLump(const char *pwadname)
     return result;
 }
 
-GameMission_t IWADRequiredByPWAD(char *pwadname)
+gamemission_t IWADRequiredByPWAD(char *pwadname)
 {
     FILE            *fp = fopen(pwadname, "rb");
-    GameMission_t   result = none;
+    gamemission_t   result = none;
 
     if (!fp)
         I_Error("Can't open PWAD: %s\n", pwadname);

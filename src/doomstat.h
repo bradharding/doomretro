@@ -63,8 +63,8 @@ extern bool             devparm;                // DEBUG: launched with -devparm
 // -----------------------------------------------------
 // Game Mode - identify IWAD as shareware, retail etc.
 //
-extern GameMode_t       gamemode;
-extern GameMission_t    gamemission;
+extern gamemode_t       gamemode;
+extern gamemission_t    gamemission;
 extern char             gamedescription[255];
 
 // Set if homebrew PWAD stuff has been added.
