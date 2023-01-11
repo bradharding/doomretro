@@ -31,6 +31,7 @@
 * The correct map now opens when entering `map phobosmissioncontrol` or `map techgonebad` in the console.
 * Minor improvements have been made to translating certain words when the `english` CVAR is changed.
 * The smoke trailing behind rockets fired by the player and cyberdemons when the `r_rockettrails` CVAR is `on` is now a lighter gray.
+* The smoke trailing behind homing missiles fired by revenants has now changed when the `r_rockettrails` CVAR is `on`.
 * The LEDs on *PS4 DualShock 4* and *PS5 DualSense* controllers now turn red again when connected.
 * If the `vid_fullscreen` CVAR is `off`:
   * The window is now displayed better when very small.
