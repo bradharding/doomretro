@@ -80,6 +80,7 @@ patch_t                 *lsquote;
 patch_t                 *ldquote;
 
 static patch_t          *brand;
+static patch_t          *endash;
 static patch_t          *trademark;
 static patch_t          *copyright;
 static patch_t          *regomark;
@@ -500,6 +501,8 @@ int C_TextWidth(const char *text, const bool formatting, const bool kerning)
         else if (letter == 215 || (letter == 'x' && isdigit(prevletter)
             && ((nextletter = (i < len - 1 ? text[i + 1] : '\0')) == '\0' || isdigit(nextletter))))
             width += SHORT(multiply->width);
+        else if (letter == '-' && prevletter == ' ')
+            width += SHORT(endash->width);
         else if (!i || prevletter == ' ' || prevletter == '(' || prevletter == '[' || prevletter == '\t')
         {
             if (letter == '\'')
@@ -676,6 +679,7 @@ void C_Init(void)
     unknownchar = W_CacheLastLumpName("DRFON000");
     lsquote = W_CacheLastLumpName("DRFON145");
     ldquote = W_CacheLastLumpName("DRFON147");
+    endash = W_CacheLastLumpName("DRFON150");
     trademark = W_CacheLastLumpName("DRFON153");
     copyright = W_CacheLastLumpName("DRFON169");
     regomark = W_CacheLastLumpName("DRFON174");
@@ -928,6 +932,8 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
             }
             else if (letter == 'x' && isdigit(prevletter) && (i == len - 1 || isdigit(nextletter)))
                 patch = multiply;
+            else if (letter == '-' && (prevletter == ' ' || (prevletter == BOLDTOGGLECHAR && prevletter2 == ' ')))
+                patch = endash;
             else if (letter == '\n')
                 break;
             else
