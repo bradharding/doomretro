@@ -497,11 +497,11 @@ floater:
             // killough 11/98: touchy objects explode on impact
             if ((flags & MF_TOUCHY) && (mo->flags2 & MF2_ARMED) && mo->health > 0)
                 P_DamageMobj(mo, NULL, NULL, mo->health, true, false);
-            else if (player && player->mo == mo)
+            else if (player && player->mo == mo && !(viewplayer->cheats & CF_NOCLIP) && !freeze)
             {
                 player->jumptics = 7;
 
-                if (weaponbounce && !freeze)
+                if (weaponbounce)
                     player->bouncemax = MAX(MINBOUNCEMAX, mo->momz) * 3 / 4;
 
                 if (mo->momz < -GRAVITY * 8)
@@ -510,7 +510,7 @@ floater:
                     // Decrease viewheight for a moment after hitting the ground (hard), and utter appropriate sound.
                     player->deltaviewheight = mo->momz / 8;
 
-                    if (mo->health > 0 && !(viewplayer->cheats & CF_NOCLIP) && !freeze)
+                    if (mo->health > 0)
                         S_StartSound(mo, sfx_oof);
                 }
             }
