@@ -2380,10 +2380,13 @@ bool C_Responder(event_t *ev)
         const char  ch = (char)ev->data1;
         char        *temp = NULL;
 
-        if (ch >= ' ' && ch <= '}' && ch != '`' && C_TextWidth(consoleinput, false, true)
-            + (ch == ' ' ? spacewidth : SHORT(consolefont[ch - CONSOLEFONTSTART]->width))
-            - (selectstart < selectend ? C_TextWidth((temp = M_SubString(consoleinput, selectstart,
-            (size_t)selectend - selectstart)), false, true) : 0) <= CONSOLEINPUTPIXELWIDTH)
+        if (ch >= CONSOLEFONTSTART
+            && ch <= CONSOLEFONTEND
+            && ch != '`'
+            && C_TextWidth(consoleinput, false, true)
+                + (ch == ' ' ? spacewidth : SHORT(consolefont[ch - CONSOLEFONTSTART]->width))
+                - (selectstart < selectend ? C_TextWidth((temp = M_SubString(consoleinput, selectstart,
+                (size_t)selectend - selectstart)), false, true) : 0) <= CONSOLEINPUTPIXELWIDTH)
         {
             C_AddToUndoHistory();
 

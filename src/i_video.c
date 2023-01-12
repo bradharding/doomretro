@@ -558,15 +558,9 @@ static void I_GetEvent(void)
 
             case SDL_TEXTINPUT:
             {
-                const unsigned char ch = Event->text.text[0];
-
-                if (isprint(ch))
-                {
-                    ev.type = ev_textinput;
-                    ev.data1 = ch;
-                    D_PostEvent(&ev);
-                }
-
+                ev.type = ev_textinput;
+                ev.data1 = Event->text.text[0];
+                D_PostEvent(&ev);
                 break;
             }
 
