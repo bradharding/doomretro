@@ -8662,7 +8662,7 @@ static void player_cvars_func2(char *cmd, char *parms)
                 {
                     P_UpdateAmmoStat(ammotype, value - viewplayer->ammo[ammotype]);
                     P_AddBonus();
-                    S_StartSound(NULL, sfx_itemup);
+                    S_StartSound(viewplayer->mo, sfx_itemup);
                 }
 
                 viewplayer->ammo[ammotype] = value;
@@ -8701,7 +8701,7 @@ static void player_cvars_func2(char *cmd, char *parms)
                 {
                     P_UpdateArmorStat(value - viewplayer->armorpoints);
                     P_AddBonus();
-                    S_StartSound(NULL, sfx_itemup);
+                    S_StartSound(viewplayer->mo, sfx_itemup);
                 }
 
                 if (!(viewplayer->armorpoints = MIN(value, max_armor)))
@@ -8748,7 +8748,7 @@ static void player_cvars_func2(char *cmd, char *parms)
                         if (value < viewplayer->health)
                             viewplayer->damagecount = viewplayer->health - value;
                         else
-                            S_StartSound(NULL, sfx_itemup);
+                            S_StartSound(viewplayer->mo, sfx_itemup);
 
                         viewplayer->health = value;
                         viewplayer->mo->health = value;
@@ -8780,7 +8780,7 @@ static void player_cvars_func2(char *cmd, char *parms)
                         viewplayer->health = value;
                         viewplayer->mo->health = value;
                         P_AddBonus();
-                        S_StartSound(NULL, sfx_itemup);
+                        S_StartSound(viewplayer->mo, sfx_itemup);
                     }
 
                     C_HideConsole();
