@@ -735,7 +735,7 @@ void C_HideConsole(void)
     consoledirection = -1;
     consoleanim = 0;
 
-    S_StartSound(NULL, sfx_consol);
+    S_StartSound(viewplayer->mo, sfx_consol);
     S_RestoreMusicVolume();
 }
 
