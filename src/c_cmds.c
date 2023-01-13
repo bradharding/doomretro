@@ -5157,6 +5157,7 @@ static void pistolstart_cmd_func2(char *cmd, char *parms)
 //
 static int  playcmdid;
 static int  playcmdtype;
+static char *playcmdname;
 
 static bool play_cmd_func1(char *cmd, char *parms)
 {
@@ -5171,13 +5172,9 @@ static bool play_cmd_func1(char *cmd, char *parms)
 
         if (M_StringCompare(parms, namebuf) && W_CheckNumForName(namebuf) >= 0)
         {
-            char    *temp = uppercase(namebuf);
-
             playcmdid = i;
             playcmdtype = 1;
-            C_Output("Playing " BOLD("%s") "...", temp);
-            free(temp);
-
+            playcmdname = uppercase(namebuf);
             return true;
         }
     }
@@ -5192,9 +5189,7 @@ static bool play_cmd_func1(char *cmd, char *parms)
 
             playcmdid = i;
             playcmdtype = 2;
-            C_Output("Playing " BOLD("%s") "...", temp);
-            free(temp);
-
+            playcmdname = uppercase(namebuf);
             return true;
         }
     }
@@ -5211,10 +5206,16 @@ static void play_cmd_func2(char *cmd, char *parms)
         C_ShowDescription(i);
         C_ShowFormat(i);
     }
-    else if (playcmdtype == 1)
-        S_StartSound(NULL, playcmdid);
     else
-        S_ChangeMusic(playcmdid, true, true, false);
+    {
+        if (playcmdtype == 1)
+            S_StartSound(NULL, playcmdid);
+        else
+            S_ChangeMusic(playcmdid, true, true, false);
+
+        C_Output("Playing " BOLD("%s") "...", playcmdname);
+        free(playcmdname);
+    }
 }
 
 static skill_t favoriteskilllevel(void)
