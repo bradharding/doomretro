@@ -171,6 +171,7 @@ static short                sbarwidth;
 
 // 0-9, tall numbers
 patch_t                     *tallnum[10];
+short                       tallnum0width;
 short                       tallnum1width;
 // tall % sign
 patch_t                     *tallpercent;
@@ -1454,6 +1455,7 @@ static void ST_LoadUnloadGraphics(void callback(char *, patch_t **))
         callback(namebuf, &shortnum[i]);
     }
 
+    tallnum0width = SHORT(tallnum[0]->width);
     tallnum1width = SHORT(tallnum[1]->width);
 
     callback("STTPRCNT", &tallpercent);

@@ -410,15 +410,15 @@ static int HUDNumberWidth(int val)
     }
 
     if (val >= 200)
-        return (width + SHORT(tallnum[0]->width) * 3);
+        return (width + tallnum0width * 3);
     else if (val >= 100)
-        return (width + SHORT(tallnum[0]->width) * 3 - 1);
+        return (width + tallnum0width * 3 - 1);
     else if (val >= 20)
-        return (width + SHORT(tallnum[0]->width) * 2);
+        return (width + tallnum0width * 2);
     else if (val >= 10)
-        return (width + SHORT(tallnum[0]->width) * 2 - 1);
+        return (width + tallnum0width * 2 - 1);
 
-    return (width + SHORT(tallnum[0]->width));
+    return (width + tallnum0width);
 }
 
 static inline void HU_DrawScaledPixel(const int x, const int y, byte *color)

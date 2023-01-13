@@ -22,12 +22,12 @@
 * Improvements have been made to parsing `BRGHTMPS` lumps.
 * These changes have been made to the `playerstats` CCMD:
   * The number of times the player loads a savegame is now displayed.
-  * The number of times a monster is gibbed by the player is now displayed.
+  * The number of monsters gibbed by the player is now displayed.
   * The amount of cells the player has picked up is no longer displayed when playing *DOOM (Shareware)*.
 * Minor improvements have been made to the support for `MAPINFO` lumps.
 * The player’s health, armor and ammo are now displayed better in the status bar and widescreen HUD if they start with a `1`.
 * These changes have been made to the alternate widescreen HUD:
-  * The position of the player’s health when 0 is now fixed.
+  * The position of the player’s health when exactly 0 is now fixed.
   * The armor icon will now be dark when the player has no armor and the `r_hud_translucency` CVAR is `off`.
   * The bar displayed when the player has a power-up and the `r_hud_translucency` CVAR is `off` will now show as depleting.
 * The truncation of player messages when the `vid_widescreen` CVAR is `off` has improved in some instances.
@@ -40,7 +40,7 @@
   * The smoke trailing behind homing missiles fired by revenants is now the same as the smoke trailing behind rockets fired by the player and cyberdemons.
 * The LEDs on *PS4 DualShock 4* and *PS5 DualSense* controllers now turn red again when connected.
 * If the `vid_fullscreen` CVAR is `off`:
-  * The window is now displayed better when very small.
+  * The window is now displayed better when resized to be very small.
   * The mouse pointer is now displayed while the console is open.
 * Crashes no longer occur when displaying patches taller than 200 pixels.
 * The disk icon displayed in the top right of the screen when the `r_diskicon` CVAR is `on` is now double in size when the `r_detail` CVAR is `low`.
