@@ -5171,8 +5171,12 @@ static bool play_cmd_func1(char *cmd, char *parms)
 
         if (M_StringCompare(parms, namebuf) && W_CheckNumForName(namebuf) >= 0)
         {
+            char    *temp = uppercase(namebuf);
+
             playcmdid = i;
             playcmdtype = 1;
+            C_Output("Playing " BOLD("%s") "...", temp);
+            free(temp);
 
             return true;
         }
@@ -5184,8 +5188,12 @@ static bool play_cmd_func1(char *cmd, char *parms)
 
         if (M_StringCompare(parms, namebuf) && W_CheckNumForName(namebuf) >= 0)
         {
+            char *temp = uppercase(namebuf);
+
             playcmdid = i;
             playcmdtype = 2;
+            C_Output("Playing " BOLD("%s") "...", temp);
+            free(temp);
 
             return true;
         }
