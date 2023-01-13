@@ -1058,7 +1058,12 @@ static void HU_DrawAltHUD(void)
                 (viewplayer->armortype == blue_armor_class ? blue1 : green1), true, tinttab25);
     }
     else
-        althudfunc(ALTHUD_LEFT_X + 5, ALTHUD_Y, altarmpatch, -1, 0, tinttab60);
+    {
+        if (r_hud_translucency)
+            althudfunc(ALTHUD_LEFT_X + 5, ALTHUD_Y, altarmpatch, -1, 0, tinttab60);
+        else
+            althudfunc(ALTHUD_LEFT_X + 5, ALTHUD_Y, altarmpatch, WHITE, darkgray, NULL);
+    }
 
     if (health)
     {
@@ -1188,14 +1193,10 @@ static void HU_DrawAltHUD(void)
 
         if ((powerupbar = (powerupbar == INT_MAX ? 101 : (int)(powerupbar * 101.0 / max + 0.5))))
         {
-            if (r_hud_translucency)
-                fillrectfunc2(0, ALTHUD_RIGHT_X, ALTHUD_Y + 27, 101 - powerupbar, 2, color, false, tinttab10);
-            else
-                fillrectfunc2(0, ALTHUD_RIGHT_X, ALTHUD_Y + 27, 101 - powerupbar, 2,
-                    (((viewplayer->fixedcolormap == INVERSECOLORMAP) ^ (!r_textures)) ?
-                        colormaps[0][32 * 256 + darkgray] : darkgray), false, tinttab10);
-
-            fillrectfunc2(0, ALTHUD_RIGHT_X + 101 - powerupbar, ALTHUD_Y + 27, powerupbar, 2, color, false, tinttab60);
+            fillrectfunc2(0, ALTHUD_RIGHT_X, ALTHUD_Y + 27, 101 - powerupbar, 2,
+                (r_hud_translucency ? color : darkgray), false, tinttab10);
+            fillrectfunc2(0, ALTHUD_RIGHT_X + 101 - powerupbar, ALTHUD_Y + 27, powerupbar, 2,
+                color, false, tinttab60);
         }
     }
 }
