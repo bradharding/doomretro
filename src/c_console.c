@@ -2377,8 +2377,8 @@ bool C_Responder(event_t *ev)
     }
     else if (ev->type == ev_textinput)
     {
-        const char  ch = (char)ev->data1;
-        char        *temp = NULL;
+        const unsigned char ch = (unsigned char)ev->data1;
+        char                *temp = NULL;
 
         if (ch >= CONSOLEFONTSTART
             && ch <= CONSOLEFONTEND

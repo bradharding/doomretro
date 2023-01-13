@@ -559,7 +559,7 @@ static void I_GetEvent(void)
             case SDL_TEXTINPUT:
             {
                 ev.type = ev_textinput;
-                ev.data1 = Event->text.text[0];
+                ev.data1 = Event->text.text[strlen(Event->text.text) - 1];
                 D_PostEvent(&ev);
                 break;
             }
