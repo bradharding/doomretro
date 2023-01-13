@@ -26,9 +26,10 @@
   * The amount of cells the player has picked up is no longer displayed when playing *DOOM (Shareware)*.
 * Minor improvements have been made to the support for `MAPINFO` lumps.
 * The player’s health, armor and ammo are now displayed better in the status bar and widescreen HUD if they start with a `1`.
-* These changes have been made to the alternate widescreen HUD when the `r_hud_translucency` CVAR is `off`:
-  * The armor icon will now be dark when the player has no armor.
-  * The bar displayed when the player has a power-up will now show as depleting.
+* These changes have been made to the alternate widescreen HUD:
+  * The position of the player’s health when 0 is now fixed.
+  * The armor icon will now be dark when the player has no armor and the `r_hud_translucency` CVAR is `off`.
+  * The bar displayed when the player has a power-up and the `r_hud_translucency` CVAR is `off` will now show as depleting.
 * The truncation of player messages when the `vid_widescreen` CVAR is `off` has improved in some instances.
 * The vertical position of player messages has improved in some instances.
 * The vertical positions of the monsters’ shadows in *DOOM II’s* cast sequence have improved.
