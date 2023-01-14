@@ -6,6 +6,7 @@
 * *DOOM Retro* now uses [*SDL v2.26.2*](https://www.libsdl.org/).
 * Several optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * When *DOOM Retro* is run for the first time, the WAD launcher will now also look for `DOOM.WAD` and `DOOM2.WAD` included in installations of [*DOOM Eternal*](https://store.steampowered.com/app/782330/DOOM_Eternal/).
+* The *id Software* logo has been removed from the title screen to be consistent with the latest rereleases of *DOOM* and *DOOM II*.
 * Minor changes have been made to text that is output to the console.
 * Many additional characters, including those with diacritics, have been added to the character set used in the console.
 * [Alt codes](https://en.wikipedia.org/wiki/Alt_code) may now be entered in the console.
@@ -19,7 +20,7 @@
 * Thousands-delimiting commas may now be used when changing the value of certain CVARs in the console.
 * The `toggle` CCMD now only works with boolean CVARs.
 * A random sound effect is no longer played when quitting the game using the menu.
-* Improvements have been made to parsing `BRGHTMPS` lumps.
+* Improvements have been made to parsing [`BRGHTMPS`](https://raw.githubusercontent.com/bradharding/doomretro/master/res/BRGHTMPS) lumps.
 * These changes have been made to the `playerstats` CCMD:
   * The number of times the player loads a savegame is now displayed.
   * The number of monsters gibbed by the player is now displayed.
