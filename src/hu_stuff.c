@@ -1067,7 +1067,9 @@ static void HU_DrawAltHUD(void)
         if (r_hud_translucency)
             althudfunc(ALTHUD_LEFT_X + 5, ALTHUD_Y, altarmpatch, -1, 0, tinttab60);
         else
-            althudfunc(ALTHUD_LEFT_X + 5, ALTHUD_Y, altarmpatch, WHITE, darkgray, NULL);
+            althudfunc(ALTHUD_LEFT_X + 5, ALTHUD_Y, altarmpatch, WHITE,
+                (((viewplayer->fixedcolormap == INVERSECOLORMAP) ^ (!r_textures)) ?
+                colormaps[0][32 * 256 + nearestwhite] : darkgray), NULL);
     }
 
     if (health)
