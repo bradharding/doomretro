@@ -1210,7 +1210,7 @@ void C_UpdatePlayerPositionOverlay(void)
     }
 
     C_DrawOverlayText(screens[0], SCREENWIDTH, x - C_OverlayWidth(angle, true), y, tinttab, angle, color, true);
-    C_DrawOverlayText(screens[0], SCREENWIDTH, x - C_OverlayWidth(coordinates, true),
+    C_DrawOverlayText(screens[0], SCREENWIDTH, x - C_OverlayWidth(coordinates, true) + 1,
         y + OVERLAYLINEHEIGHT, tinttab, coordinates, color, true);
 }
 
