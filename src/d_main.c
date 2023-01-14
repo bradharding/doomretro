@@ -2515,7 +2515,7 @@ static void D_DoomMainSetup(void)
 
     if (autosigil)
     {
-        titlelump = W_CacheLastLumpName(bfgedition || unity ? "TITLEPI2" : "TITLEPI3");
+        titlelump = W_CacheLastLumpName("TITLEPI1");
         creditlump = W_CacheLastLumpName("CREDIT2");
     }
     else if (REKKRSL)
@@ -2534,21 +2534,20 @@ static void D_DoomMainSetup(void)
             switch (gamemission)
             {
                 case doom:
-                    titlelump = W_CacheLumpName(gamemode == shareware ? "TITLEPI1" :
-                        (gamemode == registered || bfgedition || unity ? "TITLEPI2" : "TITLEPI3"));
+                    titlelump = W_CacheLumpName("TITLEPI1");
                     break;
 
                 case doom2:
                 case pack_nerve:
-                    titlelump = W_CacheLumpName("TITLEPI4");
+                    titlelump = W_CacheLumpName("TITLEPI2");
                     break;
 
                 case pack_plut:
-                    titlelump = W_CacheLumpName("TITLEPI5");
+                    titlelump = W_CacheLumpName("TITLEPIP");
                     break;
 
                 case pack_tnt:
-                    titlelump = W_CacheLumpName("TITLEPI6");
+                    titlelump = W_CacheLumpName("TITLEPIT");
                     break;
 
                 case none:
