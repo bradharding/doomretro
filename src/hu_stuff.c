@@ -835,16 +835,20 @@ static void HU_AltInit(void)
     altkeypics[4].patch = altskullpatch;
     altkeypics[5].patch = altskullpatch;
 
-    for (int i = 1; i < NUMWEAPONS; i++)
-    {
-        const int   lump = W_CheckNumForName(weaponinfo[i].spritename);
-
-        if (lump >= 0 && lumpinfo[lump]->wadfile->type == PWAD && !fixspriteoffsets)
+    for (int i = 0; i < NUMWEAPONS; i++)
+        if (*weaponinfo[i].spritename)
         {
-            weaponschanged = true;
-            break;
+            const int   lump = W_CheckNumForName(weaponinfo[i].spritename);
+
+            if (lump >= 0
+                && lumpinfo[lump]->wadfile->type == PWAD
+                && !M_StringEndsWith(lumpinfo[i]->wadfile->path, DOOMRETRO_RESOURCEWAD) 
+                && !fixspriteoffsets)
+            {
+                weaponschanged = true;
+                break;
+            }
         }
-    }
 
     if ((!weaponschanged || BTSX) && !chex && !REKKRSA && !FREEDOOM)
         for (int i = 1; i < NUMWEAPONS; i++)
