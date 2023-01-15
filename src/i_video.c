@@ -1191,41 +1191,22 @@ void GetWindowSize(void)
     char    width[11] = "";
     char    height[11] = "";
 
-    if (sscanf(vid_windowsize, "%10[^x]x%10[^x]", width, height) != 2)
+    if (sscanf(vid_windowsize, "%10[^x]x%10[^x]", width, height) == 2)
+    {
+        char    *temp1 = uncommify(width);
+        char    *temp2 = uncommify(height);
+
+        windowwidth = strtol(temp1, NULL, 10);
+        windowheight = strtol(temp2, NULL, 10);
+        free(temp1);
+        free(temp2);
+    }
+    else
     {
         windowheight = SCREENHEIGHT + windowborderheight;
         windowwidth = SCREENHEIGHT * 16 / 10 + windowborderwidth;
         vid_windowsize = vid_windowsize_default;
         M_SaveCVARs();
-    }
-    else
-    {
-        char        *temp1 = uncommify(width);
-        char        *temp2 = uncommify(height);
-        const int   w = strtol(temp1, NULL, 10);
-        const int   h = strtol(temp2, NULL, 10);
-
-        if (w < VANILLAWIDTH + windowborderwidth || h < VANILLAWIDTH * 3 / 4 + windowborderheight)
-        {
-            char    size[16];
-            char    *temp3 = commify((windowwidth = VANILLAWIDTH + windowborderwidth));
-            char    *temp4 = commify((windowheight = VANILLAWIDTH * 3 / 4 + windowborderheight));
-
-            M_snprintf(size, sizeof(size), "%sx%s", temp3, temp4);
-            vid_windowsize = M_StringDuplicate(size);
-            M_SaveCVARs();
-
-            free(temp3);
-            free(temp4);
-        }
-        else
-        {
-            windowwidth = w;
-            windowheight = h;
-        }
-
-        free(temp1);
-        free(temp2);
     }
 }
 
