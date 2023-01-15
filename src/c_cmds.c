@@ -6367,13 +6367,30 @@ static void reset_cmd_func2(char *cmd, char *parms)
 
         if (consolecmds[i].type == CT_CVAR && M_StringCompare(parms, consolecmds[i].name) && !(flags & CF_READONLY))
         {
-            if (flags & (CF_BOOLEAN | CF_INTEGER))
+            if (flags & CF_BOOLEAN)
+            {
+                if (*(bool *)consolecmds[i].variable != (bool)consolecmds[i].defaultnumber)
+                {
+                    char    *temp1 = C_LookupAliasFromValue((bool)consolecmds[i].defaultnumber, consolecmds[i].aliases);
+                    char    *temp2 = uncommify(temp1);
+                    char    *temp3 = M_StringJoin(parms, " ", temp2, NULL);
+
+                    C_ValidateInput(temp3);
+                    C_Output("The " BOLD("%s") " CVAR has been reset to its default.", consolecmds[i].name);
+                    free(temp1);
+                    free(temp2);
+                    free(temp3);
+                }
+                else
+                    C_Warning(0, "The " BOLD("%s") " CVAR is already set to its default.", consolecmds[i].name);
+            }
+            else if (flags & CF_INTEGER)
             {
                 if (*(int *)consolecmds[i].variable != (int)consolecmds[i].defaultnumber)
                 {
-                    char    *temp1 = C_LookupAliasFromValue((int)consolecmds[i].defaultnumber, consolecmds[i].aliases);
-                    char    *temp2 = uncommify(temp1);
-                    char    *temp3 = M_StringJoin(parms, " ", temp2, NULL);
+                    char *temp1 = C_LookupAliasFromValue((int)consolecmds[i].defaultnumber, consolecmds[i].aliases);
+                    char *temp2 = uncommify(temp1);
+                    char *temp3 = M_StringJoin(parms, " ", temp2, NULL);
 
                     C_ValidateInput(temp3);
                     C_Output("The " BOLD("%s") " CVAR has been reset to its default.", consolecmds[i].name);

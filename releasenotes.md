@@ -37,6 +37,7 @@
 * The vertical position of player messages has improved in some instances.
 * The vertical positions of the monsters’ shadows in *DOOM II’s* cast sequence have improved.
 * The correct map now opens when entering `map phobosmissioncontrol` or `map techgonebad` in the console.
+* A bug is fixed whereby the `reset` CCMD wouldn’t reset boolean CVARs.
 * Minor improvements have been made to translating certain words when the `english` CVAR is changed.
 * When the `r_rockettrails` CVAR is `on`:
   * The smoke trailing behind rockets fired by the player and cyberdemons is now a lighter gray.
