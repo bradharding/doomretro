@@ -119,7 +119,7 @@ extern bool     inhelpscreens;
 extern bool     quitting;
 extern int      menuspindirection;
 extern int      menuspinspeed;
-extern char     savegamestrings[6][SAVESTRINGSIZE];
+extern char     savegamestrings[NUMSAVEGAMES][SAVESTRINGSIZE];
 extern menu_t   EpiDef;
 extern menu_t   ExpDef;
 extern menu_t   LoadDef;

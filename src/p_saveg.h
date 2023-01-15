@@ -38,8 +38,11 @@
 
 #pragma once
 
+#define NUMSAVEGAMES            8
+
 // maximum size of a savegame description
 #define SAVESTRINGSIZE          256
+
 #define SAVESTRINGPIXELWIDTH    186
 #define VERSIONSIZE             24
 

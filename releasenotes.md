@@ -19,6 +19,7 @@
 * Scrolling up and down in the console using the <kbd>PGUP</kbd> and <kbd>PGDN</kbd> keys now gets faster the longer the keys are held down.
 * Thousands-delimiting commas may now be used when changing the value of certain CVARs in the console.
 * The `toggle` CCMD now only works with boolean CVARs.
+* Two additional savegame slots now appear in the load and save game menus.
 * A random sound effect is no longer played when quitting the game using the menu.
 * Improvements have been made to parsing [`BRGHTMPS`](https://raw.githubusercontent.com/bradharding/doomretro/master/res/BRGHTMPS) lumps.
 * These changes have been made to the `playerstats` CCMD:

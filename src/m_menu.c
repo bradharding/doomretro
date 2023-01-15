@@ -100,7 +100,7 @@ bool            quitting;
 
 static bool     reopenautomap;
 
-char            savegamestrings[6][SAVESTRINGSIZE];
+char            savegamestrings[NUMSAVEGAMES][SAVESTRINGSIZE];
 
 static short    itemon;                 // menu item skull is on
 static short    skullanimcounter;       // skull animation counter
@@ -399,11 +399,15 @@ enum
     load4,
     load5,
     load6,
+    load7,
+    load8,
     load_end
 };
 
 static menuitem_t LoadGameMenu[] =
 {
+    { 1, "", &M_LoadSelect, NULL },
+    { 1, "", &M_LoadSelect, NULL },
     { 1, "", &M_LoadSelect, NULL },
     { 1, "", &M_LoadSelect, NULL },
     { 1, "", &M_LoadSelect, NULL },
@@ -418,7 +422,7 @@ menu_t LoadDef =
     &MainDef,
     LoadGameMenu,
     &M_DrawLoad,
-    67, 51,
+    67, 31,
     load1
 };
 
@@ -433,6 +437,8 @@ static menuitem_t SaveGameMenu[] =
     { 1, "", &M_SaveSelect, NULL },
     { 1, "", &M_SaveSelect, NULL },
     { 1, "", &M_SaveSelect, NULL },
+    { 1, "", &M_SaveSelect, NULL },
+    { 1, "", &M_SaveSelect, NULL },
     { 1, "", &M_SaveSelect, NULL }
 };
 
@@ -442,7 +448,7 @@ menu_t SaveDef =
     &MainDef,
     SaveGameMenu,
     &M_DrawSave,
-    67, 51,
+    67, 31,
     load1
 };
 
@@ -962,14 +968,14 @@ static void M_DrawLoad(void)
     M_DrawMenuBackground();
 
     if (M_LGTTL)
-        M_DrawCenteredPatchWithShadow(23 + OFFSET, W_CacheLumpName("M_LGTTL"));
+        M_DrawCenteredPatchWithShadow(4 + OFFSET, W_CacheLumpName("M_LGTTL"));
     else if (M_LOADG)
-        M_DrawCenteredPatchWithShadow(23 + OFFSET, W_CacheLumpName("M_LOADG"));
+        M_DrawCenteredPatchWithShadow(4 + OFFSET, W_CacheLumpName("M_LOADG"));
     else
     {
         char    *temp = uppercase(s_M_LOADGAME);
 
-        M_DrawCenteredString(23 + OFFSET, temp);
+        M_DrawCenteredString(4 + OFFSET, temp);
         free(temp);
     }
 
@@ -1063,14 +1069,14 @@ static void M_DrawSave(void)
 
     // draw menu subtitle
     if (M_SGTTL)
-        M_DrawCenteredPatchWithShadow(23 + OFFSET, W_CacheLumpName("M_SGTTL"));
+        M_DrawCenteredPatchWithShadow(4 + OFFSET, W_CacheLumpName("M_SGTTL"));
     else if (M_SAVEG)
-        M_DrawCenteredPatchWithShadow(23 + OFFSET, W_CacheLumpName("M_SAVEG"));
+        M_DrawCenteredPatchWithShadow(4 + OFFSET, W_CacheLumpName("M_SAVEG"));
     else
     {
         char    *temp = uppercase(s_M_SAVEGAME);
 
-        M_DrawCenteredString(23 + OFFSET, temp);
+        M_DrawCenteredString(4 + OFFSET, temp);
         free(temp);
     }
 
