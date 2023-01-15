@@ -6365,8 +6365,16 @@ static void reset_cmd_func2(char *cmd, char *parms)
     {
         const int   flags = consolecmds[i].flags;
 
-        if (consolecmds[i].type == CT_CVAR && M_StringCompare(parms, consolecmds[i].name) && !(flags & CF_READONLY))
+        if (consolecmds[i].type == CT_CVAR && !(flags & CF_READONLY))
         {
+            char    name[255];
+
+            M_StringCopy(name, (english == english_american || M_StringCompare(consolecmds[i].altspelling, EMPTYVALUE) ?
+                consolecmds[i].name : consolecmds[i].altspelling), sizeof(name));
+
+            if (!wildcard(name, parms))
+                continue;
+
             if (flags & CF_BOOLEAN)
             {
                 if (*(bool *)consolecmds[i].variable != (bool)consolecmds[i].defaultnumber)
@@ -6438,8 +6446,6 @@ static void reset_cmd_func2(char *cmd, char *parms)
                 M_SaveCVARs();
             }
 #endif
-
-            break;
         }
     }
 
@@ -6465,10 +6471,19 @@ static void C_VerifyResetAll(const int key)
 
             if (consolecmds[i].type == CT_CVAR && !(flags & CF_READONLY))
             {
-                if (flags & (CF_BOOLEAN | CF_INTEGER))
+                if (flags & CF_BOOLEAN)
                 {
-                    char    *temp1 = C_LookupAliasFromValue((int)consolecmds[i].defaultnumber, consolecmds[i].aliases);
+                    char    *temp1 = C_LookupAliasFromValue((bool)consolecmds[i].defaultnumber, consolecmds[i].aliases);
                     char    *temp2 = uncommify(temp1);
+
+                    consolecmds[i].func2(consolecmds[i].name, temp2);
+                    free(temp1);
+                    free(temp2);
+                }
+                else if (flags & CF_INTEGER)
+                {
+                    char *temp1 = C_LookupAliasFromValue((int)consolecmds[i].defaultnumber, consolecmds[i].aliases);
+                    char *temp2 = uncommify(temp1);
 
                     consolecmds[i].func2(consolecmds[i].name, temp2);
                     free(temp1);
