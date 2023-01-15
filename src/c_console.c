@@ -1850,7 +1850,6 @@ bool C_Responder(event_t *ev)
         {
             keydown = key;
             C_HideConsole();
-
             return true;
         }
         else if (key == keyboardscreenshot && keyboardscreenshot == KEY_PRINTSCREEN)
@@ -2132,10 +2131,10 @@ bool C_Responder(event_t *ev)
 
                         if (!M_StringCompare(output, input))
                         {
-                            int     game = autocompletelist[autocomplete].game;
-                            int     len2 = (int)strlen(output);
-                            int     spaces2 = numspaces(output);
-                            bool    endspace2 = (len2 > 0 && output[len2 - 1] == ' ');
+                            const int   game = autocompletelist[autocomplete].game;
+                            const int   len2 = (int)strlen(output);
+                            const int   spaces2 = numspaces(output);
+                            const bool  endspace2 = (len2 > 0 && output[len2 - 1] == ' ');
 
                             if ((game == DOOM1AND2
                                 || (gamemission == doom && game == DOOM1ONLY)
@@ -2154,7 +2153,6 @@ bool C_Responder(event_t *ev)
                                 caretwait = I_GetTimeMS() + CARETBLINKTIME;
                                 showcaret = true;
                                 free(temp);
-
                                 return true;
                             }
                         }
@@ -2189,7 +2187,6 @@ bool C_Responder(event_t *ev)
                             caretpos = selectstart = selectend = (int)strlen(consoleinput);
                             caretwait = I_GetTimeMS() + CARETBLINKTIME;
                             showcaret = true;
-
                             break;
                         }
                 }

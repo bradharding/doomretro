@@ -38,24 +38,15 @@
 
 #if defined(_WIN32)
 #include <Windows.h>
-#include <ShellAPI.h>
 
 #include "SDL_syswm.h"
 #endif
 
-#include "d_main.h"
-#include "i_gamecontroller.h"
-#include "i_video.h"
 #include "m_argv.h"
 #include "m_config.h"
 #include "m_misc.h"
-#include "version.h"
 
 #if defined(_WIN32)
-#if !defined(SM_CXPADDEDBORDER)
-#define SM_CXPADDEDBORDER   92
-#endif
-
 static WNDPROC  oldProc;
 static HICON    icon;
 
@@ -177,7 +168,8 @@ void I_InitWindows32(void)
     oldProc = (WNDPROC)SetWindowLongPtr(hwnd, GWLP_WNDPROC, (LONG_PTR)WndProc);
 
     windowborderwidth = (GetSystemMetrics(SM_CXFRAME) + GetSystemMetrics(SM_CXPADDEDBORDER)) * 2;
-    windowborderheight = (GetSystemMetrics(SM_CYFRAME) + GetSystemMetrics(SM_CXPADDEDBORDER)) * 2 + GetSystemMetrics(SM_CYCAPTION);
+    windowborderheight = (GetSystemMetrics(SM_CYFRAME) + GetSystemMetrics(SM_CXPADDEDBORDER)) * 2
+        + GetSystemMetrics(SM_CYCAPTION);
 }
 
 void I_ShutdownWindows32(void)
