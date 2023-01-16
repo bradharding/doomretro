@@ -1320,8 +1320,6 @@ static void ST_DrawWidgets(bool refresh)
 
     if (facebackcolor != facebackcolor_default)
         V_FillRect(0, ST_FACEBACKX, ST_FACEBACKY, ST_FACEBACKWIDTH, ST_FACEBACKHEIGHT, nearestcolors[facebackcolor], false, NULL);
-    else if (solonet)
-        V_FillRect(0, ST_FACEBACKX, ST_FACEBACKY, ST_FACEBACKWIDTH, ST_FACEBACKHEIGHT, nearestgreen, false, NULL);
 
     STlib_UpdateMultIcon(&w_faces, refresh);
 

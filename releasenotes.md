@@ -48,6 +48,7 @@
 * Crashes no longer occur when displaying patches taller than 200 pixels.
 * The disk icon displayed in the top right of the screen when the `r_diskicon` CVAR is `on` is now double in size when the `r_detail` CVAR is `low`.
 * The player’s view no longer bounces once landing after a fall if either no clipping mode or freeze mode are enabled.
+* The `-solonet` command-line parameter has been now been replaced by `-coop_spawns`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
