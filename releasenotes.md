@@ -28,6 +28,7 @@
   * The amount of cells the player has picked up is no longer displayed when playing *DOOM (Shareware)*.
 * Minor improvements have been made to the support for `MAPINFO` lumps.
 * The player’s health, armor and ammo are now displayed better in the status bar and widescreen HUD if they start with a `1`.
+* The widescreen HUD is now brought in from the left and right edges of ultra-wide displays.
 * These changes have been made to the alternate widescreen HUD:
   * The position of the player’s health when exactly `0` is now fixed.
   * The armor icon will now be dark when the player has no armor and the `r_hud_translucency` CVAR is `off`.
