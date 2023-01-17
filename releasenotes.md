@@ -7,7 +7,7 @@
 * Several optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * When *DOOM Retro* is run for the first time, the WAD launcher will now also look for `DOOM.WAD` and `DOOM2.WAD` included in installations of [*DOOM Eternal*](https://store.steampowered.com/app/782330/DOOM_Eternal/).
 * The [*id Software*](https://www.idsoftware.com) logo has been removed from the title screen to be consistent with the latest rereleases of *DOOM* and *DOOM II*.
-* Minor changes have been made to text that is output to the console.
+* Several changes have been made to text that is output to the console.
 * Many additional characters, including those with diacritics, have been added to the character set used in the console.
 * [Alt codes](https://en.wikipedia.org/wiki/Alt_code) may now be entered in the console.
 * These changes have been made when opening and closing the console using the <kbd>~</kbd> key:

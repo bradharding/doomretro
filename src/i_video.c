@@ -83,6 +83,7 @@ int             SCREENWIDTH;
 int             SCREENHEIGHT = VANILLAHEIGHT * SCREENSCALE;
 int             SCREENAREA;
 int             WIDESCREENDELTA;
+int             MAXWIDESCREENDELTA;
 int             WIDEFOVDELTA;
 
 bool            nowidescreen = false;
@@ -1764,6 +1765,7 @@ static void I_GetScreenDimensions(void)
         // r_fov * 0.82 is vertical FOV for 4:3 aspect ratio
         WIDEFOVDELTA = (int)(atan(width / (height / tan(r_fov * 0.82 * M_PI / 360.0))) * 360.0 / M_PI) - r_fov - 2;
         WIDESCREENDELTA = ((SCREENWIDTH - NONWIDEWIDTH) / SCREENSCALE) / 2;
+        MAXWIDESCREENDELTA = MAX(WIDESCREENDELTA, 53);
     }
     else
     {

@@ -118,6 +118,7 @@ extern int          SCREENWIDTH;
 extern int          SCREENHEIGHT;
 extern int          SCREENAREA;
 extern int          WIDESCREENDELTA;
+extern int          MAXWIDESCREENDELTA;
 extern int          WIDEFOVDELTA;
 
 extern bool         nowidescreen;

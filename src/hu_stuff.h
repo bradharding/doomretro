@@ -57,20 +57,20 @@
 #define HUD_NUMBER_MIN             -99
 #define HUD_NUMBER_MAX              999
 
-#define HUD_HEALTH_X                (MAX(WIDESCREENDELTA, 53) + 2)
+#define HUD_HEALTH_X                (MAXWIDESCREENDELTA + 2)
 #define HUD_HEALTH_Y                (SCREENHEIGHT - 32)
 #define HUD_HEALTH_MIN              10
 #define HUD_HEALTH_WAIT             250
 #define HUD_HEALTH_HIGHLIGHT_WAIT   250
 
-#define HUD_ARMOR_X                 (MAX(WIDESCREENDELTA, 53) + 71)
+#define HUD_ARMOR_X                 (MAXWIDESCREENDELTA + 71)
 #define HUD_ARMOR_Y                 HUD_HEALTH_Y
 #define HUD_ARMOR_HIGHLIGHT_WAIT    250
 
-#define HUD_KEYS_X                  (SCREENWIDTH - MAX(WIDESCREENDELTA, 53) - 35)
+#define HUD_KEYS_X                  (SCREENWIDTH - MAXWIDESCREENDELTA - 35)
 #define HUD_KEYS_Y                  HUD_HEALTH_Y
 
-#define HUD_AMMO_X                  (SCREENWIDTH - MAX(WIDESCREENDELTA, 53) + 2)
+#define HUD_AMMO_X                  (SCREENWIDTH - MAXWIDESCREENDELTA + 2)
 #define HUD_AMMO_Y                  HUD_HEALTH_Y
 #define HUD_AMMO_MIN                10
 #define HUD_AMMO_WAIT               250
@@ -78,8 +78,9 @@
 
 #define HUD_KEY_WAIT                250
 
-#define ALTHUD_LEFT_X               (MAX(WIDESCREENDELTA, 53) + 3)
-#define ALTHUD_RIGHT_X              (SCREENWIDTH - MAX(WIDESCREENDELTA, 53) - (weaponschanged && !fixspriteoffsets ? 76 : 126))
+#define ALTHUD_LEFT_X               (MAXWIDESCREENDELTA + 3)
+#define ALTHUD_RIGHT_X              (SCREENWIDTH - MAXWIDESCREENDELTA \
+                                        - (weaponschanged && !fixspriteoffsets ? 76 : 126))
 #define ALTHUD_Y                    (SCREENHEIGHT - 41)
 
 //
