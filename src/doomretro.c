@@ -89,8 +89,8 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
     {
         LPMINMAXINFO    minmaxinfo = (LPMINMAXINFO)lParam;
 
-        minmaxinfo->ptMinTrackSize.x = VANILLAWIDTH + windowborderwidth;
-        minmaxinfo->ptMinTrackSize.y = VANILLAHEIGHT + windowborderheight;
+        minmaxinfo->ptMinTrackSize.x = (vid_widescreen ? WIDEVANILLAWIDTH : VANILLAWIDTH) + windowborderwidth;
+        minmaxinfo->ptMinTrackSize.y = ACTUALVANILLAHEIGHT + windowborderheight;
 
         return false;
     }
