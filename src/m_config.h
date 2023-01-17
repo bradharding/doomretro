@@ -708,7 +708,7 @@ enum
 
 #define savegame_min                       1
 #define savegame_default                   1
-#define savegame_max                       6
+#define savegame_max                       8
 
 #define secretmessages_default             true
 
