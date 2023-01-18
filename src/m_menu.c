@@ -1676,9 +1676,6 @@ void M_SetWindowCaption(void)
                 (expansion == 1 ? s_CAPTION_HELLONEARTH : s_CAPTION_NERVE));
         else
             M_StringCopy(caption, gamedescription, sizeof(caption));
-
-        if (bfgedition && (nerve || !modifiedgame))
-            M_snprintf(caption, sizeof(caption), "%s (%s)", caption, s_CAPTION_BFGEDITION);
     }
 
     SDL_SetWindowTitle(window, caption);
