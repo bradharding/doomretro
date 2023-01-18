@@ -981,12 +981,8 @@ void D_SetGameDescription(void)
         }
         else if (FREEDOOM)
             M_StringCopy(gamedescription, s_CAPTION_FREEDOOM1, sizeof(gamedescription));
-        else if (gamemode == registered || bfgedition || unity)
-            M_StringCopy(gamedescription, s_CAPTION_REGISTERED, sizeof(gamedescription));
-        else if (gamemode == retail)
-            M_StringCopy(gamedescription, s_CAPTION_ULTIMATE, sizeof(gamedescription));
-        else if (gamemode == shareware)
-            M_StringCopy(gamedescription, s_CAPTION_SHAREWARE, sizeof(gamedescription));
+        else
+            M_StringCopy(gamedescription, s_CAPTION_DOOM, sizeof(gamedescription));
     }
     else
     {
@@ -1014,30 +1010,15 @@ void D_SetGameDescription(void)
     }
 
     if (nerve)
-    {
-        if (bfgedition)
-            C_Output("%s %s playing " ITALICS("%s: %s (%s)") " and " ITALICS("%s: %s (%s)."),
-                (defaultname ? "You" : playername), (defaultname ? "are" : "is"),
-                s_CAPTION_DOOM2, s_CAPTION_HELLONEARTH, s_CAPTION_BFGEDITION,
-                s_CAPTION_DOOM2, s_CAPTION_NERVE, s_CAPTION_BFGEDITION);
-        else
             C_Output("%s %s playing " ITALICS("%s: %s") " and " ITALICS("%s: %s."),
                 (defaultname ? "You" : playername), (defaultname ? "are" : "is"),
                 s_CAPTION_DOOM2, s_CAPTION_HELLONEARTH, s_CAPTION_DOOM2, s_CAPTION_NERVE);
-    }
     else if (modifiedgame && !sigil)
         C_Output("%s %s playing " ITALICS("%s%s"),
             (defaultname ? "You" : playername), (defaultname ? "are" : "is"),
             gamedescription, (ispunctuation(gamedescription[strlen(gamedescription) - 1]) ? "" : "."));
     else
-    {
-        if (bfgedition && !chex && !BTSX && !REKKR)
-            C_Output("%s %s playing " ITALICS("%s (%s)."),
-                (defaultname ? "You" : playername), (defaultname ? "are" : "is"),
-                gamedescription, s_CAPTION_BFGEDITION);
-        else
             C_Output("%s %s playing " ITALICS("%s%s"),
                 (defaultname ? "You" : playername), (defaultname ? "are" : "is"),
                 gamedescription, (ispunctuation(gamedescription[strlen(gamedescription) - 1]) ? "" : "."));
-    }
 }

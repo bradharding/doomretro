@@ -579,9 +579,7 @@ char    *s_M_MUSICVOLUME = "";
 char    *s_M_PAUSED = "";
 char    *s_M_MORE = "";
 
-char    *s_CAPTION_SHAREWARE = "";
-char    *s_CAPTION_REGISTERED = "";
-char    *s_CAPTION_ULTIMATE = "";
+char    *s_CAPTION_DOOM = "";
 char    *s_CAPTION_DOOM2 = "";
 char    *s_CAPTION_HELLONEARTH = "";
 char    *s_CAPTION_NERVE = "";
@@ -1170,9 +1168,7 @@ deh_strs deh_strlookup[] =
     { &s_M_PAUSED,                    "M_PAUSED"                    },
     { &s_M_MORE,                      "M_MORE"                      },
 
-    { &s_CAPTION_SHAREWARE,           "CAPTION_SHAREWARE"           },
-    { &s_CAPTION_REGISTERED,          "CAPTION_REGISTERED"          },
-    { &s_CAPTION_ULTIMATE,            "CAPTION_ULTIMATE"            },
+    { &s_CAPTION_DOOM,                "CAPTION_DOOM"                },
     { &s_CAPTION_DOOM2,               "CAPTION_DOOM2"               },
     { &s_CAPTION_HELLONEARTH,         "CAPTION_HELLONEARTH"         },
     { &s_CAPTION_NERVE,               "CAPTION_NERVE"               },

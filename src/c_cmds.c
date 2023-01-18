@@ -7137,15 +7137,15 @@ static void spawn_cmd_func2(char *cmd, char *parms)
                     M_snprintf(buffer, sizeof(buffer), "%ss", mobjinfo[type].name1);
 
                 buffer[0] = toupper(buffer[0]);
-                C_Warning(0, "%s can't be spawned in " ITALICS("%s."), buffer, gamedescription);
+                C_Warning(0, "%s can't be spawned in " ITALICS("%s (Shareware)."), buffer, gamedescription);
                 spawn = false;
             }
         }
         else if (spawncmdtype == WolfensteinSS && !allowwolfensteinss)
         {
             if (bfgedition)
-                C_Warning(0, "%s%s can't be spawned in " ITALICS("%s (%s)."),
-                    (spawncmdfriendly ? "Friendly " : ""), mobjinfo[type].name1, gamedescription, s_CAPTION_BFGEDITION);
+                C_Warning(0, "%s%s can't be spawned in " ITALICS("%s (BFG Edition)."),
+                    (spawncmdfriendly ? "Friendly " : ""), mobjinfo[type].name1, gamedescription);
             else
                 C_Warning(0, "%s%s can't be spawned in " ITALICS("%s."),
                     (spawncmdfriendly ? "Friendly " : ""), mobjinfo[type].name1, gamedescription);
