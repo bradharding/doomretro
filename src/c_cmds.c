@@ -6466,9 +6466,17 @@ static void C_VerifyResetAll(const int key)
         for (int i = 0; *consolecmds[i].name; i++)
         {
             const int   flags = consolecmds[i].flags;
+            const char  *name = consolecmds[i].name;
 
             if (consolecmds[i].type == CT_CVAR && !(flags & CF_READONLY))
             {
+                if (M_StringCompare(name, "ammo")
+                    || M_StringCompare(name, "armor") || M_StringCompare(name, "armour")
+                    || M_StringCompare(name, "armortype") || M_StringCompare(name, "armourtype")
+                    || M_StringCompare(name, "health")
+                    || M_StringCompare(name, "weapon"))
+                    continue;
+
                 if (flags & CF_BOOLEAN)
                 {
                     char    *temp1 = C_LookupAliasFromValue((bool)consolecmds[i].defaultnumber, consolecmds[i].aliases);
@@ -6649,7 +6657,7 @@ static void C_VerifyResetAll(const int key)
 
         M_SaveCVARs();
 
-        C_Output("All CVARs and bound controls have been reset to their defaults.");
+        C_Output("All CVARs and controls have been reset to their defaults.");
     }
 }
 
@@ -6657,7 +6665,7 @@ static void resetall_cmd_func2(char *cmd, char *parms)
 {
     static char buffer[128];
 
-    M_snprintf(buffer, sizeof(buffer), "Are you sure you want to reset all CVARs\nand bound controls to their defaults?\n\n%s",
+    M_snprintf(buffer, sizeof(buffer), "Are you sure you want to reset all CVARs\nand controls to their defaults?\n\n%s",
         s_PRESSYN);
     M_StartMessage(buffer, &C_VerifyResetAll, true);
     SDL_StopTextInput();
