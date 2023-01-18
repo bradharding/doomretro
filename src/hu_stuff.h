@@ -38,6 +38,7 @@
 
 #pragma once
 
+#include "i_video.h"
 #include "r_defs.h"
 
 //
