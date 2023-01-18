@@ -44,12 +44,12 @@
   * The smoke trailing behind homing missiles fired by revenants is now the same as the smoke trailing behind rockets fired by the player and cyberdemons.
 * The LEDs on *DualShock 4* and *DualSense* and *DualSense Edge* controllers now turn red again when connected.
 * If the `vid_fullscreen` CVAR is `off`:
-  * The window is now displayed better when resized to be very small.
+  * The window is now displayed better when resized to be very narrow.
   * The mouse pointer is now displayed while the console is open.
 * Crashes no longer occur when displaying patches taller than 200 pixels.
 * The disk icon displayed in the top right of the screen when the `r_diskicon` CVAR is `on` is now double in size when the `r_detail` CVAR is `low`.
 * The player’s view no longer bounces once landing after a fall if either no clipping mode or freeze mode are enabled.
-* The `-solonet` command-line parameter has been now been renamed to `-coop_spawns`.
+* The `-solonet` command-line parameter has now been replaced with `-coop_spawns`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
