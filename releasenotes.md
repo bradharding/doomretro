@@ -50,6 +50,8 @@
 * The disk icon displayed in the top right of the screen when the `r_diskicon` CVAR is `on` is now double in size when the `r_detail` CVAR is `low`.
 * The player’s view no longer bounces once landing after a fall if either no clipping mode or freeze mode are enabled.
 * The `-solonet` command-line parameter has now been replaced with `-coop_spawns`.
+* The player’s health, armor, ammo and weapon are no longer reset when using the `resetall` CCMD.
+* The player’s death stat is now updated in the `playerstats` CCMD when the player is resurrected using the `resurrect` CCMD or the `IDDQD` cheat.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
