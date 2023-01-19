@@ -348,7 +348,12 @@ static void GenerateSpriteList(void)
     // Add all sprites from the PWAD
     // (replaces IWAD sprites)
     for (int i = 0; i < pwad_sprites.numlumps; i++)
+    {
         AddSpriteLump(pwad_sprites.lumps[i]);
+
+        if (M_StringCompare(pwad_sprites.lumps[i]->name, "PUFFA0"))
+            PUFFA0 = true;
+    }
 }
 
 // Perform the merge.

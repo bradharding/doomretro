@@ -156,6 +156,7 @@ extern bool             M_SGTTL;
 extern bool             M_SKILL;
 extern bool             M_SKULL1;
 extern bool             M_SVOL;
+extern bool             PUFFA0;
 extern short            RROCK05;
 extern short            RROCK08;
 extern short            SLIME09;

@@ -113,6 +113,7 @@ bool            M_SGTTL;
 bool            M_SKILL;
 bool            M_SKULL1;
 bool            M_SVOL;
+bool            PUFFA0 = false;
 short           RROCK05;
 short           RROCK08;
 short           SLIME09;
