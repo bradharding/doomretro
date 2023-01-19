@@ -897,7 +897,7 @@ consolecmd_t consolecmds[] =
     CCMD(restartmap, "", "", game_func1, restartmap_cmd_func2, false, "",
         "Restarts the current map."),
     CCMD(resurrect, "", "", resurrect_cmd_func1, resurrect_cmd_func2, true, RESURRECTCMDFORMAT,
-        "Resurrects the " BOLD("player") ", " BOLD("all") " monsters or a type of " BOLDITALICS("monster") "."),
+        "Resurrects the " BOLD("player") ", " BOLD("all") " monsters, or a type of " BOLDITALICS("monster") "."),
     CVAR_INT(s_channels, "", "", int_cvars_func1, int_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The number of sound effects that can be played at the same time (" BOLD("8") " to " BOLD("64") ")."),
     CVAR_BOOL(s_lowermenumusic, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
