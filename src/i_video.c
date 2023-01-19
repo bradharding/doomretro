@@ -1932,12 +1932,12 @@ void I_InitGraphics(void)
     SDL_SetHintWithPriority(SDL_HINT_VIDEO_MINIMIZE_ON_FOCUS_LOSS, "1", SDL_HINT_OVERRIDE);
 #endif
 
+    if (vid_fullscreen)
+        SetShowCursor(false);
+
     SetVideoMode(true, true);
 
     I_CreateExternalAutomap();
-
-    if (vid_fullscreen)
-        SetShowCursor(false);
 
 #if defined(_WIN32)
     I_InitWindows32();
