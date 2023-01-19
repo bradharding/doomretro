@@ -449,6 +449,10 @@ void P_ResurrectPlayer(const int health)
     P_SetupPlayerSprites();
     P_MapEnd();
 
+    viewplayer->deaths--;
+    stat_deaths--;
+    M_SaveCVARs();
+
     C_HideConsole();
 }
 
