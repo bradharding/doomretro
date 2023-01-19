@@ -1499,7 +1499,12 @@ void C_Drawer(void)
                     free(temp);
 
                     if (width <= CONSOLETEXTPIXELWIDTH && isbreak(console[i].string[wrap]))
+                    {
+                        if (console[i].string[wrap] == '-')
+                            wrap++;
+
                         break;
+                    }
                 } while (wrap-- > 0);
 
                 console[i].wrap = wrap;
