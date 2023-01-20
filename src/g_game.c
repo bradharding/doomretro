@@ -183,6 +183,9 @@ void G_NextWeapon(void)
     const weapontype_t  readyweapon = viewplayer->readyweapon;
     weapontype_t        i = (pendingweapon == wp_nochange ? readyweapon : pendingweapon);
 
+    if (viewplayer->health <= 0)
+        return;
+
     do
     {
         i = weaponinfo[i].next;
@@ -211,6 +214,9 @@ void G_PrevWeapon(void)
     const weapontype_t  pendingweapon = viewplayer->pendingweapon;
     const weapontype_t  readyweapon = viewplayer->readyweapon;
     weapontype_t        i = (pendingweapon == wp_nochange ? readyweapon : pendingweapon);
+
+    if (viewplayer->health <= 0)
+        return;
 
     do
     {
