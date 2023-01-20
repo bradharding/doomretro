@@ -1933,7 +1933,9 @@ void I_InitGraphics(void)
     SDL_SetHintWithPriority(SDL_HINT_VIDEO_MINIMIZE_ON_FOCUS_LOSS, "1", SDL_HINT_OVERRIDE);
 #endif
 
-    SDL_ShowCursor(false);
+    if (vid_fullscreen)
+        SDL_ShowCursor(false);
+
     SetVideoMode(true, true);
 
     I_CreateExternalAutomap();
