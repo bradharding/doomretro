@@ -3327,9 +3327,8 @@ static void deh_procPars(DEHFILE *fpin, char *line)
                 C_Warning(1, "Invalid par time setting string \"%s\".", inbuffer);
             else
             {
-                // Ty 07/11/98 - wrong range check, not zero-based
-                if (level < 1 || level > 99)    // base 0 array (but 1-based parm)
-                    C_Warning(1, "Invalid MAP" ITALICS("xy") " value MAP %02i.", level);
+                if (level < 0 || level > 99)
+                    C_Warning(1, "Invalid MAP" ITALICS("xy") " value MAP%02i.", level);
                 else
                 {
                     if (devparm)
@@ -3342,11 +3341,8 @@ static void deh_procPars(DEHFILE *fpin, char *line)
         }
         else
         {
-            // note that though it's a [6][10] array, the "left" and "top" aren't used,
-            // effectively making it a base 1 array.
-            // Ty 07/11/98 - level was being checked against max 3 - dumb error
-            if (ep < 1 || ep > 5 || level < 1 || level > 9)
-                C_Warning(1, "Invalid ExMy values E%iM%i.", ep, level);
+            if (ep < 0 || ep > 9 || level < 0 || level > 9)
+                C_Warning(1, "Invalid E" ITALICS("x") "M" ITALICS("y") " values E%iM%i.", ep, level);
             else
             {
                 if (devparm)
