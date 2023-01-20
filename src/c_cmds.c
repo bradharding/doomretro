@@ -3177,6 +3177,8 @@ static void kill_cmd_func2(char *cmd, char *parms)
                 viewplayer->fixedcolormap = 0;
 
             viewplayer->mo->flags2 |= MF2_MASSACRE;
+            viewplayer->cheats &= ~(CF_GODMODE | CF_BUDDHA);
+            viewplayer->powers[pw_invulnerability] = 0;
             P_KillMobj(viewplayer->mo, NULL, viewplayer->mo, false);
 
             if (M_StringCompare(playername, playername_default))
