@@ -42,6 +42,7 @@
 
 weaponinfo_t weaponinfo[NUMWEAPONS] =
 {
+    // fists
     {
         /* name        */ "fists",
         /* ammotype    */ am_noammo,
@@ -62,6 +63,7 @@ weaponinfo_t weaponinfo[NUMWEAPONS] =
         /* flags       */ (WPF_FLEEMELEE | WPF_AUTOSWITCHFROM | WPF_NOAUTOSWITCHTO)
     },
 
+    // pistol
     {
         /* name        */ "pistol",
         /* ammotype    */ am_clip,
@@ -82,6 +84,7 @@ weaponinfo_t weaponinfo[NUMWEAPONS] =
         /* flags       */ WPF_AUTOSWITCHFROM
     },
 
+    // shotgun
     {
         /* name        */ mobjinfo[MT_SHOTGUN].name1,
         /* ammotype    */ am_shell,
@@ -102,6 +105,7 @@ weaponinfo_t weaponinfo[NUMWEAPONS] =
         /* flags       */ WPF_NOFLAG
     },
 
+    // chaingun
     {
         /* name        */ mobjinfo[MT_CHAINGUN].name1,
         /* ammotype    */ am_clip,
@@ -122,6 +126,7 @@ weaponinfo_t weaponinfo[NUMWEAPONS] =
         /* flags       */ WPF_NOFLAG
     },
 
+    // rocket launcher
     {
         /* name        */ mobjinfo[MT_MISC27].name1,
         /* ammotype    */ am_misl,
@@ -142,6 +147,7 @@ weaponinfo_t weaponinfo[NUMWEAPONS] =
         /* flags       */ WPF_NOAUTOFIRE
     },
 
+    // plasma rifle
     {
         /* name        */ mobjinfo[MT_MISC28].name1,
         /* ammotype    */ am_cell,
@@ -162,6 +168,7 @@ weaponinfo_t weaponinfo[NUMWEAPONS] =
         /* flags       */ WPF_NOFLAG
     },
 
+    // BFG-9000
     {
         /* name        */ mobjinfo[MT_MISC25].name1,
         /* ammotype    */ am_cell,
@@ -182,6 +189,7 @@ weaponinfo_t weaponinfo[NUMWEAPONS] =
         /* flags       */ WPF_NOAUTOFIRE
     },
 
+    // chainsaw
     {
         /* name        */ mobjinfo[MT_MISC26].name1,
         /* ammotype    */ am_noammo,
@@ -202,6 +210,7 @@ weaponinfo_t weaponinfo[NUMWEAPONS] =
         /* flags       */ (WPF_NOTHRUST | WPF_FLEEMELEE | WPF_NOAUTOSWITCHTO)
     },
 
+    // super shotgun
     {
         /* name        */ mobjinfo[MT_SUPERSHOTGUN].name1,
         /* ammotype    */ am_shell,
@@ -223,13 +232,13 @@ weaponinfo_t weaponinfo[NUMWEAPONS] =
     }
 };
 
-char *powerupnames[NUMPOWERS] =
+char *powerups[NUMPOWERS] =
 {
     "",
-    mobjinfo[MT_INV].name1,
-    mobjinfo[MT_MISC13].name1,
-    mobjinfo[MT_INS].name1,
-    mobjinfo[MT_MISC14].name1,
-    mobjinfo[MT_MISC15].name1,
-    mobjinfo[MT_MISC16].name1
+    mobjinfo[MT_INV].name1,     // invincibility
+    mobjinfo[MT_MISC13].name1,  // berserk
+    mobjinfo[MT_INS].name1,     // partial invisibility
+    mobjinfo[MT_MISC14].name1,  // radiation shielding suit
+    mobjinfo[MT_MISC15].name1,  // computer area map
+    mobjinfo[MT_MISC16].name1   // light amplification visor
 };
