@@ -534,14 +534,6 @@ bool ST_Responder(event_t *ev)
                 // [BH] give player full ammo (which is double now player has backpack)
                 ammogiven = P_GiveFullAmmo();
 
-                // [BH] show evil grin if player was given any new weapons
-                if (weaponsgiven && !(viewplayer->cheats & CF_GODMODE) && !viewplayer->powers[pw_invulnerability]
-                    && (r_hud && !r_althud))
-                {
-                    st_facecount = ST_EVILGRINCOUNT;
-                    st_faceindex = ST_CalcPainOffset() + ST_EVILGRINOFFSET;
-                }
-
                 // [BH] only acknowledge cheat if player was given something
                 if (ammogiven || armorgiven || berserkgiven || weaponsgiven)
                 {
@@ -585,14 +577,6 @@ bool ST_Responder(event_t *ev)
 
                 // [BH] give player full ammo (which is double now player has backpack)
                 ammogiven = P_GiveFullAmmo();
-
-                // [BH] show evil grin if player was given any new weapons
-                if (weaponsgiven && !(viewplayer->cheats & CF_GODMODE) && !viewplayer->powers[pw_invulnerability]
-                    && (r_hud && !r_althud))
-                {
-                    st_facecount = ST_EVILGRINCOUNT;
-                    st_faceindex = ST_CalcPainOffset() + ST_EVILGRINOFFSET;
-                }
 
                 // [BH] only acknowledge cheat if player was given something
                 if (ammogiven || armorgiven || berserkgiven || weaponsgiven || keysgiven)
