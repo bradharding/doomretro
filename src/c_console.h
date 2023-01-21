@@ -99,7 +99,7 @@
 #define OVERLAYTEXTX                        (vid_widescreen ? MAXWIDESCREENDELTA - 28 : 14)
 #define OVERLAYTEXTY                        HU_ALTHUDMSGY
 #define OVERLAYLINEHEIGHT                   14
-#define OVERLAYSPACING                      5
+#define OVERLAYSPACING                      7
 #define MAPOVERLAYTEXTX                     (vid_widescreen || mapwindow ? MAXWIDESCREENDELTA - 28 : 14)
 #define MAPOVERLAYTEXTY                     HU_ALTHUDMSGY
 
