@@ -83,7 +83,7 @@ weaponinfo_t weaponinfo[NUMWEAPONS] =
     },
 
     {
-        /* name        */ "shotgun",
+        /* name        */ mobjinfo[MT_SHOTGUN].name1,
         /* ammotype    */ am_shell,
         /* ammoname    */ "shell",
         /* ammoplural  */ "shells",
@@ -103,7 +103,7 @@ weaponinfo_t weaponinfo[NUMWEAPONS] =
     },
 
     {
-        /* name        */ "chaingun",
+        /* name        */ mobjinfo[MT_CHAINGUN].name1,
         /* ammotype    */ am_clip,
         /* ammoname    */ "bullet",
         /* ammoplural  */ "bullets",
@@ -123,7 +123,7 @@ weaponinfo_t weaponinfo[NUMWEAPONS] =
     },
 
     {
-        /* name        */ "rocket launcher",
+        /* name        */ mobjinfo[MT_MISC27].name1,
         /* ammotype    */ am_misl,
         /* ammoname    */ "rocket",
         /* ammoplural  */ "rockets",
@@ -143,7 +143,7 @@ weaponinfo_t weaponinfo[NUMWEAPONS] =
     },
 
     {
-        /* name        */ "plasma rifle",
+        /* name        */ mobjinfo[MT_MISC28].name1,
         /* ammotype    */ am_cell,
         /* ammoname    */ "cell",
         /* ammoplural  */ "cells",
@@ -163,7 +163,7 @@ weaponinfo_t weaponinfo[NUMWEAPONS] =
     },
 
     {
-        /* name        */ "BFG-9000",
+        /* name        */ mobjinfo[MT_MISC25].name1,
         /* ammotype    */ am_cell,
         /* ammoname    */ "cell",
         /* ammoplural  */ "cells",
@@ -183,7 +183,7 @@ weaponinfo_t weaponinfo[NUMWEAPONS] =
     },
 
     {
-        /* name        */ "chainsaw",
+        /* name        */ mobjinfo[MT_MISC26].name1,
         /* ammotype    */ am_noammo,
         /* ammoname    */ "",
         /* ammoplural  */ "",
@@ -203,7 +203,7 @@ weaponinfo_t weaponinfo[NUMWEAPONS] =
     },
 
     {
-        /* name        */ "super shotgun",
+        /* name        */ mobjinfo[MT_SUPERSHOTGUN].name1,
         /* ammotype    */ am_shell,
         /* ammoname    */ "shell",
         /* ammoplural  */ "shells",
@@ -226,10 +226,10 @@ weaponinfo_t weaponinfo[NUMWEAPONS] =
 char *powerupnames[NUMPOWERS] =
 {
     "",
-    (char *)mobjinfo[MT_INV].name1,
-    (char *)mobjinfo[MT_MISC13].name1,
-    (char *)mobjinfo[MT_INS].name1,
-    (char *)mobjinfo[MT_MISC14].name1,
-    (char *)mobjinfo[MT_MISC15].name1,
-    (char *)mobjinfo[MT_MISC16].name1
+    mobjinfo[MT_INV].name1,
+    mobjinfo[MT_MISC13].name1,
+    mobjinfo[MT_INS].name1,
+    mobjinfo[MT_MISC14].name1,
+    mobjinfo[MT_MISC15].name1,
+    mobjinfo[MT_MISC16].name1
 };

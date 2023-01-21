@@ -109,14 +109,14 @@
 
 #define stringize(text)                     #text
 
-#define BOLDON                              "\034"
-#define BOLDONCHAR                          '\034'
-#define BOLDOFF                             "\035"
-#define BOLDOFFCHAR                         '\035'
-#define ITALICSON                           "\036"
-#define ITALICSONCHAR                       '\036'
-#define ITALICSOFF                          "\037"
-#define ITALICSOFFCHAR                      '\037'
+#define BOLDON                              "\x1C"
+#define BOLDONCHAR                          '\x1C'
+#define BOLDOFF                             "\x1D"
+#define BOLDOFFCHAR                         '\x1D'
+#define ITALICSON                           "\x1E"
+#define ITALICSONCHAR                       '\x1E'
+#define ITALICSOFF                          "\x1F"
+#define ITALICSOFFCHAR                      '\x1F'
 
 #define BOLD(text)                          BOLDON text BOLDOFF
 #define ITALICS(text)                       ITALICSON text ITALICSOFF

@@ -60,7 +60,7 @@ enum
 // Weapon info: sprite frames, ammunition use.
 typedef struct
 {
-    char            name[255];
+    char            *name;
     ammotype_t      ammotype;
     char            ammoname[255];
     char            ammoplural[255];
