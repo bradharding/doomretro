@@ -2093,7 +2093,7 @@ static void condump_cmd_func2(char *cmd, char *parms)
                     {
                         if (prevletter == '\0' || prevletter == ' ' || prevletter == '\t' || prevletter == '('
                             || prevletter == '[' || prevletter == '{' || prevletter == '<' || prevletter == '"'
-                            || ((prevletter == BOLDTOGGLECHAR || prevletter == ITALICSTOGGLECHAR)
+                            || ((prevletter == BOLDOFFCHAR || prevletter == ITALICSOFFCHAR)
                                 && prevletter2 != '.' && nextletter != '.'))
                             fputc(145, file);
                         else
@@ -2105,7 +2105,7 @@ static void condump_cmd_func2(char *cmd, char *parms)
                     {
                         if (prevletter == '\0' || prevletter == ' ' || prevletter == '\t' || prevletter == '('
                             || prevletter == '[' || prevletter == '{' || prevletter == '<' || prevletter == '\''
-                            || ((prevletter == BOLDTOGGLECHAR || prevletter == ITALICSTOGGLECHAR)
+                            || ((prevletter == BOLDOFFCHAR || prevletter == ITALICSOFFCHAR)
                                 && prevletter2 != '.' && nextletter != '.'))
                             fputc(147, file);
                         else
@@ -2113,7 +2113,8 @@ static void condump_cmd_func2(char *cmd, char *parms)
 
                         outpos++;
                     }
-                    else if (letter != '\n' && letter != BOLDTOGGLECHAR && letter != ITALICSTOGGLECHAR)
+                    else if (letter != '\n' && letter != BOLDONCHAR && letter != BOLDOFFCHAR
+                        && letter != ITALICSONCHAR && letter != ITALICSOFFCHAR)
                     {
                         fputc(letter, file);
                         outpos++;
@@ -4175,9 +4176,9 @@ static void maplist_cmd_func2(char *cmd, char *parms)
                     {
                         if (!M_StringCompare(wadname, "DOOM2.WAD"))
                         {
-                            temp = titlecase(M_StringReplace(*mapnames2[map], ": ", "\t" ITALICSTOGGLE));
+                            temp = titlecase(M_StringReplace(*mapnames2[map], ": ", "\t" ITALICSON));
                             removemapnum(temp);
-                            M_snprintf(maps[count++], sizeof(maps[0]), "%s" ITALICSTOGGLE "\t%s", temp, wadname);
+                            M_snprintf(maps[count++], sizeof(maps[0]), "%s" ITALICSON "\t%s", temp, wadname);
                             free(temp);
                         }
                     }

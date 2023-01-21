@@ -475,11 +475,16 @@ int C_TextWidth(const char *text, const bool formatting, const bool kerning)
 
         if (letter == ' ')
             width += spacewidth;
-        else if (letter == BOLDTOGGLECHAR)
+        else if (letter == BOLDONCHAR || letter == BOLDOFFCHAR)
             continue;
-        else if (letter == ITALICSTOGGLECHAR)
+        else if (letter == ITALICSONCHAR)
         {
-            italics = !italics;
+            italics = true;
+            continue;
+        }
+        else if (letter == ITALICSOFFCHAR)
+        {
+            italics = false;
             continue;
         }
         else if (letter == '(' && i < len - 3 && tolower(text[i + 1]) == 't'
@@ -894,10 +899,14 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
         const unsigned char letter = text[i];
         unsigned char       nextletter = text[i + 1];
 
-        if (letter == BOLDTOGGLECHAR)
-            bold = !bold;
-        else if (letter == ITALICSTOGGLECHAR)
-            italics = !italics;
+        if (letter == BOLDONCHAR)
+            bold = true;
+        else if (letter == BOLDOFFCHAR)
+            bold = false;
+        else if (letter == ITALICSONCHAR)
+            italics = true;
+        else if (letter == ITALICSOFFCHAR)
+            italics = false;
         else
         {
             patch_t *patch = NULL;
@@ -932,7 +941,7 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
             }
             else if (letter == 'x' && isdigit(prevletter) && (i == len - 1 || isdigit(nextletter)))
                 patch = multiply;
-            else if (letter == '-' && (prevletter == ' ' || (prevletter == BOLDTOGGLECHAR && prevletter2 == ' ')))
+            else if (letter == '-' && (prevletter == ' ' || (prevletter == BOLDONCHAR && prevletter2 == ' ')))
                 patch = endash;
             else if (letter == '\n')
                 break;
@@ -946,7 +955,7 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
                 {
                     if (prevletter == '\0' || prevletter == ' ' || prevletter == '\t' || prevletter == '('
                         || prevletter == '[' || prevletter == '{' || prevletter == '<' || prevletter == '"'
-                        || ((prevletter == BOLDTOGGLECHAR || prevletter == ITALICSTOGGLECHAR)
+                        || ((prevletter == BOLDOFFCHAR || prevletter == ITALICSOFFCHAR)
                             && prevletter2 != '.' && nextletter != '.'))
                     {
                         patch = lsquote;
@@ -959,7 +968,7 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
                 {
                     if (prevletter == '\0' || prevletter == ' ' || prevletter == '\t' || prevletter == '('
                         || prevletter == '[' || prevletter == '{' || prevletter == '<' || prevletter == '\''
-                        || ((prevletter == BOLDTOGGLECHAR || prevletter == ITALICSTOGGLECHAR)
+                        || ((prevletter == BOLDOFFCHAR || prevletter == ITALICSOFFCHAR)
                             && prevletter2 != '.' && nextletter != '.'))
                     {
                         patch = ldquote;
@@ -993,16 +1002,16 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
                     else if (prevletter == '\'')
                         x++;
 
-                    if (letter == 'T' && prevletter == ITALICSTOGGLECHAR && prevletter2 == ' ')
+                    if (letter == 'T' && prevletter == ITALICSONCHAR && prevletter2 == ' ')
                         x--;
                 }
-                else if ((letter == '-' || letter == '|' || letter == '[') && prevletter == ITALICSTOGGLECHAR)
+                else if ((letter == '-' || letter == '|' || letter == '[') && prevletter == ITALICSOFFCHAR)
                     x++;
-                else if (letter == ' ' && prevletter == BOLDTOGGLECHAR && prevletter2 == 'r')
+                else if (letter == ' ' && prevletter == BOLDOFFCHAR && prevletter2 == 'r')
                     x--;
-                else if (letter == 'f' && prevletter == BOLDTOGGLECHAR && prevletter2 == '[')
+                else if (letter == 'f' && prevletter == BOLDOFFCHAR && prevletter2 == '[')
                     x--;
-                else if (letter == ',' && prevletter == BOLDTOGGLECHAR
+                else if (letter == ',' && prevletter == BOLDOFFCHAR
                     && (prevletter2 == '"' || prevletter2 == '\'' || prevletter2 == 'r'))
                     x -= 2;
                 else if (letter == '(' && prevletter == ' ')
@@ -1012,16 +1021,16 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
                     else if (prevletter2 == '!')
                         x -= 2;
                 }
-                else if (prevletter == BOLDTOGGLECHAR && prevletter2 == '\t')
+                else if (prevletter == BOLDOFFCHAR && prevletter2 == '\t')
                 {
                     if (letter == '"' || letter == '\'' || letter == '(')
                         x -= 2;
                     else if (letter == '4')
                         x--;
                 }
-                else if (letter == ',' && prevletter == BOLDTOGGLECHAR && prevletter2 == 'e')
+                else if (letter == ',' && prevletter == BOLDOFFCHAR && prevletter2 == 'e')
                     x--;
-                else if (letter == '.' && prevletter == BOLDTOGGLECHAR && prevletter2 == '\"')
+                else if (letter == '.' && prevletter == BOLDOFFCHAR && prevletter2 == '\"')
                     x--;
             }
 
@@ -1042,9 +1051,6 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
         prevletter2 = prevletter;
         prevletter = letter;
     }
-
-    console[index].bold = bold;
-    console[index].italics = italics;
 
     return (x - startx);
 }
@@ -1561,13 +1567,9 @@ void C_Drawer(void)
             {
                 char    *temp = M_SubString(console[i].string, wrap, (size_t)len - wrap);
 
-                wrapbold = console[i].bold;
-                wrapitalics = console[i].italics;
                 C_DrawConsoleText(CONSOLETEXTX + console[i].indent, y + CONSOLELINEHEIGHT,
                     trimwhitespace(temp), consolecolors[stringtype], NOBACKGROUNDCOLOR,
                     consoleboldcolors[stringtype], tinttab66, notabs, true, true, 0);
-                wrapbold = false;
-                wrapitalics = false;
                 free(temp);
             }
 

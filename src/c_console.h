@@ -109,13 +109,17 @@
 
 #define stringize(text)                     #text
 
-#define BOLDTOGGLE                          "\036"
-#define BOLDTOGGLECHAR                      '\036'
-#define ITALICSTOGGLE                       "\037"
-#define ITALICSTOGGLECHAR                   '\037'
+#define BOLDON                              "\034"
+#define BOLDONCHAR                          '\034'
+#define BOLDOFF                             "\035"
+#define BOLDOFFCHAR                         '\035'
+#define ITALICSON                           "\036"
+#define ITALICSONCHAR                       '\036'
+#define ITALICSOFF                          "\037"
+#define ITALICSOFFCHAR                      '\037'
 
-#define BOLD(text)                          BOLDTOGGLE text BOLDTOGGLE
-#define ITALICS(text)                       ITALICSTOGGLE text ITALICSTOGGLE
+#define BOLD(text)                          BOLDON text BOLDOFF
+#define ITALICS(text)                       ITALICSON text ITALICSOFF
 #define BOLDITALICS(text)                   ITALICS(BOLD(text))
 
 #if defined(_WIN32)
@@ -160,8 +164,6 @@ typedef struct
     stringtype_t    stringtype;
     int             wrap;
     int             indent;
-    bool            bold;
-    bool            italics;
     patch_t         *header;
     int             tabs[3];
     int             tics;

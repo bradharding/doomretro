@@ -196,8 +196,10 @@ static void HUlib_DrawAltHUDTextLine(hu_textline_t *l)
     {
         const unsigned char letter = l->l[i];
 
-        if (letter == ITALICSTOGGLECHAR)
-            italics = !italics;
+        if (letter == ITALICSONCHAR)
+            italics = true;
+        else if (letter == ITALICSOFFCHAR)
+            italics = false;
         else
         {
             patch_t             *patch = unknownchar;
@@ -263,8 +265,10 @@ void HUlib_DrawAltAutomapTextLine(hu_textline_t *l, bool external)
     {
         const unsigned char letter = l->l[i];
 
-        if (letter == ITALICSTOGGLECHAR)
-            italics = !italics;
+        if (letter == ITALICSONCHAR)
+            italics = true;
+        else if (letter == ITALICSOFFCHAR)
+            italics = false;
         else
         {
             patch_t     *patch = unknownchar;
@@ -301,10 +305,10 @@ void HUlib_DrawAltAutomapTextLine(hu_textline_t *l, bool external)
                 else if (prevletter == '\'')
                     x++;
 
-                if (letter == 'T' && prevletter == ITALICSTOGGLECHAR && prevletter2 == ' ')
+                if (letter == 'T' && prevletter == ITALICSOFFCHAR && prevletter2 == ' ')
                     x -= 2;
             }
-            else if (letter == '-' && prevletter == ITALICSTOGGLECHAR)
+            else if (letter == '-' && prevletter == ITALICSOFFCHAR)
                 x++;
             else if (letter == '(' && prevletter == ' ')
             {

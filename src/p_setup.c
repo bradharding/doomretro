@@ -2893,7 +2893,7 @@ void P_MapName(int ep, int map)
                     memmove(maptitle, maptitle + 1, strlen(maptitle));
 
                 temp = titlecase(maptitle);
-                M_snprintf(mapnumandtitle, sizeof(mapnumandtitle), "%s: " ITALICSTOGGLE "%s" ITALICSTOGGLE, mapnum, temp);
+                M_snprintf(mapnumandtitle, sizeof(mapnumandtitle), "%s: " ITALICSON "%s" ITALICSOFF, mapnum, temp);
             }
             else if (toupper(maptitle[0]) == 'E' && isdigit(maptitle[1])
                 && toupper(maptitle[2]) == 'M' && isdigit(maptitle[3]) && isdigit(maptitle[4]))
@@ -2905,7 +2905,7 @@ void P_MapName(int ep, int map)
 
                 temp = titlecase(maptitle);
                 M_snprintf(mapnum, sizeof(mapnum), "E%iM%02i", ep, map);
-                M_snprintf(mapnumandtitle, sizeof(mapnumandtitle), "%s: " ITALICSTOGGLE "%s" ITALICSTOGGLE, mapnum, temp);
+                M_snprintf(mapnumandtitle, sizeof(mapnumandtitle), "%s: " ITALICSON "%s" ITALICSOFF, mapnum, temp);
             }
             else if (M_StringStartsWith(maptitle, "LEVEL")
                 || M_StringStartsWith(maptitle, "LV.")
@@ -2918,7 +2918,7 @@ void P_MapName(int ep, int map)
                     memmove(maptitle, maptitle + 1, strlen(maptitle));
 
                 temp = titlecase(maptitle);
-                M_snprintf(mapnumandtitle, sizeof(mapnumandtitle), "%s: " ITALICSTOGGLE "%s" ITALICSTOGGLE, mapnum, temp);
+                M_snprintf(mapnumandtitle, sizeof(mapnumandtitle), "%s: " ITALICSON "%s" ITALICSOFF, mapnum, temp);
             }
             else if (toupper(maptitle[0]) == 'L' && isdigit(maptitle[1]) && isdigit(maptitle[2]))
             {
@@ -2929,7 +2929,7 @@ void P_MapName(int ep, int map)
 
                 temp = titlecase(maptitle);
                 M_snprintf(mapnum, sizeof(mapnum), "L%02i", map);
-                M_snprintf(mapnumandtitle, sizeof(mapnumandtitle), "%s: " ITALICSTOGGLE "%s" ITALICSTOGGLE, mapnum, temp);
+                M_snprintf(mapnumandtitle, sizeof(mapnumandtitle), "%s: " ITALICSON "%s" ITALICSOFF, mapnum, temp);
             }
             else
             {
@@ -2948,7 +2948,7 @@ void P_MapName(int ep, int map)
             char    *temp = titlecase(maptitle);
 
             M_snprintf(mapnumandtitle, sizeof(mapnumandtitle),
-                "%s%s" ITALICSTOGGLE "%s" ITALICSTOGGLE, mapnum, (maptitle[0] ? ": " : ""), temp);
+                "%s%s" ITALICSON "%s" ITALICSOFF, mapnum, (maptitle[0] ? ": " : ""), temp);
             free(temp);
         }
         else
