@@ -970,7 +970,7 @@ void M_NormalizeSlashes(char *str)
                 p++;
 }
 
-char *pronoun(pronountype_t type)
+char *preferredpronoun(pronoun_t type)
 {
     if (type == personal)
         return (playergender == playergender_male ? "he" :

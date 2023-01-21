@@ -52,7 +52,7 @@ typedef enum
     personal,
     possessive,
     reflexive
-} pronountype_t;
+} pronoun_t;
 
 void M_MakeDirectory(const char *path);
 bool M_FileExists(const char *filename);
@@ -112,7 +112,7 @@ bool isbreak(const char ch);
 char *striptrailingzero(float value, int precision);
 void M_StripQuotes(char *str);
 void M_NormalizeSlashes(char *str);
-char *pronoun(pronountype_t type);
+char *preferredpronoun(pronoun_t type);
 void M_AmericanToInternationalEnglish(char *string);
 void M_InternationalToAmericanEnglish(char *string);
 const char *dayofweek(int day, int month, int year);

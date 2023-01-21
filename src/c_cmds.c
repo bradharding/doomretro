@@ -2629,18 +2629,18 @@ static void give_cmd_func2(char *cmd, char *parms)
                 S_StartSound(viewplayer->mo, sfx_itemup);
 
                 if (M_StringCompare(playername, playername_default))
-                    C_PlayerMessage("You were given all of your weapons.");
+                    C_PlayerMessage("You were given all your weapons.");
                 else
-                    C_PlayerMessage("%s was given all of %s weapons.", playername, pronoun(possessive));
+                    C_PlayerMessage("%s was given all %s weapons.", playername, preferredpronoun(possessive));
 
                 C_HideConsole();
             }
             else
             {
                 if (M_StringCompare(playername, playername_default))
-                    C_Warning(0, "You already have all of your weapons.");
+                    C_Warning(0, "You already have all your weapons.");
                 else
-                    C_Warning(0, "%s already has all of %s weapons.", playername, pronoun(possessive));
+                    C_Warning(0, "%s already has all %s weapons.", playername, preferredpronoun(possessive));
 
                 free(parm);
                 return;
@@ -2655,18 +2655,18 @@ static void give_cmd_func2(char *cmd, char *parms)
                 S_StartSound(viewplayer->mo, sfx_itemup);
 
                 if (M_StringCompare(playername, playername_default))
-                    C_PlayerMessage("You were given full ammo for all of your weapons.");
+                    C_PlayerMessage("You were given full ammo for all your weapons.");
                 else
-                    C_PlayerMessage("%s was given full ammo for all of %s weapons.", playername, pronoun(possessive));
+                    C_PlayerMessage("%s was given full ammo for all %s weapons.", playername, preferredpronoun(possessive));
 
                 C_HideConsole();
             }
             else
             {
                 if (M_StringCompare(playername, playername_default))
-                    C_Warning(0, "You already have full ammo for all of your weapons.");
+                    C_Warning(0, "You already have full ammo for all your weapons.");
                 else
-                    C_Warning(0, "%s already has full ammo for all of %s weapons.", playername, pronoun(possessive));
+                    C_Warning(0, "%s already has full ammo for all %s weapons.", playername, preferredpronoun(possessive));
 
                 free(parm);
                 return;
@@ -3166,6 +3166,40 @@ static void kill_cmd_func2(char *cmd, char *parms)
 
         if (M_StringCompare(parm, "player") || M_StringCompare(parm, "me") || (*playername && M_StringCompare(parm, playername)))
         {
+            if (viewplayer->cheats & CF_GODMODE)
+            {
+                if (M_StringCompare(playername, playername_default))
+                    C_Warning(0, "You can't be killed while god mode is on.");
+                else
+                    C_Warning(0, "%s can't be killed while god mode is on.", playername);
+
+                return;
+            }
+
+            if (viewplayer->cheats & CF_BUDDHA)
+            {
+                if (M_StringCompare(playername, playername_default))
+                    C_Warning(0, "You can't be killed while buddha mode is on.");
+                else
+                    C_Warning(0, "%s can't be killed while buddha mode is on.", playername);
+
+                return;
+            }
+
+            if (viewplayer->powers[pw_invulnerability])
+            {
+                if (M_StringCompare(playername, playername_default))
+                    C_Warning(0, "You can't be killed while you have a %s.", powerupnames[pw_invulnerability]);
+                else
+                    C_Warning(0, "%s can't be killed while %s %s a %s.",
+                        playername,
+                        preferredpronoun(personal),
+                        (playergender == playergender_nonbinary ? "have" : "has"),
+                        powerupnames[pw_invulnerability]);
+
+                return;
+            }
+
             massacre = true;
 
             viewplayer->damagecount = MIN(viewplayer->health, 100);
@@ -3185,7 +3219,7 @@ static void kill_cmd_func2(char *cmd, char *parms)
             if (M_StringCompare(playername, playername_default))
                 M_snprintf(buffer, sizeof(buffer), "You killed yourself.");
             else
-                M_snprintf(buffer, sizeof(buffer), "%s killed %s.", playername, pronoun(reflexive));
+                M_snprintf(buffer, sizeof(buffer), "%s killed %s.", playername, preferredpronoun(reflexive));
 
             C_Output(buffer);
             C_HideConsole();
@@ -6892,7 +6926,7 @@ static void resurrect_cmd_func2(char *cmd, char *parms)
             P_ResurrectPlayer(initial_health);
             M_snprintf(buffer, sizeof(buffer), "%s resurrected %s.",
                 playername,
-                (M_StringCompare(playername, playername_default) ? "yourself" : pronoun(reflexive)));
+                (M_StringCompare(playername, playername_default) ? "yourself" : preferredpronoun(reflexive)));
             buffer[0] = toupper(buffer[0]);
             C_PlayerMessage(buffer);
             C_HideConsole();
@@ -7409,7 +7443,7 @@ static void take_cmd_func2(char *cmd, char *parms)
                 if (M_StringCompare(playername, playername_default))
                     C_PlayerMessage("You killed yourself.");
                 else
-                    C_PlayerMessage("%s killed %s.", playername, pronoun(reflexive));
+                    C_PlayerMessage("%s killed %s.", playername, preferredpronoun(reflexive));
 
                 C_HideConsole();
             }
@@ -8811,7 +8845,7 @@ static void player_cvars_func2(char *cmd, char *parms)
                         P_AddBonus();
                         M_snprintf(buffer, sizeof(buffer), "%s resurrected %s.",
                             playername,
-                            (M_StringCompare(playername, playername_default) ? "yourself" : pronoun(reflexive)));
+                            (M_StringCompare(playername, playername_default) ? "yourself" : preferredpronoun(reflexive)));
                         buffer[0] = toupper(buffer[0]);
                         C_PlayerMessage(buffer);
                     }
