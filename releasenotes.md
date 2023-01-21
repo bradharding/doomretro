@@ -26,7 +26,7 @@
   * The number of times the player loads a savegame is now displayed.
   * The number of monsters gibbed by the player is now displayed.
   * The amount of cells the player has picked up is no longer displayed when playing *DOOM (Shareware)*.
-* Minor improvements have been made to the support for `MAPINFO` lumps.
+* Minor improvements have been made to the support for `DEHACKED` and `MAPINFO` lumps.
 * The player’s health, armor and ammo are now displayed better in the status bar and widescreen HUD if they start with a `1`.
 * The widescreen HUD is now brought in from the left and right edges of ultra-wide displays.
 * These changes have been made to the alternate widescreen HUD:
@@ -51,7 +51,8 @@
 * The player’s view no longer bounces once landing after a fall if either no clipping mode or freeze mode are enabled.
 * The `-solonet` command-line parameter has now been replaced with `-coop_spawns`.
 * The player’s health, armor, ammo and weapon are no longer reset when using the `resetall` CCMD.
-* The player’s `Deaths` stat is now corrected in the `playerstats` CCMD when the player is resurrected using the `resurrect` CCMD or the `IDDQD` cheat.
+* The player’s “Deaths” stat in the `playerstats` CCMD is now corrected when the player is resurrected using the `resurrect` CCMD or `IDDQD` cheat.
+* The `kill` CCMD can no longer be used to kill the player if either god mode or buddha mode are enabled, of if they have an invulnerability power-up.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
