@@ -717,7 +717,7 @@ bool ST_Responder(event_t *ev)
                             }
                         }
 
-                        M_snprintf(buffer, sizeof(buffer), "%s " BOLDON "%c" BOLDOFF,
+                        M_snprintf(buffer, sizeof(buffer), "%s " BOLD("%c"),
                             s_STSTR_BEHOLD, toupper(cheat_powerup[i - 1].sequence[strlen(cheat_powerup[i - 1].sequence) - 1]));
                         ST_PlayerCheated(cheat_powerup[i - 1].sequence, buffer, true);
 
@@ -766,7 +766,7 @@ bool ST_Responder(event_t *ev)
                             viewplayer->powers[i] = STARTFLASHING * (i != pw_allmap);
                         }
 
-                        M_snprintf(buffer, sizeof(buffer), "%s " BOLDON "%c" BOLDOFF,
+                        M_snprintf(buffer, sizeof(buffer), "%s " BOLD("%c"),
                             s_STSTR_BEHOLD, toupper(cheat_powerup[i - 1].sequence[strlen(cheat_powerup[i - 1].sequence) - 1]));
                         ST_PlayerCheated(cheat_powerup[i - 1].sequence, buffer, false);
 
