@@ -2741,7 +2741,7 @@ bool M_Responder(event_t *ev)
             // select previous menu item
             if (ev->data1 > 0)
             {
-                key = (m_pointer ? KEY_RIGHTARROW : KEY_UPARROW);
+                key = KEY_UPARROW;
                 mousewait = I_GetTime() + 3;
                 usinggamecontroller = false;
             }
@@ -2749,7 +2749,7 @@ bool M_Responder(event_t *ev)
             // select next menu item
             else if (ev->data1 < 0)
             {
-                key = (m_pointer ? KEY_LEFTARROW : KEY_DOWNARROW);
+                key = KEY_DOWNARROW;
                 mousewait = I_GetTime() + 3;
                 usinggamecontroller = false;
             }
