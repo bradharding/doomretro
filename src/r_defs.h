@@ -64,7 +64,6 @@
 typedef struct
 {
     fixed_t             x, y;
-    fixed_t             renderx, rendery;
 } vertex_t;
 
 // Each sector has a degenmobj_t in its center
@@ -802,10 +801,8 @@ typedef struct
     fixed_t             offset;
 
     angle_t             angle;
-    angle_t             renderangle;
 
     int64_t             dx, dy;
-    int64_t             renderdx, renderdy;
 
     int64_t             length;
 
