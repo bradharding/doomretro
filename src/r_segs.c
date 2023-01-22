@@ -617,7 +617,7 @@ void R_StoreWallRange(const int start, const int stop)
     }
 
     // calculate rw_distance for scale calculation
-    rw_normalangle = curline->angle + ANG90;
+    rw_normalangle = curline->rangle + ANG90;
 
     // shift right to avoid possibility of int64 overflow in rw_distance calculation
     dx = curline->dx;

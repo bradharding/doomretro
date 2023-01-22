@@ -801,6 +801,7 @@ typedef struct
     fixed_t             offset;
 
     angle_t             angle;
+    angle_t             rangle;
 
     int64_t             dx, dy;
 

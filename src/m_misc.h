@@ -46,6 +46,7 @@
 #endif
 
 #include "doomtype.h"
+#include "tables.h"
 
 typedef enum
 {
@@ -116,3 +117,4 @@ char *preferredpronoun(pronoun_t type);
 void M_AmericanToInternationalEnglish(char *string);
 void M_InternationalToAmericanEnglish(char *string);
 const char *dayofweek(int day, int month, int year);
+angle_t anglediff(angle_t a, angle_t b);

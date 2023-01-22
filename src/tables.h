@@ -58,6 +58,7 @@ extern fixed_t  finetangent[FINEANGLES / 2];
 #define ANG1                (ANG45 / 45)
 #define ANG5                (ANG90 / 18)
 #define ANG45               0x20000000
+#define ANG60               (ANG180 / 3)
 #define ANG90               0x40000000
 #define ANG180              0x80000000
 #define ANG270              0xC0000000

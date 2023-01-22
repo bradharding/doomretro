@@ -27,6 +27,7 @@
   * The number of monsters gibbed by the player is now displayed.
   * The amount of cells the player has picked up is no longer displayed when playing *DOOM (Shareware)*.
 * Minor improvements have been made to the support for `DEHACKED` and `MAPINFO` lumps.
+* A bug is fixed whereby areas behind solid walls would be mapped when they shouldn’t be in the automap in some rare instances.
 * The player’s health, armor and ammo are now displayed better in the status bar and widescreen HUD if they start with a `1`.
 * The widescreen HUD is now brought in from the left and right edges of ultra-wide displays.
 * These changes have been made to the alternate widescreen HUD:
