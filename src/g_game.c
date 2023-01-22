@@ -252,10 +252,10 @@ void G_BuildTiccmd(ticcmd_t *cmd)
     int     forward = 0;
     int     side = 0;
 
-    memset(cmd, 0, sizeof(ticcmd_t));
-
     if (automapactive && !am_followmode && viewplayer->health > 0)
         return;
+
+    memset(cmd, 0, sizeof(ticcmd_t));
 
     strafe = (gamekeydown[keyboardstrafe] || mousebuttons[mousestrafe] || (gamecontrollerbuttons & gamecontrollerstrafe));
     run = (gamekeydown[keyboardrun] ^ mousebuttons[mouserun] ^ (!!(gamecontrollerbuttons & gamecontrollerrun)) ^ alwaysrun);
@@ -289,7 +289,7 @@ void G_BuildTiccmd(ticcmd_t *cmd)
         }
         else if (gamecontrollerthumbRX > 0)
         {
-            fixed_t x = gamecontrollerthumbRX * 2;
+            const fixed_t   x = gamecontrollerthumbRX * 2;
 
             cmd->angleturn -= FixedMul(gamecontrollerangleturn[run],
                 (fixed_t)(gamecontrollerhorizontalsensitivity * FixedMul(FixedMul(x, x), x)));
@@ -307,7 +307,7 @@ void G_BuildTiccmd(ticcmd_t *cmd)
         }
         else if (gamecontrollerthumbRX < 0)
         {
-            fixed_t x = gamecontrollerthumbRX * 2;
+            const fixed_t   x = gamecontrollerthumbRX * 2;
 
             cmd->angleturn -= FixedMul(gamecontrollerangleturn[run],
                 (fixed_t)(gamecontrollerhorizontalsensitivity * FixedMul(FixedMul(x, x), x)));
@@ -357,7 +357,7 @@ void G_BuildTiccmd(ticcmd_t *cmd)
             side += (int)(sidemove[run] * (float)gamecontrollerthumbLX / SHRT_MAX);
         else
         {
-            fixed_t x = gamecontrollerthumbLX * 2;
+            const fixed_t   x = gamecontrollerthumbLX * 2;
 
             cmd->angleturn -= FixedMul(gamecontrollerangleturn[run],
                 (fixed_t)(gamecontrollerhorizontalsensitivity * FixedMul(FixedMul(x, x), x)));
@@ -376,7 +376,7 @@ void G_BuildTiccmd(ticcmd_t *cmd)
             side += (int)(sidemove[run] * (float)gamecontrollerthumbLX / SHRT_MAX);
         else
         {
-            fixed_t x = gamecontrollerthumbLX * 2;
+            const fixed_t   x = gamecontrollerthumbLX * 2;
 
             cmd->angleturn -= FixedMul(gamecontrollerangleturn[run],
                 (fixed_t)(gamecontrollerhorizontalsensitivity * FixedMul(FixedMul(x, x), x)));
@@ -408,7 +408,7 @@ void G_BuildTiccmd(ticcmd_t *cmd)
     if (!idclev && !idmus)
         for (int i = 0; i < NUMWEAPONKEYS; i++)
         {
-            int key = *keyboardweapons[i];
+            const int   key = *keyboardweapons[i];
 
             if (gamekeydown[key] && !keydown)
             {
@@ -564,8 +564,8 @@ static void G_ResetPlayer(void)
 //
 void G_DoLoadLevel(void)
 {
-    int ep;
-    int map = (gameepisode - 1) * 10 + gamemap;
+    int         ep;
+    const int   map = (gameepisode - 1) * 10 + gamemap;
 
     HU_DrawDisk();
 
@@ -678,10 +678,10 @@ void G_DoLoadLevel(void)
 
 void G_ToggleAlwaysRun(evtype_t type)
 {
-    char    temp[255];
-    int     oldcaretpos = caretpos;
-    int     oldselectstart = selectstart;
-    int     oldselectend = selectend;
+    char        temp[255];
+    const int   oldcaretpos = caretpos;
+    const int   oldselectstart = selectstart;
+    const int   oldselectend = selectend;
 
 #if defined(_WIN32)
     alwaysrun = (keyboardalwaysrun == KEY_CAPSLOCK && type == ev_keydown ? (GetKeyState(VK_CAPITAL) & 0x0001) : !alwaysrun);

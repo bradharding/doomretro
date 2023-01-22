@@ -52,7 +52,7 @@
 * The `-solonet` command-line parameter has now been replaced with `-coop_spawns`.
 * The player’s health, armor, ammo and weapon are no longer reset when using the `resetall` CCMD.
 * The player’s “Deaths” stat in the `playerstats` CCMD is now corrected when the player is resurrected using the `resurrect` CCMD or `IDDQD` cheat.
-* The `kill` CCMD can no longer be used to kill the player if either god mode or buddha mode are enabled, of if they have an invulnerability power-up.
+* The `kill` CCMD can no longer be used to kill the player if either god mode or buddha mode are enabled, or if they have an invulnerability power-up.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
