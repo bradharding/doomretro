@@ -1066,11 +1066,3 @@ const char *dayofweek(int day, int month, int year)
 
     return days[(day + (13 * month - 1) / 5 + year + year / 4 - year / 100 + year / 400) % 7];
 }
-
-angle_t anglediff(angle_t a, angle_t b)
-{
-    if (b > a)
-        return anglediff(b, a);
-
-    return (a - b < ANG180 ? a - b : b - a);
-}
