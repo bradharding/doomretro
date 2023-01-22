@@ -701,16 +701,8 @@ static void I_ReadMouse(void)
 
         if ((menuactive || gamestate != GS_LEVEL) && !splashscreen && m_pointer)
         {
-            if (!usingmouse)
-            {
+            if (x || y)
                 usingmouse = true;
-
-                if ((mousebuttonstate & MOUSE_LEFTBUTTON) && !inhelpscreens && !x && !y)
-                {
-                    prevmousebuttonstate = mousebuttonstate;
-                    return;
-                }
-            }
 
             SDL_GetMouseState(&x, &y);
 
