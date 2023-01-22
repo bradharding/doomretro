@@ -617,13 +617,13 @@ void R_StoreWallRange(const int start, const int stop)
     }
 
     // calculate rw_distance for scale calculation
-    rw_normalangle = curline->rangle + ANG90;
+    rw_normalangle = curline->renderangle + ANG90;
 
     // shift right to avoid possibility of int64 overflow in rw_distance calculation
-    dx = curline->dx;
-    dy = curline->dy;
-    dx1 = ((int64_t)viewx - curline->v1->x) >> 1;
-    dy1 = ((int64_t)viewy - curline->v1->y) >> 1;
+    dx = curline->renderdx;
+    dy = curline->renderdy;
+    dx1 = ((int64_t)viewx - curline->v1->renderx) >> 1;
+    dy1 = ((int64_t)viewy - curline->v1->rendery) >> 1;
     len = curline->length;
     rw_distance = (fixed_t)((dy * dx1 - dx * dy1) / len) << 1;
 

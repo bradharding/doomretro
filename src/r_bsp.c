@@ -346,8 +346,8 @@ static void R_AddLine(seg_t *line)
     if (R_PointOnSegSide(viewx, viewy, line))
         return;
 
-    angle1 = R_PointToAngleEx(line->v1->x, line->v1->y);
-    angle2 = R_PointToAngleEx(line->v2->x, line->v2->y);
+    angle1 = R_PointToAngleEx(line->v1->renderx, line->v1->rendery);
+    angle2 = R_PointToAngleEx(line->v2->renderx, line->v2->rendery);
 
     // Back side? I.e. backface culling?
     if (angle1 - angle2 >= ANG180)

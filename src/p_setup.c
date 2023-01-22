@@ -715,6 +715,9 @@ static void P_LoadVertexes(int lump)
             vertexes[i].x = SHORT(data[i].x) << FRACBITS;
             vertexes[i].y = SHORT(data[i].y) << FRACBITS;
 
+            vertexes[i].renderx = vertexes[i].x;
+            vertexes[i].rendery = vertexes[i].y;
+
             // Apply any map-specific fixes.
             if (canmodify && r_fixmaperrors)
                 for (int j = 0; vertexfix[j].mission != -1; j++)
@@ -2676,7 +2679,7 @@ static void P_GroupLines(void)
 //                  2     2                            2     2
 //                dx  + dy                           dx  + dy
 //
-// (x0,y0) is the vertex being moved, and (x1,y1)-(x1+dx,y1+dy) is the
+// (x0, y0) is the vertex being moved, and (x1, y1) - (x1 + dx, y1 + dy) is the
 // reference linedef.
 //
 // Segs corresponding to orthogonal linedefs (exactly vertical or horizontal
@@ -2722,15 +2725,15 @@ static void P_RemoveSlimeTrails(void)                   // killough 10/98
                         const int       x0 = v->x, y0 = v->y;
                         const int       x1 = l->v1->x, y1 = l->v1->y;
 
-                        v->x = (fixed_t)((dx2 * x0 + dy2 * x1 + dxy * ((int64_t)y0 - y1)) / s);
-                        v->y = (fixed_t)((dy2 * y0 + dx2 * y1 + dxy * ((int64_t)x0 - x1)) / s);
+                        v->renderx = (fixed_t)((dx2 * x0 + dy2 * x1 + dxy * ((int64_t)y0 - y1)) / s);
+                        v->rendery = (fixed_t)((dy2 * y0 + dx2 * y1 + dxy * ((int64_t)x0 - x1)) / s);
 
                         // [crispy] wait a minute... moved more than 8 map units?
                         // maybe that's a linguortal then, back to the original coordinates
-                        if (ABS(v->x - x0) > 8 * FRACUNIT || ABS(v->y - y0) > 8 * FRACUNIT)
+                        if (ABS(v->renderx - x0) > 8 * FRACUNIT || ABS(v->rendery - y0) > 8 * FRACUNIT)
                         {
-                            v->x = x0;
-                            v->y = y0;
+                            v->renderx = x0;
+                            v->rendery = y0;
                         }
                     }
                 }
@@ -2751,18 +2754,24 @@ static void P_CalcSegsLength(void)
         li->dx = (int64_t)li->v2->x - li->v1->x;
         li->dy = (int64_t)li->v2->y - li->v1->y;
 
-        li->length = (int64_t)sqrt((double)li->dx * li->dx + (double)li->dy * li->dy) / 2;
+        li->renderdx = ((int64_t)li->v2->renderx - li->v1->renderx) / 2;
+        li->renderdy = ((int64_t)li->v2->rendery - li->v1->rendery) / 2;
+
+        li->length = (int64_t)sqrt((double)li->renderdx * li->renderdx + (double)li->renderdy * li->renderdy) / 2;
 
         // [BH] recalculate angle used for rendering. Fixes <https://doomwiki.org/wiki/Bad_seg_angle>.
-        li->rangle = R_PointToAngleEx2(li->v1->x, li->v1->y, li->v2->x, li->v2->y);
+        li->renderangle = R_PointToAngleEx2(li->v1->x, li->v1->y, li->v2->x, li->v2->y);
 
-        if (anglediff(li->rangle, li->angle) > ANG60 / 2)
-            li->rangle = li->angle;
+        if (anglediff(li->renderangle, li->angle) > ANG30)
+            li->renderangle = li->angle;
 
         li->fakecontrast = (!li->dy ? -LIGHTBRIGHT : (!li->dx ? LIGHTBRIGHT : 0));
 
         li->dx /= 2;
         li->dy /= 2;
+
+        li->renderdx /= 2;
+        li->renderdy /= 2;
     }
 }
 
