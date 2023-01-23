@@ -63,16 +63,16 @@ static los_t    los;            // cph - made static
 // P_DivlineSide
 // Returns side 0 (front), 1 (back), or 2 (on).
 //
-static int P_DivlineSide(fixed_t x, fixed_t y, const divline_t *node)
+static int P_DivlineSide(const fixed_t x, const fixed_t y, const divline_t *node)
 {
     if (!node->dx)
-        return (x == node->x ? 2 : (x < node->x ? (node->dy > 0) : (node->dy < 0)));
+        return (x == node->x ? 2 : (x <= node->x ? (node->dy > 0) : (node->dy < 0)));
     else if (!node->dy)
-        return (y == node->y ? 2 : (y < node->y ? (node->dx < 0) : (node->dx > 0)));
+        return (y == node->y ? 2 : (y <= node->y ? (node->dx < 0) : (node->dx > 0)));
     else
     {
-        fixed_t left = (node->dy >> FRACBITS) * ((x - node->x) >> FRACBITS);
-        fixed_t right = ((y - node->y) >> FRACBITS) * (node->dx >> FRACBITS);
+        const fixed_t   left = (node->dy >> FRACBITS) * ((x - node->x) >> FRACBITS);
+        const fixed_t   right = ((y - node->y) >> FRACBITS) * (node->dx >> FRACBITS);
 
         return (left == right ? 2 : (left < right));
     }
@@ -82,7 +82,7 @@ static int P_DivlineSide(fixed_t x, fixed_t y, const divline_t *node)
 // P_CrossSubsector
 // Returns true if strace crosses the given subsector successfully.
 //
-static bool P_CrossSubsector(int num)
+static bool P_CrossSubsector(const int num)
 {
     subsector_t *sub = subsectors + num;
     seg_t       *seg = segs + sub->firstline;
@@ -99,8 +99,10 @@ static bool P_CrossSubsector(int num)
         vertex_t    *v1;
         vertex_t    *v2;
 
-        if (line->bbox[BOXLEFT] > los.bbox[BOXRIGHT] || line->bbox[BOXRIGHT] < los.bbox[BOXLEFT]
-            || line->bbox[BOXBOTTOM] > los.bbox[BOXTOP] || line->bbox[BOXTOP] < los.bbox[BOXBOTTOM])
+        if (line->bbox[BOXLEFT] > los.bbox[BOXRIGHT]
+            || line->bbox[BOXRIGHT] < los.bbox[BOXLEFT]
+            || line->bbox[BOXBOTTOM] > los.bbox[BOXTOP]
+            || line->bbox[BOXTOP] < los.bbox[BOXBOTTOM])
         {
             line->validcount = validcount;
             continue;
@@ -143,7 +145,8 @@ static bool P_CrossSubsector(int num)
         back = seg->backsector;
 
         // no wall to block sight with?
-        if (front->floorheight == back->floorheight && front->ceilingheight == back->ceilingheight)
+        if (front->floorheight == back->floorheight
+            && front->ceilingheight == back->ceilingheight)
             continue;
 
         // possible occluder

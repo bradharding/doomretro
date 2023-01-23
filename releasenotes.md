@@ -40,6 +40,7 @@
 * The truncation of player messages when the `vid_widescreen` CVAR is `off` has improved in some instances.
 * The vertical position of player messages has improved in some instances.
 * The vertical positions of the monsters’ shadows in *DOOM II’s* cast sequence have improved.
+* The vertical position of text displayed in the top right of the screen has improved in some instances.
 * The correct map now opens when entering `map phobosmissioncontrol` or `map techgonebad` in the console.
 * Minor improvements have been made to translating certain words when the `english` CVAR is changed.
 * When the `r_rockettrails` CVAR is `on`:
@@ -47,14 +48,15 @@
   * The smoke trailing behind homing missiles fired by revenants is now the same as the smoke trailing behind rockets fired by the player and cyberdemons.
 * The LEDs on *DualShock 4* and *DualSense* and *DualSense Edge* controllers now turn red again when connected.
 * If the `vid_fullscreen` CVAR is `off`:
-  * The window is now displayed better when resized to be very narrow.
+  * The status bar or widescreen HUD are now displayed better when the window is resized to be very narrow.
   * The mouse pointer is now displayed while the console is open.
+* The mouse pointer is now hidden before the screen goes black at startup when the `vid_fullscreen` CVAR is `on`.
 * Crashes no longer occur when displaying patches taller than 200 pixels.
 * The disk icon displayed in the top right of the screen when the `r_diskicon` CVAR is `on` is now double in size when the `r_detail` CVAR is `low`.
 * The player’s view no longer bounces once landing after a fall if either no clipping mode or freeze mode are enabled.
 * The `-solonet` command-line parameter has now been replaced with `-coop_spawns`.
 * The player’s health, armor, ammo and weapon are no longer reset when using the `resetall` CCMD.
-* The player’s “Deaths” stat in the `playerstats` CCMD is now corrected when the player is resurrected using the `resurrect` CCMD or `IDDQD` cheat.
+* The player’s “Deaths” stat in the `playerstats` CCMD is now corrected when the player is resurrected using either the `resurrect` CCMD or `IDDQD` cheat.
 * The `kill` CCMD can no longer be used to kill the player if either god mode or buddha mode are enabled, or if they have an invulnerability power-up.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)

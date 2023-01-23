@@ -4061,7 +4061,7 @@ void M_Init(void)
     messagestring = NULL;
     messagelastmenuactive = false;
     quicksaveslot = -1;
-    menuspindirection = ((M_Random() & 1) ? 1 : -1);
+    menuspindirection = ((M_BigRandom() & 1) ? 1 : -1);
 
     menuborder = W_CacheLastLumpName("DRBORDER");
 
