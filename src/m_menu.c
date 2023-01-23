@@ -2198,6 +2198,7 @@ static void M_SizeDisplay(int choice)
                 r_hud = true;
                 C_StrCVAROutput(stringize(r_hud), "on");
                 S_StartSound(NULL, sfx_stnmov);
+                M_SaveCVARs();
             }
             else if (r_screensize == r_screensize_max - 1 && vid_widescreen)
             {
@@ -2205,6 +2206,7 @@ static void M_SizeDisplay(int choice)
                 C_StrCVAROutput(stringize(vid_widescreen), "off");
                 I_RestartGraphics(false);
                 S_StartSound(NULL, sfx_stnmov);
+                M_SaveCVARs();
             }
             else if (r_screensize > r_screensize_min)
             {
@@ -2219,6 +2221,7 @@ static void M_SizeDisplay(int choice)
                 }
 
                 S_StartSound(NULL, sfx_stnmov);
+                M_SaveCVARs();
             }
             else
                 return;
@@ -2231,6 +2234,7 @@ static void M_SizeDisplay(int choice)
                 r_hud = false;
                 C_StrCVAROutput(stringize(r_hud), "off");
                 S_StartSound(NULL, sfx_stnmov);
+                M_SaveCVARs();
             }
             else if (r_screensize == r_screensize_max - 1 && !vid_widescreen && !nowidescreen)
             {
@@ -2238,6 +2242,7 @@ static void M_SizeDisplay(int choice)
                 C_StrCVAROutput(stringize(vid_widescreen), "on");
                 I_RestartGraphics(false);
                 S_StartSound(NULL, sfx_stnmov);
+                M_SaveCVARs();
             }
             else if (r_screensize < r_screensize_max)
             {
@@ -2252,6 +2257,7 @@ static void M_SizeDisplay(int choice)
                 }
 
                 S_StartSound(NULL, sfx_stnmov);
+                M_SaveCVARs();
             }
             else
                 return;
@@ -3012,6 +3018,7 @@ bool M_Responder(event_t *ev)
                 R_SetViewSize(r_screensize);
                 I_RestartGraphics(false);
                 S_StartSound(NULL, sfx_stnmov);
+                M_SaveCVARs();
             }
 
             return false;
@@ -3037,6 +3044,7 @@ bool M_Responder(event_t *ev)
                 R_SetViewSize(r_screensize);
                 I_RestartGraphics(false);
                 S_StartSound(NULL, sfx_stnmov);
+                M_SaveCVARs();
             }
 
             return false;
