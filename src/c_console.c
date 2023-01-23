@@ -210,38 +210,35 @@ void C_Cheat(const char *string)
 
 void C_IntCVAROutput(const char *cvar, int value)
 {
-    char    *temp1 = M_StringJoin(cvar, " ", NULL);
-    char    *temp2 = commify(value);
+    char    *temp1 = commify(value);
+    char    *temp2 = M_StringJoin(cvar, " ", temp1, NULL);
 
-    if (numconsolestrings && M_StringStartsWithExact(console[numconsolestrings - 1].string, temp1))
-        numconsolestrings--;
+    if (!numconsolestrings || !M_StringCompare(temp2, console[numconsolestrings - 1].string))
+        C_Input(temp2);
 
-    C_Input("%s %s", cvar, temp2);
     free(temp1);
     free(temp2);
 }
 
 void C_PctCVAROutput(const char *cvar, int value)
 {
-    char    *temp1 = M_StringJoin(cvar, " ", NULL);
-    char    *temp2 = commify(value);
+    char    *temp1 = commify(value);
+    char    *temp2 = M_StringJoin(cvar, " ", temp1, "%", NULL);
 
-    if (numconsolestrings && M_StringStartsWithExact(console[numconsolestrings - 1].string, temp1))
-        numconsolestrings--;
+    if (!numconsolestrings || !M_StringCompare(temp2, console[numconsolestrings - 1].string))
+        C_Input(temp2);
 
-    C_Input("%s %s%%", cvar, temp2);
     free(temp1);
     free(temp2);
 }
 
 void C_StrCVAROutput(const char *cvar, const char *string)
 {
-    char    *temp = M_StringJoin(cvar, " ", NULL);
+    char    *temp = M_StringJoin(cvar, " ", string, NULL);
 
-    if (numconsolestrings && M_StringStartsWithExact(console[numconsolestrings - 1].string, temp))
-        numconsolestrings--;
+    if (!numconsolestrings || !M_StringCompare(temp, console[numconsolestrings - 1].string))
+        C_Input(temp);
 
-    C_Input("%s %s", cvar, string);
     free(temp);
 }
 

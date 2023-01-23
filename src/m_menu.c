@@ -2213,7 +2213,10 @@ static void M_SizeDisplay(int choice)
                 AM_SetAutomapSize(automapactive ? r_screensize_max : r_screensize);
 
                 if (r_screensize == r_screensize_max - 1)
+                {
                     r_hud = false;
+                    C_StrCVAROutput(stringize(r_hud), "off");
+                }
 
                 S_StartSound(NULL, sfx_stnmov);
             }
@@ -2243,7 +2246,10 @@ static void M_SizeDisplay(int choice)
                 AM_SetAutomapSize(automapactive ? r_screensize_max : r_screensize);
 
                 if (r_screensize == r_screensize_max)
+                {
                     r_hud = true;
+                    C_StrCVAROutput(stringize(r_hud), "on");
+                }
 
                 S_StartSound(NULL, sfx_stnmov);
             }
@@ -2996,9 +3002,12 @@ bool M_Responder(event_t *ev)
                 M_SizeDisplay(0);
             else if (vid_widescreen)
             {
-                vid_widescreen = false;
                 r_screensize = r_screensize_max - 1;
+                C_IntCVAROutput(stringize(r_screensize), r_screensize);
                 r_hud = false;
+                C_StrCVAROutput(stringize(r_hud), "off");
+                vid_widescreen = false;
+                C_StrCVAROutput(stringize(vid_widescreen), "off");
                 pagetic = PAGETICS;
                 R_SetViewSize(r_screensize);
                 I_RestartGraphics(false);
@@ -3020,8 +3029,10 @@ bool M_Responder(event_t *ev)
                 M_SizeDisplay(1);
             else if (!vid_widescreen && !nowidescreen)
             {
-                vid_widescreen = true;
                 r_screensize = r_screensize_max - 1;
+                C_IntCVAROutput(stringize(r_screensize), r_screensize);
+                vid_widescreen = true;
+                C_StrCVAROutput(stringize(vid_widescreen), "on");
                 pagetic = PAGETICS;
                 R_SetViewSize(r_screensize);
                 I_RestartGraphics(false);
