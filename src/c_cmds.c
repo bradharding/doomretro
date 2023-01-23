@@ -1360,7 +1360,7 @@ static bool game_func1(char *cmd, char *parms)
 {
     if (gamestate == GS_LEVEL)
         return true;
-    else
+    else if (!togglingvanilla)
     {
         C_Input(consoleinput);
         C_ShowDescription(C_GetIndex(cmd));
