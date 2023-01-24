@@ -210,42 +210,30 @@ void C_Cheat(const char *string)
 
 void C_IntegerCVAROutput(const char *cvar, const int value)
 {
-    char    *temp1 = commify(value);
-    char    *temp2 = M_StringJoin(cvar, " ", temp1, NULL);
+    if (!menuactive || !numconsolestrings || !M_StringStartsWith(console[numconsolestrings - 1].string, cvar))
+    {
+        char    *temp = commify(value);
 
-    if (!numconsolestrings
-        || (menuactive && !M_StringStartsWith(console[numconsolestrings - 1].string, cvar))
-        || (!menuactive && !M_StringCompare(console[numconsolestrings - 1].string, temp2)))
-        C_Input(temp2);
-
-    free(temp1);
-    free(temp2);
+        C_Input("%s %s", cvar, temp);
+        free(temp);
+    }
 }
 
 void C_PercentCVAROutput(const char *cvar, const int value)
 {
-    char    *temp1 = commify(value);
-    char    *temp2 = M_StringJoin(cvar, " ", temp1, "%", NULL);
+    if (!menuactive || !numconsolestrings || !M_StringStartsWith(console[numconsolestrings - 1].string, cvar))
+    {
+        char    *temp = commify(value);
 
-    if (!numconsolestrings
-        || (menuactive && !M_StringStartsWith(console[numconsolestrings - 1].string, cvar))
-        || (!menuactive && !M_StringCompare(console[numconsolestrings - 1].string, temp2)))
-        C_Input(temp2);
-
-    free(temp1);
-    free(temp2);
+        C_Input("%s %s%%", cvar, temp);
+        free(temp);
+    }
 }
 
 void C_StringCVAROutput(const char *cvar, const char *string)
 {
-    char    *temp = M_StringJoin(cvar, " ", string, NULL);
-
-    if (!numconsolestrings
-        || (menuactive && !M_StringStartsWith(console[numconsolestrings - 1].string, cvar))
-        || (!menuactive && !M_StringCompare(console[numconsolestrings - 1].string, temp)))
-        C_Input(temp);
-
-    free(temp);
+    if (!menuactive || !numconsolestrings || !M_StringStartsWith(console[numconsolestrings - 1].string, cvar))
+        C_Input("%s %s", cvar, string);
 }
 
 void C_Output(const char *string, ...)
