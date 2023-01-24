@@ -1378,22 +1378,21 @@ static bool nightmare_func1(char *cmd, char *parms)
 {
     if (gamestate != GS_LEVEL)
         return game_func1(cmd, parms);
-    else if (gameskill != sk_nightmare)
+    
+    if (gameskill != sk_nightmare)
         return true;
+
+    C_Input(consoleinput);
+    C_ShowDescription(C_GetIndex(cmd));
+
+    if (M_StringCompare(playername, playername_default))
+        C_Warning(0, NIGHTMAREWARNING, "you", "are");
     else
-    {
-        C_Input(consoleinput);
-        C_ShowDescription(C_GetIndex(cmd));
+        C_Warning(0, NIGHTMAREWARNING, playername, "is");
 
-        if (M_StringCompare(playername, playername_default))
-            C_Warning(0, NIGHTMAREWARNING, "you", "are");
-        else
-            C_Warning(0, NIGHTMAREWARNING, playername, "is");
+    consoleinput[0] = '\0';
 
-        consoleinput[0] = '\0';
-
-        return false;
-    }
+    return false;
 }
 
 static bool null_func1(char *cmd, char *parms)
@@ -9573,16 +9572,23 @@ static void r_screensize_cvar_func2(char *cmd, char *parms)
             r_screensize = value;
             S_StartSound(NULL, sfx_stnmov);
             R_SetViewSize(r_screensize);
-            r_hud = (r_screensize == r_screensize_max);
+
+            if (r_hud != (r_screensize == r_screensize_max))
+            {
+                r_hud = (r_screensize == r_screensize_max);
+                C_StrCVAROutput(stringize(r_hud), (r_hud ? "on" : "off"));
+            }
 
             if (vid_widescreen && r_screensize < r_screensize_max - 1)
             {
                 vid_widescreen = false;
+                C_StrCVAROutput(stringize(vid_widescreen), "off");
                 I_RestartGraphics(false);
             }
             else if (!vid_widescreen && r_screensize == r_screensize_max)
             {
                 vid_widescreen = true;
+                C_StrCVAROutput(stringize(vid_widescreen), "on");
                 I_RestartGraphics(false);
             }
 
@@ -10333,8 +10339,18 @@ static void vid_widescreen_cvar_func2(char *cmd, char *parms)
 
     if (vid_widescreen != vid_widescreen_old)
     {
-        r_screensize = r_screensize_max - 1;
-        r_hud = false;
+        if (r_screensize != r_screensize_max - 1)
+        {
+            r_screensize = r_screensize_max - 1;
+            C_IntCVAROutput(stringize(r_screensize), r_screensize);
+        }
+
+        if (r_hud)
+        {
+            r_hud = false;
+            C_StrCVAROutput(stringize(r_hud), "off");
+        }
+
         R_SetViewSize(r_screensize);
         I_RestartGraphics(false);
         S_StartSound(NULL, sfx_stnmov);
