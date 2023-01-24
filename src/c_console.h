@@ -235,10 +235,9 @@ extern const autocomplete_t autocompletelist[];
 
 void C_Input(const char *string, ...);
 void C_Cheat(const char *string);
-void C_IntCVAROutput(const char *cvar, const int value);
-void C_MenuIntCVAROutput(const char *cvar, const int value);
-void C_PctCVAROutput(const char *cvar, const int value);
-void C_StrCVAROutput(const char *cvar, const char *string);
+void C_IntegerCVAROutput(const char *cvar, const int value);
+void C_PercentCVAROutput(const char *cvar, const int value);
+void C_StringCVAROutput(const char *cvar, const char *string);
 void C_Output(const char *string, ...);
 bool C_OutputNoRepeat(const char *string, ...);
 void C_TabbedOutput(const int tabs[3], const char *string, ...);

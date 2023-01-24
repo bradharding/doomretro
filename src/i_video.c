@@ -1818,10 +1818,10 @@ void I_ToggleFullscreen(void)
         I_UpdateBlitFunc(viewplayer && viewplayer->damagecount);
 
     if (vid_fullscreen)
-        C_StrCVAROutput(stringize(vid_fullscreen), "on");
+        C_StringCVAROutput(stringize(vid_fullscreen), "on");
     else
     {
-        C_StrCVAROutput(stringize(vid_fullscreen), "off");
+        C_StringCVAROutput(stringize(vid_fullscreen), "off");
 
         SDL_SetWindowSize(window, windowwidth, windowheight);
 

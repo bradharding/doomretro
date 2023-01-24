@@ -501,13 +501,13 @@ void AM_ToggleFollowMode(bool value)
     {
         m_paninc.x = 0;
         m_paninc.y = 0;
-        C_StrCVAROutput(stringize(am_followmode), "on");
+        C_StringCVAROutput(stringize(am_followmode), "on");
         C_Output(s_AMSTR_FOLLOWON);
         HU_SetPlayerMessage(s_AMSTR_FOLLOWON, false, true);
     }
     else
     {
-        C_StrCVAROutput(stringize(am_followmode), "off");
+        C_StringCVAROutput(stringize(am_followmode), "off");
         C_Output(s_AMSTR_FOLLOWOFF);
         HU_SetPlayerMessage(s_AMSTR_FOLLOWOFF, false, true);
     }
@@ -519,13 +519,13 @@ void AM_ToggleGrid(void)
 {
     if ((am_grid = !am_grid))
     {
-        C_StrCVAROutput(stringize(am_grid), "on");
+        C_StringCVAROutput(stringize(am_grid), "on");
         C_Output(s_AMSTR_GRIDON);
         HU_SetPlayerMessage(s_AMSTR_GRIDON, false, true);
     }
     else
     {
-        C_StrCVAROutput(stringize(am_grid), "off");
+        C_StringCVAROutput(stringize(am_grid), "off");
         C_Output(s_AMSTR_GRIDOFF);
         HU_SetPlayerMessage(s_AMSTR_GRIDOFF, false, true);
     }
@@ -605,13 +605,13 @@ void AM_ToggleRotateMode(bool value)
 {
     if ((am_rotatemode = value))
     {
-        C_StrCVAROutput(stringize(am_rotatemode), "on");
+        C_StringCVAROutput(stringize(am_rotatemode), "on");
         C_Output(s_AMSTR_ROTATEON);
         HU_SetPlayerMessage(s_AMSTR_ROTATEON, false, true);
     }
     else
     {
-        C_StrCVAROutput(stringize(am_rotatemode), "off");
+        C_StringCVAROutput(stringize(am_rotatemode), "off");
         C_Output(s_AMSTR_ROTATEOFF);
         HU_SetPlayerMessage(s_AMSTR_ROTATEOFF, false, true);
     }

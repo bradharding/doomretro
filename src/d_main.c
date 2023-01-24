@@ -590,7 +590,7 @@ void D_DoAdvanceTitle(void)
             I_InitKeyboard();
 
             if (alwaysrun)
-                C_StrCVAROutput(stringize(alwaysrun), "on");
+                C_StringCVAROutput(stringize(alwaysrun), "on");
         }
 
         if (pagelump == creditlump)
@@ -2489,7 +2489,7 @@ static void D_DoomMainSetup(void)
         I_InitKeyboard();
 
         if (alwaysrun)
-            C_StrCVAROutput(stringize(alwaysrun), "on");
+            C_StringCVAROutput(stringize(alwaysrun), "on");
 
         G_LoadGame(P_SaveGameFile(startloadgame));
     }
@@ -2569,7 +2569,7 @@ static void D_DoomMainSetup(void)
             I_InitKeyboard();
 
             if (alwaysrun)
-                C_StrCVAROutput(stringize(alwaysrun), "on");
+                C_StringCVAROutput(stringize(alwaysrun), "on");
 
             C_Output("Warping to %s...", lumpname);
             G_DeferredInitNew(startskill, startepisode, startmap);

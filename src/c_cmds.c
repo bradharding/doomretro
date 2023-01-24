@@ -9579,19 +9579,19 @@ static void r_screensize_cvar_func2(char *cmd, char *parms)
             if (r_hud != (r_screensize == r_screensize_max))
             {
                 r_hud = (r_screensize == r_screensize_max);
-                C_StrCVAROutput(stringize(r_hud), (r_hud ? "on" : "off"));
+                C_StringCVAROutput(stringize(r_hud), (r_hud ? "on" : "off"));
             }
 
             if (vid_widescreen && r_screensize < r_screensize_max - 1)
             {
                 vid_widescreen = false;
-                C_StrCVAROutput(stringize(vid_widescreen), "off");
+                C_StringCVAROutput(stringize(vid_widescreen), "off");
                 I_RestartGraphics(false);
             }
             else if (!vid_widescreen && r_screensize == r_screensize_max)
             {
                 vid_widescreen = true;
-                C_StrCVAROutput(stringize(vid_widescreen), "on");
+                C_StringCVAROutput(stringize(vid_widescreen), "on");
                 I_RestartGraphics(false);
             }
 
@@ -10345,13 +10345,13 @@ static void vid_widescreen_cvar_func2(char *cmd, char *parms)
         if (r_screensize != r_screensize_max - 1)
         {
             r_screensize = r_screensize_max - 1;
-            C_IntCVAROutput(stringize(r_screensize), r_screensize);
+            C_IntegerCVAROutput(stringize(r_screensize), r_screensize);
         }
 
         if (r_hud)
         {
             r_hud = false;
-            C_StrCVAROutput(stringize(r_hud), "off");
+            C_StringCVAROutput(stringize(r_hud), "off");
         }
 
         R_SetViewSize(r_screensize);

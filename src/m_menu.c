@@ -1499,7 +1499,7 @@ static void M_SfxVol(int choice)
                 S_SetSfxVolume(--sfxVolume * (MIX_MAX_VOLUME - 1) / 31);
                 S_StartSound(NULL, sfx_stnmov);
                 s_sfxvolume = sfxVolume * 100 / 31;
-                C_PctCVAROutput(stringize(s_sfxvolume), s_sfxvolume);
+                C_PercentCVAROutput(stringize(s_sfxvolume), s_sfxvolume);
                 M_SaveCVARs();
             }
 
@@ -1511,7 +1511,7 @@ static void M_SfxVol(int choice)
                 S_SetSfxVolume(++sfxVolume * (MIX_MAX_VOLUME - 1) / 31);
                 S_StartSound(NULL, sfx_stnmov);
                 s_sfxvolume = sfxVolume * 100 / 31;
-                C_PctCVAROutput(stringize(s_sfxvolume), s_sfxvolume);
+                C_PercentCVAROutput(stringize(s_sfxvolume), s_sfxvolume);
                 M_SaveCVARs();
             }
 
@@ -1533,7 +1533,7 @@ static void M_MusicVol(int choice)
                 S_LowerMusicVolume();
                 S_StartSound(NULL, sfx_stnmov);
                 s_musicvolume = musicVolume * 100 / 31;
-                C_PctCVAROutput(stringize(s_musicvolume), s_musicvolume);
+                C_PercentCVAROutput(stringize(s_musicvolume), s_musicvolume);
                 M_SaveCVARs();
             }
 
@@ -1546,7 +1546,7 @@ static void M_MusicVol(int choice)
                 S_LowerMusicVolume();
                 S_StartSound(NULL, sfx_stnmov);
                 s_musicvolume = musicVolume * 100 / 31;
-                C_PctCVAROutput(stringize(s_musicvolume), s_musicvolume);
+                C_PercentCVAROutput(stringize(s_musicvolume), s_musicvolume);
                 M_SaveCVARs();
             }
 
@@ -1917,7 +1917,7 @@ static void M_Options(int choice)
 static void M_ChangeMessages(int choice)
 {
     messages = !messages;
-    C_StrCVAROutput(stringize(messages), (messages ? "on" : "off"));
+    C_StringCVAROutput(stringize(messages), (messages ? "on" : "off"));
 
     if (!menuactive)
     {
@@ -2102,7 +2102,7 @@ static void M_ChangeSensitivity(int choice)
 
                     joy_sensitivity_horizontal -= 2.0f;
                     I_SetGameControllerHorizontalSensitivity();
-                    C_MenuIntCVAROutput(stringize(joy_sensitivity_horizontal), (int)joy_sensitivity_horizontal);
+                    C_IntegerCVAROutput(stringize(joy_sensitivity_horizontal), (int)joy_sensitivity_horizontal);
                     M_SliderSound();
                     M_SaveCVARs();
                 }
@@ -2117,7 +2117,7 @@ static void M_ChangeSensitivity(int choice)
 
                     joy_sensitivity_horizontal += 2.0f;
                     I_SetGameControllerHorizontalSensitivity();
-                    C_MenuIntCVAROutput(stringize(joy_sensitivity_horizontal), (int)joy_sensitivity_horizontal);
+                    C_IntegerCVAROutput(stringize(joy_sensitivity_horizontal), (int)joy_sensitivity_horizontal);
                     M_SliderSound();
                     M_SaveCVARs();
                 }
@@ -2136,7 +2136,7 @@ static void M_ChangeSensitivity(int choice)
                         m_sensitivity++;
 
                     m_sensitivity -= 2.0f;
-                    C_MenuIntCVAROutput(stringize(m_sensitivity), (int)m_sensitivity);
+                    C_IntegerCVAROutput(stringize(m_sensitivity), (int)m_sensitivity);
                     M_SliderSound();
                     M_SaveCVARs();
                 }
@@ -2150,7 +2150,7 @@ static void M_ChangeSensitivity(int choice)
                         m_sensitivity--;
 
                     m_sensitivity += 2.0f;
-                    C_MenuIntCVAROutput(stringize(m_sensitivity), (int)m_sensitivity);
+                    C_IntegerCVAROutput(stringize(m_sensitivity), (int)m_sensitivity);
                     M_SliderSound();
                     M_SaveCVARs();
                 }
@@ -2163,7 +2163,7 @@ static void M_ChangeSensitivity(int choice)
 static void M_ChangeDetail(int choice)
 {
     r_detail = !r_detail;
-    C_StrCVAROutput(stringize(r_detail), (r_detail == r_detail_low ? "low" : "high"));
+    C_StringCVAROutput(stringize(r_detail), (r_detail == r_detail_low ? "low" : "high"));
 
     if (!menuactive)
     {
@@ -2196,28 +2196,28 @@ static void M_SizeDisplay(int choice)
             if (r_screensize == r_screensize_max && !r_hud)
             {
                 r_hud = true;
-                C_StrCVAROutput(stringize(r_hud), "on");
+                C_StringCVAROutput(stringize(r_hud), "on");
                 S_StartSound(NULL, sfx_stnmov);
                 M_SaveCVARs();
             }
             else if (r_screensize == r_screensize_max - 1 && vid_widescreen)
             {
                 vid_widescreen = false;
-                C_StrCVAROutput(stringize(vid_widescreen), "off");
+                C_StringCVAROutput(stringize(vid_widescreen), "off");
                 I_RestartGraphics(false);
                 S_StartSound(NULL, sfx_stnmov);
                 M_SaveCVARs();
             }
             else if (r_screensize > r_screensize_min)
             {
-                C_IntCVAROutput(stringize(r_screensize), --r_screensize);
+                C_IntegerCVAROutput(stringize(r_screensize), --r_screensize);
                 R_SetViewSize(menuactive && viewactive ? r_screensize_max : r_screensize);
                 AM_SetAutomapSize(automapactive ? r_screensize_max : r_screensize);
 
                 if (r_screensize == r_screensize_max - 1)
                 {
                     r_hud = false;
-                    C_StrCVAROutput(stringize(r_hud), "off");
+                    C_StringCVAROutput(stringize(r_hud), "off");
                 }
 
                 S_StartSound(NULL, sfx_stnmov);
@@ -2232,28 +2232,28 @@ static void M_SizeDisplay(int choice)
             if (r_screensize == r_screensize_max && r_hud)
             {
                 r_hud = false;
-                C_StrCVAROutput(stringize(r_hud), "off");
+                C_StringCVAROutput(stringize(r_hud), "off");
                 S_StartSound(NULL, sfx_stnmov);
                 M_SaveCVARs();
             }
             else if (r_screensize == r_screensize_max - 1 && !vid_widescreen && !nowidescreen)
             {
                 vid_widescreen = true;
-                C_StrCVAROutput(stringize(vid_widescreen), "on");
+                C_StringCVAROutput(stringize(vid_widescreen), "on");
                 I_RestartGraphics(false);
                 S_StartSound(NULL, sfx_stnmov);
                 M_SaveCVARs();
             }
             else if (r_screensize < r_screensize_max)
             {
-                C_IntCVAROutput(stringize(r_screensize), ++r_screensize);
+                C_IntegerCVAROutput(stringize(r_screensize), ++r_screensize);
                 R_SetViewSize(menuactive && viewactive ? r_screensize_max : r_screensize);
                 AM_SetAutomapSize(automapactive ? r_screensize_max : r_screensize);
 
                 if (r_screensize == r_screensize_max)
                 {
                     r_hud = true;
-                    C_StrCVAROutput(stringize(r_hud), "on");
+                    C_StringCVAROutput(stringize(r_hud), "on");
                 }
 
                 S_StartSound(NULL, sfx_stnmov);
@@ -2480,7 +2480,7 @@ static void M_ChangeGamma(bool shift)
         r_gamma = gammalevels[gammaindex];
 
         if (r_gamma == 1.0f)
-            C_StrCVAROutput(stringize(r_gamma), "off");
+            C_StringCVAROutput(stringize(r_gamma), "off");
         else
         {
             static char buffer[128];
@@ -2492,7 +2492,7 @@ static void M_ChangeGamma(bool shift)
             if (len >= 2 && buffer[len - 1] == '0' && buffer[len - 2] == '0')
                 buffer[len - 1] = '\0';
 
-            C_StrCVAROutput(stringize(r_gamma), buffer);
+            C_StringCVAROutput(stringize(r_gamma), buffer);
         }
 
         gammawait = I_GetTime() + 4;
@@ -3009,11 +3009,11 @@ bool M_Responder(event_t *ev)
             else if (vid_widescreen)
             {
                 r_screensize = r_screensize_max - 1;
-                C_IntCVAROutput(stringize(r_screensize), r_screensize);
+                C_IntegerCVAROutput(stringize(r_screensize), r_screensize);
                 r_hud = false;
-                C_StrCVAROutput(stringize(r_hud), "off");
+                C_StringCVAROutput(stringize(r_hud), "off");
                 vid_widescreen = false;
-                C_StrCVAROutput(stringize(vid_widescreen), "off");
+                C_StringCVAROutput(stringize(vid_widescreen), "off");
                 pagetic = PAGETICS;
                 R_SetViewSize(r_screensize);
                 I_RestartGraphics(false);
@@ -3037,9 +3037,9 @@ bool M_Responder(event_t *ev)
             else if (!vid_widescreen && !nowidescreen)
             {
                 r_screensize = r_screensize_max - 1;
-                C_IntCVAROutput(stringize(r_screensize), r_screensize);
+                C_IntegerCVAROutput(stringize(r_screensize), r_screensize);
                 vid_widescreen = true;
-                C_StrCVAROutput(stringize(vid_widescreen), "on");
+                C_StringCVAROutput(stringize(vid_widescreen), "on");
                 pagetic = PAGETICS;
                 R_SetViewSize(r_screensize);
                 I_RestartGraphics(false);
@@ -3274,7 +3274,7 @@ bool M_Responder(event_t *ev)
                 SaveDef.laston = itemon;
                 savegame = itemon + 1;
                 M_SaveCVARs();
-                C_MenuIntCVAROutput(stringize(savegame), savegame);
+                C_IntegerCVAROutput(stringize(savegame), savegame);
             }
             else
             {
@@ -3305,13 +3305,13 @@ bool M_Responder(event_t *ev)
             {
                 episode = itemon + 1;
                 M_SaveCVARs();
-                C_MenuIntCVAROutput(stringize(episode), episode);
+                C_IntegerCVAROutput(stringize(episode), episode);
             }
             else if (currentmenu == &ExpDef)
             {
                 expansion = itemon + 1;
                 M_SaveCVARs();
-                C_MenuIntCVAROutput(stringize(expansion), expansion);
+                C_IntegerCVAROutput(stringize(expansion), expansion);
 
                 if (gamestate != GS_LEVEL)
                     gamemission = (expansion == 2 && nerve ? pack_nerve : doom2);
@@ -3320,14 +3320,14 @@ bool M_Responder(event_t *ev)
             {
                 skilllevel = itemon + 1;
                 M_SaveCVARs();
-                C_MenuIntCVAROutput(stringize(skilllevel), skilllevel);
+                C_IntegerCVAROutput(stringize(skilllevel), skilllevel);
             }
             else if (currentmenu == &SaveDef)
             {
                 LoadDef.laston = itemon;
                 savegame = itemon + 1;
                 M_SaveCVARs();
-                C_MenuIntCVAROutput(stringize(savegame), savegame);
+                C_IntegerCVAROutput(stringize(savegame), savegame);
             }
 
             keywait = I_GetTime() + 2;
@@ -3353,7 +3353,7 @@ bool M_Responder(event_t *ev)
                 SaveDef.laston = itemon;
                 savegame = itemon + 1;
                 M_SaveCVARs();
-                C_MenuIntCVAROutput(stringize(savegame), savegame);
+                C_IntegerCVAROutput(stringize(savegame), savegame);
             }
             else
             {
@@ -3384,13 +3384,13 @@ bool M_Responder(event_t *ev)
             {
                 episode = itemon + 1;
                 M_SaveCVARs();
-                C_MenuIntCVAROutput(stringize(episode), episode);
+                C_IntegerCVAROutput(stringize(episode), episode);
             }
             else if (currentmenu == &ExpDef)
             {
                 expansion = itemon + 1;
                 M_SaveCVARs();
-                C_MenuIntCVAROutput(stringize(expansion), expansion);
+                C_IntegerCVAROutput(stringize(expansion), expansion);
 
                 if (gamestate != GS_LEVEL)
                     gamemission = (expansion == 2 && nerve ? pack_nerve : doom2);
@@ -3399,14 +3399,14 @@ bool M_Responder(event_t *ev)
             {
                 skilllevel = itemon + 1;
                 M_SaveCVARs();
-                C_MenuIntCVAROutput(stringize(skilllevel), skilllevel);
+                C_IntegerCVAROutput(stringize(skilllevel), skilllevel);
             }
             else if (currentmenu == &SaveDef)
             {
                 LoadDef.laston = itemon;
                 savegame = itemon + 1;
                 M_SaveCVARs();
-                C_MenuIntCVAROutput(stringize(savegame), savegame);
+                C_IntegerCVAROutput(stringize(savegame), savegame);
             }
 
             keywait = I_GetTime() + 2;
@@ -3476,11 +3476,11 @@ bool M_Responder(event_t *ev)
             }
 
             if (currentmenu == &EpiDef && !EpiCustom)
-                C_MenuIntCVAROutput(stringize(episode), episode);
+                C_IntegerCVAROutput(stringize(episode), episode);
             else if (currentmenu == &ExpDef)
-                C_MenuIntCVAROutput(stringize(expansion), expansion);
+                C_IntegerCVAROutput(stringize(expansion), expansion);
             else if (currentmenu == &NewDef)
-                C_MenuIntCVAROutput(stringize(skilllevel), skilllevel);
+                C_IntegerCVAROutput(stringize(skilllevel), skilllevel);
 
             M_SetWindowCaption();
             skipaction = (currentmenu == &LoadDef || currentmenu == &SaveDef || currentmenu == &NewDef);
@@ -3573,13 +3573,13 @@ bool M_Responder(event_t *ev)
                     {
                         episode = itemon + 1;
                         M_SaveCVARs();
-                        C_MenuIntCVAROutput(stringize(episode), episode);
+                        C_IntegerCVAROutput(stringize(episode), episode);
                     }
                     else if (currentmenu == &ExpDef)
                     {
                         expansion = itemon + 1;
                         M_SaveCVARs();
-                        C_MenuIntCVAROutput(stringize(expansion), expansion);
+                        C_IntegerCVAROutput(stringize(expansion), expansion);
 
                         if (gamestate != GS_LEVEL)
                             gamemission = (expansion == 2 && nerve ? pack_nerve : doom2);
@@ -3588,21 +3588,21 @@ bool M_Responder(event_t *ev)
                     {
                         skilllevel = itemon + 1;
                         M_SaveCVARs();
-                        C_MenuIntCVAROutput(stringize(skilllevel), skilllevel);
+                        C_IntegerCVAROutput(stringize(skilllevel), skilllevel);
                     }
                     else if (currentmenu == &SaveDef)
                     {
                         LoadDef.laston = itemon;
                         savegame = itemon + 1;
                         M_SaveCVARs();
-                        C_MenuIntCVAROutput(stringize(savegame), savegame);
+                        C_IntegerCVAROutput(stringize(savegame), savegame);
                     }
                     else if (currentmenu == &LoadDef)
                     {
                         SaveDef.laston = itemon;
                         savegame = itemon + 1;
                         M_SaveCVARs();
-                        C_MenuIntCVAROutput(stringize(savegame), savegame);
+                        C_IntegerCVAROutput(stringize(savegame), savegame);
                     }
 
                     M_SetWindowCaption();
@@ -3633,13 +3633,13 @@ bool M_Responder(event_t *ev)
                     {
                         episode = itemon + 1;
                         M_SaveCVARs();
-                        C_MenuIntCVAROutput(stringize(episode), episode);
+                        C_IntegerCVAROutput(stringize(episode), episode);
                     }
                     else if (currentmenu == &ExpDef)
                     {
                         expansion = itemon + 1;
                         M_SaveCVARs();
-                        C_MenuIntCVAROutput(stringize(expansion), expansion);
+                        C_IntegerCVAROutput(stringize(expansion), expansion);
 
                         if (gamestate != GS_LEVEL)
                             gamemission = (expansion == 2 && nerve ? pack_nerve : doom2);
@@ -3648,21 +3648,21 @@ bool M_Responder(event_t *ev)
                     {
                         skilllevel = itemon + 1;
                         M_SaveCVARs();
-                        C_MenuIntCVAROutput(stringize(skilllevel), skilllevel);
+                        C_IntegerCVAROutput(stringize(skilllevel), skilllevel);
                     }
                     else if (currentmenu == &SaveDef)
                     {
                         LoadDef.laston = itemon;
                         savegame = itemon + 1;
                         M_SaveCVARs();
-                        C_MenuIntCVAROutput(stringize(savegame), savegame);
+                        C_IntegerCVAROutput(stringize(savegame), savegame);
                     }
                     else if (currentmenu == &LoadDef)
                     {
                         SaveDef.laston = itemon;
                         savegame = itemon + 1;
                         M_SaveCVARs();
-                        C_MenuIntCVAROutput(stringize(savegame), savegame);
+                        C_IntegerCVAROutput(stringize(savegame), savegame);
                     }
 
                     M_SetWindowCaption();
@@ -3821,7 +3821,7 @@ void M_Drawer(void)
                     SaveDef.laston = itemon;
                     savegame = itemon + 1;
                     M_SaveCVARs();
-                    C_MenuIntCVAROutput(stringize(savegame), savegame);
+                    C_IntegerCVAROutput(stringize(savegame), savegame);
                 }
             }
 

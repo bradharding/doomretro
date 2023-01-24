@@ -208,47 +208,41 @@ void C_Cheat(const char *string)
     selectend = 0;
 }
 
-void C_IntCVAROutput(const char *cvar, const int value)
+void C_IntegerCVAROutput(const char *cvar, const int value)
 {
     char    *temp1 = commify(value);
     char    *temp2 = M_StringJoin(cvar, " ", temp1, NULL);
 
-    if (!numconsolestrings || !M_StringCompare(temp2, console[numconsolestrings - 1].string))
+    if (!numconsolestrings
+        || (menuactive && !M_StringStartsWith(console[numconsolestrings - 1].string, cvar))
+        || (!menuactive && !M_StringCompare(console[numconsolestrings - 1].string, temp2)))
         C_Input(temp2);
 
     free(temp1);
     free(temp2);
 }
 
-void C_MenuIntCVAROutput(const char *cvar, const int value)
-{
-    char    *temp1 = commify(value);
-    char    *temp2 = M_StringJoin(cvar, " ", temp1, NULL);
-
-    if (!numconsolestrings || !M_StringStartsWith(console[numconsolestrings - 1].string, cvar))
-        C_Input(temp2);
-
-    free(temp1);
-    free(temp2);
-}
-
-void C_PctCVAROutput(const char *cvar, const int value)
+void C_PercentCVAROutput(const char *cvar, const int value)
 {
     char    *temp1 = commify(value);
     char    *temp2 = M_StringJoin(cvar, " ", temp1, "%", NULL);
 
-    if (!numconsolestrings || !M_StringCompare(temp2, console[numconsolestrings - 1].string))
+    if (!numconsolestrings
+        || (menuactive && !M_StringStartsWith(console[numconsolestrings - 1].string, cvar))
+        || (!menuactive && !M_StringCompare(console[numconsolestrings - 1].string, temp2)))
         C_Input(temp2);
 
     free(temp1);
     free(temp2);
 }
 
-void C_StrCVAROutput(const char *cvar, const char *string)
+void C_StringCVAROutput(const char *cvar, const char *string)
 {
     char    *temp = M_StringJoin(cvar, " ", string, NULL);
 
-    if (!numconsolestrings || !M_StringCompare(temp, console[numconsolestrings - 1].string))
+    if (!numconsolestrings
+        || (menuactive && !M_StringStartsWith(console[numconsolestrings - 1].string, cvar))
+        || (!menuactive && !M_StringCompare(console[numconsolestrings - 1].string, temp)))
         C_Input(temp);
 
     free(temp);
