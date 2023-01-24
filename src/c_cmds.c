@@ -1358,22 +1358,20 @@ static bool cheat_func1(char *cmd, char *parms)
 
 static bool game_func1(char *cmd, char *parms)
 {
-    if (gamestate == GS_LEVEL)
+    if (gamestate == GS_LEVEL || togglingvanilla)
         return true;
-    else if (!togglingvanilla)
-    {
-        C_Input(consoleinput);
-        C_ShowDescription(C_GetIndex(cmd));
 
-        if (M_StringCompare(playername, playername_default))
-            C_Warning(0, NOGAMEWARNING, "you", "are");
-        else
-            C_Warning(0, NOGAMEWARNING, playername, "is");
+    C_Input(consoleinput);
+    C_ShowDescription(C_GetIndex(cmd));
 
-        consoleinput[0] = '\0';
+    if (M_StringCompare(playername, playername_default))
+        C_Warning(0, NOGAMEWARNING, "you", "are");
+    else
+        C_Warning(0, NOGAMEWARNING, playername, "is");
 
-        return false;
-    }
+    consoleinput[0] = '\0';
+
+    return false;
 }
 
 static bool nightmare_func1(char *cmd, char *parms)
