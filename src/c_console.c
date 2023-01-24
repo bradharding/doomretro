@@ -208,7 +208,7 @@ void C_Cheat(const char *string)
     selectend = 0;
 }
 
-void C_IntCVAROutput(const char *cvar, int value)
+void C_IntCVAROutput(const char *cvar, const int value)
 {
     char    *temp1 = commify(value);
     char    *temp2 = M_StringJoin(cvar, " ", temp1, NULL);
@@ -220,7 +220,19 @@ void C_IntCVAROutput(const char *cvar, int value)
     free(temp2);
 }
 
-void C_PctCVAROutput(const char *cvar, int value)
+void C_MenuIntCVAROutput(const char *cvar, const int value)
+{
+    char    *temp1 = commify(value);
+    char    *temp2 = M_StringJoin(cvar, " ", temp1, NULL);
+
+    if (!numconsolestrings || !M_StringStartsWith(console[numconsolestrings - 1].string, cvar))
+        C_Input(temp2);
+
+    free(temp1);
+    free(temp2);
+}
+
+void C_PctCVAROutput(const char *cvar, const int value)
 {
     char    *temp1 = commify(value);
     char    *temp2 = M_StringJoin(cvar, " ", temp1, "%", NULL);
@@ -916,9 +928,6 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
                     x = (x > tabs[++tab] + 18 ? x + spacewidth : tabs[tab] + 18);
                 else
                     x = (x > tabs[++tab] ? x + spacewidth : tabs[tab]);
-
-                bold = false;
-                italics = false;
             }
             else if (letter == '(' && i < len - 3 && tolower(text[i + 1]) == 't' && tolower(text[i + 2]) == 'm' && text[i + 3] == ')'
                 && formatting)
@@ -1052,7 +1061,7 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
     return (x - startx);
 }
 
-static void C_DrawOverlayText(byte *screen, int screenwidth, int x, int y,
+static void C_DrawOverlayText(byte *screen, const int screenwidth, int x, const int y,
     byte *tinttab, const char *text, const int color, const bool monospaced)
 {
     const int   len = (int)strlen(text);
@@ -1076,7 +1085,7 @@ static void C_DrawOverlayText(byte *screen, int screenwidth, int x, int y,
             if (isdigit(letter) && monospaced)
             {
                 V_DrawOverlayTextPatch(screen, screenwidth,
-                    x + (letter == '1' ? 1 : (letter == '4' ? -1 : 0)), y, patch, width - 1, color, tinttab);
+                    x + (letter == '1') - (letter == '4'), y, patch, width - 1, color, tinttab);
                 x += zerowidth;
             }
             else
@@ -1088,7 +1097,7 @@ static void C_DrawOverlayText(byte *screen, int screenwidth, int x, int y,
     }
 }
 
-char *C_CreateTimeStamp(int index)
+char *C_CreateTimeStamp(const int index)
 {
     int         hours = gamestarttime.tm_hour;
     int         minutes = gamestarttime.tm_min;
@@ -1114,7 +1123,7 @@ char *C_CreateTimeStamp(int index)
     return console[index].timestamp;
 }
 
-static void C_DrawTimeStamp(int x, int y, char timestamp[9])
+static void C_DrawTimeStamp(int x, const int y, const char timestamp[9])
 {
     for (int i = (int)strlen(timestamp) - 1; i >= 0; i--)
     {
@@ -1123,7 +1132,7 @@ static void C_DrawTimeStamp(int x, int y, char timestamp[9])
         int     width = SHORT(patch->width);
 
         x -= (ch == ':' ? width : zerowidth);
-        V_DrawConsoleTextPatch(x + (ch == '1' ? 1 : (ch == '4' ? -1 : 0)), y, patch,
+        V_DrawConsoleTextPatch(x + (ch == '1') - (ch == '4'), y, patch,
             width, consoleplayermessagecolor, NOBACKGROUNDCOLOR, false, tinttab33);
     }
 }

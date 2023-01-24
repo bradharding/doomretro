@@ -1358,18 +1358,21 @@ static bool cheat_func1(char *cmd, char *parms)
 
 static bool game_func1(char *cmd, char *parms)
 {
-    if (gamestate == GS_LEVEL || togglingvanilla)
+    if (gamestate == GS_LEVEL)
         return true;
 
-    C_Input(consoleinput);
-    C_ShowDescription(C_GetIndex(cmd));
+    if (!togglingvanilla)
+    {
+        C_Input(consoleinput);
+        C_ShowDescription(C_GetIndex(cmd));
 
-    if (M_StringCompare(playername, playername_default))
-        C_Warning(0, NOGAMEWARNING, "you", "are");
-    else
-        C_Warning(0, NOGAMEWARNING, playername, "is");
+        if (M_StringCompare(playername, playername_default))
+            C_Warning(0, NOGAMEWARNING, "you", "are");
+        else
+            C_Warning(0, NOGAMEWARNING, playername, "is");
 
-    consoleinput[0] = '\0';
+        consoleinput[0] = '\0';
+    }
 
     return false;
 }

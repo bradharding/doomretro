@@ -235,8 +235,9 @@ extern const autocomplete_t autocompletelist[];
 
 void C_Input(const char *string, ...);
 void C_Cheat(const char *string);
-void C_IntCVAROutput(const char *cvar, int value);
-void C_PctCVAROutput(const char *cvar, int value);
+void C_IntCVAROutput(const char *cvar, const int value);
+void C_MenuIntCVAROutput(const char *cvar, const int value);
+void C_PctCVAROutput(const char *cvar, const int value);
 void C_StrCVAROutput(const char *cvar, const char *string);
 void C_Output(const char *string, ...);
 bool C_OutputNoRepeat(const char *string, ...);
@@ -262,5 +263,5 @@ void C_UpdateTimerOverlay(void);
 void C_UpdatePathOverlay(void);
 void C_UpdatePlayerStatsOverlay(void);
 void C_UpdatePlayerPositionOverlay(void);
-char *C_CreateTimeStamp(int index);
+char *C_CreateTimeStamp(const int index);
 int C_TextWidth(const char *text, const bool formatting, const bool kerning);
