@@ -28,7 +28,8 @@
 * These changes have been made to the `playerstats` CCMD:
   * The number of times the player loads a savegame is now displayed.
   * The number of monsters gibbed by the player is now displayed.
-  * The amount of cells the player has picked up is no longer displayed when playing *DOOM (Shareware)*.
+  * The number of cells the player has picked up is no longer displayed when playing *DOOM (Shareware)*.
+  * The number of times the player has died is now corrected when they are resurrected using either the `resurrect` CCMD or `IDDQD` cheat.
 * Minor improvements have been made to the support for `DEHACKED` and `MAPINFO` lumps.
 * The player’s health, armor and ammo are now displayed better in the status bar and widescreen HUD if they start with a `1`.
 * The widescreen HUD is now brought in from the left and right edges of ultra-wide displays.
@@ -56,9 +57,8 @@
 * The player’s view no longer bounces once landing after a fall if either no clipping mode or freeze mode are enabled.
 * The `-solonet` command-line parameter has now been replaced with `-coop_spawns`.
 * The player’s health, armor, ammo and weapon are no longer reset when using the `resetall` CCMD.
-* The player’s “Deaths” stat in the `playerstats` CCMD is now corrected when the player is resurrected using either the `resurrect` CCMD or `IDDQD` cheat.
 * The `kill` CCMD can no longer be used to kill the player if either god mode or buddha mode are enabled, or if they have an invulnerability power-up.
-* The *BOOM*-compatible line special of 251 (“Scroll floor according to line vector”) now works correctly if used with liquid sectors and the `r_liquids_current` CVAR is `on`.
+* The *BOOM*-compatible line special of 251 (“Scroll floor according to line vector”) now works correctly if used with a liquid sector and the `r_liquids_current` CVAR is `on`.
  
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
