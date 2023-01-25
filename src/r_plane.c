@@ -303,7 +303,7 @@ static void R_MakeSpans(visplane_t *pl)
     static int  spanstart[MAXHEIGHT];
     const int   stop = pl->right + 1;
 
-    if (terraintypes[pl->picnum] >= LIQUID && r_liquid_current)
+    if (terraintypes[pl->picnum] >= LIQUID && r_liquid_current && !pl->xoffset && !pl->yoffset)
     {
         xoffset = animatedliquidxoffs;
         yoffset = animatedliquidyoffs;
