@@ -88,8 +88,8 @@ void M_Init(void);
 
 // Called by intro code to force menu up upon a keypress,
 // does nothing if menu is already up.
-void M_StartControlPanel(void);
-void M_ClearMenus(void);
+void M_OpenMainMenu(void);
+void M_CloseMenu(void);
 void M_EndingGame(void);
 
 void M_DrawMenuBackground(void);

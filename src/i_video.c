@@ -577,7 +577,7 @@ static void I_GetEvent(void)
                         waspaused = true;
                     }
 
-                    M_StartControlPanel();
+                    M_OpenMainMenu();
                     S_StartSound(NULL, sfx_swtchn);
                     M_QuitDOOM(0);
                 }

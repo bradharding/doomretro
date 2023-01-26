@@ -98,6 +98,7 @@ bool            menuactive;
 bool            savegames;
 bool            quitting;
 
+static bool     noconsoleoutput;
 static bool     reopenautomap;
 
 char            savegamestrings[NUMSAVEGAMES][SAVESTRINGSIZE];
@@ -1044,7 +1045,7 @@ static void M_LoadSelect(int choice)
         C_Warning(0, "This savegame requires a different WAD.");
     }
 
-    M_ClearMenus();
+    M_CloseMenu();
 }
 
 //
@@ -1165,7 +1166,7 @@ static void M_DrawSave(void)
 //
 static void M_DoSave(int slot)
 {
-    M_ClearMenus();
+    M_CloseMenu();
     G_SaveGame(slot, savegamestrings[slot], "");
     functionkey = 0;
     quicksaveslot = slot;
@@ -1293,13 +1294,13 @@ static void M_QuickSave(void)
         if (functionkey == KEY_F6)
         {
             functionkey = 0;
-            M_ClearMenus();
+            M_CloseMenu();
             S_StartSound(NULL, sfx_swtchx);
         }
         else
         {
             functionkey = KEY_F6;
-            M_StartControlPanel();
+            M_OpenMainMenu();
             M_ReadSaveStrings();
             M_SetupNextMenu(&SaveDef);
             S_StartSound(NULL, sfx_swtchn);
@@ -1327,7 +1328,7 @@ static void M_QuickLoadResponse(int key)
     else
     {
         functionkey = 0;
-        M_ClearMenus();
+        M_CloseMenu();
     }
 }
 
@@ -1724,7 +1725,7 @@ static void M_VerifyNightmare(int key)
     else
     {
         quicksaveslot = -1;
-        M_ClearMenus();
+        M_CloseMenu();
         viewplayer->cheats = 0;
         G_DeferredInitNew((skill_t)nightmare, epi + 1, 1);
     }
@@ -1750,7 +1751,7 @@ static void M_ChooseSkill(int choice)
     HU_DrawDisk();
     S_StartSound(NULL, sfx_pistol);
     quicksaveslot = -1;
-    M_ClearMenus();
+    M_CloseMenu();
     viewplayer->cheats = 0;
 
     if (KDIKDIZD)
@@ -1967,7 +1968,7 @@ static void M_EndGameResponse(int key)
     if (key != 'y')
     {
         if (functionkey == KEY_F7)
-            M_ClearMenus();
+            M_CloseMenu();
         else
             M_SetupNextMenu(&OptionsDef);
 
@@ -1976,7 +1977,7 @@ static void M_EndGameResponse(int key)
 
     currentmenu->laston = itemon;
     S_StopMusic();
-    M_ClearMenus();
+    M_CloseMenu();
     viewactive = false;
     automapactive = false;
     S_StartSound(NULL, sfx_swtchx);
@@ -2027,7 +2028,7 @@ static void M_QuitResponse(int key)
         }
 
         if (functionkey == KEY_F10)
-            M_ClearMenus();
+            M_CloseMenu();
         else
             M_SetupNextMenu(&MainDef);
 
@@ -2451,7 +2452,7 @@ static void M_ShowHelp(int choice)
 {
     functionkey = KEY_F1;
     inhelpscreens = true;
-    M_StartControlPanel();
+    M_OpenMainMenu();
     currentmenu = &HelpDef;
     itemon = 0;
     S_StartSound(NULL, sfx_swtchn);
@@ -3061,7 +3062,7 @@ bool M_Responder(event_t *ev)
             if (functionkey == KEY_F1)
             {
                 functionkey = 0;
-                M_ClearMenus();
+                M_CloseMenu();
                 S_StartSound(NULL, sfx_swtchx);
                 D_FadeScreen(false);
 
@@ -3084,13 +3085,13 @@ bool M_Responder(event_t *ev)
             {
                 functionkey = 0;
                 currentmenu->laston = itemon;
-                M_ClearMenus();
+                M_CloseMenu();
                 S_StartSound(NULL, sfx_swtchx);
             }
             else
             {
                 functionkey = KEY_F2;
-                M_StartControlPanel();
+                M_OpenMainMenu();
                 itemon = currentmenu->laston;
                 S_StartSound(NULL, sfx_swtchn);
                 M_SaveGame(0);
@@ -3108,13 +3109,13 @@ bool M_Responder(event_t *ev)
             {
                 functionkey = 0;
                 currentmenu->laston = itemon;
-                M_ClearMenus();
+                M_CloseMenu();
                 S_StartSound(NULL, sfx_swtchx);
             }
             else
             {
                 functionkey = KEY_F3;
-                M_StartControlPanel();
+                M_OpenMainMenu();
                 itemon = currentmenu->laston;
                 S_StartSound(NULL, sfx_swtchn);
                 M_LoadGame(0);
@@ -3132,13 +3133,13 @@ bool M_Responder(event_t *ev)
             {
                 functionkey = 0;
                 currentmenu->laston = itemon;
-                M_ClearMenus();
+                M_CloseMenu();
                 S_StartSound(NULL, sfx_swtchx);
             }
             else
             {
                 functionkey = KEY_F4;
-                M_StartControlPanel();
+                M_OpenMainMenu();
                 currentmenu = &SoundDef;
                 itemon = currentmenu->laston;
                 S_StartSound(NULL, sfx_swtchn);
@@ -3165,7 +3166,7 @@ bool M_Responder(event_t *ev)
         {
             keydown = key;
             functionkey = KEY_F7;
-            M_StartControlPanel();
+            M_OpenMainMenu();
             S_StartSound(NULL, sfx_swtchn);
             M_EndGame(0);
             return true;
@@ -3187,7 +3188,7 @@ bool M_Responder(event_t *ev)
         {
             keydown = key;
             functionkey = KEY_F9;
-            M_StartControlPanel();
+            M_OpenMainMenu();
             M_QuickLoad();
             return true;
         }
@@ -3197,7 +3198,7 @@ bool M_Responder(event_t *ev)
         {
             keydown = key;
             functionkey = KEY_F10;
-            M_StartControlPanel();
+            M_OpenMainMenu();
             S_StartSound(NULL, sfx_swtchn);
             M_QuitDOOM(0);
             return true;
@@ -3245,7 +3246,7 @@ bool M_Responder(event_t *ev)
             }
             else
             {
-                M_StartControlPanel();
+                M_OpenMainMenu();
                 S_StartSound(NULL, sfx_swtchn);
             }
         }
@@ -3440,7 +3441,7 @@ bool M_Responder(event_t *ev)
             if (inhelpscreens)
             {
                 functionkey = 0;
-                M_ClearMenus();
+                M_CloseMenu();
                 S_StartSound(NULL, sfx_swtchx);
                 D_FadeScreen(false);
                 R_SetViewSize(r_screensize);
@@ -3479,8 +3480,11 @@ bool M_Responder(event_t *ev)
                 C_IntegerCVAROutput(stringize(episode), episode);
             else if (currentmenu == &ExpDef)
                 C_IntegerCVAROutput(stringize(expansion), expansion);
-            else if (currentmenu == &NewDef)
+            else if (currentmenu == &NewDef && !noconsoleoutput)
+            {
                 C_IntegerCVAROutput(stringize(skilllevel), skilllevel);
+                noconsoleoutput = true;
+            }
 
             M_SetWindowCaption();
             skipaction = (currentmenu == &LoadDef || currentmenu == &SaveDef || currentmenu == &NewDef);
@@ -3505,7 +3509,7 @@ bool M_Responder(event_t *ev)
             else
             {
                 functionkey = 0;
-                M_ClearMenus();
+                M_CloseMenu();
                 S_StartSound(NULL, sfx_swtchx);
                 gamecontrollerbuttons = 0;
                 ev->data1 = 0;
@@ -3675,9 +3679,9 @@ bool M_Responder(event_t *ev)
 }
 
 //
-// M_StartControlPanel
+// M_OpenMainMenu
 //
-void M_StartControlPanel(void)
+void M_OpenMainMenu(void)
 {
     // intro might call this repeatedly
     if (menuactive)
@@ -3686,6 +3690,7 @@ void M_StartControlPanel(void)
     menuactive = true;
     currentmenu = &MainDef;
     itemon = currentmenu->laston;
+    noconsoleoutput = false;
 
     if (joy_rumble_damage || joy_rumble_barrels || joy_rumble_weapons)
     {
@@ -3999,9 +4004,9 @@ void M_Drawer(void)
 }
 
 //
-// M_ClearMenus
+// M_CloseMenu
 //
-void M_ClearMenus(void)
+void M_CloseMenu(void)
 {
     if (!menuactive)
         return;

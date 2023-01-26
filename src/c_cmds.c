@@ -1114,7 +1114,7 @@ static void maxzoom_action_func(void)
 
 static void menu_action_func(void)
 {
-    M_StartControlPanel();
+    M_OpenMainMenu();
     S_StartSound(NULL, sfx_swtchn);
 }
 

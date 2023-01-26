@@ -767,7 +767,7 @@ bool G_Responder(event_t *ev)
                 else
                 {
                     pagetic = PAGETICS;
-                    M_StartControlPanel();
+                    M_OpenMainMenu();
                     S_StartSound(NULL, sfx_swtchn);
                 }
             }
