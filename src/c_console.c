@@ -590,7 +590,7 @@ static void C_DrawScrollbar(void)
             for (int y = gripstart; y < gripstart + 6 * SCREENWIDTH; y += 2 * SCREENWIDTH)
                 if (y - offset >= 0)
                     for (int x = CONSOLESCROLLBARX + 1; x < CONSOLESCROLLBARX + CONSOLESCROLLBARWIDTH - 1; x++)
-                        screens[1][y - offset + x] = screens[0][y - offset + x];
+                        tempscreen[y - offset + x] = screens[0][y - offset + x];
 
         // draw scrollbar face
         for (int y = facestart * SCREENWIDTH; y < faceend * SCREENWIDTH; y += SCREENWIDTH)
@@ -603,7 +603,7 @@ static void C_DrawScrollbar(void)
             for (int y = gripstart; y < gripstart + 6 * SCREENWIDTH; y += 2 * SCREENWIDTH)
                 if (y - offset >= 0)
                     for (int x = CONSOLESCROLLBARX + 1; x < CONSOLESCROLLBARX + CONSOLESCROLLBARWIDTH - 1; x++)
-                        screens[0][y - offset + x] = screens[1][y - offset + x];
+                        screens[0][y - offset + x] = tempscreen[y - offset + x];
 
         // draw scrollbar face shadow
         if (faceend * SCREENWIDTH - offset >= 0)
