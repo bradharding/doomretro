@@ -1381,7 +1381,7 @@ static bool nightmare_func1(char *cmd, char *parms)
 {
     if (gamestate != GS_LEVEL)
         return game_func1(cmd, parms);
-    
+
     if (gameskill != sk_nightmare)
         return true;
 

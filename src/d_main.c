@@ -464,7 +464,6 @@ static void D_DoomLoop(void)
 {
     player_t    player;
 
-
     viewplayer = &player;
     memset(viewplayer, 0, sizeof(*viewplayer));
 

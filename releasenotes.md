@@ -59,7 +59,7 @@
 * The player’s health, armor, ammo and weapon are no longer reset when using the `resetall` CCMD.
 * The `kill` CCMD can no longer be used to kill the player if either god mode or buddha mode are enabled, or if they have an invulnerability power-up.
 * The *BOOM*-compatible line special of 251 (“Scroll floor according to line vector”) now works correctly if used with a liquid sector and the `r_liquids_current` CVAR is `on`.
- 
+
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Saturday, December 17, 2022

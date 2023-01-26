@@ -842,7 +842,7 @@ static void HU_AltInit(void)
 
             if (lump >= 0
                 && lumpinfo[lump]->wadfile->type == PWAD
-                && !M_StringEndsWith(lumpinfo[i]->wadfile->path, DOOMRETRO_RESOURCEWAD) 
+                && !M_StringEndsWith(lumpinfo[i]->wadfile->path, DOOMRETRO_RESOURCEWAD)
                 && !fixspriteoffsets)
             {
                 weaponschanged = true;
