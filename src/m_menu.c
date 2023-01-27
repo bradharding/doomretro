@@ -3009,17 +3009,24 @@ bool M_Responder(event_t *ev)
                 M_SizeDisplay(0);
             else if (vid_widescreen)
             {
-                r_screensize = r_screensize_max - 1;
-                C_IntegerCVAROutput(stringize(r_screensize), r_screensize);
+                if (r_screensize != r_screensize_max - 1)
+                {
+                    r_screensize = r_screensize_max - 1;
+                    C_IntegerCVAROutput(stringize(r_screensize), r_screensize);
+                }
+
                 r_hud = false;
                 C_StringCVAROutput(stringize(r_hud), "off");
+
                 vid_widescreen = false;
                 C_StringCVAROutput(stringize(vid_widescreen), "off");
-                pagetic = PAGETICS;
+
                 R_SetViewSize(r_screensize);
                 I_RestartGraphics(false);
                 S_StartSound(NULL, sfx_stnmov);
                 M_SaveCVARs();
+
+                pagetic = PAGETICS;
             }
 
             return false;
@@ -3037,15 +3044,21 @@ bool M_Responder(event_t *ev)
                 M_SizeDisplay(1);
             else if (!vid_widescreen && !nowidescreen)
             {
-                r_screensize = r_screensize_max - 1;
-                C_IntegerCVAROutput(stringize(r_screensize), r_screensize);
+                if (r_screensize != r_screensize_max - 1)
+                {
+                    r_screensize = r_screensize_max - 1;
+                    C_IntegerCVAROutput(stringize(r_screensize), r_screensize);
+                }
+
                 vid_widescreen = true;
                 C_StringCVAROutput(stringize(vid_widescreen), "on");
-                pagetic = PAGETICS;
+
                 R_SetViewSize(r_screensize);
                 I_RestartGraphics(false);
                 S_StartSound(NULL, sfx_stnmov);
                 M_SaveCVARs();
+
+                pagetic = PAGETICS;
             }
 
             return false;
