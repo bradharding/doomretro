@@ -995,13 +995,6 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
                 }
                 else if ((letter == '-' || letter == '|' || letter == '[') && prevletter == ITALICSOFFCHAR)
                     x++;
-                else if (letter == ' ' && prevletter == BOLDOFFCHAR && prevletter2 == 'r')
-                    x--;
-                else if (letter == 'f' && prevletter == BOLDOFFCHAR && prevletter2 == '[')
-                    x--;
-                else if (letter == ',' && prevletter == BOLDOFFCHAR
-                    && (prevletter2 == '"' || prevletter2 == '\'' || prevletter2 == 'r'))
-                    x -= 2;
                 else if (letter == '(' && prevletter == ' ')
                 {
                     if (prevletter2 == '.')
@@ -1009,17 +1002,26 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
                     else if (prevletter2 == '!')
                         x -= 2;
                 }
-                else if (prevletter == BOLDOFFCHAR && prevletter2 == '\t')
+                else if (prevletter == BOLDOFFCHAR)
                 {
-                    if (letter == '"' || letter == '\'' || letter == '(')
+                    if (letter == ' ' && prevletter2 == 'r')
+                        x--;
+                    else if (letter == 'f' && prevletter2 == '[')
+                        x--;
+                    else if (letter == ',' && (prevletter2 == '"' || prevletter2 == '\'' || prevletter2 == 'r'))
                         x -= 2;
-                    else if (letter == '4')
+                    else if (prevletter2 == '\t')
+                    {
+                        if (letter == '"' || letter == '\'' || letter == '(')
+                            x -= 2;
+                        else if (letter == '4')
+                            x--;
+                    }
+                    else if (letter == ',' && prevletter2 == 'e')
+                        x--;
+                    else if (letter == '.' && prevletter2 == '\"')
                         x--;
                 }
-                else if (letter == ',' && prevletter == BOLDOFFCHAR && prevletter2 == 'e')
-                    x--;
-                else if (letter == '.' && prevletter == BOLDOFFCHAR && prevletter2 == '\"')
-                    x--;
             }
 
             if (patch)
@@ -1204,7 +1206,7 @@ void C_UpdatePlayerPositionOverlay(void)
     }
 
     C_DrawOverlayText(screens[0], SCREENWIDTH, x - C_OverlayWidth(angle, true), y, tinttab, angle, color, true);
-    C_DrawOverlayText(screens[0], SCREENWIDTH, x - C_OverlayWidth(coordinates, true) + 1,
+    C_DrawOverlayText(screens[0], SCREENWIDTH, x - C_OverlayWidth(coordinates, true),
         y + OVERLAYLINEHEIGHT, tinttab, coordinates, color, true);
 }
 

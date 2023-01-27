@@ -766,8 +766,8 @@ bool ST_Responder(event_t *ev)
                             viewplayer->powers[i] = STARTFLASHING * (i != pw_allmap);
                         }
 
-                        M_snprintf(buffer, sizeof(buffer), "%s " BOLD("%c"),
-                            s_STSTR_BEHOLD, toupper(cheat_powerup[i - 1].sequence[strlen(cheat_powerup[i - 1].sequence) - 1]));
+                        M_snprintf(buffer, sizeof(buffer), "%s " BOLD("%c"), s_STSTR_BEHOLD,
+                            toupper(cheat_powerup[i - 1].sequence[strlen(cheat_powerup[i - 1].sequence) - 1]));
                         ST_PlayerCheated(cheat_powerup[i - 1].sequence, buffer, false);
 
                         if (!M_StringCompare(s_STSTR_BEHOLDX, STSTR_BEHOLDX))
@@ -1187,9 +1187,12 @@ static void ST_UpdateWidgets(void)
     w_ready.data = readyweapon;
 
     // update keycard multiple widgets
-    keyboxes[0] = (viewplayer->cards[it_bluecard] > 0 ? it_bluecard : (viewplayer->cards[it_blueskull] > 0 ? it_blueskull : -1));
-    keyboxes[1] = (viewplayer->cards[it_yellowcard] > 0 ? it_yellowcard : (viewplayer->cards[it_yellowskull] > 0 ? it_yellowskull : -1));
-    keyboxes[2] = (viewplayer->cards[it_redcard] > 0 ? it_redcard : (viewplayer->cards[it_redskull] > 0 ? it_redskull : -1));
+    keyboxes[0] = (viewplayer->cards[it_bluecard] > 0 ? it_bluecard :
+        (viewplayer->cards[it_blueskull] > 0 ? it_blueskull : -1));
+    keyboxes[1] = (viewplayer->cards[it_yellowcard] > 0 ? it_yellowcard :
+        (viewplayer->cards[it_yellowskull] > 0 ? it_yellowskull : -1));
+    keyboxes[2] = (viewplayer->cards[it_redcard] > 0 ? it_redcard :
+        (viewplayer->cards[it_redskull] > 0 ? it_redskull : -1));
 
     // refresh everything if this is him coming back to life
     ST_UpdateFaceWidget();
@@ -1223,7 +1226,8 @@ static void ST_DoPaletteStuff(void)
     int palette = 0;
 
     if (viewplayer->powers[pw_strength]
-        && (viewplayer->pendingweapon == wp_fist || (viewplayer->readyweapon == wp_fist && viewplayer->pendingweapon == wp_nochange))
+        && (viewplayer->pendingweapon == wp_fist
+            || (viewplayer->readyweapon == wp_fist && viewplayer->pendingweapon == wp_nochange))
         && viewplayer->health > 0)
     {
         const int   bonuscount = viewplayer->bonuscount;
@@ -1303,7 +1307,8 @@ static void ST_DrawWidgets(bool refresh)
     }
 
     if (facebackcolor != facebackcolor_default)
-        V_FillRect(0, ST_FACEBACKX, ST_FACEBACKY, ST_FACEBACKWIDTH, ST_FACEBACKHEIGHT, nearestcolors[facebackcolor], false, NULL);
+        V_FillRect(0, ST_FACEBACKX, ST_FACEBACKY, ST_FACEBACKWIDTH,
+            ST_FACEBACKHEIGHT, nearestcolors[facebackcolor], false, NULL);
 
     STlib_UpdateMultIcon(&w_faces, refresh);
 
@@ -1383,7 +1388,8 @@ void ST_Drawer(bool fullscreen, bool refresh)
     // Do red/gold-shifts from damage/items
     ST_DoPaletteStuff();
 
-    if (r_screensize == r_screensize_max || (menuactive && ((messagetoprint && !consoleactive) || !messagetoprint)))
+    if (r_screensize == r_screensize_max
+        || (menuactive && ((messagetoprint && !consoleactive) || !messagetoprint)))
         return;
 
     st_statusbaron = !fullscreen;
@@ -1567,13 +1573,18 @@ static void ST_CreateWidgets(void)
     w_ready.data = viewplayer->readyweapon;
 
     // health percentage
-    STlib_InitPercent(&w_health, ST_HEALTHX, ST_HEALTHY + (STBARs != 2 && !BTSX), tallnum, &viewplayer->health, tallpercent);
+    STlib_InitPercent(&w_health, ST_HEALTHX, ST_HEALTHY + (STBARs != 2 && !BTSX),
+        tallnum, &viewplayer->health, tallpercent);
 
     // weapons owned
-    STlib_InitMultIcon(&w_arms[0], ST_ARMSX, ST_ARMSY, arms[0], &viewplayer->weaponowned[wp_pistol]);
-    STlib_InitMultIcon(&w_arms[1], ST_ARMSX + ST_ARMSXSPACE, ST_ARMSY, arms[1], &st_shotguns);
-    STlib_InitMultIcon(&w_arms[2], ST_ARMSX + 2 * ST_ARMSXSPACE, ST_ARMSY, arms[2], &viewplayer->weaponowned[wp_chaingun]);
-    STlib_InitMultIcon(&w_arms[3], ST_ARMSX, ST_ARMSY + ST_ARMSYSPACE, arms[3], &viewplayer->weaponowned[wp_missile]);
+    STlib_InitMultIcon(&w_arms[0], ST_ARMSX, ST_ARMSY,
+        arms[0], &viewplayer->weaponowned[wp_pistol]);
+    STlib_InitMultIcon(&w_arms[1], ST_ARMSX + ST_ARMSXSPACE, ST_ARMSY,
+        arms[1], &st_shotguns);
+    STlib_InitMultIcon(&w_arms[2], ST_ARMSX + 2 * ST_ARMSXSPACE, ST_ARMSY,
+        arms[2], &viewplayer->weaponowned[wp_chaingun]);
+    STlib_InitMultIcon(&w_arms[3], ST_ARMSX, ST_ARMSY + ST_ARMSYSPACE,
+        arms[3], &viewplayer->weaponowned[wp_missile]);
 
     if (gamemode != shareware)
     {
@@ -1596,16 +1607,24 @@ static void ST_CreateWidgets(void)
     STlib_InitMultIcon(&w_keyboxes[2], ST_KEY2X + (STBARs >= 3), ST_KEY2Y, keys, &keyboxes[2]);
 
     // ammo count (all four kinds)
-    STlib_InitNum(&w_ammo[am_clip], ST_AMMO0X, ST_AMMO0Y, shortnum, &viewplayer->ammo[am_clip], ST_AMMO0WIDTH);
-    STlib_InitNum(&w_ammo[am_shell], ST_AMMO1X, ST_AMMO1Y, shortnum, &viewplayer->ammo[am_shell], ST_AMMO1WIDTH);
-    STlib_InitNum(&w_ammo[am_misl], ST_AMMO2X, ST_AMMO2Y, shortnum, &viewplayer->ammo[am_misl], ST_AMMO2WIDTH);
-    STlib_InitNum(&w_ammo[am_cell], ST_AMMO3X, ST_AMMO3Y, shortnum, &viewplayer->ammo[am_cell], ST_AMMO3WIDTH);
+    STlib_InitNum(&w_ammo[am_clip], ST_AMMO0X, ST_AMMO0Y,
+        shortnum, &viewplayer->ammo[am_clip], ST_AMMO0WIDTH);
+    STlib_InitNum(&w_ammo[am_shell], ST_AMMO1X, ST_AMMO1Y,
+        shortnum, &viewplayer->ammo[am_shell], ST_AMMO1WIDTH);
+    STlib_InitNum(&w_ammo[am_misl], ST_AMMO2X, ST_AMMO2Y,
+        shortnum, &viewplayer->ammo[am_misl], ST_AMMO2WIDTH);
+    STlib_InitNum(&w_ammo[am_cell], ST_AMMO3X, ST_AMMO3Y,
+        shortnum, &viewplayer->ammo[am_cell], ST_AMMO3WIDTH);
 
     // max ammo count (all four kinds)
-    STlib_InitNum(&w_maxammo[am_clip], ST_MAXAMMO0X, ST_MAXAMMO0Y, shortnum, &viewplayer->maxammo[am_clip], ST_MAXAMMO0WIDTH);
-    STlib_InitNum(&w_maxammo[am_shell], ST_MAXAMMO1X, ST_MAXAMMO1Y, shortnum, &viewplayer->maxammo[am_shell], ST_MAXAMMO1WIDTH);
-    STlib_InitNum(&w_maxammo[am_misl], ST_MAXAMMO2X, ST_MAXAMMO2Y, shortnum, &viewplayer->maxammo[am_misl], ST_MAXAMMO2WIDTH);
-    STlib_InitNum(&w_maxammo[am_cell], ST_MAXAMMO3X, ST_MAXAMMO3Y, shortnum, &viewplayer->maxammo[am_cell], ST_MAXAMMO3WIDTH);
+    STlib_InitNum(&w_maxammo[am_clip], ST_MAXAMMO0X, ST_MAXAMMO0Y,
+        shortnum, &viewplayer->maxammo[am_clip], ST_MAXAMMO0WIDTH);
+    STlib_InitNum(&w_maxammo[am_shell], ST_MAXAMMO1X, ST_MAXAMMO1Y,
+        shortnum, &viewplayer->maxammo[am_shell], ST_MAXAMMO1WIDTH);
+    STlib_InitNum(&w_maxammo[am_misl], ST_MAXAMMO2X, ST_MAXAMMO2Y,
+        shortnum, &viewplayer->maxammo[am_misl], ST_MAXAMMO2WIDTH);
+    STlib_InitNum(&w_maxammo[am_cell], ST_MAXAMMO3X, ST_MAXAMMO3Y,
+        shortnum, &viewplayer->maxammo[am_cell], ST_MAXAMMO3WIDTH);
 }
 
 void ST_Start(void)
