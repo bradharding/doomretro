@@ -4335,7 +4335,7 @@ static void maplist_cmd_func2(char *cmd, char *parms)
 
 static bool mapstats_cmd_func1(char *cmd, char *parms)
 {
-    return (gamestate == GS_LEVEL || gamestate == GS_INTERMISSION);
+    return (gamestate == GS_INTERMISSION || game_func1(cmd, parms));
 }
 
 static void mapstats_cmd_func2(char *cmd, char *parms)
