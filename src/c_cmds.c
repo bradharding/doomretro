@@ -9374,8 +9374,24 @@ static void r_gamma_cvar_func2(char *cmd, char *parms)
 //
 static void r_hud_cvar_func2(char *cmd, char *parms)
 {
-    if (r_screensize == r_screensize_max || !*parms || resettingcvar)
-        bool_cvars_func2(cmd, parms);
+    const bool  r_hud_old = r_hud;
+
+    bool_cvars_func2(cmd, parms);
+
+    if (r_hud != r_hud_old && r_hud)
+    {
+        if (r_screensize != r_screensize_max)
+        {
+            r_screensize = r_screensize_max;
+            C_IntegerCVAROutput(stringize(r_screensize), r_screensize);
+        }
+
+        if (!vid_widescreen)
+        {
+            vid_widescreen = true;
+            C_StringCVAROutput(stringize(vid_widescreen), "on");
+        }
+    }
 }
 
 //
