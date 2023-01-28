@@ -3288,7 +3288,7 @@ static void kill_cmd_func2(char *cmd, char *parms)
                             M_snprintf(buffer, sizeof(buffer), "You %s the only monster %s this map.",
                                 killed, (viewplayer->killcount == 1 ? "in" : "left in"));
                         else
-                            M_snprintf(buffer, sizeof(buffer), "You %s the %s monsters %s this map.",
+                            M_snprintf(buffer, sizeof(buffer), "You %s all %s monsters %s this map.",
                                 killed, temp, (viewplayer->killcount == kills ? "in" : "left in"));
                     }
                     else
@@ -3297,7 +3297,7 @@ static void kill_cmd_func2(char *cmd, char *parms)
                             M_snprintf(buffer, sizeof(buffer), "%s %s the only monster %s this map.",
                                 playername, killed, (viewplayer->killcount == 1 ? "in" : "left in"));
                         else
-                            M_snprintf(buffer, sizeof(buffer), "%s %s the %s monsters %s this map.",
+                            M_snprintf(buffer, sizeof(buffer), "%s %s all %s monsters %s this map.",
                                 playername, killed, temp, (viewplayer->killcount == kills ? "in" : "left in"));
 
                         buffer[0] = toupper(buffer[0]);
