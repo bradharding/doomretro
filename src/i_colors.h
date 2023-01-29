@@ -94,6 +94,7 @@ extern byte nearestblack;
 extern byte nearestdarkblue;
 extern byte nearestgold;
 extern byte nearestgreen;
+extern byte nearestlightgray;
 extern byte nearestred;
 extern byte nearestwhite;
 

@@ -985,7 +985,7 @@ static int AltHUDNumber2Width(int val)
 static void HU_DrawAltHUD(void)
 {
     const int   color = (((viewplayer->fixedcolormap == INVERSECOLORMAP) ^ (!r_textures)) ?
-                    colormaps[0][32 * 256 + nearestwhite] : (r_hud_translucency ? nearestwhite : nearestcolors[LIGHTGRAY3]));
+                    colormaps[0][32 * 256 + nearestwhite] : (r_hud_translucency ? nearestwhite : nearestlightgray));
     int         health = BETWEEN(HUD_NUMBER_MIN, viewplayer->health, HUD_NUMBER_MAX);
     int         armor = MIN(viewplayer->armorpoints, HUD_NUMBER_MAX);
     int         barcolor = (health < HUD_HEALTH_MIN && !(viewplayer->cheats & CF_BUDDHA) ?
@@ -1103,8 +1103,17 @@ static void HU_DrawAltHUD(void)
                 {
                     fillrectfunc(0, ALTHUD_RIGHT_X + 100 - ammo, ALTHUD_Y + 13, ammo + 1, 8, color, true, tinttab25);
                     althudfunc(ALTHUD_RIGHT_X, ALTHUD_Y + 13, altrightpatch[viewplayer->backpack], WHITE, color, tinttab60);
-                    althudfunc(ALTHUD_RIGHT_X + 100, ALTHUD_Y + 13, altendpatch, WHITE, tinttab15[color], NULL);
-                    althudfunc(ALTHUD_RIGHT_X + 100 - ammo - 2, ALTHUD_Y + 13, altmarkpatch, WHITE, tinttab15[color], NULL);
+
+                    if (r_hud_translucency)
+                    {
+                        althudfunc(ALTHUD_RIGHT_X + 100, ALTHUD_Y + 13, altendpatch, WHITE, tinttab15[color], NULL);
+                        althudfunc(ALTHUD_RIGHT_X + 100 - ammo - 2, ALTHUD_Y + 13, altmarkpatch, WHITE, tinttab15[color], NULL);
+                    }
+                    else
+                    {
+                        althudfunc(ALTHUD_RIGHT_X + 100, ALTHUD_Y + 13, altendpatch, WHITE, color, NULL);
+                        althudfunc(ALTHUD_RIGHT_X + 100 - ammo - 2, ALTHUD_Y + 13, altmarkpatch, WHITE, color, NULL);
+                    }
                 }
             }
             else

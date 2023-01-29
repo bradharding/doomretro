@@ -161,7 +161,7 @@ static void HUlib_DrawAltHUDTextLine(hu_textline_t *l)
     unsigned char   prevletter2 = '\0';
     int             x = OVERLAYTEXTX;
     int             y = HU_ALTHUDMSGY;
-    int             color = (message_secret ? nearestgold : nearestwhite);
+    int             color = (message_secret ? nearestgold : (r_hud_translucency ? nearestwhite : nearestlightgray));
     const int       len = l->len;
     byte            *tinttab = (automapactive ? tinttab70 : tinttab50);
 
@@ -318,7 +318,7 @@ void HUlib_DrawAltAutomapTextLine(hu_textline_t *l, bool external)
                     x -= 2;
             }
 
-            althudtextfunc(x, SCREENHEIGHT - 24, fb1, patch, italics, nearestwhite,
+            althudtextfunc(x, SCREENHEIGHT - 24, fb1, patch, italics, (r_hud_translucency ? nearestwhite : nearestlightgray),
                 (external ? MAPWIDTH : SCREENWIDTH), tinttab70);
             x += SHORT(patch->width);
         }
