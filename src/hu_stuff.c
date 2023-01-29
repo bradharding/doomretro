@@ -1216,7 +1216,8 @@ static void HU_DrawAltHUD(void)
             powerupbar = (powerup == -1 ? INT_MAX : powerup);
         }
 
-        if ((powerupbar = (powerupbar == INT_MAX ? 101 : (int)(powerupbar * 101.0 / max + 0.5))))
+        if (powerup != -1 && ammotype != am_noammo
+            && (powerupbar = (powerupbar == INT_MAX ? 101 : (int)(powerupbar * 101.0 / max + 0.5))))
         {
             fillrectfunc2(0, ALTHUD_RIGHT_X, ALTHUD_Y + 27, 101 - powerupbar, 2,
                 (r_hud_translucency ? color : darkgray), false, tinttab10);
