@@ -1111,6 +1111,9 @@ static void HU_DrawAltHUD(void)
                     }
                     else
                     {
+                        const int   color = (((viewplayer->fixedcolormap == INVERSECOLORMAP) ^ (!r_textures)) ?
+                                        colormaps[0][32 * 256 + nearestwhite] : nearestwhite);
+
                         althudfunc(ALTHUD_RIGHT_X + 100, ALTHUD_Y + 13, altendpatch, WHITE, color, NULL);
                         althudfunc(ALTHUD_RIGHT_X + 100 - ammo - 2, ALTHUD_Y + 13, altmarkpatch, WHITE, color, NULL);
                     }
