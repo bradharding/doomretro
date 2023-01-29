@@ -1059,8 +1059,14 @@ static void HU_DrawAltHUD(void)
             }
         }
         else
-            fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 2, armor + (armor == 100), 4,
-                (viewplayer->armortype == blue_armor_class ? blue1 : green1), true, tinttab25);
+        {
+            if (r_hud_translucency)
+                fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 2, armor + (armor == 100), 4,
+                    (viewplayer->armortype == blue_armor_class ? blue1 : green1), true, tinttab25);
+            else
+                fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 2, armor + (armor == 100), 4,
+                    (viewplayer->armortype == blue_armor_class ? blue2 : green2), true, NULL);
+        }
     }
     else
     {
