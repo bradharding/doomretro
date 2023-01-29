@@ -36,9 +36,12 @@
 * The widescreen HUD is now brought in from the left and right edges of ultra-wide displays.
 * These changes have been made to the alternate widescreen HUD:
   * The position of the player’s health is now fixed when `0`.
-  * The armor icon will now be dark when the player has no armor and the `r_hud_translucency` CVAR is `off`.
-  * The bar displayed when the player has a power-up and the `r_hud_translucency` CVAR is `off` will now show as depleting.
   * A bug is fixed whereby the currently equipped weapon’s silhouette wouldn’t be displayed in some rare instances.
+  * The markers in the ammo bar when the player has a backpack have been redesigned.
+  * When the `r_hud_translucency` CVAR is `off`:
+    * It is now not as bright.
+    * The armor icon will now be dark when the player has no armor.
+    * The bar displayed when the player has a power-up will now show as depleting.
 * The truncation of player messages when the `vid_widescreen` CVAR is `off` has improved in some instances.
 * The vertical position of player messages has improved in some instances.
 * The vertical positions of the monsters’ shadows in *DOOM II’s* cast sequence have improved.
@@ -50,7 +53,7 @@
   * The smoke trailing behind homing missiles fired by revenants is now the same as the smoke trailing behind rockets fired by the player and cyberdemons.
 * The LEDs on *DualShock 4* and *DualSense* and *DualSense Edge* controllers now turn red again when connected.
 * If the `vid_fullscreen` CVAR is `off`:
-  * The status bar or widescreen HUD are now displayed better when the window is resized to be very narrow.
+  * The status bar and widescreen HUD are now displayed better when the window is resized to be very narrow.
   * The mouse pointer is now displayed while the console is open.
 * The mouse pointer is now hidden before the screen goes black at startup when the `vid_fullscreen` CVAR is `on`.
 * Crashes no longer occur when displaying patches taller than 200 pixels.
