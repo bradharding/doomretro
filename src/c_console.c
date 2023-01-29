@@ -1132,7 +1132,7 @@ void C_UpdateFPSOverlay(void)
     C_DrawOverlayText(screens[0], SCREENWIDTH, SCREENWIDTH - C_OverlayWidth(buffer, true) - OVERLAYTEXTX + 1,
         OVERLAYTEXTY, tinttab, buffer, (framespersecond < (refreshrate && vid_capfps != TICRATE ? refreshrate :
         TICRATE) ? consoleoverlaywarningcolor : (((viewplayer->fixedcolormap == INVERSECOLORMAP) ^ (!r_textures))
-        && !automapactive ? nearestblack : consoleoverlaycolor)), true);
+        && !automapactive ? nearestblack : (r_hud_translucency ? consoleoverlaycolor : nearestlightgray))), true);
     free(temp);
 }
 
@@ -1162,7 +1162,7 @@ void C_UpdateTimerOverlay(void)
 
     C_DrawOverlayText(screens[0], SCREENWIDTH, SCREENWIDTH - timerwidth - OVERLAYTEXTX + 1, y, tinttab,
         buffer, (((viewplayer->fixedcolormap == INVERSECOLORMAP) ^ (!r_textures)) && !automapactive ?
-        nearestblack : consoleoverlaycolor), true);
+        nearestblack : (r_hud_translucency ? consoleoverlaycolor : nearestlightgray)), true);
 }
 
 void C_UpdatePlayerPositionOverlay(void)
@@ -1170,7 +1170,7 @@ void C_UpdatePlayerPositionOverlay(void)
     const int   x = SCREENWIDTH - OVERLAYTEXTX + 1;
     int         y = OVERLAYTEXTY;
     const int   color = (((viewplayer->fixedcolormap == INVERSECOLORMAP) ^ (!r_textures)) && !automapactive ?
-                    nearestblack : consoleoverlaycolor);
+                    nearestblack : (r_hud_translucency ? consoleoverlaycolor : nearestlightgray));
     byte        *tinttab = (r_hud_translucency ? (automapactive ? tinttab70 : tinttab50) : NULL);
     static char angle[32];
     static char coordinates[32];
@@ -1243,7 +1243,8 @@ void C_UpdatePathOverlay(void)
         }
 
         C_DrawOverlayText(mapscreen, MAPWIDTH, MAPWIDTH - width - MAPOVERLAYTEXTX + 1, y,
-            (r_hud_translucency ? tinttab70 : NULL), distance, consoleoverlaycolor, true);
+            (r_hud_translucency ? tinttab70 : NULL), distance,
+            (r_hud_translucency ? consoleoverlaycolor : nearestlightgray), true);
 
         pathoverlay = true;
     }
@@ -1285,7 +1286,7 @@ void C_UpdatePlayerStatsOverlay(void)
         if (!hours)
         {
             M_snprintf(time, sizeof(time), "%02i:%02i", minutes, seconds % 60);
-            color = consoleoverlaycolor;
+            color = (r_hud_translucency ? consoleoverlaycolor : nearestlightgray);
             width = timewidth;
         }
         else if (sucktime && hours >= sucktime)
@@ -1297,7 +1298,7 @@ void C_UpdatePlayerStatsOverlay(void)
         else
         {
             M_snprintf(time, sizeof(time), "%i:%02i:%02i", hours, minutes, seconds % 60);
-            color = consoleoverlaycolor;
+            color = (r_hud_translucency ? consoleoverlaycolor : nearestlightgray);
             width = C_OverlayWidth(time, true);
         }
     }
@@ -1313,7 +1314,7 @@ void C_UpdatePlayerStatsOverlay(void)
 
         M_snprintf(kills, sizeof(kills), s_STSTR_KILLS, temp1, temp2);
         C_DrawOverlayText(mapscreen, MAPWIDTH, x - C_OverlayWidth(kills, false), y,
-            tinttab, kills, consoleoverlaycolor, false);
+            tinttab, kills, (r_hud_translucency ? consoleoverlaycolor : nearestlightgray), false);
         free(temp1);
         free(temp2);
 
@@ -1328,7 +1329,7 @@ void C_UpdatePlayerStatsOverlay(void)
 
         M_snprintf(items, sizeof(items), s_STSTR_ITEMS, temp1, temp2);
         C_DrawOverlayText(mapscreen, MAPWIDTH, x - C_OverlayWidth(items, false), y,
-            tinttab, items, consoleoverlaycolor, false);
+            tinttab, items, (r_hud_translucency ? consoleoverlaycolor : nearestlightgray), false);
         free(temp1);
         free(temp2);
 
@@ -1343,7 +1344,7 @@ void C_UpdatePlayerStatsOverlay(void)
 
         M_snprintf(secrets, sizeof(secrets), s_STSTR_SECRETS, temp1, temp2);
         C_DrawOverlayText(mapscreen, MAPWIDTH, x - C_OverlayWidth(secrets, false), y,
-            tinttab, secrets, consoleoverlaycolor, false);
+            tinttab, secrets, (r_hud_translucency ? consoleoverlaycolor : nearestlightgray), false);
         free(temp1);
         free(temp2);
     }
