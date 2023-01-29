@@ -828,7 +828,8 @@ void V_DrawAltHUDText(int x, int y, byte *screen, patch_t *patch, bool italics, 
     }
 }
 
-void V_DrawTranslucentAltHUDText(int x, int y, byte *screen, patch_t *patch, bool italics, int color, int screenwidth, byte *tinttab)
+void V_DrawTranslucentAltHUDText(int x, int y, byte *screen, patch_t *patch,
+    bool italics, int color, int screenwidth, const byte *tinttab)
 {
     byte        *desttop = &screen[y * screenwidth + x];
     const int   width = SHORT(patch->width);
@@ -970,7 +971,7 @@ void V_DrawHighlightedHUDNumberPatch(int x, int y, patch_t *patch, byte *tinttab
     }
 }
 
-void V_DrawTranslucentHUDPatch(int x, int y, patch_t *patch, byte *tinttab)
+void V_DrawTranslucentHUDPatch(int x, int y, patch_t *patch, const byte *tinttab)
 {
     byte        *desttop = &screens[0][y * SCREENWIDTH + x];
     const int   width = SHORT(patch->width);

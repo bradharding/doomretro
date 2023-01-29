@@ -2452,7 +2452,8 @@ static void P_LoadBlockMap(int lump)
     else if (M_CheckParm("-blockmap"))
     {
         P_CreateBlockMap();
-        C_Warning(1, "A " BOLD("-blockmap") " parameter was found on the command-line. The " BOLD("BLOCKMAP") " lump has been rebuilt.");
+        C_Warning(1, "A " BOLD("-blockmap") " parameter was found on the command-line. "
+            "The " BOLD("BLOCKMAP") " lump has been rebuilt.");
     }
     else
     {
@@ -2861,7 +2862,8 @@ void P_MapName(int ep, int map)
 
     if (strlen(maptitle) >= 4)
     {
-        if (maptitle[0] == 'm' && maptitle[1] == 'a' && maptitle[2] == 'p' && isdigit((int)maptitle[3]) && isdigit((int)maptitle[4]))
+        if (maptitle[0] == 'm' && maptitle[1] == 'a' && maptitle[2] == 'p'
+            && isdigit((int)maptitle[3]) && isdigit((int)maptitle[4]))
         {
             maptitle[0] = 'M';
             maptitle[1] = 'A';

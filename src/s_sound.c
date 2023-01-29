@@ -97,10 +97,10 @@ static sobj_t       *sobjs;
 
 // Maximum volume of a sound effect.
 // Internal default is max out of 0-31.
-int                 sfxVolume;
+int                 sfxvolume;
 
 // Maximum volume of music.
-int                 musicVolume;
+int                 musicvolume;
 
 // Internal volume level, ranging from 0 to 127
 static int          snd_SfxVolume;
@@ -185,8 +185,8 @@ void S_Init(void)
 #endif
 
         InitSfxModule();
-        sfxVolume = (s_sfxvolume * 31 + 50) / 100;
-        S_SetSfxVolume(sfxVolume * (MIX_MAX_VOLUME - 1) / 31);
+        sfxvolume = (s_sfxvolume * 31 + 50) / 100;
+        S_SetSfxVolume(sfxvolume * (MIX_MAX_VOLUME - 1) / 31);
 
         // Allocating the internal channels for mixing (the maximum number of sounds rendered simultaneously) within zone memory.
         channels = Z_Calloc(s_channels_max, sizeof(channel_t), PU_STATIC, NULL);
@@ -231,7 +231,7 @@ void S_Init(void)
     if (!nomusic)
     {
         InitMusicModule();
-        musicVolume = (s_musicvolume * 31 + 50) / 100;
+        musicvolume = (s_musicvolume * 31 + 50) / 100;
         S_RestoreMusicVolume();
 
         // no sounds are playing, and they are not mus_paused
@@ -570,12 +570,12 @@ void S_SetMusicVolume(int volume)
 
 void S_LowerMusicVolume(void)
 {
-    I_SetMusicVolume((int)(musicVolume * (MIX_MAX_VOLUME - 1) / 31 / (s_lowermenumusic ? LOWER_MUSIC_VOLUME_FACTOR : 1.0f)));
+    I_SetMusicVolume((int)(musicvolume * (MIX_MAX_VOLUME - 1) / 31 / (s_lowermenumusic ? LOWER_MUSIC_VOLUME_FACTOR : 1.0f)));
 }
 
 void S_RestoreMusicVolume(void)
 {
-    S_SetMusicVolume(musicVolume * (MIX_MAX_VOLUME - 1) / 31);
+    S_SetMusicVolume(musicvolume * (MIX_MAX_VOLUME - 1) / 31);
 }
 
 void S_SetSfxVolume(int volume)

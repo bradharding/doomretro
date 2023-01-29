@@ -123,9 +123,9 @@
 // Key icon positions.
 #define ST_KEY0X            238
 #define ST_KEY0Y            171
-#define ST_KEY1X            238
+#define ST_KEY1X            ST_KEY0X
 #define ST_KEY1Y            181
-#define ST_KEY2X            238
+#define ST_KEY2X            ST_KEY0X
 #define ST_KEY2Y            191
 
 // Ammunition counter.
@@ -467,7 +467,7 @@ bool ST_Responder(event_t *ev)
         {
             bool cheatfailed = false;
 
-            if (!*consolecheat && cht_CheckCheat(&cheat_mus, ev->data2) && !nomusic && musicVolume)
+            if (!*consolecheat && cht_CheckCheat(&cheat_mus, ev->data2) && !nomusic && musicvolume)
                 idmus = true;
 
             // 'dqd' cheat for toggleable god mode
@@ -598,7 +598,7 @@ bool ST_Responder(event_t *ev)
             }
 
             // 'mus' cheat for changing music
-            else if (cht_CheckCheat(&cheat_mus_xy, ev->data2) && !nomusic && musicVolume)
+            else if (cht_CheckCheat(&cheat_mus_xy, ev->data2) && !nomusic && musicvolume)
             {
                 char   buffer[3];
 

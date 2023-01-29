@@ -1478,8 +1478,8 @@ static void M_DrawSound(void)
         free(temp);
     }
 
-    M_DrawThermo(SoundDef.x - 1, SoundDef.y + 16 * (sfx_vol + 1) + OFFSET + !hacx, 16, (float)(sfxVolume * !nosfx), 4.0f, 6);
-    M_DrawThermo(SoundDef.x - 1, SoundDef.y + 16 * (music_vol + 1) + OFFSET + !hacx, 16, (float)(musicVolume * !nomusic), 4.0f, 6);
+    M_DrawThermo(SoundDef.x - 1, SoundDef.y + 16 * (sfx_vol + 1) + OFFSET + !hacx, 16, (float)(sfxvolume * !nosfx), 4.0f, 6);
+    M_DrawThermo(SoundDef.x - 1, SoundDef.y + 16 * (music_vol + 1) + OFFSET + !hacx, 16, (float)(musicvolume * !nomusic), 4.0f, 6);
 }
 
 static void M_Sound(int choice)
@@ -1495,11 +1495,11 @@ static void M_SfxVol(int choice)
     switch (choice)
     {
         case 0:
-            if (sfxVolume > 0)
+            if (sfxvolume > 0)
             {
-                S_SetSfxVolume(--sfxVolume * (MIX_MAX_VOLUME - 1) / 31);
+                S_SetSfxVolume(--sfxvolume * (MIX_MAX_VOLUME - 1) / 31);
                 S_StartSound(NULL, sfx_stnmov);
-                s_sfxvolume = sfxVolume * 100 / 31;
+                s_sfxvolume = sfxvolume * 100 / 31;
                 C_PercentCVAROutput(stringize(s_sfxvolume), s_sfxvolume);
                 M_SaveCVARs();
             }
@@ -1507,11 +1507,11 @@ static void M_SfxVol(int choice)
             break;
 
         case 1:
-            if (sfxVolume < 31)
+            if (sfxvolume < 31)
             {
-                S_SetSfxVolume(++sfxVolume * (MIX_MAX_VOLUME - 1) / 31);
+                S_SetSfxVolume(++sfxvolume * (MIX_MAX_VOLUME - 1) / 31);
                 S_StartSound(NULL, sfx_stnmov);
-                s_sfxvolume = sfxVolume * 100 / 31;
+                s_sfxvolume = sfxvolume * 100 / 31;
                 C_PercentCVAROutput(stringize(s_sfxvolume), s_sfxvolume);
                 M_SaveCVARs();
             }
@@ -1528,12 +1528,12 @@ static void M_MusicVol(int choice)
     switch (choice)
     {
         case 0:
-            if (musicVolume > 0)
+            if (musicvolume > 0)
             {
-                musicVolume--;
+                musicvolume--;
                 S_LowerMusicVolume();
                 S_StartSound(NULL, sfx_stnmov);
-                s_musicvolume = musicVolume * 100 / 31;
+                s_musicvolume = musicvolume * 100 / 31;
                 C_PercentCVAROutput(stringize(s_musicvolume), s_musicvolume);
                 M_SaveCVARs();
             }
@@ -1541,12 +1541,12 @@ static void M_MusicVol(int choice)
             break;
 
         case 1:
-            if (musicVolume < 31)
+            if (musicvolume < 31)
             {
-                musicVolume++;
+                musicvolume++;
                 S_LowerMusicVolume();
                 S_StartSound(NULL, sfx_stnmov);
-                s_musicvolume = musicVolume * 100 / 31;
+                s_musicvolume = musicvolume * 100 / 31;
                 C_PercentCVAROutput(stringize(s_musicvolume), s_musicvolume);
                 M_SaveCVARs();
             }
@@ -2035,7 +2035,7 @@ static void M_QuitResponse(int key)
         return;
     }
 
-    if (!nosfx && sfxVolume > 0)
+    if (!nosfx && sfxvolume > 0)
     {
         int i = 30;
 

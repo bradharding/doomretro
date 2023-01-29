@@ -124,7 +124,7 @@ int P_FindMinSurroundingLight(sector_t *sec, int min);
 
 bool P_CanUnlockGenDoor(line_t *line);
 
-sector_t *getNextSector(line_t *line, sector_t *sec);
+sector_t *getNextSector(line_t *line, const sector_t *sec);
 
 bool P_ProcessNoTagLines(const line_t *line, sector_t **sec, int *secnum);
 

@@ -178,8 +178,8 @@ extern int              STBARs;
 //  Sound FX volume has default, 0 - 31
 //  Music volume has default, 0 - 31
 // These are multiplied by 4.
-extern int              sfxVolume;
-extern int              musicVolume;
+extern int              sfxvolume;
+extern int              musicvolume;
 
 // -------------------------
 // Status flags for refresh.

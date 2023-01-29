@@ -940,9 +940,9 @@ static void M_CheckCVARs(void)
         r_screensize = r_screensize_max - 1;
     }
 
-    musicVolume = (s_musicvolume * 31 + 50) / 100;
+    musicvolume = (s_musicvolume * 31 + 50) / 100;
 
-    sfxVolume = (s_sfxvolume * 31 + 50) / 100;
+    sfxvolume = (s_sfxvolume * 31 + 50) / 100;
 
     version = version_default;
 

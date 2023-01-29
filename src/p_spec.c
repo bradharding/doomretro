@@ -508,7 +508,7 @@ bool twoSided(int sector, int line)
 // Return sector_t of sector next to current.
 // NULL if not two-sided line
 //
-sector_t *getNextSector(line_t *line, sector_t *sec)
+sector_t *getNextSector(line_t *line, const sector_t *sec)
 {
     // jff 1/26/98 check unneeded since line->backsector already
     // returns NULL if the line is not two sided, and does so from

@@ -210,7 +210,7 @@ void C_Cheat(const char *string)
 
 void C_IntegerCVAROutput(const char *cvar, const int value)
 {
-    if (!menuactive || !numconsolestrings || !M_StringStartsWith(console[numconsolestrings - 1].string, cvar))
+    if (!menuactive || !numconsolestrings || !M_StringStartsWithExact(console[numconsolestrings - 1].string, cvar))
     {
         char    *temp = commify(value);
 
@@ -221,7 +221,7 @@ void C_IntegerCVAROutput(const char *cvar, const int value)
 
 void C_PercentCVAROutput(const char *cvar, const int value)
 {
-    if (!menuactive || !numconsolestrings || !M_StringStartsWith(console[numconsolestrings - 1].string, cvar))
+    if (!menuactive || !numconsolestrings || !M_StringStartsWithExact(console[numconsolestrings - 1].string, cvar))
     {
         char    *temp = commify(value);
 
@@ -232,7 +232,7 @@ void C_PercentCVAROutput(const char *cvar, const int value)
 
 void C_StringCVAROutput(const char *cvar, const char *string)
 {
-    if (!menuactive || !numconsolestrings || !M_StringStartsWith(console[numconsolestrings - 1].string, cvar))
+    if (!menuactive || !numconsolestrings || !M_StringStartsWithExact(console[numconsolestrings - 1].string, cvar))
         C_Input("%s %s", cvar, string);
 }
 

@@ -169,7 +169,7 @@ static void UnlockAllocatedSound(allocated_sound_t *snd)
     snd->use_count--;
 }
 
-static allocated_sound_t *GetAllocatedSoundBySfxInfoAndPitch(sfxinfo_t *sfxinfo, const int pitch)
+static allocated_sound_t *GetAllocatedSoundBySfxInfoAndPitch(const sfxinfo_t *sfxinfo, const int pitch)
 {
     allocated_sound_t   *p = allocated_sounds_head;
 
@@ -237,7 +237,7 @@ static void ReleaseSoundOnChannel(const int channel)
 }
 
 // Generic sound expansion function for any sample rate.
-static void ExpandSoundData(sfxinfo_t *sfxinfo, byte *data, const int samplerate, const int bits, const int length)
+static void ExpandSoundData(sfxinfo_t *sfxinfo, const byte *data, const int samplerate, const int bits, const int length)
 {
     const unsigned int  samplecount = length / (bits / 8);
     const unsigned int  expanded_length = (unsigned int)(((uint64_t)samplecount * mixer_freq) / samplerate);

@@ -5,7 +5,7 @@
 * *DOOM Retro* is now built using v17.4.4 of [*Microsoft Visual Studio Community 2022*](https://visualstudio.microsoft.com/vs/community/).
 * *DOOM Retro* now uses [*SDL v2.26.2*](https://www.libsdl.org/).
 * Several optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
-* When *DOOM Retro* is run for the first time, the WAD launcher will now also look for `DOOM.WAD` and `DOOM2.WAD` included in installations of [*DOOM Eternal*](https://store.steampowered.com/app/782330/DOOM_Eternal/).
+* When *DOOM Retro* is run for the first time, the WAD launcher will now also look for `DOOM.WAD` and `DOOM2.WAD` that are included in installations of [*DOOM Eternal*](https://store.steampowered.com/app/782330/DOOM_Eternal/).
 * The [*id Software*](https://www.idsoftware.com) logo has been removed from the title screen to be consistent with the latest rereleases of *DOOM* and *DOOM II*.
 * Several changes have been made to text that is output to the console.
 * Many additional characters, including those with diacritics, have been added to the character set used in the console.

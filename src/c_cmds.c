@@ -1327,7 +1327,7 @@ static bool cheat_func1(char *cmd, char *parms)
     else if (M_StringCompare(cmd, cheat_ammo.sequence))
         return (gameskill != sk_nightmare && viewplayer->health > 0);
     else if (M_StringCompare(cmd, cheat_mus.sequence))
-        return (!nomusic && musicVolume);
+        return (!nomusic && musicvolume);
     else if (M_StringCompare(cmd, cheat_noclip.sequence))
         return (gamemode != commercial && gameskill != sk_nightmare && viewplayer->health > 0);
     else if (M_StringCompare(cmd, cheat_commercial_noclip.sequence))
@@ -9887,15 +9887,15 @@ static void s_volume_cvars_func2(char *cmd, char *parms)
         if (M_StringCompare(cmd, stringize(s_musicvolume)) && s_musicvolume != value)
         {
             s_musicvolume = value;
-            musicVolume = (s_musicvolume * 31 + 50) / 100;
+            musicvolume = (s_musicvolume * 31 + 50) / 100;
             S_LowerMusicVolume();
             M_SaveCVARs();
         }
         else if (s_sfxvolume != value)
         {
             s_sfxvolume = value;
-            sfxVolume = (s_sfxvolume * 31 + 50) / 100;
-            S_SetSfxVolume(sfxVolume * (MIX_MAX_VOLUME - 1) / 31);
+            sfxvolume = (s_sfxvolume * 31 + 50) / 100;
+            S_SetSfxVolume(sfxvolume * (MIX_MAX_VOLUME - 1) / 31);
             M_SaveCVARs();
         }
     }

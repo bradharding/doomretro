@@ -173,7 +173,7 @@ static void saveg_write_mapthing_t(mapthing_t *str)
     saveg_write16(str->options);
 }
 
-static int P_ThingToIndex(mobj_t *thing)
+static int P_ThingToIndex(const mobj_t *thing)
 {
     int i = 0;
 
