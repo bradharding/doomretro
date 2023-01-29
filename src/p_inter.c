@@ -1523,11 +1523,7 @@ bool P_TakeSpecialThing(const mobjtype_t type)
             for (ammotype_t i = 0; i < NUMAMMO; i++)
             {
                 viewplayer->maxammo[i] /= 2;
-
-                if (viewplayer->ammo[i] > viewplayer->maxammo[i])
-                    viewplayer->ammo[i] = viewplayer->maxammo[i];
-
-                P_TakeAmmo(i, 1);
+                viewplayer->ammo[i] = MIN(viewplayer->ammo[i], viewplayer->maxammo[i]);
             }
 
             viewplayer->backpack = false;
