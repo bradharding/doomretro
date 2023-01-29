@@ -985,7 +985,7 @@ static int AltHUDNumber2Width(int val)
 static void HU_DrawAltHUD(void)
 {
     const int   color = (((viewplayer->fixedcolormap == INVERSECOLORMAP) ^ (!r_textures)) ?
-                    colormaps[0][32 * 256 + nearestwhite] : nearestwhite);
+                    colormaps[0][32 * 256 + nearestwhite] : (r_hud_translucency ? nearestwhite : nearestcolors[LIGHTGRAY3]));
     int         health = BETWEEN(HUD_NUMBER_MIN, viewplayer->health, HUD_NUMBER_MAX);
     int         armor = MIN(viewplayer->armorpoints, HUD_NUMBER_MAX);
     int         barcolor = (health < HUD_HEALTH_MIN && !(viewplayer->cheats & CF_BUDDHA) ?

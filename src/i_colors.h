@@ -39,6 +39,7 @@
 #pragma once
 
 #include "doomtype.h"
+#include "m_config.h"
 #include "r_defs.h"
 
 #define BLACK           0
@@ -52,6 +53,7 @@
 #define GREEN3        125
 #define LIGHTGRAY1     80
 #define LIGHTGRAY2     82
+#define LIGHTGRAY3     86
 #define PINK          251
 #define RED1          176
 #define RED2          180
