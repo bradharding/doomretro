@@ -39,9 +39,10 @@
   * A bug is fixed whereby the currently equipped weapon’s silhouette wouldn’t be displayed in some rare instances.
   * The markers in the ammo bar when the player has a backpack have been redesigned.
   * When the `r_hud_translucency` CVAR is `off`:
-    * It is now not as bright.
+    * The white elements are now not as bright.
+    * The color used in the armor bar has improved when the player has no more than `100%` armor.
     * The armor icon will now be dark when the player has no armor.
-    * The bar displayed when the player has a power-up will now show as depleting.
+    * The bar displayed when the player has a power-up will now update when depleting.
 * The truncation of player messages when the `vid_widescreen` CVAR is `off` has improved in some instances.
 * The vertical position of player messages has improved in some instances.
 * The vertical positions of the monsters’ shadows in *DOOM II’s* cast sequence have improved.
