@@ -16,13 +16,13 @@
   * The console’s scrolling animation is now slightly faster.
   * The scrollbar now displays correctly when the `r_screensize` CVAR is less than `7`.
 * Minor improvements have been made to the console’s autocomplete feature.
-* Pressing the <kbd>HOME</kbd> key in the console will no longer scroll past the top of the console in some instances.
+* Pressing the <kbd>HOME</kbd> key in the console no longer scrolls past the top of the console in some instances.
 * Scrolling up and down in the console using the <kbd>PGUP</kbd> and <kbd>PGDN</kbd> keys now gets faster the longer the keys are held down.
 * Thousands-delimiting commas may now be used when changing the value of certain CVARs in the console.
 * The `toggle` CCMD now only works with boolean CVARs.
 * If the `m_pointer` CVAR is `on`:
   * The mouse wheel may now be used to scroll among menu items again.
-  * Pressing a mouse button on the title screen without moving the mouse will now open the menu rather than just show the mouse pointer.
+  * Pressing a mouse button on the title screen without moving the mouse now opens the menu rather than just show the mouse pointer.
 * Two additional savegame slots now appear in the load and save game menus.
 * A random sound effect is no longer played when quitting the game using the menu.
 * Improvements have been made to parsing [`BRGHTMPS`](https://raw.githubusercontent.com/bradharding/doomretro/master/res/BRGHTMPS) lumps.
@@ -41,13 +41,13 @@
   * The power-up bar is no longer displayed if the player has cheated and their currently equipped weapon has no ammo.
   * When the `r_hud_translucency` CVAR is `off`:
     * The white elements are now not as bright.
-    * The color used in the armor bar has improved when the player has no more than `100%` armor.
-    * The armor icon will now be dark when the player has no armor.
-    * The bar displayed when the player has a power-up will now update when depleting.
+    * The color used in the armor bar is a slightly darker green when the player has no more than `100%` armor.
+    * The armor icon is now a dark gray when the player has no armor.
+    * The power-up bar now updates when depleting.
 * The truncation of player messages when the `vid_widescreen` CVAR is `off` has improved in some instances.
 * The vertical position of player messages has improved in some instances.
 * The vertical positions of the monsters’ shadows in *DOOM II’s* cast sequence have improved.
-* The vertical position of text displayed in the top right of the screen has improved in some instances.
+* The position of text displayed in the top right of the screen has improved in some instances.
 * The correct map now opens when entering `map phobosmissioncontrol` or `map techgonebad` in the console.
 * Minor improvements have been made to translating certain words when the `english` CVAR is changed.
 * When the `r_rockettrails` CVAR is `on`:
