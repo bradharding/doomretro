@@ -45,7 +45,7 @@
     * The armor icon is now a dark gray when the player has no armor.
     * The power-up bar now updates when depleting.
 * The truncation of player messages when the `vid_widescreen` CVAR is `off` has improved in some instances.
-* The vertical position of player messages has improved in some instances.
+* The position of player messages and the map’s title in the automap has improved in some instances.
 * The vertical positions of the monsters’ shadows in *DOOM II’s* cast sequence have improved.
 * The position of text displayed in the top right of the screen has improved in some instances.
 * The correct map now opens when entering `map phobosmissioncontrol` or `map techgonebad` in the console.

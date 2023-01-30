@@ -159,7 +159,7 @@ static void HUlib_DrawAltHUDTextLine(hu_textline_t *l)
     bool            italics = false;
     unsigned char   prevletter = '\0';
     unsigned char   prevletter2 = '\0';
-    int             x = OVERLAYTEXTX;
+    int             x = HU_ALTHUDMSGX;
     int             y = HU_ALTHUDMSGY;
     int             color = (message_secret ? nearestgold : (r_hud_translucency ? nearestwhite : nearestlightgray));
     const int       len = l->len;
@@ -257,7 +257,7 @@ void HUlib_DrawAltAutomapTextLine(hu_textline_t *l, bool external)
     bool            italics = false;
     unsigned char   prevletter = '\0';
     unsigned char   prevletter2 = '\0';
-    int             x = OVERLAYTEXTX;
+    int             x = HU_ALTHUDMSGX;
     byte            *fb1 = (external ? mapscreen : screens[0]);
     const int       len = l->len;
 

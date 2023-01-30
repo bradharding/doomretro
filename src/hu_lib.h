@@ -44,7 +44,7 @@
 // font stuff
 #define HU_MAXLINELENGTH    512
 
-#define HU_ALTHUDMSGX       30
+#define HU_ALTHUDMSGX       (OVERLAYTEXTX - 1)
 #define HU_ALTHUDMSGY       12
 
 //
