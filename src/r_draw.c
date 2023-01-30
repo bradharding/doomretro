@@ -1083,7 +1083,7 @@ void R_DrawFuzzColumns(void)
     const int   width = viewwindowx + viewwidth;
     const int   height = (viewwindowy + viewheight) * SCREENWIDTH;
 
-    for (int x = viewwindowx; x < width; x++)
+    for (int x = viewwindowx; x < width; x += 2)
         for (int y = viewwindowy * SCREENWIDTH; y < height; y += SCREENWIDTH)
         {
             const int   i = x + y;
@@ -1097,18 +1097,18 @@ void R_DrawFuzzColumns(void)
                 {
                     // top
                     if (!(M_BigRandom() & 3))
-                        *dest = fullcolormap[12 * 256 + dest[(fuzztable[i] = FUZZ(-1, 1))]];
+                        *dest = *(dest + 1) = fullcolormap[12 * 256 + dest[(fuzztable[i] = FUZZ(-1, 1))]];
                 }
                 else if (y == height - SCREENWIDTH)
                 {
                     // bottom of view
-                    *dest = fullcolormap[5 * 256 + dest[(fuzztable[i] = FUZZ(-1, 0))]];
+                    *dest = *(dest + 1) = fullcolormap[5 * 256 + dest[(fuzztable[i] = FUZZ(-1, 0))]];
                 }
                 else if (*(src + SCREENWIDTH) == NOFUZZ)
                 {
                     // bottom of post
                     if (!(M_BigRandom() & 3))
-                        *dest = fullcolormap[12 * 256 + dest[(fuzztable[i] = FUZZ(-1, 1))]];
+                        *dest = *(dest + 1) = fullcolormap[12 * 256 + dest[(fuzztable[i] = FUZZ(-1, 1))]];
                 }
                 else
                 {
@@ -1116,10 +1116,10 @@ void R_DrawFuzzColumns(void)
                     if (*(src - 1) == NOFUZZ || *(src + 1) == NOFUZZ)
                     {
                         if (!(M_BigRandom() & 3))
-                            *dest = fullcolormap[12 * 256 + dest[(fuzztable[i] = FUZZ(-1, 1))]];
+                            *dest = *(dest + 1) = fullcolormap[12 * 256 + dest[(fuzztable[i] = FUZZ(-1, 1))]];
                     }
                     else
-                        *dest = fullcolormap[6 * 256 + dest[(fuzztable[i] = FUZZ(-1, 1))]];
+                        *dest = *(dest + 1) = fullcolormap[6 * 256 + dest[(fuzztable[i] = FUZZ(-1, 1))]];
                 }
             }
         }
