@@ -37,7 +37,6 @@
 * These changes have been made to the alternate widescreen HUD:
   * The position of the player’s health is now fixed when `0`.
   * A bug is fixed whereby the currently equipped weapon’s silhouette wouldn’t be displayed in some rare instances.
-  * The markers in the ammo bar when the player has a backpack have been redesigned.
   * The power-up bar is no longer displayed if the player has cheated and their currently equipped weapon has no ammo.
   * When the `r_hud_translucency` CVAR is `off`:
     * The white elements are now not so bright.
