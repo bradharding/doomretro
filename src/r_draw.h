@@ -114,18 +114,17 @@ void R_DrawTranslucentRed33Column(void);
 void R_DrawTranslucentBlue25Column(void);
 void R_DrawPlayerSpriteColumn(void);
 void R_DrawShadowColumn(void);
-void R_DrawFuzzyShadowColumn(void);
 void R_DrawSolidShadowColumn(void);
-void R_DrawSolidFuzzyShadowColumn(void);
 void R_DrawTranslucentBloodColumn(void);
 void R_DrawBloodSplatColumn(void);
 void R_DrawSolidBloodSplatColumn(void);
 
-// The Spectre/Invisibility effect.
+// The spectre/invisibility effect.
 void R_DrawFuzzColumn(void);
 void R_DrawPausedFuzzColumn(void);
 void R_DrawFuzzColumns(void);
 void R_DrawPausedFuzzColumns(void);
+void R_DrawFuzzyShadowColumn(void);
 
 // Draw with color translation tables,
 //  for player sprite rendering,

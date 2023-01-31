@@ -757,7 +757,7 @@ void P_MobjThinker(mobj_t *mobj)
 void P_SetShadowColumnFunction(mobj_t *mobj)
 {
     if ((mobj->flags & MF_FUZZ) && r_textures)
-        mobj->shadowcolfunc = (r_shadows_translucency ? &R_DrawFuzzyShadowColumn : &R_DrawSolidFuzzyShadowColumn);
+        mobj->shadowcolfunc = (r_shadows_translucency ? &R_DrawFuzzyShadowColumn : &R_DrawSolidShadowColumn);
     else
         mobj->shadowcolfunc = (r_shadows_translucency ? &R_DrawShadowColumn : &R_DrawSolidShadowColumn);
 }
