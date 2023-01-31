@@ -154,7 +154,7 @@ static int              consoleboldcolors[STRINGTYPES];
 
 bool                    scrollbardrawn;
 
-static void (*consoletextfunc)(int, int, patch_t *, int, int, int, bool, byte *);
+static void (*consoletextfunc)(int, int, patch_t *, int, int, int, bool, const byte *);
 
 void C_Input(const char *string, ...)
 {
@@ -860,7 +860,7 @@ static void C_DrawBackground(void)
 }
 
 static int C_DrawConsoleText(int x, int y, char *text, const int color1, const int color2, const int boldcolor,
-    byte *tinttab, const int tabs[3], const bool formatting, const bool kerning, const int index)
+    const byte *tinttab, const int tabs[3], const bool formatting, const bool kerning, const int index)
 {
     bool            bold = wrapbold;
     bool            italics = wrapitalics;
@@ -1046,7 +1046,7 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
 }
 
 static void C_DrawOverlayText(byte *screen, const int screenwidth, int x, const int y,
-    byte *tinttab, const char *text, const int color, const bool monospaced)
+    const byte *tinttab, const char *text, const int color, const bool monospaced)
 {
     const int   len = (int)strlen(text);
 

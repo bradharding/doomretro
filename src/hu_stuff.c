@@ -101,12 +101,12 @@ void A_Raise(mobj_t *actor, player_t *player, pspdef_t *psp);
 void A_Lower(mobj_t *actor, player_t *player, pspdef_t *psp);
 
 static void (*hudfunc)(int, int, patch_t *, const byte *);
-static void (*hudnumfunc)(int, int, patch_t *, byte *);
+static void (*hudnumfunc)(int, int, patch_t *, const byte *);
 
-static void (*althudfunc)(int, int, patch_t *, int, int, byte *);
+static void (*althudfunc)(int, int, patch_t *, int, int, const byte *);
 void (*althudtextfunc)(int, int, byte *, patch_t *, bool, int, int, const byte *);
-static void (*fillrectfunc)(int, int, int, int, int, int, bool, byte *);
-static void (*fillrectfunc2)(int, int, int, int, int, int, bool, byte *);
+static void (*fillrectfunc)(int, int, int, int, int, int, bool, const byte *);
+static void (*fillrectfunc2)(int, int, int, int, int, int, bool, const byte *);
 
 static struct
 {
@@ -298,7 +298,8 @@ void HU_Start(void)
     headsupactive = true;
 }
 
-static void DrawHUDNumber(int *x, int y, int val, byte *tinttab, void (*drawhudnumfunc)(int, int, patch_t *, byte *))
+static void DrawHUDNumber(int *x, int y, int val, const byte *tinttab,
+    void (*drawhudnumfunc)(int, int, patch_t *, const byte *))
 {
     int i;
 
@@ -872,7 +873,7 @@ static void HU_AltInit(void)
     yellow2 = nearestcolors[YELLOW2];
 }
 
-static void DrawAltHUDNumber(int x, int y, int val, int color, byte *tinttab)
+static void DrawAltHUDNumber(int x, int y, int val, int color, const byte *tinttab)
 {
     if (val < 0)
     {
@@ -932,7 +933,7 @@ static int AltHUDNumberWidth(int val)
     }
 }
 
-static void DrawAltHUDNumber2(int x, int y, int val, int color, byte *tinttab)
+static void DrawAltHUDNumber2(int x, int y, int val, int color, const byte *tinttab)
 {
     if (val == 1 || val % 10 == 1)
         x++;
