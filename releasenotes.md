@@ -8,7 +8,7 @@
 * When *DOOM Retro* is run for the first time, the WAD launcher will now also look for `DOOM.WAD` and `DOOM2.WAD` that are included in installations of [*DOOM Eternal*](https://store.steampowered.com/app/782330/DOOM_Eternal/).
 * The [*id Software*](https://www.idsoftware.com) logo has been removed from the title screen to be consistent with the latest rereleases of *DOOM* and *DOOM II*.
 * Several changes have been made to text that is output to the console.
-* Many additional characters, including those with diacritics, have been added to the character set used in the console.
+* Many additional characters, including those with diacritics, have been added to the font set used in the console.
 * [Alt codes](https://en.wikipedia.org/wiki/Alt_code) may now be entered in the console.
 * These changes have been made when opening and closing the console using the <kbd>~</kbd> key:
   * A subtle sound effect is now played.
@@ -40,8 +40,8 @@
   * The markers in the ammo bar when the player has a backpack have been redesigned.
   * The power-up bar is no longer displayed if the player has cheated and their currently equipped weapon has no ammo.
   * When the `r_hud_translucency` CVAR is `off`:
-    * The white elements are now not as bright.
-    * The color used in the armor bar is a slightly darker green when the player has no more than `100%` armor.
+    * The white elements are now not so bright.
+    * The armor bar is a slightly darker green when the player has no more than `100%` armor.
     * The armor icon is now a dark gray when the player has no armor.
     * The power-up bar now updates when depleting.
 * The truncation of player messages when the `vid_widescreen` CVAR is `off` has improved in some instances.

@@ -100,11 +100,11 @@ static int              coloroffset;
 void A_Raise(mobj_t *actor, player_t *player, pspdef_t *psp);
 void A_Lower(mobj_t *actor, player_t *player, pspdef_t *psp);
 
-static void (*hudfunc)(int, int, patch_t *, byte *);
+static void (*hudfunc)(int, int, patch_t *, const byte *);
 static void (*hudnumfunc)(int, int, patch_t *, byte *);
 
 static void (*althudfunc)(int, int, patch_t *, int, int, byte *);
-void (*althudtextfunc)(int, int, byte *, patch_t *, bool, int, int, byte *);
+void (*althudtextfunc)(int, int, byte *, patch_t *, bool, int, int, const byte *);
 static void (*fillrectfunc)(int, int, int, int, int, int, bool, byte *);
 static void (*fillrectfunc2)(int, int, int, int, int, int, bool, byte *);
 
@@ -1117,11 +1117,11 @@ static void HU_DrawAltHUD(void)
                     }
                     else
                     {
-                        const int   color = (((viewplayer->fixedcolormap == INVERSECOLORMAP) ^ (!r_textures)) ?
+                        const int   color2 = (((viewplayer->fixedcolormap == INVERSECOLORMAP) ^ (!r_textures)) ?
                                         colormaps[0][32 * 256 + nearestwhite] : nearestwhite);
 
-                        althudfunc(ALTHUD_RIGHT_X + 100, ALTHUD_Y + 13, altendpatch, WHITE, color, NULL);
-                        althudfunc(ALTHUD_RIGHT_X + 100 - ammo - 2, ALTHUD_Y + 13, altmarkpatch, WHITE, color, NULL);
+                        althudfunc(ALTHUD_RIGHT_X + 100, ALTHUD_Y + 13, altendpatch, WHITE, color2, NULL);
+                        althudfunc(ALTHUD_RIGHT_X + 100 - ammo - 2, ALTHUD_Y + 13, altmarkpatch, WHITE, color2, NULL);
                     }
                 }
             }
