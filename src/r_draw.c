@@ -297,24 +297,35 @@ void R_DrawShadowColumn(void)
 
 void R_DrawFuzzyShadowColumn(void)
 {
-    int     count = dc_yh - dc_yl;
-    byte    *dest = ylookup0[dc_yl] + dc_x;
+    byte    *dest;
+    int     count;
 
-    if (count)
+    if (dc_x & 1)
+        return;
+
+    dest = ylookup0[dc_yl] + dc_x;
+
+    if ((count = dc_yh - dc_yl))
     {
         *dest = *(*dest + dc_black33);
+        *(dest + 1) = *(*(dest + 1) + dc_black33);
         dest += SCREENWIDTH;
 
         while (--count)
         {
             *dest = *(*dest + dc_black33);
+            *(dest + 1) = *(*(dest + 1) + dc_black33);
             dest += SCREENWIDTH;
         }
 
         *dest = *(*dest + dc_black33);
+        *(dest + 1) = *(*(dest + 1) + dc_black33);
     }
     else
+    {
         *dest = *(*dest + dc_black33);
+        *(dest + 1) = *(*(dest + 1) + dc_black33);
+    }
 }
 
 void R_DrawSolidShadowColumn(void)
@@ -996,7 +1007,7 @@ void R_DrawFuzzColumn(void)
         // top
         if (!dc_yl)
             *dest = *(dest + 1) = *(dest + SCREENWIDTH + 1) = *(dest + SCREENWIDTH) =
-            fullcolormap[6 * 256 + dest[(fuzztable[fuzzpos++] = FUZZ(0, 1))]];
+                fullcolormap[6 * 256 + dest[(fuzztable[fuzzpos++] = FUZZ(0, 1))]];
 
         dest += SCREENWIDTH * 2;
 
