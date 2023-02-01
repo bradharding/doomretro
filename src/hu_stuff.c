@@ -1133,16 +1133,15 @@ static void HU_DrawAltHUD(void)
 
         if ((patch = altweapon[weapon]))
             althudfunc(ALTHUD_RIGHT_X + (weapon == wp_chainsaw ? 87 : 107),
-                ALTHUD_Y - SHORT(patch->height) + 21, patch, WHITE, color, tinttab60);
+                ALTHUD_Y + 21 - SHORT(patch->height), patch, WHITE, color, tinttab60);
 
         for (int i = 1; i <= NUMCARDS; i++)
             for (int j = 0; j < NUMCARDS; j++)
                 if (viewplayer->cards[j] == i)
                 {
                     altkeypic_t altkeypic = altkeypics[j];
-                    patch_t     *patch = altkeypic.patch;
 
-                    althudfunc(keypic_x, ALTHUD_Y, patch, WHITE, altkeypic.color, tinttab60);
+                    althudfunc(keypic_x, ALTHUD_Y, (patch = altkeypic.patch), WHITE, altkeypic.color, tinttab60);
                     keypic_x += SHORT(patch->width) + 4;
                 }
 
@@ -1165,9 +1164,8 @@ static void HU_DrawAltHUD(void)
                         if (viewplayer->cards[i] != i)
                         {
                             altkeypic_t altkeypic = altkeypics[i];
-                            patch_t     *patch = altkeypic.patch;
 
-                            althudfunc(keypic_x, ALTHUD_Y, patch, WHITE, altkeypic.color, tinttab60);
+                            althudfunc(keypic_x, ALTHUD_Y, (patch = altkeypic.patch), WHITE, altkeypic.color, tinttab60);
                             keypic_x += SHORT(patch->width) + 4;
                         }
             }
