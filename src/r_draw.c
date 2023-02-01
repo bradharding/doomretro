@@ -976,9 +976,6 @@ void R_DrawTranslucentBlue25Column(void)
     *dest = tinttabblue25[(*dest << 8) + colormap[dc_source[frac >> FRACBITS]]];
 }
 
-//
-// Spectre/invisibility.
-//
 void R_DrawFuzzColumn(void)
 {
     if (pausesprites)
@@ -986,56 +983,68 @@ void R_DrawFuzzColumn(void)
     else
     {
         byte    *dest;
-        int     count = dc_yh - dc_yl;
+        int     count;
 
-        if (!count)
+        if (dc_x & 1)
+            return;
+
+        if (!(count = (dc_yh - dc_yl) / 2))
             return;
 
         dest = ylookup0[dc_yl] + dc_x;
 
         // top
         if (!dc_yl)
-            *dest = fullcolormap[6 * 256 + dest[(fuzztable[fuzzpos++] = FUZZ(0, 1))]];
+            *dest = *(dest + 1) = *(dest + SCREENWIDTH + 1) = *(dest + SCREENWIDTH) =
+            fullcolormap[6 * 256 + dest[(fuzztable[fuzzpos++] = FUZZ(0, 1))]];
 
-        dest += SCREENWIDTH;
+        dest += SCREENWIDTH * 2;
 
         while (--count)
         {
             // middle
-            *dest = fullcolormap[6 * 256 + dest[(fuzztable[fuzzpos++] = FUZZ(-1, 1))]];
-            dest += SCREENWIDTH;
+            *dest = *(dest + 1) = *(dest + SCREENWIDTH + 1) = *(dest + SCREENWIDTH) =
+                fullcolormap[6 * 256 + dest[(fuzztable[fuzzpos++] = FUZZ(-1, 1))]];
+            dest += SCREENWIDTH * 2;
         }
 
         // bottom
-        *dest = fullcolormap[5 * 256 + dest[(fuzztable[fuzzpos++] = FUZZ(-1, 0))]];
+        *dest = *(dest + 1) = *(dest + SCREENWIDTH + 1) = *(dest + SCREENWIDTH) =
+            fullcolormap[5 * 256 + dest[(fuzztable[fuzzpos++] = FUZZ(-1, 0))]];
     }
 }
 
 void R_DrawPausedFuzzColumn(void)
 {
     byte    *dest;
-    int     count = dc_yh - dc_yl;
+    int     count;
 
-    if (!count)
+    if (dc_x & 1)
+        return;
+
+    if (!(count = (dc_yh - dc_yl) / 2))
         return;
 
     dest = ylookup0[dc_yl] + dc_x;
 
     // top
     if (!dc_yl)
-        *dest = fullcolormap[6 * 256 + dest[MAX(0, fuzztable[fuzzpos++])]];
+        *dest = *(dest + 1) = *(dest + SCREENWIDTH + 1) = *(dest + SCREENWIDTH) =
+            fullcolormap[6 * 256 + dest[fuzztable[fuzzpos++]]];
 
-    dest += SCREENWIDTH;
+    dest += SCREENWIDTH * 2;
 
     while (--count)
     {
         // middle
-        *dest = fullcolormap[6 * 256 + dest[fuzztable[fuzzpos++]]];
-        dest += SCREENWIDTH;
+        *dest = *(dest + 1) = *(dest + SCREENWIDTH + 1) = *(dest + SCREENWIDTH) =
+            fullcolormap[6 * 256 + dest[fuzztable[fuzzpos++]]];
+        dest += SCREENWIDTH * 2;
     }
 
     // bottom
-    *dest = fullcolormap[5 * 256 + dest[MIN(fuzztable[fuzzpos++], 0)]];
+    *dest = *(dest + 1) = *(dest + SCREENWIDTH + 1) = *(dest + SCREENWIDTH) =
+        fullcolormap[5 * 256 + dest[fuzztable[fuzzpos++]]];
 }
 
 void R_DrawFuzzColumns(void)
