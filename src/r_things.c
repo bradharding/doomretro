@@ -513,7 +513,7 @@ static void R_DrawVisSpriteWithShadow(const vissprite_t *vis)
 
     if ((flags & MF_FUZZ) || ((mobj->flags2 & MF2_TRANSLUCENT_33) && r_sprites_translucency))
     {
-        dc_black33 = &tinttab10[dc_black << 8];
+        dc_black33 = &tinttab15[dc_black << 8];
         dc_black40 = &tinttab25[dc_black << 8];
     }
     else

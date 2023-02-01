@@ -49,7 +49,7 @@
 * The position of text displayed in the top right of the screen has improved in some instances.
 * The correct map now opens when entering `map phobosmissioncontrol` or `map techgonebad` in the console.
 * Minor improvements have been made to translating certain words when the `english` CVAR is changed.
-* The fuzz effect applied when the player has a partial invisibility power-up now better matches their weapon.
+* The fuzz effect applied to both the player’s weapon when they have a partial invisibility power-up, and to spectres, has improved.
 * When the `r_rockettrails` CVAR is `on`:
   * The smoke trailing behind rockets fired by the player and cyberdemons is now a lighter gray.
   * The smoke trailing behind homing missiles fired by revenants is now the same as the smoke trailing behind rockets fired by the player and cyberdemons.
