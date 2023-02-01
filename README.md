@@ -19,7 +19,6 @@ Open the <b><i>[DOOM Retro Wiki](https://github.com/bradharding/doomretro/wiki)<
 [![](https://img.shields.io/github/commits-since/bradharding/doomretro/latest.svg)](https://github.com/bradharding/doomretro/commits/master)
 [![](https://img.shields.io/github/last-commit/bradharding/doomretro.svg)](https://github.com/bradharding/doomretro/commits/master)
 [![](https://img.shields.io/github/stars/bradharding/doomretro.svg?logo=github)](https://github.com/bradharding/doomretro/stargazers)
-[![](https://img.shields.io/twitter/follow/doomretro?style=flat&logo=twitter)](https://twitter.com/doomretro)
 [![](https://img.shields.io/discord/485551763542245427?style=flat&logo=discord&label=discord)](http://discordapp.com/invite/jAfAyWG)
 [![](https://img.shields.io/badge/donations-AU$443.72-<COLOR>?style=flat&logo=paypal&label=sponsors)](https://www.paypal.com/donate?business=8WGJ8VDFSVU7J&no_recurring=0&currency_code=AUD)
 
