@@ -1089,6 +1089,7 @@ static void HU_DrawAltHUD(void)
         int                 powerup = 0;
         int                 powerupbar = 0;
         int                 max = 1;
+        patch_t             *patch;
 
         if (ammotype != am_noammo)
         {
@@ -1130,9 +1131,9 @@ static void HU_DrawAltHUD(void)
                 althudfunc(ALTHUD_RIGHT_X, ALTHUD_Y + 13, altrightpatch[viewplayer->backpack], WHITE, color, tinttab60);
         }
 
-        if (altweapon[weapon])
+        if ((patch = altweapon[weapon]))
             althudfunc(ALTHUD_RIGHT_X + (weapon == wp_chainsaw ? 87 : 107),
-                ALTHUD_Y - 15, altweapon[weapon], WHITE, color, tinttab60);
+                ALTHUD_Y - SHORT(patch->height) + 21, patch, WHITE, color, tinttab60);
 
         for (int i = 1; i <= NUMCARDS; i++)
             for (int j = 0; j < NUMCARDS; j++)
