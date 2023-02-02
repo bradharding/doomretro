@@ -20,7 +20,7 @@
 * Scrolling up and down in the console using the <kbd>PGUP</kbd> and <kbd>PGDN</kbd> keys now gets faster the longer the keys are held down.
 * Thousands-delimiting commas may now be used when changing the value of certain CVARs in the console.
 * The `toggle` CCMD now only works with boolean CVARs.
-* If the `m_pointer` CVAR is `on`:
+* When the `m_pointer` CVAR is `on`:
   * The mouse wheel may now be used to scroll among menu items again.
   * Pressing a mouse button on the title screen without moving the mouse now opens the menu rather than just show the mouse pointer.
 * Two additional savegame slots now appear in the load and save game menus.
@@ -40,7 +40,7 @@
   * The power-up bar is no longer displayed if the player has cheated and their currently equipped weapon has no ammo.
   * When the `r_hud_translucency` CVAR is `off`:
     * The white elements are now not so bright.
-    * The armor bar is a slightly darker green when the player has no more than `100%` armor.
+    * The armor bar is a slightly darker green when the player has `100%` armor or less.
     * The armor icon is now a dark gray when the player has no armor.
     * The power-up bar now updates when depleting.
 * The truncation of player messages when the `vid_widescreen` CVAR is `off` has improved in some instances.
@@ -54,7 +54,7 @@
   * The smoke trailing behind rockets fired by the player and cyberdemons is now a lighter gray.
   * The smoke trailing behind homing missiles fired by revenants is now the same as the smoke trailing behind rockets fired by the player and cyberdemons.
 * The LEDs on *DualShock 4* and *DualSense* and *DualSense Edge* controllers now turn red again when connected.
-* If the `vid_fullscreen` CVAR is `off`:
+* When the `vid_fullscreen` CVAR is `off`:
   * The status bar and widescreen HUD are now displayed better when the window is resized to be very narrow.
   * The mouse pointer is now displayed while the console is open.
 * The mouse pointer is now hidden before the screen goes black at startup when the `vid_fullscreen` CVAR is `on`.

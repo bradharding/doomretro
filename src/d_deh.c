@@ -3327,7 +3327,7 @@ static void deh_procPars(DEHFILE *fpin, char *line)
                 C_Warning(1, "Invalid par time setting string \"%s\".", inbuffer);
             else
             {
-                if (level < 0 || level > 99)
+                if (level < 1 || level > 99)
                     C_Warning(1, "Invalid MAP" ITALICS("xy") " value MAP%02i.", level);
                 else
                 {
@@ -3341,7 +3341,7 @@ static void deh_procPars(DEHFILE *fpin, char *line)
         }
         else
         {
-            if (ep < 0 || ep > 9 || level < 0 || level > 9)
+            if (ep < 1 || ep > 9 || level < 1 || level > 9)
                 C_Warning(1, "Invalid E" ITALICS("x") "M" ITALICS("y") " values E%iM%i.", ep, level);
             else
             {
