@@ -102,14 +102,12 @@ void V_DrawOverlayTextPatch(byte *screen, int screenwidth, int x, int y, patch_t
 void V_DrawShadowPatch(int x, int y, patch_t *patch);
 void V_DrawSolidShadowPatch(int x, int y, patch_t *patch);
 void V_DrawSpectreShadowPatch(int x, int y, patch_t *patch);
-void V_DrawSolidSpectreShadowPatch(int x, int y, patch_t *patch);
 bool V_IsEmptyPatch(patch_t *patch);
 void V_DrawPatchWithShadow(int x, int y, patch_t *patch, bool flag);
 void V_DrawFlippedPatch(int x, int y, patch_t *patch);
 void V_DrawFlippedShadowPatch(int x, int y, patch_t *patch);
 void V_DrawFlippedSolidShadowPatch(int x, int y, patch_t *patch);
 void V_DrawFlippedSpectreShadowPatch(int x, int y, patch_t *patch);
-void V_DrawFlippedSolidSpectreShadowPatch(int x, int y, patch_t *patch);
 void V_DrawFuzzPatch(int x, int y, patch_t *patch);
 void V_DrawFlippedFuzzPatch(int x, int y, patch_t *patch);
 void V_DrawNoGreenPatchWithShadow(int x, int y, patch_t *patch);

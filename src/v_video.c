@@ -371,8 +371,6 @@ void V_DrawSpectreShadowPatch(int x, int y, patch_t *patch)
     x -= SHORT(patch->leftoffset);
     x += WIDESCREENDELTA;
 
-    fuzzpos = 0;
-
     desttop = &screens[0][((y * DY) >> FRACBITS) * SCREENWIDTH + ((x * DX) >> FRACBITS)];
 
     for (int col = 0; col < width; col += DXI, desttop++)
@@ -385,60 +383,13 @@ void V_DrawSpectreShadowPatch(int x, int y, patch_t *patch)
             byte    *dest = &desttop[((column->topdelta * DY / 10) >> FRACBITS) * SCREENWIDTH];
             int     count = ((column->length * DY / 10) >> FRACBITS) + 1;
 
-            if ((consoleactive && !fuzztable[fuzzpos++]) || (!consoleactive && !(M_Random() & 3)))
-                *dest = black40[*dest];
-
             dest += SCREENWIDTH;
 
             while (--count)
             {
-                *dest = black40[*dest];
+                *dest = black25[*dest];
                 dest += SCREENWIDTH;
             }
-
-            if ((consoleactive && !fuzztable[fuzzpos++]) || (!consoleactive && !(M_Random() & 3)))
-                *dest = black40[*dest];
-
-            column = (column_t *)((byte *)column + column->length + 4);
-        }
-    }
-}
-
-void V_DrawSolidSpectreShadowPatch(int x, int y, patch_t *patch)
-{
-    byte        *desttop;
-    const int   width = SHORT(patch->width) << FRACBITS;
-
-    x -= SHORT(patch->leftoffset);
-    x += WIDESCREENDELTA;
-
-    fuzzpos = 0;
-
-    desttop = &screens[0][((y * DY) >> FRACBITS) * SCREENWIDTH + ((x * DX) >> FRACBITS)];
-
-    for (int col = 0; col < width; col += DXI, desttop++)
-    {
-        column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnoffset[col >> FRACBITS]));
-
-        // step through the posts in a column
-        while (column->topdelta != 0xFF)
-        {
-            byte    *dest = &desttop[((column->topdelta * DY / 10) >> FRACBITS) * SCREENWIDTH];
-            int     count = ((column->length * DY / 10) >> FRACBITS) + 1;
-
-            if ((consoleactive && !fuzztable[fuzzpos++]) || (!consoleactive && !(M_Random() & 3)))
-                *dest = nearestblack;
-
-            dest += SCREENWIDTH;
-
-            while (--count)
-            {
-                *dest = nearestblack;
-                dest += SCREENWIDTH;
-            }
-
-            if ((consoleactive && !fuzztable[fuzzpos++]) || (!consoleactive && !(M_Random() & 3)))
-                *dest = nearestblack;
 
             column = (column_t *)((byte *)column + column->length + 4);
         }
@@ -1283,8 +1234,6 @@ void V_DrawFlippedSpectreShadowPatch(int x, int y, patch_t *patch)
     x -= SHORT(patch->leftoffset);
     x += WIDESCREENDELTA;
 
-    fuzzpos = 0;
-
     desttop = &screens[0][(((y + 3) * DY) >> FRACBITS) * SCREENWIDTH + ((x * DX) >> FRACBITS)];
 
     for (int col = 0; col < width; col += DXI, desttop++)
@@ -1297,61 +1246,13 @@ void V_DrawFlippedSpectreShadowPatch(int x, int y, patch_t *patch)
             byte    *dest = &desttop[((column->topdelta * DY / 10) >> FRACBITS) * SCREENWIDTH];
             int     count = ((column->length * DY / 10) >> FRACBITS) + 1;
 
-            if ((consoleactive && !fuzztable[fuzzpos++]) || (!consoleactive && !(M_Random() & 3)))
-                *dest = black40[*dest];
-
             dest += SCREENWIDTH;
 
             while (--count)
             {
-                *dest = black40[*dest];
+                *dest = black25[*dest];
                 dest += SCREENWIDTH;
             }
-
-            if ((consoleactive && !fuzztable[fuzzpos++]) || (!consoleactive && !(M_Random() & 3)))
-                *dest = black40[*dest];
-
-            column = (column_t *)((byte *)column + column->length + 4);
-        }
-    }
-}
-
-void V_DrawFlippedSolidSpectreShadowPatch(int x, int y, patch_t *patch)
-{
-    byte        *desttop;
-    const int   width = SHORT(patch->width) << FRACBITS;
-
-    y -= SHORT(patch->topoffset) / 10;
-    x -= SHORT(patch->leftoffset);
-    x += WIDESCREENDELTA;
-
-    fuzzpos = 0;
-
-    desttop = &screens[0][(((y + 3) * DY) >> FRACBITS) * SCREENWIDTH + ((x * DX) >> FRACBITS)];
-
-    for (int col = 0; col < width; col += DXI, desttop++)
-    {
-        column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnoffset[SHORT(patch->width) - 1 - (col >> FRACBITS)]));
-
-        // step through the posts in a column
-        while (column->topdelta != 0xFF)
-        {
-            byte    *dest = &desttop[((column->topdelta * DY / 10) >> FRACBITS) * SCREENWIDTH];
-            int     count = ((column->length * DY / 10) >> FRACBITS) + 1;
-
-            if ((consoleactive && !fuzztable[fuzzpos++]) || (!consoleactive && !(M_Random() & 3)))
-                *dest = nearestblack;
-
-            dest += SCREENWIDTH;
-
-            while (--count)
-            {
-                *dest = nearestblack;
-                dest += SCREENWIDTH;
-            }
-
-            if ((consoleactive && !fuzztable[fuzzpos++]) || (!consoleactive && !(M_Random() & 3)))
-                *dest = nearestblack;
 
             column = (column_t *)((byte *)column + column->length + 4);
         }

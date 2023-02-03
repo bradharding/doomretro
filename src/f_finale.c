@@ -855,17 +855,12 @@ static void F_CastDrawer(void)
             if (r_shadows_translucency)
             {
                 if (type == MT_SHADOWS)
-                    V_DrawFlippedSpectreShadowPatch(VANILLAWIDTH / 2, VANILLAHEIGHT - 28, patch);
+                    V_DrawFlippedSpectreShadowPatch(VANILLAWIDTH / 2, VANILLAHEIGHT - 32, patch);
                 else
                     V_DrawFlippedShadowPatch(VANILLAWIDTH / 2, VANILLAHEIGHT - 32, patch);
             }
             else
-            {
-                if (type == MT_SHADOWS)
-                    V_DrawFlippedSolidSpectreShadowPatch(VANILLAWIDTH / 2, VANILLAHEIGHT - 28, patch);
-                else
-                    V_DrawFlippedSolidShadowPatch(VANILLAWIDTH / 2, VANILLAHEIGHT - 32, patch);
-            }
+                V_DrawFlippedSolidShadowPatch(VANILLAWIDTH / 2, VANILLAHEIGHT - 32, patch);
         }
 
         if (r_sprites_translucency && (type == MT_SKULL || (type == MT_PAIN && castdeath)))
@@ -884,17 +879,12 @@ static void F_CastDrawer(void)
             if (r_shadows_translucency)
             {
                 if (type == MT_SHADOWS)
-                    V_DrawSpectreShadowPatch(VANILLAWIDTH / 2, VANILLAHEIGHT - 28, patch);
+                    V_DrawSpectreShadowPatch(VANILLAWIDTH / 2, VANILLAHEIGHT - 32, patch);
                 else
                     V_DrawShadowPatch(VANILLAWIDTH / 2, VANILLAHEIGHT - 32, patch);
             }
             else
-            {
-                if (type == MT_SHADOWS)
-                    V_DrawSolidSpectreShadowPatch(VANILLAWIDTH / 2, VANILLAHEIGHT - 28, patch);
-                else
-                    V_DrawSolidShadowPatch(VANILLAWIDTH / 2, VANILLAHEIGHT - 32, patch);
-            }
+                V_DrawSolidShadowPatch(VANILLAWIDTH / 2, VANILLAHEIGHT - 32, patch);
         }
 
         if (r_sprites_translucency && (type == MT_SKULL || (type == MT_PAIN && castdeath)))
