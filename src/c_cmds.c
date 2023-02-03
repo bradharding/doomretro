@@ -7160,7 +7160,8 @@ static void spawn_cmd_func2(char *cmd, char *parms)
         {
             char    buffer[128];
 
-            if (spawncmdtype >= ArchVile && spawncmdtype <= MonsterSpawner && !REKKR)
+            if ((spawncmdtype >= ArchVile && spawncmdtype <= MonsterSpawner && !REKKR)
+                || (spawncmdtype == Berserk && chex))
             {
                 M_StringCopy(buffer, mobjinfo[type].plural1, sizeof(buffer));
 

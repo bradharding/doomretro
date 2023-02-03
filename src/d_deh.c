@@ -4205,8 +4205,7 @@ static void deh_procBexMusic(DEHFILE *fpin, char *line)
 //
 static char *dehReformatStr(char *string)
 {
-    static char buff[DEH_BUFFERMAX];    // only processing the changed string,
-    //  don't need double buffer
+    static char buff[DEH_BUFFERMAX];    // only processing the changed string, don't need double buffer
     char        *s = string;            // source
     char        *t = buff;              // target
 

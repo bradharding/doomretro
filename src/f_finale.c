@@ -897,9 +897,9 @@ static void F_CastDrawer(void)
 }
 
 //
-// F_DrawPatchCol
+// F_DrawPatchColumn
 //
-static void F_DrawPatchCol(int x, patch_t *patch, int col)
+static void F_DrawPatchColumn(int x, patch_t *patch, int col)
 {
     column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnoffset[col]));
     byte        *desttop = &screens[0][x];
@@ -928,24 +928,24 @@ static void F_DrawPatchCol(int x, patch_t *patch, int col)
 //
 static void F_BunnyScroll(void)
 {
-    int     scrolled = BETWEEN(0, VANILLAWIDTH - (finalecount - 230) / 2, VANILLAWIDTH);
-    patch_t *p1 = (FREEDOOM || hacx ? W_CacheLastLumpName("PFUB2") : W_CacheLumpName(REKKRSL ? "PFUB2W" : "PFUB2"));
-    patch_t *p2 = (FREEDOOM || hacx ? W_CacheLastLumpName("PFUB1") : W_CacheLumpName(REKKRSL ? "PFUB1W" : "PFUB1"));
-    int     p1offset = (VANILLAWIDTH - SHORT(p1->width)) / 2;
-    int     p2offset = VANILLAWIDTH + (SHORT(p2->width) == VANILLAWIDTH ? -p1offset : p1offset);
-    int     pillarwidth = MAX(0, (SCREENWIDTH - (SHORT(p1->width) << FRACBITS) / DXI) / 2);
+    const int   scrolled = BETWEEN(0, VANILLAWIDTH - (finalecount - 230) / 2, VANILLAWIDTH);
+    patch_t     *p1 = (FREEDOOM || hacx ? W_CacheLastLumpName("PFUB2") : W_CacheLumpName(REKKRSL ? "PFUB2W" : "PFUB2"));
+    patch_t     *p2 = (FREEDOOM || hacx ? W_CacheLastLumpName("PFUB1") : W_CacheLumpName(REKKRSL ? "PFUB1W" : "PFUB1"));
+    const int   p1offset = (VANILLAWIDTH - SHORT(p1->width)) / 2;
+    const int   p2offset = VANILLAWIDTH + (SHORT(p2->width) == VANILLAWIDTH ? -p1offset : p1offset);
+    const int   pillarwidth = MAX(0, (SCREENWIDTH - (SHORT(p1->width) << FRACBITS) / DXI) / 2);
 
     if (pillarwidth && SCREENWIDTH != NONWIDEWIDTH)
         memset(screens[0], FindDominantEdgeColor(p1), SCREENAREA);
 
     for (int x = pillarwidth; x < SCREENWIDTH - pillarwidth; x++)
     {
-        int x2 = ((x * DXI) >> FRACBITS) - WIDESCREENDELTA + scrolled;
+        const int   x2 = ((x * DXI) >> FRACBITS) - WIDESCREENDELTA + scrolled;
 
         if (x2 < p2offset)
-            F_DrawPatchCol(x, p1, x2 - p1offset);
+            F_DrawPatchColumn(x, p1, x2 - p1offset);
         else
-            F_DrawPatchCol(x, p2, x2 - p2offset);
+            F_DrawPatchColumn(x, p2, x2 - p2offset);
     }
 
     if (finalecount >= 1130)
@@ -963,8 +963,8 @@ static void F_BunnyScroll(void)
         }
         else
         {
-            char    name[10];
-            int     stage = MIN((finalecount - 1180) / 5, 6);
+            char        name[10];
+            const int   stage = MIN((finalecount - 1180) / 5, 6);
 
             if (stage > laststage)
             {
@@ -984,7 +984,7 @@ static void F_BunnyScroll(void)
 //
 static void F_ArtScreenDrawer(void)
 {
-    int lumpnum = P_GetMapEndPic(gamemap);
+    const int   lumpnum = P_GetMapEndPic(gamemap);
 
     if (lumpnum > 0)
     {

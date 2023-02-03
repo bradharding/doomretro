@@ -32,10 +32,11 @@
   * The number of cells the player has picked up is no longer displayed when playing *DOOM (Shareware)*.
   * The number of times the player has died is now corrected when they are resurrected using either the `resurrect` CCMD or `IDDQD` cheat.
 * Minor improvements have been made to the support for `DEHACKED` and `MAPINFO` lumps.
+* *DOOM’s* stimpacks and medikits no longer appear in [*Chex Quest*](https://doomwiki.org/wiki/Chex_Quest).
 * The player’s health, armor and ammo are now displayed better in the status bar and widescreen HUD if they start with a `1`.
 * The widescreen HUD is now brought in from the left and right edges of ultra-wide displays.
 * These changes have been made to the alternate widescreen HUD:
-  * The position of the player’s health is now fixed when `0`.
+  * The position of the player’s health is now fixed when `0%`.
   * A bug is fixed whereby the currently equipped weapon’s silhouette wouldn’t be displayed in some rare instances.
   * The power-up bar is no longer displayed if the player has cheated and their currently equipped weapon has no ammo.
   * When the `r_hud_translucency` CVAR is `off`:
