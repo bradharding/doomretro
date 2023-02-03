@@ -617,7 +617,7 @@ consolecmd_t consolecmds[] =
         "Binds an " BOLDITALICS("+action") " or string of " BOLDITALICS("commands") " to a " BOLDITALICS("control") "."),
     CCMD(bindlist, "", "", null_func1, bindlist_cmd_func2, false, "",
         "Lists all controls bound to an " BOLDITALICS("+action") " or string of commands."),
-    CMD_CHEAT(buddha, false),
+    CMD_CHEAT(brad, false),
     CVAR_BOOL(centerweapon, centreweapon, "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles centering the player's weapon when fired."),
     CCMD(clear, "", "", null_func1, clear_cmd_func2, false, "",
@@ -7160,8 +7160,7 @@ static void spawn_cmd_func2(char *cmd, char *parms)
         {
             char    buffer[128];
 
-            if ((spawncmdtype >= ArchVile && spawncmdtype <= MonsterSpawner && !REKKR)
-                || (spawncmdtype == Berserk && chex))
+            if (spawncmdtype >= ArchVile && spawncmdtype <= MonsterSpawner && !REKKR)
             {
                 M_StringCopy(buffer, mobjinfo[type].plural1, sizeof(buffer));
 
@@ -7428,9 +7427,9 @@ static void take_cmd_func2(char *cmd, char *parms)
                 C_HideConsole();
             }
             else if (M_StringCompare(playername, playername_default))
-                C_Warning(0, "You don't have anything.");
+                C_Warning(0, "You don't have anything to take.");
             else
-                C_Warning(0, "%s doesn't have anything.", playername);
+                C_Warning(0, "%s doesn't have anything to take.", playername);
         }
         else if (M_StringCompare(parm, "health") || M_StringCompare(parm, "allhealth"))
         {
@@ -7474,9 +7473,9 @@ static void take_cmd_func2(char *cmd, char *parms)
                 C_HideConsole();
             }
             else if (M_StringCompare(playername, playername_default))
-                C_Warning(0, "You don't have any weapons.");
+                C_Warning(0, "You don't have any weapons to take.");
             else
-                C_Warning(0, "%s doesn't have any weapons.", playername);
+                C_Warning(0, "%s doesn't have any weapons to take.", playername);
         }
         else if (M_StringCompare(parm, "ammo") || M_StringCompare(parm, "allammo")
                 || M_StringCompare(parm, "ammunition") || M_StringCompare(parm, "allammunition"))
@@ -7496,9 +7495,9 @@ static void take_cmd_func2(char *cmd, char *parms)
                 C_HideConsole();
             }
             else if (M_StringCompare(playername, playername_default))
-                C_Warning(0, "You don't have any ammo.");
+                C_Warning(0, "You don't have any ammo to take.");
             else
-                C_Warning(0, "%s doesn't have any ammo.", playername);
+                C_Warning(0, "%s doesn't have any ammo to take.", playername);
         }
         else if (M_StringCompare(parm, "armor") || M_StringCompare(parm, "allarmor")
                 || M_StringCompare(parm, "armour") || M_StringCompare(parm, "allarmour"))
@@ -7512,10 +7511,10 @@ static void take_cmd_func2(char *cmd, char *parms)
                 C_HideConsole();
             }
             else if (M_StringCompare(playername, playername_default))
-                C_Warning(0, "You don't have any %s.",
+                C_Warning(0, "You don't have any %s to take.",
                     (english == english_american ? "armor" : "armour"));
             else
-                C_Warning(0, "%s doesn't have any %s.",
+                C_Warning(0, "%s doesn't have any %s to take.",
                     playername, (english == english_american ? "armor" : "armour"));
         }
         else if (M_StringCompare(parm, "keys") || M_StringCompare(parm, "allkeys"))
@@ -7533,9 +7532,9 @@ static void take_cmd_func2(char *cmd, char *parms)
                 C_HideConsole();
             }
             else if (M_StringCompare(playername, playername_default))
-                C_Warning(0, "You don't have any keycards or skull keys.");
+                C_Warning(0, "You don't have any keycards or skull keys to take.");
             else
-                C_Warning(0, "%s doesn't have any keycards or skull keys.", playername);
+                C_Warning(0, "%s doesn't have any keycards or skull keys to take.", playername);
         }
         else if (M_StringCompare(parm, "keycards") || M_StringCompare(parm, "allkeycards"))
         {
@@ -7548,9 +7547,9 @@ static void take_cmd_func2(char *cmd, char *parms)
                 C_HideConsole();
             }
             else if (M_StringCompare(playername, playername_default))
-                C_Warning(0, "You don't have any keycards.");
+                C_Warning(0, "You don't have any keycards to take.");
             else
-                C_Warning(0, "%s doesn't have any keycards.", playername);
+                C_Warning(0, "%s doesn't have any keycards to take.", playername);
         }
         else if (M_StringCompare(parm, "skullkeys") || M_StringCompare(parm, "allskullkeys"))
         {
@@ -7563,9 +7562,9 @@ static void take_cmd_func2(char *cmd, char *parms)
                 C_HideConsole();
             }
             else if (M_StringCompare(playername, playername_default))
-                C_Warning(0, "You don't have any skull keys.");
+                C_Warning(0, "You don't have any skull keys to take.");
             else
-                C_Warning(0, "%s doesn't have any skull keys.", playername);
+                C_Warning(0, "%s doesn't have any skull keys to take.", playername);
         }
         else if (M_StringCompare(parm, "pistol"))
         {
@@ -7580,7 +7579,7 @@ static void take_cmd_func2(char *cmd, char *parms)
                 C_HideConsole();
             }
             else if (M_StringCompare(playername, playername_default))
-                C_Warning(0, "You don't have a pistol.");
+                C_Warning(0, "You don't have a pistol to take.");
             else
                 C_Warning(0, "%s doesn't have a pistol.", playername);
         }
@@ -7605,10 +7604,10 @@ static void take_cmd_func2(char *cmd, char *parms)
                         result = true;
                     }
                     else if (M_StringCompare(playername, playername_default))
-                        C_Warning(0, "You don't have %s %s.",
+                        C_Warning(0, "You don't have %s %s to take.",
                             (isvowel(mobjinfo[i].name1[0]) ? "an" : "a"), mobjinfo[i].name1);
                     else
-                        C_Warning(0, "%s doesn't have %s %s.",
+                        C_Warning(0, "%s doesn't have %s %s to take.",
                             playername, (isvowel(mobjinfo[i].name1[0]) ? "an" : "a"), mobjinfo[i].name1);
                 }
 

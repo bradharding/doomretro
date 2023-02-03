@@ -250,17 +250,17 @@ static bool SpriteLumpNeeded(lumpinfo_t *lump)
     return false;
 }
 
-static struct
-{
-    const char  *spr1;
-    const char  *spr2;
-} weaponsprites[] = {
-    { "PUNG", ""     }, { "PISG", "PISF" }, { "SHTG", "SHTF" }, { "CHGG", "CHGF" }, { "MISG", "MISF" },
-    { "PLSG", "PLSF" }, { "BFGG", "BFGF" }, { "SAWG", ""     }, { "SHT2", "SHT2" }, { "",     ""     }
-};
-
 static void AddSpriteLump(lumpinfo_t *lump)
 {
+    static struct
+    {
+        const char  *spr1;
+        const char  *spr2;
+    } weaponsprites[] = {
+        { "PUNG", ""     }, { "PISG", "PISF" }, { "SHTG", "SHTF" }, { "CHGG", "CHGF" }, { "MISG", "MISF" },
+        { "PLSG", "PLSF" }, { "BFGG", "BFGF" }, { "SAWG", ""     }, { "SHT2", "SHT2" }, { "",     ""     }
+    };
+
     sprite_frame_t  *sprite;
     int             angle_num;
     static int      MISFA0;
@@ -311,7 +311,7 @@ static void AddSpriteLump(lumpinfo_t *lump)
         if (M_StringCompare(lump->name, "SHT2E0") && (SHT2E0 >= 2 || hacx || FREEDOOM))
             return;
 
-        if ((M_StringCompare(lump->name, "MEDIA0") || M_StringCompare(lump->name, "STIMA0")) && chex)
+        if (chex && (M_StringCompare(lump->name, "MEDIA0") || M_StringCompare(lump->name, "STIMA0")))
             return;
     }
 
@@ -324,12 +324,11 @@ static void AddSpriteLump(lumpinfo_t *lump)
     else
         sprite->angle_lumps[angle_num - 1] = lump;
 
-    // second angle
-
     // no second angle?
     if (lump->name[6] == '\0')
         return;
 
+    // second angle
     sprite = FindSpriteFrame(lump->name, lump->name[6]);
 
     if (!(angle_num = lump->name[7] - '0'))

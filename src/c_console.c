@@ -1751,9 +1751,7 @@ bool C_ValidateInput(char *input)
                         && length == strlen(cmd) + 2
                         && consolecmds[i].func1(consolecmds[i].name, consolecheatparm))
                     {
-                        if (gamestate == GS_LEVEL)
-                            M_StringCopy(consolecheat, cmd, sizeof(consolecheat));
-
+                        M_StringCopy(consolecheat, cmd, sizeof(consolecheat));
                         return true;
                     }
                 }
