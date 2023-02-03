@@ -534,14 +534,14 @@ static void R_InitSpriteLumps(void)
         mobjinfo[MT_BRUISER].bloodcolor = REDBLOOD;
         mobjinfo[MT_KNIGHT].bloodcolor = REDBLOOD;
 
-        M_StringCopy(weaponinfo[wp_pistol].name, "handgun", sizeof(weaponinfo[0].name));
-        M_StringCopy(weaponinfo[wp_shotgun].name, "pump-action shotgun", sizeof(weaponinfo[0].name));
-        M_StringCopy(weaponinfo[wp_chaingun].name, "minigun", sizeof(weaponinfo[0].name));
-        M_StringCopy(weaponinfo[wp_missile].name, "missile launcher", sizeof(weaponinfo[0].name));
-        M_StringCopy(weaponinfo[wp_plasma].name, "polaric energy cannon", sizeof(weaponinfo[0].name));
-        M_StringCopy(weaponinfo[wp_bfg].name, "SKAG 1337", sizeof(weaponinfo[0].name));
-        M_StringCopy(weaponinfo[wp_chainsaw].name, "angle grinder", sizeof(weaponinfo[0].name));
-        M_StringCopy(weaponinfo[wp_supershotgun].name, "double-barreled shotgun", sizeof(weaponinfo[0].name));
+        weaponinfo[wp_pistol].name = M_StringDuplicate("handgun");
+        weaponinfo[wp_shotgun].name = M_StringDuplicate("pump-action shotgun");
+        weaponinfo[wp_chaingun].name = M_StringDuplicate("minigun");
+        weaponinfo[wp_missile].name = M_StringDuplicate("missile launcher");
+        weaponinfo[wp_plasma].name = M_StringDuplicate("polaric energy cannon");
+        weaponinfo[wp_bfg].name = M_StringDuplicate("SKAG 1337");
+        weaponinfo[wp_chainsaw].name = M_StringDuplicate("angle grinder");
+        weaponinfo[wp_supershotgun].name = M_StringDuplicate("double-barreled shotgun");
 
         M_StringCopy(weaponinfo[wp_missile].ammoname, "missile", sizeof(weaponinfo[0].ammoname));
         M_StringCopy(weaponinfo[wp_missile].ammoplural, "missiles", sizeof(weaponinfo[0].ammoplural));
@@ -764,13 +764,13 @@ static void R_InitSpriteLumps(void)
         mobjinfo[MT_SKULL].flags2 &= ~MF2_TRANSLUCENT_REDONLY;
         mobjinfo[MT_CLIP].flags2 |= MF2_TRANSLUCENT_50;
 
-        M_StringCopy(weaponinfo[wp_pistol].name, "soul bow", sizeof(weaponinfo[0].name));
-        M_StringCopy(weaponinfo[wp_shotgun].name, "steel-shot launcher", sizeof(weaponinfo[0].name));
-        M_StringCopy(weaponinfo[wp_chaingun].name, "soul gun", sizeof(weaponinfo[0].name));
-        M_StringCopy(weaponinfo[wp_missile].name, "runic staff", sizeof(weaponinfo[0].name));
-        M_StringCopy(weaponinfo[wp_plasma].name, "holy relic", sizeof(weaponinfo[0].name));
-        M_StringCopy(weaponinfo[wp_bfg].name, "blessing of the gods", sizeof(weaponinfo[0].name));
-        M_StringCopy(weaponinfo[wp_chainsaw].name, "axe", sizeof(weaponinfo[0].name));
+        weaponinfo[wp_pistol].name = M_StringDuplicate("soul bow");
+        weaponinfo[wp_shotgun].name = M_StringDuplicate("steel-shot launcher");
+        weaponinfo[wp_chaingun].name = M_StringDuplicate("soul gun");
+        weaponinfo[wp_missile].name = M_StringDuplicate("runic staff");
+        weaponinfo[wp_plasma].name = M_StringDuplicate("holy relic");
+        weaponinfo[wp_bfg].name = M_StringDuplicate("blessing of the gods");
+        weaponinfo[wp_chainsaw].name = M_StringDuplicate("axe");
 
         M_StringCopy(weaponinfo[wp_pistol].ammoname, "soul", sizeof(weaponinfo[0].ammoname));
         M_StringCopy(weaponinfo[wp_pistol].ammoplural, "souls", sizeof(weaponinfo[0].ammoplural));
