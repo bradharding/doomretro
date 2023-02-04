@@ -1005,7 +1005,10 @@ void R_DrawFuzzColumn(void)
         dest = ylookup0[dc_yl] + dc_x;
 
         // top
-        if (!dc_yl)
+        if (dc_yl)
+            *dest = *(dest + 1) = *(dest + SCREENWIDTH + 1) = *(dest + SCREENWIDTH) =
+                fullcolormap[8 * 256 + dest[(fuzztable[fuzzpos++] = FUZZ(-1, 1))]];
+        else
             *dest = *(dest + 1) = *(dest + SCREENWIDTH + 1) = *(dest + SCREENWIDTH) =
                 fullcolormap[6 * 256 + dest[(fuzztable[fuzzpos++] = FUZZ(0, 1))]];
 
@@ -1039,7 +1042,10 @@ void R_DrawPausedFuzzColumn(void)
     dest = ylookup0[dc_yl] + dc_x;
 
     // top
-    if (!dc_yl)
+    if (dc_yl)
+        *dest = *(dest + 1) = *(dest + SCREENWIDTH + 1) = *(dest + SCREENWIDTH) =
+            fullcolormap[8 * 256 + dest[fuzztable[fuzzpos++]]];
+    else
         *dest = *(dest + 1) = *(dest + SCREENWIDTH + 1) = *(dest + SCREENWIDTH) =
             fullcolormap[6 * 256 + dest[fuzztable[fuzzpos++]]];
 
