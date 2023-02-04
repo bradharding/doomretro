@@ -54,7 +54,8 @@
 * Certain partial translucency effects when the `r_sprites_translucency` CVAR is `on` are no longer applied if a custom `PLAYPAL` lump is present in a PWAD.
 * When the `r_rockettrails` CVAR is `on`:
   * The smoke trailing behind rockets fired by the player and cyberdemons is now a lighter gray.
-  * The smoke trailing behind homing missiles fired by revenants is now the same as the smoke trailing behind rockets fired by the player and cyberdemons.
+  * Smoke now won’t trail behind rockets fired by the player and cyberdemons if a custom `PLAYPAL` lump is present in a PWAD.
+  * The smoke trailing behind homing missiles fired by revenants is now the same as the smoke trailing behind rockets fired by the player and cyberdemons (but not if a custom `PLAYPAL` lump is present in a PWAD).
 * The LEDs on *DualShock 4* and *DualSense* and *DualSense Edge* controllers now turn red again when connected.
 * When the `vid_fullscreen` CVAR is `off`:
   * The status bar and widescreen HUD are now displayed better when the window is resized to be very narrow.
