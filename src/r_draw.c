@@ -1101,8 +1101,15 @@ void R_DrawPausedFuzzColumns(void)
             {
                 byte    *dest = screens[0] + i;
 
-                *dest = *(dest + 1) = *(dest + SCREENWIDTH + 1) = *(dest + SCREENWIDTH) =
-                    fullcolormap[6 * 256 + dest[fuzztable[fuzzpos++]]];
+                if (*(src - SCREENWIDTH * 2) == NOFUZZ && (fuzzpos & 1))
+                    *dest = *(dest + 1) = *(dest + SCREENWIDTH + 1) = *(dest + SCREENWIDTH) =
+                        fullcolormap[12 * 256 + dest[fuzztable[fuzzpos++]]];
+                else if (y == height - SCREENWIDTH * 2)
+                    *dest = *(dest + 1) = *(dest + SCREENWIDTH + 1) = *(dest + SCREENWIDTH) =
+                        fullcolormap[5 * 256 + dest[fuzztable[fuzzpos++]]];
+                else
+                    *dest = *(dest + 1) = *(dest + SCREENWIDTH + 1) = *(dest + SCREENWIDTH) =
+                        fullcolormap[6 * 256 + dest[fuzztable[fuzzpos++]]];
             }
         }
 }
