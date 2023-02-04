@@ -71,7 +71,6 @@ int         lastspritelump;
 int         numspritelumps;
 
 bool        fixspriteoffsets = false;
-bool        nopartialtranslucency = false;
 bool        suppresswarnings = false;
 
 int         numtextures;
@@ -460,13 +459,6 @@ static void R_InitSpriteLumps(void)
                 mobjinfo[MT_BRUISER].bloodcolor = REDBLOOD;
                 mobjinfo[MT_KNIGHT].bloodcolor = REDBLOOD;
             }
-        }
-        else if (SC_Compare("NOPARTIALTRANSLUCENCY"))
-        {
-            SC_MustGetString();
-
-            if (SC_Compare(pwadfile))
-                nopartialtranslucency = true;
         }
 
     SC_Close();

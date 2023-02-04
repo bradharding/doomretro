@@ -144,7 +144,6 @@ extern char         berserk[64];
 extern byte         grays[256];
 extern texture_t    **textures;
 extern bool         fixspriteoffsets;
-extern bool         nopartialtranslucency;
 extern bool         suppresswarnings;
 extern int          numflats;
 extern int          numspritelumps;
