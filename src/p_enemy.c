@@ -1291,7 +1291,7 @@ void A_Tracer(mobj_t *actor, player_t *player, pspdef_t *psp)
     // spawn a puff of smoke behind the homing rocket
     if (!doom4vanilla)
     {
-        if (r_rockettrails && !PUFFA0)
+        if (r_rockettrails && !PUFFA0 && PLAYPALs <= 2)
             actor->flags2 |= MF2_SMOKETRAIL;
         else
             P_SpawnPuff(actor->x, actor->y, actor->z, actor->angle);
