@@ -2528,7 +2528,7 @@ static void D_DoomMainSetup(void)
         const int   credits = W_CheckMultipleLumps("CREDIT");
 
         if ((titlepics == 1 && lumpinfo[W_GetNumForName("TITLEPIC")]->wadfile->type == PWAD) || titlepics > 1)
-            titlelump = W_CacheLumpName("TITLEPIC");
+            titlelump = W_CacheWidestLumpName("TITLEPIC");
         else
             switch (gamemission)
             {
@@ -2554,7 +2554,7 @@ static void D_DoomMainSetup(void)
             }
 
         if ((credits == 1 && lumpinfo[W_GetNumForName("CREDIT")]->wadfile->type == PWAD) || credits > 1)
-            creditlump = W_CacheLumpName("CREDIT");
+            creditlump = W_CacheWidestLumpName("CREDIT");
         else
             creditlump = W_CacheLumpName(gamemission == doom ? (gamemode == shareware ? "CREDIT1" : "CREDIT2") : "CREDIT3");
     }

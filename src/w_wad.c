@@ -711,6 +711,29 @@ int W_GetSecondNumForName(const char *name)
     return i;
 }
 
+int W_GetWidestNumForName(const char *name)
+{
+    int     i = -1;
+    short   widest = 0;
+
+    for (int j = 0; j < numlumps; j++)
+        if (!strncasecmp(lumpinfo[j]->name, name, 8))
+        {
+            short   width = SHORT(((patch_t *)W_CacheLumpNum(j))->width);
+
+            if (width > widest)
+            {
+                widest = width;
+                i = j;
+            }
+        }
+
+    if (i == -1)
+        I_Error("W_GetWidestNumForName: %s not found!", name);
+
+    return i;
+}
+
 //
 // W_LumpLength
 // Returns the buffer size needed to load the given lump.
