@@ -1219,7 +1219,7 @@ static void WI_LoadData(void)
         else if (gamemission == pack_tnt)
             lump = W_CacheLumpName("INTERPI3");
         else
-            lump = W_CacheLumpName("INTERPIC");
+            lump = W_CacheWidestLumpName("INTERPIC");
     }
     else if (gamemode == retail && wbs->epsd == 3)
         lump = W_CacheLumpName(REKKRSL ? "INTERPIW" : "INTERPI1");
@@ -1230,10 +1230,10 @@ static void WI_LoadData(void)
         char    temp[9];
 
         M_snprintf(temp, sizeof(temp), "WIMAP%i%s", wbs->epsd, (REKKRSL ? "W" : ""));
-        lump = (chex || REKKRSA ? W_CacheLastLumpName(temp) : W_CacheLumpName(temp));
+        lump = (chex || REKKRSA ? W_CacheLastLumpName(temp) : W_CacheWidestLumpName(temp));
     }
     else
-        lump = W_CacheLumpName("INTERPIC");
+        lump = W_CacheWidestLumpName("INTERPIC");
 
     V_DrawPagePatch(1, lump);
 }

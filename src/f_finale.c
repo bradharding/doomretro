@@ -821,7 +821,7 @@ static void F_CastDrawer(void)
     else if (gamemission == pack_tnt)
         patch = W_CacheLumpName("BOSSBAC3");
     else
-        patch = (FREEDOOM || hacx ? W_CacheLastLumpName(bgcastcall) : W_CacheLumpName(bgcastcall));
+        patch = (FREEDOOM || hacx ? W_CacheLastLumpName(bgcastcall) : W_CacheWidestLumpName(bgcastcall));
 
     V_DrawPagePatch(0, patch);
 
@@ -929,8 +929,8 @@ static void F_DrawPatchColumn(int x, patch_t *patch, int col)
 static void F_BunnyScroll(void)
 {
     const int   scrolled = BETWEEN(0, VANILLAWIDTH - (finalecount - 230) / 2, VANILLAWIDTH);
-    patch_t     *p1 = (FREEDOOM || hacx ? W_CacheLastLumpName("PFUB2") : W_CacheLumpName(REKKRSL ? "PFUB2W" : "PFUB2"));
-    patch_t     *p2 = (FREEDOOM || hacx ? W_CacheLastLumpName("PFUB1") : W_CacheLumpName(REKKRSL ? "PFUB1W" : "PFUB1"));
+    patch_t     *p1 = (FREEDOOM || hacx ? W_CacheLastLumpName("PFUB2") : W_CacheWidestLumpName(REKKRSL ? "PFUB2W" : "PFUB2"));
+    patch_t     *p2 = (FREEDOOM || hacx ? W_CacheLastLumpName("PFUB1") : W_CacheWidestLumpName(REKKRSL ? "PFUB1W" : "PFUB1"));
     const int   p1offset = (VANILLAWIDTH - SHORT(p1->width)) / 2;
     const int   p2offset = VANILLAWIDTH + (SHORT(p2->width) == VANILLAWIDTH ? -p1offset : p1offset);
     const int   pillarwidth = MAX(0, (SCREENWIDTH - (SHORT(p1->width) << FRACBITS) / DXI) / 2);
@@ -1002,15 +1002,15 @@ static void F_ArtScreenDrawer(void)
         switch (gameepisode)
         {
             case 1:
-                lump = (gamemode == retail ? creditlump : W_CacheLumpName(REKKRSL ? "HELP2W" : "HELP2"));
+                lump = (gamemode == retail ? creditlump : W_CacheWidestLumpName(REKKRSL ? "HELP2W" : "HELP2"));
                 break;
 
             case 2:
-                lump = (FREEDOOM || hacx ? W_CacheLastLumpName("VICTORY2") : W_CacheLumpName(REKKRSL ? "VICTORW2" : "VICTORY2"));
+                lump = (FREEDOOM || hacx ? W_CacheLastLumpName("VICTORY2") : W_CacheWidestLumpName(REKKRSL ? "VICTORW2" : "VICTORY2"));
                 break;
 
             case 4:
-                lump = (FREEDOOM || hacx ? W_CacheLastLumpName("ENDPIC") : W_CacheLumpName(REKKRSL ? "ENDPICW" : "ENDPIC"));
+                lump = (FREEDOOM || hacx ? W_CacheLastLumpName("ENDPIC") : W_CacheWidestLumpName(REKKRSL ? "ENDPICW" : "ENDPIC"));
                 break;
 
             case 5:
