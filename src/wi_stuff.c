@@ -855,11 +855,11 @@ static void WI_InitStats(void)
     if (sucktime && wbs->stime / TICRATE > sucktime * 61 * 59)
         C_TabbedOutput(tabs, "Time\t" BOLD("%s"), s_STSTR_SUCKS);
     else
-        C_TabbedOutput(tabs, "Time\t" BOLD("%02i:%02i"),
+        C_TabbedOutput(tabs, "Time\t" BOLD(MONOSPACED("%02i:%02i")),
             wbs->stime / TICRATE / 60, wbs->stime / TICRATE % 60);
 
     if (wbs->partime)
-        C_TabbedOutput(tabs, "Par time\t" BOLD("%02i:%02i"),
+        C_TabbedOutput(tabs, "Par time\t" BOLD(MONOSPACED("%02i:%02i")),
             wbs->partime / TICRATE / 60, wbs->partime / TICRATE % 60);
 
     WI_InitAnimatedBack();

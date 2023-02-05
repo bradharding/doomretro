@@ -453,6 +453,7 @@ const kern_t altkern[] =
 int C_TextWidth(const char *text, const bool formatting, const bool kerning)
 {
     bool            italics = false;
+    bool            monospaced = false;
     const int       len = (int)strlen(text);
     unsigned char   prevletter = '\0';
     int             width = 0;
@@ -476,6 +477,18 @@ int C_TextWidth(const char *text, const bool formatting, const bool kerning)
             italics = false;
             continue;
         }
+        else if (letter == MONOSPACEDONCHAR)
+        {
+            monospaced = true;
+            continue;
+        }
+        else if (letter == MONOSPACEDOFFCHAR)
+        {
+            monospaced = false;
+            continue;
+        }
+        else if (monospaced)
+            width += zerowidth;
         else if (letter == '(' && i < len - 3 && tolower(text[i + 1]) == 't'
             && tolower(text[i + 2]) == 'm' && text[i + 3] == ')' && formatting)
         {
@@ -862,6 +875,7 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
 {
     bool            bold = false;
     bool            italics = false;
+    bool            monospaced = false;
     int             tab = -1;
     const int       len = (int)strlen(text);
     unsigned char   prevletter = '\0';
@@ -896,6 +910,10 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
             italics = true;
         else if (letter == ITALICSOFFCHAR)
             italics = false;
+        else if (letter == MONOSPACEDONCHAR)
+            monospaced = true;
+        else if (letter == MONOSPACEDOFFCHAR)
+            monospaced = false;
         else
         {
             patch_t *patch = NULL;
@@ -965,7 +983,7 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
                 }
             }
 
-            if (kerning)
+            if (kerning && !monospaced)
             {
                 for (int j = 0; altkern[j].char1; j++)
                     if (prevletter == altkern[j].char1 && letter == altkern[j].char2)
@@ -1026,10 +1044,10 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
             {
                 const int   width = SHORT(patch->width);
 
-                consoletextfunc(x, y, patch, width,
+                consoletextfunc(x + (monospaced ? (zerowidth - width) / 2 : 0), y, patch, width,
                     (bold && italics ? (color1 == consolewarningcolor ? color1 : consolebolditalicscolor) : (bold ? boldcolor : color1)),
                     color2, (italics && letter != '_' && letter != '-' && letter != '+' && letter != ',' && letter != '/'), tinttab);
-                x += width;
+                x += (monospaced ? zerowidth : width);
 
                 if (x >= CONSOLETEXTPIXELWIDTH + CONSOLETEXTX)
                     break;

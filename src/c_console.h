@@ -109,18 +109,23 @@
 
 #define stringize(text)                     #text
 
-#define BOLDON                              "\x1C"
-#define BOLDONCHAR                          '\x1C'
-#define BOLDOFF                             "\x1D"
-#define BOLDOFFCHAR                         '\x1D'
-#define ITALICSON                           "\x1E"
-#define ITALICSONCHAR                       '\x1E'
-#define ITALICSOFF                          "\x1F"
-#define ITALICSOFFCHAR                      '\x1F'
+#define BOLDON                              "\x1A"
+#define BOLDONCHAR                          '\x1A'
+#define BOLDOFF                             "\x1B"
+#define BOLDOFFCHAR                         '\x1B'
+#define ITALICSON                           "\x1C"
+#define ITALICSONCHAR                       '\x1C'
+#define ITALICSOFF                          "\x1D"
+#define ITALICSOFFCHAR                      '\x1D'
+#define MONOSPACEDON                        "\x1E"
+#define MONOSPACEDONCHAR                    '\x1E'
+#define MONOSPACEDOFF                       "\x1F"
+#define MONOSPACEDOFFCHAR                   '\x1F'
 
 #define BOLD(text)                          BOLDON text BOLDOFF
 #define ITALICS(text)                       ITALICSON text ITALICSOFF
 #define BOLDITALICS(text)                   ITALICS(BOLD(text))
+#define MONOSPACED(text)                    MONOSPACEDON text MONOSPACEDOFF
 
 #if defined(_WIN32)
 #define SDL_FILENAME                        "SDL2.dll"

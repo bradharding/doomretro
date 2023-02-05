@@ -2113,8 +2113,10 @@ static void condump_cmd_func2(char *cmd, char *parms)
 
                         outpos++;
                     }
-                    else if (letter != '\n' && letter != BOLDONCHAR && letter != BOLDOFFCHAR
-                        && letter != ITALICSONCHAR && letter != ITALICSOFFCHAR)
+                    else if (letter != '\n'
+                        && letter != BOLDONCHAR && letter != BOLDOFFCHAR
+                        && letter != ITALICSONCHAR && letter != ITALICSOFFCHAR
+                        && letter != MONOSPACEDONCHAR && letter != MONOSPACEDOFFCHAR)
                     {
                         fputc(letter, file);
                         outpos++;
