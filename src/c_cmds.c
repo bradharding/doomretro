@@ -126,8 +126,8 @@
 #define STRINGCVARWITHDEFAULT       "It is currently " BOLD("\"%s\"") " and is " BOLD("\"%s\"") " by default."
 #define STRINGCVARWITHNODEFAULT     "It is currently " BOLD("%s%s%s") "."
 #define STRINGCVARISDEFAULT         "It is currently its default of " BOLD("\"%s\"") "."
-#define TIMECVARWITHNODEFAULT1      "It is currently " BOLD("%02i:%02i") "."
-#define TIMECVARWITHNODEFAULT2      "It is currently " BOLD("%i:%02i:%02i") "."
+#define TIMECVARWITHNODEFAULT1      "It is currently " BOLD(MONOSPACED("%02i") ":" MONOSPACED("%02i")) "."
+#define TIMECVARWITHNODEFAULT2      "It is currently " BOLD(MONOSPACED("%i") ":" MONOSPACED("%02i") ":" MONOSPACED("%02i")) "."
 
 #define INDENT                      "      "
 
@@ -2320,10 +2320,10 @@ static void cvarlist_cmd_func2(char *cmd, char *parms)
                 int seconds = tics % 60;
 
                 if (!hours)
-                    C_TabbedOutput(tabs, "%i.\t" BOLD("%s") "\t" BOLD("%02i:%02i") "\t%s",
+                    C_TabbedOutput(tabs, "%i.\t" BOLD("%s") "\t" BOLD(MONOSPACED("%02i") ":" MONOSPACED("%02i")) "\t%s",
                         count, name, minutes, seconds, description);
                 else
-                    C_TabbedOutput(tabs, "%i.\t" BOLD("%s") "\t" BOLD("%i:%02i:%02i") "\t%s",
+                    C_TabbedOutput(tabs, "%i.\t" BOLD("%s") "\t" BOLD(MONOSPACED("%i") ":" MONOSPACED("%02i") ":" MONOSPACED("%02i")) "\t%s",
                         count, name, hours, minutes, seconds, description);
             }
             else if (consolecmds[i].flags & CF_OTHER)
@@ -4582,9 +4582,11 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
             const int   hours = partime / 3600;
 
             if (hours)
-                C_TabbedOutput(tabs, "Par time\t%i:%02i:%02i", hours, partime / 60, partime % 60);
+                C_TabbedOutput(tabs, "Par time\t" MONOSPACED("i") ":" MONOSPACED("%02i") ":" MONOSPACED("%02i"),
+                    hours, partime / 60, partime % 60);
             else
-                C_TabbedOutput(tabs, "Par time\t%02i:%02i", partime / 60, partime % 60);
+                C_TabbedOutput(tabs, "Par time\t" MONOSPACED("%02i") ":" MONOSPACED("%02i"),
+                    partime / 60, partime % 60);
         }
         else
             C_TabbedOutput(tabs, "Par time\t\x96");
@@ -5708,34 +5710,40 @@ static void C_PlayerStats_Game(void)
         if (hours2 >= 100)
             C_TabbedOutput(tabs, "Time played\t%s\tOver %s hours!", s_STSTR_SUCKS, temp2);
         else if (hours2)
-            C_TabbedOutput(tabs, "Time played\t%s\t%i:%02i:%02i",
+            C_TabbedOutput(tabs, "Time played\t%s\t" MONOSPACED("%i") ":" MONOSPACED("%02i") ":" MONOSPACED("%02i"),
                 s_STSTR_SUCKS, hours2, (time2 % 3600) / 60, (time2 % 3600) % 60);
         else
-            C_TabbedOutput(tabs, "Time played\t%s\t%02i:%02i",
+            C_TabbedOutput(tabs, "Time played\t%s\t" MONOSPACED("%02i") ":" MONOSPACED("%02i"),
                 s_STSTR_SUCKS, (time2 % 3600) / 60, (time2 % 3600) % 60);
     }
     else if (hours1)
     {
         if (hours2 >= 100)
-            C_TabbedOutput(tabs, "Time played\t%i:%02i:%02i\tOver %s hours!",
+            C_TabbedOutput(tabs, "Time played\t" MONOSPACED("%i") ":" MONOSPACED("%02i") ":" MONOSPACED("%02i")
+                "\tOver %s hours!",
                 hours1, (time1 % 3600) / 60, (time1 % 3600) % 60, temp2);
         else if (hours2)
-            C_TabbedOutput(tabs, "Time played\t%i:%02i:%02i\t%i:%02i:%02i",
+            C_TabbedOutput(tabs, "Time played\t" MONOSPACED("%i") ":" MONOSPACED("%02i") ":" MONOSPACED("%02i")
+                "\t" MONOSPACED("%i") ":" MONOSPACED("%02i") ":" MONOSPACED("%02i") "",
                 hours1, (time1 % 3600) / 60, (time1 % 3600) % 60, hours2, (time2 % 3600) / 60, (time2 % 3600) % 60);
         else
-            C_TabbedOutput(tabs, "Time played\t%i:%02i:%02i\t%02i:%02i",
+            C_TabbedOutput(tabs, "Time played\t" MONOSPACED("%i") ":" MONOSPACED("%02i") ":" MONOSPACED("%02i")
+                "\t" MONOSPACED("%02i") ":" MONOSPACED("%02i"),
                 hours1, (time1 % 3600) / 60, (time1 % 3600) % 60, (time2 % 3600) / 60, (time2 % 3600) % 60);
     }
     else
     {
         if (hours2 >= 100)
-            C_TabbedOutput(tabs, "Time played\t%02i:%02i\tOver %s hours!",
+            C_TabbedOutput(tabs, "Time played\t" MONOSPACED("%02i") ":" MONOSPACED("%02i")
+                "\tOver %s hours!",
                 (time1 % 3600) / 60, (time1 % 3600) % 60, temp2);
         else if (hours2)
-            C_TabbedOutput(tabs, "Time played\t%02i:%02i\t%i:%02i:%02i",
+            C_TabbedOutput(tabs, "Time played\t" MONOSPACED("%02i") ":" MONOSPACED("%02i")
+                "\t" MONOSPACED("%i") ":" MONOSPACED("%02i") ":" MONOSPACED("%02i"),
                 (time1 % 3600) / 60, (time1 % 3600) % 60, hours2, (time2 % 3600) / 60, (time2 % 3600) % 60);
         else
-            C_TabbedOutput(tabs, "Time played\t%02i:%02i\t%02i:%02i",
+            C_TabbedOutput(tabs, "Time played\t" MONOSPACED("%02i") ":" MONOSPACED("%02i")
+                "\t" MONOSPACED("%02i") ":" MONOSPACED("%02i"),
                 (time1 % 3600) / 60, (time1 % 3600) % 60, (time2 % 3600) / 60, (time2 % 3600) % 60);
     }
 
@@ -6155,9 +6163,11 @@ static void C_PlayerStats_NoGame(void)
         free(temp1);
     }
     else if (hours1)
-        C_TabbedOutput(tabs, "Time played\t\x96\t%i:%02i:%02i", hours1, (time1 % 3600) / 60, (time1 % 3600) % 60);
+        C_TabbedOutput(tabs, "Time played\t\x96\t" MONOSPACED("%i") ":" MONOSPACED("%02i") ":" MONOSPACED("%02i"),
+            hours1, (time1 % 3600) / 60, (time1 % 3600) % 60);
     else
-        C_TabbedOutput(tabs, "Time played\t\x96\t%02i:%02i", (time1 % 3600) / 60, (time1 % 3600) % 60);
+        C_TabbedOutput(tabs, "Time played\t\x96\t" MONOSPACED("%02i") ":" MONOSPACED("%02i"),
+            (time1 % 3600) / 60, (time1 % 3600) % 60);
 
     temp1 = commifystat(stat_damageinflicted);
     C_TabbedOutput(tabs, "Damage inflicted\t\x96\t%s", temp1);
