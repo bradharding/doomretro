@@ -716,8 +716,9 @@ int W_GetWidestNumForName(const char *name)
     int     i = -1;
     short   widest = 0;
 
-    for (int j = 0; j < numlumps; j++)
-        if (!strncasecmp(lumpinfo[j]->name, name, 8))
+    for (int j = numlumps - 1; j >= 0; j--)
+        if (!strncasecmp(lumpinfo[j]->name, name, 8)
+            && (!M_StringEndsWith(lumpinfo[j]->wadfile->path, DOOMRETRO_RESOURCEWAD) || !widest))
         {
             short   width = SHORT(((patch_t *)W_CacheLumpNum(j))->width);
 

@@ -1539,9 +1539,7 @@ static void ST_LoadUnloadGraphics(void callback(char *, patch_t **))
 
 static void ST_LoadCallback(char *lumpname, patch_t **variable)
 {
-    if (M_StringCompare(lumpname, "STARMS")
-        || M_StringCompare(lumpname, "STBAR")
-        || M_StringCompare(lumpname, "STFGOD0"))
+    if (M_StringCompare(lumpname, "STARMS") || M_StringCompare(lumpname, "STFGOD0"))
         *variable = ((FREEDOOM && !modifiedgame) || chex || hacx || harmony || REKKRSA ?
             W_CacheLastLumpName(lumpname) : W_CacheLumpName(lumpname));
     else
