@@ -112,8 +112,6 @@ int                     caretpos;
 int                     selectstart;
 int                     selectend;
 
-static bool             wrapbold;
-static bool             wrapitalics;
 static bool             pathoverlay;
 
 char                    consolecheat[255];
@@ -862,8 +860,8 @@ static void C_DrawBackground(void)
 static int C_DrawConsoleText(int x, int y, char *text, const int color1, const int color2, const int boldcolor,
     const byte *tinttab, const int tabs[3], const bool formatting, const bool kerning, const int index)
 {
-    bool            bold = wrapbold;
-    bool            italics = wrapitalics;
+    bool            bold = false;
+    bool            italics = false;
     int             tab = -1;
     const int       len = (int)strlen(text);
     unsigned char   prevletter = '\0';
