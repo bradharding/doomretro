@@ -830,14 +830,14 @@ static void WI_InitStats(void)
 
     temp1 = commify(wbs->skills);
     temp2 = commify(wbs->maxkills);
-    C_TabbedOutput(tabs, "Kills\t" BOLD("%s of %s (%i%%)"),
+    C_TabbedOutput(tabs, "Kills\t%s of %s (%i%%)",
         temp1, temp2, (wbs->skills * 100) / wbs->maxkills);
     free(temp1);
     free(temp2);
 
     temp1 = commify(wbs->sitems);
     temp2 = commify(wbs->maxitems);
-    C_TabbedOutput(tabs, "Items\t" BOLD("%s of %s (%i%%)"),
+    C_TabbedOutput(tabs, "Items\t%s of %s (%i%%)",
         temp1, temp2, (wbs->sitems * 100) / wbs->maxitems);
     free(temp1);
     free(temp2);
@@ -846,20 +846,20 @@ static void WI_InitStats(void)
     {
         temp1 = commify(wbs->ssecret);
         temp2 = commify(wbs->maxsecret);
-        C_TabbedOutput(tabs, "Secrets\t" BOLD("%s of %s (%i%%)"),
+        C_TabbedOutput(tabs, "Secrets\t%s of %s (%i%%)",
             temp1, temp2, (wbs->ssecret * 100) / wbs->maxsecret);
         free(temp1);
         free(temp2);
     }
 
     if (sucktime && wbs->stime / TICRATE > sucktime * 61 * 59)
-        C_TabbedOutput(tabs, "Time\t" BOLD("%s"), s_STSTR_SUCKS);
+        C_TabbedOutput(tabs, "Time\t%s", s_STSTR_SUCKS);
     else
-        C_TabbedOutput(tabs, "Time\t" BOLD(MONOSPACED("%02i:%02i")),
+        C_TabbedOutput(tabs, "Time\t" MONOSPACED("%02i") ":" MONOSPACED("%02i"),
             wbs->stime / TICRATE / 60, wbs->stime / TICRATE % 60);
 
     if (wbs->partime)
-        C_TabbedOutput(tabs, "Par time\t" BOLD(MONOSPACED("%02i:%02i")),
+        C_TabbedOutput(tabs, "Par time\t" MONOSPACED("%02i") ":" MONOSPACED("%02i"),
             wbs->partime / TICRATE / 60, wbs->partime / TICRATE % 60);
 
     WI_InitAnimatedBack();
