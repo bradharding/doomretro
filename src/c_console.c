@@ -919,7 +919,7 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
             patch_t *patch = NULL;
 
             if (letter == ' ' && formatting)
-                x += spacewidth;
+                x += (monospaced ? zerowidth : spacewidth);
             else if (letter == '\t')
             {
                 if (vid_widescreen)

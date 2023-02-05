@@ -1885,9 +1885,10 @@ static void C_DisplayBinds(const char *action, const int value, const controltyp
         if (controls[i].type == type && controls[i].value == value)
         {
             if (strlen(control) == 1)
-                C_TabbedOutput(tabs, "%i.\t'%s'\t%s", (*count)++, (control[0] == '=' ? "+" : control), action);
+                C_TabbedOutput(tabs, MONOSPACED("%3i") ".\t'%s'\t%s",
+                    (*count)++, (control[0] == '=' ? "+" : control), action);
             else
-                C_TabbedOutput(tabs, "%i.\t%s\t%s", (*count)++, control, action);
+                C_TabbedOutput(tabs, MONOSPACED("%3i") ".\t%s\t%s", (*count)++, control, action);
 
             break;
         }
@@ -1927,12 +1928,13 @@ static void bindlist_cmd_func2(char *cmd, char *parms)
         if (controls[i].type == keyboardcontrol && keyactionlist[value][0])
         {
             if (strlen(control) == 1)
-                C_TabbedOutput(tabs, "%i.\t'%s'\t%s", count++, (control[0] == '=' ? "+" : control), keyactionlist[value]);
+                C_TabbedOutput(tabs, MONOSPACED("%3i") ".\t'%s'\t%s",
+                    count++, (control[0] == '=' ? "+" : control), keyactionlist[value]);
             else
-                C_TabbedOutput(tabs, "%i.\t%s\t%s", count++, control, keyactionlist[value]);
+                C_TabbedOutput(tabs, MONOSPACED("%3i") ".\t%s\t%s", count++, control, keyactionlist[value]);
         }
         else if (controls[i].type == mousecontrol && mouseactionlist[value][0])
-            C_TabbedOutput(tabs, "%i.\t%s\t%s", count++, control, mouseactionlist[value]);
+            C_TabbedOutput(tabs, MONOSPACED("%3i") ".\t%s\t%s", count++, control, mouseactionlist[value]);
     }
 }
 
@@ -2004,7 +2006,7 @@ static void cmdlist_cmd_func2(char *cmd, char *parms)
                 M_AmericanToInternationalEnglish(description);
             }
 
-            C_TabbedOutput(tabs, "%i.\t%s\t%s", count, format, description);
+            C_TabbedOutput(tabs, MONOSPACED("%3i") ".\t%s\t%s", count, format, description);
         }
 }
 
@@ -2184,19 +2186,19 @@ static void cvarlist_cmd_func2(char *cmd, char *parms)
             if (M_StringCompare(name, stringize(ammo)))
             {
                 if (gamestate == GS_LEVEL)
-                    C_TabbedOutput(tabs, "%i.\t" BOLD("%s") "\t" BOLD("%i") "\t%s",
+                    C_TabbedOutput(tabs, MONOSPACED("%3i") ".\t" BOLD(" % s") "\t" BOLD(" % i") "\t % s",
                         count, name, viewplayer->ammo[weaponinfo[viewplayer->readyweapon].ammotype], description);
                 else
-                    C_TabbedOutput(tabs, "%i.\t" BOLD("%s") "\t" BOLD("%i") "\t%s",
+                    C_TabbedOutput(tabs, MONOSPACED("%3i") ".\t" BOLD("%s") "\t" BOLD("%i") "\t%s",
                         count, name, ammo_default, description);
             }
             else if (M_StringCompare(name, stringize(armor)))
             {
                 if (gamestate == GS_LEVEL)
-                    C_TabbedOutput(tabs, "%i.\t" BOLD("%s") "\t" BOLD("%i%%") "\t%s",
+                    C_TabbedOutput(tabs, MONOSPACED("%3i") ".\t" BOLD("%s") "\t" BOLD("%i%%") "\t%s",
                         count, name, viewplayer->armorpoints, description);
                 else
-                    C_TabbedOutput(tabs, "%i.\t" BOLD("%s") "\t" BOLD("%i%%") "\t%s",
+                    C_TabbedOutput(tabs, MONOSPACED("%3i") ".\t" BOLD("%s") "\t" BOLD("%i%%") "\t%s",
                         count, name, armor_default, description);
             }
             else if (M_StringCompare(name, stringize(armortype)))
@@ -2205,21 +2207,21 @@ static void cvarlist_cmd_func2(char *cmd, char *parms)
                 {
                     char    *temp = C_LookupAliasFromValue(viewplayer->armortype, ARMORTYPEVALUEALIAS);
 
-                    C_TabbedOutput(tabs, "%i.\t" BOLD("%s") "\t" BOLD("%s") "\t%s",
+                    C_TabbedOutput(tabs, MONOSPACED("%3i") ".\t" BOLD("%s") "\t" BOLD("%s") "\t%s",
                         count, name, temp, description);
                     free(temp);
                 }
                 else
-                    C_TabbedOutput(tabs, "%i.\t" BOLD("%s") "\t" BOLD("none") "\t%s",
+                    C_TabbedOutput(tabs, MONOSPACED("%3i") ".\t" BOLD("%s") "\t" BOLD("none") "\t%s",
                         count, name, description);
             }
             else if (M_StringCompare(name, stringize(health)))
             {
                 if (gamestate == GS_LEVEL)
-                    C_TabbedOutput(tabs, "%i.\t" BOLD("%s") "\t" BOLD("%i%%") "\t%s",
+                    C_TabbedOutput(tabs, MONOSPACED("%3i") ".\t" BOLD("%s") "\t" BOLD("%i%%") "\t%s",
                         count, name, viewplayer->health, description);
                 else
-                    C_TabbedOutput(tabs, "%i.\t" BOLD("%s") "\t" BOLD("%i%%") "\t%s",
+                    C_TabbedOutput(tabs, MONOSPACED("%3i") ".\t" BOLD("%s") "\t" BOLD("%i%%") "\t%s",
                         count, name, health_default, description);
             }
             else if (M_StringCompare(name, stringize(weapon)))
@@ -2233,7 +2235,7 @@ static void cvarlist_cmd_func2(char *cmd, char *parms)
                 {
                     char    *temp = C_LookupAliasFromValue(viewplayer->readyweapon, WEAPONVALUEALIAS);
 
-                    C_TabbedOutput(tabs, "%i.\t" BOLD("%s") "\t" BOLD("%s") "\t%s",
+                    C_TabbedOutput(tabs, MONOSPACED("%3i") ".\t" BOLD("%s") "\t" BOLD("%s") "\t%s",
                         count, name, temp, description);
                     free(temp);
                 }
@@ -2241,32 +2243,32 @@ static void cvarlist_cmd_func2(char *cmd, char *parms)
                 {
                     char    *temp = C_LookupAliasFromValue(weapon_default, WEAPONVALUEALIAS);
 
-                    C_TabbedOutput(tabs, "%i.\t" BOLD("%s") "\t" BOLD("%s") "\t%s",
+                    C_TabbedOutput(tabs, MONOSPACED("%3i") ".\t" BOLD("%s") "\t" BOLD("%s") "\t%s",
                         count, name, temp, description);
                     free(temp);
                 }
             }
             else if (M_StringCompare(name, stringize(r_fov)))
             {
-                C_TabbedOutput(tabs, "%i.\t" BOLD("%s") "\t" BOLD("%i") "\xB0\t%s",
+                C_TabbedOutput(tabs, MONOSPACED("%3i") ".\t" BOLD("%s") "\t" BOLD("%i") "\xB0\t%s",
                     count, name, *(int *)consolecmds[i].variable, description);
             }
             else if (consolecmds[i].flags & CF_BOOLEAN)
             {
                 char    *temp = C_LookupAliasFromValue(*(bool *)consolecmds[i].variable, consolecmds[i].aliases);
 
-                C_TabbedOutput(tabs, "%i.\t" BOLD("%s") "\t" BOLD("%s") "\t%s",
+                C_TabbedOutput(tabs, MONOSPACED("%3i") ".\t" BOLD("%s") "\t" BOLD("%s") "\t%s",
                     count, name, temp, description);
                 free(temp);
             }
             else if ((consolecmds[i].flags & CF_INTEGER) && (consolecmds[i].flags & CF_PERCENT))
-                C_TabbedOutput(tabs, "%i.\t" BOLD("%s") "\t" BOLD("%i%%") "\t%s",
+                C_TabbedOutput(tabs, MONOSPACED("%3i") ".\t" BOLD("%s") "\t" BOLD("%i%%") "\t%s",
                     count, name, *(int *)consolecmds[i].variable, description);
             else if (consolecmds[i].flags & CF_INTEGER)
             {
                 char    *temp = C_LookupAliasFromValue(*(int *)consolecmds[i].variable, consolecmds[i].aliases);
 
-                C_TabbedOutput(tabs, "%i.\t" BOLD("%s") "\t" BOLD("%s") "\t%s",
+                C_TabbedOutput(tabs, MONOSPACED("%3i") ".\t" BOLD("%s") "\t" BOLD("%s") "\t%s",
                     count, name, temp, description);
                 free(temp);
             }
@@ -2276,7 +2278,7 @@ static void cvarlist_cmd_func2(char *cmd, char *parms)
                 {
                     char    *temp = striptrailingzero(*(float *)consolecmds[i].variable, 1);
 
-                    C_TabbedOutput(tabs, "%i.\t" BOLD("%s") "\t" BOLD("%s%%") "\t%s",
+                    C_TabbedOutput(tabs, MONOSPACED("%3i") ".\t" BOLD("%s") "\t" BOLD("%s%%") "\t%s",
                         count, name, temp, description);
                     free(temp);
                 }
@@ -2291,20 +2293,20 @@ static void cvarlist_cmd_func2(char *cmd, char *parms)
                     if (len >= 2 && buffer[len - 1] == '0' && buffer[len - 2] == '0')
                         buffer[len - 1] = '\0';
 
-                    C_TabbedOutput(tabs, "%i.\t" BOLD("%s") "\t" BOLD("%s") "\t%s",
+                    C_TabbedOutput(tabs, MONOSPACED("%3i") ".\t" BOLD("%s") "\t" BOLD("%s") "\t%s",
                         count, name, buffer, description);
                 }
                 else
                 {
                     char    *temp = striptrailingzero(*(float *)consolecmds[i].variable, 1);
 
-                    C_TabbedOutput(tabs, "%i.\t" BOLD("%s") "\t" BOLD("%s") "\t%s",
+                    C_TabbedOutput(tabs, MONOSPACED("%3i") ".\t" BOLD("%s") "\t" BOLD("%s") "\t%s",
                         count, name, temp, description);
                     free(temp);
                 }
             }
             else if (consolecmds[i].flags & CF_STRING)
-                C_TabbedOutput(tabs, "%i.\t" BOLD("%s") "\t" BOLD("%s%.14s%s%s") "\t%s",
+                C_TabbedOutput(tabs, MONOSPACED("%3i") ".\t" BOLD("%s") "\t" BOLD("%s%.14s%s%s") "\t%s",
                     count,
                     name,
                     (M_StringCompare(name, stringize(version)) ? "" : "\""),
@@ -2320,14 +2322,16 @@ static void cvarlist_cmd_func2(char *cmd, char *parms)
                 int seconds = tics % 60;
 
                 if (!hours)
-                    C_TabbedOutput(tabs, "%i.\t" BOLD("%s") "\t" BOLD(MONOSPACED("%02i") ":" MONOSPACED("%02i")) "\t%s",
+                    C_TabbedOutput(tabs, MONOSPACED("%3i") ".\t" BOLD("%s")
+                        "\t" BOLD(MONOSPACED("%02i") ":" MONOSPACED("%02i")) "\t%s",
                         count, name, minutes, seconds, description);
                 else
-                    C_TabbedOutput(tabs, "%i.\t" BOLD("%s") "\t" BOLD(MONOSPACED("%i") ":" MONOSPACED("%02i") ":" MONOSPACED("%02i")) "\t%s",
+                    C_TabbedOutput(tabs, MONOSPACED("%3i") ".\t" BOLD("%s")
+                        "\t" BOLD(MONOSPACED("%i") ":" MONOSPACED("%02i") ":" MONOSPACED("%02i")) "\t%s",
                         count, name, hours, minutes, seconds, description);
             }
             else if (consolecmds[i].flags & CF_OTHER)
-                C_TabbedOutput(tabs, "%i.\t" BOLD("%s") "\t" BOLD("%s") "\t%s",
+                C_TabbedOutput(tabs, MONOSPACED("%3i") ".\t" BOLD("%s") "\t" BOLD("%s") "\t%s",
                     count, name, *(char **)consolecmds[i].variable, description);
         }
 }
@@ -4284,7 +4288,7 @@ static void maplist_cmd_func2(char *cmd, char *parms)
 
     // display the map list
     for (int i = 0; i < count; i++)
-        C_TabbedOutput(tabs, "%i.\t%s", i + 1, maps[i]);
+        C_TabbedOutput(tabs, MONOSPACED("%3i") ".\t%s", i + 1, maps[i]);
 
     free(maps);
 }
@@ -7778,7 +7782,7 @@ static void thinglist_cmd_func2(char *cmd, char *parms)
                 ((mobj->flags & MF_MISSILE) ? " projectile" : ""));
 
         temp2 = sentencecase(name);
-        C_TabbedOutput(tabs, "%s%s\t%s\t(%i, %i, %i)", (mobj->id >= 0 ? temp1 : "-"), (mobj->id >= 0 ? "." : ""),
+        C_TabbedOutput(tabs, MONOSPACED("%s") "%s\t%s\t(%i, %i, %i)", (mobj->id >= 0 ? temp1 : "-"), (mobj->id >= 0 ? "." : ""),
             temp2, mobj->x >> FRACBITS, mobj->y >> FRACBITS, mobj->z >> FRACBITS);
         free(temp1);
         free(temp2);
