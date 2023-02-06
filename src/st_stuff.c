@@ -1343,21 +1343,21 @@ static void ST_DrawWidgets(bool refresh)
                 if (viewplayer->cards[it_redcard] == CARDNOTINMAP)
                     for (int i = 0; i < NUMCARDS / 2; i++)
                     {
-                        st_multicon_t   *keybox = &w_keyboxes[i];
+                        const st_multicon_t *keybox = &w_keyboxes[i];
 
                         V_DrawPatch(keybox->x, keybox->y, 0, keybox->patch[i + 3]);
                     }
                 else
                     for (int i = 0; i < NUMCARDS / 2; i++)
                     {
-                        st_multicon_t   *keybox = &w_keyboxes[i];
+                        const st_multicon_t *keybox = &w_keyboxes[i];
 
                         V_DrawPatch(keybox->x, keybox->y, 0, keybox->patch[i]);
                     }
             }
             else
             {
-                st_multicon_t   *keybox = &w_keyboxes[(neededcard > it_redcard ? neededcard - 3 : neededcard)];
+                const st_multicon_t *keybox = &w_keyboxes[(neededcard > it_redcard ? neededcard - 3 : neededcard)];
 
                 V_DrawPatch(keybox->x, keybox->y, 0, keybox->patch[neededcard]);
             }
@@ -1414,8 +1414,8 @@ void ST_InitStatBar(void)
     }
     else
     {
-        sbar = ((FREEDOOM && !modifiedgame) || chex || hacx || harmony || REKKRSA ?
-            W_CacheLastLumpName("STBAR") : (W_CacheWidestLumpName(W_CheckMultipleLumps("STBAR") > 2 ? "STBAR" : "STBAR3")));
+        sbar = ((FREEDOOM && !modifiedgame) || chex || hacx || harmony || REKKRSA ? W_CacheLastLumpName("STBAR") :
+            (W_CheckMultipleLumps("STBAR") > 2 ? W_CacheWidestLumpName("STBAR") : W_CacheLumpName("STBAR3")));
         sbar2 = W_CacheLumpName("STBAR4");
     }
 
