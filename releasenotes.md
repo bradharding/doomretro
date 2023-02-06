@@ -5,7 +5,7 @@
 * *DOOM Retro* is now built using v17.4.4 of [*Microsoft Visual Studio Community 2022*](https://visualstudio.microsoft.com/vs/community/).
 * *DOOM Retro* now uses [*SDL v2.26.2*](https://www.libsdl.org/).
 * Several optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
-* When *DOOM Retro* is run for the first time, the WAD launcher will now also look for `DOOM.WAD` and `DOOM2.WAD` that are included in installations of [*DOOM Eternal*](https://store.steampowered.com/app/782330/DOOM_Eternal/).
+* When *DOOM Retro* is run for the first time, the WAD launcher will now also look for the IWADs included with installations of [*DOOM Eternal*](https://store.steampowered.com/app/782330/DOOM_Eternal/).
 * The [*id Software*](https://www.idsoftware.com) logo has been removed from the title screen to be consistent with the latest rereleases of *DOOM* and *DOOM II*.
 * Extensive changes have been made to text that is output to the console.
 * Many additional characters, including those with diacritics, have been added to the font set used in the console.
@@ -68,6 +68,7 @@
 * The player’s health, armor, ammo and weapon are no longer reset when using the `resetall` CCMD.
 * The `kill` CCMD can no longer be used to kill the player if either god mode or buddha mode are enabled, or if they have an invulnerability power-up.
 * The *BOOM*-compatible line special of 251 (“Scroll floor according to line vector”) now works correctly if used with a liquid sector and the `r_liquids_current` CVAR is `on`.
+* The underscores in the message displayed by the `IDBEHOLD` cheat are now aligned correctly again.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
