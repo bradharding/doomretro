@@ -5562,7 +5562,7 @@ mobjinfo_t mobjinfo[] =
         /* frames               */ 0,
         /* fullbright           */ false,
         /* bloodcolor           */ 4,
-        /* shadowoffset         */ 0,
+        /* shadowoffset         */ 3 * FRACUNIT,
         /* mbf21flags           */ 0,
         /* infightinggroup      */ IG_DEFAULT,
         /* projectilegroup      */ PG_DEFAULT,
