@@ -1037,7 +1037,7 @@ static void ST_UpdateFaceWidget(void)
     int         painoffset;
     static int  faceindex;
 
-    if (paused)
+    if (paused || freeze || menuactive)
         return;
 
     // invulnerability
@@ -1167,7 +1167,7 @@ static void ST_UpdateFaceWidget(void)
     if (!st_facecount)
     {
         priority = 0;
-        faceindex = (consoleactive || freeze ? ST_STRAIGHTFACE : M_BigRandom() % ST_NUMSTRAIGHTFACES);
+        faceindex = (consoleactive ? ST_STRAIGHTFACE : M_BigRandom() % ST_NUMSTRAIGHTFACES);
         st_facecount = ST_STRAIGHTFACECOUNT;
     }
 
