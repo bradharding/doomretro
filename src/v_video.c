@@ -1318,8 +1318,13 @@ void V_DrawFuzzPatch(int x, int y, patch_t *patch)
 
             while (count--)
             {
-                if ((count & 1) && !menuactive && !consoleactive && !paused)
-                    fuzztable[++fuzzpos] = FUZZ(-1, 1);
+                if (count & 1)
+                {
+                    fuzzpos++;
+
+                    if (!menuactive && !consoleactive && !paused)
+                        fuzztable[fuzzpos] = FUZZ(-1, 1);
+                }
 
                 *dest = fullcolormap[6 * 256 + dest[fuzztable[fuzzpos]]];
                 dest += SCREENWIDTH;
@@ -1354,8 +1359,13 @@ void V_DrawFlippedFuzzPatch(int x, int y, patch_t *patch)
 
             while (count--)
             {
-                if ((count & 1) && !menuactive && !consoleactive && !paused)
-                    fuzztable[++fuzzpos] = FUZZ(-1, 1);
+                if (count & 1)
+                {
+                    fuzzpos++;
+
+                    if (!menuactive && !consoleactive && !paused)
+                        fuzztable[fuzzpos] = FUZZ(-1, 1);
+                }
 
                 *dest = fullcolormap[6 * 256 + dest[fuzztable[fuzzpos]]];
                 dest += SCREENWIDTH;
