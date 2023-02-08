@@ -40,7 +40,7 @@
   * A bug is fixed whereby the currently equipped weapon’s silhouette wouldn’t be displayed in some rare instances.
   * The power-up bar is no longer displayed if the player has cheated and their currently equipped weapon has no ammo.
   * When the `r_hud_translucency` CVAR is `off`:
-    * The white elements are now not so bright.
+    * The white elements of the HUD are now not so bright.
     * The armor bar is a slightly darker green when the player has `100%` armor or less.
     * The armor icon is now a dark gray when the player has no armor.
     * The power-up bar now updates when depleting.
@@ -62,13 +62,14 @@
   * The mouse pointer is now displayed while the console is open.
 * The mouse pointer is now hidden before the screen goes black at startup when the `vid_fullscreen` CVAR is `on`.
 * Crashes no longer occur when displaying patches taller than 200 pixels.
-* The disk icon displayed in the top right of the screen when the `r_diskicon` CVAR is `on` is now double in size when the `r_detail` CVAR is `low`.
-* The player’s view no longer bounces once landing after a fall if either no clipping mode or freeze mode are enabled.
+* The disk icon displayed in the top right of the screen when the `r_diskicon` CVAR is `on` is now double the size when the `r_detail` CVAR is `low`.
+* The player’s view no longer bounces once they land after a fall if either no clipping mode or freeze mode are enabled.
 * The `-solonet` command-line parameter has now been replaced with `-coop_spawns`.
-* The player’s health, armor, ammo and weapon are no longer reset when using the `resetall` CCMD.
+* The player’s health, armor, ammo and weapon are no longer reset by the `resetall` CCMD.
 * The `kill` CCMD can no longer be used to kill the player if either god mode or buddha mode are enabled, or if they have an invulnerability power-up.
 * The *BOOM*-compatible line special of 251 (“Scroll floor according to line vector”) now works correctly if used with a liquid sector and the `r_liquids_current` CVAR is `on`.
-* The underscores in the message displayed by the `IDBEHOLD` cheat are now aligned correctly again.
+* The underscores in the message displayed by the `IDBEHOLD` cheat now align correctly again.
+* The shadows cast by the corpses of monsters spawned at the start of the map are now positioned better when the `r_shadows` CVAR is `on`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
