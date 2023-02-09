@@ -815,6 +815,7 @@ bool G_Responder(event_t *ev)
                 if (vid_motionblur)
                     I_SetMotionBlur(0);
 
+                fastfade = true;
                 D_FadeScreen(false);
             }
             else if (key == keyboardalwaysrun && !keydown)
