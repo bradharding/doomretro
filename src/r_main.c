@@ -301,7 +301,8 @@ static void R_InitTextureMapping(void)
         else if (tangent < -fovscale)
             viewangletox[i] = viewwidth + 1;
         else
-            viewangletox[i] = BETWEEN(-1, (centerxfrac - FixedMul(tangent, focallength) + FRACUNIT - 1) >> FRACBITS, viewwidth + 1);
+            viewangletox[i] = BETWEEN(-1, (centerxfrac - FixedMul(tangent, focallength)
+                + FRACUNIT - 1) >> FRACBITS, viewwidth + 1);
     }
 
     // Scan viewangletox[] to generate xtoviewangle[]:
@@ -385,7 +386,8 @@ void R_ExecuteSetViewSize(void)
 
     centerx = viewwidth / 2;
     centerxfrac = centerx << FRACBITS;
-    fovscale = finetangent[FINEANGLES / 4 + ((menuactive && !inhelpscreens ? r_fov_max : r_fov) + WIDEFOVDELTA) * FINEANGLES / 360 / 2];
+    fovscale = finetangent[FINEANGLES / 4 + ((menuactive && !inhelpscreens ? r_fov_max : r_fov)
+        + WIDEFOVDELTA) * FINEANGLES / 360 / 2];
     projection = FixedDiv(centerxfrac, fovscale);
     viewheightfrac = viewheight << (FRACBITS + 2);
 
@@ -433,7 +435,8 @@ void R_ExecuteSetViewSize(void)
         }
     }
 
-    // [BH] calculate separate light levels to use when drawing player's weapon, so it stays consistent regardless of view size.
+    // [BH] calculate separate light levels to use when drawing player's weapon,
+    // so it stays consistent regardless of view size.
     for (int i = 0; i < OLDLIGHTLEVELS; i++)
     {
         const int   start = ((OLDLIGHTLEVELS - LIGHTBRIGHT - i) * 2) * NUMCOLORMAPS / OLDLIGHTLEVELS;
@@ -1012,8 +1015,8 @@ static void R_SetupFrame(void)
                 * FIXED2DOUBLE(fractionaltic))) / MLOOKUNIT;
 
         if (weaponrecoil)
-            pitch = BETWEEN(-LOOKDIRMAX, pitch + viewplayer->oldrecoil + FixedMul(viewplayer->recoil - viewplayer->oldrecoil,
-                fractionaltic), LOOKDIRMAX);
+            pitch = BETWEEN(-LOOKDIRMAX, pitch + viewplayer->oldrecoil
+                + FixedMul(viewplayer->recoil - viewplayer->oldrecoil, fractionaltic), LOOKDIRMAX);
     }
     else
     {
@@ -1062,7 +1065,8 @@ static void R_SetupFrame(void)
     {
         const sector_t  *s = mo->subsector->sector->heightsec;
 
-        colormap = (viewz < s->interpfloorheight ? s->bottommap : (viewz > s->interpceilingheight ? s->topmap : s->midmap));
+        colormap = (viewz < s->interpfloorheight ? s->bottommap :
+            (viewz > s->interpceilingheight ? s->topmap : s->midmap));
 
         if (colormap < 0 || colormap > numcolormaps)
             colormap = 0;
@@ -1119,11 +1123,13 @@ void R_RenderPlayerView(void)
     }
 
     if (r_homindicator)
-        V_FillRect(0, viewwindowx, viewwindowy, viewwidth, viewheight, ((maptime % 20) < 9 ? nearestred :
-            (viewplayer->fixedcolormap == INVERSECOLORMAP ? colormaps[0][32 * 256 + WHITE] : nearestblack)), false, NULL);
+        V_FillRect(0, viewwindowx, viewwindowy, viewwidth, viewheight,
+            ((maptime % 20) < 9 ? nearestred : (viewplayer->fixedcolormap == INVERSECOLORMAP ?
+                colormaps[0][32 * 256 + WHITE] : nearestblack)), false, NULL);
     else if ((viewplayer->cheats & CF_NOCLIP) || freeze)
         V_FillRect(0, viewwindowx, viewwindowy, viewwidth, viewheight,
-            (viewplayer->fixedcolormap == INVERSECOLORMAP ? colormaps[0][32 * 256 + WHITE] : nearestblack), false, NULL);
+            (viewplayer->fixedcolormap == INVERSECOLORMAP ? colormaps[0][32 * 256 + WHITE] : nearestblack),
+            false, NULL);
 
     R_RenderBSPNode(numnodes - 1);  // head node is the last node output
     R_DrawPlanes();

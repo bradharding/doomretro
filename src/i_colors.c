@@ -309,7 +309,7 @@ static byte *GenerateAdditiveTintTable(byte *palette, int colors)
 
 void I_InitTintTables(byte *palette)
 {
-    int lump = W_CheckNumForName("TRANMAP");
+    const int   lump = W_CheckNumForName("TRANMAP");
 
     tinttab10 = GenerateTintTable(palette, 10, ALL);
     tinttab15 = GenerateTintTable(palette, 15, ALL);

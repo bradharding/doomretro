@@ -1351,7 +1351,7 @@ void R_FillBezel(void)
     for (int y = SCREENHEIGHT - SBARHEIGHT; y < SCREENHEIGHT; y++)
         for (int x = 0; x < SCREENWIDTH; x += 2)
         {
-            byte    dot = grnrock[(((y >> 1) & 63) << 6) + ((x >> 1) & 63)];
+            const byte  dot = grnrock[(((y >> 1) & 63) << 6) + ((x >> 1) & 63)];
 
             *dest++ = dot;
             *dest++ = dot;
@@ -1379,7 +1379,7 @@ void R_FillBackScreen(void)
     for (int y = 0; y < SCREENHEIGHT - SBARHEIGHT; y++)
         for (int x = 0; x < SCREENWIDTH; x += 2)
         {
-            byte    dot = grnrock[(((y >> 1) & 63) << 6) + ((x >> 1) & 63)];
+            const byte  dot = grnrock[(((y >> 1) & 63) << 6) + ((x >> 1) & 63)];
 
             *dest++ = dot;
             *dest++ = dot;

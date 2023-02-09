@@ -285,7 +285,6 @@ visplane_t *R_CheckPlane(visplane_t *pl, const int start, const int stop)
     {
         pl->left = unionl;
         pl->right = unionh;
-
         return pl;
     }
 
@@ -362,8 +361,8 @@ void R_InitDistortedFlats(void)
         for (int y = 0; y < 64; y++)
             for (int x = 0; x < 64; x++)
             {
-                int x1, y1;
                 int sinvalue, sinvalue2;
+                int x1, y1;
 
                 sinvalue = finesine[((y * SWIRLFACTOR + i * 5 + 900) & FINEMASK)] * 2;
                 sinvalue2 = finesine[((x * SWIRLFACTOR2 + i * 4 + 300) & FINEMASK)] * 2;
