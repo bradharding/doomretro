@@ -39,6 +39,10 @@
 #include "doomdef.h"
 #include "SDL.h"
 
+#if SDL_MAJOR_VERSION < 2 || (SDL_MAJOR_VERSION == 2 && SDL_MINOR_VERSION < 18)
+#define SDL_GetTicks64  SDL_GetTicks
+#endif
+
 //
 // I_GetTime
 // returns time in 1/35th second tics
