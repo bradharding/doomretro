@@ -437,7 +437,6 @@ void AM_Start(const bool mainwindow)
 
     AM_InitVariables(mainwindow);
     HU_ClearMessages();
-    fastfade = true;
     D_FadeScreen(false);
 }
 

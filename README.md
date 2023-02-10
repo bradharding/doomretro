@@ -1,7 +1,7 @@
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/readme.png)
+
 <br>
-<br>
-<br>
+
 *DOOM Retro* is the classic, refined *DOOM* source port for Windows PC. It represents how I like my *DOOM* to be today, in all its dark and gritty, unapologetically pixelated glory. I have strived to craft a unique and cohesive set of compelling features, while continuing to uphold my respect for that classic, nostalgic *DOOM* experience that many of us, after all this time, still hold dear.
 
 Open the <b><i>[DOOM Retro Wiki](https://github.com/bradharding/doomretro/wiki)</i></b> for more information.
@@ -20,7 +20,7 @@ Open the <b><i>[DOOM Retro Wiki](https://github.com/bradharding/doomretro/wiki)<
 [![](https://img.shields.io/github/last-commit/bradharding/doomretro.svg)](https://github.com/bradharding/doomretro/commits/master)
 [![](https://img.shields.io/github/stars/bradharding/doomretro.svg?logo=github)](https://github.com/bradharding/doomretro/stargazers)
 [![](https://img.shields.io/discord/485551763542245427?style=flat&logo=discord&label=discord)](http://discordapp.com/invite/jAfAyWG)
-[![](https://img.shields.io/badge/donations-AU$443.72-<COLOR>?style=flat&logo=paypal&label=sponsors)](https://www.paypal.com/donate?business=8WGJ8VDFSVU7J&no_recurring=0&currency_code=AUD)
+[![](https://img.shields.io/badge/donations-AU$443.72-<COLOR>?style=flat&logo=paypal&label=donations)](https://www.paypal.com/donate?business=8WGJ8VDFSVU7J&no_recurring=0&currency_code=AUD)
 
 <br>
 <br>

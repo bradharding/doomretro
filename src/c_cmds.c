@@ -927,7 +927,7 @@ consolecmd_t consolecmds[] =
     CVAR_INT(stillbob, "", "", int_cvars_func1, int_cvars_func2, CF_PERCENT, NOVALUEALIAS,
         "The amount the player's view and weapon bob up and down when they stand still (" BOLD("0%") " to " BOLD("100%") ")."),
     CVAR_INT(sucktime, "", "", int_cvars_func1, int_cvars_func2, CF_NONE, NOVALUEALIAS,
-        "The amount of time in hours the player must complete the current map before \"SUCKS!\" is shown on the intermission screen."),
+        "The amount of time in hours the player must complete the current map before \"SUCKS\" will be shown on the intermission screen."),
     CCMD(take, "", "", take_cmd_func1, take_cmd_func2, true, TAKECMDFORMAT,
         "Takes " BOLD("ammo") ", " BOLD("armor") ", " BOLD("health") ", " BOLD("keys") ", " BOLD("weapons") ", or " BOLD("all")
         " or certain " BOLDITALICS("items") " away from the player."),
