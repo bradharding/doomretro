@@ -2013,6 +2013,30 @@ static void M_FinishHelp(int choice)
 //
 // M_QuitDOOM
 //
+static const int quitsounds[8] =
+{
+    sfx_pldeth,
+    sfx_dmpain,
+    sfx_popain,
+    sfx_slop,
+    sfx_telept,
+    sfx_posit1,
+    sfx_posit3,
+    sfx_sgtatk
+};
+
+static const int quitsounds2[8] =
+{
+    sfx_vilact,
+    sfx_getpow,
+    sfx_boscub,
+    sfx_slop,
+    sfx_skeswg,
+    sfx_kntdth,
+    sfx_bspact,
+    sfx_sgtatk
+};
+
 static void M_QuitResponse(int key)
 {
     messagetoprint = false;
@@ -2039,7 +2063,10 @@ static void M_QuitResponse(int key)
     {
         int i = 30;
 
-        S_StartSound(NULL, sfx_swtchx);
+        if (gamemode == commercial)
+            S_StartSound(NULL, quitsounds2[M_Random() & 7]);
+        else
+            S_StartSound(NULL, quitsounds[M_Random() & 7]);
 
         // wait until all sounds stopped or 3 seconds has passed
         while (i-- > 0 && I_AnySoundStillPlaying())

@@ -25,7 +25,6 @@
   * Pressing a mouse button on the title screen without moving the mouse now opens the menu rather than just show the mouse pointer.
 * The fade effect when opening the menu is now slightly faster than closing them when the `fade` CVAR is `on`.
 * Two additional savegame slots now appear in the load and save game menus.
-* A random sound effect is no longer played when quitting the game using the menu.
 * Improvements have been made to parsing [`BRGHTMPS`](https://raw.githubusercontent.com/bradharding/doomretro/master/res/BRGHTMPS) lumps.
 * These changes have been made to the `playerstats` CCMD:
   * The number of times the player loads a savegame is now displayed.
