@@ -22,7 +22,7 @@
 * The `toggle` CCMD now only works with boolean CVARs.
 * When the `m_pointer` CVAR is `on`:
   * The mouse wheel may now be used to scroll among menu items again.
-  * Pressing a mouse button on the title screen without moving the mouse now opens the menu rather than just show the mouse pointer.
+  * Pressing a mouse button on the title screen without moving the mouse now opens the menu rather than just showing the mouse pointer.
 * The fade effect when opening the menu is now slightly faster than closing them when the `fade` CVAR is `on`.
 * Two additional savegame slots now appear in the load and save game menus.
 * A random sound effect now also plays when quitting the game by entering the `quit` CCMD in the console.
@@ -51,7 +51,7 @@
 * The position of text displayed in the top right of the screen has improved in some instances.
 * The correct map now opens when entering `map phobosmissioncontrol` or `map techgonebad` in the console.
 * Minor improvements have been made to translating certain words when the `english` CVAR is changed.
-* The fuzz effect applied to both the player’s weapon when they have a partial invisibility power-up, and to spectres, has now changed.
+* The fuzz effect applied to both the player’s weapon when they have a partial invisibility power-up, and to spectres, has now improved.
 * Certain partial translucency effects when the `r_sprites_translucency` CVAR is `on` are no longer applied if a custom `PLAYPAL` lump is present in a PWAD.
 * When the `r_rockettrails` CVAR is `on`:
   * The smoke trailing behind rockets fired by the player and cyberdemons is now a lighter gray.
