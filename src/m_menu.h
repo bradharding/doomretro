@@ -105,6 +105,7 @@ int M_CountSaveGames(void);
 
 void M_StartMessage(char *string, void (*routine)(int), bool input);
 
+void M_QuitResponse(int key);
 void M_QuitDOOM(int choice);
 
 void M_AddEpisode(const int map, const int ep, const char *lumpname, const char *string);

@@ -1845,7 +1845,7 @@ bool C_Responder(event_t *ev)
     int         len;
 
     if (quitcmd)
-        I_Quit(true);
+        M_QuitResponse('y');
 
     if ((consoleheight < CONSOLEHEIGHT && consoledirection == -1) || messagetoprint)
         return false;
