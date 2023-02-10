@@ -1323,8 +1323,8 @@ static void ST_DrawWidgets(bool refresh)
 
         if (!gamepaused)
         {
-            static int  keywait;
-            const int   currenttime = I_GetTimeMS();
+            static uint64_t keywait;
+            const uint64_t  currenttime = I_GetTimeMS();
 
             if (keywait < currenttime)
             {

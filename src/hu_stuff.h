@@ -104,9 +104,9 @@ void HU_DrawDisk(void);
 extern patch_t  *hu_font[HU_FONTSIZE];
 extern patch_t  *minuspatch;
 
-extern int      healthhighlight;
-extern int      ammohighlight;
-extern int      armorhighlight;
+extern uint64_t healthhighlight;
+extern uint64_t ammohighlight;
+extern uint64_t armorhighlight;
 extern bool     drawdisk;
 extern bool     idbehold;
 extern int      message_counter;

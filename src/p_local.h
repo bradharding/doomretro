@@ -165,8 +165,8 @@ bool P_SeekerMissile(mobj_t *actor, mobj_t **seektarget, angle_t thresh, angle_t
 #define BERSERKPUNCHWALL    200
 #define EXPLODINGBARREL    1500
 
-extern int  shake;
-extern int  shakeduration;
+extern uint64_t shake;
+extern int      shakeduration;
 
 void P_NoiseAlert(mobj_t *target);
 bool P_CheckMeleeRange(mobj_t *actor);

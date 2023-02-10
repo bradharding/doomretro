@@ -573,23 +573,23 @@ static void HU_DrawSolidCrosshair(void)
     }
 }
 
-int healthhighlight = 0;
-int ammohighlight = 0;
-int armorhighlight = 0;
+uint64_t    healthhighlight = 0;
+uint64_t    ammohighlight = 0;
+uint64_t    armorhighlight = 0;
 
 static void HU_DrawHUD(void)
 {
-    const int   health = BETWEEN(HUD_NUMBER_MIN, viewplayer->health, HUD_NUMBER_MAX);
-    const int   armor = MIN(viewplayer->armorpoints, HUD_NUMBER_MAX);
-    static bool healthanim;
-    const bool  gamepaused = (consoleactive || freeze);
-    byte        *tinttab = (health >= HUD_HEALTH_MIN || (health < HUD_HEALTH_MIN && healthanim) || health <= 0
-                           || (viewplayer->cheats & CF_BUDDHA) || gamepaused ? tinttab75 : tinttab25);
-    patch_t     *patch = faces[st_faceindex];
-    const int   currenttime = I_GetTimeMS();
-    int         keypic_x = HUD_KEYS_X;
-    static int  keywait;
-    static bool showkey;
+    const int       health = BETWEEN(HUD_NUMBER_MIN, viewplayer->health, HUD_NUMBER_MAX);
+    const int       armor = MIN(viewplayer->armorpoints, HUD_NUMBER_MAX);
+    static bool     healthanim;
+    const bool      gamepaused = (consoleactive || freeze);
+    byte            *tinttab = (health >= HUD_HEALTH_MIN || (health < HUD_HEALTH_MIN && healthanim) || health <= 0
+                               || (viewplayer->cheats & CF_BUDDHA) || gamepaused ? tinttab75 : tinttab25);
+    patch_t         *patch = faces[st_faceindex];
+    const uint64_t  currenttime = I_GetTimeMS();
+    int             keypic_x = HUD_KEYS_X;
+    static uint64_t keywait;
+    static bool     showkey;
 
     if (patch)
         hudfunc(HUD_HEALTH_X - SHORT(patch->width) / 2 - 1, HUD_HEALTH_Y - SHORT(patch->height) - 2, patch, tinttab75);
@@ -618,7 +618,7 @@ static void HU_DrawHUD(void)
 
     if (!gamepaused)
     {
-        static int  healthwait;
+        static uint64_t healthwait;
 
         if (health > 0 && health < HUD_HEALTH_MIN)
         {
@@ -733,7 +733,7 @@ static void HU_DrawHUD(void)
 
             if (!gamepaused)
             {
-                static int  ammowait;
+                static uint64_t ammowait;
 
                 if (ammo < HUD_AMMO_MIN)
                 {
@@ -997,14 +997,14 @@ static int AltHUDNumber2Width(int val)
 
 static void HU_DrawAltHUD(void)
 {
-    const int   color = (((viewplayer->fixedcolormap == INVERSECOLORMAP) ^ (!r_textures)) ?
-                    colormaps[0][32 * 256 + nearestwhite] : (r_hud_translucency ? nearestwhite : nearestlightgray));
-    int         health = BETWEEN(HUD_NUMBER_MIN, viewplayer->health, HUD_NUMBER_MAX);
-    int         armor = MIN(viewplayer->armorpoints, HUD_NUMBER_MAX);
-    int         barcolor = (health < HUD_HEALTH_MIN && !(viewplayer->cheats & CF_BUDDHA) ?
-                    red : (health >= 100 ? green1 : color));
-    int         keypic_x = ALTHUD_RIGHT_X;
-    const int   currenttime = I_GetTimeMS();
+    const int       color = (((viewplayer->fixedcolormap == INVERSECOLORMAP) ^ (!r_textures)) ?
+                        colormaps[0][32 * 256 + nearestwhite] : (r_hud_translucency ? nearestwhite : nearestlightgray));
+    int             health = BETWEEN(HUD_NUMBER_MIN, viewplayer->health, HUD_NUMBER_MAX);
+    int             armor = MIN(viewplayer->armorpoints, HUD_NUMBER_MAX);
+    int             barcolor = (health < HUD_HEALTH_MIN && !(viewplayer->cheats & CF_BUDDHA) ?
+                        red : (health >= 100 ? green1 : color));
+    int             keypic_x = ALTHUD_RIGHT_X;
+    const uint64_t  currenttime = I_GetTimeMS();
 
     DrawAltHUDNumber(ALTHUD_LEFT_X - AltHUDNumberWidth(ABS(health)), ALTHUD_Y + 12,
         health, color, (healthhighlight > currenttime ? tinttab80 : tinttab60));
@@ -1096,7 +1096,7 @@ static void HU_DrawAltHUD(void)
         const weapontype_t  pendingweapon = viewplayer->pendingweapon;
         const weapontype_t  weapon = (pendingweapon != wp_nochange ? pendingweapon : viewplayer->readyweapon);
         const ammotype_t    ammotype = weaponinfo[weapon].ammotype;
-        static int          keywait;
+        static uint64_t     keywait;
         static bool         showkey;
         int                 powerup = 0;
         int                 powerupbar = 0;

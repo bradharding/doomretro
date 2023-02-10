@@ -110,8 +110,6 @@ extern char         lbmpath1[MAX_PATH];
 extern char         lbmpath2[MAX_PATH];
 extern char         keyactionlist[NUMKEYS][255];
 extern char         mouseactionlist[MAX_MOUSE_BUTTONS + 2][255];
-extern int          mousewait;
-extern int          quicksaveslot;
 extern int          st_facecount;
 extern bool         skipaction;
 extern char         savename[MAX_PATH];

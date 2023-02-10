@@ -894,8 +894,8 @@ bool G_Responder(event_t *ev)
         case ev_controller:
             if (!automapactive && !menuactive && !paused)
             {
-                static int  wait;
-                int         time = I_GetTime();
+                static uint64_t wait;
+                uint64_t        time = I_GetTime();
 
                 if ((gamecontrollerbuttons & gamecontrollernextweapon) && wait < time && !freeze)
                 {

@@ -107,7 +107,7 @@ static size_t           undolevels;
 static undohistory_t    *undohistory;
 
 static bool             showcaret = true;
-static int              caretwait;
+static uint64_t         caretwait;
 int                     caretpos;
 int                     selectstart;
 int                     selectend;
@@ -1368,16 +1368,16 @@ void C_UpdatePlayerStatsOverlay(void)
 
 void C_Drawer(void)
 {
-    int         i;
-    int         x = CONSOLEINPUTX;
-    int         y = CONSOLELINEHEIGHT * (CONSOLELINES - 1) - CONSOLELINEHEIGHT / 2 + 1;
-    const int   bottomline = (outputhistory == -1 ? numconsolestrings : outputhistory + CONSOLELINES) - 1;
-    int         len;
-    char        partialinput[255];
-    const bool  prevconsoleactive = consoleactive;
-    static int  consolewait;
-    const int   tics = I_GetTimeMS();
-    const int   notabs[3] = { 0 };
+    int             i;
+    int             x = CONSOLEINPUTX;
+    int             y = CONSOLELINEHEIGHT * (CONSOLELINES - 1) - CONSOLELINEHEIGHT / 2 + 1;
+    const int       bottomline = (outputhistory == -1 ? numconsolestrings : outputhistory + CONSOLELINES) - 1;
+    int             len;
+    char            partialinput[255];
+    const bool      prevconsoleactive = consoleactive;
+    static uint64_t consolewait;
+    const uint64_t  tics = I_GetTimeMS();
+    const int       notabs[3] = { 0 };
 
     // adjust console height
     if (consolewait < tics)

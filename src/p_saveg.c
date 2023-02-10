@@ -42,6 +42,7 @@
 #include "g_game.h"
 #include "i_system.h"
 #include "m_config.h"
+#include "m_menu.h"
 #include "m_misc.h"
 #include "p_fix.h"
 #include "p_inter.h"

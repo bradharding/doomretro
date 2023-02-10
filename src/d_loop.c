@@ -52,15 +52,15 @@ ticcmd_t    localcmds[BACKUPTICS];
 
 void TryRunTics(void)
 {
-    static int  maketic;
-    static int  lastmadetic;
-    int         newtics = I_GetTime() - lastmadetic;
-    int         runtics;
+    static int      maketic;
+    static uint64_t lastmadetic;
+    uint64_t        newtics = I_GetTime() - lastmadetic;
+    int             runtics;
 
     lastmadetic += newtics;
 
     if (vid_capfps != TICRATE)
-        fractionaltic = (((int64_t)I_GetTimeMS() * TICRATE) % 1000) * FRACUNIT / 1000;
+        fractionaltic = ((I_GetTimeMS() * TICRATE) % 1000) * FRACUNIT / 1000;
 
     while (newtics--)
     {

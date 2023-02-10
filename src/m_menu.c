@@ -1057,9 +1057,9 @@ static void M_LoadGame(int choice)
     M_ReadSaveStrings();
 }
 
-static bool showcaret;
-static int  caretwait;
-int         caretcolor;
+static bool     showcaret;
+static uint64_t caretwait;
+int             caretcolor;
 
 //
 //  M_SaveGame
@@ -2107,7 +2107,7 @@ void M_QuitDOOM(int choice)
 
 static void M_SliderSound(void)
 {
-    static int  wait;
+    static uint64_t wait;
 
     if (wait < I_GetTime())
     {
@@ -2490,7 +2490,7 @@ static void M_ShowHelp(int choice)
 
 static void M_ChangeGamma(bool shift)
 {
-    static int  gammawait;
+    static uint64_t gammawait;
 
     if (gammawait < I_GetTime())
     {
@@ -2555,14 +2555,14 @@ static void M_ChangeGamma(bool shift)
 //
 // M_Responder
 //
-int     gamecontrollerwait = 0;
-int     mousewait = 0;
-bool    gamecontrollerpress = false;
+uint64_t    gamecontrollerwait = 0;
+uint64_t    mousewait = 0;
+bool        gamecontrollerpress = false;
 
 bool M_Responder(event_t *ev)
 {
-    int         key = -1;
-    static int  keywait;
+    int             key = -1;
+    static uint64_t keywait;
 
     if (idclevtics)
         return false;

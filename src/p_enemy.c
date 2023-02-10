@@ -55,8 +55,8 @@
 #define DISTFRIEND  (128 * FRACUNIT)    // distance friends tend to move towards players
 #define BARRELRANGE (512 * FRACUNIT)
 
-int shake = 0;
-int shakeduration = 0;
+uint64_t    shake = 0;
+int         shakeduration = 0;
 
 void A_Fall(mobj_t *actor, player_t *player, pspdef_t *psp);
 

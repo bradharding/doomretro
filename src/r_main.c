@@ -1034,13 +1034,13 @@ static void R_SetupFrame(void)
 
     if (shake && !menuactive && !consoleactive && !paused)
     {
-        const int   time = I_GetTimeMS();
+        const uint64_t  time = I_GetTimeMS();
 
         if (shake > time)
         {
-            viewx += M_RandomInt(-3, 3) * FRACUNIT * (shake - time) / shakeduration;
-            viewy += M_RandomInt(-3, 3) * FRACUNIT * (shake - time) / shakeduration;
-            viewz += M_RandomInt(-2, 2) * FRACUNIT * (shake - time) / shakeduration;
+            viewx += M_RandomInt(-3, 3) * FRACUNIT * (fixed_t)(shake - time) / shakeduration;
+            viewy += M_RandomInt(-3, 3) * FRACUNIT * (fixed_t)(shake - time) / shakeduration;
+            viewz += M_RandomInt(-2, 2) * FRACUNIT * (fixed_t)(shake - time) / shakeduration;
         }
     }
 

@@ -217,9 +217,9 @@ void D_FadeScreen(bool screenshot)
 //
 static void D_UpdateFade(void)
 {
-    static byte *tinttab;
-    static int  fadewait;
-    const int   tics = I_GetTimeMS();
+    static byte     *tinttab;
+    static uint64_t fadewait;
+    const uint64_t  tics = I_GetTimeMS();
 
     if (fadewait < tics)
     {
@@ -279,9 +279,8 @@ void D_Display(void)
     static bool         pausedstate;
     static gamestate_t  oldgamestate = GS_NONE;
     static int          saved_gametime = -1;
-    int                 nowtime;
-    int                 tics;
-    int                 wipestart;
+    uint64_t            nowtime;
+    uint64_t            wipestart;
     bool                done;
 
     if (vid_capfps != TICRATE && (realframe = (gametime > saved_gametime)))
@@ -441,6 +440,8 @@ void D_Display(void)
 
     do
     {
+        uint64_t    tics;
+
         do
         {
             nowtime = I_GetTime();
@@ -515,8 +516,8 @@ static short    logoy;
 //
 void D_PageTicker(void)
 {
-    static int  pagewait;
-    int         pagetime;
+    static uint64_t pagewait;
+    uint64_t        pagetime;
 
     if (menuactive || consoleactive)
         return;
