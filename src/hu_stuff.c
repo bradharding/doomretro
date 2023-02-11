@@ -61,9 +61,6 @@
 #include "w_wad.h"
 #include "z_zone.h"
 
-//
-// Locally used constants, shortcuts.
-//
 #define STSTR_BEHOLD2   "inVuln, bSrk, Inviso, Rad, Allmap or Lite-amp?"
 
 patch_t                 *hu_font[HU_FONTSIZE];
@@ -783,7 +780,7 @@ static patch_t      *altminuspatch;
 static patch_t      *altendpatch;
 static patch_t      *altleftpatch;
 static patch_t      *altarmpatch;
-static patch_t      *altrightpatch[2];
+static patch_t      *altrightpatch;
 static patch_t      *altmarkpatch;
 static patch_t      *altmark2patch;
 
@@ -871,8 +868,7 @@ static void HU_AltInit(void)
         }
 
     altleftpatch = W_CacheLumpName("DRHUDL");
-    altrightpatch[0] = W_CacheLumpName("DRHUDRA");
-    altrightpatch[1] = W_CacheLumpName("DRHUDRB");
+    altrightpatch = W_CacheLumpName("DRHUDR");
 
     gray = nearestcolors[GRAY];
     darkgray = nearestcolors[DARKGRAY];
@@ -1100,7 +1096,7 @@ static void HU_DrawAltHUD(void)
         static bool         showkey;
         int                 powerup = 0;
         int                 powerupbar = 0;
-        int                 max = 1;
+        int                 powertics = 1;
         patch_t             *patch;
 
         if (ammotype != am_noammo)
@@ -1112,17 +1108,27 @@ static void HU_DrawAltHUD(void)
 
             if (ammo)
             {
-                if ((ammo = 100 * ammo / viewplayer->maxammo[ammotype]) < HUD_AMMO_MIN)
+                const bool  backpack = viewplayer->backpack;
+                int         max = viewplayer->maxammo[ammotype];
+
+                if (backpack && ammo > (max /= 2))
+                {
+                    ammo = 100 * (ammo - max) / max;
+                    fillrectfunc(0, ALTHUD_RIGHT_X, ALTHUD_Y + 13, 101, 8, color, true, tinttab25);
+                    fillrectfunc(0, ALTHUD_RIGHT_X + 100 - ammo, ALTHUD_Y + 13, ammo + 1, 8, color, true, tinttab25);
+                    althudfunc(ALTHUD_RIGHT_X, ALTHUD_Y + 13, altrightpatch, WHITE, color, tinttab60);
+                }
+                else if ((ammo = 100 * ammo / max) < HUD_AMMO_MIN)
                 {
                     fillrectfunc(0, ALTHUD_RIGHT_X + 100 - ammo, ALTHUD_Y + 13, ammo + 1, 8, yellow2, true, tinttab25);
-                    althudfunc(ALTHUD_RIGHT_X, ALTHUD_Y + 13, altrightpatch[viewplayer->backpack], WHITE, color, tinttab60);
+                    althudfunc(ALTHUD_RIGHT_X, ALTHUD_Y + 13, altrightpatch, WHITE, color, tinttab60);
                     althudfunc(ALTHUD_RIGHT_X + 100, ALTHUD_Y + 13, altendpatch, WHITE, yellow1, NULL);
                     althudfunc(ALTHUD_RIGHT_X + 100 - ammo - 2, ALTHUD_Y + 13, altmarkpatch, WHITE, yellow1, NULL);
                 }
                 else
                 {
                     fillrectfunc(0, ALTHUD_RIGHT_X + 100 - ammo, ALTHUD_Y + 13, ammo + 1, 8, color, true, tinttab25);
-                    althudfunc(ALTHUD_RIGHT_X, ALTHUD_Y + 13, altrightpatch[viewplayer->backpack], WHITE, color, tinttab60);
+                    althudfunc(ALTHUD_RIGHT_X, ALTHUD_Y + 13, altrightpatch, WHITE, color, tinttab60);
 
                     if (r_hud_translucency)
                     {
@@ -1140,7 +1146,7 @@ static void HU_DrawAltHUD(void)
                 }
             }
             else
-                althudfunc(ALTHUD_RIGHT_X, ALTHUD_Y + 13, altrightpatch[viewplayer->backpack], WHITE, color, tinttab60);
+                althudfunc(ALTHUD_RIGHT_X, ALTHUD_Y + 13, altrightpatch, WHITE, color, tinttab60);
         }
 
         if ((patch = altweapon[weapon].patch))
@@ -1205,30 +1211,30 @@ static void HU_DrawAltHUD(void)
 
         if ((powerup = viewplayer->powers[pw_invulnerability]))
         {
-            max = INVULNTICS;
+            powertics = INVULNTICS;
             powerupbar = (powerup == -1 ? INT_MAX : powerup);
         }
 
         if ((powerup = viewplayer->powers[pw_invisibility]) && (!powerupbar || (powerup >= 0 && powerup < powerupbar)))
         {
-            max = INVISTICS;
+            powertics = INVISTICS;
             powerupbar = (powerup == -1 ? INT_MAX : powerup);
         }
 
         if ((powerup = viewplayer->powers[pw_ironfeet]) && (!powerupbar || (powerup >= 0 && powerup < powerupbar)))
         {
-            max = IRONTICS;
+            powertics = IRONTICS;
             powerupbar = (powerup == -1 ? INT_MAX : powerup);
         }
 
         if ((powerup = viewplayer->powers[pw_infrared]) && (!powerupbar || (powerup >= 0 && powerup < powerupbar)))
         {
-            max = INFRATICS;
+            powertics = INFRATICS;
             powerupbar = (powerup == -1 ? INT_MAX : powerup);
         }
 
         if (powerup != -1 && ammotype != am_noammo
-            && (powerupbar = (powerupbar == INT_MAX ? 101 : (int)(powerupbar * 101.0 / max + 0.5))))
+            && (powerupbar = (powerupbar == INT_MAX ? 101 : (int)(powerupbar * 101.0 / powertics + 0.5))))
         {
             fillrectfunc2(0, ALTHUD_RIGHT_X, ALTHUD_Y + 27, 101 - powerupbar, 2,
                 (r_hud_translucency ? color : darkgray), false, tinttab10);
