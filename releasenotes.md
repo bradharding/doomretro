@@ -39,10 +39,10 @@
 * These changes have been made to the alternate widescreen HUD:
   * The position of the player’s health is now fixed when `0`.
   * A bug is fixed whereby the currently equipped weapon’s silhouette wouldn’t be displayed in some rare instances.
-  * The power-up bar is no longer displayed if the player has cheated and their currently equipped weapon has no ammo.
+  * The power-up bar is no longer displayed if the player uses the `IDBEHOLD` cheat and their currently equipped weapon has no ammo.
   * When the `r_hud_translucency` CVAR is `off`:
     * The white elements of the HUD are now not so bright.
-    * The armor bar is a slightly darker green when the player has `100%` armor or less.
+    * The armor bar is now a slightly darker green when the player has `100` armor or less.
     * The armor icon is now a dark gray when the player has no armor.
     * The power-up bar now updates when depleting.
 * The truncation of player messages when the `vid_widescreen` CVAR is `off` has improved in some instances.
@@ -50,8 +50,8 @@
 * The vertical positions of the monsters’ shadows in *DOOM II’s* cast sequence have improved.
 * The position of text displayed in the top right of the screen has improved in some instances.
 * The correct map now opens when entering `map phobosmissioncontrol` or `map techgonebad` in the console.
-* Minor improvements have been made to translating certain words when the `english` CVAR is changed.
-* The fuzz effect applied to both the player’s weapon when they have a partial invisibility power-up, and to spectres, has now improved.
+* Minor improvements have been made to translating certain words when the `english` CVAR is changed to `international`.
+* The fuzz effect applied to both the player’s weapon when they have a partial invisibility power-up, and to spectres, is now more pixelated.
 * Certain partial translucency effects when the `r_sprites_translucency` CVAR is `on` are no longer applied if a custom `PLAYPAL` lump is present in a PWAD.
 * When the `r_rockettrails` CVAR is `on`:
   * The smoke trailing behind rockets fired by the player and cyberdemons is now a lighter gray.
