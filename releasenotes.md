@@ -40,6 +40,7 @@
   * The position of the player’s health is now fixed when `0`.
   * A bug is fixed whereby the currently equipped weapon’s silhouette wouldn’t be displayed in some rare instances.
   * The power-up bar is no longer displayed if the player uses the `IDBEHOLD` cheat and their currently equipped weapon has no ammo.
+  * The number of notches in the ammo bar no longer doubles when the player has a backpack. Instead, if the player has more than the usual maximum amount of ammo for their currently equipped weapon, a second bar overlaps the first to show the difference.
   * When the `r_hud_translucency` CVAR is `off`:
     * The white elements of the HUD are now not so bright.
     * The armor bar is now a slightly darker green when the player has `100` armor or less.
