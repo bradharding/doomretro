@@ -1941,7 +1941,8 @@ static bool PTR_NoWayTraverse(intercept_t *in)
     const unsigned short    flags = ld->flags;
 
     return (ld->special || ((flags & ML_TWOSIDED) && (flags & ML_BLOCKING)) || !((flags & ML_BLOCKING)
-        || (P_LineOpening(ld), (openrange <= 0 || openbottom > usething->z + 24 * FRACUNIT || opentop < usething->z + usething->height))));
+        || (P_LineOpening(ld), (openrange <= 0 || openbottom > usething->z + 24 * FRACUNIT ||
+            opentop < usething->z + usething->height))));
 }
 
 bool P_DoorClosed(line_t *line)
@@ -1993,7 +1994,8 @@ static bool     bombverticality;
 static bool P_SplashImmune(mobj_t *target, mobj_t *spot)
 {
     // not default behavior and same group
-    return (mobjinfo[target->type].splashgroup != SG_DEFAULT && mobjinfo[target->type].splashgroup == mobjinfo[spot->type].splashgroup);
+    return (mobjinfo[target->type].splashgroup != SG_DEFAULT
+        && mobjinfo[target->type].splashgroup == mobjinfo[spot->type].splashgroup);
 }
 
 //
@@ -2021,7 +2023,8 @@ bool PIT_RadiusAttack(mobj_t *thing)
     // killough 08/10/98: allow grenades to hurt anyone, unless
     // fired by Cyberdemons, in which case it won't hurt Cybers.
     if ((bombspot->flags & MF_BOUNCES) ? (type == MT_CYBORG && bombsource->type == MT_CYBORG) :
-        (thing->mbf21flags & (MF_MBF21_NORADIUSDMG | MF_MBF21_BOSS) && !(bombspot->mbf21flags & MF_MBF21_FORCERADIUSDMG)))
+        (thing->mbf21flags & (MF_MBF21_NORADIUSDMG | MF_MBF21_BOSS)
+            && !(bombspot->mbf21flags & MF_MBF21_FORCERADIUSDMG)))
         return true;
 
     dist = MAX(ABS(thing->x - bombspot->x), ABS(thing->y - bombspot->y)) - thing->radius;
@@ -2051,7 +2054,8 @@ bool PIT_RadiusAttack(mobj_t *thing)
     if (P_CheckSight(thing, bombspot))
     {
         // [XA] independent damage/distance calculation.
-        int damage = (bombdamage == bombdistance ? bombdamage - dist : (bombdamage * (bombdistance - dist) / bombdistance) + 1);
+        const int   damage = (bombdamage == bombdistance ? bombdamage - dist :
+                        (bombdamage * (bombdistance - dist) / bombdistance) + 1);
 
         // must be in direct path
         P_DamageMobj(thing, bombspot, bombsource, damage, true, false);

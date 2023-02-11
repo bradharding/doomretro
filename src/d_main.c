@@ -550,11 +550,9 @@ void D_PageTicker(void)
 //
 void D_SplashDrawer(void)
 {
-    patch_t *patch = logolump[BETWEEN(0, 94 - logotic, 17)];
-
     gamestate = GS_TITLESCREEN;
     memset(screens[0], BLACK, SCREENAREA);
-    V_DrawBigPatch(logox, logoy, logowidth, logoheight, patch);
+    V_DrawBigPatch(logox, logoy, logowidth, logoheight, logolump[BETWEEN(0, 94 - logotic, 17)]);
     V_DrawBigPatch(fineprintx, fineprinty, fineprintwidth, fineprintheight, fineprintlump);
     I_SetSimplePalette(&splashpal[pagetic < 9 ? (9 - pagetic) * 768 : (pagetic <= 94 ? 0 : (pagetic - 94) * 768)]);
     blitfunc();

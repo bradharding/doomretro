@@ -62,7 +62,7 @@
   * The status bar and widescreen HUD are now displayed better when the window is resized to be very narrow.
   * The mouse pointer is now displayed while the console is open.
 * The mouse pointer is now hidden before the screen goes black at startup when the `vid_fullscreen` CVAR is `on`.
-* Crashes no longer occur when displaying patches taller than 200 pixels.
+* A crash no longer occurs when displaying patches taller than 200 pixels.
 * The disk icon displayed in the top right of the screen when the `r_diskicon` CVAR is `on` is now double the size when the `r_detail` CVAR is `low`.
 * The player’s view no longer bounces once they land after a fall if either no clipping mode or freeze mode are enabled.
 * The `-solonet` command-line parameter has now been replaced with `-coop_spawns`.
