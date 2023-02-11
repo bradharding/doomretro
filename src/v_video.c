@@ -98,7 +98,8 @@ void V_InitColorTranslation(void)
 //
 // V_FillRect
 //
-void V_FillRect(int screen, int x, int y, int width, int height, int color, bool right, const byte *tinttab)
+void V_FillRect(int screen, int x, int y, int width, int height,
+    int color, bool left, bool right, const byte *tinttab)
 {
     byte    *dest = &screens[screen][y * SCREENWIDTH + x];
 
@@ -109,7 +110,8 @@ void V_FillRect(int screen, int x, int y, int width, int height, int color, bool
     }
 }
 
-void V_FillTransRect(int screen, int x, int y, int width, int height, int color, bool right, const byte *tinttab)
+void V_FillTransRect(int screen, int x, int y, int width, int height,
+    int color, bool left, bool right, const byte *tinttab)
 {
     byte    *dest = &screens[screen][y * SCREENWIDTH + x];
 
@@ -125,7 +127,7 @@ void V_FillTransRect(int screen, int x, int y, int width, int height, int color,
 }
 
 void V_FillSoftTransRect(int screen, int x, int y, int width, int height,
-    int color, bool right, const byte *tinttab)
+    int color, bool left, bool right, const byte *tinttab)
 {
     byte        *dest = &screens[screen][y * SCREENWIDTH + x];
     byte        *dot;
@@ -140,18 +142,22 @@ void V_FillSoftTransRect(int screen, int x, int y, int width, int height,
     }
 
     tinttab += color;
-    dot = dest - 1 - 2 * (size_t)SCREENWIDTH;
-    *dot = *(tinttab + *dot);
-    dot += SCREENWIDTH;
 
-    for (int yy = 0; yy < height + 2; yy++, dot += SCREENWIDTH)
+    if (left)
+    {
+        dot = dest - 1 - 2 * (size_t)SCREENWIDTH;
         *dot = *(tinttab + *dot);
+        dot += SCREENWIDTH;
 
-    *dot = *(tinttab + *dot);
-    dot = dest - 2 - SCREENWIDTH;
+        for (int yy = 0; yy < height + 2; yy++, dot += SCREENWIDTH)
+            *dot = *(tinttab + *dot);
 
-    for (int yy = 0; yy < height + 2; yy++, dot += SCREENWIDTH)
         *dot = *(tinttab + *dot);
+        dot = dest - 2 - SCREENWIDTH;
+
+        for (int yy = 0; yy < height + 2; yy++, dot += SCREENWIDTH)
+            *dot = *(tinttab + *dot);
+    }
 
     for (int xx = 0; xx < width; xx++)
     {
