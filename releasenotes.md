@@ -46,6 +46,7 @@
     * The armor bar is now a slightly darker green when the player has `100` armor or less.
     * The armor icon is now a dark gray when the player has no armor.
     * The power-up bar now updates when depleting.
+    * Health, armor and ammo now flash when they change.
 * The truncation of player messages when the `vid_widescreen` CVAR is `off` has improved in some instances.
 * The position of player messages and the map’s title in the automap has improved in some instances.
 * The vertical positions of the monsters’ shadows in *DOOM II’s* cast sequence have improved.

@@ -1002,8 +1002,12 @@ static void HU_DrawAltHUD(void)
     int             keypic_x = ALTHUD_RIGHT_X;
     const uint64_t  currenttime = I_GetTimeMS();
 
-    DrawAltHUDNumber(ALTHUD_LEFT_X - AltHUDNumberWidth(ABS(health)), ALTHUD_Y + 12,
-        health, color, (healthhighlight > currenttime ? tinttab80 : tinttab60));
+    if (r_hud_translucency)
+        DrawAltHUDNumber(ALTHUD_LEFT_X - AltHUDNumberWidth(ABS(health)), ALTHUD_Y + 12,
+            health, color, (healthhighlight > currenttime ? tinttab80 : tinttab60));
+    else
+        DrawAltHUDNumber(ALTHUD_LEFT_X - AltHUDNumberWidth(ABS(health)), ALTHUD_Y + 12,
+            health, (healthhighlight > currenttime ? WHITE : color), NULL);
 
     if ((health = MAX(0, health) * 200 / maxhealth) > 100)
     {
@@ -1037,8 +1041,13 @@ static void HU_DrawAltHUD(void)
 
     if (armor)
     {
-        DrawAltHUDNumber2(ALTHUD_LEFT_X - AltHUDNumber2Width(armor), ALTHUD_Y,
-            armor, color, (armorhighlight > currenttime ? tinttab80 : tinttab60));
+        if (r_hud_translucency)
+            DrawAltHUDNumber2(ALTHUD_LEFT_X - AltHUDNumber2Width(armor), ALTHUD_Y,
+                armor, color, (armorhighlight > currenttime ? tinttab80 : tinttab60));
+        else
+            DrawAltHUDNumber2(ALTHUD_LEFT_X - AltHUDNumber2Width(armor), ALTHUD_Y,
+                armor, (armorhighlight > currenttime ? WHITE : color), NULL);
+
         althudfunc(ALTHUD_LEFT_X + 5, ALTHUD_Y, altarmpatch, WHITE, color, tinttab60);
 
         if ((armor *= 200 / max_armor) > 100)
@@ -1103,8 +1112,12 @@ static void HU_DrawAltHUD(void)
         {
             int ammo = viewplayer->ammo[ammotype];
 
-            DrawAltHUDNumber(ALTHUD_RIGHT_X + 101 - AltHUDNumberWidth(ammo), ALTHUD_Y - 2,
-                ammo, color, (ammohighlight > currenttime ? tinttab80 : tinttab60));
+            if (r_hud_translucency)
+                DrawAltHUDNumber(ALTHUD_RIGHT_X + 101 - AltHUDNumberWidth(ammo), ALTHUD_Y - 2,
+                    ammo, color, (ammohighlight > currenttime ? tinttab80 : tinttab60));
+            else
+                DrawAltHUDNumber(ALTHUD_RIGHT_X + 101 - AltHUDNumberWidth(ammo), ALTHUD_Y - 2,
+                    ammo, (ammohighlight > currenttime ? WHITE : color), NULL);
 
             if (ammo)
             {
