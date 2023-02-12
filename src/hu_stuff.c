@@ -1131,6 +1131,8 @@ static void HU_DrawAltHUD(void)
                     fillrectfunc(0, ALTHUD_RIGHT_X + 100 - ammo, ALTHUD_Y + 13, ammo + 1,
                         8, (r_hud_translucency ? color : WHITE), false, true, tinttab25);
                     althudfunc(ALTHUD_RIGHT_X, ALTHUD_Y + 13, altrightpatch, WHITE, color, tinttab60);
+                    althudfunc(ALTHUD_RIGHT_X + 100, ALTHUD_Y + 13, altendpatch, WHITE, WHITE, NULL);
+                    althudfunc(ALTHUD_RIGHT_X + 100 - ammo - 2, ALTHUD_Y + 13, altmarkpatch, WHITE, WHITE, NULL);
                 }
                 else if ((ammo = 100 * ammo / max) < HUD_AMMO_MIN)
                 {
