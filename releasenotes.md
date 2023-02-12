@@ -72,6 +72,7 @@
 * The *BOOM*-compatible line special of 251 (“Scroll floor according to line vector”) now works correctly if used with a liquid sector and the `r_liquids_current` CVAR is `on`.
 * The underscores in the message displayed by the `IDBEHOLD` cheat now align correctly again.
 * The shadows cast by the corpses of monsters spawned at the start of the map are now positioned better when the `r_shadows` CVAR is `on`.
+* If the `ammo` CVAR is changed to a value greater than the maximum ammo for the player’s currently equipped weapon and they don’t have a backpack, they will now be given one.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
