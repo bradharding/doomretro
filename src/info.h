@@ -198,9 +198,11 @@ typedef enum
     MT_MUSICSOURCE,
     MT_GIBDTH,
 
+    // [BH] no longer used
     MT_BLUEBLOOD,
     MT_GREENBLOOD,
     MT_FUZZYBLOOD,
+
     MT_TRAIL,
 
     // [BH] Mobjs 150 to 249 (100 extra mobjs to use in DeHackEd patches)

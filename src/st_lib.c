@@ -36,7 +36,6 @@
 ========================================================================
 */
 
-#include "doomstat.h"
 #include "hu_stuff.h"
 #include "i_swap.h"
 #include "m_config.h"
@@ -256,10 +255,12 @@ void STlib_UpdateMultIcon(st_multicon_t *mi, bool refresh)
 
 void STlib_UpdateArmsIcon(st_multicon_t *mi, bool refresh, int i)
 {
-    if ((mi->oldinum != *mi->inum || refresh) && *mi->inum != -1)
+    const int   inum = *mi->inum;
+
+    if ((mi->oldinum != inum || refresh) && inum != -1)
     {
-        statbarnumfunc(i + 2, (*mi->inum ? 160 : 93), 47, mi->x + WIDESCREENDELTA, mi->y, mi->patch[*mi->inum]);
-        mi->oldinum = *mi->inum;
+        statbarnumfunc(i + 2, (inum ? 160 : 93), 47, mi->x + WIDESCREENDELTA, mi->y, mi->patch[inum]);
+        mi->oldinum = inum;
     }
 }
 

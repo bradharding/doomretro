@@ -124,6 +124,10 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../src/i_video.h" />
+		<Unit filename="../src/i_winmusic.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../src/i_winmusic.h" />
 		<Unit filename="../src/info.c">
 			<Option compilerVar="CC" />
 		</Unit>
