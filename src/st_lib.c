@@ -73,8 +73,6 @@ static void STlib_DrawLowNum(int number, int color, int shadow, int x, int y, pa
         "111111001111110011221122112211221111112211111122002211220022112211111122111111220022222200222222"
     };
 
-    x += WIDESCREENDELTA;
-
     for (int i = 0, j = (y * SCREENWIDTH + x) * SCREENSCALE; i < 96; i++)
     {
         const char  dot = lownums[number][i];
@@ -106,8 +104,6 @@ static void STlib_DrawHighNum(int number, int color, int shadow, int x, int y, p
         "011110001111110011021120112211220111122211111122112211201122112211111122011110220022222200022220",
         "011110001111110011021120112211221111112201111122002211220002112201111122011110220002222200022220"
     };
-
-    x += WIDESCREENDELTA;
 
     for (int i = 0, j = (y * SCREENWIDTH + x) * SCREENSCALE; i < 96; i++)
     {
@@ -203,7 +199,7 @@ void STlib_UpdateBigHealthNum(st_number_t *n)
 void STlib_UpdateSmallNum(st_number_t *n)
 {
     int num = MAX(0, *n->num);
-    int x = n->x;
+    int x = n->x + WIDESCREENDELTA;
     int y = n->y;
 
     // in the special case of 0, you draw 0
@@ -262,7 +258,7 @@ void STlib_UpdateArmsIcon(st_multicon_t *mi, bool refresh, int i)
 {
     if ((mi->oldinum != *mi->inum || refresh) && *mi->inum != -1)
     {
-        statbarnumfunc(i + 2, (*mi->inum ? 160 : 93), 47, mi->x, mi->y, mi->patch[*mi->inum]);
+        statbarnumfunc(i + 2, (*mi->inum ? 160 : 93), 47, mi->x + WIDESCREENDELTA, mi->y, mi->patch[*mi->inum]);
         mi->oldinum = *mi->inum;
     }
 }

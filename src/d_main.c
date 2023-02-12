@@ -440,7 +440,7 @@ void D_Display(void)
 
     do
     {
-        uint64_t    tics;
+        int64_t    tics;
 
         do
         {
