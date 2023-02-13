@@ -1054,36 +1054,49 @@ static void HU_DrawAltHUD(void)
         {
             if (r_hud_translucency)
             {
-                barcolor = (viewplayer->armortype == blue_armor_class ? blue1 : green1);
-
-                fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 2, 101, 4, barcolor, true, true, tinttab25);
-                fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 2, armor - 100 + (armor == 200),
-                    4, barcolor, true, (armor == 200), tinttab40);
+                if (viewplayer->armortype == green_armor_class)
+                {
+                    fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 2, 101, 4, green1, true, true, tinttab25);
+                    fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 2, armor - 100 + (armor == 200),
+                        4, green1, true, (armor == 200), tinttab40);
+                }
+                else
+                {
+                    fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 2, 101, 4, blue1, true, true, tinttab50);
+                    fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 2, armor - 100 + (armor == 200),
+                        4, blue1, true, (armor == 200), tinttab33);
+                }
             }
             else
             {
-                if (viewplayer->armortype == blue_armor_class)
-                {
-                    fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 2, 101, 4, blue2, true, true, NULL);
-                    fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 2, armor - 100 + (armor == 200),
-                        4, blue1, true, (armor == 200), NULL);
-                }
-                else
+                if (viewplayer->armortype == green_armor_class)
                 {
                     fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 2, 101, 4, green2, true, true, NULL);
                     fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 2, armor - 100 + (armor == 200),
                         4, green1, true, (armor == 200), NULL);
+                }
+                else
+                {
+                    fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 2, 101, 4, blue2, true, true, NULL);
+                    fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 2, armor - 100 + (armor == 200),
+                        4, blue1, true, (armor == 200), NULL);
                 }
             }
         }
         else
         {
             if (r_hud_translucency)
-                fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 2, armor + (armor == 100), 4,
-                    (viewplayer->armortype == blue_armor_class ? blue1 : green1), true, true, tinttab25);
+            {
+                if (viewplayer->armortype == green_armor_class)
+                    fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 2, armor + (armor == 100),
+                        4, green1, true, true, tinttab25);
+                else
+                    fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 2, armor + (armor == 100),
+                        4, blue1, true, true, tinttab33);
+            }
             else
-                fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 2, armor + (armor == 100), 4,
-                    (viewplayer->armortype == blue_armor_class ? blue2 : green2), true, true, NULL);
+                fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 2, armor + (armor == 100),
+                    4, (viewplayer->armortype == blue_armor_class ? blue2 : green2), true, true, NULL);
         }
     }
     else
