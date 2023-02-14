@@ -1266,9 +1266,9 @@ static void HU_DrawAltHUD(void)
             && (powerupbar = (powerupbar == INT_MAX ? 101 : (int)(powerupbar * 101.0 / powertics + 0.5))))
         {
             fillrectfunc2(0, ALTHUD_RIGHT_X, ALTHUD_Y + 27, 101 - powerupbar, 2,
-                (r_hud_translucency ? color : darkgray), false, false, tinttab60, tinttab10);
+                (r_hud_translucency ? color : darkgray), false, false, tinttab10, NULL);
             fillrectfunc2(0, ALTHUD_RIGHT_X + 101 - powerupbar, ALTHUD_Y + 27, powerupbar, 2,
-                color, false, false, tinttab60, tinttab60);
+                color, false, false, tinttab60, NULL);
         }
     }
 }

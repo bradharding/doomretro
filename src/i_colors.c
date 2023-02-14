@@ -41,10 +41,7 @@
 #include "doomstat.h"
 #include "i_colors.h"
 #include "i_swap.h"
-#include "i_video.h"
-#include "v_video.h"
 #include "w_wad.h"
-#include "z_zone.h"
 
 #define R   1
 #define W   2

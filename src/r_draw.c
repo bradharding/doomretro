@@ -1122,12 +1122,6 @@ void R_DrawPausedFuzzColumns(void)
 
 //
 // R_DrawTranslatedColumn
-// Used to draw player sprites
-//  with the green colorramp mapped to others.
-// Could be used with different translation
-//  tables, e.g. the lighter colored version
-//  of the BaronOfHell, the HellKnight, uses
-//  identical sprites, kinda brightened up.
 //
 byte    translationtables[256 * 3];
 
