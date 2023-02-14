@@ -83,12 +83,12 @@ void V_InitColorTranslation(void);
 // Allocates buffer screens, call before R_Init.
 void V_Init(void);
 
-void V_FillRect(int screen, int x, int y, int width, int height,
-    int color, bool left, bool right, const byte *tinttab);
-void V_FillTransRect(int screen, int x, int y, int width, int height,
-    int color, bool left, bool right, const byte *tinttab);
-void V_FillSoftTransRect(int screen, int x, int y, int width, int height,
-    int color, bool left, bool right, const byte *tinttab);
+void V_FillRect(int screen, int x, int y, int width, int height, int color,
+    bool left, bool right, const byte *tinttab1, const byte *tinttab2);
+void V_FillTransRect(int screen, int x, int y, int width, int height, int color,
+    bool left, bool right, const byte *tinttab1, const byte *tinttab2);
+void V_FillSoftTransRect(int screen, int x, int y, int width, int height, int color,
+    bool left, bool right, const byte *tinttab1, const byte *tinttab2);
 
 void V_DrawPatch(int x, int y, int screen, patch_t *patch);
 void V_DrawWidePatch(int x, int y, int screen, patch_t *patch);

@@ -1163,7 +1163,7 @@ static void R_DrawPlayerSprites(void)
     // add all active psprites
     if (invisibility && (invisibility > STARTFLASHING || (invisibility & FLASHONTIC)) && r_textures)
     {
-        V_FillRect(1, viewwindowx, viewwindowy, viewwidth, viewheight, PINK, false, false, NULL);
+        V_FillRect(1, viewwindowx, viewwindowy, viewwidth, viewheight, PINK, false, false, NULL, NULL);
         R_DrawPlayerSprite(weapon, true, (weaponstate->dehacked || altered));
 
         if (flashstate)
