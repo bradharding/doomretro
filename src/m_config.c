@@ -1192,7 +1192,8 @@ void M_LoadCVARs(char *filename)
             free(temp3);
         }
 
-        M_CheckCVARs();
         cvarsloaded = true;
     }
+
+    M_CheckCVARs();
 }
