@@ -2781,8 +2781,8 @@ mobjinfo_t mobjinfo[] =
         /* meleerange           */ MELEERANGE,
         /* name1                */ "medikit",
         /* plural1              */ "medikits",
-        /* name2                */ "",
-        /* plural2              */ "",
+        /* name2                */ "medkit",
+        /* plural2              */ "medkits",
         /* name3                */ "",
         /* plural3              */ ""
     },
