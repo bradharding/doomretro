@@ -2,7 +2,7 @@
 
 #### DOOM Retro v4.8
 
-* *DOOM Retro* is now built using v17.4.4 of [*Microsoft Visual Studio Community 2022*](https://visualstudio.microsoft.com/vs/community/).
+* *DOOM Retro* is now built using v17.4.5 of [*Microsoft Visual Studio Community 2022*](https://visualstudio.microsoft.com/vs/community/).
 * *DOOM Retro* now uses [*SDL v2.26.3*](https://www.libsdl.org/), [*SDL_mixer v2.6.3*](https://www.libsdl.org/SDL_mixer) and [*SDL_image v2.6.3*](https://www.libsdl.org/SDL_image).
 * Several optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * When *DOOM Retro* is run for the first time, the WAD launcher will now also look for the IWADs included with installations of [*DOOM Eternal*](https://store.steampowered.com/app/782330/DOOM_Eternal/).
