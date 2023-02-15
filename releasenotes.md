@@ -38,8 +38,8 @@
 * The widescreen HUD is now brought in from the left and right edges of ultra-wide displays.
 * These changes have been made to the alternate widescreen HUD:
   * The position of the player’s health is now fixed when `0`.
-  * A bug is fixed whereby the currently equipped weapon’s silhouette wouldn’t be displayed in some rare instances.
-  * The power-up bar is no longer displayed if the player uses the `IDBEHOLD` cheat and their currently equipped weapon has no ammo.
+  * A bug is fixed whereby the silhouette of the player’s currently equipped weapon wouldn’t be displayed in some rare instances.
+  * The power-up bar is no longer displayed if the player uses the `IDBEHOLD` cheat and they have their fists or chainsaw equipped.
   * The number of notches in the ammo bar no longer doubles when the player has a backpack. Instead, if the player has more than the usual maximum amount of ammo for their currently equipped weapon, a second bar overlaps the first to show the difference.
   * When the `r_hud_translucency` CVAR is `off`:
     * The white elements of the HUD are now not so bright.
@@ -48,12 +48,12 @@
     * The power-up bar now updates when depleting.
     * Health, armor and ammo now flash when they change.
 * The truncation of player messages when the `vid_widescreen` CVAR is `off` has improved in some instances.
-* The position of player messages and the map’s title in the automap has improved in some instances.
-* The vertical positions of the monsters’ shadows in *DOOM II’s* cast sequence have improved.
+* The position of player messages, and the map’s title in the automap, has improved in some instances.
+* The vertical positions of the monsters’ shadows in *DOOM II’s* cast sequence have improved when the `r_shadows` CVAR is `on`.
 * The position of text displayed in the top right of the screen has improved in some instances.
 * The correct map now opens when entering `map phobosmissioncontrol` or `map techgonebad` in the console.
 * Minor improvements have been made to translating certain words when the `english` CVAR is changed to `international`.
-* The fuzz effect applied to both the player’s weapon when they have a partial invisibility power-up, and to spectres, is now more pixelated.
+* The fuzz effect applied to both the player’s weapon when they have a partial invisibility power-up, and to spectres, has been redesigned to be more pixelated.
 * Certain partial translucency effects when the `r_sprites_translucency` CVAR is `on` are no longer applied if a custom `PLAYPAL` lump is present in a PWAD.
 * When the `r_rockettrails` CVAR is `on`:
   * The smoke trailing behind rockets fired by the player and cyberdemons is now a lighter gray.
@@ -74,6 +74,7 @@
 * The underscores in the message displayed by the `IDBEHOLD` cheat now align correctly again.
 * The shadows cast by the corpses of monsters spawned at the start of the map are now positioned better when the `r_shadows` CVAR is `on`.
 * If the `ammo` CVAR is changed in the console to be greater than the maximum ammo for the player’s currently equipped weapon and they don’t have a backpack, they will now be given one.
+* The timer displayed by setting the `timer` CCMD, and the time the player has spent in the current map displayed using the `am_playerstats` CVAR, are now synchronized.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
