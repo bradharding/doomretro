@@ -1018,6 +1018,13 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
                     else if (prevletter2 == '!')
                         x -= 2;
                 }
+                else if (prevletter == BOLDONCHAR && prevletter2 == '\t')
+                {
+                    if (letter == '"' || letter == '\'' || letter == '(')
+                        x -= 2;
+                    else if (letter == '4')
+                        x--;
+                }
                 else if (prevletter == BOLDOFFCHAR)
                 {
                     if (letter == ' ' && prevletter2 == 'r')
@@ -1026,13 +1033,6 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
                         x--;
                     else if (letter == ',' && (prevletter2 == '"' || prevletter2 == '\'' || prevletter2 == 'r'))
                         x -= 2;
-                    else if (prevletter2 == '\t')
-                    {
-                        if (letter == '"' || letter == '\'' || letter == '(')
-                            x -= 2;
-                        else if (letter == '4')
-                            x--;
-                    }
                     else if (letter == ',' && prevletter2 == 'e')
                         x--;
                     else if (letter == '.' && prevletter2 == '\"')
