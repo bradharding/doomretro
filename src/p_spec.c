@@ -2467,7 +2467,11 @@ bool EV_DoDonut(line_t *line)
 void P_SetTimer(int minutes)
 {
     timer = minutes;
-    timeremaining = timer * 60 * TICRATE + (maptime % TICRATE);
+
+    if (minutes)
+        minutes += (maptime % TICRATE);
+
+    timeremaining = minutes * 60 * TICRATE;
 }
 
 //
