@@ -2337,7 +2337,7 @@ void P_UpdateSpecials(void)
     if (menuactive)
         return;
 
-    if (timer && !--timeremaining)
+    if (timer && !timeremaining)
         G_ExitLevel();
 
     // DO BUTTONS
@@ -2467,11 +2467,7 @@ bool EV_DoDonut(line_t *line)
 void P_SetTimer(int minutes)
 {
     timer = minutes;
-
-    if (minutes)
-        minutes += (maptime % TICRATE);
-
-    timeremaining = minutes * 60 * TICRATE;
+    timeremaining = timer * 60 * TICRATE;
 }
 
 //

@@ -251,4 +251,7 @@ void P_Ticker(void)
 
     maptime++;
     stat_timeplayed = SafeAdd(stat_timeplayed, 1);
+
+    if (timer)
+        timeremaining--;
 }
