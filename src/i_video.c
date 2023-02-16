@@ -559,8 +559,10 @@ static void I_GetEvent(void)
 
             case SDL_TEXTINPUT:
             {
+                void    *text = SDL_iconv_utf8_ucs4(Event->text.text);
+
+                ev.data1 = (text ? ((char *)text)[0] : Event->text.text[strlen(Event->text.text) - 1]);
                 ev.type = ev_textinput;
-                ev.data1 = ((char *)SDL_iconv_utf8_ucs4(Event->text.text))[0];
                 D_PostEvent(&ev);
                 break;
             }
