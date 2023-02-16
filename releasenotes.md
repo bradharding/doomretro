@@ -25,14 +25,14 @@
   * Pressing a mouse button on the title screen without moving the mouse now opens the menu rather than just showing the mouse pointer.
 * The fade effect when opening the menu is now slightly faster than closing them when the `fade` CVAR is `on`.
 * Two additional savegame slots now appear in the load and save game menus.
-* A random sound effect now also plays when quitting the game by entering the `quit` CCMD in the console.
+* A random sound effect now plays when quitting the game by entering the `quit` CCMD in the console.
 * Improvements have been made to parsing [`BRGHTMPS`](https://raw.githubusercontent.com/bradharding/doomretro/master/res/BRGHTMPS) lumps.
 * These changes have been made to the `playerstats` CCMD:
   * The number of times the player loads a savegame is now displayed.
   * The number of monsters gibbed by the player is now displayed.
   * The number of cells the player has picked up is no longer displayed when playing *DOOM (Shareware)*.
   * The number of times the player has died is now corrected when they are resurrected using either the `resurrect` CCMD or `IDDQD` cheat.
-* Minor improvements have been made to the support for `DEHACKED` and `MAPINFO` lumps.
+* Improvements have been made to the support for `DEHACKED` and `MAPINFO` lumps.
 * *DOOM’s* stimpacks and medikits no longer appear in [*Chex Quest*](https://doomwiki.org/wiki/Chex_Quest).
 * The player’s health, armor and ammo are now displayed better in the status bar and widescreen HUD if they start with a `1`.
 * The widescreen HUD is now brought in from the left and right edges of ultra-wide displays.
@@ -74,7 +74,7 @@
 * The underscores in the message displayed by the `IDBEHOLD` cheat now align correctly again.
 * The shadows cast by the corpses of monsters spawned at the start of the map are now positioned better when the `r_shadows` CVAR is `on`.
 * If the `ammo` CVAR is changed in the console to be greater than the maximum ammo for the player’s currently equipped weapon and they don’t have a backpack, they will now be given one.
-* The timer displayed by setting the `timer` CCMD, and the time the player has spent in the current map displayed using the `am_playerstats` CVAR, are now synchronized.
+* The timer displayed by setting the `timer` CCMD, and the time the player has spent in the current map displayed using the `am_playerstats` CVAR, now update in sync.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
