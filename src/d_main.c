@@ -396,7 +396,7 @@ void D_Display(void)
 
             if (gamestate == GS_LEVEL)
             {
-                if (timeremaining)
+                if (timer)
                     C_UpdateTimerOverlay();
 
                 if (viewplayer->cheats & CF_MYPOS)

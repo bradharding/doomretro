@@ -1194,7 +1194,7 @@ void C_UpdatePlayerPositionOverlay(void)
     if (vid_showfps && framespersecond)
         y += OVERLAYLINEHEIGHT + OVERLAYSPACING;
 
-    if (timeremaining)
+    if (timer)
         y += OVERLAYLINEHEIGHT + OVERLAYSPACING;
 
     if (automapactive && !am_followmode)
@@ -1251,7 +1251,7 @@ void C_UpdatePathOverlay(void)
             if (vid_showfps && framespersecond)
                 y += OVERLAYLINEHEIGHT + OVERLAYSPACING;
 
-            if (timeremaining)
+            if (timer)
                 y += OVERLAYLINEHEIGHT + OVERLAYSPACING;
 
             if (viewplayer->cheats & CF_MYPOS)
@@ -1283,7 +1283,7 @@ void C_UpdatePlayerStatsOverlay(void)
         if (vid_showfps && framespersecond)
             y += OVERLAYLINEHEIGHT + OVERLAYSPACING;
 
-        if (timeremaining)
+        if (timer)
             y += OVERLAYLINEHEIGHT + OVERLAYSPACING;
 
         if (viewplayer->cheats & CF_MYPOS)
