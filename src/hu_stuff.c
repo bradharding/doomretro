@@ -840,32 +840,38 @@ static void HU_AltInit(void)
     altkeypics[4].patch = altskullpatch;
     altkeypics[5].patch = altskullpatch;
 
-    for (int i = 0; i < NUMWEAPONS; i++)
-        if (*weaponinfo[i].spritename)
-        {
-            const int   lump = W_CheckNumForName(weaponinfo[i].spritename);
+    if (chex || FREEDOOM || hacx || REKKR)
+        weaponschanged = true;
+    else
+    {
+        if (!BTSX)
+            for (int i = 0; i < NUMWEAPONS; i++)
+                if (*weaponinfo[i].spritename)
+                {
+                    const int   lump = W_CheckNumForName(weaponinfo[i].spritename);
 
-            if (lump >= 0
-                && lumpinfo[lump]->wadfile->type == PWAD
-                && !M_StringEndsWith(lumpinfo[i]->wadfile->path, DOOMRETRO_RESOURCEWAD)
-                && !fixspriteoffsets)
+                    if (lump >= 0
+                        && lumpinfo[lump]->wadfile->type == PWAD
+                        && !M_StringEndsWith(lumpinfo[i]->wadfile->path, DOOMRETRO_RESOURCEWAD)
+                        && !fixspriteoffsets)
+                    {
+                        weaponschanged = true;
+                        break;
+                    }
+                }
+
+        if (!weaponschanged)
+            for (int i = 1; i < NUMWEAPONS; i++)
             {
-                weaponschanged = true;
-                break;
-            }
-        }
+                M_snprintf(buffer, sizeof(buffer), "DRHUDWP%i", i);
 
-    if ((!weaponschanged || BTSX) && !chex && !REKKRSA && !FREEDOOM)
-        for (int i = 1; i < NUMWEAPONS; i++)
-        {
-            M_snprintf(buffer, sizeof(buffer), "DRHUDWP%i", i);
-
-            if ((altweapon[i].patch = W_CacheLumpName(buffer)))
-            {
-                altweapon[i].x = (i == wp_chainsaw ? 87 : 107);
-                altweapon[i].y = ALTHUD_Y + 21 - SHORT(altweapon[i].patch->height);
+                if ((altweapon[i].patch = W_CacheLumpName(buffer)))
+                {
+                    altweapon[i].x = (i == wp_chainsaw ? 87 : 107);
+                    altweapon[i].y = ALTHUD_Y + 21 - SHORT(altweapon[i].patch->height);
+                }
             }
-        }
+    }
 
     altleftpatch = W_CacheLumpName("DRHUDL");
     altrightpatch = W_CacheLumpName("DRHUDR");
