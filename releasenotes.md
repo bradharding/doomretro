@@ -23,7 +23,7 @@
 * When the `m_pointer` CVAR is `on`:
   * The mouse wheel may now be used to scroll among menu items again.
   * Pressing a mouse button on the title screen without moving the mouse now opens the menu rather than just showing the mouse pointer.
-* The fade effect when opening the menu is now slightly faster than closing them when the `fade` CVAR is `on`.
+* The fade effect when opening the menu is now slightly faster than closing it when the `fade` CVAR is `on`.
 * Two additional savegame slots now appear in the load and save game menus.
 * A random sound effect now plays when quitting the game by entering the `quit` CCMD in the console.
 * Improvements have been made to parsing [`BRGHTMPS`](https://raw.githubusercontent.com/bradharding/doomretro/master/res/BRGHTMPS) lumps.
@@ -73,7 +73,7 @@
 * The underscores in the message displayed by the `IDBEHOLD` cheat now align correctly again.
 * The shadows cast by the corpses of monsters spawned at the start of the map are now positioned better when the `r_shadows` CVAR is `on`.
 * If the `ammo` CVAR is changed in the console to be greater than the maximum ammo for the player’s currently equipped weapon and they don’t have a backpack, they will now be given one.
-* The timer displayed by setting the `timer` CCMD, and the time the player has spent in the current map displayed using the `am_playerstats` CVAR, now update in sync.
+* The timer displayed by setting the `timer` CCMD, and the time the player has spent in the current map displayed by the `am_playerstats` CVAR, now update in sync with each other.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
