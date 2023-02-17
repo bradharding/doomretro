@@ -155,7 +155,7 @@ bool            pistolstart;            // [BH] checkparm of -pistolstart
 bool            regenhealth;
 bool            respawnitems;
 bool            respawnmonsters;        // checkparm of -respawn
-bool            coopspawns;             // checkparm of -coop_spawns
+bool            solonet;                // checkparm of -solonet
 
 skill_t         startskill;
 int             startepisode;
@@ -2019,12 +2019,14 @@ static void D_DoomMainSetup(void)
     else if ((fastparm = M_CheckParm("-fastmonsters")))
         C_Output("A " BOLD("-fastmonsters") " parameter was found on the command-line. Monsters will now be fast.");
 
-    if ((coopspawns = M_CheckParm("-coop_spawns")))
-        C_Output("A " BOLD("-coop_spawns") " parameter was found on the command-line. "
-            "Things usually intended for multiplayer will now spawn at the start of each map.");
-    else if ((coopspawns = M_CheckParm("-coopspawns")))
-        C_Output("A " BOLD("-coopspawns") " parameter was found on the command-line. "
-            "Things usually intended for multiplayer will now spawn at the start of each map.");
+    if ((solonet = M_CheckParm("-solonet")))
+        C_Output("A " BOLD("-solonet") " parameter was found on the command-line. "
+            "Things usually intended for multiplayer will now spawn at the start of each map, "
+            "and the player will respawn without restarting the map if they die.");
+    else if ((solonet = M_CheckParm("-solo-net")))
+        C_Output("A " BOLD("-solo-net") " parameter was found on the command-line. "
+            "Things usually intended for multiplayer will now spawn at the start of each map, "
+            "and the player will respawn without restarting the map if they die.");
 
     if ((devparm = M_CheckParm("-devparm")))
         C_Output("A " BOLD("-devparm") " parameter was found on the command-line. %s", s_D_DEVSTR);

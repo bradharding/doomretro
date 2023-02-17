@@ -1157,7 +1157,7 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, const bool spawnmonsters)
         type = MusicSourceMax;
     }
 
-    if ((options & MTF_NOTSINGLE) && !coopspawns)
+    if ((options & MTF_NOTSINGLE) && !solonet)
         return NULL;
 
     if (!(options & (gameskill == sk_baby ? 1 : (gameskill == sk_nightmare ? 4 : (1 << (gameskill - 1))))))

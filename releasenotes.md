@@ -67,7 +67,6 @@
 * A crash no longer occurs when displaying patches taller than 200 pixels.
 * The disk icon displayed in the top right of the screen when the `r_diskicon` CVAR is `on` is now double the size when the `r_detail` CVAR is `low`.
 * The player’s view no longer bounces once they land after a fall if either no clipping mode or freeze mode are enabled.
-* The `-solonet` command-line parameter has now been replaced with `-coop_spawns`.
 * The player’s health, armor, ammo and weapon are no longer reset by the `resetall` CCMD.
 * The `kill` CCMD can no longer be used to kill the player if either god mode or buddha mode are enabled, or if they have an invulnerability power-up.
 * The *BOOM*-compatible line special of 251 (“Scroll floor according to line vector”) now works correctly if used with a liquid sector and the `r_liquids_current` CVAR is `on`.
