@@ -3356,6 +3356,16 @@ static void deh_procPars(DEHFILE *fpin, char *line)
     }
 }
 
+static D_UpdateConsoleCheat(char *cheat1, char *cheat2)
+{
+    for (int i = 0; *consolecmds[i].name; i++)
+        if (consolecmds[i].type == CT_CHEAT && M_StringCompare(consolecmds[i].name, cheat1))
+        {
+            consolecmds[i].name = M_StringDuplicate(cheat2);
+            break;
+        }
+}
+
 // ====================================================================
 // deh_procCheat
 // Purpose: Handle DEH Cheat block
@@ -3399,13 +3409,7 @@ static void deh_procCheat(DEHFILE *fpin, char *line)
             while (*p == ' ')
                 p++;
 
-            for (int i = 0; *consolecmds[i].name; i++)
-                if (M_StringCompare(consolecmds[i].name, cheat_mus.sequence))
-                {
-                    consolecmds[i].name = M_StringDuplicate(p);
-                    break;
-                }
-
+            D_UpdateConsoleCheat(cheat_mus.sequence, p);
             cheat_mus.sequence = M_StringDuplicate(p);
             cheat_mus_xy.sequence = M_StringDuplicate(p);
         }
@@ -3419,13 +3423,7 @@ static void deh_procCheat(DEHFILE *fpin, char *line)
             while (*p == ' ')
                 p++;
 
-            for (int i = 0; *consolecmds[i].name; i++)
-                if (M_StringCompare(consolecmds[i].name, cheat_choppers.sequence))
-                {
-                    consolecmds[i].name = M_StringDuplicate(p);
-                    break;
-                }
-
+            D_UpdateConsoleCheat(cheat_choppers.sequence, p);
             cheat_choppers.sequence = M_StringDuplicate(p);
         }
         else if (M_StringCompare(key, deh_cheat[2]))
@@ -3438,13 +3436,7 @@ static void deh_procCheat(DEHFILE *fpin, char *line)
             while (*p == ' ')
                 p++;
 
-            for (int i = 0; *consolecmds[i].name; i++)
-                if (M_StringCompare(consolecmds[i].name, cheat_god.sequence))
-                {
-                    consolecmds[i].name = M_StringDuplicate(p);
-                    break;
-                }
-
+            D_UpdateConsoleCheat(cheat_god.sequence, p);
             cheat_god.sequence = M_StringDuplicate(p);
         }
         else if (M_StringCompare(key, deh_cheat[3]))
@@ -3457,13 +3449,7 @@ static void deh_procCheat(DEHFILE *fpin, char *line)
             while (*p == ' ')
                 p++;
 
-            for (int i = 0; *consolecmds[i].name; i++)
-                if (M_StringCompare(consolecmds[i].name, cheat_ammo.sequence))
-                {
-                    consolecmds[i].name = M_StringDuplicate(p);
-                    break;
-                }
-
+            D_UpdateConsoleCheat(cheat_ammo.sequence, p);
             cheat_ammo.sequence = M_StringDuplicate(p);
         }
         else if (M_StringCompare(key, deh_cheat[4]))
@@ -3476,13 +3462,7 @@ static void deh_procCheat(DEHFILE *fpin, char *line)
             while (*p == ' ')
                 p++;
 
-            for (int i = 0; *consolecmds[i].name; i++)
-                if (M_StringCompare(consolecmds[i].name, cheat_ammonokey.sequence))
-                {
-                    consolecmds[i].name = M_StringDuplicate(p);
-                    break;
-                }
-
+            D_UpdateConsoleCheat(cheat_ammonokey.sequence, p);
             cheat_ammonokey.sequence = M_StringDuplicate(p);
         }
         else if (M_StringCompare(key, deh_cheat[5]))
@@ -3495,13 +3475,7 @@ static void deh_procCheat(DEHFILE *fpin, char *line)
             while (*p == ' ')
                 p++;
 
-            for (int i = 0; *consolecmds[i].name; i++)
-                if (M_StringCompare(consolecmds[i].name, cheat_noclip.sequence))
-                {
-                    consolecmds[i].name = M_StringDuplicate(p);
-                    break;
-                }
-
+            D_UpdateConsoleCheat(cheat_noclip.sequence, p);
             cheat_noclip.sequence = M_StringDuplicate(p);
         }
         else if (M_StringCompare(key, deh_cheat[6]))
@@ -3514,13 +3488,7 @@ static void deh_procCheat(DEHFILE *fpin, char *line)
             while (*p == ' ')
                 p++;
 
-            for (int i = 0; *consolecmds[i].name; i++)
-                if (M_StringCompare(consolecmds[i].name, cheat_commercial_noclip.sequence))
-                {
-                    consolecmds[i].name = M_StringDuplicate(p);
-                    break;
-                }
-
+            D_UpdateConsoleCheat(cheat_commercial_noclip.sequence, p);
             cheat_commercial_noclip.sequence = M_StringDuplicate(p);
         }
         else if (M_StringCompare(key, deh_cheat[7]))
@@ -3533,13 +3501,7 @@ static void deh_procCheat(DEHFILE *fpin, char *line)
             while (*p == ' ')
                 p++;
 
-            for (int i = 0; *consolecmds[i].name; i++)
-                if (M_StringCompare(consolecmds[i].name, cheat_powerup[0].sequence))
-                {
-                    consolecmds[i].name = M_StringDuplicate(p);
-                    break;
-                }
-
+            D_UpdateConsoleCheat(cheat_powerup[0].sequence, p);
             cheat_powerup[0].sequence = M_StringDuplicate(p);
         }
         else if (M_StringCompare(key, deh_cheat[8]))
@@ -3552,13 +3514,7 @@ static void deh_procCheat(DEHFILE *fpin, char *line)
             while (*p == ' ')
                 p++;
 
-            for (int i = 0; *consolecmds[i].name; i++)
-                if (M_StringCompare(consolecmds[i].name, cheat_powerup[1].sequence))
-                {
-                    consolecmds[i].name = M_StringDuplicate(p);
-                    break;
-                }
-
+            D_UpdateConsoleCheat(cheat_powerup[1].sequence, p);
             cheat_powerup[1].sequence = M_StringDuplicate(p);
         }
         else if (M_StringCompare(key, deh_cheat[9]))
@@ -3571,13 +3527,7 @@ static void deh_procCheat(DEHFILE *fpin, char *line)
             while (*p == ' ')
                 p++;
 
-            for (int i = 0; *consolecmds[i].name; i++)
-                if (M_StringCompare(consolecmds[i].name, cheat_powerup[2].sequence))
-                {
-                    consolecmds[i].name = M_StringDuplicate(p);
-                    break;
-                }
-
+            D_UpdateConsoleCheat(cheat_powerup[2].sequence, p);
             cheat_powerup[2].sequence = M_StringDuplicate(p);
         }
         else if (M_StringCompare(key, deh_cheat[10]))
@@ -3590,13 +3540,7 @@ static void deh_procCheat(DEHFILE *fpin, char *line)
             while (*p == ' ')
                 p++;
 
-            for (int i = 0; *consolecmds[i].name; i++)
-                if (M_StringCompare(consolecmds[i].name, cheat_powerup[3].sequence))
-                {
-                    consolecmds[i].name = M_StringDuplicate(p);
-                    break;
-                }
-
+            D_UpdateConsoleCheat(cheat_powerup[3].sequence, p);
             cheat_powerup[3].sequence = M_StringDuplicate(p);
         }
         else if (M_StringCompare(key, deh_cheat[11]))
@@ -3609,13 +3553,7 @@ static void deh_procCheat(DEHFILE *fpin, char *line)
             while (*p == ' ')
                 p++;
 
-            for (int i = 0; *consolecmds[i].name; i++)
-                if (M_StringCompare(consolecmds[i].name, cheat_powerup[4].sequence))
-                {
-                    consolecmds[i].name = M_StringDuplicate(p);
-                    break;
-                }
-
+            D_UpdateConsoleCheat(cheat_powerup[4].sequence, p);
             cheat_powerup[4].sequence = M_StringDuplicate(p);
         }
         else if (M_StringCompare(key, deh_cheat[12]))
@@ -3628,13 +3566,7 @@ static void deh_procCheat(DEHFILE *fpin, char *line)
             while (*p == ' ')
                 p++;
 
-            for (int i = 0; *consolecmds[i].name; i++)
-                if (M_StringCompare(consolecmds[i].name, cheat_powerup[5].sequence))
-                {
-                    consolecmds[i].name = M_StringDuplicate(p);
-                    break;
-                }
-
+            D_UpdateConsoleCheat(cheat_powerup[5].sequence, p);
             cheat_powerup[5].sequence = M_StringDuplicate(p);
         }
         else if (M_StringCompare(key, deh_cheat[13]))
@@ -3647,13 +3579,7 @@ static void deh_procCheat(DEHFILE *fpin, char *line)
             while (*p == ' ')
                 p++;
 
-            for (int i = 0; *consolecmds[i].name; i++)
-                if (M_StringCompare(consolecmds[i].name, cheat_powerup[6].sequence))
-                {
-                    consolecmds[i].name = M_StringDuplicate(p);
-                    break;
-                }
-
+            D_UpdateConsoleCheat(cheat_powerup[6].sequence, p);
             cheat_powerup[6].sequence = M_StringDuplicate(p);
         }
         else if (M_StringCompare(key, deh_cheat[14]))
@@ -3666,13 +3592,7 @@ static void deh_procCheat(DEHFILE *fpin, char *line)
             while (*p == ' ')
                 p++;
 
-            for (int i = 0; *consolecmds[i].name; i++)
-                if (M_StringCompare(consolecmds[i].name, cheat_clev.sequence))
-                {
-                    consolecmds[i].name = M_StringDuplicate(p);
-                    break;
-                }
-
+            D_UpdateConsoleCheat(cheat_clev.sequence, p);
             cheat_clev.sequence = M_StringDuplicate(p);
             cheat_clev_xy.sequence = M_StringDuplicate(p);
         }
@@ -3686,13 +3606,7 @@ static void deh_procCheat(DEHFILE *fpin, char *line)
             while (*p == ' ')
                 p++;
 
-            for (int i = 0; *consolecmds[i].name; i++)
-                if (M_StringCompare(consolecmds[i].name, cheat_mypos.sequence))
-                {
-                    consolecmds[i].name = M_StringDuplicate(p);
-                    break;
-                }
-
+            D_UpdateConsoleCheat(cheat_mypos.sequence, p);
             cheat_mypos.sequence = M_StringDuplicate(p);
         }
 
