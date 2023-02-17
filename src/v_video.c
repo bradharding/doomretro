@@ -98,24 +98,24 @@ void V_InitColorTranslation(void)
 //
 // V_FillRect
 //
-void V_FillRect(int screen, int x, int y, int width, int height, int color,
+void V_FillRect(int screen, int x, int y, int width, int height, int color1, int color2,
     bool left, bool right, const byte *tinttab1, const byte *tinttab2)
 {
     byte    *dest = &screens[screen][y * SCREENWIDTH + x];
 
     while (height--)
     {
-        memset(dest, color, width);
+        memset(dest, color1, width);
         dest += SCREENWIDTH;
     }
 }
 
-void V_FillTransRect(int screen, int x, int y, int width, int height, int color,
+void V_FillTransRect(int screen, int x, int y, int width, int height, int color1, int color2,
     bool left, bool right, const byte *tinttab1, const byte *tinttab2)
 {
     byte    *dest = &screens[screen][y * SCREENWIDTH + x];
 
-    tinttab1 += (color << 8);
+    tinttab1 += (color1 << 8);
 
     for (int xx = 0; xx < width; xx++)
     {
@@ -126,14 +126,14 @@ void V_FillTransRect(int screen, int x, int y, int width, int height, int color,
     }
 }
 
-void V_FillSoftTransRect(int screen, int x, int y, int width, int height, int color,
+void V_FillSoftTransRect(int screen, int x, int y, int width, int height, int color1, int color2,
     bool left, bool right, const byte *tinttab1, const byte *tinttab2)
 {
     byte    *dest = &screens[screen][y * SCREENWIDTH + x];
     byte    *dot;
 
-    tinttab1 += (color <<= 8);
-    tinttab2 += color;
+    tinttab1 += (color1 << 8);
+    tinttab2 += (color2 << 8);
 
     for (int xx = 0; xx < width; xx++)
     {
