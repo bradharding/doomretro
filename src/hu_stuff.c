@@ -758,10 +758,10 @@ typedef struct
 
 static altkeypic_t altkeypics[NUMCARDS] =
 {
-    { BLUE1,   NULL },
+    { BLUE2,   NULL },
     { YELLOW2, NULL },
     { RED2,    NULL },
-    { BLUE1,   NULL },
+    { BLUE2,   NULL },
     { YELLOW2, NULL },
     { RED2,    NULL }
 };
@@ -792,6 +792,7 @@ static int          green1;
 static int          green2;
 static int          blue1;
 static int          blue2;
+static int          blue3;
 static int          red;
 static int          yellow1;
 static int          yellow2;
@@ -882,6 +883,7 @@ static void HU_AltInit(void)
     green2 = nearestcolors[GREEN2];
     blue1 = (BTSX ? BLUE1 : nearestcolors[BLUE1]);
     blue2 = (BTSX ? BLUE2 : nearestcolors[BLUE2]);
+    blue3 = (BTSX ? BLUE3 : nearestcolors[BLUE3]);
     red = nearestcolors[RED2];
     yellow1 = nearestcolors[YELLOW1];
     yellow2 = nearestcolors[YELLOW2];
@@ -1089,9 +1091,9 @@ static void HU_DrawAltHUD(void)
                 }
                 else
                 {
-                    fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 2, 101, 4, blue1, blue1, true, true, tinttab75, tinttab40);
+                    fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 2, 101, 4, blue2, blue1, true, true, tinttab75, tinttab40);
                     fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 2, armor - 100 + (armor == 200),
-                        4, blue1, blue1, true, (armor == 200), tinttab75, tinttab40);
+                        4, blue2, blue1, true, (armor == 200), tinttab75, tinttab40);
                 }
             }
             else
@@ -1104,9 +1106,9 @@ static void HU_DrawAltHUD(void)
                 }
                 else
                 {
-                    fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 2, 101, 4, blue2, blue2, true, true, NULL, NULL);
+                    fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 2, 101, 4, blue3, blue3, true, true, NULL, NULL);
                     fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 2, armor - 100 + (armor == 200),
-                        4, blue1, blue1, true, (armor == 200), NULL, NULL);
+                        4, blue2, blue2, true, (armor == 200), NULL, NULL);
                 }
             }
         }
@@ -1119,11 +1121,11 @@ static void HU_DrawAltHUD(void)
                         4, green1, green1, true, true, tinttab60, tinttab25);
                 else
                     fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 2, armor + (armor == 100),
-                        4, blue1, blue1, true, true, tinttab75, tinttab40);
+                        4, blue2, blue1, true, true, tinttab75, tinttab40);
             }
             else
             {
-                const int   color2 = (viewplayer->armortype == blue_armor_class ? blue2 : green2);
+                const int   color2 = (viewplayer->armortype == blue_armor_class ? blue3 : green2);
 
                 fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 2, armor + (armor == 100),
                     4, color2, color2, true, true, NULL, NULL);

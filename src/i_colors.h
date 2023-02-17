@@ -43,8 +43,9 @@
 #include "r_defs.h"
 
 #define BLACK           0
-#define BLUE1         199
-#define BLUE2         203
+#define BLUE1         198
+#define BLUE2         199
+#define BLUE3         203
 #define DARKBLUE      244
 #define DARKGRAY      102
 #define GRAY           92
