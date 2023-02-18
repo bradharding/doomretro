@@ -53,7 +53,7 @@
 * The vertical positions of the monsters’ shadows in *DOOM II’s* cast sequence have improved when the `r_shadows` CVAR is `on`.
 * The position of text displayed in the top right of the screen has improved in some instances.
 * The correct map now opens when entering `map phobosmissioncontrol` or `map techgonebad` in the console.
-* Minor improvements have been made to translating certain words when the `english` CVAR is changed to `international`.
+* Minor improvements have been made to translating certain words, as well as the status bar, when the `english` CVAR is `international`.
 * The fuzz effect applied to both the player’s weapon when they have a partial invisibility power-up, and to spectres, has been redesigned to be more pixelated.
 * Certain partial translucency effects when the `r_sprites_translucency` CVAR is `on` are no longer applied if a custom `PLAYPAL` lump is present in a PWAD.
 * When the `r_rockettrails` CVAR is `on`:

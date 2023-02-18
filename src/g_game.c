@@ -778,6 +778,7 @@ bool G_Responder(event_t *ev)
         {
             S_StartSound(NULL, sfx_scrsht);
             memset(screens[0], nearestwhite, SCREENAREA);
+            fastfade = true;
             D_FadeScreen(true);
 
             return true;

@@ -3765,6 +3765,8 @@ void M_OpenMainMenu(void)
     }
 
     S_LowerMusicVolume();
+
+    fastfade = true;
     D_FadeScreen(false);
 }
 
