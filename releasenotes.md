@@ -25,7 +25,7 @@
   * Pressing a mouse button on the title screen without moving the mouse now opens the menu rather than just showing the mouse pointer.
 * The fade effect when opening the menu is now slightly faster than closing it when the `fade` CVAR is `on`.
 * Two additional savegame slots now appear in the load and save game menus.
-* A random sound effect now plays when quitting the game by entering the `quit` CCMD in the console.
+* A random sound effect now plays when quitting the game by entering the `quit` CCMD in the console, or by pressing <kbd>ALT</kbd> + <kbd>F4</kbd>.
 * Improvements have been made to parsing [`BRGHTMPS`](https://raw.githubusercontent.com/bradharding/doomretro/master/res/BRGHTMPS) lumps.
 * These changes have been made to the `playerstats` CCMD:
   * The number of times the player loads a savegame is now displayed.
@@ -41,7 +41,7 @@
   * A bug is fixed whereby the silhouette of the player’s currently equipped weapon wouldn’t be displayed in some rare instances.
   * The power-up bar is no longer displayed if the player uses the `IDBEHOLD` cheat and they have their fists or chainsaw equipped.
   * The number of notches in the ammo bar no longer doubles when the player has a backpack. Instead, if the player has more than the usual maximum amount of ammo for their currently equipped weapon, a second bar overlaps the first to show the difference.
-  * Improvements have been made to the display of the armor bar when the player has blue armor, and blue keycards and skull keys.
+  * Improvements have been made to the display of the armor bar when the player has blue armor, and also when the player has a blue keycard or skull key.
   * When the `r_hud_translucency` CVAR is `off`:
     * The white elements of the HUD are now not so bright.
     * The armor bar is now a slightly darker green when the player has `100` armor or less.

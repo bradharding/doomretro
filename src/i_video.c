@@ -380,10 +380,7 @@ static void I_GetEvent(void)
                 if (ev.data1)
                 {
                     if (altdown && ev.data1 == KEY_F4)
-                    {
-                        I_Sleep(300);
-                        I_Quit(true);
-                    }
+                        M_QuitResponse('y');
 
                     if (!isdigit(ev.data2))
                     {
