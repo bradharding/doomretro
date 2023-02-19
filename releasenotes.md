@@ -34,6 +34,7 @@
   * The number of times the player has died is now corrected when they are resurrected using either the `resurrect` CCMD or the `IDDQD` cheat.
 * Improvements have been made to the support for `DEHACKED` and `MAPINFO` lumps.
 * *DOOM’s* stimpacks and medikits no longer appear in [*Chex Quest*](https://doomwiki.org/wiki/Chex_Quest).
+* Minor improvements have been made to the support of [*REKKR*](https://www.doomworld.com/idgames/levels/doom/megawads/rekkr).
 * The player’s health, armor and ammo are now displayed better in the status bar and widescreen HUD if they start with a `1`.
 * The widescreen HUD is now brought in from the left and right edges of ultra-wide displays.
 * These changes have been made to the alternate widescreen HUD:
