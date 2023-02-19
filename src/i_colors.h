@@ -62,6 +62,7 @@
 #define YELLOW1       161
 #define YELLOW2       231
 
+extern byte *tinttab5;
 extern byte *tinttab10;
 extern byte *tinttab15;
 extern byte *tinttab20;

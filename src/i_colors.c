@@ -78,6 +78,7 @@ static const byte filter[256] =
 
 #define EDGEWIDTH  16
 
+byte    *tinttab5;
 byte    *tinttab10;
 byte    *tinttab15;
 byte    *tinttab20;
@@ -308,6 +309,7 @@ void I_InitTintTables(byte *palette)
 {
     const int   lump = W_CheckNumForName("TRANMAP");
 
+    tinttab5 = GenerateTintTable(palette, 5, ALL);
     tinttab10 = GenerateTintTable(palette, 10, ALL);
     tinttab15 = GenerateTintTable(palette, 15, ALL);
     tinttab20 = GenerateTintTable(palette, 20, ALL);

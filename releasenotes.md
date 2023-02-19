@@ -41,7 +41,7 @@
   * A bug is fixed whereby the silhouette of the player’s currently equipped weapon wouldn’t be displayed in some rare instances.
   * The power-up bar is no longer displayed if the player uses the `IDBEHOLD` cheat and they have their fists or chainsaw equipped.
   * The number of notches in the ammo bar no longer doubles when the player has a backpack. Instead, if the player has more than the usual maximum amount of ammo for their currently equipped weapon, a second bar overlaps the first to show the difference.
-  * The blue elements of the HUD are now bluer.
+  * Improvements have been made to the display of the armor bar when the player has blue armor, and blue keycards and skull keys.
   * When the `r_hud_translucency` CVAR is `off`:
     * The white elements of the HUD are now not so bright.
     * The armor bar is now a slightly darker green when the player has `100` armor or less.
