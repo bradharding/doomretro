@@ -1183,7 +1183,7 @@ static void HU_DrawAltHUD(void)
 
                     if (r_hud_translucency)
                     {
-                        const int   color2 = tinttab10[WHITE];
+                        const int   color2 = tinttab10[nearestwhite];
 
                         fillrectfunc(0, ALTHUD_RIGHT_X, ALTHUD_Y + 13, 101, 8, color, color, true, true, tinttab60, tinttab25);
                         fillrectfunc(0, ALTHUD_RIGHT_X + 100 - ammo, ALTHUD_Y + 13, ammo + 1,
@@ -1201,7 +1201,7 @@ static void HU_DrawAltHUD(void)
                         althudfunc(ALTHUD_RIGHT_X, ALTHUD_Y + 13, altrightpatch, WHITE, color, NULL);
                         althudfunc(ALTHUD_RIGHT_X + 100, ALTHUD_Y + 13, altendpatch, WHITE, WHITE, NULL);
                         althudfunc(ALTHUD_RIGHT_X - 2, ALTHUD_Y + 13, altmarkpatch, WHITE, WHITE, NULL);
-                        althudfunc(ALTHUD_RIGHT_X + 100 - ammo - 2, ALTHUD_Y + 10, altmark2patch, WHITE, WHITE, NULL);
+                        althudfunc(ALTHUD_RIGHT_X + 100 - ammo - 2, ALTHUD_Y + 10, altmark2patch, WHITE, nearestwhite, NULL);
                     }
 
                 }
