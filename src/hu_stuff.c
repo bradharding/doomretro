@@ -753,17 +753,18 @@ static void HU_DrawHUD(void)
 typedef struct
 {
     int     color;
+    byte    *tinttab;
     patch_t *patch;
 } altkeypic_t;
 
 static altkeypic_t altkeypics[NUMCARDS] =
 {
-    { BLUE2,   NULL },
-    { YELLOW2, NULL },
-    { RED2,    NULL },
-    { BLUE2,   NULL },
-    { YELLOW2, NULL },
-    { RED2,    NULL }
+    { BLUE2,   NULL, NULL },
+    { YELLOW2, NULL, NULL },
+    { RED2,    NULL, NULL },
+    { BLUE2,   NULL, NULL },
+    { YELLOW2, NULL, NULL },
+    { RED2,    NULL, NULL }
 };
 
 typedef struct
@@ -834,12 +835,18 @@ static void HU_AltInit(void)
         else if (!BTSX)
             altkeypics[i].color = nearestcolors[altkeypics[i].color];
 
-    altkeypics[0].patch = altkeypatch;
-    altkeypics[1].patch = altkeypatch;
-    altkeypics[2].patch = altkeypatch;
-    altkeypics[3].patch = altskullpatch;
-    altkeypics[4].patch = altskullpatch;
-    altkeypics[5].patch = altskullpatch;
+    altkeypics[it_bluecard].patch = altkeypatch;
+    altkeypics[it_bluecard].tinttab = tinttab90;
+    altkeypics[it_yellowcard].patch = altkeypatch;
+    altkeypics[it_yellowcard].tinttab = tinttab60;
+    altkeypics[it_redcard].patch = altkeypatch;
+    altkeypics[it_redcard].tinttab = tinttab60;
+    altkeypics[it_blueskull].patch = altskullpatch;
+    altkeypics[it_blueskull].tinttab = tinttab90;
+    altkeypics[it_yellowskull].patch = altskullpatch;
+    altkeypics[it_yellowskull].tinttab = tinttab60;
+    altkeypics[it_redskull].patch = altskullpatch;
+    altkeypics[it_redskull].tinttab = tinttab60;
 
     if (chex || FREEDOOM || hacx || REKKR)
         weaponschanged = true;
@@ -1254,7 +1261,7 @@ static void HU_DrawAltHUD(void)
                 {
                     altkeypic_t altkeypic = altkeypics[j];
 
-                    althudfunc(keypic_x, ALTHUD_Y, (patch = altkeypic.patch), WHITE, altkeypic.color, tinttab60);
+                    althudfunc(keypic_x, ALTHUD_Y, (patch = altkeypic.patch), WHITE, altkeypic.color, altkeypic.tinttab);
                     keypic_x += SHORT(patch->width) + 4;
                 }
 
