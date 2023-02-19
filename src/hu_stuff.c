@@ -759,10 +759,10 @@ typedef struct
 
 static altkeypic_t altkeypics[NUMCARDS] =
 {
-    { BLUE2,   NULL, NULL },
+    { BLUE3,   NULL, NULL },
     { YELLOW2, NULL, NULL },
     { RED2,    NULL, NULL },
-    { BLUE2,   NULL, NULL },
+    { BLUE3,   NULL, NULL },
     { YELLOW2, NULL, NULL },
     { RED2,    NULL, NULL }
 };
