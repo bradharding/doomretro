@@ -1013,6 +1013,8 @@ const char *words[][2] =
     { "offense",     "offence"     },
     { "randomize",   "randomise"   },
     { "randomizing", "randomising" },
+    { "recognize",   "recognize"   },
+    { "recognizing", "recognizing" },
     { "refueling",   "refuelling"  },
     { "theater",     "theatre"     },
     { "traveled",    "travelled"   },
