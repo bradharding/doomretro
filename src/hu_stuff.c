@@ -875,7 +875,7 @@ static void HU_AltInit(void)
 
                 if ((altweapon[i].patch = W_CacheLumpName(buffer)))
                 {
-                    altweapon[i].x = (i == wp_chainsaw ? 87 : 107);
+                    altweapon[i].x = 107;
                     altweapon[i].y = ALTHUD_Y + 21 - SHORT(altweapon[i].patch->height);
                 }
             }
@@ -1251,6 +1251,8 @@ static void HU_DrawAltHUD(void)
             else
                 althudfunc(ALTHUD_RIGHT_X, ALTHUD_Y + 13, altrightpatch, WHITE, color, tinttab60);
         }
+        else
+            althudfunc(ALTHUD_RIGHT_X, ALTHUD_Y + 13, altrightpatch, WHITE, color, tinttab60);
 
         if ((patch = altweapon[weapon].patch))
             althudfunc(ALTHUD_RIGHT_X + altweapon[weapon].x, altweapon[weapon].y, patch, WHITE, color, tinttab60);
@@ -1336,8 +1338,7 @@ static void HU_DrawAltHUD(void)
             powerupbar = (powerup == -1 ? INT_MAX : powerup);
         }
 
-        if (powerup != -1 && ammotype != am_noammo
-            && (powerupbar = (powerupbar == INT_MAX ? 101 : (int)(powerupbar * 101.0 / powertics + 0.5))))
+        if (powerup != -1 && (powerupbar = (powerupbar == INT_MAX ? 101 : (int)(powerupbar * 101.0 / powertics + 0.5))))
         {
             const int   color2 = (r_hud_translucency ? color : darkgray);
 
