@@ -3592,13 +3592,15 @@ static void kill_cmd_func2(char *cmd, char *parms)
                             M_snprintf(buffer, sizeof(buffer), "You %s the only %s %s this map.",
                                 killed,
                                 mobjinfo[type].name1,
-                                (viewplayer->monsterskilled[type] == 1 ? "in" : "left in"));
+                                (viewplayer->monsterskilled[type] == 1 || !(mobjinfo[type].flags & MF_SHOOTABLE) ?
+                                    "in" : "left in"));
                         else
                             M_snprintf(buffer, sizeof(buffer), "You %s all %s %s %s this map.",
                                 killed,
                                 temp,
                                 mobjinfo[type].plural1,
-                                (viewplayer->monsterskilled[type] == kills ? "in" : "left in"));
+                                (viewplayer->monsterskilled[type] == kills || !(mobjinfo[type].flags & MF_SHOOTABLE) ?
+                                    "in" : "left in"));
                     }
                     else
                     {
@@ -3607,14 +3609,16 @@ static void kill_cmd_func2(char *cmd, char *parms)
                                 playername,
                                 killed,
                                 mobjinfo[type].name1,
-                                (viewplayer->monsterskilled[type] == 1 ? "in" : "left in"));
+                                (viewplayer->monsterskilled[type] == 1 || !(mobjinfo[type].flags & MF_SHOOTABLE) ?
+                                    "in" : "left in"));
                         else
                             M_snprintf(buffer, sizeof(buffer), "%s %s all %s %s %s this map.",
                                 playername,
                                 killed,
                                 temp,
                                 mobjinfo[type].plural1,
-                                (viewplayer->monsterskilled[type] == kills ? "in" : "left in"));
+                                (viewplayer->monsterskilled[type] == kills || !(mobjinfo[type].flags & MF_SHOOTABLE) ?
+                                    "in" : "left in"));
                     }
 
                     C_Output(buffer);
