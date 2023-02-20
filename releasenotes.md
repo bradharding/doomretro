@@ -39,16 +39,16 @@
 * The widescreen HUD is now brought in from the left and right edges of ultra-wide displays.
 * These changes have been made to the alternate widescreen HUD:
   * The position of the player’s health is now fixed when `0`.
-  * A bug is fixed whereby the silhouette of the player’s currently equipped weapon wouldn’t be displayed in some rare instances.
-  * The power-up bar is no longer displayed if the player uses the `IDBEHOLD` cheat and they have their fists or chainsaw equipped.
-  * The number of notches in the ammo bar no longer doubles when the player has a backpack. Instead, if the player has more than the usual maximum amount of ammo for their currently equipped weapon, a second bar overlaps the first to show the difference.
   * Improvements have been made to the display of the armor bar when the player has blue armor, and also when the player has a blue keycard or skull key.
+  * An empty ammo bar is now displayed if the player has their fists or chainsaw equipped.
+  * The number of notches in the ammo bar no longer doubles when the player has a backpack. Instead, if the player has more than the usual maximum amount of ammo for their currently equipped weapon, a second bar overlaps the first to show the difference.
+  * A bug is fixed whereby the silhouette of the player’s currently equipped weapon wouldn’t be displayed in some rare instances.
   * When the `r_hud_translucency` CVAR is `off`:
-    * The white elements of the HUD are now not so bright.
-    * The armor bar is now a slightly darker green when the player has `100` armor or less.
-    * The armor icon is now a dark gray when the player has no armor.
-    * The power-up bar now updates when depleting.
     * Health, armor and ammo now flash when they change.
+    * The white elements of the HUD are now not so bright.
+    * The armor icon is now a dark gray when the player has no armor.
+    * The armor bar is now a slightly darker green when the player has `100` armor or less.
+    * The power-up bar now updates when depleting.
 * The truncation of player messages when the `vid_widescreen` CVAR is `off` has improved in some instances.
 * The position of player messages, and the map’s title in the automap, has improved in some instances.
 * The vertical positions of the monsters’ shadows in *DOOM II’s* cast sequence have improved when the `r_shadows` CVAR is `on`.
