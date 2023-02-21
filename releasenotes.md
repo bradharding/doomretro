@@ -11,7 +11,7 @@
 * Many additional characters, including those with diacritics, have been added to the font set used in the console.
 * [Alt codes](https://en.wikipedia.org/wiki/Alt_code) may now be entered in the console.
 * These changes have been made when opening and closing the console using the <kbd>~</kbd> key:
-  * A subtle sound effect is now played.
+  * A subtle sound effect now plays.
   * The console now scrolls to and from the top of the screen, rather than fading in and out, when on the title screen.
   * The console’s scrolling animation is now slightly faster.
   * The scrollbar now displays correctly when the `r_screensize` CVAR is less than `7`.
@@ -24,8 +24,8 @@
   * The mouse wheel may now be used to scroll among menu items again.
   * Pressing a mouse button on the title screen without moving the mouse now opens the menu rather than just showing the mouse pointer.
 * The fade effect when opening the menu is now slightly faster than closing it when the `fade` CVAR is `on`.
-* Two additional savegame slots now appear in the load and save game menus.
-* A random sound effect now plays when quitting the game by entering the `quit` CCMD in the console, or by pressing <kbd>ALT</kbd> + <kbd>F4</kbd>.
+* Two additional savegame slots are now available in the load and save game menus.
+* A random sound effect now plays when quitting the game by entering the `quit` CCMD in the console or pressing <kbd>ALT</kbd> + <kbd>F4</kbd>.
 * Improvements have been made to parsing [`BRGHTMPS`](https://raw.githubusercontent.com/bradharding/doomretro/master/res/BRGHTMPS) lumps.
 * These changes have been made to the `playerstats` CCMD:
   * The number of times the player loads a savegame is now displayed.
@@ -60,7 +60,7 @@
 * When the `r_rockettrails` CVAR is `on`:
   * The smoke trailing behind rockets fired by the player and cyberdemons is now a lighter gray.
   * Smoke now won’t trail behind rockets fired by the player and cyberdemons if a custom `PLAYPAL` lump is present in a PWAD.
-  * The smoke trailing behind homing missiles fired by revenants is now the same as the smoke trailing behind rockets fired by the player and cyberdemons (but not if a custom `PLAYPAL` lump is present in a PWAD).
+  * The smoke trailing behind homing missiles fired by revenants is now the same as that behind rockets fired by the player and cyberdemons, but not if a custom `PLAYPAL` lump is present in a PWAD.
 * The LEDs on *DualShock 4* and *DualSense* and *DualSense Edge* controllers now turn red again when connected.
 * When the `vid_fullscreen` CVAR is `off`:
   * The status bar and widescreen HUD are now displayed better when the window is resized to be very narrow.
@@ -72,9 +72,9 @@
 * The player’s health, armor, ammo and weapon are no longer reset by the `resetall` CCMD.
 * The `kill` CCMD can no longer be used to kill the player if either god mode or buddha mode are enabled, or if they have an invulnerability power-up.
 * The *BOOM*-compatible line special of 251 (“Scroll floor according to line vector”) now works correctly if used with a liquid sector and the `r_liquids_current` CVAR is `on`.
-* The underscores in the message displayed by the `IDBEHOLD` cheat now align correctly again.
+* The underscores in the message displayed by entering the `IDBEHOLD` cheat now align correctly again.
 * The shadows cast by the corpses of monsters spawned at the start of the map are now positioned better when the `r_shadows` CVAR is `on`.
-* If the `ammo` CVAR is changed in the console to be greater than the maximum ammo for the player’s currently equipped weapon and they don’t have a backpack, they will now be given one.
+* If the `ammo` CVAR is changed in the console to be greater than the maximum ammo for the player’s currently equipped weapon and they don’t have a backpack, they are now given one.
 * The timer displayed by setting the `timer` CCMD now updates in sync with the time the player has spent in the current map displayed when the `am_playerstats` CVAR is `on`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
