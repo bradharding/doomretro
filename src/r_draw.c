@@ -1079,12 +1079,12 @@ void R_DrawFuzzColumns(void)
             {
                 byte    *dest = screens[0] + i;
 
-                if (y >= SCREENWIDTH * 2 && *(src - SCREENWIDTH * 2) == NOFUZZ)
-                    *dest = *(dest + 1) = *(dest + SCREENWIDTH + 1) = *(dest + SCREENWIDTH) =
-                        fullcolormap[8 * 256 + dest[(fuzztable[fuzzpos++] = FUZZ(-1, 1))]];
-                else if (y == height - SCREENWIDTH * 2)
+                if (y == height - SCREENWIDTH * 2)
                     *dest = *(dest + 1) = *(dest + SCREENWIDTH + 1) = *(dest + SCREENWIDTH) =
                         fullcolormap[5 * 256 + dest[(fuzztable[fuzzpos++] = FUZZ(-1, 0))]];
+                else if (y >= SCREENWIDTH * 2 && *(src - SCREENWIDTH * 2) == NOFUZZ)
+                    *dest = *(dest + 1) = *(dest + SCREENWIDTH + 1) = *(dest + SCREENWIDTH) =
+                        fullcolormap[8 * 256 + dest[(fuzztable[fuzzpos++] = FUZZ(-1, 1))]];
                 else
                     *dest = *(dest + 1) = *(dest + SCREENWIDTH + 1) = *(dest + SCREENWIDTH) =
                         fullcolormap[6 * 256 + dest[(fuzztable[fuzzpos++] = FUZZ(-1, 1))]];
@@ -1107,12 +1107,12 @@ void R_DrawPausedFuzzColumns(void)
             {
                 byte    *dest = screens[0] + i;
 
-                if (y >= SCREENWIDTH * 2 && *(src - SCREENWIDTH * 2) == NOFUZZ)
-                    *dest = *(dest + 1) = *(dest + SCREENWIDTH + 1) = *(dest + SCREENWIDTH) =
-                        fullcolormap[8 * 256 + dest[fuzztable[fuzzpos++]]];
-                else if (y == height - SCREENWIDTH * 2)
+                if (y == height - SCREENWIDTH * 2)
                     *dest = *(dest + 1) = *(dest + SCREENWIDTH + 1) = *(dest + SCREENWIDTH) =
                         fullcolormap[5 * 256 + dest[fuzztable[fuzzpos++]]];
+                else if (y >= SCREENWIDTH * 2 && *(src - SCREENWIDTH * 2) == NOFUZZ)
+                    *dest = *(dest + 1) = *(dest + SCREENWIDTH + 1) = *(dest + SCREENWIDTH) =
+                        fullcolormap[8 * 256 + dest[fuzztable[fuzzpos++]]];
                 else
                     *dest = *(dest + 1) = *(dest + SCREENWIDTH + 1) = *(dest + SCREENWIDTH) =
                         fullcolormap[6 * 256 + dest[fuzztable[fuzzpos++]]];
