@@ -1006,25 +1006,21 @@ void R_DrawFuzzColumn(void)
 
         // top
         if (dc_yl)
-            *dest = *(dest + 1) = *(dest + SCREENWIDTH + 1) = *(dest + SCREENWIDTH) =
-                fullcolormap[8 * 256 + dest[(fuzztable[fuzzpos++] = FUZZ(-1, 1))]];
+            MAKEFUZZY(8, (fuzztable[fuzzpos++] = FUZZ(-1, 1)));
         else
-            *dest = *(dest + 1) = *(dest + SCREENWIDTH + 1) = *(dest + SCREENWIDTH) =
-                fullcolormap[6 * 256 + dest[(fuzztable[fuzzpos++] = FUZZ(0, 1))]];
+            MAKEFUZZY(6, (fuzztable[fuzzpos++] = FUZZ(0, 1)));
 
         dest += SCREENWIDTH * 2;
 
         while (--count)
         {
             // middle
-            *dest = *(dest + 1) = *(dest + SCREENWIDTH + 1) = *(dest + SCREENWIDTH) =
-                fullcolormap[6 * 256 + dest[(fuzztable[fuzzpos++] = FUZZ(-1, 1))]];
+            MAKEFUZZY(6, (fuzztable[fuzzpos++] = FUZZ(-1, 1)));
             dest += SCREENWIDTH * 2;
         }
 
         // bottom
-        *dest = *(dest + 1) = *(dest + SCREENWIDTH + 1) = *(dest + SCREENWIDTH) =
-            fullcolormap[5 * 256 + dest[(fuzztable[fuzzpos++] = FUZZ(-1, 0))]];
+        MAKEFUZZY(5, (fuzztable[fuzzpos++] = FUZZ(-1, 0)));
     }
 }
 
@@ -1043,25 +1039,21 @@ void R_DrawPausedFuzzColumn(void)
 
     // top
     if (dc_yl)
-        *dest = *(dest + 1) = *(dest + SCREENWIDTH + 1) = *(dest + SCREENWIDTH) =
-            fullcolormap[8 * 256 + dest[fuzztable[fuzzpos++]]];
+        MAKEFUZZY(8, fuzztable[fuzzpos++]);
     else
-        *dest = *(dest + 1) = *(dest + SCREENWIDTH + 1) = *(dest + SCREENWIDTH) =
-            fullcolormap[6 * 256 + dest[fuzztable[fuzzpos++]]];
+        MAKEFUZZY(6, fuzztable[fuzzpos++]);
 
     dest += SCREENWIDTH * 2;
 
     while (--count)
     {
         // middle
-        *dest = *(dest + 1) = *(dest + SCREENWIDTH + 1) = *(dest + SCREENWIDTH) =
-            fullcolormap[6 * 256 + dest[fuzztable[fuzzpos++]]];
+        MAKEFUZZY(6, fuzztable[fuzzpos++]);
         dest += SCREENWIDTH * 2;
     }
 
     // bottom
-    *dest = *(dest + 1) = *(dest + SCREENWIDTH + 1) = *(dest + SCREENWIDTH) =
-        fullcolormap[5 * 256 + dest[fuzztable[fuzzpos++]]];
+    MAKEFUZZY(5, fuzztable[fuzzpos++]);
 }
 
 void R_DrawFuzzColumns(void)
@@ -1069,25 +1061,21 @@ void R_DrawFuzzColumns(void)
     const int   width = viewwindowx + viewwidth;
     const int   height = (viewwindowy + viewheight) * SCREENWIDTH;
 
-    for (int x = viewwindowx; x < width; x += 2)
-        for (int y = viewwindowy * SCREENWIDTH; y < height; y += SCREENWIDTH * 2)
+    for (int y = viewwindowy * SCREENWIDTH; y < height; y += SCREENWIDTH * 2)
+        for (int x = viewwindowx + y; x < width + y; x += 2)
         {
-            const int   i = x + y;
-            byte        *src = screens[1] + i;
+            byte    *src = screens[1] + x;
 
             if (*src != NOFUZZ)
             {
-                byte    *dest = screens[0] + i;
+                byte    *dest = screens[0] + x;
 
                 if (y == height - SCREENWIDTH * 2)
-                    *dest = *(dest + 1) = *(dest + SCREENWIDTH + 1) = *(dest + SCREENWIDTH) =
-                        fullcolormap[5 * 256 + dest[(fuzztable[fuzzpos++] = FUZZ(-1, 0))]];
+                    MAKEFUZZY(5, (fuzztable[fuzzpos++] = FUZZ(-1, 0)));
                 else if (y >= SCREENWIDTH * 2 && *(src - SCREENWIDTH * 2) == NOFUZZ)
-                    *dest = *(dest + 1) = *(dest + SCREENWIDTH + 1) = *(dest + SCREENWIDTH) =
-                        fullcolormap[8 * 256 + dest[(fuzztable[fuzzpos++] = FUZZ(-1, 1))]];
+                    MAKEFUZZY(8, (fuzztable[fuzzpos++] = FUZZ(-1, 1)));
                 else
-                    *dest = *(dest + 1) = *(dest + SCREENWIDTH + 1) = *(dest + SCREENWIDTH) =
-                        fullcolormap[6 * 256 + dest[(fuzztable[fuzzpos++] = FUZZ(-1, 1))]];
+                    MAKEFUZZY(6, (fuzztable[fuzzpos++] = FUZZ(-1, 1)));
             }
         }
 }
@@ -1097,25 +1085,21 @@ void R_DrawPausedFuzzColumns(void)
     const int   width = viewwindowx + viewwidth;
     const int   height = (viewwindowy + viewheight) * SCREENWIDTH;
 
-    for (int x = viewwindowx; x < width; x += 2)
-        for (int y = viewwindowy * SCREENWIDTH; y < height; y += SCREENWIDTH * 2)
+    for (int y = viewwindowy * SCREENWIDTH; y < height; y += SCREENWIDTH * 2)
+        for (int x = viewwindowx + y; x < width + y; x += 2)
         {
-            const int   i = x + y;
-            byte        *src = screens[1] + i;
+            byte    *src = screens[1] + x;
 
             if (*src != NOFUZZ)
             {
-                byte    *dest = screens[0] + i;
+                byte    *dest = screens[0] + x;
 
                 if (y == height - SCREENWIDTH * 2)
-                    *dest = *(dest + 1) = *(dest + SCREENWIDTH + 1) = *(dest + SCREENWIDTH) =
-                        fullcolormap[5 * 256 + dest[fuzztable[fuzzpos++]]];
+                    MAKEFUZZY(5, fuzztable[fuzzpos++]);
                 else if (y >= SCREENWIDTH * 2 && *(src - SCREENWIDTH * 2) == NOFUZZ)
-                    *dest = *(dest + 1) = *(dest + SCREENWIDTH + 1) = *(dest + SCREENWIDTH) =
-                        fullcolormap[8 * 256 + dest[fuzztable[fuzzpos++]]];
+                    MAKEFUZZY(8, fuzztable[fuzzpos++]);
                 else
-                    *dest = *(dest + 1) = *(dest + SCREENWIDTH + 1) = *(dest + SCREENWIDTH) =
-                        fullcolormap[6 * 256 + dest[fuzztable[fuzzpos++]]];
+                    MAKEFUZZY(6, fuzztable[fuzzpos++]);
             }
         }
 }
