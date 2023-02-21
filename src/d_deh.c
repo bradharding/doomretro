@@ -3356,7 +3356,7 @@ static void deh_procPars(DEHFILE *fpin, char *line)
     }
 }
 
-static D_UpdateConsoleCheat(char *cheat1, char *cheat2)
+static void D_UpdateConsoleCheat(char *cheat1, char *cheat2)
 {
     for (int i = 0; *consolecmds[i].name; i++)
         if (consolecmds[i].type == CT_CHEAT && M_StringCompare(consolecmds[i].name, cheat1))
