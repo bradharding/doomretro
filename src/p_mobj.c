@@ -1679,7 +1679,7 @@ mobj_t *P_SpawnPlayerMissile(mobj_t *source, mobjtype_t type)
 //
 // MBF21: P_FaceMobj
 // Returns true if 'source' needs to turn clockwise, or false if 'source' needs
-// to turn counter clockwise. 'delta' is set to the amount 'source' needs to turn.
+// to turn counter-clockwise. 'delta' is set to the amount 'source' needs to turn.
 //
 static bool P_FaceMobj(mobj_t *source, mobj_t *target, angle_t *delta)
 {

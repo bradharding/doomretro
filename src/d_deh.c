@@ -3378,7 +3378,7 @@ static void deh_procCheat(DEHFILE *fpin, char *line)
     char    key[DEH_MAXKEYLEN];
     char    inbuffer[DEH_BUFFERMAX];
     int     value;
-    char    ch = 0;         // CPhipps - `writable' null string to initialize...
+    char    ch = 0;         // CPhipps - 'writable' null string to initialize...
     char    *strval = &ch;  // pointer to the value area
     int     iy;             // array index
     char    *p;             // utility pointer

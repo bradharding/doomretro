@@ -41,7 +41,7 @@
 #include "m_random.h"
 
 #define FUZZ(a, b)      fuzzrange[M_BigRandomInt(a, b) + 1]
-#define MAKEFUZZY(a, b) *dest = *(dest + 1) = *(dest + SCREENWIDTH + 1) = *(dest + SCREENWIDTH) = \
+#define MAKEFUZZY(a, b) *dest = *(dest + 1) = *(dest + SCREENWIDTH) = *(dest + SCREENWIDTH + 1) = \
                             fullcolormap[(a) * 256 + dest[b]]
 
 // [BH] Compensate for rounding errors in DOOM's renderer by stretching wall
