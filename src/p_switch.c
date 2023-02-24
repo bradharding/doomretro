@@ -945,8 +945,8 @@ bool P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
         case SR_Door_OpenWaitClose:
             if (EV_DoDoor(line, doorNormal, VDOORSPEED))
                 P_ChangeSwitchTexture(line, true);
-            else if (thing->player)
-                S_StartSound(thing, sfx_oof);
+            else if (!autousing && thing->player)
+                S_StartSound(thing, sfx_noway);
 
             break;
 

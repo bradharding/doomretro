@@ -76,7 +76,9 @@
 * The shadows cast by the corpses of monsters spawned at the start of the map are now positioned better when the `r_shadows` CVAR is `on`.
 * If the `ammo` CVAR is changed in the console to be greater than the maximum ammo for the player’s currently equipped weapon and they don’t have a backpack, they are now given one.
 * The timer displayed by setting the `timer` CCMD now updates in sync with the time the player has spent in the current map displayed when the `am_playerstats` CVAR is `on`.
-* The automatic opening of doors and flicking of switches when the `autouse` CVAR is `on` is now more responsive.
+* When the `autouse` CVAR is `on`:
+  * The automatic use of doors and switches is now more responsive.
+  * The player no longer grunts repeatedly when standing in front of locked doors when they don’t have the key, and switches that have already been used.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
