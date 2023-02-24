@@ -59,7 +59,7 @@
 * Certain partial translucency effects when the `r_sprites_translucency` CVAR is `on` are no longer applied if a custom `PLAYPAL` lump is present in a PWAD.
 * When the `r_rockettrails` CVAR is `on`:
   * The smoke trailing behind rockets fired by the player and cyberdemons is now a lighter gray.
-  * Smoke now won’t trail behind rockets fired by the player and cyberdemons if a custom `PLAYPAL` lump is present in a PWAD.
+  * Smoke now doesn’t trail behind rockets fired by the player and cyberdemons if a custom `PLAYPAL` lump is present in a PWAD.
   * The smoke trailing behind homing missiles fired by revenants is now the same as that behind rockets fired by the player and cyberdemons, but not if a custom `PLAYPAL` lump is present in a PWAD.
 * The LEDs on *DualShock 4* and *DualSense* and *DualSense Edge* controllers now turn red again when connected.
 * When the `vid_fullscreen` CVAR is `off`:
@@ -78,7 +78,7 @@
 * The timer displayed by setting the `timer` CCMD now updates in sync with the time the player has spent in the current map displayed when the `am_playerstats` CVAR is `on`.
 * When the `autouse` CVAR is `on`:
   * The automatic use of doors and switches is now more responsive.
-  * The player no longer grunts repeatedly when standing in front of locked doors when they don’t have the key, and switches that have already been used.
+  * The player no longer grunts repeatedly when standing in front of locked doors that they don’t have the key for, and switches that have already been used.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
