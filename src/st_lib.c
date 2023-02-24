@@ -198,7 +198,7 @@ void STlib_UpdateBigHealthNum(st_number_t *n)
 void STlib_UpdateSmallNum(st_number_t *n)
 {
     int num = MAX(0, *n->num);
-    int x = n->x + WIDESCREENDELTA;
+    int x = n->x;
     int y = n->y;
 
     // in the special case of 0, you draw 0
@@ -259,7 +259,7 @@ void STlib_UpdateArmsIcon(st_multicon_t *mi, bool refresh, int i)
 
     if ((mi->oldinum != inum || refresh) && inum != -1)
     {
-        statbarnumfunc(i + 2, (inum ? 160 : 93), 47, mi->x + WIDESCREENDELTA, mi->y, mi->patch[inum]);
+        statbarnumfunc(i + 2, (inum ? 160 : 93), 47, mi->x, mi->y, mi->patch[inum]);
         mi->oldinum = inum;
     }
 }
