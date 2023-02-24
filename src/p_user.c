@@ -655,12 +655,9 @@ void P_PlayerThink(void)
     // check for use
     if (autouse)
     {
-        if (!(maptime % TICRATE))
-        {
-            autousing = true;
-            P_UseLines();
-            autousing = false;
-        }
+        autousing = true;
+        P_UseLines();
+        autousing = false;
     }
     else if (cmd->buttons & BT_USE)
     {
