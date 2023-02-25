@@ -2162,6 +2162,7 @@ bool C_Responder(event_t *ev)
                             {
                                 char    *temp = M_StringJoin(prefix, M_StringReplace(output, input, input), NULL);
 
+                                C_AddToUndoHistory();
                                 M_StringCopy(consoleinput, temp, sizeof(consoleinput));
                                 caretpos = selectstart = selectend = len2 + (int)strlen(prefix);
                                 caretwait = I_GetTimeMS() + CARETBLINKTIME;

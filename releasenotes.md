@@ -79,6 +79,7 @@
 * When the `autouse` CVAR is `on`:
   * The automatic use of doors and switches is now more responsive.
   * The player no longer grunts repeatedly when standing in front of locked doors that they don’t have the key for, and switches that have already been used.
+* Pressing <kbd>TAB</kbd> to use the console’s autocomplete feature can now be undone by pressing <kbd>CTRL</kbd> + <kbd>Z</kbd>.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
