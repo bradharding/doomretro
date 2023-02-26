@@ -656,9 +656,6 @@ void R_InitColumnFunctions(void)
                     tlred33colfunc = &R_DrawTranslucentRed33Column;
                     tlblue25colfunc = &R_DrawTranslucentBlue25Column;
                 }
-
-                mobjinfo[MT_TRAIL].colfunc = &R_DrawCorrectedTranslucent50Column;
-                mobjinfo[MT_TRAIL].altcolfunc = &R_DrawCorrectedTranslucent50Column;
             }
             else
             {
@@ -676,9 +673,6 @@ void R_InitColumnFunctions(void)
                     tlgreen33colfunc = &R_DrawDitherLowColumn;
                     tlred33colfunc = &R_DrawDitherLowColumn;
                     tlblue25colfunc = &R_DrawDitherLowColumn;
-
-                    mobjinfo[MT_TRAIL].colfunc = &R_DrawCorrectedDitherLowColumn;
-                    mobjinfo[MT_TRAIL].altcolfunc = &R_DrawCorrectedDitherLowColumn;
                 }
                 else
                 {
@@ -694,9 +688,6 @@ void R_InitColumnFunctions(void)
                     tlgreen33colfunc = &R_DrawDitherColumn;
                     tlred33colfunc = &R_DrawDitherColumn;
                     tlblue25colfunc = &R_DrawDitherColumn;
-
-                    mobjinfo[MT_TRAIL].colfunc = &R_DrawCorrectedDitherColumn;
-                    mobjinfo[MT_TRAIL].altcolfunc = &R_DrawCorrectedDitherColumn;
                 }
             }
         }
@@ -744,9 +735,6 @@ void R_InitColumnFunctions(void)
                     tlred33colfunc = &R_DrawTranslucentRed33Column;
                     tlblue25colfunc = &R_DrawTranslucentBlue25Column;
                 }
-
-                mobjinfo[MT_TRAIL].colfunc = &R_DrawCorrectedTranslucent50Column;
-                mobjinfo[MT_TRAIL].altcolfunc = &R_DrawCorrectedTranslucent50Column;
             }
             else
             {
@@ -762,9 +750,6 @@ void R_InitColumnFunctions(void)
                 tlgreen33colfunc = &R_DrawColumn;
                 tlred33colfunc = &R_DrawColumn;
                 tlblue25colfunc = &R_DrawColumn;
-
-                mobjinfo[MT_TRAIL].colfunc = &R_DrawCorrectedColumn;
-                mobjinfo[MT_TRAIL].altcolfunc = &R_DrawCorrectedColumn;
             }
         }
 
