@@ -1297,28 +1297,6 @@ void R_DrawDitherColorSpan(void)
     *dest = ds_colormap[dither(ds_x1, ds_y, ds_z)][NOTEXTURECOLOR];
 }
 
-static void R_InitFuzzTable(void)
-{
-    fuzzrange[0] = -SCREENWIDTH * 2;
-    fuzzrange[1] = 0;
-    fuzzrange[2] = SCREENWIDTH * 2;
-
-    const int   width = viewwindowx + viewwidth;
-    const int   height = (viewwindowy + viewheight) * SCREENWIDTH;
-
-    for (int y = (viewwindowy - 2) * SCREENWIDTH; y < height - SCREENWIDTH * 2; y += SCREENWIDTH * 2)
-        for (int x = viewwindowx + y; x < width + y; x += 2)
-            fuzztable[y + x] = FUZZ(0, 1);
-
-    for (int y = viewwindowy * SCREENWIDTH; y < height; y += SCREENWIDTH * 2)
-        for (int x = viewwindowx + y; x < width + y; x += 2)
-            fuzztable[y + x] = FUZZ(-1, 1);
-
-    for (int y = height - SCREENWIDTH * 2; y < height; y += SCREENWIDTH * 2)
-        for (int x = viewwindowx + y; x < width + y; x += 2)
-            fuzztable[y + x] = FUZZ(-1, 0);
-}
-
 //
 // R_InitBuffer
 //
@@ -1336,7 +1314,11 @@ void R_InitBuffer(void)
         ylookup1[i] = screens[1] + y;
     }
 
-    R_InitFuzzTable();
+    fuzzrange[0] = -SCREENWIDTH * 2;
+    fuzzrange[1] = 0;
+    fuzzrange[2] = SCREENWIDTH * 2;
+
+    memset(fuzztable, 0, sizeof(fuzztable));
 }
 
 void R_FillBezel(void)
