@@ -80,6 +80,7 @@
   * The automatic use of doors and switches is now more responsive.
   * The player no longer grunts repeatedly when standing in front of a locked door that they don’t have the key for, or a switch that has already been used.
 * Pressing <kbd>TAB</kbd> to autocomplete text entered in the console can now be undone by pressing <kbd>CTRL</kbd> + <kbd>Z</kbd>.
+* Any timer set using the `timer` CCMD is now cleared when starting a new game.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
