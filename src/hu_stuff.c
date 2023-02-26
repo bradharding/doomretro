@@ -876,7 +876,7 @@ static void HU_AltInit(void)
                 if ((altweapon[i].patch = W_CacheLumpName(buffer)))
                 {
                     altweapon[i].x = 107;
-                    altweapon[i].y = ALTHUD_Y + 21 - SHORT(altweapon[i].patch->height);
+                    altweapon[i].y = ALTHUD_Y + 20 - SHORT(altweapon[i].patch->height);
                 }
             }
     }
