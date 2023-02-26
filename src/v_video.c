@@ -1059,11 +1059,11 @@ void V_DrawTranslucentAltHUDPatch(int x, int y, patch_t *patch, int from, int to
                 if (dot == from)
                     *dest = (tinttab ? tinttab[to + *dest] : to);
                 else if (dot == DARKGRAY)
-                    *dest = tinttab15[(nearestwhite << 8) + *dest];
+                    *dest = tinttab20[(nearestwhite << 8) + *dest];
                 else if (dot)
                 {
                     if (from == -1)
-                        *dest = tinttab15[(nearestwhite << 8) + *dest];
+                        *dest = tinttab20[(nearestwhite << 8) + *dest];
                     else
                         *dest = tinttab[(nearestcolors[dot] << 8) + *dest];
                 }
