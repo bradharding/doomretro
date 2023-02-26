@@ -42,7 +42,7 @@
   * Improvements have been made to the display of the armor bar when the player has blue armor, and also when the player has a blue keycard or skull key.
   * An empty ammo bar is now displayed if the player has their fists or chainsaw equipped.
   * The number of notches in the ammo bar no longer doubles when the player has a backpack. Instead, if the player has more than the usual maximum amount of ammo for their currently equipped weapon, a second bar overlaps the first to show the difference.
-  * All elements on the right side of the HUD have been shifted slightly.
+  * Several elements in the HUD have been moved slightly.
   * A bug is fixed whereby the silhouette of the player’s currently equipped weapon wouldn’t be displayed in some rare instances.
   * When the `r_hud_translucency` CVAR is `off`:
     * Health, armor and ammo now flash when they change.
