@@ -1195,13 +1195,16 @@ static void HU_DrawAltHUD(void)
                     }
                     else
                     {
+                        const int   color2 = (((viewplayer->fixedcolormap == INVERSECOLORMAP) ^ (!r_textures)) ?
+                                        colormaps[0][32 * 256 + nearestwhite] : nearestwhite);
+
                         fillrectfunc(0, ALTHUD_RIGHT_X, ALTHUD_Y + 13, 101, 8, color, color, true, true, NULL, NULL);
                         fillrectfunc(0, ALTHUD_RIGHT_X + 100 - ammo, ALTHUD_Y + 13, ammo + 1,
                             8, WHITE, WHITE, false, true, NULL, NULL);
                         althudfunc(ALTHUD_RIGHT_X, ALTHUD_Y + 13, altrightpatch, WHITE, color, NULL);
-                        althudfunc(ALTHUD_RIGHT_X + 100, ALTHUD_Y + 13, altendpatch, WHITE, color, NULL);
-                        althudfunc(ALTHUD_RIGHT_X - 2, ALTHUD_Y + 13, altmarkpatch, WHITE, color, NULL);
-                        althudfunc(ALTHUD_RIGHT_X + 100 - ammo - 2, ALTHUD_Y + 10, altmark2patch, WHITE, color, NULL);
+                        althudfunc(ALTHUD_RIGHT_X + 100, ALTHUD_Y + 13, altendpatch, WHITE, color2, NULL);
+                        althudfunc(ALTHUD_RIGHT_X - 2, ALTHUD_Y + 13, altmarkpatch, WHITE, color2, NULL);
+                        althudfunc(ALTHUD_RIGHT_X + 100 - ammo - 2, ALTHUD_Y + 10, altmark2patch, WHITE, color2, NULL);
                     }
 
                 }
