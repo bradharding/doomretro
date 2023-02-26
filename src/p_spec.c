@@ -2210,20 +2210,23 @@ void P_PlayerInSpecialSector(sector_t *sector)
         switch (sector->special)
         {
             case DamageNegative5Or10PercentHealth:
-                if (!(maptime & 31) && !(viewplayer->cheats & CF_GODMODE) && !viewplayer->powers[pw_ironfeet])
+                if (!(maptime & 31) && !(viewplayer->cheats & CF_GODMODE)
+                    && !viewplayer->powers[pw_ironfeet])
                     P_DamageMobj(viewplayer->mo, NULL, NULL, 10, true, false);
 
                 break;
 
             case DamageNegative2Or5PercentHealth:
-                if (!(maptime & 31) && !(viewplayer->cheats & CF_GODMODE) && !viewplayer->powers[pw_ironfeet])
+                if (!(maptime & 31) && !(viewplayer->cheats & CF_GODMODE)
+                    && !viewplayer->powers[pw_ironfeet])
                     P_DamageMobj(viewplayer->mo, NULL, NULL, 5, true, false);
 
                 break;
 
             case DamageNegative10Or20PercentHealth:
             case DamageNegative10Or20PercentHealthAndLightBlinks_2Hz:
-                if (!(maptime & 31) && !(viewplayer->cheats & CF_GODMODE) && (!viewplayer->powers[pw_ironfeet] || M_Random() < 5))
+                if (!(maptime & 31) && !(viewplayer->cheats & CF_GODMODE)
+                    && (!viewplayer->powers[pw_ironfeet] || M_Random() < 5))
                     P_DamageMobj(viewplayer->mo, NULL, NULL, 20, true, false);
 
                 break;
@@ -2241,7 +2244,7 @@ void P_PlayerInSpecialSector(sector_t *sector)
                 break;
 
             case DamageNegative10Or20PercentHealthAndEndLevel:
-                if (!(maptime & 0x1F))
+                if (!(maptime & 31))
                     P_DamageMobj(viewplayer->mo, NULL, NULL, 20, true, false);
 
                 if (viewplayer->health <= 10)
@@ -2256,7 +2259,8 @@ void P_PlayerInSpecialSector(sector_t *sector)
         switch ((sector->special & DAMAGE_MASK) >> DAMAGE_SHIFT)
         {
             case 0:
-                if (!viewplayer->powers[pw_invulnerability] && !viewplayer->powers[pw_ironfeet])
+                if (!viewplayer->powers[pw_invulnerability]
+                    && !viewplayer->powers[pw_ironfeet])
                     P_DamageMobj(viewplayer->mo, NULL, NULL, 10000, false, false);
 
                 break;
@@ -2286,21 +2290,24 @@ void P_PlayerInSpecialSector(sector_t *sector)
 
             case 1:
                 // 2/5 damage per 31 tics
-                if (!(maptime & 31) && !(viewplayer->cheats & CF_GODMODE) && !viewplayer->powers[pw_ironfeet])
+                if (!(maptime & 31) && !(viewplayer->cheats & CF_GODMODE)
+                    && !viewplayer->powers[pw_ironfeet])
                     P_DamageMobj(viewplayer->mo, NULL, NULL, 5, true, false);
 
                 break;
 
             case 2:
                 // 5/10 damage per 31 tics
-                if (!(maptime & 31) && !(viewplayer->cheats & CF_GODMODE) && !viewplayer->powers[pw_ironfeet])
+                if (!(maptime & 31) && !(viewplayer->cheats & CF_GODMODE)
+                    && !viewplayer->powers[pw_ironfeet])
                     P_DamageMobj(viewplayer->mo, NULL, NULL, 10, true, false);
 
                 break;
 
             case 3:
                 // 10/20 damage per 31 tics
-                if (!(maptime & 31) && !(viewplayer->cheats & CF_GODMODE) && (!viewplayer->powers[pw_ironfeet] || M_Random() < 5))
+                if (!(maptime & 31) && !(viewplayer->cheats & CF_GODMODE)
+                    && (!viewplayer->powers[pw_ironfeet] || M_Random() < 5))
                     P_DamageMobj(viewplayer->mo, NULL, NULL, 20, true, false);
 
                 break;
@@ -2512,7 +2519,7 @@ void P_SpawnSpecials(void)
 
             timer = BETWEEN(0, minutes, TIMERMAXMINUTES);
             C_Output("A " BOLD("-timer") " parameter was found on the command-line. A timer "
-                "has been set for %s minute%s. %s will automatically exit each map once the timer expires.",
+                "has been set for %s minute%s. %s will automatically exit each map once the timer runs out.",
                 temp, (minutes == 1 ? "" : "s"), (M_StringCompare(playername, playername_default) ? "You" : playername));
             P_SetTimer(minutes);
             free(temp);
@@ -2523,7 +2530,7 @@ void P_SpawnSpecials(void)
     {
         P_SetTimer(20);
         C_Output("An " BOLD("-avg") " parameter was found on the command-line. A timer "
-            "has been set for %i minutes. %s will automatically exit each map once the timer expires.",
+            "has been set for %i minutes. %s will automatically exit each map once the timer runs out.",
             timer, (M_StringCompare(playername, playername_default) ? "You" : playername));
     }
 

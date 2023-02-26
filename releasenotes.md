@@ -76,7 +76,6 @@
 * The underscores in the message displayed by entering the `IDBEHOLD` cheat now align correctly again.
 * The shadows cast by the corpses of monsters spawned at the start of the map are now positioned better when the `r_shadows` CVAR is `on`.
 * If the `ammo` CVAR is changed in the console to be greater than the maximum ammo for the player’s currently equipped weapon and they don’t have a backpack, they are now given one.
-* The timer displayed by setting the `timer` CCMD now updates in sync with the time the player has spent in the current map displayed when the `am_playerstats` CVAR is `on`.
 * When the `autouse` CVAR is `on`:
   * The automatic use of doors and switches is now more responsive.
   * The player no longer grunts repeatedly when standing in front of a locked door that they don’t have the key for, or a switch that has already been used.

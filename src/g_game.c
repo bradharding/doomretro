@@ -570,7 +570,7 @@ void G_DoLoadLevel(void)
     HU_DrawDisk();
 
     if (timer)
-        timeremaining = timer * 60 * TICRATE;
+        P_SetTimer(timer);
 
     if (wipegamestate == GS_LEVEL)
         wipegamestate = GS_NONE;                // force a wipe
