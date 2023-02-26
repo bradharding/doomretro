@@ -1166,10 +1166,10 @@ static void HU_DrawAltHUD(void)
             int ammo = viewplayer->ammo[ammotype];
 
             if (r_hud_translucency)
-                DrawAltHUDNumber(ALTHUD_RIGHT_X + 101 - AltHUDNumberWidth(ammo), ALTHUD_Y - 2,
+                DrawAltHUDNumber(ALTHUD_RIGHT_X + 101 - AltHUDNumberWidth(ammo), ALTHUD_Y - 3,
                     ammo, color, (ammohighlight > currenttime ? tinttab80 : tinttab60));
             else
-                DrawAltHUDNumber(ALTHUD_RIGHT_X + 101 - AltHUDNumberWidth(ammo), ALTHUD_Y - 2,
+                DrawAltHUDNumber(ALTHUD_RIGHT_X + 101 - AltHUDNumberWidth(ammo), ALTHUD_Y - 3,
                     ammo, (ammohighlight > currenttime ? WHITE : color), NULL);
 
             if (ammo)
@@ -1263,7 +1263,7 @@ static void HU_DrawAltHUD(void)
                 {
                     altkeypic_t altkeypic = altkeypics[j];
 
-                    althudfunc(keypic_x, ALTHUD_Y, (patch = altkeypic.patch), WHITE, altkeypic.color, altkeypic.tinttab);
+                    althudfunc(keypic_x, ALTHUD_Y - 1, (patch = altkeypic.patch), WHITE, altkeypic.color, altkeypic.tinttab);
                     keypic_x += SHORT(patch->width) + 4;
                 }
 
