@@ -1258,7 +1258,7 @@ static void HU_DrawAltHUD(void)
             for (int j = 0; j < NUMCARDS; j++)
                 if (viewplayer->cards[j] == i)
                 {
-                    altkeypic_t altkeypic = altkeypics[j];
+                    const altkeypic_t   altkeypic = altkeypics[j];
 
                     althudfunc(keypic_x, ALTHUD_Y - 1, (patch = altkeypic.patch), WHITE, altkeypic.color, altkeypic.tinttab);
                     keypic_x += SHORT(patch->width) + 4;
@@ -1282,7 +1282,7 @@ static void HU_DrawAltHUD(void)
                     for (int i = 0; i < NUMCARDS; i++)
                         if (viewplayer->cards[i] != i)
                         {
-                            altkeypic_t altkeypic = altkeypics[i];
+                            const altkeypic_t   altkeypic = altkeypics[i];
 
                             althudfunc(keypic_x, ALTHUD_Y, (patch = altkeypic.patch), WHITE, altkeypic.color, tinttab60);
                             keypic_x += SHORT(patch->width) + 4;
@@ -1299,7 +1299,7 @@ static void HU_DrawAltHUD(void)
 
                 if (flashkeys && (showkey || gamepaused))
                 {
-                    altkeypic_t altkeypic = altkeypics[neededcard];
+                    const altkeypic_t   altkeypic = altkeypics[neededcard];
 
                     althudfunc(keypic_x, ALTHUD_Y, altkeypic.patch, WHITE, altkeypic.color, tinttab60);
                 }

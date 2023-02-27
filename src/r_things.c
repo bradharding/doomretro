@@ -583,7 +583,6 @@ static void R_DrawPlayerVisSprite(const vissprite_t *vis)
     dc_iscale = pspriteiscale;
     dc_texturemid = vis->texturemid;
     sprtopscreen = (int64_t)centeryfrac - FixedMul(dc_texturemid, pspritescale);
-    fuzzpos = 0;
 
     for (dc_x = vis->x1; dc_x <= x2; dc_x++, frac += pspriteiscale)
     {
@@ -1163,6 +1162,8 @@ static void R_DrawPlayerSprites(void)
     // add all active psprites
     if (invisibility && (invisibility > STARTFLASHING || (invisibility & FLASHONTIC)) && r_textures)
     {
+        fuzzpos = 0;
+
         V_FillRect(1, viewwindowx, viewwindowy, viewwidth, viewheight, PINK, 0, false, false, NULL, NULL);
         R_DrawPlayerSprite(weapon, true, (weaponstate->dehacked || altered));
 

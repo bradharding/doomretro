@@ -15,7 +15,8 @@
   * The console now scrolls to and from the top of the screen, rather than fading in and out, when on the title screen.
   * The console’s scrolling animation is now slightly faster.
   * The scrollbar now displays correctly when the `r_screensize` CVAR is less than `7`.
-* Minor improvements have been made to the console’s autocomplete feature.
+* Minor improvements have been made to the text that can be autocompleted in the console by pressing the <kbd>TAB</kbd> key.
+* Pressing the <kbd>TAB</kbd> key to autocomplete text entered in the console can now be undone by pressing <kbd>CTRL</kbd> + <kbd>Z</kbd>.
 * Pressing the <kbd>HOME</kbd> key in the console no longer scrolls past the top of the console in some instances.
 * Scrolling up and down in the console using the <kbd>PGUP</kbd> and <kbd>PGDN</kbd> keys now gets faster the longer the keys are held down.
 * Thousands-delimiting commas may now be used when changing the value of certain CVARs in the console.
@@ -42,8 +43,8 @@
   * Improvements have been made to the display of the armor bar when the player has blue armor, and also when the player has a blue keycard or skull key.
   * An empty ammo bar is now displayed if the player has their fists or chainsaw equipped.
   * The number of notches in the ammo bar no longer doubles when the player has a backpack. Instead, if the player has more than the usual maximum amount of ammo for their currently equipped weapon, a second bar overlaps the first to show the difference.
-  * Several elements in the HUD have been moved slightly.
-  * The notches in the health, armor and ammo bars are slightly more opaque.
+  * Several elements have been moved slightly.
+  * Several elements are now slightly less translucent.
   * A bug is fixed whereby the silhouette of the player’s currently equipped weapon wouldn’t be displayed in some rare instances.
   * When the `r_hud_translucency` CVAR is `off`:
     * The player’s health, armor and ammo now flash when they change.
@@ -80,7 +81,6 @@
 * When the `autouse` CVAR is `on`:
   * The automatic use of doors and switches is now more responsive.
   * The player no longer grunts repeatedly when standing in front of a locked door that they don’t have the key for, or a switch that has already been used.
-* Pressing <kbd>TAB</kbd> to autocomplete text entered in the console can now be undone by pressing <kbd>CTRL</kbd> + <kbd>Z</kbd>.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
