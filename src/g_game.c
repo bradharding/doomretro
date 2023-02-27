@@ -1727,7 +1727,6 @@ static void G_DoNewGame(void)
     G_InitNew(d_skill, d_episode, d_map);
     gameaction = ga_nothing;
     infight = false;
-    P_SetTimer(0);
 }
 
 // killough 04/10/98: New function to fix bug which caused DOOM
