@@ -8774,7 +8774,9 @@ static void player_cvars_func2(char *cmd, char *parms)
 
                 viewplayer->ammo[ammotype] = value;
                 P_CheckAmmo(readyweapon);
-                C_HideConsole();
+
+                if (viewplayer->pendingweapon)
+                    C_HideConsole();
             }
         }
         else
@@ -8815,8 +8817,6 @@ static void player_cvars_func2(char *cmd, char *parms)
                     viewplayer->armortype = armortype_none;
                 else if (!viewplayer->armortype)
                     viewplayer->armortype = green_armor_class;
-
-                C_HideConsole();
             }
         }
         else
@@ -8889,8 +8889,6 @@ static void player_cvars_func2(char *cmd, char *parms)
                         P_AddBonus();
                         S_StartSound(viewplayer->mo, sfx_itemup);
                     }
-
-                    C_HideConsole();
                 }
             }
         }
