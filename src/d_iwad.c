@@ -808,22 +808,24 @@ void D_SetSaveGameFolder(bool output)
     else
     {
         char    *appdatafolder = M_GetAppDataFolder();
+        char    *tmpsavegamefolder;
 
         M_MakeDirectory(appdatafolder);
-        savegamefolder = M_StringJoin(appdatafolder, DIR_SEPARATOR_S DOOMRETRO_SAVEGAMESFOLDER DIR_SEPARATOR_S, NULL);
+        tmpsavegamefolder = M_StringJoin(appdatafolder, DIR_SEPARATOR_S DOOMRETRO_SAVEGAMESFOLDER DIR_SEPARATOR_S, NULL);
         M_MakeDirectory(savegamefolder);
 
         if (*pwadfile)
         {
             char    *temp = removeext(GetCorrectCase(pwadfile));
 
-            savegamefolder = M_StringJoin(savegamefolder, temp, DIR_SEPARATOR_S, NULL);
+            savegamefolder = M_StringJoin(tmpsavegamefolder, temp, DIR_SEPARATOR_S, NULL);
             free(temp);
         }
         else
-            savegamefolder = M_StringJoin(savegamefolder, SaveGameIWADName(), DIR_SEPARATOR_S, NULL);
+            savegamefolder = M_StringJoin(tmpsavegamefolder, SaveGameIWADName(), DIR_SEPARATOR_S, NULL);
 
         free(appdatafolder);
+	free(tmpsavegamefolder);
     }
 
     M_MakeDirectory(savegamefolder);

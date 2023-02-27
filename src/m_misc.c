@@ -282,6 +282,7 @@ char *M_GetResourceFolder(void)
 
     return (char *)resourceURL.fileSystemRepresentation;
 #else
+    free(resourcefolder);
     // And on Linux, fall back to the same folder as the executable.
     return executablefolder;
 #endif
