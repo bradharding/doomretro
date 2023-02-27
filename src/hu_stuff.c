@@ -1340,7 +1340,7 @@ static void HU_DrawAltHUD(void)
             const int   color2 = (r_hud_translucency ? color : darkgray);
 
             fillrectfunc2(0, ALTHUD_RIGHT_X, ALTHUD_Y + 27, 101 - powerupbar,
-                2, color2, color2, false, false, tinttab10, NULL);
+                2, color2, color2, false, false, tinttab20, NULL);
             fillrectfunc2(0, ALTHUD_RIGHT_X + 101 - powerupbar, ALTHUD_Y + 27, powerupbar,
                 2, color, color, false, false, tinttab60, NULL);
         }
