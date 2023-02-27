@@ -770,7 +770,6 @@ static altkeypic_t altkeypics[NUMCARDS] =
 typedef struct
 {
     patch_t *patch;
-    int     x, y;
 } altweapon_t;
 
 static altweapon_t  altweapon[NUMWEAPONS];
@@ -872,12 +871,7 @@ static void HU_AltInit(void)
             for (int i = 1; i < NUMWEAPONS; i++)
             {
                 M_snprintf(buffer, sizeof(buffer), "DRHUDWP%i", i);
-
-                if ((altweapon[i].patch = W_CacheLumpName(buffer)))
-                {
-                    altweapon[i].x = 107;
-                    altweapon[i].y = ALTHUD_Y + 20 - SHORT(altweapon[i].patch->height);
-                }
+                altweapon[i].patch = W_CacheLumpName(buffer);
             }
     }
 
@@ -1258,7 +1252,7 @@ static void HU_DrawAltHUD(void)
             althudfunc(ALTHUD_RIGHT_X, ALTHUD_Y + 13, altrightpatch, WHITE, color, tinttab60);
 
         if ((patch = altweapon[weapon].patch))
-            althudfunc(ALTHUD_RIGHT_X + altweapon[weapon].x, altweapon[weapon].y, patch, WHITE, color, tinttab60);
+            althudfunc(ALTHUD_RIGHT_X + 107, ALTHUD_Y - 15, patch, WHITE, color, tinttab60);
 
         for (int i = 1; i <= NUMCARDS; i++)
             for (int j = 0; j < NUMCARDS; j++)
