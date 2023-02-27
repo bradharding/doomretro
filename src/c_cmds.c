@@ -8880,6 +8880,9 @@ static void player_cvars_func2(char *cmd, char *parms)
                         healthcvar = true;
                         P_DamageMobj(viewplayer->mo, viewplayer->mo, viewplayer->mo, viewplayer->health - value, false, false);
                         healthcvar = false;
+
+                        if (value <= 0)
+                            C_HideConsole();
                     }
                     else
                     {
