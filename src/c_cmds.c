@@ -8775,7 +8775,7 @@ static void player_cvars_func2(char *cmd, char *parms)
                 viewplayer->ammo[ammotype] = value;
                 P_CheckAmmo(readyweapon);
 
-                if (viewplayer->pendingweapon)
+                if (viewplayer->pendingweapon != wp_nochange)
                     C_HideConsole();
             }
         }
