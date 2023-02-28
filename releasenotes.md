@@ -81,6 +81,7 @@
 * When the `autouse` CVAR is `on`:
   * The automatic use of doors and switches is now more responsive.
   * The player no longer grunts repeatedly when standing in front of a locked door that they don’t have the key for, or a switch that has already been used.
+* The console no longer closes when the `ammo`, `armor` or `health` CVARs are changed unless necessary.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
