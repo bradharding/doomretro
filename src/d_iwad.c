@@ -811,8 +811,9 @@ void D_SetSaveGameFolder(bool output)
         char    *tmpsavegamefolder;
 
         M_MakeDirectory(appdatafolder);
+
         tmpsavegamefolder = M_StringJoin(appdatafolder, DIR_SEPARATOR_S DOOMRETRO_SAVEGAMESFOLDER DIR_SEPARATOR_S, NULL);
-        M_MakeDirectory(savegamefolder);
+        M_MakeDirectory(tmpsavegamefolder);
 
         if (*pwadfile)
         {
@@ -825,7 +826,7 @@ void D_SetSaveGameFolder(bool output)
             savegamefolder = M_StringJoin(tmpsavegamefolder, SaveGameIWADName(), DIR_SEPARATOR_S, NULL);
 
         free(appdatafolder);
-	free(tmpsavegamefolder);
+        free(tmpsavegamefolder);
     }
 
     M_MakeDirectory(savegamefolder);
