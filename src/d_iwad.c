@@ -808,25 +808,26 @@ void D_SetSaveGameFolder(bool output)
     else
     {
         char    *appdatafolder = M_GetAppDataFolder();
-        char    *tmpsavegamefolder;
+        char    *tempsavegamefolder;
 
         M_MakeDirectory(appdatafolder);
 
-        tmpsavegamefolder = M_StringJoin(appdatafolder, DIR_SEPARATOR_S DOOMRETRO_SAVEGAMESFOLDER DIR_SEPARATOR_S, NULL);
-        M_MakeDirectory(tmpsavegamefolder);
+        tempsavegamefolder = M_StringJoin(appdatafolder,
+            DIR_SEPARATOR_S DOOMRETRO_SAVEGAMESFOLDER DIR_SEPARATOR_S, NULL);
+        M_MakeDirectory(tempsavegamefolder);
 
         if (*pwadfile)
         {
             char    *temp = removeext(GetCorrectCase(pwadfile));
 
-            savegamefolder = M_StringJoin(tmpsavegamefolder, temp, DIR_SEPARATOR_S, NULL);
+            savegamefolder = M_StringJoin(tempsavegamefolder, temp, DIR_SEPARATOR_S, NULL);
             free(temp);
         }
         else
-            savegamefolder = M_StringJoin(tmpsavegamefolder, SaveGameIWADName(), DIR_SEPARATOR_S, NULL);
+            savegamefolder = M_StringJoin(tempsavegamefolder, SaveGameIWADName(), DIR_SEPARATOR_S, NULL);
 
         free(appdatafolder);
-        free(tmpsavegamefolder);
+        free(tempsavegamefolder);
     }
 
     M_MakeDirectory(savegamefolder);
@@ -855,7 +856,8 @@ void D_SetAutoLoadFolder(void)
         char    *appdatafolder = M_GetAppDataFolder();
 
         M_MakeDirectory(appdatafolder);
-        autoloadfolder = M_StringJoin(appdatafolder, DIR_SEPARATOR_S DOOMRETRO_AUTOLOADFOLDER DIR_SEPARATOR_S, NULL);
+        autoloadfolder = M_StringJoin(appdatafolder,
+            DIR_SEPARATOR_S DOOMRETRO_AUTOLOADFOLDER DIR_SEPARATOR_S, NULL);
         free(appdatafolder);
     }
 
