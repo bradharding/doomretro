@@ -49,9 +49,10 @@
 #define DARKBLUE      244
 #define DARKGRAY      102
 #define GRAY           92
-#define GREEN1        114
-#define GREEN2        118
-#define GREEN3        125
+#define GREEN1        112
+#define GREEN2        114
+#define GREEN3        118
+#define GREEN4        125
 #define LIGHTGRAY1     80
 #define LIGHTGRAY2     82
 #define LIGHTGRAY3     86
