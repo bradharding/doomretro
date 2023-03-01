@@ -8877,9 +8877,9 @@ static void player_cvars_func2(char *cmd, char *parms)
                 {
                     if (value < viewplayer->health)
                     {
-                        viewplayer->health -= value;
-                        viewplayer->mo->health -= value;
-                        viewplayer->damagecount = viewplayer->health;
+                        viewplayer->damagecount = viewplayer->health - value;
+                        viewplayer->health = value;
+                        viewplayer->mo->health = value;
                         S_StartSound(viewplayer->mo, sfx_plpain);
 
                         if (value <= 0)
