@@ -636,13 +636,11 @@ void C_ClearConsole(void)
 
 void C_Init(void)
 {
-    char  *appdatafolder;
-    char        consolefolder[MAX_PATH];
+    char    *appdatafolder = M_GetAppDataFolder();
+    char    consolefolder[MAX_PATH];
 
-    appdatafolder = M_GetAppDataFolder();
     M_snprintf(consolefolder, sizeof(consolefolder), "%s" DIR_SEPARATOR_S DOOMRETRO_CONSOLEFOLDER, appdatafolder);
     M_MakeDirectory(consolefolder);
- 
     free(appdatafolder);
 
     for (int i = 0, j = CONSOLEFONTSTART; i < CONSOLEFONTSIZE; i++)
