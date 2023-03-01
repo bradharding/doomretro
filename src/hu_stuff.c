@@ -788,6 +788,7 @@ static short        altminuspatchwidth;
 
 static int          gray;
 static int          darkgray;
+static int          green0;
 static int          green1;
 static int          green2;
 static int          blue1;
@@ -880,6 +881,7 @@ static void HU_AltInit(void)
 
     gray = nearestcolors[GRAY];
     darkgray = nearestcolors[DARKGRAY];
+    green0 = nearestcolors[GREEN1 - 2];
     green1 = nearestcolors[GREEN1];
     green2 = nearestcolors[GREEN2];
     blue1 = (BTSX ? BLUE1 : nearestcolors[BLUE1]);
@@ -1006,8 +1008,6 @@ static void HU_DrawAltHUD(void)
                         colormaps[0][32 * 256 + nearestwhite] : (r_hud_translucency ? nearestwhite : nearestlightgray));
     int             health = BETWEEN(HUD_NUMBER_MIN, viewplayer->health, HUD_NUMBER_MAX);
     int             armor = MIN(viewplayer->armorpoints, HUD_NUMBER_MAX);
-    int             barcolor = (health < HUD_HEALTH_MIN && !(viewplayer->cheats & CF_BUDDHA) ?
-                        red : (health >= 100 ? green1 : color));
     int             keypic_x = ALTHUD_RIGHT_X;
     const uint64_t  currenttime = I_GetTimeMS();
 
@@ -1018,11 +1018,34 @@ static void HU_DrawAltHUD(void)
         DrawAltHUDNumber(ALTHUD_LEFT_X - AltHUDNumberWidth(ABS(health)), ALTHUD_Y + 12,
             health, (healthhighlight > currenttime ? WHITE : color), NULL);
 
-    if ((health = MAX(0, health) * 200 / maxhealth) > 100)
+    if (health == 100)
     {
         if (r_hud_translucency)
         {
-            const int   color2 = tinttab10[barcolor];
+            const int   color2 = tinttab10[green0];
+
+            fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 13, MAX(1, health) + (health == 100),
+                8, green1, green1, true, true, tinttab60, tinttab25);
+            althudfunc(ALTHUD_LEFT_X + 5, ALTHUD_Y + 11, altleftpatch, WHITE, color, tinttab60);
+            althudfunc(ALTHUD_LEFT_X + 25, ALTHUD_Y + 13, altendpatch, WHITE, color2, NULL);
+            althudfunc(ALTHUD_LEFT_X + 25 + MAX(1, health) - (health < 100) - 2,
+                ALTHUD_Y + 13, altmarkpatch, WHITE, color2, NULL);
+        }
+        else
+        {
+            fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 13, MAX(1, health) + (health == 100), 8,
+                green1, green1, true, true, NULL, NULL);
+            althudfunc(ALTHUD_LEFT_X + 5, ALTHUD_Y + 11, altleftpatch, WHITE, color, NULL);
+            althudfunc(ALTHUD_LEFT_X + 25, ALTHUD_Y + 13, altendpatch, WHITE, green0, NULL);
+            althudfunc(ALTHUD_LEFT_X + 25 + MAX(1, health) - (health < 100) - 2,
+                ALTHUD_Y + 13, altmarkpatch, WHITE, green0, NULL);
+        }
+    }
+    else if ((health = MAX(0, health) * 200 / maxhealth) > 100)
+    {
+        if (r_hud_translucency)
+        {
+            const int   color2 = tinttab10[green0];
 
             fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 13, 101, 8, green1, green1, true, true, tinttab60, tinttab25);
             fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 13, MAX(1, health - 99),
@@ -1030,7 +1053,7 @@ static void HU_DrawAltHUD(void)
             althudfunc(ALTHUD_LEFT_X + 5, ALTHUD_Y + 11, altleftpatch, WHITE, color, tinttab60);
             althudfunc(ALTHUD_LEFT_X + 25, ALTHUD_Y + 13, altendpatch, WHITE, color2, NULL);
             althudfunc(ALTHUD_LEFT_X + 123, ALTHUD_Y + 13, altmarkpatch, WHITE, color2, NULL);
-            althudfunc(ALTHUD_LEFT_X + 25 + health - 102, ALTHUD_Y + 10, altmark2patch, WHITE, color2, NULL);
+            althudfunc(ALTHUD_LEFT_X + 25 + health - 102, ALTHUD_Y + 10, altmark2patch, WHITE, green0, NULL);
         }
         else
         {
@@ -1038,13 +1061,15 @@ static void HU_DrawAltHUD(void)
             fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 13, MAX(1, health - 99),
                 8, green1, green1, true, (health == 200), NULL, NULL);
             althudfunc(ALTHUD_LEFT_X + 5, ALTHUD_Y + 11, altleftpatch, WHITE, color, NULL);
-            althudfunc(ALTHUD_LEFT_X + 25, ALTHUD_Y + 13, altendpatch, WHITE, barcolor, NULL);
-            althudfunc(ALTHUD_LEFT_X + 123, ALTHUD_Y + 13, altmarkpatch, WHITE, barcolor, NULL);
-            althudfunc(ALTHUD_LEFT_X + 25 + health - 102, ALTHUD_Y + 10, altmark2patch, WHITE, barcolor, NULL);
+            althudfunc(ALTHUD_LEFT_X + 25, ALTHUD_Y + 13, altendpatch, WHITE, green0, NULL);
+            althudfunc(ALTHUD_LEFT_X + 123, ALTHUD_Y + 13, altmarkpatch, WHITE, green0, NULL);
+            althudfunc(ALTHUD_LEFT_X + 25 + health - 102, ALTHUD_Y + 10, altmark2patch, WHITE, green0, NULL);
         }
     }
     else
     {
+        const int   barcolor = (health < HUD_HEALTH_MIN && !(viewplayer->cheats & CF_BUDDHA) ? red : color);
+
         if (r_hud_translucency)
         {
             const int   color2 = tinttab10[barcolor];
@@ -1185,7 +1210,7 @@ static void HU_DrawAltHUD(void)
                         althudfunc(ALTHUD_RIGHT_X, ALTHUD_Y + 13, altrightpatch, WHITE, color, tinttab60);
                         althudfunc(ALTHUD_RIGHT_X + 100, ALTHUD_Y + 13, altendpatch, WHITE, color2, NULL);
                         althudfunc(ALTHUD_RIGHT_X - 2, ALTHUD_Y + 13, altmarkpatch, WHITE, color2, NULL);
-                        althudfunc(ALTHUD_RIGHT_X + 100 - ammo - 2, ALTHUD_Y + 10, altmark2patch, WHITE, color2, NULL);
+                        althudfunc(ALTHUD_RIGHT_X + 100 - ammo - 2, ALTHUD_Y + 10, altmark2patch, WHITE, color, NULL);
                     }
                     else
                     {
