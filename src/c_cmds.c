@@ -8877,9 +8877,10 @@ static void player_cvars_func2(char *cmd, char *parms)
                 {
                     if (value < viewplayer->health)
                     {
-                        healthcvar = true;
-                        P_DamageMobj(viewplayer->mo, viewplayer->mo, viewplayer->mo, viewplayer->health - value, false, false);
-                        healthcvar = false;
+                        viewplayer->health -= value;
+                        viewplayer->mo->health -= value;
+                        viewplayer->damagecount = viewplayer->health;
+                        S_StartSound(viewplayer->mo, sfx_plpain);
 
                         if (value <= 0)
                             C_HideConsole();
