@@ -1082,13 +1082,14 @@ static void HU_DrawAltHUD(void)
         }
         else
         {
-            const int   color2 = (barcolor == green2 ? green3 : barcolor);
+            const int   color2 = (((viewplayer->fixedcolormap == INVERSECOLORMAP) ^ (!r_textures)) ?
+                            colormaps[0][32 * 256 + nearestwhite] : nearestwhite);
 
             fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 13, health, 8,
-                color2, color2, true, true, NULL, NULL);
+                barcolor, barcolor, true, true, NULL, NULL);
             althudfunc(ALTHUD_LEFT_X + 5, ALTHUD_Y + 11, altleftpatch, WHITE, color, NULL);
-            althudfunc(ALTHUD_LEFT_X + 25, ALTHUD_Y + 13, altendpatch, WHITE, barcolor, NULL);
-            althudfunc(ALTHUD_LEFT_X + 25 + health - 3, ALTHUD_Y + 13, altmarkpatch, WHITE, barcolor, NULL);
+            althudfunc(ALTHUD_LEFT_X + 25, ALTHUD_Y + 13, altendpatch, WHITE, color2, NULL);
+            althudfunc(ALTHUD_LEFT_X + 25 + health - 3, ALTHUD_Y + 13, altmarkpatch, WHITE, color2, NULL);
         }
     }
 
