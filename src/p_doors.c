@@ -36,6 +36,7 @@
 ========================================================================
 */
 
+#include "c_console.h"
 #include "d_deh.h"
 #include "doomstat.h"
 #include "hu_stuff.h"
@@ -532,6 +533,9 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
                         (M_StringCompare(playername, playername_default) ? "" : "s"), s_PD_KEYCARD);
                 }
 
+                if (autousing && M_StringCompare(buffer, console[numconsolestrings - 1].string))
+                    return;
+
                 HU_PlayerMessage(buffer, false, false);
 
                 if (!autousing && P_DoorClosed(line))
@@ -574,6 +578,9 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
                         (M_StringCompare(playername, playername_default) ? "" : "s"), s_PD_KEYCARD);
                 }
 
+                if (autousing && M_StringCompare(buffer, console[numconsolestrings - 1].string))
+                    return;
+
                 HU_PlayerMessage(buffer, false, false);
 
                 if (!autousing && P_DoorClosed(line))
@@ -615,6 +622,9 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
                     M_snprintf(buffer, sizeof(buffer), s_PD_REDK, playername,
                         (M_StringCompare(playername, playername_default) ? "" : "s"), s_PD_KEYCARD);
                 }
+
+                if (autousing && M_StringCompare(buffer, console[numconsolestrings - 1].string))
+                    return;
 
                 HU_PlayerMessage(buffer, false, false);
 
