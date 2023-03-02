@@ -16,7 +16,7 @@
   * The console’s scrolling animation is now slightly faster.
   * The scrollbar now displays correctly when the `r_screensize` CVAR is less than `7`.
 * Minor improvements have been made to the text that can be autocompleted in the console by pressing the <kbd>TAB</kbd> key.
-* Pressing the <kbd>TAB</kbd> key to autocomplete text entered in the console can now be undone by pressing <kbd>CTRL</kbd> + <kbd>Z</kbd>.
+* Each press of the <kbd>TAB</kbd> key to autocomplete text entered in the console can now be undone by pressing <kbd>CTRL</kbd> + <kbd>Z</kbd>.
 * Pressing the <kbd>HOME</kbd> key in the console no longer scrolls past the top of the console in some instances.
 * Scrolling up and down in the console using the <kbd>PGUP</kbd> and <kbd>PGDN</kbd> keys now gets faster the longer the keys are held down.
 * Thousands-delimiting commas may now be used when changing the value of certain CVARs in the console.
@@ -75,13 +75,13 @@
 * The player’s health, armor, ammo and weapon are no longer reset by the `resetall` CCMD.
 * The `kill` CCMD can no longer be used to kill the player if either god mode or buddha mode are enabled, or if they have an invulnerability power-up.
 * The *BOOM*-compatible line special of 251 (“Scroll floor according to line vector”) now works correctly if used with a liquid sector and the `r_liquids_current` CVAR is `on`.
-* The underscores in the message displayed by entering the `IDBEHOLD` cheat now align correctly again.
+* The underscores in the message displayed by entering the `IDBEHOLD` cheat now always align correctly again.
 * The shadows cast by the corpses of monsters spawned at the start of the map are now positioned better when the `r_shadows` CVAR is `on`.
 * If the `ammo` CVAR is changed in the console to be greater than the maximum ammo for the player’s currently equipped weapon and they don’t have a backpack, they are now given one.
+* The console no longer closes when the `ammo`, `armor` or `health` CVARs are changed, unless necessary.
 * When the `autouse` CVAR is `on`:
   * The automatic use of doors and switches is now more responsive.
-  * The player no longer grunts repeatedly when standing in front of a locked door that they don’t have the key for, or a switch that has already been used.
-* The console no longer closes when the `ammo`, `armor` or `health` CVARs are changed unless necessary.
+  * The player no longer grunts repeatedly when standing in front of a locked door that they don’t have the key for, or a reusable switch that has just been turned on.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
