@@ -276,9 +276,12 @@ bool EV_DoLockedDoor(line_t *line, vldoor_e type, mobj_t *thing, fixed_t speed)
                         (M_StringCompare(playername, playername_default) ? "" : "s"), s_PD_KEYCARD);
                 }
 
+                if (autousing && M_StringCompare(buffer, console[numconsolestrings - 1].string))
+                    return false;
+
                 HU_PlayerMessage(buffer, false, false);
 
-                if (!autousing && P_DoorClosed(line))
+                if (P_DoorClosed(line))
                     S_StartSound(player->mo, sfx_noway);    // [BH] use sfx_noway instead of sfx_oof
 
                 return false;
@@ -315,9 +318,12 @@ bool EV_DoLockedDoor(line_t *line, vldoor_e type, mobj_t *thing, fixed_t speed)
                         (M_StringCompare(playername, playername_default) ? "" : "s"), s_PD_KEYCARD);
                 }
 
+                if (autousing && M_StringCompare(buffer, console[numconsolestrings - 1].string))
+                    return false;
+
                 HU_PlayerMessage(buffer, false, false);
 
-                if (!autousing && P_DoorClosed(line))
+                if (P_DoorClosed(line))
                     S_StartSound(player->mo, sfx_noway);    // [BH] use sfx_noway instead of sfx_oof
 
                 return false;
@@ -354,9 +360,12 @@ bool EV_DoLockedDoor(line_t *line, vldoor_e type, mobj_t *thing, fixed_t speed)
                         (M_StringCompare(playername, playername_default) ? "" : "s"), s_PD_KEYCARD);
                 }
 
+                if (autousing && M_StringCompare(buffer, console[numconsolestrings - 1].string))
+                    return false;
+
                 HU_PlayerMessage(buffer, false, false);
 
-                if (!autousing && P_DoorClosed(line))
+                if (P_DoorClosed(line))
                     S_StartSound(player->mo, sfx_noway);    // [BH] use sfx_noway instead of sfx_oof
 
                 return false;
@@ -538,7 +547,7 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
 
                 HU_PlayerMessage(buffer, false, false);
 
-                if (!autousing && P_DoorClosed(line))
+                if (P_DoorClosed(line))
                     S_StartSound(player->mo, sfx_noway);    // [BH] use sfx_noway instead of sfx_oof
 
                 return;
@@ -583,7 +592,7 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
 
                 HU_PlayerMessage(buffer, false, false);
 
-                if (!autousing && P_DoorClosed(line))
+                if (P_DoorClosed(line))
                     S_StartSound(player->mo, sfx_noway);    // [BH] use sfx_noway instead of sfx_oof
 
                 return;
@@ -628,7 +637,7 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
 
                 HU_PlayerMessage(buffer, false, false);
 
-                if (!autousing && P_DoorClosed(line))
+                if (P_DoorClosed(line))
                     S_StartSound(player->mo, sfx_noway);    // [BH] use sfx_noway instead of sfx_oof
 
                 return;
