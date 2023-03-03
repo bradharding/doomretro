@@ -181,6 +181,7 @@ static void R_InitTextures(void)
             patchlookup[patch++] = (p2 >= 0 ? p2 : p1);
         }
 
+    free(pnameslumps);
     // Load the map texture definitions from textures.lmp.
     // The data is contained in one or two lumps,
     //  TEXTURE1 for shareware, plus TEXTURE2 for commercial.
