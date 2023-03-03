@@ -90,7 +90,7 @@ static bool ReadVariableLength(unsigned int *result, SDL_RWops *stream)
 }
 
 // Read a byte sequence into the data buffer.
-static void *ReadByteSequence(unsigned int num_bytes, SDL_RWops *stream)
+static void *ReadByteSequence(size_t num_bytes, SDL_RWops *stream)
 {
     // Allocate a buffer. Allocate one extra byte, as malloc(0) is non-portable.
     byte    *result = malloc(num_bytes + 1);

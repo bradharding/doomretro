@@ -1292,8 +1292,9 @@ static void R_SortVisSprites(void)
     {
         static size_t   num_vissprite_ptrs;
 
-        if (num_vissprite_ptrs < num_vissprite * 2)
-            vissprite_ptrs = I_Realloc(vissprite_ptrs, (num_vissprite_ptrs = num_vissprite_alloc * 2) * sizeof(*vissprite_ptrs));
+        if (num_vissprite_ptrs < (size_t)num_vissprite * 2)
+            vissprite_ptrs = I_Realloc(vissprite_ptrs,
+                (num_vissprite_ptrs = (size_t)num_vissprite_alloc * 2) * sizeof(*vissprite_ptrs));
 
         for (int i = num_vissprite - 1; i >= 0; i--)
             vissprite_ptrs[i] = vissprites + i;
