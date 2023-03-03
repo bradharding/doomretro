@@ -83,6 +83,7 @@
   * The automatic use of doors and switches is now more responsive.
   * The player no longer grunts repeatedly when standing in front of a locked door they don’t have the key for, or a reusable switch that has just been turned on.
   * A player message will only appear once when the player stands in front of a locked door they don’t have the key for.
+  * The `+use` action now still works.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

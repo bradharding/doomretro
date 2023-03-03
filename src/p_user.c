@@ -659,7 +659,8 @@ void P_PlayerThink(void)
         P_UseLines();
         autousing = false;
     }
-    else if (cmd->buttons & BT_USE)
+
+    if (cmd->buttons & BT_USE)
     {
         if (!viewplayer->usedown)
         {
