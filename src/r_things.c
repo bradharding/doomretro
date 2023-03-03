@@ -1159,6 +1159,9 @@ static void R_DrawPlayerSprites(void)
     state_t     *weaponstate = weapon->state;
     state_t     *flashstate = flash->state;
 
+    if (!weaponstate)
+        return;
+
     // add all active psprites
     if (invisibility && (invisibility > STARTFLASHING || (invisibility & FLASHONTIC)) && r_textures)
     {
@@ -1287,7 +1290,7 @@ static void R_SortVisSprites(void)
 {
     if (num_vissprite)
     {
-        static unsigned int num_vissprite_ptrs;
+        static size_t   num_vissprite_ptrs;
 
         if (num_vissprite_ptrs < num_vissprite * 2)
             vissprite_ptrs = I_Realloc(vissprite_ptrs, (num_vissprite_ptrs = num_vissprite_alloc * 2) * sizeof(*vissprite_ptrs));

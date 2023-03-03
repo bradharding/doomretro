@@ -561,8 +561,8 @@ static void R_Subsector(int num)
 
 void R_RenderBSPNode(int bspnum)
 {
-    int bspstack[MAX_BSP_DEPTH];
-    int sidestack[MAX_BSP_DEPTH];
+    int bspstack[MAX_BSP_DEPTH] = { 0 };
+    int sidestack[MAX_BSP_DEPTH] = { 0 };
     int sp = 0;
 
     while (true)

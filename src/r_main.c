@@ -1072,7 +1072,7 @@ static void R_SetupFrame(void)
         fixedcolormap = fullcolormap;
 
         if (viewplayer->fixedcolormap == INVERSECOLORMAP)
-            fixedcolormap += 32 * 256 * sizeof(lighttable_t);
+            fixedcolormap += (size_t)32 * 256 * sizeof(lighttable_t);
 
         usebrightmaps = false;
 

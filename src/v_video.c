@@ -115,7 +115,7 @@ void V_FillTransRect(int screen, int x, int y, int width, int height, int color1
 {
     byte    *dest = &screens[screen][y * SCREENWIDTH + x];
 
-    tinttab1 += (color1 << 8);
+    tinttab1 += ((size_t)color1 << 8);
 
     for (int xx = 0; xx < width; xx++)
     {
@@ -132,8 +132,8 @@ void V_FillSoftTransRect(int screen, int x, int y, int width, int height, int co
     byte    *dest = &screens[screen][y * SCREENWIDTH + x];
     byte    *dot;
 
-    tinttab1 += (color1 << 8);
-    tinttab2 += (color2 << 8);
+    tinttab1 += ((size_t)color1 << 8);
+    tinttab2 += ((size_t)color2 << 8);
 
     for (int xx = 0; xx < width; xx++)
     {
@@ -1064,7 +1064,7 @@ void V_DrawTranslucentAltHUDPatch(int x, int y, patch_t *patch, int from, int to
                 {
                     if (from == -1)
                         *dest = tinttab20[(nearestwhite << 8) + *dest];
-                    else
+                    else if (tinttab)
                         *dest = tinttab[(nearestcolors[dot] << 8) + *dest];
                 }
 

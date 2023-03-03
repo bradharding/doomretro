@@ -250,10 +250,8 @@ void C_Output(const char *string, ...)
     if (numconsolestrings >= (int)consolestringsmax)
         console = I_Realloc(console, (consolestringsmax += CONSOLESTRINGSMAX) * sizeof(*console));
 
-    if (*buffer)
-        buffer[0] = toupper(buffer[0]);
-
     M_StringCopy(console[numconsolestrings].string, buffer, sizeof(console[0].string));
+    console[numconsolestrings].string[0] = toupper(console[numconsolestrings].string[0]);
     console[numconsolestrings].indent = 0;
     console[numconsolestrings].wrap = 0;
     console[numconsolestrings++].stringtype = outputstring;
@@ -1376,7 +1374,6 @@ void C_Drawer(void)
     int             y = CONSOLELINEHEIGHT * (CONSOLELINES - 1) - CONSOLELINEHEIGHT / 2 + 1;
     const int       bottomline = (outputhistory == -1 ? numconsolestrings : outputhistory + CONSOLELINES) - 1;
     int             len;
-    char            partialinput[255];
     const bool      prevconsoleactive = consoleactive;
     static uint64_t consolewait;
     const uint64_t  tics = I_GetTimeMS();
@@ -1600,6 +1597,8 @@ void C_Drawer(void)
 
     if (consoleinput[0] != '\0')
     {
+        char partialinput[255] = "";
+
         // draw input text to left of caret
         for (i = 0; i < MIN(selectstart, caretpos); i++)
             partialinput[i] = consoleinput[i];
@@ -1677,6 +1676,8 @@ void C_Drawer(void)
     // draw any selected text to right of caret
     if (selectend > caretpos)
     {
+        char partialinput[255] = "";
+
         for (i = selectstart; i < selectend; i++)
             partialinput[i - selectstart] = consoleinput[i];
 
@@ -1709,6 +1710,8 @@ void C_Drawer(void)
     // draw input text to right of caret
     if (caretpos < (len = (int)strlen(consoleinput)))
     {
+        char partialinput[255] = "";
+
         for (i = selectend; i < len; i++)
             partialinput[i - selectend] = consoleinput[i];
 

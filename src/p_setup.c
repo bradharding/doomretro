@@ -2507,7 +2507,7 @@ static void P_LoadBlockMap(int lump)
 //
 static void RejectOverrun(int lump, const byte **matrix)
 {
-    const size_t    required = (numsectors * numsectors + 7) / 8;
+    const size_t    required = ((size_t)numsectors * numsectors + 7) / 8;
     const size_t    length = W_LumpLength(lump);
 
     if (length < required)
@@ -3440,7 +3440,7 @@ static bool P_ParseMapInfo(char *scriptname)
                                     break;
                                 }
 
-                                if (!buffer[0])
+                                if (!strlen(buffer))
                                     M_StringCopy(buffer, sc_String, sizeof(buffer));
                                 else
                                 {
