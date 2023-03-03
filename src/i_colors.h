@@ -44,7 +44,7 @@
 
 #define BLACK           0
 #define BLUE1         198
-#define BLUE2         199
+#define BLUE2         201
 #define BLUE3         203
 #define DARKBLUE      244
 #define DARKGRAY      102
