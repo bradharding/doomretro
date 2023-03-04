@@ -82,8 +82,9 @@
 * When the `autouse` CVAR is `on`:
   * The automatic use of doors and switches is now more responsive.
   * The player no longer grunts repeatedly when standing in front of a locked door that they don’t have the key for, or a reusable switch that has just been turned on.
-  * A player message will now only appear once when the player is standing in front of a locked door that they don’t have the key for.
+  * A player message now only appears once when the player is standing in front of a locked door that they don’t have the key for.
   * The player may now still use the `+use` action.
+  * The automatic use of doors and switches now doesn’t occur when no clipping mode is enabled.
 * The randomization of decorations that animate in a map has improved in some instances when the `r_randomstartframes` CVAR is `on`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)

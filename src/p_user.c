@@ -653,7 +653,7 @@ void P_PlayerThink(void)
         P_ChangeWeapon((cmd->buttons & BT_WEAPONMASK) >> BT_WEAPONSHIFT);
 
     // check for use
-    if (autouse)
+    if (autouse && !(viewplayer->cheats & CF_NOCLIP))
     {
         autousing = true;
         P_UseLines();
