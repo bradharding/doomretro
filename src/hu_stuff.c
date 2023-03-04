@@ -1564,6 +1564,7 @@ void HU_Ticker(void)
 
         if (viewplayer->message)
             free(viewplayer->message);
+
         viewplayer->message = NULL;
     }
 }
@@ -1640,6 +1641,7 @@ void HU_ClearMessages(void)
 {
     if (viewplayer->message)
         free(viewplayer->message);
+
     viewplayer->message = NULL;
     message_counter = 7;
     message_on = false;

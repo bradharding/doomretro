@@ -45,9 +45,9 @@
 #include "memio.h"
 #include "mus2mid.h"
 #include "s_sound.h"
-#include "z_zone.h"
 #include "SDL_mixer.h"
 #include "version.h"
+#include "z_zone.h"
 
 bool        midimusictype;
 bool        musmusictype;
