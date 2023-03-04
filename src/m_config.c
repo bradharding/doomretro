@@ -48,6 +48,7 @@
 #include "i_gamecontroller.h"
 #include "m_config.h"
 #include "m_misc.h"
+#include "z_zone.h"
 #include "version.h"
 
 bool        alwaysrun = alwaysrun_default;
@@ -1082,7 +1083,7 @@ void M_LoadCVARs(char *filename)
             {
                 case DEFAULT_STRING:
                 {
-                    char    *temp = M_StringDuplicate(value + 1);
+                    char    *temp = Z_Strdup(value + 1, PU_STATIC, NULL);
 
                     temp[strlen(temp) - 1] = '\0';
                     *(char **)cvars[i].location = temp;
@@ -1166,7 +1167,7 @@ void M_LoadCVARs(char *filename)
                 }
 
                 case DEFAULT_OTHER:
-                    *(char **)cvars[i].location = M_StringDuplicate(value);
+                    *(char **)cvars[i].location = Z_Strdup(value, PU_STATIC, NULL);
                     cvarcount++;
 
                     break;
