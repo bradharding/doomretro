@@ -45,6 +45,7 @@
 #include "memio.h"
 #include "mus2mid.h"
 #include "s_sound.h"
+#include "z_zone.h"
 #include "SDL_mixer.h"
 #include "version.h"
 
@@ -241,7 +242,7 @@ void *I_RegisterSong(void *data, int size)
 
                     mem_get_buf(outstream, &outbuf, &midlen);
 
-                    if ((mid = malloc(midlen)))
+                    if ((mid = Z_Malloc(midlen, PU_LEVEL, NULL)))
                     {
                         memcpy(mid, outbuf, midlen);
                         data = mid;
