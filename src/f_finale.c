@@ -356,18 +356,23 @@ static void F_TextWrite(void)
     int         cy = 10;
     char        prev = ' ';
 
-    // erase the entire screen to a tiled background
-    byte        *src = (byte *)W_CacheLumpName(finaleflat);
-    byte        *dest = screens[0];
+    if (R_CheckFlatNumForName(finaleflat) == -1)
+        V_DrawPagePatch(0, W_CacheLumpName(finaleflat));
+    else
+    {
+        // erase the entire screen to a tiled background
+        byte    *src = (byte *)(W_CacheLumpName(finaleflat));
+        byte    *dest = screens[0];
 
-    for (int y = 0; y < SCREENHEIGHT; y++)
-        for (int x = 0; x < SCREENWIDTH; x += 2)
-        {
-            byte    dot = src[(((y >> 1) & 63) << 6) + ((x >> 1) & 63)];
+        for (int y = 0; y < SCREENHEIGHT; y++)
+            for (int x = 0; x < SCREENWIDTH; x += 2)
+            {
+                byte    dot = src[(((y >> 1) & 63) << 6) + ((x >> 1) & 63)];
 
-            *dest++ = dot;
-            *dest++ = dot;
-        }
+                *dest++ = dot;
+                *dest++ = dot;
+            }
+    }
 
     for (int count = MAX(0, FixedDiv((finalecount - 10) * FRACUNIT, TextSpeed()) >> FRACBITS); count; count--)
     {
