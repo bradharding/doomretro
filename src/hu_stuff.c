@@ -253,6 +253,7 @@ void HU_Start(void)
     char        *s = M_StringDuplicate(automaptitle);
     int         len = (int)strlen(s);
     const int   maxwidth = MIN(VANILLAWIDTH, MAPWIDTH / SCREENSCALE) - HU_MSGX * 2;
+    char        *p = s;
 
     if (headsupactive)
         HU_Stop();
@@ -293,6 +294,7 @@ void HU_Start(void)
         HUlib_AddCharToTextLine(&w_title, *(s++));
 
     headsupactive = true;
+    free(p);
 }
 
 static void DrawHUDNumber(int *x, int y, int val, const byte *tinttab,
@@ -1560,6 +1562,8 @@ void HU_Ticker(void)
         message_nottobefuckedwith = message_dontfuckwithme;
         message_dontfuckwithme = false;
 
+        if (viewplayer->message)
+            free(viewplayer->message);
         viewplayer->message = NULL;
     }
 }
@@ -1584,6 +1588,7 @@ void HU_SetPlayerMessage(char *message, bool group, bool external)
             char    *temp = commify(++messagecount);
 
             M_snprintf(buffer, sizeof(buffer), "%s (%s)", message, temp);
+            free(viewplayer->message);
             viewplayer->message = sentencecase(buffer);
             free(temp);
         }
@@ -1633,6 +1638,8 @@ void HU_PlayerMessage(char *message, bool group, bool external)
 
 void HU_ClearMessages(void)
 {
+    if (viewplayer->message)
+        free(viewplayer->message);
     viewplayer->message = NULL;
     message_counter = 7;
     message_on = false;
