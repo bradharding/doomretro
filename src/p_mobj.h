@@ -515,5 +515,6 @@ typedef struct bloodsplat_s
     void                (*viscolfunc)(void);
 } bloodsplat_t;
 
+extern int  prevnumframes;
 extern int  prevthingx, prevthingy;
 extern int  prevthingbob;

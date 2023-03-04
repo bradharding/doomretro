@@ -1112,6 +1112,7 @@ void P_SpawnMoreBlood(mobj_t *mobj)
 // P_SpawnMapThing
 // The fields of the mapthing should already be in host byte order.
 //
+int prevnumframes;
 int prevthingx, prevthingy;
 int prevthingbob;
 
@@ -1289,7 +1290,6 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, const bool spawnmonsters)
     // so groups of same mobjs are deliberately out of sync with each other
     if (info->frames > 1 && r_randomstartframes)
     {
-        static int  prevnumframes;
         const int   numframes = M_RandomIntNoRepeat(0, info->frames, prevnumframes);
         state_t     *st = mobj->state;
 

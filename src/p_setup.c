@@ -1839,6 +1839,7 @@ static void P_LoadThings(int map, int lump)
     numspawnedthings = 0;
     numdecorations = 0;
 
+    prevnumframes = 0;
     prevthingx = 0;
     prevthingy = 0;
     prevthingbob = 0;
