@@ -7400,7 +7400,9 @@ static void take_cmd_func2(char *cmd, char *parms)
 
             if (viewplayer->health > initial_health)
             {
+                healthcvar = true;
                 P_DamageMobj(viewplayer->mo, viewplayer->mo, viewplayer->mo, viewplayer->health - initial_health, false, false);
+                healthcvar = false;
                 result = true;
             }
 
