@@ -273,8 +273,18 @@ void S_FadeOutSounds(void)
         return;
 
     for (int cnum = 0; cnum < s_channels; cnum++)
-        if (channels[cnum].sfxinfo)
-            I_FadeOutSound(cnum);
+    {
+        channel_t   *c = &channels[cnum];
+
+        if (c->sfxinfo)
+        {
+            if (I_SoundIsPlaying(c->handle))
+                I_FadeOutSound(c->handle);
+
+            c->sfxinfo = NULL;
+            c->origin = NULL;
+        }
+    }
 }
 
 static int S_GetMusicNum(void)
