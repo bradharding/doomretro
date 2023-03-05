@@ -2799,6 +2799,7 @@ static void give_cmd_func2(char *cmd, char *parms)
             viewplayer->weaponowned[wp_pistol] = true;
             oldweaponsowned[wp_pistol] = true;
             viewplayer->pendingweapon = wp_pistol;
+            viewplayer->ammo[am_clip] = MAX(1, viewplayer->ammo[am_clip]);
 
             if (M_StringCompare(playername, playername_default))
                 C_PlayerMessage("You were given a pistol.");
@@ -7406,10 +7407,11 @@ static void take_cmd_func2(char *cmd, char *parms)
                 result = true;
             }
 
-            for (weapontype_t i = wp_shotgun; i < NUMWEAPONS; i++)
+            for (weapontype_t i = wp_pistol; i < NUMWEAPONS; i++)
                 if (viewplayer->weaponowned[i])
                 {
-                    viewplayer->weaponowned[i] = oldweaponsowned[i] = false;
+                    viewplayer->weaponowned[i] = false;
+                    oldweaponsowned[i] = false;
                     result = true;
                 }
 
