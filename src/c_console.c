@@ -1120,7 +1120,8 @@ char *C_CreateTimeStamp(const int index)
     if ((hours += tics / 3600) > 12)
         hours %= 12;
 
-    M_snprintf(console[index].timestamp, sizeof(console[0].timestamp), "%i:%02i:%02i", (!hours ? 12 : hours), minutes, seconds);
+    M_snprintf(console[index].timestamp, sizeof(console[0].timestamp), "%i:%02i:%02i",
+        (!hours ? 12 : hours), minutes, seconds);
     return console[index].timestamp;
 }
 
@@ -1222,7 +1223,8 @@ void C_UpdatePlayerPositionOverlay(void)
             viewx >> FRACBITS, viewy >> FRACBITS, z >> FRACBITS);
     }
 
-    C_DrawOverlayText(screens[0], SCREENWIDTH, x - C_OverlayWidth(angle, true), y, tinttab, angle, color, true);
+    C_DrawOverlayText(screens[0], SCREENWIDTH, x - C_OverlayWidth(angle, true), y,
+        tinttab, angle, color, true);
     C_DrawOverlayText(screens[0], SCREENWIDTH, x - C_OverlayWidth(coordinates, true),
         y + OVERLAYLINEHEIGHT, tinttab, coordinates, color, true);
 }
@@ -1394,7 +1396,8 @@ void C_Drawer(void)
                     169, 173, 176, 179, 182, 184, 186, 188, 190, 192, 194, 194, 195, 195
                 };
 
-                const int   height = (gamestate == GS_TITLESCREEN ? consoledown[consoleanim] * 2 + 5 : consoledown[consoleanim]);
+                const int   height = (gamestate == GS_TITLESCREEN ? consoledown[consoleanim] * 2 + 5 :
+                                consoledown[consoleanim]);
 
                 if (consoleheight > height)
                     consolewait = 0;

@@ -34,11 +34,11 @@
   * The number of cells the player has picked up is no longer displayed when playing *DOOM (Shareware)*.
   * The number of times the player has died is now corrected when they are resurrected using either the `resurrect` CCMD or the `IDDQD` cheat.
 * These improvements have been made to the support for `DEHACKED` lumps:
-  * Cheats that have been changed may now be entered in the console.
+  * Cheats that have been changed are now also able to be entered in the console.
   * Specifying a weapon name will no longer cause a crash.
-  * A bug is fixed whereby par times couldn’t be set in some instances.
-* These improvements have been made to the support for `MAPINFO` lumps:
-  * The finale’s background will now display correctly if `interbackdrop` specifies a larger image rather than a 64×64 flat texture.
+  * A bug is fixed whereby par times wouldn’t be changed in some instances.
+* These improvements have been made to the support for `UMAPINFO` lumps:
+  * The finale’s background will now display correctly if `interbackdrop` specifies a larger patch rather than a 64×64 flat texture.
   * `secretnext` now works as intended.
 * *DOOM’s* stimpacks and medikits no longer appear in [*Chex Quest*](https://doomwiki.org/wiki/Chex_Quest).
 * Minor improvements have been made to the support of [*REKKR*](https://www.doomworld.com/idgames/levels/doom/megawads/rekkr).

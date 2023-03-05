@@ -535,7 +535,8 @@ static void G_SetInitialWeapon(void)
     viewplayer->weaponowned[wp_fist] = true;
     viewplayer->weaponowned[wp_pistol] = true;
     viewplayer->ammo[am_clip] = initial_bullets;
-    viewplayer->readyweapon = (!initial_bullets && weaponinfo[wp_pistol].ammotype != am_noammo ? wp_fist : wp_pistol);
+    viewplayer->readyweapon = (!initial_bullets && weaponinfo[wp_pistol].ammotype != am_noammo ?
+        wp_fist : wp_pistol);
     viewplayer->pendingweapon = viewplayer->readyweapon;
 
     for (int i = 0; i < NUMAMMO; i++)
@@ -573,7 +574,7 @@ void G_DoLoadLevel(void)
         P_SetTimer(timer);
 
     if (wipegamestate == GS_LEVEL)
-        wipegamestate = GS_NONE;                // force a wipe
+        wipegamestate = GS_NONE;    // force a wipe
 
     gamestate = GS_LEVEL;
 
@@ -684,7 +685,8 @@ void G_ToggleAlwaysRun(evtype_t type)
     const int   oldselectend = selectend;
 
 #if defined(_WIN32)
-    alwaysrun = (keyboardalwaysrun == KEY_CAPSLOCK && type == ev_keydown ? (GetKeyState(VK_CAPITAL) & 0x0001) : !alwaysrun);
+    alwaysrun = (keyboardalwaysrun == KEY_CAPSLOCK && type == ev_keydown ?
+        (GetKeyState(VK_CAPITAL) & 0x0001) : !alwaysrun);
 #else
     alwaysrun = !alwaysrun;
 #endif

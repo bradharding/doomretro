@@ -3158,8 +3158,6 @@ void P_SetupLevel(int ep, int map)
 
     P_CalcSegsLength();
 
-    r_bloodsplats_total = 0;
-
     markpointnum = 0;
     markpointnum_max = 0;
     markpoints = NULL;
