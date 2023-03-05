@@ -116,16 +116,14 @@ void *Z_Calloc(size_t n1, size_t n2, int tag, void **user)
     return ((n1 *= n2) ? memset(Z_Malloc(n1, tag, user), 0, n1) : NULL);
 }
 
-char *Z_Strdup(const char *s, int tag, void **user)
+char *Z_StringDuplicate(const char *s, int tag, void **user)
 {
-    char *d = Z_Malloc(strlen(s) + 1, tag, user);
-    if (d)
-    {
-        strcpy(d, s);
-        return d;
-    }
+    char    *d = Z_Malloc(strlen(s) + 1, tag, user);
 
-    return NULL;
+    if (d)
+        strcpy(d, s);
+
+    return d;
 }
 
 void Z_Free(void *ptr)

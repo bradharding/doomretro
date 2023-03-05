@@ -1083,7 +1083,7 @@ void M_LoadCVARs(char *filename)
             {
                 case DEFAULT_STRING:
                 {
-                    char    *temp = Z_Strdup(value + 1, PU_STATIC, NULL);
+                    char    *temp = Z_StringDuplicate(value + 1, PU_STATIC, NULL);
 
                     temp[strlen(temp) - 1] = '\0';
                     *(char **)cvars[i].location = temp;
@@ -1167,7 +1167,7 @@ void M_LoadCVARs(char *filename)
                 }
 
                 case DEFAULT_OTHER:
-                    *(char **)cvars[i].location = Z_Strdup(value, PU_STATIC, NULL);
+                    *(char **)cvars[i].location = Z_StringDuplicate(value, PU_STATIC, NULL);
                     cvarcount++;
 
                     break;
