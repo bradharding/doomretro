@@ -23,7 +23,7 @@
 * The `toggle` CCMD now only works with boolean CVARs.
 * When the `m_pointer` CVAR is `on`:
   * The mouse wheel may now be used to scroll among menu items again.
-  * Pressing a mouse button without moving the mouse now opens or the menu, or selects the currently highlighted menu item, rather than just showing the mouse pointer.
+  * If the mouse pointer is hidden, pressing a mouse button without moving the mouse now opens the menu from the title screen, or selects the currently highlighted item if the menu is open.
 * The fade effect when opening the menu is now slightly faster than closing it when the `fade` CVAR is `on`.
 * Two additional savegame slots are now available in the load and save game menus.
 * A random sound effect now plays when quitting the game by entering the `quit` CCMD in the console or pressing <kbd>ALT</kbd> + <kbd>F4</kbd>.
