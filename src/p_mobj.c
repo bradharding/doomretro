@@ -1512,7 +1512,7 @@ void P_SpawnBloodSplat(const fixed_t x, const fixed_t y, const int color,
 
         if (sec->terraintype == SOLID && (!usemaxheight || sec->interpfloorheight <= maxheight))
         {
-            bloodsplat_t    *splat = Z_Malloc(sizeof(*splat), PU_LEVEL, NULL);
+            bloodsplat_t    *splat = malloc(sizeof(*splat));
 
             if (splat)
             {

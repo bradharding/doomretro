@@ -235,6 +235,8 @@ void P_UnsetBloodSplatPosition(bloodsplat_t *splat)
 
     if ((*prev = next))
         next->prev = prev;
+
+    free(splat);
 }
 
 //
