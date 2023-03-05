@@ -23,7 +23,7 @@
 * The `toggle` CCMD now only works with boolean CVARs.
 * When the `m_pointer` CVAR is `on`:
   * The mouse wheel may now be used to scroll among menu items again.
-  * Pressing a mouse button on the title screen without moving the mouse now opens the menu rather than just showing the mouse pointer.
+  * Pressing a mouse button without moving the mouse now opens or the menu, or selects the currently highlighted menu item, rather than just showing the mouse pointer.
 * The fade effect when opening the menu is now slightly faster than closing it when the `fade` CVAR is `on`.
 * Two additional savegame slots are now available in the load and save game menus.
 * A random sound effect now plays when quitting the game by entering the `quit` CCMD in the console or pressing <kbd>ALT</kbd> + <kbd>F4</kbd>.
@@ -90,7 +90,7 @@
   * The player no longer grunts repeatedly when standing in front of a locked door that they don’t have the key for, or a reusable switch that has just been turned on.
   * A player message now only appears once when the player is standing in front of a locked door that they don’t have the key for.
   * The player may now still use the `+use` action.
-  * The automatic use of doors and switches now doesn’t occur when no clipping mode is enabled.
+  * The automatic use of doors and switches no longer occurs when no clipping mode is enabled.
 * The randomization of decorations that animate in a map has improved in some instances when the `r_randomstartframes` CVAR is `on`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)

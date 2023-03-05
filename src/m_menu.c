@@ -2672,7 +2672,7 @@ bool M_Responder(event_t *ev)
                 }
                 else if ((ev->data1 & MOUSE_LEFTBUTTON) && mousewait < I_GetTime())
                 {
-                    if (inhelpscreens)
+                    if (inhelpscreens || !usingmouse)
                     {
                         key = KEY_ENTER;
                         mousewait = I_GetTime() + 8;
