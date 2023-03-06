@@ -1144,7 +1144,7 @@ static void G_DoReborn(void)
 {
     if (solonet)
         P_ResurrectPlayer(initial_health);
-    else if (quicksaveslot >= 0 && autoload)
+    else if (quicksaveslot >= 0 && autoload && !pistolstart)
         gameaction = ga_autoloadgame;
     else
     {
@@ -1476,7 +1476,7 @@ static void G_DoWorldDone(void)
     G_DoLoadLevel();
     viewactive = true;
 
-    if (quicksaveslot >= 0 && autosave)
+    if (quicksaveslot >= 0 && autosave && !pistolstart)
         gameaction = ga_autosavegame;
 }
 
