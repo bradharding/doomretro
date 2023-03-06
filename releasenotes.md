@@ -25,7 +25,7 @@
   * The mouse wheel may now be used to scroll among menu items again.
   * If the mouse pointer is hidden, pressing a mouse button without moving the mouse now opens the menu from the title screen, or selects the currently highlighted item if the menu is open.
 * The fade effect when opening the menu is now slightly faster than closing it when the `fade` CVAR is `on`.
-* Minor improvements have been made to the menu’s background.
+* Minor improvements have been made to the menu’s background when the `r_detail` CVAR is `low`.
 * Two additional savegame slots are now available in the load and save game menus.
 * A random sound effect now plays when quitting the game by entering the `quit` CCMD in the console or pressing <kbd>ALT</kbd> + <kbd>F4</kbd>.
 * Improvements have been made to parsing [`BRGHTMPS`](https://raw.githubusercontent.com/bradharding/doomretro/master/res/BRGHTMPS) lumps.
