@@ -73,7 +73,7 @@ IF (APPLE)
 ENDIF (APPLE)
 
 IF (UNIX)
-	SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g -std=c2x -Wno-deprecated-non-prototype")
+	SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g -std=gnu99 -Wno-deprecated-non-prototype")
 ENDIF (UNIX)
 
 TARGET_LINK_LIBRARIES(
