@@ -4,7 +4,7 @@
 
 * *DOOM Retro* is now built using v17.5.1 of [*Microsoft Visual Studio Community 2022*](https://visualstudio.microsoft.com/vs/community/).
 * *DOOM Retro* now uses [*SDL v2.26.3*](https://www.libsdl.org/), [*SDL_mixer v2.6.3*](https://www.libsdl.org/SDL_mixer) and [*SDL_image v2.6.3*](https://www.libsdl.org/SDL_image).
-* Several optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
+* Extensive optimizations have been made to further improve the overall performance, stability and memory usage of *DOOM Retro*.
 * When *DOOM Retro* is run for the first time, the WAD launcher will now also look for the IWADs included with installations of [*DOOM Eternal*](https://store.steampowered.com/app/782330/DOOM_Eternal/).
 * The [*id Software*](https://www.idsoftware.com) logo has been removed from the title screen to be consistent with the latest rereleases of *DOOM* and *DOOM II*.
 * Extensive changes have been made to text that is output to the console.
@@ -92,7 +92,10 @@
   * The player may now still use the `+use` action.
   * The automatic use of doors and switches no longer occurs when no clipping mode is enabled.
 * The randomization of decorations that animate in a map has improved in some instances when the `r_randomstartframes` CVAR is `on`.
-* When the `pistolstart` CCMD or `-pistolstart` command-line parameter are used, games are now still autosaved if the `autosave` CVAR is `on` and autoloaded if the `autoload` CVAR is `on`.
+* These changes have been made when the `pistolstart` CCMD or `-pistolstart` command-line parameter are used:
+  * Games are now still autosaved if the `autosave` CVAR is `on`, and autoloaded if the `autoload` CVAR is `on`.
+  * A warning is now displayed in the console at the start of each map indicating the player now has “100% health, no armor, and only a pistol with 50 bullets”.
+  * The 100% health and 50 bullets can no longer be changed in a `DEHACKED` lump.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

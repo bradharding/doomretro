@@ -549,7 +549,7 @@ static void G_SetInitialWeapon(void)
 //
 static void G_ResetPlayer(void)
 {
-    viewplayer->health = initial_health;
+    viewplayer->health = 100;
     viewplayer->armorpoints = 0;
     viewplayer->armortype = armortype_none;
     viewplayer->preferredshotgun = wp_shotgun;
@@ -557,7 +557,15 @@ static void G_ResetPlayer(void)
     viewplayer->backpack = false;
     memset(viewplayer->weaponowned, false, sizeof(viewplayer->weaponowned));
     memset(viewplayer->ammo, 0, sizeof(viewplayer->ammo));
-    G_SetInitialWeapon();
+
+    viewplayer->weaponowned[wp_fist] = true;
+    viewplayer->weaponowned[wp_pistol] = true;
+    viewplayer->ammo[am_clip] = 50;
+    viewplayer->readyweapon = wp_pistol;
+    viewplayer->pendingweapon = wp_pistol;
+
+    for (int i = 0; i < NUMAMMO; i++)
+        viewplayer->maxammo[i] = maxammo[i];
 }
 
 //
@@ -567,6 +575,7 @@ void G_DoLoadLevel(void)
 {
     int         ep;
     const int   map = (gameepisode - 1) * 10 + gamemap;
+    bool        resetplayer;
 
     HU_DrawDisk();
 
@@ -608,7 +617,7 @@ void G_DoLoadLevel(void)
     freeze = false;
 
     // [BH] Reset player's health, armor, weapons and ammo on pistol start
-    if (pistolstart || P_GetMapPistolStart(map))
+    if ((resetplayer = (pistolstart || P_GetMapPistolStart(map))))
         G_ResetPlayer();
 
     if (viewplayer->cheats & CF_CHOPPERS)
@@ -642,6 +651,15 @@ void G_DoLoadLevel(void)
     P_MapName(ep, gamemap);
 
     P_SetupLevel(ep, gamemap);
+
+    // [BH] Reset player's health, armor, weapons and ammo on pistol start
+    if (resetplayer && map != 1)
+    {
+        if (M_StringCompare(playername, playername_default))
+            C_Warning(0, "You now have 100%% health, no armor, and only a pistol with 50 bullets.");
+        else
+            C_Warning(0, "%s now have 100%% health, no armor, and only a pistol with 50 bullets.");
+    }
 
     skycolumnoffset = 0;
 
