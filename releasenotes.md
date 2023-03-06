@@ -92,6 +92,7 @@
   * The player may now still use the `+use` action.
   * The automatic use of doors and switches no longer occurs when no clipping mode is enabled.
 * The randomization of decorations that animate in a map has improved in some instances when the `r_randomstartframes` CVAR is `on`.
+* When the `pistolstart` CCMD or `-pistolstart` command-line parameter are used, games are now still autosaved if the `autosave` CVAR is `on` and autoloaded if the `autoload` CVAR is `on`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
