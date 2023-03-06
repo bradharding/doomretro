@@ -92,7 +92,7 @@
   * The player may now still use the `+use` action.
   * The automatic use of doors and switches no longer occurs when no clipping mode is enabled.
 * The randomization of decorations that animate in a map has improved in some instances when the `r_randomstartframes` CVAR is `on`.
-* These changes have been made when the `pistolstart` CCMD or `-pistolstart` command-line parameter are used:
+* When the `pistolstart` CCMD or `-pistolstart` command-line parameter are used:
   * Games are now still autosaved if the `autosave` CVAR is `on`, and autoloaded if the `autoload` CVAR is `on`.
   * A warning is now displayed in the console at the start of each map indicating the player now has “100% health, no armor, and only a pistol with 50 bullets”.
   * The 100% health and 50 bullets can no longer be changed in a `DEHACKED` lump.

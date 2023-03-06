@@ -151,13 +151,13 @@ int FindNearestColor(byte *palette, const byte red, const byte green, const byte
 
 void FindNearestColors(byte *palette)
 {
-    byte    *SPLSHPAL = W_CacheLumpName("SPLSHPAL");
+    byte    *playpal = W_CacheLastLumpName("PLAYPAL");
 
     for (int i = 0; i < 256; i++)
     {
-        const byte  red = *SPLSHPAL++;
-        const byte  green = *SPLSHPAL++;
-        const byte  blue = *SPLSHPAL++;
+        const byte  red = *playpal++;
+        const byte  green = *playpal++;
+        const byte  blue = *playpal++;
 
         nearestcolors[i] = FindNearestColor(palette, red, green, blue);
     }
@@ -182,7 +182,7 @@ int FindBrightDominantColor(patch_t *patch)
     int         color = 0;
     int         colors[256] = { 0 };
     const int   width = SHORT(patch->width);
-    byte        *palette = PLAYPAL;
+    byte        *playpal = PLAYPAL;
 
     for (int x = 0; x < width; x++)
     {
@@ -203,9 +203,9 @@ int FindBrightDominantColor(patch_t *patch)
 
     for (int i = 0, dominant = 1; i < 256; i++)
     {
-        const byte  red = *palette++;
-        const byte  green = *palette++;
-        const byte  blue = *palette++;
+        const byte  red = *playpal++;
+        const byte  green = *playpal++;
+        const byte  blue = *playpal++;
 
         if (colors[i] > dominant && (red >= 128 || green >= 128 || blue >= 128))
         {

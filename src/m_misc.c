@@ -433,8 +433,10 @@ char *M_StringJoin(const char *s, ...)
 
 bool M_StrToInt(const char *str, int *result)
 {
-    return (sscanf(str, " 0x%2x", (unsigned int *)result) == 1 || sscanf(str, " 0X%2x", (unsigned int *)result) == 1
-        || sscanf(str, " 0%3o", (unsigned int *)result) == 1 || sscanf(str, " %12d", result) == 1);
+    return (sscanf(str, " 0x%2x", (unsigned int *)result) == 1
+        || sscanf(str, " 0X%2x", (unsigned int *)result) == 1
+        || sscanf(str, " 0%3o", (unsigned int *)result) == 1
+        || sscanf(str, " %12d", result) == 1);
 }
 
 // Case-insensitive version of strstr()
@@ -927,7 +929,8 @@ char *striptrailingzero(float value, int precision)
     {
         int len;
 
-        M_snprintf(result, sizeof(result), "%.*f", (precision == 2 ? 2 : (value != floor(value))), value);
+        M_snprintf(result, sizeof(result), "%.*f",
+            (precision == 2 ? 2 : (value != floor(value))), value);
         len = (int)strlen(result);
 
         if (len >= 4 && result[len - 3] == '.' && result[len - 1] == '0')
@@ -942,8 +945,10 @@ void M_StripQuotes(char *str)
     int len = (int)strlen(str);
 
     if (len > 2
-        && (((str[0] == '"' || str[0] == '\x93') && (str[len - 1] == '"' || str[len - 1] == '\x94'))
-            || ((str[0] == '\'' || str[0] == '\x91') && (str[len - 1] == '\'' || str[len - 1] == '\x92'))))
+        && (((str[0] == '"' || str[0] == '\x93')
+            && (str[len - 1] == '"' || str[len - 1] == '\x94'))
+            || ((str[0] == '\'' || str[0] == '\x91')
+                && (str[len - 1] == '\'' || str[len - 1] == '\x92'))))
     {
         len -= 2;
         memmove(str, str + 1, len);

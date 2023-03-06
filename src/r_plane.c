@@ -192,7 +192,8 @@ static visplane_t *new_visplane(const unsigned int hash)
 //
 // R_FindPlane
 //
-visplane_t *R_FindPlane(fixed_t height, const int picnum, const int lightlevel, const fixed_t x, const fixed_t y)
+visplane_t *R_FindPlane(fixed_t height, const int picnum,
+    const int lightlevel, const fixed_t x, const fixed_t y)
 {
     visplane_t      *check;
     unsigned int    hash;
@@ -423,7 +424,8 @@ void R_DrawPlanes(void)
     if (r_liquid_swirl)
         updateswirl = !(consoleactive || inhelpscreens || paused || freeze);
 
-    dc_colormap[0] = (viewplayer->fixedcolormap == INVERSECOLORMAP && r_textures ? fixedcolormap : fullcolormap);
+    dc_colormap[0] = (viewplayer->fixedcolormap == INVERSECOLORMAP && r_textures ?
+        fixedcolormap : fullcolormap);
 
     for (int i = 0; i < MAXVISPLANES; i++)
         for (visplane_t *pl = visplanes[i]; pl; pl = pl->next)
@@ -455,7 +457,8 @@ void R_DrawPlanes(void)
                         if (s->missingtoptexture)
                         {
                             for (dc_x = pl->left; dc_x <= pl->right; dc_x++)
-                                if ((dc_yl = pl->top[dc_x]) != UINT_MAX && dc_yl <= (dc_yh = pl->bottom[dc_x]))
+                                if ((dc_yl = pl->top[dc_x]) != UINT_MAX
+                                    && dc_yl <= (dc_yh = pl->bottom[dc_x]))
                                     R_DrawColorColumn();
 
                             continue;
@@ -501,7 +504,8 @@ void R_DrawPlanes(void)
                         if ((dc_yl = pl->top[dc_x]) != UINT_MAX && dc_yl <= (dc_yh = pl->bottom[dc_x]))
                         {
                             dc_source = R_GetTextureColumn(tex_patch,
-                                ((((an + xtoviewangle[dc_x]) ^ flip) / (1 << (ANGLETOSKYSHIFT - FRACBITS))) + skycolumnoffset) / FRACUNIT);
+                                ((((an + xtoviewangle[dc_x]) ^ flip) / (1 << (ANGLETOSKYSHIFT - FRACBITS)))
+                                + skycolumnoffset) / FRACUNIT);
 
                             skycolfunc();
                         }

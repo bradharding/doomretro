@@ -2022,11 +2022,11 @@ static void D_DoomMainSetup(void)
     if ((solonet = M_CheckParm("-solonet")))
         C_Output("A " BOLD("-solonet") " parameter was found on the command-line. "
             "Things usually intended for multiplayer will now spawn at the start of each map, "
-            "and the player will respawn without restarting the map if they die.");
+            "and the player will respawn without the map restarting if they die.");
     else if ((solonet = M_CheckParm("-solo-net")))
         C_Output("A " BOLD("-solo-net") " parameter was found on the command-line. "
             "Things usually intended for multiplayer will now spawn at the start of each map, "
-            "and the player will respawn without restarting the map if they die.");
+            "and the player will respawn without the map restarting if they die.");
 
     if ((devparm = M_CheckParm("-devparm")))
         C_Output("A " BOLD("-devparm") " parameter was found on the command-line. %s", s_D_DEVSTR);
