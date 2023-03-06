@@ -523,6 +523,23 @@ void M_DrawMenuBackground(void)
         return;
     }
 
+    if (r_detail == r_detail_high || !r_supersampling)
+        for (int y = 0; y < SCREENAREA; y += 2 * SCREENWIDTH)
+            for (int x = 0; x < SCREENWIDTH; x += 2)
+            {
+                byte        *dot1 = *screens + y + x;
+                byte        *dot2 = dot1 + 1;
+                byte        *dot3 = dot2 + SCREENWIDTH;
+                byte        *dot4 = dot3 - 1;
+                const byte  color = tinttab50[(tinttab50[(*dot1 << 8) + *dot2] << 8)
+                                + tinttab50[(*dot3 << 8) + *dot4]];
+
+                *dot1 = color;
+                *dot2 = color;
+                *dot3 = color;
+                *dot4 = color;
+            }
+
     if (gametime != blurtic)
     {
         for (int y = 2 * SCREENWIDTH; y < SCREENAREA; y += 4 * SCREENWIDTH)
@@ -552,9 +569,6 @@ void M_DrawMenuBackground(void)
     memcpy(screens[0], blurscreen, SCREENAREA);
 
     M_DrawMenuBorder();
-
-    if (r_detail == r_detail_low)
-        V_LowGraphicDetail_Menu();
 
     if (mapwindow)
         memset(mapscreen, nearestblack, MAPAREA);
