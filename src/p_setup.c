@@ -3106,6 +3106,8 @@ void P_SetupLevel(int ep, int map)
 
     if (!samelevel)
     {
+        P_RemoveBloodSplats();
+
         free(segs);
         free(nodes);
         free(subsectors);
@@ -3115,8 +3117,6 @@ void P_SetupLevel(int ep, int map)
         free(sides);
         free(sectors);
         free(vertexes);
-
-        P_RemoveBloodSplats();
     }
 
     // note: most of this ordering is important
