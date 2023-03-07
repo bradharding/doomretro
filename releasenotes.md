@@ -2,7 +2,8 @@
 
 #### DOOM Retro v4.8.1
 
-* A bug is fixed whereby if the `alwaysrun` CVAR was `on`, the <kbd>CAPSLOCK</kbd> key wouldn’t turn off as intended when quitting *DOOM Retro*.
+* Minor changes have been made to text that is output to the console.
+* A bug is fixed whereby if the `alwaysrun` CVAR was `on`, the <kbd>CAPSLOCK</kbd> key wouldn’t always turn off as intended when quitting *DOOM Retro*.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

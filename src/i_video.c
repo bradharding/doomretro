@@ -79,19 +79,19 @@ void I_InitWindows32(void);
 
 #define SHAKEANGLE  ((double)M_BigRandomInt(-1000, 1000) * r_shake_damage / 100000.0)
 
-int             SCREENWIDTH;
-int             SCREENHEIGHT = VANILLAHEIGHT * SCREENSCALE;
-int             SCREENAREA;
-int             WIDESCREENDELTA;
-int             MAXWIDESCREENDELTA;
-int             WIDEFOVDELTA;
+int                 SCREENWIDTH;
+int                 SCREENHEIGHT = VANILLAHEIGHT * SCREENSCALE;
+int                 SCREENAREA;
+int                 WIDESCREENDELTA;
+int                 MAXWIDESCREENDELTA;
+int                 WIDEFOVDELTA;
 
-bool            nowidescreen = false;
+bool                nowidescreen = false;
 
-int             MAPWIDTH;
-unsigned int    MAPHEIGHT = VANILLAHEIGHT * SCREENSCALE;
-unsigned int    MAPAREA;
-int             MAPBOTTOM;
+int                 MAPWIDTH;
+unsigned int        MAPHEIGHT = VANILLAHEIGHT * SCREENSCALE;
+unsigned int        MAPAREA;
+int                 MAPBOTTOM;
 
 static bool         manuallypositioning;
 
