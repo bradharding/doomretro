@@ -762,10 +762,10 @@ typedef struct
 static altkeypic_t altkeypics[NUMCARDS] =
 {
     { BLUE3,   NULL, NULL },
-    { YELLOW2, NULL, NULL },
+    { YELLOW1, NULL, NULL },
     { RED2,    NULL, NULL },
     { BLUE3,   NULL, NULL },
-    { YELLOW2, NULL, NULL },
+    { YELLOW1, NULL, NULL },
     { RED2,    NULL, NULL }
 };
 
@@ -1122,7 +1122,7 @@ static void HU_DrawAltHUD(void)
                     fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 2, 101, 4,
                         blue3, nearestwhite, true, true, tinttab90, tinttab5);
                     fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 2, armor - 100 + (armor == 200),
-                        4, blue2, nearestwhite, true, (armor == 200), tinttab90, tinttab5);
+                        4, blue2, nearestwhite, true, (armor == 200), tinttab90, tinttab10);
                 }
             }
             else
