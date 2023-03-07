@@ -2,6 +2,7 @@
 
 #### DOOM Retro v4.8.1
 
+* *DOOM Retro* now uses [*SDL v2.26.4*](https://www.libsdl.org/).
 * Minor changes have been made to text that is output to the console.
 * A bug is fixed whereby if the `alwaysrun` CVAR was `on`, the <kbd>CAPSLOCK</kbd> key wouldn’t always turn off as intended when quitting *DOOM Retro*.
 * Minor improvements have been made to the color of some elements in the alternate widescreen HUD.
