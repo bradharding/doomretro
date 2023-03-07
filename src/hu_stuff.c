@@ -1519,9 +1519,7 @@ void HU_Ticker(void)
     // display message if necessary
     else if (viewplayer->message && (!message_nottobefuckedwith || message_dontfuckwithme))
     {
-        if (message_secret)
-            HUlib_AddMessageToSText(&w_message, viewplayer->message);
-        else if (messages || message_dontfuckwithme)
+        if (messages || message_dontfuckwithme || message_secret)
         {
             char    message[133];
 
@@ -1554,18 +1552,18 @@ void HU_Ticker(void)
             }
 
             HUlib_AddMessageToSText(&w_message, message);
+
+            message_fadeon = (!message_on || message_counter <= 5);
+            message_on = true;
+            message_counter = HU_MSGTIMEOUT;
+            message_nottobefuckedwith = message_dontfuckwithme;
+            message_dontfuckwithme = false;
+
+            if (viewplayer->message)
+                free(viewplayer->message);
+
+            viewplayer->message = NULL;
         }
-
-        message_fadeon = (!message_on || message_counter <= 5);
-        message_on = true;
-        message_counter = HU_MSGTIMEOUT;
-        message_nottobefuckedwith = message_dontfuckwithme;
-        message_dontfuckwithme = false;
-
-        if (viewplayer->message)
-            free(viewplayer->message);
-
-        viewplayer->message = NULL;
     }
 }
 
