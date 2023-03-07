@@ -725,7 +725,7 @@ void C_ShowConsole(void)
     for (int i = 0; i < MAX_MOUSE_BUTTONS; i++)
         mousebuttons[i] = false;
 
-    S_FadeOutSounds();
+    S_StopSounds();
     S_LowerMusicVolume();
     SDL_StartTextInput();
     S_StartSound(NULL, sfx_consol);

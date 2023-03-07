@@ -267,24 +267,13 @@ static void S_StopChannel(int cnum)
     }
 }
 
-void S_FadeOutSounds(void)
+void S_StopSounds(void)
 {
     if (nosfx)
         return;
 
     for (int cnum = 0; cnum < s_channels; cnum++)
-    {
-        channel_t   *c = &channels[cnum];
-
-        if (c->sfxinfo)
-        {
-            if (I_SoundIsPlaying(c->handle))
-                I_FadeOutSound(c->handle);
-
-            c->sfxinfo = NULL;
-            c->origin = NULL;
-        }
-    }
+        S_StopChannel(cnum);
 }
 
 static int S_GetMusicNum(void)

@@ -3745,7 +3745,7 @@ void M_OpenMainMenu(void)
         if (vid_motionblur)
             I_SetMotionBlur(0);
 
-        S_FadeOutSounds();
+        S_StopSounds();
 
         playerangle = viewplayer->mo->angle;
         playerviewz = viewplayer->viewz;

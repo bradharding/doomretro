@@ -86,7 +86,7 @@ void S_Init(void);
 // Shut down sound
 void S_Shutdown(void);
 
-void S_FadeOutSounds(void);
+void S_StopSounds(void);
 
 //
 // Per level startup code.
