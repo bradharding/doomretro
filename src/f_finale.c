@@ -358,7 +358,7 @@ static void F_TextWrite(void)
 
     if (R_CheckFlatNumForName(finaleflat) == -1)
         V_DrawPagePatch(0, W_CacheLumpName(finaleflat));
-    else
+    else if (W_CheckNumForName(finaleflat) >= 0)
     {
         // erase the entire screen to a tiled background
         byte    *src = (byte *)(W_CacheLumpName(finaleflat));
@@ -373,6 +373,8 @@ static void F_TextWrite(void)
                 *dest++ = dot;
             }
     }
+    else
+        memset(screens[0], nearestblack, SCREENAREA);
 
     for (int count = MAX(0, FixedDiv((finalecount - 10) * FRACUNIT, TextSpeed()) >> FRACBITS); count; count--)
     {
