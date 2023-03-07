@@ -590,9 +590,12 @@ static void I_GetEvent(void)
                     switch (Event->window.event)
                     {
                         case SDL_WINDOWEVENT_FOCUS_GAINED:
-                            windowfocused = true;
-                            S_ResumeMusic();
-                            I_InitKeyboard();
+                            if (!windowfocused)
+                            {
+                                windowfocused = true;
+                                S_ResumeMusic();
+                                I_InitKeyboard();
+                            }
 
                             break;
 
