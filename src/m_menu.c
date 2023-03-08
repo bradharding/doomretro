@@ -2661,9 +2661,9 @@ bool M_Responder(event_t *ev)
             if (m_pointer)
             {
                 // activate menu item
-                if ((ev->data1 & MOUSE_LEFTBUTTON) && mousewait < I_GetTime())
+                if (ev->data1 & MOUSE_LEFTBUTTON)
                 {
-                    if (messagetoprint || inhelpscreens || !usingmouse)
+                    if ((messagetoprint || inhelpscreens || !usingmouse) && mousewait < I_GetTime())
                     {
                         key = KEY_ENTER;
                         mousewait = I_GetTime() + 8;
@@ -2681,7 +2681,7 @@ bool M_Responder(event_t *ev)
                                     key = 0;
                                 else if (itemon == option_empty1 || itemon == option_empty2)
                                     key = KEY_RIGHTARROW;
-                                else
+                                else if (mousewait < I_GetTime())
                                 {
                                     key = KEY_ENTER;
                                     mousewait = I_GetTime() + 8;
@@ -2693,13 +2693,13 @@ bool M_Responder(event_t *ev)
                                     key = 0;
                                 else if (itemon == sound_empty1 || itemon == sound_empty2)
                                     key = KEY_RIGHTARROW;
-                                else
+                                else if (mousewait < I_GetTime())
                                 {
                                     key = KEY_ENTER;
                                     mousewait = I_GetTime() + 8;
                                 }
                             }
-                            else
+                            else if (mousewait < I_GetTime())
                             {
                                 key = KEY_ENTER;
                                 mousewait = I_GetTime() + 8;
