@@ -579,9 +579,14 @@ void P_CheckTerrainType(sector_t *sector)
     {
         if (sector->terraintype >= LIQUID)
         {
-            for (bloodsplat_t *splat = sector->splatlist; splat; splat = splat->next)
+            bloodsplat_t    *splat = sector->splatlist;
+
+            while (splat)
             {
+                bloodsplat_t    *next = splat->next;
+
                 P_UnsetBloodSplatPosition(splat);
+                splat = next;
                 r_bloodsplats_total--;
             }
 
