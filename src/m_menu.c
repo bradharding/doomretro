@@ -2681,9 +2681,36 @@ bool M_Responder(event_t *ev)
                         if (ev->data2 >= menuitem->x && ev->data2 < menuitem->x + menuitem->width
                             && ev->data3 >= menuitem->y && ev->data3 < menuitem->y + menuitem->height)
                         {
-                            if ((currentmenu == &OptionsDef && (itemon == scrnsize || itemon == mousesens))
-                                || currentmenu == &SoundDef)
-                                key = 0;
+                            if (currentmenu == &OptionsDef)
+                            {
+                                if (itemon == scrnsize || itemon == mousesens)
+                                    key = 0;
+                                else if (itemon == option_empty1 || itemon == option_empty2)
+                                {
+                                    key = KEY_RIGHTARROW;
+                                    mousewait = I_GetTime() + 8;
+                                }
+                                else
+                                {
+                                    key = KEY_ENTER;
+                                    mousewait = I_GetTime() + 8;
+                                }
+                            }
+                            else if (currentmenu == &SoundDef)
+                            {
+                                if (itemon == sfx_vol || itemon == music_vol)
+                                    key = 0;
+                                else if (itemon == sound_empty1 || itemon == sound_empty2)
+                                {
+                                    key = KEY_RIGHTARROW;
+                                    mousewait = I_GetTime() + 8;
+                                }
+                                else
+                                {
+                                    key = KEY_ENTER;
+                                    mousewait = I_GetTime() + 8;
+                                }
+                            }
                             else
                             {
                                 key = KEY_ENTER;
@@ -2724,11 +2751,7 @@ bool M_Responder(event_t *ev)
                             {
                                 if (i == endgame && gamestate != GS_LEVEL)
                                     continue;
-                                else if (i == option_empty1 || i == option_empty2)
-                                    i--;
                             }
-                            else if (currentmenu == &SoundDef && (i == sound_empty1 || i == sound_empty2))
-                                i--;
 
                             if (itemon != i)
                                 S_StartSound(NULL, sfx_pstop);
@@ -3455,17 +3478,22 @@ bool M_Responder(event_t *ev)
         else if (key == KEY_LEFTARROW && !inhelpscreens)
         {
             // Slide slider left
-            if (currentmenu->menuitems[itemon].routine && currentmenu->menuitems[itemon].status == 2)
+            if (currentmenu->menuitems[itemon].status == 2 && currentmenu->menuitems[itemon].routine)
                 currentmenu->menuitems[itemon].routine(0);
+            else if (currentmenu->menuitems[itemon].status == -1 && currentmenu->menuitems[itemon - 1].routine)
+                currentmenu->menuitems[itemon - 1].routine(0);
 
             return false;
         }
 
         else if (key == KEY_RIGHTARROW && !inhelpscreens)
         {
+
             // Slide slider right
-            if (currentmenu->menuitems[itemon].routine && currentmenu->menuitems[itemon].status == 2)
+            if (currentmenu->menuitems[itemon].status == 2 && currentmenu->menuitems[itemon].routine)
                 currentmenu->menuitems[itemon].routine(1);
+            else if (currentmenu->menuitems[itemon].status == -1 && currentmenu->menuitems[itemon - 1].routine)
+                currentmenu->menuitems[itemon - 1].routine(1);
 
             return false;
         }
@@ -4030,6 +4058,7 @@ void M_Drawer(void)
                 {
                     currentmenu->menuitems[i].x = x + WIDESCREENDELTA;
                     currentmenu->menuitems[i].y = y + OFFSET;
+                    currentmenu->menuitems[i].width = 200;
                     currentmenu->menuitems[i].height = LINEHEIGHT - 1;
                 }
 
