@@ -2750,7 +2750,45 @@ bool M_Responder(event_t *ev)
                             else if (currentmenu == &OptionsDef)
                             {
                                 if (i == endgame && gamestate != GS_LEVEL)
-                                    continue;
+                                {
+                                    usinggamecontroller = false;
+                                    break;
+                                }
+                                else if (i == option_empty1 || i == option_empty2)
+                                {
+                                    if (itemon != i && itemon != i - 1)
+                                        S_StartSound(NULL, sfx_pstop);
+                                }
+                                else if (i == scrnsize || i == mousesens)
+                                {
+                                    if (itemon != i && itemon != i + 1)
+                                        S_StartSound(NULL, sfx_pstop);
+                                }
+                                else if (itemon != i)
+                                    S_StartSound(NULL, sfx_pstop);
+
+                                itemon = i;
+                                usinggamecontroller = false;
+                                break;
+                            }
+                            else if (currentmenu == &SoundDef)
+                            {
+                                if (i == sound_empty1 || i == sound_empty2)
+                                {
+                                    if (itemon != i && itemon != i - 1)
+                                        S_StartSound(NULL, sfx_pstop);
+                                }
+                                else if (i == sfx_vol || i == music_vol)
+                                {
+                                    if (itemon != i && itemon != i + 1)
+                                        S_StartSound(NULL, sfx_pstop);
+                                }
+                                else if (itemon != i)
+                                    S_StartSound(NULL, sfx_pstop);
+
+                                itemon = i;
+                                usinggamecontroller = false;
+                                break;
                             }
 
                             if (itemon != i)
@@ -3904,17 +3942,24 @@ void M_Drawer(void)
         }
         else
         {
-            const int   yy = y + itemon * (LINEHEIGHT - 1) - 5 + OFFSET + (chex ? 1 : 0);
             const int   max = currentmenu->numitems;
+            int         item = itemon;
             int         widest = 0;
 
-            if (currentmenu == &OptionsDef && itemon == endgame && gamestate != GS_LEVEL)
-                itemon++;
+            if (currentmenu == &OptionsDef)
+            {
+                if (item == endgame && gamestate != GS_LEVEL)
+                    item++;
+                else if (item == option_empty1 || item == option_empty2)
+                    item--;
+            }
+            else if (currentmenu == &SoundDef && (item == sound_empty1 || item == sound_empty2))
+                item--;
 
             if (M_SKULL1)
-                M_DrawPatchWithShadow(x - 30, yy, skullpatch);
+                M_DrawPatchWithShadow(x - 30, y + item * (LINEHEIGHT - 1) - (chex ? 4 : 5) + OFFSET, skullpatch);
             else
-                M_DrawPatchWithShadow(x - 26, yy + 2, skullpatch);
+                M_DrawPatchWithShadow(x - 26, y + item * (LINEHEIGHT - 1) - (chex ? 2 : 3) + OFFSET, skullpatch);
 
             for (int i = 0; i < max; i++)
             {
