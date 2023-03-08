@@ -905,8 +905,15 @@ void P_RemoveBloodMobj(mobj_t *mobj)
 void P_RemoveBloodSplats(void)
 {
     for (int i = 0; i < numsectors; i++)
-        for (bloodsplat_t *splat = sectors[i].splatlist; splat; splat = splat->next)
-            P_UnsetBloodSplatPosition(splat);
+    {
+	bloodsplat_t *splat = sectors[i].splatlist;
+	while (splat)
+	{
+		bloodsplat_t *next = splat->next;
+		P_UnsetBloodSplatPosition(splat);
+		splat = next;
+	}
+    }
 
     r_bloodsplats_total = 0;
 }
