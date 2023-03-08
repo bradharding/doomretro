@@ -2,6 +2,8 @@
 
 #### DOOM Retro v4.8.2
 
+* The mouse pointer may now be used to adjust the sliders in the options menu when the `m_pointer` CVAR is `on`.
+
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Wednesday, March 8, 2023
@@ -12,7 +14,7 @@
 * Minor optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Minor changes have been made to text that is output to the console.
 * A bug is fixed whereby if the `alwaysrun` CVAR was `on`, the <kbd>CAPSLOCK</kbd> key wouldn’t always turn off as intended when quitting *DOOM Retro*.
-* A bug is fixed whereby a wrong player message would be displayed each time the player picks up an item in some instances when the `messages` CVAR was `off`.
+* A bug is fixed whereby a wrong player message would be displayed each time the player picked up an item in some instances when the `messages` CVAR was `off`.
 * Minor improvements have been made to the color of some elements in the alternate widescreen HUD.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
