@@ -1,5 +1,11 @@
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/releasenotes.png)
 
+#### DOOM Retro v4.8.2
+
+![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
+
+###### Wednesday, March 8, 2023
+
 #### DOOM Retro v4.8.1
 
 * *DOOM Retro* now uses [*SDL v2.26.4*](https://www.libsdl.org/).
@@ -11,7 +17,7 @@
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
-###### Tuesday, March 7, 2022
+###### Tuesday, March 7, 2023
 
 #### DOOM Retro v4.8
 
