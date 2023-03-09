@@ -8776,6 +8776,7 @@ static void player_cvars_func2(char *cmd, char *parms)
                     S_StartSound(viewplayer->mo, sfx_itemup);
                 }
 
+                viewplayer->ammodiff = viewplayer->ammo[ammotype] - value;
                 viewplayer->ammo[ammotype] = value;
                 P_CheckAmmo(readyweapon);
 
@@ -8810,14 +8811,16 @@ static void player_cvars_func2(char *cmd, char *parms)
             {
                 armorhighlight = I_GetTimeMS() + HUD_ARMOR_HIGHLIGHT_WAIT;
 
-                if (value > viewplayer->armor)
+                if ((value = MIN(value, max_armor)) > viewplayer->armor)
                 {
                     P_UpdateArmorStat(value - viewplayer->armor);
                     P_AddBonus();
                     S_StartSound(viewplayer->mo, sfx_itemup);
                 }
 
-                if (!(viewplayer->armor = MIN(value, max_armor)))
+                viewplayer->armordiff = viewplayer->armor - value;
+
+                if (!(viewplayer->armor = value))
                     viewplayer->armortype = armortype_none;
                 else if (!viewplayer->armortype)
                     viewplayer->armortype = green_armor_class;
@@ -8851,6 +8854,7 @@ static void player_cvars_func2(char *cmd, char *parms)
                 value = BETWEEN(HUD_NUMBER_MIN, value, maxhealth);
 
                 healthhighlight = I_GetTimeMS() + HUD_HEALTH_HIGHLIGHT_WAIT;
+                viewplayer->healthdiff = viewplayer->health - value;
 
                 if (viewplayer->health <= 0)
                 {
