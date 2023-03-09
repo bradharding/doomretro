@@ -2353,16 +2353,15 @@ void P_UpdateSpecials(void)
 {
     // ANIMATE FLATS AND TEXTURES GLOBALLY
     for (anim_t *anim = anims; anim < lastanim; anim++)
-        if (!(animatedtic & (anim->speed - 1)))
-            for (int i = 0; i < anim->numpics; i++)
-            {
-                const int   pic = anim->basepic + (animatedtic / anim->speed + i) % anim->numpics;
+        for (int i = 0; i < anim->numpics; i++)
+        {
+            const int   pic = anim->basepic + (animatedtic / anim->speed + i) % anim->numpics;
 
-                if (anim->istexture)
-                    texturetranslation[anim->basepic + i] = pic;
-                else
-                    flattranslation[anim->basepic + i] = firstflat + pic;
-            }
+            if (anim->istexture)
+                texturetranslation[anim->basepic + i] = pic;
+            else
+                flattranslation[anim->basepic + i] = firstflat + pic;
+        }
 
     if (menuactive && (gametime & 2))
         return;
