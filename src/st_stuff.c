@@ -570,6 +570,7 @@ bool ST_Responder(event_t *ev)
                 if (viewplayer->armor < idkfa_armor || viewplayer->armortype < idkfa_armor_class)
                 {
                     armorgiven = true;
+                    viewplayer->armordiff = viewplayer->armor - idkfa_armor;
                     viewplayer->armor = idkfa_armor;
                     viewplayer->armortype = idkfa_armor_class;
                 }
