@@ -50,6 +50,7 @@ typedef struct
     int             y;
     int             width;
     int             height;
+    int             sliderx;
 } menuitem_t;
 
 typedef struct menu_s

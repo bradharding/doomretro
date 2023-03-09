@@ -160,7 +160,7 @@ static void M_DrawSave(void);
 
 static void M_DrawSaveLoadBorder(int x, int y);
 static void M_SetupNextMenu(menu_t *menudef);
-static void M_DrawThermo(int x, int y, int thermwidth, float thermdot, float factor, int offset);
+static void M_DrawSlider(int x, int y, int width, float dot, float factor, int offset);
 static void M_WriteText(int x, int y, char *string, bool shadow);
 
 //
@@ -1459,6 +1459,8 @@ static void M_DrawHelp(void)
 //
 static void M_DrawSound(void)
 {
+    float   dot;
+
     M_DrawMenuBackground();
 
     if (M_SVOL)
@@ -1475,8 +1477,15 @@ static void M_DrawSound(void)
         free(temp);
     }
 
-    M_DrawThermo(SoundDef.x - 1, SoundDef.y + 16 * (sfx_vol + 1) + OFFSET + !hacx, 16, (float)(sfxvolume * !nosfx), 4.0f, 6);
-    M_DrawThermo(SoundDef.x - 1, SoundDef.y + 16 * (music_vol + 1) + OFFSET + !hacx, 16, (float)(musicvolume * !nomusic), 4.0f, 6);
+    dot = (float)(sfxvolume * !nosfx);
+    SoundMenu[sound_empty1].sliderx = WIDESCREENDELTA + SoundDef.x - 1 + 6 + (int)(dot * 4.0f);
+    SoundMenu[sound_empty1].width = 16 * 8 + 12;
+    M_DrawSlider(SoundDef.x - 1, SoundDef.y + 16 * (sfx_vol + 1) + OFFSET + !hacx, 16, dot, 4.0f, 6);
+
+    dot = (float)(musicvolume * !nomusic);
+    SoundMenu[sound_empty2].sliderx = WIDESCREENDELTA + SoundDef.x - 1 + 6 + (int)(dot * 4.0f);
+    SoundMenu[sound_empty2].width = 16 * 8 + 12;
+    M_DrawSlider(SoundDef.x - 1, SoundDef.y + 16 * (music_vol + 1) + OFFSET + !hacx, 16, dot, 4.0f, 6);
 }
 
 static void M_Sound(int choice)
@@ -1840,6 +1849,8 @@ static void M_NewGame(int choice)
 //
 static void M_DrawOptions(void)
 {
+    float   dot;
+
     M_DrawMenuBackground();
 
     if (M_OPTTTL)
@@ -1890,15 +1901,26 @@ static void M_DrawOptions(void)
             M_DrawString(OptionsDef.x + 173, OptionsDef.y + 16 * detail + OFFSET, s_M_HIGH);
     }
 
-    M_DrawThermo(OptionsDef.x - 1, OptionsDef.y + 16 * (scrnsize + 1) + OFFSET + !hacx, 9, (float)(r_screensize
-        + (r_screensize < r_screensize_max - 1 ? 0 : (r_screensize == r_screensize_max - 1 ? vid_widescreen : 1 + !r_hud))), 6.54f, 8);
+    dot = (float)(r_screensize + (r_screensize < r_screensize_max - 1 ? 0 :
+        (r_screensize == r_screensize_max - 1 ? vid_widescreen : 1 + !r_hud)));
+    OptionsMenu[option_empty1].sliderx = WIDESCREENDELTA + OptionsDef.x - 1 + 8 + (int)(dot * 6.54f);
+    OptionsMenu[option_empty1].width = 16 * 8 + 12;
+    M_DrawSlider(OptionsDef.x - 1, OptionsDef.y + 16 * (scrnsize + 1) + OFFSET + !hacx, 9, dot, 6.54f, 8);
 
     if (usinggamecontroller && !M_MSENS)
-        M_DrawThermo(OptionsDef.x - 1, OptionsDef.y + 16 * (mousesens + 1) + OFFSET + !hacx, 9,
-            roundf(joy_sensitivity_horizontal) / joy_sensitivity_horizontal_max * 8.0f, 8.0f, 8);
+    {
+        dot = roundf(joy_sensitivity_horizontal) / joy_sensitivity_horizontal_max * 8.0f;
+        OptionsMenu[option_empty2].sliderx = WIDESCREENDELTA + OptionsDef.x - 1 + 8 + (int)(dot * 8.0f);
+        OptionsMenu[option_empty2].width = 16 * 8 + 12;
+        M_DrawSlider(OptionsDef.x - 1, OptionsDef.y + 16 * (mousesens + 1) + OFFSET + !hacx, 9, dot, 8.0f, 8);
+    }
     else
-        M_DrawThermo(OptionsDef.x - 1, OptionsDef.y + 16 * (mousesens + 1) + OFFSET + !hacx, 9,
-            roundf(m_sensitivity) / m_sensitivity_max * 8.0f, 8.0f, 8);
+    {
+        dot = roundf(m_sensitivity) / m_sensitivity_max * 8.0f;
+        OptionsMenu[option_empty2].sliderx = WIDESCREENDELTA + OptionsDef.x - 1 + 8 + (int)(dot * 8.0f);
+        OptionsMenu[option_empty2].width = 16 * 8 + 12;
+        M_DrawSlider(OptionsDef.x - 1, OptionsDef.y + 16 * (mousesens + 1) + OFFSET + !hacx, 9, dot, 8.0f, 8);
+    }
 }
 
 static void M_Options(int choice)
@@ -2301,7 +2323,7 @@ static void M_SizeDisplay(int choice)
 //
 // Menu Functions
 //
-static void M_DrawThermo(int x, int y, int thermwidth, float thermdot, float factor, int offset)
+static void M_DrawSlider(int x, int y, int width, float dot, float factor, int offset)
 {
     int xx = x;
 
@@ -2314,7 +2336,7 @@ static void M_DrawThermo(int x, int y, int thermwidth, float thermdot, float fac
     M_DrawPatchWithShadow(xx, y, W_CacheLumpName("M_THERML"));
     xx += 8;
 
-    for (int i = 0; i < thermwidth; i++)
+    for (int i = 0; i < width; i++)
     {
         V_DrawPatch(xx, y, 0, W_CacheLumpName("M_THERMM"));
         xx += 8;
@@ -2322,10 +2344,10 @@ static void M_DrawThermo(int x, int y, int thermwidth, float thermdot, float fac
 
     M_DrawPatchWithShadow(xx, y, W_CacheLumpName("M_THERMR"));
 
-    for (int i = x + 9; i < x + (thermwidth + 1) * 8 + 1; i++)
+    for (int i = x + 9; i < x + (width + 1) * 8 + 1; i++)
         V_DrawPixel((hacx ? i - 1 : i), y + (hacx ? 9 : 13), PINK, true);
 
-    V_DrawPatch(x + offset + (int)(thermdot * factor), y, 0, W_CacheLumpName("M_THERMO"));
+    V_DrawPatch(x + offset + (int)(dot * factor), y, 0, W_CacheLumpName("M_THERMO"));
 }
 
 void M_StartMessage(char *string, void (*routine)(int), bool input)
@@ -2679,8 +2701,10 @@ bool M_Responder(event_t *ev)
                             {
                                 if (itemon == scrnsize || itemon == mousesens)
                                     key = 0;
-                                else if (itemon == option_empty1 || itemon == option_empty2)
-                                    key = KEY_RIGHTARROW;
+                                else if (itemon == option_empty1)
+                                    key = (ev->data2 < OptionsMenu[option_empty1].sliderx ? KEY_LEFTARROW : KEY_RIGHTARROW);
+                                else if (itemon == option_empty2)
+                                    key = (ev->data2 < OptionsMenu[option_empty2].sliderx ? KEY_LEFTARROW : KEY_RIGHTARROW);
                                 else if (mousewait < I_GetTime())
                                 {
                                     key = KEY_ENTER;
@@ -2691,8 +2715,10 @@ bool M_Responder(event_t *ev)
                             {
                                 if (itemon == sfx_vol || itemon == music_vol)
                                     key = 0;
-                                else if (itemon == sound_empty1 || itemon == sound_empty2)
-                                    key = KEY_RIGHTARROW;
+                                else if (itemon == sound_empty1)
+                                    key = (ev->data2 < SoundMenu[sound_empty1].sliderx ? KEY_LEFTARROW : KEY_RIGHTARROW);
+                                else if (itemon == sound_empty2)
+                                    key = (ev->data2 < SoundMenu[sound_empty2].sliderx ? KEY_LEFTARROW : KEY_RIGHTARROW);
                                 else if (mousewait < I_GetTime())
                                 {
                                     key = KEY_ENTER;
@@ -4091,7 +4117,6 @@ void M_Drawer(void)
                 {
                     currentmenu->menuitems[i].x = x + WIDESCREENDELTA;
                     currentmenu->menuitems[i].y = y + OFFSET;
-                    currentmenu->menuitems[i].width = 200;
                     currentmenu->menuitems[i].height = LINEHEIGHT - 1;
                 }
 
