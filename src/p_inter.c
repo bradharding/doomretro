@@ -390,11 +390,10 @@ bool P_GiveHealth(const int num, const int max, const bool stat)
     viewplayer->health = MIN(health + num, max);
     viewplayer->mo->health = viewplayer->health;
     healthhighlight = I_GetTimeMS() + HUD_HEALTH_HIGHLIGHT_WAIT;
-
-    viewplayer->healthdiff = viewplayer->health - health;
+    viewplayer->healthdiff = health - viewplayer->health;
 
     if (stat)
-        P_UpdateHealthStat(viewplayer->healthdiff);
+        P_UpdateHealthStat(viewplayer->health - health);
 
     return true;
 }
@@ -411,7 +410,6 @@ bool P_GiveMegaHealth(const bool stat)
         if (viewplayer->health < mega_health)
         {
             healthhighlight = I_GetTimeMS() + HUD_HEALTH_HIGHLIGHT_WAIT;
-
             viewplayer->healthdiff = viewplayer->health - mega_health;
 
             if (stat)
@@ -445,7 +443,6 @@ bool P_GiveArmor(const armortype_t armortype, const bool stat)
         return false;   // don't pick up
 
     viewplayer->armortype = armortype;
-
     viewplayer->armordiff = viewplayer->armor - hits;
 
     if (stat)
