@@ -437,15 +437,15 @@ bool P_GiveArmor(const armortype_t armortype, const bool stat)
 {
     const int   hits = armortype * 100;
 
-    if (viewplayer->armorpoints >= hits)
+    if (viewplayer->armor >= hits)
         return false;   // don't pick up
 
     viewplayer->armortype = armortype;
 
     if (stat)
-        P_UpdateArmorStat(hits - viewplayer->armorpoints);
+        P_UpdateArmorStat(hits - viewplayer->armor);
 
-    viewplayer->armorpoints = hits;
+    viewplayer->armor = hits;
     armorhighlight = I_GetTimeMS() + HUD_ARMOR_HIGHLIGHT_WAIT;
 
     return true;
@@ -767,9 +767,9 @@ bool P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, const bool message, c
 
         // bonus armor
         case SPR_BON2:
-            if (viewplayer->armorpoints < max_armor)
+            if (viewplayer->armor < max_armor)
             {
-                viewplayer->armorpoints++;
+                viewplayer->armor++;
                 P_UpdateArmorStat(1);
                 armorhighlight = I_GetTimeMS() + HUD_ARMOR_HIGHLIGHT_WAIT;
 
@@ -1240,10 +1240,10 @@ bool P_TakeSpecialThing(const mobjtype_t type)
             if (viewplayer->armortype != green_armor_class)
                 return false;
 
-            if (viewplayer->armorpoints < green_armor_class * 100)
+            if (viewplayer->armor < green_armor_class * 100)
                 return false;
 
-            viewplayer->armorpoints -= green_armor_class * 100;
+            viewplayer->armor -= green_armor_class * 100;
             armorhighlight = I_GetTimeMS() + HUD_ARMOR_HIGHLIGHT_WAIT;
 
             return true;
@@ -1253,10 +1253,10 @@ bool P_TakeSpecialThing(const mobjtype_t type)
             if (viewplayer->armortype != blue_armor_class)
                 return false;
 
-            if (viewplayer->armorpoints < blue_armor_class * 100)
+            if (viewplayer->armor < blue_armor_class * 100)
                 return false;
 
-            viewplayer->armorpoints -= blue_armor_class * 100;
+            viewplayer->armor -= blue_armor_class * 100;
             armorhighlight = I_GetTimeMS() + HUD_ARMOR_HIGHLIGHT_WAIT;
 
             return true;
@@ -1283,10 +1283,10 @@ bool P_TakeSpecialThing(const mobjtype_t type)
 
         // bonus armor
         case MT_MISC3:
-            if (!viewplayer->armorpoints)
+            if (!viewplayer->armor)
                 return false;
 
-            viewplayer->armorpoints--;
+            viewplayer->armor--;
             armorhighlight = I_GetTimeMS() + HUD_ARMOR_HIGHLIGHT_WAIT;
 
             return true;
@@ -2229,20 +2229,20 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
 
         if (!(cheats & CF_GODMODE) && !idclevtics)
         {
-            if (adjust && tplayer->armorpoints)
+            if (adjust && tplayer->armor)
             {
                 int saved = damage / (tplayer->armortype == green_armor_class ? 3 : 2);
 
-                if (tplayer->armorpoints <= saved)
+                if (tplayer->armor <= saved)
                 {
                     // armor is used up
-                    saved = tplayer->armorpoints;
+                    saved = tplayer->armor;
                     tplayer->armortype = armortype_none;
                 }
 
                 if (saved)
                 {
-                    tplayer->armorpoints -= saved;
+                    tplayer->armor -= saved;
                     damage -= saved;
                     armorhighlight = I_GetTimeMS() + HUD_ARMOR_HIGHLIGHT_WAIT;
                 }

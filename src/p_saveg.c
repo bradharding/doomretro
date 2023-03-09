@@ -459,7 +459,7 @@ static void saveg_read_player_t(void)
     viewplayer->momy = saveg_read32();
     viewplayer->health = saveg_read32();
     oldhealth = saveg_read32();
-    viewplayer->armorpoints = saveg_read32();
+    viewplayer->armor = saveg_read32();
     viewplayer->armortype = (armortype_t)saveg_read_enum();
 
     for (int i = 0; i < NUMPOWERS; i++)
@@ -560,10 +560,11 @@ static void saveg_read_player_t(void)
     viewplayer->monstersgibbed = saveg_read32();
     viewplayer->gamesloaded = saveg_read32();
 
+    viewplayer->healthdiff = saveg_read32();
+    viewplayer->armordiff = saveg_read32();
+    viewplayer->ammodiff = saveg_read32();
+
     // [BH] For future features without breaking savegame compatibility
-    saveg_read32();
-    saveg_read32();
-    saveg_read32();
     saveg_read32();
     saveg_read32();
     saveg_read32();
@@ -582,7 +583,7 @@ static void saveg_write_player_t(void)
     saveg_write32(viewplayer->momy);
     saveg_write32(viewplayer->health);
     saveg_write32(oldhealth);
-    saveg_write32(viewplayer->armorpoints);
+    saveg_write32(viewplayer->armor);
     saveg_write_enum(viewplayer->armortype);
 
     for (int i = 0; i < NUMPOWERS; i++)
@@ -670,10 +671,11 @@ static void saveg_write_player_t(void)
     saveg_write32(viewplayer->monstersgibbed);
     saveg_write32(viewplayer->gamesloaded);
 
+    saveg_write32(viewplayer->healthdiff);
+    saveg_write32(viewplayer->ammodiff);
+    saveg_write32(viewplayer->armordiff);
+
     // [BH] For future features without breaking savegame compatibility
-    saveg_write32(0);
-    saveg_write32(0);
-    saveg_write32(0);
     saveg_write32(0);
     saveg_write32(0);
     saveg_write32(0);

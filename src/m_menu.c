@@ -1478,12 +1478,12 @@ static void M_DrawSound(void)
     }
 
     dot = (float)(sfxvolume * !nosfx);
-    SoundMenu[sound_empty1].sliderx = WIDESCREENDELTA + SoundDef.x - 1 + 6 + (int)(dot * 4.0f);
+    SoundMenu[sound_empty1].sliderx = WIDESCREENDELTA + SoundDef.x - 1 + 6 + (int)(dot * 4.0f) + 2;
     SoundMenu[sound_empty1].width = 16 * 8 + 12;
     M_DrawSlider(SoundDef.x - 1, SoundDef.y + 16 * (sfx_vol + 1) + OFFSET + !hacx, 16, dot, 4.0f, 6);
 
     dot = (float)(musicvolume * !nomusic);
-    SoundMenu[sound_empty2].sliderx = WIDESCREENDELTA + SoundDef.x - 1 + 6 + (int)(dot * 4.0f);
+    SoundMenu[sound_empty2].sliderx = WIDESCREENDELTA + SoundDef.x - 1 + 6 + (int)(dot * 4.0f) + 2;
     SoundMenu[sound_empty2].width = 16 * 8 + 12;
     M_DrawSlider(SoundDef.x - 1, SoundDef.y + 16 * (music_vol + 1) + OFFSET + !hacx, 16, dot, 4.0f, 6);
 }
@@ -1903,21 +1903,21 @@ static void M_DrawOptions(void)
 
     dot = (float)(r_screensize + (r_screensize < r_screensize_max - 1 ? 0 :
         (r_screensize == r_screensize_max - 1 ? vid_widescreen : 1 + !r_hud)));
-    OptionsMenu[option_empty1].sliderx = WIDESCREENDELTA + OptionsDef.x - 1 + 8 + (int)(dot * 6.54f);
+    OptionsMenu[option_empty1].sliderx = WIDESCREENDELTA + OptionsDef.x - 1 + 8 + (int)(dot * 6.54f) + 2;
     OptionsMenu[option_empty1].width = 16 * 8 + 12;
     M_DrawSlider(OptionsDef.x - 1, OptionsDef.y + 16 * (scrnsize + 1) + OFFSET + !hacx, 9, dot, 6.54f, 8);
 
     if (usinggamecontroller && !M_MSENS)
     {
         dot = roundf(joy_sensitivity_horizontal) / joy_sensitivity_horizontal_max * 8.0f;
-        OptionsMenu[option_empty2].sliderx = WIDESCREENDELTA + OptionsDef.x - 1 + 8 + (int)(dot * 8.0f);
+        OptionsMenu[option_empty2].sliderx = WIDESCREENDELTA + OptionsDef.x - 1 + 8 + (int)(dot * 8.0f) + 2;
         OptionsMenu[option_empty2].width = 16 * 8 + 12;
         M_DrawSlider(OptionsDef.x - 1, OptionsDef.y + 16 * (mousesens + 1) + OFFSET + !hacx, 9, dot, 8.0f, 8);
     }
     else
     {
         dot = roundf(m_sensitivity) / m_sensitivity_max * 8.0f;
-        OptionsMenu[option_empty2].sliderx = WIDESCREENDELTA + OptionsDef.x - 1 + 8 + (int)(dot * 8.0f);
+        OptionsMenu[option_empty2].sliderx = WIDESCREENDELTA + OptionsDef.x - 1 + 8 + (int)(dot * 8.0f) + 2;
         OptionsMenu[option_empty2].width = 16 * 8 + 12;
         M_DrawSlider(OptionsDef.x - 1, OptionsDef.y + 16 * (mousesens + 1) + OFFSET + !hacx, 9, dot, 8.0f, 8);
     }

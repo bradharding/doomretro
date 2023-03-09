@@ -550,7 +550,7 @@ static void G_SetInitialWeapon(void)
 static void G_ResetPlayer(void)
 {
     viewplayer->health = 100;
-    viewplayer->armorpoints = 0;
+    viewplayer->armor = 0;
     viewplayer->armortype = armortype_none;
     viewplayer->preferredshotgun = wp_shotgun;
     viewplayer->fistorchainsaw = wp_fist;

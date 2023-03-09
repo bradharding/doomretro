@@ -579,7 +579,7 @@ uint64_t    armorhighlight = 0;
 static void HU_DrawHUD(void)
 {
     const int       health = BETWEEN(HUD_NUMBER_MIN, viewplayer->health, HUD_NUMBER_MAX);
-    const int       armor = MIN(viewplayer->armorpoints, HUD_NUMBER_MAX);
+    const int       armor = MIN(viewplayer->armor, HUD_NUMBER_MAX);
     static bool     healthanim;
     const bool      gamepaused = (consoleactive || freeze);
     byte            *tinttab = (health >= HUD_HEALTH_MIN || (health < HUD_HEALTH_MIN && healthanim) || health <= 0
@@ -1009,7 +1009,7 @@ static void HU_DrawAltHUD(void)
     const int       color = (((viewplayer->fixedcolormap == INVERSECOLORMAP) ^ (!r_textures)) ?
                         colormaps[0][32 * 256 + nearestwhite] : (r_hud_translucency ? nearestwhite : nearestlightgray));
     int             health = BETWEEN(HUD_NUMBER_MIN, viewplayer->health, HUD_NUMBER_MAX);
-    int             armor = MIN(viewplayer->armorpoints, HUD_NUMBER_MAX);
+    int             armor = MIN(viewplayer->armor, HUD_NUMBER_MAX);
     int             keypic_x = ALTHUD_RIGHT_X;
     const uint64_t  currenttime = I_GetTimeMS();
 

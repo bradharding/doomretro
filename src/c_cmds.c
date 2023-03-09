@@ -2196,7 +2196,7 @@ static void cvarlist_cmd_func2(char *cmd, char *parms)
             {
                 if (gamestate == GS_LEVEL)
                     C_TabbedOutput(tabs, MONOSPACED("%3i") ".\t" BOLD("%s") "\t" BOLD("%i%%") "\t%s",
-                        count, name, viewplayer->armorpoints, description);
+                        count, name, viewplayer->armor, description);
                 else
                     C_TabbedOutput(tabs, MONOSPACED("%3i") ".\t" BOLD("%s") "\t" BOLD("%i%%") "\t%s",
                         count, name, armor_default, description);
@@ -7424,9 +7424,9 @@ static void take_cmd_func2(char *cmd, char *parms)
                     result = true;
                 }
 
-            if (viewplayer->armorpoints)
+            if (viewplayer->armor)
             {
-                viewplayer->armorpoints = 0;
+                viewplayer->armor = 0;
                 viewplayer->armortype = armortype_none;
                 result = true;
             }
@@ -7526,9 +7526,9 @@ static void take_cmd_func2(char *cmd, char *parms)
         else if (M_StringCompare(parm, "armor") || M_StringCompare(parm, "allarmor")
                 || M_StringCompare(parm, "armour") || M_StringCompare(parm, "allarmour"))
         {
-            if (viewplayer->armorpoints)
+            if (viewplayer->armor)
             {
-                viewplayer->armorpoints = 0;
+                viewplayer->armor = 0;
                 viewplayer->armortype = armortype_none;
                 C_PlayerMessage("All %s was taken from %s.",
                     (english == english_american ? "armor" : "armour"), playername);
@@ -8454,12 +8454,12 @@ static void armortype_cvar_func2(char *cmd, char *parms)
     {
         const int   value = C_LookupValueFromAlias(parms, ARMORTYPEVALUEALIAS);
 
-        if (value != INT_MIN && viewplayer->armorpoints)
+        if (value != INT_MIN && viewplayer->armor)
         {
             viewplayer->armortype = value;
 
             if (value == armortype_none)
-                viewplayer->armorpoints = 0;
+                viewplayer->armor = 0;
         }
     }
     else
@@ -8806,18 +8806,18 @@ static void player_cvars_func2(char *cmd, char *parms)
     {
         if (*parms)
         {
-            if (sscanf(parms, "%10i", &value) == 1 && value != viewplayer->armorpoints)
+            if (sscanf(parms, "%10i", &value) == 1 && value != viewplayer->armor)
             {
                 armorhighlight = I_GetTimeMS() + HUD_ARMOR_HIGHLIGHT_WAIT;
 
-                if (value > viewplayer->armorpoints)
+                if (value > viewplayer->armor)
                 {
-                    P_UpdateArmorStat(value - viewplayer->armorpoints);
+                    P_UpdateArmorStat(value - viewplayer->armor);
                     P_AddBonus();
                     S_StartSound(viewplayer->mo, sfx_itemup);
                 }
 
-                if (!(viewplayer->armorpoints = MIN(value, max_armor)))
+                if (!(viewplayer->armor = MIN(value, max_armor)))
                     viewplayer->armortype = armortype_none;
                 else if (!viewplayer->armortype)
                     viewplayer->armortype = green_armor_class;
@@ -8826,7 +8826,7 @@ static void player_cvars_func2(char *cmd, char *parms)
         else
         {
             const int   i = C_GetIndex(cmd);
-            char        *temp = commify(viewplayer->armorpoints);
+            char        *temp = commify(viewplayer->armor);
 
             C_ShowDescription(i);
             C_Output(PERCENTCVARWITHNODEFAULT, temp);

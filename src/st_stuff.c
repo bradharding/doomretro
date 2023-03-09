@@ -521,10 +521,10 @@ bool ST_Responder(event_t *ev)
                 bool    weaponsgiven = P_GiveAllWeapons();
 
                 // [BH] note if player doesn't have full armor before giving it
-                if (viewplayer->armorpoints < idfa_armor || viewplayer->armortype < idfa_armor_class)
+                if (viewplayer->armor < idfa_armor || viewplayer->armortype < idfa_armor_class)
                 {
                     armorgiven = true;
-                    viewplayer->armorpoints = idfa_armor;
+                    viewplayer->armor = idfa_armor;
                     viewplayer->armortype = idfa_armor_class;
                 }
 
@@ -565,10 +565,10 @@ bool ST_Responder(event_t *ev)
                 bool    keysgiven = P_GiveAllCardsInMap();
 
                 // [BH] note if player doesn't have full armor before giving it
-                if (viewplayer->armorpoints < idkfa_armor || viewplayer->armortype < idkfa_armor_class)
+                if (viewplayer->armor < idkfa_armor || viewplayer->armortype < idkfa_armor_class)
                 {
                     armorgiven = true;
-                    viewplayer->armorpoints = idkfa_armor;
+                    viewplayer->armor = idkfa_armor;
                     viewplayer->armortype = idkfa_armor_class;
                 }
 
@@ -1600,7 +1600,7 @@ static void ST_CreateWidgets(void)
 
     // armor percentage
     STlib_InitPercent(&w_armor, ST_ARMORX + (int)KDIKDIZD, ST_ARMORY + (STBARs != 2 && !BTSX),
-        tallnum, &viewplayer->armorpoints, tallpercent);
+        tallnum, &viewplayer->armor, tallpercent);
 
     // keyboxes 0-2
     STlib_InitMultIcon(&w_keyboxes[0], ST_KEY0X + (STBARs >= 3), ST_KEY0Y, keys, &keyboxes[0]);
