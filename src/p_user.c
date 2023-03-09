@@ -39,6 +39,7 @@
 #include "c_console.h"
 #include "doomstat.h"
 #include "g_game.h"
+#include "hu_stuff.h"
 #include "i_gamecontroller.h"
 #include "m_config.h"
 #include "m_menu.h"
@@ -550,19 +551,19 @@ void P_PlayerThink(void)
     P_ReduceDamageCount();
 
     if (viewplayer->healthdiff < 0)
-        viewplayer->healthdiff++;
+        viewplayer->healthdiff = MIN(viewplayer->healthdiff + ALTHUD_BARCHANGE, viewplayer->health);
     else if (viewplayer->healthdiff > 0)
-        viewplayer->healthdiff--;
+        viewplayer->healthdiff = MAX(0, viewplayer->healthdiff - ALTHUD_BARCHANGE);
 
     if (viewplayer->armordiff < 0)
-        viewplayer->armordiff++;
+        viewplayer->armordiff = MIN(viewplayer->armordiff + ALTHUD_BARCHANGE, viewplayer->armor);
     else if (viewplayer->armordiff > 0)
-        viewplayer->armordiff--;
+        viewplayer->armordiff = MAX(0, viewplayer->armordiff - ALTHUD_BARCHANGE);
 
     if (viewplayer->ammodiff < 0)
-        viewplayer->ammodiff++;
+        viewplayer->ammodiff = MIN(viewplayer->ammodiff + ALTHUD_BARCHANGE, viewplayer->ammo[viewplayer->readyweapon]);
     else if (viewplayer->ammodiff > 0)
-        viewplayer->ammodiff--;
+        viewplayer->ammodiff = MAX(0, viewplayer->ammodiff - ALTHUD_BARCHANGE);
 
     // [AM] Assume we can interpolate at the beginning of the tic.
     mo->interpolate = 1;

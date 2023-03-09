@@ -2254,8 +2254,8 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
                 }
             }
 
-            tplayer->healthdiff = damage;
             tplayer->health -= damage;
+            tplayer->healthdiff = damage;
             target->health -= damage;
             healthhighlight = I_GetTimeMS() + HUD_HEALTH_HIGHLIGHT_WAIT;
 
