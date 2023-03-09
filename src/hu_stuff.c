@@ -1008,7 +1008,7 @@ static void HU_DrawAltHUD(void)
 {
     const int       color = (((viewplayer->fixedcolormap == INVERSECOLORMAP) ^ (!r_textures)) ?
                         colormaps[0][32 * 256 + nearestwhite] : (r_hud_translucency ? nearestwhite : nearestlightgray));
-    int             health = BETWEEN(HUD_NUMBER_MIN, viewplayer->health, HUD_NUMBER_MAX);
+    int             health = BETWEEN(HUD_NUMBER_MIN, viewplayer->health + viewplayer->healthdiff, HUD_NUMBER_MAX);
     int             armor = MIN(viewplayer->armor, HUD_NUMBER_MAX);
     int             keypic_x = ALTHUD_RIGHT_X;
     const uint64_t  currenttime = I_GetTimeMS();
@@ -1020,7 +1020,7 @@ static void HU_DrawAltHUD(void)
         DrawAltHUDNumber(ALTHUD_LEFT_X - AltHUDNumberWidth(ABS(health)), ALTHUD_Y + 12,
             health, (healthhighlight > currenttime ? WHITE : color), NULL);
 
-    if ((health += viewplayer->healthdiff) == 100)
+    if (health == 100)
     {
         if (r_hud_translucency)
         {
@@ -1095,7 +1095,7 @@ static void HU_DrawAltHUD(void)
         }
     }
 
-    if (armor)
+    if ((armor += viewplayer->armordiff))
     {
         if (r_hud_translucency)
             DrawAltHUDNumber2(ALTHUD_LEFT_X - AltHUDNumber2Width(armor), ALTHUD_Y,
@@ -1106,7 +1106,7 @@ static void HU_DrawAltHUD(void)
 
         althudfunc(ALTHUD_LEFT_X + 5, ALTHUD_Y, altarmpatch, WHITE, color, tinttab60);
 
-        if ((armor = (armor + viewplayer->armordiff) * 200 / max_armor) > 100)
+        if ((armor *= 200 / max_armor) > 100)
         {
             if (r_hud_translucency)
             {
@@ -1187,7 +1187,7 @@ static void HU_DrawAltHUD(void)
 
         if (ammotype != am_noammo)
         {
-            int ammo = viewplayer->ammo[ammotype];
+            int ammo = viewplayer->ammo[ammotype] + viewplayer->ammodiff;
 
             if (r_hud_translucency)
                 DrawAltHUDNumber(ALTHUD_RIGHT_X + 101 - AltHUDNumberWidth(ammo), ALTHUD_Y - 2,
@@ -1196,7 +1196,7 @@ static void HU_DrawAltHUD(void)
                 DrawAltHUDNumber(ALTHUD_RIGHT_X + 101 - AltHUDNumberWidth(ammo), ALTHUD_Y - 2,
                     ammo, (ammohighlight > currenttime ? WHITE : color), NULL);
 
-            if ((ammo += viewplayer->ammodiff))
+            if (ammo)
             {
                 const bool  backpack = viewplayer->backpack;
                 int         max = viewplayer->maxammo[ammotype];
