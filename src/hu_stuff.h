@@ -83,7 +83,7 @@
 #define ALTHUD_RIGHT_X              (SCREENWIDTH - MAXWIDESCREENDELTA \
                                         - (weaponschanged && !fixspriteoffsets ? 76 : 127))
 #define ALTHUD_Y                    (SCREENHEIGHT - 41)
-#define ALTHUD_BARCHANGE            5
+#define ALTHUD_BARDIFF              5
 
 //
 // HEADS UP TEXT

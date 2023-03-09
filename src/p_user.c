@@ -540,6 +540,21 @@ void P_PlayerThink(void)
         return;
     }
 
+    if (viewplayer->healthdiff < 0)
+        viewplayer->healthdiff = MIN(viewplayer->healthdiff + ALTHUD_BARDIFF, viewplayer->health);
+    else if (viewplayer->healthdiff > 0)
+        viewplayer->healthdiff = MAX(0, viewplayer->healthdiff - ALTHUD_BARDIFF);
+
+    if (viewplayer->armordiff < 0)
+        viewplayer->armordiff = MIN(viewplayer->armordiff + ALTHUD_BARDIFF, viewplayer->armor);
+    else if (viewplayer->armordiff > 0)
+        viewplayer->armordiff = MAX(0, viewplayer->armordiff - ALTHUD_BARDIFF);
+
+    if (viewplayer->ammodiff < 0)
+        viewplayer->ammodiff = MIN(viewplayer->ammodiff + ALTHUD_BARDIFF, viewplayer->ammo[viewplayer->readyweapon]);
+    else if (viewplayer->ammodiff > 0)
+        viewplayer->ammodiff = MAX(0, viewplayer->ammodiff - ALTHUD_BARDIFF);
+
     if (consoleactive)
     {
         if (viewplayer->damagecount)
@@ -549,21 +564,6 @@ void P_PlayerThink(void)
     }
 
     P_ReduceDamageCount();
-
-    if (viewplayer->healthdiff < 0)
-        viewplayer->healthdiff = MIN(viewplayer->healthdiff + ALTHUD_BARCHANGE, viewplayer->health);
-    else if (viewplayer->healthdiff > 0)
-        viewplayer->healthdiff = MAX(0, viewplayer->healthdiff - ALTHUD_BARCHANGE);
-
-    if (viewplayer->armordiff < 0)
-        viewplayer->armordiff = MIN(viewplayer->armordiff + ALTHUD_BARCHANGE, viewplayer->armor);
-    else if (viewplayer->armordiff > 0)
-        viewplayer->armordiff = MAX(0, viewplayer->armordiff - ALTHUD_BARCHANGE);
-
-    if (viewplayer->ammodiff < 0)
-        viewplayer->ammodiff = MIN(viewplayer->ammodiff + ALTHUD_BARCHANGE, viewplayer->ammo[viewplayer->readyweapon]);
-    else if (viewplayer->ammodiff > 0)
-        viewplayer->ammodiff = MAX(0, viewplayer->ammodiff - ALTHUD_BARCHANGE);
 
     // [AM] Assume we can interpolate at the beginning of the tic.
     mo->interpolate = 1;
