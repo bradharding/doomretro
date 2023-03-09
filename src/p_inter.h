@@ -38,7 +38,7 @@
 
 #pragma once
 
-bool P_GiveBody(const int num, const int max, const bool stat);
+bool P_GiveHealth(const int num, const int max, const bool stat);
 bool P_GiveMegaHealth(const bool stat);
 bool P_GiveArmor(const armortype_t armortype, const bool stat);
 bool P_GiveAllCards(void);

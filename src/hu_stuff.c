@@ -1020,7 +1020,7 @@ static void HU_DrawAltHUD(void)
         DrawAltHUDNumber(ALTHUD_LEFT_X - AltHUDNumberWidth(ABS(health)), ALTHUD_Y + 12,
             health, (healthhighlight > currenttime ? WHITE : color), NULL);
 
-    if (health == 100)
+    if ((health += viewplayer->healthdiff) == 100)
     {
         if (r_hud_translucency)
         {
@@ -1106,7 +1106,7 @@ static void HU_DrawAltHUD(void)
 
         althudfunc(ALTHUD_LEFT_X + 5, ALTHUD_Y, altarmpatch, WHITE, color, tinttab60);
 
-        if ((armor *= 200 / max_armor) > 100)
+        if ((armor = (armor + viewplayer->armordiff) * 200 / max_armor) > 100)
         {
             if (r_hud_translucency)
             {
@@ -1196,7 +1196,7 @@ static void HU_DrawAltHUD(void)
                 DrawAltHUDNumber(ALTHUD_RIGHT_X + 101 - AltHUDNumberWidth(ammo), ALTHUD_Y - 2,
                     ammo, (ammohighlight > currenttime ? WHITE : color), NULL);
 
-            if (ammo)
+            if ((ammo += viewplayer->ammodiff))
             {
                 const bool  backpack = viewplayer->backpack;
                 int         max = viewplayer->maxammo[ammotype];

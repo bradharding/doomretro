@@ -377,10 +377,10 @@ void P_UpdateHealthStat(const int num)
 }
 
 //
-// P_GiveBody
-// Returns false if the body isn't needed at all
+// P_GiveHealth
+// Returns false if the health isn't needed at all
 //
-bool P_GiveBody(const int num, const int max, const bool stat)
+bool P_GiveHealth(const int num, const int max, const bool stat)
 {
     const int   health = viewplayer->health;
 
@@ -391,8 +391,10 @@ bool P_GiveBody(const int num, const int max, const bool stat)
     viewplayer->mo->health = viewplayer->health;
     healthhighlight = I_GetTimeMS() + HUD_HEALTH_HIGHLIGHT_WAIT;
 
+    viewplayer->healthdiff = viewplayer->health - health;
+
     if (stat)
-        P_UpdateHealthStat(viewplayer->health - health);
+        P_UpdateHealthStat(viewplayer->healthdiff);
 
     return true;
 }
@@ -409,6 +411,8 @@ bool P_GiveMegaHealth(const bool stat)
         if (viewplayer->health < mega_health)
         {
             healthhighlight = I_GetTimeMS() + HUD_HEALTH_HIGHLIGHT_WAIT;
+
+            viewplayer->healthdiff = viewplayer->health - mega_health;
 
             if (stat)
                 P_UpdateHealthStat(MAX(0, mega_health - viewplayer->health));
@@ -441,6 +445,8 @@ bool P_GiveArmor(const armortype_t armortype, const bool stat)
         return false;   // don't pick up
 
     viewplayer->armortype = armortype;
+
+    viewplayer->armordiff = viewplayer->armor - hits;
 
     if (stat)
         P_UpdateArmorStat(hits - viewplayer->armor);
@@ -677,7 +683,7 @@ bool P_GivePower(const int power)
             break;
 
         case pw_strength:
-            P_GiveBody(100, MAXHEALTH, true);
+            P_GiveHealth(100, MAXHEALTH, true);
             break;
 
         case pw_invisibility:
@@ -896,7 +902,7 @@ bool P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, const bool message, c
 
         // stimpack
         case SPR_STIM:
-            if (!P_GiveBody(10, MAXHEALTH, stat))
+            if (!P_GiveHealth(10, MAXHEALTH, stat))
                 return false;
 
             if (message && !duplicate)
@@ -906,7 +912,7 @@ bool P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, const bool message, c
 
         // medikit
         case SPR_MEDI:
-            if (!P_GiveBody(25, MAXHEALTH, stat))
+            if (!P_GiveHealth(25, MAXHEALTH, stat))
                 return false;
 
             if (message && !duplicate)
@@ -2248,6 +2254,7 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
                 }
             }
 
+            tplayer->healthdiff = damage;
             tplayer->health -= damage;
             target->health -= damage;
             healthhighlight = I_GetTimeMS() + HUD_HEALTH_HIGHLIGHT_WAIT;

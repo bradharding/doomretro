@@ -549,6 +549,21 @@ void P_PlayerThink(void)
 
     P_ReduceDamageCount();
 
+    if (viewplayer->healthdiff < 0)
+        viewplayer->healthdiff++;
+    else if (viewplayer->healthdiff > 0)
+        viewplayer->healthdiff--;
+
+    if (viewplayer->armordiff < 0)
+        viewplayer->armordiff++;
+    else if (viewplayer->armordiff > 0)
+        viewplayer->armordiff--;
+
+    if (viewplayer->ammodiff < 0)
+        viewplayer->ammodiff++;
+    else if (viewplayer->ammodiff > 0)
+        viewplayer->ammodiff--;
+
     // [AM] Assume we can interpolate at the beginning of the tic.
     mo->interpolate = 1;
 
@@ -626,7 +641,7 @@ void P_PlayerThink(void)
 
     // [BH] regenerate health by 1% every second up to 100%
     if (regenhealth && mo->health < initial_health && !(maptime % TICRATE) && !viewplayer->damagecount)
-        P_GiveBody(1, MAXHEALTH, false);
+        P_GiveHealth(1, MAXHEALTH, false);
 
     // [BH] Check all sectors player is touching are special
     for (const struct msecnode_s *seclist = mo->touching_sectorlist; seclist; seclist = seclist->m_tnext)
