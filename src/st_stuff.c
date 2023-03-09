@@ -507,6 +507,7 @@ bool ST_Responder(event_t *ev)
                     HU_SetPlayerMessage(s_STSTR_DQDOFF, false, false);
 
                     // [BH] restore player's health
+                    viewplayer->healthdiff = viewplayer->health - oldhealth;
                     viewplayer->health = oldhealth;
                     viewplayer->mo->health = oldhealth;
                 }
@@ -524,6 +525,7 @@ bool ST_Responder(event_t *ev)
                 if (viewplayer->armor < idfa_armor || viewplayer->armortype < idfa_armor_class)
                 {
                     armorgiven = true;
+                    viewplayer->armordiff = viewplayer->armor - idfa_armor;
                     viewplayer->armor = idfa_armor;
                     viewplayer->armortype = idfa_armor_class;
                 }

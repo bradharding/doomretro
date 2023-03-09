@@ -261,6 +261,9 @@ bool P_GiveFullAmmo(void)
     for (int i = 0; i < NUMAMMO; i++)
         if (viewplayer->ammo[i] < viewplayer->maxammo[i])
         {
+            if (i == weaponinfo[viewplayer->readyweapon].ammotype)
+                viewplayer->ammodiff = viewplayer->ammo[i] - viewplayer->maxammo[i];
+
             viewplayer->ammo[i] = viewplayer->maxammo[i];
             result = true;
         }
