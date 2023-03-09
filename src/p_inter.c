@@ -199,7 +199,10 @@ static int P_GiveAmmo(const ammotype_t ammotype, int num, const bool stat)
     viewplayer->ammo[ammotype] = MIN(oldammo + num, viewplayer->maxammo[ammotype]);
 
     if (num && ammotype == weaponinfo[readyweapon].ammotype)
+    {
+        viewplayer->ammodiff = num - viewplayer->ammo[ammotype];
         ammohighlight = I_GetTimeMS() + HUD_AMMO_HIGHLIGHT_WAIT;
+    }
 
     if (stat)
         P_UpdateAmmoStat(ammotype, viewplayer->ammo[ammotype] - oldammo);
