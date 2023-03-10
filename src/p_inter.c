@@ -200,7 +200,7 @@ static int P_GiveAmmo(const ammotype_t ammotype, int num, const bool stat)
 
     if (num && ammotype == weaponinfo[readyweapon].ammotype)
     {
-        viewplayer->ammodiff = num - viewplayer->ammo[ammotype];
+        ammodiff = num - viewplayer->ammo[ammotype];
         ammohighlight = I_GetTimeMS() + HUD_AMMO_HIGHLIGHT_WAIT;
     }
 
@@ -265,7 +265,7 @@ bool P_GiveFullAmmo(void)
         if (viewplayer->ammo[i] < viewplayer->maxammo[i])
         {
             if (i == weaponinfo[viewplayer->readyweapon].ammotype)
-                viewplayer->ammodiff = viewplayer->ammo[i] - viewplayer->maxammo[i];
+                ammodiff = viewplayer->ammo[i] - viewplayer->maxammo[i];
 
             viewplayer->ammo[i] = viewplayer->maxammo[i];
             result = true;
@@ -396,7 +396,7 @@ bool P_GiveHealth(const int num, const int max, const bool stat)
     viewplayer->health = MIN(health + num, max);
     viewplayer->mo->health = viewplayer->health;
     healthhighlight = I_GetTimeMS() + HUD_HEALTH_HIGHLIGHT_WAIT;
-    viewplayer->healthdiff = health - viewplayer->health;
+    healthdiff = health - viewplayer->health;
 
     if (stat)
         P_UpdateHealthStat(viewplayer->health - health);
@@ -416,7 +416,7 @@ bool P_GiveMegaHealth(const bool stat)
         if (viewplayer->health < mega_health)
         {
             healthhighlight = I_GetTimeMS() + HUD_HEALTH_HIGHLIGHT_WAIT;
-            viewplayer->healthdiff = viewplayer->health - mega_health;
+            healthdiff = viewplayer->health - mega_health;
 
             if (stat)
                 P_UpdateHealthStat(MAX(0, mega_health - viewplayer->health));
@@ -449,7 +449,7 @@ bool P_GiveArmor(const armortype_t armortype, const bool stat)
         return false;   // don't pick up
 
     viewplayer->armortype = armortype;
-    viewplayer->armordiff = viewplayer->armor - hits;
+    armordiff = viewplayer->armor - hits;
 
     if (stat)
         P_UpdateArmorStat(hits - viewplayer->armor);
@@ -2258,7 +2258,7 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
             }
 
             tplayer->health -= damage;
-            tplayer->healthdiff = damage;
+            healthdiff = damage;
             target->health -= damage;
             healthhighlight = I_GetTimeMS() + HUD_HEALTH_HIGHLIGHT_WAIT;
 

@@ -3,7 +3,7 @@
 #### DOOM Retro v4.8.2
 
 * Minor optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
-* The mouse pointer may now be used to adjust the sliders in the options menu when the `m_pointer` CVAR is `on`.
+* The mouse pointer may now be used to adjust the sliders in the options and sound volume menus when the `m_pointer` CVAR is `on`.
 * The bars in the alternate widescreen HUD now animate whenever the player’s health, armor or ammo changes.
 * A crash no longer occurs when changing the `health` CVAR to `0%` or less in the console.
 * The position of the player’s health is now fixed in the alternate widescreen HUD when 0% and the `negativehealth` CVAR is `off`.

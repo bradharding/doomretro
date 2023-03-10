@@ -540,20 +540,20 @@ void P_PlayerThink(void)
         return;
     }
 
-    if (viewplayer->healthdiff < 0)
-        viewplayer->healthdiff = MIN(viewplayer->healthdiff + ALTHUD_BARDIFF, viewplayer->health);
-    else if (viewplayer->healthdiff > 0)
-        viewplayer->healthdiff = MAX(0, viewplayer->healthdiff - ALTHUD_BARDIFF);
+    if (healthdiff < 0)
+        healthdiff = MIN(healthdiff + ALTHUD_BARDIFF, viewplayer->health);
+    else if (healthdiff > 0)
+        healthdiff = MAX(0, healthdiff - ALTHUD_BARDIFF);
 
-    if (viewplayer->armordiff < 0)
-        viewplayer->armordiff = MIN(viewplayer->armordiff + ALTHUD_BARDIFF, viewplayer->armor);
-    else if (viewplayer->armordiff > 0)
-        viewplayer->armordiff = MAX(0, viewplayer->armordiff - ALTHUD_BARDIFF);
+    if (armordiff < 0)
+        armordiff = MIN(armordiff + ALTHUD_BARDIFF, viewplayer->armor);
+    else if (armordiff > 0)
+        armordiff = MAX(0, armordiff - ALTHUD_BARDIFF);
 
-    if (viewplayer->ammodiff < 0)
-        viewplayer->ammodiff = MIN(viewplayer->ammodiff + ALTHUD_BARDIFF, viewplayer->ammo[viewplayer->readyweapon]);
-    else if (viewplayer->ammodiff > 0)
-        viewplayer->ammodiff = MAX(0, viewplayer->ammodiff - ALTHUD_BARDIFF);
+    if (ammodiff < 0)
+        ammodiff = MIN(ammodiff + ALTHUD_BARDIFF, viewplayer->ammo[viewplayer->readyweapon]);
+    else if (ammodiff > 0)
+        ammodiff = MAX(0, ammodiff - ALTHUD_BARDIFF);
 
     if (consoleactive)
     {

@@ -129,10 +129,8 @@ typedef struct player_s
     // This is only used between levels,
     // mo->health is used during levels.
     int             health;
-    int             healthdiff;
 
     int             armor;
-    int             armordiff;
 
     // Armor type is 0-2.
     armortype_t     armortype;
@@ -153,8 +151,6 @@ typedef struct player_s
     int             weaponowned[NUMWEAPONS];
     int             ammo[NUMAMMO];
     int             maxammo[NUMAMMO];
-
-    int             ammodiff;
 
     // True if button down last tic.
     bool            attackdown;

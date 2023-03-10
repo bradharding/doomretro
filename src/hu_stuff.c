@@ -572,9 +572,13 @@ static void HU_DrawSolidCrosshair(void)
     }
 }
 
-uint64_t    healthhighlight = 0;
 uint64_t    ammohighlight = 0;
 uint64_t    armorhighlight = 0;
+uint64_t    healthhighlight = 0;
+
+int         ammodiff = 0;
+int         armordiff = 0;
+int         healthdiff = 0;
 
 static void HU_DrawHUD(void)
 {
@@ -1008,7 +1012,7 @@ static void HU_DrawAltHUD(void)
 {
     const int       color = (((viewplayer->fixedcolormap == INVERSECOLORMAP) ^ (!r_textures)) ?
                         colormaps[0][32 * 256 + nearestwhite] : (r_hud_translucency ? nearestwhite : nearestlightgray));
-    int             health = BETWEEN(HUD_NUMBER_MIN, viewplayer->health + viewplayer->healthdiff, HUD_NUMBER_MAX);
+    int             health = BETWEEN(HUD_NUMBER_MIN, viewplayer->health + healthdiff, HUD_NUMBER_MAX);
     int             armor = MIN(viewplayer->armor, HUD_NUMBER_MAX);
     int             keypic_x = ALTHUD_RIGHT_X;
     const uint64_t  currenttime = I_GetTimeMS();
@@ -1095,7 +1099,7 @@ static void HU_DrawAltHUD(void)
         }
     }
 
-    if ((armor += viewplayer->armordiff))
+    if ((armor += armordiff))
     {
         if (r_hud_translucency)
             DrawAltHUDNumber2(ALTHUD_LEFT_X - AltHUDNumber2Width(armor), ALTHUD_Y,
@@ -1187,7 +1191,7 @@ static void HU_DrawAltHUD(void)
 
         if (ammotype != am_noammo)
         {
-            int ammo = viewplayer->ammo[ammotype] + viewplayer->ammodiff;
+            int ammo = viewplayer->ammo[ammotype] + ammodiff;
 
             if (r_hud_translucency)
                 DrawAltHUDNumber(ALTHUD_RIGHT_X + 101 - AltHUDNumberWidth(ammo), ALTHUD_Y - 2,

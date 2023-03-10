@@ -4365,16 +4365,16 @@ static int deh_GetData(char *s, char *k, int *l, char **strval)
 
 void D_TranslateDehStrings(void)
 {
-    if (english == english_international)
+    if (english == english_american)
     {
         for (int i = 0; i < deh_numstrlookup; i++)
             if (deh_strlookup[i].assigned)
-                M_AmericanToInternationalEnglish(*deh_strlookup[i].ppstr);
+                M_InternationalToAmericanEnglish(*deh_strlookup[i].ppstr);
     }
     else
         for (int i = 0; i < deh_numstrlookup; i++)
             if (deh_strlookup[i].assigned)
-                M_InternationalToAmericanEnglish(*deh_strlookup[i].ppstr);
+                M_AmericanToInternationalEnglish(*deh_strlookup[i].ppstr);
 }
 
 static deh_bexptr   null_bexptr = { NULL, "(NULL)" };

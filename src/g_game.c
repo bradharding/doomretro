@@ -694,6 +694,14 @@ void G_DoLoadLevel(void)
 
     if (automapactive || mapwindow)
         AM_Start(automapactive);
+
+    ammohighlight = 0;
+    armorhighlight = 0;
+    healthhighlight = 0;
+
+    ammodiff = 0;
+    armordiff = 0;
+    healthdiff = 0;
 }
 
 void G_ToggleAlwaysRun(evtype_t type)
