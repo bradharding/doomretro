@@ -3227,6 +3227,7 @@ static void kill_cmd_func2(char *cmd, char *parms)
             massacre = true;
 
             viewplayer->damagecount = MIN(viewplayer->health, 100);
+            healthdiff = viewplayer->health;
             viewplayer->health = 0;
             viewplayer->mo->health = 0;
             healthhighlight = I_GetTimeMS() + HUD_HEALTH_HIGHLIGHT_WAIT;
@@ -7443,6 +7444,7 @@ static void take_cmd_func2(char *cmd, char *parms)
 
             if (viewplayer->armor)
             {
+                armordiff = viewplayer->armor;
                 viewplayer->armor = 0;
                 viewplayer->armortype = armortype_none;
                 result = true;
@@ -7545,6 +7547,7 @@ static void take_cmd_func2(char *cmd, char *parms)
         {
             if (viewplayer->armor)
             {
+                armordiff = viewplayer->armor;
                 viewplayer->armor = 0;
                 viewplayer->armortype = armortype_none;
                 C_PlayerMessage("All %s was taken from %s.",
