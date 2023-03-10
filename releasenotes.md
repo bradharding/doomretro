@@ -6,6 +6,7 @@
 * The mouse pointer may now be used to adjust the sliders in the options menu when the `m_pointer` CVAR is `on`.
 * The bars in the alternate widescreen HUD now animate whenever the player’s health, armor or ammo changes.
 * A crash no longer occurs when changing the `health` CVAR to `0%` or less in the console.
+* The position of the player’s health is now fixed in the alternate widescreen HUD when 0% and the `negativehealth` CVAR is `off`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
