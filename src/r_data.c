@@ -824,6 +824,11 @@ static void R_InitSpriteLumps(void)
         M_StringCopy(mobjinfo[MT_MISC78].name1, "skelespider", sizeof(mobjinfo[0].name1));
         M_StringCopy(mobjinfo[MT_MISC78].plural1, "skelespiders", sizeof(mobjinfo[0].plural1));
     }
+    else if (KDIKDIZD)
+    {
+        mobjinfo[MT_BFG].flags2 &= ~MF2_TRANSLUCENT;
+        mobjinfo[MT_BFG].flags2 |= MF2_CASTSHADOW;
+    }
 }
 
 //
