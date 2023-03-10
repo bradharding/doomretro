@@ -2637,7 +2637,8 @@ static void give_cmd_func2(char *cmd, char *parms)
                 if (M_StringCompare(playername, playername_default))
                     C_PlayerMessage("You were given all your weapons.");
                 else
-                    C_PlayerMessage("%s was given all %s weapons.", playername, preferredpronoun(possessive));
+                    C_PlayerMessage("%s was given all %s weapons.",
+                        playername, preferredpronoun(possessive));
 
                 C_HideConsole();
             }
@@ -2646,7 +2647,8 @@ static void give_cmd_func2(char *cmd, char *parms)
                 if (M_StringCompare(playername, playername_default))
                     C_Warning(0, "You already have all your weapons.");
                 else
-                    C_Warning(0, "%s already has all %s weapons.", playername, preferredpronoun(possessive));
+                    C_Warning(0, "%s already has all %s weapons.",
+                        playername, preferredpronoun(possessive));
 
                 free(parm);
                 return;
@@ -2663,7 +2665,21 @@ static void give_cmd_func2(char *cmd, char *parms)
                 if (M_StringCompare(playername, playername_default))
                     C_PlayerMessage("You were given full ammo for all your weapons.");
                 else
-                    C_PlayerMessage("%s was given full ammo for all %s weapons.", playername, preferredpronoun(possessive));
+                    C_PlayerMessage("%s was given full ammo for all %s weapons.",
+                        playername, preferredpronoun(possessive));
+
+                C_HideConsole();
+            }
+            else if (P_GiveBackpack(false, false) && P_GiveFullAmmo())
+            {
+                P_AddBonus();
+                S_StartSound(viewplayer->mo, sfx_itemup);
+
+                if (M_StringCompare(playername, playername_default))
+                    C_PlayerMessage("You were given a backpack and full ammo for all your weapons.");
+                else
+                    C_PlayerMessage("%s was given a backpack and full ammo for all %s weapons.",
+                        playername, preferredpronoun(possessive));
 
                 C_HideConsole();
             }
@@ -2672,7 +2688,8 @@ static void give_cmd_func2(char *cmd, char *parms)
                 if (M_StringCompare(playername, playername_default))
                     C_Warning(0, "You already have full ammo for all your weapons.");
                 else
-                    C_Warning(0, "%s already has full ammo for all %s weapons.", playername, preferredpronoun(possessive));
+                    C_Warning(0, "%s already has full ammo for all %s weapons.",
+                        playername, preferredpronoun(possessive));
 
                 free(parm);
                 return;
