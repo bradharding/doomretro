@@ -10,6 +10,7 @@
   * The vertical position of some weapon silhouettes have changed.
 * A crash no longer occurs when changing the `health` CVAR to `0%` or less in the console.
 * A bug is fixed whereby widescreen wouldn’t be restored correctly when toggling vanilla mode off using the `vanilla` CCMD.
+* `NEXT` and `SECRETNEXT` now work as intended in `MAPINFO` lumps.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

@@ -3499,10 +3499,7 @@ static bool P_ParseMapInfo(char *scriptname)
                                 break;
                             }
 
-                            if (sscanf(sc_String, "%i", &nextmap) != 1)
-                                continue;
-
-                            if (nextmap < 0 || nextmap > 99)
+                            if (sscanf(sc_String, "%i", &nextmap) != 1 || nextmap < 0 || nextmap > 99)
                             {
                                 char    *buffer = uppercase(sc_String);
 
@@ -3576,10 +3573,7 @@ static bool P_ParseMapInfo(char *scriptname)
 
                             SC_MustGetString();
 
-                            if (sscanf(sc_String, "%i", &nextmap) != 1)
-                                continue;
-
-                            if (nextmap < 0 || nextmap > 99)
+                            if (sscanf(sc_String, "%i", &nextmap) != 1 || nextmap < 0 || nextmap > 99)
                             {
                                 char    *buffer = uppercase(sc_String);
 
