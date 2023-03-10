@@ -2702,9 +2702,11 @@ bool M_Responder(event_t *ev)
                                 if (itemon == scrnsize || itemon == mousesens)
                                     key = 0;
                                 else if (itemon == option_empty1)
-                                    key = (ev->data2 < OptionsMenu[option_empty1].sliderx ? KEY_LEFTARROW : KEY_RIGHTARROW);
+                                    key = (ev->data2 < OptionsMenu[option_empty1].sliderx ? KEY_LEFTARROW :
+                                        (ev->data2 > OptionsMenu[option_empty1].sliderx + 8 ? KEY_RIGHTARROW : 0));
                                 else if (itemon == option_empty2)
-                                    key = (ev->data2 < OptionsMenu[option_empty2].sliderx ? KEY_LEFTARROW : KEY_RIGHTARROW);
+                                    key = (ev->data2 < OptionsMenu[option_empty2].sliderx ? KEY_LEFTARROW :
+                                        (ev->data2 > OptionsMenu[option_empty2].sliderx + 8 ? KEY_RIGHTARROW : 0));
                                 else if (mousewait < I_GetTime())
                                 {
                                     key = KEY_ENTER;
@@ -2716,9 +2718,11 @@ bool M_Responder(event_t *ev)
                                 if (itemon == sfx_vol || itemon == music_vol)
                                     key = 0;
                                 else if (itemon == sound_empty1)
-                                    key = (ev->data2 < SoundMenu[sound_empty1].sliderx ? KEY_LEFTARROW : KEY_RIGHTARROW);
+                                    key = (ev->data2 < SoundMenu[sound_empty1].sliderx ? KEY_LEFTARROW :
+                                        (ev->data2 > SoundMenu[sound_empty1].sliderx + 8 ? KEY_RIGHTARROW : 0));
                                 else if (itemon == sound_empty2)
-                                    key = (ev->data2 < SoundMenu[sound_empty2].sliderx ? KEY_LEFTARROW : KEY_RIGHTARROW);
+                                    key = (ev->data2 < SoundMenu[sound_empty2].sliderx ? KEY_LEFTARROW :
+                                        (ev->data2 > SoundMenu[sound_empty2].sliderx + 8 ? KEY_RIGHTARROW : 0));
                                 else if (mousewait < I_GetTime())
                                 {
                                     key = KEY_ENTER;
