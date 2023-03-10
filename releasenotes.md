@@ -7,7 +7,7 @@
 * These changes have been made to the alternate widescreen HUD:
   * The bars now animate whenever the player’s health, armor or ammo changes.
   * The position of the player’s health is now fixed when 0% and the `negativehealth` CVAR is `off`.
-  * The position of some weapon silhouettes have changed.
+  * The vertical position of some weapon silhouettes have changed.
 * A crash no longer occurs when changing the `health` CVAR to `0%` or less in the console.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)

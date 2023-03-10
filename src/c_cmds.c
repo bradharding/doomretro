@@ -8869,7 +8869,7 @@ static void player_cvars_func2(char *cmd, char *parms)
         {
             if (sscanf(parms, "%10i", &value) == 1 && value != viewplayer->health)
             {
-                value = BETWEEN(HUD_NUMBER_MIN, value, maxhealth);
+                value = BETWEEN(((viewplayer->cheats & CF_BUDDHA) ? 1 : HUD_NUMBER_MIN), value, maxhealth);
 
                 healthhighlight = I_GetTimeMS() + HUD_HEALTH_HIGHLIGHT_WAIT;
                 healthdiff = viewplayer->health - value;
