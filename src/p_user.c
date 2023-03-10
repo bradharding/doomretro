@@ -525,9 +525,6 @@ void P_PlayerThink(void)
     ticcmd_t    *cmd;
     mobj_t      *mo = viewplayer->mo;
     static int  motionblur;
-    static int  healthdiffspeed = ALTHUD_BARDIFF;
-    static int  armordiffspeed = ALTHUD_BARDIFF;
-    static int  ammodiffspeed = ALTHUD_BARDIFF;
 
     if (viewplayer->bonuscount)
         viewplayer->bonuscount--;

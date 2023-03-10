@@ -580,6 +580,10 @@ int         ammodiff = 0;
 int         armordiff = 0;
 int         healthdiff = 0;
 
+int         ammodiffspeed = ALTHUD_BARDIFF;
+int         armordiffspeed = ALTHUD_BARDIFF;
+int         healthdiffspeed = ALTHUD_BARDIFF;
+
 static void HU_DrawHUD(void)
 {
     const int       health = BETWEEN(HUD_NUMBER_MIN, viewplayer->health, HUD_NUMBER_MAX);

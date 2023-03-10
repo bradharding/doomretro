@@ -329,8 +329,8 @@ static void R_InitTextureMapping(void)
 //
 static void R_InitLightTables(void)
 {
-    const unsigned int wfovscale = FixedMul(SCREENWIDTH, FixedDiv(FRACUNIT, fovscale)) + 1;
-    const int   width = wfovscale / 2 * FRACUNIT;
+    const unsigned int  wfovscale = FixedMul(SCREENWIDTH, FixedDiv(FRACUNIT, fovscale)) + 1;
+    const int           width = wfovscale / 2 * FRACUNIT;
 
     // Calculate the light levels to use for each level/distance combination.
     for (int i = 0; i < LIGHTLEVELS; i++)
