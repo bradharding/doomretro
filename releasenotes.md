@@ -9,6 +9,7 @@
   * The position of the player’s health is now fixed when 0% and the `negativehealth` CVAR is `off`.
   * The vertical position of some weapon silhouettes have changed.
 * A crash no longer occurs when changing the `health` CVAR to `0%` or less in the console.
+* A bug is fixed whereby widescreen wouldn’t be restored correctly when toggling vanilla mode off using the `vanilla` CCMD.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

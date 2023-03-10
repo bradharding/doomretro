@@ -7994,6 +7994,7 @@ static void vanilla_cmd_func2(char *cmd, char *parms)
     if (gamestate == GS_LEVEL)
         C_HideConsole();
 
+    I_RestartGraphics(false);
     togglingvanilla = false;
 }
 
@@ -9435,7 +9436,7 @@ static void r_hud_cvar_func2(char *cmd, char *parms)
 
     bool_cvars_func2(cmd, parms);
 
-    if (r_hud != r_hud_old && r_hud)
+    if (r_hud != r_hud_old && r_hud && !togglingvanilla)
     {
         if (r_screensize != r_screensize_max)
         {
@@ -9649,26 +9650,29 @@ static void r_screensize_cvar_func2(char *cmd, char *parms)
             S_StartSound(NULL, sfx_stnmov);
             R_SetViewSize(r_screensize);
 
-            if (r_hud != (r_screensize == r_screensize_max))
+            if (!togglingvanilla)
             {
-                r_hud = (r_screensize == r_screensize_max);
-                C_StringCVAROutput(stringize(r_hud), (r_hud ? "on" : "off"));
-            }
+                if (r_hud != (r_screensize == r_screensize_max))
+                {
+                    r_hud = (r_screensize == r_screensize_max);
+                    C_StringCVAROutput(stringize(r_hud), (r_hud ? "on" : "off"));
+                }
 
-            if (vid_widescreen && r_screensize < r_screensize_max - 1)
-            {
-                vid_widescreen = false;
-                C_StringCVAROutput(stringize(vid_widescreen), "off");
-                I_RestartGraphics(false);
-            }
-            else if (!vid_widescreen && r_screensize == r_screensize_max)
-            {
-                vid_widescreen = true;
-                C_StringCVAROutput(stringize(vid_widescreen), "on");
-                I_RestartGraphics(false);
-            }
+                if (vid_widescreen && r_screensize < r_screensize_max - 1)
+                {
+                    vid_widescreen = false;
+                    C_StringCVAROutput(stringize(vid_widescreen), "off");
+                    I_RestartGraphics(false);
+                }
+                else if (!vid_widescreen && r_screensize == r_screensize_max)
+                {
+                    vid_widescreen = true;
+                    C_StringCVAROutput(stringize(vid_widescreen), "on");
+                    I_RestartGraphics(false);
+                }
 
-            M_SaveCVARs();
+                M_SaveCVARs();
+            }
 
             if (r_playersprites)
                 skippsprinterp = true;
@@ -10413,7 +10417,7 @@ static void vid_widescreen_cvar_func2(char *cmd, char *parms)
 
     bool_cvars_func2(cmd, parms);
 
-    if (vid_widescreen != vid_widescreen_old)
+    if (vid_widescreen != vid_widescreen_old && !togglingvanilla)
     {
         if (r_screensize != r_screensize_max - 1)
         {
