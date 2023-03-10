@@ -525,6 +525,9 @@ void P_PlayerThink(void)
     ticcmd_t    *cmd;
     mobj_t      *mo = viewplayer->mo;
     static int  motionblur;
+    static int  healthdiffspeed = ALTHUD_BARDIFF;
+    static int  armordiffspeed = ALTHUD_BARDIFF;
+    static int  ammodiffspeed = ALTHUD_BARDIFF;
 
     if (viewplayer->bonuscount)
         viewplayer->bonuscount--;
@@ -540,20 +543,35 @@ void P_PlayerThink(void)
         return;
     }
 
+    if (ABS(healthdiff) > 100)
+        healthdiffspeed = ALTHUD_BARDIFF * 2;
+
     if (healthdiff < 0)
-        healthdiff = MIN(healthdiff + ALTHUD_BARDIFF, viewplayer->health);
+        healthdiff = MIN(healthdiff + healthdiffspeed, viewplayer->health);
     else if (healthdiff > 0)
-        healthdiff = MAX(0, healthdiff - ALTHUD_BARDIFF);
+        healthdiff = MAX(0, healthdiff - healthdiffspeed);
+    else
+        healthdiffspeed = ALTHUD_BARDIFF;
+
+    if (ABS(armordiff) > 100)
+        armordiffspeed = ALTHUD_BARDIFF * 2;
 
     if (armordiff < 0)
-        armordiff = MIN(armordiff + ALTHUD_BARDIFF, viewplayer->armor);
+        armordiff = MIN(armordiff + armordiffspeed, viewplayer->armor);
     else if (armordiff > 0)
-        armordiff = MAX(0, armordiff - ALTHUD_BARDIFF);
+        armordiff = MAX(0, armordiff - armordiffspeed);
+    else
+        armordiffspeed = ALTHUD_BARDIFF;
+
+    if (ABS(ammodiff) > 100)
+        ammodiffspeed = ALTHUD_BARDIFF * 2;
 
     if (ammodiff < 0)
-        ammodiff = MIN(ammodiff + ALTHUD_BARDIFF, viewplayer->ammo[viewplayer->readyweapon]);
+        ammodiff = MIN(ammodiff + ammodiffspeed, viewplayer->ammo[viewplayer->readyweapon]);
     else if (ammodiff > 0)
-        ammodiff = MAX(0, ammodiff - ALTHUD_BARDIFF);
+        ammodiff = MAX(0, ammodiff - ammodiffspeed);
+    else
+        ammodiffspeed = ALTHUD_BARDIFF;
 
     if (consoleactive)
     {
