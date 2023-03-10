@@ -376,23 +376,6 @@ void I_StopSound(const int channel)
     ReleaseSoundOnChannel(channel);
 }
 
-void I_FadeOutSound(const int channel)
-{
-    allocated_sound_t   *snd = channels_playing[channel];
-
-    if (!snd)
-        return;
-
-    Mix_FadeOutChannel(channel, 500);
-
-    channels_playing[channel] = NULL;
-    UnlockAllocatedSound(snd);
-
-    // If the sound is a pitch-shift and it's not in use, immediately free it.
-    if (snd->pitch != NORM_PITCH && snd->use_count <= 0)
-        FreeAllocatedSound(snd);
-}
-
 bool I_SoundIsPlaying(const int channel)
 {
     return Mix_Playing(channel);
