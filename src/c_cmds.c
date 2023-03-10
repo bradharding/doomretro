@@ -8557,6 +8557,7 @@ static void english_cvar_func2(char *cmd, char *parms)
             english = value;
             ST_InitStatBar();
             D_TranslateDehStrings();
+            M_TranslateAutocomplete();
             M_SaveCVARs();
         }
     }

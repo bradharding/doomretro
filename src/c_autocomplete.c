@@ -38,7 +38,7 @@
 
 #include "c_console.h"
 
-const autocomplete_t autocompletelist[] =
+autocomplete_t autocompletelist[] =
 {
     { "alias ",                                      DOOM1AND2 },
     { "alwaysrun ",                                  DOOM1AND2 },

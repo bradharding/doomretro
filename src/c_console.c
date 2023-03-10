@@ -711,6 +711,8 @@ void C_Init(void)
 
     suckswidth = C_OverlayWidth(s_STSTR_SUCKS, false);
     timewidth = C_OverlayWidth("00:00", true);
+
+    M_TranslateAutocomplete();
 }
 
 void C_ShowConsole(void)
@@ -2148,9 +2150,6 @@ bool C_Responder(event_t *ev)
                         }
                         else
                             M_StringCopy(output, autocompletelist[autocomplete].text, sizeof(output));
-
-                        if (english == english_international)
-                            M_AmericanToInternationalEnglish(output);
 
                         if (!M_StringCompare(output, input))
                         {

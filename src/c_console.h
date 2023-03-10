@@ -192,7 +192,7 @@ typedef struct
 
 typedef struct
 {
-    const char      text[255];
+    char            text[255];
     const int       game;
 } autocomplete_t;
 
@@ -236,7 +236,7 @@ extern bool                 scrollbardrawn;
 extern const kern_t         kern[];
 extern const kern_t         altkern[];
 
-extern const autocomplete_t autocompletelist[];
+extern autocomplete_t       autocompletelist[];
 
 void C_Input(const char *string, ...);
 void C_Cheat(const char *string);
