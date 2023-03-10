@@ -329,6 +329,12 @@ bool P_GiveAllWeapons(void)
         result = true;
     }
 
+    if (!viewplayer->weaponowned[wp_pistol])
+    {
+        viewplayer->weaponowned[wp_pistol] = true;
+        result = true;
+    }
+
     if (!viewplayer->weaponowned[wp_shotgun])
     {
         viewplayer->weaponowned[wp_shotgun] = true;
