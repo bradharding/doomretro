@@ -5,6 +5,7 @@
 * Minor optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * The mouse pointer may now be used to adjust the sliders in the options menu when the `m_pointer` CVAR is `on`.
 * The bars in the alternate widescreen HUD now animate whenever the player’s health, armor or ammo changes.
+* A crash no longer occurs when changing the `health` CVAR to `0%` or less in the console.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

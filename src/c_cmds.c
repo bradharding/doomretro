@@ -8888,10 +8888,14 @@ static void player_cvars_func2(char *cmd, char *parms)
                         viewplayer->damagecount = viewplayer->health - value;
                         viewplayer->health = value;
                         viewplayer->mo->health = value;
-                        S_StartSound(viewplayer->mo, sfx_plpain);
 
                         if (value <= 0)
+                        {
+                            P_KillMobj(viewplayer->mo, NULL, viewplayer->mo, false);
                             C_HideConsole();
+                        }
+                        else
+                            S_StartSound(NULL, sfx_plpain);
                     }
                     else
                     {
