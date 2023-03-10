@@ -1045,8 +1045,38 @@ static void HU_DrawAltHUD(void)
             althudfunc(ALTHUD_LEFT_X + 123, ALTHUD_Y + 13, altmarkpatch, WHITE, green1, NULL);
         }
     }
-    else if ((health = MAX(0, health) * 200 / maxhealth) > 100)
+    else if (health < 100)
     {
+        const int   barcolor = (health < HUD_HEALTH_MIN && !(viewplayer->cheats & CF_BUDDHA) ? red : color);
+
+        health = MAX(1, health);
+
+        if (r_hud_translucency)
+        {
+            const int   color2 = tinttab10[barcolor];
+
+            fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 13, health,
+                8, barcolor, barcolor, true, true, tinttab60, tinttab25);
+            althudfunc(ALTHUD_LEFT_X + 5, ALTHUD_Y + 11, altleftpatch, WHITE, color, tinttab60);
+            althudfunc(ALTHUD_LEFT_X + 25, ALTHUD_Y + 13, altendpatch, WHITE, color2, NULL);
+            althudfunc(ALTHUD_LEFT_X + 25 + health - 3, ALTHUD_Y + 13, altmarkpatch, WHITE, color2, NULL);
+        }
+        else
+        {
+            const int   color2 = (((viewplayer->fixedcolormap == INVERSECOLORMAP) ^ (!r_textures)) ?
+                colormaps[0][32 * 256 + nearestwhite] : nearestwhite);
+
+            fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 13, health, 8,
+                barcolor, barcolor, true, true, NULL, NULL);
+            althudfunc(ALTHUD_LEFT_X + 5, ALTHUD_Y + 11, altleftpatch, WHITE, color, NULL);
+            althudfunc(ALTHUD_LEFT_X + 25, ALTHUD_Y + 13, altendpatch, WHITE, color2, NULL);
+            althudfunc(ALTHUD_LEFT_X + 25 + health - 3, ALTHUD_Y + 13, altmarkpatch, WHITE, color2, NULL);
+        }
+    }
+    else
+    {
+        health = MAX(0, health) * 200 / maxhealth;
+
         if (r_hud_translucency)
         {
             const int   color2 = tinttab10[green1];
@@ -1068,34 +1098,6 @@ static void HU_DrawAltHUD(void)
             althudfunc(ALTHUD_LEFT_X + 25, ALTHUD_Y + 13, altendpatch, WHITE, green1, NULL);
             althudfunc(ALTHUD_LEFT_X + 123, ALTHUD_Y + 13, altmarkpatch, WHITE, green1, NULL);
             althudfunc(ALTHUD_LEFT_X + 25 + health - 102, ALTHUD_Y + 10, altmark2patch, WHITE, green1, NULL);
-        }
-    }
-    else
-    {
-        const int   barcolor = (health < HUD_HEALTH_MIN && !(viewplayer->cheats & CF_BUDDHA) ? red : color);
-
-        health = MAX(1, health);
-
-        if (r_hud_translucency)
-        {
-            const int   color2 = tinttab10[barcolor];
-
-            fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 13, health,
-                8, barcolor, barcolor, true, true, tinttab60, tinttab25);
-            althudfunc(ALTHUD_LEFT_X + 5, ALTHUD_Y + 11, altleftpatch, WHITE, color, tinttab60);
-            althudfunc(ALTHUD_LEFT_X + 25, ALTHUD_Y + 13, altendpatch, WHITE, color2, NULL);
-            althudfunc(ALTHUD_LEFT_X + 25 + health - 3, ALTHUD_Y + 13, altmarkpatch, WHITE, color2, NULL);
-        }
-        else
-        {
-            const int   color2 = (((viewplayer->fixedcolormap == INVERSECOLORMAP) ^ (!r_textures)) ?
-                            colormaps[0][32 * 256 + nearestwhite] : nearestwhite);
-
-            fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 13, health, 8,
-                barcolor, barcolor, true, true, NULL, NULL);
-            althudfunc(ALTHUD_LEFT_X + 5, ALTHUD_Y + 11, altleftpatch, WHITE, color, NULL);
-            althudfunc(ALTHUD_LEFT_X + 25, ALTHUD_Y + 13, altendpatch, WHITE, color2, NULL);
-            althudfunc(ALTHUD_LEFT_X + 25 + health - 3, ALTHUD_Y + 13, altmarkpatch, WHITE, color2, NULL);
         }
     }
 
