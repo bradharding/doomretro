@@ -200,7 +200,7 @@ static int P_GiveAmmo(const ammotype_t ammotype, int num, const bool stat)
 
     if (num && ammotype == weaponinfo[readyweapon].ammotype)
     {
-        ammodiff = num - viewplayer->ammo[ammotype];
+        ammodiff = oldammo - viewplayer->ammo[ammotype];
         ammohighlight = I_GetTimeMS() + HUD_AMMO_HIGHLIGHT_WAIT;
     }
 
