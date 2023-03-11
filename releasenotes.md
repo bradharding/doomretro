@@ -3,13 +3,16 @@
 #### DOOM Retro v4.8.2
 
 * Minor optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
+* Minor changes have been made to text that is output to the console.
 * The mouse pointer may now be used to adjust the sliders in the options and sound volume menus when the `m_pointer` CVAR is `on`.
 * The positions of `ON`/`OFF` and `HIGH`/`LOW` in the options menu have been fixed in some instances.
 * These changes have been made to the alternate widescreen HUD:
   * The bars now animate whenever the player’s health, armor or ammo changes.
   * The position of the player’s health is now fixed when 0% and the `negativehealth` CVAR is `off`.
   * The vertical positions of some of the weapon silhouettes have changed.
-* A crash no longer occurs when changing the `health` CVAR to `0%` or less in the console.
+* Crashes no longer occur when:
+  * Changing the `health` CVAR to `0%` or less in the console.
+  * Using the `take` CCMD to take more health from the player than they have.
 * A bug is fixed whereby widescreen wouldn’t be restored correctly when toggling vanilla mode off using the `vanilla` CCMD.
 * `NEXT` and `SECRETNEXT` now work as intended in `MAPINFO` lumps.
 

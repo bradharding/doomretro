@@ -7653,6 +7653,13 @@ static void take_cmd_func2(char *cmd, char *parms)
                             C_PlayerMessage("%s %s was taken from %s.",
                                 (isvowel(mobjinfo[i].name1[0]) ? "An" : "A"), mobjinfo[i].name1, playername);
 
+                        if (viewplayer->health <= 0)
+                        {
+                            healthcvar = true;
+                            P_KillMobj(viewplayer->mo, NULL, viewplayer->mo, false);
+                            healthcvar = false;
+                        }
+
                         C_HideConsole();
                         result = true;
                     }

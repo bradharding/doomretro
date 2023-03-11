@@ -1264,7 +1264,6 @@ bool P_TakeSpecialThing(const mobjtype_t type)
             viewplayer->armor -= green_armor_class * 100;
             armordiff = green_armor_class * 100;
             armorhighlight = I_GetTimeMS() + HUD_ARMOR_HIGHLIGHT_WAIT;
-
             return true;
 
         // blue armor
@@ -1278,7 +1277,6 @@ bool P_TakeSpecialThing(const mobjtype_t type)
             viewplayer->armor -= blue_armor_class * 100;
             armordiff = blue_armor_class * 100;
             armorhighlight = I_GetTimeMS() + HUD_ARMOR_HIGHLIGHT_WAIT;
-
             return true;
 
         // bonus health
@@ -1297,8 +1295,9 @@ bool P_TakeSpecialThing(const mobjtype_t type)
 
             viewplayer->health--;
             viewplayer->mo->health--;
+            viewplayer->damagecount = 1;
             healthhighlight = I_GetTimeMS() + HUD_HEALTH_HIGHLIGHT_WAIT;
-
+            S_StartSound(NULL, sfx_plpain);
             return true;
 
         // bonus armor
@@ -1308,7 +1307,6 @@ bool P_TakeSpecialThing(const mobjtype_t type)
 
             viewplayer->armor--;
             armorhighlight = I_GetTimeMS() + HUD_ARMOR_HIGHLIGHT_WAIT;
-
             return true;
 
         // soulsphere
@@ -1327,9 +1325,10 @@ bool P_TakeSpecialThing(const mobjtype_t type)
 
             viewplayer->health -= soul_health;
             viewplayer->mo->health -= soul_health;
+            viewplayer->damagecount = soul_health;
             healthdiff = soul_health;
             healthhighlight = I_GetTimeMS() + HUD_HEALTH_HIGHLIGHT_WAIT;
-
+            S_StartSound(NULL, sfx_plpain);
             return true;
 
         // mega health
@@ -1348,8 +1347,10 @@ bool P_TakeSpecialThing(const mobjtype_t type)
 
             viewplayer->health -= mega_health;
             viewplayer->mo->health -= mega_health;
+            viewplayer->damagecount = mega_health;
             healthdiff = mega_health;
             healthhighlight = I_GetTimeMS() + HUD_HEALTH_HIGHLIGHT_WAIT;
+            S_StartSound(NULL, sfx_plpain);
             return true;
 
         // blue keycard
@@ -1359,7 +1360,6 @@ bool P_TakeSpecialThing(const mobjtype_t type)
 
             viewplayer->cards[it_bluecard] = 0;
             cardsfound--;
-
             return true;
 
         // yellow keycard
@@ -1369,7 +1369,6 @@ bool P_TakeSpecialThing(const mobjtype_t type)
 
             viewplayer->cards[it_yellowcard] = 0;
             cardsfound--;
-
             return true;
 
         // red keycard
@@ -1379,7 +1378,6 @@ bool P_TakeSpecialThing(const mobjtype_t type)
 
             viewplayer->cards[it_redcard] = 0;
             cardsfound--;
-
             return true;
 
         // blue skull key
@@ -1389,7 +1387,6 @@ bool P_TakeSpecialThing(const mobjtype_t type)
 
             viewplayer->cards[it_blueskull] = 0;
             cardsfound--;
-
             return true;
 
         // yellow skull key
@@ -1399,7 +1396,6 @@ bool P_TakeSpecialThing(const mobjtype_t type)
 
             viewplayer->cards[it_yellowskull] = 0;
             cardsfound--;
-
             return true;
 
         // red skull key
@@ -1409,7 +1405,6 @@ bool P_TakeSpecialThing(const mobjtype_t type)
 
             viewplayer->cards[it_redskull] = 0;
             cardsfound--;
-
             return true;
 
         // stimpack
@@ -1428,9 +1423,10 @@ bool P_TakeSpecialThing(const mobjtype_t type)
 
             viewplayer->health -= 10;
             viewplayer->mo->health -= 10;
+            viewplayer->damagecount = 10;
             healthdiff = 10;
             healthhighlight = I_GetTimeMS() + HUD_HEALTH_HIGHLIGHT_WAIT;
-
+            S_StartSound(NULL, sfx_plpain);
             return true;
 
         // medikit
@@ -1449,9 +1445,10 @@ bool P_TakeSpecialThing(const mobjtype_t type)
 
             viewplayer->health -= 25;
             viewplayer->mo->health -= 25;
+            viewplayer->damagecount = 25;
             healthdiff = 25;
             healthhighlight = I_GetTimeMS() + HUD_HEALTH_HIGHLIGHT_WAIT;
-
+            S_StartSound(NULL, sfx_plpain);
             return true;
 
         // invulnerability power-up
