@@ -4,14 +4,14 @@
 
 * Minor optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * The mouse pointer may now be used to adjust the sliders in the options and sound volume menus when the `m_pointer` CVAR is `on`.
+* The positions of `ON`/`OFF` and `HIGH`/`LOW` in the options menu have been fixed in some rare instances.
 * These changes have been made to the alternate widescreen HUD:
   * The bars now animate whenever the player’s health, armor or ammo changes.
   * The position of the player’s health is now fixed when 0% and the `negativehealth` CVAR is `off`.
-  * The vertical position of some weapon silhouettes have changed.
+  * The vertical position of some of the weapon silhouettes have changed.
 * A crash no longer occurs when changing the `health` CVAR to `0%` or less in the console.
 * A bug is fixed whereby widescreen wouldn’t be restored correctly when toggling vanilla mode off using the `vanilla` CCMD.
 * `NEXT` and `SECRETNEXT` now work as intended in `MAPINFO` lumps.
-* Minor improvements have been made to the support of [*Freedoom: Phase 1*](https://freedoom.github.io/) and [*Freedoom: Phase 2*](https://freedoom.github.io/).
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
