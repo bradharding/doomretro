@@ -7642,8 +7642,17 @@ static void take_cmd_func2(char *cmd, char *parms)
                 {
                     if (P_TakeSpecialThing(i))
                     {
-                        C_PlayerMessage("%s %s was taken from %s.",
-                            (isvowel(mobjinfo[i].name1[0]) ? "An" : "A"), mobjinfo[i].name1, playername);
+                        if (i == MT_MISC0 || i == MT_MISC1)
+                        {
+                            char    *temp4 = sentencecase(mobjinfo[i].name1);
+
+                            C_PlayerMessage("%s was taken from %s.", temp4, playername);
+                            free(temp4);
+                        }
+                        else
+                            C_PlayerMessage("%s %s was taken from %s.",
+                                (isvowel(mobjinfo[i].name1[0]) ? "An" : "A"), mobjinfo[i].name1, playername);
+
                         C_HideConsole();
                         result = true;
                     }
