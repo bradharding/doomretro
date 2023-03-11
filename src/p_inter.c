@@ -1262,6 +1262,7 @@ bool P_TakeSpecialThing(const mobjtype_t type)
                 return false;
 
             viewplayer->armor -= green_armor_class * 100;
+            armordiff = green_armor_class * 100;
             armorhighlight = I_GetTimeMS() + HUD_ARMOR_HIGHLIGHT_WAIT;
 
             return true;
@@ -1275,6 +1276,7 @@ bool P_TakeSpecialThing(const mobjtype_t type)
                 return false;
 
             viewplayer->armor -= blue_armor_class * 100;
+            armordiff = blue_armor_class * 100;
             armorhighlight = I_GetTimeMS() + HUD_ARMOR_HIGHLIGHT_WAIT;
 
             return true;
@@ -1325,6 +1327,7 @@ bool P_TakeSpecialThing(const mobjtype_t type)
 
             viewplayer->health -= soul_health;
             viewplayer->mo->health -= soul_health;
+            healthdiff = soul_health;
             healthhighlight = I_GetTimeMS() + HUD_HEALTH_HIGHLIGHT_WAIT;
 
             return true;
@@ -1345,6 +1348,7 @@ bool P_TakeSpecialThing(const mobjtype_t type)
 
             viewplayer->health -= mega_health;
             viewplayer->mo->health -= mega_health;
+            healthdiff = mega_health;
             healthhighlight = I_GetTimeMS() + HUD_HEALTH_HIGHLIGHT_WAIT;
             return true;
 
@@ -1424,6 +1428,7 @@ bool P_TakeSpecialThing(const mobjtype_t type)
 
             viewplayer->health -= 10;
             viewplayer->mo->health -= 10;
+            healthdiff = 10;
             healthhighlight = I_GetTimeMS() + HUD_HEALTH_HIGHLIGHT_WAIT;
 
             return true;
@@ -1444,6 +1449,7 @@ bool P_TakeSpecialThing(const mobjtype_t type)
 
             viewplayer->health -= 25;
             viewplayer->mo->health -= 25;
+            healthdiff = 25;
             healthhighlight = I_GetTimeMS() + HUD_HEALTH_HIGHLIGHT_WAIT;
 
             return true;
