@@ -1870,28 +1870,18 @@ static void M_DrawOptions(void)
     if (messages)
     {
         if (M_MSGON)
-        {
-            patch_t *patch = W_CacheLumpName("M_MSGON");
-
-            patch->leftoffset = 0;
-
-            M_DrawPatchWithShadow(OptionsDef.x + SHORT(((patch_t *)W_CacheLumpName("M_MESSG"))->width) + 4,
-                OptionsDef.y + 16 * msgs + OFFSET, patch);
-        }
+            M_DrawPatchWithShadow(OptionsDef.x + (REKKR ? 106 : 122),
+                OptionsDef.y + 16 * msgs + (REKKR ? OFFSET + 1 : OFFSET),
+                W_CacheLumpName("M_MSGON"));
         else
             M_DrawString(OptionsDef.x + 122, OptionsDef.y + 16 * msgs + OFFSET, s_M_ON);
     }
     else
     {
         if (M_MSGOFF)
-        {
-            patch_t *patch = W_CacheLumpName("M_MSGOFF");
-
-            patch->leftoffset = 0;
-
-            M_DrawPatchWithShadow(OptionsDef.x + SHORT(((patch_t *)W_CacheLumpName("M_MESSG"))->width) + 4,
-                OptionsDef.y + 16 * msgs + OFFSET, patch);
-        }
+            M_DrawPatchWithShadow(OptionsDef.x + (REKKR ? 106 : 122),
+                OptionsDef.y + 16 * msgs + (REKKR ? OFFSET + 1 : OFFSET),
+                W_CacheLumpName("M_MSGOFF"));
         else
             M_DrawString(OptionsDef.x + 122, OptionsDef.y + 16 * msgs + OFFSET, s_M_OFF);
     }
@@ -1899,28 +1889,18 @@ static void M_DrawOptions(void)
     if (r_detail == r_detail_low)
     {
         if (M_GDLOW)
-        {
-            patch_t *patch = W_CacheLumpName("M_GDLOW");
-
-            patch->leftoffset = 0;
-
-            M_DrawPatchWithShadow(OptionsDef.x + SHORT(((patch_t *)W_CacheLumpName("M_DETAIL"))->width) + 4,
-                OptionsDef.y + 16 * detail + OFFSET, patch);
-        }
+            M_DrawPatchWithShadow(OptionsDef.x + (REKKR ? 159 : 173),
+                OptionsDef.y + 16 * detail + (REKKR ? OFFSET + 1 : OFFSET),
+                W_CacheLumpName("M_GDLOW"));
         else
             M_DrawString(OptionsDef.x + 173, OptionsDef.y + 16 * detail + OFFSET, s_M_LOW);
     }
     else
     {
         if (M_GDHIGH)
-        {
-            patch_t *patch = W_CacheLumpName("M_GDHIGH");
-
-            patch->leftoffset = 0;
-
-            M_DrawPatchWithShadow(OptionsDef.x + SHORT(((patch_t *)W_CacheLumpName("M_DETAIL"))->width) + 4,
-                OptionsDef.y + 16 * detail + OFFSET, patch);
-        }
+            M_DrawPatchWithShadow(OptionsDef.x + (REKKR ? 159 : 173),
+                OptionsDef.y + 16 * detail + (REKKR ? OFFSET + 1 : OFFSET),
+                W_CacheLumpName("M_GDHIGH"));
         else
             M_DrawString(OptionsDef.x + 173, OptionsDef.y + 16 * detail + OFFSET, s_M_HIGH);
     }
