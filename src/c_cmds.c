@@ -716,7 +716,7 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL(joy_swapthumbsticks, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles swapping the controller's left and right thumbsticks."),
     CVAR_INT(joy_thumbsticks, "", "", int_cvars_func1, int_cvars_func2, CF_NONE, NOVALUEALIAS,
-        "The number of thumbsticks to use on the controller (" BOLD("1") " or " BOLD("2") ")."),
+        "The number of thumbsticks on the controller (" BOLD("1") " or " BOLD("2") ")."),
     CCMD(kill, "", "", kill_cmd_func1, kill_cmd_func2, true, KILLCMDFORMAT,
         "Kills the " BOLD("player") ", " BOLD("all") " monsters or a type of " BOLDITALICS("monster") "."),
     CCMD(license, licence, "", null_func1, license_cmd_func2, false, "",

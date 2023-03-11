@@ -137,7 +137,10 @@ static bool P_TakeAmmo(const ammotype_t ammotype, int num)
     readyweapon = viewplayer->readyweapon;
 
     if (ammotype == weaponinfo[readyweapon].ammotype)
+    {
+        ammodiff = num;
         ammohighlight = I_GetTimeMS() + HUD_AMMO_HIGHLIGHT_WAIT;
+    }
 
     P_CheckAmmo(readyweapon);
 
@@ -425,7 +428,7 @@ bool P_GiveMegaHealth(const bool stat)
             healthdiff = viewplayer->health - mega_health;
 
             if (stat)
-                P_UpdateHealthStat(MAX(0, mega_health - viewplayer->health));
+                P_UpdateHealthStat(mega_health - viewplayer->health);
 
             result = true;
         }
