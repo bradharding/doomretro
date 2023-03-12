@@ -8496,7 +8496,10 @@ static void armortype_cvar_func2(char *cmd, char *parms)
             viewplayer->armortype = value;
 
             if (value == armortype_none)
+            {
+                armordiff = viewplayer->armor;
                 viewplayer->armor = 0;
+            }
         }
     }
     else
