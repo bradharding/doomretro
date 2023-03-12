@@ -540,33 +540,42 @@ void P_PlayerThink(void)
         return;
     }
 
-    if (ABS(healthdiff) > 100)
-        healthdiffspeed = ALTHUD_BARDIFF * 2;
+    if (healthdiff)
+    {
+        if (ABS(healthdiff) > 100)
+            healthdiffspeed = ALTHUD_BARDIFF * 2;
 
-    if (healthdiff < 0)
-        healthdiff = MIN(healthdiff + healthdiffspeed, viewplayer->health);
-    else if (healthdiff > 0)
-        healthdiff = MAX(0, healthdiff - healthdiffspeed);
+        if (healthdiff < 0)
+            healthdiff = MIN(healthdiff + healthdiffspeed, viewplayer->health);
+        else if (healthdiff > 0)
+            healthdiff = MAX(0, healthdiff - healthdiffspeed);
+    }
     else
         healthdiffspeed = ALTHUD_BARDIFF;
 
-    if (ABS(armordiff) > 100)
-        armordiffspeed = ALTHUD_BARDIFF * 2;
+    if (armordiff)
+    {
+        if (ABS(armordiff) > 100)
+            armordiffspeed = ALTHUD_BARDIFF * 2;
 
-    if (armordiff < 0)
-        armordiff = MIN(armordiff + armordiffspeed, viewplayer->armor);
-    else if (armordiff > 0)
-        armordiff = MAX(0, armordiff - armordiffspeed);
+        if (armordiff < 0)
+            armordiff = MIN(armordiff + armordiffspeed, viewplayer->armor);
+        else if (armordiff > 0)
+            armordiff = MAX(0, armordiff - armordiffspeed);
+    }
     else
         armordiffspeed = ALTHUD_BARDIFF;
 
-    if (ABS(ammodiff) > 100)
-        ammodiffspeed = ALTHUD_BARDIFF * 2;
+    if (ammodiff)
+    {
+        if (ABS(ammodiff) > 100)
+            ammodiffspeed = ALTHUD_BARDIFF * 2;
 
-    if (ammodiff < 0)
-        ammodiff = MIN(ammodiff + ammodiffspeed, viewplayer->ammo[viewplayer->readyweapon]);
-    else if (ammodiff > 0)
-        ammodiff = MAX(0, ammodiff - ammodiffspeed);
+        if (ammodiff < 0)
+            ammodiff = MIN(ammodiff + ammodiffspeed, viewplayer->ammo[viewplayer->readyweapon]);
+        else if (ammodiff > 0)
+            ammodiff = MAX(0, ammodiff - ammodiffspeed);
+    }
     else
         ammodiffspeed = ALTHUD_BARDIFF;
 
