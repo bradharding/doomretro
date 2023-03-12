@@ -1677,7 +1677,7 @@ mobj_t *P_SpawnPlayerMissile(mobj_t *source, mobjtype_t type)
     P_NoiseAlert(source);
 
     if (type == MT_ROCKET && r_rockettrails && !(th->flags & MF_BOUNCES)
-        && viewplayer->readyweapon == wp_missile && !chex && !hacx && PLAYPALs <= 2)
+        && viewplayer->readyweapon == wp_missile && !chex && !hacx && !incompatiblepalette)
     {
         th->flags2 |= MF2_SMOKETRAIL;
         th->pursuecount = 0;

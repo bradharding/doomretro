@@ -71,6 +71,7 @@ int         lastspritelump;
 int         numspritelumps;
 
 bool        fixspriteoffsets = false;
+bool        incompatiblepalette = false;
 bool        suppresswarnings = false;
 
 int         numtextures;
@@ -461,6 +462,13 @@ static void R_InitSpriteLumps(void)
                 mobjinfo[MT_BRUISER].bloodcolor = REDBLOOD;
                 mobjinfo[MT_KNIGHT].bloodcolor = REDBLOOD;
             }
+        }
+        else if (SC_Compare("INCOMPATIBLEPALETTE"))
+        {
+            SC_MustGetString();
+
+            if (SC_Compare(pwadfile))
+                incompatiblepalette = true;
         }
 
     SC_Close();

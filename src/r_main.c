@@ -618,7 +618,7 @@ void R_InitColumnFunctions(void)
                 tl50colfunc = &R_DrawTranslucent50Column;
                 tl33colfunc = &R_DrawTranslucent33Column;
 
-                if (PLAYPALs > 2 && !BTSX)
+                if (incompatiblepalette)
                 {
                     if (r_detail == r_detail_low)
                     {
@@ -712,7 +712,7 @@ void R_InitColumnFunctions(void)
                 tl50colfunc = &R_DrawTranslucent50Column;
                 tl33colfunc = &R_DrawTranslucent33Column;
 
-                if (PLAYPALs > 2 && !BTSX)
+                if (incompatiblepalette)
                 {
                     tlgreencolfunc = &R_DrawColumn;
                     tlredcolfunc = &R_DrawColumn;
