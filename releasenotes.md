@@ -4,7 +4,9 @@
 
 * Minor optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Minor changes have been made to text that is output to the console.
-* The mouse pointer may now be used to adjust the sliders in the options and sound volume menus when the `m_pointer` CVAR is `on`.
+* When the `m_pointer` CVAR is `on`:
+  * The mouse pointer may now be used to adjust the sliders in the options and sound volume menus.
+  * Navigating menus using the mouse pointer is now fixed when the `vid_widescreen` CVAR is `off`.
 * The positions of `ON`/`OFF` and `HIGH`/`LOW` in the options menu have been fixed in some instances.
 * These changes have been made to the alternate widescreen HUD:
   * The bars now animate whenever the player’s health, armor or ammo changes.

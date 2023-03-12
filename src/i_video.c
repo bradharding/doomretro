@@ -86,6 +86,8 @@ int                 WIDESCREENDELTA;
 int                 MAXWIDESCREENDELTA;
 int                 WIDEFOVDELTA;
 
+static int          WIDESCREENWIDTH;
+
 bool                nowidescreen = false;
 
 int                 MAPWIDTH;
@@ -709,7 +711,7 @@ static void I_ReadMouse(void)
 
             SDL_GetMouseState(&x, &y);
 
-            ev.data2 = x * SCREENWIDTH / displaywidth / SCREENSCALE;
+            ev.data2 = x * WIDESCREENWIDTH / displaywidth / SCREENSCALE;
             ev.data3 = y * SCREENHEIGHT / displayheight / SCREENSCALE;
         }
         else
@@ -1730,44 +1732,47 @@ static void I_ClearFrame(void)
 
 static void I_GetScreenDimensions(void)
 {
-    if (vid_widescreen)
-    {
-        int width;
-        int height;
+    int width;
+    int height;
 
-        if (vid_fullscreen)
-        {
-            width = displays[displayindex].w;
-            height = displays[displayindex].h;
+    if (vid_fullscreen)
+    {
+        width = displays[displayindex].w;
+        height = displays[displayindex].h;
 
 #if defined(_WIN32)
-            clearframefunc = &nullfunc;
+        clearframefunc = &nullfunc;
 #else
-            clearframefunc = &I_ClearFrame;
+        clearframefunc = &I_ClearFrame;
 #endif
-        }
-        else
-        {
-            GetWindowSize();
+    }
+    else
+    {
+        GetWindowSize();
 
-            width = windowwidth;
-            height = windowheight;
+        width = windowwidth;
+        height = windowheight;
 
-            clearframefunc = &I_ClearFrame;
-        }
+        clearframefunc = &I_ClearFrame;
+    }
 
+    if (vid_widescreen)
+    {
         SCREENWIDTH = BETWEEN(NONWIDEWIDTH, ((width * ACTUALHEIGHT / height + 1) & ~3), MAXWIDTH);
+        WIDESCREENWIDTH = SCREENWIDTH;
 
         // r_fov * 0.82 is vertical FOV for 4:3 aspect ratio
         WIDEFOVDELTA = (int)(atan(width / (height / tan(r_fov * 0.82 * M_PI / 360.0))) * 360.0 / M_PI) - r_fov - 2;
         WIDESCREENDELTA = ((SCREENWIDTH - NONWIDEWIDTH) / SCREENSCALE) / 2;
-        MAXWIDESCREENDELTA = MAX(WIDESCREENDELTA, 53);
+        MAXWIDESCREENDELTA = MAX(53, WIDESCREENDELTA);
     }
     else
     {
         SCREENWIDTH = NONWIDEWIDTH;
+        WIDESCREENWIDTH = BETWEEN(NONWIDEWIDTH, ((width * ACTUALHEIGHT / height + 1) & ~3), MAXWIDTH);
         WIDEFOVDELTA = 0;
         WIDESCREENDELTA = 0;
+        MAXWIDESCREENDELTA = 53;
 
         clearframefunc = &I_ClearFrame;
     }
