@@ -318,8 +318,9 @@ void HUlib_DrawAltAutomapTextLine(hu_textline_t *l, bool external)
                     x -= 2;
             }
 
-            althudtextfunc(x, SCREENHEIGHT - 24, fb1, patch, italics, (r_hud_translucency ? nearestwhite : nearestlightgray),
-                (external ? MAPWIDTH : SCREENWIDTH), tinttab70);
+            althudtextfunc(x, SCREENHEIGHT - 24, fb1, patch, (italics && letter != '_' && letter != '-'
+                && letter != '+' && letter != ',' && letter != '/'), (r_hud_translucency ? nearestwhite :
+                nearestlightgray), (external ? MAPWIDTH : SCREENWIDTH), tinttab70);
             x += SHORT(patch->width);
         }
 
