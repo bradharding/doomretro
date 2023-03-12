@@ -15,7 +15,7 @@
   * Using the `take` CCMD to take more health from the player than they have in the console.
 * A bug is fixed whereby widescreen wouldn’t be restored correctly when toggling vanilla mode off using the `vanilla` CCMD.
 * `NEXT` and `SECRETNEXT` now work as intended in `MAPINFO` lumps.
-* Except for a small curated list of PWADs, partial translucency effects when the `r_sprites_translucency` CVAR is `on`, and the smoke trailing behind rockets when the `r_rockettrails` CVAR is `on`, now appear again when a custom `PLAYPAL` lump is loaded.
+* Except for a small curated list of PWADs, partial translucency effects when the `r_sprites_translucency` CVAR is `on`, and smoke that trails rockets when the `r_rockettrails` CVAR is `on`, now appear again if a custom `PLAYPAL` lump is loaded.
 * The player’s “Health picked up” stat now updates correctly when the player picks up a soul sphere.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
