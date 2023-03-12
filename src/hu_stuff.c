@@ -1109,7 +1109,7 @@ static void HU_DrawAltHUD(void)
             DrawAltHUDNumber2(ALTHUD_LEFT_X - AltHUDNumber2Width(armor), ALTHUD_Y,
                 armor, (armorhighlight > currenttime ? WHITE : color), NULL);
 
-        althudfunc(ALTHUD_LEFT_X + 5, ALTHUD_Y, altleftpatch2, WHITE, color, tinttab60);
+        althudfunc(ALTHUD_LEFT_X + 8, ALTHUD_Y, altleftpatch2, WHITE, color, tinttab60);
 
         if ((armor *= 200 / max_armor) > 100)
         {
@@ -1171,9 +1171,9 @@ static void HU_DrawAltHUD(void)
     else
     {
         if (r_hud_translucency)
-            althudfunc(ALTHUD_LEFT_X + 5, ALTHUD_Y, altleftpatch2, -1, 0, tinttab60);
+            althudfunc(ALTHUD_LEFT_X + 8, ALTHUD_Y, altleftpatch2, -1, 0, tinttab60);
         else
-            althudfunc(ALTHUD_LEFT_X + 5, ALTHUD_Y, altleftpatch2, WHITE,
+            althudfunc(ALTHUD_LEFT_X + 8, ALTHUD_Y, altleftpatch2, WHITE,
                 (((viewplayer->fixedcolormap == INVERSECOLORMAP) ^ (!r_textures)) ?
                 colormaps[0][32 * 256 + nearestwhite] : darkgray), NULL);
     }
