@@ -773,7 +773,7 @@ bool P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, const bool message, c
             if (viewplayer->health < maxhealth && !(viewplayer->cheats & CF_GODMODE))
             {
                 viewplayer->health++;
-                viewplayer->mo->health = viewplayer->health;
+                viewplayer->mo->health++;
                 P_UpdateHealthStat(1);
                 healthhighlight = I_GetTimeMS() + HUD_HEALTH_HIGHLIGHT_WAIT;
             }
