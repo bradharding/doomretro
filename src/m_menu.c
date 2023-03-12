@@ -2727,7 +2727,7 @@ bool M_Responder(event_t *ev)
                                     mousewait = I_GetTime() + 8;
                                 }
                             }
-                            else if (mousewait < I_GetTime())
+                            else if (mousewait < I_GetTime() && !savestringenter)
                             {
                                 key = KEY_ENTER;
                                 mousewait = I_GetTime() + 8;
