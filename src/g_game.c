@@ -702,10 +702,6 @@ void G_DoLoadLevel(void)
     ammodiff = 0;
     armordiff = 0;
     healthdiff = 0;
-
-    ammodiffspeed = ALTHUD_BARDIFF;
-    armordiffspeed = ALTHUD_BARDIFF;
-    healthdiffspeed = ALTHUD_BARDIFF;
 }
 
 void G_ToggleAlwaysRun(evtype_t type)
