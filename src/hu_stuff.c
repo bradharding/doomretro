@@ -582,8 +582,8 @@ int         healthdiff = 0;
 
 static void HU_DrawHUD(void)
 {
-    const int       health = BETWEEN(HUD_NUMBER_MIN, viewplayer->health, HUD_NUMBER_MAX);
-    const int       armor = MIN(viewplayer->armor, HUD_NUMBER_MAX);
+    const int       health = BETWEEN(HUD_NUMBER_MIN, viewplayer->health + healthdiff, HUD_NUMBER_MAX);
+    int             armor = MIN(viewplayer->armor, HUD_NUMBER_MAX);
     static bool     healthanim;
     const bool      gamepaused = (consoleactive || freeze);
     byte            *tinttab = (health >= HUD_HEALTH_MIN || (health < HUD_HEALTH_MIN && healthanim) || health <= 0
@@ -638,7 +638,7 @@ static void HU_DrawHUD(void)
         }
     }
 
-    if (armor)
+    if ((armor += armordiff))
     {
         int armor_x = HUDNumberWidth(armor);
 
@@ -716,11 +716,20 @@ static void HU_DrawHUD(void)
     if (health > 0)
     {
         const weapontype_t  pendingweapon = viewplayer->pendingweapon;
-        const ammotype_t    ammotype = weaponinfo[(pendingweapon != wp_nochange ? pendingweapon : viewplayer->readyweapon)].ammotype;
-        int                 ammo;
+        weapontype_t        weapon;
+        ammotype_t          ammotype;
 
-        if (ammotype != am_noammo && (ammo = viewplayer->ammo[ammotype]))
+        if (pendingweapon == wp_nochange)
+            weapon = viewplayer->readyweapon;
+        else
         {
+            weapon = pendingweapon;
+            ammodiff = 0;
+        }
+
+        if ((ammotype = weaponinfo[weapon].ammotype) != am_noammo)
+        {
+            int         ammo = viewplayer->ammo[ammotype] + ammodiff;
             int         ammo_x = HUDNumberWidth(ammo);
             static bool ammoanim;
 

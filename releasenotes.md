@@ -8,8 +8,8 @@
   * The mouse pointer may now be used to adjust the sliders in the options and sound volume menus.
   * Navigating menus using the mouse pointer is now fixed when the `vid_widescreen` CVAR is `off`.
 * The positions of `ON`/`OFF` and `HIGH`/`LOW` in the options menu have been fixed in some instances.
+* In both widescreen HUDs, the player’s health, armor and ammo now animate when they change.
 * These changes have been made to the alternate widescreen HUD:
-  * The bars now animate whenever the player’s health, armor or ammo changes.
   * The position of the player’s health is now fixed when 0% and the `negativehealth` CVAR is `off`.
   * The vertical positions of some of the weapon silhouettes have changed.
 * Crashes no longer occur when:
