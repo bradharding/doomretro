@@ -74,6 +74,7 @@ extern int      am_tswallcolor;
 extern int      am_wallcolor;
 extern int      am_yellowdoorcolor;
 extern int      am_yellowkeycolor;
+extern bool     animatedstats;
 extern bool     autoaim;
 extern bool     autoload;
 extern bool     autosave;
@@ -429,6 +430,8 @@ enum
 #define ammo_min                           0
 #define ammo_default                       50
 #define ammo_max                           INT_MAX
+
+#define animatedstats_default              true
 
 #define armor_min                          0
 #define armor_default                      0

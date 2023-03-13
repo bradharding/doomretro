@@ -582,7 +582,7 @@ int         healthdiff = 0;
 
 static void HU_DrawHUD(void)
 {
-    const int       health = BETWEEN(HUD_NUMBER_MIN, viewplayer->health + healthdiff, HUD_NUMBER_MAX);
+    const int       health = BETWEEN(HUD_NUMBER_MIN, viewplayer->health + (animatedstats ? healthdiff : 0), HUD_NUMBER_MAX);
     int             armor = MIN(viewplayer->armor, HUD_NUMBER_MAX);
     static bool     healthanim;
     const bool      gamepaused = (consoleactive || freeze);
@@ -638,7 +638,7 @@ static void HU_DrawHUD(void)
         }
     }
 
-    if ((armor += armordiff))
+    if ((armor += (animatedstats ? armordiff : 0)))
     {
         int armor_x = HUDNumberWidth(armor);
 
@@ -729,7 +729,7 @@ static void HU_DrawHUD(void)
 
         if ((ammotype = weaponinfo[weapon].ammotype) != am_noammo)
         {
-            int         ammo = viewplayer->ammo[ammotype] + ammodiff;
+            int         ammo = viewplayer->ammo[ammotype] + (animatedstats ? ammodiff : 0);
             int         ammo_x = HUDNumberWidth(ammo);
             static bool ammoanim;
 
@@ -1020,7 +1020,7 @@ static void HU_DrawAltHUD(void)
 {
     const int       color = (((viewplayer->fixedcolormap == INVERSECOLORMAP) ^ (!r_textures)) ?
                         colormaps[0][32 * 256 + nearestwhite] : (r_hud_translucency ? nearestwhite : nearestlightgray));
-    int             health = BETWEEN(HUD_NUMBER_MIN, viewplayer->health + healthdiff, HUD_NUMBER_MAX);
+    int             health = BETWEEN(HUD_NUMBER_MIN, viewplayer->health + (animatedstats ? healthdiff : 0), HUD_NUMBER_MAX);
     int             armor = MIN(viewplayer->armor, HUD_NUMBER_MAX);
     int             keypic_x = ALTHUD_RIGHT_X;
     const uint64_t  currenttime = I_GetTimeMS();
@@ -1109,7 +1109,7 @@ static void HU_DrawAltHUD(void)
         }
     }
 
-    if ((armor += armordiff))
+    if ((armor += (animatedstats ? armordiff : 0)))
     {
         if (r_hud_translucency)
             DrawAltHUDNumber2(ALTHUD_LEFT_X - AltHUDNumber2Width(armor), ALTHUD_Y,
@@ -1209,7 +1209,7 @@ static void HU_DrawAltHUD(void)
 
         if ((ammotype = weaponinfo[weapon].ammotype) != am_noammo)
         {
-            int ammo = viewplayer->ammo[ammotype] + ammodiff;
+            int ammo = viewplayer->ammo[ammotype] + (animatedstats ? ammodiff : 0);
 
             if (r_hud_translucency)
                 DrawAltHUDNumber(ALTHUD_RIGHT_X + 101 - AltHUDNumberWidth(ammo), ALTHUD_Y - 2,
