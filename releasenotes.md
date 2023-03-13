@@ -8,7 +8,7 @@
   * The mouse pointer may now be used to adjust the sliders in the options and sound volume menus.
   * Navigating menus using the mouse pointer is now fixed when the `vid_widescreen` CVAR is `off`.
 * The positions of `ON`/`OFF` and `HIGH`/`LOW` in the options menu have been fixed in some instances.
-* The player’s health, armor and ammo in the status bar, widescreen HUDs now animate when they change. This can be disabled by the new `animatedstats` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
+* The player’s health, armor and ammo in the status bar and widescreen HUDs now animate when they change. This can be disabled by the new `animatedstats` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
 * These changes have been made to the alternate widescreen HUD:
   * The position of the player’s health is now fixed when 0% and the `negativehealth` CVAR is `off`.
   * The vertical positions of some of the weapon silhouettes have changed.

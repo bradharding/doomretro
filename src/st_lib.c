@@ -191,7 +191,7 @@ void STlib_UpdateBigHealthNum(st_number_t *n)
     }
 
     // draw a minus sign if necessary
-    if ((num = *n->num) < 0 && negativehealth && minuspatch)
+    if ((num = *n->num + (animatedstats ? healthdiff : 0)) < 0 && negativehealth && minuspatch)
     {
         if ((num >= -79 && num <= -70) || (num >= -19 && num <= -10) || num == -7 || num == -1)
             x += 2;
