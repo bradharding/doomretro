@@ -2739,7 +2739,7 @@ bool M_Responder(event_t *ev)
                 }
 
                 // previous menu
-                else if ((ev->data1 & MOUSE_RIGHTBUTTON) && mousewait < I_GetTime())
+                else if ((ev->data1 & MOUSE_RIGHTBUTTON) && mousewait < I_GetTime() && !savestringenter)
                 {
                     key = KEY_BACKSPACE;
                     mousewait = I_GetTime() + 8;
