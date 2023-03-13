@@ -2788,9 +2788,9 @@ bool M_Responder(event_t *ev)
                 }
 
                 // previous menu
-                else if ((ev->data1 & MOUSE_RIGHTBUTTON) && mousewait < I_GetTime() && !savestringenter)
+                else if ((ev->data1 & MOUSE_RIGHTBUTTON) && mousewait < I_GetTime())
                 {
-                    key = KEY_BACKSPACE;
+                    key = KEY_ESCAPE;
                     mousewait = I_GetTime() + 8;
                     usinggamecontroller = false;
                 }
@@ -2878,7 +2878,7 @@ bool M_Responder(event_t *ev)
                 // previous menu
                 else if ((ev->data1 & MOUSE_RIGHTBUTTON) && mousewait < I_GetTime())
                 {
-                    key = KEY_BACKSPACE;
+                    key = KEY_ESCAPE;
                     mousewait = I_GetTime() + 8;
                     usinggamecontroller = false;
                 }
