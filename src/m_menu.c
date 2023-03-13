@@ -1058,6 +1058,50 @@ static bool     showcaret;
 static uint64_t caretwait;
 int             caretcolor;
 
+static void M_SetCaretPos(int pointerx)
+{
+    char    buffer[SAVESTRINGSIZE];
+    int     len;
+    int     x = LoadDef.x - 2 + MAXWIDESCREENDELTA;
+
+    M_StringCopy(buffer, savegamestrings[saveslot], sizeof(buffer));
+    len = (int)strlen(buffer);
+
+    while (M_StringWidth(buffer) > SAVESTRINGPIXELWIDTH)
+    {
+        if (len >= 2 && buffer[len - 2] == ' ')
+        {
+            buffer[len - 2] = '.';
+            buffer[len - 1] = '.';
+            buffer[len] = '.';
+            buffer[len + 1] = '\0';
+        }
+        else if (len >= 1)
+        {
+            buffer[len - 1] = '.';
+            buffer[len] = '.';
+            buffer[len + 1] = '.';
+            buffer[len + 2] = '\0';
+        }
+
+        len--;
+    }
+
+    for (int j = 0; j < len; j++)
+    {
+        char    ch[3];
+
+        if (pointerx < x)
+        {
+            savecharindex = j;
+            break;
+        }
+
+        M_snprintf(ch, sizeof(ch), "%c", buffer[j]);
+        x += M_StringWidth(ch);
+    }
+}
+
 //
 //  M_SaveGame
 //
@@ -2727,10 +2771,15 @@ bool M_Responder(event_t *ev)
                                     mousewait = I_GetTime() + 8;
                                 }
                             }
-                            else if (mousewait < I_GetTime() && !savestringenter)
+                            else if (mousewait < I_GetTime())
                             {
-                                key = KEY_ENTER;
-                                mousewait = I_GetTime() + 8;
+                                if (savestringenter)
+                                    M_SetCaretPos(ev->data2);
+                                else
+                                {
+                                    key = KEY_ENTER;
+                                    mousewait = I_GetTime() + 8;
+                                }
                             }
                         }
                     }
@@ -2906,7 +2955,7 @@ bool M_Responder(event_t *ev)
         {
             const int   ch = toupper(ev->data1);
 
-            if (ch >= ' ' && ch <= '_' && M_StringWidth(savegamestrings[saveslot]) + M_CharacterWidth(ch, 0) <= SAVESTRINGPIXELWIDTH)
+            if (ch >= ' ' && ch <= '_' && M_StringWidth(savegamestrings[saveslot]) + M_CharacterWidth(ch, '\0') <= SAVESTRINGPIXELWIDTH)
             {
                 const int   len = (int)strlen(savegamestrings[saveslot]);
 
