@@ -126,7 +126,7 @@ void STlib_UpdateBigAmmoNum(st_number_t *n)
         return;
     else
     {
-        int         num = *n->num;
+        int         num = *n->num + ammodiff;
         int         x = n->x + (num == 1);
         int         y = n->y;
         const int   width = SHORT(n->p[0]->width);
@@ -148,7 +148,7 @@ void STlib_UpdateBigAmmoNum(st_number_t *n)
 
 void STlib_UpdateBigArmorNum(st_number_t *n)
 {
-    int         num = *n->num;
+    int         num = *n->num + armordiff;
     int         x = n->x + (num == 1);
     int         y = n->y;
     const int   width = SHORT(n->p[0]->width);
@@ -169,7 +169,7 @@ void STlib_UpdateBigArmorNum(st_number_t *n)
 
 void STlib_UpdateBigHealthNum(st_number_t *n)
 {
-    int         num = (negativehealth ? ABS(*n->num) : MAX(0, *n->num));
+    int         num = (negativehealth ? ABS(*n->num + healthdiff) : MAX(0, *n->num + healthdiff));
     int         x = n->x + (num == 1);
     int         y = n->y;
     const int   width = SHORT(n->p[0]->width);
