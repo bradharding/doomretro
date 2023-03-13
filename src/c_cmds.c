@@ -2188,7 +2188,7 @@ static void cvarlist_cmd_func2(char *cmd, char *parms)
             if (M_StringCompare(name, stringize(ammo)))
             {
                 if (gamestate == GS_LEVEL)
-                    C_TabbedOutput(tabs, MONOSPACED("%3i") ".\t" BOLD(" % s") "\t" BOLD(" % i") "\t % s",
+                    C_TabbedOutput(tabs, MONOSPACED("%3i") ".\t" BOLD("%s") "\t" BOLD("%i") "\t%s",
                         count, name, viewplayer->ammo[weaponinfo[viewplayer->readyweapon].ammotype], description);
                 else
                     C_TabbedOutput(tabs, MONOSPACED("%3i") ".\t" BOLD("%s") "\t" BOLD("%i") "\t%s",
