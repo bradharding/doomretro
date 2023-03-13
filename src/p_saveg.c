@@ -1309,6 +1309,14 @@ void P_UnArchiveThinkers(void)
 
     thingindex = 0;
 
+    barrelcount = 0;
+    numdecorations = 0;
+    totalitems = 0;
+    totalkills = 0;
+    totalpickups = 0;
+
+    memset(monstercount, 0, sizeof(int) * NUMMOBJTYPES);
+
     // read in saved thinkers
     while (true)
     {
@@ -1331,6 +1339,26 @@ void P_UnArchiveThinkers(void)
                 mobj->altcolfunc = mobj->info->altcolfunc;
                 P_SetShadowColumnFunction(mobj);
                 thingindex = MIN(thingindex + 1, TARGETLIMIT - 1);
+
+                if (mobj->flags & MF_COUNTKILL)
+                {
+                    if (!((mobj->flags ^ MF_COUNTKILL) & (MF_FRIEND | MF_COUNTKILL)))
+                        totalkills++;
+
+                    monstercount[mobj->type]++;
+                }
+
+                if (mobj->flags & MF_COUNTITEM)
+                    totalitems++;
+
+                if (mobj->flags & MF_SPECIAL)
+                    totalpickups++;
+
+                if (mobj->type == MT_BARREL)
+                    barrelcount++;
+                else if (mobj->flags2 & MF2_DECORATION)
+                    numdecorations++;
+
                 break;
             }
 
