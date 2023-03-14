@@ -76,24 +76,24 @@ extern angle_t  tantoangle[SLOPERANGE + 1];
 
 // MBF21: More utility functions, courtesy of Quasar (James Haley).
 // These are straight from Eternity so demos stay in sync.
-inline static angle_t FixedToAngle(fixed_t a)
+CONSTATTR inline static angle_t FixedToAngle(fixed_t a)
 {
     return (angle_t)(((uint64_t)a * ANG1) >> FRACBITS);
 }
 
-inline static fixed_t AngleToFixed(angle_t a)
+CONSTATTR inline static fixed_t AngleToFixed(angle_t a)
 {
     return (fixed_t)(((uint64_t)a << FRACBITS) / ANG1);
 }
 
 // [XA] Clamped angle->slope, for convenience
-inline static fixed_t AngleToSlope(int a)
+CONSTATTR inline static fixed_t AngleToSlope(int a)
 {
     return finetangent[(a > ANG90 ? 0 : (-a > ANG90 ? FINEANGLES / 2 - 1 : (ANG90 - a) >> ANGLETOFINESHIFT))];
 }
 
 // [XA] Ditto, using fixed-point-degrees input
-inline static fixed_t DegToSlope(fixed_t a)
+CONSTATTR inline static fixed_t DegToSlope(fixed_t a)
 {
     return AngleToSlope(a >= 0 ? FixedToAngle(a) : -(int)FixedToAngle(-a));
 }
