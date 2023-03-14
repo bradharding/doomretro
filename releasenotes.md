@@ -5,13 +5,14 @@
 * Minor optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Minor changes have been made to text that is output to the console.
 * When the `m_pointer` CVAR is `on`:
-  * The mouse pointer may now be used to move the sliders in the options and sound volume menus.
-  * The mouse pointer may now be used to move the text caret while entering a savegame description in the save game menu.
-  * Navigating menus using the mouse pointer is now fixed when the `vid_widescreen` CVAR is `off`.
+  * The mouse pointer may now be used to move:
+    * The sliders in the options and sound volume menus.
+    * The text caret while entering a savegame description in the save game menu.
+  * Navigating menus using the mouse pointer has now improved when the `vid_widescreen` CVAR is `off`.
 * The positions of `ON`/`OFF` and `HIGH`/`LOW` in the options menu have been fixed in some instances.
-* A bug is fixed whereby the `r_damageeffect` CVAR would be changed when trying to change the `r_pickupeffect` CVAR in the console.
+* A bug is fixed whereby the `r_damageeffect` CVAR would be changed instead when trying to change the `r_pickupeffect` CVAR in the console.
 * These changes have been made to the alternate widescreen HUD:
-  * The player’s health, armor and ammo now animate when they change.
+  * The health, armor and ammo bars now animate when they change.
   * The position of the player’s health is now fixed when 0% and the `negativehealth` CVAR is `off`.
   * The vertical positions of some of the weapon silhouettes have changed.
 * Crashes no longer occur when:
@@ -19,7 +20,7 @@
   * Using the `take` CCMD to take more health from the player than they have.
 * A bug is fixed whereby widescreen mode wouldn’t be restored correctly when turning vanilla mode off using the `vanilla` CCMD.
 * `NEXT` and `SECRETNEXT` now work as intended in `MAPINFO` lumps.
-* Except for a small curated list of PWADs, partial translucency effects when the `r_sprites_translucency` CVAR is `on`, and smoke that trails rockets when the `r_rockettrails` CVAR is `on`, now appear again if a custom `PLAYPAL` lump is loaded.
+* Partial translucency effects when the `r_sprites_translucency` CVAR is `on`, and smoke that trails rockets when the `r_rockettrails` CVAR is `on`, now appear again if a custom `PLAYPAL` lump is loaded.
 * The player’s “Health picked up” stat now updates correctly when the player picks up a soul sphere.
 * A bug is fixed whereby the number of monsters in the map may have been wrong after loading a savegame in some instances.
 
