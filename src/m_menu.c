@@ -2772,7 +2772,11 @@ bool M_Responder(event_t *ev)
                             else if (mousewait < I_GetTime())
                             {
                                 if (savestringenter)
+                                {
                                     M_SetCaretPos(ev->data2);
+                                    caretwait = I_GetTimeMS() + CARETBLINKTIME;
+                                    showcaret = true;
+                                }
                                 else
                                 {
                                     key = KEY_ENTER;
