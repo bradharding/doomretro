@@ -162,6 +162,7 @@ static void M_DrawSaveLoadBorder(int x, int y);
 static void M_SetupNextMenu(menu_t *menudef);
 static void M_DrawSlider(int x, int y, int width, float dot, float factor, int offset);
 static void M_WriteText(int x, int y, char *string, bool shadow);
+static int M_CharacterWidth(char ch, char prev);
 
 //
 // DOOM MENU
@@ -1089,11 +1090,7 @@ static void M_SetCaretPos(int pointerx)
 
     for (savecharindex = 0; savecharindex < len; savecharindex++)
     {
-        char    ch[3];
-        int     width;
-
-        M_snprintf(ch, sizeof(ch), "%c", buffer[savecharindex]);
-        width = M_StringWidth(ch);
+        const int   width = M_CharacterWidth(buffer[savecharindex], '\0');
 
         if (pointerx < (x += width / 2))
             break;

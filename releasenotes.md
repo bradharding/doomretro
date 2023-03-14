@@ -5,8 +5,8 @@
 * Minor optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Minor changes have been made to text that is output to the console.
 * When the `m_pointer` CVAR is `on`:
-  * The mouse pointer may now be used to adjust the sliders in the options and sound volume menus.
-  * The mouse pointer may now be used to move the text caret when entering a savegame description in the save game menu.
+  * The mouse pointer may now be used to move the sliders in the options and sound volume menus.
+  * The mouse pointer may now be used to move the text caret while entering a savegame description in the save game menu.
   * Navigating menus using the mouse pointer is now fixed when the `vid_widescreen` CVAR is `off`.
 * The positions of `ON`/`OFF` and `HIGH`/`LOW` in the options menu have been fixed in some instances.
 * The player’s health, armor and ammo in the status bar and widescreen HUDs now animate when they change. This can be disabled by the new `animatedstats` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
