@@ -1087,18 +1087,18 @@ static void M_SetCaretPos(int pointerx)
         len--;
     }
 
-    for (int j = 0; j < len; j++)
+    for (savecharindex = 0; savecharindex < len; savecharindex++)
     {
         char    ch[3];
+        int     width;
 
-        if (pointerx < x)
-        {
-            savecharindex = j;
+        M_snprintf(ch, sizeof(ch), "%c", buffer[savecharindex]);
+        width = M_StringWidth(ch);
+
+        if (pointerx < (x += width / 2))
             break;
-        }
 
-        M_snprintf(ch, sizeof(ch), "%c", buffer[j]);
-        x += M_StringWidth(ch);
+        x += width / 2;
     }
 }
 
