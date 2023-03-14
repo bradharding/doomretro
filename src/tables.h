@@ -57,6 +57,7 @@ extern fixed_t  finetangent[FINEANGLES / 2];
 // Binary Angle Measurement, BAM.
 #define ANG1                (ANG45 / 45)
 #define ANG5                (ANG90 / 18)
+#define ANG30               (ANG90 / 3)
 #define ANG45               0x20000000
 #define ANG90               0x40000000
 #define ANG180              0x80000000
@@ -95,4 +96,9 @@ inline static fixed_t AngleToSlope(int a)
 inline static fixed_t DegToSlope(fixed_t a)
 {
     return AngleToSlope(a >= 0 ? FixedToAngle(a) : -(int)FixedToAngle(-a));
+}
+
+CONSTATTR inline static angle_t AngleDiff(angle_t a, angle_t b)
+{
+    return (b > a ? AngleDiff(b, a) : (a - b < ANG180 ? a - b : b - a));
 }
