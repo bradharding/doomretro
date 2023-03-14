@@ -77,7 +77,7 @@ IF (UNIX)
 		SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g -std=gnu99")
 	ELSE
 		SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g -std=gnu99 -Wno-deprecated-non-prototype")
-	ENDIF()
+	ENDIF (CMAKE_C_COMPILER_ID MATCHES "Clang")
 ENDIF (UNIX)
 
 TARGET_LINK_LIBRARIES(
