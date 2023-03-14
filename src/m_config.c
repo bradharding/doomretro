@@ -378,7 +378,7 @@ static default_t cvars[] =
     CVAR_BOOL         (r_corpses_nudge,                  r_corpses_nudge,                       r_corpses_nudge,                     BOOLVALUEALIAS        ),
     CVAR_BOOL         (r_corpses_slide,                  r_corpses_slide,                       r_corpses_slide,                     BOOLVALUEALIAS        ),
     CVAR_BOOL         (r_corpses_smearblood,             r_corpses_smearblood,                  r_corpses_smearblood,                BOOLVALUEALIAS        ),
-    CVAR_BOOL         (r_damageeffect,                   r_pickupeffect,                        r_damageeffect,                      BOOLVALUEALIAS        ),
+    CVAR_BOOL         (r_damageeffect,                   r_damageeffect,                        r_damageeffect,                      BOOLVALUEALIAS        ),
     CVAR_INT          (r_detail,                         r_detail,                              r_detail,                            DETAILVALUEALIAS      ),
     CVAR_BOOL         (r_diskicon,                       r_diskicon,                            r_diskicon,                          BOOLVALUEALIAS        ),
     CVAR_BOOL         (r_ditheredlighting,               r_ditheredlighting,                    r_ditheredlighting,                  BOOLVALUEALIAS        ),

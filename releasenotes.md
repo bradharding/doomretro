@@ -9,6 +9,7 @@
   * The mouse pointer may now be used to move the text caret while entering a savegame description in the save game menu.
   * Navigating menus using the mouse pointer is now fixed when the `vid_widescreen` CVAR is `off`.
 * The positions of `ON`/`OFF` and `HIGH`/`LOW` in the options menu have been fixed in some instances.
+* A bug is fixed whereby the `r_damageeffect` CVAR would be changed when trying to change the `r_pickupeffect` CVAR in the console.
 * These changes have been made to the alternate widescreen HUD:
   * The player’s health, armor and ammo now animate when they change.
   * The position of the player’s health is now fixed when 0% and the `negativehealth` CVAR is `off`.
