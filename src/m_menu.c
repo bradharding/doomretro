@@ -1095,7 +1095,7 @@ static void M_SetCaretPos(int pointerx)
         if (pointerx < (x += width / 2))
             break;
 
-        x += width / 2;
+        x += (width - width / 2);
     }
 }
 
