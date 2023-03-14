@@ -126,7 +126,7 @@ void STlib_UpdateBigAmmoNum(st_number_t *n)
         return;
     else
     {
-        int         num = *n->num + (animatedstats ? ammodiff : 0);
+        int         num = *n->num;
         int         x = n->x + (num == 1);
         int         y = n->y;
         const int   width = SHORT(n->p[0]->width);
@@ -148,7 +148,7 @@ void STlib_UpdateBigAmmoNum(st_number_t *n)
 
 void STlib_UpdateBigArmorNum(st_number_t *n)
 {
-    int         num = *n->num + (animatedstats ? armordiff : 0);
+    int         num = *n->num;
     int         x = n->x + (num == 1);
     int         y = n->y;
     const int   width = SHORT(n->p[0]->width);
@@ -169,8 +169,7 @@ void STlib_UpdateBigArmorNum(st_number_t *n)
 
 void STlib_UpdateBigHealthNum(st_number_t *n)
 {
-    int         num = (negativehealth ? ABS(*n->num + (animatedstats ? healthdiff : 0)) :
-                    MAX(0, *n->num + (animatedstats ? healthdiff : 0)));
+    int         num = (negativehealth ? ABS(*n->num) : MAX(0, *n->num));
     int         x = n->x + (num == 1);
     int         y = n->y;
     const int   width = SHORT(n->p[0]->width);
@@ -191,7 +190,7 @@ void STlib_UpdateBigHealthNum(st_number_t *n)
     }
 
     // draw a minus sign if necessary
-    if ((num = *n->num + (animatedstats ? healthdiff : 0)) < 0 && negativehealth && minuspatch)
+    if ((num = *n->num) < 0 && negativehealth && minuspatch)
     {
         if ((num >= -79 && num <= -70) || (num >= -19 && num <= -10) || num == -7 || num == -1)
             x += 2;

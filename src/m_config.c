@@ -83,7 +83,6 @@ int         am_tswallcolor = am_tswallcolor_default;
 int         am_wallcolor = am_wallcolor_default;
 int         am_yellowdoorcolor = am_yellowdoorcolor_default;
 int         am_yellowkeycolor = am_yellowkeycolor_default;
-bool        animatedstats = animatedstats_default;
 bool        autoaim = autoaim_default;
 bool        autoload = autoload_default;
 bool        autosave = autosave_default;
@@ -321,7 +320,6 @@ static default_t cvars[] =
     CVAR_INT          (am_wallcolor,                     am_wallcolour,                         am_wallcolor,                        NOVALUEALIAS          ),
     CVAR_INT          (am_yellowdoorcolor,               am_yellowdoorcolour,                   am_yellowdoorcolor,                  NOVALUEALIAS          ),
     CVAR_INT          (am_yellowkeycolor,                am_yellowkeycolour,                    am_yellowkeycolor,                   NOVALUEALIAS          ),
-    CVAR_BOOL         (animatedstats,                    animatedstats,                         animatedstats,                       BOOLVALUEALIAS        ),
     CVAR_BOOL         (autoaim,                          autoaim,                               autoaim,                             BOOLVALUEALIAS        ),
     CVAR_BOOL         (autoload,                         autoload,                              autoload,                            BOOLVALUEALIAS        ),
     CVAR_BOOL         (autosave,                         autosave,                              autosave,                            BOOLVALUEALIAS        ),

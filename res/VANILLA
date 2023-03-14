@@ -26,7 +26,6 @@ am_tswallcolor 96
 am_wallcolor 176
 am_yellowdoorcolor 231
 am_yellowkeycolor 112
-animatedstats off
 autoaim on
 autoload off
 autosave off
