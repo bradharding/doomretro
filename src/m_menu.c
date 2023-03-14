@@ -1090,7 +1090,8 @@ static void M_SetCaretPos(int pointerx)
 
     for (savecharindex = 0; savecharindex < len; savecharindex++)
     {
-        const int   width = M_CharacterWidth(buffer[savecharindex], '\0');
+        const int   width = M_CharacterWidth(buffer[savecharindex],
+                        (!savecharindex ? '\0' : buffer[savecharindex - 1]));
 
         if (pointerx < (x += width / 2))
             break;
@@ -2952,7 +2953,8 @@ bool M_Responder(event_t *ev)
         {
             const int   ch = toupper(ev->data1);
 
-            if (ch >= ' ' && ch <= '_' && M_StringWidth(savegamestrings[saveslot]) + M_CharacterWidth(ch, '\0') <= SAVESTRINGPIXELWIDTH)
+            if (ch >= ' ' && ch <= '_' && M_StringWidth(savegamestrings[saveslot])
+                + M_CharacterWidth(ch, '\0') <= SAVESTRINGPIXELWIDTH)
             {
                 const int   len = (int)strlen(savegamestrings[saveslot]);
 
@@ -3720,11 +3722,13 @@ bool M_Responder(event_t *ev)
         {
             for (int i = itemon + 1; i < currentmenu->numitems; i++)
                 if (((currentmenu == &LoadDef || currentmenu == &SaveDef) && key == i + '1')
-                    || (currentmenu->menuitems[i].text && toupper(*currentmenu->menuitems[i].text[0]) == toupper(key)))
+                    || (currentmenu->menuitems[i].text
+                        && toupper(*currentmenu->menuitems[i].text[0]) == toupper(key)))
                 {
                     if (currentmenu == &MainDef)
                     {
-                        if ((i == load_game && !savegames) || (i == save_game && (gamestate != GS_LEVEL || viewplayer->health <= 0)))
+                        if ((i == load_game && !savegames) || (i == save_game
+                            && (gamestate != GS_LEVEL || viewplayer->health <= 0)))
                             return true;
                     }
                     else if (currentmenu == &OptionsDef && i == endgame && gamestate != GS_LEVEL)
@@ -3780,11 +3784,13 @@ bool M_Responder(event_t *ev)
 
             for (int i = 0; i <= itemon; i++)
                 if (((currentmenu == &LoadDef || currentmenu == &SaveDef) && key == i + '1')
-                    || (currentmenu->menuitems[i].text && toupper(*currentmenu->menuitems[i].text[0]) == toupper(key)))
+                    || (currentmenu->menuitems[i].text
+                        && toupper(*currentmenu->menuitems[i].text[0]) == toupper(key)))
                 {
                     if (currentmenu == &MainDef)
                     {
-                        if ((i == load_game && !savegames) || (i == save_game && (gamestate != GS_LEVEL || viewplayer->health <= 0)))
+                        if ((i == load_game && !savegames) || (i == save_game
+                            && (gamestate != GS_LEVEL || viewplayer->health <= 0)))
                             return true;
                     }
                     else if (currentmenu == &OptionsDef && i == endgame && gamestate != GS_LEVEL)

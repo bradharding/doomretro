@@ -16,7 +16,7 @@
 * Crashes no longer occur when:
   * Changing the `health` CVAR to `0%` or less.
   * Using the `take` CCMD to take more health from the player than they have.
-* A bug is fixed whereby widescreen mode wouldn’t be restored correctly when toggling vanilla mode off using the `vanilla` CCMD.
+* A bug is fixed whereby widescreen mode wouldn’t be restored correctly when turning vanilla mode off using the `vanilla` CCMD.
 * `NEXT` and `SECRETNEXT` now work as intended in `MAPINFO` lumps.
 * Except for a small curated list of PWADs, partial translucency effects when the `r_sprites_translucency` CVAR is `on`, and smoke that trails rockets when the `r_rockettrails` CVAR is `on`, now appear again if a custom `PLAYPAL` lump is loaded.
 * The player’s “Health picked up” stat now updates correctly when the player picks up a soul sphere.

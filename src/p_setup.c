@@ -1684,6 +1684,7 @@ static void P_LoadZSegs(const byte *data)
         li->v1 = &vertexes[v1];
         li->v2 = &vertexes[v2];
 
+        li->angle = R_PointToAngle2(segs[i].v1->x, segs[i].v1->y, segs[i].v2->x, segs[i].v2->y);
         li->offset = GetOffset(li->v1, (side ? ldef->v2 : ldef->v1));
 
         if (li->linedef->special >= MBF21LINESPECIALS && li->linedef->special < NUMLINESPECIALS)
@@ -2759,7 +2760,7 @@ static void P_CalcSegsLength(void)
         // [BH] recalculate angle used for rendering. Fixes <https://doomwiki.org/wiki/Bad_seg_angle>.
         angle = R_PointToAngleEx2(li->v1->x, li->v1->y, li->v2->x, li->v2->y);
 
-        if (AngleDiff(li->angle, angle) <= ANG30 || mapformat == ZDBSPX)
+        if (AngleDiff(li->angle, angle) <= ANG30)
             li->angle = angle;
 
         li->fakecontrast = (!li->dy ? -LIGHTBRIGHT : (!li->dx ? LIGHTBRIGHT : 0));
