@@ -980,9 +980,8 @@ static void M_DrawLoad(void)
 
     for (int i = 0; i < load_end; i++)
     {
+        int         len = (int)strlen(savegamestrings[i]);
         const int   y = LoadDef.y + LINEHEIGHT * i + OFFSET;
-        int         len;
-        char        buffer[SAVESTRINGSIZE];
 
         M_DrawSaveLoadBorder(LoadDef.x - 11, y - 4);
 
@@ -991,31 +990,31 @@ static void M_DrawLoad(void)
         currentmenu->menuitems[i].width = 209;
         currentmenu->menuitems[i].height = SHORT(((patch_t *)W_CacheLumpName("M_LSLEFT"))->height);
 
-        M_StringCopy(buffer, savegamestrings[i], sizeof(buffer));
-        len = (int)strlen(buffer);
+        
 
-        while (M_StringWidth(buffer) > SAVESTRINGPIXELWIDTH)
+        while (M_StringWidth(savegamestrings[i]) > SAVESTRINGPIXELWIDTH)
         {
-            if (len >= 2 && buffer[len - 2] == ' ')
+            if (len >= 2 && savegamestrings[i][len - 2] == ' ')
             {
-                buffer[len - 2] = '.';
-                buffer[len - 1] = '.';
-                buffer[len] = '.';
-                buffer[len + 1] = '\0';
+                savegamestrings[i][len - 2] = '.';
+                savegamestrings[i][len - 1] = '.';
+                savegamestrings[i][len] = '.';
+                savegamestrings[i][len + 1] = '\0';
             }
             else if (len >= 1)
             {
-                buffer[len - 1] = '.';
-                buffer[len] = '.';
-                buffer[len + 1] = '.';
-                buffer[len + 2] = '\0';
+                savegamestrings[i][len - 1] = '.';
+                savegamestrings[i][len] = '.';
+                savegamestrings[i][len + 1] = '.';
+                savegamestrings[i][len + 2] = '\0';
             }
 
             len--;
         }
 
-        M_WriteText(LoadDef.x - 2 + (M_StringCompare(buffer, s_EMPTYSTRING) && s_EMPTYSTRING[0] == '-'
-            && s_EMPTYSTRING[1] == '\0') * 6, y - !M_LSCNTR, buffer, false);
+        M_WriteText(LoadDef.x - 2 + (M_StringCompare(savegamestrings[i], s_EMPTYSTRING)
+            && s_EMPTYSTRING[0] == '-' && s_EMPTYSTRING[1] == '\0') * 6, y - !M_LSCNTR,
+            savegamestrings[i], false);
     }
 }
 
@@ -1061,37 +1060,13 @@ int             caretcolor;
 
 static void M_SetCaretPos(int pointerx)
 {
-    char    buffer[SAVESTRINGSIZE];
-    int     len;
-    int     x = LoadDef.x - 2 + MAXWIDESCREENDELTA;
-
-    M_StringCopy(buffer, savegamestrings[saveslot], sizeof(buffer));
-    len = (int)strlen(buffer);
-
-    while (M_StringWidth(buffer) > SAVESTRINGPIXELWIDTH)
-    {
-        if (len >= 2 && buffer[len - 2] == ' ')
-        {
-            buffer[len - 2] = '.';
-            buffer[len - 1] = '.';
-            buffer[len] = '.';
-            buffer[len + 1] = '\0';
-        }
-        else if (len >= 1)
-        {
-            buffer[len - 1] = '.';
-            buffer[len] = '.';
-            buffer[len + 1] = '.';
-            buffer[len + 2] = '\0';
-        }
-
-        len--;
-    }
+    const int   len = (int)strlen(savegamestrings[saveslot]);
+    int         x = LoadDef.x - 2 + MAXWIDESCREENDELTA;
 
     for (savecharindex = 0; savecharindex < len; savecharindex++)
     {
-        const int   width = M_CharacterWidth(buffer[savecharindex],
-                        (!savecharindex ? '\0' : buffer[savecharindex - 1]));
+        const int   width = M_CharacterWidth(savegamestrings[saveslot][savecharindex],
+            (!savecharindex ? '\0' : savegamestrings[saveslot][savecharindex - 1]));
 
         if (pointerx < (x += width / 2))
             break;
@@ -1123,9 +1098,8 @@ static void M_DrawSave(void)
     // draw each save game slot
     for (int i = 0; i < load_end; i++)
     {
-        int     y = LoadDef.y + i * LINEHEIGHT + OFFSET;
-        int     len;
-        char    buffer[SAVESTRINGSIZE];
+        int len = (int)strlen(savegamestrings[i]);
+        int y = LoadDef.y + i * LINEHEIGHT + OFFSET;
 
         M_DrawSaveLoadBorder(LoadDef.x - 11, y - 4);
 
@@ -1134,24 +1108,21 @@ static void M_DrawSave(void)
         currentmenu->menuitems[i].width = 209;
         currentmenu->menuitems[i].height = SHORT(((patch_t *)W_CacheLumpName("M_LSLEFT"))->height);
 
-        M_StringCopy(buffer, savegamestrings[i], sizeof(buffer));
-        len = (int)strlen(buffer);
-
-        while (M_StringWidth(buffer) > SAVESTRINGPIXELWIDTH)
+        while (M_StringWidth(savegamestrings[i]) > SAVESTRINGPIXELWIDTH)
         {
-            if (len >= 2 && buffer[len - 2] == ' ')
+            if (len >= 2 && savegamestrings[i][len - 2] == ' ')
             {
-                buffer[len - 2] = '.';
-                buffer[len - 1] = '.';
-                buffer[len] = '.';
-                buffer[len + 1] = '\0';
+                savegamestrings[i][len - 2] = '.';
+                savegamestrings[i][len - 1] = '.';
+                savegamestrings[i][len] = '.';
+                savegamestrings[i][len + 1] = '\0';
             }
             else if (len >= 1)
             {
-                buffer[len - 1] = '.';
-                buffer[len] = '.';
-                buffer[len + 1] = '.';
-                buffer[len + 2] = '\0';
+                savegamestrings[i][len - 1] = '.';
+                savegamestrings[i][len] = '.';
+                savegamestrings[i][len + 1] = '.';
+                savegamestrings[i][len + 2] = '\0';
             }
 
             len--;
@@ -1166,7 +1137,7 @@ static void M_DrawSave(void)
 
             // draw text to left of text caret
             for (int j = 0; j < savecharindex; j++)
-                left[j] = buffer[j];
+                left[j] = savegamestrings[i][j];
 
             left[savecharindex] = '\0';
             M_WriteText(x, y - !M_LSCNTR, left, false);
@@ -1174,7 +1145,7 @@ static void M_DrawSave(void)
 
             // draw text to right of text caret
             for (int j = 0; j < len - savecharindex; j++)
-                right[j] = buffer[j + savecharindex];
+                right[j] = savegamestrings[i][j + savecharindex];
 
             right[len - savecharindex] = '\0';
             M_WriteText(x + 1, y - !M_LSCNTR, right, false);
@@ -1195,8 +1166,9 @@ static void M_DrawSave(void)
             }
         }
         else
-            M_WriteText(LoadDef.x - 2 + (M_StringCompare(buffer, s_EMPTYSTRING) && s_EMPTYSTRING[0] == '-'
-                && s_EMPTYSTRING[1] == '\0') * 6, y - !M_LSCNTR, buffer, false);
+            M_WriteText(LoadDef.x - 2 + (M_StringCompare(savegamestrings[i], s_EMPTYSTRING)
+                && s_EMPTYSTRING[0] == '-' && s_EMPTYSTRING[1] == '\0') * 6, y - !M_LSCNTR,
+                savegamestrings[i], false);
     }
 }
 
