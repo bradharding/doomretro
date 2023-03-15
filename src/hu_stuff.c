@@ -200,15 +200,15 @@ void HU_Init(void)
 
     caretcolor = FindBrightDominantColor(hu_font['A' - HU_FONTSTART]);
 
-    if (W_CheckNumForName("STTMINUS") >= 0)
-        if (W_CheckMultipleLumps("STTMINUS") > 1 || W_CheckMultipleLumps("STTNUM0") == 1)
-        {
-            const patch_t   *patch = W_CacheLumpName("STTNUM0");
+    if (W_CheckNumForName("STTMINUS") >= 0
+        && (W_CheckMultipleLumps("STTMINUS") > 1 || W_CheckMultipleLumps("STTNUM0") == 1))
+    {
+        const patch_t   *patch = W_CacheLumpName("STTNUM0");
 
-            minuspatch = W_CacheLumpName("STTMINUS");
-            minuspatchwidth = SHORT(minuspatch->width);
-            minuspatchy = (SHORT(patch->height) - SHORT(minuspatch->height)) / 2;
-        }
+        minuspatch = W_CacheLumpName("STTMINUS");
+        minuspatchwidth = SHORT(minuspatch->width);
+        minuspatchy = (SHORT(patch->height) - SHORT(minuspatch->height)) / 2;
+    }
 
     if ((lump = W_CheckNumForName("ARM1A0")) >= 0)
         greenarmorpatch = W_CacheLumpNum(lump);

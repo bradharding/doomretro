@@ -335,7 +335,6 @@ void C_Warning(const int minwarninglevel, const char *string, ...)
             console = I_Realloc(console, (consolestringsmax += CONSOLESTRINGSMAX) * sizeof(*console));
 
         M_StringCopy(console[numconsolestrings].string, buffer, sizeof(console[0].string));
-        console[numconsolestrings].line = 1;
         console[numconsolestrings].indent = WARNINGWIDTH + 2;
         console[numconsolestrings].wrap = 0;
         console[numconsolestrings++].stringtype = warningstring;
@@ -887,14 +886,7 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
 
     if (console[index].stringtype == warningstring)
     {
-        if (console[index].line == 2)
-        {
-            if (text[0] == ' ')
-                x -= spacewidth;
-        }
-        else
-            V_DrawConsoleTextPatch(x - 1, y, warning, WARNINGWIDTH, color1, color2, false, tinttab);
-
+        V_DrawConsoleTextPatch(x - 1, y, warning, WARNINGWIDTH, color1, color2, false, tinttab);
         x += (text[0] == 'T' ? WARNINGWIDTH : WARNINGWIDTH + 1);
     }
 
