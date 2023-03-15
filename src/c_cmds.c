@@ -2066,7 +2066,7 @@ static void condump_cmd_func2(char *cmd, char *parms)
                     continue;
 
                 if (console[i].stringtype == warningstring)
-                    fputs("/!\\ ", file);
+                    fputs("! ", file);
 
                 for (int inpos = 0; inpos < len; inpos++)
                 {
@@ -2090,30 +2090,6 @@ static void condump_cmd_func2(char *cmd, char *parms)
                             fputc(' ', file);
                             outpos++;
                         }
-                    }
-                    else if (letter == '\'')
-                    {
-                        if (prevletter == '\0' || prevletter == ' ' || prevletter == '\t' || prevletter == '('
-                            || prevletter == '[' || prevletter == '{' || prevletter == '<' || prevletter == '"'
-                            || ((prevletter == BOLDOFFCHAR || prevletter == ITALICSOFFCHAR)
-                                && prevletter2 != '.' && nextletter != '.'))
-                            fputc(145, file);
-                        else
-                            fputc(146, file);
-
-                        outpos++;
-                    }
-                    else if (letter == '"')
-                    {
-                        if (prevletter == '\0' || prevletter == ' ' || prevletter == '\t' || prevletter == '('
-                            || prevletter == '[' || prevletter == '{' || prevletter == '<' || prevletter == '\''
-                            || ((prevletter == BOLDOFFCHAR || prevletter == ITALICSOFFCHAR)
-                                && prevletter2 != '.' && nextletter != '.'))
-                            fputc(147, file);
-                        else
-                            fputc(148, file);
-
-                        outpos++;
                     }
                     else if (letter != '\n'
                         && letter != BOLDONCHAR && letter != BOLDOFFCHAR
