@@ -3,12 +3,12 @@
 #### DOOM Retro v4.8.2
 
 * *DOOM Retro* is now built using v17.5.2 of [*Microsoft Visual Studio Community 2022*](https://visualstudio.microsoft.com/vs/community/).
-* Minor optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
-* Minor changes have been made to text that is output to the console.
+* Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
+* Changes have been made to text that is output to the console.
 * When the `m_pointer` CVAR is `on`:
   * The mouse pointer may now be used to move:
     * The sliders in the options and sound volume menus.
-    * The text caret while entering a savegame description in the save game menu.
+    * The text caret when entering a savegame description in the save game menu.
   * Navigating menus using the mouse pointer has now improved when the `vid_widescreen` CVAR is `off`.
 * The positions of `ON`/`OFF` and `HIGH`/`LOW` in the options menu have been fixed in some instances.
 * A bug is fixed whereby the `r_damageeffect` CVAR would be changed instead when trying to change the `r_pickupeffect` CVAR in the console.
