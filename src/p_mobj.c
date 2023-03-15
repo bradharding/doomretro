@@ -1461,7 +1461,7 @@ void P_SpawnBlood(const fixed_t x, const fixed_t y, const fixed_t z, angle_t ang
             th->momz = (2 + i / 6) * FRACUNIT;
 
             th->angle = angle;
-            angle += M_BigSubRandom() * 0xB60B60;
+            angle += M_BigSubRandom() * 0x2C62C6;
 
             if (damage <= 12 && th->state->nextstate != S_NULL)
                 P_SetMobjState(th, th->state->nextstate);
