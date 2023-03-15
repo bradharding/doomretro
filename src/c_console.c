@@ -1561,7 +1561,7 @@ void C_Drawer(void)
                 C_DrawConsoleText(CONSOLETEXTX, y, text, consoleinputcolor,
                     NOBACKGROUNDCOLOR, consoleboldcolor, tinttab75, notabs, true, true, i);
             else if (stringtype == warningstring)
-                C_DrawConsoleText(CONSOLETEXTX, y, console[i].string, consolewarningcolor,
+                C_DrawConsoleText(CONSOLETEXTX, y, text, consolewarningcolor,
                     NOBACKGROUNDCOLOR, consolewarningboldcolor, tinttab66, notabs, true, true, i);
             else
                 V_DrawConsolePatch(CONSOLETEXTX - 1, y + 4 - (CONSOLEHEIGHT - consoleheight),
