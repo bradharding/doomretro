@@ -73,11 +73,12 @@ IF (APPLE)
 ENDIF()
 
 IF (UNIX)
-	IF (CMAKE_C_COMPILER_ID MATCHES "Clang")
-		SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g -std=gnu99")
-	ELSE()
-		SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g -std=gnu99 -Wno-deprecated-non-prototype")
-	ENDIF()
+	INCLUDE(CheckCCompilerFlag)
+	SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=gnu99")
+	CHECK_C_COMPILER_FLAG("-Wno-deprecated-non-prototype" HAS_NON_PROTO_FLAG)
+	IF(HAS_NON_PROTO_FLAG)
+	    SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wno-deprecated-non-prototype")
+    	ENDIF()
 ENDIF()
 
 TARGET_LINK_LIBRARIES(
