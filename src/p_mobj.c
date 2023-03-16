@@ -1396,6 +1396,8 @@ void P_SpawnSmokeTrail(const fixed_t x, const fixed_t y, const fixed_t z, const 
 // P_SpawnBlood
 // [BH] spawn much more blood than Vanilla DOOM
 //
+
+#define ANGLEMUL 0x2C62C6
 void P_SpawnBlood(const fixed_t x, const fixed_t y, const fixed_t z, angle_t angle, const int damage, mobj_t *target)
 {
     if (target->bloodcolor)
@@ -1461,7 +1463,7 @@ void P_SpawnBlood(const fixed_t x, const fixed_t y, const fixed_t z, angle_t ang
             th->momz = (2 + i / 6) * FRACUNIT;
 
             th->angle = angle;
-            angle += M_BigSubRandom() * 0x2C62C6;
+            angle += M_BigSubRandom() * ANGLEMUL;
 
             if (damage <= 12 && th->state->nextstate != S_NULL)
                 P_SetMobjState(th, th->state->nextstate);
@@ -1532,7 +1534,7 @@ void P_SpawnBloodSplat(const fixed_t x, const fixed_t y, const int color,
                 P_SetBloodSplatColor(splat);
                 splat->x = x;
                 splat->y = y;
-                splat->angle = M_BigSubRandom() * 0xB60B60;
+                splat->angle = M_BigSubRandom() * ANGLEMUL;
                 splat->width = spritewidth[patch];
                 splat->sector = sec;
                 P_SetBloodSplatPosition(splat);
