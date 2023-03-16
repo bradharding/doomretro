@@ -15,6 +15,7 @@
 * These changes have been made to the alternate widescreen HUD:
   * The health, armor and ammo bars now animate when they change.
   * The position of the player’s health is now fixed when 0% and the `negativehealth` CVAR is `off`.
+  * When the player has an invulnerability power-up, or the `r_textures` CVAR is `off`, every element of the HUD is monochrome.
   * The vertical positions of some of the weapon silhouettes have changed.
 * Crashes no longer occur when:
   * Changing the `health` CVAR to `0%` or less.

@@ -1018,12 +1018,41 @@ static int AltHUDNumber2Width(int val)
 
 static void HU_DrawAltHUD(void)
 {
-    const int       color = (((viewplayer->fixedcolormap == INVERSECOLORMAP) ^ (!r_textures)) ?
-                        colormaps[0][32 * 256 + nearestwhite] : (r_hud_translucency ? nearestwhite : nearestlightgray));
+    const bool      monochrome = (viewplayer->fixedcolormap == INVERSECOLORMAP) ^ (!r_textures);
+    const int       color = (monochrome ? nearestblack : (r_hud_translucency ? nearestwhite : nearestlightgray));
     int             health = BETWEEN(HUD_NUMBER_MIN, viewplayer->health + healthdiff, HUD_NUMBER_MAX);
     int             armor = MIN(viewplayer->armor, HUD_NUMBER_MAX);
     int             keypic_x = ALTHUD_RIGHT_X;
     const uint64_t  currenttime = I_GetTimeMS();
+
+    if (monochrome)
+    {
+        green1 = nearestblack;
+        green2 = nearestblack;
+        green3 = nearestblack;
+        blue1 = nearestblack;
+        blue2 = nearestblack;
+        blue3 = nearestblack;
+    }
+    else
+    {
+        green1 = nearestcolors[GREEN1];
+        green2 = nearestcolors[GREEN2];
+        green3 = nearestcolors[GREEN3];
+
+        if (BTSX)
+        {
+            blue1 = BLUE1;
+            blue2 = BLUE2;
+            blue3 = BLUE3;
+        }
+        else
+        {
+            blue1 = nearestcolors[BLUE1];
+            blue2 = nearestcolors[BLUE2];
+            blue3 = nearestcolors[BLUE3];
+        }
+    }
 
     if (r_hud_translucency)
         DrawAltHUDNumber(ALTHUD_LEFT_X - AltHUDNumberWidth(ABS(health)), ALTHUD_Y + 12,
@@ -1312,7 +1341,8 @@ static void HU_DrawAltHUD(void)
                 {
                     const altkeypic_t   altkeypic = altkeypics[j];
 
-                    althudfunc(keypic_x, ALTHUD_Y - 1, (patch = altkeypic.patch), WHITE, altkeypic.color, altkeypic.tinttab);
+                    althudfunc(keypic_x, ALTHUD_Y - 1, (patch = altkeypic.patch), WHITE,
+                        (monochrome ? nearestblack : altkeypic.color), altkeypic.tinttab);
                     keypic_x += SHORT(patch->width) + 4;
                 }
 
