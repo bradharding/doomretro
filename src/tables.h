@@ -45,6 +45,8 @@
 
 #define ANGLETOFINESHIFT    19
 
+#define ANGLEMUL            0x2C62C6
+
 // Effective size is 10240.
 extern fixed_t  finesine[5 * FINEANGLES / 4];
 

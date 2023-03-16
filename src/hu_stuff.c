@@ -1341,8 +1341,13 @@ static void HU_DrawAltHUD(void)
                 {
                     const altkeypic_t   altkeypic = altkeypics[j];
 
-                    althudfunc(keypic_x, ALTHUD_Y - 1, (patch = altkeypic.patch), WHITE,
-                        (monochrome ? nearestblack : altkeypic.color), altkeypic.tinttab);
+                    if (monochrome)
+                        althudfunc(keypic_x, ALTHUD_Y - 1, (patch = altkeypic.patch), WHITE,
+                            nearestblack, altkeypics[0].tinttab);
+                    else
+                        althudfunc(keypic_x, ALTHUD_Y - 1, (patch = altkeypic.patch), WHITE,
+                            altkeypic.color, altkeypic.tinttab);
+
                     keypic_x += SHORT(patch->width) + 4;
                 }
 
