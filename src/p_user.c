@@ -551,7 +551,9 @@ void P_PlayerThink(void)
     else if (armordiff > 0)
         armordiff = MAX(0, armordiff - ALTHUD_BARDIFF);
 
-    if (ammodiff < 0)
+    if (viewplayer->pendingweapon != wp_nochange)
+        ammodiff = 0;
+    else  if (ammodiff < 0)
         ammodiff = MIN(ammodiff + ALTHUD_BARDIFF, viewplayer->ammo[viewplayer->readyweapon]);
     else if (ammodiff > 0)
         ammodiff = MAX(0, ammodiff - ALTHUD_BARDIFF);
