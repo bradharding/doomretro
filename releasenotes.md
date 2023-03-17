@@ -17,6 +17,7 @@
   * The position of the player’s health is now fixed when 0% and the `negativehealth` CVAR is `off`.
   * All elements of the HUD are now black, silhouetted against the white background, when the player has an invulnerability power-up or the `r_textures` CVAR is `off`.
   * The vertical positions of some of the weapon silhouettes have changed.
+  * Minor improvements have been made to armor bar when the player has blue armor.
 * Crashes no longer occur when:
   * Changing the `health` CVAR to `0%` or less.
   * Using the `take` CCMD to take more health from the player than they have.
@@ -25,6 +26,7 @@
 * Partial translucency effects when the `r_sprites_translucency` CVAR is `on`, and smoke that trails rockets when the `r_rockettrails` CVAR is `on`, now appear again if a custom `PLAYPAL` lump is loaded.
 * The player’s “Health picked up” stat now updates correctly when the player picks up a soul sphere.
 * A bug is fixed whereby the number of monsters in the map may have been wrong after loading a savegame in some instances.
+* Blood splats are no longer overly bright when the `r_textures` CVAR is `off`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
