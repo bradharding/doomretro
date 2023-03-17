@@ -895,15 +895,6 @@ static void HU_AltInit(void)
 
     gray = nearestcolors[GRAY];
     darkgray = nearestcolors[DARKGRAY];
-    green1 = nearestcolors[GREEN1];
-    green2 = nearestcolors[GREEN2];
-    green3 = nearestcolors[GREEN3];
-    blue1 = (BTSX ? BLUE1 : nearestcolors[BLUE1]);
-    blue2 = (BTSX ? BLUE2 : nearestcolors[BLUE2]);
-    blue3 = (BTSX ? BLUE3 : nearestcolors[BLUE3]);
-    red = nearestcolors[RED2];
-    yellow1 = nearestcolors[YELLOW1];
-    yellow2 = nearestcolors[YELLOW2];
 }
 
 static void DrawAltHUDNumber(int x, int y, int val, int color, const byte *tinttab)
@@ -1027,21 +1018,18 @@ static void HU_DrawAltHUD(void)
 
     if (monochrome)
     {
-        green1 = nearestblack;
-        green2 = nearestblack;
-        green3 = nearestblack;
         blue1 = nearestblack;
         blue2 = nearestblack;
         blue3 = nearestblack;
+        green1 = nearestblack;
+        green2 = nearestblack;
+        green3 = nearestblack;
+        red = nearestblack;
         yellow1 = nearestblack;
         yellow2 = nearestblack;
     }
     else
     {
-        green1 = nearestcolors[GREEN1];
-        green2 = nearestcolors[GREEN2];
-        green3 = nearestcolors[GREEN3];
-
         if (BTSX)
         {
             blue1 = BLUE1;
@@ -1055,6 +1043,10 @@ static void HU_DrawAltHUD(void)
             blue3 = nearestcolors[BLUE3];
         }
 
+        green1 = nearestcolors[GREEN1];
+        green2 = nearestcolors[GREEN2];
+        green3 = nearestcolors[GREEN3];
+        red = nearestcolors[RED2];
         yellow1 = nearestcolors[YELLOW1];
         yellow2 = nearestcolors[YELLOW2];
     }
@@ -1105,8 +1097,7 @@ static void HU_DrawAltHUD(void)
         }
         else
         {
-            const int   color2 = (((viewplayer->fixedcolormap == INVERSECOLORMAP) ^ (!r_textures)) ?
-                colormaps[0][32 * 256 + nearestwhite] : nearestwhite);
+            const int   color2 = (monochrome ? nearestblack : nearestwhite);
 
             fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 13, health, 8,
                 barcolor, barcolor, true, true, NULL, NULL);
@@ -1217,8 +1208,7 @@ static void HU_DrawAltHUD(void)
             althudfunc(ALTHUD_LEFT_X + 8, ALTHUD_Y, altleftpatch2, -1, 0, tinttab60);
         else
             althudfunc(ALTHUD_LEFT_X + 8, ALTHUD_Y, altleftpatch2, WHITE,
-                (((viewplayer->fixedcolormap == INVERSECOLORMAP) ^ (!r_textures)) ?
-                colormaps[0][32 * 256 + nearestwhite] : darkgray), NULL);
+                (monochrome ? nearestblack : darkgray), NULL);
     }
 
     if (health)
@@ -1275,8 +1265,7 @@ static void HU_DrawAltHUD(void)
                     }
                     else
                     {
-                        const int   color2 = (((viewplayer->fixedcolormap == INVERSECOLORMAP) ^ (!r_textures)) ?
-                                        colormaps[0][32 * 256 + nearestwhite] : nearestwhite);
+                        const int   color2 = (monochrome ? nearestblack : nearestwhite);
 
                         fillrectfunc(0, ALTHUD_RIGHT_X, ALTHUD_Y + 13, 101, 8, color, color, true, true, NULL, NULL);
                         fillrectfunc(0, ALTHUD_RIGHT_X + 100 - ammo, ALTHUD_Y + 13, ammo + 1,
@@ -1320,8 +1309,7 @@ static void HU_DrawAltHUD(void)
                     }
                     else
                     {
-                        const int   color2 = (((viewplayer->fixedcolormap == INVERSECOLORMAP) ^ (!r_textures)) ?
-                                        colormaps[0][32 * 256 + nearestwhite] : nearestwhite);
+                        const int   color2 = (monochrome ? nearestblack : nearestwhite);
 
                         fillrectfunc(0, ALTHUD_RIGHT_X + 100 - ammo, ALTHUD_Y + 13, ammo + 1,
                             8, color, color, true, true, NULL, NULL);
