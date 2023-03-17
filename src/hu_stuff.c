@@ -1033,6 +1033,8 @@ static void HU_DrawAltHUD(void)
         blue1 = nearestblack;
         blue2 = nearestblack;
         blue3 = nearestblack;
+        yellow1 = nearestblack;
+        yellow2 = nearestblack;
     }
     else
     {
@@ -1052,6 +1054,9 @@ static void HU_DrawAltHUD(void)
             blue2 = nearestcolors[BLUE2];
             blue3 = nearestcolors[BLUE3];
         }
+
+        yellow1 = nearestcolors[YELLOW1];
+        yellow2 = nearestcolors[YELLOW2];
     }
 
     if (r_hud_translucency)
@@ -1275,7 +1280,7 @@ static void HU_DrawAltHUD(void)
 
                         fillrectfunc(0, ALTHUD_RIGHT_X, ALTHUD_Y + 13, 101, 8, color, color, true, true, NULL, NULL);
                         fillrectfunc(0, ALTHUD_RIGHT_X + 100 - ammo, ALTHUD_Y + 13, ammo + 1,
-                            8, WHITE, WHITE, false, true, NULL, NULL);
+                            8, color2, color2, false, true, NULL, NULL);
                         althudfunc(ALTHUD_RIGHT_X, ALTHUD_Y + 13, altrightpatch, WHITE, color, NULL);
                         althudfunc(ALTHUD_RIGHT_X + 100, ALTHUD_Y + 13, altendpatch, WHITE, color2, NULL);
                         althudfunc(ALTHUD_RIGHT_X - 2, ALTHUD_Y + 13, altmarkpatch, WHITE, color2, NULL);
