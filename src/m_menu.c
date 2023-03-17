@@ -1884,7 +1884,7 @@ static void M_DrawOptions(void)
     if (messages)
     {
         if (M_MSGON)
-            M_DrawPatchWithShadow(OptionsDef.x + (REKKR ? 106 : 122),
+            M_DrawPatchWithShadow(OptionsDef.x + (REKKR ? 106 : 120),
                 OptionsDef.y + 16 * msgs + (REKKR ? OFFSET + 2 : OFFSET),
                 W_CacheLumpName("M_MSGON"));
         else
@@ -1893,7 +1893,7 @@ static void M_DrawOptions(void)
     else
     {
         if (M_MSGOFF)
-            M_DrawPatchWithShadow(OptionsDef.x + (REKKR ? 106 : 122),
+            M_DrawPatchWithShadow(OptionsDef.x + (REKKR ? 106 : 120),
                 OptionsDef.y + 16 * msgs + (REKKR ? OFFSET + 2 : OFFSET),
                 W_CacheLumpName("M_MSGOFF"));
         else
@@ -1903,7 +1903,7 @@ static void M_DrawOptions(void)
     if (r_detail == r_detail_low)
     {
         if (M_GDLOW)
-            M_DrawPatchWithShadow(OptionsDef.x + (REKKR ? 159 : 173),
+            M_DrawPatchWithShadow(OptionsDef.x + (REKKR ? 159 : 175),
                 OptionsDef.y + 16 * detail + (REKKR ? OFFSET + 2 : OFFSET),
                 W_CacheLumpName("M_GDLOW"));
         else
@@ -1912,7 +1912,7 @@ static void M_DrawOptions(void)
     else
     {
         if (M_GDHIGH)
-            M_DrawPatchWithShadow(OptionsDef.x + (REKKR ? 159 : 173),
+            M_DrawPatchWithShadow(OptionsDef.x + (REKKR ? 159 : 175),
                 OptionsDef.y + 16 * detail + (REKKR ? OFFSET + 2 : OFFSET),
                 W_CacheLumpName("M_GDHIGH"));
         else
