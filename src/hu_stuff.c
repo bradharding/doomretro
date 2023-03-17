@@ -1334,12 +1334,12 @@ static void HU_DrawAltHUD(void)
                 {
                     const altkeypic_t   altkeypic = altkeypics[j];
 
+                    patch = altkeypic.patch;
+
                     if (inverted)
-                        althudfunc(keypic_x, ALTHUD_Y - 1, (patch = altkeypic.patch), WHITE,
-                            nearestblack, tinttab60);
+                        althudfunc(keypic_x, ALTHUD_Y - 1, patch, WHITE, nearestblack, tinttab60);
                     else
-                        althudfunc(keypic_x, ALTHUD_Y - 1, (patch = altkeypic.patch), WHITE,
-                            altkeypic.color, altkeypic.tinttab);
+                        althudfunc(keypic_x, ALTHUD_Y - 1, patch, WHITE, altkeypic.color, altkeypic.tinttab);
 
                     keypic_x += SHORT(patch->width) + 4;
                 }
@@ -1364,12 +1364,12 @@ static void HU_DrawAltHUD(void)
                         {
                             const altkeypic_t   altkeypic = altkeypics[i];
 
+                            patch = altkeypic.patch;
+
                             if (inverted)
-                                althudfunc(keypic_x, ALTHUD_Y, (patch = altkeypic.patch),
-                                    WHITE, nearestblack, tinttab60);
+                                althudfunc(keypic_x, ALTHUD_Y, patch, WHITE, nearestblack, tinttab60);
                             else
-                                althudfunc(keypic_x, ALTHUD_Y, (patch = altkeypic.patch),
-                                    WHITE, altkeypic.color, altkeypic.tinttab);
+                                althudfunc(keypic_x, ALTHUD_Y, patch, WHITE, altkeypic.color, altkeypic.tinttab);
 
                             keypic_x += SHORT(patch->width) + 4;
                         }
@@ -1387,7 +1387,12 @@ static void HU_DrawAltHUD(void)
                 {
                     const altkeypic_t   altkeypic = altkeypics[neededcard];
 
-                    althudfunc(keypic_x, ALTHUD_Y, altkeypic.patch, WHITE, altkeypic.color, tinttab60);
+                    patch = altkeypic.patch;
+
+                    if (inverted)
+                        althudfunc(keypic_x, ALTHUD_Y, patch, WHITE, nearestblack, tinttab60);
+                    else
+                        althudfunc(keypic_x, ALTHUD_Y, patch, WHITE, altkeypic.color, altkeypic.tinttab);
                 }
             }
         }
