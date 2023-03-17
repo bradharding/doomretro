@@ -1159,7 +1159,7 @@ static void HU_DrawAltHUD(void)
                 else
                 {
                     fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 2, 101, 4,
-                        blue3, blue3, true, true, tinttab90, tinttab5);
+                        blue3, gray, true, true, tinttab90, tinttab5);
                     fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 2, armor - 100 + (armor == 200),
                         4, blue2, blue2, true, (armor == 200), tinttab90, tinttab10);
                 }
@@ -1176,7 +1176,7 @@ static void HU_DrawAltHUD(void)
                 else
                 {
                     fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 2, 101, 4,
-                        blue3, blue3, true, true, NULL, NULL);
+                        blue3, gray, true, true, NULL, NULL);
                     fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 2, armor - 100 + (armor == 200),
                         4, blue2, blue2, true, (armor == 200), NULL, NULL);
                 }
@@ -1191,7 +1191,7 @@ static void HU_DrawAltHUD(void)
                         4, green2, green2, true, true, tinttab60, tinttab25);
                 else
                     fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 2, armor + (armor == 100),
-                        4, blue3, blue3, true, true, tinttab90, tinttab5);
+                        4, blue3, gray, true, true, tinttab90, tinttab5);
             }
             else
             {
