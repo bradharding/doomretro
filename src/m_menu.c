@@ -990,8 +990,6 @@ static void M_DrawLoad(void)
         currentmenu->menuitems[i].width = 209;
         currentmenu->menuitems[i].height = SHORT(((patch_t *)W_CacheLumpName("M_LSLEFT"))->height);
 
-        
-
         while (M_StringWidth(savegamestrings[i]) > SAVESTRINGPIXELWIDTH)
         {
             if (len >= 2 && savegamestrings[i][len - 2] == ' ')

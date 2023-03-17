@@ -809,7 +809,7 @@ static int          green3;
 static int          blue1;
 static int          blue2;
 static int          blue3;
-static int          red;
+static int          red2;
 static int          yellow1;
 static int          yellow2;
 
@@ -1009,14 +1009,14 @@ static int AltHUDNumber2Width(int val)
 
 static void HU_DrawAltHUD(void)
 {
-    const bool      monochrome = (viewplayer->fixedcolormap == INVERSECOLORMAP) ^ (!r_textures);
-    const int       color = (monochrome ? nearestblack : (r_hud_translucency ? nearestwhite : nearestlightgray));
+    const bool      inverted = (viewplayer->fixedcolormap == INVERSECOLORMAP) ^ (!r_textures);
+    const int       color = (inverted ? nearestblack : (r_hud_translucency ? nearestwhite : nearestlightgray));
     int             health = BETWEEN(HUD_NUMBER_MIN, viewplayer->health + healthdiff, HUD_NUMBER_MAX);
     int             armor = MIN(viewplayer->armor, HUD_NUMBER_MAX);
     int             keypic_x = ALTHUD_RIGHT_X;
     const uint64_t  currenttime = I_GetTimeMS();
 
-    if (monochrome)
+    if (inverted)
     {
         blue1 = nearestblack;
         blue2 = nearestblack;
@@ -1024,7 +1024,7 @@ static void HU_DrawAltHUD(void)
         green1 = nearestblack;
         green2 = nearestblack;
         green3 = nearestblack;
-        red = nearestblack;
+        red2 = nearestblack;
         yellow1 = nearestblack;
         yellow2 = nearestblack;
     }
@@ -1046,7 +1046,7 @@ static void HU_DrawAltHUD(void)
         green1 = nearestcolors[GREEN1];
         green2 = nearestcolors[GREEN2];
         green3 = nearestcolors[GREEN3];
-        red = nearestcolors[RED2];
+        red2 = nearestcolors[RED2];
         yellow1 = nearestcolors[YELLOW1];
         yellow2 = nearestcolors[YELLOW2];
     }
@@ -1056,7 +1056,7 @@ static void HU_DrawAltHUD(void)
             color, (healthhighlight > currenttime ? tinttab80 : tinttab60));
     else
         DrawAltHUDNumber(ALTHUD_LEFT_X - AltHUDNumberWidth(ABS(health)), ALTHUD_Y + 12, health,
-            (healthhighlight > currenttime ? (monochrome ? nearestblack : nearestwhite) : color), NULL);
+            (healthhighlight > currenttime ? (inverted ? nearestblack : nearestwhite) : color), NULL);
 
     if (health == 100)
     {
@@ -1081,7 +1081,7 @@ static void HU_DrawAltHUD(void)
     }
     else if (health < 100)
     {
-        const int   barcolor = (health < HUD_HEALTH_MIN && !(viewplayer->cheats & CF_BUDDHA) ? red : color);
+        const int   barcolor = (health < HUD_HEALTH_MIN && !(viewplayer->cheats & CF_BUDDHA) ? red2 : color);
 
         health = MAX(1, health);
 
@@ -1097,7 +1097,7 @@ static void HU_DrawAltHUD(void)
         }
         else
         {
-            const int   color2 = (monochrome ? nearestblack : nearestwhite);
+            const int   color2 = (inverted ? nearestblack : nearestwhite);
 
             fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 13, health, 8,
                 barcolor, barcolor, true, true, NULL, NULL);
@@ -1141,7 +1141,7 @@ static void HU_DrawAltHUD(void)
                 color, (armorhighlight > currenttime ? tinttab80 : tinttab60));
         else
             DrawAltHUDNumber2(ALTHUD_LEFT_X - AltHUDNumber2Width(armor), ALTHUD_Y, armor,
-                (armorhighlight > currenttime ? (monochrome ? nearestblack : nearestwhite) : color), NULL);
+                (armorhighlight > currenttime ? (inverted ? nearestblack : nearestwhite) : color), NULL);
 
         althudfunc(ALTHUD_LEFT_X + 8, ALTHUD_Y, altleftpatch2, WHITE, color, tinttab60);
 
@@ -1159,9 +1159,9 @@ static void HU_DrawAltHUD(void)
                 else
                 {
                     fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 2, 101, 4,
-                        blue3, nearestwhite, true, true, tinttab90, tinttab5);
+                        blue3, blue3, true, true, tinttab90, tinttab5);
                     fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 2, armor - 100 + (armor == 200),
-                        4, blue2, nearestwhite, true, (armor == 200), tinttab90, tinttab10);
+                        4, blue2, blue2, true, (armor == 200), tinttab90, tinttab10);
                 }
             }
             else
@@ -1191,7 +1191,7 @@ static void HU_DrawAltHUD(void)
                         4, green2, green2, true, true, tinttab60, tinttab25);
                 else
                     fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 2, armor + (armor == 100),
-                        4, blue3, nearestwhite, true, true, tinttab90, tinttab5);
+                        4, blue3, blue3, true, true, tinttab90, tinttab5);
             }
             else
             {
@@ -1208,7 +1208,7 @@ static void HU_DrawAltHUD(void)
             althudfunc(ALTHUD_LEFT_X + 8, ALTHUD_Y, altleftpatch2, -1, 0, tinttab60);
         else
             althudfunc(ALTHUD_LEFT_X + 8, ALTHUD_Y, altleftpatch2, WHITE,
-                (monochrome ? nearestblack : darkgray), NULL);
+                (inverted ? nearestblack : darkgray), NULL);
     }
 
     if (health)
@@ -1240,7 +1240,7 @@ static void HU_DrawAltHUD(void)
                     color, (ammohighlight > currenttime ? tinttab80 : tinttab60));
             else
                 DrawAltHUDNumber(ALTHUD_RIGHT_X + 101 - AltHUDNumberWidth(ammo), ALTHUD_Y - 2, ammo,
-                    (ammohighlight > currenttime ? (monochrome ? nearestblack : nearestwhite) : color), NULL);
+                    (ammohighlight > currenttime ? (inverted ? nearestblack : nearestwhite) : color), NULL);
 
             if (ammo)
             {
@@ -1265,7 +1265,7 @@ static void HU_DrawAltHUD(void)
                     }
                     else
                     {
-                        const int   color2 = (monochrome ? nearestblack : nearestwhite);
+                        const int   color2 = (inverted ? nearestblack : nearestwhite);
 
                         fillrectfunc(0, ALTHUD_RIGHT_X, ALTHUD_Y + 13, 101, 8, color, color, true, true, NULL, NULL);
                         fillrectfunc(0, ALTHUD_RIGHT_X + 100 - ammo, ALTHUD_Y + 13, ammo + 1,
@@ -1309,7 +1309,7 @@ static void HU_DrawAltHUD(void)
                     }
                     else
                     {
-                        const int   color2 = (monochrome ? nearestblack : nearestwhite);
+                        const int   color2 = (inverted ? nearestblack : nearestwhite);
 
                         fillrectfunc(0, ALTHUD_RIGHT_X + 100 - ammo, ALTHUD_Y + 13, ammo + 1,
                             8, color, color, true, true, NULL, NULL);
@@ -1334,9 +1334,9 @@ static void HU_DrawAltHUD(void)
                 {
                     const altkeypic_t   altkeypic = altkeypics[j];
 
-                    if (monochrome)
+                    if (inverted)
                         althudfunc(keypic_x, ALTHUD_Y - 1, (patch = altkeypic.patch), WHITE,
-                            nearestblack, altkeypics[0].tinttab);
+                            nearestblack, tinttab60);
                     else
                         althudfunc(keypic_x, ALTHUD_Y - 1, (patch = altkeypic.patch), WHITE,
                             altkeypic.color, altkeypic.tinttab);
@@ -1364,7 +1364,13 @@ static void HU_DrawAltHUD(void)
                         {
                             const altkeypic_t   altkeypic = altkeypics[i];
 
-                            althudfunc(keypic_x, ALTHUD_Y, (patch = altkeypic.patch), WHITE, altkeypic.color, tinttab60);
+                            if (inverted)
+                                althudfunc(keypic_x, ALTHUD_Y, (patch = altkeypic.patch),
+                                    WHITE, nearestblack, tinttab60);
+                            else
+                                althudfunc(keypic_x, ALTHUD_Y, (patch = altkeypic.patch),
+                                    WHITE, altkeypic.color, altkeypic.tinttab);
+
                             keypic_x += SHORT(patch->width) + 4;
                         }
             }
