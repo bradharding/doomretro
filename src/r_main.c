@@ -836,7 +836,7 @@ void R_InitColumnFunctions(void)
         }
 
         bloodcolfunc = (r_sprites_translucency ? &R_DrawTranslucent50ColorColumn : &R_DrawColorColumn);
-        bloodsplatcolfunc = (r_bloodsplats_translucency ? &R_DrawTranslucent50ColorColumn : &R_DrawColorColumn);
+        bloodsplatcolfunc = (r_bloodsplats_translucency ? &R_DrawBloodSplatColumn : &R_DrawSolidBloodSplatColumn);
         psprcolfunc = &R_DrawColorColumn;
         altwallcolfunc = &R_DrawColorColumn;
         altbmapwallcolfunc = &R_DrawColorColumn;

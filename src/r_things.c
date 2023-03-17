@@ -913,7 +913,7 @@ static void R_ProjectBloodSplat(const bloodsplat_t *splat)
     vis->scale = xscale;
     vis->gx = fx;
     vis->gy = fy;
-    vis->color = splat->viscolor;
+    vis->color = (r_textures ? splat->viscolor : nearestlightgray);
     vis->colfunc = splat->viscolfunc;
     vis->texturemid = floorheight + FRACUNIT - viewz;
     vis->xiscale = FixedDiv(FRACUNIT, xscale);
