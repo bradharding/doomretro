@@ -2649,7 +2649,7 @@ bool M_Responder(event_t *ev)
                 {
                     key = KEY_DOWNARROW;
                     keywait = 0;
-                    gamecontrollerwait = I_GetTime() + 8ui64;
+                    gamecontrollerwait = I_GetTime() + 8;
                     usinggamecontroller = true;
                 }
 
