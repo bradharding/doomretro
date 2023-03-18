@@ -38,6 +38,10 @@
 
 #pragma once
 
+#if defined(_WIN32)
+#include <Windows.h>
+#endif
+
 #include "doomtype.h"
 #include "SDL.h"
 
@@ -109,7 +113,10 @@ void I_SetGamma(float value);
 
 #if defined(_WIN32)
 void I_WindowResizeBlit(void);
+
+extern HANDLE       CapFPSEvent;
 #endif
+
 
 extern void (*blitfunc)(void);
 extern void (*mapblitfunc)(void);

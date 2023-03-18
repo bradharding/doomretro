@@ -130,56 +130,52 @@ static char *iwadsrequired[] =
 };
 
 // Location where savegames are stored
-char            *savegamefolder;
+char        *savegamefolder;
 
-char            *autoloadfolder;
-char            *autoloadiwadsubfolder;
-char            *autoloadpwadsubfolder;
+char        *autoloadfolder;
+char        *autoloadiwadsubfolder;
+char        *autoloadpwadsubfolder;
 
-char            *pwadfile = "";
+char        *pwadfile = "";
 
-char            *configfile;
-char            *resourcewad;
+char        *configfile;
+char        *resourcewad;
 
-static char     dehwarning[256];
-
-#if defined(_WIN32)
-char            *previouswad;
-#endif
-
-bool            devparm;                // started game with -devparm
-bool            fastparm;               // checkparm of -fast
-bool            freeze;
-bool            nomonsters;             // checkparm of -nomonsters
-bool            pistolstart;            // [BH] checkparm of -pistolstart
-bool            regenhealth;
-bool            respawnitems;
-bool            respawnmonsters;        // checkparm of -respawn
-bool            solonet;                // checkparm of -solonet
-
-skill_t         startskill;
-int             startepisode;
-static int      startmap;
-bool            autostart;
-
-bool            advancetitle;
-bool            dowipe = false;
-static bool     forcewipe;
-
-bool            fastfade = false;
-static byte     fadescreen[MAXSCREENAREA];
-int             fadecount = 0;
-
-bool            splashscreen = true;
-
-bool            realframe;
-static bool     error;
-
-struct tm       gamestarttime;
+static char dehwarning[256];
 
 #if defined(_WIN32)
-extern HANDLE   CapFPSEvent;
+char        *previouswad;
 #endif
+
+bool        devparm;            // started game with -devparm
+bool        fastparm;           // checkparm of -fast
+bool        freeze;
+bool        nomonsters;         // checkparm of -nomonsters
+bool        pistolstart;        // [BH] checkparm of -pistolstart
+bool        regenhealth;
+bool        respawnitems;
+bool        respawnmonsters;    // checkparm of -respawn
+bool        solonet;            // checkparm of -solo-net
+
+skill_t     startskill;
+int         startepisode;
+static int  startmap;
+bool        autostart;
+
+bool        advancetitle;
+bool        dowipe = false;
+static bool forcewipe;
+
+bool        fastfade = false;
+static byte fadescreen[MAXSCREENAREA];
+int         fadecount = 0;
+
+bool        splashscreen = true;
+
+bool        realframe;
+static bool error;
+
+struct tm   gamestarttime;
 
 //
 // D_PostEvent

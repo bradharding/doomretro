@@ -2059,8 +2059,6 @@ static void condump_cmd_func2(char *cmd, char *parms)
                 const int       len = (int)strlen(string);
                 unsigned int    outpos = 0;
                 int             tabcount = 0;
-                unsigned char   prevletter = '\0';
-                unsigned char   prevletter2 = '\0';
 
                 if (!len)
                     continue;
@@ -2071,7 +2069,6 @@ static void condump_cmd_func2(char *cmd, char *parms)
                 for (int inpos = 0; inpos < len; inpos++)
                 {
                     const unsigned char letter = string[inpos];
-                    unsigned char       nextletter = string[inpos + 1];
 
                     if (letter == '\t')
                     {
@@ -2099,9 +2096,6 @@ static void condump_cmd_func2(char *cmd, char *parms)
                         fputc(letter, file);
                         outpos++;
                     }
-
-                    prevletter2 = prevletter;
-                    prevletter = letter;
                 }
 
                 if (console[i].stringtype == playermessagestring)
