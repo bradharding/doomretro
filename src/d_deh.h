@@ -43,10 +43,10 @@
 enum
 {
     p_QUITMSG     =  6,
-    p_GOTREDSKULL = 61,
-    p_GOTROCKET   = 70,
-    p_GOTCELL     = 73,
-    p_GOTSHELLS   = 76
+    p_GOTREDSKULL = 68,
+    p_GOTROCKET   = 77,
+    p_GOTCELL     = 80,
+    p_GOTSHELLS   = 83
 };
 
 typedef struct
@@ -81,6 +81,13 @@ extern char         *s_QUITMSG11;
 extern char         *s_QUITMSG12;
 extern char         *s_QUITMSG13;
 extern char         *s_QUITMSG14;
+extern char         *s_DEVQUITMSG1;
+extern char         *s_DEVQUITMSG2;
+extern char         *s_DEVQUITMSG3;
+extern char         *s_DEVQUITMSG4;
+extern char         *s_DEVQUITMSG5;
+extern char         *s_DEVQUITMSG6;
+extern char         *s_DEVQUITMSG7;
 extern char         *s_QLPROMPT;
 extern char         *s_DELPROMPT;
 extern char         *s_NIGHTMARE;

@@ -64,12 +64,11 @@ char **endmsg[] =
 
 char *devendmsg[] =
 {
-    DEVQUITMSG1,
-    DEVQUITMSG2,
-    DEVQUITMSG3,
-    DEVQUITMSG4,
-    DEVQUITMSG5,
-    DEVQUITMSG6,
-    DEVQUITMSG7,
-    DEVQUITMSG8
+    &s_DEVQUITMSG1,
+    &s_DEVQUITMSG2,
+    &s_DEVQUITMSG3,
+    &s_DEVQUITMSG4,
+    &s_DEVQUITMSG5,
+    &s_DEVQUITMSG6,
+    &s_DEVQUITMSG7
 };

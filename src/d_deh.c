@@ -151,6 +151,13 @@ char    *s_QUITMSG11 = QUITMSG11;
 char    *s_QUITMSG12 = QUITMSG12;
 char    *s_QUITMSG13 = QUITMSG13;
 char    *s_QUITMSG14 = QUITMSG14;
+char    *s_DEVQUITMSG1 = DEVQUITMSG1;
+char    *s_DEVQUITMSG2 = DEVQUITMSG2;
+char    *s_DEVQUITMSG3 = DEVQUITMSG3;
+char    *s_DEVQUITMSG4 = DEVQUITMSG4;
+char    *s_DEVQUITMSG5 = DEVQUITMSG5;
+char    *s_DEVQUITMSG6 = DEVQUITMSG6;
+char    *s_DEVQUITMSG7 = DEVQUITMSG7;
 char    *s_LOADNET = LOADNET;
 char    *s_QLOADNET = QLOADNET;
 char    *s_QSAVESPOT = QSAVESPOT;
@@ -716,7 +723,7 @@ char    *s_OB_MPDEFAULT = "";
 // end d_deh.h variable declarations
 // ====================================================================
 
-// Do this for a lookup--the pointer (loaded above) is cross-referenced
+// Do this for a lookup -- the pointer (loaded above) is cross-referenced
 // to a string key that is the same as the define above. We will use
 // M_StringDuplicate to set these new values that we read from the file, orphaning
 // the original value set above.
@@ -746,6 +753,13 @@ deh_strs deh_strlookup[] =
     { &s_QUITMSG12,                   "QUITMSG12"                   },
     { &s_QUITMSG13,                   "QUITMSG13"                   },
     { &s_QUITMSG14,                   "QUITMSG14"                   },
+    { &s_DEVQUITMSG1,                 "DEVQUITMSG1"                 },
+    { &s_DEVQUITMSG2,                 "DEVQUITMSG2"                 },
+    { &s_DEVQUITMSG3,                 "DEVQUITMSG3"                 },
+    { &s_DEVQUITMSG4,                 "DEVQUITMSG4"                 },
+    { &s_DEVQUITMSG5,                 "DEVQUITMSG5"                 },
+    { &s_DEVQUITMSG6,                 "DEVQUITMSG6"                 },
+    { &s_DEVQUITMSG7,                 "DEVQUITMSG7"                 },
     { &s_LOADNET,                     "LOADNET"                     },
     { &s_QLOADNET,                    "QLOADNET"                    },
     { &s_QSAVESPOT,                   "QSAVESPOT"                   },

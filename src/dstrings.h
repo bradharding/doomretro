@@ -75,8 +75,5 @@
 #define DEVQUITMSG6         "Suck it down, asshole!\nYou're a fucking wimp!"
 #define DEVQUITMSG7         "Don't quit now!\nWe're still spending your money!"
 
-// Internal debug. Different style, too.
-#define DEVQUITMSG8         "THIS IS NO MESSAGE!\nPage intentionally left blank."
-
 extern char **endmsg[];
 extern char *devendmsg[];
