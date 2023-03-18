@@ -463,7 +463,7 @@ void D_Display(void)
 //
 static void D_DoomLoop(void)
 {
-    player_t    player;
+    player_t    player = { 0 };
 
     viewplayer = &player;
     memset(viewplayer, 0, sizeof(*viewplayer));
@@ -2062,7 +2062,8 @@ static void D_DoomMainSetup(void)
     {
         C_Output("This is the first time " ITALICS(DOOMRETRO_NAME) " has been run on this " COMPUTER ".");
 
-        stat_firstrun = gamestarttime.tm_mday + (gamestarttime.tm_mon + 1) * 100 + (1900 + gamestarttime.tm_year) * 10000;
+        stat_firstrun = (uint64_t)(gamestarttime.tm_mday + (gamestarttime.tm_mon + 1) * 100
+            + (1900 + gamestarttime.tm_year) * 10000);
     }
     else
     {

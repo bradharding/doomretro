@@ -1413,7 +1413,7 @@ bool C_ExecuteAlias(const char *alias)
             if (M_StringCompare(alias, aliases[i].name))
             {
                 char    *string = M_StringDuplicate(aliases[i].string);
-                char    *strings[255];
+                char    *strings[255] = { "" };
                 int     j = 0;
 
                 strings[0] = strtok(string, ";");
@@ -2973,7 +2973,7 @@ static void if_cmd_func2(char *cmd, char *parms)
                 }
                 else if (consolecmds[i].flags & CF_FLOAT)
                 {
-                    float value = FLT_MIN;
+                    float   value = FLT_MIN;
 
                     if (sscanf(parms, "%10f", &value) == 1)
                         condition = (value != FLT_MIN && value == *(float *)consolecmds[i].variable);
@@ -3006,7 +3006,7 @@ static void if_cmd_func2(char *cmd, char *parms)
 
             if (condition)
             {
-                char    *strings[255];
+                char    *strings[255] = { "" };
                 int     j = 0;
 
                 M_StripQuotes(parm3);
@@ -7221,7 +7221,7 @@ static void spawn_cmd_func2(char *cmd, char *parms)
             }
             else
             {
-                mapthing_t  mthing;
+                mapthing_t  mthing = { 0 };
                 mobj_t      *thing;
 
                 mthing.x = x >> FRACBITS;

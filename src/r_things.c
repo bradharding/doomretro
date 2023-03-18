@@ -725,8 +725,8 @@ static void R_ProjectSprite(mobj_t *thing)
     xscale = FixedDiv(projection, tz);
 
     // killough 04/09/98: clip things which are out of view due to height
-    if (fz > (int64_t)viewz + FixedDiv(viewheightfrac, xscale)
-        || gzt < (int64_t)viewz - FixedDiv(viewheightfrac - viewheight, xscale))
+    if (fz > (int64_t)(viewz + FixedDiv(viewheightfrac, xscale))
+        || gzt < (int64_t)(viewz - FixedDiv(viewheightfrac - viewheight, xscale)))
         return;
 
     // calculate edges of the shape
@@ -1005,7 +1005,7 @@ static void R_DrawPlayerSprite(pspdef_t *psp, bool invisibility, bool altered)
 {
     fixed_t             tx;
     int                 x1, x2;
-    vissprite_t         tempvis;
+    vissprite_t         tempvis = { 0 };
     vissprite_t         *vis = &tempvis;
     const state_t       *state = psp->state;
     const spritenum_t   spr = state->sprite;
