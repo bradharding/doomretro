@@ -117,7 +117,7 @@ extern bool     nosound;
 extern bool     nosfx;
 extern bool     firstevent;
 extern bool     savegames;
-extern bool     inhelpscreens;
+extern bool     helpscreen;
 extern bool     quitting;
 extern int      menuspindirection;
 extern int      menuspinspeed;

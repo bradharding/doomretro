@@ -93,7 +93,7 @@ static int      savecharindex;          // which char we're editing
 // old save description before edit
 static char     saveoldstring[SAVESTRINGSIZE];
 
-bool            inhelpscreens = false;
+bool            helpscreen = false;
 bool            menuactive;
 bool            savegames;
 bool            quitting;
@@ -2513,7 +2513,7 @@ static void M_WriteText(int x, int y, char *string, bool shadow)
 static void M_ShowHelp(int choice)
 {
     functionkey = KEY_F1;
-    inhelpscreens = true;
+    helpscreen = true;
     M_OpenMainMenu();
     currentmenu = &HelpDef;
     itemon = 0;
@@ -2701,7 +2701,7 @@ bool M_Responder(event_t *ev)
                 // activate menu item
                 if (ev->data1 & MOUSE_LEFTBUTTON)
                 {
-                    if ((messagetoprint || inhelpscreens || !usingmouse) && mousewait < I_GetTime())
+                    if ((messagetoprint || helpscreen || !usingmouse) && mousewait < I_GetTime())
                     {
                         key = KEY_ENTER;
                         mousewait = I_GetTime() + 8;
@@ -3125,7 +3125,7 @@ bool M_Responder(event_t *ev)
         {
             keydown = key;
 
-            if (automapactive || inhelpscreens || gamestate == GS_INTERMISSION || gamestate == GS_FINALE)
+            if (automapactive || helpscreen || gamestate == GS_INTERMISSION || gamestate == GS_FINALE)
                 return false;
 
             if (viewactive)
@@ -3160,7 +3160,7 @@ bool M_Responder(event_t *ev)
         {
             keydown = key;
 
-            if (automapactive || inhelpscreens || gamestate == GS_INTERMISSION || gamestate == GS_FINALE)
+            if (automapactive || helpscreen || gamestate == GS_INTERMISSION || gamestate == GS_FINALE)
                 return false;
 
             if (viewactive)
@@ -3202,7 +3202,7 @@ bool M_Responder(event_t *ev)
                 S_StartSound(NULL, sfx_swtchx);
                 D_FadeScreen(false);
 
-                if (inhelpscreens)
+                if (helpscreen)
                     R_SetViewSize(r_screensize);
             }
             else
@@ -3392,7 +3392,7 @@ bool M_Responder(event_t *ev)
 
     if (!paused)
     {
-        if (key == KEY_DOWNARROW && keywait < I_GetTime() && !inhelpscreens)
+        if (key == KEY_DOWNARROW && keywait < I_GetTime() && !helpscreen)
         {
             // Move down to next item
             if (currentmenu == &LoadDef)
@@ -3471,7 +3471,7 @@ bool M_Responder(event_t *ev)
             M_SetWindowCaption();
             return false;
         }
-        else if (key == KEY_UPARROW && keywait < I_GetTime() && !inhelpscreens)
+        else if (key == KEY_UPARROW && keywait < I_GetTime() && !helpscreen)
         {
             // Move back up to previous item
             if (currentmenu == &LoadDef)
@@ -3551,7 +3551,7 @@ bool M_Responder(event_t *ev)
             return false;
         }
 
-        else if (key == KEY_LEFTARROW && !inhelpscreens)
+        else if (key == KEY_LEFTARROW && !helpscreen)
         {
             // Slide slider left
             if (currentmenu->menuitems[itemon].status == 2 && currentmenu->menuitems[itemon].routine)
@@ -3562,7 +3562,7 @@ bool M_Responder(event_t *ev)
             return false;
         }
 
-        else if (key == KEY_RIGHTARROW && !inhelpscreens)
+        else if (key == KEY_RIGHTARROW && !helpscreen)
         {
 
             // Slide slider right
@@ -3579,7 +3579,7 @@ bool M_Responder(event_t *ev)
             // Activate menu item
             keydown = key;
 
-            if (inhelpscreens)
+            if (helpscreen)
             {
                 functionkey = 0;
                 M_CloseMenu();
@@ -3659,7 +3659,7 @@ bool M_Responder(event_t *ev)
 
             D_FadeScreen(false);
 
-            if (inhelpscreens)
+            if (helpscreen)
                 R_SetViewSize(r_screensize);
 
             M_SetWindowCaption();
@@ -3863,7 +3863,7 @@ void M_OpenMainMenu(void)
         viewplayer->lookdir = 0;
         R_SetViewSize(r_screensize_max);
 
-        if (!inhelpscreens)
+        if (!helpscreen)
             viewplayer->viewz = viewplayer->mo->floorz + MENUVIEWHEIGHT;
 
         I_RestoreMousePointerPosition();
@@ -3942,7 +3942,7 @@ void M_Drawer(void)
 
     if (!menuactive)
     {
-        inhelpscreens = false;
+        helpscreen = false;
         return;
     }
 
@@ -4183,7 +4183,7 @@ void M_CloseMenu(void)
         viewplayer->lookdir = playerlookdir;
         viewplayer->viewz = playerviewz;
 
-        if (!inhelpscreens)
+        if (!helpscreen)
             R_SetViewSize(r_screensize);
 
         AM_SetAutomapSize(r_screensize);

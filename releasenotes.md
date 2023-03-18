@@ -10,6 +10,7 @@
     * The sliders in the options and sound volume menus.
     * The text caret when entering a savegame description in the save game menu.
   * Selecting menu items using the mouse pointer is now accurate when the `vid_widescreen` CVAR is `off`.
+  * The mouse pointer is no longer shown on the help screen if the mouse is moved.
 * The positions of `ON`/`OFF` and `HIGH`/`LOW` in the options menu have been fixed in some instances.
 * A bug is fixed whereby when trying to change the `r_pickupeffect` CVAR in the console the `r_damageeffect` CVAR would be changed instead.
 * These changes have been made to the alternate widescreen HUD:

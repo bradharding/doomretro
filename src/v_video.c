@@ -1764,7 +1764,7 @@ bool V_ScreenShot(void)
     if (consoleactive)
         M_StringCopy(mapname, "Console", sizeof(mapname));
     else if (menuactive)
-        M_StringCopy(mapname, (inhelpscreens ? "Help" : "Menu"), sizeof(mapname));
+        M_StringCopy(mapname, (helpscreen ? "Help" : "Menu"), sizeof(mapname));
     else if (automapactive)
         M_StringCopy(mapname, "Automap", sizeof(mapname));
     else if (paused)
