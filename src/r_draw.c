@@ -143,6 +143,25 @@ void R_DrawColumn(void)
     *dest = colormap[dc_source[frac >> FRACBITS]];
 }
 
+void R_DrawBrightmapColumn(void)
+{
+    int     count = dc_yh - dc_yl + 1;
+    byte    *dest = ylookup0[dc_yl] + dc_x;
+    fixed_t frac = dc_texturefrac;
+    byte    dot;
+
+    while (--count)
+    {
+        dot = dc_source[frac >> FRACBITS];
+        *dest = dc_colormap[dc_brightmap[dot]][dot];
+        dest += SCREENWIDTH;
+        frac += dc_iscale;
+    }
+
+    dot = dc_source[frac >> FRACBITS];
+    *dest = dc_colormap[dc_brightmap[dot]][dot];
+}
+
 void R_DrawDitherLowColumn(void)
 {
     int                 count = dc_yh - dc_yl + 1;

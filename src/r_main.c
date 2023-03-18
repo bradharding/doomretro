@@ -456,6 +456,7 @@ void (*colfunc)(void);
 void (*wallcolfunc)(void);
 void (*altwallcolfunc)(void);
 void (*missingcolfunc)(void);
+void (*bmapcolfunc)(void);
 void (*bmapwallcolfunc)(void);
 void (*altbmapwallcolfunc)(void);
 void (*segcolfunc)(void);
@@ -582,6 +583,7 @@ void R_InitColumnFunctions(void)
     {
         skycolfunc = (canmodify && !transferredsky && (gamemode != commercial || gamemap < 21) && !canmouselook ?
             &R_DrawFlippedSkyColumn : &R_DrawWallColumn);
+        bmapcolfunc = &R_DrawBrightmapColumn;
 
         if (r_ditheredlighting)
         {
@@ -761,6 +763,7 @@ void R_InitColumnFunctions(void)
     else
     {
         skycolfunc = &R_DrawColorColumn;
+        bmapcolfunc = &R_DrawColorColumn;
 
         if (r_ditheredlighting)
         {

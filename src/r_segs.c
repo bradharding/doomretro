@@ -246,7 +246,7 @@ void R_RenderMaskedSegRange(const drawseg_t *ds, const int x1, const int x2)
         if (usebrightmaps && !nobrightmap[texnum] && brightmap[texnum])
         {
             dc_brightmap = brightmap[texnum];
-            colfunc = bmapwallcolfunc;
+            colfunc = bmapcolfunc;
         }
         else
             colfunc = (curline->linedef->tranlump >= 0 ? tl50segcolfunc : segcolfunc);
