@@ -264,6 +264,7 @@ static byte *GenerateTintTable(byte *palette, int percent, int colors)
     byte    *result = malloc((size_t)256 * 256);
 
     if (result)
+    {
         for (int foreground = 0; foreground < 256; foreground++)
             if ((filter[foreground] & colors) || colors == ALL)
                 for (int background = 0; background < 256; background++)
@@ -279,6 +280,7 @@ static byte *GenerateTintTable(byte *palette, int percent, int colors)
             else
                 for (int background = 0; background < 256; background++)
                     result[(background << 8) + foreground] = foreground;
+    }
 
     return result;
 }
@@ -288,6 +290,7 @@ static byte *GenerateAdditiveTintTable(byte *palette, int colors)
     byte    *result = malloc((size_t)256 * 256);
 
     if (result)
+    {
         for (int foreground = 0; foreground < 256; foreground++)
             if ((filter[foreground] & colors) || colors == ALL)
                 for (int background = 0; background < 256; background++)
@@ -303,6 +306,7 @@ static byte *GenerateAdditiveTintTable(byte *palette, int colors)
             else
                 for (int background = 0; background < 256; background++)
                     result[(background << 8) + foreground] = foreground;
+    }
 
     return result;
 }
