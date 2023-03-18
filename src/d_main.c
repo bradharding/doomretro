@@ -517,7 +517,7 @@ void D_PageTicker(void)
     static uint64_t pagewait;
     uint64_t        pagetime;
 
-    if (menuactive || consoleactive)
+    if (menuactive || consoleactive || !windowfocused)
         return;
 
     if (pagewait < (pagetime = I_GetTime()))
