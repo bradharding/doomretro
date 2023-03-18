@@ -76,4 +76,4 @@
 #define DEVQUITMSG7         "Don't quit now!\nWe're still spending your money!"
 
 extern char **endmsg[];
-extern char *devendmsg[];
+extern char **devendmsg[];

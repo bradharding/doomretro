@@ -2128,7 +2128,7 @@ void M_QuitDOOM(int choice)
         msg = M_RandomIntNoRepeat(0, NUM_QUITMESSAGES - 1, msg);
 
         if (devparm)
-            M_StringCopy(line1, devendmsg[msg], sizeof(line1));
+            M_StringCopy(line1, *devendmsg[msg], sizeof(line1));
         else if (gamemission == doom)
             M_snprintf(line1, sizeof(line1), *endmsg[msg], WINDOWS);
         else
@@ -2610,7 +2610,7 @@ bool M_Responder(event_t *ev)
             if (gamecontrollerbuttons & GAMECONTROLLER_A)
             {
                 key = (messagetoprint && messageneedsinput ? 'y' : KEY_ENTER);
-                gamecontrollerwait = I_GetTime() + 8 * !(currentmenu == &OptionsDef && itemon == mousesens);
+                gamecontrollerwait = I_GetTime() + (uint64_t)8 * !(currentmenu == &OptionsDef && itemon == mousesens);
                 usinggamecontroller = true;
             }
 
@@ -2649,7 +2649,7 @@ bool M_Responder(event_t *ev)
                 {
                     key = KEY_DOWNARROW;
                     keywait = 0;
-                    gamecontrollerwait = I_GetTime() + 8;
+                    gamecontrollerwait = I_GetTime() + 8ui64;
                     usinggamecontroller = true;
                 }
 
@@ -2658,7 +2658,7 @@ bool M_Responder(event_t *ev)
                     && !(currentmenu == &OptionsDef && itemon == msgs))
                 {
                     key = KEY_LEFTARROW;
-                    gamecontrollerwait = I_GetTime() + 6 * !(currentmenu == &OptionsDef && itemon == mousesens);
+                    gamecontrollerwait = I_GetTime() + (uint64_t)6 * !(currentmenu == &OptionsDef && itemon == mousesens);
                     usinggamecontroller = true;
                 }
 
@@ -2667,7 +2667,7 @@ bool M_Responder(event_t *ev)
                     && !(currentmenu == &OptionsDef && itemon == msgs))
                 {
                     key = KEY_RIGHTARROW;
-                    gamecontrollerwait = I_GetTime() + 6 * !(currentmenu == &OptionsDef && itemon == mousesens);
+                    gamecontrollerwait = I_GetTime() + (uint64_t)6 * !(currentmenu == &OptionsDef && itemon == mousesens);
                     usinggamecontroller = true;
                 }
             }

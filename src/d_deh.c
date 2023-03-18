@@ -2253,7 +2253,7 @@ void D_BuildBEXTables(void)
 // substantially modified to allow input from WAD lumps instead of .deh files.
 void D_ProcessDehFile(char *filename, int lumpnum, bool autoloaded)
 {
-    DEHFILE infile;
+    DEHFILE infile = { 0 };
     DEHFILE *filein = &infile;              // killough 10/98
     char    inbuffer[DEH_BUFFERMAX];        // Place to put the primary infostring
 
@@ -4328,34 +4328,33 @@ static char *ptr_lstrip(char *p)    // point past leading whitespace
 //
 static int deh_GetData(char *s, char *k, int *l, char **strval)
 {
-    char            *t;                     // current char
-    unsigned int    val;                    // to hold value of pair
-    char            buffer[DEH_MAXKEYLEN];  // to hold key in progress
-    int             okrc = 1;               // assume good unless we have problems
-    int             i;                      // iterator
+    char            *t;                         // current char
+    unsigned int    val;                        // to hold value of pair
+    char            buffer[DEH_MAXKEYLEN] = ""; // to hold key in progress
+    int             okrc = 1;                   // assume good unless we have problems
+    int             i;                          // iterator
 
-    *buffer = '\0';
-    val = 0;                                // defaults in case not otherwise set
+    val = 0;                                    // defaults in case not otherwise set
 
     for (i = 0, t = s; *t && i < DEH_MAXKEYLEN; t++, i++)
     {
         if (*t == '=')
             break;
 
-        buffer[i] = *t;                     // copy it
+        buffer[i] = *t;                         // copy it
     }
 
     if (i >= 1 && isspace((unsigned char)buffer[i - 1]))
         i--;
 
-    buffer[i] = '\0';                       // terminate the key before the '='
+    buffer[i] = '\0';                           // terminate the key before the '='
 
-    if (!*t)                                // end of string with no equal sign
+    if (!*t)                                    // end of string with no equal sign
         okrc = 0;
     else
     {
         if (!*++t)
-            okrc = 0;                       // in case "thiskey =" with no value
+            okrc = 0;                           // in case "thiskey =" with no value
 
         // we've incremented t
         if (!M_StrToInt(t, (int *)&val))
@@ -4366,14 +4365,14 @@ static int deh_GetData(char *s, char *k, int *l, char **strval)
     }
 
     // go put the results in the passed pointers
-    *l = val;                           // may be a faked zero
+    *l = val;                                   // may be a faked zero
 
     // if spaces between key and equal sign, strip them
-    strcpy(k, ptr_lstrip(buffer));      // could be a zero-length string
+    strcpy(k, ptr_lstrip(buffer));              // could be a zero-length string
 
-    if (strval)                         // pass NULL if you don't want this back
-        *strval = t;                    // pointer, has to be somewhere in s,
-                                        // even if pointing at the zero byte.
+    if (strval)                                 // pass NULL if you don't want this back
+        *strval = t;                            // pointer, has to be somewhere in s,
+                                                // even if pointing at the zero byte.
     return okrc;
 }
 

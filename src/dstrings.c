@@ -62,7 +62,7 @@ char **endmsg[] =
     &s_QUITMSG14
 };
 
-char *devendmsg[] =
+char **devendmsg[] =
 {
     &s_DEVQUITMSG1,
     &s_DEVQUITMSG2,
