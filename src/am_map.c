@@ -843,11 +843,8 @@ bool AM_Responder(const event_t *ev)
 
                     if (key2)
                     {
-                        event_t temp;
+                        event_t temp = { ev_keydown, key2, 0, 0 };
 
-                        temp.type = ev_keydown;
-                        temp.data1 = key2;
-                        temp.data2 = 0;
                         D_PostEvent(&temp);
                     }
                 }
@@ -1479,14 +1476,10 @@ static void AM_DrawWalls(void)
 
             if ((flags & ML_MAPPED) && !(flags & ML_DONTDRAW))
             {
-                mline_t                 mline;
+                mline_t                 mline = { line.v1->x >> FRACTOMAPBITS, line.v1->y >> FRACTOMAPBITS,
+                                                  line.v2->x >> FRACTOMAPBITS, line.v2->y >> FRACTOMAPBITS };
                 const unsigned short    special = line.special;
                 byte                    *doorcolor;
-
-                mline.a.x = line.v1->x >> FRACTOMAPBITS;
-                mline.a.y = line.v1->y >> FRACTOMAPBITS;
-                mline.b.x = line.v2->x >> FRACTOMAPBITS;
-                mline.b.y = line.v2->y >> FRACTOMAPBITS;
 
                 mline = rotatelinefunc(mline);
 
@@ -1532,14 +1525,10 @@ static void AM_DrawWalls_AllMap(void)
 
             if (!(flags & ML_DONTDRAW))
             {
-                mline_t                 mline;
+                mline_t                 mline = { line.v1->x >> FRACTOMAPBITS, line.v1->y >> FRACTOMAPBITS,
+                                                  line.v2->x >> FRACTOMAPBITS, line.v2->y >> FRACTOMAPBITS };
                 const unsigned short    special = line.special;
                 byte                    *doorcolor;
-
-                mline.a.x = line.v1->x >> FRACTOMAPBITS;
-                mline.a.y = line.v1->y >> FRACTOMAPBITS;
-                mline.b.x = line.v2->x >> FRACTOMAPBITS;
-                mline.b.y = line.v2->y >> FRACTOMAPBITS;
 
                 mline = rotatelinefunc(mline);
 
@@ -1584,14 +1573,10 @@ static void AM_DrawWalls_Cheating(void)
             && (lbbox[BOXBOTTOM] >> FRACTOMAPBITS) <= am_frame.bbox[BOXTOP]
             && (lbbox[BOXTOP] >> FRACTOMAPBITS) >= am_frame.bbox[BOXBOTTOM])
         {
-            mline_t                 mline;
+            mline_t                 mline = { line.v1->x >> FRACTOMAPBITS, line.v1->y >> FRACTOMAPBITS,
+                                              line.v2->x >> FRACTOMAPBITS, line.v2->y >> FRACTOMAPBITS };
             const unsigned short    special = line.special;
             byte                    *doorcolor;
-
-            mline.a.x = line.v1->x >> FRACTOMAPBITS;
-            mline.a.y = line.v1->y >> FRACTOMAPBITS;
-            mline.b.x = line.v2->x >> FRACTOMAPBITS;
-            mline.b.y = line.v2->y >> FRACTOMAPBITS;
 
             mline = rotatelinefunc(mline);
 
@@ -1769,7 +1754,7 @@ static void AM_DrawThings(void)
             if ((!thing->player || thing->player->mo != thing) && !(thing->flags2 & MF2_DONTMAP))
             {
                 angle_t     angle = thing->angle;
-                mpoint_t    point;
+                mpoint_t    point = { 0, 0 };
                 int         flags = thing->flags;
                 int         fx, fy;
                 int         width;

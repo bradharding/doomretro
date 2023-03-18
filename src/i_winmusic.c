@@ -104,7 +104,7 @@ static buffer_t buffer;
 // Message for midiStream errors.
 static void MidiErrorMessage(DWORD dwError)
 {
-    char    szErrorBuf[MAXERRORLENGTH];
+    char    szErrorBuf[MAXERRORLENGTH] = "";
 
     midiOutGetErrorText(dwError, (LPSTR)szErrorBuf, MAXERRORLENGTH);
     C_Warning(1, "%s", szErrorBuf);
@@ -443,8 +443,8 @@ void I_Windows_RegisterSong(void *data, int size)
 {
     SDL_RWops       *rwops = SDL_RWFromMem(data, size);
     midi_file_t     *file = MIDI_LoadFile(rwops);
-    MIDIPROPTIMEDIV timediv;
-    MIDIPROPTEMPO   tempo;
+    MIDIPROPTIMEDIV timediv = { 0 };
+    MIDIPROPTEMPO   tempo = { 0 };
     MMRESULT        mmr;
 
     if (!file)

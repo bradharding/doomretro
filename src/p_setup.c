@@ -2314,9 +2314,9 @@ static void P_CreateBlockMap(void)
         // blocklist structure
         typedef struct
         {
-            int n;
-            int nalloc;
-            int *list;
+            int     n;
+            size_t  nalloc;
+            int     *list;
         } bmap_t;
 
         unsigned int    tot = bmapwidth * bmapheight;           // size of blockmap
@@ -3301,7 +3301,8 @@ static bool P_ParseMapInfo(char *scriptname)
             {
                 if (M_StringEndsWith(lumpinfo[MAPINFO]->wadfile->path, "NERVE.WAD"))
                 {
-                    C_Warning(1, "The map markers in PWAD " BOLD("%s") " are invalid.", lumpinfo[MAPINFO]->wadfile->path);
+                    C_Warning(1, "The map markers in PWAD " BOLD("%s") " are invalid.",
+                        lumpinfo[MAPINFO]->wadfile->path);
                     nerve = false;
                     NewDef.prevmenu = &MainDef;
                     MAPINFO = -1;
@@ -3414,6 +3415,7 @@ static bool P_ParseMapInfo(char *scriptname)
                         case MCMD_INTERTEXTSECRET:
                         {
                             char    buffer[1024] = "";
+                            bool    firststring = false;
 
                             while (SC_GetString())
                             {
@@ -3423,8 +3425,11 @@ static bool P_ParseMapInfo(char *scriptname)
                                     break;
                                 }
 
-                                if (!buffer[0])
+                                if (!firststring)
+                                {
+                                    firststring = true;
                                     M_StringCopy(buffer, sc_String, sizeof(buffer));
+                                }
                                 else
                                 {
                                     strcat(buffer, "\n");
@@ -3439,6 +3444,7 @@ static bool P_ParseMapInfo(char *scriptname)
                         case MCMD_INTERTEXT:
                         {
                             char    buffer[1024] = "";
+                            bool    firststring = false;
 
                             while (SC_GetString())
                             {
@@ -3448,8 +3454,11 @@ static bool P_ParseMapInfo(char *scriptname)
                                     break;
                                 }
 
-                                if (!strlen(buffer))
+                                if (!firststring)
+                                {
+                                    firststring = true;
                                     M_StringCopy(buffer, sc_String, sizeof(buffer));
+                                }
                                 else
                                 {
                                     strcat(buffer, "\n");
