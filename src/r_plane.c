@@ -183,8 +183,11 @@ static visplane_t *new_visplane(const unsigned int hash)
     else if (!(freetail = freetail->next))
         freehead = &freetail;
 
-    check->next = visplanes[hash];
-    visplanes[hash] = check;
+    if (check)
+    {
+        check->next = visplanes[hash];
+        visplanes[hash] = check;
+    }
 
     return check;
 }

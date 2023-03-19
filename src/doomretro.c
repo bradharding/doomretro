@@ -152,7 +152,7 @@ static void I_AccessibilityShortcutKeys(bool bAllowKeys)
 void I_InitWindows32(void)
 {
     HINSTANCE       handle = GetModuleHandle(NULL);
-    SDL_SysWMinfo   info;
+    SDL_SysWMinfo   info = { 0 };
     HWND            hwnd;
 
     SetPriorityClass(GetCurrentProcess(), ABOVE_NORMAL_PRIORITY_CLASS);

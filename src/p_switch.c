@@ -90,7 +90,8 @@ void P_InitSwitchList(void)
         static int  max_numswitches;
 
         if (index + 1 >= max_numswitches)
-            switchlist = I_Realloc(switchlist, (max_numswitches = (max_numswitches ? max_numswitches * 2 : 8)) * sizeof(*switchlist));
+            switchlist = I_Realloc(switchlist,
+                (size_t)(max_numswitches = (max_numswitches ? max_numswitches * 2 : 8)) * sizeof(*switchlist));
 
         if (SHORT(alphSwitchList[i].episode) <= episode)    // jff 5/11/98 endianness
         {
@@ -103,10 +104,12 @@ void P_InitSwitchList(void)
             // Ignore switches referencing unknown texture names, instead of exiting.
             // Warn if either one is missing, but only add if both are valid.
             if ((texture1 = R_CheckTextureNumForName(alphSwitchList[i].name1)) == -1)
-                C_Warning(1, "Switch %i in the " BOLD("SWITCHES") " lump has an unknown " BOLD("%s") " texture.", i, alphSwitchList[i].name1);
+                C_Warning(1, "Switch %i in the " BOLD("SWITCHES") " lump has an unknown " BOLD("%s") " texture.",
+                    i, alphSwitchList[i].name1);
 
             if ((texture2 = R_CheckTextureNumForName(alphSwitchList[i].name2)) == -1)
-                C_Warning(1, "Switch %i in the " BOLD("SWITCHES") " lump has an unknown " BOLD("%s") " texture.", i, alphSwitchList[i].name2);
+                C_Warning(1, "Switch %i in the " BOLD("SWITCHES") " lump has an unknown " BOLD("%s") " texture.",
+                    i, alphSwitchList[i].name2);
 
             if (texture1 != -1 && texture2 != -1)
             {
@@ -365,7 +368,7 @@ bool P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
         case DR_Door_OpenWaitClose_Fast:
             if (nomonsters && (line->flags & ML_TRIGGER666))
             {
-                line_t  junk;
+                line_t  junk = { 0 };
 
                 junk.tag = 666;
                 EV_DoFloor(&junk, lowerFloorToLowest);
@@ -448,7 +451,7 @@ bool P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
 
             if (nomonsters && (line->flags & ML_TRIGGER666))
             {
-                line_t  junk;
+                line_t  junk = { 0 };
 
                 junk.tag = 666;
                 EV_DoFloor(&junk, lowerFloorToLowest);

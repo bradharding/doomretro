@@ -99,7 +99,7 @@ static bool IsFreedoom(const char *iwadname)
     // read IWAD header
     if (fread(&header, 1, sizeof(header), fp) == sizeof(header))
     {
-        filelump_t  lump;
+        filelump_t  lump = { 0 };
         const char  *n = lump.name;
 
         fseek(fp, LONG(header.infotableofs), SEEK_SET);
@@ -129,7 +129,7 @@ static bool IsBFGEdition(const char *iwadname)
     // read IWAD header
     if (fread(&header, 1, sizeof(header), fp) == sizeof(header))
     {
-        filelump_t  lump;
+        filelump_t  lump = { 0 };
         const char  *n = lump.name;
 
         fseek(fp, LONG(header.infotableofs), SEEK_SET);
@@ -167,7 +167,7 @@ bool IsUltimateDOOM(const char *iwadname)
     // read IWAD header
     if (fread(&header, 1, sizeof(header), fp) == sizeof(header))
     {
-        filelump_t  lump;
+        filelump_t  lump = { 0 };
         const char  *n = lump.name;
 
         fseek(fp, LONG(header.infotableofs), SEEK_SET);
@@ -483,7 +483,7 @@ unsigned int W_LumpNameHash(const char *s)
 bool HasDehackedLump(const char *pwadname)
 {
     FILE        *fp = fopen(pwadname, "rb");
-    filelump_t  lump;
+    filelump_t  lump = { 0 };
     wadinfo_t   header;
     const char  *n = lump.name;
     int         result = false;
@@ -527,7 +527,7 @@ gamemission_t IWADRequiredByPWAD(char *pwadname)
         }
         else
         {
-            filelump_t  lump;
+            filelump_t  lump = { 0 };
             const char  *n = lump.name;
 
             fseek(fp, LONG(header.infotableofs), SEEK_SET);

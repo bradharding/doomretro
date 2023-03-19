@@ -379,7 +379,7 @@ bool mus2mid(MEMFILE *musinput, MEMFILE *midioutput)
     musheader   musfileheader;
 
     // Buffer used for MIDI track size record
-    byte        tracksizebuffer[4];
+    byte        tracksizebuffer[4] = { 0 };
 
     // Flag for when the score end marker is hit.
     int         hitscoreend = 0;

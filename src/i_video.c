@@ -347,14 +347,14 @@ static const SDL_Scancode keypad[] =
 
 static void I_GetEvent(void)
 {
-    SDL_Event   SDLEvent;
+    SDL_Event   SDLEvent = { 0 };
     SDL_Event   *Event = &SDLEvent;
 
     SDL_PumpEvents();
 
     while (SDL_PollEvent(Event))
     {
-        event_t     ev;
+        event_t     ev = { 0 };
 
 #if !defined(_WIN32)
         static bool enterdown;
@@ -700,7 +700,7 @@ static void I_ReadMouse(void)
 
     if (x || y || mousebuttonstate != prevmousebuttonstate)
     {
-        event_t ev;
+        event_t ev = { 0 };
 
         ev.type = ev_mouse;
         ev.data1 = mousebuttonstate;
@@ -1886,8 +1886,8 @@ void I_InitKeyboard(void)
 
 void I_InitGraphics(void)
 {
-    SDL_version linked;
-    SDL_version compiled;
+    SDL_version linked = { 0 };
+    SDL_version compiled = { 0 };
 
     SDL_GetVersion(&linked);
     SDL_VERSION(&compiled);

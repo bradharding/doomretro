@@ -1958,7 +1958,7 @@ void A_Explode(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_BossDeath(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    line_t  junk;
+    line_t  junk = { 0 };
 
     if (gamemode == commercial)
     {
@@ -2309,7 +2309,7 @@ void A_PlayerScream(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_KeenDie(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    line_t  junk;
+    line_t  junk = { 0 };
 
     A_Fall(actor, NULL, NULL);
 
@@ -2466,7 +2466,7 @@ void A_RandomJump(mobj_t *actor, player_t *player, pspdef_t *psp)
 void A_LineEffect(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
     line_t      junk = *lines;
-    player_t    newplayer;
+    player_t    newplayer = { 0 };
     player_t    *oldplayer = actor->player;
 
     actor->player = &newplayer;

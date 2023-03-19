@@ -1728,7 +1728,7 @@ void C_Drawer(void)
 bool C_ExecuteInputString(const char *input)
 {
     char    *string = M_StringDuplicate(input);
-    char    *strings[255];
+    char    *strings[255] = { "" };
     int     j = 0;
 
     M_StripQuotes(string);
@@ -1956,7 +1956,7 @@ bool C_Responder(event_t *ev)
                     else
                     {
                         char    *string = M_StringDuplicate(consoleinput);
-                        char    *strings[255];
+                        char    *strings[255] = { "" };
 
                         strings[0] = strtok(string, ";");
                         i = 0;

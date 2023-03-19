@@ -95,7 +95,7 @@ static bool P_CrossSubsector(const int num)
         sector_t    *back;
         fixed_t     top;
         fixed_t     bottom;
-        divline_t   divl;
+        divline_t   divl = { 0 };
         vertex_t    *v1;
         vertex_t    *v2;
 

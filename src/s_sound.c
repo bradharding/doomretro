@@ -569,7 +569,8 @@ void S_SetMusicVolume(int volume)
 
 void S_LowerMusicVolume(void)
 {
-    I_SetMusicVolume((int)(musicvolume * (MIX_MAX_VOLUME - 1) / 31 / (s_lowermenumusic ? LOWER_MUSIC_VOLUME_FACTOR : 1.0f)));
+    I_SetMusicVolume((int)(musicvolume * (MIX_MAX_VOLUME - 1) / 31.0
+        / (s_lowermenumusic ? LOWER_MUSIC_VOLUME_FACTOR : 1.0f)));
 }
 
 void S_RestoreMusicVolume(void)
@@ -761,7 +762,7 @@ void S_ParseMusInfo(char *mapid)
         while (SC_GetString())
             if (inMap || SC_Compare(mapid))
             {
-                unsigned int    num;
+                unsigned int    num = 0;
 
                 if (!inMap)
                 {

@@ -1025,7 +1025,7 @@ bool P_ReadSaveGameHeader(char *description)
 {
     byte    a, b, c;
     char    vcheck[VERSIONSIZE];
-    char    read_vcheck[VERSIONSIZE];
+    char    read_vcheck[VERSIONSIZE] = "";
 
     for (int i = 0; i < SAVESTRINGSIZE; i++)
         description[i] = saveg_read8();
@@ -1713,7 +1713,7 @@ void P_UnArchiveMap(void)
 
     if ((markpointnum = saveg_read32()))
     {
-        markpoints = I_Realloc(markpoints, (markpointnum_max = markpointnum * 2) * sizeof(*markpoints));
+        markpoints = I_Realloc(markpoints, (size_t)(markpointnum_max = markpointnum * 2) * sizeof(*markpoints));
 
         for (int i = 0; i < markpointnum; i++)
         {
@@ -1724,7 +1724,7 @@ void P_UnArchiveMap(void)
 
     if ((numbreadcrumbs = saveg_read32()))
     {
-        breadcrumb = I_Realloc(breadcrumb, (maxbreadcrumbs = numbreadcrumbs * 2) * sizeof(*breadcrumb));
+        breadcrumb = I_Realloc(breadcrumb, (size_t)(maxbreadcrumbs = numbreadcrumbs * 2) * sizeof(*breadcrumb));
 
         for (int i = 0; i < numbreadcrumbs; i++)
         {

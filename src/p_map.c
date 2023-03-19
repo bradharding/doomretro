@@ -326,7 +326,7 @@ static bool PIT_CrossLine(line_t *ld)
 static int untouched(line_t *ld)
 {
     fixed_t         x, y;
-    fixed_t         bbox[4];
+    fixed_t         bbox[4] = { 0 };
     const fixed_t   tmradius = tmthing->radius;
 
     return ((bbox[BOXRIGHT] = (x = tmthing->x) + tmradius) <= ld->bbox[BOXLEFT]

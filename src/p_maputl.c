@@ -474,7 +474,7 @@ static bool PIT_AddLineIntercepts(line_t *ld)
     int         s1;
     int         s2;
     fixed_t     frac;
-    divline_t   dl;
+    divline_t   dl = { 0 };
 
     // avoid precision problems with two routines
     if (dltrace.dx < -16 * FRACUNIT || dltrace.dx > 16 * FRACUNIT
@@ -517,7 +517,7 @@ static bool PIT_AddLineIntercepts(line_t *ld)
 static bool PIT_AddThingIntercepts(mobj_t *thing)
 {
     int         numfronts = 0;
-    divline_t   dl;
+    divline_t   dl = { 0 };
     fixed_t     radius;
     fixed_t     x, y;
 
