@@ -141,7 +141,7 @@
 #define SDL_IMAGE_FILENAME                  "SDL2_image.so"
 #endif
 
-#define BINDLISTHEADER                      "\tCONTROL\t+ACTION/COMMAND(S)"
+#define BINDLISTHEADER                      "\tCONTROL\tTYPE\t+ACTION/COMMAND(S)"
 #define CMDLISTHEADER                       "\tCCMD\tDESCRIPTION"
 #define CVARLISTHEADER                      "\tCVAR\tVALUE\tDESCRIPTION"
 #define MAPLISTHEADER                       "\tMAP\tTITLE\tWAD"

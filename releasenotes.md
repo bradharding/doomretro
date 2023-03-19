@@ -29,6 +29,7 @@
 * A bug is fixed whereby the number of monsters in the map may have been wrong after loading a savegame in some instances.
 * Blood splats are no longer overly bright when the `r_textures` CVAR is `off`.
 * Masked midtextures with brightmaps now display correctly when the `r_brightmaps` CVAR is `on`.
+* The `bindlist` CCMD now groups bound controls by their type.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
