@@ -89,6 +89,8 @@ void R_DrawWallColumn(void);
 void R_DrawDitherLowWallColumn(void);
 void R_DrawDitherWallColumn(void);
 void R_DrawBrightmapWallColumn(void);
+void R_DrawBrightmapDitherLowColumn(void);
+void R_DrawBrightmapDitherColumn(void);
 void R_DrawBrightmapDitherLowWallColumn(void);
 void R_DrawBrightmapDitherWallColumn(void);
 void R_DrawColorDitherLowColumn(void);

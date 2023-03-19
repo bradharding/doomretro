@@ -456,10 +456,10 @@ void (*colfunc)(void);
 void (*wallcolfunc)(void);
 void (*altwallcolfunc)(void);
 void (*missingcolfunc)(void);
-void (*bmapcolfunc)(void);
 void (*bmapwallcolfunc)(void);
 void (*altbmapwallcolfunc)(void);
 void (*segcolfunc)(void);
+void (*bmapsegcolfunc)(void);
 void (*translatedcolfunc)(void);
 void (*basecolfunc)(void);
 void (*tlcolfunc)(void);
@@ -583,7 +583,6 @@ void R_InitColumnFunctions(void)
     {
         skycolfunc = (canmodify && !transferredsky && (gamemode != commercial || gamemap < 21) && !canmouselook ?
             &R_DrawFlippedSkyColumn : &R_DrawWallColumn);
-        bmapcolfunc = &R_DrawBrightmapColumn;
 
         if (r_ditheredlighting)
         {
@@ -595,6 +594,7 @@ void R_InitColumnFunctions(void)
                 missingcolfunc = &R_DrawColorDitherLowColumn;
                 bmapwallcolfunc = &R_DrawBrightmapDitherLowWallColumn;
                 segcolfunc = &R_DrawDitherLowColumn;
+                bmapsegcolfunc = &R_DrawBrightmapDitherLowColumn;
                 tl50segcolfunc = (r_textures_translucency ? &R_DrawDitherLowTranslucent50Column : &R_DrawDitherLowColumn);
                 spanfunc = &R_DrawDitherLowSpan;
             }
@@ -606,6 +606,7 @@ void R_InitColumnFunctions(void)
                 missingcolfunc = &R_DrawColorDitherColumn;
                 bmapwallcolfunc = &R_DrawBrightmapDitherWallColumn;
                 segcolfunc = &R_DrawDitherColumn;
+                bmapsegcolfunc = &R_DrawBrightmapDitherColumn;
                 tl50segcolfunc = (r_textures_translucency ? &R_DrawDitherTranslucent50Column : &R_DrawDitherColumn);
                 spanfunc = &R_DrawDitherSpan;
             }
@@ -704,6 +705,7 @@ void R_InitColumnFunctions(void)
             bmapwallcolfunc = &R_DrawBrightmapWallColumn;
             altbmapwallcolfunc = &R_DrawBrightmapWallColumn;
             segcolfunc = &R_DrawColumn;
+            bmapsegcolfunc = &R_DrawBrightmapColumn;
             tl50segcolfunc = (r_textures_translucency ? &R_DrawTranslucent50Column : &R_DrawColumn);
             spanfunc = &R_DrawSpan;
             altspanfunc = &R_DrawSpan;
@@ -763,7 +765,6 @@ void R_InitColumnFunctions(void)
     else
     {
         skycolfunc = &R_DrawColorColumn;
-        bmapcolfunc = &R_DrawColorColumn;
 
         if (r_ditheredlighting)
         {
@@ -775,6 +776,7 @@ void R_InitColumnFunctions(void)
                 missingcolfunc = &R_DrawColorDitherLowColumn;
                 bmapwallcolfunc = &R_DrawColorDitherLowColumn;
                 segcolfunc = &R_DrawColorDitherLowColumn;
+                bmapsegcolfunc = &R_DrawColorDitherLowColumn;
                 tl50segcolfunc = (r_textures_translucency ? &R_DrawTranslucent50ColorDitherLowColumn : &R_DrawColorDitherLowColumn);
                 spanfunc = &R_DrawDitherLowColorSpan;
                 tlcolfunc = (r_sprites_translucency ? &R_DrawTranslucent50ColorColumn : &R_DrawColorDitherLowColumn);
@@ -798,6 +800,7 @@ void R_InitColumnFunctions(void)
                 missingcolfunc = &R_DrawColorDitherColumn;
                 bmapwallcolfunc = &R_DrawColorDitherColumn;
                 segcolfunc = &R_DrawColorDitherColumn;
+                bmapsegcolfunc = &R_DrawColorDitherColumn;
                 tl50segcolfunc = (r_textures_translucency ? &R_DrawTranslucent50ColorDitherColumn : &R_DrawColorDitherColumn);
                 spanfunc = &R_DrawDitherColorSpan;
                 tlcolfunc = (r_sprites_translucency ? &R_DrawTranslucent50ColorColumn : &R_DrawColorDitherColumn);
@@ -822,6 +825,7 @@ void R_InitColumnFunctions(void)
             missingcolfunc = &R_DrawColorColumn;
             bmapwallcolfunc = &R_DrawColorColumn;
             segcolfunc = &R_DrawColorColumn;
+            bmapsegcolfunc = &R_DrawColorColumn;
             tl50segcolfunc = (r_textures_translucency ? &R_DrawTranslucent50ColorColumn : &R_DrawColorColumn);
             spanfunc = &R_DrawColorSpan;
             tlcolfunc = (r_sprites_translucency ? &R_DrawTranslucent50ColorColumn : &R_DrawColorColumn);

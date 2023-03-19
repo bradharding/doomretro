@@ -102,7 +102,7 @@ extern bool         drawbloodsplats;
 extern void (*colfunc)(void);
 extern void (*wallcolfunc)(void);
 extern void (*altwallcolfunc)(void);
-extern void (*bmapcolfunc)(void);
+extern void (*bmapsegcolfunc)(void);
 extern void (*bmapwallcolfunc)(void);
 extern void (*missingcolfunc)(void);
 extern void (*altbmapwallcolfunc)(void);
