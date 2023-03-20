@@ -505,7 +505,7 @@ int C_TextWidth(const char *text, const bool formatting, const bool kerning)
         else if (letter == 215 || (letter == 'x' && isdigit(prevletter)
             && ((nextletter = (i < len - 1 ? text[i + 1] : '\0')) == '\0' || isdigit(nextletter))))
             width += SHORT(multiply->width);
-        else if (letter == '-' && prevletter == ' ')
+        else if (letter == '-' && prevletter == ' ' && !isdigit(nextletter))
             width += SHORT(endash->width);
         else if (!i || prevletter == ' ' || prevletter == '(' || prevletter == '[' || prevletter == '\t')
         {
@@ -938,7 +938,8 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
             }
             else if (letter == 'x' && isdigit(prevletter) && (i == len - 1 || isdigit(nextletter)))
                 patch = multiply;
-            else if (letter == '-' && (prevletter == ' ' || (prevletter == BOLDONCHAR && prevletter2 == ' ')))
+            else if (letter == '-' && (prevletter == ' ' || (prevletter == BOLDONCHAR && prevletter2 == ' '))
+                && !isdigit(nextletter))
                 patch = endash;
             else if (letter == '\n')
                 break;
