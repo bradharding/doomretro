@@ -207,7 +207,7 @@ static anim_t epsd2animinfo[] =
     { ANIM_ALWAYS, TICRATE / 4, 3, {  40,   0 }, 0 }
 };
 
-static int NUMANIMS[] =
+static int numanims[] =
 {
     arrlen(epsd0animinfo),
     arrlen(epsd1animinfo),
@@ -255,7 +255,7 @@ static int              cnt_par;
 static int              cnt_pause;
 
 // # of commercial levels
-static int              NUMCMAPS;
+static int              numcmaps;
 
 //
 // GRAPHICS
@@ -513,7 +513,7 @@ static void WI_InitAnimatedBack(void)
     if (wbs->epsd > 2)
         return;
 
-    for (int i = 0; i < NUMANIMS[wbs->epsd]; i++)
+    for (int i = 0; i < numanims[wbs->epsd]; i++)
     {
         anim_t  *a = &anims[wbs->epsd][i];
 
@@ -539,7 +539,7 @@ static void WI_UpdateAnimatedBack(void)
     if (wbs->epsd > 2)
         return;
 
-    for (int i = 0; i < NUMANIMS[wbs->epsd]; i++)
+    for (int i = 0; i < numanims[wbs->epsd]; i++)
     {
         anim_t  *a = &anims[wbs->epsd][i];
 
@@ -583,7 +583,7 @@ static void WI_DrawAnimatedBack(void)
     if (wbs->epsd > 2)
         return;
 
-    for (int i = 0; i < NUMANIMS[wbs->epsd]; i++)
+    for (int i = 0; i < numanims[wbs->epsd]; i++)
     {
         a = &anims[wbs->epsd][i];
 
@@ -1104,7 +1104,7 @@ static void WI_LoadUnloadData(load_callback_t callback)
 
     if (gamemode == commercial)
     {
-        for (int i = 0; i < NUMCMAPS; i++)
+        for (int i = 0; i < numcmaps; i++)
         {
             M_snprintf(name, sizeof(name), "CWILV%02i", i);
             callback(name, &lnames[i]);
@@ -1128,7 +1128,7 @@ static void WI_LoadUnloadData(load_callback_t callback)
         callback("WISPLAT", &splat[0]);
 
         if (wbs->epsd < 3)
-            for (int j = 0; j < NUMANIMS[wbs->epsd]; j++)
+            for (int j = 0; j < numanims[wbs->epsd]; j++)
             {
                 anim_t  *a = &anims[wbs->epsd][j];
 
@@ -1148,7 +1148,7 @@ static void WI_LoadUnloadData(load_callback_t callback)
             }
     }
 
-    for (int i = 0; i < 10; i++)
+    for (int i = 0; i <= 9; i++)
     {
         // numbers 0-9
         M_snprintf(name, sizeof(name), "WINUM%i", i);
@@ -1197,8 +1197,8 @@ static void WI_LoadData(void)
 
     if (gamemode == commercial)
     {
-        NUMCMAPS = 32 + (W_CheckNumForName("CWILV32") >= 0);
-        lnames = Z_Malloc(NUMCMAPS * sizeof(patch_t *), PU_STATIC, NULL);
+        numcmaps = 32 + (W_CheckNumForName("CWILV32") >= 0);
+        lnames = Z_Malloc(numcmaps * sizeof(patch_t *), PU_STATIC, NULL);
     }
     else
         lnames = Z_Malloc(NUMMAPS * sizeof(patch_t *), PU_STATIC, NULL);

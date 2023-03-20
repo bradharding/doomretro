@@ -4210,7 +4210,7 @@ static void maplist_cmd_func2(char *cmd, char *parms)
                         lump[0] = 'C';
 
                     M_snprintf(maps[count++], sizeof(maps[0]), "%s\t" ITALICS("%s") "\t%s", lump,
-                        (replaced && dehcount == 1 && !*mapinfoname ? "-" : temp), wadname);
+                        (replaced && dehcount == 1 && !*mapinfoname ? "\x96" : temp), wadname);
                     free(temp);
                 }
 
@@ -4234,7 +4234,7 @@ static void maplist_cmd_func2(char *cmd, char *parms)
                         temp = titlecase(*mapinfoname ? mapinfoname : (bfgedition ? *mapnames2_bfg[map] : *mapnames2[map]));
                         removemapnum(temp);
                         M_snprintf(maps[count++], sizeof(maps[0]), "%s\t" ITALICS("%s") "\t%s", lump,
-                            (replaced && dehcount == 1 && !nerve && !*mapinfoname ? "-" : temp), wadname);
+                            (replaced && dehcount == 1 && !nerve && !*mapinfoname ? "\x96" : temp), wadname);
                         free(temp);
                     }
                 }
@@ -4258,7 +4258,7 @@ static void maplist_cmd_func2(char *cmd, char *parms)
                     temp = titlecase(*mapinfoname ? mapinfoname : *mapnamesp[map]);
                     removemapnum(temp);
                     M_snprintf(maps[count++], sizeof(maps[0]), "%s\t" ITALICS("%s") "\t%s", lump,
-                        (replaced && dehcount == 1 && !*mapinfoname ? "-" : temp), wadname);
+                        (replaced && dehcount == 1 && !*mapinfoname ? "\x96" : temp), wadname);
                     free(temp);
                 }
 
@@ -4270,7 +4270,7 @@ static void maplist_cmd_func2(char *cmd, char *parms)
                     temp = titlecase(*mapinfoname ? mapinfoname : *mapnamest[map]);
                     removemapnum(temp);
                     M_snprintf(maps[count++], sizeof(maps[0]), "%s\t" ITALICS("%s") "\t%s", lump,
-                        (replaced && dehcount == 1 && !*mapinfoname ? "-" : temp), wadname);
+                        (replaced && dehcount == 1 && !*mapinfoname ? "\x96" : temp), wadname);
                     free(temp);
                 }
 
@@ -7806,11 +7806,11 @@ static void thinglist_cmd_func2(char *cmd, char *parms)
         else
             M_snprintf(name, sizeof(name), "%s%s%s", ((mobj->flags & MF_CORPSE) && !(mobj->flags2 & MF2_DECORATION) ? "dead " :
                 ((mobj->flags & MF_FRIEND) && mobj->type != MT_PLAYER ? "friendly " : ((mobj->flags & MF_DROPPED) ? "dropped " : ""))),
-                (mobj->type == MT_PLAYER ? "voodoo doll" : (*mobj->info->name1 ? mobj->info->name1 : "-")),
+                (mobj->type == MT_PLAYER ? "voodoo doll" : (*mobj->info->name1 ? mobj->info->name1 : "\x96")),
                 ((mobj->flags & MF_MISSILE) ? " projectile" : ""));
 
         temp2 = sentencecase(name);
-        C_TabbedOutput(tabs, MONOSPACED("%s") "%s\t%s\t(%i, %i, %i)", (mobj->id >= 0 ? temp1 : "-"), (mobj->id >= 0 ? "." : ""),
+        C_TabbedOutput(tabs, MONOSPACED("%s") "%s\t%s\t(%i, %i, %i)", (mobj->id >= 0 ? temp1 : "\x96"), (mobj->id >= 0 ? "." : ""),
             temp2, mobj->x >> FRACBITS, mobj->y >> FRACBITS, mobj->z >> FRACBITS);
         free(temp1);
         free(temp2);
