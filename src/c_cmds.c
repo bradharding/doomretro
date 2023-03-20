@@ -7796,24 +7796,41 @@ static void thinglist_cmd_func2(char *cmd, char *parms)
     {
         mobj_t  *mobj = (mobj_t *)th;
         char    name[128];
-        char    *temp1 = commify(mobj->id);
-        char    *temp2;
+        char    *temp1;
 
         if (mobj == viewplayer->mo)
             M_StringCopy(name, playername, sizeof(name));
         else if (*mobj->name)
             M_StringCopy(name, mobj->name, sizeof(name));
         else
-            M_snprintf(name, sizeof(name), "%s%s%s", ((mobj->flags & MF_CORPSE) && !(mobj->flags2 & MF2_DECORATION) ? "dead " :
-                ((mobj->flags & MF_FRIEND) && mobj->type != MT_PLAYER ? "friendly " : ((mobj->flags & MF_DROPPED) ? "dropped " : ""))),
+            M_snprintf(name, sizeof(name), "%s%s%s",
+                ((mobj->flags & MF_CORPSE) && !(mobj->flags2 & MF2_DECORATION) ? "dead " :
+                    ((mobj->flags & MF_FRIEND) && mobj->type != MT_PLAYER ? "friendly " :
+                    ((mobj->flags & MF_DROPPED) ? "dropped " : ""))),
                 (mobj->type == MT_PLAYER ? "voodoo doll" : (*mobj->info->name1 ? mobj->info->name1 : "\x96")),
                 ((mobj->flags & MF_MISSILE) ? " projectile" : ""));
 
-        temp2 = sentencecase(name);
-        C_TabbedOutput(tabs, MONOSPACED("%s") "%s\t%s\t(%i, %i, %i)", (mobj->id >= 0 ? temp1 : "\x96"), (mobj->id >= 0 ? "." : ""),
-            temp2, mobj->x >> FRACBITS, mobj->y >> FRACBITS, mobj->z >> FRACBITS);
+        temp1 = sentencecase(name);
+
+        if (mobj->id >= 0)
+        {
+            if (mobj->id < 1000)
+                C_TabbedOutput(tabs, MONOSPACED("%3i") ".\t%s\t(%i, %i, %i)", mobj->id,
+                    temp1, mobj->x >> FRACBITS, mobj->y >> FRACBITS, mobj->z >> FRACBITS);
+            else
+            {
+                char    *temp2 = commify(mobj->id);
+
+                C_TabbedOutput(tabs, MONOSPACED("%s") ".\t%s\t(%i, %i, %i)", temp2,
+                    temp1, mobj->x >> FRACBITS, mobj->y >> FRACBITS, mobj->z >> FRACBITS);
+                free(temp2);
+            }
+        }
+        else
+            C_TabbedOutput(tabs, "\x96\t%s\t(%i, %i, %i)",
+                temp1, mobj->x >> FRACBITS, mobj->y >> FRACBITS, mobj->z >> FRACBITS);
+
         free(temp1);
-        free(temp2);
     }
 }
 
