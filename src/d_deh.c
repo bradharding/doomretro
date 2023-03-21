@@ -98,7 +98,7 @@ static char *dehfgets(char *buf, int n, DEHFILE *fp)
     {                                           // copy buffer
         char    *p = buf;
 
-        while (n > 1 && *fp->inp && fp->size && (n--, fp->size--, *p++ = *fp->inp++) != '\n');
+        while (n > 1 && fp->size && *fp->inp && (n--, fp->size--, *p++ = *fp->inp++) != '\n');
 
         *p = 0;
     }
