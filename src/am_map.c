@@ -110,7 +110,7 @@ static byte *am_crosshaircolor2;
 
 #define PLAYERRADIUS    (16 * (1 << MAPBITS))
 
-#define BLOODSPLATWIDTH (((12 << FRACBITS) >> FRACTOMAPBITS) / 8)
+#define BLOODSPLATWIDTH (((12 << FRACBITS) >> FRACTOMAPBITS) / 4)
 
 // translates between frame-buffer and map distances
 #define FTOM(x)         (fixed_t)((((uint64_t)(x) << FRACBITS) * scale_ftom) >> FRACBITS)
