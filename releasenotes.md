@@ -2,7 +2,7 @@
 
 #### DOOM Retro v4.9
 
-* *DOOM Retro* is now built using v17.5.2 of [*Microsoft Visual Studio Community 2022*](https://visualstudio.microsoft.com/vs/community/).
+* *DOOM Retro* is now built using v17.5.3 of [*Microsoft Visual Studio Community 2022*](https://visualstudio.microsoft.com/vs/community/).
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Changes have been made to text that is output to the console.
 * When the `m_pointer` CVAR is `on`:
