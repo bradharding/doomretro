@@ -1874,13 +1874,6 @@ void bind_cmd_func2(char *cmd, char *parms)
 //
 // bindlist CCMD
 //
-static char *controltypes[] = {
-    "",
-    "keyboard",
-    "mouse",
-    "controller"
-};
-
 static void C_DisplayBinds(const char *action, const int value, const controltype_t type, int *count)
 {
     const int   tabs[3] = { 40, 130, 210 };
@@ -1892,11 +1885,10 @@ static void C_DisplayBinds(const char *action, const int value, const controltyp
         if (controls[i].type == type && controls[i].value == value)
         {
             if (strlen(control) == 1)
-                C_TabbedOutput(tabs, MONOSPACED("%3i") ".\t'%s'\t%s\t%s",
-                    (*count)++, (control[0] == '=' ? "+" : control), controltypes[type], action);
+                C_TabbedOutput(tabs, MONOSPACED("%3i") ".\t'%s'\t%s",
+                    (*count)++, (control[0] == '=' ? "+" : control), action);
             else
-                C_TabbedOutput(tabs, MONOSPACED("%3i") ".\t%s\t%s\t%s",
-                    (*count)++, control, controltypes[type], action);
+                C_TabbedOutput(tabs, MONOSPACED("%3i") ".\t%s\t%s", (*count)++, control, action);
 
             break;
         }
@@ -1905,7 +1897,7 @@ static void C_DisplayBinds(const char *action, const int value, const controltyp
 
 static void bindlist_cmd_func2(char *cmd, char *parms)
 {
-    const int   tabs[3] = { 40, 130, 210 };
+    const int   tabs[3] = { 40, 130, 0 };
     int         count = 1;
 
     C_Header(tabs, bindlist, BINDLISTHEADER);
@@ -1919,9 +1911,33 @@ static void bindlist_cmd_func2(char *cmd, char *parms)
             C_DisplayBinds(actions[i].action, *(int *)actions[i].keyboard2, keyboardcontrol, &count);
     }
 
+    for (int i = 0; controls[i].type; i++)
+    {
+        const int   value = controls[i].value;
+
+        if (controls[i].type == keyboardcontrol && keyactionlist[value][0])
+        {
+            const char  *control = controls[i].control;
+
+            if (strlen(control) == 1)
+                C_TabbedOutput(tabs, MONOSPACED("%3i") ".\t'%s'\t%s",
+                    count++, (control[0] == '=' ? "+" : control), keyactionlist[value]);
+            else
+                C_TabbedOutput(tabs, MONOSPACED("%3i") ".\t%s\t%s", count++, control, keyactionlist[value]);
+        }
+    }
+
     for (int i = 0; *actions[i].action; i++)
         if (actions[i].mouse1)
             C_DisplayBinds(actions[i].action, *(int *)actions[i].mouse1, mousecontrol, &count);
+
+    for (int i = 0; controls[i].type; i++)
+    {
+        const int   value = controls[i].value;
+
+        if (controls[i].type == mousecontrol && mouseactionlist[value][0])
+            C_TabbedOutput(tabs, MONOSPACED("%3i") ".\t%s\t%s", count++, controls[i].control, mouseactionlist[value]);
+    }
 
     for (int i = 0; *actions[i].action; i++)
     {
@@ -1930,25 +1946,6 @@ static void bindlist_cmd_func2(char *cmd, char *parms)
 
         if (actions[i].gamecontroller2)
             C_DisplayBinds(actions[i].action, *(int *)actions[i].gamecontroller2, gamecontrollercontrol, &count);
-    }
-
-    for (int i = 0; controls[i].type; i++)
-    {
-        const char  *control = controls[i].control;
-        const int   value = controls[i].value;
-
-        if (controls[i].type == keyboardcontrol && keyactionlist[value][0])
-        {
-            if (strlen(control) == 1)
-                C_TabbedOutput(tabs, MONOSPACED("%3i") ".\t'%s'\t%s\t%s",
-                    count++, (control[0] == '=' ? "+" : control), controltypes[keyboardcontrol], keyactionlist[value]);
-            else
-                C_TabbedOutput(tabs, MONOSPACED("%3i") ".\t%s\t%s\t%s",
-                    count++, control, controltypes[keyboardcontrol], keyactionlist[value]);
-        }
-        else if (controls[i].type == mousecontrol && mouseactionlist[value][0])
-            C_TabbedOutput(tabs, MONOSPACED("%3i") ".\t%s\t%s\t%s",
-                count++, control, controltypes[mousecontrol], mouseactionlist[value]);
     }
 }
 
