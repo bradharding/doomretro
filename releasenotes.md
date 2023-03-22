@@ -3,7 +3,7 @@
 #### DOOM Retro v4.9
 
 * *DOOM Retro* is now built using v17.5.3 of [*Microsoft Visual Studio Community 2022*](https://visualstudio.microsoft.com/vs/community/).
-* Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
+* Optimizations have been made to further improve the overall performance, stability and memory usage of *DOOM Retro*.
 * Changes have been made to text that is output to the console.
 * When the `m_pointer` CVAR is `on`:
   * The mouse pointer may now be used to move:
@@ -16,7 +16,7 @@
 * These changes have been made to the alternate widescreen HUD:
   * The player’s health, armor and ammo now animate when they change.
   * The position of the player’s health is now fixed when 0% and the `negativehealth` CVAR is `off`.
-  * Every part of the HUD is now always black, silhouetted against the white background, when the player has an invulnerability power-up or the `r_textures` CVAR is `off`.
+  * Every part of the HUD is now black, silhouetted against the white background, when the player has an invulnerability power-up or the `r_textures` CVAR is `off`.
   * The vertical positions of some of the weapon silhouettes have changed.
   * Minor improvements have been made to the armor bar when the player has blue armor.
 * Crashes no longer occur when:
