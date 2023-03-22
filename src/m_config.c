@@ -788,22 +788,28 @@ void M_SaveCVARs(void)
 
         if (actions[i].keyboard2 && *(int *)actions[i].keyboard2)
             SaveBindByValue(file, actions[i].action, *(int *)actions[i].keyboard2, keyboardcontrol);
+    }
 
+    for (int i = 0; controls[i].type; i++)
+        if (controls[i].type == keyboardcontrol && keyactionlist[controls[i].value][0])
+            SaveBind(file, controls[i].control, keyactionlist[controls[i].value]);
+
+    for (int i = 0; *actions[i].action; i++)
         if (actions[i].mouse1 && *(int *)actions[i].mouse1 != -1)
             SaveBindByValue(file, actions[i].action, *(int *)actions[i].mouse1, mousecontrol);
 
+    for (int i = 0; controls[i].type; i++)
+        if (controls[i].type == mousecontrol && mouseactionlist[controls[i].value][0])
+            SaveBind(file, controls[i].control, mouseactionlist[controls[i].value]);
+
+    for (int i = 0; *actions[i].action; i++)
+    {
         if (actions[i].gamecontroller1 && *(int *)actions[i].gamecontroller1)
             SaveBindByValue(file, actions[i].action, *(int *)actions[i].gamecontroller1, gamecontrollercontrol);
 
         if (actions[i].gamecontroller2 && *(int *)actions[i].gamecontroller2)
             SaveBindByValue(file, actions[i].action, *(int *)actions[i].gamecontroller2, gamecontrollercontrol);
     }
-
-    for (int i = 0; controls[i].type; i++)
-        if (controls[i].type == keyboardcontrol && keyactionlist[controls[i].value][0])
-            SaveBind(file, controls[i].control, keyactionlist[controls[i].value]);
-        else if (controls[i].type == mousecontrol && mouseactionlist[controls[i].value][0])
-            SaveBind(file, controls[i].control, mouseactionlist[controls[i].value]);
 
     for (int i = 0; i < MAXALIASES; i++)
         if (*aliases[i].name)
