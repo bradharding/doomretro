@@ -30,6 +30,7 @@
 * Blood splats are no longer overly bright when the `r_textures` CVAR is `off`.
 * Masked midtextures with brightmaps now display correctly when the `r_brightmaps` CVAR is `on`.
 * The `bindlist` CCMD now groups bound controls by their type.
+* The triangles in the automap that represent every blood splat, displayed when using the `IDDT` cheat, are now slightly larger.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
