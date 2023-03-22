@@ -1006,7 +1006,7 @@ mobjinfo_t mobjinfo[] =
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* fullbright           */ true,
-        /* bloodcolor           */ 0,
+        /* bloodcolor           */ REDBLOOD,
         /* shadowoffset         */ 0,
         /* mbf21flags           */ MF_MBF21_RANGEHALF,
         /* infightinggroup      */ IG_DEFAULT,

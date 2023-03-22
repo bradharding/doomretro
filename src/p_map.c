@@ -1796,7 +1796,7 @@ static bool PTR_ShootTraverse(intercept_t *in)
     {
         if (th->type == MT_SKULL && !(th->flags & MF_FUZZ))
         {
-            if (vanilla && r_blood == r_blood_red)
+            if (r_blood == r_blood_red)
                 P_SpawnBlood(x, y, z + M_RandomInt(-8, 8) * FRACUNIT, shootangle, la_damage, th);
             else
                 P_SpawnPuff(x, y, z - M_RandomInt(0, 16) * FRACUNIT, shootangle);
