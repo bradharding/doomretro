@@ -4225,9 +4225,9 @@ static void maplist_cmd_func2(char *cmd, char *parms)
                     {
                         if (!M_StringCompare(wadname, "DOOM2.WAD"))
                         {
-                            temp = titlecase(M_StringReplace(*mapnames2[map], ": ", "\t" ITALICSON));
+                            temp = titlecase(M_StringReplace(*mapnames2[map], ": ", MONOSPACEDOFF "\t" ITALICSON));
                             removemapnum(temp);
-                            M_snprintf(maps[count++], sizeof(maps[0]), "%s" ITALICSON "\t%s", temp, wadname);
+                            M_snprintf(maps[count++], sizeof(maps[0]), MONOSPACEDON "%s" ITALICSOFF "\t%s", temp, wadname);
                             free(temp);
                         }
                     }
