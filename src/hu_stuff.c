@@ -720,18 +720,10 @@ static void HU_DrawHUD(void)
     if (health > 0)
     {
         const weapontype_t  pendingweapon = viewplayer->pendingweapon;
-        weapontype_t        weapon;
-        ammotype_t          ammotype;
+        const weapontype_t  weapon = (pendingweapon == wp_nochange ? viewplayer->readyweapon : pendingweapon);
+        const ammotype_t    ammotype = weaponinfo[weapon].ammotype;
 
-        if (pendingweapon == wp_nochange)
-            weapon = viewplayer->readyweapon;
-        else
-        {
-            weapon = pendingweapon;
-            ammodiff = 0;
-        }
-
-        if ((ammotype = weaponinfo[weapon].ammotype) != am_noammo)
+        if (ammotype != am_noammo)
         {
             int         ammo = viewplayer->ammo[ammotype];
             int         ammo_x = HUDNumberWidth(ammo);
@@ -1218,8 +1210,8 @@ static void HU_DrawAltHUD(void)
     if (health)
     {
         const weapontype_t  pendingweapon = viewplayer->pendingweapon;
-        weapontype_t        weapon;
-        ammotype_t          ammotype;
+        const weapontype_t  weapon = (pendingweapon == wp_nochange ? viewplayer->readyweapon : pendingweapon);
+        const ammotype_t    ammotype = weaponinfo[weapon].ammotype;
         static uint64_t     keywait;
         static bool         showkey;
         int                 powerup = 0;
@@ -1227,15 +1219,7 @@ static void HU_DrawAltHUD(void)
         int                 powertics = 1;
         patch_t             *patch;
 
-        if (pendingweapon == wp_nochange)
-            weapon = viewplayer->readyweapon;
-        else
-        {
-            weapon = pendingweapon;
-            ammodiff = 0;
-        }
-
-        if ((ammotype = weaponinfo[weapon].ammotype) != am_noammo)
+        if (ammotype != am_noammo)
         {
             int ammo = viewplayer->ammo[ammotype] + ammodiff;
 

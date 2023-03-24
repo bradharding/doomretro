@@ -570,10 +570,21 @@ void P_PlayerThink(void)
         armordiff = MAX(0, armordiff - armordiffspeed);
 
     if (ammodiff < 0)
-        ammodiff = (viewplayer->pendingweapon == wp_nochange ?
+    {
+        const weapontype_t  pendingweapon = viewplayer->pendingweapon;
+
+        ammodiff = (pendingweapon == wp_nochange
+            || weaponinfo[pendingweapon].ammotype == weaponinfo[viewplayer->readyweapon].ammotype ?
             MIN(ammodiff + ammodiffspeed, viewplayer->ammo[viewplayer->readyweapon]) : 0);
+    }
     else if (ammodiff > 0)
-        ammodiff = (viewplayer->pendingweapon == wp_nochange ? MAX(0, ammodiff - ammodiffspeed) : 0);
+    {
+        const weapontype_t  pendingweapon = viewplayer->pendingweapon;
+
+        ammodiff = (pendingweapon == wp_nochange
+            || weaponinfo[pendingweapon].ammotype == weaponinfo[viewplayer->readyweapon].ammotype ?
+            MAX(0, ammodiff - ammodiffspeed) : 0);
+    }
 
     if (consoleactive)
     {
