@@ -32,7 +32,7 @@
 * Bound controls are now grouped by type when saved in `doomretro.cfg` and in the output of the `bindlist` CCMD.
 * The triangles in the automap that represent every blood splat, displayed when using the `IDDT` cheat, are now slightly larger.
 * Blood is now shown when shooting a lost soul and the `r_blood` CVAR is `red`.
-* The movement of sectors is smoother in some instances when the `vid_capfps` CVAR is not `35`.
+* The movement of some sectors is now smoother when the `vid_capfps` CVAR is not `35`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

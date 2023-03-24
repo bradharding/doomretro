@@ -268,7 +268,7 @@ bool P_GiveFullAmmo(void)
         if (viewplayer->ammo[i] < viewplayer->maxammo[i])
         {
             if (i == weaponinfo[viewplayer->readyweapon].ammotype)
-                ammodiff = viewplayer->ammo[i] - viewplayer->maxammo[i];
+                P_AnimateAmmo(viewplayer->ammo[i] - viewplayer->maxammo[i]);
 
             viewplayer->ammo[i] = viewplayer->maxammo[i];
             result = true;
