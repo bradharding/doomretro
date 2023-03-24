@@ -440,7 +440,7 @@ void P_ResurrectPlayer(const int health)
     viewplayer->mo = thing;
     viewplayer->playerstate = PST_LIVE;
     viewplayer->viewheight = VIEWHEIGHT;
-    healthdiff = viewplayer->health - health;
+    P_AnimateHealth(viewplayer->health - health);
     viewplayer->health = health;
     viewplayer->lookdir = 0;
     viewplayer->oldlookdir = 0;
@@ -518,6 +518,24 @@ void P_ChangeWeapon(weapontype_t newweapon)
     }
 }
 
+void P_AnimateHealth(int diff)
+{
+    healthdiff = diff;
+    healthdiffspeed = ABS(diff) / 10;
+}
+
+void P_AnimateArmor(int diff)
+{
+    armordiff = diff;
+    armordiffspeed = ABS(diff) / 10;
+}
+
+void P_AnimateAmmo(int diff)
+{
+    ammodiff = diff;
+    ammodiffspeed = ABS(diff) / 10;
+}
+
 //
 // P_PlayerThink
 //
@@ -542,20 +560,20 @@ void P_PlayerThink(void)
     }
 
     if (healthdiff < 0)
-        healthdiff = MIN(healthdiff + ALTHUD_BARDIFF, viewplayer->health);
+        healthdiff = MIN(healthdiff + healthdiffspeed, viewplayer->health);
     else if (healthdiff > 0)
-        healthdiff = MAX(0, healthdiff - ALTHUD_BARDIFF);
+        healthdiff = MAX(0, healthdiff - healthdiffspeed);
 
     if (armordiff < 0)
-        armordiff = MIN(armordiff + ALTHUD_BARDIFF, viewplayer->armor);
+        armordiff = MIN(armordiff + armordiffspeed, viewplayer->armor);
     else if (armordiff > 0)
-        armordiff = MAX(0, armordiff - ALTHUD_BARDIFF);
+        armordiff = MAX(0, armordiff - armordiffspeed);
 
     if (ammodiff < 0)
         ammodiff = (viewplayer->pendingweapon == wp_nochange ?
-            MIN(ammodiff + ALTHUD_BARDIFF, viewplayer->ammo[viewplayer->readyweapon]) : 0);
+            MIN(ammodiff + ammodiffspeed, viewplayer->ammo[viewplayer->readyweapon]) : 0);
     else if (ammodiff > 0)
-        ammodiff = (viewplayer->pendingweapon == wp_nochange ? MAX(0, ammodiff - ALTHUD_BARDIFF) : 0);
+        ammodiff = (viewplayer->pendingweapon == wp_nochange ? MAX(0, ammodiff - ammodiffspeed) : 0);
 
     if (consoleactive)
     {

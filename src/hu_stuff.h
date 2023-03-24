@@ -83,7 +83,6 @@
 #define ALTHUD_RIGHT_X              (SCREENWIDTH - MAXWIDESCREENDELTA \
                                         - (weaponschanged && !fixspriteoffsets ? 76 : 127))
 #define ALTHUD_Y                    (SCREENHEIGHT - 41)
-#define ALTHUD_BARDIFF              5
 
 //
 // HEADS UP TEXT
@@ -111,6 +110,9 @@ extern uint64_t armorhighlight;
 extern int      ammodiff;
 extern int      armordiff;
 extern int      healthdiff;
+extern int      ammodiffspeed;
+extern int      armordiffspeed;
+extern int      healthdiffspeed;
 extern bool     drawdisk;
 extern bool     idbehold;
 extern int      message_counter;

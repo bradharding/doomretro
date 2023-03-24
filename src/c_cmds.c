@@ -3208,7 +3208,7 @@ static void kill_cmd_func2(char *cmd, char *parms)
             massacre = true;
 
             viewplayer->damagecount = MIN(viewplayer->health, 100);
-            healthdiff = viewplayer->health;
+            P_AnimateHealth(viewplayer->health);
             viewplayer->health = 0;
             viewplayer->mo->health = 0;
             healthhighlight = I_GetTimeMS() + HUD_HEALTH_HIGHLIGHT_WAIT;
@@ -7449,7 +7449,7 @@ static void take_cmd_func2(char *cmd, char *parms)
 
             if (viewplayer->armor)
             {
-                armordiff = viewplayer->armor;
+                P_AnimateArmor(viewplayer->armor);
                 viewplayer->armor = 0;
                 viewplayer->armortype = armortype_none;
                 result = true;
@@ -7552,7 +7552,7 @@ static void take_cmd_func2(char *cmd, char *parms)
         {
             if (viewplayer->armor)
             {
-                armordiff = viewplayer->armor;
+                P_AnimateArmor(viewplayer->armor);
                 viewplayer->armor = 0;
                 viewplayer->armortype = armortype_none;
                 C_PlayerMessage("All %s was taken from %s.",
@@ -8519,7 +8519,7 @@ static void armortype_cvar_func2(char *cmd, char *parms)
 
             if (value == armortype_none)
             {
-                armordiff = viewplayer->armor;
+                P_AnimateArmor(viewplayer->armor);
                 viewplayer->armor = 0;
             }
         }
@@ -8839,7 +8839,7 @@ static void player_cvars_func2(char *cmd, char *parms)
                     S_StartSound(viewplayer->mo, sfx_itemup);
                 }
 
-                ammodiff = viewplayer->ammo[ammotype] - value;
+                P_AnimateAmmo(viewplayer->ammo[ammotype] - value);
                 viewplayer->ammo[ammotype] = value;
                 P_CheckAmmo(readyweapon);
 
@@ -8881,7 +8881,7 @@ static void player_cvars_func2(char *cmd, char *parms)
                     S_StartSound(viewplayer->mo, sfx_itemup);
                 }
 
-                armordiff = viewplayer->armor - value;
+                P_AnimateArmor(viewplayer->armor - value);
 
                 if (!(viewplayer->armor = value))
                     viewplayer->armortype = armortype_none;
@@ -8917,7 +8917,7 @@ static void player_cvars_func2(char *cmd, char *parms)
                 value = BETWEEN(((viewplayer->cheats & CF_BUDDHA) ? 1 : HUD_NUMBER_MIN), value, maxhealth);
 
                 healthhighlight = I_GetTimeMS() + HUD_HEALTH_HIGHLIGHT_WAIT;
-                healthdiff = viewplayer->health - value;
+                P_AnimateHealth(viewplayer->health - value);
 
                 if (viewplayer->health <= 0)
                 {

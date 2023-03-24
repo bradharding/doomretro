@@ -138,7 +138,7 @@ static bool P_TakeAmmo(const ammotype_t ammotype, int num)
 
     if (ammotype == weaponinfo[readyweapon].ammotype)
     {
-        ammodiff = num;
+        P_AnimateAmmo(num);
         ammohighlight = I_GetTimeMS() + HUD_AMMO_HIGHLIGHT_WAIT;
     }
 
@@ -203,7 +203,7 @@ static int P_GiveAmmo(const ammotype_t ammotype, int num, const bool stat)
 
     if (num && ammotype == weaponinfo[readyweapon].ammotype)
     {
-        ammodiff = oldammo - viewplayer->ammo[ammotype];
+        P_AnimateAmmo(oldammo - viewplayer->ammo[ammotype]);
         ammohighlight = I_GetTimeMS() + HUD_AMMO_HIGHLIGHT_WAIT;
     }
 
@@ -405,7 +405,7 @@ bool P_GiveHealth(const int num, const int max, const bool stat)
     viewplayer->health = MIN(health + num, max);
     viewplayer->mo->health = viewplayer->health;
     healthhighlight = I_GetTimeMS() + HUD_HEALTH_HIGHLIGHT_WAIT;
-    healthdiff = health - viewplayer->health;
+    P_AnimateHealth(health - viewplayer->health);
 
     if (stat)
         P_UpdateHealthStat(viewplayer->health - health);
@@ -425,7 +425,7 @@ bool P_GiveMegaHealth(const bool stat)
         if (viewplayer->health < mega_health)
         {
             healthhighlight = I_GetTimeMS() + HUD_HEALTH_HIGHLIGHT_WAIT;
-            healthdiff = viewplayer->health - mega_health;
+            P_AnimateHealth(viewplayer->health - mega_health);
 
             if (stat)
                 P_UpdateHealthStat(mega_health - viewplayer->health);
@@ -458,7 +458,7 @@ bool P_GiveArmor(const armortype_t armortype, const bool stat)
         return false;   // don't pick up
 
     viewplayer->armortype = armortype;
-    armordiff = viewplayer->armor - hits;
+    P_AnimateArmor(viewplayer->armor - hits);
 
     if (stat)
         P_UpdateArmorStat(hits - viewplayer->armor);
@@ -805,7 +805,7 @@ bool P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, const bool message, c
             if (!(viewplayer->cheats & CF_GODMODE))
             {
                 viewplayer->health = MIN(viewplayer->health + soul_health, max_soul);
-                healthdiff = viewplayer->mo->health - viewplayer->health;
+                P_AnimateHealth(viewplayer->mo->health - viewplayer->health);
                 P_UpdateHealthStat(viewplayer->health - viewplayer->mo->health);
                 viewplayer->mo->health = viewplayer->health;
                 healthhighlight = I_GetTimeMS() + HUD_HEALTH_HIGHLIGHT_WAIT;
@@ -1263,7 +1263,7 @@ bool P_TakeSpecialThing(const mobjtype_t type)
                 return false;
 
             viewplayer->armor -= green_armor_class * 100;
-            armordiff = green_armor_class * 100;
+            P_AnimateArmor(green_armor_class * 100);
             armorhighlight = I_GetTimeMS() + HUD_ARMOR_HIGHLIGHT_WAIT;
             return true;
 
@@ -1276,7 +1276,7 @@ bool P_TakeSpecialThing(const mobjtype_t type)
                 return false;
 
             viewplayer->armor -= blue_armor_class * 100;
-            armordiff = blue_armor_class * 100;
+            P_AnimateArmor(blue_armor_class * 100);
             armorhighlight = I_GetTimeMS() + HUD_ARMOR_HIGHLIGHT_WAIT;
             return true;
 
@@ -1327,7 +1327,7 @@ bool P_TakeSpecialThing(const mobjtype_t type)
             viewplayer->health -= soul_health;
             viewplayer->mo->health -= soul_health;
             viewplayer->damagecount = soul_health;
-            healthdiff = soul_health;
+            P_AnimateHealth(soul_health);
             healthhighlight = I_GetTimeMS() + HUD_HEALTH_HIGHLIGHT_WAIT;
             S_StartSound(NULL, sfx_plpain);
             return true;
@@ -1349,7 +1349,7 @@ bool P_TakeSpecialThing(const mobjtype_t type)
             viewplayer->health -= mega_health;
             viewplayer->mo->health -= mega_health;
             viewplayer->damagecount = mega_health;
-            healthdiff = mega_health;
+            P_AnimateHealth(mega_health);
             healthhighlight = I_GetTimeMS() + HUD_HEALTH_HIGHLIGHT_WAIT;
             S_StartSound(NULL, sfx_plpain);
             return true;
@@ -1425,7 +1425,7 @@ bool P_TakeSpecialThing(const mobjtype_t type)
             viewplayer->health -= 10;
             viewplayer->mo->health -= 10;
             viewplayer->damagecount = 10;
-            healthdiff = 10;
+            P_AnimateHealth(10);
             healthhighlight = I_GetTimeMS() + HUD_HEALTH_HIGHLIGHT_WAIT;
             S_StartSound(NULL, sfx_plpain);
             return true;
@@ -1447,7 +1447,7 @@ bool P_TakeSpecialThing(const mobjtype_t type)
             viewplayer->health -= 25;
             viewplayer->mo->health -= 25;
             viewplayer->damagecount = 25;
-            healthdiff = 25;
+            P_AnimateHealth(25);
             healthhighlight = I_GetTimeMS() + HUD_HEALTH_HIGHLIGHT_WAIT;
             S_StartSound(NULL, sfx_plpain);
             return true;
@@ -2283,11 +2283,11 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
 
                 tplayer->health = 1;
                 target->health = 1;
-                healthdiff = stat;
+                P_AnimateHealth(stat);
             }
             else
             {
-                healthdiff = damage;
+                P_AnimateHealth(damage);
                 tplayer->damagereceived += damage;
                 stat_damagereceived = SafeAdd(stat_damagereceived, damage);
             }
