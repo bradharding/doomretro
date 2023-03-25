@@ -1130,7 +1130,7 @@ static void HU_DrawAltHUD(void)
         }
     }
 
-    if ((armor += armordiff))
+    if ((armor = BETWEEN(0, armor + armordiff, max_armor)))
     {
         if (r_hud_translucency)
             DrawAltHUDNumber2(ALTHUD_LEFT_X - AltHUDNumber2Width(armor), ALTHUD_Y, armor,
