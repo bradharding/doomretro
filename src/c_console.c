@@ -1128,7 +1128,7 @@ char *C_CreateTimeStamp(const int index)
     return console[index].timestamp;
 }
 
-static void C_DrawTimeStamp(int x, const int y, const char timestamp[8])
+static void C_DrawTimeStamp(int x, const int y, const char timestamp[9])
 {
     for (int i = (int)strlen(timestamp) - 1; i >= 0; i--)
     {

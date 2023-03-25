@@ -171,7 +171,7 @@ typedef struct
     patch_t         *header;
     int             tabs[3];
     int             tics;
-    char            timestamp[8];
+    char            timestamp[9];
 } console_t;
 
 typedef struct
