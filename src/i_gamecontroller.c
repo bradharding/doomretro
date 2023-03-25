@@ -136,15 +136,21 @@ void I_GameControllerRumble(int strength)
 
 void I_UpdateGameControllerRumble(void)
 {
-    if (lasteventtype == ev_controller
-        && gamecontrollerrumbles
-        && ((weaponrumbletics && !--weaponrumbletics && !damagerumbletics && !barrelrumbletics)
-            || (damagerumbletics && !--damagerumbletics && !barrelrumbletics)
-            || (barrelrumbletics && !--barrelrumbletics)))
+    if (!gamecontrollerrumbles)
+        return;
+
+    if (lasteventtype == ev_controller)
     {
-        currentstrength = idlechainsawrumblestrength;
-        SDL_GameControllerRumble(gamecontroller, currentstrength, currentstrength, UINT32_MAX);
+        if ((weaponrumbletics && !--weaponrumbletics && !damagerumbletics && !barrelrumbletics)
+            || (damagerumbletics && !--damagerumbletics && !barrelrumbletics)
+            || (barrelrumbletics && !--barrelrumbletics))
+        {
+            currentstrength = idlechainsawrumblestrength;
+            SDL_GameControllerRumble(gamecontroller, currentstrength, currentstrength, UINT32_MAX);
+        }
     }
+    else
+        SDL_GameControllerRumble(gamecontroller, 0, 0, 0);
 }
 
 void I_StopGameControllerRumble(void)
