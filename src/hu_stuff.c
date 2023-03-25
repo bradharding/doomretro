@@ -1232,10 +1232,9 @@ static void HU_DrawAltHUD(void)
 
             if (ammo)
             {
-                const bool  backpack = viewplayer->backpack;
-                int         max = viewplayer->maxammo[ammotype];
+                int max = viewplayer->maxammo[ammotype];
 
-                if (backpack && ammo > (max /= 2))
+                if (viewplayer->backpack && ammo > (max /= 2))
                 {
                     ammo = 100 * (ammo - max) / max;
 
