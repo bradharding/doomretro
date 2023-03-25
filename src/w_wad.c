@@ -367,8 +367,12 @@ bool W_AddFile(char *filename, bool autoloaded)
     if (!M_StringCompare(leafname(filename), DOOMRETRO_RESOURCEWAD) && !devparm)
     {
         temp = commify((int64_t)numlumps - startlump);
-        C_Output("%s %s lump%s from the %s " BOLD("%s") ".", (autoloaded ? "Automatically added" : "Added"), temp,
-            (numlumps - startlump == 1 ? "" : "s"), (wadfile->type == IWAD ? "IWAD" : "PWAD"), wadfile->path);
+        C_Output("%s lump%s were %s from the %s " BOLD("%s") ".",
+            temp,
+            (numlumps - startlump == 1 ? "" : "s"),
+            (autoloaded ? "automatically added" : "added"),
+            (wadfile->type == IWAD ? "IWAD" : "PWAD"),
+            wadfile->path);
         free(temp);
     }
 

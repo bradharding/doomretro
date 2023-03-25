@@ -2385,7 +2385,7 @@ void D_ProcessDehFile(char *filename, int lumpnum, bool autoloaded)
         char    *temp2 = uppercase(lumpinfo[lumpnum]->name);
 
         if (!M_StringCompare(leafname(filename), DOOMRETRO_RESOURCEWAD) && !devparm)
-            C_Output("Parsed %s line%s from the " BOLD("%s") " lump in the %s " BOLD("%s") "%s.",
+            C_Output("%s line%s were parsed in the " BOLD("%s") " lump in the %s " BOLD("%s") "%s.",
                 temp1, (linecount == 1 ? "" : "s"), temp2, (W_WadType(filename) == IWAD ? "IWAD" : "PWAD"),
                 filename, (dehfileignored ? " instead" : ""));
 
@@ -2397,9 +2397,10 @@ void D_ProcessDehFile(char *filename, int lumpnum, bool autoloaded)
     {
         char    *temp = commify(linecount);
 
-        C_Output("%s %s line%s from the " ITALICS("DeHackEd") "%s file " BOLD("%s") ".",
-            (autoloaded ? "Automatically parsed" : "Parsed"), temp, (linecount == 1 ? "" : "s"),
-            (M_StringEndsWith(filename, "BEX") ? " with " ITALICS("BOOM") " extensions" : ""), GetCorrectCase(filename));
+        C_Output("%s line%s were %s in the " ITALICS("DeHackEd") "%s file " BOLD("%s") ".",
+            temp, (linecount == 1 ? "" : "s"), (autoloaded ? "automatically parsed" : "parsed"),
+            (M_StringEndsWith(filename, "BEX") ? " with " ITALICS("BOOM") " extensions" : ""),
+            GetCorrectCase(filename));
 
         free(temp);
     }
