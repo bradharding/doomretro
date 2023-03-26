@@ -202,8 +202,7 @@ static void HUlib_DrawAltHUDTextLine(hu_textline_t *l)
             italics = false;
         else
         {
-            patch_t             *patch = unknownchar;
-            const unsigned char nextletter = l->l[i + 1];
+            patch_t *patch = unknownchar;
 
             if (letter == '\n')
             {

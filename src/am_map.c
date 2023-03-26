@@ -1476,8 +1476,8 @@ static void AM_DrawWalls(void)
 
             if ((flags & ML_MAPPED) && !(flags & ML_DONTDRAW))
             {
-                mline_t                 mline = { line.v1->x >> FRACTOMAPBITS, line.v1->y >> FRACTOMAPBITS,
-                                                  line.v2->x >> FRACTOMAPBITS, line.v2->y >> FRACTOMAPBITS };
+                mline_t                 mline = { { line.v1->x >> FRACTOMAPBITS, line.v1->y >> FRACTOMAPBITS },
+                                                  { line.v2->x >> FRACTOMAPBITS, line.v2->y >> FRACTOMAPBITS } };
                 const unsigned short    special = line.special;
                 byte                    *doorcolor;
 
@@ -1525,8 +1525,8 @@ static void AM_DrawWalls_AllMap(void)
 
             if (!(flags & ML_DONTDRAW))
             {
-                mline_t                 mline = { line.v1->x >> FRACTOMAPBITS, line.v1->y >> FRACTOMAPBITS,
-                                                  line.v2->x >> FRACTOMAPBITS, line.v2->y >> FRACTOMAPBITS };
+                mline_t                 mline = { { line.v1->x >> FRACTOMAPBITS, line.v1->y >> FRACTOMAPBITS },
+                                                  { line.v2->x >> FRACTOMAPBITS, line.v2->y >> FRACTOMAPBITS } };
                 const unsigned short    special = line.special;
                 byte                    *doorcolor;
 
@@ -1573,8 +1573,8 @@ static void AM_DrawWalls_Cheating(void)
             && (lbbox[BOXBOTTOM] >> FRACTOMAPBITS) <= am_frame.bbox[BOXTOP]
             && (lbbox[BOXTOP] >> FRACTOMAPBITS) >= am_frame.bbox[BOXBOTTOM])
         {
-            mline_t                 mline = { line.v1->x >> FRACTOMAPBITS, line.v1->y >> FRACTOMAPBITS,
-                                              line.v2->x >> FRACTOMAPBITS, line.v2->y >> FRACTOMAPBITS };
+            mline_t                 mline = { { line.v1->x >> FRACTOMAPBITS, line.v1->y >> FRACTOMAPBITS },
+                                              { line.v2->x >> FRACTOMAPBITS, line.v2->y >> FRACTOMAPBITS } };
             const unsigned short    special = line.special;
             byte                    *doorcolor;
 

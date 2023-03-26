@@ -2314,7 +2314,7 @@ static void P_CreateBlockMap(void)
         // blocklist structure
         typedef struct
         {
-            int     n;
+            size_t  n;
             size_t  nalloc;
             int     *list;
         } bmap_t;
@@ -2391,7 +2391,7 @@ static void P_CreateBlockMap(void)
         //
         // 4 words, unused if this routine is called, are reserved at the start.
         {
-            int count = tot + 6;                // we need at least 1 word per block, plus reserved's
+            size_t  count = tot + 6;            // we need at least 1 word per block, plus reserved's
 
             for (i = 0; (unsigned int)i < tot; i++)
                 if (bmap[i].n)
