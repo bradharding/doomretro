@@ -298,11 +298,7 @@ static void CheckInstallRootPaths(void)
             continue;
 
         for (size_t j = 0; j < arrlen(root_path_subdirs); j++)
-        {
-            char    *path = M_StringJoin(install_path, DIR_SEPARATOR_S, root_path_subdirs[j], NULL);
-
-            AddIWADDir(path);
-        }
+            AddIWADDir(M_StringJoin(install_path, DIR_SEPARATOR_S, root_path_subdirs[j], NULL));
 
         free(install_path);
     }
@@ -317,11 +313,7 @@ static void CheckBethesdaEdition(void)
         return;
 
     for (size_t j = 0; j < arrlen(bethesda_install_subdirs); j++)
-    {
-        char    *path = M_StringJoin(install_path, DIR_SEPARATOR_S, bethesda_install_subdirs[j], NULL);
-
-        AddIWADDir(path);
-    }
+        AddIWADDir(M_StringJoin(install_path, DIR_SEPARATOR_S, bethesda_install_subdirs[j], NULL));
 
     free(install_path);
 }
@@ -337,11 +329,7 @@ static void CheckSteamEdition(void)
             continue;
 
         for (size_t j = 0; j < arrlen(steam_install_subdirs); j++)
-        {
-            char    *path = M_StringJoin(install_path, DIR_SEPARATOR_S, steam_install_subdirs[j], NULL);
-
-            AddIWADDir(path);
-        }
+            AddIWADDir(M_StringJoin(install_path, DIR_SEPARATOR_S, steam_install_subdirs[j], NULL));
 
         free(install_path);
     }

@@ -574,7 +574,6 @@ void P_PlayerThink(void)
         const weapontype_t  pendingweapon = viewplayer->pendingweapon;
 
         ammodiff = (pendingweapon == wp_nochange
-            || !viewplayer->ammo[pendingweapon]
             || weaponinfo[pendingweapon].ammotype == weaponinfo[viewplayer->readyweapon].ammotype ?
             MIN(ammodiff + ammodiffspeed, viewplayer->ammo[viewplayer->readyweapon]) : 0);
     }
@@ -583,7 +582,6 @@ void P_PlayerThink(void)
         const weapontype_t  pendingweapon = viewplayer->pendingweapon;
 
         ammodiff = (pendingweapon == wp_nochange
-            || !viewplayer->ammo[pendingweapon]
             || weaponinfo[pendingweapon].ammotype == weaponinfo[viewplayer->readyweapon].ammotype ?
             MAX(0, ammodiff - ammodiffspeed) : 0);
     }
