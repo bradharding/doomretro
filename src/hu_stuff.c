@@ -1008,7 +1008,7 @@ static void HU_DrawAltHUD(void)
     const bool      inverted = (viewplayer->fixedcolormap == INVERSECOLORMAP) ^ (!r_textures);
     const int       color = (inverted ? nearestblack : (r_hud_translucency ? nearestwhite : nearestlightgray));
     int             health = BETWEEN(HUD_NUMBER_MIN, viewplayer->health + healthdiff, HUD_NUMBER_MAX);
-    int             armor = MIN(viewplayer->armor, HUD_NUMBER_MAX);
+    int             armor = BETWEEN(0, viewplayer->armor + armordiff, HUD_NUMBER_MAX);
     int             keypic_x = ALTHUD_RIGHT_X;
     const uint64_t  currenttime = I_GetTimeMS();
 
@@ -1130,7 +1130,7 @@ static void HU_DrawAltHUD(void)
         }
     }
 
-    if ((armor = BETWEEN(0, armor + armordiff, max_armor)))
+    if (armor)
     {
         if (r_hud_translucency)
             DrawAltHUDNumber2(ALTHUD_LEFT_X - AltHUDNumber2Width(armor), ALTHUD_Y, armor,

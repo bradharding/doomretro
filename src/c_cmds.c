@@ -6475,9 +6475,9 @@ static void reset_cmd_func2(char *cmd, char *parms)
             {
                 if (*(int *)consolecmds[i].variable != (int)consolecmds[i].defaultnumber)
                 {
-                    char *temp1 = C_LookupAliasFromValue((int)consolecmds[i].defaultnumber, consolecmds[i].aliases);
-                    char *temp2 = uncommify(temp1);
-                    char *temp3 = M_StringJoin(parms, " ", temp2, NULL);
+                    char    *temp1 = C_LookupAliasFromValue((int)consolecmds[i].defaultnumber, consolecmds[i].aliases);
+                    char    *temp2 = uncommify(temp1);
+                    char    *temp3 = M_StringJoin(parms, " ", temp2, NULL);
 
                     C_ValidateInput(temp3);
                     C_Output("The " BOLD("%s") " CVAR has been reset to its default.", consolecmds[i].name);
@@ -6569,8 +6569,8 @@ static void C_VerifyResetAll(const int key)
                 }
                 else if (flags & CF_INTEGER)
                 {
-                    char *temp1 = C_LookupAliasFromValue((int)consolecmds[i].defaultnumber, consolecmds[i].aliases);
-                    char *temp2 = uncommify(temp1);
+                    char    *temp1 = C_LookupAliasFromValue((int)consolecmds[i].defaultnumber, consolecmds[i].aliases);
+                    char    *temp2 = uncommify(temp1);
 
                     consolecmds[i].func2(consolecmds[i].name, temp2);
                     free(temp1);

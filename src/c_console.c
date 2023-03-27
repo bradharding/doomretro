@@ -570,8 +570,6 @@ static int C_OverlayWidth(const char *text, const bool monospaced)
             width += spacewidth;
         else if (isdigit(letter))
             width += (monospaced ? zerowidth : SHORT(consolefont[letter - CONSOLEFONTSTART]->width));
-        else if (text[i] == '\xB0')
-            width += degreewidth;
         else if (letter >= CONSOLEFONTSTART)
             width += SHORT(consolefont[letter - CONSOLEFONTSTART]->width);
     }
@@ -1076,11 +1074,6 @@ static void C_DrawOverlayText(byte *screen, const int screenwidth, int x, const 
 
         if (letter == ' ')
             x += spacewidth;
-        else if (text[i] == '\xB0')
-        {
-            V_DrawOverlayTextPatch(screen, screenwidth, x, y, degree, degreewidth - 1, color, tinttab);
-            x += degreewidth;
-        }
         else
         {
             patch_t     *patch = consolefont[letter - CONSOLEFONTSTART];
@@ -1603,7 +1596,7 @@ void C_Drawer(void)
 
     if (consoleinput[0] != '\0')
     {
-        char partialinput[255] = "";
+        char    partialinput[255] = "";
 
         // draw input text to left of caret
         for (i = 0; i < MIN(selectstart, caretpos); i++)
@@ -1682,7 +1675,7 @@ void C_Drawer(void)
     // draw any selected text to right of caret
     if (selectend > caretpos)
     {
-        char partialinput[255] = "";
+        char    partialinput[255] = "";
 
         for (i = selectstart; i < selectend; i++)
             partialinput[i - selectstart] = consoleinput[i];
@@ -1716,7 +1709,7 @@ void C_Drawer(void)
     // draw input text to right of caret
     if (caretpos < (len = (int)strlen(consoleinput)))
     {
-        char partialinput[255] = "";
+        char    partialinput[255] = "";
 
         for (i = selectend; i < len; i++)
             partialinput[i - selectend] = consoleinput[i];
