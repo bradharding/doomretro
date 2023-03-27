@@ -570,7 +570,7 @@ static int C_OverlayWidth(const char *text, const bool monospaced)
             width += spacewidth;
         else if (isdigit(letter))
             width += (monospaced ? zerowidth : SHORT(consolefont[letter - CONSOLEFONTSTART]->width));
-        else if (letter == '\xB0')
+        else if (text[i] == '\xB0')
             width += degreewidth;
         else if (letter >= CONSOLEFONTSTART)
             width += SHORT(consolefont[letter - CONSOLEFONTSTART]->width);
@@ -1076,7 +1076,7 @@ static void C_DrawOverlayText(byte *screen, const int screenwidth, int x, const 
 
         if (letter == ' ')
             x += spacewidth;
-        else if (letter == '\xB0')
+        else if (text[i] == '\xB0')
         {
             V_DrawOverlayTextPatch(screen, screenwidth, x, y, degree, degreewidth - 1, color, tinttab);
             x += degreewidth;
