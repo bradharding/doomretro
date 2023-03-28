@@ -3514,9 +3514,9 @@ mobjinfo_t mobjinfo[] =
         /* ripsound             */ sfx_none,
         /* altspeed             */ NO_ALTSPEED,
         /* meleerange           */ MELEERANGE,
-        /* name1                */ "shells",
+        /* name1                */ "shell",
         /* plural1              */ "shells",
-        /* name2                */ "shell",
+        /* name2                */ "",
         /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""

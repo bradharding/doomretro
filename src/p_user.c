@@ -179,7 +179,8 @@ void P_CalcHeight(void)
             sector_t    *sector = mo->subsector->sector;
 
             if (!P_IsSelfReferencingSector(sector)
-                && (!sector->heightsec || mo->z + viewplayer->viewheight - FOOTCLIPSIZE >= sector->heightsec->floorheight))
+                && (!sector->heightsec
+                    || mo->z + viewplayer->viewheight - FOOTCLIPSIZE >= sector->heightsec->floorheight))
                 viewplayer->viewz -= FOOTCLIPSIZE;
         }
     }
@@ -279,7 +280,8 @@ void P_MovePlayer(void)
     else if (canmouselook)
     {
         if (cmd->lookdir)
-            viewplayer->lookdir = BETWEEN(-LOOKDIRMAX * MLOOKUNIT, viewplayer->lookdir + cmd->lookdir, LOOKDIRMAX * MLOOKUNIT);
+            viewplayer->lookdir = BETWEEN(-LOOKDIRMAX * MLOOKUNIT, viewplayer->lookdir + cmd->lookdir,
+                LOOKDIRMAX * MLOOKUNIT);
 
         if (viewplayer->lookdir && !usemouselook)
         {
@@ -687,7 +689,9 @@ void P_PlayerThink(void)
         }
     }
 
-    if ((cmd->buttons & BT_JUMP) && (mo->z <= mo->floorz || (mo->flags2 & MF2_ONMOBJ)) && !viewplayer->jumptics)
+    if ((cmd->buttons & BT_JUMP)
+        && (mo->z <= mo->floorz || (mo->flags2 & MF2_ONMOBJ))
+        && !viewplayer->jumptics)
     {
         mo->momz = JUMPHEIGHT;
         viewplayer->jumptics = 18;
@@ -733,8 +737,10 @@ void P_PlayerThink(void)
         viewplayer->powers[pw_ironfeet]--;
 
     // Handling colormaps.
-    if (viewplayer->powers[pw_invulnerability] > STARTFLASHING || (viewplayer->powers[pw_invulnerability] & FLASHONTIC))
+    if (viewplayer->powers[pw_invulnerability] > STARTFLASHING
+        || (viewplayer->powers[pw_invulnerability] & FLASHONTIC))
         viewplayer->fixedcolormap = INVERSECOLORMAP;
     else
-        viewplayer->fixedcolormap = (viewplayer->powers[pw_infrared] > STARTFLASHING || (viewplayer->powers[pw_infrared] & FLASHONTIC));
+        viewplayer->fixedcolormap = (viewplayer->powers[pw_infrared] > STARTFLASHING
+            || (viewplayer->powers[pw_infrared] & FLASHONTIC));
 }

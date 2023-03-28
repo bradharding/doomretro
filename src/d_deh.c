@@ -1607,10 +1607,11 @@ static const deh_block deh_blocks[] =
     /* 10 */ { "[STRINGS]", deh_procStrings         },  // new string changes
     /* 11 */ { "[PARS]",    deh_procPars            },  // alternative block marker
     /* 12 */ { "[CODEPTR]", deh_procBexCodePointers },  // bex codepointers by mnemonic
+    /* 13 */ { "[HELPER]",  deh_procError           },  // [BH] unsupported
     /* 14 */ { "[SPRITES]", deh_procBexSprites      },  // bex style sprites
     /* 15 */ { "[SOUNDS]",  deh_procBexSounds       },  // bex style sounds
     /* 16 */ { "[MUSIC]",   deh_procBexMusic        },  // bex style music
-    /* 13 */ { "",          deh_procError           }   // dummy to handle anything else
+    /* 17 */ { "",          deh_procError           }   // dummy to handle anything else
 };
 
 // flag to skip included deh-style text, used with INCLUDE NOTEXT directive
