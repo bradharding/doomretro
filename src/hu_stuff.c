@@ -1143,19 +1143,21 @@ static void HU_DrawAltHUD(void)
 
         if ((armor *= 200 / max_armor) > 100)
         {
+            armor = MIN(armor, max_armor);
+
             if (r_hud_translucency)
             {
                 if (viewplayer->armortype == green_armor_class)
                 {
-                    fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 2, 101, 4,
-                        green2, green2, true, true, tinttab60, tinttab25);
+                    fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 2, 101,
+                        4, green2, green2, true, true, tinttab60, tinttab25);
                     fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 2, armor - 100 + (armor == 200),
                         4, green2, green2, true, (armor == 200), tinttab60, tinttab40);
                 }
                 else
                 {
-                    fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 2, 101, 4,
-                        blue3, gray, true, true, tinttab90, tinttab5);
+                    fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 2, 101,
+                        4, blue3, gray, true, true, tinttab90, tinttab5);
                     fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 2, armor - 100 + (armor == 200),
                         4, blue2, blue2, true, (armor == 200), tinttab90, tinttab10);
                 }
@@ -1164,8 +1166,8 @@ static void HU_DrawAltHUD(void)
             {
                 if (viewplayer->armortype == green_armor_class)
                 {
-                    fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 2, 101, 4,
-                        green3, green3, true, true, NULL, NULL);
+                    fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 2, 101,
+                        4, green3, green3, true, true, NULL, NULL);
                     fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 2, armor - 100 + (armor == 200),
                         4, green2, green2, true, (armor == 200), NULL, NULL);
                 }
@@ -1236,7 +1238,7 @@ static void HU_DrawAltHUD(void)
 
                 if (viewplayer->backpack && ammo > (max /= 2))
                 {
-                    ammo = 100 * (ammo - max) / max;
+                    ammo = MIN(100 * (ammo - max) / max, 100);
 
                     if (r_hud_translucency)
                     {
