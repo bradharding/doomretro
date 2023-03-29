@@ -523,19 +523,19 @@ void P_ChangeWeapon(weapontype_t newweapon)
 void P_AnimateHealth(int diff)
 {
     healthdiff = diff;
-    healthdiffspeed = ABS(diff) / 20 + 1;
+    healthdiffspeed = MAX(ABS(diff) / 20 + 1, 10);
 }
 
 void P_AnimateArmor(int diff)
 {
     armordiff = diff;
-    armordiffspeed = ABS(diff) / 20 + 1;
+    armordiffspeed = MAX(ABS(diff) / 20 + 1, 10);
 }
 
 void P_AnimateAmmo(int diff)
 {
     ammodiff = diff;
-    ammodiffspeed = ABS(diff) / 20 + 1;
+    ammodiffspeed = MAX(ABS(diff) / 20 + 1, 10);
 }
 
 //
