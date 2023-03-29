@@ -1009,7 +1009,7 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
                     if (letter == 'T' && prevletter == ITALICSONCHAR && prevletter2 == ' ')
                         x--;
                 }
-                else if ((letter == '-' || letter == '|' || letter == '[') && prevletter == ITALICSOFFCHAR)
+                else if ((letter == '-' || letter == '|' || letter == '[' || letter == 215) && prevletter == ITALICSOFFCHAR)
                     x++;
                 else if (letter == '(' && prevletter == ' ')
                 {

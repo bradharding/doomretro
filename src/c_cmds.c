@@ -568,7 +568,7 @@ consolecmd_t consolecmds[] =
     CVAR_INT(am_gridcolor, am_gridcolour, "", int_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The color of the grid in the automap (" BOLD("0") " to " BOLD("255") ")."),
     CVAR_OTHER(am_gridsize, "", "", null_func1, am_gridsize_cvar_func2,
-        "The size of the grid in the automap (" BOLDITALICS("width") BOLD("\xD7") BOLDITALICS("height") ")."),
+        "The size of the grid in the automap (" BOLD(ITALICS("width") "\xD7" ITALICS("height")) ")."),
     CVAR_INT(am_markcolor, am_markcolour, "", int_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The color of marks in the automap (" BOLD("0") " to " BOLD("255") ")."),
     CVAR_BOOL(am_path, "", "", bool_cvars_func1, am_path_cvar_func2, CF_NONE, BOOLVALUEALIAS,
@@ -848,7 +848,7 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL(r_liquid_swirl, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles the swirl of liquid sectors."),
     CVAR_OTHER(r_lowpixelsize, "", "", null_func1, r_lowpixelsize_cvar_func2,
-        "The size of each pixel when the graphic detail is low (" BOLDITALICS("width") BOLD("\xD7") BOLDITALICS("height") ")."),
+        "The size of each pixel when the graphic detail is low (" BOLD(ITALICS("width") "\xD7" ITALICS("height")) ")."),
     CVAR_BOOL(r_mirroredweapons, "", "", bool_cvars_func1, r_mirroredweapons_cvar_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles randomly mirroring the weapons dropped by monsters."),
     CVAR_BOOL(r_pickupeffect, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
@@ -979,8 +979,7 @@ consolecmd_t consolecmds[] =
     CVAR_STR(vid_scalefilter, "", "", vid_scalefilter_cvar_func1, vid_scalefilter_cvar_func2, CF_NONE,
         "The filter used to scale each frame (" BOLD("\"nearest\"") ", " BOLD("\"linear\"") " or " BOLD("\"nearest_linear\"") ")."),
     CVAR_OTHER(vid_screenresolution, "", "", null_func1, vid_screenresolution_cvar_func2,
-        "The screen's resolution when fullscreen (" BOLD("desktop") " or " BOLDITALICS("width") BOLD("\xD7") BOLDITALICS("height")
-        ")."),
+        "The screen's resolution when fullscreen (" BOLD("desktop") " or " BOLD(ITALICS("width") "\xD7" ITALICS("height")) ")."),
     CVAR_BOOL(vid_showfps, "", "", bool_cvars_func1, vid_showfps_cvar_func2, CF_STARTUPRESET, BOOLVALUEALIAS,
         "Toggles showing the number of frames per second."),
 #if defined(__APPLE__)
@@ -996,7 +995,7 @@ consolecmd_t consolecmds[] =
         "The position of the window on the desktop (" BOLD("centered") " or " BOLD("(") BOLDITALICS("x") BOLD(",") BOLDITALICS("y")
         BOLD(")") ")."),
     CVAR_OTHER(vid_windowsize, "", "", null_func1, vid_windowsize_cvar_func2,
-        "The size of the window on the desktop (" BOLDITALICS("width") BOLD("\xD7") BOLDITALICS("height") ")."),
+        "The size of the window on the desktop (" BOLD(ITALICS("width") "\xD7" ITALICS("height")) ")."),
 #if defined(_WIN32)
     CVAR_STR(wad, "", "", null_func1, str_cvars_func2, CF_READONLY,
         "The last WAD to be opened using the WAD launcher."),
