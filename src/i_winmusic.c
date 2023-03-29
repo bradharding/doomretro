@@ -49,10 +49,14 @@
 #include "SDL.h"
 #include "SDL_mixer.h"
 
-static HMIDISTRM        hMidiStream;
-static HANDLE           hBufferReturnEvent;
-static HANDLE           hExitEvent;
-static HANDLE           hPlayerThread;
+// Macros for use with the Windows MIDIEVENT dwEvent field.
+#define MIDIEVENT_CHANNEL(x)    (x & 0x0000000F)
+#define MIDIEVENT_TYPE(x)       (x & 0x000000F0)
+#define MIDIEVENT_DATA1(x)     ((x & 0x0000FF00) >> 8)
+#define MIDIEVENT_VOLUME(x)    ((x & 0x007F0000) >> 16)
+
+// Maximum of 4 events in the buffer for faster volume updates.
+#define STREAM_MAX_EVENTS       4
 
 // This is a reduced Windows MIDIEVENT structure for MEVT_F_SHORT type of events.
 typedef struct
@@ -78,28 +82,24 @@ typedef struct
     int                 absolute_time;
 } win_midi_track_t;
 
-static float    volume_factor = 1.0f;
-
-// Save the last volume for each MIDI channel.
-static int      channel_volume[MIDI_CHANNELS_PER_TRACK];
-
-// Macros for use with the Windows MIDIEVENT dwEvent field.
-#define MIDIEVENT_CHANNEL(x)    (x & 0x0000000F)
-#define MIDIEVENT_TYPE(x)       (x & 0x000000F0)
-#define MIDIEVENT_DATA1(x)     ((x & 0x0000FF00) >> 8)
-#define MIDIEVENT_VOLUME(x)    ((x & 0x007F0000) >> 16)
-
-// Maximum of 4 events in the buffer for faster volume updates.
-#define STREAM_MAX_EVENTS       4
-
 typedef struct
 {
-    native_event_t  events[STREAM_MAX_EVENTS];
-    int             num_events;
-    MIDIHDR         MidiStreamHdr;
+    native_event_t      events[STREAM_MAX_EVENTS];
+    int                 num_events;
+    MIDIHDR             MidiStreamHdr;
 } buffer_t;
 
-static buffer_t buffer;
+static HMIDISTRM    hMidiStream;
+static HANDLE       hBufferReturnEvent;
+static HANDLE       hExitEvent;
+static HANDLE       hPlayerThread;
+
+static float        volume_factor = 1.0f;
+
+// Save the last volume for each MIDI channel.
+static int          channel_volume[MIDI_CHANNELS_PER_TRACK];
+
+static buffer_t     buffer;
 
 // Message for midiStream errors.
 static void MidiErrorMessage(DWORD dwError)
@@ -218,97 +218,96 @@ static void MIDItoStream(midi_file_t *file)
         tracks[i].absolute_time = 0;
     }
 
-    song.native_events = calloc(MIDI_NumEvents(file), sizeof(native_event_t));
-
-    while (true)
-    {
-        midi_event_t    *midievent;
-        DWORD           data = 0;
-        int             min_time = INT_MAX;
-        int             idx = -1;
-
-        // Look for an event with a minimal delta time.
-        for (int i = 0; i < num_tracks; i++)
+    if ((song.native_events = calloc(MIDI_NumEvents(file), sizeof(native_event_t))))
+        while (true)
         {
-            int time;
+            midi_event_t    *midievent;
+            DWORD           data = 0;
+            int             min_time = INT_MAX;
+            int             idx = -1;
 
-            if (!tracks[i].iter)
-                continue;
-
-            time = tracks[i].absolute_time + MIDI_GetDeltaTime(tracks[i].iter);
-
-            if (time < min_time)
+            // Look for an event with a minimal delta time.
+            for (int i = 0; i < num_tracks; i++)
             {
-                min_time = time;
-                idx = i;
+                int time;
+
+                if (!tracks[i].iter)
+                    continue;
+
+                time = tracks[i].absolute_time + MIDI_GetDeltaTime(tracks[i].iter);
+
+                if (time < min_time)
+                {
+                    min_time = time;
+                    idx = i;
+                }
+            }
+
+            // No more MIDI events left, end the loop.
+            if (idx == -1)
+                break;
+
+            tracks[idx].absolute_time = min_time;
+
+            if (!MIDI_GetNextEvent(tracks[idx].iter, &midievent))
+            {
+                free(tracks[idx].iter);
+                tracks[idx].iter = NULL;
+
+                continue;
+            }
+
+            switch (midievent->event_type)
+            {
+                case MIDI_EVENT_META:
+                    if (midievent->data.meta.type == MIDI_META_SET_TEMPO)
+                        data = (midievent->data.meta.data[2]
+                            | (midievent->data.meta.data[1] << 8)
+                            | (midievent->data.meta.data[0] << 16)
+                            | (MEVT_TEMPO << 24));
+
+                    break;
+
+                case MIDI_EVENT_NOTE_OFF:
+                case MIDI_EVENT_NOTE_ON:
+                case MIDI_EVENT_AFTERTOUCH:
+                case MIDI_EVENT_CONTROLLER:
+                case MIDI_EVENT_PITCH_BEND:
+                    data = (midievent->event_type
+                        | midievent->data.channel.channel
+                        | (midievent->data.channel.param1 << 8)
+                        | (midievent->data.channel.param2 << 16)
+                        | (MEVT_SHORTMSG << 24));
+                    break;
+
+                case MIDI_EVENT_PROGRAM_CHANGE:
+                case MIDI_EVENT_CHAN_AFTERTOUCH:
+                    data = (midievent->event_type
+                        | midievent->data.channel.channel
+                        | (midievent->data.channel.param1 << 8)
+                        | (MEVT_SHORTMSG << 24));
+                    break;
+
+                case MIDI_EVENT_SYSEX:
+                case MIDI_EVENT_SYSEX_SPLIT:
+                    break;
+            }
+
+            if (data)
+            {
+                native_event_t  *native_event = &song.native_events[song.num_events];
+
+                if (midievent->event_type != MIDI_EVENT_META)
+                    non_meta_events++;
+
+                native_event->dwDeltaTime = min_time - current_time;
+                native_event->dwStreamID = 0;
+                native_event->dwEvent = data;
+
+                song.num_events++;
+                current_time = min_time;
             }
         }
-
-        // No more MIDI events left, end the loop.
-        if (idx == -1)
-            break;
-
-        tracks[idx].absolute_time = min_time;
-
-        if (!MIDI_GetNextEvent(tracks[idx].iter, &midievent))
-        {
-            free(tracks[idx].iter);
-            tracks[idx].iter = NULL;
-
-            continue;
-        }
-
-        switch (midievent->event_type)
-        {
-            case MIDI_EVENT_META:
-                if (midievent->data.meta.type == MIDI_META_SET_TEMPO)
-                    data = (midievent->data.meta.data[2]
-                        | (midievent->data.meta.data[1] << 8)
-                        | (midievent->data.meta.data[0] << 16)
-                        | (MEVT_TEMPO << 24));
-
-                break;
-
-            case MIDI_EVENT_NOTE_OFF:
-            case MIDI_EVENT_NOTE_ON:
-            case MIDI_EVENT_AFTERTOUCH:
-            case MIDI_EVENT_CONTROLLER:
-            case MIDI_EVENT_PITCH_BEND:
-                data = (midievent->event_type
-                    | midievent->data.channel.channel
-                    | (midievent->data.channel.param1 << 8)
-                    | (midievent->data.channel.param2 << 16)
-                    | (MEVT_SHORTMSG << 24));
-                break;
-
-            case MIDI_EVENT_PROGRAM_CHANGE:
-            case MIDI_EVENT_CHAN_AFTERTOUCH:
-                data = (midievent->event_type
-                    | midievent->data.channel.channel
-                    | (midievent->data.channel.param1 << 8)
-                    | (MEVT_SHORTMSG << 24));
-                break;
-
-            case MIDI_EVENT_SYSEX:
-            case MIDI_EVENT_SYSEX_SPLIT:
-                break;
-        }
-
-        if (data)
-        {
-            native_event_t  *native_event = &song.native_events[song.num_events];
-
-            if (midievent->event_type != MIDI_EVENT_META)
-                non_meta_events++;
-
-            native_event->dwDeltaTime = min_time - current_time;
-            native_event->dwStreamID = 0;
-            native_event->dwEvent = data;
-
-            song.num_events++;
-            current_time = min_time;
-        }
-    }
 
     if (!non_meta_events)
         FreeSong();

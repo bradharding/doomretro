@@ -55,8 +55,12 @@
 #define STEP1DISTANCE   24
 #define STEP2DISTANCE   32
 
-bool    autousing = false;
-int     deadlookdir = -1;
+bool        autousing = false;
+int         deadlookdir = -1;
+
+static int  ammodiffspeed = 0;
+static int  armordiffspeed = 0;
+static int  healthdiffspeed = 0;
 
 //
 // Movement
