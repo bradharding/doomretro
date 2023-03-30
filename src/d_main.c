@@ -1210,7 +1210,7 @@ static int D_OpenWADLauncher(void)
     M_StringCopy(szFile, (invalidwad ? invalidwad : wad), sizeof(szFile));
     ofn.lpstrFile = szFile;
     ofn.nMaxFile = sizeof(szFile);
-    ofn.lpstrFilter = "IWAD and/or PWAD(s) (*.wad)\0*.WAD;*.IWAD;*.PWAD;*.DEH;*.BEX;*.CFG\0";
+    ofn.lpstrFilter = "IWAD and/or PWAD(s) (*.wad)\0*.wad;*.iwad;*.pwad;*.deh;*.bex;*.cfg\0";
     ofn.nFilterIndex = 1;
     ofn.lpstrFileTitle = NULL;
     ofn.nMaxFileTitle = 0;

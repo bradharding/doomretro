@@ -1232,7 +1232,7 @@ static void HU_DrawAltHUD(void)
 
                 if (viewplayer->backpack && ammo > (max /= 2))
                 {
-                    ammo = 100 * (ammo - max) / max;
+                    ammo = MIN(100 * (ammo - max) / max, 100);
 
                     if (r_hud_translucency)
                     {

@@ -581,7 +581,7 @@ void P_PlayerThink(void)
 
         ammodiff = (pendingweapon == wp_nochange
             || weaponinfo[pendingweapon].ammotype == weaponinfo[viewplayer->readyweapon].ammotype ?
-            MIN(ammodiff + ammodiffspeed, 0) : 0);
+            MIN(ammodiff + ammodiffspeed, viewplayer->ammo[viewplayer->readyweapon]) : 0);
     }
     else if (ammodiff > 0)
     {
