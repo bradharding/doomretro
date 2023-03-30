@@ -1139,8 +1139,6 @@ static void HU_DrawAltHUD(void)
 
         if ((armor *= 200 / max_armor) > 100)
         {
-            armor = MIN(armor, max_armor);
-
             if (r_hud_translucency)
             {
                 if (viewplayer->armortype == green_armor_class)
@@ -1234,7 +1232,7 @@ static void HU_DrawAltHUD(void)
 
                 if (viewplayer->backpack && ammo > (max /= 2))
                 {
-                    ammo = MIN(100 * (ammo - max) / max, 100);
+                    ammo = 100 * (ammo - max) / max;
 
                     if (r_hud_translucency)
                     {
