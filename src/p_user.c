@@ -566,12 +566,12 @@ void P_PlayerThink(void)
     }
 
     if (healthdiff < 0)
-        healthdiff = MIN(healthdiff + healthdiffspeed, viewplayer->health);
+        healthdiff = MIN(healthdiff + healthdiffspeed, 0);
     else if (healthdiff > 0)
         healthdiff = MAX(0, healthdiff - healthdiffspeed);
 
     if (armordiff < 0)
-        armordiff = MIN(armordiff + armordiffspeed, viewplayer->armor);
+        armordiff = MIN(armordiff + armordiffspeed, 0);
     else if (armordiff > 0)
         armordiff = MAX(0, armordiff - armordiffspeed);
 
@@ -581,7 +581,7 @@ void P_PlayerThink(void)
 
         ammodiff = (pendingweapon == wp_nochange
             || weaponinfo[pendingweapon].ammotype == weaponinfo[viewplayer->readyweapon].ammotype ?
-            MIN(ammodiff + ammodiffspeed, viewplayer->ammo[viewplayer->readyweapon]) : 0);
+            MIN(ammodiff + ammodiffspeed, 0) : 0);
     }
     else if (ammodiff > 0)
     {
