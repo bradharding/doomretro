@@ -582,7 +582,7 @@ int         healthdiff = 0;
 
 static void HU_DrawHUD(void)
 {
-    const int       health = BETWEEN(HUD_NUMBER_MIN, viewplayer->health, HUD_NUMBER_MAX);
+    const int       health = BETWEEN(HUD_NUMBER_MIN, viewplayer->health + (animatedstats ? healthdiff : 0), HUD_NUMBER_MAX);
     int             armor = MIN(viewplayer->armor, HUD_NUMBER_MAX);
     static bool     healthanim;
     const bool      gamepaused = (consoleactive || freeze);
@@ -638,7 +638,7 @@ static void HU_DrawHUD(void)
         }
     }
 
-    if (armor)
+    if ((armor += (animatedstats ? armordiff : 0)))
     {
         int armor_x = HUDNumberWidth(armor);
 
@@ -721,7 +721,7 @@ static void HU_DrawHUD(void)
 
         if (ammotype != am_noammo)
         {
-            int         ammo = viewplayer->ammo[ammotype];
+            int         ammo = viewplayer->ammo[ammotype] + (animatedstats ? ammodiff : 0);
             int         ammo_x = HUDNumberWidth(ammo);
             static bool ammoanim;
 
@@ -1003,8 +1003,8 @@ static void HU_DrawAltHUD(void)
 {
     const bool      inverted = (viewplayer->fixedcolormap == INVERSECOLORMAP) ^ (!r_textures);
     const int       color = (inverted ? nearestblack : (r_hud_translucency ? nearestwhite : nearestlightgray));
-    int             health = BETWEEN(HUD_NUMBER_MIN, viewplayer->health + healthdiff, HUD_NUMBER_MAX);
-    int             armor = BETWEEN(0, viewplayer->armor + armordiff, HUD_NUMBER_MAX);
+    int             health = BETWEEN(HUD_NUMBER_MIN, viewplayer->health + (animatedstats ? healthdiff : 0), HUD_NUMBER_MAX);
+    int             armor = BETWEEN(0, viewplayer->armor + (animatedstats ? armordiff : 0), HUD_NUMBER_MAX);
     int             keypic_x = ALTHUD_RIGHT_X;
     const uint64_t  currenttime = I_GetTimeMS();
 
@@ -1217,7 +1217,7 @@ static void HU_DrawAltHUD(void)
 
         if (ammotype != am_noammo)
         {
-            int ammo = viewplayer->ammo[ammotype] + ammodiff;
+            int ammo = viewplayer->ammo[ammotype] + (animatedstats ? ammodiff : 0);
 
             if (r_hud_translucency)
                 DrawAltHUDNumber(ALTHUD_RIGHT_X + 101 - AltHUDNumberWidth(ammo), ALTHUD_Y - 2, ammo,

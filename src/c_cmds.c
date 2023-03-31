@@ -599,6 +599,8 @@ consolecmd_t consolecmds[] =
         "The color of yellow keycards and skull keys in the automap (" BOLD("0") " to " BOLD("255") ")."),
     CVAR_INT(ammo, "", "", player_cvars_func1, player_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The amount of ammo the player has for their currently equipped weapon."),
+    CVAR_BOOL(animatedstats, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
+        "Toggles animating the player's health, armor and ammo in the status bar and widescreen HUD when they change."),
     CVAR_INT(armor, armour, "", player_cvars_func1, player_cvars_func2, CF_PERCENT, NOVALUEALIAS,
         "The player's armor (" BOLD("0%") " to " BOLD("200%") ")."),
     CVAR_INT(armortype, armourtype, "", armortype_cvar_func1, armortype_cvar_func2, CF_NONE, ARMORTYPEVALUEALIAS,

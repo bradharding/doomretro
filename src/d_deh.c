@@ -2189,9 +2189,9 @@ static const deh_bexptr deh_bexptrs[] =
 static actionf_t    deh_codeptr[NUMSTATES];
 
 // haleyjd: support for BEX SPRITES, SOUNDS, and MUSIC
-char                *deh_spritenames[NUMSPRITES + 1];
-char                *deh_musicnames[NUMMUSIC + 1];
-char                *deh_soundnames[NUMSFX + 1];
+static char         *deh_spritenames[NUMSPRITES + 1];
+static char         *deh_musicnames[NUMMUSIC + 1];
+static char         *deh_soundnames[NUMSFX + 1];
 
 void D_BuildBEXTables(void)
 {

@@ -13,8 +13,8 @@
   * The mouse pointer is no longer shown on the help screen if the mouse is moved.
 * The positions of `ON`/`OFF` and `HIGH`/`LOW` in the options menu have been fixed in some instances.
 * A bug is fixed whereby when changing the `r_pickupeffect` CVAR in the console the `r_damageeffect` CVAR would be changed instead.
+The player’s health, armor and ammo in the status bar and widescreen HUDs now animate when they change. This can be disabled by the new `animatedstats` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
 * These changes have been made to the alternate widescreen HUD:
-  * The player’s health, armor and ammo now animate when they change.
   * The position of the player’s health is now fixed when 0% and the `negativehealth` CVAR is `off`.
   * Every part of the HUD is now black, silhouetted against the white background, when the player has an invulnerability power-up or the `r_textures` CVAR is `off`.
   * The vertical positions of some of the weapon silhouettes have changed.
