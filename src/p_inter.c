@@ -167,6 +167,29 @@ static bool P_TakeWeapon(const weapontype_t weapon)
     return true;
 }
 
+bool P_TakeBackpack(void)
+{
+    if (!viewplayer->backpack)
+        return false;
+
+    for (ammotype_t i = 0; i < NUMAMMO; i++)
+        viewplayer->maxammo[i] /= 2;
+
+    viewplayer->backpack = false;
+
+    for (weapontype_t i = 0; i < NUMAMMO; i++)
+        P_AnimateMaxAmmo(viewplayer->maxammo[i] / 2, i);
+
+    for (ammotype_t i = 0; i < NUMAMMO; i++)
+        if (viewplayer->ammo[i] > viewplayer->maxammo[i])
+        {
+            P_AnimateAmmo(viewplayer->ammo[i] - viewplayer->maxammo[i], i);
+            viewplayer->ammo[i] = viewplayer->maxammo[i];
+        }
+
+    return true;
+}
+
 //
 // GET STUFF
 //
@@ -247,7 +270,7 @@ bool P_GiveBackpack(const bool giveammo, const bool stat)
         viewplayer->backpack = true;
 
         for (weapontype_t i = 0; i < NUMAMMO; i++)
-            P_AnimateMaxAmmo(viewplayer->maxammo[i] - viewplayer->maxammo[i] / 2, i);
+            P_AnimateMaxAmmo(viewplayer->maxammo[i] / 2, i);
     }
 
     for (ammotype_t i = 0; i < NUMAMMO; i++)
@@ -1542,17 +1565,7 @@ bool P_TakeSpecialThing(const mobjtype_t type)
 
         // backpack
         case MT_MISC24:
-            if (!viewplayer->backpack)
-                return false;
-
-            for (ammotype_t i = 0; i < NUMAMMO; i++)
-            {
-                viewplayer->maxammo[i] /= 2;
-                viewplayer->ammo[i] = MIN(viewplayer->ammo[i], viewplayer->maxammo[i]);
-            }
-
-            viewplayer->backpack = false;
-            return true;
+            return P_TakeBackpack();
 
         // BFG-9000
         case MT_MISC25:

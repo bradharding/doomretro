@@ -7411,17 +7411,7 @@ static void take_cmd_func2(char *cmd, char *parms)
 
         if (M_StringCompare(parm, "all") || M_StringCompare(parm, "everything"))
         {
-            if (viewplayer->backpack)
-            {
-                for (ammotype_t i = 0; i < NUMAMMO; i++)
-                {
-                    viewplayer->maxammo[i] /= 2;
-                    viewplayer->ammo[i] = MIN(viewplayer->ammo[i], viewplayer->maxammo[i]);
-                }
-
-                viewplayer->backpack = false;
-                result = true;
-            }
+            P_TakeBackpack();
 
             if (viewplayer->health > initial_health)
             {

@@ -49,6 +49,7 @@ bool P_GivePower(const int power);
 bool P_GiveAllWeapons(void);
 bool P_GiveBackpack(const bool giveammo, const bool stat);
 bool P_GiveFullAmmo(void);
+bool P_TakeBackpack(void);
 void P_AddBonus(void);
 void P_UpdateAmmoStat(const ammotype_t ammotype, const int num);
 void P_UpdateArmorStat(const int num);
