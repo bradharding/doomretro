@@ -107,7 +107,7 @@ extern patch_t  *minuspatch;
 extern uint64_t healthhighlight;
 extern uint64_t ammohighlight;
 extern uint64_t armorhighlight;
-extern int      ammodiff;
+extern int      ammodiff[NUMAMMO];
 extern int      armordiff;
 extern int      healthdiff;
 extern bool     drawdisk;

@@ -136,11 +136,10 @@ static bool P_TakeAmmo(const ammotype_t ammotype, int num)
     viewplayer->ammo[ammotype] -= num;
     readyweapon = viewplayer->readyweapon;
 
+    P_AnimateAmmo(num, ammotype);
+
     if (ammotype == weaponinfo[readyweapon].ammotype)
-    {
-        P_AnimateAmmo(num);
         ammohighlight = I_GetTimeMS() + HUD_AMMO_HIGHLIGHT_WAIT;
-    }
 
     P_CheckAmmo(readyweapon);
 
@@ -201,11 +200,13 @@ static int P_GiveAmmo(const ammotype_t ammotype, int num, const bool stat)
     oldammo = viewplayer->ammo[ammotype];
     viewplayer->ammo[ammotype] = MIN(oldammo + num, viewplayer->maxammo[ammotype]);
 
-    if (num && (ammotype == weaponinfo[readyweapon].ammotype
-        || (viewplayer->pendingweapon != wp_nochange && !viewplayer->ammo[viewplayer->pendingweapon])))
+    if (num)
     {
-        P_AnimateAmmo(oldammo - viewplayer->ammo[ammotype]);
-        ammohighlight = I_GetTimeMS() + HUD_AMMO_HIGHLIGHT_WAIT;
+        P_AnimateAmmo(oldammo - viewplayer->ammo[ammotype], ammotype);
+
+        if (ammotype == weaponinfo[readyweapon].ammotype
+            || (viewplayer->pendingweapon != wp_nochange && !viewplayer->ammo[viewplayer->pendingweapon]))
+            ammohighlight = I_GetTimeMS() + HUD_AMMO_HIGHLIGHT_WAIT;
     }
 
     if (stat)
@@ -268,9 +269,7 @@ bool P_GiveFullAmmo(void)
     for (int i = 0; i < NUMAMMO; i++)
         if (viewplayer->ammo[i] < viewplayer->maxammo[i])
         {
-            if (i == weaponinfo[viewplayer->readyweapon].ammotype)
-                P_AnimateAmmo(viewplayer->ammo[i] - viewplayer->maxammo[i]);
-
+            P_AnimateAmmo(viewplayer->ammo[i] - viewplayer->maxammo[i], i);
             viewplayer->ammo[i] = viewplayer->maxammo[i];
             result = true;
         }

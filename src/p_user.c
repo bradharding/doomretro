@@ -526,20 +526,29 @@ void P_ChangeWeapon(weapontype_t newweapon)
 
 void P_AnimateHealth(int diff)
 {
-    healthdiff = diff;
-    healthdiffspeed = MIN(ABS(diff) / 20 + 1, 20);
+    if (animatedstats)
+    {
+        healthdiff = diff;
+        healthdiffspeed = MIN(ABS(diff) / 20 + 1, 20);
+    }
 }
 
 void P_AnimateArmor(int diff)
 {
-    armordiff = diff;
-    armordiffspeed = MIN(ABS(diff) / 20 + 1, 20);
+    if (animatedstats)
+    {
+        armordiff = diff;
+        armordiffspeed = MIN(ABS(diff) / 20 + 1, 20);
+    }
 }
 
-void P_AnimateAmmo(int diff)
+void P_AnimateAmmo(int diff, ammotype_t type)
 {
-    ammodiff = diff;
-    ammodiffspeed = MIN(ABS(diff) / 20 + 1, 20);
+    if (animatedstats)
+    {
+        ammodiff[type] = diff;
+        ammodiffspeed = MIN(ABS(diff) / 20 + 1, 20);
+    }
 }
 
 //
@@ -565,31 +574,23 @@ void P_PlayerThink(void)
         return;
     }
 
-    if (healthdiff < 0)
-        healthdiff = MIN(healthdiff + healthdiffspeed, 0);
-    else if (healthdiff > 0)
-        healthdiff = MAX(0, healthdiff - healthdiffspeed);
-
-    if (armordiff < 0)
-        armordiff = MIN(armordiff + armordiffspeed, 0);
-    else if (armordiff > 0)
-        armordiff = MAX(0, armordiff - armordiffspeed);
-
-    if (ammodiff < 0)
+    if (animatedstats)
     {
-        const weapontype_t  pendingweapon = viewplayer->pendingweapon;
+        if (healthdiff < 0)
+            healthdiff = MIN(healthdiff + healthdiffspeed, 0);
+        else if (healthdiff > 0)
+            healthdiff = MAX(0, healthdiff - healthdiffspeed);
 
-        ammodiff = (pendingweapon == wp_nochange
-            || weaponinfo[pendingweapon].ammotype == weaponinfo[viewplayer->readyweapon].ammotype ?
-            MIN(ammodiff + ammodiffspeed, viewplayer->ammo[viewplayer->readyweapon]) : 0);
-    }
-    else if (ammodiff > 0)
-    {
-        const weapontype_t  pendingweapon = viewplayer->pendingweapon;
+        if (armordiff < 0)
+            armordiff = MIN(armordiff + armordiffspeed, 0);
+        else if (armordiff > 0)
+            armordiff = MAX(0, armordiff - armordiffspeed);
 
-        ammodiff = (pendingweapon == wp_nochange
-            || weaponinfo[pendingweapon].ammotype == weaponinfo[viewplayer->readyweapon].ammotype ?
-            MAX(0, ammodiff - ammodiffspeed) : 0);
+        for (weapontype_t i = am_clip; i < NUMAMMO; i++)
+            if (ammodiff[i] < 0)
+                ammodiff[i] = MIN(ammodiff[i] + ammodiffspeed, 0);
+            else if (ammodiff[i] > 0)
+                ammodiff[i] = MAX(0, ammodiff[i] - ammodiffspeed);
     }
 
     if (consoleactive)

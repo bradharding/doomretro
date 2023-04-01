@@ -118,7 +118,7 @@ void P_ChangeWeapon(weapontype_t newweapon);
 
 void P_AnimateHealth(int diff);
 void P_AnimateArmor(int diff);
-void P_AnimateAmmo(int diff);
+void P_AnimateAmmo(int diff, ammotype_t type);
 
 //
 // P_MOBJ.C

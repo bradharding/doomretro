@@ -699,7 +699,10 @@ void G_DoLoadLevel(void)
     armorhighlight = 0;
     healthhighlight = 0;
 
-    ammodiff = 0;
+    ammodiff[am_clip] = 0;
+    ammodiff[am_shell] = 0;
+    ammodiff[am_misl] = 0;
+    ammodiff[am_cell] = 0;
     armordiff = 0;
     healthdiff = 0;
 }

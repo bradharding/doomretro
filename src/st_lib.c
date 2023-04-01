@@ -126,7 +126,7 @@ void STlib_UpdateBigAmmoNum(st_number_t *n)
         return;
     else
     {
-        int         num = *n->num + (animatedstats ? ammodiff : 0);
+        int         num = *n->num + (animatedstats ? ammodiff[weaponinfo[viewplayer->readyweapon].ammotype] : 0);
         int         x = n->x + (num == 1);
         int         y = n->y;
         const int   width = SHORT(n->p[0]->width);
@@ -202,8 +202,7 @@ void STlib_UpdateBigHealthNum(st_number_t *n)
 
 void STlib_UpdateSmallAmmoNum(st_number_t *n, ammotype_t ammotype)
 {
-    int num = MAX(0, *n->num + (animatedstats && ammodiff
-        && ammotype == weaponinfo[viewplayer->readyweapon].ammotype ? ammodiff : 0));
+    int num = MAX(0, *n->num + ammodiff[ammotype]);
     int x = n->x;
     int y = n->y;
 

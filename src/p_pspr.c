@@ -187,7 +187,7 @@ static void P_SubtractAmmo(void)
     {
         const   int value = MAX(0, viewplayer->ammo[ammotype] - weaponinfo[readyweapon].ammopershot);
 
-        P_AnimateAmmo(viewplayer->ammo[ammotype] - value);
+        P_AnimateAmmo(viewplayer->ammo[ammotype] - value, ammotype);
         viewplayer->ammo[ammotype] = value;
         ammohighlight = I_GetTimeMS() + HUD_AMMO_HIGHLIGHT_WAIT;
     }
