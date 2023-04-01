@@ -108,6 +108,7 @@ extern uint64_t healthhighlight;
 extern uint64_t ammohighlight;
 extern uint64_t armorhighlight;
 extern int      ammodiff[NUMAMMO];
+extern int      maxammodiff[NUMAMMO];
 extern int      armordiff;
 extern int      healthdiff;
 extern bool     drawdisk;

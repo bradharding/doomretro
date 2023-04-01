@@ -218,9 +218,9 @@ void STlib_UpdateSmallAmmoNum(st_number_t *n, ammotype_t ammotype)
         }
 }
 
-void STlib_UpdateSmallMaxAmmoNum(st_number_t *n)
+void STlib_UpdateSmallMaxAmmoNum(st_number_t *n, ammotype_t ammotype)
 {
-    int num = MAX(0, *n->num);
+    int num = MAX(0, *n->num + maxammodiff[ammotype]);
     int x = n->x;
     int y = n->y;
 
@@ -242,7 +242,7 @@ void STlib_InitPercent(st_percent_t *p, int x, int y, patch_t **pl, int *num, pa
     p->p = percent;
 }
 
-void STlib_UpdateArmorPercent(st_percent_t *per, int refresh)
+void STlib_UpdateBigArmor(st_percent_t *per, int refresh)
 {
     if (refresh)
         V_DrawPatch(per->n.x, per->n.y, 0, per->p);
@@ -250,7 +250,7 @@ void STlib_UpdateArmorPercent(st_percent_t *per, int refresh)
     STlib_UpdateBigArmorNum(&per->n);
 }
 
-void STlib_UpdateHealthPercent(st_percent_t *per, int refresh)
+void STlib_UpdateBigHealth(st_percent_t *per, int refresh)
 {
     if (refresh)
         V_DrawPatch(per->n.x, per->n.y, 0, per->p);
@@ -276,7 +276,7 @@ void STlib_UpdateMultIcon(st_multicon_t *mi, bool refresh)
     }
 }
 
-void STlib_UpdateArmsIcon(st_multicon_t *mi, bool refresh, int i)
+void STlib_UpdateSmallWeaponNum(st_multicon_t *mi, bool refresh, int i)
 {
     const int   inum = *mi->inum;
 

@@ -108,19 +108,19 @@ void STlib_UpdateBigAmmoNum(st_number_t *n);
 void STlib_UpdateBigArmorNum(st_number_t *n);
 void STlib_UpdateBigHealthNum(st_number_t *n);
 void STlib_UpdateSmallAmmoNum(st_number_t *n, ammotype_t ammotype);
-void STlib_UpdateSmallMaxAmmoNum(st_number_t *n);
+void STlib_UpdateSmallMaxAmmoNum(st_number_t *n, ammotype_t ammotype);
 
 // Percent widget routines
 void STlib_InitPercent(st_percent_t *p, int x, int y, patch_t **pl, int *num, patch_t *percent);
 
-void STlib_UpdateHealthPercent(st_percent_t *per, int refresh);
-void STlib_UpdateArmorPercent(st_percent_t *per, int refresh);
+void STlib_UpdateBigHealth(st_percent_t *per, int refresh);
+void STlib_UpdateBigArmor(st_percent_t *per, int refresh);
 
 // Multiple Icon widget routines
 void STlib_InitMultIcon(st_multicon_t *mi, int x, int y, patch_t **il, int *inum);
 
 void STlib_UpdateMultIcon(st_multicon_t *mi, bool refresh);
 
-void STlib_UpdateArmsIcon(st_multicon_t *mi, bool refresh, int i);
+void STlib_UpdateSmallWeaponNum(st_multicon_t *mi, bool refresh, int i);
 
 void STLib_Init(void);

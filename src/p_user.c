@@ -59,6 +59,7 @@ bool        autousing = false;
 int         deadlookdir = -1;
 
 static int  ammodiffspeed[NUMAMMO] = { 0 };
+static int  maxammodiffspeed[NUMAMMO] = { 0 };
 static int  armordiffspeed = 0;
 static int  healthdiffspeed = 0;
 
@@ -551,6 +552,15 @@ void P_AnimateAmmo(int diff, ammotype_t type)
     }
 }
 
+void P_AnimateMaxAmmo(int diff, ammotype_t type)
+{
+    if (animatedstats)
+    {
+        maxammodiff[type] = diff;
+        maxammodiffspeed[type] = MIN(ABS(diff) / 20 + 1, 20);
+    }
+}
+
 //
 // P_PlayerThink
 //
@@ -587,10 +597,17 @@ void P_PlayerThink(void)
             armordiff = MAX(0, armordiff - armordiffspeed);
 
         for (ammotype_t i = 0; i < NUMAMMO; i++)
+        {
             if (ammodiff[i] < 0)
                 ammodiff[i] = MIN(ammodiff[i] + ammodiffspeed[i], 0);
             else if (ammodiff[i] > 0)
                 ammodiff[i] = MAX(0, ammodiff[i] - ammodiffspeed[i]);
+
+            if (maxammodiff[i] < 0)
+                maxammodiff[i] = MIN(maxammodiff[i] + maxammodiffspeed[i], 0);
+            else if (maxammodiff[i] > 0)
+                maxammodiff[i] = MAX(0, maxammodiff[i] - maxammodiffspeed[i]);
+        }
     }
 
     if (consoleactive)

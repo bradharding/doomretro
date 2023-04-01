@@ -245,6 +245,9 @@ bool P_GiveBackpack(const bool giveammo, const bool stat)
             viewplayer->maxammo[i] *= 2;
 
         viewplayer->backpack = true;
+
+        for (weapontype_t i = 0; i < NUMAMMO; i++)
+            P_AnimateMaxAmmo(viewplayer->maxammo[i] - viewplayer->maxammo[i] / 2, i);
     }
 
     for (ammotype_t i = 0; i < NUMAMMO; i++)

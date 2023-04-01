@@ -577,6 +577,7 @@ uint64_t    armorhighlight = 0;
 uint64_t    healthhighlight = 0;
 
 int         ammodiff[NUMAMMO] = { 0 };
+int         maxammodiff[NUMAMMO] = { 0 };
 int         armordiff = 0;
 int         healthdiff = 0;
 

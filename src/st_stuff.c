@@ -1284,29 +1284,31 @@ static void ST_DrawWidgets(bool refresh)
     STlib_UpdateBigAmmoNum(&w_ready);
 
     STlib_UpdateSmallAmmoNum(&w_ammo[am_clip], am_clip);
+    STlib_UpdateSmallMaxAmmoNum(&w_maxammo[am_clip], am_clip);
+
     STlib_UpdateSmallAmmoNum(&w_ammo[am_shell], am_shell);
+    STlib_UpdateSmallMaxAmmoNum(&w_maxammo[am_shell], am_shell);
+
     STlib_UpdateSmallAmmoNum(&w_ammo[am_misl], am_misl);
+    STlib_UpdateSmallMaxAmmoNum(&w_maxammo[am_misl], am_misl);
+
     STlib_UpdateSmallAmmoNum(&w_ammo[am_cell], am_cell);
+    STlib_UpdateSmallMaxAmmoNum(&w_maxammo[am_cell], am_cell);
 
-    STlib_UpdateSmallMaxAmmoNum(&w_maxammo[0]);
-    STlib_UpdateSmallMaxAmmoNum(&w_maxammo[1]);
-    STlib_UpdateSmallMaxAmmoNum(&w_maxammo[2]);
-    STlib_UpdateSmallMaxAmmoNum(&w_maxammo[3]);
-
-    STlib_UpdateHealthPercent(&w_health, refresh);
-    STlib_UpdateArmorPercent(&w_armor, refresh);
+    STlib_UpdateBigHealth(&w_health, refresh);
+    STlib_UpdateBigArmor(&w_armor, refresh);
 
     st_shotguns = (viewplayer->weaponowned[wp_shotgun] || viewplayer->weaponowned[wp_supershotgun]);
 
-    STlib_UpdateArmsIcon(&w_arms[0], refresh, 0);
-    STlib_UpdateArmsIcon(&w_arms[1], refresh, 1);
-    STlib_UpdateArmsIcon(&w_arms[2], refresh, 2);
-    STlib_UpdateArmsIcon(&w_arms[3], refresh, 3);
+    STlib_UpdateSmallWeaponNum(&w_arms[0], refresh, 0);
+    STlib_UpdateSmallWeaponNum(&w_arms[1], refresh, 1);
+    STlib_UpdateSmallWeaponNum(&w_arms[2], refresh, 2);
+    STlib_UpdateSmallWeaponNum(&w_arms[3], refresh, 3);
 
     if (gamemode != shareware)
     {
-        STlib_UpdateArmsIcon(&w_arms[4], refresh, 4);
-        STlib_UpdateArmsIcon(&w_arms[5], refresh, 5);
+        STlib_UpdateSmallWeaponNum(&w_arms[4], refresh, 4);
+        STlib_UpdateSmallWeaponNum(&w_arms[5], refresh, 5);
     }
 
     if (facebackcolor != facebackcolor_default)
