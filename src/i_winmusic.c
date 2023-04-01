@@ -209,7 +209,6 @@ static void MIDItoStream(midi_file_t *file)
 {
     const int           num_tracks = MIDI_NumTracks(file);
     int                 non_meta_events = 0;
-    int                 current_time = 0;
     win_midi_track_t    *tracks = malloc(num_tracks * sizeof(win_midi_track_t));
 
     for (int i = 0; i < num_tracks; i++)
@@ -219,6 +218,9 @@ static void MIDItoStream(midi_file_t *file)
     }
 
     if ((song.native_events = calloc(MIDI_NumEvents(file), sizeof(native_event_t))))
+    {
+        int current_time = 0;
+
         while (true)
         {
             midi_event_t    *midievent;
@@ -308,6 +310,7 @@ static void MIDItoStream(midi_file_t *file)
                 current_time = min_time;
             }
         }
+    }
 
     if (!non_meta_events)
         FreeSong();

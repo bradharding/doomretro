@@ -408,7 +408,7 @@ static void R_RenderSegLoop(void)
 
                     if (r_ditheredlighting)
                     {
-                        if (!memcmp(dc_colormap, dc_nextcolormap, arrlen(dc_colormap)))
+                        if (!memcmp(dc_colormap, dc_nextcolormap, sizeof(dc_colormap)))
                             altbmapwallcolfunc();
                         else
                             bmapwallcolfunc();
@@ -418,7 +418,7 @@ static void R_RenderSegLoop(void)
                 }
                 else if (r_ditheredlighting)
                 {
-                    if (!memcmp(dc_colormap, dc_nextcolormap, arrlen(dc_colormap)))
+                    if (!memcmp(dc_colormap, dc_nextcolormap, sizeof(dc_colormap)))
                         altwallcolfunc();
                     else
                         wallcolfunc();
@@ -460,7 +460,7 @@ static void R_RenderSegLoop(void)
 
                             if (r_ditheredlighting)
                             {
-                                if (!memcmp(dc_colormap, dc_nextcolormap, arrlen(dc_colormap)))
+                                if (!memcmp(dc_colormap, dc_nextcolormap, sizeof(dc_colormap)))
                                     altbmapwallcolfunc();
                                 else
                                     bmapwallcolfunc();
@@ -470,7 +470,7 @@ static void R_RenderSegLoop(void)
                         }
                         else if (r_ditheredlighting)
                         {
-                            if (!memcmp(dc_colormap, dc_nextcolormap, arrlen(dc_colormap)))
+                            if (!memcmp(dc_colormap, dc_nextcolormap, sizeof(dc_colormap)))
                                 altwallcolfunc();
                             else
                                 wallcolfunc();
@@ -515,7 +515,7 @@ static void R_RenderSegLoop(void)
 
                             if (r_ditheredlighting)
                             {
-                                if (!memcmp(dc_colormap, dc_nextcolormap, arrlen(dc_colormap)))
+                                if (!memcmp(dc_colormap, dc_nextcolormap, sizeof(dc_colormap)))
                                     altbmapwallcolfunc();
                                 else
                                     bmapwallcolfunc();
@@ -525,7 +525,7 @@ static void R_RenderSegLoop(void)
                         }
                         else if (r_ditheredlighting)
                         {
-                            if (!memcmp(dc_colormap, dc_nextcolormap, arrlen(dc_colormap)))
+                            if (!memcmp(dc_colormap, dc_nextcolormap, sizeof(dc_colormap)))
                                 altwallcolfunc();
                             else
                                 wallcolfunc();
