@@ -200,7 +200,26 @@ void STlib_UpdateBigHealthNum(st_number_t *n)
     }
 }
 
-void STlib_UpdateSmallNum(st_number_t *n)
+void STlib_UpdateSmallAmmoNum(st_number_t *n, ammotype_t ammotype)
+{
+    int num = MAX(0, *n->num + (animatedstats && ammodiff
+        && ammotype == weaponinfo[viewplayer->readyweapon].ammotype ? ammodiff : 0));
+    int x = n->x;
+    int y = n->y;
+
+    // in the special case of 0, you draw 0
+    if (!num)
+        statbarnumfunc(0, 160, 47, x - 4, y, n->p[0]);
+    else
+        // draw the new number
+        while (num)
+        {
+            statbarnumfunc(num % 10, 160, 47, (x -= 4), y, n->p[num % 10]);
+            num /= 10;
+        }
+}
+
+void STlib_UpdateSmallMaxAmmoNum(st_number_t *n)
 {
     int num = MAX(0, *n->num);
     int x = n->x;

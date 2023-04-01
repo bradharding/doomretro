@@ -1283,15 +1283,15 @@ static void ST_DrawWidgets(bool refresh)
 {
     STlib_UpdateBigAmmoNum(&w_ready);
 
-    STlib_UpdateSmallNum(&w_ammo[0]);
-    STlib_UpdateSmallNum(&w_ammo[1]);
-    STlib_UpdateSmallNum(&w_ammo[2]);
-    STlib_UpdateSmallNum(&w_ammo[3]);
+    STlib_UpdateSmallAmmoNum(&w_ammo[0], am_clip);
+    STlib_UpdateSmallAmmoNum(&w_ammo[1], am_shell);
+    STlib_UpdateSmallAmmoNum(&w_ammo[2], am_misl);
+    STlib_UpdateSmallAmmoNum(&w_ammo[3], am_cell);
 
-    STlib_UpdateSmallNum(&w_maxammo[0]);
-    STlib_UpdateSmallNum(&w_maxammo[1]);
-    STlib_UpdateSmallNum(&w_maxammo[2]);
-    STlib_UpdateSmallNum(&w_maxammo[3]);
+    STlib_UpdateSmallMaxAmmoNum(&w_maxammo[0]);
+    STlib_UpdateSmallMaxAmmoNum(&w_maxammo[1]);
+    STlib_UpdateSmallMaxAmmoNum(&w_maxammo[2]);
+    STlib_UpdateSmallMaxAmmoNum(&w_maxammo[3]);
 
     STlib_UpdateHealthPercent(&w_health, refresh);
     STlib_UpdateArmorPercent(&w_armor, refresh);

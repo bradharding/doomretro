@@ -107,7 +107,8 @@ void STlib_InitNum(st_number_t *n, int x, int y, patch_t **pl, int *num, int wid
 void STlib_UpdateBigAmmoNum(st_number_t *n);
 void STlib_UpdateBigArmorNum(st_number_t *n);
 void STlib_UpdateBigHealthNum(st_number_t *n);
-void STlib_UpdateSmallNum(st_number_t *n);
+void STlib_UpdateSmallAmmoNum(st_number_t *n, ammotype_t ammotype);
+void STlib_UpdateSmallMaxAmmoNum(st_number_t *n);
 
 // Percent widget routines
 void STlib_InitPercent(st_percent_t *p, int x, int y, patch_t **pl, int *num, patch_t *percent);
