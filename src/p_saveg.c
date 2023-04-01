@@ -480,10 +480,10 @@ static void saveg_read_player_t(void)
     for (int i = 0; i < NUMWEAPONS; i++)
         viewplayer->weaponowned[i] = oldweaponsowned[i] = saveg_read32();
 
-    for (int i = 0; i < NUMAMMO; i++)
+    for (ammotype_t i = 0; i < NUMAMMO; i++)
         viewplayer->ammo[i] = saveg_read32();
 
-    for (int i = 0; i < NUMAMMO; i++)
+    for (ammotype_t i = 0; i < NUMAMMO; i++)
         viewplayer->maxammo[i] = saveg_read32();
 
     viewplayer->attackdown = saveg_read_bool();
@@ -600,10 +600,10 @@ static void saveg_write_player_t(void)
     for (int i = 0; i < NUMWEAPONS; i++)
         saveg_write32(viewplayer->weaponowned[i]);
 
-    for (int i = 0; i < NUMAMMO; i++)
+    for (ammotype_t i = 0; i < NUMAMMO; i++)
         saveg_write32(viewplayer->ammo[i]);
 
-    for (int i = 0; i < NUMAMMO; i++)
+    for (ammotype_t i = 0; i < NUMAMMO; i++)
         saveg_write32(viewplayer->maxammo[i]);
 
     saveg_write_bool(viewplayer->attackdown);

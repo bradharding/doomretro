@@ -216,7 +216,7 @@ void HU_Init(void)
     if ((lump = W_CheckNumForName("ARM2A0")) >= 0)
         bluearmorpatch = W_CacheLumpNum(lump);
 
-    for (int i = 0; i < NUMAMMO; i++)
+    for (ammotype_t i = 0; i < NUMAMMO; i++)
         ammopic[i].patch = HU_LoadHUDAmmoPatch(i);
 
     keypics[it_bluecard].patch = HU_LoadHUDKeyPatch(it_bluecard);

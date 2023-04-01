@@ -58,7 +58,7 @@
 bool        autousing = false;
 int         deadlookdir = -1;
 
-static int  ammodiffspeed = 0;
+static int  ammodiffspeed[NUMAMMO] = { 0 };
 static int  armordiffspeed = 0;
 static int  healthdiffspeed = 0;
 
@@ -547,7 +547,7 @@ void P_AnimateAmmo(int diff, ammotype_t type)
     if (animatedstats)
     {
         ammodiff[type] = diff;
-        ammodiffspeed = MIN(ABS(diff) / 20 + 1, 20);
+        ammodiffspeed[type] = MIN(ABS(diff) / 20 + 1, 20);
     }
 }
 
@@ -586,11 +586,11 @@ void P_PlayerThink(void)
         else if (armordiff > 0)
             armordiff = MAX(0, armordiff - armordiffspeed);
 
-        for (weapontype_t i = am_clip; i < NUMAMMO; i++)
+        for (ammotype_t i = 0; i < NUMAMMO; i++)
             if (ammodiff[i] < 0)
-                ammodiff[i] = MIN(ammodiff[i] + ammodiffspeed, 0);
+                ammodiff[i] = MIN(ammodiff[i] + ammodiffspeed[i], 0);
             else if (ammodiff[i] > 0)
-                ammodiff[i] = MAX(0, ammodiff[i] - ammodiffspeed);
+                ammodiff[i] = MAX(0, ammodiff[i] - ammodiffspeed[i]);
     }
 
     if (consoleactive)

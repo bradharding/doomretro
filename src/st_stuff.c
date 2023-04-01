@@ -1283,10 +1283,10 @@ static void ST_DrawWidgets(bool refresh)
 {
     STlib_UpdateBigAmmoNum(&w_ready);
 
-    STlib_UpdateSmallAmmoNum(&w_ammo[0], am_clip);
-    STlib_UpdateSmallAmmoNum(&w_ammo[1], am_shell);
-    STlib_UpdateSmallAmmoNum(&w_ammo[2], am_misl);
-    STlib_UpdateSmallAmmoNum(&w_ammo[3], am_cell);
+    STlib_UpdateSmallAmmoNum(&w_ammo[am_clip], am_clip);
+    STlib_UpdateSmallAmmoNum(&w_ammo[am_shell], am_shell);
+    STlib_UpdateSmallAmmoNum(&w_ammo[am_misl], am_misl);
+    STlib_UpdateSmallAmmoNum(&w_ammo[am_cell], am_cell);
 
     STlib_UpdateSmallMaxAmmoNum(&w_maxammo[0]);
     STlib_UpdateSmallMaxAmmoNum(&w_maxammo[1]);

@@ -539,7 +539,7 @@ static void G_SetInitialWeapon(void)
         wp_fist : wp_pistol);
     viewplayer->pendingweapon = viewplayer->readyweapon;
 
-    for (int i = 0; i < NUMAMMO; i++)
+    for (ammotype_t i = 0; i < NUMAMMO; i++)
         viewplayer->maxammo[i] = maxammo[i];
 }
 
@@ -564,7 +564,7 @@ static void G_ResetPlayer(void)
     viewplayer->readyweapon = wp_pistol;
     viewplayer->pendingweapon = wp_pistol;
 
-    for (int i = 0; i < NUMAMMO; i++)
+    for (ammotype_t i = 0; i < NUMAMMO; i++)
         viewplayer->maxammo[i] = maxammo[i];
 }
 

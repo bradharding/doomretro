@@ -266,7 +266,7 @@ bool P_GiveFullAmmo(void)
 {
     bool    result = false;
 
-    for (int i = 0; i < NUMAMMO; i++)
+    for (ammotype_t i = 0; i < NUMAMMO; i++)
         if (viewplayer->ammo[i] < viewplayer->maxammo[i])
         {
             P_AnimateAmmo(viewplayer->ammo[i] - viewplayer->maxammo[i], i);
