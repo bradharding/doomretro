@@ -737,7 +737,7 @@ enum
 
 #define version_default                    DOOMRETRO_VERSIONSTRING
 
-#define vid_borderlesswindow_default       false
+#define vid_borderlesswindow_default       true
 
 #define vid_capfps_min                     0
 #define vid_capfps_default                 200
@@ -789,7 +789,7 @@ enum
 #else
 #define vid_vsync_min                      vid_vsync_adaptive
 #endif
-#define vid_vsync_default                  vid_vsync_on
+#define vid_vsync_default                  vid_vsync_off
 #define vid_vsync_max                      vid_vsync_on
 
 #define vid_widescreen_default             false

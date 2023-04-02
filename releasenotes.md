@@ -35,6 +35,8 @@
 * The movement of some sectors is now smoother when the `vid_capfps` CVAR is not `35`.
 * A bug is fixed whereby pressing a key or mouse button while a controller is rumbling could cause the rumble to continue indefinitely in some instances.
 * The fuzz effect applied to both the player’s weapon when they have a partial invisibility power-up, and to spectres, no longer causes the status bar to bleed into the player’s view in some instances.
+* The `vid_borderlesswindow` CVAR is now `on` by default.
+* The `vid_vsync` CVAR is now `off` by default.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
