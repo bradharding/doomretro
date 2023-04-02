@@ -2313,8 +2313,17 @@ static void cvarlist_cmd_func2(char *cmd, char *parms)
                         count, name, hours, minutes, seconds, description);
             }
             else if (consolecmds[i].flags & CF_OTHER)
+            {
+                char    temp[255];
+
+                M_StringCopy(temp, *(char **)consolecmds[i].variable, sizeof(temp));
+
+                if (english == english_international)
+                    M_AmericanToInternationalEnglish(temp);
+
                 C_TabbedOutput(tabs, MONOSPACED("%3i") ".\t" BOLD("%s") "\t" BOLD("%s") "\t%s",
-                    count, name, *(char **)consolecmds[i].variable, description);
+                    count, name, temp, description);
+            }
         }
 }
 
@@ -10502,13 +10511,19 @@ static void vid_windowpos_cvar_func2(char *cmd, char *parms)
     else
     {
         const int   i = C_GetIndex(cmd);
+        char        temp[255];
 
         C_ShowDescription(i);
 
+        M_StringCopy(temp, vid_windowpos, sizeof(temp));
+
+        if (english == english_international)
+            M_AmericanToInternationalEnglish(temp);
+
         if (M_StringCompare(vid_windowpos, vid_windowpos_default))
-            C_Output(INTEGERCVARISDEFAULT, vid_windowpos);
+            C_Output(INTEGERCVARISDEFAULT, temp);
         else
-            C_Output(INTEGERCVARWITHDEFAULT, vid_windowpos, vid_windowpos_default);
+            C_Output(INTEGERCVARWITHDEFAULT, temp, vid_windowpos_default);
 
         C_ShowWarning(i);
     }

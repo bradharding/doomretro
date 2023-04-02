@@ -1439,7 +1439,7 @@ static void SetVideoMode(bool createwindow, bool output)
                 char    *temp2 = commify(height);
 
                 C_Output("Created a %sx%s resizable window %s on the screen.",
-                    temp1, temp2, (english == english_american ? "centered" : "centred"));
+                    temp1, temp2, (english == english_american ? vid_windowpos_centered : vid_windowpos_centred));
 
                 free(temp1);
                 free(temp2);

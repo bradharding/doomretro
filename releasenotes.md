@@ -37,6 +37,7 @@
 * The fuzz effect applied to both the player’s weapon when they have a partial invisibility power-up, and to spectres, no longer causes the status bar to bleed into the player’s view in some instances.
 * The `vid_borderlesswindow` CVAR is now `on` by default.
 * The `vid_vsync` CVAR is now `off` by default.
+* Minor improvements have been made to translating certain words when the `english` CVAR is `international`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
