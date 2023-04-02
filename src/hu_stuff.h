@@ -81,7 +81,7 @@
 
 #define ALTHUD_LEFT_X               (MAXWIDESCREENDELTA + 3)
 #define ALTHUD_RIGHT_X              (SCREENWIDTH - MAXWIDESCREENDELTA \
-                                        - (weaponschanged && !fixspriteoffsets ? 76 : 127))
+                                        - (weaponschanged && !fixspriteoffsets ? 76 : 128))
 #define ALTHUD_Y                    (SCREENHEIGHT - 41)
 
 //

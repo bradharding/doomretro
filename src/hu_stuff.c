@@ -1310,7 +1310,7 @@ static void HU_DrawAltHUD(void)
             althudfunc(ALTHUD_RIGHT_X, ALTHUD_Y + 13, altrightpatch, WHITE, color, tinttab60);
 
         if ((patch = altweapon[weapon].patch))
-            althudfunc(ALTHUD_RIGHT_X + 107, ALTHUD_Y - 15, patch, WHITE, color, tinttab60);
+            althudfunc(ALTHUD_RIGHT_X + 108, ALTHUD_Y - 15, patch, WHITE, color, tinttab60);
 
         for (int i = 1; i <= NUMCARDS; i++)
             for (int j = 0; j < NUMCARDS; j++)
