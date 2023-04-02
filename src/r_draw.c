@@ -986,26 +986,25 @@ void R_DrawFuzzColumn(void)
     else
     {
         byte    *dest;
-        int     y = dc_yl;
+        int     count;
 
         if (dc_x & 1)
             return;
 
-        if (y == dc_yh)
+        if (!(count = (dc_yh - dc_yl) / 2))
             return;
 
-        dest = ylookup0[y] + dc_x;
+        dest = ylookup0[dc_yl] + dc_x;
 
         // top
-        if (y)
+        if (dc_yl)
             MAKEFUZZY(8, (fuzztable[fuzzpos++] = FUZZ(-1, 1)));
         else
             MAKEFUZZY(6, (fuzztable[fuzzpos++] = FUZZ(0, 1)));
 
-        y += 2;
         dest += SCREENWIDTH * 2;
 
-        while ((y += 2) <= dc_yh)
+        while (--count)
         {
             // middle
             MAKEFUZZY(6, (fuzztable[fuzzpos++] = FUZZ(-1, 1)));
@@ -1020,26 +1019,25 @@ void R_DrawFuzzColumn(void)
 void R_DrawPausedFuzzColumn(void)
 {
     byte    *dest;
-    int     y = dc_yl;
+    int     count;
 
     if (dc_x & 1)
         return;
 
-    if (y == dc_yh)
+    if (!(count = (dc_yh - dc_yl) / 2))
         return;
 
-    dest = ylookup0[y] + dc_x;
+    dest = ylookup0[dc_yl] + dc_x;
 
     // top
-    if (y)
+    if (dc_yl)
         MAKEFUZZY(8, fuzztable[fuzzpos++]);
     else
         MAKEFUZZY(6, fuzztable[fuzzpos++]);
 
-    y += 2;
     dest += SCREENWIDTH * 2;
 
-    while ((y += 2) <= dc_yh)
+    while (--count)
     {
         // middle
         MAKEFUZZY(6, fuzztable[fuzzpos++]);
