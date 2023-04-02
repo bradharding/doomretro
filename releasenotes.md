@@ -3,7 +3,7 @@
 #### DOOM Retro v4.9
 
 * *DOOM Retro* is now built using v17.5.3 of [*Microsoft Visual Studio Community 2022*](https://visualstudio.microsoft.com/vs/community/).
-* Optimizations have been made to further improve the overall performance, stability and memory usage of *DOOM Retro*.
+* Several optimizations have been made to further improve the overall performance, stability and memory usage of *DOOM Retro*.
 * Several changes have been made to text that is output to the console.
 * When the `m_pointer` CVAR is `on`:
   * The mouse pointer may now be used to move:
@@ -16,7 +16,7 @@
 * The player’s health, armor and ammo in the status bar and widescreen HUD now animate when they change. This can be disabled by the new `animatedstats` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
 * These changes have been made to the alternate widescreen HUD:
   * The position of the player’s health is now fixed when 0% and the `negativehealth` CVAR is `off`.
-  * Every part of the HUD is now black, silhouetted against the white background, when the player has an invulnerability power-up or the `r_textures` CVAR is `off`.
+  * Every part of the HUD is now black, silhouetted against the bright background, when the player has an invulnerability power-up or the `r_textures` CVAR is `off`.
   * The vertical positions of some of the weapon silhouettes have changed.
   * Minor improvements have been made to the armor bar when the player has blue armor.
 * Crashes no longer occur when:
@@ -28,12 +28,12 @@
 * The player’s “Health picked up” stat now updates correctly when the player picks up a soul sphere.
 * A bug is fixed whereby the number of monsters in the map may have been wrong after loading a savegame in some instances.
 * Blood splats are no longer overly bright when the `r_textures` CVAR is `off`.
-* Masked midtextures with brightmaps specified in a [`BRGHTMPS`](https://raw.githubusercontent.com/bradharding/doomretro/master/res/BRGHTMPS) lump now display correctly when the `r_brightmaps` CVAR is `on`.
+* Masked midtextures with a brightmap specified in a [`BRGHTMPS`](https://raw.githubusercontent.com/bradharding/doomretro/master/res/BRGHTMPS) lump now display correctly when the `r_brightmaps` CVAR is `on`.
 * Bound controls are now grouped by type when saved in `doomretro.cfg` and in the output of the `bindlist` CCMD.
 * The triangles in the automap that represent every blood splat, displayed when using the `IDDT` cheat, are now slightly larger.
 * Blood is now shown when shooting a lost soul and the `r_blood` CVAR is `red`.
 * The movement of some sectors is now smoother when the `vid_capfps` CVAR is not `35`.
-* A bug is fixed whereby pressing a key or mouse button while a controller is rumbling could cause the rumble not to finish in some instances.
+* A bug is fixed whereby pressing a key or mouse button while a controller is rumbling could cause the rumble to continue indefinitely in some instances.
 * The fuzz effect applied to both the player’s weapon when they have a partial invisibility power-up, and to spectres, no longer causes the status bar to bleed into the player’s view in some instances.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
