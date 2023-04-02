@@ -122,7 +122,6 @@ void R_DrawSolidBloodSplatColumn(void);
 
 // The spectre/invisibility effect.
 void R_DrawFuzzColumn(void);
-void R_DrawPausedFuzzColumn(void);
 void R_DrawFuzzColumns(void);
 void R_DrawPausedFuzzColumns(void);
 void R_DrawFuzzyShadowColumn(void);
