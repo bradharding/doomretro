@@ -90,7 +90,7 @@ static bool CheckIfPatch(int lump)
         const unsigned char *magic = (const unsigned char *)patch;
 
         if (magic[0] == 0x89 && magic[1] == 'P' && magic[2] == 'N' && magic[3] == 'G')
-            C_Warning(1, "The " BOLD("%.8s") " patch is an unsupported PNG lump and will be ignored.", lumpinfo[lump]->name);
+            C_Warning(1, "The " BOLD("%.8s") " patch is an unsupported PNG lump.", lumpinfo[lump]->name);
         else
         {
             const short width = SHORT(patch->width);
@@ -111,7 +111,7 @@ static bool CheckIfPatch(int lump)
                         result = false;
 
                         if (lumpinfo[lump]->size > 0)
-                            C_Warning(1, "The " BOLD("%.8s") " patch is in an unknown format and will be ignored.", lumpinfo[lump]->name);
+                            C_Warning(1, "The " BOLD("%.8s") " patch is in an unknown format.", lumpinfo[lump]->name);
 
                         break;
                     }
