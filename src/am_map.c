@@ -1759,7 +1759,7 @@ static void AM_DrawThings(void)
                 int         fx, fy;
                 int         width;
 
-                if (consoleactive || paused)
+                if (consoleactive || paused || freeze)
                 {
                     point.x = thing->x >> FRACTOMAPBITS;
                     point.y = thing->y >> FRACTOMAPBITS;
