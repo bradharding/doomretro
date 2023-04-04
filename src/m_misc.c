@@ -1007,6 +1007,7 @@ const char *words[][2] =
     { "flavor",      "flavour"     },
     { "gray",        "grey"        },
     { "harbor",      "harbour"     },
+    { "honor",       "honour"      },
     { "humor",       "humour"      },
     { "initialize",  "initialise"  },
     { "inquiry",     "enquiry"     },
