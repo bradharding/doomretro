@@ -1294,7 +1294,7 @@ void R_InitBuffer(void)
     fuzzrange[1] = 0;
     fuzzrange[2] = SCREENWIDTH * 2;
 
-    memset(fuzztable, 0, sizeof(fuzztable));
+    memset(fuzztable, 0, MAXSCREENAREA);
 }
 
 void R_FillBezel(void)
