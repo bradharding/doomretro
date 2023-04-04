@@ -38,6 +38,7 @@
 * The `vid_borderlesswindow` CVAR is now `on` by default.
 * The `vid_vsync` CVAR is now `off` by default.
 * Minor improvements have been made to translating certain words when the `english` CVAR is `international`.
+* Thing triangles will no longer jitter in the automap when using the `IDDT` cheat and freeze mode is on.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
