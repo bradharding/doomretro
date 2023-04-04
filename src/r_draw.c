@@ -996,7 +996,7 @@ void R_DrawFuzzColumn(void)
         if (pausesprites)
         {
             // top
-            MAKEFUZZY((dc_yl ? 8 : 6), fuzztable[fuzzpos++]);
+            MAKEFUZZY((dc_yl >= 2 ? 8 : 6), fuzztable[fuzzpos++]);
             dest += SCREENWIDTH * 2;
 
             while (--count)
@@ -1012,7 +1012,7 @@ void R_DrawFuzzColumn(void)
         else
         {
             // top
-            if (dc_yl)
+            if (dc_yl >= 2)
                 MAKEFUZZY(8, (fuzztable[fuzzpos++] = FUZZ(-1, 1)));
             else
                 MAKEFUZZY(6, (fuzztable[fuzzpos++] = FUZZ(0, 1)));
