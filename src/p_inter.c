@@ -2282,6 +2282,7 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
                 {
                     tplayer->armor -= saved;
                     damage -= saved;
+                    P_AnimateArmor(saved);
                     armorhighlight = I_GetTimeMS() + HUD_ARMOR_HIGHLIGHT_WAIT;
                 }
             }
