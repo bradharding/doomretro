@@ -981,54 +981,52 @@ void R_DrawTranslucentBlue25Column(void)
 
 void R_DrawFuzzColumn(void)
 {
+    byte    *dest;
+    int     count;
+
     if (dc_x & 1)
         return;
+
+    if (!(count = (dc_yh - dc_yl) / 2))
+        return;
+
+    dest = ylookup0[dc_yl] + dc_x;
+
+    if (pausesprites)
+    {
+        // top
+        MAKEFUZZY((dc_yl >= 2 ? 8 : 6), fuzztable[fuzzpos++]);
+        dest += SCREENWIDTH * 2;
+
+        while (--count)
+        {
+            // middle
+            MAKEFUZZY(6, fuzztable[fuzzpos++]);
+            dest += SCREENWIDTH * 2;
+        }
+
+        // bottom
+        MAKEFUZZY(5, fuzztable[fuzzpos++]);
+    }
     else
     {
-        byte    *dest;
-        int     count = (dc_yh - dc_yl) / 2;
-
-        if (!count)
-            return;
-
-        dest = ylookup0[dc_yl] + dc_x;
-
-        if (pausesprites)
-        {
-            // top
-            MAKEFUZZY((dc_yl >= 2 ? 8 : 6), fuzztable[fuzzpos++]);
-            dest += SCREENWIDTH * 2;
-
-            while (--count)
-            {
-                // middle
-                MAKEFUZZY(6, fuzztable[fuzzpos++]);
-                dest += SCREENWIDTH * 2;
-            }
-
-            // bottom
-            MAKEFUZZY(5, fuzztable[fuzzpos++]);
-        }
+        // top
+        if (dc_yl >= 2)
+            MAKEFUZZY(8, (fuzztable[fuzzpos++] = FUZZ(-1, 1)));
         else
+            MAKEFUZZY(6, (fuzztable[fuzzpos++] = FUZZ(0, 1)));
+
+        dest += SCREENWIDTH * 2;
+
+        while (--count)
         {
-            // top
-            if (dc_yl >= 2)
-                MAKEFUZZY(8, (fuzztable[fuzzpos++] = FUZZ(-1, 1)));
-            else
-                MAKEFUZZY(6, (fuzztable[fuzzpos++] = FUZZ(0, 1)));
-
+            // middle
+            MAKEFUZZY(6, (fuzztable[fuzzpos++] = FUZZ(-1, 1)));
             dest += SCREENWIDTH * 2;
-
-            while (--count)
-            {
-                // middle
-                MAKEFUZZY(6, (fuzztable[fuzzpos++] = FUZZ(-1, 1)));
-                dest += SCREENWIDTH * 2;
-            }
-
-            // bottom
-            MAKEFUZZY(5, (fuzztable[fuzzpos++] = FUZZ(-1, 0)));
         }
+
+        // bottom
+        MAKEFUZZY(5, (fuzztable[fuzzpos++] = FUZZ(-1, 0)));
     }
 }
 
