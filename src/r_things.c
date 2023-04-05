@@ -1429,7 +1429,7 @@ static void R_DrawSprite(const vissprite_t *spr)
 //
 void R_DrawMasked(void)
 {
-    interpolatesprites = (vid_capfps != TICRATE && !consoleactive);
+    interpolatesprites = (vid_capfps != TICRATE && !consoleactive && !freeze);
     invulnerable = (viewplayer->fixedcolormap == INVERSECOLORMAP && r_sprites_translucency);
 
     // draw all blood splats
