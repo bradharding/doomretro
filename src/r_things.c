@@ -100,7 +100,6 @@ spritedef_t                     *sprites;
 short                           firstbloodsplatlump;
 
 bool                            allowwolfensteinss = true;
-bool                            pausesprites = false;
 
 static spriteframe_t            sprtemp[MAXSPRITEFRAMES];
 static int                      maxframe;
@@ -1173,7 +1172,7 @@ static void R_DrawPlayerSprites(void)
         if (flashstate)
             R_DrawPlayerSprite(flash, true, (flashstate->dehacked || altered));
 
-        if (pausesprites && !freeze)
+        if (consoleactive)
             R_DrawPausedFuzzColumns();
         else
             R_DrawFuzzColumns();
@@ -1430,8 +1429,7 @@ static void R_DrawSprite(const vissprite_t *spr)
 //
 void R_DrawMasked(void)
 {
-    pausesprites = (menuactive || paused || consoleactive || freeze);
-    interpolatesprites = (vid_capfps != TICRATE && !pausesprites);
+    interpolatesprites = (vid_capfps != TICRATE && !consoleactive);
     invulnerable = (viewplayer->fixedcolormap == INVERSECOLORMAP && r_sprites_translucency);
 
     // draw all blood splats

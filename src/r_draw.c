@@ -992,7 +992,7 @@ void R_DrawFuzzColumn(void)
 
     dest = ylookup0[dc_yl] + dc_x;
 
-    if (pausesprites && !freeze)
+    if (consoleactive)
     {
         // top
         MAKEFUZZY((dc_yl >= 2 ? 8 : 6), fuzztable[fuzzpos++]);

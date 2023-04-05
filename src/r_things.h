@@ -55,7 +55,6 @@ extern fixed_t  pspriteiscale;
 extern short    firstbloodsplatlump;
 
 extern bool     allowwolfensteinss;
-extern bool     pausesprites;
 
 void R_AddSprites(sector_t *sec, int lightlevel);
 void R_InitSprites(void);
