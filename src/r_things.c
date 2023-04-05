@@ -1173,7 +1173,7 @@ static void R_DrawPlayerSprites(void)
         if (flashstate)
             R_DrawPlayerSprite(flash, true, (flashstate->dehacked || altered));
 
-        if (pausesprites)
+        if (pausesprites && !freeze)
             R_DrawPausedFuzzColumns();
         else
             R_DrawFuzzColumns();
