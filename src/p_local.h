@@ -88,7 +88,7 @@
 #define NEEDEDCARDFLASH     10
 
 #define WEAPONBOTTOM        (128 * FRACUNIT)
-#define WEAPONTOP           (32 * FRACUNIT)
+#define WEAPONTOP           (32 * FRACUNIT - FRACUNIT / 2)
 
 //
 // P_PSPR.C
