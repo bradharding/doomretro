@@ -39,6 +39,7 @@
 #pragma once
 
 #include "d_main.h"
+#include "m_config.h"
 #include "r_local.h"
 
 #define FOOTCLIPSIZE        (10 * FRACUNIT)
@@ -88,7 +89,7 @@
 #define NEEDEDCARDFLASH     10
 
 #define WEAPONBOTTOM        (128 * FRACUNIT)
-#define WEAPONTOP           (32 * FRACUNIT - FRACUNIT / 2)
+#define WEAPONTOP           (32 * FRACUNIT - (r_screensize == r_screensize_max ? 0 : FRACUNIT / 2))
 
 //
 // P_PSPR.C

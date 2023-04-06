@@ -14,7 +14,7 @@
   * The mouse pointer is no longer shown on the help screen if the mouse is moved.
 * The positions of `ON`/`OFF` and `HIGH`/`LOW` in the options menu have been fixed in some instances.
 * A bug is fixed whereby when changing the `r_pickupeffect` CVAR in the console the `r_damageeffect` CVAR would be changed instead.
-* The player’s health, armor and ammo in the status bar and widescreen HUD now animate when they change. This can be disabled by the new `animatedstats` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
+* The player’s health, armor and ammo in both the status bar and widescreen HUD now animate when they change. This can be disabled by the new `animatedstats` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
 * These changes have been made to the alternate widescreen HUD:
   * The position of the player’s health is now fixed when 0% and the `negativehealth` CVAR is `off`.
   * Every part of the HUD is now black, silhouetted against the bright background, when the player has an invulnerability power-up or the `r_textures` CVAR is `off`.
@@ -37,7 +37,7 @@
 * A bug is fixed whereby pressing a key or mouse button while a controller is rumbling could cause the rumble to continue indefinitely in some instances.
 * These changes have been made to the fuzz effect applied to both the player’s weapon when they have a partial invisibility power-up, and to spectres:
   * The effect no longer causes the status bar to bleed into the player’s view in some instances.
-  * A crash no longer occurs if the sprite of a spectre touches the top of the player’s view.
+  * A crash no longer occurs if the sprite of a spectre touches the top of the screen.
   * The effect is no longer frozen when freeze mode is on.
 * The `vid_borderlesswindow` CVAR is now `on` by default.
 * The `vid_vsync` CVAR is now `off` by default.
