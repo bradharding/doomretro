@@ -82,7 +82,7 @@ int                     message_counter;
 static bool             headsupactive;
 
 patch_t                 *minuspatch = NULL;
-short                   minuspatchwidth;
+short                   minuspatchwidth = 0;
 static int              minuspatchy;
 static patch_t          *greenarmorpatch;
 static patch_t          *bluearmorpatch;

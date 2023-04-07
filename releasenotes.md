@@ -48,7 +48,7 @@
 * The `vid_borderlesswindow` CVAR is now `on` by default.
 * The `vid_vsync` CVAR is now `off` by default.
 * Minor improvements have been made to translating certain words when the `english` CVAR is `international`.
-* Thing triangles will no longer move in the automap when the `IDDT` cheat has been entered and freeze mode is on.
+* Thing triangles no longer move in the automap when the `IDDT` cheat has been entered and freeze mode is on.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
