@@ -1967,9 +1967,8 @@ static void D_DoomMainSetup(void)
 
     C_ClearConsole();
 
-    C_PrintCompileDate();
-
 #if defined(_WIN32)
+    C_PrintCompileDate();
     I_PrintWindowsVersion();
 #endif
 
@@ -2060,7 +2059,7 @@ static void D_DoomMainSetup(void)
 
     if (!stat_runs)
     {
-        C_Output("This is the first time " ITALICS(DOOMRETRO_NAME) " has been run on this " COMPUTER ".");
+        C_Output("This is the first time " ITALICS(DOOMRETRO_NAME) " has been run on this " DEVICE ".");
 
         stat_firstrun = (uint64_t)(gamestarttime.tm_mday + (gamestarttime.tm_mon + 1) * 100
             + (1900 + gamestarttime.tm_year) * 10000);
@@ -2081,11 +2080,11 @@ static void D_DoomMainSetup(void)
                 "July", "August", "September", "October", "November", "December"
             };
 
-            C_Output(ITALICS(DOOMRETRO_NAME) " has been run %s times on this " COMPUTER " since %s, %s %i, %i.",
+            C_Output(ITALICS(DOOMRETRO_NAME) " has been run %s times on this " DEVICE " since %s, %s %i, %i.",
                 temp, dayofweek(day, month, year), months[month - 1], day, year);
         }
         else
-            C_Output(ITALICS(DOOMRETRO_NAME) " has been run %s times on this " COMPUTER ".", temp);
+            C_Output(ITALICS(DOOMRETRO_NAME) " has been run %s times on this " DEVICE ".", temp);
 
         free(temp);
     }

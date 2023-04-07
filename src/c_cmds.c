@@ -3204,12 +3204,15 @@ static void kill_cmd_func2(char *cmd, char *parms)
             if (viewplayer->powers[pw_invulnerability])
             {
                 if (M_StringCompare(playername, playername_default))
-                    C_Warning(0, "You can't be killed while you have a %s.", powerups[pw_invulnerability]);
+                    C_Warning(0, "You can't be killed while you have %s %s.",
+                        (isvowel(powerups[pw_invulnerability][0]) ? "an" : "a"),
+                        powerups[pw_invulnerability]);
                 else
-                    C_Warning(0, "%s can't be killed while %s %s a %s.",
+                    C_Warning(0, "%s can't be killed while %s %s %s %s.",
                         playername,
                         preferredpronoun(personal),
                         (playergender == playergender_other ? "have" : "has"),
+                        (isvowel(powerups[pw_invulnerability][0]) ? "an" : "a"),
                         powerups[pw_invulnerability]);
 
                 return;

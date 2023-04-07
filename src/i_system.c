@@ -211,7 +211,7 @@ void I_PrintSystemInfo(void)
     const int   cores = SDL_GetCPUCount();
     char        *RAM = commify(SDL_GetSystemRAM() / 1000);
 
-    C_Output("There %s %i core%s and %sGB of RAM on this " COMPUTER ".",
+    C_Output("There %s %i core%s and %sGB of RAM on this " DEVICE ".",
         (cores == 1 ? "is" : "are"), cores, (cores == 1 ? "" : "s"), RAM);
     free(RAM);
 }

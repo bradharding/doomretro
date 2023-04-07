@@ -2460,6 +2460,7 @@ bool C_Responder(event_t *ev)
     return true;
 }
 
+#if defined(_WIN32)
 void C_PrintCompileDate(void)
 {
     char    mth[4] = "";
@@ -2495,6 +2496,7 @@ void C_PrintCompileDate(void)
             (english == english_american ? "Optimizing" : "Optimising"));
 #endif
 }
+#endif
 
 void C_PrintSDLVersions(void)
 {

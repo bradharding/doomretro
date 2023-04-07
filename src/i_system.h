@@ -42,17 +42,17 @@
 #include "doomdef.h"
 
 #if defined(_WIN32)
-#define COMPUTER    "PC"
-#define WINDOWS     "Windows"
-#define DESKTOP     "desktop"
+#define DEVICE  "PC"
+#define WINDOWS "Windows"
+#define DESKTOP "desktop"
 #elif defined(__APPLE__)
-#define COMPUTER    "Mac"
-#define WINDOWS     "macOS"
-#define DESKTOP     "Finder"
+#define DEVICE  "Mac"
+#define WINDOWS "macOS"
+#define DESKTOP "Finder"
 #else
-#define COMPUTER    "PC"
-#define WINDOWS     "Linux"
-#define DESKTOP     "desktop"
+#define DEVICE  "PC"
+#define WINDOWS "Linux"
+#define DESKTOP "desktop"
 #endif
 
 #if defined(_WIN32)

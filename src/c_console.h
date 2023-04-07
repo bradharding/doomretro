@@ -259,7 +259,6 @@ void C_Drawer(void);
 bool C_ExecuteInputString(const char *input);
 bool C_ValidateInput(char *input);
 bool C_Responder(event_t *ev);
-void C_PrintCompileDate(void);
 void C_PrintSDLVersions(void);
 void C_UpdateFPSOverlay(void);
 void C_UpdateTimerOverlay(void);
@@ -268,3 +267,7 @@ void C_UpdatePlayerStatsOverlay(void);
 void C_UpdatePlayerPositionOverlay(void);
 char *C_CreateTimeStamp(const int index);
 int C_TextWidth(const char *text, const bool formatting, const bool kerning);
+
+#if defined(_WIN32)
+void C_PrintCompileDate(void);
+#endif
