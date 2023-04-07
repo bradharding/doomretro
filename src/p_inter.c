@@ -172,20 +172,19 @@ bool P_TakeBackpack(void)
     if (!viewplayer->backpack)
         return false;
 
-    for (ammotype_t i = 0; i < NUMAMMO; i++)
-        viewplayer->maxammo[i] /= 2;
-
     viewplayer->backpack = false;
 
-    for (weapontype_t i = 0; i < NUMAMMO; i++)
-        P_AnimateMaxAmmo(viewplayer->maxammo[i] / 2, weaponinfo[i].ammotype);
-
     for (ammotype_t i = 0; i < NUMAMMO; i++)
+    {
+        viewplayer->maxammo[i] /= 2;
+        P_AnimateMaxAmmo(viewplayer->maxammo[i], i);
+
         if (viewplayer->ammo[i] > viewplayer->maxammo[i])
         {
             P_AnimateAmmo(viewplayer->ammo[i] - viewplayer->maxammo[i], i);
             viewplayer->ammo[i] = viewplayer->maxammo[i];
         }
+    }
 
     return true;
 }
@@ -264,13 +263,13 @@ bool P_GiveBackpack(const bool giveammo, const bool stat)
 
     if (!viewplayer->backpack)
     {
-        for (ammotype_t i = 0; i < NUMAMMO; i++)
-            viewplayer->maxammo[i] *= 2;
-
         viewplayer->backpack = true;
 
-        for (weapontype_t i = 0; i < NUMAMMO; i++)
-            P_AnimateMaxAmmo(viewplayer->maxammo[i] / 2, weaponinfo[i].ammotype);
+        for (ammotype_t i = 0; i < NUMAMMO; i++)
+        {
+            P_AnimateMaxAmmo(viewplayer->maxammo[i], i);
+            viewplayer->maxammo[i] *= 2;
+        }
     }
 
     for (ammotype_t i = 0; i < NUMAMMO; i++)
