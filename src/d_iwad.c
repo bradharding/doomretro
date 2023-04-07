@@ -763,10 +763,8 @@ static char *SaveGameIWADName(void)
     //
     // The directory depends on the IWAD, so that savegames for
     // different IWADs are kept separate.
-    //
-    // Note that we match on gamemission rather than on IWAD name.
-    // This ensures that DOOM1.WAD and DOOM.WAD saves are stored
-    // in the same place.
+    if (gamemode == shareware)
+        return "DOOM1";
     if (FREEDOOM)
         return (gamemode == commercial ? "freedoom2" : "freedoom");
     else if (hacx)

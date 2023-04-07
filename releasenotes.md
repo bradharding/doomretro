@@ -2,6 +2,8 @@
 
 #### DOOM Retro v4.9.1
 
+* When playing *DOOM (Shareware)*, games are now saved in a separate folder from the retail release of *DOOM*.
+
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Friday, April 7, 2023
