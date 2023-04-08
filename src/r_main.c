@@ -382,7 +382,7 @@ void R_ExecuteSetViewSize(void)
     {
         // [BH] overdraw viewheight by 2px to fix possible fuzz effect bleeding
         viewwidth = setblocks * SCREENWIDTH / 10;
-        viewheight = ((setblocks * (SCREENHEIGHT - SBARHEIGHT) / 10) & ~7) + 2;
+        viewheight = ((setblocks * (SCREENHEIGHT - SBARHEIGHT) / 10) & ~7);
         pspritescale = FixedDiv(setblocks * NONWIDEWIDTH / 10, VANILLAWIDTH);
     }
 

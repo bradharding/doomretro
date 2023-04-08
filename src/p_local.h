@@ -89,7 +89,7 @@
 #define NEEDEDCARDFLASH     10
 
 #define WEAPONBOTTOM        (128 * FRACUNIT)
-#define WEAPONTOP           (32 * FRACUNIT - (r_screensize == r_screensize_max ? 0 : FRACUNIT / 2))
+#define WEAPONTOP           (32 * FRACUNIT)
 
 //
 // P_PSPR.C
