@@ -423,11 +423,10 @@ char *M_StringJoin(const char *s, ...)
         if (!(v = va_arg(args, const char *)))
             break;
 
-        strncat(result, v, result_len);
+        strncat(result, v, strlen(v));
     }
 
     va_end(args);
-
     return result;
 }
 
