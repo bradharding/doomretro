@@ -1072,11 +1072,12 @@ void M_LoadCVARs(char *filename)
 
         if (togglingvanilla)
         {
-            char    *temp = uncommify(value);
+            char    *temp1 = uncommify(value);
+            char    *temp2 = M_StringJoin(cvar, " ", temp1, NULL);
 
-            C_ValidateInput(M_StringJoin(cvar, " ", temp, NULL));
-            free(temp);
-
+            C_ValidateInput(temp2);
+            free(temp1);
+            free(temp2);
             continue;
         }
 

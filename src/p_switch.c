@@ -78,9 +78,9 @@ int         maxbuttons = MAXBUTTONS;
 void P_InitSwitchList(void)
 {
     int             index = 0;
-    const int       episode = (gamemode == registered || gamemode == retail ? 2 : (gamemode == commercial ? 3 : 1));
-    switchlist_t    *alphSwitchList;                        // jff 3/23/98 pointer to switch table
-    const int       lump = W_GetNumForName("SWITCHES");     // cph - new WAD lump handling
+    const int       ep = (gamemode == registered || gamemode == retail ? 2 : (gamemode == commercial ? 3 : 1));
+    switchlist_t    *alphSwitchList;                    // jff 3/23/98 pointer to switch table
+    const int       lump = W_GetNumForName("SWITCHES"); // cph - new WAD lump handling
 
     // jff 3/23/98 read the switch table from a predefined lump
     alphSwitchList = (switchlist_t *)W_CacheLumpNum(lump);
@@ -93,7 +93,7 @@ void P_InitSwitchList(void)
             switchlist = I_Realloc(switchlist,
                 (size_t)(max_numswitches = (max_numswitches ? max_numswitches * 2 : 8)) * sizeof(*switchlist));
 
-        if (SHORT(alphSwitchList[i].episode) <= episode)    // jff 5/11/98 endianness
+        if (SHORT(alphSwitchList[i].episode) <= ep)     // jff 5/11/98 endianness
         {
             int texture1;
             int texture2;
