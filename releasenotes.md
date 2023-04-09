@@ -2,6 +2,8 @@
 
 #### DOOM Retro v4.9.1
 
+* Minor optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
+* Minor changes have been made to text that is output to the console.
 * When playing *DOOM (Shareware)*, games are now saved in a separate folder from the retail release of *DOOM*.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)

@@ -236,7 +236,6 @@ void R_DrawBrightmapDitherColumn(void)
     *dest = colormap[dc_brightmap[dot]][dither(dc_x, dc_yl++, dc_z)][dot];
 }
 
-
 void R_DrawColorColumn(void)
 {
     int         count = dc_yh - dc_yl + 1;

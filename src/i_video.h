@@ -117,7 +117,6 @@ void I_WindowResizeBlit(void);
 extern HANDLE       CapFPSEvent;
 #endif
 
-
 extern void (*blitfunc)(void);
 extern void (*mapblitfunc)(void);
 
