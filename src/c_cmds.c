@@ -10577,8 +10577,11 @@ static bool weapon_cvar_func1(char *cmd, char *parms)
     {
         const int   value = C_LookupValueFromAlias(parms, WEAPONVALUEALIAS);
 
-        return (C_LookupValueFromAlias(parms, WEAPONVALUEALIAS) != INT_MIN
-            && value != viewplayer->readyweapon && viewplayer->weaponowned[value]);
+        return (value != INT_MIN
+            && value != viewplayer->readyweapon
+            && viewplayer->weaponowned[value]
+            && (viewplayer->ammo[weaponinfo[value].ammotype] >= weaponinfo[value].ammopershot
+                || weaponinfo[value].ammotype == am_noammo));
     }
 }
 
@@ -10586,7 +10589,19 @@ static void weapon_cvar_func2(char *cmd, char *parms)
 {
     if (*parms)
     {
-        viewplayer->pendingweapon = C_LookupValueFromAlias(parms, WEAPONVALUEALIAS);
+        const int   value = C_LookupValueFromAlias(parms, WEAPONVALUEALIAS);
+
+        viewplayer->pendingweapon = value;
+
+        if (value == wp_fist)
+            viewplayer->fistorchainsaw = wp_fist;
+        else if (value == wp_chainsaw)
+            viewplayer->fistorchainsaw = wp_chainsaw;
+        else if (value == wp_shotgun)
+            viewplayer->preferredshotgun = wp_shotgun;
+        else if (value == wp_supershotgun)
+            viewplayer->preferredshotgun = wp_supershotgun;
+
         C_HideConsole();
     }
     else
