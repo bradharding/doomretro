@@ -513,7 +513,7 @@ int C_TextWidth(const char *text, const bool formatting, const bool kerning)
         else if (letter == 215 || (letter == 'x' && isdigit(prevletter)
             && ((nextletter = (i < len - 1 ? text[i + 1] : '\0')) == '\0' || isdigit(nextletter))))
             width += SHORT(multiply->width);
-        else if (letter == '-' && prevletter == ' ' && !isdigit(nextletter))
+        else if (letter == '-' && prevletter == ' ' && !isdigit((nextletter = (i < len - 1 ? text[i + 1] : '\0'))))
             width += SHORT(endash->width);
         else if (!i || prevletter == ' ' || prevletter == '(' || prevletter == '[' || prevletter == '\t')
         {
