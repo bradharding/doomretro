@@ -278,7 +278,7 @@ typedef struct
 
 static void switchPosts(rpost_t *post1, rpost_t *post2)
 {
-    rpost_t dummy = { 0 };
+    rpost_t dummy;
 
     dummy.topdelta = post1->topdelta;
     dummy.length = post1->length;
