@@ -69,7 +69,7 @@ static bool getIsSolidAtSpot(const column_t *column, int spot)
         if (spot < column->topdelta)
             return false;
 
-        if (spot <= column->topdelta + column->length)
+        if (spot >= column->topdelta && spot <= column->topdelta + column->length)
             return true;
 
         column = (const column_t *)((const byte *)column + 3 + column->length + 1);
@@ -278,7 +278,7 @@ typedef struct
 
 static void switchPosts(rpost_t *post1, rpost_t *post2)
 {
-    rpost_t dummy;
+    rpost_t dummy = { 0 };
 
     dummy.topdelta = post1->topdelta;
     dummy.length = post1->length;

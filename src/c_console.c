@@ -466,7 +466,7 @@ int C_TextWidth(const char *text, const bool formatting, const bool kerning)
     for (int i = 0; i < len; i++)
     {
         const unsigned char letter = text[i];
-        unsigned char       nextletter;
+        unsigned char       nextletter = text[i + 1];
 
         if (letter == ' ')
             width += spacewidth;
@@ -510,10 +510,9 @@ int C_TextWidth(const char *text, const bool formatting, const bool kerning)
             width += SHORT(regomark->width);
             i += 2;
         }
-        else if (letter == 215 || (letter == 'x' && isdigit(prevletter)
-            && ((nextletter = (i < len - 1 ? text[i + 1] : '\0')) == '\0' || isdigit(nextletter))))
+        else if (letter == 215 || (letter == 'x' && isdigit(prevletter) && (nextletter == '\0' || isdigit(nextletter))))
             width += SHORT(multiply->width);
-        else if (letter == '-' && prevletter == ' ' && !isdigit((nextletter = (i < len - 1 ? text[i + 1] : '\0'))))
+        else if (letter == '-' && prevletter == ' ' && !isdigit(nextletter))
             width += SHORT(endash->width);
         else if (!i || prevletter == ' ' || prevletter == '(' || prevletter == '[' || prevletter == '\t')
         {
