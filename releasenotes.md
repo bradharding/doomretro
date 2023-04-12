@@ -2,6 +2,7 @@
 
 #### DOOM Retro v4.9.1
 
+* *DOOM Retro* is now built using v17.5.4 of [*Microsoft Visual Studio Community 2022*](https://visualstudio.microsoft.com/vs/community/).
 * Minor optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Minor changes have been made to text that is output to the console.
 * When playing *DOOM (Shareware)*, games are now saved in a separate folder from the retail release of *DOOM*.
