@@ -125,14 +125,13 @@ static const fixed_t floatbobdiffs[64] =
 // R_InstallSpriteLump
 // Local function for R_InitSprites.
 //
-static void R_InstallSpriteLump(const lumpinfo_t *lump, const int lumpnum,
-    const int frame, const char rot, const bool flipped)
+static void R_InstallSpriteLump(const int lump, const int frame, const char rot, const bool flipped)
 {
     unsigned int    rotation = (rot >= '0' && rot <= '9' ? rot - '0' : (rot >= 'A' ? rot - 'A' + 10 : 17));
 
     if (frame >= MAXSPRITEFRAMES || rotation > 16)
     {
-        I_Error("R_InstallSpriteLump: Bad frame characters in lump %s", lump->name);
+        I_Error("R_InstallSpriteLump: Bad frame characters in lump %s", lumpinfo[lump]->name);
         return;
     }
 
@@ -145,12 +144,12 @@ static void R_InstallSpriteLump(const lumpinfo_t *lump, const int lumpnum,
         for (int r = 14; r >= 0; r -= 2)
             if (sprtemp[frame].lump[r] == -1)
             {
-                sprtemp[frame].lump[r] = lumpnum - firstspritelump;
+                sprtemp[frame].lump[r] = lump - firstspritelump;
 
                 if (flipped)
-                    sprtemp[frame].flip |= 1 << r;
+                    sprtemp[frame].flip |= (1 << r);
 
-                sprtemp[frame].rotate = 0;      // jff 4/24/98 if any subbed, rotless
+                sprtemp[frame].rotate = 0;  // jff 4/24/98 if any subbed, rotless
             }
 
         return;
@@ -161,12 +160,12 @@ static void R_InstallSpriteLump(const lumpinfo_t *lump, const int lumpnum,
 
     if (sprtemp[frame].lump[rotation] == -1)
     {
-        sprtemp[frame].lump[rotation] = lumpnum - firstspritelump;
+        sprtemp[frame].lump[rotation] = lump - firstspritelump;
 
         if (flipped)
             sprtemp[frame].flip |= (1 << rotation);
 
-        sprtemp[frame].rotate = 1;              // jff 4/24/98 only change if rot used
+        sprtemp[frame].rotate = 1;          // jff 4/24/98 only change if rot used
     }
 }
 
@@ -187,7 +186,7 @@ static void R_InstallSpriteLump(const lumpinfo_t *lump, const int lumpnum,
 // 01/25/98, 01/31/98 killough : Rewritten for performance
 //
 // Empirically verified to have excellent hash properties across standard DOOM sprites:
-#define R_SpriteNameHash(s) (s[0] - ((size_t)s[1] * 3 - (size_t)s[3] * 2 - s[2]) * 2)
+#define R_SpriteNameHash(s) ((unsigned int)((s)[0] - ((s)[1] * 3 - (s)[3] * 2 - (s)[2]) * 2))
 
 static void R_InitSpriteDefs(void)
 {
@@ -240,10 +239,10 @@ static void R_InitSpriteDefs(void)
                 if (!((lump->name[0] ^ spritename[0]) | (lump->name[1] ^ spritename[1])
                     | (lump->name[2] ^ spritename[2]) | (lump->name[3] ^ spritename[3])))
                 {
-                    R_InstallSpriteLump(lump, j + firstspritelump, lump->name[4] - 'A', lump->name[5], false);
+                    R_InstallSpriteLump(j + firstspritelump, lump->name[4] - 'A', lump->name[5], false);
 
                     if (lump->name[6])
-                        R_InstallSpriteLump(lump, j + firstspritelump, lump->name[6] - 'A', lump->name[7], true);
+                        R_InstallSpriteLump(j + firstspritelump, lump->name[6] - 'A', lump->name[7], true);
                 }
             } while ((j = hash[j].next) >= 0);
 

@@ -287,8 +287,9 @@ void R_RenderMaskedSegRange(const drawseg_t *ds, const int x1, const int x2)
                 // mapping to screen coordinates is totally out of range:
                 int64_t t = ((int64_t)centeryfrac << FRACBITS) - (int64_t)dc_texturemid * spryscale;
 
+                // skip if the texture is out of screen's range
                 if (t + (int64_t)texheight * spryscale < 0 || t > (int64_t)SCREENHEIGHT << FRACBITS * 2)
-                    continue;                       // skip if the texture is out of screen's range
+                    continue;
 
                 sprtopscreen = (int64_t)(t >> FRACBITS);
 
