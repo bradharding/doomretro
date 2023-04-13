@@ -333,7 +333,7 @@ bool I_Windows_InitMusic(void)
         return false;
     }
 
-    if (midiOutGetDevCaps(MidiDevice, &caps, sizeof(caps)) == MMSYSERR_NOERROR)
+    if (midiOutGetDevCaps(MidiDevice, &caps, sizeof(caps)) == MMSYSERR_NOERROR && s_musicvolume)
         C_Output("Music is playing at %i%% volume using the " ITALICS("%s."), s_musicvolume, caps.szPname);
 
     hdr->lpData = (LPSTR)buffer.events;

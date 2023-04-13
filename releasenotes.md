@@ -6,7 +6,7 @@
 * Minor optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Minor changes have been made to text that is output to the console.
 * When playing *DOOM (Shareware)*, games are now saved in a separate folder from the retail release of *DOOM*.
-* A bug is fixed whereby the music’s volume would be wrong in some instances.
+* A bug is fixed whereby the music’s volume wasn’t set correctly in some instances.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
