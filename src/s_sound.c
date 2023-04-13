@@ -658,10 +658,10 @@ void S_ChangeMusic(int music_id, bool looping, bool allowrestart, bool mapstart)
 
     music->handle = handle;
 
-    S_RestoreMusicVolume();
-
     // Play it
     I_PlaySong(handle, looping);
+
+    S_RestoreMusicVolume();
 
     mus_playing = music;
 
