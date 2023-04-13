@@ -127,7 +127,7 @@ static const fixed_t floatbobdiffs[64] =
 //
 static void R_InstallSpriteLump(const int lump, const int frame, const char rot, const bool flipped)
 {
-    unsigned int    rotation = (rot >= '0' && rot <= '9' ? rot - '0' : (rot >= 'A' ? rot - 'A' + 10 : 17));
+    unsigned int    rotation = (rot >= 'A' ? rot - 'A' + 10 : (rot >= '0' ? rot - '0' : 17));
 
     if (frame >= MAXSPRITEFRAMES || rotation > 16)
     {
@@ -268,7 +268,7 @@ static void R_InitSpriteDefs(void)
                             break;
 
                         case 1:
-                            // must have all 16 frames
+                            // must have all 8 frames
                             for (int rot = 0; rot < 16; rot += 2)
                             {
                                 if (sprtemp[frame].lump[rot + 1] == -1)
