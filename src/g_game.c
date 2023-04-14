@@ -1523,7 +1523,7 @@ void G_DoLoadGame(void)
     loadaction = gameaction;
     gameaction = ga_nothing;
 
-    if (numconsolestrings < 2 || !M_StringStartsWith(console[numconsolestrings - 3].string, "load "))
+    if (numconsolestrings == 1 || !M_StringStartsWith(console[numconsolestrings - 1].string, "load "))
         C_Input("load %s", savename);
 
     if (!(save_stream = fopen(savename, "rb")))
