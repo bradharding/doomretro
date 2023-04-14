@@ -705,6 +705,8 @@ static void I_ReadMouse(void)
         ev.type = ev_mouse;
         ev.data1 = mousebuttonstate;
 
+        SmoothMouse(&x, &y);
+
         if (((menuactive && !helpscreen) || consoleactive || gamestate != GS_LEVEL)
             && !splashscreen && m_pointer)
         {
@@ -718,8 +720,6 @@ static void I_ReadMouse(void)
         }
         else
         {
-            SmoothMouse(&x, &y);
-
             if (m_acceleration)
             {
                 ev.data2 = AccelerateMouse(x);
