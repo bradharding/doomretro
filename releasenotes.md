@@ -6,7 +6,7 @@
 * Minor optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Minor changes have been made to text that is output to the console.
 * When playing *DOOM (Shareware)*, games are now saved in a separate folder from the retail release of *DOOM*.
-* A bug is fixed whereby the music’s volume wasn’t set correctly in some instances.
+* A bug is fixed whereby the music’s volume wasn’t being set correctly in some instances.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
@@ -48,7 +48,6 @@
 * The movement of some sectors is now smoother when the `vid_capfps` CVAR is not `35`.
 * A bug is fixed whereby pressing a key or mouse button while a controller is rumbling could cause the rumble to continue indefinitely in some instances.
 * These changes have been made to the fuzz effect applied to both the player’s weapon when they have a partial invisibility power-up, and to spectres:
-  * The effect no longer causes the status bar to bleed into the player’s view in some instances.
   * A crash no longer occurs if the sprite of a spectre touches the top of the screen.
   * The effect is no longer frozen when freeze mode is on.
 * The `vid_borderlesswindow` CVAR is now `on` by default.

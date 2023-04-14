@@ -103,7 +103,7 @@ int                 sfxvolume;
 int                 musicvolume;
 
 // Internal volume level, ranging from 0 to 127
-static int          snd_SfxVolume;
+static int          snd_sfxvolume;
 
 // Whether songs are mus_paused
 static bool         mus_paused;
@@ -395,9 +395,9 @@ static int S_GetChannel(mobj_t *origin, sfxinfo_t *sfxinfo)
                 break;
 
         if (cnum == s_channels)
-            return -1;                  // FUCK! No lower priority. Sorry, Charlie.
+            return -1;              // FUCK! No lower priority. Sorry, Charlie.
         else
-            S_StopChannel(cnum);        // Otherwise, kick out lower priority.
+            S_StopChannel(cnum);    // Otherwise, kick out lower priority.
     }
 
     c = &channels[cnum];
@@ -435,7 +435,7 @@ static bool S_AdjustSoundParms(mobj_t *origin, int *vol, int *sep)
     if (!dist)
     {
         *sep = NORM_SEP;
-        *vol = snd_SfxVolume;
+        *vol = snd_sfxvolume;
 
         return (*vol > 0);
     }
@@ -456,7 +456,7 @@ static bool S_AdjustSoundParms(mobj_t *origin, int *vol, int *sep)
     }
 
     // volume calculation
-    *vol = (dist < S_CLOSE_DIST ? snd_SfxVolume : snd_SfxVolume * (S_CLIPPING_DIST - dist) / S_ATTENUATOR);
+    *vol = (dist < S_CLOSE_DIST ? snd_sfxvolume : snd_sfxvolume * (S_CLIPPING_DIST - dist) / S_ATTENUATOR);
 
     return (*vol > 0);
 }
@@ -467,7 +467,7 @@ static void S_StartSoundAtVolume(mobj_t *origin, int sfx_id, int pitch)
     int         sep = NORM_SEP;
     int         cnum;
     int         handle;
-    int         volume = snd_SfxVolume;
+    int         volume = snd_sfxvolume;
 
     if (sfx->lumpnum == -1 || nosfx)
         return;
@@ -544,7 +544,7 @@ void S_UpdateSounds(void)
             if (origin && origin != viewplayer->mo)
             {
                 int         sep = NORM_SEP;
-                int         volume = snd_SfxVolume;
+                int         volume = snd_sfxvolume;
                 sfxinfo_t   *sfx = c->sfxinfo;
 
                 if (!sfx)
@@ -562,11 +562,6 @@ void S_UpdateSounds(void)
     }
 }
 
-void S_SetMusicVolume(int volume)
-{
-    I_SetMusicVolume(volume);
-}
-
 void S_LowerMusicVolume(void)
 {
     I_SetMusicVolume((int)(musicvolume * (MIX_MAX_VOLUME - 1) / 31.0
@@ -575,12 +570,12 @@ void S_LowerMusicVolume(void)
 
 void S_RestoreMusicVolume(void)
 {
-    S_SetMusicVolume(musicvolume * (MIX_MAX_VOLUME - 1) / 31);
+    I_SetMusicVolume(musicvolume * (MIX_MAX_VOLUME - 1) / 31);
 }
 
 void S_SetSfxVolume(int volume)
 {
-    snd_SfxVolume = volume;
+    snd_sfxvolume = volume;
 }
 
 void S_StartMusic(int music_id)
