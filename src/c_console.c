@@ -731,6 +731,9 @@ void C_ShowConsole(void)
     for (int i = 0; i < MAX_MOUSE_BUTTONS; i++)
         mousebuttons[i] = false;
 
+    if (gamestate == GS_LEVEL)
+        I_RestoreMousePointerPosition();
+
     S_StopSounds();
     S_LowerMusicVolume();
     SDL_StartTextInput();
@@ -747,6 +750,8 @@ void C_HideConsole(void)
     consoledirection = -1;
     consoleanim = 0;
 
+    I_SaveMousePointerPosition();
+
     S_StartSound(viewplayer->mo, sfx_consol);
     S_RestoreMusicVolume();
 }
@@ -762,6 +767,8 @@ void C_HideConsoleFast(void)
     consoleanim = 0;
     consoleheight = 0;
     consoleactive = false;
+
+    I_SaveMousePointerPosition();
 
     S_RestoreMusicVolume();
 }
