@@ -2425,12 +2425,7 @@ static void D_DoomMainSetup(void)
         }
     }
 
-    if ((p = M_CheckParmWithArgs("-warp", 1, 1)))
-        C_Output("A " BOLD("-warp") " parameter was found on the command-line.");
-    else if ((p = M_CheckParmWithArgs("+map", 1, 1)))
-        C_Output("A " BOLD("+map") " parameter was found on the command-line.");
-
-    if (p)
+    if ((p = M_CheckParmWithArgs("-warp", 1, 1)) || (p = M_CheckParmWithArgs("+map", 1, 1)))
     {
         if (gamemode == commercial)
         {
@@ -2575,7 +2570,13 @@ static void D_DoomMainSetup(void)
             if (alwaysrun)
                 C_StringCVAROutput(stringize(alwaysrun), "on");
 
-            C_Output("Warping to %s...", lumpname);
+            if ((p = M_CheckParmWithArgs("-warp", 1, 1)))
+                C_Output("A " BOLD("-warp") " parameter was found on the command-line. Warping to %s...", lumpname);
+            else if ((p = M_CheckParmWithArgs("+map", 1, 1)))
+                C_Output("A " BOLD("+map") " parameter was found on the command-line. Warping to %s...", lumpname);
+            else
+                C_Output("Warping to %s...", lumpname);
+
             G_DeferredInitNew(startskill, startepisode, startmap);
         }
         else if (M_CheckParm("-nosplash"))
