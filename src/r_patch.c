@@ -153,7 +153,12 @@ static void createPatch(int patchNum)
     columnsDataSize = patch->width * sizeof(rcolumn_t);
 
     // count the number of posts in each column
-    numPostsInColumn = malloc(patch->width * sizeof(int));
+    if (patch->width <= 0 || !(numPostsInColumn = malloc(patch->width * sizeof(int))))
+    {
+        C_Warning(1, "The " BOLD("%.8s") " patch is in an unknown format.", lumpinfo[patchNum]->name);
+        return;
+    }
+
     numPostsTotal = 0;
 
     for (int x = 0; x < patch->width; x++)
