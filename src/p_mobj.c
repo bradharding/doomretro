@@ -469,7 +469,7 @@ floater:
             {
                 if (flags & MF_FUZZ)
                     P_SpawnBloodSplat(mo->x, mo->y, FUZZYBLOOD, false, 0, NULL);
-                else if (mo->bloodcolor > 0)
+                else if (mo->bloodcolor > NOBLOOD)
                 {
                     const fixed_t   x = mo->x;
                     const fixed_t   y = mo->y;
@@ -1085,7 +1085,7 @@ static void P_SpawnPlayer(const mapthing_t *mthing)
 //
 void P_SpawnMoreBlood(mobj_t *mobj)
 {
-    if (mobj->bloodcolor > 0)
+    if (mobj->bloodcolor > NOBLOOD)
     {
         const int       bloodcolor = colortranslation[mobj->bloodcolor - 1][REDBLOODSPLATCOLOR];
         const int       radius = ((spritewidth[sprites[mobj->sprite].spriteframes[0].lump[0]] >> FRACBITS) >> 1) + 12;
@@ -1274,7 +1274,7 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, const bool spawnmonsters)
     if (r_corpses_moreblood
         && r_bloodsplats_max
         && !(flags & (MF_SHOOTABLE | MF_NOBLOOD | MF_SPECIAL))
-        && mobj->bloodcolor > 0
+        && mobj->bloodcolor > NOBLOOD
         && ((!hacx && !harmony) || !(flags2 & MF2_DECORATION))
         && mobj->subsector->sector->terraintype == SOLID)
     {

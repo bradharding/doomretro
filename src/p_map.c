@@ -2118,13 +2118,11 @@ static bool nofit;
 static void PIT_ChangeSector(mobj_t *thing)
 {
     int   flags;
-    bool  fuzz;
 
     if (P_ThingHeightClip(thing))
         return; // keep checking
 
     flags = thing->flags;
-    fuzz = ((flags & MF_FUZZ) && r_blood == r_blood_all);
 
     // crunch bodies to giblets
     if (thing->health <= 0 && (thing->flags2 & MF2_CRUSHABLE))
@@ -2135,7 +2133,7 @@ static void PIT_ChangeSector(mobj_t *thing)
             return;
         }
 
-        if (!(flags & MF_NOBLOOD) && thing->bloodcolor > 0)
+        if (!(flags & MF_NOBLOOD) && thing->bloodcolor > NOBLOOD)
         {
             const int       radius = ((spritewidth[sprites[thing->sprite].spriteframes[0].lump[0]] >> FRACBITS) >> 1) + 12;
             const int       max = M_RandomInt(50, 100) + radius;
@@ -2154,7 +2152,7 @@ static void PIT_ChangeSector(mobj_t *thing)
 
             P_SetMobjState(thing, S_GIBS);
 
-            if (!fuzz && thing->bloodcolor != REDBLOOD)
+            if (thing->bloodcolor > REDBLOOD)
             {
                 thing->colfunc = translatedcolfunc;
                 thing->altcolfunc = translatedcolfunc;
@@ -2205,6 +2203,7 @@ static void PIT_ChangeSector(mobj_t *thing)
         if (!(flags & MF_NOBLOOD) && thing->bloodcolor && r_blood != r_blood_none
             && (thing->type != MT_PLAYER || (!viewplayer->powers[pw_invulnerability] && !(viewplayer->cheats & CF_GODMODE))))
         {
+            bool        fuzz = ((flags & MF_FUZZ) && r_blood == r_blood_all);
             const int   z = thing->z + thing->height * 2 / 3;
             int         color;
 
