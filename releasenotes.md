@@ -7,6 +7,7 @@
 * Minor changes have been made to text that is output to the console.
 * When playing *DOOM (Shareware)*, games are now saved in a separate folder from the retail release of *DOOM*.
 * A bug is fixed whereby the music’s volume wasn’t being set correctly in some instances.
+* Adjusting the sliders in the options and sound volume menus is now more responsive when using the mouse pointer and the `m_pointer` CVAR is `on`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

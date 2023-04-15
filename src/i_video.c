@@ -701,7 +701,7 @@ static void I_ReadMouse(void)
 
     SDL_GetRelativeMouseState(&x, &y);
 
-    if (x || y || mousebuttonstate != prevmousebuttonstate)
+    if (x || y || (mousebuttonstate != prevmousebuttonstate || (mousebuttonstate && menuactive)))
     {
         event_t ev = { 0 };
 
