@@ -59,7 +59,7 @@ static short    FIREBLU1;
 static short    SKY1;
 static short    STEP2;
 
-static bool IsSolidAtSpot(const column_t *column, int spot)
+static bool IsSolidAtSpot(const column_t *column, const int spot)
 {
     if (!column)
         return false;
@@ -69,7 +69,7 @@ static bool IsSolidAtSpot(const column_t *column, int spot)
         if (spot < column->topdelta)
             return false;
 
-        if (spot >= column->topdelta && spot <= column->topdelta + column->length)
+        if (spot <= column->topdelta + column->length)
             return true;
 
         column = (const column_t *)((const byte *)column + 3 + column->length + 1);
@@ -79,7 +79,7 @@ static bool IsSolidAtSpot(const column_t *column, int spot)
 }
 
 // Checks if the lump can be a DOOM patch
-static bool CheckIfPatch(int lump)
+static bool CheckIfPatch(const int lump)
 {
     const int   size = W_LumpLength(lump);
     bool        result = false;
@@ -308,7 +308,7 @@ static void RemovePostFromColumn(rcolumn_t *column, int post)
     column->numposts--;
 }
 
-static void CreateTextureCompositePatch(int id)
+static void CreateTextureCompositePatch(const int id)
 {
     rpatch_t            *compositepatch = &texturecomposites[id];
     const texture_t     *texture = textures[id];
@@ -576,25 +576,25 @@ void R_InitPatches(void)
         CreateTextureCompositePatch(i);
 }
 
-const rpatch_t *R_CachePatchNum(int id)
+const rpatch_t *R_CachePatchNum(const int id)
 {
     return &patches[id];
 }
 
-const rpatch_t *R_CacheTextureCompositePatchNum(int id)
+const rpatch_t *R_CacheTextureCompositePatchNum(const int id)
 {
     return &texturecomposites[id];
 }
 
-const rcolumn_t *R_GetPatchColumnWrapped(const rpatch_t *patch, int columnIndex)
+const rcolumn_t *R_GetPatchColumnWrapped(const rpatch_t *patch, int columnindex)
 {
-    while (columnIndex < 0)
-        columnIndex += patch->width;
+    while (columnindex < 0)
+        columnindex += patch->width;
 
-    return &patch->columns[columnIndex % patch->width];
+    return &patch->columns[columnindex % patch->width];
 }
 
-const rcolumn_t *R_GetPatchColumnClamped(const rpatch_t *patch, int columnIndex)
+const rcolumn_t *R_GetPatchColumnClamped(const rpatch_t *patch, int columnindex)
 {
-    return &patch->columns[BETWEEN(0, columnIndex, patch->width - 1)];
+    return &patch->columns[BETWEEN(0, columnindex, patch->width - 1)];
 }

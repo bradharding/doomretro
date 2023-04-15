@@ -70,11 +70,11 @@ typedef struct
     rpost_t         *posts;
 } rpatch_t;
 
-const rpatch_t *R_CachePatchNum(int id);
+const rpatch_t *R_CachePatchNum(const int id);
 
-const rpatch_t *R_CacheTextureCompositePatchNum(int id);
+const rpatch_t *R_CacheTextureCompositePatchNum(const int id);
 
-const rcolumn_t *R_GetPatchColumnWrapped(const rpatch_t *patch, int columnIndex);
-const rcolumn_t *R_GetPatchColumnClamped(const rpatch_t *patch, int columnIndex);
+const rcolumn_t *R_GetPatchColumnWrapped(const rpatch_t *patch, int columnindex);
+const rcolumn_t *R_GetPatchColumnClamped(const rpatch_t *patch, int columnindex);
 
 void R_InitPatches(void);

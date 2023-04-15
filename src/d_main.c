@@ -2570,9 +2570,9 @@ static void D_DoomMainSetup(void)
             if (alwaysrun)
                 C_StringCVAROutput(stringize(alwaysrun), "on");
 
-            if ((p = M_CheckParmWithArgs("-warp", 1, 1)))
+            if (M_CheckParmWithArgs("-warp", 1, 1))
                 C_Output("A " BOLD("-warp") " parameter was found on the command-line. Warping to %s...", lumpname);
-            else if ((p = M_CheckParmWithArgs("+map", 1, 1)))
+            else if (M_CheckParmWithArgs("+map", 1, 1))
                 C_Output("A " BOLD("+map") " parameter was found on the command-line. Warping to %s...", lumpname);
             else
                 C_Output("Warping to %s...", lumpname);
