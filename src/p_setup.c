@@ -348,6 +348,7 @@ bool            transferredsky;
 static int      MAPINFO;
 
 bool            samelevel;
+bool            secretmap;
 
 mapformat_t     mapformat;
 
@@ -3036,6 +3037,8 @@ void P_SetupLevel(int ep, int map)
 
     P_InitThinkers();
 
+    secretmap = false;
+
     // find map name
     if (*speciallumpname)
     {
@@ -3045,9 +3048,19 @@ void P_SetupLevel(int ep, int map)
     else
     {
         if (gamemode == commercial)
+        {
             M_snprintf(lumpname, sizeof(lumpname), "MAP%02i", map);
+
+            if (map >= 31)
+                secretmap = true;
+        }
         else
+        {
             M_snprintf(lumpname, sizeof(lumpname), "E%iM%i", ep, map);
+
+            if (map == 9)
+                secretmap = true;
+        }
 
         lumpnum = (nerve && gamemission == doom2 ? W_GetLastNumForName(lumpname) : W_GetNumForName(lumpname));
     }

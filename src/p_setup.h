@@ -40,6 +40,7 @@
 
 extern bool         canmodify;
 extern bool         samelevel;
+extern bool         secretmap;
 extern bool         skipblstart;
 extern bool         transferredsky;
 extern const char   *linespecials[];

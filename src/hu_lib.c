@@ -47,6 +47,7 @@
 #include "i_colors.h"
 #include "i_swap.h"
 #include "m_config.h"
+#include "p_setup.h"
 #include "r_local.h"
 #include "v_data.h"
 #include "v_video.h"
@@ -150,6 +151,30 @@ static void HU_DrawTranslucentChar(int x, int y, int ch, byte *screen, int scree
                         *dest = black40[*dest];
                     else if (src != ' ')
                         *dest = tinttab80[(src << 8) + *dest];
+                }
+        }
+}
+
+static void HU_DrawTranslucentGoldChar(int x, int y, int ch, byte *screen, int screenwidth)
+{
+    const int   width = (int)strlen(smallcharset[ch]) / 10;
+
+    for (int y1 = 0; y1 < 10; y1++)
+        for (int x1 = 0; x1 < width; x1++)
+        {
+            const unsigned char src = smallcharset[ch][y1 * width + x1];
+            const int           i = (x + x1) * SCREENSCALE;
+            const int           j = (y + y1) * SCREENSCALE;
+
+            for (int yy = 0; yy < SCREENSCALE; yy++)
+                for (int xx = 0; xx < SCREENSCALE; xx++)
+                {
+                    byte *dest = &screen[(j + yy) * screenwidth + (i + xx)];
+
+                    if (src == PINK)
+                        *dest = black40[*dest];
+                    else if (src != ' ')
+                        *dest = tinttab80[(redtogold[src] << 8) + *dest];
                 }
         }
 }
@@ -259,6 +284,7 @@ void HUlib_DrawAltAutomapTextLine(hu_textline_t *l, bool external)
     int             x = HU_ALTHUDMSGX;
     byte            *fb1 = (external ? mapscreen : screens[0]);
     const int       len = l->len;
+    int             color = (secretmap ? nearestgold : (r_hud_translucency ? nearestwhite : nearestlightgray));
 
     for (int i = 0; i < len; i++)
     {
@@ -317,9 +343,9 @@ void HUlib_DrawAltAutomapTextLine(hu_textline_t *l, bool external)
                     x -= 2;
             }
 
-            althudtextfunc(x, SCREENHEIGHT - 24, fb1, patch, (italics && letter != '_' && letter != '-'
-                && letter != '+' && letter != ',' && letter != '/'), (r_hud_translucency ? nearestwhite :
-                nearestlightgray), (external ? MAPWIDTH : SCREENWIDTH), tinttab70);
+            althudtextfunc(x, SCREENHEIGHT - 24, fb1, patch, (italics && letter != '_'
+                && letter != '-' && letter != '+' && letter != ',' && letter != '/'), color,
+                (external ? MAPWIDTH : SCREENWIDTH), tinttab70);
             x += SHORT(patch->width);
         }
 
@@ -540,10 +566,20 @@ void HUlib_DrawAutomapTextLine(hu_textline_t *l, bool external)
                             break;
                         }
 
-                if (r_hud_translucency)
-                    HU_DrawTranslucentChar(x / 2, y / 2 - 1, j, fb, width);
+                if (secretmap)
+                {
+                    if (r_hud_translucency)
+                        HU_DrawTranslucentGoldChar(x / 2, y / 2 - 1, j, fb, width);
+                    else
+                        HU_DrawGoldChar(x / 2, y / 2 - 1, j, fb, width);
+                }
                 else
-                    HU_DrawChar(x / 2, y / 2 - 1, j, fb, width);
+                {
+                    if (r_hud_translucency)
+                        HU_DrawTranslucentChar(x / 2, y / 2 - 1, j, fb, width);
+                    else
+                        HU_DrawChar(x / 2, y / 2 - 1, j, fb, width);
+                }
             }
 
             x += SHORT(l->f[c - l->sc]->width) * 2;
