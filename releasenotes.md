@@ -15,7 +15,7 @@
 #### DOOM Retro v4.9
 
 * *DOOM Retro* is now built using v17.5.3 of [*Microsoft Visual Studio Community 2022*](https://visualstudio.microsoft.com/vs/community/).
-* *DOOM Retro* now uses [*SDL v2.26.5*](https://www.libsdl.org/).
+* *DOOM Retro* now uses [*SDL v2.26.5*](https://github.com/libsdl-org/SDL/releases/tag/release-2.26.5).
 * Several optimizations have been made to further improve the overall performance, stability and memory usage of *DOOM Retro*.
 * Several changes have been made to text that is output to the console.
 * When the `m_pointer` CVAR is `on`:
