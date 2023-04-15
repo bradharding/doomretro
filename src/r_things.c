@@ -202,7 +202,11 @@ static void R_InitSpriteDefs(void)
 
     // Create hash table based on just the first four letters of each sprite
     // killough 01/31/98
-    hash = malloc(numentries * sizeof(*hash));      // allocate hash table
+    if (!numentries || !(hash = malloc(numentries * sizeof(*hash))))
+    {
+        I_Error("R_InitSpriteDefs: Out of memory allocating sprite tables");
+        return;
+    }
 
     for (unsigned int i = 0; i < numentries; i++)   // initialize hash table as empty
         hash[i].index = -1;
