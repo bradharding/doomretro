@@ -531,7 +531,12 @@ static void R_DrawVisSpriteWithShadow(const vissprite_t *vis)
         dc_translation = &translationtables[(translation >> (MF_TRANSLATIONSHIFT - 8)) - 256];
     }
     else
+    {
         colfunc = vis->colfunc;
+
+        if (colfunc == translatedcolfunc)
+            dc_translation = colortranslation[mobj->bloodcolor - 1];
+    }
 
     sprtopscreen = (int64_t)centeryfrac - FixedMul(dc_texturemid, spryscale);
     shadowcolfunc = mobj->shadowcolfunc;

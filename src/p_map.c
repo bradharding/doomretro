@@ -2154,7 +2154,7 @@ static void PIT_ChangeSector(mobj_t *thing)
 
             P_SetMobjState(thing, S_GIBS);
 
-            if (!fuzz)
+            if (!fuzz && thing->bloodcolor != REDBLOOD)
             {
                 thing->colfunc = translatedcolfunc;
                 thing->altcolfunc = translatedcolfunc;
