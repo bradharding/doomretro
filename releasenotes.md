@@ -9,8 +9,9 @@
 * A bug is fixed whereby the music’s volume wasn’t being set correctly in some instances.
 * A crash no longer occurs when a corpse is crushed into gibs by a lowering sector in some instances.
 * Adjusting the sliders in the options and sound volume menus using the mouse pointer is now more responsive when the `m_pointer` CVAR is `on`.
-* The map’s title in the automap is now shown in gold if it is a secret map.
-* The smoke that trails rockets when the `r_rockettrails` CVAR is `on` now always tries to appear in the correct color even if a custom `PLAYPAL` lump is loaded.
+* The map’s title in the automap is now shown in gold if the player is in a secret map.
+* The smoke that trails rockets when the `r_rockettrails` CVAR is `on` is now colored correctly even if a custom `PLAYPAL` lump is loaded.
+* When loading a savegame, an error is now displayed if a WAD that the savegame requires is missing.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
