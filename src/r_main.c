@@ -927,6 +927,42 @@ void R_InitColumnFunctions(void)
         }
     }
 
+    if (r_ditheredlighting)
+    {
+        if (r_sprites_translucency)
+        {
+            mobjinfo[MT_TRAIL].colfunc = &R_DrawCorrectedTranslucent50Column;
+            mobjinfo[MT_TRAIL].altcolfunc = &R_DrawCorrectedTranslucent50Column;
+        }
+        else
+        {
+            if (r_detail == r_detail_low)
+            {
+                mobjinfo[MT_TRAIL].colfunc = &R_DrawCorrectedDitherLowColumn;
+                mobjinfo[MT_TRAIL].altcolfunc = &R_DrawCorrectedDitherLowColumn;
+            }
+            else
+            {
+                mobjinfo[MT_TRAIL].colfunc = &R_DrawCorrectedDitherColumn;
+                mobjinfo[MT_TRAIL].altcolfunc = &R_DrawCorrectedDitherColumn;
+            }
+
+        }
+    }
+    else
+    {
+        if (r_sprites_translucency)
+        {
+            mobjinfo[MT_TRAIL].colfunc = &R_DrawCorrectedTranslucent50Column;
+            mobjinfo[MT_TRAIL].altcolfunc = &R_DrawCorrectedTranslucent50Column;
+        }
+        else
+        {
+            mobjinfo[MT_TRAIL].colfunc = &R_DrawCorrectedColumn;
+            mobjinfo[MT_TRAIL].altcolfunc = &R_DrawCorrectedColumn;
+        }
+    }
+
     if (gamestate == GS_LEVEL)
         for (thinker_t *th = thinkers[th_mobj].cnext; th != &thinkers[th_mobj]; th = th->cnext)
         {
