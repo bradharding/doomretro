@@ -80,9 +80,11 @@ typedef struct
 #endif
 
 // Location of each lump on disk.
-lumpinfo_t  **lumpinfo;
+lumpinfo_t          **lumpinfo;
 
-int         numlumps;
+int                 numlumps;
+
+char                *wadsloaded;
 
 static int          numwads;
 static wadfile_t    *wadlist[MAXWADS];
@@ -374,6 +376,11 @@ bool W_AddFile(char *filename, bool autoloaded)
             (wadfile->type == IWAD ? "IWAD" : "PWAD"),
             wadfile->path);
         free(temp);
+
+        if (wadsloaded)
+            wadsloaded = M_StringJoin(wadsloaded, ", ", leafname(filename), NULL);
+        else
+            wadsloaded = M_StringDuplicate(leafname(filename));
     }
 
     if (M_StringCompare(file, "SIGIL_v1_21.wad")

@@ -53,6 +53,7 @@
 #include "s_sound.h"
 #include "st_stuff.h"
 #include "version.h"
+#include "w_wad.h"
 #include "z_zone.h"
 
 #define SAVEGAME_EOF    0x1D
@@ -1089,6 +1090,39 @@ bool P_ReadSaveGameEOF(void)
 void P_WriteSaveGameEOF(void)
 {
     saveg_write8(SAVEGAME_EOF);
+}
+
+//
+// Write the footer for a savegame
+//
+void P_WriteSaveGameFooter(void)
+{
+    size_t  len = strlen(wadsloaded);
+
+    for (int i = 0; i < len; i++)
+        saveg_write8(wadsloaded[i]);
+}
+
+//
+// Read the footer for a savegame
+//
+bool P_ReadSaveGameFooter(void)
+{
+    char    temp[512] = "";
+    int     i = 0;
+
+    while ((temp[i++] = saveg_read8()));
+
+    if (*temp && !M_StringCompare(temp, wadsloaded))
+    {
+        menuactive = false;
+        quicksaveslot = -1;
+        C_ShowConsole();
+        C_Warning(0, "This savegame needs %s.", temp);
+        return false;
+    }
+
+    return true;
 }
 
 //

@@ -1532,7 +1532,6 @@ void G_DoLoadGame(void)
         C_ShowConsole();
         C_Warning(0, BOLD("%s") " couldn't be loaded.", savename);
         loadaction = ga_nothing;
-
         return;
     }
 
@@ -1540,7 +1539,6 @@ void G_DoLoadGame(void)
     {
         fclose(save_stream);
         loadaction = ga_nothing;
-
         return;
     }
 
@@ -1567,6 +1565,13 @@ void G_DoLoadGame(void)
 
     if (!P_ReadSaveGameEOF())
         I_Error("%s is invalid.", savename);
+
+    if (!P_ReadSaveGameFooter())
+    {
+        fclose(save_stream);
+        loadaction = ga_nothing;
+        return;
+    }
 
     fclose(save_stream);
 
@@ -1655,6 +1660,8 @@ static void G_DoSaveGame(void)
         P_ArchiveMap();
 
         P_WriteSaveGameEOF();
+
+        P_WriteSaveGameFooter();
 
         // Finish up, close the savegame file.
         fclose(save_stream);

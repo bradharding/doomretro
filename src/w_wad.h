@@ -68,6 +68,7 @@
 
 extern lumpinfo_t   **lumpinfo;
 extern int          numlumps;
+extern char         *wadsloaded;
 
 bool IsUltimateDOOM(const char *iwadname);
 

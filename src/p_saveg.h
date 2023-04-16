@@ -84,6 +84,10 @@ void P_WriteSaveGameHeader(char *description);
 bool P_ReadSaveGameEOF(void);
 void P_WriteSaveGameEOF(void);
 
+// Savegame file footer read/write functions
+bool P_ReadSaveGameFooter(void);
+void P_WriteSaveGameFooter(void);
+
 // Persistent storage/archiving.
 // These are the load/save game routines.
 void P_ArchivePlayer(void);
