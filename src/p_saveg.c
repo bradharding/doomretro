@@ -1121,7 +1121,9 @@ void P_ReadSaveGameFooter(void)
         quicksaveslot = -1;
         C_ShowConsole();
         M_StringReplaceAll(temp, ", ", BOLDOFF ", " BOLDON, false);
-        C_Warning(0, "This savegame needs %s.", M_StringReplaceLast(temp, ",", " and"));
+        C_Warning(0, "This savegame was created while %s were loaded.",
+            M_StringReplaceLast(temp, ",", " and"));
+
         free(temp);
     }
 }

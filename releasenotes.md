@@ -5,12 +5,12 @@
 * *DOOM Retro* is now built using v17.5.4 of [*Microsoft Visual Studio Community 2022*](https://visualstudio.microsoft.com/vs/community/).
 * Minor optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Minor changes have been made to text that is output to the console.
-* When playing *DOOM (Shareware)*, games are now saved in a separate folder from the retail release of *DOOM*.
+* When playing *DOOM (Shareware)*, games are now saved in a separate folder to the retail release of *DOOM*.
 * A bug is fixed whereby the music’s volume wasn’t being set correctly in some instances.
 * A crash no longer occurs when a corpse is crushed into gibs by a lowering sector in some instances.
 * Adjusting the sliders in the options and sound volume menus using the mouse pointer is now more responsive when the `m_pointer` CVAR is `on`.
-* The map’s title in the automap is now shown in gold if the player is in a secret map.
-* The smoke that trails rockets when the `r_rockettrails` CVAR is `on` is now colored correctly even if a custom `PLAYPAL` lump is loaded.
+* The map’s title in the automap is now gold if the player is in a secret map.
+* The smoke trailing rockets when the `r_rockettrails` CVAR is `on` is now colored correctly even if a custom `PLAYPAL` lump is loaded.
 * When loading a savegame, a warning is now displayed in the console if a WAD is missing.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
