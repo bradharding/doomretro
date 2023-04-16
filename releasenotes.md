@@ -11,7 +11,7 @@
 * Adjusting the sliders in the options and sound volume menus using the mouse pointer is now more responsive when the `m_pointer` CVAR is `on`.
 * The map’s title in the automap is now shown in gold if the player is in a secret map.
 * The smoke that trails rockets when the `r_rockettrails` CVAR is `on` is now colored correctly even if a custom `PLAYPAL` lump is loaded.
-* When loading a savegame, an error is now displayed if a WAD that the savegame requires is missing.
+* When loading a savegame, a warning is now displayed in the console if a WAD is missing.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

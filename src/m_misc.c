@@ -507,6 +507,42 @@ char *M_StringReplace(char *haystack, const char *needle, const char *replacemen
     return buffer;
 }
 
+#if !defined(strrstr)
+char *strrstr(const char *haystack, const char *needle)
+{
+    char    *r = NULL;
+
+    if (!needle[0])
+        return (char *)haystack + strlen(haystack);
+
+    while (true)
+    {
+        char    *p = strstr(haystack, needle);
+
+        if (!p)
+            return r;
+
+        r = p;
+        haystack = p + 1;
+    }
+}
+#endif
+
+char *M_StringReplaceLast(char *haystack, const char *needle, const char *replacement)
+{
+    static char buffer[4096];
+    char        *p;
+
+    if (!(p = strrstr(haystack, (char *)needle)))
+        return haystack;
+
+    strncpy(buffer, haystack, p - haystack);
+    buffer[p - haystack] = '\0';
+    sprintf(buffer + (p - haystack), "%s%s", replacement, p + strlen(needle));
+
+    return buffer;
+}
+
 void M_StringReplaceAll(char *haystack, const char *needle, const char *replacement, bool usecase)
 {
     char        buffer[1024] = "";

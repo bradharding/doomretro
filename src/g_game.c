@@ -1566,12 +1566,7 @@ void G_DoLoadGame(void)
     if (!P_ReadSaveGameEOF())
         I_Error("%s is invalid.", savename);
 
-    if (!P_ReadSaveGameFooter())
-    {
-        fclose(save_stream);
-        loadaction = ga_nothing;
-        return;
-    }
+    P_ReadSaveGameFooter();
 
     fclose(save_stream);
 

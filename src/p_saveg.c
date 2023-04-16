@@ -1106,23 +1106,24 @@ void P_WriteSaveGameFooter(void)
 //
 // Read the footer for a savegame
 //
-bool P_ReadSaveGameFooter(void)
+void P_ReadSaveGameFooter(void)
 {
-    char    temp[512] = "";
+    char    buffer[512] = "";
     int     i = 0;
 
-    while ((temp[i++] = saveg_read8()));
+    while ((buffer[i++] = saveg_read8()));
 
-    if (*temp && !M_StringCompare(temp, wadsloaded))
+    if (*buffer && !M_StringCompare(buffer, wadsloaded))
     {
+        char    *temp = M_StringJoin(BOLDON, buffer, BOLDOFF, NULL);
+
         menuactive = false;
         quicksaveslot = -1;
         C_ShowConsole();
-        C_Warning(0, "This savegame needs %s.", temp);
-        return false;
+        M_StringReplaceAll(temp, ", ", BOLDOFF ", " BOLDON, false);
+        C_Warning(0, "This savegame needs %s.", M_StringReplaceLast(temp, ",", " and"));
+        free(temp);
     }
-
-    return true;
 }
 
 //
