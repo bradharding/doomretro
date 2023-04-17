@@ -12,6 +12,8 @@
 * The map’s title in the automap is now gold if the player is in a secret map.
 * The smoke trailing rockets when the `r_rockettrails` CVAR is `on` is now colored correctly even if a custom `PLAYPAL` lump is loaded.
 * When loading a savegame, a warning is now displayed in the console if a WAD is missing.
+* The player now slides smoothly when against walls at certain angles.
+* A bug is fixed whereby the number of items to be picked up in the map may have been wrong after loading a savegame in some instances.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
