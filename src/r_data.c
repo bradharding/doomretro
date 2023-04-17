@@ -513,7 +513,7 @@ static void R_InitSpriteLumps(void)
         }
     }
 
-    M_StringCopy(berserk, M_StringReplace(powerups[pw_strength], " power-up", ""), sizeof(berserk));
+    M_StringCopy(berserk, M_StringReplaceFirst(powerups[pw_strength], " power-up", ""), sizeof(berserk));
 
     // [BH] compatibility fixes
     if (FREEDOOM)

@@ -441,9 +441,9 @@ bool M_StrToInt(const char *str, int *result)
 // Case-insensitive version of strstr()
 const char *M_StrCaseStr(const char *haystack, const char *needle)
 {
-    int haystack_len = (int)strlen(haystack);
-    int needle_len = (int)strlen(needle);
-    int len;
+    const int   haystack_len = (int)strlen(haystack);
+    const int   needle_len = (int)strlen(needle);
+    int         len;
 
     if (haystack_len < needle_len)
         return NULL;
@@ -457,6 +457,7 @@ const char *M_StrCaseStr(const char *haystack, const char *needle)
     return NULL;
 }
 
+#if !defined(stristr)
 static char *stristr(char *ch1, char *ch2)
 {
     char    *chN1 = M_StringDuplicate(ch1);
@@ -490,9 +491,10 @@ static char *stristr(char *ch1, char *ch2)
 
     return chRet;
 }
+#endif
 
 // String replace function.
-char *M_StringReplace(char *haystack, const char *needle, const char *replacement)
+char *M_StringReplaceFirst(char *haystack, const char *needle, const char *replacement)
 {
     static char buffer[4096];
     char        *p;

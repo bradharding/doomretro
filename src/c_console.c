@@ -2180,7 +2180,7 @@ bool C_Responder(event_t *ev)
                                     || (spaces1 == 2 && !endspace1 && (spaces2 == 2 || (spaces2 == 3 && endspace2)))
                                     || (spaces1 == 3 && !endspace1)))
                             {
-                                char    *temp = M_StringJoin(prefix, M_StringReplace(output, input, input), NULL);
+                                char    *temp = M_StringJoin(prefix, M_StringReplaceFirst(output, input, input), NULL);
 
                                 C_AddToUndoHistory();
                                 M_StringCopy(consoleinput, temp, sizeof(consoleinput));
@@ -2350,8 +2350,8 @@ bool C_Responder(event_t *ev)
                     char    *temp2 = M_SubString(consoleinput, selectend, (size_t)len - selectend);
 
                     M_snprintf(buffer, sizeof(buffer), "%s%s%s", temp1, SDL_GetClipboardText(), temp2);
-                    M_StringCopy(buffer, M_StringReplace(buffer, "(null)", ""), sizeof(buffer));
-                    M_StringCopy(buffer, M_StringReplace(buffer, "(null)", ""), sizeof(buffer));
+                    M_StringCopy(buffer, M_StringReplaceFirst(buffer, "(null)", ""), sizeof(buffer));
+                    M_StringCopy(buffer, M_StringReplaceFirst(buffer, "(null)", ""), sizeof(buffer));
 
                     if (C_TextWidth(buffer, false, true) <= CONSOLEINPUTPIXELWIDTH)
                     {

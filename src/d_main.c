@@ -667,11 +667,11 @@ static char *FindDehPath(char *path, char *ext, char *pattern)
     char    *dehpath = M_StringDuplicate(path);
 
     if (M_StringEndsWith(path, ".wad"))
-        dehpath = M_StringReplace(path, ".wad", ext);
+        dehpath = M_StringReplaceFirst(path, ".wad", ext);
     else if (M_StringEndsWith(path, ".iwad"))
-        dehpath = M_StringReplace(path, ".iwad", ext);
+        dehpath = M_StringReplaceFirst(path, ".iwad", ext);
     else if (M_StringEndsWith(path, ".pwad"))
-        dehpath = M_StringReplace(path, ".pwad", ext);
+        dehpath = M_StringReplaceFirst(path, ".pwad", ext);
 
     return (M_FileExists(dehpath) ? dehpath : NULL);
 #else
@@ -684,8 +684,8 @@ static char *FindDehPath(char *path, char *ext, char *pattern)
     struct dirent   *dit = NULL;
 
     M_StringCopy(pathcopy, path, pathlen + 1);
-    dehpattern = M_StringReplace(basename(pathcopy), ".wad", pattern);
-    dehpattern = M_StringReplace(dehpattern, ".WAD", pattern);
+    dehpattern = M_StringReplaceFirst(basename(pathcopy), ".wad", pattern);
+    dehpattern = M_StringReplaceFirst(dehpattern, ".WAD", pattern);
     M_StringCopy(pathcopy, path, pathlen);
     dehdir = dirname(pathcopy);
     dirp = opendir(dehdir);
@@ -793,11 +793,11 @@ static void LoadCfgFile(char *path)
     char    *cfgpath = M_StringDuplicate(path);
 
     if (M_StringEndsWith(path, ".wad"))
-        cfgpath = M_StringReplace(path, ".wad", ".cfg");
+        cfgpath = M_StringReplaceFirst(path, ".wad", ".cfg");
     else if (M_StringEndsWith(path, ".iwad"))
-        cfgpath = M_StringReplace(path, ".iwad", ".cfg");
+        cfgpath = M_StringReplaceFirst(path, ".iwad", ".cfg");
     else if (M_StringEndsWith(path, ".pwad"))
-        cfgpath = M_StringReplace(path, ".pwad", ".cfg");
+        cfgpath = M_StringReplaceFirst(path, ".pwad", ".cfg");
 
     if (M_FileExists(cfgpath))
         M_LoadCVARs(cfgpath);
