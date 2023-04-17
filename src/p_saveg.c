@@ -1348,8 +1348,8 @@ void P_UnArchiveThinkers(void)
 
     barrelcount = 0;
     numdecorations = 0;
-    totalitems = 0;
-    totalkills = 0;
+    totalitems = viewplayer->itemcount;
+    totalkills = viewplayer->killcount;
     totalpickups = 0;
 
     memset(monstercount, 0, sizeof(int) * NUMMOBJTYPES);
