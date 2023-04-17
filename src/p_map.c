@@ -1415,10 +1415,6 @@ static bool PTR_SlideTraverse(intercept_t *in)
     line_t                  *li = in->d.line;
     const unsigned short    flags = li->flags;
 
-    // [JN] Treat two sided linedefs as single sided for smooth sliding.
-    if (flags & (ML_BLOCKING | ML_TWOSIDED))
-        goto isblocking;
-
     if (!(flags & ML_TWOSIDED))
     {
         if (P_PointOnLineSide(slidemo->x, slidemo->y, li))
