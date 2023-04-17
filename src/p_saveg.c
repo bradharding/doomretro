@@ -1346,11 +1346,8 @@ void P_UnArchiveThinkers(void)
 
     thingindex = 0;
 
-    barrelcount = 0;
-    numdecorations = 0;
     totalitems = viewplayer->itemcount;
     totalkills = 0;
-    totalpickups = 0;
 
     memset(monstercount, 0, sizeof(int) * NUMMOBJTYPES);
 
@@ -1387,14 +1384,6 @@ void P_UnArchiveThinkers(void)
 
                 if (mobj->flags & MF_COUNTITEM)
                     totalitems++;
-
-                if (mobj->flags & MF_SPECIAL)
-                    totalpickups++;
-
-                if (mobj->type == MT_BARREL)
-                    barrelcount++;
-                else if (mobj->flags2 & MF2_DECORATION)
-                    numdecorations++;
 
                 break;
             }
