@@ -1423,6 +1423,10 @@ static bool PTR_SlideTraverse(intercept_t *in)
         goto isblocking;
     }
 
+    // [JN] Treat two-sided linedefs as single sided for smooth sliding.
+    else if (flags & ML_BLOCKING)
+        goto isblocking;
+
     // set openrange, opentop, openbottom
     P_LineOpening(li);
 
