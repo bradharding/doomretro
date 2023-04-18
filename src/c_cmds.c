@@ -2024,7 +2024,8 @@ static void cmdlist_cmd_func2(char *cmd, char *parms)
                 M_AmericanToInternationalEnglish(description);
             }
 
-            C_TabbedOutput(tabs, MONOSPACED("%3i") ".\t%s\t%s", count, format, description);
+            C_TabbedOutput(tabs, MONOSPACED("%3i") ".\t%s\t" BOLDOFF ITALICSOFF "%s",
+                count, format, description);
         }
 }
 
