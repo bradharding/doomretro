@@ -1025,9 +1025,7 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
                 }
                 else if (prevletter == BOLDONCHAR && prevletter2 == '\t')
                 {
-                    if (letter == '"' || letter == '\'' || letter == '(')
-                        x -= 2;
-                    else if (letter == '4')
+                    if (letter == '"' || letter == '\'' || letter == '(' || letter == '4')
                         x--;
                 }
                 else if (prevletter == BOLDOFFCHAR)

@@ -14,7 +14,7 @@
 * When loading a savegame:
   * A warning is now displayed in the console if a WAD is missing.
   * A bug is fixed whereby the number of items to be picked up in the map was wrong in some instances.
-* Movement of the player has now improved when they are against walls at certain angles.
+* The player now moves more smoothly when against walls at certain angles.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
