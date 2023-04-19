@@ -208,7 +208,7 @@ void P_FireWeapon(void)
 
     if (joy_rumble_weapons)
     {
-        if (readyweapon == wp_chainsaw && linetarget)
+        if (readyweapon == wp_chainsaw)
         {
             I_GameControllerRumble(UINT32_MAX);
             weaponrumbletics = weaponinfo[readyweapon].tics;

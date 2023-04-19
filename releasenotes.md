@@ -15,6 +15,7 @@
   * A warning is now displayed in the console if a WAD is missing.
   * A bug is fixed whereby the number of items to be picked up in the map was wrong in some instances.
 * The player now slides more smoothly against walls at certain angles.
+* A controller now still rumbles when the player uses the chainsaw without a target and the `joy_rumble_weapons` CVAR is `on`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
