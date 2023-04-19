@@ -3,8 +3,8 @@
 #### DOOM Retro v4.9.1
 
 * *DOOM Retro* is now built using v17.5.4 of [*Microsoft Visual Studio Community 2022*](https://visualstudio.microsoft.com/vs/community/).
-* Minor optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
-* Minor changes have been made to text that is output to the console.
+* Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
+* Changes have been made to text that is output to the console.
 * When playing *DOOM (Shareware)*, games are now saved in a separate folder to the full version of *DOOM*.
 * A bug is fixed whereby the music’s volume wasn’t being set correctly in some instances.
 * A crash no longer occurs when a corpse is crushed into gibs by a lowering sector in some instances.
@@ -14,7 +14,7 @@
 * When loading a savegame:
   * A warning is now displayed in the console if a WAD is missing.
   * A bug is fixed whereby the number of items to be picked up in the map was wrong in some instances.
-* The player now moves more smoothly when against walls at certain angles.
+* The player now slides more smoothly against walls at certain angles.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
