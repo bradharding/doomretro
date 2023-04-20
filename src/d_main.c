@@ -690,6 +690,13 @@ static char *FindDehPath(char *path, char *ext, char *pattern)
     dehdir = dirname(pathcopy);
     dirp = opendir(dehdir);
 
+    if (!dirp)
+    {
+        M_snprintf(dehwarning, sizeof(dehwarning), BOLD("%s") " wasn't opened.", GetCorrectCase(dehdir));
+        free(pathcopy);
+        return NULL;
+    }
+
     while ((dit = readdir(dirp)))
         if (!fnmatch(dehpattern, dit->d_name, 0))
         {
