@@ -8,14 +8,16 @@
 * When playing *DOOM (Shareware)*, games are now saved in a separate folder to the full version of *DOOM*.
 * A bug is fixed whereby the music’s volume wasn’t being set correctly in some instances.
 * A crash no longer occurs when a corpse is crushed into gibs by a lowering sector in some instances.
-* Adjusting the sliders in the options and sound volume menus using the mouse pointer is now more responsive when the `m_pointer` CVAR is `on`.
+* These changes have been made when the `m_pointer` CVAR is `on`:
+  * Adjusting the sliders in the options and sound volume menus using the mouse pointer is now more responsive.
+  * The mouse pointer is now visible in the console. Clicking below the console during a game now closes it.
 * The map’s title in the automap is now gold if the player is in a secret map.
 * The smoke trailing rockets when the `r_rockettrails` CVAR is `on` is now colored correctly even if a custom `PLAYPAL` lump is loaded.
 * When loading a savegame:
   * A warning is now displayed in the console if a WAD is missing.
   * A bug is fixed whereby the number of items to be picked up in the map was wrong in some instances.
 * The player now slides more smoothly against walls at certain angles.
-* A controller now still rumbles when the player uses the chainsaw without a target and the `joy_rumble_weapons` CVAR is `on`.
+* When the player uses a controller, it now rumbles when they use their chainsaw, there’s no target, and the `joy_rumble_weapons` CVAR is `on`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

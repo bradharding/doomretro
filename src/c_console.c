@@ -2456,6 +2456,22 @@ bool C_Responder(event_t *ev)
         if (temp)
             free(temp);
     }
+    else if (ev->type == ev_mouse)
+    {
+        if (ev->data1 & MOUSE_LEFTBUTTON)
+        {
+            if (mousewait < I_GetTime())
+            {
+                const int   x = ev->data2;
+                const int   y = ev->data3;
+
+                mousewait = I_GetTime() + 4;
+
+                if (y > CONSOLEHEIGHT / 2)
+                    C_HideConsole();
+            }
+        }
+    }
     else if (ev->type == ev_mousewheel)
     {
         // scroll output up
