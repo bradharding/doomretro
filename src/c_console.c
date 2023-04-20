@@ -2467,7 +2467,7 @@ bool C_Responder(event_t *ev)
 
                 mousewait = I_GetTime() + 4;
 
-                if (y > CONSOLEHEIGHT / 2)
+                if (y > CONSOLEHEIGHT / 2 + 1 && gamestate == GS_LEVEL)
                     C_HideConsole();
             }
         }

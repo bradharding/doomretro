@@ -10,7 +10,7 @@
 * A crash no longer occurs when a corpse is crushed into gibs by a lowering sector in some instances.
 * These changes have been made when the `m_pointer` CVAR is `on`:
   * Adjusting the sliders in the options and sound volume menus using the mouse pointer is now more responsive.
-  * The mouse pointer is now visible in the console. Clicking below the console during a game now closes it.
+  * The mouse pointer is now visible in the console. Clicking anywhere below the console during a game now closes it.
 * The map’s title in the automap is now gold if the player is in a secret map.
 * The smoke trailing rockets when the `r_rockettrails` CVAR is `on` is now colored correctly even if a custom `PLAYPAL` lump is loaded.
 * When loading a savegame:
