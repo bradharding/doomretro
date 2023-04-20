@@ -2458,19 +2458,8 @@ bool C_Responder(event_t *ev)
     }
     else if (ev->type == ev_mouse)
     {
-        if (ev->data1 & MOUSE_LEFTBUTTON)
-        {
-            if (mousewait < I_GetTime())
-            {
-                const int   x = ev->data2;
-                const int   y = ev->data3;
-
-                mousewait = I_GetTime() + 4;
-
-                if (y > CONSOLEHEIGHT / 2 + 1 && gamestate == GS_LEVEL)
-                    C_HideConsole();
-            }
-        }
+        if ((ev->data1 & MOUSE_LEFTBUTTON) && ev->data3 >= VANILLAHEIGHT / 2 && gamestate == GS_LEVEL)
+            C_HideConsole();
     }
     else if (ev->type == ev_mousewheel)
     {
