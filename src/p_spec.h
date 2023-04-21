@@ -326,24 +326,24 @@ void P_ActivateInStasis(int tag);
 //
 typedef enum
 {
-    doorNormal,
-    doorClose30ThenOpen,
-    doorClose,
-    doorOpen,
-    doorRaiseIn5Mins,
-    doorBlazeRaise,
-    doorBlazeOpen,
-    doorBlazeClose,
+    DoorNormal,
+    DoorClose30ThenOpen,
+    DoorClose,
+    DoorOpen,
+    DoorRaiseIn5Mins,
+    DoorBlazeRaise,
+    DoorBlazeOpen,
+    DoorBlazeClose,
 
     // jff 02/05/98 add generalized door types
-    genRaise,
-    genBlazeRaise,
-    genOpen,
-    genBlazeOpen,
-    genClose,
-    genBlazeClose,
-    genCdO,
-    genBlazeCdO
+    GenRaise,
+    GenBlazeRaise,
+    GenOpen,
+    GenBlazeOpen,
+    GenClose,
+    GenBlazeClose,
+    GenCdO,
+    GenBlazeCdO
 } vldoor_e;
 
 typedef struct

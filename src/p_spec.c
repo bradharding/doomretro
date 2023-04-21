@@ -1434,7 +1434,7 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
     {
         // Triggers
         case W1_Door_OpenStay:
-            if (EV_DoDoor(line, doorOpen, VDOORSPEED))
+            if (EV_DoDoor(line, DoorOpen, VDOORSPEED))
             {
                 line->special = 0;
 
@@ -1451,7 +1451,7 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
 
                         case 4:
                             junk.tag = 666;
-                            EV_DoDoor(&junk, doorBlazeOpen, VDOORSPEED * 4);
+                            EV_DoDoor(&junk, DoorBlazeOpen, VDOORSPEED * 4);
                             break;
                     }
 
@@ -1462,13 +1462,13 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
             break;
 
         case W1_Door_CloseStay:
-            if (EV_DoDoor(line, doorClose, VDOORSPEED))
+            if (EV_DoDoor(line, DoorClose, VDOORSPEED))
                 line->special = 0;
 
             break;
 
         case W1_Door_OpenWaitClose:
-            if (EV_DoDoor(line, doorNormal, VDOORSPEED))
+            if (EV_DoDoor(line, DoorNormal, VDOORSPEED))
                 line->special = 0;
 
             break;
@@ -1515,7 +1515,7 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
             break;
 
         case W1_Door_CloseWaitOpen:
-            if (EV_DoDoor(line, doorClose30ThenOpen, VDOORSPEED))
+            if (EV_DoDoor(line, DoorClose30ThenOpen, VDOORSPEED))
                 line->special = 0;
 
             break;
@@ -1645,19 +1645,19 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
             break;
 
         case W1_Door_OpenWaitClose_Fast:
-            if (EV_DoDoor(line, doorBlazeRaise, VDOORSPEED * 4))
+            if (EV_DoDoor(line, DoorBlazeRaise, VDOORSPEED * 4))
                 line->special = 0;
 
             break;
 
         case W1_Door_OpenStay_Fast:
-            if (EV_DoDoor(line, doorBlazeOpen, VDOORSPEED * 4))
+            if (EV_DoDoor(line, DoorBlazeOpen, VDOORSPEED * 4))
                 line->special = 0;
 
             break;
 
         case W1_Door_CloseStay_Fast:
-            if (EV_DoDoor(line, doorBlazeClose, VDOORSPEED * 4))
+            if (EV_DoDoor(line, DoorBlazeClose, VDOORSPEED * 4))
                 line->special = 0;
 
             break;
@@ -1710,11 +1710,11 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
             break;
 
         case WR_Door_CloseStay:
-            EV_DoDoor(line, doorClose, VDOORSPEED);
+            EV_DoDoor(line, DoorClose, VDOORSPEED);
             break;
 
         case WR_Door_CloseStayOpen:
-            EV_DoDoor(line, doorClose30ThenOpen, VDOORSPEED);
+            EV_DoDoor(line, DoorClose30ThenOpen, VDOORSPEED);
             break;
 
         case WR_Crusher_StartWithFastDamage:
@@ -1746,7 +1746,7 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
             break;
 
         case WR_Door_OpenStay:
-            EV_DoDoor(line, doorOpen, VDOORSPEED);
+            EV_DoDoor(line, DoorOpen, VDOORSPEED);
             break;
 
         case WR_Floor_StartMovingUpAndDown:
@@ -1762,7 +1762,7 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
             break;
 
         case WR_Door_OpenWaitClose:
-            EV_DoDoor(line, doorNormal, VDOORSPEED);
+            EV_DoDoor(line, DoorNormal, VDOORSPEED);
             break;
 
         case WR_Floor_RaiseToLowestCeiling:
@@ -1798,15 +1798,15 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
             break;
 
         case WR_Door_OpenWaitClose_Fast:
-            EV_DoDoor(line, doorBlazeRaise, VDOORSPEED * 4);
+            EV_DoDoor(line, DoorBlazeRaise, VDOORSPEED * 4);
             break;
 
         case WR_Door_OpenStay_Fast:
-            EV_DoDoor(line, doorBlazeOpen, VDOORSPEED * 4);
+            EV_DoDoor(line, DoorBlazeOpen, VDOORSPEED * 4);
             break;
 
         case WR_Door_CloseStay_Fast:
-            EV_DoDoor(line, doorBlazeClose, VDOORSPEED * 4);
+            EV_DoDoor(line, DoorBlazeClose, VDOORSPEED * 4);
             break;
 
         case WR_Lift_LowerWaitRaise_Fast:
@@ -2172,7 +2172,7 @@ void P_ShootSpecialLine(mobj_t *thing, line_t *line)
             break;
 
         case GR_Door_OpenStay:
-            if (EV_DoDoor(line, doorOpen, VDOORSPEED))
+            if (EV_DoDoor(line, DoorOpen, VDOORSPEED))
                 P_ChangeSwitchTexture(line, !canmodify);
 
             break;

@@ -2070,7 +2070,7 @@ void A_BossDeath(mobj_t *actor, player_t *player, pspdef_t *psp)
                 {
                     case 6:
                         junk.tag = 666;
-                        EV_DoDoor(&junk, doorBlazeOpen, VDOORSPEED * 4);
+                        EV_DoDoor(&junk, DoorBlazeOpen, VDOORSPEED * 4);
                         return;
 
                     case 8:
@@ -2323,7 +2323,7 @@ void A_KeenDie(mobj_t *actor, player_t *player, pspdef_t *psp)
     }
 
     junk.tag = 666;
-    EV_DoDoor(&junk, doorOpen, VDOORSPEED);
+    EV_DoDoor(&junk, DoorOpen, VDOORSPEED);
 }
 
 // killough 11/98: kill an object

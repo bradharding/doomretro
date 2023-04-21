@@ -1017,22 +1017,22 @@ manual_locked:
         {
             default:
             case SpeedSlow:
-                door->type = (Kind ? genOpen : genRaise);
+                door->type = (Kind ? GenOpen : GenRaise);
                 door->speed = VDOORSPEED;
                 break;
 
             case SpeedNormal:
-                door->type = (Kind ? genOpen : genRaise);
+                door->type = (Kind ? GenOpen : GenRaise);
                 door->speed = VDOORSPEED * 2;
                 break;
 
             case SpeedFast:
-                door->type = (Kind ? genBlazeOpen : genBlazeRaise);
+                door->type = (Kind ? GenBlazeOpen : GenBlazeRaise);
                 door->speed = VDOORSPEED * 4;
                 break;
 
             case SpeedTurbo:
-                door->type = (Kind ? genBlazeOpen : genBlazeRaise);
+                door->type = (Kind ? GenBlazeOpen : GenBlazeRaise);
                 door->speed = VDOORSPEED * 8;
                 break;
         }
@@ -1182,7 +1182,7 @@ manual_door:
                     S_StartSectorSound(&door->sector->soundorg,
                         (door->speed >= VDOORSPEED * 4 ? sfx_bdopn : sfx_doropn));
 
-                door->type = (Sped >= SpeedFast ? genBlazeRaise : genRaise);
+                door->type = (Sped >= SpeedFast ? GenBlazeRaise : GenRaise);
                 break;
 
             case ODoor:
@@ -1194,7 +1194,7 @@ manual_door:
                     S_StartSectorSound(&door->sector->soundorg,
                         (door->speed >= VDOORSPEED * 4 ? sfx_bdopn : sfx_doropn));
 
-                door->type = (Sped >= SpeedFast ? genBlazeOpen : genOpen);
+                door->type = (Sped >= SpeedFast ? GenBlazeOpen : GenOpen);
                 break;
 
             case CdODoor:
@@ -1202,7 +1202,7 @@ manual_door:
                 door->direction = -1;
                 S_StartSectorSound(&door->sector->soundorg,
                     (door->speed >= VDOORSPEED * 4 ? sfx_bdcls : sfx_dorcls));
-                door->type = (Sped >= SpeedFast ? genBlazeCdO : genCdO);
+                door->type = (Sped >= SpeedFast ? GenBlazeCdO : GenCdO);
                 break;
 
             case CDoor:
@@ -1211,7 +1211,7 @@ manual_door:
                 door->direction = -1;
                 S_StartSectorSound(&door->sector->soundorg,
                     (door->speed >= VDOORSPEED * 4 ? sfx_bdcls : sfx_dorcls));
-                door->type = (Sped >= SpeedFast ? genBlazeClose : genClose);
+                door->type = (Sped >= SpeedFast ? GenBlazeClose : GenClose);
                 break;
         }
 

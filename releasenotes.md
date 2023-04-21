@@ -4,7 +4,7 @@
 
 * *DOOM Retro* is now built using v17.5.4 of [*Microsoft Visual Studio Community 2022*](https://visualstudio.microsoft.com/vs/community/).
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
-* Changes have been made to text that is output to the console.
+* Several changes have been made to text that is output to the console.
 * When playing *DOOM (Shareware)*, games are now saved in a separate folder to the full version of *DOOM*.
 * A bug is fixed whereby the music’s volume wasn’t being set correctly in some instances.
 * A crash no longer occurs when a corpse is crushed into gibs by a lowering sector in some instances.
@@ -42,7 +42,7 @@
   * Selecting menu items using the mouse pointer is now accurate when the `vid_widescreen` CVAR is `off`.
   * The mouse pointer is no longer shown on the help screen if the mouse is moved.
 * The positions of `ON`/`OFF` and `HIGH`/`LOW` in the options menu have been fixed in some instances.
-* A bug is fixed whereby when changing the `r_pickupeffect` CVAR in the console the `r_damageeffect` CVAR would be changed instead.
+* A bug is fixed whereby when changing the `r_pickupeffect` CVAR in the console, the `r_damageeffect` CVAR would be changed instead.
 * The player’s health, armor and ammo in both the status bar and widescreen HUD now animate when they change. This can be disabled by the new `animatedstats` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
 * These changes have been made to the alternate widescreen HUD:
   * The position of the player’s health is now fixed when 0% and the `negativehealth` CVAR is `off`.
