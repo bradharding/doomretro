@@ -1261,7 +1261,7 @@ bool P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, const bool message, c
 
     P_RemoveMobj(special);
 
-    if (!duplicate && special->type != MT_MISC14)
+    if (!duplicate && special->type != MT_MISC13 && special->type != MT_MISC14)
         P_AddBonus();
 
     prevtouchtype = special->type;
