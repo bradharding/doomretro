@@ -1262,12 +1262,21 @@ static void ST_DoPaletteStuff(void)
 
             if (bonuscount && r_pickupeffect)
                 palette = STARTBONUSPALS + MIN((bonuscount + 7) >> 3, NUMBONUSPALS) - 1;
-            else if (r_radsuiteffect)
+            else
             {
                 const int   ironfeet = viewplayer->powers[pw_ironfeet];
 
-                if ((ironfeet > STARTFLASHING || (ironfeet & FLASHONTIC)))
-                    palette = RADIATIONPAL;
+                if (r_radsuiteffect)
+                {
+                    if (ironfeet > STARTFLASHING || (ironfeet & FLASHONTIC))
+                        palette = RADIATIONPAL;
+                }
+                else
+                {
+                    // [BH] flash radsuit effect when r_radsuiteffect CVAR is off and radsuit running out
+                    if (ironfeet <= STARTFLASHING && (ironfeet & FLASHONTIC))
+                        palette = RADIATIONPAL;
+                }
             }
         }
     }
