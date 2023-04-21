@@ -692,7 +692,7 @@ static char *FindDehPath(char *path, char *ext, char *pattern)
 
     if (!dirp)
     {
-        M_snprintf(dehwarning, sizeof(dehwarning), BOLD("%s") " wasn't opened.", GetCorrectCase(dehdir));
+        M_snprintf(dehwarning, sizeof(dehwarning), BOLD("%s") " wasn't loaded.", GetCorrectCase(dehdir));
         free(pathcopy);
         return NULL;
     }
