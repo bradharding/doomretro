@@ -1057,7 +1057,7 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
                         consolebolditalicscolor) : (bold ? boldcolor : color1)),
                     color2, (italics && letter != '_' && letter != '-' && letter != '+' && letter != ','
                         && letter != '/'), tinttab);
-                x += (monospaced && width < zerowidth ? zerowidth : width);
+                x += (monospaced && width < zerowidth ? zerowidth : width) - (letter == '4');
 
                 if (x >= CONSOLETEXTPIXELWIDTH + CONSOLETEXTX)
                     break;
