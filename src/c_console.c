@@ -1052,12 +1052,12 @@ static int C_DrawConsoleText(int x, int y, char *text, const int color1, const i
             {
                 const int   width = SHORT(patch->width);
 
-                consoletextfunc(x + (monospaced && width <= zerowidth ? (zerowidth - width) / 2 - (letter == '4') : 0), y,
+                consoletextfunc(x + (monospaced && width <= zerowidth ? (zerowidth - width) / 2 : 0), y,
                     patch, width, (bold && italics ? (color1 == consolewarningcolor ? color1 :
                         consolebolditalicscolor) : (bold ? boldcolor : color1)),
                     color2, (italics && letter != '_' && letter != '-' && letter != '+' && letter != ','
                         && letter != '/'), tinttab);
-                x += (monospaced && width < zerowidth ? zerowidth : width) - (letter == '4');
+                x += (monospaced && width < zerowidth ? zerowidth : width) - (monospaced && letter == '4');
 
                 if (x >= CONSOLETEXTPIXELWIDTH + CONSOLETEXTX)
                     break;
