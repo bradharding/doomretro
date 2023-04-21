@@ -1094,7 +1094,7 @@ void P_WriteSaveGameEOF(void)
 //
 void P_WriteSaveGameFooter(void)
 {
-    size_t  len = strlen(wadsloaded);
+    int len = (int)strlen(wadsloaded);
 
     for (int i = 0; i < len; i++)
         saveg_write8(wadsloaded[i]);
