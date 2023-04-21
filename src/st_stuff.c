@@ -1273,8 +1273,10 @@ static void ST_DoPaletteStuff(void)
                 }
                 else
                 {
-                    // [BH] flash radsuit effect when r_radsuiteffect CVAR is off and radsuit running out
-                    if (ironfeet <= STARTFLASHING && (ironfeet & FLASHONTIC))
+                    // [BH] flash radsuit effect when r_radsuiteffect CVAR is off
+                    // and radsuit just picked up or is running out
+                    if ((ironfeet <= STARTFLASHING && (ironfeet & FLASHONTIC))
+                        || (ironfeet >= IRONTICS - 6 && r_pickupeffect))
                         palette = RADIATIONPAL;
                 }
             }

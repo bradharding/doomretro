@@ -18,7 +18,10 @@
   * A bug is fixed whereby the number of items to be picked up in the map was wrong in some instances.
 * The player now slides more smoothly against walls at certain angles.
 * When the player uses a controller, it now rumbles when they use their chainsaw, there’s no target, and the `joy_rumble_weapons` CVAR is `on`.
-* If the `r_radsuiteffect` CVAR is `off`, the screen now flashes green again to indicate when the power-up is about to run out.
+* These changes have been made to the radiation shielding suit power-up:
+  * The screen no longer briefly flashes yellow when the player picks up the power-up and the `r_pickupeffect` CVAR is `on`.
+  * If the `r_radsuiteffect` CVAR is `off`, the screen now briefly flashes green when the player picks up the power-up and the `r_pickupeffect` CVAR is `on`.
+  * If the `r_radsuiteffect` CVAR is `off`, the screen now flashes green again to indicate when the power-up is about to run out.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
