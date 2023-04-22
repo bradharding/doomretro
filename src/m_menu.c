@@ -3142,7 +3142,7 @@ bool M_Responder(event_t *ev)
     }
 
     // F-Keys
-    if ((!menuactive || functionkey) && !paused && !splashscreen)
+    if (!paused && !splashscreen)
     {
         // Screen size down
         if (key == KEY_MINUS)
@@ -3210,9 +3210,11 @@ bool M_Responder(event_t *ev)
 
             return false;
         }
-
+    }
+    else if ((!menuactive || functionkey) && !paused && !splashscreen)
+    {
         // Help key
-        else if (key == KEY_F1 && (!functionkey || functionkey == KEY_F1) && !keydown)
+        if (key == KEY_F1 && (!functionkey || functionkey == KEY_F1) && !keydown)
         {
             if (gamestate == GS_INTERMISSION || gamestate == GS_FINALE)
                 return false;

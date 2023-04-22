@@ -3,7 +3,7 @@
 #### DOOM Retro v4.9.2
 
 * Adjusting the sliders in the options menu using the mouse pointer when the `m_pointer` CVAR is `on` is now more responsive.
-
+* Widescreen mode can now be toggled while the menu is open using the <kbd>+</kbd> and <kbd>&ndash;</kbd> keys.
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Saturday, April 22, 2023
