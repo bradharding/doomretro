@@ -260,20 +260,20 @@ typedef enum
 // jff 3/15/98 pure texture/type change for better generalized support
 typedef enum
 {
-    trigChangeOnly,
-    numChangeOnly
+    TrigChangeOnly,
+    NumChangeOnly
 } change_e;
 
 typedef enum
 {
-    perpetualRaise,
-    downWaitUpStay,
-    raiseAndChange,
-    raiseToNearestAndChange,
-    blazeDWUS,
-    genLift,            // jff added to support generalized Plat types
-    genPerpetual,
-    toggleUpDn
+    PerpetualRaise,
+    DownWaitUpStay,
+    RaiseAndChange,
+    RaiseToNearestAndChange,
+    BlazeDWUS,
+    GenLift,            // jff added to support generalized Plat types
+    GenPerpetual,
+    ToggleUpDn
 } plattype_e;
 
 typedef struct
@@ -387,24 +387,24 @@ void P_SpawnDoorRaiseIn5Mins(sector_t *sec);
 //
 typedef enum
 {
-    lowerToFloor,
-    raiseToHighest,
-    lowerToLowest,
-    lowerToMaxFloor,
-    lowerAndCrush,
-    crushAndRaise,
-    fastCrushAndRaise,
-    silentCrushAndRaise,
+    LowerToFloor,
+    RaiseToHighest,
+    LowerToLowest,
+    LowerToMaxFloor,
+    LowerAndCrush,
+    CrushAndRaise,
+    FastCrushAndRaise,
+    SilentCrushAndRaise,
 
     // jff 02/04/98 add types for generalized ceiling mover
-    genCeiling,
-    genCeilingChg,
-    genCeilingChg0,
-    genCeilingChgT,
+    GenCeiling,
+    GenCeilingChg,
+    GenCeilingChg0,
+    GenCeilingChgT,
 
     // jff 02/05/98 add types for generalized ceiling mover
-    genCrusher,
-    genSilentCrusher
+    GenCrusher,
+    GenSilentCrusher
 } ceiling_e;
 
 typedef struct

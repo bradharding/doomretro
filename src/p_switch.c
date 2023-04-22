@@ -413,13 +413,13 @@ bool P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
             break;
 
         case S1_Floor_RaiseBy32_ChangesTexture:
-            if (EV_DoPlat(line, raiseAndChange, 32))
+            if (EV_DoPlat(line, RaiseAndChange, 32))
                 P_ChangeSwitchTexture(line, false);
 
             break;
 
         case S1_Floor_RaiseBy24_ChangesTexture:
-            if (EV_DoPlat(line, raiseAndChange, 24))
+            if (EV_DoPlat(line, RaiseAndChange, 24))
                 P_ChangeSwitchTexture(line, false);
 
             break;
@@ -431,13 +431,13 @@ bool P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
             break;
 
         case S1_Floor_RaiseToNextHighestFloor_ChangesTexture:
-            if (EV_DoPlat(line, raiseToNearestAndChange, 0))
+            if (EV_DoPlat(line, RaiseToNearestAndChange, 0))
                 P_ChangeSwitchTexture(line, false);
 
             break;
 
         case S1_Lift_LowerWaitRaise:
-            if (EV_DoPlat(line, downWaitUpStay, 0))
+            if (EV_DoPlat(line, DownWaitUpStay, 0))
                 P_ChangeSwitchTexture(line, false);
 
             break;
@@ -466,7 +466,7 @@ bool P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
             break;
 
         case S1_Ceiling_LowerToFloor:
-            if (EV_DoCeiling(line, lowerToFloor))
+            if (EV_DoCeiling(line, LowerToFloor))
                 P_ChangeSwitchTexture(line, false);
 
             break;
@@ -478,7 +478,7 @@ bool P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
             break;
 
         case S1_Ceiling_LowerTo8AboveFloor_PerpetualSlowCrusherDamage:
-            if (EV_DoCeiling(line, crushAndRaise))
+            if (EV_DoCeiling(line, CrushAndRaise))
                 P_ChangeSwitchTexture(line, false);
 
             break;
@@ -536,7 +536,7 @@ bool P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
             break;
 
         case S1_Lift_LowerWaitRaise_Fast:
-            if (EV_DoPlat(line, blazeDWUS, 0))
+            if (EV_DoPlat(line, BlazeDWUS, 0))
                 P_ChangeSwitchTexture(line, false);
 
             break;
@@ -593,7 +593,7 @@ bool P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
             break;
 
         case S1_Lift_PerpetualLowestAndHighestFloors:
-            if (EV_DoPlat(line, perpetualRaise, 0))
+            if (EV_DoPlat(line, PerpetualRaise, 0))
                 P_ChangeSwitchTexture(line, false);
 
             break;
@@ -604,25 +604,25 @@ bool P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
             break;
 
         case S1_Crusher_Start_Fast:
-            if (EV_DoCeiling(line, fastCrushAndRaise))
+            if (EV_DoCeiling(line, FastCrushAndRaise))
                 P_ChangeSwitchTexture(line, false);
 
             break;
 
         case S1_Crusher_Start_Silent:
-            if (EV_DoCeiling(line, silentCrushAndRaise))
+            if (EV_DoCeiling(line, SilentCrushAndRaise))
                 P_ChangeSwitchTexture(line, false);
 
             break;
 
         case S1_Ceiling_RaiseToHighestCeiling:
-            if (EV_DoCeiling(line, raiseToHighest) || EV_DoFloor(line, lowerFloorToLowest))
+            if (EV_DoCeiling(line, RaiseToHighest) || EV_DoFloor(line, lowerFloorToLowest))
                 P_ChangeSwitchTexture(line, false);
 
             break;
 
         case S1_Ceiling_LowerTo8AboveFloor:
-            if (EV_DoCeiling(line, lowerAndCrush))
+            if (EV_DoCeiling(line, LowerAndCrush))
                 P_ChangeSwitchTexture(line, false);
 
             break;
@@ -671,19 +671,19 @@ bool P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
             break;
 
         case S1_ChangeTextureAndEffect:
-            if (EV_DoChange(line, trigChangeOnly))
+            if (EV_DoChange(line, TrigChangeOnly))
                 P_ChangeSwitchTexture(line, false);
 
             break;
 
         case S1_Ceiling_LowerToLowestCeiling:
-            if (EV_DoCeiling(line, lowerToLowest))
+            if (EV_DoCeiling(line, LowerToLowest))
                 P_ChangeSwitchTexture(line, false);
 
             break;
 
         case S1_Ceiling_LowerToHighestFloor:
-            if (EV_DoCeiling(line, lowerToMaxFloor))
+            if (EV_DoCeiling(line, LowerToMaxFloor))
                 P_ChangeSwitchTexture(line, false);
 
             break;
@@ -695,7 +695,7 @@ bool P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
             break;
 
         case S1_ChangeTextureAndEffectToNearest:
-            if (EV_DoChange(line, numChangeOnly))
+            if (EV_DoChange(line, NumChangeOnly))
                 P_ChangeSwitchTexture(line, false);
 
             break;
@@ -725,7 +725,7 @@ bool P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
             break;
 
         case SR_ChangeTextureAndEffectToNearest:
-            if (EV_DoChange(line, numChangeOnly))
+            if (EV_DoChange(line, NumChangeOnly))
                 P_ChangeSwitchTexture(line, true);
 
             break;
@@ -761,7 +761,7 @@ bool P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
             break;
 
         case SR_Lift_PerpetualLowestAndHighestFloors:
-            EV_DoPlat(line, perpetualRaise, 0);
+            EV_DoPlat(line, PerpetualRaise, 0);
             P_ChangeSwitchTexture(line, true);
             break;
 
@@ -771,31 +771,31 @@ bool P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
             break;
 
         case SR_Crusher_Start_Fast:
-            if (EV_DoCeiling(line, fastCrushAndRaise))
+            if (EV_DoCeiling(line, FastCrushAndRaise))
                 P_ChangeSwitchTexture(line, true);
 
             break;
 
         case SR_Crusher_Start:
-            if (EV_DoCeiling(line, crushAndRaise))
+            if (EV_DoCeiling(line, CrushAndRaise))
                 P_ChangeSwitchTexture(line, true);
 
             break;
 
         case SR_Crusher_Start_Silent:
-            if (EV_DoCeiling(line, silentCrushAndRaise))
+            if (EV_DoCeiling(line, SilentCrushAndRaise))
                 P_ChangeSwitchTexture(line, true);
 
             break;
 
         case SR_Ceiling_RaiseToHighestCeiling:
-            if (EV_DoCeiling(line, raiseToHighest) || EV_DoFloor(line, lowerFloorToLowest))
+            if (EV_DoCeiling(line, RaiseToHighest) || EV_DoFloor(line, lowerFloorToLowest))
                 P_ChangeSwitchTexture(line, true);
 
             break;
 
         case SR_Ceiling_LowerTo8AboveFloor:
-            if (EV_DoCeiling(line, lowerAndCrush))
+            if (EV_DoCeiling(line, LowerAndCrush))
                 P_ChangeSwitchTexture(line, true);
 
             break;
@@ -807,7 +807,7 @@ bool P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
             break;
 
         case SR_ChangeTextureAndEffect:
-            if (EV_DoChange(line, trigChangeOnly))
+            if (EV_DoChange(line, TrigChangeOnly))
                 P_ChangeSwitchTexture(line, true);
 
             break;
@@ -846,13 +846,13 @@ bool P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
             break;
 
         case SR_Ceiling_LowerToLowestCeiling:
-            if (EV_DoCeiling(line, lowerToLowest))
+            if (EV_DoCeiling(line, LowerToLowest))
                 P_ChangeSwitchTexture(line, true);
 
             break;
 
         case SR_Ceiling_LowerToHighestFloor:
-            if (EV_DoCeiling(line, lowerToMaxFloor))
+            if (EV_DoCeiling(line, LowerToMaxFloor))
                 P_ChangeSwitchTexture(line, true);
 
             break;
@@ -864,7 +864,7 @@ bool P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
             break;
 
         case SR_Lift_RaiseToCeiling_Instantly:
-            if (EV_DoPlat(line, toggleUpDn, 0))
+            if (EV_DoPlat(line, ToggleUpDn, 0))
                 P_ChangeSwitchTexture(line, true);
 
             break;
@@ -913,7 +913,7 @@ bool P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
             break;
 
         case SR_Ceiling_LowerToFloor:
-            if (EV_DoCeiling(line, lowerToFloor))
+            if (EV_DoCeiling(line, LowerToFloor))
                 P_ChangeSwitchTexture(line, true);
 
             break;
@@ -937,7 +937,7 @@ bool P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
             break;
 
         case SR_Lift_LowerWaitRaise:
-            if (EV_DoPlat(line, downWaitUpStay, 1))
+            if (EV_DoPlat(line, DownWaitUpStay, 1))
                 P_ChangeSwitchTexture(line, true);
 
             break;
@@ -957,13 +957,13 @@ bool P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
             break;
 
         case SR_Floor_RaiseBy24_ChangesTexture:
-            if (EV_DoPlat(line, raiseAndChange, 24))
+            if (EV_DoPlat(line, RaiseAndChange, 24))
                 P_ChangeSwitchTexture(line, true);
 
             break;
 
         case SR_Floor_RaiseBy32_ChangesTexture:
-            if (EV_DoPlat(line, raiseAndChange, 32))
+            if (EV_DoPlat(line, RaiseAndChange, 32))
                 P_ChangeSwitchTexture(line, true);
 
             break;
@@ -975,7 +975,7 @@ bool P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
             break;
 
         case SR_Floor_RaiseToNextHighestFloor_ChangesTexture:
-            if (EV_DoPlat(line, raiseToNearestAndChange, 0))
+            if (EV_DoPlat(line, RaiseToNearestAndChange, 0))
                 P_ChangeSwitchTexture(line, true);
 
             break;
@@ -1011,7 +1011,7 @@ bool P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
             break;
 
         case SR_Lift_LowerWaitRaise_Fast:
-            if (EV_DoPlat(line, blazeDWUS, 0))
+            if (EV_DoPlat(line, BlazeDWUS, 0))
                 P_ChangeSwitchTexture(line, true);
 
             break;

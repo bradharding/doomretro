@@ -187,7 +187,7 @@ static void R_InstallSpriteLump(const int lump, const int frame, const char rot,
 
 static void R_InitSpriteDefs(void)
 {
-    const size_t    numentries = (size_t)lastspritelump - firstspritelump + 1;
+    const int   numentries = lastspritelump - firstspritelump + 1;
 
     struct
     {
@@ -205,10 +205,10 @@ static void R_InitSpriteDefs(void)
         return;
     }
 
-    for (unsigned int i = 0; i < numentries; i++)   // initialize hash table as empty
+    for (int i = 0; i < numentries; i++)    // initialize hash table as empty
         hash[i].index = -1;
 
-    for (unsigned int i = 0; i < numentries; i++)   // Prepend each sprite to hash chain
+    for (int i = 0; i < numentries; i++)    // Prepend each sprite to hash chain
     {
         const int   j = R_SpriteNameHash(lumpinfo[i + firstspritelump]->name) % numentries;
 
@@ -217,7 +217,7 @@ static void R_InitSpriteDefs(void)
     }
 
     // scan all the lump names for each of the names, noting the highest frame letter.
-    for (unsigned int i = 0; i < NUMSPRITES; i++)
+    for (int i = 0; i < NUMSPRITES; i++)
     {
         const char  *spritename = sprnames[i];
         int         j = hash[R_SpriteNameHash(spritename) % numentries].index;

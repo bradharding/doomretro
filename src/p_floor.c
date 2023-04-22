@@ -635,13 +635,13 @@ bool EV_DoChange(const line_t *line, const change_e changetype)
         // handle trigger or numeric change type
         switch (changetype)
         {
-            case trigChangeOnly:
+            case TrigChangeOnly:
                 sec->floorpic = line->frontsector->floorpic;
                 P_CheckTerrainType(sec);
                 sec->special = line->frontsector->special;
                 break;
 
-            case numChangeOnly:
+            case NumChangeOnly:
                 if ((secm = P_FindModelFloorSector(sec->floorheight, secnum)))  // if no model, no change
                 {
                     sec->floorpic = secm->floorpic;

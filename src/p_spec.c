@@ -1482,7 +1482,7 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
             break;
 
         case W1_Crusher_StartWithFastDamage:
-            if (EV_DoCeiling(line, fastCrushAndRaise))
+            if (EV_DoCeiling(line, FastCrushAndRaise))
                 line->special = 0;
 
             break;
@@ -1494,7 +1494,7 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
             break;
 
         case W1_Lift_LowerWaitRaise:
-            if (EV_DoPlat(line, downWaitUpStay, 0))
+            if (EV_DoPlat(line, DownWaitUpStay, 0))
                 line->special = 0;
 
             break;
@@ -1530,13 +1530,13 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
             break;
 
         case W1_Floor_RaiseToNextHighestFloor_ChangesTexture:
-            if (EV_DoPlat(line, raiseToNearestAndChange, 0))
+            if (EV_DoPlat(line, RaiseToNearestAndChange, 0))
                 line->special = 0;
 
             break;
 
         case W1_Crusher_StartWithSlowDamage:
-            if (EV_DoCeiling(line, crushAndRaise))
+            if (EV_DoCeiling(line, CrushAndRaise))
                 line->special = 0;
 
             break;
@@ -1578,13 +1578,13 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
             break;
 
         case W1_Ceiling_RaiseToHighestCeiling:
-            if (EV_DoCeiling(line, raiseToHighest))
+            if (EV_DoCeiling(line, RaiseToHighest))
                 line->special = 0;
 
             break;
 
         case W1_Ceiling_LowerTo8AboveFloor:
-            if (EV_DoCeiling(line, lowerAndCrush))
+            if (EV_DoCeiling(line, LowerAndCrush))
                 line->special = 0;
 
             break;
@@ -1594,7 +1594,7 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
             break;
 
         case W1_Floor_StartMovingUpAndDown:
-            if (EV_DoPlat(line, perpetualRaise, 0))
+            if (EV_DoPlat(line, PerpetualRaise, 0))
                 line->special = 0;
 
             break;
@@ -1666,7 +1666,7 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
             break;
 
         case W1_Lift_LowerWaitRaise_Fast:
-            if (EV_DoPlat(line, blazeDWUS, 0))
+            if (EV_DoPlat(line, BlazeDWUS, 0))
                 line->special = 0;
 
             break;
@@ -1688,18 +1688,18 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
             break;
 
         case W1_Crusher_StartWithSlowDamage_Silent:
-            if (EV_DoCeiling(line, silentCrushAndRaise))
+            if (EV_DoCeiling(line, SilentCrushAndRaise))
                 line->special = 0;
 
             break;
 
         // Retriggers
         case WR_Ceiling_LowerTo8AboveFloor:
-            EV_DoCeiling(line, lowerAndCrush);
+            EV_DoCeiling(line, LowerAndCrush);
             break;
 
         case WR_Crusher_StartWithSlowDamage:
-            EV_DoCeiling(line, crushAndRaise);
+            EV_DoCeiling(line, CrushAndRaise);
             break;
 
         case WR_Crusher_Stop:
@@ -1715,7 +1715,7 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
             break;
 
         case WR_Crusher_StartWithFastDamage:
-            EV_DoCeiling(line, fastCrushAndRaise);
+            EV_DoCeiling(line, FastCrushAndRaise);
             break;
 
         case WR_Light_ChangeTo35:
@@ -1747,11 +1747,11 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
             break;
 
         case WR_Floor_StartMovingUpAndDown:
-            EV_DoPlat(line, perpetualRaise, 0);
+            EV_DoPlat(line, PerpetualRaise, 0);
             break;
 
         case WR_Lift_LowerWaitRaise:
-            EV_DoPlat(line, downWaitUpStay, 0);
+            EV_DoPlat(line, DownWaitUpStay, 0);
             break;
 
         case WR_Floor_StopMoving:
@@ -1779,7 +1779,7 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
             break;
 
         case WR_Floor_RaiseToNextHighestFloor_ChangesTexture:
-            EV_DoPlat(line, raiseToNearestAndChange, 0);
+            EV_DoPlat(line, RaiseToNearestAndChange, 0);
             break;
 
         case WR_Floor_RaiseByShortestLowerTexture:
@@ -1807,7 +1807,7 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
             break;
 
         case WR_Lift_LowerWaitRaise_Fast:
-            EV_DoPlat(line, blazeDWUS, 0);
+            EV_DoPlat(line, BlazeDWUS, 0);
             break;
 
         case WR_Teleport_MonstersOnly:
@@ -1832,19 +1832,19 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
             break;
 
         case W1_Lift_RaiseBy24_ChangesTexture:
-            if (EV_DoPlat(line, raiseAndChange, 24))
+            if (EV_DoPlat(line, RaiseAndChange, 24))
                 line->special = 0;
 
             break;
 
         case W1_Lift_RaiseBy32_ChangesTexture:
-            if (EV_DoPlat(line, raiseAndChange, 32))
+            if (EV_DoPlat(line, RaiseAndChange, 32))
                 line->special = 0;
 
             break;
 
         case W1_CeilingLowerToFloor_Fast:
-            if (EV_DoCeiling(line, lowerToFloor))
+            if (EV_DoCeiling(line, LowerToFloor))
                 line->special = 0;
 
             break;
@@ -1856,13 +1856,13 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
             break;
 
         case W1_Ceiling_LowerToLowestCeiling:
-            if (EV_DoCeiling(line, lowerToLowest))
+            if (EV_DoCeiling(line, LowerToLowest))
                 line->special = 0;
 
             break;
 
         case W1_Ceiling_LowerToHighestFloor:
-            if (EV_DoCeiling(line, lowerToMaxFloor))
+            if (EV_DoCeiling(line, LowerToMaxFloor))
                 line->special = 0;
 
             break;
@@ -1874,13 +1874,13 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
             break;
 
         case W1_ChangeTextureAndEffect:
-            if (EV_DoChange(line, trigChangeOnly))
+            if (EV_DoChange(line, TrigChangeOnly))
                 line->special = 0;
 
             break;
 
         case W1_ChangeTextureAndEffectToNearest:
-            if (EV_DoChange(line, numChangeOnly))
+            if (EV_DoChange(line, NumChangeOnly))
                 line->special = 0;
 
             break;
@@ -1945,24 +1945,24 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
             break;
 
         case WR_Lift_RaiseBy24_ChangesTexture:
-            EV_DoPlat(line, raiseAndChange, 24);
+            EV_DoPlat(line, RaiseAndChange, 24);
             break;
 
         case WR_Lift_RaiseBy32_ChangesTexture:
-            EV_DoPlat(line, raiseAndChange, 32);
+            EV_DoPlat(line, RaiseAndChange, 32);
             break;
 
         case WR_Crusher_Start_Silent:
-            EV_DoCeiling(line, silentCrushAndRaise);
+            EV_DoCeiling(line, SilentCrushAndRaise);
             break;
 
         case WR_Ceiling_RaiseToHighestCeiling:
-            EV_DoCeiling(line, raiseToHighest);
+            EV_DoCeiling(line, RaiseToHighest);
             EV_DoFloor(line, lowerFloorToLowest);
             break;
 
         case WR_Ceiling_LowerToFloor_Fast:
-            EV_DoCeiling(line, lowerToFloor);
+            EV_DoCeiling(line, LowerToFloor);
             break;
 
         case WR_Stairs_RaiseBy8:
@@ -1986,11 +1986,11 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
             break;
 
         case WR_Ceiling_LowerToLowestCeiling:
-            EV_DoCeiling(line, lowerToLowest);
+            EV_DoCeiling(line, LowerToLowest);
             break;
 
         case WR_Ceiling_LowerToHighestFloor:
-            EV_DoCeiling(line, lowerToMaxFloor);
+            EV_DoCeiling(line, LowerToMaxFloor);
             break;
 
         case WR_Teleport_AlsoMonsters_Silent_SameAngle:
@@ -1998,15 +1998,15 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
             break;
 
         case WR_Lift_RaiseToCeiling_Instantly:
-            EV_DoPlat(line, toggleUpDn, 0);
+            EV_DoPlat(line, ToggleUpDn, 0);
             break;
 
         case WR_ChangeTextureAndEffect:
-            EV_DoChange(line, trigChangeOnly);
+            EV_DoChange(line, TrigChangeOnly);
             break;
 
         case WR_ChangeTextureAndEffectToNearest:
-            EV_DoChange(line, numChangeOnly);
+            EV_DoChange(line, NumChangeOnly);
             break;
 
         case WR_Floor_LowerToNearestFloor:
@@ -2175,7 +2175,7 @@ void P_ShootSpecialLine(mobj_t *thing, line_t *line)
             break;
 
         case G1_Floor_RaiseToNextHighestFloor_ChangesTexture:
-            if (EV_DoPlat(line, raiseToNearestAndChange, 0))
+            if (EV_DoPlat(line, RaiseToNearestAndChange, 0))
                 P_ChangeSwitchTexture(line, false);
 
             break;

@@ -323,7 +323,7 @@ manual_ceiling:
         ceiling->texture = sec->ceilingpic;
         ceiling->newspecial = sec->special;
         ceiling->tag = sec->tag;
-        ceiling->type = genCeiling;
+        ceiling->type = GenCeiling;
 
         // set speed of motion
         switch (Sped)
@@ -408,16 +408,16 @@ manual_ceiling:
                     {
                         case CChgZero:  // type is zeroed
                             ceiling->newspecial = 0;
-                            ceiling->type = genCeilingChg0;
+                            ceiling->type = GenCeilingChg0;
                             break;
 
                         case CChgTyp:   // type is copied
                             ceiling->newspecial = sec->special;
-                            ceiling->type = genCeilingChgT;
+                            ceiling->type = GenCeilingChgT;
                             break;
 
                         case CChgTxt:   // type is left alone
-                            ceiling->type = genCeilingChg;
+                            ceiling->type = GenCeilingChg;
                             break;
                     }
                 }
@@ -430,16 +430,16 @@ manual_ceiling:
                 {
                     case CChgZero:      // type is zeroed
                         ceiling->newspecial = 0;
-                        ceiling->type = genCeilingChg0;
+                        ceiling->type = GenCeilingChg0;
                         break;
 
                     case CChgTyp:       // type is copied
                         ceiling->newspecial = line->frontsector->special;
-                        ceiling->type = genCeilingChgT;
+                        ceiling->type = GenCeilingChgT;
                         break;
 
                     case CChgTxt:       // type is left alone
-                        ceiling->type = genCeilingChg;
+                        ceiling->type = GenCeilingChg;
                         break;
                 }
             }
@@ -529,7 +529,7 @@ manual_lift:
         plat->sector = sec;
         plat->sector->floordata = plat;
         plat->tag = line->tag;
-        plat->type = genLift;
+        plat->type = GenLift;
         plat->high = sec->floorheight;
         plat->status = down;
 
@@ -549,7 +549,7 @@ manual_lift:
                 break;
 
             case LnF2HnF:
-                plat->type = genPerpetual;
+                plat->type = GenPerpetual;
                 plat->low = MIN(P_FindLowestFloorSurrounding(sec), sec->floorheight);
                 plat->high = MAX(P_FindHighestFloorSurrounding(sec), sec->floorheight);
                 plat->status = (plat_e)(M_Random() & 1);
@@ -895,7 +895,7 @@ manual_crusher:
         ceiling->texture = sec->ceilingpic;
         ceiling->newspecial = sec->special;
         ceiling->tag = sec->tag;
-        ceiling->type = (Slnt ? genSilentCrusher : genCrusher);
+        ceiling->type = (Slnt ? GenSilentCrusher : GenCrusher);
         ceiling->topheight = sec->ceilingheight;
         ceiling->bottomheight = sec->floorheight + 8 * FRACUNIT;
 
