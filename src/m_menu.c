@@ -2756,7 +2756,7 @@ bool M_Responder(event_t *ev)
                                     key = 0;
                                 else if (itemon == sound_empty1 || itemon == sound_empty2)
                                     key = (ev->data2 < SoundMenu[itemon].sliderx ? KEY_LEFTARROW :
-                                        (ev->data2 > SoundMenu[itemon].sliderx + 8 ? KEY_RIGHTARROW : 0));
+                                        (ev->data2 > SoundMenu[itemon].sliderx + 6 ? KEY_RIGHTARROW : 0));
                                 else if (mousewait < I_GetTime())
                                 {
                                     key = KEY_ENTER;
