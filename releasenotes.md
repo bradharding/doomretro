@@ -2,6 +2,8 @@
 
 #### DOOM Retro v4.9.2
 
+* Adjusting the mouse sensitivity slider in the options menu using the mouse pointer is now more responsive when the `m_pointer` CVAR is `on`.
+
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Saturday, April 22, 2023

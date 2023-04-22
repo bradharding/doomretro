@@ -2738,9 +2738,12 @@ bool M_Responder(event_t *ev)
                             {
                                 if (itemon == scrnsize || itemon == mousesens)
                                     key = 0;
-                                else if (itemon == option_empty1 || itemon == option_empty2)
+                                else if (itemon == option_empty1)
                                     key = (ev->data2 < OptionsMenu[itemon].sliderx ? KEY_LEFTARROW :
                                         (ev->data2 > OptionsMenu[itemon].sliderx + 8 ? KEY_RIGHTARROW : 0));
+                                else if (itemon == option_empty2)
+                                    key = (ev->data2 < OptionsMenu[itemon].sliderx ? KEY_LEFTARROW :
+                                        (ev->data2 > OptionsMenu[itemon].sliderx + 4 ? KEY_RIGHTARROW : 0));
                                 else if (mousewait < I_GetTime())
                                 {
                                     key = KEY_ENTER;
