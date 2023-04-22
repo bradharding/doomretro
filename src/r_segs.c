@@ -282,7 +282,7 @@ void R_RenderMaskedSegRange(const drawseg_t *ds, const int x1, const int x2)
                 // This code fixes it, by using double-precision intermediate
                 // arithmetic and by skipping the drawing of 2s normals whose
                 // mapping to screen coordinates is totally out of range:
-                int64_t t = ((int64_t)centeryfrac << FRACBITS) - (int64_t)dc_texturemid * spryscale;
+                const int64_t   t = ((int64_t)centeryfrac << FRACBITS) - (int64_t)dc_texturemid * spryscale;
 
                 // skip if the texture is out of screen's range
                 if (t + (int64_t)texheight * spryscale < 0 || t > (int64_t)SCREENHEIGHT << FRACBITS * 2)
@@ -327,15 +327,15 @@ static void R_RenderSegLoop(void)
 
     for (; rw_x < rw_stopx; rw_x++)
     {
-        fixed_t texturecolumn = 0;
+        fixed_t     texturecolumn = 0;
 
         // no space above wall?
-        int     bottom;
-        int     top = ceilingclip[rw_x] + 1;
+        int         bottom;
+        int         top = ceilingclip[rw_x] + 1;
 
         // mark floor/ceiling areas
-        int     yl = MAX((int)((topfrac + heightunit - 1) >> heightbits), top);
-        int     yh = (int)(bottomfrac >> heightbits);
+        const int   yl = MAX((int)((topfrac + heightunit - 1) >> heightbits), top);
+        int         yh = (int)(bottomfrac >> heightbits);
 
         if (markceiling)
         {
@@ -583,14 +583,14 @@ unsigned int maxdrawsegs;
 //
 void R_StoreWallRange(const int start, const int stop)
 {
-    int64_t             dx, dy;
-    int64_t             dx1, dy1;
-    int64_t             len;
-    int                 worldtop;
-    int                 worldbottom;
-    int                 worldhigh = 0;
-    int                 worldlow = 0;
-    side_t              *sidedef;
+    int64_t dx, dy;
+    int64_t dx1, dy1;
+    int64_t len;
+    int     worldtop;
+    int     worldbottom;
+    int     worldhigh = 0;
+    int     worldlow = 0;
+    side_t  *sidedef;
 
     linedef = curline->linedef;
 
@@ -934,7 +934,7 @@ void R_StoreWallRange(const int start, const int stop)
         // killough 04/11/98: add NULL ptr checks
         if (floorplane)
         {
-            // cph 2003/04/18  - ceilingplane and floorplane might be the same
+            // cph 04/18/03: ceilingplane and floorplane might be the same
             // visplane (e.g. if both skies); R_CheckPlane() doesn't know about
             // modifications to the plane that might happen in parallel with the check
             // being made, so we have to override it and split them anyway if that is

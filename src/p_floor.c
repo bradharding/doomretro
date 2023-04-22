@@ -660,7 +660,7 @@ bool EV_DoChange(const line_t *line, const change_e changetype)
 // BUILD A STAIRCASE!
 //
 
-// cph 2001/09/21 - compatibility nightmares again
+// cph 09/21/01: compatibility nightmares again
 // There are three different ways this function has, during its history, stepped
 // through all the stairs to be triggered by the single switch
 // - original DOOM used a linear P_FindSectorFromLineTag, but failed to preserve

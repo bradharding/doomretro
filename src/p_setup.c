@@ -864,7 +864,7 @@ static void P_LoadSegs(int lump)
 
         li->sidedef = sides + ldef->sidenum[side];
 
-        // cph 2006/09/30 - our frontsector can be the second side of the
+        // cph 09/30/06: our frontsector can be the second side of the
         // linedef, so must check for NO_INDEX in case we are incorrectly
         // referencing the back of a 1S line
         if (ldef->sidenum[side] != NO_INDEX)
@@ -1194,7 +1194,7 @@ static void P_LoadSegs_V4(int lump)
 
         li->sidedef = sides + ldef->sidenum[side];
 
-        // cph 2006/09/30 - our frontsector can be the second side of the
+        // cph 09/30/06: our frontsector can be the second side of the
         // linedef, so must check for NO_INDEX in case we are incorrectly
         // referencing the back of a 1S line
         if (ldef->sidenum[side] != NO_INDEX)
@@ -1657,7 +1657,7 @@ static void P_LoadZSegs(const byte *data)
 
         li->sidedef = sides + ldef->sidenum[side];
 
-        // cph 2006/09/30 - our frontsector can be the second side of the
+        // cph 09/30/06: our frontsector can be the second side of the
         // linedef, so must check for NO_INDEX in case we are incorrectly
         // referencing the back of a 1S line
         if (ldef->sidenum[side] != NO_INDEX)
@@ -2025,7 +2025,7 @@ static void P_LoadLineDefs2(void)
 
     for (int i = numlines; i--; ld++)
     {
-        // cph 2006/09/30 - fix sidedef errors right away
+        // cph 09/30/06: fix sidedef errors right away
         for (int j = 0; j < 2; j++)
             if (ld->sidenum[j] != NO_INDEX && ld->sidenum[j] >= numsides)
             {
@@ -2114,7 +2114,7 @@ static void P_LoadSideDefs2(int lump)
         sd->textureoffset = SHORT(msd->textureoffset) << FRACBITS;
         sd->rowoffset = SHORT(msd->rowoffset) << FRACBITS;
 
-        // cph 2006/09/30 - catch out-of-range sector numbers; use sector 0 instead
+        // cph 09/30/06: catch out-of-range sector numbers; use sector 0 instead
         if (sector_num >= numsectors)
         {
             char    *temp1 = commify(i);
