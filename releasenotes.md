@@ -3,7 +3,7 @@
 #### DOOM Retro v4.9.2
 
 * Adjusting the sliders in the options and sound volume menus using the mouse pointer when the `m_pointer` CVAR is `on` is now more responsive.
-* Widescreen mode can now be toggled using the <kbd>+</kbd> and <kbd>&ndash;</kbd> keys while the menu is open.
+* Widescreen mode can now be toggled using the <kbd><b>+</b></kbd> and <kbd><b>&ndash;</b></kbd> keys while the menu is open.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
@@ -90,7 +90,7 @@
 * *DOOM Retro* now uses [*SDL v2.26.4*](https://www.libsdl.org/).
 * Minor optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Minor changes have been made to text that is output to the console.
-* A bug is fixed whereby if the `alwaysrun` CVAR was `on`, the <kbd>CAPSLOCK</kbd> key wouldn’t always turn off as intended when quitting *DOOM Retro*.
+* A bug is fixed whereby if the `alwaysrun` CVAR was `on`, the <kbd><b>CAPSLOCK</b></kbd> key wouldn’t always turn off as intended when quitting *DOOM Retro*.
 * A bug is fixed whereby a wrong player message would be displayed each time the player picked up an item in some instances when the `messages` CVAR was `off`.
 * Minor improvements have been made to the color of some elements in the alternate widescreen HUD.
 
@@ -108,15 +108,15 @@
 * Extensive changes have been made to text that is output to the console.
 * Many additional characters, including those with diacritics, have been added to the font set used in the console.
 * [Alt codes](https://en.wikipedia.org/wiki/Alt_code) may now be entered in the console.
-* These changes have been made when opening and closing the console using the <kbd>~</kbd> key:
+* These changes have been made when opening and closing the console using the <kbd><b>~</b></kbd> key:
   * A subtle sound effect now plays.
   * The console now scrolls to and from the top of the screen, rather than fading in and out, when on the title screen.
   * The console’s scrolling animation is now slightly faster.
   * The scrollbar now displays correctly when the `r_screensize` CVAR is less than `7`.
-* Minor improvements have been made to the text that can be autocompleted in the console by pressing the <kbd>TAB</kbd> key.
-* Each press of the <kbd>TAB</kbd> key to autocomplete text entered in the console can now be undone by pressing <kbd>CTRL</kbd> + <kbd>Z</kbd>.
-* Pressing the <kbd>HOME</kbd> key in the console no longer scrolls past the top of the console in some instances.
-* Scrolling up and down in the console using the <kbd>PGUP</kbd> and <kbd>PGDN</kbd> keys now gets faster the longer the keys are held down.
+* Minor improvements have been made to the text that can be autocompleted in the console by pressing the <kbd><b>TAB</b></kbd> key.
+* Each press of the <kbd><b>TAB</b></kbd> key to autocomplete text entered in the console can now be undone by pressing <kbd><b>CTRL</b></kbd> + <kbd><b>Z</b></kbd>.
+* Pressing the <kbd><b>HOME</b></kbd> key in the console no longer scrolls past the top of the console in some instances.
+* Scrolling up and down in the console using the <kbd><b>PGUP</b></kbd> and <kbd><b>PGDN</b></kbd> keys now gets faster the longer the keys are held down.
 * Thousands-delimiting commas may now be used when changing the value of certain CVARs in the console.
 * The `toggle` CCMD now only works with boolean CVARs.
 * When the `m_pointer` CVAR is `on`:
@@ -125,7 +125,7 @@
 * The fade effect when opening the menu is now slightly faster than closing it when the `fade` CVAR is `on`.
 * Minor improvements have been made to the menu’s background when the `r_detail` CVAR is `low`.
 * Two additional savegame slots are now available in the load and save game menus.
-* A random sound effect now plays when quitting the game by entering the `quit` CCMD in the console or pressing <kbd>ALT</kbd> + <kbd>F4</kbd>.
+* A random sound effect now plays when quitting the game by entering the `quit` CCMD in the console or pressing <kbd><b>ALT</b></kbd> + <kbd><b>F4</b></kbd>.
 * Improvements have been made to parsing [`BRGHTMPS`](https://raw.githubusercontent.com/bradharding/doomretro/master/res/BRGHTMPS) lumps.
 * These changes have been made to the `playerstats` CCMD:
   * The number of times the player loads a savegame is now displayed.
@@ -241,7 +241,7 @@
 * Extensive changes have been made to text that is output to the console.
 * A bug is fixed whereby one or more lines of text at the top the console wouldn’t be completely displayed.
 * Minor improvements have been made to the console’s autocomplete feature.
-* Minor improvements have been made to the help screen displayed by pressing the <kbd>F1</kbd> key.
+* Minor improvements have been made to the help screen displayed by pressing the <kbd><b>F1</b></kbd> key.
 * CCMDs in the console that can only be used while playing a game, or while the player is alive, may now be entered at any time, and a description of the CCMD along with a warning about their usage is displayed.
 * The colors of certain elements of the console have been improved.
 * The game is now paused as intended when the window loses focus.
@@ -250,15 +250,15 @@
   * `00:00` is no longer displayed in the top right corner before a game is started if the `am_playerstats` CVAR is `on`.
 * The vertical position of the current map’s title in the automap has changed in some instances.
 * A bug is fixed whereby the current map’s title in the automap would be positioned incorrectly after adjusting the screen size in the options menu in some instances.
-* These changes have been made when pressing the <kbd>F9</kbd> key to quickload a savegame:
+* These changes have been made when pressing the <kbd><b>F9</b></kbd> key to quickload a savegame:
   * The load game menu now opens if the game hasn’t been saved yet.
   * The background of the confirmation message now displays correctly.
-  * There is no longer a misplaced fade transition when pressing the <kbd>Y</kbd> key and the `fade` CVAR is `on`.
+  * There is no longer a misplaced fade transition when pressing the <kbd><b>Y</b></kbd> key and the `fade` CVAR is `on`.
 * The horizontal position of the title in the options and sound volume menus has improved in some instances.
 * The shadows of the red text used in the menu have improved slightly.
 * A fade transition is now applied when opening the sound volume menu in the options menu if the `fade` CVAR is `on`.
-* A fade transition is no longer applied when toggling the graphic detail, either in the options menu or by pressing the <kbd>F5</kbd> key, if the `fade` CVAR is `on`.
-* When toggling widescreen mode by pressing the <kbd>+</kbd> key, the player’s vertical field of view now zooms in slightly.
+* A fade transition is no longer applied when toggling the graphic detail, either in the options menu or by pressing the <kbd><b>F5</b></kbd> key, if the `fade` CVAR is `on`.
+* When toggling widescreen mode by pressing the <kbd><b>+</b></kbd> key, the player’s vertical field of view now zooms in slightly.
 * An `english` CVAR has been implemented that toggles the use of American or International English. It can be either `american` or `international`, and is `american` by default and when vanilla mode is enabled.
 * To allow greater precision, the `joy_sensitivity_horizontal`, `joy_sensitivity_vertical` and `m_senstivity` CVARs can now be changed to non-integer values.
 * Turning the `r_corpses_mirrored` or `r_mirroredweapons` CVARs `on` in the console now works correctly.
@@ -354,7 +354,7 @@
 
 * *DOOM Retro* is now built using v17.3.2 of [*Microsoft Visual Studio Community 2022*](https://www.visualstudio.com/vs/).
 * Minor optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
-* The menu’s background is now displayed correctly when pressing the <kbd>F9</kbd> key to quickload a savegame.
+* The menu’s background is now displayed correctly when pressing the <kbd><b>F9</b></kbd> key to quickload a savegame.
 * A bug is fixed whereby savegames saved using versions of *DOOM Retro* earlier than v4.6 would crash in some instances.
 * *SIGIL* is now recognized if it is named `SIGIL_v1_0.wad`.
 * Minor improvements have been made to the playback of MIDI music.
@@ -455,7 +455,7 @@
   * Minor improvements have been made to the brightmaps of the `COMPUTE2` and `COMPUTE3` textures.
   * Brightmaps can now be applied to masked midtextures.
 * The existing feature of randomizing the starting frame of certain sprites may now be toggled using the new `r_randomstartframes` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
-* The player’s speed when strafing has been reduced when moving the mouse while the <kbd>ALT</kbd> key is held down, and is more consistent with the speed when using the <kbd>A</kbd> and <kbd>D</kbd> keys to strafe.
+* The player’s speed when strafing has been reduced when moving the mouse while the <kbd><b>ALT</b></kbd> key is held down, and is more consistent with the speed when using the <kbd><b>A</b></kbd> and <kbd><b>D</b></kbd> keys to strafe.
 * The following changes have been made when vanilla mode is enabled using the `vanilla` CCMD:
   * The `am_grid` CVAR is no longer turned `off`.
   * Red blood is now spawned when shooting a lost soul.
