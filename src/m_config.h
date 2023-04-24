@@ -722,7 +722,7 @@ enum
 
 #define sucktime_min                       0
 #define sucktime_default                   1
-#define sucktime_max                       INT_MAX
+#define sucktime_max                       10
 
 #define tossdrop_default                   true
 
