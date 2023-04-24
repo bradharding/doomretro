@@ -6,6 +6,7 @@
 * Widescreen mode can now be toggled using the <kbd><b>+</b></kbd> and <kbd><b>&ndash;</b></kbd> keys while the menu is open.
 * The maximum value of the `sucktime` CVAR is now `10`.
 * The time displayed on the intermission screen is no longer preceded by a `0` if the player took more than an hour to complete the map and the `sucktime` CVAR is greater than its default of `1`.
+* The map’s title in the automap is now gold if the player is in the secret map of *DOOM II: No Rest For The Living*.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

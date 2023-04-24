@@ -3048,7 +3048,7 @@ void P_SetupLevel(int ep, int map)
         {
             M_snprintf(lumpname, sizeof(lumpname), "MAP%02i", map);
 
-            if (map >= 31)
+            if (map >= 31 || (gamemission == pack_nerve && map == 9))
                 secretmap = true;
         }
         else
