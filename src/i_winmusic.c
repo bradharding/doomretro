@@ -36,7 +36,7 @@
 #if defined(_WIN32)
 
 #include <Windows.h>
-#include <mmsystem.h>
+#include <mmeapi.h>
 
 #include "c_console.h"
 #include "doomtype.h"

@@ -5754,7 +5754,7 @@ static void C_PlayerStats_Game(void)
     hours2 = time2 / 3600;
     temp2 = commify(hours2);
 
-    if (sucktime && hours1 >= sucktime)
+    if (hours1 >= sucktime)
     {
         if (hours2 >= 100)
             C_TabbedOutput(tabs, "Time played\t%s\tOver %s hours!", s_STSTR_SUCKS, temp2);

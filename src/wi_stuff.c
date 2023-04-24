@@ -659,7 +659,7 @@ static void WI_DrawTime(int x, int y, int t)
 
     x += (SHORT(num[0]->width) - 11) * 4;
 
-    if (sucktime && t > sucktime * 61 * 59)
+    if (t > sucktime * 61 * 59)
         V_DrawPatchWithShadow(SP_TIMEX + SHORT(timepatch->width) + 6, y + 1, sucks, false);
     else
     {
@@ -849,7 +849,7 @@ static void WI_InitStats(void)
         free(temp2);
     }
 
-    if (sucktime && wbs->stime / TICRATE > sucktime * 61 * 59)
+    if (wbs->stime / TICRATE > sucktime * 61 * 59)
         C_TabbedOutput(tabs, "Time\t%s", s_STSTR_SUCKS);
     else
         C_TabbedOutput(tabs, "Time\t" MONOSPACED("%02i") ":" MONOSPACED("%02i"),

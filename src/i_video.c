@@ -35,7 +35,7 @@
 
 #if defined(_WIN32)
 #include <Windows.h>
-#include <mmsystem.h>
+#include <mmiscapi2.h>
 
 #include "SDL_syswm.h"
 #elif defined(X11)
