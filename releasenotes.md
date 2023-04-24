@@ -4,6 +4,7 @@
 
 * Adjusting the sliders in the options and sound volume menus using the mouse pointer when the `m_pointer` CVAR is `on` is now more responsive.
 * Widescreen mode can now be toggled using the <kbd><b>+</b></kbd> and <kbd><b>&ndash;</b></kbd> keys while the menu is open.
+* The time displayed on the intermission screen is now not preceded by a `0` if the player took more than an hour to complete the map and the `sucktime` CVAR is greater than `1`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

@@ -667,7 +667,7 @@ static void WI_DrawTime(int x, int y, int t)
 
         do
         {
-            x = WI_DrawNum(x, y, (t / div) % 60, 2) - SHORT(colon->width);
+            x = WI_DrawNum(x, y, (t / div) % 60, (div <= 60 ? 2 : 1)) - SHORT(colon->width);
             div *= 60;
 
             // draw
