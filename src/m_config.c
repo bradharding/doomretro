@@ -207,6 +207,7 @@ char        *vid_screenresolution = vid_screenresolution_default;
 bool        vid_showfps = vid_showfps_default;
 int         vid_vsync = vid_vsync_default;
 bool        vid_widescreen = vid_widescreen_default;
+bool        vid_windowcaption = vid_windowcaption_default;
 char        *vid_windowpos = vid_windowpos_default;
 char        *vid_windowsize = vid_windowsize_default;
 #if defined(_WIN32)
@@ -443,6 +444,7 @@ static default_t cvars[] =
     CVAR_OTHER        (vid_screenresolution,             vid_screenresolution,                  vid_screenresolution,                NOVALUEALIAS          ),
     CVAR_INT          (vid_vsync,                        vid_vsync,                             vid_vsync,                           VSYNCVALUEALIAS       ),
     CVAR_BOOL         (vid_widescreen,                   vid_widescreen,                        vid_widescreen,                      BOOLVALUEALIAS        ),
+    CVAR_BOOL         (vid_windowcaption,                vid_windowcaption,                     vid_windowcaption,                   BOOLVALUEALIAS        ),
     CVAR_OTHER        (vid_windowpos,                    vid_windowposition,                    vid_windowpos,                       NOVALUEALIAS          ),
     CVAR_OTHER        (vid_windowsize,                   vid_windowsize,                        vid_windowsize,                      NOVALUEALIAS          ),
 #if defined(_WIN32)

@@ -59,6 +59,7 @@
 #include "st_stuff.h"
 #include "v_data.h"
 #include "v_video.h"
+#include "version.h"
 #include "w_wad.h"
 #include "z_zone.h"
 
@@ -1689,7 +1690,9 @@ void M_SetWindowCaption(void)
 {
     static char caption[128];
 
-    if (gamestate == GS_LEVEL)
+    if (!vid_windowcaption)
+        M_StringCopy(caption, DOOMRETRO_NAME, sizeof(caption));
+    else if (gamestate == GS_LEVEL)
         M_StringCopy(caption, mapnumandtitle, sizeof(caption));
     else
     {

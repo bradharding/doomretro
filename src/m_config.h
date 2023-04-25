@@ -198,6 +198,7 @@ extern char     *vid_screenresolution;
 extern bool     vid_showfps;
 extern int      vid_vsync;
 extern bool     vid_widescreen;
+extern bool     vid_windowcaption;
 extern char     *vid_windowpos;
 extern char     *vid_windowsize;
 #if defined(_WIN32)
@@ -790,6 +791,8 @@ enum
 #define vid_vsync_max                      vid_vsync_on
 
 #define vid_widescreen_default             false
+
+#define vid_windowcaption_default          true
 
 #define vid_windowpos_centered             "centered"
 #define vid_windowpos_centred              "centred"

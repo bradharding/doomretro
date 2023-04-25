@@ -480,6 +480,7 @@ static void vid_showfps_cvar_func2(char *cmd, char *parms);
 static bool vid_vsync_cvar_func1(char *cmd, char *parms);
 static void vid_vsync_cvar_func2(char *cmd, char *parms);
 static void vid_widescreen_cvar_func2(char *cmd, char *parms);
+static void vid_windowcaption_cvar_func2(char *cmd, char *parms);
 static void vid_windowpos_cvar_func2(char *cmd, char *parms);
 static void vid_windowsize_cvar_func2(char *cmd, char *parms);
 static bool weapon_cvar_func1(char *cmd, char *parms);
@@ -990,6 +991,8 @@ consolecmd_t consolecmds[] =
 #endif
     CVAR_BOOL(vid_widescreen, "", "", bool_cvars_func1, vid_widescreen_cvar_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles widescreen mode."),
+    CVAR_BOOL(vid_windowcaption, "", "", bool_cvars_func1, vid_windowcaption_cvar_func2, CF_NONE, BOOLVALUEALIAS,
+        "Toggles showing the current map in the window's caption."),
     CVAR_OTHER(vid_windowpos, "", vid_windowposition, null_func1, vid_windowpos_cvar_func2,
         "The position of the window on the desktop (" BOLD("centered") " or " BOLD("(") BOLDITALICS("x") BOLD(",") BOLDITALICS("y")
         BOLD(")") ")."),
@@ -10486,6 +10489,19 @@ static void vid_widescreen_cvar_func2(char *cmd, char *parms)
         I_RestartGraphics(false);
         S_StartSound(NULL, sfx_stnmov);
     }
+}
+
+//
+// vid_windowcaption CVAR
+//
+static void vid_windowcaption_cvar_func2(char *cmd, char *parms)
+{
+    const bool  vid_windowcaption_old = vid_windowcaption;
+
+    bool_cvars_func2(cmd, parms);
+
+    if (vid_windowcaption != vid_windowcaption_old)
+        M_SetWindowCaption();
 }
 
 //
