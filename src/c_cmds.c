@@ -927,7 +927,7 @@ consolecmd_t consolecmds[] =
     CVAR_INT(stillbob, "", "", int_cvars_func1, int_cvars_func2, CF_PERCENT, NOVALUEALIAS,
         "The amount the player's view and weapon bob up and down when they stand still (" BOLD("0%") " to " BOLD("100%") ")."),
     CVAR_INT(sucktime, "", "", int_cvars_func1, int_cvars_func2, CF_NONE, NOVALUEALIAS,
-        "The amount of time the player must complete a map before \"SUCKS\" is shown on the intermission screen (" BOLD("1") " to " BOLD("10") " hours)."),
+        "The amount of time the player must complete a map before \"SUCKS\" is shown on the intermission screen (" BOLD("0") " to " BOLD("10") " hours)."),
     CCMD(take, "", "", take_cmd_func1, take_cmd_func2, true, TAKECMDFORMAT,
         "Takes " BOLD("ammo") ", " BOLD("armor") ", " BOLD("health") ", " BOLD("keys") ", " BOLD("weapons") ", or " BOLD("all")
         " or certain " BOLDITALICS("items") " away from the player."),
@@ -5757,7 +5757,7 @@ static void C_PlayerStats_Game(void)
     hours2 = time2 / 3600;
     temp2 = commify(hours2);
 
-    if (hours1 >= sucktime)
+    if (sucktime && hours1 >= sucktime)
     {
         if (hours2 >= 100)
             C_TabbedOutput(tabs, "Time played\t%s\tOver %s hours!", s_STSTR_SUCKS, temp2);

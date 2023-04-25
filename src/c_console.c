@@ -1309,7 +1309,7 @@ void C_UpdatePlayerStatsOverlay(void)
             color = (r_hud_translucency ? consoleoverlaycolor : nearestlightgray);
             width = timewidth;
         }
-        else if (hours >= sucktime)
+        else if (sucktime && hours >= sucktime)
         {
             M_StringCopy(time, s_STSTR_SUCKS, sizeof(time));
             color = consoleoverlaywarningcolor;
