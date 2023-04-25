@@ -425,7 +425,7 @@ static default_t cvars[] =
     CVAR_BOOL         (secretmessages,                   secretmessages,                        secretmessages,                      BOOLVALUEALIAS        ),
     CVAR_INT          (skilllevel,                       skilllevel,                            skilllevel,                          NOVALUEALIAS          ),
     CVAR_INT_PERCENT  (stillbob,                         stillbob,                              stillbob,                            NOVALUEALIAS          ),
-    CVAR_INT          (sucktime,                         sucktime,                              sucktime,                            NOVALUEALIAS          ),
+    CVAR_INT          (sucktime,                         sucktime,                              sucktime,                            SUCKSVALUEALIAS       ),
     CVAR_BOOL         (tossdrop,                         tossdrop,                              tossdrop,                            BOOLVALUEALIAS        ),
     CVAR_INT_PERCENT  (turbo,                            turbo,                                 turbo,                               NOVALUEALIAS          ),
     CVAR_INT          (units,                            units,                                 units,                               UNITSVALUEALIAS       ),
@@ -551,7 +551,8 @@ valuealias_t valuealiases[] =
     { "rocketlauncher", 4, WEAPONVALUEALIAS       }, { "plasmarifle",    5, WEAPONVALUEALIAS       },
     { "bfg9000",        6, WEAPONVALUEALIAS       }, { "chainsaw",       7, WEAPONVALUEALIAS       },
     { "supershotgun",   8, WEAPONVALUEALIAS       }, { "american",       0, ENGLISHVALUEALIAS      },
-    { "international",  1, ENGLISHVALUEALIAS      }, { "",               0, NOVALUEALIAS           }
+    { "international",  1, ENGLISHVALUEALIAS      }, { "off",            0, SUCKSVALUEALIAS        },
+    { "",               0, NOVALUEALIAS           }
 };
 
 static void SaveBind(FILE *file, char *control, char *action)

@@ -461,6 +461,8 @@ static bool s_volume_cvars_func1(char *cmd, char *parms);
 static void s_volume_cvars_func2(char *cmd, char *parms);
 static void savegame_cvar_func2(char *cmd, char *parms);
 static void skilllevel_cvar_func2(char *cmd, char *parms);
+static bool sucktime_cvar_func1(char *cmd, char *parms);
+static void sucktime_cvar_func2(char *cmd, char *parms);
 static bool turbo_cvar_func1(char *cmd, char *parms);
 static void turbo_cvar_func2(char *cmd, char *parms);
 static bool units_cvar_func1(char *cmd, char *parms);
@@ -926,8 +928,9 @@ consolecmd_t consolecmds[] =
         "Spawns an " BOLDITALICS("item") " or " BOLDITALICS("monster") " in front of the player."),
     CVAR_INT(stillbob, "", "", int_cvars_func1, int_cvars_func2, CF_PERCENT, NOVALUEALIAS,
         "The amount the player's view and weapon bob up and down when they stand still (" BOLD("0%") " to " BOLD("100%") ")."),
-    CVAR_INT(sucktime, "", "", int_cvars_func1, int_cvars_func2, CF_NONE, NOVALUEALIAS,
-        "The amount of time the player must complete a map before \"SUCKS\" is shown on the intermission screen (" BOLD("0") " to " BOLD("10") " hours)."),
+    CVAR_INT(sucktime, "", "", sucktime_cvar_func1, sucktime_cvar_func2, CF_NONE, SUCKSVALUEALIAS,
+        "The amount of time the player must complete a map before \"SUCKS\" is shown on the intermission screen ("
+        BOLD("off") ", or " BOLD("1") " to " BOLD("10") " hours)."),
     CCMD(take, "", "", take_cmd_func1, take_cmd_func2, true, TAKECMDFORMAT,
         "Takes " BOLD("ammo") ", " BOLD("armor") ", " BOLD("health") ", " BOLD("keys") ", " BOLD("weapons") ", or " BOLD("all")
         " or certain " BOLDITALICS("items") " away from the player."),
@@ -10088,6 +10091,30 @@ static void skilllevel_cvar_func2(char *cmd, char *parms)
         pendinggameskill = skilllevel;
         NewDef.laston = skilllevel - 1;
     }
+}
+
+//
+// sucktime CVAR
+//
+static bool sucktime_cvar_func1(char *cmd, char *parms)
+{
+    return (C_LookupValueFromAlias(parms, SUCKSVALUEALIAS) != INT_MIN || int_cvars_func1(cmd, parms));
+}
+
+static void sucktime_cvar_func2(char *cmd, char *parms)
+{
+    const int   value = C_LookupValueFromAlias(parms, SUCKSVALUEALIAS);
+
+    if (value != INT_MIN)
+    {
+        if (value != sucktime)
+        {
+            sucktime = value;
+            M_SaveCVARs();
+        }
+    }
+    else
+        int_cvars_func2(cmd, parms);
 }
 
 //
