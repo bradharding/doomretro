@@ -2251,7 +2251,6 @@ static bool P_VerifyBlockMap(int count)
 //
 static void P_CreateBlockMap(void)
 {
-    int     i;
     fixed_t minx = FIXED_MAX;
     fixed_t miny = FIXED_MAX;
     fixed_t maxx = FIXED_MIN;
@@ -2261,24 +2260,31 @@ static void P_CreateBlockMap(void)
     // are wrong if the 0th node has the largest x or y
     if (numvertexes)
     {
-        minx = maxx = vertexes->x >> FRACBITS;
-        miny = maxy = vertexes->y >> FRACBITS;
+        minx = maxx = vertexes[0].x;
+        miny = maxy = vertexes[0].y;
     }
 
     blockmaprebuilt = true;
 
-    for (i = 0; i < numvertexes; i++)
+    for (int i = 0; i < numvertexes; i++)
     {
-        if ((vertexes[i].x >> FRACBITS) < minx)
-            minx = vertexes[i].x >> FRACBITS;
-        else if ((vertexes[i].x >> FRACBITS) > maxx)
-            maxx = vertexes[i].x >> FRACBITS;
+        fixed_t t = vertexes[i].x;
 
-        if ((vertexes[i].y >> FRACBITS) < miny)
-            miny = vertexes[i].y >> FRACBITS;
-        else if ((vertexes[i].y >> FRACBITS) > maxy)
-            maxy = vertexes[i].y >> FRACBITS;
+        if (t < minx)
+            minx = t;
+        else if (t > maxx)
+            maxx = t;
+
+        if ((t = vertexes[i].y) < miny)
+            miny = t;
+        else if (t > maxy)
+            maxy = t;
     }
+
+    minx >>= FRACBITS;
+    maxx >>= FRACBITS;
+    miny >>= FRACBITS;
+    maxy >>= FRACBITS;
 
     // [crispy] doombsp/DRAWING.M:175-178
     minx -= 8;
@@ -2292,7 +2298,7 @@ static void P_CreateBlockMap(void)
     bmapwidth = ((maxx - minx) >> MAPBTOFRAC) + 1;
     bmapheight = ((maxy - miny) >> MAPBTOFRAC) + 1;
 
-    // Compute blockmap, which is stored as a 2d array of variable-sized lists.
+    // Compute blockmap, which is stored as a 2D array of variable-sized lists.
     //
     // Pseudocode:
     //
@@ -2320,7 +2326,7 @@ static void P_CreateBlockMap(void)
         unsigned int    tot = bmapwidth * bmapheight;           // size of blockmap
         bmap_t          *bmap = calloc(tot, sizeof(*bmap));     // array of blocklists
 
-        for (i = 0; i < numlines; i++)
+        for (int i = 0; i < numlines; i++)
         {
             // starting coordinates
             int x = (lines[i].v1->x >> FRACBITS) - minx;
@@ -2391,7 +2397,7 @@ static void P_CreateBlockMap(void)
         {
             size_t  count = tot + 6;            // we need at least 1 word per block, plus reserved's
 
-            for (i = 0; (unsigned int)i < tot; i++)
+            for (int i = 0; (unsigned int)i < tot; i++)
                 if (bmap[i].n)
                     count += bmap[i].n + 2;     // 1 header word + 1 trailer word + blocklist
 
@@ -2407,7 +2413,7 @@ static void P_CreateBlockMap(void)
             blockmaplump[ndx++] = 0;            // Store an empty blockmap list at start
             blockmaplump[ndx++] = -1;           // (Used for compression)
 
-            for (i = 4; (unsigned int)i < tot; i++, bp++)
+            for (int i = 4; (unsigned int)i < tot; i++, bp++)
                 if (bp->n)                                              // Non-empty blocklist
                 {
                     blockmaplump[(blockmaplump[i] = ndx++)] = 0;        // Store index and header

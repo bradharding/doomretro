@@ -208,6 +208,9 @@ static void MIDItoStream(midi_file_t *file)
     int                 non_meta_events = 0;
     win_midi_track_t    *tracks = malloc(num_tracks * sizeof(win_midi_track_t));
 
+    if (!tracks)
+        return;
+
     for (int i = 0; i < num_tracks; i++)
     {
         tracks[i].iter = MIDI_IterateTrack(file, i);

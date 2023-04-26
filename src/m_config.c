@@ -274,16 +274,16 @@ uint64_t    stat_timeplayed = 0;
 
 static bool cvarsloaded;
 
-#define CVAR_BOOL(name1, name2, cvar, set)          { #name1, #name2, &cvar, DEFAULT_BOOL,          set          }
-#define CVAR_INT(name1, name2, cvar, set)           { #name1, #name2, &cvar, DEFAULT_INT32,         set          }
-#define CVAR_INT_UNSIGNED(name1, name2, cvar, set)  { #name1, #name2, &cvar, DEFAULT_UINT64,        set          }
-#define CVAR_INT_PERCENT(name1, name2, cvar, set)   { #name1, #name2, &cvar, DEFAULT_INT32_PERCENT, set          }
-#define CVAR_FLOAT(name1, name2, cvar, set)         { #name1, #name2, &cvar, DEFAULT_FLOAT,         set          }
-#define CVAR_FLOAT_PERCENT(name1, name2, cvar, set) { #name1, #name2, &cvar, DEFAULT_FLOAT_PERCENT, set          }
-#define CVAR_STRING(name1, name2, cvar, set)        { #name1, #name2, &cvar, DEFAULT_STRING,        set          }
-#define CVAR_OTHER(name1, name2, cvar, set)         { #name1, #name2, &cvar, DEFAULT_OTHER,         set          }
-#define BLANKLINE                                   { "",     "",     NULL,  DEFAULT_OTHER,         NOVALUEALIAS }
-#define COMMENT(text)                               { text,   "",     NULL,  DEFAULT_OTHER,         NOVALUEALIAS }
+#define CVAR_BOOL(name1, name2, cvar, alias)            { #name1, #name2, &cvar, DEFAULT_BOOL,          alias        }
+#define CVAR_INT(name1, name2, cvar, alias)             { #name1, #name2, &cvar, DEFAULT_INT32,         alias        }
+#define CVAR_INT_UNSIGNED(name1, name2, cvar, alias)    { #name1, #name2, &cvar, DEFAULT_UINT64,        alias        }
+#define CVAR_INT_PERCENT(name1, name2, cvar, alias)     { #name1, #name2, &cvar, DEFAULT_INT32_PERCENT, alias        }
+#define CVAR_FLOAT(name1, name2, cvar, alias)           { #name1, #name2, &cvar, DEFAULT_FLOAT,         alias        }
+#define CVAR_FLOAT_PERCENT(name1, name2, cvar, alias)   { #name1, #name2, &cvar, DEFAULT_FLOAT_PERCENT, alias        }
+#define CVAR_STRING(name1, name2, cvar, alias)          { #name1, #name2, &cvar, DEFAULT_STRING,        alias        }
+#define CVAR_OTHER(name1, name2, cvar, alias)           { #name1, #name2, &cvar, DEFAULT_OTHER,         alias        }
+#define BLANKLINE                                       { "",     "",     NULL,  DEFAULT_OTHER,         NOVALUEALIAS }
+#define COMMENT(text)                                   { text,   "",     NULL,  DEFAULT_OTHER,         NOVALUEALIAS }
 
 static default_t cvars[] =
 {
@@ -529,59 +529,27 @@ static default_t cvars[] =
 
 valuealias_t valuealiases[] =
 {
-    { "none",           0, ARMORTYPEVALUEALIAS },
-    { "green",          1, ARMORTYPEVALUEALIAS },
-    { "blue",           2, ARMORTYPEVALUEALIAS },
-    { "none",           0, BLOODVALUEALIAS     },
-    { "red",            1, BLOODVALUEALIAS     },
-    { "all",            2, BLOODVALUEALIAS     },
-    { "green",          3, BLOODVALUEALIAS     },
-    { "nofuzz",         4, BLOODVALUEALIAS     },
-    { "off",            0, BOOLVALUEALIAS      },
-    { "0",              0, BOOLVALUEALIAS      },
-    { "false",          0, BOOLVALUEALIAS      },
-    { "no",             0, BOOLVALUEALIAS      },
-    { "nope",           0, BOOLVALUEALIAS      },
-    { "nah",            0, BOOLVALUEALIAS      },
-    { "nay",            0, BOOLVALUEALIAS      },
-    { "on",             1, BOOLVALUEALIAS      },
-    { "1",              1, BOOLVALUEALIAS      },
-    { "true",           1, BOOLVALUEALIAS      },
-    { "yes",            1, BOOLVALUEALIAS      },
-    { "yep",            1, BOOLVALUEALIAS      },
-    { "yup",            1, BOOLVALUEALIAS      },
-    { "yeah",           1, BOOLVALUEALIAS      },
-    { "yay",            1, BOOLVALUEALIAS      },
-    { "off",            0, CAPVALUEALIAS       },
-    { "none",           0, CROSSHAIRVALUEALIAS },
-    { "off",            0, CROSSHAIRVALUEALIAS },
-    { "cross",          1, CROSSHAIRVALUEALIAS },
-    { "on",             1, CROSSHAIRVALUEALIAS },
-    { "dot",            2, CROSSHAIRVALUEALIAS },
-    { "low",            0, DETAILVALUEALIAS    },
-    { "high",           1, DETAILVALUEALIAS    },
-    { "american",       0, ENGLISHVALUEALIAS   },
-    { "international",  1, ENGLISHVALUEALIAS   },
-    { "off",            1, GAMMAVALUEALIAS     },
-    { "other",          0, GENDERVALUEALIAS    },
-    { "male",           1, GENDERVALUEALIAS    },
-    { "female",         2, GENDERVALUEALIAS    },
-    { "off",            0, SUCKSVALUEALIAS     },
-    { "imperial",       0, UNITSVALUEALIAS     },
-    { "metric",         1, UNITSVALUEALIAS     },
-    { "adaptive",      -1, VSYNCVALUEALIAS     },
-    { "off",            0, VSYNCVALUEALIAS     },
-    { "on",             1, VSYNCVALUEALIAS     },
-    { "fists",          0, WEAPONVALUEALIAS    },
-    { "pistol",         1, WEAPONVALUEALIAS    },
-    { "shotgun",        2, WEAPONVALUEALIAS    },
-    { "chaingun",       3, WEAPONVALUEALIAS    },
-    { "rocketlauncher", 4, WEAPONVALUEALIAS    },
-    { "plasmarifle",    5, WEAPONVALUEALIAS    },
-    { "bfg9000",        6, WEAPONVALUEALIAS    },
-    { "chainsaw",       7, WEAPONVALUEALIAS    },
-    { "supershotgun",   8, WEAPONVALUEALIAS    },
-    { "",               0, NOVALUEALIAS        }
+    { "none",           0, ARMORTYPEVALUEALIAS }, { "green",          1, ARMORTYPEVALUEALIAS },
+    { "blue",           2, ARMORTYPEVALUEALIAS }, { "none",           0, BLOODVALUEALIAS     },
+    { "red",            1, BLOODVALUEALIAS     }, { "all",            2, BLOODVALUEALIAS     },
+    { "green",          3, BLOODVALUEALIAS     }, { "nofuzz",         4, BLOODVALUEALIAS     },
+    { "0",              0, BOOLVALUEALIAS      }, { "off",            0, BOOLVALUEALIAS      },
+    { "1",              1, BOOLVALUEALIAS      }, { "on",             1, BOOLVALUEALIAS      },
+    { "off",            0, CAPVALUEALIAS       }, { "none",           0, CROSSHAIRVALUEALIAS },
+    { "off",            0, CROSSHAIRVALUEALIAS }, { "cross",          1, CROSSHAIRVALUEALIAS },
+    { "on",             1, CROSSHAIRVALUEALIAS }, { "dot",            2, CROSSHAIRVALUEALIAS },
+    { "low",            0, DETAILVALUEALIAS    }, { "high",           1, DETAILVALUEALIAS    },
+    { "american",       0, ENGLISHVALUEALIAS   }, { "international",  1, ENGLISHVALUEALIAS   },
+    { "off",            1, GAMMAVALUEALIAS     }, { "other",          0, GENDERVALUEALIAS    },
+    { "male",           1, GENDERVALUEALIAS    }, { "female",         2, GENDERVALUEALIAS    },
+    { "off",            0, SUCKSVALUEALIAS     }, { "imperial",       0, UNITSVALUEALIAS     },
+    { "metric",         1, UNITSVALUEALIAS     }, { "adaptive",      -1, VSYNCVALUEALIAS     },
+    { "off",            0, VSYNCVALUEALIAS     }, { "on",             1, VSYNCVALUEALIAS     },
+    { "fists",          0, WEAPONVALUEALIAS    }, { "pistol",         1, WEAPONVALUEALIAS    },
+    { "shotgun",        2, WEAPONVALUEALIAS    }, { "chaingun",       3, WEAPONVALUEALIAS    },
+    { "rocketlauncher", 4, WEAPONVALUEALIAS    }, { "plasmarifle",    5, WEAPONVALUEALIAS    },
+    { "bfg9000",        6, WEAPONVALUEALIAS    }, { "chainsaw",       7, WEAPONVALUEALIAS    },
+    { "supershotgun",   8, WEAPONVALUEALIAS    }, { "",               0, NOVALUEALIAS        }
 };
 
 static void SaveBind(FILE *file, char *control, char *action)
@@ -1029,7 +997,6 @@ void M_LoadCVARs(char *filename)
         M_SaveCVARs();
         C_Output("Created " BOLD("%s") ".", filename);
         cvarsloaded = true;
-
         return;
     }
 
@@ -1084,7 +1051,6 @@ void M_LoadCVARs(char *filename)
             bind_cmd_func2("bind", value);
             nobindoutput = false;
             bindcount++;
-
             continue;
         }
         else if (M_StringCompare(cvar, "alias"))
@@ -1126,7 +1092,6 @@ void M_LoadCVARs(char *filename)
                     temp[strlen(temp) - 1] = '\0';
                     *(char **)cvars[i].location = temp;
                     cvarcount++;
-
                     break;
                 }
 
@@ -1145,7 +1110,6 @@ void M_LoadCVARs(char *filename)
                     *(int *)cvars[i].location = ParseIntParameter(cvars[i].name, temp, cvars[i].valuealiastype);
                     free(temp);
                     cvarcount++;
-
                     break;
                 }
 
@@ -1175,7 +1139,6 @@ void M_LoadCVARs(char *filename)
                     *(int *)cvars[i].location = ParseIntParameter(cvars[i].name, temp, cvars[i].valuealiastype);
                     free(temp);
                     cvarcount++;
-
                     break;
                 }
 
@@ -1186,7 +1149,6 @@ void M_LoadCVARs(char *filename)
                     *(float *)cvars[i].location = ParseFloatParameter(cvars[i].name, temp, cvars[i].valuealiastype);
                     free(temp);
                     cvarcount++;
-
                     break;
                 }
 
@@ -1200,14 +1162,12 @@ void M_LoadCVARs(char *filename)
                     *(float *)cvars[i].location = ParseFloatParameter(cvars[i].name, temp, cvars[i].valuealiastype);
                     free(temp);
                     cvarcount++;
-
                     break;
                 }
 
                 case DEFAULT_OTHER:
                     *(char **)cvars[i].location = Z_StringDuplicate(value, PU_STATIC, NULL);
                     cvarcount++;
-
                     break;
             }
         }

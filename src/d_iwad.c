@@ -998,15 +998,15 @@ void D_SetGameDescription(void)
     }
 
     if (nerve)
-            C_Output("%s %s playing " ITALICS("%s: %s") " and " ITALICS("%s: %s."),
-                (defaultname ? "You" : playername), (defaultname ? "are" : "is"),
-                s_CAPTION_DOOM2, s_CAPTION_HELLONEARTH, s_CAPTION_DOOM2, s_CAPTION_NERVE);
+        C_Output("%s %s playing " ITALICS("%s: %s") " and " ITALICS("%s: %s."),
+            (defaultname ? "You" : playername), (defaultname ? "are" : "is"),
+            s_CAPTION_DOOM2, s_CAPTION_HELLONEARTH, s_CAPTION_DOOM2, s_CAPTION_NERVE);
     else if (modifiedgame && !sigil)
         C_Output("%s %s playing " ITALICS("%s%s"),
             (defaultname ? "You" : playername), (defaultname ? "are" : "is"),
             gamedescription, (ispunctuation(gamedescription[strlen(gamedescription) - 1]) ? "" : "."));
     else
-            C_Output("%s %s playing " ITALICS("%s%s"),
-                (defaultname ? "You" : playername), (defaultname ? "are" : "is"),
-                gamedescription, (ispunctuation(gamedescription[strlen(gamedescription) - 1]) ? "" : "."));
+        C_Output("%s %s playing " ITALICS("%s%s"),
+            (defaultname ? "You" : playername), (defaultname ? "are" : "is"),
+            gamedescription, (ispunctuation(gamedescription[strlen(gamedescription) - 1]) ? "" : "."));
 }
