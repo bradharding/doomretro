@@ -7561,6 +7561,7 @@ autocomplete_t autocompletelist[] =
     { "toggle joy_analog",                           DOOM1AND2 },
     { "toggle joy_invertyaxis",                      DOOM1AND2 },
     { "toggle joy_swapthumbsticks",                  DOOM1AND2 },
+    { "toggle m_acceleration",                       DOOM1AND2 },
     { "toggle m_doubleclick_use",                    DOOM1AND2 },
     { "toggle m_invertyaxis",                        DOOM1AND2 },
     { "toggle m_novertical",                         DOOM1AND2 },
