@@ -1,6 +1,6 @@
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/releasenotes.png)
 
-#### DOOM Retro v4.9.2
+#### DOOM Retro v5.0
 
 * Adjusting the sliders in the options and sound volume menus using the mouse pointer when the `m_pointer` CVAR is `on` is now more responsive.
 * Widescreen mode can now be toggled using the <kbd><b>+</b></kbd> and <kbd><b>&ndash;</b></kbd> keys while the menu is open.
