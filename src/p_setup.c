@@ -2339,17 +2339,17 @@ static void P_CreateBlockMap(void)
             int dy = SIGN(ady);
 
             // difference in preferring to move across y (> 0) instead of x (< 0)
-            int diff = (!adx ? 1 : (!ady ? -1 : (((x >> MAPBTOFRAC) << MAPBTOFRAC)
-                    + (dx > 0 ? MAPBLOCKUNITS - 1 : 0) - x) * (ady = ABS(ady)) * dx
-                    - (((y >> MAPBTOFRAC) << MAPBTOFRAC) + (dy > 0 ? MAPBLOCKUNITS - 1 : 0) - y)
-                    * (adx = ABS(adx)) * dy));
+            int             diff = (!adx ? 1 : (!ady ? -1 : (((x >> MAPBTOFRAC) << MAPBTOFRAC)
+                                + (dx > 0 ? MAPBLOCKUNITS - 1 : 0) - x) * (ady = ABS(ady)) * dx
+                                - (((y >> MAPBTOFRAC) << MAPBTOFRAC) + (dy > 0 ? MAPBLOCKUNITS - 1 : 0) - y)
+                                * (adx = ABS(adx)) * dy));
 
             // starting block, and pointer to its blocklist structure
-            int b = (y >> MAPBTOFRAC) * bmapwidth + (x >> MAPBTOFRAC);
+            unsigned int    b = (y >> MAPBTOFRAC) * bmapwidth + (x >> MAPBTOFRAC);
 
             // ending block
-            int bend = (((lines[i].v2->y >> FRACBITS) - miny) >> MAPBTOFRAC) * bmapwidth
-                    + (((lines[i].v2->x >> FRACBITS) - minx) >> MAPBTOFRAC);
+            int             bend = (((lines[i].v2->y >> FRACBITS) - miny) >> MAPBTOFRAC) * bmapwidth
+                                + (((lines[i].v2->x >> FRACBITS) - minx) >> MAPBTOFRAC);
 
             // delta for pointer when moving across y
             dy *= bmapwidth;
@@ -2359,7 +2359,7 @@ static void P_CreateBlockMap(void)
             ady <<= MAPBTOFRAC;
 
             // Now we simply iterate block-by-block until we reach the end block.
-            while ((unsigned int)b < tot)       // failsafe -- should ALWAYS be true
+            while (b < tot) // failsafe -- should ALWAYS be true
             {
                 bmap_t  *bp = &bmap[b];
 
@@ -2395,11 +2395,11 @@ static void P_CreateBlockMap(void)
         //
         // 4 words, unused if this routine is called, are reserved at the start.
         {
-            size_t  count = tot + 6;            // we need at least 1 word per block, plus reserved's
+            size_t  count = tot + 6;    // we need at least 1 word per block, plus reserved's
 
             for (int i = 0; (unsigned int)i < tot; i++)
                 if (bmap[i].n)
-                    count += bmap[i].n + 2;     // 1 header word + 1 trailer word + blocklist
+                    count += bmap[i].n + 2; // 1 header word + 1 trailer word + blocklist
 
             // Allocate blockmap lump with computed count
             blockmaplump = malloc_IfSameLevel(blockmaplump, count * sizeof(*blockmaplump));
@@ -2407,29 +2407,29 @@ static void P_CreateBlockMap(void)
 
         // Now compress the blockmap.
         {
-            int     ndx = (tot += 4);           // Advance index to start of linedef lists
-            bmap_t  *bp = bmap;                 // Start of uncompressed blockmap
+            int     ndx = (tot += 4);   // Advance index to start of linedef lists
+            bmap_t  *bp = bmap;         // Start of uncompressed blockmap
 
-            blockmaplump[ndx++] = 0;            // Store an empty blockmap list at start
-            blockmaplump[ndx++] = -1;           // (Used for compression)
+            blockmaplump[ndx++] = 0;    // Store an empty blockmap list at start
+            blockmaplump[ndx++] = -1;   // (Used for compression)
 
-            for (int i = 4; (unsigned int)i < tot; i++, bp++)
-                if (bp->n)                                              // Non-empty blocklist
+            for (unsigned int i = 4; i < tot; i++, bp++)
+                if (bp->n)                                          // Non-empty blocklist
                 {
-                    blockmaplump[(blockmaplump[i] = ndx++)] = 0;        // Store index and header
+                    blockmaplump[(blockmaplump[i] = ndx++)] = 0;    // Store index and header
 
                     do
-                        blockmaplump[ndx++] = bp->list[--bp->n];        // Copy linedef list
+                        blockmaplump[ndx++] = bp->list[--bp->n];    // Copy linedef list
                     while (bp->n);
 
-                    blockmaplump[ndx++] = -1;                           // Store trailer
-                    free(bp->list);                                     // Free linedef list
+                    blockmaplump[ndx++] = -1;                       // Store trailer
+                    free(bp->list);                                 // Free linedef list
                 }
                 else
                     // Empty blocklist: point to reserved empty blocklist
                     blockmaplump[i] = tot;
 
-            free(bmap);                         // Free uncompressed blockmap
+            free(bmap); // Free uncompressed blockmap
         }
     }
 
