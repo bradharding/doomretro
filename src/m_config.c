@@ -117,6 +117,7 @@ bool        m_invertyaxis = m_invertyaxis_default;
 bool        m_novertical = m_novertical_default;
 bool        m_pointer = m_pointer_default;
 float       m_sensitivity = m_sensitivity_default;
+bool        m_smoothing = m_smoothing_default;
 bool        melt = melt_default;
 bool        messages = messages_default;
 bool        mouselook = mouselook_default;
@@ -356,6 +357,7 @@ static default_t cvars[] =
     CVAR_BOOL         (m_novertical,                     m_novertical,                          m_novertical,                        BOOLVALUEALIAS     ),
     CVAR_BOOL         (m_pointer,                        m_pointer,                             m_pointer,                           BOOLVALUEALIAS     ),
     CVAR_FLOAT        (m_sensitivity,                    m_sensitivity,                         m_sensitivity,                       NOVALUEALIAS       ),
+    CVAR_BOOL         (m_smoothing,                      m_smoothing,                           m_smoothing,                         BOOLVALUEALIAS     ),
     CVAR_BOOL         (melt,                             wipe,                                  melt,                                BOOLVALUEALIAS     ),
     CVAR_BOOL         (messages,                         messages,                              messages,                            BOOLVALUEALIAS     ),
     CVAR_BOOL         (mouselook,                        mouselook,                             mouselook,                           BOOLVALUEALIAS     ),
