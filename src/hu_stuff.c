@@ -1348,9 +1348,9 @@ static void HU_DrawAltHUD(void)
                             patch = altkeypic.patch;
 
                             if (inverted)
-                                althudfunc(keypic_x, ALTHUD_Y, patch, WHITE, nearestblack, tinttab60);
+                                althudfunc(keypic_x, ALTHUD_Y - 1, patch, WHITE, nearestblack, tinttab60);
                             else
-                                althudfunc(keypic_x, ALTHUD_Y, patch, WHITE, altkeypic.color, altkeypic.tinttab);
+                                althudfunc(keypic_x, ALTHUD_Y - 1, patch, WHITE, altkeypic.color, altkeypic.tinttab);
 
                             keypic_x += SHORT(patch->width) + 4;
                         }
@@ -1371,9 +1371,9 @@ static void HU_DrawAltHUD(void)
                     patch = altkeypic.patch;
 
                     if (inverted)
-                        althudfunc(keypic_x, ALTHUD_Y, patch, WHITE, nearestblack, tinttab60);
+                        althudfunc(keypic_x, ALTHUD_Y - 1, patch, WHITE, nearestblack, tinttab60);
                     else
-                        althudfunc(keypic_x, ALTHUD_Y, patch, WHITE, altkeypic.color, altkeypic.tinttab);
+                        althudfunc(keypic_x, ALTHUD_Y - 1, patch, WHITE, altkeypic.color, altkeypic.tinttab);
                 }
             }
         }
