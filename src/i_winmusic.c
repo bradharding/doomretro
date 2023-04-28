@@ -206,9 +206,9 @@ static void MIDItoStream(midi_file_t *file)
 {
     const int           num_tracks = MIDI_NumTracks(file);
     int                 non_meta_events = 0;
-    win_midi_track_t    *tracks = malloc(num_tracks * sizeof(win_midi_track_t));
+    win_midi_track_t    *tracks;
 
-    if (!tracks)
+    if (!num_tracks || !(tracks = malloc(num_tracks * sizeof(win_midi_track_t))))
         return;
 
     for (int i = 0; i < num_tracks; i++)

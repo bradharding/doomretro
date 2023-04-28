@@ -357,28 +357,28 @@ static void R_AddLine(seg_t *line)
     {
         // Either angle1 or angle2 is behind us, so it doesn't matter if we change it to the correct sign
         if (angle1 >= ANG180 && angle1 < ANG270)
-            angle1 = INT_MAX;           // which is ANG180 - 1
+            angle1 = INT_MAX;   // which is ANG180 - 1
         else
             angle2 = INT_MIN;
     }
 
     if ((int)angle2 >= (int)clipangle)
-        return;                         // Both off left edge
+        return;                 // Both off left edge
 
     if ((int)angle1 <= -(int)clipangle)
-        return;                         // Both off right edge
+        return;                 // Both off right edge
 
     if ((int)angle1 >= (int)clipangle)
-        angle1 = clipangle;             // Clip at left edge
+        angle1 = clipangle;     // Clip at left edge
 
     if ((int)angle2 <= -(int)clipangle)
-        angle2 = 0 - clipangle;         // Clip at right edge
+        angle2 = 0 - clipangle; // Clip at right edge
 
     // The seg is in the view range, but not necessarily visible.
 
     // killough 01/31/98: Here is where "slime trails" can SOMETIMES occur:
-    x1 = viewangletox[(angle1 + ANG90) >> ANGLETOFINESHIFT];
-    x2 = viewangletox[(angle2 + ANG90) >> ANGLETOFINESHIFT];
+    x1 = viewangletox[MIN((angle1 + ANG90) >> ANGLETOFINESHIFT, FINEANGLES / 2)];
+    x2 = viewangletox[MIN((angle2 + ANG90) >> ANGLETOFINESHIFT, FINEANGLES / 2)];
 
     // Does not cross a pixel?
     if (x1 >= x2)
@@ -387,7 +387,7 @@ static void R_AddLine(seg_t *line)
     // Single sided line?
     if ((backsector = line->backsector))
     {
-        sector_t    tempsec;            // killough 03/08/98: ceiling/water hack
+        sector_t    tempsec;    // killough 03/08/98: ceiling/water hack
 
         // [AM] Interpolate sector movement before running clipping tests. Frontsector should already be interpolated.
         R_InterpolateSector(backsector);

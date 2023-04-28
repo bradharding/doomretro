@@ -1053,17 +1053,19 @@ static void P_LoadSegs(int lump)
                     {
                         if (linefix[j].special)
                         {
-                            if (li->linedef->special)
+                            unsigned short  special = li->linedef->special;
+
+                            if (special > 0 && special < NUMLINESPECIALS)
                             {
                                 char    *temp1 = commify(linedefnum);
                                 char    *temp2 = commify(li->linedef->special);
                                 char    *temp3 = commify(linefix[j].special);
 
                                 C_Warning(2, "%s line special of linedef %s has been changed from %s (\"%s\") to %s (\"%s\").",
-                                    (li->linedef->special < BOOMLINESPECIALS ? "The" : (li->linedef->special < MBFLINESPECIALS ?
-                                    "The " ITALICS("BOOM") "-compatible" : (li->linedef->special < MBF21LINESPECIALS ? "The " ITALICS("MBF")
+                                    (special < BOOMLINESPECIALS ? "The" : (special < MBFLINESPECIALS ?
+                                    "The " ITALICS("BOOM") "-compatible" : (special < MBF21LINESPECIALS ? "The " ITALICS("MBF")
                                     "-compatible" : "The " ITALICS("MBF21") "-compatible"))), temp1, temp2,
-                                    linespecials[li->linedef->special], temp3, linespecials[linefix[j].special]);
+                                    linespecials[special], temp3, linespecials[linefix[j].special]);
                                 free(temp1);
                                 free(temp2);
                                 free(temp3);

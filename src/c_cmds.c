@@ -4175,6 +4175,9 @@ static void maplist_cmd_func2(char *cmd, char *parms)
     int         count = 0;
     char        (*maps)[256] = malloc(numlumps * sizeof(*maps));
 
+    if (!numlumps || !maps)
+        return;
+
     C_Header(tabs, maplist, MAPLISTHEADER);
 
     // search through lumps for maps
