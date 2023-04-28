@@ -7,6 +7,8 @@
 * The `sucktime` CVAR now shows as `off` when set to `0`, and now has a maximum value of `10` hours.
 * The time displayed on the intermission screen is no longer preceded by a `0` if the player takes more than an hour to complete a map and the `sucktime` CVAR is greater than its default of `1` hour.
 * The map’s title in the automap is now gold if the player is in the secret map of *DOOM II: No Rest For The Living*.
+* Improvements have been made to both the widescreen HUD and status bar when the player doesn’t have the key they need when trying to open a locked door and the `flashkeys` CVAR is `on`.
+
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
