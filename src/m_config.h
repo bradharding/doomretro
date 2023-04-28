@@ -108,7 +108,6 @@ extern bool     m_invertyaxis;
 extern bool     m_novertical;
 extern bool     m_pointer;
 extern float    m_sensitivity;
-extern bool     m_smoothing;
 extern bool     melt;
 extern bool     messages;
 extern bool     mouselook;
@@ -199,7 +198,6 @@ extern char     *vid_screenresolution;
 extern bool     vid_showfps;
 extern int      vid_vsync;
 extern bool     vid_widescreen;
-extern bool     vid_windowcaption;
 extern char     *vid_windowpos;
 extern char     *vid_windowsize;
 #if defined(_WIN32)
@@ -548,8 +546,6 @@ enum
 #define m_sensitivity_default              16.0f
 #define m_sensitivity_max                  128.0f
 
-#define m_smoothing_default                true
-
 #define melt_default                       true
 
 #define messages_default                   true
@@ -794,8 +790,6 @@ enum
 #define vid_vsync_max                      vid_vsync_on
 
 #define vid_widescreen_default             false
-
-#define vid_windowcaption_default          true
 
 #define vid_windowpos_centered             "centered"
 #define vid_windowpos_centred              "centred"

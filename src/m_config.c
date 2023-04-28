@@ -117,7 +117,6 @@ bool        m_invertyaxis = m_invertyaxis_default;
 bool        m_novertical = m_novertical_default;
 bool        m_pointer = m_pointer_default;
 float       m_sensitivity = m_sensitivity_default;
-bool        m_smoothing = m_smoothing_default;
 bool        melt = melt_default;
 bool        messages = messages_default;
 bool        mouselook = mouselook_default;
@@ -208,7 +207,6 @@ char        *vid_screenresolution = vid_screenresolution_default;
 bool        vid_showfps = vid_showfps_default;
 int         vid_vsync = vid_vsync_default;
 bool        vid_widescreen = vid_widescreen_default;
-bool        vid_windowcaption = vid_windowcaption_default;
 char        *vid_windowpos = vid_windowpos_default;
 char        *vid_windowsize = vid_windowsize_default;
 #if defined(_WIN32)
@@ -357,7 +355,6 @@ static default_t cvars[] =
     CVAR_BOOL         (m_novertical,                     m_novertical,                          m_novertical,                        BOOLVALUEALIAS     ),
     CVAR_BOOL         (m_pointer,                        m_pointer,                             m_pointer,                           BOOLVALUEALIAS     ),
     CVAR_FLOAT        (m_sensitivity,                    m_sensitivity,                         m_sensitivity,                       NOVALUEALIAS       ),
-    CVAR_BOOL         (m_smoothing,                      m_smoothing,                           m_smoothing,                         BOOLVALUEALIAS     ),
     CVAR_BOOL         (melt,                             wipe,                                  melt,                                BOOLVALUEALIAS     ),
     CVAR_BOOL         (messages,                         messages,                              messages,                            BOOLVALUEALIAS     ),
     CVAR_BOOL         (mouselook,                        mouselook,                             mouselook,                           BOOLVALUEALIAS     ),
@@ -446,7 +443,6 @@ static default_t cvars[] =
     CVAR_OTHER        (vid_screenresolution,             vid_screenresolution,                  vid_screenresolution,                NOVALUEALIAS       ),
     CVAR_INT          (vid_vsync,                        vid_vsync,                             vid_vsync,                           VSYNCVALUEALIAS    ),
     CVAR_BOOL         (vid_widescreen,                   vid_widescreen,                        vid_widescreen,                      BOOLVALUEALIAS     ),
-    CVAR_BOOL         (vid_windowcaption,                vid_windowcaption,                     vid_windowcaption,                   BOOLVALUEALIAS     ),
     CVAR_OTHER        (vid_windowpos,                    vid_windowposition,                    vid_windowpos,                       NOVALUEALIAS       ),
     CVAR_OTHER        (vid_windowsize,                   vid_windowsize,                        vid_windowsize,                      NOVALUEALIAS       ),
 #if defined(_WIN32)

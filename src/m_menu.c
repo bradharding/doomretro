@@ -1690,9 +1690,7 @@ void M_SetWindowCaption(void)
 {
     static char caption[128];
 
-    if (!vid_windowcaption)
-        M_StringCopy(caption, DOOMRETRO_NAME, sizeof(caption));
-    else if (gamestate == GS_LEVEL)
+    if (gamestate == GS_LEVEL)
         M_StringCopy(caption, mapnumandtitle, sizeof(caption));
     else
     {

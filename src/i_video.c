@@ -718,8 +718,7 @@ static void I_ReadMouse(void)
         }
         else
         {
-            if (m_smoothing)
-                SmoothMouse(&x, &y);
+            SmoothMouse(&x, &y);
 
             if (m_acceleration)
             {
