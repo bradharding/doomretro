@@ -1289,6 +1289,8 @@ static void ST_DoPaletteStuff(void)
 
 static void ST_DrawWidgets(bool refresh)
 {
+    static bool togglekey = true;
+
     STlib_UpdateBigAmmoNum(&w_ready);
 
     STlib_UpdateSmallAmmoNum(&w_ammo[am_clip], am_clip);
@@ -1347,6 +1349,9 @@ static void ST_DrawWidgets(bool refresh)
                 showkey = !showkey;
                 keywait = currenttime + HUD_KEY_WAIT;
                 viewplayer->neededcardflash--;
+
+                if (showkey)
+                    togglekey = !togglekey;
             }
         }
 
@@ -1356,19 +1361,12 @@ static void ST_DrawWidgets(bool refresh)
 
             if (neededcard == it_allkeys)
             {
-                if (viewplayer->cards[it_redcard] == CARDNOTINMAP)
-                    for (int i = 0; i < NUMCARDS / 2; i++)
+                for (int i = 0; i < NUMCARDS / 2; i++)
+                    if (viewplayer->cards[i] <= 0 && viewplayer->cards[i + 3] <= 0)
                     {
                         const st_multicon_t *keybox = &w_keyboxes[i];
 
-                        V_DrawPatch(keybox->x, keybox->y, 0, keybox->patch[i + 3]);
-                    }
-                else
-                    for (int i = 0; i < NUMCARDS / 2; i++)
-                    {
-                        const st_multicon_t *keybox = &w_keyboxes[i];
-
-                        V_DrawPatch(keybox->x, keybox->y, 0, keybox->patch[i]);
+                        V_DrawPatch(keybox->x, keybox->y, 0, keybox->patch[i + togglekey * 3]);
                     }
             }
             else
@@ -1379,6 +1377,8 @@ static void ST_DrawWidgets(bool refresh)
             }
         }
     }
+    else
+        togglekey = true;
 }
 
 static void ST_DoRefresh(void)
