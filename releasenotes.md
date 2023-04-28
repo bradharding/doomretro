@@ -8,6 +8,7 @@
 * The time displayed on the intermission screen is no longer preceded by a `0` if the player takes more than an hour to complete a map and the `sucktime` CVAR is greater than its default of `1` hour.
 * The map’s title in the automap is now gold if the player is in the secret map of *DOOM II: No Rest For The Living*.
 * The smoothing of mouse movement can now be disabled by setting the new `m_smoothing` CVAR to `off`. This CVAR is `on` by default and `off` when vanilla mode is enabled.
+* The window’s caption can now be changed from the current map to just “DOOM Retro” by setting the new `vid_windowcaption` CVAR to `off`. This CVAR is `on` by default.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
