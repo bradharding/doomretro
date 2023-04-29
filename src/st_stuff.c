@@ -1366,7 +1366,7 @@ static void ST_DrawWidgets(bool refresh)
                     {
                         const st_multicon_t *keybox = &w_keyboxes[i];
 
-                        V_DrawPatch(keybox->x, keybox->y, 0, keybox->patch[i + togglekey * 3]);
+                        V_DrawPatch(keybox->x, keybox->y, 0, keybox->patch[(togglekey ? i + 3 : i)]);
                     }
             }
             else
