@@ -377,8 +377,8 @@ static void R_AddLine(seg_t *line)
     // The seg is in the view range, but not necessarily visible.
 
     // killough 01/31/98: Here is where "slime trails" can SOMETIMES occur:
-    x1 = viewangletox[MIN((angle1 + ANG90) >> ANGLETOFINESHIFT, FINEANGLES / 2)];
-    x2 = viewangletox[MIN((angle2 + ANG90) >> ANGLETOFINESHIFT, FINEANGLES / 2)];
+    x1 = viewangletox[MIN((angle1 + ANG90) >> ANGLETOFINESHIFT, FINEANGLES / 2 - 1)];
+    x2 = viewangletox[MIN((angle2 + ANG90) >> ANGLETOFINESHIFT, FINEANGLES / 2 - 1)];
 
     // Does not cross a pixel?
     if (x1 >= x2)
@@ -473,8 +473,8 @@ static bool R_CheckBBox(const fixed_t *bspcoord)
         angle2 = 0 - clipangle;         // Clip at right edge
 
     // Find the first clippost that touches the source post (adjacent pixels are touching).
-    sx1 = viewangletox[(angle1 + ANG90) >> ANGLETOFINESHIFT];
-    sx2 = viewangletox[(angle2 + ANG90) >> ANGLETOFINESHIFT];
+    sx1 = viewangletox[MIN((angle1 + ANG90) >> ANGLETOFINESHIFT, FINEANGLES / 2 - 1)];
+    sx2 = viewangletox[MIN((angle2 + ANG90) >> ANGLETOFINESHIFT, FINEANGLES / 2 - 1)];
 
     // Does not cross a pixel.
     if (sx1 == sx2)

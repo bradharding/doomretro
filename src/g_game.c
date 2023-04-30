@@ -185,7 +185,7 @@ void G_NextWeapon(void)
 
     do
     {
-        i = weaponinfo[i].next;
+        i = weaponinfo[i].nextweapon;
 
         if (i == wp_fist && viewplayer->weaponowned[wp_chainsaw] && !viewplayer->powers[pw_strength])
             i = wp_chainsaw;
@@ -217,7 +217,7 @@ void G_PrevWeapon(void)
 
     do
     {
-        i = weaponinfo[i].prev;
+        i = weaponinfo[i].prevweapon;
 
         if (i == wp_fist && viewplayer->weaponowned[wp_chainsaw] && !viewplayer->powers[pw_strength])
             i = wp_bfg;

@@ -70,8 +70,8 @@ typedef struct
     int             recoil;
     int             strength;
     int             tics;
-    weapontype_t    prev;
-    weapontype_t    next;
+    weapontype_t    prevweapon;
+    weapontype_t    nextweapon;
     char            spritename[9];
 
     // MBF21

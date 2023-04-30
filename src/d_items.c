@@ -54,8 +54,8 @@ weaponinfo_t weaponinfo[NUMWEAPONS] =
         /* recoil      */ 0,
         /* strength    */ 37500,
         /* tics        */ 10,
-        /* prev        */ wp_bfg,
-        /* next        */ wp_chainsaw,
+        /* prevweapon  */ wp_bfg,
+        /* nextweapon  */ wp_chainsaw,
         /* spritename  */ "",
         /* flags       */ (WPF_FLEEMELEE | WPF_AUTOSWITCHFROM | WPF_NOAUTOSWITCHTO)
     },
@@ -75,8 +75,8 @@ weaponinfo_t weaponinfo[NUMWEAPONS] =
         /* recoil      */ 4,
         /* strength    */ 45000,
         /* tics        */ 10,
-        /* prev        */ wp_chainsaw,
-        /* next        */ wp_shotgun,
+        /* prevweapon  */ wp_chainsaw,
+        /* nextweapon  */ wp_shotgun,
         /* spritename  */ "",
         /* flags       */ WPF_AUTOSWITCHFROM
     },
@@ -96,8 +96,8 @@ weaponinfo_t weaponinfo[NUMWEAPONS] =
         /* recoil      */ 8,
         /* strength    */ 52500,
         /* tics        */ 10,
-        /* prev        */ wp_pistol,
-        /* next        */ wp_supershotgun,
+        /* prevweapon  */ wp_pistol,
+        /* nextweapon  */ wp_supershotgun,
         /* spritename  */ "SHOTA0",
         /* flags       */ WPF_NOFLAG
     },
@@ -117,8 +117,8 @@ weaponinfo_t weaponinfo[NUMWEAPONS] =
         /* recoil      */ 4,
         /* strength    */ 45000,
         /* tics        */ 10,
-        /* prev        */ wp_supershotgun,
-        /* next        */ wp_missile,
+        /* prevweapon  */ wp_supershotgun,
+        /* nextweapon  */ wp_missile,
         /* spritename  */ "MGUNA0",
         /* flags       */ WPF_NOFLAG
     },
@@ -138,8 +138,8 @@ weaponinfo_t weaponinfo[NUMWEAPONS] =
         /* recoil      */ 16,
         /* strength    */ 60000,
         /* tics        */ 20,
-        /* prev        */ wp_chaingun,
-        /* next        */ wp_plasma,
+        /* prevweapon  */ wp_chaingun,
+        /* nextweapon  */ wp_plasma,
         /* spritename  */ "LAUNA0",
         /* flags       */ WPF_NOAUTOFIRE
     },
@@ -159,8 +159,8 @@ weaponinfo_t weaponinfo[NUMWEAPONS] =
         /* recoil      */ 4,
         /* strength    */ 52500,
         /* tics        */ 10,
-        /* prev        */ wp_missile,
-        /* next        */ wp_bfg,
+        /* prevweapon  */ wp_missile,
+        /* nextweapon  */ wp_bfg,
         /* spritename  */ "PLASA0",
         /* flags       */ WPF_NOFLAG
     },
@@ -180,8 +180,8 @@ weaponinfo_t weaponinfo[NUMWEAPONS] =
         /* recoil      */ 16,
         /* strength    */ 45000,
         /* tics        */ 30,
-        /* prev        */ wp_plasma,
-        /* next        */ wp_fist,
+        /* prevweapon  */ wp_plasma,
+        /* nextweapon  */ wp_fist,
         /* spritename  */ "BFUGA0",
         /* flags       */ WPF_NOAUTOFIRE
     },
@@ -201,8 +201,8 @@ weaponinfo_t weaponinfo[NUMWEAPONS] =
         /* recoil      */ -2,
         /* strength    */ 45000,
         /* tics        */ 10,
-        /* prev        */ wp_fist,
-        /* next        */ wp_pistol,
+        /* prevweapon  */ wp_fist,
+        /* nextweapon  */ wp_pistol,
         /* spritename  */ "CSAWA0",
         /* flags       */ (WPF_NOTHRUST | WPF_FLEEMELEE | WPF_NOAUTOSWITCHTO)
     },
@@ -222,8 +222,8 @@ weaponinfo_t weaponinfo[NUMWEAPONS] =
         /* recoil      */ 16,
         /* strength    */ 60000,
         /* tics        */ 10,
-        /* prev        */ wp_shotgun,
-        /* next        */ wp_chaingun,
+        /* prevweapon  */ wp_shotgun,
+        /* nextweapon  */ wp_chaingun,
         /* spritename  */ "SGN2A0",
         /* flags       */ WPF_NOFLAG
     }
