@@ -2,6 +2,8 @@
 
 #### DOOM Retro v5.0
 
+* Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
+* Changes have been made to text that is output to the console.
 * Adjusting the sliders in the options and sound volume menus using the mouse pointer when the `m_pointer` CVAR is `on` is now more responsive.
 * Widescreen mode can now be toggled using the <kbd><b>+</b></kbd> and <kbd><b>&ndash;</b></kbd> keys while the menu is open.
 * The `sucktime` CVAR now shows as being `off` when set to `0`, and now has a maximum value of `10` hours.
@@ -9,8 +11,8 @@
 * The map’s title in the automap is now gold if the player is in the secret map of *DOOM II: No Rest For The Living*.
 * When the `flashkeys` CVAR is `on`:
   * Flashing keys are now positioned correctly in the alternate widescreen HUD.
-  * Flashing keycards no longer overlap skull keys, and vice-versa, when the player tries to open a door that requires all 6 keys.
-* The menu’s background now displays correctly in extremely wide windows when the `vid_fullscreen` CVAR is `off`.
+  * Flashing keycards no longer overlap skull keys in the status bar the player already has, and vice-versa, when the player tries to open a door that requires all 6 keys.
+* The menu’s background now displays correctly in extremely wide windows.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
