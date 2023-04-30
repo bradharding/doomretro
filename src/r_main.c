@@ -385,8 +385,8 @@ void R_ExecuteSetViewSize(void)
 
     centerx = viewwidth / 2;
     centerxfrac = centerx << FRACBITS;
-    fovscale = finetangent[FINEANGLES / 4 + ((menuactive && !helpscreen ? r_fov_max : r_fov)
-        + WIDEFOVDELTA) * FINEANGLES / 360 / 2];
+    fovscale = finetangent[MIN(FINEANGLES / 4 + ((menuactive && !helpscreen ? r_fov_max : r_fov)
+        + WIDEFOVDELTA) * FINEANGLES / 360 / 2, FINEANGLES / 2 - 100)];
     projection = FixedDiv(centerxfrac, fovscale);
     viewheightfrac = viewheight << (FRACBITS + 2);
 

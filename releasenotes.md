@@ -10,6 +10,7 @@
 * When the `flashkeys` CVAR is `on`:
   * Flashing keys are now positioned correctly in the alternate widescreen HUD.
   * Flashing keycards no longer overlap skull keys, and vice-versa, when the player tries to open a door that requires all 6 keys.
+* The menu’s background now displays correctly in extremely wide windows when the `vid_fullscreen` CVAR is `off`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
