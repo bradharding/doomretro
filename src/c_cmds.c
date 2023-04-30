@@ -3242,11 +3242,11 @@ static void kill_cmd_func2(char *cmd, char *parms)
             P_KillMobj(viewplayer->mo, NULL, viewplayer->mo, false);
 
             if (M_StringCompare(playername, playername_default))
-                M_snprintf(buffer, sizeof(buffer), "You killed yourself.");
+                M_snprintf(buffer, sizeof(buffer), "You killed yourself!");
             else
-                M_snprintf(buffer, sizeof(buffer), "%s killed %s.", playername, preferredpronoun(reflexive));
+                M_snprintf(buffer, sizeof(buffer), "%s killed %s!", playername, preferredpronoun(reflexive));
 
-            C_Output(buffer);
+            C_PlayerMessage(buffer);
             C_HideConsole();
             HU_SetPlayerMessage(buffer, false, false);
             message_dontfuckwithme = true;
