@@ -373,13 +373,16 @@ void R_ExecuteSetViewSize(void)
     {
         viewwidth = SCREENWIDTH;
         viewheight = SCREENHEIGHT;
+        viewwindowx = 0;
+        viewwindowy = 0;
         pspritescale = FixedDiv(NONWIDEWIDTH, VANILLAWIDTH);
     }
     else
     {
-        // [BH] overdraw viewheight by 2px to fix possible fuzz effect bleeding
         viewwidth = setblocks * SCREENWIDTH / 10;
         viewheight = ((setblocks * (SCREENHEIGHT - SBARHEIGHT) / 10) & ~7);
+        viewwindowx = (SCREENWIDTH - viewwidth) / 2;
+        viewwindowy = (SCREENHEIGHT - SBARHEIGHT - viewheight) / 2;
         pspritescale = FixedDiv(setblocks * NONWIDEWIDTH / 10, VANILLAWIDTH);
     }
 

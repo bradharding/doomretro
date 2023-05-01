@@ -1340,15 +1340,7 @@ void R_DrawDitherColorSpan(void)
 //
 void R_InitBuffer(void)
 {
-    int end;
-
-    // Handle resize, e.g. smaller view windows with border and/or status bar.
-    viewwindowx = (SCREENWIDTH - viewwidth) / 2;
-
-    // Same with base row offset.
-    viewwindowy = (viewwidth == SCREENWIDTH ? 0 : (SCREENHEIGHT - SBARHEIGHT - viewheight) / 2);
-
-    end = (viewwindowy + viewheight) * SCREENWIDTH + viewwindowx + viewwidth;
+    const int   end = (viewwindowy + viewheight) * SCREENWIDTH + viewwindowx + viewwidth;
 
     for (int i = 0, y = viewwindowy * SCREENWIDTH + viewwindowx; y < end; i++, y += SCREENWIDTH)
     {
