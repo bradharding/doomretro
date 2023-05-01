@@ -6987,7 +6987,7 @@ static void resurrect_cmd_func2(char *cmd, char *parms)
         if (M_StringCompare(parm, "player") || M_StringCompare(parm, "me") || (*playername && M_StringCompare(parm, playername)))
         {
             P_ResurrectPlayer(initial_health);
-            M_snprintf(buffer, sizeof(buffer), "%s resurrected %s.",
+            M_snprintf(buffer, sizeof(buffer), "%s resurrected %s!",
                 playername,
                 (M_StringCompare(playername, playername_default) ? "yourself" : preferredpronoun(reflexive)));
             buffer[0] = toupper(buffer[0]);
@@ -8946,7 +8946,7 @@ static void player_cvars_func2(char *cmd, char *parms)
 
                         P_ResurrectPlayer(value);
                         P_AddBonus();
-                        M_snprintf(buffer, sizeof(buffer), "%s resurrected %s.",
+                        M_snprintf(buffer, sizeof(buffer), "%s resurrected %s!",
                             playername,
                             (M_StringCompare(playername, playername_default) ? "yourself" : preferredpronoun(reflexive)));
                         buffer[0] = toupper(buffer[0]);
