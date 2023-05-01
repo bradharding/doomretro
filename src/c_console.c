@@ -125,7 +125,8 @@ static int              timewidth;
 static int              zerowidth;
 
 static byte             *consoleautomapbevelcolor;
-static byte             *consolebackcolor;
+static byte             *consolebackcolor1;
+static byte             *consolebackcolor2;
 static byte             *consolebevelcolor;
 static int              consoleboldcolor;
 static int              consolebolditalicscolor;
@@ -655,7 +656,8 @@ void C_Init(void)
     }
 
     consoleautomapbevelcolor = &tinttab50[nearestcolors[CONSOLEAUTOMAPBEVELCOLOR] << 8];
-    consolebackcolor = &tinttab50[nearestcolors[CONSOLEBACKCOLOR] << 8];
+    consolebackcolor1 = &tinttab50[nearestcolors[CONSOLEBACKCOLOR] << 8];
+    consolebackcolor2 = &tinttab50[nearestblack << 8];
     consolebevelcolor = &tinttab50[nearestcolors[CONSOLEBEVELCOLOR] << 8];
     consoleboldcolor = nearestcolors[CONSOLEBOLDCOLOR];
     consolebolditalicscolor = nearestcolors[CONSOLEBOLDITALICSCOLOR];
@@ -811,8 +813,12 @@ static void C_DrawBackground(void)
             blurscreen[x] = tinttab50[(blurscreen[x - SCREENWIDTH + 1] << 8) + blurscreen[x]];
 
     // tint background
-    for (int i = 0; i < height; i++)
-        screens[0][i] = consolebackcolor[blurscreen[i]];
+    if (viewplayer->powers[pw_invulnerability] || !r_textures)
+        for (int i = 0; i < height; i++)
+            screens[0][i] = consolebackcolor2[blurscreen[i]];
+    else
+        for (int i = 0; i < height; i++)
+            screens[0][i] = consolebackcolor1[blurscreen[i]];
 
     // apply corrugated glass effect to background
     for (int y = consoleheight % 3; y <= height - 3 * SCREENWIDTH; y += SCREENWIDTH)
