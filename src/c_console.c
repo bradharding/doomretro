@@ -657,7 +657,7 @@ void C_Init(void)
 
     consoleautomapbevelcolor = &tinttab50[nearestcolors[CONSOLEAUTOMAPBEVELCOLOR] << 8];
     consolebackcolor1 = &tinttab50[nearestcolors[CONSOLEBACKCOLOR] << 8];
-    consolebackcolor2 = &tinttab50[nearestblack << 8];
+    consolebackcolor2 = &tinttab60[nearestblack << 8];
     consolebevelcolor = &tinttab50[nearestcolors[CONSOLEBEVELCOLOR] << 8];
     consoleboldcolor = nearestcolors[CONSOLEBOLDCOLOR];
     consolebolditalicscolor = nearestcolors[CONSOLEBOLDITALICSCOLOR];
