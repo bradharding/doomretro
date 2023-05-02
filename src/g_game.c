@@ -1621,7 +1621,7 @@ void G_SaveGame(int slot, char *description, char *name)
 static void G_DoSaveGame(void)
 {
     char    *temp_savegame_file = P_TempSaveGameFile();
-    char    *savegame_file = (consoleactive || !*savedescription ? savename : P_SaveGameFile(savegameslot));
+    char    *savegame_file = (savegameslot == -1 ? savename : P_SaveGameFile(savegameslot));
 
     // Open the savegame file for writing. We write to a temporary file
     // and then rename it at the end if it was successfully written.
