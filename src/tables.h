@@ -44,15 +44,6 @@
 
 #define ANGLEMUL            0x2C62C6
 
-// Effective size is 10240.
-extern fixed_t  finesine[5 * FINEANGLES / 4];
-
-// Re-use data, is just PI/2 phase shift.
-extern fixed_t  *finecosine;
-
-// Effective size is 4096.
-extern fixed_t  finetangent[FINEANGLES / 2];
-
 // Binary Angle Measurement, BAM.
 #define ANG1                (ANG45 / 45)
 #define ANG5                (ANG90 / 18)
@@ -68,6 +59,15 @@ extern fixed_t  finetangent[FINEANGLES / 2];
 #define DBITS               (FRACBITS - SLOPEBITS)
 
 typedef unsigned int    angle_t;
+
+// Effective size is 10240.
+extern fixed_t  finesine[5 * FINEANGLES / 4];
+
+// Re-use data, is just PI/2 phase shift.
+extern fixed_t  *finecosine;
+
+// Effective size is 4096.
+extern fixed_t  finetangent[FINEANGLES / 2];
 
 // Effective size is 2049;
 // The +1 size is to handle the case when x == y without additional checking.

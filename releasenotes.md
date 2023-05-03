@@ -12,7 +12,7 @@
 * The map’s title in the automap is now gold if the player is in the secret map of *DOOM II: No Rest For The Living*.
 * When the `flashkeys` CVAR is `on`:
   * Flashing keys are now positioned correctly in the alternate widescreen HUD.
-  * Flashing keycards no longer overlap skull keys in the status bar the player already has, and vice-versa, when the player tries to open a door that requires all 6 keys.
+  * Flashing keycards no longer overlap skull keys in the status bar the player already has, and vice-versa, when the player tries to open a door that requires all six keys.
 * The menu’s background is now rendered correctly in extremely wide windows.
 * Improvements have been made to the console’s background when the player has an invulnerability power-up or the `r_textures` CVAR is `off`.
 

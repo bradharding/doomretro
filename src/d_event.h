@@ -102,11 +102,7 @@ enum
     // Pause the game.
     BTS_PAUSE       = 1,
     // Save the game at each console.
-    BTS_SAVEGAME    = 2,
-
-    // Savegame slot numbers occupy the second byte of buttons.
-    BTS_SAVEMASK    = (4 + 8 + 16),
-    BTS_SAVESHIFT   = 2
+    BTS_SAVEGAME    = 2
 };
 
 //

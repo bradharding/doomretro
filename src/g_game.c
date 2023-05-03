@@ -523,7 +523,7 @@ void G_BuildTiccmd(ticcmd_t *cmd)
     if (sendsave)
     {
         sendsave = false;
-        cmd->buttons = (BT_SPECIAL | BTS_SAVEGAME | (savegameslot << BTS_SAVESHIFT));
+        cmd->buttons = (BT_SPECIAL | BTS_SAVEGAME);
     }
 }
 
@@ -1056,7 +1056,6 @@ void G_Ticker(void)
                 break;
 
             case BTS_SAVEGAME:
-                savegameslot = (viewplayer->cmd.buttons & BTS_SAVEMASK) >> BTS_SAVESHIFT;
                 gameaction = ga_savegame;
                 break;
         }
@@ -1667,6 +1666,7 @@ static void G_DoSaveGame(void)
         free(backup_savegame_file);
 
         if (savegameslot >= 0)
+            savegames = true;
 
         if (!numconsolestrings || !M_StringStartsWith(console[numconsolestrings - 1].string, "save "))
             C_Input("save %s", savegame_file);
