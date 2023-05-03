@@ -99,7 +99,7 @@ bool            quitting;
 static bool     noconsoleoutput;
 static bool     reopenautomap;
 
-char            savegamestrings[NUMSAVEGAMES][SAVESTRINGSIZE];
+char            savegamestrings[savegame_max][SAVESTRINGSIZE];
 
 static short    itemon;                 // menu item skull is on
 static short    skullanimcounter;       // skull animation counter

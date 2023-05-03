@@ -2483,7 +2483,7 @@ static void D_DoomMainSetup(void)
     V_InitColorTranslation();
 
     if ((startloadgame = ((p = M_CheckParmWithArgs("-loadgame", 1, 1)) ? strtol(myargv[p + 1], NULL, 10) : -1)) >= 0
-        && startloadgame < NUMSAVEGAMES)
+        && startloadgame < savegame_max)
     {
         menuactive = false;
         splashscreen = false;

@@ -1546,11 +1546,11 @@ void G_DoLoadGame(void)
     maptime = savedmaptime;
 
     // unarchive all the modifications
-    P_UnArchivePlayer();
-    P_UnArchiveWorld();
-    P_UnArchiveThinkers();
-    P_UnArchiveSpecials();
-    P_UnArchiveMap();
+    P_UnarchivePlayer();
+    P_UnarchiveWorld();
+    P_UnarchiveThinkers();
+    P_UnarchiveSpecials();
+    P_UnarchiveMap();
 
     P_RestoreTargets();
 

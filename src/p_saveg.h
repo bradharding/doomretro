@@ -35,8 +35,6 @@
 
 #pragma once
 
-#define NUMSAVEGAMES            8
-
 // maximum size of a savegame description
 #define SAVESTRINGSIZE          256
 
@@ -59,10 +57,10 @@ enum
     tc_flash,
     tc_strobe,
     tc_glow,
-    tc_elevator,        // jff 02/22/98 new elevator type thinker
-    tc_scroll,          // killough 03/07/98: new scroll effect thinker
-    tc_pusher,          // phares 03/22/98: new push/pull effect thinker
-    tc_fireflicker,     // killough 10/04/98
+    tc_elevator,    // jff 02/22/98 new elevator type thinker
+    tc_scroll,      // killough 03/07/98: new scroll effect thinker
+    tc_pusher,      // phares 03/22/98: new push/pull effect thinker
+    tc_fireflicker, // killough 10/04/98
     tc_button,
     tc_endspecials
 };
@@ -88,15 +86,15 @@ void P_WriteSaveGameFooter(void);
 // Persistent storage/archiving.
 // These are the load/save game routines.
 void P_ArchivePlayer(void);
-void P_UnArchivePlayer(void);
+void P_UnarchivePlayer(void);
 void P_ArchiveWorld(void);
-void P_UnArchiveWorld(void);
+void P_UnarchiveWorld(void);
 void P_ArchiveThinkers(void);
-void P_UnArchiveThinkers(void);
+void P_UnarchiveThinkers(void);
 void P_ArchiveSpecials(void);
-void P_UnArchiveSpecials(void);
+void P_UnarchiveSpecials(void);
 void P_ArchiveMap(void);
-void P_UnArchiveMap(void);
+void P_UnarchiveMap(void);
 
 void P_RestoreTargets(void);
 

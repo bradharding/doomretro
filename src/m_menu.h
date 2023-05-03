@@ -122,7 +122,7 @@ extern bool     quitting;
 extern int      menuspindirection;
 extern int      menuspinspeed;
 extern int      quicksaveslot;
-extern char     savegamestrings[NUMSAVEGAMES][SAVESTRINGSIZE];
+extern char     savegamestrings[savegame_max][SAVESTRINGSIZE];
 extern menu_t   EpiDef;
 extern menu_t   ExpDef;
 extern menu_t   LoadDef;

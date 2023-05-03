@@ -1134,9 +1134,9 @@ void P_ArchivePlayer(void)
 }
 
 //
-// P_UnArchivePlayer
+// P_UnarchivePlayer
 //
-void P_UnArchivePlayer(void)
+void P_UnarchivePlayer(void)
 {
     P_InitCards();
     saveg_read_player_t();
@@ -1205,9 +1205,9 @@ void P_ArchiveWorld(void)
 }
 
 //
-// P_UnArchiveWorld
+// P_UnarchiveWorld
 //
-void P_UnArchiveWorld(void)
+void P_UnarchiveWorld(void)
 {
     sector_t    *sector = sectors;
     line_t      *line = lines;
@@ -1317,9 +1317,9 @@ static void P_SetNewTarget(mobj_t **mop, mobj_t *targ)
 }
 
 //
-// P_UnArchiveThinkers
+// P_UnarchiveThinkers
 //
-void P_UnArchiveThinkers(void)
+void P_UnarchiveThinkers(void)
 {
     thinker_t   *th = thinkers[th_all].next;
 
@@ -1549,9 +1549,9 @@ void P_ArchiveSpecials(void)
 }
 
 //
-// P_UnArchiveSpecials
+// P_UnarchiveSpecials
 //
-void P_UnArchiveSpecials(void)
+void P_UnarchiveSpecials(void)
 {
     // read in saved thinkers
     while (true)
@@ -1727,9 +1727,9 @@ void P_ArchiveMap(void)
 }
 
 //
-// P_UnArchiveMap
+// P_UnarchiveMap
 //
-void P_UnArchiveMap(void)
+void P_UnarchiveMap(void)
 {
     if ((automapactive = saveg_read_bool()) || mapwindow)
         AM_Start(automapactive);
