@@ -363,7 +363,7 @@ bool W_AddFile(char *filename, bool autoloaded)
 
     free(fileinfo);
 
-    if (!M_StringCompare(leafname(filename), DOOMRETRO_RESOURCEWAD) && !devparm)
+    if (!M_StringCompare(leafname(filename), DOOMRETRO_RESOURCEWAD) || devparm)
     {
         temp = commify((int64_t)numlumps - startlump);
         C_Output("%s lump%s were %s from the %s " BOLD("%s") ".",
