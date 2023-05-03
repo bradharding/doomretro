@@ -7,7 +7,7 @@
 * Changes have been made to text that is output to the console.
 * Adjusting the sliders in the options and sound volume menus using the mouse pointer when the `m_pointer` CVAR is `on` is now more responsive.
 * Widescreen mode can now be toggled using the <kbd><b>+</b></kbd> and <kbd><b>&ndash;</b></kbd> keys while the menu is open.
-* The `sucktime` CVAR now shows as being `off` when set to `0`, and now has a maximum value of `10` hours.
+* The `sucktime` CVAR now shows as being `off` when set to `0`, and now has a maximum value of `24` hours.
 * The time displayed on the intermission screen is now positioned better if the player takes more than an hour to complete a map and the `sucktime` CVAR is greater than its default of `1` hour.
 * The map’s title in the automap is now gold if the player is in the secret map of *DOOM II: No Rest For The Living*.
 * When the `flashkeys` CVAR is `on`:
