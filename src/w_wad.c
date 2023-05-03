@@ -373,7 +373,10 @@ bool W_AddFile(char *filename, bool autoloaded)
             (wadfile->type == IWAD ? "IWAD" : "PWAD"),
             wadfile->path);
         free(temp);
+    }
 
+    if (!M_StringCompare(leafname(filename), DOOMRETRO_RESOURCEWAD))
+    {
         if (wadsloaded)
             wadsloaded = M_StringJoin(wadsloaded, ", ", leafname(filename), NULL);
         else
