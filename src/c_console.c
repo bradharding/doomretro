@@ -127,7 +127,8 @@ static int              zerowidth;
 static byte             *consoleautomapbevelcolor;
 static byte             *consolebackcolor1;
 static byte             *consolebackcolor2;
-static byte             *consolebevelcolor;
+static byte             *consolebevelcolor1;
+static byte             *consolebevelcolor2;
 static int              consoleboldcolor;
 static int              consolebolditalicscolor;
 int                     consolebrandingcolor;
@@ -658,7 +659,8 @@ void C_Init(void)
     consoleautomapbevelcolor = &tinttab50[nearestcolors[CONSOLEAUTOMAPBEVELCOLOR] << 8];
     consolebackcolor1 = &tinttab50[nearestcolors[CONSOLEBACKCOLOR] << 8];
     consolebackcolor2 = &tinttab60[nearestblack << 8];
-    consolebevelcolor = &tinttab50[nearestcolors[CONSOLEBEVELCOLOR] << 8];
+    consolebevelcolor1 = &tinttab50[nearestcolors[CONSOLEBEVELCOLOR] << 8];
+    consolebevelcolor2 = &tinttab20[nearestcolors[CONSOLEBEVELCOLOR] << 8];
     consoleboldcolor = nearestcolors[CONSOLEBOLDCOLOR];
     consolebolditalicscolor = nearestcolors[CONSOLEBOLDITALICSCOLOR];
     consolecaretcolor = nearestcolors[CONSOLECARETCOLOR];
@@ -778,6 +780,7 @@ void C_HideConsoleFast(void)
 
 static void C_DrawBackground(void)
 {
+    const bool  inverted = (viewplayer->fixedcolormap == INVERSECOLORMAP) ^ (!r_textures);
     static byte blurscreen[MAXSCREENAREA];
     const int   height = (consoleheight + 5) * SCREENWIDTH;
 
@@ -813,7 +816,7 @@ static void C_DrawBackground(void)
             blurscreen[x] = tinttab50[(blurscreen[x - SCREENWIDTH + 1] << 8) + blurscreen[x]];
 
     // tint background
-    if (viewplayer->powers[pw_invulnerability] || !r_textures)
+    if (inverted)
         for (int i = 0; i < height; i++)
             screens[0][i] = consolebackcolor2[blurscreen[i]];
     else
@@ -864,24 +867,28 @@ static void C_DrawBackground(void)
             screens[0][i] = consoleautomapbevelcolor[screens[0][i + 1]];
 
         for (int i = MAX(0, height - 3 * SCREENWIDTH); i < height; i += SCREENWIDTH)
-            screens[0][i] = consolebevelcolor[screens[0][i + 1]];
+            screens[0][i] = consolebevelcolor1[screens[0][i + 1]];
 
         for (int i = 0; i < height - (brandheight + 3) * SCREENWIDTH; i += SCREENWIDTH)
             screens[0][i + SCREENWIDTH - 1] = consoleautomapbevelcolor[screens[0][i + SCREENWIDTH - 2]];
 
         for (int i = MAX(0, height - (brandheight + 3) * SCREENWIDTH); i < height; i += SCREENWIDTH)
-            screens[0][i + SCREENWIDTH - 1] = consolebevelcolor[screens[0][i + SCREENWIDTH - 2]];
+            screens[0][i + SCREENWIDTH - 1] = consolebevelcolor1[screens[0][i + SCREENWIDTH - 2]];
     }
     else
         for (int i = 0; i < height; i += SCREENWIDTH)
         {
-            screens[0][i] = consolebevelcolor[screens[0][i + 1]];
-            screens[0][i + SCREENWIDTH - 1] = consolebevelcolor[screens[0][i + SCREENWIDTH - 2]];
+            screens[0][i] = consolebevelcolor1[screens[0][i + 1]];
+            screens[0][i + SCREENWIDTH - 1] = consolebevelcolor1[screens[0][i + SCREENWIDTH - 2]];
         }
 
     // bevel bottom edge
-    for (int i = height - SCREENWIDTH + 1; i < height - 1; i++)
-        screens[0][i] = consolebevelcolor[screens[0][i]];
+    if (inverted)
+        for (int i = height - SCREENWIDTH + 1; i < height - 1; i++)
+            screens[0][i] = consolebevelcolor2[screens[0][i]];
+    else
+        for (int i = height - SCREENWIDTH + 1; i < height - 1; i++)
+            screens[0][i] = consolebevelcolor1[screens[0][i]];
 
     // draw shadow
     for (int i = SCREENWIDTH; i <= 4 * SCREENWIDTH; i += SCREENWIDTH)
