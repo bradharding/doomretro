@@ -2250,13 +2250,13 @@ static void D_DoomMainSetup(void)
 
     if (!M_CheckParm("-noautoload") && gamemode != shareware)
     {
-        D_SetAutoLoadFolder();
+        D_SetAutoloadFolder();
 
-        autoloading = W_AutoLoadFiles(autoloadfolder);
-        autoloading |= W_AutoLoadFiles(autoloadiwadsubfolder);
+        autoloading = W_AutoloadFiles(autoloadfolder);
+        autoloading |= W_AutoloadFiles(autoloadiwadsubfolder);
 
         if (autoloadpwadsubfolder)
-            autoloading |= W_AutoLoadFiles(autoloadpwadsubfolder);
+            autoloading |= W_AutoloadFiles(autoloadpwadsubfolder);
     }
 
     W_Init();

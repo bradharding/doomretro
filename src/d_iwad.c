@@ -828,7 +828,7 @@ void D_SetSaveGameFolder(bool output)
     }
 }
 
-void D_SetAutoLoadFolder(void)
+void D_SetAutoloadFolder(void)
 {
     const int   p = M_CheckParmsWithArgs("-autoload", "-autoloaddir", "", 1, 1);
 

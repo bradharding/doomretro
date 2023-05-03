@@ -222,7 +222,8 @@ static int LevenshteinDistance(char *string1, char *string2)
                 for (int y = 1, lastdiagonal = x - 1, olddiagonal; (size_t)y <= length1; y++)
                 {
                     olddiagonal = column[y];
-                    column[y] = MIN(MIN(column[y], column[y - 1]) + 1, lastdiagonal + (string1[y - 1] != string2[x - 1]));
+                    column[y] = MIN(MIN(column[y], column[y - 1]) + 1,
+                        lastdiagonal + (string1[y - 1] != string2[x - 1]));
                     lastdiagonal = olddiagonal;
                 }
             }
@@ -289,18 +290,18 @@ char *W_GuessFilename(char *path, char *string)
 //
 bool W_AddFile(char *filename, bool autoloaded)
 {
-    static bool     resourcewadadded;
-    wadinfo_t       header;
-    size_t          length;
-    int             startlump;
-    filelump_t      *fileinfo;
-    filelump_t      *filerover;
-    lumpinfo_t      *filelumps;
-    char            *temp;
-    char            *file = leafname(filename);
+    static bool resourcewadadded;
+    wadinfo_t   header;
+    size_t      length;
+    int         startlump;
+    filelump_t  *fileinfo;
+    filelump_t  *filerover;
+    lumpinfo_t  *filelumps;
+    char        *temp;
+    char        *file = leafname(filename);
 
     // open the file and add to directory
-    wadfile_t       *wadfile = W_OpenFile(filename);
+    wadfile_t   *wadfile = W_OpenFile(filename);
 
     if (!wadfile)
         return false;
@@ -381,27 +382,31 @@ bool W_AddFile(char *filename, bool autoloaded)
             wadsloaded = M_StringJoin(wadsloaded, ", ", leafname(filename), NULL);
         else
             wadsloaded = M_StringDuplicate(leafname(filename));
-    }
 
-    if (M_StringCompare(file, "SIGIL_v1_21.wad")
-        || M_StringCompare(file, "SIGIL_v1_2.wad")
-        || M_StringCompare(file, "SIGIL_v1_1.wad")
-        || M_StringCompare(file, "SIGIL_v1_0.wad")
-        || M_StringCompare(file, "SIGIL.wad"))
-    {
-        autosigil = autoloaded;
-        C_Output("John Romero's " ITALICS("SIGIL") " is now available to play from the episode menu.");
+        if (M_StringCompare(file, "SIGIL_v1_21.wad")
+            || M_StringCompare(file, "SIGIL_v1_2.wad")
+            || M_StringCompare(file, "SIGIL_v1_1.wad")
+            || M_StringCompare(file, "SIGIL_v1_0.wad")
+            || M_StringCompare(file, "SIGIL.wad"))
+        {
+            autosigil = autoloaded;
+            C_Output("John Romero's " ITALICS("SIGIL")
+                " is now available to play from the episode menu.");
+        }
+        else if (M_StringCompare(file, "SIGIL_SHREDS.WAD")
+            || M_StringCompare(file, "SIGIL_SHREDS_COMPAT.wad"))
+        {
+            buckethead = true;
+            C_Output("Buckethead's soundtrack will now be heard while playing " ITALICS("SIGIL."));
+        }
+        else if (M_StringCompare(file, "DOOM.WAD"))
+            C_Output("John Romero's " ITALICS("E1M4B: Phobos Mission Control") " and "
+                ITALICS("E1M8B: Tech Gone Bad") " are now available to play using the "
+                BOLD("map") " CCMD.");
+        else if (M_StringCompare(file, "NERVE.WAD"))
+            C_Output("Nerve Software's " ITALICS("No Rest For The Living")
+                " is now available to play from the expansion menu.");
     }
-    else if (M_StringCompare(file, "SIGIL_SHREDS.WAD") || M_StringCompare(file, "SIGIL_SHREDS_COMPAT.wad"))
-    {
-        buckethead = true;
-        C_Output("Buckethead's soundtrack will now be heard while playing " ITALICS("SIGIL."));
-    }
-    else if (M_StringCompare(file, "DOOM.WAD"))
-        C_Output("John Romero's " ITALICS("E1M4B: Phobos Mission Control") " and " ITALICS("E1M8B: Tech Gone Bad")
-            " are now available to play using the " BOLD("map") " CCMD.");
-    else if (M_StringCompare(file, "NERVE.WAD"))
-        C_Output("Nerve Software's " ITALICS("No Rest For The Living") " is now available to play from the expansion menu.");
 
     if (!resourcewadadded)
     {
@@ -414,7 +419,7 @@ bool W_AddFile(char *filename, bool autoloaded)
     return true;
 }
 
-bool W_AutoLoadFiles(const char *folder)
+bool W_AutoloadFiles(const char *folder)
 {
 #if defined(_WIN32)
     WIN32_FIND_DATA FindFileData;
@@ -432,9 +437,11 @@ bool W_AutoLoadFiles(const char *folder)
         {
             temp = M_StringJoin(folder, DIR_SEPARATOR_S, FindFileData.cFileName, NULL);
 
-            if (M_StringEndsWith(FindFileData.cFileName, ".wad") || M_StringEndsWith(FindFileData.cFileName, ".pwad"))
+            if (M_StringEndsWith(FindFileData.cFileName, ".wad")
+                || M_StringEndsWith(FindFileData.cFileName, ".pwad"))
                 W_MergeFile(temp, true);
-            else if (M_StringEndsWith(FindFileData.cFileName, ".deh") || M_StringEndsWith(FindFileData.cFileName, ".bex"))
+            else if (M_StringEndsWith(FindFileData.cFileName, ".deh")
+                || M_StringEndsWith(FindFileData.cFileName, ".bex"))
                 D_ProcessDehFile(temp, 0, true);
 
             free(temp);
@@ -456,9 +463,11 @@ bool W_AutoLoadFiles(const char *folder)
 
         if (!stat(temp, &status) && S_ISREG(status.st_mode))
         {
-            if (M_StringEndsWith(dir->d_name, ".wad") || M_StringEndsWith(dir->d_name, ".pwad"))
+            if (M_StringEndsWith(dir->d_name, ".wad")
+                || M_StringEndsWith(dir->d_name, ".pwad"))
                 W_MergeFile(temp, true);
-            else if (M_StringEndsWith(dir->d_name, ".deh") || M_StringEndsWith(dir->d_name, ".bex"))
+            else if (M_StringEndsWith(dir->d_name, ".deh")
+                || M_StringEndsWith(dir->d_name, ".bex"))
                 D_ProcessDehFile(temp, 0, true);
         }
 
@@ -549,7 +558,8 @@ gamemission_t IWADRequiredByPWAD(char *pwadname)
                     result = doom;
                     break;
                 }
-                else if (n[0] == 'M' && n[1] == 'A' && n[2] == 'P' && isdigit((int)n[3]) && isdigit((int)n[4]) && n[5] == '\0')
+                else if (n[0] == 'M' && n[1] == 'A' && n[2] == 'P'
+                    && isdigit((int)n[3]) && isdigit((int)n[4]) && n[5] == '\0')
                 {
                     result = doom2;
                     break;
@@ -561,9 +571,11 @@ gamemission_t IWADRequiredByPWAD(char *pwadname)
             {
                 char    *leaf = leafname(pwadname);
 
-                if (M_StringCompare(leaf, "pl2.wad") || M_StringCompare(leaf, "plut3.wad"))
+                if (M_StringCompare(leaf, "pl2.wad")
+                    || M_StringCompare(leaf, "plut3.wad"))
                     result = pack_plut;
-                else if (M_StringCompare(leaf, "tntr.wad") || M_StringCompare(leaf, "tnt-ren.wad")
+                else if (M_StringCompare(leaf, "tntr.wad")
+                    || M_StringCompare(leaf, "tnt-ren.wad")
                     || M_StringCompare(leaf, "resist.wad"))
                     result = pack_tnt;
             }
