@@ -667,7 +667,7 @@ static void WI_DrawTime(int x, int y, int t)
 
         do
         {
-            x = WI_DrawNum(x, y, (t / div) % 60, (div <= 60 ? 2 : 1)) - SHORT(colon->width);
+            x = WI_DrawNum(x, y, (t / div) % 60, 2) - SHORT(colon->width);
             div *= 60;
 
             // draw
@@ -1023,7 +1023,7 @@ static void WI_DrawStats(void)
     }
 
     V_DrawPatchWithShadow(SP_TIMEX + 1, SP_TIMEY + 1, timepatch, false);
-    WI_DrawTime(VANILLAWIDTH / 2 - SP_TIMEX * 2, SP_TIMEY, cnt_time);
+    WI_DrawTime(VANILLAWIDTH / 2 - SP_TIMEX * 2 + (wbs->stime >= TICRATE * 60 * 60) * 16, SP_TIMEY, cnt_time);
 
     if (wbs->partime)
     {
