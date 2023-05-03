@@ -1666,7 +1666,7 @@ static void G_DoSaveGame(void)
 
         free(backup_savegame_file);
 
-        savegames = true;
+        if (savegameslot >= 0)
 
         if (!numconsolestrings || !M_StringStartsWith(console[numconsolestrings - 1].string, "save "))
             C_Input("save %s", savegame_file);
