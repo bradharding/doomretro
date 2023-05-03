@@ -910,8 +910,13 @@ int M_CountSaveGames(void)
     int count = 0;
 
     for (int i = 0; i < load_end; i++)
-        if (M_FileExists(P_SaveGameFile(i)))
+    {
+        int ep;
+        int map;
+
+        if (M_CheckSaveGame(&ep, &map, i))
             count++;
+    }
 
     return count;
 }
