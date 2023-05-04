@@ -16,7 +16,7 @@
   * Improvements have been made to flashing keycards and skull keys in the status bar when the player tries to open a *BOOM*-compatible door that requires all six keys.
 * The menu’s background is now rendered correctly in extremely wide windows.
 * Improvements have been made to the console’s background when the player has an invulnerability power-up or the `r_textures` CVAR is `off`.
-* A bug is fixed whereby the number of monsters left to kill in a map after loading a savegame was wrong in some instances.
+* The number of monsters left to kill in a map, displayed in the automap when the `am_playerstats` CVAR is `on`, is now always correct after loading a savegame.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
