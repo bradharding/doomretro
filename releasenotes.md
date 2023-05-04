@@ -5,14 +5,15 @@
 * *DOOM Retro* is now built using v17.5.5 of [*Microsoft Visual Studio Community 2022*](https://visualstudio.microsoft.com/vs/community/).
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Changes have been made to text that is output to the console.
-* Adjusting the sliders in the options and sound volume menus using the mouse pointer when the `m_pointer` CVAR is `on` is now more responsive.
+* Minor improvements have been made to the text that can be autocompleted in the console by pressing the <kbd><b>TAB</b></kbd> key.
+* Adjusting the sliders in the options and sound volume menus using the mouse pointer is now more responsive when the `m_pointer` CVAR is `on`.
 * Widescreen mode can now be toggled using the <kbd><b>+</b></kbd> and <kbd><b>&ndash;</b></kbd> keys while the menu is open.
 * The `sucktime` CVAR now shows as being `off` when set to `0`, and now has a maximum value of `24` hours.
 * The time displayed on the intermission screen is now positioned better if the player takes more than an hour to complete a map and the `sucktime` CVAR is greater than its default of `1` hour.
 * The map’s title in the automap is now gold if the player is in the secret map of *DOOM II: No Rest For The Living*.
 * When the `flashkeys` CVAR is `on`:
-  * Flashing keys are now positioned correctly in the alternate widescreen HUD.
-  * Flashing keycards no longer overlap skull keys in the status bar the player already has, and vice-versa, when the player tries to open a door that requires all six keys.
+  * Flashing keycards and skull keys are now positioned correctly in the alternate widescreen HUD.
+  * Improvements have been made to flashing keycards and skull keys in the status bar when the player tries to open a *BOOM*-compatible door that requires all six keys.
 * The menu’s background is now rendered correctly in extremely wide windows.
 * Improvements have been made to the console’s background when the player has an invulnerability power-up or the `r_textures` CVAR is `off`.
 
