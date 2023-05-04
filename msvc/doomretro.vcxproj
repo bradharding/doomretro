@@ -494,12 +494,12 @@
     <None Include="..\LICENSE" />
     <None Include="..\README.md" />
     <None Include="..\releasenotes.md" />
-    <None Include="..\res\BRGHTMPS" />
-    <None Include="..\res\CHEXBEX" />
-    <None Include="..\res\DEHACKED" />
+    <None Include="..\res\BRGHTMPS.lmp" />
+    <None Include="..\res\CHEXBEX.lmp" />
+    <None Include="..\res\DEHACKED.lmp" />
     <None Include="..\res\doomretro.ico" />
-    <None Include="..\res\DRCOMPAT" />
-    <None Include="..\res\VANILLA" />
+    <None Include="..\res\DRCOMPAT.lmp" />
+    <None Include="..\res\VANILLA.lmp" />
     <None Include="..\src\doomretro.manifest" />
     <None Include="..\src\Makefile" />
     <None Include="..\src\Makefile.mingw" />
