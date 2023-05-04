@@ -1344,7 +1344,7 @@ void P_UnarchiveThinkers(void)
     thingindex = 0;
 
     totalitems = viewplayer->itemcount;
-    totalkills = 0;
+    totalkills = viewplayer->killcount;
 
     memset(monstercount, 0, sizeof(int) * NUMMOBJTYPES);
 
@@ -1371,7 +1371,7 @@ void P_UnarchiveThinkers(void)
                 P_SetShadowColumnFunction(mobj);
                 thingindex = MIN(thingindex + 1, TARGETLIMIT - 1);
 
-                if (mobj->flags & MF_COUNTKILL)
+                if ((mobj->flags & MF_COUNTKILL) && mobj->health > 0)
                 {
                     if (!((mobj->flags ^ MF_COUNTKILL) & (MF_FRIEND | MF_COUNTKILL)))
                         totalkills++;
