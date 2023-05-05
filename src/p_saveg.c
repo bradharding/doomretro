@@ -1346,8 +1346,6 @@ void P_UnarchiveThinkers(void)
     totalitems = viewplayer->itemcount;
     totalkills = viewplayer->killcount;
 
-    memset(monstercount, 0, sizeof(int) * NUMMOBJTYPES);
-
     // read in saved thinkers
     while (true)
     {
@@ -1371,15 +1369,11 @@ void P_UnarchiveThinkers(void)
                 P_SetShadowColumnFunction(mobj);
                 thingindex = MIN(thingindex + 1, TARGETLIMIT - 1);
 
-                if ((mobj->flags & MF_COUNTKILL) && mobj->health > 0)
-                {
-                    if (!((mobj->flags ^ MF_COUNTKILL) & (MF_FRIEND | MF_COUNTKILL)))
-                        totalkills++;
-
-                    monstercount[mobj->type]++;
-                }
-
-                if (mobj->flags & MF_COUNTITEM)
+                if ((mobj->flags & MF_COUNTKILL)
+                    && mobj->health > 0
+                    && !((mobj->flags ^ MF_COUNTKILL) & (MF_FRIEND | MF_COUNTKILL)))
+                    totalkills++;
+                else if (mobj->flags & MF_COUNTITEM)
                     totalitems++;
 
                 break;
