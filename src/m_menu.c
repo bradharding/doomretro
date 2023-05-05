@@ -1696,7 +1696,8 @@ void M_SetWindowCaption(void)
     static char caption[512];
 
     if (gamestate == GS_LEVEL)
-        M_snprintf(caption, sizeof(caption), "%s \xC2\xB7 %s", mapnumandtitle, DOOMRETRO_NAME);
+        M_snprintf(caption, sizeof(caption), "%s \xC2\xB7 %s \xC2\xB7 %s",
+            mapnumandtitle, gamedescription, DOOMRETRO_NAME);
     else
     {
         if (nerve && (currentmenu == &ExpDef || currentmenu == &NewDef))
