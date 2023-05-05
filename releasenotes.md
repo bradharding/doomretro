@@ -4,8 +4,10 @@
 
 * *DOOM Retro* is now built using v17.5.5 of [*Microsoft Visual Studio Community 2022*](https://visualstudio.microsoft.com/vs/community/).
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
+* *DOOM Retro’s* window caption now always includes the text “DOOM Retro”.
 * Changes have been made to text that is output to the console.
 * Minor improvements have been made to the text that can be autocompleted in the console by pressing the <kbd><b>TAB</b></kbd> key.
+* The menu’s background is now rendered correctly if *DOOM Retro’s* window is extremely wide.
 * Adjusting the sliders in the options and sound volume menus using the mouse pointer is now more responsive when the `m_pointer` CVAR is `on`.
 * Widescreen mode can now be toggled using the <kbd><b>+</b></kbd> and <kbd><b>&ndash;</b></kbd> keys while the menu is open.
 * The `sucktime` CVAR now shows as being `off` when set to `0`, and now has a maximum value of `24` hours.
@@ -14,10 +16,8 @@
 * When the `flashkeys` CVAR is `on`:
   * Flashing keycards and skull keys are now positioned correctly in the alternate widescreen HUD.
   * Improvements have been made to flashing keycards and skull keys in the status bar when the player tries to open a *BOOM*-compatible door that requires all six keys.
-* The menu’s background is now rendered correctly in extremely wide windows.
 * Improvements have been made to the console’s background when the player has an invulnerability power-up or the `r_textures` CVAR is `off`.
 * The number of monsters left to kill in a map, displayed in the automap when the `am_playerstats` CVAR is `on`, is now always correct after loading a savegame.
-* *DOOM Retro’s* window caption now always includes the text “DOOM Retro”.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
