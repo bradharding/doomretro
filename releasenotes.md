@@ -17,6 +17,7 @@
 * The menu’s background is now rendered correctly in extremely wide windows.
 * Improvements have been made to the console’s background when the player has an invulnerability power-up or the `r_textures` CVAR is `off`.
 * The number of monsters left to kill in a map, displayed in the automap when the `am_playerstats` CVAR is `on`, is now always correct after loading a savegame.
+* *DOOM Retro’s* window caption now always includes the text “DOOM Retro”.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

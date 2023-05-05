@@ -1693,17 +1693,17 @@ static void M_DrawEpisode(void)
 
 void M_SetWindowCaption(void)
 {
-    static char caption[128];
+    static char caption[512];
 
     if (gamestate == GS_LEVEL)
-        M_StringCopy(caption, mapnumandtitle, sizeof(caption));
+        M_snprintf(caption, sizeof(caption), "%s \xC2\xB7 %s", mapnumandtitle, DOOMRETRO_NAME);
     else
     {
         if (nerve && (currentmenu == &ExpDef || currentmenu == &NewDef))
-            M_snprintf(caption, sizeof(caption), "%s: %s", gamedescription,
-                (expansion == 1 ? s_CAPTION_HELLONEARTH : s_CAPTION_NERVE));
+            M_snprintf(caption, sizeof(caption), "%s: %s \xC2\xB7 %s", gamedescription,
+                (expansion == 1 ? s_CAPTION_HELLONEARTH : s_CAPTION_NERVE), DOOMRETRO_NAME);
         else
-            M_StringCopy(caption, gamedescription, sizeof(caption));
+            M_snprintf(caption, sizeof(caption), "%s \xC2\xB7 %s", gamedescription, DOOMRETRO_NAME);
     }
 
     SDL_SetWindowTitle(window, caption);
