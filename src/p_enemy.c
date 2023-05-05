@@ -2462,9 +2462,9 @@ void A_RandomJump(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_LineEffect(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    line_t      junk = *lines;
-    player_t    newplayer = { 0 };
-    player_t    *oldplayer = actor->player;
+    line_t          junk = *lines;
+    static player_t newplayer = { 0 };
+    player_t        *oldplayer = actor->player;
 
     actor->player = &newplayer;
     newplayer.health = initial_health;
