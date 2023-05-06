@@ -19,6 +19,7 @@
 * Improvements have been made to the console’s background when the player has an invulnerability power-up or the `r_textures` CVAR is `off`.
 * The number of monsters left to kill in a map, displayed in the automap when the `am_playerstats` CVAR is `on`, is now always correct after loading a savegame.
 * The bounce of the player’s weapon when they land after a fall is now slightly faster when the `weaponbounce` CVAR is `on`.
+* The default value of the `am_markcolor` CVAR has been changed from `95` to `89`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

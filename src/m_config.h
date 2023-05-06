@@ -375,7 +375,7 @@ enum
 #define am_gridsize_default                "128x128"
 
 #define am_markcolor_min                   0
-#define am_markcolor_default               95
+#define am_markcolor_default               89
 #define am_markcolor_max                   255
 
 #define am_path_default                    false
