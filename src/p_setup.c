@@ -3289,7 +3289,7 @@ static bool P_ParseMapInfo(char *scriptname)
     while (SC_GetString())
     {
         int ep = 1;
-        int map;
+        int map = 0;
 
         if (SC_Compare("MAP"))
         {
@@ -3306,7 +3306,7 @@ static bool P_ParseMapInfo(char *scriptname)
                 }
                 else
                 {
-                    if (sscanf(temp, "E%1iM%1i", &ep, &map) != 2)
+                    if (sscanf(temp, "E%1iM%i", &ep, &map) != 2)
                         continue;
 
                     map += (ep - 1) * 10;
@@ -3544,7 +3544,7 @@ static bool P_ParseMapInfo(char *scriptname)
                                 }
                                 else
                                 {
-                                    if (sscanf(buffer, "E%1iM%1i", &nextepisode, &nextmap) != 2)
+                                    if (sscanf(buffer, "E%1iM%i", &nextepisode, &nextmap) != 2)
                                         continue;
                                 }
 
@@ -3618,7 +3618,7 @@ static bool P_ParseMapInfo(char *scriptname)
                                 }
                                 else
                                 {
-                                    if (sscanf(buffer, "E%1iM%1i", &nextepisode, &nextmap) != 2)
+                                    if (sscanf(buffer, "E%1iM%i", &nextepisode, &nextmap) != 2)
                                         continue;
                                 }
 
