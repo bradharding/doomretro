@@ -962,7 +962,7 @@ typedef struct
     lighttable_t        *nextcolormap;
     int                 color;
     void                (*colfunc)(void);
-} bloodsplatvissprite_t;
+} vissplat_t;
 
 //
 // Sprites are patches with a special naming convention

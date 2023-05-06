@@ -335,13 +335,13 @@ static void R_InitSpriteDefs(void)
 // GAME FUNCTIONS
 //
 
-static vissprite_t              *vissprites;
-static vissprite_t              **vissprite_ptrs;
-static unsigned int             num_vissprite;
-static unsigned int             num_bloodsplatvissprite;
-static unsigned int             num_vissprite_alloc = MAXVISSPRITES;
+static vissprite_t  *vissprites;
+static vissprite_t  **vissprite_ptrs;
+static unsigned int num_vissprite;
+static unsigned int num_vissplat;
+static unsigned int num_vissprite_alloc = MAXVISSPRITES;
 
-static bloodsplatvissprite_t    bloodsplatvissprites[r_bloodsplats_max_max];
+static vissplat_t   vissplats[r_bloodsplats_max_max];
 
 //
 // R_InitSprites
@@ -364,7 +364,7 @@ void R_InitSprites(void)
 void R_ClearSprites(void)
 {
     num_vissprite = 0;
-    num_bloodsplatvissprite = 0;
+    num_vissplat = 0;
 }
 
 //
@@ -598,9 +598,9 @@ static void R_DrawPlayerVisSprite(const vissprite_t *vis)
 }
 
 //
-// R_DrawBloodSplatVisSprite
+// R_DrawVisSplat
 //
-static void R_DrawBloodSplatVisSprite(const bloodsplatvissprite_t *vis)
+static void R_DrawVisSplat(const vissplat_t *vis)
 {
     fixed_t         frac = vis->startfrac;
     const fixed_t   xiscale = vis->xiscale;
@@ -695,12 +695,12 @@ static void R_ProjectSprite(mobj_t *thing)
     if (sprframe->rotate)
     {
         // choose a different rotation based on player view
-        const angle_t   ang = R_PointToAngle(fx, fy);
+        const angle_t   ang = R_PointToAngle(fx, fy) - thing->angle + (angle_t)(ANG45 / 2) * 9;
 
         if (sprframe->lump[0] == sprframe->lump[1])
-            rot = (ang - thing->angle + (angle_t)(ANG45 / 2) * 9) >> 28;
+            rot = ang >> 28;
         else
-            rot = (ang - thing->angle + (angle_t)(ANG45 / 2) * 9 - (angle_t)(ANG180 / 16)) >> 28;
+            rot = (ang - (angle_t)(ANG180 / 16)) >> 28;
 
         lump = sprframe->lump[rot];
         flip = ((sprframe->flip & (1 << rot)) || (flags2 & MF2_MIRRORED));
@@ -867,23 +867,25 @@ static int  skipsplat[3];
 
 static void R_ProjectBloodSplat(const bloodsplat_t *splat)
 {
-    fixed_t                 tx;
-    fixed_t                 xscale;
-    int                     x1;
-    int                     x2;
-    bloodsplatvissprite_t   *vis;
-    const fixed_t           fx = splat->x;
-    const fixed_t           fy = splat->y;
-    fixed_t                 width;
-    const fixed_t           tr_x = fx - viewx;
-    const fixed_t           tr_y = fy - viewy;
-    const fixed_t           tz = FixedMul(tr_x, viewcos) + FixedMul(tr_y, viewsin);
-    fixed_t                 splatdist;
-    mobj_t                  *mo = viewplayer->mo;
+    fixed_t         tx;
+    fixed_t         xscale;
+    int             x1;
+    int             x2;
+    vissplat_t      *vis;
+    const fixed_t   fx = splat->x;
+    const fixed_t   fy = splat->y;
+    fixed_t         width;
+    const fixed_t   tr_x = fx - viewx;
+    const fixed_t   tr_y = fy - viewy;
+    const fixed_t   tz = FixedMul(tr_x, viewcos) + FixedMul(tr_y, viewsin);
+    fixed_t         splatdist;
+    mobj_t          *mo;
 
     // splat is behind view plane?
     if (tz < MINZ)
         return;
+
+    mo = viewplayer->mo;
 
     if ((splatdist = P_ApproxDistance(splat->x - mo->x, splat->y - mo->y)) > (5000 << FRACBITS)
         || (splatdist > (2500 << FRACBITS) && (skipsplat[0]++ % 2))
@@ -912,7 +914,7 @@ static void R_ProjectBloodSplat(const bloodsplat_t *splat)
         return;
 
     // store information in a vissprite
-    vis = &bloodsplatvissprites[num_bloodsplatvissprite++];
+    vis = &vissplats[num_vissplat++];
 
     vis->scale = xscale;
     vis->gx = fx;
@@ -1201,7 +1203,7 @@ static void R_DrawPlayerSprites(void)
 //
 // R_DrawBloodSplatSprite
 //
-static void R_DrawBloodSplatSprite(const bloodsplatvissprite_t *splat)
+static void R_DrawBloodSplatSprite(const vissplat_t *splat)
 {
     const int       x1 = splat->x1;
     const int       x2 = splat->x2;
@@ -1247,7 +1249,7 @@ static void R_DrawBloodSplatSprite(const bloodsplatvissprite_t *splat)
     }
 
     // all clipping has been performed, so draw the blood splat
-    R_DrawBloodSplatVisSprite(splat);
+    R_DrawVisSplat(splat);
 }
 
 static void msort(vissprite_t **s, vissprite_t **t, unsigned int n)
@@ -1438,8 +1440,8 @@ void R_DrawMasked(void)
     invulnerable = (viewplayer->fixedcolormap == INVERSECOLORMAP && r_sprites_translucency);
 
     // draw all blood splats
-    for (int i = num_bloodsplatvissprite - 1; i >= 0; i--)
-        R_DrawBloodSplatSprite(&bloodsplatvissprites[i]);
+    for (int i = num_vissplat - 1; i >= 0; i--)
+        R_DrawBloodSplatSprite(&vissplats[i]);
 
     R_SortVisSprites();
 
