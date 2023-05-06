@@ -2325,13 +2325,13 @@ static void P_PutSecnode(msecnode_t *node)
 
 // phares 03/16/98
 //
-// P_AddSecnode() searches the current list to see if this sector is
+// P_AddSecNode() searches the current list to see if this sector is
 // already there. If not, it adds a sector node at the head of the list of
 // sectors this object appears in. This is called when creating a list of
 // nodes that will get linked in later. Returns a pointer to the new node.
 //
 // killough 11/98: reformatted
-static msecnode_t *P_AddSecnode(sector_t *s, mobj_t *thing, msecnode_t *nextnode)
+static msecnode_t *P_AddSecNode(sector_t *s, mobj_t *thing, msecnode_t *nextnode)
 {
     msecnode_t  *node = nextnode;
 
@@ -2369,12 +2369,12 @@ static msecnode_t *P_AddSecnode(sector_t *s, mobj_t *thing, msecnode_t *nextnode
     return node;
 }
 
-// P_DelSecnode() deletes a sector node from the list of
+// P_DelSecNode() deletes a sector node from the list of
 // sectors this object appears in. Returns a pointer to the next node
 // on the linked list.
 //
 // killough 11/98: reformatted
-static msecnode_t *P_DelSecnode(msecnode_t *node)
+static msecnode_t *P_DelSecNode(msecnode_t *node)
 {
     msecnode_t  *tp = node->m_tprev;    // prev node on thing thread
     msecnode_t  *tn = node->m_tnext;    // next node on thing thread
@@ -2411,7 +2411,7 @@ static msecnode_t *P_DelSecnode(msecnode_t *node)
 void P_DelSeclist(msecnode_t *node)
 {
     while (node)
-        node = P_DelSecnode(node);
+        node = P_DelSecNode(node);
 }
 
 // phares 03/14/98
@@ -2436,7 +2436,7 @@ static bool PIT_GetSectors(line_t *ld)
     // sector_list you're examining. If the Thing ends up being
     // allowed to move to this position, then the sector_list
     // will be attached to the Thing's mobj_t at touching_sectorlist.
-    sector_list = P_AddSecnode(ld->frontsector, tmthing, sector_list);
+    sector_list = P_AddSecNode(ld->frontsector, tmthing, sector_list);
 
     // Don't assume all lines are 2-sided, since some Things
     // like MT_TFOG are allowed regardless of whether their radius takes
@@ -2446,7 +2446,7 @@ static bool PIT_GetSectors(line_t *ld)
     // Use sidedefs instead of 2s flag to determine two-sidedness.
     // killough 08/01/98: avoid duplicate if same sector on both sides
     if (ld->backsector && ld->backsector != ld->frontsector)
-        sector_list = P_AddSecnode(ld->backsector, tmthing, sector_list);
+        sector_list = P_AddSecNode(ld->backsector, tmthing, sector_list);
 
     return true;
 }
@@ -2501,7 +2501,7 @@ void P_CreateSecNodeList(mobj_t *thing, const fixed_t x, const fixed_t y)
             P_BlockLinesIterator(bx, by, &PIT_GetSectors);
 
     // Add the sector of the (x,y) point to sector_list.
-    sector_list = P_AddSecnode(thing->subsector->sector, thing, sector_list);
+    sector_list = P_AddSecNode(thing->subsector->sector, thing, sector_list);
 
     // Now delete any nodes that won't be used. These are the ones where
     // m_thing is still NULL.
@@ -2513,7 +2513,7 @@ void P_CreateSecNodeList(mobj_t *thing, const fixed_t x, const fixed_t y)
             if (node == sector_list)
                 sector_list = node->m_tnext;
 
-            node = P_DelSecnode(node);
+            node = P_DelSecNode(node);
         }
         else
             node = node->m_tnext;

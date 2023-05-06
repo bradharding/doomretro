@@ -1458,7 +1458,7 @@ void P_SpawnBlood(const fixed_t x, const fixed_t y, const fixed_t z, angle_t ang
             th->momz = (2 + i / 6) * FRACUNIT;
 
             th->angle = angle;
-            angle += M_BigSubRandom() * ANGLEMUL;
+            angle += M_BigSubRandom() * ANGLEMULTIPLIER;
 
             if (damage <= 12 && th->state->nextstate != S_NULL)
                 P_SetMobjState(th, th->state->nextstate);
@@ -1529,7 +1529,7 @@ void P_SpawnBloodSplat(const fixed_t x, const fixed_t y, const int color,
                 P_SetBloodSplatColor(splat);
                 splat->x = x;
                 splat->y = y;
-                splat->angle = M_BigSubRandom() * ANGLEMUL;
+                splat->angle = M_BigSubRandom() * ANGLEMULTIPLIER;
                 splat->width = spritewidth[patch];
                 splat->sector = sec;
                 P_SetBloodSplatPosition(splat);
