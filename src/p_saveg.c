@@ -1395,7 +1395,7 @@ void P_UnarchiveThinkers(void)
                         splat->width = spritewidth[splat->patch];
                         splat->patch += firstspritelump;
                         P_SetBloodSplatColor(splat);
-                        splat->angle = M_BigSubRandom() * 0xB60B60;
+                        splat->angle = M_BigSubRandom() * ANGLEMUL;
                         splat->sector = R_PointInSubsector(splat->x, splat->y)->sector;
                         P_SetBloodSplatPosition(splat);
                         r_bloodsplats_total++;

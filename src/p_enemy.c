@@ -133,8 +133,8 @@ static bool P_CheckRange(mobj_t *actor, const fixed_t range)
         return false;
 
     // [BH] check difference in height as well
-    if (!infiniteheight && !compat_nopassover &&
-        (target->z > actor->z + actor->height || actor->z > target->z + target->height))
+    if (!infiniteheight && !compat_nopassover
+        && (target->z > actor->z + actor->height || actor->z > target->z + target->height))
         return false;
 
     if (!P_CheckSight(actor, target))

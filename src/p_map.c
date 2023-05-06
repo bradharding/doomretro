@@ -1938,8 +1938,8 @@ static bool PTR_NoWayTraverse(intercept_t *in)
     const unsigned short    flags = ld->flags;
 
     return (ld->special || ((flags & ML_TWOSIDED) && (flags & ML_BLOCKING)) || !((flags & ML_BLOCKING)
-        || (P_LineOpening(ld), (openrange <= 0 || openbottom > usething->z + 24 * FRACUNIT ||
-            opentop < usething->z + usething->height))));
+        || (P_LineOpening(ld), (openrange <= 0 || openbottom > usething->z + 24 * FRACUNIT
+            || opentop < usething->z + usething->height))));
 }
 
 bool P_DoorClosed(line_t *line)

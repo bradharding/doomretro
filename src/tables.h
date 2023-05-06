@@ -42,7 +42,7 @@
 
 #define ANGLETOFINESHIFT    19
 
-#define ANGLEMUL            0x2C62C6
+#define ANGLEMUL            0x002C62C6
 
 // Binary Angle Measurement, BAM.
 #define ANG1                (ANG45 / 45)
