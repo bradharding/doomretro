@@ -1693,21 +1693,15 @@ static void M_DrawEpisode(void)
 
 void M_SetWindowCaption(void)
 {
-    static char caption[512];
-
     if (gamestate == GS_LEVEL)
-        M_snprintf(caption, sizeof(caption), "%s \xC2\xB7 %s \xC2\xB7 %s",
-            mapnumandtitle, gamedescription, DOOMRETRO_NAME);
-    else
     {
-        if (nerve && (currentmenu == &ExpDef || currentmenu == &NewDef))
-            M_snprintf(caption, sizeof(caption), "%s: %s \xC2\xB7 %s", gamedescription,
-                (expansion == 1 ? s_CAPTION_HELLONEARTH : s_CAPTION_NERVE), DOOMRETRO_NAME);
-        else
-            M_snprintf(caption, sizeof(caption), "%s \xC2\xB7 %s", gamedescription, DOOMRETRO_NAME);
-    }
+        static char caption[1024];
 
-    SDL_SetWindowTitle(window, caption);
+        M_snprintf(caption, sizeof(caption), "%s \xC2\xB7 %s", mapnumandtitle, DOOMRETRO_NAME);
+        SDL_SetWindowTitle(window, caption);
+    }
+    else
+        SDL_SetWindowTitle(window, DOOMRETRO_NAME);
 }
 
 static void M_DrawExpansion(void)
@@ -2004,7 +1998,6 @@ void M_EndingGame(void)
         C_Input("endgame");
 
     C_AddConsoleDivider();
-    M_SetWindowCaption();
     D_StartTitle(1);
 }
 
@@ -3501,7 +3494,6 @@ bool M_Responder(event_t *ev)
             }
 
             keywait = I_GetTime() + 2;
-            M_SetWindowCaption();
             return false;
         }
         else if (key == KEY_UPARROW && keywait < I_GetTime() && !helpscreen)
@@ -3580,7 +3572,6 @@ bool M_Responder(event_t *ev)
             }
 
             keywait = I_GetTime() + 2;
-            M_SetWindowCaption();
             return false;
         }
 
@@ -3660,7 +3651,6 @@ bool M_Responder(event_t *ev)
                 noconsoleoutput = true;
             }
 
-            M_SetWindowCaption();
             skipaction = (currentmenu == &LoadDef || currentmenu == &SaveDef || currentmenu == &NewDef);
             keywait = I_GetTime() + 5;
             return skipaction;
@@ -3695,7 +3685,6 @@ bool M_Responder(event_t *ev)
             if (helpscreen)
                 R_SetViewSize(r_screensize);
 
-            M_SetWindowCaption();
             return true;
         }
 
@@ -3785,7 +3774,6 @@ bool M_Responder(event_t *ev)
                         C_IntegerCVAROutput(stringize(savegame), savegame);
                     }
 
-                    M_SetWindowCaption();
                     return false;
                 }
 
@@ -3847,7 +3835,6 @@ bool M_Responder(event_t *ev)
                         C_IntegerCVAROutput(stringize(savegame), savegame);
                     }
 
-                    M_SetWindowCaption();
                     return false;
                 }
         }
