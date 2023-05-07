@@ -5563,7 +5563,7 @@ static void C_PlayerStats_Game(void)
     }
 
     temp1 = commifystat(stat_mapsstarted);
-    C_TabbedOutput(tabs, "Maps started\t1\t%s", temp1);
+    C_TabbedOutput(tabs, "Maps started\t\x96\t%s", temp1);
     free(temp1);
 
     temp1 = commifystat(stat_mapscompleted);
@@ -5587,20 +5587,14 @@ static void C_PlayerStats_Game(void)
             (english == english_american ? "Favorite" : "Favourite"));
     else
     {
-        temp1 = titlecase(*skilllevels[skilllevel - 1]);
+        temp1 = titlecase(*skilllevels[favoriteskilllevel1]);
 
         if (temp1[strlen(temp1) - 1] == '.')
             temp1[strlen(temp1) - 1] = '\0';
 
-        temp2 = titlecase(*skilllevels[favoriteskilllevel1]);
-
-        if (temp2[strlen(temp2) - 1] == '.')
-            temp2[strlen(temp2) - 1] = '\0';
-
-        C_TabbedOutput(tabs, "%s skill level\t" ITALICS("%s") "\t" ITALICS("%s"),
-            (english == english_american ? "Favorite" : "Favourite"), temp1, temp2);
+        C_TabbedOutput(tabs, "%s skill level\t\x96\t" ITALICS("%s"),
+            (english == english_american ? "Favorite" : "Favourite"), temp1);
         free(temp1);
-        free(temp2);
     }
 
     for (int i = 0; i < NUMMOBJTYPES; i++)
