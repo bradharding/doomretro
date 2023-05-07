@@ -3523,7 +3523,7 @@ static bool P_ParseMapInfo(char *scriptname)
                         case MCMD_NEXT:
                         {
                             int nextepisode = 1;
-                            int nextmap;
+                            int nextmap = 0;
 
                             SC_MustGetString();
 
@@ -3603,7 +3603,7 @@ static bool P_ParseMapInfo(char *scriptname)
                         case MCMD_SECRETNEXT:
                         {
                             int nextepisode = 1;
-                            int nextmap;
+                            int nextmap = 0;
 
                             SC_MustGetString();
 

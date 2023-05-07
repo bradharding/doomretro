@@ -411,16 +411,16 @@ static int S_GetChannel(mobj_t *origin, sfxinfo_t *sfxinfo)
 // modifies parameters and returns true.
 static bool S_AdjustSoundParms(mobj_t *origin, int *vol, int *sep)
 {
-    fixed_t     dist = 0;
-    mobj_t      *listener = viewplayer->mo;
-    fixed_t     x = origin->x;
-    fixed_t     y = origin->y;
+    fixed_t dist = 0;
+    mobj_t  *listener = viewplayer->mo;
+    fixed_t x = origin->x;
+    fixed_t y = origin->y;
 
     // calculate the distance to sound origin and clip it if necessary
     // killough 11/98: scale coordinates down before calculations start
     // killough 12/98: use exact distance formula instead of approximation
-    fixed_t     adx = ABS((listener->x >> FRACBITS) - (x >> FRACBITS));
-    fixed_t     ady = ABS((listener->y >> FRACBITS) - (y >> FRACBITS));
+    fixed_t adx = ABS((listener->x >> FRACBITS) - (x >> FRACBITS));
+    fixed_t ady = ABS((listener->y >> FRACBITS) - (y >> FRACBITS));
 
     if (ady > adx)
         SWAP(adx, ady);

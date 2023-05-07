@@ -1276,9 +1276,9 @@ int G_GetParTime(void)
 
 static void G_DoCompleted(void)
 {
-    int map = (gameepisode - 1) * 10 + gamemap;
-    int nextmap = P_GetMapNext(map);
-    int secretnextmap = P_GetMapSecretNext(map);
+    const int   map = (gameepisode - 1) * 10 + gamemap;
+    const int   nextmap = P_GetMapNext(map);
+    const int   secretnextmap = P_GetMapSecretNext(map);
 
     gameaction = ga_nothing;
 
@@ -1444,8 +1444,8 @@ static void G_DoCompleted(void)
 //
 void G_WorldDone(void)
 {
-    char    *intertext = P_GetInterText(gamemap);
-    char    *intersecrettext = P_GetInterSecretText(gamemap);
+    const char  *intertext = P_GetInterText(gamemap);
+    const char  *intersecrettext = P_GetInterSecretText(gamemap);
 
     gameaction = ga_worlddone;
 
