@@ -142,7 +142,7 @@ static char mapcmdlump[7];
 
 bool        executingalias = false;
 bool        healthcvar = false;
-bool        nobindoutput;
+bool        nobindoutput = false;
 bool        quitcmd = false;
 bool        resettingcvar = false;
 bool        togglingcvar = false;
@@ -1658,13 +1658,13 @@ void bind_cmd_func2(char *cmd, char *parms)
                 action++;
             }
 
-            if (controls[i].type == keyboardcontrol && keyactionlist[controls[i].value])
+            if (controls[i].type == keyboardcontrol && *keyactionlist[controls[i].value])
             {
                 C_Output(BOLD("\"%s\"") " has been unbound from the " BOLD("%s") " control.",
                     keyactionlist[controls[i].value], controls[i].control);
                 keyactionlist[controls[i].value][0] = '\0';
             }
-            else if (controls[i].type == mousecontrol && mouseactionlist[controls[i].value])
+            else if (controls[i].type == mousecontrol && *mouseactionlist[controls[i].value])
             {
                 C_Output(BOLD("\"%s\"") " has been unbound from the " BOLD("%s") " control.",
                     mouseactionlist[controls[i].value], controls[i].control);
@@ -7991,6 +7991,7 @@ static void vanilla_cmd_func2(char *cmd, char *parms)
     static bool buddha;
     static bool hud;
     static bool showfps;
+    static bool strafe;
 
     if (*parms)
     {
@@ -8033,7 +8034,8 @@ static void vanilla_cmd_func2(char *cmd, char *parms)
         hud = r_hud;
         showfps = vid_showfps;
 
-        bind_cmd_func2("bind", "mouse2 +strafe");
+        if ((strafe = (mousestrafe != MOUSESTRAFE_DEFAULT)))
+            bind_cmd_func2("bind", "mouse2 +strafe");
 
         C_Output(s_STSTR_VON);
         HU_SetPlayerMessage(s_STSTR_VON, false, false);
@@ -8047,7 +8049,8 @@ static void vanilla_cmd_func2(char *cmd, char *parms)
         r_hud = hud;
         vid_showfps = showfps;
 
-        bind_cmd_func2("unbind", "mouse2 +strafe");
+        if (strafe)
+            bind_cmd_func2("unbind", "mouse2 +strafe");
 
         M_LoadCVARs(configfile);
         C_Output(s_STSTR_VOFF);
