@@ -1,6 +1,6 @@
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/releasenotes.png)
 
-#### DOOM Retro v5.0
+#### DOOM Retro v4.9.2
 
 * *DOOM Retro* is now built using v17.5.5 of [*Microsoft Visual Studio Community 2022*](https://visualstudio.microsoft.com/vs/community/).
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
@@ -23,8 +23,8 @@
 * The default value of the `am_markcolor` CVAR is now `89`.
 * The default values of the `joy_deadzone_left` and `joy_deadzone_right` CVARs are now both `25%`.
 * These changes have been made to vanilla mode toggled using the `vanilla` CCMD:
-  * The `+strafe` action is now bound to `mouse2` control, allowing the player to strafe with the mouse, and also to allow double-clicking of the button to use doors and switches.
-  * The speed the player can move forward and backward, and strafe left and right, has been reduced.
+  * The `+strafe` action is now bound to `mouse2` control again, allowing the player to strafe with the mouse, and also to allow the player to double-click the button to use doors and switches.
+  * The speed the player can move forward and back, and strafe left and right, has been reduced.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
