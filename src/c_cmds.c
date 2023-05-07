@@ -1595,16 +1595,20 @@ void bind_cmd_func2(char *cmd, char *parms)
                     case keyboardcontrol:
                         if (actions[action].keyboard1 && controls[i].value == *(int *)actions[action].keyboard1)
                         {
-                            C_Output("The " BOLD("%s") " action has been unbound from the " BOLD("%s") " control.",
-                                actions[action].action, controls[i].control);
+                            if (!nobindoutput)
+                                C_Output("The " BOLD("%s") " action has been unbound from the " BOLD("%s") " control.",
+                                    actions[action].action, controls[i].control);
+
                             *(int *)actions[action].keyboard1 = 0;
                             M_SaveCVARs();
                         }
 
                         if (actions[action].keyboard2 && controls[i].value == *(int *)actions[action].keyboard2)
                         {
-                            C_Output("The " BOLD("%s") " action has been unbound from the " BOLD("%s") " control.",
-                                actions[action].action, controls[i].control);
+                            if (!nobindoutput)
+                                C_Output("The " BOLD("%s") " action has been unbound from the " BOLD("%s") " control.",
+                                    actions[action].action, controls[i].control);
+
                             *(int *)actions[action].keyboard2 = 0;
                             M_SaveCVARs();
                         }
@@ -1614,8 +1618,10 @@ void bind_cmd_func2(char *cmd, char *parms)
                     case mousecontrol:
                         if (actions[action].mouse1 && controls[i].value == *(int *)actions[action].mouse1)
                         {
-                            C_Output("The " BOLD("%s") " action has been unbound from the " BOLD("%s") " control.",
-                                actions[action].action, controls[i].control);
+                            if (!nobindoutput)
+                                C_Output("The " BOLD("%s") " action has been unbound from the " BOLD("%s") " control.",
+                                    actions[action].action, controls[i].control);
+
                             *(int *)actions[action].mouse1 = -1;
                             M_SaveCVARs();
                         }
@@ -1625,16 +1631,20 @@ void bind_cmd_func2(char *cmd, char *parms)
                     case gamecontrollercontrol:
                         if (actions[action].gamecontroller1 && controls[i].value == *(int *)actions[action].gamecontroller1)
                         {
-                            C_Output("The " BOLD("%s") " action has been unbound from the " BOLD("%s") " control.",
-                                actions[action].action, controls[i].control);
+                            if (!nobindoutput)
+                                C_Output("The " BOLD("%s") " action has been unbound from the " BOLD("%s") " control.",
+                                    actions[action].action, controls[i].control);
+
                             *(int *)actions[action].gamecontroller1 = 0;
                             M_SaveCVARs();
                         }
 
                         if (actions[action].gamecontroller2 && controls[i].value == *(int *)actions[action].gamecontroller2)
                         {
-                            C_Output("The " BOLD("%s") " action has been unbound from the " BOLD("%s") " control.",
-                                actions[action].action, controls[i].control);
+                            if (!nobindoutput)
+                                C_Output("The " BOLD("%s") " action has been unbound from the " BOLD("%s") " control.",
+                                    actions[action].action, controls[i].control);
+
                             *(int *)actions[action].gamecontroller2 = 0;
                             M_SaveCVARs();
                         }
@@ -7996,6 +8006,7 @@ static void vanilla_cmd_func2(char *cmd, char *parms)
     else
         vanilla = !vanilla;
 
+    nobindoutput = true;
     togglingvanilla = true;
 
     if (vanilla)
@@ -8022,6 +8033,8 @@ static void vanilla_cmd_func2(char *cmd, char *parms)
         hud = r_hud;
         showfps = vid_showfps;
 
+        bind_cmd_func2("bind", "mouse2 +strafe");
+
         C_Output(s_STSTR_VON);
         HU_SetPlayerMessage(s_STSTR_VON, false, false);
         C_Warning(0, "Changes to any CVARs won't be saved while vanilla mode is on.");
@@ -8034,6 +8047,8 @@ static void vanilla_cmd_func2(char *cmd, char *parms)
         r_hud = hud;
         vid_showfps = showfps;
 
+        bind_cmd_func2("unbind", "mouse2 +strafe");
+
         M_LoadCVARs(configfile);
         C_Output(s_STSTR_VOFF);
         HU_SetPlayerMessage(s_STSTR_VOFF, false, false);
@@ -8045,6 +8060,8 @@ static void vanilla_cmd_func2(char *cmd, char *parms)
         C_HideConsole();
 
     I_RestartGraphics(false);
+
+    nobindoutput = false;
     togglingvanilla = false;
 }
 
