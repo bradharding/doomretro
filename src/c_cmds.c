@@ -5567,7 +5567,7 @@ static void C_PlayerStats_Game(void)
     free(temp1);
 
     temp1 = commifystat(stat_mapscompleted);
-    C_TabbedOutput(tabs, "Maps completed\t0\t%s", temp1);
+    C_TabbedOutput(tabs, "Maps completed\t\x96\t%s", temp1);
     free(temp1);
 
     temp1 = commify(viewplayer->gamessaved);
