@@ -485,7 +485,7 @@ void G_BuildTiccmd(ticcmd_t *cmd)
     if (mousex)
     {
         if (strafe)
-            side += mousex * 2;
+            side += mousex;
         else
         {
             cmd->angleturn -= mousex * 0x08;
@@ -502,7 +502,7 @@ void G_BuildTiccmd(ticcmd_t *cmd)
         if (usemouselook && !automapactive)
             cmd->lookdir = (m_invertyaxis ? -mousey : mousey);
         else if (!m_novertical)
-            forward += mousey;
+            forward += mousey / 2;
 
         mousey = 0;
     }
