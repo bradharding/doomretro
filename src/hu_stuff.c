@@ -978,6 +978,7 @@ static void DrawAltHUDNumber2(int x, int y, int val, int color, const byte *tint
 static int AltHUDNumber2Width(int val)
 {
     static int  widths[HUD_NUMBER_MAX + 1];
+    int         val2 = val;
 
     if (widths[val])
         return widths[val];
@@ -993,7 +994,7 @@ static int AltHUDNumber2Width(int val)
         else if (val >= 10)
             width = SHORT(altnum2[val / 10]->width) + 2;
 
-        return ((widths[val] = width + SHORT(altnum2[val % 10]->width)));
+        return ((widths[val2] = width + SHORT(altnum2[val % 10]->width)));
     }
 }
 
