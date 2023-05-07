@@ -497,11 +497,11 @@ enum
 #define joy_analog_default                 true
 
 #define joy_deadzone_left_min              0.0f
-#define joy_deadzone_left_default          24.0f
+#define joy_deadzone_left_default          25.0f
 #define joy_deadzone_left_max              100.0f
 
 #define joy_deadzone_right_min             0.0f
-#define joy_deadzone_right_default         26.5f
+#define joy_deadzone_right_default         25.0f
 #define joy_deadzone_right_max             100.0f
 
 #define joy_invertyaxis_default            false
