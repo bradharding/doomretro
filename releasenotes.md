@@ -21,6 +21,9 @@
 * The bounce of the player’s weapon when they land after a fall is now slightly faster when the `weaponbounce` CVAR is `on`.
 * The default value of the `am_markcolor` CVAR has been changed from to `89`.
 * The default values of the `joy_deadzone_left` and `joy_deadzone_right` CVARs have both been changed to `25%`.
+* These changes have been made to vanilla mode toggled using the `vanilla` CCMD:
+  * The `+strafe` action is now bound to `mouse2` control, allowing the player to strafe with the mouse, and also to allow double-clicking of the button to use doors and switches.
+  * The speed the player can move forward and backward, and strafe left and right, has been reduced.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
