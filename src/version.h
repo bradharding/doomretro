@@ -36,7 +36,7 @@
 #pragma once
 
 #define DOOMRETRO_VERSION               5,0,0,0
-#define DOOMRETRO_VERSIONSTRING         "5.02"
+#define DOOMRETRO_VERSIONSTRING         "5.0"
 #define DOOMRETRO_NAMEANDVERSIONSTRING  "DOOM Retro v5.0"
 #define DOOMRETRO_SAVEGAMEVERSIONSTRING "DOOM Retro v3.6"
 
