@@ -35,8 +35,6 @@
 
 #pragma once
 
-#include "SDL_endian.h"
-
 // Endianness handling.
 // WAD files are stored little endian.
 

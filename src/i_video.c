@@ -36,16 +36,12 @@
 #if defined(_WIN32)
 #include <Windows.h>
 #include <mmiscapi2.h>
-
-#include "SDL_syswm.h"
 #elif defined(X11)
 #include <X11/Xlib.h>
 #include <X11/XKBlib.h>
 #endif
 
 #include <math.h>
-
-#include "SDL_opengl.h"
 
 #include "am_map.h"
 #include "c_cmds.h"
