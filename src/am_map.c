@@ -459,7 +459,7 @@ static void AM_MaxOutWindowScale(void)
 
 static bool AM_GetSpeedToggle(void)
 {
-    return ((!!(gamecontrollerbuttons & GAMECONTROLLER_LEFT_TRIGGER)) ^ (!!(modstate & KMOD_SHIFT)));
+    return (!!(gamecontrollerbuttons & GAMECONTROLLER_LEFT_TRIGGER) != !!(modstate & KMOD_SHIFT));
 }
 
 static void AM_ToggleZoomOut(void)

@@ -927,13 +927,13 @@ static void DrawAltHUDNumber(int x, int y, int val, int color, const byte *tintt
 static int AltHUDNumberWidth(int val)
 {
     static int  widths[HUD_NUMBER_MAX + 1];
-    int         val2 = val;
 
     if (widths[val])
         return widths[val];
     else
     {
-        int width = 0;
+        int         width = 0;
+        const int   val2 = val;
 
         if (val >= 100)
         {
@@ -978,13 +978,13 @@ static void DrawAltHUDNumber2(int x, int y, int val, int color, const byte *tint
 static int AltHUDNumber2Width(int val)
 {
     static int  widths[HUD_NUMBER_MAX + 1];
-    int         val2 = val;
 
     if (widths[val])
         return widths[val];
     else
     {
-        int width = 0;
+        int         width = 0;
+        const int   val2 = val;
 
         if (val >= 100)
         {
@@ -1000,7 +1000,7 @@ static int AltHUDNumber2Width(int val)
 
 static void HU_DrawAltHUD(void)
 {
-    const bool      inverted = (viewplayer->fixedcolormap == INVERSECOLORMAP) ^ (!r_textures);
+    const bool      inverted = ((viewplayer->fixedcolormap == INVERSECOLORMAP) != !r_textures);
     const int       color = (inverted ? nearestblack : (r_hud_translucency ? nearestwhite : nearestlightgray));
     int             health = BETWEEN(HUD_NUMBER_MIN, viewplayer->health + healthdiff, HUD_NUMBER_MAX);
     int             armor = BETWEEN(0, viewplayer->armor + armordiff, HUD_NUMBER_MAX);

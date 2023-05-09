@@ -780,7 +780,7 @@ void C_HideConsoleFast(void)
 
 static void C_DrawBackground(void)
 {
-    const bool  inverted = (viewplayer->fixedcolormap == INVERSECOLORMAP) ^ (!r_textures);
+    const bool  inverted = ((viewplayer->fixedcolormap == INVERSECOLORMAP) != !r_textures);
     static byte blurscreen[MAXSCREENAREA];
     const int   height = (consoleheight + 5) * SCREENWIDTH;
 
@@ -1163,7 +1163,7 @@ void C_UpdateFPSOverlay(void)
 
     C_DrawOverlayText(screens[0], SCREENWIDTH, SCREENWIDTH - C_OverlayWidth(buffer, true) - OVERLAYTEXTX + 1,
         OVERLAYTEXTY, tinttab, buffer, (framespersecond < (refreshrate && vid_capfps != TICRATE ? refreshrate :
-        TICRATE) ? consoleoverlaywarningcolor : (((viewplayer->fixedcolormap == INVERSECOLORMAP) ^ (!r_textures))
+        TICRATE) ? consoleoverlaywarningcolor : (((viewplayer->fixedcolormap == INVERSECOLORMAP) != !r_textures)
         && !automapactive ? nearestblack : (r_hud_translucency ? consoleoverlaycolor : nearestlightgray))), true);
     free(temp);
 }
@@ -1193,7 +1193,7 @@ void C_UpdateTimerOverlay(void)
     }
 
     C_DrawOverlayText(screens[0], SCREENWIDTH, SCREENWIDTH - timerwidth - OVERLAYTEXTX + 1, y, tinttab,
-        buffer, (((viewplayer->fixedcolormap == INVERSECOLORMAP) ^ (!r_textures)) && !automapactive ?
+        buffer, (((viewplayer->fixedcolormap == INVERSECOLORMAP) != !r_textures) && !automapactive ?
         nearestblack : (r_hud_translucency ? consoleoverlaycolor : nearestlightgray)), true);
 }
 
@@ -1201,7 +1201,7 @@ void C_UpdatePlayerPositionOverlay(void)
 {
     const int   x = SCREENWIDTH - OVERLAYTEXTX + 1;
     int         y = OVERLAYTEXTY;
-    const int   color = (((viewplayer->fixedcolormap == INVERSECOLORMAP) ^ (!r_textures)) && !automapactive ?
+    const int   color = (((viewplayer->fixedcolormap == INVERSECOLORMAP) != !r_textures) && !automapactive ?
                     nearestblack : (r_hud_translucency ? consoleoverlaycolor : nearestlightgray));
     byte        *tinttab = (r_hud_translucency ? (automapactive ? tinttab70 : tinttab50) : NULL);
     static char angle[32];
