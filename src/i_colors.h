@@ -44,7 +44,8 @@
 #define BLUE2         201
 #define BLUE3         203
 #define DARKBLUE      244
-#define DARKGRAY      102
+#define DARKGRAY1     102
+#define DARKGRAY2     106
 #define GRAY           92
 #define GREEN1        112
 #define GREEN2        114
@@ -92,6 +93,7 @@ extern byte nearestcolors[256];
 
 extern byte nearestblack;
 extern byte nearestdarkblue;
+extern byte nearestdarkgray;
 extern byte nearestgold;
 extern byte nearestgreen;
 extern byte nearestlightgray;

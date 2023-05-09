@@ -884,7 +884,7 @@ static void HU_AltInit(void)
     }
 
     gray = nearestcolors[GRAY];
-    darkgray = nearestcolors[DARKGRAY];
+    darkgray = nearestcolors[DARKGRAY1];
 }
 
 static void DrawAltHUDNumber(int x, int y, int val, int color, const byte *tinttab)
@@ -1047,7 +1047,7 @@ static void HU_DrawAltHUD(void)
             color, (healthhighlight > currenttime ? tinttab80 : tinttab60));
     else
         DrawAltHUDNumber(ALTHUD_LEFT_X - AltHUDNumberWidth(ABS(health)), ALTHUD_Y + 12, health,
-            (healthhighlight > currenttime ? (inverted ? nearestblack : nearestwhite) : color), NULL);
+            (healthhighlight > currenttime ? (inverted ? nearestdarkgray : nearestwhite) : color), NULL);
 
     if (health == 100)
     {
@@ -1132,7 +1132,7 @@ static void HU_DrawAltHUD(void)
                 color, (armorhighlight > currenttime ? tinttab80 : tinttab60));
         else
             DrawAltHUDNumber2(ALTHUD_LEFT_X - AltHUDNumber2Width(armor), ALTHUD_Y, armor,
-                (armorhighlight > currenttime ? (inverted ? nearestblack : nearestwhite) : color), NULL);
+                (armorhighlight > currenttime ? (inverted ? nearestdarkgray : nearestwhite) : color), NULL);
 
         althudfunc(ALTHUD_LEFT_X + 8, ALTHUD_Y, altleftpatch2, WHITE, color, tinttab60);
 
@@ -1223,7 +1223,7 @@ static void HU_DrawAltHUD(void)
                     color, (ammohighlight > currenttime ? tinttab80 : tinttab60));
             else
                 DrawAltHUDNumber(ALTHUD_RIGHT_X + 101 - AltHUDNumberWidth(ammo), ALTHUD_Y - 2, ammo,
-                    (ammohighlight > currenttime ? (inverted ? nearestblack : nearestwhite) : color), NULL);
+                    (ammohighlight > currenttime ? (inverted ? nearestdarkgray : nearestwhite) : color), NULL);
 
             if (ammo)
             {
