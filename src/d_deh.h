@@ -485,6 +485,7 @@ extern char         *s_CAPTION_DBIMPACT;
 extern char         *s_CAPTION_DEATHLESS;
 extern char         *s_CAPTION_DOOMZERO;
 extern char         *s_CAPTION_EARTHLESS;
+extern char         *s_CAPTION_GANYMEDE;
 extern char         *s_CAPTION_HARMONY;
 extern char         *s_CAPTION_KDIKDIZD;
 extern char         *s_CAPTION_NEIS;

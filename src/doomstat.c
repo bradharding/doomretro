@@ -76,6 +76,7 @@ bool            dbimpact;
 bool            deathless;
 bool            doomzero;
 bool            earthless;
+bool            ganymede;
 bool            harmony;
 bool            neis;
 bool            revolution;

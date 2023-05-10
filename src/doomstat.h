@@ -122,6 +122,7 @@ extern bool             dbimpact;
 extern bool             deathless;
 extern bool             doomzero;
 extern bool             earthless;
+extern bool             ganymede;
 extern bool             harmony;
 extern bool             neis;
 extern bool             revolution;
