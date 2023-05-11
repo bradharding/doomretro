@@ -25,7 +25,7 @@
 * These changes have been made to vanilla mode toggled using the `vanilla` CCMD:
   * The `+strafe` action is now bound to `mouse2` control again, allowing the player to strafe with the mouse, and also to allow the player to double-click the button to use doors and switches.
   * The speed the player can move forward and back, and strafe left and right, has been reduced.
-* The player’s health, armor and ammo now flash when they change in the alternate widescreen HUD when the `r_hud_translucency` CVAR is `off` and the player has an invulnerability power-up or the `r_textures` CVAR is `off`.
+* Improvements have been made to the alternate widescreen HUD when the `r_hud_translucency` CVAR is `off` and either the `r_textures` CVAR is also `off` or the player has an invulnerability power-up or.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

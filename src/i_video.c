@@ -962,7 +962,7 @@ void I_UpdateBlitFunc(bool shaking)
 //
 void I_SetPalette(byte *playpal)
 {
-    if (r_color == r_color_max)
+    if (r_color == r_color_default)
     {
         for (int i = 0; i < 256; i++)
         {
@@ -1020,7 +1020,7 @@ void I_SetSimplePalette(byte *playpal)
 
 void I_SetPaletteWithBrightness(byte *playpal, double brightness)
 {
-    if (r_color == r_color_max)
+    if (r_color == r_color_default)
     {
         for (int i = 0; i < 256; i++)
         {
