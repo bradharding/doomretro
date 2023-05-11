@@ -16,7 +16,7 @@
 * When the `flashkeys` CVAR is `on`:
   * Flashing keycards and skull keys are now positioned correctly in the alternate widescreen HUD.
   * Improvements have been made to flashing keycards and skull keys in the status bar when the player tries to open a *BOOM*-compatible door that requires all six keys.
-* A bug is fixed whereby the amount of armor the player had was positioned incorrectly in the alternate widescreen HUD in some instances.
+* A bug is fixed whereby the amount of armor the player has was positioned incorrectly in the alternate widescreen HUD in some instances.
 * Improvements have been made to the console’s background when the player has an invulnerability power-up or the `r_textures` CVAR is `off`.
 * The number of monsters left to kill in a map, displayed in the automap when the `am_playerstats` CVAR is `on`, is now always correct after loading a savegame.
 * The bounce of the player’s weapon when they land after a fall is now slightly faster when the `weaponbounce` CVAR is `on`.
@@ -25,7 +25,7 @@
 * These changes have been made to vanilla mode toggled using the `vanilla` CCMD:
   * The `+strafe` action is now bound to `mouse2` control again, allowing the player to strafe with the mouse, and also to allow the player to double-click the button to use doors and switches.
   * The speed the player can move forward and back, and strafe left and right, has been reduced.
-* Improvements have been made to the alternate widescreen HUD when the `r_hud_translucency` CVAR is `off` and either the `r_textures` CVAR is also `off` or the player has an invulnerability power-up or.
+* Improvements have been made to the alternate widescreen HUD when the `r_hud_translucency` CVAR is `off` and either the `r_textures` CVAR is also `off` or the player has an invulnerability power-up.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
