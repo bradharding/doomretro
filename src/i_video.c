@@ -35,7 +35,7 @@
 
 #if defined(_WIN32)
 #include <Windows.h>
-#include <mmiscapi2.h>
+#include <mmsystem.h>
 #elif defined(X11)
 #include <X11/Xlib.h>
 #include <X11/XKBlib.h>
