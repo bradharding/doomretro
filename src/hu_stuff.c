@@ -1116,8 +1116,14 @@ static void HU_DrawAltHUD(void)
         else
         {
             fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 13, 101, 8, green3, green3, true, true, NULL, NULL);
-            fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 13, MAX(1, health - 99),
-                8, green2, green2, true, (health == 200), NULL, NULL);
+
+            if (inverted)
+                fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 13, MAX(1, health - 99),
+                    8, nearestdarkgray, nearestdarkgray, true, (health == 200), NULL, NULL);
+            else
+                fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 13, MAX(1, health - 99),
+                    8, green2, green2, true, (health == 200), NULL, NULL);
+
             althudfunc(ALTHUD_LEFT_X + 5, ALTHUD_Y + 11, altleftpatch1, WHITE, color, NULL);
             althudfunc(ALTHUD_LEFT_X + 25, ALTHUD_Y + 13, altendpatch, WHITE, green1, NULL);
             althudfunc(ALTHUD_LEFT_X + 123, ALTHUD_Y + 13, altmarkpatch, WHITE, green1, NULL);
@@ -1161,15 +1167,25 @@ static void HU_DrawAltHUD(void)
                 {
                     fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 2, 101,
                         4, green3, green3, true, true, NULL, NULL);
-                    fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 2, armor - 100 + (armor == 200),
-                        4, green2, green2, true, (armor == 200), NULL, NULL);
+
+                    if (inverted)
+                        fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 2, armor - 100 + (armor == 200),
+                            4, nearestdarkgray, nearestdarkgray, true, (armor == 200), NULL, NULL);
+                    else
+                        fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 2, armor - 100 + (armor == 200),
+                            4, green2, green2, true, (armor == 200), NULL, NULL);
                 }
                 else
                 {
-                    fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 2, 101, 4,
-                        blue3, gray, true, true, NULL, NULL);
-                    fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 2, armor - 100 + (armor == 200),
-                        4, blue2, blue2, true, (armor == 200), NULL, NULL);
+                    fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 2, 101,
+                        4, blue3, blue3, true, true, NULL, NULL);
+
+                    if (inverted)
+                        fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 2, armor - 100 + (armor == 200),
+                            4, nearestdarkgray, nearestdarkgray, true, (armor == 200), NULL, NULL);
+                    else
+                        fillrectfunc(0, ALTHUD_LEFT_X + 25, ALTHUD_Y + 2, armor - 100 + (armor == 200),
+                            4, blue2, blue2, true, (armor == 200), NULL, NULL);
                 }
             }
         }
@@ -1247,15 +1263,26 @@ static void HU_DrawAltHUD(void)
                     }
                     else
                     {
-                        const int   color2 = (inverted ? nearestblack : nearestwhite);
-
                         fillrectfunc(0, ALTHUD_RIGHT_X, ALTHUD_Y + 13, 101, 8, color, color, true, true, NULL, NULL);
-                        fillrectfunc(0, ALTHUD_RIGHT_X + 100 - ammo, ALTHUD_Y + 13, ammo + 1,
-                            8, color2, color2, false, true, NULL, NULL);
-                        althudfunc(ALTHUD_RIGHT_X, ALTHUD_Y + 13, altrightpatch, WHITE, color, NULL);
-                        althudfunc(ALTHUD_RIGHT_X + 100, ALTHUD_Y + 13, altendpatch, WHITE, color2, NULL);
-                        althudfunc(ALTHUD_RIGHT_X - 2, ALTHUD_Y + 13, altmarkpatch, WHITE, color2, NULL);
-                        althudfunc(ALTHUD_RIGHT_X + 100 - ammo - 2, ALTHUD_Y + 10, altmark2patch, WHITE, color2, NULL);
+
+                        if (inverted)
+                        {
+                            fillrectfunc(0, ALTHUD_RIGHT_X + 100 - ammo, ALTHUD_Y + 13, ammo + 1,
+                                8, nearestdarkgray, nearestdarkgray, false, true, NULL, NULL);
+                            althudfunc(ALTHUD_RIGHT_X, ALTHUD_Y + 13, altrightpatch, WHITE, color, NULL);
+                            althudfunc(ALTHUD_RIGHT_X + 100, ALTHUD_Y + 13, altendpatch, WHITE, nearestblack, NULL);
+                            althudfunc(ALTHUD_RIGHT_X - 2, ALTHUD_Y + 13, altmarkpatch, WHITE, nearestblack, NULL);
+                            althudfunc(ALTHUD_RIGHT_X + 100 - ammo - 2, ALTHUD_Y + 10, altmark2patch, WHITE, nearestblack, NULL);
+                        }
+                        else
+                        {
+                            fillrectfunc(0, ALTHUD_RIGHT_X + 100 - ammo, ALTHUD_Y + 13, ammo + 1,
+                                8, nearestwhite, nearestwhite, false, true, NULL, NULL);
+                            althudfunc(ALTHUD_RIGHT_X, ALTHUD_Y + 13, altrightpatch, WHITE, color, NULL);
+                            althudfunc(ALTHUD_RIGHT_X + 100, ALTHUD_Y + 13, altendpatch, WHITE, nearestwhite, NULL);
+                            althudfunc(ALTHUD_RIGHT_X - 2, ALTHUD_Y + 13, altmarkpatch, WHITE, nearestwhite, NULL);
+                            althudfunc(ALTHUD_RIGHT_X + 100 - ammo - 2, ALTHUD_Y + 10, altmark2patch, WHITE, nearestwhite, NULL);
+                        }
                     }
 
                 }
