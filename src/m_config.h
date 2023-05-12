@@ -588,10 +588,6 @@ enum
 
 #define r_brightmaps_default               true
 
-#define r_saturation_min                        0
-#define r_saturation_default                    100
-#define r_saturation_max                        200
-
 #define r_corpses_color_default            true
 
 #define r_corpses_gib_default              true
@@ -659,6 +655,10 @@ enum
 #define r_randomstartframes_default        true
 
 #define r_rockettrails_default             true
+
+#define r_saturation_min                   0
+#define r_saturation_default               100
+#define r_saturation_max                   200
 
 #define r_screensize_min                   0
 #define r_screensize_default               7

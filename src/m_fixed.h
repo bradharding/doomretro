@@ -48,45 +48,20 @@
 //
 // Fixed point, 32-bit as 16.16.
 //
-#define FRACBITS        16
-#define FRACUNIT        (1 << FRACBITS)
-#define FIXED2DOUBLE(a) ((a) / (double)FRACUNIT)
-#define FIXED_MIN       INT32_MIN
-#define FIXED_MAX       INT32_MAX
+#define FRACBITS            16
+#define FRACUNIT            (1 << FRACBITS)
+#define FIXED2DOUBLE(a)     ((a) / (double)FRACUNIT)
+#define FIXED_MIN           INT32_MIN
+#define FIXED_MAX           INT32_MAX
 
-#define SWAP(a, b)      (((a) ^= (b)), ((b) ^= (a)), ((a) ^= (b)))
+#define ABS(a)              ((a) < 0 ? -(a) : (a))
+#define BETWEEN(a, b, c)    ((b) < (a) ? (a) : ((b) > (c) ? (c) : (b)))
+#define MAX(a, b)           ((a) > (b) ? (a) : (b))
+#define MIN(a, b)           ((a) < (b) ? (a) : (b))
+#define SIGN(a)             ((a) < 0 ? -1 : 1)
+#define SWAP(a, b)          (((a) ^= (b)), ((b) ^= (a)), ((a) ^= (b)))
 
 typedef int32_t fixed_t;
-
-CONSTATTR static inline int ABS(int a)
-{
-    return (a < 0 ? -a : a);
-}
-
-CONSTATTR static inline int MAX(int a, int b)
-{
-    return (a > b ? a : b);
-}
-
-CONSTATTR static inline int MIN(int a, int b)
-{
-    return (a < b ? a : b);
-}
-
-CONSTATTR static inline int BETWEEN(int a, int b, int c)
-{
-    return (b < a ? a : (b > c ? c : b));
-}
-
-CONSTATTR static inline double BETWEENF(double a, double b, double c)
-{
-    return (b < a ? a : (b > c ? c : b));
-}
-
-CONSTATTR static inline int SIGN(int a)
-{
-    return (a < 0 ? -1 : 1);
-}
 
 CONSTATTR static inline fixed_t FixedMul(fixed_t a, fixed_t b)
 {

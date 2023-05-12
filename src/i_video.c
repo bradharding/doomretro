@@ -948,10 +948,12 @@ void I_UpdateBlitFunc(bool shaking)
     const bool  nearest = (nearestlinear && (displayheight % VANILLAHEIGHT));
 
     if (shaking && !software)
-        blitfunc = (nearest ? (vid_showfps ? &I_Blit_NearestLinear_ShowFPS_Shake : &I_Blit_NearestLinear_Shake) :
+        blitfunc = (nearest ?
+            (vid_showfps ? &I_Blit_NearestLinear_ShowFPS_Shake : &I_Blit_NearestLinear_Shake) :
             (vid_showfps ? &I_Blit_ShowFPS_Shake : &I_Blit_Shake));
     else
-        blitfunc = (nearest ? (vid_showfps ? &I_Blit_NearestLinear_ShowFPS : &I_Blit_NearestLinear) :
+        blitfunc = (nearest ?
+            (vid_showfps ? &I_Blit_NearestLinear_ShowFPS : &I_Blit_NearestLinear) :
             (vid_showfps ? &I_Blit_ShowFPS : &I_Blit));
 
     mapblitfunc = (mapwindow ? (nearest ? &I_Blit_Automap_NearestLinear : &I_Blit_Automap) : &nullfunc);
@@ -965,15 +967,12 @@ void I_SetPalette(byte *playpal)
     byte    *gamma = gammatable[gammaindex];
 
     if (r_saturation == r_saturation_default)
-    {
-
         for (int i = 0; i < 256; i++)
         {
             colors[i].r = gamma[*playpal++];
             colors[i].g = gamma[*playpal++];
             colors[i].b = gamma[*playpal++];
         }
-    }
     else
     {
         const double    saturation = r_saturation / 100.0;
@@ -985,9 +984,9 @@ void I_SetPalette(byte *playpal)
             const double    b = gamma[*playpal++];
             const double    p = sqrt(r * r * 0.299 + g * g * 0.587 + b * b * 0.114);
 
-            colors[i].r = (byte)BETWEENF(0.0, p + (r - p) * saturation, 255.0);
-            colors[i].g = (byte)BETWEENF(0.0, p + (g - p) * saturation, 255.0);
-            colors[i].b = (byte)BETWEENF(0.0, p + (b - p) * saturation, 255.0);
+            colors[i].r = (byte)BETWEEN(0.0, p + (r - p) * saturation, 255.0);
+            colors[i].g = (byte)BETWEEN(0.0, p + (g - p) * saturation, 255.0);
+            colors[i].b = (byte)BETWEEN(0.0, p + (b - p) * saturation, 255.0);
         }
     }
 
@@ -1023,14 +1022,12 @@ void I_SetPaletteWithBrightness(byte *playpal, double brightness)
     byte    *gamma = gammatable[gammaindex];
 
     if (r_saturation == r_saturation_default)
-    {
         for (int i = 0; i < 256; i++)
         {
             colors[i].r = (byte)(gamma[*playpal++] * brightness);
             colors[i].g = (byte)(gamma[*playpal++] * brightness);
             colors[i].b = (byte)(gamma[*playpal++] * brightness);
         }
-    }
     else
     {
         const double    saturation = r_saturation / 100.0;
@@ -1042,9 +1039,9 @@ void I_SetPaletteWithBrightness(byte *playpal, double brightness)
             const double    b = gamma[*playpal++] * brightness;
             const double    p = sqrt(r * r * 0.299 + g * g * 0.587 + b * b * 0.114);
 
-            colors[i].r = (byte)BETWEENF(0.0, p + (r - p) * saturation, 255.0);
-            colors[i].g = (byte)BETWEENF(0.0, p + (g - p) * saturation, 255.0);
-            colors[i].b = (byte)BETWEENF(0.0, p + (b - p) * saturation, 255.0);
+            colors[i].r = (byte)BETWEEN(0.0, p + (r - p) * saturation, 255.0);
+            colors[i].g = (byte)BETWEEN(0.0, p + (g - p) * saturation, 255.0);
+            colors[i].b = (byte)BETWEEN(0.0, p + (b - p) * saturation, 255.0);
         }
     }
 
