@@ -7861,7 +7861,7 @@ static void thinglist_cmd_func2(char *cmd, char *parms)
             }
         }
         else
-            C_TabbedOutput(tabs, "\x96\t%s\t(%i, %i, %i)",
+            C_TabbedOutput(tabs, "\t%s\t(%i, %i, %i)",
                 temp1, mobj->x >> FRACBITS, mobj->y >> FRACBITS, mobj->z >> FRACBITS);
 
         free(temp1);

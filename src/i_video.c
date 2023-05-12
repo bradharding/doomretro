@@ -984,9 +984,9 @@ void I_SetPalette(byte *playpal)
             const double    b = gamma[*playpal++];
             const double    p = sqrt(r * r * 0.299 + g * g * 0.587 + b * b * 0.114);
 
-            colors[i].r = (byte)BETWEEN(0.0, p + (r - p) * saturation, 255.0);
-            colors[i].g = (byte)BETWEEN(0.0, p + (g - p) * saturation, 255.0);
-            colors[i].b = (byte)BETWEEN(0.0, p + (b - p) * saturation, 255.0);
+            colors[i].r = (byte)BETWEEN(0, p + (r - p) * saturation, 255);
+            colors[i].g = (byte)BETWEEN(0, p + (g - p) * saturation, 255);
+            colors[i].b = (byte)BETWEEN(0, p + (b - p) * saturation, 255);
         }
     }
 
@@ -1039,9 +1039,9 @@ void I_SetPaletteWithBrightness(byte *playpal, double brightness)
             const double    b = gamma[*playpal++] * brightness;
             const double    p = sqrt(r * r * 0.299 + g * g * 0.587 + b * b * 0.114);
 
-            colors[i].r = (byte)BETWEEN(0.0, p + (r - p) * saturation, 255.0);
-            colors[i].g = (byte)BETWEEN(0.0, p + (g - p) * saturation, 255.0);
-            colors[i].b = (byte)BETWEEN(0.0, p + (b - p) * saturation, 255.0);
+            colors[i].r = (byte)BETWEEN(0, p + (r - p) * saturation, 255);
+            colors[i].g = (byte)BETWEEN(0, p + (g - p) * saturation, 255);
+            colors[i].b = (byte)BETWEEN(0, p + (b - p) * saturation, 255);
         }
     }
 

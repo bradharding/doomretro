@@ -2,7 +2,9 @@
 
 #### DOOM Retro v5.0
 
-* The `r_color` CVAR has now been renamed `r_saturation`. It’s maximum value is now `200%`, allowing colors on the screen to be over-saturated.
+* Minor optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
+* Changes have been made to text that is output to the console.
+* The `r_color` CVAR has now been renamed `r_saturation`, and it’s maximum value has increased to `200%`, allowing colors on the screen to be over-saturated.
 * A crash no longer occurs when trying to display certain patches with a height greater than 200px.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
