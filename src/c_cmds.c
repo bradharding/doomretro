@@ -437,7 +437,6 @@ static bool r_blood_cvar_func1(char *cmd, char *parms);
 static void r_blood_cvar_func2(char *cmd, char *parms);
 static void r_bloodsplats_translucency_cvar_func2(char *cmd, char *parms);
 static void r_brightmaps_cvar_func2(char *cmd, char *parms);
-static void r_color_cvar_func2(char *cmd, char *parms);
 static void r_corpses_mirrored_cvar_func2(char *cmd, char *parms);
 static bool r_detail_cvar_func1(char *cmd, char *parms);
 static void r_detail_cvar_func2(char *cmd, char *parms);
@@ -451,6 +450,7 @@ static void r_hud_translucency_cvar_func2(char *cmd, char *parms);
 static void r_lowpixelsize_cvar_func2(char *cmd, char *parms);
 static void r_mirroredweapons_cvar_func2(char *cmd, char *parms);
 static void r_randomstartframes_cvar_func2(char *cmd, char *parms);
+static void r_saturation_cvar_func2(char *cmd, char *parms);
 static void r_screensize_cvar_func2(char *cmd, char *parms);
 static void r_shadows_translucency_cvar_func2(char *cmd, char *parms);
 static void r_sprites_translucency_cvar_func2(char *cmd, char *parms);
@@ -796,8 +796,6 @@ consolecmd_t consolecmds[] =
         "Toggles the translucency of blood splats."),
     CVAR_BOOL(r_brightmaps, "", "", bool_cvars_func1, r_brightmaps_cvar_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles brightmaps on some wall textures."),
-    CVAR_INT(r_color, r_colour, "", int_cvars_func1, r_color_cvar_func2, CF_PERCENT, NOVALUEALIAS,
-        "The intensity of the colors on the screen (" BOLD("0%") " to " BOLD("200%") ")."),
     CVAR_BOOL(r_corpses_color, r_corpses_colour, "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles randomly colored marine corpses."),
     CVAR_BOOL(r_corpses_gib, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
@@ -862,6 +860,8 @@ consolecmd_t consolecmds[] =
         "Toggles randomizing the start frames of certain sprites."),
     CVAR_BOOL(r_rockettrails, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles the trail of smoke behind rockets fired by the player and cyberdemons."),
+    CVAR_INT(r_saturation, "", "", int_cvars_func1, r_saturation_cvar_func2, CF_PERCENT, NOVALUEALIAS,
+        "The saturation of the colors on the screen (" BOLD("0%") " to " BOLD("200%") ")."),
     CVAR_INT(r_screensize, "", "", int_cvars_func1, r_screensize_cvar_func2, CF_NONE, NOVALUEALIAS,
         "The screen size (" BOLD("0") " to " BOLD("8") ")."),
     CVAR_BOOL(r_shadows, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
@@ -9211,19 +9211,6 @@ static void r_brightmaps_cvar_func2(char *cmd, char *parms)
 }
 
 //
-// r_color CVAR
-//
-static void r_color_cvar_func2(char *cmd, char *parms)
-{
-    const int   r_color_old = r_color;
-
-    int_cvars_func2(cmd, parms);
-
-    if (r_color != r_color_old)
-        I_SetPalette(&PLAYPAL[st_palette * 768]);
-}
-
-//
 // r_corpses_mirrored CVAR
 //
 static void r_corpses_mirrored_cvar_func2(char *cmd, char *parms)
@@ -9700,6 +9687,19 @@ static void r_randomstartframes_cvar_func2(char *cmd, char *parms)
 
         free(temp1);
     }
+}
+
+//
+// r_saturation CVAR
+//
+static void r_saturation_cvar_func2(char *cmd, char *parms)
+{
+    const int   r_saturation_old = r_saturation;
+
+    int_cvars_func2(cmd, parms);
+
+    if (r_saturation != r_saturation_old)
+        I_SetPalette(&PLAYPAL[st_palette * 768]);
 }
 
 //

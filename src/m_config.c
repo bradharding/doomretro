@@ -132,7 +132,6 @@ int         r_bloodsplats_max = r_bloodsplats_max_default;
 int         r_bloodsplats_total;
 bool        r_bloodsplats_translucency = r_bloodsplats_translucency_default;
 bool        r_brightmaps = r_brightmaps_default;
-int         r_color = r_color_default;
 bool        r_corpses_color = r_corpses_color_default;
 bool        r_corpses_gib = r_corpses_gib_default;
 bool        r_corpses_mirrored = r_corpses_mirrored_default;
@@ -165,6 +164,7 @@ bool        r_playersprites = r_playersprites_default;
 bool        r_radsuiteffect = r_radsuiteffect_default;
 bool        r_randomstartframes = r_randomstartframes_default;
 bool        r_rockettrails = r_rockettrails_default;
+int         r_saturation = r_saturation_default;
 int         r_screensize = r_screensize_default;
 bool        r_shadows = r_shadows_default;
 bool        r_shadows_translucency = r_shadows_translucency_default;
@@ -369,7 +369,6 @@ static default_t cvars[] =
     CVAR_INT          (r_bloodsplats_max,                r_bloodsplats_max,                     r_bloodsplats_max,                   NOVALUEALIAS       ),
     CVAR_BOOL         (r_bloodsplats_translucency,       r_bloodsplats_translucency,            r_bloodsplats_translucency,          BOOLVALUEALIAS     ),
     CVAR_BOOL         (r_brightmaps,                     r_brightmaps,                          r_brightmaps,                        BOOLVALUEALIAS     ),
-    CVAR_INT_PERCENT  (r_color,                          r_colour,                              r_color,                             NOVALUEALIAS       ),
     CVAR_BOOL         (r_corpses_color,                  r_corpses_colour,                      r_corpses_color,                     BOOLVALUEALIAS     ),
     CVAR_BOOL         (r_corpses_gib,                    r_corpses_gib,                         r_corpses_gib,                       BOOLVALUEALIAS     ),
     CVAR_BOOL         (r_corpses_mirrored,               r_corpses_mirrored,                    r_corpses_mirrored,                  BOOLVALUEALIAS     ),
@@ -402,6 +401,7 @@ static default_t cvars[] =
     CVAR_BOOL         (r_radsuiteffect,                  r_radsuiteffect,                       r_radsuiteffect,                     BOOLVALUEALIAS     ),
     CVAR_BOOL         (r_randomstartframes,              r_randomstartframes,                   r_randomstartframes,                 BOOLVALUEALIAS     ),
     CVAR_BOOL         (r_rockettrails,                   r_rockettrails,                        r_rockettrails,                      BOOLVALUEALIAS     ),
+    CVAR_INT_PERCENT  (r_saturation,                     r_color,                               r_saturation,                        NOVALUEALIAS       ),
     CVAR_INT          (r_screensize,                     r_screensize,                          r_screensize,                        NOVALUEALIAS       ),
     CVAR_BOOL         (r_shadows,                        r_shadows,                             r_shadows,                           BOOLVALUEALIAS     ),
     CVAR_BOOL         (r_shadows_translucency,           r_shadows_translucency,                r_shadows_translucency,              BOOLVALUEALIAS     ),

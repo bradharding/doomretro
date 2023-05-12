@@ -964,7 +964,7 @@ void I_SetPalette(byte *playpal)
 {
     byte    *gamma = gammatable[gammaindex];
 
-    if (r_color == r_color_default)
+    if (r_saturation == r_saturation_default)
     {
 
         for (int i = 0; i < 256; i++)
@@ -976,7 +976,7 @@ void I_SetPalette(byte *playpal)
     }
     else
     {
-        const double    color = r_color / 100.0;
+        const double    saturation = r_saturation / 100.0;
 
         for (int i = 0; i < 256; i++)
         {
@@ -985,9 +985,9 @@ void I_SetPalette(byte *playpal)
             const double    b = gamma[*playpal++];
             const double    p = sqrt(r * r * 0.299 + g * g * 0.587 + b * b * 0.114);
 
-            colors[i].r = (byte)BETWEENF(0.0, p + (r - p) * color, 255.0);
-            colors[i].g = (byte)BETWEENF(0.0, p + (g - p) * color, 255.0);
-            colors[i].b = (byte)BETWEENF(0.0, p + (b - p) * color, 255.0);
+            colors[i].r = (byte)BETWEENF(0.0, p + (r - p) * saturation, 255.0);
+            colors[i].g = (byte)BETWEENF(0.0, p + (g - p) * saturation, 255.0);
+            colors[i].b = (byte)BETWEENF(0.0, p + (b - p) * saturation, 255.0);
         }
     }
 
@@ -1022,7 +1022,7 @@ void I_SetPaletteWithBrightness(byte *playpal, double brightness)
 {
     byte    *gamma = gammatable[gammaindex];
 
-    if (r_color == r_color_default)
+    if (r_saturation == r_saturation_default)
     {
         for (int i = 0; i < 256; i++)
         {
@@ -1033,7 +1033,7 @@ void I_SetPaletteWithBrightness(byte *playpal, double brightness)
     }
     else
     {
-        const double    color = r_color / 100.0;
+        const double    saturation = r_saturation / 100.0;
 
         for (int i = 0; i < 256; i++)
         {
@@ -1042,9 +1042,9 @@ void I_SetPaletteWithBrightness(byte *playpal, double brightness)
             const double    b = gamma[*playpal++] * brightness;
             const double    p = sqrt(r * r * 0.299 + g * g * 0.587 + b * b * 0.114);
 
-            colors[i].r = (byte)BETWEENF(0.0, p + (r - p) * color, 255.0);
-            colors[i].g = (byte)BETWEENF(0.0, p + (g - p) * color, 255.0);
-            colors[i].b = (byte)BETWEENF(0.0, p + (b - p) * color, 255.0);
+            colors[i].r = (byte)BETWEENF(0.0, p + (r - p) * saturation, 255.0);
+            colors[i].g = (byte)BETWEENF(0.0, p + (g - p) * saturation, 255.0);
+            colors[i].b = (byte)BETWEENF(0.0, p + (b - p) * saturation, 255.0);
         }
     }
 

@@ -65,7 +65,6 @@ r_blood red
 r_blood_melee off
 r_bloodsplats_max 0
 r_brightmaps off
-r_color 100%
 r_corpses_color off
 r_corpses_gib off
 r_corpses_mirrored off
@@ -98,6 +97,7 @@ r_playersprites on
 r_radsuiteffect on
 r_randomstartframes off
 r_rockettrails off
+r_saturation 100%
 r_screensize 6
 r_shadows off
 r_shake_barrels off

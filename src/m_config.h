@@ -123,7 +123,6 @@ extern int      r_bloodsplats_max;
 extern int      r_bloodsplats_total;
 extern bool     r_bloodsplats_translucency;
 extern bool     r_brightmaps;
-extern int      r_color;
 extern bool     r_corpses_color;
 extern bool     r_corpses_gib;
 extern bool     r_corpses_mirrored;
@@ -156,6 +155,7 @@ extern bool     r_playersprites;
 extern bool     r_radsuiteffect;
 extern bool     r_randomstartframes;
 extern bool     r_rockettrails;
+extern int      r_saturation;
 extern int      r_screensize;
 extern bool     r_shadows;
 extern bool     r_shadows_translucency;
@@ -588,9 +588,9 @@ enum
 
 #define r_brightmaps_default               true
 
-#define r_color_min                        0
-#define r_color_default                    100
-#define r_color_max                        200
+#define r_saturation_min                        0
+#define r_saturation_default                    100
+#define r_saturation_max                        200
 
 #define r_corpses_color_default            true
 
