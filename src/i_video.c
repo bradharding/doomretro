@@ -957,95 +957,15 @@ void I_UpdateBlitFunc(bool shaking)
     mapblitfunc = (mapwindow ? (nearest ? &I_Blit_Automap_NearestLinear : &I_Blit_Automap) : &nullfunc);
 }
 
-static double HUEtoRGB(double p, double q, double t)
-{
-    if (t < 0)
-        t++;
-
-    if (t > 1)
-        t--;
-
-    if (t < 1 / 6.0)
-        return (p + (q - p) * 6 * t);
-
-    if (t < 1 / 2.0)
-        return q;
-
-    if (t < 2 / 3.0)
-        return (p + (q - p) * (2 / 3.0 - t) * 6);
-
-    return p;
-}
-
-static void I_SaturatePaletteColors(byte *playpal, double saturation, double brightness)
-{
-    byte    *gamma = gammatable[gammaindex];
-
-    saturation /= 100.0;
-
-    for (int i = 0; i < 256; i++)
-    {
-        byte    r = (byte)(gamma[*playpal++] * brightness);
-        byte    g = (byte)(gamma[*playpal++] * brightness);
-        byte    b = (byte)(gamma[*playpal++] * brightness);
-
-        // Convert RGB to HSL
-        double          h, s, l;
-        const double    rf = r / 255.0;
-        const double    gf = g / 255.0;
-        const double    bf = b / 255.0;
-        const double    cmax = fmax(rf, fmax(gf, bf));
-        const double    cmin = fmin(rf, fmin(gf, bf));
-        const double    delta = cmax - cmin;
-
-        if (!delta)
-            h = 0.0;
-        else if (cmax == rf)
-            h = fmod((gf - bf) / delta, 6.0);
-        else if (cmax == gf)
-            h = (bf - rf) / delta + 2.0;
-        else
-            h = (rf - gf) / delta + 4.0;
-
-        if ((h *= 60.0) < 0.0)
-            h += 360.0;
-
-        l = (cmax + cmin) / 2.0;
-        s = delta / (1 - fabs(2.0 * l - 1.0));
-
-        // Apply saturation
-        s *= saturation;
-
-        // Convert back to RGB
-        if (!s)
-        {
-            // Achromatic
-            l *= 255.0;
-            colors[i].r = (byte)l;
-            colors[i].g = (byte)l;
-            colors[i].b = (byte)l;
-        }
-        else
-        {
-            const double    q = (l < 0.5 ? l * (1.0 + s) : l + s - l * s);
-            const double    p = 2.0 * l - q;
-            const double    hk = h / 360.0;
-
-            colors[i].r = (byte)BETWEENF(0.0, HUEtoRGB(p, q, hk + 1 / 3.0) * 255.0, 255.0);
-            colors[i].g = (byte)BETWEENF(0.0, HUEtoRGB(p, q, hk) * 255.0, 255.0);
-            colors[i].b = (byte)BETWEENF(0.0, HUEtoRGB(p, q, hk - 1 / 3.0) * 255.0, 255.0);
-        }
-    }
-}
-
 //
 // I_SetPalette
 //
 void I_SetPalette(byte *playpal)
 {
+    byte    *gamma = gammatable[gammaindex];
+
     if (r_color == r_color_default)
     {
-        byte    *gamma = gammatable[gammaindex];
 
         for (int i = 0; i < 256; i++)
         {
@@ -1055,7 +975,21 @@ void I_SetPalette(byte *playpal)
         }
     }
     else
-        I_SaturatePaletteColors(playpal, r_color, 1.0);
+    {
+        const double    color = r_color / 100.0;
+
+        for (int i = 0; i < 256; i++)
+        {
+            const double    r = gamma[*playpal++];
+            const double    g = gamma[*playpal++];
+            const double    b = gamma[*playpal++];
+            const double    p = sqrt(r * r * 0.299 + g * g * 0.587 + b * b * 0.114);
+
+            colors[i].r = (byte)BETWEENF(0.0, p + (r - p) * color, 255.0);
+            colors[i].g = (byte)BETWEENF(0.0, p + (g - p) * color, 255.0);
+            colors[i].b = (byte)BETWEENF(0.0, p + (b - p) * color, 255.0);
+        }
+    }
 
     SDL_SetPaletteColors(palette, colors, 0, 256);
 
@@ -1086,10 +1020,10 @@ void I_SetSimplePalette(byte *playpal)
 
 void I_SetPaletteWithBrightness(byte *playpal, double brightness)
 {
+    byte    *gamma = gammatable[gammaindex];
+
     if (r_color == r_color_default)
     {
-        byte    *gamma = gammatable[gammaindex];
-
         for (int i = 0; i < 256; i++)
         {
             colors[i].r = (byte)(gamma[*playpal++] * brightness);
@@ -1098,7 +1032,21 @@ void I_SetPaletteWithBrightness(byte *playpal, double brightness)
         }
     }
     else
-        I_SaturatePaletteColors(playpal, r_color, brightness);
+    {
+        const double    color = r_color / 100.0;
+
+        for (int i = 0; i < 256; i++)
+        {
+            const double    r = gamma[*playpal++] * brightness;
+            const double    g = gamma[*playpal++] * brightness;
+            const double    b = gamma[*playpal++] * brightness;
+            const double    p = sqrt(r * r * 0.299 + g * g * 0.587 + b * b * 0.114);
+
+            colors[i].r = (byte)BETWEENF(0.0, p + (r - p) * color, 255.0);
+            colors[i].g = (byte)BETWEENF(0.0, p + (g - p) * color, 255.0);
+            colors[i].b = (byte)BETWEENF(0.0, p + (b - p) * color, 255.0);
+        }
+    }
 
     SDL_SetPaletteColors(palette, colors, 0, 256);
 }
