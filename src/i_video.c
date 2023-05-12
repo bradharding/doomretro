@@ -957,7 +957,7 @@ void I_UpdateBlitFunc(bool shaking)
     mapblitfunc = (mapwindow ? (nearest ? &I_Blit_Automap_NearestLinear : &I_Blit_Automap) : &nullfunc);
 }
 
-static double HSLtoRGB(double p, double q, double t)
+static double HUEtoRGB(double p, double q, double t)
 {
     if (t < 0)
         t++;
@@ -977,9 +977,11 @@ static double HSLtoRGB(double p, double q, double t)
     return p;
 }
 
-static void I_SaturatePaletteColors(byte *playpal, double brightness)
+static void I_SaturatePaletteColors(byte *playpal, double saturation, double brightness)
 {
     byte    *gamma = gammatable[gammaindex];
+
+    saturation /= 100.0;
 
     for (int i = 0; i < 256; i++)
     {
@@ -988,51 +990,54 @@ static void I_SaturatePaletteColors(byte *playpal, double brightness)
         byte    b = (byte)(gamma[*playpal++] * brightness);
 
         // Convert RGB to HSL
-        double  h, s, l;
-        double  rf = r / 255.0;
-        double  gf = g / 255.0;
-        double  bf = b / 255.0;
-        double  cmax = fmax(rf, fmax(gf, bf));
-        double  cmin = fmin(rf, fmin(gf, bf));
-        double  delta = cmax - cmin;
+        double          h, s, l;
+        const double    rf = r / 255.0;
+        const double    gf = g / 255.0;
+        const double    bf = b / 255.0;
+        const double    cmax = fmax(rf, fmax(gf, bf));
+        const double    cmin = fmin(rf, fmin(gf, bf));
+        const double    delta = cmax - cmin;
 
         if (!delta)
-            h = 0;
+            h = 0.0;
         else if (cmax == rf)
-            h = fmod((gf - bf) / delta, 6);
+            h = fmod((gf - bf) / delta, 6.0);
         else if (cmax == gf)
-            h = (bf - rf) / delta + 2;
+            h = (bf - rf) / delta + 2.0;
         else
-            h = (rf - gf) / delta + 4;
+            h = (rf - gf) / delta + 4.0;
 
-        if ((h *= 60) < 0)
-            h += 360;
+        if ((h *= 60.0) < 0.0)
+            h += 360.0;
 
-        l = (cmax + cmin) / 2;
-        s = delta / (1 - fabs(2 * l - 1));
+        l = (cmax + cmin) / 2.0;
+        s = delta / (1 - fabs(2.0 * l - 1.0));
 
         // Apply saturation
-        s *= r_color / 100.0;
+        s *= saturation;
 
         // Convert back to RGB
         if (!s)
-            r = g = b = (byte)(l * 255.0);
+        {
+            // Achromatic
+            l *= 255.0;
+            colors[i].r = (byte)l;
+            colors[i].g = (byte)l;
+            colors[i].b = (byte)l;
+        }
         else
         {
-            double  q = (l < 0.5 ? l * (1 + s) : l + s - l * s);
-            double  p = 2 * l - q;
-            double  hk = h / 360;
+            const double    q = (l < 0.5 ? l * (1.0 + s) : l + s - l * s);
+            const double    p = 2.0 * l - q;
+            const double    hk = h / 360.0;
 
-            r = (byte)fmax(0, fmin(255, HSLtoRGB(p, q, hk + 1 / 3.0) * 255));
-            g = (byte)fmax(0, fmin(255, HSLtoRGB(p, q, hk) * 255));
-            b = (byte)fmax(0, fmin(255, HSLtoRGB(p, q, hk - 1 / 3.0) * 255));
+            colors[i].r = (byte)BETWEENF(0.0, HUEtoRGB(p, q, hk + 1 / 3.0) * 255.0, 255.0);
+            colors[i].g = (byte)BETWEENF(0.0, HUEtoRGB(p, q, hk) * 255.0, 255.0);
+            colors[i].b = (byte)BETWEENF(0.0, HUEtoRGB(p, q, hk - 1 / 3.0) * 255.0, 255.0);
         }
-
-        colors[i].r = r;
-        colors[i].g = g;
-        colors[i].b = b;
     }
 }
+
 //
 // I_SetPalette
 //
@@ -1050,7 +1055,7 @@ void I_SetPalette(byte *playpal)
         }
     }
     else
-        I_SaturatePaletteColors(playpal, 1.0);
+        I_SaturatePaletteColors(playpal, r_color, 1.0);
 
     SDL_SetPaletteColors(palette, colors, 0, 256);
 
@@ -1093,7 +1098,7 @@ void I_SetPaletteWithBrightness(byte *playpal, double brightness)
         }
     }
     else
-        I_SaturatePaletteColors(playpal, brightness);
+        I_SaturatePaletteColors(playpal, r_color, brightness);
 
     SDL_SetPaletteColors(palette, colors, 0, 256);
 }

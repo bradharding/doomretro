@@ -213,7 +213,7 @@ void V_DrawPatch(int x, int y, int screen, patch_t *patch)
             int         count = (length * DY) >> FRACBITS;
             int         srccol = 0;
 
-            while (count--)
+            while (count-- > 0)
             {
                 *dest = source[srccol >> FRACBITS];
                 dest += SCREENWIDTH;
@@ -453,7 +453,7 @@ void V_DrawMenuBorderPatch(int x, int y, patch_t *patch, byte color)
             destright = &desttopright[topdelta * SCREENWIDTH];
             count = lastlength = column->length;
 
-            while (count--)
+            while (count-- > 0)
             {
                 if (*source == nearestcolors[96])
                 {
@@ -574,7 +574,7 @@ void V_DrawConsolePatch(int x, int y, patch_t *patch, int maxwidth)
         int         count = column->length;
         int         height = y + 1;
 
-        while (count--)
+        while (count-- > 0)
         {
             if (height > 0)
             {
@@ -609,7 +609,7 @@ void V_DrawConsoleBrandingPatch(int x, int y, patch_t *patch)
         if (x > SCREENWIDTH)
             return;
 
-        while (count--)
+        while (count-- > 0)
         {
             if (*source && height > 0)
                 *dest = (*source == WHITE || *source == LIGHTGRAY2 ? nearestcolors[*source] :
@@ -666,7 +666,7 @@ void V_DrawPatchToTempScreen(int x, int y, patch_t *patch)
             int         count = (length * DY) >> FRACBITS;
             int         srccol = 0;
 
-            while (count--)
+            while (count-- > 0)
             {
                 *dest = source[srccol >> FRACBITS];
                 dest += SCREENWIDTH;
@@ -705,7 +705,7 @@ void V_DrawHUDText(int x, int y, byte *screen, patch_t *patch, int screenwidth)
             int         count = (length * DY) >> FRACBITS;
             int         srccol = 0;
 
-            while (count--)
+            while (count-- > 0)
             {
                 *dest = source[srccol >> FRACBITS];
                 dest += screenwidth;
@@ -740,7 +740,7 @@ void V_DrawTranslucentHUDText(int x, int y, byte *screen, patch_t *patch, int sc
             int         count = (length * DY) >> FRACBITS;
             int         srccol = 0;
 
-            while (count--)
+            while (count-- > 0)
             {
                 *dest = tinttab25[(*dest << 8) + source[srccol >> FRACBITS]];
                 dest += screenwidth;
@@ -854,7 +854,7 @@ void V_DrawPatchWithShadow(int x, int y, patch_t *patch, bool flag)
             int         count = (length * DY) >> FRACBITS;
             int         srccol = 0;
 
-            while (count--)
+            while (count-- > 0)
             {
                 const int   height = (((y + column->topdelta + length) * DY) >> FRACBITS) - count;
 
@@ -896,7 +896,7 @@ void V_DrawHUDPatch(int x, int y, patch_t *patch, const byte *tinttab)
             const byte  length = column->length;
             byte        count = length;
 
-            while (count--)
+            while (count-- > 0)
             {
                 *dest = *source++;
                 dest += SCREENWIDTH;
@@ -924,7 +924,7 @@ void V_DrawHighlightedHUDNumberPatch(int x, int y, patch_t *patch, const byte *t
             const byte  length = column->length;
             byte        count = length;
 
-            while (count--)
+            while (count-- > 0)
             {
                 byte    dot = *source++;
 
@@ -954,7 +954,7 @@ void V_DrawTranslucentHUDPatch(int x, int y, patch_t *patch, const byte *tinttab
             const byte  length = column->length;
             byte        count = length;
 
-            while (count--)
+            while (count-- > 0)
             {
                 *dest = tinttab[(*source++ << 8) + *dest];
                 dest += SCREENWIDTH;
@@ -982,7 +982,7 @@ void V_DrawTranslucentHUDNumberPatch(int x, int y, patch_t *patch, const byte *t
             const byte  length = column->length;
             byte        count = length;
 
-            while (count--)
+            while (count-- > 0)
             {
                 byte    dot = *source++;
 
@@ -1012,7 +1012,7 @@ void V_DrawAltHUDPatch(int x, int y, patch_t *patch, int from, int to, const byt
             const byte  length = column->length;
             byte        count = length;
 
-            while (count--)
+            while (count-- > 0)
             {
                 byte    dot = *source++;
 
@@ -1049,7 +1049,7 @@ void V_DrawTranslucentAltHUDPatch(int x, int y, patch_t *patch, int from, int to
             const byte  length = column->length;
             byte        count = length;
 
-            while (count--)
+            while (count-- > 0)
             {
                 byte    dot = *source++;
 
@@ -1097,7 +1097,7 @@ void V_DrawTranslucentRedPatch(int x, int y, patch_t *patch)
             int         count = (length * DY) >> FRACBITS;
             int         srccol = 0;
 
-            while (count--)
+            while (count-- > 0)
             {
                 *dest = tinttabred[(*dest << 8) + source[srccol >> FRACBITS]];
                 dest += SCREENWIDTH;
@@ -1145,7 +1145,7 @@ void V_DrawFlippedPatch(int x, int y, patch_t *patch)
             int         count = (length * DY) >> FRACBITS;
             int         srccol = 0;
 
-            while (count--)
+            while (count-- > 0)
             {
                 *dest = source[srccol >> FRACBITS];
                 dest += SCREENWIDTH;
@@ -1303,7 +1303,7 @@ void V_DrawFlippedTranslucentRedPatch(int x, int y, patch_t *patch)
             int         count = (length * DY) >> FRACBITS;
             int         srccol = 0;
 
-            while (count--)
+            while (count-- > 0)
             {
                 *dest = tinttabred[(*dest << 8) + source[srccol >> FRACBITS]];
                 dest += SCREENWIDTH;
@@ -1338,7 +1338,7 @@ void V_DrawFuzzPatch(int x, int y, patch_t *patch)
             const byte  length = column->length;
             int         count = (length * DY) >> FRACBITS;
 
-            while (count--)
+            while (count-- > 0)
             {
                 if (count & 1)
                 {
@@ -1380,7 +1380,7 @@ void V_DrawFlippedFuzzPatch(int x, int y, patch_t *patch)
             const byte  length = column->length;
             int         count = (length * DY) >> FRACBITS;
 
-            while (count--)
+            while (count-- > 0)
             {
                 if (count & 1)
                 {
@@ -1435,7 +1435,7 @@ void V_DrawNoGreenPatchWithShadow(int x, int y, patch_t *patch)
             int         count = (length * DY) >> FRACBITS;
             int         srccol = 0;
 
-            while (count--)
+            while (count-- > 0)
             {
                 byte    src = source[srccol >> FRACBITS];
 
@@ -1483,7 +1483,7 @@ void V_DrawTranslucentNoGreenPatch(int x, int y, patch_t *patch)
             int         count = (length * DY) >> FRACBITS;
             int         srccol = 0;
 
-            while (count--)
+            while (count-- > 0)
             {
                 byte    src = source[srccol >> FRACBITS];
 

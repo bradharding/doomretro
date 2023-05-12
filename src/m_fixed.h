@@ -78,7 +78,7 @@ CONSTATTR static inline int BETWEEN(int a, int b, int c)
     return (b < a ? a : (b > c ? c : b));
 }
 
-CONSTATTR static inline float BETWEENF(float a, float b, float c)
+CONSTATTR static inline double BETWEENF(double a, double b, double c)
 {
     return (b < a ? a : (b > c ? c : b));
 }
