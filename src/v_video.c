@@ -265,7 +265,7 @@ void V_DrawWidePatch(int x, int y, int screen, patch_t *patch)
             if (top + count > SCREENHEIGHT)
                 count = SCREENHEIGHT - top;
 
-            while (count--)
+            while (count-- > 0)
             {
                 if (top++ >= 0)
                     *dest = source[srccol >> FRACBITS];

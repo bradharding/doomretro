@@ -3,6 +3,7 @@
 #### DOOM Retro v5.0
 
 * The maximum of the `r_color` CVAR is now `200%`, allowing colors on the screen to be over-saturated.
+* A crash no longer occurs when trying to display a patch with a height greater than 200px.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
