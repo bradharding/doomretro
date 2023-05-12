@@ -546,10 +546,7 @@ bool ST_Responder(event_t *ev)
                     HU_SetPlayerMessage(s_STSTR_FAADDED, false, false);
                 }
                 else
-                {
-                    ST_PlayerCheated(cheat_ammonokey.sequence, NULL, false);
                     cheatfailed = true;
-                }
             }
 
             // 'kfa' cheat for key full ammo
@@ -591,10 +588,7 @@ bool ST_Responder(event_t *ev)
                     HU_SetPlayerMessage(s_STSTR_KFAADDED, false, false);
                 }
                 else
-                {
-                    ST_PlayerCheated(cheat_ammo.sequence, NULL, false);
                     cheatfailed = true;
-                }
             }
 
             // 'mus' cheat for changing music
