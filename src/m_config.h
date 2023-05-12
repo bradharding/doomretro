@@ -590,7 +590,7 @@ enum
 
 #define r_color_min                        0
 #define r_color_default                    100
-#define r_color_max                        100
+#define r_color_max                        200
 
 #define r_corpses_color_default            true
 
