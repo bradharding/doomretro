@@ -7984,8 +7984,8 @@ static void vanilla_cmd_func2(char *cmd, char *parms)
 {
     static bool buddha;
     static bool hud;
+    static bool nomousestrafe;
     static bool showfps;
-    static bool strafe;
 
     if (*parms)
     {
@@ -8028,7 +8028,7 @@ static void vanilla_cmd_func2(char *cmd, char *parms)
         hud = r_hud;
         showfps = vid_showfps;
 
-        if ((strafe = (mousestrafe != MOUSESTRAFE_DEFAULT)))
+        if ((nomousestrafe = (mousestrafe != MOUSESTRAFE_DEFAULT)))
             bind_cmd_func2("bind", "mouse2 +strafe");
 
         C_Output(s_STSTR_VON);
@@ -8043,7 +8043,7 @@ static void vanilla_cmd_func2(char *cmd, char *parms)
         r_hud = hud;
         vid_showfps = showfps;
 
-        if (strafe)
+        if (nomousestrafe)
             bind_cmd_func2("unbind", "mouse2 +strafe");
 
         M_LoadCVARs(configfile);
