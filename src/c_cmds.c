@@ -8725,14 +8725,14 @@ static void joy_deadzone_cvars_func2(char *cmd, char *parms)
             {
                 if (joy_deadzone_left != value)
                 {
-                    joy_deadzone_left = BETWEEN(joy_deadzone_left_min, value, joy_deadzone_left_max);
+                    joy_deadzone_left = (float)BETWEENF(joy_deadzone_left_min, value, joy_deadzone_left_max);
                     I_SetGameControllerLeftDeadZone();
                     M_SaveCVARs();
                 }
             }
             else if (joy_deadzone_right != value)
             {
-                joy_deadzone_right = BETWEEN(joy_deadzone_right_min, value, joy_deadzone_right_max);
+                joy_deadzone_right = (float)BETWEENF(joy_deadzone_right_min, value, joy_deadzone_right_max);
                 I_SetGameControllerRightDeadZone();
                 M_SaveCVARs();
             }
@@ -9445,7 +9445,7 @@ static void r_gamma_cvar_func2(char *cmd, char *parms)
 
         if ((value != INT_MIN || sscanf(parms, "%10f", &value) == 1) && value != r_gamma)
         {
-            r_gamma = BETWEEN(r_gamma_min, value, r_gamma_max);
+            r_gamma = (float)BETWEENF(r_gamma_min, value, r_gamma_max);
             I_SetGamma(r_gamma);
             I_SetPalette(&PLAYPAL[st_palette * 768]);
             M_SaveCVARs();
