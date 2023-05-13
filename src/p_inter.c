@@ -493,17 +493,9 @@ bool P_GiveArmor(const armortype_t armortype, const bool stat)
 
 int cardsfound;
 
-//
-// P_InitCards
-//
-void P_InitCards(void)
+void P_LookForCards(void)
 {
     const int   cardsprites[] = { SPR_BKEY, SPR_YKEY, SPR_RKEY, SPR_BSKU, SPR_YSKU, SPR_RSKU };
-
-    for (int i = 0; i < NUMCARDS; i++)
-        viewplayer->cards[i] = CARDNOTINMAP;
-
-    cardsfound = 0;
 
     for (thinker_t *th = thinkers[th_mobj].cnext; th != &thinkers[th_mobj]; th = th->cnext)
     {
@@ -516,6 +508,19 @@ void P_InitCards(void)
                 break;
             }
     }
+}
+
+//
+// P_InitCards
+//
+void P_InitCards(void)
+{
+    for (int i = 0; i < NUMCARDS; i++)
+        viewplayer->cards[i] = CARDNOTINMAP;
+
+    cardsfound = 0;
+
+    P_LookForCards();
 
     for (int i = 0; i < numlines; i++)
     {
@@ -1382,6 +1387,7 @@ bool P_TakeSpecialThing(const mobjtype_t type)
                 return false;
 
             viewplayer->cards[it_bluecard] = 0;
+            P_LookForCards();
             cardsfound--;
             return true;
 
@@ -1391,6 +1397,7 @@ bool P_TakeSpecialThing(const mobjtype_t type)
                 return false;
 
             viewplayer->cards[it_yellowcard] = 0;
+            P_LookForCards();
             cardsfound--;
             return true;
 
@@ -1400,6 +1407,7 @@ bool P_TakeSpecialThing(const mobjtype_t type)
                 return false;
 
             viewplayer->cards[it_redcard] = 0;
+            P_LookForCards();
             cardsfound--;
             return true;
 
@@ -1409,6 +1417,7 @@ bool P_TakeSpecialThing(const mobjtype_t type)
                 return false;
 
             viewplayer->cards[it_blueskull] = 0;
+            P_LookForCards();
             cardsfound--;
             return true;
 
@@ -1418,6 +1427,7 @@ bool P_TakeSpecialThing(const mobjtype_t type)
                 return false;
 
             viewplayer->cards[it_yellowskull] = 0;
+            P_LookForCards();
             cardsfound--;
             return true;
 
@@ -1427,6 +1437,7 @@ bool P_TakeSpecialThing(const mobjtype_t type)
                 return false;
 
             viewplayer->cards[it_redskull] = 0;
+            P_LookForCards();
             cardsfound--;
             return true;
 

@@ -7590,6 +7590,7 @@ static void take_cmd_func2(char *cmd, char *parms)
 
             if (result)
             {
+                P_LookForCards();
                 C_PlayerMessage("All keycards and skull keys were taken from %s.", playername);
                 C_HideConsole();
             }
@@ -7605,6 +7606,7 @@ static void take_cmd_func2(char *cmd, char *parms)
                 viewplayer->cards[it_bluecard] = 0;
                 viewplayer->cards[it_redcard] = 0;
                 viewplayer->cards[it_yellowcard] = 0;
+                P_LookForCards();
                 C_PlayerMessage("All keycards were taken from %s.", playername);
                 C_HideConsole();
             }
@@ -7620,6 +7622,7 @@ static void take_cmd_func2(char *cmd, char *parms)
                 viewplayer->cards[it_blueskull] = 0;
                 viewplayer->cards[it_redskull] = 0;
                 viewplayer->cards[it_yellowskull] = 0;
+                P_LookForCards();
                 C_PlayerMessage("All skull keys were taken from %s.", playername);
                 C_HideConsole();
             }
