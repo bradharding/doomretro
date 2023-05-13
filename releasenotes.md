@@ -6,6 +6,8 @@
 * Changes have been made to text that is output to the console.
 * The `r_color` CVAR has now been renamed `r_saturation`, and it’s maximum value has increased to `200%`, allowing colors on the screen to be over-saturated.
 * A crash no longer occurs when trying to display certain patches with a height greater than 200px.
+* Improvements have been made to toggling widescreen using the <kbd><b>+</b></kbd> and <kbd><b>&ndash;</b></kbd> keys while the menu is open.
+* The effects of the `r_gamma` and `r_saturation` CVARs are now applied to *DOOM Retro’s* splash screen.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

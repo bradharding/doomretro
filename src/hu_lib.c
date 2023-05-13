@@ -166,7 +166,7 @@ static void HU_DrawTranslucentGoldChar(int x, int y, int ch, byte *screen, int s
             for (int yy = 0; yy < SCREENSCALE; yy++)
                 for (int xx = 0; xx < SCREENSCALE; xx++)
                 {
-                    byte *dest = &screen[(j + yy) * screenwidth + (i + xx)];
+                    byte    *dest = &screen[(j + yy) * screenwidth + (i + xx)];
 
                     if (src == PINK)
                         *dest = black40[*dest];
