@@ -3141,75 +3141,59 @@ bool M_Responder(event_t *ev)
         return true;
     }
 
-    // F-Keys
-    if (!paused && !splashscreen && (key == KEY_MINUS || key == KEY_EQUALS))
+    if (key == KEY_MINUS)
     {
         // Screen size down
-        if (key == KEY_MINUS)
-        {
-            keydown = key;
-
-            if (automapactive || helpscreen || gamestate == GS_INTERMISSION || gamestate == GS_FINALE)
-                return false;
-
-            if (viewactive)
-                M_SizeDisplay(0);
-            else if (vid_widescreen)
-            {
-                if (r_screensize != r_screensize_max - 1)
-                {
-                    r_screensize = r_screensize_max - 1;
-                    C_IntegerCVAROutput(stringize(r_screensize), r_screensize);
-                }
-
-                r_hud = false;
-                C_StringCVAROutput(stringize(r_hud), "off");
-
-                vid_widescreen = false;
-                C_StringCVAROutput(stringize(vid_widescreen), "off");
-
-                R_SetViewSize(r_screensize);
-                I_RestartGraphics(false);
-                S_StartSound(NULL, sfx_stnmov);
-                M_SaveCVARs();
-
-                pagetic = PAGETICS;
-            }
-
+        if (paused || splashscreen || automapactive || helpscreen
+            || gamestate == GS_INTERMISSION || gamestate == GS_FINALE)
             return false;
+
+        keydown = key;
+
+        if (viewactive && !menuactive)
+            M_SizeDisplay(0);
+        else if (vid_widescreen)
+        {
+            r_screensize = r_screensize_max - 1;
+            r_hud = false;
+            vid_widescreen = false;
+
+            R_SetViewSize(r_screensize + (menuactive ? 1 : 0));
+            I_RestartGraphics(false);
+            S_StartSound(NULL, sfx_stnmov);
+            M_SaveCVARs();
+
+            pagetic = PAGETICS;
         }
 
+        return false;
+    }
+    else if (key == KEY_EQUALS)
+    {
         // Screen size up
-        else if (key == KEY_EQUALS)
-        {
-            keydown = key;
-
-            if (automapactive || helpscreen || gamestate == GS_INTERMISSION || gamestate == GS_FINALE)
-                return false;
-
-            if (viewactive)
-                M_SizeDisplay(1);
-            else if (!vid_widescreen && !nowidescreen)
-            {
-                if (r_screensize != r_screensize_max - 1)
-                {
-                    r_screensize = r_screensize_max - 1;
-                    C_IntegerCVAROutput(stringize(r_screensize), r_screensize);
-                }
-
-                vid_widescreen = true;
-                C_StringCVAROutput(stringize(vid_widescreen), "on");
-
-                R_SetViewSize(r_screensize);
-                I_RestartGraphics(false);
-                S_StartSound(NULL, sfx_stnmov);
-                M_SaveCVARs();
-
-                pagetic = PAGETICS;
-            }
-
+        if (paused || splashscreen || automapactive || helpscreen
+            || gamestate == GS_INTERMISSION || gamestate == GS_FINALE)
             return false;
+
+        keydown = key;
+
+        if (viewactive && !menuactive)
+            M_SizeDisplay(1);
+        else if (!vid_widescreen && !nowidescreen)
+        {
+            r_screensize = r_screensize_max - (menuactive ? 0 : 1);
+            r_hud = true;
+            vid_widescreen = true;
+
+            R_SetViewSize(r_screensize);
+            I_RestartGraphics(false);
+            S_StartSound(NULL, sfx_stnmov);
+            M_SaveCVARs();
+
+            pagetic = PAGETICS;
         }
+
+        return false;
     }
     else if ((!menuactive || functionkey) && !paused && !splashscreen)
     {

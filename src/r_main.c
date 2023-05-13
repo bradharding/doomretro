@@ -418,7 +418,7 @@ void R_ExecuteSetViewSize(void)
     for (int i = 0; i < viewheight; i++)
         for (int j = 0; j < LOOKDIRS; j++)
             yslopes[j][i] = FixedDiv(num, ABS(((i - (viewheight / 2 + (j - LOOKDIRMAX) * 2
-                * (r_screensize + 3) / 10)) << FRACBITS) + FRACUNIT / 2));
+                * setblocks / 10)) << FRACBITS) + FRACUNIT / 2));
 
     yslope = yslopes[LOOKDIRMAX];
 
