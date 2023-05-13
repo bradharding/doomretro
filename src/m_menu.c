@@ -3181,11 +3181,10 @@ bool M_Responder(event_t *ev)
             M_SizeDisplay(1);
         else if (!vid_widescreen && !nowidescreen)
         {
-            r_screensize = r_screensize_max - (menuactive ? 0 : 1);
-            r_hud = true;
+            r_screensize = r_screensize_max - 1;
             vid_widescreen = true;
 
-            R_SetViewSize(r_screensize);
+            R_SetViewSize(r_screensize + (menuactive ? 1 : 0));
             I_RestartGraphics(false);
             S_StartSound(NULL, sfx_stnmov);
             M_SaveCVARs();
