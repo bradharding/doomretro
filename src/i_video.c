@@ -1005,18 +1005,6 @@ void I_SetExternalAutomapPalette(void)
     }
 }
 
-void I_SetSimplePalette(byte *playpal)
-{
-    for (int i = 0; i < 256; i++)
-    {
-        colors[i].r = *playpal++;
-        colors[i].g = *playpal++;
-        colors[i].b = *playpal++;
-    }
-
-    SDL_SetPaletteColors(palette, colors, 0, 256);
-}
-
 void I_SetPaletteWithBrightness(byte *playpal, double brightness)
 {
     byte    *gamma = gammatable[gammaindex];
