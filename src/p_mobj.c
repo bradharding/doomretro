@@ -1460,10 +1460,10 @@ void P_SpawnBlood(const fixed_t x, const fixed_t y, const fixed_t z, angle_t ang
             th->angle = angle;
             angle += M_BigSubRandom() * ANGLEMULTIPLIER;
 
-            if (damage <= 12 && damage >= 9)
-                P_SetMobjState(th, S_BLOOD2);
-            else if (damage < 9)
+            if (damage < 9)
                 P_SetMobjState(th, S_BLOOD3);
+            else if (damage <= 12)
+                P_SetMobjState(th, S_BLOOD2);
         }
     }
 }
