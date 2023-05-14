@@ -464,10 +464,8 @@ static void saveg_read_player_t(void)
         viewplayer->powers[i] = saveg_read32();
 
     for (int i = 0; i < NUMCARDS; i++)
-    {
-        viewplayer->cards[i] = saveg_read32();
-        cardsfound = MAX(cardsfound, viewplayer->cards[i]);
-    }
+        if ((viewplayer->cards[i] = saveg_read32()) > 0)
+            cardsfound++;
 
     viewplayer->neededcard = saveg_read32();
     viewplayer->neededcardflash = saveg_read32();
