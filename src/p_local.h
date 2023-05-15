@@ -180,20 +180,15 @@ bool P_CheckMeleeRange(mobj_t *actor);
 //
 typedef struct
 {
-    fixed_t     x, y;
-    fixed_t     dx, dy;
+    fixed_t x, y;
+    fixed_t dx, dy;
 } divline_t;
 
 typedef struct
 {
-    fixed_t     frac;           // along trace line
-    bool        isaline;
-
-    union
-    {
-        mobj_t  *thing;
-        line_t  *line;
-    } d;
+    fixed_t frac;   // along trace line
+    mobj_t  *thing;
+    line_t  *line;
 } intercept_t;
 
 typedef bool (*traverser_t)(intercept_t *in);

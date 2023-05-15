@@ -501,8 +501,8 @@ static bool PIT_AddLineIntercepts(line_t *ld)
     P_CheckIntercepts();    // killough
 
     intercept_p->frac = frac;
-    intercept_p->isaline = true;
-    intercept_p->d.line = ld;
+    intercept_p->thing = NULL;
+    intercept_p->line = ld;
     intercept_p++;
 
     return true;            // continue
@@ -582,8 +582,8 @@ static bool PIT_AddThingIntercepts(mobj_t *thing)
                 P_CheckIntercepts();    // killough
 
                 intercept_p->frac = frac;
-                intercept_p->isaline = false;
-                intercept_p->d.thing = thing;
+                intercept_p->line = NULL;
+                intercept_p->thing = thing;
                 intercept_p++;
                 continue;
             }
@@ -597,8 +597,8 @@ static bool PIT_AddThingIntercepts(mobj_t *thing)
         P_CheckIntercepts();    // killough
 
         intercept_p->frac = 0;
-        intercept_p->isaline = false;
-        intercept_p->d.thing = thing;
+        intercept_p->line = NULL;
+        intercept_p->thing = thing;
         intercept_p++;
     }
 

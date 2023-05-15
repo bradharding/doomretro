@@ -1409,7 +1409,7 @@ static void P_HitSlideLine(line_t *ld)
 //
 static bool PTR_SlideTraverse(intercept_t *in)
 {
-    line_t                  *li = in->d.line;
+    line_t                  *li = in->line;
     const unsigned short    flags = li->flags;
 
     if (!(flags & ML_TWOSIDED))
@@ -1581,10 +1581,10 @@ static bool PTR_AimTraverse(intercept_t *in)
     fixed_t thingtopslope;
     fixed_t thingbottomslope;
     fixed_t dist;
+    line_t  *li = in->line;
 
-    if (in->isaline)
+    if (li)
     {
-        line_t  *li = in->d.line;
         fixed_t slope;
 
         if (!(li->flags & ML_TWOSIDED))
@@ -1622,9 +1622,7 @@ static bool PTR_AimTraverse(intercept_t *in)
     }
 
     // shoot a thing
-    th = in->d.thing;
-
-    if (th == shootthing)
+    if (!(th = in->thing) || th == shootthing)
         return true;    // can't shoot self
 
     if (!(th->flags & MF_SHOOTABLE))
@@ -1671,10 +1669,10 @@ static bool PTR_ShootTraverse(intercept_t *in)
     fixed_t frac;
     mobj_t  *th;
     fixed_t dist;
+    line_t  *li = in->line;
 
-    if (in->isaline)
+    if (li)
     {
-        line_t          *li = in->d.line;
         unsigned short  side;
         fixed_t         distz;
 
@@ -1758,9 +1756,7 @@ static bool PTR_ShootTraverse(intercept_t *in)
     }
 
     // shoot a thing
-    th = in->d.thing;
-
-    if (th == shootthing)
+    if (!(th = in->thing) || th == shootthing)
         return true;    // can't shoot self
 
     if (!(th->flags & MF_SHOOTABLE))
@@ -1885,7 +1881,10 @@ static mobj_t   *usething;
 static bool PTR_UseTraverse(intercept_t *in)
 {
     int     side = 0;
-    line_t  *line = in->d.line;
+    line_t  *line = in->line;
+
+    if (!line)
+        return true;
 
     if (autousing)
     {
@@ -1934,10 +1933,10 @@ static bool PTR_UseTraverse(intercept_t *in)
 //
 static bool PTR_NoWayTraverse(intercept_t *in)
 {
-    line_t                  *ld = in->d.line;
+    line_t                  *ld = in->line;
     const unsigned short    flags = ld->flags;
 
-    return (ld->special || ((flags & ML_TWOSIDED) && (flags & ML_BLOCKING)) || !((flags & ML_BLOCKING)
+    return (!ld || ld->special || ((flags & ML_TWOSIDED) && (flags & ML_BLOCKING)) || !((flags & ML_BLOCKING)
         || (P_LineOpening(ld), (openrange <= 0 || openbottom > usething->z + 24 * FRACUNIT
             || opentop < usething->z + usething->height))));
 }
