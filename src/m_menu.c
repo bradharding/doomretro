@@ -4223,7 +4223,7 @@ void M_Ticker(void)
     if ((!savestringenter || !whichskull) && windowfocused && --skullanimcounter <= 0)
     {
         whichskull ^= 1;
-        skullanimcounter = SKULLANIMCOUNT;
+        skullanimcounter = (gamestate == GS_LEVEL ? MAX(SKULLANIMCOUNT, menuspinspeed / SKULLANIMCOUNT) : SKULLANIMCOUNT);
     }
 }
 
