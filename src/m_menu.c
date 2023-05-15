@@ -63,9 +63,10 @@
 #include "w_wad.h"
 #include "z_zone.h"
 
-#define LINEHEIGHT      17
-#define OFFSET          17
-#define SKULLANIMCOUNT  8
+#define LINEHEIGHT         17
+#define OFFSET             17
+#define MINSKULLANIMCOUNT   8
+#define MAXSKULLANIMCOUNT  32
 
 // -1 = no quicksave slot picked!
 int             quicksaveslot;
@@ -4223,7 +4224,8 @@ void M_Ticker(void)
     if ((!savestringenter || !whichskull) && windowfocused && --skullanimcounter <= 0)
     {
         whichskull ^= 1;
-        skullanimcounter = (gamestate == GS_LEVEL ? MAX(SKULLANIMCOUNT, menuspinspeed / SKULLANIMCOUNT) : SKULLANIMCOUNT);
+        skullanimcounter = (gamestate == GS_LEVEL ?
+            BETWEEN(MINSKULLANIMCOUNT, menuspinspeed / MINSKULLANIMCOUNT, MAXSKULLANIMCOUNT) : MINSKULLANIMCOUNT);
     }
 }
 
@@ -4237,7 +4239,7 @@ void M_Init(void)
     currentmenu = &MainDef;
     menuactive = false;
     itemon = currentmenu->laston;
-    skullanimcounter = SKULLANIMCOUNT;
+    skullanimcounter = MINSKULLANIMCOUNT;
     messagetoprint = false;
     messagestring = NULL;
     messagelastmenuactive = false;
