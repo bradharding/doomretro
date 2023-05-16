@@ -8,7 +8,6 @@
 * A crash no longer occurs when trying to display certain patches with heights greater than 200px.
 * Improvements have been made to toggling widescreen using the <kbd><b>+</b></kbd> and <kbd><b>&ndash;</b></kbd> keys while the menu is open.
 * The effects of changing the `r_gamma` and `r_saturation` CVARs are now applied to *DOOM Retro’s* splash screen.
-* The skull’s animation in the menu now slows down in time with the spin of the menu’s background.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
