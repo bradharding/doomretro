@@ -8,7 +8,7 @@
 * A crash no longer occurs when trying to display certain patches with heights greater than 200px.
 * Improvements have been made to toggling widescreen using the <kbd><b>+</b></kbd> and <kbd><b>&ndash;</b></kbd> keys while the menu is open.
 * The effects of changing the `r_gamma` and `r_saturation` CVARs are now applied to *DOOM Retro’s* splash screen.
-* When using the WAD launcher to load `DOOM.WAD` or `DOOM2.WAD` with an accompanying PWAD, `SIGIL.WAD` and `NERVE.WAD` will now still be autoloaded if found in the same folder.
+* `SIGIL.WAD` and `NERVE.WAD` are now always autoloaded if found in the same folder as the IWAD loaded.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

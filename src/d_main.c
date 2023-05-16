@@ -1140,6 +1140,11 @@ static bool D_CheckParms(void)
 
                     if (!M_CheckParm("-nodeh") && !M_CheckParm("-nobex"))
                         LoadDehFile(myargv[1]);
+
+                    if (D_IsDOOM1IWAD(fullpath) && IsUltimateDOOM(fullpath))
+                        D_AutoloadSigilWAD();
+                    else if (D_IsDOOM2IWAD(fullpath))
+                        D_AutoloadNerveWAD();
                 }
             }
             else
@@ -1177,6 +1182,11 @@ static bool D_CheckParms(void)
 
                         if (!M_CheckParm("-nodeh") && !M_CheckParm("-nobex"))
                             LoadDehFile(myargv[1]);
+
+                        if (D_IsDOOM1IWAD(fullpath) && IsUltimateDOOM(fullpath))
+                            D_AutoloadSigilWAD();
+                        else if (D_IsDOOM2IWAD(fullpath))
+                            D_AutoloadNerveWAD();
                     }
                 }
                 else
@@ -1198,6 +1208,11 @@ static bool D_CheckParms(void)
 
                             if (!M_CheckParm("-nodeh") && !M_CheckParm("-nobex"))
                                 LoadDehFile(myargv[1]);
+
+                            if (D_IsDOOM1IWAD(fullpath) && IsUltimateDOOM(fullpath))
+                                D_AutoloadSigilWAD();
+                            else if (D_IsDOOM2IWAD(fullpath))
+                                D_AutoloadNerveWAD();
                         }
                     }
                 }
@@ -1395,6 +1410,11 @@ static int D_OpenWADLauncher(void)
 
                         if (!M_CheckParm("-nodeh") && !M_CheckParm("-nobex"))
                             LoadDehFile(file);
+
+                        if (D_IsDOOM1IWAD(fullpath) && IsUltimateDOOM(fullpath))
+                            D_AutoloadSigilWAD();
+                        else if (D_IsDOOM2IWAD(fullpath))
+                            D_AutoloadNerveWAD();
                     }
                 }
                 else
@@ -1419,6 +1439,11 @@ static int D_OpenWADLauncher(void)
 
                             if (!M_CheckParm("-nodeh") && !M_CheckParm("-nobex"))
                                 LoadDehFile(file);
+
+                            if (D_IsDOOM1IWAD(fullpath) && IsUltimateDOOM(fullpath))
+                                D_AutoloadSigilWAD();
+                            else if (D_IsDOOM2IWAD(fullpath))
+                                D_AutoloadNerveWAD();
                         }
                     }
                     else
@@ -1440,6 +1465,11 @@ static int D_OpenWADLauncher(void)
 
                                 if (!M_CheckParm("-nodeh") && !M_CheckParm("-nobex"))
                                     LoadDehFile(file);
+
+                                if (D_IsDOOM1IWAD(fullpath) && IsUltimateDOOM(fullpath))
+                                    D_AutoloadSigilWAD();
+                                else if (D_IsDOOM2IWAD(fullpath))
+                                    D_AutoloadNerveWAD();
                             }
                         }
                     }
