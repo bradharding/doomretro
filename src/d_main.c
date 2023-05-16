@@ -976,6 +976,58 @@ static bool D_IsUnsupportedPWAD(char *filename)
     return (error = (M_StringCompare(leafname(filename), DOOMRETRO_RESOURCEWAD)));
 }
 
+static void D_CheckForSigil(char *file)
+{
+    if (D_IsDOOM1IWAD(file) && IsUltimateDOOM(file))
+    {
+        char    path[MAX_PATH];
+
+        M_snprintf(path, sizeof(path), "%s" DIR_SEPARATOR_S "%s", iwadfolder, "SIGIL_v1_21.wad");
+
+        if (W_MergeFile(path, true))
+            sigil = true;
+        else
+        {
+            M_snprintf(path, sizeof(path), "%s" DIR_SEPARATOR_S "%s", iwadfolder, "SIGIL_v1_2.wad");
+
+            if (W_MergeFile(path, true))
+                sigil = true;
+            else
+            {
+                M_snprintf(path, sizeof(path), "%s" DIR_SEPARATOR_S "%s", iwadfolder, "SIGIL_v1_1.wad");
+
+                if (W_MergeFile(path, true))
+                    sigil = true;
+                else
+                {
+                    M_snprintf(path, sizeof(path), "%s" DIR_SEPARATOR_S "%s", iwadfolder, "SIGIL_v1_0.wad");
+
+                    if (W_MergeFile(path, true))
+                        sigil = true;
+                    else
+                    {
+                        M_snprintf(path, sizeof(path), "%s" DIR_SEPARATOR_S "%s", iwadfolder, "SIGIL.wad");
+
+                        if (W_MergeFile(path, true))
+                            sigil = true;
+                    }
+                }
+            }
+        }
+
+        if (sigil && !M_CheckParm("-nomusic") && !M_CheckParm("-nosound"))
+        {
+            M_snprintf(path, sizeof(path), "%s" DIR_SEPARATOR_S "%s", iwadfolder, "SIGIL_SHREDS.wad");
+
+            if (!W_MergeFile(path, true))
+            {
+                M_snprintf(path, sizeof(path), "%s" DIR_SEPARATOR_S "%s", iwadfolder, "SIGIL_SHREDS_COMPAT.wad");
+                W_MergeFile(path, true);
+            }
+        }
+    }
+}
+
 static bool D_CheckParms(void)
 {
     bool    result = false;
@@ -997,53 +1049,8 @@ static bool D_CheckParms(void)
 
                 // if DOOM.WAD is selected, load SIGIL.WAD automatically if present
                 if (D_IsDOOM1IWAD(myargv[1]) && IsUltimateDOOM(myargv[1]))
-                {
-                    char    fullpath[MAX_PATH];
+                    D_CheckForSigil(myargv[1]);
 
-                    M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", folder, "SIGIL_v1_21.wad");
-
-                    if (W_MergeFile(fullpath, true))
-                        sigil = true;
-                    else
-                    {
-                        M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", folder, "SIGIL_v1_2.wad");
-
-                        if (W_MergeFile(fullpath, true))
-                            sigil = true;
-                        else
-                        {
-                            M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", folder, "SIGIL_v1_1.wad");
-
-                            if (W_MergeFile(fullpath, true))
-                                sigil = true;
-                            else
-                            {
-                                M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", folder, "SIGIL_v1_0.wad");
-
-                                if (W_MergeFile(fullpath, true))
-                                    sigil = true;
-                                else
-                                {
-                                    M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", folder, "SIGIL.wad");
-
-                                    if (W_MergeFile(fullpath, true))
-                                        sigil = true;
-                                }
-                            }
-                        }
-                    }
-
-                    if (sigil && !M_CheckParm("-nomusic") && !M_CheckParm("-nosound"))
-                    {
-                        M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", folder, "SIGIL_SHREDS.wad");
-
-                        if (!W_MergeFile(fullpath, true))
-                        {
-                            M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", folder, "SIGIL_SHREDS_COMPAT.wad");
-                            W_MergeFile(fullpath, true);
-                        }
-                    }
-                }
                 // if DOOM2.WAD is selected, load NERVE.WAD automatically if present
                 else if (D_IsDOOM2IWAD(myargv[1]))
                 {
@@ -1335,53 +1342,7 @@ static int D_OpenWADLauncher(void)
 
                     // if DOOM.WAD is selected, load SIGIL.WAD automatically if present
                     if (D_IsDOOM1IWAD(file) && IsUltimateDOOM(file))
-                    {
-                        char    fullpath[MAX_PATH];
-
-                        M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", folder, "SIGIL_v1_21.wad");
-
-                        if (W_MergeFile(fullpath, true))
-                            sigil = true;
-                        else
-                        {
-                            M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", folder, "SIGIL_v1_2.wad");
-
-                            if (W_MergeFile(fullpath, true))
-                                sigil = true;
-                            else
-                            {
-                                M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", folder, "SIGIL_v1_1.wad");
-
-                                if (W_MergeFile(fullpath, true))
-                                    sigil = true;
-                                else
-                                {
-                                    M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", folder, "SIGIL_v1_0.wad");
-
-                                    if (W_MergeFile(fullpath, true))
-                                        sigil = true;
-                                    else
-                                    {
-                                        M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", folder, "SIGIL.wad");
-
-                                        if (W_MergeFile(fullpath, true))
-                                            sigil = true;
-                                    }
-                                }
-                            }
-                        }
-
-                        if (sigil && !M_CheckParm("-nomusic") && !M_CheckParm("-nosound"))
-                        {
-                            M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", folder, "SIGIL_SHREDS.wad");
-
-                            if (!W_MergeFile(fullpath, true))
-                            {
-                                M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", folder, "SIGIL_SHREDS_COMPAT.wad");
-                                W_MergeFile(fullpath, true);
-                            }
-                        }
-                    }
+                        D_CheckForSigil(file);
                     // if DOOM2.WAD is selected, load NERVE.WAD automatically if present
                     else if (D_IsDOOM2IWAD(file))
                     {
@@ -1577,53 +1538,7 @@ static int D_OpenWADLauncher(void)
 
                         // if DOOM.WAD is selected, load SIGIL.WAD automatically if present
                         if (D_IsDOOM1IWAD(fullpath) && IsUltimateDOOM(fullpath))
-                        {
-                            char    fullpath2[MAX_PATH];
-
-                            M_snprintf(fullpath2, sizeof(fullpath2), "%s" DIR_SEPARATOR_S "%s", iwadfolder, "SIGIL_v1_21.wad");
-
-                            if (W_MergeFile(fullpath2, true))
-                                sigil = true;
-                            else
-                            {
-                                M_snprintf(fullpath2, sizeof(fullpath2), "%s" DIR_SEPARATOR_S "%s", iwadfolder, "SIGIL_v1_2.wad");
-
-                                if (W_MergeFile(fullpath2, true))
-                                    sigil = true;
-                                else
-                                {
-                                    M_snprintf(fullpath2, sizeof(fullpath2), "%s" DIR_SEPARATOR_S "%s", iwadfolder, "SIGIL_v1_1.wad");
-
-                                    if (W_MergeFile(fullpath2, true))
-                                        sigil = true;
-                                    else
-                                    {
-                                        M_snprintf(fullpath2, sizeof(fullpath2), "%s" DIR_SEPARATOR_S "%s", iwadfolder, "SIGIL_v1_0.wad");
-
-                                        if (W_MergeFile(fullpath2, true))
-                                            sigil = true;
-                                        else
-                                        {
-                                            M_snprintf(fullpath2, sizeof(fullpath2), "%s" DIR_SEPARATOR_S "%s", iwadfolder, "SIGIL.wad");
-
-                                            if (W_MergeFile(fullpath2, true))
-                                                sigil = true;
-                                        }
-                                    }
-                                }
-                            }
-
-                            if (sigil && !M_CheckParm("-nomusic") && !M_CheckParm("-nosound"))
-                            {
-                                M_snprintf(fullpath2, sizeof(fullpath2), "%s" DIR_SEPARATOR_S "%s", iwadfolder, "SIGIL_SHREDS.wad");
-
-                                if (!W_MergeFile(fullpath2, true))
-                                {
-                                    M_snprintf(fullpath2, sizeof(fullpath2), "%s" DIR_SEPARATOR_S "%s", iwadfolder, "SIGIL_SHREDS_COMPAT.wad");
-                                    W_MergeFile(fullpath2, true);
-                                }
-                            }
-                        }
+                            D_CheckForSigil(fullpath);
 
                         break;
                     }
