@@ -1574,6 +1574,57 @@ static int D_OpenWADLauncher(void)
 #endif
 
                         iwadfolder = M_ExtractFolder(fullpath);
+
+                        // if DOOM.WAD is selected, load SIGIL.WAD automatically if present
+                        if (D_IsDOOM1IWAD(fullpath) && IsUltimateDOOM(fullpath))
+                        {
+                            char    fullpath2[MAX_PATH];
+
+                            M_snprintf(fullpath2, sizeof(fullpath2), "%s" DIR_SEPARATOR_S "%s", iwadfolder, "SIGIL_v1_21.wad");
+
+                            if (W_MergeFile(fullpath2, true))
+                                sigil = true;
+                            else
+                            {
+                                M_snprintf(fullpath2, sizeof(fullpath2), "%s" DIR_SEPARATOR_S "%s", iwadfolder, "SIGIL_v1_2.wad");
+
+                                if (W_MergeFile(fullpath2, true))
+                                    sigil = true;
+                                else
+                                {
+                                    M_snprintf(fullpath2, sizeof(fullpath2), "%s" DIR_SEPARATOR_S "%s", iwadfolder, "SIGIL_v1_1.wad");
+
+                                    if (W_MergeFile(fullpath2, true))
+                                        sigil = true;
+                                    else
+                                    {
+                                        M_snprintf(fullpath2, sizeof(fullpath2), "%s" DIR_SEPARATOR_S "%s", iwadfolder, "SIGIL_v1_0.wad");
+
+                                        if (W_MergeFile(fullpath2, true))
+                                            sigil = true;
+                                        else
+                                        {
+                                            M_snprintf(fullpath2, sizeof(fullpath2), "%s" DIR_SEPARATOR_S "%s", iwadfolder, "SIGIL.wad");
+
+                                            if (W_MergeFile(fullpath2, true))
+                                                sigil = true;
+                                        }
+                                    }
+                                }
+                            }
+
+                            if (sigil && !M_CheckParm("-nomusic") && !M_CheckParm("-nosound"))
+                            {
+                                M_snprintf(fullpath2, sizeof(fullpath2), "%s" DIR_SEPARATOR_S "%s", iwadfolder, "SIGIL_SHREDS.wad");
+
+                                if (!W_MergeFile(fullpath2, true))
+                                {
+                                    M_snprintf(fullpath2, sizeof(fullpath2), "%s" DIR_SEPARATOR_S "%s", iwadfolder, "SIGIL_SHREDS_COMPAT.wad");
+                                    W_MergeFile(fullpath2, true);
+                                }
+                            }
+                        }
+
                         break;
                     }
                 }
