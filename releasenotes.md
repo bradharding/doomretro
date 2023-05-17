@@ -2,6 +2,7 @@
 
 #### DOOM Retro v5.0
 
+* *DOOM Retro* is now built using v17.6.0 of [*Microsoft Visual Studio Community 2022*](https://visualstudio.microsoft.com/vs/community/).
 * Minor optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Changes have been made to text that is output to the console.
 * The `r_color` CVAR has now been renamed `r_saturation`, and it’s maximum value has increased to `200%`, allowing colors on the screen to be over-saturated.
