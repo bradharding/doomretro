@@ -4128,16 +4128,26 @@ void M_Drawer(void)
                             if (i == msgs)
                             {
                                 if (M_MSGON)
-                                    width += 4 + SHORT(((patch_t *)W_CacheLumpName(messages ? "M_MSGON" : "M_MSGOFF"))->width);
+                                {
+                                    patch_t *on = W_CacheLumpName("M_MSGON");
+                                    patch_t *off = W_CacheLumpName("M_MSGOFF");
+
+                                    width += 8 + SHORT(MAX(on->width, off->width));
+                                }
                                 else
-                                    width += 4 + M_BigStringWidth(messages ? s_M_ON : s_M_OFF);
+                                    width += 8 + MAX(M_BigStringWidth(s_M_ON), M_BigStringWidth(s_M_OFF));
                             }
                             else if (i == detail)
                             {
                                 if (M_GDLOW)
-                                    width += 4 + SHORT(((patch_t *)W_CacheLumpName(r_detail ? "M_GDHIGH" : "M_GDLOW"))->width);
+                                {
+                                    patch_t *high = W_CacheLumpName("M_GDHIGH");
+                                    patch_t *low = W_CacheLumpName("M_GDLOW");
+
+                                    width += 8 + SHORT(MAX(high->width, low->width));
+                                }
                                 else
-                                    width += 4 + M_BigStringWidth(r_detail ? s_M_HIGH : s_M_LOW);
+                                    width += 8 + MAX(M_BigStringWidth(s_M_HIGH), M_BigStringWidth(s_M_LOW));
                             }
                         }
 
