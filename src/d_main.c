@@ -976,111 +976,6 @@ static bool D_IsUnsupportedPWAD(char *filename)
     return (error = (M_StringCompare(leafname(filename), DOOMRETRO_RESOURCEWAD)));
 }
 
-static void D_AutoloadSigilWAD(void)
-{
-    char    path[MAX_PATH];
-
-    M_snprintf(path, sizeof(path), "%s" DIR_SEPARATOR_S "%s", iwadfolder, "SIGIL_v1_21.wad");
-
-    if (W_MergeFile(path, true))
-        sigil = true;
-    else
-    {
-        M_snprintf(path, sizeof(path), "%s" DIR_SEPARATOR_S "%s", iwadfolder, "SIGIL_v1_2.wad");
-
-        if (W_MergeFile(path, true))
-            sigil = true;
-        else
-        {
-            M_snprintf(path, sizeof(path), "%s" DIR_SEPARATOR_S "%s", iwadfolder, "SIGIL_v1_1.wad");
-
-            if (W_MergeFile(path, true))
-                sigil = true;
-            else
-            {
-                M_snprintf(path, sizeof(path), "%s" DIR_SEPARATOR_S "%s", iwadfolder, "SIGIL_v1_0.wad");
-
-                if (W_MergeFile(path, true))
-                    sigil = true;
-                else
-                {
-                    M_snprintf(path, sizeof(path), "%s" DIR_SEPARATOR_S "%s", iwadfolder, "SIGIL.wad");
-
-                    if (W_MergeFile(path, true))
-                        sigil = true;
-                }
-            }
-        }
-    }
-
-    if (sigil && !M_CheckParm("-nomusic") && !M_CheckParm("-nosound"))
-    {
-        M_snprintf(path, sizeof(path), "%s" DIR_SEPARATOR_S "%s", iwadfolder, "SIGIL_SHREDS.wad");
-
-        if (!W_MergeFile(path, true))
-        {
-            M_snprintf(path, sizeof(path), "%s" DIR_SEPARATOR_S "%s", iwadfolder, "SIGIL_SHREDS_COMPAT.wad");
-            W_MergeFile(path, true);
-        }
-    }
-}
-
-static void D_AutoloadNerveWAD(void)
-{
-    char    path[MAX_PATH];
-
-    M_snprintf(path, sizeof(path), "%s" DIR_SEPARATOR_S "%s", iwadfolder, "NERVE.WAD");
-
-    if (W_MergeFile(path, true))
-        nerve = true;
-}
-
-static bool D_AutoloadOtherBTSXWAD(void)
-{
-    char    path[MAX_PATH];
-
-    if (BTSXE1A && !BTSXE1B)
-    {
-        M_snprintf(path, sizeof(path), "%s" DIR_SEPARATOR_S "%s", iwadfolder, "btsx_e1b.wad");
-        return W_MergeFile(path, true);
-    }
-    else if (!BTSXE1A && BTSXE1B)
-    {
-        M_snprintf(path, sizeof(path), "%s" DIR_SEPARATOR_S "%s", iwadfolder, "btsx_e1a.wad");
-        return W_MergeFile(path, true);
-    }
-    else if (BTSXE2A && !BTSXE2B)
-    {
-        M_snprintf(path, sizeof(path), "%s" DIR_SEPARATOR_S "%s", iwadfolder, "btsx_e2b.wad");
-        return W_MergeFile(path, true);
-    }
-    else if (!BTSXE2A && BTSXE2B)
-    {
-        M_snprintf(path, sizeof(path), "%s" DIR_SEPARATOR_S "%s", iwadfolder, "btsx_e2a.wad");
-        return W_MergeFile(path, true);
-    }
-
-    return false;
-}
-
-static bool D_AutoloadOtherKDIKDIZDWAD(void)
-{
-    char    path[MAX_PATH];
-
-    if (KDIKDIZDA && !KDIKDIZDB)
-    {
-        M_snprintf(path, sizeof(path), "%s" DIR_SEPARATOR_S "%s", iwadfolder, "KDiKDi_B.wad");
-        return W_MergeFile(path, true);
-    }
-    else if (!KDIKDIZDA && KDIKDIZDB)
-    {
-        M_snprintf(path, sizeof(path), "%s" DIR_SEPARATOR_S "%s", iwadfolder, "KDiKDi_A.wad");
-        return W_MergeFile(path, true);
-    }
-
-    return false;
-}
-
 static bool D_CheckParms(void)
 {
     bool    result = false;
@@ -1102,11 +997,63 @@ static bool D_CheckParms(void)
 
                 // if DOOM.WAD is selected, load SIGIL.WAD automatically if present
                 if (D_IsDOOM1IWAD(myargv[1]) && IsUltimateDOOM(myargv[1]))
-                    D_AutoloadSigilWAD();
+                {
+                    char    fullpath[MAX_PATH];
 
+                    M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", folder, "SIGIL_v1_21.wad");
+
+                    if (W_MergeFile(fullpath, true))
+                        sigil = true;
+                    else
+                    {
+                        M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", folder, "SIGIL_v1_2.wad");
+
+                        if (W_MergeFile(fullpath, true))
+                            sigil = true;
+                        else
+                        {
+                            M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", folder, "SIGIL_v1_1.wad");
+
+                            if (W_MergeFile(fullpath, true))
+                                sigil = true;
+                            else
+                            {
+                                M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", folder, "SIGIL_v1_0.wad");
+
+                                if (W_MergeFile(fullpath, true))
+                                    sigil = true;
+                                else
+                                {
+                                    M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", folder, "SIGIL.wad");
+
+                                    if (W_MergeFile(fullpath, true))
+                                        sigil = true;
+                                }
+                            }
+                        }
+                    }
+
+                    if (sigil && !M_CheckParm("-nomusic") && !M_CheckParm("-nosound"))
+                    {
+                        M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", folder, "SIGIL_SHREDS.wad");
+
+                        if (!W_MergeFile(fullpath, true))
+                        {
+                            M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", folder, "SIGIL_SHREDS_COMPAT.wad");
+                            W_MergeFile(fullpath, true);
+                        }
+                    }
+                }
                 // if DOOM2.WAD is selected, load NERVE.WAD automatically if present
                 else if (D_IsDOOM2IWAD(myargv[1]))
-                    D_AutoloadNerveWAD();
+                {
+                    char    fullpath[MAX_PATH];
+
+                    M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", folder, "NERVE.WAD");
+
+                    if (W_MergeFile(fullpath, true))
+                        nerve = true;
+                }
             }
         }
 
@@ -1140,11 +1087,6 @@ static bool D_CheckParms(void)
 
                     if (!M_CheckParm("-nodeh") && !M_CheckParm("-nobex"))
                         LoadDehFile(myargv[1]);
-
-                    if (D_IsDOOM1IWAD(fullpath) && IsUltimateDOOM(fullpath))
-                        D_AutoloadSigilWAD();
-                    else if (D_IsDOOM2IWAD(fullpath))
-                        D_AutoloadNerveWAD();
                 }
             }
             else
@@ -1182,11 +1124,6 @@ static bool D_CheckParms(void)
 
                         if (!M_CheckParm("-nodeh") && !M_CheckParm("-nobex"))
                             LoadDehFile(myargv[1]);
-
-                        if (D_IsDOOM1IWAD(fullpath) && IsUltimateDOOM(fullpath))
-                            D_AutoloadSigilWAD();
-                        else if (D_IsDOOM2IWAD(fullpath))
-                            D_AutoloadNerveWAD();
                     }
                 }
                 else
@@ -1208,11 +1145,6 @@ static bool D_CheckParms(void)
 
                             if (!M_CheckParm("-nodeh") && !M_CheckParm("-nobex"))
                                 LoadDehFile(myargv[1]);
-
-                            if (D_IsDOOM1IWAD(fullpath) && IsUltimateDOOM(fullpath))
-                                D_AutoloadSigilWAD();
-                            else if (D_IsDOOM2IWAD(fullpath))
-                                D_AutoloadNerveWAD();
                         }
                     }
                 }
@@ -1220,9 +1152,45 @@ static bool D_CheckParms(void)
         }
 
         if (BTSX)
-            result = D_AutoloadOtherBTSXWAD();
+        {
+            char    fullpath[MAX_PATH];
+
+            if (BTSXE1A && !BTSXE1B)
+            {
+                M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", folder, "btsx_e1b.wad");
+                result = W_MergeFile(fullpath, true);
+            }
+            else if (!BTSXE1A && BTSXE1B)
+            {
+                M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", folder, "btsx_e1a.wad");
+                result = W_MergeFile(fullpath, true);
+            }
+            else if (BTSXE2A && !BTSXE2B)
+            {
+                M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", folder, "btsx_e2b.wad");
+                result = W_MergeFile(fullpath, true);
+            }
+            else if (!BTSXE2A && BTSXE2B)
+            {
+                M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", folder, "btsx_e2a.wad");
+                result = W_MergeFile(fullpath, true);
+            }
+        }
         else if (KDIKDIZD)
-            result = D_AutoloadOtherKDIKDIZDWAD();
+        {
+            char    fullpath[MAX_PATH];
+
+            if (KDIKDIZDA && !KDIKDIZDB)
+            {
+                M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", folder, "KDiKDi_B.wad");
+                result = W_MergeFile(fullpath, true);
+            }
+            else if (!KDIKDIZDA && KDIKDIZDB)
+            {
+                M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", folder, "KDiKDi_A.wad");
+                result = W_MergeFile(fullpath, true);
+            }
+        }
 
         free(folder);
     }
@@ -1367,11 +1335,63 @@ static int D_OpenWADLauncher(void)
 
                     // if DOOM.WAD is selected, load SIGIL.WAD automatically if present
                     if (D_IsDOOM1IWAD(file) && IsUltimateDOOM(file))
-                        D_AutoloadSigilWAD();
+                    {
+                        char    fullpath[MAX_PATH];
 
+                        M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", folder, "SIGIL_v1_21.wad");
+
+                        if (W_MergeFile(fullpath, true))
+                            sigil = true;
+                        else
+                        {
+                            M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", folder, "SIGIL_v1_2.wad");
+
+                            if (W_MergeFile(fullpath, true))
+                                sigil = true;
+                            else
+                            {
+                                M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", folder, "SIGIL_v1_1.wad");
+
+                                if (W_MergeFile(fullpath, true))
+                                    sigil = true;
+                                else
+                                {
+                                    M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", folder, "SIGIL_v1_0.wad");
+
+                                    if (W_MergeFile(fullpath, true))
+                                        sigil = true;
+                                    else
+                                    {
+                                        M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", folder, "SIGIL.wad");
+
+                                        if (W_MergeFile(fullpath, true))
+                                            sigil = true;
+                                    }
+                                }
+                            }
+                        }
+
+                        if (sigil && !M_CheckParm("-nomusic") && !M_CheckParm("-nosound"))
+                        {
+                            M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", folder, "SIGIL_SHREDS.wad");
+
+                            if (!W_MergeFile(fullpath, true))
+                            {
+                                M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", folder, "SIGIL_SHREDS_COMPAT.wad");
+                                W_MergeFile(fullpath, true);
+                            }
+                        }
+                    }
                     // if DOOM2.WAD is selected, load NERVE.WAD automatically if present
                     else if (D_IsDOOM2IWAD(file))
-                        D_AutoloadNerveWAD();
+                    {
+                        char    fullpath[MAX_PATH];
+
+                        M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", folder, "NERVE.WAD");
+
+                        if (W_MergeFile(fullpath, true))
+                            nerve = true;
+                    }
                 }
             }
 
@@ -1410,11 +1430,6 @@ static int D_OpenWADLauncher(void)
 
                         if (!M_CheckParm("-nodeh") && !M_CheckParm("-nobex"))
                             LoadDehFile(file);
-
-                        if (D_IsDOOM1IWAD(fullpath) && IsUltimateDOOM(fullpath))
-                            D_AutoloadSigilWAD();
-                        else if (D_IsDOOM2IWAD(fullpath))
-                            D_AutoloadNerveWAD();
                     }
                 }
                 else
@@ -1439,11 +1454,6 @@ static int D_OpenWADLauncher(void)
 
                             if (!M_CheckParm("-nodeh") && !M_CheckParm("-nobex"))
                                 LoadDehFile(file);
-
-                            if (D_IsDOOM1IWAD(fullpath) && IsUltimateDOOM(fullpath))
-                                D_AutoloadSigilWAD();
-                            else if (D_IsDOOM2IWAD(fullpath))
-                                D_AutoloadNerveWAD();
                         }
                     }
                     else
@@ -1465,11 +1475,6 @@ static int D_OpenWADLauncher(void)
 
                                 if (!M_CheckParm("-nodeh") && !M_CheckParm("-nobex"))
                                     LoadDehFile(file);
-
-                                if (D_IsDOOM1IWAD(fullpath) && IsUltimateDOOM(fullpath))
-                                    D_AutoloadSigilWAD();
-                                else if (D_IsDOOM2IWAD(fullpath))
-                                    D_AutoloadNerveWAD();
                             }
                         }
                     }
@@ -1477,9 +1482,45 @@ static int D_OpenWADLauncher(void)
             }
 
             if (BTSX)
-                D_AutoloadOtherBTSXWAD();
+            {
+                char    fullpath[MAX_PATH];
+
+                if (BTSXE1A && !BTSXE1B)
+                {
+                    M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", folder, "btsx_e1b.wad");
+                    W_MergeFile(fullpath, true);
+                }
+                else if (!BTSXE1A && BTSXE1B)
+                {
+                    M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", folder, "btsx_e1a.wad");
+                    W_MergeFile(fullpath, true);
+                }
+                else if (BTSXE2A && !BTSXE2B)
+                {
+                    M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", folder, "btsx_e2b.wad");
+                    W_MergeFile(fullpath, true);
+                }
+                else if (!BTSXE2A && BTSXE2B)
+                {
+                    M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", folder, "btsx_e2a.wad");
+                    W_MergeFile(fullpath, true);
+                }
+            }
             else if (KDIKDIZD)
-                D_AutoloadOtherKDIKDIZDWAD();
+            {
+                char    fullpath[MAX_PATH];
+
+                if (KDIKDIZDA && !KDIKDIZDB)
+                {
+                    M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", folder, "KDiKDi_B.wad");
+                    W_MergeFile(fullpath, true);
+                }
+                else if (!KDIKDIZDA && KDIKDIZDB)
+                {
+                    M_snprintf(fullpath, sizeof(fullpath), "%s" DIR_SEPARATOR_S "%s", folder, "KDiKDi_A.wad");
+                    W_MergeFile(fullpath, true);
+                }
+            }
 
             free(folder);
         }
@@ -1533,15 +1574,6 @@ static int D_OpenWADLauncher(void)
 #endif
 
                         iwadfolder = M_ExtractFolder(fullpath);
-
-                        // if DOOM.WAD is selected, load SIGIL.WAD automatically if present
-                        if (D_IsDOOM1IWAD(fullpath) && IsUltimateDOOM(fullpath))
-                            D_AutoloadSigilWAD();
-
-                        // if DOOM2.WAD is selected, load NERVE.WAD automatically if present
-                        else if (D_IsDOOM2IWAD(fullpath))
-                            D_AutoloadNerveWAD();
-
                         break;
                     }
                 }
