@@ -2159,7 +2159,7 @@ static void condump_cmd_func2(char *cmd, char *parms)
 //
 static void cvarlist_cmd_func2(char *cmd, char *parms)
 {
-    const int   tabs[3] = { 40, 209, 328 };
+    const int   tabs[3] = { 40, 209, 315 };
 
     for (int i = 0, count = 0; *consolecmds[i].name; i++)
         if (consolecmds[i].type == CT_CVAR)
