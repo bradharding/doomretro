@@ -1034,6 +1034,7 @@ static bool D_AutoloadOtherBTSXWAD(void)
     if (BTSXE1A && !BTSXE1B)
     {
         M_snprintf(path, sizeof(path), "%s" DIR_SEPARATOR_S "%s", iwadfolder, "btsx_e1b.wad");
+        pwadfile = M_StringDuplicate("btsx_e1a.wad");
         return W_MergeFile(path, true);
     }
     else if (!BTSXE1A && BTSXE1B)
@@ -1044,6 +1045,7 @@ static bool D_AutoloadOtherBTSXWAD(void)
     else if (BTSXE2A && !BTSXE2B)
     {
         M_snprintf(path, sizeof(path), "%s" DIR_SEPARATOR_S "%s", iwadfolder, "btsx_e2b.wad");
+        pwadfile = M_StringDuplicate("btsx_e2a.wad");
         return W_MergeFile(path, true);
     }
     else if (!BTSXE2A && BTSXE2B)
@@ -1062,6 +1064,7 @@ static bool D_AutoloadOtherKDIKDIZDWAD(void)
     if (KDIKDIZDA && !KDIKDIZDB)
     {
         M_snprintf(path, sizeof(path), "%s" DIR_SEPARATOR_S "%s", iwadfolder, "KDiKDi_B.wad");
+        pwadfile = M_StringDuplicate("KDiKDi_A.wad");
         return W_MergeFile(path, true);
     }
     else if (!KDIKDIZDA && KDIKDIZDB)

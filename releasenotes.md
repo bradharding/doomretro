@@ -5,7 +5,7 @@
 * *DOOM Retro* is now built using v17.6.0 of [*Microsoft Visual Studio Community 2022*](https://visualstudio.microsoft.com/vs/community/).
 * Minor optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Changes have been made to text that is output to the console.
-* The `r_color` CVAR has now been renamed `r_saturation`, and it’s maximum value has increased to `200%`, allowing colors on the screen to be over-saturated.
+* The `r_color` CVAR has now been renamed `r_saturation`, and it’s maximum value has increased to `200%`, allowing colors on the screen to be over-saturated if set to a value greater than `100%`.
 * A crash no longer occurs when trying to display certain patches with heights greater than 200px.
 * Improvements have been made to toggling widescreen using the <kbd><b>+</b></kbd> and <kbd><b>&ndash;</b></kbd> keys while the menu is open.
 * The effects of changing the `r_gamma` and `r_saturation` CVARs are now applied to *DOOM Retro’s* splash screen.
