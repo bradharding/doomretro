@@ -2822,13 +2822,11 @@ static void Add_Scroller(int type, fixed_t dx, fixed_t dy, int control, int affe
 // the wall in a parallel direction is translated into horizontal motion.
 //
 // killough 05/25/98: cleaned up arithmetic to avoid drift due to roundoff
-//
-// killough 10/98:
-// fix scrolling aliasing problems, caused by long linedefs causing overflowing
-static void Add_WallScroller(int64_t dx, int64_t dy, const line_t *l, int control, bool accel)
+// killough 10/98: fix scrolling aliasing problems, caused by long linedefs causing overflowing
+static void Add_WallScroller(int64_t dx, int64_t dy, const line_t *line, int control, bool accel)
 {
-    fixed_t x = ABS(l->dx);
-    fixed_t y = ABS(l->dy);
+    fixed_t x = ABS(line->dx);
+    fixed_t y = ABS(line->dy);
     fixed_t d;
 
     if (y > x)
@@ -2836,30 +2834,23 @@ static void Add_WallScroller(int64_t dx, int64_t dy, const line_t *l, int contro
 
     d = FixedDiv(x, finesine[(tantoangle[FixedDiv(y, x) >> DBITS] + ANG90) >> ANGLETOFINESHIFT]);
 
-    x = (fixed_t)((dy * -(int64_t)l->dy - dx * (int64_t)l->dx) / d);    // killough 10/98:
-    y = (fixed_t)((dy * (int64_t)l->dx - dx * (int64_t)l->dy) / d);     // Use int64_t arithmetic
-    Add_Scroller(sc_side, x, y, control, *l->sidenum, accel);
+    x = (fixed_t)((dy * -(int64_t)line->dy - dx * (int64_t)line->dx) / d);  // killough 10/98:
+    y = (fixed_t)((dy * (int64_t)line->dx - dx * (int64_t)line->dy) / d);   // Use int64_t arithmetic
+    Add_Scroller(sc_side, x, y, control, *line->sidenum, accel);
 }
-
-// Amount (dx,dy) vector linedef is shifted right to get scroll amount
-#define SCROLL_SHIFT    5
-
-// Factor to scale scrolling effect into mobj-carrying properties = 3/32.
-// (This is so scrolling floors and objects on them can move at same speed.)
-#define CARRYFACTOR     ((fixed_t)(0.09375 * FRACUNIT))
 
 // Initialize the scrollers
 static void P_SpawnScrollers(void)
 {
-    line_t  *l = lines;
+    line_t  *line = lines;
 
-    for (int i = 0; i < numlines; i++, l++)
+    for (int i = 0; i < numlines; i++, line++)
     {
-        fixed_t dx = l->dx >> SCROLL_SHIFT;                                 // direction and speed of scrolling
-        fixed_t dy = l->dy >> SCROLL_SHIFT;
+        fixed_t dx = line->dx >> SCROLL_SHIFT;                              // direction and speed of scrolling
+        fixed_t dy = line->dy >> SCROLL_SHIFT;
         int     control = -1;                                               // no control sector or acceleration
         bool    accel = false;
-        int     special = l->special;
+        int     special = line->special;
 
         // killough 03/07/98: Types 245-249 are same as 250-254 except that the
         // first side's sector's heights cause scrolling when they change, and
@@ -2872,27 +2863,27 @@ static void P_SpawnScrollers(void)
             && special <= Scroll_ScrollWallWhenSectorChangesHeight)         // displacement scrollers
         {
             special += Scroll_ScrollCeilingAccordingToLineVector - Scroll_ScrollCeilingWhenSectorChangesHeight;
-            control = sides[*l->sidenum].sector->id;
+            control = sides[*line->sidenum].sector->id;
         }
         else if (special >= Scroll_CeilingAcceleratesWhenSectorHeightChanges
             && special <= Scroll_WallAcceleratesWhenSectorHeightChanges)    // accelerative scrollers
         {
             accel = true;
             special += Scroll_ScrollCeilingAccordingToLineVector - Scroll_CeilingAcceleratesWhenSectorHeightChanges;
-            control = sides[*l->sidenum].sector->id;
+            control = sides[*line->sidenum].sector->id;
         }
 
         switch (special)
         {
             case Scroll_ScrollCeilingAccordingToLineVector:
-                for (int s = -1; (s = P_FindSectorFromLineTag(l, s)) >= 0; )
+                for (int s = -1; (s = P_FindSectorFromLineTag(line, s)) >= 0; )
                     Add_Scroller(sc_ceiling, -dx, dy, control, s, accel);
 
                 break;
 
             case Scroll_ScrollFloorAccordingToLineVector:
             case Scroll_ScrollFloorAndMoveThings:
-                for (int s = -1; (s = P_FindSectorFromLineTag(l, s)) >= 0; )
+                for (int s = -1; (s = P_FindSectorFromLineTag(line, s)) >= 0; )
                     Add_Scroller(sc_floor, -dx, dy, control, s, accel);
 
                 if (special != Scroll_ScrollFloorAndMoveThings)
@@ -2902,7 +2893,7 @@ static void P_SpawnScrollers(void)
                 dx = FixedMul(dx, CARRYFACTOR);
                 dy = FixedMul(dy, CARRYFACTOR);
 
-                for (int s = -1; (s = P_FindSectorFromLineTag(l, s)) >= 0; )
+                for (int s = -1; (s = P_FindSectorFromLineTag(line, s)) >= 0; )
                     Add_Scroller(sc_carry, dx, dy, control, s, accel);
 
                 break;
@@ -2910,10 +2901,10 @@ static void P_SpawnScrollers(void)
             // killough 03/01/98: scroll wall according to linedef
             // (same direction and speed as scrolling floors)
             case Scroll_ScrollWallAccordingToLineVector:
-                if (!l->tag)
-                    Add_WallScroller(dx, dy, l, control, accel);
+                if (!line->tag)
+                    Add_WallScroller(dx, dy, line, control, accel);
                 else
-                    for (int s = -1; (s = P_FindLineFromLineTag(l, s)) >= 0; )
+                    for (int s = -1; (s = P_FindLineFromLineTag(line, s)) >= 0; )
                         if (s != i)
                             Add_WallScroller(dx, dy, lines + s, control, accel);
 
@@ -2943,7 +2934,7 @@ static void P_SpawnScrollers(void)
                 int side = lines[i].sidenum[0];
 
                 if (special >= Scroll_ScrollWallWithSameTagUsingSidedefOffsetsWhenSectorChangesHeight)
-                    control = sides[*l->sidenum].sector->id;
+                    control = sides[*line->sidenum].sector->id;
 
                 if (special == Scroll_ScrollWallWithSameTagUsingSidedefOffsetsAcceleratesWhenSectorChangesHeight)
                     accel = true;
@@ -2951,7 +2942,7 @@ static void P_SpawnScrollers(void)
                 dx = -sides[side].textureoffset / 8;
                 dy = sides[side].rowoffset / 8;
 
-                for (side = -1; (side = P_FindLineFromLineTag(l, side)) >= 0; )
+                for (side = -1; (side = P_FindLineFromLineTag(line, side)) >= 0; )
                     if (side != i)
                         Add_Scroller(sc_side, dx, dy, control, lines[side].sidenum[0], accel);
 
@@ -3010,7 +3001,7 @@ static void P_SpawnScrollers(void)
 // Initialize the sectors where friction is increased or decreased
 static void P_SpawnFriction(void)
 {
-    line_t  *l = lines;
+    line_t  *line = lines;
 
     // killough 08/28/98: initialize all sectors to normal friction first
     for (int i = 0; i < numsectors; i++)
@@ -3019,10 +3010,10 @@ static void P_SpawnFriction(void)
         sectors[i].movefactor = ORIG_FRICTION_FACTOR;
     }
 
-    for (int i = 0; i < numlines; i++, l++)
-        if (l->special == FrictionTaggedSector)
+    for (int i = 0; i < numlines; i++, line++)
+        if (line->special == FrictionTaggedSector)
         {
-            int length = P_ApproxDistance(l->dx, l->dy) >> FRACBITS;
+            int length = P_ApproxDistance(line->dx, line->dy) >> FRACBITS;
             int friction = BETWEEN(0, (0x1EB8 * length) / 0x80 + 0xD000, FRACUNIT);
             int movefactor;
 
@@ -3034,7 +3025,7 @@ static void P_SpawnFriction(void)
             else
                 movefactor = MAX(32, ((friction - 0xDB34) * 0x0A) / 0x80);
 
-            for (int s = -1; (s = P_FindSectorFromLineTag(l, s)) >= 0; )
+            for (int s = -1; (s = P_FindSectorFromLineTag(line, s)) >= 0; )
             {
                 // killough 08/28/98:
                 //
@@ -3329,28 +3320,28 @@ mobj_t *P_GetPushThing(int s)
 //
 static void P_SpawnPushers(void)
 {
-    line_t  *l = lines;
+    line_t  *line = lines;
     mobj_t  *thing;
 
-    for (int i = 0; i < numlines; i++, l++)
-        switch (l->special)
+    for (int i = 0; i < numlines; i++, line++)
+        switch (line->special)
         {
             case WindAccordingToLineVector:
-                for (int s = -1; (s = P_FindSectorFromLineTag(l, s)) >= 0; )
-                    Add_Pusher(p_wind, l->dx, l->dy, NULL, s);
+                for (int s = -1; (s = P_FindSectorFromLineTag(line, s)) >= 0; )
+                    Add_Pusher(p_wind, line->dx, line->dy, NULL, s);
 
                 break;
 
             case CurrentAccordingToLineVector:
-                for (int s = -1; (s = P_FindSectorFromLineTag(l, s)) >= 0; )
-                    Add_Pusher(p_current, l->dx, l->dy, NULL, s);
+                for (int s = -1; (s = P_FindSectorFromLineTag(line, s)) >= 0; )
+                    Add_Pusher(p_current, line->dx, line->dy, NULL, s);
 
                 break;
 
             case WindCurrentByPushPullThingInSector:
-                for (int s = -1; (s = P_FindSectorFromLineTag(l, s)) >= 0; )
+                for (int s = -1; (s = P_FindSectorFromLineTag(line, s)) >= 0; )
                     if ((thing = P_GetPushThing(s)))    // No MT_P* means no effect
-                        Add_Pusher(p_push, l->dx, l->dy, thing, s);
+                        Add_Pusher(p_push, line->dx, line->dy, thing, s);
 
                 break;
         }

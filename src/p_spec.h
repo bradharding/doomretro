@@ -564,6 +564,13 @@ void T_MoveFloor(floormove_t *floor);
 void T_MoveElevator(elevator_t *elevator);
 void P_CheckTerrainType(sector_t *sector);
 
+// Amount (dx,dy) vector linedef is shifted to get scroll amount
+#define SCROLL_SHIFT    5
+
+// Factor to scale scrolling effect into mobj-carrying properties = 3/32.
+// (This is so scrolling floors and objects on them can move at same speed.)
+#define CARRYFACTOR     ((fixed_t)(0.09375 * FRACUNIT))
+
 typedef enum
 {
     sc_side,

@@ -756,7 +756,6 @@ bool P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, const bool message, c
     static int  prevsound;
     static int  prevtic;
     static int  prevx, prevy;
-    int         temp;
     bool        duplicate;
 
     if (freeze)
@@ -768,7 +767,7 @@ bool P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, const bool message, c
         return false;
 
     // [BH] Use special's floorz instead of z to calculate distance from toucher,
-    // as special may be lowered due being in liquid sector.
+    // as special may be lowered due to being in liquid sector.
     if ((delta = special->floorz - toucher->z) > toucher->height || delta < -8 * FRACUNIT)
         return false;   // out of reach
 
@@ -1075,18 +1074,22 @@ bool P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, const bool message, c
 
         // rocket
         case SPR_ROCK:
-            if (!(temp = P_GiveAmmo(am_misl, 1, stat)))
+        {
+            int ammogiven = P_GiveAmmo(am_misl, 1, stat);
+
+            if (!ammogiven)
                 return false;
 
             if (message && !duplicate)
             {
-                if (temp == clipammo[am_misl] || deh_strlookup[p_GOTROCKET].assigned == 2 || hacx)
+                if (ammogiven == clipammo[am_misl] || deh_strlookup[p_GOTROCKET].assigned == 2 || hacx)
                     HU_PlayerMessage(s_GOTROCKET, true, false);
                 else
                     HU_PlayerMessage(s_GOTROCKETX2, true, false);
             }
 
             break;
+        }
 
         // box of rockets
         case SPR_BROK:
@@ -1100,18 +1103,22 @@ bool P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, const bool message, c
 
         // cell
         case SPR_CELL:
-            if (!(temp = P_GiveAmmo(am_cell, 1, stat)))
+        {
+            int ammogiven = P_GiveAmmo(am_cell, 1, stat);
+
+            if (!ammogiven)
                 return false;
 
             if (message && !duplicate)
             {
-                if (temp == clipammo[am_cell] || deh_strlookup[p_GOTCELL].assigned == 2 || hacx)
+                if (ammogiven == clipammo[am_cell] || deh_strlookup[p_GOTCELL].assigned == 2 || hacx)
                     HU_PlayerMessage(s_GOTCELL, true, false);
                 else
                     HU_PlayerMessage(s_GOTCELLX2, true, false);
             }
 
             break;
+        }
 
         // cell pack
         case SPR_CELP:
@@ -1125,18 +1132,22 @@ bool P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, const bool message, c
 
         // shells
         case SPR_SHEL:
-            if (!(temp = P_GiveAmmo(am_shell, 1, stat)))
+        {
+            int ammogiven = P_GiveAmmo(am_shell, 1, stat);
+
+            if (!ammogiven)
                 return false;
 
             if (message && !duplicate)
             {
-                if (temp == clipammo[am_shell] || deh_strlookup[p_GOTSHELLS].assigned == 2 || hacx)
+                if (ammogiven == clipammo[am_shell] || deh_strlookup[p_GOTSHELLS].assigned == 2 || hacx)
                     HU_PlayerMessage(s_GOTSHELLS, true, false);
                 else
                     HU_PlayerMessage(s_GOTSHELLSX2, true, false);
             }
 
             break;
+        }
 
         // box of shells
         case SPR_SBOX:
@@ -1217,12 +1228,13 @@ bool P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, const bool message, c
 
         // shotgun
         case SPR_SHOT:
-            temp = viewplayer->weaponowned[wp_shotgun];
+        {
+            bool    owned = viewplayer->weaponowned[wp_shotgun];
 
             if (!P_GiveWeapon(wp_shotgun, (special->flags & MF_DROPPED), stat))
                 return false;
 
-            if (!temp)
+            if (!owned)
                 viewplayer->preferredshotgun = wp_shotgun;
 
             if (message && !duplicate)
@@ -1230,15 +1242,17 @@ bool P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, const bool message, c
 
             sound = sfx_wpnup;
             break;
+        }
 
         // super shotgun
         case SPR_SGN2:
-            temp = viewplayer->weaponowned[wp_supershotgun];
+        {
+            bool    owned = viewplayer->weaponowned[wp_supershotgun];
 
             if (!P_GiveWeapon(wp_supershotgun, false, stat))
                 return false;
 
-            if (!temp)
+            if (!owned)
                 viewplayer->preferredshotgun = wp_supershotgun;
 
             if (message && !duplicate)
@@ -1246,6 +1260,7 @@ bool P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, const bool message, c
 
             sound = sfx_wpnup;
             break;
+        }
 
         default:
             break;

@@ -2752,24 +2752,23 @@ static void P_RemoveSlimeTrails(void)                   // killough 10/98
     free(hit);
 }
 
-// Precalc values for use later in long wall error fix in R_StoreWallRange()
+// Precalculate values for use later in long wall error fix in R_StoreWallRange()
 static void P_CalcSegsLength(void)
 {
     for (int i = 0; i < numsegs; i++)
     {
-        angle_t angle;
         seg_t   *li = segs + i;
+
+        // [BH] recalculate angle used for rendering. Fixes <https://doomwiki.org/wiki/Bad_seg_angle>.
+        angle_t angle = R_PointToAngleEx2(li->v1->x, li->v1->y, li->v2->x, li->v2->y);
+
+        if (AngleDiff(li->angle, angle) <= ANG30)
+            li->angle = angle;
 
         li->dx = (int64_t)li->v2->x - li->v1->x;
         li->dy = (int64_t)li->v2->y - li->v1->y;
 
         li->length = (int64_t)sqrt((double)li->dx * li->dx + (double)li->dy * li->dy) / 2;
-
-        // [BH] recalculate angle used for rendering. Fixes <https://doomwiki.org/wiki/Bad_seg_angle>.
-        angle = R_PointToAngleEx2(li->v1->x, li->v1->y, li->v2->x, li->v2->y);
-
-        if (AngleDiff(li->angle, angle) <= ANG30)
-            li->angle = angle;
 
         li->fakecontrast = (!li->dy ? -LIGHTBRIGHT : (!li->dx ? LIGHTBRIGHT : 0));
 
