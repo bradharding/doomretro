@@ -3029,9 +3029,9 @@ static void P_SpawnScrollers(void)
 
             case Scroll_ScrollWallUsingSidedefOffsets:
             {
-                int s = lines[i].sidenum[0];
+                int side = lines[i].sidenum[0];
 
-                Add_Scroller(sc_side, -sides[s].textureoffset, sides[s].rowoffset, -1, s, accel);
+                Add_Scroller(sc_side, -sides[side].textureoffset, sides[side].rowoffset, -1, side, accel);
                 break;
             }
 
@@ -3048,21 +3048,20 @@ static void P_SpawnScrollers(void)
             case Scroll_ScrollWallWithSameTagUsingSidedefOffsetsWhenSectorChangesHeight:
             case Scroll_ScrollWallWithSameTagUsingSidedefOffsetsAcceleratesWhenSectorChangesHeight:
             {
-                int s;
+                int side = lines[i].sidenum[0];
 
                 if (special >= Scroll_ScrollWallWithSameTagUsingSidedefOffsetsWhenSectorChangesHeight)
                     control = sides[*l->sidenum].sector->id;
 
                 if (special == Scroll_ScrollWallWithSameTagUsingSidedefOffsetsAcceleratesWhenSectorChangesHeight)
-                    accel = 1;
+                    accel = true;
 
-                s = lines[i].sidenum[0];
-                dx = -sides[s].textureoffset / 8;
-                dy = sides[s].rowoffset / 8;
+                dx = -sides[side].textureoffset / 8;
+                dy = sides[side].rowoffset / 8;
 
-                for (s = -1; (s = P_FindLineFromLineTag(l, s)) >= 0; )
-                    if (s != i)
-                        Add_Scroller(sc_side, dx, dy, control, lines[s].sidenum[0], accel);
+                for (side = -1; (side = P_FindLineFromLineTag(l, side)) >= 0; )
+                    if (side != i)
+                        Add_Scroller(sc_side, dx, dy, control, lines[side].sidenum[0], accel);
 
                 break;
             }

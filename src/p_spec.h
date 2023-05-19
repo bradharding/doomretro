@@ -581,7 +581,7 @@ typedef struct
     int         control;        // Control sector (-1 if none) used to control scrolling
     fixed_t     lastheight;     // Last known height of control sector
     fixed_t     vdx, vdy;       // Accumulated velocity if accelerative
-    int         accel;          // Whether it's accelerative
+    bool        accel;          // Whether it's accelerative
     scroll_e    type;           // Type of scroll effect
 } scroll_t;
 
