@@ -2115,6 +2115,8 @@ static void P_LoadSideDefs2(int lump)
 
         sd->textureoffset = SHORT(msd->textureoffset) << FRACBITS;
         sd->rowoffset = SHORT(msd->rowoffset) << FRACBITS;
+        sd->basetextureoffset = sd->textureoffset;
+        sd->baserowoffset = sd->rowoffset;
 
         // cph 09/30/06: catch out-of-range sector numbers; use sector 0 instead
         if (sector_num >= numsectors)

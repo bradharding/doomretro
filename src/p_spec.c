@@ -2704,10 +2704,10 @@ void T_Scroll(scroll_t *scroller)
     if (scroller->control != -1)
     {
         // compute scroll amounts based on a sector's height changes
-        fixed_t height = sectors[scroller->control].floorheight + sectors[scroller->control].ceilingheight;
-        fixed_t delta = height - scroller->last_height;
+        const fixed_t   height = sectors[scroller->control].floorheight + sectors[scroller->control].ceilingheight;
+        const fixed_t   delta = height - scroller->lastheight;
 
-        scroller->last_height = height;
+        scroller->lastheight = height;
         dx = FixedMul(dx, delta);
         dy = FixedMul(dy, delta);
     }
@@ -2719,62 +2719,168 @@ void T_Scroll(scroll_t *scroller)
         scroller->vdy = (dy += scroller->vdy);
     }
 
-    if (!(dx | dy))                 // no-op if both (x,y) offsets 0
+    if (!(dx | dy))                     // no-op if both (x,y) offsets 0
         return;
 
     switch (scroller->type)
     {
-        sector_t    *sec;
-
-        case sc_side:               // killough 03/07/98: Scroll wall texture
+        case sc_side:                   // killough 03/07/98: Scroll wall texture
         {
             side_t  *side = sides + scroller->affectee;
 
-            side->textureoffset += dx;
-            side->rowoffset += dy;
+            side->basetextureoffset += dx;
+            side->baserowoffset += dy;
+            side->textureoffset = side->basetextureoffset;
+            side->rowoffset = side->baserowoffset;
             break;
         }
 
-        case sc_floor:              // killough 03/07/98: Scroll floor texture
-            sec = sectors + scroller->affectee;
+        case sc_floor:                  // killough 03/07/98: Scroll floor texture
+        {
+            sector_t    *sec = sectors + scroller->affectee;
+
             sec->floorxoffset += dx;
             sec->flooryoffset += dy;
             break;
+        }
 
-        case sc_ceiling:            // killough 03/07/98: Scroll ceiling texture
-            sec = sectors + scroller->affectee;
+        case sc_ceiling:                // killough 03/07/98: Scroll ceiling texture
+        {
+            sector_t    *sec = sectors + scroller->affectee;
+
             sec->ceilingxoffset += dx;
             sec->ceilingyoffset += dy;
             break;
+        }
 
         case sc_carry:
+        {
+            // killough 03/07/98: Carry things on floor
+            // killough 03/20/98: Use new sector list which reflects true members
+            // killough 03/27/98: Fix carrier bug
+            // killough 04/04/98: Underwater, carry things even w/o gravity
+            sector_t    *sec = sectors + scroller->affectee;
+            fixed_t     height = sec->floorheight;
+            fixed_t     waterheight = (sec->heightsec && sec->heightsec->floorheight > height ? sec->heightsec->floorheight : FIXED_MIN);
+
+            // Move objects only if on floor or underwater,
+            // non-floating, and clipped.
+            for (msecnode_t *node = sec->touching_thinglist; node; node = node->m_snext)
             {
-                fixed_t height;
-                fixed_t waterheight;    // killough 04/04/98: add waterheight
+                mobj_t  *thing = node->m_thing;
 
-                // killough 03/07/98: Carry things on floor
-                // killough 03/20/98: Use new sector list which reflects true members
-                // killough 03/27/98: Fix carrier bug
-                // killough 04/04/98: Underwater, carry things even w/o gravity
-                sec = sectors + scroller->affectee;
-                height = sec->floorheight;
-                waterheight = (sec->heightsec && sec->heightsec->floorheight > height ? sec->heightsec->floorheight : FIXED_MIN);
-
-                // Move objects only if on floor or underwater,
-                // non-floating, and clipped.
-                for (msecnode_t *node = sec->touching_thinglist; node; node = node->m_snext)
+                if (!(thing->flags & MF_NOCLIP) && (!((thing->flags & MF_NOGRAVITY) || thing->z > height) || thing->z < waterheight))
                 {
-                    mobj_t  *thing = node->m_thing;
-
-                    if (!(thing->flags & MF_NOCLIP) && (!((thing->flags & MF_NOGRAVITY) || thing->z > height) || thing->z < waterheight))
-                    {
-                        thing->momx += dx;
-                        thing->momy += dy;
-                    }
+                    thing->momx += dx;
+                    thing->momy += dy;
                 }
             }
 
             break;
+        }
+    }
+}
+
+// [crispy] smooth texture scrolling
+static int      maxscrollers;
+static int      numscrollers;
+static scroll_t **scrollers;
+
+void P_AddScroller(scroll_t *s)
+{
+    if (numscrollers == maxscrollers)
+    {
+        maxscrollers = (maxscrollers ? 2 * maxscrollers : 32);
+        scrollers = I_Realloc(scrollers, maxscrollers * sizeof(*scrollers));
+    }
+
+    scrollers[numscrollers++] = s;
+}
+
+void P_FreeScrollers(void)
+{
+    maxscrollers = 0;
+    numscrollers = 0;
+
+    if (scrollers)
+        free(scrollers);
+
+    scrollers = NULL;
+}
+
+void R_InterpolateTextureOffsets(void)
+{
+    static int  prevmaptime = -1;
+
+    if (vid_capfps != TICRATE && maptime != prevmaptime && !freeze)
+    {
+        prevmaptime = maptime;
+
+        for (int i = 0; i < numscrollers; i++)
+        {
+            scroll_t    *scroller = scrollers[i];
+            int         dx, dy;
+
+            if (scroller->accel)
+            {
+                dx = scroller->vdx;
+                dy = scroller->vdy;
+            }
+            else
+            {
+                dx = scroller->dx;
+                dy = scroller->dy;
+
+                // compute scroll amounts based on a sector's height changes
+                if (scroller->control != -1)
+                {   
+                    const fixed_t   height = sectors[scroller->control].floorheight + sectors[scroller->control].ceilingheight;
+                    const fixed_t   delta = height - scroller->lastheight;
+
+                    dx = FixedMul(dx, delta);
+                    dy = FixedMul(dy, delta);
+                }
+            }
+
+            if (!(dx | dy))
+                continue;
+
+            switch (scroller->type)
+            {
+                ;
+                ;
+
+                case sc_side:
+                {
+                    side_t  *side = sides + scroller->affectee;
+
+                    side->textureoffset = side->basetextureoffset + FixedMul(dx, fractionaltic);
+                    side->rowoffset = side->baserowoffset + FixedMul(dy, fractionaltic);
+                    break;
+                }
+
+                case sc_floor:
+                {
+                    sector_t    *sec = sectors + scroller->affectee;
+
+                    sec->floorxoffset = sec->basefloorxoffset + FixedMul(dx, fractionaltic);
+                    sec->floorxoffset = sec->baseflooryoffset + FixedMul(dy, fractionaltic);
+                    break;
+                }
+
+                case sc_ceiling:
+                {
+                    sector_t    *sec = sectors + scroller->affectee;
+
+                    sec->ceilingxoffset = sec->baseceilingxoffset + FixedMul(dx, fractionaltic);
+                    sec->ceilingyoffset = sec->baseceilingyoffset + FixedMul(dy, fractionaltic);
+                    break;
+                }
+
+                default:
+                    break;
+            }
+        }
     }
 }
 
@@ -2805,12 +2911,15 @@ static void Add_Scroller(int type, fixed_t dx, fixed_t dy, int control, int affe
     scroller->accel = accel;
 
     if ((scroller->control = control) != -1)
-        scroller->last_height = sectors[control].floorheight + sectors[control].ceilingheight;
+        scroller->lastheight = sectors[control].floorheight + sectors[control].ceilingheight;
 
     scroller->affectee = affectee;
     scroller->thinker.function = &T_Scroll;
     scroller->thinker.menu = (type != sc_carry);
     P_AddThinker(&scroller->thinker);
+
+    if (type >= sc_side && type <= sc_ceiling)
+        P_AddScroller(scroller);
 }
 
 // Adds wall scroller. Scroll amount is rotated with respect to wall's
@@ -2849,6 +2958,8 @@ static void Add_WallScroller(int64_t dx, int64_t dy, const line_t *l, int contro
 static void P_SpawnScrollers(void)
 {
     line_t  *l = lines;
+
+    P_FreeScrollers();
 
     for (int i = 0; i < numlines; i++, l++)
     {

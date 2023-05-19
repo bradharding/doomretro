@@ -165,7 +165,9 @@ typedef struct sector_s
 
     // killough 03/07/98: floor and ceiling texture offsets
     fixed_t             floorxoffset, flooryoffset;
+    fixed_t             basefloorxoffset, baseflooryoffset;
     fixed_t             ceilingxoffset, ceilingyoffset;
+    fixed_t             baseceilingxoffset, baseceilingyoffset;
 
     // killough 04/11/98: support for lightlevels coming from another sector
     struct sector_s     *floorlightsec;
@@ -210,9 +212,11 @@ typedef struct
 {
     // add this to the calculated texture column
     fixed_t             textureoffset;
+    fixed_t             basetextureoffset;
 
     // add this to the calculated texture top
     fixed_t             rowoffset;
+    fixed_t             baserowoffset;
 
     // Texture indices.
     // We do not maintain names here.

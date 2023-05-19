@@ -579,7 +579,7 @@ typedef struct
     fixed_t     dx, dy;         // (dx,dy) scroll speeds
     int         affectee;       // Number of affected sidedef, sector, tag, or whatever
     int         control;        // Control sector (-1 if none) used to control scrolling
-    fixed_t     last_height;    // Last known height of control sector
+    fixed_t     lastheight;     // Last known height of control sector
     fixed_t     vdx, vdy;       // Accumulated velocity if accelerative
     int         accel;          // Whether it's accelerative
     scroll_e    type;           // Type of scroll effect

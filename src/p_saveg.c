@@ -916,7 +916,7 @@ static void saveg_read_scroll_t(scroll_t *str)
     str->dy = saveg_read32();
     str->affectee = saveg_read32();
     str->control = saveg_read32();
-    str->last_height = saveg_read32();
+    str->lastheight = saveg_read32();
     str->vdx = saveg_read32();
     str->vdy = saveg_read32();
     str->accel = saveg_read32();
@@ -929,7 +929,7 @@ static void saveg_write_scroll_t(scroll_t *str)
     saveg_write32(str->dy);
     saveg_write32(str->affectee);
     saveg_write32(str->control);
-    saveg_write32(str->last_height);
+    saveg_write32(str->lastheight);
     saveg_write32(str->vdx);
     saveg_write32(str->vdy);
     saveg_write32(str->accel);
@@ -1256,6 +1256,8 @@ void P_UnarchiveWorld(void)
 
             side->textureoffset = saveg_read32() << FRACBITS;
             side->rowoffset = saveg_read32() << FRACBITS;
+            side->basetextureoffset = side->textureoffset;
+            side->baserowoffset = side->rowoffset;
             side->toptexture = saveg_read16();
             side->bottomtexture = saveg_read16();
             side->midtexture = saveg_read16();
