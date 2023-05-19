@@ -1664,7 +1664,7 @@ void P_UnarchiveSpecials(void)
 
                 saveg_read_scroll_t(scroll);
                 scroll->thinker.function = &T_Scroll;
-                scroll->thinker.menu = true;
+                scroll->thinker.menu = (scroll->type != sc_carry);
                 P_AddThinker(&scroll->thinker);
                 break;
             }
