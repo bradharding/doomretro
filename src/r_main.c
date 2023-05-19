@@ -1161,9 +1161,6 @@ void R_RenderPlayerView(void)
             (viewplayer->fixedcolormap == INVERSECOLORMAP ? colormaps[0][32 * 256 + WHITE] : nearestblack),
             0, false, false, NULL, NULL);
 
-    // [crispy] smooth texture scrolling
-    R_InterpolateTextureOffsets();
-
     R_RenderBSPNode(numnodes - 1);  // head node is the last node output
     R_DrawPlanes();
     R_DrawMasked();

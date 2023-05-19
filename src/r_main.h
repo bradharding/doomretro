@@ -152,8 +152,5 @@ void R_Init(void);
 void R_SetViewSize(int blocks);
 void R_ExecuteSetViewSize(void);
 
-// [crispy] smooth texture scrolling
-void R_InterpolateTextureOffsets(void);
-
 void R_InitColumnFunctions(void);
 void R_UpdateMobjColfunc(mobj_t *mobj);
