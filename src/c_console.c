@@ -1227,7 +1227,7 @@ void C_UpdatePlayerPositionOverlay(void)
     {
         const int   an = (int)(viewangle * 90.0 / ANG90);
         mobj_t      *mo = viewplayer->mo;
-        int         z = mo->z;
+        fixed_t     z = MAX(mo->floorz, mo->z);
 
         if ((mo->flags2 & MF2_FEETARECLIPPED) && r_liquid_lowerview)
             z -= FOOTCLIPSIZE;
