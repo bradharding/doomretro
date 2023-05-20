@@ -1256,8 +1256,6 @@ void P_UnarchiveWorld(void)
 
             side->textureoffset = saveg_read32() << FRACBITS;
             side->rowoffset = saveg_read32() << FRACBITS;
-            side->basetextureoffset = side->textureoffset;
-            side->baserowoffset = side->rowoffset;
             side->toptexture = saveg_read16();
             side->bottomtexture = saveg_read16();
             side->midtexture = saveg_read16();

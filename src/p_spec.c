@@ -2730,10 +2730,8 @@ void T_Scroll(scroll_t *scroller)
         {
             side_t  *side = sides + scroller->affectee;
 
-            side->basetextureoffset += dx;
-            side->baserowoffset += dy;
-            side->textureoffset = side->basetextureoffset;
-            side->rowoffset = side->baserowoffset;
+            side->textureoffset += dx;
+            side->rowoffset += dy;
             break;
         }
 

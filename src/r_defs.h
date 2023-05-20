@@ -210,11 +210,9 @@ typedef struct
 {
     // add this to the calculated texture column
     fixed_t             textureoffset;
-    fixed_t             basetextureoffset;
 
     // add this to the calculated texture top
     fixed_t             rowoffset;
-    fixed_t             baserowoffset;
 
     // Texture indices.
     // We do not maintain names here.
