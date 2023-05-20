@@ -1082,14 +1082,13 @@ static void P_LoadSegs(int lump)
                             }
                             else
                             {
-                                char    *temp1 = commify(linefix[j].special);
-                                char    *temp2 = commify(linedefnum);
+                                char    *temp1 = commify(linedefnum);
+                                char    *temp2 = commify(linefix[j].special);
 
-                                C_Warning(2, "%s line special %s (\"%s\") has been added to linedef %s.",
-                                    (linefix[j].special < BOOMLINESPECIALS ? "The" : (linefix[j].special < MBFLINESPECIALS ?
+                                C_Warning(2, "Linedef %s now has %s line special %s (\"%s\").",
+                                    temp1, (linefix[j].special < BOOMLINESPECIALS ? "The" : (linefix[j].special < MBFLINESPECIALS ?
                                     "The " ITALICS("BOOM") "-compatible" : (linefix[j].special < MBF21LINESPECIALS ? "The " ITALICS("MBF")
-                                    "-compatible" : "The " ITALICS("MBF21") "-compatible"))), temp1, linespecials[linefix[j].special],
-                                    temp2);
+                                    "-compatible" : "The " ITALICS("MBF21") "-compatible"))), temp2, linespecials[linefix[j].special]);
                                 free(temp1);
                                 free(temp2);
                             }
