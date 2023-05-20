@@ -2165,16 +2165,7 @@ bool C_Responder(event_t *ev)
                         static char output[255];
 
                         autocomplete += scrolldirection;
-
-                        if (GetCapsLockState())
-                        {
-                            char    *temp = uppercase(autocompletelist[autocomplete].text);
-
-                            M_StringCopy(output, temp, sizeof(output));
-                            free(temp);
-                        }
-                        else
-                            M_StringCopy(output, autocompletelist[autocomplete].text, sizeof(output));
+                        M_StringCopy(output, autocompletelist[autocomplete].text, sizeof(output));
 
                         if (!M_StringCompare(output, input))
                         {
@@ -2193,7 +2184,12 @@ bool C_Responder(event_t *ev)
                                     || (spaces1 == 2 && !endspace1 && (spaces2 == 2 || (spaces2 == 3 && endspace2)))
                                     || (spaces1 == 3 && !endspace1)))
                             {
-                                char    *temp = M_StringJoin(prefix, M_StringReplaceFirst(output, input, input), NULL);
+                                char    *temp;
+
+                                if (islower(consoleinput[strlen(consoleinput) - 1]))
+                                    temp = M_StringJoin(prefix, lowercase(M_StringReplaceFirst(output, input, input)), NULL);
+                                else
+                                    temp = M_StringJoin(prefix, M_StringReplaceFirst(output, input, input), NULL);
 
                                 C_AddToUndoHistory();
                                 M_StringCopy(consoleinput, temp, sizeof(consoleinput));
