@@ -5,13 +5,14 @@
 * *DOOM Retro* is now built using v17.6.0 of [*Microsoft Visual Studio Community 2022*](https://visualstudio.microsoft.com/vs/community/).
 * Minor optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Changes have been made to text that is output to the console.
-* The `r_color` CVAR has now been renamed `r_saturation`, and it’s maximum value has increased to `200%`, allowing colors on the screen to be over-saturated if set to a value greater than `100%`.
+* Minor improvements have been made to the text that can be autocompleted in the console by pressing the <kbd><b>TAB</b></kbd> key.
+* The `r_color` CVAR has now been renamed `r_saturation`, and it’s maximum value has increased to `200%`, allowing colors on the screen to be oversaturated if set to a value greater than `100%`.
 * A crash no longer occurs when trying to display certain patches with heights greater than 200px.
 * Improvements have been made to toggling widescreen using the <kbd><b>+</b></kbd> and <kbd><b>&ndash;</b></kbd> keys while the menu is open.
 * The effects of changing the `r_gamma` and `r_saturation` CVARs are now applied to *DOOM Retro’s* splash screen.
 * The `r_lowpixelsize` CVAR can now be set to `1×2` or `2×1`.
-* A bug is fixed whereby the player sometimes wouldn’t pick up an item in a liquid sector when the `r_liquid_clipsprites` CVAR was `on`.
-* Improvements have been made to when to equip either the chainsaw or fists when the player presses the <kbd><b>1</b></kbd> key.
+* A bug is fixed whereby sometimes the player wouldn’t pick up an item in a liquid sector when the `r_liquid_clipsprites` CVAR was `on`.
+* Improvements have been made to equipping either the chainsaw or fists when the player presses the <kbd><b>1</b></kbd> key.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

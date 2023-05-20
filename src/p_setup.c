@@ -776,7 +776,6 @@ static void P_CheckLinedefs(void)
                             "-compatible"))), temp2, linespecials[ld->special]);
                     else
                         C_Warning(2, "Linedef %s has an invalid line special of %s.", temp1, temp2);
-
                 }
                 else
                     C_Warning(2, "Linedef %s has a " ITALICS("BOOM") "-compatible generalized line special of %s but no tag.", temp1, temp2);
@@ -791,10 +790,15 @@ static void P_CheckLinedefs(void)
                 char    *temp3 = commify(ld->tag);
 
                 if (ld->special < NUMLINESPECIALS)
-                    C_Warning(2, "Linedef %s has %s line special of %s (\"%s\") but an unknown tag of %s.",
-                        temp1, (ld->special < BOOMLINESPECIALS ? "a" : (ld->special < MBFLINESPECIALS ? "a " ITALICS("BOOM")
-                        "-compatible" : (ld->special < MBF21LINESPECIALS ? "an " ITALICS("MBF") "-compatible" : "an " ITALICS("MBF21")
-                        "-compatible"))), temp2, linespecials[ld->special], temp3);
+                {
+                    if (linespecials[ld->special])
+                        C_Warning(2, "Linedef %s has %s line special of %s (\"%s\") but an unknown tag of %s.",
+                            temp1, (ld->special < BOOMLINESPECIALS ? "a" : (ld->special < MBFLINESPECIALS ? "a " ITALICS("BOOM")
+                            "-compatible" : (ld->special < MBF21LINESPECIALS ? "an " ITALICS("MBF") "-compatible" : "an " ITALICS("MBF21")
+                            "-compatible"))), temp2, linespecials[ld->special], temp3);
+                    else
+                        C_Warning(2, "Linedef %s has an invalid line special of %s.", temp1, temp2);
+                }
                 else
                     C_Warning(2, "Linedef %s has a " ITALICS("BOOM") "-compatible generalized line special of %s but an unknown tag of %s.",
                         temp1, temp2, temp3);
