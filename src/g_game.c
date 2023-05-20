@@ -195,10 +195,16 @@ void G_NextWeapon(void)
     {
         viewplayer->pendingweapon = i;
 
-        if (i == wp_fist && viewplayer->powers[pw_strength])
-            S_StartSound(NULL, sfx_getpow);
+        if (i == wp_fist)
+        {
+            if (viewplayer->powers[pw_strength])
+                S_StartSound(NULL, sfx_getpow);
 
-        if (i == wp_shotgun || i == wp_supershotgun)
+            viewplayer->fistorchainsaw = wp_fist;
+        }
+        else if (i == wp_chainsaw)
+            viewplayer->fistorchainsaw = wp_chainsaw;
+        else if (i == wp_shotgun || i == wp_supershotgun)
             viewplayer->preferredshotgun = i;
     }
 
@@ -227,10 +233,16 @@ void G_PrevWeapon(void)
     {
         viewplayer->pendingweapon = i;
 
-        if (i == wp_fist && viewplayer->powers[pw_strength])
-            S_StartSound(NULL, sfx_getpow);
+        if (i == wp_fist)
+        {
+            if (viewplayer->powers[pw_strength])
+                S_StartSound(NULL, sfx_getpow);
 
-        if (i == wp_shotgun || i == wp_supershotgun)
+            viewplayer->fistorchainsaw = wp_fist;
+        }
+        else if (i == wp_chainsaw)
+            viewplayer->fistorchainsaw = wp_chainsaw;
+        else if (i == wp_shotgun || i == wp_supershotgun)
             viewplayer->preferredshotgun = i;
     }
 
