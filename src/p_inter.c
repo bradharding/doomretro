@@ -766,9 +766,10 @@ bool P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, const bool message, c
     if (toucher->health <= 0)
         return false;
 
-    // [BH] Use special's floorz instead of z to calculate distance from toucher,
-    // as special may be lowered due to being in liquid sector.
-    if ((delta = special->floorz - toucher->z) > toucher->height || delta < -8 * FRACUNIT)
+    // [BH] Use floorz instead of z to calculate special's distance from toucher,
+    // if lowered while in liquid sector.
+    if ((delta = ((special->flags2 & MF2_FEETARECLIPPED) ? special->floorz : special->z) - toucher->z) > toucher->height
+        || delta < -8 * FRACUNIT)
         return false;   // out of reach
 
     duplicate = (special->type == prevtouchtype && special->x == prevx && special->y == prevy);

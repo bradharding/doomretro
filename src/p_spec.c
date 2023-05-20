@@ -125,6 +125,8 @@ static anim_t   *anims;             // new structure w/o limits -- killough
 terraintype_t   *terraintypes;
 bool            *isteleport;
 
+bool            zerotag_manual;
+
 // killough 03/07/98: Initialize generalized scrolling
 static void P_SpawnScrollers(void);
 static void P_SpawnFriction(void);  // phares 03/16/98
@@ -3083,11 +3085,10 @@ static void P_SpawnFriction(void)
 // For each sector where these effects occur, the sector special type has
 // to have the PUSH_MASK bit set. If this bit is turned off by a switch
 // at run-time, the effect will not occur. The controlling sector for
-// types 1 and 2 is the sector containing the MT_PUSH/MT_PULL Thing.
+// types 1 and 2 is the sector containing the MT_PUSH/MT_PULL thing.
 
 #define PUSH_FACTOR 7
 
-//
 // Add a push thinker to the thinker list
 static void Add_Pusher(int type, int x_mag, int y_mag, mobj_t *source, int affectee)
 {
@@ -3166,8 +3167,8 @@ static bool PIT_PushThing(mobj_t *thing)
 }
 
 //
-// T_Pusher looks for all objects that are inside the radius of
-// the effect.
+// T_Pusher
+// Looks for all objects that are inside the radius of the effect.
 //
 void T_Pusher(pusher_t *pusher)
 {
@@ -3346,8 +3347,6 @@ static void P_SpawnPushers(void)
                 break;
         }
 }
-
-bool    zerotag_manual;
 
 bool P_ProcessNoTagLines(const line_t *line, sector_t **sec, int *secnum)
 {

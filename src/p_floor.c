@@ -810,9 +810,10 @@ bool EV_DoElevator(const line_t *line, const elevator_e elevtype)
             continue;
 
         // create and initialize new elevator thinker
-        rtn = true;
-        elevator = Z_Calloc(1, sizeof(*elevator), PU_LEVSPEC, NULL);
+        if (!(elevator = Z_Calloc(1, sizeof(*elevator), PU_LEVSPEC, NULL)))
+            return false;
 
+        rtn = true;
         elevator->thinker.function = &T_MoveElevator;
         P_AddThinker(&elevator->thinker);
 
