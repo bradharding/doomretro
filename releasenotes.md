@@ -11,6 +11,7 @@
 * The effects of changing the `r_gamma` and `r_saturation` CVARs are now applied to *DOOM Retro’s* splash screen.
 * The `r_lowpixelsize` CVAR can now be set to `1×2` or `2×1`.
 * A bug is fixed whereby the player sometimes wouldn’t pick up an item in a liquid sector when the `r_liquid_clipsprites` CVAR was `on`.
+* Improvements have been made to when to equip either the chainsaw or fists when the player presses the <kbd><b>1</b></kbd> key.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
