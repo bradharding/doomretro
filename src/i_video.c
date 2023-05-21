@@ -1023,14 +1023,14 @@ void I_SetPaletteWithBrightness(byte *playpal, float brightness)
 
         for (int i = 0; i < 256; i++)
         {
-            const float r = gamma[*playpal++] * brightness;
-            const float g = gamma[*playpal++] * brightness;
-            const float b = gamma[*playpal++] * brightness;
-            const float p = sqrtf(r * r * 0.299f + g * g * 0.587f + b * b * 0.114f);
+            const byte  r = gamma[*playpal++];
+            const byte  g = gamma[*playpal++];
+            const byte  b = gamma[*playpal++];
+            const float p = saturationtable[r][g][b];
 
-            colors[i].r = (byte)BETWEENF(0, p + (r - p) * saturation, 255);
-            colors[i].g = (byte)BETWEENF(0, p + (g - p) * saturation, 255);
-            colors[i].b = (byte)BETWEENF(0, p + (b - p) * saturation, 255);
+            colors[i].r = (byte)(BETWEENF(0, p + (r - p) * saturation, 255) * brightness);
+            colors[i].g = (byte)(BETWEENF(0, p + (g - p) * saturation, 255) * brightness);
+            colors[i].b = (byte)(BETWEENF(0, p + (b - p) * saturation, 255) * brightness);
         }
     }
 
