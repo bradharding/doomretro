@@ -159,6 +159,7 @@ int                 keydown = 0;
 static bool         keys[NUMKEYS];
 
 static byte         gammatable[GAMMALEVELS][256];
+static double       saturationtable[256][256][256];
 
 const float gammalevels[GAMMALEVELS] =
 {
@@ -979,10 +980,10 @@ void I_SetPalette(byte *playpal)
 
         for (int i = 0; i < 256; i++)
         {
-            const double    r = gamma[*playpal++];
-            const double    g = gamma[*playpal++];
-            const double    b = gamma[*playpal++];
-            const double    p = sqrt(r * r * 0.299 + g * g * 0.587 + b * b * 0.114);
+            const byte      r = gamma[*playpal++];
+            const byte      g = gamma[*playpal++];
+            const byte      b = gamma[*playpal++];
+            const double    p = saturationtable[r][g][b];
 
             colors[i].r = (byte)BETWEENF(0, p + (r - p) * saturation, 255);
             colors[i].g = (byte)BETWEENF(0, p + (g - p) * saturation, 255);
@@ -1837,6 +1838,11 @@ static void I_InitGammaTables(void)
     for (int i = 0; i < GAMMALEVELS; i++)
         for (int j = 0; j < 256; j++)
             gammatable[i][j] = (byte)(pow(j / 255.0, 1.0 / gammalevels[i]) * 255.0 + 0.5);
+
+    for (int r = 0; r < 256; r++)
+        for (int g = 0; g < 256; g++)
+            for (int b = 0; b < 256; b++)
+                saturationtable[r][g][b] = sqrt(r * r * 0.299 + g * g * 0.587 + b * b * 0.114);
 }
 
 void I_SetGamma(float value)
