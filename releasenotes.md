@@ -6,7 +6,7 @@
 * Minor optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Changes have been made to text that is output to the console.
 * Minor improvements have been made to the text that can be autocompleted in the console by pressing the <kbd><b>TAB</b></kbd> key.
-* The `r_color` CVAR has now been renamed `r_saturation`, and it’s maximum value has increased to `200%`, allowing colors on the screen to be oversaturated if set to a value greater than `100%`.
+* The `r_color` CVAR has now been renamed `r_saturation`, and it’s maximum value has increased from `100%` to `200%`, allowing colors on the screen to be oversaturated.
 * A crash no longer occurs when trying to display certain patches with heights greater than 200px.
 * Improvements have been made to toggling widescreen using the <kbd><b>+</b></kbd> and <kbd><b>&ndash;</b></kbd> keys while the menu is open.
 * The effects of changing the `r_gamma` and `r_saturation` CVARs are now applied to *DOOM Retro’s* splash screen.

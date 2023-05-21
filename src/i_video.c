@@ -1833,7 +1833,7 @@ void I_SetPillarboxes(void)
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
 }
 
-static void I_InitGammaTables(void)
+static void I_InitPaletteTables(void)
 {
     for (int i = 0; i < GAMMALEVELS; i++)
         for (int j = 0; j < 256; j++)
@@ -1901,7 +1901,7 @@ void I_InitGraphics(void)
     I_InitTintTables(PLAYPAL);
     FindNearestColors(PLAYPAL);
 
-    I_InitGammaTables();
+    I_InitPaletteTables();
     I_SetGamma(r_gamma);
 
 #if !defined(_WIN32)
