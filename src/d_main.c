@@ -246,7 +246,7 @@ void D_FadeScreenToBlack(void)
     if (!fade)
         return;
 
-    for (double i = 0.95; i >= 0.0; i -= 0.05)
+    for (float i = 0.95f; i >= 0.0f; i -= 0.05f)
     {
         I_SetPaletteWithBrightness(&PLAYPAL[st_palette * 768], i);
         I_SetExternalAutomapPalette();

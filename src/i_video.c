@@ -159,7 +159,7 @@ int                 keydown = 0;
 static bool         keys[NUMKEYS];
 
 static byte         gammatable[GAMMALEVELS][256];
-static double       saturationtable[256][256][256];
+static float        saturationtable[256][256][256];
 
 const float gammalevels[GAMMALEVELS] =
 {
@@ -976,14 +976,14 @@ void I_SetPalette(byte *playpal)
         }
     else
     {
-        const double    saturation = r_saturation / 100.0;
+        const float saturation = r_saturation / 100.0f;
 
         for (int i = 0; i < 256; i++)
         {
-            const byte      r = gamma[*playpal++];
-            const byte      g = gamma[*playpal++];
-            const byte      b = gamma[*playpal++];
-            const double    p = saturationtable[r][g][b];
+            const byte  r = gamma[*playpal++];
+            const byte  g = gamma[*playpal++];
+            const byte  b = gamma[*playpal++];
+            const float p = saturationtable[r][g][b];
 
             colors[i].r = (byte)BETWEENF(0, p + (r - p) * saturation, 255);
             colors[i].g = (byte)BETWEENF(0, p + (g - p) * saturation, 255);
@@ -1006,7 +1006,7 @@ void I_SetExternalAutomapPalette(void)
     }
 }
 
-void I_SetPaletteWithBrightness(byte *playpal, double brightness)
+void I_SetPaletteWithBrightness(byte *playpal, float brightness)
 {
     byte    *gamma = gammatable[gammaindex];
 
@@ -1019,14 +1019,14 @@ void I_SetPaletteWithBrightness(byte *playpal, double brightness)
         }
     else
     {
-        const double    saturation = r_saturation / 100.0;
+        const float saturation = r_saturation / 100.0f;
 
         for (int i = 0; i < 256; i++)
         {
-            const double    r = gamma[*playpal++] * brightness;
-            const double    g = gamma[*playpal++] * brightness;
-            const double    b = gamma[*playpal++] * brightness;
-            const double    p = sqrt(r * r * 0.299 + g * g * 0.587 + b * b * 0.114);
+            const float r = gamma[*playpal++] * brightness;
+            const float g = gamma[*playpal++] * brightness;
+            const float b = gamma[*playpal++] * brightness;
+            const float p = sqrtf(r * r * 0.299f + g * g * 0.587f + b * b * 0.114f);
 
             colors[i].r = (byte)BETWEENF(0, p + (r - p) * saturation, 255);
             colors[i].g = (byte)BETWEENF(0, p + (g - p) * saturation, 255);
@@ -1842,7 +1842,7 @@ static void I_InitPaletteTables(void)
     for (int r = 0; r < 256; r++)
         for (int g = 0; g < 256; g++)
             for (int b = 0; b < 256; b++)
-                saturationtable[r][g][b] = sqrt(r * r * 0.299 + g * g * 0.587 + b * b * 0.114);
+                saturationtable[r][g][b] = sqrtf(r * r * 0.299f + g * g * 0.587f + b * b * 0.114f);
 }
 
 void I_SetGamma(float value)
