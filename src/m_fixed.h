@@ -54,7 +54,7 @@
 #define FIXED_MIN       INT32_MIN
 #define FIXED_MAX       INT32_MAX
 
-#define SWAP(a, b)      (((a) ^= (b)), ((b) ^= (a)), ((a) ^= (b)))
+#define SWAP(a, b)      (a) ^= (b), (b) ^= (a), (a) ^= (b)
 
 typedef int32_t fixed_t;
 
