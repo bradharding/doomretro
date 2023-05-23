@@ -4,6 +4,7 @@
 
 * *DOOM Retro* is now built using v17.6.1 of [*Microsoft Visual Studio Community 2022*](https://visualstudio.microsoft.com/vs/community/).
 * Minor optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
+* Any `.cfg` files placed in the `autoload` folder are now autoloaded when *DOOM Retro* starts.
 * Changes have been made to text that is output to the console.
 * Minor improvements have been made to the text that can be autocompleted in the console by pressing the <kbd><b>TAB</b></kbd> key.
 * The `r_color` CVAR has now been renamed `r_saturation`, and it’s maximum value has increased from `100%` to `200%`, allowing colors on the screen to be oversaturated.

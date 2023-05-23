@@ -46,6 +46,7 @@
 #include "doomstat.h"
 #include "i_swap.h"
 #include "i_system.h"
+#include "m_config.h"
 #include "m_misc.h"
 #include "version.h"
 #include "w_merge.h"
@@ -443,6 +444,8 @@ bool W_AutoloadFiles(const char *folder)
             else if (M_StringEndsWith(FindFileData.cFileName, ".deh")
                 || M_StringEndsWith(FindFileData.cFileName, ".bex"))
                 D_ProcessDehFile(temp, 0, true);
+            else if (M_StringEndsWith(FindFileData.cFileName, ".cfg"))
+                M_LoadCVARs(temp);
 
             free(temp);
         }
