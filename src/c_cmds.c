@@ -9407,8 +9407,8 @@ static void r_fov_cvar_func2(char *cmd, char *parms)
         {
             r_fov = value;
             M_SaveCVARs();
-            setsizeneeded = true;
-            R_ExecuteSetViewSize();
+            R_SetViewSize(r_screensize);
+            I_RestartGraphics(false);
 
             if (gamestate == GS_LEVEL)
                 S_StartSound(NULL, sfx_stnmov);
