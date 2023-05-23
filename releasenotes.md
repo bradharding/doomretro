@@ -2,7 +2,7 @@
 
 #### DOOM Retro v5.0
 
-* *DOOM Retro* is now built using v17.6.0 of [*Microsoft Visual Studio Community 2022*](https://visualstudio.microsoft.com/vs/community/).
+* *DOOM Retro* is now built using v17.6.1 of [*Microsoft Visual Studio Community 2022*](https://visualstudio.microsoft.com/vs/community/).
 * Minor optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Changes have been made to text that is output to the console.
 * Minor improvements have been made to the text that can be autocompleted in the console by pressing the <kbd><b>TAB</b></kbd> key.
