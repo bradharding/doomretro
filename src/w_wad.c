@@ -40,6 +40,7 @@
 #include <sys/stat.h>
 #endif
 
+#include "c_cmds.h"
 #include "c_console.h"
 #include "d_deh.h"
 #include "d_main.h"
@@ -445,7 +446,7 @@ bool W_AutoloadFiles(const char *folder)
                 || M_StringEndsWith(FindFileData.cFileName, ".bex"))
                 D_ProcessDehFile(temp, 0, true);
             else if (M_StringEndsWith(FindFileData.cFileName, ".cfg"))
-                M_LoadCVARs(temp);
+                exec_cmd_func2("exec", temp);
 
             free(temp);
         }

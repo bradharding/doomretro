@@ -347,7 +347,6 @@ static bool condump_cmd_func1(char *cmd, char *parms);
 static void condump_cmd_func2(char *cmd, char *parms);
 static void cvarlist_cmd_func2(char *cmd, char *parms);
 static void endgame_cmd_func2(char *cmd, char *parms);
-static void exec_cmd_func2(char *cmd, char *parms);
 static void exitmap_cmd_func2(char *cmd, char *parms);
 static void fastmonsters_cmd_func2(char *cmd, char *parms);
 static void freeze_cmd_func2(char *cmd, char *parms);
@@ -2355,7 +2354,7 @@ static void endgame_cmd_func2(char *cmd, char *parms)
 //
 // exec CCMD
 //
-static void exec_cmd_func2(char *cmd, char *parms)
+void exec_cmd_func2(char *cmd, char *parms)
 {
     if (!*parms)
     {
