@@ -94,17 +94,22 @@ static void R_MapPlane(const int y, const int x1)
 
     if (planeheight != cachedheight[y])
     {
-        const int   dy = ABS(centery - y);
+        fixed_t dy;
 
-        if (!dy)
+        // SoM: because centery is an actual row of pixels (and it isn't really the
+        // center row because there are an even number of rows) some corrections need
+        // to be made depending on where the row lies relative to the centery row.
+        if (centery == y)
             return;
+
+        dy = (ABS(centery - y) << FRACBITS) + (y > centery ? FRACUNIT : -FRACUNIT) / 2;
 
         cachedheight[y] = planeheight;
         ds_z = cacheddistance[y] = FixedMul(planeheight, yslope[y]);
         viewcosdistance = cachedviewcosdistance[y] = FixedMul(viewcos, ds_z);
         viewsindistance = cachedviewsindistance[y] = FixedMul(viewsin, ds_z);
-        ds_xstep = cachedxstep[y] = FixedMul(viewsin, planeheight) / dy;
-        ds_ystep = cachedystep[y] = FixedMul(viewcos, planeheight) / dy;
+        ds_xstep = cachedxstep[y] = FixedDiv(FixedMul(viewsin, planeheight), dy);
+        ds_ystep = cachedystep[y] = FixedDiv(FixedMul(viewcos, planeheight), dy);
     }
     else
     {
