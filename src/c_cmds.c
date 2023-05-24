@@ -143,6 +143,7 @@ static char mapcmdlump[7];
 bool        executingalias = false;
 bool        healthcvar = false;
 bool        nobindoutput = false;
+bool        parsingcfgfile = false;
 bool        quitcmd = false;
 bool        resettingcvar = false;
 bool        togglingcvar = false;
@@ -2380,6 +2381,8 @@ void exec_cmd_func2(char *cmd, char *parms)
             return;
         }
 
+        parsingcfgfile = true;
+
         while (fgets(strparm, sizeof(strparm), file))
         {
             if (strparm[0] == ';')
@@ -2388,6 +2391,7 @@ void exec_cmd_func2(char *cmd, char *parms)
             C_ValidateInput(strparm);
         }
 
+        parsingcfgfile = false;
         fclose(file);
     }
 }

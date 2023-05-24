@@ -131,6 +131,7 @@ extern bool             executingalias;
 extern bool             healthcvar;
 extern bool             massacre;
 extern bool             nobindoutput;
+extern bool             parsingcfgfile;
 extern bool             quitcmd;
 extern bool             resettingcvar;
 extern bool             togglingcvar;
