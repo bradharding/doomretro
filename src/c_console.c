@@ -239,16 +239,15 @@ void C_StringCVAROutput(const char *cvar, const char *string)
 
 void C_Output(const char *string, ...)
 {
+    va_list args;
     char    buffer[CONSOLETEXTMAXLENGTH] = "";
 
-    if (string)
-    {
-        va_list args;
+    if (!string)
+        return;
 
-        va_start(args, string);
-        M_vsnprintf(buffer, CONSOLETEXTMAXLENGTH - 1, string, args);
-        va_end(args);
-    }
+    va_start(args, string);
+    M_vsnprintf(buffer, CONSOLETEXTMAXLENGTH - 1, string, args);
+    va_end(args);
 
     if (numconsolestrings >= (int)consolestringsmax)
         console = I_Realloc(console, (consolestringsmax += CONSOLESTRINGSMAX) * sizeof(*console));
@@ -263,16 +262,12 @@ void C_Output(const char *string, ...)
 
 bool C_OutputNoRepeat(const char *string, ...)
 {
+    va_list args;
     char    buffer[CONSOLETEXTMAXLENGTH] = "";
 
-    if (string)
-    {
-        va_list args;
-
-        va_start(args, string);
-        M_vsnprintf(buffer, CONSOLETEXTMAXLENGTH - 1, string, args);
-        va_end(args);
-    }
+    va_start(args, string);
+    M_vsnprintf(buffer, CONSOLETEXTMAXLENGTH - 1, string, args);
+    va_end(args);
 
     if (numconsolestrings && M_StringCompare(console[numconsolestrings - 1].string, buffer))
         return true;
