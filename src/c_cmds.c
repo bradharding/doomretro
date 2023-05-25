@@ -2368,7 +2368,9 @@ void exec_cmd_func2(char *cmd, char *parms)
     {
         char    filename[MAX_PATH];
         char    strparm[512] = "";
+        char    *temp;
         FILE    *file;
+        int     linecount = 0;
 
         if (strchr(parms, '.'))
             M_StringCopy(filename, parms, sizeof(filename));
@@ -2388,11 +2390,17 @@ void exec_cmd_func2(char *cmd, char *parms)
             if (strparm[0] == ';')
                 continue;
 
-            C_ValidateInput(strparm);
+            if (C_ValidateInput(strparm))
+                linecount++;
         }
 
         parsingcfgfile = false;
         fclose(file);
+
+        temp = commify(linecount);
+        C_Output("%s line%s were parsed in " BOLD("%s") ".",
+            temp, (linecount == 1 ? "" : "s"), leafname(parms));
+        free(temp);
     }
 }
 

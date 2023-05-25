@@ -425,10 +425,10 @@ bool W_AutoloadFiles(const char *folder)
 {
 #if defined(_WIN32)
     WIN32_FIND_DATA FindFileData;
-    char            *temp = M_StringJoin(folder, DIR_SEPARATOR_S "*.*", NULL);
-    HANDLE          handle = FindFirstFile(temp, &FindFileData);
+    char            *temp1 = M_StringJoin(folder, DIR_SEPARATOR_S "*.*", NULL);
+    HANDLE          handle = FindFirstFile(temp1, &FindFileData);
 
-    free(temp);
+    free(temp1);
 
     if (handle == INVALID_HANDLE_VALUE)
         return false;
@@ -437,18 +437,54 @@ bool W_AutoloadFiles(const char *folder)
     {
         if (!(FindFileData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY))
         {
-            temp = M_StringJoin(folder, DIR_SEPARATOR_S, FindFileData.cFileName, NULL);
+            temp1 = M_StringJoin(folder, FindFileData.cFileName, NULL);
 
             if (M_StringEndsWith(FindFileData.cFileName, ".wad")
                 || M_StringEndsWith(FindFileData.cFileName, ".pwad"))
-                W_MergeFile(temp, true);
+                W_MergeFile(temp1, true);
             else if (M_StringEndsWith(FindFileData.cFileName, ".deh")
                 || M_StringEndsWith(FindFileData.cFileName, ".bex"))
-                D_ProcessDehFile(temp, 0, true);
+                D_ProcessDehFile(temp1, 0, true);
             else if (M_StringEndsWith(FindFileData.cFileName, ".cfg"))
-                exec_cmd_func2("exec", temp);
+            {
+                char    strparm[512] = "";
+                char    *temp2;
+                FILE    *file;
+                int     linecount = 0;
 
-            free(temp);
+                if (!(file = fopen(temp1, "rt")))
+                {
+                    C_Warning(0, BOLD("%s") " couldn't be opened.", temp1);
+                    free(temp1);
+                    return false;
+                }
+
+                parsingcfgfile = true;
+
+                while (fgets(strparm, sizeof(strparm), file))
+                {
+                    if (strparm[0] == ';')
+                        continue;
+
+                    if (C_ValidateInput(strparm))
+                        linecount++;
+                }
+
+                parsingcfgfile = false;
+                fclose(file);
+
+                if (linecount == 1)
+                    C_Output("One line was parsed in " BOLD("%s") ".", temp1);
+                else
+                {
+                    temp2 = commify(linecount);
+                    C_Output("%s line%s were parsed in " BOLD("%s") ".",
+                        temp2, (linecount == 1 ? "" : "s"), temp1);
+                    free(temp2);
+                }
+            }
+
+            free(temp1);
         }
     } while (FindNextFile(handle, &FindFileData));
 
