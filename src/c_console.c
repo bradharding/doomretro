@@ -242,7 +242,7 @@ void C_Output(const char *string, ...)
     va_list args;
     char    buffer[CONSOLETEXTMAXLENGTH] = "";
 
-    if (!string)
+    if (!*string)
         return;
 
     va_start(args, string);
