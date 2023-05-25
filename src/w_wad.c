@@ -498,22 +498,22 @@ bool W_AutoloadFiles(const char *folder)
 
     while ((dir = readdir(d)))
     {
-        char        *temp = M_StringJoin(folder, DIR_SEPARATOR_S, dir->d_name, NULL);
+        char        *temp1 = M_StringJoin(folder, DIR_SEPARATOR_S, dir->d_name, NULL);
         struct stat status;
 
-        if (!stat(temp, &status) && S_ISREG(status.st_mode))
+        if (!stat(temp1, &status) && S_ISREG(status.st_mode))
         {
             if (M_StringEndsWith(dir->d_name, ".wad")
                 || M_StringEndsWith(dir->d_name, ".pwad"))
-                W_MergeFile(temp, true);
+                W_MergeFile(temp1, true);
             else if (M_StringEndsWith(dir->d_name, ".deh")
                 || M_StringEndsWith(dir->d_name, ".bex"))
-                D_ProcessDehFile(temp, 0, true);
+                D_ProcessDehFile(temp1, 0, true);
             else if (M_StringEndsWith(dir->d_name, ".cfg"))
             {
                 char    strparm[512] = "";
-                char *temp2;
-                FILE *file;
+                char    *temp2;
+                FILE    *file;
                 int     linecount = 0;
 
                 if (!(file = fopen(temp1, "rt")))
@@ -549,7 +549,7 @@ bool W_AutoloadFiles(const char *folder)
             }
         }
 
-        free(temp);
+        free(temp1);
     }
 
     closedir(d);
