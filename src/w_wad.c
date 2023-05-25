@@ -509,6 +509,44 @@ bool W_AutoloadFiles(const char *folder)
             else if (M_StringEndsWith(dir->d_name, ".deh")
                 || M_StringEndsWith(dir->d_name, ".bex"))
                 D_ProcessDehFile(temp, 0, true);
+            else if (M_StringEndsWith(dir->d_name, ".cfg"))
+            {
+                char    strparm[512] = "";
+                char *temp2;
+                FILE *file;
+                int     linecount = 0;
+
+                if (!(file = fopen(temp1, "rt")))
+                {
+                    C_Warning(0, BOLD("%s") " couldn't be opened.", temp1);
+                    free(temp1);
+                    return false;
+                }
+
+                parsingcfgfile = true;
+
+                while (fgets(strparm, sizeof(strparm), file))
+                {
+                    if (strparm[0] == ';')
+                        continue;
+
+                    if (C_ValidateInput(strparm))
+                        linecount++;
+                }
+
+                parsingcfgfile = false;
+                fclose(file);
+
+                if (linecount == 1)
+                    C_Output("One line was parsed in " BOLD("%s") ".", temp1);
+                else
+                {
+                    temp2 = commify(linecount);
+                    C_Output("%s line%s were parsed in " BOLD("%s") ".",
+                        temp2, (linecount == 1 ? "" : "s"), temp1);
+                    free(temp2);
+                }
+            }
         }
 
         free(temp);
