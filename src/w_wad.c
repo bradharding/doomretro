@@ -448,7 +448,6 @@ bool W_AutoloadFiles(const char *folder)
             else if (M_StringEndsWith(FindFileData.cFileName, ".cfg"))
             {
                 char    strparm[512] = "";
-                char    *temp2;
                 FILE    *file;
                 int     linecount = 0;
 
@@ -477,9 +476,9 @@ bool W_AutoloadFiles(const char *folder)
                     C_Output("One line was parsed in " BOLD("%s") ".", temp1);
                 else
                 {
-                    temp2 = commify(linecount);
-                    C_Output("%s line%s were parsed in " BOLD("%s") ".",
-                        temp2, (linecount == 1 ? "" : "s"), temp1);
+                    char    *temp2 = commify(linecount);
+
+                    C_Output("%s lines were parsed in " BOLD("%s") ".", temp2, temp1);
                     free(temp2);
                 }
             }
@@ -541,9 +540,9 @@ bool W_AutoloadFiles(const char *folder)
                     C_Output("One line was parsed in " BOLD("%s") ".", temp1);
                 else
                 {
-                    temp2 = commify(linecount);
-                    C_Output("%s line%s were parsed in " BOLD("%s") ".",
-                        temp2, (linecount == 1 ? "" : "s"), temp1);
+                    char    *temp2 = commify(linecount);
+
+                    C_Output("%s lines were parsed in " BOLD("%s") ".", temp2, temp1);
                     free(temp2);
                 }
             }

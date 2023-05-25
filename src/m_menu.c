@@ -4108,35 +4108,32 @@ void M_Drawer(void)
 
                         if (currentmenu == &OptionsDef)
                         {
-                            if (currentmenu == &OptionsDef)
+                            if (i == msgs)
                             {
-                                if (i == msgs)
+                                if (M_MSGON)
                                 {
-                                    if (M_MSGON)
-                                    {
-                                        patch_t *on = W_CacheLumpName("M_MSGON");
-                                        patch_t *off = W_CacheLumpName("M_MSGOFF");
+                                    patch_t *on = W_CacheLumpName("M_MSGON");
+                                    patch_t *off = W_CacheLumpName("M_MSGOFF");
 
-                                        width += SHORT(MAX(on->width, off->width));
-                                    }
-                                    else
-                                        width += MAX(M_BigStringWidth(s_M_ON), M_BigStringWidth(s_M_OFF));
-                                }
-                                else if (i == detail)
-                                {
-                                    if (M_GDLOW)
-                                    {
-                                        patch_t *high = W_CacheLumpName("M_GDHIGH");
-                                        patch_t *low = W_CacheLumpName("M_GDLOW");
-
-                                        width += SHORT(MAX(high->width, low->width));
-                                    }
-                                    else
-                                        width += MAX(M_BigStringWidth(s_M_HIGH), M_BigStringWidth(s_M_LOW));
+                                    width += SHORT(MAX(on->width, off->width));
                                 }
                                 else
-                                    width = M_BigStringWidth(*text);
+                                    width += MAX(M_BigStringWidth(s_M_ON), M_BigStringWidth(s_M_OFF));
                             }
+                            else if (i == detail)
+                            {
+                                if (M_GDLOW)
+                                {
+                                    patch_t *high = W_CacheLumpName("M_GDHIGH");
+                                    patch_t *low = W_CacheLumpName("M_GDLOW");
+
+                                    width += SHORT(MAX(high->width, low->width));
+                                }
+                                else
+                                    width += MAX(M_BigStringWidth(s_M_HIGH), M_BigStringWidth(s_M_LOW));
+                            }
+                            else
+                                width = M_BigStringWidth(*text);
                         }
 
                         widest = MAX(widest, width);
