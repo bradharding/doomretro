@@ -424,6 +424,7 @@ bool W_AddFile(char *filename, bool autoloaded)
 bool W_AutoloadFiles(const char *folder)
 {
 #if defined(_WIN32)
+    bool            result = false;
     WIN32_FIND_DATA FindFileData;
     char            *temp1 = M_StringJoin(folder, DIR_SEPARATOR_S "*.*", NULL);
     HANDLE          handle = FindFirstFile(temp1, &FindFileData);
@@ -441,10 +442,13 @@ bool W_AutoloadFiles(const char *folder)
 
             if (M_StringEndsWith(FindFileData.cFileName, ".wad")
                 || M_StringEndsWith(FindFileData.cFileName, ".pwad"))
-                W_MergeFile(temp1, true);
+                result = W_MergeFile(temp1, true);
             else if (M_StringEndsWith(FindFileData.cFileName, ".deh")
                 || M_StringEndsWith(FindFileData.cFileName, ".bex"))
+            {
                 D_ProcessDehFile(temp1, 0, true);
+                result = true;
+            }
             else if (M_StringEndsWith(FindFileData.cFileName, ".cfg"))
             {
                 char    strparm[512] = "";
@@ -458,6 +462,7 @@ bool W_AutoloadFiles(const char *folder)
                     return false;
                 }
 
+                result = true;
                 parsingcfgfile = true;
 
                 while (fgets(strparm, sizeof(strparm), file))
@@ -489,6 +494,7 @@ bool W_AutoloadFiles(const char *folder)
 
     FindClose(handle);
 #else
+    bool            result = false;
     DIR             *d = opendir(folder);
     struct dirent   *dir;
 
@@ -504,10 +510,13 @@ bool W_AutoloadFiles(const char *folder)
         {
             if (M_StringEndsWith(dir->d_name, ".wad")
                 || M_StringEndsWith(dir->d_name, ".pwad"))
-                W_MergeFile(temp1, true);
+                result = W_MergeFile(temp1, true);
             else if (M_StringEndsWith(dir->d_name, ".deh")
                 || M_StringEndsWith(dir->d_name, ".bex"))
+            {
                 D_ProcessDehFile(temp1, 0, true);
+                result = true;
+            }
             else if (M_StringEndsWith(dir->d_name, ".cfg"))
             {
                 char    strparm[512] = "";
@@ -521,6 +530,7 @@ bool W_AutoloadFiles(const char *folder)
                     return false;
                 }
 
+                result = true;
                 parsingcfgfile = true;
 
                 while (fgets(strparm, sizeof(strparm), file))
@@ -553,7 +563,7 @@ bool W_AutoloadFiles(const char *folder)
     closedir(d);
 #endif
 
-    return true;
+    return result;
 }
 
 // Hash function used for lump names.
