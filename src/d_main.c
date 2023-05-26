@@ -2218,12 +2218,13 @@ static void D_DoomMainSetup(void)
     I_InitGameController();
 
     D_IdentifyVersion();
+    D_SetGameDescription();
 
     if (!autoloading)
     {
         if (autoloadpwadsubfolder)
             C_Output("Any " BOLD(".wad") ", " BOLD(".deh") " or " BOLD(".cfg") " files in "
-                BOLD("%s") ", " BOLD("%s") " and " BOLD("%s") " will be loaded automatically.",
+                BOLD("%s") ", " BOLD("%s") " or " BOLD("%s") " will be loaded automatically.",
                 autoloadfolder, autoloadiwadsubfolder, autoloadpwadsubfolder);
         else if (!M_CheckParm("-noautoload") && gamemode != shareware)
             C_Output("Any " BOLD(".wad") ", " BOLD(".deh") " or " BOLD(".cfg") " files in "
@@ -2249,8 +2250,6 @@ static void D_DoomMainSetup(void)
 
     unity = (W_CheckNumForName("TITLEPIC") >= 0
         && SHORT(((patch_t *)W_CacheLastLumpName("TITLEPIC"))->width) > VANILLAWIDTH);
-
-    D_SetGameDescription();
 
     if (gamemode == shareware)
         C_Warning(0, "This is the shareware version of " ITALICS("DOOM") ". "
