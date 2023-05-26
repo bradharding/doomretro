@@ -2218,24 +2218,23 @@ static void D_DoomMainSetup(void)
     I_InitGameController();
 
     D_IdentifyVersion();
+    D_ProcessDehOnCmdLine();
+    D_ProcessDehInWad();
+    D_PostProcessDeh();
+    D_TranslateDehStrings();
     D_SetGameDescription();
 
     if (!autoloading)
     {
         if (autoloadpwadsubfolder)
             C_Output("Any " BOLD(".wad") ", " BOLD(".deh") " or " BOLD(".cfg") " files in "
-                BOLD("%s") ", " BOLD("%s") " or " BOLD("%s") " will be loaded automatically.",
+                BOLD("%s") ", " BOLD("%s") " or " BOLD("%s") " will be automatically loaded.",
                 autoloadfolder, autoloadiwadsubfolder, autoloadpwadsubfolder);
         else if (!M_CheckParm("-noautoload") && gamemode != shareware)
             C_Output("Any " BOLD(".wad") ", " BOLD(".deh") " or " BOLD(".cfg") " files in "
-                BOLD("%s") " and " BOLD("%s") " will be loaded automatically.",
+                BOLD("%s") " or " BOLD("%s") " will be automatically loaded.",
                 autoloadfolder, autoloadiwadsubfolder);
     }
-
-    D_ProcessDehOnCmdLine();
-    D_ProcessDehInWad();
-    D_PostProcessDeh();
-    D_TranslateDehStrings();
 
     if (dehcount > 2)
     {
