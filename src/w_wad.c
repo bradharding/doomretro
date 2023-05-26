@@ -511,7 +511,6 @@ bool W_AutoloadFiles(const char *folder)
             else if (M_StringEndsWith(dir->d_name, ".cfg"))
             {
                 char    strparm[512] = "";
-                char    *temp2;
                 FILE    *file;
                 int     linecount = 0;
 
