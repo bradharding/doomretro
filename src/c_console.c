@@ -628,10 +628,16 @@ static void C_DrawScrollbar(void)
 void C_ClearConsole(void)
 {
     numconsolestrings = 0;
-    consolestringsmax = 0;
+    consolestringsmax = CONSOLESTRINGSMAX;
+    console = I_Realloc(console, consolestringsmax * sizeof(*console));
 
     for (int i = 0; i < CONSOLEBLANKLINES; i++)
-        C_Output("");
+    {
+        console[numconsolestrings].string[0] = '\0';
+        console[numconsolestrings].indent = 0;
+        console[numconsolestrings].wrap = 0;
+        console[numconsolestrings++].stringtype = outputstring;
+    }
 }
 
 void C_Init(void)
