@@ -2523,7 +2523,7 @@ void P_SpawnSpecials(void)
 {
     line_t      *line = lines;
     sector_t    *sector = sectors;
-    const int   p = M_CheckParmWithArgs("-timer", 1, 1);
+    const int   p = M_CheckParmWithArgs("-timer", 1);
 
     if (p)
     {

@@ -45,18 +45,18 @@ char    **myargv;
 // Returns the argument number (1 to argc-1)
 // or 0 if not present
 //
-int M_CheckParmWithArgs(const char *check, int num_args, int start)
+int M_CheckParmWithArgs(const char *check, int start)
 {
-    for (int i = start; i < myargc - num_args; i++)
+    for (int i = start; i < myargc - 1; i++)
         if (M_StringCompare(check, myargv[i]))
             return i;
 
     return 0;
 }
 
-int M_CheckParmsWithArgs(const char *check1, const char *check2, const char *check3, int num_args, int start)
+int M_CheckParmsWithArgs(const char *check1, const char *check2, const char *check3, int start)
 {
-    for (int i = start; i < myargc - num_args; i++)
+    for (int i = start; i < myargc - 1; i++)
         if ((*check1 && M_StringCompare(check1, myargv[i]))
             || (*check2 && M_StringCompare(check2, myargv[i]))
             || (*check3 && M_StringCompare(check3, myargv[i])))
@@ -67,5 +67,9 @@ int M_CheckParmsWithArgs(const char *check1, const char *check2, const char *che
 
 int M_CheckParm(const char *check)
 {
-    return M_CheckParmWithArgs(check, 0, 1);
+    for (int i = 1; i < myargc; i++)
+        if (M_StringCompare(check, myargv[i]))
+            return i;
+
+    return 0;
 }

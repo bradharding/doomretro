@@ -725,7 +725,7 @@ char *D_TryFindWADByName(char *filename)
 char *D_FindIWAD(void)
 {
     char    *result = NULL;
-    int     iwadparm = M_CheckParmWithArgs("-iwad", 1, 1);
+    int     iwadparm = M_CheckParmWithArgs("-iwad", 1);
 
     if (iwadparm)
     {
@@ -781,7 +781,7 @@ static char *SaveGameIWADName(void)
 //
 void D_SetSaveGameFolder(bool output)
 {
-    const int   p = M_CheckParmsWithArgs("-save", "-savedir", "", 1, 1);
+    const int   p = M_CheckParmsWithArgs("-save", "-savedir", "", 1);
 
     if (p)
     {
@@ -830,7 +830,7 @@ void D_SetSaveGameFolder(bool output)
 
 void D_SetAutoloadFolder(void)
 {
-    const int   p = M_CheckParmsWithArgs("-autoload", "-autoloaddir", "", 1, 1);
+    const int   p = M_CheckParmsWithArgs("-autoload", "-autoloaddir", "", 1);
 
     if (p)
         M_StringCopy(autoloadfolder, myargv[p + 1], sizeof(autoloadfolder));
@@ -861,7 +861,7 @@ void D_SetAutoloadFolder(void)
 
 void D_SetScreenshotsFolder(void)
 {
-    const int   p = M_CheckParmsWithArgs("-shot", "-shotdir", "", 1, 1);
+    const int   p = M_CheckParmsWithArgs("-shot", "-shotdir", "", 1);
 
     if (p)
         M_StringCopy(screenshotfolder, myargv[p + 1], sizeof(screenshotfolder));

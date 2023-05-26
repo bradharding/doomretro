@@ -1871,7 +1871,7 @@ static void D_ParseStartupString(const char *string)
 //  line of execution so its stack space can be freed
 static void D_DoomMainSetup(void)
 {
-    int     p = M_CheckParmWithArgs("-config", 1, 1);
+    int     p = M_CheckParmWithArgs("-config", 1);
     int     choseniwad = 0;
     bool    autoloading = false;
     char    lumpname[6];
@@ -2027,7 +2027,7 @@ static void D_DoomMainSetup(void)
         C_Output("A " BOLD("-nobex") " parameter was found on the command-line. "
             "All " BOLD("DEHACKED") " lumps will now be ignored.");
 
-    p = M_CheckParmsWithArgs("-file", "-pwad", "-merge", 1, 1);
+    p = M_CheckParmsWithArgs("-file", "-pwad", "-merge", 1);
 
     if (!(choseniwad = D_CheckParms()))
     {
@@ -2167,7 +2167,7 @@ static void D_DoomMainSetup(void)
                     free(folder);
                 }
             }
-        } while ((p = M_CheckParmsWithArgs("-file", "-pwad", "-merge", 1, p)));
+        } while ((p = M_CheckParmsWithArgs("-file", "-pwad", "-merge", p)));
 
     if (!iwadfile && !modifiedgame && !choseniwad)
         I_Error(DOOMRETRO_NAME " couldn't find any IWADs.");
@@ -2300,7 +2300,7 @@ static void D_DoomMainSetup(void)
     startmap = 1;
     autostart = false;
 
-    if ((p = M_CheckParmsWithArgs("-skill", "-skilllevel", "", 1, 1)))
+    if ((p = M_CheckParmsWithArgs("-skill", "-skilllevel", "", 1)))
     {
         const int   temp = myargv[p + 1][0] - '1';
 
@@ -2321,7 +2321,7 @@ static void D_DoomMainSetup(void)
         }
     }
 
-    if ((p = M_CheckParmWithArgs("-episode", 1, 1)) && gamemode != commercial)
+    if ((p = M_CheckParmWithArgs("-episode", 1)) && gamemode != commercial)
     {
         const int   temp = myargv[p + 1][0] - '0';
 
@@ -2338,7 +2338,7 @@ static void D_DoomMainSetup(void)
         }
     }
 
-    if ((p = M_CheckParmWithArgs("-expansion", 1, 1)) && gamemode == commercial)
+    if ((p = M_CheckParmWithArgs("-expansion", 1)) && gamemode == commercial)
     {
         const int   temp = myargv[p + 1][0] - '0';
 
@@ -2354,7 +2354,7 @@ static void D_DoomMainSetup(void)
         }
     }
 
-    if ((p = M_CheckParmWithArgs("-warp", 1, 1)) || (p = M_CheckParmWithArgs("+map", 1, 1)))
+    if ((p = M_CheckParmsWithArgs("-warp", "+map", "", 1)))
     {
         if (gamemode == commercial)
         {
@@ -2407,7 +2407,7 @@ static void D_DoomMainSetup(void)
     C_Init();
     V_InitColorTranslation();
 
-    if ((startloadgame = ((p = M_CheckParmWithArgs("-loadgame", 1, 1)) ? strtol(myargv[p + 1], NULL, 10) : -1)) >= 0
+    if ((startloadgame = ((p = M_CheckParmWithArgs("-loadgame", 1)) ? strtol(myargv[p + 1], NULL, 10) : -1)) >= 0
         && startloadgame < savegame_max)
     {
         menuactive = false;
@@ -2499,9 +2499,9 @@ static void D_DoomMainSetup(void)
             if (alwaysrun)
                 C_StringCVAROutput(stringize(alwaysrun), "on");
 
-            if (M_CheckParmWithArgs("-warp", 1, 1))
+            if (M_CheckParmWithArgs("-warp", 1))
                 C_Output("A " BOLD("-warp") " parameter was found on the command-line. Warping to %s...", lumpname);
-            else if (M_CheckParmWithArgs("+map", 1, 1))
+            else if (M_CheckParmWithArgs("+map", 1))
                 C_Output("A " BOLD("+map") " parameter was found on the command-line. Warping to %s...", lumpname);
             else
                 C_Output("Warping to %s...", lumpname);
