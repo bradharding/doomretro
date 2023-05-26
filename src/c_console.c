@@ -2519,7 +2519,9 @@ void C_PrintCompileDate(void)
 #if defined(__clang__)
     C_Output("It was compiled using " ITALICS("Clang v%i.%i.%i."), __clang_major__, __clang_minor__, __clang_patchlevel__);
 #elif defined(__INTEL_COMPILER)
-    C_Output("It was compiled using " ITALICS("Intel C/C++ Compiler."));
+    C_Output("It was compiled using the " ITALICS("Intel C++ Compiler Classic."));
+#elif defined(__INTEL_LLVM_COMPILER)
+    C_Output("It was compiled using the " ITALICS("Intel C++ Compiler."));
 #elif defined(_MSC_FULL_VER) && defined(_MSC_BUILD)
     if (_MSC_BUILD)
         C_Output("It was compiled using v%i.%02i.%i.%i of the " ITALICS("Microsoft C/C++ %s Compiler."),

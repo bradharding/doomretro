@@ -2222,10 +2222,12 @@ static void D_DoomMainSetup(void)
     if (!autoloading)
     {
         if (autoloadpwadsubfolder)
-            C_Output("All files put in " BOLD("%s") ", " BOLD("%s") " and " BOLD("%s") " will be loaded automatically.",
+            C_Output("Any " BOLD(".wad") ", " BOLD(".deh") " or " BOLD(".cfg") " files in "
+                BOLD("%s") ", " BOLD("%s") " and " BOLD("%s") " will be loaded automatically.",
                 autoloadfolder, autoloadiwadsubfolder, autoloadpwadsubfolder);
         else if (!M_CheckParm("-noautoload") && gamemode != shareware)
-            C_Output("All files put in " BOLD("%s") " and " BOLD("%s") " will be loaded automatically.",
+            C_Output("Any " BOLD(".wad") ", " BOLD(".deh") " or " BOLD(".cfg") " files in "
+                BOLD("%s") " and " BOLD("%s") " will be loaded automatically.",
                 autoloadfolder, autoloadiwadsubfolder);
     }
 

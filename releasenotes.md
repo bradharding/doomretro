@@ -45,7 +45,7 @@
 * The default value of the `am_markcolor` CVAR is now `89`.
 * The default values of the `joy_deadzone_left` and `joy_deadzone_right` CVARs are now both `25%`.
 * These changes have been made to vanilla mode toggled using the `vanilla` CCMD:
-  * The `+strafe` action is now bound to `mouse2` control again, allowing the player to strafe with the mouse, and also to allow the player to double-click the button to use doors and switches.
+  * The `+strafe` action is now bound to the `mouse2` control again, allowing the player to strafe with the mouse, and to also double-click the button to use doors and switches.
   * The speed the player can move forward and back, and strafe left and right, has been reduced.
 * Improvements have been made to the alternate widescreen HUD when the `r_hud_translucency` CVAR is `off` and either the `r_textures` CVAR is also `off` or the player has an invulnerability power-up.
 
