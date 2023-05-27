@@ -15,7 +15,7 @@
 * A bug is fixed whereby sometimes the player wouldn’t pick up an item in a liquid sector when the `r_liquid_clipsprites` CVAR was `on`.
 * Improvements have been made to equipping either the chainsaw or fists when the player presses the <kbd><b>1</b></kbd> key.
 * A bug is fixed whereby the player’s field of view would sometimes be wrong when changing the `r_fov` CVAR.
-* The rendering of floors and ceilings no longer becomes distorted the further away they are from the player.
+* The rendering of floors and ceilings no longer becomes distorted the further away it is from the player.
 * When using the `IDCLEV` cheat in vanilla mode, the player now starts the map with 100% health, no armor, and only a pistol with 50 bullets.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
