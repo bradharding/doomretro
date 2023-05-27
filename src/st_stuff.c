@@ -617,7 +617,7 @@ bool ST_Responder(event_t *ev)
                         if (musnum != mus_none)
                         {
                             static char msg[80];
-                            char        *temp = uppercase(S_music[musnum].name1);
+                            char        *temp = uppercase(s_music[musnum].name1);
 
                             S_StartSound(NULL, sfx_getpow);
 

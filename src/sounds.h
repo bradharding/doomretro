@@ -93,10 +93,10 @@ typedef struct
 } musicinfo_t;
 
 // the complete set of sound effects
-extern sfxinfo_t    S_sfx[];
+extern sfxinfo_t    s_sfx[];
 
 // the complete set of music
-extern musicinfo_t  S_music[];
+extern musicinfo_t  s_music[];
 
 extern musicinfo_t  *mus_playing;
 
@@ -526,4 +526,4 @@ typedef enum
     sfx_fre199,
 
     NUMSFX
-} sfxenum_t;
+} sfxnum_t;

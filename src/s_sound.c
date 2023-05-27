@@ -144,7 +144,7 @@ static void InitMusicModule(void)
 
 //
 // Initializes sound stuff, including volume
-// Sets channels, SFX and music volume, allocates channel buffer, sets S_sfx lookup.
+// Sets channels, SFX and music volume, allocates channel buffer, sets s_sfx lookup.
 //
 void S_Init(void)
 {
@@ -192,7 +192,7 @@ void S_Init(void)
         // [BH] precache all SFX
         for (int i = 1; i < NUMSFX; i++)
         {
-            sfxinfo_t   *sfx = &S_sfx[i];
+            sfxinfo_t   *sfx = &s_sfx[i];
             char        namebuf[9];
 
             M_snprintf(namebuf, sizeof(namebuf), "ds%s", sfx->name1);
@@ -458,9 +458,9 @@ static bool S_AdjustSoundParms(mobj_t *origin, int *vol, int *sep)
     return (*vol > 0);
 }
 
-static void S_StartSoundAtVolume(mobj_t *origin, int sfx_id, int pitch)
+static void S_StartSoundAtVolume(mobj_t *origin, sfxnum_t sfxnum, int pitch)
 {
-    sfxinfo_t   *sfx = &S_sfx[sfx_id];
+    sfxinfo_t   *sfx = &s_sfx[sfxnum];
     int         sep = NORM_SEP;
     int         cnum;
     int         handle;
@@ -483,20 +483,20 @@ static void S_StartSoundAtVolume(mobj_t *origin, int sfx_id, int pitch)
         channels[cnum].handle = handle;
 }
 
-void S_StartSound(mobj_t *mobj, int sfx_id)
+void S_StartSound(mobj_t *mobj, sfxnum_t sfxnum)
 {
     if (mobj)
     {
         mobj->madesound = true;
-        S_StartSoundAtVolume(mobj, sfx_id, mobj->pitch);
+        S_StartSoundAtVolume(mobj, sfxnum, mobj->pitch);
     }
     else
-        S_StartSoundAtVolume(NULL, sfx_id, NORM_PITCH);
+        S_StartSoundAtVolume(NULL, sfxnum, NORM_PITCH);
 }
 
-void S_StartSectorSound(degenmobj_t *degenmobj, int sfx_id)
+void S_StartSectorSound(degenmobj_t *degenmobj, sfxnum_t sfxnum)
 {
-    S_StartSoundAtVolume((mobj_t *)degenmobj, sfx_id, NORM_PITCH);
+    S_StartSoundAtVolume((mobj_t *)degenmobj, sfxnum, NORM_PITCH);
 }
 
 //
@@ -582,14 +582,14 @@ void S_StartMusic(int music_id)
 
 void S_ChangeMusic(int music_id, bool looping, bool allowrestart, bool mapstart)
 {
-    musicinfo_t *music = &S_music[music_id];
+    musicinfo_t *music = &s_music[music_id];
     char        namebuf[9];
     void        *handle;
     int         mapinfomusic;
 
     // current music which should play
     musinfo.current_item = -1;
-    S_music[mus_musinfo].lumpnum = -1;
+    s_music[mus_musinfo].lumpnum = -1;
 
     if (nomusic || (mus_playing == music && !allowrestart))
         return;
@@ -661,7 +661,7 @@ void S_ChangeMusic(int music_id, bool looping, bool allowrestart, bool mapstart)
     if (!musinfo.items[0])
     {
         musinfo.items[0] = music->lumpnum;
-        S_music[mus_musinfo].lumpnum = -1;
+        s_music[mus_musinfo].lumpnum = -1;
     }
 }
 
@@ -691,7 +691,7 @@ void S_ChangeMusInfoMusic(int lumpnum, int looping)
     if (nomusic || (mus_playing && mus_playing->lumpnum == lumpnum))
         return;
 
-    music = &S_music[mus_musinfo];
+    music = &s_music[mus_musinfo];
 
     if (music->lumpnum == lumpnum)
         return;
@@ -743,7 +743,7 @@ void S_ParseMusInfo(char *mapid)
     memset(&musinfo, 0, sizeof(musinfo));
     musinfo.current_item = -1;
 
-    S_music[NUMMUSIC].lumpnum = -1;
+    s_music[NUMMUSIC].lumpnum = -1;
 
     if (W_CheckNumForName("MUSINFO") >= 0)
     {

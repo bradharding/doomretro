@@ -817,7 +817,7 @@ void D_SetSaveGameFolder(bool output)
 
     if (output)
     {
-        int numsavegames = M_CountSaveGames();
+        const int   numsavegames = M_CountSaveGames();
 
         if (!numsavegames)
             C_Output("All savegames will be placed in " BOLD("%s") ".", savegamefolder);

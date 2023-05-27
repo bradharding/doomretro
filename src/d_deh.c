@@ -2230,13 +2230,13 @@ void D_BuildBEXTables(void)
     deh_spritenames[NUMSPRITES] = NULL;
 
     for (i = 1; i < NUMMUSIC; i++)
-        deh_musicnames[i] = M_StringDuplicate(S_music[i].name1);
+        deh_musicnames[i] = M_StringDuplicate(s_music[i].name1);
 
     deh_musicnames[0] = NULL;
     deh_musicnames[NUMMUSIC] = NULL;
 
     for (i = 1; i < NUMSFX; i++)
-        deh_soundnames[i] = (S_sfx[i].name1[0] != '\0' ? M_StringDuplicate(S_sfx[i].name1) : NULL);
+        deh_soundnames[i] = (s_sfx[i].name1[0] != '\0' ? M_StringDuplicate(s_sfx[i].name1) : NULL);
 
     deh_soundnames[0] = NULL;
     deh_soundnames[NUMSFX] = NULL;
@@ -3070,9 +3070,9 @@ static void deh_procSounds(DEHFILE *fpin, char *line)
         if (M_StringCompare(key, deh_sfxinfo[0]))           // Offset
             /* nop */;
         else if (M_StringCompare(key, deh_sfxinfo[1]))      // Zero/One
-            S_sfx[indexnum].singularity = value;
+            s_sfx[indexnum].singularity = value;
         else if (M_StringCompare(key, deh_sfxinfo[2]))      // Value
-            S_sfx[indexnum].priority = value;
+            s_sfx[indexnum].priority = value;
         else if (M_StringCompare(key, deh_sfxinfo[3]))      // Zero 1
             /* nop */;
         else if (M_StringCompare(key, deh_sfxinfo[4]))      // Zero 2
@@ -3084,7 +3084,7 @@ static void deh_procSounds(DEHFILE *fpin, char *line)
         else if (M_StringCompare(key, deh_sfxinfo[7]))      // Neg. One 1
             /* nop */;
         else if (M_StringCompare(key, deh_sfxinfo[8]))      // Neg. One 2
-            S_sfx[indexnum].lumpnum = value;
+            s_sfx[indexnum].lumpnum = value;
         else if (devparm)
             C_Warning(1, "Invalid sound string index for \"%s\"", key);
     }
@@ -3809,15 +3809,15 @@ static void deh_procText(DEHFILE *fpin, char *line)
         for (i = 1; i < NUMSFX; i++)
         {
             // avoid short prefix erroneous match
-            if (strlen(S_sfx[i].name2) != fromlen)
+            if (strlen(s_sfx[i].name2) != fromlen)
                 continue;
 
-            if (!strncasecmp(S_sfx[i].name1, inbuffer, fromlen))
+            if (!strncasecmp(s_sfx[i].name1, inbuffer, fromlen))
             {
                 if (devparm)
-                    C_Output("Changing name of sfx from %s to %*s", S_sfx[i].name1, usedlen, &inbuffer[fromlen]);
+                    C_Output("Changing name of sfx from %s to %*s", s_sfx[i].name1, usedlen, &inbuffer[fromlen]);
 
-                strncpy(S_sfx[i].name1, &inbuffer[fromlen], 9);
+                strncpy(s_sfx[i].name1, &inbuffer[fromlen], 9);
                 found = true;
                 break;                                      // only one matches, quit early
             }
@@ -3829,15 +3829,15 @@ static void deh_procText(DEHFILE *fpin, char *line)
             for (i = 1; i < NUMMUSIC; i++)
             {
                 // avoid short prefix erroneous match
-                if (strlen(S_music[i].name2) != fromlen)
+                if (strlen(s_music[i].name2) != fromlen)
                     continue;
 
-                if (!strncasecmp(S_music[i].name1, inbuffer, fromlen))
+                if (!strncasecmp(s_music[i].name1, inbuffer, fromlen))
                 {
                     if (devparm)
-                        C_Output("Changing name of music from %s to %*s", S_music[i].name1, usedlen, &inbuffer[fromlen]);
+                        C_Output("Changing name of music from %s to %*s", s_music[i].name1, usedlen, &inbuffer[fromlen]);
 
-                    strncpy(S_music[i].name1, &inbuffer[fromlen], 9);
+                    strncpy(s_music[i].name1, &inbuffer[fromlen], 9);
                     found = true;
                     break;                                  // only one matches, quit early
                 }
@@ -4164,7 +4164,7 @@ static void deh_procBexSounds(DEHFILE *fpin, char *line)
                 if (devparm)
                     C_Output("Substituting \"%s\" for sound \"%s\"\n", candidate, deh_soundnames[rover]);
 
-                M_StringCopy(S_sfx[rover].name1, candidate, sizeof(S_sfx[0].name1));
+                M_StringCopy(s_sfx[rover].name1, candidate, sizeof(s_sfx[0].name1));
                 break;
             }
 
@@ -4228,7 +4228,7 @@ static void deh_procBexMusic(DEHFILE *fpin, char *line)
                 if (devparm)
                     C_Output("Substituting \"%s\" for music \"%s\"", candidate, deh_musicnames[rover]);
 
-                M_StringCopy(S_music[rover].name1, candidate, sizeof(S_music[0].name1));
+                M_StringCopy(s_music[rover].name1, candidate, sizeof(s_music[0].name1));
                 break;
             }
 

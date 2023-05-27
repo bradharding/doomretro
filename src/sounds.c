@@ -38,7 +38,7 @@
 //
 // Information about all the music
 //
-musicinfo_t S_music[] =
+musicinfo_t s_music[] =
 {
     { "",        "",        "",                                "",                                0, 0, 0 },
     { "e1m1",    "e1m1",    "At Doom's Gate",                  "At Doom's Gate",                  0, 0, 0 },
@@ -126,9 +126,9 @@ musicinfo_t S_music[] =
 //
 // Information about all the SFX
 //
-sfxinfo_t S_sfx[] =
+sfxinfo_t s_sfx[] =
 {
-    // S_sfx[0] needs to be a dummy for odd reasons.
+    // s_sfx[0] needs to be a dummy for odd reasons.
     { "none",   "none",   sg_none,     0, -1 },
     { "pistol", "pistol", sg_none,    64, -1 },
     { "shotgn", "shotgn", sg_none,    64, -1 },

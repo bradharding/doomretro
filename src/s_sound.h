@@ -75,7 +75,7 @@ bool I_AnySoundStillPlaying(void);
 //
 // Initializes sound stuff, including volume
 // Sets channels, SFX and music volume,
-//  allocates channel buffer, sets S_sfx lookup.
+//  allocates channel buffer, sets s_sfx lookup.
 //
 void S_Init(void);
 
@@ -93,10 +93,10 @@ void S_Start(void);
 
 //
 // Start sound for thing at <origin_p>
-//  using <sfx_id> from sounds.h
+//  using <sfxnum> from sounds.h
 //
-void S_StartSound(mobj_t *mobj, int sfx_id);
-void S_StartSectorSound(degenmobj_t *degenmobj, int sfx_id);
+void S_StartSound(mobj_t *mobj, sfxnum_t sfxnum);
+void S_StartSectorSound(degenmobj_t *degenmobj, sfxnum_t sfxnum);
 void S_UnlinkSound(mobj_t *origin);
 
 // Start music using <music_id> from sounds.h

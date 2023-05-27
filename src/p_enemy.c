@@ -1426,7 +1426,7 @@ static bool PIT_VileCheck(mobj_t *thing)
 // MBF21: P_HealCorpse
 // Check for resurrecting a body
 //
-static bool P_HealCorpse(mobj_t *actor, int radius, statenum_t healstate, sfxenum_t healsound)
+static bool P_HealCorpse(mobj_t *actor, int radius, statenum_t healstate, sfxnum_t healsound)
 {
     const dirtype_t movedir = actor->movedir;
 

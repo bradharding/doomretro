@@ -5281,7 +5281,7 @@ static bool play_cmd_func1(char *cmd, char *parms)
 
     for (int i = 1; i < NUMSFX; i++)
     {
-        M_snprintf(namebuf, sizeof(namebuf), "ds%s", S_sfx[i].name2);
+        M_snprintf(namebuf, sizeof(namebuf), "ds%s", s_sfx[i].name2);
 
         if (M_StringCompare(parms, namebuf) && W_CheckNumForName(namebuf) >= 0)
         {
@@ -5294,7 +5294,7 @@ static bool play_cmd_func1(char *cmd, char *parms)
 
     for (int i = 1; i < NUMMUSIC; i++)
     {
-        M_snprintf(namebuf, sizeof(namebuf), "d_%s", S_music[i].name2);
+        M_snprintf(namebuf, sizeof(namebuf), "d_%s", s_music[i].name2);
 
         if (M_StringCompare(parms, namebuf) && W_CheckNumForName(namebuf) >= 0)
         {
