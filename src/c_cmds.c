@@ -8875,6 +8875,8 @@ static void player_cvars_func2(char *cmd, char *parms)
                     P_AddBonus();
                     S_StartSound(viewplayer->mo, sfx_itemup);
                 }
+                else
+                    S_StartSound(viewplayer->mo, weaponinfo[readyweapon].sound);
 
                 P_AnimateAmmo(viewplayer->ammo[ammotype] - value, ammotype);
                 viewplayer->ammo[ammotype] = value;

@@ -35,6 +35,7 @@
 
 #include "d_items.h"
 #include "info.h"
+#include "sounds.h"
 #include "states.h"
 
 weaponinfo_t weaponinfo[NUMWEAPONS] =
@@ -57,6 +58,7 @@ weaponinfo_t weaponinfo[NUMWEAPONS] =
         /* prevweapon  */ wp_bfg,
         /* nextweapon  */ wp_chainsaw,
         /* spritename  */ "",
+        /* sound       */ sfx_none,
         /* flags       */ (WPF_FLEEMELEE | WPF_AUTOSWITCHFROM | WPF_NOAUTOSWITCHTO)
     },
 
@@ -78,6 +80,7 @@ weaponinfo_t weaponinfo[NUMWEAPONS] =
         /* prevweapon  */ wp_chainsaw,
         /* nextweapon  */ wp_shotgun,
         /* spritename  */ "",
+        /* sound       */ sfx_pistol,
         /* flags       */ WPF_AUTOSWITCHFROM
     },
 
@@ -99,6 +102,7 @@ weaponinfo_t weaponinfo[NUMWEAPONS] =
         /* prevweapon  */ wp_pistol,
         /* nextweapon  */ wp_supershotgun,
         /* spritename  */ "SHOTA0",
+        /* sound       */ sfx_shotgn,
         /* flags       */ WPF_NOFLAG
     },
 
@@ -120,6 +124,7 @@ weaponinfo_t weaponinfo[NUMWEAPONS] =
         /* prevweapon  */ wp_supershotgun,
         /* nextweapon  */ wp_missile,
         /* spritename  */ "MGUNA0",
+        /* sound       */ sfx_pistol,
         /* flags       */ WPF_NOFLAG
     },
 
@@ -141,6 +146,7 @@ weaponinfo_t weaponinfo[NUMWEAPONS] =
         /* prevweapon  */ wp_chaingun,
         /* nextweapon  */ wp_plasma,
         /* spritename  */ "LAUNA0",
+        /* sound       */ sfx_rlaunc,
         /* flags       */ WPF_NOAUTOFIRE
     },
 
@@ -162,6 +168,7 @@ weaponinfo_t weaponinfo[NUMWEAPONS] =
         /* prevweapon  */ wp_missile,
         /* nextweapon  */ wp_bfg,
         /* spritename  */ "PLASA0",
+        /* sound       */ sfx_plasma,
         /* flags       */ WPF_NOFLAG
     },
 
@@ -183,6 +190,7 @@ weaponinfo_t weaponinfo[NUMWEAPONS] =
         /* prevweapon  */ wp_plasma,
         /* nextweapon  */ wp_fist,
         /* spritename  */ "BFUGA0",
+        /* sound       */ sfx_bfg,
         /* flags       */ WPF_NOAUTOFIRE
     },
 
@@ -204,6 +212,7 @@ weaponinfo_t weaponinfo[NUMWEAPONS] =
         /* prevweapon  */ wp_fist,
         /* nextweapon  */ wp_pistol,
         /* spritename  */ "CSAWA0",
+        /* sound       */ sfx_none,
         /* flags       */ (WPF_NOTHRUST | WPF_FLEEMELEE | WPF_NOAUTOSWITCHTO)
     },
 
@@ -225,6 +234,7 @@ weaponinfo_t weaponinfo[NUMWEAPONS] =
         /* prevweapon  */ wp_shotgun,
         /* nextweapon  */ wp_chaingun,
         /* spritename  */ "SGN2A0",
+        /* sound       */ sfx_dshtgn,
         /* flags       */ WPF_NOFLAG
     }
 };

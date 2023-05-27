@@ -73,6 +73,7 @@ typedef struct
     weapontype_t    prevweapon;
     weapontype_t    nextweapon;
     char            spritename[9];
+    int             sound;
 
     // MBF21
     int             flags;
