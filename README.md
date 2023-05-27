@@ -2,7 +2,7 @@
 
 <br>
 
-*DOOM Retro* is the classic, refined *DOOM* source port for Windows PC. It represents how I like my *DOOM* to be today, in all its dark and gritty, unapologetically pixelated glory. I have strived to craft a unique and cohesive set of compelling features, while continuing to uphold my respect for that classic, nostalgic *DOOM* experience that many of us, after all this time, still hold dear.
+*DOOM Retro* is the classic, refined *DOOM* source port for Windows PC. It represents how I like my *DOOM* to be today, in all its dark and gritty, unapologetically pixelated glory. I have strived to craft a unique and cohesive set of compelling features, while continuing to uphold my respect for that classic, nostalgic *DOOM* experience many of us, after all this time, still hold dear.
 
 Open the <b><i>[DOOM Retro Wiki](https://github.com/bradharding/doomretro/wiki)</i></b> for more information.
 
