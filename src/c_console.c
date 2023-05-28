@@ -1593,6 +1593,32 @@ void C_Drawer(void)
             if (wrap < len && i < bottomline)
             {
                 char    *temp = M_SubString(console[i].string, wrap, (size_t)len - wrap);
+                bool    bold = false;
+                bool    italics = false;
+
+                for (int j = 1; j < (int)strlen(temp); j++)
+                    if (temp[j] == BOLDONCHAR)
+                        break;
+                    else if (temp[j] == BOLDOFFCHAR)
+                    {
+                        bold = true;
+                        break;
+                    }
+
+                if (bold)
+                    temp = M_StringJoin(BOLDON, temp, NULL);
+
+                for (int j = 1; j < (int)strlen(temp); j++)
+                    if (temp[j] == ITALICSONCHAR)
+                        break;
+                    else if (temp[j] == ITALICSOFFCHAR)
+                    {
+                        italics = true;
+                        break;
+                    }
+
+                if (italics)
+                    temp = M_StringJoin(ITALICSON, temp, NULL);
 
                 C_DrawConsoleText(CONSOLETEXTX + console[i].indent, y + CONSOLELINEHEIGHT,
                     trimwhitespace(temp), consolecolors[stringtype], NOBACKGROUNDCOLOR,
