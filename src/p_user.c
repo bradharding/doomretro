@@ -340,7 +340,7 @@ static void P_DeathThink(void)
 
             if (deadlookdir == -1)
             {
-                const double    viewheightrange = (double)(viewplayer->viewheight - DEADVIEWHEIGHT) / FRACUNIT;
+                const double    viewheightrange = ((double)viewplayer->viewheight - DEADVIEWHEIGHT) / FRACUNIT;
 
                 inc = MAX(1, ABS(DEADLOOKDIR - viewplayer->lookdir));
 

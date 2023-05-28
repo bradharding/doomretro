@@ -561,7 +561,7 @@ void S_UpdateSounds(void)
 
 void S_LowerMusicVolume(void)
 {
-    I_SetMusicVolume((int)(musicvolume * (MIX_MAX_VOLUME - 1) / 31.0
+    I_SetMusicVolume((int)(musicvolume * (MIX_MAX_VOLUME - 1) / 31.0f
         / (s_lowermenumusic ? LOWER_MUSIC_VOLUME_FACTOR : 1.0f)));
 }
 

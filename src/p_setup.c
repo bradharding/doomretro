@@ -2406,11 +2406,11 @@ static void P_CreateBlockMap(void)
         //
         // 4 words, unused if this routine is called, are reserved at the start.
         {
-            size_t  count = tot + 6;    // we need at least 1 word per block, plus reserved's
+            size_t  count = (size_t)tot + 6;    // we need at least 1 word per block, plus reserved's
 
             for (int i = 0; (unsigned int)i < tot; i++)
                 if (bmap[i].n)
-                    count += bmap[i].n + 2; // 1 header word + 1 trailer word + blocklist
+                    count += bmap[i].n + 2;     // 1 header word + 1 trailer word + blocklist
 
             // Allocate blockmap lump with computed count
             blockmaplump = malloc_IfSameLevel(blockmaplump, count * sizeof(*blockmaplump));
