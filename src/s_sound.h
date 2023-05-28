@@ -41,6 +41,8 @@
 #define CHUNKSIZE                   1024
 #define SAMPLERATE                  44100
 
+#define LOWER_MUSIC_VOLUME_FACTOR   2.5f
+
 #if !defined(__HAIKU__)
 #define DEFAULT_DEVICE              NULL
 #if defined(__sun)
@@ -50,8 +52,6 @@
 // Triggers a segfault if no name is provided even though the default device is empty
 #define DEFAULT_DEVICE              ""
 #endif
-
-#define LOWER_MUSIC_VOLUME_FACTOR   2.5f
 
 bool I_InitSound(void);
 void I_ShutdownSound(void);
@@ -99,12 +99,12 @@ void S_StartSound(mobj_t *mobj, sfxnum_t sfxnum);
 void S_StartSectorSound(degenmobj_t *degenmobj, sfxnum_t sfxnum);
 void S_UnlinkSound(mobj_t *origin);
 
-// Start music using <music_id> from sounds.h
-void S_StartMusic(int music_id);
+// Start music using <musicnum> from sounds.h
+void S_StartMusic(musicnum_t musicnum);
 
-// Start music using <music_id> from sounds.h,
+// Start music using <musicnum> from sounds.h,
 //  and set whether looping
-void S_ChangeMusic(int music_id, bool looping, bool allowrestart, bool mapstart);
+void S_ChangeMusic(musicnum_t musicnum, bool looping, bool allowrestart, bool mapstart);
 
 // Stops the music for sure.
 void S_StopMusic(void);
@@ -129,13 +129,13 @@ typedef struct
     mobj_t  *mapthing;
     mobj_t  *lastmapthing;
     int     tics;
-    int     current_item;
+    int     currentitem;
     int     items[MAX_MUS_ENTRIES];
 } musinfo_t;
 
 extern musinfo_t    musinfo;
 
 void S_ChangeMusInfoMusic(int lumpnum, int looping);
-void S_ParseMusInfo(char *mapid);
+void S_ParseMusInfo(char *lumpname);
 void MusInfoThinker(mobj_t *thing);
 void T_MAPMusic(void);

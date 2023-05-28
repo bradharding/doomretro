@@ -545,8 +545,8 @@ static void saveg_read_player_t(void)
     viewplayer->bounce = saveg_read32();
     viewplayer->bouncemax = saveg_read32();
 
-    if (!(musinfo.current_item = saveg_read32()))
-        musinfo.current_item = -1;
+    if (!(musinfo.currentitem = saveg_read32()))
+        musinfo.currentitem = -1;
 
     viewplayer->infightcount = saveg_read32();
     viewplayer->resurrectioncount = saveg_read32();
@@ -656,7 +656,7 @@ static void saveg_write_player_t(void)
     saveg_write32(viewplayer->bounce);
     saveg_write32(viewplayer->bouncemax);
 
-    saveg_write32(musinfo.current_item);
+    saveg_write32(musinfo.currentitem);
 
     saveg_write32(viewplayer->infightcount);
     saveg_write32(viewplayer->resurrectioncount);

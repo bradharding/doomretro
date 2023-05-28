@@ -575,20 +575,20 @@ void S_SetSfxVolume(int volume)
     snd_sfxvolume = volume;
 }
 
-void S_StartMusic(int music_id)
+void S_StartMusic(musicnum_t musicnum)
 {
-    S_ChangeMusic(music_id, false, false, false);
+    S_ChangeMusic(musicnum, false, false, false);
 }
 
-void S_ChangeMusic(int music_id, bool looping, bool allowrestart, bool mapstart)
+void S_ChangeMusic(musicnum_t musicnum, bool looping, bool allowrestart, bool mapstart)
 {
-    musicinfo_t *music = &s_music[music_id];
+    musicinfo_t *music = &s_music[musicnum];
     char        namebuf[9];
     void        *handle;
     int         mapinfomusic;
 
     // current music which should play
-    musinfo.current_item = -1;
+    musinfo.currentitem = -1;
     s_music[mus_musinfo].lumpnum = -1;
 
     if (nomusic || (mus_playing == music && !allowrestart))
@@ -602,7 +602,7 @@ void S_ChangeMusic(int music_id, bool looping, bool allowrestart, bool mapstart)
     // get lumpnum if necessary
     if (autosigil)
     {
-        if (music_id == mus_intro || (music_id == mus_inter && gameepisode != 5))
+        if (musicnum == mus_intro || (musicnum == mus_inter && gameepisode != 5))
             music->lumpnum = W_GetLastNumForName(namebuf);
         else
             music->lumpnum = W_CheckNumForName(namebuf);
@@ -731,35 +731,35 @@ void S_ChangeMusInfoMusic(int lumpnum, int looping)
     mus_playing = music;
     M_StringCopy(mus_playing->name1, lumpinfo[lumpnum]->name, sizeof(mus_playing->name1));
 
-    musinfo.current_item = lumpnum;
+    musinfo.currentitem = lumpnum;
 }
 
 //
 // S_ParseMusInfo
 // Parses MUSINFO lump.
 //
-void S_ParseMusInfo(char *mapid)
+void S_ParseMusInfo(char *lumpname)
 {
     memset(&musinfo, 0, sizeof(musinfo));
-    musinfo.current_item = -1;
+    musinfo.currentitem = -1;
 
     s_music[NUMMUSIC].lumpnum = -1;
 
     if (W_CheckNumForName("MUSINFO") >= 0)
     {
-        int inMap = false;
+        int inmap = false;
 
         SC_Open("MUSINFO");
 
         while (SC_GetString())
-            if (inMap || SC_Compare(mapid))
+            if (inmap || SC_Compare(lumpname))
             {
                 unsigned int    num = 0;
 
-                if (!inMap)
+                if (!inmap)
                 {
                     SC_GetString();
-                    inMap = true;
+                    inmap = true;
                 }
 
                 if (toupper(sc_String[0]) == 'E' || toupper(sc_String[0]) == 'M')

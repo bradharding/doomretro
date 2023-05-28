@@ -112,7 +112,7 @@ extern int          current_music_volume;
 //
 // Identifiers for all music in game.
 //
-enum
+typedef enum
 {
     mus_none,
     mus_e1m1,
@@ -191,9 +191,11 @@ enum
     mus_read_m,
     mus_dm2ttl,
     mus_dm2int,
+
     NUMMUSIC,
+
     mus_musinfo
-};
+} musicnum_t;
 
 //
 // Identifiers for all sfx in game.

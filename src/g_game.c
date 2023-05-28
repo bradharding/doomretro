@@ -1568,8 +1568,8 @@ void G_DoLoadGame(void)
 
     P_MapEnd();
 
-    if (musinfo.current_item != -1)
-        S_ChangeMusInfoMusic(musinfo.current_item, true);
+    if (musinfo.currentitem != -1)
+        S_ChangeMusInfoMusic(musinfo.currentitem, true);
 
     if (!P_ReadSaveGameEOF())
         I_Error("%s is invalid.", savename);
