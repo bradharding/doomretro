@@ -131,9 +131,7 @@ char        *savegamefolder;
 
 char        *autoloadfolder;
 char        *autoloadiwadsubfolder;
-char        *autoloadiwadsubfolder2;
 char        *autoloadpwadsubfolder;
-char        *autoloadpwadsubfolder2;
 
 char        *pwadfile = "";
 
@@ -2227,11 +2225,11 @@ static void D_DoomMainSetup(void)
         if (autoloadpwadsubfolder)
             C_Output("Any " BOLD(".wad") ", " BOLD(".deh") " or " BOLD(".cfg") " files in "
                 BOLD("%s") ", " BOLD("%s") " or " BOLD("%s") " will be automatically loaded.",
-                autoloadfolder, autoloadiwadsubfolder2, autoloadpwadsubfolder2);
+                autoloadfolder, autoloadiwadsubfolder, autoloadpwadsubfolder);
         else if (!M_CheckParm("-noautoload") && gamemode != shareware)
             C_Output("Any " BOLD(".wad") ", " BOLD(".deh") " or " BOLD(".cfg") " files in "
                 BOLD("%s") " or " BOLD("%s") " will be automatically loaded.",
-                autoloadfolder, autoloadiwadsubfolder2);
+                autoloadfolder, autoloadiwadsubfolder);
     }
 
     if (dehcount > 2)
