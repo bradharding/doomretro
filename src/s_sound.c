@@ -801,7 +801,7 @@ void T_MAPMusic(void)
         musinfo.tics--;
     else if (musinfo.lastmapthing != musinfo.mapthing)
     {
-        int arraypt = TIDNUM(musinfo.mapthing);
+        const int   arraypt = TIDNUM(musinfo.mapthing);
 
         if (arraypt >= 0 && arraypt < MAX_MUS_ENTRIES)
         {
