@@ -282,7 +282,18 @@ void V_DrawWidePatch(int x, int y, int screen, patch_t *patch)
 void V_DrawPagePatch(int screen, patch_t *patch)
 {
     if (SCREENWIDTH != NONWIDEWIDTH)
-        memset(screens[screen], FindDominantEdgeColor(patch), SCREENAREA);
+    {
+        static patch_t  *prevpatch = NULL;
+        static int      pillarboxcolor;
+
+        if (prevpatch != patch)
+        {
+            pillarboxcolor = tinttab25[FindDominantEdgeColor(patch)];
+            prevpatch = patch;
+        }
+
+        memset(screens[screen], pillarboxcolor, SCREENAREA);
+    }
 
     V_DrawWidePatch((SCREENWIDTH / SCREENSCALE - SHORT(patch->width)) / 2, 0, screen, patch);
 }

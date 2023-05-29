@@ -491,8 +491,6 @@ int             logotic = 3 * TICRATE;
 static patch_t  *pagelump;
 patch_t         *creditlump;
 
-static int      pillarboxcolor;
-
 static patch_t  *fineprintlump;
 static patch_t  *logolump[18];
 static patch_t  *titlelump;
@@ -594,7 +592,6 @@ void D_DoAdvanceTitle(void)
             forcewipe = true;
 
         pagelump = titlelump;
-        pillarboxcolor = FindDominantEdgeColor(pagelump);
         pagetic = PAGETICS;
 
         M_SetWindowCaption();
@@ -607,7 +604,6 @@ void D_DoAdvanceTitle(void)
     {
         forcewipe = true;
         pagelump = creditlump;
-        pillarboxcolor = FindDominantEdgeColor(pagelump);
         pagetic = PAGETICS;
     }
 
