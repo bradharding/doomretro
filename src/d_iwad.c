@@ -849,12 +849,25 @@ void D_SetAutoloadFolder(void)
     autoloadiwadsubfolder = M_StringJoin(autoloadfolder, SaveGameIWADName(), DIR_SEPARATOR_S, NULL);
     M_MakeDirectory(autoloadiwadsubfolder);
 
+    if (p)
+        autoloadiwadsubfolder2 = M_StringDuplicate(autoloadiwadsubfolder);
+    else
+        autoloadiwadsubfolder2 = M_StringJoin(DIR_SEPARATOR_S DOOMRETRO_AUTOLOADFOLDER DIR_SEPARATOR_S,
+            SaveGameIWADName(), DIR_SEPARATOR_S, NULL);
+
     if (*pwadfile)
     {
         char    *temp = removeext(GetCorrectCase(pwadfile));
 
         autoloadpwadsubfolder = M_StringJoin(autoloadfolder, temp, DIR_SEPARATOR_S, NULL);
         M_MakeDirectory(autoloadpwadsubfolder);
+
+        if (p)
+            autoloadpwadsubfolder2 = M_StringDuplicate(autoloadpwadsubfolder);
+        else
+            autoloadpwadsubfolder2 = M_StringJoin(DIR_SEPARATOR_S DOOMRETRO_AUTOLOADFOLDER DIR_SEPARATOR_S,
+                temp, DIR_SEPARATOR_S, NULL);
+
         free(temp);
     }
 }
