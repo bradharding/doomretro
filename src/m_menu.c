@@ -3159,7 +3159,7 @@ bool M_Responder(event_t *ev)
             r_hud = false;
             vid_widescreen = false;
 
-            R_SetViewSize(r_screensize);
+            R_SetViewSize(r_screensize + (menuactive && viewactive ? 1 : 0));
             I_RestartGraphics(false);
             S_StartSound(NULL, sfx_stnmov);
             M_SaveCVARs();
@@ -3185,7 +3185,7 @@ bool M_Responder(event_t *ev)
             r_screensize = r_screensize_max - 1;
             vid_widescreen = true;
 
-            R_SetViewSize(r_screensize);
+            R_SetViewSize(r_screensize + (menuactive && viewactive ? 1 : 0));
             I_RestartGraphics(false);
             S_StartSound(NULL, sfx_stnmov);
             M_SaveCVARs();
