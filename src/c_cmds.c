@@ -2159,7 +2159,7 @@ static void condump_cmd_func2(char *cmd, char *parms)
 //
 static void cvarlist_cmd_func2(char *cmd, char *parms)
 {
-    const int   tabs[3] = { 40, 209, 315 };
+    const int   tabs[3] = { 169, 275, 0 };
 
     for (int i = 0, count = 0; *consolecmds[i].name; i++)
         if (consolecmds[i].type == CT_CVAR)
@@ -2184,20 +2184,20 @@ static void cvarlist_cmd_func2(char *cmd, char *parms)
             if (M_StringCompare(name, stringize(ammo)))
             {
                 if (gamestate == GS_LEVEL)
-                    C_TabbedOutput(tabs, MONOSPACED("%3i") ".\t" BOLD("%s") "\t" BOLD("%i") "\t%s",
-                        count, name, viewplayer->ammo[weaponinfo[viewplayer->readyweapon].ammotype], description);
+                    C_TabbedOutput(tabs, BOLD("%s") "\t" BOLD("%i") "\t%s",
+                        name, viewplayer->ammo[weaponinfo[viewplayer->readyweapon].ammotype], description);
                 else
-                    C_TabbedOutput(tabs, MONOSPACED("%3i") ".\t" BOLD("%s") "\t" BOLD("%i") "\t%s",
-                        count, name, ammo_default, description);
+                    C_TabbedOutput(tabs, BOLD("%s") "\t" BOLD("%i") "\t%s",
+                        name, ammo_default, description);
             }
             else if (M_StringCompare(name, stringize(armor)))
             {
                 if (gamestate == GS_LEVEL)
-                    C_TabbedOutput(tabs, MONOSPACED("%3i") ".\t" BOLD("%s") "\t" BOLD("%i%%") "\t%s",
-                        count, name, viewplayer->armor, description);
+                    C_TabbedOutput(tabs, BOLD("%s") "\t" BOLD("%i%%") "\t%s",
+                        name, viewplayer->armor, description);
                 else
-                    C_TabbedOutput(tabs, MONOSPACED("%3i") ".\t" BOLD("%s") "\t" BOLD("%i%%") "\t%s",
-                        count, name, armor_default, description);
+                    C_TabbedOutput(tabs, BOLD("%s") "\t" BOLD("%i%%") "\t%s",
+                        name, armor_default, description);
             }
             else if (M_StringCompare(name, stringize(armortype)))
             {
@@ -2205,22 +2205,22 @@ static void cvarlist_cmd_func2(char *cmd, char *parms)
                 {
                     char    *temp = C_LookupAliasFromValue(viewplayer->armortype, ARMORTYPEVALUEALIAS);
 
-                    C_TabbedOutput(tabs, MONOSPACED("%3i") ".\t" BOLD("%s") "\t" BOLD("%s") "\t%s",
-                        count, name, temp, description);
+                    C_TabbedOutput(tabs, BOLD("%s") "\t" BOLD("%s") "\t%s",
+                        name, temp, description);
                     free(temp);
                 }
                 else
-                    C_TabbedOutput(tabs, MONOSPACED("%3i") ".\t" BOLD("%s") "\t" BOLD("none") "\t%s",
-                        count, name, description);
+                    C_TabbedOutput(tabs, BOLD("%s") "\t" BOLD("none") "\t%s",
+                        name, description);
             }
             else if (M_StringCompare(name, stringize(health)))
             {
                 if (gamestate == GS_LEVEL)
-                    C_TabbedOutput(tabs, MONOSPACED("%3i") ".\t" BOLD("%s") "\t" BOLD("%i%%") "\t%s",
-                        count, name, viewplayer->health, description);
+                    C_TabbedOutput(tabs, BOLD("%s") "\t" BOLD("%i%%") "\t%s",
+                        name, viewplayer->health, description);
                 else
-                    C_TabbedOutput(tabs, MONOSPACED("%3i") ".\t" BOLD("%s") "\t" BOLD("%i%%") "\t%s",
-                        count, name, health_default, description);
+                    C_TabbedOutput(tabs, BOLD("%s") "\t" BOLD("%i%%") "\t%s",
+                        name, health_default, description);
             }
             else if (M_StringCompare(name, stringize(weapon)))
             {
@@ -2233,41 +2233,41 @@ static void cvarlist_cmd_func2(char *cmd, char *parms)
                 {
                     char    *temp = C_LookupAliasFromValue(viewplayer->readyweapon, WEAPONVALUEALIAS);
 
-                    C_TabbedOutput(tabs, MONOSPACED("%3i") ".\t" BOLD("%s") "\t" BOLD("%s") "\t%s",
-                        count, name, temp, description);
+                    C_TabbedOutput(tabs, BOLD("%s") "\t" BOLD("%s") "\t%s",
+                        name, temp, description);
                     free(temp);
                 }
                 else
                 {
                     char    *temp = C_LookupAliasFromValue(weapon_default, WEAPONVALUEALIAS);
 
-                    C_TabbedOutput(tabs, MONOSPACED("%3i") ".\t" BOLD("%s") "\t" BOLD("%s") "\t%s",
-                        count, name, temp, description);
+                    C_TabbedOutput(tabs, BOLD("%s") "\t" BOLD("%s") "\t%s",
+                        name, temp, description);
                     free(temp);
                 }
             }
             else if (M_StringCompare(name, stringize(r_fov)))
             {
-                C_TabbedOutput(tabs, MONOSPACED("%3i") ".\t" BOLD("%s") "\t" BOLD("%i") "\xB0\t%s",
-                    count, name, *(int *)consolecmds[i].variable, description);
+                C_TabbedOutput(tabs, BOLD("%s") "\t" BOLD("%i") "\xB0\t%s",
+                    name, *(int *)consolecmds[i].variable, description);
             }
             else if (consolecmds[i].flags & CF_BOOLEAN)
             {
                 char    *temp = C_LookupAliasFromValue(*(bool *)consolecmds[i].variable, consolecmds[i].aliases);
 
-                C_TabbedOutput(tabs, MONOSPACED("%3i") ".\t" BOLD("%s") "\t" BOLD("%s") "\t%s",
-                    count, name, temp, description);
+                C_TabbedOutput(tabs, BOLD("%s") "\t" BOLD("%s") "\t%s",
+                    name, temp, description);
                 free(temp);
             }
             else if ((consolecmds[i].flags & CF_INTEGER) && (consolecmds[i].flags & CF_PERCENT))
-                C_TabbedOutput(tabs, MONOSPACED("%3i") ".\t" BOLD("%s") "\t" BOLD("%i%%") "\t%s",
-                    count, name, *(int *)consolecmds[i].variable, description);
+                C_TabbedOutput(tabs, BOLD("%s") "\t" BOLD("%i%%") "\t%s",
+                    name, *(int *)consolecmds[i].variable, description);
             else if (consolecmds[i].flags & CF_INTEGER)
             {
                 char    *temp = C_LookupAliasFromValue(*(int *)consolecmds[i].variable, consolecmds[i].aliases);
 
-                C_TabbedOutput(tabs, MONOSPACED("%3i") ".\t" BOLD("%s") "\t" BOLD("%s") "\t%s",
-                    count, name, temp, description);
+                C_TabbedOutput(tabs, BOLD("%s") "\t" BOLD("%s") "\t%s",
+                    name, temp, description);
                 free(temp);
             }
             else if (consolecmds[i].flags & CF_FLOAT)
@@ -2276,8 +2276,8 @@ static void cvarlist_cmd_func2(char *cmd, char *parms)
                 {
                     char    *temp = striptrailingzero(*(float *)consolecmds[i].variable, 1);
 
-                    C_TabbedOutput(tabs, MONOSPACED("%3i") ".\t" BOLD("%s") "\t" BOLD("%s%%") "\t%s",
-                        count, name, temp, description);
+                    C_TabbedOutput(tabs, BOLD("%s") "\t" BOLD("%s%%") "\t%s",
+                        name, temp, description);
                     free(temp);
                 }
                 else if (M_StringCompare(consolecmds[i].name, stringize(r_gamma)))
@@ -2291,21 +2291,20 @@ static void cvarlist_cmd_func2(char *cmd, char *parms)
                     if (len >= 2 && buffer[len - 1] == '0' && buffer[len - 2] == '0')
                         buffer[len - 1] = '\0';
 
-                    C_TabbedOutput(tabs, MONOSPACED("%3i") ".\t" BOLD("%s") "\t" BOLD("%s") "\t%s",
-                        count, name, buffer, description);
+                    C_TabbedOutput(tabs, BOLD("%s") "\t" BOLD("%s") "\t%s",
+                        name, buffer, description);
                 }
                 else
                 {
                     char    *temp = striptrailingzero(*(float *)consolecmds[i].variable, 1);
 
-                    C_TabbedOutput(tabs, MONOSPACED("%3i") ".\t" BOLD("%s") "\t" BOLD("%s") "\t%s",
-                        count, name, temp, description);
+                    C_TabbedOutput(tabs, BOLD("%s") "\t" BOLD("%s") "\t%s",
+                        name, temp, description);
                     free(temp);
                 }
             }
             else if (consolecmds[i].flags & CF_STRING)
-                C_TabbedOutput(tabs, MONOSPACED("%3i") ".\t" BOLD("%s") "\t" BOLD("%s%.14s%s%s") "\t%s",
-                    count,
+                C_TabbedOutput(tabs, BOLD("%s") "\t" BOLD("%s%.14s%s%s") "\t%s",
                     name,
                     (M_StringCompare(name, stringize(version)) ? "" : "\""),
                     *(char **)consolecmds[i].variable,
@@ -2320,13 +2319,13 @@ static void cvarlist_cmd_func2(char *cmd, char *parms)
                 int seconds = tics % 60;
 
                 if (!hours)
-                    C_TabbedOutput(tabs, MONOSPACED("%3i") ".\t" BOLD("%s")
+                    C_TabbedOutput(tabs, BOLD("%s")
                         "\t" BOLD(MONOSPACED("%02i") ":" MONOSPACED("%02i")) "\t%s",
-                        count, name, minutes, seconds, description);
+                        name, minutes, seconds, description);
                 else
-                    C_TabbedOutput(tabs, MONOSPACED("%3i") ".\t" BOLD("%s")
+                    C_TabbedOutput(tabs, BOLD("%s")
                         "\t" BOLD(MONOSPACED("%i") ":" MONOSPACED("%02i") ":" MONOSPACED("%02i")) "\t%s",
-                        count, name, hours, minutes, seconds, description);
+                        name, hours, minutes, seconds, description);
             }
             else if (consolecmds[i].flags & CF_OTHER)
             {
@@ -2337,8 +2336,8 @@ static void cvarlist_cmd_func2(char *cmd, char *parms)
                 if (english == english_international)
                     M_AmericanToInternationalEnglish(temp);
 
-                C_TabbedOutput(tabs, MONOSPACED("%3i") ".\t" BOLD("%s") "\t" BOLD("%s") "\t%s",
-                    count, name, temp, description);
+                C_TabbedOutput(tabs, BOLD("%s") "\t" BOLD("%s") "\t%s",
+                    name, temp, description);
             }
         }
 }
