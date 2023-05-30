@@ -86,7 +86,7 @@ weaponinfo_t weaponinfo[NUMWEAPONS] =
 
     // shotgun
     {
-        /* name        */ mobjinfo[MT_SHOTGUN].name1,
+        /* name        */ original_mobjinfo[MT_SHOTGUN].name1,
         /* ammotype    */ am_shell,
         /* ammoname    */ "shell",
         /* ammoplural  */ "shells",
@@ -108,7 +108,7 @@ weaponinfo_t weaponinfo[NUMWEAPONS] =
 
     // chaingun
     {
-        /* name        */ mobjinfo[MT_CHAINGUN].name1,
+        /* name        */ original_mobjinfo[MT_CHAINGUN].name1,
         /* ammotype    */ am_clip,
         /* ammoname    */ "bullet",
         /* ammoplural  */ "bullets",
@@ -130,7 +130,7 @@ weaponinfo_t weaponinfo[NUMWEAPONS] =
 
     // rocket launcher
     {
-        /* name        */ mobjinfo[MT_MISC27].name1,
+        /* name        */ original_mobjinfo[MT_MISC27].name1,
         /* ammotype    */ am_misl,
         /* ammoname    */ "rocket",
         /* ammoplural  */ "rockets",
@@ -152,7 +152,7 @@ weaponinfo_t weaponinfo[NUMWEAPONS] =
 
     // plasma rifle
     {
-        /* name        */ mobjinfo[MT_MISC28].name1,
+        /* name        */ original_mobjinfo[MT_MISC28].name1,
         /* ammotype    */ am_cell,
         /* ammoname    */ "cell",
         /* ammoplural  */ "cells",
@@ -174,7 +174,7 @@ weaponinfo_t weaponinfo[NUMWEAPONS] =
 
     // BFG-9000
     {
-        /* name        */ mobjinfo[MT_MISC25].name1,
+        /* name        */ original_mobjinfo[MT_MISC25].name1,
         /* ammotype    */ am_cell,
         /* ammoname    */ "cell",
         /* ammoplural  */ "cells",
@@ -196,7 +196,7 @@ weaponinfo_t weaponinfo[NUMWEAPONS] =
 
     // chainsaw
     {
-        /* name        */ mobjinfo[MT_MISC26].name1,
+        /* name        */ original_mobjinfo[MT_MISC26].name1,
         /* ammotype    */ am_noammo,
         /* ammoname    */ "",
         /* ammoplural  */ "",
@@ -218,7 +218,7 @@ weaponinfo_t weaponinfo[NUMWEAPONS] =
 
     // super shotgun
     {
-        /* name        */ mobjinfo[MT_SUPERSHOTGUN].name1,
+        /* name        */ original_mobjinfo[MT_SUPERSHOTGUN].name1,
         /* ammotype    */ am_shell,
         /* ammoname    */ "shell",
         /* ammoplural  */ "shells",
@@ -242,10 +242,10 @@ weaponinfo_t weaponinfo[NUMWEAPONS] =
 char *powerups[NUMPOWERS] =
 {
     "",
-    mobjinfo[MT_INV].name1,     // invincibility
-    mobjinfo[MT_MISC13].name1,  // berserk
-    mobjinfo[MT_INS].name1,     // partial invisibility
-    mobjinfo[MT_MISC14].name1,  // radiation shielding suit
-    mobjinfo[MT_MISC15].name1,  // computer area map
-    mobjinfo[MT_MISC16].name1   // light amplification visor
+    original_mobjinfo[MT_INV].name1,     // invincibility
+    original_mobjinfo[MT_MISC13].name1,  // berserk
+    original_mobjinfo[MT_INS].name1,     // partial invisibility
+    original_mobjinfo[MT_MISC14].name1,  // radiation shielding suit
+    original_mobjinfo[MT_MISC15].name1,  // computer area map
+    original_mobjinfo[MT_MISC16].name1   // light amplification visor
 };

@@ -91,5 +91,9 @@ typedef struct
     bool    sprfix18;
 } sproffset_t;
 
-extern char                 *sprnames[];
+extern char                 *original_sprnames[];
 extern const sproffset_t    sproffsets[];
+
+// DSDHacked
+extern char **sprnames;
+extern int num_sprites;

@@ -36,7 +36,7 @@
 #include "r_defs.h"
 #include "sprites.h"
 
-char *sprnames[] =
+char *original_sprnames[] =
 {
     // Sprites 0 to 137
     "TROO", "SHTG", "PUNG", "PISG", "PISF", "SHTF", "SHT2", "CHGG", "CHGF", "MISG",

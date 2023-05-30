@@ -93,7 +93,7 @@ typedef struct
 } musicinfo_t;
 
 // the complete set of sound effects
-extern sfxinfo_t    s_sfx[];
+extern sfxinfo_t    original_s_sfx[];
 
 // the complete set of music
 extern musicinfo_t  s_music[];
@@ -529,3 +529,7 @@ typedef enum
 
     NUMSFX
 } sfxnum_t;
+
+// DSDHacked
+extern sfxinfo_t    *s_sfx;
+extern int          num_sfx;

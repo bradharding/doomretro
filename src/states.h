@@ -1151,10 +1151,7 @@ typedef enum
     S_TRAIL3,
     S_TRAIL4,
 
-    // [BH] extra DeHackEd states 1,081 to 3,999
-    EXTRASTATES = 1081,
-
-    NUMSTATES = 4000
+    NUMSTATES
 } statenum_t;
 
 typedef struct
@@ -1172,4 +1169,8 @@ typedef struct
     bool        dehacked;
 } state_t;
 
-extern state_t  states[NUMSTATES];
+extern state_t  original_states[NUMSTATES];
+
+// DSDHacked
+extern state_t *states;
+extern int num_states;

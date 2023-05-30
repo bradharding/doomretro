@@ -126,7 +126,7 @@ musicinfo_t s_music[] =
 //
 // Information about all the SFX
 //
-sfxinfo_t s_sfx[] =
+sfxinfo_t original_s_sfx[] =
 {
     // s_sfx[0] needs to be a dummy for odd reasons.
     { "none",   "none",   sg_none,     0, -1 },

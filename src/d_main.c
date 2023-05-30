@@ -52,6 +52,7 @@
 #include "d_deh.h"
 #include "d_iwad.h"
 #include "doomstat.h"
+#include "dsdhacked.h"
 #include "f_finale.h"
 #include "f_wipe.h"
 #include "g_game.h"
@@ -1891,6 +1892,8 @@ static void D_DoomMainSetup(void)
 
     C_ClearConsole();
 
+    dsdh_InitTables();
+
 #if defined(_WIN32)
     C_PrintCompileDate();
     I_PrintWindowsVersion();
@@ -1903,8 +1906,6 @@ static void D_DoomMainSetup(void)
 
     I_PrintSystemInfo();
     C_PrintSDLVersions();
-
-    D_BuildBEXTables();
 
     iwadfile = D_FindIWAD();
 

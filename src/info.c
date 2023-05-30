@@ -87,7 +87,7 @@
     /* plural3              */ ""           \
 }
 
-mobjinfo_t mobjinfo[] =
+mobjinfo_t original_mobjinfo[] =
 {
     // Player (MT_PLAYER)
     {

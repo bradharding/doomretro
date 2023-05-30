@@ -934,24 +934,24 @@ mobjtype_t P_FindDoomedNum(const unsigned int type)
 
     if (!hash)
     {
-        hash = Z_Malloc(NUMMOBJTYPES * sizeof(*hash), PU_CACHE, (void **)&hash);
+        hash = Z_Malloc(num_mobj_types * sizeof(*hash), PU_CACHE, (void **)&hash);
 
-        for (int j = 0; j < NUMMOBJTYPES; j++)
-            hash[j].first = NUMMOBJTYPES;
+        for (int j = 0; j < num_mobj_types; j++)
+            hash[j].first = num_mobj_types;
 
-        for (int j = 0; j < NUMMOBJTYPES; j++)
+        for (int j = 0; j < num_mobj_types; j++)
             if (mobjinfo[j].doomednum != -1)
             {
-                const int   h = mobjinfo[j].doomednum % NUMMOBJTYPES;
+                const int   h = mobjinfo[j].doomednum % num_mobj_types;
 
                 hash[j].next = hash[h].first;
                 hash[h].first = j;
             }
     }
 
-    i = hash[type % NUMMOBJTYPES].first;
+    i = hash[type % num_mobj_types].first;
 
-    while (i < NUMMOBJTYPES && mobjinfo[i].doomednum != type)
+    while (i < num_mobj_types && mobjinfo[i].doomednum != type)
         i = hash[i].next;
 
     return i;
@@ -1171,7 +1171,7 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, const bool spawnmonsters)
         return NULL;
 
     // killough 08/23/98: use table for faster lookup
-    if ((i = P_FindDoomedNum(type)) == NUMMOBJTYPES)
+    if ((i = P_FindDoomedNum(type)) == num_mobj_types)
     {
         // [BH] make unknown thing type non-fatal and show console warning instead
         char    *temp = commify(thingid);
