@@ -1978,8 +1978,8 @@ static void clear_cmd_func2(char *cmd, char *parms)
 //
 static void cmdlist_cmd_func2(char *cmd, char *parms)
 {
-    const int   tabs[3] = { 40, 346, 0 };
-    const int   columnwidth = tabs[1] - tabs[0] - 5;
+    const int   tabs[3] = { 326, 0, 0 };
+    const int   columnwidth = tabs[0] - 15;
 
     for (int i = 0, count = 0; *consolecmds[i].name; i++)
         if (consolecmds[i].type == CT_CCMD)
@@ -2033,8 +2033,7 @@ static void cmdlist_cmd_func2(char *cmd, char *parms)
                 M_AmericanToInternationalEnglish(description);
             }
 
-            C_TabbedOutput(tabs, MONOSPACED("%3i") ".\t%s\t" BOLDOFF ITALICSOFF "%s",
-                count, format, description);
+            C_TabbedOutput(tabs, "%s\t" BOLDOFF ITALICSOFF "%s", format, description);
         }
 }
 
