@@ -2189,9 +2189,7 @@ static const deh_bexptr deh_bexptrs[] =
 extern actionf_t    *deh_codeptr;
 
 // haleyjd: support for BEX SPRITES, SOUNDS, and MUSIC
-static char         *deh_spritenames[NUMSPRITES + 1];
 static char         *deh_musicnames[NUMMUSIC + 1];
-static char         *deh_soundnames[NUMSFX + 1];
 
 // ====================================================================
 // D_ProcessDehFile

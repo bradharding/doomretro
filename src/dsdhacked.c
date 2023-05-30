@@ -246,8 +246,11 @@ void dsdh_EnsureSFXCapacity(int limit)
         memset(sfx_state + old_num_sfx, 0,
             (num_sfx - old_num_sfx) * sizeof(*sfx_state));
 
-        for (int i = old_num_sfx; i < num_sfx; ++i)
+        for (int i = old_num_sfx; i < num_sfx; i++)
+        {
             s_sfx[i].priority = 127;
+            s_sfx[i].lumpnum = -1;
+        }
     }
 }
 

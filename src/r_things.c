@@ -220,9 +220,12 @@ static void R_InitSpriteDefs(void)
     for (int i = 0; i < num_sprites; i++)
     {
         const char  *spritename = sprnames[i];
-        int         j = hash[R_SpriteNameHash(spritename) % numentries].index;
+        int         j;
 
-        if (j >= 0)
+        if (!spritename)
+            break;
+
+        if ((j = hash[R_SpriteNameHash(spritename) % numentries].index) >= 0)
         {
             memset(sprtemp, -1, sizeof(sprtemp));
 
