@@ -1710,14 +1710,17 @@ void C_Drawer(void)
 
         if (showcaret)
         {
-            byte    *dest = &screens[0][CONSOLEINPUTY * SCREENWIDTH + x];
-
-            for (int yy = 0; yy < 14 * SCREENWIDTH; yy += SCREENWIDTH)
+            for (i = 0; i < CONSOLELINEHEIGHT; i++)
             {
-                const int   temp = yy - (CONSOLEHEIGHT - consoleheight) * SCREENWIDTH;
+                const int   yy = CONSOLEINPUTY + i - (CONSOLEHEIGHT - consoleheight);
 
-                *(dest + temp) = consolecaretcolor;
-                *(dest + temp + 1) = consolecaretcolor;
+                if (yy >= 0)
+                {
+                    byte    *dot = *screens + yy * SCREENWIDTH + x;
+
+                    *dot = consolecaretcolor;
+                    *(dot + 1) = consolecaretcolor;
+                }
             }
         }
     }
