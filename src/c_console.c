@@ -1700,7 +1700,7 @@ void C_Drawer(void)
     }
 
     // draw caret
-    if (consoleheight == CONSOLEHEIGHT && windowfocused && !messagetoprint)
+    if (windowfocused && !messagetoprint)
     {
         if (caretwait < tics)
         {
@@ -1714,8 +1714,10 @@ void C_Drawer(void)
 
             for (int yy = 0; yy < 14 * SCREENWIDTH; yy += SCREENWIDTH)
             {
-                *(dest + yy) = consolecaretcolor;
-                *(dest + yy + 1) = consolecaretcolor;
+                const int   temp = yy - (CONSOLEHEIGHT - consoleheight) * SCREENWIDTH;
+
+                *(dest + temp) = consolecaretcolor;
+                *(dest + temp + 1) = consolecaretcolor;
             }
         }
     }
