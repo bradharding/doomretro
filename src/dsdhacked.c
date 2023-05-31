@@ -40,7 +40,6 @@
 #include "doomtype.h"
 #include "dsdhacked.h"
 #include "p_local.h"
-#include "sounds.h"
 
 //
 // States
@@ -111,13 +110,15 @@ void dsdh_EnsureStatesCapacity(int limit)
 char        **sprnames;
 int         num_sprites;
 static char **deh_spritenames;
+static int  deh_spritenames_size;
 static byte *sprnames_state;
 
 static void InitSprites(void)
 {
     sprnames = original_sprnames;
     num_sprites = NUMSPRITES;
-    deh_spritenames = malloc((num_sprites + 1) * sizeof(*deh_spritenames));
+    deh_spritenames_size = num_sprites + 1;
+    deh_spritenames = malloc(deh_spritenames_size * sizeof(*deh_spritenames));
 
     for (int i = 0; i < num_sprites; i++)
         deh_spritenames[i] = strdup(sprnames[i]);
@@ -155,6 +156,10 @@ static void EnsureSpritesCapacity(int limit)
 
 static void FreeSprites(void)
 {
+    for (int i = 0; i < deh_spritenames_size; i++)
+        if (deh_spritenames[i])
+            free(deh_spritenames[i]);
+
     free(deh_spritenames);
     free(sprnames_state);
 }
@@ -196,13 +201,15 @@ int dsdh_GetOriginalSpriteIndex(const char* key)
 sfxinfo_t       *s_sfx;
 int             num_sfx;
 static char     **deh_soundnames;
-static byte*    sfx_state;
+static int      deh_soundnames_size;
+static byte     *sfx_state;
 
 static void InitSFX(void)
 {
     s_sfx = original_s_sfx;
     num_sfx = NUMSFX;
-    deh_soundnames = malloc((num_sfx + 1) * sizeof(*deh_soundnames));
+    deh_soundnames_size = num_sfx + 1;
+    deh_soundnames = malloc(deh_soundnames_size * sizeof(*deh_soundnames));
 
     for (int i = 1; i < num_sfx; i++)
         if (s_sfx[i].name1 != NULL)
@@ -217,6 +224,10 @@ static void InitSFX(void)
 
 static void FreeSFX(void)
 {
+    for (int i = 1; i < deh_soundnames_size; i++)
+        if (deh_soundnames[i])
+            free(deh_soundnames[i]);
+
     free(deh_soundnames);
     free(sfx_state);
 }
