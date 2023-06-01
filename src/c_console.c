@@ -1930,13 +1930,14 @@ bool C_Responder(event_t *ev)
             C_HideConsole();
             return true;
         }
+        else if (key == keyboardscreenshot && keyboardscreenshot == KEY_PRINTSCREEN)
+        {
+            G_ScreenShot();
+            return true;
+        }
 
         switch (key)
         {
-            case KEY_PRINTSCREEN:
-                G_ScreenShot();
-                break;
-
             case KEY_BACKSPACE:
                 if (selectstart < selectend)
                 {

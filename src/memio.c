@@ -113,7 +113,7 @@ size_t mem_fwrite(const void *ptr, size_t size, size_t nmemb, MEMFILE *stream)
     if (stream->mode != MODE_WRITE)
         return -1;
 
-    // More bytes than can fit in the buffer? If so, I_Reallocate bigger.
+    // More bytes than can fit in the buffer? If so, reallocate bigger.
     bytes = size * nmemb;
 
     while (stream->alloced - stream->position < bytes)

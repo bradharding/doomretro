@@ -1778,19 +1778,19 @@ void G_SetFastParms(bool fast_pending)
 
     if (fast != fast_pending)               // only change if necessary
     {
-        for (int i = 0; i < nummobjtypes; i++)
+        for (int i = 0; i < num_mobj_types; i++)
             if (mobjinfo[i].altspeed != NO_ALTSPEED)
                 SWAP(mobjinfo[i].speed, mobjinfo[i].altspeed);
 
         if ((fast = fast_pending))
         {
-            for (int i = 0; i < numstates; i++)
+            for (int i = 0; i < num_states; i++)
                 if ((states[i].flags & STATEF_SKILL5FAST) && states[i].tics != 1)
                     states[i].tics >>= 1;   // don't change 1->0 since it causes cycles
         }
         else
         {
-            for (int i = 0; i < numstates; i++)
+            for (int i = 0; i < num_states; i++)
                 if (states[i].flags & STATEF_SKILL5FAST)
                     states[i].tics <<= 1;
         }

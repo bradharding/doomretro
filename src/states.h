@@ -1173,4 +1173,4 @@ extern state_t  original_states[NUMSTATES];
 
 // DSDHacked
 extern state_t *states;
-extern int numstates;
+extern int num_states;

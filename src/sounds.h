@@ -532,4 +532,4 @@ typedef enum
 
 // DSDHacked
 extern sfxinfo_t    *s_sfx;
-extern int          numsfx;
+extern int          num_sfx;
