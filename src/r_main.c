@@ -851,7 +851,7 @@ void R_InitColumnFunctions(void)
         altspanfunc = &R_DrawColorSpan;
     }
 
-    for (mobjtype_t i = 0; i < NUMMOBJTYPES; i++)
+    for (mobjtype_t i = 0; i < num_mobj_types; i++)
     {
         mobjinfo_t  *info = &mobjinfo[i];
         const int   flags = info->flags;
