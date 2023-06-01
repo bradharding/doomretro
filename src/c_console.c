@@ -1700,7 +1700,7 @@ void C_Drawer(void)
     }
 
     // draw caret
-    if (windowfocused && !messagetoprint)
+    if (consoleheight == CONSOLEHEIGHT && windowfocused && !messagetoprint)
     {
         if (caretwait < tics)
         {
@@ -1710,17 +1710,12 @@ void C_Drawer(void)
 
         if (showcaret)
         {
-            for (i = 0; i < CONSOLELINEHEIGHT; i++)
+            byte *dest = &screens[0][CONSOLEINPUTY * SCREENWIDTH + x];
+
+            for (int yy = 0; yy < 14 * SCREENWIDTH; yy += SCREENWIDTH)
             {
-                const int   yy = CONSOLEINPUTY + i - (CONSOLEHEIGHT - consoleheight);
-
-                if (yy >= 0)
-                {
-                    byte    *dot = *screens + yy * SCREENWIDTH + x;
-
-                    *dot = consolecaretcolor;
-                    *(dot + 1) = consolecaretcolor;
-                }
+                *(dest + yy) = consolecaretcolor;
+                *(dest + yy + 1) = consolecaretcolor;
             }
         }
     }
@@ -2093,11 +2088,10 @@ bool C_Responder(event_t *ev)
                 {
                     if (modstate & KMOD_SHIFT)
                     {
-                        caretpos++;
                         caretwait = I_GetTimeMS() + CARETBLINKTIME;
                         showcaret = true;
 
-                        if (selectend >= caretpos)
+                        if (selectend >= ++caretpos)
                             selectstart = caretpos;
                         else
                             selectend = caretpos;
