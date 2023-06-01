@@ -4332,7 +4332,7 @@ void D_PostProcessDeh(void)
 {
     const deh_bexptr    *bexptr_match;
 
-    for (int i = 0, j; i < num_states; i++)
+    for (int i = 0, j; i < numstates; i++)
     {
         bexptr_match = &null_bexptr;
 

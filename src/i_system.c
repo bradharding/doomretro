@@ -297,10 +297,10 @@ void I_Error(const char *error, ...)
 //
 void *I_Realloc(void *block, size_t size)
 {
-    void    *newp = realloc(block, size);
+    void    *newp = I_Realloc(block, size);
 
     if (!newp && size)
-        I_Error("I_Realloc: Failure trying to reallocate %zu bytes", size);
+        I_Error("I_Realloc: Failure trying to I_Reallocate %zu bytes", size);
 
     block = newp;
     return block;

@@ -195,7 +195,7 @@ static void R_InitSpriteDefs(void)
         int next;
     } *hash;
 
-    sprites = Z_Calloc(num_sprites, sizeof(*sprites), PU_STATIC, NULL);
+    sprites = Z_Calloc(numsprites, sizeof(*sprites), PU_STATIC, NULL);
 
     // Create hash table based on just the first four letters of each sprite
     // killough 01/31/98
@@ -217,7 +217,7 @@ static void R_InitSpriteDefs(void)
     }
 
     // scan all the lump names for each of the names, noting the highest frame letter.
-    for (int i = 0; i < num_sprites; i++)
+    for (int i = 0; i < numsprites; i++)
     {
         const char  *spritename = sprnames[i];
         int         j;

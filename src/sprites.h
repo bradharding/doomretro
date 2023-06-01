@@ -96,4 +96,4 @@ extern const sproffset_t    sproffsets[];
 
 // DSDHacked
 extern char **sprnames;
-extern int num_sprites;
+extern int numsprites;
