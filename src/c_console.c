@@ -1677,7 +1677,7 @@ void C_Drawer(void)
             {
                 for (i = 1; i < CONSOLELINEHEIGHT - 1; i++)
                 {
-                    int yy = CONSOLEINPUTY + i - (CONSOLEHEIGHT - consoleheight);
+                    const int   yy = CONSOLEINPUTY + i - (CONSOLEHEIGHT - consoleheight);
 
                     if (yy >= 0)
                         screens[0][yy * SCREENWIDTH + x - 1] = consoleselectedinputbackgroundcolor;
@@ -1690,7 +1690,7 @@ void C_Drawer(void)
 
                 for (i = 1; i < CONSOLELINEHEIGHT - 1; i++)
                 {
-                    int yy = CONSOLEINPUTY + i - (CONSOLEHEIGHT - consoleheight);
+                    const int   yy = CONSOLEINPUTY + i - (CONSOLEHEIGHT - consoleheight);
 
                     if (yy >= 0)
                         screens[0][yy * SCREENWIDTH + x] = consoleselectedinputbackgroundcolor;

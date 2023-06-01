@@ -212,7 +212,7 @@ static void InitSFX(void)
     deh_soundnames = malloc(deh_soundnames_size * sizeof(*deh_soundnames));
 
     for (int i = 1; i < num_sfx; i++)
-        if (s_sfx[i].name1 != NULL)
+        if (s_sfx[i].name1)
             deh_soundnames[i] = strdup(s_sfx[i].name1);
         else
             deh_soundnames[i] = NULL;

@@ -4244,7 +4244,7 @@ static void rstrip(char *s)                         // strip trailing whitespace
 //
 static char *ptr_lstrip(char *p)    // point past leading whitespace
 {
-    while (isspace((unsigned char)*p))
+    while (*p >= 0 && isspace((unsigned char)*p))
         p++;
 
     return p;
