@@ -20,6 +20,7 @@
 * When using the `IDCLEV` cheat and vanilla mode is enabled, the player now starts the map with 100% health, no armor, and only a pistol with 50 bullets.
 * A slightly darker color is now chosen for the surrounding pillarboxes when displaying certain lumps from a PWAD that are only 320 pixels wide and the `vid_widescreen` CVAR is `on`.
 * A bug is fixed, present in the original *DOOM*, whereby stairs that rose up from the floor would fail in some rare instances. Also, `compat_stairs` is now recognized in `MAPINFO` lumps to restore this behavior.
+* If regenerating health is enabled using the `regenhealth` CCMD, a sound is now played and the “Health picked up” stat is updated every second until the player’s health is 100% again.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

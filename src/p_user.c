@@ -694,7 +694,10 @@ void P_PlayerThink(void)
 
     // [BH] regenerate health by 1% every second up to 100%
     if (regenhealth && mo->health < initial_health && !(maptime % TICRATE) && !viewplayer->damagecount)
-        P_GiveHealth(1, MAXHEALTH, false);
+    {
+        P_GiveHealth(1, MAXHEALTH, true);
+        S_StartSound(viewplayer->mo, sfx_itemup);
+    }
 
     // [BH] Check all sectors player is touching are special
     for (const struct msecnode_s *seclist = mo->touching_sectorlist; seclist; seclist = seclist->m_tnext)
