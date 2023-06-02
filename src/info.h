@@ -285,5 +285,5 @@ typedef struct
 extern mobjinfo_t   original_mobjinfo[];
 
 // DSDHacked
-extern mobjinfo_t *mobjinfo;
-extern int num_mobj_types;
+extern mobjinfo_t   *mobjinfo;
+extern int          nummobjtypes;

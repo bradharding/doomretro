@@ -1172,5 +1172,5 @@ typedef struct
 extern state_t  original_states[NUMSTATES];
 
 // DSDHacked
-extern state_t *states;
-extern int num_states;
+extern state_t  *states;
+extern int      numstates;
