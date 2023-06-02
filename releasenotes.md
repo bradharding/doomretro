@@ -19,6 +19,7 @@
 * The rendering of floors and ceilings no longer becomes distorted the further away they are from the player.
 * When using the `IDCLEV` cheat in vanilla mode, the player now starts the map with 100% health, no armor, and only a pistol with 50 bullets.
 * A slightly darker color is now chosen for the surrounding pillarboxes when displaying certain lumps from a PWAD that are only 320 pixels wide and the `vid_widescreen` CVAR is `on`.
+* A bug is fixed, present in the original *DOOM*, whereby stairs that rose up from the floor would fail in some instances. Also, `compat_stairs` is now recognized in `MAPINFO` lumps to restore this behavior.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

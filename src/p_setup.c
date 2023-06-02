@@ -73,42 +73,43 @@
 #define MCMD_COMPAT_LIGHT            7
 #define MCMD_COMPAT_LIMITPAIN        8
 #define MCMD_COMPAT_NOPASSOVER       9
-#define MCMD_COMPAT_USEBLOCKING     10
-#define MCMD_COMPAT_VILEGHOSTS      11
-#define MCMD_ENDBUNNY               12
-#define MCMD_ENDCAST                13
-#define MCMD_ENDGAME                14
-#define MCMD_ENDPIC                 15
-#define MCMD_ENTERPIC               16
-#define MCMD_EPISODE                17
-#define MCMD_EXITPIC                18
-#define MCMD_INTERBACKDROP          19
-#define MCMD_INTERMUSIC             20
-#define MCMD_INTERTEXT              21
-#define MCMD_INTERTEXTSECRET        22
-#define MCMD_LABEL                  23
-#define MCMD_LEVELNAME              24
-#define MCMD_LEVELPIC               25
-#define MCMD_LIQUID                 26
-#define MCMD_MUSIC                  27
-#define MCMD_MUSICARTIST            28
-#define MCMD_MUSICTITLE             29
-#define MCMD_NEXT                   30
-#define MCMD_NEXTSECRET             31
-#define MCMD_NOBRIGHTMAP            32
-#define MCMD_NOFREELOOK             33
-#define MCMD_NOGRADUALLIGHTING      34
-#define MCMD_NOINTERMISSION         35
-#define MCMD_NOJUMP                 36
-#define MCMD_NOLIQUID               37
-#define MCMD_NOMOUSELOOK            38
-#define MCMD_PAR                    39
-#define MCMD_PARTIME                40
-#define MCMD_PISTOLSTART            41
-#define MCMD_SECRETNEXT             42
-#define MCMD_SKY1                   43
-#define MCMD_SKYTEXTURE             44
-#define MCMD_TITLEPATCH             45
+#define MCMD_COMPAT_STAIRS          10
+#define MCMD_COMPAT_USEBLOCKING     11
+#define MCMD_COMPAT_VILEGHOSTS      12
+#define MCMD_ENDBUNNY               13
+#define MCMD_ENDCAST                14
+#define MCMD_ENDGAME                15
+#define MCMD_ENDPIC                 16
+#define MCMD_ENTERPIC               17
+#define MCMD_EPISODE                18
+#define MCMD_EXITPIC                19
+#define MCMD_INTERBACKDROP          20
+#define MCMD_INTERMUSIC             21
+#define MCMD_INTERTEXT              22
+#define MCMD_INTERTEXTSECRET        23
+#define MCMD_LABEL                  24
+#define MCMD_LEVELNAME              25
+#define MCMD_LEVELPIC               26
+#define MCMD_LIQUID                 27
+#define MCMD_MUSIC                  28
+#define MCMD_MUSICARTIST            29
+#define MCMD_MUSICTITLE             30
+#define MCMD_NEXT                   31
+#define MCMD_NEXTSECRET             32
+#define MCMD_NOBRIGHTMAP            33
+#define MCMD_NOFREELOOK             34
+#define MCMD_NOGRADUALLIGHTING      35
+#define MCMD_NOINTERMISSION         36
+#define MCMD_NOJUMP                 37
+#define MCMD_NOLIQUID               38
+#define MCMD_NOMOUSELOOK            39
+#define MCMD_PAR                    40
+#define MCMD_PARTIME                41
+#define MCMD_PISTOLSTART            42
+#define MCMD_SECRETNEXT             43
+#define MCMD_SKY1                   44
+#define MCMD_SKYTEXTURE             45
+#define MCMD_TITLEPATCH             46
 
 typedef struct
 {
@@ -120,6 +121,7 @@ typedef struct
     bool    compat_light;
     bool    compat_limitpain;
     bool    compat_nopassover;
+    bool    compat_stairs;
     bool    compat_useblocking;
     bool    endbunny;
     bool    endcast;
@@ -244,6 +246,7 @@ static char *mapcmdnames[] =
     "COMPAT_LIGHT",
     "COMPAT_LIMITPAIN",
     "COMPAT_NOPASSOVER",
+    "COMPAT_STAIRS",
     "COMPAT_USEBLOCKING",
     "COMPAT_VILEGHOSTS",
     "ENDBUNNY",
@@ -294,6 +297,7 @@ static int mapcmdids[] =
     MCMD_COMPAT_LIGHT,
     MCMD_COMPAT_LIMITPAIN,
     MCMD_COMPAT_NOPASSOVER,
+    MCMD_COMPAT_STAIRS,
     MCMD_COMPAT_USEBLOCKING,
     MCMD_COMPAT_VILEGHOSTS,
     MCMD_ENDBUNNY,
@@ -337,6 +341,7 @@ bool            compat_floormove;
 bool            compat_light;
 bool            compat_limitpain;
 bool            compat_nopassover;
+bool            compat_stairs;
 bool            compat_useblocking;
 bool            nograduallighting;
 
@@ -3233,6 +3238,7 @@ void P_SetupLevel(int ep, int map)
     compat_light = mapinfo[map].compat_light;
     compat_limitpain = mapinfo[map].compat_limitpain;
     compat_nopassover = mapinfo[map].compat_nopassover;
+    compat_stairs = mapinfo[map].compat_stairs;
     compat_useblocking = mapinfo[map].compat_useblocking;
     nograduallighting = mapinfo[map].nograduallighting;
 }
@@ -3688,6 +3694,10 @@ static bool P_ParseMapInfo(char *scriptname)
 
                         case MCMD_COMPAT_NOPASSOVER:
                             info->compat_nopassover = true;
+                            break;
+
+                        case MCMD_COMPAT_STAIRS:
+                            info->compat_stairs = true;
                             break;
 
                         case MCMD_COMPAT_USEBLOCKING:

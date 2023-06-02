@@ -757,10 +757,14 @@ manual_stair:
                 if (tsec->floorpic != texture)
                     continue;
 
-                height += stairsize;
+                if (compat_stairs)
+                    height += stairsize;
 
                 if (P_SectorActive(floor_special, tsec))
                     continue;
+
+                if (!compat_stairs)
+                    height += stairsize;
 
                 sec = tsec;
                 secnum = tsec->id;
@@ -780,6 +784,12 @@ manual_stair:
                 break;
             }
         } while (okay);
+    }
+
+    if (compat_stairs)
+    {
+        ssec = -1;
+        minssec = secnum;
     }
 
     return rtn;
