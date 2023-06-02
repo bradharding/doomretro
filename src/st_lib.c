@@ -192,7 +192,7 @@ void STlib_UpdateBigHealthNum(st_number_t *n)
     {
         if ((num >= -79 && num <= -70) || num == -7)
             x++;
-        else if ((num >= -199 && num <= -100) || (num >= -19 && num <= -10) || num == -1)
+        else if ((num >= -19 && num <= -10) || num == -1)
             x += 2;
 
         V_DrawPatch(x - minuspatchwidth, y, 0, minuspatch);
