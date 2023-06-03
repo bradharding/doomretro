@@ -78,7 +78,7 @@ void dsdh_EnsureStatesCapacity(int limit)
 
     while (limit >= numstates)
     {
-        int old_num_states = numstates;
+        const int   old_numstates = numstates;
 
         numstates *= 2;
 
@@ -86,21 +86,21 @@ void dsdh_EnsureStatesCapacity(int limit)
         {
             first_allocation = false;
             states = malloc(numstates * sizeof(*states));
-            memcpy(states, original_states, old_num_states * sizeof(*states));
+            memcpy(states, original_states, old_numstates * sizeof(*states));
         }
         else
             states = I_Realloc(states, numstates * sizeof(*states));
 
-        memset(states + old_num_states, 0, (numstates - old_num_states) * sizeof(*states));
+        memset(states + old_numstates, 0, (numstates - old_numstates) * sizeof(*states));
 
         deh_codeptr = I_Realloc(deh_codeptr, numstates * sizeof(*deh_codeptr));
-        memset(deh_codeptr + old_num_states, 0, (numstates - old_num_states) * sizeof(*deh_codeptr));
+        memset(deh_codeptr + old_numstates, 0, (numstates - old_numstates) * sizeof(*deh_codeptr));
 
         defined_codeptr_args = I_Realloc(defined_codeptr_args, numstates * sizeof(*defined_codeptr_args));
-        memset(defined_codeptr_args + old_num_states, 0,
-            (numstates - old_num_states) * sizeof(*defined_codeptr_args));
+        memset(defined_codeptr_args + old_numstates, 0,
+            (numstates - old_numstates) * sizeof(*defined_codeptr_args));
 
-        for (int i = old_num_states; i < numstates; i++)
+        for (int i = old_numstates; i < numstates; i++)
         {
             states[i].sprite = SPR_TNT1;
             states[i].tics = -1;
@@ -134,11 +134,11 @@ static void InitSprites(void)
 
 static void EnsureSpritesCapacity(int limit)
 {
-  static bool   first_allocation = true;
+    static bool first_allocation = true;
 
     while (limit >= numsprites)
     {
-        int old_num_sprites = numsprites;
+        const int   old_numsprites = numsprites;
 
         numsprites *= 2;
 
@@ -146,16 +146,16 @@ static void EnsureSpritesCapacity(int limit)
         {
             first_allocation = false;
             sprnames = malloc(numsprites * sizeof(*sprnames));
-            memcpy(sprnames, original_sprnames, old_num_sprites * sizeof(*sprnames));
+            memcpy(sprnames, original_sprnames, old_numsprites * sizeof(*sprnames));
         }
         else
             sprnames = I_Realloc(sprnames, numsprites * sizeof(*sprnames));
 
-        memset(sprnames + old_num_sprites, 0, (numsprites - old_num_sprites) * sizeof(*sprnames));
+        memset(sprnames + old_numsprites, 0, (numsprites - old_numsprites) * sizeof(*sprnames));
 
         sprnames_state = I_Realloc(sprnames_state, numsprites * sizeof(*sprnames_state));
-        memset(sprnames_state + old_num_sprites, 0,
-            (numsprites - old_num_sprites) * sizeof(*sprnames_state));
+        memset(sprnames_state + old_numsprites, 0,
+            (numsprites - old_numsprites) * sizeof(*sprnames_state));
     }
 }
 
@@ -203,28 +203,28 @@ int dsdh_GetOriginalSpriteIndex(const char *key)
 //
 // SFX
 //
-sfxinfo_t       *s_sfx;
-int             num_sfx;
-static char     **deh_soundnames;
-static int      deh_soundnames_size;
-static byte     *sfx_state;
+sfxinfo_t   *s_sfx;
+int         numsfx;
+static char **deh_soundnames;
+static int  deh_soundnames_size;
+static byte *sfx_state;
 
 static void InitSFX(void)
 {
     s_sfx = original_s_sfx;
-    num_sfx = NUMSFX;
-    deh_soundnames_size = num_sfx + 1;
+    numsfx = NUMSFX;
+    deh_soundnames_size = numsfx + 1;
     deh_soundnames = malloc(deh_soundnames_size * sizeof(*deh_soundnames));
 
-    for (int i = 1; i < num_sfx; i++)
+    for (int i = 1; i < numsfx; i++)
         if (s_sfx[i].name1)
             deh_soundnames[i] = strdup(s_sfx[i].name1);
         else
             deh_soundnames[i] = NULL;
 
     deh_soundnames[0] = NULL;
-    deh_soundnames[num_sfx] = NULL;
-    sfx_state = calloc(num_sfx, sizeof(*sfx_state));
+    deh_soundnames[numsfx] = NULL;
+    sfx_state = calloc(numsfx, sizeof(*sfx_state));
 }
 
 static void FreeSFX(void)
@@ -241,28 +241,28 @@ void dsdh_EnsureSFXCapacity(int limit)
 {
     static int  first_allocation = true;
 
-    while (limit >= num_sfx)
+    while (limit >= numsfx)
     {
-        int old_num_sfx = num_sfx;
+        const int   old_numsfx = numsfx;
 
-        num_sfx *= 2;
+        numsfx *= 2;
 
         if (first_allocation)
         {
             first_allocation = false;
-            s_sfx = malloc(num_sfx * sizeof(*s_sfx));
-            memcpy(s_sfx, original_s_sfx, old_num_sfx * sizeof(*s_sfx));
+            s_sfx = malloc(numsfx * sizeof(*s_sfx));
+            memcpy(s_sfx, original_s_sfx, old_numsfx * sizeof(*s_sfx));
         }
         else
-            s_sfx = I_Realloc(s_sfx, num_sfx * sizeof(*s_sfx));
+            s_sfx = I_Realloc(s_sfx, numsfx * sizeof(*s_sfx));
 
-        memset(s_sfx + old_num_sfx, 0, (num_sfx - old_num_sfx) * sizeof(*s_sfx));
+        memset(s_sfx + old_numsfx, 0, (numsfx - old_numsfx) * sizeof(*s_sfx));
 
-        sfx_state = I_Realloc(sfx_state, num_sfx * sizeof(*sfx_state));
-        memset(sfx_state + old_num_sfx, 0,
-            (num_sfx - old_num_sfx) * sizeof(*sfx_state));
+        sfx_state = I_Realloc(sfx_state, numsfx * sizeof(*sfx_state));
+        memset(sfx_state + old_numsfx, 0,
+            (numsfx - old_numsfx) * sizeof(*sfx_state));
 
-        for (int i = old_num_sfx; i < num_sfx; i++)
+        for (int i = old_numsfx; i < numsfx; i++)
         {
             s_sfx[i].priority = 127;
             s_sfx[i].lumpnum = -1;
@@ -272,7 +272,7 @@ void dsdh_EnsureSFXCapacity(int limit)
 
 int dsdh_GetDehSFXIndex(const char *key, size_t length)
 {
-    for (int i = 1; i < num_sfx; i++)
+    for (int i = 1; i < numsfx; i++)
         if (s_sfx[i].name1
             && strlen(s_sfx[i].name1) == length
             && !strncasecmp(s_sfx[i].name1, key, length)
@@ -305,7 +305,7 @@ int dsdh_GetOriginalSFXIndex(const char *key)
 }
 
 //
-//  Things
+// Things
 //
 mobjinfo_t  *mobjinfo;
 int         nummobjtypes;
@@ -322,7 +322,7 @@ void dsdh_EnsureMobjInfoCapacity(int limit)
 
     while (limit >= nummobjtypes)
     {
-        int old_num_mobj_types = nummobjtypes;
+        const int   old_nummobjtypes = nummobjtypes;
 
         nummobjtypes *= 2;
 
@@ -330,15 +330,15 @@ void dsdh_EnsureMobjInfoCapacity(int limit)
         {
             first_allocation = false;
             mobjinfo = malloc(nummobjtypes * sizeof(*mobjinfo));
-            memcpy(mobjinfo, original_mobjinfo, old_num_mobj_types * sizeof(*mobjinfo));
+            memcpy(mobjinfo, original_mobjinfo, old_nummobjtypes * sizeof(*mobjinfo));
         }
         else
             mobjinfo = I_Realloc(mobjinfo, nummobjtypes * sizeof(*mobjinfo));
 
-        memset(mobjinfo + old_num_mobj_types, 0,
-            (nummobjtypes - old_num_mobj_types) * sizeof(*mobjinfo));
+        memset(mobjinfo + old_nummobjtypes, 0,
+            (nummobjtypes - old_nummobjtypes) * sizeof(*mobjinfo));
 
-        for (int i = old_num_mobj_types; i < nummobjtypes; i++)
+        for (int i = old_nummobjtypes; i < nummobjtypes; i++)
         {
             mobjinfo[i].droppeditem = MT_NULL;
             mobjinfo[i].infightinggroup = IG_DEFAULT;

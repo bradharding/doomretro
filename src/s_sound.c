@@ -190,7 +190,7 @@ void S_Init(void)
         sobjs = Z_Malloc(s_channels_max * sizeof(sobj_t), PU_STATIC, NULL);
 
         // [BH] precache all SFX
-        for (int i = 1; i < num_sfx; i++)
+        for (int i = 1; i < numsfx; i++)
         {
             sfxinfo_t   *sfx = &s_sfx[i];
             char        namebuf[9];
