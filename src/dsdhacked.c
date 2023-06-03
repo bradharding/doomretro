@@ -60,6 +60,10 @@ static void InitStates(void)
         deh_codeptr[i] = states[i].action;
 
     defined_codeptr_args = calloc(numstates, sizeof(*defined_codeptr_args));
+
+    // MBF21
+    for (int i = S_SARG_RUN1; i <= S_SARG_PAIN2; i++)
+        states[i].flags |= STATEF_SKILL5FAST;
 }
 
 static void FreeStates(void)
@@ -165,7 +169,7 @@ static void FreeSprites(void)
     free(sprnames_state);
 }
 
-int dsdh_GetDehSpriteIndex(const char* key)
+int dsdh_GetDehSpriteIndex(const char *key)
 {
     for (int i = 0; i < numsprites; i++)
         if (sprnames[i] && !strncasecmp(sprnames[i], key, 4) && !sprnames_state[i])
@@ -177,7 +181,7 @@ int dsdh_GetDehSpriteIndex(const char* key)
     return -1;
 }
 
-int dsdh_GetOriginalSpriteIndex(const char* key)
+int dsdh_GetOriginalSpriteIndex(const char *key)
 {
     int limit;
 
@@ -266,7 +270,7 @@ void dsdh_EnsureSFXCapacity(int limit)
     }
 }
 
-int dsdh_GetDehSFXIndex(const char* key, size_t length)
+int dsdh_GetDehSFXIndex(const char *key, size_t length)
 {
     for (int i = 1; i < num_sfx; i++)
         if (s_sfx[i].name1
@@ -281,7 +285,7 @@ int dsdh_GetDehSFXIndex(const char* key, size_t length)
     return -1;
 }
 
-int dsdh_GetOriginalSFXIndex(const char* key)
+int dsdh_GetOriginalSFXIndex(const char *key)
 {
     int limit;
 
