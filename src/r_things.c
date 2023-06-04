@@ -187,8 +187,6 @@ static void R_InstallSpriteLump(const int lump, const int frame, const char rot,
 
 static void R_InitSpriteDefs(void)
 {
-    const int   numentries = lastspritelump - firstspritelump + 1;
-
     struct
     {
         int index;
@@ -199,18 +197,18 @@ static void R_InitSpriteDefs(void)
 
     // Create hash table based on just the first four letters of each sprite
     // killough 01/31/98
-    if (!numentries || !(hash = malloc(numentries * sizeof(*hash))))
+    if (!(hash = malloc(numspritelumps * sizeof(*hash))))
     {
         I_Error("R_InitSpriteDefs: Out of memory allocating sprite tables");
         return;
     }
 
-    for (int i = 0; i < numentries; i++)    // initialize hash table as empty
+    for (int i = 0; i < numspritelumps; i++)    // initialize hash table as empty
         hash[i].index = -1;
 
-    for (int i = 0; i < numentries; i++)    // Prepend each sprite to hash chain
+    for (int i = 0; i < numspritelumps; i++)    // Prepend each sprite to hash chain
     {
-        const int   j = R_SpriteNameHash(lumpinfo[i + firstspritelump]->name) % numentries;
+        const int   j = R_SpriteNameHash(lumpinfo[i + firstspritelump]->name) % numspritelumps;
 
         hash[i].next = hash[j].index;
         hash[j].index = i;
@@ -225,7 +223,7 @@ static void R_InitSpriteDefs(void)
         if (!spritename)
             continue;
 
-        if ((j = hash[R_SpriteNameHash(spritename) % numentries].index) >= 0)
+        if ((j = hash[R_SpriteNameHash(spritename) % numspritelumps].index) >= 0)
         {
             memset(sprtemp, -1, sizeof(sprtemp));
 
@@ -239,7 +237,7 @@ static void R_InitSpriteDefs(void)
                 const int           lumpnum = j + firstspritelump;
                 const lumpinfo_t    *lump = lumpinfo[lumpnum];
 
-                if (!lumpinfo[lumpnum]->size)
+                if (!lump->size)
                     continue;
 
                 // Fast portable comparison -- killough

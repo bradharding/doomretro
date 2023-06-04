@@ -33,6 +33,12 @@
 ========================================================================
 */
 
+#include <ctype.h>
+#include <stdlib.h>
+#include <string.h>
+
+#include "doomdef.h"
+#include "i_system.h"
 #include "r_defs.h"
 #include "sprites.h"
 
@@ -935,3 +941,92 @@ const sproffset_t sproffsets[] =
     { "YSKUB0",      7,   14,  13,  16, true  }, //    7,   18
     { "",            0,    0,   0,   0, true  }
 };
+
+// DSDHacked
+char        **sprnames;
+int         numsprites;
+static char **deh_spritenames;
+static int  deh_spritenames_size;
+static byte *sprnames_state;
+
+void InitSprites(void)
+{
+    sprnames = original_sprnames;
+    numsprites = NUMSPRITES;
+    deh_spritenames_size = numsprites + 1;
+    deh_spritenames = malloc(deh_spritenames_size * sizeof(*deh_spritenames));
+
+    for (int i = 0; i < numsprites; i++)
+        deh_spritenames[i] = strdup(sprnames[i]);
+
+    deh_spritenames[numsprites] = NULL;
+    sprnames_state = calloc(numsprites, sizeof(*sprnames_state));
+}
+
+void FreeSprites(void)
+{
+    for (int i = 0; i < deh_spritenames_size; i++)
+        if (deh_spritenames[i])
+            free(deh_spritenames[i]);
+
+    free(deh_spritenames);
+    free(sprnames_state);
+}
+
+static void EnsureSpritesCapacity(const int limit)
+{
+    static bool first_allocation = true;
+
+    while (limit >= numsprites)
+    {
+        const int   old_numsprites = numsprites;
+
+        numsprites *= 2;
+
+        if (first_allocation)
+        {
+            first_allocation = false;
+            sprnames = malloc(numsprites * sizeof(*sprnames));
+            memcpy(sprnames, original_sprnames, old_numsprites * sizeof(*sprnames));
+        }
+        else
+            sprnames = I_Realloc(sprnames, numsprites * sizeof(*sprnames));
+
+        memset(sprnames + old_numsprites, 0, (numsprites - old_numsprites) * sizeof(*sprnames));
+
+        sprnames_state = I_Realloc(sprnames_state, numsprites * sizeof(*sprnames_state));
+        memset(sprnames_state + old_numsprites, 0,
+            (numsprites - old_numsprites) * sizeof(*sprnames_state));
+    }
+}
+
+int dsdh_GetDehSpriteIndex(const char *key)
+{
+    for (int i = 0; i < numsprites; i++)
+        if (sprnames[i] && !strncasecmp(sprnames[i], key, 4) && !sprnames_state[i])
+        {
+            sprnames_state[i] = true;   // sprite has been edited
+            return i;
+        }
+
+    return -1;
+}
+
+int dsdh_GetOriginalSpriteIndex(const char *key)
+{
+    int limit;
+
+    for (int i = 0; deh_spritenames[i]; i++)
+        if (!strncasecmp(deh_spritenames[i], key, 4))
+            return i;
+
+    // is it a number?
+    for (const char *c = key; *c; c++)
+        if (!isdigit(*c))
+            return -1;
+
+    limit = atoi(key);
+    EnsureSpritesCapacity(limit);
+
+    return limit;
+}

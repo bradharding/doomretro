@@ -33,7 +33,12 @@
 ========================================================================
 */
 
+#include <ctype.h>
+#include <stdlib.h>
+#include <string.h>
+
 #include "d_player.h"
+#include "i_system.h"
 
 void A_BabyMetal(mobj_t *actor, player_t *player, pspdef_t *psp);
 void A_BetaSkullAttack(mobj_t *actor, player_t *player, pspdef_t *psp);
@@ -1503,3 +1508,68 @@ state_t original_states[NUMSTATES] =
     { SPR_RSMK,    2,                    10, NULL,                   S_TRAIL4            }, // S_TRAIL3
     { SPR_RSMK,    3,                    14, NULL,                   S_NULL              }  // S_TRAIL4
 };
+
+// DSDHacked
+state_t     *states;
+int         numstates;
+byte        *defined_codeptr_args;
+actionf_t   *deh_codeptr;
+
+void InitStates(void)
+{
+    numstates = NUMSTATES;
+    states = original_states;
+    deh_codeptr = malloc(numstates * sizeof(*deh_codeptr));
+
+    for (int i = 0; i < numstates; i++)
+        deh_codeptr[i] = states[i].action;
+
+    defined_codeptr_args = calloc(numstates, sizeof(*defined_codeptr_args));
+
+    // MBF21
+    for (int i = S_SARG_RUN1; i <= S_SARG_PAIN2; i++)
+        states[i].flags |= STATEF_SKILL5FAST;
+}
+
+void FreeStates(void)
+{
+    free(defined_codeptr_args);
+    free(deh_codeptr);
+}
+
+void dsdh_EnsureStatesCapacity(const int limit)
+{
+    static bool first_allocation = true;
+
+    while (limit >= numstates)
+    {
+        const int   old_numstates = numstates;
+
+        numstates *= 2;
+
+        if (first_allocation)
+        {
+            first_allocation = false;
+            states = malloc(numstates * sizeof(*states));
+            memcpy(states, original_states, old_numstates * sizeof(*states));
+        }
+        else
+            states = I_Realloc(states, numstates * sizeof(*states));
+
+        memset(states + old_numstates, 0, (numstates - old_numstates) * sizeof(*states));
+
+        deh_codeptr = I_Realloc(deh_codeptr, numstates * sizeof(*deh_codeptr));
+        memset(deh_codeptr + old_numstates, 0, (numstates - old_numstates) * sizeof(*deh_codeptr));
+
+        defined_codeptr_args = I_Realloc(defined_codeptr_args, numstates * sizeof(*defined_codeptr_args));
+        memset(defined_codeptr_args + old_numstates, 0,
+            (numstates - old_numstates) * sizeof(*defined_codeptr_args));
+
+        for (int i = old_numstates; i < numstates; i++)
+        {
+            states[i].sprite = SPR_TNT1;
+            states[i].tics = -1;
+            states[i].nextstate = i;
+        }
+    }
+}

@@ -33,6 +33,11 @@
 ========================================================================
 */
 
+#include <ctype.h>
+#include <stdlib.h>
+#include <string.h>
+
+#include "i_system.h"
 #include "info.h"
 #include "p_local.h"
 #include "r_defs.h"
@@ -87,7 +92,7 @@
     /* plural3              */ ""           \
 }
 
-mobjinfo_t original_mobjinfo[] =
+mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
 {
     // Player (MT_PLAYER)
     {
@@ -7292,106 +7297,49 @@ mobjinfo_t original_mobjinfo[] =
         /* plural2              */ "",
         /* name3                */ "",
         /* plural3              */ ""
-    },
-
-    EMPTYMOBJ,  // MT_EXTRA00
-    EMPTYMOBJ,  // MT_EXTRA01
-    EMPTYMOBJ,  // MT_EXTRA02
-    EMPTYMOBJ,  // MT_EXTRA03
-    EMPTYMOBJ,  // MT_EXTRA04
-    EMPTYMOBJ,  // MT_EXTRA05
-    EMPTYMOBJ,  // MT_EXTRA06
-    EMPTYMOBJ,  // MT_EXTRA07
-    EMPTYMOBJ,  // MT_EXTRA08
-    EMPTYMOBJ,  // MT_EXTRA09
-    EMPTYMOBJ,  // MT_EXTRA10
-    EMPTYMOBJ,  // MT_EXTRA11
-    EMPTYMOBJ,  // MT_EXTRA12
-    EMPTYMOBJ,  // MT_EXTRA13
-    EMPTYMOBJ,  // MT_EXTRA14
-    EMPTYMOBJ,  // MT_EXTRA15
-    EMPTYMOBJ,  // MT_EXTRA16
-    EMPTYMOBJ,  // MT_EXTRA17
-    EMPTYMOBJ,  // MT_EXTRA18
-    EMPTYMOBJ,  // MT_EXTRA19
-    EMPTYMOBJ,  // MT_EXTRA20
-    EMPTYMOBJ,  // MT_EXTRA21
-    EMPTYMOBJ,  // MT_EXTRA22
-    EMPTYMOBJ,  // MT_EXTRA23
-    EMPTYMOBJ,  // MT_EXTRA24
-    EMPTYMOBJ,  // MT_EXTRA25
-    EMPTYMOBJ,  // MT_EXTRA26
-    EMPTYMOBJ,  // MT_EXTRA27
-    EMPTYMOBJ,  // MT_EXTRA28
-    EMPTYMOBJ,  // MT_EXTRA29
-    EMPTYMOBJ,  // MT_EXTRA30
-    EMPTYMOBJ,  // MT_EXTRA31
-    EMPTYMOBJ,  // MT_EXTRA32
-    EMPTYMOBJ,  // MT_EXTRA33
-    EMPTYMOBJ,  // MT_EXTRA34
-    EMPTYMOBJ,  // MT_EXTRA35
-    EMPTYMOBJ,  // MT_EXTRA36
-    EMPTYMOBJ,  // MT_EXTRA37
-    EMPTYMOBJ,  // MT_EXTRA38
-    EMPTYMOBJ,  // MT_EXTRA39
-    EMPTYMOBJ,  // MT_EXTRA40
-    EMPTYMOBJ,  // MT_EXTRA41
-    EMPTYMOBJ,  // MT_EXTRA42
-    EMPTYMOBJ,  // MT_EXTRA43
-    EMPTYMOBJ,  // MT_EXTRA44
-    EMPTYMOBJ,  // MT_EXTRA45
-    EMPTYMOBJ,  // MT_EXTRA46
-    EMPTYMOBJ,  // MT_EXTRA47
-    EMPTYMOBJ,  // MT_EXTRA48
-    EMPTYMOBJ,  // MT_EXTRA49
-    EMPTYMOBJ,  // MT_EXTRA50
-    EMPTYMOBJ,  // MT_EXTRA51
-    EMPTYMOBJ,  // MT_EXTRA52
-    EMPTYMOBJ,  // MT_EXTRA53
-    EMPTYMOBJ,  // MT_EXTRA54
-    EMPTYMOBJ,  // MT_EXTRA55
-    EMPTYMOBJ,  // MT_EXTRA56
-    EMPTYMOBJ,  // MT_EXTRA57
-    EMPTYMOBJ,  // MT_EXTRA58
-    EMPTYMOBJ,  // MT_EXTRA59
-    EMPTYMOBJ,  // MT_EXTRA60
-    EMPTYMOBJ,  // MT_EXTRA61
-    EMPTYMOBJ,  // MT_EXTRA62
-    EMPTYMOBJ,  // MT_EXTRA63
-    EMPTYMOBJ,  // MT_EXTRA64
-    EMPTYMOBJ,  // MT_EXTRA65
-    EMPTYMOBJ,  // MT_EXTRA66
-    EMPTYMOBJ,  // MT_EXTRA67
-    EMPTYMOBJ,  // MT_EXTRA68
-    EMPTYMOBJ,  // MT_EXTRA69
-    EMPTYMOBJ,  // MT_EXTRA70
-    EMPTYMOBJ,  // MT_EXTRA71
-    EMPTYMOBJ,  // MT_EXTRA72
-    EMPTYMOBJ,  // MT_EXTRA73
-    EMPTYMOBJ,  // MT_EXTRA74
-    EMPTYMOBJ,  // MT_EXTRA75
-    EMPTYMOBJ,  // MT_EXTRA76
-    EMPTYMOBJ,  // MT_EXTRA77
-    EMPTYMOBJ,  // MT_EXTRA78
-    EMPTYMOBJ,  // MT_EXTRA79
-    EMPTYMOBJ,  // MT_EXTRA80
-    EMPTYMOBJ,  // MT_EXTRA81
-    EMPTYMOBJ,  // MT_EXTRA82
-    EMPTYMOBJ,  // MT_EXTRA83
-    EMPTYMOBJ,  // MT_EXTRA84
-    EMPTYMOBJ,  // MT_EXTRA85
-    EMPTYMOBJ,  // MT_EXTRA86
-    EMPTYMOBJ,  // MT_EXTRA87
-    EMPTYMOBJ,  // MT_EXTRA88
-    EMPTYMOBJ,  // MT_EXTRA89
-    EMPTYMOBJ,  // MT_EXTRA90
-    EMPTYMOBJ,  // MT_EXTRA91
-    EMPTYMOBJ,  // MT_EXTRA92
-    EMPTYMOBJ,  // MT_EXTRA93
-    EMPTYMOBJ,  // MT_EXTRA94
-    EMPTYMOBJ,  // MT_EXTRA95
-    EMPTYMOBJ,  // MT_EXTRA96
-    EMPTYMOBJ,  // MT_EXTRA97
-    EMPTYMOBJ,  // MT_EXTRA98
-    EMPTYMOBJ   // MT_EXTRA99
+    }
 };
+
+// DSDHacked
+mobjinfo_t  *mobjinfo;
+int         nummobjtypes;
+
+void InitMobjInfo(void)
+{
+  nummobjtypes = NUMMOBJTYPES;
+  mobjinfo = original_mobjinfo;
+}
+
+void dsdh_EnsureMobjInfoCapacity(const int limit)
+{
+    static bool first_allocation = true;
+
+    while (limit >= nummobjtypes)
+    {
+        const int   old_nummobjtypes = nummobjtypes;
+
+        nummobjtypes *= 2;
+
+        if (first_allocation)
+        {
+            first_allocation = false;
+            mobjinfo = malloc(nummobjtypes * sizeof(*mobjinfo));
+            memcpy(mobjinfo, original_mobjinfo, old_nummobjtypes * sizeof(*mobjinfo));
+        }
+        else
+            mobjinfo = I_Realloc(mobjinfo, nummobjtypes * sizeof(*mobjinfo));
+
+        memset(mobjinfo + old_nummobjtypes, 0,
+            (nummobjtypes - old_nummobjtypes) * sizeof(*mobjinfo));
+
+        for (int i = old_nummobjtypes; i < nummobjtypes; i++)
+        {
+            mobjinfo[i].droppeditem = MT_NULL;
+            mobjinfo[i].infightinggroup = IG_DEFAULT;
+            mobjinfo[i].projectilegroup = PG_DEFAULT;
+            mobjinfo[i].splashgroup = SG_DEFAULT;
+            mobjinfo[i].altspeed = NO_ALTSPEED;
+            mobjinfo[i].meleerange = MELEERANGE;
+        }
+    }
+}

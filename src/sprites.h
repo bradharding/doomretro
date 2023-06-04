@@ -97,3 +97,8 @@ extern const sproffset_t    sproffsets[];
 // DSDHacked
 extern char                 **sprnames;
 extern int                  numsprites;
+
+void InitSprites(void);
+void FreeSprites(void);
+int dsdh_GetDehSpriteIndex(const char *key);
+int dsdh_GetOriginalSpriteIndex(const char *key);

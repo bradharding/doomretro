@@ -1174,3 +1174,7 @@ extern state_t  original_states[NUMSTATES];
 // DSDHacked
 extern state_t  *states;
 extern int      numstates;
+
+void InitStates(void);
+void FreeStates(void);
+void dsdh_EnsureStatesCapacity(const int limit);

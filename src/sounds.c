@@ -33,6 +33,12 @@
 ========================================================================
 */
 
+#include <ctype.h>
+#include <stdlib.h>
+#include <string.h>
+
+#include "doomdef.h"
+#include "i_system.h"
 #include "sounds.h"
 
 //
@@ -454,3 +460,105 @@ sfxinfo_t original_s_sfx[] =
     [698] = { "fre198", "fre198", sg_none, 127, -1 },
     [699] = { "fre199", "fre199", sg_none, 127, -1 }
 };
+
+// DSDHacked
+sfxinfo_t   *s_sfx;
+int         numsfx;
+static char **deh_soundnames;
+static int  deh_soundnames_size;
+static byte *sfx_state;
+
+void InitSFX(void)
+{
+    s_sfx = original_s_sfx;
+    numsfx = NUMSFX;
+    deh_soundnames_size = numsfx + 1;
+    deh_soundnames = malloc(deh_soundnames_size * sizeof(*deh_soundnames));
+
+    for (int i = 1; i < numsfx; i++)
+        if (s_sfx[i].name1)
+            deh_soundnames[i] = strdup(s_sfx[i].name1);
+        else
+            deh_soundnames[i] = NULL;
+
+    deh_soundnames[0] = NULL;
+    deh_soundnames[numsfx] = NULL;
+    sfx_state = calloc(numsfx, sizeof(*sfx_state));
+}
+
+void FreeSFX(void)
+{
+    for (int i = 1; i < deh_soundnames_size; i++)
+        if (deh_soundnames[i])
+            free(deh_soundnames[i]);
+
+    free(deh_soundnames);
+    free(sfx_state);
+}
+
+void dsdh_EnsureSFXCapacity(const int limit)
+{
+    static int  first_allocation = true;
+
+    while (limit >= numsfx)
+    {
+        const int   old_numsfx = numsfx;
+
+        numsfx *= 2;
+
+        if (first_allocation)
+        {
+            first_allocation = false;
+            s_sfx = malloc(numsfx * sizeof(*s_sfx));
+            memcpy(s_sfx, original_s_sfx, old_numsfx * sizeof(*s_sfx));
+        }
+        else
+            s_sfx = I_Realloc(s_sfx, numsfx * sizeof(*s_sfx));
+
+        memset(s_sfx + old_numsfx, 0, (numsfx - old_numsfx) * sizeof(*s_sfx));
+
+        sfx_state = I_Realloc(sfx_state, numsfx * sizeof(*sfx_state));
+        memset(sfx_state + old_numsfx, 0,
+            (numsfx - old_numsfx) * sizeof(*sfx_state));
+
+        for (int i = old_numsfx; i < numsfx; i++)
+        {
+            s_sfx[i].priority = 127;
+            s_sfx[i].lumpnum = -1;
+        }
+    }
+}
+
+int dsdh_GetDehSFXIndex(const char *key, size_t length)
+{
+    for (int i = 1; i < numsfx; i++)
+        if (s_sfx[i].name1
+            && strlen(s_sfx[i].name1) == length
+            && !strncasecmp(s_sfx[i].name1, key, length)
+            && !sfx_state[i])
+        {
+            sfx_state[i] = true;    // sfx has been edited
+            return i;
+        }
+
+    return -1;
+}
+
+int dsdh_GetOriginalSFXIndex(const char *key)
+{
+    int limit;
+
+    for (int i = 1; deh_soundnames[i]; i++)
+        if (!strncasecmp(deh_soundnames[i], key, 6))
+            return i;
+
+    // is it a number?
+    for (const char *c = key; *c; c++)
+        if (!isdigit(*c))
+            return -1;
+
+    limit = atoi(key);
+    dsdh_EnsureSFXCapacity(limit);
+
+    return limit;
+}

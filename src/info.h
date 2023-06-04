@@ -287,3 +287,6 @@ extern mobjinfo_t   original_mobjinfo[];
 // DSDHacked
 extern mobjinfo_t   *mobjinfo;
 extern int          nummobjtypes;
+
+void InitMobjInfo(void);
+void dsdh_EnsureMobjInfoCapacity(const int limit);

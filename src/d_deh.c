@@ -39,18 +39,20 @@
 #include "c_console.h"
 #include "d_deh.h"
 #include "doomstat.h"
-#include "dsdhacked.h"
 #include "dstrings.h"
 #include "g_game.h"
 #include "i_system.h"
+#include "info.h"
 #include "m_cheat.h"
 #include "m_config.h"
 #include "m_misc.h"
 #include "p_local.h"
 #include "sounds.h"
+#include "sprites.h"
+#include "states.h"
+#include "v_video.h"
 #include "version.h"
 #include "w_wad.h"
-#include "v_video.h"
 #include "z_zone.h"
 
 // killough 10/98: new functions, to allow processing DEH files in-memory
@@ -4357,4 +4359,19 @@ void D_PostProcessDeh(void)
     }
 
     dsdh_FreeTables();
+}
+
+void dsdh_InitTables(void)
+{
+    InitStates();
+    InitSprites();
+    InitSFX();
+    InitMobjInfo();
+}
+
+void dsdh_FreeTables(void)
+{
+    FreeStates();
+    FreeSprites();
+    FreeSFX();
 }

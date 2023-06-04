@@ -52,7 +52,6 @@
 #include "d_deh.h"
 #include "d_iwad.h"
 #include "doomstat.h"
-#include "dsdhacked.h"
 #include "f_finale.h"
 #include "f_wipe.h"
 #include "g_game.h"

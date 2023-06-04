@@ -533,3 +533,9 @@ typedef enum
 // DSDHacked
 extern sfxinfo_t    *s_sfx;
 extern int          numsfx;
+
+void InitSFX(void);
+void FreeSFX(void);
+void dsdh_EnsureSFXCapacity(const int limit);
+int dsdh_GetDehSFXIndex(const char *key, size_t length);
+int dsdh_GetOriginalSFXIndex(const char *key);

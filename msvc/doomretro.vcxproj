@@ -319,7 +319,6 @@
     <ClInclude Include="..\src\am_map.h" />
     <ClInclude Include="..\src\c_cmds.h" />
     <ClInclude Include="..\src\c_console.h" />
-    <ClInclude Include="..\src\dsdhacked.h" />
     <ClInclude Include="..\src\d_deh.h" />
     <ClInclude Include="..\src\d_englsh.h" />
     <ClInclude Include="..\src\d_event.h" />
@@ -404,7 +403,6 @@
     <ClCompile Include="..\src\c_autocomplete.c" />
     <ClCompile Include="..\src\c_cmds.c" />
     <ClCompile Include="..\src\c_console.c" />
-    <ClCompile Include="..\src\dsdhacked.c" />
     <ClCompile Include="..\src\d_deh.c" />
     <ClCompile Include="..\src\d_items.c" />
     <ClCompile Include="..\src\d_iwad.c" />
