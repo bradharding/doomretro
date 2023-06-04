@@ -239,7 +239,7 @@ static void R_InitSpriteDefs(void)
                 const lumpinfo_t    *lump = lumpinfo[j + firstspritelump];
 
                 // Fast portable comparison -- killough
-                // (using int pointer cast is nonportable):
+                // (using int pointer cast is non-portable):
                 if (!((lump->name[0] ^ spritename[0]) | (lump->name[1] ^ spritename[1])
                     | (lump->name[2] ^ spritename[2]) | (lump->name[3] ^ spritename[3])))
                 {

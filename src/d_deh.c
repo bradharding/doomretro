@@ -3735,7 +3735,7 @@ static void deh_procText(DEHFILE *fpin, char *line)
 
             // killough 10/98: but it's an array of pointers, so we must
             // use strdup unless we redeclare sprnames and change all else
-            sprnames[i] = strdup(sprnames[i]);
+            sprnames[i] = M_StringDuplicate(sprnames[i]);
 
             strncpy(sprnames[i], &inbuffer[fromlen], tolen);
             found = true;

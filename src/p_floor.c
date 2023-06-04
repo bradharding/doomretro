@@ -702,7 +702,7 @@ bool EV_BuildStairs(const line_t *line, const fixed_t speed, const fixed_t stair
     while ((ssec = P_FindSectorFromLineTagWithLowerBound(line, ssec, minssec)) >= 0)
     {
         floormove_t *floor;
-        bool     okay;
+        bool        okay;
         int         height;
         int         texture;
 
@@ -710,7 +710,7 @@ bool EV_BuildStairs(const line_t *line, const fixed_t speed, const fixed_t stair
         sec = sectors + secnum;
 
 manual_stair:
-        // ALREADY MOVING? IF SO, KEEP GOING...
+        // already moving? if so, keep going...
         if (P_SectorActive(floor_special, sec))
             continue;
 
@@ -745,16 +745,10 @@ manual_stair:
                 line_t      *li = sec->lines[i];
                 sector_t    *tsec;
 
-                if (!(li->flags & ML_TWOSIDED))
-                    continue;
-
-                if (secnum != li->frontsector->id)
-                    continue;
-
-                if (!(tsec = li->backsector))
-                    continue;
-
-                if (tsec->floorpic != texture)
+                if (!(li->flags & ML_TWOSIDED)
+                    || secnum != li->frontsector->id
+                    || !(tsec = li->backsector)
+                    || tsec->floorpic != texture)
                     continue;
 
                 if (compat_stairs)
@@ -784,12 +778,12 @@ manual_stair:
                 break;
             }
         } while (okay);
-    }
 
-    if (compat_stairs)
-    {
-        ssec = -1;
-        minssec = secnum;
+        if (compat_stairs)
+        {
+            ssec = -1;
+            minssec = secnum;
+        }
     }
 
     return rtn;
@@ -815,7 +809,7 @@ bool EV_DoElevator(const line_t *line, const elevator_e elevtype)
         sector_t    *sec = sectors + secnum;
         elevator_t  *elevator;
 
-        // If either floor or ceiling is already activated, skip it
+        // if either floor or ceiling is already activated, skip it
         if (sec->floordata || sec->ceilingdata)
             continue;
 
