@@ -2193,6 +2193,49 @@ extern actionf_t    *deh_codeptr;
 // haleyjd: support for BEX SPRITES, SOUNDS, and MUSIC
 static char         *deh_musicnames[NUMMUSIC + 1];
 
+void D_BuildBEXTables(void)
+{
+    int i;
+
+    // moved from D_ProcessDehFile, then we don't need the static int i
+    for (i = 0; i < EXTRASTATES; i++)  // remember what they start as for deh xref
+        deh_codeptr[i] = states[i].action;
+
+    // initialize extra dehacked states
+    for (; i < NUMSTATES; i++)
+    {
+        states[i].sprite = SPR_TNT1;
+        states[i].frame = 0;
+        states[i].tics = -1;
+        states[i].action = NULL;
+        states[i].nextstate = i;
+        states[i].misc1 = 0;
+        states[i].misc2 = 0;
+
+        for (int j = 0; j < MAXSTATEARGS; j++)
+            states[i].args[j] = 0;
+
+        states[i].flags = 0;
+        states[i].translucent = false;
+        states[i].dehacked = false;
+
+        deh_codeptr[i] = states[i].action;
+    }
+
+    for (i = MT_EXTRA00; i <= MT_EXTRA99; i++)
+        M_snprintf(mobjinfo[i].name1, sizeof(mobjinfo[0].name1), "Deh_Actor_%i", i);
+
+    for (i = 1; i < NUMMUSIC; i++)
+        deh_musicnames[i] = M_StringDuplicate(s_music[i].name1);
+
+    deh_musicnames[0] = NULL;
+    deh_musicnames[NUMMUSIC] = NULL;
+
+    // MBF21
+    for (i = S_SARG_RUN1; i <= S_SARG_PAIN2; i++)
+        states[i].flags |= STATEF_SKILL5FAST;
+}
+
 // ====================================================================
 // D_ProcessDehFile
 // Purpose: Read and process a DEH or BEX file

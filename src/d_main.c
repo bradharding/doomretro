@@ -1892,6 +1892,7 @@ static void D_DoomMainSetup(void)
     C_ClearConsole();
 
     dsdh_InitTables();
+    D_BuildBEXTables();
 
 #if defined(_WIN32)
     C_PrintCompileDate();

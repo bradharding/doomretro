@@ -122,7 +122,7 @@ void A_VileTarget(mobj_t *actor, player_t *player, pspdef_t *psp);
 void A_WeaponReady(mobj_t *actor, player_t *player, pspdef_t *psp);
 void A_XScream(mobj_t *actor, player_t *player, pspdef_t *psp);
 
-state_t original_states[NUMSTATES] =
+state_t original_states[] =
 {
   //  sprite      frame                tics  action                  nextstate                 state
     { SPR_TROO,   0,                     -1, NULL,                   S_NULL              }, // S_NULL
