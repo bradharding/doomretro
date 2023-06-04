@@ -275,7 +275,7 @@ void InitSFX(void)
     deh_soundnames = malloc(deh_soundnames_size * sizeof(*deh_soundnames));
 
     for (int i = 1; i < numsfx; i++)
-        deh_soundnames[i] = (s_sfx[i].name1 ? strdup(s_sfx[i].name1) : NULL);
+        deh_soundnames[i] = (*s_sfx[i].name1 ? strdup(s_sfx[i].name1) : NULL);
 
     deh_soundnames[0] = NULL;
     deh_soundnames[numsfx] = NULL;
@@ -328,7 +328,7 @@ void dsdh_EnsureSFXCapacity(const int limit)
 int dsdh_GetDehSFXIndex(const char *key, size_t length)
 {
     for (int i = 1; i < numsfx; i++)
-        if (s_sfx[i].name1
+        if (*s_sfx[i].name1
             && strlen(s_sfx[i].name1) == length
             && !strncasecmp(s_sfx[i].name1, key, length)
             && !sfx_state[i])

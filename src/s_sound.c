@@ -195,7 +195,7 @@ void S_Init(void)
             sfxinfo_t   *sfx = &s_sfx[i];
             char        namebuf[9];
 
-            if (!s_sfx[i].name1)
+            if (!*s_sfx[i].name1)
                 continue;
 
             M_snprintf(namebuf, sizeof(namebuf), "ds%s", sfx->name1);
