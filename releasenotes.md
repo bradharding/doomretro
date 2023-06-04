@@ -5,22 +5,22 @@
 * *DOOM Retro* is now built using v17.6.2 of [*Microsoft Visual Studio Community 2022*](https://visualstudio.microsoft.com/vs/community/).
 * Minor optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Any `.cfg` files placed in the `autoload` folder are now autoloaded when *DOOM Retro* starts.
-* Support has been added for the [*DSDHacked*](https://doomwiki.org/wiki/DSDHacked) standard, allowing an unlimited number of things, states, sprites and sound effects to be used in `DEHACKED` lumps.
+* Support has been added for [*DSDHacked*](https://doomwiki.org/wiki/DSDHacked), allowing an unlimited number of things, states, sprites and sound effects to be used in `DEHACKED` lumps.
 * Changes have been made to text that is output to the console.
 * Minor improvements have been made to the text that can be autocompleted in the console by pressing the <kbd><b>TAB</b></kbd> key.
 * The `r_color` CVAR has now been renamed `r_saturation`, and it’s maximum value has increased from `100%` to `200%`, allowing colors on the screen to be oversaturated.
-* A crash no longer occurs when trying to display certain patches greater than 200 pixels with in height.
+* A crash no longer occurs when trying to display certain patches greater than 200 pixels in height.
 * Improvements have been made to toggling widescreen using the <kbd><b>+</b></kbd> and <kbd><b>&ndash;</b></kbd> keys while the menu is open.
 * The effects of changing the `r_gamma` and `r_saturation` CVARs are now applied to *DOOM Retro’s* splash screen.
-* The `r_lowpixelsize` CVAR can now be set to `1×2` or `2×1`.
+* The `r_lowpixelsize` CVAR can now also be set to `1×2` or `2×1`.
 * A bug is fixed whereby sometimes the player wouldn’t pick up an item in a liquid sector when the `r_liquid_clipsprites` CVAR was `on`.
 * Improvements have been made to equipping either the chainsaw or fists when the player presses the <kbd><b>1</b></kbd> key.
 * A bug is fixed whereby the player’s field of view would sometimes be wrong when changing the `r_fov` CVAR.
-* The rendering of floors and ceilings no longer becomes distorted the further away they are from the player.
+* The rendering of floors and ceilings far away from the player is no longer distorted.
 * When using the `IDCLEV` cheat and vanilla mode is enabled, the player now starts the map with 100% health, no armor, and only a pistol with 50 bullets.
 * A slightly darker color is now chosen for the surrounding pillarboxes when displaying certain lumps from a PWAD that are only 320 pixels wide and the `vid_widescreen` CVAR is `on`.
 * A bug is fixed, present in the original *DOOM*, whereby stairs that rose up from the floor would fail in some rare instances. Also, `compat_stairs` is now recognized in `MAPINFO` lumps to restore this behavior.
-* If regenerating health is enabled using the `regenhealth` CCMD, a sound is now played and the “Health picked up” stat is updated every second until the player’s health is 100% again.
+* If regenerating health is enabled using the `regenhealth` CCMD, a sound is now played and the “Health picked up” stat is updated every second the player’s health increases by 1% until it is 100% again.
 * Minor improvements have been made to the player’s health displayed in the status bar when they are dead and the `negativehealth` CVAR is `on`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
