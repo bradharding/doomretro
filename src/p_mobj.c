@@ -35,6 +35,7 @@
 
 #include "am_map.h"
 #include "c_console.h"
+#include "d_deh.h"
 #include "doomstat.h"
 #include "g_game.h"
 #include "hu_stuff.h"
@@ -1673,7 +1674,7 @@ mobj_t *P_SpawnPlayerMissile(mobj_t *source, mobjtype_t type)
     P_NoiseAlert(source);
 
     if (type == MT_ROCKET && r_rockettrails && !(th->flags & MF_BOUNCES)
-        && viewplayer->readyweapon == wp_missile && !chex && !hacx && !incompatiblepalette)
+        && viewplayer->readyweapon == wp_missile && !chex && !hacx && !norocketsmoke && !incompatiblepalette)
     {
         th->flags2 |= MF2_SMOKETRAIL;
         th->pursuecount = 0;

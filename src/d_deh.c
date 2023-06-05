@@ -72,6 +72,7 @@ static int  linecount;
 int         dehcount = 0;
 int         dehmaptitlecount = 0;
 bool        dehacked = false;
+bool        norocketsmoke = false;
 
 extern byte *defined_codeptr_args;
 
@@ -3785,11 +3786,13 @@ static void deh_procText(DEHFILE *fpin, char *line)
             strncpy(sprnames[i], &inbuffer[fromlen], tolen);
             found = true;
 
-            if (M_StringCompare(sprnames[i], "BAR1") || M_StringCompare(sprnames[i], "BEXP"))
+            if (i == SPR_BAR1 || i == SPR_BEXP)
             {
                 states[S_BAR1].nextstate = S_BAR2;
                 mobjinfo[MT_BARREL].frames = 2;
             }
+            else if (i == SPR_RSMK)
+                norocketsmoke = true;
         }
     }
 
@@ -4081,11 +4084,13 @@ void deh_procBexSprites(DEHFILE *fpin, char *line)
             if (devparm)
                 C_Output("Substituting \"%s\" for sprite \"%s\"", candidate, key);
 
-            if (M_StringCompare(candidate, "BAR1") || M_StringCompare(candidate, "BEXP"))
+            if (match == SPR_BAR1 || match == SPR_BEXP)
             {
                 states[S_BAR1].nextstate = S_BAR2;
                 mobjinfo[MT_BARREL].frames = 2;
             }
+            else if (match == SPR_RSMK)
+                norocketsmoke = true;
 
             sprnames[match] = M_StringDuplicate(candidate);
         }

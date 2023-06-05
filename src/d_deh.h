@@ -529,6 +529,7 @@ extern const int    nummapnamesn;
 
 extern int          dehcount;
 extern int          dehmaptitlecount;
+extern bool         norocketsmoke;
 
 void D_ProcessDehFile(char *filename, int lumpnum, bool autoloaded);
 void D_BuildBEXTables(void);

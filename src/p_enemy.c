@@ -35,6 +35,7 @@
 
 #include "c_cmds.h"
 #include "c_console.h"
+#include "d_deh.h"
 #include "doomstat.h"
 #include "g_game.h"
 #include "i_gamecontroller.h"
@@ -1288,7 +1289,7 @@ void A_Tracer(mobj_t *actor, player_t *player, pspdef_t *psp)
     // spawn a puff of smoke behind the homing rocket
     if (!doom4vanilla)
     {
-        if (r_rockettrails && !PUFFA0 && !incompatiblepalette)
+        if (r_rockettrails && !PUFFA0 && !norocketsmoke && !incompatiblepalette)
             actor->flags2 |= MF2_SMOKETRAIL;
         else
             P_SpawnPuff(actor->x, actor->y, actor->z, actor->angle);
