@@ -39,6 +39,7 @@
 
 #include "doomdef.h"
 #include "i_system.h"
+#include "m_misc.h"
 #include "r_defs.h"
 #include "sprites.h"
 
@@ -957,7 +958,7 @@ void InitSprites(void)
     deh_spritenames = malloc(deh_spritenames_size * sizeof(*deh_spritenames));
 
     for (int i = 0; i < numsprites; i++)
-        deh_spritenames[i] = strdup(sprnames[i]);
+        deh_spritenames[i] = M_StringDuplicate(sprnames[i]);
 
     deh_spritenames[numsprites] = NULL;
     sprnames_state = calloc(numsprites, sizeof(*sprnames_state));

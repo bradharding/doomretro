@@ -39,6 +39,7 @@
 
 #include "doomdef.h"
 #include "i_system.h"
+#include "m_misc.h"
 #include "sounds.h"
 
 //
@@ -476,7 +477,7 @@ void InitSFX(void)
     deh_soundnames = malloc(deh_soundnames_size * sizeof(*deh_soundnames));
 
     for (int i = 1; i < numsfx; i++)
-        deh_soundnames[i] = (*s_sfx[i].name1 ? strdup(s_sfx[i].name1) : NULL);
+        deh_soundnames[i] = (*s_sfx[i].name1 ? M_StringDuplicate(s_sfx[i].name1) : NULL);
 
     deh_soundnames[0] = NULL;
     deh_soundnames[numsfx] = NULL;

@@ -82,6 +82,7 @@
     * The screen now flashes green again to indicate when the power-up is about to run out.
 * The screen no longer briefly flashes yellow when the player picks up a berserk power-up and the `r_pickupeffect` CVAR is `on`.
 * When the player uses a controller, it now rumbles when they use their chainsaw, there’s no target, and the `joy_rumble_weapons` CVAR is `on`.
+* `MAPINFO` lumps are now parsed if either `NERVE.WAD` or `SIGIL.WAD` are loaded.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
