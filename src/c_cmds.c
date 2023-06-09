@@ -3966,7 +3966,9 @@ static bool map_cmd_func1(char *cmd, char *parms)
                     {
                         if ((sscanf(parm, "E%1iM0%1i", &mapcmdepisode, &mapcmdmap) == 2
                             || sscanf(parm, "E%1iM%2i", &mapcmdepisode, &mapcmdmap) == 2)
-                            && ((mapcmdepisode == 1 && BTSXE1) || (mapcmdepisode == 2 && BTSXE2)))
+                            && ((mapcmdepisode == 1 && BTSXE1)
+                                || (mapcmdepisode == 2 && BTSXE2)
+                                || (mapcmdepisode == 3 && BTSXE3)))
                         {
                             char    lump[6];
 
