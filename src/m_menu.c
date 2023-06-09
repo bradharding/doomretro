@@ -4099,8 +4099,8 @@ void M_Drawer(void)
                     }
                     else if (W_CheckMultipleLumps(name) > 1 || lumpinfo[W_GetNumForName(name)]->wadfile->type == PWAD)
                     {
-                        int     width = M_BigStringWidth(*text) + 8;
                         patch_t *patch = W_CacheLumpName(name);
+                        int     width = SHORT(patch->width) + 8;
 
                         M_DrawPatchWithShadow(x, y + OFFSET, patch);
                         currentmenu->menuitems[i].x = x + MAXWIDESCREENDELTA;
