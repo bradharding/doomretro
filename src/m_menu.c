@@ -503,10 +503,10 @@ static void M_DrawMenuBorder(void)
             for (int x = 0; x < 6; x++)
                 screens[0][y + x] = screens[0][y + SCREENWIDTH - x - 1] = nearestblack;
 
-        V_DrawMenuBorderPatch(6, 0, menuborder, nearestblack);
+        V_DrawMenuBorderPatch(6, 0, menuborder);
     }
     else
-        V_DrawMenuBorderPatch(0, 0, menuborder, nearestblack);
+        V_DrawMenuBorderPatch(0, 0, menuborder);
 }
 
 //

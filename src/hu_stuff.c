@@ -883,7 +883,7 @@ static void HU_AltInit(void)
             }
     }
 
-    gray = nearestcolors[GRAY];
+    gray = nearestcolors[GRAY1];
     darkgray = nearestcolors[DARKGRAY1];
 }
 

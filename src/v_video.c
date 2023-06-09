@@ -438,11 +438,12 @@ void V_DrawBigPatch(int x, int y, short width, short height, patch_t *patch)
     }
 }
 
-void V_DrawMenuBorderPatch(int x, int y, patch_t *patch, byte color)
+void V_DrawMenuBorderPatch(int x, int y, patch_t *patch)
 {
     byte        *desttopleft = &screens[0][y * SCREENWIDTH + x];
     byte        *desttopright = &screens[0][y * SCREENWIDTH + SCREENWIDTH - x];
     const int   width = SHORT(patch->width);
+    const int   black = (nearestblack << 8);
 
     for (int col = 0; col < width; col++, desttopleft++, desttopright--)
     {
@@ -466,20 +467,20 @@ void V_DrawMenuBorderPatch(int x, int y, patch_t *patch, byte color)
 
             while (count-- > 0)
             {
-                if (*source == nearestcolors[96])
+                if (*source == GRAY2)
                 {
-                    *destleft = tinttab50[*destleft];
+                    *destleft = tinttab50[*destleft + black];
                     *destright = tinttab50[*destright];
                 }
-                else if (*source == nearestcolors[106])
+                else if (*source == DARKGRAY2)
                 {
-                    *destleft = tinttab20[*destleft];
-                    *destright = tinttab20[*destright];
+                    *destleft = tinttab20[*destleft + black];
+                    *destright = tinttab20[*destright + black];
                 }
                 else
                 {
-                    *destleft = color;
-                    *destright = color;
+                    *destleft = nearestblack;
+                    *destright = nearestblack;
                 }
 
                 source++;
