@@ -21,7 +21,8 @@
 * A slightly darker color is now chosen for the surrounding pillarboxes when displaying certain lumps from a PWAD that are only 320 pixels wide and the `vid_widescreen` CVAR is `on`.
 * A bug is fixed, present in the original *DOOM*, whereby stairs that rose up from the floor would fail in some rare instances. Also, `compat_stairs` is now recognized in `MAPINFO` lumps to restore this behavior.
 * If regenerating health is enabled using the `regenhealth` CCMD, a sound is now played and the “Health picked up” stat is updated every second the player’s health increases by 1% until it is 100% again.
-* Minor improvements have been made to the player’s health displayed in the status bar when they are dead and the `negativehealth` CVAR is `on`.
+* Minor improvements have been made to the player’s health in the status bar when they are dead and the `negativehealth` CVAR is `on`.
+* `MAPINFO` lumps are now parsed if either `NERVE.WAD` or `SIGIL.WAD` are loaded.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
@@ -82,7 +83,6 @@
     * The screen now flashes green again to indicate when the power-up is about to run out.
 * The screen no longer briefly flashes yellow when the player picks up a berserk power-up and the `r_pickupeffect` CVAR is `on`.
 * When the player uses a controller, it now rumbles when they use their chainsaw, there’s no target, and the `joy_rumble_weapons` CVAR is `on`.
-* `MAPINFO` lumps are now parsed if either `NERVE.WAD` or `SIGIL.WAD` are loaded.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
