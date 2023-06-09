@@ -603,6 +603,7 @@ char    *s_CAPTION_FREEDOOM2 = "";
 char    *s_CAPTION_FREEDM = "";
 char    *s_CAPTION_BTSXE1 = "";
 char    *s_CAPTION_BTSXE2 = "";
+char    *s_CAPTION_BTSXE3 = "";
 char    *s_CAPTION_REKKR = "";
 char    *s_CAPTION_REKKRSL = "";
 char    *s_CAPTION_ANOMALYREPORT = "";
@@ -1203,6 +1204,7 @@ deh_strs deh_strlookup[] =
     { &s_CAPTION_FREEDM,              "CAPTION_FREEDM"              },
     { &s_CAPTION_BTSXE1,              "CAPTION_BTSXE1"              },
     { &s_CAPTION_BTSXE2,              "CAPTION_BTSXE2"              },
+    { &s_CAPTION_BTSXE3,              "CAPTION_BTSXE3"              },
     { &s_CAPTION_REKKR,               "CAPTION_REKKR"               },
     { &s_CAPTION_REKKRSL,             "CAPTION_REKKRSL"             },
     { &s_CAPTION_ANOMALYREPORT,       "CAPTION_ANOMALYREPORT"       },
