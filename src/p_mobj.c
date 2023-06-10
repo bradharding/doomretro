@@ -1128,7 +1128,7 @@ void P_LookForFriends(void)
         for (mobj_t *thing = sectors[i].thinglist; thing; thing = thing->snext)
             if ((thing->flags & MF_SHOOTABLE)
                 && (thing->flags & MF_FRIEND)
-                && !thing->player
+                && (thing->flags2 & MF2_SPAWNEDBYPLAYER)
                 && thing->health > 0
                 && numfriends < MAXFRIENDS)
                 friendtype[numfriends++] = thing->type;
