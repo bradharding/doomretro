@@ -1292,6 +1292,8 @@ static void G_DoCompleted(void)
     const int   nextmap = P_GetMapNext(map);
     const int   secretnextmap = P_GetMapSecretNext(map);
 
+    P_LookForFriends();
+
     gameaction = ga_nothing;
 
     I_UpdateBlitFunc(false);

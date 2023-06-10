@@ -23,6 +23,7 @@
 * If regenerating health is enabled using the `regenhealth` CCMD, a sound is now played and the “Health picked up” stat is updated every second the player’s health increases by 1% until it is 100% again.
 * Minor improvements have been made to the player’s health in the status bar when they are dead and the `negativehealth` CVAR is `on`.
 * `MAPINFO` lumps are now parsed if either `NERVE.WAD` or `SIGIL.WAD` are loaded.
+* Friendly monsters spawned using the `spawn` CCMD will now follow the player into the next map.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

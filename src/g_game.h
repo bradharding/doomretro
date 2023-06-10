@@ -116,3 +116,5 @@ extern gameaction_t loadaction;
 extern bool         newpars;
 extern int          pars[10][10];
 extern int          cpars[100];
+extern int          numfriends;
+extern mobjtype_t   friendtype[MAXFRIENDS];

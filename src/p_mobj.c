@@ -1115,6 +1115,38 @@ void P_SpawnMoreBlood(mobj_t *mobj)
     }
 }
 
+#define MAXFRIENDS  3
+
+static int          numfriends;
+static mobjtype_t   friendtype[MAXFRIENDS];
+
+void P_LookForFriends(void)
+{
+    numfriends = 0;
+
+    for (int i = 0; i < numsectors; i++)
+        for (mobj_t *thing = sectors[i].thinglist; thing; thing = thing->snext)
+            if ((thing->flags & MF_SHOOTABLE)
+                && (thing->flags & MF_FRIEND)
+                && !thing->player
+                && thing->health > 0
+                && numfriends < MAXFRIENDS)
+                friendtype[numfriends++] = thing->type;
+}
+
+static void P_SpawnFriend(const mapthing_t *mthing)
+{
+    const short playerstart = mthing->type;
+
+    if (numfriends >= playerstart - 1)
+    {
+        mobj_t  *mobj = P_SpawnMobj(mthing->x << FRACBITS, mthing->y << FRACBITS, ONFLOORZ, friendtype[playerstart - 2]);
+
+        mobj->angle = ((mthing->angle % 45) ? mthing->angle * (ANG45 / 45) : ANG45 * (mthing->angle / 45));
+        mobj->flags |= MF_FRIEND;
+    }
+}
+
 //
 // P_SpawnMapThing
 // The fields of the mapthing should already be in host byte order.
@@ -1152,8 +1184,12 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, const bool spawnmonsters)
         viewplayer->mo->id = thingid;
         return NULL;
     }
-
-    if ((type >= Player2Start && type <= Player4Start) || type == PlayerDeathmatchStart)
+    else if (type >= Player2Start && type <= Player4Start)
+    {
+        P_SpawnFriend(mthing);
+        return NULL;
+    }
+    else if (type == PlayerDeathmatchStart)
         return NULL;
 
     if (type == VisualModeCamera)
