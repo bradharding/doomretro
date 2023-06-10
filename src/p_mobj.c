@@ -1117,15 +1117,13 @@ void P_SpawnMoreBlood(mobj_t *mobj)
 
 #define MAXFRIENDS  3
 
-static int          numfriends;
+int                 numfriends = 0;
 static mobjtype_t   friendtype[MAXFRIENDS];
 static char         friendname[MAXFRIENDS][33];
 static int          friendhealth[MAXFRIENDS];
 
 void P_LookForFriends(void)
 {
-    numfriends = 0;
-
     for (int i = 0; i < numsectors; i++)
         for (mobj_t *thing = sectors[i].thinglist; thing; thing = thing->snext)
             if ((thing->flags & MF_SHOOTABLE)

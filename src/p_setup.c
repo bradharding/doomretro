@@ -3215,6 +3215,8 @@ void P_SetupLevel(int ep, int map)
 
     P_LoadThings(map, lumpnum + ML_THINGS);
 
+    numfriends = 0;
+
     P_InitCards();
 
     prevtouchtype = MT_NULL;

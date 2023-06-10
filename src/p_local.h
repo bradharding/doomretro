@@ -131,6 +131,8 @@ void P_AnimateMaxAmmo(int diff, ammotype_t type);
 #define CARDNOTFOUNDYET    -1
 #define CARDNOTINMAP        0
 
+extern int  numfriends;
+
 void P_RespawnSpecials(void);
 
 void P_SetPlayerViewHeight(void);
