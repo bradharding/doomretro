@@ -1150,6 +1150,11 @@ static void P_SpawnFriend(const mapthing_t *mthing)
         mobj->flags |= MF_FRIEND;
         mobj->flags2 |= MF2_SPAWNEDBYPLAYER;
         M_StringCopy(mobj->name, friendname[playerstart - 2], sizeof(mobj->name));
+
+        if (*mobj->name)
+            C_Warning(0, "%s followed you into this map!", mobj->name);
+        else
+            C_Warning(0, "A friendly %s followed you into this map!", mobjinfo[mobj->type].name1);
     }
 }
 
