@@ -1119,6 +1119,7 @@ void P_SpawnMoreBlood(mobj_t *mobj)
 
 static int          numfriends;
 static mobjtype_t   friendtype[MAXFRIENDS];
+static char         friendname[MAXFRIENDS][33];
 
 void P_LookForFriends(void)
 {
@@ -1131,7 +1132,10 @@ void P_LookForFriends(void)
                 && (thing->flags2 & MF2_SPAWNEDBYPLAYER)
                 && thing->health > 0
                 && numfriends < MAXFRIENDS)
-                friendtype[numfriends++] = thing->type;
+            {
+                friendtype[numfriends] = thing->type;
+                M_StringCopy(friendname[numfriends++], thing->name, sizeof(thing->name));
+            }
 }
 
 static void P_SpawnFriend(const mapthing_t *mthing)
@@ -1144,6 +1148,8 @@ static void P_SpawnFriend(const mapthing_t *mthing)
 
         mobj->angle = ((mthing->angle % 45) ? mthing->angle * (ANG45 / 45) : ANG45 * (mthing->angle / 45));
         mobj->flags |= MF_FRIEND;
+        mobj->flags2 |= MF2_SPAWNEDBYPLAYER;
+        M_StringCopy(mobj->name, friendname[playerstart - 2], sizeof(mobj->name));
     }
 }
 
