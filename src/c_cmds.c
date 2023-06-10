@@ -3329,20 +3329,20 @@ static void kill_cmd_func2(char *cmd, char *parms)
                     if (M_StringCompare(playername, playername_default))
                     {
                         if (kills == 1)
-                            M_snprintf(buffer, sizeof(buffer), "You %s the only monster %s this map.",
-                                killed, (viewplayer->killcount == 1 ? "in" : "left in"));
+                            M_snprintf(buffer, sizeof(buffer), "You %s the only %smonster %s this map.",
+                                killed, (friends ? "friendly " : ""), (viewplayer->killcount == 1 ? "in" : "left in"));
                         else
-                            M_snprintf(buffer, sizeof(buffer), "You %s all %s monsters %s this map.",
-                                killed, temp, (viewplayer->killcount == kills ? "in" : "left in"));
+                            M_snprintf(buffer, sizeof(buffer), "You %s all %s %smonsters %s this map.",
+                                killed, temp, (friends ? "friendly " : ""), (viewplayer->killcount == kills ? "in" : "left in"));
                     }
                     else
                     {
                         if (kills == 1)
-                            M_snprintf(buffer, sizeof(buffer), "%s %s the only monster %s this map.",
-                                playername, killed, (viewplayer->killcount == 1 ? "in" : "left in"));
+                            M_snprintf(buffer, sizeof(buffer), "%s %s the only %smonster %s this map.",
+                                playername, killed, (friends ? "friendly " : ""), (viewplayer->killcount == 1 ? "in" : "left in"));
                         else
-                            M_snprintf(buffer, sizeof(buffer), "%s %s all %s monsters %s this map.",
-                                playername, killed, temp, (viewplayer->killcount == kills ? "in" : "left in"));
+                            M_snprintf(buffer, sizeof(buffer), "%s %s all %s %smonsters %s this map.",
+                                playername, killed, temp, (friends ? "friendly " : ""), (viewplayer->killcount == kills ? "in" : "left in"));
 
                         buffer[0] = toupper(buffer[0]);
                     }
@@ -3357,7 +3357,8 @@ static void kill_cmd_func2(char *cmd, char *parms)
                     free(temp);
                 }
                 else
-                    C_Warning(0, "There are no monsters %s %s.", (viewplayer->killcount ? "left to" : "to"), cmd);
+                    C_Warning(0, "There are no %smonsters %s %s.",
+                        (friends ? "friendly " : ""), (viewplayer->killcount ? "left to" : "to"), cmd);
             }
             else if (M_StringCompare(parm, "missile") || M_StringCompare(parm, "missiles"))
             {
