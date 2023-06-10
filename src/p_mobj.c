@@ -1120,6 +1120,7 @@ void P_SpawnMoreBlood(mobj_t *mobj)
 static int          numfriends;
 static mobjtype_t   friendtype[MAXFRIENDS];
 static char         friendname[MAXFRIENDS][33];
+static int          friendhealth[MAXFRIENDS];
 
 void P_LookForFriends(void)
 {
@@ -1134,7 +1135,8 @@ void P_LookForFriends(void)
                 && numfriends < MAXFRIENDS)
             {
                 friendtype[numfriends] = thing->type;
-                M_StringCopy(friendname[numfriends++], thing->name, sizeof(thing->name));
+                M_StringCopy(friendname[numfriends], thing->name, sizeof(thing->name));
+                friendhealth[numfriends++] = thing->health;
             }
 }
 
@@ -1150,11 +1152,12 @@ static void P_SpawnFriend(const mapthing_t *mthing)
         mobj->flags |= MF_FRIEND;
         mobj->flags2 |= MF2_SPAWNEDBYPLAYER;
         M_StringCopy(mobj->name, friendname[playerstart - 2], sizeof(mobj->name));
+        mobj->health = friendhealth[playerstart - 2];
 
         if (*mobj->name)
-            C_Warning(0, "%s followed you into this map!", mobj->name);
+            C_Warning(0, "%s followed %s into this map!", playername, mobj->name);
         else
-            C_Warning(0, "A friendly %s followed you into this map!", mobjinfo[mobj->type].name1);
+            C_Warning(0, "A friendly %s followed %s into this map!", playername, mobjinfo[mobj->type].name1);
     }
 }
 
