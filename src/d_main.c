@@ -243,12 +243,14 @@ static void D_UpdateFade(void)
 //
 void D_FadeScreenToBlack(void)
 {
+    byte    *palette = &PLAYPAL[(menuactive ? 0 : st_palette * 768)];
+
     if (!fade)
         return;
 
     for (float i = 0.95f; i >= 0.0f; i -= 0.05f)
     {
-        I_SetPaletteWithBrightness(&PLAYPAL[st_palette * 768], i);
+        I_SetPaletteWithBrightness(palette, i);
         I_SetExternalAutomapPalette();
         I_SetMusicVolume((int)(current_music_volume * i));
         I_Sleep(20);
