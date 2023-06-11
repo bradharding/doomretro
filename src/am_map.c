@@ -41,6 +41,7 @@
 #include "c_console.h"
 #include "d_deh.h"
 #include "doomstat.h"
+#include "g_game.h"
 #include "hu_stuff.h"
 #include "i_colors.h"
 #include "i_gamecontroller.h"
@@ -459,7 +460,7 @@ static void AM_MaxOutWindowScale(void)
 
 static bool AM_GetSpeedToggle(void)
 {
-    return (!!(gamecontrollerbuttons & GAMECONTROLLER_LEFT_TRIGGER) != !!(modstate & KMOD_SHIFT));
+    return (gamekeydown[keyboardrun] ^ mousebuttons[mouserun] ^ (!!(gamecontrollerbuttons & gamecontrollerrun)) ^ alwaysrun);
 }
 
 static void AM_ToggleZoomOut(void)
