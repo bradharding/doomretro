@@ -24,6 +24,7 @@
 * Minor improvements have been made to the player’s health in the status bar when they are dead and the `negativehealth` CVAR is `on`.
 * `MAPINFO` lumps are now parsed if either `NERVE.WAD` or `SIGIL.WAD` are loaded.
 * Friendly monsters spawned using the `spawn` CCMD will now follow the player into the next map.
+* The fade effect when quitting *DOOM Retro* from the menu is no longer affected if the player has either a berserk or radiation shielding suit power-up and the `fade` CVAR is `on`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
