@@ -2078,7 +2078,7 @@ bool PIT_RadiusAttack(mobj_t *thing)
 //
 void P_RadiusAttack(mobj_t *spot, mobj_t *source, const int damage, const int distance, const bool verticality)
 {
-    const fixed_t   dist = (damage << FRACBITS) + MAXRADIUS;
+    const fixed_t   dist = (distance << FRACBITS) + MAXRADIUS;
     const int       xh = P_GetSafeBlockX(spot->x + dist - bmaporgx);
     const int       xl = P_GetSafeBlockX(spot->x - dist - bmaporgx);
     const int       yh = P_GetSafeBlockY(spot->y + dist - bmaporgy);
