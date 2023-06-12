@@ -947,7 +947,6 @@ linefix_t linefix[] =
     { doom2,            1,  19,     288,    1, "",         "",            "STEP4",       DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                         DEFAULT },
     { doom2,            1,  19,     355,    1, "STONE2",   "",            "",            DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                         DEFAULT },
     { doom2,            1,  19,     455,    1, "",         "",            "METAL",       DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                         DEFAULT },
-    { doom2,            1,  19,     464,    0, "",         "",            "",            DEFAULT,   DEFAULT, DEFAULT,                   0,                                               DEFAULT },
     { doom2,            1,  19,     521,    0, "",         "",            "",            DEFAULT,        -8, DEFAULT,                   DEFAULT,                                         DEFAULT },
     { doom2,            1,  19,     529,    1, "",         "MIDGRATE",    "",            DEFAULT,   DEFAULT, DEFAULT,                   DEFAULT,                                         DEFAULT },
     { doom2,            1,  19,     558,    0, "",         "",            "",            DEFAULT,        -8, DEFAULT,                   DEFAULT,                                         DEFAULT },
