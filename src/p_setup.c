@@ -1091,9 +1091,9 @@ static void P_LoadSegs(int lump)
                                 char    *temp2 = commify(linefix[j].special);
 
                                 C_Warning(2, "Linedef %s now has %s line special %s (\"%s\").",
-                                    temp1, (linefix[j].special < BOOMLINESPECIALS ? "The" : (linefix[j].special < MBFLINESPECIALS ?
-                                    "The " ITALICS("BOOM") "-compatible" : (linefix[j].special < MBF21LINESPECIALS ? "The " ITALICS("MBF")
-                                    "-compatible" : "The " ITALICS("MBF21") "-compatible"))), temp2, linespecials[linefix[j].special]);
+                                    temp1, (linefix[j].special < BOOMLINESPECIALS ? "the" : (linefix[j].special < MBFLINESPECIALS ?
+                                    "The " ITALICS("BOOM") "-compatible" : (linefix[j].special < MBF21LINESPECIALS ? "the " ITALICS("MBF")
+                                    "-compatible" : "the " ITALICS("MBF21") "-compatible"))), temp2, linespecials[linefix[j].special]);
                                 free(temp1);
                                 free(temp2);
                             }
