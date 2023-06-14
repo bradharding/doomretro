@@ -830,6 +830,9 @@ static void P_LoadSegs(int lump)
     if (!data || !numsegs)
         I_Error("There are no segs in this map.");
 
+    for (int j = 0; linefix[j].mission != -1; j++)
+        linefix[j].fixed = false;
+
     for (int i = 0; i < numsegs; i++)
     {
         seg_t                   *li = segs + i;
@@ -952,8 +955,11 @@ static void P_LoadSegs(int lump)
         if (canmodify && r_fixmaperrors)
             for (int j = 0; linefix[j].mission != -1; j++)
                 if (gamemission == linefix[j].mission && gameepisode == linefix[j].episode && gamemap == linefix[j].map
-                    && gamemode != shareware && linedefnum == linefix[j].linedef && side == linefix[j].side)
+                    && gamemode != shareware && linedefnum == linefix[j].linedef && side == linefix[j].side
+                    && !linefix[j].fixed)
                 {
+                    linefix[j].fixed = true;
+
                     if (*linefix[j].toptexture)
                     {
                         int     texture = R_TextureNumForName(linefix[j].toptexture);

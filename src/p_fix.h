@@ -74,6 +74,7 @@ typedef struct
     int     flags;
     int     special;
     int     tag;
+    bool    fixed;
 } linefix_t;
 
 extern linefix_t    linefix[];
