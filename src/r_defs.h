@@ -1021,16 +1021,16 @@ typedef struct visplane_s
     fixed_t             xoffset, yoffset;
 
     // leave pads for [minx - 1]/[maxx + 1]
-    unsigned int        pad1;
+    unsigned short      pad1;
 
-    unsigned int        top[MAXWIDTH];
+    unsigned short      top[MAXWIDTH];
 
-    unsigned int        pad2;
-    unsigned int        pad3;
+    unsigned short      pad2;
+    unsigned short      pad3;
 
-    unsigned int        bottom[MAXWIDTH];
+    unsigned short      bottom[MAXWIDTH];
 
-    unsigned int        pad4;
+    unsigned short      pad4;
 
     bool                modified;
 } visplane_t;

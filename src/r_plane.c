@@ -226,7 +226,7 @@ visplane_t *R_FindPlane(fixed_t height, const int picnum,
     check->right = -1;
     check->modified = false;
 
-    memset(check->top, UINT_MAX, sizeof(check->top));
+    memset(check->top, USHRT_MAX, sizeof(check->top));
 
     return check;
 }
@@ -247,7 +247,7 @@ visplane_t *R_DupPlane(const visplane_t *pl, const int start, const int stop)
     new_pl->right = stop;
     new_pl->modified = false;
 
-    memset(new_pl->top, UINT_MAX, sizeof(new_pl->top));
+    memset(new_pl->top, USHRT_MAX, sizeof(new_pl->top));
 
     return new_pl;
 }
@@ -285,7 +285,7 @@ visplane_t *R_CheckPlane(visplane_t *pl, const int start, const int stop)
         intrh = stop;
     }
 
-    for (x = intrl; x <= intrh && pl->top[x] == UINT_MAX; x++);
+    for (x = intrl; x <= intrh && pl->top[x] == USHRT_MAX; x++);
 
     if (x > intrh)
     {
@@ -321,8 +321,8 @@ static void R_MakeSpans(visplane_t *pl)
 
     planeheight = ABS(pl->height - viewz);
     planezlight = zlight[BETWEEN(0, (pl->lightlevel >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)];
-    pl->top[pl->left - 1] = UINT_MAX;
-    pl->top[stop] = UINT_MAX;
+    pl->top[pl->left - 1] = USHRT_MAX;
+    pl->top[stop] = USHRT_MAX;
 
     for (ds_x2 = pl->left; ds_x2 <= stop; ds_x2++)
     {
@@ -462,7 +462,7 @@ void R_DrawPlanes(void)
                         if (s->missingtoptexture)
                         {
                             for (dc_x = pl->left; dc_x <= pl->right; dc_x++)
-                                if ((dc_yl = pl->top[dc_x]) != UINT_MAX
+                                if ((dc_yl = pl->top[dc_x]) != USHRT_MAX
                                     && dc_yl <= (dc_yh = pl->bottom[dc_x]))
                                     R_DrawColorColumn();
 
@@ -506,7 +506,7 @@ void R_DrawPlanes(void)
                     tex_patch = R_CacheTextureCompositePatchNum(texture);
 
                     for (dc_x = pl->left; dc_x <= pl->right; dc_x++)
-                        if ((dc_yl = pl->top[dc_x]) != UINT_MAX && dc_yl <= (dc_yh = pl->bottom[dc_x]))
+                        if ((dc_yl = pl->top[dc_x]) != USHRT_MAX && dc_yl <= (dc_yh = pl->bottom[dc_x]))
                         {
                             dc_source = R_GetTextureColumn(tex_patch,
                                 ((((an + xtoviewangle[dc_x]) ^ flip) / (1 << (ANGLETOSKYSHIFT - FRACBITS)))
