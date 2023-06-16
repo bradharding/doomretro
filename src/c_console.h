@@ -47,7 +47,7 @@
 #define CONSOLEFONTEND                      255
 #define CONSOLEFONTSIZE                     (CONSOLEFONTEND - CONSOLEFONTSTART + 1)
 
-#define CONSOLEAUTOMAPBEVELCOLOR            5
+#define CONSOLEAUTOMAPBEVELCOLOR            6
 #define CONSOLEBACKCOLOR                    12
 #define CONSOLEBEVELCOLOR                   0
 #define CONSOLEBOLDCOLOR                    80
