@@ -17,7 +17,7 @@
 * A bug is fixed whereby sometimes the player wouldn’t pick up an item in a liquid sector when the `r_liquid_clipsprites` CVAR was `on`.
 * Improvements have been made to equipping either the chainsaw or fists when the player presses the <kbd><b>1</b></kbd> key.
 * A bug is fixed whereby the player’s field of view would sometimes be wrong when changing the `r_fov` CVAR.
-* The rendering of floors and ceilings far away from the player is now less distorted.
+* Minor improvements have been made to rendering floors and ceilings.
 * When using the `IDCLEV` cheat and vanilla mode is enabled, the player now starts the map with 100% health, no armor, and only a pistol with 50 bullets.
 * A slightly darker color is now chosen for the surrounding pillarboxes when displaying certain lumps from a PWAD that are only 320 pixels wide and the `vid_widescreen` CVAR is `on`.
 * A bug is fixed, present in the original *DOOM*, whereby stairs that rose up from the floor would fail in some rare instances. Also, `compat_stairs` is now recognized in `MAPINFO` lumps to restore this behavior.
