@@ -441,7 +441,7 @@ void V_DrawBigPatch(int x, int y, short width, short height, patch_t *patch)
 void V_DrawMenuBorderPatch(int x, int y, patch_t *patch)
 {
     byte        *desttopleft = &screens[0][y * SCREENWIDTH + x];
-    byte        *desttopright = &screens[0][y * SCREENWIDTH + SCREENWIDTH - x];
+    byte        *desttopright = &screens[0][y * SCREENWIDTH + SCREENWIDTH - x - 1];
     const int   width = SHORT(patch->width);
     const int   black = (nearestblack << 8);
 
