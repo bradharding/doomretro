@@ -500,10 +500,10 @@ static void M_DrawMenuBorder(void)
     if (vid_widescreen || nowidescreen)
     {
         for (int y = 0; y < SCREENAREA; y += SCREENWIDTH)
-            for (int x = 0; x < 6; x++)
+            for (int x = 0; x < 10; x++)
                 screens[0][y + x] = screens[0][y + SCREENWIDTH - x - 1] = nearestblack;
 
-        V_DrawMenuBorderPatch(6, 0, menuborder);
+        V_DrawMenuBorderPatch(10, 0, menuborder);
     }
     else
         V_DrawMenuBorderPatch(0, 0, menuborder);
