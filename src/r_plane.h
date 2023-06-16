@@ -48,7 +48,7 @@ extern int      *openings;  // dropoff overflow
 
 void R_ClearPlanes(void);
 void R_DrawPlanes(void);
-visplane_t *R_FindPlane(fixed_t height, const int picnum, const int lightlevel, const fixed_t x, const fixed_t y);
+visplane_t *R_FindPlane(fixed_t height, const int picnum, int lightlevel, const fixed_t x, const fixed_t y);
 visplane_t *R_CheckPlane(visplane_t *pl, const int start, const int stop);
 visplane_t *R_DupPlane(const visplane_t *pl, const int start, const int stop);
 void R_InitDistortedFlats(void);
