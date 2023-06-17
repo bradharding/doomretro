@@ -180,8 +180,9 @@ static void HUlib_DrawAltHUDTextLine(hu_textline_t *l)
     bool            italics = false;
     unsigned char   prevletter = '\0';
     unsigned char   prevletter2 = '\0';
-    int             x = HU_ALTHUDMSGX;
+    int             x;
     int             y = HU_ALTHUDMSGY;
+    int             width;
     int             color = (message_secret ? nearestgold : (r_hud_translucency ? nearestwhite : nearestlightgray));
     const int       len = l->len;
     byte            *tinttab = (automapactive ? tinttab70 : tinttab50);
@@ -209,9 +210,15 @@ static void HUlib_DrawAltHUDTextLine(hu_textline_t *l)
             tinttab = tinttabs[HU_MSGTIMEOUT - message_counter + 1];
     }
 
+    width = C_TextWidth(l->l, true, true);
+    x = (SCREENWIDTH - width) / 2;
+
     if (idbehold)
         althudtextfunc(x, HU_ALTHUDMSGY + 12, screens[0],
             altunderscores, false, color, SCREENWIDTH, tinttab);
+
+    V_FillSoftTransRect(0, x - 4, y, width + 8, 12, nearestblack, nearestblack,
+        true, true, tinttab10, tinttab10);
 
     for (int i = 0; i < len; i++)
     {
