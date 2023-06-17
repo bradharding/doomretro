@@ -3297,15 +3297,19 @@ static bool P_ParseMapInfo(char *scriptname)
 {
     int         mapmax = 1;
     int         mcmdvalue;
-    int         mapinfolump;
+    int         lump;
     mapinfo_t   *info;
     char        *temp1;
     char        *temp2;
 
-    if ((mapinfolump = W_CheckNumForName(scriptname)) < 0)
+    if ((lump = W_CheckNumForName(scriptname)) < 0)
         return false;
 
-    MAPINFO = mapinfolump;
+    if (M_StringEndsWith(lumpinfo[lump]->wadfile->path, "NERVE.WAD")
+        || M_StringEndsWith(lumpinfo[lump]->wadfile->path, "SIGIL.WAD"))
+        return false;
+
+    MAPINFO = lump;
 
     SC_Open(scriptname);
 
