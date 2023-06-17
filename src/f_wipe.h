@@ -39,6 +39,6 @@
 // SCREEN WIPE PACKAGE
 //
 
-void wipe_StartScreen(void);
-void wipe_EndScreen(void);
-bool wipe_ScreenWipe(void);
+void Wipe_StartScreen(void);
+void Wipe_EndScreen(void);
+bool Wipe_ScreenWipe(void);

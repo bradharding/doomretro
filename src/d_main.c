@@ -295,7 +295,7 @@ void D_Display(void)
         fadecount = 0;
 
         if (melt)
-            wipe_StartScreen();
+            Wipe_StartScreen();
         else
             D_FadeScreen(false);
 
@@ -430,7 +430,7 @@ void D_Display(void)
     }
 
     // wipe update
-    wipe_EndScreen();
+    Wipe_EndScreen();
     wipestart = I_GetTime() - 1;
 
     do
@@ -445,7 +445,7 @@ void D_Display(void)
         } while (tics <= 0);
 
         wipestart = nowtime;
-        done = wipe_ScreenWipe();
+        done = Wipe_ScreenWipe();
 
         blitfunc();
         mapblitfunc();

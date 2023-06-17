@@ -3301,12 +3301,19 @@ static bool P_ParseMapInfo(char *scriptname)
     mapinfo_t   *info;
     char        *temp1;
     char        *temp2;
+    char        *file;
 
     if ((lump = W_CheckNumForName(scriptname)) < 0)
         return false;
 
-    if (M_StringEndsWith(lumpinfo[lump]->wadfile->path, "NERVE.WAD")
-        || M_StringEndsWith(lumpinfo[lump]->wadfile->path, "SIGIL.WAD"))
+    file = leafname(lumpinfo[lump]->wadfile->path);
+
+    if (M_StringCompare(file, "NERVE.wad")
+        || M_StringCompare(file, "SIGIL_v1_21.wad")
+        || M_StringCompare(file, "SIGIL_v1_2.wad")
+        || M_StringCompare(file, "SIGIL_v1_1.wad")
+        || M_StringCompare(file, "SIGIL_v1_0.wad")
+        || M_StringCompare(file, "SIGIL.wad"))
         return false;
 
     MAPINFO = lump;

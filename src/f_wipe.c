@@ -35,7 +35,6 @@
 
 #include <string.h>
 
-#include "i_video.h"
 #include "m_random.h"
 #include "v_video.h"
 
@@ -46,7 +45,7 @@
 static int      y[MAXWIDTH];
 static short    src[MAXSCREENAREA];
 
-static void wipe_shittyColMajorXform(short *dest)
+static void Wipe_ShittyColMajorXform(short *dest)
 {
     for (int yy = 0; yy < SCREENHEIGHT; yy++)
         for (int xx = 0; xx < SCREENWIDTH / 2; xx++)
@@ -55,14 +54,11 @@ static void wipe_shittyColMajorXform(short *dest)
     memcpy(dest, src, SCREENAREA);
 }
 
-static void wipe_initMelt(void)
+static void Wipe_InitMelt(void)
 {
-    // copy start screen to main screen
-    memcpy(screens[0], screens[2], SCREENAREA);
-
     // makes this wipe faster (in theory) to have stuff in column-major format
-    wipe_shittyColMajorXform((short *)screens[2]);
-    wipe_shittyColMajorXform((short *)screens[3]);
+    Wipe_ShittyColMajorXform((short *)screens[2]);
+    Wipe_ShittyColMajorXform((short *)screens[3]);
 
     // setup initial column positions (y < 0 => not ready to scroll yet)
     y[0] = y[1] = -(M_BigRandom() & 15);
@@ -71,7 +67,7 @@ static void wipe_initMelt(void)
         y[i] = y[i + 1] = BETWEEN(-15, y[i - 1] + M_BigRandom() % 3 - 1, 0);
 }
 
-static void wipe_Melt(const int i, const int dy)
+static void Wipe_Melt(const int i, const int dy)
 {
     short   *s = &((short *)screens[3])[i * SCREENHEIGHT + y[i]];
     short   *d = &((short *)screens[0])[y[i] * SCREENWIDTH / 2 + i];
@@ -87,7 +83,7 @@ static void wipe_Melt(const int i, const int dy)
         d[j] = *s++;
 }
 
-static bool wipe_doMelt(void)
+static bool Wipe_DoMelt(void)
 {
     bool    done = true;
 
@@ -99,30 +95,30 @@ static bool wipe_doMelt(void)
         }
         else if (y[i] < 16)
         {
-            wipe_Melt(i, y[i] + 1);
+            Wipe_Melt(i, y[i] + 1);
             done = false;
         }
         else if (y[i] < SCREENHEIGHT)
         {
-            wipe_Melt(i, MIN(SCREENHEIGHT / 16, SCREENHEIGHT - y[i]));
+            Wipe_Melt(i, MIN(SCREENHEIGHT / 16, SCREENHEIGHT - y[i]));
             done = false;
         }
 
     return done;
 }
 
-void wipe_StartScreen(void)
+void Wipe_StartScreen(void)
 {
     memcpy(screens[2], screens[0], SCREENAREA);
 }
 
-void wipe_EndScreen(void)
+void Wipe_EndScreen(void)
 {
     memcpy(screens[3], screens[0], SCREENAREA);
     memcpy(screens[0], screens[2], SCREENAREA);
 }
 
-bool wipe_ScreenWipe(void)
+bool Wipe_ScreenWipe(void)
 {
     // when false, stop the wipe
     static bool go;
@@ -131,11 +127,11 @@ bool wipe_ScreenWipe(void)
     if (!go)
     {
         go = true;
-        wipe_initMelt();
+        Wipe_InitMelt();
     }
 
     // do a piece of wipe-in
-    if (wipe_doMelt())
+    if (Wipe_DoMelt())
         go = false;
 
     return !go;

@@ -45,7 +45,6 @@
 #include "i_swap.h"
 #include "m_config.h"
 #include "p_setup.h"
-#include "r_local.h"
 #include "v_data.h"
 #include "v_video.h"
 
