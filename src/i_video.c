@@ -207,7 +207,7 @@ bool MouseShouldBeGrabbed(void)
         return true;
 
     // when menu is active, release the mouse
-    if (((menuactive && !helpscreen) || consoleactive || gamestate != GS_LEVEL)
+    if (((menuactive && !helpscreen) || consoleactive || gamestate == GS_TITLESCREEN)
         && m_pointer && usingmouse && !usinggamecontroller)
         return false;
 
@@ -702,7 +702,7 @@ static void I_ReadMouse(void)
         ev.type = ev_mouse;
         ev.data1 = mousebuttonstate;
 
-        if (((menuactive && !helpscreen) || consoleactive || gamestate != GS_LEVEL)
+        if (((menuactive && !helpscreen) || consoleactive || gamestate == GS_TITLESCREEN)
             && !splashscreen && m_pointer)
         {
             if (x || y)

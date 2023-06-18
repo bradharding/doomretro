@@ -27,6 +27,7 @@
 * Friendly monsters spawned using the `spawn` CCMD will now follow the player into the next map.
 * The fade effect when quitting *DOOM Retro* from the menu is no longer affected if the player has either a berserk or radiation shielding suit power-up and the `fade` CVAR is `on`.
 * Minor improvements have been made to the support of [*MBF21*](https://doomwiki.org/wiki/MBF21)-compatible WADs.
+* The mouse pointer is no longer displayed on the intermission or finale screens when the player moves the mouse and the `m_pointer` CVAR is `on`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
