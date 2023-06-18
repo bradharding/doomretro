@@ -5551,21 +5551,14 @@ static void C_PlayerStats_Game(void)
 
         for (int i = 0; i < numlines; i++)
         {
-            const line_t            line = lines[i];
-            const unsigned short    flags = line.flags;
+            const unsigned short    flags = lines[i].flags;
 
             if (!(flags & ML_DONTDRAW))
             {
-                const sector_t  *back = line.backsector;
-                const sector_t  *front = line.frontsector;
+                totalwalls++;
 
-                if (!back || back->floorheight != front->floorheight || back->ceilingheight != front->ceilingheight)
-                {
-                    totalwalls++;
-
-                    if (flags & ML_MAPPED)
-                        mappedwalls++;
-                }
+                if (flags & ML_MAPPED)
+                    mappedwalls++;
             }
         }
 
