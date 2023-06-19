@@ -97,7 +97,7 @@ static void R_MapPlane(const int y, const int x1)
         // SoM: because centery is an actual row of pixels (and it isn't really the
         // center row because there are an even number of rows) some corrections need
         // to be made depending on where the row lies relative to the centery row.
-        fixed_t dy = (ABS(centery - y) << FRACBITS) + (y >= centery ? FRACUNIT : -FRACUNIT) / 2;
+        fixed_t dy = (ABS(centery - y) << FRACBITS) + (y < centery ? -FRACUNIT : FRACUNIT) / 2;
 
         cachedheight[y] = planeheight;
         ds_z = cacheddistance[y] = FixedMul(planeheight, yslope[y]);
@@ -167,7 +167,7 @@ void R_ClearPlanes(void)
     lastopening = openings;
 
     // texture calculation
-    memset(cachedheight, 0, sizeof(cachedheight));
+    memset(cachedheight, 0, viewheight * sizeof(*cachedheight));
 }
 
 // New function, by Lee Killough
@@ -203,7 +203,7 @@ visplane_t *R_FindPlane(fixed_t height, const int picnum,
         // killough 7/19/98: most skies map together
         lightlevel = 0;
 
-        // haleyjd 05/06/08: but not all. If height > viewpoint.z, set height to 1
+        // haleyjd 05/06/08: but not all. If height > viewz, set height to 1
         // instead of 0, to keep ceilings mapping with ceilings, and floors mapping
         // with floors.
         height = (height > viewz);
@@ -228,7 +228,7 @@ visplane_t *R_FindPlane(fixed_t height, const int picnum,
     check->right = -1;
     check->modified = false;
 
-    memset(check->top, USHRT_MAX, sizeof(check->top));
+    memset(check->top, USHRT_MAX, viewwidth * sizeof(*check->top));
 
     return check;
 }
@@ -249,7 +249,7 @@ visplane_t *R_DupPlane(const visplane_t *pl, const int start, const int stop)
     new_pl->right = stop;
     new_pl->modified = false;
 
-    memset(new_pl->top, USHRT_MAX, sizeof(new_pl->top));
+    memset(new_pl->top, USHRT_MAX, viewwidth * sizeof(*new_pl->top));
 
     return new_pl;
 }
