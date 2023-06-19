@@ -184,11 +184,11 @@ void D_PostEvent(event_t *ev)
 
     lasteventtype = ev->type;
 
-    if (C_Responder(ev))
-        return; // console ate the event
-
     if (M_Responder(ev))
         return; // menu ate the event
+
+    if (C_Responder(ev))
+        return; // console ate the event
 
     G_Responder(ev);
 }

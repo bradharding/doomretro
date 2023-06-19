@@ -2941,6 +2941,8 @@ bool M_Responder(event_t *ev)
 
         if (consoleheight < CONSOLEHEIGHT && consoledirection == -1 && !dowipe)
             C_ShowConsole();
+        else
+            C_HideConsole();
 
         return true;
     }

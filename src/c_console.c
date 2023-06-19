@@ -1924,13 +1924,6 @@ bool C_Responder(event_t *ev)
         const int           key = ev->data1;
         const SDL_Keymod    modstate = SDL_GetModState();
 
-        if (key == keyboardconsole && !keydown)
-        {
-            keydown = key;
-            C_HideConsole();
-            return true;
-        }
-
         switch (key)
         {
             case KEY_PRINTSCREEN:
