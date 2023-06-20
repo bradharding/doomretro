@@ -3147,7 +3147,7 @@ bool M_Responder(event_t *ev)
     if (key == KEY_MINUS)
     {
         // Screen size down
-        if (paused || splashscreen || automapactive || helpscreen
+        if (consoleactive || paused || splashscreen || automapactive || helpscreen
             || gamestate == GS_INTERMISSION || gamestate == GS_FINALE)
             return false;
 
@@ -3174,7 +3174,7 @@ bool M_Responder(event_t *ev)
     else if (key == KEY_EQUALS)
     {
         // Screen size up
-        if (paused || splashscreen || automapactive || helpscreen
+        if (consoleactive || paused || splashscreen || automapactive || helpscreen
             || gamestate == GS_INTERMISSION || gamestate == GS_FINALE)
             return false;
 
