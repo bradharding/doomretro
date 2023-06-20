@@ -1947,4 +1947,6 @@ void I_InitGraphics(void)
 
     if (mapwindow)
         mapblitfunc();
+
+    I_Sleep(1000);
 }

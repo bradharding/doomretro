@@ -3272,11 +3272,11 @@ bool M_Responder(event_t *ev)
             return true;
         }
 
+        // Sound Volume
         else if (key == KEY_F4 && (!functionkey || functionkey == KEY_F4) && !keydown)
         {
             keydown = key;
 
-            // Sound Volume
             if (functionkey == KEY_F4)
             {
                 functionkey = 0;

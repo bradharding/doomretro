@@ -103,8 +103,8 @@ static void R_MapPlane(const int y, const int x1)
         ds_z = cacheddistance[y] = FixedMul(planeheight, yslope[y]);
         viewcosdistance = cachedviewcosdistance[y] = FixedMul(viewcos, ds_z);
         viewsindistance = cachedviewsindistance[y] = FixedMul(viewsin, ds_z);
-        ds_xstep = cachedxstep[y] = FixedDiv(FixedMul(viewsin, planeheight), dy);
-        ds_ystep = cachedystep[y] = FixedDiv(FixedMul(viewcos, planeheight), dy);
+        ds_xstep = cachedxstep[y] = (fixed_t)((int64_t)viewsin * planeheight / dy);
+        ds_ystep = cachedystep[y] = (fixed_t)((int64_t)viewcos * planeheight / dy);
     }
     else
     {
