@@ -53,10 +53,11 @@ void TryRunTics(void)
     static uint64_t lastmadetic;
     uint64_t        newtics = I_GetTime() - lastmadetic;
     int             runtics;
+    const bool      uncapped = !(vid_capfps == TICRATE || splashscreen);
 
     lastmadetic += newtics;
 
-    if (vid_capfps != TICRATE)
+    if (uncapped)
         fractionaltic = ((I_GetTimeMS() * TICRATE) % 1000) * FRACUNIT / 1000;
 
     while (newtics--)
@@ -69,7 +70,7 @@ void TryRunTics(void)
         G_BuildTiccmd(&localcmds[maketic++ % BACKUPTICS]);
     }
 
-    if (!(runtics = maketic - gametime) && vid_capfps != TICRATE)
+    if (!(runtics = maketic - gametime) && uncapped)
         return;
 
     while (runtics--)
