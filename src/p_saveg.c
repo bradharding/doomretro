@@ -163,7 +163,7 @@ static void saveg_read_mapthing_t(mapthing_t *str)
     str->options = saveg_read16();
 }
 
-static void saveg_write_mapthing_t(mapthing_t *str)
+static void saveg_write_mapthing_t(const mapthing_t *str)
 {
     saveg_write16(str->x);
     saveg_write16(str->y);
@@ -299,7 +299,7 @@ static void saveg_read_mobj_t(mobj_t *str)
     saveg_read32();
 }
 
-static void saveg_write_mobj_t(mobj_t *str)
+static void saveg_write_mobj_t(const mobj_t *str)
 {
     saveg_write32(str->x);
     saveg_write32(str->y);
@@ -392,7 +392,7 @@ static void saveg_read_bloodsplat_t(bloodsplat_t *str)
     str->color = saveg_read32();
 }
 
-static void saveg_write_bloodsplat_t(bloodsplat_t *str)
+static void saveg_write_bloodsplat_t(const bloodsplat_t *str)
 {
     saveg_write32(str->x);
     saveg_write32(str->y);
@@ -413,7 +413,7 @@ static void saveg_read_ticcmd_t(ticcmd_t *str)
     str->lookdir = saveg_read32();
 }
 
-static void saveg_write_ticcmd_t(ticcmd_t *str)
+static void saveg_write_ticcmd_t(const ticcmd_t *str)
 {
     saveg_write8(str->forwardmove);
     saveg_write8(str->sidemove);
@@ -435,7 +435,7 @@ static void saveg_read_pspdef_t(pspdef_t *str)
     str->sy = saveg_read32();
 }
 
-static void saveg_write_pspdef_t(pspdef_t *str)
+static void saveg_write_pspdef_t(const pspdef_t *str)
 {
     saveg_write32(str->state ? (int)(str->state - states) : 0);
     saveg_write32(str->tics);
@@ -696,7 +696,7 @@ static void saveg_read_ceiling_t(ceiling_t *str)
     str->olddirection = saveg_read32();
 }
 
-static void saveg_write_ceiling_t(ceiling_t *str)
+static void saveg_write_ceiling_t(const ceiling_t *str)
 {
     saveg_write_enum(str->type);
     saveg_write32(str->sector->id);
@@ -730,7 +730,7 @@ static void saveg_read_vldoor_t(vldoor_t *str)
     str->lighttag = saveg_read32();
 }
 
-static void saveg_write_vldoor_t(vldoor_t *str)
+static void saveg_write_vldoor_t(const vldoor_t *str)
 {
     saveg_write_enum(str->type);
     saveg_write32(str->sector->id);
@@ -759,7 +759,7 @@ static void saveg_read_floormove_t(floormove_t *str)
     str->stopsound = saveg_read_bool();
 }
 
-static void saveg_write_floormove_t(floormove_t *str)
+static void saveg_write_floormove_t(const floormove_t *str)
 {
     saveg_write_enum(str->type);
     saveg_write_bool(str->crush);
@@ -791,7 +791,7 @@ static void saveg_read_plat_t(plat_t *str)
     str->type = (plattype_e)saveg_read_enum();
 }
 
-static void saveg_write_plat_t(plat_t *str)
+static void saveg_write_plat_t(const plat_t *str)
 {
     saveg_write_bool(!!str->thinker.function);
     saveg_write32(str->sector->id);
@@ -820,7 +820,7 @@ static void saveg_read_lightflash_t(lightflash_t *str)
     str->mintime = saveg_read32();
 }
 
-static void saveg_write_lightflash_t(lightflash_t *str)
+static void saveg_write_lightflash_t(const lightflash_t *str)
 {
     saveg_write32(str->sector->id);
     saveg_write32(str->count);
@@ -843,7 +843,7 @@ static void saveg_read_strobe_t(strobe_t *str)
     str->brighttime = saveg_read32();
 }
 
-static void saveg_write_strobe_t(strobe_t *str)
+static void saveg_write_strobe_t(const strobe_t *str)
 {
     saveg_write32(str->sector->id);
     saveg_write32(str->count);
@@ -864,7 +864,7 @@ static void saveg_read_glow_t(glow_t *str)
     str->direction = saveg_read32();
 }
 
-static void saveg_write_glow_t(glow_t *str)
+static void saveg_write_glow_t(const glow_t *str)
 {
     saveg_write32(str->sector->id);
     saveg_write32(str->minlight);
@@ -880,7 +880,7 @@ static void saveg_read_fireflicker_t(fireflicker_t *str)
     str->maxlight = saveg_read32();
 }
 
-static void saveg_write_fireflicker_t(fireflicker_t *str)
+static void saveg_write_fireflicker_t(const fireflicker_t *str)
 {
     saveg_write32(str->sector->id);
     saveg_write32(str->count);
@@ -899,7 +899,7 @@ static void saveg_read_elevator_t(elevator_t *str)
     str->stopsound = saveg_read_bool();
 }
 
-static void saveg_write_elevator_t(elevator_t *str)
+static void saveg_write_elevator_t(const elevator_t *str)
 {
     saveg_write_enum(str->type);
     saveg_write32(str->sector->id);
@@ -923,7 +923,7 @@ static void saveg_read_scroll_t(scroll_t *str)
     str->type = (scroll_e)saveg_read_enum();
 }
 
-static void saveg_write_scroll_t(scroll_t *str)
+static void saveg_write_scroll_t(const scroll_t *str)
 {
     saveg_write32(str->dx);
     saveg_write32(str->dy);
@@ -948,7 +948,7 @@ static void saveg_read_pusher_t(pusher_t *str)
     str->affectee = saveg_read32();
 }
 
-static void saveg_write_pusher_t(pusher_t *str)
+static void saveg_write_pusher_t(const pusher_t *str)
 {
     saveg_write_enum(str->type);
     saveg_write32(str->x_mag);
@@ -970,7 +970,7 @@ static void saveg_read_button_t(button_t *str)
     str->btimer = saveg_read32();
 }
 
-static void saveg_write_button_t(button_t *str)
+static void saveg_write_button_t(const button_t *str)
 {
     saveg_write32(str->line ? str->line->id : -1);
     saveg_write_enum(str->bwhere);
@@ -981,7 +981,7 @@ static void saveg_write_button_t(button_t *str)
 //
 // Write the header for a savegame
 //
-void P_WriteSaveGameHeader(char *description)
+void P_WriteSaveGameHeader(const char *description)
 {
     char    name[VERSIONSIZE];
     int     i;

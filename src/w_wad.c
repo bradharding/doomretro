@@ -238,7 +238,7 @@ static int LevenshteinDistance(char *string1, char *string2)
     return result;
 }
 
-char *W_GuessFilename(char *path, char *string)
+char *W_GuessFilename(char *path, const char *string)
 {
     WIN32_FIND_DATA FindFileData;
     char            *file = M_StringJoin(path, DIR_SEPARATOR_S "*.wad", NULL);
@@ -655,7 +655,7 @@ gamemission_t IWADRequiredByPWAD(char *pwadname)
 
             if (result == doom2)
             {
-                char    *leaf = leafname(pwadname);
+                const char  *leaf = leafname(pwadname);
 
                 if (M_StringCompare(leaf, "pl2.wad")
                     || M_StringCompare(leaf, "plut3.wad"))

@@ -759,7 +759,7 @@ static void R_ProjectSprite(mobj_t *thing)
     // killough 04/11/98: improve sprite clipping for underwater/fake ceilings
     if ((heightsec = thing->subsector->sector->heightsec))
     {
-        sector_t    *phs = viewplayer->mo->subsector->sector->heightsec;
+        const sector_t  *phs = viewplayer->mo->subsector->sector->heightsec;
 
         if (phs)
         {
@@ -1012,7 +1012,7 @@ void R_AddSprites(sector_t *sec, int lightlevel)
 //
 static bool muzzleflash;
 
-static void R_DrawPlayerSprite(pspdef_t *psp, bool invisibility, bool altered)
+static void R_DrawPlayerSprite(const pspdef_t *psp, bool invisibility, bool altered)
 {
     fixed_t             tx;
     int                 x1, x2;
@@ -1163,12 +1163,12 @@ static void R_DrawPlayerSprite(pspdef_t *psp, bool invisibility, bool altered)
 //
 static void R_DrawPlayerSprites(void)
 {
-    const int   invisibility = viewplayer->powers[pw_invisibility];
-    const bool  altered = (weaponinfo[viewplayer->readyweapon].altered || !r_fixspriteoffsets);
-    pspdef_t    *weapon = viewplayer->psprites;
-    pspdef_t    *flash = weapon + 1;
-    state_t     *weaponstate = weapon->state;
-    state_t     *flashstate = flash->state;
+    const int       invisibility = viewplayer->powers[pw_invisibility];
+    const bool      altered = (weaponinfo[viewplayer->readyweapon].altered || !r_fixspriteoffsets);
+    pspdef_t        *weapon = viewplayer->psprites;
+    pspdef_t        *flash = weapon + 1;
+    const state_t   *weaponstate = weapon->state;
+    const state_t   *flashstate = flash->state;
 
     if (!weaponstate)
         return;
@@ -1387,9 +1387,9 @@ static void R_DrawSprite(const vissprite_t *spr)
     // killough 11/98: fix disappearing sprites
     if (spr->heightsec) // only things in specially marked sectors
     {
-        fixed_t     h;
-        fixed_t     mh = spr->heightsec->interpfloorheight;
-        sector_t    *phs = viewplayer->mo->subsector->sector->heightsec;
+        fixed_t         h;
+        fixed_t         mh = spr->heightsec->interpfloorheight;
+        const sector_t  *phs = viewplayer->mo->subsector->sector->heightsec;
 
         if (mh > spr->gz && (h = centeryfrac - FixedMul((mh -= viewz), scale)) >= 0 && (h >>= FRACBITS) < viewheight)
         {
@@ -1491,7 +1491,7 @@ void R_DrawMasked(void)
     // draw all other vissprites back to front
     for (int i = num_vissprite - 1; i >= 0; i--)
     {
-        vissprite_t *spr = vissprite_ptrs[i];
+        const vissprite_t   *spr = vissprite_ptrs[i];
 
         if (spr->x2 < centerx)
         {

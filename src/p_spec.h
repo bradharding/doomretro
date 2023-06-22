@@ -72,14 +72,14 @@ void P_SetLifts(void);
 // every tic
 void P_UpdateSpecials(void);
 
-bool P_SectorActive(special_e t, sector_t *sec);
+bool P_SectorActive(const special_e t, const sector_t *sec);
 
-bool P_CheckTag(line_t *line);
+bool P_CheckTag(const line_t *line);
 
 // when needed
 bool P_UseSpecialLine(mobj_t *thing, line_t *line, int side);
 
-void P_ShootSpecialLine(mobj_t *thing, line_t *line);
+void P_ShootSpecialLine(const mobj_t *thing, line_t *line);
 
 void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing);
 
@@ -119,7 +119,7 @@ void P_InitTagLists(void);
 
 int P_FindMinSurroundingLight(sector_t *sec, int min);
 
-bool P_CanUnlockGenDoor(line_t *line);
+bool P_CanUnlockGenDoor(const line_t *line);
 
 sector_t *getNextSector(line_t *line, const sector_t *sec);
 
@@ -128,7 +128,7 @@ bool P_ProcessNoTagLines(const line_t *line, sector_t **sec, int *secnum);
 //
 // SPECIAL
 //
-bool EV_DoDonut(line_t *line);
+bool EV_DoDonut(const line_t *line);
 
 //
 // P_LIGHTS.C
@@ -185,12 +185,12 @@ void T_StrobeFlash(strobe_t *strobe);
 
 void P_SpawnStrobeFlash(sector_t *sector, int fastorslow, bool insync);
 
-bool EV_StartLightStrobing(line_t *line);
-bool EV_TurnTagLightsOff(line_t *line);
+bool EV_StartLightStrobing(const line_t *line);
+bool EV_TurnTagLightsOff(const line_t *line);
 
-bool EV_LightTurnOn(line_t *line, int bright);
+bool EV_LightTurnOn(const line_t *line, int bright);
 
-void EV_LightTurnOnPartway(line_t *line, fixed_t level);        // killough 10/10/98
+void EV_LightTurnOnPartway(const line_t *line, fixed_t level);        // killough 10/10/98
 void EV_LightByAdjacentSectors(sector_t *sector, fixed_t level);
 
 void T_Glow(glow_t *glow);
@@ -315,7 +315,7 @@ bool EV_DoPlat(line_t *line, plattype_e type, int amount);
 void P_AddActivePlat(plat_t *plat);
 void P_RemoveActivePlat(plat_t *plat);
 void P_RemoveAllActivePlats(void);
-bool EV_StopPlat(line_t *line);
+bool EV_StopPlat(const line_t *line);
 void P_ActivateInStasis(int tag);
 
 //
@@ -449,8 +449,8 @@ void T_MoveCeiling(ceiling_t *ceiling);
 void P_AddActiveCeiling(ceiling_t *ceiling);
 void P_RemoveActiveCeiling(ceiling_t *ceiling);
 void P_RemoveAllActiveCeilings(void);
-bool EV_CeilingCrushStop(line_t *line);
-bool P_ActivateInStasisCeiling(line_t *line);
+bool EV_CeilingCrushStop(const line_t *line);
+bool P_ActivateInStasisCeiling(const line_t *line);
 
 //
 // P_FLOOR.C

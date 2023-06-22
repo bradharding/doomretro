@@ -73,7 +73,7 @@ char *P_SaveGameFile(int slot);
 
 // Savegame file header read/write functions
 bool P_ReadSaveGameHeader(char *description);
-void P_WriteSaveGameHeader(char *description);
+void P_WriteSaveGameHeader(const char *description);
 
 // Savegame end-of-file read/write functions
 bool P_ReadSaveGameEOF(void);

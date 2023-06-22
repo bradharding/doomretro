@@ -328,7 +328,7 @@ void I_UpdateSoundParms(const int channel, const int vol, const int sep)
 // As our sound handling does not handle priority, it is ignored.
 // Pitching (that is, increased speed of playback) is set, but currently not used by mixing.
 //
-int I_StartSound(sfxinfo_t *sfxinfo, const int channel, const int vol, const int sep, const int pitch)
+int I_StartSound(const sfxinfo_t *sfxinfo, const int channel, const int vol, const int sep, const int pitch)
 {
     allocated_sound_t   *snd;
 

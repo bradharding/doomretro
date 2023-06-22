@@ -645,7 +645,7 @@ static int  dehfilecount;
 
 bool        dehfileignored = false;
 
-static bool DehFileProcessed(char *path)
+static bool DehFileProcessed(const char *path)
 {
     for (int i = 0; i < dehfilecount; i++)
         if (M_StringCompare(path, dehfiles[i]))
@@ -654,7 +654,7 @@ static bool DehFileProcessed(char *path)
     return false;
 }
 
-static char *FindDehPath(char *path, char *ext, char *pattern)
+static char *FindDehPath(char *path, const char *ext, char *pattern)
 {
     // Returns a malloc'd path to the .deh file that matches a WAD path.
     // Or NULL if no matching .deh file can be found.
@@ -734,13 +734,13 @@ static loaddehlast_t loaddehlast[] =
 
 static void LoadDehFile(char *path)
 {
-    int     i = 0;
-    char    *dehpath;
-    char    *temp = leafname(path);
+    int         i = 0;
+    char        *dehpath;
+    const char  *file = leafname(path);
 
     while (*loaddehlast[i].filename)
     {
-        if (M_StringEndsWith(temp, loaddehlast[i].filename))
+        if (M_StringEndsWith(file, loaddehlast[i].filename))
         {
             loaddehlast[i].present = true;
             return;
@@ -808,7 +808,7 @@ static void LoadCfgFile(char *path)
 
 static bool D_IsDOOM1IWAD(char *filename)
 {
-    char    *file = leafname(filename);
+    const char  *file = leafname(filename);
 
     return (M_StringCompare(file, "DOOM.WAD")
         || M_StringCompare(file, "DOOM1.WAD")
@@ -821,7 +821,7 @@ static bool D_IsDOOM1IWAD(char *filename)
 
 static bool D_IsDOOM2IWAD(char *filename)
 {
-    char    *file = leafname(filename);
+    const char  *file = leafname(filename);
 
     return (M_StringCompare(file, "DOOM2.WAD")
         || M_StringCompare(file, "DOOM2F.WAD")
@@ -833,7 +833,7 @@ static bool D_IsDOOM2IWAD(char *filename)
 
 bool D_IsDOOMIWAD(char *filename)
 {
-    char    *file = leafname(filename);
+    const char  *file = leafname(filename);
 
     return (D_IsDOOM1IWAD(filename)
         || D_IsDOOM2IWAD(filename)
@@ -877,19 +877,19 @@ static bool D_IsUnsupportedIWAD(char *filename)
     return false;
 }
 
-static bool D_IsCfgFile(char *filename)
+static bool D_IsCfgFile(const char *filename)
 {
     return M_StringEndsWith(filename, ".cfg");
 }
 
-static bool D_IsDehFile(char *filename)
+static bool D_IsDehFile(const char *filename)
 {
     return (M_StringEndsWith(filename, ".deh") || M_StringEndsWith(filename, ".bex"));
 }
 
 static void D_CheckSupportedPWAD(char *filename)
 {
-    char    *leaf = leafname(filename);
+    const char  *leaf = leafname(filename);
 
     if (M_StringCompare(leaf, "SIGIL_v1_21.wad")
         || M_StringCompare(leaf, "SIGIL_v1_2.wad")

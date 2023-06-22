@@ -156,7 +156,7 @@ static bool WriteTime(unsigned int time, MEMFILE *midioutput)
 // Write the end of track marker
 static bool WriteEndTrack(MEMFILE *midioutput)
 {
-    byte    endtrack[] = { 0xFF, 0x2F, 0x00 };
+    const byte  endtrack[] = { 0xFF, 0x2F, 0x00 };
 
     if (WriteTime(queuedtime, midioutput))
         return true;

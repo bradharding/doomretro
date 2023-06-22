@@ -75,7 +75,7 @@ static void R_ClipWallSegment(int first, int last, bool solid)
     while (first < last)
         if (solidcol[first])
         {
-            byte    *p = memchr(solidcol + first, 0, (size_t)last - first);
+            const byte  *p = memchr(solidcol + first, 0, (size_t)last - first);
 
             if (!p)
                 return;
@@ -84,8 +84,8 @@ static void R_ClipWallSegment(int first, int last, bool solid)
         }
         else
         {
-            byte    *p = memchr(solidcol + first, 1, (size_t)last - first);
-            int     to = (p ? (int)(p - solidcol) : last);
+            const byte  *p = memchr(solidcol + first, 1, (size_t)last - first);
+            const int   to = (p ? (int)(p - solidcol) : last);
 
             R_StoreWallRange(first, to - 1);
 
@@ -250,8 +250,8 @@ sector_t *R_FakeFlat(sector_t *sec, sector_t *tempsec, int *floorlightlevel, int
 
     if (s)
     {
-        sector_t    *heightsec = viewplayer->mo->subsector->sector->heightsec;
-        bool        underwater = (heightsec && viewz <= heightsec->interpfloorheight);
+        const sector_t  *heightsec = viewplayer->mo->subsector->sector->heightsec;
+        const bool      underwater = (heightsec && viewz <= heightsec->interpfloorheight);
 
         // Replace sector being drawn, with a copy to be hacked
         *tempsec = *sec;

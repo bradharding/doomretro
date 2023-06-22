@@ -2978,7 +2978,7 @@ static void help_cmd_func2(char *cmd, char *parms)
 //
 // if CCMD
 //
-static bool match(bool value, char *toggle)
+static bool match(bool value, const char *toggle)
 {
     return ((value && M_StringCompare(toggle, "on")) || (!value && M_StringCompare(toggle, "off")));
 }
@@ -3105,14 +3105,14 @@ static bool kill_cmd_func1(char *cmd, char *parms)
     else
     {
         for (int i = 0, num = -1; i < NUMMOBJTYPES; i++)
-            if (*mobjinfo[i].name1)
+            if (mobjinfo[i].name1)
             {
-                char    *temp1 = (*mobjinfo[i].name1 ? removenonalpha(mobjinfo[i].name1) : NULL);
-                char    *temp2 = (*mobjinfo[i].plural1 ? removenonalpha(mobjinfo[i].plural1) : NULL);
-                char    *temp3 = (*mobjinfo[i].name2 ? removenonalpha(mobjinfo[i].name2) : NULL);
-                char    *temp4 = (*mobjinfo[i].plural2 ? removenonalpha(mobjinfo[i].plural2) : NULL);
-                char    *temp5 = (*mobjinfo[i].name3 ? removenonalpha(mobjinfo[i].name3) : NULL);
-                char    *temp6 = (*mobjinfo[i].plural3 ? removenonalpha(mobjinfo[i].plural3) : NULL);
+                char    *temp1 = removenonalpha(mobjinfo[i].name1);
+                char    *temp2 = (mobjinfo[i].plural1 ? removenonalpha(mobjinfo[i].plural1) : NULL);
+                char    *temp3 = (mobjinfo[i].name2 ? removenonalpha(mobjinfo[i].name2) : NULL);
+                char    *temp4 = (mobjinfo[i].plural2 ? removenonalpha(mobjinfo[i].plural2) : NULL);
+                char    *temp5 = (mobjinfo[i].name3 ? removenonalpha(mobjinfo[i].name3) : NULL);
+                char    *temp6 = (mobjinfo[i].plural3 ? removenonalpha(mobjinfo[i].plural3) : NULL);
 
                 if (M_StringStartsWith(parm, "all"))
                     M_StringReplaceAll(parm, "all", "", false);
@@ -3120,12 +3120,12 @@ static bool kill_cmd_func1(char *cmd, char *parms)
                 killcmdtype = mobjinfo[i].doomednum;
 
                 if (killcmdtype >= 0
-                    && ((*mobjinfo[i].name1 && M_StringCompare(parm, temp1))
-                        || (*mobjinfo[i].plural1 && M_StringCompare(parm, temp2))
-                        || (*mobjinfo[i].name2 && M_StringCompare(parm, temp3))
-                        || (*mobjinfo[i].plural2 && M_StringCompare(parm, temp4))
-                        || (*mobjinfo[i].name3 && M_StringCompare(parm, temp5))
-                        || (*mobjinfo[i].plural3 && M_StringCompare(parm, temp6))
+                    && (M_StringCompare(parm, temp1)
+                        || (mobjinfo[i].plural1 && M_StringCompare(parm, temp2))
+                        || (mobjinfo[i].name2 && M_StringCompare(parm, temp3))
+                        || (mobjinfo[i].plural2 && M_StringCompare(parm, temp4))
+                        || (mobjinfo[i].name3 && M_StringCompare(parm, temp5))
+                        || (mobjinfo[i].plural3 && M_StringCompare(parm, temp6))
                         || (sscanf(parm, "%10i", &num) == 1 && num == killcmdtype && num != -1)))
                 {
                     if (killcmdtype == WolfensteinSS && !allowwolfensteinss)
@@ -4174,7 +4174,7 @@ static void map_cmd_func2(char *cmd, char *parms)
 //
 static void removemapnum(char *title)
 {
-    char    *pos = strchr(title, ':');
+    const char  *pos = strchr(title, ':');
 
     if (pos)
     {
@@ -6891,14 +6891,14 @@ static bool resurrect_cmd_func1(char *cmd, char *parms)
     else
     {
         for (int i = 0, num = -1; i < NUMMOBJTYPES; i++)
-            if (*mobjinfo[i].name1)
+            if (mobjinfo[i].name1)
             {
-                char    *temp1 = (*mobjinfo[i].name1 ? removenonalpha(mobjinfo[i].name1) : NULL);
-                char    *temp2 = (*mobjinfo[i].plural1 ? removenonalpha(mobjinfo[i].plural1) : NULL);
-                char    *temp3 = (*mobjinfo[i].name2 ? removenonalpha(mobjinfo[i].name2) : NULL);
-                char    *temp4 = (*mobjinfo[i].plural2 ? removenonalpha(mobjinfo[i].plural2) : NULL);
-                char    *temp5 = (*mobjinfo[i].name3 ? removenonalpha(mobjinfo[i].name3) : NULL);
-                char    *temp6 = (*mobjinfo[i].plural3 ? removenonalpha(mobjinfo[i].plural3) : NULL);
+                char    *temp1 = removenonalpha(mobjinfo[i].name1);
+                char    *temp2 = (mobjinfo[i].plural1 ? removenonalpha(mobjinfo[i].plural1) : NULL);
+                char    *temp3 = (mobjinfo[i].name2 ? removenonalpha(mobjinfo[i].name2) : NULL);
+                char    *temp4 = (mobjinfo[i].plural2 ? removenonalpha(mobjinfo[i].plural2) : NULL);
+                char    *temp5 = (mobjinfo[i].name3 ? removenonalpha(mobjinfo[i].name3) : NULL);
+                char    *temp6 = (mobjinfo[i].plural3 ? removenonalpha(mobjinfo[i].plural3) : NULL);
 
                 if (M_StringStartsWith(parm, "all"))
                     M_StringReplaceAll(parm, "all", "", false);
@@ -6906,12 +6906,12 @@ static bool resurrect_cmd_func1(char *cmd, char *parms)
                 resurrectcmdtype = mobjinfo[i].doomednum;
 
                 if (resurrectcmdtype >= 0
-                    && ((*mobjinfo[i].name1 && M_StringCompare(parm, temp1))
-                        || (*mobjinfo[i].plural1 && M_StringCompare(parm, temp2))
-                        || (*mobjinfo[i].name2 && M_StringCompare(parm, temp3))
-                        || (*mobjinfo[i].plural2 && M_StringCompare(parm, temp4))
-                        || (*mobjinfo[i].name3 && M_StringCompare(parm, temp5))
-                        || (*mobjinfo[i].plural3 && M_StringCompare(parm, temp6))
+                    && (M_StringCompare(parm, temp1)
+                        || (mobjinfo[i].plural1 && M_StringCompare(parm, temp2))
+                        || (mobjinfo[i].name2 && M_StringCompare(parm, temp3))
+                        || (mobjinfo[i].plural2 && M_StringCompare(parm, temp4))
+                        || (mobjinfo[i].name3 && M_StringCompare(parm, temp5))
+                        || (mobjinfo[i].plural3 && M_StringCompare(parm, temp6))
                         || (sscanf(parm, "%10i", &num) == 1 && num == resurrectcmdtype && num != -1)))
                 {
                     if (resurrectcmdtype == WolfensteinSS && !allowwolfensteinss)
@@ -9656,7 +9656,7 @@ static void r_randomstartframes_cvar_func2(char *cmd, char *parms)
                 for (int i = 0; i < numsectors; i++)
                     for (mobj_t *thing = sectors[i].thinglist; thing; thing = thing->snext)
                     {
-                        mobjinfo_t  *info = thing->info;
+                        const mobjinfo_t    *info = thing->info;
 
                         if (info->frames > 1)
                         {
@@ -9673,7 +9673,7 @@ static void r_randomstartframes_cvar_func2(char *cmd, char *parms)
                 for (int i = 0; i < numsectors; i++)
                     for (mobj_t *thing = sectors[i].thinglist; thing; thing = thing->snext)
                     {
-                        mobjinfo_t  *info = thing->info;
+                        const mobjinfo_t    *info = thing->info;
 
                         if (info->frames > 1)
                             thing->state = &states[info->spawnstate];

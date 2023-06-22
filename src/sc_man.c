@@ -67,7 +67,7 @@ static void SC_ScriptError(void)
     free(temp);
 }
 
-void SC_Open(char *name)
+void SC_Open(const char *name)
 {
     static char StringBuffer[MAX_STRING_SIZE];
 
@@ -227,7 +227,7 @@ int SC_MatchString(char **strings)
     return -1;
 }
 
-bool SC_Compare(char *text)
+bool SC_Compare(const char *text)
 {
     return M_StringCompare(text, sc_String);
 }

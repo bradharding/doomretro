@@ -124,7 +124,7 @@ bool cht_CheckCheat(cheatseq_t *cht, unsigned char key)
     return false;
 }
 
-void cht_GetParam(cheatseq_t *cht, char *buffer)
+void cht_GetParam(const cheatseq_t *cht, char *buffer)
 {
     memcpy(buffer, cht->parameter_buf, cht->parameter_chars);
 }

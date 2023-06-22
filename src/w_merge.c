@@ -140,7 +140,7 @@ static void InitSpriteList(void)
     num_sprite_frames = 0;
 }
 
-static bool ValidSpriteLumpName(char *name)
+static bool ValidSpriteLumpName(const char *name)
 {
     if (name[0] == '\0' || name[1] == '\0' || name[2] == '\0' || name[3] == '\0')
         return false;

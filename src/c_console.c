@@ -1156,9 +1156,9 @@ static void C_DrawTimeStamp(int x, const int y, const char timestamp[9])
 
 void C_UpdateFPSOverlay(void)
 {
-    char    buffer[32];
-    char    *temp = commify(framespersecond);
-    byte    *tinttab = (r_hud_translucency ? (automapactive ? tinttab70 : tinttab50) : NULL);
+    char        buffer[32];
+    char        *temp = commify(framespersecond);
+    const byte  *tinttab = (r_hud_translucency ? (automapactive ? tinttab70 : tinttab50) : NULL);
 
     M_snprintf(buffer, sizeof(buffer), "%s FPS", temp);
 
@@ -1173,7 +1173,7 @@ void C_UpdateTimerOverlay(void)
 {
     static char buffer[10];
     static int  prevtime = -1;
-    byte        *tinttab = (r_hud_translucency ? (automapactive ? tinttab70 : tinttab50) : NULL);
+    const byte  *tinttab = (r_hud_translucency ? (automapactive ? tinttab70 : tinttab50) : NULL);
     int         y = OVERLAYTEXTY;
 
     if (vid_showfps && framespersecond)
@@ -1204,7 +1204,7 @@ void C_UpdatePlayerPositionOverlay(void)
     int         y = OVERLAYTEXTY;
     const int   color = (((viewplayer->fixedcolormap == INVERSECOLORMAP) != !r_textures) && !automapactive ?
                     nearestblack : (r_hud_translucency ? consoleoverlaycolor : nearestlightgray));
-    byte        *tinttab = (r_hud_translucency ? (automapactive ? tinttab70 : tinttab50) : NULL);
+    const byte  *tinttab = (r_hud_translucency ? (automapactive ? tinttab70 : tinttab50) : NULL);
     static char angle[32];
     static char coordinates[32];
 
@@ -1226,9 +1226,9 @@ void C_UpdatePlayerPositionOverlay(void)
     }
     else
     {
-        const int   an = (int)(viewangle * 90.0 / ANG90);
-        mobj_t      *mo = viewplayer->mo;
-        fixed_t     z = MAX(mo->floorz, mo->z);
+        const int       an = (int)(viewangle * 90.0 / ANG90);
+        const mobj_t    *mo = viewplayer->mo;
+        fixed_t         z = MAX(mo->floorz, mo->z);
 
         if ((mo->flags2 & MF2_FEETARECLIPPED) && r_liquid_lowerview)
             z -= FOOTCLIPSIZE;
@@ -1290,7 +1290,7 @@ void C_UpdatePlayerStatsOverlay(void)
 {
     const int   x = MAPWIDTH - MAPOVERLAYTEXTX + 1;
     int         y = MAPOVERLAYTEXTY;
-    byte        *tinttab = (r_hud_translucency ? tinttab70 : NULL);
+    const byte  *tinttab = (r_hud_translucency ? tinttab70 : NULL);
     static char time[10];
     static int  prevmaptime = -1;
     static int  width;
@@ -1497,7 +1497,7 @@ void C_Drawer(void)
 
             if ((yy += SCREENWIDTH) >= 0)
             {
-                byte    *tinttab = (!yy ? tinttab40 : tinttab50);
+                const byte  *tinttab = (!yy ? tinttab40 : tinttab50);
 
                 for (int xx = yy + CONSOLETEXTX; xx < yy + CONSOLETEXTPIXELWIDTH + CONSOLETEXTX; xx++)
                 {

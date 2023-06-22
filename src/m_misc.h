@@ -54,7 +54,7 @@ typedef enum
 void M_MakeDirectory(const char *path);
 bool M_FileExists(const char *filename);
 bool M_FolderExists(const char *folder);
-char *M_ExtractFolder(char *path);
+char *M_ExtractFolder(const char *path);
 
 #if !defined(_WIN32) && !defined(__APPLE__)
 char *M_FileCaseExists(const char *path);

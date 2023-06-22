@@ -423,7 +423,7 @@ static void ST_RefreshBackground(void)
 #endif
 }
 
-static void ST_PlayerCheated(char *cheat, char *output, bool warning)
+static void ST_PlayerCheated(const char *cheat, const char *output, const bool warning)
 {
     C_Cheat(cheat);
 
@@ -456,7 +456,7 @@ static int ST_CalcPainOffset(void)
 }
 
 // Respond to keyboard input events, intercept cheats.
-bool ST_Responder(event_t *ev)
+bool ST_Responder(const event_t *ev)
 {
     // if a user keypress...
     if (ev->type == ev_keydown || *consolecheat)

@@ -566,11 +566,11 @@ floater:
 //
 static void P_NightmareRespawn(mobj_t *mobj)
 {
-    fixed_t         x = mobj->spawnpoint.x << FRACBITS;
-    fixed_t         y = mobj->spawnpoint.y << FRACBITS;
-    const fixed_t   z = ((mobj->flags & MF_SPAWNCEILING) ? ONCEILINGZ : ONFLOORZ);
-    mobj_t          *mo;
-    mapthing_t      *mthing = &mobj->spawnpoint;
+    fixed_t             x = mobj->spawnpoint.x << FRACBITS;
+    fixed_t             y = mobj->spawnpoint.y << FRACBITS;
+    const fixed_t       z = ((mobj->flags & MF_SPAWNCEILING) ? ONCEILINGZ : ONFLOORZ);
+    mobj_t              *mo;
+    const mapthing_t    *mthing = &mobj->spawnpoint;
 
     // [BH] Fix <https://doomwiki.org/wiki/(0,0)_respawning_bug>.
     if (!x && !y)
@@ -632,10 +632,10 @@ static void P_NightmareRespawn(mobj_t *mobj)
 //
 void P_MobjThinker(mobj_t *mobj)
 {
-    const int   flags = mobj->flags;
-    int         flags2;
-    player_t    *player = mobj->player;
-    sector_t    *sector = mobj->subsector->sector;
+    const int       flags = mobj->flags;
+    int             flags2;
+    player_t        *player = mobj->player;
+    const sector_t  *sector = mobj->subsector->sector;
 
     // [AM] Handle interpolation unless we're an active player.
     if (mobj->interpolate == -1 || mobj->type == MT_FIRE)
@@ -674,7 +674,7 @@ void P_MobjThinker(mobj_t *mobj)
     {
         if ((flags2 & MF2_PASSMOBJ) && !infiniteheight && !compat_nopassover)
         {
-            mobj_t  *onmo = P_CheckOnMobj(mobj);
+            const mobj_t    *onmo = P_CheckOnMobj(mobj);
 
             if (!onmo)
             {
@@ -1622,7 +1622,7 @@ bool P_CheckMissileSpawn(mobj_t *th)
 //
 // P_SpawnMissile
 //
-mobj_t *P_SpawnMissile(mobj_t *source, mobj_t *dest, mobjtype_t type)
+mobj_t *P_SpawnMissile(mobj_t *source, const mobj_t *dest, mobjtype_t type)
 {
     fixed_t z = source->z + 32 * FRACUNIT;
     mobj_t  *th;
@@ -1739,7 +1739,7 @@ mobj_t *P_SpawnPlayerMissile(mobj_t *source, mobjtype_t type)
 // Returns true if 'source' needs to turn clockwise, or false if 'source' needs
 // to turn counter-clockwise. 'delta' is set to the amount 'source' needs to turn.
 //
-static bool P_FaceMobj(mobj_t *source, mobj_t *target, angle_t *delta)
+static bool P_FaceMobj(const mobj_t *source, const mobj_t *target, angle_t *delta)
 {
     angle_t         diff;
     const angle_t   angle1 = source->angle;

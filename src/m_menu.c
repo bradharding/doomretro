@@ -1189,7 +1189,7 @@ static void M_DoSave(int slot)
 //
 // User wants to save. Start string input for M_Responder
 //
-static char *RemoveMapNum(char *string)
+static char *RemoveMapNum(const char *string)
 {
     char    *newstr = M_StringDuplicate(string);
     char    *pos = strchr(newstr, ':');
@@ -2730,7 +2730,7 @@ bool M_Responder(event_t *ev)
                     }
                     else
                     {
-                        menuitem_t  *menuitem = &currentmenu->menuitems[itemon];
+                        const menuitem_t    *menuitem = &currentmenu->menuitems[itemon];
 
                         if (ev->data2 >= menuitem->x && ev->data2 < menuitem->x + menuitem->width
                             && ev->data3 >= menuitem->y && ev->data3 < menuitem->y + menuitem->height)
@@ -2796,7 +2796,7 @@ bool M_Responder(event_t *ev)
                 if ((ev->data2 || ev->data3) && mousewait < I_GetTime() && !messagetoprint && !savestringenter)
                     for (int i = 0; i < currentmenu->numitems; i++)
                     {
-                        menuitem_t  *menuitem = &currentmenu->menuitems[i];
+                        const menuitem_t    *menuitem = &currentmenu->menuitems[i];
 
                         if (ev->data2 >= menuitem->x && ev->data2 < menuitem->x + menuitem->width
                             && ev->data3 >= menuitem->y && ev->data3 < menuitem->y + menuitem->height)
@@ -4023,8 +4023,8 @@ void M_Drawer(void)
             {
                 if (currentmenu->menuitems[i].routine)
                 {
-                    char    *name = currentmenu->menuitems[i].name;
-                    char    **text = currentmenu->menuitems[i].text;
+                    const char  *name = currentmenu->menuitems[i].name;
+                    char        **text = currentmenu->menuitems[i].text;
 
                     if (M_StringCompare(name, "M_EPI5") && sigil)
                     {
@@ -4082,8 +4082,8 @@ void M_Drawer(void)
                             {
                                 if (M_MSGON)
                                 {
-                                    patch_t *on = W_CacheLumpName("M_MSGON");
-                                    patch_t *off = W_CacheLumpName("M_MSGOFF");
+                                    const patch_t   *on = W_CacheLumpName("M_MSGON");
+                                    const patch_t   *off = W_CacheLumpName("M_MSGOFF");
 
                                     width += SHORT(MAX(on->width, off->width));
                                 }
@@ -4094,8 +4094,8 @@ void M_Drawer(void)
                             {
                                 if (M_GDLOW)
                                 {
-                                    patch_t *high = W_CacheLumpName("M_GDHIGH");
-                                    patch_t *low = W_CacheLumpName("M_GDLOW");
+                                    const patch_t   *high = W_CacheLumpName("M_GDHIGH");
+                                    const patch_t   *low = W_CacheLumpName("M_GDLOW");
 
                                     width += SHORT(MAX(high->width, low->width));
                                 }
@@ -4124,8 +4124,8 @@ void M_Drawer(void)
                             {
                                 if (M_MSGON)
                                 {
-                                    patch_t *on = W_CacheLumpName("M_MSGON");
-                                    patch_t *off = W_CacheLumpName("M_MSGOFF");
+                                    const patch_t   *on = W_CacheLumpName("M_MSGON");
+                                    const patch_t   *off = W_CacheLumpName("M_MSGOFF");
 
                                     width += SHORT(MAX(on->width, off->width));
                                 }
@@ -4136,8 +4136,8 @@ void M_Drawer(void)
                             {
                                 if (M_GDLOW)
                                 {
-                                    patch_t *high = W_CacheLumpName("M_GDHIGH");
-                                    patch_t *low = W_CacheLumpName("M_GDLOW");
+                                    const patch_t   *high = W_CacheLumpName("M_GDHIGH");
+                                    const patch_t   *low = W_CacheLumpName("M_GDLOW");
 
                                     width += SHORT(MAX(high->width, low->width));
                                 }
@@ -4165,8 +4165,8 @@ void M_Drawer(void)
                             {
                                 if (M_MSGON)
                                 {
-                                    patch_t *on = W_CacheLumpName("M_MSGON");
-                                    patch_t *off = W_CacheLumpName("M_MSGOFF");
+                                    const patch_t   *on = W_CacheLumpName("M_MSGON");
+                                    const patch_t   *off = W_CacheLumpName("M_MSGOFF");
 
                                     width += SHORT(MAX(on->width, off->width));
                                 }
@@ -4177,8 +4177,8 @@ void M_Drawer(void)
                             {
                                 if (M_GDLOW)
                                 {
-                                    patch_t *high = W_CacheLumpName("M_GDHIGH");
-                                    patch_t *low = W_CacheLumpName("M_GDLOW");
+                                    const patch_t   *high = W_CacheLumpName("M_GDHIGH");
+                                    const patch_t   *low = W_CacheLumpName("M_GDLOW");
 
                                     width += SHORT(MAX(high->width, low->width));
                                 }

@@ -825,7 +825,7 @@ void M_SaveCVARs(void)
 }
 
 // Parses bool values in the configuration file
-static int ParseBoolParameter(char *cvar, char *value, int valuealiastype)
+static int ParseBoolParameter(const char *cvar, const char *value, const int valuealiastype)
 {
     int index;
     int defaultnumber;
@@ -844,7 +844,7 @@ static int ParseBoolParameter(char *cvar, char *value, int valuealiastype)
 }
 
 // Parses integer values in the configuration file
-static int ParseIntParameter(char *cvar, char *strparm, int valuealiastype)
+static int ParseIntParameter(const char *cvar, const char *strparm, const int valuealiastype)
 {
     int parm;
     int index;
@@ -873,7 +873,7 @@ static int ParseIntParameter(char *cvar, char *strparm, int valuealiastype)
 }
 
 // Parses float values in the configuration file
-static float ParseFloatParameter(char *cvar, char *strparm, int valuealiastype)
+static float ParseFloatParameter(const char *cvar, const char *strparm, const int valuealiastype)
 {
     float   parm;
     int     index;

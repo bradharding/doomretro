@@ -61,13 +61,13 @@ void G_DeferredLoadLevel(skill_t skill, int ep, int map);
 
 // Can be called by the startup code or M_Responder,
 // calls P_SetupLevel.
-void G_LoadGame(char *name);
+void G_LoadGame(const char *name);
 
 void G_DoLoadGame(void);
 void G_DoLoadLevel(void);
 
 // Called by M_Responder.
-void G_SaveGame(int slot, char *description, char *name);
+void G_SaveGame(const int slot, const char *description, const char *name);
 
 void G_ExitLevel(void);
 void G_SecretExitLevel(void);

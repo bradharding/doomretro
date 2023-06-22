@@ -57,7 +57,7 @@ bool I_InitSound(void);
 void I_ShutdownSound(void);
 bool CacheSFX(sfxinfo_t *sfxinfo);
 void I_UpdateSoundParms(const int channel, const int vol, const int sep);
-int I_StartSound(sfxinfo_t *sfxinfo, const int channel, const int vol, const int sep, const int pitch);
+int I_StartSound(const sfxinfo_t *sfxinfo, const int channel, const int vol, const int sep, const int pitch);
 void I_StopSound(const int channel);
 bool I_SoundIsPlaying(const int channel);
 
@@ -97,7 +97,7 @@ void S_Start(void);
 //
 void S_StartSound(mobj_t *mobj, sfxnum_t sfxnum);
 void S_StartSectorSound(degenmobj_t *degenmobj, sfxnum_t sfxnum);
-void S_UnlinkSound(mobj_t *origin);
+void S_UnlinkSound(const mobj_t *origin);
 
 // Start music using <musicnum> from sounds.h
 void S_StartMusic(musicnum_t musicnum);

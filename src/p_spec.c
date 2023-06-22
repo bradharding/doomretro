@@ -151,7 +151,7 @@ static struct
     { "",         "",         0         }
 };
 
-static void SetTerrainType(anim_t *anim, terraintype_t terraintype)
+static void SetTerrainType(const anim_t *anim, const terraintype_t terraintype)
 {
     for (int i = anim->basepic; i < anim->basepic + anim->numpics; i++)
         terraintypes[i] = terraintype;
@@ -528,7 +528,7 @@ fixed_t P_FindLowestFloorSurrounding(sector_t *sec)
 
     for (int i = 0; i < linecount; i++)
     {
-        sector_t    *other = getNextSector(sec->lines[i], sec);
+        const sector_t  *other = getNextSector(sec->lines[i], sec);
 
         if (other && other->floorheight < floor)
             floor = other->floorheight;
@@ -548,7 +548,7 @@ fixed_t P_FindHighestFloorSurrounding(sector_t *sec)
 
     for (int i = 0; i < linecount; i++)
     {
-        sector_t    *other = getNextSector(sec->lines[i], sec);
+        const sector_t  *other = getNextSector(sec->lines[i], sec);
 
         if (other && other->floorheight > floor)
             floor = other->floorheight;
@@ -701,7 +701,7 @@ fixed_t P_FindLowestCeilingSurrounding(sector_t *sec)
 
     for (int i = 0; i < linecount; i++)
     {
-        sector_t    *other = getNextSector(sec->lines[i], sec);
+        const sector_t  *other = getNextSector(sec->lines[i], sec);
 
         if (other && other->ceilingheight < height)
             height = other->ceilingheight;
@@ -720,7 +720,7 @@ fixed_t P_FindHighestCeilingSurrounding(sector_t *sec)
 
     for (int i = 0; i < linecount; i++)
     {
-        sector_t    *other = getNextSector(sec->lines[i], sec);
+        const sector_t  *other = getNextSector(sec->lines[i], sec);
 
         if (other && other->ceilingheight > height)
             height = other->ceilingheight;
@@ -919,7 +919,7 @@ int P_FindMinSurroundingLight(sector_t *sec, int min)
 
     for (int i = 0; i < linecount; i++)
     {
-        sector_t    *check = getNextSector(sec->lines[i], sec);
+        const sector_t  *check = getNextSector(sec->lines[i], sec);
 
         if (check && check->lightlevel < min)
             min = check->lightlevel;
@@ -941,7 +941,7 @@ int P_FindMinSurroundingLight(sector_t *sec, int min)
 //  generalized locked doors
 //
 // killough 11/98: reformatted
-bool P_CanUnlockGenDoor(line_t *line)
+bool P_CanUnlockGenDoor(const line_t *line)
 {
     static char buffer[1024];
 
@@ -1184,7 +1184,7 @@ bool P_CanUnlockGenDoor(line_t *line)
 //  succeeding in starting multiple specials on one sector
 //
 // killough 11/98: reformatted
-bool P_SectorActive(special_e t, sector_t *sec)
+bool P_SectorActive(const special_e t, const sector_t *sec)
 {
     return (t == floor_special ? !!sec->floordata :     // return whether
         (t == ceiling_special ? !!sec->ceilingdata :    // thinker of same
@@ -1202,7 +1202,7 @@ bool P_SectorActive(special_e t, sector_t *sec)
 //
 // jff 2/27/98 Added to check for zero tag allowed for regular special types
 //
-bool P_CheckTag(line_t *line)
+bool P_CheckTag(const line_t *line)
 {
     // tag not zero, allowed
     if (line->tag)
@@ -2059,7 +2059,7 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
 // P_ShootSpecialLine - IMPACT SPECIALS
 // Called when a thing shoots a special line.
 //
-void P_ShootSpecialLine(mobj_t *thing, line_t *line)
+void P_ShootSpecialLine(const mobj_t *thing, line_t *line)
 {
     // jff 02/04/98 add check here for generalized linedef
     // pointer to line function is NULL by default, set non-null if
@@ -2385,13 +2385,13 @@ void P_UpdateSpecials(void)
     for (int i = 0; i < maxbuttons; i++)
         if (buttonlist[i].btimer && !--buttonlist[i].btimer)
         {
-            line_t      *line = buttonlist[i].line;
-            sector_t    *sector = line->backsector;
-            const int   sidenum = line->sidenum[0];
-            const short toptexture = sides[sidenum].toptexture;
-            const short midtexture = sides[sidenum].midtexture;
-            const short bottomtexture = sides[sidenum].bottomtexture;
-            const int   btexture = buttonlist[i].btexture;
+            line_t          *line = buttonlist[i].line;
+            const sector_t  *sector = line->backsector;
+            const int       sidenum = line->sidenum[0];
+            const short     toptexture = sides[sidenum].toptexture;
+            const short     midtexture = sides[sidenum].midtexture;
+            const short     bottomtexture = sides[sidenum].bottomtexture;
+            const int       btexture = buttonlist[i].btexture;
 
             switch (buttonlist[i].bwhere)
             {
@@ -2440,7 +2440,7 @@ void P_UpdateSpecials(void)
 //
 // Special stuff that cannot be categorized
 //
-bool EV_DoDonut(line_t *line)
+bool EV_DoDonut(const line_t *line)
 {
     int     secnum = -1;
     bool    rtn = false;
@@ -2462,8 +2462,8 @@ bool EV_DoDonut(line_t *line)
 
         for (int i = 0; i < s2->linecount; i++)
         {
-            sector_t    *s3 = s2->lines[i]->backsector;
-            floormove_t *floor;
+            const sector_t  *s3 = s2->lines[i]->backsector;
+            floormove_t     *floor;
 
             if (!s3 || s3 == s1)
                 continue;

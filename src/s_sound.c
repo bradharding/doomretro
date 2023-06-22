@@ -348,7 +348,7 @@ void S_Start(void)
 // the corresponding map object has already disappeared.
 // Thanks to jeff-d and kb1 for discussing this feature and the former for the
 // original implementation idea: <https://www.doomworld.com/forum/post/1585325>
-void S_UnlinkSound(mobj_t *origin)
+void S_UnlinkSound(const mobj_t *origin)
 {
     if (!origin->madesound || nosfx)
         return;
@@ -412,12 +412,12 @@ static int S_GetChannel(mobj_t *origin, sfxinfo_t *sfxinfo)
 // Changes volume and stereo-separation variables from the norm of a sound
 // effect to be played. If the sound is not audible, returns false. Otherwise,
 // modifies parameters and returns true.
-static bool S_AdjustSoundParms(mobj_t *origin, int *vol, int *sep)
+static bool S_AdjustSoundParms(const mobj_t *origin, int *vol, int *sep)
 {
-    fixed_t dist = 0;
-    mobj_t  *listener = viewplayer->mo;
-    fixed_t x = origin->x;
-    fixed_t y = origin->y;
+    fixed_t         dist = 0;
+    const mobj_t    *listener = viewplayer->mo;
+    const fixed_t   x = origin->x;
+    const fixed_t   y = origin->y;
 
     // calculate the distance to sound origin and clip it if necessary
     // killough 11/98: scale coordinates down before calculations start
@@ -543,9 +543,9 @@ void S_UpdateSounds(void)
             // check non-local sounds for distance clipping or modify their parms
             if (origin && origin != viewplayer->mo)
             {
-                int         sep = NORM_SEP;
-                int         volume = snd_sfxvolume;
-                sfxinfo_t   *sfx = c->sfxinfo;
+                int             sep = NORM_SEP;
+                int             volume = snd_sfxvolume;
+                const sfxinfo_t *sfx = c->sfxinfo;
 
                 if (!sfx)
                     continue;

@@ -195,8 +195,8 @@ void P_CalcHeight(void)
 //
 static bool P_CheckForSteps(const fixed_t width)
 {
-    sector_t    *sector1 = R_PointInSubsector(viewx + width * viewcos, viewy + width * viewsin)->sector;
-    sector_t    *sector2 = R_PointInSubsector(viewx + width * 2 * viewcos, viewy + width * 2 * viewsin)->sector;
+    const sector_t  *sector1 = R_PointInSubsector(viewx + width * viewcos, viewy + width * viewsin)->sector;
+    const sector_t  *sector2 = R_PointInSubsector(viewx + width * 2 * viewcos, viewy + width * 2 * viewsin)->sector;
 
     if (sector1->terraintype == sector2->terraintype)
     {
@@ -227,7 +227,7 @@ static bool P_CheckForSteps(const fixed_t width)
 void P_MovePlayer(void)
 {
     mobj_t              *mo = viewplayer->mo;
-    ticcmd_t            *cmd = &viewplayer->cmd;
+    const ticcmd_t      *cmd = &viewplayer->cmd;
     const signed char   forward = cmd->forwardmove;
     const signed char   side = cmd->sidemove;
 
@@ -319,10 +319,10 @@ static void P_ReduceDamageCount(void)
 //
 static void P_DeathThink(void)
 {
-    static bool facingkiller;
-    static int  deathcount;
-    mobj_t      *mo = viewplayer->mo;
-    mobj_t      *attacker = viewplayer->attacker;
+    static bool     facingkiller;
+    static int      deathcount;
+    mobj_t          *mo = viewplayer->mo;
+    const mobj_t    *attacker = viewplayer->attacker;
 
     weaponrumbletics = 1;
     idlechainsawrumblestrength = 0;

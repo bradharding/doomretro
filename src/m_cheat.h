@@ -61,7 +61,7 @@ typedef struct
 
 bool cht_CheckCheat(cheatseq_t *cht, unsigned char key);
 
-void cht_GetParam(cheatseq_t *cht, char *buffer);
+void cht_GetParam(const cheatseq_t *cht, char *buffer);
 
 extern char         cheatkey;
 

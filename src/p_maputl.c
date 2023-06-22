@@ -96,7 +96,7 @@ int P_BoxOnLineSide(const fixed_t *tmbox, const line_t *ld)
 // P_PointOnDivlineSide
 // Returns 0 or 1
 //
-static int P_PointOnDivlineSide(fixed_t x, fixed_t y, divline_t *line)
+static int P_PointOnDivlineSide(fixed_t x, fixed_t y, const divline_t *line)
 {
     return (!line->dx ? (x <= line->x ? line->dy > 0 : line->dy < 0) :
         (!line->dy ? (y <= line->y ? line->dx < 0 : line->dx > 0) :
@@ -109,7 +109,7 @@ static int P_PointOnDivlineSide(fixed_t x, fixed_t y, divline_t *line)
 // Returns the fractional intercept point along the first divline.
 // This is only called by the addthings and addlines traversers.
 //
-fixed_t P_InterceptVector(divline_t *v2, divline_t *v1)
+fixed_t P_InterceptVector(const divline_t *v2, const divline_t *v1)
 {
     const int64_t   den = ((int64_t)v1->dy * v2->dx - (int64_t)v1->dx * v2->dy) >> FRACBITS;
 

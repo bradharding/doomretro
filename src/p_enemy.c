@@ -248,7 +248,7 @@ static bool P_CheckMissileRange(mobj_t *actor)
 // their current position. Returns 1 if the damage is moderate,
 // -1 if it is serious. Used for AI.
 //
-static int P_IsUnderDamage(mobj_t *actor)
+static int P_IsUnderDamage(const mobj_t *actor)
 {
     int direction = 0;
 
@@ -810,7 +810,7 @@ static void P_ShakeOnExplode(const mobj_t *actor)
 {
     if (r_shake_barrels && actor->type == MT_BARREL)
     {
-        mobj_t  *mo = viewplayer->mo;
+        const mobj_t    *mo = viewplayer->mo;
 
         if (mo->z <= mo->floorz && P_ApproxDistance(actor->x - mo->x, actor->y - mo->y) < BARRELRANGE)
         {
@@ -907,7 +907,7 @@ void A_Look(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_FaceTarget(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    mobj_t  *target = actor->target;
+    const mobj_t    *target = actor->target;
 
     if (!target)
         return;
@@ -926,8 +926,8 @@ void A_FaceTarget(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_Chase(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    mobj_t      *target = actor->target;
-    mobjinfo_t  *info = actor->info;
+    mobj_t              *target = actor->target;
+    const mobjinfo_t    *info = actor->info;
 
     if (actor->reactiontime)
         actor->reactiontime--;
@@ -1759,8 +1759,8 @@ void A_FatAttack3(mobj_t *actor, player_t *player, pspdef_t *psp)
 
 void A_SkullAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    angle_t an;
-    mobj_t  *dest = actor->target;
+    angle_t         an;
+    const mobj_t    *dest = actor->target;
 
     if (!dest)
         return;
@@ -2028,7 +2028,7 @@ void A_BossDeath(mobj_t *actor, player_t *player, pspdef_t *psp)
     // scan the remaining thinkers to see if all bosses are dead
     for (thinker_t *th = thinkers[th_mobj].cnext; th != &thinkers[th_mobj]; th = th->cnext)
     {
-        mobj_t  *mo = (mobj_t *)th;
+        const mobj_t    *mo = (mobj_t *)th;
 
         if (mo != actor && mo->type == actor->type && mo->health > 0)
             return;     // other boss not dead
@@ -2210,8 +2210,8 @@ void A_BrainSpit(mobj_t *actor, player_t *player, pspdef_t *psp)
 
 void A_SpawnFly(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    int     dist;
-    mobj_t  *target = actor->target;
+    int             dist;
+    const mobj_t    *target = actor->target;
 
     if (!target)
         return;
@@ -2314,7 +2314,7 @@ void A_KeenDie(mobj_t *actor, player_t *player, pspdef_t *psp)
     // scan the remaining thinkers to see if all Keens are dead
     for (thinker_t *th = thinkers[th_mobj].cnext; th != &thinkers[th_mobj]; th = th->cnext)
     {
-        mobj_t  *mo = (mobj_t *)th;
+        const mobj_t    *mo = (mobj_t *)th;
 
         if (mo != actor && mo->type == actor->type && mo->health > 0)
             return;         // other Keen not dead
@@ -2422,7 +2422,7 @@ void A_Scratch(mobj_t *actor, player_t *player, pspdef_t *psp)
 
     if (P_CheckMeleeRange(actor))
     {
-        state_t *state = actor->state;
+        const state_t   *state = actor->state;
 
         if (state->misc2)
             S_StartSound(actor, state->misc2);
@@ -2434,7 +2434,7 @@ void A_Scratch(mobj_t *actor, player_t *player, pspdef_t *psp)
 
 void A_PlaySound(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    state_t *state = actor->state;
+    const state_t   *state = actor->state;
 
     S_StartSound((state->misc2 ? NULL : actor), state->misc1);
 }
@@ -2444,14 +2444,14 @@ void A_RandomJump(mobj_t *actor, player_t *player, pspdef_t *psp)
     // [BH] allow A_RandomJump() to work for weapon states as well
     if (psp)
     {
-        state_t *state = psp->state;
+        const state_t   *state = psp->state;
 
         if (M_Random() < state->misc2)
             P_SetPlayerSprite(psp - &player->psprites[ps_weapon], state->misc1);
     }
     else
     {
-        state_t *state = actor->state;
+        const state_t   *state = actor->state;
 
         if (M_Random() < state->misc2)
             P_SetMobjState(actor, state->misc1);

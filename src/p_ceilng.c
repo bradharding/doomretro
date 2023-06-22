@@ -391,7 +391,7 @@ void P_RemoveAllActiveCeilings(void)
 // P_ActivateInStasisCeiling
 // Restart a ceiling that's in-stasis
 //
-bool P_ActivateInStasisCeiling(line_t *line)
+bool P_ActivateInStasisCeiling(const line_t *line)
 {
     bool    result = false;
 
@@ -414,7 +414,7 @@ bool P_ActivateInStasisCeiling(line_t *line)
 // EV_CeilingCrushStop
 // Stop a ceiling from crushing!
 //
-bool EV_CeilingCrushStop(line_t *line)
+bool EV_CeilingCrushStop(const line_t *line)
 {
     bool    result = false;
 

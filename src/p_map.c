@@ -425,7 +425,7 @@ static bool PIT_CheckLine(line_t *ld)
 }
 
 // MBF21: dehacked projectile groups
-static bool P_ProjectileImmune(mobj_t *target, mobj_t *source)
+static bool P_ProjectileImmune(const mobj_t *target, const mobj_t *source)
 {
     const int   projectilegroup = mobjinfo[target->type].projectilegroup;
 
@@ -684,7 +684,7 @@ static bool PIT_CheckThing(mobj_t *thing)
 // Then check the PE and LS to see if they're on different
 // sides of the blocking line. If so, return true, otherwise
 // false.
-bool P_CheckLineSide(mobj_t *actor, const fixed_t x, const fixed_t y)
+bool P_CheckLineSide(const mobj_t *actor, const fixed_t x, const fixed_t y)
 {
     int xl;
     int xh;
@@ -1001,7 +1001,7 @@ bool P_IsInLiquid(mobj_t *thing)
             }
             else
             {
-                sector_t    *sector = thing->subsector->sector;
+                const sector_t  *sector = thing->subsector->sector;
 
                 if (sector->terraintype < LIQUID)
                     return false;
@@ -1318,7 +1318,7 @@ static fixed_t  tmymove;
 // P_HitSlideLine
 // Adjusts the xmove/ymove so that the next move will slide along the wall.
 //
-static void P_HitSlideLine(line_t *ld)
+static void P_HitSlideLine(const line_t *ld)
 {
     angle_t     lineangle;
     angle_t     moveangle;
@@ -1888,7 +1888,7 @@ static bool PTR_UseTraverse(intercept_t *in)
 
     if (autousing)
     {
-        sector_t    *sector = line->backsector;
+        const sector_t  *sector = line->backsector;
 
         if (sector && sector->ceilingdata && sector->interpfloorheight != sector->interpceilingheight)
             return false;
@@ -1987,7 +1987,7 @@ static int      bombdistance;
 static bool     bombverticality;
 
 // MBF21: dehacked splash groups
-static bool P_SplashImmune(mobj_t *target, mobj_t *spot)
+static bool P_SplashImmune(const mobj_t *target, const mobj_t *spot)
 {
     // not default behavior and same group
     return (mobjinfo[target->type].splashgroup != SG_DEFAULT

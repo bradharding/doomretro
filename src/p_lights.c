@@ -179,7 +179,7 @@ void P_SpawnStrobeFlash(sector_t *sector, int fastorslow, bool insync)
 //
 // Start strobing lights (usually from a trigger)
 //
-bool EV_StartLightStrobing(line_t *line)
+bool EV_StartLightStrobing(const line_t *line)
 {
     int secnum = -1;
 
@@ -192,7 +192,7 @@ bool EV_StartLightStrobing(line_t *line)
 //
 // TURN LINE'S TAG LIGHTS OFF
 //
-bool EV_TurnTagLightsOff(line_t *line)
+bool EV_TurnTagLightsOff(const line_t *line)
 {
     // search sectors for those with same tag as activating line
     // killough 10/98: replaced inefficient search with fast search
@@ -204,7 +204,7 @@ bool EV_TurnTagLightsOff(line_t *line)
         // find min neighbor light level
         for (int j = 0; j < sector->linecount; j++)
         {
-            sector_t    *temp = getNextSector(sector->lines[j], sector);
+            const sector_t  *temp = getNextSector(sector->lines[j], sector);
 
             if (temp && temp->lightlevel < min)
                 min = temp->lightlevel;
@@ -219,7 +219,7 @@ bool EV_TurnTagLightsOff(line_t *line)
 //
 // TURN LINE'S TAG LIGHTS ON
 //
-bool EV_LightTurnOn(line_t *line, int bright)
+bool EV_LightTurnOn(const line_t *line, int bright)
 {
     // search all sectors for ones with same tag as activating line
     // killough 10/98: replace inefficient search with fast search
@@ -232,7 +232,7 @@ bool EV_LightTurnOn(line_t *line, int bright)
         if (!bright)
             for (int j = 0; j < sector->linecount; j++)
             {
-                sector_t    *temp = getNextSector(sector->lines[j], sector);
+                const sector_t  *temp = getNextSector(sector->lines[j], sector);
 
                 if (temp && temp->lightlevel > tbright)
                     tbright = temp->lightlevel;
@@ -300,7 +300,7 @@ void P_SpawnGlowingLight(sector_t *sector)
 // Sets the light to min on 0, max on 1, and interpolates in-between.
 // Used for doors with gradual lighting effects.
 //
-void EV_LightTurnOnPartway(line_t *line, fixed_t level)
+void EV_LightTurnOnPartway(const line_t *line, fixed_t level)
 {
     level = BETWEEN(0, level, FRACUNIT);        // clip at extremes
 
@@ -313,7 +313,7 @@ void EV_LightTurnOnPartway(line_t *line, fixed_t level)
 
         for (int j = 0; j < sector->linecount; j++)
         {
-            sector_t    *temp = getNextSector(sector->lines[j], sector);
+            const sector_t  *temp = getNextSector(sector->lines[j], sector);
 
             if (temp)
             {
@@ -343,7 +343,7 @@ void EV_LightByAdjacentSectors(sector_t *sector, fixed_t level)
 
     for (int i = 0; i < sector->linecount; i++)
     {
-        sector_t    *temp = getNextSector(sector->lines[i], sector);
+        const sector_t  *temp = getNextSector(sector->lines[i], sector);
 
         if (temp && temp->lightlevel < min)
             min = temp->lightlevel;

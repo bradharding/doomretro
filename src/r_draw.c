@@ -1102,15 +1102,15 @@ void R_DrawFuzzColumns(void)
     for (int y = viewwindowy * SCREENWIDTH; y < height; y += SCREENWIDTH * 2)
         for (int x = viewwindowx + y; x < width + y; x += 2)
         {
-            byte    *src = screens[1] + x;
+            const byte  *source = screens[1] + x;
 
-            if (*src != NOFUZZ)
+            if (*source != NOFUZZ)
             {
                 byte    *dest = screens[0] + x;
 
                 if (y == height - SCREENWIDTH * 2)
                     MAKEFUZZY(5, (fuzztable[fuzzpos++] = FUZZ(-1, 0)));
-                else if (y >= SCREENWIDTH * 2 && *(src - SCREENWIDTH * 2) == NOFUZZ)
+                else if (y >= SCREENWIDTH * 2 && *(source - SCREENWIDTH * 2) == NOFUZZ)
                     MAKEFUZZY(8, (fuzztable[fuzzpos++] = FUZZ(-1, 1)));
                 else
                     MAKEFUZZY(6, (fuzztable[fuzzpos++] = FUZZ(-1, 1)));
@@ -1126,15 +1126,15 @@ void R_DrawPausedFuzzColumns(void)
     for (int y = viewwindowy * SCREENWIDTH; y < height; y += SCREENWIDTH * 2)
         for (int x = viewwindowx + y; x < width + y; x += 2)
         {
-            byte    *src = screens[1] + x;
+            const byte  *source = screens[1] + x;
 
-            if (*src != NOFUZZ)
+            if (*source != NOFUZZ)
             {
                 byte    *dest = screens[0] + x;
 
                 if (y == height - SCREENWIDTH * 2)
                     MAKEFUZZY(5, fuzztable[fuzzpos++]);
-                else if (y >= SCREENWIDTH * 2 && *(src - SCREENWIDTH * 2) == NOFUZZ)
+                else if (y >= SCREENWIDTH * 2 && *(source - SCREENWIDTH * 2) == NOFUZZ)
                     MAKEFUZZY(8, fuzztable[fuzzpos++]);
                 else
                     MAKEFUZZY(6, fuzztable[fuzzpos++]);

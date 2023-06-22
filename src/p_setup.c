@@ -669,7 +669,7 @@ static const char *sectorspecials[] =
     "Light flickers (randomly)"
 };
 
-static fixed_t GetOffset(vertex_t *v1, vertex_t *v2)
+static fixed_t GetOffset(const vertex_t *v1, const vertex_t *v2)
 {
     const fixed_t   dx = (v1->x - v2->x) >> FRACBITS;
     const fixed_t   dy = (v1->y - v2->y) >> FRACBITS;
@@ -2203,8 +2203,8 @@ static void P_LoadSideDefs2(int lump)
 //
 static bool P_VerifyBlockMap(int count)
 {
-    bool    isvalid = true;
-    int     *maxoffs = blockmaplump + count;
+    bool        isvalid = true;
+    const int   *maxoffs = blockmaplump + count;
 
     skipblstart = true;
 
@@ -2212,9 +2212,9 @@ static bool P_VerifyBlockMap(int count)
     {
         for (int x = 0; x < bmapwidth; x++)
         {
-            int offset = y * bmapwidth + x;
-            int *list;
-            int *blockoffset = blockmaplump + offset + 4;
+            int         offset = y * bmapwidth + x;
+            int         *list;
+            const int   *blockoffset = blockmaplump + offset + 4;
 
             // check that block offset is in bounds
             if (blockoffset >= maxoffs)
@@ -2668,7 +2668,7 @@ static void P_GroupLines(void)
 
     for (i = 0, sector = sectors; i < numsectors; i++, sector++)
     {
-        fixed_t *bbox = (void *)sector->blockbox;
+        const fixed_t   *bbox = (void *)sector->blockbox;
 
         // e6y: fix sound origin for large levels
         sector->soundorg.x = bbox[BOXRIGHT] / 2 + bbox[BOXLEFT] / 2;
@@ -2811,8 +2811,8 @@ char    automaptitle[512];
 // Determine map name to use
 void P_MapName(int ep, int map)
 {
-    bool    mapnumonly = false;
-    char    *mapinfoname = trimwhitespace(P_GetMapName((ep - 1) * 10 + map));
+    bool        mapnumonly = false;
+    const char  *mapinfoname = trimwhitespace(P_GetMapName((ep - 1) * 10 + map));
 
     switch (gamemission)
     {
@@ -2919,7 +2919,7 @@ void P_MapName(int ep, int map)
 
     if (!mapnumonly)
     {
-        char    *pos = strchr(maptitle, ':');
+        const char  *pos = strchr(maptitle, ':');
 
         if (pos)
         {
@@ -3305,16 +3305,16 @@ static bool P_ParseMapInfo(char *scriptname)
 {
     int         mapmax = 1;
     int         mcmdvalue;
-    int         lump;
+    int         lumpnum;
     mapinfo_t   *info;
     char        *temp1;
     char        *temp2;
     char        *file;
 
-    if ((lump = W_CheckNumForName(scriptname)) < 0)
+    if ((lumpnum = W_CheckNumForName(scriptname)) < 0)
         return false;
 
-    file = leafname(lumpinfo[lump]->wadfile->path);
+    file = leafname(lumpinfo[lumpnum]->wadfile->path);
 
     if (M_StringCompare(file, "NERVE.wad")
         || M_StringCompare(file, "SIGIL_v1_21.wad")
@@ -3324,7 +3324,7 @@ static bool P_ParseMapInfo(char *scriptname)
         || M_StringCompare(file, "SIGIL.wad"))
         return false;
 
-    MAPINFO = lump;
+    MAPINFO = lumpnum;
 
     SC_Open(scriptname);
 

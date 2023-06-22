@@ -160,7 +160,7 @@ void P_SetBloodSplatColor(bloodsplat_t *splat);
 void P_SpawnBloodSplat(const fixed_t x, const fixed_t y, const int color,
     const bool usemaxheight, const fixed_t maxheight, mobj_t *target);
 bool P_CheckMissileSpawn(mobj_t *th);
-mobj_t *P_SpawnMissile(mobj_t *source, mobj_t *dest, mobjtype_t type);
+mobj_t *P_SpawnMissile(mobj_t *source, const mobj_t *dest, mobjtype_t type);
 mobj_t *P_SpawnPlayerMissile(mobj_t *source, mobjtype_t type);
 void P_ExplodeMissile(mobj_t *mo);
 bool P_SeekerMissile(mobj_t *actor, mobj_t **seektarget, angle_t thresh, angle_t turnmax, const bool seekcenter);
@@ -199,7 +199,7 @@ typedef bool (*traverser_t)(intercept_t *in);
 fixed_t P_ApproxDistance(fixed_t dx, fixed_t dy);
 int P_PointOnLineSide(const fixed_t x, const fixed_t y, const line_t *line);
 int P_BoxOnLineSide(const fixed_t *tmbox, const line_t *ld);
-fixed_t P_InterceptVector(divline_t *v2, divline_t *v1);
+fixed_t P_InterceptVector(const divline_t *v2, const divline_t *v1);
 
 // MAES: support 512x512 blockmaps.
 int P_GetSafeBlockX(int coord);
@@ -258,11 +258,11 @@ bool P_CheckPosition(mobj_t *thing, const fixed_t x, const fixed_t y);
 mobj_t *P_CheckOnMobj(mobj_t *thing);
 bool P_IsInLiquid(mobj_t *thing);
 bool P_TryMove(mobj_t *thing, const fixed_t x, const fixed_t y, const int dropoff);
-bool P_CheckLineSide(mobj_t *actor, const fixed_t x, const fixed_t y);
+bool P_CheckLineSide(const mobj_t *actor, const fixed_t x, const fixed_t y);
 bool P_TeleportMove(mobj_t *thing, const fixed_t x, const fixed_t y, const fixed_t z, const bool boss);
 void P_SlideMove(mobj_t *mo);
 bool P_CheckSight(mobj_t *t1, mobj_t *t2);
-bool P_CheckFOV(mobj_t *t1, mobj_t *t2, angle_t fov);
+bool P_CheckFOV(const mobj_t *t1, const mobj_t *t2, const angle_t fov);
 bool P_DoorClosed(line_t *line);
 void P_UseLines(void);
 
@@ -307,7 +307,7 @@ extern int          blockmapyneg;
 //
 #define MAXHEALTH   100
 
-bool P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, const bool message, const bool stat);
+bool P_TouchSpecialThing(mobj_t *special, const mobj_t *toucher, const bool message, const bool stat);
 bool P_TakeSpecialThing(const mobjtype_t type);
 
 void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage, const bool adjust, const bool telefragged);

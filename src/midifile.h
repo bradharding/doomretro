@@ -192,7 +192,7 @@ void MIDI_FreeFile(midi_file_t *file);
 unsigned int MIDI_GetFileTimeDivision(midi_file_t *file);
 
 // Get the number of tracks in a MIDI file.
-unsigned int MIDI_NumTracks(midi_file_t *file);
+unsigned int MIDI_NumTracks(const midi_file_t *file);
 
 // Get the number of events in a MIDI file.
 unsigned int MIDI_NumEvents(midi_file_t *file);

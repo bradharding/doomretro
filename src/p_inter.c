@@ -499,7 +499,7 @@ void P_LookForCards(void)
 
     for (thinker_t *th = thinkers[th_mobj].cnext; th != &thinkers[th_mobj]; th = th->cnext)
     {
-        mobj_t  *mo = (mobj_t *)th;
+        const mobj_t    *mo = (mobj_t *)th;
 
         for (int i = 0; i < NUMCARDS; i++)
             if (mo->sprite == cardsprites[i])
@@ -749,7 +749,7 @@ bool P_GivePower(const int power)
 //
 // P_TouchSpecialThing
 //
-bool P_TouchSpecialThing(mobj_t *special, mobj_t *toucher, const bool message, const bool stat)
+bool P_TouchSpecialThing(mobj_t *special, const mobj_t *toucher, const bool message, const bool stat)
 {
     fixed_t     delta;
     int         sound = sfx_itemup;
@@ -1951,7 +1951,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, c
     }
     else if (target->player && target->player->mo == target)
     {
-        sector_t    *sector = viewplayer->mo->subsector->sector;
+        const sector_t  *sector = viewplayer->mo->subsector->sector;
 
         if (sector->ceilingdata && sector->ceilingheight - sector->floorheight < VIEWHEIGHT)
         {
@@ -2004,7 +2004,7 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, const bool te
 {
     bool                gibbed;
     const mobjtype_t    type = target->type;
-    mobjinfo_t          *info = &mobjinfo[type];
+    const mobjinfo_t    *info = &mobjinfo[type];
     const int           gibhealth = info->gibhealth;
 
     target->flags &= ~(MF_SHOOTABLE | MF_FLOAT | MF_SKULLFLY);
@@ -2157,7 +2157,7 @@ void P_KillMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, const bool te
 }
 
 // MBF21: dehacked infighting groups
-static bool P_InfightingImmune(mobj_t *target, mobj_t *source)
+static bool P_InfightingImmune(const mobj_t *target, const mobj_t *source)
 {
     // not default behavior, and same group
     return (mobjinfo[target->type].infightinggroup != IG_DEFAULT
@@ -2395,8 +2395,8 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
         && source && source != target && !(source->mbf21flags & MF_MBF21_DMGIGNORED)
         && !P_InfightingImmune(target, source))
     {
-        state_t *state = target->state;
-        state_t *spawnstate = &states[info->spawnstate];
+        const state_t   *state = target->state;
+        const state_t   *spawnstate = &states[info->spawnstate];
 
         // if not intent on another player, chase after this one
         if (!target->lastenemy || target->lastenemy->health <= 0 || !target->lastenemy->player)
@@ -2420,7 +2420,7 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
 //
 void P_ResurrectMobj(mobj_t *target)
 {
-    mobjinfo_t          *info = target->info;
+    const mobjinfo_t    *info = target->info;
     const mobjtype_t    type = target->type;
 
     S_StartSound(target, sfx_slop);

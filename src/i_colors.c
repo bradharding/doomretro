@@ -294,8 +294,8 @@ static byte *GenerateAdditiveTintTable(byte *palette, int colors)
             if ((filter[foreground] & colors) || colors == ALL)
                 for (int background = 0; background < 256; background++)
                 {
-                    byte        *color1 = &palette[background * 3];
-                    byte        *color2 = &palette[foreground * 3];
+                    const byte  *color1 = &palette[background * 3];
+                    const byte  *color2 = &palette[foreground * 3];
                     const byte  r = MIN(color1[0] + color2[0], 255);
                     const byte  g = MIN(color1[1] + color2[1], 255);
                     const byte  b = MIN(color1[2] + color2[2], 255);

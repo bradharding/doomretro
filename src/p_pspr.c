@@ -219,8 +219,8 @@ void P_FireWeapon(void)
 
     if (centerweapon)
     {
-        pspdef_t    *psp = &viewplayer->psprites[ps_weapon];
-        state_t     *state = psp->state;
+        pspdef_t        *psp = &viewplayer->psprites[ps_weapon];
+        const state_t   *state = psp->state;
 
         if (!state->misc1)
             psp->sx = 0;

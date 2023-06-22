@@ -127,7 +127,7 @@ void R_PrecacheLevel(void);
 
 // Retrieval.
 // Floor/ceiling opaque texture tiles, lookup by name. For animation?
-int R_FlatNumForName(char *name);
+int R_FlatNumForName(const char *name);
 int R_CheckFlatNumForName(char *name);
 
 // Called by P_Ticker for switches and animations,

@@ -81,8 +81,8 @@ static int P_DivlineSide(const fixed_t x, const fixed_t y, const divline_t *node
 //
 static bool P_CrossSubsector(const int num)
 {
-    subsector_t *sub = subsectors + num;
-    seg_t       *seg = segs + sub->firstline;
+    const subsector_t   *sub = subsectors + num;
+    const seg_t         *seg = segs + sub->firstline;
 
     for (int count = sub->numlines; count; seg++, count--)
     {
@@ -284,7 +284,7 @@ bool P_CheckSight(mobj_t *t1, mobj_t *t2)
 //
 // Adapted from Eternity, so big thanks to Quasar
 //
-bool P_CheckFOV(mobj_t *t1, mobj_t *t2, angle_t fov)
+bool P_CheckFOV(const mobj_t *t1, const mobj_t *t2, const angle_t fov)
 {
     const angle_t   angle = R_PointToAngle2(t1->x, t1->y, t2->x, t2->y);
     const angle_t   minang = t1->angle - fov / 2;

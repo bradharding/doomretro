@@ -295,8 +295,8 @@ static void RemovePostFromColumn(rcolumn_t *column, int post)
     if (post < column->numposts)
         for (int i = post; i < column->numposts - 1; i++)
         {
-            rpost_t *post1 = &column->posts[i];
-            rpost_t *post2 = &column->posts[i + 1];
+            rpost_t         *post1 = &column->posts[i];
+            const rpost_t   *post2 = &column->posts[i + 1];
 
             post1->topdelta = post2->topdelta;
             post1->length = post2->length;

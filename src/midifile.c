@@ -43,7 +43,7 @@
 #include "midifile.h"
 
 // Check the header of a chunk
-static bool CheckChunkHeader(chunk_header_t *chunk, const char *expected_id)
+static bool CheckChunkHeader(const chunk_header_t *chunk, const char *expected_id)
 {
     return !memcmp((char *)chunk->chunk_id, expected_id, 4);
 }
@@ -407,7 +407,7 @@ midi_file_t *MIDI_LoadFile(SDL_RWops *stream)
 }
 
 // Get the number of tracks in a MIDI file.
-unsigned int MIDI_NumTracks(midi_file_t *file)
+unsigned int MIDI_NumTracks(const midi_file_t *file)
 {
     return file->num_tracks;
 }

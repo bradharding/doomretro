@@ -1518,7 +1518,7 @@ static void G_DoWorldDone(void)
         gameaction = ga_autosavegame;
 }
 
-void G_LoadGame(char *name)
+void G_LoadGame(const char *name)
 {
     M_StringCopy(savename, name, sizeof(savename));
     gameaction = ga_loadgame;
@@ -1622,7 +1622,7 @@ void G_LoadedGameMessage(void)
 // Called by the menu task.
 // Description is a 256 byte text string
 //
-void G_SaveGame(int slot, char *description, char *name)
+void G_SaveGame(const int slot, const char *description, const char *name)
 {
     M_StringCopy(savename, name, sizeof(savename));
     savegameslot = slot;

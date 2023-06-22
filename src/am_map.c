@@ -1119,7 +1119,7 @@ static void AM_ChangeWindowScale(void)
 
 static void AM_DoFollowPlayer(void)
 {
-    mobj_t  *mo = viewplayer->mo;
+    const mobj_t    *mo = viewplayer->mo;
 
     m_x = (mo->x >> FRACTOMAPBITS) - m_w / 2;
     m_y = (mo->y >> FRACTOMAPBITS) - m_h / 2;

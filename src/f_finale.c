@@ -78,7 +78,7 @@ static char             *finaleflat;
 
 static void F_StartCast(void);
 static void F_CastTicker(void);
-static bool F_CastResponder(event_t *ev);
+static bool F_CastResponder(const event_t *ev);
 
 void WI_CheckForAccelerate(void);
 void A_RandomJump(mobj_t *actor, player_t *player, pspdef_t *psp);
@@ -358,13 +358,13 @@ static void F_TextWrite(void)
     else if (W_CheckNumForName(finaleflat) >= 0)
     {
         // erase the entire screen to a tiled background
-        byte    *src = (byte *)(W_CacheLumpName(finaleflat));
-        byte    *dest = screens[0];
+        const byte  *source = (byte *)W_CacheLumpName(finaleflat);
+        byte        *dest = screens[0];
 
         for (int y = 0; y < SCREENHEIGHT; y++)
             for (int x = 0; x < SCREENWIDTH; x += 2)
             {
-                byte    dot = src[(((y >> 1) & 63) << 6) + ((x >> 1) & 63)];
+                byte    dot = source[(((y >> 1) & 63) << 6) + ((x >> 1) & 63)];
 
                 *dest++ = dot;
                 *dest++ = dot;
@@ -681,7 +681,7 @@ stopattack:
 //
 // F_CastResponder
 //
-static bool F_CastResponder(event_t *ev)
+static bool F_CastResponder(const event_t *ev)
 {
     mobjtype_t  type;
 
@@ -911,10 +911,10 @@ static void F_DrawPatchColumn(int x, patch_t *patch, int col)
     // step through the posts in a column
     while (column->topdelta != 0xFF)
     {
-        int     srccol = 0;
-        byte    *source = (byte *)column + 3;
-        byte    *dest = &desttop[((column->topdelta * DY) >> FRACBITS) * SCREENWIDTH];
-        int     count = (column->length * DY) >> FRACBITS;
+        int         srccol = 0;
+        const byte  *source = (byte *)column + 3;
+        byte        *dest = &desttop[((column->topdelta * DY) >> FRACBITS) * SCREENWIDTH];
+        int         count = (column->length * DY) >> FRACBITS;
 
         while (count--)
         {

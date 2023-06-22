@@ -188,7 +188,7 @@ void M_StringCopy(char *dest, const char *src, const size_t dest_size)
     }
 }
 
-char *M_ExtractFolder(char *path)
+char *M_ExtractFolder(const char *path)
 {
     char    *pos;
     char    *folder;
@@ -455,7 +455,7 @@ const char *M_StrCaseStr(const char *haystack, const char *needle)
 }
 
 #if !defined(stristr)
-static char *stristr(char *ch1, char *ch2)
+static char *stristr(char *ch1, const char *ch2)
 {
     char    *chN1 = M_StringDuplicate(ch1);
     char    *chN2 = M_StringDuplicate(ch2);

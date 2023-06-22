@@ -207,7 +207,7 @@ void V_DrawPatch(int x, int y, int screen, patch_t *patch)
         // step through the posts in a column
         while (column->topdelta != 0xFF)
         {
-            byte        *source = (byte *)column + 3;
+            const byte  *source = (byte *)column + 3;
             byte        *dest = &desttop[((column->topdelta * DY) >> FRACBITS) * SCREENWIDTH];
             const byte  length = column->length;
             int         count = (length * DY) >> FRACBITS;
@@ -256,7 +256,7 @@ void V_DrawWidePatch(int x, int y, int screen, patch_t *patch)
         while ((topdelta = column->topdelta) != 0xFF)
         {
             byte        *dest = &desttop[((topdelta * DY) >> FRACBITS) * SCREENWIDTH];
-            byte        *source = (byte *)column + 3;
+            const byte  *source = (byte *)column + 3;
             const byte  length = column->length;
             int         count = (length * DY) >> FRACBITS;
             int         srccol = 0;
@@ -672,7 +672,7 @@ void V_DrawPatchToTempScreen(int x, int y, patch_t *patch)
         // step through the posts in a column
         while (column->topdelta != 0xFF)
         {
-            byte        *source = (byte *)column + 3;
+            const byte  *source = (byte *)column + 3;
             byte        *dest = &desttop[((column->topdelta * DY) >> FRACBITS) * SCREENWIDTH];
             const byte  length = column->length;
             int         count = (length * DY) >> FRACBITS;
@@ -711,7 +711,7 @@ void V_DrawHUDText(int x, int y, byte *screen, patch_t *patch, int screenwidth)
         // step through the posts in a column
         while (column->topdelta != 0xFF)
         {
-            byte        *source = (byte *)column + 3;
+            const byte  *source = (byte *)column + 3;
             byte        *dest = &desttop[((column->topdelta * DY) >> FRACBITS) * screenwidth];
             const byte  length = column->length;
             int         count = (length * DY) >> FRACBITS;
@@ -746,7 +746,7 @@ void V_DrawTranslucentHUDText(int x, int y, byte *screen, patch_t *patch, int sc
         // step through the posts in a column
         while (column->topdelta != 0xFF)
         {
-            byte        *source = (byte *)column + 3;
+            const byte  *source = (byte *)column + 3;
             byte        *dest = &desttop[((column->topdelta * DY) >> FRACBITS) * screenwidth];
             const byte  length = column->length;
             int         count = (length * DY) >> FRACBITS;
@@ -860,7 +860,7 @@ void V_DrawPatchWithShadow(int x, int y, patch_t *patch, bool flag)
         // step through the posts in a column
         while (column->topdelta != 0xFF)
         {
-            byte        *source = (byte *)column + 3;
+            const byte  *source = (byte *)column + 3;
             byte        *dest = &desttop[((column->topdelta * DY) >> FRACBITS) * SCREENWIDTH];
             const byte  length = column->length;
             int         count = (length * DY) >> FRACBITS;
@@ -1103,7 +1103,7 @@ void V_DrawTranslucentRedPatch(int x, int y, patch_t *patch)
         // step through the posts in a column
         while (column->topdelta != 0xFF)
         {
-            byte        *source = (byte *)column + 3;
+            const byte  *source = (byte *)column + 3;
             byte        *dest = &desttop[((column->topdelta * DY) >> FRACBITS) * SCREENWIDTH];
             const byte  length = column->length;
             int         count = (length * DY) >> FRACBITS;
@@ -1151,7 +1151,7 @@ void V_DrawFlippedPatch(int x, int y, patch_t *patch)
         // step through the posts in a column
         while (column->topdelta != 0xFF)
         {
-            byte        *source = (byte *)column + 3;
+            const byte  *source = (byte *)column + 3;
             byte        *dest = &desttop[((column->topdelta * DY) >> FRACBITS) * SCREENWIDTH];
             const byte  length = column->length;
             int         count = (length * DY) >> FRACBITS;
@@ -1309,7 +1309,7 @@ void V_DrawFlippedTranslucentRedPatch(int x, int y, patch_t *patch)
         // step through the posts in a column
         while (column->topdelta != 0xFF)
         {
-            byte        *source = (byte *)column + 3;
+            const byte  *source = (byte *)column + 3;
             byte        *dest = &desttop[((column->topdelta * DY) >> FRACBITS) * SCREENWIDTH];
             const byte  length = column->length;
             int         count = (length * DY) >> FRACBITS;
@@ -1441,7 +1441,7 @@ void V_DrawNoGreenPatchWithShadow(int x, int y, patch_t *patch)
         // step through the posts in a column
         while (column->topdelta != 0xFF)
         {
-            byte        *source = (byte *)column + 3;
+            const byte  *source = (byte *)column + 3;
             byte        *dest = &desttop[((column->topdelta * DY) >> FRACBITS) * SCREENWIDTH];
             const byte  length = column->length;
             int         count = (length * DY) >> FRACBITS;
@@ -1449,7 +1449,7 @@ void V_DrawNoGreenPatchWithShadow(int x, int y, patch_t *patch)
 
             while (count-- > 0)
             {
-                byte    src = source[srccol >> FRACBITS];
+                const byte  src = source[srccol >> FRACBITS];
 
                 if (nogreen[src])
                 {
@@ -1489,7 +1489,7 @@ void V_DrawTranslucentNoGreenPatch(int x, int y, patch_t *patch)
         // step through the posts in a column
         while (column->topdelta != 0xFF)
         {
-            byte        *source = (byte *)column + 3;
+            const byte  *source = (byte *)column + 3;
             byte        *dest = &desttop[((column->topdelta * DY) >> FRACBITS) * SCREENWIDTH];
             const byte  length = column->length;
             int         count = (length * DY) >> FRACBITS;
@@ -1497,7 +1497,7 @@ void V_DrawTranslucentNoGreenPatch(int x, int y, patch_t *patch)
 
             while (count-- > 0)
             {
-                byte    src = source[srccol >> FRACBITS];
+                const byte  src = source[srccol >> FRACBITS];
 
                 if (nogreen[src])
                     *dest = tinttab33[(*dest << 8) + src];
@@ -1610,9 +1610,9 @@ static void V_LowGraphicDetail_SSAA(int left, int top, int width, int height, in
             {
                 if (x + pixelwidth < width)
                 {
-                    byte    *dot2 = dot1 + pixelwidth;
-                    byte    *dot3 = dot2 + pixelheight;
-                    byte    *dot4 = dot3 - pixelwidth;
+                    const byte  *dot2 = dot1 + pixelwidth;
+                    const byte  *dot3 = dot2 + pixelheight;
+                    const byte  *dot4 = dot3 - pixelwidth;
 
                     color = tinttab50[(tinttab50[(*dot1 << 8) + *dot2] << 8) + tinttab50[(*dot3 << 8) + *dot4]];
                 }
@@ -1742,7 +1742,7 @@ char    lbmname1[MAX_PATH];
 char    lbmpath1[MAX_PATH];
 char    lbmpath2[MAX_PATH];
 
-static bool V_SavePNG(SDL_Renderer *sdlrenderer, char *path)
+static bool V_SavePNG(SDL_Renderer *sdlrenderer, const char *path)
 {
     bool    result = false;
     int     width;
