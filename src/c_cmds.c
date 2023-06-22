@@ -5526,8 +5526,8 @@ static void C_PlayerStats_Game(void)
     skill_t         favoriteskilllevel1 = favoriteskilllevel();
     weapontype_t    favoriteweapon1 = favoriteweapon(false);
     weapontype_t    favoriteweapon2 = favoriteweapon(true);
-    const int       time1 = maptime / TICRATE;
-    const int       time2 = (int)(stat_timeplayed / TICRATE);
+    int             time1 = maptime / TICRATE;
+    int             time2 = (int)(stat_timeplayed / TICRATE);
     int             hours1;
     int             hours2;
     char            *temp1;
@@ -5744,6 +5744,8 @@ static void C_PlayerStats_Game(void)
 
     hours1 = time1 / 3600;
     hours2 = time2 / 3600;
+    time1 %= 3600;
+    time2 %= 3600;
     temp2 = commify(hours2);
 
     if (sucktime && hours1 >= sucktime)
@@ -5752,40 +5754,40 @@ static void C_PlayerStats_Game(void)
             C_TabbedOutput(tabs, "Time played\t%s\tOver %s hours!", s_STSTR_SUCKS, temp2);
         else if (hours2)
             C_TabbedOutput(tabs, "Time played\t%s\t" MONOSPACED("%i") ":" MONOSPACED("%02i") ":" MONOSPACED("%02i"),
-                s_STSTR_SUCKS, hours2, (time2 % 3600) / 60, (time2 % 3600) % 60);
+                s_STSTR_SUCKS, hours2, time2 / 60, time2 % 60);
         else
             C_TabbedOutput(tabs, "Time played\t%s\t" MONOSPACED("%02i") ":" MONOSPACED("%02i"),
-                s_STSTR_SUCKS, (time2 % 3600) / 60, (time2 % 3600) % 60);
+                s_STSTR_SUCKS, time2 / 60, time2 % 60);
     }
     else if (hours1)
     {
         if (hours2 >= 100)
             C_TabbedOutput(tabs, "Time played\t" MONOSPACED("%i") ":" MONOSPACED("%02i") ":" MONOSPACED("%02i")
                 "\tOver %s hours!",
-                hours1, (time1 % 3600) / 60, (time1 % 3600) % 60, temp2);
+                hours1, time1 / 60, time1 % 60, temp2);
         else if (hours2)
             C_TabbedOutput(tabs, "Time played\t" MONOSPACED("%i") ":" MONOSPACED("%02i") ":" MONOSPACED("%02i")
                 "\t" MONOSPACED("%i") ":" MONOSPACED("%02i") ":" MONOSPACED("%02i") "",
-                hours1, (time1 % 3600) / 60, (time1 % 3600) % 60, hours2, (time2 % 3600) / 60, (time2 % 3600) % 60);
+                hours1, time1 / 60, time1 % 60, hours2, time2 / 60, time2 % 60);
         else
             C_TabbedOutput(tabs, "Time played\t" MONOSPACED("%i") ":" MONOSPACED("%02i") ":" MONOSPACED("%02i")
                 "\t" MONOSPACED("%02i") ":" MONOSPACED("%02i"),
-                hours1, (time1 % 3600) / 60, (time1 % 3600) % 60, (time2 % 3600) / 60, (time2 % 3600) % 60);
+                hours1, time1 / 60, time1 % 60, time2 / 60, time2 % 60);
     }
     else
     {
         if (hours2 >= 100)
             C_TabbedOutput(tabs, "Time played\t" MONOSPACED("%02i") ":" MONOSPACED("%02i")
                 "\tOver %s hours!",
-                (time1 % 3600) / 60, (time1 % 3600) % 60, temp2);
+                time1 / 60, time1 % 60, temp2);
         else if (hours2)
             C_TabbedOutput(tabs, "Time played\t" MONOSPACED("%02i") ":" MONOSPACED("%02i")
                 "\t" MONOSPACED("%i") ":" MONOSPACED("%02i") ":" MONOSPACED("%02i"),
-                (time1 % 3600) / 60, (time1 % 3600) % 60, hours2, (time2 % 3600) / 60, (time2 % 3600) % 60);
+                time1 / 60, time1 % 60, hours2, time2 / 60, time2 % 60);
         else
             C_TabbedOutput(tabs, "Time played\t" MONOSPACED("%02i") ":" MONOSPACED("%02i")
                 "\t" MONOSPACED("%02i") ":" MONOSPACED("%02i"),
-                (time1 % 3600) / 60, (time1 % 3600) % 60, (time2 % 3600) / 60, (time2 % 3600) % 60);
+                time1 / 60, time1 % 60, time2 / 60, time2 % 60);
     }
 
     free(temp2);
@@ -5828,12 +5830,29 @@ static void C_PlayerStats_Game(void)
 
     temp1 = commify(shotssuccessful1);
     temp2 = commify(shotsfired1);
-    temp3 = commify((shotssuccessful2 = stat_shotssuccessful_fists + stat_shotssuccessful_chainsaw + stat_shotssuccessful_pistol
-        + stat_shotssuccessful_shotgun + stat_shotssuccessful_supershotgun + stat_shotssuccessful_chaingun
-        + stat_shotssuccessful_rocketlauncher + stat_shotssuccessful_plasmarifle + stat_shotssuccessful_bfg9000));
-    temp4 = commify((shotsfired2 = stat_shotsfired_fists + stat_shotsfired_chainsaw + stat_shotsfired_pistol + stat_shotsfired_shotgun
-        + stat_shotsfired_supershotgun + stat_shotsfired_chaingun + stat_shotsfired_rocketlauncher + stat_shotsfired_plasmarifle
-        + stat_shotsfired_bfg9000));
+
+    shotssuccessful2 = stat_shotssuccessful_fists
+        + stat_shotssuccessful_chainsaw
+        + stat_shotssuccessful_pistol
+        + stat_shotssuccessful_shotgun
+        + stat_shotssuccessful_supershotgun
+        + stat_shotssuccessful_chaingun
+        + stat_shotssuccessful_rocketlauncher
+        + stat_shotssuccessful_plasmarifle
+        + stat_shotssuccessful_bfg9000;
+    temp3 = commify(shotssuccessful2);
+
+    shotsfired2 = stat_shotsfired_fists
+        + stat_shotsfired_chainsaw
+        + stat_shotsfired_pistol
+        + stat_shotsfired_shotgun
+        + stat_shotsfired_supershotgun
+        + stat_shotsfired_chaingun
+        + stat_shotsfired_rocketlauncher
+        + stat_shotsfired_plasmarifle
+        + stat_shotsfired_bfg9000;
+    temp4 = commify(shotsfired2);
+
     C_TabbedOutput(tabs, "Shots successful/fired\t%s of %s (%i%%)\t%s of %s (%i%%)",
         temp1, temp2, (shotsfired1 ? shotssuccessful1 * 100 / shotsfired1 : 0), temp3, temp4,
         (shotsfired2 ? (int)(shotssuccessful2 * 100 / shotsfired2) : 0));
@@ -6205,10 +6224,10 @@ static void C_PlayerStats_NoGame(void)
     }
     else if (hours1)
         C_TabbedOutput(tabs, "Time played\t\x96\t" MONOSPACED("%i") ":" MONOSPACED("%02i") ":" MONOSPACED("%02i"),
-            hours1, (time1 % 3600) / 60, (time1 % 3600) % 60);
+            hours1, time1 / 60, time1 % 60);
     else
         C_TabbedOutput(tabs, "Time played\t\x96\t" MONOSPACED("%02i") ":" MONOSPACED("%02i"),
-            (time1 % 3600) / 60, (time1 % 3600) % 60);
+            time1 / 60, time1 % 60);
 
     temp1 = commifystat(stat_damageinflicted);
     C_TabbedOutput(tabs, "Damage inflicted\t\x96\t%s", temp1);
