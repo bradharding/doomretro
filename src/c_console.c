@@ -1926,10 +1926,6 @@ bool C_Responder(event_t *ev)
 
         switch (key)
         {
-            case KEY_PRINTSCREEN:
-                G_ScreenShot();
-                break;
-
             case KEY_BACKSPACE:
                 if (selectstart < selectend)
                 {
