@@ -5546,27 +5546,7 @@ static void C_PlayerStats_Game(void)
     if (viewplayer->cheats & (CF_ALLMAP | CF_ALLMAP_THINGS))
         C_TabbedOutput(tabs, "Map explored\t100%%\t\x96");
     else
-    {
-        int mappedwalls = 0;
-        int totalwalls = 0;
-
-        for (int i = 0; i < numlines; i++)
-        {
-            const unsigned short    flags = lines[i].flags;
-
-            if (!(flags & ML_DONTDRAW))
-            {
-                totalwalls++;
-
-                if (flags & ML_MAPPED)
-                    mappedwalls++;
-            }
-        }
-
-        temp1 = striptrailingzero((totalwalls ? mappedwalls * 100.0f / totalwalls : 0.0f), 1);
-        C_TabbedOutput(tabs, "Map explored\t%s%%\t\x96", temp1);
-        free(temp1);
-    }
+        C_TabbedOutput(tabs, "Map explored\t%i%%\t\x96", nummappedlines * 100 / numvisiblelines);
 
     temp1 = commifystat(stat_mapsstarted);
     C_TabbedOutput(tabs, "Maps started\t\x96\t%s", temp1);

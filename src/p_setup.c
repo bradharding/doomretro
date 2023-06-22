@@ -175,6 +175,8 @@ node_t              *nodes;
 
 int                 numlines;
 int                 numspeciallines;
+int                 numvisiblelines;
+int                 nummappedlines;
 line_t              *lines;
 
 int                 numsides;
@@ -747,8 +749,10 @@ static void P_CheckLinedefs(void)
     line_t  *ld = lines;
 
     numspeciallines = 0;
+    numvisiblelines = 0;
 
     for (int i = numlines; i--; ld++)
+    {
         if (!ld->special)
         {
             if (ld->tag)
@@ -815,6 +819,10 @@ static void P_CheckLinedefs(void)
             else
                 numspeciallines++;
         }
+
+        if (!(ld->flags & ML_DONTDRAW))
+            numvisiblelines++;
+    }
 }
 
 //

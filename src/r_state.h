@@ -96,6 +96,8 @@ extern node_t       *nodes;
 
 extern int          numlines;
 extern int          numspeciallines;
+extern int          numvisiblelines;
+extern int          nummappedlines;
 extern line_t       *lines;
 
 extern int          numsides;

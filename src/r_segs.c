@@ -595,8 +595,11 @@ void R_StoreWallRange(const int start, const int stop)
     linedef = curline->linedef;
 
     // mark the segment as visible for automap
-    if (!menuactive)
+    if (!menuactive && !(linedef->flags & ML_MAPPED))
+    {
+        nummappedlines++;
         linedef->flags |= ML_MAPPED;
+    }
 
     // [BH] if in automap, we're done now that line is mapped
     if (automapactive)
