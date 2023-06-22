@@ -2323,23 +2323,6 @@ bool C_Responder(event_t *ev)
                 C_HideConsole();
                 break;
 
-            case KEY_F1:
-            case KEY_F2:
-            case KEY_F3:
-            case KEY_F4:
-            case KEY_F5:
-            case KEY_F6:
-            case KEY_F7:
-            case KEY_F8:
-            case KEY_F9:
-            case KEY_F10:
-            case KEY_F11:
-            case KEY_F12:
-                if (M_Responder(ev))
-                    C_HideConsoleFast();
-
-                break;
-
             case KEY_CAPSLOCK:
                 // toggle "always run"
                 if (keyboardalwaysrun == KEY_CAPSLOCK)

@@ -3218,7 +3218,10 @@ bool M_Responder(event_t *ev)
                     R_SetViewSize(r_screensize);
             }
             else
+            {
+                C_HideConsoleFast();
                 M_ShowHelp(0);
+            }
 
             return true;
         }
@@ -3239,6 +3242,7 @@ bool M_Responder(event_t *ev)
             else
             {
                 functionkey = KEY_F2;
+                C_HideConsoleFast();
                 M_OpenMainMenu();
                 itemon = currentmenu->laston;
                 S_StartSound(NULL, sfx_swtchn);
@@ -3263,6 +3267,7 @@ bool M_Responder(event_t *ev)
             else
             {
                 functionkey = KEY_F3;
+                C_HideConsoleFast();
                 M_OpenMainMenu();
                 itemon = currentmenu->laston;
                 S_StartSound(NULL, sfx_swtchn);
@@ -3287,6 +3292,7 @@ bool M_Responder(event_t *ev)
             else
             {
                 functionkey = KEY_F4;
+                C_HideConsoleFast();
                 M_OpenMainMenu();
                 currentmenu = &SoundDef;
                 itemon = currentmenu->laston;
@@ -3305,6 +3311,7 @@ bool M_Responder(event_t *ev)
             if (quicksaveslot >= 0)
                 functionkey = KEY_F6;
 
+            C_HideConsoleFast();
             M_QuickSave();
             return true;
         }
@@ -3314,6 +3321,7 @@ bool M_Responder(event_t *ev)
         {
             keydown = key;
             functionkey = KEY_F7;
+            C_HideConsoleFast();
             M_OpenMainMenu();
             S_StartSound(NULL, sfx_swtchn);
             M_EndGame(0);
@@ -3336,6 +3344,7 @@ bool M_Responder(event_t *ev)
         {
             keydown = key;
             functionkey = KEY_F9;
+            C_HideConsoleFast();
             M_OpenMainMenu();
             M_QuickLoad();
             return true;
@@ -3346,6 +3355,7 @@ bool M_Responder(event_t *ev)
         {
             keydown = key;
             functionkey = KEY_F10;
+            C_HideConsoleFast();
             M_OpenMainMenu();
             S_StartSound(NULL, sfx_swtchn);
             M_QuitDOOM(0);
