@@ -363,7 +363,7 @@ void AM_Init(void)
     isteleportline[WR_TeleportToLineWithSameTag_Silent_ReversedAngle] = true;
 }
 
-void AM_SetAutomapSize(int screensize)
+void AM_SetAutomapSize(const int screensize)
 {
     if (!mapwindow)
     {
@@ -460,7 +460,8 @@ static void AM_MaxOutWindowScale(void)
 
 static bool AM_GetSpeedToggle(void)
 {
-    return (gamekeydown[keyboardrun] ^ mousebuttons[mouserun] ^ (!!(gamecontrollerbuttons & gamecontrollerrun)) ^ alwaysrun);
+    return (gamekeydown[keyboardrun] ^ mousebuttons[mouserun]
+        ^ (!!(gamecontrollerbuttons & gamecontrollerrun)) ^ alwaysrun);
 }
 
 static void AM_ToggleZoomOut(void)
@@ -493,7 +494,7 @@ void AM_ToggleMaxZoom(void)
     }
 }
 
-void AM_ToggleFollowMode(bool value)
+void AM_ToggleFollowMode(const bool value)
 {
     if ((am_followmode = value))
     {
@@ -599,7 +600,7 @@ void AM_DropBreadCrumb(void)
     breadcrumb[numbreadcrumbs++].y = viewy;
 }
 
-void AM_ToggleRotateMode(bool value)
+void AM_ToggleRotateMode(const bool value)
 {
     if ((am_rotatemode = value))
     {
@@ -637,8 +638,13 @@ bool AM_Responder(const event_t *ev)
 
         if (!automapactive && !mapwindow)
         {
-            if ((ev->type == ev_keydown && ev->data1 == keyboardautomap && keydown != keyboardautomap && !(modstate & KMOD_ALT))
-                || (ev->type == ev_controller && (gamecontrollerbuttons & gamecontrollerautomap) && !backbuttondown))
+            if ((ev->type == ev_keydown
+                && ev->data1 == keyboardautomap
+                && keydown != keyboardautomap
+                && !(modstate & KMOD_ALT))
+                || (ev->type == ev_controller
+                    && (gamecontrollerbuttons & gamecontrollerautomap)
+                    && !backbuttondown))
             {
                 keydown = keyboardautomap;
                 backbuttondown = true;
@@ -657,7 +663,9 @@ bool AM_Responder(const event_t *ev)
                 key = ev->data1;
 
                 // pan right
-                if (key == keyboardright || key == keyboardstraferight || key == keyboardstraferight2)
+                if (key == keyboardright
+                    || key == keyboardstraferight
+                    || key == keyboardstraferight2)
                 {
                     keydown = key;
 
@@ -674,7 +682,9 @@ bool AM_Responder(const event_t *ev)
                 }
 
                 // pan left
-                else if (key == keyboardleft || key == keyboardstrafeleft || key == keyboardstrafeleft2)
+                else if (key == keyboardleft
+                    || key == keyboardstrafeleft
+                    || key == keyboardstrafeleft2)
                 {
                     keydown = key;
 
@@ -725,21 +735,24 @@ bool AM_Responder(const event_t *ev)
                 }
 
                 // zoom out
-                else if (key == keyboardzoomout && !movement && (!mapwindow || keyboardzoomout != KEY_MINUS))
+                else if (key == keyboardzoomout && !movement
+                    && (!mapwindow || keyboardzoomout != KEY_MINUS))
                 {
                     keydown = key;
                     AM_ToggleZoomOut();
                 }
 
                 // zoom in
-                else if (key == keyboardzoomin && !movement && (!mapwindow || keyboardzoomin != KEY_EQUALS))
+                else if (key == keyboardzoomin && !movement
+                    && (!mapwindow || keyboardzoomin != KEY_EQUALS))
                 {
                     keydown = key;
                     AM_ToggleZoomIn();
                 }
 
                 // leave automap
-                else if (key == keyboardautomap && !(modstate & KMOD_ALT) && keydown != keyboardautomap && !mapwindow)
+                else if (key == keyboardautomap && !(modstate & KMOD_ALT)
+                    && keydown != keyboardautomap && !mapwindow)
                 {
                     keydown = key;
                     viewactive = true;
@@ -848,20 +861,28 @@ bool AM_Responder(const event_t *ev)
                 }
                 else if (!am_followmode)
                 {
-                    if (key == keyboardleft || key == keyboardstrafeleft || key == keyboardstrafeleft2)
+                    if (key == keyboardleft
+                        || key == keyboardstrafeleft
+                        || key == keyboardstrafeleft2)
                     {
                         speedtoggle = AM_GetSpeedToggle();
 
-                        if (keystate(keyboardright) || keystate(keyboardstraferight) || keystate(keyboardstraferight2))
+                        if (keystate(keyboardright)
+                            || keystate(keyboardstraferight)
+                            || keystate(keyboardstraferight2))
                             m_paninc.x = FTOM(F_PANINC);
                         else
                             m_paninc.x = 0;
                     }
-                    else if (key == keyboardright || key == keyboardstraferight || key == keyboardstraferight2)
+                    else if (key == keyboardright
+                        || key == keyboardstraferight
+                        || key == keyboardstraferight2)
                     {
                         speedtoggle = AM_GetSpeedToggle();
 
-                        if (keystate(keyboardleft) || keystate(keyboardstrafeleft) || keystate(keyboardstrafeleft2))
+                        if (keystate(keyboardleft)
+                            || keystate(keyboardstrafeleft)
+                            || keystate(keyboardstrafeleft2))
                             m_paninc.x = -FTOM(F_PANINC);
                         else
                             m_paninc.x = 0;
@@ -982,7 +1003,8 @@ bool AM_Responder(const event_t *ev)
                     {
                         movement = true;
                         speedtoggle = AM_GetSpeedToggle();
-                        m_paninc.x = (fixed_t)(FTOM(F_PANINC) * ((float)gamecontrollerthumbLX / SHRT_MAX) * 1.2f);
+                        m_paninc.x = (fixed_t)(FTOM(F_PANINC)
+                            * ((float)gamecontrollerthumbLX / SHRT_MAX) * 1.2f);
                     }
 
                     // pan left with left thumbstick
@@ -990,23 +1012,28 @@ bool AM_Responder(const event_t *ev)
                     {
                         movement = true;
                         speedtoggle = AM_GetSpeedToggle();
-                        m_paninc.x = (fixed_t)(FTOM(F_PANINC) * ((float)(gamecontrollerthumbLX) / SHRT_MAX) * 1.2f);
+                        m_paninc.x = (fixed_t)(FTOM(F_PANINC)
+                            * ((float)(gamecontrollerthumbLX) / SHRT_MAX) * 1.2f);
                     }
 
                     // pan right with right thumbstick
-                    if (gamecontrollerthumbRX > 0 && gamecontrollerthumbRX > gamecontrollerthumbLX)
+                    if (gamecontrollerthumbRX > 0
+                        && gamecontrollerthumbRX > gamecontrollerthumbLX)
                     {
                         movement = true;
                         speedtoggle = AM_GetSpeedToggle();
-                        m_paninc.x = (fixed_t)(FTOM(F_PANINC) * ((float)gamecontrollerthumbRX / SHRT_MAX) * 1.2f);
+                        m_paninc.x = (fixed_t)(FTOM(F_PANINC)
+                            * ((float)gamecontrollerthumbRX / SHRT_MAX) * 1.2f);
                     }
 
                     // pan left with right thumbstick
-                    else if (gamecontrollerthumbRX < 0 && gamecontrollerthumbRX < gamecontrollerthumbLX)
+                    else if (gamecontrollerthumbRX < 0
+                        && gamecontrollerthumbRX < gamecontrollerthumbLX)
                     {
                         movement = true;
                         speedtoggle = AM_GetSpeedToggle();
-                        m_paninc.x = (fixed_t)(FTOM(F_PANINC) * ((float)(gamecontrollerthumbRX) / SHRT_MAX) * 1.2f);
+                        m_paninc.x = (fixed_t)(FTOM(F_PANINC)
+                            * ((float)(gamecontrollerthumbRX) / SHRT_MAX) * 1.2f);
                     }
 
                     // pan up with left thumbstick
@@ -1014,7 +1041,8 @@ bool AM_Responder(const event_t *ev)
                     {
                         movement = true;
                         speedtoggle = AM_GetSpeedToggle();
-                        m_paninc.y = (fixed_t)(FTOM(F_PANINC) * (-(float)(gamecontrollerthumbLY) / SHRT_MAX) * 1.2f);
+                        m_paninc.y = (fixed_t)(FTOM(F_PANINC)
+                            * (-(float)(gamecontrollerthumbLY) / SHRT_MAX) * 1.2f);
                     }
 
                     // pan down with left thumbstick
@@ -1022,23 +1050,28 @@ bool AM_Responder(const event_t *ev)
                     {
                         movement = true;
                         speedtoggle = AM_GetSpeedToggle();
-                        m_paninc.y = -(fixed_t)(FTOM(F_PANINC) * ((float)gamecontrollerthumbLY / SHRT_MAX) * 1.2f);
+                        m_paninc.y = -(fixed_t)(FTOM(F_PANINC)
+                            * ((float)gamecontrollerthumbLY / SHRT_MAX) * 1.2f);
                     }
 
                     // pan up with right thumbstick
-                    if (gamecontrollerthumbRY < 0 && gamecontrollerthumbRY < gamecontrollerthumbLY)
+                    if (gamecontrollerthumbRY < 0
+                        && gamecontrollerthumbRY < gamecontrollerthumbLY)
                     {
                         movement = true;
                         speedtoggle = AM_GetSpeedToggle();
-                        m_paninc.y = -(fixed_t)(FTOM(F_PANINC) * ((float)(gamecontrollerthumbRY) / SHRT_MAX) * 1.2f);
+                        m_paninc.y = -(fixed_t)(FTOM(F_PANINC)
+                            * ((float)(gamecontrollerthumbRY) / SHRT_MAX) * 1.2f);
                     }
 
                     // pan down with right thumbstick
-                    else if (gamecontrollerthumbRY > 0 && gamecontrollerthumbRY > gamecontrollerthumbLY)
+                    else if (gamecontrollerthumbRY > 0
+                        && gamecontrollerthumbRY > gamecontrollerthumbLY)
                     {
                         movement = true;
                         speedtoggle = AM_GetSpeedToggle();
-                        m_paninc.y = -(fixed_t)(FTOM(F_PANINC) * ((float)gamecontrollerthumbRY / SHRT_MAX) * 1.2f);
+                        m_paninc.y = -(fixed_t)(FTOM(F_PANINC)
+                            * ((float)gamecontrollerthumbRY / SHRT_MAX) * 1.2f);
                     }
                 }
 
@@ -1077,7 +1110,7 @@ bool AM_Responder(const event_t *ev)
 // Rotation in 2D.
 // Used to rotate player arrow line character.
 //
-static void AM_Rotate(fixed_t *x, fixed_t *y, angle_t angle)
+static void AM_Rotate(fixed_t *x, fixed_t *y, const angle_t angle)
 {
     const fixed_t   cosine = finecosine[angle];
     const fixed_t   sine = finesine[angle];

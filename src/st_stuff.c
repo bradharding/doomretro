@@ -1442,7 +1442,7 @@ void ST_InitStatBar(void)
     sbar2->topoffset = 0;
 }
 
-static void ST_LoadUnloadGraphics(void callback(char *, patch_t **))
+static void ST_LoadUnloadGraphics(void callback(const char *, patch_t **))
 {
     int     facenum = 0;
     char    namebuf[9];
@@ -1551,7 +1551,7 @@ static void ST_LoadUnloadGraphics(void callback(char *, patch_t **))
     brdr_br->topoffset = 0;
 }
 
-static void ST_LoadCallback(char *lumpname, patch_t **variable)
+static void ST_LoadCallback(const char *lumpname, patch_t **variable)
 {
     if (M_StringCompare(lumpname, "STARMS") || M_StringCompare(lumpname, "STFGOD0"))
         *variable = ((FREEDOOM && !modifiedgame) || chex || hacx || harmony || REKKRSA ?

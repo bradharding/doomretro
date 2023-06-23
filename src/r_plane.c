@@ -97,7 +97,7 @@ static void R_MapPlane(const int y, const int x1)
         // SoM: because centery is an actual row of pixels (and it isn't really the
         // center row because there are an even number of rows) some corrections need
         // to be made depending on where the row lies relative to the centery row.
-        fixed_t dy = (ABS(centery - y) << FRACBITS) + (y < centery ? -FRACUNIT : FRACUNIT) / 2;
+        const fixed_t   dy = (ABS(centery - y) << FRACBITS) + (y < centery ? -FRACUNIT : FRACUNIT) / 2;
 
         cachedheight[y] = planeheight;
         ds_z = cacheddistance[y] = FixedMul(planeheight, yslope[y]);
@@ -508,7 +508,8 @@ void R_DrawPlanes(void)
                     tex_patch = R_CacheTextureCompositePatchNum(texture);
 
                     for (dc_x = pl->left; dc_x <= pl->right; dc_x++)
-                        if ((dc_yl = pl->top[dc_x]) != USHRT_MAX && dc_yl <= (dc_yh = pl->bottom[dc_x]))
+                        if ((dc_yl = pl->top[dc_x]) != USHRT_MAX
+                            && dc_yl <= (dc_yh = pl->bottom[dc_x]))
                         {
                             dc_source = R_GetTextureColumn(tex_patch,
                                 ((((an + xtoviewangle[dc_x]) ^ flip) / (1 << (ANGLETOSKYSHIFT - FRACBITS)))

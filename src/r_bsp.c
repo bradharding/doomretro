@@ -70,7 +70,7 @@ byte        *solidcol;
 //
 // Replaces the old R_Clip*WallSegment functions. It draws bits of walls in those
 // columns which aren't solid, and updates the solidcol[] array appropriately
-static void R_ClipWallSegment(int first, int last, bool solid)
+static void R_ClipWallSegment(int first, const int last, const bool solid)
 {
     while (first < last)
         if (solidcol[first])
@@ -238,7 +238,8 @@ static void R_InterpolateSector(sector_t *sector)
 //
 // killough 04/11/98, 04/13/98: fix bugs, add 'back' parameter
 //
-sector_t *R_FakeFlat(sector_t *sec, sector_t *tempsec, int *floorlightlevel, int *ceilinglightlevel, bool back)
+sector_t *R_FakeFlat(sector_t *sec, sector_t *tempsec,
+    int *floorlightlevel, int *ceilinglightlevel, const bool back)
 {
     const sector_t  *s = sec->heightsec;
 
@@ -389,7 +390,8 @@ static void R_AddLine(seg_t *line)
     {
         sector_t    tempsec;    // killough 03/08/98: ceiling/water hack
 
-        // [AM] Interpolate sector movement before running clipping tests. Frontsector should already be interpolated.
+        // [AM] Interpolate sector movement before running clipping tests.
+        // Frontsector should already be interpolated.
         R_InterpolateSector(backsector);
 
         // killough 03/08/98, 04/04/98: hack for invisible ceilings/deep water

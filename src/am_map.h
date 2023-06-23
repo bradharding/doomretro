@@ -59,16 +59,16 @@ void AM_ClearFB(void);
 
 void AM_Start(const bool mainwindow);
 void AM_ClearMarks(void);
-void AM_ToggleFollowMode(bool value);
+void AM_ToggleFollowMode(const bool value);
 void AM_ToggleGrid(void);
 void AM_AddMark(void);
-void AM_ToggleRotateMode(bool value);
+void AM_ToggleRotateMode(const bool value);
 void AM_ToggleMaxZoom(void);
 
 // Called to force the automap to quit if the level is completed while it is up.
 void AM_Stop(void);
 
-void AM_SetAutomapSize(int screensize);
+void AM_SetAutomapSize(const int screensize);
 
 void AM_Init(void);
 void AM_SetColors(void);
