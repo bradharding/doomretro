@@ -1771,10 +1771,10 @@ static bool P_FaceMobj(const mobj_t *source, const mobj_t *target, angle_t *delt
 //
 bool P_SeekerMissile(mobj_t *actor, mobj_t **seektarget, angle_t thresh, angle_t turnmax, const bool seekcenter)
 {
-    int     dir;
-    angle_t delta;
-    angle_t angle;
-    mobj_t  *target = *seektarget;
+    int             dir;
+    angle_t         delta;
+    angle_t         angle;
+    const mobj_t    *target = *seektarget;
 
     if (!target)
         return false;

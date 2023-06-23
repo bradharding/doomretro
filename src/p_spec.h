@@ -442,7 +442,7 @@ typedef struct ceilinglist_s
 
 extern ceilinglist_t    *activeceilings;
 
-bool EV_DoCeiling(line_t *line, ceiling_e type);
+bool EV_DoCeiling(const line_t *line, ceiling_e type);
 
 void T_CeilingStay(ceiling_t *ceiling);
 void T_MoveCeiling(ceiling_t *ceiling);

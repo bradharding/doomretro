@@ -136,6 +136,6 @@ typedef struct
 extern musinfo_t    musinfo;
 
 void S_ChangeMusInfoMusic(int lumpnum, int looping);
-void S_ParseMusInfo(char *lumpname);
+void S_ParseMusInfo(const char *lumpname);
 void MusInfoThinker(mobj_t *thing);
 void T_MAPMusic(void);

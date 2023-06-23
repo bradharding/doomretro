@@ -3301,7 +3301,7 @@ static void P_InitMapInfo(void)
     }
 }
 
-static bool P_ParseMapInfo(char *scriptname)
+static bool P_ParseMapInfo(const char *scriptname)
 {
     int         mapmax = 1;
     int         mcmdvalue;

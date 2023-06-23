@@ -761,7 +761,7 @@ void G_ToggleAlwaysRun(evtype_t type)
 // G_Responder
 // Get info needed to make ticcmd_ts for the players.
 //
-bool G_Responder(event_t *ev)
+bool G_Responder(const event_t *ev)
 {
     int key;
 

@@ -538,7 +538,7 @@ void S_UpdateSounds(void)
         if (I_SoundIsPlaying(c->handle))
         {
             // initialize parameters
-            mobj_t  *origin = c->origin;
+            const mobj_t    *origin = c->origin;
 
             // check non-local sounds for distance clipping or modify their parms
             if (origin && origin != viewplayer->mo)
@@ -741,7 +741,7 @@ void S_ChangeMusInfoMusic(int lumpnum, int looping)
 // S_ParseMusInfo
 // Parses MUSINFO lump.
 //
-void S_ParseMusInfo(char *lumpname)
+void S_ParseMusInfo(const char *lumpname)
 {
     memset(&musinfo, 0, sizeof(musinfo));
     musinfo.currentitem = -1;

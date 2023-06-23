@@ -1122,7 +1122,7 @@ void A_SpidRefire(mobj_t *actor, player_t *player, pspdef_t *psp)
 
 void A_BspiAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    mobj_t  *target = actor->target;
+    const mobj_t    *target = actor->target;
 
     if (!target)
         return;
@@ -1210,8 +1210,8 @@ void A_HeadAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
 
 void A_CyberAttack(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    mobj_t  *mo;
-    mobj_t  *target = actor->target;
+    mobj_t          *mo;
+    const mobj_t    *target = actor->target;
 
     if (!target)
         return;
@@ -1679,10 +1679,10 @@ void A_FatRaise(mobj_t *actor, player_t *player, pspdef_t *psp)
 
 void A_FatAttack1(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    angle_t an;
-    mobj_t  *mo;
-    mobj_t  *target = actor->target;
-    int     speed;
+    angle_t         an;
+    mobj_t          *mo;
+    const mobj_t    *target = actor->target;
+    int             speed;
 
     if (!target)
         return;
@@ -1703,10 +1703,10 @@ void A_FatAttack1(mobj_t *actor, player_t *player, pspdef_t *psp)
 
 void A_FatAttack2(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    angle_t an;
-    mobj_t  *mo;
-    mobj_t  *target = actor->target;
-    int     speed;
+    angle_t         an;
+    mobj_t          *mo;
+    const mobj_t    *target = actor->target;
+    int             speed;
 
     if (!target)
         return;
@@ -1727,10 +1727,10 @@ void A_FatAttack2(mobj_t *actor, player_t *player, pspdef_t *psp)
 
 void A_FatAttack3(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    angle_t an;
-    mobj_t  *mo;
-    mobj_t  *target = actor->target;
-    int     speed;
+    angle_t         an;
+    mobj_t          *mo;
+    const mobj_t    *target = actor->target;
+    int             speed;
 
     if (!target)
         return;

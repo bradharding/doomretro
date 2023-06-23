@@ -273,7 +273,7 @@ void F_StartFinale(void)
     F_ConsoleFinaleText();
 }
 
-bool F_Responder(event_t *ev)
+bool F_Responder(const event_t *ev)
 {
     if (finalestage == F_STAGE_CAST)
         return F_CastResponder(ev);

@@ -1165,8 +1165,8 @@ static void R_DrawPlayerSprites(void)
 {
     const int       invisibility = viewplayer->powers[pw_invisibility];
     const bool      altered = (weaponinfo[viewplayer->readyweapon].altered || !r_fixspriteoffsets);
-    pspdef_t        *weapon = viewplayer->psprites;
-    pspdef_t        *flash = weapon + 1;
+    const pspdef_t  *weapon = viewplayer->psprites;
+    const pspdef_t  *flash = weapon + 1;
     const state_t   *weaponstate = weapon->state;
     const state_t   *flashstate = flash->state;
 

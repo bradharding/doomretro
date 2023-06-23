@@ -80,7 +80,7 @@ void G_WorldDone(void);
 void G_BuildTiccmd(ticcmd_t *cmd);
 
 void G_Ticker(void);
-bool G_Responder(event_t *ev);
+bool G_Responder(const event_t *ev);
 
 void G_PlayerReborn(void);
 

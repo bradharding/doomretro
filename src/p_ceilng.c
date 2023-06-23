@@ -220,7 +220,7 @@ void T_MoveCeiling(ceiling_t *ceiling)
 // EV_DoCeiling
 // Move a ceiling up/down and all around!
 //
-bool EV_DoCeiling(line_t *line, ceiling_e type)
+bool EV_DoCeiling(const line_t *line, ceiling_e type)
 {
     int         secnum = -1;
     bool        rtn = false;
