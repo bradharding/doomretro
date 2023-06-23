@@ -2461,8 +2461,24 @@ bool C_Responder(event_t *ev)
     }
     else if (ev->type == ev_mouse)
     {
-        if ((ev->data1 & MOUSE_LEFTBUTTON) && ev->data3 >= VANILLAHEIGHT / 2 && gamestate == GS_LEVEL)
-            C_HideConsole();
+        if (ev->data1 & MOUSE_LEFTBUTTON)
+        {
+            if (ev->data3 >= VANILLAHEIGHT / 2 && gamestate == GS_LEVEL)
+                C_HideConsole();
+            else
+            {
+                int         j;
+                const int   x = ev->data2 * SCREENSCALE;
+
+                for (j = 0; j < len; j++)
+                    if (x < CONSOLEINPUTX + C_TextWidth(M_SubString(consoleinput, 0, j), false, true))
+                        break;
+
+                caretpos = selectstart = selectend = j;
+                caretwait = I_GetTimeMS() + CARETBLINKTIME;
+                showcaret = true;
+            }
+        }
     }
     else if (ev->type == ev_mousewheel)
     {

@@ -9,6 +9,7 @@
 * Support has been added for [*DSDHacked*](https://doomwiki.org/wiki/DSDHacked), allowing an unlimited number of things, states, sprites and sound effects to be used in `DEHACKED` lumps.
 * Changes have been made to text that is output to the console.
 * Minor improvements have been made to the text that can be autocompleted in the console by pressing the <kbd><b>TAB</b></kbd> key.
+* The caret may now be repositioned in the console’s input using the mouse pointer when the `m_pointer` CVAR is `on`.
 * The `r_color` CVAR has now been renamed `r_saturation`, and it’s maximum value has increased from `100%` to `200%`, allowing colors on the screen to be oversaturated.
 * A crash no longer occurs when trying to display certain patches greater than 200 pixels in height.
 * These changes have been made to the menu:
