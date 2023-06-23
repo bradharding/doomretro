@@ -2463,9 +2463,11 @@ bool C_Responder(event_t *ev)
     {
         if (ev->data1 & MOUSE_LEFTBUTTON)
         {
-            if (ev->data3 >= VANILLAHEIGHT / 2 && gamestate == GS_LEVEL)
+            const int   y = ev->data3 * SCREENSCALE;
+
+            if (y >= SCREENHEIGHT / 2 && gamestate == GS_LEVEL)
                 C_HideConsole();
-            else
+            else if (y >= CONSOLEINPUTY && y < CONSOLEINPUTY + CONSOLELINEHEIGHT)
             {
                 int         j;
                 const int   x = ev->data2 * SCREENSCALE;
