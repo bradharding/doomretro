@@ -4662,8 +4662,6 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
                 C_TabbedOutput(tabs, "Par time\t" MONOSPACED("%02i") ":" MONOSPACED("%02i"),
                     partime / 60, partime % 60);
         }
-        else
-            C_TabbedOutput(tabs, "Par time\t\x96");
     }
 
     temp = commify(numspawnedthings);
