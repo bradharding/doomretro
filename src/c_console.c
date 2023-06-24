@@ -96,7 +96,7 @@ static short            brandwidth;
 static short            brandheight;
 static short            spacewidth;
 
-char                    consoleinput[255];
+char                    consoleinput[255] = "";
 int                     numconsolestrings = 0;
 size_t                  consolestringsmax = 0;
 
@@ -151,7 +151,8 @@ static int              consoleboldcolors[STRINGTYPES];
 
 bool                    scrollbardrawn;
 
-static void (*consoletextfunc)(int, int, patch_t *, int, int, int, bool, const byte *);
+static void (*consoletextfunc)(const int, const int, const patch_t *,
+    const int, const int, const int, const bool, const byte *);
 
 void C_Input(const char *string, ...)
 {
@@ -831,21 +832,21 @@ static void C_DrawBackground(void)
         {
             byte    *dot = *screens + x;
 
-            *dot = colormaps[0][6 * 256 + *(dot + ((x % SCREENWIDTH) ? -1 : 1))];
+            *dot = colormaps[0][6 * 256 + *(dot + (x % SCREENWIDTH ? -1 : 1))];
         }
 
         for (int x = (y += SCREENWIDTH) + 1; x < y + SCREENWIDTH - 1; x += 3)
         {
             byte    *dot = *screens + x;
 
-            *dot = colormaps[0][6 * 256 + *(dot + ((x % SCREENWIDTH) ? -1 : 1))];
+            *dot = colormaps[0][6 * 256 + *(dot + (x % SCREENWIDTH ? -1 : 1))];
         }
 
         for (int x = (y += SCREENWIDTH); x < y + SCREENWIDTH - 1; x += 3)
         {
             byte    *dot = *screens + x;
 
-            *dot = colormaps[0][6 * 256 + *(dot + ((x % SCREENWIDTH) ? -1 : 1))];
+            *dot = colormaps[0][6 * 256 + *(dot + (x % SCREENWIDTH ? -1 : 1))];
         }
     }
 
@@ -2473,7 +2474,7 @@ bool C_Responder(event_t *ev)
                 const int   x = ev->data2 * SCREENSCALE;
 
                 for (j = 0; j < len; j++)
-                    if (x < CONSOLEINPUTX + C_TextWidth(M_SubString(consoleinput, 0, j), false, true))
+                    if (x <= CONSOLEINPUTX + C_TextWidth(M_SubString(consoleinput, 0, j), false, true))
                         break;
 
                 caretpos = selectstart = selectend = j;
@@ -2488,7 +2489,8 @@ bool C_Responder(event_t *ev)
         if (ev->data1 > 0)
         {
             if (!topofconsole && numconsolestrings > CONSOLELINES)
-                outputhistory = (outputhistory == -1 ? numconsolestrings - (CONSOLELINES + 1) : MAX(0, outputhistory - 1));
+                outputhistory = (outputhistory == -1 ? numconsolestrings - (CONSOLELINES + 1) :
+                    MAX(0, outputhistory - 1));
         }
 
         // scroll output down
@@ -2498,7 +2500,9 @@ bool C_Responder(event_t *ev)
                 outputhistory = -1;
         }
     }
-    else if (ev->type == ev_controller && (gamecontrollerbuttons & gamecontrollerconsole) && gamecontrollerwait < I_GetTime())
+    else if (ev->type == ev_controller
+        && (gamecontrollerbuttons & gamecontrollerconsole)
+        && gamecontrollerwait < I_GetTime())
     {
         gamecontrollerwait = I_GetTime() + 8;
         C_HideConsole();
@@ -2513,7 +2517,8 @@ void C_PrintCompileDate(void)
     char    mth[4] = "";
     int     minute, hour, day, year;
 
-    if (sscanf(__DATE__, "%3s %2i %4i", mth, &day, &year) == 3 && sscanf(__TIME__, "%2i:%2i:%*i", &hour, &minute) == 2)
+    if (sscanf(__DATE__, "%3s %2i %4i", mth, &day, &year) == 3
+        && sscanf(__TIME__, "%2i:%2i:%*i", &hour, &minute) == 2)
     {
         const char  mths[] = "JanFebMarAprMayJunJulAugSepOctNovDec";
         const int   month = (int)(strstr(mths, mth) - mths) / 3;
@@ -2524,14 +2529,16 @@ void C_PrintCompileDate(void)
             "July", "August", "September", "October", "November", "December"
         };
 
-        C_Output("This %i-bit " ITALICS("%s") " app of " ITALICS("%s") " was built with love by %s in %s at %i:%02i%s on %s, %s %i, %i.",
-            8 * (int)sizeof(intptr_t), WINDOWS, DOOMRETRO_NAMEANDVERSIONSTRING, DOOMRETRO_CREATOR, DOOMRETRO_PLACEOFORIGIN,
-            (hour ? hour - 12 * (hour > 12) : 12), minute, (hour < 12 ? "am" : "pm"),
-            dayofweek(day, month + 1, year), months[month], day, year);
+        C_Output("This %i-bit " ITALICS("%s") " app of " ITALICS("%s")
+            " was built with love by %s in %s at %i:%02i%s on %s, %s %i, %i.",
+            8 * (int)sizeof(intptr_t), WINDOWS, DOOMRETRO_NAMEANDVERSIONSTRING, DOOMRETRO_CREATOR,
+            DOOMRETRO_PLACEOFORIGIN, (hour ? hour - 12 * (hour > 12) : 12), minute,
+            (hour < 12 ? "am" : "pm"), dayofweek(day, month + 1, year), months[month], day, year);
     }
 
 #if defined(__clang__)
-    C_Output("It was compiled using " ITALICS("Clang v%i.%i.%i."), __clang_major__, __clang_minor__, __clang_patchlevel__);
+    C_Output("It was compiled using " ITALICS("Clang v%i.%i.%i."),
+        __clang_major__, __clang_minor__, __clang_patchlevel__);
 #elif defined(__INTEL_COMPILER)
     C_Output("It was compiled using the " ITALICS("Intel C++ Compiler Classic."));
 #elif defined(__INTEL_LLVM_COMPILER)
@@ -2539,8 +2546,8 @@ void C_PrintCompileDate(void)
 #elif defined(_MSC_FULL_VER) && defined(_MSC_BUILD)
     if (_MSC_BUILD)
         C_Output("It was compiled using v%i.%02i.%i.%i of the " ITALICS("Microsoft C/C++ %s Compiler."),
-            _MSC_FULL_VER / 10000000, (_MSC_FULL_VER % 10000000) / 100000, _MSC_FULL_VER % 100000, _MSC_BUILD,
-            (english == english_american ? "Optimizing" : "Optimising"));
+            _MSC_FULL_VER / 10000000, (_MSC_FULL_VER % 10000000) / 100000, _MSC_FULL_VER % 100000,
+            _MSC_BUILD, (english == english_american ? "Optimizing" : "Optimising"));
     else
         C_Output("It was compiled using v%i.%02i.%i of the " ITALICS("Microsoft C/C++ %s Compiler."),
             _MSC_FULL_VER / 10000000, (_MSC_FULL_VER % 10000000) / 100000, _MSC_FULL_VER % 100000,
@@ -2554,7 +2561,8 @@ void C_PrintSDLVersions(void)
     C_Output("Using v%i.%i.%i of the " ITALICS("SDL (Simple DirectMedia Layer)") " library.",
         SDL_MAJOR_VERSION, SDL_MINOR_VERSION, SDL_PATCHLEVEL);
 
-    C_Output("Also using v%i.%i.%i of the " ITALICS("SDL_mixer") " library and v%i.%i.%i of the " ITALICS("SDL_image") " library.",
+    C_Output("Also using v%i.%i.%i of the " ITALICS("SDL_mixer")
+        " library and v%i.%i.%i of the " ITALICS("SDL_image") " library.",
         SDL_MIXER_MAJOR_VERSION, SDL_MIXER_MINOR_VERSION, SDL_MIXER_PATCHLEVEL,
         SDL_IMAGE_MAJOR_VERSION, SDL_IMAGE_MINOR_VERSION, SDL_IMAGE_PATCHLEVEL);
 }

@@ -528,7 +528,7 @@ void M_DrawMenuBackground(void)
     {
         for (int y = 2 * SCREENWIDTH; y < SCREENAREA; y += 4 * SCREENWIDTH)
         {
-            const byte  *white = ((M_BigRandom() % 25) ? white25 : white33);
+            const byte  *white = (M_BigRandom() % 25 ? white25 : white33);
 
             for (int x = 0; x < SCREENWIDTH; x++)
             {

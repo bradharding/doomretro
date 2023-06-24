@@ -893,9 +893,9 @@ static void R_ProjectBloodSplat(const bloodsplat_t *splat)
     mo = viewplayer->mo;
 
     if ((splatdist = P_ApproxDistance(splat->x - mo->x, splat->y - mo->y)) > (5000 << FRACBITS)
-        || (splatdist > (2500 << FRACBITS) && (skipsplat[0]++ % 2))
-        || (splatdist > (1250 << FRACBITS) && (skipsplat[1]++ % 3))
-        || (splatdist > (625 << FRACBITS) && (skipsplat[2]++ % 4)))
+        || (splatdist > (2500 << FRACBITS) && skipsplat[0]++ % 2)
+        || (splatdist > (1250 << FRACBITS) && skipsplat[1]++ % 3)
+        || (splatdist > (625 << FRACBITS) && skipsplat[2]++ % 4))
         return;
 
     // too far off the side?

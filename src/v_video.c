@@ -493,8 +493,8 @@ void V_DrawMenuBorderPatch(int x, int y, patch_t *patch)
     }
 }
 
-void V_DrawConsoleSelectedTextPatch(int x, int y, patch_t *patch, int width,
-    int color, int backgroundcolor, bool italics, const byte *tinttab)
+void V_DrawConsoleSelectedTextPatch(const int x, const int y, const patch_t *patch, const int width,
+    const int color, const int backgroundcolor, const bool italics, const byte *tinttab)
 {
     byte    *desttop = &screens[0][y * SCREENWIDTH + x];
 
@@ -519,8 +519,8 @@ void V_DrawConsoleSelectedTextPatch(int x, int y, patch_t *patch, int width,
     }
 }
 
-void V_DrawConsoleTextPatch(int x, int y, patch_t *patch, int width,
-    int color, int backgroundcolor, bool italics, const byte *tinttab)
+void V_DrawConsoleTextPatch(const int x, const int y, const patch_t* patch, const int width,
+    const int color, const int backgroundcolor, const bool italics, const byte* tinttab)
 {
     byte        *desttop = &screens[0][y * SCREENWIDTH + x];
     const int   italicize[] = { 2, 2, 2, 1, 1, 1, 1, 0, 0, 0, 0, -1, -1, -1 };

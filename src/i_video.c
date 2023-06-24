@@ -946,7 +946,7 @@ static void I_Blit_Automap_NearestLinear(void)
 
 void I_UpdateBlitFunc(bool shaking)
 {
-    const bool  nearest = (nearestlinear && (displayheight % VANILLAHEIGHT));
+    const bool  nearest = (nearestlinear && displayheight % VANILLAHEIGHT);
 
     if (shaking && !software)
         blitfunc = (nearest ?

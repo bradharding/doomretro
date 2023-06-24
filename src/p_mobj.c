@@ -1039,7 +1039,7 @@ static void P_SpawnPlayer(const mapthing_t *mthing)
 
     mobj = P_SpawnMobj(mthing->x << FRACBITS, mthing->y << FRACBITS, ONFLOORZ, MT_PLAYER);
 
-    mobj->angle = ((mthing->angle % 45) ? mthing->angle * (ANG45 / 45) : ANG45 * (mthing->angle / 45));
+    mobj->angle = (mthing->angle % 45 ? mthing->angle * (ANG45 / 45) : ANG45 * (mthing->angle / 45));
     mobj->player = viewplayer;
     mobj->health = viewplayer->health;
 
@@ -1146,7 +1146,7 @@ static void P_SpawnFriend(const mapthing_t *mthing)
     {
         mobj_t  *mobj = P_SpawnMobj(mthing->x << FRACBITS, mthing->y << FRACBITS, ONFLOORZ, friendtype[playerstart - 2]);
 
-        mobj->angle = ((mthing->angle % 45) ? mthing->angle * (ANG45 / 45) : ANG45 * (mthing->angle / 45));
+        mobj->angle = (mthing->angle % 45 ? mthing->angle * (ANG45 / 45) : ANG45 * (mthing->angle / 45));
         mobj->flags |= MF_FRIEND;
         mobj->flags2 |= MF2_SPAWNEDBYPLAYER;
         M_StringCopy(mobj->name, friendname[playerstart - 2], sizeof(mobj->name));
@@ -1292,9 +1292,9 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, const bool spawnmonsters)
         totalpickups++;
 
     if (mobj->tics > 0)
-        mobj->tics = (M_BigRandom() % mobj->tics) + 1;
+        mobj->tics = M_BigRandom() % mobj->tics + 1;
 
-    mobj->angle = ((mthing->angle % 45) ? mthing->angle * (ANG45 / 45) : ANG45 * (mthing->angle / 45));
+    mobj->angle = (mthing->angle % 45 ? mthing->angle * (ANG45 / 45) : ANG45 * (mthing->angle / 45));
 
     if (!(flags & MF_SHOOTABLE) || type == MT_BARREL)
         mobj->angle += (M_SubRandom() << 20);

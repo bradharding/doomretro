@@ -519,7 +519,7 @@ static void WI_InitAnimatedBack(void)
 
         // specify the next time to draw it
         if (a->type == ANIM_ALWAYS)
-            a->nexttic = bcnt + 1 + (M_Random() % a->period);
+            a->nexttic = bcnt + 1 + M_Random() % a->period;
         else if (a->type == ANIM_LEVEL)
             a->nexttic = bcnt + 1;
     }

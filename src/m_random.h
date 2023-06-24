@@ -89,7 +89,7 @@ static inline int M_RandomIntNoRepeat(const int lower, const int upper, const in
 {
     int result;
 
-    while ((result = (RAND % (upper - lower + 1) + lower)) == previous);
+    while ((result = RAND % (upper - lower + 1) + lower) == previous);
 
     return result;
 }
@@ -118,7 +118,7 @@ static inline int M_BigRandomIntNoRepeat(const int lower, const int upper, int p
 {
     int result;
 
-    while ((result = (BIGRAND % (upper - lower + 1) + lower)) == previous);
+    while ((result = BIGRAND % (upper - lower + 1) + lower) == previous);
 
     return result;
 }

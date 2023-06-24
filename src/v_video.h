@@ -93,10 +93,10 @@ void V_DrawBigPatch(int x, int y, short width, short height, patch_t *patch);
 void V_DrawMenuBorderPatch(int x, int y, patch_t *patch);
 void V_DrawConsolePatch(int x, int y, patch_t *patch, int maxwidth);
 void V_DrawConsoleBrandingPatch(int x, int y, patch_t *patch);
-void V_DrawConsoleSelectedTextPatch(int x, int y, patch_t *patch, int width,
-    int color, int backgroundcolor, bool italics, const byte *tinttab);
-void V_DrawConsoleTextPatch(int x, int y, patch_t *patch, int width,
-    int color, int backgroundcolor, bool italics, const byte *tinttab);
+void V_DrawConsoleSelectedTextPatch(const int x, const int y, const patch_t* patch, const int width,
+    const int color, const int backgroundcolor, const bool italics, const byte* tinttab);
+void V_DrawConsoleTextPatch(const int x, const int y, const patch_t* patch, const int width,
+    const int color, const int backgroundcolor, const bool italics, const byte* tinttab);
 void V_DrawOverlayTextPatch(byte *screen, int screenwidth, int x, int y, patch_t *patch,
     int width, int color, const byte *tinttab);
 void V_DrawShadowPatch(int x, int y, patch_t *patch);
