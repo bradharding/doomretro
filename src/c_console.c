@@ -2468,7 +2468,7 @@ bool C_Responder(event_t *ev)
 
             if (y >= SCREENHEIGHT / 2 && gamestate == GS_LEVEL)
                 C_HideConsole();
-            else if (y >= CONSOLEINPUTY && y < CONSOLEINPUTY + CONSOLELINEHEIGHT)
+            else if (len && y >= CONSOLEINPUTY && y < CONSOLEINPUTY + CONSOLELINEHEIGHT)
             {
                 int         j;
                 const int   x = ev->data2 * SCREENSCALE;
