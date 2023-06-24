@@ -2201,7 +2201,7 @@ bool C_Responder(event_t *ev)
                             {
                                 char    *temp;
 
-                                if (islower(consoleinput[strlen(consoleinput) - 1]))
+                                if (islower(consoleinput[len - 1]))
                                     temp = M_StringJoin(prefix, lowercase(M_StringReplaceFirst(output, input, input)), NULL);
                                 else
                                     temp = M_StringJoin(prefix, M_StringReplaceFirst(output, input, input), NULL);
@@ -2243,7 +2243,7 @@ bool C_Responder(event_t *ev)
                         {
                             inputhistory = i;
                             M_StringCopy(consoleinput, console[i].string, sizeof(consoleinput));
-                            caretpos = selectstart = selectend = (int)strlen(consoleinput);
+                            caretpos = selectstart = selectend = len;
                             caretwait = I_GetTimeMS() + CARETBLINKTIME;
                             showcaret = true;
                             break;
@@ -2283,7 +2283,7 @@ bool C_Responder(event_t *ev)
                             M_StringCopy(consoleinput, currentinput, sizeof(consoleinput));
                         }
 
-                        caretpos = selectstart = selectend = (int)strlen(consoleinput);
+                        caretpos = selectstart = selectend = len;
                         caretwait = I_GetTimeMS() + CARETBLINKTIME;
                         showcaret = true;
                     }
@@ -2470,14 +2470,13 @@ bool C_Responder(event_t *ev)
                 C_HideConsole();
             else if (len && y >= CONSOLEINPUTY && y < CONSOLEINPUTY + CONSOLELINEHEIGHT)
             {
-                int         j;
                 const int   x = ev->data2 * SCREENSCALE;
 
-                for (j = 0; j < len; j++)
-                    if (x <= CONSOLEINPUTX + C_TextWidth(M_SubString(consoleinput, 0, j), false, true))
+                for (i = 0; i < len; i++)
+                    if (x <= CONSOLEINPUTX + C_TextWidth(M_SubString(consoleinput, 0, i), false, true))
                         break;
 
-                caretpos = selectstart = selectend = j;
+                caretpos = selectstart = selectend = i;
                 caretwait = I_GetTimeMS() + CARETBLINKTIME;
                 showcaret = true;
             }

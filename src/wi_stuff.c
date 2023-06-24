@@ -809,11 +809,9 @@ static void WI_InitStats(void)
     if (M_StringCompare(maptitle, mapnumandtitle))
     {
         if (M_StringCompare(playername, playername_default))
-            C_PlayerMessage("You finished %s%s",
-                mapname, (ispunctuation(mapname[strlen(mapname) - 1]) ? "" : "!"));
+            C_PlayerMessage("You finished %s!", mapname);
         else
-            C_PlayerMessage("%s finished %s%s",
-                playername, mapname, (ispunctuation(mapname[strlen(mapname) - 1]) ? "" : "!"));
+            C_PlayerMessage("%s finished %s!", playername, mapname);
     }
     else
     {

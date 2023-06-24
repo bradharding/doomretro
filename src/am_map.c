@@ -94,6 +94,9 @@ static byte *am_crosshaircolor2;
 // [BH] changed to initial zoom level of E1M1: Hangar so each map zoom level is consistent
 #define INITSCALEMTOF   125114
 
+// minimum scale needed to use big dots for solid walls
+#define USEBIGDOTS      (FRACUNIT * 3 / 2)
+
 // how much the automap moves window per tic in map coordinates
 // moves 140 pixels in 1 second
 #define F_PANINC        ((uint64_t)8 << speedtoggle)
@@ -177,7 +180,7 @@ am_frame_t          am_frame;
 
 static bool         isteleportline[NUMLINESPECIALS];
 
-static void AM_Rotate(fixed_t *x, fixed_t *y, angle_t angle);
+static void AM_Rotate(fixed_t *x, fixed_t *y, const angle_t angle);
 static void (*putbigdot)(unsigned int, unsigned int, const byte *);
 static void PUTDOT(unsigned int x, unsigned int y, const byte *color);
 static void PUTBIGDOT(unsigned int x, unsigned int y, const byte *color);
@@ -190,7 +193,7 @@ static void AM_ActivateNewScale(void)
     m_h = FTOM(MAPHEIGHT);
     m_x -= m_w / 2;
     m_y -= m_h / 2;
-    putbigdot = (scale_mtof >= FRACUNIT + FRACUNIT / 2 ? &PUTBIGDOT : &PUTDOT);
+    putbigdot = (scale_mtof >= USEBIGDOTS ? &PUTBIGDOT : &PUTDOT);
 }
 
 static void AM_SaveScaleAndLoc(void)
@@ -215,7 +218,7 @@ static void AM_RestoreScaleAndLoc(void)
     // Change the scaling multipliers
     scale_mtof = FixedDiv(MAPWIDTH << FRACBITS, m_w);
     scale_ftom = FixedDiv(FRACUNIT, scale_mtof);
-    putbigdot = (scale_mtof >= FRACUNIT + FRACUNIT / 2 ? &PUTBIGDOT : &PUTDOT);
+    putbigdot = (scale_mtof >= USEBIGDOTS ? &PUTBIGDOT : &PUTDOT);
 }
 
 //
@@ -402,7 +405,7 @@ static void AM_LevelInit(void)
     if (scale_mtof > max_scale_mtof)
         scale_mtof = min_scale_mtof;
 
-    putbigdot = (scale_mtof >= FRACUNIT + FRACUNIT / 2 ? &PUTBIGDOT : &PUTDOT);
+    putbigdot = (scale_mtof >= USEBIGDOTS ? &PUTBIGDOT : &PUTDOT);
     scale_ftom = FixedDiv(FRACUNIT, scale_mtof);
 
     // for saving and restoring
