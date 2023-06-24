@@ -4723,15 +4723,15 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
     {
         int outside = 0;
 
-        for (int i = 0; i < numsectors; i++)
+        for (int i = 0; i < numsubsectors; i++)
         {
-            const short picnum = sectors[i].ceilingpic;
+            const short picnum = subsectors[i].sector->ceilingpic;
 
             if (picnum == skyflatnum || (picnum & PL_SKYFLAT))
                 outside++;
         }
 
-        outside = outside * 100 / numsectors;
+        outside = outside * 100 / numsubsectors;
         C_TabbedOutput(tabs, INDENT "Inside/outside\t%i%%/%i%%", 100 - outside, outside);
     }
 
