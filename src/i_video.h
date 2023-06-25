@@ -82,7 +82,7 @@ void I_StartTic(void);
 // determines the hardware configuration
 // and sets up the video mode
 void I_InitGraphics(void);
-void I_RestartGraphics(bool recreatewindow);
+void I_RestartGraphics(const bool recreatewindow);
 void I_CapFPS(int cap);
 
 void I_SaveMousePointerPosition(void);
@@ -95,17 +95,17 @@ void GetScreenResolution(void);
 // Takes full 8 bit values.
 void I_SetPalette(byte *playpal);
 void I_SetExternalAutomapPalette(void);
-void I_SetPaletteWithBrightness(byte *playpal, float brightness);
+void I_SetPaletteWithBrightness(byte *playpal, const float brightness);
 
-void I_UpdateBlitFunc(bool shaking);
+void I_UpdateBlitFunc(const bool shaking);
 bool I_CreateExternalAutomap(void);
 void I_DestroyExternalAutomap(void);
 
 void I_ToggleFullscreen(void);
 void I_SetPillarboxes(void);
-void I_SetMotionBlur(int percent);
+void I_SetMotionBlur(const int percent);
 
-void I_SetGamma(float value);
+void I_SetGamma(const float value);
 
 #if defined(_WIN32)
 void I_WindowResizeBlit(void);

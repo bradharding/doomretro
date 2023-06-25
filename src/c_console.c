@@ -832,21 +832,21 @@ static void C_DrawBackground(void)
         {
             byte    *dot = *screens + x;
 
-            *dot = colormaps[0][6 * 256 + *(dot + (x % SCREENWIDTH ? -1 : 1))];
+            *dot = colormaps[0][6 * 256 + *(dot + ((x % SCREENWIDTH) ? -1 : 1))];
         }
 
         for (int x = (y += SCREENWIDTH) + 1; x < y + SCREENWIDTH - 1; x += 3)
         {
             byte    *dot = *screens + x;
 
-            *dot = colormaps[0][6 * 256 + *(dot + (x % SCREENWIDTH ? -1 : 1))];
+            *dot = colormaps[0][6 * 256 + *(dot + ((x % SCREENWIDTH) ? -1 : 1))];
         }
 
         for (int x = (y += SCREENWIDTH); x < y + SCREENWIDTH - 1; x += 3)
         {
             byte    *dot = *screens + x;
 
-            *dot = colormaps[0][6 * 256 + *(dot + (x % SCREENWIDTH ? -1 : 1))];
+            *dot = colormaps[0][6 * 256 + *(dot + ((x % SCREENWIDTH) ? -1 : 1))];
         }
     }
 

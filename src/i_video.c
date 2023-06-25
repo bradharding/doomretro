@@ -944,20 +944,26 @@ static void I_Blit_Automap_NearestLinear(void)
     SDL_RenderPresent(maprenderer);
 }
 
-void I_UpdateBlitFunc(bool shaking)
+void I_UpdateBlitFunc(const bool shaking)
 {
-    const bool  nearest = (nearestlinear && displayheight % VANILLAHEIGHT);
+    if (nearestlinear && (displayheight % VANILLAHEIGHT))
+    {
+        if (shaking && !software)
+            blitfunc = (vid_showfps ? &I_Blit_NearestLinear_ShowFPS_Shake : &I_Blit_NearestLinear_Shake);
+        else
+            blitfunc = (vid_showfps ? &I_Blit_NearestLinear_ShowFPS : &I_Blit_NearestLinear);
 
-    if (shaking && !software)
-        blitfunc = (nearest ?
-            (vid_showfps ? &I_Blit_NearestLinear_ShowFPS_Shake : &I_Blit_NearestLinear_Shake) :
-            (vid_showfps ? &I_Blit_ShowFPS_Shake : &I_Blit_Shake));
+        mapblitfunc = (mapwindow ? &I_Blit_Automap_NearestLinear : &nullfunc);
+    }
     else
-        blitfunc = (nearest ?
-            (vid_showfps ? &I_Blit_NearestLinear_ShowFPS : &I_Blit_NearestLinear) :
-            (vid_showfps ? &I_Blit_ShowFPS : &I_Blit));
+    {
+        if (shaking && !software)
+            blitfunc = (vid_showfps ? &I_Blit_ShowFPS_Shake : &I_Blit_Shake);
+        else
+            blitfunc = (vid_showfps ? &I_Blit_ShowFPS : &I_Blit);
 
-    mapblitfunc = (mapwindow ? (nearest ? &I_Blit_Automap_NearestLinear : &I_Blit_Automap) : &nullfunc);
+        mapblitfunc = (mapwindow ? &I_Blit_Automap : &nullfunc);
+    }
 }
 
 //
@@ -1008,7 +1014,7 @@ void I_SetExternalAutomapPalette(void)
     }
 }
 
-void I_SetPaletteWithBrightness(byte *playpal, float brightness)
+void I_SetPaletteWithBrightness(byte *playpal, const float brightness)
 {
     const byte  *gamma = gammatable[gammaindex];
 
@@ -1269,7 +1275,7 @@ static void PositionOnCurrentDisplay(void)
             displays[displayindex].y + (displays[displayindex].h - windowheight) / 2);
 }
 
-void I_SetMotionBlur(int percent)
+void I_SetMotionBlur(const int percent)
 {
     if (percent)
     {
@@ -1769,7 +1775,7 @@ static void I_GetScreenDimensions(void)
     GetPixelSize();
 }
 
-void I_RestartGraphics(bool recreatewindow)
+void I_RestartGraphics(const bool recreatewindow)
 {
     if (recreatewindow)
         SDL_DestroyWindow(window);
@@ -1849,7 +1855,7 @@ static void I_InitPaletteTables(void)
                 saturationtable[r][g][b] = sqrtf(r * r * 0.299f + g * g * 0.587f + b * b * 0.114f);
 }
 
-void I_SetGamma(float value)
+void I_SetGamma(const float value)
 {
     for (gammaindex = 0; gammaindex < GAMMALEVELS && gammalevels[gammaindex] != value; gammaindex++);
 
