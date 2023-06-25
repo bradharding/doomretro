@@ -2359,14 +2359,14 @@ static void P_CreateBlockMap(void)
         for (int i = 0; i < numlines; i++)
         {
             // starting coordinates
-            int x = (lines[i].v1->x >> FRACBITS) - minx;
-            int y = (lines[i].v1->y >> FRACBITS) - miny;
+            const int       x = (lines[i].v1->x >> FRACBITS) - minx;
+            const int       y = (lines[i].v1->y >> FRACBITS) - miny;
 
             // x - y deltas
-            int adx = lines[i].dx >> FRACBITS;
-            int dx = SIGN(adx);
-            int ady = lines[i].dy >> FRACBITS;
-            int dy = SIGN(ady);
+            int             adx = lines[i].dx >> FRACBITS;
+            int             dx = SIGN(adx);
+            int             ady = lines[i].dy >> FRACBITS;
+            int             dy = SIGN(ady);
 
             // difference in preferring to move across y (> 0) instead of x (< 0)
             int             diff = (!adx ? 1 : (!ady ? -1 : (((x >> MAPBTOFRAC) << MAPBTOFRAC)
@@ -2378,7 +2378,7 @@ static void P_CreateBlockMap(void)
             unsigned int    b = (y >> MAPBTOFRAC) * bmapwidth + (x >> MAPBTOFRAC);
 
             // ending block
-            int             bend = (((lines[i].v2->y >> FRACBITS) - miny) >> MAPBTOFRAC) * bmapwidth
+            const int       bend = (((lines[i].v2->y >> FRACBITS) - miny) >> MAPBTOFRAC) * bmapwidth
                                 + (((lines[i].v2->x >> FRACBITS) - minx) >> MAPBTOFRAC);
 
             // delta for pointer when moving across y
@@ -2511,7 +2511,7 @@ static void P_LoadBlockMap(int lump)
         // Swap all short integers to native byte ordering.
         for (int i = 4; i < count; i++)
         {
-            short   t = SHORT(wadblockmaplump[i]);
+            const short t = SHORT(wadblockmaplump[i]);
 
             blockmaplump[i] = (t == -1 ? -1L : ((unsigned int)t & 0xFFFF));
         }

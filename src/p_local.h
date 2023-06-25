@@ -103,7 +103,7 @@ void P_SetPlayerSprite(const size_t position, const statenum_t stnum);
 // 16 pixels of bob
 #define MAXBOB              0x100000
 #define MLOOKUNIT           8
-#define PLAYERSLOPE(a)      ((((a)->lookdir / MLOOKUNIT) << FRACBITS) / 153)
+#define PLAYERSLOPE(a)      ((((a)->lookdir / MLOOKUNIT) << FRACBITS) / (VANILLAWIDTH / 2))
 
 extern bool autousing;
 extern int  deadlookdir;
