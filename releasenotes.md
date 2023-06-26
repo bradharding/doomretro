@@ -31,6 +31,9 @@
 * Friendly monsters spawned using the `spawn` CCMD will now follow the player into the next map.
 * Minor improvements have been made to the support of [*MBF21*](https://doomwiki.org/wiki/MBF21)-compatible WADs.
 * The mouse pointer is no longer displayed on the intermission or finale screens when the player moves the mouse and the `m_pointer` CVAR is `on`.
+* When the `mouselook` CVAR is `on`:
+  * The player can see slightly further upwards and downwards.
+  * A crash no longer occurs if a blood splat touches the top of the screen while the player looks downwards.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
