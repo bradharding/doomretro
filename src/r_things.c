@@ -627,7 +627,7 @@ static void R_DrawVisSplat(const vissplat_t *vis)
             const int       topscreen = splattopscreen + spryscale * post->topdelta;
 
             if ((dc_yh = MIN((topscreen + spryscale * post->length) >> FRACBITS, clipbot[dc_x] - 1)) >= 0)
-                if ((dc_yl = MAX(0, topscreen >> FRACBITS)) <= dc_yh)
+                if ((dc_yl = MAX(cliptop[dc_x], topscreen >> FRACBITS)) <= dc_yh)
                     colfunc();
         }
     }
@@ -1219,7 +1219,7 @@ static void R_DrawBloodSplatSprite(const vissplat_t *splat)
     // initialize the clipping arrays
     for (int i = x1; i <= x2; i++)
     {
-        cliptop[i] = -1;
+        cliptop[i] = 0;
         clipbot[i] = viewheight;
     }
 

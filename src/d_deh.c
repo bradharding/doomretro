@@ -2515,9 +2515,7 @@ static void deh_procThing(DEHFILE *fpin, const char *line)
 
     // Note that the mobjinfo[] array is base zero, but object numbers
     // in the dehacked file start with one. Grumble.
-    indexnum--;
-
-    dsdh_EnsureMobjInfoCapacity(indexnum);
+    dsdh_EnsureMobjInfoCapacity(--indexnum);
 
     // now process the stuff
     // Note that for Things we can look up the key and use its offset
