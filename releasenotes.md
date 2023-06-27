@@ -4,7 +4,7 @@
 
 * *DOOM Retro* is now built using v17.6.4 of [*Microsoft Visual Studio Community 2022*](https://visualstudio.microsoft.com/vs/community/).
 * *DOOM Retro* now uses [*SDL v2.28.0*](https://github.com/libsdl-org/SDL/releases/tag/release-2.27.1).
-* Minor optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
+* Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Any `.cfg` files placed in the `autoload` folder are now autoloaded when *DOOM Retro* starts.
 * Support has been added for [*DSDHacked*](https://doomwiki.org/wiki/DSDHacked), allowing an unlimited number of things, states, sprites and sound effects to be used in `DEHACKED` lumps.
 * Changes have been made to text that is output to the console.
@@ -23,7 +23,7 @@
 * A bug is fixed whereby the player’s field of view would sometimes be wrong when changing the `r_fov` CVAR.
 * Minor improvements have been made to rendering floors and ceilings.
 * When using the `IDCLEV` cheat and vanilla mode is enabled, the player now starts the map with 100% health, no armor, and only a pistol with 50 bullets.
-* A slightly darker color is now chosen for the surrounding pillarboxes when displaying certain lumps from a PWAD that are only 320 pixels wide and the `vid_widescreen` CVAR is `on`.
+* A slightly darker color is now chosen for the surrounding pillarboxes when displaying certain lumps from PWADs that are only 320 pixels wide and the `vid_widescreen` CVAR is `on`.
 * A bug is fixed, present in the original *DOOM*, whereby stairs that rose up from the floor would fail in some rare instances. Also, `compat_stairs` is now recognized in `MAPINFO` lumps to restore this behavior.
 * If regenerating health is enabled using the `regenhealth` CCMD, a sound is now played and the “Health picked up” stat is updated every second the player’s health increases by 1% until it is 100% again.
 * Minor improvements have been made to the player’s health in the status bar when they are dead and the `negativehealth` CVAR is `on`.
@@ -32,8 +32,8 @@
 * Minor improvements have been made to the support of [*MBF21*](https://doomwiki.org/wiki/MBF21)-compatible WADs.
 * The mouse pointer is no longer displayed on the intermission or finale screens when the player moves the mouse and the `m_pointer` CVAR is `on`.
 * When the `mouselook` CVAR is `on`:
-  * The player can now look slightly further upwards and downwards.
-  * A crash no longer occurs if a blood splat touches the top of the screen while the player looks downwards.
+  * The player can now see slightly further when looking up or down.
+  * A crash no longer occurs if a blood splat touches the top of the screen while the player looks down.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
