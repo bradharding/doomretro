@@ -41,7 +41,7 @@
 // The sky map is 256 * 128 * 4 maps.
 #define ANGLETOSKYSHIFT     22
 
-#define SKYSTRETCH_HEIGHT   (VANILLAHEIGHT + (r_screensize < r_screensize_max && !menuactive ? 28 : 52))
+#define SKYSTRETCH_HEIGHT   (VANILLAHEIGHT + (r_screensize < r_screensize_max && !menuactive ? 38 : 64))
 
 extern int      skytexture;
 extern int      skytexturemid;
