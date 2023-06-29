@@ -2243,7 +2243,7 @@ bool C_Responder(event_t *ev)
                         {
                             inputhistory = i;
                             M_StringCopy(consoleinput, console[i].string, sizeof(consoleinput));
-                            caretpos = selectstart = selectend = len;
+                            caretpos = selectstart = selectend = (int)strlen(consoleinput);
                             caretwait = I_GetTimeMS() + CARETBLINKTIME;
                             showcaret = true;
                             break;
@@ -2283,7 +2283,7 @@ bool C_Responder(event_t *ev)
                             M_StringCopy(consoleinput, currentinput, sizeof(consoleinput));
                         }
 
-                        caretpos = selectstart = selectend = len;
+                        caretpos = selectstart = selectend = (int)strlen(consoleinput);
                         caretwait = I_GetTimeMS() + CARETBLINKTIME;
                         showcaret = true;
                     }
