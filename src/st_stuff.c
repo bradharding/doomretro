@@ -156,110 +156,117 @@
 #define ST_MAXAMMO3Y        191
 
 // ST_Start() has just been called
-static bool                 st_firsttime;
+static bool             st_firsttime;
 
 // whether left-side main status bar is active
-static bool                 st_statusbaron;
+static bool             st_statusbaron;
 
 // main bar left
-static patch_t              *sbar;
-static patch_t              *sbar2;
-static short                sbar2width;
-static short                sbarwidth;
+static patch_t          *sbar;
+static patch_t          *sbar2;
+static short            sbar2width;
+static short            sbarwidth;
 
 // 0-9, tall numbers
-patch_t                     *tallnum[10];
-short                       tallnum0width;
-short                       tallnum1width;
+patch_t                 *tallnum[10];
+short                   tallnum0width;
+short                   tallnum1width;
 // tall % sign
-patch_t                     *tallpercent;
-short                       tallpercentwidth;
-bool                        emptytallpercent;
+patch_t                 *tallpercent;
+short                   tallpercentwidth;
+bool                    emptytallpercent;
 
 // 0-9, short, yellow (,different!) numbers
-static patch_t              *shortnum[10];
+static patch_t          *shortnum[10];
 
 // 3 key-cards, 3 skulls
-static patch_t              *keys[NUMCARDS];
+static patch_t          *keys[NUMCARDS];
 
 // face status patches
-patch_t                     *faces[ST_NUMFACES];
+patch_t                 *faces[ST_NUMFACES];
 
 // main bar right
-static patch_t              *armsbg;
+static patch_t          *armsbg;
 
 // weapon ownership patches
-static patch_t              *arms[6][2];
+static patch_t          *arms[6][2];
 
 // ready-weapon widget
-static st_number_t          w_ready;
+static st_number_t      w_ready;
 
 // health widget
-static st_percent_t         w_health;
+static st_percent_t     w_health;
 
 // weapon ownership widgets
-static st_multicon_t        w_arms[6];
+static st_multicon_t    w_arms[6];
 
 // face status widget
-static st_multicon_t        w_faces;
+static st_multicon_t    w_faces;
 
 // keycard widgets
-static st_multicon_t        w_keyboxes[3];
+static st_multicon_t    w_keyboxes[3];
 
 // armor widget
-static st_percent_t         w_armor;
+static st_percent_t     w_armor;
 
 // ammo widgets
-static st_number_t          w_ammo[4];
+static st_number_t      w_ammo[4];
 
 // max ammo widgets
-static st_number_t          w_maxammo[4];
+static st_number_t      w_maxammo[4];
 
-byte                        *grnrock;
-patch_t                     *brdr_t;
-patch_t                     *brdr_b;
-patch_t                     *brdr_l;
-patch_t                     *brdr_r;
-patch_t                     *brdr_tl;
-patch_t                     *brdr_tr;
-patch_t                     *brdr_bl;
-patch_t                     *brdr_br;
+byte                    *grnrock;
+patch_t                 *brdr_t;
+patch_t                 *brdr_b;
+patch_t                 *brdr_l;
+patch_t                 *brdr_r;
+patch_t                 *brdr_tl;
+patch_t                 *brdr_tr;
+patch_t                 *brdr_bl;
+patch_t                 *brdr_br;
 
-bool                        st_drawbrdr;
+bool                    st_drawbrdr;
 
 // used to use appropriately pained face
-static int                  st_oldhealth = -1;
+static int              st_oldhealth = -1;
 
 // used for evil grin
-bool                        oldweaponsowned[NUMWEAPONS];
+bool                    oldweaponsowned[NUMWEAPONS];
 
-int                         st_palette = 0;
+int                     st_palette = 0;
 
 // count until face changes
-int                         st_facecount;
+int                     st_facecount;
 
 // current face index, used by w_faces
-int                         st_faceindex;
+int                     st_faceindex;
 
-static int                  st_shotguns;
+static int              st_shotguns;
 
 // holds key-type for each key box on bar
-static int                  keyboxes[3];
+static int              keyboxes[3];
 
-int                         oldhealth = 100;
+int                     oldhealth = 100;
 
-bool                        idclev;
-int                         idclevtics = 0;
+bool                    idclev;
+int                     idclevtics = 0;
 
-bool                        idmus;
+bool                    idmus;
 
-cheatseq_t  cheat_mus = CHEAT("idmus", 0, false);
-cheatseq_t  cheat_mus_xy = CHEAT("idmus", 2, false);
-cheatseq_t  cheat_god = CHEAT("iddqd", 0, false);
-cheatseq_t  cheat_ammo = CHEAT("idkfa", 0, false);
-cheatseq_t  cheat_ammonokey = CHEAT("idfa", 0, false);
-cheatseq_t  cheat_noclip = CHEAT("idspispopd", 0, false);
-cheatseq_t  cheat_commercial_noclip = CHEAT("idclip", 0, false);
+cheatseq_t              cheat_mus = CHEAT("idmus", 0, false);
+cheatseq_t              cheat_mus_xy = CHEAT("idmus", 2, false);
+cheatseq_t              cheat_god = CHEAT("iddqd", 0, false);
+cheatseq_t              cheat_ammo = CHEAT("idkfa", 0, false);
+cheatseq_t              cheat_ammonokey = CHEAT("idfa", 0, false);
+cheatseq_t              cheat_noclip = CHEAT("idspispopd", 0, false);
+cheatseq_t              cheat_commercial_noclip = CHEAT("idclip", 0, false);
+
+cheatseq_t              cheat_choppers = CHEAT("idchoppers", 0, false);
+cheatseq_t              cheat_clev = CHEAT("idclev", 0, false);
+cheatseq_t              cheat_clev_xy = CHEAT("idclev", 2, false);
+cheatseq_t              cheat_mypos = CHEAT("idmypos", 0, false);
+cheatseq_t              cheat_amap = CHEAT("iddt", 0, false);
+cheatseq_t              cheat_buddha = CHEAT("hsathanya", 0, false);
 
 cheatseq_t cheat_powerup[7] =
 {
@@ -271,13 +278,6 @@ cheatseq_t cheat_powerup[7] =
     CHEAT("idbeholdl", 0, true),
     CHEAT("idbehold",  0, true)
 };
-
-cheatseq_t  cheat_choppers = CHEAT("idchoppers", 0, false);
-cheatseq_t  cheat_clev = CHEAT("idclev", 0, false);
-cheatseq_t  cheat_clev_xy = CHEAT("idclev", 2, false);
-cheatseq_t  cheat_mypos = CHEAT("idmypos", 0, false);
-cheatseq_t  cheat_amap = CHEAT("iddt", 0, false);
-cheatseq_t  cheat_buddha = CHEAT("hsathanya", 0, false);
 
 static bool movekey(char key)
 {
@@ -302,78 +302,78 @@ static void ST_InitCheats(void)
     cheat_powerup[5].movekey = movekey(cheat_powerup[5].sequence[0]);
     cheat_powerup[6].movekey = movekey(cheat_powerup[6].sequence[0]);
     cheat_choppers.movekey = movekey(cheat_choppers.sequence[0]);
-    cheat_buddha.movekey = movekey(cheat_buddha.sequence[0]);
     cheat_clev.movekey = movekey(cheat_clev.sequence[0]);
     cheat_clev_xy.movekey = movekey(cheat_clev_xy.sequence[0]);
     cheat_mypos.movekey = movekey(cheat_mypos.sequence[0]);
     cheat_amap.movekey = movekey(cheat_amap.sequence[0]);
+    cheat_buddha.movekey = movekey(cheat_buddha.sequence[0]);
 }
 
 #define IDMUS_MAX   60
 
 static const int mus[IDMUS_MAX][6] =
 {
-    /* xy      shareware    registered   commercial   retail      bfgedition   nerve      */
-    /* 00 */ { mus_none,    mus_none,    mus_none,    mus_none,   mus_none,    mus_none   },
-    /* 01 */ { mus_none,    mus_none,    mus_runnin,  mus_none,   mus_runnin,  mus_messag },
-    /* 02 */ { mus_none,    mus_none,    mus_stalks,  mus_none,   mus_stalks,  mus_ddtblu },
-    /* 03 */ { mus_none,    mus_none,    mus_countd,  mus_none,   mus_countd,  mus_doom   },
-    /* 04 */ { mus_none,    mus_none,    mus_betwee,  mus_none,   mus_betwee,  mus_shawn  },
-    /* 05 */ { mus_none,    mus_none,    mus_doom,    mus_none,   mus_doom,    mus_in_cit },
-    /* 06 */ { mus_none,    mus_none,    mus_the_da,  mus_none,   mus_the_da,  mus_the_da },
-    /* 07 */ { mus_none,    mus_none,    mus_shawn,   mus_none,   mus_shawn,   mus_in_cit },
-    /* 08 */ { mus_none,    mus_none,    mus_ddtblu,  mus_none,   mus_ddtblu,  mus_shawn  },
-    /* 09 */ { mus_none,    mus_none,    mus_in_cit,  mus_none,   mus_in_cit,  mus_ddtblu },
-    /* 10 */ { mus_none,    mus_none,    mus_dead,    mus_none,   mus_dead,    mus_none   },
-    /* 11 */ { mus_e1m1,    mus_e1m1,    mus_stlks2,  mus_e1m1,   mus_stlks2,  mus_none   },
-    /* 12 */ { mus_e1m2,    mus_e1m2,    mus_theda2,  mus_e1m2,   mus_theda2,  mus_none   },
-    /* 13 */ { mus_e1m3,    mus_e1m3,    mus_doom2,   mus_e1m3,   mus_doom2,   mus_none   },
-    /* 14 */ { mus_e1m4,    mus_e1m4,    mus_ddtbl2,  mus_e1m4,   mus_ddtbl2,  mus_none   },
-    /* 15 */ { mus_e1m5,    mus_e1m5,    mus_runni2,  mus_e1m5,   mus_runni2,  mus_none   },
-    /* 16 */ { mus_e1m6,    mus_e1m6,    mus_dead2,   mus_e1m6,   mus_dead2,   mus_none   },
-    /* 17 */ { mus_e1m7,    mus_e1m7,    mus_stlks3,  mus_e1m7,   mus_stlks3,  mus_none   },
-    /* 18 */ { mus_e1m8,    mus_e1m8,    mus_romero,  mus_e1m8,   mus_romero,  mus_none   },
-    /* 19 */ { mus_e1m9,    mus_e1m9,    mus_shawn2,  mus_e1m9,   mus_shawn2,  mus_none   },
-    /* 20 */ { mus_none,    mus_none,    mus_messag,  mus_none,   mus_messag,  mus_none   },
-    /* 21 */ { mus_none,    mus_e2m1,    mus_count2,  mus_e2m1,   mus_count2,  mus_none   },
-    /* 22 */ { mus_none,    mus_e2m2,    mus_ddtbl3,  mus_e2m2,   mus_ddtbl3,  mus_none   },
-    /* 23 */ { mus_none,    mus_e2m3,    mus_ampie,   mus_e2m3,   mus_ampie,   mus_none   },
-    /* 24 */ { mus_none,    mus_e2m4,    mus_theda3,  mus_e2m4,   mus_theda3,  mus_none   },
-    /* 25 */ { mus_none,    mus_e2m5,    mus_adrian,  mus_e2m5,   mus_adrian,  mus_none   },
-    /* 26 */ { mus_none,    mus_e2m6,    mus_messg2,  mus_e2m6,   mus_messg2,  mus_none   },
-    /* 27 */ { mus_none,    mus_e2m7,    mus_romer2,  mus_e2m7,   mus_romer2,  mus_none   },
-    /* 28 */ { mus_none,    mus_e2m8,    mus_tense,   mus_e2m8,   mus_tense,   mus_none   },
-    /* 29 */ { mus_none,    mus_e2m9,    mus_shawn3,  mus_e2m9,   mus_shawn3,  mus_none   },
-    /* 30 */ { mus_none,    mus_none,    mus_openin,  mus_none,   mus_openin,  mus_none   },
-    /* 31 */ { mus_none,    mus_e3m1,    mus_evil,    mus_e3m1,   mus_evil,    mus_none   },
-    /* 32 */ { mus_none,    mus_e3m2,    mus_ultima,  mus_e3m2,   mus_ultima,  mus_none   },
-    /* 33 */ { mus_none,    mus_e3m3,    mus_none,    mus_e3m3,   mus_read_m,  mus_none   },
-    /* 34 */ { mus_none,    mus_e3m4,    mus_none,    mus_e3m4,   mus_none,    mus_none   },
-    /* 35 */ { mus_none,    mus_e3m5,    mus_none,    mus_e3m5,   mus_none,    mus_none   },
-    /* 36 */ { mus_none,    mus_e3m6,    mus_none,    mus_e3m6,   mus_none,    mus_none   },
-    /* 37 */ { mus_none,    mus_e3m7,    mus_none,    mus_e3m7,   mus_none,    mus_none   },
-    /* 38 */ { mus_none,    mus_e3m8,    mus_none,    mus_e3m8,   mus_none,    mus_none   },
-    /* 39 */ { mus_none,    mus_e3m9,    mus_none,    mus_e3m9,   mus_none,    mus_none   },
-    /* 40 */ { mus_none,    mus_none,    mus_none,    mus_none,   mus_none,    mus_none   },
-    /* 41 */ { mus_none,    mus_none,    mus_none,    mus_e3m4,   mus_none,    mus_none   },
-    /* 42 */ { mus_none,    mus_none,    mus_none,    mus_e3m2,   mus_none,    mus_none   },
-    /* 43 */ { mus_none,    mus_none,    mus_none,    mus_e3m3,   mus_none,    mus_none   },
-    /* 44 */ { mus_none,    mus_none,    mus_none,    mus_e1m5,   mus_none,    mus_none   },
-    /* 45 */ { mus_none,    mus_none,    mus_none,    mus_e2m7,   mus_none,    mus_none   },
-    /* 46 */ { mus_none,    mus_none,    mus_none,    mus_e2m4,   mus_none,    mus_none   },
-    /* 47 */ { mus_none,    mus_none,    mus_none,    mus_e2m6,   mus_none,    mus_none   },
-    /* 48 */ { mus_none,    mus_none,    mus_none,    mus_e2m5,   mus_none,    mus_none   },
-    /* 49 */ { mus_none,    mus_none,    mus_none,    mus_e1m9,   mus_none,    mus_none   },
-    /* 50 */ { mus_none,    mus_none,    mus_none,    mus_none,   mus_none,    mus_none   },
-    /* 51 */ { mus_none,    mus_none,    mus_none,    mus_e5m1,   mus_none,    mus_none   },
-    /* 52 */ { mus_none,    mus_none,    mus_none,    mus_e5m2,   mus_none,    mus_none   },
-    /* 53 */ { mus_none,    mus_none,    mus_none,    mus_e5m3,   mus_none,    mus_none   },
-    /* 54 */ { mus_none,    mus_none,    mus_none,    mus_e5m4,   mus_none,    mus_none   },
-    /* 55 */ { mus_none,    mus_none,    mus_none,    mus_e5m5,   mus_none,    mus_none   },
-    /* 56 */ { mus_none,    mus_none,    mus_none,    mus_e5m6,   mus_none,    mus_none   },
-    /* 57 */ { mus_none,    mus_none,    mus_none,    mus_e5m7,   mus_none,    mus_none   },
-    /* 58 */ { mus_none,    mus_none,    mus_none,    mus_e5m8,   mus_none,    mus_none   },
-    /* 59 */ { mus_none,    mus_none,    mus_none,    mus_e5m9,   mus_none,    mus_none   }
+    /* xy      shareware   registered  commercial  retail      bfgedition  nerve      */
+    /* 00 */ { mus_none,   mus_none,   mus_none,   mus_none,   mus_none,   mus_none   },
+    /* 01 */ { mus_none,   mus_none,   mus_runnin, mus_none,   mus_runnin, mus_messag },
+    /* 02 */ { mus_none,   mus_none,   mus_stalks, mus_none,   mus_stalks, mus_ddtblu },
+    /* 03 */ { mus_none,   mus_none,   mus_countd, mus_none,   mus_countd, mus_doom   },
+    /* 04 */ { mus_none,   mus_none,   mus_betwee, mus_none,   mus_betwee, mus_shawn  },
+    /* 05 */ { mus_none,   mus_none,   mus_doom,   mus_none,   mus_doom,   mus_in_cit },
+    /* 06 */ { mus_none,   mus_none,   mus_the_da, mus_none,   mus_the_da, mus_the_da },
+    /* 07 */ { mus_none,   mus_none,   mus_shawn,  mus_none,   mus_shawn,  mus_in_cit },
+    /* 08 */ { mus_none,   mus_none,   mus_ddtblu, mus_none,   mus_ddtblu, mus_shawn  },
+    /* 09 */ { mus_none,   mus_none,   mus_in_cit, mus_none,   mus_in_cit, mus_ddtblu },
+    /* 10 */ { mus_none,   mus_none,   mus_dead,   mus_none,   mus_dead,   mus_none   },
+    /* 11 */ { mus_e1m1,   mus_e1m1,   mus_stlks2, mus_e1m1,   mus_stlks2, mus_none   },
+    /* 12 */ { mus_e1m2,   mus_e1m2,   mus_theda2, mus_e1m2,   mus_theda2, mus_none   },
+    /* 13 */ { mus_e1m3,   mus_e1m3,   mus_doom2,  mus_e1m3,   mus_doom2,  mus_none   },
+    /* 14 */ { mus_e1m4,   mus_e1m4,   mus_ddtbl2, mus_e1m4,   mus_ddtbl2, mus_none   },
+    /* 15 */ { mus_e1m5,   mus_e1m5,   mus_runni2, mus_e1m5,   mus_runni2, mus_none   },
+    /* 16 */ { mus_e1m6,   mus_e1m6,   mus_dead2,  mus_e1m6,   mus_dead2,  mus_none   },
+    /* 17 */ { mus_e1m7,   mus_e1m7,   mus_stlks3, mus_e1m7,   mus_stlks3, mus_none   },
+    /* 18 */ { mus_e1m8,   mus_e1m8,   mus_romero, mus_e1m8,   mus_romero, mus_none   },
+    /* 19 */ { mus_e1m9,   mus_e1m9,   mus_shawn2, mus_e1m9,   mus_shawn2, mus_none   },
+    /* 20 */ { mus_none,   mus_none,   mus_messag, mus_none,   mus_messag, mus_none   },
+    /* 21 */ { mus_none,   mus_e2m1,   mus_count2, mus_e2m1,   mus_count2, mus_none   },
+    /* 22 */ { mus_none,   mus_e2m2,   mus_ddtbl3, mus_e2m2,   mus_ddtbl3, mus_none   },
+    /* 23 */ { mus_none,   mus_e2m3,   mus_ampie,  mus_e2m3,   mus_ampie,  mus_none   },
+    /* 24 */ { mus_none,   mus_e2m4,   mus_theda3, mus_e2m4,   mus_theda3, mus_none   },
+    /* 25 */ { mus_none,   mus_e2m5,   mus_adrian, mus_e2m5,   mus_adrian, mus_none   },
+    /* 26 */ { mus_none,   mus_e2m6,   mus_messg2, mus_e2m6,   mus_messg2, mus_none   },
+    /* 27 */ { mus_none,   mus_e2m7,   mus_romer2, mus_e2m7,   mus_romer2, mus_none   },
+    /* 28 */ { mus_none,   mus_e2m8,   mus_tense,  mus_e2m8,   mus_tense,  mus_none   },
+    /* 29 */ { mus_none,   mus_e2m9,   mus_shawn3, mus_e2m9,   mus_shawn3, mus_none   },
+    /* 30 */ { mus_none,   mus_none,   mus_openin, mus_none,   mus_openin, mus_none   },
+    /* 31 */ { mus_none,   mus_e3m1,   mus_evil,   mus_e3m1,   mus_evil,   mus_none   },
+    /* 32 */ { mus_none,   mus_e3m2,   mus_ultima, mus_e3m2,   mus_ultima, mus_none   },
+    /* 33 */ { mus_none,   mus_e3m3,   mus_none,   mus_e3m3,   mus_read_m, mus_none   },
+    /* 34 */ { mus_none,   mus_e3m4,   mus_none,   mus_e3m4,   mus_none,   mus_none   },
+    /* 35 */ { mus_none,   mus_e3m5,   mus_none,   mus_e3m5,   mus_none,   mus_none   },
+    /* 36 */ { mus_none,   mus_e3m6,   mus_none,   mus_e3m6,   mus_none,   mus_none   },
+    /* 37 */ { mus_none,   mus_e3m7,   mus_none,   mus_e3m7,   mus_none,   mus_none   },
+    /* 38 */ { mus_none,   mus_e3m8,   mus_none,   mus_e3m8,   mus_none,   mus_none   },
+    /* 39 */ { mus_none,   mus_e3m9,   mus_none,   mus_e3m9,   mus_none,   mus_none   },
+    /* 40 */ { mus_none,   mus_none,   mus_none,   mus_none,   mus_none,   mus_none   },
+    /* 41 */ { mus_none,   mus_none,   mus_none,   mus_e3m4,   mus_none,   mus_none   },
+    /* 42 */ { mus_none,   mus_none,   mus_none,   mus_e3m2,   mus_none,   mus_none   },
+    /* 43 */ { mus_none,   mus_none,   mus_none,   mus_e3m3,   mus_none,   mus_none   },
+    /* 44 */ { mus_none,   mus_none,   mus_none,   mus_e1m5,   mus_none,   mus_none   },
+    /* 45 */ { mus_none,   mus_none,   mus_none,   mus_e2m7,   mus_none,   mus_none   },
+    /* 46 */ { mus_none,   mus_none,   mus_none,   mus_e2m4,   mus_none,   mus_none   },
+    /* 47 */ { mus_none,   mus_none,   mus_none,   mus_e2m6,   mus_none,   mus_none   },
+    /* 48 */ { mus_none,   mus_none,   mus_none,   mus_e2m5,   mus_none,   mus_none   },
+    /* 49 */ { mus_none,   mus_none,   mus_none,   mus_e1m9,   mus_none,   mus_none   },
+    /* 50 */ { mus_none,   mus_none,   mus_none,   mus_none,   mus_none,   mus_none   },
+    /* 51 */ { mus_none,   mus_none,   mus_none,   mus_e5m1,   mus_none,   mus_none   },
+    /* 52 */ { mus_none,   mus_none,   mus_none,   mus_e5m2,   mus_none,   mus_none   },
+    /* 53 */ { mus_none,   mus_none,   mus_none,   mus_e5m3,   mus_none,   mus_none   },
+    /* 54 */ { mus_none,   mus_none,   mus_none,   mus_e5m4,   mus_none,   mus_none   },
+    /* 55 */ { mus_none,   mus_none,   mus_none,   mus_e5m5,   mus_none,   mus_none   },
+    /* 56 */ { mus_none,   mus_none,   mus_none,   mus_e5m6,   mus_none,   mus_none   },
+    /* 57 */ { mus_none,   mus_none,   mus_none,   mus_e5m7,   mus_none,   mus_none   },
+    /* 58 */ { mus_none,   mus_none,   mus_none,   mus_e5m8,   mus_none,   mus_none   },
+    /* 59 */ { mus_none,   mus_none,   mus_none,   mus_e5m9,   mus_none,   mus_none   }
 };
 
 //

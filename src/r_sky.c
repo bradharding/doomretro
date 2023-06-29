@@ -54,7 +54,7 @@ bool    canmouselook = false;
 
 void R_InitSkyMap(void)
 {
-    int map = (gameepisode - 1) * 10 + gamemap;
+    const int   map = (gameepisode - 1) * 10 + gamemap;
 
     skyflatnum = R_FlatNumForName(SKYFLATNAME);
     terraintypes[skyflatnum] = SKY;
@@ -115,7 +115,7 @@ void R_InitSkyMap(void)
 
     if (canmouselook)
     {
-        int skyheight = textureheight[skytexture] >> FRACBITS;
+        const int   skyheight = textureheight[skytexture] >> FRACBITS;
 
         if (skyheight >= 128 && skyheight < VANILLAHEIGHT)
             skytexturemid = -54 * FRACUNIT * skyheight / SKYSTRETCH_HEIGHT;

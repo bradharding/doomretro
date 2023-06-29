@@ -320,11 +320,6 @@ void I_ShutdownKeyboard(void)
 #endif
 }
 
-static int AccelerateMouse(int value)
-{
-    return (value < -10 ? value * 2 + 10 : (value < 10 ? value : value * 2 - 10));
-}
-
 static short inline clamp(short value, short deadzone)
 {
     return (ABS(value) < deadzone ? 0 : (joy_analog ? MAX(-SDL_JOYSTICK_AXIS_MAX, value) : SIGN(value) * SDL_JOYSTICK_AXIS_MAX));
@@ -686,6 +681,11 @@ static void SmoothMouse(int *x, int *y)
     *y += yy;
     yy = FixedMul(*y, adjustment);
     *y -= yy;
+}
+
+static int AccelerateMouse(int value)
+{
+    return (value < -10 ? value * 2 + 10 : (value < 10 ? value : value * 2 - 10));
 }
 
 static void I_ReadMouse(void)
