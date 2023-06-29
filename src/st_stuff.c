@@ -401,7 +401,7 @@ static void ST_RefreshBackground(void)
             if (vid_widescreen)
             {
                 if (sbar2width < SCREENWIDTH)
-                    R_FillBezel(sbar2topcolor, sbar2color);
+                    R_FillBezel(sbar2topcolor, sbar2color, sbar2width);
 
                 V_DrawBigPatch((SCREENWIDTH - sbar2width) / 2, ST_Y, sbar2width, SBARHEIGHT, sbar2);
             }
@@ -411,7 +411,7 @@ static void ST_RefreshBackground(void)
         else
         {
             if (sbarwidth < SCREENWIDTH)
-                R_FillBezel(sbartopcolor, sbarcolor);
+                R_FillBezel(sbartopcolor, sbarcolor, sbarwidth);
 
             V_DrawWidePatch((SCREENWIDTH / SCREENSCALE - sbarwidth) / 2, VANILLAHEIGHT - VANILLASBARHEIGHT, 0, sbar);
         }
@@ -419,7 +419,7 @@ static void ST_RefreshBackground(void)
     else
     {
         if (sbarwidth < SCREENWIDTH)
-            R_FillBezel(sbartopcolor, sbarcolor);
+            R_FillBezel(sbartopcolor, sbarcolor, sbarwidth);
 
         V_DrawWidePatch((SCREENWIDTH / SCREENSCALE - sbarwidth) / 2, VANILLAHEIGHT - VANILLASBARHEIGHT, 0, sbar);
         V_DrawPatch((hacx ? ST_ARMSBGX + 4 : ST_ARMSBGX), VANILLAHEIGHT - VANILLASBARHEIGHT, 0, armsbg);

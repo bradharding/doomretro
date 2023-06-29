@@ -1355,16 +1355,27 @@ void R_InitBuffer(void)
     memset(fuzztable, 0, MAXSCREENAREA);
 }
 
-void R_FillBezel(const byte topcolor, const byte color)
+void R_FillBezel(const byte topcolor, const byte color, const int sbarwidth)
 {
-    byte    *dest = &screens[0][(SCREENHEIGHT - SBARHEIGHT) * SCREENWIDTH];
+    byte        *dest = &screens[0][(SCREENHEIGHT - SBARHEIGHT) * SCREENWIDTH];
+    int         height = SBARHEIGHT - 2;
+    const int   width = (SCREENWIDTH - sbarwidth) / 2;
+    const int   right = SCREENWIDTH - width;
 
-    for (int x = 0; x < SCREENWIDTH * 2; x++)
-        *dest++ = topcolor;
+    memset(dest, topcolor, width);
+    memset(dest + right, topcolor, width);
+    dest += SCREENWIDTH;
 
-    for (int y = SCREENHEIGHT - SBARHEIGHT - 2; y < SCREENHEIGHT; y++)
-        for (int x = 0; x < SCREENWIDTH; x++)
-            *dest++ = color;
+    memset(dest, topcolor, width);
+    memset(dest + right, topcolor, width);
+    dest += SCREENWIDTH;
+
+    while (height--)
+    {
+        memset(dest, color, width);
+        memset(dest + right, color, width);
+        dest += SCREENWIDTH;
+    }
 }
 
 //
