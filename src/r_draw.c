@@ -1355,12 +1355,12 @@ void R_InitBuffer(void)
     memset(fuzztable, 0, MAXSCREENAREA);
 }
 
-void R_FillBezel(const byte color)
+void R_FillBezel(const byte topcolor, const byte color)
 {
     byte    *dest = &screens[0][(SCREENHEIGHT - SBARHEIGHT) * SCREENWIDTH];
 
     for (int x = 0; x < SCREENWIDTH * 2; x++)
-        *dest++ = tinttab15[(nearestwhite << 8) + color];
+        *dest++ = topcolor;
 
     for (int y = SCREENHEIGHT - SBARHEIGHT - 2; y < SCREENHEIGHT; y++)
         for (int x = 0; x < SCREENWIDTH; x++)

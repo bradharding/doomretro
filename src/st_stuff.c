@@ -168,6 +168,8 @@ static short            sbarwidth;
 static short            sbar2width;
 static byte             sbarcolor;
 static byte             sbar2color;
+static byte             sbartopcolor;
+static byte             sbar2topcolor;
 
 // 0-9, tall numbers
 patch_t                 *tallnum[10];
@@ -399,7 +401,7 @@ static void ST_RefreshBackground(void)
             if (vid_widescreen)
             {
                 if (sbar2width < SCREENWIDTH)
-                    R_FillBezel(sbar2color);
+                    R_FillBezel(sbar2topcolor, sbar2color);
 
                 V_DrawBigPatch((SCREENWIDTH - sbar2width) / 2, ST_Y, sbar2width, SBARHEIGHT, sbar2);
             }
@@ -409,7 +411,7 @@ static void ST_RefreshBackground(void)
         else
         {
             if (sbarwidth < SCREENWIDTH)
-                R_FillBezel(sbarcolor);
+                R_FillBezel(sbartopcolor, sbarcolor);
 
             V_DrawWidePatch((SCREENWIDTH / SCREENSCALE - sbarwidth) / 2, VANILLAHEIGHT - VANILLASBARHEIGHT, 0, sbar);
         }
@@ -417,7 +419,7 @@ static void ST_RefreshBackground(void)
     else
     {
         if (sbarwidth < SCREENWIDTH)
-            R_FillBezel(sbarcolor);
+            R_FillBezel(sbartopcolor, sbarcolor);
 
         V_DrawWidePatch((SCREENWIDTH / SCREENSCALE - sbarwidth) / 2, VANILLAHEIGHT - VANILLASBARHEIGHT, 0, sbar);
         V_DrawPatch((hacx ? ST_ARMSBGX + 4 : ST_ARMSBGX), VANILLAHEIGHT - VANILLASBARHEIGHT, 0, armsbg);
@@ -1439,6 +1441,8 @@ void ST_InitStatBar(void)
     sbar2width = SHORT(sbar2->width);
     sbarcolor = tinttab25[FindDominantEdgeColor(sbar)];
     sbar2color = tinttab25[FindDominantEdgeColor(sbar2)];
+    sbartopcolor = white5[sbarcolor];
+    sbar2topcolor = white5[sbar2color];
 
     sbar->leftoffset = 0;
     sbar->topoffset = 0;
