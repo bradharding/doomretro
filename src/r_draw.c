@@ -1355,27 +1355,13 @@ void R_InitBuffer(void)
     memset(fuzztable, 0, MAXSCREENAREA);
 }
 
-void R_FillBezel(void)
+void R_FillBezel(const byte color)
 {
     byte    *dest = &screens[0][(SCREENHEIGHT - SBARHEIGHT) * SCREENWIDTH];
 
     for (int y = SCREENHEIGHT - SBARHEIGHT; y < SCREENHEIGHT; y++)
-        for (int x = 0; x < SCREENWIDTH; x += 2)
-        {
-            const byte  dot = grnrock[(((y >> 1) & 63) << 6) + ((x >> 1) & 63)];
-
-            *dest++ = dot;
-            *dest++ = dot;
-        }
-
-    if (st_drawbrdr)
-    {
-        for (int x = 0; x < (SCREENWIDTH - NONWIDEWIDTH) / 2 / SCREENSCALE; x += 8)
-            V_DrawPatch(x - WIDESCREENDELTA, VANILLAHEIGHT - VANILLASBARHEIGHT, 0, brdr_b);
-
-        for (int x = SCREENWIDTH / SCREENSCALE - 8; x >= (SCREENWIDTH + NONWIDEWIDTH) / 2 / SCREENSCALE - 8; x -= 8)
-            V_DrawPatch(x - WIDESCREENDELTA, VANILLAHEIGHT - VANILLASBARHEIGHT, 0, brdr_b);
-    }
+        for (int x = 0; x < SCREENWIDTH; x++)
+            *dest++ = color;
 }
 
 //

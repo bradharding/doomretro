@@ -164,8 +164,10 @@ static bool             st_statusbaron;
 // main bar left
 static patch_t          *sbar;
 static patch_t          *sbar2;
-static short            sbar2width;
 static short            sbarwidth;
+static short            sbar2width;
+static byte             sbarcolor;
+static byte             sbar2color;
 
 // 0-9, tall numbers
 patch_t                 *tallnum[10];
@@ -383,7 +385,7 @@ static void ST_RefreshBackground(void)
 {
 #if SCREENSCALE == 1
     if (sbarwidth < SCREENWIDTH)
-        R_FillBezel();
+        R_FillBezel(sbarcolor);
 
     V_DrawWidePatch((SCREENWIDTH / SCREENSCALE - sbarwidth) / 2, VANILLAHEIGHT - VANILLASBARHEIGHT, 0, sbar);
 
@@ -397,7 +399,7 @@ static void ST_RefreshBackground(void)
             if (vid_widescreen)
             {
                 if (sbar2width < SCREENWIDTH)
-                    R_FillBezel();
+                    R_FillBezel(sbar2color);
 
                 V_DrawBigPatch((SCREENWIDTH - sbar2width) / 2, ST_Y, sbar2width, SBARHEIGHT, sbar2);
             }
@@ -407,7 +409,7 @@ static void ST_RefreshBackground(void)
         else
         {
             if (sbarwidth < SCREENWIDTH)
-                R_FillBezel();
+                R_FillBezel(sbarcolor);
 
             V_DrawWidePatch((SCREENWIDTH / SCREENSCALE - sbarwidth) / 2, VANILLAHEIGHT - VANILLASBARHEIGHT, 0, sbar);
         }
@@ -415,7 +417,7 @@ static void ST_RefreshBackground(void)
     else
     {
         if (sbarwidth < SCREENWIDTH)
-            R_FillBezel();
+            R_FillBezel(sbarcolor);
 
         V_DrawWidePatch((SCREENWIDTH / SCREENSCALE - sbarwidth) / 2, VANILLAHEIGHT - VANILLASBARHEIGHT, 0, sbar);
         V_DrawPatch((hacx ? ST_ARMSBGX + 4 : ST_ARMSBGX), VANILLAHEIGHT - VANILLASBARHEIGHT, 0, armsbg);
@@ -1435,6 +1437,8 @@ void ST_InitStatBar(void)
 
     sbarwidth = SHORT(sbar->width);
     sbar2width = SHORT(sbar2->width);
+    sbarcolor = tinttab25[FindDominantEdgeColor(sbar)];
+    sbar2color = tinttab25[FindDominantEdgeColor(sbar2)];
 
     sbar->leftoffset = 0;
     sbar->topoffset = 0;

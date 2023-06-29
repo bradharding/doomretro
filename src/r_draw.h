@@ -164,7 +164,7 @@ void R_InitBuffer(void);
 //  for player rendering etc.
 void R_InitTranslationTables(void);
 
-void R_FillBezel(void);
+void R_FillBezel(const byte color);
 
 // Rendering function.
 void R_FillBackScreen(void);
