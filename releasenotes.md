@@ -34,7 +34,7 @@
 * When the `mouselook` CVAR is `on`:
   * The player can now see slightly further when looking up or down.
   * A crash no longer occurs if a blood splat touches the top of the screen while the player looks down.
-* If the screen is wider than the status bar, the `GRNROCK` or `FLOOR7_2` textures are no longer used to fill the sides. A color based on the colors in the status bar is now used instead.
+* When the `vid_widescreen` CVAR is `on`, if the screen is wider than the status bar, the `GRNROCK` or `FLOOR7_2` textures are no longer used to fill the sides. A color based on the colors in the status bar is now used instead.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

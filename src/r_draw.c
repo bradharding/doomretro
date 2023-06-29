@@ -1359,7 +1359,10 @@ void R_FillBezel(const byte color)
 {
     byte    *dest = &screens[0][(SCREENHEIGHT - SBARHEIGHT) * SCREENWIDTH];
 
-    for (int y = SCREENHEIGHT - SBARHEIGHT; y < SCREENHEIGHT; y++)
+    for (int x = 0; x < SCREENWIDTH * 2; x++)
+        *dest++ = tinttab15[(nearestwhite << 8) + color];
+
+    for (int y = SCREENHEIGHT - SBARHEIGHT - 2; y < SCREENHEIGHT; y++)
         for (int x = 0; x < SCREENWIDTH; x++)
             *dest++ = color;
 }
