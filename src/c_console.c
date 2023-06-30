@@ -1252,7 +1252,7 @@ void C_UpdatePathOverlay(void)
 
     if (*distance)
     {
-        int y = MAPOVERLAYTEXTY;
+        int y = OVERLAYTEXTY;
 
         if (!mapwindow)
         {
@@ -1266,7 +1266,7 @@ void C_UpdatePathOverlay(void)
                 y += OVERLAYLINEHEIGHT * 2 + OVERLAYSPACING;
         }
 
-        C_DrawOverlayText(mapscreen, MAPWIDTH, MAPWIDTH - width - MAPOVERLAYTEXTX + 1, y,
+        C_DrawOverlayText(mapscreen, MAPWIDTH, MAPWIDTH - width - OVERLAYTEXTX + 1, y,
             (r_hud_translucency ? tinttab70 : NULL), distance,
             (r_hud_translucency ? consoleoverlaycolor : nearestlightgray), true);
 
@@ -1278,8 +1278,8 @@ void C_UpdatePathOverlay(void)
 
 void C_UpdatePlayerStatsOverlay(void)
 {
-    const int   x = MAPWIDTH - MAPOVERLAYTEXTX + 1;
-    int         y = MAPOVERLAYTEXTY;
+    const int   x = MAPWIDTH - OVERLAYTEXTX + 1;
+    int         y = OVERLAYTEXTY;
     const byte  *tinttab = (r_hud_translucency ? tinttab70 : NULL);
     static char time[10];
     static int  prevmaptime = -1;
