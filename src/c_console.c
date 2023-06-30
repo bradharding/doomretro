@@ -210,11 +210,7 @@ void C_IntegerCVAROutput(const char *cvar, const int value)
 {
     char    *temp = commify(value);
 
-    if (!numconsolestrings || !M_StringStartsWithExact(console[numconsolestrings - 1].string, cvar))
-        C_Input("%s %s", cvar, temp);
-    else
-        M_snprintf(console[numconsolestrings - 1].string, sizeof(console[0].string), "%s %s", cvar, temp);
-
+    C_Input("%s %s", cvar, temp);
     free(temp);
 }
 
@@ -222,20 +218,13 @@ void C_PercentCVAROutput(const char *cvar, const int value)
 {
     char    *temp = commify(value);
 
-    if (!numconsolestrings || !M_StringStartsWithExact(console[numconsolestrings - 1].string, cvar))
-        C_Input("%s %s%%", cvar, temp);
-    else
-        M_snprintf(console[numconsolestrings - 1].string, sizeof(console[0].string), "%s %s%%", cvar, temp);
-
+    C_Input("%s %s%%", cvar, temp);
     free(temp);
 }
 
 void C_StringCVAROutput(const char *cvar, const char *string)
 {
-    if (!numconsolestrings || !M_StringStartsWithExact(console[numconsolestrings - 1].string, cvar))
-        C_Input("%s %s", cvar, string);
-    else
-        M_snprintf(console[numconsolestrings - 1].string, sizeof(console[0].string), "%s %s", cvar, string);
+    C_Input("%s %s", cvar, string);
 }
 
 void C_Output(const char *string, ...)
