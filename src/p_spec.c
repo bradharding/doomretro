@@ -2378,7 +2378,7 @@ void P_UpdateSpecials(void)
     if (menuactive)
         return;
 
-    if (timer && !timeremaining)
+    if (timer && !timeremaining && viewplayer->health > 0)
         G_ExitLevel();
 
     // DO BUTTONS
