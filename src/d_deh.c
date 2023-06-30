@@ -1584,7 +1584,7 @@ static void deh_procBexSprites(DEHFILE *fpin, const char *line);
 typedef struct
 {
     char    *key;                                       // a mnemonic block code name
-    void    (*const fptr)(DEHFILE *, char *);           // handler
+    void    (*const fptr)(DEHFILE *, const char *);     // handler
 } deh_block;
 
 #define DEH_BUFFERMAX   1024                            // input buffer area size, hardcoded for now
