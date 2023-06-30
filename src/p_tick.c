@@ -246,9 +246,12 @@ void P_Ticker(void)
     T_MAPMusic();
     P_RespawnSpecials();
 
-    maptime++;
-    stat_timeplayed = SafeAdd(stat_timeplayed, 1);
+    if (viewplayer->health > 0)
+    {
+        maptime++;
+        stat_timeplayed = SafeAdd(stat_timeplayed, 1);
 
-    if (timer)
-        timeremaining--;
+        if (timer)
+            timeremaining--;
+    }
 }
