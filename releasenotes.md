@@ -3,7 +3,7 @@
 #### DOOM Retro v5.0
 
 * *DOOM Retro* is now built using v17.6.4 of [*Microsoft Visual Studio Community 2022*](https://visualstudio.microsoft.com/vs/community/).
-* *DOOM Retro* now uses [*SDL v2.28.0*](https://github.com/libsdl-org/SDL/releases/tag/release-2.27.1).
+* *DOOM Retro* now uses [*SDL v2.28.0*](https://github.com/libsdl-org/SDL/releases/tag/release-2.28.0).
 * Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Any `.cfg` files placed in the `autoload` folder are now autoloaded when *DOOM Retro* starts.
 * Support has been added for [*DSDHacked*](https://doomwiki.org/wiki/DSDHacked), allowing an unlimited number of things, states, sprites and sound effects to be used in `DEHACKED` lumps.
@@ -35,6 +35,7 @@
   * The player can now see slightly further when looking up or down.
   * A crash no longer occurs if a blood splat touches the top of the screen while the player looks down.
 * When the `vid_widescreen` CVAR is `on` and the screen is wider than the status bar, the `FLOOR7_2` or `GRNROCK` textures no longer fill the sides. A color matching the colors in the status bar is used instead.
+* The text in the automap is now always positioned correctly when the `am_external` CVAR is `on`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
