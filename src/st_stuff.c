@@ -1030,7 +1030,7 @@ bool ST_Responder(const event_t *ev)
 
 static int ST_DeadFace(void)
 {
-    const int state = (viewplayer->mo->state - states) - mobjinfo[viewplayer->mo->type].xdeathstate;
+    const int state = (int)(viewplayer->mo->state - states) - mobjinfo[viewplayer->mo->type].xdeathstate;
 
     // [FG] support face gib animations as in the 3DO/Jaguar/PSX ports
     if (xdthfaces && state >= 0)
@@ -1543,7 +1543,7 @@ static void ST_LoadUnloadGraphics(void callback(const char *, patch_t **))
     callback("STFDEAD0", &faces[facenum++]);
 
     // [FG] support face gib animations as in the 3DO/Jaguar/PSX ports
-    for (xdthfaces = 0; xdthfaces < ST_NUMXDTHFACES; xdthfaces++)
+    for (xdthfaces = 0; xdthfaces <= ST_NUMXDTHFACES; xdthfaces++)
     {
         M_snprintf(namebuf, sizeof(namebuf), "STFXDTH%i", xdthfaces);
 

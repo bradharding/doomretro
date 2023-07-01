@@ -293,7 +293,7 @@ static void P_XYMovement(mobj_t *mo)
         if (player)
         {
             // if in a walking frame, stop moving
-            if ((player->mo->state - states) - S_PLAY_RUN1 < 4)
+            if (player->mo->state - states - S_PLAY_RUN1 < 4)
                 P_SetMobjState(player->mo, S_PLAY);
 
             // killough 10/98: kill any bobbing momentum too (except in voodoo dolls)
