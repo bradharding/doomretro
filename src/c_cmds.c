@@ -6416,6 +6416,15 @@ static void readme_cmd_func2(char *cmd, char *parms)
         char    *temp = removeext(GetCorrectCase(pwadfile));
         char    *readme = M_StringJoin(temp, ".txt", NULL);
 
+        if (BTSXE1)
+            readme = "btsx_e1.txt";
+        else if (BTSXE2)
+            readme = "btsx_e2.txt";
+        else if (BTSXE3)
+            readme = "btsx_e3.txt";
+        else if (KDIKDIZD)
+            readme = "kdikdizd.txt";
+
         if (!M_FileExists(readme))
             C_Warning(0, "An accompanying readme file for " BOLD("%s") " wasn't found.",
                 leafname(pwadfile));
