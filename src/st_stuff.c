@@ -75,6 +75,7 @@
 #define ST_RAMPAGEOFFSET    (ST_EVILGRINOFFSET + 1)
 #define ST_GODFACE          (ST_NUMPAINFACES * ST_FACESTRIDE)
 #define ST_DEADFACE         (ST_GODFACE + 1)
+#define ST_XDTHFACE         (ST_DEADFACE + 1)
 
 #define ST_FACESX           (chex ? 144 : 143)
 #define ST_FACESY           168
@@ -188,6 +189,7 @@ static patch_t          *keys[NUMCARDS];
 
 // face status patches
 patch_t                 *faces[ST_NUMFACES];
+static int              xdthfaces;
 
 // main bar right
 static patch_t          *armsbg;
@@ -1026,6 +1028,17 @@ bool ST_Responder(const event_t *ev)
     return false;
 }
 
+static int ST_DeadFace(void)
+{
+    const int state = (viewplayer->mo->state - states) - mobjinfo[viewplayer->mo->type].xdeathstate;
+
+    // [FG] support face gib animations as in the 3DO/Jaguar/PSX ports
+    if (xdthfaces && state >= 0)
+        return ST_XDTHFACE + MIN(state, xdthfaces - 1);
+
+    return ST_DEADFACE;
+}
+
 //
 // This is a not-very-pretty routine which handles the face states and their timing.
 // The precedence of expressions is: dead > evil grin > turned head > straight ahead
@@ -1057,7 +1070,7 @@ static void ST_UpdateFaceWidget(void)
         {
             priority = 9;
             painoffset = 0;
-            faceindex = ST_DEADFACE;
+            faceindex = ST_DeadFace();
             st_facecount = 1;
         }
     }
@@ -1527,7 +1540,18 @@ static void ST_LoadUnloadGraphics(void callback(const char *, patch_t **))
     }
 
     callback("STFGOD0", &faces[facenum++]);
-    callback("STFDEAD0", &faces[facenum]);
+    callback("STFDEAD0", &faces[facenum++]);
+
+    // [FG] support face gib animations as in the 3DO/Jaguar/PSX ports
+    for (xdthfaces = 0; xdthfaces < ST_NUMXDTHFACES; xdthfaces++)
+    {
+        M_snprintf(namebuf, sizeof(namebuf), "STFXDTH%i", xdthfaces);
+
+        if (W_CheckNumForName(namebuf) != -1)
+            faces[facenum++] = W_CacheLumpName(namebuf);
+        else
+            break;
+    }
 
     // back screen
     callback((gamemode == commercial ? "GRNROCK" : "FLOOR7_2"), (patch_t **)&grnrock);
