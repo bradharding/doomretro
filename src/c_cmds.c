@@ -6416,15 +6416,21 @@ static void readme_cmd_func2(char *cmd, char *parms)
         char    *temp = removeext(GetCorrectCase(pwadfile));
         char    *readme = M_StringJoin(temp, ".txt", NULL);
 
-#if defined(_WIN32)
-        if (!ShellExecute(NULL, "open", readme, NULL, NULL, SW_SHOWNORMAL))
-#elif defined(__linux__) || defined(__FreeBSD__) || defined(__HAIKU__)
-        if (!system(M_StringJoin("xdg-open ", readme, NULL)))
-#elif defined(__APPLE__)
-        if (!system(M_StringJoin("open ", readme, NULL)))
-#endif
+        if (!M_FileExists(readme))
             C_Warning(0, "An accompanying readme file for " BOLD("%s") " wasn't found.",
                 leafname(pwadfile));
+        else
+        {
+#if defined(_WIN32)
+            if (!ShellExecute(NULL, "open", readme, NULL, NULL, SW_SHOWNORMAL))
+#elif defined(__linux__) || defined(__FreeBSD__) || defined(__HAIKU__)
+            if (!system(M_StringJoin("xdg-open ", readme, NULL)))
+#elif defined(__APPLE__)
+            if (!system(M_StringJoin("open ", readme, NULL)))
+#endif
+                C_Warning(0, "The accompanying readme file for " BOLD("%s") " couldn't be opened.",
+                    leafname(pwadfile));
+        }
 
         free(temp);
         free(readme);
