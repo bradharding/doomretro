@@ -6413,26 +6413,21 @@ static void readme_cmd_func2(char *cmd, char *parms)
         C_Warning(0, "No PWAD has been loaded.");
     else
     {
-        char    *temp = removeext(GetCorrectCase(pwadfile));
-        char    *filename = M_StringJoin(temp, ".txt", NULL);
-        FILE    *file = fopen(filename, "rt");
+        const char  *temp = removeext(GetCorrectCase(pwadfile));
+        const char  *readme = M_StringJoin(temp, ".txt", NULL);
 
-        if (file)
-        {
-            char    line[512] = "";
-
-            while (fgets(line, sizeof(line), file))
-                if (*line)
-                    C_Output(INDENT MONOSPACED("%s"), line);
-
-            fclose(file);
-        }
-        else
-            C_Warning(0, "An accompanying readme file wasn't found for " BOLD("%s") ".",
+#if defined(_WIN32)
+        if (!ShellExecute(NULL, "open", readme, NULL, NULL, SW_SHOWNORMAL))
+#elif defined(__linux__) || defined(__FreeBSD__) || defined(__HAIKU__)
+        if (!system("xdg-open " readme))
+#elif defined(__APPLE__)
+        if (!system("open " readme))
+#endif
+            C_Warning(0, "An accompanying readme file for " BOLD("%s") " wasn't found.",
                 leafname(pwadfile));
 
         free(temp);
-        free(filename);
+        free(readme);
     }
 }
 
