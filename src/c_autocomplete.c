@@ -7002,6 +7002,7 @@ autocomplete_t autocompletelist[] =
     { "r_textures_translucency ",                    DOOM1AND2 },
     { "r_textures_translucency off",                 DOOM1AND2 },
     { "r_textures_translucency on",                  DOOM1AND2 },
+    { "readme",                                      DOOM1AND2 },
     { "regenhealth ",                                DOOM1AND2 },
     { "regenhealth off",                             DOOM1AND2 },
     { "regenhealth on",                              DOOM1AND2 },

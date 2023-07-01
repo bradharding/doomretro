@@ -377,6 +377,7 @@ static void play_cmd_func2(char *cmd, char *parms);
 static void playerstats_cmd_func2(char *cmd, char *parms);
 static void print_cmd_func2(char *cmd, char *parms);
 static void quit_cmd_func2(char *cmd, char *parms);
+static void readme_cmd_func2(char* cmd, char* parms);
 static void regenhealth_cmd_func2(char *cmd, char *parms);
 static void reset_cmd_func2(char *cmd, char *parms);
 static void resetall_cmd_func2(char *cmd, char *parms);
@@ -882,6 +883,8 @@ consolecmd_t consolecmds[] =
         "Toggles showing all textures."),
     CVAR_BOOL(r_textures_translucency, "", "", bool_cvars_func1, r_textures_translucency_cvar_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles the translucency of certain " ITALICS("BOOM-") "compatible wall textures."),
+    CCMD(readme, "", "", null_func1, readme_cmd_func2, false, "",
+        "Displays the accompanying readme file for the currently loaded PWAD."),
     CCMD(regenhealth, "", "", null_func1, regenhealth_cmd_func2, true, "[" BOLD("on") "|" BOLD("off") "]",
         "Toggles regenerating the player's health by 1% every second when it's below 100%."),
     CCMD(remove, "", "", kill_cmd_func1, kill_cmd_func2, true, REMOVECMDFORMAT,
@@ -6398,6 +6401,38 @@ static void quit_cmd_func2(char *cmd, char *parms)
     {
         vid_showfps = false;
         I_UpdateBlitFunc(false);
+    }
+}
+
+//
+// readme CCMD
+//
+static void readme_cmd_func2(char *cmd, char *parms)
+{
+    if (!*pwadfile)
+        C_Warning(0, "No PWAD has been loaded.");
+    else
+    {
+        char    *temp = removeext(GetCorrectCase(pwadfile));
+        char    *filename = M_StringJoin(temp, ".txt", NULL);
+        FILE    *file = fopen(filename, "rt");
+
+        if (file)
+        {
+            char    line[512] = "";
+
+            while (fgets(line, sizeof(line), file))
+                if (*line)
+                    C_Output(INDENT MONOSPACED("%s"), line);
+
+            fclose(file);
+        }
+        else
+            C_Warning(0, "An accompanying readme file wasn't found for " BOLD("%s") ".",
+                leafname(pwadfile));
+
+        free(temp);
+        free(filename);
     }
 }
 
