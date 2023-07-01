@@ -494,8 +494,14 @@ static void M_BlurMenuBackground(const byte *src, byte *dest)
 
 static void M_DrawMenuBorder(void)
 {
-    for (int x = 0; x < SCREENWIDTH * 4; x++)
-        screens[0][x] = screens[0][SCREENAREA - SCREENWIDTH * 4 + x] = nearestblack;
+    for (int x = 0; x < SCREENWIDTH * 3; x++)
+        screens[0][x] = screens[0][SCREENAREA - SCREENWIDTH * 3 + x] = nearestblack;
+
+    for (int x = SCREENWIDTH * 3; x < SCREENWIDTH * 4; x++)
+    {
+        screens[0][x] = tinttab50[screens[0][x]];
+        screens[0][SCREENAREA - SCREENWIDTH * 7 + x] = tinttab50[screens[0][SCREENAREA - SCREENWIDTH * 7 + x]];
+    }
 
     if (vid_widescreen || nowidescreen)
     {
