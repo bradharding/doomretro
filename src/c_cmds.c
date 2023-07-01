@@ -722,7 +722,7 @@ consolecmd_t consolecmds[] =
     CCMD(kill, "", "", kill_cmd_func1, kill_cmd_func2, true, KILLCMDFORMAT,
         "Kills the " BOLD("player") ", " BOLD("all") " monsters or a type of " BOLDITALICS("monster") "."),
     CCMD(license, licence, "", null_func1, license_cmd_func2, false, "",
-        "Displays the " ITALICS(DOOMRETRO_LICENSE ".")),
+        "Shows the " ITALICS(DOOMRETRO_LICENSE ".")),
     CCMD(load, "", "", null_func1, load_cmd_func2, true, LOADCMDFORMAT,
         "Loads a savegame from a file."),
     CVAR_BOOL(m_acceleration, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
@@ -884,7 +884,7 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL(r_textures_translucency, "", "", bool_cvars_func1, r_textures_translucency_cvar_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles the translucency of certain " ITALICS("BOOM-") "compatible wall textures."),
     CCMD(readme, "", "", null_func1, readme_cmd_func2, false, "",
-        "Displays the accompanying readme file for the currently loaded PWAD."),
+        "Shows the accompanying readme file for the currently loaded PWAD."),
     CCMD(regenhealth, "", "", null_func1, regenhealth_cmd_func2, true, "[" BOLD("on") "|" BOLD("off") "]",
         "Toggles regenerating the player's health by 1% every second when it's below 100%."),
     CCMD(remove, "", "", kill_cmd_func1, kill_cmd_func2, true, REMOVECMDFORMAT,
@@ -6410,7 +6410,7 @@ static void quit_cmd_func2(char *cmd, char *parms)
 static void readme_cmd_func2(char *cmd, char *parms)
 {
     if (!*pwadfile)
-        C_Warning(0, "No PWAD has been loaded.");
+        C_Warning(0, "A PWAD hasn't been loaded.");
     else
     {
         char    *temp = removeext(GetCorrectCase(pwadfile));
