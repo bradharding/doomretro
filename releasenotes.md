@@ -37,7 +37,7 @@
 * When the `vid_widescreen` CVAR is `on` and the screen is wider than the status bar, the `FLOOR7_2` or `GRNROCK` textures no longer fill the sides. A color matching the colors in the status bar is used instead.
 * The text in the automap is now always positioned correctly when the `am_external` CVAR is `on`.
 * The player will no longer exit the map if they are dead when a timer set using the `timer` CCMD runs out.
-* Support has been added for the lumps `STFXDTH0`to `STFXDTH9`. If included in a PWAD, the player’s face in the status bar will animate when they are gibbed. This is a feature revived from the old 3DO, Jaguar and PSX ports of *DOOM*.
+* Support has been added for the lumps `STFXDTH0` to `STFXDTH9`. If included in a PWAD, the player’s face in the status bar will animate when they are gibbed. This is a feature revived from the old 3DO, Jaguar and PSX ports of *DOOM*.
 * The accompanying readme file for the currently loaded PWAD can now be displayed by entering the new `readme` CCMD in the console.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)

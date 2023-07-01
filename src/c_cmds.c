@@ -2975,7 +2975,7 @@ static void help_cmd_func2(char *cmd, char *parms)
 #elif defined(__APPLE__)
     if (!system("open " DOOMRETRO_WIKIURL))
 #endif
-        C_Warning(0, "The " ITALICS(DOOMRETRO_WIKINAME) " couldn't be opened.");
+        C_Warning(0, "The " ITALICS(DOOMRETRO_WIKINAME) " can't be opened.");
 }
 
 //
@@ -3705,7 +3705,7 @@ static void license_cmd_func2(char *cmd, char *parms)
 #elif defined(__APPLE__)
     if (!system("open " DOOMRETRO_LICENSEURL))
 #endif
-        C_Warning(0, "The " ITALICS(DOOMRETRO_LICENSE) " couldn't be displayed.");
+        C_Warning(0, "The " ITALICS(DOOMRETRO_LICENSE) " can't be shown.");
 }
 
 //
@@ -6417,17 +6417,16 @@ static void readme_cmd_func2(char *cmd, char *parms)
         char    *readme = M_StringJoin(temp, ".txt", NULL);
 
         if (BTSXE1)
-            readme = "btsx_e1.txt";
+            readme = M_StringDuplicate("btsx_e1.txt");
         else if (BTSXE2)
-            readme = "btsx_e2.txt";
+            readme = M_StringDuplicate("btsx_e2.txt");
         else if (BTSXE3)
-            readme = "btsx_e3.txt";
+            readme = M_StringDuplicate("btsx_e3.txt");
         else if (KDIKDIZD)
-            readme = "kdikdizd.txt";
+            readme = M_StringDuplicate("kdikdizd.txt");
 
         if (!M_FileExists(readme))
-            C_Warning(0, "An accompanying readme file for " BOLD("%s") " wasn't found.",
-                leafname(pwadfile));
+            C_Warning(0, BOLD("%s") " wasn't found.", leafname(readme));
         else
         {
 #if defined(_WIN32)
@@ -6437,8 +6436,7 @@ static void readme_cmd_func2(char *cmd, char *parms)
 #elif defined(__APPLE__)
             if (!system(M_StringJoin("open ", readme, NULL)))
 #endif
-                C_Warning(0, "The accompanying readme file for " BOLD("%s") " couldn't be opened.",
-                    leafname(pwadfile));
+                C_Warning(0, BOLD("%s") " wouldn't open.", leafname(readme));
         }
 
         free(temp);
