@@ -15,7 +15,7 @@
 * These changes have been made to the menu:
   * Improvements have been made to toggling widescreen using the <kbd><b>+</b></kbd> and <kbd><b>&ndash;</b></kbd> keys while the menu is open.
   * The fade effect when quitting *DOOM Retro* from the menu is no longer affected if the player has either a berserk or radiation shielding suit power-up and the `fade` CVAR is `on`.
-  * The menu’s border has been brought in from the left and right edges slightly when the `vid_widescreen` CVAR is `on`.
+  * Minor improvements have been made to the menu’s border.
 * The effects of changing the `r_gamma` and `r_saturation` CVARs are now applied to *DOOM Retro’s* splash screen.
 * The `r_lowpixelsize` CVAR can now also be set to `1×2` or `2×1`.
 * A bug is fixed whereby sometimes the player wouldn’t pick up an item in a liquid sector when the `r_liquid_clipsprites` CVAR was `on`.
@@ -245,7 +245,7 @@
 * The player’s view no longer bounces once they land after a fall if either no clipping mode or freeze mode are enabled.
 * The player’s health, armor, ammo and weapon are no longer reset by the `resetall` CCMD.
 * The `kill` CCMD can no longer be used to kill the player if either god mode or buddha mode are enabled, or if they have an invulnerability power-up.
-* The *BOOM*-compatible line special of 251 (“Scroll floor according to line vector”) now works correctly if used with a liquid sector and the `r_liquids_current` CVAR is `on`.
+* The *BOOM*-compatible line special of 251 (“Scroll floor according to line vector”) now works correctly if used with a liquid sector and the `r_liquid_current` CVAR is `on`.
 * The underscores in the message displayed by entering the `IDBEHOLD` cheat now always align correctly again.
 * The shadows cast by the corpses of monsters spawned at the start of the map are now positioned better when the `r_shadows` CVAR is `on`.
 * If the `ammo` CVAR is changed in the console to be greater than the maximum ammo for the player’s currently equipped weapon and they don’t have a backpack, they are now given one.

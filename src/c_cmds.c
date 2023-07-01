@@ -2975,7 +2975,7 @@ static void help_cmd_func2(char *cmd, char *parms)
 #elif defined(__APPLE__)
     if (!system("open " DOOMRETRO_WIKIURL))
 #endif
-        C_Warning(0, "The " ITALICS(DOOMRETRO_WIKINAME) " can't be opened.");
+        C_Warning(0, "The " ITALICS(DOOMRETRO_WIKINAME) " wouldn't open.");
 }
 
 //
@@ -3705,7 +3705,7 @@ static void license_cmd_func2(char *cmd, char *parms)
 #elif defined(__APPLE__)
     if (!system("open " DOOMRETRO_LICENSEURL))
 #endif
-        C_Warning(0, "The " ITALICS(DOOMRETRO_LICENSE) " can't be shown.");
+        C_Warning(0, "The " ITALICS(DOOMRETRO_LICENSE) " wouldn't open.");
 }
 
 //
