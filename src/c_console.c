@@ -2465,9 +2465,12 @@ bool C_Responder(event_t *ev)
                     if (x <= CONSOLEINPUTX + C_TextWidth(M_SubString(consoleinput, 0, i), false, true))
                         break;
 
-                caretpos = selectstart = selectend = i;
-                caretwait = I_GetTimeMS() + CARETBLINKTIME;
-                showcaret = true;
+                if (caretpos != i)
+                {
+                    caretpos = selectstart = selectend = i;
+                    caretwait = I_GetTimeMS() + CARETBLINKTIME;
+                    showcaret = true;
+                }
             }
         }
     }

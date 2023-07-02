@@ -227,7 +227,7 @@ static const char *steam_install_subdirs[] =
     "steamapps\\common\\DOOMEternal\\base\\classicwads"
 };
 
-static char *GetRegistryString(registryvalue_t *reg_val)
+static char *GetRegistryString(const registryvalue_t *reg_val)
 {
     HKEY    key;
     DWORD   len = 0;

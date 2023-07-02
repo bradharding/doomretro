@@ -81,7 +81,6 @@ void M_StringReplaceAll(char *haystack, const char *needle, const char *replacem
 char *M_TempFile(char *s);
 char *M_StringJoin(const char *s, ...);
 bool M_StringStartsWith(const char *s, const char *prefix);
-bool M_StringStartsWithExact(const char *s, const char *prefix);
 bool M_StringEndsWith(const char *s, const char *suffix);
 void M_vsnprintf(char *buf, int buf_len, const char *s, va_list args);
 void M_snprintf(char *buf, int buf_len, const char *s, ...);

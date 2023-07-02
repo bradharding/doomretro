@@ -598,14 +598,6 @@ bool M_StringStartsWith(const char *s, const char *prefix)
     return (strlen(s) >= len && !strncasecmp(s, prefix, len));
 }
 
-// Returns true if string begins with the specified prefix.
-bool M_StringStartsWithExact(const char *s, const char *prefix)
-{
-    const size_t    len = strlen(prefix);
-
-    return (strlen(s) >= len && !strncmp(s, prefix, len));
-}
-
 // Returns true if string ends with the specified suffix.
 bool M_StringEndsWith(const char *s, const char *suffix)
 {
