@@ -3423,7 +3423,9 @@ static bool P_ParseMapInfo(const char *scriptname)
                                     char    *name2 = (*mobjinfo[i].name2 ? removenonalpha(mobjinfo[i].name2) : NULL);
                                     char    *name3 = (*mobjinfo[i].name3 ? removenonalpha(mobjinfo[i].name3) : NULL);
 
-                                    if (SC_Compare(name1) || SC_Compare(name2) || SC_Compare(name3))
+                                    if ((name1 && SC_Compare(name1))
+                                        || (name2 && SC_Compare(name2))
+                                        || (name3 && SC_Compare(name3)))
                                     {
                                         if (name1)
                                             free(name1);
