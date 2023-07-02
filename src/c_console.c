@@ -2467,10 +2467,11 @@ bool C_Responder(event_t *ev)
 
                 if (caretpos != i)
                 {
-                    caretpos = selectstart = selectend = i;
                     caretwait = I_GetTimeMS() + CARETBLINKTIME;
                     showcaret = true;
                 }
+
+                caretpos = selectstart = selectend = i;
             }
         }
     }
