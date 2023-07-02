@@ -328,7 +328,7 @@ static bool P_Move(mobj_t *actor, const int dropoff)    // killough 09/12/98
         // Do NOT simply return false 1/4th of the time (causes monsters to
         // back out when they shouldn't, and creates secondary stickiness).
         for (good = 0; numspechit--; )
-            if (P_UseSpecialLine(actor, spechit[numspechit], 0))
+            if (P_UseSpecialLine(actor, spechit[numspechit], 0, false))
                 good |= (spechit[numspechit] == blockline ? 1 : 2);
 
         return (good && ((M_Random() >= 230) ^ (good & 1)));
@@ -1956,7 +1956,58 @@ void A_Explode(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_BossDeath(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    line_t  junk = { 0 };
+    line_t      junk = { 0 };
+    const int   map = (gameepisode - 1) * 10 + gamemap;
+    int         numbossactions = P_GetNumBossActions(map);
+
+    // numbossactions == 0 means to use the defaults.
+    // numbossactions == -1 means to do nothing.
+    // positive values mean to check the list of boss actions and run all that apply.
+    if (numbossactions)
+    {
+        int i;
+
+        if (numbossactions < 0)
+            return;
+
+        if (viewplayer->health <= 0)
+            return;         // no one left alive, so do not end game
+
+        for (i = 0; i < numbossactions; i++)
+            if (P_GetBossAction(map, i)->type == actor->type)
+                break;
+
+        if (i >= numbossactions)
+            return;  // no matches found
+
+        // scan the remaining thinkers to see
+        // if all bosses are dead
+        for (thinker_t* th = thinkers[th_mobj].cnext; th != &thinkers[th_mobj]; th = th->cnext)
+        {
+            const mobj_t    *mo = (mobj_t *)th;
+
+            if (mo != actor && mo->type == actor->type && mo->health > 0)
+                return;         // other boss not dead
+        }
+
+        for (i = 0; i < numbossactions; i++)
+        {
+            bossaction_t    *bossaction = P_GetBossAction(map, i);
+
+            if (bossaction->type == actor->type)
+            {
+                junk = *lines;
+                junk.special = (short)bossaction->special;
+                junk.tag = (short)bossaction->tag;
+
+                // use special semantics for line activation to block problem types.
+                if (!P_UseSpecialLine(actor, &junk, 0, true))
+                    P_CrossSpecialLine(&junk, 0, actor, true);
+            }
+        }
+
+        return;
+    }
 
     if (gamemode == commercial)
     {
@@ -2475,8 +2526,8 @@ void A_LineEffect(mobj_t *actor, player_t *player, pspdef_t *psp)
 
     junk.tag = (short)actor->state->misc2;
 
-    if (!P_UseSpecialLine(actor, &junk, 0))
-        P_CrossSpecialLine(&junk, 0, actor);
+    if (!P_UseSpecialLine(actor, &junk, 0, false))
+        P_CrossSpecialLine(&junk, 0, actor, false);
 
     actor->state->misc1 = junk.special;
     actor->player = oldplayer;

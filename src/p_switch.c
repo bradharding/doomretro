@@ -216,7 +216,7 @@ void P_ChangeSwitchTexture(line_t *line, bool useagain)
 // Called when a thing uses a special line.
 // Only the front sides of lines are usable.
 //
-bool P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
+bool P_UseSpecialLine(mobj_t *thing, line_t *line, int side, bool bossaction)
 {
     int special;
 
@@ -233,7 +233,7 @@ bool P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
         // check each range of generalized linedefs
         if (special >= GenFloorBase)
         {
-            if (!thing->player)
+            if (!thing->player && !bossaction)
                 if ((special & FloorChange) || !(special & FloorModel))
                     return false;                       // FloorModel is "Allow Monsters" if FloorChange is 0
 
@@ -244,7 +244,7 @@ bool P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
         }
         else if (special >= GenCeilingBase)
         {
-            if (!thing->player)
+            if (!thing->player && !bossaction)
                 if ((special & CeilingChange) || !(special & CeilingModel))
                     return false;                       // CeilingModel is "Allow Monsters" if CeilingChange is 0
 
@@ -252,7 +252,7 @@ bool P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
         }
         else if (special >= GenDoorBase)
         {
-            if (!thing->player)
+            if (!thing->player && !bossaction)
             {
                 if (!(special & DoorMonster))
                     return false;                       // monsters disallowed from this door
@@ -265,7 +265,7 @@ bool P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
         }
         else if (special >= GenLockedBase)
         {
-            if (!thing->player)
+            if (!thing->player && !bossaction)
                 return false;                           // monsters disallowed from unlocking doors
 
             if (!P_CanUnlockGenDoor(line))
@@ -275,7 +275,7 @@ bool P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
         }
         else if (special >= GenLiftBase)
         {
-            if (!thing->player)
+            if (!thing->player && !bossaction)
                 if (!(special & LiftMonster))
                     return false;                       // monsters disallowed
 
@@ -283,7 +283,7 @@ bool P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
         }
         else if (special >= GenStairsBase)
         {
-            if (!thing->player)
+            if (!thing->player && !bossaction)
                 if (!(special & StairMonster))
                     return false;                       // monsters disallowed
 
@@ -291,7 +291,7 @@ bool P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
         }
         else
         {
-            if (!thing->player)
+            if (!thing->player && !bossaction)
                 if (!(special & CrusherMonster))
                     return false;                       // monsters disallowed
 
@@ -330,7 +330,7 @@ bool P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
     }
 
     // Switches that other things can activate.
-    if (!thing->player)
+    if (!thing->player && !bossaction)
     {
         // never open secret doors
         if (line->flags & ML_SECRET)
@@ -352,6 +352,35 @@ bool P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
 
             default:
                 return false;
+        }
+    }
+
+    if (bossaction)
+    {
+        switch (line->special)
+        {
+            // 0-tag specials, locked switches and teleporters need to be blocked for boss actions.
+            case 1:         // MANUAL DOOR RAISE
+            case 32:        // MANUAL BLUE
+            case 33:        // MANUAL RED
+            case 34:        // MANUAL YELLOW
+            case 117:       // Blazing door raise
+            case 118:       // Blazing door open
+            case 133:       // BlzOpenDoor BLUE
+            case 135:       // BlzOpenDoor RED
+            case 137:       // BlzOpenDoor YEL
+
+            case 99:        // BlzOpenDoor BLUE
+            case 134:       // BlzOpenDoor RED
+            case 136:       // BlzOpenDoor YELLOW
+
+            //jff 3/5/98 add ability to use teleporters for monsters
+            case 195:       // switch teleporters
+            case 174:
+            case 210:       // silent switch teleporters
+            case 209:
+                return false;
+                break;
         }
     }
 

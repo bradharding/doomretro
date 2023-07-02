@@ -1277,10 +1277,10 @@ bool P_CheckTag(const line_t *line)
 // Called every time a thing origin is about
 //  to cross a line with a non 0 special.
 //
-void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
+void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing, bool bossaction)
 {
     // Triggers that other things can activate
-    if (!thing->player)
+    if (!thing->player && !bossaction)
     {
         // Things that should NOT trigger specials...
         switch (thing->type)
@@ -1311,21 +1311,21 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
         }
         else if (line->special >= GenFloorBase)
         {
-            if (!thing->player && ((line->special & FloorChange) || !(line->special & FloorModel)))
+            if (!thing->player && !bossaction && ((line->special & FloorChange) || !(line->special & FloorModel)))
                 return;                         // FloorModel is "Allow Monsters" if FloorChange is 0
 
             linefunc = &EV_DoGenFloor;
         }
         else if (line->special >= GenCeilingBase)
         {
-            if (!thing->player && ((line->special & CeilingChange) || !(line->special & CeilingModel)))
+            if (!thing->player && !bossaction && ((line->special & CeilingChange) || !(line->special & CeilingModel)))
                 return;                         // CeilingModel is "Allow Monsters" if CeilingChange is 0
 
             linefunc = &EV_DoGenCeiling;
         }
         else if (line->special >= GenDoorBase)
         {
-            if (!thing->player)
+            if (!thing->player && !bossaction)
             {
                 if (!(line->special & DoorMonster))
                     return;                     // monsters disallowed from this door
@@ -1338,7 +1338,7 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
         }
         else if (line->special >= GenLockedBase)
         {
-            if (!thing->player)
+            if (!thing->player && !bossaction)
                 return;                         // monsters disallowed from unlocking doors
 
             if ((line->special & TriggerType) == WalkOnce || (line->special & TriggerType) == WalkMany)
@@ -1354,21 +1354,21 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
         }
         else if (line->special >= GenLiftBase)
         {
-            if (!thing->player && !(line->special & LiftMonster))
+            if (!thing->player && !bossaction && !(line->special & LiftMonster))
                 return;                         // monsters disallowed
 
             linefunc = &EV_DoGenLift;
         }
         else if (line->special >= GenStairsBase)
         {
-            if (!thing->player && !(line->special & StairMonster))
+            if (!thing->player && !bossaction && !(line->special & StairMonster))
                 return;                         // monsters disallowed
 
             linefunc = &EV_DoGenStairs;
         }
         else if (line->special >= GenCrusherBase)
         {
-            if (!thing->player && !(line->special & CrusherMonster))
+            if (!thing->player && !bossaction && !(line->special & CrusherMonster))
                 return;                         // monsters disallowed
 
             linefunc = &EV_DoGenCrusher;
@@ -1393,16 +1393,13 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
             }
     }
 
-    if (!thing->player)
+    if (!thing->player || bossaction)
     {
         bool    okay = false;
 
         switch (line->special)
         {
-            case W1_Door_OpenWaitClose:
-            case W1_Lift_LowerWaitRaise:
             case W1_Teleport:
-            case WR_Lift_LowerWaitRaise:
             case WR_Teleport:
             case W1_Teleport_MonstersOnly:
             case WR_Teleport_MonstersOnly:
@@ -1418,6 +1415,12 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
             case WR_TeleportToLineWithSameTag_MonstersOnly_Silent:
             case W1_Teleport_MonstersOnly_Silent:
             case WR_Teleport_MonstersOnly_Silent:
+                if (bossaction)
+                    return;
+
+            case W1_Door_OpenWaitClose:
+            case W1_Lift_LowerWaitRaise:
+            case WR_Lift_LowerWaitRaise:
                 okay = true;
                 break;
         }

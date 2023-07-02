@@ -113,42 +113,44 @@
 
 typedef struct
 {
-    bool    allowmonstertelefrags;
-    char    author[128];
-    int     cluster;
-    bool    compat_corpsegibs;
-    bool    compat_floormove;
-    bool    compat_light;
-    bool    compat_limitpain;
-    bool    compat_nopassover;
-    bool    compat_stairs;
-    bool    compat_useblocking;
-    bool    endbunny;
-    bool    endcast;
-    bool    endgame;
-    int     endpic;
-    int     enterpic;
-    int     exitpic;
-    char    interbackdrop[9];
-    int     intermusic;
-    char    intertext[1024];
-    char    intertextsecret[1024];
-    int     liquid[NUMLIQUIDS];
-    int     music;
-    char    musicartist[128];
-    char    musictitle[128];
-    char    name[128];
-    int     next;
-    bool    nograduallighting;
-    bool    nojump;
-    int     noliquid[NUMLIQUIDS];
-    bool    nomouselook;
-    int     par;
-    bool    pistolstart;
-    int     secretnext;
-    int     sky1texture;
-    int     sky1scrolldelta;
-    int     titlepatch;
+    bool            allowmonstertelefrags;
+    char            author[128];
+    int             numbossactions;
+    bossaction_t    *bossactions;
+    int             cluster;
+    bool            compat_corpsegibs;
+    bool            compat_floormove;
+    bool            compat_light;
+    bool            compat_limitpain;
+    bool            compat_nopassover;
+    bool            compat_stairs;
+    bool            compat_useblocking;
+    bool            endbunny;
+    bool            endcast;
+    bool            endgame;
+    int             endpic;
+    int             enterpic;
+    int             exitpic;
+    char            interbackdrop[9];
+    int             intermusic;
+    char            intertext[1024];
+    char            intertextsecret[1024];
+    int             liquid[NUMLIQUIDS];
+    int             music;
+    char            musicartist[128];
+    char            musictitle[128];
+    char            name[128];
+    int             next;
+    bool            nograduallighting;
+    bool            nojump;
+    int             noliquid[NUMLIQUIDS];
+    bool            nomouselook;
+    int             par;
+    bool            pistolstart;
+    int             secretnext;
+    int             sky1texture;
+    int             sky1scrolldelta;
+    int             titlepatch;
 } mapinfo_t;
 
 //
@@ -3397,6 +3399,79 @@ static bool P_ParseMapInfo(const char *scriptname)
                             M_StringCopy(info->author, sc_String, sizeof(info->author));
                             break;
 
+                        case MCMD_BOSSACTION:
+                            SC_MustGetString();
+                            C_Output(sc_String);
+
+                            if (SC_Compare("clear"))
+                            {
+                                if (info->bossactions)
+                                    free(info->bossactions);
+
+                                info->bossactions = NULL;
+                                info->numbossactions = -1;
+                            }
+                            else
+                            {
+                                int i;
+                                int special;
+                                int tag;
+
+                                for (i = 0; i < NUMMOBJTYPES; i++)
+                                {
+                                    char    *name1 = removenonalpha(mobjinfo[i].name1);
+                                    char    *name2 = (*mobjinfo[i].name2 ? removenonalpha(mobjinfo[i].name2) : NULL);
+                                    char    *name3 = (*mobjinfo[i].name3 ? removenonalpha(mobjinfo[i].name3) : NULL);
+
+                                    if (SC_Compare(name1) || SC_Compare(name2) || SC_Compare(name3))
+                                    {
+                                        if (name1)
+                                            free(name1);
+
+                                        if (name2)
+                                            free(name2);
+
+                                        if (name3)
+                                            free(name3);
+
+                                        break;
+                                    }
+
+                                    if (name1)
+                                        free(name1);
+
+                                    if (name2)
+                                        free(name2);
+
+                                    if (name3)
+                                        free(name3);
+                                }
+
+                                if (i < NUMMOBJTYPES)
+                                {
+                                    SC_MustGetNumber();
+                                    special = sc_Number;
+                                    SC_MustGetNumber();
+                                    tag = sc_Number;
+
+                                    if (tag || special == 11 || special == 51 || special == 52 || special == 124)
+                                    {
+                                        if (info->numbossactions == -1)
+                                            info->numbossactions = 1;
+                                        else
+                                            info->numbossactions++;
+
+                                        info->bossactions = (bossaction_t *)realloc(info->bossactions,
+                                            sizeof(bossaction_t) * info->numbossactions);
+                                        info->bossactions[info->numbossactions - 1].type = i;
+                                        info->bossactions[info->numbossactions - 1].special = special;
+                                        info->bossactions[info->numbossactions - 1].tag = tag;
+                                    }
+                                }
+                            }
+
+                            break;
+
                         case MCMD_CLUSTER:
                             SC_MustGetNumber();
                             info->cluster = sc_Number;
@@ -3764,6 +3839,16 @@ char *P_GetMapAuthor(const int map)
 {
     return (MAPINFO >= 0 && mapinfo[map].author[0] ? mapinfo[map].author : (((E1M4B || *speciallumpname) && map == 4)
         || ((E1M8B || *speciallumpname) && map == 8) || (onehumanity && map == 1) ? s_AUTHOR_ROMERO : ""));
+}
+
+int P_GetNumBossActions(const int map)
+{
+    return mapinfo[map].numbossactions;
+}
+
+bossaction_t *P_GetBossAction(const int map, const int i)
+{
+    return &mapinfo[map].bossactions[i];
 }
 
 char *P_GetInterBackrop(const int map)

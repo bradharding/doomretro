@@ -1118,7 +1118,7 @@ bool P_TryMove(mobj_t *thing, const fixed_t x, const fixed_t y, const int dropof
                 const int   oldside = P_PointOnLineSide(oldx, oldy, ld);
 
                 if (oldside != P_PointOnLineSide(thing->x, thing->y, ld))
-                    P_CrossSpecialLine(ld, oldside, thing);
+                    P_CrossSpecialLine(ld, oldside, thing, false);
             }
         }
 
@@ -1914,7 +1914,7 @@ static bool PTR_UseTraverse(intercept_t *in)
     if (P_PointOnLineSide(usething->x, usething->y, line) == 1)
         side = 1;
 
-    P_UseSpecialLine(usething, line, side);
+    P_UseSpecialLine(usething, line, side, false);
 
     // can't use for more than one special line in a row
     // [BH] unless its the wrong side

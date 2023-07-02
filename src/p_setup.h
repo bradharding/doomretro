@@ -35,6 +35,13 @@
 
 #pragma once
 
+typedef struct
+{
+    int type;
+    int special;
+    int tag;
+} bossaction_t;
+
 extern bool         canmodify;
 extern bool         samelevel;
 extern bool         secretmap;
@@ -64,6 +71,8 @@ void P_MapName(int ep, int map);
 void P_Init(void);
 
 char *P_GetMapAuthor(const int map);
+int P_GetNumBossActions(const int map);
+bossaction_t *P_GetBossAction(const int map, const int i);
 char *P_GetInterBackrop(const int map);
 int P_GetInterMusic(const int map);
 char *P_GetInterText(const int map);

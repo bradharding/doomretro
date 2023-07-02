@@ -77,11 +77,11 @@ bool P_SectorActive(const special_e t, const sector_t *sec);
 bool P_CheckTag(const line_t *line);
 
 // when needed
-bool P_UseSpecialLine(mobj_t *thing, line_t *line, int side);
+bool P_UseSpecialLine(mobj_t *thing, line_t *line, int side, bool bossaction);
 
 void P_ShootSpecialLine(const mobj_t *thing, line_t *line);
 
-void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing);
+void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing, bool bossaction);
 
 void P_PlayerInSpecialSector(sector_t *sector);
 
