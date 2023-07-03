@@ -1595,7 +1595,10 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing, bool bossaction)
             break;
 
         case W1_ExitLevel:
-            G_ExitLevel();
+            // killough 10/98: prevent zombies from exiting levels
+            if (bossaction || !(thing->player && thing->player->health <= 0 && !compat_zombie))
+                G_ExitLevel();
+
             break;
 
         case W1_Floor_StartMovingUpAndDown:
@@ -1677,7 +1680,10 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing, bool bossaction)
             break;
 
         case W1_ExitLevel_GoesToSecretLevel:
-            G_SecretExitLevel();
+            // killough 10/98: prevent zombies from exiting levels
+            if (bossaction || !(thing->player && thing->player->health <= 0 && !compat_zombie))
+                G_SecretExitLevel();
+
             break;
 
         case W1_Teleport_MonstersOnly:
@@ -2186,11 +2192,19 @@ void P_ShootSpecialLine(const mobj_t *thing, line_t *line)
             break;
 
         case G1_ExitLevel:
+            // killough 10/98: prevent zombies from exiting levels
+            if (thing->player && thing->player->health <= 0 && !compat_zombie)
+                break;
+
             P_ChangeSwitchTexture(line, false);
             G_ExitLevel();
             break;
 
         case G1_ExitLevel_GoesToSecretLevel:
+            // killough 10/98: prevent zombies from exiting levels
+            if (thing->player && thing->player->health <= 0 && !compat_zombie)
+                break;
+
             P_ChangeSwitchTexture(line, false);
             G_SecretExitLevel();
             break;

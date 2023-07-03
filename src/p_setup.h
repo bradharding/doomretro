@@ -57,6 +57,7 @@ extern bool         compat_limitpain;
 extern bool         compat_nopassover;
 extern bool         compat_stairs;
 extern bool         compat_useblocking;
+extern bool         compat_zombie;
 extern bool         nograduallighting;
 
 extern char         mapnum[6];

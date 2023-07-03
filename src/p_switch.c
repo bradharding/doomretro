@@ -437,6 +437,13 @@ bool P_UseSpecialLine(mobj_t *thing, line_t *line, int side, bool bossaction)
             break;
 
         case S1_ExitLevel:
+            // killough 10/98: prevent zombies from exiting levels
+            if (!bossaction && thing->player && thing->player->health <= 0 && !compat_zombie)
+            {
+                S_StartSound(thing, sfx_noway);
+                return false;
+            }
+
             P_ChangeSwitchTexture(line, false);
             G_ExitLevel();
             break;
@@ -519,6 +526,13 @@ bool P_UseSpecialLine(mobj_t *thing, line_t *line, int side, bool bossaction)
             break;
 
         case S1_ExitLevel_GoesToSecretLevel:
+            // killough 10/98: prevent zombies from exiting levels
+            if (!bossaction && thing->player && thing->player->health <= 0 && !compat_zombie)
+            {
+                S_StartSound(thing, sfx_noway);
+                return false;
+            }
+
             P_ChangeSwitchTexture(line, false);
             G_SecretExitLevel();
             break;

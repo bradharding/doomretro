@@ -31,6 +31,7 @@
   * `MAPINFO` lumps are now parsed if either `NERVE.WAD` or `SIGIL.WAD` are loaded.
   * `bossaction` is now recognized.
   * `compat_stairs` is now recognized.
+  * `compat_zombie` is now recognized.
 * Friendly monsters spawned using the `spawn` CCMD will now follow the player into the next map.
 * Minor improvements have been made to the support of [*MBF21*](https://doomwiki.org/wiki/MBF21)-compatible WADs.
 * The mouse pointer is no longer displayed on the intermission or finale screens when the player moves the mouse and the `m_pointer` CVAR is `on`.
