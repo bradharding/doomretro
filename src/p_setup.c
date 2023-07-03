@@ -3453,18 +3453,24 @@ static bool P_ParseMapInfo(const char *scriptname)
                                 {
                                     SC_MustGetNumber();
                                     special = sc_Number;
+
                                     SC_MustGetNumber();
                                     tag = sc_Number;
 
-                                    if (tag || special == 11 || special == 51 || special == 52 || special == 124)
+                                    if (tag
+                                        || special == S1_ExitLevel
+                                        || special == S1_ExitLevel_GoesToSecretLevel
+                                        || special == W1_ExitLevel
+                                        || special == W1_ExitLevel_GoesToSecretLevel)
                                     {
                                         if (info->numbossactions == -1)
                                             info->numbossactions = 1;
                                         else
                                             info->numbossactions++;
 
-                                        info->bossactions = (bossaction_t *)realloc(info->bossactions,
+                                        info->bossactions = (bossaction_t *)I_Realloc(info->bossactions,
                                             sizeof(bossaction_t) * info->numbossactions);
+
                                         info->bossactions[info->numbossactions - 1].type = i;
                                         info->bossactions[info->numbossactions - 1].special = special;
                                         info->bossactions[info->numbossactions - 1].tag = tag;

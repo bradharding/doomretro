@@ -360,25 +360,25 @@ bool P_UseSpecialLine(mobj_t *thing, line_t *line, int side, bool bossaction)
         switch (line->special)
         {
             // 0-tag specials, locked switches and teleporters need to be blocked for boss actions.
-            case 1:         // MANUAL DOOR RAISE
-            case 32:        // MANUAL BLUE
-            case 33:        // MANUAL RED
-            case 34:        // MANUAL YELLOW
-            case 117:       // Blazing door raise
-            case 118:       // Blazing door open
-            case 133:       // BlzOpenDoor BLUE
-            case 135:       // BlzOpenDoor RED
-            case 137:       // BlzOpenDoor YEL
+            case DR_Door_OpenWaitClose_AlsoMonsters:
+            case D1_Door_Blue_OpenStay:
+            case D1_Door_Red_OpenStay:
+            case D1_Door_Yellow_OpenStay:
+            case DR_Door_OpenWaitClose_Fast:
+            case D1_Door_OpenStay_Fast:
+            case S1_Door_Blue_OpenStay_Fast:
+            case S1_Door_Red_OpenStay_Fast:
+            case S1_Door_Yellow_OpenStay_Fast:
 
-            case 99:        // BlzOpenDoor BLUE
-            case 134:       // BlzOpenDoor RED
-            case 136:       // BlzOpenDoor YELLOW
+            case SR_Door_Blue_OpenStay_Fast:
+            case SR_Door_Red_OpenStay_Fast:
+            case SR_Door_Yellow_OpenStay_Fast:
 
-            //jff 3/5/98 add ability to use teleporters for monsters
-            case 195:       // switch teleporters
-            case 174:
-            case 210:       // silent switch teleporters
-            case 209:
+            // jff 3/5/98 add ability to use teleporters for monsters
+            case SR_Teleport_AlsoMonsters:
+            case S1_Teleport_AlsoMonsters:
+            case S1_Teleport_AlsoMonsters_Silent_SameAngle:
+            case SR_Teleport_AlsoMonsters_Silent_SameAngle:
                 return false;
                 break;
         }
