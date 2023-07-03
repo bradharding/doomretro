@@ -52,8 +52,9 @@ float                       gamecontrollerverticalsensitivity;
 short                       gamecontrollerleftdeadzone;
 short                       gamecontrollerrightdeadzone;
 
-int                         damagerumbletics = 0;
 int                         barrelrumbletics = 0;
+int                         damagerumbletics = 0;
+int                         pickuprumbletics = 0;
 int                         weaponrumbletics = 0;
 int                         idlechainsawrumblestrength;
 int                         restoredrumblestrength;
@@ -139,8 +140,9 @@ void I_UpdateGameControllerRumble(void)
     if (lasteventtype == ev_controller)
     {
         if ((weaponrumbletics && !--weaponrumbletics && !damagerumbletics && !barrelrumbletics)
-            || (damagerumbletics && !--damagerumbletics && !barrelrumbletics)
-            || (barrelrumbletics && !--barrelrumbletics))
+            || (damagerumbletics && !--damagerumbletics && !barrelrumbletics && !pickuprumbletics)
+            || (barrelrumbletics && !--barrelrumbletics && !pickuprumbletics)
+            || (pickuprumbletics && !--pickuprumbletics))
         {
             currentstrength = idlechainsawrumblestrength;
             SDL_GameControllerRumble(gamecontroller, currentstrength, currentstrength, UINT32_MAX);

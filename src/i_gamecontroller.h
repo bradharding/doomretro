@@ -74,8 +74,9 @@
 #define SDL_GameControllerHasRumble(gamecontroller) !SDL_GameControllerRumble(gamecontroller, 0, 0, 0)
 #endif
 
-extern int      damagerumbletics;
 extern int      barrelrumbletics;
+extern int      damagerumbletics;
+extern int      pickuprumbletics;
 extern int      weaponrumbletics;
 
 extern int      gamecontrollerbuttons;

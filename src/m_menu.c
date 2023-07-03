@@ -3859,7 +3859,7 @@ void M_OpenMainMenu(void)
     itemon = currentmenu->laston;
     noconsoleoutput = false;
 
-    if (joy_rumble_damage || joy_rumble_barrels || joy_rumble_weapons)
+    if (joy_rumble_barrels || joy_rumble_damage || joy_rumble_pickup || joy_rumble_weapons)
     {
         restoredrumblestrength = idlechainsawrumblestrength;
         idlechainsawrumblestrength = 0;
