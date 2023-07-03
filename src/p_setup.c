@@ -354,6 +354,16 @@ bool            compat_useblocking;
 bool            compat_zombie;
 bool            nograduallighting;
 
+int             compat_corpsegibs_global = -1;
+int             compat_floormove_global = -1;
+int             compat_light_global = -1;
+int             compat_limitpain_global = -1;
+int             compat_nopassover_global = -1;
+int             compat_stairs_global = -1;
+int             compat_useblocking_global = -1;
+int             compat_zombie_global = -1;
+int             nograduallighting_global = -1;
+
 bool            canmodify;
 bool            transferredsky;
 static int      MAPINFO;
@@ -3256,15 +3266,15 @@ void P_SetupLevel(int ep, int map)
     if (gamemode != shareware)
         S_ParseMusInfo(lumpname);
 
-    compat_corpsegibs = mapinfo[map].compat_corpsegibs;
-    compat_floormove = mapinfo[map].compat_floormove;
-    compat_light = mapinfo[map].compat_light;
-    compat_limitpain = mapinfo[map].compat_limitpain;
-    compat_nopassover = mapinfo[map].compat_nopassover;
-    compat_stairs = mapinfo[map].compat_stairs;
-    compat_useblocking = mapinfo[map].compat_useblocking;
-    compat_zombie = mapinfo[map].compat_zombie;
-    nograduallighting = mapinfo[map].nograduallighting;
+    compat_corpsegibs = (compat_corpsegibs_global != -1 ? compat_corpsegibs_global : mapinfo[map].compat_corpsegibs);
+    compat_floormove = (compat_floormove_global != -1 ? compat_floormove_global : mapinfo[map].compat_floormove);
+    compat_light = (compat_light_global != -1 ? compat_light_global : mapinfo[map].compat_light);
+    compat_limitpain = (compat_limitpain_global != -1 ? compat_limitpain_global : mapinfo[map].compat_limitpain);
+    compat_nopassover = (compat_nopassover_global != -1 ? compat_nopassover_global : mapinfo[map].compat_nopassover);
+    compat_stairs = (compat_stairs_global != -1 ? compat_stairs_global : mapinfo[map].compat_stairs);
+    compat_useblocking = (compat_useblocking_global != -1 ? compat_useblocking_global : mapinfo[map].compat_useblocking);
+    compat_zombie = (compat_zombie_global != -1 ? compat_zombie_global : mapinfo[map].compat_zombie);
+    nograduallighting = (nograduallighting_global != -1 ? nograduallighting_global : mapinfo[map].nograduallighting);
 }
 
 static int  liquidlumps;
@@ -3341,7 +3351,62 @@ static bool P_ParseMapInfo(const char *scriptname)
         int ep = 1;
         int map = 0;
 
-        if (SC_Compare("MAP"))
+        if (SC_Compare("DEFAULTMAP"))
+        {
+            while (SC_GetString())
+            {
+                if ((mcmdvalue = SC_MatchString(mapcmdnames)) >= 0)
+                    switch (mapcmdids[mcmdvalue])
+                    {
+                        case MCMD_COMPAT_CORPSEGIBS:
+                        case MCMD_COMPAT_VILEGHOSTS:
+                            SC_MustGetNumber();
+                            compat_corpsegibs_global = sc_Number;
+                            break;
+
+                        case MCMD_COMPAT_LIMITPAIN:
+                            SC_MustGetNumber();
+                            compat_limitpain_global = sc_Number;
+                            break;
+
+                        case MCMD_NOGRADUALLIGHTING:
+                            SC_MustGetNumber();
+                            nograduallighting_global = sc_Number;
+                            break;
+
+                        case MCMD_COMPAT_FLOORMOVE:
+                            SC_MustGetNumber();
+                            compat_floormove_global = sc_Number;
+                            break;
+
+                        case MCMD_COMPAT_LIGHT:
+                            SC_MustGetNumber();
+                            compat_light_global = sc_Number;
+                            break;
+
+                        case MCMD_COMPAT_NOPASSOVER:
+                            SC_MustGetNumber();
+                            compat_nopassover_global = sc_Number;
+                            break;
+
+                        case MCMD_COMPAT_STAIRS:
+                            SC_MustGetNumber();
+                            compat_stairs_global = sc_Number;
+                            break;
+
+                        case MCMD_COMPAT_USEBLOCKING:
+                            SC_MustGetNumber();
+                            compat_useblocking_global = sc_Number;
+                            break;
+
+                        case MCMD_COMPAT_ZOMBIE:
+                            SC_MustGetNumber();
+                            compat_zombie_global = sc_Number;
+                            break;
+                    }
+            }
+        }
+        else if (SC_Compare("MAP"))
         {
             SC_MustGetString();
 
@@ -3765,10 +3830,7 @@ static bool P_ParseMapInfo(const char *scriptname)
                             info->sky1texture = R_TextureNumForName(sc_String);
 
                             if (SC_GetNumber())
-                            {
                                 info->sky1scrolldelta = sc_Number << 8;
-                                SC_UnGet();
-                            }
 
                             break;
 
@@ -3784,44 +3846,54 @@ static bool P_ParseMapInfo(const char *scriptname)
                             break;
 
                         case MCMD_ALLOWMONSTERTELEFRAGS:
-                            info->allowmonstertelefrags = true;
+                            SC_MustGetNumber();
+                            info->allowmonstertelefrags = !!sc_Number;
                             break;
 
                         case MCMD_COMPAT_CORPSEGIBS:
                         case MCMD_COMPAT_VILEGHOSTS:
-                            info->compat_corpsegibs = true;
+                            SC_MustGetNumber();
+                            info->compat_corpsegibs = !!sc_Number;
                             break;
 
                         case MCMD_COMPAT_LIMITPAIN:
-                            info->compat_limitpain = true;
+                            SC_MustGetNumber();
+                            info->compat_limitpain = !!sc_Number;
                             break;
 
                         case MCMD_NOGRADUALLIGHTING:
-                            info->nograduallighting = true;
+                            SC_MustGetNumber();
+                            info->nograduallighting = !!sc_Number;
                             break;
 
                         case MCMD_COMPAT_FLOORMOVE:
-                            info->compat_floormove = true;
+                            SC_MustGetNumber();
+                            info->compat_floormove = !!sc_Number;
                             break;
 
                         case MCMD_COMPAT_LIGHT:
-                            info->compat_light = true;
+                            SC_MustGetNumber();
+                            info->compat_light = !!sc_Number;
                             break;
 
                         case MCMD_COMPAT_NOPASSOVER:
-                            info->compat_nopassover = true;
+                            SC_MustGetNumber();
+                            info->compat_nopassover = !!sc_Number;
                             break;
 
                         case MCMD_COMPAT_STAIRS:
-                            info->compat_stairs = true;
+                            SC_MustGetNumber();
+                            info->compat_stairs = !!sc_Number;
                             break;
 
                         case MCMD_COMPAT_USEBLOCKING:
-                            info->compat_useblocking = true;
+                            SC_MustGetNumber();
+                            info->compat_useblocking = !!sc_Number;
                             break;
 
                         case MCMD_COMPAT_ZOMBIE:
-                            info->compat_zombie = true;
+                            SC_MustGetNumber();
+                            info->compat_zombie = !!sc_Number;
                             break;
                     }
             }
