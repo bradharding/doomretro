@@ -642,10 +642,9 @@ static bool PIT_CheckThing(mobj_t *thing)
         if ((tmflags & MF_PICKUP)
             && P_TouchSpecialThing(thing, tmthing, (tmthing->player->mo == tmthing), true)
             && joy_rumble_pickup)
-            {
-                I_GameControllerRumble(1000);
-                pickuprumbletics = 10;
-            }
+        {
+            I_GameControllerRumble(750);
+            pickuprumbletics = 10;
         }
 
         return !(flags & MF_SOLID);
