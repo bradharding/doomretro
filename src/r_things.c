@@ -1063,10 +1063,10 @@ static void R_DrawPlayerSprite(const pspdef_t *psp, bool invisibility, bool alte
 
         if (lump == psp_inter.lump && !skippsprinterp)
         {
-            const int   deltax = vis->x2 - vis->x1;
+            const int   deltax = x2 - vis->x1;
 
             vis->x1 = psp_inter.x1 + FixedMul(fractionaltic, vis->x1 - psp_inter.x1);
-            vis->x2 = vis->x1 + deltax;
+            vis->x2 = MIN(vis->x1 + deltax, viewwidth);
             vis->texturemid = psp_inter.texturemid + FixedMul(fractionaltic, vis->texturemid - psp_inter.texturemid);
         }
         else

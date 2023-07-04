@@ -3356,6 +3356,7 @@ static bool P_ParseMapInfo(const char *scriptname)
             while (SC_GetString())
             {
                 if ((mcmdvalue = SC_MatchString(mapcmdnames)) >= 0)
+                {
                     switch (mapcmdids[mcmdvalue])
                     {
                         case MCMD_COMPAT_CORPSEGIBS:
@@ -3403,7 +3404,19 @@ static bool P_ParseMapInfo(const char *scriptname)
                             SC_MustGetNumber();
                             compat_zombie_global = sc_Number;
                             break;
+
+                        case MCMD_NOJUMP:
+                            if (!autosigil)
+                                nojump = true;
+
+                            break;
+
+                        case MCMD_NOFREELOOK:
+                        case MCMD_NOMOUSELOOK:
+                            nomouselook = true;
+                            break;
                     }
+                }
             }
         }
         else if (SC_Compare("MAP"))
@@ -3485,8 +3498,6 @@ static bool P_ParseMapInfo(const char *scriptname)
                             else
                             {
                                 int i;
-                                int special;
-                                int tag;
 
                                 for (i = 0; i < NUMMOBJTYPES; i++)
                                 {
@@ -3522,6 +3533,9 @@ static bool P_ParseMapInfo(const char *scriptname)
 
                                 if (i < NUMMOBJTYPES)
                                 {
+                                    int special;
+                                    int tag;
+
                                     SC_MustGetNumber();
                                     special = sc_Number;
 
@@ -3903,13 +3917,6 @@ static bool P_ParseMapInfo(const char *scriptname)
 
             mapmax = MAX(map, mapmax);
         }
-        else if (SC_Compare("NOJUMP"))
-        {
-            if (!autosigil)
-                nojump = true;
-        }
-        else if (SC_Compare("NOMOUSELOOK") || SC_Compare("NOFREELOOK"))
-            nomouselook = true;
     }
 
     SC_Close();
