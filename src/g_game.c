@@ -799,10 +799,11 @@ bool G_Responder(const event_t *ev)
                 mousewait = I_GetTime() + 5;
                 gamecontrollerwait = mousewait + 3;
 
-                logotic = MIN(logotic, 93);
-
                 if (splashscreen)
+                {
+                    logotic = MIN(logotic, 93);
                     pagetic = MIN(pagetic, 10);
+                }
                 else
                 {
                     pagetic = PAGETICS;

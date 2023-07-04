@@ -15,7 +15,7 @@
 * These changes have been made to the menu:
   * Improvements have been made to toggling widescreen using the <kbd><b>+</b></kbd> and <kbd><b>&ndash;</b></kbd> keys while the menu is open.
   * The fade effect when quitting *DOOM Retro* from the menu is no longer affected if the player has either a berserk or radiation shielding suit power-up and the `fade` CVAR is `on`.
-  * Minor improvements have been made to the menu’s border.
+  * Minor improvements have been made to the edges of the menu’s background.
 * The effects of changing the `r_gamma` and `r_saturation` CVARs are now applied to *DOOM Retro’s* splash screen.
 * The `r_lowpixelsize` CVAR can now also be set to `1×2` or `2×1`.
 * A bug is fixed whereby sometimes the player wouldn’t pick up an item in a liquid sector when the `r_liquid_clipsprites` CVAR was `on`.
@@ -33,12 +33,11 @@
   * `compat_stairs` is now recognized.
   * `compat_zombie` is now recognized.
 * Friendly monsters spawned using the `spawn` CCMD will now follow the player into the next map.
-* Minor improvements have been made to the support of [*MBF21*](https://doomwiki.org/wiki/MBF21)-compatible WADs.
 * The mouse pointer is no longer displayed on the intermission or finale screens when the player moves the mouse and the `m_pointer` CVAR is `on`.
 * When the `mouselook` CVAR is `on`:
   * The player can now see slightly further when looking up or down.
   * A crash no longer occurs if a blood splat touches the top of the screen while the player looks down.
-* When the `vid_widescreen` CVAR is `on` and the screen is wider than the status bar, the `FLOOR7_2` or `GRNROCK` textures no longer fill the sides. A color matching the colors in the status bar is used instead.
+* When the `vid_widescreen` CVAR is `on` and the screen is wider than the status bar, the `FLOOR7_2` or `GRNROCK` textures no longer fill the sides. A color matching the colors in the status bar is shown instead.
 * The text in the automap is now always positioned correctly when the `am_external` CVAR is `on`.
 * The player will no longer exit the map if they are dead when a timer set using the `timer` CCMD runs out.
 * Support has been added for the lumps `STFXDTH0` to `STFXDTH9`. If included in a PWAD, the player’s face in the status bar will animate when they are gibbed. This is a feature revived from the old 3DO, Jaguar and PSX ports of *DOOM*.
