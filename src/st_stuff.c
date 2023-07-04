@@ -389,7 +389,7 @@ static void ST_RefreshBackground(void)
 {
 #if SCREENSCALE == 1
     if (sbarwidth < SCREENWIDTH)
-        R_FillBezel(sbarcolor);
+        R_FillBezel(sbartopcolor, sbarcolor, sbarwidth);
 
     V_DrawWidePatch((SCREENWIDTH / SCREENSCALE - sbarwidth) / 2, VANILLAHEIGHT - VANILLASBARHEIGHT, 0, sbar);
 
