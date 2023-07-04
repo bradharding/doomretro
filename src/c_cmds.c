@@ -10360,7 +10360,10 @@ static void vid_fullscreen_cvar_func2(char *cmd, char *parms)
     bool_cvars_func2(cmd, parms);
 
     if (vid_fullscreen != vid_fullscreen_old)
+    {
+        vid_fullscreen = !vid_fullscreen;
         I_ToggleFullscreen();
+    }
 }
 
 //
