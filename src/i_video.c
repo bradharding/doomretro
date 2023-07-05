@@ -393,7 +393,7 @@ static void I_GetEvent(void)
                     if (altdown && ev.data1 == KEY_ENTER && !enterdown)
                     {
                         enterdown = true;
-                        I_ToggleFullscreen();
+                        I_ToggleFullscreen(true);
 
                         return;
                     }
