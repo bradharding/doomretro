@@ -101,7 +101,7 @@ void I_UpdateBlitFunc(const bool shaking);
 bool I_CreateExternalAutomap(void);
 void I_DestroyExternalAutomap(void);
 
-void I_ToggleFullscreen(void);
+void I_ToggleFullscreen(bool output);
 void I_SetPillarboxes(void);
 void I_SetMotionBlur(const int percent);
 

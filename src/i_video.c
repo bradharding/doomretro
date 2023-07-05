@@ -1799,7 +1799,7 @@ void I_RestartGraphics(const bool recreatewindow)
         skippsprinterp = true;
 }
 
-void I_ToggleFullscreen(void)
+void I_ToggleFullscreen(bool output)
 {
     if (SDL_SetWindowFullscreen(window,
         (vid_fullscreen ? 0 : (vid_borderlesswindow ? SDL_WINDOW_FULLSCREEN_DESKTOP : SDL_WINDOW_FULLSCREEN))) < 0)
@@ -1819,10 +1819,14 @@ void I_ToggleFullscreen(void)
         I_UpdateBlitFunc(viewplayer && viewplayer->damagecount);
 
     if (vid_fullscreen)
-        C_StringCVAROutput(stringize(vid_fullscreen), "on");
+    {
+        if (output)
+            C_StringCVAROutput(stringize(vid_fullscreen), "on");
+    }
     else
     {
-        C_StringCVAROutput(stringize(vid_fullscreen), "off");
+        if (output)
+            C_StringCVAROutput(stringize(vid_fullscreen), "off");
 
         SDL_SetWindowSize(window, windowwidth, windowheight);
 

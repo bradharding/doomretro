@@ -43,6 +43,7 @@
 * Support has been added for the lumps `STFXDTH0` to `STFXDTH9`. If included in a PWAD, the player’s face in the status bar will animate when they are gibbed. This is a feature revived from the old 3DO, Jaguar and PSX ports of *DOOM*.
 * The accompanying readme file for the currently loaded PWAD can now be displayed by entering the new `readme` CCMD in the console.
 * Controllers now rumble slightly when the player picks something up. This can be toggled using the new `joy_rumble_pickup` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
+* A bug is fixed whereby the `vid_fullscreen` CVAR couldn’t be changed in the console.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
