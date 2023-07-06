@@ -357,6 +357,7 @@ void C_PlayerMessage(const char *string, ...)
         console[numconsolestrings].stringtype = playermessagestring;
         console[numconsolestrings].tics = gametime;
         console[numconsolestrings].timestamp[0] = '\0';
+        console[numconsolestrings].string[0] = toupper(console[numconsolestrings].string[0]);
         console[numconsolestrings].indent = 0;
         console[numconsolestrings].wrap = 0;
         console[numconsolestrings++].count = 1;
