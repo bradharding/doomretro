@@ -35,6 +35,7 @@
 * Friendly monsters spawned using the `spawn` CCMD will now follow the player into the next map.
 * The mouse pointer is no longer displayed on the intermission or finale screens when the player moves the mouse and the `m_pointer` CVAR is `on`.
 * When the `mouselook` CVAR is `on`:
+  * Minor improvements have been made to aiming vertically.
   * The player can now see slightly further when looking up or down.
   * A crash no longer occurs if a blood splat touches the top of the screen while the player looks down.
 * When the `vid_widescreen` CVAR is `on` and the screen is wider than the status bar, the `FLOOR7_2` or `GRNROCK` textures no longer fill the sides. A color matching the colors in the status bar is shown instead.
@@ -42,8 +43,9 @@
 * The player will no longer exit the map if they are dead when a timer set using the `timer` CCMD runs out.
 * Support has been added for the lumps `STFXDTH0` to `STFXDTH9`. If included in a PWAD, the player’s face in the status bar will animate when they are gibbed. This is a feature revived from the old 3DO, Jaguar and PSX ports of *DOOM*.
 * The accompanying readme file for the currently loaded PWAD can now be displayed by entering the new `readme` CCMD in the console.
-* Controllers now rumble slightly when the player picks something up. This can be toggled using the new `joy_rumble_pickup` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
+* Controllers now rumble slightly when the player picks something up. This feature can be toggled using the new `joy_rumble_pickup` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
 * A bug is fixed whereby the `vid_fullscreen` CVAR couldn’t be changed in the console.
+* The player’s weapon is now displayed correctly if wide enough to touch the right side of the screen and the `vid_capfps` CVAR is not `35`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
