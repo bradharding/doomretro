@@ -1683,7 +1683,7 @@ static void P_WriteObituary(mobj_t *target, mobj_t *inflicter, mobj_t *source, c
                 const bool  friendly = (source->flags & MF_FRIEND);
 
                 M_snprintf(sourcename, sizeof(sourcename), "%s %s%s",
-                    (friendly && monstercount[source->type] == 1 ? "The" :
+                    (friendly && monstercount[source->type] == 1 ? "the" :
                         (*source->info->name1 && isvowel(source->info->name1[0]) && !friendly ? "an" : "a")),
                     (friendly ? "friendly " : ""),
                     (*source->info->name1 ? source->info->name1 : "monster"));
