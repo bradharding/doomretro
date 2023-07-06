@@ -10677,7 +10677,36 @@ static bool weapon_cvar_func1(char *cmd, char *parms)
         return false;
     else
     {
-        const int   value = C_LookupValueFromAlias(parms, WEAPONVALUEALIAS);
+        int value = INT_MIN;
+
+        if (sscanf(parms, "%1i", &value) == 1)
+            for (int i = 0; i < NUMWEAPONS; i++)
+                if (value == weaponinfo[i].key - '0')
+                {
+                    value = i;
+
+                    if (value == wp_fist)
+                    {
+                        if (viewplayer->readyweapon == wp_fist
+                            && viewplayer->weaponowned[wp_chainsaw])
+                            value = wp_chainsaw;
+                        else if (viewplayer->readyweapon == wp_chainsaw)
+                            value = wp_fist;
+                    }
+                    else if (value == wp_shotgun)
+                    {
+                        if (viewplayer->readyweapon == wp_shotgun
+                            && viewplayer->weaponowned[wp_supershotgun])
+                            value = wp_supershotgun;
+                        else if (viewplayer->readyweapon == wp_supershotgun)
+                            value = wp_shotgun;
+                    }
+
+                    break;
+                }
+
+        if (value == INT_MIN)
+            value = C_LookupValueFromAlias(parms, WEAPONVALUEALIAS);
 
         return (value != INT_MIN
             && value != viewplayer->readyweapon
@@ -10691,7 +10720,36 @@ static void weapon_cvar_func2(char *cmd, char *parms)
 {
     if (*parms)
     {
-        const int   value = C_LookupValueFromAlias(parms, WEAPONVALUEALIAS);
+        int value = INT_MIN;
+
+        if (sscanf(parms, "%1i", &value) == 1)
+            for (int i = 0; i < NUMWEAPONS; i++)
+                if (value == weaponinfo[i].key - '0')
+                {
+                    value = i;
+
+                    if (value == wp_fist)
+                    {
+                        if (viewplayer->readyweapon == wp_fist
+                            && viewplayer->weaponowned[wp_chainsaw])
+                            value = wp_chainsaw;
+                        else if (viewplayer->readyweapon == wp_chainsaw)
+                            value = wp_fist;
+                    }
+                    else if (value == wp_shotgun)
+                    {
+                        if (viewplayer->readyweapon == wp_shotgun
+                            && viewplayer->weaponowned[wp_supershotgun])
+                            value = wp_supershotgun;
+                        else if (viewplayer->readyweapon == wp_supershotgun)
+                            value = wp_shotgun;
+                    }
+
+                    break;
+                }
+
+        if (value == INT_MIN)
+            value = C_LookupValueFromAlias(parms, WEAPONVALUEALIAS);
 
         viewplayer->pendingweapon = value;
 

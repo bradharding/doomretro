@@ -59,7 +59,8 @@ weaponinfo_t weaponinfo[NUMWEAPONS] =
         /* nextweapon  */ wp_chainsaw,
         /* spritename  */ "",
         /* sound       */ sfx_none,
-        /* flags       */ (WPF_FLEEMELEE | WPF_AUTOSWITCHFROM | WPF_NOAUTOSWITCHTO)
+        /* flags       */ (WPF_FLEEMELEE | WPF_AUTOSWITCHFROM | WPF_NOAUTOSWITCHTO),
+        /* key         */ '1'
     },
 
     // pistol
@@ -81,7 +82,8 @@ weaponinfo_t weaponinfo[NUMWEAPONS] =
         /* nextweapon  */ wp_shotgun,
         /* spritename  */ "",
         /* sound       */ sfx_pistol,
-        /* flags       */ WPF_AUTOSWITCHFROM
+        /* flags       */ WPF_AUTOSWITCHFROM,
+        /* key         */ '2'
     },
 
     // shotgun
@@ -103,7 +105,8 @@ weaponinfo_t weaponinfo[NUMWEAPONS] =
         /* nextweapon  */ wp_supershotgun,
         /* spritename  */ "SHOTA0",
         /* sound       */ sfx_shotgn,
-        /* flags       */ WPF_NOFLAG
+        /* flags       */ WPF_NOFLAG,
+        /* key         */ '3'
     },
 
     // chaingun
@@ -125,7 +128,8 @@ weaponinfo_t weaponinfo[NUMWEAPONS] =
         /* nextweapon  */ wp_missile,
         /* spritename  */ "MGUNA0",
         /* sound       */ sfx_pistol,
-        /* flags       */ WPF_NOFLAG
+        /* flags       */ WPF_NOFLAG,
+        /* key         */ '4'
     },
 
     // rocket launcher
@@ -147,7 +151,8 @@ weaponinfo_t weaponinfo[NUMWEAPONS] =
         /* nextweapon  */ wp_plasma,
         /* spritename  */ "LAUNA0",
         /* sound       */ sfx_rlaunc,
-        /* flags       */ WPF_NOAUTOFIRE
+        /* flags       */ WPF_NOAUTOFIRE,
+        /* key         */ '5'
     },
 
     // plasma rifle
@@ -169,7 +174,8 @@ weaponinfo_t weaponinfo[NUMWEAPONS] =
         /* nextweapon  */ wp_bfg,
         /* spritename  */ "PLASA0",
         /* sound       */ sfx_plasma,
-        /* flags       */ WPF_NOFLAG
+        /* flags       */ WPF_NOFLAG,
+        /* key         */ '6'
     },
 
     // BFG-9000
@@ -191,7 +197,8 @@ weaponinfo_t weaponinfo[NUMWEAPONS] =
         /* nextweapon  */ wp_fist,
         /* spritename  */ "BFUGA0",
         /* sound       */ sfx_bfg,
-        /* flags       */ WPF_NOAUTOFIRE
+        /* flags       */ WPF_NOAUTOFIRE,
+        /* key         */ '7'
     },
 
     // chainsaw
@@ -213,7 +220,8 @@ weaponinfo_t weaponinfo[NUMWEAPONS] =
         /* nextweapon  */ wp_pistol,
         /* spritename  */ "CSAWA0",
         /* sound       */ sfx_none,
-        /* flags       */ (WPF_NOTHRUST | WPF_FLEEMELEE | WPF_NOAUTOSWITCHTO)
+        /* flags       */ (WPF_NOTHRUST | WPF_FLEEMELEE | WPF_NOAUTOSWITCHTO),
+        /* key         */ '1'
     },
 
     // super shotgun
@@ -235,7 +243,8 @@ weaponinfo_t weaponinfo[NUMWEAPONS] =
         /* nextweapon  */ wp_chaingun,
         /* spritename  */ "SGN2A0",
         /* sound       */ sfx_dshtgn,
-        /* flags       */ WPF_NOFLAG
+        /* flags       */ WPF_NOFLAG,
+        /* key         */ '3'
     }
 };
 

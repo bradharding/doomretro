@@ -79,6 +79,8 @@ typedef struct
     // MBF21
     int             flags;
 
+    char            key;
+
     bool            altered;
 } weaponinfo_t;
 
