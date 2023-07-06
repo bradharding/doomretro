@@ -695,8 +695,8 @@ consolecmd_t consolecmds[] =
         "Toggles infighting amongst monsters once the player dies."),
     CVAR_BOOL(infiniteheight, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles giving the player and monsters infinite height."),
-    CVAR_STR(iwadfolder, "", "", null_func1, str_cvars_func2, CF_NONE,
-        "The folder the current IWAD is in."),
+    CVAR_STR(wadfolder, "", "", null_func1, str_cvars_func2, CF_NONE,
+        "The folder the currently loaded WAD is in."),
     CVAR_BOOL(joy_analog, joy_analogue, "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles whether movement using the controller's thumbsticks is analog or digital."),
     CVAR_FLOAT(joy_deadzone_left, "", "", joy_deadzone_cvars_func1, joy_deadzone_cvars_func2, CF_PERCENT,
@@ -6590,7 +6590,7 @@ static void reset_cmd_func2(char *cmd, char *parms)
             }
 
 #if defined(_WIN32)
-            if (M_StringCompare(parms, stringize(iwadfolder)))
+            if (M_StringCompare(parms, stringize(wadfolder)))
             {
                 wad = "";
                 M_SaveCVARs();

@@ -99,7 +99,7 @@ bool        flashkeys = flashkeys_default;
 bool        groupmessages = groupmessages_default;
 bool        infighting = infighting_default;
 bool        infiniteheight = infiniteheight_default;
-char        *iwadfolder = iwadfolder_default;
+char        *wadfolder = wadfolder_default;
 bool        joy_analog = joy_analog_default;
 float       joy_deadzone_left = joy_deadzone_left_default;
 float       joy_deadzone_right = joy_deadzone_right_default;
@@ -338,7 +338,6 @@ static default_t cvars[] =
     CVAR_BOOL         (groupmessages,                    groupmessages,                         groupmessages,                       BOOLVALUEALIAS     ),
     CVAR_BOOL         (infighting,                       infighting,                            infighting,                          BOOLVALUEALIAS     ),
     CVAR_BOOL         (infiniteheight,                   infiniteheight,                        infiniteheight,                      BOOLVALUEALIAS     ),
-    CVAR_STRING       (iwadfolder,                       iwadfolder,                            iwadfolder,                          NOVALUEALIAS       ),
     CVAR_BOOL         (joy_analog,                       gp_analog,                             joy_analog,                          BOOLVALUEALIAS     ),
     CVAR_FLOAT_PERCENT(joy_deadzone_left,                gp_deadzone_left,                      joy_deadzone_left,                   NOVALUEALIAS       ),
     CVAR_FLOAT_PERCENT(joy_deadzone_right,               gp_deadzone_right,                     joy_deadzone_right,                  NOVALUEALIAS       ),
@@ -450,6 +449,7 @@ static default_t cvars[] =
 #if defined(_WIN32)
     CVAR_STRING       (wad,                              wad,                                   wad,                                 NOVALUEALIAS       ),
 #endif
+    CVAR_STRING       (wadfolder,                        iwadfolder,                            wadfolder,                           NOVALUEALIAS       ),
     CVAR_INT          (warninglevel,                     warninglevel,                          warninglevel,                        NOVALUEALIAS       ),
     CVAR_INT_PERCENT  (weaponbob,                        weaponbob,                             weaponbob,                           NOVALUEALIAS       ),
     CVAR_BOOL         (weaponbounce,                     weaponbounce,                          weaponbounce,                        BOOLVALUEALIAS     ),
@@ -909,8 +909,8 @@ static float ParseFloatParameter(const char *cvar, const char *strparm, const in
 
 static void M_CheckCVARs(void)
 {
-    if (!*iwadfolder || M_StringCompare(iwadfolder, iwadfolder_default) || !M_FolderExists(iwadfolder))
-        D_InitIWADFolder();
+    if (!*wadfolder || M_StringCompare(wadfolder, wadfolder_default) || !M_FolderExists(wadfolder))
+        D_InitWADfolder();
 
     I_SetGameControllerLeftDeadZone();
     I_SetGameControllerRightDeadZone();

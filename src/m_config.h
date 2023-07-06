@@ -90,7 +90,6 @@ extern bool     flashkeys;
 extern bool     groupmessages;
 extern bool     infighting;
 extern bool     infiniteheight;
-extern char     *iwadfolder;
 extern bool     joy_analog;
 extern float    joy_deadzone_left;
 extern float    joy_deadzone_right;
@@ -204,6 +203,7 @@ extern char     *vid_windowsize;
 #if defined(_WIN32)
 extern char     *wad;
 #endif
+extern char     *wadfolder;
 extern int      warninglevel;
 extern int      weaponbob;
 extern bool     weaponbounce;
@@ -490,9 +490,9 @@ enum
 #define infiniteheight_default             false
 
 #if defined(_WIN32)
-#define iwadfolder_default                 "C:\\"
+#define wadfolder_default                  "C:\\"
 #else
-#define iwadfolder_default                 "/"
+#define wadfolder_default                  "/"
 #endif
 
 #define joy_analog_default                 true

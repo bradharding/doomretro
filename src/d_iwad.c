@@ -673,7 +673,7 @@ char *D_FindWADByName(char *filename)
     return NULL;
 }
 
-void D_InitIWADFolder(void)
+void D_InitWADfolder(void)
 {
 #if defined(_WIN32)
     char    path[MAX_PATH];
@@ -684,18 +684,18 @@ void D_InitIWADFolder(void)
     for (int i = 0; i < num_iwad_dirs; i++)
         if (M_FolderExists(iwad_dirs[i]))
         {
-            iwadfolder = M_StringDuplicate(iwad_dirs[i]);
+            wadfolder = M_StringDuplicate(iwad_dirs[i]);
             break;
         }
 
 #if defined(_WIN32)
-    M_snprintf(path, sizeof(path), "%s" DIR_SEPARATOR_S "DOOM.WAD", iwadfolder);
+    M_snprintf(path, sizeof(path), "%s" DIR_SEPARATOR_S "DOOM.WAD", wadfolder);
 
     if (M_FileExists(path))
         wad = "DOOM.WAD";
     else
     {
-        M_snprintf(path, sizeof(path), "%s" DIR_SEPARATOR_S "DOOM2.WAD", iwadfolder);
+        M_snprintf(path, sizeof(path), "%s" DIR_SEPARATOR_S "DOOM2.WAD", wadfolder);
 
         if (M_FileExists(path))
             wad = "DOOM2.WAD";
