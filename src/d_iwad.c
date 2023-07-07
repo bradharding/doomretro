@@ -277,6 +277,8 @@ static void CheckUninstallStrings(void)
         {
             char    *path = unstr + len;
 
+            path[0] = toupper(path[0]);
+            M_NormalizeSlashes(path);
             AddIWADDir(path);
         }
         else
@@ -289,30 +291,36 @@ static void CheckInstallRootPaths(void)
 {
     for (size_t i = 0; i < arrlen(root_path_keys); i++)
     {
-        char    *install_path = GetRegistryString(&root_path_keys[i]);
+        char    *path = GetRegistryString(&root_path_keys[i]);
 
-        if (!install_path)
+        if (!path)
             continue;
 
-        for (size_t j = 0; j < arrlen(root_path_subdirs); j++)
-            AddIWADDir(M_StringJoin(install_path, DIR_SEPARATOR_S, root_path_subdirs[j], NULL));
+        path[0] = toupper(path[0]);
+        M_NormalizeSlashes(path);
 
-        free(install_path);
+        for (size_t j = 0; j < arrlen(root_path_subdirs); j++)
+            AddIWADDir(M_StringJoin(path, DIR_SEPARATOR_S, root_path_subdirs[j], NULL));
+
+        free(path);
     }
 }
 
 // Check for DOOM downloaded via the Bethesda.net Launcher
 static void CheckBethesdaEdition(void)
 {
-    char    *install_path = GetRegistryString(&bethesda_install_location);
+    char    * path = GetRegistryString(&bethesda_install_location);
 
-    if (!install_path)
+    if (!path)
         return;
 
-    for (size_t j = 0; j < arrlen(bethesda_install_subdirs); j++)
-        AddIWADDir(M_StringJoin(install_path, DIR_SEPARATOR_S, bethesda_install_subdirs[j], NULL));
+    path[0] = toupper(path[0]);
+    M_NormalizeSlashes(path);
 
-    free(install_path);
+    for (size_t j = 0; j < arrlen(bethesda_install_subdirs); j++)
+        AddIWADDir(M_StringJoin(path, DIR_SEPARATOR_S, bethesda_install_subdirs[j], NULL));
+
+    free(path);
 }
 
 // Check for DOOM downloaded via Steam
@@ -320,15 +328,18 @@ static void CheckSteamEdition(void)
 {
     for (size_t i = 0; i < arrlen(steam_install_locations); i++)
     {
-        char    *install_path = GetRegistryString(&steam_install_locations[i]);
+        char    * path = GetRegistryString(&steam_install_locations[i]);
 
-        if (!install_path)
+        if (!path)
             continue;
 
-        for (size_t j = 0; j < arrlen(steam_install_subdirs); j++)
-            AddIWADDir(M_StringJoin(install_path, DIR_SEPARATOR_S, steam_install_subdirs[j], NULL));
+        path[0] = toupper(path[0]);
+        M_NormalizeSlashes(path);
 
-        free(install_path);
+        for (size_t j = 0; j < arrlen(steam_install_subdirs); j++)
+            AddIWADDir(M_StringJoin(path, DIR_SEPARATOR_S, steam_install_subdirs[j], NULL));
+
+        free(path);
     }
 }
 
