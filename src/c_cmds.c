@@ -695,8 +695,6 @@ consolecmd_t consolecmds[] =
         "Toggles infighting amongst monsters once the player dies."),
     CVAR_BOOL(infiniteheight, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles giving the player and monsters infinite height."),
-    CVAR_STR(wadfolder, "", "", null_func1, str_cvars_func2, CF_NONE,
-        "The folder the currently loaded WAD is in."),
     CVAR_BOOL(joy_analog, joy_analogue, "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles whether movement using the controller's thumbsticks is analog or digital."),
     CVAR_FLOAT(joy_deadzone_left, "", "", joy_deadzone_cvars_func1, joy_deadzone_cvars_func2, CF_PERCENT,
@@ -1006,6 +1004,8 @@ consolecmd_t consolecmds[] =
     CVAR_STR(wad, "", "", null_func1, str_cvars_func2, CF_READONLY,
         "The last WAD to be opened using the WAD launcher."),
 #endif
+    CVAR_STR(wadfolder, "", "", null_func1, str_cvars_func2, CF_NONE,
+        "The folder the currently loaded WAD is in."),
     CVAR_INT(warninglevel, "", "", int_cvars_func1, int_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The console's warning level (" BOLD("0") ", " BOLD("1") " or " BOLD("2") ")."),
     CVAR_INT(weapon, "", "", weapon_cvar_func1, weapon_cvar_func2, CF_NONE, WEAPONVALUEALIAS,

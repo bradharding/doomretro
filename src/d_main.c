@@ -1339,12 +1339,6 @@ static int D_OpenWADLauncher(void)
                 if (W_AddFile(file, false))
                 {
                     iwadfound = 1;
-
-#if defined(_WIN32)
-                    if (!guess)
-                        wad = M_StringDuplicate(leafname(file));
-#endif
-
                     wadfolder = M_StringDuplicate(folder);
 
                     // if DOOM.WAD is selected, load SIGIL.WAD automatically if present
