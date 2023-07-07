@@ -156,6 +156,8 @@
 #define ST_MAXAMMO3X        ST_MAXAMMO0X
 #define ST_MAXAMMO3Y        191
 
+#define IDMUS_MAX           60
+
 // ST_Start() has just been called
 static bool             st_firsttime;
 
@@ -314,8 +316,6 @@ static void ST_InitCheats(void)
     cheat_amap.movekey = movekey(cheat_amap.sequence[0]);
     cheat_buddha.movekey = movekey(cheat_buddha.sequence[0]);
 }
-
-#define IDMUS_MAX   60
 
 static const int mus[IDMUS_MAX][6] =
 {
@@ -1564,7 +1564,7 @@ static void ST_LoadUnloadGraphics(void callback(const char *, patch_t **))
     callback("BRDR_BL", &brdr_bl);
     callback("BRDR_BR", &brdr_br);
 
-    // [BH] fix display of viewborder for wads that have these patches without offsets
+    // [BH] fix display of viewborder for WADs that have these patches without offsets
     brdr_t->leftoffset = 0;
     brdr_t->topoffset = -5;
     brdr_b->leftoffset = 0;
