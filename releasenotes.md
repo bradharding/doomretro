@@ -47,6 +47,8 @@
 * A bug is fixed whereby the `vid_fullscreen` CVAR couldn’t be changed in the console.
 * The player’s weapon is now displayed correctly if wide enough to touch the right side of the screen and the `vid_capfps` CVAR is not `35`.
 * The `weapon` CVAR now allows values `1` to `7`.
+* The `iwadfolder` CVAR has been renamed `wadfolder`.
+* A bug is fixed whereby the `wadfolder` CVAR wouldn’t be updated in some instances.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

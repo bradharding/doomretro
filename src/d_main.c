@@ -1402,6 +1402,7 @@ static int D_OpenWADLauncher(void)
                     if (W_AddFile(fullpath, true))
                     {
                         iwadfound = 1;
+                        wadfolder = M_StringDuplicate(folder);
                         D_CheckSupportedPWAD(file);
 
                         if (W_MergeFile(file, false))
@@ -1423,6 +1424,7 @@ static int D_OpenWADLauncher(void)
                         if (W_AddFile(D_FindWADByName(iwadsrequired[iwadrequired]), true))
                         {
                             iwadfound = 1;
+                            wadfolder = M_StringDuplicate(folder);
                             D_CheckSupportedPWAD(file);
 
                             if (W_MergeFile(file, false))
