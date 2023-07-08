@@ -120,6 +120,8 @@ void I_ShutdownGameController(void)
 
 void I_GameControllerRumble(int strength)
 {
+    strength = MIN(strength, UINT16_MAX);
+
     if (!gamecontrollerrumbles)
         return;
 
