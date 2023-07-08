@@ -14,7 +14,7 @@
 * A crash no longer occurs when trying to display certain patches greater than 200 pixels in height.
 * These changes have been made to the menu:
   * Improvements have been made to toggling widescreen using the <kbd><b>+</b></kbd> and <kbd><b>&ndash;</b></kbd> keys while the menu is open.
-  * The fade effect when quitting *DOOM Retro* from the menu is no longer affected if the player has either a berserk or radiation shielding suit power-up and the `fade` CVAR is `on`.
+  * The fade to black when quitting *DOOM Retro* from the menu is no longer affected if the player has either a berserk or radiation shielding suit power-up and the `fade` CVAR is `on`.
   * Minor improvements have been made to the edges of the menu’s background.
 * The effects of changing the `r_gamma` and `r_saturation` CVARs are now applied to *DOOM Retro’s* splash screen.
 * The `r_lowpixelsize` CVAR can now also be set to `1×2` or `2×1`.

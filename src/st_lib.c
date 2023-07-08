@@ -169,7 +169,7 @@ void STlib_UpdateBigHealthNum(st_number_t *n)
     int         num = (negativehealth ? ABS(*n->num + (animatedstats ? healthdiff : 0)) :
                     MAX(0, *n->num + (animatedstats ? healthdiff : 0)));
     int         x = n->x + (num == 1);
-    int         y = n->y;
+    const int   y = n->y;
     const int   width = SHORT(n->p[0]->width);
 
     // in the special case of 0, you draw 0

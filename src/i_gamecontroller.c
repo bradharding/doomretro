@@ -91,8 +91,8 @@ void I_InitGameController(void)
 
             if (SDL_GameControllerHasRumble(gamecontroller))
                 gamecontrollerrumbles = true;
-            else if (!repeated && (joy_rumble_damage || joy_rumble_barrels || joy_rumble_weapons))
-                C_Warning(1, "This controller doesn't rumble.");
+            else if (!repeated && (joy_rumble_barrels || joy_rumble_damage || joy_rumble_pickup || joy_rumble_weapons))
+                C_Warning(1, "This controller isn't going to rumble.");
 
             I_SetGameControllerLeftDeadZone();
             I_SetGameControllerRightDeadZone();

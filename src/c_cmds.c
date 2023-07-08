@@ -744,7 +744,7 @@ consolecmd_t consolecmds[] =
     CCMD(mapstats, "", "", mapstats_cmd_func1, mapstats_cmd_func2, false, "",
         "Shows stats about the current map."),
     CVAR_TIME(maptime, "", "", game_func1, time_cvars_func2,
-        "The amount of time the player has spent in the current map."),
+        "The amount of time the player has been in the current map."),
     CVAR_BOOL(melt, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles a melting effect when transitioning between some screens."),
     CVAR_BOOL(messages, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
