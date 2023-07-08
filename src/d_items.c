@@ -214,7 +214,7 @@ weaponinfo_t weaponinfo[NUMWEAPONS] =
         /* atkstate    */ S_SAW1,
         /* flashstate  */ S_NULL,
         /* recoil      */ -2,
-        /* strength    */ 45000,
+        /* strength    */ 65000,
         /* tics        */ 10,
         /* prevweapon  */ wp_fist,
         /* nextweapon  */ wp_pistol,

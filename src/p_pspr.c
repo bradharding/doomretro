@@ -203,18 +203,10 @@ void P_FireWeapon(void)
     P_SetMobjState(viewplayer->mo, S_PLAY_ATK1);
     P_SetPlayerSprite(ps_weapon, weaponinfo[readyweapon].atkstate);
 
-    if (joy_rumble_weapons)
+    if (joy_rumble_weapons && readyweapon != wp_fist)
     {
-        if (readyweapon == wp_chainsaw)
-        {
-            I_GameControllerRumble(UINT32_MAX);
-            weaponrumbletics = weaponinfo[readyweapon].tics;
-        }
-        else if (readyweapon != wp_fist)
-        {
-            I_GameControllerRumble(weaponinfo[readyweapon].strength * joy_rumble_weapons / 100);
-            weaponrumbletics = weaponinfo[readyweapon].tics;
-        }
+        I_GameControllerRumble(weaponinfo[readyweapon].strength * joy_rumble_weapons / 100);
+        weaponrumbletics = weaponinfo[readyweapon].tics;
     }
 
     if (centerweapon)
