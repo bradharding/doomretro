@@ -253,7 +253,7 @@ static void AM_FindMinMaxBoundaries(void)
     a = FixedDiv(MAPWIDTH << FRACBITS, (max_x >>= FRACTOMAPBITS) - (min_x >>= FRACTOMAPBITS));
     b = FixedDiv(MAPHEIGHT << FRACBITS, (max_y >>= FRACTOMAPBITS) - (min_y >>= FRACTOMAPBITS));
 
-    min_scale_mtof = MIN(a, b);
+    min_scale_mtof = MIN(scale_mtof, MIN(a, b));
     max_scale_mtof = FixedDiv(MAPHEIGHT << FRACBITS, 2 * PLAYERRADIUS);
 }
 
@@ -399,8 +399,8 @@ static void AM_LevelInit(void)
     am_followmode = am_followmode_default;
     bigstate = false;
 
-    AM_FindMinMaxBoundaries();
     scale_mtof = FixedDiv(INITSCALEMTOF, FRACUNIT * 7 / 10);
+    AM_FindMinMaxBoundaries();
 
     if (scale_mtof > max_scale_mtof)
         scale_mtof = min_scale_mtof;
