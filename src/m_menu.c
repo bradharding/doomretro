@@ -3882,7 +3882,10 @@ void M_OpenMainMenu(void)
         menuspinspeed = 0;
 
         playerlookdir = viewplayer->lookdir;
-        viewplayer->lookdir = 0;
+
+        if (!helpscreen)
+            viewplayer->lookdir = 0;
+
         R_SetViewSize(r_screensize_max);
 
         if (!helpscreen)

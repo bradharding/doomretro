@@ -42,7 +42,7 @@
 * The player no longer exits the map if they are dead when a timer set using the `timer` CCMD runs out.
 * Support has been added for the lumps `STFXDTH0` to `STFXDTH9`. If included in a PWAD, the player’s face in the status bar now animate when they are gibbed. This is a feature revived from the old 3DO, Jaguar and PSX ports of *DOOM*.
 * The accompanying readme file for the currently loaded PWAD can now be displayed by entering the new `readme` CCMD in the console.
-* Controllers now rumble slightly when the player picks something up. This feature can be toggled using the new `joy_rumble_pickup` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
+* Controllers now rumble slightly when the player picks something up. This can be disabled by the new `joy_rumble_pickup` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
 * Controllers now rumble again when the player uses the chainsaw and the `joy_rumble_weapons` CVAR is `on`.
 * A bug is fixed whereby the `vid_fullscreen` CVAR couldn’t be changed in the console.
 * The player’s weapon is now displayed correctly if it touches the right side of the screen and the `vid_capfps` CVAR is not `35`.
@@ -50,6 +50,7 @@
 * The `iwadfolder` CVAR has been renamed `wadfolder`.
 * A bug is fixed whereby the `wadfolder` CVAR wouldn’t be updated in some instances.
 * Improvements have been made to zooming in the automap for small maps.
+* The direction the player is looking is no longer reset in the help screen’s background when the `mouselook` CVAR is `on`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
