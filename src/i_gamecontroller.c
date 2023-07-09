@@ -41,6 +41,7 @@
 static SDL_GameController   *gamecontroller;
 static bool                 gamecontrollerconnected;
 static bool                 gamecontrollerrumbles;
+static int                  currentstrength;
 
 int                         gamecontrollerbuttons = 0;
 short                       gamecontrollerthumbLX = 0;
@@ -58,7 +59,6 @@ int                         pickuprumbletics = 0;
 int                         weaponrumbletics = 0;
 int                         idlechainsawrumblestrength;
 int                         restoredrumblestrength;
-static int                  currentstrength;
 
 void I_InitGameController(void)
 {
@@ -111,21 +111,15 @@ void I_ShutdownGameController(void)
         return;
 
     SDL_GameControllerSetLED(gamecontroller, 0, 0, 255);
-
-    gamecontrollerconnected = false;
-    gamecontrollerrumbles = false;
-
     SDL_GameControllerClose(gamecontroller);
 }
 
 void I_GameControllerRumble(int strength)
 {
-    strength = MIN(strength, UINT16_MAX);
-
     if (!gamecontrollerrumbles)
         return;
 
-    if (!strength
+    if (!(strength = MIN(strength, UINT16_MAX))
         || (lasteventtype == ev_controller
             && (strength == idlechainsawrumblestrength || strength >= currentstrength)))
     {
