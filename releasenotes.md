@@ -49,7 +49,7 @@
 * The `weapon` CVAR now also allows values `1` to `7`.
 * The `iwadfolder` CVAR has been renamed `wadfolder`.
 * A bug is fixed whereby the `wadfolder` CVAR wouldn’t be updated in some instances.
-* Improvements have been made to zooming in the automap for small maps.
+* Improvements have been made to zooming in the automap.
 * The direction the player is looking is no longer reset in the help screen’s background when the `mouselook` CVAR is `on`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
