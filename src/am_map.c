@@ -253,7 +253,7 @@ static void AM_FindMinMaxBoundaries(void)
     a = FixedDiv(MAPWIDTH << FRACBITS, (max_x >>= FRACTOMAPBITS) - (min_x >>= FRACTOMAPBITS));
     b = FixedDiv(MAPHEIGHT << FRACBITS, (max_y >>= FRACTOMAPBITS) - (min_y >>= FRACTOMAPBITS));
 
-    min_scale_mtof = MIN(scale_mtof, MIN(a, b));
+    min_scale_mtof = MIN(scale_mtof, MIN(a, b) - FRACUNIT / 4);
     max_scale_mtof = FixedDiv(MAPHEIGHT << FRACBITS, 2 * PLAYERRADIUS);
 }
 
