@@ -590,6 +590,7 @@ void R_StoreWallRange(const int start, const int stop)
     int     worldbottom;
     int     worldhigh = 0;
     int     worldlow = 0;
+    bool    worldbottomoffset = false;
     side_t  *sidedef;
 
     linedef = curline->linedef;
@@ -676,7 +677,10 @@ void R_StoreWallRange(const int start, const int stop)
     if (frontsector->terraintype >= LIQUID
         && (!frontsector->heightsec || viewz > frontsector->heightsec->interpfloorheight)
         && r_liquid_bob)
+    {
+        worldbottomoffset = true;
         worldbottom += animatedliquiddiff;
+    }
 
     R_FixWiggle(frontsector);
 
@@ -777,6 +781,7 @@ void R_StoreWallRange(const int start, const int stop)
         if (backsector->terraintype >= LIQUID
             && backsector->interpfloorheight >= frontsector->interpfloorheight
             && (!backsector->heightsec || viewz > backsector->heightsec->interpfloorheight)
+            && !worldbottomoffset
             && r_liquid_bob)
         {
             liquidoffset = animatedliquiddiff;
