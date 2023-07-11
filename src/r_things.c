@@ -146,7 +146,7 @@ static void R_InstallSpriteLump(const int lump, const int frame, const char rot,
                 if (flipped)
                     sprtemp[frame].flip |= (1 << r);
 
-                sprtemp[frame].rotate = 0;  // jff 4/24/98 if any subbed, rotless
+                sprtemp[frame].rotate = 0;  // jff 04/24/98 if any subbed, rotless
             }
 
         return;
@@ -162,7 +162,7 @@ static void R_InstallSpriteLump(const int lump, const int frame, const char rot,
         if (flipped)
             sprtemp[frame].flip |= (1 << rotation);
 
-        sprtemp[frame].rotate = 1;          // jff 4/24/98 only change if rot used
+        sprtemp[frame].rotate = 1;          // jff 04/24/98 only change if rot used
     }
 }
 
@@ -180,7 +180,7 @@ static void R_InstallSpriteLump(const int lump, const int frame, const char rot,
 //
 // The rotation character can be 0 to signify no rotations.
 //
-// 01/25/98, 01/31/98 killough : Rewritten for performance
+// 01/25/98, 01/31/98 killough: Rewritten for performance
 //
 // Empirically verified to have excellent hash properties across standard DOOM sprites:
 #define R_SpriteNameHash(s) ((unsigned int)((s)[0] - ((s)[1] * 3 - (s)[3] * 2 - (s)[2]) * 2))

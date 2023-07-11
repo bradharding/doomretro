@@ -76,10 +76,10 @@ void P_InitSwitchList(void)
 {
     int             index = 0;
     const int       ep = (gamemode == registered || gamemode == retail ? 2 : (gamemode == commercial ? 3 : 1));
-    switchlist_t    *alphSwitchList;                    // jff 3/23/98 pointer to switch table
+    switchlist_t    *alphSwitchList;                    // jff 03/23/98 pointer to switch table
     const int       lump = W_GetNumForName("SWITCHES"); // cph - new WAD lump handling
 
-    // jff 3/23/98 read the switch table from a predefined lump
+    // jff 03/23/98 read the switch table from a predefined lump
     alphSwitchList = (switchlist_t *)W_CacheLumpNum(lump);
 
     for (int i = 0; ; i++)
@@ -90,7 +90,7 @@ void P_InitSwitchList(void)
             switchlist = I_Realloc(switchlist,
                 (size_t)(max_numswitches = (max_numswitches ? max_numswitches * 2 : 8)) * sizeof(*switchlist));
 
-        if (SHORT(alphSwitchList[i].episode) <= ep)     // jff 5/11/98 endianness
+        if (SHORT(alphSwitchList[i].episode) <= ep)     // jff 05/11/98 endianness
         {
             int texture1;
             int texture2;
@@ -237,7 +237,7 @@ bool P_UseSpecialLine(mobj_t *thing, line_t *line, const int side, const bool bo
                 if ((special & FloorChange) || !(special & FloorModel))
                     return false;                       // FloorModel is "Allow Monsters" if FloorChange is 0
 
-            if (!line->tag && (special & 6) != 6)       // jff 2/27/98 all non-manual
+            if (!line->tag && (special & 6) != 6)       // jff 02/27/98 all non-manual
                 return false;                           // generalized types require tag
 
             linefunc = &EV_DoGenFloor;
@@ -343,7 +343,7 @@ bool P_UseSpecialLine(mobj_t *thing, line_t *line, const int side, const bool bo
             case D1_Door_Red_OpenStay:
             case D1_Door_Yellow_OpenStay:
 
-            // jff 3/5/98 add ability to use teleporters for monsters
+            // jff 03/05/98 add ability to use teleporters for monsters
             case SR_Teleport_AlsoMonsters:
             case S1_Teleport_AlsoMonsters:
             case S1_Teleport_AlsoMonsters_Silent_SameAngle:
@@ -374,7 +374,7 @@ bool P_UseSpecialLine(mobj_t *thing, line_t *line, const int side, const bool bo
             case SR_Door_Red_OpenStay_Fast:
             case SR_Door_Yellow_OpenStay_Fast:
 
-            // jff 3/5/98 add ability to use teleporters for monsters
+            // jff 03/05/98 add ability to use teleporters for monsters
             case SR_Teleport_AlsoMonsters:
             case S1_Teleport_AlsoMonsters:
             case S1_Teleport_AlsoMonsters_Silent_SameAngle:
@@ -384,7 +384,7 @@ bool P_UseSpecialLine(mobj_t *thing, line_t *line, const int side, const bool bo
         }
     }
 
-    if (!P_CheckTag(line))      // jff 2/27/98 disallow zero tag on some types
+    if (!P_CheckTag(line))      // jff 02/27/98 disallow zero tag on some types
         return false;
 
     // do something

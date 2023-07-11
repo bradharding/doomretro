@@ -240,7 +240,7 @@ void T_MoveFloor(floormove_t *floor)
     floor->sector->floordata = NULL;
     P_RemoveThinker2(&floor->thinker);
 
-    // jff 2/26/98 implement stair retrigger lockout while still building
+    // jff 02/26/98 implement stair retrigger lockout while still building
     // note this only applies to the retriggerable generalized stairs
     if (sec->stairlock == -2)               // if this sector is stairlocked
     {
@@ -293,19 +293,19 @@ void T_MoveElevator(elevator_t *elevator)
 
     if (elevator->direction == -1)              // moving down
     {
-        // jff 4/7/98 reverse order of ceiling/floor
+        // jff 04/07/98 reverse order of ceiling/floor
         res = T_MovePlane(sec, elevator->speed, elevator->ceilingdestheight, false, 1, elevator->direction);
 
-        // jff 4/7/98 don't move ceiling if blocked
+        // jff 04/07/98 don't move ceiling if blocked
         if (res == ok || res == pastdest)
             T_MovePlane(sec, elevator->speed, elevator->floordestheight, false, 0, elevator->direction);
     }
     else                                        // up
     {
-        // jff 4/7/98 reverse order of ceiling/floor
+        // jff 04/07/98 reverse order of ceiling/floor
         res = T_MovePlane(sec, elevator->speed, elevator->floordestheight, false, 0, elevator->direction);
 
-        // jff 4/7/98 don't move floor if blocked
+        // jff 04/07/98 don't move floor if blocked
         if (res == ok || res == pastdest)
             T_MovePlane(sec, elevator->speed, elevator->ceilingdestheight, false, 1, elevator->direction);
     }
@@ -617,7 +617,7 @@ void P_CheckTerrainType(sector_t *sector)
 // The linedef causing the change and the type of change is passed
 // Returns true if any sector changes
 //
-// jff 3/15/98 added to better support generalized sector types
+// jff 03/15/98 added to better support generalized sector types
 //
 bool EV_DoChange(const line_t *line, const change_e changetype)
 {

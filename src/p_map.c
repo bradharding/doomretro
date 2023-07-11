@@ -2258,7 +2258,7 @@ static void PIT_ChangeSector(mobj_t *thing)
 
 //
 // P_ChangeSector
-// jff 3/19/98 added to just check monsters on the periphery
+// jff 03/19/98 added to just check monsters on the periphery
 // of a moving sector instead of all in bounding box of the
 // sector. Both more accurate and faster.
 // [BH] renamed from P_CheckSector to P_ChangeSector to replace old one entirely

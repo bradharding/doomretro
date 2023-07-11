@@ -226,7 +226,7 @@ bool EV_LightTurnOn(const line_t *line, int bright)
     for (int i = -1; (i = P_FindSectorFromLineTag(line, i)) >= 0; )
     {
         sector_t    *sector = sectors + i;
-        int         tbright = bright;       // jff 5/17/98 search for maximum PER sector
+        int         tbright = bright;       // jff 05/17/98 search for maximum PER sector
 
         // bright = 0 means to search for highest light level surrounding sector
         if (!bright)

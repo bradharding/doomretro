@@ -497,7 +497,7 @@ sector_t *P_GetSector(const int currentsector, const int line, const int side)
 //
 bool P_TwoSided(const int sector, const int line)
 {
-    // jff 1/26/98 return what is actually needed, whether the line
+    // jff 01/26/98 return what is actually needed, whether the line
     // has two sidedefs, rather than whether the 2S flag is set
     return (sectors[sector].lines[line]->sidenum[1] != NO_INDEX);
 }
@@ -509,7 +509,7 @@ bool P_TwoSided(const int sector, const int line)
 //
 sector_t *P_GetNextSector(line_t *line, const sector_t *sec)
 {
-    // jff 1/26/98 check unneeded since line->backsector already
+    // jff 01/26/98 check unneeded since line->backsector already
     // returns NULL if the line is not two sided, and does so from
     // the actual two-sidedness of the line, rather than its 2S flag
     // if (!(line->flags & ML_TWOSIDED))
@@ -804,7 +804,7 @@ fixed_t P_FindShortestUpperAround(const int secnum)
 //
 // jff 02/03/98 Add routine to find numeric model floor
 //  around a sector specified by sector number
-// jff 3/14/98 change first parameter to plain height to allow call
+// jff 03/14/98 change first parameter to plain height to allow call
 //  from routine not using floormove_t
 //
 // killough 11/98: reformatted
@@ -836,7 +836,7 @@ sector_t *P_FindModelFloorSector(const fixed_t floordestheight, const int secnum
 // jff 02/03/98 Add routine to find numeric model ceiling
 //  around a sector specified by sector number
 //  used only from generalized ceiling types
-// jff 3/14/98 change first parameter to plain height to allow call
+// jff 03/14/98 change first parameter to plain height to allow call
 //  from routine not using ceiling_t
 //
 // killough 11/98: reformatted
@@ -1180,7 +1180,7 @@ bool P_CanUnlockGenDoor(const line_t *line)
 // same class. If old demo compatibility true, all linedef special classes
 // are the same.
 //
-// jff 2/23/98 added to prevent old demos from
+// jff 02/23/98 added to prevent old demos from
 //  succeeding in starting multiple specials on one sector
 //
 // killough 11/98: reformatted
@@ -1200,7 +1200,7 @@ bool P_SectorActive(const special_e t, const sector_t *sec)
 // Note: Only line specials activated by walkover, pushing, or shooting are
 //       checked by this routine.
 //
-// jff 2/27/98 Added to check for zero tag allowed for regular special types
+// jff 02/27/98 Added to check for zero tag allowed for regular special types
 //
 bool P_CheckTag(const line_t *line)
 {
@@ -1343,7 +1343,7 @@ void P_CrossSpecialLine(line_t *line, const int side, mobj_t *thing, const bool 
 
             if ((line->special & TriggerType) == WalkOnce || (line->special & TriggerType) == WalkMany)
             {
-                // jff 4/1/98 check for being a walk type before reporting door type
+                // jff 04/01/98 check for being a walk type before reporting door type
                 if (!P_CanUnlockGenDoor(line))
                     return;
             }
@@ -1429,7 +1429,7 @@ void P_CrossSpecialLine(line_t *line, const int side, mobj_t *thing, const bool 
             return;
     }
 
-    if (!P_CheckTag(line))                      // jff 2/27/98 disallow zero tag on some types
+    if (!P_CheckTag(line))                      // jff 02/27/98 disallow zero tag on some types
         return;
 
     switch (line->special)
@@ -2114,7 +2114,7 @@ void P_ShootSpecialLine(const mobj_t *thing, line_t *line)
 
         if ((line->special & TriggerType) == GunOnce || (line->special & TriggerType) == GunMany)
         {
-            // jff 4/1/98 check for being a gun type before reporting door type
+            // jff 04/01/98 check for being a gun type before reporting door type
             if (!P_CanUnlockGenDoor(line))
                 return;
         }
@@ -2168,7 +2168,7 @@ void P_ShootSpecialLine(const mobj_t *thing, line_t *line)
     if (!thing->player && line->special != GR_Door_OpenStay)
         return;
 
-    if (!P_CheckTag(line))                  // jff 2/27/98 disallow zero tag on some types
+    if (!P_CheckTag(line))                  // jff 02/27/98 disallow zero tag on some types
         return;
 
     switch (line->special)

@@ -78,7 +78,7 @@ void T_PlatRaise(plat_t *plat)
                     }
                     else // else go into stasis awaiting next toggle activation
                     {
-                        plat->oldstatus = plat->status; // jff 3/14/98 after action wait
+                        plat->oldstatus = plat->status; // jff 03/14/98 after action wait
                         plat->status = in_stasis;       // for reactivation of toggle
                     }
 
@@ -106,7 +106,7 @@ void T_PlatRaise(plat_t *plat)
             if (res == pastdest)
             {
                 // if not an instant toggle, start waiting, make plat stop sound
-                if (plat->type != ToggleUpDn)           // jff 3/14/98 toggle up down
+                if (plat->type != ToggleUpDn)           // jff 03/14/98 toggle up down
                 {                                       // is silent, instant, no waiting
                     plat->count = plat->wait;
                     plat->status = waiting;
@@ -114,11 +114,11 @@ void T_PlatRaise(plat_t *plat)
                 }
                 else    // instant toggles go into stasis awaiting next activation
                 {
-                    plat->oldstatus = plat->status;     // jff 3/14/98 after action wait
+                    plat->oldstatus = plat->status;     // jff 03/14/98 after action wait
                     plat->status = in_stasis;           // for reactivation of toggle
                 }
 
-                // jff 1/26/98 remove the plat if it bounced so it can be tried again
+                // jff 01/26/98 remove the plat if it bounced so it can be tried again
                 // only affects plats that raise and bounce
                 switch (plat->type)
                 {
@@ -256,10 +256,10 @@ manual_plat:
                 S_StartSectorSound(&sec->soundorg, sfx_pstart);
                 break;
 
-            case ToggleUpDn:                        // jff 3/14/98 add new type to support instant toggle
+            case ToggleUpDn:                        // jff 03/14/98 add new type to support instant toggle
                 plat->speed = PLATSPEED;            // not used
                 plat->wait = TICRATE * PLATWAIT;    // not used
-                plat->crush = true;                 // jff 3/14/98 crush anything in the way
+                plat->crush = true;                 // jff 03/14/98 crush anything in the way
 
                 // set up toggling between ceiling, floor inclusive
                 plat->low = sec->ceilingheight;

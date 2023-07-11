@@ -185,7 +185,7 @@ manual_floor:
         {
             if (ChgM)   // if a numeric model change
             {
-                // jff 5/23/98 find model with ceiling at target height if target is a ceiling type
+                // jff 05/23/98 find model with ceiling at target height if target is a ceiling type
                 sec = (Targ == FtoLnC || Targ == FtoC ? P_FindModelCeilingSector(floor->floordestheight, secnum) :
                     P_FindModelFloorSector(floor->floordestheight, secnum));
 
@@ -396,7 +396,7 @@ manual_ceiling:
         {
             if (ChgM)   // if a numeric model change
             {
-                // jff 5/23/98 find model with floor at target height if target is a floor type
+                // jff 05/23/98 find model with floor at target height if target is a floor type
                 sec = (Targ == CtoHnF || Targ == CtoF ? P_FindModelFloorSector(targheight, secnum) :
                     P_FindModelCeilingSector(targheight, secnum));
 
@@ -617,7 +617,7 @@ manual_lift:
 bool EV_DoGenStairs(line_t *line)
 {
     int                 secnum = -1;
-    int                 osecnum;        // jff 3/4/98 preserve loop index
+    int                 osecnum;        // jff 03/04/98 preserve loop index
     int                 height;
     int                 newsecnum;
     int                 texture;
@@ -668,7 +668,7 @@ bool EV_DoGenStairs(line_t *line)
 
 manual_stair:
         // Do not start another function if floor already moving
-        // jff 2/26/98 add special lockout condition to wait for entire
+        // jff 02/26/98 add special lockout condition to wait for entire
         // staircase to build before retriggering
         if (P_SectorActive(floor_special, sec) || sec->stairlock)
         {
@@ -736,13 +736,13 @@ manual_stair:
         floor->floordestheight = height;
         texture = sec->floorpic;
         floor->crush = false;
-        floor->type = genBuildStair;    // jff 3/31/98 do not leave uninited
+        floor->type = genBuildStair;    // jff 03/31/98 do not leave uninited
 
-        sec->stairlock = -2;            // jff 2/26/98 set up lock on current sector
+        sec->stairlock = -2;            // jff 02/26/98 set up lock on current sector
         sec->nextsec = -1;
         sec->prevsec = -1;
 
-        osecnum = secnum;               // jff 3/4/98 preserve loop index
+        osecnum = secnum;               // jff 03/04/98 preserve loop index
 
         // Find next sector to raise
         // 1. Find 2-sided line with same sector side[0]
@@ -768,16 +768,16 @@ manual_stair:
                 if (!Igno && tsec->floorpic != texture)
                     continue;
 
-                // jff 6/19/98 prevent double stepsize
+                // jff 06/19/98 prevent double stepsize
 
-                // jff 2/26/98 special lockout condition for retriggering
+                // jff 02/26/98 special lockout condition for retriggering
                 if (P_SectorActive(floor_special, tsec) || tsec->stairlock)
                     continue;
 
-                // jff 6/19/98 increase height AFTER continue
+                // jff 06/19/98 increase height AFTER continue
                 height += floor->direction * stairsize;
 
-                // jff 2/26/98
+                // jff 02/26/98
                 // link the stair chain in both directions
                 // lock the stair sector until building complete
                 sec->nextsec = newsecnum;       // link step to next
@@ -797,7 +797,7 @@ manual_stair:
                 floor->sector = sec;
                 floor->speed = speed;
                 floor->floordestheight = height;
-                floor->type = genBuildStair;    // jff 3/31/98 do not leave uninited
+                floor->type = genBuildStair;    // jff 03/31/98 do not leave uninited
 
                 okay = true;
                 break;
@@ -807,7 +807,7 @@ manual_stair:
         if (manual)
             return rtn;
 
-        secnum = osecnum;                       // jff 3/4/98 restore old loop index
+        secnum = osecnum;                       // jff 03/04/98 restore old loop index
     }
 
     // retriggerable generalized stairs build up or down alternately
@@ -851,7 +851,7 @@ bool EV_DoGenCrusher(line_t *line)
     }
 
     // jff 02/22/98  Reactivate in-stasis ceilings... for certain types.
-    // jff 4/5/98 return if activated
+    // jff 04/05/98 return if activated
     rtn = P_ActivateInStasisCeiling(line);
 
     // check if a manual trigger, if so do just the sector on the backside
@@ -1160,7 +1160,7 @@ manual_door:
                 break;
         }
 
-        door->line = line;      // jff 1/31/98 remember line that triggered us
+        door->line = line;      // jff 01/31/98 remember line that triggered us
 
         // killough 10/98: implement gradual lighting
         if ((line->special & 6) == 6 && line->special > GenLockedBase)

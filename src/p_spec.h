@@ -35,7 +35,7 @@
 
 #pragma once
 
-// jff 2/23/98 identify the special classes that can share sectors
+// jff 02/23/98 identify the special classes that can share sectors
 typedef enum
 {
     floor_special,
@@ -100,17 +100,13 @@ fixed_t P_FindNextLowestFloor(sector_t *sec, const int currentheight);
 fixed_t P_FindLowestCeilingSurrounding(sector_t *sec);
 fixed_t P_FindHighestCeilingSurrounding(sector_t *sec);
 
-fixed_t P_FindNextLowestCeiling(sector_t *sec, const int currentheight);            // jff 2/04/98
-
-fixed_t P_FindNextHighestCeiling(sector_t *sec, const int currentheight);           // jff 2/04/98
-
-fixed_t P_FindShortestTextureAround(const int secnum);                              // jff 2/04/98
-
-fixed_t P_FindShortestUpperAround(const int secnum);                                // jff 2/04/98
-
-sector_t *P_FindModelFloorSector(const fixed_t floordestheight, const int secnum);  // jff 02/04/98
-
-sector_t *P_FindModelCeilingSector(const fixed_t ceildestheight, const int secnum); // jff 02/04/98
+// jff 02/04/98
+fixed_t P_FindNextLowestCeiling(sector_t *sec, const int currentheight);
+fixed_t P_FindNextHighestCeiling(sector_t *sec, const int currentheight);
+fixed_t P_FindShortestTextureAround(const int secnum);
+fixed_t P_FindShortestUpperAround(const int secnum);
+sector_t *P_FindModelFloorSector(const fixed_t floordestheight, const int secnum);
+sector_t *P_FindModelCeilingSector(const fixed_t ceildestheight, const int secnum);
 
 int P_FindSectorFromLineTag(const line_t *line, int start);
 int P_FindLineFromLineTag(const line_t *line, int start);
@@ -257,7 +253,7 @@ typedef enum
     in_stasis
 } plat_e;
 
-// jff 3/15/98 pure texture/type change for better generalized support
+// jff 03/15/98 pure texture/type change for better generalized support
 typedef enum
 {
     TrigChangeOnly,
@@ -361,7 +357,7 @@ typedef struct
     // when it reaches 0, start going down
     int         topcountdown;
 
-    // jff 1/31/98 keep track of line door is triggered by
+    // jff 01/31/98 keep track of line door is triggered by
     line_t      *line;
 
     // killough 10/98: sector tag for gradual lighting effects
@@ -627,7 +623,7 @@ bool EV_Teleport(const line_t *line, const int side, mobj_t *thing);
 bool EV_SilentTeleport(const line_t *line, const int side, mobj_t *thing);
 bool EV_SilentLineTeleport(const line_t *line, int side, mobj_t *thing, const bool reverse);
 
-// jff 3/14/98 add bits and shifts for generalized sector types
+// jff 03/14/98 add bits and shifts for generalized sector types
 #define DAMAGE_MASK             0x0060
 #define DAMAGE_SHIFT            5
 #define SECRET_MASK             0x0080

@@ -156,7 +156,7 @@ void T_VerticalDoor(vldoor_t *door)
                     case GenCdO:
                     case GenBlazeCdO:
                         door->direction = 0;
-                        door->topcountdown = door->topwait;     // jff 5/8/98 insert delay
+                        door->topcountdown = door->topwait;     // jff 05/08/98 insert delay
                         break;
 
                     default:
@@ -415,7 +415,7 @@ manual_door:
         door->type = type;
         door->topwait = VDOORWAIT;
         door->speed = speed;
-        door->line = line;      // jff 1/31/98 remember line that triggered us
+        door->line = line;      // jff 01/31/98 remember line that triggered us
 
         switch (type)
         {
@@ -713,7 +713,7 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
     door->direction = 1;
     door->speed = VDOORSPEED;
     door->topwait = VDOORWAIT;
-    door->line = line;          // jff 1/31/98 remember line that triggered us
+    door->line = line;          // jff 01/31/98 remember line that triggered us
 
     // killough 10/98: use gradual lighting changes if nonzero tag given
     // [BH] check if tag is valid

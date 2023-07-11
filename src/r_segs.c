@@ -653,7 +653,7 @@ void R_StoreWallRange(const int start, const int stop)
             openings = I_Realloc(openings, maxopenings * sizeof(*openings));
             lastopening = openings + pos;
 
-            // jff 8/9/98 borrowed fix for openings from ZDOOM 1.14
+            // jff 08/09/98 borrowed fix for openings from ZDOOM 1.14
             // [RH] We also need to adjust the openings pointers that
             //    were already stored in drawsegs.
             for (drawseg_t *ds = drawsegs; ds < ds_p; ds++)

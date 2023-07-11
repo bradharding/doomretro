@@ -2603,7 +2603,7 @@ static void P_LoadReject(int lumpnum)
 // Finds block bounding boxes for sectors.
 //
 // killough 05/03/98: reformatted, cleaned up
-// cph 18/8/99: rewritten to avoid O(numlines * numsectors) section
+// cph 18/08/99: rewritten to avoid O(numlines * numsectors) section
 // It makes things more complicated, but saves seconds on big levels
 
 // cph - convenient sub-function

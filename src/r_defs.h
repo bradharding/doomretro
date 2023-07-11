@@ -158,7 +158,7 @@ typedef struct sector_s
     fixed_t             interpfloorheight;
     fixed_t             interpceilingheight;
 
-    // jff 2/26/98 lockout machinery for stairbuilding
+    // jff 02/26/98 lockout machinery for stairbuilding
     int                 stairlock;      // -2 on first locked -1 after thinker done 0 normally
     int                 prevsec;        // -1 or number of sector for previous step
     int                 nextsec;        // -1 or number of next step sector
@@ -784,7 +784,7 @@ typedef struct msecnode_s
     struct msecnode_s   *m_tnext;       // next msecnode_t for this thing
     struct msecnode_s   *m_sprev;       // prev msecnode_t for this sector
     struct msecnode_s   *m_snext;       // next msecnode_t for this sector
-    bool                visited;        // killough 04/04/98, 4/7/98: used in search algorithms
+    bool                visited;        // killough 04/04/98, 04/07/98: used in search algorithms
 } msecnode_t;
 
 //
