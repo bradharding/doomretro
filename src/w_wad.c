@@ -782,7 +782,7 @@ void W_Init(void)
 //
 int W_GetNumForName(const char *name)
 {
-    int i = W_CheckNumForName(name);
+    const int   i = W_CheckNumForName(name);
 
     if (i < 0)
         I_Error("W_GetNumForName: %s not found!", name);

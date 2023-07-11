@@ -216,7 +216,7 @@ void P_ChangeSwitchTexture(line_t *line, bool useagain)
 // Called when a thing uses a special line.
 // Only the front sides of lines are usable.
 //
-bool P_UseSpecialLine(mobj_t *thing, line_t *line, int side, bool bossaction)
+bool P_UseSpecialLine(mobj_t *thing, line_t *line, const int side, const bool bossaction)
 {
     int special;
 

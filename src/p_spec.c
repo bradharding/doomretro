@@ -469,33 +469,33 @@ void P_SetLifts(void)
 //
 
 //
-// getSide
+// P_GetSide
 // Will return a side_t
 //  given the number of the current sector,
 //  the line number, and the side (0/1) that you want.
 //
-side_t *getSide(int currentSector, int line, int side)
+side_t *P_GetSide(const int currentsector, const int line, const int side)
 {
-    return &sides[(sectors[currentSector].lines[line])->sidenum[side]];
+    return &sides[(sectors[currentsector].lines[line])->sidenum[side]];
 }
 
 //
-// getSector
+// P_GetSector
 // Will return a sector_t
 //  given the number of the current sector,
 //  the line number and the side (0/1) that you want.
 //
-sector_t *getSector(int currentSector, int line, int side)
+sector_t *P_GetSector(const int currentsector, const int line, const int side)
 {
-    return sides[(sectors[currentSector].lines[line])->sidenum[side]].sector;
+    return sides[(sectors[currentsector].lines[line])->sidenum[side]].sector;
 }
 
 //
-// twoSided
+// P_TwoSided
 // Given the sector number and the line number,
 //  it will tell you whether the line is two-sided or not.
 //
-bool twoSided(int sector, int line)
+bool P_TwoSided(const int sector, const int line)
 {
     // jff 1/26/98 return what is actually needed, whether the line
     // has two sidedefs, rather than whether the 2S flag is set
@@ -503,11 +503,11 @@ bool twoSided(int sector, int line)
 }
 
 //
-// getNextSector
+// P_GetNextSector
 // Return sector_t of sector next to current.
 // NULL if not two-sided line
 //
-sector_t *getNextSector(line_t *line, const sector_t *sec)
+sector_t *P_GetNextSector(line_t *line, const sector_t *sec)
 {
     // jff 1/26/98 check unneeded since line->backsector already
     // returns NULL if the line is not two sided, and does so from
@@ -528,7 +528,7 @@ fixed_t P_FindLowestFloorSurrounding(sector_t *sec)
 
     for (int i = 0; i < linecount; i++)
     {
-        const sector_t  *other = getNextSector(sec->lines[i], sec);
+        const sector_t  *other = P_GetNextSector(sec->lines[i], sec);
 
         if (other && other->floorheight < floor)
             floor = other->floorheight;
@@ -548,7 +548,7 @@ fixed_t P_FindHighestFloorSurrounding(sector_t *sec)
 
     for (int i = 0; i < linecount; i++)
     {
-        const sector_t  *other = getNextSector(sec->lines[i], sec);
+        const sector_t  *other = P_GetNextSector(sec->lines[i], sec);
 
         if (other && other->floorheight > floor)
             floor = other->floorheight;
@@ -561,13 +561,13 @@ fixed_t P_FindHighestFloorSurrounding(sector_t *sec)
 // P_FindNextHighestFloor
 // FIND NEXT HIGHEST FLOOR IN SURROUNDING SECTORS
 //
-fixed_t P_FindNextHighestFloor(sector_t *sec, int currentheight)
+fixed_t P_FindNextHighestFloor(sector_t *sec, const int currentheight)
 {
     const int   linecount = sec->linecount;
 
     for (int i = 0; i < linecount; i++)
     {
-        sector_t    *other = getNextSector(sec->lines[i], sec);
+        sector_t    *other = P_GetNextSector(sec->lines[i], sec);
 
         if (other && other->floorheight > currentheight)
         {
@@ -575,7 +575,7 @@ fixed_t P_FindNextHighestFloor(sector_t *sec, int currentheight)
 
             while (++i < linecount)
             {
-                other = getNextSector(sec->lines[i], sec);
+                other = P_GetNextSector(sec->lines[i], sec);
 
                 if (other && other->floorheight < height && other->floorheight > currentheight)
                     height = other->floorheight;
@@ -592,13 +592,13 @@ fixed_t P_FindNextHighestFloor(sector_t *sec, int currentheight)
 // P_FindNextLowestFloor
 // FIND NEXT LOWEST FLOOR IN SURROUNDING SECTORS
 //
-fixed_t P_FindNextLowestFloor(sector_t *sec, int currentheight)
+fixed_t P_FindNextLowestFloor(sector_t *sec, const int currentheight)
 {
     const int   linecount = sec->linecount;
 
     for (int i = 0; i < linecount; i++)
     {
-        sector_t    *other = getNextSector(sec->lines[i], sec);
+        sector_t    *other = P_GetNextSector(sec->lines[i], sec);
 
         if (other && other->floorheight < currentheight)
         {
@@ -606,7 +606,7 @@ fixed_t P_FindNextLowestFloor(sector_t *sec, int currentheight)
 
             while (++i < linecount)
             {
-                other = getNextSector(sec->lines[i], sec);
+                other = P_GetNextSector(sec->lines[i], sec);
 
                 if (other && other->floorheight > height && other->floorheight < currentheight)
                     height = other->floorheight;
@@ -628,13 +628,13 @@ fixed_t P_FindNextLowestFloor(sector_t *sec, int currentheight)
 // passed is returned.
 //
 // jff 02/03/98 Twiddled Lee's P_FindNextHighestFloor to make this
-fixed_t P_FindNextLowestCeiling(sector_t *sec, int currentheight)
+fixed_t P_FindNextLowestCeiling(sector_t *sec, const int currentheight)
 {
     const int   linecount = sec->linecount;
 
     for (int i = 0; i < linecount; i++)
     {
-        sector_t    *other = getNextSector(sec->lines[i], sec);
+        sector_t    *other = P_GetNextSector(sec->lines[i], sec);
 
         if (other && other->ceilingheight < currentheight)
         {
@@ -642,7 +642,7 @@ fixed_t P_FindNextLowestCeiling(sector_t *sec, int currentheight)
 
             while (++i < linecount)
             {
-                other = getNextSector(sec->lines[i], sec);
+                other = P_GetNextSector(sec->lines[i], sec);
 
                 if (other && other->ceilingheight > height && other->ceilingheight < currentheight)
                     height = other->ceilingheight;
@@ -664,13 +664,13 @@ fixed_t P_FindNextLowestCeiling(sector_t *sec, int currentheight)
 // passed is returned.
 //
 // jff 02/03/98 Twiddled Lee's P_FindNextHighestFloor to make this
-fixed_t P_FindNextHighestCeiling(sector_t *sec, int currentheight)
+fixed_t P_FindNextHighestCeiling(sector_t *sec, const int currentheight)
 {
     const int   linecount = sec->linecount;
 
     for (int i = 0; i < linecount; i++)
     {
-        sector_t    *other = getNextSector(sec->lines[i], sec);
+        sector_t    *other = P_GetNextSector(sec->lines[i], sec);
 
         if (other && other->ceilingheight > currentheight)
         {
@@ -678,7 +678,7 @@ fixed_t P_FindNextHighestCeiling(sector_t *sec, int currentheight)
 
             while (++i < linecount)
             {
-                other = getNextSector(sec->lines[i], sec);
+                other = P_GetNextSector(sec->lines[i], sec);
 
                 if (other && other->ceilingheight < height && other->ceilingheight > currentheight)
                     height = other->ceilingheight;
@@ -701,7 +701,7 @@ fixed_t P_FindLowestCeilingSurrounding(sector_t *sec)
 
     for (int i = 0; i < linecount; i++)
     {
-        const sector_t  *other = getNextSector(sec->lines[i], sec);
+        const sector_t  *other = P_GetNextSector(sec->lines[i], sec);
 
         if (other && other->ceilingheight < height)
             height = other->ceilingheight;
@@ -720,7 +720,7 @@ fixed_t P_FindHighestCeilingSurrounding(sector_t *sec)
 
     for (int i = 0; i < linecount; i++)
     {
-        const sector_t  *other = getNextSector(sec->lines[i], sec);
+        const sector_t  *other = P_GetNextSector(sec->lines[i], sec);
 
         if (other && other->ceilingheight > height)
             height = other->ceilingheight;
@@ -741,20 +741,20 @@ fixed_t P_FindHighestCeilingSurrounding(sector_t *sec)
 // jff 02/03/98 Add routine to find shortest lower texture
 //
 // killough 11/98: reformatted
-fixed_t P_FindShortestTextureAround(int secnum)
+fixed_t P_FindShortestTextureAround(const int secnum)
 {
     const int   linecount = sectors[secnum].linecount;
     int         minsize = 32000 * FRACUNIT;
 
     for (int i = 0; i < linecount; i++)
-        if (twoSided(secnum, i))
+        if (P_TwoSided(secnum, i))
         {
             short   texture;
 
-            if ((texture = getSide(secnum, i, 0)->bottomtexture) > 0 && textureheight[texture] < minsize)
+            if ((texture = P_GetSide(secnum, i, 0)->bottomtexture) > 0 && textureheight[texture] < minsize)
                 minsize = textureheight[texture];
 
-            if ((texture = getSide(secnum, i, 1)->bottomtexture) > 0 && textureheight[texture] < minsize)
+            if ((texture = P_GetSide(secnum, i, 1)->bottomtexture) > 0 && textureheight[texture] < minsize)
                 minsize = textureheight[texture];
         }
 
@@ -773,20 +773,20 @@ fixed_t P_FindShortestTextureAround(int secnum)
 // jff 03/20/98 Add routine to find shortest upper texture
 //
 // killough 11/98: reformatted
-fixed_t P_FindShortestUpperAround(int secnum)
+fixed_t P_FindShortestUpperAround(const int secnum)
 {
     const int   linecount = sectors[secnum].linecount;
     int         minsize = 32000 * FRACUNIT;
 
     for (int i = 0; i < linecount; i++)
-        if (twoSided(secnum, i))
+        if (P_TwoSided(secnum, i))
         {
             short   texture;
 
-            if ((texture = getSide(secnum, i, 0)->toptexture) > 0 && textureheight[texture] < minsize)
+            if ((texture = P_GetSide(secnum, i, 0)->toptexture) > 0 && textureheight[texture] < minsize)
                 minsize = textureheight[texture];
 
-            if ((texture = getSide(secnum, i, 1)->toptexture) > 0 && textureheight[texture] < minsize)
+            if ((texture = P_GetSide(secnum, i, 1)->toptexture) > 0 && textureheight[texture] < minsize)
                 minsize = textureheight[texture];
         }
 
@@ -808,14 +808,14 @@ fixed_t P_FindShortestUpperAround(int secnum)
 //  from routine not using floormove_t
 //
 // killough 11/98: reformatted
-sector_t *P_FindModelFloorSector(fixed_t floordestheight, int secnum)
+sector_t *P_FindModelFloorSector(const fixed_t floordestheight, const int secnum)
 {
     const int   linecount = sectors[secnum].linecount;
 
     for (int i = 0; i < linecount; i++)
-        if (twoSided(secnum, i))
+        if (P_TwoSided(secnum, i))
         {
-            sector_t    *sec = getSector(secnum, i, (getSide(secnum, i, 0)->sector->id == secnum));
+            sector_t    *sec = P_GetSector(secnum, i, (P_GetSide(secnum, i, 0)->sector->id == secnum));
 
             if (sec->floorheight == floordestheight)
                 return sec;
@@ -840,14 +840,14 @@ sector_t *P_FindModelFloorSector(fixed_t floordestheight, int secnum)
 //  from routine not using ceiling_t
 //
 // killough 11/98: reformatted
-sector_t *P_FindModelCeilingSector(fixed_t ceildestheight, int secnum)
+sector_t *P_FindModelCeilingSector(const fixed_t ceildestheight, const int secnum)
 {
     const int   linecount = sectors[secnum].linecount;
 
     for (int i = 0; i < linecount; i++)
-        if (twoSided(secnum, i))
+        if (P_TwoSided(secnum, i))
         {
-            sector_t    *sec = getSector(secnum, i, (getSide(secnum, i, 0)->sector->id == secnum));
+            sector_t    *sec = P_GetSector(secnum, i, (P_GetSide(secnum, i, 0)->sector->id == secnum));
 
             if (sec->ceilingheight == ceildestheight)
                 return sec;
@@ -919,7 +919,7 @@ int P_FindMinSurroundingLight(sector_t *sec, int min)
 
     for (int i = 0; i < linecount; i++)
     {
-        const sector_t  *check = getNextSector(sec->lines[i], sec);
+        const sector_t  *check = P_GetNextSector(sec->lines[i], sec);
 
         if (check && check->lightlevel < min)
             min = check->lightlevel;
@@ -1277,7 +1277,7 @@ bool P_CheckTag(const line_t *line)
 // Called every time a thing origin is about
 //  to cross a line with a non 0 special.
 //
-void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing, bool bossaction)
+void P_CrossSpecialLine(line_t *line, const int side, mobj_t *thing, const bool bossaction)
 {
     // Triggers that other things can activate
     if (!thing->player && !bossaction)
@@ -2471,7 +2471,7 @@ bool EV_DoDonut(const line_t *line)
         if (!compat_floormove && P_SectorActive(floor_special, s1))
             continue;
 
-        if (!(s2 = getNextSector(s1->lines[0], s1)))
+        if (!(s2 = P_GetNextSector(s1->lines[0], s1)))
             continue;
 
         if (P_SectorActive(floor_special, s2))
@@ -2522,7 +2522,7 @@ bool EV_DoDonut(const line_t *line)
     return rtn;
 }
 
-void P_SetTimer(int minutes)
+void P_SetTimer(const int minutes)
 {
     timer = minutes;
     timeremaining = timer * 60 * TICRATE;
@@ -2544,7 +2544,7 @@ void P_SpawnSpecials(void)
 
     if (p)
     {
-        int minutes = strtol(myargv[p + 1], NULL, 10);
+        const int   minutes = strtol(myargv[p + 1], NULL, 10);
 
         if (minutes > 0)
         {

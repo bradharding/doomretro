@@ -500,14 +500,14 @@ manual_floor:
                 floor->speed = FLOORSPEED;
 
                 for (int i = 0; i < sec->linecount; i++)
-                    if (twoSided(secnum, i))
+                    if (P_TwoSided(secnum, i))
                     {
-                        side_t  *side = getSide(secnum, i, 0);
+                        side_t  *side = P_GetSide(secnum, i, 0);
 
                         if (textureheight[side->bottomtexture] < minsize)
                             minsize = textureheight[side->bottomtexture];
 
-                        side = getSide(secnum, i, 1);
+                        side = P_GetSide(secnum, i, 1);
 
                         if (textureheight[side->bottomtexture] < minsize)
                             minsize = textureheight[side->bottomtexture];
@@ -526,11 +526,11 @@ manual_floor:
                 floor->newspecial = sec->special;
 
                 for (int i = 0; i < sec->linecount; i++)
-                    if (twoSided(secnum, i))
+                    if (P_TwoSided(secnum, i))
                     {
-                        if (getSide(secnum, i, 0)->sector->id == secnum)
+                        if (P_GetSide(secnum, i, 0)->sector->id == secnum)
                         {
-                            if ((sec = getSector(secnum, i, 1))->floorheight == floor->floordestheight)
+                            if ((sec = P_GetSector(secnum, i, 1))->floorheight == floor->floordestheight)
                             {
                                 floor->texture = sec->floorpic;
                                 floor->newspecial = sec->special;
@@ -539,7 +539,7 @@ manual_floor:
                         }
                         else
                         {
-                            if ((sec = getSector(secnum, i, 0))->floorheight == floor->floordestheight)
+                            if ((sec = P_GetSector(secnum, i, 0))->floorheight == floor->floordestheight)
                             {
                                 floor->texture = sec->floorpic;
                                 floor->newspecial = sec->special;

@@ -64,7 +64,7 @@ extern bool             zerotag_manual;
 void P_InitPicAnims(void);
 
 // at map load
-void P_SetTimer(int minutes);
+void P_SetTimer(const int minutes);
 void P_SpawnSpecials(void);
 void P_SetLiquids(void);
 void P_SetLifts(void);
@@ -77,40 +77,40 @@ bool P_SectorActive(const special_e t, const sector_t *sec);
 bool P_CheckTag(const line_t *line);
 
 // when needed
-bool P_UseSpecialLine(mobj_t *thing, line_t *line, int side, bool bossaction);
+bool P_UseSpecialLine(mobj_t *thing, line_t *line, const int side, const bool bossaction);
 
 void P_ShootSpecialLine(const mobj_t *thing, line_t *line);
 
-void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing, bool bossaction);
+void P_CrossSpecialLine(line_t *line, const int side, mobj_t *thing, const bool bossaction);
 
 void P_PlayerInSpecialSector(sector_t *sector);
 
-bool twoSided(int sector, int line);
+bool P_TwoSided(const int sector, const int line);
 
-sector_t *getSector(int currentSector, int line, int side);
+sector_t *P_GetSector(const int currentsector, const int line, const int side);
 
-side_t *getSide(int currentSector, int line, int side);
+side_t *P_GetSide(const int currentsector, const int line, const int side);
 
 fixed_t P_FindLowestFloorSurrounding(sector_t *sec);
 fixed_t P_FindHighestFloorSurrounding(sector_t *sec);
 
-fixed_t P_FindNextHighestFloor(sector_t *sec, int currentheight);
-fixed_t P_FindNextLowestFloor(sector_t *sec, int currentheight);
+fixed_t P_FindNextHighestFloor(sector_t *sec, const int currentheight);
+fixed_t P_FindNextLowestFloor(sector_t *sec, const int currentheight);
 
 fixed_t P_FindLowestCeilingSurrounding(sector_t *sec);
 fixed_t P_FindHighestCeilingSurrounding(sector_t *sec);
 
-fixed_t P_FindNextLowestCeiling(sector_t *sec, int currentheight); // jff 2/04/98
+fixed_t P_FindNextLowestCeiling(sector_t *sec, const int currentheight);            // jff 2/04/98
 
-fixed_t P_FindNextHighestCeiling(sector_t *sec, int currentheight); // jff 2/04/98
+fixed_t P_FindNextHighestCeiling(sector_t *sec, const int currentheight);           // jff 2/04/98
 
-fixed_t P_FindShortestTextureAround(int secnum); // jff 2/04/98
+fixed_t P_FindShortestTextureAround(const int secnum);                              // jff 2/04/98
 
-fixed_t P_FindShortestUpperAround(int secnum); // jff 2/04/98
+fixed_t P_FindShortestUpperAround(const int secnum);                                // jff 2/04/98
 
-sector_t *P_FindModelFloorSector(fixed_t floordestheight, int secnum); // jff 02/04/98
+sector_t *P_FindModelFloorSector(const fixed_t floordestheight, const int secnum);  // jff 02/04/98
 
-sector_t *P_FindModelCeilingSector(fixed_t ceildestheight, int secnum); // jff 02/04/98
+sector_t *P_FindModelCeilingSector(const fixed_t ceildestheight, const int secnum); // jff 02/04/98
 
 int P_FindSectorFromLineTag(const line_t *line, int start);
 int P_FindLineFromLineTag(const line_t *line, int start);
@@ -121,7 +121,7 @@ int P_FindMinSurroundingLight(sector_t *sec, int min);
 
 bool P_CanUnlockGenDoor(const line_t *line);
 
-sector_t *getNextSector(line_t *line, const sector_t *sec);
+sector_t *P_GetNextSector(line_t *line, const sector_t *sec);
 
 bool P_ProcessNoTagLines(const line_t *line, sector_t **sec, int *secnum);
 

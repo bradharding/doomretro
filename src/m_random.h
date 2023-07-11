@@ -114,7 +114,7 @@ static inline int M_BigRandomInt(const int lower, const int upper)
     return (BIGRAND % (upper - lower + 1) + lower);
 }
 
-static inline int M_BigRandomIntNoRepeat(const int lower, const int upper, int previous)
+static inline int M_BigRandomIntNoRepeat(const int lower, const int upper, const int previous)
 {
     int result;
 
