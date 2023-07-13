@@ -10,7 +10,7 @@
 * Changes have been made to text that is output to the console.
 * Minor improvements have been made to the text that can be autocompleted in the console by pressing the <kbd><b>TAB</b></kbd> key.
 * The caret may now be repositioned in the console’s input using the mouse pointer when the `m_pointer` CVAR is `on`.
-* The `r_color` CVAR has now been renamed `r_saturation`, and it’s maximum value has increased from `100%` to `200%`, allowing colors on the screen to be oversaturated.
+* The `r_color` CVAR has now been renamed `r_saturation`, and it’s maximum value has increased from `100%` to `200%` to allow colors on the screen to be oversaturated.
 * A crash no longer occurs when trying to display certain patches greater than 200 pixels in height.
 * These changes have been made to the menu:
   * Improvements have been made to toggling widescreen using the <kbd><b>+</b></kbd> and <kbd><b>&ndash;</b></kbd> keys while the menu is open.
@@ -22,7 +22,7 @@
 * Improvements have been made to equipping either the chainsaw or fists when the player presses the <kbd><b>1</b></kbd> key.
 * A bug is fixed whereby the player’s field of view would sometimes be wrong when changing the `r_fov` CVAR.
 * Minor improvements have been made to rendering floors and ceilings.
-* A bug is fixed whereby wall textures next to liquid sectors would be rendered incorrectly in some rare instances when the `r_liquid_bob` CVAR was `on`.
+* A bug is fixed whereby the textures on two-sided walls next to liquid sectors would be rendered incorrectly when the `r_liquid_bob` CVAR was `on`.
 * When using the `IDCLEV` cheat and vanilla mode is enabled, the player now starts a map with 100% health, no armor, and only a pistol with 50 bullets.
 * A slightly darker color is now chosen for the surrounding pillarboxes when displaying certain lumps from PWADs that are only 320 pixels wide and the `vid_widescreen` CVAR is `on`.
 * A bug is fixed, present in the original *DOOM*, whereby stairs that rose up from the floor would fail in some rare instances.
@@ -43,7 +43,7 @@
 * The player no longer exits the map if they are dead when a timer set using the `timer` CCMD runs out.
 * Support has been added for the lumps `STFXDTH0` to `STFXDTH9`. If included in a PWAD, the player’s face in the status bar now animates when they are gibbed. This is a feature revived from the old [3DO](https://doomwiki.org/wiki/3DO), [Jaguar](https://doomwiki.org/wiki/Atari_Jaguar) and [PSX](https://doomwiki.org/wiki/Sony_PlayStation) *DOOM* ports.
 * The accompanying readme file for the currently loaded PWAD can now be displayed by entering the new `readme` CCMD in the console.
-* The following changes have been made to the use of a controller:
+* These changes have been made when using a controller:
   * Using a controller in the menu is now more responsive.
   * The speed at which the player turns using a controller no longer increases while running.
   * Controllers now rumble slightly when the player picks something up. This can be disabled by the new `joy_rumble_pickup` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
