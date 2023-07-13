@@ -2626,7 +2626,7 @@ bool M_Responder(event_t *ev)
             {
                 key = (messagetoprint && messageneedsinput ? 'y' : KEY_ENTER);
                 gamecontrollerwait = I_GetTime()
-                    + (uint64_t)8 * !(currentmenu == &OptionsDef && itemon == mousesens);
+                    + (uint64_t)2 * !(currentmenu == &OptionsDef && itemon == mousesens);
                 usinggamecontroller = true;
             }
 
@@ -2634,7 +2634,7 @@ bool M_Responder(event_t *ev)
             else if (gamecontrollerbuttons & GAMECONTROLLER_B)
             {
                 key = (messagetoprint && messageneedsinput ? 'n' : KEY_BACKSPACE);
-                gamecontrollerwait = I_GetTime() + 8;
+                gamecontrollerwait = I_GetTime() + 2;
                 gamecontrollerpress = true;
                 usinggamecontroller = true;
             }
@@ -2645,7 +2645,7 @@ bool M_Responder(event_t *ev)
                 key = keyboardmenu;
                 currentmenu = &MainDef;
                 itemon = MainDef.laston;
-                gamecontrollerwait = I_GetTime() + 8;
+                gamecontrollerwait = I_GetTime() + 2;
                 usinggamecontroller = true;
             }
 
@@ -2658,7 +2658,7 @@ bool M_Responder(event_t *ev)
                 {
                     key = KEY_UPARROW;
                     keywait = 0;
-                    gamecontrollerwait = I_GetTime() + 8;
+                    gamecontrollerwait = I_GetTime() + 2;
                     usinggamecontroller = true;
                 }
 
@@ -2669,7 +2669,7 @@ bool M_Responder(event_t *ev)
                 {
                     key = KEY_DOWNARROW;
                     keywait = 0;
-                    gamecontrollerwait = I_GetTime() + 8;
+                    gamecontrollerwait = I_GetTime() + 2;
                     usinggamecontroller = true;
                 }
 
@@ -2706,14 +2706,14 @@ bool M_Responder(event_t *ev)
             if ((gamecontrollerbuttons & gamecontrollermenu) && gamecontrollerwait < I_GetTime())
             {
                 key = keyboardmenu;
-                gamecontrollerwait = I_GetTime() + 8;
+                gamecontrollerwait = I_GetTime() + 2;
                 usinggamecontroller = true;
             }
 
             // open console
             else if ((gamecontrollerbuttons & gamecontrollerconsole) && gamecontrollerwait < I_GetTime())
             {
-                gamecontrollerwait = I_GetTime() + 8;
+                gamecontrollerwait = I_GetTime() + 2;
                 usinggamecontroller = true;
                 C_ShowConsole();
                 return false;
