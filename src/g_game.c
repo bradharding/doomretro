@@ -99,7 +99,6 @@ wbstartstruct_t wminfo;                             // parms for world map/inter
 fixed_t         forwardmove[] = { FORWARDMOVE0, FORWARDMOVE1 };
 fixed_t         sidemove[] = { SIDEMOVE0, SIDEMOVE1 };
 fixed_t         angleturn[] = { 640, 1280, 320 };   // + slow turn
-static fixed_t  gamecontrollerangleturn[] = { 640, 960 };
 
 #define NUMWEAPONKEYS   7
 
@@ -300,7 +299,7 @@ void G_BuildTiccmd(ticcmd_t *cmd)
         {
             const fixed_t   x = gamecontrollerthumbRX * 2;
 
-            cmd->angleturn -= FixedMul(gamecontrollerangleturn[run],
+            cmd->angleturn -= FixedMul(angleturn[0],
                 (fixed_t)(gamecontrollerhorizontalsensitivity * FixedMul(FixedMul(x, x), x)));
 
             if (!menuactive)
@@ -318,7 +317,7 @@ void G_BuildTiccmd(ticcmd_t *cmd)
         {
             const fixed_t   x = gamecontrollerthumbRX * 2;
 
-            cmd->angleturn -= FixedMul(gamecontrollerangleturn[run],
+            cmd->angleturn -= FixedMul(angleturn[0],
                 (fixed_t)(gamecontrollerhorizontalsensitivity * FixedMul(FixedMul(x, x), x)));
 
             if (!menuactive)
@@ -368,7 +367,7 @@ void G_BuildTiccmd(ticcmd_t *cmd)
         {
             const fixed_t   x = gamecontrollerthumbLX * 2;
 
-            cmd->angleturn -= FixedMul(gamecontrollerangleturn[run],
+            cmd->angleturn -= FixedMul(angleturn[0],
                 (fixed_t)(gamecontrollerhorizontalsensitivity * FixedMul(FixedMul(x, x), x)));
 
             if (!menuactive)
@@ -387,7 +386,7 @@ void G_BuildTiccmd(ticcmd_t *cmd)
         {
             const fixed_t   x = gamecontrollerthumbLX * 2;
 
-            cmd->angleturn -= FixedMul(gamecontrollerangleturn[run],
+            cmd->angleturn -= FixedMul(angleturn[0],
                 (fixed_t)(gamecontrollerhorizontalsensitivity * FixedMul(FixedMul(x, x), x)));
 
             if (!menuactive)

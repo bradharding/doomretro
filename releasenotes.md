@@ -44,7 +44,8 @@
 * Support has been added for the lumps `STFXDTH0` to `STFXDTH9`. If included in a PWAD, the player’s face in the status bar now animates when they are gibbed. This is a feature revived from the old [3DO](https://doomwiki.org/wiki/3DO), [Jaguar](https://doomwiki.org/wiki/Atari_Jaguar) and [PSX](https://doomwiki.org/wiki/Sony_PlayStation) *DOOM* ports.
 * The accompanying readme file for the currently loaded PWAD can now be displayed by entering the new `readme` CCMD in the console.
 * The following changes have been made to the use of a controller:
-  * Controllers are now more responsive in the menu.
+  * Using a controller in the menu is now more responsive.
+  * The speed at which the player turns using a controller no longer increases while running.
   * Controllers now rumble slightly when the player picks something up. This can be disabled by the new `joy_rumble_pickup` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
   * Controllers now rumble again when the player uses the chainsaw and the `joy_rumble_weapons` CVAR is `on`.
 * A bug is fixed whereby the `vid_fullscreen` CVAR couldn’t be changed in the console.
