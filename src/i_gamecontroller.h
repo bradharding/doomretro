@@ -64,7 +64,7 @@
 
 #define GAMECONTROLLER_TRIGGER_THRESHOLD    3855
 
-#define IDLE_CHAINSAW_RUMBLE_STRENGTH       15000
+#define IDLE_CHAINSAW_RUMBLE_STRENGTH       10000
 
 #if SDL_MAJOR_VERSION < 2 || (SDL_MAJOR_VERSION == 2 && SDL_MINOR_VERSION < 14)
 #define SDL_GameControllerSetLED(gamecontroller, red, green, blue)
