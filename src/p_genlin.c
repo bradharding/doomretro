@@ -119,7 +119,7 @@ manual_floor:
         floor->sector = sec;
         floor->texture = sec->floorpic;
         floor->newspecial = sec->special;
-        floor->type = genFloor;
+        floor->type = GenFloor;
 
         // set the speed of motion
         switch (Sped)
@@ -197,16 +197,16 @@ manual_floor:
                     {
                         case FChgZero:  // zero type
                             floor->newspecial = 0;
-                            floor->type = genFloorChg0;
+                            floor->type = GenFloorChg0;
                             break;
 
                         case FChgTyp:   // copy type
                             floor->newspecial = sec->special;
-                            floor->type = genFloorChgT;
+                            floor->type = GenFloorChgT;
                             break;
 
                         case FChgTxt:   // leave type be
-                            floor->type = genFloorChg;
+                            floor->type = GenFloorChg;
                             break;
                     }
                 }
@@ -219,16 +219,16 @@ manual_floor:
                 {
                     case FChgZero:      // zero type
                         floor->newspecial = 0;
-                        floor->type = genFloorChg0;
+                        floor->type = GenFloorChg0;
                         break;
 
                     case FChgTyp:       // copy type
                         floor->newspecial = line->frontsector->special;
-                        floor->type = genFloorChgT;
+                        floor->type = GenFloorChgT;
                         break;
 
                     case FChgTxt:       // leave type be
-                        floor->type = genFloorChg;
+                        floor->type = GenFloorChg;
                         break;
                 }
             }
@@ -736,7 +736,7 @@ manual_stair:
         floor->floordestheight = height;
         texture = sec->floorpic;
         floor->crush = false;
-        floor->type = genBuildStair;    // jff 03/31/98 do not leave uninited
+        floor->type = GenBuildStair;    // jff 03/31/98 do not leave uninited
 
         sec->stairlock = -2;            // jff 02/26/98 set up lock on current sector
         sec->nextsec = -1;
@@ -797,7 +797,7 @@ manual_stair:
                 floor->sector = sec;
                 floor->speed = speed;
                 floor->floordestheight = height;
-                floor->type = genBuildStair;    // jff 03/31/98 do not leave uninited
+                floor->type = GenBuildStair;    // jff 03/31/98 do not leave uninited
 
                 okay = true;
                 break;

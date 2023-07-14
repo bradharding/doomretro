@@ -454,64 +454,64 @@ bool P_ActivateInStasisCeiling(const line_t *line);
 typedef enum
 {
     // lower floor to highest surrounding floor
-    lowerFloor,
+    LowerFloor,
 
     // lower floor to lowest surrounding floor
-    lowerFloorToLowest,
+    LowerFloorToLowest,
 
     // lower floor to highest surrounding floor VERY FAST
-    turboLower,
+    TurboLower,
 
     // raise floor to lowest surrounding CEILING
-    raiseFloor,
+    RaiseFloor,
 
     // raise floor to next highest surrounding floor
-    raiseFloorToNearest,
+    RaiseFloorToNearest,
 
     // jff 02/03/98 lower floor to next lowest neighbor
-    lowerFloorToNearest,
+    LowerFloorToNearest,
 
     // jff 02/03/98 lower floor 24 absolute
-    lowerFloor24,
+    LowerFloor24,
 
     // jff 02/03/98 lower floor 32 absolute
-    lowerFloor32Turbo,
+    LowerFloor32Turbo,
 
     // raise floor to shortest height texture around it
-    raiseToTexture,
+    RaiseToTexture,
 
     // lower floor to lowest surrounding floor
     //  and change floorpic
-    lowerAndChange,
+    LowerAndChange,
 
-    raiseFloor24,
+    RaiseFloor24,
 
     // jff 02/03/98 raise floor 32 absolute
-    raiseFloor32Turbo,
+    RaiseFloor32Turbo,
 
-    raiseFloor24AndChange,
-    raiseFloorCrush,
+    RaiseFloor24AndChange,
+    RaiseFloorCrush,
 
     // raise to next highest floor, turbo-speed
-    raiseFloorTurbo,
-    donutRaise,
-    raiseFloor512,
+    RaiseFloorTurbo,
+    DonutRaise,
+    RaiseFloor512,
 
     // jff 02/04/98  add types for generalized floor mover
-    genFloor,
-    genFloorChg,
-    genFloorChg0,
-    genFloorChgT,
+    GenFloor,
+    GenFloorChg,
+    GenFloorChg0,
+    GenFloorChgT,
 
-    buildStair,
-    genBuildStair
+    BuildStair,
+    GenBuildStair
 } floor_e;
 
 typedef enum
 {
-    elevateUp,
-    elevateDown,
-    elevateCurrent
+    ElevateUp,
+    ElevateDown,
+    ElevateCurrent
 } elevator_e;
 
 typedef struct

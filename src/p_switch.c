@@ -397,7 +397,7 @@ bool P_UseSpecialLine(mobj_t *thing, line_t *line, const int side, const bool bo
                 line_t  junk = { 0 };
 
                 junk.tag = 666;
-                EV_DoFloor(&junk, lowerFloorToLowest);
+                EV_DoFloor(&junk, LowerFloorToLowest);
                 line->flags &= ~ML_TRIGGER666;
             }
 
@@ -461,7 +461,7 @@ bool P_UseSpecialLine(mobj_t *thing, line_t *line, const int side, const bool bo
             break;
 
         case S1_Floor_RaiseToNextHighestFloor:
-            if (EV_DoFloor(line, raiseFloorToNearest))
+            if (EV_DoFloor(line, RaiseFloorToNearest))
                 P_ChangeSwitchTexture(line, false);
 
             break;
@@ -479,7 +479,7 @@ bool P_UseSpecialLine(mobj_t *thing, line_t *line, const int side, const bool bo
             break;
 
         case S1_Floor_LowerToLowestFloor:
-            if (EV_DoFloor(line, lowerFloorToLowest))
+            if (EV_DoFloor(line, LowerFloorToLowest))
                 P_ChangeSwitchTexture(line, false);
 
             if (nomonsters && (line->flags & ML_TRIGGER666))
@@ -487,9 +487,9 @@ bool P_UseSpecialLine(mobj_t *thing, line_t *line, const int side, const bool bo
                 line_t  junk = { 0 };
 
                 junk.tag = 666;
-                EV_DoFloor(&junk, lowerFloorToLowest);
+                EV_DoFloor(&junk, LowerFloorToLowest);
                 junk.tag = 667;
-                EV_DoFloor(&junk, raiseToTexture);
+                EV_DoFloor(&junk, RaiseToTexture);
                 line->flags &= ~ML_TRIGGER666;
             }
 
@@ -508,7 +508,7 @@ bool P_UseSpecialLine(mobj_t *thing, line_t *line, const int side, const bool bo
             break;
 
         case S1_Floor_LowerTo8AboveHighestFloor:
-            if (EV_DoFloor(line, turboLower))
+            if (EV_DoFloor(line, TurboLower))
                 P_ChangeSwitchTexture(line, false);
 
             break;
@@ -538,19 +538,19 @@ bool P_UseSpecialLine(mobj_t *thing, line_t *line, const int side, const bool bo
             break;
 
         case S1_Floor_RaiseTo8BelowLowestCeiling_Crushes:
-            if (EV_DoFloor(line, raiseFloorCrush))
+            if (EV_DoFloor(line, RaiseFloorCrush))
                 P_ChangeSwitchTexture(line, false);
 
             break;
 
         case S1_Floor_RaiseToLowestCeiling:
-            if (EV_DoFloor(line, raiseFloor))
+            if (EV_DoFloor(line, RaiseFloor))
                 P_ChangeSwitchTexture(line, false);
 
             break;
 
         case S1_Floor_LowerToHighestFloor:
-            if (EV_DoFloor(line, lowerFloor))
+            if (EV_DoFloor(line, LowerFloor))
                 P_ChangeSwitchTexture(line, false);
             break;
 
@@ -591,7 +591,7 @@ bool P_UseSpecialLine(mobj_t *thing, line_t *line, const int side, const bool bo
             break;
 
         case S1_Floor_RaiseToNextHighestFloor_Fast:
-            if (EV_DoFloor(line, raiseFloorTurbo))
+            if (EV_DoFloor(line, RaiseFloorTurbo))
                 P_ChangeSwitchTexture(line, false);
 
             break;
@@ -605,32 +605,32 @@ bool P_UseSpecialLine(mobj_t *thing, line_t *line, const int side, const bool bo
             break;
 
         case S1_Floor_RaiseBy512:
-            if (EV_DoFloor(line, raiseFloor512))
+            if (EV_DoFloor(line, RaiseFloor512))
                 P_ChangeSwitchTexture(line, false);
 
             break;
 
         // Extended switches
         case S1_Floor_RaiseByShortestLowerTexture:
-            if (EV_DoFloor(line, raiseToTexture))
+            if (EV_DoFloor(line, RaiseToTexture))
                 P_ChangeSwitchTexture(line, false);
 
             break;
 
         case S1_Floor_LowerToLowestFloor_ChangesTexture:
-            if (EV_DoFloor(line, lowerAndChange))
+            if (EV_DoFloor(line, LowerAndChange))
                 P_ChangeSwitchTexture(line, false);
 
             break;
 
         case S1_Floor_RaiseBy24_ChangesTextureAndEffect:
-            if (EV_DoFloor(line, raiseFloor24AndChange))
+            if (EV_DoFloor(line, RaiseFloor24AndChange))
                 P_ChangeSwitchTexture(line, false);
 
             break;
 
         case S1_Floor_RaiseBy24:
-            if (EV_DoFloor(line, raiseFloor24))
+            if (EV_DoFloor(line, RaiseFloor24))
                 P_ChangeSwitchTexture(line, false);
 
             break;
@@ -659,7 +659,7 @@ bool P_UseSpecialLine(mobj_t *thing, line_t *line, const int side, const bool bo
             break;
 
         case S1_Ceiling_RaiseToHighestCeiling:
-            if (EV_DoCeiling(line, RaiseToHighest) || EV_DoFloor(line, lowerFloorToLowest))
+            if (EV_DoCeiling(line, RaiseToHighest) || EV_DoFloor(line, LowerFloorToLowest))
                 P_ChangeSwitchTexture(line, false);
 
             break;
@@ -744,25 +744,25 @@ bool P_UseSpecialLine(mobj_t *thing, line_t *line, const int side, const bool bo
             break;
 
         case S1_Floor_LowerToNearestFloor:
-            if (EV_DoFloor(line, lowerFloorToNearest))
+            if (EV_DoFloor(line, LowerFloorToNearest))
                 P_ChangeSwitchTexture(line, false);
 
             break;
 
         case S1_Lift_RaiseToNextHighestFloor_Fast:
-            if (EV_DoElevator(line, elevateUp))
+            if (EV_DoElevator(line, ElevateUp))
                 P_ChangeSwitchTexture(line, false);
 
             break;
 
         case S1_Lift_LowerToNextLowestFloor_Fast:
-            if (EV_DoElevator(line, elevateDown))
+            if (EV_DoElevator(line, ElevateDown))
                 P_ChangeSwitchTexture(line, false);
 
             break;
 
         case S1_Lift_MoveToSameFloorHeight_Fast:
-            if (EV_DoElevator(line, elevateCurrent))
+            if (EV_DoElevator(line, ElevateCurrent))
                 P_ChangeSwitchTexture(line, false);
 
             break;
@@ -774,31 +774,31 @@ bool P_UseSpecialLine(mobj_t *thing, line_t *line, const int side, const bool bo
             break;
 
         case SR_Floor_RaiseByShortestLowerTexture:
-            if (EV_DoFloor(line, raiseToTexture))
+            if (EV_DoFloor(line, RaiseToTexture))
                 P_ChangeSwitchTexture(line, true);
 
             break;
 
         case SR_Floor_LowerToLowestFloor_ChangesTexture:
-            if (EV_DoFloor(line, lowerAndChange))
+            if (EV_DoFloor(line, LowerAndChange))
                 P_ChangeSwitchTexture(line, true);
 
             break;
 
         case SR_Floor_RaiseBy512:
-            if (EV_DoFloor(line, raiseFloor512))
+            if (EV_DoFloor(line, RaiseFloor512))
                 P_ChangeSwitchTexture(line, true);
 
             break;
 
         case SR_Floor_RaiseBy24_ChangesTextureAndEffect:
-            if (EV_DoFloor(line, raiseFloor24AndChange))
+            if (EV_DoFloor(line, RaiseFloor24AndChange))
                 P_ChangeSwitchTexture(line, true);
 
             break;
 
         case SR_Floor_RaiseBy24:
-            if (EV_DoFloor(line, raiseFloor24))
+            if (EV_DoFloor(line, RaiseFloor24))
                 P_ChangeSwitchTexture(line, true);
 
             break;
@@ -832,7 +832,7 @@ bool P_UseSpecialLine(mobj_t *thing, line_t *line, const int side, const bool bo
             break;
 
         case SR_Ceiling_RaiseToHighestCeiling:
-            if (EV_DoCeiling(line, RaiseToHighest) || EV_DoFloor(line, lowerFloorToLowest))
+            if (EV_DoCeiling(line, RaiseToHighest) || EV_DoFloor(line, LowerFloorToLowest))
                 P_ChangeSwitchTexture(line, true);
 
             break;
@@ -913,25 +913,25 @@ bool P_UseSpecialLine(mobj_t *thing, line_t *line, const int side, const bool bo
             break;
 
         case SR_Floor_LowerToNearestFloor:
-            if (EV_DoFloor(line, lowerFloorToNearest))
+            if (EV_DoFloor(line, LowerFloorToNearest))
                 P_ChangeSwitchTexture(line, true);
 
             break;
 
         case SR_Lift_RaiseToNextHighestFloor_Fast:
-            if (EV_DoElevator(line, elevateUp))
+            if (EV_DoElevator(line, ElevateUp))
                 P_ChangeSwitchTexture(line, true);
 
             break;
 
         case SR_Lift_LowerToNextLowestFloor_Fast:
-            if (EV_DoElevator(line, elevateDown))
+            if (EV_DoElevator(line, ElevateDown))
                 P_ChangeSwitchTexture(line, true);
 
             break;
 
         case SR_Lift_MoveToSameFloorHeight_Fast:
-            if (EV_DoElevator(line, elevateCurrent))
+            if (EV_DoElevator(line, ElevateCurrent))
                 P_ChangeSwitchTexture(line, true);
 
             break;
@@ -962,13 +962,13 @@ bool P_UseSpecialLine(mobj_t *thing, line_t *line, const int side, const bool bo
             break;
 
         case SR_Floor_LowerToHighestFloor:
-            if (EV_DoFloor(line, lowerFloor))
+            if (EV_DoFloor(line, LowerFloor))
                 P_ChangeSwitchTexture(line, true);
 
             break;
 
         case SR_Floor_LowerToLowestFloor:
-            if (EV_DoFloor(line, lowerFloorToLowest))
+            if (EV_DoFloor(line, LowerFloorToLowest))
                 P_ChangeSwitchTexture(line, true);
 
             break;
@@ -994,7 +994,7 @@ bool P_UseSpecialLine(mobj_t *thing, line_t *line, const int side, const bool bo
             break;
 
         case SR_Floor_RaiseToLowestCeiling:
-            if (EV_DoFloor(line, raiseFloor))
+            if (EV_DoFloor(line, RaiseFloor))
                 P_ChangeSwitchTexture(line, true);
 
             break;
@@ -1012,7 +1012,7 @@ bool P_UseSpecialLine(mobj_t *thing, line_t *line, const int side, const bool bo
             break;
 
         case SR_Floor_RaiseTo8BelowLowestCeiling_Crushes:
-            if (EV_DoFloor(line, raiseFloorCrush))
+            if (EV_DoFloor(line, RaiseFloorCrush))
                 P_ChangeSwitchTexture(line, true);
 
             break;
@@ -1024,13 +1024,13 @@ bool P_UseSpecialLine(mobj_t *thing, line_t *line, const int side, const bool bo
             break;
 
         case SR_Floor_RaiseToNextHighestFloor:
-            if (EV_DoFloor(line, raiseFloorToNearest))
+            if (EV_DoFloor(line, RaiseFloorToNearest))
                 P_ChangeSwitchTexture(line, true);
 
             break;
 
         case SR_Floor_LowerTo8AboveHighestFloor:
-            if (EV_DoFloor(line, turboLower))
+            if (EV_DoFloor(line, TurboLower))
                 P_ChangeSwitchTexture(line, true);
 
             break;
@@ -1060,7 +1060,7 @@ bool P_UseSpecialLine(mobj_t *thing, line_t *line, const int side, const bool bo
             break;
 
         case SR_Floor_RaiseToNextHighestFloor_Fast:
-            if (EV_DoFloor(line, raiseFloorTurbo))
+            if (EV_DoFloor(line, RaiseFloorTurbo))
                 P_ChangeSwitchTexture(line, true);
 
             break;

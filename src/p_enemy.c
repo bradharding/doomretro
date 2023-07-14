@@ -2093,14 +2093,14 @@ void A_BossDeath(mobj_t *actor, player_t *player, pspdef_t *psp)
             if (actor->mbf21flags & MF_MBF21_MAP07BOSS1)
             {
                 junk.tag = 666;
-                EV_DoFloor(&junk, lowerFloorToLowest);
+                EV_DoFloor(&junk, LowerFloorToLowest);
                 return;
             }
 
             if (actor->mbf21flags & MF_MBF21_MAP07BOSS2)
             {
                 junk.tag = 667;
-                EV_DoFloor(&junk, raiseToTexture);
+                EV_DoFloor(&junk, RaiseToTexture);
                 return;
             }
         }
@@ -2111,7 +2111,7 @@ void A_BossDeath(mobj_t *actor, player_t *player, pspdef_t *psp)
         {
             case 1:
                 junk.tag = 666;
-                EV_DoFloor(&junk, lowerFloorToLowest);
+                EV_DoFloor(&junk, LowerFloorToLowest);
                 return;
 
             case 4:
@@ -2124,7 +2124,7 @@ void A_BossDeath(mobj_t *actor, player_t *player, pspdef_t *psp)
 
                     case 8:
                         junk.tag = 666;
-                        EV_DoFloor(&junk, lowerFloorToLowest);
+                        EV_DoFloor(&junk, LowerFloorToLowest);
                         return;
                 }
         }

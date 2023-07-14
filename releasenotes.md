@@ -46,7 +46,7 @@
 * These changes have been made when using a controller:
   * Using a controller in the menu is now more responsive.
   * The speed at which the player turns using a controller no longer increases while running.
-  * Turning with a controller is now more precise.
+  * Turning with a controller is now more precise when nudging the right thumbstick a small amount.
   * A controller now rumbles slightly when the player picks something up. This can be disabled by the new `joy_rumble_pickup` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
   * When the `joy_rumble_weapons` CVAR is `on`:
     * A controller now rumbles again when the player uses the chainsaw.

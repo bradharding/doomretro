@@ -1028,6 +1028,7 @@ const char *words[][2] =
     { "color",       "colour"      },
     { "defense",     "defence"     },
     { "disk",        "disc"        },
+    { "donut",       "doughnut"    },
     { "draft",       "draught"     },
     { "favor",       "favour"      },
     { "flavor",      "flavour"     },

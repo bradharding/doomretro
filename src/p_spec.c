@@ -1448,7 +1448,7 @@ void P_CrossSpecialLine(line_t *line, const int side, mobj_t *thing, const bool 
                     {
                         case 1:
                             junk.tag = 666;
-                            EV_DoFloor(&junk, lowerFloorToLowest);
+                            EV_DoFloor(&junk, LowerFloorToLowest);
                             break;
 
                         case 4:
@@ -1478,10 +1478,10 @@ void P_CrossSpecialLine(line_t *line, const int side, mobj_t *thing, const bool 
         case W1_Floor_RaiseToLowestCeiling:
             if (E4M3)
             {
-                if (EV_DoFloor(line, raiseFloorCrush))
+                if (EV_DoFloor(line, RaiseFloorCrush))
                     line->special = 0;
             }
-            else if (EV_DoFloor(line, raiseFloor))
+            else if (EV_DoFloor(line, RaiseFloor))
                 line->special = 0;
 
             break;
@@ -1529,7 +1529,7 @@ void P_CrossSpecialLine(line_t *line, const int side, mobj_t *thing, const bool 
             break;
 
         case W1_Floor_LowerToHighestFloor:
-            if (EV_DoFloor(line, lowerFloor))
+            if (EV_DoFloor(line, LowerFloor))
                 line->special = 0;
 
             break;
@@ -1547,7 +1547,7 @@ void P_CrossSpecialLine(line_t *line, const int side, mobj_t *thing, const bool 
             break;
 
         case W1_Floor_RaiseByShortestLowerTexture:
-            if (EV_DoFloor(line, raiseToTexture))
+            if (EV_DoFloor(line, RaiseToTexture))
                 line->special = 0;
 
             break;
@@ -1559,19 +1559,19 @@ void P_CrossSpecialLine(line_t *line, const int side, mobj_t *thing, const bool 
             break;
 
         case W1_Floor_LowerTo8AboveHighestFloor:
-            if (EV_DoFloor(line, turboLower))
+            if (EV_DoFloor(line, TurboLower))
                 line->special = 0;
 
             break;
 
         case W1_Floor_LowerToLowestFloor_ChangesTexture:
-            if (EV_DoFloor(line, lowerAndChange))
+            if (EV_DoFloor(line, LowerAndChange))
                 line->special = 0;
 
             break;
 
         case W1_Floor_LowerToLowestFloor:
-            if (EV_DoFloor(line, lowerFloorToLowest))
+            if (EV_DoFloor(line, LowerFloorToLowest))
                 line->special = 0;
 
             break;
@@ -1614,7 +1614,7 @@ void P_CrossSpecialLine(line_t *line, const int side, mobj_t *thing, const bool 
             break;
 
         case W1_Floor_RaiseTo8BelowLowestCeiling_Crushes:
-            if (EV_DoFloor(line, raiseFloorCrush))
+            if (EV_DoFloor(line, RaiseFloorCrush))
                 line->special = 0;
 
             break;
@@ -1626,13 +1626,13 @@ void P_CrossSpecialLine(line_t *line, const int side, mobj_t *thing, const bool 
             break;
 
         case W1_Floor_RaiseBy24:
-            if (EV_DoFloor(line, raiseFloor24))
+            if (EV_DoFloor(line, RaiseFloor24))
                 line->special = 0;
 
             break;
 
         case W1_Floor_RaiseBy24_ChangesTexture:
-            if (EV_DoFloor(line, raiseFloor24AndChange))
+            if (EV_DoFloor(line, RaiseFloor24AndChange))
                 line->special = 0;
 
             break;
@@ -1668,7 +1668,7 @@ void P_CrossSpecialLine(line_t *line, const int side, mobj_t *thing, const bool 
             break;
 
         case W1_Floor_RaiseToNextHighestFloor:
-            if (EV_DoFloor(line, raiseFloorToNearest))
+            if (EV_DoFloor(line, RaiseFloorToNearest))
                 line->special = 0;
 
             break;
@@ -1693,7 +1693,7 @@ void P_CrossSpecialLine(line_t *line, const int side, mobj_t *thing, const bool 
             break;
 
         case W1_Floor_RaiseToNextHighestFloor_Fast:
-            if (EV_DoFloor(line, raiseFloorTurbo))
+            if (EV_DoFloor(line, RaiseFloorTurbo))
                 line->special = 0;
 
             break;
@@ -1742,15 +1742,15 @@ void P_CrossSpecialLine(line_t *line, const int side, mobj_t *thing, const bool 
             break;
 
         case WR_Floor_LowerToLowestFloor:
-            EV_DoFloor(line, lowerFloorToLowest);
+            EV_DoFloor(line, LowerFloorToLowest);
             break;
 
         case WR_Floor_LowerToHighestFloor:
-            EV_DoFloor(line, lowerFloor);
+            EV_DoFloor(line, LowerFloor);
             break;
 
         case WR_Floor_LowerToLowestFloor_ChangesTexture:
-            EV_DoFloor(line, lowerAndChange);
+            EV_DoFloor(line, LowerAndChange);
             break;
 
         case WR_Door_OpenStay:
@@ -1774,19 +1774,19 @@ void P_CrossSpecialLine(line_t *line, const int side, mobj_t *thing, const bool 
             break;
 
         case WR_Floor_RaiseToLowestCeiling:
-            EV_DoFloor(line, raiseFloor);
+            EV_DoFloor(line, RaiseFloor);
             break;
 
         case WR_Floor_RaiseBy24:
-            EV_DoFloor(line, raiseFloor24);
+            EV_DoFloor(line, RaiseFloor24);
             break;
 
         case WR_Floor_RaiseBy24_ChangesTexture:
-            EV_DoFloor(line, raiseFloor24AndChange);
+            EV_DoFloor(line, RaiseFloor24AndChange);
             break;
 
         case WR_Floor_RaiseTo8BelowLowestCeiling_Crushes:
-            EV_DoFloor(line, raiseFloorCrush);
+            EV_DoFloor(line, RaiseFloorCrush);
             break;
 
         case WR_Floor_RaiseToNextHighestFloor_ChangesTexture:
@@ -1794,7 +1794,7 @@ void P_CrossSpecialLine(line_t *line, const int side, mobj_t *thing, const bool 
             break;
 
         case WR_Floor_RaiseByShortestLowerTexture:
-            EV_DoFloor(line, raiseToTexture);
+            EV_DoFloor(line, RaiseToTexture);
             break;
 
         case WR_Teleport:
@@ -1802,7 +1802,7 @@ void P_CrossSpecialLine(line_t *line, const int side, mobj_t *thing, const bool 
             break;
 
         case WR_Floor_LowerTo8AboveHighestFloor:
-            EV_DoFloor(line, turboLower);
+            EV_DoFloor(line, TurboLower);
             break;
 
         case WR_Door_OpenWaitClose_Fast:
@@ -1828,16 +1828,16 @@ void P_CrossSpecialLine(line_t *line, const int side, mobj_t *thing, const bool 
             break;
 
         case WR_Floor_RaiseToNextHighestFloor:
-            EV_DoFloor(line, raiseFloorToNearest);
+            EV_DoFloor(line, RaiseFloorToNearest);
             break;
 
         case WR_Floor_RaiseToNextHighestFloor_Fast:
-            EV_DoFloor(line, raiseFloorTurbo);
+            EV_DoFloor(line, RaiseFloorTurbo);
             break;
 
         // Extended triggers
         case W1_Floor_RaiseBy512:
-            if (EV_DoFloor(line, raiseFloor512))
+            if (EV_DoFloor(line, RaiseFloor512))
                 line->special = 0;
 
             break;
@@ -1897,25 +1897,25 @@ void P_CrossSpecialLine(line_t *line, const int side, mobj_t *thing, const bool 
             break;
 
         case W1_Floor_LowerToNearestFloor:
-            if (EV_DoFloor(line, lowerFloorToNearest))
+            if (EV_DoFloor(line, LowerFloorToNearest))
                 line->special = 0;
 
             break;
 
         case W1_Lift_RaiseToNextHighestFloor_Fast:
-            if (EV_DoElevator(line, elevateUp))
+            if (EV_DoElevator(line, ElevateUp))
                 line->special = 0;
 
             break;
 
         case W1_Lift_LowerToNextLowestFloor_Fast:
-            if (EV_DoElevator(line, elevateDown))
+            if (EV_DoElevator(line, ElevateDown))
                 line->special = 0;
 
             break;
 
         case W1_Lift_MoveToSameFloorHeight_Fast:
-            if (EV_DoElevator(line, elevateCurrent))
+            if (EV_DoElevator(line, ElevateCurrent))
                 line->special = 0;
 
             break;
@@ -1952,7 +1952,7 @@ void P_CrossSpecialLine(line_t *line, const int side, mobj_t *thing, const bool 
 
         // Extended retriggers
         case WR_Floor_RaiseBy512:
-            EV_DoFloor(line, raiseFloor512);
+            EV_DoFloor(line, RaiseFloor512);
             break;
 
         case WR_Lift_RaiseBy24_ChangesTexture:
@@ -1969,7 +1969,7 @@ void P_CrossSpecialLine(line_t *line, const int side, mobj_t *thing, const bool 
 
         case WR_Ceiling_RaiseToHighestCeiling:
             EV_DoCeiling(line, RaiseToHighest);
-            EV_DoFloor(line, lowerFloorToLowest);
+            EV_DoFloor(line, LowerFloorToLowest);
             break;
 
         case WR_Ceiling_LowerToFloor_Fast:
@@ -2021,19 +2021,19 @@ void P_CrossSpecialLine(line_t *line, const int side, mobj_t *thing, const bool 
             break;
 
         case WR_Floor_LowerToNearestFloor:
-            EV_DoFloor(line, lowerFloorToNearest);
+            EV_DoFloor(line, LowerFloorToNearest);
             break;
 
         case WR_Lift_RaiseToNextHighestFloor_Fast:
-            EV_DoElevator(line, elevateUp);
+            EV_DoElevator(line, ElevateUp);
             break;
 
         case WR_Lift_LowerToNextLowestFloor_Fast:
-            EV_DoElevator(line, elevateDown);
+            EV_DoElevator(line, ElevateDown);
             break;
 
         case WR_Lift_MoveToSameFloorHeight_Fast:
-            EV_DoElevator(line, elevateCurrent);
+            EV_DoElevator(line, ElevateCurrent);
             break;
 
         case WR_TeleportToLineWithSameTag_Silent_SameAngle:
@@ -2174,7 +2174,7 @@ void P_ShootSpecialLine(const mobj_t *thing, line_t *line)
     switch (line->special)
     {
         case G1_Floor_RaiseToLowestCeiling:
-            if (EV_DoFloor(line, raiseFloor))
+            if (EV_DoFloor(line, RaiseFloor))
                 P_ChangeSwitchTexture(line, false);
 
             break;
@@ -2494,7 +2494,7 @@ bool EV_DoDonut(const line_t *line)
             P_AddThinker(&floor->thinker);
 
             s2->floordata = floor;
-            floor->type = donutRaise;
+            floor->type = DonutRaise;
             floor->direction = 1;
             floor->sector = s2;
             floor->speed = FLOORSPEED / 2;
@@ -2509,7 +2509,7 @@ bool EV_DoDonut(const line_t *line)
             P_AddThinker(&floor->thinker);
 
             s1->floordata = floor;
-            floor->type = lowerFloor;
+            floor->type = LowerFloor;
             floor->direction = -1;
             floor->sector = s1;
             floor->speed = FLOORSPEED / 2;
