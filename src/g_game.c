@@ -94,7 +94,8 @@ int             barrelcount;
 
 wbstartstruct_t wminfo;                             // parms for world map/intermission
 
-#define MAXPLMOVE       forwardmove[1]
+#define MAXPLMOVE               forwardmove[1]
+#define GAMECONTROLLERANGLETURN 2560
 
 fixed_t         forwardmove[] = { FORWARDMOVE0, FORWARDMOVE1 };
 fixed_t         sidemove[] = { SIDEMOVE0, SIDEMOVE1 };
@@ -297,9 +298,9 @@ void G_BuildTiccmd(ticcmd_t *cmd)
         }
         else if (gamecontrollerthumbRX > 0)
         {
-            const fixed_t   x = gamecontrollerthumbRX * 2;
+            const fixed_t   x = gamecontrollerthumbRX;
 
-            cmd->angleturn -= FixedMul(angleturn[0],
+            cmd->angleturn -= FixedMul(GAMECONTROLLERANGLETURN,
                 (fixed_t)(gamecontrollerhorizontalsensitivity * FixedMul(FixedMul(x, x), x)));
 
             if (!menuactive)
@@ -315,9 +316,9 @@ void G_BuildTiccmd(ticcmd_t *cmd)
         }
         else if (gamecontrollerthumbRX < 0)
         {
-            const fixed_t   x = gamecontrollerthumbRX * 2;
+            const fixed_t   x = gamecontrollerthumbRX;
 
-            cmd->angleturn -= FixedMul(angleturn[0],
+            cmd->angleturn -= FixedMul(GAMECONTROLLERANGLETURN,
                 (fixed_t)(gamecontrollerhorizontalsensitivity * FixedMul(FixedMul(x, x), x)));
 
             if (!menuactive)
@@ -365,9 +366,9 @@ void G_BuildTiccmd(ticcmd_t *cmd)
             side += (int)(sidemove[run] * (float)gamecontrollerthumbLX / SHRT_MAX);
         else
         {
-            const fixed_t   x = gamecontrollerthumbLX * 2;
+            const fixed_t   x = gamecontrollerthumbLX;
 
-            cmd->angleturn -= FixedMul(angleturn[0],
+            cmd->angleturn -= FixedMul(GAMECONTROLLERANGLETURN,
                 (fixed_t)(gamecontrollerhorizontalsensitivity * FixedMul(FixedMul(x, x), x)));
 
             if (!menuactive)
@@ -384,9 +385,9 @@ void G_BuildTiccmd(ticcmd_t *cmd)
             side += (int)(sidemove[run] * (float)gamecontrollerthumbLX / SHRT_MAX);
         else
         {
-            const fixed_t   x = gamecontrollerthumbLX * 2;
+            const fixed_t   x = gamecontrollerthumbLX;
 
-            cmd->angleturn -= FixedMul(angleturn[0],
+            cmd->angleturn -= FixedMul(GAMECONTROLLERANGLETURN,
                 (fixed_t)(gamecontrollerhorizontalsensitivity * FixedMul(FixedMul(x, x), x)));
 
             if (!menuactive)
