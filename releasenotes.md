@@ -46,11 +46,14 @@
 * These changes have been made when using a controller:
   * Using a controller in the menu is now more responsive.
   * The speed at which the player turns using a controller no longer increases while running.
-  * Controllers now rumble slightly when the player picks something up. This can be disabled by the new `joy_rumble_pickup` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
-  * Controllers now rumble again when the player uses the chainsaw and the `joy_rumble_weapons` CVAR is `on`.
+  * Turning with a controller is now more precise.
+  * A controller now rumbles slightly when the player picks something up. This can be disabled by the new `joy_rumble_pickup` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
+  * When the `joy_rumble_weapons` CVAR is `on`:
+    * A controller now rumbles again when the player uses the chainsaw.
+    * The strengths of the rumbles when the player fires each weapon have been adjusted.
 * A bug is fixed whereby the `vid_fullscreen` CVAR couldn’t be changed in the console.
-* The player’s weapon is now displayed correctly if it touches the right side of the screen and the `vid_capfps` CVAR is not `35`.
-* The `weapon` CVAR now also allows values `1` to `7`.
+* The player’s weapon is now displayed correctly when touching the right edge of the screen and the `vid_capfps` CVAR is not `35`.
+* The `weapon` CVAR now also allows the values `1` to `7`.
 * The `iwadfolder` CVAR has been renamed `wadfolder`.
 * A bug is fixed whereby the `wadfolder` CVAR wouldn’t be updated in some instances.
 * Improvements have been made to the minimum and maximum amounts the player can zoom in the automap.
