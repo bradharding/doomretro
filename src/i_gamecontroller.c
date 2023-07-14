@@ -41,7 +41,6 @@
 static SDL_GameController   *gamecontroller;
 static bool                 gamecontrollerconnected;
 static bool                 gamecontrollerrumbles;
-static int                  currentstrength;
 
 int                         gamecontrollerbuttons = 0;
 short                       gamecontrollerthumbLX = 0;
@@ -119,13 +118,8 @@ void I_GameControllerRumble(int strength)
     if (!gamecontrollerrumbles)
         return;
 
-    if (!(strength = MIN(strength, UINT16_MAX))
-        || (lasteventtype == ev_controller
-            && (strength == idlechainsawrumblestrength || strength >= currentstrength)))
-    {
-        currentstrength = strength;
-        SDL_GameControllerRumble(gamecontroller, currentstrength, currentstrength, UINT32_MAX);
-    }
+    strength = MIN(strength, UINT16_MAX);
+    SDL_GameControllerRumble(gamecontroller, strength, strength, UINT32_MAX);
 }
 
 void I_UpdateGameControllerRumble(void)
@@ -133,18 +127,10 @@ void I_UpdateGameControllerRumble(void)
     if (!gamecontrollerrumbles)
         return;
 
-    if (lasteventtype == ev_controller)
-    {
-        if ((weaponrumbletics && !--weaponrumbletics && !damagerumbletics && !barrelrumbletics)
-            || (damagerumbletics && !--damagerumbletics && !barrelrumbletics && !pickuprumbletics)
-            || (barrelrumbletics && !--barrelrumbletics && !pickuprumbletics)
-            || (pickuprumbletics && !--pickuprumbletics))
-        {
-            currentstrength = idlechainsawrumblestrength;
-            SDL_GameControllerRumble(gamecontroller, currentstrength, currentstrength, UINT32_MAX);
-        }
-    }
-    else
+    if ((weaponrumbletics && !--weaponrumbletics && !damagerumbletics && !barrelrumbletics)
+        || (damagerumbletics && !--damagerumbletics && !barrelrumbletics && !pickuprumbletics)
+        || (barrelrumbletics && !--barrelrumbletics && !pickuprumbletics)
+        || (pickuprumbletics && !--pickuprumbletics))
         SDL_GameControllerRumble(gamecontroller, 0, 0, 0);
 }
 
