@@ -127,10 +127,19 @@ void I_UpdateGameControllerRumble(void)
     if (!gamecontrollerrumbles)
         return;
 
-    if ((weaponrumbletics && !--weaponrumbletics && !damagerumbletics && !barrelrumbletics)
-        || (damagerumbletics && !--damagerumbletics && !barrelrumbletics && !pickuprumbletics)
-        || (barrelrumbletics && !--barrelrumbletics && !pickuprumbletics)
-        || (pickuprumbletics && !--pickuprumbletics))
+    if (weaponrumbletics)
+        weaponrumbletics--;
+
+    if (damagerumbletics)
+        damagerumbletics--;
+
+    if (barrelrumbletics)
+        barrelrumbletics--;
+
+    if (pickuprumbletics)
+        pickuprumbletics--;
+
+    if (!weaponrumbletics && !damagerumbletics && !barrelrumbletics && !pickuprumbletics)
         SDL_GameControllerRumble(gamecontroller, 0, 0, 0);
 }
 
