@@ -453,6 +453,7 @@ void A_Saw(mobj_t *actor, player_t *player, pspdef_t *psp)
 
     player->shotsfired[wp_chainsaw]++;
     stat_shotsfired_chainsaw = SafeAdd(stat_shotsfired_chainsaw, 1);
+    idlechainsawrumblestrength = 0;
 
     if (!linetarget)
     {

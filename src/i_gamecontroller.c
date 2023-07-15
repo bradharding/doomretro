@@ -139,7 +139,8 @@ void I_UpdateGameControllerRumble(void)
     if (pickuprumbletics)
         pickuprumbletics--;
 
-    if (!weaponrumbletics && !damagerumbletics && !barrelrumbletics && !pickuprumbletics)
+    if (!weaponrumbletics && !damagerumbletics && !barrelrumbletics && !pickuprumbletics
+        && !idlechainsawrumblestrength)
         SDL_GameControllerRumble(gamecontroller, 0, 0, 0);
 }
 
