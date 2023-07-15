@@ -76,7 +76,6 @@
 
 extern int      barrelrumbletics;
 extern int      damagerumbletics;
-extern int      menurumbletics;
 extern int      pickuprumbletics;
 extern int      weaponrumbletics;
 

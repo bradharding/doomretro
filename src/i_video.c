@@ -532,12 +532,6 @@ static void I_GetEvent(void)
                 ev.type = ev_controller;
                 D_PostEvent(&ev);
 
-                if (menuactive)
-                {
-                    I_GameControllerRumble(750);
-                    menurumbletics = 10;
-                }
-
                 if (gamestate != GS_LEVEL)
                     I_SaveMousePointerPosition();
 

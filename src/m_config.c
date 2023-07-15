@@ -106,7 +106,6 @@ float       joy_deadzone_right = joy_deadzone_right_default;
 bool        joy_invertyaxis = joy_invertyaxis_default;
 int         joy_rumble_barrels = joy_rumble_barrels_default;
 int         joy_rumble_damage = joy_rumble_damage_default;
-bool        joy_rumble_menu = joy_rumble_menu_default;
 bool        joy_rumble_pickup = joy_rumble_pickup_default;
 int         joy_rumble_weapons = joy_rumble_weapons_default;
 float       joy_sensitivity_horizontal = joy_sensitivity_horizontal_default;
@@ -345,7 +344,6 @@ static default_t cvars[] =
     CVAR_BOOL         (joy_invertyaxis,                  gp_invertyaxis,                        joy_invertyaxis,                     BOOLVALUEALIAS     ),
     CVAR_INT_PERCENT  (joy_rumble_barrels,               gp_vibrate_barrels,                    joy_rumble_barrels,                  NOVALUEALIAS       ),
     CVAR_INT_PERCENT  (joy_rumble_damage,                gp_vibrate_damage,                     joy_rumble_damage,                   NOVALUEALIAS       ),
-    CVAR_BOOL         (joy_rumble_menu,                  joy_rumble_menu,                       joy_rumble_menu,                     BOOLVALUEALIAS     ),
     CVAR_BOOL         (joy_rumble_pickup,                joy_rumble_pickup,                     joy_rumble_pickup,                   BOOLVALUEALIAS     ),
     CVAR_INT_PERCENT  (joy_rumble_weapons,               gp_vibrate_weaponss,                   joy_rumble_weapons,                  NOVALUEALIAS       ),
     CVAR_FLOAT        (joy_sensitivity_horizontal,       gp_sensitivity_horizontal,             joy_sensitivity_horizontal,          NOVALUEALIAS       ),
