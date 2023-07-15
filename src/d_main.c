@@ -182,8 +182,6 @@ void D_PostEvent(event_t *ev)
     if (dowipe)
         return;
 
-    lasteventtype = ev->type;
-
     if (M_Responder(ev))
         return; // menu ate the event
 

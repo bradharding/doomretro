@@ -105,8 +105,4 @@ enum
     BTS_SAVEGAME    = 2
 };
 
-//
-// GLOBAL VARIABLES
-//
 extern gameaction_t gameaction;
-extern evtype_t     lasteventtype;

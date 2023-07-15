@@ -43,14 +43,14 @@
 * The player no longer exits the map if they are dead when a timer set using the `timer` CCMD runs out.
 * Support has been added for the lumps `STFXDTH0` to `STFXDTH9`. If included in a PWAD, the player’s face in the status bar now animates when they are gibbed. This is a feature revived from the old [3DO](https://doomwiki.org/wiki/3DO), [Jaguar](https://doomwiki.org/wiki/Atari_Jaguar) and [PSX](https://doomwiki.org/wiki/Sony_PlayStation) *DOOM* ports.
 * The accompanying readme file for the currently loaded PWAD can now be displayed by entering the new `readme` CCMD in the console.
-* These changes have been made when using a controller:
+* These extensive changes have been made when using a controller:
   * Using a controller in the menu is now more responsive.
-  * The speed at which the player turns using a controller no longer increases while running.
-  * Turning with a controller is now more precise when nudging the right thumbstick a small amount.
+  * The speed at which the player turns using a controller is no longer increased while also running.
+  * Turning with a controller is now more precise when only nudging the right thumbstick.
   * A controller now rumbles slightly when the player picks something up. This can be disabled by the new `joy_rumble_pickup` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
   * When the `joy_rumble_weapons` CVAR is `on`:
     * A controller now rumbles again when the player uses the chainsaw.
-    * The strengths of the rumbles when the player fires each weapon have been adjusted.
+    * The amount of rumble for each weapon the player fires has been adjusted.
 * A bug is fixed whereby the `vid_fullscreen` CVAR couldn’t be changed in the console.
 * The player’s weapon is now displayed correctly when touching the right edge of the screen and the `vid_capfps` CVAR is not `35`.
 * The `weapon` CVAR now also allows the values `1` to `7`.

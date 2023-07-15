@@ -187,8 +187,6 @@ HANDLE              CapFPSEvent;
 
 static bool         capslock;
 
-evtype_t            lasteventtype = ev_none;
-
 int                 windowborderwidth = 0;
 int                 windowborderheight = 0;
 
