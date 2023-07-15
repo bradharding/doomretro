@@ -54,6 +54,7 @@ short                       gamecontrollerrightdeadzone;
 
 int                         barrelrumbletics = 0;
 int                         damagerumbletics = 0;
+int                         menurumbletics = 0;
 int                         pickuprumbletics = 0;
 int                         weaponrumbletics = 0;
 int                         idlechainsawrumblestrength;
@@ -90,7 +91,8 @@ void I_InitGameController(void)
 
             if (SDL_GameControllerHasRumble(gamecontroller))
                 gamecontrollerrumbles = true;
-            else if (!repeated && (joy_rumble_barrels || joy_rumble_damage || joy_rumble_pickup || joy_rumble_weapons))
+            else if (!repeated
+                && (joy_rumble_barrels || joy_rumble_damage || joy_rumble_menu || joy_rumble_pickup || joy_rumble_weapons))
                 C_Warning(1, "This controller isn't going to rumble.");
 
             I_SetGameControllerLeftDeadZone();
@@ -139,7 +141,10 @@ void I_UpdateGameControllerRumble(void)
     if (pickuprumbletics)
         pickuprumbletics--;
 
-    if (!weaponrumbletics && !damagerumbletics && !barrelrumbletics && !pickuprumbletics
+    if (menurumbletics)
+        menurumbletics--;
+
+    if (!weaponrumbletics && !damagerumbletics && !barrelrumbletics && !pickuprumbletics && !menurumbletics
         && !idlechainsawrumblestrength)
         SDL_GameControllerRumble(gamecontroller, 0, 0, 0);
 }

@@ -1444,7 +1444,8 @@ void C_Drawer(void)
         I_SetMotionBlur(0);
 
     // cancel any controller rumble
-    if (!prevconsoleactive && (joy_rumble_barrels || joy_rumble_damage || joy_rumble_pickup || joy_rumble_weapons))
+    if (!prevconsoleactive
+        && (joy_rumble_barrels || joy_rumble_damage || joy_rumble_menu || joy_rumble_pickup || joy_rumble_weapons))
     {
         if (consoleactive)
         {
