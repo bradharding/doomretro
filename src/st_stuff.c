@@ -1682,7 +1682,7 @@ void ST_Init(void)
     ST_LoadUnloadGraphics(&ST_LoadCallback);
 
     st_drawbrdr = (lumpinfo[W_GetNumForName("BRDR_B")]->wadfile->type == PWAD
-        || lumpinfo[W_GetNumForName((gamemode == commercial ? "GRNROCK" : "FLOOR7_2"))]->wadfile->type == IWAD);
+        || lumpinfo[W_GetNumForName(gamemode == commercial ? "GRNROCK" : "FLOOR7_2")]->wadfile->type == IWAD);
 
     // [BH] fix evil grin being displayed when picking up first item after
     // loading save game or entering IDFA/IDKFA cheat

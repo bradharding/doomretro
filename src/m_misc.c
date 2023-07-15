@@ -1019,6 +1019,7 @@ const char *words[][2] =
 {
     { "agonize",     "agonise"     },
     { "agonizing",   "agonising"   },
+    { "airplane",    "aeroplane"   },
     { "analog",      "analogue"    },
     { "armor",       "armour"      },
     { "behavior",    "behaviour"   },
