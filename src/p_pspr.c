@@ -281,7 +281,15 @@ void A_WeaponReady(mobj_t *actor, player_t *player, pspdef_t *psp)
         }
     }
     else
+    {
         player->attackdown = false;
+
+        if (joy_rumble_weapons && readyweapon == wp_chainsaw && !REKKR)
+        {
+            idlechainsawrumblestrength = IDLE_CHAINSAW_RUMBLE_STRENGTH * joy_rumble_weapons / 100;
+            I_GameControllerRumble(idlechainsawrumblestrength);
+        }
+    }
 }
 
 //
