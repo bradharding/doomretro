@@ -65,6 +65,7 @@ typedef struct
 {
     char    *action;
     bool    hideconsole;
+    bool    automaponly;
     void    (*func)(void);
     void    *keyboard1;
     void    *keyboard2;

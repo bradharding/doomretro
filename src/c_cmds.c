@@ -298,41 +298,41 @@ static void weapon7_action_func(void);
 
 action_t actions[] =
 {
-    { "+alwaysrun",   true,  alwaysrun_action_func,   &keyboardalwaysrun,   NULL,                  NULL,              &gamecontrolleralwaysrun,   NULL                },
-    { "+automap",     false, automap_action_func,     &keyboardautomap,     NULL,                  NULL,              &gamecontrollerautomap,     NULL                },
-    { "+back",        true,  back_action_func,        &keyboardback,        &keyboardback2,        &mouseback,        &gamecontrollerback,        NULL                },
-    { "+clearmark",   true,  clearmark_action_func,   &keyboardclearmark,   NULL,                  NULL,              &gamecontrollerclearmark,   NULL                },
-    { "+console",     false, console_action_func,     &keyboardconsole,     NULL,                  NULL,              &gamecontrollerconsole,     NULL                },
-    { "+fire",        true,  fire_action_func,        &keyboardfire,        NULL,                  &mousefire,        &gamecontrollerfire,        NULL                },
-    { "+followmode",  true,  followmode_action_func,  &keyboardfollowmode,  NULL,                  NULL,              &gamecontrollerfollowmode,  NULL                },
-    { "+forward",     true,  forward_action_func,     &keyboardforward,     &keyboardforward2,     &mouseforward,     &gamecontrollerforward,     NULL                },
-    { "+grid",        true,  grid_action_func,        &keyboardgrid,        NULL,                  NULL,              &gamecontrollergrid,        NULL                },
-    { "+jump",        true,  jump_action_func,        &keyboardjump,        NULL,                  &mousejump,        &gamecontrollerjump,        NULL                },
-    { "+left",        true,  left_action_func,        &keyboardleft,        NULL,                  &mouseleft,        &gamecontrollerleft,        NULL                },
-    { "+mark",        true,  mark_action_func,        &keyboardmark,        NULL,                  NULL,              &gamecontrollermark,        NULL                },
-    { "+maxzoom",     true,  maxzoom_action_func,     &keyboardmaxzoom,     NULL,                  NULL,              &gamecontrollermaxzoom,     NULL                },
-    { "+menu",        true,  menu_action_func,        &keyboardmenu,        NULL,                  NULL,              &gamecontrollermenu,        NULL                },
-    { "+mouselook",   true,  NULL,                    &keyboardmouselook,   NULL,                  &mousemouselook,   &gamecontrollermouselook,   NULL                },
-    { "+nextweapon",  true,  nextweapon_action_func,  &keyboardnextweapon,  NULL,                  &mousenextweapon,  &gamecontrollernextweapon,  NULL                },
-    { "+prevweapon",  true,  prevweapon_action_func,  &keyboardprevweapon,  NULL,                  &mouseprevweapon,  &gamecontrollerprevweapon,  NULL                },
-    { "+right",       true,  right_action_func,       &keyboardright,       NULL,                  &mouseright,       &gamecontrollerright,       NULL                },
-    { "+rotatemode",  true,  rotatemode_action_func,  &keyboardrotatemode,  NULL,                  NULL,              &gamecontrollerrotatemode,  NULL                },
-    { "+run",         true,  NULL,                    &keyboardrun,         NULL,                  &mouserun,         &gamecontrollerrun,         NULL                },
-    { "+screenshot",  false, screenshot_action_func,  &keyboardscreenshot,  NULL,                  &mousescreenshot,  NULL,                       NULL                },
-    { "+strafe",      true,  NULL,                    &keyboardstrafe,      NULL,                  &mousestrafe,      &gamecontrollerstrafe,      NULL                },
-    { "+strafeleft",  true,  strafeleft_action_func,  &keyboardstrafeleft,  &keyboardstrafeleft2,  &mousestrafeleft,  &gamecontrollerstrafeleft,  NULL                },
-    { "+straferight", true,  straferight_action_func, &keyboardstraferight, &keyboardstraferight2, &mousestraferight, &gamecontrollerstraferight, NULL                },
-    { "+use",         true,  use_action_func,         &keyboarduse,         &keyboarduse2,         &mouseuse,         &gamecontrolleruse,         &gamecontrolleruse2 },
-    { "+weapon1",     true,  weapon1_action_func,     &keyboardweapon1,     NULL,                  &mouseweapon1,     &gamecontrollerweapon1,     NULL                },
-    { "+weapon2",     true,  weapon2_action_func,     &keyboardweapon2,     NULL,                  &mouseweapon2,     &gamecontrollerweapon2,     NULL                },
-    { "+weapon3",     true,  weapon3_action_func,     &keyboardweapon3,     NULL,                  &mouseweapon3,     &gamecontrollerweapon3,     NULL                },
-    { "+weapon4",     true,  weapon4_action_func,     &keyboardweapon4,     NULL,                  &mouseweapon4,     &gamecontrollerweapon4,     NULL                },
-    { "+weapon5",     true,  weapon5_action_func,     &keyboardweapon5,     NULL,                  &mouseweapon5,     &gamecontrollerweapon5,     NULL                },
-    { "+weapon6",     true,  weapon6_action_func,     &keyboardweapon6,     NULL,                  &mouseweapon6,     &gamecontrollerweapon6,     NULL                },
-    { "+weapon7",     true,  weapon7_action_func,     &keyboardweapon7,     NULL,                  &mouseweapon7,     &gamecontrollerweapon7,     NULL                },
-    { "+zoomin",      true,  NULL,                    &keyboardzoomin,      NULL,                  NULL,              &gamecontrollerzoomin,      NULL                },
-    { "+zoomout",     true,  NULL,                    &keyboardzoomout,     NULL,                  NULL,              &gamecontrollerzoomout,     NULL                },
-    { "",             false, NULL,                    NULL,                 NULL,                  NULL,              NULL,                       NULL                }
+    { "+alwaysrun",   true,  false, alwaysrun_action_func,   &keyboardalwaysrun,   NULL,                  NULL,              &gamecontrolleralwaysrun,   NULL                },
+    { "+automap",     false, false, automap_action_func,     &keyboardautomap,     NULL,                  NULL,              &gamecontrollerautomap,     NULL                },
+    { "+back",        true,  false, back_action_func,        &keyboardback,        &keyboardback2,        &mouseback,        &gamecontrollerback,        NULL                },
+    { "+clearmark",   true,  true,  clearmark_action_func,   &keyboardclearmark,   NULL,                  NULL,              &gamecontrollerclearmark,   NULL                },
+    { "+console",     false, false, console_action_func,     &keyboardconsole,     NULL,                  NULL,              &gamecontrollerconsole,     NULL                },
+    { "+fire",        true,  false, fire_action_func,        &keyboardfire,        NULL,                  &mousefire,        &gamecontrollerfire,        NULL                },
+    { "+followmode",  true,  false, followmode_action_func,  &keyboardfollowmode,  NULL,                  NULL,              &gamecontrollerfollowmode,  NULL                },
+    { "+forward",     true,  false, forward_action_func,     &keyboardforward,     &keyboardforward2,     &mouseforward,     &gamecontrollerforward,     NULL                },
+    { "+grid",        true,  true,  grid_action_func,        &keyboardgrid,        NULL,                  NULL,              &gamecontrollergrid,        NULL                },
+    { "+jump",        true,  false, jump_action_func,        &keyboardjump,        NULL,                  &mousejump,        &gamecontrollerjump,        NULL                },
+    { "+left",        true,  false, left_action_func,        &keyboardleft,        NULL,                  &mouseleft,        &gamecontrollerleft,        NULL                },
+    { "+mark",        true,  true,  mark_action_func,        &keyboardmark,        NULL,                  NULL,              &gamecontrollermark,        NULL                },
+    { "+maxzoom",     true,  true,  maxzoom_action_func,     &keyboardmaxzoom,     NULL,                  NULL,              &gamecontrollermaxzoom,     NULL                },
+    { "+menu",        true,  false, menu_action_func,        &keyboardmenu,        NULL,                  NULL,              &gamecontrollermenu,        NULL                },
+    { "+mouselook",   true,  false, NULL,                    &keyboardmouselook,   NULL,                  &mousemouselook,   &gamecontrollermouselook,   NULL                },
+    { "+nextweapon",  true,  false, nextweapon_action_func,  &keyboardnextweapon,  NULL,                  &mousenextweapon,  &gamecontrollernextweapon,  NULL                },
+    { "+prevweapon",  true,  false, prevweapon_action_func,  &keyboardprevweapon,  NULL,                  &mouseprevweapon,  &gamecontrollerprevweapon,  NULL                },
+    { "+right",       true,  false, right_action_func,       &keyboardright,       NULL,                  &mouseright,       &gamecontrollerright,       NULL                },
+    { "+rotatemode",  true,  true,  rotatemode_action_func,  &keyboardrotatemode,  NULL,                  NULL,              &gamecontrollerrotatemode,  NULL                },
+    { "+run",         true,  false, NULL,                    &keyboardrun,         NULL,                  &mouserun,         &gamecontrollerrun,         NULL                },
+    { "+screenshot",  false, false, screenshot_action_func,  &keyboardscreenshot,  NULL,                  &mousescreenshot,  NULL,                       NULL                },
+    { "+strafe",      true,  false, NULL,                    &keyboardstrafe,      NULL,                  &mousestrafe,      &gamecontrollerstrafe,      NULL                },
+    { "+strafeleft",  true,  false, strafeleft_action_func,  &keyboardstrafeleft,  &keyboardstrafeleft2,  &mousestrafeleft,  &gamecontrollerstrafeleft,  NULL                },
+    { "+straferight", true,  false, straferight_action_func, &keyboardstraferight, &keyboardstraferight2, &mousestraferight, &gamecontrollerstraferight, NULL                },
+    { "+use",         true,  false, use_action_func,         &keyboarduse,         &keyboarduse2,         &mouseuse,         &gamecontrolleruse,         &gamecontrolleruse2 },
+    { "+weapon1",     true,  false, weapon1_action_func,     &keyboardweapon1,     NULL,                  &mouseweapon1,     &gamecontrollerweapon1,     NULL                },
+    { "+weapon2",     true,  false, weapon2_action_func,     &keyboardweapon2,     NULL,                  &mouseweapon2,     &gamecontrollerweapon2,     NULL                },
+    { "+weapon3",     true,  false, weapon3_action_func,     &keyboardweapon3,     NULL,                  &mouseweapon3,     &gamecontrollerweapon3,     NULL                },
+    { "+weapon4",     true,  false, weapon4_action_func,     &keyboardweapon4,     NULL,                  &mouseweapon4,     &gamecontrollerweapon4,     NULL                },
+    { "+weapon5",     true,  false, weapon5_action_func,     &keyboardweapon5,     NULL,                  &mouseweapon5,     &gamecontrollerweapon5,     NULL                },
+    { "+weapon6",     true,  false, weapon6_action_func,     &keyboardweapon6,     NULL,                  &mouseweapon6,     &gamecontrollerweapon6,     NULL                },
+    { "+weapon7",     true,  false, weapon7_action_func,     &keyboardweapon7,     NULL,                  &mouseweapon7,     &gamecontrollerweapon7,     NULL                },
+    { "+zoomin",      true,  true,  NULL,                    &keyboardzoomin,      NULL,                  NULL,              &gamecontrollerzoomin,      NULL                },
+    { "+zoomout",     true,  true,  NULL,                    &keyboardzoomout,     NULL,                  NULL,              &gamecontrollerzoomout,     NULL                },
+    { "",             false, false, NULL,                    NULL,                 NULL,                  NULL,              NULL,                       NULL                }
 };
 
 static bool alive_func1(char *cmd, char *parms);
@@ -1511,7 +1511,7 @@ void alias_cmd_func2(char *cmd, char *parms)
 static void C_UnbindDuplicates(const int keep, const controltype_t type, const int control)
 {
     for (int i = 0; *actions[i].action; i++)
-        if (i != keep)
+        if (i != keep && actions[i].automaponly == actions[keep].automaponly)
         {
             if (type == keyboardcontrol)
             {
