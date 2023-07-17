@@ -2100,11 +2100,7 @@ static void P_LoadLineDefs2(void)
             char    *temp = commify(ld->id);
 
             C_Warning(2, "Linedef %s has the two-sided flag set but no second sidedef.", temp);
-
-            if (sides[ld->sidenum[0]].midtexture)
-                ld->sidenum[1] = 0;                                 // Substitute dummy sidedef for missing left side
-            else
-                ld->flags &= ~ML_TWOSIDED;                          // Clear 2s flag for missing left side
+            ld->flags &= ~ML_TWOSIDED;                              // Clear 2s flag for missing left side
             free(temp);
         }
 
