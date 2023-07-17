@@ -208,14 +208,14 @@ int FindBrightDominantColor(patch_t *patch)
         const byte  green = *playpal++;
         const byte  blue = *playpal++;
 
-        if (colors[i] > dominant && (red >= 128 || green >= 128 || blue >= 128))
+        if (colors[i] > dominant && (red >= 64 || green >= 64 || blue >= 64))
         {
             color = i;
             dominant = colors[i];
         }
     }
 
-    return color;
+    return (color ? color : nearestwhite);
 }
 
 int FindDominantEdgeColor(patch_t *patch)
