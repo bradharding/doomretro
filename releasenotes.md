@@ -58,6 +58,7 @@
 * A bug is fixed whereby the `wadfolder` CVAR wouldn’t be updated in some instances.
 * Improvements have been made to the minimum and maximum amounts the player can zoom in the automap.
 * The vertical direction the player is looking is no longer reset in the help screen’s background when the `mouselook` CVAR is `on`.
+* The left and right shoulder buttons on controllers now select the previous and next weapons by default.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
