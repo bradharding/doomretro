@@ -812,7 +812,7 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL(r_corpses_smearblood, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles corpses leaving blood splats behind as they slide."),
     CVAR_BOOL(r_damageeffect, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
-        "Toggles the red effect when the player is injured."),
+        "Toggles the red effect when the player receives damage."),
     CVAR_BOOL(r_detail, "", "", r_detail_cvar_func1, r_detail_cvar_func2, CF_NONE, DETAILVALUEALIAS,
         "Toggles the graphic detail (" BOLD("high") " or " BOLD("low") ")."),
     CVAR_BOOL(r_diskicon, r_discicon, "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
