@@ -208,12 +208,26 @@ int FindBrightDominantColor(patch_t *patch)
         const byte  green = *playpal++;
         const byte  blue = *playpal++;
 
-        if (colors[i] > dominant && (red >= 64 || green >= 64 || blue >= 64))
+        if (colors[i] > dominant && (red >= 128 || green >= 128 || blue >= 128))
         {
             color = i;
             dominant = colors[i];
         }
     }
+
+    if (!color)
+        for (int i = 0, dominant = 1; i < 256; i++)
+        {
+            const byte  red = *playpal++;
+            const byte  green = *playpal++;
+            const byte  blue = *playpal++;
+
+            if (colors[i] > dominant && (red >= 64 || green >= 64 || blue >= 64))
+            {
+                color = i;
+                dominant = colors[i];
+            }
+        }
 
     return (color ? color : nearestwhite);
 }
