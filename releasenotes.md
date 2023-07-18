@@ -23,6 +23,7 @@
 * A bug is fixed whereby the player’s field of view would sometimes be wrong when changing the `r_fov` CVAR.
 * Minor improvements have been made to rendering floors and ceilings.
 * A bug is fixed whereby the textures on two-sided walls next to a liquid sector would be rendered incorrectly when the `r_liquid_bob` CVAR was `on`.
+* Walls that have been incorrectly marked two-sided are now rendered as intended.
 * When using the `IDCLEV` cheat and vanilla mode is enabled, the player now starts a map with 100% health, no armor, and only a pistol with 50 bullets.
 * A slightly darker color is now chosen for the surrounding pillarboxes when displaying certain lumps from PWADs that are only 320 pixels wide and the `vid_widescreen` CVAR is `on`.
 * A bug is fixed, present in the original *DOOM*, whereby stairs that rose up from the floor would fail in some rare instances.
@@ -46,11 +47,12 @@
 * These extensive changes have been made when using a controller:
   * Using a controller in the menu is now more responsive.
   * The speed at which the player turns using a controller is no longer increased while also running.
-  * Turning with a controller is now more precise when only nudging the right thumbstick.
-  * A controller now rumbles slightly when the player picks something up. This can be disabled by the new `joy_rumble_pickup` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
+  * Turning using a controller is now more precise when only nudging the right thumbstick.
+  * Controllers now rumble slightly when the player picks something up. This can be disabled by the new `joy_rumble_pickup` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
   * When the `joy_rumble_weapons` CVAR is `on`:
-    * A controller now rumbles again when the player uses the chainsaw.
+    * Controller now rumble again when the player uses the chainsaw.
     * The amount of rumble for each weapon the player fires has been adjusted.
+  * The left and right shoulder buttons on controllers now select the player’s previous and next weapons by default.
 * A bug is fixed whereby the `vid_fullscreen` CVAR couldn’t be changed in the console.
 * The player’s weapon is now displayed correctly when touching the right edge of the screen and the `vid_capfps` CVAR is not `35`.
 * The `weapon` CVAR now also allows the values `1` to `7`.
@@ -58,7 +60,6 @@
 * A bug is fixed whereby the `wadfolder` CVAR wouldn’t be updated in some instances.
 * Improvements have been made to the minimum and maximum amounts the player can zoom in the automap.
 * The vertical direction the player is looking is no longer reset in the help screen’s background when the `mouselook` CVAR is `on`.
-* The left and right shoulder buttons on controllers now select the previous and next weapons by default.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
