@@ -113,13 +113,12 @@ void I_ShutdownGameController(void)
     SDL_GameControllerClose(gamecontroller);
 }
 
-void I_GameControllerRumble(int strength)
+void I_GameControllerRumble(const int low, const int high)
 {
     if (!gamecontrollerrumbles)
         return;
 
-    strength = MIN(strength, UINT16_MAX);
-    SDL_GameControllerRumble(gamecontroller, strength, strength, UINT32_MAX);
+    SDL_GameControllerRumble(gamecontroller, MIN(low, UINT16_MAX), MIN(high, UINT16_MAX), UINT32_MAX);
 }
 
 void I_UpdateGameControllerRumble(void)

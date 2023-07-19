@@ -4233,7 +4233,7 @@ void M_CloseMenu(void)
     if (joy_rumble_damage || joy_rumble_barrels || joy_rumble_weapons)
     {
         idlechainsawrumblestrength = restoredrumblestrength;
-        I_GameControllerRumble(idlechainsawrumblestrength);
+        I_GameControllerRumble(idlechainsawrumblestrength, idlechainsawrumblestrength);
     }
 
     if (gamestate == GS_LEVEL)

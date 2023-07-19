@@ -819,7 +819,9 @@ static void P_ShakeOnExplode(const mobj_t *actor)
 
             if (joy_rumble_barrels)
             {
-                I_GameControllerRumble(20000 * joy_rumble_barrels / 100);
+                const int   strength = 20000 * joy_rumble_barrels / 100;
+
+                I_GameControllerRumble(strength, strength);
                 barrelrumbletics = TICRATE;
             }
         }

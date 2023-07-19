@@ -205,7 +205,9 @@ void P_FireWeapon(void)
 
     if (joy_rumble_weapons && readyweapon != wp_fist)
     {
-        I_GameControllerRumble(weaponinfo[readyweapon].strength * joy_rumble_weapons / 100);
+        const int   strength = weaponinfo[readyweapon].strength * joy_rumble_weapons / 100;
+
+        I_GameControllerRumble(strength, strength);
         weaponrumbletics = weaponinfo[readyweapon].tics;
     }
 
@@ -257,7 +259,7 @@ void A_WeaponReady(mobj_t *actor, player_t *player, pspdef_t *psp)
             if (pendingweapon == wp_chainsaw && !REKKR)
             {
                 idlechainsawrumblestrength = IDLE_CHAINSAW_RUMBLE_STRENGTH * joy_rumble_weapons / 100;
-                I_GameControllerRumble(idlechainsawrumblestrength);
+                I_GameControllerRumble(idlechainsawrumblestrength, idlechainsawrumblestrength);
             }
             else if (idlechainsawrumblestrength)
             {
@@ -287,7 +289,7 @@ void A_WeaponReady(mobj_t *actor, player_t *player, pspdef_t *psp)
         if (joy_rumble_weapons && readyweapon == wp_chainsaw && !REKKR)
         {
             idlechainsawrumblestrength = IDLE_CHAINSAW_RUMBLE_STRENGTH * joy_rumble_weapons / 100;
-            I_GameControllerRumble(idlechainsawrumblestrength);
+            I_GameControllerRumble(idlechainsawrumblestrength, idlechainsawrumblestrength);
         }
     }
 }
@@ -435,7 +437,7 @@ void A_Punch(mobj_t *actor, player_t *player, pspdef_t *psp)
             if (isberserk)
                 strength *= 2;
 
-            I_GameControllerRumble(strength);
+            I_GameControllerRumble(strength, strength);
             weaponrumbletics = weaponinfo[wp_fist].tics;
         }
     }

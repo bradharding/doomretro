@@ -2359,7 +2359,9 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
 
         if (joy_rumble_damage)
         {
-            I_GameControllerRumble((30000 + (100 - MIN(tplayer->health, 100)) / 100 * 30000) * joy_rumble_damage / 100);
+            const int   strength = (30000 + (100 - MIN(tplayer->health, 100)) / 100 * 30000) * joy_rumble_damage / 100;
+
+            I_GameControllerRumble(strength, strength);
             damagerumbletics += BETWEEN(12, damage, 100);
         }
 

@@ -1454,7 +1454,7 @@ void C_Drawer(void)
         else
             idlechainsawrumblestrength = restoredrumblestrength;
 
-        I_GameControllerRumble(idlechainsawrumblestrength);
+        I_GameControllerRumble(idlechainsawrumblestrength, idlechainsawrumblestrength);
     }
 
     // cancel any screen shake
