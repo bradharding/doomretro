@@ -205,9 +205,10 @@ void P_FireWeapon(void)
 
     if (joy_rumble_weapons && readyweapon != wp_fist)
     {
-        const int   strength = weaponinfo[readyweapon].strength * joy_rumble_weapons / 100;
+        const int   lowrumble = weaponinfo[readyweapon].lowrumble * joy_rumble_weapons / 100;
+        const int   highrumble = weaponinfo[readyweapon].highrumble * joy_rumble_weapons / 100;
 
-        I_GameControllerRumble(strength, strength);
+        I_GameControllerRumble(lowrumble, highrumble);
         weaponrumbletics = weaponinfo[readyweapon].tics;
     }
 
@@ -432,12 +433,14 @@ void A_Punch(mobj_t *actor, player_t *player, pspdef_t *psp)
 
         if (joy_rumble_damage)
         {
-            int strength = weaponinfo[wp_fist].strength * joy_rumble_damage / 100;
+            int lowrumble = weaponinfo[wp_fist].lowrumble * joy_rumble_weapons / 100;
+            int highrumble = weaponinfo[wp_fist].highrumble * joy_rumble_weapons / 100;
 
             if (isberserk)
-                strength *= 2;
+                I_GameControllerRumble(lowrumble, highrumble);
+            else
+                I_GameControllerRumble(lowrumble * 2, highrumble * 2);
 
-            I_GameControllerRumble(strength, strength);
             weaponrumbletics = weaponinfo[wp_fist].tics;
         }
     }

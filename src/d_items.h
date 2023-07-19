@@ -69,7 +69,8 @@ typedef struct
     int             atkstate;
     int             flashstate;
     int             recoil;
-    int             strength;
+    int             lowrumble;
+    int             highrumble;
     int             tics;
     weapontype_t    prevweapon;
     weapontype_t    nextweapon;
