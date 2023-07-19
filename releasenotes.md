@@ -50,7 +50,7 @@
   * Turning using a controller is now more precise when only nudging the right thumbstick.
   * Controllers now rumble slightly when the player picks something up. This can be disabled by the new `joy_rumble_pickup` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
   * When the `joy_rumble_weapons` CVAR is `on`:
-    * Controller now rumble again when the player uses the chainsaw.
+    * Controllers now rumble again when the player uses the chainsaw.
     * The amount of rumble for each weapon the player fires has been adjusted.
   * The left and right shoulder buttons on controllers now select the player’s previous and next weapons by default.
 * A bug is fixed whereby the `vid_fullscreen` CVAR couldn’t be changed in the console.
@@ -3644,7 +3644,7 @@
 * The console is now automatically closed when using the `give` CCMD.
 * A bug has been fixed whereby corpses weren’t sliding even when the `r_corpses_slide` CVAR was `on`.
 * The intensity of the red screen tint when the player has a berserk power-up and their fists up has been reduced slightly.
-* The red screen tint when the player is injured, and the gold tint when the player picks up something will now show through while the player has a berserk power-up and their fists up.
+* The red screen tint when the player is injured, and the gold tint when the player picks something up will now show through while the player has a berserk power-up and their fists up.
 * The `r_altlighting` CVAR has been removed.
 * A slight current is now applied to liquid sectors, in a random direction determined at the start of each map. It may be disabled using the `r_liquid_current` CVAR.
 * A bug has been fixed whereby the bottom wall texture between adjacent liquid sectors would show through in some instances.
