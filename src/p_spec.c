@@ -285,6 +285,11 @@ void P_InitPicAnims(void)
                     SetTerrainType(lastanim, SLIME);
                     isliquid = true;
                 }
+                else if (M_StrCaseStr(animdefs[i].startname, "LIQ"))
+                {
+                    SetTerrainType(lastanim, LIQUID);
+                    isliquid = true;
+                }
             }
 
             // Check if flat is liquid in popular texture packs
