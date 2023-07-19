@@ -2658,7 +2658,7 @@ bool M_Responder(event_t *ev)
                 {
                     key = KEY_UPARROW;
                     keywait = 0;
-                    gamecontrollerwait = I_GetTime() + 2;
+                    gamecontrollerwait = I_GetTime() + 6;
                     usinggamecontroller = true;
                 }
 
@@ -2669,7 +2669,7 @@ bool M_Responder(event_t *ev)
                 {
                     key = KEY_DOWNARROW;
                     keywait = 0;
-                    gamecontrollerwait = I_GetTime() + 2;
+                    gamecontrollerwait = I_GetTime() + 6;
                     usinggamecontroller = true;
                 }
 
