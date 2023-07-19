@@ -2237,9 +2237,6 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage,
         target->momx += FixedMul(thrust, finecosine[(ang >>= ANGLETOFINESHIFT)]);
         target->momy += FixedMul(thrust, finesine[ang]);
 
-        if (corpse)
-            target->momz += damage * (FRACUNIT >> 5) * 100 / info->mass;
-
         // killough 11/98: thrust objects hanging off ledges
         if ((target->flags2 & MF2_FALLING) && target->gear >= MAXGEAR)
             target->gear = 0;

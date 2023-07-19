@@ -60,7 +60,6 @@
 * A bug is fixed whereby the `wadfolder` CVAR wouldn’t be updated in some instances.
 * Improvements have been made to the minimum and maximum amounts the player can zoom in the automap.
 * The vertical direction the player is looking is no longer reset in the help screen’s background when the `mouselook` CVAR is `on`.
-* A slight vertical momentum is now applied to corpses when reacting to explosions and the `r_corpses_slide` CVAR is `on`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
