@@ -1203,10 +1203,10 @@ mobj_t *P_SpawnMapThing(mapthing_t *mthing, const bool spawnmonsters)
         P_SpawnFriend(mthing);
         return NULL;
     }
-    else if (type == PlayerDeathmatchStart)
+    else if ((type >= Player5Start && type <= Player8Start) || type == PlayerDeathmatchStart)
         return NULL;
 
-    if (type == VisualModeCamera)
+    if (type == Nothing || type == VisualModeCamera)
         return NULL;
 
     if (type >= MusicSourceMin && type <= MusicSourceMax)
