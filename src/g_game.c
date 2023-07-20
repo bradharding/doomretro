@@ -95,7 +95,7 @@ int             barrelcount;
 wbstartstruct_t wminfo;                             // parms for world map/intermission
 
 #define MAXPLMOVE               forwardmove[1]
-#define GAMECONTROLLERANGLETURN 2560
+#define GAMECONTROLLERANGLETURN 5120
 
 fixed_t         forwardmove[] = { FORWARDMOVE0, FORWARDMOVE1 };
 fixed_t         sidemove[] = { SIDEMOVE0, SIDEMOVE1 };
