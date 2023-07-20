@@ -60,7 +60,8 @@
 * A bug is fixed whereby the `wadfolder` CVAR wouldn’t be updated in some instances.
 * Improvements have been made to the minimum and maximum amounts the player can zoom in the automap.
 * The vertical direction the player is looking is no longer reset in the help screen’s background when the `mouselook` CVAR is `on`.
-* A crash no longer occurs when starting a map that has more than four player starting positions (things 4001 to 4004).
+* A crash no longer occurs when starting a map that has more than four player starts (things 4001 to 4004).
+* The player message displayed when the `IDCLEV` cheat is used to warp to a secret map is now gold when the `secretmessages` CVAR is `on`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

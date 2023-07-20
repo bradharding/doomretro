@@ -988,7 +988,26 @@ bool ST_Responder(const event_t *ev)
                     else if (FREEDOOM && gamemode != commercial)
                         M_snprintf(lump, sizeof(lump), "C%cM%c", buffer[0], buffer[1]);
 
-                    M_snprintf(message, sizeof(message), (M_StringCompare(lump, mapnum) ? s_STSTR_CLEVSAME : s_STSTR_CLEV), lump);
+                    if (M_StringCompare(lump, mapnum))
+                        M_snprintf(message, sizeof(message), s_STSTR_CLEVSAME, lump);
+                    else
+                    {
+                        M_snprintf(message, sizeof(message), s_STSTR_CLEV, lump);
+
+                        if (secretmessages)
+                        {
+                            if (gamemode == commercial)
+                            {
+                                if (map >= 31 || (gamemission == pack_nerve && map == 9))
+                                    message_secret = true;
+                            }
+                            else
+                            {
+                                if (map == 9)
+                                    message_secret = true;
+                            }
+                        }
+                    }
 
                     C_Output(message);
                     HU_SetPlayerMessage(message, false, false);
