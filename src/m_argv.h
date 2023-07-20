@@ -35,9 +35,6 @@
 
 #pragma once
 
-//
-// MISC
-//
 extern int  myargc;
 extern char **myargv;
 
@@ -49,3 +46,5 @@ int M_CheckParm(const char *check);
 // following the specified argument.
 int M_CheckParmWithArgs(const char *check, int start);
 int M_CheckParmsWithArgs(const char *check1, const char *check2, const char *check3, int start);
+
+void M_FindResponseFile(void);

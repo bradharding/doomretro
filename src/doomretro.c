@@ -190,6 +190,8 @@ int main(int argc, char **argv)
             M_NormalizeSlashes(myargv[i]);
     }
 
+    M_FindResponseFile();
+
 #if defined(_WIN32)
     hInstanceMutex = CreateMutex(NULL, true, DOOMRETRO_MUTEX);
 

@@ -33,7 +33,11 @@
 ==============================================================================
 */
 
+#include <ctype.h>
+
+#include "i_system.h"
 #include "m_misc.h"
+#include "w_file.h"
 
 int     myargc;
 char    **myargv;
@@ -72,4 +76,161 @@ int M_CheckParm(const char *check)
             return i;
 
     return 0;
+}
+
+#define MAXARGVS        100
+
+static void LoadResponseFile(int argv_index, const char* filename)
+{
+    size_t  size;
+    char    *infile;
+    char    *file;
+    char    **newargv;
+    int     newargc;
+    int     i = 0;
+    int     k;
+
+    // Read the response file into memory
+    FILE    *handle = fopen(filename, "rb");
+
+    if (!handle)
+        return;
+
+    size = W_FileLength(handle);
+
+    // Read in the entire file
+    // Allocate one byte extra - this is in case there is an argument
+    // at the end of the response file, in which case a '\0' will be
+    // needed.
+    file = malloc(size + 1);
+
+    while (i < size)
+    {
+        size_t  j = fread(file + i, 1, size - i, handle);
+
+        if (j < 0)
+            I_Error("Failed to read full contents of '%s'", filename);
+
+        i += (int)j;
+    }
+
+    fclose(handle);
+
+    // Create new arguments list array
+    newargv = malloc(sizeof(char*) * MAXARGVS);
+    newargc = 0;
+    memset(newargv, 0, sizeof(char*) * MAXARGVS);
+
+    // Copy all the arguments in the list up to the response file
+
+    for (i = 0; i < argv_index; i++)
+    {
+        newargv[i] = myargv[i];
+        myargv[i] = NULL;
+        ++newargc;
+    }
+
+    infile = file;
+    k = 0;
+
+    while (k < size)
+    {
+        // Skip past space characters to the next argument
+        while (k < size && isspace(infile[k]))
+            k++;
+
+        if (k >= size)
+            break;
+
+        // If the next argument is enclosed in quote marks, treat
+        // the contents as a single argument.  This allows long filenames
+        // to be specified.
+        if (infile[k] == '\"')
+        {
+            char    *argstart;
+
+            // Skip the first character (")
+            k++;
+
+            argstart = &infile[k];
+
+            // Read all characters between quotes
+            while (k < size && infile[k] != '\"' && infile[k] != '\n')
+                k++;
+
+            if (k >= size || infile[k] == '\n')
+                I_Error("Quotes unclosed in response file '%s'", filename);
+
+            // Cut off the string at the closing quote
+            infile[k++] = '\0';
+            newargv[newargc++] = M_StringDuplicate(argstart);
+        }
+        else
+        {
+            char    *argstart;
+
+            // Read in the next argument until a space is reached
+            argstart = &infile[k];
+
+            while (k < size && !isspace(infile[k]))
+                k++;
+
+            // Cut off the end of the argument at the first space
+            infile[k++] = '\0';
+            newargv[newargc++] = M_StringDuplicate(argstart);
+        }
+    }
+
+    // Add arguments following the response file argument
+    for (i = argv_index + 1; i < myargc; i++)
+    {
+        newargv[newargc++] = myargv[i];
+        myargv[i] = NULL;
+    }
+
+    // Free any old strings in myargv which were not moved to newargv
+    for (i = 0; i < myargc; i++)
+        if (myargv[i] != NULL)
+        {
+            free(myargv[i]);
+            myargv[i] = NULL;
+        }
+
+    free(myargv);
+    myargv = newargv;
+    myargc = newargc;
+
+    free(file);
+}
+
+//
+// Find a Response File
+//
+void M_FindResponseFile(void)
+{
+    int i;
+
+    for (i = 1; i < myargc; i++)
+        if (myargv[i][0] == '@')
+            LoadResponseFile(i, myargv[i] + 1);
+
+    for (;;)
+    {
+        // Load extra command line arguments from the given response file.
+        // Arguments read from the file will be inserted into the command
+        // line replacing this argument. A response file can also be loaded
+        // using the abbreviated syntax '@filename.rsp'.
+        ;
+        if ((i = M_CheckParmWithArgs("-response", 1)) <= 0)
+        {
+            break;
+        }
+        // Replace the -response argument so that the next time through
+        // the loop we'll ignore it. Since some parameters stop reading when
+        // an argument beginning with a '-' is encountered, we keep something
+        // that starts with a '-'.
+        free(myargv[i]);
+        myargv[i] = M_StringDuplicate("-_");
+        LoadResponseFile(i + 1, myargv[i + 1]);
+    }
 }
