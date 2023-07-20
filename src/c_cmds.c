@@ -4143,6 +4143,21 @@ static void map_cmd_func2(char *cmd, char *parms)
     M_snprintf(buffer, sizeof(buffer), (samelevel ? "Restarting %s..." : "Warping to %s..."), mapcmdlump);
     C_Output(buffer);
     HU_SetPlayerMessage(buffer, false, false);
+
+    if (secretmessages)
+    {
+        if (gamemode == commercial)
+        {
+            if (mapcmdmap >= 31 || (gamemission == pack_nerve && mapcmdmap == 9))
+                message_secret = true;
+        }
+        else
+        {
+            if (mapcmdmap == 9)
+                message_secret = true;
+        }
+    }
+
     message_dontfuckwithme = true;
 
     gameepisode = mapcmdepisode;

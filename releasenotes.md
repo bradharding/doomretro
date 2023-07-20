@@ -54,14 +54,14 @@
     * The amount of rumble for each weapon the player fires has been adjusted.
   * The left and right shoulder buttons on controllers now select the player’s previous and next weapons by default.
 * A bug is fixed whereby the `vid_fullscreen` CVAR couldn’t be changed in the console.
-* The player’s weapon is now displayed correctly when touching the right edge of the screen and the `vid_capfps` CVAR is not `35`.
+* The player’s weapon now displays correctly when touching the right edge of the screen and the `vid_capfps` CVAR is not `35`.
 * The `weapon` CVAR now also allows the values `1` to `7`.
 * The `iwadfolder` CVAR has been renamed `wadfolder`.
 * A bug is fixed whereby the `wadfolder` CVAR wouldn’t be updated in some instances.
-* Improvements have been made to the minimum and maximum amounts the player can zoom in the automap.
+* Improvements have been made to the minimum and maximum the player can zoom in the automap.
 * The vertical direction the player is looking is no longer reset in the help screen’s background when the `mouselook` CVAR is `on`.
 * A crash no longer occurs when starting a map that has more than four player starts (things 4001 to 4004).
-* The player message displayed when the `IDCLEV` cheat is used to warp to a secret map is now gold when the `secretmessages` CVAR is `on`.
+* The player message displayed when the `IDCLEV` cheat or `map` CCMD are used to warp to a secret map is now gold when the `secretmessages` CVAR is `on`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
