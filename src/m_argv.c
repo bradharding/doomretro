@@ -80,7 +80,7 @@ int M_CheckParm(const char *check)
 
 #define MAXARGVS        100
 
-static void LoadResponseFile(int argv_index, const char* filename)
+static void LoadResponseFile(int argv_index, const char *filename)
 {
     size_t  size;
     char    *infile;
@@ -102,7 +102,8 @@ static void LoadResponseFile(int argv_index, const char* filename)
     // Allocate one byte extra - this is in case there is an argument
     // at the end of the response file, in which case a '\0' will be
     // needed.
-    file = malloc(size + 1);
+    if (!(file = malloc(size + 1)))
+        return;
 
     while (i < size)
     {
@@ -117,9 +118,11 @@ static void LoadResponseFile(int argv_index, const char* filename)
     fclose(handle);
 
     // Create new arguments list array
-    newargv = malloc(sizeof(char*) * MAXARGVS);
+    if (!(newargv = malloc(sizeof(char *) * MAXARGVS)))
+        return;
+
     newargc = 0;
-    memset(newargv, 0, sizeof(char*) * MAXARGVS);
+    memset(newargv, 0, sizeof(char *) * MAXARGVS);
 
     // Copy all the arguments in the list up to the response file
 
@@ -208,29 +211,7 @@ static void LoadResponseFile(int argv_index, const char* filename)
 //
 void M_FindResponseFile(void)
 {
-    int i;
-
-    for (i = 1; i < myargc; i++)
+    for (int i = 1; i < myargc; i++)
         if (myargv[i][0] == '@')
             LoadResponseFile(i, myargv[i] + 1);
-
-    for (;;)
-    {
-        // Load extra command line arguments from the given response file.
-        // Arguments read from the file will be inserted into the command
-        // line replacing this argument. A response file can also be loaded
-        // using the abbreviated syntax '@filename.rsp'.
-        ;
-        if ((i = M_CheckParmWithArgs("-response", 1)) <= 0)
-        {
-            break;
-        }
-        // Replace the -response argument so that the next time through
-        // the loop we'll ignore it. Since some parameters stop reading when
-        // an argument beginning with a '-' is encountered, we keep something
-        // that starts with a '-'.
-        free(myargv[i]);
-        myargv[i] = M_StringDuplicate("-_");
-        LoadResponseFile(i + 1, myargv[i + 1]);
-    }
 }

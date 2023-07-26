@@ -377,7 +377,7 @@ static void play_cmd_func2(char *cmd, char *parms);
 static void playerstats_cmd_func2(char *cmd, char *parms);
 static void print_cmd_func2(char *cmd, char *parms);
 static void quit_cmd_func2(char *cmd, char *parms);
-static void readme_cmd_func2(char* cmd, char* parms);
+static void readme_cmd_func2(char *cmd, char *parms);
 static void regenhealth_cmd_func2(char *cmd, char *parms);
 static void reset_cmd_func2(char *cmd, char *parms);
 static void resetall_cmd_func2(char *cmd, char *parms);
