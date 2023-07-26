@@ -4012,6 +4012,7 @@ void M_Drawer(void)
             const int   max = currentmenu->numitems;
             int         item = itemon;
             int         widest = 0;
+            int         yy;
 
             if (currentmenu == &OptionsDef)
             {
@@ -4024,9 +4025,23 @@ void M_Drawer(void)
                 item--;
 
             if (M_SKULL1)
-                M_DrawPatchWithShadow(x - 30, y + item * (LINEHEIGHT - 1) - (chex ? 4 : 5) + OFFSET, skullpatch);
+            {
+                yy = y + item * (LINEHEIGHT - 1) - (chex ? 4 : 5);
+
+                if (currentmenu != &MainDef || SHORT(((patch_t *)W_CacheLumpName("M_DOOM"))->height) < VANILLAHEIGHT)
+                    yy += OFFSET;
+
+                M_DrawPatchWithShadow(x - 30, yy, skullpatch);
+            }
             else
-                M_DrawPatchWithShadow(x - 26, y + item * (LINEHEIGHT - 1) - (chex ? 2 : 3) + OFFSET, skullpatch);
+            {
+                yy = y + item * (LINEHEIGHT - 1) - (chex ? 2 : 3);
+
+                if (currentmenu != &MainDef || SHORT(((patch_t *)W_CacheLumpName("M_DOOM"))->height) < VANILLAHEIGHT)
+                    yy += OFFSET;
+
+                M_DrawPatchWithShadow(x - 26, yy, skullpatch);
+            }
 
             for (int i = 0; i < max; i++)
             {
