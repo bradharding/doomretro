@@ -1597,27 +1597,31 @@ void HU_Ticker(void)
 
             if (!vid_widescreen)
             {
-                int         len = (int)strlen(viewplayer->message);
-                const int   maxwidth = SCREENWIDTH / SCREENSCALE - (vanilla ? 0 : HU_MSGX * 2);
+                int len = (int)strlen(viewplayer->message);
 
-                while (M_StringWidth(message) > maxwidth)
+                if (len > 40)
                 {
-                    if (len >= 2 && message[len - 2] == ' ')
-                    {
-                        message[len - 2] = '.';
-                        message[len - 1] = '.';
-                        message[len] = '.';
-                        message[len + 1] = '\0';
-                    }
-                    else if (len >= 1)
-                    {
-                        message[len - 1] = '.';
-                        message[len] = '.';
-                        message[len + 1] = '.';
-                        message[len + 2] = '\0';
-                    }
+                    const int   maxwidth = SCREENWIDTH / SCREENSCALE - (vanilla ? 0 : HU_MSGX * 2);
 
-                    len--;
+                    while (M_StringWidth(message) > maxwidth)
+                    {
+                        if (len >= 2 && message[len - 2] == ' ')
+                        {
+                            message[len - 2] = '.';
+                            message[len - 1] = '.';
+                            message[len] = '.';
+                            message[len + 1] = '\0';
+                        }
+                        else if (len >= 1)
+                        {
+                            message[len - 1] = '.';
+                            message[len] = '.';
+                            message[len + 1] = '.';
+                            message[len + 2] = '\0';
+                        }
+
+                        len--;
+                    }
                 }
             }
 
