@@ -4,7 +4,7 @@
 
 * *DOOM Retro* is now built using v17.6.5 of [*Microsoft Visual Studio Community 2022*](https://visualstudio.microsoft.com/vs/community/).
 * *DOOM Retro* now uses [*SDL v2.28.1*](https://github.com/libsdl-org/SDL/releases/tag/release-2.28.1).
-* Optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
+* Several optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Any `.cfg` files placed in the `autoload` folder are now autoloaded when *DOOM Retro* starts.
 * *DOOM Retro* now parses response files that are specified on the command-line.
 * Support has been added for [*DSDHacked*](https://doomwiki.org/wiki/DSDHacked), allowing an unlimited number of things, states, sprites and sound effects to be used in `DEHACKED` lumps.
