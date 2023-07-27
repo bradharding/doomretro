@@ -288,7 +288,7 @@ void V_DrawPagePatch(int screen, patch_t *patch)
 
         if (prevpatch != patch)
         {
-            pillarboxcolor = tinttab25[FindDominantEdgeColor(patch)];
+            pillarboxcolor = tinttab25[FindDominantEdgeColor(patch, SHORT(patch->height))];
             prevpatch = patch;
         }
 

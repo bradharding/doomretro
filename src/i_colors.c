@@ -232,7 +232,7 @@ int FindBrightDominantColor(patch_t *patch)
     return (color ? color : nearestwhite);
 }
 
-int FindDominantEdgeColor(patch_t *patch)
+int FindDominantEdgeColor(patch_t *patch, const int maxlength)
 {
     int         color = 0;
     const int   width = SHORT(patch->width);
@@ -245,7 +245,7 @@ int FindDominantEdgeColor(patch_t *patch)
         {
             column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnoffset[x]));
             byte        *source = (byte *)column + 3;
-            const int   length = column->length;
+            const int   length = MIN(maxlength, column->length);
 
             for (int y = 0; y < length; y++)
                 colors[*source++]++;
@@ -255,7 +255,7 @@ int FindDominantEdgeColor(patch_t *patch)
         {
             column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnoffset[x]));
             byte        *source = (byte *)column + 3;
-            const int   length = column->length;
+            const int   length = MIN(maxlength, column->length);
 
             for (int y = 0; y < length; y++)
                 colors[*source++]++;
