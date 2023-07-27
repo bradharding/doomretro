@@ -567,55 +567,71 @@ static int C_OverlayWidth(const char *text, const bool monospaced)
 
 static void C_DrawScrollbar(void)
 {
-    const int   trackend = CONSOLESCROLLBARHEIGHT * SCREENWIDTH;
-    const int   facestart = CONSOLESCROLLBARHEIGHT * (outputhistory == -1 ?
-                    MAX(0, numconsolestrings - CONSOLEBLANKLINES - CONSOLELINES) :
-                    MAX(0, outputhistory - CONSOLEBLANKLINES)) / numconsolestrings;
-    const int   faceend = facestart + CONSOLESCROLLBARHEIGHT - CONSOLESCROLLBARHEIGHT
-                    * MAX(0, numconsolestrings - CONSOLEBLANKLINES - CONSOLELINES) / numconsolestrings;
+    int trackend = CONSOLESCROLLBARHEIGHT * SCREENWIDTH;
+    int facestart = CONSOLESCROLLBARHEIGHT * (outputhistory == -1 ?
+        MAX(0, numconsolestrings - CONSOLEBLANKLINES - CONSOLELINES) :
+        MAX(0, outputhistory - CONSOLEBLANKLINES)) / numconsolestrings;
+    int faceend = facestart + CONSOLESCROLLBARHEIGHT - CONSOLESCROLLBARHEIGHT
+        * MAX(0, numconsolestrings - CONSOLEBLANKLINES - CONSOLELINES) / numconsolestrings;
 
     if (!facestart && faceend == CONSOLESCROLLBARHEIGHT)
         scrollbardrawn = false;
     else
     {
         const int   offset = (CONSOLEHEIGHT - consoleheight) * SCREENWIDTH;
-        const int   gripstart = (facestart + (faceend - facestart) / 2 - 2) * SCREENWIDTH;
+        const int   gripstart = (facestart + (faceend - facestart) / 2 - 2) * SCREENWIDTH - offset;
+
+        trackend = MAX(0, trackend - offset);
 
         // draw scrollbar track
-        for (int y = 0; y < trackend - offset; y += SCREENWIDTH)
-            if (y >= 0)
-                for (int x = CONSOLESCROLLBARX; x < CONSOLESCROLLBARX + CONSOLESCROLLBARWIDTH; x++)
-                {
-                    byte    *dot = *screens + y + x;
+        for (int y = 0; y < trackend; y += SCREENWIDTH)
+            for (int x = CONSOLESCROLLBARX; x < CONSOLESCROLLBARX + CONSOLESCROLLBARWIDTH; x++)
+            {
+                byte    *dot = *screens + y + x;
 
-                    *dot = tinttab50[*dot + consolescrollbartrackcolor];
-                }
+                *dot = tinttab50[*dot + consolescrollbartrackcolor];
+            }
 
-        // init scrollbar grip
         if (faceend - facestart > 8)
-            for (int y = gripstart - offset; y < gripstart + 6 * SCREENWIDTH - offset; y += 2 * SCREENWIDTH)
+        {
+            const int   gripend = gripstart + 6 * SCREENWIDTH;
+
+            // init scrollbar grip
+            for (int y = gripstart; y < gripend; y += 2 * SCREENWIDTH)
                 if (y >= 0)
                     for (int x = CONSOLESCROLLBARX + 1; x < CONSOLESCROLLBARX + CONSOLESCROLLBARWIDTH - 1; x++)
                         tempscreen[y + x] = screens[0][y + x];
 
-        // draw scrollbar face
-        for (int y = facestart * SCREENWIDTH - offset; y < faceend * SCREENWIDTH - offset; y += SCREENWIDTH)
-            if (y >= 0)
-                for (int x = CONSOLESCROLLBARX; x < CONSOLESCROLLBARX + CONSOLESCROLLBARWIDTH; x++)
-                    screens[0][y + x] = consolescrollbarfacecolor;
+            // draw scrollbar face
+            faceend = faceend * SCREENWIDTH - offset;
 
-        // draw scrollbar grip
-        if (faceend - facestart > 8)
-            for (int y = gripstart - offset; y < gripstart + 6 * SCREENWIDTH - offset; y += 2 * SCREENWIDTH)
+            for (int y = facestart * SCREENWIDTH - offset; y < faceend; y += SCREENWIDTH)
+                if (y >= 0)
+                    for (int x = CONSOLESCROLLBARX; x < CONSOLESCROLLBARX + CONSOLESCROLLBARWIDTH; x++)
+                        screens[0][y + x] = consolescrollbarfacecolor;
+
+            // draw scrollbar grip
+            for (int y = gripstart; y < gripend; y += 2 * SCREENWIDTH)
                 if (y >= 0)
                     for (int x = CONSOLESCROLLBARX + 1; x < CONSOLESCROLLBARX + CONSOLESCROLLBARWIDTH - 1; x++)
                         screens[0][y + x] = tempscreen[y + x];
+        }
+        else
+        {
+            faceend = faceend * SCREENWIDTH - offset;
+
+            // draw scrollbar face
+            for (int y = facestart * SCREENWIDTH - offset; y < faceend; y += SCREENWIDTH)
+                if (y >= 0)
+                    for (int x = CONSOLESCROLLBARX; x < CONSOLESCROLLBARX + CONSOLESCROLLBARWIDTH; x++)
+                        screens[0][y + x] = consolescrollbarfacecolor;
+        }
 
         // draw scrollbar face shadow
-        if (faceend * SCREENWIDTH - offset >= 0)
+        if (faceend >= 0)
             for (int x = CONSOLESCROLLBARX; x < CONSOLESCROLLBARX + CONSOLESCROLLBARWIDTH; x++)
             {
-                byte    *dot = *screens + faceend * SCREENWIDTH - offset + x;
+                byte    *dot = *screens + faceend + x;
 
                 *dot = tinttab10[*dot];
             }
