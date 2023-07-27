@@ -202,7 +202,8 @@ void HU_Init(void)
     {
         const patch_t   *patch = W_CacheLumpName("STTNUM0");
 
-        minuspatch = W_CacheLumpName("STTMINUS");
+        minuspatch = (W_CheckMultipleLumps("STTMINUS") == 1 ? W_CacheLumpName("STTMINUS") :
+            W_CacheSecondLumpName("STTMINUS"));
         minuspatchwidth = SHORT(minuspatch->width);
         minuspatchy = (SHORT(patch->height) - SHORT(minuspatch->height)) / 2;
     }
