@@ -73,8 +73,6 @@ static const byte filter[256] =
 #define BLUES       B
 #define EXTRAS      X
 
-#define EDGEWIDTH  16
-
 byte    *tinttab5;
 byte    *tinttab10;
 byte    *tinttab15;
@@ -232,30 +230,30 @@ int FindBrightDominantColor(patch_t *patch)
     return (color ? color : nearestwhite);
 }
 
-int FindDominantEdgeColor(patch_t *patch, const int maxlength)
+int FindDominantEdgeColor(patch_t *patch, const int maxlength, const int edge)
 {
     int         color = 0;
     const int   width = SHORT(patch->width);
 
-    if (width >= EDGEWIDTH)
+    if (width >= edge)
     {
         int colors[256] = { 0 };
 
-        for (int x = 0; x < EDGEWIDTH; x++)
+        for (int x = 0; x < edge; x++)
         {
             column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnoffset[x]));
             byte        *source = (byte *)column + 3;
-            const int   length = MIN(maxlength, column->length);
+            const int   length = MIN(column->length, maxlength);
 
             for (int y = 0; y < length; y++)
                 colors[*source++]++;
         }
 
-        for (int x = width - EDGEWIDTH; x < width; x++)
+        for (int x = width - edge; x < width; x++)
         {
             column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnoffset[x]));
             byte        *source = (byte *)column + 3;
-            const int   length = MIN(maxlength, column->length);
+            const int   length = MIN(column->length, maxlength);
 
             for (int y = 0; y < length; y++)
                 colors[*source++]++;

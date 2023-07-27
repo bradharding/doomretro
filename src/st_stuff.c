@@ -1466,10 +1466,10 @@ void ST_InitStatBar(void)
 
     sbarwidth = SHORT(sbar->width);
     sbar2width = SHORT(sbar2->width);
-    sbarcolor = tinttab25[FindDominantEdgeColor(sbar, SHORT(sbar->height))];
-    sbar2color = tinttab25[FindDominantEdgeColor(sbar2, SHORT(sbar2->height))];
-    sbartopcolor = tinttab25[FindDominantEdgeColor(sbar, 1)];
-    sbar2topcolor = tinttab25[FindDominantEdgeColor(sbar2, 1)];
+    sbarcolor = tinttab25[FindDominantEdgeColor(sbar, SHORT(sbar->height), 16)];
+    sbar2color = tinttab25[FindDominantEdgeColor(sbar2, SHORT(sbar2->height), 16)];
+    sbartopcolor = FindDominantEdgeColor(sbar, 1, 4);
+    sbar2topcolor = FindDominantEdgeColor(sbar2, 1, 4);
 
     sbar->leftoffset = 0;
     sbar->topoffset = 0;

@@ -940,7 +940,7 @@ static void F_BunnyScroll(void)
     const int   pillarwidth = MAX(0, (SCREENWIDTH - (SHORT(p1->width) << FRACBITS) / DXI) / 2);
 
     if (pillarwidth && SCREENWIDTH != NONWIDEWIDTH)
-        memset(screens[0], FindDominantEdgeColor(p1, SHORT(p1->height)), SCREENAREA);
+        memset(screens[0], FindDominantEdgeColor(p1, SHORT(p1->height), 16), SCREENAREA);
 
     for (int x = pillarwidth; x < SCREENWIDTH - pillarwidth; x++)
     {
