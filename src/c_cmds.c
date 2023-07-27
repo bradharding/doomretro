@@ -9068,7 +9068,7 @@ static void player_cvars_func2(char *cmd, char *parms)
         }
         else
         {
-            char        *temp = commify(negativehealth ? viewplayer->health : MAX(0, viewplayer->health));
+            char        *temp = commify(negativehealth && minuspatch ? viewplayer->health : MAX(0, viewplayer->health));
             const int   i = C_GetIndex(cmd);
 
             C_ShowDescription(i);

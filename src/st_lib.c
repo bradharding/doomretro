@@ -166,7 +166,7 @@ void STlib_UpdateBigArmorNum(st_number_t *n)
 
 void STlib_UpdateBigHealthNum(st_number_t *n)
 {
-    int         num = (negativehealth ? ABS(*n->num + (animatedstats ? healthdiff : 0)) :
+    int         num = (negativehealth && minuspatch ? ABS(*n->num + (animatedstats ? healthdiff : 0)) :
                     MAX(0, *n->num + (animatedstats ? healthdiff : 0)));
     int         x = n->x + (num == 1);
     const int   y = n->y;
