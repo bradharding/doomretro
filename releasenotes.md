@@ -41,6 +41,7 @@
   * Minor improvements have been made to aiming vertically.
   * The player can now see slightly further when looking up or down.
   * A crash no longer occurs if a blood splat touches the top of the screen while the player looks down.
+  * The vertical direction the player is looking is no longer reset in the help screen’s background.
 * When the `vid_widescreen` CVAR is `on` and the screen is wider than the status bar, the `FLOOR7_2` or `GRNROCK` textures no longer fill the sides. A color matching the colors in the status bar is shown instead.
 * The text in the automap is now always positioned correctly when the `am_external` CVAR is `on`.
 * The player no longer exits the map if they are dead when a timer set using the `timer` CCMD runs out.
@@ -54,14 +55,13 @@
   * When the `joy_rumble_weapons` CVAR is `on`:
     * Controllers now rumble again when the player uses the chainsaw.
     * The amount of rumble for each weapon the player fires has been adjusted.
-  * The left and right shoulder buttons on controllers now select the player’s previous and next weapons by default.
+  * The left and right shoulder buttons now equip the player’s previous and next weapons by default.
 * A bug is fixed whereby the `vid_fullscreen` CVAR couldn’t be changed in the console.
 * The player’s weapon now displays correctly when touching the right edge of the screen and the `vid_capfps` CVAR is not `35`.
 * The `weapon` CVAR now also allows the values `1` to `7`.
+* A bug is fixed whereby the `iwadfolder` CVAR wouldn’t be updated in some instances.
 * The `iwadfolder` CVAR has been renamed `wadfolder`.
-* A bug is fixed whereby the `wadfolder` CVAR wouldn’t be updated in some instances.
-* Improvements have been made to the minimum and maximum the player can zoom in the automap.
-* The vertical direction the player is looking is no longer reset in the help screen’s background when the `mouselook` CVAR is `on`.
+* Improvements have been made to the minimum and maximum levels the player can zoom in the automap.
 * A crash no longer occurs when starting a map that has more than four player starts (things 4001 to 4004).
 * The player message displayed when the `IDCLEV` cheat or `map` CCMD are used to warp to a secret map is now gold when the `secretmessages` CVAR is `on`.
 
