@@ -56,6 +56,7 @@
     * Controllers now rumble again when the player uses the chainsaw.
     * The amount of rumble for each weapon the player fires has been adjusted.
   * The left and right shoulder buttons now equip the player’s previous and next weapons by default.
+  * The default values of the `joy_deadzone_left` and `joy_deadzone_right` CVARs are now both `15%`, and their maximum values are now both `30%`.
 * A bug is fixed whereby the `vid_fullscreen` CVAR couldn’t be changed in the console.
 * The player’s weapon now displays correctly when touching the right edge of the screen and the `vid_capfps` CVAR is not `35`.
 * The `weapon` CVAR now also allows the values `1` to `7`.
