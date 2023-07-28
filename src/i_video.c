@@ -1956,5 +1956,7 @@ void I_InitGraphics(void)
     if (mapwindow)
         mapblitfunc();
 
+    SDL_StopTextInput();
+
     I_Sleep(1000);
 }
