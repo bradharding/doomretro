@@ -30,7 +30,7 @@
 * A slightly darker color is now chosen for the surrounding pillarboxes when displaying certain lumps from PWADs that are only 320 pixels wide and the `vid_widescreen` CVAR is `on`.
 * A bug is fixed, present in the original *DOOM*, whereby stairs that rose up from the floor would fail in some rare instances.
 * If regenerating health is enabled using the `regenhealth` CCMD, a sound is now played and the “Health picked up” stat is updated every second the player’s health increases by 1% until it is 100% again.
-* Minor improvements have been made to the player’s health in the status bar when they are dead and the `negativehealth` CVAR is `on`.
+* Several improvements have been made to the player’s health in the status bar when they are dead and the `negativehealth` CVAR is `on`.
 * These improvements have been made to the support for `MAPINFO` lumps:
   * `MAPINFO` lumps are now parsed if either `NERVE.WAD` or `SIGIL.WAD` are loaded.
   * `bossaction` is now recognized.
@@ -64,6 +64,8 @@
 * Improvements have been made to the minimum and maximum levels the player can zoom in the automap.
 * A crash no longer occurs when starting a map that has more than four player starts (things 4001 to 4004).
 * The player message displayed when the `IDCLEV` cheat or `map` CCMD are used to warp to a secret map is now gold when the `secretmessages` CVAR is `on`.
+* Minor improvements have been made to translating certain words when the `english` CVAR is `international`.
+* A character will no longer appear in the input when opening the console for the first time in some instances.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
