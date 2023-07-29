@@ -31,6 +31,7 @@
 * A bug is fixed, present in the original *DOOM*, whereby stairs that rose up from the floor would fail in some rare instances.
 * If regenerating health is enabled using the `regenhealth` CCMD, a sound is now played and the “Health picked up” stat is updated every second the player’s health increases by 1% until it is 100% again.
 * Several improvements have been made to the player’s health in the status bar when they are dead and the `negativehealth` CVAR is `on`.
+* Minor improvements have been made to the support of [*MBF21*](https://doomwiki.org/wiki/MBF21)-compatible WADs.
 * These improvements have been made to the support for `MAPINFO` lumps:
   * `MAPINFO` lumps are now parsed if either `NERVE.WAD` or `SIGIL.WAD` are loaded.
   * `bossaction` is now recognized.
@@ -56,7 +57,7 @@
     * Controllers now rumble again when the player uses the chainsaw.
     * The amount of rumble for each weapon the player fires has been adjusted.
   * The left and right shoulder buttons now equip the player’s previous and next weapons by default.
-  * The default values of the `joy_deadzone_left` and `joy_deadzone_right` CVARs are now both `15%`, and their maximum values are now both `30%`.
+  * The default values of the `joy_deadzone_left` and `joy_deadzone_right` CVARs are now both `15%` rather than `25%`, and their maximum values are now both `30%` rather than `100%`.
 * A bug is fixed whereby the `vid_fullscreen` CVAR couldn’t be changed in the console.
 * The player’s weapon now displays correctly when touching the right edge of the screen and the `vid_capfps` CVAR is not `35`.
 * The `weapon` CVAR now also allows the values `1` to `7`.
@@ -88,7 +89,7 @@
 * When the `flashkeys` CVAR is `on`:
   * Flashing keycards and skull keys are now positioned correctly in the alternate widescreen HUD.
   * Improvements have been made to flashing keycards and skull keys in the status bar when the player tries to open a *BOOM*-compatible door that requires all six keys.
-* A bug is fixed whereby the amount of armor the player has was positioned incorrectly in the alternate widescreen HUD in some instances.
+* A bug is fixed whereby the amount of armor the player had was positioned incorrectly in the alternate widescreen HUD in some instances.
 * Improvements have been made to the console’s background when the player has an invulnerability power-up or the `r_textures` CVAR is `off`.
 * The number of monsters left to kill in a map, displayed in the automap when the `am_playerstats` CVAR is `on`, is now always correct after loading a savegame.
 * The bounce of the player’s weapon when they land after a fall is now slightly faster when the `weaponbounce` CVAR is `on`.
