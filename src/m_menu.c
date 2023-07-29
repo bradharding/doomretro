@@ -4177,9 +4177,19 @@ void M_Drawer(void)
                     }
                     else if (**text)
                     {
-                        int width = M_BigStringWidth(*text) + 8;
+                        int     width = M_BigStringWidth(*text) + 8;
+                        bool    highlight;
 
-                        M_DrawString(x, y + OFFSET, *text, (itemon == i), true);
+                        if (currentmenu == &OptionsDef && i == scrnsize && itemon == option_empty1)
+                            highlight = true;
+                        else if (currentmenu == &SoundDef
+                            && ((i == sfx_vol && itemon == sound_empty1)
+                                || (i == music_vol && itemon == sound_empty2)))
+                            highlight = true;
+                        else
+                            highlight = (itemon == i);
+
+                        M_DrawString(x, y + OFFSET, *text, highlight, true);
                         currentmenu->menuitems[i].x = x + MAXWIDESCREENDELTA;
                         currentmenu->menuitems[i].y = y + OFFSET;
 
