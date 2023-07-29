@@ -4079,12 +4079,12 @@ void M_Drawer(void)
                     {
                         if (usinggamecontroller)
                         {
-                            M_DrawString(x, y + OFFSET, s_M_GAMECONTROLLERSENSITIVITY, false, true);
+                            M_DrawString(x, y + OFFSET, s_M_GAMECONTROLLERSENSITIVITY, (itemon == i), true);
                             widest = MAX(widest, M_BigStringWidth(s_M_GAMECONTROLLERSENSITIVITY));
                         }
                         else
                         {
-                            M_DrawString(x, y + OFFSET, s_M_MOUSESENSITIVITY, false, true);
+                            M_DrawString(x, y + OFFSET, s_M_MOUSESENSITIVITY, (itemon == i), true);
                             widest = MAX(widest, M_BigStringWidth(s_M_MOUSESENSITIVITY));
                         }
 
