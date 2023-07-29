@@ -4079,12 +4079,12 @@ void M_Drawer(void)
                     {
                         if (usinggamecontroller)
                         {
-                            M_DrawString(x, y + OFFSET, s_M_GAMECONTROLLERSENSITIVITY, (itemon == i), true);
+                            M_DrawString(x, y + OFFSET, s_M_GAMECONTROLLERSENSITIVITY, (itemon == i || itemon == i + 1), true);
                             widest = MAX(widest, M_BigStringWidth(s_M_GAMECONTROLLERSENSITIVITY));
                         }
                         else
                         {
-                            M_DrawString(x, y + OFFSET, s_M_MOUSESENSITIVITY, (itemon == i), true);
+                            M_DrawString(x, y + OFFSET, s_M_MOUSESENSITIVITY, (itemon == i || itemon == i + 1), true);
                             widest = MAX(widest, M_BigStringWidth(s_M_MOUSESENSITIVITY));
                         }
 
@@ -4092,7 +4092,7 @@ void M_Drawer(void)
                         currentmenu->menuitems[i].y = y + OFFSET;
                         currentmenu->menuitems[i].height = LINEHEIGHT - 1;
                     }
-                    else if (W_CheckNumForName(name) < 0 && **text)   // custom episode
+                    else if (W_CheckNumForName(name) < 0 && **text)
                     {
                         int width = M_BigStringWidth(*text) + 8;
 
