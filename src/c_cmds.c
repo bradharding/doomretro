@@ -888,8 +888,8 @@ consolecmd_t consolecmds[] =
     CCMD(regenhealth, "", "", null_func1, regenhealth_cmd_func2, true, "[" BOLD("on") "|" BOLD("off") "]",
         "Toggles regenerating the player's health by 1% every second when it's below 100%."),
     CCMD(remove, "", "", kill_cmd_func1, kill_cmd_func2, true, REMOVECMDFORMAT,
-        "Removes all " BOLD("decorations") ", " BOLD("corpses") ", " BOLD("bloodsplats") ", " BOLD("items") ", a type of "
-        BOLDITALICS("item") ", or " BOLD("everything") "."),
+        "Removes all " BOLD("decorations") ", " BOLD("corpses") ", " BOLD("bloodsplats") ", " BOLD("items") ", certain "
+        BOLDITALICS("items") ", or " BOLD("everything") "."),
     CCMD(reset, "", "", null_func1, reset_cmd_func2, true, RESETCMDFORMAT,
         "Resets a " BOLDITALICS("CVAR") " to its default."),
     CCMD(resetall, "", "", null_func1, resetall_cmd_func2, false, "",
