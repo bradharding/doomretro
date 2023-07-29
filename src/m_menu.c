@@ -160,7 +160,7 @@ static void M_DrawSave(void);
 static void M_DrawSaveLoadBorder(int x, int y);
 static void M_SetupNextMenu(menu_t *menudef);
 static void M_DrawSlider(int x, int y, int width, float dot, float factor, int offset);
-static void M_WriteText(int x, int y, char *string, bool shadow);
+static void M_WriteText(int x, int y, char *string, bool highlight, bool shadow);
 static int M_CharacterWidth(char ch, char prev);
 
 //
@@ -1023,7 +1023,7 @@ static void M_DrawLoad(void)
 
         M_WriteText(LoadDef.x - 2 + (M_StringCompare(savegamestrings[i], s_EMPTYSTRING)
             && s_EMPTYSTRING[0] == '-' && s_EMPTYSTRING[1] == '\0') * 6, y - !M_LSCNTR,
-            savegamestrings[i], false);
+            savegamestrings[i], (itemon == i), false);
     }
 }
 
@@ -1149,7 +1149,7 @@ static void M_DrawSave(void)
                 left[j] = savegamestrings[i][j];
 
             left[savecharindex] = '\0';
-            M_WriteText(x, y - !M_LSCNTR, left, false);
+            M_WriteText(x, y - !M_LSCNTR, left, true, false);
             x += M_StringWidth(left);
 
             // draw text to right of text caret
@@ -1157,7 +1157,7 @@ static void M_DrawSave(void)
                 right[j] = savegamestrings[i][j + savecharindex];
 
             right[len - savecharindex] = '\0';
-            M_WriteText(x + 1, y - !M_LSCNTR, right, false);
+            M_WriteText(x + 1, y - !M_LSCNTR, right, true, false);
 
             // draw text caret
             if (caretwait < I_GetTimeMS())
@@ -1177,7 +1177,7 @@ static void M_DrawSave(void)
         else
             M_WriteText(LoadDef.x - 2 + (M_StringCompare(savegamestrings[i], s_EMPTYSTRING)
                 && s_EMPTYSTRING[0] == '-' && s_EMPTYSTRING[1] == '\0') * 6, y - !M_LSCNTR,
-                savegamestrings[i], false);
+                savegamestrings[i], (itemon == i), false);
     }
 }
 
@@ -2445,19 +2445,19 @@ static int M_StringHeight(char *string)
 //
 //  Write a char
 //
-void M_DrawSmallChar(int x, int y, int i, bool shadow)
+void M_DrawSmallChar(int x, int y, int i, bool highlight, bool shadow)
 {
     const int   width = (int)strlen(smallcharset[i]) / 10;
 
     for (int y1 = 0; y1 < 10; y1++)
         for (int x1 = 0; x1 < width; x1++)
-            V_DrawPixel(x + x1, y + y1, (int)smallcharset[i][y1 * width + x1], false, shadow);
+            V_DrawPixel(x + x1, y + y1, (int)smallcharset[i][y1 * width + x1], highlight, shadow);
 }
 
 //
 // Write a string
 //
-static void M_WriteText(int x, int y, char *string, bool shadow)
+static void M_WriteText(int x, int y, char *string, bool highlight, bool shadow)
 {
     int     width;
     char    *ch = string;
@@ -2498,7 +2498,7 @@ static void M_WriteText(int x, int y, char *string, bool shadow)
                 break;
 
             if (shadow)
-                M_DrawPatchWithShadow(cx, cy, hu_font[c], false);
+                M_DrawPatchWithShadow(cx, cy, hu_font[c], highlight);
             else
                 V_DrawPatch(cx, cy, 0, hu_font[c]);
         }
@@ -2517,7 +2517,7 @@ static void M_WriteText(int x, int y, char *string, bool shadow)
             if (cx + width > VANILLAWIDTH)
                 break;
 
-            M_DrawSmallChar(cx, cy, c, shadow);
+            M_DrawSmallChar(cx, cy, c, highlight, shadow);
         }
 
         prev = letter;
@@ -3955,7 +3955,7 @@ void M_Drawer(void)
 
             if (*string)
             {
-                M_WriteText((VANILLAWIDTH - M_StringWidth(string)) / 2, y, string, true);
+                M_WriteText((VANILLAWIDTH - M_StringWidth(string)) / 2, y, string, false, true);
                 y += (STCFNxxx ? SHORT(hu_font[0]->height) + 1 : 8) + 1;
             }
             else

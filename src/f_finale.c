@@ -427,7 +427,7 @@ static void F_TextWrite(void)
                 }
 
             width = (int)strlen(smallcharset[c]) / 10 - 1;
-            M_DrawSmallChar(cx + 1, cy + 1, c, true);
+            M_DrawSmallChar(cx + 1, cy + 1, c, false, true);
         }
 
         prev = letter;
