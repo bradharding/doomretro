@@ -1899,7 +1899,7 @@ static void M_DrawOptions(void)
                 OptionsDef.y + 16 * msgs + (REKKR ? OFFSET + 2 : OFFSET),
                 W_CacheLumpName("M_MSGON"));
         else
-            M_DrawString(OptionsDef.x + 122, OptionsDef.y + 16 * msgs + OFFSET, s_M_ON, false, true);
+            M_DrawString(OptionsDef.x + 122, OptionsDef.y + 16 * msgs + OFFSET, s_M_ON, (itemon == msgs), true);
     }
     else
     {
@@ -1908,7 +1908,7 @@ static void M_DrawOptions(void)
                 OptionsDef.y + 16 * msgs + (REKKR ? OFFSET + 2 : OFFSET),
                 W_CacheLumpName("M_MSGOFF"));
         else
-            M_DrawString(OptionsDef.x + 122, OptionsDef.y + 16 * msgs + OFFSET, s_M_OFF, false, true);
+            M_DrawString(OptionsDef.x + 122, OptionsDef.y + 16 * msgs + OFFSET, s_M_OFF, (itemon == msgs), true);
     }
 
     if (r_detail == r_detail_low)
@@ -1918,7 +1918,7 @@ static void M_DrawOptions(void)
                 OptionsDef.y + 16 * detail + (REKKR ? OFFSET + 2 : OFFSET),
                 W_CacheLumpName("M_GDLOW"));
         else
-            M_DrawString(OptionsDef.x + 173, OptionsDef.y + 16 * detail + OFFSET, s_M_LOW, false, true);
+            M_DrawString(OptionsDef.x + 173, OptionsDef.y + 16 * detail + OFFSET, s_M_LOW, (itemon == detail), true);
     }
     else
     {
@@ -1927,7 +1927,7 @@ static void M_DrawOptions(void)
                 OptionsDef.y + 16 * detail + (REKKR ? OFFSET + 2 : OFFSET),
                 W_CacheLumpName("M_GDHIGH"));
         else
-            M_DrawString(OptionsDef.x + 173, OptionsDef.y + 16 * detail + OFFSET, s_M_HIGH, false, true);
+            M_DrawString(OptionsDef.x + 173, OptionsDef.y + 16 * detail + OFFSET, s_M_HIGH, (itemon == detail), true);
     }
 
     dot = (float)(r_screensize + (r_screensize < r_screensize_max - 1 ? 0 :
