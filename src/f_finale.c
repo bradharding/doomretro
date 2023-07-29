@@ -885,7 +885,7 @@ static void F_CastDrawer(void)
                 if (type == MT_SHADOWS)
                     V_DrawSpectreShadowPatch(VANILLAWIDTH / 2, VANILLAHEIGHT - 32, patch);
                 else
-                    V_shadowPatch(VANILLAWIDTH / 2, VANILLAHEIGHT - 32, patch);
+                    V_DrawShadowPatch(VANILLAWIDTH / 2, VANILLAHEIGHT - 32, patch);
             }
             else
                 V_DrawSolidShadowPatch(VANILLAWIDTH / 2, VANILLAHEIGHT - 32, patch);

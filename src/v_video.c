@@ -298,7 +298,7 @@ void V_DrawPagePatch(int screen, patch_t *patch)
     V_DrawWidePatch((SCREENWIDTH / SCREENSCALE - SHORT(patch->width)) / 2, 0, screen, patch);
 }
 
-void V_shadowPatch(int x, int y, patch_t *patch)
+void V_DrawShadowPatch(int x, int y, patch_t *patch)
 {
     byte        *desttop;
     const int   width = SHORT(patch->width) << FRACBITS;

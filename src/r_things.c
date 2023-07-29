@@ -101,7 +101,7 @@ bool                            allowwolfensteinss = true;
 static spriteframe_t            sprtemp[MAXSPRITEFRAMES];
 static int                      maxframe;
 
-static bool                     shadows;
+static bool                     drawshadows;
 static bool                     interpolatesprites;
 static bool                     invulnerable;
 static fixed_t                  floorheight;
@@ -786,7 +786,7 @@ static void R_ProjectSprite(mobj_t *thing)
     vis->gz = floorheight;
     vis->gzt = gzt;
 
-    if ((flags2 & MF2_CASTSHADOW) && xscale >= FRACUNIT / 4 && shadows)
+    if ((flags2 & MF2_CASTSHADOW) && xscale >= FRACUNIT / 4 && drawshadows)
         vis->shadowpos = floorheight + thing->shadowoffset - viewz;
     else
         vis->shadowpos = 1;
@@ -987,14 +987,14 @@ void R_AddSprites(sector_t *sec, int lightlevel)
         else
             return;
 
-        shadows = (sec->terraintype == SOLID && !fixedcolormap && r_shadows);
+        drawshadows = (sec->terraintype == SOLID && !fixedcolormap && r_shadows);
     }
     else if (thing)
     {
         spritelights = scalelight[BETWEEN(0, (lightlevel >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)];
         nextspritelights = scalelight[BETWEEN(0, ((lightlevel + 4) >> LIGHTSEGSHIFT) + extralight, LIGHTLEVELS - 1)];
 
-        shadows = false;
+        drawshadows = false;
     }
     else
         return;
