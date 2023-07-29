@@ -666,7 +666,7 @@ static struct
 // M_DrawString
 //  draw a string on screen
 //
-void M_DrawString(int x, int y, char *string)
+void M_DrawString(int x, int y, char *string, bool highlight, bool shadow)
 {
     static char prev;
     const int   len = (int)strlen(string);
@@ -705,10 +705,10 @@ void M_DrawString(int x, int y, char *string)
                     if (dot == (unsigned char)'\xC8')
                     {
                         if (!overlapping)
-                            V_DrawPixel(x + x1, y + y1, PINK, true);
+                            V_DrawPixel(x + x1, y + y1, PINK, highlight, shadow);
                     }
                     else
-                        V_DrawPixel(x + x1, y + y1, (int)dot, true);
+                        V_DrawPixel(x + x1, y + y1, (int)dot, highlight, shadow);
                 }
 
             x += width - 2;
@@ -749,7 +749,7 @@ static int M_BigStringWidth(char *string)
 //
 void M_DrawCenteredString(int y, char *string)
 {
-    M_DrawString((VANILLAWIDTH - M_BigStringWidth(string) - 1) / 2, y, string);
+    M_DrawString((VANILLAWIDTH - M_BigStringWidth(string) - 1) / 2, y, string, false, true);
 }
 
 //
@@ -951,7 +951,7 @@ static void M_DrawSaveLoadBorder(int x, int y)
     {
         for (int yy = 0; yy < 16; yy++)
             for (int xx = 0; xx < 8; xx++)
-                V_DrawPixel(x + xx, y + yy, lsleft[yy * 8 + xx], true);
+                V_DrawPixel(x + xx, y + yy, lsleft[yy * 8 + xx], false, true);
 
         x += 8;
 
@@ -959,14 +959,14 @@ static void M_DrawSaveLoadBorder(int x, int y)
         {
             for (int yy = 0; yy < 16; yy++)
                 for (int xx = 0; xx < 8; xx++)
-                    V_DrawPixel(x + xx, y + yy, lscntr[yy * 8 + xx], true);
+                    V_DrawPixel(x + xx, y + yy, lscntr[yy * 8 + xx], false, true);
 
             x += 8;
         }
 
         for (int yy = 0; yy < 16; yy++)
             for (int xx = 0; xx < 9; xx++)
-                V_DrawPixel(x + xx, y + yy, lsrght[yy * 9 + xx], true);
+                V_DrawPixel(x + xx, y + yy, lsrght[yy * 9 + xx], false, true);
     }
 }
 
@@ -1171,7 +1171,7 @@ static void M_DrawSave(void)
                 const int   height = y + SHORT(hu_font[0]->height);
 
                 while (y < height)
-                    V_DrawPixel(x, y++, caretcolor, false);
+                    V_DrawPixel(x, y++, caretcolor, false, false);
             }
         }
         else
@@ -1899,7 +1899,7 @@ static void M_DrawOptions(void)
                 OptionsDef.y + 16 * msgs + (REKKR ? OFFSET + 2 : OFFSET),
                 W_CacheLumpName("M_MSGON"));
         else
-            M_DrawString(OptionsDef.x + 122, OptionsDef.y + 16 * msgs + OFFSET, s_M_ON);
+            M_DrawString(OptionsDef.x + 122, OptionsDef.y + 16 * msgs + OFFSET, s_M_ON, false, true);
     }
     else
     {
@@ -1908,7 +1908,7 @@ static void M_DrawOptions(void)
                 OptionsDef.y + 16 * msgs + (REKKR ? OFFSET + 2 : OFFSET),
                 W_CacheLumpName("M_MSGOFF"));
         else
-            M_DrawString(OptionsDef.x + 122, OptionsDef.y + 16 * msgs + OFFSET, s_M_OFF);
+            M_DrawString(OptionsDef.x + 122, OptionsDef.y + 16 * msgs + OFFSET, s_M_OFF, false, true);
     }
 
     if (r_detail == r_detail_low)
@@ -1918,7 +1918,7 @@ static void M_DrawOptions(void)
                 OptionsDef.y + 16 * detail + (REKKR ? OFFSET + 2 : OFFSET),
                 W_CacheLumpName("M_GDLOW"));
         else
-            M_DrawString(OptionsDef.x + 173, OptionsDef.y + 16 * detail + OFFSET, s_M_LOW);
+            M_DrawString(OptionsDef.x + 173, OptionsDef.y + 16 * detail + OFFSET, s_M_LOW, false, true);
     }
     else
     {
@@ -1927,7 +1927,7 @@ static void M_DrawOptions(void)
                 OptionsDef.y + 16 * detail + (REKKR ? OFFSET + 2 : OFFSET),
                 W_CacheLumpName("M_GDHIGH"));
         else
-            M_DrawString(OptionsDef.x + 173, OptionsDef.y + 16 * detail + OFFSET, s_M_HIGH);
+            M_DrawString(OptionsDef.x + 173, OptionsDef.y + 16 * detail + OFFSET, s_M_HIGH, false, true);
     }
 
     dot = (float)(r_screensize + (r_screensize < r_screensize_max - 1 ? 0 :
@@ -2376,7 +2376,7 @@ static void M_DrawSlider(int x, int y, int width, float dot, float factor, int o
     M_DrawPatchWithShadow(xx, y, W_CacheLumpName("M_THERMR"));
 
     for (int i = x + 9; i < x + (width + 1) * 8 + 1; i++)
-        V_DrawPixel((hacx ? i - 1 : i), y + (hacx ? 9 : 13), PINK, true);
+        V_DrawPixel((hacx ? i - 1 : i), y + (hacx ? 9 : 13), PINK, false, true);
 
     V_DrawPatch(x + offset + (int)(dot * factor), y, 0, W_CacheLumpName("M_THERMO"));
 }
@@ -2451,7 +2451,7 @@ void M_DrawSmallChar(int x, int y, int i, bool shadow)
 
     for (int y1 = 0; y1 < 10; y1++)
         for (int x1 = 0; x1 < width; x1++)
-            V_DrawPixel(x + x1, y + y1, (int)smallcharset[i][y1 * width + x1], shadow);
+            V_DrawPixel(x + x1, y + y1, (int)smallcharset[i][y1 * width + x1], false, shadow);
 }
 
 //
@@ -3907,7 +3907,7 @@ static void M_DrawNightmare(void)
 {
     for (int y = 0; y < 20; y++)
         for (int x = 0; x < 124; x++)
-            V_DrawPixel(NewDef.x + x, NewDef.y + OFFSET + 16 * nightmare + y, (int)nmare[y * 124 + x], true);
+            V_DrawPixel(NewDef.x + x, NewDef.y + OFFSET + 16 * nightmare + y, (int)nmare[y * 124 + x], false, true);
 }
 
 //
@@ -4079,12 +4079,12 @@ void M_Drawer(void)
                     {
                         if (usinggamecontroller)
                         {
-                            M_DrawString(x, y + OFFSET, s_M_GAMECONTROLLERSENSITIVITY);
+                            M_DrawString(x, y + OFFSET, s_M_GAMECONTROLLERSENSITIVITY, false, true);
                             widest = MAX(widest, M_BigStringWidth(s_M_GAMECONTROLLERSENSITIVITY));
                         }
                         else
                         {
-                            M_DrawString(x, y + OFFSET, s_M_MOUSESENSITIVITY);
+                            M_DrawString(x, y + OFFSET, s_M_MOUSESENSITIVITY, false, true);
                             widest = MAX(widest, M_BigStringWidth(s_M_MOUSESENSITIVITY));
                         }
 
@@ -4096,7 +4096,7 @@ void M_Drawer(void)
                     {
                         int width = M_BigStringWidth(*text) + 8;
 
-                        M_DrawString(x, y + OFFSET, *text);
+                        M_DrawString(x, y + OFFSET, *text, (itemon == i), true);
                         currentmenu->menuitems[i].x = x + MAXWIDESCREENDELTA;
                         currentmenu->menuitems[i].y = y + OFFSET;
 
@@ -4179,7 +4179,7 @@ void M_Drawer(void)
                     {
                         int width = M_BigStringWidth(*text) + 8;
 
-                        M_DrawString(x, y + OFFSET, *text);
+                        M_DrawString(x, y + OFFSET, *text, (itemon == i), true);
                         currentmenu->menuitems[i].x = x + MAXWIDESCREENDELTA;
                         currentmenu->menuitems[i].y = y + OFFSET;
 

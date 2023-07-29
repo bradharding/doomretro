@@ -99,7 +99,7 @@ void V_DrawConsoleTextPatch(const int x, const int y, const patch_t* patch, cons
     const int color, const int backgroundcolor, const bool italics, const byte* tinttab);
 void V_DrawOverlayTextPatch(byte *screen, int screenwidth, int x, int y, patch_t *patch,
     int width, int color, const byte *tinttab);
-void V_DrawShadowPatch(int x, int y, patch_t *patch);
+void V_shadowPatch(int x, int y, patch_t *patch);
 void V_DrawSolidShadowPatch(int x, int y, patch_t *patch);
 void V_DrawSpectreShadowPatch(int x, int y, patch_t *patch);
 bool V_IsEmptyPatch(patch_t *patch);
@@ -129,7 +129,7 @@ void V_DrawTranslucentAltHUDText(int x, int y, byte *screen, patch_t *patch,
     bool italics, int color, int screenwidth, const byte *tinttab);
 void V_DrawPagePatch(int screen, patch_t *patch);
 
-void V_DrawPixel(int x, int y, byte color, bool drawshadow);
+void V_DrawPixel(int x, int y, byte color, bool highlight, bool shadow);
 
 void GetPixelSize(void);
 void V_InvertScreen(void);

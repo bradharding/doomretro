@@ -92,7 +92,7 @@ void M_EndingGame(void);
 
 void M_DrawMenuBackground(void);
 void M_DrawSmallChar(int x, int y, int i, bool shadow);
-void M_DrawString(int x, int y, char *string);
+void M_DrawString(int x, int y, char *string, bool highlight, bool shadow);
 void M_DrawCenteredString(int y, char *string);
 int M_StringWidth(char *string);
 

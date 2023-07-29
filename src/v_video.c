@@ -298,7 +298,7 @@ void V_DrawPagePatch(int screen, patch_t *patch)
     V_DrawWidePatch((SCREENWIDTH / SCREENSCALE - SHORT(patch->width)) / 2, 0, screen, patch);
 }
 
-void V_DrawShadowPatch(int x, int y, patch_t *patch)
+void V_shadowPatch(int x, int y, patch_t *patch)
 {
     byte        *desttop;
     const int   width = SHORT(patch->width) << FRACBITS;
@@ -1511,14 +1511,14 @@ void V_DrawTranslucentNoGreenPatch(int x, int y, patch_t *patch)
     }
 }
 
-void V_DrawPixel(int x, int y, byte color, bool drawshadow)
+void V_DrawPixel(int x, int y, byte color, bool highlight, bool shadow)
 {
     x += WIDESCREENDELTA;
 
 #if SCREENSCALE == 2
     if (color == PINK)
     {
-        if (drawshadow)
+        if (shadow)
         {
             byte    *dot = *screens + ((size_t)y * SCREENWIDTH + x) * SCREENSCALE;
 
@@ -1535,6 +1535,9 @@ void V_DrawPixel(int x, int y, byte color, bool drawshadow)
     {
         byte    *dot = *screens + ((size_t)y * SCREENWIDTH + x) * SCREENSCALE;
 
+        if (highlight)
+            color = gold10[color];
+
         *(dot++) = color;
         *dot = color;
         *(dot += SCREENWIDTH) = color;
@@ -1543,7 +1546,7 @@ void V_DrawPixel(int x, int y, byte color, bool drawshadow)
 #elif SCREENSCALE == 1
     if (color == PINK)
     {
-        if (drawshadow)
+        if (shadow)
         {
             byte    *dot = *screens + ((size_t)y * SCREENWIDTH + x);
 
@@ -1555,7 +1558,7 @@ void V_DrawPixel(int x, int y, byte color, bool drawshadow)
 #else
     if (color == PINK)
     {
-        if (drawshadow)
+        if (shadow)
         {
             x *= SCREENSCALE;
             y *= SCREENSCALE;

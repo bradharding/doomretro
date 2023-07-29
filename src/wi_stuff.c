@@ -308,7 +308,7 @@ static void WI_DrawWILVchar(int x, int y, int i)
 
     for (int y1 = 0; y1 < 13; y1++)
         for (int x1 = 0; x1 < width; x1++)
-            V_DrawPixel(x + x1, y + y1, (int)wilv[i][y1 * width + x1], true);
+            V_DrawPixel(x + x1, y + y1, (int)wilv[i][y1 * width + x1], false, true);
 }
 
 static char mapname[128];
@@ -1013,7 +1013,7 @@ static void WI_DrawStats(void)
     if (totalsecrets)
     {
         if (!WISCRT2)
-            M_DrawString(SP_STATSX, SP_STATSY + 2 * lh - 3, "secrets");
+            M_DrawString(SP_STATSX, SP_STATSY + 2 * lh - 3, "secrets", false, true);
         else
             V_DrawPatchWithShadow(SP_STATSX + 1, SP_STATSY + 2 * lh + 1, sp_secret, false);
 
