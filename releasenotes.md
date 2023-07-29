@@ -64,8 +64,8 @@
 * A bug is fixed whereby the `iwadfolder` CVAR wouldn’t be updated in some instances.
 * The `iwadfolder` CVAR has been renamed `wadfolder`.
 * Improvements have been made to the minimum and maximum levels the player can zoom in the automap.
-* A crash no longer occurs when starting a map that has more than four player starts (things 4001 to 4004).
-* The player message displayed when the `IDCLEV` cheat or `map` CCMD are used to warp to a secret map is now gold when the `secretmessages` CVAR is `on`.
+* A crash no longer occurs when starting a map that has player starts 5 to 8 (things 4001 to 4004).
+* The player message displayed when using the `IDCLEV` cheat or `map` CCMD to warp to a secret map is now gold.
 * Minor improvements have been made to translating certain words when the `english` CVAR is `international`.
 * A character will no longer appear in the input when opening the console for the first time in some instances.
 

@@ -993,18 +993,15 @@ bool ST_Responder(const event_t *ev)
                     C_Output(message);
                     HU_SetPlayerMessage(message, false, false);
 
-                    if (secretmessages)
+                    if (gamemode == commercial)
                     {
-                        if (gamemode == commercial)
-                        {
-                            if (map >= 31 || (gamemission == pack_nerve && map == 9))
-                                message_secret = true;
-                        }
-                        else
-                        {
-                            if (map == 9)
-                                message_secret = true;
-                        }
+                        if (map >= 31 || (gamemission == pack_nerve && map == 9))
+                            message_secret = true;
+                    }
+                    else
+                    {
+                        if (map == 9)
+                            message_secret = true;
                     }
 
                     // [BH] always display message

@@ -4144,18 +4144,15 @@ static void map_cmd_func2(char *cmd, char *parms)
     C_Output(buffer);
     HU_SetPlayerMessage(buffer, false, false);
 
-    if (secretmessages)
+    if (gamemode == commercial)
     {
-        if (gamemode == commercial)
-        {
-            if (mapcmdmap >= 31 || (gamemission == pack_nerve && mapcmdmap == 9))
-                message_secret = true;
-        }
-        else
-        {
-            if (mapcmdmap == 9)
-                message_secret = true;
-        }
+        if (mapcmdmap >= 31 || (gamemission == pack_nerve && mapcmdmap == 9))
+            message_secret = true;
+    }
+    else
+    {
+        if (mapcmdmap == 9)
+            message_secret = true;
     }
 
     message_dontfuckwithme = true;
