@@ -32,7 +32,9 @@
 * A bug is fixed, present in the original *DOOM*, whereby stairs that rose up from the floor would fail in some rare instances.
 * If regenerating health is enabled using the `regenhealth` CCMD, a sound is now played and the “Health picked up” stat is updated every second the player’s health increases by 1% until it is 100% again.
 * Several improvements have been made to the player’s health in the status bar when they are dead and the `negativehealth` CVAR is `on`.
-* Minor improvements have been made to the support of [*MBF21*](https://doomwiki.org/wiki/MBF21)-compatible WADs.
+* These improvements have been made to the support for [*MBF21*](https://doomwiki.org/wiki/MBF21)-compatible WADs:
+  * The `A_RadiusDamage` codepointer now correctly uses `Args1` instead of `Args2` as the amount of damage.
+  * Things spawned using the `A_SpawnObject` codepointer now inherit the blood color of the spawner.
 * These improvements have been made to the support for `MAPINFO` lumps:
   * `MAPINFO` lumps are now parsed if either `NERVE.WAD` or `SIGIL.WAD` are loaded.
   * `bossaction` is now recognized.
