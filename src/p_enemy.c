@@ -2571,6 +2571,11 @@ void A_SpawnObject(mobj_t *actor, player_t *player, pspdef_t *psp)
     if (!(mo = P_SpawnMobj(actor->x + dx, actor->y + dy, actor->z + actor->state->args[4], actor->state->args[0] - 1)))
         return;
 
+    // [BH] inherit blood color from spawner
+    mo->bloodcolor = actor->bloodcolor;
+    mo->colfunc = actor->colfunc;
+    mo->altcolfunc = actor->altcolfunc;
+
     // angle dangle
     mo->angle = an;
 
