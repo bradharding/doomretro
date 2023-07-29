@@ -1039,17 +1039,6 @@ bool ST_Responder(const event_t *ev)
     return false;
 }
 
-static int ST_DeadFace(void)
-{
-    const int state = (int)(viewplayer->mo->state - states) - mobjinfo[viewplayer->mo->type].xdeathstate;
-
-    // [FG] support face gib animations as in the 3DO/Jaguar/PSX ports
-    if (xdthfaces && state >= 0)
-        return ST_XDTHFACE + MIN(state, xdthfaces - 1);
-
-    return ST_DEADFACE;
-}
-
 //
 // This is a not-very-pretty routine which handles the face states and their timing.
 // The precedence of expressions is: dead > evil grin > turned head > straight ahead
@@ -1081,8 +1070,17 @@ static void ST_UpdateFaceWidget(void)
         {
             priority = 9;
             painoffset = 0;
-            faceindex = ST_DeadFace();
             st_facecount = 1;
+
+            // [FG] support face gib animations as in the 3DO/Jaguar/PSX ports
+            if (xdthfaces)
+            {
+                const int   state = (int)(viewplayer->mo->state - states) - mobjinfo[MT_PLAYER].xdeathstate;
+
+                faceindex = (state >= 0 ? ST_XDTHFACE + MIN(state, xdthfaces - 1) : ST_XDTHFACE);
+            }
+            else
+                faceindex = ST_XDTHFACE;
         }
     }
 
