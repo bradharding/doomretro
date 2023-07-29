@@ -377,7 +377,7 @@ static void WI_DrawLF(void)
         const short height = SHORT(patch->height);
 
         if (height < VANILLAHEIGHT)
-            V_DrawPatchWithShadow((VANILLAWIDTH - SHORT(patch->width)) / 2 + 1, y + 1, patch, false);
+            V_DrawPatchWithShadow((VANILLAWIDTH - SHORT(patch->width)) / 2 + 1, y + 1, patch, false, false);
         else
             V_DrawPagePatch(0, patch);
 
@@ -398,7 +398,7 @@ static void WI_DrawLF(void)
             const short height = SHORT(patch->height);
 
             if (height < VANILLAHEIGHT)
-                V_DrawPatchWithShadow((VANILLAWIDTH - SHORT(patch->width)) / 2 + 1, y + 1, patch, false);
+                V_DrawPatchWithShadow((VANILLAWIDTH - SHORT(patch->width)) / 2 + 1, y + 1, patch, false, false);
             else
                 V_DrawPagePatch(0, patch);
 
@@ -416,7 +416,7 @@ static void WI_DrawLF(void)
 
     // draw "Finished!"
     if (SHORT(finished->height) < VANILLAHEIGHT)
-        V_DrawPatchWithShadow(x + 1, y + 1, finished, false);
+        V_DrawPatchWithShadow(x + 1, y + 1, finished, false, false);
     else
         V_DrawPagePatch(0, finished);
 }
@@ -430,7 +430,7 @@ static void WI_DrawEL(void)
 
     // draw "Entering"
     if (SHORT(entering->height) < VANILLAHEIGHT)
-        V_DrawPatchWithShadow(x + 1, y + 1, entering, false);
+        V_DrawPatchWithShadow(x + 1, y + 1, entering, false, false);
     else
         V_DrawPagePatch(0, entering);
 
@@ -442,7 +442,7 @@ static void WI_DrawEL(void)
         patch_t *patch = W_CacheLumpNum(titlepatch);
 
         if (SHORT(patch->height) < VANILLAHEIGHT)
-            V_DrawPatchWithShadow((VANILLAWIDTH - SHORT(patch->width)) / 2 + 1, y + 1, patch, false);
+            V_DrawPatchWithShadow((VANILLAWIDTH - SHORT(patch->width)) / 2 + 1, y + 1, patch, false, false);
         else
             V_DrawPagePatch(0, patch);
     }
@@ -461,7 +461,7 @@ static void WI_DrawEL(void)
             const short height = SHORT(patch->height);
 
             if (height < VANILLAHEIGHT)
-                V_DrawPatchWithShadow((VANILLAWIDTH - SHORT(patch->width)) / 2 + 1, y + 1, patch, false);
+                V_DrawPatchWithShadow((VANILLAWIDTH - SHORT(patch->width)) / 2 + 1, y + 1, patch, false, false);
             else
                 V_DrawPagePatch(0, patch);
         }
@@ -631,7 +631,7 @@ static int WI_DrawNum(int x, int y, int n, int digits)
     {
         x -= fontwidth;
         x += 2 * (n % 10 == 1);
-        V_DrawPatchWithShadow(x + 1, y + 1, num[n % 10], true);
+        V_DrawPatchWithShadow(x + 1, y + 1, num[n % 10], true, false);
         x -= 2 * (n % 10 == 1);
         n /= 10;
     }
@@ -644,7 +644,7 @@ static void WI_DrawPercent(int x, int y, int p)
     if (p < 0)
         return;
 
-    V_DrawPatchWithShadow(x + 1, y + 1, percent, false);
+    V_DrawPatchWithShadow(x + 1, y + 1, percent, false, false);
     WI_DrawNum(x, y, p, -1);
 }
 
@@ -660,7 +660,7 @@ static void WI_DrawTime(int x, int y, int t)
     x += (SHORT(num[0]->width) - 11) * 4;
 
     if (sucktime && t > sucktime * 61 * 59)
-        V_DrawPatchWithShadow(SP_TIMEX + SHORT(timepatch->width) + 6, y + 1, sucks, false);
+        V_DrawPatchWithShadow(SP_TIMEX + SHORT(timepatch->width) + 6, y + 1, sucks, false, false);
     else
     {
         int div = 1;
@@ -672,7 +672,7 @@ static void WI_DrawTime(int x, int y, int t)
 
             // draw
             if (div == 60 || t / div)
-                V_DrawPatchWithShadow(x + 1, y + 1, colon, true);
+                V_DrawPatchWithShadow(x + 1, y + 1, colon, true, false);
         } while (t / div);
 
         if (t < 60)
@@ -1004,10 +1004,10 @@ static void WI_DrawStats(void)
 
     WI_DrawLF();
 
-    V_DrawPatchWithShadow(SP_STATSX + 1, SP_STATSY + 1, kills, false);
+    V_DrawPatchWithShadow(SP_STATSX + 1, SP_STATSY + 1, kills, false, false);
     WI_DrawPercent(VANILLAWIDTH - SP_STATSX - 14, SP_STATSY, cnt_kills);
 
-    V_DrawPatchWithShadow(SP_STATSX + 1, SP_STATSY + lh + 1, items, false);
+    V_DrawPatchWithShadow(SP_STATSX + 1, SP_STATSY + lh + 1, items, false, false);
     WI_DrawPercent(VANILLAWIDTH - SP_STATSX - 14, SP_STATSY + lh, cnt_items);
 
     if (totalsecrets)
@@ -1015,18 +1015,18 @@ static void WI_DrawStats(void)
         if (!WISCRT2)
             M_DrawString(SP_STATSX, SP_STATSY + 2 * lh - 3, "secrets", false, true);
         else
-            V_DrawPatchWithShadow(SP_STATSX + 1, SP_STATSY + 2 * lh + 1, sp_secret, false);
+            V_DrawPatchWithShadow(SP_STATSX + 1, SP_STATSY + 2 * lh + 1, sp_secret, false, false);
 
         WI_DrawPercent(VANILLAWIDTH - SP_STATSX - 14, SP_STATSY + 2 * lh, cnt_secret);
     }
 
-    V_DrawPatchWithShadow(SP_TIMEX + 1, SP_TIMEY + 1, timepatch, false);
+    V_DrawPatchWithShadow(SP_TIMEX + 1, SP_TIMEY + 1, timepatch, false, false);
     WI_DrawTime(VANILLAWIDTH / 2 - SP_TIMEX * 2 + (wbs->stime >= TICRATE * 60 * 60) * 16, SP_TIMEY, cnt_time);
 
     if (wbs->partime)
     {
         V_DrawPatchWithShadow(VANILLAWIDTH / 2 + SP_TIMEX + (BTSX ? 0 : SP_TIMEX - (FREEDOOM ? 17 : 0) + 3),
-            SP_TIMEY + 1, par, false);
+            SP_TIMEY + 1, par, false, false);
         WI_DrawTime(VANILLAWIDTH - SP_TIMEX - 2 - (BTSX || FREEDOOM ? 17 : 0), SP_TIMEY, cnt_par);
     }
 }

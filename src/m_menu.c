@@ -772,13 +772,13 @@ static void M_SplitString(char *string)
 // M_DrawPatchWithShadow
 //  draw patch with shadow on screen
 //
-static void M_DrawPatchWithShadow(int x, int y, patch_t *patch)
+static void M_DrawPatchWithShadow(int x, int y, patch_t *patch, bool highlight)
 {
     if (!patch)
         return;
 
     if (SHORT(patch->height) < VANILLAHEIGHT)
-        V_DrawPatchWithShadow(x, y, patch, false);
+        V_DrawPatchWithShadow(x, y, patch, false, highlight);
     else
         V_DrawPagePatch(0, patch);
 }
@@ -794,7 +794,7 @@ static void M_DrawCenteredPatchWithShadow(int y, patch_t *patch)
 
     if (SHORT(patch->height) < VANILLAHEIGHT)
         V_DrawPatchWithShadow((VANILLAWIDTH - SHORT(patch->width)) / 2 + SHORT(patch->leftoffset),
-            y, patch, false);
+            y, patch, false, false);
     else
         V_DrawPagePatch(0, patch);
 }
@@ -936,16 +936,16 @@ static void M_DrawSaveLoadBorder(int x, int y)
     if (M_LSCNTR)
     {
         x += 3;
-        M_DrawPatchWithShadow(x, y + 11, W_CacheLumpName("M_LSLEFT"));
+        M_DrawPatchWithShadow(x, y + 11, W_CacheLumpName("M_LSLEFT"), false);
         x += 8;
 
         for (int i = 0; i < 24; i++)
         {
-            M_DrawPatchWithShadow(x, y + 11, W_CacheLumpName("M_LSCNTR"));
+            M_DrawPatchWithShadow(x, y + 11, W_CacheLumpName("M_LSCNTR"), false);
             x += 8;
         }
 
-        M_DrawPatchWithShadow(x, y + 11, W_CacheLumpName("M_LSRGHT"));
+        M_DrawPatchWithShadow(x, y + 11, W_CacheLumpName("M_LSRGHT"), false);
     }
     else
     {
@@ -1464,7 +1464,7 @@ static void M_DrawHelp(void)
         {
             viewplayer->fixedcolormap = 0;
             M_DrawHelpBackground();
-            V_DrawPatchWithShadow(0, 0, W_CacheSecondLumpName(lumpname), false);
+            V_DrawPatchWithShadow(0, 0, W_CacheSecondLumpName(lumpname), false, false);
         }
         else if (W_CheckMultipleLumps(lumpname) > 2)
         {
@@ -1477,7 +1477,7 @@ static void M_DrawHelp(void)
         {
             viewplayer->fixedcolormap = 0;
             M_DrawHelpBackground();
-            V_DrawPatchWithShadow(0, 0, W_CacheLumpName(lumpname), false);
+            V_DrawPatchWithShadow(0, 0, W_CacheLumpName(lumpname), false, false);
         }
     }
 }
@@ -1600,7 +1600,7 @@ static void M_DrawMainMenu(void)
 
     if (FREEDOOM || chex || hacx || harmony || REKKRSA)
     {
-        M_DrawPatchWithShadow(94, 2 + OFFSET, W_CacheLastLumpName("M_DOOM"));
+        M_DrawPatchWithShadow(94, 2 + OFFSET, W_CacheLastLumpName("M_DOOM"), false);
         MainDef.x = 97;
         MainDef.y = 72;
     }
@@ -1611,7 +1611,7 @@ static void M_DrawMainMenu(void)
         if (SHORT(patch->height) == VANILLAHEIGHT)
             V_DrawPatch(94, 2, 0, patch);
         else
-            M_DrawPatchWithShadow(94, 2 + OFFSET, patch);
+            M_DrawPatchWithShadow(94, 2 + OFFSET, patch, false);
 
         MainDef.x = 97;
         MainDef.y = 72;
@@ -1619,7 +1619,7 @@ static void M_DrawMainMenu(void)
     else
     {
         patch = (gamemission == doom ? W_CacheLumpName("M_DOOM") : W_CacheLastLumpName("M_DOOM"));
-        V_DrawPatchWithShadow((VANILLAWIDTH - SHORT(patch->width)) / 2 - 1, 11 + OFFSET, patch, false);
+        V_DrawPatchWithShadow((VANILLAWIDTH - SHORT(patch->width)) / 2 - 1, 11 + OFFSET, patch, false, false);
     }
 }
 
@@ -1897,7 +1897,7 @@ static void M_DrawOptions(void)
         if (M_MSGON)
             M_DrawPatchWithShadow(OptionsDef.x + (REKKR ? 106 : 120),
                 OptionsDef.y + 16 * msgs + (REKKR ? OFFSET + 2 : OFFSET),
-                W_CacheLumpName("M_MSGON"));
+                W_CacheLumpName("M_MSGON"), (itemon == msgs));
         else
             M_DrawString(OptionsDef.x + 122, OptionsDef.y + 16 * msgs + OFFSET, s_M_ON, (itemon == msgs), true);
     }
@@ -1906,7 +1906,7 @@ static void M_DrawOptions(void)
         if (M_MSGOFF)
             M_DrawPatchWithShadow(OptionsDef.x + (REKKR ? 106 : 120),
                 OptionsDef.y + 16 * msgs + (REKKR ? OFFSET + 2 : OFFSET),
-                W_CacheLumpName("M_MSGOFF"));
+                W_CacheLumpName("M_MSGOFF"), (itemon == msgs));
         else
             M_DrawString(OptionsDef.x + 122, OptionsDef.y + 16 * msgs + OFFSET, s_M_OFF, (itemon == msgs), true);
     }
@@ -1916,7 +1916,7 @@ static void M_DrawOptions(void)
         if (M_GDLOW)
             M_DrawPatchWithShadow(OptionsDef.x + (REKKR ? 159 : 175),
                 OptionsDef.y + 16 * detail + (REKKR ? OFFSET + 2 : OFFSET),
-                W_CacheLumpName("M_GDLOW"));
+                W_CacheLumpName("M_GDLOW"), (itemon == detail));
         else
             M_DrawString(OptionsDef.x + 173, OptionsDef.y + 16 * detail + OFFSET, s_M_LOW, (itemon == detail), true);
     }
@@ -1925,7 +1925,7 @@ static void M_DrawOptions(void)
         if (M_GDHIGH)
             M_DrawPatchWithShadow(OptionsDef.x + (REKKR ? 159 : 175),
                 OptionsDef.y + 16 * detail + (REKKR ? OFFSET + 2 : OFFSET),
-                W_CacheLumpName("M_GDHIGH"));
+                W_CacheLumpName("M_GDHIGH"), (itemon == detail));
         else
             M_DrawString(OptionsDef.x + 173, OptionsDef.y + 16 * detail + OFFSET, s_M_HIGH, (itemon == detail), true);
     }
@@ -2364,7 +2364,7 @@ static void M_DrawSlider(int x, int y, int width, float dot, float factor, int o
         y -= 2;
     }
 
-    M_DrawPatchWithShadow(xx, y, W_CacheLumpName("M_THERML"));
+    M_DrawPatchWithShadow(xx, y, W_CacheLumpName("M_THERML"), false);
     xx += 8;
 
     for (int i = 0; i < width; i++)
@@ -2373,7 +2373,7 @@ static void M_DrawSlider(int x, int y, int width, float dot, float factor, int o
         xx += 8;
     }
 
-    M_DrawPatchWithShadow(xx, y, W_CacheLumpName("M_THERMR"));
+    M_DrawPatchWithShadow(xx, y, W_CacheLumpName("M_THERMR"), false);
 
     for (int i = x + 9; i < x + (width + 1) * 8 + 1; i++)
         V_DrawPixel((hacx ? i - 1 : i), y + (hacx ? 9 : 13), PINK, false, true);
@@ -2498,7 +2498,7 @@ static void M_WriteText(int x, int y, char *string, bool shadow)
                 break;
 
             if (shadow)
-                M_DrawPatchWithShadow(cx, cy, hu_font[c]);
+                M_DrawPatchWithShadow(cx, cy, hu_font[c], false);
             else
                 V_DrawPatch(cx, cy, 0, hu_font[c]);
         }
@@ -3425,7 +3425,7 @@ bool M_Responder(event_t *ev)
             // Move down to next item
             if (currentmenu == &LoadDef)
             {
-                int old = itemon;
+                const int   old = itemon;
 
                 do
                 {
@@ -3503,7 +3503,7 @@ bool M_Responder(event_t *ev)
             // Move back up to previous item
             if (currentmenu == &LoadDef)
             {
-                int old = itemon;
+                const int   old = itemon;
 
                 do
                 {
@@ -3903,11 +3903,11 @@ void M_OpenMainMenu(void)
 //
 // M_DrawNightmare
 //
-static void M_DrawNightmare(void)
+static void M_DrawNightmare(bool highlight)
 {
     for (int y = 0; y < 20; y++)
         for (int x = 0; x < 124; x++)
-            V_DrawPixel(NewDef.x + x, NewDef.y + OFFSET + 16 * nightmare + y, (int)nmare[y * 124 + x], false, true);
+            V_DrawPixel(NewDef.x + x, NewDef.y + OFFSET + 16 * nightmare + y, (int)nmare[y * 124 + x], highlight, true);
 }
 
 //
@@ -4003,9 +4003,9 @@ void M_Drawer(void)
             }
 
             if (M_SKULL1)
-                M_DrawPatchWithShadow(x - 43, y + itemon * LINEHEIGHT - (chex ? 7 : 8) + OFFSET, skullpatch);
+                M_DrawPatchWithShadow(x - 43, y + itemon * LINEHEIGHT - (chex ? 7 : 8) + OFFSET, skullpatch, false);
             else
-                M_DrawPatchWithShadow(x - 37, y + itemon * LINEHEIGHT - 7 + OFFSET, skullpatch);
+                M_DrawPatchWithShadow(x - 37, y + itemon * LINEHEIGHT - 7 + OFFSET, skullpatch, false);
         }
         else
         {
@@ -4031,7 +4031,7 @@ void M_Drawer(void)
                 if (currentmenu != &MainDef || SHORT(((patch_t *)W_CacheLumpName("M_DOOM"))->height) < VANILLAHEIGHT)
                     yy += OFFSET;
 
-                M_DrawPatchWithShadow(x - 30, yy, skullpatch);
+                M_DrawPatchWithShadow(x - 30, yy, skullpatch, false);
             }
             else
             {
@@ -4040,7 +4040,7 @@ void M_Drawer(void)
                 if (currentmenu != &MainDef || SHORT(((patch_t *)W_CacheLumpName("M_DOOM"))->height) < VANILLAHEIGHT)
                     yy += OFFSET;
 
-                M_DrawPatchWithShadow(x - 26, yy, skullpatch);
+                M_DrawPatchWithShadow(x - 26, yy, skullpatch, false);
             }
 
             for (int i = 0; i < max; i++)
@@ -4054,7 +4054,7 @@ void M_Drawer(void)
                     {
                         patch_t *patch = W_CacheLumpName(name);
 
-                        M_DrawPatchWithShadow(x, y + OFFSET, patch);
+                        M_DrawPatchWithShadow(x, y + OFFSET, patch, (itemon == i));
                         currentmenu->menuitems[i].x = x + MAXWIDESCREENDELTA;
                         currentmenu->menuitems[i].y = y + OFFSET;
                         widest = MAX(widest, SHORT(patch->width));
@@ -4066,14 +4066,14 @@ void M_Drawer(void)
                         {
                             patch_t *patch = W_CacheLumpName(name);
 
-                            M_DrawPatchWithShadow(x, y + OFFSET, patch);
+                            M_DrawPatchWithShadow(x, y + OFFSET, patch, (itemon == i));
                             currentmenu->menuitems[i].x = x + MAXWIDESCREENDELTA;
                             currentmenu->menuitems[i].y = y + OFFSET;
                             widest = MAX(widest, SHORT(patch->width));
                             currentmenu->menuitems[i].height = SHORT(patch->height);
                         }
                         else
-                            M_DrawNightmare();
+                            M_DrawNightmare(itemon == i);
                     }
                     else if (M_StringCompare(name, "M_MSENS") && !M_MSENS)
                     {
@@ -4138,7 +4138,7 @@ void M_Drawer(void)
                         patch_t *patch = W_CacheLumpName(name);
                         int     width = SHORT(patch->width) + 8;
 
-                        M_DrawPatchWithShadow(x, y + OFFSET, patch);
+                        M_DrawPatchWithShadow(x, y + OFFSET, patch, (itemon == i));
                         currentmenu->menuitems[i].x = x + MAXWIDESCREENDELTA;
                         currentmenu->menuitems[i].y = y + OFFSET;
 

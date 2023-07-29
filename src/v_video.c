@@ -842,7 +842,7 @@ void V_DrawTranslucentAltHUDText(int x, int y, byte *screen, patch_t *patch,
     }
 }
 
-void V_DrawPatchWithShadow(int x, int y, patch_t *patch, bool flag)
+void V_DrawPatchWithShadow(int x, int y, patch_t *patch, bool flag, bool highlight)
 {
     byte        *desttop;
     const int   width = SHORT(patch->width) << FRACBITS;
@@ -871,7 +871,12 @@ void V_DrawPatchWithShadow(int x, int y, patch_t *patch, bool flag)
                 const int   height = (((y + column->topdelta + length) * DY) >> FRACBITS) - count;
 
                 if (height > 0)
-                    *dest = source[srccol >> FRACBITS];
+                {
+                    if (highlight)
+                        *dest = gold10[source[srccol >> FRACBITS]];
+                    else
+                        *dest = source[srccol >> FRACBITS];
+                }
 
                 dest += SCREENWIDTH;
 
