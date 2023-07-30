@@ -1841,10 +1841,10 @@ static const char *deh_sfxinfo[] =
     "Offset",           // pointer to a name string, changed in text
     "Zero/One",         // .singularity (int, one at a time flag)
     "Value",            // .priority
-    "Zero 1",           // .link (sfxinfo_t*) referenced sound if linked
+    "Zero 1",           // .link (sfxinfo_t *) referenced sound if linked
     "Zero 2",           // .pitch
     "Zero 3",           // .volume
-    "Zero 4",           // .data (SAMPLE*) sound data
+    "Zero 4",           // .data (SAMPLE *) sound data
     "Neg. One 1",       // .usefulness
     "Neg. One 2"        // .lumpnum
 };

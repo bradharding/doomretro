@@ -118,7 +118,7 @@ enum
 // the block links. It can still interact with other things,
 // but only as the instigator (missiles will run into other
 // things, but nothing can run into a missile).
-// Each block in the grid is 128*128 units, and knows about
+// Each block in the grid is 128x128 units, and knows about
 // every line_t that it contains a piece of, and every
 // interactable mobj_t that has its origin contained.
 //

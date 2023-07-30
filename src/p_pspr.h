@@ -58,7 +58,7 @@
 //
 // Overlay psprites are scaled shapes
 // drawn directly on the view screen,
-// coordinates are given for a 320*200 view screen.
+// coordinates are given for a 320x200 view screen.
 //
 enum
 {

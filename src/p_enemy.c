@@ -1984,7 +1984,7 @@ void A_BossDeath(mobj_t *actor, player_t *player, pspdef_t *psp)
 
         // scan the remaining thinkers to see
         // if all bosses are dead
-        for (thinker_t* th = thinkers[th_mobj].cnext; th != &thinkers[th_mobj]; th = th->cnext)
+        for (thinker_t *th = thinkers[th_mobj].cnext; th != &thinkers[th_mobj]; th = th->cnext)
         {
             const mobj_t    *mo = (mobj_t *)th;
 

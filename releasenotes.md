@@ -19,7 +19,7 @@
   * The fade to black when quitting *DOOM Retro* from the menu is no longer affected by the player having either a berserk or radiation shielding suit power-up.
   * Minor improvements have been made to the edges of the menu’s background.
   * The skull cursor is no longer positioned incorrectly in the main menu in some rare instances.
-  * When navigating using the mouse and the `m_pointer` CVAR is `on`:
+  * When navigating using the mouse pointer and the `m_pointer` CVAR is `on`:
     * The `episode`, `expansion`, `savegame` and `skilllevel` CVARs are now updated as necessary.
     * The *Nightmare!* skill level can now be selected.
 * The effects of changing the `r_gamma` and `r_saturation` CVARs are now applied to *DOOM Retro’s* splash screen.

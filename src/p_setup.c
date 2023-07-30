@@ -2548,7 +2548,7 @@ static void P_LoadBlockMap(int lump)
 
     // MAES: set blockmapxneg and blockmapyneg
     // E.g. for a full 512x512 map, they should be both
-    // -1. For a 257*257, they should be both -255 etc.
+    // -1. For a 257x257, they should be both -255 etc.
     blockmapxneg = (bmapwidth > 255 ? bmapwidth - 512 : -257);
     blockmapyneg = (bmapheight > 255 ? bmapheight - 512 : -257);
 }
