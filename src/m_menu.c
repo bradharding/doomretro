@@ -2813,6 +2813,44 @@ bool M_Responder(event_t *ev)
                                     || (i == save_game && (gamestate != GS_LEVEL || viewplayer->health <= 0)))
                                     continue;
                             }
+                            else if (currentmenu == &EpiDef && gamemode != shareware && !EpiCustom)
+                            {
+                                episode = itemon + 1;
+                                M_SaveCVARs();
+                                C_IntegerCVAROutput(stringize(episode), episode);
+                            }
+                            else if (currentmenu == &ExpDef)
+                            {
+                                if (expansion != itemon + 1)
+                                {
+                                    expansion = itemon + 1;
+                                    M_SaveCVARs();
+                                    C_IntegerCVAROutput(stringize(expansion), expansion);
+                                }
+
+                                if (gamestate != GS_LEVEL)
+                                    gamemission = (expansion == 2 && nerve ? pack_nerve : doom2);
+                            }
+                            else if (currentmenu == &NewDef)
+                            {
+                                if (skilllevel != itemon + 1)
+                                {
+                                    skilllevel = itemon + 1;
+                                    M_SaveCVARs();
+                                    C_IntegerCVAROutput(stringize(skilllevel), skilllevel);
+                                }
+                            }
+                            else if (currentmenu == &SaveDef)
+                            {
+                                LoadDef.laston = itemon;
+
+                                if (savegame != itemon + 1)
+                                {
+                                    savegame = itemon + 1;
+                                    M_SaveCVARs();
+                                    C_IntegerCVAROutput(stringize(savegame), savegame);
+                                }
+                            }
                             else if (currentmenu == &LoadDef && M_StringCompare(savegamestrings[i], s_EMPTYSTRING))
                                 continue;
                             else if (currentmenu == &OptionsDef)
