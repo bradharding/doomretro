@@ -293,6 +293,18 @@ void I_Error(const char *error, ...)
 }
 
 //
+// I_Malloc
+//
+void *I_Malloc(size_t size)
+{
+    void    *newp = malloc(size);
+
+    if (!newp && size)
+        I_Error("I_Malloc: Failure trying to allocate %zu bytes", size);
+
+    return newp;
+}
+//
 // I_Realloc
 //
 void *I_Realloc(void *block, size_t size)

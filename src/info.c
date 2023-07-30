@@ -7424,7 +7424,7 @@ void dsdh_EnsureMobjInfoCapacity(const int limit)
         if (first_allocation)
         {
             first_allocation = false;
-            mobjinfo = malloc(nummobjtypes * sizeof(*mobjinfo));
+            mobjinfo = I_Malloc(nummobjtypes * sizeof(*mobjinfo));
             memcpy(mobjinfo, original_mobjinfo, old_nummobjtypes * sizeof(*mobjinfo));
         }
         else

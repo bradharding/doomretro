@@ -4208,7 +4208,7 @@ static void maplist_cmd_func2(char *cmd, char *parms)
 {
     const int   tabs[3] = { 40, 93, 370 };
     int         count = 0;
-    char        (*maps)[256] = malloc(numlumps * sizeof(*maps));
+    char        (*maps)[256] = I_Malloc(numlumps * sizeof(*maps));
 
     C_Header(tabs, maplist, MAPLISTHEADER);
 

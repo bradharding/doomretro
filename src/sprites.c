@@ -955,7 +955,7 @@ void InitSprites(void)
     sprnames = original_sprnames;
     numsprites = NUMSPRITES;
     deh_spritenames_size = numsprites + 1;
-    deh_spritenames = malloc(deh_spritenames_size * sizeof(*deh_spritenames));
+    deh_spritenames = I_Malloc(deh_spritenames_size * sizeof(*deh_spritenames));
 
     for (int i = 0; i < numsprites; i++)
         deh_spritenames[i] = M_StringDuplicate(sprnames[i]);
@@ -987,7 +987,7 @@ static void EnsureSpritesCapacity(const int limit)
         if (first_allocation)
         {
             first_allocation = false;
-            sprnames = malloc(numsprites * sizeof(*sprnames));
+            sprnames = I_Malloc(numsprites * sizeof(*sprnames));
             memcpy(sprnames, original_sprnames, old_numsprites * sizeof(*sprnames));
         }
         else

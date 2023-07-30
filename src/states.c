@@ -1519,7 +1519,7 @@ void InitStates(void)
 {
     numstates = NUMSTATES;
     states = original_states;
-    deh_codeptr = malloc(numstates * sizeof(*deh_codeptr));
+    deh_codeptr = I_Malloc(numstates * sizeof(*deh_codeptr));
 
     for (int i = 0; i < numstates; i++)
         deh_codeptr[i] = states[i].action;
@@ -1550,7 +1550,7 @@ void dsdh_EnsureStatesCapacity(const int limit)
         if (first_allocation)
         {
             first_allocation = false;
-            states = malloc(numstates * sizeof(*states));
+            states = I_Malloc(numstates * sizeof(*states));
             memcpy(states, original_states, old_numstates * sizeof(*states));
         }
         else

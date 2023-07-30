@@ -474,7 +474,7 @@ void InitSFX(void)
     s_sfx = original_s_sfx;
     numsfx = NUMSFX;
     deh_soundnames_size = numsfx + 1;
-    deh_soundnames = malloc(deh_soundnames_size * sizeof(*deh_soundnames));
+    deh_soundnames = I_Malloc(deh_soundnames_size * sizeof(*deh_soundnames));
 
     for (int i = 1; i < numsfx; i++)
         deh_soundnames[i] = (*s_sfx[i].name1 ? M_StringDuplicate(s_sfx[i].name1) : NULL);
@@ -507,7 +507,7 @@ void dsdh_EnsureSFXCapacity(const int limit)
         if (first_allocation)
         {
             first_allocation = false;
-            s_sfx = malloc(numsfx * sizeof(*s_sfx));
+            s_sfx = I_Malloc(numsfx * sizeof(*s_sfx));
             memcpy(s_sfx, original_s_sfx, old_numsfx * sizeof(*s_sfx));
         }
         else

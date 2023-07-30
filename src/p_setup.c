@@ -2324,10 +2324,10 @@ static void P_CreateBlockMap(void)
             maxy = t;
     }
 
-    minx >>= FRACBITS;
-    maxx >>= FRACBITS;
-    miny >>= FRACBITS;
-    maxy >>= FRACBITS;
+    minx /= FRACUNIT;
+    maxx /= FRACUNIT;
+    miny /= FRACUNIT;
+    maxy /= FRACUNIT;
 
     // [crispy] doombsp/DRAWING.M:175-178
     minx -= 8;

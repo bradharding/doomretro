@@ -65,7 +65,7 @@
 
 #define LINEHEIGHT         17
 #define OFFSET             17
-#define SKULLANIMCOUNT   8
+#define SKULLANIMCOUNT      8
 #define MAXSKULLANIMCOUNT  32
 
 // -1 = no quicksave slot picked!

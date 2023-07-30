@@ -106,14 +106,7 @@ static void LoadResponseFile(int argv_index, const char *filename)
         return;
 
     while (i < size)
-    {
-        size_t  j = fread(file + i, 1, size - i, handle);
-
-        if (j < 0)
-            I_Error("Failed to read full contents of '%s'", filename);
-
-        i += (int)j;
-    }
+        i += (int)fread(file + i, 1, size - i, handle);
 
     fclose(handle);
 
