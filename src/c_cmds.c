@@ -1002,7 +1002,7 @@ consolecmd_t consolecmds[] =
         "The size of the window on the desktop (" BOLD(ITALICS("width") "\xD7" ITALICS("height")) ")."),
 #if defined(_WIN32)
     CVAR_STR(wad, "", "", null_func1, str_cvars_func2, CF_READONLY,
-        "The last WAD to be opened using the WAD launcher."),
+        "The last WAD to be opened by the WAD launcher."),
 #endif
     CVAR_STR(wadfolder, "", "", null_func1, str_cvars_func2, CF_NONE,
         "The folder the currently loaded WAD is in."),
