@@ -74,6 +74,7 @@
 * The player message displayed when using the `IDCLEV` cheat or `map` CCMD to warp to a secret map is now gold.
 * Minor improvements have been made to translating certain words when the `english` CVAR is `international`.
 * A character will no longer appear in the input when opening the console for the first time in some instances.
+* Movement of the player’s weapon is less blurred when the `r_detail` CVAR is `low`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

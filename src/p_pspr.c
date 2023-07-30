@@ -965,6 +965,13 @@ void P_MovePlayerSprites(void)
         }
     }
 
+    // [BH] hack to make weapon less blurred when moving in low detail
+    if (r_detail == r_detail_low)
+    {
+        weapon->sx = ((weapon->sx >> FRACBITS) << FRACBITS);
+        weapon->sy = ((weapon->sy >> FRACBITS) << FRACBITS);
+    }
+
     flash->sx = weapon->sx;
     flash->sy = weapon->sy;
 }
