@@ -8,6 +8,7 @@
 * Any `.cfg` files placed in the `autoload` folder are now autoloaded when *DOOM Retro* starts.
 * *DOOM Retro* now parses response files that are specified on the command-line.
 * Support has been added for [*DSDHacked*](https://doomwiki.org/wiki/DSDHacked), allowing an unlimited number of things, states, sprites and sound effects to be used in `DEHACKED` lumps.
+* Minor changes have been made to the splash screen.
 * Changes have been made to text that is output to the console.
 * Minor improvements have been made to the text that can be autocompleted in the console by pressing the <kbd><b>TAB</b></kbd> key.
 * The caret may now be repositioned in the console’s input using the mouse pointer when the `m_pointer` CVAR is `on`.
@@ -66,6 +67,7 @@
   * The default values of the `joy_deadzone_left` and `joy_deadzone_right` CVARs are now both `15%` rather than `25%`, and their maximum values are now both `30%` rather than `100%`.
 * A bug is fixed whereby the `vid_fullscreen` CVAR couldn’t be changed in the console.
 * The player’s weapon now displays correctly when touching the right edge of the screen and the `vid_capfps` CVAR is not `35`.
+* Movement of the player’s weapon is now less blurred when the `r_detail` CVAR is `low`.
 * The `weapon` CVAR now also allows the values `1` to `7`.
 * A bug is fixed whereby the `iwadfolder` CVAR wouldn’t be updated in some instances.
 * The `iwadfolder` CVAR has been renamed `wadfolder`.
@@ -74,7 +76,6 @@
 * The player message displayed when using the `IDCLEV` cheat or `map` CCMD to warp to a secret map is now gold.
 * Minor improvements have been made to translating certain words when the `english` CVAR is `international`.
 * A character will no longer appear in the input when opening the console for the first time in some instances.
-* Movement of the player’s weapon is less blurred when the `r_detail` CVAR is `low`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
