@@ -3946,6 +3946,11 @@ static void M_DrawNightmare(bool highlight)
     for (int y = 0; y < 20; y++)
         for (int x = 0; x < 124; x++)
             V_DrawPixel(NewDef.x + x, NewDef.y + OFFSET + 16 * nightmare + y, (int)nmare[y * 124 + x], highlight, true);
+
+    currentmenu->menuitems[nightmare].x = NewDef.x + MAXWIDESCREENDELTA;
+    currentmenu->menuitems[nightmare].y = NewDef.y + OFFSET + 16 * nightmare;
+    currentmenu->menuitems[nightmare].width = 124;
+    currentmenu->menuitems[nightmare].height = 20;
 }
 
 //
@@ -4111,7 +4116,10 @@ void M_Drawer(void)
                             currentmenu->menuitems[i].height = SHORT(patch->height);
                         }
                         else
+                        {
                             M_DrawNightmare(itemon == i);
+                            widest = MAX(widest, currentmenu->menuitems[nightmare].width);
+                        }
                     }
                     else if (M_StringCompare(name, "M_MSENS") && !M_MSENS)
                     {
