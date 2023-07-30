@@ -2815,9 +2815,12 @@ bool M_Responder(event_t *ev)
                             }
                             else if (currentmenu == &EpiDef && gamemode != shareware && !EpiCustom)
                             {
-                                episode = itemon + 1;
-                                M_SaveCVARs();
-                                C_IntegerCVAROutput(stringize(episode), episode);
+                                if (episode != itemon + 1)
+                                {
+                                    episode = itemon + 1;
+                                    M_SaveCVARs();
+                                    C_IntegerCVAROutput(stringize(episode), episode);
+                                }
                             }
                             else if (currentmenu == &ExpDef)
                             {
