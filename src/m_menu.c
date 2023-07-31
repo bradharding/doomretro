@@ -1419,7 +1419,7 @@ static void M_DeleteSavegameResponse(int key)
             else
             {
                 M_SetupNextMenu(&MainDef);
-                MainDef.laston = itemon = save_game;
+                MainDef.laston = itemon = new_game;
             }
         }
     }
