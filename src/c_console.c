@@ -214,6 +214,20 @@ void C_IntegerCVAROutput(const char *cvar, const int value)
     free(temp);
 }
 
+void C_IntegerCVAROutputNoRepeat(const char *cvar, const int value)
+{
+    char    buffer[CONSOLETEXTMAXLENGTH] = "";
+    char    *temp = commify(value);
+
+    M_snprintf(buffer, sizeof(buffer), "%s %s", cvar, temp);
+
+    if (numconsolestrings && M_StringCompare(console[numconsolestrings - 1].string, buffer))
+        return true;
+
+    C_Input(buffer);
+    free(temp);
+}
+
 void C_PercentCVAROutput(const char *cvar, const int value)
 {
     char    *temp = commify(value);

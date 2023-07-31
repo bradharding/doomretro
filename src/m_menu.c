@@ -97,7 +97,6 @@ bool            menuactive;
 bool            savegames;
 bool            quitting;
 
-static bool     noconsoleoutput;
 static bool     reopenautomap;
 
 char            savegamestrings[savegame_max][SAVESTRINGSIZE];
@@ -2810,49 +2809,18 @@ bool M_Responder(event_t *ev)
                                     || (i == save_game && (gamestate != GS_LEVEL || viewplayer->health <= 0)))
                                     continue;
                             }
-                            else if (currentmenu == &EpiDef && gamemode != shareware && !customepisode)
-                            {
-                                if (episode != itemon + 1)
-                                {
-                                    episode = itemon + 1;
-                                    M_SaveCVARs();
-                                    C_IntegerCVAROutput(stringize(episode), episode);
-                                }
-                            }
                             else if (currentmenu == &ExpDef)
                             {
-                                if (expansion != itemon + 1)
-                                {
-                                    expansion = itemon + 1;
-                                    M_SaveCVARs();
-                                    C_IntegerCVAROutput(stringize(expansion), expansion);
-                                }
-
                                 if (gamestate != GS_LEVEL)
                                     gamemission = (expansion == 2 && nerve ? pack_nerve : doom2);
                             }
-                            else if (currentmenu == &NewDef)
-                            {
-                                if (skilllevel != itemon + 1)
-                                {
-                                    skilllevel = itemon + 1;
-                                    M_SaveCVARs();
-                                    C_IntegerCVAROutput(stringize(skilllevel), skilllevel);
-                                }
-                            }
                             else if (currentmenu == &SaveDef)
-                            {
                                 LoadDef.laston = itemon;
-
-                                if (savegame != itemon + 1)
-                                {
-                                    savegame = itemon + 1;
-                                    M_SaveCVARs();
-                                    C_IntegerCVAROutput(stringize(savegame), savegame);
-                                }
+                            else if (currentmenu == &LoadDef)
+                            {
+                                if (M_StringCompare(savegamestrings[i], s_EMPTYSTRING))
+                                    continue;
                             }
-                            else if (currentmenu == &LoadDef && M_StringCompare(savegamestrings[i], s_EMPTYSTRING))
-                                continue;
                             else if (currentmenu == &OptionsDef)
                             {
                                 if (i == endgame && gamestate != GS_LEVEL)
@@ -3475,9 +3443,6 @@ bool M_Responder(event_t *ev)
                     S_StartSound(NULL,  sfx_pstop);
 
                 SaveDef.laston = itemon;
-                savegame = itemon + 1;
-                M_SaveCVARs();
-                C_IntegerCVAROutput(stringize(savegame), savegame);
             }
             else
             {
@@ -3504,34 +3469,13 @@ bool M_Responder(event_t *ev)
 
             currentmenu->change = true;
 
-            if (currentmenu == &EpiDef && gamemode != shareware && !customepisode)
+            if (currentmenu == &ExpDef)
             {
-                episode = itemon + 1;
-                M_SaveCVARs();
-                C_IntegerCVAROutput(stringize(episode), episode);
-            }
-            else if (currentmenu == &ExpDef)
-            {
-                expansion = itemon + 1;
-                M_SaveCVARs();
-                C_IntegerCVAROutput(stringize(expansion), expansion);
-
                 if (gamestate != GS_LEVEL)
                     gamemission = (expansion == 2 && nerve ? pack_nerve : doom2);
             }
-            else if (currentmenu == &NewDef)
-            {
-                skilllevel = itemon + 1;
-                M_SaveCVARs();
-                C_IntegerCVAROutput(stringize(skilllevel), skilllevel);
-            }
             else if (currentmenu == &SaveDef)
-            {
                 LoadDef.laston = itemon;
-                savegame = itemon + 1;
-                M_SaveCVARs();
-                C_IntegerCVAROutput(stringize(savegame), savegame);
-            }
 
             keywait = I_GetTime() + 2;
             return false;
@@ -3553,9 +3497,6 @@ bool M_Responder(event_t *ev)
                     S_StartSound(NULL, sfx_pstop);
 
                 SaveDef.laston = itemon;
-                savegame = itemon + 1;
-                M_SaveCVARs();
-                C_IntegerCVAROutput(stringize(savegame), savegame);
             }
             else
             {
@@ -3582,34 +3523,13 @@ bool M_Responder(event_t *ev)
 
             currentmenu->change = true;
 
-            if (currentmenu == &EpiDef && gamemode != shareware && !customepisode)
+            if (currentmenu == &ExpDef)
             {
-                episode = itemon + 1;
-                M_SaveCVARs();
-                C_IntegerCVAROutput(stringize(episode), episode);
-            }
-            else if (currentmenu == &ExpDef)
-            {
-                expansion = itemon + 1;
-                M_SaveCVARs();
-                C_IntegerCVAROutput(stringize(expansion), expansion);
-
                 if (gamestate != GS_LEVEL)
                     gamemission = (expansion == 2 && nerve ? pack_nerve : doom2);
             }
-            else if (currentmenu == &NewDef)
-            {
-                skilllevel = itemon + 1;
-                M_SaveCVARs();
-                C_IntegerCVAROutput(stringize(skilllevel), skilllevel);
-            }
             else if (currentmenu == &SaveDef)
-            {
                 LoadDef.laston = itemon;
-                savegame = itemon + 1;
-                M_SaveCVARs();
-                C_IntegerCVAROutput(stringize(savegame), savegame);
-            }
 
             keywait = I_GetTime() + 2;
             return false;
@@ -3682,13 +3602,28 @@ bool M_Responder(event_t *ev)
             }
 
             if (currentmenu == &EpiDef && !customepisode)
-                C_IntegerCVAROutput(stringize(episode), episode);
-            else if (currentmenu == &ExpDef)
-                C_IntegerCVAROutput(stringize(expansion), expansion);
-            else if (currentmenu == &NewDef && !noconsoleoutput)
             {
-                C_IntegerCVAROutput(stringize(skilllevel), skilllevel);
-                noconsoleoutput = true;
+                episode = itemon + 1;
+                M_SaveCVARs();
+                C_IntegerCVAROutput(stringize(episode), episode);
+            }
+            else if (currentmenu == &ExpDef)
+            {
+                expansion = itemon + 1;
+                M_SaveCVARs();
+                C_IntegerCVAROutput(stringize(expansion), expansion);
+            }
+            else if (currentmenu == &NewDef)
+            {
+                skilllevel = itemon + 1;
+                M_SaveCVARs();
+                C_IntegerCVAROutputNoRepeat(stringize(skilllevel), skilllevel);
+            }
+            else if (currentmenu == &LoadDef || currentmenu == &SaveDef)
+            {
+                savegame = itemon + 1;
+                M_SaveCVARs();
+                C_IntegerCVAROutput(stringize(savegame), savegame);
             }
 
             skipaction = (currentmenu == &LoadDef || currentmenu == &SaveDef || currentmenu == &NewDef);
@@ -3778,41 +3713,15 @@ bool M_Responder(event_t *ev)
                     itemon = i;
                     currentmenu->change = true;
 
-                    if (currentmenu == &EpiDef && gamemode != shareware && !customepisode)
+                    if (currentmenu == &ExpDef)
                     {
-                        episode = itemon + 1;
-                        M_SaveCVARs();
-                        C_IntegerCVAROutput(stringize(episode), episode);
-                    }
-                    else if (currentmenu == &ExpDef)
-                    {
-                        expansion = itemon + 1;
-                        M_SaveCVARs();
-                        C_IntegerCVAROutput(stringize(expansion), expansion);
-
                         if (gamestate != GS_LEVEL)
                             gamemission = (expansion == 2 && nerve ? pack_nerve : doom2);
                     }
-                    else if (currentmenu == &NewDef)
-                    {
-                        skilllevel = itemon + 1;
-                        M_SaveCVARs();
-                        C_IntegerCVAROutput(stringize(skilllevel), skilllevel);
-                    }
                     else if (currentmenu == &SaveDef)
-                    {
                         LoadDef.laston = itemon;
-                        savegame = itemon + 1;
-                        M_SaveCVARs();
-                        C_IntegerCVAROutput(stringize(savegame), savegame);
-                    }
                     else if (currentmenu == &LoadDef)
-                    {
                         SaveDef.laston = itemon;
-                        savegame = itemon + 1;
-                        M_SaveCVARs();
-                        C_IntegerCVAROutput(stringize(savegame), savegame);
-                    }
 
                     return false;
                 }
@@ -3839,41 +3748,15 @@ bool M_Responder(event_t *ev)
                     itemon = i;
                     currentmenu->change = true;
 
-                    if (currentmenu == &EpiDef && gamemode != shareware && !customepisode)
+                    if (currentmenu == &ExpDef)
                     {
-                        episode = itemon + 1;
-                        M_SaveCVARs();
-                        C_IntegerCVAROutput(stringize(episode), episode);
-                    }
-                    else if (currentmenu == &ExpDef)
-                    {
-                        expansion = itemon + 1;
-                        M_SaveCVARs();
-                        C_IntegerCVAROutput(stringize(expansion), expansion);
-
                         if (gamestate != GS_LEVEL)
                             gamemission = (expansion == 2 && nerve ? pack_nerve : doom2);
                     }
-                    else if (currentmenu == &NewDef)
-                    {
-                        skilllevel = itemon + 1;
-                        M_SaveCVARs();
-                        C_IntegerCVAROutput(stringize(skilllevel), skilllevel);
-                    }
                     else if (currentmenu == &SaveDef)
-                    {
                         LoadDef.laston = itemon;
-                        savegame = itemon + 1;
-                        M_SaveCVARs();
-                        C_IntegerCVAROutput(stringize(savegame), savegame);
-                    }
                     else if (currentmenu == &LoadDef)
-                    {
                         SaveDef.laston = itemon;
-                        savegame = itemon + 1;
-                        M_SaveCVARs();
-                        C_IntegerCVAROutput(stringize(savegame), savegame);
-                    }
 
                     return false;
                 }
@@ -3895,7 +3778,6 @@ void M_OpenMainMenu(void)
     menuactive = true;
     currentmenu = &MainDef;
     itemon = currentmenu->laston;
-    noconsoleoutput = false;
 
     if (joy_rumble_barrels || joy_rumble_damage || joy_rumble_pickup || joy_rumble_weapons)
     {
@@ -4037,12 +3919,7 @@ void M_Drawer(void)
                     itemon = (itemon == load1 ? currentmenu->numitems - 1 : itemon - 1);
 
                 if (itemon != old)
-                {
                     SaveDef.laston = itemon;
-                    savegame = itemon + 1;
-                    M_SaveCVARs();
-                    C_IntegerCVAROutput(stringize(savegame), savegame);
-                }
             }
 
             if (M_SKULL1)
