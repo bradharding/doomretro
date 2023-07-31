@@ -21,7 +21,7 @@
   * Minor improvements have been made to the edges of the menu’s background.
   * The skull cursor is no longer positioned incorrectly in the main menu in some rare instances.
   * When navigating using the mouse pointer and the `m_pointer` CVAR is `on`:
-    * The `episode`, `expansion`, `savegame` and `skilllevel` CVARs are now updated as necessary.
+    * The `episode`, `expansion`, `savegame` and `skilllevel` CVARs are now only updated when necessary.
     * The *Nightmare!* skill level can now always be selected.
   * “New Game” is now selected in the main menu after deleting the only savegame in the save or load game menus.
 * The effects of changing the `r_gamma` and `r_saturation` CVARs are now applied to *DOOM Retro’s* splash screen.
