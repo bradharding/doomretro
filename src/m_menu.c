@@ -119,7 +119,7 @@ static int      playerlookdir;
 static fixed_t  playerviewz;
 
 static patch_t  *menuborder;
-
+static short    titleheight;
 //
 // PROTOTYPES
 //
@@ -1594,8 +1594,6 @@ static void M_MusicVol(int choice)
 //
 static void M_DrawMainMenu(void)
 {
-    patch_t *patch;
-
     M_DrawMenuBackground();
 
     if (FREEDOOM || chex || hacx || harmony || REKKRSA)
@@ -1606,19 +1604,18 @@ static void M_DrawMainMenu(void)
     }
     else if (M_DOOM)
     {
-        patch = W_CacheLumpName("M_DOOM");
-
-        if (SHORT(patch->height) == VANILLAHEIGHT)
-            V_DrawPatch(94, 2, 0, patch);
+        if (titleheight == VANILLAHEIGHT)
+            V_DrawPatch(94, 2, 0, W_CacheLumpName("M_DOOM"));
         else
-            M_DrawPatchWithShadow(94, 2 + OFFSET, patch, false);
+            M_DrawPatchWithShadow(94, 2 + OFFSET, W_CacheLumpName("M_DOOM"), false);
 
         MainDef.x = 97;
         MainDef.y = 72;
     }
     else
     {
-        patch = (gamemission == doom ? W_CacheLumpName("M_DOOM") : W_CacheLastLumpName("M_DOOM"));
+        patch_t *patch = (gamemission == doom ? W_CacheLumpName("M_DOOM") : W_CacheLastLumpName("M_DOOM"));
+
         V_DrawPatchWithShadow((VANILLAWIDTH - SHORT(patch->width)) / 2 - 1, 11 + OFFSET, patch, false, false);
     }
 }
@@ -4074,7 +4071,7 @@ void M_Drawer(void)
             {
                 yy = y + item * (LINEHEIGHT - 1) - (chex ? 4 : 5);
 
-                if (currentmenu != &MainDef || SHORT(((patch_t *)W_CacheLumpName("M_DOOM"))->height) < VANILLAHEIGHT)
+                if (currentmenu != &MainDef || titleheight < VANILLAHEIGHT)
                     yy += OFFSET;
 
                 M_DrawPatchWithShadow(x - 30, yy, skullpatch, false);
@@ -4083,7 +4080,7 @@ void M_Drawer(void)
             {
                 yy = y + item * (LINEHEIGHT - 1) - (chex ? 2 : 3);
 
-                if (currentmenu != &MainDef || SHORT(((patch_t *)W_CacheLumpName("M_DOOM"))->height) < VANILLAHEIGHT)
+                if (currentmenu != &MainDef || titleheight < VANILLAHEIGHT)
                     yy += OFFSET;
 
                 M_DrawPatchWithShadow(x - 26, yy, skullpatch, false);
@@ -4226,8 +4223,12 @@ void M_Drawer(void)
                     }
                     else if (**text)
                     {
-                        int     width = M_BigStringWidth(*text) + 8;
                         bool    highlight;
+                        int     width = M_BigStringWidth(*text) + 8;
+                        int     yy = y;
+
+                        if (currentmenu != &MainDef || titleheight < VANILLAHEIGHT)
+                            yy += OFFSET;
 
                         if (currentmenu == &OptionsDef && i == scrnsize && itemon == option_empty1)
                             highlight = true;
@@ -4238,9 +4239,9 @@ void M_Drawer(void)
                         else
                             highlight = (itemon == i);
 
-                        M_DrawString(x, y + OFFSET, *text, highlight, true);
+                        M_DrawString(x, yy, *text, highlight, true);
                         currentmenu->menuitems[i].x = x + MAXWIDESCREENDELTA;
-                        currentmenu->menuitems[i].y = y + OFFSET;
+                        currentmenu->menuitems[i].y = yy;
 
                         if (currentmenu == &OptionsDef)
                         {
@@ -4377,6 +4378,8 @@ void M_Init(void)
     menuspindirection = ((M_BigRandom() & 1) ? 1 : -1);
 
     menuborder = W_CacheLastLumpName("DRBORDER");
+
+    titleheight = SHORT(((patch_t*)W_CacheLumpName("M_DOOM"))->height);
 
     for (int i = 0; i < 256; i++)
         blues[i] = nearestcolors[blues[i]];
