@@ -6,11 +6,11 @@
 * *DOOM Retro* now uses [*SDL v2.28.1*](https://github.com/libsdl-org/SDL/releases/tag/release-2.28.1).
 * Several optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Any `.cfg` files placed in the `autoload` folder are now autoloaded when *DOOM Retro* starts.
-* *DOOM Retro* now parses response files that are specified on the command-line.
+* *DOOM Retro* now parses response files specified on the command-line.
 * Support has been added for [*DSDHacked*](https://doomwiki.org/wiki/DSDHacked), allowing an unlimited number of things, states, sprites and sound effects to be used in `DEHACKED` lumps.
 * Minor changes have been made to the splash screen.
 * Changes have been made to text that is output to the console.
-* Minor improvements have been made to the text that can be autocompleted in the console by pressing the <kbd><b>TAB</b></kbd> key.
+* Minor improvements have been made to text autocompleted in the console by pressing the <kbd><b>TAB</b></kbd> key.
 * The caret may now be repositioned in the console’s input using the mouse pointer when the `m_pointer` CVAR is `on`.
 * The `r_color` CVAR has now been renamed `r_saturation`, and it’s maximum value has increased from `100%` to `200%` to allow colors on the screen to be oversaturated.
 * A crash no longer occurs when trying to display certain patches greater than 200 pixels in height.
@@ -40,6 +40,7 @@
   * The `A_RadiusDamage` codepointer now correctly uses `Args1` instead of `Args2` as the amount of damage.
   * Things spawned using the `A_SpawnObject` codepointer now inherit the blood color of the spawner.
 * These improvements have been made to the support for `MAPINFO` lumps:
+  * A bug is fixed whereby many compatibility flags weren’t being parsed correctly.
   * `MAPINFO` lumps are now parsed if either `NERVE.WAD` or `SIGIL.WAD` are loaded.
   * `bossaction` is now recognized.
   * The `compat_stairs` and `compat_zombie` compatibility flags are now recognized.
@@ -49,7 +50,8 @@
   * Minor improvements have been made to aiming vertically.
   * The player can now see slightly further when looking up or down.
   * A crash no longer occurs if a blood splat touches the top of the screen while the player looks down.
-  * The vertical direction the player is looking is no longer reset in the help screen’s background.
+  * The vertical direction the player is looking is no longer reset in the help screen’s background when pressing the <kbd><b>F1</b></kbd> key.
+* Blood splats far away from the player no longer flicker in some instances.
 * When the `vid_widescreen` CVAR is `on` and the screen is wider than the status bar, the `FLOOR7_2` or `GRNROCK` textures no longer fill the sides. A color matching the colors in the status bar is shown instead.
 * The text in the automap is now always positioned correctly when the `am_external` CVAR is `on`.
 * The default of the `am_gridcolor` CVAR is now `6` instead of `111`.
@@ -58,7 +60,7 @@
 * The accompanying readme file for the currently loaded PWAD can now be displayed by entering the new `readme` CCMD in the console.
 * These extensive changes have been made when using a controller:
   * Using a controller in the menu is now more responsive.
-  * The speed at which the player turns using a controller is no longer increased while also running.
+  * The speed at which the player turns using a controller no longer increases while running.
   * Turning using a controller is now more precise when only nudging the right thumbstick.
   * Controllers now rumble slightly when the player picks something up. This can be disabled by the new `joy_rumble_pickup` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
   * When the `joy_rumble_weapons` CVAR is `on`:
@@ -74,7 +76,7 @@
 * The `iwadfolder` CVAR has been renamed `wadfolder`.
 * Improvements have been made to the minimum and maximum levels the player can zoom in the automap.
 * A crash no longer occurs when starting a map that has player starts 5 to 8 (things 4001 to 4004).
-* The player message displayed when using the `IDCLEV` cheat or `map` CCMD to warp to a secret map is now gold.
+* The message displayed when using the `IDCLEV` cheat or `map` CCMD to warp to a secret map is now gold.
 * Minor improvements have been made to translating certain words when the `english` CVAR is `international`.
 * A character will no longer appear in the input when opening the console for the first time in some instances.
 
