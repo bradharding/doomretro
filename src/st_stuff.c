@@ -1061,8 +1061,6 @@ static void ST_UpdateFaceWidget(void)
         return;
     }
 
-    painoffset = ST_CalcPainOffset();
-
     if (priority < 10)
     {
         // dead
@@ -1082,7 +1080,11 @@ static void ST_UpdateFaceWidget(void)
             else
                 faceindex = ST_DEADFACE;
         }
+        else
+            painoffset = ST_CalcPainOffset();
     }
+    else
+        painoffset = ST_CalcPainOffset();
 
     if (priority < 9)
     {
