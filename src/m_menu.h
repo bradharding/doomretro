@@ -126,6 +126,6 @@ extern menu_t   LoadDef;
 extern menu_t   MainDef;
 extern menu_t   NewDef;
 extern menu_t   SaveDef;
-extern bool     EpiCustom;
+extern bool     customepisode;
 extern uint64_t gamecontrollerwait;
 extern uint64_t mousewait;

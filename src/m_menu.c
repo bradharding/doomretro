@@ -1624,15 +1624,15 @@ static void M_DrawMainMenu(void)
 // M_Episode
 //
 static int      epi;
-bool            EpiCustom = false;
-static short    EpiMenuMap[] = { 1, 1, 1, 1, -1, -1, -1, -1 };
-static short    EpiMenuEpi[] = { 1, 2, 3, 4, -1, -1, -1, -1 };
+bool            customepisode = false;
+static short    epsiodemenumap[] = { 1, 1, 1, 1, -1, -1, -1, -1 };
+static short    epsiodemenuepisode[] = { 1, 2, 3, 4, -1, -1, -1, -1 };
 
 void M_AddEpisode(const int map, const int ep, const char *lumpname, const char *string)
 {
-    if (!EpiCustom)
+    if (!customepisode)
     {
-        EpiCustom = true;
+        customepisode = true;
 
         if (gamemode == commercial)
             EpiDef.numitems = 0;
@@ -1648,11 +1648,11 @@ void M_AddEpisode(const int map, const int ep, const char *lumpname, const char 
             return;
 
         for (int i = 0; i < EpiDef.numitems; i++)
-            if (EpiMenuEpi[EpiDef.numitems] == ep && EpiMenuMap[EpiDef.numitems] == map - (ep - 1) * 10)
+            if (epsiodemenuepisode[EpiDef.numitems] == ep && epsiodemenumap[EpiDef.numitems] == map - (ep - 1) * 10)
                 return;
 
-        EpiMenuEpi[EpiDef.numitems] = ep;
-        EpiMenuMap[EpiDef.numitems] = map - (ep - 1) * 10;
+        epsiodemenuepisode[EpiDef.numitems] = ep;
+        epsiodemenumap[EpiDef.numitems] = map - (ep - 1) * 10;
         M_StringCopy(EpisodeMenu[EpiDef.numitems].name, lumpname, sizeof(EpisodeMenu[0].name));
         *EpisodeMenu[EpiDef.numitems].text = M_StringDuplicate(string);
         EpiDef.numitems++;
@@ -1783,15 +1783,15 @@ static void M_ChooseSkill(int choice)
 
     if (KDIKDIZD)
         G_DeferredInitNew((skill_t)choice, 1, 13);
-    else if (!EpiCustom)
+    else if (!customepisode)
         G_DeferredInitNew((skill_t)choice, epi + 1, 1);
     else
-        G_DeferredInitNew((skill_t)choice, EpiMenuEpi[epi], EpiMenuMap[epi]);
+        G_DeferredInitNew((skill_t)choice, epsiodemenuepisode[epi], epsiodemenumap[epi]);
 }
 
 static void M_Episode(int choice)
 {
-    if (!EpiCustom)
+    if (!customepisode)
     {
         if (gamemode == shareware && choice)
         {
@@ -1862,7 +1862,7 @@ static void M_DrawNewGame(void)
 
 static void M_NewGame(int choice)
 {
-    M_SetupNextMenu(chex ? &NewDef : ((gamemode == commercial && !EpiCustom) || EpiDef.numitems <= 1 ?
+    M_SetupNextMenu(chex ? &NewDef : ((gamemode == commercial && !customepisode) || EpiDef.numitems <= 1 ?
         (nerve ? &ExpDef : &NewDef) : &EpiDef));
 }
 
@@ -2810,7 +2810,7 @@ bool M_Responder(event_t *ev)
                                     || (i == save_game && (gamestate != GS_LEVEL || viewplayer->health <= 0)))
                                     continue;
                             }
-                            else if (currentmenu == &EpiDef && gamemode != shareware && !EpiCustom)
+                            else if (currentmenu == &EpiDef && gamemode != shareware && !customepisode)
                             {
                                 if (episode != itemon + 1)
                                 {
@@ -3504,7 +3504,7 @@ bool M_Responder(event_t *ev)
 
             currentmenu->change = true;
 
-            if (currentmenu == &EpiDef && gamemode != shareware && !EpiCustom)
+            if (currentmenu == &EpiDef && gamemode != shareware && !customepisode)
             {
                 episode = itemon + 1;
                 M_SaveCVARs();
@@ -3582,7 +3582,7 @@ bool M_Responder(event_t *ev)
 
             currentmenu->change = true;
 
-            if (currentmenu == &EpiDef && gamemode != shareware && !EpiCustom)
+            if (currentmenu == &EpiDef && gamemode != shareware && !customepisode)
             {
                 episode = itemon + 1;
                 M_SaveCVARs();
@@ -3681,7 +3681,7 @@ bool M_Responder(event_t *ev)
                 }
             }
 
-            if (currentmenu == &EpiDef && !EpiCustom)
+            if (currentmenu == &EpiDef && !customepisode)
                 C_IntegerCVAROutput(stringize(episode), episode);
             else if (currentmenu == &ExpDef)
                 C_IntegerCVAROutput(stringize(expansion), expansion);
@@ -3778,7 +3778,7 @@ bool M_Responder(event_t *ev)
                     itemon = i;
                     currentmenu->change = true;
 
-                    if (currentmenu == &EpiDef && gamemode != shareware && !EpiCustom)
+                    if (currentmenu == &EpiDef && gamemode != shareware && !customepisode)
                     {
                         episode = itemon + 1;
                         M_SaveCVARs();
@@ -3839,7 +3839,7 @@ bool M_Responder(event_t *ev)
                     itemon = i;
                     currentmenu->change = true;
 
-                    if (currentmenu == &EpiDef && gamemode != shareware && !EpiCustom)
+                    if (currentmenu == &EpiDef && gamemode != shareware && !customepisode)
                     {
                         episode = itemon + 1;
                         M_SaveCVARs();

@@ -23,6 +23,7 @@
   * When navigating using the mouse pointer and the `m_pointer` CVAR is `on`:
     * The `episode`, `expansion`, `savegame` and `skilllevel` CVARs are now updated as necessary.
     * The *Nightmare!* skill level can now always be selected.
+  * “New Game” is now selected in the main menu after deleting the only savegame in the save or load game menus.
 * The effects of changing the `r_gamma` and `r_saturation` CVARs are now applied to *DOOM Retro’s* splash screen.
 * The `r_lowpixelsize` CVAR can now also be set to `1×2` or `2×1`.
 * A bug is fixed whereby sometimes the player wouldn’t pick up an item in a liquid sector when the `r_liquid_clipsprites` CVAR was `on`.

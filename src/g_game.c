@@ -1820,7 +1820,7 @@ void G_InitNew(skill_t skill, int ep, int map)
     if (ep < 1)
         ep = 1;
 
-    if (!EpiCustom)
+    if (!customepisode)
     {
         if (gamemode == retail)
         {
