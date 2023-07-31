@@ -222,7 +222,7 @@ void C_IntegerCVAROutputNoRepeat(const char *cvar, const int value)
     M_snprintf(buffer, sizeof(buffer), "%s %s", cvar, temp);
 
     if (numconsolestrings && M_StringCompare(console[numconsolestrings - 1].string, buffer))
-        return true;
+        return;
 
     C_Input(buffer);
     free(temp);
