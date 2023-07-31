@@ -147,7 +147,7 @@ state_t original_states[] =
     { SPR_PISG,   1,                      6, &A_FirePistol,          S_PISTOL3           }, // S_PISTOL2
     { SPR_PISG,   2,                      4, NULL,                   S_PISTOL4           }, // S_PISTOL3
     { SPR_PISG,   1,                      5, &A_ReFire,              S_PISTOL            }, // S_PISTOL4
-    { SPR_PISF,  (0 | FF_FULLBRIGHT),     7, &A_Light1,              S_LIGHTDONE         }, // S_PISTOLFLASH
+    { SPR_PISF,   FF_FULLBRIGHT,          7, &A_Light1,              S_LIGHTDONE         }, // S_PISTOLFLASH
 
     // Shotgun
     { SPR_SHTG,   0,                      1, &A_WeaponReady,         S_SGUN              }, // S_SGUN
@@ -162,7 +162,7 @@ state_t original_states[] =
     { SPR_SHTG,   1,                      5, NULL,                   S_SGUN8             }, // S_SGUN7
     { SPR_SHTG,   0,                      3, NULL,                   S_SGUN9             }, // S_SGUN8
     { SPR_SHTG,   0,                      7, &A_ReFire,              S_SGUN              }, // S_SGUN9
-    { SPR_SHTF,  (0 | FF_FULLBRIGHT),     4, &A_Light1,              S_SGUNFLASH2        }, // S_SGUNFLASH1
+    { SPR_SHTF,   FF_FULLBRIGHT,          4, &A_Light1,              S_SGUNFLASH2        }, // S_SGUNFLASH1
     { SPR_SHTF,  (1 | FF_FULLBRIGHT),     3, &A_Light2,              S_LIGHTDONE         }, // S_SGUNFLASH2
 
     // Super Shotgun
@@ -170,7 +170,7 @@ state_t original_states[] =
     { SPR_SHT2,    0,                     1, &A_Lower,               S_DSGUNDOWN         }, // S_DSGUNDOWN
     { SPR_SHT2,    0,                     1, &A_Raise,               S_DSGUNUP           }, // S_DSGUNUP
     { SPR_SHT2,    0,                     3, NULL,                   S_DSGUN2            }, // S_DSGUN1
-    { SPR_SHT2,   (0 | FF_FULLBRIGHT),    7, &A_FireShotgun2,        S_DSGUN3            }, // S_DSGUN2
+    { SPR_SHT2,    FF_FULLBRIGHT,         7, &A_FireShotgun2,        S_DSGUN3            }, // S_DSGUN2
     { SPR_SHT2,    1,                     7, NULL,                   S_DSGUN4            }, // S_DSGUN3
     { SPR_SHT2,    2,                     7, &A_CheckReload,         S_DSGUN5            }, // S_DSGUN4
     { SPR_SHT2,    3,                     7, &A_OpenShotgun2,        S_DSGUN6            }, // S_DSGUN5
@@ -191,7 +191,7 @@ state_t original_states[] =
     { SPR_CHGG,    0,                     4, &A_FireCGun,            S_CHAIN2            }, // S_CHAIN1
     { SPR_CHGG,    1,                     4, &A_FireCGun,            S_CHAIN3            }, // S_CHAIN2
     { SPR_CHGG,    1,                     0, &A_ReFire,              S_CHAIN             }, // S_CHAIN3
-    { SPR_CHGF,   (0 | FF_FULLBRIGHT),    5, &A_Light1,              S_LIGHTDONE         }, // S_CHAINFLASH1
+    { SPR_CHGF,    FF_FULLBRIGHT,         5, &A_Light1,              S_LIGHTDONE         }, // S_CHAINFLASH1
     { SPR_CHGF,   (1 | FF_FULLBRIGHT),    5, &A_Light2,              S_LIGHTDONE         }, // S_CHAINFLASH2
 
     // Rocket Launcher
@@ -201,7 +201,7 @@ state_t original_states[] =
     { SPR_MISG,    1,                     8, &A_GunFlash,            S_MISSILE2          }, // S_MISSILE1
     { SPR_MISG,    1,                    12, &A_FireMissile,         S_MISSILE3          }, // S_MISSILE2
     { SPR_MISG,    1,                     0, &A_ReFire,              S_MISSILE           }, // S_MISSILE3
-    { SPR_MISF,   (0 | FF_FULLBRIGHT),    3, &A_Light1,              S_MISSILEFLASH2     }, // S_MISSILEFLASH1
+    { SPR_MISF,    FF_FULLBRIGHT,         3, &A_Light1,              S_MISSILEFLASH2     }, // S_MISSILEFLASH1
     { SPR_MISF,   (1 | FF_FULLBRIGHT),    4, NULL,                   S_MISSILEFLASH3     }, // S_MISSILEFLASH2
     { SPR_MISF,   (2 | FF_FULLBRIGHT),    4, &A_Light2,              S_MISSILEFLASH4     }, // S_MISSILEFLASH3
     { SPR_MISF,   (3 | FF_FULLBRIGHT),    4, &A_Light2,              S_LIGHTDONE         }, // S_MISSILEFLASH4
@@ -221,7 +221,7 @@ state_t original_states[] =
     { SPR_PLSG,    0,                     1, &A_Raise,               S_PLASMAUP          }, // S_PLASMAUP
     { SPR_PLSG,    0,                     3, &A_FirePlasma,          S_PLASMA2           }, // S_PLASMA1
     { SPR_PLSG,    1,                    20, &A_ReFire,              S_PLASMA            }, // S_PLASMA2
-    { SPR_PLSF,   (0 | FF_FULLBRIGHT),    4, &A_Light1,              S_LIGHTDONE         }, // S_PLASMAFLASH1
+    { SPR_PLSF,    FF_FULLBRIGHT,         4, &A_Light1,              S_LIGHTDONE         }, // S_PLASMAFLASH1
     { SPR_PLSF,   (1 | FF_FULLBRIGHT),    4, &A_Light1,              S_LIGHTDONE         }, // S_PLASMAFLASH2
 
     // BFG-9000
@@ -232,7 +232,7 @@ state_t original_states[] =
     { SPR_BFGG,    1,                    10, &A_GunFlash,            S_BFG3              }, // S_BFG2
     { SPR_BFGG,    1,                    10, &A_FireBFG,             S_BFG4              }, // S_BFG3
     { SPR_BFGG,    1,                    20, &A_ReFire,              S_BFG               }, // S_BFG4
-    { SPR_BFGF,   (0 | FF_FULLBRIGHT),   11, &A_Light1,              S_BFGFLASH2         }, // S_BFGFLASH1
+    { SPR_BFGF,    FF_FULLBRIGHT,        11, &A_Light1,              S_BFGFLASH2         }, // S_BFGFLASH1
     { SPR_BFGF,   (1 | FF_FULLBRIGHT),    6, &A_Light2,              S_LIGHTDONE         }, // S_BFGFLASH2
 
     // Blood (MT_BLOOD)
@@ -241,41 +241,41 @@ state_t original_states[] =
     { SPR_BLUD,    0,                    -1, NULL,                   S_NULL              }, // S_BLOOD3
 
     // Bullet Puff (MT_PUFF)
-    { SPR_PUFF,   (0 | FF_FULLBRIGHT),    4, NULL,                   S_PUFF2             }, // S_PUFF1
+    { SPR_PUFF,    FF_FULLBRIGHT,         4, NULL,                   S_PUFF2             }, // S_PUFF1
     { SPR_PUFF,    1,                     4, NULL,                   S_PUFF3             }, // S_PUFF2
     { SPR_PUFF,    2,                     4, NULL,                   S_PUFF4             }, // S_PUFF3
     { SPR_PUFF,    3,                     4, NULL,                   S_NULL              }, // S_PUFF4
 
     // Imp Projectile (MT_TROOPSHOT)
-    { SPR_BAL1,   (0 | FF_FULLBRIGHT),    4, NULL,                   S_TBALL2            }, // S_TBALL1
+    { SPR_BAL1,    FF_FULLBRIGHT,         4, NULL,                   S_TBALL2            }, // S_TBALL1
     { SPR_BAL1,   (1 | FF_FULLBRIGHT),    4, NULL,                   S_TBALL1            }, // S_TBALL2
     { SPR_BAL1,   (2 | FF_FULLBRIGHT),    6, NULL,                   S_TBALLX2           }, // S_TBALLX1
     { SPR_BAL1,   (3 | FF_FULLBRIGHT),    6, NULL,                   S_TBALLX3           }, // S_TBALLX2
     { SPR_BAL1,   (4 | FF_FULLBRIGHT),    6, NULL,                   S_NULL              }, // S_TBALLX3
 
     // Cacodemon Projectile (MT_HEADSHOT)
-    { SPR_BAL2,   (0 | FF_FULLBRIGHT),    4, NULL,                   S_RBALL2            }, // S_RBALL1
+    { SPR_BAL2,    FF_FULLBRIGHT,         4, NULL,                   S_RBALL2            }, // S_RBALL1
     { SPR_BAL2,   (1 | FF_FULLBRIGHT),    4, NULL,                   S_RBALL1            }, // S_RBALL2
     { SPR_BAL2,   (2 | FF_FULLBRIGHT),    6, NULL,                   S_RBALLX2           }, // S_RBALLX1
     { SPR_BAL2,   (3 | FF_FULLBRIGHT),    6, NULL,                   S_RBALLX3           }, // S_RBALLX2
     { SPR_BAL2,   (4 | FF_FULLBRIGHT),    6, NULL,                   S_NULL              }, // S_RBALLX3
 
     // Plasma Rifle Projectile (MT_PLASMA)
-    { SPR_PLSS,   (0 | FF_FULLBRIGHT),    6, NULL,                   S_PLASBALL2         }, // S_PLASBALL
+    { SPR_PLSS,    FF_FULLBRIGHT,         6, NULL,                   S_PLASBALL2         }, // S_PLASBALL
     { SPR_PLSS,   (1 | FF_FULLBRIGHT),    6, NULL,                   S_PLASBALL          }, // S_PLASBALL2
-    { SPR_PLSE,   (0 | FF_FULLBRIGHT),    4, NULL,                   S_PLASEXP2          }, // S_PLASEXP
+    { SPR_PLSE,    FF_FULLBRIGHT,         4, NULL,                   S_PLASEXP2          }, // S_PLASEXP
     { SPR_PLSE,   (1 | FF_FULLBRIGHT),    4, NULL,                   S_PLASEXP3          }, // S_PLASEXP2
     { SPR_PLSE,   (2 | FF_FULLBRIGHT),    4, NULL,                   S_PLASEXP4          }, // S_PLASEXP3
     { SPR_PLSE,   (3 | FF_FULLBRIGHT),    4, NULL,                   S_PLASEXP5          }, // S_PLASEXP4
     { SPR_PLSE,   (4 | FF_FULLBRIGHT),    4, NULL,                   S_NULL              }, // S_PLASEXP5
 
     // Rocket Launcher Projectile (MT_ROCKET)
-    { SPR_MISL,   (0 | FF_FULLBRIGHT),    1, NULL,                   S_ROCKET            }, // S_ROCKET
+    { SPR_MISL,    FF_FULLBRIGHT,         1, NULL,                   S_ROCKET            }, // S_ROCKET
 
     // BFG-9000 Projectile (MT_BFG)
-    { SPR_BFS1,   (0 | FF_FULLBRIGHT),    4, NULL,                   S_BFGSHOT2          }, // S_BFGSHOT
+    { SPR_BFS1,    FF_FULLBRIGHT,         4, NULL,                   S_BFGSHOT2          }, // S_BFGSHOT
     { SPR_BFS1,   (1 | FF_FULLBRIGHT),    4, NULL,                   S_BFGSHOT           }, // S_BFGSHOT2
-    { SPR_BFE1,   (0 | FF_FULLBRIGHT),    8, NULL,                   S_BFGLAND2          }, // S_BFGLAND
+    { SPR_BFE1,    FF_FULLBRIGHT,         8, NULL,                   S_BFGLAND2          }, // S_BFGLAND
     { SPR_BFE1,   (1 | FF_FULLBRIGHT),    8, NULL,                   S_BFGLAND3          }, // S_BFGLAND2
     { SPR_BFE1,   (2 | FF_FULLBRIGHT),    8, &A_BFGSpray,            S_BFGLAND4          }, // S_BFGLAND3
     { SPR_BFE1,   (3 | FF_FULLBRIGHT),    8, NULL,                   S_BFGLAND5          }, // S_BFGLAND4
@@ -283,7 +283,7 @@ state_t original_states[] =
     { SPR_BFE1,   (5 | FF_FULLBRIGHT),    8, NULL,                   S_NULL              }, // S_BFGLAND6
 
     // BFG-9000 Secondary Projectile (MT_EXTRABFG)
-    { SPR_BFE2,   (0 | FF_FULLBRIGHT),    8, NULL,                   S_BFGEXP2           }, // S_BFGEXP
+    { SPR_BFE2,    FF_FULLBRIGHT,         8, NULL,                   S_BFGEXP2           }, // S_BFGEXP
     { SPR_BFE2,   (1 | FF_FULLBRIGHT),    8, NULL,                   S_BFGEXP3           }, // S_BFGEXP2
     { SPR_BFE2,   (2 | FF_FULLBRIGHT),    8, NULL,                   S_BFGEXP4           }, // S_BFGEXP3
     { SPR_BFE2,   (3 | FF_FULLBRIGHT),    8, NULL,                   S_NULL              }, // S_BFGEXP4
@@ -292,9 +292,9 @@ state_t original_states[] =
     { SPR_MISL,   (3 | FF_FULLBRIGHT),    4, NULL,                   S_NULL              }, // S_EXPLODE3
 
     // Teleport Fog (MT_TFOG)
-    { SPR_TFOG,   (0 | FF_FULLBRIGHT),    6, NULL,                   S_TFOG01            }, // S_TFOG
+    { SPR_TFOG,    FF_FULLBRIGHT,         6, NULL,                   S_TFOG01            }, // S_TFOG
     { SPR_TFOG,   (1 | FF_FULLBRIGHT),    6, NULL,                   S_TFOG02            }, // S_TFOG01
-    { SPR_TFOG,   (0 | FF_FULLBRIGHT),    6, NULL,                   S_TFOG2             }, // S_TFOG02
+    { SPR_TFOG,    FF_FULLBRIGHT,         6, NULL,                   S_TFOG2             }, // S_TFOG02
     { SPR_TFOG,   (1 | FF_FULLBRIGHT),    6, NULL,                   S_TFOG3             }, // S_TFOG2
     { SPR_TFOG,   (2 | FF_FULLBRIGHT),    6, NULL,                   S_TFOG4             }, // S_TFOG3
     { SPR_TFOG,   (3 | FF_FULLBRIGHT),    6, NULL,                   S_TFOG5             }, // S_TFOG4
@@ -306,9 +306,9 @@ state_t original_states[] =
     { SPR_TFOG,   (9 | FF_FULLBRIGHT),    6, NULL,                   S_NULL              }, // S_TFOG10
 
     // Item Fog  Item Fog (MT_IFOG)
-    { SPR_IFOG,   (0 | FF_FULLBRIGHT),    6, NULL,                   S_IFOG01            }, // S_IFOG
+    { SPR_IFOG,    FF_FULLBRIGHT,         6, NULL,                   S_IFOG01            }, // S_IFOG
     { SPR_IFOG,   (1 | FF_FULLBRIGHT),    6, NULL,                   S_IFOG02            }, // S_IFOG01
-    { SPR_IFOG,   (0 | FF_FULLBRIGHT),    6, NULL,                   S_IFOG2             }, // S_IFOG02
+    { SPR_IFOG,    FF_FULLBRIGHT,         6, NULL,                   S_IFOG2             }, // S_IFOG02
     { SPR_IFOG,   (1 | FF_FULLBRIGHT),    6, NULL,                   S_IFOG3             }, // S_IFOG2
     { SPR_IFOG,   (2 | FF_FULLBRIGHT),    6, NULL,                   S_IFOG4             }, // S_IFOG3
     { SPR_IFOG,   (3 | FF_FULLBRIGHT),    6, NULL,                   S_IFOG5             }, // S_IFOG4
@@ -463,9 +463,9 @@ state_t original_states[] =
     { SPR_VILE,   25,                    -1, NULL,                   S_NULL              }, // S_VILE_DIE10
 
     // Arch-vile Fire Attack (MT_FIRE)
-    { SPR_FIRE,   (0 | FF_FULLBRIGHT),    2, &A_StartFire,           S_FIRE2             }, // S_FIRE1
+    { SPR_FIRE,    FF_FULLBRIGHT,         2, &A_StartFire,           S_FIRE2             }, // S_FIRE1
     { SPR_FIRE,   (1 | FF_FULLBRIGHT),    2, &A_Fire,                S_FIRE3             }, // S_FIRE2
-    { SPR_FIRE,   (0 | FF_FULLBRIGHT),    2, &A_Fire,                S_FIRE4             }, // S_FIRE3
+    { SPR_FIRE,    FF_FULLBRIGHT,         2, &A_Fire,                S_FIRE4             }, // S_FIRE3
     { SPR_FIRE,   (1 | FF_FULLBRIGHT),    2, &A_Fire,                S_FIRE5             }, // S_FIRE4
     { SPR_FIRE,   (2 | FF_FULLBRIGHT),    2, &A_FireCrackle,         S_FIRE6             }, // S_FIRE5
     { SPR_FIRE,   (1 | FF_FULLBRIGHT),    2, &A_Fire,                S_FIRE7             }, // S_FIRE6
@@ -502,9 +502,9 @@ state_t original_states[] =
     { SPR_PUFF,    3,                     4, NULL,                   S_NULL              }, // S_SMOKE5
 
     // Revenant Projectile (MT_TRACER)
-    { SPR_FATB,   (0 | FF_FULLBRIGHT),    2, &A_Tracer,              S_TRACER2           }, // S_TRACER
+    { SPR_FATB,    FF_FULLBRIGHT,         2, &A_Tracer,              S_TRACER2           }, // S_TRACER
     { SPR_FATB,   (1 | FF_FULLBRIGHT),    2, &A_Tracer,              S_TRACER            }, // S_TRACER2
-    { SPR_FBXP,   (0 | FF_FULLBRIGHT),    8, NULL,                   S_TRACEEXP2         }, // S_TRACEEXP1
+    { SPR_FBXP,    FF_FULLBRIGHT,         8, NULL,                   S_TRACEEXP2         }, // S_TRACEEXP1
     { SPR_FBXP,   (1 | FF_FULLBRIGHT),    6, NULL,                   S_TRACEEXP3         }, // S_TRACEEXP2
     { SPR_FBXP,   (2 | FF_FULLBRIGHT),    4, NULL,                   S_NULL              }, // S_TRACEEXP3
 
@@ -547,7 +547,7 @@ state_t original_states[] =
     { SPR_SKEL,   11,                     5, NULL,                   S_SKEL_RUN1         }, // S_SKEL_RAISE6
 
     // Mancubus Projectile (MT_FATSHOT)
-    { SPR_MANF,   (0 | FF_FULLBRIGHT),    4, NULL,                   S_FATSHOT2          }, // S_FATSHOT1
+    { SPR_MANF,    FF_FULLBRIGHT,         4, NULL,                   S_FATSHOT2          }, // S_FATSHOT1
     { SPR_MANF,   (1 | FF_FULLBRIGHT),    4, NULL,                   S_FATSHOT1          }, // S_FATSHOT2
     { SPR_MISL,   (1 | FF_FULLBRIGHT),    8, NULL,                   S_FATSHOTX2         }, // S_FATSHOTX1
     { SPR_MISL,   (2 | FF_FULLBRIGHT),    6, NULL,                   S_FATSHOTX3         }, // S_FATSHOTX2
@@ -730,7 +730,7 @@ state_t original_states[] =
     { SPR_HEAD,    6,                     8, NULL,                   S_HEAD_RUN1         }, // S_HEAD_RAISE6
 
     // Baron of Hell and Hell Knight Projectiles (MT_BRUISERSHOT)
-    { SPR_BAL7,   (0 | FF_FULLBRIGHT),    4, NULL,                   S_BRBALL2           }, // S_BRBALL1
+    { SPR_BAL7,    FF_FULLBRIGHT,         4, NULL,                   S_BRBALL2           }, // S_BRBALL1
     { SPR_BAL7,   (1 | FF_FULLBRIGHT),    4, NULL,                   S_BRBALL1           }, // S_BRBALL2
     { SPR_BAL7,   (2 | FF_FULLBRIGHT),    6, NULL,                   S_BRBALLX2          }, // S_BRBALLX1
     { SPR_BAL7,   (3 | FF_FULLBRIGHT),    6, NULL,                   S_BRBALLX3          }, // S_BRBALLX2
@@ -799,9 +799,9 @@ state_t original_states[] =
     { SPR_BOS2,    8,                     8, NULL,                   S_BOS2_RUN1         }, // S_BOS2_RAISE7
 
     // Lost Soul (MT_SKULL)
-    { SPR_SKUL,   (0 | FF_FULLBRIGHT),   10, &A_Look,                S_SKULL_STND2       }, // S_SKULL_STND
+    { SPR_SKUL,    FF_FULLBRIGHT,        10, &A_Look,                S_SKULL_STND2       }, // S_SKULL_STND
     { SPR_SKUL,   (1 | FF_FULLBRIGHT),   10, &A_Look,                S_SKULL_STND        }, // S_SKULL_STND2
-    { SPR_SKUL,   (0 | FF_FULLBRIGHT),    6, &A_Chase,               S_SKULL_RUN2        }, // S_SKULL_RUN1
+    { SPR_SKUL,    FF_FULLBRIGHT,         6, &A_Chase,               S_SKULL_RUN2        }, // S_SKULL_RUN1
     { SPR_SKUL,   (1 | FF_FULLBRIGHT),    6, &A_Chase,               S_SKULL_RUN1        }, // S_SKULL_RUN2
     { SPR_SKUL,   (2 | FF_FULLBRIGHT),   10, &A_FaceTarget,          S_SKULL_ATK2        }, // S_SKULL_ATK1
     { SPR_SKUL,   (3 | FF_FULLBRIGHT),    4, &A_SkullAttack,         S_SKULL_ATK3        }, // S_SKULL_ATK2
@@ -889,9 +889,9 @@ state_t original_states[] =
     { SPR_BSPI,    9,                     5, NULL,                   S_BSPI_RUN1         }, // S_BSPI_RAISE7
 
     // Arachnotron Projectile (MT_ARACHPLAZ)
-    { SPR_APLS,   (0 | FF_FULLBRIGHT),    5, NULL,                   S_ARACH_PLAZ2       }, // S_ARACH_PLAZ
+    { SPR_APLS,    FF_FULLBRIGHT,         5, NULL,                   S_ARACH_PLAZ2       }, // S_ARACH_PLAZ
     { SPR_APLS,   (1 | FF_FULLBRIGHT),    5, NULL,                   S_ARACH_PLAZ        }, // S_ARACH_PLAZ2
-    { SPR_APBX,   (0 | FF_FULLBRIGHT),    5, NULL,                   S_ARACH_PLEX2       }, // S_ARACH_PLEX
+    { SPR_APBX,    FF_FULLBRIGHT,         5, NULL,                   S_ARACH_PLEX2       }, // S_ARACH_PLEX
     { SPR_APBX,   (1 | FF_FULLBRIGHT),    5, NULL,                   S_ARACH_PLEX3       }, // S_ARACH_PLEX2
     { SPR_APBX,   (2 | FF_FULLBRIGHT),    5, NULL,                   S_ARACH_PLEX4       }, // S_ARACH_PLEX3
     { SPR_APBX,   (3 | FF_FULLBRIGHT),    5, NULL,                   S_ARACH_PLEX5       }, // S_ARACH_PLEX4
@@ -1023,13 +1023,13 @@ state_t original_states[] =
     { SPR_SSWV,    0,                   150, &A_BrainSpit,           S_BRAINEYE1         }, // S_BRAINEYE1
 
     // Boss Brain Projectile (MT_SPAWNSHOT)
-    { SPR_BOSF,   (0 | FF_FULLBRIGHT),    3, &A_SpawnSound,          S_SPAWN2            }, // S_SPAWN1
+    { SPR_BOSF,    FF_FULLBRIGHT,         3, &A_SpawnSound,          S_SPAWN2            }, // S_SPAWN1
     { SPR_BOSF,   (1 | FF_FULLBRIGHT),    3, &A_SpawnFly,            S_SPAWN3            }, // S_SPAWN2
     { SPR_BOSF,   (2 | FF_FULLBRIGHT),    3, &A_SpawnFly,            S_SPAWN4            }, // S_SPAWN3
     { SPR_BOSF,   (3 | FF_FULLBRIGHT),    3, &A_SpawnFly,            S_SPAWN1            }, // S_SPAWN4
 
     // Boss Brain Fire (MT_SPAWNFIRE)
-    { SPR_FIRE,   (0 | FF_FULLBRIGHT),    4, &A_Fire,                S_SPAWNFIRE2        }, // S_SPAWNFIRE1
+    { SPR_FIRE,    FF_FULLBRIGHT,         4, &A_Fire,                S_SPAWNFIRE2        }, // S_SPAWNFIRE1
     { SPR_FIRE,   (1 | FF_FULLBRIGHT),    4, &A_Fire,                S_SPAWNFIRE3        }, // S_SPAWNFIRE2
     { SPR_FIRE,   (2 | FF_FULLBRIGHT),    4, &A_Fire,                S_SPAWNFIRE4        }, // S_SPAWNFIRE3
     { SPR_FIRE,   (3 | FF_FULLBRIGHT),    4, &A_Fire,                S_SPAWNFIRE5        }, // S_SPAWNFIRE4
@@ -1042,11 +1042,11 @@ state_t original_states[] =
     { SPR_MISL,   (3 | FF_FULLBRIGHT),   10, &A_BrainExplode,        S_NULL              }, // S_BRAINEXPLODE3
 
     // Green Armor (MT_MISC0)
-    { SPR_ARM1,   (0 | FF_FULLBRIGHT),   10, NULL,                   S_ARM1A             }, // S_ARM1
+    { SPR_ARM1,    FF_FULLBRIGHT,        10, NULL,                   S_ARM1A             }, // S_ARM1
     { SPR_ARM1,    1,                    10, NULL,                   S_ARM1              }, // S_ARM1A
 
     // Blue Armor (MT_MISC1)
-    { SPR_ARM2,   (0 | FF_FULLBRIGHT),   10, NULL,                   S_ARM2A             }, // S_ARM2
+    { SPR_ARM2,    FF_FULLBRIGHT,        10, NULL,                   S_ARM2A             }, // S_ARM2
     { SPR_ARM2,    1,                    10, NULL,                   S_ARM2              }, // S_ARM2A
 
     // Barrel (MT_BARREL)
@@ -1059,7 +1059,7 @@ state_t original_states[] =
     { SPR_BEXP,   (4 | FF_FULLBRIGHT),   10, NULL,                   S_NULL              }, // S_BEXP5
 
     // Burning Barrel (MT_MISC77)
-    { SPR_FCAN,   (0 | FF_FULLBRIGHT),    4, NULL,                   S_BBAR2             }, // S_BBAR1
+    { SPR_FCAN,    FF_FULLBRIGHT,         4, NULL,                   S_BBAR2             }, // S_BBAR1
     { SPR_FCAN,   (1 | FF_FULLBRIGHT),    4, NULL,                   S_BBAR3             }, // S_BBAR2
     { SPR_FCAN,   (2 | FF_FULLBRIGHT),    4, NULL,                   S_BBAR1             }, // S_BBAR3
 
@@ -1110,7 +1110,7 @@ state_t original_states[] =
     { SPR_MEDI,    0,                    -1, NULL,                   S_NULL              }, // S_MEDI
 
     // SoulSphere (MT_MISC12)
-    { SPR_SOUL,   (0 | FF_FULLBRIGHT),    6, NULL,                   S_SOUL2             }, // S_SOUL
+    { SPR_SOUL,    FF_FULLBRIGHT,         6, NULL,                   S_SOUL2             }, // S_SOUL
     { SPR_SOUL,   (1 | FF_FULLBRIGHT),    6, NULL,                   S_SOUL3             }, // S_SOUL2
     { SPR_SOUL,   (2 | FF_FULLBRIGHT),    6, NULL,                   S_SOUL4             }, // S_SOUL3
     { SPR_SOUL,   (3 | FF_FULLBRIGHT),    6, NULL,                   S_SOUL5             }, // S_SOUL4
@@ -1118,31 +1118,31 @@ state_t original_states[] =
     { SPR_SOUL,   (1 | FF_FULLBRIGHT),    6, NULL,                   S_SOUL              }, // S_SOUL6
 
     // Invulnerability (MT_INV)
-    { SPR_PINV,   (0 | FF_FULLBRIGHT),    6, NULL,                   S_PINV2             }, // S_PINV
+    { SPR_PINV,    FF_FULLBRIGHT,         6, NULL,                   S_PINV2             }, // S_PINV
     { SPR_PINV,   (1 | FF_FULLBRIGHT),    6, NULL,                   S_PINV3             }, // S_PINV2
     { SPR_PINV,   (2 | FF_FULLBRIGHT),    6, NULL,                   S_PINV4             }, // S_PINV3
     { SPR_PINV,   (3 | FF_FULLBRIGHT),    6, NULL,                   S_PINV              }, // S_PINV4
 
     // Berserk (MT_MISC13)
-    { SPR_PSTR,   (0 | FF_FULLBRIGHT),   -1, NULL,                   S_NULL              }, // S_PSTR
+    { SPR_PSTR,    FF_FULLBRIGHT,        -1, NULL,                   S_NULL              }, // S_PSTR
 
     // Partial Invisibility (MT_INS)
-    { SPR_PINS,   (0 | FF_FULLBRIGHT),    6, NULL,                   S_PINS2             }, // S_PINS
+    { SPR_PINS,    FF_FULLBRIGHT,         6, NULL,                   S_PINS2             }, // S_PINS
     { SPR_PINS,   (1 | FF_FULLBRIGHT),    6, NULL,                   S_PINS3             }, // S_PINS2
     { SPR_PINS,   (2 | FF_FULLBRIGHT),    6, NULL,                   S_PINS4             }, // S_PINS3
     { SPR_PINS,   (3 | FF_FULLBRIGHT),    6, NULL,                   S_PINS              }, // S_PINS4
 
     // MegaSphere (MT_MEGA)
-    { SPR_MEGA,   (0 | FF_FULLBRIGHT),    6, NULL,                   S_MEGA2             }, // S_MEGA
+    { SPR_MEGA,    FF_FULLBRIGHT,         6, NULL,                   S_MEGA2             }, // S_MEGA
     { SPR_MEGA,   (1 | FF_FULLBRIGHT),    6, NULL,                   S_MEGA3             }, // S_MEGA2
     { SPR_MEGA,   (2 | FF_FULLBRIGHT),    6, NULL,                   S_MEGA4             }, // S_MEGA3
     { SPR_MEGA,   (3 | FF_FULLBRIGHT),    6, NULL,                   S_MEGA              }, // S_MEGA4
 
     // Radiation Shielding Suit (MT_MISC14)
-    { SPR_SUIT,   (0 | FF_FULLBRIGHT),   -1, NULL,                   S_NULL              }, // S_SUIT
+    { SPR_SUIT,    FF_FULLBRIGHT,        -1, NULL,                   S_NULL              }, // S_SUIT
 
     // Computer Area Map (MT_MISC15)
-    { SPR_PMAP,   (0 | FF_FULLBRIGHT),    6, NULL,                   S_PMAP2             }, // S_PMAP
+    { SPR_PMAP,    FF_FULLBRIGHT,         6, NULL,                   S_PMAP2             }, // S_PMAP
     { SPR_PMAP,   (1 | FF_FULLBRIGHT),    6, NULL,                   S_PMAP3             }, // S_PMAP2
     { SPR_PMAP,   (2 | FF_FULLBRIGHT),    6, NULL,                   S_PMAP4             }, // S_PMAP3
     { SPR_PMAP,   (3 | FF_FULLBRIGHT),    6, NULL,                   S_PMAP5             }, // S_PMAP4
@@ -1150,7 +1150,7 @@ state_t original_states[] =
     { SPR_PMAP,   (1 | FF_FULLBRIGHT),    6, NULL,                   S_PMAP              }, // S_PMAP6
 
     // Light Amplification Visor (MT_MISC16)
-    { SPR_PVIS,   (0 | FF_FULLBRIGHT),    6, NULL,                   S_PVIS2             }, // S_PVIS
+    { SPR_PVIS,    FF_FULLBRIGHT,         6, NULL,                   S_PVIS2             }, // S_PVIS
     { SPR_PVIS,    1,                     6, NULL,                   S_PVIS              }, // S_PVIS2
 
     // Clip (MT_CLIP)
@@ -1202,7 +1202,7 @@ state_t original_states[] =
     { SPR_SGN2,    0,                    -1, NULL,                   S_NULL              }, // S_SHOT2
 
     // Floor Lamp (MT_MISC31)
-    { SPR_COLU,   (0 | FF_FULLBRIGHT),   -1, NULL,                   S_NULL              }, // S_COLU
+    { SPR_COLU,    FF_FULLBRIGHT,        -1, NULL,                   S_NULL              }, // S_COLU
 
     // Gray Stalagmite (unused)
     { SPR_SMT2,    0,                    -1, NULL,                   S_NULL              }, // S_STALAG
@@ -1226,7 +1226,7 @@ state_t original_states[] =
     { SPR_POL4,    0,                    -1, NULL,                   S_NULL              }, // S_HEADONASTICK
 
     // Pile of skulls and candles (MT_MISC73)
-    { SPR_POL3,   (0 | FF_FULLBRIGHT),    6, NULL,                   S_HEADCANDLES2      }, // S_HEADCANDLES
+    { SPR_POL3,    FF_FULLBRIGHT,         6, NULL,                   S_HEADCANDLES2      }, // S_HEADCANDLES
     { SPR_POL3,   (1 | FF_FULLBRIGHT),    6, NULL,                   S_HEADCANDLES       }, // S_HEADCANDLES2
 
     // Impaled human (MT_MISC74)
@@ -1264,10 +1264,10 @@ state_t original_states[] =
     { SPR_COL4,    0,                    -1, NULL,                   S_NULL              }, // S_SHRTREDCOL
 
     // Candle (MT_MISC49)
-    { SPR_CAND,   (0 | FF_FULLBRIGHT),   -1, NULL,                   S_NULL              }, // S_CANDLESTIK
+    { SPR_CAND,    FF_FULLBRIGHT,        -1, NULL,                   S_NULL              }, // S_CANDLESTIK
 
     // Candelabra (MT_MISC50)
-    { SPR_CBRA,   (0 | FF_FULLBRIGHT),   -1, NULL,                   S_NULL              }, // S_CANDELABRA
+    { SPR_CBRA,    FF_FULLBRIGHT,        -1, NULL,                   S_NULL              }, // S_CANDELABRA
 
     // Short red pillar with skull (MT_MISC36)
     { SPR_COL6,    0,                    -1, NULL,                   S_NULL              }, // S_SKULLCOL
@@ -1282,13 +1282,13 @@ state_t original_states[] =
     { SPR_ELEC,    0,                    -1, NULL,                   S_NULL              }, // S_TECHPILLAR
 
     // Evil eye (MT_MISC38)
-    { SPR_CEYE,   (0 | FF_FULLBRIGHT),    6, NULL,                   S_EVILEYE2          }, // S_EVILEYE
+    { SPR_CEYE,    FF_FULLBRIGHT,         6, NULL,                   S_EVILEYE2          }, // S_EVILEYE
     { SPR_CEYE,   (1 | FF_FULLBRIGHT),    6, NULL,                   S_EVILEYE3          }, // S_EVILEYE2
     { SPR_CEYE,   (2 | FF_FULLBRIGHT),    6, NULL,                   S_EVILEYE4          }, // S_EVILEYE3
     { SPR_CEYE,   (1 | FF_FULLBRIGHT),    6, NULL,                   S_EVILEYE           }, // S_EVILEYE4
 
     // Floating skull (MT_MISC39)
-    { SPR_FSKU,   (0 | FF_FULLBRIGHT),    6, NULL,                   S_FLOATSKULL2       }, // S_FLOATSKULL
+    { SPR_FSKU,    FF_FULLBRIGHT,         6, NULL,                   S_FLOATSKULL2       }, // S_FLOATSKULL
     { SPR_FSKU,   (1 | FF_FULLBRIGHT),    6, NULL,                   S_FLOATSKULL3       }, // S_FLOATSKULL2
     { SPR_FSKU,   (2 | FF_FULLBRIGHT),    6, NULL,                   S_FLOATSKULL        }, // S_FLOATSKULL3
 
@@ -1297,37 +1297,37 @@ state_t original_states[] =
     { SPR_COL5,    1,                    14, NULL,                   S_HEARTCOL          }, // S_HEARTCOL2
 
     // Tall blue firestick (MT_MISC41)
-    { SPR_TBLU,   (0 | FF_FULLBRIGHT),    4, NULL,                   S_BLUETORCH2        }, // S_BLUETORCH
+    { SPR_TBLU,    FF_FULLBRIGHT,         4, NULL,                   S_BLUETORCH2        }, // S_BLUETORCH
     { SPR_TBLU,   (1 | FF_FULLBRIGHT),    4, NULL,                   S_BLUETORCH3        }, // S_BLUETORCH2
     { SPR_TBLU,   (2 | FF_FULLBRIGHT),    4, NULL,                   S_BLUETORCH4        }, // S_BLUETORCH3
     { SPR_TBLU,   (3 | FF_FULLBRIGHT),    4, NULL,                   S_BLUETORCH         }, // S_BLUETORCH4
 
     // Tall green firestick (MT_MISC42)
-    { SPR_TGRN,   (0 | FF_FULLBRIGHT),    4, NULL,                   S_GREENTORCH2       }, // S_GREENTORCH
+    { SPR_TGRN,    FF_FULLBRIGHT,         4, NULL,                   S_GREENTORCH2       }, // S_GREENTORCH
     { SPR_TGRN,   (1 | FF_FULLBRIGHT),    4, NULL,                   S_GREENTORCH3       }, // S_GREENTORCH2
     { SPR_TGRN,   (2 | FF_FULLBRIGHT),    4, NULL,                   S_GREENTORCH4       }, // S_GREENTORCH3
     { SPR_TGRN,   (3 | FF_FULLBRIGHT),    4, NULL,                   S_GREENTORCH        }, // S_GREENTORCH4
 
     // Tall red firestick (MT_MISC43)
-    { SPR_TRED,   (0 | FF_FULLBRIGHT),    4, NULL,                   S_REDTORCH2         }, // S_REDTORCH
+    { SPR_TRED,    FF_FULLBRIGHT,         4, NULL,                   S_REDTORCH2         }, // S_REDTORCH
     { SPR_TRED,   (1 | FF_FULLBRIGHT),    4, NULL,                   S_REDTORCH3         }, // S_REDTORCH2
     { SPR_TRED,   (2 | FF_FULLBRIGHT),    4, NULL,                   S_REDTORCH4         }, // S_REDTORCH3
     { SPR_TRED,   (3 | FF_FULLBRIGHT),    4, NULL,                   S_REDTORCH          }, // S_REDTORCH4
 
     // Short blue firestick (MT_MISC44)
-    { SPR_SMBT,   (0 | FF_FULLBRIGHT),    4, NULL,                   S_BTORCHSHRT2       }, // S_BTORCHSHRT
+    { SPR_SMBT,    FF_FULLBRIGHT,         4, NULL,                   S_BTORCHSHRT2       }, // S_BTORCHSHRT
     { SPR_SMBT,   (1 | FF_FULLBRIGHT),    4, NULL,                   S_BTORCHSHRT3       }, // S_BTORCHSHRT2
     { SPR_SMBT,   (2 | FF_FULLBRIGHT),    4, NULL,                   S_BTORCHSHRT4       }, // S_BTORCHSHRT3
     { SPR_SMBT,   (3 | FF_FULLBRIGHT),    4, NULL,                   S_BTORCHSHRT        }, // S_BTORCHSHRT4
 
     // Short green firestick (MT_MISC45)
-    { SPR_SMGT,   (0 | FF_FULLBRIGHT),    4, NULL,                   S_GTORCHSHRT2       }, // S_GTORCHSHRT
+    { SPR_SMGT,    FF_FULLBRIGHT,         4, NULL,                   S_GTORCHSHRT2       }, // S_GTORCHSHRT
     { SPR_SMGT,   (1 | FF_FULLBRIGHT),    4, NULL,                   S_GTORCHSHRT3       }, // S_GTORCHSHRT2
     { SPR_SMGT,   (2 | FF_FULLBRIGHT),    4, NULL,                   S_GTORCHSHRT4       }, // S_GTORCHSHRT3
     { SPR_SMGT,   (3 | FF_FULLBRIGHT),    4, NULL,                   S_GTORCHSHRT        }, // S_GTORCHSHRT4
 
     // Short red firestick (MT_MISC46)
-    { SPR_SMRT,   (0 | FF_FULLBRIGHT),    4, NULL,                   S_RTORCHSHRT2       }, // S_RTORCHSHRT
+    { SPR_SMRT,    FF_FULLBRIGHT,         4, NULL,                   S_RTORCHSHRT2       }, // S_RTORCHSHRT
     { SPR_SMRT,   (1 | FF_FULLBRIGHT),    4, NULL,                   S_RTORCHSHRT3       }, // S_RTORCHSHRT2
     { SPR_SMRT,   (2 | FF_FULLBRIGHT),    4, NULL,                   S_RTORCHSHRT4       }, // S_RTORCHSHRT3
     { SPR_SMRT,   (3 | FF_FULLBRIGHT),    4, NULL,                   S_RTORCHSHRT        }, // S_RTORCHSHRT4
@@ -1360,13 +1360,13 @@ state_t original_states[] =
     { SPR_BRS1,    0,                    -1, NULL,                   S_NULL              }, // S_BRAINSTEM
 
     // Tall techno floor lamp (MT_MISC29)
-    { SPR_TLMP,   (0 | FF_FULLBRIGHT),    4, NULL,                   S_TECHLAMP2         }, // S_TECHLAMP
+    { SPR_TLMP,    FF_FULLBRIGHT,         4, NULL,                   S_TECHLAMP2         }, // S_TECHLAMP
     { SPR_TLMP,   (1 | FF_FULLBRIGHT),    4, NULL,                   S_TECHLAMP3         }, // S_TECHLAMP2
     { SPR_TLMP,   (2 | FF_FULLBRIGHT),    4, NULL,                   S_TECHLAMP4         }, // S_TECHLAMP3
     { SPR_TLMP,   (3 | FF_FULLBRIGHT),    4, NULL,                   S_TECHLAMP          }, // S_TECHLAMP4
 
     // Short techno floor lamp (MT_MISC30)
-    { SPR_TLP2,   (0 | FF_FULLBRIGHT),    4, NULL,                   S_TECH2LAMP2        }, // S_TECH2LAMP
+    { SPR_TLP2,    FF_FULLBRIGHT,         4, NULL,                   S_TECH2LAMP2        }, // S_TECH2LAMP
     { SPR_TLP2,   (1 | FF_FULLBRIGHT),    4, NULL,                   S_TECH2LAMP3        }, // S_TECH2LAMP2
     { SPR_TLP2,   (2 | FF_FULLBRIGHT),    4, NULL,                   S_TECH2LAMP4        }, // S_TECH2LAMP3
     { SPR_TLP2,   (3 | FF_FULLBRIGHT),    4, NULL,                   S_TECH2LAMP         }, // S_TECH2LAMP4
@@ -1374,7 +1374,7 @@ state_t original_states[] =
     { SPR_TNT1,    0,                    -1, NULL,                   S_TNT1              }, // S_TNT1
 
     // killough 08/09/98: grenade
-    { SPR_MISL,   (0 | FF_FULLBRIGHT), 1000, &A_Die,                 S_GRENADE           }, // S_GRENADE
+    { SPR_MISL,    FF_FULLBRIGHT,      1000, &A_Die,                 S_GRENADE           }, // S_GRENADE
 
     { SPR_MISL,   (1 | FF_FULLBRIGHT),    4, &A_Scream,              S_DETONATE2         }, // S_DETONATE
     { SPR_MISL,   (2 | FF_FULLBRIGHT),    6, &A_Detonate,            S_DETONATE3         }, // S_DETONATE2
@@ -1455,7 +1455,7 @@ state_t original_states[] =
     { SPR_BFGG,    1,                    20, &A_ReFire,              S_BFG               }, // S_OLDBFG43
 
     // killough 07/19/98: First plasma fireball in the beta:
-    { SPR_PLS1,   (0 | FF_FULLBRIGHT),    6, NULL,                   S_PLS1BALL2         }, // S_PLS1BALL
+    { SPR_PLS1,    FF_FULLBRIGHT,         6, NULL,                   S_PLS1BALL2         }, // S_PLS1BALL
     { SPR_PLS1,   (1 | FF_FULLBRIGHT),    6, NULL,                   S_PLS1BALL          }, // S_PLS1BALL2
     { SPR_PLS1,   (2 | FF_FULLBRIGHT),    4, NULL,                   S_PLS1EXP2          }, // S_PLS1EXP
     { SPR_PLS1,   (3 | FF_FULLBRIGHT),    4, NULL,                   S_PLS1EXP3          }, // S_PLS1EXP2
@@ -1464,7 +1464,7 @@ state_t original_states[] =
     { SPR_PLS1,   (6 | FF_FULLBRIGHT),    4, NULL,                   S_NULL              }, // S_PLS1EXP5
 
     // killough 07/19/98: Second plasma fireball in the beta:
-    { SPR_PLS2,   (0 | FF_FULLBRIGHT),    4, NULL,                   S_PLS2BALL2         }, // S_PLS2BALL
+    { SPR_PLS2,    FF_FULLBRIGHT,         4, NULL,                   S_PLS2BALL2         }, // S_PLS2BALL
     { SPR_PLS2,   (1 | FF_FULLBRIGHT),    4, NULL,                   S_PLS2BALL          }, // S_PLS2BALL2
     { SPR_PLS2,   (2 | FF_FULLBRIGHT),    6, NULL,                   S_PLS2BALLX2        }, // S_PLS2BALLX1
     { SPR_PLS2,   (3 | FF_FULLBRIGHT),    6, NULL,                   S_PLS2BALLX3        }, // S_PLS2BALLX2
