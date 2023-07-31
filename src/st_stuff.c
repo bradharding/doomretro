@@ -1080,7 +1080,7 @@ static void ST_UpdateFaceWidget(void)
                 faceindex = (state >= 0 ? ST_XDTHFACE + MIN(state, xdthfaces - 1) : ST_XDTHFACE);
             }
             else
-                faceindex = ST_XDTHFACE;
+                faceindex = ST_DEADFACE;
         }
     }
 
