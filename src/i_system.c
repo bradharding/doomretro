@@ -304,6 +304,7 @@ void *I_Malloc(size_t size)
 
     return newp;
 }
+
 //
 // I_Realloc
 //

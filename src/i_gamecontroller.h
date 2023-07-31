@@ -35,8 +35,7 @@
 
 #pragma once
 
-#include "doomtype.h"
-#include "SDL.h"
+#include "SDL_gamecontroller.h"
 
 #define GAMECONTROLLER_A                    0x00000001
 #define GAMECONTROLLER_B                    0x00000002

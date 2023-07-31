@@ -99,7 +99,6 @@ void I_InitGameController(void)
             I_SetGameControllerVerticalSensitivity();
 
             SDL_GameControllerSetLED(gamecontroller, 255, 0, 0);
-
             return;
         }
 }
