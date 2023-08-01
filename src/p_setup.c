@@ -3919,7 +3919,7 @@ static bool P_ParseMapInfo(const char *scriptname)
 
     temp1 = commify(sc_Line);
     temp2 = uppercase(scriptname);
-    C_Output("%s line%s were parsed in the " BOLD("%s") " lump in the %s " BOLD("%s") ".",
+    C_Output("%s line%s have been parsed in the " BOLD("%s") " lump in the %s " BOLD("%s") ".",
         temp1, (sc_Line == 1 ? "" : "s"), temp2, (lumpinfo[MAPINFO]->wadfile->type == IWAD ? "IWAD" : "PWAD"),
         lumpinfo[MAPINFO]->wadfile->path);
     free(temp1);

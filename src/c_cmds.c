@@ -2401,7 +2401,7 @@ void exec_cmd_func2(char *cmd, char *parms)
         fclose(file);
 
         temp = commify(linecount);
-        C_Output("%s line%s were parsed in " BOLD("%s") ".",
+        C_Output("%s line%s have been parsed in " BOLD("%s") ".",
             temp, (linecount == 1 ? "" : "s"), leafname(parms));
         free(temp);
     }
@@ -2606,9 +2606,9 @@ static void give_cmd_func2(char *cmd, char *parms)
                 S_StartSound(viewplayer->mo, sfx_itemup);
 
                 if (M_StringCompare(playername, playername_default))
-                    C_PlayerMessage("You were given everything.");
+                    C_PlayerMessage("You have been given everything.");
                 else
-                    C_PlayerMessage("%s was given everything.", playername);
+                    C_PlayerMessage("%s has been given everything.", playername);
 
                 C_HideConsole();
             }
@@ -2631,9 +2631,9 @@ static void give_cmd_func2(char *cmd, char *parms)
                 S_StartSound(viewplayer->mo, sfx_itemup);
 
                 if (M_StringCompare(playername, playername_default))
-                    C_PlayerMessage("You were given full health.");
+                    C_PlayerMessage("You have been given full health.");
                 else
-                    C_PlayerMessage("%s was given full health.", playername);
+                    C_PlayerMessage("%s has been given full health.", playername);
 
                 C_HideConsole();
             }
@@ -2656,9 +2656,9 @@ static void give_cmd_func2(char *cmd, char *parms)
                 S_StartSound(viewplayer->mo, sfx_itemup);
 
                 if (M_StringCompare(playername, playername_default))
-                    C_PlayerMessage("You were given all your weapons.");
+                    C_PlayerMessage("You have been given all your weapons.");
                 else
-                    C_PlayerMessage("%s was given all %s weapons.",
+                    C_PlayerMessage("%s has been given all %s weapons.",
                         playername, preferredpronoun(possessive));
 
                 C_HideConsole();
@@ -2684,9 +2684,9 @@ static void give_cmd_func2(char *cmd, char *parms)
                 S_StartSound(viewplayer->mo, sfx_itemup);
 
                 if (M_StringCompare(playername, playername_default))
-                    C_PlayerMessage("You were given full ammo for all your weapons.");
+                    C_PlayerMessage("You have been given full ammo for all your weapons.");
                 else
-                    C_PlayerMessage("%s was given full ammo for all %s weapons.",
+                    C_PlayerMessage("%s has been given full ammo for all %s weapons.",
                         playername, preferredpronoun(possessive));
 
                 C_HideConsole();
@@ -2697,9 +2697,9 @@ static void give_cmd_func2(char *cmd, char *parms)
                 S_StartSound(viewplayer->mo, sfx_itemup);
 
                 if (M_StringCompare(playername, playername_default))
-                    C_PlayerMessage("You were given a backpack and full ammo for all your weapons.");
+                    C_PlayerMessage("You have been given a backpack and full ammo for all your weapons.");
                 else
-                    C_PlayerMessage("%s was given a backpack and full ammo for all %s weapons.",
+                    C_PlayerMessage("%s has been given a backpack and full ammo for all %s weapons.",
                         playername, preferredpronoun(possessive));
 
                 C_HideConsole();
@@ -2725,10 +2725,10 @@ static void give_cmd_func2(char *cmd, char *parms)
                 S_StartSound(viewplayer->mo, sfx_itemup);
 
                 if (M_StringCompare(playername, playername_default))
-                    C_PlayerMessage("You were given full %s.",
+                    C_PlayerMessage("You have been given full %s.",
                         (english == english_american ? "armor" : "armour"));
                 else
-                    C_PlayerMessage("%s was given full %s.",
+                    C_PlayerMessage("%s has been given full %s.",
                         playername, (english == english_american ? "armor" : "armour"));
 
                 C_HideConsole();
@@ -2754,9 +2754,9 @@ static void give_cmd_func2(char *cmd, char *parms)
                 S_StartSound(viewplayer->mo, sfx_itemup);
 
                 if (M_StringCompare(playername, playername_default))
-                    C_PlayerMessage("You were given all keycards and skull keys.");
+                    C_PlayerMessage("You have been given all keycards and skull keys.");
                 else
-                    C_PlayerMessage("%s was given all keycards and skull keys.", playername);
+                    C_PlayerMessage("%s has been given all keycards and skull keys.", playername);
 
                 C_HideConsole();
             }
@@ -2779,9 +2779,9 @@ static void give_cmd_func2(char *cmd, char *parms)
                 S_StartSound(viewplayer->mo, sfx_itemup);
 
                 if (M_StringCompare(playername, playername_default))
-                    C_PlayerMessage("You were given all keycards.");
+                    C_PlayerMessage("You have been given all keycards.");
                 else
-                    C_PlayerMessage("%s was given all keycards.", playername);
+                    C_PlayerMessage("%s has been given all keycards.", playername);
 
                 C_HideConsole();
             }
@@ -2804,9 +2804,9 @@ static void give_cmd_func2(char *cmd, char *parms)
                 S_StartSound(viewplayer->mo, sfx_itemup);
 
                 if (M_StringCompare(playername, playername_default))
-                    C_PlayerMessage("You were given all skull keys.");
+                    C_PlayerMessage("You have been given all skull keys.");
                 else
-                    C_PlayerMessage("%s was given all skull keys.", playername);
+                    C_PlayerMessage("%s has been given all skull keys.", playername);
 
                 C_HideConsole();
             }
@@ -2840,9 +2840,9 @@ static void give_cmd_func2(char *cmd, char *parms)
             viewplayer->ammo[am_clip] = MAX(1, viewplayer->ammo[am_clip]);
 
             if (M_StringCompare(playername, playername_default))
-                C_PlayerMessage("You were given a pistol.");
+                C_PlayerMessage("You have been given a pistol.");
             else
-                C_PlayerMessage("%s was given a pistol.", playername);
+                C_PlayerMessage("%s has been given a pistol.", playername);
 
             C_HideConsole();
             free(parm);
@@ -2885,17 +2885,17 @@ static void give_cmd_func2(char *cmd, char *parms)
                             if (thing->type == MT_MISC0 || thing->type == MT_MISC1)
                             {
                                 if (M_StringCompare(playername, playername_default))
-                                    C_PlayerMessage("You were given %s.", mobjinfo[i].name1);
+                                    C_PlayerMessage("You have been given %s.", mobjinfo[i].name1);
                                 else
-                                    C_PlayerMessage("%s was given %s.", playername, mobjinfo[i].name1);
+                                    C_PlayerMessage("%s has been given %s.", playername, mobjinfo[i].name1);
                             }
                             else
                             {
                                 if (M_StringCompare(playername, playername_default))
-                                    C_PlayerMessage("You were given %s %s.",
+                                    C_PlayerMessage("You have been given %s %s.",
                                         (isvowel(mobjinfo[i].name1[0]) ? "an" : "a"), mobjinfo[i].name1);
                                 else
-                                    C_PlayerMessage("%s was given %s %s.",
+                                    C_PlayerMessage("%s has been given %s %s.",
                                         playername, (isvowel(mobjinfo[i].name1[0]) ? "an" : "a"), mobjinfo[i].name1);
                             }
 
@@ -7592,7 +7592,7 @@ static void take_cmd_func2(char *cmd, char *parms)
 
             if (result)
             {
-                C_PlayerMessage("All weapons were taken from %s.", playername);
+                C_PlayerMessage("All weapons have been taken from %s.", playername);
                 C_HideConsole();
             }
             else if (M_StringCompare(playername, playername_default))
@@ -7653,7 +7653,7 @@ static void take_cmd_func2(char *cmd, char *parms)
             if (result)
             {
                 P_LookForCards();
-                C_PlayerMessage("All keycards and skull keys were taken from %s.", playername);
+                C_PlayerMessage("All keycards and skull keys have been taken from %s.", playername);
                 C_HideConsole();
             }
             else if (M_StringCompare(playername, playername_default))
@@ -7669,7 +7669,7 @@ static void take_cmd_func2(char *cmd, char *parms)
                 viewplayer->cards[it_redcard] = 0;
                 viewplayer->cards[it_yellowcard] = 0;
                 P_LookForCards();
-                C_PlayerMessage("All keycards were taken from %s.", playername);
+                C_PlayerMessage("All keycards have been taken from %s.", playername);
                 C_HideConsole();
             }
             else if (M_StringCompare(playername, playername_default))
@@ -7685,7 +7685,7 @@ static void take_cmd_func2(char *cmd, char *parms)
                 viewplayer->cards[it_redskull] = 0;
                 viewplayer->cards[it_yellowskull] = 0;
                 P_LookForCards();
-                C_PlayerMessage("All skull keys were taken from %s.", playername);
+                C_PlayerMessage("All skull keys have been taken from %s.", playername);
                 C_HideConsole();
             }
             else if (M_StringCompare(playername, playername_default))

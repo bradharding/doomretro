@@ -369,7 +369,7 @@ bool W_AddFile(char *filename, bool autoloaded)
     if (!M_StringCompare(leafname(filename), DOOMRETRO_RESOURCEWAD) || devparm)
     {
         temp = commify((int64_t)numlumps - startlump);
-        C_Output("%s lump%s were %s from the %s " BOLD("%s") ".",
+        C_Output("%s lump%s have been %s from the %s " BOLD("%s") ".",
             temp,
             (numlumps - startlump == 1 ? "" : "s"),
             (autoloaded ? "automatically added" : "added"),
@@ -478,12 +478,12 @@ bool W_AutoloadFiles(const char *folder)
                 fclose(file);
 
                 if (linecount == 1)
-                    C_Output("One line was parsed in " BOLD("%s") ".", temp1);
+                    C_Output("One line has been parsed in " BOLD("%s") ".", temp1);
                 else
                 {
                     char    *temp2 = commify(linecount);
 
-                    C_Output("%s lines were parsed in " BOLD("%s") ".", temp2, temp1);
+                    C_Output("%s lines have been parsed in " BOLD("%s") ".", temp2, temp1);
                     free(temp2);
                 }
             }
@@ -546,12 +546,12 @@ bool W_AutoloadFiles(const char *folder)
                 fclose(file);
 
                 if (linecount == 1)
-                    C_Output("One line was parsed in " BOLD("%s") ".", temp1);
+                    C_Output("One line has been parsed in " BOLD("%s") ".", temp1);
                 else
                 {
                     char    *temp2 = commify(linecount);
 
-                    C_Output("%s lines were parsed in " BOLD("%s") ".", temp2, temp1);
+                    C_Output("%s lines have been parsed in " BOLD("%s") ".", temp2, temp1);
                     free(temp2);
                 }
             }
