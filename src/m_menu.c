@@ -158,7 +158,7 @@ static void M_DrawSave(void);
 
 static void M_DrawSaveLoadBorder(int x, int y);
 static void M_SetupNextMenu(menu_t *menudef);
-static void M_DrawSlider(int x, int y, int width, float dot, float factor, int offset);
+static void M_DrawSlider(int x, int y, int width, float dot, float factor, int offset, bool highlight);
 static void M_WriteText(int x, int y, char *string, bool highlight, bool shadow);
 static int M_CharacterWidth(char ch, char prev);
 
@@ -1507,12 +1507,14 @@ static void M_DrawSound(void)
     dot = (float)(sfxvolume * !nosfx);
     SoundMenu[sound_empty1].sliderx = MAXWIDESCREENDELTA + SoundDef.x - 1 + 6 + (int)(dot * 4.0f) + 2;
     SoundMenu[sound_empty1].width = 16 * 8 + 12;
-    M_DrawSlider(SoundDef.x - 1, SoundDef.y + 16 * (sfx_vol + 1) + OFFSET + !hacx, 16, dot, 4.0f, 6);
+    M_DrawSlider(SoundDef.x - 1, SoundDef.y + 16 * (sfx_vol + 1) + OFFSET + !hacx,
+        16, dot, 4.0f, 6, (itemon == sfx_vol || itemon == sound_empty1));
 
     dot = (float)(musicvolume * !nomusic);
     SoundMenu[sound_empty2].sliderx = MAXWIDESCREENDELTA + SoundDef.x - 1 + 6 + (int)(dot * 4.0f) + 2;
     SoundMenu[sound_empty2].width = 16 * 8 + 12;
-    M_DrawSlider(SoundDef.x - 1, SoundDef.y + 16 * (music_vol + 1) + OFFSET + !hacx, 16, dot, 4.0f, 6);
+    M_DrawSlider(SoundDef.x - 1, SoundDef.y + 16 * (music_vol + 1) + OFFSET + !hacx,
+        16, dot, 4.0f, 6, (itemon == music_vol || itemon == sound_empty2));
 }
 
 static void M_Sound(int choice)
@@ -1930,21 +1932,24 @@ static void M_DrawOptions(void)
         (r_screensize == r_screensize_max - 1 ? vid_widescreen : 1 + !r_hud)));
     OptionsMenu[option_empty1].sliderx = MAXWIDESCREENDELTA + OptionsDef.x - 1 + 8 + (int)(dot * 6.54f) + 2;
     OptionsMenu[option_empty1].width = 16 * 8 + 12;
-    M_DrawSlider(OptionsDef.x - 1, OptionsDef.y + 16 * (scrnsize + 1) + OFFSET + !hacx, 9, dot, 6.54f, 8);
+    M_DrawSlider(OptionsDef.x - 1, OptionsDef.y + 16 * (scrnsize + 1) + OFFSET + !hacx,
+        9, dot, 6.54f, 8, (itemon == scrnsize || itemon == option_empty1));
 
     if (usinggamecontroller && !M_MSENS)
     {
         dot = roundf(joy_sensitivity_horizontal) / joy_sensitivity_horizontal_max * 8.0f;
         OptionsMenu[option_empty2].sliderx = MAXWIDESCREENDELTA + OptionsDef.x - 1 + 8 + (int)(dot * 8.0f) + 2;
         OptionsMenu[option_empty2].width = 16 * 8 + 12;
-        M_DrawSlider(OptionsDef.x - 1, OptionsDef.y + 16 * (mousesens + 1) + OFFSET + !hacx, 9, dot, 8.0f, 8);
+        M_DrawSlider(OptionsDef.x - 1, OptionsDef.y + 16 * (mousesens + 1) + OFFSET + !hacx,
+            9, dot, 8.0f, 8, (itemon == mousesens || itemon == option_empty2));
     }
     else
     {
         dot = roundf(m_sensitivity) / m_sensitivity_max * 8.0f;
         OptionsMenu[option_empty2].sliderx = MAXWIDESCREENDELTA + OptionsDef.x - 1 + 8 + (int)(dot * 8.0f) + 2;
         OptionsMenu[option_empty2].width = 16 * 8 + 12;
-        M_DrawSlider(OptionsDef.x - 1, OptionsDef.y + 16 * (mousesens + 1) + OFFSET + !hacx, 9, dot, 8.0f, 8);
+        M_DrawSlider(OptionsDef.x - 1, OptionsDef.y + 16 * (mousesens + 1) + OFFSET + !hacx,
+            9, dot, 8.0f, 8, (itemon == mousesens || itemon == option_empty2));
     }
 }
 
@@ -2350,7 +2355,7 @@ static void M_SizeDisplay(int choice)
 //
 // Menu Functions
 //
-static void M_DrawSlider(int x, int y, int width, float dot, float factor, int offset)
+static void M_DrawSlider(int x, int y, int width, float dot, float factor, int offset, bool highlight)
 {
     int xx = x;
 
@@ -2360,21 +2365,21 @@ static void M_DrawSlider(int x, int y, int width, float dot, float factor, int o
         y -= 2;
     }
 
-    M_DrawPatchWithShadow(xx, y, W_CacheLumpName("M_THERML"), false);
+    M_DrawPatchWithShadow(xx, y, W_CacheLumpName("M_THERML"), highlight);
     xx += 8;
 
     for (int i = 0; i < width; i++)
     {
-        V_DrawPatch(xx, y, 0, W_CacheLumpName("M_THERMM"));
+        V_DrawPatchWithHighlight(xx, y, 0, W_CacheLumpName("M_THERMM"), highlight);
         xx += 8;
     }
 
-    M_DrawPatchWithShadow(xx, y, W_CacheLumpName("M_THERMR"), false);
+    M_DrawPatchWithShadow(xx, y, W_CacheLumpName("M_THERMR"), highlight);
 
     for (int i = x + 9; i < x + (width + 1) * 8 + 1; i++)
-        V_DrawPixel((hacx ? i - 1 : i), y + (hacx ? 9 : 13), PINK, false, true);
+        V_DrawPixel((hacx ? i - 1 : i), y + (hacx ? 9 : 13), PINK, highlight, true);
 
-    V_DrawPatch(x + offset + (int)(dot * factor), y, 0, W_CacheLumpName("M_THERMO"));
+    V_DrawPatchWithHighlight(x + offset + (int)(dot * factor), y, 0, W_CacheLumpName("M_THERMO"), highlight);
 }
 
 void M_StartMessage(char *string, void (*routine)(int), bool input)

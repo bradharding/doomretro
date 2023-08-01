@@ -873,7 +873,7 @@ void V_DrawPatchWithShadow(int x, int y, patch_t *patch, bool flag, bool highlig
                 if (height > 0)
                 {
                     if (highlight)
-                        *dest = gold10[source[srccol >> FRACBITS]];
+                        *dest = white5[source[srccol >> FRACBITS]];
                     else
                         *dest = source[srccol >> FRACBITS];
                 }
@@ -888,6 +888,46 @@ void V_DrawPatchWithShadow(int x, int y, patch_t *patch, bool flag, bool highlig
                         *dot = black40[*dot];
                 }
 
+                srccol += DYI;
+            }
+
+            column = (column_t *)((byte *)column + length + 4);
+        }
+    }
+}
+
+void V_DrawPatchWithHighlight(int x, int y, int screen, patch_t *patch, bool highlight)
+{
+    byte        *desttop;
+    const int   width = SHORT(patch->width) << FRACBITS;
+
+    y -= SHORT(patch->topoffset);
+    x -= SHORT(patch->leftoffset);
+    x += WIDESCREENDELTA;
+
+    desttop = &screens[screen][((y * DY) >> FRACBITS) * SCREENWIDTH + ((x * DX) >> FRACBITS)];
+
+    for (int col = 0; col < width; col += DXI, desttop++)
+    {
+        column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnoffset[col >> FRACBITS]));
+
+        // step through the posts in a column
+        while (column->topdelta != 0xFF)
+        {
+            const byte  *source = (byte *)column + 3;
+            byte        *dest = &desttop[((column->topdelta * DY) >> FRACBITS) * SCREENWIDTH];
+            const byte  length = column->length;
+            int         count = (length * DY) >> FRACBITS;
+            int         srccol = 0;
+
+            while (count-- > 0)
+            {
+                if (highlight)
+                    *dest = white5[source[srccol >> FRACBITS]];
+                else
+                    *dest = source[srccol >> FRACBITS];
+
+                dest += SCREENWIDTH;
                 srccol += DYI;
             }
 
@@ -1541,7 +1581,7 @@ void V_DrawPixel(int x, int y, byte color, bool highlight, bool shadow)
         byte    *dot = *screens + ((size_t)y * SCREENWIDTH + x) * SCREENSCALE;
 
         if (highlight)
-            color = gold10[color];
+            color = white5[color];
 
         *(dot++) = color;
         *dot = color;
