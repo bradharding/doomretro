@@ -3970,6 +3970,17 @@ void M_Drawer(void)
 
             for (int i = 0; i < max; i++)
             {
+                bool highlight;
+
+                if (currentmenu == &OptionsDef && i == scrnsize && itemon == option_empty1)
+                    highlight = true;
+                else if (currentmenu == &SoundDef
+                    && ((i == sfx_vol && itemon == sound_empty1)
+                        || (i == music_vol && itemon == sound_empty2)))
+                    highlight = true;
+                else
+                    highlight = (itemon == i);
+
                 if (currentmenu->menuitems[i].routine)
                 {
                     const char  *name = currentmenu->menuitems[i].name;
@@ -3979,7 +3990,7 @@ void M_Drawer(void)
                     {
                         patch_t *patch = W_CacheLumpName(name);
 
-                        M_DrawPatchWithShadow(x, y + OFFSET, patch, (itemon == i));
+                        M_DrawPatchWithShadow(x, y + OFFSET, patch, highlight);
                         currentmenu->menuitems[i].x = x + MAXWIDESCREENDELTA;
                         currentmenu->menuitems[i].y = y + OFFSET;
                         widest = MAX(widest, SHORT(patch->width));
@@ -3991,7 +4002,7 @@ void M_Drawer(void)
                         {
                             patch_t *patch = W_CacheLumpName(name);
 
-                            M_DrawPatchWithShadow(x, y + OFFSET, patch, (itemon == i));
+                            M_DrawPatchWithShadow(x, y + OFFSET, patch, highlight);
                             currentmenu->menuitems[i].x = x + MAXWIDESCREENDELTA;
                             currentmenu->menuitems[i].y = y + OFFSET;
                             widest = MAX(widest, SHORT(patch->width));
@@ -3999,7 +4010,7 @@ void M_Drawer(void)
                         }
                         else
                         {
-                            M_DrawNightmare(itemon == i);
+                            M_DrawNightmare(highlight);
                             widest = MAX(widest, currentmenu->menuitems[nightmare].width);
                         }
                     }
@@ -4007,12 +4018,12 @@ void M_Drawer(void)
                     {
                         if (usinggamecontroller)
                         {
-                            M_DrawString(x, y + OFFSET, s_M_GAMECONTROLLERSENSITIVITY, (itemon == i || itemon == i + 1), true);
+                            M_DrawString(x, y + OFFSET, s_M_GAMECONTROLLERSENSITIVITY, highlight, true);
                             widest = MAX(widest, M_BigStringWidth(s_M_GAMECONTROLLERSENSITIVITY));
                         }
                         else
                         {
-                            M_DrawString(x, y + OFFSET, s_M_MOUSESENSITIVITY, (itemon == i || itemon == i + 1), true);
+                            M_DrawString(x, y + OFFSET, s_M_MOUSESENSITIVITY, highlight, true);
                             widest = MAX(widest, M_BigStringWidth(s_M_MOUSESENSITIVITY));
                         }
 
@@ -4024,7 +4035,7 @@ void M_Drawer(void)
                     {
                         int width = M_BigStringWidth(*text) + 8;
 
-                        M_DrawString(x, y + OFFSET, *text, (itemon == i), true);
+                        M_DrawString(x, y + OFFSET, *text, highlight, true);
                         currentmenu->menuitems[i].x = x + MAXWIDESCREENDELTA;
                         currentmenu->menuitems[i].y = y + OFFSET;
 
@@ -4066,7 +4077,7 @@ void M_Drawer(void)
                         patch_t *patch = W_CacheLumpName(name);
                         int     width = SHORT(patch->width) + 8;
 
-                        M_DrawPatchWithShadow(x, y + OFFSET, patch, (itemon == i));
+                        M_DrawPatchWithShadow(x, y + OFFSET, patch, highlight);
                         currentmenu->menuitems[i].x = x + MAXWIDESCREENDELTA;
                         currentmenu->menuitems[i].y = y + OFFSET;
 
@@ -4105,21 +4116,12 @@ void M_Drawer(void)
                     }
                     else if (**text)
                     {
-                        bool    highlight;
-                        int     width = M_BigStringWidth(*text) + 8;
-                        int     yy = y;
+                        int width = M_BigStringWidth(*text) + 8;
+
+                        yy = y;
 
                         if (currentmenu != &MainDef || titleheight < VANILLAHEIGHT)
                             yy += OFFSET;
-
-                        if (currentmenu == &OptionsDef && i == scrnsize && itemon == option_empty1)
-                            highlight = true;
-                        else if (currentmenu == &SoundDef
-                            && ((i == sfx_vol && itemon == sound_empty1)
-                                || (i == music_vol && itemon == sound_empty2)))
-                            highlight = true;
-                        else
-                            highlight = (itemon == i);
 
                         M_DrawString(x, yy, *text, highlight, true);
                         currentmenu->menuitems[i].x = x + MAXWIDESCREENDELTA;
