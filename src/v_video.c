@@ -842,7 +842,7 @@ void V_DrawTranslucentAltHUDText(int x, int y, byte *screen, patch_t *patch,
     }
 }
 
-void V_DrawMenuPatch(int x, int y, patch_t *patch, bool shadow, bool highlight)
+void V_DrawMenuPatch(int x, int y, patch_t *patch, bool shadow, bool highlight, bool darken)
 {
     byte        *desttop;
     const int   width = SHORT(patch->width) << FRACBITS;
@@ -874,6 +874,8 @@ void V_DrawMenuPatch(int x, int y, patch_t *patch, bool shadow, bool highlight)
                 {
                     if (highlight)
                         *dest = white5[source[srccol >> FRACBITS]];
+                    else if (darken)
+                        *dest = black20[source[srccol >> FRACBITS]];
                     else
                         *dest = source[srccol >> FRACBITS];
                 }
@@ -1516,7 +1518,7 @@ void V_DrawTranslucentNoGreenPatch(int x, int y, patch_t *patch)
     }
 }
 
-void V_DrawPixel(int x, int y, byte color, bool highlight, bool shadow)
+void V_DrawPixel(int x, int y, byte color, bool highlight, bool shadow, bool darken)
 {
     x += WIDESCREENDELTA;
 
@@ -1542,6 +1544,8 @@ void V_DrawPixel(int x, int y, byte color, bool highlight, bool shadow)
 
         if (highlight)
             color = white5[color];
+        else if (darken)
+            color = black20[color];
 
         *(dot++) = color;
         *dot = color;
