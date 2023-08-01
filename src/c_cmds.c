@@ -3201,7 +3201,7 @@ static void kill_cmd_func2(char *cmd, char *parms)
         const int   i = C_GetIndex(cmd);
 
         C_ShowDescription(i);
-        C_Output(BOLD("%s") " %s", cmd, consolecmds[i].format);
+        C_ShowFormat(i);
     }
     else
     {

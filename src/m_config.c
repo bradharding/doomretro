@@ -995,7 +995,7 @@ void M_LoadCVARs(char *filename)
     if (!file)
     {
         M_SaveCVARs();
-        C_Output("Created " BOLD("%s") ".", filename);
+        C_Output("All settings will be saved in " BOLD("%s") ".", filename);
         cvarsloaded = true;
         return;
     }
