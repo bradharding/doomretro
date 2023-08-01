@@ -704,7 +704,10 @@ static void I_ReadMouse(void)
             && !splashscreen && m_pointer)
         {
             if (x || y)
+            {
                 usingmouse = true;
+                usinggamecontroller = false;
+            }
 
             SDL_GetMouseState(&x, &y);
 
