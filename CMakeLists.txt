@@ -33,8 +33,6 @@
 #============================================================================
 #
 
-# Use this to build DOOM Retro in Linux or macOS.
-
 CMAKE_MINIMUM_REQUIRED(VERSION 3.4)
 
 PROJECT(doomretro C)

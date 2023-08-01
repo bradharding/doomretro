@@ -370,8 +370,8 @@ void D_Display(void)
         {
             patch_t *patch = W_CacheLumpName("M_PAUSE");
 
-            V_DrawPatchWithShadow((VANILLAWIDTH - SHORT(patch->width)) / 2,
-                (VANILLAHEIGHT - SHORT(patch->height)) / 2, patch, false, false);
+            V_DrawMenuPatch((VANILLAWIDTH - SHORT(patch->width)) / 2,
+                (VANILLAHEIGHT - SHORT(patch->height)) / 2, patch, true, false);
         }
         else
             M_DrawCenteredString((VANILLAHEIGHT - 16) / 2, s_M_PAUSED);

@@ -842,7 +842,7 @@ void V_DrawTranslucentAltHUDText(int x, int y, byte *screen, patch_t *patch,
     }
 }
 
-void V_DrawPatchWithShadow(int x, int y, patch_t *patch, bool flag, bool highlight)
+void V_DrawMenuPatch(int x, int y, patch_t *patch, bool shadow, bool highlight)
 {
     byte        *desttop;
     const int   width = SHORT(patch->width) << FRACBITS;
@@ -884,50 +884,10 @@ void V_DrawPatchWithShadow(int x, int y, patch_t *patch, bool flag, bool highlig
                 {
                     byte    *dot = dest + SCREENWIDTH + SCREENSCALE;
 
-                    if (!flag || (*dot != 47 && *dot != 191))
+                    if (shadow && *dot != 47 && *dot != 191)
                         *dot = black40[*dot];
                 }
 
-                srccol += DYI;
-            }
-
-            column = (column_t *)((byte *)column + length + 4);
-        }
-    }
-}
-
-void V_DrawPatchWithHighlight(int x, int y, int screen, patch_t *patch, bool highlight)
-{
-    byte        *desttop;
-    const int   width = SHORT(patch->width) << FRACBITS;
-
-    y -= SHORT(patch->topoffset);
-    x -= SHORT(patch->leftoffset);
-    x += WIDESCREENDELTA;
-
-    desttop = &screens[screen][((y * DY) >> FRACBITS) * SCREENWIDTH + ((x * DX) >> FRACBITS)];
-
-    for (int col = 0; col < width; col += DXI, desttop++)
-    {
-        column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnoffset[col >> FRACBITS]));
-
-        // step through the posts in a column
-        while (column->topdelta != 0xFF)
-        {
-            const byte  *source = (byte *)column + 3;
-            byte        *dest = &desttop[((column->topdelta * DY) >> FRACBITS) * SCREENWIDTH];
-            const byte  length = column->length;
-            int         count = (length * DY) >> FRACBITS;
-            int         srccol = 0;
-
-            while (count-- > 0)
-            {
-                if (highlight)
-                    *dest = white5[source[srccol >> FRACBITS]];
-                else
-                    *dest = source[srccol >> FRACBITS];
-
-                dest += SCREENWIDTH;
                 srccol += DYI;
             }
 

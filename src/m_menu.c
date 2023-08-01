@@ -777,7 +777,7 @@ static void M_DrawPatchWithShadow(int x, int y, patch_t *patch, bool highlight)
         return;
 
     if (SHORT(patch->height) < VANILLAHEIGHT)
-        V_DrawPatchWithShadow(x, y, patch, false, highlight);
+        V_DrawMenuPatch(x, y, patch, true, highlight);
     else
         V_DrawPagePatch(0, patch);
 }
@@ -792,8 +792,8 @@ static void M_DrawCenteredPatchWithShadow(int y, patch_t *patch)
         return;
 
     if (SHORT(patch->height) < VANILLAHEIGHT)
-        V_DrawPatchWithShadow((VANILLAWIDTH - SHORT(patch->width)) / 2 + SHORT(patch->leftoffset),
-            y, patch, false, false);
+        V_DrawMenuPatch((VANILLAWIDTH - SHORT(patch->width)) / 2 + SHORT(patch->leftoffset),
+            y, patch, true, false);
     else
         V_DrawPagePatch(0, patch);
 }
@@ -1463,7 +1463,7 @@ static void M_DrawHelp(void)
         {
             viewplayer->fixedcolormap = 0;
             M_DrawHelpBackground();
-            V_DrawPatchWithShadow(0, 0, W_CacheSecondLumpName(lumpname), false, false);
+            V_DrawMenuPatch(0, 0, W_CacheSecondLumpName(lumpname), true, false);
         }
         else if (W_CheckMultipleLumps(lumpname) > 2)
         {
@@ -1476,7 +1476,7 @@ static void M_DrawHelp(void)
         {
             viewplayer->fixedcolormap = 0;
             M_DrawHelpBackground();
-            V_DrawPatchWithShadow(0, 0, W_CacheLumpName(lumpname), false, false);
+            V_DrawMenuPatch(0, 0, W_CacheLumpName(lumpname), true, false);
         }
     }
 }
@@ -1617,7 +1617,7 @@ static void M_DrawMainMenu(void)
     {
         patch_t *patch = (gamemission == doom ? W_CacheLumpName("M_DOOM") : W_CacheLastLumpName("M_DOOM"));
 
-        V_DrawPatchWithShadow((VANILLAWIDTH - SHORT(patch->width)) / 2 - 1, 11 + OFFSET, patch, false, false);
+        V_DrawMenuPatch((VANILLAWIDTH - SHORT(patch->width)) / 2 - 1, 11 + OFFSET, patch, true, false);
     }
 }
 
@@ -2370,7 +2370,7 @@ static void M_DrawSlider(int x, int y, int width, float dot, float factor, int o
 
     for (int i = 0; i < width; i++)
     {
-        V_DrawPatchWithHighlight(xx, y, 0, W_CacheLumpName("M_THERMM"), highlight);
+        V_DrawMenuPatch(xx, y, W_CacheLumpName("M_THERMM"), false, highlight);
         xx += 8;
     }
 
@@ -2379,7 +2379,7 @@ static void M_DrawSlider(int x, int y, int width, float dot, float factor, int o
     for (int i = x + 9; i < x + (width + 1) * 8 + 1; i++)
         V_DrawPixel((hacx ? i - 1 : i), y + (hacx ? 9 : 13), PINK, highlight, true);
 
-    V_DrawPatchWithHighlight(x + offset + (int)(dot * factor), y, 0, W_CacheLumpName("M_THERMO"), highlight);
+    V_DrawMenuPatch(x + offset + (int)(dot * factor), y, W_CacheLumpName("M_THERMO"), false, highlight);
 }
 
 void M_StartMessage(char *string, void (*routine)(int), bool input)
