@@ -3458,8 +3458,10 @@ bool M_Responder(event_t *ev)
 
                     if (currentmenu == &MainDef)
                     {
-                        if ((itemon == load_game && !savegames)
-                            || (itemon == save_game && (gamestate != GS_LEVEL || viewplayer->health <= 0)))
+                        if (itemon == load_game && !savegames)
+                            itemon++;
+
+                        if (itemon == save_game && (gamestate != GS_LEVEL || viewplayer->health <= 0))
                             itemon++;
                     }
                     else if (currentmenu == &OptionsDef && itemon == endgame && gamestate != GS_LEVEL)
@@ -3510,8 +3512,10 @@ bool M_Responder(event_t *ev)
 
                     if (currentmenu == &MainDef)
                     {
-                        if ((itemon == save_game && (gamestate != GS_LEVEL || viewplayer->health <= 0))
-                            || (itemon == load_game && !savegames))
+                        if (itemon == save_game && (gamestate != GS_LEVEL || viewplayer->health <= 0))
+                            itemon--;
+
+                        if (itemon == load_game && !savegames)
                             itemon--;
                     }
                     else if (currentmenu == &OptionsDef && itemon == endgame && gamestate != GS_LEVEL)
