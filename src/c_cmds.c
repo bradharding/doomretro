@@ -2450,8 +2450,6 @@ static void fastmonsters_cmd_func2(char *cmd, char *parms)
         C_Output(s_STSTR_FMOFF);
         HU_SetPlayerMessage(s_STSTR_FMOFF, false, false);
     }
-
-    message_dontfuckwithme = true;
 }
 
 //
@@ -2493,7 +2491,6 @@ static void freeze_cmd_func2(char *cmd, char *parms)
         HU_SetPlayerMessage(s_STSTR_FOFF, false, false);
     }
 
-    message_dontfuckwithme = true;
     C_HideConsole();
 }
 
@@ -3272,7 +3269,6 @@ static void kill_cmd_func2(char *cmd, char *parms)
             C_PlayerMessage(buffer);
             C_HideConsole();
             HU_SetPlayerMessage(buffer, false, false);
-            message_dontfuckwithme = true;
         }
         else
         {
@@ -3354,7 +3350,6 @@ static void kill_cmd_func2(char *cmd, char *parms)
                     C_Output(buffer);
                     C_HideConsole();
                     HU_SetPlayerMessage(buffer, false, false);
-                    message_dontfuckwithme = true;
                     viewplayer->cheated++;
                     stat_cheated = SafeAdd(stat_cheated, 1);
                     M_SaveCVARs();
@@ -3388,7 +3383,6 @@ static void kill_cmd_func2(char *cmd, char *parms)
                     C_Output(buffer);
                     C_HideConsole();
                     HU_SetPlayerMessage(buffer, false, false);
-                    message_dontfuckwithme = true;
                     viewplayer->cheated++;
                     stat_cheated = SafeAdd(stat_cheated, 1);
                     M_SaveCVARs();
@@ -3423,7 +3417,6 @@ static void kill_cmd_func2(char *cmd, char *parms)
                     C_Output(buffer);
                     C_HideConsole();
                     HU_SetPlayerMessage(buffer, false, false);
-                    message_dontfuckwithme = true;
                     free(temp);
                 }
                 else
@@ -3455,7 +3448,6 @@ static void kill_cmd_func2(char *cmd, char *parms)
                     C_Output(buffer);
                     C_HideConsole();
                     HU_SetPlayerMessage(buffer, false, false);
-                    message_dontfuckwithme = true;
                     viewplayer->cheated++;
                     stat_cheated = SafeAdd(stat_cheated, 1);
                     M_SaveCVARs();
@@ -3507,7 +3499,6 @@ static void kill_cmd_func2(char *cmd, char *parms)
                     C_Output(buffer);
                     C_HideConsole();
                     HU_SetPlayerMessage(buffer, false, false);
-                    message_dontfuckwithme = true;
                     viewplayer->cheated++;
                     stat_cheated = SafeAdd(stat_cheated, 1);
                     M_SaveCVARs();
@@ -3537,7 +3528,6 @@ static void kill_cmd_func2(char *cmd, char *parms)
                     C_Output(buffer);
                     C_HideConsole();
                     HU_SetPlayerMessage(buffer, false, false);
-                    message_dontfuckwithme = true;
                 }
                 else
                     C_Warning(0, "There are no corpses to %s.", cmd);
@@ -3556,7 +3546,6 @@ static void kill_cmd_func2(char *cmd, char *parms)
                     C_Output(buffer);
                     C_HideConsole();
                     HU_SetPlayerMessage(buffer, false, false);
-                    message_dontfuckwithme = true;
                 }
                 else
                     C_Warning(0, "There are no blood splats to %s.", cmd);
@@ -3576,7 +3565,6 @@ static void kill_cmd_func2(char *cmd, char *parms)
                 C_Output(buffer);
                 C_HideConsole();
                 HU_SetPlayerMessage(buffer, false, false);
-                message_dontfuckwithme = true;
                 viewplayer->cheated++;
                 stat_cheated = SafeAdd(stat_cheated, 1);
                 M_SaveCVARs();
@@ -3667,7 +3655,6 @@ static void kill_cmd_func2(char *cmd, char *parms)
                     C_Output(buffer);
                     C_HideConsole();
                     HU_SetPlayerMessage(buffer, false, false);
-                    message_dontfuckwithme = true;
                     viewplayer->cheated++;
                     stat_cheated = SafeAdd(stat_cheated, 1);
                     M_SaveCVARs();
@@ -4154,8 +4141,6 @@ static void map_cmd_func2(char *cmd, char *parms)
         if (mapcmdmap == 9)
             message_secret = true;
     }
-
-    message_dontfuckwithme = true;
 
     gameepisode = mapcmdepisode;
 
@@ -5132,8 +5117,6 @@ static void noclip_cmd_func2(char *cmd, char *parms)
         C_Output(s_STSTR_NCOFF);
         HU_SetPlayerMessage(s_STSTR_NCOFF, false, false);
     }
-
-    message_dontfuckwithme = true;
 }
 
 //
@@ -5185,8 +5168,6 @@ static void nomonsters_cmd_func2(char *cmd, char *parms)
     {
         C_Output(s_STSTR_NMOFF);
         HU_SetPlayerMessage(s_STSTR_NMOFF, false, false);
-
-        message_dontfuckwithme = true;
 
         if (gamestate == GS_LEVEL)
             C_Warning(0, NEXTMAPWARNING);
@@ -5242,8 +5223,6 @@ static void notarget_cmd_func2(char *cmd, char *parms)
         C_Output(s_STSTR_NTOFF);
         HU_SetPlayerMessage(s_STSTR_NTOFF, false, false);
     }
-
-    message_dontfuckwithme = true;
 }
 
 //
@@ -5275,8 +5254,6 @@ static void pistolstart_cmd_func2(char *cmd, char *parms)
         C_Output(s_STSTR_PSOFF);
         HU_SetPlayerMessage(s_STSTR_PSOFF, false, false);
     }
-
-    message_dontfuckwithme = true;
 
     if (gamestate == GS_LEVEL)
         C_Warning(0, NEXTMAPWARNING);
@@ -6490,8 +6467,6 @@ static void regenhealth_cmd_func2(char *cmd, char *parms)
         C_Output(s_STSTR_RHOFF);
         HU_SetPlayerMessage(s_STSTR_RHOFF, false, false);
     }
-
-    message_dontfuckwithme = true;
 }
 
 //
@@ -6868,8 +6843,6 @@ static void respawnitems_cmd_func2(char *cmd, char *parms)
         C_Output(s_STSTR_RIOFF);
         HU_SetPlayerMessage(s_STSTR_RIOFF, false, false);
     }
-
-    message_dontfuckwithme = true;
 }
 
 //
@@ -6901,8 +6874,6 @@ static void respawnmonsters_cmd_func2(char *cmd, char *parms)
         C_Output(s_STSTR_RMOFF);
         HU_SetPlayerMessage(s_STSTR_RMOFF, false, false);
     }
-
-    message_dontfuckwithme = true;
 }
 
 //
@@ -7096,7 +7067,6 @@ static void resurrect_cmd_func2(char *cmd, char *parms)
                     C_Output(buffer);
                     C_HideConsole();
                     HU_SetPlayerMessage(buffer, false, false);
-                    message_dontfuckwithme = true;
                     free(temp);
                 }
                 else
@@ -7117,7 +7087,6 @@ static void resurrect_cmd_func2(char *cmd, char *parms)
                 C_Output(buffer);
                 C_HideConsole();
                 HU_SetPlayerMessage(buffer, false, false);
-                message_dontfuckwithme = true;
                 free(temp);
             }
             else
@@ -7148,7 +7117,6 @@ static void resurrect_cmd_func2(char *cmd, char *parms)
                     C_Output(buffer);
                     C_HideConsole();
                     HU_SetPlayerMessage(buffer, false, false);
-                    message_dontfuckwithme = true;
                     free(temp);
                 }
                 else
@@ -8115,8 +8083,6 @@ static void vanilla_cmd_func2(char *cmd, char *parms)
         C_Output(s_STSTR_VOFF);
         HU_SetPlayerMessage(s_STSTR_VOFF, false, false);
     }
-
-    message_dontfuckwithme = true;
 
     if (gamestate == GS_LEVEL)
         C_HideConsole();
