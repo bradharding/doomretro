@@ -3174,11 +3174,8 @@ bool M_Responder(event_t *ev)
             M_SizeDisplay(0);
         else if (vid_widescreen)
         {
-            if (vid_widescreen)
-            {
-                vid_widescreen = false;
-                C_StringCVAROutput(stringize(vid_widescreen), "off");
-            }
+            vid_widescreen = false;
+            C_StringCVAROutput(stringize(vid_widescreen), "off");
 
             R_SetViewSize(r_screensize + (menuactive && viewactive ? 1 : 0));
             I_RestartGraphics(false);
@@ -3203,11 +3200,8 @@ bool M_Responder(event_t *ev)
             M_SizeDisplay(1);
         else if (!vid_widescreen && !nowidescreen)
         {
-            if (!vid_widescreen)
-            {
-                vid_widescreen = true;
-                C_StringCVAROutput(stringize(vid_widescreen), "on");
-            }
+            vid_widescreen = true;
+            C_StringCVAROutput(stringize(vid_widescreen), "on");
 
             R_SetViewSize(r_screensize + (menuactive && viewactive ? 1 : 0));
             I_RestartGraphics(false);
