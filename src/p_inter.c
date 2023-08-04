@@ -78,6 +78,7 @@ bool        species_infighting = false;
 int         maxammo[] =  { 200, 50, 300, 50 };
 int         clipammo[] = {  10,  4,  20,  1 };
 
+int         cardsfound;
 mobjtype_t  prevtouchtype = MT_NULL;
 
 void P_UpdateAmmoStat(const ammotype_t ammotype, const int num)
@@ -490,8 +491,6 @@ bool P_GiveArmor(const armortype_t armortype, const bool stat)
 
     return true;
 }
-
-int cardsfound;
 
 void P_LookForCards(void)
 {

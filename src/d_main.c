@@ -90,7 +90,7 @@
 #endif
 
 #define FADECOUNT    8
-#define FADETICS     (fastfade ? 12 : 25)
+#define FADETICS     (fastfade ? 15 : 25)
 
 char **episodes[] =
 {
