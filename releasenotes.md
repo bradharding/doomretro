@@ -12,7 +12,8 @@
 * Changes have been made to text that is output to the console.
 * Minor improvements have been made to text autocompleted in the console by pressing the <kbd><b>TAB</b></kbd> key.
 * The caret may now be repositioned in the console’s input using the mouse pointer when the `m_pointer` CVAR is `on`.
-* The `r_color` CVAR has now been renamed `r_saturation`, and it’s maximum value has increased from `100%` to `200%` to allow colors on the screen to be oversaturated.
+* The effects of changing the `r_gamma` and `r_color` CVARs are now applied to *DOOM Retro’s* splash screen.
+* The `r_color` CVAR is now renamed `r_saturation`, and can now be set to a value over `100%` to a maximum of `200%` allowing colors on the screen to be oversaturated.
 * A crash no longer occurs when trying to display certain patches greater than 200 pixels in height.
 * These changes have been made to the menu:
   * Text in the menu is now subtly highlighted when selected.
@@ -25,21 +26,20 @@
     * The *Nightmare!* skill level can now always be selected.
     * The mouse pointer is now visible after just using a controller to navigate the menu.
   * “New Game” is now selected in the main menu after deleting the only savegame in the save or load game menus.
-* The effects of changing the `r_gamma` and `r_saturation` CVARs are now applied to *DOOM Retro’s* splash screen.
 * The `r_lowpixelsize` CVAR can now also be set to `1×2` or `2×1`.
 * A bug is fixed whereby sometimes the player wouldn’t pick up an item in a liquid sector when the `r_liquid_clipsprites` CVAR was `on`.
 * Improvements have been made to equipping either the chainsaw or fists when the player presses the <kbd><b>1</b></kbd> key.
 * A bug is fixed whereby the player’s field of view would sometimes be wrong when changing the `r_fov` CVAR.
 * Minor improvements have been made to rendering floors and ceilings.
 * A bug is fixed whereby the textures on two-sided walls next to a liquid sector would be rendered incorrectly when the `r_liquid_bob` CVAR was `on`.
-* Walls that have been incorrectly marked two-sided are now rendered as intended.
+* Walls that have been incorrectly marked as two-sided are now rendered as intended.
 * When using the `IDCLEV` cheat and vanilla mode is enabled, the player now starts a map with 100% health, no armor, and only a pistol with 50 bullets.
 * A slightly darker color is now chosen for the surrounding pillarboxes when displaying certain lumps from PWADs that are only 320 pixels wide and the `vid_widescreen` CVAR is `on`.
 * A bug is fixed, present in the original *DOOM*, whereby stairs that rose up from the floor would fail in some rare instances.
 * If regenerating health is enabled using the `regenhealth` CCMD, a sound is now played and the “Health picked up” stat is updated every second the player’s health increases by 1% until it is 100% again.
 * Several improvements have been made to the player’s health in the status bar when they are dead and the `negativehealth` CVAR is `on`.
 * These improvements have been made to the support for [*MBF21*](https://doomwiki.org/wiki/MBF21)-compatible WADs:
-  * The `A_RadiusDamage` codepointer now correctly uses `Args1` instead of `Args2` as the amount of damage.
+  * The `A_RadiusDamage` codepointer now correctly uses `Args1` rather than `Args2` for the amount of damage inflicted.
   * Things spawned using the `A_SpawnObject` codepointer now inherit the blood color of the spawner.
 * These improvements have been made to the support for `MAPINFO` lumps:
   * A bug is fixed whereby many compatibility flags weren’t being parsed correctly.
@@ -52,10 +52,10 @@
 * When the `mouselook` CVAR is `on`:
   * Minor improvements have been made to aiming vertically.
   * The player can now see slightly further when looking up or down.
-  * A crash no longer occurs if a blood splat touches the top of the screen while the player looks down.
+  * A crash no longer occurs if a blood splat happens to touch the top of the screen while the player is looking down.
   * The vertical direction the player is looking is no longer reset in the help screen’s background when pressing the <kbd><b>F1</b></kbd> key.
 * Blood splats far away from the player no longer flicker in some instances.
-* When the `vid_widescreen` CVAR is `on` and the screen is wider than the status bar, the `FLOOR7_2` or `GRNROCK` textures no longer fill the sides. A color matching the colors in the status bar is shown instead.
+* When the `vid_widescreen` CVAR is `on`, and the screen is wider than the status bar, the `FLOOR7_2` or `GRNROCK` textures no longer fill the sides. A color matching the colors in the status bar is shown instead.
 * The text in the automap is now always positioned correctly when the `am_external` CVAR is `on`.
 * The default of the `am_gridcolor` CVAR is now `6` instead of `111`.
 * The player no longer exits the map if they are dead when a timer set using the `timer` CCMD runs out.
