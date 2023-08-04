@@ -63,7 +63,7 @@ static void SC_ScriptError(void)
 {
     char    *temp = commify(sc_Line);
 
-    C_Warning(1, "Line %s in the " BOLD("%s") " lump is invalid.", temp, ScriptLumpName);
+    C_Warning(1, "Line %s in the " BOLD("%s") " lump couldn't be parsed.", temp, ScriptLumpName);
     free(temp);
 }
 

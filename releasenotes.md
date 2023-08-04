@@ -13,7 +13,7 @@
 * Minor improvements have been made to text autocompleted in the console by pressing the <kbd><b>TAB</b></kbd> key.
 * The caret may now be repositioned in the console’s input using the mouse pointer when the `m_pointer` CVAR is `on`.
 * The effects of changing the `r_gamma` and `r_color` CVARs are now applied to *DOOM Retro’s* splash screen.
-* The `r_color` CVAR is now renamed `r_saturation`, and can now be set to a value over `100%` to a maximum of `200%` allowing colors on the screen to be oversaturated.
+* The `r_color` CVAR is now renamed `r_saturation`, and can be set to a value over `100%` up to a maximum of `200%`, allowing colors on the screen to be oversaturated.
 * A crash no longer occurs when trying to display certain patches greater than 200 pixels in height.
 * These changes have been made to the menu:
   * Text in the menu is now subtly highlighted when selected.
@@ -30,6 +30,7 @@
 * A bug is fixed whereby sometimes the player wouldn’t pick up an item in a liquid sector when the `r_liquid_clipsprites` CVAR was `on`.
 * Improvements have been made to equipping either the chainsaw or fists when the player presses the <kbd><b>1</b></kbd> key.
 * A bug is fixed whereby the player’s field of view would sometimes be wrong when changing the `r_fov` CVAR.
+* Further improvements have been made to the support of [*REKKR: Sunken Land*](https://store.steampowered.com/app/1715690/REKKR_Sunken_Land/).
 * Minor improvements have been made to rendering floors and ceilings.
 * A bug is fixed whereby the textures on two-sided walls next to a liquid sector would be rendered incorrectly when the `r_liquid_bob` CVAR was `on`.
 * Walls that have been incorrectly marked as two-sided are now rendered as intended.
