@@ -194,6 +194,9 @@ void SC_MustGetString(void)
 {
     if (!SC_GetString())
         SC_ScriptError();
+
+    if (SC_Compare("\r"))
+        SC_MustGetString();
 }
 
 bool SC_GetNumber(void)

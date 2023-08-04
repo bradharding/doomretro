@@ -3615,9 +3615,38 @@ static bool P_ParseMapInfo(const char *scriptname)
 
                             M_StringCopy(lumpname, sc_String, sizeof(lumpname));
                             SC_MustGetString();
-                            M_StringCopy(string, sc_String, sizeof(string));
-                            SC_MustGetString();
-                            M_AddEpisode(map, ep, lumpname, string);
+
+                            if (SC_Compare("name"))
+                            {
+                                SC_MustGetString();
+                                M_StringCopy(string, sc_String, sizeof(string));
+                                SC_MustGetString();
+
+                                if (SC_Compare("picname"))
+                                {
+                                    SC_MustGetString();
+                                    M_AddEpisode(map, ep, sc_String, string);
+                                }
+                            }
+                            else if (SC_Compare("picname"))
+                            {
+                                SC_MustGetString();
+                                M_StringCopy(string, sc_String, sizeof(string));
+                                SC_MustGetString();
+
+                                if (SC_Compare("name"))
+                                {
+                                    SC_MustGetString();
+                                    M_AddEpisode(map, ep, string, sc_String);
+                                }
+                            }
+                            else
+                            {
+                                M_StringCopy(string, sc_String, sizeof(string));
+                                SC_MustGetString();
+                                M_AddEpisode(map, ep, lumpname, string);
+                            }
+
                             break;
                         }
 
