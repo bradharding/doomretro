@@ -80,7 +80,7 @@ static bool             headsupactive;
 
 patch_t                 *minuspatch = NULL;
 short                   minuspatchwidth = 0;
-static int              minuspatchy;
+int                     minuspatchy = 0;
 static patch_t          *greenarmorpatch;
 static patch_t          *bluearmorpatch;
 

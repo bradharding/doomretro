@@ -195,7 +195,7 @@ void STlib_UpdateBigHealthNum(st_number_t *n)
         else if ((num >= -19 && num <= -10) || num == -1)
             x += 2;
 
-        V_DrawPatch(x - minuspatchwidth, y, 0, minuspatch);
+        V_DrawPatch(x - minuspatchwidth, y + minuspatchy, 0, minuspatch);
     }
 }
 
