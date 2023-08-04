@@ -945,7 +945,7 @@ void V_DrawHighlightedHUDNumberPatch(int x, int y, patch_t *patch, const byte *t
             {
                 byte    dot = *source++;
 
-                *dest = (dot == 109 ? tinttab33[*dest] : gold15[dot]);
+                *dest = (dot == 109 ? tinttab33[*dest] : white5[dot]);
                 dest += SCREENWIDTH;
             }
 
