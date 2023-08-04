@@ -3315,6 +3315,30 @@ static void P_InitMapInfo(void)
     }
 }
 
+static void P_ParseMapString(char *string, int *map, int *ep)
+{
+    char    *buffer = uppercase(string);
+    int     value1;
+    int     value2;
+
+    if (gamemode == commercial)
+    {
+        if (sscanf(buffer, "MAP0%1i", &value1) == 1
+            || sscanf(buffer, "MAP%2i", &value1) == 1)
+            *map = value1;
+    }
+    else
+    {
+        if (sscanf(buffer, "E%1iM%i", &value1, &value2) == 2)
+        {
+            *ep = value1;
+            *map = value2;
+        }
+    }
+
+    free(buffer);
+}
+
 static bool P_ParseMapInfo(const char *scriptname)
 {
     int         mapmax = 1;
@@ -3413,6 +3437,8 @@ static bool P_ParseMapInfo(const char *scriptname)
                             break;
                     }
                 }
+                else
+                    break;
             }
         }
         else if (SC_Compare("MAP"))
@@ -3481,9 +3507,8 @@ static bool P_ParseMapInfo(const char *scriptname)
 
                         case MCMD_BOSSACTION:
                             SC_MustGetString();
-                            C_Output(sc_String);
 
-                            if (SC_Compare("clear"))
+                            if (SC_Compare("CLEAR"))
                             {
                                 if (info->bossactions)
                                     free(info->bossactions);
@@ -3569,7 +3594,7 @@ static bool P_ParseMapInfo(const char *scriptname)
                         case MCMD_ENDBUNNY:
                             SC_MustGetString();
 
-                            if (SC_Compare("true"))
+                            if (SC_Compare("TRUE"))
                                 info->endbunny = true;
 
                             break;
@@ -3577,7 +3602,7 @@ static bool P_ParseMapInfo(const char *scriptname)
                         case MCMD_ENDCAST:
                             SC_MustGetString();
 
-                            if (SC_Compare("true"))
+                            if (SC_Compare("TRUE"))
                                 info->endcast = true;
 
                             break;
@@ -3585,7 +3610,7 @@ static bool P_ParseMapInfo(const char *scriptname)
                         case MCMD_ENDGAME:
                             SC_MustGetString();
 
-                            if (SC_Compare("true"))
+                            if (SC_Compare("TRUE"))
                                 info->endgame = true;
 
                             break;
@@ -3607,7 +3632,7 @@ static bool P_ParseMapInfo(const char *scriptname)
 
                             SC_MustGetString();
 
-                            if (SC_Compare("clear"))
+                            if (SC_Compare("CLEAR"))
                             {
                                 M_AddEpisode(map, ep, "", "");
                                 break;
@@ -3616,27 +3641,29 @@ static bool P_ParseMapInfo(const char *scriptname)
                             M_StringCopy(lumpname, sc_String, sizeof(lumpname));
                             SC_MustGetString();
 
-                            if (SC_Compare("name"))
+                            if (SC_Compare("NAME"))
                             {
                                 SC_MustGetString();
                                 M_StringCopy(string, sc_String, sizeof(string));
                                 SC_MustGetString();
 
-                                if (SC_Compare("picname"))
+                                if (SC_Compare("PICNAME"))
                                 {
                                     SC_MustGetString();
+                                    P_ParseMapString(lumpname, &map, &ep);
                                     M_AddEpisode(map, ep, sc_String, string);
                                 }
                             }
-                            else if (SC_Compare("picname"))
+                            else if (SC_Compare("PICNAME"))
                             {
                                 SC_MustGetString();
                                 M_StringCopy(string, sc_String, sizeof(string));
                                 SC_MustGetString();
 
-                                if (SC_Compare("name"))
+                                if (SC_Compare("NAME"))
                                 {
                                     SC_MustGetString();
+                                    P_ParseMapString(lumpname, &map, &ep);
                                     M_AddEpisode(map, ep, string, sc_String);
                                 }
                             }
@@ -3941,6 +3968,49 @@ static bool P_ParseMapInfo(const char *scriptname)
                 info->sky1scrolldelta = 15 << 8;
 
             mapmax = MAX(map, mapmax);
+        }
+        else if (SC_Compare("EPISODE"))
+        {
+            char    lumpname[9];
+            char    string[128];
+
+            SC_MustGetString();
+
+            if (SC_Compare("CLEAR"))
+            {
+                M_AddEpisode(map, ep, "", "");
+                break;
+            }
+
+            M_StringCopy(lumpname, sc_String, sizeof(lumpname));
+            SC_MustGetString();
+
+            if (SC_Compare("NAME"))
+            {
+                SC_MustGetString();
+                M_StringCopy(string, sc_String, sizeof(string));
+                SC_MustGetString();
+
+                if (SC_Compare("PICNAME"))
+                {
+                    SC_MustGetString();
+                    P_ParseMapString(lumpname, &map, &ep);
+                    M_AddEpisode(map, ep, sc_String, string);
+                }
+            }
+            else if (SC_Compare("PICNAME"))
+            {
+                SC_MustGetString();
+                M_StringCopy(string, sc_String, sizeof(string));
+                SC_MustGetString();
+
+                if (SC_Compare("NAME"))
+                {
+                    SC_MustGetString();
+                    P_ParseMapString(lumpname, &map, &ep);
+                    M_AddEpisode(map, ep, string, sc_String);
+                }
+            }
         }
     }
 

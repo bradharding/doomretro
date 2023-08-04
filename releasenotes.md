@@ -44,8 +44,9 @@
 * These improvements have been made to the support for `MAPINFO` lumps:
   * A bug is fixed whereby many compatibility flags weren’t being parsed correctly.
   * `MAPINFO` lumps are now parsed if either `NERVE.WAD` or `SIGIL.WAD` are loaded.
-  * `bossaction` is now recognized.
-  * The `compat_stairs` and `compat_zombie` compatibility flags are now recognized.
+  * `episode` is now parsed correctly.
+  * `bossaction` is now parsed.
+  * The `compat_stairs` and `compat_zombie` compatibility flags are now parsed.
 * Friendly monsters spawned using the `spawn` CCMD now follow the player into the next map.
 * The mouse pointer is no longer displayed on the intermission or finale screens when the player moves the mouse and the `m_pointer` CVAR is `on`.
 * When the `mouselook` CVAR is `on`:
