@@ -810,10 +810,19 @@ int W_GetSecondNumForName(const char *name)
 {
     int count = 0;
     int i;
+    int j = -1;
 
     for (i = 0; i < numlumps; i++)
-        if (!strncasecmp(lumpinfo[i]->name, name, 8) && ++count == 2)
-            break;
+        if (!strncasecmp(lumpinfo[i]->name, name, 8))
+        {
+            if (++count == 2)
+                break;
+            else
+                j = i;
+        }
+
+    if (j != -1)
+        return j;
 
     if (i == numlumps)
         I_Error("W_GetSecondNumForName: %s not found!", name);
