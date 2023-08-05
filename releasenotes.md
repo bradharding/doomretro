@@ -40,6 +40,7 @@
 * If regenerating health is enabled using the `regenhealth` CCMD, a sound is now played and the “Health picked up” stat is updated every second the player’s health increases by 1% until it is 100% again.
 * Several improvements have been made to the player’s health in the status bar when they are dead and the `negativehealth` CVAR is `on`.
 * Several improvements have been made to the player’s health, armor and ammo in the widescreen HUD flashing when they change.
+* The default value of the `crosshaircolor` CVAR is now `112` instead of `4`.
 * These improvements have been made to the support for [*MBF21*](https://doomwiki.org/wiki/MBF21)-compatible WADs:
   * The `A_RadiusDamage` codepointer now correctly uses `Args1` rather than `Args2` for the amount of damage inflicted.
   * Things spawned using the `A_SpawnObject` codepointer now inherit the blood color of the spawner.
@@ -59,7 +60,7 @@
 * Blood splats far away from the player no longer flicker in some instances.
 * When the `vid_widescreen` CVAR is `on`, and the screen is wider than the status bar, the `FLOOR7_2` or `GRNROCK` textures no longer fill the sides. A color matching the colors in the status bar is shown instead.
 * The text in the automap is now always positioned correctly when the `am_external` CVAR is `on`.
-* The default of the `am_gridcolor` CVAR is now `6` instead of `111`.
+* The default value of the `am_gridcolor` CVAR is now `6` instead of `111`.
 * The player no longer exits the map if they are dead when a timer set using the `timer` CCMD runs out.
 * Support has been added for the lumps `STFXDTH0` to `STFXDTH9`. If included in a PWAD, the player’s face in the status bar now animates when they are gibbed. This is a feature revived from the old [3DO](https://doomwiki.org/wiki/3DO), [Jaguar](https://doomwiki.org/wiki/Atari_Jaguar) and [PSX](https://doomwiki.org/wiki/Sony_PlayStation) *DOOM* ports.
 * The accompanying readme file for the currently loaded PWAD can now be displayed by entering the new `readme` CCMD in the console.
