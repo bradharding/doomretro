@@ -95,7 +95,7 @@ extern bool usesmallnums;
 //
 
 // Initializes widget library.
-// More precisely, initialize STMINUS,
+// More precisely, initialize STTMINUS,
 //  everything else is done somewhere else.
 //
 // Number widget routines

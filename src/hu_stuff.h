@@ -57,7 +57,7 @@
 
 #define HUD_HEALTH_X                (MAXWIDESCREENDELTA + 2)
 #define HUD_HEALTH_Y                (SCREENHEIGHT - 32)
-#define HUD_HEALTH_MIN              10
+#define HUD_HEALTH_MIN              20
 #define HUD_HEALTH_WAIT             250
 #define HUD_HEALTH_HIGHLIGHT_WAIT   250
 

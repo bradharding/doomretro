@@ -205,8 +205,7 @@ void HU_Init(void)
     {
         const patch_t   *patch = W_CacheLumpName("STTNUM0");
 
-        minuspatch = (W_CheckMultipleLumps("STTMINUS") == 1 ? W_CacheLumpName("STTMINUS") :
-            W_CacheSecondLumpName("STTMINUS"));
+        minuspatch = W_CacheLumpName("STTMINUS");
         minuspatchwidth = SHORT(minuspatch->width);
         minuspatchy = (SHORT(patch->height) - SHORT(minuspatch->height)) / 2;
     }
@@ -630,7 +629,7 @@ static void HU_DrawHUD(void)
             if (healthwait < currenttime)
             {
                 healthanim = !healthanim;
-                healthwait = currenttime + HUD_HEALTH_WAIT * health / HUD_HEALTH_MIN + 115;
+                healthwait = currenttime + HUD_HEALTH_WAIT;
             }
         }
         else
@@ -746,7 +745,7 @@ static void HU_DrawHUD(void)
                     if (ammowait < currenttime)
                     {
                         ammoanim = !ammoanim;
-                        ammowait = currenttime + HUD_AMMO_WAIT * ammo / HUD_AMMO_MIN + 115;
+                        ammowait = currenttime + HUD_AMMO_WAIT;
                     }
                 }
                 else
