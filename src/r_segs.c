@@ -590,7 +590,6 @@ void R_StoreWallRange(const int start, const int stop)
     int     worldbottom;
     int     worldhigh = 0;
     int     worldlow = 0;
-    bool    worldbottomoffset = false;
     side_t  *sidedef;
 
     linedef = curline->linedef;
@@ -677,10 +676,7 @@ void R_StoreWallRange(const int start, const int stop)
     if (frontsector->terraintype >= LIQUID
         && (!frontsector->heightsec || viewz > frontsector->heightsec->interpfloorheight)
         && r_liquid_bob)
-    {
-        worldbottomoffset = true;
         worldbottom += animatedliquiddiff;
-    }
 
     R_FixWiggle(frontsector);
 
@@ -781,7 +777,6 @@ void R_StoreWallRange(const int start, const int stop)
         if (backsector->terraintype >= LIQUID
             && backsector->interpfloorheight >= frontsector->interpfloorheight
             && (!backsector->heightsec || viewz > backsector->heightsec->interpfloorheight)
-            && (!worldbottomoffset || backsector->floorheight > frontsector->floorheight)
             && r_liquid_bob)
         {
             liquidoffset = animatedliquiddiff;
@@ -859,9 +854,6 @@ void R_StoreWallRange(const int start, const int stop)
                 bottombrightmap = (usebrightmaps && !nobrightmap[bottomtexture] ? brightmap[bottomtexture] : NULL);
                 rw_bottomtexturemid = ((linedef->flags & ML_DONTPEGBOTTOM) ? worldtop : worldlow - liquidoffset)
                     + FixedMod(sidedef->rowoffset, height);
-
-                if (liquidoffset)
-                    rw_bottomtexturemid += 4 * FRACUNIT;
             }
         }
 
