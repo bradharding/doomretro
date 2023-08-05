@@ -3609,13 +3609,13 @@ bool M_Responder(event_t *ev)
             {
                 episode = itemon + 1;
                 M_SaveCVARs();
-                C_IntegerCVAROutput(stringize(episode), episode);
+                C_IntegerCVAROutputNoRepeat(stringize(episode), episode);
             }
             else if (currentmenu == &ExpDef)
             {
                 expansion = itemon + 1;
                 M_SaveCVARs();
-                C_IntegerCVAROutput(stringize(expansion), expansion);
+                C_IntegerCVAROutputNoRepeat(stringize(expansion), expansion);
             }
             else if (currentmenu == &NewDef)
             {
@@ -3627,7 +3627,7 @@ bool M_Responder(event_t *ev)
             {
                 savegame = itemon + 1;
                 M_SaveCVARs();
-                C_IntegerCVAROutput(stringize(savegame), savegame);
+                C_IntegerCVAROutputNoRepeat(stringize(savegame), savegame);
             }
 
             skipaction = (currentmenu == &LoadDef || currentmenu == &SaveDef || currentmenu == &NewDef);
