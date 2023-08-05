@@ -39,7 +39,7 @@
 * A bug is fixed, present in the original *DOOM*, whereby stairs that rose up from the floor would fail in some rare instances.
 * If regenerating health is enabled using the `regenhealth` CCMD, a sound is now played and the “Health picked up” stat is updated every second the player’s health increases by 1% until it is 100% again.
 * Several improvements have been made to the player’s health in the status bar when they are dead and the `negativehealth` CVAR is `on`.
-* The player’s health, armor and ammo in the widescreen HUD now flash white rather than gold when they change.
+* Several improvements have been made to the player’s health, armor and ammo in the widescreen HUD flashing when they change.
 * These improvements have been made to the support for [*MBF21*](https://doomwiki.org/wiki/MBF21)-compatible WADs:
   * The `A_RadiusDamage` codepointer now correctly uses `Args1` rather than `Args2` for the amount of damage inflicted.
   * Things spawned using the `A_SpawnObject` codepointer now inherit the blood color of the spawner.

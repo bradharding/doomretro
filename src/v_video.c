@@ -873,7 +873,7 @@ void V_DrawMenuPatch(int x, int y, patch_t *patch, bool shadow, bool highlight)
                 if (height > 0)
                 {
                     if (highlight)
-                        *dest = white10[source[srccol >> FRACBITS]];
+                        *dest = white5[source[srccol >> FRACBITS]];
                     else
                         *dest = source[srccol >> FRACBITS];
                 }
@@ -943,9 +943,9 @@ void V_DrawHighlightedHUDNumberPatch(int x, int y, patch_t *patch, const byte *t
 
             while (count-- > 0)
             {
-                byte    dot = *source++;
+                const byte  dot = *source++;
 
-                *dest = (dot == 109 ? dot : white10[dot]);
+                *dest = (dot == DARKGRAY3 ? dot : white5[dot]);
                 dest += SCREENWIDTH;
             }
 
@@ -973,9 +973,9 @@ void V_DrawTranslucentHighlightedHUDNumberPatch(int x, int y, patch_t *patch, co
 
             while (count-- > 0)
             {
-                byte    dot = *source++;
+                const byte  dot = *source++;
 
-                *dest = (dot == 109 ? tinttab33[*dest] : white10[dot]);
+                *dest = (dot == DARKGRAY3 ? tinttab33[*dest] : white5[dot]);
                 dest += SCREENWIDTH;
             }
 
@@ -1031,9 +1031,9 @@ void V_DrawTranslucentHUDNumberPatch(int x, int y, patch_t *patch, const byte *t
 
             while (count-- > 0)
             {
-                byte    dot = *source++;
+                const byte  dot = *source++;
 
-                *dest = (dot == 109 ? tinttab33[*dest] : tinttab[(dot << 8) + *dest]);
+                *dest = (dot == DARKGRAY3 ? tinttab33[*dest] : tinttab[(dot << 8) + *dest]);
                 dest += SCREENWIDTH;
             }
 
@@ -1061,7 +1061,7 @@ void V_DrawAltHUDPatch(int x, int y, patch_t *patch, int from, int to, const byt
 
             while (count-- > 0)
             {
-                byte    dot = *source++;
+                const byte  dot = *source++;
 
                 if (dot == from)
                     *dest = to;
@@ -1098,7 +1098,7 @@ void V_DrawTranslucentAltHUDPatch(int x, int y, patch_t *patch, int from, int to
 
             while (count-- > 0)
             {
-                byte    dot = *source++;
+                const byte  dot = *source++;
 
                 if (dot == from)
                     *dest = (tinttab ? tinttab[to + *dest] : to);

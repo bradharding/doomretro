@@ -46,6 +46,7 @@
 #define DARKBLUE      244
 #define DARKGRAY1     102
 #define DARKGRAY2     106
+#define DARKGRAY3     109
 #define GRAY1          92
 #define GRAY2          96
 #define GREEN1        112
@@ -104,7 +105,6 @@ extern byte nearestwhite;
 extern byte *black25;
 extern byte *black40;
 extern byte *white5;
-extern byte *white10;
 extern byte *white25;
 extern byte *white33;
 

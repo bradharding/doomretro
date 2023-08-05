@@ -4262,7 +4262,7 @@ void M_Init(void)
 
     menuborder = W_CacheLastLumpName("DRBORDER");
 
-    titleheight = SHORT(((patch_t*)W_CacheLumpName("M_DOOM"))->height);
+    titleheight = SHORT(((patch_t *)W_CacheLumpName("M_DOOM"))->height);
 
     for (int i = 0; i < 256; i++)
         blues[i] = nearestcolors[blues[i]];

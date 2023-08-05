@@ -38,6 +38,7 @@
 #include "g_game.h"
 #include "hu_stuff.h"
 #include "i_gamecontroller.h"
+#include "i_timer.h"
 #include "m_config.h"
 #include "m_menu.h"
 #include "p_inter.h"
@@ -588,10 +589,16 @@ void P_PlayerThink(void)
         else if (healthdiff > 0)
             healthdiff = MAX(0, healthdiff - healthdiffspeed);
 
+        if (healthdiff)
+            healthhighlight = I_GetTimeMS() + TICRATE;
+
         if (armordiff < 0)
             armordiff = MIN(armordiff + armordiffspeed, 0);
         else if (armordiff > 0)
             armordiff = MAX(0, armordiff - armordiffspeed);
+
+        if (armordiff)
+            armorhighlight = I_GetTimeMS() + TICRATE;
 
         for (ammotype_t i = 0; i < NUMAMMO; i++)
         {
@@ -599,6 +606,9 @@ void P_PlayerThink(void)
                 ammodiff[i] = MIN(ammodiff[i] + ammodiffspeed[i], 0);
             else if (ammodiff[i] > 0)
                 ammodiff[i] = MAX(0, ammodiff[i] - ammodiffspeed[i]);
+
+            if (ammodiff[viewplayer->readyweapon])
+                ammohighlight = I_GetTimeMS() + TICRATE;
 
             if (maxammodiff[i] < 0)
                 maxammodiff[i] = MIN(maxammodiff[i] + maxammodiffspeed[i], 0);
