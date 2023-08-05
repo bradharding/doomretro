@@ -873,7 +873,7 @@ void V_DrawMenuPatch(int x, int y, patch_t *patch, bool shadow, bool highlight)
                 if (height > 0)
                 {
                     if (highlight)
-                        *dest = white5[source[srccol >> FRACBITS]];
+                        *dest = white10[source[srccol >> FRACBITS]];
                     else
                         *dest = source[srccol >> FRACBITS];
                 }
@@ -945,7 +945,37 @@ void V_DrawHighlightedHUDNumberPatch(int x, int y, patch_t *patch, const byte *t
             {
                 byte    dot = *source++;
 
-                *dest = (dot == 109 ? tinttab33[*dest] : white5[dot]);
+                *dest = (dot == 109 ? dot : white10[dot]);
+                dest += SCREENWIDTH;
+            }
+
+            column = (column_t *)((byte *)column + length + 4);
+        }
+    }
+}
+
+void V_DrawTranslucentHighlightedHUDNumberPatch(int x, int y, patch_t *patch, const byte *tinttab)
+{
+    byte        *desttop = &screens[0][y * SCREENWIDTH + x];
+    const int   width = SHORT(patch->width);
+
+    for (int col = 0; col < width; col++, desttop++)
+    {
+        column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnoffset[col]));
+
+        // step through the posts in a column
+        while (column->topdelta != 0xFF)
+        {
+            byte        *source = (byte *)column + 3;
+            byte        *dest = &desttop[column->topdelta * SCREENWIDTH];
+            const byte  length = column->length;
+            byte        count = length;
+
+            while (count-- > 0)
+            {
+                byte    dot = *source++;
+
+                *dest = (dot == 109 ? tinttab33[*dest] : white10[dot]);
                 dest += SCREENWIDTH;
             }
 

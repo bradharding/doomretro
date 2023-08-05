@@ -115,6 +115,7 @@ void V_DrawHUDPatch(int x, int y, patch_t *patch, const byte *tinttab);
 void V_DrawHighlightedHUDNumberPatch(int x, int y, patch_t *patch, const byte *tinttab);
 void V_DrawTranslucentHUDPatch(int x, int y, patch_t *patch, const byte *tinttab);
 void V_DrawTranslucentHUDNumberPatch(int x, int y, patch_t *patch, const byte *tinttab);
+void V_DrawTranslucentHighlightedHUDNumberPatch(int x, int y, patch_t *patch, const byte *tinttab);
 void V_DrawAltHUDPatch(int x, int y, patch_t *patch, int from, int to, const byte *tinttab);
 void V_DrawTranslucentAltHUDPatch(int x, int y, patch_t *patch, int from, int to, const byte *tinttab);
 void V_DrawTranslucentNoGreenPatch(int x, int y, patch_t *patch);

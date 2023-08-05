@@ -96,6 +96,7 @@ void A_Lower(mobj_t *actor, player_t *player, pspdef_t *psp);
 
 static void (*hudfunc)(int, int, patch_t *, const byte *);
 static void (*hudnumfunc)(int, int, patch_t *, const byte *);
+static void (*hudnumfunc2)(int, int, patch_t *, const byte *);
 
 static void (*althudfunc)(int, int, patch_t *, int, int, const byte *);
 void (*althudtextfunc)(int, int, byte *, patch_t *, bool, int, int, const byte *);
@@ -159,6 +160,7 @@ void HU_SetTranslucency(void)
     {
         hudfunc = &V_DrawTranslucentHUDPatch;
         hudnumfunc = &V_DrawTranslucentHUDNumberPatch;
+        hudnumfunc2 = &V_DrawTranslucentHighlightedHUDNumberPatch;
         althudfunc = &V_DrawTranslucentAltHUDPatch;
         althudtextfunc = &V_DrawTranslucentAltHUDText;
         fillrectfunc = &V_FillSoftTransRect;
@@ -169,6 +171,7 @@ void HU_SetTranslucency(void)
     {
         hudfunc = &V_DrawHUDPatch;
         hudnumfunc = &V_DrawHUDPatch;
+        hudnumfunc2 = &V_DrawHighlightedHUDNumberPatch;
         althudfunc = &V_DrawAltHUDPatch;
         althudtextfunc = &V_DrawAltHUDText;
         fillrectfunc = &V_FillRect;
@@ -604,10 +607,10 @@ static void HU_DrawHUD(void)
 
         if (healthhighlight > currenttime)
         {
-            DrawHUDNumber(&health_x, HUD_HEALTH_Y, health, tinttab, &V_DrawHighlightedHUDNumberPatch);
+            DrawHUDNumber(&health_x, HUD_HEALTH_Y, health, tinttab, hudnumfunc2);
 
             if (!emptytallpercent)
-                V_DrawHighlightedHUDNumberPatch(health_x, HUD_HEALTH_Y, tallpercent, tinttab);
+                hudnumfunc2(health_x, HUD_HEALTH_Y, tallpercent, tinttab);
         }
         else
         {
@@ -648,10 +651,10 @@ static void HU_DrawHUD(void)
 
         if (armorhighlight > currenttime)
         {
-            DrawHUDNumber(&armor_x, HUD_ARMOR_Y, armor, tinttab75, &V_DrawHighlightedHUDNumberPatch);
+            DrawHUDNumber(&armor_x, HUD_ARMOR_Y, armor, tinttab75, hudnumfunc2);
 
             if (!emptytallpercent)
-                V_DrawHighlightedHUDNumberPatch(armor_x, HUD_ARMOR_Y, tallpercent, tinttab75);
+                hudnumfunc2(armor_x, HUD_ARMOR_Y, tallpercent, tinttab75);
         }
         else
         {
@@ -732,7 +735,7 @@ static void HU_DrawHUD(void)
 
             if (r_hud_translucency || !ammoanim)
                 DrawHUDNumber(&ammo_x, HUD_AMMO_Y, ammo, tinttab,
-                    (ammohighlight > currenttime ? &V_DrawHighlightedHUDNumberPatch : hudnumfunc));
+                    (ammohighlight > currenttime ? hudnumfunc2 : hudnumfunc));
 
             if (!gamepaused)
             {
