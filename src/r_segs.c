@@ -854,6 +854,9 @@ void R_StoreWallRange(const int start, const int stop)
                 bottombrightmap = (usebrightmaps && !nobrightmap[bottomtexture] ? brightmap[bottomtexture] : NULL);
                 rw_bottomtexturemid = ((linedef->flags & ML_DONTPEGBOTTOM) ? worldtop : worldlow - liquidoffset)
                     + FixedMod(sidedef->rowoffset, height);
+
+                if (liquidoffset && !(linedef->flags & ML_TWOSIDED))
+                    rw_bottomtexturemid += 4 * FRACUNIT;
             }
         }
 
