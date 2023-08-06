@@ -201,6 +201,7 @@ typedef struct sector_s
     terraintype_t       terraintype;
 
     bool                islift;
+    bool                isselfreferencing;
 } sector_t;
 
 //

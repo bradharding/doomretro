@@ -2210,6 +2210,38 @@ static void P_LoadSideDefs2(int lump)
 }
 
 //
+// P_FindSelfReferencingSectors
+//
+static void P_FindSelfReferencingSectors(void)
+{
+    for (int i = 0; i < numsectors; i++)
+    {
+        sector_t    *sec = sectors + i;
+        const int   linecount = sec->linecount;
+        int         count = 0;
+
+        for (int i = 0; i < linecount; i++)
+        {
+            const line_t    *line = sec->lines[i];
+
+            if (line->backsector
+                && line->frontsector == line->backsector
+                && !line->frontsector->tag)
+            {
+                const side_t    *first = &sides[line->sidenum[0]];
+                const side_t    *second = &sides[line->sidenum[1]];
+
+                if (!first->toptexture && !first->midtexture && !first->bottomtexture
+                    && !second->toptexture && !second->midtexture && !second->bottomtexture)
+                    count++;
+            }
+        }
+
+        sec->isselfreferencing = (count >= 2);
+    }
+}
+
+//
 // P_VerifyBlockMap
 //
 // haleyjd 03/04/10: do verification on validity of blockmap.
@@ -3251,6 +3283,7 @@ void P_SetupLevel(int ep, int map)
     // set up world state
     P_SpawnSpecials();
     P_SetLifts();
+    P_FindSelfReferencingSectors();
 
     P_MapEnd();
 

@@ -92,34 +92,6 @@ static void P_Bob(angle_t angle, fixed_t move)
 }
 
 //
-// P_IsSelfReferencingSector
-//
-static bool P_IsSelfReferencingSector(sector_t *sec)
-{
-    const int   linecount = sec->linecount;
-    int         count = 0;
-
-    for (int i = 0; i < linecount; i++)
-    {
-        const line_t    *line = sec->lines[i];
-
-        if (line->backsector
-            && line->frontsector == line->backsector
-            && !line->frontsector->tag)
-        {
-            const side_t    *first = &sides[line->sidenum[0]];
-            const side_t    *second = &sides[line->sidenum[1]];
-
-            if (!first->toptexture && !first->midtexture && !first->bottomtexture
-                && !second->toptexture && !second->midtexture && !second->bottomtexture)
-                count++;
-        }
-    }
-
-    return (count >= 2);
-}
-
-//
 // P_CalcHeight
 // Calculate the walking/running height adjustment
 //
@@ -190,7 +162,7 @@ void P_CalcHeight(void)
         {
             sector_t    *sector = mo->subsector->sector;
 
-            if (!P_IsSelfReferencingSector(sector)
+            if (!sector->isselfreferencing
                 && (!sector->heightsec
                     || mo->z + viewplayer->viewheight - FOOTCLIPSIZE >= sector->heightsec->floorheight))
                 viewplayer->viewz -= FOOTCLIPSIZE;
