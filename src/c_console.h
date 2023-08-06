@@ -235,7 +235,7 @@ extern autocomplete_t       autocompletelist[];
 void C_Input(const char *string, ...);
 void C_Cheat(const char *string);
 void C_IntegerCVAROutput(const char *cvar, const int value);
-void C_IntegerCVAROutputNoRepeat(const char* cvar, const int value);
+void C_IntegerCVAROutputNoRepeat(const char *cvar, const int value);
 void C_PercentCVAROutput(const char *cvar, const int value);
 void C_StringCVAROutput(const char *cvar, const char *string);
 void C_Output(const char *string, ...);

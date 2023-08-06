@@ -64,5 +64,5 @@ void I_Error(const char *error, ...) FORMATATTR(1, 2);
 void I_PrintWindowsVersion(void);
 void I_PrintSystemInfo(void);
 
-void* I_Malloc(size_t size);
+void *I_Malloc(size_t size);
 void *I_Realloc(void *block, size_t size);

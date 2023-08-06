@@ -2220,9 +2220,9 @@ static void P_FindSelfReferencingSectors(void)
         const int   linecount = sec->linecount;
         int         count = 0;
 
-        for (int i = 0; i < linecount; i++)
+        for (int j = 0; j < linecount; j++)
         {
-            const line_t    *line = sec->lines[i];
+            const line_t    *line = sec->lines[j];
 
             if (line->backsector
                 && line->frontsector == line->backsector
