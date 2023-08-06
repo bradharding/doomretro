@@ -28,6 +28,7 @@
   * “New Game” is now selected in the main menu after deleting the only savegame in the save or load game menus.
 * The `r_lowpixelsize` CVAR can now also be set to `1×2` or `2×1`.
 * A bug is fixed whereby sometimes the player wouldn’t pick up an item in a liquid sector when the `r_liquid_clipsprites` CVAR was `on`.
+* Certain linedefs no longer affect the player’s movement when in a liquid sector and the `r_liquid_lowerview` CVAR is `on`.
 * Improvements have been made to equipping either the chainsaw or fists when the player presses the <kbd><b>1</b></kbd> key.
 * A bug is fixed whereby the player’s field of view would sometimes be wrong when changing the `r_fov` CVAR.
 * Further improvements have been made to the support of [*REKKR: Sunken Land*](https://store.steampowered.com/app/1715690/REKKR_Sunken_Land/).
@@ -40,7 +41,7 @@
 * If regenerating health is enabled using the `regenhealth` CCMD, a sound is now played and the “Health picked up” stat is updated every second the player’s health increases by 1% until it is 100% again.
 * Several improvements have been made to the player’s health in the status bar when they are dead and the `negativehealth` CVAR is `on`.
 * Several improvements have been made to the player’s health, armor and ammo in the widescreen HUD flashing when they change.
-* The default value of the `crosshaircolor` CVAR is now `112` instead of `4`.
+* The default value of the `crosshaircolor` CVAR is now `112` (green) instead of `4` (white).
 * These improvements have been made to the support for [*MBF21*](https://doomwiki.org/wiki/MBF21)-compatible WADs:
   * The `A_RadiusDamage` codepointer now correctly uses `Args1` rather than `Args2` for the amount of damage inflicted.
   * Things spawned using the `A_SpawnObject` codepointer now inherit the blood color of the spawner.
