@@ -101,10 +101,19 @@ static bool P_IsSelfReferencingSector(sector_t *sec)
 
     for (int i = 0; i < linecount; i++)
     {
-        line_t  *line = sec->lines[i];
+        const line_t    *line = sec->lines[i];
 
-        if (line->backsector && line->frontsector == line->backsector && !line->frontsector->tag)
-            count++;
+        if (line->backsector
+            && line->frontsector == line->backsector
+            && !line->frontsector->tag)
+        {
+            const side_t    *first = &sides[line->sidenum[0]];
+            const side_t    *second = &sides[line->sidenum[1]];
+
+            if (!first->toptexture && !first->midtexture && !first->bottomtexture
+                && !second->toptexture && !second->midtexture && !second->bottomtexture)
+                count++;
+        }
     }
 
     return (count >= 2);
