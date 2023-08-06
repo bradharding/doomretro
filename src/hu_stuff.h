@@ -115,4 +115,3 @@ extern bool     message_dontfuckwithme;
 extern bool     message_secret;
 extern bool     message_fadeon;
 extern short    minuspatchwidth;
-extern int      minuspatchy;

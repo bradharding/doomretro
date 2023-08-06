@@ -80,7 +80,6 @@ static bool             headsupactive;
 
 patch_t                 *minuspatch = NULL;
 short                   minuspatchwidth = 0;
-int                     minuspatchy = 0;
 static patch_t          *greenarmorpatch;
 static patch_t          *bluearmorpatch;
 
@@ -207,7 +206,6 @@ void HU_Init(void)
 
         minuspatch = W_CacheLumpName("STTMINUS");
         minuspatchwidth = SHORT(minuspatch->width);
-        minuspatchy = (SHORT(patch->height) - SHORT(minuspatch->height)) / 2;
     }
 
     if ((lump = W_CheckNumForName("ARM1A0")) >= 0)
@@ -307,7 +305,7 @@ static void DrawHUDNumber(int *x, int y, int val, const byte *tinttab,
         if (negativehealth && minuspatch)
         {
             val = -val;
-            drawhudnumfunc(*x, y + minuspatchy, minuspatch, tinttab);
+            drawhudnumfunc(*x, y, minuspatch, tinttab);
             *x += minuspatchwidth;
 
             if (val == 1 || val == 7 || (val >= 10 && val <= 19) || (val >= 70 && val <= 79))

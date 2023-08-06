@@ -125,7 +125,7 @@ void STlib_UpdateBigAmmoNum(st_number_t *n)
     {
         int         num = *n->num + (animatedstats ? ammodiff[weaponinfo[viewplayer->readyweapon].ammotype] : 0);
         int         x = n->x + (num == 1);
-        int         y = n->y;
+        const int   y = n->y;
         const int   width = SHORT(n->p[0]->width);
 
         // in the special case of 0, you draw 0
@@ -147,7 +147,7 @@ void STlib_UpdateBigArmorNum(st_number_t *n)
 {
     int         num = *n->num + (animatedstats ? armordiff : 0);
     int         x = n->x + (num == 1);
-    int         y = n->y;
+    const int   y = n->y;
     const int   width = SHORT(n->p[0]->width);
 
     // in the special case of 0, you draw 0
