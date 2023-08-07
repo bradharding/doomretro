@@ -1146,6 +1146,7 @@ static bool PIT_ApplyTorque(line_t *ld)
 {
     // If thing touches two-sided pivot linedef
     if (ld->backsector
+        && (ld->dx || ld->dy)   // Torque is undefined if the line has no length
         && tmbbox[BOXRIGHT] > ld->bbox[BOXLEFT]
         && tmbbox[BOXLEFT] < ld->bbox[BOXRIGHT]
         && tmbbox[BOXTOP] > ld->bbox[BOXBOTTOM]

@@ -2210,38 +2210,6 @@ static void P_LoadSideDefs2(int lump)
 }
 
 //
-// P_FindSelfReferencingSectors
-//
-static void P_FindSelfReferencingSectors(void)
-{
-    for (int i = 0; i < numsectors; i++)
-    {
-        sector_t    *sec = sectors + i;
-        const int   linecount = sec->linecount;
-        int         count = 0;
-
-        for (int j = 0; j < linecount; j++)
-        {
-            const line_t    *line = sec->lines[j];
-
-            if (line->backsector
-                && line->frontsector == line->backsector
-                && !line->frontsector->tag)
-            {
-                const side_t    *first = &sides[line->sidenum[0]];
-                const side_t    *second = &sides[line->sidenum[1]];
-
-                if (!first->toptexture && !first->midtexture && !first->bottomtexture
-                    && !second->toptexture && !second->midtexture && !second->bottomtexture)
-                    count++;
-            }
-        }
-
-        sec->isselfreferencing = (count >= 2);
-    }
-}
-
-//
 // P_VerifyBlockMap
 //
 // haleyjd 03/04/10: do verification on validity of blockmap.
@@ -2828,10 +2796,10 @@ static void P_CalcSegsLength(void)
 {
     for (int i = 0; i < numsegs; i++)
     {
-        seg_t   *li = segs + i;
+        seg_t           *li = segs + i;
 
         // [BH] recalculate angle used for rendering. Fixes <https://doomwiki.org/wiki/Bad_seg_angle>.
-        angle_t angle = R_PointToAngleEx2(li->v1->x, li->v1->y, li->v2->x, li->v2->y);
+        const angle_t   angle = R_PointToAngleEx2(li->v1->x, li->v1->y, li->v2->x, li->v2->y);
 
         if (AngleDiff(li->angle, angle) <= ANG30)
             li->angle = angle;
@@ -2845,6 +2813,36 @@ static void P_CalcSegsLength(void)
 
         li->dx /= 2;
         li->dy /= 2;
+    }
+}
+
+// Find all self-referencing sectors
+static void P_FindSelfReferencingSectors(void)
+{
+    for (int i = 0; i < numsectors; i++)
+    {
+        sector_t    *sec = sectors + i;
+        const int   linecount = sec->linecount;
+        int         count = 0;
+
+        for (int j = 0; j < linecount; j++)
+        {
+            const line_t    *line = sec->lines[j];
+
+            if (line->backsector
+                && line->frontsector == line->backsector
+                && !line->frontsector->tag)
+            {
+                const side_t    *first = &sides[line->sidenum[0]];
+                const side_t    *second = &sides[line->sidenum[1]];
+
+                if (!first->toptexture && !first->midtexture && !first->bottomtexture
+                    && !second->toptexture && !second->midtexture && !second->bottomtexture)
+                    count++;
+            }
+        }
+
+        sec->isselfreferencing = (count >= 2);
     }
 }
 

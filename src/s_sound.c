@@ -182,7 +182,6 @@ void S_Init(void)
 #endif
 
         InitSfxModule();
-        sfxvolume = (s_sfxvolume * 31 + 50) / 100;
         S_SetSfxVolume(sfxvolume * (MIX_MAX_VOLUME - 1) / 31);
 
         // Allocating the internal channels for mixing (the maximum number of sounds rendered simultaneously) within zone memory.
@@ -231,7 +230,6 @@ void S_Init(void)
     if (!nomusic)
     {
         InitMusicModule();
-        musicvolume = (s_musicvolume * 31 + 50) / 100;
         S_RestoreMusicVolume();
 
         // no sounds are playing, and they are not mus_paused

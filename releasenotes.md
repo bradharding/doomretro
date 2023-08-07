@@ -25,14 +25,14 @@
     * The `episode`, `expansion`, `savegame` and `skilllevel` CVARs are now only updated when necessary.
     * The *Nightmare!* skill level can now always be selected.
     * The mouse pointer is now visible after just using a controller to navigate the menu.
-  * “New Game” is now selected in the main menu after deleting the only savegame in the save or load game menus.
+  * “New Game” is now selected in the main menu after deleting the only savegame in the save or load game menus using the <kbd><b>DEL</b></kbd> key.
 * The `r_lowpixelsize` CVAR can now also be set to `1×2` or `2×1`.
 * A bug is fixed whereby sometimes the player wouldn’t pick up an item in a liquid sector when the `r_liquid_clipsprites` CVAR was `on`.
-* Certain linedefs no longer affect the player’s movement when in a liquid sector and the `r_liquid_lowerview` CVAR is `on`.
+* The player’s view is no longer affected when walking over certain linedefs in a liquid sector and the `r_liquid_lowerview` CVAR is `on`.
 * Improvements have been made to equipping either the chainsaw or fists when the player presses the <kbd><b>1</b></kbd> key.
 * A bug is fixed whereby the player’s field of view would sometimes be wrong when changing the `r_fov` CVAR.
-* Further improvements have been made to the support of [*REKKR: Sunken Land*](https://store.steampowered.com/app/1715690/REKKR_Sunken_Land/).
-* Minor improvements have been made to rendering floors and ceilings.
+* Minor improvements have been made to the support of [*REKKR: Sunken Land*](https://store.steampowered.com/app/1715690/REKKR_Sunken_Land/).
+* Floors and ceilings far away from the player are now rendered better.
 * A bug is fixed whereby the textures on two-sided walls next to a liquid sector would be rendered incorrectly when the `r_liquid_bob` CVAR was `on`.
 * Walls that have been incorrectly marked as two-sided are now rendered as intended.
 * When using the `IDCLEV` cheat and vanilla mode is enabled, the player now starts a map with 100% health, no armor, and only a pistol with 50 bullets.
@@ -54,7 +54,7 @@
 * Friendly monsters spawned using the `spawn` CCMD now follow the player into the next map.
 * The mouse pointer is no longer displayed on the intermission or finale screens when the player moves the mouse and the `m_pointer` CVAR is `on`.
 * When the `mouselook` CVAR is `on`:
-  * Minor improvements have been made to aiming vertically.
+  * Minor improvements have been made when the player aims vertically.
   * The player can now see slightly further when looking up or down.
   * A crash no longer occurs if a blood splat happens to touch the top of the screen while the player is looking down.
   * The vertical direction the player is looking is no longer reset in the help screen’s background when pressing the <kbd><b>F1</b></kbd> key.
