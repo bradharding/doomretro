@@ -1271,7 +1271,7 @@ static void msort(vissprite_t **s, vissprite_t **t, unsigned int n)
         const fixed_t   scale = temp->scale;
 
         // [FG] change '<' to '<=' here and below, so that vissprites with the same scale
-        // are reordered, so that the object with the higher map index appears in front
+        // are reordered, and so that the object with the higher map index appears in front
         if (s[i - 1]->scale <= scale)
         {
             unsigned int    j = i;

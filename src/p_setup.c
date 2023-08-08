@@ -2833,11 +2833,11 @@ static void P_FindSelfReferencingSectors(void)
                 && line->frontsector == line->backsector
                 && !line->frontsector->tag)
             {
-                const side_t    *first = &sides[line->sidenum[0]];
-                const side_t    *second = &sides[line->sidenum[1]];
+                const side_t    *side1 = &sides[line->sidenum[0]];
+                const side_t    *side2 = &sides[line->sidenum[1]];
 
-                if (!first->toptexture && !first->midtexture && !first->bottomtexture
-                    && !second->toptexture && !second->midtexture && !second->bottomtexture)
+                if (!side1->toptexture && !side1->midtexture && !side1->bottomtexture
+                    && !side2->toptexture && !side2->midtexture && !side2->bottomtexture)
                     count++;
             }
         }

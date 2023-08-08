@@ -197,7 +197,7 @@ void HU_Init(void)
             STCFNxxx = true;
     }
 
-    caretcolor = white5[FindBrightDominantColor(hu_font['A' - HU_FONTSTART])];
+    caretcolor = colormaps[0][4 * 256 + FindBrightDominantColor(hu_font['A' - HU_FONTSTART])];
 
     if (W_CheckNumForName("STTMINUS") >= 0
         && (W_CheckMultipleLumps("STTMINUS") > 1 || W_CheckMultipleLumps("STTNUM0") == 1))
