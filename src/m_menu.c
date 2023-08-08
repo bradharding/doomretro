@@ -1599,7 +1599,7 @@ static void M_DrawMainMenu(void)
 
     if (FREEDOOM || chex || hacx || harmony || REKKRSA)
     {
-        M_DrawPatchWithShadow(94, 2 + OFFSET, W_CacheLastLumpName("M_DOOM"), false);
+        M_DrawPatchWithShadow(94, 2 + OFFSET, W_CacheLastLumpName("M_DOOM"), true);
         MainDef.x = 97;
         MainDef.y = 72;
     }
@@ -1608,7 +1608,7 @@ static void M_DrawMainMenu(void)
         if (titleheight == VANILLAHEIGHT)
             V_DrawPatch(94, 2, 0, W_CacheLumpName("M_DOOM"));
         else
-            M_DrawPatchWithShadow(94, 2 + OFFSET, W_CacheLumpName("M_DOOM"), false);
+            M_DrawPatchWithShadow(94, 2 + OFFSET, W_CacheLumpName("M_DOOM"), true);
 
         MainDef.x = 97;
         MainDef.y = 72;
@@ -1617,7 +1617,7 @@ static void M_DrawMainMenu(void)
     {
         patch_t *patch = (gamemission == doom ? W_CacheLumpName("M_DOOM") : W_CacheLastLumpName("M_DOOM"));
 
-        V_DrawMenuPatch((VANILLAWIDTH - SHORT(patch->width)) / 2 - 1, 11 + OFFSET, patch, true, false);
+        V_DrawMenuPatch((VANILLAWIDTH - SHORT(patch->width)) / 2 - 1, 11 + OFFSET, patch, true, true);
     }
 }
 
