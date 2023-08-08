@@ -3955,7 +3955,7 @@ void M_Drawer(void)
                 if (currentmenu != &MainDef || titleheight < VANILLAHEIGHT)
                     yy += OFFSET;
 
-                M_DrawPatchWithShadow(x - 30, yy, skullpatch, false);
+                M_DrawPatchWithShadow(x - 30, yy, skullpatch, true);
             }
             else
             {
@@ -3964,7 +3964,7 @@ void M_Drawer(void)
                 if (currentmenu != &MainDef || titleheight < VANILLAHEIGHT)
                     yy += OFFSET;
 
-                M_DrawPatchWithShadow(x - 26, yy, skullpatch, false);
+                M_DrawPatchWithShadow(x - 26, yy, skullpatch, true);
             }
 
             for (int i = 0; i < max; i++)
