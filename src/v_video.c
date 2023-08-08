@@ -873,9 +873,9 @@ void V_DrawMenuPatch(int x, int y, patch_t *patch, bool shadow, bool highlight)
                 if (height > 0)
                 {
                     if (highlight)
-                        *dest = white5[source[srccol >> FRACBITS]];
-                    else
                         *dest = source[srccol >> FRACBITS];
+                    else
+                        *dest = colormaps[0][4 * 256 + source[srccol >> FRACBITS]];
                 }
 
                 dest += SCREENWIDTH;
@@ -1570,8 +1570,8 @@ void V_DrawPixel(int x, int y, byte color, bool highlight, bool shadow)
     {
         byte    *dot = *screens + ((size_t)y * SCREENWIDTH + x) * SCREENSCALE;
 
-        if (highlight)
-            color = white5[color];
+        if (!highlight)
+            color = colormaps[0][4 * 256 + color];
 
         *(dot++) = color;
         *dot = color;
