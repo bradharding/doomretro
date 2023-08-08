@@ -1270,11 +1270,13 @@ static void msort(vissprite_t **s, vissprite_t **t, unsigned int n)
         vissprite_t     *temp = s[i];
         const fixed_t   scale = temp->scale;
 
-        if (s[i - 1]->scale < scale)
+        // [FG] change '<' to '<=' here and below, so that vissprites with the same scale
+        // are reordered, so that the object with the higher map index appears in front
+        if (s[i - 1]->scale <= scale)
         {
             unsigned int    j = i;
 
-            while ((s[j] = s[j - 1])->scale < scale && --j);
+            while ((s[j] = s[j - 1])->scale <= scale && --j);
 
             s[j] = temp;
         }

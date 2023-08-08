@@ -33,6 +33,7 @@
 * A bug is fixed whereby the player’s field of view would sometimes be wrong when changing the `r_fov` CVAR.
 * Minor improvements have been made to the support of [*REKKR: Sunken Land*](https://store.steampowered.com/app/1715690/REKKR_Sunken_Land/).
 * Floors and ceilings far away from the player are now rendered better.
+* The sprites of multiple things that occupy the same coordinates now appear in the correct order, and also no longer flicker in some instances.
 * A bug is fixed whereby the textures on two-sided walls next to a liquid sector would be rendered incorrectly when the `r_liquid_bob` CVAR was `on`.
 * Walls that have been incorrectly marked as two-sided are now rendered as intended.
 * When using the `IDCLEV` cheat and vanilla mode is enabled, the player now starts a map with 100% health, no armor, and only a pistol with 50 bullets.
