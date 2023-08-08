@@ -3971,7 +3971,9 @@ void M_Drawer(void)
             {
                 bool highlight;
 
-                if (currentmenu == &OptionsDef && i == scrnsize && itemon == option_empty1)
+                if (currentmenu == &OptionsDef
+                    && ((i == scrnsize && itemon == option_empty1)
+                        || (i == mousesens && itemon == option_empty2)))
                     highlight = true;
                 else if (currentmenu == &SoundDef
                     && ((i == sfx_vol && itemon == sound_empty1)
