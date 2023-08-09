@@ -87,7 +87,7 @@
 * The message displayed when using the `IDCLEV` cheat or `map` CCMD to warp to a secret map is now gold.
 * Minor improvements have been made to translating certain words when the `english` CVAR is `international`.
 * A character will no longer appear in the input when opening the console for the first time in some instances.
-* The time and par time in the intermission screen now have shadows.
+* The time and par time on the intermission screen now have shadows.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
