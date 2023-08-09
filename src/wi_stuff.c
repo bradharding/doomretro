@@ -631,7 +631,7 @@ static int WI_DrawNum(int x, int y, int n, int digits)
     {
         x -= fontwidth;
         x += 2 * (n % 10 == 1);
-        V_DrawMenuPatch(x + 1, y + 1, num[n % 10], false, false);
+        V_DrawMenuPatch(x + 1, y + 1, num[n % 10], false, true);
         x -= 2 * (n % 10 == 1);
         n /= 10;
     }
@@ -672,7 +672,7 @@ static void WI_DrawTime(int x, int y, int t)
 
             // draw
             if (div == 60 || t / div)
-                V_DrawMenuPatch(x + 1, y + 1, colon, false, false);
+                V_DrawMenuPatch(x + 1, y + 1, colon, false, true);
         } while (t / div);
 
         if (t < 60)
