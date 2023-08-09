@@ -842,7 +842,7 @@ void V_DrawTranslucentAltHUDText(int x, int y, byte *screen, patch_t *patch,
     }
 }
 
-void V_DrawMenuPatch(int x, int y, patch_t *patch, bool shadow, bool highlight)
+void V_DrawMenuPatch(int x, int y, patch_t *patch, bool highlight, bool shadow)
 {
     byte        *desttop;
     const int   width = SHORT(patch->width) << FRACBITS;

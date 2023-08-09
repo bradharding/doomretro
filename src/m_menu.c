@@ -777,7 +777,7 @@ static void M_DrawPatchWithShadow(int x, int y, patch_t *patch, bool highlight)
         return;
 
     if (SHORT(patch->height) < VANILLAHEIGHT)
-        V_DrawMenuPatch(x, y, patch, true, highlight);
+        V_DrawMenuPatch(x, y, patch, highlight, true);
     else
         V_DrawPagePatch(0, patch);
 }
@@ -793,7 +793,7 @@ static void M_DrawCenteredPatchWithShadow(int y, patch_t *patch)
 
     if (SHORT(patch->height) < VANILLAHEIGHT)
         V_DrawMenuPatch((VANILLAWIDTH - SHORT(patch->width)) / 2 + SHORT(patch->leftoffset),
-            y, patch, true, false);
+            y, patch, false, true);
     else
         V_DrawPagePatch(0, patch);
 }
@@ -1463,7 +1463,7 @@ static void M_DrawHelp(void)
         {
             viewplayer->fixedcolormap = 0;
             M_DrawHelpBackground();
-            V_DrawMenuPatch(0, 0, W_CacheSecondLumpName(lumpname), true, false);
+            V_DrawMenuPatch(0, 0, W_CacheSecondLumpName(lumpname), false, true);
         }
         else if (W_CheckMultipleLumps(lumpname) > 2)
         {
@@ -1476,7 +1476,7 @@ static void M_DrawHelp(void)
         {
             viewplayer->fixedcolormap = 0;
             M_DrawHelpBackground();
-            V_DrawMenuPatch(0, 0, W_CacheLumpName(lumpname), true, false);
+            V_DrawMenuPatch(0, 0, W_CacheLumpName(lumpname), false, true);
         }
     }
 }
@@ -2370,7 +2370,7 @@ static void M_DrawSlider(int x, int y, int width, float dot, float factor, int o
 
     for (int i = 0; i < width; i++)
     {
-        V_DrawMenuPatch(xx, y, W_CacheLumpName("M_THERMM"), false, highlight);
+        V_DrawMenuPatch(xx, y, W_CacheLumpName("M_THERMM"), highlight, false);
         xx += 8;
     }
 
@@ -2379,7 +2379,7 @@ static void M_DrawSlider(int x, int y, int width, float dot, float factor, int o
     for (int i = x + 9; i < x + (width + 1) * 8 + 1; i++)
         V_DrawPixel((hacx ? i - 1 : i), y + (hacx ? 9 : 13), PINK, highlight, true);
 
-    V_DrawMenuPatch(x + offset + (int)(dot * factor), y, W_CacheLumpName("M_THERMO"), false, highlight);
+    V_DrawMenuPatch(x + offset + (int)(dot * factor), y, W_CacheLumpName("M_THERMO"), highlight, false);
 }
 
 void M_StartMessage(char *string, void (*routine)(int), bool input)
