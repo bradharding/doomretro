@@ -156,7 +156,7 @@ static void M_DrawSound(void);
 static void M_DrawLoad(void);
 static void M_DrawSave(void);
 
-static void M_DrawSaveLoadBorder(int x, int y);
+static void M_DrawSaveLoadBorder(int x, int y, bool highlight);
 static void M_SetupNextMenu(menu_t *menudef);
 static void M_DrawSlider(int x, int y, int width, float dot, float factor, int offset, bool highlight);
 static void M_WriteText(int x, int y, char *string, bool highlight, bool shadow);
@@ -930,27 +930,27 @@ int M_CountSaveGames(void)
 //
 // Draw border for the savegame description
 //
-static void M_DrawSaveLoadBorder(int x, int y)
+static void M_DrawSaveLoadBorder(int x, int y, bool highlight)
 {
     if (M_LSCNTR)
     {
         x += 3;
-        M_DrawPatchWithShadow(x, y + 11, W_CacheLumpName("M_LSLEFT"), false);
+        M_DrawPatchWithShadow(x, y + 11, W_CacheLumpName("M_LSLEFT"), highlight);
         x += 8;
 
         for (int i = 0; i < 24; i++)
         {
-            M_DrawPatchWithShadow(x, y + 11, W_CacheLumpName("M_LSCNTR"), false);
+            M_DrawPatchWithShadow(x, y + 11, W_CacheLumpName("M_LSCNTR"), highlight);
             x += 8;
         }
 
-        M_DrawPatchWithShadow(x, y + 11, W_CacheLumpName("M_LSRGHT"), false);
+        M_DrawPatchWithShadow(x, y + 11, W_CacheLumpName("M_LSRGHT"), highlight);
     }
     else
     {
         for (int yy = 0; yy < 16; yy++)
             for (int xx = 0; xx < 8; xx++)
-                V_DrawPixel(x + xx, y + yy, lsleft[yy * 8 + xx], false, true);
+                V_DrawPixel(x + xx, y + yy, lsleft[yy * 8 + xx], highlight, true);
 
         x += 8;
 
@@ -958,14 +958,14 @@ static void M_DrawSaveLoadBorder(int x, int y)
         {
             for (int yy = 0; yy < 16; yy++)
                 for (int xx = 0; xx < 8; xx++)
-                    V_DrawPixel(x + xx, y + yy, lscntr[yy * 8 + xx], false, true);
+                    V_DrawPixel(x + xx, y + yy, lscntr[yy * 8 + xx], highlight, true);
 
             x += 8;
         }
 
         for (int yy = 0; yy < 16; yy++)
             for (int xx = 0; xx < 9; xx++)
-                V_DrawPixel(x + xx, y + yy, lsrght[yy * 9 + xx], false, true);
+                V_DrawPixel(x + xx, y + yy, lsrght[yy * 9 + xx], highlight, true);
     }
 }
 
@@ -993,7 +993,7 @@ static void M_DrawLoad(void)
         int         len = (int)strlen(savegamestrings[i]);
         const int   y = LoadDef.y + LINEHEIGHT * i + OFFSET;
 
-        M_DrawSaveLoadBorder(LoadDef.x - 11, y - 4);
+        M_DrawSaveLoadBorder(LoadDef.x - 11, y - 4, (itemon == i));
 
         currentmenu->menuitems[i].x = LoadDef.x - 11 + MAXWIDESCREENDELTA;
         currentmenu->menuitems[i].y = y - 4;
@@ -1109,7 +1109,7 @@ static void M_DrawSave(void)
         int len = (int)strlen(savegamestrings[i]);
         int y = LoadDef.y + i * LINEHEIGHT + OFFSET;
 
-        M_DrawSaveLoadBorder(LoadDef.x - 11, y - 4);
+        M_DrawSaveLoadBorder(LoadDef.x - 11, y - 4, (itemon == i));
 
         currentmenu->menuitems[i].x = LoadDef.x - 11 + MAXWIDESCREENDELTA;
         currentmenu->menuitems[i].y = y - 4;
