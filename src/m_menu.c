@@ -2775,9 +2775,15 @@ bool M_Responder(event_t *ev)
                             {
                                 if (savestringenter)
                                 {
+                                    const int   oldsavecharindex = savecharindex;
+
                                     M_SetCaretPos(ev->data2);
-                                    caretwait = I_GetTimeMS() + CARETBLINKTIME;
-                                    showcaret = true;
+
+                                    if (savecharindex != oldsavecharindex)
+                                    {
+                                        caretwait = I_GetTimeMS() + CARETBLINKTIME;
+                                        showcaret = true;
+                                    }
                                 }
                                 else
                                 {
