@@ -61,6 +61,7 @@ bool            BTSXE2B;
 bool            BTSXE3;
 bool            BTSXE3A;
 bool            BTSXE3B;
+bool            BTSXE3PR;
 bool            E1M4B;
 bool            E1M8B;
 bool            KDIKDIZD;
