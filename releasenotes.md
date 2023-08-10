@@ -88,6 +88,7 @@
 * Minor improvements have been made to translating certain words when the `english` CVAR is `international`.
 * A character will no longer appear in the input when opening the console for the first time in some instances.
 * The time and par time on the intermission screen now have shadows.
+* The brightmap of the `SW2STONE` texture has improved when the `r_brightmaps` CVAR is `on`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
