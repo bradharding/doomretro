@@ -1222,15 +1222,29 @@ int C_GetIndex(const char *cmd)
 
 static void C_PersonalizeDescription(char *description)
 {
+    if (M_StringCompare(playername, playername_default))
+    {
+        M_StringReplaceAll(description, "the player's", "your", true);
+        M_StringReplaceAll(description, "The player's", "Your", true);
+        M_StringReplaceAll(description, "the player", "you", true);
+        M_StringReplaceAll(description, "The player", "You", true);
+        M_StringReplaceAll(description, "player", "your", true);
+        M_StringReplaceAll(description, "Player", "Your", true);
+        M_StringReplaceAll(description, "they", "you", true);
+        M_StringReplaceAll(description, "They", "You", true);
+        M_StringReplaceAll(description, "their", "your", true);
+        M_StringReplaceAll(description, "Their", "Your", true);
+    }
+    else
+    {
+        char    *temp = M_StringJoin(playername, "'s", NULL);
 
-    M_StringReplaceAll(description, "the player's", "your", true);
-    M_StringReplaceAll(description, "The player's", "Your", true);
-    M_StringReplaceAll(description, "the player", "you", true);
-    M_StringReplaceAll(description, "The player", "You", true);
-    M_StringReplaceAll(description, "player", "your", true);
-    M_StringReplaceAll(description, "Player", "Your", true);
-    M_StringReplaceAll(description, "they", "you", true);
-    M_StringReplaceAll(description, "They", "You", true);
+        M_StringReplaceAll(description, "the player's", temp, false);
+        M_StringReplaceAll(description, "the player", playername, true);
+        M_StringReplaceAll(description, "they", preferredpronoun(personal), true);
+        M_StringReplaceAll(description, "their", preferredpronoun(possessive), true);
+        free(temp);
+    }
 }
 
 static void C_ShowDescription(int index)
