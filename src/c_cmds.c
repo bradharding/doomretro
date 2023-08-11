@@ -544,15 +544,15 @@ consolecmd_t consolecmds[] =
     CVAR_INT(am_backcolor, am_backcolour, "", int_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The color of the automap's background (" BOLD("0") " to " BOLD("255") ")."),
     CVAR_INT(am_bloodsplatcolor, am_bloodsplatcolour, "", int_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
-        "The color of blood splats in the automap when cheating (" BOLD("0") " to " BOLD("255") ")."),
+        "The color of blood splats in the automap when the player cheats (" BOLD("0") " to " BOLD("255") ")."),
     CVAR_INT(am_bluedoorcolor, am_bluedoorcolour, "", int_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The color of doors in the automap unlocked with a blue keycard or skull key (" BOLD("0") " to " BOLD("255") ")."),
     CVAR_INT(am_bluekeycolor, am_bluekeycolour, "", int_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
-        "The color of blue keycards and skull keys in the automap when cheating (" BOLD("0") " to " BOLD("255") ")."),
+        "The color of blue keycards and skull keys in the automap when the player cheats (" BOLD("0") " to " BOLD("255") ")."),
     CVAR_INT(am_cdwallcolor, am_cdwallcolour, "", int_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The color of lines in the automap indicating a change in a ceiling's height (" BOLD("0") " to " BOLD("255") ")."),
     CVAR_INT(am_corpsecolor, am_corpsecolour, "", int_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
-        "The color of corpses in the automap when cheating (" BOLD("0") " to " BOLD("255") ")."),
+        "The color of corpses in the automap when the player cheats (" BOLD("0") " to " BOLD("255") ")."),
     CVAR_INT(am_crosshaircolor, am_crosshaircolour, "", int_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The color of the crosshair in the automap when follow mode is off (" BOLD("0") " to " BOLD("255") ")."),
     CVAR_INT(am_display, "", "", int_cvars_func1, am_display_cvar_func2, CF_NONE, NOVALUEALIAS,
@@ -582,13 +582,13 @@ consolecmd_t consolecmds[] =
     CVAR_INT(am_reddoorcolor, am_reddoorcolour, "", int_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The color of doors in the automap unlocked with a red keycard or skull key (" BOLD("0") " to " BOLD("255") ")."),
     CVAR_INT(am_redkeycolor, am_redkeycolour, "", int_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
-        "The color of red keycards and skull keys in the automap when cheating (" BOLD("0") " to " BOLD("255") ")."),
+        "The color of red keycards and skull keys in the automap when the player cheats (" BOLD("0") " to " BOLD("255") ")."),
     CVAR_BOOL(am_rotatemode, "", "", bool_cvars_func1, am_rotatemode_cvar_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles rotate mode in the automap."),
     CVAR_INT(am_teleportercolor, am_teleportercolour, "", int_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The color of teleporter lines in the automap (" BOLD("0") " to " BOLD("255") ")."),
     CVAR_INT(am_thingcolor, am_thingcolour, "", int_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
-        "The color of things in the automap when cheating (" BOLD("0") " to " BOLD("255") ")."),
+        "The color of things in the automap when the player cheats (" BOLD("0") " to " BOLD("255") ")."),
     CVAR_INT(am_tswallcolor, am_tswallcolour, "", int_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The color of lines in the automap indicating no change in height (" BOLD("0") " to " BOLD("255") ")."),
     CVAR_INT(am_wallcolor, am_wallcolour, "", int_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
@@ -596,7 +596,7 @@ consolecmd_t consolecmds[] =
     CVAR_INT(am_yellowdoorcolor, am_yellowdoorcolour, "", int_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The color of doors in the automap unlocked with a yellow keycard or skull key (" BOLD("0") " to " BOLD("255") ")."),
     CVAR_INT(am_yellowkeycolor, am_yellowkeycolour, "", int_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
-        "The color of yellow keycards and skull keys in the automap when cheating (" BOLD("0") " to " BOLD("255") ")."),
+        "The color of yellow keycards and skull keys in the automap when the player cheats (" BOLD("0") " to " BOLD("255") ")."),
     CVAR_INT(ammo, "", "", player_cvars_func1, player_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The amount of ammo the player has for their currently equipped weapon."),
     CVAR_BOOL(animatedstats, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
@@ -1226,12 +1226,22 @@ static void C_PersonalizeDescription(char *description)
     {
         M_StringReplaceAll(description, "the player's", "your", true);
         M_StringReplaceAll(description, "The player's", "Your", true);
+        M_StringReplaceAll(description, "the player cheats", "you cheat", true);
+        M_StringReplaceAll(description, "The player cheats", "You cheat", true);
+        M_StringReplaceAll(description, "the player dies", "you die", true);
+        M_StringReplaceAll(description, "The player dies", "You die", true);
+        M_StringReplaceAll(description, "the player fires", "you fire", true);
+        M_StringReplaceAll(description, "The player fires", "You fire", true);
+        M_StringReplaceAll(description, "the player has", "you have", true);
+        M_StringReplaceAll(description, "The player has", "You have", true);
+        M_StringReplaceAll(description, "the player tries", "you try", true);
+        M_StringReplaceAll(description, "The player tries", "You try", true);
+        M_StringReplaceAll(description, "the player turns", "you turn", true);
+        M_StringReplaceAll(description, "The player turns", "You turn", true);
         M_StringReplaceAll(description, "the player", "you", true);
         M_StringReplaceAll(description, "The player", "You", true);
         M_StringReplaceAll(description, "player", "your", true);
         M_StringReplaceAll(description, "Player", "Your", true);
-        M_StringReplaceAll(description, "they", "you", true);
-        M_StringReplaceAll(description, "They", "You", true);
         M_StringReplaceAll(description, "their", "your", true);
         M_StringReplaceAll(description, "Their", "Your", true);
     }
@@ -1241,7 +1251,6 @@ static void C_PersonalizeDescription(char *description)
 
         M_StringReplaceAll(description, "the player's", temp, false);
         M_StringReplaceAll(description, "the player", playername, true);
-        M_StringReplaceAll(description, "they", preferredpronoun(personal), true);
         M_StringReplaceAll(description, "their", preferredpronoun(possessive), true);
         free(temp);
     }
