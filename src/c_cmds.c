@@ -766,7 +766,7 @@ consolecmd_t consolecmds[] =
     CCMD(notarget, "", "", game_func1, notarget_cmd_func2, true, "[" BOLD("on") "|" BOLD("off") "]",
         "Toggles monsters not targeting the player."),
     CCMD(pistolstart, "", "", null_func1, pistolstart_cmd_func2, true, "[" BOLD("on") "|" BOLD("off") "]",
-        "Toggles the player starting each map with 100% health, no armor, and only a pistol with 50 bullets."),
+        "Toggles the player starting each map with 100% health, no armor, and only their pistol with 50 bullets."),
     CCMD(play, "", "", play_cmd_func1, play_cmd_func2, true, PLAYCMDFORMAT,
         "Plays a " BOLDITALICS("sound effect") " or " BOLDITALICS("music") " lump."),
     CVAR_INT(playergender, "", "", playergender_cvar_func1, playergender_cvar_func2, CF_NONE, GENDERVALUEALIAS,
@@ -1220,6 +1220,19 @@ int C_GetIndex(const char *cmd)
     return i;
 }
 
+static void C_PersonalizeDescription(char *description)
+{
+
+    M_StringReplaceAll(description, "the player's", "your", true);
+    M_StringReplaceAll(description, "The player's", "Your", true);
+    M_StringReplaceAll(description, "the player", "you", true);
+    M_StringReplaceAll(description, "The player", "You", true);
+    M_StringReplaceAll(description, "player", "your", true);
+    M_StringReplaceAll(description, "Player", "Your", true);
+    M_StringReplaceAll(description, "they", "you", true);
+    M_StringReplaceAll(description, "They", "You", true);
+}
+
 static void C_ShowDescription(int index)
 {
     char    description[255];
@@ -1229,6 +1242,8 @@ static void C_ShowDescription(int index)
 
     if (english == english_international)
         M_AmericanToInternationalEnglish(description);
+
+    C_PersonalizeDescription(description);
 
     if (consolecmds[index].type == CT_CCMD)
         C_Output("This CCMD %s", description);
@@ -2038,6 +2053,7 @@ static void cmdlist_cmd_func2(char *cmd, char *parms)
                 M_AmericanToInternationalEnglish(description);
             }
 
+            C_PersonalizeDescription(description);
             C_TabbedOutput(tabs, "%s\t" BOLDOFF ITALICSOFF "%s", format, description);
         }
 }
@@ -2185,6 +2201,8 @@ static void cvarlist_cmd_func2(char *cmd, char *parms)
             if (english == english_international)
                 M_AmericanToInternationalEnglish(description);
 
+            C_PersonalizeDescription(description);
+
             if (M_StringCompare(name, stringize(ammo)))
             {
                 if (gamestate == GS_LEVEL)
@@ -2232,6 +2250,8 @@ static void cvarlist_cmd_func2(char *cmd, char *parms)
                     M_StringCopy(description, WEAPONDESCRIPTION_SHAREWARE, sizeof(description));
                 else if (gamemission != doom)
                     M_StringCopy(description, WEAPONDESCRIPTION_DOOM2, sizeof(description));
+
+                C_PersonalizeDescription(description);
 
                 if (gamestate == GS_LEVEL)
                 {
@@ -10763,6 +10783,7 @@ static void weapon_cvar_func2(char *cmd, char *parms)
             M_StringCopy(description, consolecmds[C_GetIndex(cmd)].description, sizeof(description));
 
         description[0] = tolower(description[0]);
+        C_PersonalizeDescription(description);
 
         C_Output("This CVAR changes %s", description);
         C_Output(INTEGERCVARWITHNODEFAULT, temp);
