@@ -13,7 +13,7 @@
 * Minor improvements have been made to text autocompleted in the console by pressing the <kbd><b>TAB</b></kbd> key.
 * The caret may now be repositioned in the console’s input using the mouse pointer when the `m_pointer` CVAR is `on`.
 * The effects of changing the `r_gamma` and `r_color` CVARs are now applied to *DOOM Retro’s* splash screen.
-* The `r_color` CVAR is now renamed `r_saturation`, and can be set to a value over `100%` and up to a maximum of `200%`, allowing colors on the screen to be oversaturated.
+* The `r_color` CVAR has been renamed `r_saturation`, and can be set to a value over `100%` and up to a maximum of `200%`, allowing colors on the screen to be oversaturated.
 * A crash no longer occurs when trying to display certain patches greater than 200 pixels in height.
 * These changes have been made to the menu:
   * Text in the menu is now subtly highlighted when selected.
@@ -48,7 +48,7 @@
   * Things spawned using the `A_SpawnObject` codepointer now inherit the blood color of the spawner.
 * These improvements have been made to the support for `MAPINFO` lumps:
   * A bug is fixed whereby many compatibility flags weren’t being parsed correctly.
-  * `MAPINFO` lumps are now parsed if either `NERVE.WAD` or `SIGIL.WAD` are loaded.
+  * `MAPINFO` lumps from other PWADs are now parsed if either `NERVE.WAD` or `SIGIL.WAD` are also loaded.
   * `episode` is now parsed correctly.
   * `bossaction` is now parsed.
   * The `compat_stairs` and `compat_zombie` compatibility flags are now parsed.
