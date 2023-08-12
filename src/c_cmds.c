@@ -8992,6 +8992,9 @@ static void player_cvars_func2(char *cmd, char *parms)
                 {
                     if (value <= 0)
                     {
+                        if (value < viewplayer->health)
+                            viewplayer->damagecount = viewplayer->health - value;
+
                         viewplayer->health = value;
                         viewplayer->mo->health = value;
                     }
