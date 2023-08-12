@@ -3613,25 +3613,25 @@ bool M_Responder(event_t *ev)
 
             if (currentmenu == &EpiDef && !customepisode)
             {
-                episode = itemon + 1;
+                episode = EpiDef.laston + 1;
                 M_SaveCVARs();
                 C_IntegerCVAROutputNoRepeat(stringize(episode), episode);
             }
             else if (currentmenu == &ExpDef)
             {
-                expansion = itemon + 1;
+                expansion = ExpDef.laston + 1;
                 M_SaveCVARs();
                 C_IntegerCVAROutputNoRepeat(stringize(expansion), expansion);
             }
             else if (currentmenu == &NewDef)
             {
-                skilllevel = itemon + 1;
+                skilllevel = NewDef.laston + 1;
                 M_SaveCVARs();
                 C_IntegerCVAROutputNoRepeat(stringize(skilllevel), skilllevel);
             }
             else if (currentmenu == &LoadDef || currentmenu == &SaveDef)
             {
-                savegame = itemon + 1;
+                savegame = LoadDef.laston + 1;
                 M_SaveCVARs();
                 C_IntegerCVAROutputNoRepeat(stringize(savegame), savegame);
             }
