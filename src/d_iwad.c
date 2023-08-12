@@ -972,6 +972,8 @@ void D_SetGameDescription(void)
         M_StringCopy(gamedescription, s_CAPTION_NEIS, sizeof(gamedescription));
     else if (revolution)
         M_StringCopy(gamedescription, s_CAPTION_REVOLUTION, sizeof(gamedescription));
+    else if (scientist)
+        M_StringCopy(gamedescription, s_CAPTION_SCIENTIST, sizeof(gamedescription));
     else if (syringe)
         M_StringCopy(gamedescription, s_CAPTION_SYRINGE, sizeof(gamedescription));
     else if (gamemission == doom)

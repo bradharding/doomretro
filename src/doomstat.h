@@ -130,6 +130,7 @@ extern bool             ganymede;
 extern bool             harmony;
 extern bool             neis;
 extern bool             revolution;
+extern bool             scientist;
 extern bool             syringe;
 
 extern bool             moreblood;

@@ -84,6 +84,7 @@ bool            ganymede;
 bool            harmony;
 bool            neis;
 bool            revolution;
+bool            scientist;
 bool            syringe;
 
 bool            moreblood = false;

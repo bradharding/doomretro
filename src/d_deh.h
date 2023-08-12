@@ -492,6 +492,7 @@ extern char         *s_CAPTION_HARMONY;
 extern char         *s_CAPTION_KDIKDIZD;
 extern char         *s_CAPTION_NEIS;
 extern char         *s_CAPTION_REVOLUTION;
+extern char         *s_CAPTION_SCIENTIST;
 extern char         *s_CAPTION_SYRINGE;
 
 extern char         *s_AUTHOR_ROMERO;
