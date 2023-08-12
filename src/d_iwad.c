@@ -932,8 +932,6 @@ void D_IdentifyVersion(void)
 // Set the gamedescription string
 void D_SetGameDescription(void)
 {
-    bool    defaultname = M_StringCompare(playername, playername_default);
-
     if (chex1)
         M_StringCopy(gamedescription, s_CAPTION_CHEX, sizeof(gamedescription));
     else if (chex2)

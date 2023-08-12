@@ -66,12 +66,12 @@ static const byte filter[256] =
     B,   B,   B,   B,   B,   B,   B,   B,   R,   R,   0,   0,   0,   0,   0,   0  // 240 to 255
 };
 
-#define ALL         0
-#define REDS        R
-#define WHITES      W
-#define GREENS      G
-#define BLUES       B
-#define EXTRAS      X
+#define ALL     0
+#define REDS    R
+#define WHITES  W
+#define GREENS  G
+#define BLUES   B
+#define EXTRAS  X
 
 byte    *tinttab5;
 byte    *tinttab10;

@@ -137,8 +137,8 @@
 #endif
 
 #define BINDLISTHEADER                      "\tCONTROL\tTYPE\t+ACTION/COMMAND(S)"
-#define CMDLISTHEADER                       "\tCCMD\tDESCRIPTION"
-#define CVARLISTHEADER                      "\tCVAR\tVALUE\tDESCRIPTION"
+#define CMDLISTHEADER                       "CCMD\tDESCRIPTION"
+#define CVARLISTHEADER                      "CVAR\tVALUE\tDESCRIPTION"
 #define MAPLISTHEADER                       "\tMAP\tTITLE\tWAD"
 #define MAPSTATSHEADER                      "STAT\tVALUE"
 #define PLAYERSTATSHEADER                   "STAT\tCURRENT MAP\tTOTAL"

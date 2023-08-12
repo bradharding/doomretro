@@ -202,8 +202,6 @@ void HU_Init(void)
     if (W_CheckNumForName("STTMINUS") >= 0
         && (W_CheckMultipleLumps("STTMINUS") > 1 || W_CheckMultipleLumps("STTNUM0") == 1))
     {
-        const patch_t   *patch = W_CacheLumpName("STTNUM0");
-
         minuspatch = W_CacheLumpName("STTMINUS");
         minuspatchwidth = SHORT(minuspatch->width);
     }
