@@ -458,7 +458,10 @@ static void I_GetEvent(void)
                 keydown = 0;
                 ev.type = ev_mousewheel;
                 ev.data1 = Event->wheel.y;
-                usingmouse = false;
+
+                if (menuactive || consoleactive)
+                    usingmouse = false;
+
                 D_PostEvent(&ev);
                 break;
 
