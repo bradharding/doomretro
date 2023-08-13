@@ -422,7 +422,7 @@ menu_t LoadDef =
     &MainDef,
     LoadGameMenu,
     &M_DrawLoad,
-    67, 31,
+    67, 33,
     load1
 };
 
@@ -448,7 +448,7 @@ menu_t SaveDef =
     &MainDef,
     SaveGameMenu,
     &M_DrawSave,
-    67, 31,
+    67, 33,
     load1
 };
 
@@ -977,14 +977,14 @@ static void M_DrawLoad(void)
     M_DrawMenuBackground();
 
     if (M_LGTTL)
-        M_DrawCenteredPatchWithShadow(4 + OFFSET, W_CacheLumpName("M_LGTTL"));
+        M_DrawCenteredPatchWithShadow(2 + OFFSET, W_CacheLumpName("M_LGTTL"));
     else if (M_LOADG)
-        M_DrawCenteredPatchWithShadow(4 + OFFSET, W_CacheLumpName("M_LOADG"));
+        M_DrawCenteredPatchWithShadow(2 + OFFSET, W_CacheLumpName("M_LOADG"));
     else
     {
         char    *temp = uppercase(s_M_LOADGAME);
 
-        M_DrawCenteredString(4 + OFFSET, temp);
+        M_DrawCenteredString(2 + OFFSET, temp);
         free(temp);
     }
 
@@ -1092,14 +1092,14 @@ static void M_DrawSave(void)
 
     // draw menu subtitle
     if (M_SGTTL)
-        M_DrawCenteredPatchWithShadow(4 + OFFSET, W_CacheLumpName("M_SGTTL"));
+        M_DrawCenteredPatchWithShadow(2 + OFFSET, W_CacheLumpName("M_SGTTL"));
     else if (M_SAVEG)
-        M_DrawCenteredPatchWithShadow(4 + OFFSET, W_CacheLumpName("M_SAVEG"));
+        M_DrawCenteredPatchWithShadow(2 + OFFSET, W_CacheLumpName("M_SAVEG"));
     else
     {
         char    *temp = uppercase(s_M_SAVEGAME);
 
-        M_DrawCenteredString(4 + OFFSET, temp);
+        M_DrawCenteredString(2 + OFFSET, temp);
         free(temp);
     }
 
