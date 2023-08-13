@@ -515,6 +515,8 @@ bool ST_Responder(const event_t *ev)
                     viewplayer->health = oldhealth;
                     viewplayer->mo->health = oldhealth;
                 }
+
+                message_dontfuckwithme = true;
             }
 
             // 'fa' cheat for killer fucking arsenal
@@ -551,6 +553,7 @@ bool ST_Responder(const event_t *ev)
                     ST_PlayerCheated(cheat_ammonokey.sequence, NULL, true);
                     C_Output(s_STSTR_FAADDED);
                     HU_SetPlayerMessage(s_STSTR_FAADDED, false, false);
+                    message_dontfuckwithme = true;
                 }
                 else
                     cheatfailed = true;
@@ -593,6 +596,7 @@ bool ST_Responder(const event_t *ev)
                     ST_PlayerCheated(cheat_ammo.sequence, NULL, true);
                     C_Output(s_STSTR_KFAADDED);
                     HU_SetPlayerMessage(s_STSTR_KFAADDED, false, false);
+                    message_dontfuckwithme = true;
                 }
                 else
                     cheatfailed = true;
@@ -633,6 +637,7 @@ bool ST_Responder(const event_t *ev)
                             M_snprintf(msg, sizeof(msg), s_STSTR_MUS, temp);
                             C_Output(msg);
                             HU_SetPlayerMessage(msg, false, false);
+                            message_dontfuckwithme = true;
 
                             free(temp);
                         }
@@ -667,6 +672,8 @@ bool ST_Responder(const event_t *ev)
                     C_Output(s_STSTR_NCOFF);
                     HU_SetPlayerMessage(s_STSTR_NCOFF, false, false);
                 }
+
+                message_dontfuckwithme = true;
             }
 
             // 'behold?' power-up cheats
