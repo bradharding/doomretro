@@ -3601,7 +3601,7 @@ bool M_Responder(event_t *ev)
                 M_SaveCVARs();
                 C_IntegerCVAROutputNoRepeat(stringize(skilllevel), skilllevel);
             }
-            else if (currentmenu == &LoadDef || currentmenu == &SaveDef)
+            else if ((currentmenu == &LoadDef || currentmenu == &SaveDef) && savegame != itemon + 1)
             {
                 savegame = itemon + 1;
                 M_SaveCVARs();
