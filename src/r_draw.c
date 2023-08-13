@@ -1355,26 +1355,26 @@ void R_InitBuffer(void)
     memset(fuzztable, 0, MAXSCREENAREA);
 }
 
-void R_FillBezel(const byte topcolor, const byte color, const short sbarwidth)
+void R_FillBezel(void)
 {
-    byte            *dest = &screens[0][(SCREENHEIGHT - SBARHEIGHT) * SCREENWIDTH];
-    int             height = SBARHEIGHT - 2;
-    const size_t    width = (SCREENWIDTH - sbarwidth) / 2;
-    const size_t    right = SCREENWIDTH - width;
+    byte    *dest = &screens[0][(SCREENHEIGHT - SBARHEIGHT) * SCREENWIDTH];
 
-    memset(dest, topcolor, width);
-    memset(dest + right, topcolor, width);
-    dest += SCREENWIDTH;
+    for (int y = SCREENHEIGHT - SBARHEIGHT; y < SCREENHEIGHT; y++)
+        for (int x = 0; x < SCREENWIDTH; x += 2)
+        {
+            const byte  dot = grnrock[(((y >> 1) & 63) << 6) + ((x >> 1) & 63)];
 
-    memset(dest, topcolor, width);
-    memset(dest + right, topcolor, width);
-    dest += SCREENWIDTH;
+            *dest++ = dot;
+            *dest++ = dot;
+        }
 
-    while (height--)
+    if (st_drawbrdr)
     {
-        memset(dest, color, width);
-        memset(dest + right, color, width);
-        dest += SCREENWIDTH;
+        for (int x = 0; x < (SCREENWIDTH - NONWIDEWIDTH) / 2 / SCREENSCALE; x += 8)
+            V_DrawPatch(x - WIDESCREENDELTA, VANILLAHEIGHT - VANILLASBARHEIGHT, 0, brdr_b);
+
+        for (int x = SCREENWIDTH / SCREENSCALE - 8; x >= (SCREENWIDTH + NONWIDEWIDTH) / 2 / SCREENSCALE - 8; x -= 8)
+            V_DrawPatch(x - WIDESCREENDELTA, VANILLAHEIGHT - VANILLASBARHEIGHT, 0, brdr_b);
     }
 }
 

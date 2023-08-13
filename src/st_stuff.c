@@ -169,10 +169,6 @@ static patch_t          *sbar;
 static patch_t          *sbar2;
 static short            sbarwidth;
 static short            sbar2width;
-static byte             sbarcolor;
-static byte             sbar2color;
-static byte             sbartopcolor;
-static byte             sbar2topcolor;
 
 // 0-9, tall numbers
 patch_t                 *tallnum[10];
@@ -389,7 +385,7 @@ static void ST_RefreshBackground(void)
 {
 #if SCREENSCALE == 1
     if (sbarwidth < SCREENWIDTH)
-        R_FillBezel(sbartopcolor, sbarcolor, sbarwidth);
+        R_FillBezel();
 
     V_DrawWidePatch((SCREENWIDTH / SCREENSCALE - sbarwidth) / 2, VANILLAHEIGHT - VANILLASBARHEIGHT, 0, sbar);
 
@@ -403,7 +399,7 @@ static void ST_RefreshBackground(void)
             if (vid_widescreen)
             {
                 if (sbar2width < SCREENWIDTH)
-                    R_FillBezel(sbar2topcolor, sbar2color, sbar2width);
+                    R_FillBezel();
 
                 V_DrawBigPatch((SCREENWIDTH - sbar2width) / 2, ST_Y, sbar2width, SBARHEIGHT, sbar2);
             }
@@ -413,7 +409,7 @@ static void ST_RefreshBackground(void)
         else
         {
             if (sbarwidth < SCREENWIDTH)
-                R_FillBezel(sbartopcolor, sbarcolor, sbarwidth);
+                R_FillBezel();
 
             V_DrawWidePatch((SCREENWIDTH / SCREENSCALE - sbarwidth) / 2, VANILLAHEIGHT - VANILLASBARHEIGHT, 0, sbar);
         }
@@ -421,7 +417,7 @@ static void ST_RefreshBackground(void)
     else
     {
         if (sbarwidth < SCREENWIDTH)
-            R_FillBezel(sbartopcolor, sbarcolor, sbarwidth);
+            R_FillBezel();
 
         V_DrawWidePatch((SCREENWIDTH / SCREENSCALE - sbarwidth) / 2, VANILLAHEIGHT - VANILLASBARHEIGHT, 0, sbar);
         V_DrawPatch((hacx ? ST_ARMSBGX + 4 : ST_ARMSBGX), VANILLAHEIGHT - VANILLASBARHEIGHT, 0, armsbg);
@@ -1470,10 +1466,6 @@ void ST_InitStatBar(void)
 
     sbarwidth = SHORT(sbar->width);
     sbar2width = SHORT(sbar2->width);
-    sbarcolor = tinttab25[FindDominantEdgeColor(sbar, SHORT(sbar->height), 16)];
-    sbar2color = tinttab25[FindDominantEdgeColor(sbar2, SHORT(sbar2->height), 16)];
-    sbartopcolor = FindDominantEdgeColor(sbar, 1, 4);
-    sbar2topcolor = FindDominantEdgeColor(sbar2, 1, 4);
 
     sbar->leftoffset = 0;
     sbar->topoffset = 0;

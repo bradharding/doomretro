@@ -61,7 +61,6 @@
   * A crash no longer occurs if a blood splat happens to touch the top of the screen while the player is looking down.
   * The vertical direction the player is looking is no longer reset in the help screen’s background when pressing the <kbd><b>F1</b></kbd> key.
 * Blood splats far away from the player no longer flicker in some instances.
-* When the `vid_widescreen` CVAR is `on`, and the screen is wider than the status bar, the `FLOOR7_2` or `GRNROCK` textures no longer fill the sides. A color matching the colors in the status bar is shown instead.
 * The text in the automap is now always positioned correctly when the `am_external` CVAR is `on`.
 * The default value of the `am_gridcolor` CVAR is now `6` instead of `111`.
 * The player no longer exits the map if they are dead when a timer set using the `timer` CCMD runs out.
