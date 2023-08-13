@@ -3280,7 +3280,7 @@ void P_SetupLevel(int ep, int map)
 
     // set up world state
     P_SpawnSpecials();
-    P_SetLifts();
+    P_FindLifts();
     P_FindSelfReferencingSectors();
 
     P_MapEnd();

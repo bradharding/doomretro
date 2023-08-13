@@ -67,7 +67,7 @@ void P_InitPicAnims(void);
 void P_SetTimer(const int minutes);
 void P_SpawnSpecials(void);
 void P_SetLiquids(void);
-void P_SetLifts(void);
+void P_FindLifts(void);
 
 // every tic
 void P_UpdateSpecials(void);

@@ -404,9 +404,9 @@ void P_SetLiquids(void)
 }
 
 //
-// P_SetLifts
+// P_FindLifts
 //
-void P_SetLifts(void)
+void P_FindLifts(void)
 {
     for (int i = 0; i < numsectors; i++)
     {
