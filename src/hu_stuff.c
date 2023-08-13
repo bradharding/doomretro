@@ -1644,7 +1644,7 @@ void HU_Ticker(void)
 
 void HU_SetPlayerMessage(char *message, bool group, bool external)
 {
-    if (!messages || message_secret || !viewplayer)
+    if (message_secret || !viewplayer)
         return;
 
     M_StringReplaceAll(message, "%%", "%", false);
