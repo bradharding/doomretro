@@ -87,6 +87,7 @@ r_homindicator off
 r_hud off
 r_hud_translucency off
 r_liquid_bob off
+r_liquid_bobsprites off
 r_liquid_clipsprites off
 r_liquid_current off
 r_liquid_lowerview off

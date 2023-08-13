@@ -800,7 +800,7 @@ static void R_ProjectSprite(mobj_t *thing)
 
         vis->texturemid = gzt - viewz - clipfeet;
 
-        if (r_liquid_bob)
+        if (r_liquid_bobsprites)
             clipfeet += animatedliquiddiff;
 
         vis->footclip = FixedMul(height - clipfeet, xscale);

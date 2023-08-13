@@ -670,7 +670,7 @@ void P_MobjThinker(mobj_t *mobj)
 
     // [BH] bob objects in liquid
     if ((flags2 & MF2_FEETARECLIPPED) && !(flags2 & MF2_NOLIQUIDBOB)
-        && mobj->z <= sector->floorheight && !sector->heightsec && r_liquid_bob)
+        && mobj->z <= sector->floorheight && !sector->heightsec && r_liquid_bobsprites)
         mobj->z += animatedliquiddiffs[((mobj->floatbob + animatedtic) & (ANIMATEDLIQUIDDIFFS - 1))];
     else if (mobj->z != mobj->floorz || mobj->momz)
     {
