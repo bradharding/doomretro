@@ -1011,7 +1011,7 @@ bool P_IsInLiquid(mobj_t *thing)
                 if (sector->terraintype < LIQUID)
                     return false;
 
-                if ((flags & MF_CORPSE) && thing->z > sector->floorheight + FRACUNIT)
+                if (thing->z > sector->floorheight + FRACUNIT)
                     return false;
             }
         }
