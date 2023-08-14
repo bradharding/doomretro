@@ -4244,7 +4244,9 @@ static void M_SetupNextMenu(menu_t *menudef)
 //
 void M_Ticker(void)
 {
-    if ((!savestringenter || !whichskull) && windowfocused && --skullanimcounter <= 0)
+    if (savestringenter)
+        whichskull = 0;
+    else if (windowfocused && --skullanimcounter <= 0)
     {
         whichskull ^= 1;
         skullanimcounter = SKULLANIMCOUNT;
