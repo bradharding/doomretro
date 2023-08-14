@@ -13,7 +13,7 @@
 * Minor improvements have been made to text autocompleted in the console by pressing the <kbd><b>TAB</b></kbd> key.
 * The caret may now be repositioned in the console’s input using the mouse pointer when the `m_pointer` CVAR is `on`.
 * The effects of changing the `r_gamma` and `r_color` CVARs are now applied to *DOOM Retro’s* splash screen.
-* The `r_color` CVAR has been renamed `r_saturation`, and can be set to a value over `100%` and up to a maximum of `200%`, allowing colors on the screen to be oversaturated.
+* The `r_color` CVAR has been renamed `r_saturation`, and can be set to a value over `100%`, and up to a maximum of `200%`, allowing colors on the screen to be oversaturated.
 * A crash no longer occurs when trying to display certain patches greater than 200 pixels in height.
 * These changes have been made to the menu:
   * Text in the menu is now subtly highlighted when selected.
@@ -26,10 +26,14 @@
     * The *Nightmare!* skill level can now always be selected.
     * The mouse pointer is now visible after just using a controller to navigate the menu.
   * “New Game” is now selected in the main menu after deleting the only savegame in the save or load game menus using the <kbd><b>DEL</b></kbd> key.
+  * Minor improvements have been made to the vertical positioning of elements in the load and save game menus.
 * The `r_lowpixelsize` CVAR can now also be set to `1×2` or `2×1`.
 * A bug is fixed whereby sometimes the player wouldn’t pick up an item in a liquid sector when the `r_liquid_clipsprites` CVAR was `on`.
 * The player’s view is no longer affected when walking over certain linedefs in a liquid sector and the `r_liquid_lowerview` CVAR is `on`.
 * Improvements have been made to equipping either the chainsaw or fists when the player presses the <kbd><b>1</b></kbd> key.
+* When a monster is killed in a liquid sector and the `r_liquid_clipsprites` CVAR is `on`:
+  * The monster’s death animation is now at a consistent height.
+  * The item they drop is no longer clipped before it reaches the liquid if the `tossdrop` CVAR is `on`.
 * A bug is fixed whereby the player’s field of view would sometimes be wrong when changing the `r_fov` CVAR.
 * Minor improvements have been made to the support of [*REKKR: Sunken Land*](https://store.steampowered.com/app/1715690/REKKR_Sunken_Land/).
 * Floors and ceilings far away from the player are now rendered better.
