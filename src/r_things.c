@@ -794,16 +794,24 @@ static void R_ProjectSprite(mobj_t *thing)
     vis->colfunc = (invulnerable && r_textures ? thing->altcolfunc : thing->colfunc);
 
     // foot clipping
-    if ((flags2 & MF2_FEETARECLIPPED) && !heightsec && r_liquid_clipsprites && topoffset - height <= 4 * FRACUNIT)
+    if ((flags2 & MF2_FEETARECLIPPED) && !heightsec && r_liquid_clipsprites)
     {
-        fixed_t clipfeet = MIN((height >> FRACBITS) / 4, 10) << FRACBITS;
+        if (topoffset - height <= 4 * FRACUNIT)
+        {
+            fixed_t clipfeet = MIN((height >> FRACBITS) / 4, 10) << FRACBITS;
 
-        vis->texturemid = gzt - viewz - clipfeet;
+            vis->texturemid = gzt - viewz - clipfeet;
 
-        if (r_liquid_bobsprites)
-            clipfeet += animatedliquiddiff;
+            if (r_liquid_bobsprites)
+                clipfeet += animatedliquiddiff;
 
-        vis->footclip = FixedMul(height - clipfeet, xscale);
+            vis->footclip = FixedMul(height - clipfeet, xscale);
+        }
+        else
+        {
+            vis->texturemid = gzt - FOOTCLIPSIZE - viewz;
+            vis->footclip = 0;
+        }
     }
     else
     {
