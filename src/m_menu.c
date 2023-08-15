@@ -1698,15 +1698,15 @@ static void M_DrawEpisode(void)
 
 void M_SetWindowCaption(void)
 {
-    if (gamestate == GS_LEVEL)
-    {
-        static char caption[1024];
+    static char caption[512];
 
-        M_snprintf(caption, sizeof(caption), "%s \xC2\xB7 %s", mapnumandtitle, DOOMRETRO_NAME);
-        SDL_SetWindowTitle(window, caption);
-    }
+    if (gamestate == GS_LEVEL)
+        M_snprintf(caption, sizeof(caption), "%s \xC2\xB7 %s \xC2\xB7 %s",
+            mapnumandtitle, gamedescription, DOOMRETRO_NAME);
     else
-        SDL_SetWindowTitle(window, DOOMRETRO_NAME);
+        M_snprintf(caption, sizeof(caption), "%s \xC2\xB7 %s", gamedescription, DOOMRETRO_NAME);
+
+    SDL_SetWindowTitle(window, caption);
 }
 
 static void M_DrawExpansion(void)
