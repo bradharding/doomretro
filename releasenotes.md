@@ -27,6 +27,7 @@
     * The mouse pointer is now visible after just using a controller to navigate the menu.
   * “New Game” is now selected in the main menu after deleting the only savegame in the save or load game menus using the <kbd><b>DEL</b></kbd> key.
   * Minor improvements have been made to the vertical positioning of elements in the load and save game menus.
+  * The skull cursor’s eyes are now always on while entering a savegame description in the save game menu.
 * The `r_lowpixelsize` CVAR can now also be set to `1×2` or `2×1`.
 * A bug is fixed whereby sometimes the player wouldn’t pick up an item in a liquid sector when the `r_liquid_clipsprites` CVAR was `on`.
 * The player’s view is no longer affected when walking over certain linedefs in a liquid sector and the `r_liquid_lowerview` CVAR is `on`.
@@ -93,6 +94,7 @@
 * A character will no longer appear in the input when opening the console for the first time in some instances.
 * The time and par time on the intermission screen now have shadows.
 * The brightmap of the `SW2STONE` texture has improved when the `r_brightmaps` CVAR is `on`.
+* The WAD being played is now back in the window caption.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
