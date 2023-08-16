@@ -95,6 +95,7 @@
 * The time and par time on the intermission screen now have shadows.
 * The brightmap of the `SW2STONE` texture has improved when the `r_brightmaps` CVAR is `on`.
 * The WAD being played is now back in the window caption.
+* A bug is fixed whereby certain messages were not being displayed in some instances.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

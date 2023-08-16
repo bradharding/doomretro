@@ -3346,7 +3346,7 @@ static void P_InitMapInfo(void)
     }
 }
 
-static void P_ParseMapString(char *string, int *map, int *ep)
+static void P_ParseMapString(const char *string, int *map, int *ep)
 {
     char    *buffer = uppercase(string);
     int     value1;

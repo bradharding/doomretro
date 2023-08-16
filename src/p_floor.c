@@ -570,20 +570,15 @@ manual_floor:
 //
 void P_CheckTerrainType(sector_t *sector)
 {
-    terraintype_t   oldterraintype = sector->terraintype;
+    const terraintype_t oldterraintype = sector->terraintype;
 
     if ((sector->terraintype = terraintypes[sector->floorpic]) != oldterraintype)
     {
         if (sector->terraintype >= LIQUID)
         {
-            bloodsplat_t    *splat = sector->splatlist;
-
-            while (splat)
+            for (bloodsplat_t *splat = sector->splatlist; splat; splat = splat->next)
             {
-                bloodsplat_t    *next = splat->next;
-
                 P_UnsetBloodSplatPosition(splat);
-                splat = next;
                 r_bloodsplats_total--;
             }
 

@@ -996,24 +996,22 @@ bool P_IsInLiquid(mobj_t *thing)
 
         if (flags & MF_NOGRAVITY)
             return false;
+
+        if (flags & MF_SHOOTABLE)
+        {
+            for (const struct msecnode_s *seclist = thing->touching_sectorlist; seclist; seclist = seclist->m_tnext)
+                if (seclist->m_sector->terraintype < LIQUID)
+                    return false;
+        }
         else
         {
-            if (flags & MF_SHOOTABLE)
-            {
-                for (const struct msecnode_s *seclist = thing->touching_sectorlist; seclist; seclist = seclist->m_tnext)
-                    if (seclist->m_sector->terraintype < LIQUID)
-                        return false;
-            }
-            else
-            {
-                const sector_t  *sector = thing->subsector->sector;
+            const sector_t  *sector = thing->subsector->sector;
 
-                if (sector->terraintype < LIQUID)
-                    return false;
+            if (sector->terraintype < LIQUID)
+                return false;
 
-                if (thing->z > sector->floorheight + FRACUNIT)
-                    return false;
-            }
+            if (thing->z > sector->floorheight + FRACUNIT)
+                return false;
         }
     }
 
