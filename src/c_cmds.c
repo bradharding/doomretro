@@ -101,9 +101,9 @@
 #define TOGGLECMDFORMAT             BOLDITALICS("CVAR")
 #define UNBINDCMDFORMAT             BOLDITALICS("control") "|" BOLDITALICS("+action")
 
-#define WEAPONDESCRIPTION_SHAREWARE "The player's currently equipped weapon (" BOLD("fists") ", " BOLD("chainsaw") ", " \
+#define WEAPONDESCRIPTION_SHAREWARE "Your currently equipped weapon (" BOLD("fists") ", " BOLD("chainsaw") ", " \
                                     BOLD("pistol") ", " BOLD("shotgun") ", " BOLD("chaingun") " or " BOLD("rocketlauncher") ")."
-#define WEAPONDESCRIPTION_DOOM2     "The player's currently equipped weapon (" BOLD("fists") ", " BOLD("chainsaw") ", " \
+#define WEAPONDESCRIPTION_DOOM2     "Your currently equipped weapon (" BOLD("fists") ", " BOLD("chainsaw") ", " \
                                     BOLD("pistol") ", " BOLD("shotgun") ", " BOLD("supershotgun") ", " BOLD("chaingun") ", " \
                                     BOLD("rocketlauncher") ", " BOLD("plasmarifle") " or " BOLD("bfg9000") ")."
 
