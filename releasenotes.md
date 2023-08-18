@@ -29,6 +29,7 @@
   * Minor improvements have been made to the vertical positioning of elements in the load and save game menus.
   * The skull cursor’s eyes are now always on while entering a savegame description in the save game menu.
   * The <kbd><b>F5</b></kbd> key can no longer be used to toggle the graphic detail while the menu is open.
+* Minor changes have been made to the help screen shown when pressing the <kbd><b>F1</b></kbd> key.
 * The `r_lowpixelsize` CVAR can now also be set to `1×2` or `2×1`.
 * A bug is fixed whereby sometimes the player wouldn’t pick up an item in a liquid sector when the `r_liquid_clipsprites` CVAR was `on`.
 * The player’s view is no longer affected when walking over certain linedefs in a liquid sector and the `r_liquid_lowerview` CVAR is `on`.
