@@ -2960,8 +2960,12 @@ bool M_Responder(event_t *ev)
 
         if (menuactive)
         {
+            functionkey = 0;
             M_CloseMenu();
             D_FadeScreen(false);
+
+            if (helpscreen)
+                R_SetViewSize(r_screensize);
         }
 
         if (consoleheight < CONSOLEHEIGHT && consoledirection == -1 && !dowipe)
