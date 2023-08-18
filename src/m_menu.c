@@ -2954,9 +2954,15 @@ bool M_Responder(event_t *ev)
     }
 
     // Console
-    if (key == keyboardconsole && !menuactive && !paused && !splashscreen && !keydown)
+    if (key == keyboardconsole && !paused && !splashscreen && !keydown)
     {
         keydown = key;
+
+        if (menuactive)
+        {
+            M_CloseMenu();
+            D_FadeScreen(false);
+        }
 
         if (consoleheight < CONSOLEHEIGHT && consoledirection == -1 && !dowipe)
             C_ShowConsole();
