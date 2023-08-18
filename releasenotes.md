@@ -99,6 +99,7 @@
 * The brightmap of the `SW2STONE` texture has improved when the `r_brightmaps` CVAR is `on`.
 * The WAD being played is now back in the window caption.
 * A bug is fixed whereby certain messages were not being displayed in some instances.
+* The player now falls at the correct speed when clipping mode is enabled.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
