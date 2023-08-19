@@ -6,14 +6,14 @@
 * *DOOM Retro* now uses [*SDL v2.28.2*](https://github.com/libsdl-org/SDL/releases/tag/release-2.28.1).
 * Several optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Any `.cfg` files placed in the `autoload` folder are now autoloaded when *DOOM Retro* starts.
-* *DOOM Retro* now parses response files specified on the command-line.
+* *DOOM Retro* now parses any response files specified on the command-line.
 * Support has been added for [*DSDHacked*](https://doomwiki.org/wiki/DSDHacked), allowing an unlimited number of things, states, sprites and sound effects to be used in `DEHACKED` lumps.
 * Minor changes have been made to *DOOM Retro’s* splash screen.
-* Changes have been made to text that is output to the console.
+* Extensive changes have been made to text that is output to the console.
 * Minor improvements have been made to text autocompleted in the console by pressing the <kbd><b>TAB</b></kbd> key.
 * The caret may now be repositioned in the console’s input using the mouse pointer when the `m_pointer` CVAR is `on`.
 * The effects of changing the `r_gamma` and `r_color` CVARs are now applied to *DOOM Retro’s* splash screen.
-* The `r_color` CVAR has been renamed `r_saturation`, and can be set to a value over `100%`, and up to a maximum of `200%`, allowing colors on the screen to be oversaturated.
+* The `r_color` CVAR has been renamed `r_saturation`, and can now be set to a value over `100%`, and up to a maximum of `200%`, allowing colors on the screen to be oversaturated.
 * A crash no longer occurs when trying to display certain patches greater than 200 pixels in height.
 * These changes have been made to the menu:
   * Text in the menu is now subtly highlighted when selected.
@@ -47,7 +47,7 @@
 * Walls that have been incorrectly marked as two-sided are now rendered as intended.
 * When using the `IDCLEV` cheat and vanilla mode is enabled, the player now starts a map with 100% health, no armor, and only a pistol with 50 bullets.
 * A slightly darker color is now chosen for the surrounding pillarboxes when displaying certain lumps from PWADs that are only 320 pixels wide and the `vid_widescreen` CVAR is `on`.
-* A bug is fixed, present in the original *DOOM*, whereby stairs that rose up from the floor would fail in some rare instances.
+* A [bug](https://doomwiki.org/wiki/Stairs_create_unknown_sector_types) is fixed, present in the original *DOOM*, whereby stairs that rose up from the floor would fail in some rare instances.
 * If regenerating health is enabled using the `regenhealth` CCMD, a sound is now played and the “Health picked up” stat is updated every second the player’s health increases by 1% until it is 100% again.
 * Several improvements have been made to the player’s health in the status bar when they are dead and the `negativehealth` CVAR is `on`.
 * Several improvements have been made to the player’s health, armor and ammo in the widescreen HUD flashing when they change.
@@ -85,8 +85,8 @@
   * The left and right shoulder buttons now equip the player’s previous and next weapons by default.
   * The default values of the `joy_deadzone_left` and `joy_deadzone_right` CVARs are now both `15%` rather than `25%`, and their maximum values are now both `30%` rather than `100%`.
 * A bug is fixed whereby the `vid_fullscreen` CVAR couldn’t be changed in the console.
-* The player’s weapon now displays correctly when touching the right edge of the screen and the `vid_capfps` CVAR is not `35`.
-* Movement of the player’s weapon is now less blurred when the `r_detail` CVAR is `low`.
+* The player’s weapon now displays correctly when it touches the right edge of the screen and the `vid_capfps` CVAR is not `35`.
+* Movement of the player’s weapon is now less blurry when the `r_detail` CVAR is `low`.
 * The `weapon` CVAR now also allows the values `1` to `7`.
 * A bug is fixed whereby the `iwadfolder` CVAR wouldn’t be updated in some instances.
 * The `iwadfolder` CVAR has been renamed `wadfolder`.
