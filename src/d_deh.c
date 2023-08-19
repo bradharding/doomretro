@@ -1592,6 +1592,7 @@ typedef struct
 } deh_block;
 
 #define DEH_BUFFERMAX   1024                            // input buffer area size, hardcoded for now
+
 // killough 08/09/98: make DEH_BLOCKMAX self-adjusting
 #define DEH_BLOCKMAX    arrlen(deh_blocks)              // size of array
 #define DEH_MAXKEYLEN   32                              // as much of any key as we'll look at

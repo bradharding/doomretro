@@ -95,7 +95,7 @@
 #define SAVECMDFORMAT               BOLDITALICS("filename") "[" BOLD(".save") "]"
 #define SPAWNCMDFORMAT              BOLDITALICS("item") "|[" BOLD("friendly") " ]" BOLDITALICS("monster")
 #define TAKECMDFORMAT               BOLD("ammo") "|" BOLD("armor") "|" BOLD("health") "|" BOLD("keys") "|" BOLD("weapons") "|" \
-                                    BOLD("all") "|" BOLDITALICS("item")
+                                    BOLD("powerups") "|" BOLD("all") "|" BOLDITALICS("item")
 #define TELEPORTCMDFORMAT           BOLDITALICS("x") " " BOLDITALICS("y") "[ " BOLDITALICS("z") "]"
 #define TIMERCMDFORMAT              BOLDITALICS("minutes")
 #define TOGGLECMDFORMAT             BOLDITALICS("CVAR")

@@ -119,6 +119,7 @@ static fixed_t  playerviewz;
 
 static patch_t  *menuborder;
 static short    titleheight;
+
 //
 // PROTOTYPES
 //

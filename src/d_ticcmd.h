@@ -35,7 +35,7 @@
 
 #pragma once
 
-// The data sampled per tic..
+// The data sampled per tic.
 // Mainly movements/button commands per game tic.
 // [BH] forwardmove, sidemove and angleturn need to be explicitly signed
 typedef struct
