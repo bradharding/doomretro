@@ -100,6 +100,7 @@
 * The WAD being played is now back in the window caption.
 * A bug is fixed whereby certain messages were not being displayed in some instances.
 * The player now falls at the correct speed when clipping mode is enabled.
+* The power-ups the player currently has can now be taken away from them by entering `take powerups` in the console.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

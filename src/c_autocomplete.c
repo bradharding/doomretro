@@ -7554,6 +7554,7 @@ autocomplete_t autocompletelist[] =
     { "take partialinvisibility",                    DOOM1AND2 },
     { "take pistol",                                 DOOM1AND2 },
     { "take plasmarifle",                            DOOM1AND2 },
+    { "take powerups",                               DOOM1AND2 },
     { "take radiationshieldingsuit",                 DOOM1AND2 },
     { "take redkeycard",                             DOOM1AND2 },
     { "take redskullkey",                            DOOM1AND2 },

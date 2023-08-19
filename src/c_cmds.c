@@ -935,7 +935,7 @@ consolecmd_t consolecmds[] =
     CVAR_INT(sucktime, "", "", sucktime_cvar_func1, sucktime_cvar_func2, CF_NONE, SUCKSVALUEALIAS,
         "The amount of time you must complete a map before you \"SUCK\" (" BOLD("off") ", or " BOLD("1") " to " BOLD("24") " hours)."),
     CCMD(take, "", "", take_cmd_func1, take_cmd_func2, true, TAKECMDFORMAT,
-        "Takes " BOLD("ammo") ", " BOLD("armor") ", " BOLD("health") ", " BOLD("keys") ", " BOLD("weapons") ", or " BOLD("all")
+        "Takes " BOLD("ammo") ", " BOLD("armor") ", " BOLD("health") ", " BOLD("keys") ", " BOLD("weapons")", " BOLD("powerups") ", or " BOLD("all")
         " or certain " BOLDITALICS("items") " away from you."),
     CCMD(teleport, "", "", teleport_cmd_func1, teleport_cmd_func2, true, TELEPORTCMDFORMAT,
         "Teleports you to (" BOLDITALICS("x") ", " BOLDITALICS("y") ", " BOLDITALICS("z") ") in the current map."),
@@ -7420,7 +7420,7 @@ static bool take_cmd_func1(char *cmd, char *parms)
         || M_StringCompare(parm, "keys") || M_StringCompare(parm, "allkeys")
         || M_StringCompare(parm, "keycards") || M_StringCompare(parm, "allkeycards")
         || M_StringCompare(parm, "skullkeys") || M_StringCompare(parm, "allskullkeys")
-        || M_StringCompare(parm, "pistol"))
+        || M_StringCompare(parm, "pistol") || M_StringCompare(parm, "powerups"))
         result = true;
     else
         for (int i = 0, num = -1; i < NUMMOBJTYPES; i++)
@@ -7692,6 +7692,25 @@ static void take_cmd_func2(char *cmd, char *parms)
                 C_Warning(0, "You don't have a pistol to take.");
             else
                 C_Warning(0, "%s doesn't have a pistol.", playername);
+        }
+        else if (M_StringCompare(parm, "powerups"))
+        {
+            for (int i = 0; i < NUMPOWERS; i++)
+                if (viewplayer->powers[i])
+                {
+                    viewplayer->powers[i] = 0;
+                    result = true;
+                }
+
+            if (result)
+            {
+                C_PlayerMessage("All power-ups have been taken from %s.", playername);
+                C_HideConsole();
+            }
+            else if (M_StringCompare(playername, playername_default))
+                C_Warning(0, "You don't have any power-ups to take.");
+            else
+                C_Warning(0, "%s doesn't have any power-ups to take.", playername);
         }
         else
             for (int i = 0, num = -1; i < NUMMOBJTYPES; i++)
