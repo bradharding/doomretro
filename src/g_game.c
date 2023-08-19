@@ -812,7 +812,6 @@ bool G_Responder(const event_t *ev)
         {
             S_StartSound(NULL, sfx_scrsht);
             memset(screens[0], nearestwhite, SCREENAREA);
-            fastfade = true;
             D_FadeScreen(true);
 
             return true;
@@ -850,7 +849,6 @@ bool G_Responder(const event_t *ev)
                 if (vid_motionblur)
                     I_SetMotionBlur(0);
 
-                fastfade = true;
                 D_FadeScreen(false);
             }
             else if (key == keyboardalwaysrun && !keydown)

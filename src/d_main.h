@@ -56,7 +56,6 @@ extern int      logotic;
 extern int      pagetic;
 extern int      titlesequence;
 extern int      fadecount;
-extern bool     fastfade;
 
 #if defined(_WIN32)
 extern char     *previouswad;

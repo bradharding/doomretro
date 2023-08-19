@@ -90,7 +90,7 @@
 #endif
 
 #define FADECOUNT    8
-#define FADETICS     (fastfade ? 15 : 25)
+#define FADETICS     25
 
 char **episodes[] =
 {
@@ -163,7 +163,6 @@ bool        advancetitle;
 bool        dowipe = false;
 static bool forcewipe;
 
-bool        fastfade = false;
 static byte fadescreen[MAXSCREENAREA];
 int         fadecount = 0;
 
@@ -223,9 +222,6 @@ static void D_UpdateFade(void)
 
         fadewait = tics + FADETICS;
         tinttab = tinttabs[fadecount--];
-
-        if (!fadecount)
-            fastfade = false;
     }
 
     for (int i = 0; i < SCREENAREA; i++)
