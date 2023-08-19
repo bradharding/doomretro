@@ -101,6 +101,7 @@
 * A bug is fixed whereby certain messages were not being displayed in some instances.
 * The player now falls at the correct speed when clipping mode is enabled.
 * The power-ups the player currently has can now be taken away from them by entering `take powerups` in the console.
+* Widescreen can now be toggled using the <kbd><b>+</b></kbd> and <kbd><b>&ndash;</b></kbd> keys while the intermission and finale screens are open.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
