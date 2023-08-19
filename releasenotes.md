@@ -28,7 +28,7 @@
   * “New Game” is now selected in the main menu after deleting the only savegame in the save or load game menus using the <kbd><b>DEL</b></kbd> key.
   * Minor improvements have been made to the vertical positioning of elements in the load and save game menus.
   * The skull cursor’s eyes are now always on while entering a savegame description in the save game menu.
-  * The <kbd><b>F5</b></kbd> key can no longer be used to toggle the graphic detail while the menu is open.
+  * The <kbd><b>F5</b></kbd> key can no longer be used to toggle the graphic detail while the menu is open and a game isn’t being played.
   * The console can now be opened using the <kbd><b>~</b></kbd> key while the menu is open.
 * Minor changes have been made to the help screen shown when pressing the <kbd><b>F1</b></kbd> key.
 * The `r_lowpixelsize` CVAR can now also be set to `1×2` or `2×1`.

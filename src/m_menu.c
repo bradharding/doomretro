@@ -3329,17 +3329,6 @@ bool M_Responder(event_t *ev)
             return true;
         }
 
-        // Toggle graphic detail
-        else if (key == KEY_F5 && !functionkey && (r_screensize < r_screensize_max || !automapactive) && !keydown)
-        {
-            keydown = key;
-            functionkey = KEY_F5;
-            M_ChangeDetail(0);
-            functionkey = 0;
-            S_StartSound(NULL, sfx_swtchn);
-            return false;
-        }
-
         // Quicksave
         else if (key == KEY_F6 && (!functionkey || functionkey == KEY_F6) && (viewactive || automapactive)
             && !keydown && viewplayer->health > 0)
@@ -3399,6 +3388,18 @@ bool M_Responder(event_t *ev)
             M_QuitDOOM(0);
             return true;
         }
+    }
+
+    // Toggle graphic detail
+    if (key == KEY_F5 && !functionkey && gamestate == GS_LEVEL
+        && (r_screensize < r_screensize_max || !automapactive) && !keydown)
+    {
+        keydown = key;
+        functionkey = KEY_F5;
+        M_ChangeDetail(0);
+        functionkey = 0;
+        S_StartSound(NULL, sfx_swtchn);
+        return false;
     }
 
     // gamma toggle
