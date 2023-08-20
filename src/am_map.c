@@ -646,6 +646,7 @@ bool AM_Responder(const event_t *ev)
                 && keydown != keyboardautomap
                 && !(modstate & KMOD_ALT))
                 || (ev->type == ev_mouse
+                    && mouseautomap >= 0
                     && (ev->data1 & mouseautomap))
                 || (ev->type == ev_controller
                     && (gamecontrollerbuttons & gamecontrollerautomap)
