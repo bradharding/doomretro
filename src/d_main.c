@@ -335,6 +335,19 @@ void D_Display(void)
         if (mapwindow || automapactive)
             AM_Drawer();
 
+        // [BH] cast very slight shadow from status bar
+        if (r_screensize == r_screensize_default)
+        {
+            byte  *y = screens[0] + (SCREENHEIGHT - SBARHEIGHT - 1) * SCREENWIDTH;
+
+            for (int x = 0; x < SCREENWIDTH; x++)
+            {
+                byte    *dot = y + x;
+
+                *dot = tinttab10[*dot];
+            }
+        }
+
         ST_Drawer((viewheight == SCREENHEIGHT), true);
 
         // see if the border needs to be initially drawn
