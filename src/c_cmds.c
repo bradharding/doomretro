@@ -105,7 +105,7 @@
                                     BOLD("pistol") ", " BOLD("shotgun") ", " BOLD("chaingun") " or " BOLD("rocketlauncher") ")."
 #define WEAPONDESCRIPTION_DOOM2     "Your currently equipped weapon (" BOLD("fists") ", " BOLD("chainsaw") ", " \
                                     BOLD("pistol") ", " BOLD("shotgun") ", " BOLD("supershotgun") ", " BOLD("chaingun") ", " \
-                                    BOLD("rocketlauncher") ", " BOLD("plasmarifle") " or " BOLD("bfg9000") ")."
+                                    BOLD("rocketlauncher") ", " BOLD("plasmarifle") " or " BOLD("BFG9000") ")."
 
 #define DEADPLAYERWARNING           "It won't work if %s %s dead."
 #define NEXTMAPWARNING              "It won't work until the next map."
@@ -1012,7 +1012,7 @@ consolecmd_t consolecmds[] =
         "The console's warning level (" BOLD("0") ", " BOLD("1") " or " BOLD("2") ")."),
     CVAR_INT(weapon, "", "", weapon_cvar_func1, weapon_cvar_func2, CF_NONE, WEAPONVALUEALIAS,
         "Your currently equipped weapon (" BOLD("fists") ", " BOLD("chainsaw") ", " BOLD("pistol") ", " BOLD("shotgun") ", "
-        BOLD("chaingun") ", " BOLD("rocketlauncher") ", " BOLD("plasmarifle") " or " BOLD("bfg9000") ")."),
+        BOLD("chaingun") ", " BOLD("rocketlauncher") ", " BOLD("plasmarifle") " or " BOLD("BFG9000") ")."),
     CVAR_INT(weaponbob, "", "", int_cvars_func1, int_cvars_func2, CF_PERCENT, NOVALUEALIAS,
         "The amount your weapon bobs up and down as you move (" BOLD("0%") " to " BOLD("100%") ")."),
     CVAR_BOOL(weaponbounce, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
