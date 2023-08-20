@@ -101,6 +101,7 @@
 * The player now falls at the correct speed when clipping mode is enabled.
 * The power-ups the player currently has can now be taken away from them by entering `take powerups` in the console.
 * Widescreen can now be toggled using the <kbd><b>+</b></kbd> and <kbd><b>&ndash;</b></kbd> keys while the intermission and finale screens are open.
+* The `+automap` action can now be bound to a mouse button using the `bind` CCMD.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

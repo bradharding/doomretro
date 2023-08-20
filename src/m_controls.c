@@ -75,6 +75,7 @@ int keyboardweapon7 = KEYWEAPON7_DEFAULT;
 int keyboardzoomin = KEYZOOMIN_DEFAULT;
 int keyboardzoomout = KEYZOOMOUT_DEFAULT;
 
+int mouseautomap = MOUSEAUTOMAP_DEFAULT;
 int mouseback = MOUSEBACK_DEFAULT;
 int mousefire = MOUSEFIRE_DEFAULT;
 int mouseforward = MOUSEFORWARD_DEFAULT;

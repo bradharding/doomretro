@@ -896,6 +896,7 @@ enum
 #define KEYZOOMIN_DEFAULT                  KEY_EQUALS
 #define KEYZOOMOUT_DEFAULT                 KEY_MINUS
 
+#define MOUSEAUTOMAP_DEFAULT              -1
 #define MOUSEBACK_DEFAULT                 -1
 #define MOUSEFIRE_DEFAULT                  0
 #define MOUSEFORWARD_DEFAULT              -1

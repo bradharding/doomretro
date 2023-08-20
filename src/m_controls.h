@@ -77,6 +77,7 @@ extern int  keyboardweapon5;
 extern int  keyboardweapon6;
 extern int  keyboardweapon7;
 
+extern int  mouseautomap;
 extern int  mouseback;
 extern int  mousefire;
 extern int  mouseforward;

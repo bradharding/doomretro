@@ -299,7 +299,7 @@ static void weapon7_action_func(void);
 action_t actions[] =
 {
     { "+alwaysrun",   true,  false, alwaysrun_action_func,   &keyboardalwaysrun,   NULL,                  NULL,              &gamecontrolleralwaysrun,   NULL                },
-    { "+automap",     false, false, automap_action_func,     &keyboardautomap,     NULL,                  NULL,              &gamecontrollerautomap,     NULL                },
+    { "+automap",     false, false, automap_action_func,     &keyboardautomap,     NULL,                  &mouseautomap,     &gamecontrollerautomap,     NULL                },
     { "+back",        true,  false, back_action_func,        &keyboardback,        &keyboardback2,        &mouseback,        &gamecontrollerback,        NULL                },
     { "+clearmark",   true,  true,  clearmark_action_func,   &keyboardclearmark,   NULL,                  NULL,              &gamecontrollerclearmark,   NULL                },
     { "+console",     false, false, console_action_func,     &keyboardconsole,     NULL,                  NULL,              &gamecontrollerconsole,     NULL                },
@@ -6744,6 +6744,7 @@ static void C_VerifyResetAll(const int key)
         keyboardzoomin = KEYZOOMIN_DEFAULT;
         keyboardzoomout = KEYZOOMOUT_DEFAULT;
 
+        mouseautomap = MOUSEAUTOMAP_DEFAULT;
         mouseback = MOUSEBACK_DEFAULT;
         mousefire = MOUSEFIRE_DEFAULT;
         mouseforward = MOUSEFORWARD_DEFAULT;
