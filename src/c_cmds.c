@@ -838,7 +838,7 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL(r_hud_translucency, "", "", bool_cvars_func1, r_hud_translucency_cvar_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles the translucency of the heads-up display in widescreen mode."),
     CVAR_BOOL(r_linearskies, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
-        "Toggles skies to be horizontally linear."),
+        "Toggles horizontally linear skies."),
     CVAR_BOOL(r_liquid_bob, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles the bobbing of liquid sectors."),
     CVAR_BOOL(r_liquid_bobsprites, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
