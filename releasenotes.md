@@ -102,6 +102,7 @@
 * The power-ups the player currently has can now be taken away from them by entering `take powerups` in the console.
 * Widescreen can now be toggled using the <kbd><b>+</b></kbd> and <kbd><b>&ndash;</b></kbd> keys while the intermission and finale screens are open.
 * The `+automap` action can now be bound to a mouse button using the `bind` CCMD.
+* Skies are now drawn horizontally linear. This can be toggled `off` using the new `r_linearskies` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

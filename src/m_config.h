@@ -143,6 +143,7 @@ extern bool     r_graduallighting;
 extern bool     r_homindicator;
 extern bool     r_hud;
 extern bool     r_hud_translucency;
+extern bool     r_linearskies;
 extern bool     r_liquid_bob;
 extern bool     r_liquid_bobsprites;
 extern bool     r_liquid_clipsprites;
@@ -635,6 +636,8 @@ enum
 #define r_hud_default                      false
 
 #define r_hud_translucency_default         true
+
+#define r_linearskies_default              true
 
 #define r_liquid_bob_default               true
 

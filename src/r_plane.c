@@ -511,8 +511,10 @@ void R_DrawPlanes(void)
                         if ((dc_yl = pl->top[dc_x]) != USHRT_MAX
                             && dc_yl <= (dc_yh = pl->bottom[dc_x]))
                         {
+                            const angle_t   angle = (r_linearskies ? linearskyangle[dc_x] : xtoviewangle[dc_x]);
+
                             dc_source = R_GetTextureColumn(tex_patch,
-                                ((((an + xtoviewangle[dc_x]) ^ flip) / (1 << (ANGLETOSKYSHIFT - FRACBITS)))
+                                ((((an + angle) ^ flip) / (1 << (ANGLETOSKYSHIFT - FRACBITS)))
                                 + skycolumnoffset) / FRACUNIT);
 
                             skycolfunc();
