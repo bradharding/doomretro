@@ -42,6 +42,7 @@
 * Minor improvements have been made to the support of [*REKKR: Sunken Land*](https://store.steampowered.com/app/1715690/REKKR_Sunken_Land/).
 * Floors and ceilings far away from the player are now rendered better.
 * The sprites of multiple things that occupy the same coordinates now appear in the correct order, and also no longer flicker in some instances.
+* A bug is fixed whereby the textures on two-sided walls next to a liquid sector would be rendered incorrectly when the `r_liquid_bob` CVAR was `on`.
 * The bobbing of sprites in liquid sectors can now be toggled using the new `r_liquid_bobsprites` CVAR, which is `on` by default and `off` when vanilla mode is enabled. This is separate to the existing `r_liquid_bob` CVAR, which now only toggles the bobbing of the liquid sectors themselves.
 * Walls that have been incorrectly marked as two-sided are now rendered as intended.
 * When using the `IDCLEV` cheat and vanilla mode is enabled, the player now starts a map with 100% health, no armor, and only a pistol with 50 bullets.

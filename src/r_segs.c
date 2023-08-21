@@ -855,7 +855,7 @@ void R_StoreWallRange(const int start, const int stop)
                 rw_bottomtexturemid = ((linedef->flags & ML_DONTPEGBOTTOM) ? worldtop : worldlow - liquidoffset)
                     + FixedMod(sidedef->rowoffset, height);
 
-                if (liquidoffset)
+                if (liquidoffset && !(linedef->r_flags & RF_CLOSED))
                     rw_bottomtexturemid += 4 * FRACUNIT;
             }
         }
