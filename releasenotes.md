@@ -24,12 +24,13 @@
   * When navigating using the mouse pointer and the `m_pointer` CVAR is `on`:
     * The `episode`, `expansion`, `savegame` and `skilllevel` CVARs are now only updated when necessary.
     * The *Nightmare!* skill level can now always be selected.
-    * The mouse pointer is now visible after just using a controller to navigate the menu.
+    * The mouse pointer is now visible after having just used a controller to navigate the menu.
   * “New Game” is now selected in the main menu after deleting the only savegame in the save or load game menus using the <kbd><b>DEL</b></kbd> key.
   * Minor improvements have been made to the vertical positioning of elements in the load and save game menus.
   * The skull cursor’s eyes are now always on while entering a savegame description in the save game menu.
   * The <kbd><b>F5</b></kbd> key can no longer be used to toggle the graphic detail while the menu is open and a game isn’t being played.
   * The console can now be opened using the <kbd><b>~</b></kbd> key while the menu is open.
+  * The shadows cast by the sliders in the options menu have improved in some rare instances.
 * Minor changes have been made to the help screen shown when pressing the <kbd><b>F1</b></kbd> key.
 * The `r_lowpixelsize` CVAR can now also be set to `1×2` or `2×1`.
 * A bug is fixed whereby sometimes the player wouldn’t pick up an item in a liquid sector when the `r_liquid_clipsprites` CVAR was `on`.
@@ -45,7 +46,7 @@
 * A bug is fixed whereby the textures on two-sided walls next to a liquid sector would be rendered incorrectly when the `r_liquid_bob` CVAR was `on`.
 * The bobbing of sprites in liquid sectors can now be toggled using the new `r_liquid_bobsprites` CVAR, which is `on` by default and `off` when vanilla mode is enabled. This is separate to the existing `r_liquid_bob` CVAR, which now only toggles the bobbing of the liquid sectors themselves.
 * Walls that have been incorrectly marked as two-sided are now rendered as intended.
-* When using the `IDCLEV` cheat and vanilla mode is enabled, the player now starts a map with 100% health, no armor, and only a pistol with 50 bullets.
+* When using the `IDCLEV` cheat and vanilla mode is enabled, the player now starts the map with 100% health, no armor, and only a pistol with 50 bullets.
 * A slightly darker color is now chosen for the surrounding pillarboxes when displaying certain lumps from PWADs that are only 320 pixels wide and the `vid_widescreen` CVAR is `on`.
 * A [bug](https://doomwiki.org/wiki/Stairs_create_unknown_sector_types) is fixed, present in the original *DOOM*, whereby stairs that rose up from the floor would fail in some rare instances.
 * If regenerating health is enabled using the `regenhealth` CCMD, a sound is now played and the “Health picked up” stat is updated every second the player’s health increases by 1% until it is 100% again.
@@ -94,14 +95,14 @@
 * A crash no longer occurs when starting a map that has things 4001 to 4004 (player starts 5 to 8).
 * The message displayed when using the `IDCLEV` cheat or `map` CCMD to warp to a secret map is now gold.
 * Minor improvements have been made to translating certain words when the `english` CVAR is `international`.
-* A character will no longer appear in the input when opening the console for the first time in some instances.
+* A character no longer appears in the input when opening the console for the first time in some instances.
 * The times on the intermission screen now have shadows.
 * The brightmap of the `SW2STONE` texture has improved slightly when the `r_brightmaps` CVAR is `on`.
 * The WAD being played is now displayed in the window caption again.
 * A bug is fixed whereby certain messages were not being displayed in some instances.
 * The player now falls at the correct speed when clipping mode is enabled.
-* The power-ups the player currently has can now be taken away from them by entering `take powerups` in the console.
-* Widescreen can now be toggled using the <kbd><b>+</b></kbd> and <kbd><b>&ndash;</b></kbd> keys while the intermission and finale screens are open.
+* All power-ups the player currently has can now be taken away from them by entering `take powerups` in the console.
+* Widescreen mode can now be toggled using the <kbd><b>+</b></kbd> and <kbd><b>&ndash;</b></kbd> keys while the intermission and finale screens are open.
 * The `+automap` action can now be bound to a mouse button using the `bind` CCMD.
 * Skies are now drawn horizontally linear. This can be toggled `off` using the new `r_linearskies` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
 
