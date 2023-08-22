@@ -744,10 +744,11 @@ void R_StoreWallRange(const int start, const int stop)
     }
     else
     {
-        int liquidoffset = 0;
+        const bool  closed = (linedef->r_flags & RF_CLOSED);
+        int         liquidoffset = 0;
 
         // two sided line
-        if (linedef->r_flags & RF_CLOSED)
+        if (closed)
         {
             ds_p->sprtopclip = viewheightarray;
             ds_p->sprbottomclip = negonearray;
@@ -855,7 +856,7 @@ void R_StoreWallRange(const int start, const int stop)
                 rw_bottomtexturemid = ((linedef->flags & ML_DONTPEGBOTTOM) ? worldtop : worldlow - liquidoffset)
                     + FixedMod(sidedef->rowoffset, height);
 
-                if (liquidoffset && !(linedef->r_flags & RF_CLOSED))
+                if (liquidoffset && closed)
                     rw_bottomtexturemid += 4 * FRACUNIT;
             }
         }

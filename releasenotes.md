@@ -91,13 +91,13 @@
 * A bug is fixed whereby the `iwadfolder` CVAR wouldn’t be updated in some instances.
 * The `iwadfolder` CVAR has been renamed `wadfolder`.
 * Improvements have been made to the minimum and maximum levels the player can zoom in the automap.
-* A crash no longer occurs when starting a map that has player starts 5 to 8 (things 4001 to 4004).
+* A crash no longer occurs when starting a map that has things 4001 to 4004 (player starts 5 to 8).
 * The message displayed when using the `IDCLEV` cheat or `map` CCMD to warp to a secret map is now gold.
 * Minor improvements have been made to translating certain words when the `english` CVAR is `international`.
 * A character will no longer appear in the input when opening the console for the first time in some instances.
-* The time and par time on the intermission screen now have shadows.
-* The brightmap of the `SW2STONE` texture has improved when the `r_brightmaps` CVAR is `on`.
-* The WAD being played is now back in the window caption.
+* The times on the intermission screen now have shadows.
+* The brightmap of the `SW2STONE` texture has improved slightly when the `r_brightmaps` CVAR is `on`.
+* The WAD being played is now displayed in the window caption again.
 * A bug is fixed whereby certain messages were not being displayed in some instances.
 * The player now falls at the correct speed when clipping mode is enabled.
 * The power-ups the player currently has can now be taken away from them by entering `take powerups` in the console.

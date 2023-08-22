@@ -619,6 +619,7 @@ consolecmd_t consolecmds[] =
         "Binds an " BOLDITALICS("+action") " or string of " BOLDITALICS("commands") " to a " BOLDITALICS("control") "."),
     CCMD(bindlist, "", "", null_func1, bindlist_cmd_func2, false, "",
         "Lists all controls bound to an " BOLDITALICS("+action") " or string of commands."),
+    CMD_CHEAT(brad, false),
     CVAR_BOOL(centerweapon, centreweapon, "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles centering your weapon when fired."),
     CCMD(clear, "", "", null_func1, clear_cmd_func2, false, "",
@@ -672,7 +673,6 @@ consolecmd_t consolecmds[] =
         "Your health (" BOLD("-99%") " to " BOLD("200%") ")."),
     CCMD(help, "", "", null_func1, help_cmd_func2, false, "",
         "Opens the " ITALICS(DOOMRETRO_WIKINAME ".")),
-    CMD_CHEAT(hsathanya, false),
     CMD_CHEAT(idbeholda, false),
     CMD_CHEAT(idbeholdi, false),
     CMD_CHEAT(idbeholdl, false),
@@ -2155,7 +2155,7 @@ static void condump_cmd_func2(char *cmd, char *parms)
 
         fclose(file);
 
-        C_Output("Dumped %s lines from the console to " BOLD("%s") ".", temp, filename);
+        C_Output("%s lines from the console were dumped into " BOLD("%s") ".", temp, filename);
         free(temp);
     }
     else

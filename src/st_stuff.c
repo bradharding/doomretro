@@ -270,7 +270,7 @@ cheatseq_t              cheat_clev = CHEAT("idclev", 0, false);
 cheatseq_t              cheat_clev_xy = CHEAT("idclev", 2, false);
 cheatseq_t              cheat_mypos = CHEAT("idmypos", 0, false);
 cheatseq_t              cheat_amap = CHEAT("iddt", 0, false);
-cheatseq_t              cheat_buddha = CHEAT("hsathanya", 0, false);
+cheatseq_t              cheat_buddha = CHEAT("brad", 0, false);
 
 cheatseq_t cheat_powerup[7] =
 {
