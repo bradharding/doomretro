@@ -1527,7 +1527,7 @@ void HU_Drawer(void)
     }
     else
     {
-        if (crosshair != crosshair_none)
+        if (crosshair != crosshair_none && !consoleactive)
         {
             const ammotype_t    ammotype = weaponinfo[viewplayer->readyweapon].ammotype;
 
