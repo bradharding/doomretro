@@ -2109,7 +2109,7 @@ void AM_Drawer(void)
 
     AM_DrawPlayer();
 
-    if (!am_followmode)
+    if (!am_followmode && !consoleactive)
     {
         if (r_hud_translucency)
             AM_DrawCrosshair();
