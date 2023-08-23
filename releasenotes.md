@@ -53,7 +53,6 @@
 * Several improvements have been made to the player’s health in the status bar when they are dead and the `negativehealth` CVAR is `on`.
 * Several improvements have been made to the flashing of the player’s health, armor and ammo in the widescreen HUD when they change.
 * The player’s crosshair when the `crosshair` CVAR is `on`, as well as the crosshair in the automap when the `am_followmode` CVAR is `off`, are no longer visible in the background while the console is open.
-* The default value of the `crosshaircolor` CVAR is now `112` (green) instead of `4` (white).
 * These improvements have been made to the support for [*MBF21*](https://doomwiki.org/wiki/MBF21)-compatible WADs:
   * The `A_RadiusDamage` codepointer now correctly uses `Args1` rather than `Args2` for the amount of damage inflicted.
   * Things spawned using the `A_SpawnObject` codepointer now inherit the blood color of the spawner.

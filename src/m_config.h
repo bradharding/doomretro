@@ -460,7 +460,7 @@ enum
 #define crosshair_max                      crosshair_dot
 
 #define crosshaircolor_min                 0
-#define crosshaircolor_default             112
+#define crosshaircolor_default             4
 #define crosshaircolor_max                 255
 
 #define english_default                    english_american
