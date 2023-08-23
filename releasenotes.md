@@ -16,7 +16,7 @@
 * The `r_color` CVAR has been renamed `r_saturation`, and can now be set to a value over `100%`, and up to a maximum of `200%`, allowing colors on the screen to be oversaturated.
 * A crash no longer occurs when trying to display certain patches greater than 200 pixels in height.
 * These changes have been made to the menu:
-  * Text in the menu is now subtly highlighted when selected.
+  * Entries in the menu are now subtly highlighted when selected.
   * Improvements have been made when toggling widescreen using the <kbd><b>+</b></kbd> and <kbd><b>&ndash;</b></kbd> keys while the menu is open.
   * The fade to black when quitting *DOOM Retro* from the menu is no longer affected by the player having either a berserk or radiation shielding suit power-up.
   * Minor improvements have been made to the edges of the menu’s background.
@@ -43,15 +43,15 @@
 * Minor improvements have been made to the support of [*REKKR: Sunken Land*](https://store.steampowered.com/app/1715690/REKKR_Sunken_Land/).
 * Floors and ceilings far away from the player are now rendered better.
 * The sprites of multiple things that occupy the same coordinates now appear in the correct order, and also no longer flicker in some instances.
-* A bug is fixed whereby the textures on two-sided walls next to a liquid sector would be rendered incorrectly when the `r_liquid_bob` CVAR was `on`.
+* A bug is fixed whereby the textures of two-sided walls next to liquid sectors would be rendered incorrectly in some rare instances when the `r_liquid_bob` CVAR was `on`.
 * The bobbing of sprites in liquid sectors can now be toggled using the new `r_liquid_bobsprites` CVAR, which is `on` by default and `off` when vanilla mode is enabled. This is separate to the existing `r_liquid_bob` CVAR, which now only toggles the bobbing of the liquid sectors themselves.
 * Walls that have been incorrectly marked as two-sided are now rendered as intended.
-* When using the `IDCLEV` cheat and vanilla mode is enabled, the player now starts the map with 100% health, no armor, and only a pistol with 50 bullets.
+* When the `IDCLEV` cheat has been entered and vanilla mode is enabled, the player now starts the map with 100% health, no armor, and only a pistol with 50 bullets.
 * A slightly darker color is now chosen for the surrounding pillarboxes when displaying certain lumps from PWADs that are only 320 pixels wide and the `vid_widescreen` CVAR is `on`.
-* A [bug](https://doomwiki.org/wiki/Stairs_create_unknown_sector_types) is fixed, present in the original *DOOM*, whereby stairs that rose up from the floor would fail in some rare instances.
+* A [bug](https://doomwiki.org/wiki/Stairs_create_unknown_sector_types) is fixed, present in the original *DOOM*, whereby stairs rising up from the floor would fail in some rare instances.
 * If regenerating health is enabled using the `regenhealth` CCMD, a sound is now played and the “Health picked up” stat is updated every second the player’s health increases by 1% until it is 100% again.
 * Several improvements have been made to the player’s health in the status bar when they are dead and the `negativehealth` CVAR is `on`.
-* Several improvements have been made to the player’s health, armor and ammo in the widescreen HUD flashing when they change.
+* Several improvements have been made to the flashing of the player’s health, armor and ammo in the widescreen HUD when they change.
 * The default value of the `crosshaircolor` CVAR is now `112` (green) instead of `4` (white).
 * These improvements have been made to the support for [*MBF21*](https://doomwiki.org/wiki/MBF21)-compatible WADs:
   * The `A_RadiusDamage` codepointer now correctly uses `Args1` rather than `Args2` for the amount of damage inflicted.
