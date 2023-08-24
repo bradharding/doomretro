@@ -637,7 +637,7 @@ enum
 
 #define r_hud_translucency_default         true
 
-#define r_linearskies_default              true
+#define r_linearskies_default              false
 
 #define r_liquid_bob_default               true
 
