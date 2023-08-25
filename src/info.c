@@ -5759,7 +5759,7 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* fullbright           */ false,
-        /* bloodcolor           */ 0,
+        /* bloodcolor           */ REDBLOOD,
         /* shadowoffset         */ 0,
         /* mbf21flags           */ 0,
         /* infightinggroup      */ IG_DEFAULT,
