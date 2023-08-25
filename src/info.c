@@ -75,7 +75,7 @@
     /* raisestate           */ S_NULL,      \
     /* frames               */ 0,           \
     /* fullbright           */ false,       \
-    /* bloodcolor           */ 0,           \
+    /* bloodcolor           */ REDBLOOD,    \
     /* shadowoffset         */ 0,           \
     /* mbf21flags           */ 0,           \
     /* infightinggroup      */ IG_DEFAULT,  \
@@ -7435,6 +7435,7 @@ void dsdh_EnsureMobjInfoCapacity(const int limit)
 
         for (int i = old_nummobjtypes; i < nummobjtypes; i++)
         {
+            mobjinfo[i].bloodcolor = REDBLOOD;
             mobjinfo[i].droppeditem = MT_NULL;
             mobjinfo[i].infightinggroup = IG_DEFAULT;
             mobjinfo[i].projectilegroup = PG_DEFAULT;

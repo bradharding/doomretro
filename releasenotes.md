@@ -9,7 +9,7 @@
 * *DOOM Retro* now parses any response files specified on the command-line.
 * These changes have been made to the support for `DEHACKED` lumps:
   * Support has been added for [*DSDHacked*](https://doomwiki.org/wiki/DSDHacked), allowing an unlimited number of things, states, sprites and sound effects to be used.
-  * If thing 23 is used as a new monster type, these monsters will now bleed when injured.
+  * A bug is fixed whereby custom monsters wouldn’t bleed in some instances.
 * Minor changes have been made to *DOOM Retro’s* splash screen.
 * Extensive changes have been made to text that is output to the console.
 * Minor improvements have been made to text autocompleted in the console by pressing the <kbd><b>TAB</b></kbd> key.
