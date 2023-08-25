@@ -1973,7 +1973,6 @@ static void AM_DrawPath(void)
                 continue;
 
             AM_DrawFline(start.x, start.y, end.x, end.y, &pathcolor, &PUTDOT2);
-
             start = end;
         }
 
@@ -2076,6 +2075,8 @@ static void AM_SetFrameVariables(void)
 
 void AM_Drawer(void)
 {
+    const bool  things = (viewplayer->cheats & CF_ALLMAP_THINGS);
+
     AM_SetFrameVariables();
     AM_ClearFB();
 
@@ -2084,7 +2085,7 @@ void AM_Drawer(void)
     if (am_grid)
         AM_DrawGrid();
 
-    if (viewplayer->cheats & CF_ALLMAP_THINGS)
+    if (things)
     {
         if (am_bloodsplatcolor != am_backcolor && r_blood != r_blood_none && r_bloodsplats_max)
             AM_DrawBloodSplats();
@@ -2101,7 +2102,7 @@ void AM_Drawer(void)
     if (am_path && numbreadcrumbs > 1)
         AM_DrawPath();
 
-    if (viewplayer->cheats & CF_ALLMAP_THINGS)
+    if (things)
         AM_DrawThings();
 
     if (markpointnum)
@@ -2109,7 +2110,7 @@ void AM_Drawer(void)
 
     AM_DrawPlayer();
 
-    if (!am_followmode && !consoleactive)
+    if (!(am_followmode || consoleactive))
     {
         if (r_hud_translucency)
             AM_DrawCrosshair();
