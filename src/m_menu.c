@@ -63,6 +63,7 @@
 #include "w_wad.h"
 #include "z_zone.h"
 
+#define SPACEWIDTH          7
 #define LINEHEIGHT         17
 #define OFFSET             17
 #define SKULLANIMCOUNT      8
@@ -668,7 +669,7 @@ static struct
 //
 void M_DrawString(int x, int y, char *string, bool highlight, bool shadow)
 {
-    static char prev;
+    char        prev = '\0';
     const int   len = (int)strlen(string);
 
     for (int i = 0, j = -1; i < len; i++)
@@ -677,7 +678,7 @@ void M_DrawString(int x, int y, char *string, bool highlight, bool shadow)
             j = chartoi[(int)string[i]];
 
         if (j == -1)
-            x += 7;
+            x += SPACEWIDTH;
         else
         {
             bool        overlapping = false;
@@ -725,7 +726,7 @@ void M_DrawString(int x, int y, char *string, bool highlight, bool shadow)
 static int M_BigStringWidth(char *string)
 {
     int         width = 0;
-    static char prev;
+    char        prev = '\0';
     const int   len = (int)strlen(string);
 
     for (int i = 0; i < len; i++)
@@ -736,7 +737,7 @@ static int M_BigStringWidth(char *string)
             if (prev == bigkern[k].char1 && string[i] == bigkern[k].char2)
                 width += bigkern[k].adjust;
 
-        width += (j == -1 ? 7 : (int)strlen(redcharset[j]) / 18 - 2);
+        width += (j == -1 ? SPACEWIDTH : (int)strlen(redcharset[j]) / 18 - 2);
         prev = string[i];
     }
 
@@ -4044,7 +4045,7 @@ void M_Drawer(void)
                     }
                     else if (W_CheckNumForName(name) < 0 && **text)
                     {
-                        int width = M_BigStringWidth(*text) + 8;
+                        int width = M_BigStringWidth(*text);
 
                         M_DrawString(x, y + OFFSET, *text, highlight, true);
                         currentmenu->menuitems[i].x = x + MAXWIDESCREENDELTA;
@@ -4054,6 +4055,8 @@ void M_Drawer(void)
                         {
                             if (i == msgs)
                             {
+                                width += SPACEWIDTH;
+
                                 if (M_MSGON)
                                 {
                                     const patch_t   *on = W_CacheLumpName("M_MSGON");
@@ -4066,6 +4069,8 @@ void M_Drawer(void)
                             }
                             else if (i == detail)
                             {
+                                width += SPACEWIDTH;
+
                                 if (M_GDLOW)
                                 {
                                     const patch_t   *high = W_CacheLumpName("M_GDHIGH");
@@ -4086,7 +4091,7 @@ void M_Drawer(void)
                     else if (W_CheckMultipleLumps(name) > 1 || lumpinfo[W_GetNumForName(name)]->wadfile->type == PWAD)
                     {
                         patch_t *patch = W_CacheLumpName(name);
-                        int     width = SHORT(patch->width) + 8;
+                        int     width = SHORT(patch->width);
 
                         M_DrawPatchWithShadow(x, y + OFFSET, patch, highlight);
                         currentmenu->menuitems[i].x = x + MAXWIDESCREENDELTA;
@@ -4096,6 +4101,8 @@ void M_Drawer(void)
                         {
                             if (i == msgs)
                             {
+                                width += SPACEWIDTH;
+
                                 if (M_MSGON)
                                 {
                                     const patch_t   *on = W_CacheLumpName("M_MSGON");
@@ -4108,6 +4115,8 @@ void M_Drawer(void)
                             }
                             else if (i == detail)
                             {
+                                width += SPACEWIDTH;
+
                                 if (M_GDLOW)
                                 {
                                     const patch_t   *high = W_CacheLumpName("M_GDHIGH");
@@ -4127,7 +4136,7 @@ void M_Drawer(void)
                     }
                     else if (**text)
                     {
-                        int width = M_BigStringWidth(*text) + 8;
+                        int width = M_BigStringWidth(*text) + 1;
 
                         yy = y;
 
@@ -4142,6 +4151,8 @@ void M_Drawer(void)
                         {
                             if (i == msgs)
                             {
+                                width += SPACEWIDTH;
+
                                 if (M_MSGON)
                                 {
                                     const patch_t   *on = W_CacheLumpName("M_MSGON");
@@ -4154,6 +4165,8 @@ void M_Drawer(void)
                             }
                             else if (i == detail)
                             {
+                                width += SPACEWIDTH;
+
                                 if (M_GDLOW)
                                 {
                                     const patch_t   *high = W_CacheLumpName("M_GDHIGH");
