@@ -7,7 +7,9 @@
 * Several optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Any `.cfg` files placed in the `autoload` folder are now autoloaded when *DOOM Retro* starts.
 * *DOOM Retro* now parses any response files specified on the command-line.
-* Support has been added for [*DSDHacked*](https://doomwiki.org/wiki/DSDHacked), allowing an unlimited number of things, states, sprites and sound effects to be used in `DEHACKED` lumps.
+* These changes have been made to the support for `DEHACKED` lumps:
+  * Support has been added for [*DSDHacked*](https://doomwiki.org/wiki/DSDHacked), allowing an unlimited number of things, states, sprites and sound effects to be used.
+  * If thing 23 is used as a new monster type, these monsters will now bleed when injured.
 * Minor changes have been made to *DOOM Retro’s* splash screen.
 * Extensive changes have been made to text that is output to the console.
 * Minor improvements have been made to text autocompleted in the console by pressing the <kbd><b>TAB</b></kbd> key.
@@ -62,7 +64,6 @@
   * `episode` is now parsed correctly.
   * `bossaction` is now parsed.
   * The `compat_stairs` and `compat_zombie` compatibility flags are now parsed.
-* If a `DEHACKED` lump replaces thing 23 with a monster, it will now bleed when shot.
 * Friendly monsters spawned using the `spawn` CCMD now follow the player into the next map.
 * The mouse pointer is no longer displayed on the intermission or finale screens when the player moves the mouse and the `m_pointer` CVAR is `on`.
 * When the `mouselook` CVAR is `on`:
