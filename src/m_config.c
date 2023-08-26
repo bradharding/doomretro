@@ -127,6 +127,7 @@ bool        negativehealth = negativehealth_default;
 int         playergender = playergender_default;
 char        *playername = playername_default;
 bool        r_althud = r_althud_default;
+bool        r_antialiasing = r_antialiasing_default;
 int         r_berserkeffect = r_berserkeffect_default;
 int         r_blood = r_blood_default;
 bool        r_blood_melee = r_blood_melee_default;
@@ -176,7 +177,6 @@ bool        r_shake_barrels = r_shake_barrels_default;
 bool        r_shake_berserk = r_shake_berserk_default;
 int         r_shake_damage = r_shake_damage_default;
 bool        r_sprites_translucency = r_sprites_translucency_default;
-bool        r_supersampling = r_supersampling_default;
 bool        r_textures = r_textures_default;
 bool        r_textures_translucency = r_textures_translucency_default;
 int         s_channels = s_channels_default;
@@ -368,6 +368,7 @@ static default_t cvars[] =
     CVAR_INT          (playergender,                     playergender,                          playergender,                        GENDERVALUEALIAS   ),
     CVAR_STRING       (playername,                       playername,                            playername,                          NOVALUEALIAS       ),
     CVAR_BOOL         (r_althud,                         r_althud,                              r_althud,                            BOOLVALUEALIAS     ),
+    CVAR_BOOL         (r_antialiasing,                   r_antialiasing,                        r_antialiasing,                      BOOLVALUEALIAS     ),
     CVAR_INT          (r_berserkeffect,                  r_berserkeffect,                       r_berserkeffect,                     NOVALUEALIAS       ),
     CVAR_INT          (r_blood,                          r_blood,                               r_blood,                             BLOODVALUEALIAS    ),
     CVAR_BOOL         (r_blood_melee,                    r_blood_melee,                         r_blood_melee,                       BOOLVALUEALIAS     ),
@@ -416,7 +417,6 @@ static default_t cvars[] =
     CVAR_BOOL         (r_shake_berserk,                  r_shake_berserk,                       r_shake_berserk,                     BOOLVALUEALIAS     ),
     CVAR_INT_PERCENT  (r_shake_damage,                   r_shake_damage,                        r_shake_damage,                      NOVALUEALIAS       ),
     CVAR_BOOL         (r_sprites_translucency,           r_translucency,                        r_sprites_translucency,              BOOLVALUEALIAS     ),
-    CVAR_BOOL         (r_supersampling,                  r_supersampling,                       r_supersampling,                     BOOLVALUEALIAS     ),
     CVAR_BOOL         (r_textures,                       r_textures,                            r_textures,                          BOOLVALUEALIAS     ),
     CVAR_BOOL         (r_textures_translucency,          r_textures_translucency,               r_textures_translucency,             BOOLVALUEALIAS     ),
     CVAR_INT          (s_channels,                       s_channels,                            s_channels,                          NOVALUEALIAS       ),

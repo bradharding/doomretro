@@ -34,6 +34,7 @@
   * The <kbd><b>F5</b></kbd> key can no longer be used to toggle the graphic detail while the menu is open and a game isn’t being played.
   * The console can now be opened using the <kbd><b>~</b></kbd> key while the menu is open.
   * The shadows cast by the sliders in the options menu have improved in some rare instances.
+* The `r_supersampling` CVAR has been renamed `r_antialiasing`.
 * Minor changes have been made to the help screen shown when pressing the <kbd><b>F1</b></kbd> key.
 * The `r_lowpixelsize` CVAR can now also be set to `1×2` or `2×1`.
 * A bug is fixed whereby sometimes the player wouldn’t pick up an item in a liquid sector when the `r_liquid_clipsprites` CVAR was `on`.

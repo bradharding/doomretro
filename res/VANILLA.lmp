@@ -63,6 +63,7 @@ movebob 100%
 negativehealth off
 playername "you"
 r_althud off
+r_antialiasing off
 r_blood red
 r_blood_melee off
 r_bloodsplats_max 0
@@ -108,7 +109,6 @@ r_shake_barrels off
 r_shake_berserk off
 r_shake_damage 0%
 r_sprites_translucency off
-r_supersampling off
 r_textures on
 r_textures_translucency off
 s_channels 8

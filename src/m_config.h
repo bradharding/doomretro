@@ -117,6 +117,7 @@ extern bool     negativehealth;
 extern int      playergender;
 extern char     *playername;
 extern bool     r_althud;
+extern bool     r_antialiasing;
 extern int      r_berserkeffect;
 extern int      r_blood;
 extern bool     r_blood_melee;
@@ -166,7 +167,6 @@ extern bool     r_shake_barrels;
 extern bool     r_shake_berserk;
 extern int      r_shake_damage;
 extern bool     r_sprites_translucency;
-extern bool     r_supersampling;
 extern bool     r_textures;
 extern bool     r_textures_translucency;
 extern int      s_channels;
@@ -574,6 +574,8 @@ enum
 
 #define r_althud_default                   false
 
+#define r_antialiasing_default             true
+
 #define r_berserkeffect_min                0
 #define r_berserkeffect_default            3
 #define r_berserkeffect_max                8
@@ -689,8 +691,6 @@ enum
 #define r_shake_damage_max                 100
 
 #define r_sprites_translucency_default     true
-
-#define r_supersampling_default            true
 
 #define r_textures_default                 true
 

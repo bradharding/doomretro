@@ -455,7 +455,7 @@ static void r_saturation_cvar_func2(char *cmd, char *parms);
 static void r_screensize_cvar_func2(char *cmd, char *parms);
 static void r_shadows_translucency_cvar_func2(char *cmd, char *parms);
 static void r_sprites_translucency_cvar_func2(char *cmd, char *parms);
-static void r_supersampling_cvar_func2(char *cmd, char *parms);
+static void r_antialiasing_cvar_func2(char *cmd, char *parms);
 static void r_textures_cvar_func2(char *cmd, char *parms);
 static void r_textures_translucency_cvar_func2(char *cmd, char *parms);
 static bool s_volume_cvars_func1(char *cmd, char *parms);
@@ -883,8 +883,8 @@ consolecmd_t consolecmds[] =
         "The amount your view shakes when you receive damage (" BOLD("0%") " to " BOLD("100%") ")."),
     CVAR_BOOL(r_sprites_translucency, "", "", bool_cvars_func1, r_sprites_translucency_cvar_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles the translucency of certain sprites."),
-    CVAR_BOOL(r_supersampling, "", "", bool_cvars_func1, r_supersampling_cvar_func2, CF_NONE, BOOLVALUEALIAS,
-        "Toggles SSAA (supersampling anti-aliasing) when the graphic detail is low."),
+    CVAR_BOOL(r_antialiasing, "", "", bool_cvars_func1, r_antialiasing_cvar_func2, CF_NONE, BOOLVALUEALIAS,
+        "Toggles anti-aliasing when the graphic detail is low."),
     CVAR_BOOL(r_textures, "", "", bool_cvars_func1, r_textures_cvar_func2, CF_NONE, BOOLVALUEALIAS,
         "Toggles showing all textures."),
     CVAR_BOOL(r_textures_translucency, "", "", bool_cvars_func1, r_textures_translucency_cvar_func2, CF_NONE, BOOLVALUEALIAS,
@@ -9924,40 +9924,39 @@ static void r_sprites_translucency_cvar_func2(char *cmd, char *parms)
 }
 
 //
-// r_supersampling CVAR
+// r_antialiasing CVAR
 //
-static void r_supersampling_cvar_func2(char *cmd, char *parms)
+static void r_antialiasing_cvar_func2(char *cmd, char *parms)
 {
     if (*parms)
     {
         const int   value = C_LookupValueFromAlias(parms, BOOLVALUEALIAS);
 
-        if ((value == 0 || value == 1) && value != r_supersampling)
+        if ((value == 0 || value == 1) && value != r_antialiasing)
         {
-            r_supersampling = value;
+            r_antialiasing = value;
             M_SaveCVARs();
             GetPixelSize();
         }
     }
     else
     {
-        char        *temp1 = C_LookupAliasFromValue(r_supersampling, BOOLVALUEALIAS);
+        char        *temp1 = C_LookupAliasFromValue(r_antialiasing, BOOLVALUEALIAS);
         const int   i = C_GetIndex(cmd);
 
         C_ShowDescription(i);
 
-        if (r_supersampling == r_supersampling_default)
+        if (r_antialiasing == r_antialiasing_default)
             C_Output(INTEGERCVARISDEFAULT, temp1);
         else
         {
-            char    *temp2 = C_LookupAliasFromValue(r_supersampling_default, BOOLVALUEALIAS);
+            char    *temp2 = C_LookupAliasFromValue(r_antialiasing_default, BOOLVALUEALIAS);
 
             C_Output(INTEGERCVARWITHDEFAULT, temp1, temp2);
             free(temp2);
         }
 
         free(temp1);
-
         C_ShowWarning(i);
     }
 }

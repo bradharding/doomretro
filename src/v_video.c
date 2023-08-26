@@ -1724,12 +1724,12 @@ void GetPixelSize(void)
         && ((width >= 2 && height >= 1) || (width >= 1 && height >= 2)))
     {
         if (width == 2 && height == 2)
-            postprocessfunc = (r_supersampling ? &V_LowGraphicDetail_2x2_SSAA : &V_LowGraphicDetail_2x2);
+            postprocessfunc = (r_antialiasing ? &V_LowGraphicDetail_2x2_SSAA : &V_LowGraphicDetail_2x2);
         else
         {
             lowpixelwidth = width;
             lowpixelheight = height * SCREENWIDTH;
-            postprocessfunc = (r_supersampling ? &V_LowGraphicDetail_SSAA : &V_LowGraphicDetail);
+            postprocessfunc = (r_antialiasing ? &V_LowGraphicDetail_SSAA : &V_LowGraphicDetail);
         }
     }
     else
@@ -1737,7 +1737,7 @@ void GetPixelSize(void)
         r_lowpixelsize = r_lowpixelsize_default;
         M_SaveCVARs();
 
-        postprocessfunc = (r_supersampling ? &V_LowGraphicDetail_2x2_SSAA : &V_LowGraphicDetail_2x2);
+        postprocessfunc = (r_antialiasing ? &V_LowGraphicDetail_2x2_SSAA : &V_LowGraphicDetail_2x2);
     }
 }
 
