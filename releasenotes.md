@@ -27,7 +27,7 @@
     * The `episode`, `expansion`, `savegame` and `skilllevel` CVARs are now only updated when necessary.
     * The precision of selecting menu items using the mouse pointer has improved slightly.
     * The *Nightmare!* skill level can now always be selected.
-    * The mouse pointer is now visible after having just used a controller to navigate the menu.
+    * The mouse pointer now becomes visible after having just used a controller to navigate the menu.
   * “New Game” is now selected in the main menu after deleting the only savegame in the save or load game menus using the <kbd><b>DEL</b></kbd> key.
   * Minor improvements have been made to the vertical positioning of elements in the load and save game menus.
   * The skull cursor’s eyes are now always on while entering a savegame description in the save game menu.
@@ -58,6 +58,7 @@
 * These changes have been made to the widescreen HUD:
   * The translucency has been reduced slightly when the `r_hud_translucency` CVAR is `on`.
   * Several improvements have been made to the flashing of the player’s health, armor and ammo when they change.
+* All lines in the automap are now anti-aliased. This can be toggled using the new `am_antialiasing` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
 * The player’s crosshair when the `crosshair` CVAR is `on`, as well as the crosshair in the automap when the `am_followmode` CVAR is `off`, are no longer visible in the background while the console is open.
 * These improvements have been made to the support for [*MBF21*](https://doomwiki.org/wiki/MBF21)-compatible WADs:
   * The `A_RadiusDamage` codepointer now correctly uses `Args1` rather than `Args2` for the amount of damage inflicted.
