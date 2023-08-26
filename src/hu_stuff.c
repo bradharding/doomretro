@@ -586,7 +586,7 @@ static void HU_DrawHUD(void)
     static bool     healthanim;
     const bool      gamepaused = (consoleactive || freeze);
     byte            *tinttab = (health >= HUD_HEALTH_MIN || (health < HUD_HEALTH_MIN && healthanim) || health <= 0
-                               || (viewplayer->cheats & CF_BUDDHA) || gamepaused ? tinttab75 : tinttab25);
+                               || (viewplayer->cheats & CF_BUDDHA) || gamepaused ? tinttab80 : tinttab25);
     patch_t         *patch = faces[st_faceindex];
     const uint64_t  currenttime = I_GetTimeMS();
     int             keypic_x = HUD_KEYS_X;
@@ -594,7 +594,7 @@ static void HU_DrawHUD(void)
     static bool     showkey;
 
     if (patch)
-        hudfunc(HUD_HEALTH_X - SHORT(patch->width) / 2 - 1, HUD_HEALTH_Y - SHORT(patch->height) - 2, patch, tinttab75);
+        hudfunc(HUD_HEALTH_X - SHORT(patch->width) / 2 - 1, HUD_HEALTH_Y - SHORT(patch->height) - 2, patch, tinttab80);
 
     if (r_hud_translucency || !healthanim)
     {
@@ -644,21 +644,21 @@ static void HU_DrawHUD(void)
         armor_x = HUD_ARMOR_X - (armor_x + (armor_x & 1) + tallpercentwidth) / 2;
 
         if ((patch = (viewplayer->armortype == blue_armor_class ? bluearmorpatch : greenarmorpatch)))
-            hudfunc(HUD_ARMOR_X - SHORT(patch->width) / 2, HUD_ARMOR_Y - SHORT(patch->height) - 3, patch, tinttab75);
+            hudfunc(HUD_ARMOR_X - SHORT(patch->width) / 2, HUD_ARMOR_Y - SHORT(patch->height) - 3, patch, tinttab80);
 
         if (armorhighlight > currenttime)
         {
-            DrawHUDNumber(&armor_x, HUD_ARMOR_Y, armor, tinttab75, hudnumfunc2);
+            DrawHUDNumber(&armor_x, HUD_ARMOR_Y, armor, tinttab80, hudnumfunc2);
 
             if (!emptytallpercent)
-                hudnumfunc2(armor_x, HUD_ARMOR_Y, tallpercent, tinttab75);
+                hudnumfunc2(armor_x, HUD_ARMOR_Y, tallpercent, tinttab80);
         }
         else
         {
-            DrawHUDNumber(&armor_x, HUD_ARMOR_Y, armor, tinttab75, hudnumfunc);
+            DrawHUDNumber(&armor_x, HUD_ARMOR_Y, armor, tinttab80, hudnumfunc);
 
             if (!emptytallpercent)
-                hudnumfunc(armor_x, HUD_ARMOR_Y, tallpercent, tinttab75);
+                hudnumfunc(armor_x, HUD_ARMOR_Y, tallpercent, tinttab80);
         }
     }
 
@@ -667,7 +667,7 @@ static void HU_DrawHUD(void)
             if (viewplayer->cards[j] == i && (patch = keypics[j].patch))
             {
                 keypic_x -= SHORT(patch->width);
-                hudfunc(keypic_x, HUD_KEYS_Y - (SHORT(patch->height) - 16), patch, tinttab75);
+                hudfunc(keypic_x, HUD_KEYS_Y - (SHORT(patch->height) - 16), patch, tinttab80);
                 keypic_x -= 5;
             }
 
@@ -689,7 +689,7 @@ static void HU_DrawHUD(void)
                     if ((patch = keypics[i].patch) && viewplayer->cards[i] != i)
                     {
                         keypic_x -= SHORT(patch->width);
-                        hudfunc(keypic_x, HUD_KEYS_Y - (SHORT(patch->height) - 16), patch, tinttab75);
+                        hudfunc(keypic_x, HUD_KEYS_Y - (SHORT(patch->height) - 16), patch, tinttab80);
                         keypic_x -= 5;
                     }
         }
@@ -703,7 +703,7 @@ static void HU_DrawHUD(void)
             }
 
             if (flashkeys && (showkey || gamepaused))
-                hudfunc(keypic_x - SHORT(patch->width), HUD_KEYS_Y - (SHORT(patch->height) - 16), patch, tinttab75);
+                hudfunc(keypic_x - SHORT(patch->width), HUD_KEYS_Y - (SHORT(patch->height) - 16), patch, tinttab80);
         }
     }
     else
@@ -725,10 +725,10 @@ static void HU_DrawHUD(void)
             static bool ammoanim;
 
             ammo_x = HUD_AMMO_X - (ammo_x + (ammo_x & 1)) / 2;
-            tinttab = (ammoanim || ammo >= HUD_AMMO_MIN || gamepaused ? tinttab75 : tinttab25);
+            tinttab = (ammoanim || ammo >= HUD_AMMO_MIN || gamepaused ? tinttab80 : tinttab25);
 
             if ((patch = ammopic[ammotype].patch))
-                hudfunc(HUD_AMMO_X - SHORT(patch->width) / 2 - 1, HUD_AMMO_Y - SHORT(patch->height) - 3, patch, tinttab75);
+                hudfunc(HUD_AMMO_X - SHORT(patch->width) / 2 - 1, HUD_AMMO_Y - SHORT(patch->height) - 3, patch, tinttab80);
 
             if (r_hud_translucency || !ammoanim)
                 DrawHUDNumber(&ammo_x, HUD_AMMO_Y, ammo, tinttab,

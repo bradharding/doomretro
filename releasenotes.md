@@ -55,7 +55,9 @@
 * If regenerating health is enabled using the `regenhealth` CCMD, a sound is now played and the “Health picked up” stat is updated every second the player’s health increases by 1% until it is 100% again.
 * Several improvements have been made to the player’s health in the status bar when they are dead and the `negativehealth` CVAR is `on`.
 * The `r_althud` CVAR is now `off` by default again.
-* Several improvements have been made to the flashing of the player’s health, armor and ammo in the widescreen HUD when they change.
+* These changes have been made to the widescreen HUD:
+  * The translucency has been reduced slightly when the `r_hud_translucency` CVAR is `on`.
+  * Several improvements have been made to the flashing of the player’s health, armor and ammo when they change.
 * The player’s crosshair when the `crosshair` CVAR is `on`, as well as the crosshair in the automap when the `am_followmode` CVAR is `off`, are no longer visible in the background while the console is open.
 * These improvements have been made to the support for [*MBF21*](https://doomwiki.org/wiki/MBF21)-compatible WADs:
   * The `A_RadiusDamage` codepointer now correctly uses `Args1` rather than `Args2` for the amount of damage inflicted.
