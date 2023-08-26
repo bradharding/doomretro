@@ -2123,40 +2123,40 @@ void AM_Drawer(void)
 
     static byte dest[MAXSCREENAREA];
 
-    for (int i = 0; i < SCREENAREA; i++)
+    for (int i = 0; i < MAPAREA; i++)
         dest[i] = mapscreen[i];
 
-    for (int y = 0; y <= SCREENAREA - SCREENWIDTH; y += SCREENWIDTH)
-        for (int x = y; x <= y + SCREENWIDTH - 2; x++)
-            dest[x] = tinttab50[(dest[x + 1] << 8) + dest[x]];
+    for (int y = 0; y <= MAPAREA - MAPWIDTH; y += MAPWIDTH)
+        for (int x = y; x <= y + MAPWIDTH - 2; x++)
+            dest[x] = tinttab15[(dest[x + 1] << 8) + dest[x]];
 
-    for (int y = 0; y <= SCREENAREA - SCREENWIDTH; y += SCREENWIDTH)
-        for (int x = y + SCREENWIDTH - 2; x > y; x--)
-            dest[x] = tinttab50[(dest[x - 1] << 8) + dest[x]];
+    for (int y = 0; y <= MAPAREA - MAPWIDTH; y += MAPWIDTH)
+        for (int x = y + MAPWIDTH - 2; x > y; x--)
+            dest[x] = tinttab15[(dest[x - 1] << 8) + dest[x]];
 
-    for (int y = SCREENWIDTH; y <= SCREENAREA - SCREENWIDTH * 2; y += SCREENWIDTH)
-        for (int x = y + 6; x <= y + SCREENWIDTH - 6; x++)
-            dest[x] = tinttab50[(dest[x] << 8) + dest[x]];
+    for (int y = MAPWIDTH; y <= MAPAREA - MAPWIDTH * 2; y += MAPWIDTH)
+        for (int x = y + 6; x <= y + MAPWIDTH - 6; x++)
+            dest[x] = tinttab15[(dest[x] << 8) + dest[x]];
 
-    for (int y = SCREENAREA - SCREENWIDTH; y >= SCREENWIDTH; y -= SCREENWIDTH)
-        for (int x = y + SCREENWIDTH - 1; x >= y + 1; x--)
-            dest[x] = tinttab50[(dest[x - SCREENWIDTH - 1] << 8) + dest[x]];
+    for (int y = MAPAREA - MAPWIDTH; y >= MAPWIDTH; y -= MAPWIDTH)
+        for (int x = y + MAPWIDTH - 1; x >= y + 1; x--)
+            dest[x] = tinttab15[(dest[x - MAPWIDTH - 1] << 8) + dest[x]];
 
-    for (int y = 0; y <= SCREENAREA - SCREENWIDTH * 2; y += SCREENWIDTH)
-        for (int x = y; x <= y + SCREENWIDTH - 1; x++)
-            dest[x] = tinttab50[(dest[x + SCREENWIDTH] << 8) + dest[x]];
+    for (int y = 0; y <= MAPAREA - MAPWIDTH * 2; y += MAPWIDTH)
+        for (int x = y; x <= y + MAPWIDTH - 1; x++)
+            dest[x] = tinttab15[(dest[x + MAPWIDTH] << 8) + dest[x]];
 
-    for (int y = SCREENAREA - SCREENWIDTH; y >= SCREENWIDTH; y -= SCREENWIDTH)
-        for (int x = y; x <= y + SCREENWIDTH - 1; x++)
-            dest[x] = tinttab50[(dest[x - SCREENWIDTH] << 8) + dest[x]];
+    for (int y = MAPAREA - MAPWIDTH; y >= MAPWIDTH; y -= MAPWIDTH)
+        for (int x = y; x <= y + MAPWIDTH - 1; x++)
+            dest[x] = tinttab15[(dest[x - MAPWIDTH] << 8) + dest[x]];
 
-    for (int y = 0; y <= SCREENAREA - SCREENWIDTH * 2; y += SCREENWIDTH)
-        for (int x = y + SCREENWIDTH - 1; x >= y + 1; x--)
-            dest[x] = tinttab50[(dest[x + SCREENWIDTH - 1] << 8) + dest[x]];
+    for (int y = 0; y <= MAPAREA - MAPWIDTH * 2; y += MAPWIDTH)
+        for (int x = y + MAPWIDTH - 1; x >= y + 1; x--)
+            dest[x] = tinttab15[(dest[x + MAPWIDTH - 1] << 8) + dest[x]];
 
-    for (int y = SCREENAREA - SCREENWIDTH; y >= SCREENWIDTH; y -= SCREENWIDTH)
-        for (int x = y; x <= y + SCREENWIDTH - 2; x++)
-            dest[x] = tinttab50[(dest[x - SCREENWIDTH + 1] << 8) + dest[x]];
+    for (int y = MAPAREA - MAPWIDTH; y >= MAPWIDTH; y -= MAPWIDTH)
+        for (int x = y; x <= y + MAPWIDTH - 2; x++)
+            dest[x] = tinttab15[(dest[x - MAPWIDTH + 1] << 8) + dest[x]];
 
-    memcpy(mapscreen, dest, SCREENAREA);
+    memcpy(mapscreen, dest, MAPAREA);
 }
