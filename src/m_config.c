@@ -52,6 +52,7 @@ bool        alwaysrun = alwaysrun_default;
 int         am_allmapcdwallcolor = am_allmapcdwallcolor_default;
 int         am_allmapfdwallcolor = am_allmapfdwallcolor_default;
 int         am_allmapwallcolor = am_allmapwallcolor_default;
+bool        am_antialiasing = am_antialiasing_default;
 int         am_backcolor = am_backcolor_default;
 int         am_bloodsplatcolor = am_bloodsplatcolor_default;
 int         am_bluedoorcolor = am_bluedoorcolor_default;

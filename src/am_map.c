@@ -2073,6 +2073,47 @@ static void AM_SetFrameVariables(void)
     }
 }
 
+static void AM_AntiAliasing(void)
+{
+    static byte dest[MAXSCREENAREA];
+
+    memcpy(dest, mapscreen, MAPAREA);
+
+    for (int y = 0; y <= MAPAREA - MAPWIDTH; y += MAPWIDTH)
+        for (int x = y; x <= y + MAPWIDTH - 2; x++)
+            dest[x] = tinttab15[(dest[x + 1] << 8) + dest[x]];
+
+    for (int y = 0; y <= MAPAREA - MAPWIDTH; y += MAPWIDTH)
+        for (int x = y + MAPWIDTH - 2; x > y; x--)
+            dest[x] = tinttab15[(dest[x - 1] << 8) + dest[x]];
+
+    for (int y = MAPWIDTH; y <= MAPAREA - MAPWIDTH * 2; y += MAPWIDTH)
+        for (int x = y + 6; x <= y + MAPWIDTH - 6; x++)
+            dest[x] = tinttab15[(dest[x] << 8) + dest[x]];
+
+    for (int y = MAPAREA - MAPWIDTH; y >= MAPWIDTH; y -= MAPWIDTH)
+        for (int x = y + MAPWIDTH - 1; x >= y + 1; x--)
+            dest[x] = tinttab15[(dest[x - MAPWIDTH - 1] << 8) + dest[x]];
+
+    for (int y = 0; y <= MAPAREA - MAPWIDTH * 2; y += MAPWIDTH)
+        for (int x = y; x <= y + MAPWIDTH - 1; x++)
+            dest[x] = tinttab15[(dest[x + MAPWIDTH] << 8) + dest[x]];
+
+    for (int y = MAPAREA - MAPWIDTH; y >= MAPWIDTH; y -= MAPWIDTH)
+        for (int x = y; x <= y + MAPWIDTH - 1; x++)
+            dest[x] = tinttab15[(dest[x - MAPWIDTH] << 8) + dest[x]];
+
+    for (int y = 0; y <= MAPAREA - MAPWIDTH * 2; y += MAPWIDTH)
+        for (int x = y + MAPWIDTH - 1; x >= y + 1; x--)
+            dest[x] = tinttab15[(dest[x + MAPWIDTH - 1] << 8) + dest[x]];
+
+    for (int y = MAPAREA - MAPWIDTH; y >= MAPWIDTH; y -= MAPWIDTH)
+        for (int x = y; x <= y + MAPWIDTH - 2; x++)
+            dest[x] = tinttab15[(dest[x - MAPWIDTH + 1] << 8) + dest[x]];
+
+    memcpy(mapscreen, dest, MAPAREA);
+}
+
 void AM_Drawer(void)
 {
     const bool  things = (viewplayer->cheats & CF_ALLMAP_THINGS);
@@ -2121,42 +2162,6 @@ void AM_Drawer(void)
     if (r_screensize < r_screensize_max && !vanilla)
         AM_StatusBarShadow();
 
-    static byte dest[MAXSCREENAREA];
-
-    for (int i = 0; i < MAPAREA; i++)
-        dest[i] = mapscreen[i];
-
-    for (int y = 0; y <= MAPAREA - MAPWIDTH; y += MAPWIDTH)
-        for (int x = y; x <= y + MAPWIDTH - 2; x++)
-            dest[x] = tinttab15[(dest[x + 1] << 8) + dest[x]];
-
-    for (int y = 0; y <= MAPAREA - MAPWIDTH; y += MAPWIDTH)
-        for (int x = y + MAPWIDTH - 2; x > y; x--)
-            dest[x] = tinttab15[(dest[x - 1] << 8) + dest[x]];
-
-    for (int y = MAPWIDTH; y <= MAPAREA - MAPWIDTH * 2; y += MAPWIDTH)
-        for (int x = y + 6; x <= y + MAPWIDTH - 6; x++)
-            dest[x] = tinttab15[(dest[x] << 8) + dest[x]];
-
-    for (int y = MAPAREA - MAPWIDTH; y >= MAPWIDTH; y -= MAPWIDTH)
-        for (int x = y + MAPWIDTH - 1; x >= y + 1; x--)
-            dest[x] = tinttab15[(dest[x - MAPWIDTH - 1] << 8) + dest[x]];
-
-    for (int y = 0; y <= MAPAREA - MAPWIDTH * 2; y += MAPWIDTH)
-        for (int x = y; x <= y + MAPWIDTH - 1; x++)
-            dest[x] = tinttab15[(dest[x + MAPWIDTH] << 8) + dest[x]];
-
-    for (int y = MAPAREA - MAPWIDTH; y >= MAPWIDTH; y -= MAPWIDTH)
-        for (int x = y; x <= y + MAPWIDTH - 1; x++)
-            dest[x] = tinttab15[(dest[x - MAPWIDTH] << 8) + dest[x]];
-
-    for (int y = 0; y <= MAPAREA - MAPWIDTH * 2; y += MAPWIDTH)
-        for (int x = y + MAPWIDTH - 1; x >= y + 1; x--)
-            dest[x] = tinttab15[(dest[x + MAPWIDTH - 1] << 8) + dest[x]];
-
-    for (int y = MAPAREA - MAPWIDTH; y >= MAPWIDTH; y -= MAPWIDTH)
-        for (int x = y; x <= y + MAPWIDTH - 2; x++)
-            dest[x] = tinttab15[(dest[x - MAPWIDTH + 1] << 8) + dest[x]];
-
-    memcpy(mapscreen, dest, MAPAREA);
+    if (am_antialiasing)
+        AM_AntiAliasing();
 }

@@ -43,6 +43,7 @@ extern bool     alwaysrun;
 extern int      am_allmapcdwallcolor;
 extern int      am_allmapfdwallcolor;
 extern int      am_allmapwallcolor;
+extern bool     am_antialiasing;
 extern int      am_backcolor;
 extern int      am_bloodsplatcolor;
 extern int      am_bluedoorcolor;
@@ -328,6 +329,8 @@ enum
 #define am_allmapwallcolor_min             0
 #define am_allmapwallcolor_default         108
 #define am_allmapwallcolor_max             255
+
+#define am_antialiasing_default            false
 
 #define am_backcolor_min                   0
 #define am_backcolor_default               0

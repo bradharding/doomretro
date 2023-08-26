@@ -541,6 +541,8 @@ consolecmd_t consolecmds[] =
     CVAR_INT(am_allmapwallcolor, am_allmapwallcolour, "", int_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The color of unmapped solid walls in the automap once you have a computer area map power-up (" BOLD("0") " to "
         BOLD("255") ")."),
+    CVAR_BOOL(am_antialiasing, "", "", bool_cvars_func1, bool_cvars_func2, CF_NONE, BOOLVALUEALIAS,
+        "Toggles anti-aliasing in the automap."),
     CVAR_INT(am_backcolor, am_backcolour, "", int_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,
         "The color of the automap's background (" BOLD("0") " to " BOLD("255") ")."),
     CVAR_INT(am_bloodsplatcolor, am_bloodsplatcolour, "", int_cvars_func1, color_cvars_func2, CF_NONE, NOVALUEALIAS,

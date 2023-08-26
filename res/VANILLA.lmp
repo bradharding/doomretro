@@ -3,6 +3,7 @@ alwaysrun off
 am_allmapcdwallcolor 99
 am_allmapfdwallcolor 99
 am_allmapwallcolor 99
+am_antialiasing off
 am_backcolor 0
 am_bluedoorcolor 231
 am_bluekeycolor 112
