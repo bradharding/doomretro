@@ -965,7 +965,8 @@ static void D_CheckSupportedPWAD(char *filename)
         revolution = true;
     else if (M_StringCompare(leaf, "SCI.wad")
         || M_StringCompare(leaf, "SCI2.wad")
-        || M_StringCompare(leaf, "sci-c.wad"))
+        || M_StringCompare(leaf, "sci-c.wad")
+        || M_StringCompare(leaf, "sci2023.wad"))
         scientist = true;
     else if (M_StringCompare(leaf, "syringe.wad"))
         syringe = true;
