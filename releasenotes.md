@@ -83,6 +83,8 @@
 * The accompanying readme file for the currently loaded PWAD can now be displayed by entering the new `readme` CCMD in the console.
 * These extensive changes have been made when using a controller:
   * Using a controller in the menu is now more responsive.
+  * The left and right thumbsticks, as well as the directional pad, can now be used to scroll the output in the console.
+  * The B button can now be used to close the console.
   * The speed at which the player turns using a controller no longer increases while running.
   * Turning using a controller is now more precise when only nudging the right thumbstick.
   * Controllers now rumble slightly when the player picks something up. This can be disabled by the new `joy_rumble_pickup` CVAR, which is `on` by default and `off` when vanilla mode is enabled.

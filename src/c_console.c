@@ -2520,12 +2520,33 @@ bool C_Responder(event_t *ev)
                 outputhistory = -1;
         }
     }
-    else if (ev->type == ev_controller
-        && (gamecontrollerbuttons & gamecontrollerconsole)
-        && gamecontrollerwait < I_GetTime())
+    else if (ev->type == ev_controller)
     {
-        gamecontrollerwait = I_GetTime() + 8;
-        C_HideConsole();
+        if (((gamecontrollerbuttons & gamecontrollerconsole)
+            || (gamecontrollerbuttons & GAMECONTROLLER_B)) && gamecontrollerwait < I_GetTime())
+        {
+            gamecontrollerwait = I_GetTime() + 2;
+            C_HideConsole();
+        }
+        else if ((gamecontrollerthumbLY < 0
+            || gamecontrollerthumbRY < 0
+            || (gamecontrollerbuttons & GAMECONTROLLER_DPAD_UP)) && gamecontrollerwait < I_GetTime())
+        {
+            gamecontrollerwait = I_GetTime() + 2;
+
+            if (!topofconsole && numconsolestrings > CONSOLELINES)
+                outputhistory = (outputhistory == -1 ? numconsolestrings - (CONSOLELINES + 1) :
+                    MAX(0, outputhistory - 1));
+        }
+        else if ((gamecontrollerthumbLY > 0
+            || gamecontrollerthumbRY > 0
+            || (gamecontrollerbuttons & GAMECONTROLLER_DPAD_DOWN)) && gamecontrollerwait < I_GetTime())
+        {
+            gamecontrollerwait = I_GetTime() + 2;
+
+            if (outputhistory != -1 && ++outputhistory + CONSOLELINES == numconsolestrings)
+                outputhistory = -1;
+        }
     }
 
     return true;
