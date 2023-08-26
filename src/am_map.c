@@ -2120,4 +2120,43 @@ void AM_Drawer(void)
 
     if (r_screensize < r_screensize_max && !vanilla)
         AM_StatusBarShadow();
+
+    static byte dest[MAXSCREENAREA];
+
+    for (int i = 0; i < SCREENAREA; i++)
+        dest[i] = mapscreen[i];
+
+    for (int y = 0; y <= SCREENAREA - SCREENWIDTH; y += SCREENWIDTH)
+        for (int x = y; x <= y + SCREENWIDTH - 2; x++)
+            dest[x] = tinttab50[(dest[x + 1] << 8) + dest[x]];
+
+    for (int y = 0; y <= SCREENAREA - SCREENWIDTH; y += SCREENWIDTH)
+        for (int x = y + SCREENWIDTH - 2; x > y; x--)
+            dest[x] = tinttab50[(dest[x - 1] << 8) + dest[x]];
+
+    for (int y = SCREENWIDTH; y <= SCREENAREA - SCREENWIDTH * 2; y += SCREENWIDTH)
+        for (int x = y + 6; x <= y + SCREENWIDTH - 6; x++)
+            dest[x] = tinttab50[(dest[x] << 8) + dest[x]];
+
+    for (int y = SCREENAREA - SCREENWIDTH; y >= SCREENWIDTH; y -= SCREENWIDTH)
+        for (int x = y + SCREENWIDTH - 1; x >= y + 1; x--)
+            dest[x] = tinttab50[(dest[x - SCREENWIDTH - 1] << 8) + dest[x]];
+
+    for (int y = 0; y <= SCREENAREA - SCREENWIDTH * 2; y += SCREENWIDTH)
+        for (int x = y; x <= y + SCREENWIDTH - 1; x++)
+            dest[x] = tinttab50[(dest[x + SCREENWIDTH] << 8) + dest[x]];
+
+    for (int y = SCREENAREA - SCREENWIDTH; y >= SCREENWIDTH; y -= SCREENWIDTH)
+        for (int x = y; x <= y + SCREENWIDTH - 1; x++)
+            dest[x] = tinttab50[(dest[x - SCREENWIDTH] << 8) + dest[x]];
+
+    for (int y = 0; y <= SCREENAREA - SCREENWIDTH * 2; y += SCREENWIDTH)
+        for (int x = y + SCREENWIDTH - 1; x >= y + 1; x--)
+            dest[x] = tinttab50[(dest[x + SCREENWIDTH - 1] << 8) + dest[x]];
+
+    for (int y = SCREENAREA - SCREENWIDTH; y >= SCREENWIDTH; y -= SCREENWIDTH)
+        for (int x = y; x <= y + SCREENWIDTH - 2; x++)
+            dest[x] = tinttab50[(dest[x - SCREENWIDTH + 1] << 8) + dest[x]];
+
+    memcpy(mapscreen, dest, SCREENAREA);
 }
