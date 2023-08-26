@@ -295,6 +295,7 @@ static default_t cvars[] =
     CVAR_INT          (am_allmapcdwallcolor,             am_allmapcdwallcolour,                 am_allmapcdwallcolor,                NOVALUEALIAS       ),
     CVAR_INT          (am_allmapfdwallcolor,             am_allmapfdwallcolour,                 am_allmapfdwallcolor,                NOVALUEALIAS       ),
     CVAR_INT          (am_allmapwallcolor,               am_allmapwallcolour,                   am_allmapwallcolor,                  NOVALUEALIAS       ),
+    CVAR_BOOL         (am_antialiasing,                  am_antialiasing,                       am_antialiasing,                     BOOLVALUEALIAS     ),
     CVAR_INT          (am_backcolor,                     am_backcolour,                         am_backcolor,                        NOVALUEALIAS       ),
     CVAR_INT          (am_bloodsplatcolor,               am_bloodsplatcolour,                   am_bloodsplatcolor,                  NOVALUEALIAS       ),
     CVAR_INT          (am_bluedoorcolor,                 am_bluedoorcolour,                     am_bluedoorcolor,                    NOVALUEALIAS       ),
