@@ -574,7 +574,7 @@ enum
 
 #define r_althud_default                   false
 
-#define r_antialiasing_default             true
+#define r_antialiasing_default             false
 
 #define r_berserkeffect_min                0
 #define r_berserkeffect_default            3
