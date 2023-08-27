@@ -754,6 +754,7 @@ void C_Init(void)
 
 void C_ShowConsole(void)
 {
+#if SCREENSCALE > 1
     consoleheight = MAX(1, consoleheight);
     consoledirection = 1;
     consoleanim = 0;
@@ -771,6 +772,7 @@ void C_ShowConsole(void)
     S_LowerMusicVolume();
     SDL_StartTextInput();
     S_StartSound(NULL, sfx_consol);
+#endif
 }
 
 void C_HideConsole(void)
