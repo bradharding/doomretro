@@ -136,10 +136,10 @@ void I_ReadGameController(void)
 
         if (joy_swapthumbsticks)
         {
-            gamecontrollerthumbLX = GetAxis(SDL_CONTROLLER_AXIS_RIGHTX, gamecontrollerleftdeadzone);
-            gamecontrollerthumbLY = GetAxis(SDL_CONTROLLER_AXIS_RIGHTY, gamecontrollerleftdeadzone);
-            gamecontrollerthumbRX = GetAxis(SDL_CONTROLLER_AXIS_LEFTX, gamecontrollerrightdeadzone);
-            gamecontrollerthumbRY = GetAxis(SDL_CONTROLLER_AXIS_LEFTY, gamecontrollerrightdeadzone);
+            gamecontrollerthumbLX = GetAxis(SDL_CONTROLLER_AXIS_RIGHTX, gamecontrollerrightdeadzone);
+            gamecontrollerthumbLY = GetAxis(SDL_CONTROLLER_AXIS_RIGHTY, gamecontrollerrightdeadzone);
+            gamecontrollerthumbRX = GetAxis(SDL_CONTROLLER_AXIS_LEFTX, gamecontrollerleftdeadzone);
+            gamecontrollerthumbRY = GetAxis(SDL_CONTROLLER_AXIS_LEFTY, gamecontrollerleftdeadzone);
         }
         else
         {
