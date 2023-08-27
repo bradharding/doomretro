@@ -127,76 +127,87 @@ static short inline clamp(short value, short deadzone)
 
 void I_PollGameController(void)
 {
-    event_t ev = { 0 };
-
     if (!gamecontroller)
         return;
-
-    if (joy_swapthumbsticks)
-    {
-        gamecontrollerthumbLX = clamp(SDL_GameControllerGetAxis(gamecontroller, SDL_CONTROLLER_AXIS_RIGHTX),
-            gamecontrollerleftdeadzone);
-        gamecontrollerthumbLY = clamp(SDL_GameControllerGetAxis(gamecontroller, SDL_CONTROLLER_AXIS_RIGHTY),
-            gamecontrollerleftdeadzone);
-        gamecontrollerthumbRX = clamp(SDL_GameControllerGetAxis(gamecontroller, SDL_CONTROLLER_AXIS_LEFTX),
-            gamecontrollerrightdeadzone);
-        gamecontrollerthumbRY = clamp(SDL_GameControllerGetAxis(gamecontroller, SDL_CONTROLLER_AXIS_LEFTY),
-            gamecontrollerrightdeadzone);
-    }
     else
     {
-        gamecontrollerthumbLX = clamp(SDL_GameControllerGetAxis(gamecontroller, SDL_CONTROLLER_AXIS_LEFTX),
-            gamecontrollerleftdeadzone);
-        gamecontrollerthumbLY = clamp(SDL_GameControllerGetAxis(gamecontroller, SDL_CONTROLLER_AXIS_LEFTY),
-            gamecontrollerleftdeadzone);
-        gamecontrollerthumbRX = clamp(SDL_GameControllerGetAxis(gamecontroller, SDL_CONTROLLER_AXIS_RIGHTX),
-            gamecontrollerrightdeadzone);
-        gamecontrollerthumbRY = clamp(SDL_GameControllerGetAxis(gamecontroller, SDL_CONTROLLER_AXIS_RIGHTY),
-            gamecontrollerrightdeadzone);
+        event_t     ev = { 0 };
+        static int  prevgamecontrollerbuttons;
+
+        if (joy_swapthumbsticks)
+        {
+            gamecontrollerthumbLX = clamp(SDL_GameControllerGetAxis(gamecontroller, SDL_CONTROLLER_AXIS_RIGHTX),
+                gamecontrollerleftdeadzone);
+            gamecontrollerthumbLY = clamp(SDL_GameControllerGetAxis(gamecontroller, SDL_CONTROLLER_AXIS_RIGHTY),
+                gamecontrollerleftdeadzone);
+            gamecontrollerthumbRX = clamp(SDL_GameControllerGetAxis(gamecontroller, SDL_CONTROLLER_AXIS_LEFTX),
+                gamecontrollerrightdeadzone);
+            gamecontrollerthumbRY = clamp(SDL_GameControllerGetAxis(gamecontroller, SDL_CONTROLLER_AXIS_LEFTY),
+                gamecontrollerrightdeadzone);
+        }
+        else
+        {
+            gamecontrollerthumbLX = clamp(SDL_GameControllerGetAxis(gamecontroller, SDL_CONTROLLER_AXIS_LEFTX),
+                gamecontrollerleftdeadzone);
+            gamecontrollerthumbLY = clamp(SDL_GameControllerGetAxis(gamecontroller, SDL_CONTROLLER_AXIS_LEFTY),
+                gamecontrollerleftdeadzone);
+            gamecontrollerthumbRX = clamp(SDL_GameControllerGetAxis(gamecontroller, SDL_CONTROLLER_AXIS_RIGHTX),
+                gamecontrollerrightdeadzone);
+            gamecontrollerthumbRY = clamp(SDL_GameControllerGetAxis(gamecontroller, SDL_CONTROLLER_AXIS_RIGHTY),
+                gamecontrollerrightdeadzone);
+        }
+
+        prevgamecontrollerbuttons = gamecontrollerbuttons;
+        gamecontrollerbuttons = 0;
+
+        if (SDL_GameControllerGetAxis(gamecontroller, SDL_CONTROLLER_AXIS_TRIGGERLEFT) >= GAMECONTROLLER_TRIGGER_THRESHOLD)
+            gamecontrollerbuttons |= GAMECONTROLLER_LEFT_TRIGGER;
+        else
+            gamecontrollerbuttons &= ~GAMECONTROLLER_LEFT_TRIGGER;
+
+        if (SDL_GameControllerGetAxis(gamecontroller, SDL_CONTROLLER_AXIS_TRIGGERRIGHT) >= GAMECONTROLLER_TRIGGER_THRESHOLD)
+            gamecontrollerbuttons |= GAMECONTROLLER_RIGHT_TRIGGER;
+        else
+            gamecontrollerbuttons &= ~GAMECONTROLLER_RIGHT_TRIGGER;
+
+        for (int i = 0; i < SDL_CONTROLLER_BUTTON_MAX; i++)
+            if (SDL_GameControllerGetButton(gamecontroller, i))
+                gamecontrollerbuttons |= (1 << i);
+
+        if (gamecontrollerthumbLX
+            || gamecontrollerthumbLY
+            || gamecontrollerthumbRX
+            || gamecontrollerthumbRY
+            || gamecontrollerbuttons != prevgamecontrollerbuttons)
+        {
+            if (gamestate != GS_LEVEL)
+                I_SaveMousePointerPosition();
+
+            keydown = 0;
+            usingmouse = false;
+            ev.type = ev_controller;
+            D_PostEvent(&ev);
+        }
+
+        if (!gamecontrollerrumbles)
+            return;
+
+        if (weaponrumbletics)
+            weaponrumbletics--;
+
+        if (damagerumbletics)
+            damagerumbletics--;
+
+        if (barrelrumbletics)
+            barrelrumbletics--;
+
+        if (pickuprumbletics)
+            pickuprumbletics--;
+
+        if (!weaponrumbletics && !damagerumbletics && !barrelrumbletics && !pickuprumbletics
+            && !idlechainsawrumblestrength)
+            SDL_GameControllerRumble(gamecontroller, 0, 0, 0);
     }
-
-    gamecontrollerbuttons = 0;
-
-    if (SDL_GameControllerGetAxis(gamecontroller, SDL_CONTROLLER_AXIS_TRIGGERLEFT) >= GAMECONTROLLER_TRIGGER_THRESHOLD)
-        gamecontrollerbuttons |= GAMECONTROLLER_LEFT_TRIGGER;
-    else
-        gamecontrollerbuttons &= ~GAMECONTROLLER_LEFT_TRIGGER;
-
-    if (SDL_GameControllerGetAxis(gamecontroller, SDL_CONTROLLER_AXIS_TRIGGERRIGHT) >= GAMECONTROLLER_TRIGGER_THRESHOLD)
-        gamecontrollerbuttons |= GAMECONTROLLER_RIGHT_TRIGGER;
-    else
-        gamecontrollerbuttons &= ~GAMECONTROLLER_RIGHT_TRIGGER;
-
-    for (int i = 0; i < SDL_CONTROLLER_BUTTON_MAX; i++)
-        if (SDL_GameControllerGetButton(gamecontroller, i))
-            gamecontrollerbuttons |= (1 << i);
-
-    if (gamestate != GS_LEVEL)
-        I_SaveMousePointerPosition();
-
-    keydown = 0;
-    usingmouse = false;
-    ev.type = ev_controller;
-    D_PostEvent(&ev);
-
-    if (!gamecontrollerrumbles)
-        return;
-
-    if (weaponrumbletics)
-        weaponrumbletics--;
-
-    if (damagerumbletics)
-        damagerumbletics--;
-
-    if (barrelrumbletics)
-        barrelrumbletics--;
-
-    if (pickuprumbletics)
-        pickuprumbletics--;
-
-    if (!weaponrumbletics && !damagerumbletics && !barrelrumbletics && !pickuprumbletics
-        && !idlechainsawrumblestrength)
-        SDL_GameControllerRumble(gamecontroller, 0, 0, 0);
 }
 
 void I_StopGameControllerRumble(void)
