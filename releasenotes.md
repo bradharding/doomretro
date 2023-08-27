@@ -87,11 +87,11 @@
   * The left and right thumbsticks, as well as the directional pad, can now be used to scroll the output in the console.
   * The B button can now be used to close the console.
   * The speed at which the player turns using a controller no longer increases while running.
-  * Turning using a controller is now more precise when only nudging the right thumbstick.
+  * Turning and moving using a controller is now more precise when only nudging the thumbsticks.
   * Controllers now rumble slightly when the player picks something up. This can be disabled by the new `joy_rumble_pickup` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
   * When the `joy_rumble_weapons` CVAR is `on`:
-    * Controllers now rumble again when the player uses the chainsaw.
-    * The amount of rumble for each weapon the player fires has been adjusted.
+    * Controllers now rumble again when the player uses their chainsaw.
+    * The amounts of rumble for each weapon the player fires have been adjusted.
   * The left and right shoulder buttons now equip the player’s previous and next weapons by default.
   * The default values of the `joy_deadzone_left` and `joy_deadzone_right` CVARs are now both `15%` rather than `25%`, and their maximum values are now both `30%` rather than `100%`.
 * A bug is fixed whereby the `vid_fullscreen` CVAR couldn’t be changed in the console.

@@ -52,7 +52,6 @@
 #include "g_game.h"
 #include "hu_stuff.h"
 #include "i_colors.h"
-#include "i_gamecontroller.h"
 #include "i_system.h"
 #include "i_timer.h"
 #include "m_cheat.h"
@@ -654,7 +653,7 @@ void I_StartTic(void)
 {
     I_GetEvent();
     I_ReadMouse();
-    I_PollGameController();
+    I_ReadGameController();
 }
 
 static void UpdateGrab(void)

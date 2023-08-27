@@ -122,16 +122,14 @@ void I_GameControllerRumble(const int low, const int high)
 
 static short inline clamp(short value, short deadzone)
 {
-    return (ABS(value) < deadzone ? 0 : (joy_analog ? MAX(-SDL_JOYSTICK_AXIS_MAX, value) : SIGN(value) * SDL_JOYSTICK_AXIS_MAX));
+    return (ABS(value) < deadzone ? 0 :
+        (joy_analog ? MAX(-SDL_JOYSTICK_AXIS_MAX, value) : SIGN(value) * SDL_JOYSTICK_AXIS_MAX));
 }
 
-void I_PollGameController(void)
+void I_ReadGameController(void)
 {
-    if (!gamecontroller)
-        return;
-    else
+    if (gamecontroller)
     {
-        event_t     ev = { 0 };
         static int  prevgamecontrollerbuttons;
 
         if (joy_swapthumbsticks)
@@ -180,6 +178,8 @@ void I_PollGameController(void)
             || gamecontrollerthumbRY
             || gamecontrollerbuttons != prevgamecontrollerbuttons)
         {
+            event_t ev = { 0 };
+
             if (gamestate != GS_LEVEL)
                 I_SaveMousePointerPosition();
 
@@ -189,24 +189,27 @@ void I_PollGameController(void)
             D_PostEvent(&ev);
         }
 
-        if (!gamecontrollerrumbles)
-            return;
+        if (gamecontrollerrumbles)
+        {
+            if (weaponrumbletics)
+                weaponrumbletics--;
 
-        if (weaponrumbletics)
-            weaponrumbletics--;
+            if (damagerumbletics)
+                damagerumbletics--;
 
-        if (damagerumbletics)
-            damagerumbletics--;
+            if (barrelrumbletics)
+                barrelrumbletics--;
 
-        if (barrelrumbletics)
-            barrelrumbletics--;
+            if (pickuprumbletics)
+                pickuprumbletics--;
 
-        if (pickuprumbletics)
-            pickuprumbletics--;
-
-        if (!weaponrumbletics && !damagerumbletics && !barrelrumbletics && !pickuprumbletics
-            && !idlechainsawrumblestrength)
-            SDL_GameControllerRumble(gamecontroller, 0, 0, 0);
+            if (!weaponrumbletics
+                && !damagerumbletics
+                && !barrelrumbletics
+                && !pickuprumbletics
+                && !idlechainsawrumblestrength)
+                SDL_GameControllerRumble(gamecontroller, 0, 0, 0);
+        }
     }
 }
 
