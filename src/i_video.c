@@ -318,11 +318,6 @@ void I_ShutdownKeyboard(void)
 #endif
 }
 
-static short inline clamp(short value, short deadzone)
-{
-    return (ABS(value) < deadzone ? 0 : (joy_analog ? MAX(-SDL_JOYSTICK_AXIS_MAX, value) : SIGN(value) * SDL_JOYSTICK_AXIS_MAX));
-}
-
 bool    altdown = false;
 bool    waspaused = false;
 
@@ -463,89 +458,6 @@ static void I_GetEvent(void)
                     usingmouse = false;
 
                 D_PostEvent(&ev);
-                break;
-
-            case SDL_CONTROLLERAXISMOTION:
-                switch (Event->caxis.axis)
-                {
-                    case SDL_CONTROLLER_AXIS_LEFTX:
-                        if (joy_swapthumbsticks)
-                            gamecontrollerthumbRX = clamp(Event->caxis.value, gamecontrollerrightdeadzone);
-                        else
-                            gamecontrollerthumbLX = clamp(Event->caxis.value, gamecontrollerleftdeadzone);
-
-                        break;
-
-                    case SDL_CONTROLLER_AXIS_LEFTY:
-                        if (joy_swapthumbsticks)
-                            gamecontrollerthumbRY = clamp(Event->caxis.value, gamecontrollerrightdeadzone);
-                        else
-                            gamecontrollerthumbLY = clamp(Event->caxis.value, gamecontrollerleftdeadzone);
-
-                        break;
-
-                    case SDL_CONTROLLER_AXIS_RIGHTX:
-                        if (joy_swapthumbsticks)
-                            gamecontrollerthumbLX = clamp(Event->caxis.value, gamecontrollerleftdeadzone);
-                        else
-                            gamecontrollerthumbRX = clamp(Event->caxis.value, gamecontrollerrightdeadzone);
-
-                        break;
-
-                    case SDL_CONTROLLER_AXIS_RIGHTY:
-                        if (joy_swapthumbsticks)
-                            gamecontrollerthumbLY = clamp(Event->caxis.value, gamecontrollerleftdeadzone);
-                        else
-                            gamecontrollerthumbRY = clamp(Event->caxis.value, gamecontrollerrightdeadzone);
-
-                        break;
-
-                    case SDL_CONTROLLER_AXIS_TRIGGERLEFT:
-                        if (Event->caxis.value >= GAMECONTROLLER_TRIGGER_THRESHOLD)
-                            gamecontrollerbuttons |= GAMECONTROLLER_LEFT_TRIGGER;
-                        else
-                            gamecontrollerbuttons &= ~GAMECONTROLLER_LEFT_TRIGGER;
-
-                        break;
-
-                    case SDL_CONTROLLER_AXIS_TRIGGERRIGHT:
-                        if (Event->caxis.value >= GAMECONTROLLER_TRIGGER_THRESHOLD)
-                            gamecontrollerbuttons |= GAMECONTROLLER_RIGHT_TRIGGER;
-                        else
-                            gamecontrollerbuttons &= ~GAMECONTROLLER_RIGHT_TRIGGER;
-
-                        break;
-                }
-
-                if (gamestate != GS_LEVEL)
-                    I_SaveMousePointerPosition();
-
-                usingmouse = false;
-                ev.type = ev_controller;
-                D_PostEvent(&ev);
-                break;
-
-            case SDL_CONTROLLERBUTTONDOWN:
-                gamecontrollerbuttons |= (1 << Event->cbutton.button);
-                ev.type = ev_controller;
-                D_PostEvent(&ev);
-
-                if (gamestate != GS_LEVEL)
-                    I_SaveMousePointerPosition();
-
-                usingmouse = false;
-                break;
-
-            case SDL_CONTROLLERBUTTONUP:
-                gamecontrollerbuttons &= ~(1 << Event->cbutton.button);
-                keydown = 0;
-                ev.type = ev_controller;
-                D_PostEvent(&ev);
-
-                if (gamestate != GS_LEVEL)
-                    I_SaveMousePointerPosition();
-
-                usingmouse = false;
                 break;
 
             case SDL_TEXTINPUT:
@@ -742,7 +654,7 @@ void I_StartTic(void)
 {
     I_GetEvent();
     I_ReadMouse();
-    I_UpdateGameControllerRumble();
+    I_PollGameController();
 }
 
 static void UpdateGrab(void)

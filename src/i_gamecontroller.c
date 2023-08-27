@@ -120,8 +120,65 @@ void I_GameControllerRumble(const int low, const int high)
     SDL_GameControllerRumble(gamecontroller, MIN(low, UINT16_MAX), MIN(high, UINT16_MAX), UINT32_MAX);
 }
 
-void I_UpdateGameControllerRumble(void)
+static short inline clamp(short value, short deadzone)
 {
+    return (ABS(value) < deadzone ? 0 : (joy_analog ? MAX(-SDL_JOYSTICK_AXIS_MAX, value) : SIGN(value) * SDL_JOYSTICK_AXIS_MAX));
+}
+
+void I_PollGameController(void)
+{
+    event_t ev = { 0 };
+
+    if (!gamecontroller)
+        return;
+
+    if (joy_swapthumbsticks)
+    {
+        gamecontrollerthumbLX = clamp(SDL_GameControllerGetAxis(gamecontroller, SDL_CONTROLLER_AXIS_RIGHTX),
+            gamecontrollerleftdeadzone);
+        gamecontrollerthumbLY = clamp(SDL_GameControllerGetAxis(gamecontroller, SDL_CONTROLLER_AXIS_RIGHTY),
+            gamecontrollerleftdeadzone);
+        gamecontrollerthumbRX = clamp(SDL_GameControllerGetAxis(gamecontroller, SDL_CONTROLLER_AXIS_LEFTX),
+            gamecontrollerrightdeadzone);
+        gamecontrollerthumbRY = clamp(SDL_GameControllerGetAxis(gamecontroller, SDL_CONTROLLER_AXIS_LEFTY),
+            gamecontrollerrightdeadzone);
+    }
+    else
+    {
+        gamecontrollerthumbLX = clamp(SDL_GameControllerGetAxis(gamecontroller, SDL_CONTROLLER_AXIS_LEFTX),
+            gamecontrollerleftdeadzone);
+        gamecontrollerthumbLY = clamp(SDL_GameControllerGetAxis(gamecontroller, SDL_CONTROLLER_AXIS_LEFTY),
+            gamecontrollerleftdeadzone);
+        gamecontrollerthumbRX = clamp(SDL_GameControllerGetAxis(gamecontroller, SDL_CONTROLLER_AXIS_RIGHTX),
+            gamecontrollerrightdeadzone);
+        gamecontrollerthumbRY = clamp(SDL_GameControllerGetAxis(gamecontroller, SDL_CONTROLLER_AXIS_RIGHTY),
+            gamecontrollerrightdeadzone);
+    }
+
+    gamecontrollerbuttons = 0;
+
+    if (SDL_GameControllerGetAxis(gamecontroller, SDL_CONTROLLER_AXIS_TRIGGERLEFT) >= GAMECONTROLLER_TRIGGER_THRESHOLD)
+        gamecontrollerbuttons |= GAMECONTROLLER_LEFT_TRIGGER;
+    else
+        gamecontrollerbuttons &= ~GAMECONTROLLER_LEFT_TRIGGER;
+
+    if (SDL_GameControllerGetAxis(gamecontroller, SDL_CONTROLLER_AXIS_TRIGGERRIGHT) >= GAMECONTROLLER_TRIGGER_THRESHOLD)
+        gamecontrollerbuttons |= GAMECONTROLLER_RIGHT_TRIGGER;
+    else
+        gamecontrollerbuttons &= ~GAMECONTROLLER_RIGHT_TRIGGER;
+
+    for (int i = 0; i < SDL_CONTROLLER_BUTTON_MAX; i++)
+        if (SDL_GameControllerGetButton(gamecontroller, i))
+            gamecontrollerbuttons |= (1 << i);
+
+    if (gamestate != GS_LEVEL)
+        I_SaveMousePointerPosition();
+
+    keydown = 0;
+    usingmouse = false;
+    ev.type = ev_controller;
+    D_PostEvent(&ev);
+
     if (!gamecontrollerrumbles)
         return;
 
