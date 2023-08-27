@@ -2622,7 +2622,8 @@ bool M_Responder(event_t *ev)
         if (menuactive && gamecontrollerwait < I_GetTime())
         {
             // activate menu item
-            if (gamecontrollerbuttons & GAMECONTROLLER_A)
+            if ((gamecontrollerbuttons & GAMECONTROLLER_A)
+                || (gamecontrollerbuttons & GAMECONTROLLER_RIGHT_TRIGGER))
             {
                 key = (messagetoprint && messageneedsinput ? 'y' : KEY_ENTER);
                 gamecontrollerwait = I_GetTime()

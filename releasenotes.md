@@ -84,6 +84,7 @@
 * The accompanying readme file for the currently loaded PWAD can now be displayed by entering the new `readme` CCMD in the console.
 * These extensive changes have been made when using a controller:
   * Using a controller in the menu is now more responsive.
+  * The right trigger can now be used to select menu items.
   * The left and right thumbsticks, as well as the directional pad, can now be used to scroll the output in the console.
   * The B button can now be used to close the console.
   * The speed at which the player turns using a controller no longer increases while running.
