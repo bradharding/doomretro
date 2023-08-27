@@ -120,10 +120,12 @@ void I_GameControllerRumble(const int low, const int high)
     SDL_GameControllerRumble(gamecontroller, MIN(low, UINT16_MAX), MIN(high, UINT16_MAX), UINT32_MAX);
 }
 
-static short inline clamp(short value, short deadzone)
+static short inline GetAxis(short value, const short deadzone)
 {
+    value = SDL_GameControllerGetAxis(gamecontroller, value);
+
     return (ABS(value) < deadzone ? 0 :
-        (joy_analog ? MAX(-SDL_JOYSTICK_AXIS_MAX, value) : SIGN(value) * SDL_JOYSTICK_AXIS_MAX));
+        (joy_analog ? MAX(SDL_JOYSTICK_AXIS_MIN, value) : SIGN(value) * SDL_JOYSTICK_AXIS_MAX));
 }
 
 void I_ReadGameController(void)
@@ -134,39 +136,27 @@ void I_ReadGameController(void)
 
         if (joy_swapthumbsticks)
         {
-            gamecontrollerthumbLX = clamp(SDL_GameControllerGetAxis(gamecontroller, SDL_CONTROLLER_AXIS_RIGHTX),
-                gamecontrollerleftdeadzone);
-            gamecontrollerthumbLY = clamp(SDL_GameControllerGetAxis(gamecontroller, SDL_CONTROLLER_AXIS_RIGHTY),
-                gamecontrollerleftdeadzone);
-            gamecontrollerthumbRX = clamp(SDL_GameControllerGetAxis(gamecontroller, SDL_CONTROLLER_AXIS_LEFTX),
-                gamecontrollerrightdeadzone);
-            gamecontrollerthumbRY = clamp(SDL_GameControllerGetAxis(gamecontroller, SDL_CONTROLLER_AXIS_LEFTY),
-                gamecontrollerrightdeadzone);
+            gamecontrollerthumbLX = GetAxis(SDL_CONTROLLER_AXIS_RIGHTX, gamecontrollerleftdeadzone);
+            gamecontrollerthumbLY = GetAxis(SDL_CONTROLLER_AXIS_RIGHTY, gamecontrollerleftdeadzone);
+            gamecontrollerthumbRX = GetAxis(SDL_CONTROLLER_AXIS_LEFTX, gamecontrollerrightdeadzone);
+            gamecontrollerthumbRY = GetAxis(SDL_CONTROLLER_AXIS_LEFTY, gamecontrollerrightdeadzone);
         }
         else
         {
-            gamecontrollerthumbLX = clamp(SDL_GameControllerGetAxis(gamecontroller, SDL_CONTROLLER_AXIS_LEFTX),
-                gamecontrollerleftdeadzone);
-            gamecontrollerthumbLY = clamp(SDL_GameControllerGetAxis(gamecontroller, SDL_CONTROLLER_AXIS_LEFTY),
-                gamecontrollerleftdeadzone);
-            gamecontrollerthumbRX = clamp(SDL_GameControllerGetAxis(gamecontroller, SDL_CONTROLLER_AXIS_RIGHTX),
-                gamecontrollerrightdeadzone);
-            gamecontrollerthumbRY = clamp(SDL_GameControllerGetAxis(gamecontroller, SDL_CONTROLLER_AXIS_RIGHTY),
-                gamecontrollerrightdeadzone);
+            gamecontrollerthumbLX = GetAxis(SDL_CONTROLLER_AXIS_LEFTX, gamecontrollerleftdeadzone);
+            gamecontrollerthumbLY = GetAxis(SDL_CONTROLLER_AXIS_LEFTY, gamecontrollerleftdeadzone);
+            gamecontrollerthumbRX = GetAxis(SDL_CONTROLLER_AXIS_RIGHTX, gamecontrollerrightdeadzone);
+            gamecontrollerthumbRY = GetAxis(SDL_CONTROLLER_AXIS_RIGHTY, gamecontrollerrightdeadzone);
         }
 
         prevgamecontrollerbuttons = gamecontrollerbuttons;
         gamecontrollerbuttons = 0;
 
         if (SDL_GameControllerGetAxis(gamecontroller, SDL_CONTROLLER_AXIS_TRIGGERLEFT) >= GAMECONTROLLER_TRIGGER_THRESHOLD)
-            gamecontrollerbuttons |= GAMECONTROLLER_LEFT_TRIGGER;
-        else
-            gamecontrollerbuttons &= ~GAMECONTROLLER_LEFT_TRIGGER;
+            gamecontrollerbuttons = GAMECONTROLLER_LEFT_TRIGGER;
 
         if (SDL_GameControllerGetAxis(gamecontroller, SDL_CONTROLLER_AXIS_TRIGGERRIGHT) >= GAMECONTROLLER_TRIGGER_THRESHOLD)
             gamecontrollerbuttons |= GAMECONTROLLER_RIGHT_TRIGGER;
-        else
-            gamecontrollerbuttons &= ~GAMECONTROLLER_RIGHT_TRIGGER;
 
         for (int i = 0; i < SDL_CONTROLLER_BUTTON_MAX; i++)
             if (SDL_GameControllerGetButton(gamecontroller, i))
