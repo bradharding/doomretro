@@ -2516,11 +2516,7 @@ static void D_DoomMainSetup(void)
             D_StartTitle(1);
         }
         else
-#if SCREENSCALE == 1
-            D_StartTitle(1);
-#else
             D_StartTitle(0);
-#endif
     }
 
     // Ty 04/08/98 - Add 5 lines of misc. data, only if non-blank

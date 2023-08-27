@@ -72,7 +72,7 @@ void I_InitWindows32(void);
 #define SHAKEANGLE  ((double)M_BigRandomInt(-1000, 1000) * r_shake_damage / 100000.0)
 
 int                 SCREENWIDTH;
-int                 SCREENHEIGHT = VANILLAHEIGHT * SCREENSCALE;
+int                 SCREENHEIGHT = VANILLAHEIGHT * 2;
 int                 SCREENAREA;
 int                 WIDESCREENDELTA;
 int                 MAXWIDESCREENDELTA;
@@ -83,7 +83,7 @@ static int          WIDESCREENWIDTH;
 bool                nowidescreen = false;
 
 int                 MAPWIDTH;
-unsigned int        MAPHEIGHT = VANILLAHEIGHT * SCREENSCALE;
+unsigned int        MAPHEIGHT = VANILLAHEIGHT * 2;
 unsigned int        MAPAREA;
 int                 MAPBOTTOM;
 
@@ -622,8 +622,8 @@ static void I_ReadMouse(void)
 
             SDL_GetMouseState(&x, &y);
 
-            ev.data2 = x * WIDESCREENWIDTH / displaywidth / SCREENSCALE;
-            ev.data3 = y * SCREENHEIGHT / displayheight / SCREENSCALE;
+            ev.data2 = x * WIDESCREENWIDTH / displaywidth / 2;
+            ev.data3 = y * SCREENHEIGHT / displayheight / 2;
         }
         else
         {
@@ -1011,7 +1011,7 @@ bool I_CreateExternalAutomap(void)
     mapwindow = SDL_CreateWindow("Automap", SDL_WINDOWPOS_UNDEFINED_DISPLAY(am_display - 1),
         SDL_WINDOWPOS_UNDEFINED_DISPLAY(am_display - 1), 0, 0, (SDL_WINDOW_FULLSCREEN_DESKTOP | SDL_WINDOW_SKIP_TASKBAR));
 
-    MAPHEIGHT = VANILLAHEIGHT * SCREENSCALE;
+    MAPHEIGHT = VANILLAHEIGHT * 2;
     MAPWIDTH = MIN(((displays[am_display - 1].w * MAPHEIGHT / displays[am_display - 1].h + 1) & ~3), MAXWIDTH);
     MAPAREA = MAPWIDTH * MAPHEIGHT;
 
@@ -1668,7 +1668,7 @@ static void I_GetScreenDimensions(void)
 
         // r_fov * 0.82 is vertical FOV for 4:3 aspect ratio
         WIDEFOVDELTA = (int)(atan(width / (height / tan(r_fov * 0.82 * M_PI / 360.0))) * 360.0 / M_PI) - r_fov - 2;
-        WIDESCREENDELTA = ((SCREENWIDTH - NONWIDEWIDTH) / SCREENSCALE) / 2;
+        WIDESCREENDELTA = ((SCREENWIDTH - NONWIDEWIDTH) / 2) / 2;
         MAXWIDESCREENDELTA = MAX(53, WIDESCREENDELTA);
     }
     else

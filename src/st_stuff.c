@@ -80,10 +80,10 @@
 #define ST_FACESX           (chex ? 144 : 143)
 #define ST_FACESY           168
 
-#define ST_FACEBACKX        (144 * SCREENSCALE + WIDESCREENDELTA * 2)
-#define ST_FACEBACKY        (170 * SCREENSCALE)
-#define ST_FACEBACKWIDTH    (32 * SCREENSCALE)
-#define ST_FACEBACKHEIGHT   (29 * SCREENSCALE)
+#define ST_FACEBACKX        (144 * 2 + WIDESCREENDELTA * 2)
+#define ST_FACEBACKY        (170 * 2)
+#define ST_FACEBACKWIDTH    (32 * 2)
+#define ST_FACEBACKHEIGHT   (29 * 2)
 
 #define ST_EVILGRINCOUNT    (2 * TICRATE)
 #define ST_TURNCOUNT        (1 * TICRATE)
@@ -383,15 +383,6 @@ static const int mus[IDMUS_MAX][6] =
 //
 static void ST_RefreshBackground(void)
 {
-#if SCREENSCALE == 1
-    if (sbarwidth < SCREENWIDTH)
-        R_FillBezel();
-
-    V_DrawWidePatch((SCREENWIDTH / SCREENSCALE - sbarwidth) / 2, VANILLAHEIGHT - VANILLASBARHEIGHT, 0, sbar);
-
-    if (STBARs >= 3)
-        V_DrawPatch((hacx ? ST_ARMSBGX + 4 : ST_ARMSBGX), VANILLAHEIGHT - VANILLASBARHEIGHT, 0, armsbg);
-#else
     if (STBARs < 3)
     {
         if (r_detail == r_detail_high)
@@ -411,7 +402,7 @@ static void ST_RefreshBackground(void)
             if (sbarwidth < SCREENWIDTH)
                 R_FillBezel();
 
-            V_DrawWidePatch((SCREENWIDTH / SCREENSCALE - sbarwidth) / 2, VANILLAHEIGHT - VANILLASBARHEIGHT, 0, sbar);
+            V_DrawWidePatch((SCREENWIDTH / 2 - sbarwidth) / 2, VANILLAHEIGHT - VANILLASBARHEIGHT, 0, sbar);
         }
     }
     else
@@ -419,10 +410,9 @@ static void ST_RefreshBackground(void)
         if (sbarwidth < SCREENWIDTH)
             R_FillBezel();
 
-        V_DrawWidePatch((SCREENWIDTH / SCREENSCALE - sbarwidth) / 2, VANILLAHEIGHT - VANILLASBARHEIGHT, 0, sbar);
+        V_DrawWidePatch((SCREENWIDTH / 2 - sbarwidth) / 2, VANILLAHEIGHT - VANILLASBARHEIGHT, 0, sbar);
         V_DrawPatch((hacx ? ST_ARMSBGX + 4 : ST_ARMSBGX), VANILLAHEIGHT - VANILLASBARHEIGHT, 0, armsbg);
     }
-#endif
 }
 
 static void ST_PlayerCheated(const char *cheat, const char *output, const bool warning)
@@ -1703,11 +1693,7 @@ void ST_Init(void)
     if (gamemode == shareware)
         maxammo[am_cell] = 0;
 
-#if SCREENSCALE == 1
-    usesmallnums = false;
-#else
     usesmallnums = ((!STYSNUM0 && STBARs == 2 && !harmony) || gamemode == shareware);
-#endif
 
     STLib_Init();
     ST_InitCheats();

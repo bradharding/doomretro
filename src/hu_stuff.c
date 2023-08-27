@@ -250,7 +250,7 @@ void HU_Start(void)
 {
     char        *s = M_StringDuplicate(automaptitle);
     int         len = (int)strlen(s);
-    const int   maxwidth = MIN(VANILLAWIDTH, MAPWIDTH / SCREENSCALE) - HU_MSGX * 2;
+    const int   maxwidth = MIN(VANILLAWIDTH, MAPWIDTH / 2) - HU_MSGX * 2;
     char        *p = s;
 
     if (headsupactive)
@@ -421,7 +421,7 @@ static int HUDNumberWidth(int val)
 
 static inline void HU_DrawScaledPixel(const int x, const int y, byte *color)
 {
-    byte    *dest = &screens[0][(y * SCREENSCALE - 1) * SCREENWIDTH + x * SCREENSCALE - 1];
+    byte    *dest = &screens[0][(y * 2 - 1) * SCREENWIDTH + x * 2 - 1];
 
     *dest = *(*dest + color);
     dest++;
@@ -434,7 +434,7 @@ static inline void HU_DrawScaledPixel(const int x, const int y, byte *color)
 
 static inline void HU_DrawSolidScaledPixel(const int x, const int y, byte color)
 {
-    byte    *dest = &screens[0][(y * SCREENSCALE - 1) * SCREENWIDTH + x * SCREENSCALE - 1];
+    byte    *dest = &screens[0][(y * 2 - 1) * SCREENWIDTH + x * 2 - 1];
 
     *(dest++) = color;
     *dest = color;
@@ -1453,10 +1453,10 @@ void HU_DrawDisk(void)
     if (r_diskicon && stdisk)
     {
         if (r_detail == r_detail_high)
-            V_DrawBigPatch(SCREENWIDTH - HU_MSGX * SCREENSCALE - stdiskwidth, HU_MSGY * SCREENSCALE,
+            V_DrawBigPatch(SCREENWIDTH - HU_MSGX * 2 - stdiskwidth, HU_MSGY * 2,
                 stdiskwidth, stdiskheight, stdisk);
         else
-            V_DrawPatch(SCREENWIDTH / SCREENSCALE - HU_MSGX - stdiskwidth - WIDESCREENDELTA, HU_MSGY, 0, stdisk);
+            V_DrawPatch(SCREENWIDTH / 2 - HU_MSGX - stdiskwidth - WIDESCREENDELTA, HU_MSGY, 0, stdisk);
     }
 }
 
@@ -1474,15 +1474,15 @@ void HU_Drawer(void)
         }
         else if ((r_screensize == r_screensize_max && !r_althud) || message_external)
         {
-            w_message.l.x = MAXWIDESCREENDELTA / SCREENSCALE - (HU_MSGX + 8);
+            w_message.l.x = MAXWIDESCREENDELTA / 2 - (HU_MSGX + 8);
             w_message.l.y = HU_MSGY + 4;
         }
         else if (vid_widescreen && r_screensize == r_screensize_max - 1)
         {
             const int   width = M_StringWidth(w_message.l.l);
 
-            if (width > SCREENWIDTH / SCREENSCALE - w_message.l.x * 2 - 6)
-                w_message.l.x = (SCREENWIDTH / SCREENSCALE - width) / 2;
+            if (width > SCREENWIDTH / 2 - w_message.l.x * 2 - 6)
+                w_message.l.x = (SCREENWIDTH / 2 - width) / 2;
             else
                 w_message.l.x = WIDESCREENDELTA + HU_MSGX * !automapactive;
 
@@ -1508,19 +1508,10 @@ void HU_Drawer(void)
             if (vid_widescreen)
             {
                 w_title.x = (r_screensize == r_screensize_max - 1 ? WIDESCREENDELTA * 2 : OVERLAYTEXTX);
-
-#if SCREENSCALE == 1
-                w_title.y = MAPHEIGHT * 2 - hu_font[0]->height * 2 - (r_screensize == r_screensize_max - 1 ? 4 : 12);
-#else
                 w_title.y = MAPHEIGHT - hu_font[0]->height * 2 - (r_screensize == r_screensize_max - 1 ? 4 : 12);
-#endif
             }
             else
-#if SCREENSCALE == 1
-                w_title.y = MAPHEIGHT * 2 - hu_font[0]->height * 2 - 4;
-#else
                 w_title.y = MAPHEIGHT - hu_font[0]->height * 2 - 4;
-#endif
 
             HUlib_DrawAutomapTextLine(&w_title, false);
         }
@@ -1561,7 +1552,7 @@ void HU_Drawer(void)
                 HUlib_DrawAltAutomapTextLine(&w_title, true);
             else
             {
-                w_title.y = MAPHEIGHT - hu_font[0]->height * SCREENSCALE - 8;
+                w_title.y = MAPHEIGHT - hu_font[0]->height * 2 - 8;
                 HUlib_DrawAutomapTextLine(&w_title, true);
             }
         }
@@ -1602,7 +1593,7 @@ void HU_Ticker(void)
 
                 if (len > 40)
                 {
-                    const int   maxwidth = SCREENWIDTH / SCREENSCALE - (vanilla ? 0 : HU_MSGX * 2);
+                    const int   maxwidth = SCREENWIDTH / 2 - (vanilla ? 0 : HU_MSGX * 2);
 
                     while (M_StringWidth(message) > maxwidth)
                     {

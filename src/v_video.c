@@ -295,7 +295,7 @@ void V_DrawPagePatch(int screen, patch_t *patch)
         memset(screens[screen], pillarboxcolor, SCREENAREA);
     }
 
-    V_DrawWidePatch((SCREENWIDTH / SCREENSCALE - SHORT(patch->width)) / 2, 0, screen, patch);
+    V_DrawWidePatch((SCREENWIDTH / 2 - SHORT(patch->width)) / 2, 0, screen, patch);
 }
 
 void V_DrawShadowPatch(int x, int y, patch_t *patch)
@@ -699,8 +699,8 @@ void V_DrawHUDText(int x, int y, byte *screen, patch_t *patch, int screenwidth)
     byte        *desttop;
     const int   width = SHORT(patch->width) << FRACBITS;
 
-    y -= SHORT(patch->topoffset) * SCREENSCALE;
-    x -= SHORT(patch->leftoffset) * SCREENSCALE;
+    y -= SHORT(patch->topoffset) * 2;
+    x -= SHORT(patch->leftoffset) * 2;
 
     desttop = &screen[y * screenwidth + x];
 
@@ -734,8 +734,8 @@ void V_DrawTranslucentHUDText(int x, int y, byte *screen, patch_t *patch, int sc
     byte        *desttop;
     const int   width = SHORT(patch->width) << FRACBITS;
 
-    y -= SHORT(patch->topoffset) * SCREENSCALE;
-    x -= SHORT(patch->leftoffset) * SCREENSCALE;
+    y -= SHORT(patch->topoffset) * 2;
+    x -= SHORT(patch->leftoffset) * 2;
 
     desttop = &screen[y * screenwidth + x];
 
@@ -880,9 +880,9 @@ void V_DrawMenuPatch(int x, int y, patch_t *patch, bool highlight, int shadowwid
 
                 dest += SCREENWIDTH;
 
-                if (height + SCREENSCALE > 0)
+                if (height + 2 > 0)
                 {
-                    byte    *dot = dest + SCREENWIDTH + SCREENSCALE;
+                    byte    *dot = dest + SCREENWIDTH + 2;
 
                     if (i <= shadowwidth && *dot != 47 && *dot != 191)
                         *dot = black40[*dot];
@@ -1550,12 +1550,11 @@ void V_DrawPixel(int x, int y, byte color, bool highlight, bool shadow)
 {
     x += WIDESCREENDELTA;
 
-#if SCREENSCALE == 2
     if (color == PINK)
     {
         if (shadow)
         {
-            byte    *dot = *screens + ((size_t)y * SCREENWIDTH + x) * SCREENSCALE;
+            byte    *dot = *screens + ((size_t)y * SCREENWIDTH + x) * 2;
 
             *dot = black40[*dot];
             dot++;
@@ -1568,7 +1567,7 @@ void V_DrawPixel(int x, int y, byte color, bool highlight, bool shadow)
     }
     else if (color && color != 32)
     {
-        byte    *dot = *screens + ((size_t)y * SCREENWIDTH + x) * SCREENSCALE;
+        byte    *dot = *screens + ((size_t)y * SCREENWIDTH + x) * 2;
 
         if (!highlight)
             color = colormaps[0][4 * 256 + color];
@@ -1578,45 +1577,6 @@ void V_DrawPixel(int x, int y, byte color, bool highlight, bool shadow)
         *(dot += SCREENWIDTH) = color;
         *(--dot) = color;
     }
-#elif SCREENSCALE == 1
-    if (color == PINK)
-    {
-        if (shadow)
-        {
-            byte    *dot = *screens + ((size_t)y * SCREENWIDTH + x);
-
-            *dot = black40[*dot];
-        }
-    }
-    else if (color && color != 32)
-        screens[0][y * SCREENWIDTH + x] = color;
-#else
-    if (color == PINK)
-    {
-        if (shadow)
-        {
-            x *= SCREENSCALE;
-            y *= SCREENSCALE;
-
-            for (int yy = 0; yy < SCREENSCALE; yy++)
-                for (int xx = 0; xx < SCREENSCALE; xx++)
-                {
-                    byte    *dot = *screens + ((size_t)(y + yy) * SCREENWIDTH + x + xx);
-
-                    *dot = black40[*dot];
-                }
-        }
-    }
-    else if (color && color != 32)
-    {
-        x *= SCREENSCALE;
-        y *= SCREENSCALE;
-
-        for (int yy = 0; yy < SCREENSCALE; yy++)
-            for (int xx = 0; xx < SCREENSCALE; xx++)
-                screens[0][(size_t)(y + yy) * SCREENWIDTH + x + xx] = color;
-    }
-#endif
 }
 
 static void V_LowGraphicDetail(int left, int top, int width, int height, int pixelwidth, int pixelheight)

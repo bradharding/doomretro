@@ -87,11 +87,11 @@ static void HU_DrawChar(int x, int y, int ch, byte *screen, int screenwidth)
         for (int x1 = 0; x1 < width; x1++)
         {
             const unsigned char src = smallcharset[ch][y1 * width + x1];
-            const int           i = (x + x1) * SCREENSCALE;
-            const int           j = (y + y1) * SCREENSCALE;
+            const int           i = (x + x1) * 2;
+            const int           j = (y + y1) * 2;
 
-            for (int yy = 0; yy < SCREENSCALE; yy++)
-                for (int xx = 0; xx < SCREENSCALE; xx++)
+            for (int yy = 0; yy < 2; yy++)
+                for (int xx = 0; xx < 2; xx++)
                 {
                     byte    *dest = &screen[(j + yy) * screenwidth + (i + xx)];
 
@@ -111,11 +111,11 @@ static void HU_DrawGoldChar(int x, int y, int ch, byte *screen, int screenwidth)
         for (int x1 = 0; x1 < width; x1++)
         {
             const unsigned char src = smallcharset[ch][y1 * width + x1];
-            const int           i = (x + x1) * SCREENSCALE;
-            const int           j = (y + y1) * SCREENSCALE;
+            const int           i = (x + x1) * 2;
+            const int           j = (y + y1) * 2;
 
-            for (int yy = 0; yy < SCREENSCALE; yy++)
-                for (int xx = 0; xx < SCREENSCALE; xx++)
+            for (int yy = 0; yy < 2; yy++)
+                for (int xx = 0; xx < 2; xx++)
                 {
                     byte    *dest = &screen[(j + yy) * screenwidth + (i + xx)];
 
@@ -135,11 +135,11 @@ static void HU_DrawTranslucentChar(int x, int y, int ch, byte *screen, int scree
         for (int x1 = 0; x1 < width; x1++)
         {
             const unsigned char src = smallcharset[ch][y1 * width + x1];
-            const int           i = (x + x1) * SCREENSCALE;
-            const int           j = (y + y1) * SCREENSCALE;
+            const int           i = (x + x1) * 2;
+            const int           j = (y + y1) * 2;
 
-            for (int yy = 0; yy < SCREENSCALE; yy++)
-                for (int xx = 0; xx < SCREENSCALE; xx++)
+            for (int yy = 0; yy < 2; yy++)
+                for (int xx = 0; xx < 2; xx++)
                 {
                     byte    *dest = &screen[(j + yy) * screenwidth + (i + xx)];
 
@@ -159,11 +159,11 @@ static void HU_DrawTranslucentGoldChar(int x, int y, int ch, byte *screen, int s
         for (int x1 = 0; x1 < width; x1++)
         {
             const unsigned char src = smallcharset[ch][y1 * width + x1];
-            const int           i = (x + x1) * SCREENSCALE;
-            const int           j = (y + y1) * SCREENSCALE;
+            const int           i = (x + x1) * 2;
+            const int           j = (y + y1) * 2;
 
-            for (int yy = 0; yy < SCREENSCALE; yy++)
-                for (int xx = 0; xx < SCREENSCALE; xx++)
+            for (int yy = 0; yy < 2; yy++)
+                for (int xx = 0; xx < 2; xx++)
                 {
                     byte    *dest = &screen[(j + yy) * screenwidth + (i + xx)];
 
@@ -462,11 +462,11 @@ static void HUlib_DrawTextLine(hu_textline_t *l, bool external)
                 const unsigned char src = underscores[y1 * VANILLAWIDTH + x1];
 
                 if (src != ' ')
-                    for (int y2 = 0; y2 < SCREENSCALE; y2++)
-                        for (int x2 = 0; x2 < SCREENSCALE; x2++)
+                    for (int y2 = 0; y2 < 2; y2++)
+                        for (int x2 = 0; x2 < 2; x2++)
                         {
-                            byte    *dest = &tempscreen[((l->y + y1 + 6) * SCREENSCALE + y2) * screenwidth
-                                        + (l->x + x1 - 3) * SCREENSCALE + x2];
+                            byte    *dest = &tempscreen[((l->y + y1 + 6) * 2 + y2) * screenwidth
+                                        + (l->x + x1 - 3) * 2 + x2];
 
                             *dest = (src == PINK ? 0 : src);
                         }
@@ -493,8 +493,8 @@ static void HUlib_DrawTextLine(hu_textline_t *l, bool external)
         }
     }
 
-    maxx = (l->x + textwidth + 1) * SCREENSCALE;
-    maxy = (y + 10) * SCREENSCALE;
+    maxx = (l->x + textwidth + 1) * 2;
+    maxy = (y + 10) * 2;
 
     for (int yy = MAX(0, l->y - 1); yy < maxy; yy++)
         for (int xx = l->x; xx < maxx; xx++)
@@ -594,7 +594,7 @@ void HUlib_EraseTextLine(hu_textline_t *l)
     // (because of a recent change back from the automap)
     if (!automapactive && viewwindowx && l->needsupdate)
     {
-        const int   lh = (SHORT(l->f[0]->height) + 4) * SCREENSCALE;
+        const int   lh = (SHORT(l->f[0]->height) + 4) * 2;
 
         for (int y = l->y, yoffset = y * SCREENWIDTH; y < l->y + lh; y++, yoffset += SCREENWIDTH)
             if (y < viewwindowy || y >= viewwindowy + viewheight)

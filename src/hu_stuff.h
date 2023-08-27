@@ -47,8 +47,8 @@
 // Calculate # of characters in font.
 #define HU_FONTSIZE                 (HU_FONTEND - HU_FONTSTART + 1)
 
-#define HU_MSGX                     (3 * SCREENSCALE)
-#define HU_MSGY                     (2 * SCREENSCALE)
+#define HU_MSGX                     (3 * 2)
+#define HU_MSGY                     (2 * 2)
 
 #define HU_MSGTIMEOUT               (4 * TICRATE)
 

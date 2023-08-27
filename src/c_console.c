@@ -754,7 +754,6 @@ void C_Init(void)
 
 void C_ShowConsole(void)
 {
-#if SCREENSCALE > 1
     consoleheight = MAX(1, consoleheight);
     consoledirection = 1;
     consoleanim = 0;
@@ -772,7 +771,6 @@ void C_ShowConsole(void)
     S_LowerMusicVolume();
     SDL_StartTextInput();
     S_StartSound(NULL, sfx_consol);
-#endif
 }
 
 void C_HideConsole(void)
@@ -2483,13 +2481,13 @@ bool C_Responder(event_t *ev)
     {
         if (ev->data1 & MOUSE_LEFTBUTTON)
         {
-            const int   y = ev->data3 * SCREENSCALE;
+            const int   y = ev->data3 * 2;
 
             if (y >= SCREENHEIGHT / 2 && gamestate == GS_LEVEL)
                 C_HideConsole();
             else if (len && y >= CONSOLEINPUTY && y < CONSOLEINPUTY + CONSOLELINEHEIGHT)
             {
-                const int   x = ev->data2 * SCREENSCALE;
+                const int   x = ev->data2 * 2;
 
                 for (i = 0; i < len; i++)
                     if (x <= CONSOLEINPUTX + C_TextWidth(M_SubString(consoleinput, 0, i), false, true))

@@ -71,7 +71,7 @@ static void STlib_DrawLowNum(int number, int color, int shadow, int x, int y, pa
 
     x += WIDESCREENDELTA;
 
-    for (int i = 0, j = (y * SCREENWIDTH + x) * SCREENSCALE; i < 96; i++)
+    for (int i = 0, j = (y * SCREENWIDTH + x) * 2; i < 96; i++)
     {
         const char  dot = lownums[number][i];
 
@@ -105,7 +105,7 @@ static void STlib_DrawHighNum(int number, int color, int shadow, int x, int y, p
 
     x += WIDESCREENDELTA;
 
-    for (int i = 0, j = (y * SCREENWIDTH + x) * SCREENSCALE; i < 96; i++)
+    for (int i = 0, j = (y * SCREENWIDTH + x) * 2; i < 96; i++)
     {
         const char  dot = highnums[number][i];
 
