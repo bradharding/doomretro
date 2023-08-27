@@ -2079,15 +2079,15 @@ static void AM_AntiAliasing(void)
 
     memcpy(dest, mapscreen, MAPAREA);
 
-    for (int y = 0; y <= MAPAREA - MAPWIDTH; y += MAPWIDTH)
+    for (int y = 0; y <= (int)MAPAREA - MAPWIDTH; y += MAPWIDTH)
         for (int x = y; x <= y + MAPWIDTH - 2; x++)
             dest[x] = tinttab15[(dest[x + 1] << 8) + dest[x]];
 
-    for (int y = 0; y <= MAPAREA - MAPWIDTH; y += MAPWIDTH)
+    for (int y = 0; y <= (int)MAPAREA - MAPWIDTH; y += MAPWIDTH)
         for (int x = y + MAPWIDTH - 2; x > y; x--)
             dest[x] = tinttab15[(dest[x - 1] << 8) + dest[x]];
 
-    for (int y = MAPWIDTH; y <= MAPAREA - MAPWIDTH * 2; y += MAPWIDTH)
+    for (int y = MAPWIDTH; y <= (int)MAPAREA - MAPWIDTH * 2; y += MAPWIDTH)
         for (int x = y + 6; x <= y + MAPWIDTH - 6; x++)
             dest[x] = tinttab15[(dest[x] << 8) + dest[x]];
 
@@ -2095,7 +2095,7 @@ static void AM_AntiAliasing(void)
         for (int x = y + MAPWIDTH - 1; x >= y + 1; x--)
             dest[x] = tinttab15[(dest[x - MAPWIDTH - 1] << 8) + dest[x]];
 
-    for (int y = 0; y <= MAPAREA - MAPWIDTH * 2; y += MAPWIDTH)
+    for (int y = 0; y <= (int)MAPAREA - MAPWIDTH * 2; y += MAPWIDTH)
         for (int x = y; x <= y + MAPWIDTH - 1; x++)
             dest[x] = tinttab15[(dest[x + MAPWIDTH] << 8) + dest[x]];
 
@@ -2103,7 +2103,7 @@ static void AM_AntiAliasing(void)
         for (int x = y; x <= y + MAPWIDTH - 1; x++)
             dest[x] = tinttab15[(dest[x - MAPWIDTH] << 8) + dest[x]];
 
-    for (int y = 0; y <= MAPAREA - MAPWIDTH * 2; y += MAPWIDTH)
+    for (int y = 0; y <= (int)MAPAREA - MAPWIDTH * 2; y += MAPWIDTH)
         for (int x = y + MAPWIDTH - 1; x >= y + 1; x--)
             dest[x] = tinttab15[(dest[x + MAPWIDTH - 1] << 8) + dest[x]];
 
