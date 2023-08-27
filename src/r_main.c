@@ -1141,47 +1141,6 @@ static void R_SetupFrame(void)
     validcount++;
 }
 
-static void R_AntiAliasing(void)
-{
-    static byte dest[MAXSCREENAREA];
-
-    memcpy(dest, screens[0], SCREENAREA);
-
-    for (int y = 0; y <= (int)SCREENAREA - SCREENWIDTH; y += SCREENWIDTH)
-        for (int x = y; x <= y + SCREENWIDTH - 2; x++)
-            dest[x] = tinttab10[(dest[x + 1] << 8) + dest[x]];
-
-    for (int y = 0; y <= (int)SCREENAREA - SCREENWIDTH; y += SCREENWIDTH)
-        for (int x = y + SCREENWIDTH - 2; x > y; x--)
-            dest[x] = tinttab10[(dest[x - 1] << 8) + dest[x]];
-
-    for (int y = SCREENWIDTH; y <= (int)SCREENAREA - SCREENWIDTH * 2; y += SCREENWIDTH)
-        for (int x = y + 6; x <= y + SCREENWIDTH - 6; x++)
-            dest[x] = tinttab10[(dest[x] << 8) + dest[x]];
-
-    for (int y = SCREENAREA - SCREENWIDTH; y >= SCREENWIDTH; y -= SCREENWIDTH)
-        for (int x = y + SCREENWIDTH - 1; x >= y + 1; x--)
-            dest[x] = tinttab10[(dest[x - SCREENWIDTH - 1] << 8) + dest[x]];
-
-    for (int y = 0; y <= (int)SCREENAREA - SCREENWIDTH * 2; y += SCREENWIDTH)
-        for (int x = y; x <= y + SCREENWIDTH - 1; x++)
-            dest[x] = tinttab10[(dest[x + SCREENWIDTH] << 8) + dest[x]];
-
-    for (int y = SCREENAREA - SCREENWIDTH; y >= SCREENWIDTH; y -= SCREENWIDTH)
-        for (int x = y; x <= y + SCREENWIDTH - 1; x++)
-            dest[x] = tinttab10[(dest[x - SCREENWIDTH] << 8) + dest[x]];
-
-    for (int y = 0; y <= (int)SCREENAREA - SCREENWIDTH * 2; y += SCREENWIDTH)
-        for (int x = y + SCREENWIDTH - 1; x >= y + 1; x--)
-            dest[x] = tinttab10[(dest[x + SCREENWIDTH - 1] << 8) + dest[x]];
-
-    for (int y = SCREENAREA - SCREENWIDTH; y >= SCREENWIDTH; y -= SCREENWIDTH)
-        for (int x = y; x <= y + SCREENWIDTH - 2; x++)
-            dest[x] = tinttab10[(dest[x - SCREENWIDTH + 1] << 8) + dest[x]];
-
-    memcpy(screens[0], dest, SCREENAREA);
-}
-
 //
 // R_RenderPlayerView
 //
@@ -1216,6 +1175,4 @@ void R_RenderPlayerView(void)
 
     if (!r_textures && viewplayer->fixedcolormap == INVERSECOLORMAP)
         V_InvertScreen();
-
-    R_AntiAliasing();
 }
