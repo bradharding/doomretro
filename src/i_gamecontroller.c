@@ -77,16 +77,71 @@ void I_InitGameController(void)
     for (int i = 0, numjoysticks = SDL_NumJoysticks(); i < numjoysticks; i++)
         if (SDL_IsGameController(i))
         {
-            const char  *name;
-            bool        repeated;
+            SDL_GameControllerType  type;
+            bool                    repeated;
 
             gamecontroller = SDL_GameControllerOpen(i);
             gamecontrollerconnected = true;
+            type = SDL_GameControllerGetType(gamecontroller);
 
-            if ((name = SDL_GameControllerName(gamecontroller)))
-                repeated = C_OutputNoRepeat("A controller called \"%s\" is connected.", name);
-            else
-                repeated = C_OutputNoRepeat("A controller is connected.");
+            switch (type)
+            {
+                case SDL_CONTROLLER_TYPE_UNKNOWN:
+                    repeated = C_OutputNoRepeat("A controller is connected.");
+                    break;
+
+                case SDL_CONTROLLER_TYPE_XBOX360:
+                    repeated = C_OutputNoRepeat("An Xbox 360 controller is connected.");
+                    break;
+
+                case SDL_CONTROLLER_TYPE_XBOXONE:
+                    repeated = C_OutputNoRepeat("An Xbox One controller is connected.");
+                    break;
+
+                case SDL_CONTROLLER_TYPE_PS3:
+                    repeated = C_OutputNoRepeat("A PS3 controller is connected.");
+                    break;
+
+                case SDL_CONTROLLER_TYPE_PS4:
+                    repeated = C_OutputNoRepeat("A PS4 controller is connected.");
+                    break;
+
+                case SDL_CONTROLLER_TYPE_NINTENDO_SWITCH_PRO:
+                    repeated = C_OutputNoRepeat("A Nintendo Switch Pro controller is connected.");
+                    break;
+
+                case SDL_CONTROLLER_TYPE_VIRTUAL:
+                    repeated = C_OutputNoRepeat("A virtual controller is connected.");
+                    break;
+
+                case SDL_CONTROLLER_TYPE_PS5:
+                    repeated = C_OutputNoRepeat("A PS5 controller is connected.");
+                    break;
+
+                case SDL_CONTROLLER_TYPE_AMAZON_LUNA:
+                    repeated = C_OutputNoRepeat("An Amazon Luna controller is connected.");
+                    break;
+
+                case SDL_CONTROLLER_TYPE_GOOGLE_STADIA:
+                    repeated = C_OutputNoRepeat("A Google Stadia controller is connected.");
+                    break;
+
+                case SDL_CONTROLLER_TYPE_NVIDIA_SHIELD:
+                    repeated = C_OutputNoRepeat("An NVidia Shield controller is connected.");
+                    break;
+
+                case SDL_CONTROLLER_TYPE_NINTENDO_SWITCH_JOYCON_LEFT:
+                    repeated = C_OutputNoRepeat("A Nintendo Switch's left joycon is connected.");
+                    break;
+
+                case SDL_CONTROLLER_TYPE_NINTENDO_SWITCH_JOYCON_RIGHT:
+                    repeated = C_OutputNoRepeat("A Nintendo Switch's right joycon is connected.");
+                    break;
+
+                case SDL_CONTROLLER_TYPE_NINTENDO_SWITCH_JOYCON_PAIR:
+                    repeated = C_OutputNoRepeat("A Nintendo Switch's joycon is connected.");
+                    break;
+            }
 
             if (SDL_GameControllerHasRumble(gamecontroller))
                 gamecontrollerrumbles = true;
