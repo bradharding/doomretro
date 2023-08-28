@@ -75,15 +75,14 @@ void I_InitGameController(void)
     SDL_SetHintWithPriority(SDL_HINT_JOYSTICK_ALLOW_BACKGROUND_EVENTS, "1", SDL_HINT_OVERRIDE);
 
     for (int i = 0, numjoysticks = SDL_NumJoysticks(); i < numjoysticks; i++)
-        if (SDL_IsGameController(i))
+        if (SDL_IsGameController(i) && (gamecontroller = SDL_GameControllerOpen(i)))
         {
-            const char  *name;
+            const char  *name = SDL_GameControllerName(gamecontroller);
             bool        repeated;
 
-            gamecontroller = SDL_GameControllerOpen(i);
             gamecontrollerconnected = true;
 
-            if ((name = SDL_GameControllerName(gamecontroller)))
+            if (name)
                 repeated = C_OutputNoRepeat("A controller called \"%s\" is connected.", name);
             else
                 repeated = C_OutputNoRepeat("A controller is connected.");
@@ -124,8 +123,7 @@ static short inline GetAxis(short value, const short deadzone)
 {
     value = SDL_GameControllerGetAxis(gamecontroller, value);
 
-    return (ABS(value) < deadzone ? 0 :
-        (joy_analog ? MAX(SDL_JOYSTICK_AXIS_MIN, value) : SIGN(value) * SDL_JOYSTICK_AXIS_MAX));
+    return (ABS(value) < deadzone ? 0 : (joy_analog ? value : SIGN(value) * SDL_JOYSTICK_AXIS_MAX));
 }
 
 void I_ReadGameController(void)

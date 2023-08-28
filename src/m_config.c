@@ -918,11 +918,6 @@ static void M_CheckCVARs(void)
     if (!*wadfolder || M_StringCompare(wadfolder, wadfolder_default) || !M_FolderExists(wadfolder))
         D_InitWADfolder();
 
-    I_SetGameControllerLeftDeadZone();
-    I_SetGameControllerRightDeadZone();
-    I_SetGameControllerHorizontalSensitivity();
-    I_SetGameControllerVerticalSensitivity();
-
     if (!*playername)
         playername = M_StringDuplicate(playername_default);
     else
