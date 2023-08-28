@@ -97,6 +97,7 @@
   * The default values of the `joy_deadzone_left` and `joy_deadzone_right` CVARs are now both `15%` rather than `25%`, and their maximum values are now both `30%` rather than `100%`.
 * A bug is fixed whereby the `vid_fullscreen` CVAR couldn’t be changed in the console.
 * The player’s weapon now displays correctly when it touches the right edge of the screen and the `vid_capfps` CVAR is not `35`.
+* A bug is fixed whereby the flash of the player’s weapon could be drawn incorrectly if they fired it while falling and the `weaponbounce` CVAR was `on`.
 * Movement of the player’s weapon is now less blurry when the `r_detail` CVAR is `low`.
 * The `weapon` CVAR now also allows the values `1` to `7`.
 * A bug is fixed whereby the `iwadfolder` CVAR wouldn’t be updated in some instances.
