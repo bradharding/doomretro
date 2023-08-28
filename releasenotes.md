@@ -23,10 +23,11 @@
   * The fade to black when quitting *DOOM Retro* from the menu is no longer affected by the player having either a berserk or radiation shielding suit power-up.
   * Minor improvements have been made to the edges of the menu’s background.
   * The skull cursor is no longer positioned incorrectly in the main menu in some rare instances.
-  * When navigating using the mouse pointer and the `m_pointer` CVAR is `on`:
+  * When navigating the menu using the mouse pointer and the `m_pointer` CVAR is `on`:
     * The `episode`, `expansion`, `savegame` and `skilllevel` CVARs are now only updated when necessary.
-    * The precision of selecting menu items using the mouse pointer has improved slightly.
+    * The precision of selecting menu items using the mouse pointer has improved.
     * The *Nightmare!* skill level can now always be selected.
+    * Clicking outside of the selected savegame slot when entering a savegame description in the save game menu now works as expected.
     * The mouse pointer now becomes visible after having just used a controller to navigate the menu.
   * “New Game” is now selected in the main menu after deleting the only savegame in the save or load game menus using the <kbd><b>DEL</b></kbd> key.
   * Minor improvements have been made to the vertical positioning of elements in the load and save game menus.
