@@ -2792,6 +2792,15 @@ bool M_Responder(event_t *ev)
                                 }
                             }
                         }
+                        else if (savestringenter)
+                        {
+                            SDL_StopTextInput();
+                            savestringenter = false;
+                            caretwait = 0;
+                            showcaret = false;
+                            M_StringCopy(&savegamestrings[saveslot][0], saveoldstring, sizeof(savegamestrings[0]));
+                            S_StartSound(NULL, sfx_swtchx);
+                        }
                     }
 
                     usinggamecontroller = false;
