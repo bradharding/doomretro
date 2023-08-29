@@ -3949,9 +3949,9 @@ void M_Drawer(void)
             }
 
             if (M_SKULL1)
-                M_DrawPatchWithShadow(x - 43, y + itemon * LINEHEIGHT - (chex ? 7 : 8) + OFFSET, skullpatch, false);
+                M_DrawPatchWithShadow(x - 43, y + itemon * LINEHEIGHT - (chex ? 7 : 8) + OFFSET, skullpatch, true);
             else
-                M_DrawPatchWithShadow(x - 37, y + itemon * LINEHEIGHT - 7 + OFFSET, skullpatch, false);
+                M_DrawPatchWithShadow(x - 37, y + itemon * LINEHEIGHT - 7 + OFFSET, skullpatch, true);
         }
         else
         {
