@@ -2151,6 +2151,9 @@ void AM_Drawer(void)
 
     AM_DrawPlayer();
 
+    if (am_antialiasing)
+        AM_AntiAliasing();
+
     if (!(am_followmode || consoleactive))
     {
         if (r_hud_translucency)
@@ -2161,7 +2164,4 @@ void AM_Drawer(void)
 
     if (r_screensize < r_screensize_max && !vanilla)
         AM_StatusBarShadow();
-
-    if (am_antialiasing)
-        AM_AntiAliasing();
 }
