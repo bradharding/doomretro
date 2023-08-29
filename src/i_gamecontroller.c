@@ -37,6 +37,7 @@
 #include "doomstat.h"
 #include "i_gamecontroller.h"
 #include "m_config.h"
+#include "m_misc.h"
 
 static SDL_GameController   *gamecontroller;
 static bool                 gamecontrollerconnected;
@@ -59,6 +60,52 @@ int                         weaponrumbletics = 0;
 int                         idlechainsawrumblestrength;
 int                         restoredrumblestrength;
 
+static char *GetGameControllerName(void)
+{
+    const char  *name = SDL_GameControllerName(gamecontroller);
+
+    if (name)
+        return(M_StringJoin("A controller called \"", name, "\" is connected.", NULL));
+    else
+        return("A controller is connected.");
+}
+
+#if SDL_MAJOR_VERSION > 2 || (SDL_MAJOR_VERSION == 2 && SDL_MINOR_VERSION >= 12)
+static char *GetGameControllerType(void)
+{
+    SDL_GameControllerType  type = SDL_GameControllerGetType(gamecontroller);
+
+    if (type == SDL_CONTROLLER_TYPE_XBOX360)
+        return("An Xbox 360 controller is connected.");
+    else if (type == SDL_CONTROLLER_TYPE_XBOXONE)
+        return("An Xbox One controller is connected.");
+    else if (type == SDL_CONTROLLER_TYPE_PS3)
+        return("A PS3 controller is connected.");
+    else if (type == SDL_CONTROLLER_TYPE_PS4)
+        return("A PS4 controller is connected.");
+    else if (type == SDL_CONTROLLER_TYPE_NINTENDO_SWITCH_PRO)
+        return("A Nintendo Switch Pro controller is connected.");
+    else if (type == SDL_CONTROLLER_TYPE_VIRTUAL)
+        return("A virtual controller is connected.");
+    else if (type == SDL_CONTROLLER_TYPE_PS5)
+        return("A PS5 controller is connected.");
+    else if (type == SDL_CONTROLLER_TYPE_AMAZON_LUNA)
+        return("An Amazon Luna controller is connected.");
+    else if (type == SDL_CONTROLLER_TYPE_GOOGLE_STADIA)
+        return("A Google Stadia controller is connected.");
+    else if (type == SDL_CONTROLLER_TYPE_NVIDIA_SHIELD)
+        return("An NVidia Shield controller is connected.");
+    else if (type == SDL_CONTROLLER_TYPE_NINTENDO_SWITCH_JOYCON_LEFT)
+        return("A Nintendo Switch's left joycon is connected.");
+    else if (type == SDL_CONTROLLER_TYPE_NINTENDO_SWITCH_JOYCON_RIGHT)
+        return("A Nintendo Switch's right joycon is connected.");
+    else if (type == SDL_CONTROLLER_TYPE_NINTENDO_SWITCH_JOYCON_PAIR)
+        return("A Nintendo Switch's joycon is connected.");
+    else
+        return GetGameControllerName();
+}
+#endif
+
 void I_InitGameController(void)
 {
     if (gamecontrollerconnected)
@@ -77,15 +124,15 @@ void I_InitGameController(void)
     for (int i = 0, numjoysticks = SDL_NumJoysticks(); i < numjoysticks; i++)
         if (SDL_IsGameController(i) && (gamecontroller = SDL_GameControllerOpen(i)))
         {
-            const char  *name = SDL_GameControllerName(gamecontroller);
-            bool        repeated;
+            bool    repeated;
 
             gamecontrollerconnected = true;
 
-            if (name)
-                repeated = C_OutputNoRepeat("A controller called \"%s\" is connected.", name);
-            else
-                repeated = C_OutputNoRepeat("A controller is connected.");
+#if SDL_MAJOR_VERSION > 2 || (SDL_MAJOR_VERSION == 2 && SDL_MINOR_VERSION >= 12)
+            repeated = C_OutputNoRepeat(GetGameControllerType());
+#else
+            repeated = C_OutputNoRepeat(GetGameControllerName());
+#endif
 
             if (SDL_GameControllerHasRumble(gamecontroller))
                 gamecontrollerrumbles = true;
