@@ -81,6 +81,7 @@ byte    *tinttab25;
 byte    *tinttab30;
 byte    *tinttab33;
 byte    *tinttab40;
+byte    *tinttab45;
 byte    *tinttab50;
 byte    *tinttab60;
 byte    *tinttab66;
@@ -115,6 +116,7 @@ byte    nearestwhite;
 
 byte    *black25;
 byte    *black40;
+byte    *black45;
 byte    *white5;
 byte    *white25;
 byte    *white33;
@@ -169,6 +171,7 @@ void FindNearestColors(byte *palette)
 
     black25 = &tinttab25[nearestblack << 8];
     black40 = &tinttab40[nearestblack << 8];
+    black45 = &tinttab45[nearestblack << 8];
     white5 = &tinttab5[nearestwhite << 8];
     white25 = &tinttab25[nearestwhite << 8];
     white33 = &tinttab33[nearestwhite << 8];
@@ -334,6 +337,7 @@ void I_InitTintTables(byte *palette)
     tinttab30 = GenerateTintTable(palette, 30, ALL);
     tinttab33 = GenerateTintTable(palette, 33, ALL);
     tinttab40 = GenerateTintTable(palette, 40, ALL);
+    tinttab45 = GenerateTintTable(palette, 45, ALL);
     tinttab50 = GenerateTintTable(palette, 50, ALL);
     tinttab60 = GenerateTintTable(palette, 60, ALL);
     tinttab66 = GenerateTintTable(palette, 66, ALL);

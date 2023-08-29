@@ -845,6 +845,7 @@ void V_DrawTranslucentAltHUDText(int x, int y, byte *screen, patch_t *patch,
 void V_DrawMenuPatch(int x, int y, patch_t *patch, bool highlight, int shadowwidth)
 {
     byte        *desttop;
+    const byte  *black = (highlight ? black45 : black40);
     const int   width = SHORT(patch->width) << FRACBITS;
 
     y -= SHORT(patch->topoffset);
@@ -885,7 +886,7 @@ void V_DrawMenuPatch(int x, int y, patch_t *patch, bool highlight, int shadowwid
                     byte    *dot = dest + SCREENWIDTH + 2;
 
                     if (i <= shadowwidth && *dot != 47 && *dot != 191)
-                        *dot = black40[*dot];
+                        *dot = black[*dot];
                 }
 
                 srccol += DYI;
@@ -1554,15 +1555,16 @@ void V_DrawPixel(int x, int y, byte color, bool highlight, bool shadow)
     {
         if (shadow)
         {
-            byte    *dot = *screens + ((size_t)y * SCREENWIDTH + x) * 2;
+            byte        *dot = *screens + ((size_t)y * SCREENWIDTH + x) * 2;
+            const byte  *black = (highlight ? black45 : black40);
 
-            *dot = black40[*dot];
+            *dot = black[*dot];
             dot++;
-            *dot = black40[*dot];
+            *dot = black[*dot];
             dot += SCREENWIDTH;
-            *dot = black40[*dot];
+            *dot = black[*dot];
             dot--;
-            *dot = black40[*dot];
+            *dot = black[*dot];
         }
     }
     else if (color && color != 32)

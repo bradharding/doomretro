@@ -71,6 +71,7 @@ extern byte *tinttab25;
 extern byte *tinttab30;
 extern byte *tinttab33;
 extern byte *tinttab40;
+extern byte *tinttab45;
 extern byte *tinttab50;
 extern byte *tinttab60;
 extern byte *tinttab66;
@@ -104,6 +105,7 @@ extern byte nearestwhite;
 
 extern byte *black25;
 extern byte *black40;
+extern byte *black45;
 extern byte *white5;
 extern byte *white25;
 extern byte *white33;
