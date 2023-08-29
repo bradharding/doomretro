@@ -118,6 +118,7 @@
 * The `+automap` action can now be bound to a mouse button using the `bind` CCMD.
 * Skies can now be drawn horizontally linear by enabling the new `r_linearskies` CVAR, which is `off` by default and when vanilla mode is enabled.
 * The automap is now always updated when the `r_screensize` CVAR is changed while it is open.
+* A bug is fixed whereby any player movement wouldn’t be canceled when opening the automap and the `am_followmode` CVAR was `off`.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
