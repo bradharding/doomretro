@@ -365,8 +365,6 @@ void R_SetViewSize(int blocks)
 {
     setsizeneeded = true;
     setblocks = blocks + 3;
-
-    AM_SetAutomapSize(r_screensize);
 }
 
 //
@@ -460,6 +458,8 @@ void R_ExecuteSetViewSize(void)
                 c_psprscalelight[k][i][j] = &colormaps[k][level];
         }
     }
+
+    AM_SetAutomapSize(r_screensize);
 }
 
 void (*colfunc)(void);

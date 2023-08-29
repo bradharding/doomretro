@@ -117,6 +117,7 @@
 * Widescreen mode can now be toggled using the <kbd><b>+</b></kbd> and <kbd><b>&ndash;</b></kbd> keys while the intermission and finale screens are open.
 * The `+automap` action can now be bound to a mouse button using the `bind` CCMD.
 * Skies can now be drawn horizontally linear by enabling the new `r_linearskies` CVAR, which is `off` by default and when vanilla mode is enabled.
+* The automap is now always updated when the `r_screensize` CVAR is changed while it is open.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
