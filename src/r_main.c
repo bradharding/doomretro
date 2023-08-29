@@ -35,6 +35,7 @@
 
 #include <math.h>
 
+#include "am_map.h"
 #include "c_cmds.h"
 #include "c_console.h"
 #include "doomstat.h"
@@ -364,6 +365,8 @@ void R_SetViewSize(int blocks)
 {
     setsizeneeded = true;
     setblocks = blocks + 3;
+
+    AM_SetAutomapSize(r_screensize);
 }
 
 //
