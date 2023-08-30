@@ -76,31 +76,31 @@ static char *GetGameControllerType(void)
     SDL_GameControllerType  type = SDL_GameControllerGetType(gamecontroller);
 
     if (type == SDL_CONTROLLER_TYPE_XBOX360)
-        return("An Xbox 360 controller is connected.");
+        return("An " ITALICS("Xbox 360") " controller is connected.");
     else if (type == SDL_CONTROLLER_TYPE_XBOXONE)
-        return("An Xbox One controller is connected.");
+        return("An " ITALICS("Xbox One") " controller is connected.");
     else if (type == SDL_CONTROLLER_TYPE_PS3)
-        return("A PS3 controller is connected.");
+        return("A " ITALICS("PlayStation 3 DualSense") " controller is connected.");
     else if (type == SDL_CONTROLLER_TYPE_PS4)
-        return("A PS4 controller is connected.");
+        return("A " ITALICS("PlayStation 4 DualSense") " controller is connected.");
     else if (type == SDL_CONTROLLER_TYPE_NINTENDO_SWITCH_PRO)
-        return("A Nintendo Switch Pro controller is connected.");
+        return("A " ITALICS("Nintendo Switch Pro") " controller is connected.");
     else if (type == SDL_CONTROLLER_TYPE_VIRTUAL)
         return("A virtual controller is connected.");
     else if (type == SDL_CONTROLLER_TYPE_PS5)
-        return("A PS5 controller is connected.");
+        return("A " ITALICS("PlayStation 5 DualSense") " controller is connected.");
     else if (type == SDL_CONTROLLER_TYPE_AMAZON_LUNA)
-        return("An Amazon Luna controller is connected.");
+        return("An " ITALICS("Amazon Luna") " controller is connected.");
     else if (type == SDL_CONTROLLER_TYPE_GOOGLE_STADIA)
-        return("A Google Stadia controller is connected.");
+        return("A " ITALICS("Google Stadia") " controller is connected.");
     else if (type == SDL_CONTROLLER_TYPE_NVIDIA_SHIELD)
-        return("An NVidia Shield controller is connected.");
+        return("An " ITALICS("Nvidia Shield") "controller is connected.");
     else if (type == SDL_CONTROLLER_TYPE_NINTENDO_SWITCH_JOYCON_LEFT)
-        return("A Nintendo Switch's left joycon is connected.");
+        return("A " ITALICS("Nintendo Switch's") " left joycon is connected.");
     else if (type == SDL_CONTROLLER_TYPE_NINTENDO_SWITCH_JOYCON_RIGHT)
-        return("A Nintendo Switch's right joycon is connected.");
+        return("A " ITALICS("Nintendo Switch's") " right joycon is connected.");
     else if (type == SDL_CONTROLLER_TYPE_NINTENDO_SWITCH_JOYCON_PAIR)
-        return("A Nintendo Switch's joycon is connected.");
+        return("A " ITALICS("Nintendo Switch's") " joycon is connected.");
     else
         return GetGameControllerName();
 }
