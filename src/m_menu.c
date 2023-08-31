@@ -995,7 +995,7 @@ static void M_DrawLoad(void)
         currentmenu->menuitems[i].x = LoadDef.x - 11 + MAXWIDESCREENDELTA;
         currentmenu->menuitems[i].y = y - 4;
         currentmenu->menuitems[i].width = 209;
-        currentmenu->menuitems[i].height = SHORT(((patch_t *)W_CacheLumpName("M_LSLEFT"))->height);
+        currentmenu->menuitems[i].height = SHORT(((patch_t *)W_CacheLumpName("M_LSLEFT"))->height) + 1;
 
         while (M_StringWidth(savegamestrings[i]) > SAVESTRINGPIXELWIDTH)
         {
@@ -1111,7 +1111,7 @@ static void M_DrawSave(void)
         currentmenu->menuitems[i].x = LoadDef.x - 11 + MAXWIDESCREENDELTA;
         currentmenu->menuitems[i].y = y - 4;
         currentmenu->menuitems[i].width = 209;
-        currentmenu->menuitems[i].height = SHORT(((patch_t *)W_CacheLumpName("M_LSLEFT"))->height);
+        currentmenu->menuitems[i].height = SHORT(((patch_t *)W_CacheLumpName("M_LSLEFT"))->height) + 1;
 
         while (M_StringWidth(savegamestrings[i]) > SAVESTRINGPIXELWIDTH)
         {
