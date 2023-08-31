@@ -141,7 +141,6 @@ static void M_ChangeDetail(int choice);
 static void M_SizeDisplay(int choice);
 static void M_Sound(int choice);
 
-static void M_FinishHelp(int choice);
 static void M_LoadSelect(int choice);
 static void M_SaveSelect(int choice);
 static void M_ReadSaveStrings(void);
@@ -343,16 +342,11 @@ enum
     help_end
 };
 
-static menuitem_t HelpMenu[] =
-{
-    { 1, "", &M_FinishHelp, NULL }
-};
-
 static menu_t HelpDef =
 {
     help_end,
     &HelpDef,
-    HelpMenu,
+    NULL,
     &M_DrawHelp,
     330, 175,
     help_empty
@@ -2052,14 +2046,6 @@ static void M_EndGame(int choice)
             s_ENDGAME, (usinggamecontroller ? s_PRESSA : s_PRESSYN));
         M_StartMessage(buffer, &M_EndGameResponse, true);
     }
-}
-
-//
-// M_FinishHelp
-//
-static void M_FinishHelp(int choice)
-{
-    M_SetupNextMenu(&MainDef);
 }
 
 //
@@ -3991,7 +3977,8 @@ void M_Drawer(void)
 
             for (int i = 0; i < max; i++)
             {
-                bool highlight;
+                bool        highlight;
+                menuitem_t  menuitem = currentmenu->menuitems[i];
 
                 if (currentmenu == &OptionsDef
                     && ((i == scrnsize && itemon == option_empty1)
@@ -4004,20 +3991,20 @@ void M_Drawer(void)
                 else
                     highlight = (itemon == i);
 
-                if (currentmenu->menuitems[i].routine)
+                if (menuitem.routine)
                 {
-                    const char  *name = currentmenu->menuitems[i].name;
-                    char        **text = currentmenu->menuitems[i].text;
+                    const char  *name = menuitem.name;
+                    char        **text = menuitem.text;
 
                     if (M_StringCompare(name, "M_EPI5") && sigil)
                     {
                         patch_t *patch = W_CacheLumpName(name);
 
                         M_DrawPatchWithShadow(x, y + OFFSET, patch, highlight);
-                        currentmenu->menuitems[i].x = x + MAXWIDESCREENDELTA;
-                        currentmenu->menuitems[i].y = y + OFFSET;
+                        menuitem.x = x + MAXWIDESCREENDELTA;
+                        menuitem.y = y + OFFSET;
                         widest = MAX(widest, SHORT(patch->width));
-                        currentmenu->menuitems[i].height = SHORT(patch->height);
+                        menuitem.height = SHORT(patch->height);
                     }
                     else if (M_StringCompare(name, "M_NMARE"))
                     {
@@ -4026,10 +4013,10 @@ void M_Drawer(void)
                             patch_t *patch = W_CacheLumpName(name);
 
                             M_DrawPatchWithShadow(x, y + OFFSET, patch, highlight);
-                            currentmenu->menuitems[i].x = x + MAXWIDESCREENDELTA;
-                            currentmenu->menuitems[i].y = y + OFFSET;
+                            menuitem.x = x + MAXWIDESCREENDELTA;
+                            menuitem.y = y + OFFSET;
                             widest = MAX(widest, SHORT(patch->width));
-                            currentmenu->menuitems[i].height = SHORT(patch->height);
+                            menuitem.height = SHORT(patch->height);
                         }
                         else
                         {
@@ -4050,17 +4037,17 @@ void M_Drawer(void)
                             widest = MAX(widest, M_BigStringWidth(s_M_MOUSESENSITIVITY));
                         }
 
-                        currentmenu->menuitems[i].x = x + MAXWIDESCREENDELTA;
-                        currentmenu->menuitems[i].y = y + OFFSET;
-                        currentmenu->menuitems[i].height = LINEHEIGHT - 1;
+                        menuitem.x = x + MAXWIDESCREENDELTA;
+                        menuitem.y = y + OFFSET;
+                        menuitem.height = LINEHEIGHT - 1;
                     }
                     else if (W_CheckNumForName(name) < 0 && **text)
                     {
                         int width = M_BigStringWidth(*text);
 
                         M_DrawString(x, y + OFFSET, *text, highlight, true);
-                        currentmenu->menuitems[i].x = x + MAXWIDESCREENDELTA;
-                        currentmenu->menuitems[i].y = y + OFFSET;
+                        menuitem.x = x + MAXWIDESCREENDELTA;
+                        menuitem.y = y + OFFSET;
 
                         if (currentmenu == &OptionsDef)
                         {
@@ -4097,7 +4084,7 @@ void M_Drawer(void)
                         }
 
                         widest = MAX(widest, width);
-                        currentmenu->menuitems[i].height = LINEHEIGHT - 1;
+                        menuitem.height = LINEHEIGHT - 1;
                     }
                     else if (W_CheckMultipleLumps(name) > 1 || lumpinfo[W_GetNumForName(name)]->wadfile->type == PWAD)
                     {
@@ -4105,8 +4092,8 @@ void M_Drawer(void)
                         int     width = SHORT(patch->width);
 
                         M_DrawPatchWithShadow(x, y + OFFSET, patch, highlight);
-                        currentmenu->menuitems[i].x = x + MAXWIDESCREENDELTA;
-                        currentmenu->menuitems[i].y = y + OFFSET;
+                        menuitem.x = x + MAXWIDESCREENDELTA;
+                        menuitem.y = y + OFFSET;
 
                         if (currentmenu == &OptionsDef)
                         {
@@ -4143,7 +4130,7 @@ void M_Drawer(void)
                         }
 
                         widest = MAX(widest, width);
-                        currentmenu->menuitems[i].height = SHORT(patch->height);
+                        menuitem.height = SHORT(patch->height);
                     }
                     else if (**text)
                     {
@@ -4155,8 +4142,8 @@ void M_Drawer(void)
                             yy += OFFSET;
 
                         M_DrawString(x, yy, *text, highlight, true);
-                        currentmenu->menuitems[i].x = x + MAXWIDESCREENDELTA;
-                        currentmenu->menuitems[i].y = yy;
+                        menuitem.x = x + MAXWIDESCREENDELTA;
+                        menuitem.y = yy;
 
                         if (currentmenu == &OptionsDef)
                         {
@@ -4193,14 +4180,14 @@ void M_Drawer(void)
                         }
 
                         widest = MAX(widest, width);
-                        currentmenu->menuitems[i].height = LINEHEIGHT - 1;
+                        menuitem.height = LINEHEIGHT - 1;
                     }
                 }
-                else if (currentmenu->menuitems[i].status == -1)
+                else if (menuitem.status == -1)
                 {
-                    currentmenu->menuitems[i].x = x + MAXWIDESCREENDELTA;
-                    currentmenu->menuitems[i].y = y + OFFSET;
-                    currentmenu->menuitems[i].height = LINEHEIGHT - 1;
+                    menuitem.x = x + MAXWIDESCREENDELTA;
+                    menuitem.y = y + OFFSET;
+                    menuitem.height = LINEHEIGHT - 1;
                 }
 
                 y += LINEHEIGHT - 1;
