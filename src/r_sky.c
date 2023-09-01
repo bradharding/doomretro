@@ -54,11 +54,9 @@ bool    canmouselook = false;
 
 void R_InitSkyMap(void)
 {
-    const int   map = (gameepisode - 1) * 10 + gamemap;
-
     skyflatnum = R_FlatNumForName(SKYFLATNAME);
     terraintypes[skyflatnum] = SKY;
-    skytexture = P_GetMapSky1Texture(map);
+    skytexture = P_GetMapSky1Texture(gameepisode, gamemap);
     canmouselook = ((mouselook || keyboardmouselook || mousemouselook != -1 || autotilt
         || (weaponrecoil && r_screensize == r_screensize_max)) && !nomouselook);
 
@@ -111,7 +109,7 @@ void R_InitSkyMap(void)
         }
     }
 
-    skyscrolldelta = P_GetMapSky1ScrollDelta(map);
+    skyscrolldelta = P_GetMapSky1ScrollDelta(gameepisode, gamemap);
 
     if (canmouselook)
     {

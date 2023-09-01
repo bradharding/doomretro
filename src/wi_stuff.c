@@ -368,7 +368,7 @@ static void WI_DrawLF(void)
 {
     const int   x = (VANILLAWIDTH - SHORT(finished->width)) / 2;
     int         y = WI_TITLEY;
-    const int   titlepatch = P_GetMapTitlePatch(wbs->epsd * 10 + wbs->last + 1);
+    const int   titlepatch = P_GetMapTitlePatch(wbs->epsd, wbs->last + 1);
 
     // draw <LevelName>
     if (titlepatch > 0)
@@ -426,7 +426,7 @@ static void WI_DrawEL(void)
 {
     const int   x = (VANILLAWIDTH - SHORT(entering->width)) / 2;
     int         y = WI_TITLEY;
-    const int   titlepatch = P_GetMapTitlePatch(wbs->epsd * 10 + wbs->next + 1);
+    const int   titlepatch = P_GetMapTitlePatch(wbs->epsd, wbs->next + 1);
 
     // draw "Entering"
     if (SHORT(entering->height) < VANILLAHEIGHT)
@@ -735,7 +735,7 @@ static void WI_UpdateShowNextLoc(void)
 
 static void WI_DrawShowNextLoc(void)
 {
-    if (P_GetMapEndGame(gamemap) || P_GetMapEndCast(gamemap))
+    if (P_GetMapEndGame(gameepisode, gamemap) || P_GetMapEndCast(gameepisode, gamemap))
         return;
 
     WI_SlamBackground();
@@ -1268,8 +1268,8 @@ static void WI_InitVariables(wbstartstruct_t *wbstartstruct)
 
     wbs = wbstartstruct;
 
-    enterpic = P_GetMapEnterPic(wbs->next + 1);
-    exitpic = P_GetMapExitPic(gamemap);
+    enterpic = P_GetMapEnterPic(wbs->epsd, wbs->next + 1);
+    exitpic = P_GetMapExitPic(gameepisode, gamemap);
 
     acceleratestage = false;
     cnt = 0;

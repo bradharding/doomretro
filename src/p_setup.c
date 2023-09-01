@@ -239,7 +239,7 @@ bool                skipblstart;            // MaxW: Skip initial blocklist shor
 static int          rejectlump = -1;        // cph - store reject lump num if cached
 const byte          *rejectmatrix;          // cph - const*
 
-static mapinfo_t    mapinfo[MAXMAPINFO];
+static mapinfo_t    mapinfo[10][100];
 
 static char *mapcmdnames[] =
 {
@@ -2855,7 +2855,7 @@ char    automaptitle[512];
 void P_MapName(int ep, int map)
 {
     bool        mapnumonly = false;
-    const char  *mapinfoname = trimwhitespace(P_GetMapName((ep - 1) * 10 + map));
+    const char  *mapinfoname = trimwhitespace(P_GetMapName(ep, map));
 
     switch (gamemission)
     {
@@ -3264,10 +3264,8 @@ void P_SetupLevel(int ep, int map)
 
     massacre = false;
 
-    map = (ep - 1) * 10 + map;
-
-    P_GetMapLiquids(map);
-    P_GetMapNoLiquids(map);
+    P_GetMapLiquids(ep, map);
+    P_GetMapNoLiquids(ep, map);
     P_SetLiquids();
 
     P_LoadThings(map, lumpnum + ML_THINGS);
@@ -3293,15 +3291,15 @@ void P_SetupLevel(int ep, int map)
     if (gamemode != shareware)
         S_ParseMusInfo(lumpname);
 
-    compat_corpsegibs = (compat_corpsegibs_global != -1 ? compat_corpsegibs_global : mapinfo[map].compat_corpsegibs);
-    compat_floormove = (compat_floormove_global != -1 ? compat_floormove_global : mapinfo[map].compat_floormove);
-    compat_light = (compat_light_global != -1 ? compat_light_global : mapinfo[map].compat_light);
-    compat_limitpain = (compat_limitpain_global != -1 ? compat_limitpain_global : mapinfo[map].compat_limitpain);
-    compat_nopassover = (compat_nopassover_global != -1 ? compat_nopassover_global : mapinfo[map].compat_nopassover);
-    compat_stairs = (compat_stairs_global != -1 ? compat_stairs_global : mapinfo[map].compat_stairs);
-    compat_useblocking = (compat_useblocking_global != -1 ? compat_useblocking_global : mapinfo[map].compat_useblocking);
-    compat_zombie = (compat_zombie_global != -1 ? compat_zombie_global : mapinfo[map].compat_zombie);
-    nograduallighting = (nograduallighting_global != -1 ? nograduallighting_global : mapinfo[map].nograduallighting);
+    compat_corpsegibs = (compat_corpsegibs_global != -1 ? compat_corpsegibs_global : mapinfo[ep][map].compat_corpsegibs);
+    compat_floormove = (compat_floormove_global != -1 ? compat_floormove_global : mapinfo[ep][map].compat_floormove);
+    compat_light = (compat_light_global != -1 ? compat_light_global : mapinfo[ep][map].compat_light);
+    compat_limitpain = (compat_limitpain_global != -1 ? compat_limitpain_global : mapinfo[ep][map].compat_limitpain);
+    compat_nopassover = (compat_nopassover_global != -1 ? compat_nopassover_global : mapinfo[ep][map].compat_nopassover);
+    compat_stairs = (compat_stairs_global != -1 ? compat_stairs_global : mapinfo[ep][map].compat_stairs);
+    compat_useblocking = (compat_useblocking_global != -1 ? compat_useblocking_global : mapinfo[ep][map].compat_useblocking);
+    compat_zombie = (compat_zombie_global != -1 ? compat_zombie_global : mapinfo[ep][map].compat_zombie);
+    nograduallighting = (nograduallighting_global != -1 ? nograduallighting_global : mapinfo[ep][map].nograduallighting);
 }
 
 static int  liquidlumps;
@@ -3309,41 +3307,42 @@ static int  noliquidlumps;
 
 static void P_InitMapInfo(void)
 {
-    for (int i = 0; i < MAXMAPINFO; i++)
-    {
-        mapinfo[i].author[0] = '\0';
-        mapinfo[i].endbunny = false;
-        mapinfo[i].endcast = false;
-        mapinfo[i].endgame = false;
-        mapinfo[i].endpic = 0;
-        mapinfo[i].enterpic = 0;
-        mapinfo[i].exitpic = 0;
-        mapinfo[i].cluster = 0;
-        mapinfo[i].interbackdrop[0] = '\0';
-        mapinfo[i].intermusic = 0;
-        mapinfo[i].intertext[0] = '\0';
-        mapinfo[i].intertextsecret[0] = '\0';
-
-        for (int j = 0; j < NUMLIQUIDS; j++)
+    for (int i = 0; i < 10; i++)
+        for (int j = 0; j < 100; j++)
         {
-            mapinfo[i].liquid[j] = -1;
-            mapinfo[i].noliquid[j] = -1;
-        }
+            mapinfo[i][j].author[0] = '\0';
+            mapinfo[i][j].endbunny = false;
+            mapinfo[i][j].endcast = false;
+            mapinfo[i][j].endgame = false;
+            mapinfo[i][j].endpic = 0;
+            mapinfo[i][j].enterpic = 0;
+            mapinfo[i][j].exitpic = 0;
+            mapinfo[i][j].cluster = 0;
+            mapinfo[i][j].interbackdrop[0] = '\0';
+            mapinfo[i][j].intermusic = 0;
+            mapinfo[i][j].intertext[0] = '\0';
+            mapinfo[i][j].intertextsecret[0] = '\0';
 
-        mapinfo[i].music = 0;
-        mapinfo[i].musicartist[0] = '\0';
-        mapinfo[i].musictitle[0] = '\0';
-        mapinfo[i].name[0] = '\0';
-        mapinfo[i].next = 0;
-        mapinfo[i].nojump = false;
-        mapinfo[i].nomouselook = false;
-        mapinfo[i].par = 0;
-        mapinfo[i].pistolstart = false;
-        mapinfo[i].secretnext = 0;
-        mapinfo[i].sky1texture = 0;
-        mapinfo[i].sky1scrolldelta = 0;
-        mapinfo[i].titlepatch = 0;
-    }
+            for (int k = 0; k < NUMLIQUIDS; k++)
+            {
+                mapinfo[i][j].liquid[k] = -1;
+                mapinfo[i][j].noliquid[k] = -1;
+            }
+
+            mapinfo[i][j].music = 0;
+            mapinfo[i][j].musicartist[0] = '\0';
+            mapinfo[i][j].musictitle[0] = '\0';
+            mapinfo[i][j].name[0] = '\0';
+            mapinfo[i][j].next = 0;
+            mapinfo[i][j].nojump = false;
+            mapinfo[i][j].nomouselook = false;
+            mapinfo[i][j].par = 0;
+            mapinfo[i][j].pistolstart = false;
+            mapinfo[i][j].secretnext = 0;
+            mapinfo[i][j].sky1texture = 0;
+            mapinfo[i][j].sky1scrolldelta = 0;
+            mapinfo[i][j].titlepatch = 0;
+        }
 }
 
 static void P_ParseMapString(const char *string, int *map, int *ep)
@@ -3514,7 +3513,7 @@ static bool P_ParseMapInfo(const char *scriptname)
                 }
             }
 
-            info = &mapinfo[map];
+            info = &mapinfo[ep][map];
 
             if (SC_GetString() && !SC_Compare("LOOKUP"))
                 M_StringCopy(info->name, sc_String, sizeof(info->name));
@@ -4058,143 +4057,143 @@ static bool P_ParseMapInfo(const char *scriptname)
     return true;
 }
 
-char *P_GetMapAuthor(const int map)
+char *P_GetMapAuthor(const int ep, const int map)
 {
-    return (MAPINFO >= 0 && mapinfo[map].author[0] ? mapinfo[map].author : (((E1M4B || *speciallumpname) && map == 4)
+    return (MAPINFO >= 0 && mapinfo[ep][map].author[0] ? mapinfo[ep][map].author : (((E1M4B || *speciallumpname) && map == 4)
         || ((E1M8B || *speciallumpname) && map == 8) || (onehumanity && map == 1) ? s_AUTHOR_ROMERO : ""));
 }
 
-int P_GetNumBossActions(const int map)
+int P_GetNumBossActions(const int ep, const int map)
 {
-    return mapinfo[map].numbossactions;
+    return mapinfo[ep][map].numbossactions;
 }
 
-bossaction_t *P_GetBossAction(const int map, const int i)
+bossaction_t *P_GetBossAction(const int ep, const int map, const int i)
 {
-    return &mapinfo[map].bossactions[i];
+    return &mapinfo[ep][map].bossactions[i];
 }
 
-char *P_GetInterBackrop(const int map)
+char *P_GetInterBackrop(const int ep, const int map)
 {
-    return mapinfo[map].interbackdrop;
+    return mapinfo[ep][map].interbackdrop;
 }
 
-int P_GetInterMusic(const int map)
+int P_GetInterMusic(const int ep, const int map)
 {
-    return mapinfo[map].intermusic;
+    return mapinfo[ep][map].intermusic;
 }
 
-char *P_GetInterText(const int map)
+char *P_GetInterText(const int ep, const int map)
 {
-    return mapinfo[map].intertext;
+    return mapinfo[ep][map].intertext;
 }
 
-char *P_GetInterSecretText(const int map)
+char *P_GetInterSecretText(const int ep, const int map)
 {
-    return mapinfo[map].intertextsecret;
+    return mapinfo[ep][map].intertextsecret;
 }
 
-bool P_GetMapEndBunny(const int map)
+bool P_GetMapEndBunny(const int ep, const int map)
 {
-    return mapinfo[map].endbunny;
+    return mapinfo[ep][map].endbunny;
 }
 
-bool P_GetMapEndCast(const int map)
+bool P_GetMapEndCast(const int ep, const int map)
 {
-    return mapinfo[map].endcast;
+    return mapinfo[ep][map].endcast;
 }
 
-bool P_GetMapEndGame(const int map)
+bool P_GetMapEndGame(const int ep, const int map)
 {
-    return mapinfo[map].endgame;
+    return mapinfo[ep][map].endgame;
 }
 
-int P_GetMapEndPic(const int map)
+int P_GetMapEndPic(const int ep, const int map)
 {
-    return mapinfo[map].endpic;
+    return mapinfo[ep][map].endpic;
 }
 
-int P_GetMapEnterPic(const int map)
+int P_GetMapEnterPic(const int ep, const int map)
 {
-    return mapinfo[map].enterpic;
+    return mapinfo[ep][map].enterpic;
 }
 
-int P_GetMapExitPic(const int map)
+int P_GetMapExitPic(const int ep, const int map)
 {
-    return mapinfo[map].exitpic;
+    return mapinfo[ep][map].exitpic;
 }
 
-void P_GetMapLiquids(const int map)
+void P_GetMapLiquids(const int ep, const int map)
 {
     for (int i = 0; i < liquidlumps; i++)
-        terraintypes[mapinfo[map].liquid[i]] = LIQUID;
+        terraintypes[mapinfo[ep][map].liquid[i]] = LIQUID;
 }
 
-int P_GetMapMusic(const int map)
+int P_GetMapMusic(const int ep, const int map)
 {
-    return mapinfo[map].music;
+    return mapinfo[ep][map].music;
 }
 
-char *P_GetMapMusicComposer(const int map)
+char *P_GetMapMusicComposer(const int ep, const int map)
 {
-    return mapinfo[map].musicartist;
+    return mapinfo[ep][map].musicartist;
 }
 
-char *P_GetMapMusicTitle(const int map)
+char *P_GetMapMusicTitle(const int ep, const int map)
 {
-    return mapinfo[map].musictitle;
+    return mapinfo[ep][map].musictitle;
 }
 
-char *P_GetMapName(const int map)
+char *P_GetMapName(const int ep, const int map)
 {
-    return (MAPINFO >= 0 && !sigil ? mapinfo[map].name : ((E1M4B || *speciallumpname) && map == 4 ? s_HUSTR_E1M4B :
+    return (MAPINFO >= 0 && !sigil ? mapinfo[ep][map].name : ((E1M4B || *speciallumpname) && map == 4 ? s_HUSTR_E1M4B :
         ((E1M8B || *speciallumpname) && map == 8 ? s_HUSTR_E1M8B : "")));
 }
 
-int P_GetMapNext(const int map)
+int P_GetMapNext(const int ep, const int map)
 {
-    return mapinfo[map].next;
+    return mapinfo[ep][map].next;
 }
 
-void P_GetMapNoLiquids(const int map)
+void P_GetMapNoLiquids(const int ep, const int map)
 {
     for (int i = 0; i < noliquidlumps; i++)
-        terraintypes[mapinfo[map].noliquid[i]] = SOLID;
+        terraintypes[mapinfo[ep][map].noliquid[i]] = SOLID;
 }
 
-int P_GetMapPar(const int map)
+int P_GetMapPar(const int ep, const int map)
 {
-    return mapinfo[map].par;
+    return mapinfo[ep][map].par;
 }
 
-bool P_GetMapPistolStart(const int map)
+bool P_GetMapPistolStart(const int ep, const int map)
 {
-    return mapinfo[map].pistolstart;
+    return mapinfo[ep][map].pistolstart;
 }
 
-int P_GetMapSecretNext(const int map)
+int P_GetMapSecretNext(const int ep, const int map)
 {
-    return mapinfo[map].secretnext;
+    return mapinfo[ep][map].secretnext;
 }
 
-int P_GetMapSky1Texture(const int map)
+int P_GetMapSky1Texture(const int ep, const int map)
 {
-    return mapinfo[map].sky1texture;
+    return mapinfo[ep][map].sky1texture;
 }
 
-int P_GetMapSky1ScrollDelta(const int map)
+int P_GetMapSky1ScrollDelta(const int ep, const int map)
 {
-    return mapinfo[map].sky1scrolldelta;
+    return mapinfo[ep][map].sky1scrolldelta;
 }
 
-int P_GetMapTitlePatch(const int map)
+int P_GetMapTitlePatch(const int ep, const int map)
 {
-    return mapinfo[map].titlepatch;
+    return mapinfo[ep][map].titlepatch;
 }
 
-int P_GetAllowMonsterTelefrags(int map)
+int P_GetAllowMonsterTelefrags(const int ep, const int map)
 {
-    return mapinfo[map].allowmonstertelefrags;
+    return mapinfo[ep][map].allowmonstertelefrags;
 }
 
 //

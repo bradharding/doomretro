@@ -608,7 +608,7 @@ void S_ChangeMusic(musicnum_t musicnum, bool looping, bool allowrestart, bool ma
         else
             music->lumpnum = W_CheckNumForName(namebuf);
     }
-    else if (mapstart && (mapinfomusic = P_GetMapMusic((gameepisode - 1) * 10 + gamemap)) > 0)
+    else if (mapstart && (mapinfomusic = P_GetMapMusic(gameepisode, gamemap)) > 0)
         music->lumpnum = mapinfomusic;
     else if (!music->lumpnum)
         music->lumpnum = W_CheckNumForName(namebuf);

@@ -4020,7 +4020,7 @@ static bool map_cmd_func1(char *cmd, char *parms)
                 M_StringCopy(wadname, leafname(lumpinfo[i]->wadfile->path), sizeof(wadname));
                 replaced = (W_CheckMultipleLumps(mapcmdlump) > 1 && !chex && !FREEDOOM);
                 pwad = (lumpinfo[i]->wadfile->type == PWAD);
-                M_StringCopy(mapinfoname, P_GetMapName((mapcmdepisode - 1) * 10 + mapcmdmap), sizeof(mapinfoname));
+                M_StringCopy(mapinfoname, P_GetMapName(mapcmdepisode, mapcmdmap), sizeof(mapinfoname));
 
                 switch (gamemission)
                 {
@@ -4237,7 +4237,7 @@ static void maplist_cmd_func2(char *cmd, char *parms)
         M_StringCopy(wadname, leafname(lumpinfo[i]->wadfile->path), sizeof(wadname));
         replaced = (W_CheckMultipleLumps(lump) > 1 && !chex && !FREEDOOM);
         pwad = (lumpinfo[i]->wadfile->type == PWAD);
-        M_StringCopy(mapinfoname, P_GetMapName(--ep * 10 + (--map) + 1), sizeof(mapinfoname));
+        M_StringCopy(mapinfoname, P_GetMapName(--ep, --map), sizeof(mapinfoname));
 
         switch (gamemission)
         {
@@ -4591,13 +4591,12 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
             /* 59 */ { JR,    "",   "",    "",   "" }
         };
 
-        const int   i = (gamemission == doom ? gameepisode * 10 : 0) + gamemap;
-        const char  *author = P_GetMapAuthor(i);
+        const char  *author = P_GetMapAuthor(gameepisode, gamemap);
 
         if (*author)
             C_TabbedOutput(tabs, "Author\t%s", author);
-        else if (canmodify && *authors[i][gamemission])
-            C_TabbedOutput(tabs, "Author\t%s", authors[i][gamemission]);
+        else if (canmodify && *authors[gameepisode][gamemission])
+            C_TabbedOutput(tabs, "Author\t%s", authors[gameepisode][gamemission]);
         else if (REKKR)
             C_TabbedOutput(tabs, "Author\tMatthew Little");
     }
@@ -4859,8 +4858,8 @@ static void mapstats_cmd_func2(char *cmd, char *parms)
     {
         int                 lumps;
         char                namebuf[9];
-        const char          *musicartist = P_GetMapMusicComposer((gameepisode - 1) * 10 + gamemap);
-        const char          *musictitle = P_GetMapMusicTitle((gameepisode - 1) * 10 + gamemap);
+        const char          *musicartist = P_GetMapMusicComposer(gameepisode, gamemap);
+        const char          *musictitle = P_GetMapMusicTitle(gameepisode, gamemap);
         const Mix_MusicType musictype = Mix_GetMusicType(NULL);
 
         temp = uppercase(mus_playing->name1);

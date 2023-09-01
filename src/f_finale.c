@@ -107,8 +107,8 @@ static void F_ConsoleFinaleText(void)
 //
 void F_StartFinale(void)
 {
-    char    *intertext = P_GetInterText(gamemap);
-    char    *intersecret = P_GetInterSecretText(gamemap);
+    char    *intertext = P_GetInterText(gameepisode, gamemap);
+    char    *intersecret = P_GetInterSecretText(gameepisode, gamemap);
 
     viewactive = false;
     automapactive = false;
@@ -121,8 +121,8 @@ void F_StartFinale(void)
 
     if (*intertext || (*intersecret && secretexit))
     {
-        char    *interbackdrop = P_GetInterBackrop(gamemap);
-        int     mus = P_GetInterMusic(gamemap);
+        char    *interbackdrop = P_GetInterBackrop(gameepisode, gamemap);
+        int     mus = P_GetInterMusic(gameepisode, gamemap);
 
         if (!secretexit)
         {
@@ -152,7 +152,7 @@ void F_StartFinale(void)
         else
             S_ChangeMusic((gamemode == commercial ? mus_read_m : mus_victor), true, false, false);
     }
-    else if (P_GetMapEndCast(gamemap))
+    else if (P_GetMapEndCast(gameepisode, gamemap))
     {
         gameaction = ga_nothing;
         gamestate = GS_FINALE;
@@ -307,16 +307,16 @@ void F_Ticker(void)
         if (finalecount > FixedMul((fixed_t)strlen(finaletext) * FRACUNIT, TextSpeed()) + (midstage ? NEWTEXTWAIT : TEXTWAIT)
             || (midstage && acceleratestage))
         {
-            if (P_GetMapEndCast(gamemap))
+            if (P_GetMapEndCast(gameepisode, gamemap))
                 F_StartCast();
-            else if (P_GetMapEndBunny(gamemap))
+            else if (P_GetMapEndBunny(gameepisode, gamemap))
             {
                 finalecount = 0;
                 finalestage = F_STAGE_ARTSCREEN;
                 wipegamestate = GS_NONE;
                 S_StartMusic(mus_bunny);
             }
-            else if (P_GetMapEndGame(gamemap))
+            else if (P_GetMapEndGame(gameepisode, gamemap))
             {
                 finalecount = 0;
                 finalestage = F_STAGE_ARTSCREEN;
@@ -988,7 +988,7 @@ static void F_BunnyScroll(void)
 //
 static void F_ArtScreenDrawer(void)
 {
-    const int   lumpnum = P_GetMapEndPic(gamemap);
+    const int   lumpnum = P_GetMapEndPic(gameepisode, gamemap);
 
     if (lumpnum > 0)
     {
@@ -997,7 +997,7 @@ static void F_ArtScreenDrawer(void)
         else
             V_DrawPatch(0, 0, 0, W_CacheLumpNum(lumpnum));
     }
-    else if (P_GetMapEndBunny(gamemap) || gameepisode == 3)
+    else if (P_GetMapEndBunny(gameepisode, gamemap) || gameepisode == 3)
         F_BunnyScroll();
     else
     {

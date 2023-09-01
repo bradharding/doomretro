@@ -579,9 +579,8 @@ static void G_ResetPlayer(void)
 //
 void G_DoLoadLevel(void)
 {
-    int         ep;
-    const int   map = (gameepisode - 1) * 10 + gamemap;
-    bool        resetplayer;
+    int     ep;
+    bool    resetplayer;
 
     HU_DrawDisk();
 
@@ -622,8 +621,10 @@ void G_DoLoadLevel(void)
 
     freeze = false;
 
+    ep = (gamemode == commercial ? (gamemission == pack_nerve ? 2 : 1) : gameepisode);
+
     // [BH] Reset player's health, armor, weapons and ammo on pistol start
-    if ((resetplayer = (pistolstart || P_GetMapPistolStart(map))))
+    if ((resetplayer = (pistolstart || P_GetMapPistolStart(ep, gamemap))))
         G_ResetPlayer();
 
     if (viewplayer->cheats & CF_CHOPPERS)
@@ -653,13 +654,12 @@ void G_DoLoadLevel(void)
     // died.
     P_FreeSecNodeList();
 
-    ep = (gamemode == commercial ? (gamemission == pack_nerve ? 2 : 1) : gameepisode);
     P_MapName(ep, gamemap);
 
     P_SetupLevel(ep, gamemap);
 
     // [BH] Reset player's health, armor, weapons and ammo on pistol start
-    if (resetplayer && map != 1)
+    if (resetplayer && gamemap != 1)
     {
         if (M_StringCompare(playername, playername_default))
             C_Warning(0, "You now have 100%% health, no armor, and only a pistol with 50 bullets.");
@@ -1253,7 +1253,7 @@ void G_SecretExitLevel(void)
 
 int G_GetParTime(void)
 {
-    const int   par = P_GetMapPar((gameepisode - 1) * 10 + gamemap);
+    const int   par = P_GetMapPar(gameepisode, gamemap);
 
     if (par)
         return par;
@@ -1278,9 +1278,8 @@ int G_GetParTime(void)
 
 static void G_DoCompleted(void)
 {
-    const int   map = (gameepisode - 1) * 10 + gamemap;
-    const int   nextmap = P_GetMapNext(map);
-    const int   secretnextmap = P_GetMapSecretNext(map);
+    const int   nextmap = P_GetMapNext(gameepisode, gamemap);
+    const int   secretnextmap = P_GetMapSecretNext(gameepisode, gamemap);
 
     P_LookForFriends();
 
@@ -1448,8 +1447,8 @@ static void G_DoCompleted(void)
 //
 void G_WorldDone(void)
 {
-    const char  *intertext = P_GetInterText(gamemap);
-    const char  *intersecrettext = P_GetInterSecretText(gamemap);
+    const char  *intertext = P_GetInterText(gameepisode, gamemap);
+    const char  *intersecrettext = P_GetInterSecretText(gameepisode, gamemap);
 
     gameaction = ga_worlddone;
 
@@ -1462,7 +1461,7 @@ void G_WorldDone(void)
         return;
     }
 
-    if (P_GetMapEndCast(gamemap))
+    if (P_GetMapEndCast(gameepisode, gamemap))
     {
         F_StartFinale();
         return;

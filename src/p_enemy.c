@@ -1958,9 +1958,8 @@ void A_Explode(mobj_t *actor, player_t *player, pspdef_t *psp)
 //
 void A_BossDeath(mobj_t *actor, player_t *player, pspdef_t *psp)
 {
-    line_t      junk = { 0 };
-    const int   map = (gameepisode - 1) * 10 + gamemap;
-    int         numbossactions = P_GetNumBossActions(map);
+    line_t  junk = { 0 };
+    int     numbossactions = P_GetNumBossActions(gameepisode, gamemap);
 
     // numbossactions == 0 means to use the defaults.
     // numbossactions == -1 means to do nothing.
@@ -1976,7 +1975,7 @@ void A_BossDeath(mobj_t *actor, player_t *player, pspdef_t *psp)
             return;         // no one left alive, so do not end game
 
         for (i = 0; i < numbossactions; i++)
-            if (P_GetBossAction(map, i)->type == actor->type)
+            if (P_GetBossAction(gameepisode, gamemap, i)->type == actor->type)
                 break;
 
         if (i >= numbossactions)
@@ -1994,7 +1993,7 @@ void A_BossDeath(mobj_t *actor, player_t *player, pspdef_t *psp)
 
         for (i = 0; i < numbossactions; i++)
         {
-            bossaction_t    *bossaction = P_GetBossAction(map, i);
+            bossaction_t    *bossaction = P_GetBossAction(gameepisode, gamemap, i);
 
             if (bossaction->type == actor->type)
             {
