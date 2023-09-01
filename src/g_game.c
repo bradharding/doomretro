@@ -1307,7 +1307,8 @@ static void G_DoCompleted(void)
         {
             case 8:
                 // [BH] this episode is complete, so select the next episode in the menu
-                if ((gamemode == registered && gameepisode < 3) || (gamemode == retail && gameepisode < (sigil ? 5 : 4)))
+                if ((gamemode == registered && gameepisode < 3)
+                    || (gamemode == retail && gameepisode < (sigil ? 5 : 4)))
                 {
                     episode++;
                     EpiDef.laston++;
@@ -1388,9 +1389,9 @@ static void G_DoCompleted(void)
     else
     {
         if (secretexit && secretnextmap > 0)
-            wminfo.next = secretnextmap - (gameepisode - 1) * 10 - 1;
+            wminfo.next = secretnextmap - 1;
         else if (nextmap > 0)
-            wminfo.next = nextmap - (gameepisode - 1) * 10 - 1;
+            wminfo.next = nextmap - 1;
         else if (secretexit)
             wminfo.next = 8;            // go to secret level
         else if (gamemap == 9)
