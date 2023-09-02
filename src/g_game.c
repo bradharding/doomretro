@@ -1456,13 +1456,10 @@ void G_WorldDone(void)
     if (secretexit)
         viewplayer->didsecret = true;
 
-    if (*intertext || (*intersecrettext && secretexit))
-    {
-        F_StartFinale();
-        return;
-    }
-
-    if (P_GetMapEndCast(gameepisode, gamemap))
+    if (*intertext
+        || (*intersecrettext && secretexit)
+        || P_GetMapEndCast(gameepisode, gamemap)
+        || P_GetMapEndGame(gameepisode, gamemap))
     {
         F_StartFinale();
         return;

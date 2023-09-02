@@ -3488,8 +3488,6 @@ static bool P_ParseMapInfo(const char *scriptname)
                 {
                     if (sscanf(temp, "E%1iM%i", &ep, &map) != 2)
                         continue;
-
-                    map += (ep - 1) * 10;
                 }
 
                 free(temp);
@@ -3818,6 +3816,12 @@ static bool P_ParseMapInfo(const char *scriptname)
                             int nextmap = 0;
 
                             SC_MustGetString();
+
+                            if (SC_Compare("ENDGAME1"))
+                            {
+                                info->endgame = true;
+                                break;
+                            }
 
                             if (SC_Compare("ENDGAMEC"))
                             {
