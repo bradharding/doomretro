@@ -2097,6 +2097,15 @@ static void AM_AntiAliasing(void)
             dest[x] = tinttab33[(dest[x - MAPWIDTH] << 8) + dest[x]];
 
     memcpy(mapscreen, dest, MAPAREA);
+
+    for (int x = 0; x < MAPWIDTH; x++)
+        mapscreen[x] = tinttab33[mapscreen[x]];
+
+    for (int y = 0; y <= (int)MAPAREA - MAPWIDTH; y += MAPWIDTH)
+    {
+        mapscreen[y] = tinttab33[mapscreen[y]];
+        mapscreen[y + MAPWIDTH - 1] = tinttab33[mapscreen[y + MAPWIDTH - 1]];
+    }
 }
 
 void AM_Drawer(void)
