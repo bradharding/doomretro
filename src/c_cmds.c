@@ -1840,9 +1840,11 @@ void bind_cmd_func2(char *cmd, char *parms)
                     if (!nobindoutput)
                     {
                         if (strlen(controls[i].control) == 1)
-                            C_Output(BOLD("\"%s\"") " was bound to the " BOLD("'%s'") " key.", parm2, controls[i].control);
+                            C_Output(BOLD("\"%s\"") " was bound to the " BOLD("'%s'") " key.",
+                                parm2, controls[i].control);
                         else
-                            C_Output(BOLD("\"%s\"") " was bound to the " BOLD("%s") " key.", parm2, controls[i].control);
+                            C_Output(BOLD("\"%s\"") " was bound to the " BOLD("%s") " key.",
+                                parm2, controls[i].control);
                     }
                 }
                 else if (controls[i].type == mousecontrol)
@@ -1852,7 +1854,8 @@ void bind_cmd_func2(char *cmd, char *parms)
                     M_SaveCVARs();
 
                     if (!nobindoutput)
-                        C_Output(BOLD("\"%s\"") " was bound to the " BOLD("%s") " control.", parm2, controls[i].control);
+                        C_Output(BOLD("\"%s\"") " was bound to the " BOLD("%s") " control.",
+                            parm2, controls[i].control);
                 }
             }
         }
