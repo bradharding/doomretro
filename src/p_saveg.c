@@ -1048,12 +1048,12 @@ bool P_ReadSaveGameHeader(char *description)
 
     if (gamemode != commercial)
     {
-        if (gamemap == 10)
+        if (gamemap == 10 && W_CheckNumForName("E1M10") < 0)
         {
             gamemap = 4;
             M_StringCopy(speciallumpname, "E1M4B", sizeof(speciallumpname));
         }
-        else if (gamemap == 11)
+        else if (gamemap == 11 && W_CheckNumForName("E1M11") < 0)
         {
             gamemap = 8;
             M_StringCopy(speciallumpname, "E1M8B", sizeof(speciallumpname));
