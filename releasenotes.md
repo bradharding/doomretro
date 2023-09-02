@@ -59,7 +59,7 @@
 * These changes have been made to the widescreen HUD:
   * The translucency has been reduced slightly when the `r_hud_translucency` CVAR is `on`.
   * Several improvements have been made to the flashing of the player’s health, armor and ammo when they change.
-* All lines in the automap can now be anti-aliased by enabling the new `am_antialiasing` CVAR, which is `off` by default and when vanilla mode is enabled.
+* All lines in the automap can now be anti-aliased by enabling the new `am_antialiasing` CVAR, which is `on` by default and `off` when vanilla mode is enabled.
 * The player’s crosshair when the `crosshair` CVAR is `on`, as well as the crosshair in the automap when the `am_followmode` CVAR is `off`, are no longer visible in the background while the console is open.
 * These improvements have been made to the support for [*MBF21*](https://doomwiki.org/wiki/MBF21)-compatible WADs:
   * The `A_RadiusDamage` codepointer now correctly uses `Args1` rather than `Args2` for the amount of damage inflicted.
