@@ -1052,9 +1052,9 @@ bool I_CreateExternalAutomap(void)
     map_rect.h = MAPHEIGHT;
 
     if ((displayname = SDL_GetDisplayName(am_display - 1)))
-        C_Output("Using \"%s\" (display %i of %i) to show the external automap.", displayname, am_display, numdisplays);
+        C_Output("\"%s\" (display %i of %i) is being used to show the external automap.", displayname, am_display, numdisplays);
     else
-        C_Output("Using display %i of %i to show the external automap.", am_display, numdisplays);
+        C_Output("Display %i of %i is being used to show the external automap.", am_display, numdisplays);
 
     return true;
 }
@@ -1228,10 +1228,10 @@ static void SetVideoMode(bool createwindow, bool output)
     if (output)
     {
         if (displayname)
-            C_Output("Using \"%s\" (display %i of %i)%s.",
+            C_Output("\"%s\" (display %i of %i) is being used%s.",
                 displayname, displayindex + 1, numdisplays, (instead ? " instead" : ""));
         else
-            C_Output("Using display %i of %i%s.",
+            C_Output("Display %i of %i is being used%s.",
                 displayindex + 1, numdisplays, (instead ? " instead" : ""));
     }
 
@@ -1570,11 +1570,11 @@ static void SetVideoMode(bool createwindow, bool output)
         wadfile_t   *playpalwad = lumpinfo[W_CheckNumForName("PLAYPAL")]->wadfile;
 
         if (M_StringCompare(leafname(playpalwad->path), DOOMRETRO_RESOURCEWAD))
-            C_Output("Using the 256-%s palette from the " BOLD("PLAYPAL") " lump in the IWAD " BOLD("%s") ".",
+            C_Output("The 256-%s palette from the " BOLD("PLAYPAL") " lump in the IWAD " BOLD("%s") " is being used.",
                 (english == english_american ? "color" : "colour"),
                 lumpinfo[W_GetLastNumForName("PLAYPAL")]->wadfile->path);
         else
-            C_Output("Using the 256-%s palette from the " BOLD("PLAYPAL") " lump in the %s " BOLD("%s") ".",
+            C_Output("The 256-%s palette from the " BOLD("PLAYPAL") " lump in the %s " BOLD("%s") " is being used.",
                 (english == english_american ? "color" : "colour"),
                 (playpalwad->type == IWAD ? "IWAD" : "PWAD"),
                 playpalwad->path);
