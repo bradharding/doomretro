@@ -1903,13 +1903,13 @@ static void D_DoomMainSetup(void)
     I_PrintWindowsVersion();
 #endif
 
+    I_PrintSystemInfo();
+    C_PrintSDLVersions();
+
     // Load configuration files before initializing other subsystems.
     M_LoadCVARs(configfile);
 
     SDL_Init(SDL_INIT_EVERYTHING);
-
-    I_PrintSystemInfo();
-    C_PrintSDLVersions();
 
     iwadfile = D_FindIWAD();
 

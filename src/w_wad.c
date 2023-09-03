@@ -393,7 +393,7 @@ bool W_AddFile(char *filename, bool autoloaded)
         {
             autosigil = autoloaded;
             C_Output("John Romero's " ITALICS("SIGIL")
-                " is now available to play by selecting it in the episode menu.");
+                " can be played by selecting it in the episode menu.");
         }
         else if (M_StringCompare(file, "SIGIL_SHREDS.WAD")
             || M_StringCompare(file, "SIGIL_SHREDS_COMPAT.wad"))
@@ -403,11 +403,11 @@ bool W_AddFile(char *filename, bool autoloaded)
         }
         else if (M_StringCompare(file, "DOOM.WAD"))
             C_Output("John Romero's " ITALICS("E1M4B: Phobos Mission Control") " and "
-                ITALICS("E1M8B: Tech Gone Bad") " are now available to play by entering "
+                ITALICS("E1M8B: Tech Gone Bad") " can be played by entering "
                 BOLD("map E1M4B") " or " BOLD("map E1M8B") " in the console.");
         else if (M_StringCompare(file, "NERVE.WAD"))
             C_Output("Nerve Software's " ITALICS("No Rest For The Living")
-                " is now available to play by selecting it in the expansion menu.");
+                " can be played by selecting it in the expansion menu.");
     }
 
     if (!resourcewadadded)
