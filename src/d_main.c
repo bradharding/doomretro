@@ -247,8 +247,8 @@ void D_FadeScreenToBlack(void)
         I_SetPaletteWithBrightness(palette, i);
         I_SetExternalAutomapPalette();
         I_SetMusicVolume((int)(current_music_volume * i));
-        I_Sleep(20);
         blitfunc();
+        I_Sleep(1);
     }
 
     memset(screens[0], nearestblack, SCREENAREA);

@@ -2108,7 +2108,7 @@ static void AM_AntiAliasing(void)
         mapscreen[y] = tinttab33[mapscreen[y]];
 
     if (r_screensize == r_screensize_max)
-        for (int x = MAPAREA - MAPWIDTH; x < MAPAREA; x++)
+        for (int x = MAPAREA - MAPWIDTH; x < (int)MAPAREA; x++)
             mapscreen[x] = tinttab33[mapscreen[x]];
 }
 
