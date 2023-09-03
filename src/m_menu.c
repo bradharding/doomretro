@@ -2020,7 +2020,7 @@ static void M_EndGameResponse(int key)
         return;
     }
 
-    currentmenu->laston = itemon;
+    currentmenu->laston = itemon + 1;
     S_StopMusic();
     M_CloseMenu();
     viewactive = false;
@@ -3196,9 +3196,9 @@ bool M_Responder(event_t *ev)
                     r_hud = false;
                     C_StringCVAROutput(stringize(r_hud), "off");
                 }
-            }
 
-            R_SetViewSize(r_screensize - 1);
+                R_SetViewSize(r_screensize - (menuactive && viewactive ? 1 : 0));
+            }
 
             I_RestartGraphics(false);
             S_StartSound(NULL, sfx_stnmov);
@@ -3224,7 +3224,7 @@ bool M_Responder(event_t *ev)
             vid_widescreen = true;
             C_StringCVAROutput(stringize(vid_widescreen), "on");
 
-            R_SetViewSize(r_screensize + 1);
+            R_SetViewSize(r_screensize + (menuactive && viewactive ? 1 : 0));
             I_RestartGraphics(false);
             S_StartSound(NULL, sfx_stnmov);
             M_SaveCVARs();
