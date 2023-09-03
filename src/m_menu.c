@@ -3189,11 +3189,17 @@ bool M_Responder(event_t *ev)
 
             if (r_screensize == r_screensize_max)
             {
-                r_screensize = r_screensize_max - 1;
-                r_hud = false;
+                C_IntegerCVAROutput(stringize(r_screensize), (r_screensize = r_screensize_max - 1));
+
+                if (r_hud)
+                {
+                    r_hud = false;
+                    C_StringCVAROutput(stringize(r_hud), "off");
+                }
             }
 
-            R_SetViewSize(r_screensize + (menuactive && viewactive ? 1 : 0));
+            R_SetViewSize(r_screensize - 1);
+
             I_RestartGraphics(false);
             S_StartSound(NULL, sfx_stnmov);
             M_SaveCVARs();
@@ -3218,7 +3224,7 @@ bool M_Responder(event_t *ev)
             vid_widescreen = true;
             C_StringCVAROutput(stringize(vid_widescreen), "on");
 
-            R_SetViewSize(r_screensize + (menuactive && viewactive ? 1 : 0));
+            R_SetViewSize(r_screensize + 1);
             I_RestartGraphics(false);
             S_StartSound(NULL, sfx_stnmov);
             M_SaveCVARs();
