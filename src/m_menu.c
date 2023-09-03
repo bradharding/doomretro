@@ -3187,6 +3187,12 @@ bool M_Responder(event_t *ev)
             vid_widescreen = false;
             C_StringCVAROutput(stringize(vid_widescreen), "off");
 
+            if (r_screensize == r_screensize_max)
+            {
+                r_screensize = r_screensize_max - 1;
+                r_hud = false;
+            }
+
             R_SetViewSize(r_screensize + (menuactive && viewactive ? 1 : 0));
             I_RestartGraphics(false);
             S_StartSound(NULL, sfx_stnmov);
