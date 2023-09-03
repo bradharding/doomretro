@@ -3202,8 +3202,6 @@ void P_SetupLevel(int ep, int map)
 
     if (!samelevel)
     {
-        P_RemoveBloodSplats();
-
         free(segs);
         free(nodes);
         free(subsectors);

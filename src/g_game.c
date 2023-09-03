@@ -648,6 +648,8 @@ void G_DoLoadLevel(void)
         pendinggameskill = 0;
     }
 
+    P_RemoveBloodSplats();
+
     // initialize the msecnode_t freelist. phares 03/25/98
     // any nodes in the freelist are gone by now, cleared
     // by Z_FreeTags() when the previous level ended or player
