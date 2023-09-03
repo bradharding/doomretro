@@ -2490,8 +2490,20 @@ bool C_Responder(event_t *ev)
                 const int   x = ev->data2 * 2;
 
                 for (i = 0; i < len; i++)
-                    if (x <= CONSOLEINPUTX + C_TextWidth(M_SubString(consoleinput, 0, i), false, true))
+                {
+                    char    *temp1 = M_SubString(consoleinput, 0, i);
+                    char    *temp2 = M_SubString(consoleinput, i, 1);
+
+                    if (x <= CONSOLEINPUTX + C_TextWidth(temp1, false, true) + C_TextWidth(temp2, false, true) / 2)
+                    {
+                        free(temp1);
+                        free(temp2);
                         break;
+                    }
+
+                    free(temp1);
+                    free(temp2);
+                }
 
                 if (caretpos != i)
                 {
