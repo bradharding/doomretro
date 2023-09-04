@@ -573,6 +573,7 @@ char    *s_M_SKILLLEVEL3 = "";
 char    *s_M_SKILLLEVEL4 = "";
 char    *s_M_SKILLLEVEL5 = "";
 char    *s_M_ENDGAME = "";
+char    *s_M_OPENCONSOLE = "";
 char    *s_M_MESSAGES = "";
 char    *s_M_ON = "";
 char    *s_M_OFF = "";
@@ -1176,6 +1177,7 @@ deh_strs deh_strlookup[] =
     { &s_M_SKILLLEVEL4,               "M_SKILLLEVEL4"               },
     { &s_M_SKILLLEVEL5,               "M_SKILLLEVEL5"               },
     { &s_M_ENDGAME,                   "M_ENDGAME"                   },
+    { &s_M_OPENCONSOLE,               "M_OPENCONSOLE"               },
     { &s_M_MESSAGES,                  "M_MESSAGES"                  },
     { &s_M_ON,                        "M_ON"                        },
     { &s_M_OFF,                       "M_OFF"                       },

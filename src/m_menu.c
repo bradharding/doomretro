@@ -132,6 +132,7 @@ static void M_LoadGame(int choice);
 static void M_SaveGame(int choice);
 static void M_Options(int choice);
 static void M_EndGame(int choice);
+static void M_OpenConsole(int choice);
 
 static void M_ChangeMessages(int choice);
 static void M_ChangeSensitivity(int choice);
@@ -304,6 +305,7 @@ menu_t NewDef =
 enum
 {
     endgame,
+    openconsole,
     msgs,
     detail,
     scrnsize,
@@ -317,6 +319,7 @@ enum
 static menuitem_t OptionsMenu[] =
 {
     {  1, "M_ENDGAM", &M_EndGame,           &s_M_ENDGAME          },
+    {  1, "M_CONSOL", &M_OpenConsole,       &s_M_OPENCONSOLE      },
     {  1, "M_MESSG",  &M_ChangeMessages,    &s_M_MESSAGES         },
     {  1, "M_DETAIL", &M_ChangeDetail,      &s_M_GRAPHICDETAIL    },
     {  2, "M_SCRNSZ", &M_SizeDisplay,       &s_M_SCREENSIZE       },
@@ -2046,6 +2049,12 @@ static void M_EndGame(int choice)
             s_ENDGAME, (usinggamecontroller ? s_PRESSA : s_PRESSYN));
         M_StartMessage(buffer, &M_EndGameResponse, true);
     }
+}
+
+static void M_OpenConsole(int choice)
+{
+    C_ShowConsole();
+    M_CloseMenu();
 }
 
 //

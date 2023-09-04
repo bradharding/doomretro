@@ -448,6 +448,7 @@ extern char         *s_M_SKILLLEVEL3;
 extern char         *s_M_SKILLLEVEL4;
 extern char         *s_M_SKILLLEVEL5;
 extern char         *s_M_ENDGAME;
+extern char         *s_M_OPENCONSOLE;
 extern char         *s_M_MESSAGES;
 extern char         *s_M_ON;
 extern char         *s_M_OFF;

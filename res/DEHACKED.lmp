@@ -378,6 +378,7 @@ M_SKILLLEVEL3 = Hurt me plenty.
 M_SKILLLEVEL4 = Ultra-Violence.
 M_SKILLLEVEL5 = Nightmare!
 M_ENDGAME = End Game
+M_OPENCONSOLE = Open Console
 M_MESSAGES = Messages:
 M_ON = on
 M_OFF = off
