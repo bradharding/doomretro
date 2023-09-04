@@ -4331,6 +4331,10 @@ void M_Init(void)
             SaveDef.laston--;
 
     OptionsDef.laston = msgs;
+
+    if (modifiedgame && W_CheckNumForName("M_CONSOL") < 0)
+        OptionsDef.numitems--;
+
     M_ReadSaveStrings();
 
     if (chex)
