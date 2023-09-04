@@ -36,6 +36,7 @@
   * The console can now be opened using the <kbd><b>~</b></kbd> key while the menu is open.
   * The console can now also be opened by selecting “Console” in the options menu.
   * The shadows cast by the sliders in the options menu have improved in some rare instances.
+  * Right-clicking a mouse on the title screen no longer opens the menu.
 * The `r_supersampling` CVAR has been renamed `r_antialiasing` and is now `off` by default.
 * Minor changes have been made to the help screen shown when pressing the <kbd><b>F1</b></kbd> key.
 * The `r_lowpixelsize` CVAR can now also be set to `1×2` or `2×1`.
@@ -121,6 +122,7 @@
 * The automap is now always updated when the `r_screensize` CVAR is changed while it is open.
 * A bug is fixed whereby any player movement wouldn’t be canceled when opening the automap and the `am_followmode` CVAR was `off`.
 * Savegames that were saved in maps `ExM10` or `ExM11` no longer crash when loaded.
+* The console now closes when right-clicking a mouse.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
