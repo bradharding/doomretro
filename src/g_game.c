@@ -775,7 +775,7 @@ bool G_Responder(const event_t *ev)
                 && (ev->data1 < KEY_F1 || ev->data1 > KEY_F12)
                 && !((ev->data1 == KEY_ENTER || ev->data1 == KEY_TAB) && altdown)
                 && ev->data1 != keyboardscreenshot)
-            || (ev->type == ev_mouse && mousewait < I_GetTime() && ev->data1)
+            || (ev->type == ev_mouse && mousewait < I_GetTime() && ev->data1 && !(ev->data1 & MOUSE_RIGHTBUTTON))
             || (ev->type == ev_controller
                 && gamecontrollerwait < I_GetTime()
                 && gamecontrollerbuttons)))
