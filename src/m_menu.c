@@ -2053,8 +2053,8 @@ static void M_EndGame(int choice)
 
 static void M_Console(int choice)
 {
-    C_ShowConsole();
     M_CloseMenu();
+    C_ShowConsole();
     S_StartSound(NULL, sfx_pistol);
 }
 
