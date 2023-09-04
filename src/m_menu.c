@@ -132,7 +132,7 @@ static void M_LoadGame(int choice);
 static void M_SaveGame(int choice);
 static void M_Options(int choice);
 static void M_EndGame(int choice);
-static void M_OpenConsole(int choice);
+static void M_Console(int choice);
 
 static void M_ChangeMessages(int choice);
 static void M_ChangeSensitivity(int choice);
@@ -305,7 +305,6 @@ menu_t NewDef =
 enum
 {
     endgame,
-    openconsole,
     msgs,
     detail,
     scrnsize,
@@ -313,20 +312,21 @@ enum
     mousesens,
     option_empty2,
     soundvol,
+    consol,
     opt_end
 };
 
 static menuitem_t OptionsMenu[] =
 {
     {  1, "M_ENDGAM", &M_EndGame,           &s_M_ENDGAME          },
-    {  1, "M_CONSOL", &M_OpenConsole,       &s_M_OPENCONSOLE      },
     {  1, "M_MESSG",  &M_ChangeMessages,    &s_M_MESSAGES         },
     {  1, "M_DETAIL", &M_ChangeDetail,      &s_M_GRAPHICDETAIL    },
     {  2, "M_SCRNSZ", &M_SizeDisplay,       &s_M_SCREENSIZE       },
     { -1, "",         NULL,                 NULL                  },
     {  2, "M_MSENS",  &M_ChangeSensitivity, &s_M_MOUSESENSITIVITY },
     { -1, "",         NULL,                 NULL                  },
-    {  1, "M_SVOL",   &M_Sound,             &s_M_SOUNDVOLUME      }
+    {  1, "M_SVOL",   &M_Sound,             &s_M_SOUNDVOLUME      },
+    {  1, "M_CONSOL", &M_Console,           &s_M_CONSOLE          }
 };
 
 static menu_t OptionsDef =
@@ -335,7 +335,7 @@ static menu_t OptionsDef =
     &MainDef,
     OptionsMenu,
     &M_DrawOptions,
-    52, 33,
+    52, 25,
     endgame
 };
 
@@ -1886,7 +1886,7 @@ static void M_DrawOptions(void)
     {
         char    *temp = uppercase(s_M_OPTIONS);
 
-        M_DrawCenteredString(8 + OFFSET, temp);
+        M_DrawCenteredString(OFFSET, temp);
         free(temp);
     }
 
@@ -2051,10 +2051,11 @@ static void M_EndGame(int choice)
     }
 }
 
-static void M_OpenConsole(int choice)
+static void M_Console(int choice)
 {
     C_ShowConsole();
     M_CloseMenu();
+    S_StartSound(NULL, sfx_pistol);
 }
 
 //

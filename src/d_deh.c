@@ -573,7 +573,6 @@ char    *s_M_SKILLLEVEL3 = "";
 char    *s_M_SKILLLEVEL4 = "";
 char    *s_M_SKILLLEVEL5 = "";
 char    *s_M_ENDGAME = "";
-char    *s_M_OPENCONSOLE = "";
 char    *s_M_MESSAGES = "";
 char    *s_M_ON = "";
 char    *s_M_OFF = "";
@@ -584,6 +583,7 @@ char    *s_M_SCREENSIZE = "";
 char    *s_M_MOUSESENSITIVITY = "";
 char    *s_M_GAMECONTROLLERSENSITIVITY = "";
 char    *s_M_SOUNDVOLUME = "";
+char    *s_M_CONSOLE = "";
 char    *s_M_SFXVOLUME = "";
 char    *s_M_MUSICVOLUME = "";
 char    *s_M_PAUSED = "";
@@ -1177,7 +1177,6 @@ deh_strs deh_strlookup[] =
     { &s_M_SKILLLEVEL4,               "M_SKILLLEVEL4"               },
     { &s_M_SKILLLEVEL5,               "M_SKILLLEVEL5"               },
     { &s_M_ENDGAME,                   "M_ENDGAME"                   },
-    { &s_M_OPENCONSOLE,               "M_OPENCONSOLE"               },
     { &s_M_MESSAGES,                  "M_MESSAGES"                  },
     { &s_M_ON,                        "M_ON"                        },
     { &s_M_OFF,                       "M_OFF"                       },
@@ -1188,6 +1187,7 @@ deh_strs deh_strlookup[] =
     { &s_M_MOUSESENSITIVITY,          "M_MOUSESENSITIVITY"          },
     { &s_M_GAMECONTROLLERSENSITIVITY, "M_GAMECONTROLLERSENSITIVITY" },
     { &s_M_SOUNDVOLUME,               "M_SOUNDVOLUME"               },
+    { &s_M_CONSOLE,                   "M_CONSOLE"                   },
     { &s_M_SFXVOLUME,                 "M_SFXVOLUME"                 },
     { &s_M_MUSICVOLUME,               "M_MUSICVOLUME"               },
     { &s_M_PAUSED,                    "M_PAUSED"                    },
