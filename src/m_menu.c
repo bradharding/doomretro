@@ -4332,7 +4332,7 @@ void M_Init(void)
 
     OptionsDef.laston = msgs;
 
-    if (modifiedgame && W_CheckNumForName("M_SVOL") < 0 && W_CheckNumForName("M_CONSOL") < 0)
+    if (modifiedgame && (W_CheckNumForName("M_CONSOL") < 0 || W_CheckMultipleLumps("M_SVOL") > 1))
         OptionsDef.numitems--;
 
     M_ReadSaveStrings();
