@@ -2514,6 +2514,8 @@ bool C_Responder(event_t *ev)
                 caretpos = selectstart = selectend = i;
             }
         }
+        else if (ev->data1 & MOUSE_RIGHTBUTTON)
+            C_HideConsole();
     }
     else if (ev->type == ev_mousewheel)
     {
