@@ -4305,9 +4305,7 @@ void M_Init(void)
     messagelastmenuactive = false;
     quicksaveslot = -1;
     menuspindirection = ((M_BigRandom() & 1) ? 1 : -1);
-
     menuborder = W_CacheLastLumpName("DRBORDER");
-
     titleheight = SHORT(((patch_t *)W_CacheLumpName("M_DOOM"))->height);
 
     for (int i = 0; i < 256; i++)
@@ -4332,7 +4330,7 @@ void M_Init(void)
 
     OptionsDef.laston = msgs;
 
-    if (modifiedgame && (W_CheckNumForName("M_CONSOL") < 0 || W_CheckMultipleLumps("M_SVOL") > 1))
+    if (W_CheckNumForName("M_CONSOL") < 0 && W_CheckMultipleLumps("M_SVOL") > 1)
         OptionsDef.numitems--;
 
     M_ReadSaveStrings();
