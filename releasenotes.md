@@ -36,7 +36,7 @@
   * The console can now be opened using the <kbd><b>~</b></kbd> key while the menu is open.
   * The console can now also be opened by selecting “Console” in the options menu.
   * The shadows cast by the sliders in the options menu have improved in some rare instances.
-  * Right-clicking a mouse on the title screen no longer opens the menu.
+  * Right-clicking the mouse on the title screen no longer opens the menu.
 * The `r_supersampling` CVAR has been renamed `r_antialiasing` and is now `off` by default.
 * Minor changes have been made to the help screen shown when pressing the <kbd><b>F1</b></kbd> key.
 * The `r_lowpixelsize` CVAR can now also be set to `1×2` or `2×1`.
@@ -115,14 +115,15 @@
 * The WAD being played is now displayed in the window caption again.
 * A bug is fixed whereby certain messages were not being displayed in some instances.
 * The player now falls at the correct speed when clipping mode is enabled.
-* All power-ups the player currently has can now be taken away from them by entering `take powerups` in the console.
+* All power-ups can now be given to the player by entering `give powerups` in the console.
+* Conversely, all power-ups the player currently has can now be taken away from them by entering `take powerups` in the console.
 * Widescreen mode can now be toggled using the <kbd><b>+</b></kbd> and <kbd><b>&ndash;</b></kbd> keys while the intermission and finale screens are open.
 * The `+automap` action can now be bound to a mouse button using the `bind` CCMD.
 * Skies can now be drawn horizontally linear by enabling the new `r_linearskies` CVAR, which is `off` by default and when vanilla mode is enabled.
 * The automap is now always updated when the `r_screensize` CVAR is changed while it is open.
 * A bug is fixed whereby any player movement wouldn’t be canceled when opening the automap and the `am_followmode` CVAR was `off`.
 * Savegames that were saved in maps `ExM10` or `ExM11` no longer crash when loaded.
-* The console now closes when right-clicking a mouse.
+* The console now closes when right-clicking the mouse.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

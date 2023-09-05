@@ -76,7 +76,7 @@
 #define EXECCMDFORMAT               BOLDITALICS("filename") "[" BOLD(".cfg") "]"
 #define EXPLODECMDFORMAT            BOLD("barrels") "|" BOLD("missiles")
 #define GIVECMDFORMAT               BOLD("ammo") "|" BOLD("armor") "|" BOLD("health") "|" BOLD("keys") "|" BOLD("weapons") "|" \
-                                    BOLD("all") "|" BOLDITALICS("item")
+                                    BOLD("powerups") "|" BOLD("all") "|" BOLDITALICS("item")
 #define IFCMDFORMAT                 BOLDITALICS("CVAR") " " BOLDITALICS("value") " " BOLD("then") " [" BOLD("\"") "]" \
                                     BOLDITALICS("command") "[" BOLD(";") " " BOLDITALICS("command") " ..." BOLD("\"") "]"
 #define KILLCMDFORMAT               BOLD("player") "|" BOLD("all") "|[" BOLD("friendly") " ]" BOLDITALICS("monster")
@@ -2529,7 +2529,7 @@ static bool give_cmd_func1(char *cmd, char *parms)
         || M_StringCompare(parm, "keys") || M_StringCompare(parm, "allkeys")
         || M_StringCompare(parm, "keycards") || M_StringCompare(parm, "allkeycards")
         || M_StringCompare(parm, "skullkeys") || M_StringCompare(parm, "allskullkeys")
-        || M_StringCompare(parm, "pistol"))
+        || M_StringCompare(parm, "pistol") || M_StringCompare(parm, "powerups"))
         result = true;
     else
     {
@@ -2858,6 +2858,35 @@ static void give_cmd_func2(char *cmd, char *parms)
             C_HideConsole();
             free(parm);
 
+            return;
+        }
+        else if (M_StringCompare(parm, "powerups"))
+        {
+            bool    result = false;
+
+            for (int i = 0; i < NUMPOWERS; i++)
+                if (P_GivePower(i))
+                    result = true;
+
+            if (result)
+            {
+                if (M_StringCompare(playername, playername_default))
+                    C_PlayerMessage("You have been given all the power-ups.");
+                else
+                    C_PlayerMessage("%s has been given all the power-ups.", playername);
+
+                C_HideConsole();
+            }
+            else
+            {
+                if (M_StringCompare(playername, playername_default))
+                    C_Warning(0, "You already have all the power-ups.");
+                else
+                    C_Warning(0, "%s already has all the power-ups.", playername);
+
+            }
+
+            free(parm);
             return;
         }
         else
