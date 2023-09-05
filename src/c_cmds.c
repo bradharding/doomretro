@@ -107,10 +107,10 @@
                                     BOLD("pistol") ", " BOLD("shotgun") ", " BOLD("supershotgun") ", " BOLD("chaingun") ", " \
                                     BOLD("rocketlauncher") ", " BOLD("plasmarifle") " or " BOLD("BFG9000") ")."
 
-#define DEADPLAYERWARNING           "It won't work if %s %s dead."
-#define NEXTMAPWARNING              "It won't work until the next map."
-#define NOGAMEWARNING               "It won't work if %s %s not playing a game."
-#define NIGHTMAREWARNING            "It won't work if %s %s playing a game in " ITALICS("Nightmare!")
+#define DEADPLAYERWARNING           "This won't work because %s %s dead."
+#define NEXTMAPWARNING              "This won't work until the next map."
+#define NOGAMEWARNING               "This won't work because %s %s not playing a game."
+#define NIGHTMAREWARNING            "This won't work because %s %s playing a game in " ITALICS("Nightmare!")
 
 #define INTEGERCVARWITHDEFAULT      "It is currently " BOLD("%s") " and is " BOLD("%s") " by default."
 #define INTEGERCVARWITHNODEFAULT    "It is currently " BOLD("%s") "."
@@ -1243,21 +1243,6 @@ static void C_ShowDescription(int index)
             ((consolecmds[index].flags & CF_READONLY) ? "is " : "changes ")), description);
 }
 
-static void C_ShowFormat(int index)
-{
-    char    name[255];
-    char    format[255];
-
-    M_StringCopy(name, (english == english_american || M_StringCompare(consolecmds[index].altspelling, EMPTYVALUE) ?
-        consolecmds[index].name : consolecmds[index].altspelling), sizeof(name));
-    M_StringCopy(format, consolecmds[index].format, sizeof(format));
-
-    if (english == english_international)
-        M_AmericanToInternationalEnglish(format);
-
-    C_Output(BOLD("%s") " %s", name, format);
-}
-
 static void C_ShowWarning(int index)
 {
     const int   flags = consolecmds[index].flags;
@@ -1458,7 +1443,6 @@ void alias_cmd_func2(char *cmd, char *parms)
         const int   i = C_GetIndex(cmd);
 
         C_ShowDescription(i);
-        C_ShowFormat(i);
         return;
     }
 
@@ -1581,7 +1565,6 @@ void bind_cmd_func2(char *cmd, char *parms)
         i = C_GetIndex(cmd);
 
         C_ShowDescription(i);
-        C_ShowFormat(i);
         return;
     }
 
@@ -2379,7 +2362,6 @@ void exec_cmd_func2(char *cmd, char *parms)
         const int   i = C_GetIndex(cmd);
 
         C_ShowDescription(i);
-        C_ShowFormat(i);
     }
     else
     {
@@ -2573,7 +2555,6 @@ static void give_cmd_func2(char *cmd, char *parms)
         const int   i = C_GetIndex(cmd);
 
         C_ShowDescription(i);
-        C_ShowFormat(i);
 
         if (gamestate != GS_LEVEL)
         {
@@ -3039,7 +3020,6 @@ static void if_cmd_func2(char *cmd, char *parms)
         const int   i = C_GetIndex(cmd);
 
         C_ShowDescription(i);
-        C_ShowFormat(i);
         return;
     }
 
@@ -3241,7 +3221,11 @@ static void kill_cmd_func2(char *cmd, char *parms)
         const int   i = C_GetIndex(cmd);
 
         C_ShowDescription(i);
-        C_ShowFormat(i);
+
+        if (M_StringCompare(playername, playername_default))
+            C_Warning(0, NOGAMEWARNING, "you", "are");
+        else
+            C_Warning(0, NOGAMEWARNING, playername, "is");
     }
     else
     {
@@ -3752,7 +3736,6 @@ static void load_cmd_func2(char *cmd, char *parms)
         const int   i = C_GetIndex(cmd);
 
         C_ShowDescription(i);
-        C_ShowFormat(i);
         return;
     }
 
@@ -5047,7 +5030,6 @@ static void name_cmd_func2(char *cmd, char *parms)
         const int   i = C_GetIndex(cmd);
 
         C_ShowDescription(i);
-        C_ShowFormat(i);
 
         if (gamestate != GS_LEVEL)
         {
@@ -5351,7 +5333,6 @@ static void play_cmd_func2(char *cmd, char *parms)
         const int   i = C_GetIndex(cmd);
 
         C_ShowDescription(i);
-        C_ShowFormat(i);
     }
     else
     {
@@ -6430,7 +6411,6 @@ static void print_cmd_func2(char *cmd, char *parms)
         const int   i = C_GetIndex(cmd);
 
         C_ShowDescription(i);
-        C_ShowFormat(i);
     }
     else
         HU_PlayerMessage(parms, true, false);
@@ -6534,7 +6514,6 @@ static void reset_cmd_func2(char *cmd, char *parms)
         const int   i = C_GetIndex(cmd);
 
         C_ShowDescription(i);
-        C_ShowFormat(i);
         return;
     }
 
@@ -7060,7 +7039,6 @@ static void resurrect_cmd_func2(char *cmd, char *parms)
         const int   i = C_GetIndex(cmd);
 
         C_ShowDescription(i);
-        C_ShowFormat(i);
 
         if (gamestate != GS_LEVEL)
         {
@@ -7221,7 +7199,6 @@ static void save_cmd_func2(char *cmd, char *parms)
         const int   i = C_GetIndex(cmd);
 
         C_ShowDescription(i);
-        C_ShowFormat(i);
         return;
     }
 
@@ -7294,7 +7271,6 @@ static void spawn_cmd_func2(char *cmd, char *parms)
         const int   i = C_GetIndex(cmd);
 
         C_ShowDescription(i);
-        C_ShowFormat(i);
 
         if (gamestate != GS_LEVEL)
         {
@@ -7503,7 +7479,6 @@ static void take_cmd_func2(char *cmd, char *parms)
         const int   i = C_GetIndex(cmd);
 
         C_ShowDescription(i);
-        C_ShowFormat(i);
 
         if (gamestate != GS_LEVEL)
         {
@@ -7836,7 +7811,6 @@ static void teleport_cmd_func2(char *cmd, char *parms)
         const int   i = C_GetIndex(cmd);
 
         C_ShowDescription(i);
-        C_ShowFormat(i);
 
         if (gamestate != GS_LEVEL)
         {
@@ -7986,7 +7960,6 @@ static void timer_cmd_func2(char *cmd, char *parms)
         const int   i = C_GetIndex(cmd);
 
         C_ShowDescription(i);
-        C_ShowFormat(i);
     }
     else
     {
@@ -8040,7 +8013,6 @@ static void toggle_cmd_func2(char *cmd, char *parms)
         const int   i = C_GetIndex(cmd);
 
         C_ShowDescription(i);
-        C_ShowFormat(i);
         return;
     }
 
@@ -8078,7 +8050,6 @@ static void unbind_cmd_func2(char *cmd, char *parms)
         const int   i = C_GetIndex(cmd);
 
         C_ShowDescription(i);
-        C_ShowFormat(i);
         return;
     }
 
