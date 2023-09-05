@@ -9011,6 +9011,8 @@ static void player_cvars_func2(char *cmd, char *parms)
                     P_AddBonus();
                     S_StartSound(viewplayer->mo, sfx_itemup);
                 }
+                else
+                    S_StartSound(NULL, sfx_plpain);
 
                 P_AnimateArmor(viewplayer->armor - value);
 
