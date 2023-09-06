@@ -6422,7 +6422,6 @@ static void print_cmd_func2(char *cmd, char *parms)
 static void quit_cmd_func2(char *cmd, char *parms)
 {
     quitcmd = true;
-    M_QuitDOOMFromConsole();
 
     if (vid_showfps)
     {
