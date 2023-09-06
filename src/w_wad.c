@@ -620,7 +620,7 @@ gamemission_t IWADRequiredByPWAD(char *pwadname)
     gamemission_t   result = none;
 
     if (!fp)
-        I_Error("Can't open PWAD: %s\n", pwadname);
+        I_Error("Can't open PWAD: %s", pwadname);
     else
     {
         wadinfo_t   header;
@@ -638,7 +638,7 @@ gamemission_t IWADRequiredByPWAD(char *pwadname)
 
             fseek(fp, LONG(header.infotableofs), SEEK_SET);
 
-            for (int i = LONG(header.numlumps); (i && fread(&lump, sizeof(lump), 1, fp)); i--)
+            for (int i = LONG(header.numlumps); i && fread(&lump, sizeof(lump), 1, fp); i--)
                 if (n[0] == 'E' && isdigit((int)n[1]) && n[2] == 'M' && isdigit((int)n[3]) && n[4] == '\0')
                 {
                     result = doom;

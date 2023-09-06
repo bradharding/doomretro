@@ -36,7 +36,7 @@
 #pragma once
 
 // All important printed strings.
-#include "d_englsh.h"
+#include "d_english.h"
 
 // Misc. other strings.
 #define SAVEGAMENAME        "doomsav"

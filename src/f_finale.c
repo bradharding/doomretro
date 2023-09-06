@@ -37,7 +37,7 @@
 
 #include "c_console.h"
 #include "d_deh.h"
-#include "d_englsh.h"
+#include "d_english.h"
 #include "d_main.h"
 #include "doomstat.h"
 #include "g_game.h"

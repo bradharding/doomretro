@@ -320,7 +320,7 @@
     <ClInclude Include="..\src\c_cmds.h" />
     <ClInclude Include="..\src\c_console.h" />
     <ClInclude Include="..\src\d_deh.h" />
-    <ClInclude Include="..\src\d_englsh.h" />
+    <ClInclude Include="..\src\d_english.h" />
     <ClInclude Include="..\src\d_event.h" />
     <ClInclude Include="..\src\d_items.h" />
     <ClInclude Include="..\src\d_iwad.h" />
@@ -436,7 +436,7 @@
     <ClCompile Include="..\src\m_misc.c" />
     <ClCompile Include="..\src\m_random.c" />
     <ClCompile Include="..\src\mus2mid.c" />
-    <ClCompile Include="..\src\p_ceilng.c" />
+    <ClCompile Include="..\src\p_ceiling.c" />
     <ClCompile Include="..\src\p_doors.c" />
     <ClCompile Include="..\src\p_enemy.c" />
     <ClCompile Include="..\src\p_fix.c" />

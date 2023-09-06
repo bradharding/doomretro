@@ -123,7 +123,7 @@ static int dehfgetc(DEHFILE *fp)
 // variables. This externalizes everything that there is a string
 // set for in the language files. See d_deh.h for detailed comments,
 // original English values etc. These are set to the macro values,
-// which are set by D_ENGLSH.H or D_FRENCH.H(etc). BEX files are a
+// which are set by D_ENGLISH.H or D_FRENCH.H(etc). BEX files are a
 // better way of changing these strings globally by language.
 
 // ====================================================================
