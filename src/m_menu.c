@@ -2153,6 +2153,29 @@ void M_QuitDOOM(int choice)
     M_StartMessage(endstring, &M_QuitResponse, true);
 }
 
+void M_QuitDOOMFromConsole(void)
+{
+    static char endstring[320];
+
+    if (deh_strlookup[p_QUITMSG].assigned == 2)
+        M_StringCopy(endstring, s_QUITMSG, sizeof(endstring));
+    else
+    {
+        static int  msg = -1;
+
+        msg = M_RandomIntNoRepeat(0, NUM_QUITMESSAGES - 1, msg);
+
+        if (devparm)
+            M_StringCopy(endstring, *devendmsg[msg], sizeof(endstring));
+        else if (gamemission == doom)
+            M_snprintf(endstring, sizeof(endstring), *endmsg[msg], WINDOWS);
+        else
+            M_snprintf(endstring, sizeof(endstring), *endmsg[NUM_QUITMESSAGES + msg], WINDOWS);
+    }
+
+    C_Output(ITALICS("\"%s\""), M_StringReplaceFirst(endstring, "\n", " "));
+}
+
 static void M_SliderSound(void)
 {
     static uint64_t wait;
