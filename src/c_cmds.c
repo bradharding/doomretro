@@ -665,7 +665,7 @@ consolecmd_t consolecmds[] =
     CVAR_TIME(gametime, "", "", null_func1, time_cvars_func2,
         "The amount of time " ITALICS(DOOMRETRO_NAME) " has been running."),
     CCMD(give, "", "", give_cmd_func1, give_cmd_func2, true, GIVECMDFORMAT,
-        "Gives " BOLD("ammo") ", " BOLD("armor") ", " BOLD("health") ", " BOLD("keys") ", " BOLD("weapons") ", or " BOLD("all")
+        "Gives " BOLD("ammo") ", " BOLD("armor") ", " BOLD("health") ", " BOLD("keys") ", " BOLD("weapons") ", " BOLD("powerups")", or " BOLD("all")
         " or certain " BOLDITALICS("items") " to you."),
     CCMD(god, "", "", alive_func1, god_cmd_func2, true, "[" BOLD("on") "|" BOLD("off") "]",
         "Toggles god mode."),
