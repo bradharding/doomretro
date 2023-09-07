@@ -2055,6 +2055,7 @@ static void M_Console(int choice)
 {
     M_CloseMenu();
     C_ShowConsole();
+    D_FadeScreen(false);
     S_StartSound(NULL, sfx_pistol);
 }
 
