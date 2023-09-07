@@ -1277,7 +1277,8 @@ static void SetVideoMode(bool createwindow, bool output)
             height = displays[displayindex].h;
 
             if (!width || !height)
-                I_Error("Graphics couldn't be %s.", (english == english_american ? "initialized" : "initialised"));
+                I_Error("Graphics couldn't be %s.",
+                    (english == english_american ? "initialized" : "initialised"));
 
             if (createwindow)
                 window = SDL_CreateWindow(DOOMRETRO_NAME, SDL_WINDOWPOS_UNDEFINED_DISPLAY(displayindex),
@@ -1289,7 +1290,7 @@ static void SetVideoMode(bool createwindow, bool output)
                 char    *temp1 = commify(width);
                 char    *temp2 = commify(height);
 
-                C_Output("Staying at the native desktop resolution of %sx%s with an aspect ratio of %s.",
+                C_Output("The native desktop resolution of %sx%s, with an aspect ratio of %s, is being used.",
                     temp1, temp2, getaspectratio(width, height));
 
                 free(temp1);
@@ -1311,7 +1312,7 @@ static void SetVideoMode(bool createwindow, bool output)
                 char    *temp1 = commify(width);
                 char    *temp2 = commify(height);
 
-                C_Output("Switched to a resolution of %sx%s with an aspect ratio of %s.",
+                C_Output("A resolution of %sx%s with an aspect ratio of %s is being used.",
                     temp1, temp2, getaspectratio(width, height));
 
                 free(temp1);
@@ -1342,7 +1343,7 @@ static void SetVideoMode(bool createwindow, bool output)
                 char    *temp1 = commify(width);
                 char    *temp2 = commify(height);
 
-                C_Output("Created a %sx%s resizable window %s on the screen.",
+                C_Output("A %sx%s resizable window is %s on the screen.",
                     temp1, temp2, (english == english_american ? vid_windowpos_centered : vid_windowpos_centred));
 
                 free(temp1);
@@ -1359,7 +1360,7 @@ static void SetVideoMode(bool createwindow, bool output)
                 char    *temp1 = commify(width);
                 char    *temp2 = commify(height);
 
-                C_Output("Created a %sx%s resizable window at (%i, %i).", temp1, temp2, windowx, windowy);
+                C_Output("A %sx%s resizable window is at (%i, %i).", temp1, temp2, windowx, windowy);
 
                 free(temp1);
                 free(temp2);

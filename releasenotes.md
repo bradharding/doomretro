@@ -27,7 +27,7 @@
     * The `episode`, `expansion`, `savegame` and `skilllevel` CVARs are now only updated when necessary.
     * The precision of selecting menu items using the mouse pointer has improved.
     * The *Nightmare!* skill level can now always be selected.
-    * Clicking outside of the selected savegame slot when entering a savegame description in the save game menu now works as expected.
+    * Clicking outside of the selected savegame slot when entering text in the save game menu now works as expected.
     * The mouse pointer now becomes visible after having just used a controller to navigate the menu.
   * “New Game” is now selected in the main menu after deleting the only savegame in the save or load game menus using the <kbd><b>DEL</b></kbd> key.
   * Minor improvements have been made to the vertical positioning of elements in the load and save game menus.
@@ -101,10 +101,10 @@
 * A bug is fixed whereby the `vid_fullscreen` CVAR couldn’t be changed in the console.
 * The player’s weapon now displays correctly when it touches the right edge of the screen and the `vid_capfps` CVAR is not `35`.
 * A bug is fixed whereby the flash of the player’s weapon could be drawn incorrectly if they fired it while falling and the `weaponbounce` CVAR was `on`.
-* Movement of the player’s weapon is now less blurry when the `r_detail` CVAR is `low`.
-* The `weapon` CVAR now also allows the values `1` to `7`.
+* Movement of the player’s weapon is no longer blurred when the `r_detail` CVAR is `low`.
+* The `weapon` CVAR can now also be set to the values `1` to `7`.
 * A bug is fixed whereby the `iwadfolder` CVAR wouldn’t be updated in some instances.
-* The `iwadfolder` CVAR has been renamed `wadfolder`.
+* The `iwadfolder` CVAR has been renamed to just `wadfolder`.
 * Improvements have been made to the minimum and maximum levels the player can zoom in the automap.
 * A crash no longer occurs when starting a map that has things 4001 to 4004 (player starts 5 to 8).
 * The message displayed when using the `IDCLEV` cheat or `map` CCMD to warp to a secret map is now gold.

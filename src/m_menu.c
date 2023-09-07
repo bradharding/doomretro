@@ -1527,31 +1527,27 @@ static void M_SfxVol(int choice)
     if (nosfx)
         return;
 
-    switch (choice)
+    if (!choice)
     {
-        case 0:
-            if (sfxvolume > 0)
-            {
-                S_SetSfxVolume(--sfxvolume * (MIX_MAX_VOLUME - 1) / 31);
-                S_StartSound(NULL, sfx_stnmov);
-                s_sfxvolume = sfxvolume * 100 / 31;
-                C_PercentCVAROutput(stringize(s_sfxvolume), s_sfxvolume);
-                M_SaveCVARs();
-            }
-
-            break;
-
-        case 1:
-            if (sfxvolume < 31)
-            {
-                S_SetSfxVolume(++sfxvolume * (MIX_MAX_VOLUME - 1) / 31);
-                S_StartSound(NULL, sfx_stnmov);
-                s_sfxvolume = sfxvolume * 100 / 31;
-                C_PercentCVAROutput(stringize(s_sfxvolume), s_sfxvolume);
-                M_SaveCVARs();
-            }
-
-            break;
+        if (sfxvolume > 0)
+        {
+            S_SetSfxVolume(--sfxvolume * (MIX_MAX_VOLUME - 1) / 31);
+            S_StartSound(NULL, sfx_stnmov);
+            s_sfxvolume = sfxvolume * 100 / 31;
+            C_PercentCVAROutput(stringize(s_sfxvolume), s_sfxvolume);
+            M_SaveCVARs();
+        }
+    }
+    else
+    {
+        if (sfxvolume < 31)
+        {
+            S_SetSfxVolume(++sfxvolume * (MIX_MAX_VOLUME - 1) / 31);
+            S_StartSound(NULL, sfx_stnmov);
+            s_sfxvolume = sfxvolume * 100 / 31;
+            C_PercentCVAROutput(stringize(s_sfxvolume), s_sfxvolume);
+            M_SaveCVARs();
+        }
     }
 }
 
@@ -1560,33 +1556,29 @@ static void M_MusicVol(int choice)
     if (nomusic)
         return;
 
-    switch (choice)
+    if (!choice)
     {
-        case 0:
-            if (musicvolume > 0)
-            {
-                musicvolume--;
-                S_LowerMusicVolume();
-                S_StartSound(NULL, sfx_stnmov);
-                s_musicvolume = musicvolume * 100 / 31;
-                C_PercentCVAROutput(stringize(s_musicvolume), s_musicvolume);
-                M_SaveCVARs();
-            }
-
-            break;
-
-        case 1:
-            if (musicvolume < 31)
-            {
-                musicvolume++;
-                S_LowerMusicVolume();
-                S_StartSound(NULL, sfx_stnmov);
-                s_musicvolume = musicvolume * 100 / 31;
-                C_PercentCVAROutput(stringize(s_musicvolume), s_musicvolume);
-                M_SaveCVARs();
-            }
-
-            break;
+        if (musicvolume > 0)
+        {
+            musicvolume--;
+            S_LowerMusicVolume();
+            S_StartSound(NULL, sfx_stnmov);
+            s_musicvolume = musicvolume * 100 / 31;
+            C_PercentCVAROutput(stringize(s_musicvolume), s_musicvolume);
+            M_SaveCVARs();
+        }
+    }
+    else
+    {
+        if (musicvolume < 31)
+        {
+            musicvolume++;
+            S_LowerMusicVolume();
+            S_StartSound(NULL, sfx_stnmov);
+            s_musicvolume = musicvolume * 100 / 31;
+            C_PercentCVAROutput(stringize(s_musicvolume), s_musicvolume);
+            M_SaveCVARs();
+        }
     }
 }
 
@@ -2169,72 +2161,64 @@ static void M_ChangeSensitivity(int choice)
 {
     if (usinggamecontroller && !M_MSENS)
     {
-        switch (choice)
+        if (!choice)
         {
-            case 0:
-                if (joy_sensitivity_horizontal > joy_sensitivity_horizontal_min)
-                {
-                    if ((int)(joy_sensitivity_horizontal = roundf(joy_sensitivity_horizontal)) & 1)
-                        joy_sensitivity_horizontal++;
+            if (joy_sensitivity_horizontal > joy_sensitivity_horizontal_min)
+            {
+                if ((int)(joy_sensitivity_horizontal = roundf(joy_sensitivity_horizontal)) & 1)
+                    joy_sensitivity_horizontal++;
 
-                    joy_sensitivity_horizontal -= 2.0f;
-                    I_SetGameControllerHorizontalSensitivity();
-                    C_IntegerCVAROutput(stringize(joy_sensitivity_horizontal),
-                        (int)joy_sensitivity_horizontal);
-                    M_SliderSound();
-                    M_SaveCVARs();
-                }
+                joy_sensitivity_horizontal -= 2.0f;
+                I_SetGameControllerHorizontalSensitivity();
+                C_IntegerCVAROutput(stringize(joy_sensitivity_horizontal),
+                    (int)joy_sensitivity_horizontal);
+                M_SliderSound();
+                M_SaveCVARs();
+            }
+        }
+        else
+        {
+            if (joy_sensitivity_horizontal < joy_sensitivity_horizontal_max)
+            {
+                if ((int)(joy_sensitivity_horizontal = roundf(joy_sensitivity_horizontal)) & 1)
+                    joy_sensitivity_horizontal--;
 
-                break;
-
-            case 1:
-                if (joy_sensitivity_horizontal < joy_sensitivity_horizontal_max)
-                {
-                    if ((int)(joy_sensitivity_horizontal = roundf(joy_sensitivity_horizontal)) & 1)
-                        joy_sensitivity_horizontal--;
-
-                    joy_sensitivity_horizontal += 2.0f;
-                    I_SetGameControllerHorizontalSensitivity();
-                    C_IntegerCVAROutput(stringize(joy_sensitivity_horizontal),
-                        (int)joy_sensitivity_horizontal);
-                    M_SliderSound();
-                    M_SaveCVARs();
-                }
-
-                break;
+                joy_sensitivity_horizontal += 2.0f;
+                I_SetGameControllerHorizontalSensitivity();
+                C_IntegerCVAROutput(stringize(joy_sensitivity_horizontal),
+                    (int)joy_sensitivity_horizontal);
+                M_SliderSound();
+                M_SaveCVARs();
+            }
         }
     }
     else
     {
-        switch (choice)
+        if (!choice)
         {
-            case 0:
-                if (m_sensitivity > m_sensitivity_min)
-                {
-                    if ((int)(m_sensitivity = roundf(m_sensitivity)) & 1)
-                        m_sensitivity++;
+            if (m_sensitivity > m_sensitivity_min)
+            {
+                if ((int)(m_sensitivity = roundf(m_sensitivity)) & 1)
+                    m_sensitivity++;
 
-                    m_sensitivity -= 2.0f;
-                    C_IntegerCVAROutput(stringize(m_sensitivity), (int)m_sensitivity);
-                    M_SliderSound();
-                    M_SaveCVARs();
-                }
+                m_sensitivity -= 2.0f;
+                C_IntegerCVAROutput(stringize(m_sensitivity), (int)m_sensitivity);
+                M_SliderSound();
+                M_SaveCVARs();
+            }
+        }
+        else
+        {
+            if (m_sensitivity < m_sensitivity_max)
+            {
+                if ((int)(m_sensitivity = roundf(m_sensitivity)) & 1)
+                    m_sensitivity--;
 
-                break;
-
-            case 1:
-                if (m_sensitivity < m_sensitivity_max)
-                {
-                    if ((int)(m_sensitivity = roundf(m_sensitivity)) & 1)
-                        m_sensitivity--;
-
-                    m_sensitivity += 2.0f;
-                    C_IntegerCVAROutput(stringize(m_sensitivity), (int)m_sensitivity);
-                    M_SliderSound();
-                    M_SaveCVARs();
-                }
-
-                break;
+                m_sensitivity += 2.0f;
+                C_IntegerCVAROutput(stringize(m_sensitivity), (int)m_sensitivity);
+                M_SliderSound();
+                M_SaveCVARs();
+            }
         }
     }
 }
@@ -2269,79 +2253,75 @@ static void M_ChangeDetail(int choice)
 
 static void M_SizeDisplay(int choice)
 {
-    switch (choice)
+    if (!choice)
     {
-        case 0:
-            if (r_screensize == r_screensize_max && !r_hud)
-            {
-                r_hud = true;
-                C_StringCVAROutput(stringize(r_hud), "on");
-                S_StartSound(NULL, sfx_stnmov);
-                M_SaveCVARs();
-            }
-            else if (r_screensize == r_screensize_max - 1 && vid_widescreen)
-            {
-                vid_widescreen = false;
-                C_StringCVAROutput(stringize(vid_widescreen), "off");
-                I_RestartGraphics(false);
-                S_StartSound(NULL, sfx_stnmov);
-                M_SaveCVARs();
-            }
-            else if (r_screensize > r_screensize_min)
-            {
-                C_IntegerCVAROutput(stringize(r_screensize), --r_screensize);
-                R_SetViewSize(menuactive && viewactive ? r_screensize_max : r_screensize);
-                AM_SetAutomapSize(automapactive ? r_screensize_max : r_screensize);
+        if (r_screensize == r_screensize_max && !r_hud)
+        {
+            r_hud = true;
+            C_StringCVAROutput(stringize(r_hud), "on");
+            S_StartSound(NULL, sfx_stnmov);
+            M_SaveCVARs();
+        }
+        else if (r_screensize == r_screensize_max - 1 && vid_widescreen)
+        {
+            vid_widescreen = false;
+            C_StringCVAROutput(stringize(vid_widescreen), "off");
+            I_RestartGraphics(false);
+            S_StartSound(NULL, sfx_stnmov);
+            M_SaveCVARs();
+        }
+        else if (r_screensize > r_screensize_min)
+        {
+            C_IntegerCVAROutput(stringize(r_screensize), --r_screensize);
+            R_SetViewSize(menuactive && viewactive ? r_screensize_max : r_screensize);
+            AM_SetAutomapSize(automapactive ? r_screensize_max : r_screensize);
 
-                if (r_screensize == r_screensize_max - 1)
-                {
-                    r_hud = false;
-                    C_StringCVAROutput(stringize(r_hud), "off");
-                }
-
-                S_StartSound(NULL, sfx_stnmov);
-                M_SaveCVARs();
-            }
-            else
-                return;
-
-            break;
-
-        case 1:
-            if (r_screensize == r_screensize_max && r_hud)
+            if (r_screensize == r_screensize_max - 1)
             {
                 r_hud = false;
                 C_StringCVAROutput(stringize(r_hud), "off");
-                S_StartSound(NULL, sfx_stnmov);
-                M_SaveCVARs();
             }
-            else if (r_screensize == r_screensize_max - 1 && !vid_widescreen && !nowidescreen)
+
+            S_StartSound(NULL, sfx_stnmov);
+            M_SaveCVARs();
+        }
+        else
+            return;
+    }
+    else
+    {
+        if (r_screensize == r_screensize_max && r_hud)
+        {
+            r_hud = false;
+            C_StringCVAROutput(stringize(r_hud), "off");
+            S_StartSound(NULL, sfx_stnmov);
+            M_SaveCVARs();
+        }
+        else if (r_screensize == r_screensize_max - 1 && !vid_widescreen && !nowidescreen)
+        {
+            vid_widescreen = true;
+            C_StringCVAROutput(stringize(vid_widescreen), "on");
+            I_RestartGraphics(false);
+            S_StartSound(NULL, sfx_stnmov);
+            M_SaveCVARs();
+        }
+        else if (r_screensize < r_screensize_max)
+        {
+            C_IntegerCVAROutput(stringize(r_screensize), ++r_screensize);
+            R_SetViewSize(menuactive && viewactive ? r_screensize_max : r_screensize);
+            AM_SetAutomapSize(automapactive ? r_screensize_max : r_screensize);
+
+            if (r_screensize == r_screensize_max)
             {
-                vid_widescreen = true;
-                C_StringCVAROutput(stringize(vid_widescreen), "on");
-                I_RestartGraphics(false);
-                S_StartSound(NULL, sfx_stnmov);
-                M_SaveCVARs();
+                r_hud = true;
+                C_StringCVAROutput(stringize(r_hud), "on");
             }
-            else if (r_screensize < r_screensize_max)
-            {
-                C_IntegerCVAROutput(stringize(r_screensize), ++r_screensize);
-                R_SetViewSize(menuactive && viewactive ? r_screensize_max : r_screensize);
-                AM_SetAutomapSize(automapactive ? r_screensize_max : r_screensize);
 
-                if (r_screensize == r_screensize_max)
-                {
-                    r_hud = true;
-                    C_StringCVAROutput(stringize(r_hud), "on");
-                }
-
-                S_StartSound(NULL, sfx_stnmov);
-                M_SaveCVARs();
-            }
-            else
-                return;
-
-            break;
+            S_StartSound(NULL, sfx_stnmov);
+            M_SaveCVARs();
+        }
+        else
+            return;
     }
 
     M_SaveCVARs();
