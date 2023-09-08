@@ -1055,6 +1055,7 @@ const char *words[][2] =
     { "organization", "organisation" },
     { "practice",     "practise"     },
     { "program",      "programme"    },
+    { "realization",  "realisation"  },
     { "realize",      "realise"      },
     { "realizing",    "realising"    },
     { "randomize",    "randomise"    },
