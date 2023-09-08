@@ -1885,9 +1885,17 @@ static void M_DrawOptions(void)
     if (messages)
     {
         if (M_MSGON)
-            M_DrawPatchWithShadow(OptionsDef.x + (REKKR ? 106 : 120),
+        {
+            short   width = SHORT(((patch_t *)W_CacheLumpName(OptionsMenu[msgs].name))->width);
+            patch_t *patch = W_CacheLumpName("M_MSGON");
+
+            if (FREEDOOM)
+                patch->leftoffset = 0;
+
+            M_DrawPatchWithShadow(OptionsDef.x + (REKKR ? width - 11 : width + 6),
                 OptionsDef.y + 16 * msgs + (REKKR ? OFFSET + 2 : OFFSET),
-                W_CacheLumpName("M_MSGON"), (itemon == msgs));
+                patch, (itemon == msgs));
+        }
         else
             M_DrawString(OptionsDef.x + 122, OptionsDef.y + 16 * msgs + OFFSET,
                 s_M_ON, (itemon == msgs), true);
@@ -1895,9 +1903,17 @@ static void M_DrawOptions(void)
     else
     {
         if (M_MSGOFF)
-            M_DrawPatchWithShadow(OptionsDef.x + (REKKR ? 106 : 120),
+        {
+            short   width = SHORT(((patch_t *)W_CacheLumpName(OptionsMenu[msgs].name))->width);
+            patch_t *patch = W_CacheLumpName("M_MSGOFF");
+
+            if (FREEDOOM)
+                patch->leftoffset = 0;
+
+            M_DrawPatchWithShadow(OptionsDef.x + (REKKR ? width - 11 : width + 6),
                 OptionsDef.y + 16 * msgs + (REKKR ? OFFSET + 2 : OFFSET),
-                W_CacheLumpName("M_MSGOFF"), (itemon == msgs));
+                patch, (itemon == msgs));
+        }
         else
             M_DrawString(OptionsDef.x + 122, OptionsDef.y + 16 * msgs + OFFSET,
                 s_M_OFF, (itemon == msgs), true);
@@ -1906,9 +1922,17 @@ static void M_DrawOptions(void)
     if (r_detail == r_detail_low)
     {
         if (M_GDLOW)
-            M_DrawPatchWithShadow(OptionsDef.x + (REKKR ? 159 : 175),
+        {
+            short   width = SHORT(((patch_t *)W_CacheLumpName(OptionsMenu[detail].name))->width);
+            patch_t *patch = W_CacheLumpName("M_GDLOW");
+
+            if (FREEDOOM)
+                patch->leftoffset = 0;
+
+            M_DrawPatchWithShadow(OptionsDef.x + (REKKR ? width - 13 : width + 6),
                 OptionsDef.y + 16 * detail + (REKKR ? OFFSET + 2 : OFFSET),
-                W_CacheLumpName("M_GDLOW"), (itemon == detail));
+                patch, (itemon == detail));
+        }
         else
             M_DrawString(OptionsDef.x + 173, OptionsDef.y + 16 * detail + OFFSET,
                 s_M_LOW, (itemon == detail), true);
@@ -1916,9 +1940,17 @@ static void M_DrawOptions(void)
     else
     {
         if (M_GDHIGH)
-            M_DrawPatchWithShadow(OptionsDef.x + (REKKR ? 159 : 175),
+        {
+            short   width = SHORT(((patch_t *)W_CacheLumpName(OptionsMenu[detail].name))->width);
+            patch_t *patch = W_CacheLumpName("M_GDHIGH");
+
+            if (FREEDOOM)
+                patch->leftoffset = 0;
+
+            M_DrawPatchWithShadow(OptionsDef.x + (REKKR ? width - 13 : width + 6),
                 OptionsDef.y + 16 * detail + (REKKR ? OFFSET + 2 : OFFSET),
-                W_CacheLumpName("M_GDHIGH"), (itemon == detail));
+                patch, (itemon == detail));
+        }
         else
             M_DrawString(OptionsDef.x + 173, OptionsDef.y + 16 * detail + OFFSET,
                 s_M_HIGH, (itemon == detail), true);
