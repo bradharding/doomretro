@@ -1380,7 +1380,8 @@ static void SetVideoMode(bool createwindow, bool output)
     {
         if ((renderer = SDL_CreateRenderer(window, -1, (SDL_RENDERER_SOFTWARE | SDL_RENDERER_TARGETTEXTURE))))
         {
-            C_Warning(1, "The " BOLD("vid_scaleapi") " CVAR was changed from " BOLD("%s") " to " BOLD("\"software\"") ".", vid_scaleapi);
+            C_Warning(1, "The " BOLD("vid_scaleapi") " CVAR has been changed from " BOLD("%s")
+                " to " BOLD("\"software\"") ".", vid_scaleapi);
             vid_scaleapi = vid_scaleapi_software;
             M_SaveCVARs();
         }

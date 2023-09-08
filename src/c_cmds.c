@@ -10349,13 +10349,11 @@ static void vid_capfps_cvar_func2(char *cmd, char *parms)
 
         if (vid_capfps != vid_capfps_old)
         {
-            if (vid_capfps && (vid_capfps < TICRATE || vid_capfps > vid_capfps_max))
-            {
-                vid_capfps = vid_capfps_old;
-                M_SaveCVARs();
-            }
-            else
-                I_CapFPS(vid_capfps);
+            if (vid_capfps)
+                vid_capfps = BETWEEN(TICRATE, vid_capfps, vid_capfps_max);
+
+            M_SaveCVARs();
+            I_CapFPS(vid_capfps);
         }
     }
 }

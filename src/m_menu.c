@@ -1889,7 +1889,8 @@ static void M_DrawOptions(void)
                 OptionsDef.y + 16 * msgs + (REKKR ? OFFSET + 2 : OFFSET),
                 W_CacheLumpName("M_MSGON"), (itemon == msgs));
         else
-            M_DrawString(OptionsDef.x + 122, OptionsDef.y + 16 * msgs + OFFSET, s_M_ON, (itemon == msgs), true);
+            M_DrawString(OptionsDef.x + 122, OptionsDef.y + 16 * msgs + OFFSET,
+                s_M_ON, (itemon == msgs), true);
     }
     else
     {
@@ -1898,7 +1899,8 @@ static void M_DrawOptions(void)
                 OptionsDef.y + 16 * msgs + (REKKR ? OFFSET + 2 : OFFSET),
                 W_CacheLumpName("M_MSGOFF"), (itemon == msgs));
         else
-            M_DrawString(OptionsDef.x + 122, OptionsDef.y + 16 * msgs + OFFSET, s_M_OFF, (itemon == msgs), true);
+            M_DrawString(OptionsDef.x + 122, OptionsDef.y + 16 * msgs + OFFSET,
+                s_M_OFF, (itemon == msgs), true);
     }
 
     if (r_detail == r_detail_low)
@@ -1908,7 +1910,8 @@ static void M_DrawOptions(void)
                 OptionsDef.y + 16 * detail + (REKKR ? OFFSET + 2 : OFFSET),
                 W_CacheLumpName("M_GDLOW"), (itemon == detail));
         else
-            M_DrawString(OptionsDef.x + 173, OptionsDef.y + 16 * detail + OFFSET, s_M_LOW, (itemon == detail), true);
+            M_DrawString(OptionsDef.x + 173, OptionsDef.y + 16 * detail + OFFSET,
+                s_M_LOW, (itemon == detail), true);
     }
     else
     {
@@ -1917,12 +1920,14 @@ static void M_DrawOptions(void)
                 OptionsDef.y + 16 * detail + (REKKR ? OFFSET + 2 : OFFSET),
                 W_CacheLumpName("M_GDHIGH"), (itemon == detail));
         else
-            M_DrawString(OptionsDef.x + 173, OptionsDef.y + 16 * detail + OFFSET, s_M_HIGH, (itemon == detail), true);
+            M_DrawString(OptionsDef.x + 173, OptionsDef.y + 16 * detail + OFFSET,
+                s_M_HIGH, (itemon == detail), true);
     }
 
     dot = (float)(r_screensize + (r_screensize < r_screensize_max - 1 ? 0 :
         (r_screensize == r_screensize_max - 1 ? vid_widescreen : 1 + !r_hud)));
-    OptionsMenu[option_empty1].sliderx = MAXWIDESCREENDELTA + OptionsDef.x - 1 + 8 + (int)(dot * 6.54f) + 2;
+    OptionsMenu[option_empty1].sliderx = MAXWIDESCREENDELTA
+        + OptionsDef.x - 1 + 8 + (int)(dot * 6.54f) + 2;
     OptionsMenu[option_empty1].width = 16 * 8 + 12;
     M_DrawSlider(OptionsDef.x - 1, OptionsDef.y + 16 * (scrnsize + 1) + OFFSET + !hacx,
         9, 15, dot, 6.54f, 8, (itemon == scrnsize || itemon == option_empty1));
@@ -1930,7 +1935,8 @@ static void M_DrawOptions(void)
     if (usinggamecontroller && !M_MSENS)
     {
         dot = roundf(joy_sensitivity_horizontal) / joy_sensitivity_horizontal_max * 8.0f;
-        OptionsMenu[option_empty2].sliderx = MAXWIDESCREENDELTA + OptionsDef.x - 1 + 8 + (int)(dot * 8.0f) + 2;
+        OptionsMenu[option_empty2].sliderx = MAXWIDESCREENDELTA
+            + OptionsDef.x - 1 + 8 + (int)(dot * 8.0f) + 2;
         OptionsMenu[option_empty2].width = 16 * 8 + 12;
         M_DrawSlider(OptionsDef.x - 1, OptionsDef.y + 16 * (mousesens + 1) + OFFSET + !hacx,
             9, 15, dot, 8.0f, 8, (itemon == mousesens || itemon == option_empty2));
@@ -1938,7 +1944,8 @@ static void M_DrawOptions(void)
     else
     {
         dot = roundf(m_sensitivity) / m_sensitivity_max * 8.0f;
-        OptionsMenu[option_empty2].sliderx = MAXWIDESCREENDELTA + OptionsDef.x - 1 + 8 + (int)(dot * 8.0f) + 2;
+        OptionsMenu[option_empty2].sliderx = MAXWIDESCREENDELTA
+            + OptionsDef.x - 1 + 8 + (int)(dot * 8.0f) + 2;
         OptionsMenu[option_empty2].width = 16 * 8 + 12;
         M_DrawSlider(OptionsDef.x - 1, OptionsDef.y + 16 * (mousesens + 1) + OFFSET + !hacx,
             9, 15, dot, 8.0f, 8, (itemon == mousesens || itemon == option_empty2));
