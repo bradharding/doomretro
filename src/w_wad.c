@@ -369,9 +369,10 @@ bool W_AddFile(char *filename, bool autoloaded)
     if (!M_StringCompare(leafname(filename), DOOMRETRO_RESOURCEWAD) || devparm)
     {
         temp = commify((int64_t)numlumps - startlump);
-        C_Output("%s lump%s have been %s from the %s " BOLD("%s") ".",
+        C_Output("%s%s %s been %s from the %s " BOLD("%s") ".",
+            (autoloaded ? "A further " : ""),
             temp,
-            (numlumps - startlump == 1 ? "" : "s"),
+            (numlumps - startlump == 1 ? "lump has" : "lumps have"),
             (autoloaded ? "automatically added" : "added"),
             (wadfile->type == IWAD ? "IWAD" : "PWAD"),
             wadfile->path);
@@ -392,22 +393,22 @@ bool W_AddFile(char *filename, bool autoloaded)
             || M_StringCompare(file, "SIGIL.wad"))
         {
             autosigil = autoloaded;
-            C_Output("John Romero's " ITALICS("SIGIL")
-                " can be played by selecting it in the episode menu.");
+            C_Output("You can now play John Romero's " ITALICS("SIGIL")
+                " by selecting it in the episode menu.");
         }
         else if (M_StringCompare(file, "SIGIL_SHREDS.WAD")
             || M_StringCompare(file, "SIGIL_SHREDS_COMPAT.wad"))
         {
             buckethead = true;
-            C_Output("Buckethead's soundtrack will now be heard while playing " ITALICS("SIGIL."));
+            C_Output("You'll now hear Buckethead's soundtrack while playing " ITALICS("SIGIL."));
         }
         else if (M_StringCompare(file, "DOOM.WAD"))
-            C_Output("John Romero's " ITALICS("E1M4B: Phobos Mission Control") " and "
-                ITALICS("E1M8B: Tech Gone Bad") " can be played by entering "
-                BOLD("map E1M4B") " or " BOLD("map E1M8B") " in the console.");
+            C_Output("You can now play John Romero's " ITALICS("E1M4B: Phobos Mission Control")
+                " and " ITALICS("E1M8B: Tech Gone Bad") " by entering " BOLD("map E1M4B") " or "
+                BOLD("map E1M8B") " in the console.");
         else if (M_StringCompare(file, "NERVE.WAD"))
-            C_Output("Nerve Software's " ITALICS("No Rest For The Living")
-                " can be played by selecting it in the expansion menu.");
+            C_Output("You can now play Nerve Software's " ITALICS("No Rest For The Living")
+                " by selecting it in the expansion menu.");
     }
 
     if (!resourcewadadded)

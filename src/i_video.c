@@ -1403,7 +1403,7 @@ static void SetVideoMode(bool createwindow, bool output)
             char    *temp5 = commify((int64_t)upscaledwidth * SCREENWIDTH);
             char    *temp6 = commify((int64_t)upscaledheight * SCREENHEIGHT);
 
-            C_Output("Every frame is scaled up from %sx%s to %sx%s using nearest-%s interpolation "
+            C_Output("Every frame is then scaled up from %sx%s to %sx%s using nearest-%s interpolation "
                 "and then down to %sx%s using linear filtering.",
                 temp1, temp2, temp5, temp6, (english == english_american ? "neighbor" : "neighbour"), temp3, temp4);
 
@@ -1411,10 +1411,10 @@ static void SetVideoMode(bool createwindow, bool output)
             free(temp6);
         }
         else if (M_StringCompare(vid_scalefilter, vid_scalefilter_linear) && !software)
-            C_Output("Every frame is scaled up from %sx%s to %sx%s using linear filtering.",
+            C_Output("Every frame is then scaled up from %sx%s to %sx%s using linear filtering.",
                 temp1, temp2, temp3, temp4);
         else
-            C_Output("Every frame is scaled up from %sx%s to %sx%s using nearest-%s interpolation.",
+            C_Output("Every frame is then scaled up from %sx%s to %sx%s using nearest-%s interpolation.",
                 temp1, temp2, temp3, temp4, (english == english_american ? "neighbor" : "neighbour"));
 
         free(temp1);
