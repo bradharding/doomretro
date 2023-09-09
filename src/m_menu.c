@@ -4042,8 +4042,8 @@ void M_Drawer(void)
                         patch_t *patch = W_CacheLumpName(name);
 
                         M_DrawPatchWithShadow(x, y + OFFSET, patch, highlight);
-                        currentmenu->menuitems[i].x = x + MAXWIDESCREENDELTA;
-                        currentmenu->menuitems[i].y = y + OFFSET;
+                        currentmenu->menuitems[i].x = x - SHORT(patch->leftoffset) + MAXWIDESCREENDELTA;
+                        currentmenu->menuitems[i].y = y - SHORT(patch->topoffset) + OFFSET;
                         widest = MAX(widest, SHORT(patch->width));
                         currentmenu->menuitems[i].height = SHORT(patch->height);
                     }
@@ -4054,8 +4054,8 @@ void M_Drawer(void)
                             patch_t *patch = W_CacheLumpName(name);
 
                             M_DrawPatchWithShadow(x, y + OFFSET, patch, highlight);
-                            currentmenu->menuitems[i].x = x + MAXWIDESCREENDELTA;
-                            currentmenu->menuitems[i].y = y + OFFSET;
+                            currentmenu->menuitems[i].x = x - SHORT(patch->leftoffset) + MAXWIDESCREENDELTA;
+                            currentmenu->menuitems[i].y = y - SHORT(patch->topoffset) + OFFSET;
                             widest = MAX(widest, SHORT(patch->width));
                             currentmenu->menuitems[i].height = SHORT(patch->height);
                         }
@@ -4133,8 +4133,8 @@ void M_Drawer(void)
                         int     width = SHORT(patch->width);
 
                         M_DrawPatchWithShadow(x, y + OFFSET, patch, highlight);
-                        currentmenu->menuitems[i].x = x + MAXWIDESCREENDELTA;
-                        currentmenu->menuitems[i].y = y + OFFSET;
+                        currentmenu->menuitems[i].x = x - SHORT(patch->leftoffset) + MAXWIDESCREENDELTA;
+                        currentmenu->menuitems[i].y = y - SHORT(patch->topoffset) + OFFSET;
 
                         if (currentmenu == &OptionsDef)
                         {
