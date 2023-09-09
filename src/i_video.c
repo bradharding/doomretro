@@ -1404,7 +1404,7 @@ static void SetVideoMode(bool createwindow, bool output)
             char    *temp6 = commify((int64_t)upscaledheight * SCREENHEIGHT);
 
             C_Output("Every frame is then scaled up from %sx%s to %sx%s using nearest-%s interpolation "
-                "and then down to %sx%s using linear filtering.",
+                "and then back down to %sx%s using linear filtering.",
                 temp1, temp2, temp5, temp6, (english == english_american ? "neighbor" : "neighbour"), temp3, temp4);
 
             free(temp5);

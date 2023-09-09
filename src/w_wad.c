@@ -366,6 +366,14 @@ bool W_AddFile(char *filename, bool autoloaded)
 
     free(fileinfo);
 
+    if (!M_StringCompare(leafname(filename), DOOMRETRO_RESOURCEWAD))
+    {
+        if (wadsloaded)
+            wadsloaded = M_StringJoin(wadsloaded, ", ", leafname(filename), NULL);
+        else
+            wadsloaded = M_StringDuplicate(leafname(filename));
+    }
+
     if (!M_StringCompare(leafname(filename), DOOMRETRO_RESOURCEWAD) || devparm)
     {
         temp = commify((int64_t)numlumps - startlump);
@@ -377,14 +385,6 @@ bool W_AddFile(char *filename, bool autoloaded)
             (wadfile->type == IWAD ? "IWAD" : "PWAD"),
             wadfile->path);
         free(temp);
-    }
-
-    if (!M_StringCompare(leafname(filename), DOOMRETRO_RESOURCEWAD))
-    {
-        if (wadsloaded)
-            wadsloaded = M_StringJoin(wadsloaded, ", ", leafname(filename), NULL);
-        else
-            wadsloaded = M_StringDuplicate(leafname(filename));
 
         if (M_StringCompare(file, "SIGIL_v1_21.wad")
             || M_StringCompare(file, "SIGIL_v1_2.wad")
@@ -404,7 +404,7 @@ bool W_AddFile(char *filename, bool autoloaded)
         }
         else if (M_StringCompare(file, "DOOM.WAD"))
             C_Output("You can now play John Romero's " ITALICS("E1M4B: Phobos Mission Control")
-                " and " ITALICS("E1M8B: Tech Gone Bad") " by entering " BOLD("map E1M4B") " or "
+                " or " ITALICS("E1M8B: Tech Gone Bad") " by entering " BOLD("map E1M4B") " or "
                 BOLD("map E1M8B") " in the console.");
         else if (M_StringCompare(file, "NERVE.WAD"))
             C_Output("You can now play Nerve Software's " ITALICS("No Rest For The Living")

@@ -985,16 +985,19 @@ static void D_AutoloadSigilWAD(void)
     char    path[MAX_PATH];
 
     M_snprintf(path, sizeof(path), "%s" DIR_SEPARATOR_S "%s", wadfolder, "SIGIL_v1_21.wad");
+
     if (W_MergeFile(path, true))
         sigil = true;
     else
     {
         M_snprintf(path, sizeof(path), "%s" DIR_SEPARATOR_S "%s", wadfolder, "SIGIL_v1_2.wad");
+
         if (W_MergeFile(path, true))
             sigil = true;
         else
         {
             M_snprintf(path, sizeof(path), "%s" DIR_SEPARATOR_S "%s", wadfolder, "SIGIL_v1_1.wad");
+
             if (W_MergeFile(path, true))
                 sigil = true;
             else
@@ -1014,6 +1017,7 @@ static void D_AutoloadSigilWAD(void)
     if (sigil && !M_CheckParm("-nomusic") && !M_CheckParm("-nosound"))
     {
         M_snprintf(path, sizeof(path), "%s" DIR_SEPARATOR_S "%s", wadfolder, "SIGIL_SHREDS.wad");
+
         if (!W_MergeFile(path, true))
         {
             M_snprintf(path, sizeof(path), "%s" DIR_SEPARATOR_S "%s", wadfolder, "SIGIL_SHREDS_COMPAT.wad");
@@ -1027,6 +1031,7 @@ static void D_AutoloadNerveWAD(void)
     char    path[MAX_PATH];
 
     M_snprintf(path, sizeof(path), "%s" DIR_SEPARATOR_S "%s", wadfolder, "NERVE.WAD");
+
     if (W_MergeFile(path, true))
         nerve = true;
 }
