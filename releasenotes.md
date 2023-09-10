@@ -4,9 +4,10 @@
 
 * *DOOM Retro* is now built using v17.7.3 of [*Microsoft Visual Studio Community 2022*](https://visualstudio.microsoft.com/vs/community/).
 * *DOOM Retro* now uses [*SDL v2.28.3*](https://github.com/libsdl-org/SDL/releases/tag/release-2.28.3).
-* Several optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
+* Extensive optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Any `.cfg` files placed in the `autoload` folder are now autoloaded when *DOOM Retro* starts.
 * *DOOM Retro* now parses any response files specified on the command-line.
+* When using the WAD launcher to load `DOOM.WAD` or `DOOM2.WAD` with an accompanying PWAD, `SIGIL.WAD` and `NERVE.WAD` will now still be autoloaded if found.
 * These changes have been made to the support for `DEHACKED` lumps:
   * Support has been added for [*DSDHacked*](https://doomwiki.org/wiki/DSDHacked), allowing an unlimited number of things, states, sprites and sound effects to be used.
   * A bug is fixed whereby custom monsters wouldn’t bleed in some instances.

@@ -1391,6 +1391,14 @@ static int D_OpenWADLauncher(void)
 
                         if (!M_CheckParm("-nodeh") && !M_CheckParm("-nobex"))
                             LoadDehFile(file);
+
+                        if (W_CheckMultipleLumps("M_NGAME") == 1)
+                        {
+                            if (D_IsDOOM1IWAD(fullpath) && IsUltimateDOOM(fullpath))
+                                D_AutoloadSigilWAD();
+                            else if (D_IsDOOM2IWAD(fullpath))
+                                D_AutoloadNerveWAD();
+                        }
                     }
                 }
                 else
@@ -1416,6 +1424,14 @@ static int D_OpenWADLauncher(void)
 
                             if (!M_CheckParm("-nodeh") && !M_CheckParm("-nobex"))
                                 LoadDehFile(file);
+
+                            if (W_CheckMultipleLumps("M_NGAME") == 1)
+                            {
+                                if (D_IsDOOM1IWAD(fullpath) && IsUltimateDOOM(fullpath))
+                                    D_AutoloadSigilWAD();
+                                else if (D_IsDOOM2IWAD(fullpath))
+                                    D_AutoloadNerveWAD();
+                            }
                         }
                     }
                     else
@@ -1438,6 +1454,14 @@ static int D_OpenWADLauncher(void)
 
                                 if (!M_CheckParm("-nodeh") && !M_CheckParm("-nobex"))
                                     LoadDehFile(file);
+
+                                if (W_CheckMultipleLumps("M_NGAME") == 1)
+                                {
+                                    if (D_IsDOOM1IWAD(fullpath) && IsUltimateDOOM(fullpath))
+                                        D_AutoloadSigilWAD();
+                                    else if (D_IsDOOM2IWAD(fullpath))
+                                        D_AutoloadNerveWAD();
+                                }
                             }
                         }
                     }
