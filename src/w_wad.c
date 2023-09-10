@@ -377,8 +377,7 @@ bool W_AddFile(char *filename, bool autoloaded)
     if (!M_StringCompare(leafname(filename), DOOMRETRO_RESOURCEWAD) || devparm)
     {
         temp = commify((int64_t)numlumps - startlump);
-        C_Output("%s%s %s been %s from the %s " BOLD("%s") ".",
-            (autoloaded ? "A further " : ""),
+        C_Output("%s %s been %s from the %s " BOLD("%s") ".",
             temp,
             (numlumps - startlump == 1 ? "lump has" : "lumps have"),
             (autoloaded ? "automatically added" : "added"),
