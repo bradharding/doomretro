@@ -849,6 +849,7 @@ enum
 #define GAMECONTROLLERRIGHT_DEFAULT        0
 #define GAMECONTROLLERROTATEMODE_DEFAULT   0
 #define GAMECONTROLLERRUN_DEFAULT          GAMECONTROLLER_LEFT_TRIGGER
+#define GAMECONTROLLERSCREENSHOT_DEFAULT   0
 #define GAMECONTROLLERSTRAFE_DEFAULT       0
 #define GAMECONTROLLERSTRAFELEFT_DEFAULT   0
 #define GAMECONTROLLERSTRAFERIGHT_DEFAULT  0
@@ -902,16 +903,25 @@ enum
 #define KEYZOOMIN_DEFAULT                  KEY_EQUALS
 #define KEYZOOMOUT_DEFAULT                 KEY_MINUS
 
+#define MOUSEALWAYSRUN_DEFAULT            -1
 #define MOUSEAUTOMAP_DEFAULT              -1
 #define MOUSEBACK_DEFAULT                 -1
+#define MOUSECLEARMARK_DEFAULT            -1
+#define MOUSECONSOLE_DEFAULT              -1
 #define MOUSEFIRE_DEFAULT                  0
+#define MOUSEFOLLOWMODE_DEFAULT           -1
 #define MOUSEFORWARD_DEFAULT              -1
+#define MOUSEGRID_DEFAULT                 -1
 #define MOUSEJUMP_DEFAULT                 -1
 #define MOUSELEFT_DEFAULT                 -1
+#define MOUSEMARK_DEFAULT                 -1
+#define MOUSEMAXZOOM_DEFAULT              -1
+#define MOUSEMENU_DEFAULT                 -1
 #define MOUSEMOUSELOOK_DEFAULT            -1
 #define MOUSENEXTWEAPON_DEFAULT            MOUSE_WHEELDOWN
 #define MOUSEPREVWEAPON_DEFAULT            MOUSE_WHEELUP
 #define MOUSERIGHT_DEFAULT                -1
+#define MOUSEROTATEMODE_DEFAULT           -1
 #define MOUSERUN_DEFAULT                  -1
 #define MOUSESCREENSHOT_DEFAULT           -1
 #define MOUSESTRAFE_DEFAULT               -1
@@ -925,6 +935,8 @@ enum
 #define MOUSEWEAPON5_DEFAULT              -1
 #define MOUSEWEAPON6_DEFAULT              -1
 #define MOUSEWEAPON7_DEFAULT              -1
+#define MOUSEZOOMIN_DEFAULT               -1
+#define MOUSEZOOMOUT_DEFAULT              -1
 
 typedef enum
 {
