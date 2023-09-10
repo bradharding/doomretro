@@ -786,6 +786,8 @@ bool G_Responder(const event_t *ev)
                 keydown = keyboardalwaysrun;
                 G_ToggleAlwaysRun(ev_keydown);
             }
+            else if (ev->type == ev_mouse && ev->data1 == mousealwaysrun)
+                G_ToggleAlwaysRun(ev_mouse);
             else
             {
                 keydown = ev->data1;
@@ -878,6 +880,9 @@ bool G_Responder(const event_t *ev)
 
             for (int i = 0, j = 1; i < MAX_MOUSE_BUTTONS; i++, j <<= 1)
                 mousebuttons[i] = !!(mousebutton & j);
+
+            if (mousebuttons[mousealwaysrun])
+                G_ToggleAlwaysRun(ev_mouse);
 
             if (mouseactionlist[mousebutton][0] && !freeze)
                 C_ExecuteInputString(mouseactionlist[mousebutton]);

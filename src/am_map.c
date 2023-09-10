@@ -914,6 +914,44 @@ bool AM_Responder(const event_t *ev)
                     }
                 }
             }
+            else if (ev->type == ev_mouse && mousewait < I_GetTime())
+            {
+                if (ev->data1 == mouseclearmark)
+                {
+                    mousewait = I_GetTime() + 8;
+                    AM_ClearMarks();
+                }
+                else if (ev->data1 == mousefollowmode)
+                {
+                    mousewait = I_GetTime() + 8;
+                    AM_ToggleFollowMode(!am_followmode);
+                }
+                else if (ev->data1 == mousegrid)
+                {
+                    mousewait = I_GetTime() + 8;
+                    AM_ToggleGrid();
+                }
+                else if (ev->data1 == mousemark)
+                {
+                    mousewait = I_GetTime() + 8;
+                    AM_AddMark();
+                }
+                else if (ev->data1 == mousemaxzoom)
+                {
+                    mousewait = I_GetTime() + 8;
+                    AM_ToggleMaxZoom();
+                }
+                else if (ev->data1 == mousezoomin)
+                {
+                    mousewait = I_GetTime() + 8;
+                    AM_ToggleZoomIn();
+                }
+                else if (ev->data1 == mousezoomout)
+                {
+                    mousewait = I_GetTime() + 8;
+                    AM_ToggleZoomOut();
+                }
+            }
             else if (ev->type == ev_mousewheel && !mapwindow)
             {
                 // zoom in

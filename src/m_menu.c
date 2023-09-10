@@ -2743,6 +2743,18 @@ bool M_Responder(event_t *ev)
                 C_ShowConsole();
                 return false;
             }
+
+            // screenshot
+            else if ((gamecontrollerbuttons & gamecontrollerscreenshot) && gamecontrollerwait < I_GetTime())
+            {
+                gamecontrollerwait = I_GetTime() + 2;
+                usinggamecontroller = true;
+                G_ScreenShot();
+                S_StartSound(NULL, sfx_scrsht);
+                memset(screens[0], nearestwhite, SCREENAREA);
+                D_FadeScreen(true);
+                return false;
+            }
         }
     }
     else if (ev->type == ev_mouse)
@@ -2932,6 +2944,22 @@ bool M_Responder(event_t *ev)
                 else if ((ev->data1 & MOUSE_RIGHTBUTTON) && mousewait < I_GetTime())
                 {
                     key = KEY_ESCAPE;
+                    mousewait = I_GetTime() + 8;
+                    usinggamecontroller = false;
+                }
+
+                // menu
+                else if (ev->data1 & mousemenu)
+                {
+                    key = keyboardmenu;
+                    mousewait = I_GetTime() + 8;
+                    usinggamecontroller = false;
+                }
+
+                // console
+                else if (ev->data1 & mouseconsole)
+                {
+                    key = keyboardconsole;
                     mousewait = I_GetTime() + 8;
                     usinggamecontroller = false;
                 }

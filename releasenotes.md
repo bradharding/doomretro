@@ -120,7 +120,7 @@
 * All power-ups can now be given to the player by entering `give powerups` in the console.
 * Conversely, all power-ups the player currently has can now be taken away from them by entering `take powerups` in the console.
 * Widescreen mode can now be toggled using the <kbd><b>+</b></kbd> and <kbd><b>&ndash;</b></kbd> keys on the intermission and finale screens.
-* The `+automap` action can now be bound to a mouse button using the `bind` CCMD.
+* All actions may now be bound to all controls using the `bind` CCMD.
 * Skies can now be drawn horizontally linear by enabling the new `r_linearskies` CVAR, which is `off` by default and when vanilla mode is enabled.
 * The automap is now always updated when the `r_screensize` CVAR is changed while it is open.
 * A bug is fixed whereby any player movement wouldn’t be canceled when opening the automap and the `am_followmode` CVAR was `off`.
