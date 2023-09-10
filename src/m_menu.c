@@ -499,14 +499,14 @@ static void M_DrawMenuBorder(void)
     {
         byte *dot = *screens + x;
 
-        *dot = tinttab75[*dot];
+        *dot = tinttab40[*dot];
     }
 
     for (int x = SCREENWIDTH * 3; x < SCREENWIDTH * 4; x++)
     {
         byte    *dot = *screens + SCREENAREA - SCREENWIDTH * 7 + x;
 
-        *dot = tinttab75[*dot];
+        *dot = tinttab40[*dot];
     }
 
     if (vid_widescreen || nowidescreen)
