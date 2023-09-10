@@ -4156,6 +4156,9 @@ void M_Drawer(void)
                                     const patch_t   *off = W_CacheLumpName("M_MSGOFF");
 
                                     width += SHORT(MAX(on->width, off->width));
+
+                                    if (REKKR)
+                                        width -= 26;
                                 }
                                 else
                                     width += MAX(M_BigStringWidth(s_M_ON), M_BigStringWidth(s_M_OFF));
@@ -4170,6 +4173,9 @@ void M_Drawer(void)
                                     const patch_t   *low = W_CacheLumpName("M_GDLOW");
 
                                     width += SHORT(MAX(high->width, low->width));
+
+                                    if (REKKR)
+                                        width -= 26;
                                 }
                                 else
                                     width += MAX(M_BigStringWidth(s_M_HIGH), M_BigStringWidth(s_M_LOW));
