@@ -295,6 +295,8 @@ static void weapon4_action_func(void);
 static void weapon5_action_func(void);
 static void weapon6_action_func(void);
 static void weapon7_action_func(void);
+static void zoomin_action_func(void);
+static void zoomout_action_func(void);
 
 action_t actions[] =
 {
@@ -330,8 +332,8 @@ action_t actions[] =
     { "+weapon5",     true,  false, weapon5_action_func,     &keyboardweapon5,     NULL,                  &mouseweapon5,     &gamecontrollerweapon5,     NULL                },
     { "+weapon6",     true,  false, weapon6_action_func,     &keyboardweapon6,     NULL,                  &mouseweapon6,     &gamecontrollerweapon6,     NULL                },
     { "+weapon7",     true,  false, weapon7_action_func,     &keyboardweapon7,     NULL,                  &mouseweapon7,     &gamecontrollerweapon7,     NULL                },
-    { "+zoomin",      true,  true,  NULL,                    &keyboardzoomin,      NULL,                  &mousezoomin,      &gamecontrollerzoomin,      NULL                },
-    { "+zoomout",     true,  true,  NULL,                    &keyboardzoomout,     NULL,                  &mousezoomout,     &gamecontrollerzoomout,     NULL                },
+    { "+zoomin",      true,  true,  zoomin_action_func,      &keyboardzoomin,      NULL,                  &mousezoomin,      &gamecontrollerzoomin,      NULL                },
+    { "+zoomout",     true,  true,  zoomout_action_func,     &keyboardzoomout,     NULL,                  &mousezoomout,     &gamecontrollerzoomout,     NULL                },
     { "",             false, false, NULL,                    NULL,                 NULL,                  NULL,              NULL,                       NULL                }
 };
 
@@ -1209,6 +1211,16 @@ static void weapon6_action_func(void)
 static void weapon7_action_func(void)
 {
     P_ChangeWeapon(wp_bfg);
+}
+
+static void zoomin_action_func(void)
+{
+    AM_ToggleZoomIn();
+}
+
+static void zoomout_action_func(void)
+{
+    AM_ToggleZoomOut();
 }
 
 int C_GetIndex(const char *cmd)

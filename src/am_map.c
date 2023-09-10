@@ -467,14 +467,14 @@ static bool AM_GetSpeedToggle(void)
         ^ (!!(gamecontrollerbuttons & gamecontrollerrun)) ^ alwaysrun);
 }
 
-static void AM_ToggleZoomOut(void)
+void AM_ToggleZoomOut(void)
 {
     speedtoggle = AM_GetSpeedToggle();
     mtof_zoommul = M_ZOOMOUT;
     ftom_zoommul = M_ZOOMIN;
 }
 
-static void AM_ToggleZoomIn(void)
+void AM_ToggleZoomIn(void)
 {
     speedtoggle = AM_GetSpeedToggle();
     mtof_zoommul = M_ZOOMIN;
