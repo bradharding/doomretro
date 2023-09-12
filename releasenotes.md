@@ -7,26 +7,26 @@
 * Extensive optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Any `.cfg` files placed in the `autoload` folder are now autoloaded when *DOOM Retro* starts.
 * *DOOM Retro* now parses any response files specified on the command-line.
-* When using the WAD launcher to load a PWAD, if that PWAD doesn’t contain conflicting maps, `SIGIL.WAD` and `NERVE.WAD` will now still be autoloaded if found.
+* When using the WAD launcher to load a PWAD, if that PWAD doesn’t contain any conflicting maps, `SIGIL.WAD` or `NERVE.WAD` will now still be autoloaded if found.
 * These changes have been made to the support for `DEHACKED` lumps:
-  * Support has been added for [*DSDHacked*](https://doomwiki.org/wiki/DSDHacked), allowing an unlimited number of things, states, sprites and sound effects to be used.
+  * Support has been added for [*DSDHacked*](https://doomwiki.org/wiki/DSDHacked), allowing an unlimited number of things, states, sprites and sound effects.
   * A bug is fixed whereby custom monsters wouldn’t bleed in some instances.
 * Minor changes have been made to *DOOM Retro’s* splash screen.
 * Extensive changes have been made to text that is output to the console.
 * Minor improvements have been made to text autocompleted in the console by pressing the <kbd><b>TAB</b></kbd> key.
 * The caret may now be repositioned in the console’s input using the mouse pointer when the `m_pointer` CVAR is `on`.
 * The effects of changing the `r_gamma` and `r_color` CVARs are now applied to *DOOM Retro’s* splash screen.
-* The `r_color` CVAR has been renamed `r_saturation`, and can now be set to a value over `100%`, and up to a maximum of `200%`, allowing colors on the screen to be oversaturated.
+* The `r_color` CVAR has been renamed `r_saturation`, and can now be set to a value over `100%` to a maximum of `200%`, allowing colors on the screen to be oversaturated.
 * A crash no longer occurs when trying to display certain patches greater than 200 pixels in height.
 * These changes have been made to the menu:
-  * Entries in the menu are now subtly highlighted when selected.
+  * Menu entries are now subtly highlighted when selected.
   * Improvements have been made when toggling widescreen using the <kbd><b>+</b></kbd> and <kbd><b>&ndash;</b></kbd> keys while the menu is open.
   * The fade to black when quitting *DOOM Retro* from the menu is no longer affected by the player having either a berserk or radiation shielding suit power-up.
   * Minor improvements have been made to the edges of the menu’s background.
   * The skull cursor is no longer positioned incorrectly in the main menu in some rare instances.
-  * When navigating the menu using the mouse pointer and the `m_pointer` CVAR is `on`:
+  * When navigating the menu using the mouse pointer if the `m_pointer` CVAR is `on`:
     * The `episode`, `expansion`, `savegame` and `skilllevel` CVARs are now only updated when necessary.
-    * The precision of selecting menu items using the mouse pointer has improved.
+    * The precision of selecting menu items has improved.
     * The *Nightmare!* skill level can now always be selected.
     * Clicking outside of the selected savegame slot when entering text in the save game menu now works as expected.
     * The mouse pointer now becomes visible after having just used a controller to navigate the menu.
@@ -38,7 +38,7 @@
   * The console can now also be opened by selecting the new “Console” entry in the options menu.
   * The shadows cast by the sliders in the options menu have improved in some rare instances.
   * The positions of `ON`/`OFF` and `HIGH`/`LOW` in the options menu have been fixed in some instances.
-  * Right-clicking the mouse on the title screen no longer opens the menu.
+  * Right-clicking the mouse or pressing the <kbd><b>BACKSPACE</b></kbd> key on the title screen no longer opens the menu.
 * The `r_supersampling` CVAR has been renamed `r_antialiasing` and is now `off` by default.
 * Minor changes have been made to the help screen shown when pressing the <kbd><b>F1</b></kbd> key.
 * The `r_lowpixelsize` CVAR can now also be set to `1×2` or `2×1`.

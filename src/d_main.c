@@ -1393,12 +1393,15 @@ static int D_OpenWADLauncher(void)
                         if (!M_CheckParm("-nodeh") && !M_CheckParm("-nobex"))
                             LoadDehFile(file);
 
-                        if (D_IsDOOM1IWAD(fullpath) && IsUltimateDOOM(fullpath))
+                        if (D_IsDOOM1IWAD(fullpath))
                         {
-                            W_Init();
+                            if (IsUltimateDOOM(fullpath))
+                            {
+                                W_Init();
 
-                            if (W_CheckNumForName("M_EPI5") < 0 && W_CheckNumForName("E5M1") < 0)
-                                D_AutoloadSigilWAD();
+                                if (W_CheckNumForName("M_EPI5") < 0 && W_CheckNumForName("E5M1") < 0)
+                                    D_AutoloadSigilWAD();
+                            }
                         }
                         else if (D_IsDOOM2IWAD(fullpath) && W_CheckMultipleLumps("MAP01") == 1)
                             D_AutoloadNerveWAD();
@@ -1428,12 +1431,15 @@ static int D_OpenWADLauncher(void)
                             if (!M_CheckParm("-nodeh") && !M_CheckParm("-nobex"))
                                 LoadDehFile(file);
 
-                            if (D_IsDOOM1IWAD(fullpath) && IsUltimateDOOM(fullpath))
+                            if (D_IsDOOM1IWAD(fullpath))
                             {
-                                W_Init();
+                                if (IsUltimateDOOM(fullpath))
+                                {
+                                    W_Init();
 
-                                if (W_CheckNumForName("M_EPI5") < 0 && W_CheckNumForName("E5M1") < 0)
-                                    D_AutoloadSigilWAD();
+                                    if (W_CheckNumForName("M_EPI5") < 0 && W_CheckNumForName("E5M1") < 0)
+                                        D_AutoloadSigilWAD();
+                                }
                             }
                             else if (D_IsDOOM2IWAD(fullpath) && W_CheckMultipleLumps("MAP01") == 1)
                                 D_AutoloadNerveWAD();
@@ -1460,12 +1466,15 @@ static int D_OpenWADLauncher(void)
                                 if (!M_CheckParm("-nodeh") && !M_CheckParm("-nobex"))
                                     LoadDehFile(file);
 
-                                if (D_IsDOOM1IWAD(fullpath) && IsUltimateDOOM(fullpath))
+                                if (D_IsDOOM1IWAD(fullpath))
                                 {
-                                    W_Init();
+                                    if (IsUltimateDOOM(fullpath))
+                                    {
+                                        W_Init();
 
-                                    if (W_CheckNumForName("M_EPI5") < 0 && W_CheckNumForName("E5M1") < 0)
-                                        D_AutoloadSigilWAD();
+                                        if (W_CheckNumForName("M_EPI5") < 0 && W_CheckNumForName("E5M1") < 0)
+                                            D_AutoloadSigilWAD();
+                                    }
                                 }
                                 else if (D_IsDOOM2IWAD(fullpath) && W_CheckMultipleLumps("MAP01") == 1)
                                     D_AutoloadNerveWAD();
