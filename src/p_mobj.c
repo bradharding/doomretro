@@ -461,7 +461,7 @@ floater:
     if (mo->z <= floorz)
     {
         // [BH] remove blood the moment it hits the ground and spawn blood splats in its place
-        if (mo->type == MT_BLOOD)
+        if (mo->type == MT_BLOOD || (SD21 && mo->sprite >= 354 && mo->sprite <= 408))
         {
             P_RemoveBloodMobj(mo);
 

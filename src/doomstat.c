@@ -85,6 +85,7 @@ bool            harmony;
 bool            neis;
 bool            revolution;
 bool            scientist;
+bool            SD21;
 bool            syringe;
 
 bool            moreblood = false;

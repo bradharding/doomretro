@@ -131,6 +131,7 @@ extern bool             harmony;
 extern bool             neis;
 extern bool             revolution;
 extern bool             scientist;
+extern bool             SD21;
 extern bool             syringe;
 
 extern bool             moreblood;
