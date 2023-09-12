@@ -1014,6 +1014,7 @@ static void D_AutoloadSigilWAD(void)
             }
         }
     }
+
     if (sigil && !M_CheckParm("-nomusic") && !M_CheckParm("-nosound"))
     {
         M_snprintf(path, sizeof(path), "%s" DIR_SEPARATOR_S "%s", wadfolder, "SIGIL_SHREDS.wad");
@@ -1392,13 +1393,15 @@ static int D_OpenWADLauncher(void)
                         if (!M_CheckParm("-nodeh") && !M_CheckParm("-nobex"))
                             LoadDehFile(file);
 
-                        if (W_CheckMultipleLumps("M_NGAME") == 1)
+                        if (D_IsDOOM1IWAD(fullpath) && IsUltimateDOOM(fullpath))
                         {
-                            if (D_IsDOOM1IWAD(fullpath) && IsUltimateDOOM(fullpath))
+                            W_Init();
+
+                            if (W_CheckNumForName("M_EPI5") < 0 && W_CheckNumForName("E5M1") < 0)
                                 D_AutoloadSigilWAD();
-                            else if (D_IsDOOM2IWAD(fullpath))
-                                D_AutoloadNerveWAD();
                         }
+                        else if (D_IsDOOM2IWAD(fullpath) && W_CheckMultipleLumps("MAP01") == 1)
+                            D_AutoloadNerveWAD();
                     }
                 }
                 else
@@ -1425,13 +1428,15 @@ static int D_OpenWADLauncher(void)
                             if (!M_CheckParm("-nodeh") && !M_CheckParm("-nobex"))
                                 LoadDehFile(file);
 
-                            if (W_CheckMultipleLumps("M_NGAME") == 1)
+                            if (D_IsDOOM1IWAD(fullpath) && IsUltimateDOOM(fullpath))
                             {
-                                if (D_IsDOOM1IWAD(fullpath) && IsUltimateDOOM(fullpath))
+                                W_Init();
+
+                                if (W_CheckNumForName("M_EPI5") < 0 && W_CheckNumForName("E5M1") < 0)
                                     D_AutoloadSigilWAD();
-                                else if (D_IsDOOM2IWAD(fullpath))
-                                    D_AutoloadNerveWAD();
                             }
+                            else if (D_IsDOOM2IWAD(fullpath) && W_CheckMultipleLumps("MAP01") == 1)
+                                D_AutoloadNerveWAD();
                         }
                     }
                     else
@@ -1455,13 +1460,15 @@ static int D_OpenWADLauncher(void)
                                 if (!M_CheckParm("-nodeh") && !M_CheckParm("-nobex"))
                                     LoadDehFile(file);
 
-                                if (W_CheckMultipleLumps("M_NGAME") == 1)
+                                if (D_IsDOOM1IWAD(fullpath) && IsUltimateDOOM(fullpath))
                                 {
-                                    if (D_IsDOOM1IWAD(fullpath) && IsUltimateDOOM(fullpath))
+                                    W_Init();
+
+                                    if (W_CheckNumForName("M_EPI5") < 0 && W_CheckNumForName("E5M1") < 0)
                                         D_AutoloadSigilWAD();
-                                    else if (D_IsDOOM2IWAD(fullpath))
-                                        D_AutoloadNerveWAD();
                                 }
+                                else if (D_IsDOOM2IWAD(fullpath) && W_CheckMultipleLumps("MAP01") == 1)
+                                    D_AutoloadNerveWAD();
                             }
                         }
                     }

@@ -7,7 +7,7 @@
 * Extensive optimizations have been made to further improve the overall performance and stability of *DOOM Retro*.
 * Any `.cfg` files placed in the `autoload` folder are now autoloaded when *DOOM Retro* starts.
 * *DOOM Retro* now parses any response files specified on the command-line.
-* When using the WAD launcher to load a PWAD, if that PWAD doesn’t change the menu, `SIGIL.WAD` and `NERVE.WAD` will now still be autoloaded if found.
+* When using the WAD launcher to load a PWAD, if that PWAD doesn’t contain conflicting maps, `SIGIL.WAD` and `NERVE.WAD` will now still be autoloaded if found.
 * These changes have been made to the support for `DEHACKED` lumps:
   * Support has been added for [*DSDHacked*](https://doomwiki.org/wiki/DSDHacked), allowing an unlimited number of things, states, sprites and sound effects to be used.
   * A bug is fixed whereby custom monsters wouldn’t bleed in some instances.
