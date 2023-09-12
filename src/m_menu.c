@@ -2484,7 +2484,6 @@ void M_DrawSmallChar(int x, int y, int i, bool highlight, bool shadow)
 static void M_WriteText(int x, int y, char *string, bool highlight, bool shadow)
 {
     int     width;
-    char    *ch = string;
     char    letter;
     char    prev = ' ';
     int     cx = x;
@@ -2492,7 +2491,7 @@ static void M_WriteText(int x, int y, char *string, bool highlight, bool shadow)
 
     while (true)
     {
-        int c = *ch++;
+        int c = *string++;
 
         if (!c)
             break;
@@ -4036,7 +4035,7 @@ void M_Drawer(void)
 
             if (M_SKULL1)
             {
-                yy = y + item * (LINEHEIGHT - 1) - (chex ? 4 : 5);
+                yy = y + item * (LINEHEIGHT - 1) - (chex || REKKR ? 4 : 5);
 
                 if (currentmenu != &MainDef || titleheight < VANILLAHEIGHT)
                     yy += OFFSET;
@@ -4045,7 +4044,7 @@ void M_Drawer(void)
             }
             else
             {
-                yy = y + item * (LINEHEIGHT - 1) - (chex ? 2 : 3);
+                yy = y + item * (LINEHEIGHT - 1) - 3;
 
                 if (currentmenu != &MainDef || titleheight < VANILLAHEIGHT)
                     yy += OFFSET;
