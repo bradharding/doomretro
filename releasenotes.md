@@ -8,6 +8,7 @@
 * Any `.cfg` files placed in the `autoload` folder are now autoloaded when *DOOM Retro* starts.
 * *DOOM Retro* now parses any response files specified on the command-line.
 * When using the WAD launcher to load a PWAD, if that PWAD doesn’t contain any conflicting maps, `SIGIL.WAD` or `NERVE.WAD` will now still be autoloaded if found.
+* *E1M4B: Phobos Mission Control* and *E1M8B: Tech Gone Bad* are no longer available if either E1M4 or E1M8 have been replaced by a PWAD.
 * These changes have been made to the support for `DEHACKED` lumps:
   * Support has been added for [*DSDHacked*](https://doomwiki.org/wiki/DSDHacked), allowing an unlimited number of things, states, sprites and sound effects.
   * A bug is fixed whereby custom monsters wouldn’t bleed in some instances.
