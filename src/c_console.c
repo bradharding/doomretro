@@ -1615,7 +1615,7 @@ void C_Drawer(void)
                     consolewarningboldcolor, tinttab66, notabs, true, true, i, '\0', '\0');
             else
                 V_DrawConsolePatch(CONSOLETEXTX - 1, y + 4 - (CONSOLEHEIGHT - consoleheight),
-                    console[i].header, CONSOLETEXTPIXELWIDTH + 2);
+                    console[i].header, CONSOLETEXTPIXELWIDTH - 3);
 
             if (wrap < len && i < bottomline)
             {
