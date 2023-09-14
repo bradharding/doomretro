@@ -2260,14 +2260,14 @@ static void D_DoomMainSetup(void)
             if (!E1M8)
                 C_Output("You can now play John Romero's " ITALICS("E1M4B: Phobos Mission Control")
                     " or " ITALICS("E1M8B: Tech Gone Bad") " by entering " BOLD("map E1M4B") " or "
-                    BOLD("map E1M8B") " in the console.");
+                    BOLD("map E1M8B") ".");
             else
                 C_Output("You can now play John Romero's " ITALICS("E1M4B: Phobos Mission Control")
-                    " by entering " BOLD("map E1M4B") " in the console.");
+                    " by entering " BOLD("map E1M4B") ".");
         }
-        else
-            C_Output("You can now play John Romero's " ITALICS("E1M8B: Tech Gone Bad") " by entering "
-                BOLD("map E1M8B") " in the console.");
+        else if (!E1M8)
+            C_Output("You can now play John Romero's " ITALICS("E1M8B: Tech Gone Bad")
+                " by entering " BOLD("map E1M8B") ".");
     }
 
     if (!M_CheckParm("-noautoload") && gamemode != shareware)

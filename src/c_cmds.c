@@ -3943,7 +3943,7 @@ static bool map_cmd_func1(char *cmd, char *parms)
                     M_BigRandomIntNoRepeat(1, (gamemode == retail ? (sigil ? 5 : 4) : 3), gameepisode));
                 mapcmdmap = M_BigRandomIntNoRepeat(1, (chex ? 5 : 8), gamemap);
 
-                if (mapcmdepisode == 1 && mapcmdmap == 4 && (M_BigRandom() & 1) && !E1M4)
+                if (mapcmdepisode == 1 && mapcmdmap == 4 && (M_BigRandom() & 1) && gamemode != shareware && !E1M4)
                     M_StringCopy(mapcmdlump, "E1M4B", sizeof(mapcmdlump));
                 else if (mapcmdepisode == 1 && mapcmdmap == 8 && (M_BigRandom() & 1) && gamemode != shareware && !E1M8)
                     M_StringCopy(mapcmdlump, "E1M8B", sizeof(mapcmdlump));
