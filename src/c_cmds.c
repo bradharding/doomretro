@@ -4054,6 +4054,9 @@ static bool map_cmd_func1(char *cmd, char *parms)
                 pwad = (lumpinfo[i]->wadfile->type == PWAD);
                 M_StringCopy(mapinfoname, P_GetMapName(mapcmdepisode, mapcmdmap), sizeof(mapinfoname));
 
+                if (mapcmdmap > 9)
+                    continue;
+
                 switch (gamemission)
                 {
                     case doom:
