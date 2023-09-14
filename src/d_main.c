@@ -2220,17 +2220,6 @@ static void D_DoomMainSetup(void)
     if (!iwadfile && !modifiedgame && !choseniwad)
         I_Error(DOOMRETRO_NAME " couldn't find any IWADs.");
 
-    if (!M_CheckParm("-noautoload") && gamemode != shareware)
-    {
-        D_SetAutoloadFolder();
-
-        autoloading = W_AutoloadFiles(autoloadfolder);
-        autoloading |= W_AutoloadFiles(autoloadiwadsubfolder);
-
-        if (autoloadpwadsubfolder)
-            autoloading |= W_AutoloadFiles(autoloadpwadsubfolder);
-    }
-
     W_Init();
 
     FREEDM = (W_CheckNumForName("FREEDM") >= 0);
@@ -2239,6 +2228,8 @@ static void D_DoomMainSetup(void)
     STBARs = W_CheckMultipleLumps("STBAR");
 
     DSFLAMST = (W_CheckMultipleLumps("DSFLAMST") > 1);
+    E1M4 = (W_CheckMultipleLumps("E1M4") > 1);
+    E1M8 = (W_CheckMultipleLumps("E1M8") > 1);
     M_DOOM = (W_CheckMultipleLumps("M_DOOM") > 2);
     M_EPISOD = (W_CheckMultipleLumps("M_EPISOD") > 1);
     M_GDHIGH = (W_CheckMultipleLumps("M_GDHIGH") > 1);
@@ -2261,6 +2252,34 @@ static void D_DoomMainSetup(void)
     M_SVOL = (W_CheckMultipleLumps("M_SVOL") > 1);
     STYSNUM0 = (W_CheckMultipleLumps("STYSNUM0") > 1);
     WISCRT2 = (W_CheckMultipleLumps("WISCRT2") > 1);
+
+    if (gamemission == doom)
+    {
+        if (!E1M4)
+        {
+            if (!E1M8)
+                C_Output("You can now play John Romero's " ITALICS("E1M4B: Phobos Mission Control")
+                    " or " ITALICS("E1M8B: Tech Gone Bad") " by entering " BOLD("map E1M4B") " or "
+                    BOLD("map E1M8B") " in the console.");
+            else
+                C_Output("You can now play John Romero's " ITALICS("E1M4B: Phobos Mission Control")
+                    " by entering " BOLD("map E1M4B") " in the console.");
+        }
+        else
+            C_Output("You can now play John Romero's " ITALICS("E1M8B: Tech Gone Bad") " by entering "
+                BOLD("map E1M8B") " in the console.");
+    }
+
+    if (!M_CheckParm("-noautoload") && gamemode != shareware)
+    {
+        D_SetAutoloadFolder();
+
+        autoloading = W_AutoloadFiles(autoloadfolder);
+        autoloading |= W_AutoloadFiles(autoloadiwadsubfolder);
+
+        if (autoloadpwadsubfolder)
+            autoloading |= W_AutoloadFiles(autoloadpwadsubfolder);
+    }
 
     I_InitGraphics();
     I_InitGameController();

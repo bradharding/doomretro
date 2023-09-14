@@ -3943,9 +3943,9 @@ static bool map_cmd_func1(char *cmd, char *parms)
                     M_BigRandomIntNoRepeat(1, (gamemode == retail ? (sigil ? 5 : 4) : 3), gameepisode));
                 mapcmdmap = M_BigRandomIntNoRepeat(1, (chex ? 5 : 8), gamemap);
 
-                if (mapcmdepisode == 1 && mapcmdmap == 4 && (M_BigRandom() & 1) && gamemode != shareware && !chex && !FREEDOOM1)
+                if (mapcmdepisode == 1 && mapcmdmap == 4 && (M_BigRandom() & 1) && !E1M4)
                     M_StringCopy(mapcmdlump, "E1M4B", sizeof(mapcmdlump));
-                else if (mapcmdepisode == 1 && mapcmdmap == 8 && (M_BigRandom() & 1) && gamemode != shareware && !chex && !FREEDOOM1)
+                else if (mapcmdepisode == 1 && mapcmdmap == 8 && (M_BigRandom() & 1) && gamemode != shareware && !E1M8)
                     M_StringCopy(mapcmdlump, "E1M8B", sizeof(mapcmdlump));
                 else
                     M_snprintf(mapcmdlump, sizeof(mapcmdlump), "E%iM%i", mapcmdepisode, mapcmdmap);
@@ -3959,7 +3959,7 @@ static bool map_cmd_func1(char *cmd, char *parms)
             mapcmdmap = 4;
             M_StringCopy(speciallumpname, "E1M4B", sizeof(speciallumpname));
             M_StringCopy(mapcmdlump, "E1M4B", sizeof(mapcmdlump));
-            result = (gamemission == doom && gamemode != shareware && !chex && !FREEDOOM1);
+            result = (gamemission == doom && gamemode != shareware && !E1M4);
         }
         else if (M_StringCompare(parm, "E1M8B") || M_StringCompare(parm, "techgonebad"))
         {
@@ -3967,7 +3967,7 @@ static bool map_cmd_func1(char *cmd, char *parms)
             mapcmdmap = 8;
             M_StringCopy(speciallumpname, "E1M8B", sizeof(speciallumpname));
             M_StringCopy(mapcmdlump, "E1M8B", sizeof(mapcmdlump));
-            result = (gamemission == doom && gamemode != shareware && !chex && !FREEDOOM1);
+            result = (gamemission == doom && gamemode != shareware && !E1M8);
         }
         else
         {
@@ -4260,11 +4260,8 @@ static void maplist_cmd_func2(char *cmd, char *parms)
         }
         else
         {
-            if (M_StringCompare(lump, "E1M4B") || M_StringCompare(lump, "E1M8B"))
-            {
-                if (gamemode == shareware || FREEDOOM1 || chex)
-                    continue;
-            }
+            if ((M_StringCompare(lump, "E1M4B") && E1M4) || (M_StringCompare(lump, "E1M8B") && E1M8))
+                continue;
             else if (sscanf(lump, "E%1iM%i", &ep, &map) != 2)
                 continue;
         }

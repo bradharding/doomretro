@@ -94,6 +94,8 @@ bool            moreblood = false;
 bool            modifiedgame = false;
 
 bool            DSFLAMST;
+bool            E1M4;
+bool            E1M8;
 bool            FREEDOOM;
 bool            FREEDOOM1;
 bool            FREEDM;
