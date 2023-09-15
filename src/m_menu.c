@@ -3771,6 +3771,13 @@ bool M_Responder(event_t *ev)
                 M_DeleteSavegame();
                 M_ReadSaveStrings();
 
+                if (savegame != itemon + 1)
+                {
+                    savegame = itemon + 1;
+                    M_SaveCVARs();
+                    C_IntegerCVAROutputNoRepeat(stringize(savegame), savegame);
+                }
+
                 if (!savegames)
                 {
                     currentmenu = &MainDef;
