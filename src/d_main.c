@@ -969,7 +969,10 @@ static void D_CheckSupportedPWAD(char *filename)
         || M_StringCompare(leaf, "sci2023.wad"))
         scientist = true;
     else if (M_StringCompare(leaf, "SD21.wad"))
+    {
         SD21 = true;
+        moreblood = true;
+    }
     else if (M_StringCompare(leaf, "syringe.wad"))
         syringe = true;
 
