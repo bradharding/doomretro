@@ -3518,8 +3518,8 @@ mobjinfo_t original_mobjinfo[NUMMOBJTYPES] =
         /* meleerange           */ MELEERANGE,
         /* name1                */ "shell",
         /* plural1              */ "shells",
-        /* name2                */ "shells",
-        /* plural2              */ "",
+        /* name2                */ "shotgun shell",
+        /* plural2              */ "shotgun shells",
         /* name3                */ "",
         /* plural3              */ ""
     },
