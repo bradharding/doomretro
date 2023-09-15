@@ -3148,6 +3148,13 @@ bool M_Responder(event_t *ev)
                         showcaret = true;
                         M_DoSave(saveslot);
                         D_FadeScreen(false);
+
+                        if (savegame != itemon + 1)
+                        {
+                            savegame = itemon + 1;
+                            M_SaveCVARs();
+                            C_IntegerCVAROutputNoRepeat(stringize(savegame), savegame);
+                        }
                     }
                 }
 
@@ -3682,7 +3689,7 @@ bool M_Responder(event_t *ev)
                 M_SaveCVARs();
                 C_IntegerCVAROutputNoRepeat(stringize(skilllevel), skilllevel);
             }
-            else if ((currentmenu == &LoadDef || currentmenu == &SaveDef) && savegame != itemon + 1)
+            else if (currentmenu == &LoadDef && savegame != itemon + 1)
             {
                 savegame = itemon + 1;
                 M_SaveCVARs();
