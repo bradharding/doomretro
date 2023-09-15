@@ -2,6 +2,10 @@
 
 #### DOOM Retro v5.0.1
 
+* The `savegame` CVAR is now:
+  * Updated when deleting a savegame in the save or load game menus using the <kbd><b>DEL</b></kbd> key.
+  * Not updated if the player cancels entering a savegame description in the save game menu.
+
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 
 ###### Friday, September 15, 2023

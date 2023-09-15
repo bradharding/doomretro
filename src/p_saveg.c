@@ -190,7 +190,7 @@ static int P_ThingToIndex(const mobj_t *thing)
     return 0;
 }
 
-static mobj_t *P_IndexToThing(int index)
+static mobj_t *P_IndexToThing(const int index)
 {
     int i = 0;
 
