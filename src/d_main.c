@@ -2223,6 +2223,17 @@ static void D_DoomMainSetup(void)
     if (!iwadfile && !modifiedgame && !choseniwad)
         I_Error(DOOMRETRO_NAME " couldn't find any IWADs.");
 
+    if (!M_CheckParm("-noautoload") && gamemode != shareware)
+    {
+        D_SetAutoloadFolder();
+
+        autoloading = W_AutoloadFiles(autoloadfolder);
+        autoloading |= W_AutoloadFiles(autoloadiwadsubfolder);
+
+        if (autoloadpwadsubfolder)
+            autoloading |= W_AutoloadFiles(autoloadpwadsubfolder);
+    }
+
     W_Init();
 
     FREEDM = (W_CheckNumForName("FREEDM") >= 0);
@@ -2271,16 +2282,6 @@ static void D_DoomMainSetup(void)
         else if (!E1M8)
             C_Output("You can now play John Romero's " ITALICS("E1M8B: Tech Gone Bad")
                 " by entering " BOLD("map E1M8B") ".");
-    }
-
-    if (!M_CheckParm("-noautoload") && gamemode != shareware)
-    {
-        D_SetAutoloadFolder();
-
-        autoloading = (W_AutoloadFiles(autoloadfolder) || W_AutoloadFiles(autoloadiwadsubfolder));
-
-        if (autoloadpwadsubfolder)
-            autoloading |= W_AutoloadFiles(autoloadpwadsubfolder);
     }
 
     I_InitGraphics();
