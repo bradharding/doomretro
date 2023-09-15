@@ -227,7 +227,7 @@ static void saveg_read_mobj_t(mobj_t *str)
     str->momz = saveg_read32();
     str->type = (mobjtype_t)saveg_read_enum();
     str->tics = saveg_read32();
-    str->state = ((state = saveg_read32()) > 0 && state < NUMSTATES ? &states[state] : NULL);
+    str->state = ((state = saveg_read32()) > 0 && state < numstates ? &states[state] : NULL);
     str->flags = saveg_read32();
     str->flags2 = saveg_read32();
     str->mbf21flags = saveg_read32();
@@ -429,7 +429,7 @@ static void saveg_read_pspdef_t(pspdef_t *str)
 {
     int state = saveg_read32();
 
-    str->state = (state > 0 && state < NUMSTATES ? &states[state] : NULL);
+    str->state = (state > 0 && state < numstates ? &states[state] : NULL);
     str->tics = saveg_read32();
     str->sx = saveg_read32();
     str->sy = saveg_read32();
