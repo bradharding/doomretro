@@ -463,8 +463,8 @@ static void AM_MaxOutWindowScale(void)
 
 static bool AM_GetSpeedToggle(void)
 {
-    return (gamekeydown[keyboardrun] ^ mousebuttons[mouserun]
-        ^ (!!(gamecontrollerbuttons & gamecontrollerrun)) ^ alwaysrun);
+    return ((gamekeydown[keyboardrun] || mousebuttons[mouserun]
+        || (gamecontrollerbuttons & gamecontrollerrun)) ^ alwaysrun);
 }
 
 void AM_ToggleZoomOut(void)

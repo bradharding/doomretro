@@ -2701,8 +2701,7 @@ bool M_Responder(event_t *ev)
                 else if ((gamecontrollerthumbLX < 0
                     || gamecontrollerthumbRX < 0
                     || (gamecontrollerbuttons & GAMECONTROLLER_DPAD_LEFT))
-                    && !savestringenter
-                    && !(currentmenu == &OptionsDef && itemon == msgs))
+                    && !savestringenter)
                 {
                     key = KEY_LEFTARROW;
                     gamecontrollerwait = I_GetTime()
@@ -2714,8 +2713,7 @@ bool M_Responder(event_t *ev)
                 else if ((gamecontrollerthumbLX > 0
                     || gamecontrollerthumbRX > 0
                     || (gamecontrollerbuttons & GAMECONTROLLER_DPAD_RIGHT))
-                    && !savestringenter
-                    && !(currentmenu == &OptionsDef && itemon == msgs))
+                    && !savestringenter)
                 {
                     key = KEY_RIGHTARROW;
                     gamecontrollerwait = I_GetTime()

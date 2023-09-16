@@ -12,12 +12,12 @@
 * A bug is fixed whereby no music or sound effects would play when opening *DOOM Retro* for the first time after installing it.
 * Panning around the automap using a controller’s left thumbstick when the `am_followmode` CVAR is `off` now works as intended.
 * These changes have been made when playing [*Smooth DOOM MBF21*](https://www.doomworld.com/forum/topic/133318/):
-  * Ammo casings will no disappear and leave blood splats on the floor.
+  * Bullet casings no longer disappear and leave blood splats on the floor.
   * Blood splats now appear around corpses spawned at the start of a map when the `r_corpses_moreblood` CVAR is `on`.
 * The `savegame` CVAR is now:
   * Updated when deleting a savegame in the save or load game menus using the <kbd><b>DEL</b></kbd> key.
-  * Not updated if the player cancels entering a savegame description in the save game menu.
-* A bug is fixed whereby WADs placed in the `autoload` folder weren’t autoloading.
+  * No longer updated if the player cancels entering a savegame description in the save game menu.
+* A bug is fixed whereby WADs placed in the `autoload` folder were causing a “W_GetNumForName: PLAYPAL not found!” error at startup.
 
 ![](https://github.com/bradharding/www.doomretro.com/raw/master/wiki/bigdivider.png)
 

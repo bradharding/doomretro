@@ -1031,12 +1031,14 @@ consolecmd_t consolecmds[] =
 
 static bool run(void)
 {
-    return (gamekeydown[keyboardrun] ^ (!!mousebuttons[mouserun]) ^ (!!(gamecontrollerbuttons & gamecontrollerrun)) ^ alwaysrun);
+    return ((gamekeydown[keyboardrun] || mousebuttons[mouserun]
+        || (gamecontrollerbuttons & gamecontrollerrun)) ^ alwaysrun);
 }
 
 static bool strafe(void)
 {
-    return (gamekeydown[keyboardstrafe] || mousebuttons[mousestrafe] || (gamecontrollerbuttons & gamecontrollerstrafe));
+    return (gamekeydown[keyboardstrafe] || mousebuttons[mousestrafe]
+        || (gamecontrollerbuttons & gamecontrollerstrafe));
 }
 
 static void alwaysrun_action_func(void)

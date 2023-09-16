@@ -266,8 +266,10 @@ void G_BuildTiccmd(ticcmd_t *cmd)
 
     memset(cmd, 0, sizeof(ticcmd_t));
 
-    strafe = (gamekeydown[keyboardstrafe] || mousebuttons[mousestrafe] || (gamecontrollerbuttons & gamecontrollerstrafe));
-    run = (gamekeydown[keyboardrun] ^ mousebuttons[mouserun] ^ (!!(gamecontrollerbuttons & gamecontrollerrun)) ^ alwaysrun);
+    strafe = (gamekeydown[keyboardstrafe] || mousebuttons[mousestrafe]
+        || (gamecontrollerbuttons & gamecontrollerstrafe));
+    run = ((gamekeydown[keyboardrun] || mousebuttons[mouserun]
+        || (gamecontrollerbuttons & gamecontrollerrun)) ^ alwaysrun);
     usemouselook = (mouselook || gamekeydown[keyboardmouselook] || mousebuttons[mousemouselook]
         || (gamecontrollerbuttons & gamecontrollermouselook));
 
