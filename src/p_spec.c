@@ -2795,6 +2795,7 @@ void T_Scroll(scroll_t *scroller)
                 {
                     thing->momx += dx;
                     thing->momy += dy;
+                    thing->flags2 |= MF2_SCROLLING;
                 }
             }
 
@@ -3180,6 +3181,7 @@ static bool PIT_PushThing(mobj_t *thing)
             pushangle >>= ANGLETOFINESHIFT;
             thing->momx += FixedMul(speed, finecosine[pushangle]);
             thing->momy += FixedMul(speed, finesine[pushangle]);
+            thing->flags2 |= MF2_SCROLLING;
         }
     }
 
@@ -3323,6 +3325,7 @@ void T_Pusher(pusher_t *pusher)
 
         thing->momx += (xspeed << (FRACBITS - PUSH_FACTOR));
         thing->momy += (yspeed << (FRACBITS - PUSH_FACTOR));
+        thing->flags2 |= MF2_SCROLLING;
     }
 }
 

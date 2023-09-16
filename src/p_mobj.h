@@ -286,12 +286,16 @@ enum
     // Apply 33% alpha translucency on all blue
     MF2_TRANSLUCENT_BLUE_25         = 0x00000200,
 
+    // Object is affected by scroller/pusher/puller
+    MF2_SCROLLING                   = 0x00001000,
+
     // Object bobs up and down
     MF2_FLOATBOB                    = 0x00002000,
 
     // Object is being mirrored horizontally
     MF2_MIRRORED                    = 0x00004000,
 
+    // Object is falling
     MF2_FALLING                     = 0x00008000,
 
     // Object is resting on top of another object

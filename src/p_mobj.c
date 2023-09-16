@@ -284,8 +284,11 @@ static void P_XYMovement(mobj_t *mo)
         && mo->floorz != mo->subsector->sector->floorheight)
         return;         // do not stop sliding if halfway off a step with some momentum
 
-    if (mo->momx > -STOPSPEED && mo->momx < STOPSPEED && mo->momy > -STOPSPEED && mo->momy < STOPSPEED
-        && (!player || (!player->cmd.forwardmove && !player->cmd.sidemove) || player->mo != mo))
+    if (mo->momx > -STOPSPEED && mo->momx < STOPSPEED
+        && mo->momy > -STOPSPEED && mo->momy < STOPSPEED
+        && (!player
+            || (player->mo == mo && !player->cmd.forwardmove && !player->cmd.sidemove)
+            || (player->mo != mo && !(mo->flags2 & MF2_SCROLLING))))
     {
         mo->momx = 0;
         mo->momy = 0;
@@ -661,6 +664,7 @@ void P_MobjThinker(mobj_t *mobj)
     if (mobj->momx || mobj->momy || (flags & MF_SKULLFLY))
     {
         P_XYMovement(mobj);
+        mobj->flags2 &= ~MF2_SCROLLING;
 
         if (mobj->thinker.function == &P_RemoveThinkerDelayed)
             return;
